@@ -1,0 +1,1 @@
+ExportSQLScript.exe localhost IUDICO /od:db_scripts /ot:files /of:files.txt
