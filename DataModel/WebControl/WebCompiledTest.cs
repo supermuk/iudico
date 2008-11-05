@@ -1,0 +1,34 @@
+﻿using System.Web.UI;
+using System.Xml;
+
+namespace IUDICO.DataModel.WebControl
+{
+    internal class WebCompiledTest : WebTestControl
+    {
+        private string text;
+
+        public override void Parse(XmlNode node)
+        {
+            base.Parse(node);
+            text = node.InnerText;
+        }
+
+        public override void Store(HtmlTextWriter w)
+        {
+            base.Store(w);
+            w.AddAttribute("runat", "server");
+            w.AddAttribute("mode", "multiline");
+            w.RenderBeginTag("asp:TextBox");
+            if (!string.IsNullOrEmpty(text))
+            {
+                w.Write(text);
+            }
+            w.RenderEndTag();
+        }
+
+        public override string CreateCodeForTest()
+        {
+            return string.Format("TextBoxTest({0}.Text, {1})", Name, Id);
+        }
+    }
+}
