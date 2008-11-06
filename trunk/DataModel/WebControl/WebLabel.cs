@@ -3,9 +3,9 @@ using System.Web;
 using System.Web.UI;
 using System.Xml;
 
-namespace CourseImport.WebControl
+namespace IUDICO.DataModel.WebControl
 {
-    internal class WebLabel : IUDICO.DataModel.WebControl.WebControl
+    internal class WebLabel : WebControl
     {
         private string text;
 

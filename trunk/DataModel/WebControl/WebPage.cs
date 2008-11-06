@@ -5,14 +5,13 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.UI;
 using System.Xml;
-using IUDICO.DataModel.WebControl;
 
-namespace CourseImport.WebControl
+namespace IUDICO.DataModel.WebControl
 {
     public class WebPage
     {
         private readonly Dictionary<string, int> answersIndexes = new Dictionary<string, int>();
-        private readonly List<IUDICO.DataModel.WebControl.WebControl> controls = new List<IUDICO.DataModel.WebControl.WebControl>();
+        private readonly List<WebControl> controls = new List<WebControl>();
 
         public WebPage(string pathToPage)
         {
@@ -25,7 +24,7 @@ namespace CourseImport.WebControl
             }
         }
 
-        private static IUDICO.DataModel.WebControl.WebControl GetControlForParse(XmlNode node)
+        private static WebControl GetControlForParse(XmlNode node)
         {
             switch (node.Name)
             {
@@ -54,7 +53,7 @@ namespace CourseImport.WebControl
                 case "span":
                     XmlAttribute attribute = node.Attributes["name"];
                     return attribute != null && attribute.Value == "code"
-                               ? (IUDICO.DataModel.WebControl.WebControl) new WebHighlightedCode()
+                               ? (WebControl) new WebHighlightedCode()
                                : new WebLabel();
 
                 case "div":
@@ -99,7 +98,7 @@ namespace CourseImport.WebControl
             }
         }
 
-        public List<IUDICO.DataModel.WebControl.WebControl> SaveAsAsp(string path)
+        public List<WebControl> SaveAsAsp(string path)
         {
             var sw = new StreamWriter(path, false, Encoding.Default);
             var w = new HtmlTextWriter(sw);
@@ -177,7 +176,7 @@ namespace CourseImport.WebControl
         private static void AddScriptHeader(TextWriter w)
         {
             if (w == null) throw new ArgumentNullException("w");
-                w.Write("<%@ Page Language=\"C#\"%>");
+            w.Write("<%@ Page Language=\"C#\"%>");
         }
 
         private string CreateCodeFile()

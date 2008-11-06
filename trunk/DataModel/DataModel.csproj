@@ -171,7 +171,7 @@
     <Compile Include="WebTest\TextBoxTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="LEX.CONTROLS.dll" />
+    <None Include="Lib\LEX.CONTROLS.dll" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lib\ICSharpCode.SharpZipLib.dll" />
