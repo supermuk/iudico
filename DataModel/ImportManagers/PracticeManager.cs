@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using CourseImport.Dao.Entity;
-using CourseImport.WebControl;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.Dao;
 using IUDICO.DataModel.Dao.Entity;

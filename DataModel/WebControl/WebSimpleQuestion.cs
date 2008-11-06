@@ -4,9 +4,8 @@ using System.Web;
 using System.Web.UI;
 using System.Xml;
 using CourseImport.Common;
-using IUDICO.DataModel.WebControl;
 
-namespace CourseImport.WebControl
+namespace IUDICO.DataModel.WebControl
 {
     internal class WebSimpleQuestion : WebTestControl
     {
