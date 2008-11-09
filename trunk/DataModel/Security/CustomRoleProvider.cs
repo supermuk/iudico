@@ -1,4 +1,7 @@
-﻿using System.Web.Security;
+﻿using System;
+using System.Linq;
+using System.Web.Security;
+using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.Security
 {
@@ -8,58 +11,58 @@ namespace IUDICO.DataModel.Security
 
         public override bool IsUserInRole(string username, string roleName)
         {
-            throw new System.NotImplementedException();
+            return ServerModel.User.ByLogin(username).Roles.Contains(roleName);
         }
 
         public override string[] GetRolesForUser(string username)
         {
-            throw new System.NotImplementedException();
+            return ServerModel.User.ByLogin(username).Roles.ToArray();
         }
 
         public override void CreateRole(string roleName)
         {
-            throw new System.NotImplementedException();
+            throw new InvalidOperationException("CreateRole is not allowed");
         }
 
         public override bool DeleteRole(string roleName, bool throwOnPopulatedRole)
         {
-            throw new System.NotImplementedException();
+            throw new InvalidOperationException("DeleteRole is not allowed");
         }
 
         public override bool RoleExists(string roleName)
         {
-            throw new System.NotImplementedException();
+            return DBEnum<FX_ROLE>.Values.Contains(roleName);
         }
 
         public override void AddUsersToRoles(string[] usernames, string[] roleNames)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public override string[] GetUsersInRole(string roleName)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public override string[] GetAllRoles()
         {
-            throw new System.NotImplementedException();
+            return DBEnum<FX_ROLE>.Values.ToArray();
         }
 
         public override string[] FindUsersInRole(string roleName, string usernameToMatch)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public override string ApplicationName
         {
-            get { throw new System.NotImplementedException(); }
-            set { throw new System.NotImplementedException(); }
+            get { return "IUDICO"; }
+            set { throw new InvalidOperationException("Changing ApplicationName is not allowed"); }
         }
 
         #endregion

@@ -1,22 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Web.Security;
 
 namespace IUDICO.DataModel.Security
 {
     public class CustomUser : MembershipUser
     {
-        public CustomUser(string firstName, string lastName, string login, string passwordHash, string email)
-            : this(null, login, email, null, null, true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.MinValue, DateTime.MinValue)
+        public CustomUser(string firstName, string lastName, string login, string passwordHash, string email, IList<string> roles)
+            : this(login, login, email, null, null, true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.MinValue, DateTime.MinValue)
         {
             _FirstName = firstName;
             _LastName = lastName;
-            _PasswordHash = passwordHash;
+            _Login = login;
+            PasswordHash = passwordHash;
+            Roles = new ReadOnlyCollection<string>(roles);
+            PasswordHash = passwordHash;
         }
 
         protected CustomUser(string name, object providerUserKey, string email, string passwordQuestion, string comment, bool isApproved, bool isLockedOut, DateTime creationDate, DateTime lastLoginDate, DateTime lastActivityDate, DateTime lastPasswordChangedDate, DateTime lastLockoutDate)
-            : base(typeof(CustomMembershipProvider).FullName, name, providerUserKey, email, passwordQuestion, comment, isApproved, isLockedOut, creationDate, lastLoginDate, lastActivityDate, lastPasswordChangedDate, lastLockoutDate)
+            : base(Membership.Provider.Name, name, providerUserKey, email, passwordQuestion, comment, isApproved, isLockedOut, creationDate, lastLoginDate, lastActivityDate, lastPasswordChangedDate, lastLockoutDate)
         {
         }
+
+        public readonly ReadOnlyCollection<string> Roles;
+
+        public readonly string PasswordHash;
 
         public override string UserName
         {
@@ -25,6 +34,8 @@ namespace IUDICO.DataModel.Security
                 return _FirstName + " " + _LastName;
             }
         }
+
+        public string Login { get { return _Login; } }
 
         public override string GetPassword()
         {
@@ -47,8 +58,8 @@ namespace IUDICO.DataModel.Security
             }
         }
 
-        private string _PasswordHash;
-        private string _FirstName;
-        private string _LastName;
+        private readonly string _FirstName;
+        private readonly string _LastName;
+        private readonly string _Login;
     }
 }
