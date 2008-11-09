@@ -1,4 +1,6 @@
-﻿using IUDICO.DataModel;
+﻿using System.Web.Configuration;
+using System.Web.Security;
+using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
 
 public partial class LoginPage : ControlledPage<LoginController>

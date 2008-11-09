@@ -1,5 +1,5 @@
 CREATE TABLE [tblUsers](
-	[ID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1, 1) NOT NULL,
 	[Name] [nvarchar](50) NULL,
  CONSTRAINT [PK_Users] PRIMARY KEY  
 (
@@ -17,7 +17,7 @@ UNIQUE
 ) 
 
 CREATE TABLE [tblGroups](
-	[ID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1, 1)  NOT NULL,
 	[Name] [nvarchar](50) NULL,
  CONSTRAINT [PK_Groups] PRIMARY KEY  
 (
@@ -59,7 +59,7 @@ CREATE TABLE [fxStageOperations](
 ) 
 
 CREATE TABLE [fxRoles](
-	[ID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1, 1) NOT NULL,
 	[Name] [nvarchar](20) NULL,
 	[Description] [nvarchar](max) NULL,
  CONSTRAINT [PK_fxdRoles] PRIMARY KEY  
@@ -69,7 +69,7 @@ CREATE TABLE [fxRoles](
 ) 
 
 CREATE TABLE [fxPageTypes](
-	[ID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1, 1) NOT NULL,
 	[Type] [nvarchar](10) NULL,
  CONSTRAINT [PK_PageType] PRIMARY KEY  
 (
@@ -78,7 +78,7 @@ CREATE TABLE [fxPageTypes](
 ) 
 
 CREATE TABLE [fxPageOrders](
-	[ID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1, 1) NOT NULL,
 	[Name] [nvarchar](20) NULL,
  CONSTRAINT [PK_fxdPageOrders] PRIMARY KEY  
 (
@@ -98,7 +98,7 @@ CREATE TABLE [fxPageOperations](
 ) 
 
 CREATE TABLE [fxLanguages](
-	[ID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1, 1) NOT NULL,
 	[Name] [nvarchar](20) NULL,
  CONSTRAINT [PK_fxdLanguages] PRIMARY KEY  
 (
@@ -129,7 +129,7 @@ CREATE TABLE [fxCourseOperations](
 ) 
 
 CREATE TABLE [fxCompiledStatuses](
-	[ID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1, 1) NOT NULL,
 	[Name] [nvarchar](50) NULL,
 	[Description] [nvarchar](max) NULL,
  CONSTRAINT [PK_fxdCompiledStatuses] PRIMARY KEY  
@@ -139,7 +139,7 @@ CREATE TABLE [fxCompiledStatuses](
 ) 
 
 CREATE TABLE [tblCurriculums](
-	[ID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1, 1) NOT NULL,
 	[Name] [nvarchar](50) NULL,
 	[Description] [nvarchar](max) NULL,
  CONSTRAINT [PK_SdudyCourses] PRIMARY KEY  
@@ -149,7 +149,7 @@ CREATE TABLE [tblCurriculums](
 ) 
 
 CREATE TABLE [tblCourses](
-	[ID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1, 1) NOT NULL,
 	[Name] [nvarchar](50) NULL,
 	[Description] [nvarchar](max) NULL,
 	[UploadDate] [datetime] NULL,
@@ -161,7 +161,7 @@ CREATE TABLE [tblCourses](
 ) 
 GO
 
-CREATE PROC [spCoursesInsert] 
+CREATE PROCEDURE [spCoursesInsert] 
     @ID int,
     @Description nvarchar(MAX),
     @Name nvarchar(50),
@@ -186,7 +186,7 @@ AS
 GO
 
 CREATE TABLE [tblCompiledAnswers](
-	[ID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1, 1) NOT NULL,
 	[TimeUsed] [int] NULL,
 	[MemoryUsed] [int] NULL,
 	[StatusRef] [int] NOT NULL,
@@ -198,7 +198,7 @@ CREATE TABLE [tblCompiledAnswers](
 go
 
 CREATE TABLE [tblCompiledQuestions](
-	[ID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1, 1) NOT NULL,
 	[LanguageRef] [int] NOT NULL,
 	[TimeLimit] [int] NULL,
 	[MemoryLimit] [int] NULL,
@@ -211,7 +211,7 @@ CREATE TABLE [tblCompiledQuestions](
 go
 
 CREATE TABLE [tblStages](
-	[ID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1, 1) NOT NULL,
 	[Name] [nvarchar](50) NULL,
 	[Description] [nvarchar](max) NULL,
 	[CurriculumRef] [int] NULL,
@@ -220,10 +220,10 @@ CREATE TABLE [tblStages](
 	[ID] ASC
 ) 
 ) 
-go
-
+GO
+ 
 CREATE TABLE [tblThemes](
-	[ID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1, 1) NOT NULL,
 	[Name] [nvarchar](50) NULL,
 	[CourseRef] [int] NULL,
 	[IsControl] [bit] NOT NULL,
@@ -234,10 +234,18 @@ CREATE TABLE [tblThemes](
 ) 
 ) 
 
-CREATE TABLE [tblStagesThemes](
+CREATE TABLE [relStagesThemes](
 	[StageRef] [int] NOT NULL,
 	[ThemeRef] [int] NOT NULL
 ) 
+GO
+
+ALTER TABLE relStagesThemes ADD CONSTRAINT PK_KEY PRIMARY KEY (StageRef, ThemeRef)
+ALTER TABLE relStagesThemes ADD CONSTRAINT FK_Stage FOREIGN KEY (StageRef)
+	REFERENCES tblStages(ID)
+ALTER TABLE relStagesThemes ADD CONSTRAINT FK_THEME FOREIGN KEY (ThemeRef)
+	REFERENCES tblThemes(ID)
+GO
 
 CREATE TABLE [tblPermissions](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
@@ -263,7 +271,7 @@ CREATE TABLE [tblPermissions](
 go
 
 CREATE TABLE [tblPages](
-	[ID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1, 1) NOT NULL,
 	[ThemeRef] [int] NULL,
 	[PageTypeRef] [int] NULL,
 	[PageRank] [int] NULL,
@@ -276,7 +284,7 @@ CREATE TABLE [tblPages](
 ) 
 
 CREATE TABLE [tblCompiledQuestionsData](
-	[ID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1, 1) NOT NULL,
 	[CompiledQuestionRef] [int] NOT NULL,
 	[Input] [nvarchar](max) NULL,
 	[Output] [nvarchar](max) NULL,
@@ -287,7 +295,7 @@ CREATE TABLE [tblCompiledQuestionsData](
 ) 
 GO
 
-CREATE PROC [spThemesInsert] 
+CREATE PROCEDURE [spThemesInsert] 
     @ID int,
     @CourseRef int,
     @IsControl bit,
@@ -311,7 +319,7 @@ AS
 	COMMIT
 GO
 
-CREATE PROC [spCompiledQuestionsInsert] 
+CREATE PROCEDURE [spCompiledQuestionsInsert] 
     @ID int,
     @LanguageRef int,
     @MemoryLimit int,
@@ -335,7 +343,7 @@ AS
 	COMMIT
 GO
 
-CREATE PROC [spCompiledQuestionsDataInsert] 
+CREATE PROCEDURE [spCompiledQuestionsDataInsert] 
     @ID int,
     @CompiledQuestionRef int,
     @Input nvarchar(MAX),
@@ -358,7 +366,7 @@ AS
 	COMMIT
 
 GO
-CREATE PROC [spPagesInsert] 
+CREATE PROCEDURE [spPagesInsert] 
     @ID int,
     @PageFile varbinary(MAX),
     @PageName nvarchar(50),
@@ -384,7 +392,7 @@ AS
 
 GO
 CREATE TABLE [tblQuestions](
-	[ID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1, 1) NOT NULL,
 	[PageRef] [int] NULL,
 	[TestName] [nvarchar](50) NULL,
 	[CorrectAnswer] [nvarchar](max) NULL,
@@ -398,7 +406,7 @@ CREATE TABLE [tblQuestions](
 ) 
 
 CREATE TABLE [tblFiles](
-	[ID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1, 1) NOT NULL,
 	[PID] [int] NULL,
 	[PageRef] [int] NULL,
 	[File] [varbinary](max) NULL,
@@ -411,13 +419,13 @@ CREATE TABLE [tblFiles](
 ) 
 
 CREATE TABLE [tblCompiledAnswersData](
-	[UserRef] [int] NOT NULL,
+	[UserRef] [int] IDENTITY(1, 1) NOT NULL,
 	[CompiledQuestionsDataRef] [int] NOT NULL,
 	[Output] [nvarchar](max) NULL
 ) 
 
 CREATE TABLE [tblUserAnswers](
-	[ID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1, 1) NOT NULL,
 	[UserRef] [int] NULL,
 	[QuestionRef] [int] NULL,
 	[UserAnswer] [nvarchar](max) NULL,
@@ -431,7 +439,7 @@ CREATE TABLE [tblUserAnswers](
 ) 
 GO
 
-CREATE PROC [spFilesInsert] 
+CREATE PROCEDURE [spFilesInsert] 
     @ID int,
     @File varbinary(MAX) = NULL,
     @IsDirectory bit,
@@ -456,7 +464,7 @@ AS
 	COMMIT
 	
 GO
-CREATE PROC [spQuestionsInsert] 
+CREATE PROCEDURE [spQuestionsInsert] 
     @ID int,
     @CompiledQuestionRef int = NULL,
     @CorrectAnswer nvarchar(MAX) = NULL,
@@ -483,7 +491,7 @@ AS
 
 GO
 
-CREATE PROC [spUserAnswersInsert] 
+CREATE PROCEDURE [spUserAnswersInsert] 
     @ID int,
     @CompiledAnswerRef int = NULL,
     @Date datetime,
