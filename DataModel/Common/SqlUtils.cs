@@ -36,7 +36,7 @@ namespace IUDICO.DataModel.Common
             cmd.ExecuteNonQuery();
         }
 
-        public static List<int> FullReadInts([NotNull] SqlCommand cmd)
+        public static List<int> FullReadInts([NotNull] this IDbCommand cmd)
         {
             using (var r = cmd.ExecuteReader(CommandBehavior.CloseConnection))
             {
@@ -45,6 +45,21 @@ namespace IUDICO.DataModel.Common
                 while (r.Read())
                 {
                     result.Add(r.GetInt32(0));
+                }
+
+                return result;
+            }
+        }
+
+        public static List<string> FullReadStrings([NotNull] this IDbCommand cmd)
+        {
+            using (var r = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+            {
+                var result = new List<string>();
+
+                while (r.Read())
+                {
+                    result.Add(r.GetString(0));
                 }
 
                 return result;

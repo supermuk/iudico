@@ -7,10 +7,10 @@
 
     void Application_Start(object sender, EventArgs e) 
     {
-//        using (var c = ServerModel.AcruireOpenedConnection())
-//        {
-//            PermissionsManager.Current.Initialize(c);
-//        }
+        using (var c = ServerModel.AcruireOpenedConnection())
+        {
+            PermissionsManager.Current.Initialize(c);
+        }
     } 
         
     void Application_End(object sender, EventArgs e) 
@@ -37,6 +37,7 @@
 
     void Session_Start(object sender, EventArgs e) 
     {
+        
     }
 
     void Session_End(object sender, EventArgs e) 

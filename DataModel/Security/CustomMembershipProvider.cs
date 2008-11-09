@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Security;
 
 namespace IUDICO.DataModel.Security
@@ -20,7 +19,7 @@ namespace IUDICO.DataModel.Security
 
         public override string GetPassword(string username, string answer)
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException("GetPassword is not allowed");
         }
 
         public override bool ChangePassword(string username, string oldPassword, string newPassword)
@@ -40,12 +39,8 @@ namespace IUDICO.DataModel.Security
 
         public override bool ValidateUser(string username, string password)
         {
-            string hash = FormsAuthentication.HashPasswordForStoringInConfigFile(password, "MD5");
-
-            var users = from u in ServerModel.DB.TblUsers 
-                        where u.Login == username && u.PasswordHash == hash 
-                        select u;
-            return users.Count() == 1;
+            return ServerModel.User.ByLogin(username).PasswordHash ==
+                FormsAuthentication.HashPasswordForStoringInConfigFile(password, "MD5");
         }
 
         public override bool UnlockUser(string userName)
@@ -55,17 +50,17 @@ namespace IUDICO.DataModel.Security
 
         public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
         {
-            throw new NotImplementedException();
+            return ServerModel.User.ByLogin((string)providerUserKey);
         }
 
         public override MembershipUser GetUser(string username, bool userIsOnline)
         {
-            throw new NotImplementedException();
+            return ServerModel.User.ByLogin(username);
         }
 
         public override string GetUserNameByEmail(string email)
         {
-            throw new NotImplementedException();
+            return ServerModel.User.ByEmail(email).UserName;
         }
 
         public override bool DeleteUser(string username, bool deleteAllRelatedData)
@@ -110,8 +105,8 @@ namespace IUDICO.DataModel.Security
 
         public override string ApplicationName
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get { return "IUDICO"; }
+            set { throw new InvalidOperationException("Changing ApplicationName is not allowed"); }
         }
 
         public override int MaxInvalidPasswordAttempts
