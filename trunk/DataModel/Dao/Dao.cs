@@ -13,7 +13,7 @@ namespace IUDICO.DataModel.Dao
 
         protected SqlConnection GetConnection()
         {
-            connection = SqlUtils.AcquireConnection();
+            connection = ServerModel.AcquireConnection();
             connection.Open();
             return connection;
         }

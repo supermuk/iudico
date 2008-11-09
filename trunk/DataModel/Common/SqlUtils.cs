@@ -1,11 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Web.Configuration;
 using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.Common
 {
+    public enum SINGLE_READ_RESULT
+    {
+        OK,
+        NO_DATA,
+        AMBIGUOUS_DATA
+    }
+
     public static class SqlUtils
     {
         public static string CreateSafeDropProcedureStatement([NotNull] string name)
@@ -43,18 +49,6 @@ namespace IUDICO.DataModel.Common
 
                 return result;
             }
-        }
-
-        public static SqlConnection AcquireConnection()
-        {
-            return new SqlConnection(WebConfigurationManager.ConnectionStrings["IUDICO"].ConnectionString);
-        }
-
-        public static SqlConnection AcruireOpenedConnection()
-        {
-            var res = AcquireConnection();
-            res.Open();
-            return res;
         }
     }
 }

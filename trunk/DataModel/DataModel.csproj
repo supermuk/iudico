@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F7A3C8E8-7545-4D92-8FF5-0927B4D845EF}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -33,12 +33,15 @@
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\Lib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="LEX.CONTROLS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
@@ -137,6 +140,8 @@
     <Compile Include="Dao\QuestionDao.cs" />
     <Compile Include="Dao\ThemeDao.cs" />
     <Compile Include="Dao\UserAnswerDao.cs" />
+    <Compile Include="DB\DatabaseModel.cs" />
+    <Compile Include="DB\DatabaseModel.generated.cs" />
     <Compile Include="ImportManagers\CompiledQuestionManager.cs" />
     <Compile Include="ImportManagers\CourseManager.cs" />
     <Compile Include="ImportManagers\PracticeManager.cs" />
@@ -150,8 +155,12 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="PageParserFilter.cs" />
-    <Compile Include="Security\BusinessObjectType.cs" />
+    <Compile Include="DB\DBObjectType.cs" />
+    <Compile Include="Security\CustomMembershipProvider.cs" />
+    <Compile Include="Security\CustomRoleProvider.cs" />
+    <Compile Include="Security\CustomUser.cs" />
     <Compile Include="Security\PermissionsManager.cs" />
+    <Compile Include="ServerModel.cs" />
     <Compile Include="WebControl\WebButton.cs" />
     <Compile Include="WebControl\WebCodeSnippet.cs" />
     <Compile Include="WebControl\WebComboBox.cs" />
@@ -169,12 +178,6 @@
     <Compile Include="WebTest\Test.cs" />
     <Compile Include="WebTest\Tester.cs" />
     <Compile Include="WebTest\TextBoxTest.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Lib\LEX.CONTROLS.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Lib\ICSharpCode.SharpZipLib.dll" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

@@ -8,7 +8,7 @@ namespace IUDICO.DataModel.Controllers
         public void Authenticate(object sender, AuthenticateEventArgs e)
         {
             var l = (Login) sender;
-            e.Authenticated = FormsAuthentication.Authenticate(l.UserName, l.Password);
+            e.Authenticated = Membership.ValidateUser(l.UserName, l.Password);
         }
     }
 }

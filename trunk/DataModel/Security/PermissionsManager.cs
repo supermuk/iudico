@@ -2,11 +2,23 @@
 using System.Data;
 using System.Data.SqlClient;
 using IUDICO.DataModel.Common;
+using IUDICO.DataModel.DB;
 using LEX.CONTROLS;
 using System.Collections.Generic;
 
 namespace IUDICO.DataModel.Security
 {
+    [AttributeUsage(AttributeTargets.Enum)]
+    public class DBObjects : Attribute
+    {
+        public DBObjects(int dbVersion)
+        {
+            DBVersion = dbVersion;
+        }
+
+        public int DBVersion { get; private set; }
+    }
+
     [AttributeUsage(AttributeTargets.Field)]
     public class SecuredObjectTypeAttribute : Attribute
     {
@@ -14,15 +26,16 @@ namespace IUDICO.DataModel.Security
         public readonly string TableName;
         public readonly string OperationTableName;
 
-        public SecuredObjectTypeAttribute([NotNull] string name, [NotNull]string tableName, [NotNull]string operationTableName)
+        public SecuredObjectTypeAttribute([NotNull] string name, [NotNull]string tableName, [NotNull]string operationTableName, [NotNull] Type runtimeClass)
         {
             Name = name;
             TableName = tableName;
             OperationTableName = operationTableName;
+            _RuntimeClass = runtimeClass;
         }
-
-        public SecuredObjectTypeAttribute([NotNull] string objectName)
-            : this(objectName, "tbl" + objectName, "fx" + objectName)
+        
+        public SecuredObjectTypeAttribute([NotNull] string objectName, [NotNull] Type runtimeClass)
+            : this(objectName, "tbl" + objectName, "fx" + objectName, runtimeClass)
         {
         }
 
@@ -40,20 +53,27 @@ namespace IUDICO.DataModel.Security
         {
             return "Security_CheckPermission" + Name.Capitalize();
         }
+
+        public Type RuntimeClass
+        {
+            get { return _RuntimeClass; }
+        }
+
+        private readonly Type _RuntimeClass;
     }
 
     public class PermissionsManager
     {
         public static readonly PermissionsManager Current;
 
-        public List<int> GetObjectsForUser(BUSINESS_OBJECT_TYPE objectType, int UserID, int? OperationID, DateTime? targetDate)
+        public List<int> GetObjectsForUser(DB_OBJECT_TYPE objectType, int UserID, int? OperationID, DateTime? targetDate)
         {
-            using (var c = SqlUtils.AcruireOpenedConnection())
+            using (var c = ServerModel.AcruireOpenedConnection())
             {
                 using (var cmd = c.CreateCommand())
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    var at = typeof (BUSINESS_OBJECT_TYPE).GetField(objectType.ToString()).GetAtr<SecuredObjectTypeAttribute>();
+                    var at = typeof (DB_OBJECT_TYPE).GetField(objectType.ToString()).GetAtr<SecuredObjectTypeAttribute>();
                     cmd.CommandText = at.GetRetrieveObjectsForUserProcName();
                     cmd.Parameters.Add(USER_ID_PARAMETER, SqlDbType.Int).Value = UserID;
                     cmd.Parameters.Add(at.Name + "OperationID", SqlDbType.Int).Value = OperationID;
@@ -64,14 +84,14 @@ namespace IUDICO.DataModel.Security
             }
         }
 
-        public List<int> GetOperationsForObject(BUSINESS_OBJECT_TYPE objectType, int UserID, int? ObjectID, DateTime? targetDate)
+        public List<int> GetOperationsForObject(DB_OBJECT_TYPE objectType, int UserID, int? ObjectID, DateTime? targetDate)
         {
-            using (var c = SqlUtils.AcruireOpenedConnection())
+            using (var c = ServerModel.AcruireOpenedConnection())
             {
                 using (var cmd = c.CreateCommand())
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    var at = typeof (BUSINESS_OBJECT_TYPE).GetField(objectType.ToString()).GetAtr<SecuredObjectTypeAttribute>();
+                    var at = typeof (DB_OBJECT_TYPE).GetField(objectType.ToString()).GetAtr<SecuredObjectTypeAttribute>();
                     cmd.CommandText = at.GetRetrieveOperationsForObjectProcName();
                     cmd.Parameters.Add(USER_ID_PARAMETER, SqlDbType.Int).Value = UserID;
                     cmd.Parameters.Add(at.Name + "ID", SqlDbType.Int).Value = ObjectID;
@@ -96,7 +116,7 @@ namespace IUDICO.DataModel.Security
                 {
                     CreateDBVersionFunc(c);
 
-                    foreach (var f in typeof(BUSINESS_OBJECT_TYPE).GetFields())
+                    foreach (var f in typeof(DB_OBJECT_TYPE).GetFields())
                     {
                         if (f.IsSpecialName)
                             continue;
@@ -105,7 +125,7 @@ namespace IUDICO.DataModel.Security
                         if (a == null)
                         {
                             throw new DMError("{0}.{1} MUST have {2} applied",
-                                              typeof(BUSINESS_OBJECT_TYPE).Name, f.Name,
+                                              typeof(DB_OBJECT_TYPE).Name, f.Name,
                                               typeof(SecuredObjectTypeAttribute).Name);
                         }
 
