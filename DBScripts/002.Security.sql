@@ -27,3 +27,23 @@ ALTER TABLE relUserRoles ADD CONSTRAINT FK_USER_ID FOREIGN KEY (UserID)
 ALTER TABLE relUserRoles ADD CONSTRAINT FK_ROLE_ID FOREIGN KEY (RoleID)
 	REFERENCES fxRoles(ID)
 ALTER TABLE relUserRoles ADD CONSTRAINT PK_USER_ROLE PRIMARY KEY (UserID, RoleID)
+
+DELETE fxRoles
+INSERT INTO fxRoles (Name)
+	select 'STUDENT' union all
+	select 'LECTOR' union all
+	select 'TRAINER' union all
+	select 'ADMIN' union all
+	select 'SUPER_ADMIN'
+	
+INSERT INTO tblUsers 
+	(FirstName, LastName, [Login], PasswordHash, Email)
+	VALUES ('Volodymyr', 'Shtenovych', 'lex', 'B067B3D3054D8868C950E1946300A3F4', 'ShVolodya@gmail.com')
+
+DECLARE @id int
+SET @id = SCOPE_IDENTITY()
+
+INSERT INTO relUserRoles (UserID, RoleID)
+	SELECT UserID, rs.ID 
+	FROM (SELECT @id UserID) UserID FULL OUTER JOIN fxRoles rs 
+	ON 1 <> 2
