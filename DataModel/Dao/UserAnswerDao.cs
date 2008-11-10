@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 using IUDICO.DataModel.Dao;
+using LEX.CONTROLS;
 
 /// <summary>
 /// Summary description for UserAnswerDao
@@ -21,7 +22,7 @@ public class UserAnswerDao : Dao
             sqlCommand.Parameters.Add("@QuestionRef", SqlDbType.Int).Value = uae.QuestionRef;
             sqlCommand.Parameters.Add("@UserAnswer", SqlDbType.NVarChar).Value = uae.UserAnswer;
             sqlCommand.Parameters.Add("@UserRef", SqlDbType.Int).Value = uae.UserRef;
-            sqlCommand.ExecuteNonQuery();
+            sqlCommand.LexExecuteNonQuery();
         }
         finally
         {

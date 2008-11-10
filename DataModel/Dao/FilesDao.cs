@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 using IUDICO.DataModel.Dao.Entity;
+using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.Dao
 {
@@ -21,7 +22,7 @@ namespace IUDICO.DataModel.Dao
                 if(fe.Pid != 0)
                     sqlCommand.Parameters.Add("@PID", SqlDbType.Int).Value = fe.Pid;
 
-                sqlCommand.ExecuteNonQuery();
+                sqlCommand.LexExecuteNonQuery();
             }
             finally
             {

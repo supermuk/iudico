@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 using IUDICO.DataModel.Dao.Entity;
+using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.Dao
 {
@@ -18,7 +19,7 @@ namespace IUDICO.DataModel.Dao
                     sqlCommand.Parameters.Add("@PageRank", SqlDbType.Int).Value = pe.PageRank;
                 sqlCommand.Parameters.Add("@PageTypeRef", SqlDbType.Int).Value = pe.PageType;
                 sqlCommand.Parameters.Add("@ThemeRef", SqlDbType.Int).Value = pe.ThemeRef;
-                sqlCommand.ExecuteNonQuery();
+                sqlCommand.LexExecuteNonQuery();
             }
             finally
             {

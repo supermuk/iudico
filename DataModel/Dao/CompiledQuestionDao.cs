@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 using IUDICO.DataModel.Dao.Entity;
+using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.Dao
 {
@@ -17,7 +18,7 @@ namespace IUDICO.DataModel.Dao
                 sqlCommand.Parameters.Add("@MemoryLimit", SqlDbType.Int).Value = cqe.MemoryLimit;
                 sqlCommand.Parameters.Add("@OutputLimit", SqlDbType.Int).Value = cqe.OutputLimit;
                 sqlCommand.Parameters.Add("@TimeLimit", SqlDbType.Int).Value = cqe.TimeLimit;
-                sqlCommand.ExecuteNonQuery();
+                sqlCommand.LexExecuteNonQuery();
             }
             finally
             {

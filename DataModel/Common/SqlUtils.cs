@@ -30,10 +30,10 @@ namespace IUDICO.DataModel.Common
             Logger.WriteLine(name);
 
             cmd.CommandText = CreateSafeDropProcedureStatement(name);
-            cmd.ExecuteNonQuery();
+            cmd.LexExecuteNonQuery();
 
             cmd.CommandText = body;
-            cmd.ExecuteNonQuery();
+            cmd.LexExecuteNonQuery();
         }
 
         public static List<int> FullReadInts([NotNull] this IDbCommand cmd)
@@ -59,11 +59,18 @@ namespace IUDICO.DataModel.Common
 
                 while (r.Read())
                 {
-                    result.Add(r.GetString(0));
+                    result.Add(r.GetStringNull(0));
                 }
 
                 return result;
             }
+        }
+
+        public static string GetStringNull([NotNull] this IDataReader r, int ind)
+        {
+            if (r.IsDBNull(ind))
+                return null;
+            return r.GetString(ind);
         }
     }
 }

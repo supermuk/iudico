@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Web.Security;
 
 namespace IUDICO.DataModel.Security
@@ -9,7 +10,10 @@ namespace IUDICO.DataModel.Security
 
         public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
         {
-            throw new NotImplementedException();
+            ServerModel.User.Create(username, password, email);
+            var res = ServerModel.User.ByLogin(username);
+            status = res != null ? MembershipCreateStatus.Success : MembershipCreateStatus.UserRejected;
+            return res;
         }
 
         public override bool ChangePasswordQuestionAndAnswer(string username, string password, string newPasswordQuestion, string newPasswordAnswer)
