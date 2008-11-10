@@ -1,6 +1,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using IUDICO.DataModel.Dao.Entity;
+using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.Dao
 {
@@ -17,7 +18,7 @@ namespace IUDICO.DataModel.Dao
                 sqlCommand.Parameters.Add("@Description", SqlDbType.NVarChar).Value = ce.Description;
                 sqlCommand.Parameters.Add("@UploadDate", SqlDbType.DateTime).Value = ce.UploadDate;
                 sqlCommand.Parameters.Add("@Version", SqlDbType.Int).Value = ce.Version;
-                sqlCommand.ExecuteNonQuery();
+                sqlCommand.LexExecuteNonQuery();
             }
             finally
             {

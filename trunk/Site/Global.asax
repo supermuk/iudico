@@ -1,4 +1,5 @@
-﻿<%@ Import Namespace="IUDICO.DataModel"%>
+﻿<%@ Import Namespace="LEX.CONTROLS"%>
+<%@ Import Namespace="IUDICO.DataModel"%>
 <%@ Import Namespace="IUDICO.DataModel.Common"%>
 <%@ Import Namespace="IUDICO.DataModel.Security"%>
 <%@ Application Language="C#" %>
@@ -25,7 +26,16 @@
         while (e != null)
         {
             es.AppendLine(e.Message);
-            es.AppendLine("STACK: " + e.StackTrace);
+            var sEx = e as SqlCommandException;
+            if (sEx != null)
+            {
+                es.AppendLine("SQL: " + sEx.Sql);
+                e = sEx.SqlException;
+            }
+            else
+            {
+                es.AppendLine("STACK: " + e.StackTrace);
+            }
             e = e.InnerException;
             if (e != null)
             {

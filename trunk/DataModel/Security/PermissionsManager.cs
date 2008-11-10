@@ -66,7 +66,7 @@ namespace IUDICO.DataModel.Security
     {
         public static readonly PermissionsManager Current;
 
-        public List<int> GetObjectsForUser(DB_OBJECT_TYPE objectType, int UserID, int? OperationID, DateTime? targetDate)
+        public List<int> GetObjectsForUser(DB_OBJECT_TYPE objectType, int userID, int? operationID, DateTime? targetDate)
         {
             using (var c = ServerModel.AcruireOpenedConnection())
             {
@@ -75,16 +75,15 @@ namespace IUDICO.DataModel.Security
                     cmd.CommandType = CommandType.StoredProcedure;
                     var at = typeof (DB_OBJECT_TYPE).GetField(objectType.ToString()).GetAtr<SecuredObjectTypeAttribute>();
                     cmd.CommandText = at.GetRetrieveObjectsForUserProcName();
-                    cmd.Parameters.Add(USER_ID_PARAMETER, SqlDbType.Int).Value = UserID;
-                    cmd.Parameters.Add(at.Name + "OperationID", SqlDbType.Int).Value = OperationID;
-                    cmd.Parameters.Add(TARGET_DATE_PARAMETER, SqlDbType.DateTime).Value = targetDate;
+                    cmd.Parameters.Assign(new { UserID = userID, TargetDate = targetDate });
+                    cmd.Parameters.AddWithValue(at.Name + "OperationID", operationID);
 
-                    return SqlUtils.FullReadInts(cmd);
+                    return cmd.FullReadInts();
                 }
             }
         }
 
-        public List<int> GetOperationsForObject(DB_OBJECT_TYPE objectType, int UserID, int? ObjectID, DateTime? targetDate)
+        public List<int> GetOperationsForObject(DB_OBJECT_TYPE objectType, int userID, int? objectID, DateTime? targetDate)
         {
             using (var c = ServerModel.AcruireOpenedConnection())
             {
@@ -93,11 +92,10 @@ namespace IUDICO.DataModel.Security
                     cmd.CommandType = CommandType.StoredProcedure;
                     var at = typeof (DB_OBJECT_TYPE).GetField(objectType.ToString()).GetAtr<SecuredObjectTypeAttribute>();
                     cmd.CommandText = at.GetRetrieveOperationsForObjectProcName();
-                    cmd.Parameters.Add(USER_ID_PARAMETER, SqlDbType.Int).Value = UserID;
-                    cmd.Parameters.Add(at.Name + "ID", SqlDbType.Int).Value = ObjectID;
-                    cmd.Parameters.Add(TARGET_DATE_PARAMETER, SqlDbType.DateTime).Value = targetDate;
+                    cmd.Parameters.Assign(new { UserID = userID, TargetDate = targetDate });
+                    cmd.Parameters.AddWithValue(at.Name + "ID", objectID);
 
-                    return SqlUtils.FullReadInts(cmd);
+                    return cmd.FullReadInts();
                 }
             }
         }
@@ -145,10 +143,10 @@ namespace IUDICO.DataModel.Security
         private void CreateDBVersionFunc([NotNull] IDbCommand cmd)
         {
             cmd.CommandText = "IF EXISTS(SELECT * FROM sys.objects WHERE name = 'getsecurityid' and type = 'FN') DROP FUNCTION GetSecurityID";
-            cmd.ExecuteNonQuery();
+            cmd.LexExecuteNonQuery();
 
             cmd.CommandText = string.Format(SECURITY_ID_FUNCTION_TEMPLATE, ID.Value);
-            cmd.ExecuteNonQuery();
+            cmd.LexExecuteNonQuery();
         }
 
         private static void CreateGetObjectsForUserProc([NotNull] SecuredObjectTypeAttribute a, [NotNull] IDbCommand cmd)
@@ -174,9 +172,7 @@ namespace IUDICO.DataModel.Security
 
         private Guid? ID;
 
-        private const string TARGET_DATE_PARAMETER = "TargetDate";
-        private const string USER_ID_PARAMETER = "UserID";
-        private const string PERMISSION_DATE_FILTER = "((DateFrom IS NULL) OR (DateFrom <= @TargetDate)) AND ((DateTo IS NULL) OR (DateTo >= @TargetDate))";
+        private const string PERMISSION_DATE_FILTER = "((DateSince IS NULL) OR (DateSince <= @TargetDate)) AND ((DateTill IS NULL) OR (DateTill >= @TargetDate))";
         private const string PERMISSION_DB_ERROR_MESSAGE = "Not enough permission to perform this operation";
         private const string RETRIEVE_OBJECTS_PROC_TEMPLATE = @"CREATE PROCEDURE {0}
 	@UserID int,
@@ -188,8 +184,9 @@ BEGIN
 		SET @TargetDate = GETDATE(); 
     
 	SELECT DISTINCT {1}Ref 
-    FROM tblPermission WHERE
-		@UserID = UserRef AND
+    FROM tblPermissions WHERE
+		(@UserID = UserRef OR GroupRef IN (
+			SELECT GroupRef FROM relUserGroups WHERE UserRef = @UserID)) AND
 		((@{1}OperationID IS NULL) OR 
 			(@{1}OperationID = {1}OperationRef)
 		) AND
@@ -207,7 +204,7 @@ BEGIN
 		SET @TargetDate = GETDATE(); 
 
 	SELECT DISTINCT {1}OperationRef 
-	FROM tblPermission WHERE
+	FROM tblPermissions WHERE
 		@UserID = UserRef AND
 		((@{1}ID IS NULL) OR
 			(@{1}ID = {1}Ref)
@@ -227,7 +224,7 @@ BEGIN
 	IF @TargetDate IS NULL
 		SET @TargetDate = GETDATE();
 
-	IF	(NOT EXISTS (SELECT ID FROM tblPermission WHERE 
+	IF	(NOT EXISTS (SELECT ID FROM tblPermissions WHERE 
 		@UserID = UserRef AND
 		@{1}ID = {1}Ref AND
 		@{1}OperationID = {1}OperationRef AND

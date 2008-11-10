@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Web;
 using System.Web.Caching;
 using System.Web.Configuration;
+using System.Web.Security;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.Security;
 using LEX.CONTROLS;
@@ -32,6 +33,23 @@ namespace IUDICO.DataModel
 
     public sealed class UserModel
     {
+        public void Create(string login, string password, string email)
+        {
+            using (var cn = ServerModel.AcruireOpenedConnection())
+            {
+                var cmd = new SqlCommand(@"INSERT INTO tblUsers (LastName, Login, PasswordHash, Email) 
+VALUES (@LastName, @Login, @PHash, @Email)", cn);
+                cmd.Parameters.Assign(new { 
+                    LastName = @login, 
+                    Login = login,
+                    PHash = FormsAuthentication.HashPasswordForStoringInConfigFile(password, "MD5"),
+                    Email = email
+                }
+                );
+                cmd.LexExecuteNonQuery();
+            }
+        }
+
         public CustomUser ByLogin(string login)
         {
             CustomUser res;
@@ -49,10 +67,10 @@ FROM tblUsers WHERE Login = @Login", cn);
                 {
                     if (r.Read())
                     {
-                        fName = r.GetString(1);
-                        lName = r.GetString(2);
-                        pHash = r.GetString(3);
-                        email = r.GetString(4);
+                        fName = r.GetStringNull(1);
+                        lName = r.GetStringNull(2);
+                        pHash = r.GetStringNull(3);
+                        email = r.GetStringNull(4);
                     }
                     else
                     {
@@ -88,10 +106,10 @@ FROM tblUsers WHERE Email = @Email", cn);
                 {
                     if (r.Read())
                     {
-                        fName = r.GetString(1);
-                        lName = r.GetString(2);
-                        pHash = r.GetString(3);
-                        login = r.GetString(4);
+                        fName = r.GetStringNull(1);
+                        lName = r.GetStringNull(2);
+                        pHash = r.GetStringNull(3);
+                        login = r.GetStringNull(4);
                     }
                     else
                     {
@@ -107,10 +125,10 @@ FROM tblUsers WHERE Email = @Email", cn);
             DoCache(res);
             return res;
         }
-    
+
         private void DoCache(CustomUser u)
         {
-            lock(this)
+            lock (this)
             {
                 HttpRuntime.Cache.Add(u, u.Login, CacheItemPriority.High, OnRemovedFromCache);
                 CachedUsers.Add(u);

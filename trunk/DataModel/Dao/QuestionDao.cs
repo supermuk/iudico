@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 using IUDICO.DataModel.Dao;
+using LEX.CONTROLS;
 
 /// <summary>
 /// Summary description for CorrectAnswerDao
@@ -23,7 +24,7 @@ public class QuestionDao : Dao
             sqlCommand.Parameters.Add("@Rank", SqlDbType.Int).Value = cae.Rank;
             sqlCommand.Parameters.Add("@TestName", SqlDbType.NVarChar, 50).Value = cae.TestName;
 
-            sqlCommand.ExecuteNonQuery();
+            sqlCommand.LexExecuteNonQuery();
         }
         finally
         {
