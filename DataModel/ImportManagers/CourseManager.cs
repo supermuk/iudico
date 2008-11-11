@@ -3,7 +3,6 @@ using System.Xml;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.Dao;
 using IUDICO.DataModel.Dao.Entity;
-using IUDICO.DataModel.ImportManagers;
 
 namespace IUDICO.DataModel.ImportManagers
 {
@@ -15,9 +14,7 @@ namespace IUDICO.DataModel.ImportManagers
 
             var ce = new CourseEntity(name, description, 0);
 
-            Store(ce);
-
-            ManageChapters(ce.Id, projectPaths);
+            ManageChapters(Store(ce), projectPaths);
         }
 
         private static void ManageChapters(int courseId, ProjectPaths projectPaths)
@@ -51,9 +48,9 @@ namespace IUDICO.DataModel.ImportManagers
             }
         }
 
-        private static void Store(CourseEntity ce)
+        private static int Store(CourseEntity ce)
         {
-            DaoFactory.CourseDao.Insert(ce);
+            return DaoFactory.CourseDao.Insert(ce);
         }
     }
 }

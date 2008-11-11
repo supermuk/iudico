@@ -22,8 +22,7 @@ namespace IUDICO.DataModel.ImportManagers
 
             byte[] file = GetByteFile(fileName);
             var te = new PageEntity(themeId, pageName, file, PageTypeEnum.Theory);
-            Store(te);
-            StoreFiles(te.Id, fileName);
+            StoreFiles(Store(te), fileName);
         }
 
         private static byte[] GetByteFile(string fileName)
@@ -48,15 +47,15 @@ namespace IUDICO.DataModel.ImportManagers
            
             foreach(FileInfo file in d.GetFiles())
             {
-                var f = FilesEntity.newFile(fe.Id, GetByteFile(file.FullName), file.Name);
+                var f = FilesEntity.newFile(fe.Id, GetByteFile(file.FullName), file.Name, pageRef);
 
                 DaoFactory.FilesDao.Insert(f);
             }
         }
 
-        private static void Store(PageEntity te)
+        private static int Store(PageEntity te)
         {
-            DaoFactory.PageDao.Insert(te);
+            return DaoFactory.PageDao.Insert(te);
         }
     }
 }
