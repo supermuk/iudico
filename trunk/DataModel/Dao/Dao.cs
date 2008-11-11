@@ -1,6 +1,5 @@
-﻿using System.Data;
+using System.Data;
 using System.Data.SqlClient;
-using IUDICO.DataModel.Common;
 
 namespace IUDICO.DataModel.Dao
 {
@@ -29,6 +28,20 @@ namespace IUDICO.DataModel.Dao
         {
             connection = GetConnection();
             return (sqlCommand = new SqlCommand(procedureName, connection) {CommandType = CommandType.StoredProcedure});
+        }
+
+        protected int GetCourseId(SqlCommand sqlCommand)
+        {
+            int courseId = 0;
+            SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+            if (sqlReader != null)
+            {
+                if (sqlReader.Read())
+                    courseId = (int) sqlReader["ID"];
+                
+                sqlReader.Close();
+            }
+            return courseId;
         }
     }
 }

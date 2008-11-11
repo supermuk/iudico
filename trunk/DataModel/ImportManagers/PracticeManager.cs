@@ -29,14 +29,14 @@ namespace IUDICO.DataModel.ImportManagers
 
             var pe = new PageEntity(themeRef, pageName, GetByteFile(fileName), PageTypeEnum.Practice, rank);
 
-            Store(pe);
+            int id = Store(pe);
 
             foreach (WebControl.WebControl w in tests)
                 if (w is WebCodeSnippet)
-                    StoreFiles(pe.Id, Path.Combine(projectPaths.PathToTempCourseFolder, w.Name) + FileExtentions.WordHtmlFolder);
+                    StoreFiles(id, Path.Combine(projectPaths.PathToTempCourseFolder, w.Name) + FileExtentions.WordHtmlFolder);
 
 
-            QuestionManager.Import(pe.Id, answerNode, tests);
+            QuestionManager.Import(id, answerNode, tests);
         }
 
         private static XmlNode GetAnswerNode(string pageName, ProjectPaths projectPaths)
@@ -94,15 +94,15 @@ namespace IUDICO.DataModel.ImportManagers
 
             foreach (FileInfo file in d.GetFiles())
             {
-                var f = FilesEntity.newFile(fe.Id, GetByteFile(file.FullName), file.Name);
+                var f = FilesEntity.newFile(fe.Id, GetByteFile(file.FullName), file.Name, pageRef);
 
                 DaoFactory.FilesDao.Insert(f);
             }
         }
 
-        private static void Store(PageEntity pe)
+        private static int Store(PageEntity pe)
         {
-            DaoFactory.PageDao.Insert(pe);
+            return DaoFactory.PageDao.Insert(pe);
         }
     }
 }
