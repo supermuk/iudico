@@ -1,3 +1,5 @@
+using IUDICO.DataModel.Dao;
+
 namespace IUDICO.DataModel.Dao
 {
     public class DaoFactory
@@ -10,7 +12,7 @@ namespace IUDICO.DataModel.Dao
             }
         }
 
-        public static ThemeDao ThemeDao
+        public static ThemeDao ChapterDao
         {
             get
             {

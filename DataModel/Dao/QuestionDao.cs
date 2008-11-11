@@ -14,6 +14,7 @@ public class QuestionDao : Dao
 
         try
         {
+            sqlCommand.Parameters.Add("@ID", SqlDbType.Int).Value = cae.Id;
             if(cae.CompiledQuestionRef != 0)
                 sqlCommand.Parameters.Add("@CompiledQuestionRef", SqlDbType.Int).Value = cae.CompiledQuestionRef;
             if(cae.CorrectAnswer != null)

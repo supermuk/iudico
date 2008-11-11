@@ -14,6 +14,7 @@ public class UserAnswerDao : Dao
 
         try
         {
+            sqlCommand.Parameters.Add("@ID", SqlDbType.Int).Value = uae.Id;
             if(uae.CompiledAnswerRef != 0)
                 sqlCommand.Parameters.Add("@CompiledAnswerRef", SqlDbType.Int).Value = uae.CompiledAnswerRef;
             sqlCommand.Parameters.Add("@Date", SqlDbType.DateTime).Value = uae.Date;

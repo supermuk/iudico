@@ -11,10 +11,10 @@ namespace IUDICO.DataModel.ImportManagers
         public static int Import(XmlNode node)
         {
             var cqe = new CompiledQuestionEntity(GetLanguage(node), XmlUtility.getTimeLimit(node), XmlUtility.getMemoryLimit(node), XmlUtility.getOutputLimit(node));
-            int id = DaoFactory.CompiledQuestionDao.Insert(cqe);
-            SetInputOutput(node, id);
+            DaoFactory.CompiledQuestionDao.Insert(cqe);
+            SetInputOutput(node, cqe.Id);
             
-            return id;
+            return cqe.Id;
         }
 
         private static void SetInputOutput(XmlNode node, int id)
