@@ -11,44 +11,31 @@ namespace IUDICO.DataModel.Dao.Entity
         private readonly string name;
         private readonly int isDirectory;
 
-        private FilesEntity(int pid, byte[] file, string name, int pageRef, bool isDirectory)
+        private FilesEntity(int pid, byte[] file, string name)
         {
             id = UniqueId.Generate();
             this.pid = pid;
             this.file = file;
             this.name = name;
-            this.pageRef = pageRef;
-            this.isDirectory = isDirectory ? 1 : 0;
+            isDirectory = 0;
         }
 
-        private FilesEntity(int id, int pid, byte[] file, string name, int pageRef, bool isDirectory)
+        private FilesEntity(int pageRef, string name)
         {
-            this.id = id;
-            this.pid = pid;
-            this.file = file;
-            this.name = name;
+            id = UniqueId.Generate();
             this.pageRef = pageRef;
-            this.isDirectory = isDirectory ? 1 : 0;
+            this.name = name;
+            isDirectory = 1;
         }
 
         public static FilesEntity newDirectory(int pageRef, string name)
         {
-            return new FilesEntity(0, null, name, pageRef, true);
+            return new FilesEntity(pageRef, name);
         }
 
-        public static FilesEntity newDirectory(int id, int pageRef, string name)
+        public static FilesEntity newFile(int pid, byte[] file, string name)
         {
-            return new FilesEntity(id, 0, null, name, pageRef, true);
-        }
-
-        public static FilesEntity newFile(int pid, byte[] file, string name, int pageRef)
-        {
-            return new FilesEntity(pid, file, name, pageRef, false);
-        }
-
-        public static FilesEntity newFile(int id, int pid, byte[] file, string name, int pageRef)
-        {
-            return new FilesEntity(id, pid, file, name, pageRef, false);
+            return new FilesEntity(pid, file, name);
         }
 
         public int PageRef

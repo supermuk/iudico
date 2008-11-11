@@ -13,16 +13,6 @@ namespace IUDICO.DataModel.Dao.Entity
         private readonly byte[] pageFile;
 
 
-        public PageEntity(int id, int themeRef, string pageName, byte[] pageFile, PageTypeEnum pageType, int pageRank)
-        {
-            this.id = id;
-            this.themeRef = themeRef;
-            this.pageName = pageName;
-            this.pageFile = pageFile;
-            this.pageType = (int)pageType;
-            this.pageRank = pageRank;
-        }
-
         public PageEntity(int themeRef, string pageName, byte[] pageFile, PageTypeEnum pageType, int pageRank)
         {
             id = UniqueId.Generate();
