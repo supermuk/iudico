@@ -22,7 +22,26 @@ namespace IUDICO.DataModel.Controllers
 
         public void Test2()
         {
-            
+            TblPermissions r = new TblPermissions
+            {
+                UserRef = 2
+            };
+            TblPermissions r2 = new TblPermissions
+            {
+                UserRef = 2
+            };
+            TblPermissions r3 = new TblPermissions
+            {
+                UserRef = 2
+            };
+            ServerModel.DB.Insert(r);
+            ServerModel.DB.Insert<TblPermissions>(new[] { r2, r3 });
+        }
+
+        public void Test3()
+        {
+            ServerModel.DB.Delete<TblPermissions>(5);
+            ServerModel.DB.Delete<TblPermissions>(new[] { 6, 7, 8, 9 });
         }
     }
 }

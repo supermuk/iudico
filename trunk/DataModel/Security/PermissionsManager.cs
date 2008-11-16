@@ -55,7 +55,7 @@ namespace IUDICO.DataModel.Security
     {
         public static readonly PermissionsManager Current;
 
-        public List<int> GetObjectsForUser(DB_OBJECT_TYPE objectType, int userID, int? operationID, DateTime? targetDate)
+        public IList<int> GetObjectsForUser(DB_OBJECT_TYPE objectType, int userID, int? operationID, DateTime? targetDate)
         {
             using (var c = ServerModel.AcruireOpenedConnection())
             {
@@ -72,7 +72,7 @@ namespace IUDICO.DataModel.Security
             }
         }
 
-        public List<int> GetOperationsForObject(DB_OBJECT_TYPE objectType, int userID, int? objectID, DateTime? targetDate)
+        public IList<int> GetOperationsForObject(DB_OBJECT_TYPE objectType, int userID, int? objectID, DateTime? targetDate)
         {
             using (var c = ServerModel.AcruireOpenedConnection())
             {

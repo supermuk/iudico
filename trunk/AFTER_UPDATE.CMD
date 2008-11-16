@@ -1,1 +1,1 @@
-"c:\Program Files\Microsoft SDKs\Windows\v6.0A\Bin\gacutil.exe" /i "%CD%\Lib\LEX.CONTROLS.dll"
+"c:\Program Files\Microsoft SDKs\Windows\v6.0A\Bin\gacutil.exe" /i "%CD%\Lib\LEX.CONTROLS.dll" /f
