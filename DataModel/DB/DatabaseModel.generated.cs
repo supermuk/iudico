@@ -63,6 +63,9 @@ namespace IUDICO.DataModel.DB
     partial void InsertRelStagesThemes(RelStagesThemes instance);
     partial void UpdateRelStagesThemes(RelStagesThemes instance);
     partial void DeleteRelStagesThemes(RelStagesThemes instance);
+    partial void InsertRelUserGroups(RelUserGroups instance);
+    partial void UpdateRelUserGroups(RelUserGroups instance);
+    partial void DeleteRelUserGroups(RelUserGroups instance);
     partial void InsertRelUserRoles(RelUserRoles instance);
     partial void UpdateRelUserRoles(RelUserRoles instance);
     partial void DeleteRelUserRoles(RelUserRoles instance);
@@ -230,6 +233,14 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
+		public System.Data.Linq.Table<RelUserGroups> RelUserGroups
+		{
+			get
+			{
+				return this.GetTable<RelUserGroups>();
+			}
+		}
+		
 		public System.Data.Linq.Table<RelUserRoles> RelUserRoles
 		{
 			get
@@ -381,6 +392,13 @@ namespace IUDICO.DataModel.DB
 			return ((System.Nullable<int>)(this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod()))).ReturnValue));
 		}
 		
+		[Function(Name="dbo.GetUserRoles")]
+		public ISingleResult<GetUserRolesResult> GetUserRoles([Parameter(Name="UserLogin", DbType="NVarChar(MAX)")] string userLogin)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userLogin);
+			return ((ISingleResult<GetUserRolesResult>)(result.ReturnValue));
+		}
+		
 		[Function(Name="dbo.spCompiledQuestionsDataInsert")]
 		public ISingleResult<SpCompiledQuestionsDataInsertResult> SpCompiledQuestionsDataInsert([Parameter(Name="ID", DbType="Int")] System.Nullable<int> iD, [Parameter(Name="CompiledQuestionRef", DbType="Int")] System.Nullable<int> compiledQuestionRef, [Parameter(Name="Input", DbType="NVarChar(MAX)")] string input, [Parameter(Name="Output", DbType="NVarChar(MAX)")] string output)
 		{
@@ -447,7 +465,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.fxCompiledStatuses")]
-	public partial class FxCompiledStatuses : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class FxCompiledStatuses : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -585,7 +603,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.fxCourseOperations")]
-	public partial class FxCourseOperations : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class FxCourseOperations : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -747,7 +765,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.fxCurriculumOperations")]
-	public partial class FxCurriculumOperations : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class FxCurriculumOperations : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -909,7 +927,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.fxLanguages")]
-	public partial class FxLanguages : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class FxLanguages : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -1023,7 +1041,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.fxPageOperations")]
-	public partial class FxPageOperations : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class FxPageOperations : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -1157,7 +1175,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.fxPageOrders")]
-	public partial class FxPageOrders : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class FxPageOrders : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -1271,7 +1289,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.fxPageTypes")]
-	public partial class FxPageTypes : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class FxPageTypes : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -1385,7 +1403,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.fxRoles")]
-	public partial class FxRoles : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class FxRoles : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -1523,7 +1541,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.fxSampleBusinesObjectOperation")]
-	public partial class FxSampleBusinesObjectOperation : DataObject
+	public partial class FxSampleBusinesObjectOperation
 	{
 		
 		private int _ID;
@@ -1604,7 +1622,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.fxStageOperations")]
-	public partial class FxStageOperations : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class FxStageOperations : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -1766,7 +1784,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.fxThemeOperations")]
-	public partial class FxThemeOperations : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class FxThemeOperations : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -1928,7 +1946,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.relStagesThemes")]
-	public partial class RelStagesThemes : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class RelStagesThemes : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -2095,8 +2113,176 @@ namespace IUDICO.DataModel.DB
 		}
 	}
 	
+	[Table(Name="dbo.relUserGroups")]
+	public partial class RelUserGroups : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _UserRef;
+		
+		private int _GroupRef;
+		
+		private EntityRef<TblGroups> _TblGroups;
+		
+		private EntityRef<TblUsers> _TblUsers;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUserRefChanging(int value);
+    partial void OnUserRefChanged();
+    partial void OnGroupRefChanging(int value);
+    partial void OnGroupRefChanged();
+    #endregion
+		
+		public RelUserGroups()
+		{
+			this._TblGroups = default(EntityRef<TblGroups>);
+			this._TblUsers = default(EntityRef<TblUsers>);
+			OnCreated();
+		}
+		
+		[Column(Storage="_UserRef", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int UserRef
+		{
+			get
+			{
+				return this._UserRef;
+			}
+			set
+			{
+				if ((this._UserRef != value))
+				{
+					if (this._TblUsers.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUserRefChanging(value);
+					this.SendPropertyChanging();
+					this._UserRef = value;
+					this.SendPropertyChanged("UserRef");
+					this.OnUserRefChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_GroupRef", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int GroupRef
+		{
+			get
+			{
+				return this._GroupRef;
+			}
+			set
+			{
+				if ((this._GroupRef != value))
+				{
+					if (this._TblGroups.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnGroupRefChanging(value);
+					this.SendPropertyChanging();
+					this._GroupRef = value;
+					this.SendPropertyChanged("GroupRef");
+					this.OnGroupRefChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_GROUP", Storage="_TblGroups", ThisKey="GroupRef", IsForeignKey=true)]
+		public TblGroups TblGroups
+		{
+			get
+			{
+				return this._TblGroups.Entity;
+			}
+			set
+			{
+				TblGroups previousValue = this._TblGroups.Entity;
+				if (((previousValue != value) 
+							|| (this._TblGroups.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TblGroups.Entity = null;
+						previousValue.RelUserGroups.Remove(this);
+					}
+					this._TblGroups.Entity = value;
+					if ((value != null))
+					{
+						value.RelUserGroups.Add(this);
+						this._GroupRef = value.ID;
+					}
+					else
+					{
+						this._GroupRef = default(int);
+					}
+					this.SendPropertyChanged("TblGroups");
+				}
+			}
+		}
+		
+		[Association(Name="FK_USER", Storage="_TblUsers", ThisKey="UserRef", IsForeignKey=true)]
+		public TblUsers TblUsers
+		{
+			get
+			{
+				return this._TblUsers.Entity;
+			}
+			set
+			{
+				TblUsers previousValue = this._TblUsers.Entity;
+				if (((previousValue != value) 
+							|| (this._TblUsers.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TblUsers.Entity = null;
+						previousValue.RelUserGroups.Remove(this);
+					}
+					this._TblUsers.Entity = value;
+					if ((value != null))
+					{
+						value.RelUserGroups.Add(this);
+						this._UserRef = value.ID;
+					}
+					else
+					{
+						this._UserRef = default(int);
+					}
+					this.SendPropertyChanged("TblUsers");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
 	[Table(Name="dbo.relUserRoles")]
-	public partial class RelUserRoles : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class RelUserRoles : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -2264,7 +2450,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.sysDBVersion")]
-	public partial class SysDBVersion : DataObject
+	public partial class SysDBVersion
 	{
 		
 		private int _VersionNumber;
@@ -2327,7 +2513,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.tblCompiledAnswers")]
-	public partial class TblCompiledAnswers : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class TblCompiledAnswers : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -2530,7 +2716,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.tblCompiledAnswersData")]
-	public partial class TblCompiledAnswersData : DataObject
+	public partial class TblCompiledAnswersData
 	{
 		
 		private int _UserRef;
@@ -2593,7 +2779,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.tblCompiledQuestions")]
-	public partial class TblCompiledQuestions : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class TblCompiledQuestions : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -2848,7 +3034,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.tblCompiledQuestionsData")]
-	public partial class TblCompiledQuestionsData : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class TblCompiledQuestionsData : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -3023,7 +3209,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.tblCourses")]
-	public partial class TblCourses : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class TblCourses : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -3237,7 +3423,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.tblCurriculums")]
-	public partial class TblCurriculums : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class TblCurriculums : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -3403,7 +3589,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.tblFiles")]
-	public partial class TblFiles : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class TblFiles : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -3695,7 +3881,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.tblGroups")]
-	public partial class TblGroups : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class TblGroups : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -3703,6 +3889,8 @@ namespace IUDICO.DataModel.DB
 		private int _ID;
 		
 		private string _Name;
+		
+		private EntitySet<RelUserGroups> _RelUserGroups;
 		
 		private EntitySet<TblPermissions> _TblPermissions;
 		
@@ -3718,6 +3906,7 @@ namespace IUDICO.DataModel.DB
 		
 		public TblGroups()
 		{
+			this._RelUserGroups = new EntitySet<RelUserGroups>(new Action<RelUserGroups>(this.attach_RelUserGroups), new Action<RelUserGroups>(this.detach_RelUserGroups));
 			this._TblPermissions = new EntitySet<TblPermissions>(new Action<TblPermissions>(this.attach_TblPermissions), new Action<TblPermissions>(this.detach_TblPermissions));
 			OnCreated();
 		}
@@ -3762,6 +3951,19 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
+		[Association(Name="FK_GROUP", Storage="_RelUserGroups", OtherKey="GroupRef", DeleteRule="NO ACTION")]
+		public EntitySet<RelUserGroups> RelUserGroups
+		{
+			get
+			{
+				return this._RelUserGroups;
+			}
+			set
+			{
+				this._RelUserGroups.Assign(value);
+			}
+		}
+		
 		[Association(Name="FK_Permissions_Groups", Storage="_TblPermissions", OtherKey="GroupRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
@@ -3795,6 +3997,18 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
+		private void attach_RelUserGroups(RelUserGroups entity)
+		{
+			this.SendPropertyChanging();
+			entity.TblGroups = this;
+		}
+		
+		private void detach_RelUserGroups(RelUserGroups entity)
+		{
+			this.SendPropertyChanging();
+			entity.TblGroups = null;
+		}
+		
 		private void attach_TblPermissions(TblPermissions entity)
 		{
 			this.SendPropertyChanging();
@@ -3809,7 +4023,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.tblPages")]
-	public partial class TblPages : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class TblPages : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -4129,7 +4343,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.tblPermissions")]
-	public partial class TblPermissions : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class TblPermissions : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -5006,7 +5220,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.tblQuestions")]
-	public partial class TblQuestions : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class TblQuestions : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -5322,7 +5536,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.tblSampleBusinesObject")]
-	public partial class TblSampleBusinesObject : DataObject
+	public partial class TblSampleBusinesObject
 	{
 		
 		private int _ID;
@@ -5367,7 +5581,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.tblStages")]
-	public partial class TblStages : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class TblStages : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -5598,7 +5812,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.tblThemes")]
-	public partial class TblThemes : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class TblThemes : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -5922,7 +6136,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.tblUserAnswers")]
-	public partial class TblUserAnswers : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class TblUserAnswers : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -6251,7 +6465,7 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.tblUsers")]
-	public partial class TblUsers : DataObject, INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class TblUsers : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -6269,6 +6483,8 @@ namespace IUDICO.DataModel.DB
 		private string _Email;
 		
 		private EntitySet<TblPermissions> _TblPermissions;
+		
+		private EntitySet<RelUserGroups> _RelUserGroups;
 		
 		private EntitySet<RelUserRoles> _RelUserRoles;
 		
@@ -6295,6 +6511,7 @@ namespace IUDICO.DataModel.DB
 		public TblUsers()
 		{
 			this._TblPermissions = new EntitySet<TblPermissions>(new Action<TblPermissions>(this.attach_TblPermissions), new Action<TblPermissions>(this.detach_TblPermissions));
+			this._RelUserGroups = new EntitySet<RelUserGroups>(new Action<RelUserGroups>(this.attach_RelUserGroups), new Action<RelUserGroups>(this.detach_RelUserGroups));
 			this._RelUserRoles = new EntitySet<RelUserRoles>(new Action<RelUserRoles>(this.attach_RelUserRoles), new Action<RelUserRoles>(this.detach_RelUserRoles));
 			this._TblUserAnswers = new EntitySet<TblUserAnswers>(new Action<TblUserAnswers>(this.attach_TblUserAnswers), new Action<TblUserAnswers>(this.detach_TblUserAnswers));
 			OnCreated();
@@ -6433,6 +6650,19 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
+		[Association(Name="FK_USER", Storage="_RelUserGroups", OtherKey="UserRef", DeleteRule="NO ACTION")]
+		public EntitySet<RelUserGroups> RelUserGroups
+		{
+			get
+			{
+				return this._RelUserGroups;
+			}
+			set
+			{
+				this._RelUserGroups.Assign(value);
+			}
+		}
+		
 		[Association(Name="FK_USER_ID", Storage="_RelUserRoles", OtherKey="UserID", DeleteRule="NO ACTION")]
 		public EntitySet<RelUserRoles> RelUserRoles
 		{
@@ -6491,6 +6721,18 @@ namespace IUDICO.DataModel.DB
 			entity.TblUsers = null;
 		}
 		
+		private void attach_RelUserGroups(RelUserGroups entity)
+		{
+			this.SendPropertyChanging();
+			entity.TblUsers = this;
+		}
+		
+		private void detach_RelUserGroups(RelUserGroups entity)
+		{
+			this.SendPropertyChanging();
+			entity.TblUsers = null;
+		}
+		
 		private void attach_RelUserRoles(RelUserRoles entity)
 		{
 			this.SendPropertyChanging();
@@ -6513,6 +6755,32 @@ namespace IUDICO.DataModel.DB
 		{
 			this.SendPropertyChanging();
 			entity.TblUsers = null;
+		}
+	}
+	
+	public partial class GetUserRolesResult
+	{
+		
+		private string _Name;
+		
+		public GetUserRolesResult()
+		{
+		}
+		
+		[Column(Storage="_Name", DbType="NVarChar(20)")]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this._Name = value;
+				}
+			}
 		}
 	}
 	
