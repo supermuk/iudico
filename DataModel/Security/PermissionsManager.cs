@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
+using System.Data.Common;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
 using LEX.CONTROLS;
@@ -8,17 +8,6 @@ using System.Collections.Generic;
 
 namespace IUDICO.DataModel.Security
 {
-    [AttributeUsage(AttributeTargets.Enum)]
-    public class DBObjects : Attribute
-    {
-        public DBObjects(int dbVersion)
-        {
-            DBVersion = dbVersion;
-        }
-
-        public int DBVersion { get; private set; }
-    }
-
     [AttributeUsage(AttributeTargets.Field)]
     public class SecuredObjectTypeAttribute : Attribute
     {
@@ -100,7 +89,7 @@ namespace IUDICO.DataModel.Security
             }
         }
 
-        public void Initialize([NotNull] SqlConnection connection)
+        public void Initialize([NotNull] DbConnection connection)
         {
             using (Logger.Scope("Initializing Security"))
             {
@@ -120,12 +109,6 @@ namespace IUDICO.DataModel.Security
                             continue;
 
                         var a = f.GetAtr<SecuredObjectTypeAttribute>();
-                        if (a == null)
-                        {
-                            throw new DMError("{0}.{1} MUST have {2} applied",
-                                              typeof(DB_OBJECT_TYPE).Name, f.Name,
-                                              typeof(SecuredObjectTypeAttribute).Name);
-                        }
 
                         CreateGetObjectsForUserProc(a, c);
                         CreateGetOperationsForObjectProc(a, c);

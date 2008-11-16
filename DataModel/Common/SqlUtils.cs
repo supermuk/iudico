@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.Common
@@ -14,6 +13,7 @@ namespace IUDICO.DataModel.Common
 
     public static class SqlUtils
     {
+        [NotNull]
         public static string CreateSafeDropProcedureStatement([NotNull] string name)
         {
             return string.Format(
@@ -36,6 +36,7 @@ namespace IUDICO.DataModel.Common
             cmd.LexExecuteNonQuery();
         }
 
+        [NotNull]
         public static List<int> FullReadInts([NotNull] this IDbCommand cmd)
         {
             using (var r = cmd.ExecuteReader(CommandBehavior.CloseConnection))
@@ -51,6 +52,7 @@ namespace IUDICO.DataModel.Common
             }
         }
 
+        [NotNull]
         public static List<string> FullReadStrings([NotNull] this IDbCommand cmd)
         {
             using (var r = cmd.ExecuteReader(CommandBehavior.CloseConnection))
@@ -66,11 +68,24 @@ namespace IUDICO.DataModel.Common
             }
         }
 
+        [CanBeNull]
         public static string GetStringNull([NotNull] this IDataReader r, int ind)
         {
             if (r.IsDBNull(ind))
                 return null;
             return r.GetString(ind);
+        }
+
+        [NotNull]
+        public static string WrapDbId([NotNull] string id)
+        {
+            return string.Concat("[", id, "]");
+
+        }
+
+        public static string WrapArc([NotNull] string id)
+        {
+            return string.Concat("(", id, ")");            
         }
     }
 }

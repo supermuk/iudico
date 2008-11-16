@@ -1,22 +1,21 @@
-﻿<%@ Import Namespace="LEX.CONTROLS"%>
+﻿<%@ Import Namespace="System.Collections.Generic"%>
+<%@ Import Namespace="IUDICO.DataModel.DB"%>
+<%@ Import Namespace="LEX.CONTROLS"%>
 <%@ Import Namespace="IUDICO.DataModel"%>
 <%@ Import Namespace="IUDICO.DataModel.Common"%>
 <%@ Import Namespace="IUDICO.DataModel.Security"%>
 <%@ Application Language="C#" %>
 
 <script runat="server">
-
+    
     void Application_Start(object sender, EventArgs e) 
     {
-        using (var c = ServerModel.AcruireOpenedConnection())
-        {
-            PermissionsManager.Current.Initialize(c);
-        }
+        ServerModel.Initialize();
     } 
         
     void Application_End(object sender, EventArgs e) 
     {
-
+        ServerModel.UnInitialize();
     }
         
     void Application_Error(object sender, EventArgs ea)
