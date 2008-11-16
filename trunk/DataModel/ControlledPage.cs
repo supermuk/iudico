@@ -1,4 +1,5 @@
-﻿using System.Web.Security;
+﻿using System;
+using System.Web.Security;
 using System.Web.UI;
 using IUDICO.DataModel.Controllers;
 
@@ -10,7 +11,7 @@ namespace IUDICO.DataModel
     public abstract class ControlledPage<ControllerType> : Page
         where ControllerType : PageControllerBase, new()
     {
-        public ControlledPage()
+        protected ControlledPage()
         {
             if (
                 (User == null  || User.Identity == null || !User.Identity.IsAuthenticated) &&
@@ -19,6 +20,11 @@ namespace IUDICO.DataModel
                 FormsAuthentication.RedirectToLoginPage();
             }
             Controller = new ControllerType();
+        }
+
+        protected EventHandler BindToEventHandler(Action a)
+        {
+            return (o, e) => a();
         }
 
         protected virtual void BindController(ControllerType c)

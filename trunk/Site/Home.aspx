@@ -1,7 +1,9 @@
 ﻿<%@ Page Language="C#" CodeFile="Home.aspx.cs" Inherits="IUDICO.Site.Pages.Home" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
-</asp:Content>
-
+<asp:content id="Content1" contentplaceholderid="head" runat="Server">
+</asp:content>
+<asp:content id="Content2" contentplaceholderid="MainContent" runat="Server">
+<asp:Button runat="server" ID="Button1" Text="Test1" />
+<br />
+<asp:Button runat="server" ID="Button2" Text="Test2" />
+</asp:content>

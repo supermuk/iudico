@@ -14,7 +14,17 @@ namespace IUDICO.DataModel
 {
     public static class ServerModel
     {
-        public static DatabaseModel DB = new DatabaseModel(AcquireConnection());
+        public static void Initialize()
+        {
+            DB.Initialize();
+            PermissionsManager.Current.Initialize(DB.GetConnectionSafe());
+        }
+
+        public static void UnInitialize()
+        {
+        }
+
+        public readonly static DatabaseModel DB = new DatabaseModel(AcruireOpenedConnection());
 
         public static UserModel User = new UserModel();
 
