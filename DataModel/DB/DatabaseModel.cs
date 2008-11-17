@@ -369,6 +369,7 @@ namespace IUDICO.DataModel.DB
             {
                 context.Write(UpdateSqlHeader + 
                     (from ci in __Columns
+                     where ci.Name != "ID"
                      select SqlUtils.WrapDbId(ci.Name) + "=@" + context.AddParameter(ci.Storage.GetValue(instance))
                      ).ConcatComma()
                      + " WHERE " + "ID = @" + context.AddParameter(instance.ID)

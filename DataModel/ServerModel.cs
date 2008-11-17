@@ -45,19 +45,13 @@ namespace IUDICO.DataModel
     {
         public void Create(string login, string password, string email)
         {
-            using (var cn = ServerModel.AcruireOpenedConnection())
+            ServerModel.DB.Insert(new TblUsers
             {
-                var cmd = new SqlCommand(@"INSERT INTO tblUsers (LastName, Login, PasswordHash, Email) 
-VALUES (@LastName, @Login, @PHash, @Email)", cn);
-                cmd.Parameters.Assign(new { 
-                    LastName = @login, 
-                    Login = login,
-                    PHash = FormsAuthentication.HashPasswordForStoringInConfigFile(password, "MD5"),
-                    Email = email
-                }
-                );
-                cmd.LexExecuteNonQuery();
-            }
+                LastName = @login,
+                Login = @login,
+                PasswordHash = FormsAuthentication.HashPasswordForStoringInConfigFile(password, "MD5"),
+                Email = email
+            });
         }
 
         public CustomUser ByLogin(string login)
