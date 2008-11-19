@@ -1,4 +1,4 @@
-﻿using IUDICO.DataModel.Common;
+﻿using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.WebControl
 {
@@ -8,7 +8,10 @@ namespace IUDICO.DataModel.WebControl
 
         protected WebTestControl()
         {
-            id = UniqueId.Generate();
+            var q = new TblQuestions();
+            ServerModel.DB.Insert(q);
+
+            id = q.ID;
         }
 
         public int Id

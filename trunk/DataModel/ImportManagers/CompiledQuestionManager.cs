@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Xml;
 using IUDICO.DataModel.Common;
-using IUDICO.DataModel.Dao;
-using IUDICO.DataModel.Dao.Entity;
+using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.ImportManagers
 {
@@ -10,21 +9,47 @@ namespace IUDICO.DataModel.ImportManagers
     {
         public static int Import(XmlNode node)
         {
-            var cqe = new CompiledQuestionEntity(GetLanguage(node), XmlUtility.getTimeLimit(node), XmlUtility.getMemoryLimit(node), XmlUtility.getOutputLimit(node));
-            DaoFactory.CompiledQuestionDao.Insert(cqe);
-            SetInputOutput(node, cqe.Id);
+            int id = Store(GetLanguage(node), XmlUtility.getTimeLimit(node), XmlUtility.getMemoryLimit(node), XmlUtility.getOutputLimit(node));
+            SetInputOutput(node, id);
             
-            return cqe.Id;
+            return id;
         }
 
-        private static void SetInputOutput(XmlNode node, int id)
+        private static int Store(Language language, int timeLimit, int memoryLimit, int outputLimit)
+        {
+            var cq = new TblCompiledQuestions
+                         {
+                             LanguageRef = ((int) language),
+                             MemoryLimit = memoryLimit,
+                             TimeLimit = timeLimit,
+                             OutputLimit = outputLimit
+                         };
+
+            ServerModel.DB.Insert(cq);
+
+            return cq.ID;
+
+        }
+
+        private static void SetInputOutput(XmlNode node, int compiledQuestionRef)
         {
             foreach (XmlNode n in node.ChildNodes)
                 if (XmlUtility.isTestCase(n))
                 {
-                    var cqde = new CompiledQuestionDataEntity(id, n.ChildNodes[1].InnerText, n.ChildNodes[0].InnerText);
-                    DaoFactory.CompiledQuestionDataDao.Insert(cqde);
+                    StoreData(compiledQuestionRef, n.ChildNodes[1].InnerText, n.ChildNodes[0].InnerText);
                 }
+        }
+
+        private static void StoreData(int compiledQuestionRef, string input, string ouput)
+        {
+            var cqd = new TblCompiledQuestionsData
+            {
+                CompiledQuestionRef = compiledQuestionRef,
+                Input = input,
+                Output = ouput
+            };
+
+            ServerModel.DB.Insert(cqd);
         }
 
         private static Language LanguageIndex(string lang)

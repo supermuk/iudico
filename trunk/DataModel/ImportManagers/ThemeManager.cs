@@ -1,8 +1,6 @@
 using System.Xml;
 using IUDICO.DataModel.Common;
-using IUDICO.DataModel.Dao;
-using IUDICO.DataModel.Dao.Entity;
-using IUDICO.DataModel.ImportManagers;
+using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.ImportManagers
 {
@@ -10,10 +8,9 @@ namespace IUDICO.DataModel.ImportManagers
     {
         public static void Import(XmlNode chapter, int courseId, ProjectPaths projectPaths)
         {
-            var ce = new ThemeEntity(courseId, XmlUtility.getIdentifier(chapter), XmlUtility.isControlChapter(chapter));
-            Store(ce);
+            int id = Store(courseId, XmlUtility.getIdentifier(chapter), XmlUtility.isControlChapter(chapter));
 
-            SearchPages(chapter, ce.Id, projectPaths);
+            SearchPages(chapter, id, projectPaths);
         }
 
         private static void SearchPages(XmlNode chapter, int themeId, ProjectPaths projectPaths)
@@ -41,9 +38,18 @@ namespace IUDICO.DataModel.ImportManagers
             }
         }
 
-        private static void Store(ThemeEntity ce)
+        private static int Store(int courseRef, string name, bool isControl)
         {
-            DaoFactory.ChapterDao.Insert(ce);
+            var t = new TblThemes
+            {
+                CourseRef = courseRef,
+                Name = name,
+                IsControl = isControl
+            };
+
+            ServerModel.DB.Insert(t);
+
+            return t.ID;
         }
     }
 }

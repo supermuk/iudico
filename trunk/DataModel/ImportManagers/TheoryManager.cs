@@ -1,19 +1,12 @@
+using System.Data.Linq;
 using System.IO;
 using System.Xml;
-using CourseImport.Dao.Entity;
 using IUDICO.DataModel.Common;
-using IUDICO.DataModel.Dao;
-using IUDICO.DataModel.Dao.Entity;
+using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.ImportManagers
 {
-    public enum FileType
-    {
-        Directory = 1,
-        File = 2
-    }
-
-    public class TheoryManager
+    public class TheoryManager : PageManager
     {
         public static void Import(XmlNode node, int themeId, ProjectPaths projectPaths)
         {
@@ -21,42 +14,23 @@ namespace IUDICO.DataModel.ImportManagers
             string fileName  = Path.Combine(projectPaths.PathToTempCourseFolder, pageName);
 
             byte[] file = GetByteFile(fileName);
-            var te = new PageEntity(themeId, pageName, file, PageTypeEnum.Theory);
-            Store(te);
-            StoreFiles(te.Id, fileName);
+            int id = Store(themeId, pageName, file);
+            StoreFiles(id, fileName);
         }
 
-        private static byte[] GetByteFile(string fileName)
+        private static int Store(int themaRef, string name, byte[] file)
         {
-            var fs = new FileStream(fileName, FileMode.Open);
-            var br = new BinaryReader(fs);
-            byte[] res = br.ReadBytes((int)fs.Length);
-
-            br.Close();
-            fs.Close();
-
-            return res;
-        }
-
-        private static void StoreFiles(int pageRef, string pageFileName)
-        {
-            string directoryName = pageFileName.Replace(FileExtentions.Html, FileExtentions.WordHtmlFolder);
-            var d  = new DirectoryInfo(directoryName);
-            var fe = FilesEntity.newDirectory(pageRef, Path.GetFileName(directoryName));
-            
-            DaoFactory.FilesDao.Insert(fe);
-           
-            foreach(FileInfo file in d.GetFiles())
+            TblPages p = new TblPages
             {
-                var f = FilesEntity.newFile(fe.Id, GetByteFile(file.FullName), file.Name);
+                ThemeRef = themaRef,
+                PageName = name,
+                PageFile = new Binary(file),
+                PageTypeRef = ((int)PageTypeEnum.Theory)
+            };
 
-                DaoFactory.FilesDao.Insert(f);
-            }
-        }
+            ServerModel.DB.Insert(p);
 
-        private static void Store(PageEntity te)
-        {
-            DaoFactory.PageDao.Insert(te);
+            return p.ID;
         }
     }
 }

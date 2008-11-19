@@ -1,15 +1,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
-using CourseImport.Dao.Entity;
 using IUDICO.DataModel.Common;
-using IUDICO.DataModel.Dao;
-using IUDICO.DataModel.Dao.Entity;
+using IUDICO.DataModel.DB;
 using IUDICO.DataModel.WebControl;
 
 namespace IUDICO.DataModel.ImportManagers
 {
-    public class PracticeManager
+    public class PracticeManager : PageManager
     {
         public static void Import(XmlNode node, int themeRef, ProjectPaths projectPaths)
         {
@@ -27,16 +25,28 @@ namespace IUDICO.DataModel.ImportManagers
 
             List<WebControl.WebControl> tests = SaveAspX(tempFileName, fileName);
 
-            var pe = new PageEntity(themeRef, pageName, GetByteFile(fileName), PageTypeEnum.Practice, rank);
-
-            Store(pe);
+            int id = Store(themeRef, pageName, GetByteFile(fileName), rank);
 
             foreach (WebControl.WebControl w in tests)
                 if (w is WebCodeSnippet)
-                    StoreFiles(pe.Id, Path.Combine(projectPaths.PathToTempCourseFolder, w.Name) + FileExtentions.WordHtmlFolder);
+                    StoreFiles(id, Path.Combine(projectPaths.PathToTempCourseFolder, w.Name) + FileExtentions.WordHtmlFolder);
 
 
-            QuestionManager.Import(pe.Id, answerNode, tests);
+            QuestionManager.Import(id, answerNode, tests);
+        }
+
+        private static int Store(int themaRef, string name, byte[] bytes, int rank)
+        {
+            var p = new TblPages
+            {
+                ThemeRef = themaRef,
+                PageName = name,
+                PageFile = bytes,
+                PageTypeRef = (int)PageTypeEnum.Practice,
+                PageRank = rank
+            };
+
+            return p.ID;
         }
 
         private static XmlNode GetAnswerNode(string pageName, ProjectPaths projectPaths)
@@ -70,39 +80,6 @@ namespace IUDICO.DataModel.ImportManagers
         {
             var page = new WebPage(tempFileName);
             return page.SaveAsAsp(fileName);
-        }
-
-        private static byte[] GetByteFile(string fileName)
-        {
-            var fs = new FileStream(fileName, FileMode.Open);
-            var br = new BinaryReader(fs);
-            byte[] res = br.ReadBytes((int)fs.Length);
-
-            br.Close();
-            fs.Close();
-
-            return res;
-        }
-
-        private static void StoreFiles(int pageRef, string pageFileName)
-        {
-            string directoryName = pageFileName.Replace(FileExtentions.Html, FileExtentions.WordHtmlFolder);
-            var d = new DirectoryInfo(directoryName);
-            var fe = FilesEntity.newDirectory(pageRef, Path.GetFileName(directoryName));
-
-            DaoFactory.FilesDao.Insert(fe);
-
-            foreach (FileInfo file in d.GetFiles())
-            {
-                var f = FilesEntity.newFile(fe.Id, GetByteFile(file.FullName), file.Name);
-
-                DaoFactory.FilesDao.Insert(f);
-            }
-        }
-
-        private static void Store(PageEntity pe)
-        {
-            DaoFactory.PageDao.Insert(pe);
         }
     }
 }
