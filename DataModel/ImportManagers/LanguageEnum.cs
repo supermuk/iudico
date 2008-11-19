@@ -1,5 +1,8 @@
-﻿namespace IUDICO.DataModel.Dao.Entity
+﻿using IUDICO.DataModel.DB;
+
+namespace IUDICO.DataModel.ImportManagers
 {
+    [DBEnum("fxLanguages")]
     public enum Language
     {
         Axapta = 1,

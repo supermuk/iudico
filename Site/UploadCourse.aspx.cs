@@ -7,8 +7,8 @@ public partial class UploadCourse : ControlledPage<UploadCourseController>
     {
         base.BindController(c);
         submitButton.Click += c.submitButton_Click;
-        c.Name = nameTextBox.Text;
-        c.Description = descriptionTextBox.Text;
+        c.Name = nameTextBox;
+        c.Description = descriptionTextBox;
         c.FileUpload = CourseUpload;
     }
 }

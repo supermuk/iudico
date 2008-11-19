@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Xml;
 using IUDICO.DataModel.Common;
-using IUDICO.DataModel.Dao;
+using IUDICO.DataModel.DB;
 using IUDICO.DataModel.WebControl;
 
 namespace IUDICO.DataModel.ImportManagers
@@ -15,21 +15,39 @@ namespace IUDICO.DataModel.ImportManagers
                 {
                     XmlNode questionAnswerNode = GetTestAnswerNode(answerNode, (c as WebTestControl).AnswerIndex);
 
-                    QuestionEntity cae;
-
                     if(c is WebCompiledTest)
                     {
-                        cae = QuestionEntity.newCompiledQuestion((c as WebTestControl).Id, pageRef, c.Name,
+                        StoreCompiledQuestion((c as WebTestControl).Id, pageRef, c.Name,
                                                                  CompiledQuestionManager.Import(questionAnswerNode), GetRank(questionAnswerNode));
                     }
                     else
                     {
-                        cae = QuestionEntity.newQuestion((c as WebTestControl).Id, pageRef, c.Name,
+                        StoreQuestion((c as WebTestControl).Id, pageRef, c.Name,
                                                          GetAnswer(questionAnswerNode), GetRank(questionAnswerNode));
                     }
-
-                    Store(cae);
                 }
+        }
+
+        private static void StoreCompiledQuestion(int id, int pageRef, string name, int compiledQuestionRef, int rank)
+        {
+            var q = ServerModel.DB.Load<TblQuestions>(id);
+            q.PageRef = pageRef;
+            q.TestName = name;
+            q.CompiledQuestionRef = compiledQuestionRef;
+            q.Rank = rank;
+
+            ServerModel.DB.Update(q);
+        }
+
+        private static void StoreQuestion(int id, int pageRef, string name, string answer, int rank)
+        {
+            var q = ServerModel.DB.Load<TblQuestions>(id);
+            q.PageRef = pageRef;
+            q.TestName = name;
+            q.CorrectAnswer = answer;
+            q.Rank = rank;
+
+            ServerModel.DB.Update(q);
         }
 
         private static XmlNode GetTestAnswerNode(XmlNode node, int index)
@@ -49,11 +67,5 @@ namespace IUDICO.DataModel.ImportManagers
         {
             return XmlUtility.getAnswer(node);
         }
-
-        private static void Store(QuestionEntity cae)
-        {
-            DaoFactory.CorrectAnswerDao.Insert(cae);
-        }
-
     }
 }

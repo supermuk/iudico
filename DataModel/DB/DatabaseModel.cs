@@ -63,6 +63,10 @@ namespace IUDICO.DataModel.DB
     {
     }
 
+    public partial class TblCompiledQuestionsData : IntKeyedDataObject, IIntKeyedDataObject
+    {
+    }
+
     public partial class TblCourses : IntKeyedDataObject, IIntKeyedDataObject
     {
     }

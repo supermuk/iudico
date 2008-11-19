@@ -1,9 +1,8 @@
+using System;
 using System.IO;
 using System.Xml;
 using IUDICO.DataModel.Common;
-using IUDICO.DataModel.Dao;
-using IUDICO.DataModel.Dao.Entity;
-using IUDICO.DataModel.ImportManagers;
+using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.ImportManagers
 {
@@ -13,11 +12,9 @@ namespace IUDICO.DataModel.ImportManagers
         {
             projectPaths.PathToAnswerXml = Path.Combine(projectPaths.PathToTempCourseFolder, "answers.xml");
 
-            var ce = new CourseEntity(name, description, 0);
+            int id = Store(name, description);
 
-            Store(ce);
-
-            ManageChapters(ce.Id, projectPaths);
+            ManageChapters(id, projectPaths);
         }
 
         private static void ManageChapters(int courseId, ProjectPaths projectPaths)
@@ -51,9 +48,19 @@ namespace IUDICO.DataModel.ImportManagers
             }
         }
 
-        private static void Store(CourseEntity ce)
+        private static int Store(string name, string description)
         {
-            DaoFactory.CourseDao.Insert(ce);
+            var c = new TblCourses
+            {
+                Name = name,
+                Description = description,
+                UploadDate = DateTime.Now,
+                Version = 1
+            };
+
+            ServerModel.DB.Insert(c);
+
+            return c.ID;
         }
     }
 }

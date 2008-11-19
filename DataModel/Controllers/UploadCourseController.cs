@@ -8,9 +8,9 @@ namespace IUDICO.DataModel.Controllers
 {
     public class UploadCourseController : PageControllerBase
     {
-        public string Name { get; set; }
+        public TextBox Name { get; set; }
 
-        public string Description { get; set; }
+        public TextBox Description { get; set; }
 
         public FileUpload FileUpload { get; set; }
 
@@ -29,7 +29,7 @@ namespace IUDICO.DataModel.Controllers
             Zipper.ExtractZipFile(projectPaths.PathToCourseZipFile, projectPaths.PathToTempCourseFolder);
             File.Delete(projectPaths.PathToCourseZipFile);
 
-            CourseManager.Import(projectPaths, Name, Description);
+            CourseManager.Import(projectPaths, Name.Text, Description.Text);
 
             //CleanDirectory(projectPaths.PathToTempCourseFolder);
         }
