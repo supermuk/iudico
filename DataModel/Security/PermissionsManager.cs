@@ -108,6 +108,8 @@ namespace IUDICO.DataModel.Security
                         if (f.IsSpecialName)
                             continue;
 
+                        Logger.WriteLine(f.Name);
+
                         var a = f.GetAtr<SecuredObjectTypeAttribute>();
 
                         CreateGetObjectsForUserProc(a, c);

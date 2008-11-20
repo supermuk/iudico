@@ -10,6 +10,7 @@ using System.Data;
 using LEX.CONTROLS;
 using System.Text;
 using System.Data.Common;
+using System.Data.Linq;
 
 namespace IUDICO.DataModel.DB
 {
@@ -46,7 +47,7 @@ namespace IUDICO.DataModel.DB
     {
     }
 
-    public abstract class IntKeyedDataObject
+    public abstract class IntKeyedDataObject : DataObject
     {
     }
 
@@ -106,6 +107,10 @@ namespace IUDICO.DataModel.DB
 
         public void Initialize()
         {
+            using (Logger.Scope("Initializing Database Model..."))
+            {
+                
+            }
         }
 
         public int Insert<TDataObject>(TDataObject obj)
@@ -231,7 +236,14 @@ namespace IUDICO.DataModel.DB
                 cmd.CommandText = CompiledDataObjectSqlHelper<TDataObject>.SelectSql + " WHERE [ID] = " + id;
                 using (var r = cmd.LexExecuteReader())
                 {
-                    return CompiledDataObjectSqlHelper<TDataObject>.Read(r);
+                    if (r.Read())
+                    {
+                        return CompiledDataObjectSqlHelper<TDataObject>.Read(r);
+                    }
+                    else
+                    {
+                        throw new DMError("Invalid object ID: {0}", id);
+                    }
                 }
             }
         }
@@ -374,9 +386,9 @@ namespace IUDICO.DataModel.DB
                 context.Write(UpdateSqlHeader + 
                     (from ci in __Columns
                      where ci.Name != "ID"
-                     select SqlUtils.WrapDbId(ci.Name) + "=@" + context.AddParameter(ci.Storage.GetValue(instance))
+                     select SqlUtils.WrapDbId(ci.Name) + "=" + context.AddParameter(ci.Storage.GetValue(instance))
                      ).ConcatComma()
-                     + " WHERE " + "ID = @" + context.AddParameter(instance.ID)
+                     + " WHERE ID=" + context.AddParameter(instance.ID)
                 );
             }
 
@@ -387,7 +399,7 @@ namespace IUDICO.DataModel.DB
                     SqlUtils.WrapArc(
                         (from ci in __Columns 
                          where ci.Name != "ID"
-                         select "@" + context.AddParameter(ci.Storage.GetValue(obj))
+                         select context.AddParameter(ci.Storage.GetValue(obj))
                         ).ConcatComma()
                     )
                 );
@@ -416,7 +428,22 @@ namespace IUDICO.DataModel.DB
             {
                 if (value != DBNull.Value)
                 {
-                    f.SetValue(instance, value);
+                    object v;
+
+                    if (value.GetType() == typeof(byte[]))
+                    {
+                        v = new Binary((byte[]) value);
+                    }
+                    else
+                    {
+                        v = value;
+                    }
+                    
+                    f.SetValue(instance, v);    
+                }
+                else
+                {
+                    f.SetValue(instance, null);
                 }
             }
 
@@ -431,39 +458,57 @@ namespace IUDICO.DataModel.DB
         {
             public SqlSerializationContext(SqlCommand cmd)
             {
-                Cmd = cmd;
+                _Cmd = cmd;
             }
 
             public string AddParameter(object value)
             {
-                var p = "P" + ++__ParameterID;
-                Cmd.Parameters.AddWithValue(p, value ?? DBNull.Value);
+                object v;
+                if (value is Binary)
+                {
+                    v = (value as Binary).ToArray();
+                }
+                else
+                {
+                    v = value;
+                }
+
+                string p;
+                if (v == null)
+                {
+                    p = "NULL";
+                }
+                else
+                {
+                    p = "@P" + ++__ParameterID;
+                    _Cmd.Parameters.AddWithValue(p, v);
+                }
                 return p;
             }
 
             public void Next()
             {
-                SqlBuilder.AppendLine();
+                _SqlBuilder.AppendLine();
             }
 
             public string GetSql()
             {
-                return SqlBuilder.ToString();
+                return _SqlBuilder.ToString();
             }
 
             [StringFormatMethod("fmt")]
             public void Write(string fmt, params object[] args)
             {
-                SqlBuilder.AppendFormat(fmt, args);
+                _SqlBuilder.AppendFormat(fmt, args);
             }
 
             public void Write(string str)
             {
-                SqlBuilder.Append(str);
+                _SqlBuilder.Append(str);
             }
 
-            private readonly StringBuilder SqlBuilder = new StringBuilder();
-            private readonly SqlCommand Cmd;
+            private readonly StringBuilder _SqlBuilder = new StringBuilder();
+            private readonly SqlCommand _Cmd;
             private int __ParameterID;
         }
 

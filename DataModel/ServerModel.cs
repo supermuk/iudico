@@ -3,7 +3,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Web;
 using System.Web.Caching;
-using System.Web.Configuration;
 using System.Web.Security;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.Security;
@@ -14,23 +13,28 @@ namespace IUDICO.DataModel
 {
     public static class ServerModel
     {
-        public static void Initialize()
+        public static void Initialize(string connectionString)
         {
-            DB.Initialize();
-            PermissionsManager.Current.Initialize(DB.GetConnectionSafe());
+            using (Logger.Scope("Initializing ServerModel..."))
+            {
+                _ConnectionString = connectionString;
+                DB = new DatabaseModel(AcruireOpenedConnection());
+                DB.Initialize();
+                PermissionsManager.Current.Initialize(DB.GetConnectionSafe());
+            }
         }
 
         public static void UnInitialize()
         {
         }
 
-        public readonly static DatabaseModel DB = new DatabaseModel(AcruireOpenedConnection());
+        public static DatabaseModel DB;
 
         public static UserModel User = new UserModel();
 
         public static SqlConnection AcquireConnection()
         {
-            return new SqlConnection(WebConfigurationManager.ConnectionStrings["IUDICO"].ConnectionString);
+            return new SqlConnection(_ConnectionString);
         }
 
         public static SqlConnection AcruireOpenedConnection()
@@ -39,6 +43,8 @@ namespace IUDICO.DataModel
             res.Open();
             return res;
         }
+
+        private static string _ConnectionString;
     }
 
     public sealed class UserModel
