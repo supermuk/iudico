@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Text;
 using System.Windows.Forms;
 using LEX.CONTROLS;
 
@@ -52,7 +51,7 @@ namespace DBUpdater
             {
                 s.Open();
                 var c = new SqlCommand("EXEC sp_databases", s);
-                using (var r = c.ExecuteReader())
+                using (var r = c.LexExecuteReader())
                 {
                     while (r.Read())
                     {
@@ -74,7 +73,7 @@ namespace DBUpdater
                 }
 
                 s.Close();
-                s.ConnectionString = new SqlConnectionStringBuilder()
+                s.ConnectionString = new SqlConnectionStringBuilder
                 {
                     DataSource = serverInstance,
                     IntegratedSecurity = true,

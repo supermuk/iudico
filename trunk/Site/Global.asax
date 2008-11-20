@@ -1,4 +1,5 @@
-﻿<%@ Import Namespace="System.Collections.Generic"%>
+﻿<%@ Import Namespace="System.Web.Configuration"%>
+<%@ Import Namespace="System.Collections.Generic"%>
 <%@ Import Namespace="IUDICO.DataModel.DB"%>
 <%@ Import Namespace="LEX.CONTROLS"%>
 <%@ Import Namespace="IUDICO.DataModel"%>
@@ -10,7 +11,7 @@
     
     void Application_Start(object sender, EventArgs e) 
     {
-        ServerModel.Initialize();
+        ServerModel.Initialize(WebConfigurationManager.ConnectionStrings["IUDICO"].ConnectionString);
     } 
         
     void Application_End(object sender, EventArgs e) 

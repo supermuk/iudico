@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{09E61840-75A2-4776-82CA-2A23A731EDEE}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{E99F9341-7DD8-457F-818A-EF56561B5596}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DBUpdater</RootNamespace>
-    <AssemblyName>DBUpdater</AssemblyName>
+    <RootNamespace>IUDICO.UnitTest</RootNamespace>
+    <AssemblyName>UnitTests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,8 +32,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LEX.CONTROLS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=44ea94c3b070248a, processorArchitecture=MSIL" />
+    <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
+    <Reference Include="nunit.framework.extensions, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
+    <Reference Include="nunit.framework.tests, Version=2.4.8.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Xml.Linq">
@@ -43,69 +50,25 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="frmDBStatus.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmDBStatus.Designer.cs">
-      <DependentUpon>frmDBStatus.cs</DependentUpon>
-    </Compile>
-    <Compile Include="frmSelectDB.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmSelectDB.Designer.cs">
-      <DependentUpon>frmSelectDB.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="Base\TestFixtureBase.cs" />
+    <Compile Include="DBInterOpTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="frmDBStatus.resx">
-      <DependentUpon>frmDBStatus.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmSelectDB.resx">
-      <DependentUpon>frmSelectDB.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SqlCommandExceptionDetails.resx">
-      <DependentUpon>SqlCommandExceptionDetails.cs</DependentUpon>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Settings.cs" />
-    <Compile Include="SqlCommandExceptionDetails.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SqlCommandExceptionDetails.Designer.cs">
-      <DependentUpon>SqlCommandExceptionDetails.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\IUDICO.DBManager\IUDICO.DBUpdateManager.csproj">
+    <ProjectReference Include="..\DataModel\DataModel.csproj">
+      <Project>{F7A3C8E8-7545-4D92-8FF5-0927B4D845EF}</Project>
+      <Name>DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\IUDICO.DBManager\IUDICO.DBUpdateManager.csproj">
       <Project>{F95D74A2-02F6-442D-8363-F1E43FB9A2DB}</Project>
       <Name>IUDICO.DBUpdateManager</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -115,8 +78,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
 </Project>
