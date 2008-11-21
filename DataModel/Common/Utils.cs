@@ -20,6 +20,26 @@ namespace IUDICO.DataModel.Common
             return (T) target.Atr<T>();
         }
 
+        public static bool TryGetAtr<T>(this ICustomAttributeProvider target, out T res)
+            where T: Attribute
+        {
+            var ats = target.GetCustomAttributes(typeof (T), true);
+            if (ats.Length > 1)
+            {
+                throw new InvalidOperationException("Too many attributes");
+            }
+            if (ats.Length == 0)
+            {
+                res = null;
+                return false;
+            }
+            else
+            {
+                res = (T) ats[0];
+                return true;
+            }
+        }
+
         public static string ConcatComma<T>([NotNull] this IEnumerable<T> data)
         {
             var s = new StringBuilder();

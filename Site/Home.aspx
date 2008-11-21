@@ -6,4 +6,6 @@
 <asp:Button runat="server" ID="Button1" Text="Test1" />
 <br />
 <asp:Button runat="server" ID="Button2" Text="Test2" />
+<br />
+<asp:Button runat="server" ID="Button3" Text="Increment controller value" />
 </asp:content>

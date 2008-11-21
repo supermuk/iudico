@@ -11,6 +11,7 @@ using LEX.CONTROLS;
 using System.Text;
 using System.Data.Common;
 using System.Data.Linq;
+using System.ComponentModel;
 
 namespace IUDICO.DataModel.DB
 {
@@ -49,6 +50,18 @@ namespace IUDICO.DataModel.DB
 
     public abstract class IntKeyedDataObject : DataObject
     {
+        protected IntKeyedDataObject()
+        {
+            ((INotifyPropertyChanged) this).PropertyChanged += PropertyChangingHook;
+        }
+
+        private static void PropertyChangingHook(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ID")
+            {
+                throw new InvalidOperationException("Cannot change property because it is foreign key");
+            }
+        }
     }
 
     public partial class TblPermissions : IntKeyedDataObject, IIntKeyedDataObject
@@ -413,7 +426,7 @@ namespace IUDICO.DataModel.DB
                 context.Write("=" + id);
             }
 
-            public static void AppendDeleteSql([NotNull]SqlSerializationContext context, [NotNull]IList<int> objs)
+            public static void AppendDeleteSql([NotNull]SqlSerializationContext context, [NotNull]ICollection<int> objs)
             {
                 if (objs == null || objs.Count == 0)
                 {
