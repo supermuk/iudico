@@ -6,6 +6,9 @@ namespace IUDICO.DataModel.Controllers
 {
     public class HomeController : PageControllerBase
     {
+        [ControllerValue]
+        private int SomeControllerValue;
+
         public void Test1()
         {
             IList<TblPermissions> r = ServerModel.DB.Load<TblPermissions>(new[] { 2, 3 });
@@ -40,8 +43,7 @@ namespace IUDICO.DataModel.Controllers
 
         public void Test3()
         {
-            ServerModel.DB.Delete<TblPermissions>(5);
-            ServerModel.DB.Delete<TblPermissions>(new[] { 6, 7, 8, 9 });
+            SomeControllerValue++;
         }
     }
 }

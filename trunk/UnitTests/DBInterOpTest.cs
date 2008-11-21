@@ -73,6 +73,15 @@ namespace IUDICO.UnitTest
             Assert.IsNull(loadedFile.File);
         }
 
+        [Test]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ChangeDataObjectIDTest()
+        {
+            var t = new TblQuestions();
+            t.IsCompiled = true;
+            t.ID = 5;
+        }
+
         protected override bool NeedToRecreateDB
         {
             get

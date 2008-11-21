@@ -11,6 +11,7 @@ namespace IUDICO.Site.Pages
             base.BindController(c);
             Button1.Click += BindToEventHandler(c.Test1);
             Button2.Click += BindToEventHandler(c.Test2);
+            Button3.Click += BindToEventHandler(c.Test3);
         }
     }
 }
