@@ -6,7 +6,7 @@ using IUDICO.DataModel.ImportManagers;
 
 namespace IUDICO.DataModel.Controllers
 {
-    public class UploadCourseController : PageControllerBase
+    public class UploadCourseController : ControllerBase
     {
         public TextBox Name { get; set; }
 

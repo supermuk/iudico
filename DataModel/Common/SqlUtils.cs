@@ -39,13 +39,43 @@ namespace IUDICO.DataModel.Common
         [NotNull]
         public static List<int> FullReadInts([NotNull] this IDbCommand cmd)
         {
-            using (var r = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+            using (var r = cmd.LexExecuteReader())
             {
                 var result = new List<int>();
 
                 while (r.Read())
                 {
                     result.Add(r.GetInt32(0));
+                }
+
+                return result;
+            }
+        }
+
+        public static List<int> FullReadInts([NotNull] this IDbCommand cmd, string columnName)
+        {
+            using (var r = cmd.LexExecuteReader())
+            {
+                var result = new List<int>();
+                var id = -1;
+
+                while (r.Read())
+                {
+                    if (id < 0)
+                    {
+                        id = r.GetOrdinal(columnName);
+                    }
+                    result.Add(r.GetInt32(id));
+                }
+
+                // remove duplicates
+                result.Sort(); 
+                for (int i = result.Count - 1; i > 0; --i)
+                {
+                    if (result[i] == result[i - 1])
+                    {
+                        result.RemoveAt(i);
+                    }
                 }
 
                 return result;

@@ -11,62 +11,18 @@ using LEX.CONTROLS;
 using System.Text;
 using System.Data.Common;
 using System.Data.Linq;
-using System.ComponentModel;
+using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.DB
 {
-    public class DBEnumAttribute : Attribute
-    {
-        public readonly string TableName;
+    public partial class FxCourseOperations : FxDataObject, IFxDataObject { }
 
-        public DBEnumAttribute(string tableName)
-        {
-            TableName = tableName;
-        }
-    }
+    public partial class FxThemeOperations : FxDataObject, IFxDataObject { }
 
-    public interface IIntKeyedDataObject
-    {
-        int ID { get; }
-    }
-
-    public class DBEnum<T>
-        where T : struct
-    {
-        static DBEnum()
-        {
-            Values = new ReadOnlyCollection<string>(new List<string>(
-                from f in typeof(T).GetFields()
-                where !f.IsSpecialName
-                select f.Name));
-        }
-
-        public static readonly ReadOnlyCollection<string> Values;
-    }
-
-    public abstract class DataObject
-    {
-    }
-
-    public abstract class IntKeyedDataObject : DataObject
-    {
-        protected IntKeyedDataObject()
-        {
-            ((INotifyPropertyChanged) this).PropertyChanged += PropertyChangingHook;
-        }
-
-        private static void PropertyChangingHook(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "ID")
-            {
-                throw new InvalidOperationException("Cannot change property because it is foreign key");
-            }
-        }
-    }
+    public partial class FxStageOperations : FxDataObject, IFxDataObject {}
 
     public partial class TblPermissions : IntKeyedDataObject, IIntKeyedDataObject
     {
-
     }
 
     public partial class TblCompiledAnswers : IntKeyedDataObject, IIntKeyedDataObject
@@ -81,7 +37,7 @@ namespace IUDICO.DataModel.DB
     {
     }
 
-    public partial class TblCourses : IntKeyedDataObject, IIntKeyedDataObject
+    public partial class TblCourses : IntKeyedDataObject, IIntKeyedDataObject, INamedDataObject
     {
     }
 
@@ -99,9 +55,13 @@ namespace IUDICO.DataModel.DB
 
     public partial class TblSampleBusinesObject : IntKeyedDataObject, IIntKeyedDataObject {}
 
-    public partial class TblStages : IntKeyedDataObject, IIntKeyedDataObject {}
+    public partial class TblStages : IntKeyedDataObject, IIntKeyedDataObject, INamedDataObject
+    {
+    }
 
-    public partial class TblThemes : IntKeyedDataObject, IIntKeyedDataObject {}
+    public partial class TblThemes : IntKeyedDataObject, IIntKeyedDataObject, INamedDataObject
+    {
+    }
 
     public partial class TblUserAnswers : IntKeyedDataObject, IIntKeyedDataObject {}
 
@@ -109,6 +69,18 @@ namespace IUDICO.DataModel.DB
 
     public partial class DatabaseModel
     {
+        static DatabaseModel()
+        {
+            if (FIXED_METHOD == null)
+            {
+                throw new DMError("'Fx' method is not initialized");
+            }
+            if (LOAD_LIST_METHOD == null)
+            {
+                throw new DMError("'Load List' method is not initialized");
+            }
+        }
+
         public DbConnection GetConnectionSafe()
         {
             if (Connection.State != ConnectionState.Open)
@@ -148,52 +120,56 @@ namespace IUDICO.DataModel.DB
         public void Insert<TDataObject>(IList<TDataObject> objs)
             where TDataObject : IIntKeyedDataObject, new()
         {
-            DbConnection cn = GetConnectionSafe();
-            var transaction = cn.BeginTransaction();
-            try
+            if (objs.Count > 0)
             {
-                using (var cmd = cn.CreateCommand())
+                DbConnection cn = GetConnectionSafe();
+
+                var transaction = cn.BeginTransaction();
+                try
                 {
-                    cmd.Transaction = transaction;
-                    var sc = new SqlSerializationContext((SqlCommand) cmd);
-                    foreach (var o in objs)
+                    using (var cmd = cn.CreateCommand())
                     {
-                        if (o.ID != 0)
+                        cmd.Transaction = transaction;
+                        var sc = new SqlSerializationContext((SqlCommand) cmd);
+                        foreach (var o in objs)
                         {
-                            throw new DMError("DataObject has been already inserted.");
+                            if (o.ID != 0)
+                            {
+                                throw new DMError("DataObject has been already inserted.");
+                            }
+                            CompiledDataObjectSqlHelper<TDataObject>.AppendInsertSql(sc, o);
+                            sc.Next();
                         }
-                        CompiledDataObjectSqlHelper<TDataObject>.AppendInsertSql(sc, o);
-                        sc.Next();
-                    }
 
-                    cmd.CommandText = sc.GetSql();
-                    using (var r = cmd.LexExecuteReader())
-                    {
-                        int i = 0, c = objs.Count;
-
-                        while (true)
+                        cmd.CommandText = sc.GetSql();
+                        using (var r = cmd.LexExecuteReader())
                         {
-                            if (!r.Read())
-                                throw new DMError("Invalid Data Reader");
-                            int id = Convert.ToInt32(r.GetDecimal(0));
-                            CompiledDataObjectSqlHelper<TDataObject>.KeyColumn.Storage.SetValue(objs[i], id);
-                            ++i;
-                            if (i < c)
-                                r.NextResult();
-                            else
-                                break;
+                            int i = 0, c = objs.Count;
+
+                            while (true)
+                            {
+                                if (!r.Read())
+                                    throw new DMError("Invalid Data Reader");
+                                int id = Convert.ToInt32(r.GetDecimal(0));
+                                CompiledDataObjectSqlHelper<TDataObject>.KeyColumn.Storage.SetValue(objs[i], id);
+                                ++i;
+                                if (i < c)
+                                    r.NextResult();
+                                else
+                                    break;
+                            }
                         }
                     }
+                    transaction.Commit();
                 }
-                transaction.Commit();
-            }
-            catch
-            {
-                transaction.Rollback();
-            }
-            finally
-            {
-                transaction.Dispose();                
+                catch
+                {
+                    transaction.Rollback();
+                }
+                finally
+                {
+                    transaction.Dispose();
+                }
             }
         }
 
@@ -212,32 +188,35 @@ namespace IUDICO.DataModel.DB
         public void Update<TDataObject>(IList<TDataObject> objs)
             where TDataObject : IIntKeyedDataObject, new()
         {
-            var connection = GetConnectionSafe();
-            var transaction = connection.BeginTransaction();
-            try
+            if (objs.Count > 0)
             {
-                using (var cmd = connection.CreateCommand())
+                var connection = GetConnectionSafe();
+                var transaction = connection.BeginTransaction();
+                try
                 {
-                    var sc = new SqlSerializationContext((SqlCommand) cmd);
-                    foreach (var o in objs)
+                    using (var cmd = connection.CreateCommand())
                     {
-                        CompiledDataObjectSqlHelper<TDataObject>.AppendUpdateSql(sc, o);
-                        sc.Next();
-                    }
+                        var sc = new SqlSerializationContext((SqlCommand) cmd);
+                        foreach (var o in objs)
+                        {
+                            CompiledDataObjectSqlHelper<TDataObject>.AppendUpdateSql(sc, o);
+                            sc.Next();
+                        }
 
-                    cmd.Transaction = transaction;
-                    cmd.CommandText = sc.GetSql();
-                    cmd.LexExecuteNonQuery();
+                        cmd.Transaction = transaction;
+                        cmd.CommandText = sc.GetSql();
+                        cmd.LexExecuteNonQuery();
+                    }
+                    transaction.Commit();
                 }
-                transaction.Commit();
-            }
-            catch
-            {
-                transaction.Rollback();
-            }
-            finally
-            {
-                transaction.Dispose();
+                catch
+                {
+                    transaction.Rollback();
+                }
+                finally
+                {
+                    transaction.Dispose();
+                }
             }
         }
 
@@ -264,6 +243,11 @@ namespace IUDICO.DataModel.DB
         public IList<TDataObject> Load<TDataObject>(IList<int> ids)
             where TDataObject : IIntKeyedDataObject, new()
         {
+            if (ids.Count == 0)
+            {
+                return new TDataObject[0];
+            }
+
             using (var cmd = GetConnectionSafe().CreateCommand())
             {
                 var result = new List<TDataObject>(ids.Count);
@@ -298,12 +282,15 @@ namespace IUDICO.DataModel.DB
         public void Delete<TDataObject>(IList<int> ids)
             where TDataObject : IIntKeyedDataObject, new()
         {
-            using (var cmd = GetConnectionSafe().CreateCommand())
+            if (ids.Count > 0)
             {
-                var sc = new SqlSerializationContext((SqlCommand) cmd);
-                CompiledDataObjectSqlHelper<TDataObject>.AppendDeleteSql(sc, ids);
-                cmd.CommandText = sc.GetSql();
-                cmd.LexExecuteNonQuery();
+                using (var cmd = GetConnectionSafe().CreateCommand())
+                {
+                    var sc = new SqlSerializationContext((SqlCommand) cmd);
+                    CompiledDataObjectSqlHelper<TDataObject>.AppendDeleteSql(sc, ids);
+                    cmd.CommandText = sc.GetSql();
+                    cmd.LexExecuteNonQuery();
+                }
             }
         }
 
@@ -312,6 +299,15 @@ namespace IUDICO.DataModel.DB
         {
             Delete<TDataObject>(new List<int>(objs.Select(o => o.ID)));
         }
+
+        public ReadOnlyCollection<TFxDataObject> Fx<TFxDataObject>()
+            where TFxDataObject : FxDataObject
+        {
+            return FxObjectsStorage<TFxDataObject>.Items;
+        }
+
+        public static readonly MethodInfo FIXED_METHOD = typeof(DatabaseModel).GetMethod("Fx");
+        public static readonly MethodInfo LOAD_LIST_METHOD = typeof(DatabaseModel).GetMethod("Load", new[] { typeof(IList<int>) });
 
         #region CompiledDataObjectSqlHelper
 
@@ -525,6 +521,21 @@ namespace IUDICO.DataModel.DB
             private int __ParameterID;
         }
 
+        #endregion
+
+        #region
+
+
+        private static class FxObjectsStorage<T>
+            where T: FxDataObject
+        {
+            static FxObjectsStorage()
+            {
+                Items = new ReadOnlyCollection<T>(new List<T>(ServerModel.DB.GetTable<T>()));
+            }
+
+            public static readonly ReadOnlyCollection<T> Items;
+        }
         #endregion
     }
 

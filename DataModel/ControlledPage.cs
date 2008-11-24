@@ -13,7 +13,7 @@ namespace IUDICO.DataModel
     ///</summary>
     /// 
     public abstract class ControlledPage<ControllerType> : Page
-        where ControllerType : PageControllerBase, new()
+        where ControllerType : ControllerBase, new()
     {
         protected ControlledPage()
         {
@@ -57,12 +57,19 @@ namespace IUDICO.DataModel
             BindController(Controller);
         }
 
+        /// <summary>
+        /// Do nothing. It's required to override in derived class to bind exactly controls realy need it
+        /// </summary>
+        public override void DataBind()
+        {
+        }
+
         protected readonly ControllerType Controller;
 
         #region PageControllerInfo
 
         private static class PageControllerInfo<TController>
-            where TController : PageControllerBase
+            where TController : ControllerBase
         {
             private struct ValueInfo
             {

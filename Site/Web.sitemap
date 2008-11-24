@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="" title=""  description="">
+    <siteMapNode url="Home.aspx" title="Home" />
+    <siteMapNode title="User">
+      <siteMapNode title="My Personal Info" />
+      <siteMapNode url="~/User/MyPermissions.aspx" title="My permissions" />
+    </siteMapNode>
+    <siteMapNode title="Lector">
+      <siteMapNode title="My Courses" />
+      <siteMapNode title="My Groups" />
+    </siteMapNode>
+    <siteMapNode title="Admin">
+      <siteMapNode title="Create User" url="CreateUser.aspx" />
+    </siteMapNode>
+  </siteMapNode>
+</siteMap>

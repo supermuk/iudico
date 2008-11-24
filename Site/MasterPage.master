@@ -6,13 +6,31 @@
     <title>IUDICO Study and Testing system</title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
+    <link rel="Stylesheet" href="Styles/Main.css" type="text/css" />
 </head>
 <body>
     <form id="form1" runat="server">
     <div>
         <asp:ScriptManager ID="ScriptManager1" runat="server">
         </asp:ScriptManager>
-        <asp:LoginStatus ID="LoginStatus1" runat="server" />
+        
+        <asp:SiteMapDataSource 
+            ID="SiteMap" 
+            ShowStartingNode="false"
+            runat="server" 
+        />
+        
+        <asp:Menu 
+            ID="MainMenu" 
+            Orientation="Horizontal" 
+            DataSourceID="SiteMap" 
+            runat="server">
+            <DynamicMenuItemStyle CssClass="dynamicmenuitem" />
+            <DynamicHoverStyle CssClass="dynamicmenuhover" />
+            <StaticMenuItemStyle CssClass="staticmenuitem" />
+            <StaticHoverStyle CssClass="staticmenuitemhover" />
+        </asp:Menu>
+        
         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
             <ContentTemplate>
                 <asp:ContentPlaceHolder ID="MainContent" runat="server">

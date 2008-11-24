@@ -1,4 +1,4 @@
-﻿using IUDICO.DataModel.DB;
+﻿using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.ImportManagers
 {

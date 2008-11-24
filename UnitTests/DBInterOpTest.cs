@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Linq;
 using IUDICO.DataModel;
+using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
 using IUDICO.UnitTest.Base;
 using NUnit.Framework;
@@ -9,7 +11,7 @@ using NUnit.Framework;
 namespace IUDICO.UnitTest
 {
     [TestFixture]
-    public class DBInterOpTest : TestFixtureBase
+    public class DBInterOpTest : TestFixtureDB
     {
         [Test]
         public void SimpleDBOperationsTest()
@@ -80,6 +82,21 @@ namespace IUDICO.UnitTest
             var t = new TblQuestions();
             t.IsCompiled = true;
             t.ID = 5;
+        }
+
+        [Test]
+        public void TestFxObject()
+        {
+            ReadOnlyCollection<FxCourseOperations> f = ServerModel.DB.Fx<FxCourseOperations>();
+            Assert.IsNotNull(f);
+        }
+
+        [Test]
+        [ExpectedException(typeof(DMError))]
+        public void TestFxObjectToImutable()
+        {
+            var co = new FxCourseOperations();
+            co.Name = "test";
         }
 
         protected override bool NeedToRecreateDB
