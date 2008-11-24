@@ -8,4 +8,9 @@
 <asp:Button runat="server" ID="Button2" Text="Test2" />
 <br />
 <asp:Button runat="server" ID="Button3" Text="Increment controller value" />
+<br />
+
+<i:UserPermissions ID="UserPermissions" runat="server" ObjectType="COURSE" />
+
 </asp:content>
+

@@ -13,7 +13,38 @@ using IUDICO.DataModel.Common;
 
 namespace IUDICO.UnitTest.Base
 {
-    public class TestFixtureBase
+    public class TestFixture
+    {
+        [TestFixtureSetUp]
+        protected virtual void InitializeFixture()
+        {
+        }
+
+        [TestFixtureTearDown]
+        protected virtual void FinializeFixture()
+        {
+        }
+
+        protected static void AreEqual(DateTime a, DateTime b)
+        {
+            Assert.AreEqual(a.AddTicks(-a.Ticks), b.AddTicks(-b.Ticks));
+        }
+
+        protected static void AreEqual(DateTime? a, DateTime? b)
+        {
+            if (a != null && b != null)
+            {
+                AreEqual(a.Value, b.Value);
+            }
+            else
+            {
+                Assert.AreEqual(a, b);
+            }
+        }
+
+    }
+
+    public class TestFixtureDB : TestFixture
     {
         protected SqlConnection Connection
         {
@@ -36,7 +67,7 @@ namespace IUDICO.UnitTest.Base
                 _ScriptsPath = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Environment.CurrentDirectory))), "DBScripts");
             }
 
-            public NUnitDBInteractionContext(TestFixtureBase fixture)
+            public NUnitDBInteractionContext(TestFixtureDB fixture)
             {
                 _Fixture = fixture;
             }
@@ -84,13 +115,13 @@ namespace IUDICO.UnitTest.Base
             #endregion
 
             private readonly IVariable<bool> _EnableUserActions = true.AsVariable();
-            private readonly TestFixtureBase _Fixture;
+            private readonly TestFixtureDB _Fixture;
             private static readonly string _ScriptsPath;
         }
 
         #endregion
 
-        public TestFixtureBase()
+        public TestFixtureDB()
         {
             var cB = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["IUDICO_TEST"].ConnectionString);
             _DataBaseName = cB.InitialCatalog;
@@ -119,8 +150,7 @@ namespace IUDICO.UnitTest.Base
             DBUpdateManager.DropDataBase(new NUnitDBInteractionContext(this));
         }
 
-        [TestFixtureSetUp]
-        protected virtual void InitializeFixture()
+        protected override void InitializeFixture()
         {
             var context = new NUnitDBInteractionContext(this);
             var dbExists = (bool) DBUpdateManager.IsDatabaseExists(_DataBaseName)(context);
@@ -159,8 +189,7 @@ namespace IUDICO.UnitTest.Base
             ServerModel.Initialize(Connection.ConnectionString);
         }
 
-        [TestFixtureTearDown]
-        protected virtual void FinializeFixture()
+        protected override void FinializeFixture()
         {
             ServerModel.UnInitialize();
 
@@ -171,26 +200,6 @@ namespace IUDICO.UnitTest.Base
         }
 
         protected virtual bool NeedToRecreateDB { get { return true; } }
-
-        protected static void AreEqual(DateTime a, DateTime b)
-        {
-            Assert.AreEqual(a.AddTicks(-a.Ticks), b.AddTicks(-b.Ticks));
-            //            a = a.AddTicks(a.Ticks) AddMilliseconds(-a.Millisecond);
-            //            b = b.AddMilliseconds(-b.Millisecond);
-            //            Assert.AreEqual(Comparer<DateTime>.Default.Compare(a, b), 0, "Expected {0} but was {1}", a, b);
-        }
-
-        protected static void AreEqual(DateTime? a, DateTime? b)
-        {
-            if (a != null && b != null)
-            {
-                AreEqual(a.Value, b.Value);
-            }
-            else
-            {
-                Assert.AreEqual(a, b);
-            }
-        }
 
         private readonly SqlConnection _Connection;
         private readonly string _DataBaseName;

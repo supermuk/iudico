@@ -20,7 +20,7 @@ namespace IUDICO.DataModel
                 _ConnectionString = connectionString;
                 DB = new DatabaseModel(AcruireOpenedConnection());
                 DB.Initialize();
-                PermissionsManager.Current.Initialize(DB.GetConnectionSafe());
+                PermissionsManager.Initialize(DB.GetConnectionSafe());
             }
         }
 
@@ -66,6 +66,7 @@ namespace IUDICO.DataModel
             if (HttpRuntime.Cache.TryGet(login, out res))
                 return res;
 
+            int fID;
             string fName, lName, pHash, email;
             List<string> roles;
             using (var cn = ServerModel.AcruireOpenedConnection())
@@ -77,6 +78,7 @@ FROM tblUsers WHERE Login = @Login", cn);
                 {
                     if (r.Read())
                     {
+                        fID = r.GetInt32(0);
                         fName = r.GetStringNull(1);
                         lName = r.GetStringNull(2);
                         pHash = r.GetStringNull(3);
@@ -92,7 +94,7 @@ FROM tblUsers WHERE Login = @Login", cn);
                 cmd.Parameters.Assign(new { UserLogin = login });
                 roles = cmd.FullReadStrings();
             }
-            res = new CustomUser(fName, lName, login, pHash, email, roles);
+            res = new CustomUser(fID, fName, lName, login, pHash, email, roles);
             DoCache(res);
             return res;
         }
@@ -105,6 +107,7 @@ FROM tblUsers WHERE Login = @Login", cn);
                 return res;
             }
 
+            int fID;
             string fName, lName, pHash, login;
             List<string> roles;
             using (var cn = ServerModel.AcruireOpenedConnection())
@@ -116,6 +119,7 @@ FROM tblUsers WHERE Email = @Email", cn);
                 {
                     if (r.Read())
                     {
+                        fID = r.GetInt32(0);
                         fName = r.GetStringNull(1);
                         lName = r.GetStringNull(2);
                         pHash = r.GetStringNull(3);
@@ -131,7 +135,7 @@ FROM tblUsers WHERE Email = @Email", cn);
                 cmd.Parameters.Assign(new { UserLogin = login });
                 roles = cmd.FullReadStrings();
             }
-            res = new CustomUser(fName, lName, login, pHash, email, roles);
+            res = new CustomUser(fID, fName, lName, login, pHash, email, roles);
             DoCache(res);
             return res;
         }

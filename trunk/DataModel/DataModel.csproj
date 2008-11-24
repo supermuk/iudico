@@ -107,24 +107,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\CacheUtility.cs" />
+    <Compile Include="Common\DynamicClass.cs" />
+    <Compile Include="Common\DynamicClassView.cs" />
     <Compile Include="Common\FileExtentions.cs" />
     <Compile Include="Common\HtmlStyleReader.cs" />
     <Compile Include="Common\HttpUtility.cs" />
     <Compile Include="Common\Logger.cs" />
     <Compile Include="Common\DMError.cs" />
     <Compile Include="Common\EnglishLanguage.cs" />
+    <Compile Include="Common\DataObjectDictionary.cs" />
     <Compile Include="Common\PageType.cs" />
     <Compile Include="Common\ProjectPaths.cs" />
     <Compile Include="Common\SqlUtils.cs" />
+    <Compile Include="Common\Memorizer.cs" />
     <Compile Include="Common\UniqueId.cs" />
     <Compile Include="Common\Utils.cs" />
+    <Compile Include="Common\ViewStateUtility.cs" />
     <Compile Include="Common\XmlAttributes.cs" />
     <Compile Include="Common\XmlUtility.cs" />
     <Compile Include="Common\Zipper.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
-    <Compile Include="Controllers\PageControllerBase.cs" />
+    <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\UploadCourseController.cs" />
+    <Compile Include="DB\Base\DBModelBase.cs" />
     <Compile Include="HttpHandlers\ImageHandler.cs" />
     <Compile Include="HttpHandlers\IudicoHttpHandler.cs" />
     <Compile Include="HttpHandlers\PageHandler.cs" />
@@ -154,6 +160,9 @@
     <Compile Include="Security\CustomUser.cs" />
     <Compile Include="Security\PermissionsManager.cs" />
     <Compile Include="ServerModel.cs" />
+    <Compile Include="UserControlBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="WebControl\WebButton.cs" />
     <Compile Include="WebControl\WebCodeSnippet.cs" />
     <Compile Include="WebControl\WebComboBox.cs" />

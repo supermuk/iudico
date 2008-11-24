@@ -4,7 +4,7 @@ using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.Controllers
 {
-    public class HomeController : PageControllerBase
+    public class HomeController : ControllerBase
     {
         [ControllerValue]
         private int SomeControllerValue;

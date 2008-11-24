@@ -7,9 +7,10 @@ namespace IUDICO.DataModel.Security
 {
     public class CustomUser : MembershipUser
     {
-        public CustomUser(string firstName, string lastName, string login, string passwordHash, string email, IList<string> roles)
-            : this(login, login, email, null, null, true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.MinValue, DateTime.MinValue)
+        public CustomUser(int id, string firstName, string lastName, string login, string passwordHash, string email, IList<string> roles)
+            : this( login, login, email, null, null, true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.MinValue, DateTime.MinValue)
         {
+            _ID = id;
             _FirstName = firstName;
             _LastName = lastName;
             _Login = login;
@@ -34,6 +35,8 @@ namespace IUDICO.DataModel.Security
                 return _FirstName + " " + _LastName;
             }
         }
+
+        public int ID { get { return _ID; } }
 
         public string Login { get { return _Login; } }
 
@@ -61,5 +64,6 @@ namespace IUDICO.DataModel.Security
         private readonly string _FirstName;
         private readonly string _LastName;
         private readonly string _Login;
+        private readonly int _ID;
     }
 }

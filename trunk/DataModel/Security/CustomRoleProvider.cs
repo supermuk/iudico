@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Security;
 using IUDICO.DataModel.DB;
+using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.Security
 {

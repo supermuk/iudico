@@ -1,0 +1,17 @@
+﻿.staticmenuitem, .dynamicmenuitem
+{
+	font-weight: bold;
+	background-color: Silver
+}
+
+.staticmenuitem, .staticmenuitemhover
+{
+	margin-left: 20px;
+}
+
+.staticmenuitemhover, .dynamicmenuhover
+{
+	font-style:italic;
+	background-color:Gray;
+	cursor: pointer
+}
