@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.Controllers
 {
     public class HomeController : ControllerBase
     {
-        [ControllerValue]
-        private int SomeControllerValue;
+        [PersistantField]
+        public int SomeControllerValue;
 
         public void Test1()
         {

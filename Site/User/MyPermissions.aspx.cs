@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Web.Security;
+using IUDICO.DataModel;
 using IUDICO.DataModel.Security;
 
-public partial class User_MyPermissions : System.Web.UI.Page
+public partial class User_MyPermissions : ControlledPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        DataBind();
+        if (!IsPostBack && !IsCallback)
+        {
+            DataBind();
+        }
     }
 
     protected int UserID
