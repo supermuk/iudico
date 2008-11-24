@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Web.UI;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.DB.Base;
@@ -11,7 +10,7 @@ using System.Linq;
 
 namespace IUDICO.Web.Controls
 {
-    public partial class UserPermissions : UserControl
+    public partial class UserPermissions : ControlledUserControl
     {
         public DB_OBJECT_TYPE? ObjectType { get; set; }
 
@@ -33,20 +32,11 @@ namespace IUDICO.Web.Controls
             PermissionsGrid.DataBind();
         }
 
-//        protected override object SaveViewState()
-//        {
-//            return new Pair(base.SaveViewState(), _View != null ? _View.SaveViewStateData() : null);
-//        }
-//
-//        protected override void LoadControlState(object savedState)
-//        {
-//            var p = (Pair)savedState;
-//            base.LoadViewState(p.First);
-//            if (p.Second != null)
-//            {
-//                (_View = new DynamicClassView()).LoadViewStateData(p.Second);
-//            }
-//        }
+        public void Refresh()
+        {
+            _View = null;
+            DataBind();
+        }
 
         private DynamicClassView GenerateView()
         {
@@ -106,6 +96,7 @@ namespace IUDICO.Web.Controls
             }
         }
 
+        [PersistantField]
         private DynamicClassView _View;
     }
 }

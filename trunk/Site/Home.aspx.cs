@@ -1,7 +1,6 @@
 ﻿using System;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
-using System.Web.Security;
 
 namespace IUDICO.Site.Pages
 {
@@ -19,7 +18,16 @@ namespace IUDICO.Site.Pages
         {
             base.OnLoad(e);
             UserPermissions.UserID = 1;
-            DataBind();
+            if (!IsPostBack && !IsCallback)
+            {
+                DataBind();
+            }
+        }
+
+        protected override void OnPreRender(EventArgs e)
+        {
+            base.OnPreRender(e);
+            Button3.Text = Controller.SomeControllerValue.ToString();
         }
 
         public override void DataBind()
