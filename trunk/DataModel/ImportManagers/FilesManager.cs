@@ -1,12 +1,20 @@
 ﻿using System.IO;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
+using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.ImportManagers
 {
-    public class PageManager
+    [DBEnum("fxPageTypes")]
+    public enum FX_PAGETYPE
     {
-        protected static byte[] GetByteFile(string fileName)
+        Theory = 1,
+        Practice = 2
+    }
+
+    public class FilesManager
+    {
+        public static byte[] GetByteFile(string fileName)
         {
             var fs = new FileStream(fileName, FileMode.Open);
             var br = new BinaryReader(fs);
@@ -18,7 +26,7 @@ namespace IUDICO.DataModel.ImportManagers
             return res;
         }
 
-        protected static void StoreFiles(int pageRef, string pageFileName)
+        public static void StoreAllPageFiles(int pageRef, string pageFileName)
         {
             string directoryName = pageFileName.Replace(FileExtentions.Html, FileExtentions.WordHtmlFolder);
             
@@ -32,15 +40,15 @@ namespace IUDICO.DataModel.ImportManagers
             }
         }
 
-        private static void StoreFile(int dirID, FileSystemInfo file, int pageRef)
+        private static void StoreFile(int pid, FileSystemInfo file, int pageRef)
         {
             var f = new TblFiles
                         {
                             Name = file.Name,
                             IsDirectory = false,
-                            PID = dirID,
                             PageRef = pageRef,
-                            File = GetByteFile(file.FullName)
+                            File = GetByteFile(file.FullName),
+                            PID = pid
                         };
 
             ServerModel.DB.Insert(f);
@@ -50,9 +58,9 @@ namespace IUDICO.DataModel.ImportManagers
         {
             var f = new TblFiles
                         {
-                            Name = directoryName,
+                            Name = Path.GetFileName(directoryName),
                             IsDirectory = true,
-                            PageRef = pageRef
+                            PageRef = pageRef,
                         };
 
             ServerModel.DB.Insert(f);

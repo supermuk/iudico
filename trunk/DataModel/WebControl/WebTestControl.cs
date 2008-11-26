@@ -4,15 +4,7 @@ namespace IUDICO.DataModel.WebControl
 {
     public abstract class WebTestControl : WebControl
     {
-        private readonly int id;
-
-        protected WebTestControl()
-        {
-            var q = new TblQuestions();
-            ServerModel.DB.Insert(q);
-
-            id = q.ID;
-        }
+        private int id;
 
         public int Id
         {
@@ -21,6 +13,20 @@ namespace IUDICO.DataModel.WebControl
 
         public int AnswerIndex { get; set; }
 
-        public abstract string CreateCodeForTest();
+        public string CreateCodeForTest()
+        {
+            id = CreateQuestionID();
+            return CreateCodeForTest(id);
+        }
+
+        public abstract string CreateCodeForTest(int testId);
+
+        public int CreateQuestionID()
+        {
+            var q = new TblQuestions();
+            ServerModel.DB.Insert(q);
+
+            return q.ID;
+        }
     }
 }

@@ -35,9 +35,9 @@ namespace IUDICO.DataModel.WebControl
             w.RenderEndTag();
         }
 
-        public override string CreateCodeForTest()
+        public override string CreateCodeForTest(int testId)
         {
-            return string.Format("ComboBoxTest({0}.SelectedIndex, {1})", Name, Id);
+            return string.Format("IUDICO.DataModel.WebTest.ComboBoxTest({0}.SelectedIndex, {1})", Name, testId);
         }
     }
 }

@@ -1,10 +1,31 @@
-﻿using System;
+using System;
 using System.Xml;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
+using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.ImportManagers
 {
+    [DBEnum("fxLanguages")]
+    public enum FX_LANGUAGE
+    {
+        Axapta = 1,
+        Cpp = 2,
+        Delphi = 3,
+        HTML = 4,
+        Java = 5,
+        JavaScript = 6,
+        Perl = 7,
+        PHP = 8,
+        Python = 9,
+        RIB = 10,
+        RSL = 11,
+        Ruby = 12,
+        Smalltalk = 13,
+        SQL = 14,
+        VBScript = 15
+    }
+
     class CompiledQuestionManager
     {
         public static int Import(XmlNode node)
@@ -15,7 +36,7 @@ namespace IUDICO.DataModel.ImportManagers
             return id;
         }
 
-        private static int Store(Language language, int timeLimit, int memoryLimit, int outputLimit)
+        private static int Store(FX_LANGUAGE language, int timeLimit, int memoryLimit, int outputLimit)
         {
             var cq = new TblCompiledQuestions
                          {
@@ -52,9 +73,9 @@ namespace IUDICO.DataModel.ImportManagers
             ServerModel.DB.Insert(cqd);
         }
 
-        private static Language LanguageIndex(string lang)
+        private static FX_LANGUAGE LanguageIndex(string lang)
         {
-            foreach (Language l in Enum.GetValues(typeof(Language)))
+            foreach (FX_LANGUAGE l in Enum.GetValues(typeof(FX_LANGUAGE)))
             {
                 if (l.ToString().Equals(lang))
                     return l;
@@ -63,7 +84,7 @@ namespace IUDICO.DataModel.ImportManagers
             return 0;
         }
 
-        private static Language GetLanguage(XmlNode node)
+        private static FX_LANGUAGE GetLanguage(XmlNode node)
         {
             foreach (XmlNode n in node.ChildNodes)
                 if (XmlUtility.isLanguage(n))

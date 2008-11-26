@@ -1,17 +1,20 @@
-﻿/// <summary>
-/// Summary description for SimpleQuestionTest
-/// </summary>
-public class SimpleQuestionTest : Test
+﻿namespace IUDICO.DataModel.WebTest
 {
-    public SimpleQuestionTest(long testId, params bool[] list)
+    /// <summary>
+    /// Summary description for IUDICO.DataModel.WebTest.SimpleQuestionTest
+    /// </summary>
+    public class SimpleQuestionTest : Test
     {
-        Id = testId;
+        public SimpleQuestionTest(int testId, params bool[] list)
+        {
+            Id = testId;
 
-        string ans = string.Empty;
+            string ans = string.Empty;
 
-        foreach (bool b in list)
-            ans += b ? "1" : "0";
+            foreach (bool b in list)
+                ans += b ? "1" : "0";
 
-        UserAnswer = ans;
+            UserAnswer = ans;
+        }
     }
 }

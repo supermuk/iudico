@@ -1,4 +1,3 @@
-using System.Data.Linq;
 using System.IO;
 using System.Xml;
 using IUDICO.DataModel.Common;
@@ -6,16 +5,16 @@ using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.ImportManagers
 {
-    public class TheoryManager : PageManager
+    public class TheoryManager
     {
         public static void Import(XmlNode node, int themeId, ProjectPaths projectPaths)
         {
             string pageName = XmlUtility.getIdentifierRef(node) + FileExtentions.Html;
             string fileName  = Path.Combine(projectPaths.PathToTempCourseFolder, pageName);
 
-            byte[] file = GetByteFile(fileName);
+            byte[] file = FilesManager.GetByteFile(fileName);
             int id = Store(themeId, pageName, file);
-            StoreFiles(id, fileName);
+            FilesManager.StoreAllPageFiles(id, fileName);
         }
 
         private static int Store(int themaRef, string name, byte[] file)
@@ -24,8 +23,8 @@ namespace IUDICO.DataModel.ImportManagers
             {
                 ThemeRef = themaRef,
                 PageName = name,
-                PageFile = new Binary(file),
-                PageTypeRef = ((int)PageTypeEnum.Theory)
+                PageFile = file,
+                PageTypeRef = ((int)FX_PAGETYPE.Theory)
             };
 
             ServerModel.DB.Insert(p);

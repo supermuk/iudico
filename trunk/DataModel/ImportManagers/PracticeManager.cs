@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using IUDICO.DataModel.Common;
@@ -7,7 +6,7 @@ using IUDICO.DataModel.WebControl;
 
 namespace IUDICO.DataModel.ImportManagers
 {
-    public class PracticeManager : PageManager
+    public class PracticeManager
     {
         public static void Import(XmlNode node, int themeRef, ProjectPaths projectPaths)
         {
@@ -21,32 +20,26 @@ namespace IUDICO.DataModel.ImportManagers
             string tempFileName = Path.Combine(projectPaths.PathToTempCourseFolder, pageFileName);
             string fileName = tempFileName.Replace(FileExtentions.Html, FileExtentions.Aspx);
 
+            var pageTable = StorePageWithoutPageFile(themeRef, pageName, rank);
+            
+            WebPage webPage = CreateAspxPage(tempFileName, Path.GetFileNameWithoutExtension(fileName), pageTable.ID, answerNode, projectPaths.PathToTempCourseFolder);
 
-
-            List<WebControl.WebControl> tests = SaveAspX(tempFileName, fileName);
-
-            int id = Store(themeRef, pageName, GetByteFile(fileName), rank);
-
-            foreach (WebControl.WebControl w in tests)
-                if (w is WebCodeSnippet)
-                    StoreFiles(id, Path.Combine(projectPaths.PathToTempCourseFolder, w.Name) + FileExtentions.WordHtmlFolder);
-
-
-            QuestionManager.Import(id, answerNode, tests);
+            AddPageFileToPage(pageTable, webPage.ByteRepresentation);
         }
 
-        private static int Store(int themaRef, string name, byte[] bytes, int rank)
+        private static TblPages StorePageWithoutPageFile(int themaRef, string name, int rank)
         {
             var p = new TblPages
             {
                 ThemeRef = themaRef,
                 PageName = name,
-                PageFile = bytes,
-                PageTypeRef = (int)PageTypeEnum.Practice,
+                PageTypeRef = (int)FX_PAGETYPE.Practice,
                 PageRank = rank
             };
 
-            return p.ID;
+            ServerModel.DB.Insert(p);
+
+            return p;
         }
 
         private static XmlNode GetAnswerNode(string pageName, ProjectPaths projectPaths)
@@ -76,10 +69,19 @@ namespace IUDICO.DataModel.ImportManagers
             return int.Parse(node.LastChild.InnerText);
         }
 
-        private static List<WebControl.WebControl> SaveAspX(string tempFileName, string fileName)
+        private static WebPage CreateAspxPage(string tempFileName, string fileName, int pageRef, XmlNode answerNode, string pathToTempCourseFolder)
         {
             var page = new WebPage(tempFileName);
-            return page.SaveAsAsp(fileName);
+            page.TransformToAspx(fileName, pageRef, answerNode, pathToTempCourseFolder);
+            return page;
         }
+
+        private static void AddPageFileToPage(TblPages page, byte[] pageFile)
+        {
+            page.PageFile = pageFile;
+
+            ServerModel.DB.Update(page);
+        }
+    
     }
 }

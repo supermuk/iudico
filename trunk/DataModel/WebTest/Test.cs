@@ -1,9 +1,12 @@
-﻿/// <summary>
-/// Summary description for Test
-/// </summary>
-public abstract class Test
+﻿namespace IUDICO.DataModel.WebTest
 {
-    public string UserAnswer { get; protected set; }
+    /// <summary>
+    /// Summary description for IUDICO.DataModel.WebTest.Test
+    /// </summary>
+    public abstract class Test
+    {
+        public string UserAnswer { get; protected set; }
 
-    public long Id { get; protected set; }
+        public int Id { get; protected set; }
+    }
 }

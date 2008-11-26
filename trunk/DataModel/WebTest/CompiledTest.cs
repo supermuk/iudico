@@ -2,7 +2,7 @@
 {
     class CompiledTest : Test
     {
-        public CompiledTest(string userAnswer, long testId)
+        public CompiledTest(string userAnswer, int testId)
         {
             UserAnswer = userAnswer;
             Id = testId;

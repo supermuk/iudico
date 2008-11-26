@@ -1,23 +1,43 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Security;
+using IUDICO.DataModel.DB;
+using IUDICO.DataModel.Security;
 
-/// <summary>
-/// Summary description for PageTest
-/// </summary>
-public class Tester
+namespace IUDICO.DataModel.WebTest
 {
-    private readonly List<Test> tests = new List<Test>();
-
-    public void AddTest(Test newTest)
+    /// <summary>
+    /// Summary description for PageTest
+    /// </summary>
+    public class Tester
     {
-        tests.Add(newTest);
-    }
+        private readonly List<Test> tests = new List<Test>();
 
-    public void Submit()
-    {
-        foreach (Test t in tests)
+        public void AddTest(Test newTest)
         {
-           // var uae = new UserAnswerEntity();
-           // DaoFactory.UserAnswerDao.Insert(uae);
+            tests.Add(newTest);
+        }
+
+        public void Submit()
+        {
+            foreach (Test t in tests)
+            {
+                var ua = new TblUserAnswers();
+                ua.QuestionRef = t.Id;
+                ua.Date = DateTime.Now;
+                ua.UserRef = ((CustomUser) Membership.GetUser()).ID;
+                if(t is CompiledTest)
+                {
+                    
+
+                }
+                else
+                {
+                    ua.UserAnswer = t.UserAnswer;
+                    ua.IsCompiledAnswer = false;
+                }
+                ServerModel.DB.Insert(ua);
+            }
         }
     }
 }

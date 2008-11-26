@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.UI;
 using System.Xml;
+using IUDICO.DataModel.ImportManagers;
 
 namespace IUDICO.DataModel.WebControl
 {
@@ -12,6 +13,7 @@ namespace IUDICO.DataModel.WebControl
     {
         private readonly Dictionary<string, int> answersIndexes = new Dictionary<string, int>();
         private readonly List<WebControl> controls = new List<WebControl>();
+        private byte[] byteRepresentation;
 
         public WebPage(string pathToPage)
         {
@@ -22,6 +24,16 @@ namespace IUDICO.DataModel.WebControl
                 SetAnswerIndexes(doc.DocumentElement);
                 Parse(doc.DocumentElement);
             }
+        }
+
+        public byte[] ByteRepresentation
+        {
+            get { return byteRepresentation; }
+        }
+
+        public List<WebControl> Controls
+        {
+            get { return controls; }
         }
 
         private static WebControl GetControlForParse(XmlNode node)
@@ -87,7 +99,7 @@ namespace IUDICO.DataModel.WebControl
                     (c as WebTestControl).AnswerIndex = answersIndexes[c.Name];
                 }
 
-                controls.Add(c);
+                Controls.Add(c);
             }
             else if (node.HasChildNodes)
             {
@@ -98,44 +110,83 @@ namespace IUDICO.DataModel.WebControl
             }
         }
 
-        public List<WebControl> SaveAsAsp(string path)
+        public void TransformToAspx(string pageName, int pageRef, XmlNode answerNode, string pathToTempCourseFolder)
         {
-            var sw = new StreamWriter(path, false, Encoding.Default);
-            var w = new HtmlTextWriter(sw);
-            string pageName = Path.GetFileNameWithoutExtension(path);
+            var sw = new StringWriter(); 
 
+            ConstructPageCode(new HtmlTextWriter(sw), pageName);
+
+            sw.Close();
+
+            byteRepresentation = Encoding.Default.GetBytes(sw.GetStringBuilder().ToString());
+
+            QuestionManager.Import(pageRef, answerNode, controls, pathToTempCourseFolder);
+        }
+
+        private void ConstructPageCode(HtmlTextWriter w, string pageName)
+        {
             AddScriptHeader(w);
+            WriteHtml(w, pageName);
+        }
 
-
-
+        private void WriteHtml(HtmlTextWriter w, string pageName)
+        {
             w.RenderBeginTag(HtmlTextWriterTag.Html);
+            
+            WriteHead(w, pageName);
+
+            WriteBody(w);
+
+            w.RenderEndTag();
+        }
+
+        private void WriteBody(HtmlTextWriter w)
+        {
+            w.RenderBeginTag(HtmlTextWriterTag.Body);
+            WriteForm(w);
+            w.RenderEndTag();
+        }
+
+        private void WriteForm(HtmlTextWriter w)
+        {
+            w.AddAttribute("runat", "server");
+            w.RenderBeginTag(HtmlTextWriterTag.Form);
+
+            StoreControls(w);
+
+            WriteScript(w);
+
+            w.RenderEndTag();
+        }
+
+        private void StoreControls(HtmlTextWriter w)
+        {
+            foreach (IUDICO.DataModel.WebControl.WebControl c in Controls)
+                c.Store(w);
+        }
+
+        private void WriteScript(HtmlTextWriter w)
+        {
+            w.AddAttribute("runat", "server");
+            w.RenderBeginTag(HtmlTextWriterTag.Script);
+            w.WriteEncodedText(CreateCodeFile());
+            w.RenderEndTag();
+        }
+
+        private static void WriteHead(HtmlTextWriter w, string pageName)
+        {
             w.RenderBeginTag(HtmlTextWriterTag.Head);
+            WriteTitle(w, pageName);
+            w.RenderEndTag();
+        }
+
+        private static void WriteTitle(HtmlTextWriter w, string pageName)
+        {
             w.RenderBeginTag(HtmlTextWriterTag.Title);
 
             w.WriteEncodedText(pageName);
 
             w.RenderEndTag();
-            w.RenderEndTag();
-
-            w.RenderBeginTag(HtmlTextWriterTag.Body);
-            w.AddAttribute("runat", "server");
-            w.RenderBeginTag(HtmlTextWriterTag.Form);
-
-            foreach (IUDICO.DataModel.WebControl.WebControl c in controls)
-                c.Store(w);
-
-            w.AddAttribute("runat", "server");
-            w.RenderBeginTag(HtmlTextWriterTag.Script);
-            w.WriteEncodedText(CreateCodeFile());
-            w.RenderEndTag();
-
-            w.RenderEndTag();
-            w.RenderEndTag();
-
-            w.Flush();
-            sw.Close();
-
-            return controls;
         }
 
         private void SetAnswerIndexes(XmlNode node)
@@ -184,8 +235,8 @@ namespace IUDICO.DataModel.WebControl
             var s = new StringBuilder();
 
             s.AppendLine("void onClick(object sender, EventArgs e){" + "\n");
-            s.AppendFormat("Tester tester = new Tester();" + "\n");
-            foreach (IUDICO.DataModel.WebControl.WebControl t in controls)
+            s.AppendFormat("IUDICO.DataModel.WebTest.Tester tester = new IUDICO.DataModel.WebTest.Tester();" + "\n");
+            foreach (IUDICO.DataModel.WebControl.WebControl t in Controls)
             {
                 if (t is WebTestControl)
                     s.AppendFormat("tester.AddTest(new {0});" + "\n",

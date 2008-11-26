@@ -39,7 +39,6 @@ namespace IUDICO.DataModel.WebControl
             foreach (string text in list)
             {
                 w.AddAttribute(HtmlTextWriterAttribute.Id, Name.ToLower() + "_" + text);
-                //w.AddAttribute(HtmlTextWriterAttribute.Value, HtmlUtility.QuotesEncode(text));
                 w.AddAttribute("GroupName", Name.ToLower());
                 w.AddAttribute("runat", "server");
                 w.RenderBeginTag(singleCase ? "asp:radiobutton" : "asp:checkbox");
@@ -51,7 +50,7 @@ namespace IUDICO.DataModel.WebControl
             w.RenderEndTag();
         }
 
-        public override string CreateCodeForTest()
+        public override string CreateCodeForTest(int testId)
         {
             var s = new StringBuilder();
 
@@ -63,7 +62,7 @@ namespace IUDICO.DataModel.WebControl
                     s.Append(',');
             }
 
-            return string.Format("SimpleQuestionTest({0}, {1})", Id, s);
+            return string.Format("IUDICO.DataModel.WebTest.SimpleQuestionTest({0}, {1})", testId, s);
         }
     }
 }
