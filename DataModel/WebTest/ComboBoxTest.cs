@@ -1,12 +1,15 @@
-﻿/// <summary>
-/// Summary description for ComboBoxTest
-/// </summary>
-public class ComboBoxTest : Test
+﻿namespace IUDICO.DataModel.WebTest
 {
-    public ComboBoxTest(int userAnswer, int testId)
+    /// <summary>
+    /// Summary description for IUDICO.DataModel.WebTest.ComboBoxTest
+    /// </summary>
+    public class ComboBoxTest : Test
     {
-        Id = testId;
+        public ComboBoxTest(int userAnswer, int testId)
+        {
+            Id = testId;
 
-        UserAnswer = userAnswer.ToString();
+            UserAnswer = userAnswer.ToString();
+        }
     }
 }

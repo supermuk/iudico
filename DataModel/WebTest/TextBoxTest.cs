@@ -1,11 +1,14 @@
-﻿/// <summary>
-/// Summary description for TextBoxTest
-/// </summary>
-public class TextBoxTest : Test
+﻿namespace IUDICO.DataModel.WebTest
 {
-    public TextBoxTest(string userAnswer, long testId)
+    /// <summary>
+    /// Summary description for IUDICO.DataModel.WebTest.TextBoxTest
+    /// </summary>
+    public class TextBoxTest : Test
     {
-        UserAnswer = userAnswer;
-        Id = testId;
+        public TextBoxTest(string userAnswer, int testId)
+        {
+            UserAnswer = userAnswer;
+            Id = testId;
+        }
     }
 }

@@ -7,5 +7,8 @@ namespace IUDICO.DataModel.Common
         public static readonly string Cs = ".cs";
         public static readonly string Html = ".html";
         public static readonly string WordHtmlFolder = ".files";
+
+        public const string IudicoPracticePage = "ipp";
+        public const string IudicoTheoryPage = "itp";
     }
 }
