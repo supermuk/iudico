@@ -132,6 +132,8 @@
     <Compile Include="Controllers\OpenTestController.cs" />
     <Compile Include="Controllers\UploadCourseController.cs" />
     <Compile Include="DB\Base\DBModelBase.cs" />
+    <Compile Include="DB\Base\DataObjectSqlSerializer.cs" />
+    <Compile Include="DB\Base\DataObjectLookupHelper.cs" />
     <Compile Include="HttpHandlers\ImageHandler.cs" />
     <Compile Include="HttpHandlers\IudicoHttpHandler.cs" />
     <Compile Include="HttpHandlers\PageHandler.cs" />

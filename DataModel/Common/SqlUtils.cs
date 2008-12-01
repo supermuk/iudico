@@ -52,6 +52,7 @@ namespace IUDICO.DataModel.Common
             }
         }
 
+        [NotNull]
         public static List<int> FullReadInts([NotNull] this IDbCommand cmd, string columnName)
         {
             using (var r = cmd.LexExecuteReader())
@@ -66,16 +67,6 @@ namespace IUDICO.DataModel.Common
                         id = r.GetOrdinal(columnName);
                     }
                     result.Add(r.GetInt32(id));
-                }
-
-                // remove duplicates
-                result.Sort(); 
-                for (int i = result.Count - 1; i > 0; --i)
-                {
-                    if (result[i] == result[i - 1])
-                    {
-                        result.RemoveAt(i);
-                    }
                 }
 
                 return result;
@@ -115,7 +106,7 @@ namespace IUDICO.DataModel.Common
 
         public static string WrapArc([NotNull] string id)
         {
-            return string.Concat("(", id, ")");            
+            return string.Concat("(", id, ")");
         }
     }
 }
