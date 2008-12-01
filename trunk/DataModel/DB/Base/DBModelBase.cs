@@ -5,9 +5,11 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using IUDICO.DataModel.Common;
+using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.DB.Base
 {
+    [AttributeUsage(AttributeTargets.Enum)]
     public class DBEnumAttribute : Attribute
     {
         public readonly string TableName;
@@ -15,6 +17,31 @@ namespace IUDICO.DataModel.DB.Base
         public DBEnumAttribute(string tableName)
         {
             TableName = tableName;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    [BaseTypeRequired(typeof(RelTable))]
+    public class ManyToManyRelationshipAttribute : Attribute
+    {
+        public ManyToManyRelationshipAttribute(Type first, Type second)
+        {
+            CheckSupport(first);
+            CheckSupport(second);
+
+            First = first;
+            Second = second;
+        }
+
+                public readonly Type First;
+        public readonly Type Second;
+
+        private static void CheckSupport(Type t)
+        {
+            if (t.GetInterface(typeof(IIntKeyedDataObject).Name) == null)
+            {
+                throw new DMError("Class {0} is not support {1} so it cannot take participation in Many-To-Many relationship", t.FullName, typeof(IIntKeyedDataObject).Name);
+            } 
         }
     }
 
@@ -31,6 +58,11 @@ namespace IUDICO.DataModel.DB.Base
     public interface ISecuredDataObject : IIntKeyedDataObject, INamedDataObject {}
 
     public interface IFxDataObject : IIntKeyedDataObject, INamedDataObject { }
+
+    public interface IRelationshipTable
+    {
+        
+    }
 
     public class DBEnum<T>
         where T : struct
@@ -51,7 +83,7 @@ namespace IUDICO.DataModel.DB.Base
     }
 
     [DebuggerDisplay("DataObject: {ID}")]
-    public abstract class IntKeyedDataObject : DataObject
+    public abstract class IntKeyedDataObject : DataObject, ICloneable
     {
         protected IntKeyedDataObject()
         {
@@ -65,6 +97,11 @@ namespace IUDICO.DataModel.DB.Base
                 throw new InvalidOperationException("Cannot change property because it is foreign key");
             }
         }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
     }
 
     [DebuggerDisplay("Fx: {ID} - {Name}")]
@@ -73,6 +110,14 @@ namespace IUDICO.DataModel.DB.Base
         protected FxDataObject()
         {
             ((INotifyPropertyChanging)this).PropertyChanging += (s, e) => { throw new DMError("Cannot change readonly object {0}", s.GetType().Name); };
+        }
+    }
+
+    public abstract class RelTable
+    {
+        protected RelTable()
+        {
+            throw new DMError("Impossible to create relation dataobject. Please use methods of ServerModel.DB instead");
         }
     }
 }

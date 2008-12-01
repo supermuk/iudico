@@ -99,6 +99,53 @@ namespace IUDICO.UnitTest
             co.Name = "test";
         }
 
+        [Test]
+        public void LookupIDsTest()
+        {
+            var d = DateTime.Now;
+            string email = d.Year.ToString() + d.Month + d.Day + d.Hour + d.Minute + d.Second + d.Millisecond + "@gmail.com";
+            var u = new TblUsers
+            {
+                Email = email,
+                FirstName = "Test",
+                LastName = "Test",
+                Login = email,
+                PasswordHash = email
+            };
+            ServerModel.DB.Insert(u);
+
+            var a1 = new TblUserAnswers { UserRef = u.ID };
+            var a2 = (TblUserAnswers)a1.Clone();
+            var a3 = (TblUserAnswers)a1.Clone();
+            ServerModel.DB.Insert<TblUserAnswers>(new[] {a1, a2, a3});
+
+            var ids = ServerModel.DB.LookupIds<TblUserAnswers>(u);
+            Assert.AreEqual(ids, new[] { a1.ID, a2.ID, a3.ID });
+
+            var g1 = new TblGroups
+             {
+                 Name = "TestGroup1"
+             };
+            var g2 = (TblGroups) g1.Clone();
+            ServerModel.DB.Insert<TblGroups>(new[] {g1, g2});
+
+            ServerModel.DB.Link(u, g1);
+            ServerModel.DB.Link(g2, u);
+
+            var uIds = ServerModel.DB.LookupMany2ManyIds<TblGroups>(u);
+            Assert.AreEqual(new[] { g1.ID, g2.ID }, uIds);
+
+            var g1Ids = ServerModel.DB.LookupMany2ManyIds<TblUsers>(g1);
+            Assert.AreEqual(new[] {u.ID}, g1Ids);
+
+            var g2Ids = ServerModel.DB.LookupMany2ManyIds<TblUsers>(g2);
+            Assert.AreEqual(new[] {u.ID}, g2Ids);
+
+            ServerModel.DB.UnLink(g1, u);
+            var newIds = ServerModel.DB.LookupMany2ManyIds<TblGroups>(u);
+            Assert.AreEqual(new[] {g2.ID}, newIds);
+        }
+
         protected override bool NeedToRecreateDB
         {
             get

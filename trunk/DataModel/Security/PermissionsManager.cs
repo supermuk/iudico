@@ -9,6 +9,7 @@ using IUDICO.DataModel.DB.Base;
 using LEX.CONTROLS;
 using System.Collections.Generic;
 using System.Reflection;
+using Utils=IUDICO.DataModel.Common.Utils;
 
 namespace IUDICO.DataModel.Security
 {
@@ -146,7 +147,9 @@ namespace IUDICO.DataModel.Security
                     cmd.Parameters.Assign(new { UserID = userID, TargetDate = targetDate });
                     cmd.Parameters.AddWithValue(at.Name + "OperationID", operationID);
 
-                    return cmd.FullReadInts(columnName);
+                    var r = cmd.FullReadInts(columnName);
+                    r.RemoveDuplicates();
+                    return r;
                 }
             }
         }

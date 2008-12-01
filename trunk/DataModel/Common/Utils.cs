@@ -6,9 +6,16 @@ using System.Collections.Generic;
 
 namespace IUDICO.DataModel.Common
 {
+    public interface ICloneble<T>
+        where T: class
+    {
+        T Clone();
+    }
+
     public static class Utils
     {
         public static bool HasAtr<T>([NotNull] this ICustomAttributeProvider target)
+            where T: Attribute
         {
             return target.GetCustomAttributes(typeof (T), true).Length == 1;
         }
@@ -52,6 +59,19 @@ namespace IUDICO.DataModel.Common
                 s.Append(i);
             }
             return s.ToString();
+        }
+
+        public static void RemoveDuplicates<T>([NotNull] this List<T> list)
+            where T : IComparable<T>
+        {
+            list.Sort();
+            for (int i = list.Count - 1; i > 0; --i)
+            {
+                if (list[i].CompareTo(list[i - 1]) == 0)
+                {
+                    list.RemoveAt(i);
+                }
+            }
         }
     }
 }

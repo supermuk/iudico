@@ -16,7 +16,7 @@ namespace IUDICO.DataModel
 
         public override CompilationMode GetCompilationMode(CompilationMode current)
         {
-            return CompilationMode.Always;
+            return CompilationMode.Auto;
         }
 
         public override bool AllowVirtualReference(string referenceVirtualPath, VirtualReferenceType referenceType)
