@@ -16,7 +16,10 @@ namespace IUDICO.DataModel.DB
         THEME,
 
         [SecuredObjectType("Stage", typeof(TblStages), typeof(FxStageOperations))]
-        STAGE
+        STAGE,
+
+        [SecuredObjectType("Page", typeof(TblPages), typeof(FxPageOperations))]
+        PAGE
     }
 
     public static class ObjectTypeHelper

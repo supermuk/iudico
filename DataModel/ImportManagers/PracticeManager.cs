@@ -10,17 +10,14 @@ namespace IUDICO.DataModel.ImportManagers
     {
         public static void Import(XmlNode node, int themeRef, ProjectPaths projectPaths)
         {
-            string pageName = XmlUtility.getIdentifier(node);
-
-            XmlNode answerNode = GetAnswerNode(pageName, projectPaths);
+            XmlNode answerNode = GetAnswerNode(XmlUtility.getIdentifier(node), projectPaths);
 
             int rank = GetPageRank(answerNode);
 
-            string pageFileName = XmlUtility.getIdentifierRef(node) + FileExtentions.Html;
-            string tempFileName = Path.Combine(projectPaths.PathToTempCourseFolder, pageFileName);
+            string tempFileName = Path.Combine(projectPaths.PathToTempCourseFolder, XmlUtility.getIdentifierRef(node) + FileExtentions.Html);
             string fileName = tempFileName.Replace(FileExtentions.Html, FileExtentions.Aspx);
 
-            var pageTable = StorePageWithoutPageFile(themeRef, pageName, rank);
+            var pageTable = StorePageWithoutPageFile(themeRef, Path.GetFileName(fileName), rank);
             
             WebPage webPage = CreateAspxPage(tempFileName, Path.GetFileNameWithoutExtension(fileName), pageTable.ID, answerNode, projectPaths.PathToTempCourseFolder);
 

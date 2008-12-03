@@ -9,9 +9,9 @@ namespace IUDICO.DataModel.HttpHandlers
         public override void ProcessRequest(HttpContext context)
         {
             var theoryPageId = int.Parse(context.Request.QueryString[pageIdRequestParameter]);
-            TblPages page = ServerModel.DB.Load<TblPages>(theoryPageId);
+            var page = ServerModel.DB.Load<TblPages>(theoryPageId);
             var html = Encoding.UTF8.GetString(page.PageFile.ToArray());
-            context.Response.Write(changeImageUrl(html, theoryPageId));
+            context.Response.Write(changeImageUrl(html, page));
         }
 
         public override bool IsReusable

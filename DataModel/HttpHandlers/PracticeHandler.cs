@@ -19,7 +19,7 @@ namespace IUDICO.DataModel.HttpHandlers
            
             string url = context.Request.Url.ToString().Remove(context.Request.Url.ToString().LastIndexOf("/"));
             var aspx = Encoding.UTF8.GetString(page.PageFile.ToArray());
-            File.WriteAllText(path, changeImageUrl(aspx, practicePageId));
+            File.WriteAllText(path, changeImageUrl(aspx, page));
             context.Response.Redirect(string.Format("{0}/{1}/{2}", url, testPage, page.PageName));
         }
 
