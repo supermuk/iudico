@@ -11,7 +11,7 @@
     
     void Application_Start(object sender, EventArgs e) 
     {
-        ServerModel.Initialize(WebConfigurationManager.ConnectionStrings["IUDICO"].ConnectionString);
+        ServerModel.Initialize(WebConfigurationManager.ConnectionStrings["IUDICO"].ConnectionString, HttpRuntime.Cache);
     } 
         
     void Application_End(object sender, EventArgs e) 

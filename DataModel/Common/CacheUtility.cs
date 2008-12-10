@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Caching;
+using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.Common
 {
@@ -32,6 +33,12 @@ namespace IUDICO.DataModel.Common
         {
             res = (T)HttpRuntime.Cache.Get(GetKey<T>(id));
             return res != null;
+        }
+
+        public static void Add<T>(this Cache c, T obj)
+            where T : class, IIntKeyedDataObject
+        {
+            c.Add(obj, obj.ID);
         }
 
         public static void Add<T>(this Cache c, T obj, object id)

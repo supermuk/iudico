@@ -33,7 +33,7 @@ namespace IUDICO.DataModel.DB.Base
             Second = second;
         }
 
-                public readonly Type First;
+        public readonly Type First;
         public readonly Type Second;
 
         private static void CheckSupport(Type t)
@@ -45,12 +45,14 @@ namespace IUDICO.DataModel.DB.Base
         }
     }
 
-    public interface INamedDataObject
+    public interface IDataObject {}
+
+    public interface INamedDataObject : IDataObject
     {
         string Name { get; }
     }
 
-    public interface IIntKeyedDataObject
+    public interface IIntKeyedDataObject : IDataObject
     {
         int ID { get; }
     }
@@ -61,7 +63,6 @@ namespace IUDICO.DataModel.DB.Base
 
     public interface IRelationshipTable
     {
-        
     }
 
     public class DBEnum<T>
@@ -119,5 +120,67 @@ namespace IUDICO.DataModel.DB.Base
         {
             throw new DMError("Impossible to create relation dataobject. Please use methods of ServerModel.DB instead");
         }
+    }
+
+    public interface IDBOperator
+    {
+        IDBOperatorStatement QueryStatement { get; set; }
+
+        int Insert<TDataObject>(TDataObject obj)
+            where TDataObject : class, IIntKeyedDataObject, new();
+
+        void Insert<TDataObject>(IList<TDataObject> objs)
+            where TDataObject : class, IIntKeyedDataObject, new();
+
+        void Update<TDataObject>(TDataObject obj)
+            where TDataObject : class, IIntKeyedDataObject, new();
+
+        void Update<TDataObject>(IList<TDataObject> objs)
+            where TDataObject : class, IIntKeyedDataObject, new();
+
+        TDataObject Load<TDataObject>(int id)
+            where TDataObject : class, IIntKeyedDataObject, new();
+
+        IList<TDataObject> Load<TDataObject>(IList<int> ids)
+            where TDataObject : class, IIntKeyedDataObject, new();
+
+        IList<TDataObject> LoadRange<TDataObject>(int from, int to)
+            where TDataObject : class, IIntKeyedDataObject, new();
+
+        void Delete<TDataObject>(int id)
+            where TDataObject : class, IIntKeyedDataObject, new();
+
+        void Delete<TDataObject>(IList<int> ids)
+            where TDataObject : class, IIntKeyedDataObject, new();
+
+        void Delete<TDataObject>(IList<TDataObject> objs)
+            where TDataObject : class, IIntKeyedDataObject, new();
+
+        ReadOnlyCollection<TFxDataObject> Fx<TFxDataObject>()
+            where TFxDataObject : FxDataObject;
+
+        List<TDataObject> FullCached<TDataObject>()
+            where TDataObject : class, IDataObject, new();
+
+        List<int> LookupIds<TDataObject>(IIntKeyedDataObject owner)
+            where TDataObject : IDataObject;
+
+        List<int> LookupMany2ManyIds<TDataObject>(IIntKeyedDataObject firstPart);
+
+        void Link(IIntKeyedDataObject do1, IIntKeyedDataObject do2);
+
+        void UnLink(IIntKeyedDataObject do1, IIntKeyedDataObject do2);
+
+        int Count<TDataObject>()
+            where TDataObject : IDataObject;
+    }
+
+    public interface IDBOperatorStatement : IDBOperatorCondition
+    {
+    }
+
+    public interface IDBOperatorCondition
+    {
+        void Append([NotNull]SqlSerializationContext context);
     }
 }

@@ -7,12 +7,13 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Web.Caching;
 using IUDICO.DataModel.Common;
 using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.DB.Base
 {
-    internal sealed class SqlSerializationContext
+    public sealed class SqlSerializationContext
     {
         public SqlSerializationContext(SqlCommand cmd)
         {
@@ -78,9 +79,37 @@ namespace IUDICO.DataModel.DB.Base
         private int __ParameterID;
     }
 
-    internal static class DataObjectSqlSerializer<TDataObject>
-        where TDataObject : IIntKeyedDataObject, new()
+    internal class DataObjectInfo<TDataObject>
+        where TDataObject : IDataObject
     {
+        public static readonly string TableName;
+        public static readonly List<ColumnInfo> Columns;
+        public static readonly string ColumnNames;
+
+        public static CacheDependency CacheDependency
+        {
+            get
+            {
+                var c = ServerModel.DB.GetConnectionSafe().CreateCommand();
+                c.CommandText = string.Format("SELECT * FROM [{0}]", TableName);
+                return new SqlCacheDependency((SqlCommand) c);
+            }
+        }
+
+        static DataObjectInfo()
+        {
+            // Precalculation dataobject information
+            Type type = typeof(TDataObject);
+            var ta = type.GetAtr<TableAttribute>();
+            TableName = SqlSerializationContext.ExtractTableName(ta.Name);
+
+            Columns = new List<ColumnInfo>(
+                from p in type.GetProperties()
+                where p.HasAtr<ColumnAttribute>()
+                select new ColumnInfo(type, p));
+            ColumnNames = Columns.Select(c => SqlUtils.WrapDbId(c.Name)).ConcatComma();
+        }
+
         #region ColumnInfo
 
         public struct ColumnInfo
@@ -111,14 +140,17 @@ namespace IUDICO.DataModel.DB.Base
         }
 
         #endregion
+    }
 
+    internal static class DataObjectSqlSerializer<TDataObject>
+        where TDataObject : IIntKeyedDataObject, new()
+    {
         public static readonly string SelectSql;
-        public static readonly ColumnInfo KeyColumn;
-
-        private static readonly List<ColumnInfo> __Columns = new List<ColumnInfo>();
-        private static readonly string __ColumnNames;
+        public static readonly DataObjectInfo<TDataObject>.ColumnInfo KeyColumn;
         private static readonly string __ColumnNamesWithoutID;
-        private static readonly string __TableName;
+
+        private static readonly string __SelectRangeSqlTemplate_1;
+        private const string __SelectRangeSqlTemplate_2 = @"SELECT * FROM OrderedObjects WHERE RowNumber BETWEEN {0} AND {1}";
         private static readonly string UpdateSqlHeader;
         public static readonly string DeleteSqlHeader;
         public static readonly string InsertSqlHeader;
@@ -127,44 +159,53 @@ namespace IUDICO.DataModel.DB.Base
         {
             // Precalculation dataobject information
             Type type = typeof(TDataObject);
-
-            var ta = type.GetAtr<TableAttribute>();
-            if (ta == null)
-            {
-                throw new DMError("{0} must have {1} attribute", type.FullName, typeof(TableAttribute).Name);
-            }
-            __TableName = SqlSerializationContext.ExtractTableName(ta.Name);
-
-            __Columns.AddRange(
-                from p in type.GetProperties()
-                where p.HasAtr<ColumnAttribute>()
-                select new ColumnInfo(type, p));
-            KeyColumn = new ColumnInfo(type, type.GetProperty("ID"));
-
-            __ColumnNames = __Columns.Select(c => SqlUtils.WrapDbId(c.Name)).ConcatComma();
-            __ColumnNamesWithoutID = (from c in __Columns where c.Name != "ID" select SqlUtils.WrapDbId(c.Name)).ConcatComma(); 
-            SelectSql = "SELECT " + __ColumnNames + " FROM " + SqlUtils.WrapDbId(__TableName);
-            UpdateSqlHeader = "UPDATE " + SqlUtils.WrapDbId(__TableName) + " SET ";
-            InsertSqlHeader = "INSERT INTO " + SqlUtils.WrapDbId(__TableName) + " " + SqlUtils.WrapArc(__ColumnNamesWithoutID) + " VALUES ";
-            DeleteSqlHeader = "DELETE " + SqlUtils.WrapDbId(__TableName) + " WHERE ID";
+            KeyColumn = new DataObjectInfo<TDataObject>.ColumnInfo(type, type.GetProperty("ID"));
+            __ColumnNamesWithoutID = (from c in DataObjectInfo<TDataObject>.Columns where c.Name != "ID" select SqlUtils.WrapDbId(c.Name)).ConcatComma();
+            string tName = DataObjectInfo<TDataObject>.TableName;
+            SelectSql = "SELECT " + DataObjectInfo<TDataObject>.ColumnNames + " FROM " + SqlUtils.WrapDbId(tName);
+            UpdateSqlHeader = "UPDATE " + SqlUtils.WrapDbId(tName) + " SET ";
+            InsertSqlHeader = "INSERT INTO " + SqlUtils.WrapDbId(tName) + " " + SqlUtils.WrapArc(__ColumnNamesWithoutID) + " VALUES ";
+            DeleteSqlHeader = "DELETE " + SqlUtils.WrapDbId(tName) + " WHERE ID";
+            __SelectRangeSqlTemplate_1 = string.Format(@"WITH OrderedObjects AS
+(SELECT {0}, ROW_NUMBER() OVER (ORDER BY ID) AS 'RowNumber'
+    FROM {1} as objs)", DataObjectInfo<TDataObject>.ColumnNames, tName);
         }
 
         public static TDataObject Read(IDataRecord reader)
         {
             var result = new TDataObject();
 
-            for (int i = __Columns.Count - 1; i >= 0; --i)
+            for (int i = DataObjectInfo<TDataObject>.Columns.Count - 1; i >= 0; --i)
             {
-                AssignValue(__Columns[i].Storage, reader.GetValue(i), result);
+                AssignValue(DataObjectInfo<TDataObject>.Columns[i].Storage, reader.GetValue(i), result);
             }
 
             return result;
         }
 
+        public static List<TDataObject> FullRead(IDataReader reader, int estimatedCount)
+        {
+            var res = new List<TDataObject>(estimatedCount > 0 ? estimatedCount : 5);
+            while (reader.Read())
+            {
+                res.Add(Read(reader));
+            }
+            return res;
+        }
+
+        public static void AppendSelectRangeSql([NotNull] SqlSerializationContext context, int from, int to, IDBOperatorStatement st)
+        {
+            context.Write(__SelectRangeSqlTemplate_1, context.AddParameter(from), context.AddParameter(to));
+            if (st != null)
+                st.Append(context);
+            context.Write(Environment.NewLine);
+            context.Write(__SelectRangeSqlTemplate_2);
+        }
+
         public static void AppendUpdateSql([NotNull]SqlSerializationContext context,[NotNull]TDataObject instance)
         {
-            context.Write(UpdateSqlHeader + 
-                          (from ci in __Columns
+            context.Write(UpdateSqlHeader +
+                          (from ci in DataObjectInfo<TDataObject>.Columns
                            where ci.Name != "ID"
                            select SqlUtils.WrapDbId(ci.Name) + "=" + context.AddParameter(ci.Storage.GetValue(instance))
                           ).ConcatComma()
@@ -177,7 +218,7 @@ namespace IUDICO.DataModel.DB.Base
             context.Write(InsertSqlHeader);
             context.Write(
                 SqlUtils.WrapArc(
-                    (from ci in __Columns 
+                    (from ci in DataObjectInfo<TDataObject>.Columns 
                      where ci.Name != "ID"
                      select context.AddParameter(ci.Storage.GetValue(obj))
                     ).ConcatComma()
@@ -208,17 +249,7 @@ namespace IUDICO.DataModel.DB.Base
         {
             if (value != DBNull.Value)
             {
-                object v;
-
-                if (value.GetType() == typeof(byte[]))
-                {
-                    v = new Binary((byte[]) value);
-                }
-                else
-                {
-                    v = value;
-                }
-                    
+                object v = value.GetType() == typeof(byte[]) ? new Binary((byte[]) value) : value;
                 f.SetValue(instance, v);    
             }
             else

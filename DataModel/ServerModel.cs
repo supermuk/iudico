@@ -13,13 +13,13 @@ namespace IUDICO.DataModel
 {
     public static class ServerModel
     {
-        public static void Initialize(string connectionString)
+        public static void Initialize(string connectionString, Cache cache)
         {
             using (Logger.Scope("Initializing ServerModel..."))
             {
                 _ConnectionString = connectionString;
                 DB = new DatabaseModel(AcruireOpenedConnection());
-                DB.Initialize();
+                DB.Initialize(cache);
                 PermissionsManager.Initialize(DB.GetConnectionSafe());
             }
         }

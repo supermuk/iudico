@@ -1,0 +1,20 @@
+Domain Model 
+Table Modyle
+MVC
+Template View
+Singleton
+PageController
+Table Data Gateway
+Data Mapper
+Identity Map
+Association Table Mapping
+Metadata Mapping
+Memento
+Composite
+Facade
+State
+Iterator
+Proxy
+Record Set
+Query Object - partly implemented
+Observer or Mediator - possible to implement to manage changes to dataobject when need to distribute loading between different machines.
