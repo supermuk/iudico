@@ -1,38 +1,42 @@
 using System.Xml;
 using IUDICO.DataModel.Common;
+using IUDICO.DataModel.Controllers;
 using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.ImportManagers
 {
     public class ThemeManager
     {
-        public static void Import(XmlNode chapter, int courseId, ProjectPaths projectPaths)
+        public static void Import(XmlNode theme, int courseId, ProjectPaths projectPaths, DeletedItem deletedItems)
         {
-            int id = Store(courseId, XmlUtility.getIdentifier(chapter), XmlUtility.isControlChapter(chapter));
+            int id = Store(courseId, XmlUtility.getIdentifier(theme), XmlUtility.isControlChapter(theme));
 
-            SearchPages(chapter, id, projectPaths);
+            SearchPages(theme, id, projectPaths, deletedItems);
         }
 
-        private static void SearchPages(XmlNode chapter, int themeId, ProjectPaths projectPaths)
+        private static void SearchPages(XmlNode thema, int themeId, ProjectPaths projectPaths, DeletedItem deletedItems)
         {
-            foreach (XmlNode node in chapter.ChildNodes)
+            foreach (XmlNode node in thema.ChildNodes)
             {
                 if (node != null && XmlUtility.isItem(node))
                 {
                     if (XmlUtility.isPage(node))
                     {
-                        if (XmlUtility.isPractice(node))
+                        if (!deletedItems.DeletedPages.Contains(XmlUtility.getIdentifierRef(node)))
                         {
-                            PracticeManager.Import(node, themeId, projectPaths);
-                        }
-                        if (XmlUtility.isTheory(node))
-                        {
-                            TheoryManager.Import(node, themeId, projectPaths);
+                            if (XmlUtility.isPractice(node))
+                            {
+                                PracticeManager.Import(node, themeId, projectPaths);
+                            }
+                            if (XmlUtility.isTheory(node))
+                            {
+                                TheoryManager.Import(node, themeId, projectPaths);
+                            }
                         }
                     }
                     else if (XmlUtility.isChapter(node))
                     {
-                        SearchPages(node, themeId, projectPaths);
+                        SearchPages(node, themeId, projectPaths, deletedItems);
                     }
                 }
             }
