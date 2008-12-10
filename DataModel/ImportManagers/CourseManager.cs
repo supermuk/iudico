@@ -2,22 +2,23 @@ using System;
 using System.IO;
 using System.Xml;
 using IUDICO.DataModel.Common;
+using IUDICO.DataModel.Controllers;
 using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.ImportManagers
 {
     public class CourseManager
     {
-        public static void Import(ProjectPaths projectPaths, string name, string description)
+        public static void Import(ProjectPaths projectPaths, string name, string description, DeletedItem deletedItems)
         {
             projectPaths.PathToAnswerXml = Path.Combine(projectPaths.PathToTempCourseFolder, "answers.xml");
 
             int id = Store(name, description);
 
-            ManageChapters(id, projectPaths);
+            ManageThemes(id, projectPaths, deletedItems);
         }
 
-        private static void ManageChapters(int courseId, ProjectPaths projectPaths)
+        private static void ManageThemes(int courseId, ProjectPaths projectPaths, DeletedItem deletedItems)
         {
             XmlDocument imsmanifest = GetImsmanifest(projectPaths.PathToTempCourseFolder);
 
@@ -26,7 +27,7 @@ namespace IUDICO.DataModel.ImportManagers
                 XmlNode document = imsmanifest.DocumentElement.FirstChild;
 
                 foreach (XmlNode node in document)
-                    SearchChapters(node, courseId, projectPaths);
+                    SearchThemes(node, courseId, projectPaths, deletedItems);
             }
         }
 
@@ -37,13 +38,14 @@ namespace IUDICO.DataModel.ImportManagers
             return imsmanifest;
         }
 
-        private static void SearchChapters(XmlNode document, int courseId, ProjectPaths projectPaths)
+        private static void SearchThemes(XmlNode document, int courseId, ProjectPaths projectPaths, DeletedItem deletedItems)
         {
             foreach (XmlNode node in document.ChildNodes)
             {
                 if (XmlUtility.isItem(node))
                 {
-                    ThemeManager.Import(node, courseId, projectPaths);
+                    if (!deletedItems.DeletedThemes.Contains(XmlUtility.getIdentifier(node)))
+                        ThemeManager.Import(node, courseId, projectPaths, deletedItems);
                 }
             }
         }
