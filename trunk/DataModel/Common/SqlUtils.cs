@@ -76,7 +76,7 @@ namespace IUDICO.DataModel.Common
         [NotNull]
         public static List<string> FullReadStrings([NotNull] this IDbCommand cmd)
         {
-            using (var r = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+            using (var r = cmd.ExecuteReader())
             {
                 var result = new List<string>();
 

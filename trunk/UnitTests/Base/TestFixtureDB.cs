@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Web.Caching;
 using IUDICO.DataModel;
 using IUDICO.DBManager;
 using LEX.CONTROLS;
@@ -186,7 +187,7 @@ namespace IUDICO.UnitTest.Base
                 updateAction(context);
             }
 
-            ServerModel.Initialize(Connection.ConnectionString);
+            ServerModel.Initialize(Connection.ConnectionString, new Cache());
         }
 
         protected override void FinializeFixture()
