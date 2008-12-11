@@ -80,19 +80,25 @@ namespace IUDICO.DataModel.DB.Base
     }
 
     internal class DataObjectInfo<TDataObject>
-        where TDataObject : IDataObject
+        where TDataObject : IDataObject, new()
     {
         public static readonly string TableName;
         public static readonly List<ColumnInfo> Columns;
         public static readonly string ColumnNames;
+        public static readonly string SelectSql;
+
+        private static SqlConnection __CacheDepCommandConnection;
 
         public static CacheDependency CacheDependency
         {
             get
             {
-                var c = ServerModel.DB.GetConnectionSafe().CreateCommand();
-                c.CommandText = string.Format("SELECT * FROM [{0}]", TableName);
-                return new SqlCacheDependency((SqlCommand) c);
+                if (__CacheDepCommandConnection == null)
+                {
+                    __CacheDepCommandConnection = (SqlConnection)ServerModel.DB.GetConnectionSafe();
+                }
+                var c = new SqlCommand(string.Format("SELECT * FROM [{0}]", TableName), __CacheDepCommandConnection);
+                return new SqlCacheDependency(c);
             }
         }
 
@@ -108,6 +114,47 @@ namespace IUDICO.DataModel.DB.Base
                 where p.HasAtr<ColumnAttribute>()
                 select new ColumnInfo(type, p));
             ColumnNames = Columns.Select(c => SqlUtils.WrapDbId(c.Name)).ConcatComma();
+            SelectSql = "SELECT " + ColumnNames + " FROM " + SqlUtils.WrapDbId(TableName);
+        }
+
+        public static void AppendQuerySql([NotNull] SqlSerializationContext context, [NotNull]IDBCondition cond)
+        {
+            context.Write(SelectSql);
+            context.Write(" WHERE ");
+            cond.Write(context);
+        }
+
+        public static List<TDataObject> FullRead(IDataReader reader, int estimatedCount)
+        {
+            var res = new List<TDataObject>(estimatedCount > 0 ? estimatedCount : 5);
+            while (reader.Read())
+            {
+                res.Add(Read(reader));
+            }
+            return res;
+        }
+
+        public static TDataObject Read(IDataRecord reader)
+        {
+            var result = new TDataObject();
+            for (int i = Columns.Count - 1; i >= 0; --i)
+            {
+                AssignValue(Columns[i].Storage, reader.GetValue(i), result);
+            }
+            return result;
+        }
+
+        private static void AssignValue(FieldInfo f, object value, TDataObject instance)
+        {
+            if (value != DBNull.Value)
+            {
+                object v = value.GetType() == typeof(byte[]) ? new Binary((byte[])value) : value;
+                f.SetValue(instance, v);
+            }
+            else
+            {
+                f.SetValue(instance, null);
+            }
         }
 
         #region ColumnInfo
@@ -145,7 +192,6 @@ namespace IUDICO.DataModel.DB.Base
     internal static class DataObjectSqlSerializer<TDataObject>
         where TDataObject : IIntKeyedDataObject, new()
     {
-        public static readonly string SelectSql;
         public static readonly DataObjectInfo<TDataObject>.ColumnInfo KeyColumn;
         private static readonly string __ColumnNamesWithoutID;
 
@@ -162,7 +208,6 @@ namespace IUDICO.DataModel.DB.Base
             KeyColumn = new DataObjectInfo<TDataObject>.ColumnInfo(type, type.GetProperty("ID"));
             __ColumnNamesWithoutID = (from c in DataObjectInfo<TDataObject>.Columns where c.Name != "ID" select SqlUtils.WrapDbId(c.Name)).ConcatComma();
             string tName = DataObjectInfo<TDataObject>.TableName;
-            SelectSql = "SELECT " + DataObjectInfo<TDataObject>.ColumnNames + " FROM " + SqlUtils.WrapDbId(tName);
             UpdateSqlHeader = "UPDATE " + SqlUtils.WrapDbId(tName) + " SET ";
             InsertSqlHeader = "INSERT INTO " + SqlUtils.WrapDbId(tName) + " " + SqlUtils.WrapArc(__ColumnNamesWithoutID) + " VALUES ";
             DeleteSqlHeader = "DELETE " + SqlUtils.WrapDbId(tName) + " WHERE ID";
@@ -171,33 +216,13 @@ namespace IUDICO.DataModel.DB.Base
     FROM {1} as objs)", DataObjectInfo<TDataObject>.ColumnNames, tName);
         }
 
-        public static TDataObject Read(IDataRecord reader)
-        {
-            var result = new TDataObject();
+ 
 
-            for (int i = DataObjectInfo<TDataObject>.Columns.Count - 1; i >= 0; --i)
-            {
-                AssignValue(DataObjectInfo<TDataObject>.Columns[i].Storage, reader.GetValue(i), result);
-            }
-
-            return result;
-        }
-
-        public static List<TDataObject> FullRead(IDataReader reader, int estimatedCount)
-        {
-            var res = new List<TDataObject>(estimatedCount > 0 ? estimatedCount : 5);
-            while (reader.Read())
-            {
-                res.Add(Read(reader));
-            }
-            return res;
-        }
-
-        public static void AppendSelectRangeSql([NotNull] SqlSerializationContext context, int from, int to, IDBOperatorStatement st)
+        public static void AppendSelectRangeSql([NotNull] SqlSerializationContext context, int from, int to, IDBCondition st)
         {
             context.Write(__SelectRangeSqlTemplate_1, context.AddParameter(from), context.AddParameter(to));
             if (st != null)
-                st.Append(context);
+                st.Write(context);
             context.Write(Environment.NewLine);
             context.Write(__SelectRangeSqlTemplate_2);
         }
@@ -243,19 +268,6 @@ namespace IUDICO.DataModel.DB.Base
             context.Write(DeleteSqlHeader + " IN " + SqlUtils.WrapArc(
                                                          objs.ConcatComma()
                                                          ));
-        }
-
-        private static void AssignValue(FieldInfo f, object value, TDataObject instance)
-        {
-            if (value != DBNull.Value)
-            {
-                object v = value.GetType() == typeof(byte[]) ? new Binary((byte[]) value) : value;
-                f.SetValue(instance, v);    
-            }
-            else
-            {
-                f.SetValue(instance, null);
-            }
         }
     }
 }

@@ -31,6 +31,17 @@ namespace IUDICO.DataModel.DB
             }
         }
 
+
+        public void Initialize(Cache c)
+        {
+            Initialize();
+            if (c == null)
+                throw new ArgumentNullException("c");
+            Cache = c;
+        }
+
+        public Cache Cache { get; private set; }
+
         private void Initialize()
         {
             using (DBScope("Initializing Database Model..."))
@@ -69,7 +80,7 @@ namespace IUDICO.DataModel.DB
             }
         }
 
-        public IDBOperatorStatement QueryStatement 
+        public IDBCondition QueryStatement 
         { 
             get
             {
@@ -246,12 +257,12 @@ namespace IUDICO.DataModel.DB
                 Logger.WriteLine("Running sql...");
                 using (var cmd = GetConnectionSafe().CreateCommand())
                 {
-                    cmd.CommandText = DataObjectSqlSerializer<TDataObject>.SelectSql + " WHERE [ID] = " + id;
+                    cmd.CommandText = DataObjectInfo<TDataObject>.SelectSql + " WHERE [ID] = " + id;
                     using (var r = cmd.LexExecuteReader())
                     {
                         if (r.Read())
                         {
-                            res = DataObjectSqlSerializer<TDataObject>.Read(r);
+                            res = DataObjectInfo<TDataObject>.Read(r);
                             CacheIt(res);
                             return res;
                         }
@@ -276,10 +287,10 @@ namespace IUDICO.DataModel.DB
                 using (var cmd = GetConnectionSafe().CreateCommand())
                 {
                     List<TDataObject> result;
-                    cmd.CommandText = DataObjectSqlSerializer<TDataObject>.SelectSql + " WHERE ID IN (" + ids.ConcatComma() + ")";
+                    cmd.CommandText = DataObjectInfo<TDataObject>.SelectSql + " WHERE ID IN (" + ids.ConcatComma() + ")";
                     using (var r = cmd.LexExecuteReader())
                     {
-                        result = DataObjectSqlSerializer<TDataObject>.FullRead(r, ids.Count);
+                        result = DataObjectInfo<TDataObject>.FullRead(r, ids.Count);
                     }
                     if (result.Count != ids.Count)
                     {
@@ -310,7 +321,7 @@ namespace IUDICO.DataModel.DB
                     cn.Finish();
                     using (var r = cmd.LexExecuteReader())
                     {
-                        var res = DataObjectSqlSerializer<TDataObject>.FullRead(r, to - from + 1);
+                        var res = DataObjectInfo<TDataObject>.FullRead(r, to - from + 1);
                         foreach (var o in res)
                         {
                             CacheIt(o);
@@ -381,12 +392,12 @@ namespace IUDICO.DataModel.DB
             using (DBScope("Getting full cached table " + typeof(TDataObject).Name))
             {
                 string tableName = DataObjectInfo<TDataObject>.TableName;
-                var r = (List<TDataObject>)_Cache[tableName];
+                var r = (List<TDataObject>)Cache[tableName];
                 if (r == null)
                 {
                     Logger.WriteLine("Selecting...");
                     r = new List<TDataObject>(GetTable<TDataObject>());
-                    _Cache.Add(tableName, r, DataObjectInfo<TDataObject>.CacheDependency, DateTime.MaxValue, new TimeSpan(1, 1, 1), CacheItemPriority.AboveNormal, null);
+                    Cache.Add(tableName, r, DataObjectInfo<TDataObject>.CacheDependency, DateTime.MaxValue, new TimeSpan(1, 1, 1), CacheItemPriority.AboveNormal, null);
                 }
                 else
                 {
@@ -409,6 +420,57 @@ namespace IUDICO.DataModel.DB
                     return c.FullReadInts();
                 }
             }
+        }
+
+        public List<TDataObject> Query<TDataObject>([NotNull] IDBCondition cond)
+            where TDataObject : IDataObject, new()
+        {
+            using (DBScope("Custom query for " + typeof(TDataObject)))
+            {
+                using (var c = GetConnectionSafe().CreateCommand())
+                {
+                    var sc = new SqlSerializationContext((SqlCommand)c);
+                    DataObjectInfo<TDataObject>.AppendQuerySql(sc, cond);
+                    sc.Finish();
+                    using (var r = c.LexExecuteReader())
+                    {
+                        var res = DataObjectInfo<TDataObject>.FullRead(r, 1);
+                        if (typeof(TDataObject).GetInterface(typeof(IIntKeyedDataObject).Name) != null)
+                        {
+                            // TODO: Cache them
+//                            foreach (var i in res)
+//                            {
+//                                CacheIt<TDataObject>(i as IIntKeyedDataObject);
+//                            }
+                        }
+                        return res;
+                    }
+                }
+            } 
+        }
+
+        public TDataObject QuerySingle<TDataObject>([NotNull] IDBCondition cond)
+            where TDataObject : IDataObject, new()
+        {
+            using (DBScope("Custom query for " + typeof(TDataObject)))
+            {
+                using (var c = GetConnectionSafe().CreateCommand())
+                {
+                    var sc = new SqlSerializationContext((SqlCommand)c);
+                    DataObjectInfo<TDataObject>.AppendQuerySql(sc, cond);
+                    sc.Finish();
+                    using (var r = c.ExecuteReader())
+                    {
+                        if (r.Read())
+                        {
+                            return DataObjectInfo<TDataObject>.Read(r);
+                        }
+                        else throw new InvalidOperationException("No object selected");
+                        if (r.Read())
+                            throw new InvalidOperationException("Too many objects");
+                    }
+                }
+            } 
         }
 
         public List<int> LookupMany2ManyIds<TDataObject>(IIntKeyedDataObject firstPart)
@@ -454,7 +516,7 @@ namespace IUDICO.DataModel.DB
         }
 
         public int Count<TDataObject>()
-            where TDataObject : IDataObject
+            where TDataObject : IDataObject, new()
         {
             using (DBScope("Select count of " + typeof(TDataObject).Name))
             {
@@ -505,14 +567,21 @@ namespace IUDICO.DataModel.DB
         }
 
         private void CacheIt<TDataObject>(TDataObject obj)
-            where TDataObject : class, IIntKeyedDataObject, new()
+            where TDataObject : IIntKeyedDataObject, new()
         {
 #if MULTY_MACHINE   
-            Cache.Add(FormatCacheKey<TDataObject>(obj.ID), obj, DataObjectInfo<TDataObject>.CacheDependency, DateTime.MaxValue, new TimeSpan(1, 1, 1), CacheItemPriority.Normal, null);            
+            Cache.Add(FormatCacheKey<TDataObject>(obj.ID), obj, DataObjectInfo<TDataObject>.CacheDependency, DateTime.MaxValue, new TimeSpan(1, 1, 1), CacheItemPriority.Normal, CacheItem_Removed);            
 #else
             Cache[FormatCacheKey<TDataObject>(obj.ID)] = obj;
 #endif
         }
+
+#if MULTY_MACHINE  
+        private void CacheItem_Removed(string key, object value, CacheItemRemovedReason reason)
+        {
+            Logger.WriteLine(key + " was removed from Cache. Reason is " + reason);      
+        }
+#endif
 
         private static IDisposable DBScope(string operation)
         {
@@ -520,7 +589,7 @@ namespace IUDICO.DataModel.DB
         }
 
         [ThreadStatic]
-        private static IDBOperatorStatement _QueryStatement;
+        private static IDBCondition _QueryStatement;
 
         #region FxObjectsStorage
 
@@ -570,90 +639,5 @@ namespace IUDICO.DataModel.DB
 
         #endregion
 
-    }
-
-    public class WhereStatement : IDBOperatorStatement
-    {
-        public WhereStatement(IDBOperatorCondition cond)
-        {
-            _Cond = cond;
-        }
-
-        public void Append(SqlSerializationContext context)
-        {
-            context.Write(" WHERE ");
-            _Cond.Append(context);
-        }
-
-        private readonly IDBOperatorCondition _Cond;
-    }
-
-    public class EqualCondition : IDBOperatorCondition
-    {
-        public EqualCondition(object param)
-        {
-            _Param = param;   
-        }
-
-        public void Append(SqlSerializationContext context)
-        {
-            bool notFirst = false;
-            context.Write("(");
-            foreach (var p in _Param.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
-            {
-                if (notFirst)
-                {
-                    context.Write(" AND ");
-                }
-                else
-                {
-                    notFirst = true;
-                }
-                context.Write("([{0}] = {1})", p.Name, context.AddParameter(p.GetValue(_Param, null)));
-            }
-            context.Write(")");
-        }
-
-        private readonly object _Param;
-    }
-
-    public class OrCondtion : IDBOperatorCondition
-    {
-        public OrCondtion(IDBOperatorCondition a, IDBOperatorCondition b)
-        {
-            _A = a;
-            _B = b;
-        }
-
-        public void Append(SqlSerializationContext context)
-        {
-            context.Write("(");    
-            _A.Append(context);
-            context.Write(" OR ");
-            _B.Append(context);
-            context.Write(")");
-        }
-
-        private readonly IDBOperatorCondition _A, _B;
-    }
-
-    public class AndCondtion : IDBOperatorCondition
-    {
-        public AndCondtion(IDBOperatorCondition a, IDBOperatorCondition b)
-        {
-            _A = a;
-            _B = b;
-        }
-
-        public void Append(SqlSerializationContext context)
-        {
-            context.Write("(");    
-            _A.Append(context);
-            context.Write(" AND ");
-            _B.Append(context);
-            context.Write(")");
-        }
-
-        private readonly IDBOperatorCondition _A, _B;
     }
 }

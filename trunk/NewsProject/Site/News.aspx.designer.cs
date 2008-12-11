@@ -13,6 +13,15 @@
 public partial class NewsPage {
     
     /// <summary>
+    /// NewsTitle control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label NewsTitle;
+    
+    /// <summary>
     /// NewsContent control.
     /// </summary>
     /// <remarks>
@@ -20,6 +29,15 @@ public partial class NewsPage {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::LEX.NewsProject.Model.UI.NewsContent NewsContent;
+    
+    /// <summary>
+    /// Label1 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label Label1;
     
     /// <summary>
     /// CommentsGrid control.
