@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="LEX.CONTROLS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=44ea94c3b070248a, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -108,6 +109,13 @@
     <Compile Include="..\..\DataModel\Controllers\LoginController.cs">
       <Link>IUDICO\LoginController.cs</Link>
     </Compile>
+    <Compile Include="..\..\DataModel\DB\Base\QueryConditions.cs">
+      <Link>IUDICO\QueryConditions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DataModel\DB\Base\QueryCondtionsInterfaces.cs">
+      <Link>IUDICO\QueryCondtionsInterfaces.cs</Link>
+    </Compile>
+    <Compile Include="CustomMembershipProvider.cs" />
     <Compile Include="DB\CachedBindingList.cs" />
     <Compile Include="DB\DatabaseModel.cs" />
     <Compile Include="DB\DatabaseModel.metadata.cs" />

@@ -2,12 +2,15 @@
 
 <asp:Content ContentPlaceHolderID="MainContent" runat="server">
 <center>
+    <asp:Label runat="server" ID="NewsTitle" Font-Bold="true" />
+    <br />
+    <br />
     <n:newscontent ID="NewsContent" runat="server" />
 </center>
-<br />
-<asp:Label Text="Comments:" runat="server" />
-<br />
 <center>
+    <br />
+    <asp:Label ID="Label1" Text="Comments:" runat="server" />
+    <br />
     <asp:GridView 
     ShowFooter="false" 
     ShowHeader="false"

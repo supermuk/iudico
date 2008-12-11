@@ -124,8 +124,6 @@ namespace IUDICO.DataModel.DB.Base
 
     public interface IDBOperator
     {
-        IDBOperatorStatement QueryStatement { get; set; }
-
         int Insert<TDataObject>(TDataObject obj)
             where TDataObject : class, IIntKeyedDataObject, new();
 
@@ -162,6 +160,12 @@ namespace IUDICO.DataModel.DB.Base
         List<TDataObject> FullCached<TDataObject>()
             where TDataObject : class, IDataObject, new();
 
+        List<TDataObject> Query<TDataObject>([NotNull] IDBCondition cond)
+            where TDataObject : IDataObject, new();
+
+        TDataObject QuerySingle<TDataObject>([NotNull] IDBCondition cond)
+            where TDataObject : IDataObject, new();
+
         List<int> LookupIds<TDataObject>(IIntKeyedDataObject owner)
             where TDataObject : IDataObject;
 
@@ -172,15 +176,6 @@ namespace IUDICO.DataModel.DB.Base
         void UnLink(IIntKeyedDataObject do1, IIntKeyedDataObject do2);
 
         int Count<TDataObject>()
-            where TDataObject : IDataObject;
-    }
-
-    public interface IDBOperatorStatement : IDBOperatorCondition
-    {
-    }
-
-    public interface IDBOperatorCondition
-    {
-        void Append([NotNull]SqlSerializationContext context);
+            where TDataObject : IDataObject, new();
     }
 }

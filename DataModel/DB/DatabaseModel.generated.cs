@@ -392,11 +392,84 @@ namespace IUDICO.DataModel.DB
 			return ((System.Nullable<int>)(this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod()))).ReturnValue));
 		}
 		
+		[Function(Name="dbo.GetSecurityID", IsComposable=true)]
+		[return: Parameter(DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> GetSecurityID()
+		{
+			return ((System.Nullable<System.Guid>)(this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod()))).ReturnValue));
+		}
+		
 		[Function(Name="dbo.GetUserRoles")]
 		public ISingleResult<GetUserRolesResult> GetUserRoles([Parameter(Name="UserLogin", DbType="NVarChar(MAX)")] string userLogin)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userLogin);
 			return ((ISingleResult<GetUserRolesResult>)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.Security_CheckPermissionCourse")]
+		[return: Parameter(DbType="Int")]
+		public int Security_CheckPermissionCourse([Parameter(Name="UserID", DbType="Int")] System.Nullable<int> userID, [Parameter(Name="CourseOperationID", DbType="Int")] System.Nullable<int> courseOperationID, [Parameter(Name="CourseID", DbType="Int")] System.Nullable<int> courseID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, courseOperationID, courseID, targetDate);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.Security_CheckPermissionStage")]
+		[return: Parameter(DbType="Int")]
+		public int Security_CheckPermissionStage([Parameter(Name="UserID", DbType="Int")] System.Nullable<int> userID, [Parameter(Name="StageOperationID", DbType="Int")] System.Nullable<int> stageOperationID, [Parameter(Name="StageID", DbType="Int")] System.Nullable<int> stageID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, stageOperationID, stageID, targetDate);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.Security_CheckPermissionTheme")]
+		[return: Parameter(DbType="Int")]
+		public int Security_CheckPermissionTheme([Parameter(Name="UserID", DbType="Int")] System.Nullable<int> userID, [Parameter(Name="ThemeOperationID", DbType="Int")] System.Nullable<int> themeOperationID, [Parameter(Name="ThemeID", DbType="Int")] System.Nullable<int> themeID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, themeOperationID, themeID, targetDate);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.Security_GetOperationsForCourse")]
+		public ISingleResult<Security_GetOperationsForCourseResult> Security_GetOperationsForCourse([Parameter(Name="UserID", DbType="Int")] System.Nullable<int> userID, [Parameter(Name="CourseID", DbType="Int")] System.Nullable<int> courseID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, courseID, targetDate);
+			return ((ISingleResult<Security_GetOperationsForCourseResult>)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.Security_GetOperationsForStage")]
+		public ISingleResult<Security_GetOperationsForStageResult> Security_GetOperationsForStage([Parameter(Name="UserID", DbType="Int")] System.Nullable<int> userID, [Parameter(Name="StageID", DbType="Int")] System.Nullable<int> stageID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, stageID, targetDate);
+			return ((ISingleResult<Security_GetOperationsForStageResult>)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.Security_GetOperationsForTheme")]
+		public ISingleResult<Security_GetOperationsForThemeResult> Security_GetOperationsForTheme([Parameter(Name="UserID", DbType="Int")] System.Nullable<int> userID, [Parameter(Name="ThemeID", DbType="Int")] System.Nullable<int> themeID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, themeID, targetDate);
+			return ((ISingleResult<Security_GetOperationsForThemeResult>)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.Security_GetPermissionsCourse")]
+		public ISingleResult<Security_GetPermissionsCourseResult> Security_GetPermissionsCourse([Parameter(Name="UserID", DbType="Int")] System.Nullable<int> userID, [Parameter(Name="CourseOperationID", DbType="Int")] System.Nullable<int> courseOperationID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, courseOperationID, targetDate);
+			return ((ISingleResult<Security_GetPermissionsCourseResult>)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.Security_GetPermissionsStage")]
+		public ISingleResult<Security_GetPermissionsStageResult> Security_GetPermissionsStage([Parameter(Name="UserID", DbType="Int")] System.Nullable<int> userID, [Parameter(Name="StageOperationID", DbType="Int")] System.Nullable<int> stageOperationID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, stageOperationID, targetDate);
+			return ((ISingleResult<Security_GetPermissionsStageResult>)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.Security_GetPermissionsTheme")]
+		public ISingleResult<Security_GetPermissionsThemeResult> Security_GetPermissionsTheme([Parameter(Name="UserID", DbType="Int")] System.Nullable<int> userID, [Parameter(Name="ThemeOperationID", DbType="Int")] System.Nullable<int> themeOperationID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, themeOperationID, targetDate);
+			return ((ISingleResult<Security_GetPermissionsThemeResult>)(result.ReturnValue));
 		}
 		
 		[Function(Name="dbo.spCompiledQuestionsDataInsert")]
@@ -6779,6 +6852,594 @@ namespace IUDICO.DataModel.DB
 				if ((this._Name != value))
 				{
 					this._Name = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Security_GetOperationsForCourseResult
+	{
+		
+		private System.Nullable<int> _CourseOperationRef;
+		
+		public Security_GetOperationsForCourseResult()
+		{
+		}
+		
+		[Column(Storage="_CourseOperationRef", DbType="Int")]
+		public System.Nullable<int> CourseOperationRef
+		{
+			get
+			{
+				return this._CourseOperationRef;
+			}
+			set
+			{
+				if ((this._CourseOperationRef != value))
+				{
+					this._CourseOperationRef = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Security_GetOperationsForStageResult
+	{
+		
+		private System.Nullable<int> _StageOperationRef;
+		
+		public Security_GetOperationsForStageResult()
+		{
+		}
+		
+		[Column(Storage="_StageOperationRef", DbType="Int")]
+		public System.Nullable<int> StageOperationRef
+		{
+			get
+			{
+				return this._StageOperationRef;
+			}
+			set
+			{
+				if ((this._StageOperationRef != value))
+				{
+					this._StageOperationRef = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Security_GetOperationsForThemeResult
+	{
+		
+		private System.Nullable<int> _ThemeOperationRef;
+		
+		public Security_GetOperationsForThemeResult()
+		{
+		}
+		
+		[Column(Storage="_ThemeOperationRef", DbType="Int")]
+		public System.Nullable<int> ThemeOperationRef
+		{
+			get
+			{
+				return this._ThemeOperationRef;
+			}
+			set
+			{
+				if ((this._ThemeOperationRef != value))
+				{
+					this._ThemeOperationRef = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Security_GetPermissionsCourseResult
+	{
+		
+		private System.Nullable<int> _ID;
+		
+		private System.Nullable<int> _ParentPermitionRef;
+		
+		private System.Nullable<System.DateTime> _DateSince;
+		
+		private System.Nullable<System.DateTime> _DateTill;
+		
+		private System.Nullable<int> _UserRef;
+		
+		private System.Nullable<int> _GroupRef;
+		
+		private System.Nullable<bool> _CanBeDelagated;
+		
+		private System.Nullable<int> _CourseRef;
+		
+		private System.Nullable<int> _CourseOperationRef;
+		
+		public Security_GetPermissionsCourseResult()
+		{
+		}
+		
+		[Column(Storage="_ID", DbType="Int")]
+		public System.Nullable<int> ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_ParentPermitionRef", DbType="Int")]
+		public System.Nullable<int> ParentPermitionRef
+		{
+			get
+			{
+				return this._ParentPermitionRef;
+			}
+			set
+			{
+				if ((this._ParentPermitionRef != value))
+				{
+					this._ParentPermitionRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_DateSince", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateSince
+		{
+			get
+			{
+				return this._DateSince;
+			}
+			set
+			{
+				if ((this._DateSince != value))
+				{
+					this._DateSince = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_DateTill", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateTill
+		{
+			get
+			{
+				return this._DateTill;
+			}
+			set
+			{
+				if ((this._DateTill != value))
+				{
+					this._DateTill = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_UserRef", DbType="Int")]
+		public System.Nullable<int> UserRef
+		{
+			get
+			{
+				return this._UserRef;
+			}
+			set
+			{
+				if ((this._UserRef != value))
+				{
+					this._UserRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_GroupRef", DbType="Int")]
+		public System.Nullable<int> GroupRef
+		{
+			get
+			{
+				return this._GroupRef;
+			}
+			set
+			{
+				if ((this._GroupRef != value))
+				{
+					this._GroupRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_CanBeDelagated", DbType="Bit")]
+		public System.Nullable<bool> CanBeDelagated
+		{
+			get
+			{
+				return this._CanBeDelagated;
+			}
+			set
+			{
+				if ((this._CanBeDelagated != value))
+				{
+					this._CanBeDelagated = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_CourseRef", DbType="Int")]
+		public System.Nullable<int> CourseRef
+		{
+			get
+			{
+				return this._CourseRef;
+			}
+			set
+			{
+				if ((this._CourseRef != value))
+				{
+					this._CourseRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_CourseOperationRef", DbType="Int")]
+		public System.Nullable<int> CourseOperationRef
+		{
+			get
+			{
+				return this._CourseOperationRef;
+			}
+			set
+			{
+				if ((this._CourseOperationRef != value))
+				{
+					this._CourseOperationRef = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Security_GetPermissionsStageResult
+	{
+		
+		private System.Nullable<int> _ID;
+		
+		private System.Nullable<int> _ParentPermitionRef;
+		
+		private System.Nullable<System.DateTime> _DateSince;
+		
+		private System.Nullable<System.DateTime> _DateTill;
+		
+		private System.Nullable<int> _UserRef;
+		
+		private System.Nullable<int> _GroupRef;
+		
+		private System.Nullable<bool> _CanBeDelagated;
+		
+		private System.Nullable<int> _StageRef;
+		
+		private System.Nullable<int> _StageOperationRef;
+		
+		public Security_GetPermissionsStageResult()
+		{
+		}
+		
+		[Column(Storage="_ID", DbType="Int")]
+		public System.Nullable<int> ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_ParentPermitionRef", DbType="Int")]
+		public System.Nullable<int> ParentPermitionRef
+		{
+			get
+			{
+				return this._ParentPermitionRef;
+			}
+			set
+			{
+				if ((this._ParentPermitionRef != value))
+				{
+					this._ParentPermitionRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_DateSince", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateSince
+		{
+			get
+			{
+				return this._DateSince;
+			}
+			set
+			{
+				if ((this._DateSince != value))
+				{
+					this._DateSince = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_DateTill", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateTill
+		{
+			get
+			{
+				return this._DateTill;
+			}
+			set
+			{
+				if ((this._DateTill != value))
+				{
+					this._DateTill = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_UserRef", DbType="Int")]
+		public System.Nullable<int> UserRef
+		{
+			get
+			{
+				return this._UserRef;
+			}
+			set
+			{
+				if ((this._UserRef != value))
+				{
+					this._UserRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_GroupRef", DbType="Int")]
+		public System.Nullable<int> GroupRef
+		{
+			get
+			{
+				return this._GroupRef;
+			}
+			set
+			{
+				if ((this._GroupRef != value))
+				{
+					this._GroupRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_CanBeDelagated", DbType="Bit")]
+		public System.Nullable<bool> CanBeDelagated
+		{
+			get
+			{
+				return this._CanBeDelagated;
+			}
+			set
+			{
+				if ((this._CanBeDelagated != value))
+				{
+					this._CanBeDelagated = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_StageRef", DbType="Int")]
+		public System.Nullable<int> StageRef
+		{
+			get
+			{
+				return this._StageRef;
+			}
+			set
+			{
+				if ((this._StageRef != value))
+				{
+					this._StageRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_StageOperationRef", DbType="Int")]
+		public System.Nullable<int> StageOperationRef
+		{
+			get
+			{
+				return this._StageOperationRef;
+			}
+			set
+			{
+				if ((this._StageOperationRef != value))
+				{
+					this._StageOperationRef = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Security_GetPermissionsThemeResult
+	{
+		
+		private System.Nullable<int> _ID;
+		
+		private System.Nullable<int> _ParentPermitionRef;
+		
+		private System.Nullable<System.DateTime> _DateSince;
+		
+		private System.Nullable<System.DateTime> _DateTill;
+		
+		private System.Nullable<int> _UserRef;
+		
+		private System.Nullable<int> _GroupRef;
+		
+		private System.Nullable<bool> _CanBeDelagated;
+		
+		private System.Nullable<int> _ThemeRef;
+		
+		private System.Nullable<int> _ThemeOperationRef;
+		
+		public Security_GetPermissionsThemeResult()
+		{
+		}
+		
+		[Column(Storage="_ID", DbType="Int")]
+		public System.Nullable<int> ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_ParentPermitionRef", DbType="Int")]
+		public System.Nullable<int> ParentPermitionRef
+		{
+			get
+			{
+				return this._ParentPermitionRef;
+			}
+			set
+			{
+				if ((this._ParentPermitionRef != value))
+				{
+					this._ParentPermitionRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_DateSince", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateSince
+		{
+			get
+			{
+				return this._DateSince;
+			}
+			set
+			{
+				if ((this._DateSince != value))
+				{
+					this._DateSince = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_DateTill", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateTill
+		{
+			get
+			{
+				return this._DateTill;
+			}
+			set
+			{
+				if ((this._DateTill != value))
+				{
+					this._DateTill = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_UserRef", DbType="Int")]
+		public System.Nullable<int> UserRef
+		{
+			get
+			{
+				return this._UserRef;
+			}
+			set
+			{
+				if ((this._UserRef != value))
+				{
+					this._UserRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_GroupRef", DbType="Int")]
+		public System.Nullable<int> GroupRef
+		{
+			get
+			{
+				return this._GroupRef;
+			}
+			set
+			{
+				if ((this._GroupRef != value))
+				{
+					this._GroupRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_CanBeDelagated", DbType="Bit")]
+		public System.Nullable<bool> CanBeDelagated
+		{
+			get
+			{
+				return this._CanBeDelagated;
+			}
+			set
+			{
+				if ((this._CanBeDelagated != value))
+				{
+					this._CanBeDelagated = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_ThemeRef", DbType="Int")]
+		public System.Nullable<int> ThemeRef
+		{
+			get
+			{
+				return this._ThemeRef;
+			}
+			set
+			{
+				if ((this._ThemeRef != value))
+				{
+					this._ThemeRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_ThemeOperationRef", DbType="Int")]
+		public System.Nullable<int> ThemeOperationRef
+		{
+			get
+			{
+				return this._ThemeOperationRef;
+			}
+			set
+			{
+				if ((this._ThemeOperationRef != value))
+				{
+					this._ThemeOperationRef = value;
 				}
 			}
 		}

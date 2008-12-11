@@ -3,6 +3,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel.DB;
 using LEX.CONTROLS;
+using LEX.NewsProject.Model.DB;
 
 namespace NEWS
 {

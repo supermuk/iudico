@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel;
+using IUDICO.DataModel.Common;
 using IUDICO.DataModel.Controllers;
 using IUDICO.DataModel.DB;
 using LEX.CONTROLS;
@@ -30,6 +31,8 @@ public partial class NewsPage : ControlledPage<NewsController>
         {
             NewsContent.NewsID = id;
             ReBindGrid();
+
+            NewsTitle.Text = News.Title;
         }
     }
 

@@ -11,17 +11,5 @@ namespace IUDICO.DataModel.DB
         {
             return ServerModel.AcquireOpenedConnection();
         }
-
-        public void Initialize(Cache c)
-        {
-            Initialize();
-            if (c == null)
-                throw new ArgumentNullException("c");
-            _Cache = c;
-        }
-
-        public Cache Cache { get { return _Cache; } }
-
-        private Cache _Cache;
     }
 }
