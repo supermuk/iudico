@@ -8,7 +8,7 @@ namespace IUDICO.DataModel.HttpHandlers
     {
         public override void ProcessRequest(HttpContext context)
         {
-            var theoryPageId = int.Parse(context.Request.QueryString[pageIdRequestParameter]);
+            var theoryPageId = int.Parse(context.Request[pageIdRequestParameter]);
             var page = ServerModel.DB.Load<TblPages>(theoryPageId);
             var html = Encoding.UTF8.GetString(page.PageFile.ToArray());
             context.Response.Write(changeImageUrl(html, page));
