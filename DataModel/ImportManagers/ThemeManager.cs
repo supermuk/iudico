@@ -1,20 +1,19 @@
 using System.Xml;
 using IUDICO.DataModel.Common;
-using IUDICO.DataModel.Controllers;
 using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.ImportManagers
 {
     public class ThemeManager
     {
-        public static void Import(XmlNode theme, int courseId, ProjectPaths projectPaths, DeletedItem deletedItems)
+        public static void Import(XmlNode theme, int courseId, ProjectPaths projectPaths)
         {
             int id = Store(courseId, XmlUtility.getIdentifier(theme), XmlUtility.isControlChapter(theme));
 
-            SearchPages(theme, id, projectPaths, deletedItems);
+            SearchPages(theme, id, projectPaths);
         }
 
-        private static void SearchPages(XmlNode thema, int themeId, ProjectPaths projectPaths, DeletedItem deletedItems)
+        private static void SearchPages(XmlNode thema, int themeId, ProjectPaths projectPaths)
         {
             foreach (XmlNode node in thema.ChildNodes)
             {
@@ -22,8 +21,6 @@ namespace IUDICO.DataModel.ImportManagers
                 {
                     if (XmlUtility.isPage(node))
                     {
-                        if (!deletedItems.DeletedPages.Contains(XmlUtility.getIdentifierRef(node)))
-                        {
                             if (XmlUtility.isPractice(node))
                             {
                                 PracticeManager.Import(node, themeId, projectPaths);
@@ -32,11 +29,10 @@ namespace IUDICO.DataModel.ImportManagers
                             {
                                 TheoryManager.Import(node, themeId, projectPaths);
                             }
-                        }
                     }
                     else if (XmlUtility.isChapter(node))
                     {
-                        SearchPages(node, themeId, projectPaths, deletedItems);
+                        SearchPages(node, themeId, projectPaths);
                     }
                 }
             }

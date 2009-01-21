@@ -18,7 +18,7 @@ namespace IUDICO.DataModel.WebControl
         public WebPage(string pathToPage)
         {
             var doc = new XmlDocument();
-            doc.Load(pathToPage);
+            doc.LoadXml(File.ReadAllText(pathToPage, Encoding.Default));
             if (doc.DocumentElement != null)
             {
                 SetAnswerIndexes(doc.DocumentElement);

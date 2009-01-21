@@ -29,14 +29,17 @@ namespace IUDICO.DataModel.ImportManagers
         public static void StoreAllPageFiles(int pageRef, string pageFileName)
         {
             string directoryName = pageFileName.Replace(FileExtentions.Html, FileExtentions.WordHtmlFolder);
-            
-            var d = new DirectoryInfo(directoryName);
-            
-            int dirID = StoreFolder(directoryName, pageRef);
 
-            foreach (var file in d.GetFiles())
+            if (Directory.Exists(directoryName))
             {
-                StoreFile(dirID, file, pageRef);
+                var d = new DirectoryInfo(directoryName);
+
+                int dirID = StoreFolder(directoryName, pageRef);
+
+                foreach (var file in d.GetFiles())
+                {
+                    StoreFile(dirID, file, pageRef);
+                }
             }
         }
 

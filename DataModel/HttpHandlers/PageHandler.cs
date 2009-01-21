@@ -13,7 +13,7 @@ namespace IUDICO.DataModel.HttpHandlers
 
         protected static string changeImageUrl(string pageText, TblPages page)
         {
-            var imageUrlRegex = new Regex(string.Format(@"src=""(?<{0}>(?<{1}>\w+.files/(?<{2}>\w+.\w+)))""", urlRegexGroup, folderRegexGroup, imageRegexGroup));
+            var imageUrlRegex = new Regex(string.Format(@"src=""(?<{0}>(?<{1}>\w+.files)/(?<{2}>\w+.\w+))""", urlRegexGroup, folderRegexGroup, imageRegexGroup));
             MatchCollection matches = imageUrlRegex.Matches(pageText);
             foreach (Match m in matches)
             {

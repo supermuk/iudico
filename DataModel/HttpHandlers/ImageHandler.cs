@@ -8,7 +8,7 @@ namespace IUDICO.DataModel.HttpHandlers
     {
         public override void ProcessRequest(HttpContext context)
         {
-            var imageFileId = int.Parse(context.Request.QueryString[imageIdRequestParameter]);
+            var imageFileId = int.Parse(context.Request[imageIdRequestParameter]);
             TblFiles files = ServerModel.DB.Load<TblFiles>(imageFileId);
             context.Response.ContentType = Path.GetExtension(files.Name);
             context.Response.OutputStream.Write(files.File.ToArray(), 0, files.File.Length);
