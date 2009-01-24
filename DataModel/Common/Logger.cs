@@ -43,7 +43,7 @@ namespace IUDICO.DataModel.Common
 
         public static void WriteLine([NotNull] string line)
         {
-            Debug.WriteLine(string.Format("{0:3}", Thread.CurrentThread.ManagedThreadId) + new string(' ', __Indent) + line);
+            Debug.WriteLine(string.Format("{0}  {1:3}", DateTime.Now.ToLongTimeString(), Thread.CurrentThread.ManagedThreadId) + new string(' ', __Indent) + line);
         }
 
         [StringFormatMethod("lineFmt")]

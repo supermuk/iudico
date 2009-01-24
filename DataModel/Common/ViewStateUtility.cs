@@ -14,51 +14,179 @@ namespace IUDICO.DataModel.Common
 
     [AttributeUsage(AttributeTargets.Field)]
     [BaseTypeRequired(typeof(ControllerBase), typeof(ControlledPage))]
-    public sealed class PersistantField : Attribute
+    public sealed class PersistantFieldAttribute : Attribute
     {
     }
 
-    public struct PeristantValueInfo
+    public struct PersistantValueInfo
     {
-        public PeristantValueInfo(FieldInfo field)
+#region Internal Types
+
+        private interface IPersistManager
         {
-            if (field == null)
-            {
-                throw new ArgumentNullException("field");
-            }
-            Storage = field;
+            object Persist(object v);
+            object Restore(ConstructorInfo c, object v);
+        }
 
-            var fieldType = field.FieldType;
+        private static readonly Type[] TYPED_COLLECTION_VALUE_INFO_CONSTRUCTOR_PARAMETERS
+            = new[] {
+                typeof(ConstructorInfo),
+                typeof(ConstructorInfo),
+                typeof(Func<object, object>),
+                typeof(Func<ConstructorInfo, object, object>) 
+            } ;
 
-            if (fieldType.IsValueType || fieldType.IsArray)
+        private struct TypedCollectionValueInfo<T> : IPersistManager
+        {
+            private readonly ConstructorInfo creator;
+            private readonly ConstructorInfo vCreator;
+            private readonly Func<object, object> vPersistor;
+            private readonly Func<ConstructorInfo, object, object> vRestorer;
+
+            // Called with reflection
+            public TypedCollectionValueInfo(ConstructorInfo creator, ConstructorInfo vCreator, Func<object, object> vPersistor, Func<ConstructorInfo, object, object> vRestorer)
             {
-                Persistor = Persist_SimpleValue;
-                Restorer = Restore_SimpleValue;
-                Creator = null;
+                this.creator = creator;
+                this.vCreator = vCreator;
+                this.vPersistor = vPersistor;
+                this.vRestorer = vRestorer;
             }
-            else if (fieldType.GetInterface(typeof(IViewStateSerializable).Name) != null)
+
+            public object Persist(object v)
             {
-                Persistor = Persist_IViewStateSerializable;
-                Restorer = Restore_IViewStateSerializable;
-                if ((Creator = fieldType.GetConstructor(Type.EmptyTypes)) == null)
+                if (v == null)
                 {
-                    throw new DMError("Type {0} cannot be persisted because it's don't have parameterless constructor", fieldType.FullName);
+                    return null;
                 }
+
+                var iv = (ICollection<T>)v;
+                var res = new object[iv.Count];
+
+                int index = 0;
+                foreach (var i in iv)
+                {
+                    res[index] = vPersistor(i);   
+                    ++index;
+                }
+
+                return res;
             }
-            else
+
+            public object Restore(ConstructorInfo c, object v)
             {
-                throw new DMError("Type {0} is not supposed to be persisted. Invalid type. Only {1}, arrays and {2} is supported for now.", typeof(ValueType).Name, typeof(IViewStateSerializable));
+                if (v == null)
+                {
+                    return null;
+                }
+
+                var iv = (object[]) v;
+                var res = (ICollection<T>)creator.Invoke(Type.EmptyTypes);
+                foreach (var i in iv)
+                {
+                    res.Add((T)vRestorer(vCreator, i));
+                }
+                return res;
             }
+        }
+#endregion
+
+        public PersistantValueInfo(IMemberAL storage)
+        {
+            if (!BuildProcs(storage.MemberType, out Creator, out Persistor, out Restorer, ref storage))
+            {
+                throw new DMError("Type {0} is not supposed to be marked with {2}. Invalid type. Only ValueTypes and classes which implement {1}. Any combination with {3}<T> and {4}<T> by this types also supported.", storage.MemberType.FullName, typeof(IViewStateSerializable).Name, typeof(PersistantFieldAttribute).Name, typeof(IVariable<>).Name, typeof(ICollection<>).Name);
+            }
+            Storage = storage;
         }
 
         public object Persist([NotNull] object owner)
         {
-            return Persistor(Storage.GetValue(owner));
+            return Persistor(Storage[owner]);
         }
 
         public void Restore([NotNull] object owner, object obj)
         {
-            Storage.SetValue(owner, Restorer(Creator, obj));
+            Storage[owner] = Restorer(Creator, obj);
+        }
+
+        private static bool BuildProcs(Type type, out ConstructorInfo creator, out Func<object, object> persistor, out Func<ConstructorInfo, object, object> restorer, ref IMemberAL storage)
+        {
+            if (type.IsValueType)
+            {
+                persistor = Persist_SimpleValue;
+                restorer = Restore_SimpleValue;
+                creator = null;
+                return true;
+            }
+
+            bool isViewStateSerializable = false,
+                 isTypedVariable = false,
+                 isTypedCollection = false;
+
+            foreach (var intf in type.GetInterfaces().Append(type))
+            {
+                if (typeof(IViewStateSerializable).IsAssignableFrom(type))
+                    isViewStateSerializable = true;
+
+                if (intf.IsGenericType)
+                {
+                    var gIntf = intf.GetGenericTypeDefinition();
+                    if (gIntf == typeof(IVariable<>))
+                        isTypedVariable = true;
+
+                    if (gIntf == typeof(ICollection<>))
+                        isTypedCollection = true;
+                }
+            }
+
+            if (isViewStateSerializable)
+            {
+                persistor = Persist_IViewStateSerializable;
+                restorer = Restore_IViewStateSerializable;
+                creator = SafeGetConstructor(type);
+                return true;
+            }
+
+            if (isTypedVariable)
+            {
+                storage = storage.GetMember("Value");
+                if (BuildProcs(storage.MemberType, out creator, out persistor, out restorer, ref storage))
+                {
+                    return true;
+                }
+            }
+
+            if (isTypedCollection)
+            {
+                var subType = type.GetGenericArguments()[0];
+                ConstructorInfo c;
+                Func<object, object> p;
+                Func<ConstructorInfo, object, object> r;
+                if (BuildProcs(subType, out c, out p, out r, ref storage))
+                {
+                    creator = SafeGetConstructor(type);
+                    var man = (IPersistManager)typeof(TypedCollectionValueInfo<>).MakeGenericType(new[] { subType }).GetConstructor(TYPED_COLLECTION_VALUE_INFO_CONSTRUCTOR_PARAMETERS)
+                        .Invoke(new object[] { creator, c, p, r });
+                    persistor = man.Persist;
+                    restorer = man.Restore;
+                    return true;
+                }
+            }
+
+            persistor = null;
+            restorer = null;
+            creator = null;
+            return false;
+        }
+
+        private static ConstructorInfo SafeGetConstructor(Type t)
+        {
+            var res = t.GetConstructor(Type.EmptyTypes);
+            if (res == null)
+            {
+                throw new DMError("Type {0} cannot be persisted because it's don't have parameterless constructor", t.FullName);
+            }
+            return res;
         }
 
         private static object Persist_SimpleValue(object v)
@@ -87,7 +215,7 @@ namespace IUDICO.DataModel.Common
             return null;
         }
 
-        private readonly FieldInfo Storage;
+        private readonly IMemberAL Storage;
         private readonly ConstructorInfo Creator;
         private readonly Func<object, object> Persistor;
         private readonly Func<ConstructorInfo, object, object> Restorer;
@@ -95,7 +223,7 @@ namespace IUDICO.DataModel.Common
 
     public struct PersistantStateMetaData
     {
-        private PersistantStateMetaData(IList<PeristantValueInfo> values)
+        private PersistantStateMetaData(IList<PersistantValueInfo> values)
         {
             Values = values;
         }
@@ -104,17 +232,17 @@ namespace IUDICO.DataModel.Common
 
         private static PersistantStateMetaData GetFieldsDataInternal(Type t)
         {
-            var values = new List<PeristantValueInfo>();
+            var values = new List<PersistantValueInfo>();
             var fields = t.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
             foreach (var inf in fields)
             {
-                if (inf.HasAtr<PersistantField>())
+                if (inf.HasAtr<PersistantFieldAttribute>())
                 {
                     if (inf.IsStatic)
                     {
-                        throw new DMError("{0} can be applied to instance field only but applied to static ({1}.{2})", typeof(PersistantField).Name, t.Name, inf.Name);
+                        throw new DMError("{0} can be applied to instance field only but applied to static ({1}.{2})", typeof(PersistantFieldAttribute).Name, t.Name, inf.Name);
                     }
-                    values.Add(new PeristantValueInfo(inf));
+                    values.Add(new PersistantValueInfo(inf.ToAbstaction()));
                 }
             }
 
@@ -156,6 +284,6 @@ namespace IUDICO.DataModel.Common
             }
         }
 
-        private readonly IList<PeristantValueInfo> Values;
+        private readonly IList<PersistantValueInfo> Values;
     }
 }

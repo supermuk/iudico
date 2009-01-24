@@ -1,13 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Reflection;
 using System.Web;
 using System.Web.Caching;
 using System.Web.Security;
 using IUDICO.DataModel.DB;
+using IUDICO.DataModel.DB.Base;
 using IUDICO.DataModel.Security;
 using LEX.CONTROLS;
 using IUDICO.DataModel.Common;
+using System.Collections;
+using System.Linq;
 
 namespace IUDICO.DataModel
 {
@@ -21,6 +26,7 @@ namespace IUDICO.DataModel
                 DB = new DatabaseModel(AcruireOpenedConnection());
                 DB.Initialize(cache);
                 PermissionsManager.Initialize(DB.GetConnectionSafe());
+                DBKeyValueAttributeInitialize();
             }
         }
 
@@ -44,6 +50,45 @@ namespace IUDICO.DataModel
             return res;
         }
 
+        private static void DBKeyValueAttributeInitialize()
+        {
+            foreach(var t in Assembly.GetExecutingAssembly().GetTypes())
+            {
+                if (t.GetInterface(typeof(IFxDataObject).Name) != null)
+                {
+                    var fields = new List<FieldInfo>(t.GetFields(BindingFlags.Static | BindingFlags.SetField | BindingFlags.Public).Where(f => f.HasAtr<TableRecordAttribute>()));
+                    if (fields.Count > 0)
+                    {
+                        var items = (IEnumerable) DatabaseModel.FIXED_METHOD.MakeGenericMethod(new[] {t}).Invoke(DB, Type.EmptyTypes);
+                        foreach (var f in fields)
+                        {
+                            bool found = false;
+                            foreach (IFxDataObject i in items)
+                            {
+                                if (i.Name == f.Name)
+                                {
+                                    found = true;
+                                    if (f.FieldType == typeof(int))
+                                    {
+                                        f.SetValue(null, i.ID);
+                                    }
+                                    else
+                                    {
+                                        f.SetValue(null, i);
+                                    }
+                                    break;
+                                }
+                            }
+                            if (!found)
+                            {
+                                throw new DMError("Couldn't found DB value for {0}.{1} marked with {2}", t.Name, f.Name, typeof(TableRecordAttribute).Name);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         private static string _ConnectionString;
     }
 
@@ -58,6 +103,14 @@ namespace IUDICO.DataModel
                 PasswordHash = FormsAuthentication.HashPasswordForStoringInConfigFile(password, "MD5"),
                 Email = email
             });
+        }
+
+        public CustomUser Current
+        {
+            get
+            {
+                return (CustomUser) Membership.GetUser();
+            }
         }
 
         public CustomUser ByLogin(string login)

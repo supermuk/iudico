@@ -8,12 +8,11 @@ using IUDICO.DataModel.DB;
 using IUDICO.DataModel.DB.Base;
 using LEX.CONTROLS;
 using System.Collections.Generic;
-using System.Reflection;
-using Utils=IUDICO.DataModel.Common.Utils;
 
 namespace IUDICO.DataModel.Security
 {
     [AttributeUsage(AttributeTargets.Field)]
+    [BaseTypeRequired(typeof(ISecuredDataObject))]
     public class SecuredObjectTypeAttribute : Attribute
     {
         public readonly string Name;
@@ -66,17 +65,17 @@ namespace IUDICO.DataModel.Security
 
     public static class PermissionsManager
     {
-        public static readonly Func<DB_OBJECT_TYPE, ReadOnlyCollection<DataObjectOperationInfo>> GetPossibleOperations =
-            new Memorizer<DB_OBJECT_TYPE, ReadOnlyCollection<DataObjectOperationInfo>>(GetPossibleOperationsInternal);
+        public static readonly Func<SECURED_OBJECT_TYPE, ReadOnlyCollection<DataObjectOperationInfo>> GetPossibleOperations =
+            new Memorizer<SECURED_OBJECT_TYPE, ReadOnlyCollection<DataObjectOperationInfo>>(GetPossibleOperationsInternal);
 
         [NotNull]
-        public static IList<int> GetObjectsForUser(DB_OBJECT_TYPE objectType, int userID, int? operationID, DateTime? targetDate)
+        public static IList<int> GetObjectsForUser(SECURED_OBJECT_TYPE objectType, int userID, int? operationID, DateTime? targetDate)
         {
             return GetIDsFromPermissionsInternal(objectType, userID, targetDate, operationID, objectType.GetSecurityAtr().Name + "Ref");
         }
 
         [NotNull]
-        public static IList<int> GetOperationsForObject(DB_OBJECT_TYPE objectType, int userID, int? objectID, DateTime? targetDate)
+        public static IList<int> GetOperationsForObject(SECURED_OBJECT_TYPE objectType, int userID, int? objectID, DateTime? targetDate)
         {
             using (var c = ServerModel.AcruireOpenedConnection())
             {
@@ -94,9 +93,28 @@ namespace IUDICO.DataModel.Security
         }
 
         [NotNull]
-        public static IList<int> GetPermissions(DB_OBJECT_TYPE type, int userID, DateTime? targetDate, int? operationID)
+        public static IList<int> GetPermissions(SECURED_OBJECT_TYPE type, int userID, DateTime? targetDate, int? operationID)
         {
             return GetIDsFromPermissionsInternal(type, userID, targetDate, operationID, "ID");
+        }
+
+        public static void Grand([NotNull] ISecuredDataObject dataObject, IFxDataObject operation, int? userID, int? groupID, DateTimeInterval interval)
+        {
+            if ((userID == null && groupID == null) || (userID != null && groupID != null))
+            {
+                throw new ArgumentException("One and only one of parameters (userID, groupID) must be specified");
+            }
+            var doType = dataObject.GetObjectType();
+            var p = new TblPermissions
+            {
+                OwnerUserRef = userID,
+                OwnerGroupRef = groupID,
+                CanBeDelagated = true,
+                WorkingInterval = interval
+            };
+            p.SetObjectID(doType, dataObject.ID);
+            p.SetOperationID(doType, operation.ID);
+            ServerModel.DB.Insert(p);
         }
 
         public static void Initialize([NotNull] DbConnection connection)
@@ -113,7 +131,7 @@ namespace IUDICO.DataModel.Security
                 {
                     CreateDBVersionFunc(c);
 
-                    foreach (var f in typeof(DB_OBJECT_TYPE).GetFields())
+                    foreach (var f in typeof(SECURED_OBJECT_TYPE).GetFields())
                     {
                         if (f.IsSpecialName)
                             continue;
@@ -121,8 +139,7 @@ namespace IUDICO.DataModel.Security
                         Logger.WriteLine(f.Name);
 
                         var a = f.GetAtr<SecuredObjectTypeAttribute>();
-                        CheckSupport(a.RuntimeClass, typeof(INamedDataObject));
-                        CheckSupport(a.RuntimeClass, typeof(IIntKeyedDataObject));
+                        CheckSupport(a.RuntimeClass, typeof (ISecuredDataObject));
                         CheckSupport(a.OperationsClass, typeof (IFxDataObject));
                         CheckSupport(a.OperationsClass, typeof(INamedDataObject));
 
@@ -135,7 +152,7 @@ namespace IUDICO.DataModel.Security
         }
 
         [NotNull]
-        private static IList<int> GetIDsFromPermissionsInternal(DB_OBJECT_TYPE objectType, int userID, DateTime? targetDate, int? operationID, string columnName)
+        private static IList<int> GetIDsFromPermissionsInternal(SECURED_OBJECT_TYPE objectType, int userID, DateTime? targetDate, int? operationID, string columnName)
         {
             using (var c = ServerModel.AcruireOpenedConnection())
             {
@@ -153,7 +170,6 @@ namespace IUDICO.DataModel.Security
                 }
             }
         }
-
 
         private static void CreateDBVersionFunc([NotNull] IDbCommand cmd)
         {
@@ -192,7 +208,7 @@ namespace IUDICO.DataModel.Security
             }
         }
 
-        private static ReadOnlyCollection<DataObjectOperationInfo> GetPossibleOperationsInternal(DB_OBJECT_TYPE doType)
+        private static ReadOnlyCollection<DataObjectOperationInfo> GetPossibleOperationsInternal(SECURED_OBJECT_TYPE doType)
         {
             var ops = (IList)DatabaseModel.FIXED_METHOD.MakeGenericMethod(new[] { doType.GetSecurityAtr().OperationsClass }).Invoke(ServerModel.DB, Type.EmptyTypes);
             var res = new List<DataObjectOperationInfo>(ops.Count);
@@ -206,7 +222,7 @@ namespace IUDICO.DataModel.Security
         private static Guid? ID;
         private const string PERMISSION_DATE_FILTER = "((DateSince IS NULL) OR (DateSince <= @TargetDate)) AND ((DateTill IS NULL) OR (DateTill >= @TargetDate))";
         private const string PERMISSION_DB_ERROR_MESSAGE = "Not enough permission to perform this operation";
-        private const string PERMISSIONS_SELECT_COLUMNS = "[ID], [ParentPermitionRef], [DateSince], [DateTill], [UserRef], [GroupRef], [CanBeDelagated], [{1}Ref], [{1}OperationRef]";
+        private const string PERMISSIONS_SELECT_COLUMNS = "[ID], [ParentPermitionRef], [DateSince], [DateTill], [OwnerUserRef], [OwnerGroupRef], [CanBeDelagated], [{1}Ref], [{1}OperationRef]";
         private const string RETRIEVE_PERMISSIONS_PROC_TEMPLATE = @"CREATE PROCEDURE {0}
 	@UserID int,
 	@{1}OperationID int = NULL,
@@ -219,22 +235,13 @@ BEGIN
 	SELECT " + PERMISSIONS_SELECT_COLUMNS + @"
     FROM tblPermissions WHERE
         ({1}Ref IS NOT NULL) AND
-		(@UserID = UserRef OR GroupRef IN (
+		(@UserID = OwnerUserRef OR OwnerGroupRef IN (
 			SELECT GroupRef FROM relUserGroups WHERE UserRef = @UserID)) AND
 		((@{1}OperationID IS NULL) OR 
 			(@{1}OperationID = {1}OperationRef)
 		) AND
 		{2}
 END";
-        private const string RETRIEVE_OBJECTS_PROC =
-@"CREATE PROCEDURE {0}
-	@{1}OperationID int = NULL,
-	@TargetDate datetime = NULL
-AS
-BEGIN
-    SELECT DISTINCT {0}Ref FROM (exec
-END";
-
         private const string RETRIEVE_OBJECT_OPERATIONS_PROC_TEMPLATE =
             @"CREATE PROCEDURE {0}
 	@UserID int,
@@ -245,9 +252,9 @@ BEGIN
 	IF @TargetDate IS NULL 
 		SET @TargetDate = GETDATE(); 
 
-	SELECT DISTINCT {1}OperationRef 
+	SELECT DISTINCT {1}OperationRef
 	FROM tblPermissions WHERE
-		@UserID = UserRef AND
+		@UserID = OwnerUserRef AND
 		((@{1}ID IS NULL) OR
 			(@{1}ID = {1}Ref)
 		)  AND 
@@ -267,7 +274,7 @@ BEGIN
 		SET @TargetDate = GETDATE();
 
 	IF	(NOT EXISTS (SELECT ID FROM tblPermissions WHERE 
-		@UserID = UserRef AND
+		@UserID = OwnerUserRef AND
 		@{1}ID = {1}Ref AND
 		@{1}OperationID = {1}OperationRef AND
 		{2}

@@ -57,7 +57,7 @@ namespace IUDICO.DataModel.Controllers
 
         private void BuildTree()
         {
-            IList<int> userCoursesIds = PermissionsManager.GetObjectsForUser(DB_OBJECT_TYPE.COURSE,
+            IList<int> userCoursesIds = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.COURSE,
                                                                              ((CustomUser)Membership.GetUser()).ID, null, null);
                 
             var userCourses = ServerModel.DB.Load<TblCourses>(userCoursesIds);
