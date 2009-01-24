@@ -4,6 +4,8 @@ using System.Web.Security;
 using System.Web.UI;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.Controllers;
+using System.Web.UI.WebControls;
+using LEX.CONTROLS;
 
 namespace IUDICO.DataModel
 {
@@ -43,6 +45,13 @@ namespace IUDICO.DataModel
     public abstract class ControlledPage<ControllerType> : Page
         where ControllerType : ControllerBase, new()
     {
+        /// <summary>
+        /// Do nothing. It's required to override in derived class to bind exactly controls realy need it
+        /// </summary>
+        public override void DataBind()
+        {
+        }
+
         protected ControlledPage()
         {
             if ((User == null  || User.Identity == null || !User.Identity.IsAuthenticated) &&
@@ -54,9 +63,23 @@ namespace IUDICO.DataModel
             Controller = new ControllerType();
         }
 
-        protected EventHandler BindToEventHandler(Action a)
+        protected EventHandler BindToEventHandler([NotNull]Action a)
         {
+            CheckBindingAllowed();
             return (o, e) => a();
+        }
+
+        protected void Bind([NotNull]ITextControl c, [NotNull] IValue<string> text)
+        {
+            CheckBindingAllowed();
+            text.Changed += (v, newVal) => c.Text = newVal;
+        }
+        
+        protected void Bind<T>([NotNull] ITextControl c, [NotNull] IValue<T> value, [NotNull] Func<T, string> presentator)
+            where T : IComparable<T>
+        {
+            CheckBindingAllowed();
+            value.Changed += (v, newVal) => c.Text = presentator(newVal);
         }
 
         protected virtual void BindController(ControllerType c)
@@ -92,16 +115,20 @@ namespace IUDICO.DataModel
         protected override void OnInitComplete(EventArgs e)
         {
             base.OnInitComplete(e);
+            __BindingAllowed = true;
             BindController(Controller);
+            __BindingAllowed = false;
         }
 
-        /// <summary>
-        /// Do nothing. It's required to override in derived class to bind exactly controls realy need it
-        /// </summary>
-        public override void DataBind()
+        protected void CheckBindingAllowed()
         {
+            if (!__BindingAllowed)
+            {
+                throw new DMError("Binding is not allowed");
+            }
         }
 
         protected readonly ControllerType Controller;
+        private bool __BindingAllowed;
     }
 }

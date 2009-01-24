@@ -6,7 +6,7 @@
 
 
 <asp:Panel runat="server">
-    <h2><asp:Label ID="CoursePermissionsLabel" runat="server" /></h2>
+    <h2><asp:Label ID="CoursePermissionsLabel" runat="server"/></h2>
     <i:UserPermissions ID="CoursePermissions" runat="server" ObjectType="COURSE" />
 </asp:Panel>
 
@@ -14,6 +14,12 @@
 <asp:Panel runat="server">
     <h2><asp:Label ID="ThemePermissionsLabel" runat="server" /></h2>
     <i:UserPermissions ID="ThemePermissions" runat="server" ObjectType="THEME" />
+</asp:Panel>
+
+<br />
+<asp:Panel ID="Panel1" runat="server">
+    <h2><asp:Label ID="GroupPermissionsLabel" runat="server" /></h2>
+    <i:UserPermissions ID="GroupPermissions" runat="server" ObjectType="GROUP" />
 </asp:Panel>
 
 </asp:Content>

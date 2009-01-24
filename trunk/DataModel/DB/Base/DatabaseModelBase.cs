@@ -29,6 +29,10 @@ namespace IUDICO.DataModel.DB
             {
                 throw new DMError("'Load List' method is not initialized");
             }
+            if (QUERY_METHOD == null)
+            {
+                throw new DMError("Unable to find 'Query' method");
+            }
         }
 
 
@@ -381,7 +385,7 @@ namespace IUDICO.DataModel.DB
         }
 
         public ReadOnlyCollection<TFxDataObject> Fx<TFxDataObject>()
-            where TFxDataObject : FxDataObject
+            where TFxDataObject : class, IFxDataObject
         {
             return FxObjectsStorage<TFxDataObject>.Items;
         }
@@ -463,11 +467,11 @@ namespace IUDICO.DataModel.DB
                     {
                         if (r.Read())
                         {
+                            if (r.Read())
+                                throw new InvalidOperationException("Too many objects");
                             return DataObjectInfo<TDataObject>.Read(r);
                         }
-                        else throw new InvalidOperationException("No object selected");
-                        if (r.Read())
-                            throw new InvalidOperationException("Too many objects");
+                        throw new InvalidOperationException("No object selected");
                     }
                 }
             } 
@@ -541,6 +545,7 @@ namespace IUDICO.DataModel.DB
 
         public static readonly MethodInfo FIXED_METHOD = typeof(DatabaseModel).GetMethod("Fx");
         public static readonly MethodInfo LOAD_LIST_METHOD = typeof(DatabaseModel).GetMethod("Load", new[] { typeof(IList<int>) });
+        public static readonly MethodInfo QUERY_METHOD = typeof (DatabaseModel).GetMethod("Query");
 
         private static string FormatCacheKey<TDataObject>(int id)
             where TDataObject : IIntKeyedDataObject
@@ -594,7 +599,7 @@ namespace IUDICO.DataModel.DB
         #region FxObjectsStorage
 
         private static class FxObjectsStorage<T>
-            where T: FxDataObject
+            where T: class, IFxDataObject
         {
             static FxObjectsStorage()
             {

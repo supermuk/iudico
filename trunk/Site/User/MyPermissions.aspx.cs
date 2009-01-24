@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Security;
+using IUDICO.Web.Controls;
 
 public partial class User_MyPermissions : ControlledPage
 {
@@ -19,6 +22,7 @@ public partial class User_MyPermissions : ControlledPage
         {
             CoursePermissions.UserID = value;
             ThemePermissions.UserID = value;
+            GroupPermissions.UserID = value;
         }
     }
 
@@ -26,10 +30,15 @@ public partial class User_MyPermissions : ControlledPage
     {
         UserID = ((CustomUser) Membership.GetUser()).ID;
 
-        CoursePermissions.DataBind();
-        CoursePermissionsLabel.Text = GetPermissionsLabel(CoursePermissions.IsEmpty, "Courses");
-        ThemePermissions.DataBind();
-        ThemePermissionsLabel.Text = GetPermissionsLabel(ThemePermissions.IsEmpty, "Themes");
+        Bind(CoursePermissions, CoursePermissionsLabel, "Courses");
+        Bind(ThemePermissions, ThemePermissionsLabel, "Themes");
+        Bind(GroupPermissions, GroupPermissionsLabel, "Groups");
+    }
+
+    private static void Bind(UserPermissions permissionsList, ITextControl permissionsLabel, string title)
+    {
+        permissionsList.DataBind();
+        permissionsLabel.Text = GetPermissionsLabel(permissionsList.IsEmpty, title);
     }
 
     private static string GetPermissionsLabel(bool v, string title)

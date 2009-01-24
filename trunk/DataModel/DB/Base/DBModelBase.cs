@@ -20,6 +20,12 @@ namespace IUDICO.DataModel.DB.Base
         }
     }
 
+    [AttributeUsage(AttributeTargets.Field)]
+    [BaseTypeRequired(typeof(IFxDataObject))]
+    public class TableRecordAttribute : Attribute
+    {
+    }
+
     [AttributeUsage(AttributeTargets.Class)]
     [BaseTypeRequired(typeof(RelTable))]
     public class ManyToManyRelationshipAttribute : Attribute
@@ -105,6 +111,10 @@ namespace IUDICO.DataModel.DB.Base
         }
     }
 
+    public abstract class SecuredDataObject : IntKeyedDataObject
+    {   
+    }
+
     [DebuggerDisplay("Fx: {ID} - {Name}")]
     public abstract class FxDataObject : DataObject
     {
@@ -155,7 +165,7 @@ namespace IUDICO.DataModel.DB.Base
             where TDataObject : class, IIntKeyedDataObject, new();
 
         ReadOnlyCollection<TFxDataObject> Fx<TFxDataObject>()
-            where TFxDataObject : FxDataObject;
+            where TFxDataObject : class, IFxDataObject;
 
         List<TDataObject> FullCached<TDataObject>()
             where TDataObject : class, IDataObject, new();

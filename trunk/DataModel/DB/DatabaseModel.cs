@@ -1,4 +1,5 @@
 ﻿using System.Data.Common;
+using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.DB
@@ -19,8 +20,50 @@ namespace IUDICO.DataModel.DB
 
     public partial class FxRoles : FxDataObject, IFxDataObject {}
 
+    public partial class FxGroupOperations : FxDataObject, IFxDataObject
+    {
+        [TableRecord]
+        public readonly static FxGroupOperations View;
+        [TableRecord]
+        public readonly static FxGroupOperations Rename;
+        [TableRecord]
+        public readonly static FxGroupOperations ChangeMembers;
+    }
+
     public partial class TblPermissions : IntKeyedDataObject, IIntKeyedDataObject
     {
+        public DateTimeInterval WorkingInterval
+        {
+            get
+            {
+                return new DateTimeInterval(DateSince, DateTill);
+            }
+            set
+            {
+                DateSince = value.From;
+                DateTill = value.To;
+            }
+        }
+
+        public int? GetObjectID(SECURED_OBJECT_TYPE ot)
+        {
+            return (int?) GetType().GetProperty(ot.GetSecurityAtr().Name + "Ref").GetValue(this, null);
+        }
+
+        public void SetObjectID(SECURED_OBJECT_TYPE ot, int value)
+        {
+            GetType().GetProperty(ot.GetSecurityAtr().Name + "Ref").SetValue(this, value, null);
+        }
+
+        public int? GetOperationID(SECURED_OBJECT_TYPE ot)
+        {
+            return (int?)GetType().GetProperty(ot.GetSecurityAtr().Name + "OperationRef").GetValue(this, null);
+        }
+
+        public void SetOperationID(SECURED_OBJECT_TYPE ot, int value)
+        {
+            GetType().GetProperty(ot.GetSecurityAtr().Name + "OperationRef").SetValue(this, value, null);
+        }
     }
 
     public partial class TblCompiledAnswers : IntKeyedDataObject, IIntKeyedDataObject
@@ -35,7 +78,7 @@ namespace IUDICO.DataModel.DB
     {
     }
 
-    public partial class TblCourses : IntKeyedDataObject, IIntKeyedDataObject, INamedDataObject
+    public partial class TblCourses : SecuredDataObject, ISecuredDataObject  
     {
     }
 
@@ -45,7 +88,7 @@ namespace IUDICO.DataModel.DB
 
     public partial class TblFiles : IntKeyedDataObject, IIntKeyedDataObject { }
 
-    public partial class TblGroups : IntKeyedDataObject, IIntKeyedDataObject { }
+    public partial class TblGroups : SecuredDataObject, ISecuredDataObject { }
 
     public partial class TblPages : IntKeyedDataObject, IIntKeyedDataObject { }
 
@@ -53,11 +96,11 @@ namespace IUDICO.DataModel.DB
 
     public partial class TblSampleBusinesObject : IntKeyedDataObject, IIntKeyedDataObject {}
 
-    public partial class TblStages : IntKeyedDataObject, IIntKeyedDataObject, INamedDataObject
+    public partial class TblStages : SecuredDataObject, ISecuredDataObject
     {
     }
 
-    public partial class TblThemes : IntKeyedDataObject, IIntKeyedDataObject, INamedDataObject
+    public partial class TblThemes : SecuredDataObject, ISecuredDataObject
     {
     }
 

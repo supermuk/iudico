@@ -177,7 +177,14 @@ namespace IUDICO.DataModel.DB.Base
                 d = new Dictionary<Type, T>(1);
                 dic.Add(key1, d);
             }
-            d.Add(key2, value);
+            if (!d.ContainsKey(key2))
+            {
+                d.Add(key2, value);   
+            }
+            else
+            {
+                Logger.WriteLine("[WARNING] Ignored {0} - {1} relationship because the same is already exists", key1.Name, key2.Name);
+            }
         }
 
         private static readonly Dictionary<Type, Dictionary<Type, LookupInfo>> __Infos = new Dictionary<Type, Dictionary<Type, LookupInfo>>();

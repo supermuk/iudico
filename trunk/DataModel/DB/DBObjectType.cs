@@ -7,7 +7,7 @@ using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.DB
 {
-    public enum DB_OBJECT_TYPE
+    public enum SECURED_OBJECT_TYPE
     {
         [SecuredObjectType("Course", typeof(TblCourses), typeof(FxCourseOperations))]
         COURSE,
@@ -18,34 +18,45 @@ namespace IUDICO.DataModel.DB
         [SecuredObjectType("Stage", typeof(TblStages), typeof(FxStageOperations))]
         STAGE,
 
-        [SecuredObjectType("Page", typeof(TblPages), typeof(FxPageOperations))]
-        PAGE
+        [SecuredObjectType("Group", typeof(TblGroups), typeof(FxGroupOperations))]
+        GROUP
     }
 
     public static class ObjectTypeHelper
     {
-        public static SecuredObjectTypeAttribute GetSecurityAtr(this DB_OBJECT_TYPE obj)
+        static ObjectTypeHelper()
+        {
+            var fs = typeof(SECURED_OBJECT_TYPE).GetFields();
+
+            __SecuredTypes = new Dictionary<Type, SECURED_OBJECT_TYPE>(fs.Length - 1);
+
+            foreach (var f in fs)
+            {
+                if (!f.IsSpecialName)
+                {
+                    __SecuredTypes.Add(f.GetAtr<SecuredObjectTypeAttribute>().RuntimeClass, (SECURED_OBJECT_TYPE)f.GetValue(null));
+                }
+            }
+        }
+
+        public static SecuredObjectTypeAttribute GetSecurityAtr(this SECURED_OBJECT_TYPE obj)
         {
             return GetAttribute(obj);
         }
 
-        public static bool IsSecured(Type t)
+        public static SECURED_OBJECT_TYPE GetObjectType([NotNull] this ISecuredDataObject sd)
         {
-            if (__SecuredTypes == null)
+            SECURED_OBJECT_TYPE res;
+            if (!__SecuredTypes.TryGetValue(sd.GetType(), out res))
             {
-                var fs = typeof (DB_OBJECT_TYPE).GetFields();
-
-                __SecuredTypes = new List<Type>(fs.Length - 1);
-                
-                foreach (var f in fs)
-                {
-                    if (!f.IsSpecialName)
-                    {
-                        __SecuredTypes.Add(f.GetAtr<SecuredObjectTypeAttribute>().RuntimeClass);
-                    }
-                }
+                throw new DMError("Could not figure out secured index of {0}. All SecuredDataObject's classes should be added to {1}", sd.GetType().FullName, typeof(SECURED_OBJECT_TYPE).Name);
             }
-            return __SecuredTypes.Contains(t);
+            return res;
+        }
+
+        public static bool IsSecured([NotNull]Type t)
+        {
+            return __SecuredTypes.ContainsKey(t);
         }
 
         public static bool IsSecured([NotNull] this DataObject d)
@@ -53,14 +64,14 @@ namespace IUDICO.DataModel.DB
             return IsSecured(d.GetType());
         }
 
-        private static readonly Func<DB_OBJECT_TYPE, SecuredObjectTypeAttribute> GetAttribute = 
-            new Memorizer<DB_OBJECT_TYPE, SecuredObjectTypeAttribute>(GetAttributeInternal);
+        private static readonly Func<SECURED_OBJECT_TYPE, SecuredObjectTypeAttribute> GetAttribute = 
+            new Memorizer<SECURED_OBJECT_TYPE, SecuredObjectTypeAttribute>(GetAttributeInternal);
 
-        private static SecuredObjectTypeAttribute GetAttributeInternal(DB_OBJECT_TYPE obj)
+        private static SecuredObjectTypeAttribute GetAttributeInternal(SECURED_OBJECT_TYPE obj)
         {
-            return typeof (DB_OBJECT_TYPE).GetField(obj.ToString()).GetAtr<SecuredObjectTypeAttribute>();
+            return typeof (SECURED_OBJECT_TYPE).GetField(obj.ToString()).GetAtr<SecuredObjectTypeAttribute>();
         }
 
-        private static List<Type> __SecuredTypes;
+        private static readonly Dictionary<Type, SECURED_OBJECT_TYPE> __SecuredTypes;
     }
 }

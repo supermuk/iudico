@@ -9,9 +9,14 @@ namespace IUDICO.Site.Pages
         protected override void BindController(HomeController c)
         {
             base.BindController(c);
+
             Button1.Click += BindToEventHandler(c.Test1);
             Button2.Click += BindToEventHandler(c.Test2);
             Button3.Click += BindToEventHandler(c.Test3);
+            TestPersistedListButton.Click += BindToEventHandler(c.TestPersistedList);
+
+            Bind(PersistedListLabel, c.PersistedCollection);
+            Bind(lbIncrement, c.PersistedInt, i => i.ToString());
         }
 
         protected override void OnLoad(EventArgs e)
@@ -22,12 +27,6 @@ namespace IUDICO.Site.Pages
             {
                 DataBind();
             }
-        }
-
-        protected override void OnPreRender(EventArgs e)
-        {
-            base.OnPreRender(e);
-            Button3.Text = Controller.SomeControllerValue.ToString();
         }
 
         public override void DataBind()

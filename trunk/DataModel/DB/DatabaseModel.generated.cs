@@ -39,6 +39,9 @@ namespace IUDICO.DataModel.DB
     partial void InsertFxCurriculumOperations(FxCurriculumOperations instance);
     partial void UpdateFxCurriculumOperations(FxCurriculumOperations instance);
     partial void DeleteFxCurriculumOperations(FxCurriculumOperations instance);
+    partial void InsertFxGroupOperations(FxGroupOperations instance);
+    partial void UpdateFxGroupOperations(FxGroupOperations instance);
+    partial void DeleteFxGroupOperations(FxGroupOperations instance);
     partial void InsertFxLanguages(FxLanguages instance);
     partial void UpdateFxLanguages(FxLanguages instance);
     partial void DeleteFxLanguages(FxLanguages instance);
@@ -158,6 +161,14 @@ namespace IUDICO.DataModel.DB
 			get
 			{
 				return this.GetTable<FxCurriculumOperations>();
+			}
+		}
+		
+		public System.Data.Linq.Table<FxGroupOperations> FxGroupOperations
+		{
+			get
+			{
+				return this.GetTable<FxGroupOperations>();
 			}
 		}
 		
@@ -470,62 +481,6 @@ namespace IUDICO.DataModel.DB
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, themeOperationID, targetDate);
 			return ((ISingleResult<Security_GetPermissionsThemeResult>)(result.ReturnValue));
-		}
-		
-		[Function(Name="dbo.spCompiledQuestionsDataInsert")]
-		public ISingleResult<SpCompiledQuestionsDataInsertResult> SpCompiledQuestionsDataInsert([Parameter(Name="ID", DbType="Int")] System.Nullable<int> iD, [Parameter(Name="CompiledQuestionRef", DbType="Int")] System.Nullable<int> compiledQuestionRef, [Parameter(Name="Input", DbType="NVarChar(MAX)")] string input, [Parameter(Name="Output", DbType="NVarChar(MAX)")] string output)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), iD, compiledQuestionRef, input, output);
-			return ((ISingleResult<SpCompiledQuestionsDataInsertResult>)(result.ReturnValue));
-		}
-		
-		[Function(Name="dbo.spCompiledQuestionsInsert")]
-		public ISingleResult<SpCompiledQuestionsInsertResult> SpCompiledQuestionsInsert([Parameter(Name="ID", DbType="Int")] System.Nullable<int> iD, [Parameter(Name="LanguageRef", DbType="Int")] System.Nullable<int> languageRef, [Parameter(Name="MemoryLimit", DbType="Int")] System.Nullable<int> memoryLimit, [Parameter(Name="OutputLimit", DbType="Int")] System.Nullable<int> outputLimit, [Parameter(Name="TimeLimit", DbType="Int")] System.Nullable<int> timeLimit)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), iD, languageRef, memoryLimit, outputLimit, timeLimit);
-			return ((ISingleResult<SpCompiledQuestionsInsertResult>)(result.ReturnValue));
-		}
-		
-		[Function(Name="dbo.spCoursesInsert")]
-		public ISingleResult<SpCoursesInsertResult> SpCoursesInsert([Parameter(Name="ID", DbType="Int")] System.Nullable<int> iD, [Parameter(Name="Description", DbType="NVarChar(MAX)")] string description, [Parameter(Name="Name", DbType="NVarChar(50)")] string name, [Parameter(Name="UploadDate", DbType="DateTime")] System.Nullable<System.DateTime> uploadDate, [Parameter(Name="Version", DbType="Int")] System.Nullable<int> version)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), iD, description, name, uploadDate, version);
-			return ((ISingleResult<SpCoursesInsertResult>)(result.ReturnValue));
-		}
-		
-		[Function(Name="dbo.spFilesInsert")]
-		public ISingleResult<SpFilesInsertResult> SpFilesInsert([Parameter(Name="ID", DbType="Int")] System.Nullable<int> iD, [Parameter(Name="File", DbType="VarBinary(MAX)")] System.Data.Linq.Binary file, [Parameter(Name="IsDirectory", DbType="Bit")] System.Nullable<bool> isDirectory, [Parameter(Name="Name", DbType="NVarChar(50)")] string name, [Parameter(Name="PageRef", DbType="Int")] System.Nullable<int> pageRef, [Parameter(Name="PID", DbType="Int")] System.Nullable<int> pID)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), iD, file, isDirectory, name, pageRef, pID);
-			return ((ISingleResult<SpFilesInsertResult>)(result.ReturnValue));
-		}
-		
-		[Function(Name="dbo.spPagesInsert")]
-		public ISingleResult<SpPagesInsertResult> SpPagesInsert([Parameter(Name="ID", DbType="Int")] System.Nullable<int> iD, [Parameter(Name="PageFile", DbType="VarBinary(MAX)")] System.Data.Linq.Binary pageFile, [Parameter(Name="PageName", DbType="NVarChar(50)")] string pageName, [Parameter(Name="PageRank", DbType="Int")] System.Nullable<int> pageRank, [Parameter(Name="PageTypeRef", DbType="Int")] System.Nullable<int> pageTypeRef, [Parameter(Name="ThemeRef", DbType="Int")] System.Nullable<int> themeRef)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), iD, pageFile, pageName, pageRank, pageTypeRef, themeRef);
-			return ((ISingleResult<SpPagesInsertResult>)(result.ReturnValue));
-		}
-		
-		[Function(Name="dbo.spQuestionsInsert")]
-		public ISingleResult<SpQuestionsInsertResult> SpQuestionsInsert([Parameter(Name="ID", DbType="Int")] System.Nullable<int> iD, [Parameter(Name="CompiledQuestionRef", DbType="Int")] System.Nullable<int> compiledQuestionRef, [Parameter(Name="CorrectAnswer", DbType="NVarChar(MAX)")] string correctAnswer, [Parameter(Name="IsCompiled", DbType="Bit")] System.Nullable<bool> isCompiled, [Parameter(Name="PageRef", DbType="Int")] System.Nullable<int> pageRef, [Parameter(Name="Rank", DbType="Int")] System.Nullable<int> rank, [Parameter(Name="TestName", DbType="NVarChar(50)")] string testName)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), iD, compiledQuestionRef, correctAnswer, isCompiled, pageRef, rank, testName);
-			return ((ISingleResult<SpQuestionsInsertResult>)(result.ReturnValue));
-		}
-		
-		[Function(Name="dbo.spThemesInsert")]
-		public ISingleResult<SpThemesInsertResult> SpThemesInsert([Parameter(Name="ID", DbType="Int")] System.Nullable<int> iD, [Parameter(Name="CourseRef", DbType="Int")] System.Nullable<int> courseRef, [Parameter(Name="IsControl", DbType="Bit")] System.Nullable<bool> isControl, [Parameter(Name="Name", DbType="NVarChar(50)")] string name, [Parameter(Name="PageOrderRef", DbType="Int")] System.Nullable<int> pageOrderRef)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), iD, courseRef, isControl, name, pageOrderRef);
-			return ((ISingleResult<SpThemesInsertResult>)(result.ReturnValue));
-		}
-		
-		[Function(Name="dbo.spUserAnswersInsert")]
-		public ISingleResult<SpUserAnswersInsertResult> SpUserAnswersInsert([Parameter(Name="ID", DbType="Int")] System.Nullable<int> iD, [Parameter(Name="CompiledAnswerRef", DbType="Int")] System.Nullable<int> compiledAnswerRef, [Parameter(Name="Date", DbType="DateTime")] System.Nullable<System.DateTime> date, [Parameter(Name="IsCompiledAnswer", DbType="Bit")] System.Nullable<bool> isCompiledAnswer, [Parameter(Name="QuestionRef", DbType="Int")] System.Nullable<int> questionRef, [Parameter(Name="UserAnswer", DbType="NVarChar(MAX)")] string userAnswer, [Parameter(Name="UserRef", DbType="Int")] System.Nullable<int> userRef)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), iD, compiledAnswerRef, date, isCompiledAnswer, questionRef, userAnswer, userRef);
-			return ((ISingleResult<SpUserAnswersInsertResult>)(result.ReturnValue));
 		}
 		
 		[Function(Name="dbo.UpgradeDB")]
@@ -999,6 +954,168 @@ namespace IUDICO.DataModel.DB
 		}
 	}
 	
+	[Table(Name="dbo.fxGroupOperations")]
+	public partial class FxGroupOperations : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _Name;
+		
+		private string _Description;
+		
+		private bool _CanBeDelegated;
+		
+		private EntitySet<TblPermissions> _TblPermissions;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnCanBeDelegatedChanging(bool value);
+    partial void OnCanBeDelegatedChanged();
+    #endregion
+		
+		public FxGroupOperations()
+		{
+			this._TblPermissions = new EntitySet<TblPermissions>(new Action<TblPermissions>(this.attach_TblPermissions), new Action<TblPermissions>(this.detach_TblPermissions));
+			OnCreated();
+		}
+		
+		[Column(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_Description", DbType="NVarChar(MAX)", UpdateCheck=UpdateCheck.Never)]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_CanBeDelegated", DbType="Bit NOT NULL")]
+		public bool CanBeDelegated
+		{
+			get
+			{
+				return this._CanBeDelegated;
+			}
+			set
+			{
+				if ((this._CanBeDelegated != value))
+				{
+					this.OnCanBeDelegatedChanging(value);
+					this.SendPropertyChanging();
+					this._CanBeDelegated = value;
+					this.SendPropertyChanged("CanBeDelegated");
+					this.OnCanBeDelegatedChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_Permissions_GroupOperations", Storage="_TblPermissions", OtherKey="GroupOperationRef", DeleteRule="NO ACTION")]
+		public EntitySet<TblPermissions> TblPermissions
+		{
+			get
+			{
+				return this._TblPermissions;
+			}
+			set
+			{
+				this._TblPermissions.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_TblPermissions(TblPermissions entity)
+		{
+			this.SendPropertyChanging();
+			entity.FxGroupOperations = this;
+		}
+		
+		private void detach_TblPermissions(TblPermissions entity)
+		{
+			this.SendPropertyChanging();
+			entity.FxGroupOperations = null;
+		}
+	}
+	
 	[Table(Name="dbo.fxLanguages")]
 	public partial class FxLanguages : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1127,6 +1244,8 @@ namespace IUDICO.DataModel.DB
 		
 		private bool _CanBeDelegated;
 		
+		private EntitySet<TblPermissions> _TblPermissions;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -1143,6 +1262,7 @@ namespace IUDICO.DataModel.DB
 		
 		public FxPageOperations()
 		{
+			this._TblPermissions = new EntitySet<TblPermissions>(new Action<TblPermissions>(this.attach_TblPermissions), new Action<TblPermissions>(this.detach_TblPermissions));
 			OnCreated();
 		}
 		
@@ -1226,6 +1346,19 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
+		[Association(Name="FK_Permissions_PageOperations", Storage="_TblPermissions", OtherKey="PageOperationRef", DeleteRule="NO ACTION")]
+		public EntitySet<TblPermissions> TblPermissions
+		{
+			get
+			{
+				return this._TblPermissions;
+			}
+			set
+			{
+				this._TblPermissions.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -1244,6 +1377,18 @@ namespace IUDICO.DataModel.DB
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_TblPermissions(TblPermissions entity)
+		{
+			this.SendPropertyChanging();
+			entity.FxPageOperations = this;
+		}
+		
+		private void detach_TblPermissions(TblPermissions entity)
+		{
+			this.SendPropertyChanging();
+			entity.FxPageOperations = null;
 		}
 	}
 	
@@ -3967,6 +4112,10 @@ namespace IUDICO.DataModel.DB
 		
 		private EntitySet<TblPermissions> _TblPermissions;
 		
+		private EntitySet<TblPermissions> _Permissions_Groups;
+		
+		private EntitySet<TblPermissions> _Permissions_OwnerGroup;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -3981,6 +4130,8 @@ namespace IUDICO.DataModel.DB
 		{
 			this._RelUserGroups = new EntitySet<RelUserGroups>(new Action<RelUserGroups>(this.attach_RelUserGroups), new Action<RelUserGroups>(this.detach_RelUserGroups));
 			this._TblPermissions = new EntitySet<TblPermissions>(new Action<TblPermissions>(this.attach_TblPermissions), new Action<TblPermissions>(this.detach_TblPermissions));
+			this._Permissions_Groups = new EntitySet<TblPermissions>(new Action<TblPermissions>(this.attach_Permissions_Groups), new Action<TblPermissions>(this.detach_Permissions_Groups));
+			this._Permissions_OwnerGroup = new EntitySet<TblPermissions>(new Action<TblPermissions>(this.attach_Permissions_OwnerGroup), new Action<TblPermissions>(this.detach_Permissions_OwnerGroup));
 			OnCreated();
 		}
 		
@@ -4037,7 +4188,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Groups", Storage="_TblPermissions", OtherKey="GroupRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_GroupObjects", Storage="_TblPermissions", OtherKey="GroupObjectRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -4047,6 +4198,32 @@ namespace IUDICO.DataModel.DB
 			set
 			{
 				this._TblPermissions.Assign(value);
+			}
+		}
+		
+		[Association(Name="FK_Permissions_Groups", Storage="_Permissions_Groups", OtherKey="GroupRef", DeleteRule="NO ACTION")]
+		public EntitySet<TblPermissions> Permissions_Groups
+		{
+			get
+			{
+				return this._Permissions_Groups;
+			}
+			set
+			{
+				this._Permissions_Groups.Assign(value);
+			}
+		}
+		
+		[Association(Name="FK_Permissions_OwnerGroup", Storage="_Permissions_OwnerGroup", OtherKey="OwnerGroupRef", DeleteRule="NO ACTION")]
+		public EntitySet<TblPermissions> Permissions_OwnerGroup
+		{
+			get
+			{
+				return this._Permissions_OwnerGroup;
+			}
+			set
+			{
+				this._Permissions_OwnerGroup.Assign(value);
 			}
 		}
 		
@@ -4093,6 +4270,30 @@ namespace IUDICO.DataModel.DB
 			this.SendPropertyChanging();
 			entity.TblGroups = null;
 		}
+		
+		private void attach_Permissions_Groups(TblPermissions entity)
+		{
+			this.SendPropertyChanging();
+			entity.GroupRefTblGroups = this;
+		}
+		
+		private void detach_Permissions_Groups(TblPermissions entity)
+		{
+			this.SendPropertyChanging();
+			entity.GroupRefTblGroups = null;
+		}
+		
+		private void attach_Permissions_OwnerGroup(TblPermissions entity)
+		{
+			this.SendPropertyChanging();
+			entity.OwnerGroupRefTblGroups = this;
+		}
+		
+		private void detach_Permissions_OwnerGroup(TblPermissions entity)
+		{
+			this.SendPropertyChanging();
+			entity.OwnerGroupRefTblGroups = null;
+		}
 	}
 	
 	[Table(Name="dbo.tblPages")]
@@ -4119,6 +4320,8 @@ namespace IUDICO.DataModel.DB
 		
 		private EntityRef<TblThemes> _TblThemes;
 		
+		private EntitySet<TblPermissions> _TblPermissions;
+		
 		private EntitySet<TblFiles> _TblFiles;
 		
     #region Extensibility Method Definitions
@@ -4144,6 +4347,7 @@ namespace IUDICO.DataModel.DB
 			this._TblQuestions = new EntitySet<TblQuestions>(new Action<TblQuestions>(this.attach_TblQuestions), new Action<TblQuestions>(this.detach_TblQuestions));
 			this._FxPageTypes = default(EntityRef<FxPageTypes>);
 			this._TblThemes = default(EntityRef<TblThemes>);
+			this._TblPermissions = new EntitySet<TblPermissions>(new Action<TblPermissions>(this.attach_TblPermissions), new Action<TblPermissions>(this.detach_TblPermissions));
 			this._TblFiles = new EntitySet<TblFiles>(new Action<TblFiles>(this.attach_TblFiles), new Action<TblFiles>(this.detach_TblFiles));
 			OnCreated();
 		}
@@ -4357,6 +4561,19 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
+		[Association(Name="FK_Permissions_Pages", Storage="_TblPermissions", OtherKey="PageRef", DeleteRule="NO ACTION")]
+		public EntitySet<TblPermissions> TblPermissions
+		{
+			get
+			{
+				return this._TblPermissions;
+			}
+			set
+			{
+				this._TblPermissions.Assign(value);
+			}
+		}
+		
 		[Association(Name="FK_tblFiles_tblPages", Storage="_TblFiles", OtherKey="PageRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblFiles> TblFiles
 		{
@@ -4402,6 +4619,18 @@ namespace IUDICO.DataModel.DB
 			entity.TblPages = null;
 		}
 		
+		private void attach_TblPermissions(TblPermissions entity)
+		{
+			this.SendPropertyChanging();
+			entity.TblPages = this;
+		}
+		
+		private void detach_TblPermissions(TblPermissions entity)
+		{
+			this.SendPropertyChanging();
+			entity.TblPages = null;
+		}
+		
 		private void attach_TblFiles(TblFiles entity)
 		{
 			this.SendPropertyChanging();
@@ -4429,9 +4658,9 @@ namespace IUDICO.DataModel.DB
 		
 		private System.Nullable<System.DateTime> _DateTill;
 		
-		private System.Nullable<int> _UserRef;
+		private System.Nullable<int> _OwnerUserRef;
 		
-		private System.Nullable<int> _GroupRef;
+		private System.Nullable<int> _OwnerGroupRef;
 		
 		private bool _CanBeDelagated;
 		
@@ -4451,6 +4680,18 @@ namespace IUDICO.DataModel.DB
 		
 		private System.Nullable<int> _ThemeOperationRef;
 		
+		private System.Nullable<int> _PageRef;
+		
+		private System.Nullable<int> _PageOperationRef;
+		
+		private System.Nullable<int> _UserObjectRef;
+		
+		private System.Nullable<int> _GroupObjectRef;
+		
+		private System.Nullable<int> _GroupRef;
+		
+		private System.Nullable<int> _GroupOperationRef;
+		
 		private EntityRef<TblPermissions> _ParentPermitionRefTblPermissions;
 		
 		private EntitySet<TblPermissions> _PARENT_PERMITION;
@@ -4465,6 +4706,18 @@ namespace IUDICO.DataModel.DB
 		
 		private EntityRef<TblGroups> _TblGroups;
 		
+		private EntityRef<FxGroupOperations> _FxGroupOperations;
+		
+		private EntityRef<TblGroups> _GroupRefTblGroups;
+		
+		private EntityRef<TblGroups> _OwnerGroupRefTblGroups;
+		
+		private EntityRef<TblUsers> _TblUsers;
+		
+		private EntityRef<FxPageOperations> _FxPageOperations;
+		
+		private EntityRef<TblPages> _TblPages;
+		
 		private EntityRef<FxStageOperations> _FxStageOperations;
 		
 		private EntityRef<TblStages> _TblStages;
@@ -4473,7 +4726,7 @@ namespace IUDICO.DataModel.DB
 		
 		private EntityRef<TblThemes> _TblThemes;
 		
-		private EntityRef<TblUsers> _TblUsers;
+		private EntityRef<TblUsers> _UserObjectRefTblUsers;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -4487,10 +4740,10 @@ namespace IUDICO.DataModel.DB
     partial void OnDateSinceChanged();
     partial void OnDateTillChanging(System.Nullable<System.DateTime> value);
     partial void OnDateTillChanged();
-    partial void OnUserRefChanging(System.Nullable<int> value);
-    partial void OnUserRefChanged();
-    partial void OnGroupRefChanging(System.Nullable<int> value);
-    partial void OnGroupRefChanged();
+    partial void OnOwnerUserRefChanging(System.Nullable<int> value);
+    partial void OnOwnerUserRefChanged();
+    partial void OnOwnerGroupRefChanging(System.Nullable<int> value);
+    partial void OnOwnerGroupRefChanged();
     partial void OnCanBeDelagatedChanging(bool value);
     partial void OnCanBeDelagatedChanged();
     partial void OnCourseRefChanging(System.Nullable<int> value);
@@ -4509,6 +4762,18 @@ namespace IUDICO.DataModel.DB
     partial void OnThemeRefChanged();
     partial void OnThemeOperationRefChanging(System.Nullable<int> value);
     partial void OnThemeOperationRefChanged();
+    partial void OnPageRefChanging(System.Nullable<int> value);
+    partial void OnPageRefChanged();
+    partial void OnPageOperationRefChanging(System.Nullable<int> value);
+    partial void OnPageOperationRefChanged();
+    partial void OnUserObjectRefChanging(System.Nullable<int> value);
+    partial void OnUserObjectRefChanged();
+    partial void OnGroupObjectRefChanging(System.Nullable<int> value);
+    partial void OnGroupObjectRefChanged();
+    partial void OnGroupRefChanging(System.Nullable<int> value);
+    partial void OnGroupRefChanged();
+    partial void OnGroupOperationRefChanging(System.Nullable<int> value);
+    partial void OnGroupOperationRefChanged();
     #endregion
 		
 		public TblPermissions()
@@ -4520,11 +4785,17 @@ namespace IUDICO.DataModel.DB
 			this._FxCurriculumOperations = default(EntityRef<FxCurriculumOperations>);
 			this._TblCurriculums = default(EntityRef<TblCurriculums>);
 			this._TblGroups = default(EntityRef<TblGroups>);
+			this._FxGroupOperations = default(EntityRef<FxGroupOperations>);
+			this._GroupRefTblGroups = default(EntityRef<TblGroups>);
+			this._OwnerGroupRefTblGroups = default(EntityRef<TblGroups>);
+			this._TblUsers = default(EntityRef<TblUsers>);
+			this._FxPageOperations = default(EntityRef<FxPageOperations>);
+			this._TblPages = default(EntityRef<TblPages>);
 			this._FxStageOperations = default(EntityRef<FxStageOperations>);
 			this._TblStages = default(EntityRef<TblStages>);
 			this._FxThemeOperations = default(EntityRef<FxThemeOperations>);
 			this._TblThemes = default(EntityRef<TblThemes>);
-			this._TblUsers = default(EntityRef<TblUsers>);
+			this._UserObjectRefTblUsers = default(EntityRef<TblUsers>);
 			OnCreated();
 		}
 		
@@ -4612,50 +4883,50 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Column(Storage="_UserRef", DbType="Int")]
-		public System.Nullable<int> UserRef
+		[Column(Storage="_OwnerUserRef", DbType="Int")]
+		public System.Nullable<int> OwnerUserRef
 		{
 			get
 			{
-				return this._UserRef;
+				return this._OwnerUserRef;
 			}
 			set
 			{
-				if ((this._UserRef != value))
+				if ((this._OwnerUserRef != value))
 				{
 					if (this._TblUsers.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnUserRefChanging(value);
+					this.OnOwnerUserRefChanging(value);
 					this.SendPropertyChanging();
-					this._UserRef = value;
-					this.SendPropertyChanged("UserRef");
-					this.OnUserRefChanged();
+					this._OwnerUserRef = value;
+					this.SendPropertyChanged("OwnerUserRef");
+					this.OnOwnerUserRefChanged();
 				}
 			}
 		}
 		
-		[Column(Storage="_GroupRef", DbType="Int")]
-		public System.Nullable<int> GroupRef
+		[Column(Storage="_OwnerGroupRef", DbType="Int")]
+		public System.Nullable<int> OwnerGroupRef
 		{
 			get
 			{
-				return this._GroupRef;
+				return this._OwnerGroupRef;
 			}
 			set
 			{
-				if ((this._GroupRef != value))
+				if ((this._OwnerGroupRef != value))
 				{
-					if (this._TblGroups.HasLoadedOrAssignedValue)
+					if (this._OwnerGroupRefTblGroups.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnGroupRefChanging(value);
+					this.OnOwnerGroupRefChanging(value);
 					this.SendPropertyChanging();
-					this._GroupRef = value;
-					this.SendPropertyChanged("GroupRef");
-					this.OnGroupRefChanged();
+					this._OwnerGroupRef = value;
+					this.SendPropertyChanged("OwnerGroupRef");
+					this.OnOwnerGroupRefChanged();
 				}
 			}
 		}
@@ -4872,6 +5143,150 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
+		[Column(Storage="_PageRef", DbType="Int")]
+		public System.Nullable<int> PageRef
+		{
+			get
+			{
+				return this._PageRef;
+			}
+			set
+			{
+				if ((this._PageRef != value))
+				{
+					if (this._TblPages.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPageRefChanging(value);
+					this.SendPropertyChanging();
+					this._PageRef = value;
+					this.SendPropertyChanged("PageRef");
+					this.OnPageRefChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_PageOperationRef", DbType="Int")]
+		public System.Nullable<int> PageOperationRef
+		{
+			get
+			{
+				return this._PageOperationRef;
+			}
+			set
+			{
+				if ((this._PageOperationRef != value))
+				{
+					if (this._FxPageOperations.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPageOperationRefChanging(value);
+					this.SendPropertyChanging();
+					this._PageOperationRef = value;
+					this.SendPropertyChanged("PageOperationRef");
+					this.OnPageOperationRefChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_UserObjectRef", DbType="Int")]
+		public System.Nullable<int> UserObjectRef
+		{
+			get
+			{
+				return this._UserObjectRef;
+			}
+			set
+			{
+				if ((this._UserObjectRef != value))
+				{
+					if (this._UserObjectRefTblUsers.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUserObjectRefChanging(value);
+					this.SendPropertyChanging();
+					this._UserObjectRef = value;
+					this.SendPropertyChanged("UserObjectRef");
+					this.OnUserObjectRefChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_GroupObjectRef", DbType="Int")]
+		public System.Nullable<int> GroupObjectRef
+		{
+			get
+			{
+				return this._GroupObjectRef;
+			}
+			set
+			{
+				if ((this._GroupObjectRef != value))
+				{
+					if (this._TblGroups.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnGroupObjectRefChanging(value);
+					this.SendPropertyChanging();
+					this._GroupObjectRef = value;
+					this.SendPropertyChanged("GroupObjectRef");
+					this.OnGroupObjectRefChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_GroupRef", DbType="Int")]
+		public System.Nullable<int> GroupRef
+		{
+			get
+			{
+				return this._GroupRef;
+			}
+			set
+			{
+				if ((this._GroupRef != value))
+				{
+					if (this._GroupRefTblGroups.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnGroupRefChanging(value);
+					this.SendPropertyChanging();
+					this._GroupRef = value;
+					this.SendPropertyChanged("GroupRef");
+					this.OnGroupRefChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_GroupOperationRef", DbType="Int")]
+		public System.Nullable<int> GroupOperationRef
+		{
+			get
+			{
+				return this._GroupOperationRef;
+			}
+			set
+			{
+				if ((this._GroupOperationRef != value))
+				{
+					if (this._FxGroupOperations.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnGroupOperationRefChanging(value);
+					this.SendPropertyChanging();
+					this._GroupOperationRef = value;
+					this.SendPropertyChanged("GroupOperationRef");
+					this.OnGroupOperationRefChanged();
+				}
+			}
+		}
+		
 		[Association(Name="FK_PARENT_PERMITION", Storage="_ParentPermitionRefTblPermissions", ThisKey="ParentPermitionRef", IsForeignKey=true)]
 		public TblPermissions ParentPermitionRefTblPermissions
 		{
@@ -5055,7 +5470,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Groups", Storage="_TblGroups", ThisKey="GroupRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_GroupObjects", Storage="_TblGroups", ThisKey="GroupObjectRef", IsForeignKey=true)]
 		public TblGroups TblGroups
 		{
 			get
@@ -5078,13 +5493,217 @@ namespace IUDICO.DataModel.DB
 					if ((value != null))
 					{
 						value.TblPermissions.Add(this);
+						this._GroupObjectRef = value.ID;
+					}
+					else
+					{
+						this._GroupObjectRef = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("TblGroups");
+				}
+			}
+		}
+		
+		[Association(Name="FK_Permissions_GroupOperations", Storage="_FxGroupOperations", ThisKey="GroupOperationRef", IsForeignKey=true)]
+		public FxGroupOperations FxGroupOperations
+		{
+			get
+			{
+				return this._FxGroupOperations.Entity;
+			}
+			set
+			{
+				FxGroupOperations previousValue = this._FxGroupOperations.Entity;
+				if (((previousValue != value) 
+							|| (this._FxGroupOperations.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._FxGroupOperations.Entity = null;
+						previousValue.TblPermissions.Remove(this);
+					}
+					this._FxGroupOperations.Entity = value;
+					if ((value != null))
+					{
+						value.TblPermissions.Add(this);
+						this._GroupOperationRef = value.ID;
+					}
+					else
+					{
+						this._GroupOperationRef = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("FxGroupOperations");
+				}
+			}
+		}
+		
+		[Association(Name="FK_Permissions_Groups", Storage="_GroupRefTblGroups", ThisKey="GroupRef", IsForeignKey=true)]
+		public TblGroups GroupRefTblGroups
+		{
+			get
+			{
+				return this._GroupRefTblGroups.Entity;
+			}
+			set
+			{
+				TblGroups previousValue = this._GroupRefTblGroups.Entity;
+				if (((previousValue != value) 
+							|| (this._GroupRefTblGroups.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._GroupRefTblGroups.Entity = null;
+						previousValue.Permissions_Groups.Remove(this);
+					}
+					this._GroupRefTblGroups.Entity = value;
+					if ((value != null))
+					{
+						value.Permissions_Groups.Add(this);
 						this._GroupRef = value.ID;
 					}
 					else
 					{
 						this._GroupRef = default(Nullable<int>);
 					}
-					this.SendPropertyChanged("TblGroups");
+					this.SendPropertyChanged("GroupRefTblGroups");
+				}
+			}
+		}
+		
+		[Association(Name="FK_Permissions_OwnerGroup", Storage="_OwnerGroupRefTblGroups", ThisKey="OwnerGroupRef", IsForeignKey=true)]
+		public TblGroups OwnerGroupRefTblGroups
+		{
+			get
+			{
+				return this._OwnerGroupRefTblGroups.Entity;
+			}
+			set
+			{
+				TblGroups previousValue = this._OwnerGroupRefTblGroups.Entity;
+				if (((previousValue != value) 
+							|| (this._OwnerGroupRefTblGroups.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._OwnerGroupRefTblGroups.Entity = null;
+						previousValue.Permissions_OwnerGroup.Remove(this);
+					}
+					this._OwnerGroupRefTblGroups.Entity = value;
+					if ((value != null))
+					{
+						value.Permissions_OwnerGroup.Add(this);
+						this._OwnerGroupRef = value.ID;
+					}
+					else
+					{
+						this._OwnerGroupRef = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("OwnerGroupRefTblGroups");
+				}
+			}
+		}
+		
+		[Association(Name="FK_Permissions_OwnerUser", Storage="_TblUsers", ThisKey="OwnerUserRef", IsForeignKey=true)]
+		public TblUsers TblUsers
+		{
+			get
+			{
+				return this._TblUsers.Entity;
+			}
+			set
+			{
+				TblUsers previousValue = this._TblUsers.Entity;
+				if (((previousValue != value) 
+							|| (this._TblUsers.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TblUsers.Entity = null;
+						previousValue.TblPermissions.Remove(this);
+					}
+					this._TblUsers.Entity = value;
+					if ((value != null))
+					{
+						value.TblPermissions.Add(this);
+						this._OwnerUserRef = value.ID;
+					}
+					else
+					{
+						this._OwnerUserRef = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("TblUsers");
+				}
+			}
+		}
+		
+		[Association(Name="FK_Permissions_PageOperations", Storage="_FxPageOperations", ThisKey="PageOperationRef", IsForeignKey=true)]
+		public FxPageOperations FxPageOperations
+		{
+			get
+			{
+				return this._FxPageOperations.Entity;
+			}
+			set
+			{
+				FxPageOperations previousValue = this._FxPageOperations.Entity;
+				if (((previousValue != value) 
+							|| (this._FxPageOperations.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._FxPageOperations.Entity = null;
+						previousValue.TblPermissions.Remove(this);
+					}
+					this._FxPageOperations.Entity = value;
+					if ((value != null))
+					{
+						value.TblPermissions.Add(this);
+						this._PageOperationRef = value.ID;
+					}
+					else
+					{
+						this._PageOperationRef = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("FxPageOperations");
+				}
+			}
+		}
+		
+		[Association(Name="FK_Permissions_Pages", Storage="_TblPages", ThisKey="PageRef", IsForeignKey=true)]
+		public TblPages TblPages
+		{
+			get
+			{
+				return this._TblPages.Entity;
+			}
+			set
+			{
+				TblPages previousValue = this._TblPages.Entity;
+				if (((previousValue != value) 
+							|| (this._TblPages.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TblPages.Entity = null;
+						previousValue.TblPermissions.Remove(this);
+					}
+					this._TblPages.Entity = value;
+					if ((value != null))
+					{
+						value.TblPermissions.Add(this);
+						this._PageRef = value.ID;
+					}
+					else
+					{
+						this._PageRef = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("TblPages");
 				}
 			}
 		}
@@ -5225,36 +5844,36 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Users", Storage="_TblUsers", ThisKey="UserRef", IsForeignKey=true)]
-		public TblUsers TblUsers
+		[Association(Name="FK_Permissions_UserObjects", Storage="_UserObjectRefTblUsers", ThisKey="UserObjectRef", IsForeignKey=true)]
+		public TblUsers UserObjectRefTblUsers
 		{
 			get
 			{
-				return this._TblUsers.Entity;
+				return this._UserObjectRefTblUsers.Entity;
 			}
 			set
 			{
-				TblUsers previousValue = this._TblUsers.Entity;
+				TblUsers previousValue = this._UserObjectRefTblUsers.Entity;
 				if (((previousValue != value) 
-							|| (this._TblUsers.HasLoadedOrAssignedValue == false)))
+							|| (this._UserObjectRefTblUsers.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._TblUsers.Entity = null;
-						previousValue.TblPermissions.Remove(this);
+						this._UserObjectRefTblUsers.Entity = null;
+						previousValue.Permissions_UserObjects.Remove(this);
 					}
-					this._TblUsers.Entity = value;
+					this._UserObjectRefTblUsers.Entity = value;
 					if ((value != null))
 					{
-						value.TblPermissions.Add(this);
-						this._UserRef = value.ID;
+						value.Permissions_UserObjects.Add(this);
+						this._UserObjectRef = value.ID;
 					}
 					else
 					{
-						this._UserRef = default(Nullable<int>);
+						this._UserObjectRef = default(Nullable<int>);
 					}
-					this.SendPropertyChanged("TblUsers");
+					this.SendPropertyChanged("UserObjectRefTblUsers");
 				}
 			}
 		}
@@ -6557,6 +7176,8 @@ namespace IUDICO.DataModel.DB
 		
 		private EntitySet<TblPermissions> _TblPermissions;
 		
+		private EntitySet<TblPermissions> _Permissions_UserObjects;
+		
 		private EntitySet<RelUserGroups> _RelUserGroups;
 		
 		private EntitySet<RelUserRoles> _RelUserRoles;
@@ -6584,6 +7205,7 @@ namespace IUDICO.DataModel.DB
 		public TblUsers()
 		{
 			this._TblPermissions = new EntitySet<TblPermissions>(new Action<TblPermissions>(this.attach_TblPermissions), new Action<TblPermissions>(this.detach_TblPermissions));
+			this._Permissions_UserObjects = new EntitySet<TblPermissions>(new Action<TblPermissions>(this.attach_Permissions_UserObjects), new Action<TblPermissions>(this.detach_Permissions_UserObjects));
 			this._RelUserGroups = new EntitySet<RelUserGroups>(new Action<RelUserGroups>(this.attach_RelUserGroups), new Action<RelUserGroups>(this.detach_RelUserGroups));
 			this._RelUserRoles = new EntitySet<RelUserRoles>(new Action<RelUserRoles>(this.attach_RelUserRoles), new Action<RelUserRoles>(this.detach_RelUserRoles));
 			this._TblUserAnswers = new EntitySet<TblUserAnswers>(new Action<TblUserAnswers>(this.attach_TblUserAnswers), new Action<TblUserAnswers>(this.detach_TblUserAnswers));
@@ -6710,7 +7332,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Users", Storage="_TblPermissions", OtherKey="UserRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_OwnerUser", Storage="_TblPermissions", OtherKey="OwnerUserRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -6720,6 +7342,19 @@ namespace IUDICO.DataModel.DB
 			set
 			{
 				this._TblPermissions.Assign(value);
+			}
+		}
+		
+		[Association(Name="FK_Permissions_UserObjects", Storage="_Permissions_UserObjects", OtherKey="UserObjectRef", DeleteRule="NO ACTION")]
+		public EntitySet<TblPermissions> Permissions_UserObjects
+		{
+			get
+			{
+				return this._Permissions_UserObjects;
+			}
+			set
+			{
+				this._Permissions_UserObjects.Assign(value);
 			}
 		}
 		
@@ -6792,6 +7427,18 @@ namespace IUDICO.DataModel.DB
 		{
 			this.SendPropertyChanging();
 			entity.TblUsers = null;
+		}
+		
+		private void attach_Permissions_UserObjects(TblPermissions entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserObjectRefTblUsers = this;
+		}
+		
+		private void detach_Permissions_UserObjects(TblPermissions entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserObjectRefTblUsers = null;
 		}
 		
 		private void attach_RelUserGroups(RelUserGroups entity)
@@ -6946,9 +7593,9 @@ namespace IUDICO.DataModel.DB
 		
 		private System.Nullable<System.DateTime> _DateTill;
 		
-		private System.Nullable<int> _UserRef;
+		private System.Nullable<int> _OwnerUserRef;
 		
-		private System.Nullable<int> _GroupRef;
+		private System.Nullable<int> _OwnerGroupRef;
 		
 		private System.Nullable<bool> _CanBeDelagated;
 		
@@ -7024,34 +7671,34 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Column(Storage="_UserRef", DbType="Int")]
-		public System.Nullable<int> UserRef
+		[Column(Storage="_OwnerUserRef", DbType="Int")]
+		public System.Nullable<int> OwnerUserRef
 		{
 			get
 			{
-				return this._UserRef;
+				return this._OwnerUserRef;
 			}
 			set
 			{
-				if ((this._UserRef != value))
+				if ((this._OwnerUserRef != value))
 				{
-					this._UserRef = value;
+					this._OwnerUserRef = value;
 				}
 			}
 		}
 		
-		[Column(Storage="_GroupRef", DbType="Int")]
-		public System.Nullable<int> GroupRef
+		[Column(Storage="_OwnerGroupRef", DbType="Int")]
+		public System.Nullable<int> OwnerGroupRef
 		{
 			get
 			{
-				return this._GroupRef;
+				return this._OwnerGroupRef;
 			}
 			set
 			{
-				if ((this._GroupRef != value))
+				if ((this._OwnerGroupRef != value))
 				{
-					this._GroupRef = value;
+					this._OwnerGroupRef = value;
 				}
 			}
 		}
@@ -7116,9 +7763,9 @@ namespace IUDICO.DataModel.DB
 		
 		private System.Nullable<System.DateTime> _DateTill;
 		
-		private System.Nullable<int> _UserRef;
+		private System.Nullable<int> _OwnerUserRef;
 		
-		private System.Nullable<int> _GroupRef;
+		private System.Nullable<int> _OwnerGroupRef;
 		
 		private System.Nullable<bool> _CanBeDelagated;
 		
@@ -7194,34 +7841,34 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Column(Storage="_UserRef", DbType="Int")]
-		public System.Nullable<int> UserRef
+		[Column(Storage="_OwnerUserRef", DbType="Int")]
+		public System.Nullable<int> OwnerUserRef
 		{
 			get
 			{
-				return this._UserRef;
+				return this._OwnerUserRef;
 			}
 			set
 			{
-				if ((this._UserRef != value))
+				if ((this._OwnerUserRef != value))
 				{
-					this._UserRef = value;
+					this._OwnerUserRef = value;
 				}
 			}
 		}
 		
-		[Column(Storage="_GroupRef", DbType="Int")]
-		public System.Nullable<int> GroupRef
+		[Column(Storage="_OwnerGroupRef", DbType="Int")]
+		public System.Nullable<int> OwnerGroupRef
 		{
 			get
 			{
-				return this._GroupRef;
+				return this._OwnerGroupRef;
 			}
 			set
 			{
-				if ((this._GroupRef != value))
+				if ((this._OwnerGroupRef != value))
 				{
-					this._GroupRef = value;
+					this._OwnerGroupRef = value;
 				}
 			}
 		}
@@ -7286,9 +7933,9 @@ namespace IUDICO.DataModel.DB
 		
 		private System.Nullable<System.DateTime> _DateTill;
 		
-		private System.Nullable<int> _UserRef;
+		private System.Nullable<int> _OwnerUserRef;
 		
-		private System.Nullable<int> _GroupRef;
+		private System.Nullable<int> _OwnerGroupRef;
 		
 		private System.Nullable<bool> _CanBeDelagated;
 		
@@ -7364,34 +8011,34 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Column(Storage="_UserRef", DbType="Int")]
-		public System.Nullable<int> UserRef
+		[Column(Storage="_OwnerUserRef", DbType="Int")]
+		public System.Nullable<int> OwnerUserRef
 		{
 			get
 			{
-				return this._UserRef;
+				return this._OwnerUserRef;
 			}
 			set
 			{
-				if ((this._UserRef != value))
+				if ((this._OwnerUserRef != value))
 				{
-					this._UserRef = value;
+					this._OwnerUserRef = value;
 				}
 			}
 		}
 		
-		[Column(Storage="_GroupRef", DbType="Int")]
-		public System.Nullable<int> GroupRef
+		[Column(Storage="_OwnerGroupRef", DbType="Int")]
+		public System.Nullable<int> OwnerGroupRef
 		{
 			get
 			{
-				return this._GroupRef;
+				return this._OwnerGroupRef;
 			}
 			set
 			{
-				if ((this._GroupRef != value))
+				if ((this._OwnerGroupRef != value))
 				{
-					this._GroupRef = value;
+					this._OwnerGroupRef = value;
 				}
 			}
 		}
@@ -7440,880 +8087,6 @@ namespace IUDICO.DataModel.DB
 				if ((this._ThemeOperationRef != value))
 				{
 					this._ThemeOperationRef = value;
-				}
-			}
-		}
-	}
-	
-	public partial class SpCompiledQuestionsDataInsertResult
-	{
-		
-		private System.Nullable<int> _ID;
-		
-		private System.Nullable<int> _CompiledQuestionRef;
-		
-		private string _Input;
-		
-		private string _Output;
-		
-		public SpCompiledQuestionsDataInsertResult()
-		{
-		}
-		
-		[Column(Storage="_ID", DbType="Int")]
-		public System.Nullable<int> ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this._ID = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_CompiledQuestionRef", DbType="Int")]
-		public System.Nullable<int> CompiledQuestionRef
-		{
-			get
-			{
-				return this._CompiledQuestionRef;
-			}
-			set
-			{
-				if ((this._CompiledQuestionRef != value))
-				{
-					this._CompiledQuestionRef = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_Input", DbType="NVarChar(MAX)")]
-		public string Input
-		{
-			get
-			{
-				return this._Input;
-			}
-			set
-			{
-				if ((this._Input != value))
-				{
-					this._Input = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_Output", DbType="NVarChar(MAX)")]
-		public string Output
-		{
-			get
-			{
-				return this._Output;
-			}
-			set
-			{
-				if ((this._Output != value))
-				{
-					this._Output = value;
-				}
-			}
-		}
-	}
-	
-	public partial class SpCompiledQuestionsInsertResult
-	{
-		
-		private System.Nullable<int> _ID;
-		
-		private System.Nullable<int> _LanguageRef;
-		
-		private System.Nullable<int> _MemoryLimit;
-		
-		private System.Nullable<int> _OutputLimit;
-		
-		private System.Nullable<int> _TimeLimit;
-		
-		public SpCompiledQuestionsInsertResult()
-		{
-		}
-		
-		[Column(Storage="_ID", DbType="Int")]
-		public System.Nullable<int> ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this._ID = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_LanguageRef", DbType="Int")]
-		public System.Nullable<int> LanguageRef
-		{
-			get
-			{
-				return this._LanguageRef;
-			}
-			set
-			{
-				if ((this._LanguageRef != value))
-				{
-					this._LanguageRef = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_MemoryLimit", DbType="Int")]
-		public System.Nullable<int> MemoryLimit
-		{
-			get
-			{
-				return this._MemoryLimit;
-			}
-			set
-			{
-				if ((this._MemoryLimit != value))
-				{
-					this._MemoryLimit = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_OutputLimit", DbType="Int")]
-		public System.Nullable<int> OutputLimit
-		{
-			get
-			{
-				return this._OutputLimit;
-			}
-			set
-			{
-				if ((this._OutputLimit != value))
-				{
-					this._OutputLimit = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_TimeLimit", DbType="Int")]
-		public System.Nullable<int> TimeLimit
-		{
-			get
-			{
-				return this._TimeLimit;
-			}
-			set
-			{
-				if ((this._TimeLimit != value))
-				{
-					this._TimeLimit = value;
-				}
-			}
-		}
-	}
-	
-	public partial class SpCoursesInsertResult
-	{
-		
-		private System.Nullable<int> _ID;
-		
-		private string _Description;
-		
-		private string _Name;
-		
-		private System.Nullable<System.DateTime> _UploadDate;
-		
-		private System.Nullable<int> _Version;
-		
-		public SpCoursesInsertResult()
-		{
-		}
-		
-		[Column(Storage="_ID", DbType="Int")]
-		public System.Nullable<int> ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this._ID = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_Description", DbType="NVarChar(MAX)")]
-		public string Description
-		{
-			get
-			{
-				return this._Description;
-			}
-			set
-			{
-				if ((this._Description != value))
-				{
-					this._Description = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_Name", DbType="NVarChar(50)")]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this._Name = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_UploadDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> UploadDate
-		{
-			get
-			{
-				return this._UploadDate;
-			}
-			set
-			{
-				if ((this._UploadDate != value))
-				{
-					this._UploadDate = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_Version", DbType="Int")]
-		public System.Nullable<int> Version
-		{
-			get
-			{
-				return this._Version;
-			}
-			set
-			{
-				if ((this._Version != value))
-				{
-					this._Version = value;
-				}
-			}
-		}
-	}
-	
-	public partial class SpFilesInsertResult
-	{
-		
-		private System.Nullable<int> _ID;
-		
-		private System.Data.Linq.Binary _File;
-		
-		private System.Nullable<bool> _IsDirectory;
-		
-		private string _Name;
-		
-		private System.Nullable<int> _PageRef;
-		
-		private System.Nullable<int> _PID;
-		
-		public SpFilesInsertResult()
-		{
-		}
-		
-		[Column(Storage="_ID", DbType="Int")]
-		public System.Nullable<int> ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this._ID = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_File", DbType="VarBinary(MAX)", CanBeNull=true)]
-		public System.Data.Linq.Binary File
-		{
-			get
-			{
-				return this._File;
-			}
-			set
-			{
-				if ((this._File != value))
-				{
-					this._File = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_IsDirectory", DbType="Bit")]
-		public System.Nullable<bool> IsDirectory
-		{
-			get
-			{
-				return this._IsDirectory;
-			}
-			set
-			{
-				if ((this._IsDirectory != value))
-				{
-					this._IsDirectory = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_Name", DbType="NVarChar(50)")]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this._Name = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_PageRef", DbType="Int")]
-		public System.Nullable<int> PageRef
-		{
-			get
-			{
-				return this._PageRef;
-			}
-			set
-			{
-				if ((this._PageRef != value))
-				{
-					this._PageRef = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_PID", DbType="Int")]
-		public System.Nullable<int> PID
-		{
-			get
-			{
-				return this._PID;
-			}
-			set
-			{
-				if ((this._PID != value))
-				{
-					this._PID = value;
-				}
-			}
-		}
-	}
-	
-	public partial class SpPagesInsertResult
-	{
-		
-		private System.Nullable<int> _ID;
-		
-		private System.Data.Linq.Binary _PageFile;
-		
-		private string _PageName;
-		
-		private System.Nullable<int> _PageRank;
-		
-		private System.Nullable<int> _PageTypeRef;
-		
-		private System.Nullable<int> _ThemeRef;
-		
-		public SpPagesInsertResult()
-		{
-		}
-		
-		[Column(Storage="_ID", DbType="Int")]
-		public System.Nullable<int> ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this._ID = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_PageFile", DbType="VarBinary(MAX)", CanBeNull=true)]
-		public System.Data.Linq.Binary PageFile
-		{
-			get
-			{
-				return this._PageFile;
-			}
-			set
-			{
-				if ((this._PageFile != value))
-				{
-					this._PageFile = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_PageName", DbType="NVarChar(50)")]
-		public string PageName
-		{
-			get
-			{
-				return this._PageName;
-			}
-			set
-			{
-				if ((this._PageName != value))
-				{
-					this._PageName = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_PageRank", DbType="Int")]
-		public System.Nullable<int> PageRank
-		{
-			get
-			{
-				return this._PageRank;
-			}
-			set
-			{
-				if ((this._PageRank != value))
-				{
-					this._PageRank = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_PageTypeRef", DbType="Int")]
-		public System.Nullable<int> PageTypeRef
-		{
-			get
-			{
-				return this._PageTypeRef;
-			}
-			set
-			{
-				if ((this._PageTypeRef != value))
-				{
-					this._PageTypeRef = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_ThemeRef", DbType="Int")]
-		public System.Nullable<int> ThemeRef
-		{
-			get
-			{
-				return this._ThemeRef;
-			}
-			set
-			{
-				if ((this._ThemeRef != value))
-				{
-					this._ThemeRef = value;
-				}
-			}
-		}
-	}
-	
-	public partial class SpQuestionsInsertResult
-	{
-		
-		private System.Nullable<int> _ID;
-		
-		private System.Nullable<int> _CompiledQuestionRef;
-		
-		private string _CorrectAnswer;
-		
-		private System.Nullable<bool> _IsCompiled;
-		
-		private System.Nullable<int> _PageRef;
-		
-		private System.Nullable<int> _Rank;
-		
-		private string _TestName;
-		
-		public SpQuestionsInsertResult()
-		{
-		}
-		
-		[Column(Storage="_ID", DbType="Int")]
-		public System.Nullable<int> ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this._ID = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_CompiledQuestionRef", DbType="Int")]
-		public System.Nullable<int> CompiledQuestionRef
-		{
-			get
-			{
-				return this._CompiledQuestionRef;
-			}
-			set
-			{
-				if ((this._CompiledQuestionRef != value))
-				{
-					this._CompiledQuestionRef = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_CorrectAnswer", DbType="NVarChar(MAX)")]
-		public string CorrectAnswer
-		{
-			get
-			{
-				return this._CorrectAnswer;
-			}
-			set
-			{
-				if ((this._CorrectAnswer != value))
-				{
-					this._CorrectAnswer = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_IsCompiled", DbType="Bit")]
-		public System.Nullable<bool> IsCompiled
-		{
-			get
-			{
-				return this._IsCompiled;
-			}
-			set
-			{
-				if ((this._IsCompiled != value))
-				{
-					this._IsCompiled = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_PageRef", DbType="Int")]
-		public System.Nullable<int> PageRef
-		{
-			get
-			{
-				return this._PageRef;
-			}
-			set
-			{
-				if ((this._PageRef != value))
-				{
-					this._PageRef = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_Rank", DbType="Int")]
-		public System.Nullable<int> Rank
-		{
-			get
-			{
-				return this._Rank;
-			}
-			set
-			{
-				if ((this._Rank != value))
-				{
-					this._Rank = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_TestName", DbType="NVarChar(50)")]
-		public string TestName
-		{
-			get
-			{
-				return this._TestName;
-			}
-			set
-			{
-				if ((this._TestName != value))
-				{
-					this._TestName = value;
-				}
-			}
-		}
-	}
-	
-	public partial class SpThemesInsertResult
-	{
-		
-		private System.Nullable<int> _ID;
-		
-		private System.Nullable<int> _CourseRef;
-		
-		private System.Nullable<bool> _IsControl;
-		
-		private string _Name;
-		
-		private System.Nullable<int> _PageOrderRef;
-		
-		public SpThemesInsertResult()
-		{
-		}
-		
-		[Column(Storage="_ID", DbType="Int")]
-		public System.Nullable<int> ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this._ID = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_CourseRef", DbType="Int")]
-		public System.Nullable<int> CourseRef
-		{
-			get
-			{
-				return this._CourseRef;
-			}
-			set
-			{
-				if ((this._CourseRef != value))
-				{
-					this._CourseRef = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_IsControl", DbType="Bit")]
-		public System.Nullable<bool> IsControl
-		{
-			get
-			{
-				return this._IsControl;
-			}
-			set
-			{
-				if ((this._IsControl != value))
-				{
-					this._IsControl = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_Name", DbType="NVarChar(50)")]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this._Name = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_PageOrderRef", DbType="Int")]
-		public System.Nullable<int> PageOrderRef
-		{
-			get
-			{
-				return this._PageOrderRef;
-			}
-			set
-			{
-				if ((this._PageOrderRef != value))
-				{
-					this._PageOrderRef = value;
-				}
-			}
-		}
-	}
-	
-	public partial class SpUserAnswersInsertResult
-	{
-		
-		private System.Nullable<int> _ID;
-		
-		private System.Nullable<int> _CompiledAnswerRef;
-		
-		private System.Nullable<System.DateTime> _Date;
-		
-		private System.Nullable<bool> _IsCompiledAnswer;
-		
-		private System.Nullable<int> _QuestionRef;
-		
-		private string _UserAnswer;
-		
-		private System.Nullable<int> _UserRef;
-		
-		public SpUserAnswersInsertResult()
-		{
-		}
-		
-		[Column(Storage="_ID", DbType="Int")]
-		public System.Nullable<int> ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this._ID = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_CompiledAnswerRef", DbType="Int")]
-		public System.Nullable<int> CompiledAnswerRef
-		{
-			get
-			{
-				return this._CompiledAnswerRef;
-			}
-			set
-			{
-				if ((this._CompiledAnswerRef != value))
-				{
-					this._CompiledAnswerRef = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_Date", DbType="DateTime")]
-		public System.Nullable<System.DateTime> Date
-		{
-			get
-			{
-				return this._Date;
-			}
-			set
-			{
-				if ((this._Date != value))
-				{
-					this._Date = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_IsCompiledAnswer", DbType="Bit")]
-		public System.Nullable<bool> IsCompiledAnswer
-		{
-			get
-			{
-				return this._IsCompiledAnswer;
-			}
-			set
-			{
-				if ((this._IsCompiledAnswer != value))
-				{
-					this._IsCompiledAnswer = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_QuestionRef", DbType="Int")]
-		public System.Nullable<int> QuestionRef
-		{
-			get
-			{
-				return this._QuestionRef;
-			}
-			set
-			{
-				if ((this._QuestionRef != value))
-				{
-					this._QuestionRef = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_UserAnswer", DbType="NVarChar(MAX)")]
-		public string UserAnswer
-		{
-			get
-			{
-				return this._UserAnswer;
-			}
-			set
-			{
-				if ((this._UserAnswer != value))
-				{
-					this._UserAnswer = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_UserRef", DbType="Int")]
-		public System.Nullable<int> UserRef
-		{
-			get
-			{
-				return this._UserRef;
-			}
-			set
-			{
-				if ((this._UserRef != value))
-				{
-					this._UserRef = value;
 				}
 			}
 		}

@@ -107,8 +107,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\CacheUtility.cs" />
+    <Compile Include="Common\DateTimeInterval.cs" />
     <Compile Include="Common\DynamicClass.cs" />
     <Compile Include="Common\DynamicClassView.cs" />
+    <Compile Include="Common\Extenders.cs" />
     <Compile Include="Common\FileExtentions.cs" />
     <Compile Include="Common\HtmlStyleReader.cs" />
     <Compile Include="Common\HttpUtility.cs" />
@@ -116,6 +118,7 @@
     <Compile Include="Common\DMError.cs" />
     <Compile Include="Common\EnglishLanguage.cs" />
     <Compile Include="Common\DataObjectDictionary.cs" />
+    <Compile Include="Common\MemberInfoAbstractionLayer.cs" />
     <Compile Include="Common\PageType.cs" />
     <Compile Include="Common\ProjectPaths.cs" />
     <Compile Include="Common\SqlUtils.cs" />

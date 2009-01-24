@@ -92,7 +92,7 @@ namespace IUDICO.DataModel.Controllers
 
         private static bool isUserHavePermission(int courseId)
         {
-            IList<int> allUserCourses = PermissionsManager.GetObjectsForUser(DB_OBJECT_TYPE.COURSE,
+            IList<int> allUserCourses = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.COURSE,
                                                         ((CustomUser)Membership.GetUser()).ID, null, null);
 
             return allUserCourses.Contains(courseId);
