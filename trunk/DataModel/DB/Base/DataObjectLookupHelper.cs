@@ -54,7 +54,7 @@ namespace IUDICO.DataModel.DB.Base
             Put(__MMInfos, mmr.Second, mmr.First, new ManyToManyLookupInfo(secondKey, tableName, firstKey, relType));
         }
 
-        public static void AppendLookupSql([NotNull]SqlSerializationContext context, IIntKeyedDataObject owner, Type detailType)
+        public static void AppendLookupSql([NotNull]SqlSerializationContext context, [NotNull]IIntKeyedDataObject owner, [NotNull]Type detailType, [CanBeNull]IDBCondition condition)
         {
             var r = Get(__Infos, owner.GetType(), detailType);
             if (r.IsEmpty)
@@ -63,6 +63,12 @@ namespace IUDICO.DataModel.DB.Base
                 throw new DMError("{0} has invalid ID = {1}", owner.GetType().Name, owner.ID);
 
             context.Write("SELECT ID FROM [{0}] where [{1}] = {2}", r.TableName, r.RefColumnName, context.AddParameter(owner.ID));
+            if (condition != null)
+            {
+                context.Write(" AND (");
+                condition.Write(context);
+                context.Write(")");
+            }
         }
 
         public static void AppendMMLookupSql([NotNull] SqlSerializationContext context, IIntKeyedDataObject firstPart, Type otherType)

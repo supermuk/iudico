@@ -12,7 +12,7 @@ namespace IUDICO.Web.Controls
 {
     public partial class UserPermissions : ControlledUserControl
     {
-        public DB_OBJECT_TYPE? ObjectType { get; set; }
+        public SECURED_OBJECT_TYPE? ObjectType { get; set; }
 
         public int? UserID { get; set; }
 
@@ -60,40 +60,40 @@ namespace IUDICO.Web.Controls
                         DatabaseModel.LOAD_LIST_METHOD.MakeGenericMethod(new[] {ot.GetSecurityAtr().RuntimeClass}).
                             Invoke(ServerModel.DB, new[] {ids}));
 
-                var ops = PermissionsManager.GetPossibleOperations(ot);
+                var possibleOps = PermissionsManager.GetPossibleOperations(ot);
 
-                var view = new DynamicClassView(ops.Count);
+                var view = new DynamicClassView(possibleOps.Count);
                 view.DefineProperty("Name", typeof (string));
                 view.DefineProperty("Date From", typeof (DateTime), false);
                 view.DefineProperty("Date To", typeof (DateTime), false);
-                foreach (var op in ops)
+                foreach (var op in possibleOps)
                 {
                     view.DefineProperty(op.Name, typeof (bool));
                 }
 
-                foreach (var p in permissions)
+                foreach (ISecuredDataObject o in objs.Values)
                 {
-                    IIntKeyedDataObject obj = objs[(int) refProp.GetValue(p, null)];
-                    var operations = PermissionsManager.GetOperationsForObject(ot, ui, obj.ID, now);
+                    var operations = PermissionsManager.GetOperationsForObject(ot, ui, o.ID, now);
 
-                    var d = view.Add();
-
-                    d.AddProperty("Name", ((INamedDataObject) obj).Name);
-                    d.AddProperty("Date From", p.DateSince);
-                    d.AddProperty("Date To", p.DateTill);
-                    foreach (var op in ops)
+                    foreach (var op in operations)
                     {
-                        d.AddProperty(op.Name, operations.Contains(op.ID));
+                        var d = view.Add();
+                        foreach (var i in possibleOps)
+                        {
+                            d.AddProperty(i.Name, i.ID == op);
+                        }
+                        d.AddProperty("Name", o.Name);
+                        // TODO: Implement datefrom and dateto retrieving
+                        d.AddProperty("Date From", null);
+                        d.AddProperty("Date To", null);
+
+                        view.Add(d);
                     }
-                    view.Add(d);
                 }
 
                 return view;
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         [PersistantField]

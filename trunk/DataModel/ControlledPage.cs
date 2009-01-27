@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.Controllers;
-using System.Web.UI.WebControls;
 using LEX.CONTROLS;
 
 namespace IUDICO.DataModel
@@ -69,9 +70,30 @@ namespace IUDICO.DataModel
             return (o, e) => a();
         }
 
+        protected void BindChecked([NotNull] ICheckBoxControl checkBox, IValue<bool> value)
+        {
+            CheckBindingAllowed();
+            checkBox.Checked = value.Value;
+            value.Changed += (iv, v) => checkBox.Checked = v;
+        }
+
+        protected void BindChecked2Ways([NotNull] ICheckBoxControl checkBox, IVariable<bool> value)
+        {
+            BindChecked(checkBox, value);
+            checkBox.CheckedChanged += (c, e) => value.Value = ((ICheckBoxControl) c).Checked;
+        }
+
+        protected void BindEnabled([NotNull]System.Web.UI.WebControls.WebControl c, IValue<bool> enable)
+        {
+            CheckBindingAllowed();
+            c.Enabled = enable.Value;
+            enable.Changed += (iv, v) => c.Enabled = v;
+        }
+
         protected void Bind([NotNull]ITextControl c, [NotNull] IValue<string> text)
         {
             CheckBindingAllowed();
+            c.Text = text.Value;
             text.Changed += (v, newVal) => c.Text = newVal;
         }
         
@@ -110,6 +132,31 @@ namespace IUDICO.DataModel
                 r = new Pair(r, p.SaveStateFor(Controller));
             }
             return r;
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            if (!IsPostBack && !IsCallback)
+            {
+                Controller.Initialize();
+            }
+            Controller.Loaded();
+        }
+
+        protected override void OnLoadComplete(EventArgs e)
+        {
+            base.OnLoadComplete(e);
+            if (!IsPostBack && !IsCallback)
+            {
+                DataBind(); 
+            }
+        }
+
+        protected override void OnPreInit(EventArgs e)
+        {
+            ControllerParametersUtility<ControllerType>.LoadParametrs(Controller, Request.QueryString, Server);
+            base.OnPreInit(e);
         }
 
         protected override void OnInitComplete(EventArgs e)

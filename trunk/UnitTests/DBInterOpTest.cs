@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Linq;
+using System.Web;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
+using IUDICO.DataModel.DB.Base;
 using IUDICO.UnitTest.Base;
 using NUnit.Framework;
 
@@ -119,7 +121,7 @@ namespace IUDICO.UnitTest
             var a3 = (TblUserAnswers)a1.Clone();
             ServerModel.DB.Insert<TblUserAnswers>(new[] {a1, a2, a3});
 
-            var ids = ServerModel.DB.LookupIds<TblUserAnswers>(u);
+            var ids = ServerModel.DB.LookupIds<TblUserAnswers>(u, null);
             Assert.AreEqual(ids, new[] { a1.ID, a2.ID, a3.ID });
 
             var g1 = new TblGroups
@@ -132,18 +134,64 @@ namespace IUDICO.UnitTest
             ServerModel.DB.Link(u, g1);
             ServerModel.DB.Link(g2, u);
 
-            var uIds = ServerModel.DB.LookupMany2ManyIds<TblGroups>(u);
+            var uIds = ServerModel.DB.LookupMany2ManyIds<TblGroups>(u, null);
             Assert.AreEqual(new[] { g1.ID, g2.ID }, uIds);
 
-            var g1Ids = ServerModel.DB.LookupMany2ManyIds<TblUsers>(g1);
+            var g1Ids = ServerModel.DB.LookupMany2ManyIds<TblUsers>(g1, null);
             Assert.AreEqual(new[] {u.ID}, g1Ids);
 
-            var g2Ids = ServerModel.DB.LookupMany2ManyIds<TblUsers>(g2);
+            var g2Ids = ServerModel.DB.LookupMany2ManyIds<TblUsers>(g2, null);
             Assert.AreEqual(new[] {u.ID}, g2Ids);
 
             ServerModel.DB.UnLink(g1, u);
-            var newIds = ServerModel.DB.LookupMany2ManyIds<TblGroups>(u);
+            var newIds = ServerModel.DB.LookupMany2ManyIds<TblGroups>(u, null);
             Assert.AreEqual(new[] {g2.ID}, newIds);
+        }
+
+        [Test]
+        public void SubSelectConditionTest()
+        {
+            var user = new TblUsers
+            {
+                Email = new Random().Next() + "@" + new Random().Next() + "." + new Random().Next(),
+                FirstName = "Test",
+                LastName = "User",
+                PasswordHash = "hello"
+            };
+
+            user.Login = user.Email;
+            ServerModel.DB.Insert(user);
+
+            var group1 = new TblGroups
+            {
+                Name = user.Email + "_g1"
+            };
+            var group2 = new TblGroups
+            {
+                Name = user.Email + "_g2"
+            };
+            ServerModel.DB.Insert((IList<TblGroups>)new[] {group1, group2});
+
+            ServerModel.DB.Link(user, group1);
+
+            var groupIds = ServerModel.DB.LookupMany2ManyIds<TblGroups>(user, null);
+            Assert.AreEqual(1, groupIds.Count);
+            Assert.Contains(group1.ID, groupIds);
+
+            var groups = ServerModel.DB.Query<TblGroups>(new InCondition(
+                DataObject.Schema.ID,
+                new SubSelectCondition<RelUserGroups>("GroupRef", 
+                    new CompareCondition(
+                        DataObject.Schema.UserRef,
+                        new ValueCondition<int>(user.ID),
+                        COMPARE_KIND.EQUAL
+                    )
+                ),
+                IN_CONDITION_KIND.NOT_IN
+            ));
+
+            Assert.Greater(groups.Count, 0);
+            Assert.IsNotNull(groups.Find(p => p.ID == group2.ID));
         }
 
         protected override bool NeedToRecreateDB

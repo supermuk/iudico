@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Reflection;
 using IUDICO.DataModel.Controllers;
+using IUDICO.DataModel.DB;
+using IUDICO.DataModel.DB.Base;
 using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.Common
@@ -94,7 +96,7 @@ namespace IUDICO.DataModel.Common
         {
             if (!BuildProcs(storage.MemberType, out Creator, out Persistor, out Restorer, ref storage))
             {
-                throw new DMError("Type {0} is not supposed to be marked with {2}. Invalid type. Only ValueTypes and classes which implement {1}. Any combination with {3}<T> and {4}<T> by this types also supported.", storage.MemberType.FullName, typeof(IViewStateSerializable).Name, typeof(PersistantFieldAttribute).Name, typeof(IVariable<>).Name, typeof(ICollection<>).Name);
+                throw new DMError("Type {0} is not supposed to be marked with {2}. Invalid type. Only ValueTypes, strings and classes which implement {1} or {5}. Any combination with {3}<T> and {4}<T> by this types also supported.", storage.MemberType.FullName, typeof(IViewStateSerializable).Name, typeof(PersistantFieldAttribute).Name, typeof(IVariable<>).Name, typeof(ICollection<>).Name, typeof(IIntKeyedDataObject).Name);
             }
             Storage = storage;
         }
@@ -111,7 +113,7 @@ namespace IUDICO.DataModel.Common
 
         private static bool BuildProcs(Type type, out ConstructorInfo creator, out Func<object, object> persistor, out Func<ConstructorInfo, object, object> restorer, ref IMemberAL storage)
         {
-            if (type.IsValueType)
+            if (type.IsValueType || type == typeof(string))
             {
                 persistor = Persist_SimpleValue;
                 restorer = Restore_SimpleValue;
@@ -121,12 +123,16 @@ namespace IUDICO.DataModel.Common
 
             bool isViewStateSerializable = false,
                  isTypedVariable = false,
-                 isTypedCollection = false;
+                 isTypedCollection = false,
+                 isIntKeyedDataObject = false;
 
             foreach (var intf in type.GetInterfaces().Append(type))
             {
                 if (typeof(IViewStateSerializable).IsAssignableFrom(type))
                     isViewStateSerializable = true;
+
+                if (typeof(IIntKeyedDataObject).IsAssignableFrom(type))
+                    isIntKeyedDataObject = true;
 
                 if (intf.IsGenericType)
                 {
@@ -137,6 +143,14 @@ namespace IUDICO.DataModel.Common
                     if (gIntf == typeof(ICollection<>))
                         isTypedCollection = true;
                 }
+            }
+
+            if (isIntKeyedDataObject)
+            {
+                persistor = Persist_IntKeyedDataObject;
+                restorer = Restore_IntKeyedDataObject;
+                creator = SafeGetConstructor(type);
+                return true;
             }
 
             if (isViewStateSerializable)
@@ -197,6 +211,16 @@ namespace IUDICO.DataModel.Common
         private static object Restore_SimpleValue(ConstructorInfo c, object v)
         {
             return v;
+        }
+
+        private static object Persist_IntKeyedDataObject(object v)
+        {
+            return ((IIntKeyedDataObject) v).ID;
+        }
+
+        private static object Restore_IntKeyedDataObject(ConstructorInfo c, object v)
+        {
+            return (IIntKeyedDataObject)DatabaseModel.LOAD_METHOD.MakeGenericMethod(new[] { c.DeclaringType }).Invoke(ServerModel.DB, new object[] { (int)v });
         }
 
         private static object Persist_IViewStateSerializable(object v)

@@ -10,4 +10,8 @@ namespace IUDICO.DataModel.DB.Base
     {
         void Write([NotNull]SqlSerializationContext context);
     }
+
+    public interface ISubSelectCondition : IDBCondition
+    {
+    }
 }

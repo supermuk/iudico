@@ -7,6 +7,7 @@
         ID="CreateUserWizard1" 
         FinishDestinationPageUrl="~/Login.aspx" 
         CancelDestinationPageUrl="~/Login.aspx" 
+        ContinueDestinationPageUrl="~/Admin/Users.aspx"
         LoginCreatedUser="False"
         runat="server" >
         <WizardSteps>

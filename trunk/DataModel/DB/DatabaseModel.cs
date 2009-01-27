@@ -18,7 +18,19 @@ namespace IUDICO.DataModel.DB
 
     public partial class FxStageOperations : FxDataObject, IFxDataObject {}
 
-    public partial class FxRoles : FxDataObject, IFxDataObject {}
+    public partial class FxRoles : FxDataObject, IFxDataObject
+    {
+        [TableRecord]
+        public static readonly FxRoles STUDENT;
+        [TableRecord]
+        public static readonly FxRoles LECTOR;
+        [TableRecord]
+        public static readonly FxRoles TRAINER;
+        [TableRecord]
+        public static readonly FxRoles ADMIN;
+        [TableRecord]
+        public static readonly FxRoles SUPER_ADMIN;
+    }
 
     public partial class FxGroupOperations : FxDataObject, IFxDataObject
     {
@@ -88,7 +100,13 @@ namespace IUDICO.DataModel.DB
 
     public partial class TblFiles : IntKeyedDataObject, IIntKeyedDataObject { }
 
-    public partial class TblGroups : SecuredDataObject, ISecuredDataObject { }
+    public partial class TblGroups : SecuredDataObject, ISecuredDataObject
+    {
+        public static partial class Schema
+        {
+            
+        }
+    }
 
     public partial class TblPages : IntKeyedDataObject, IIntKeyedDataObject { }
 
@@ -106,15 +124,21 @@ namespace IUDICO.DataModel.DB
 
     public partial class TblUserAnswers : IntKeyedDataObject, IIntKeyedDataObject {}
 
-    public partial class TblUsers : IntKeyedDataObject, IIntKeyedDataObject { }
+    public partial class TblUsers : IntKeyedDataObject, IIntKeyedDataObject
+    {
+        public string DisplayName
+        {
+            get { return FirstName + " " + LastName + "(" + Login + ")"; }
+        }
+    }
 
     [ManyToManyRelationship(typeof(TblUsers), typeof(FxRoles))]
-    public partial class RelUserRoles : RelTable
+    public partial class RelUserRoles : RelTable, IRelationshipTable
     {   
     }
 
     [ManyToManyRelationship(typeof(TblUsers), typeof(TblGroups))]
-    public partial class RelUserGroups : RelTable
+    public partial class RelUserGroups : RelTable, IRelationshipTable
     {
     }
 

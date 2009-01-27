@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using LEX.CONTROLS;
 using System.Runtime.InteropServices;
 using System;
@@ -43,6 +44,7 @@ namespace IUDICO.DataModel.Common
         }
 
 #region Internal Types
+        [DebuggerDisplay("Field: {_F}")]
         private struct FieldInfoAbstaction : IMemberAL
         {
             public FieldInfoAbstaction([NotNull] _FieldInfo f)
@@ -70,6 +72,7 @@ namespace IUDICO.DataModel.Common
             private readonly _FieldInfo _F;
         }
 
+        [DebuggerDisplay("Property: {_P}")]
         private struct PropertyInfoAbstraction: IMemberAL
         {
             public PropertyInfoAbstraction(_PropertyInfo p)

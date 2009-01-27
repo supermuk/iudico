@@ -20,7 +20,7 @@ namespace IUDICO.DataModel.HttpHandlers
                 string imageName = m.Groups[imageRegexGroup].Value;
                 string folderName = m.Groups[folderRegexGroup].Value;
 
-                var list = ServerModel.DB.LookupIds<TblFiles>(page);
+                var list = ServerModel.DB.LookupIds<TblFiles>(page, null);
                 var files = ServerModel.DB.Load<TblFiles>(list);
 
                 
