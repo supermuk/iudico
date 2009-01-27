@@ -42,6 +42,10 @@ namespace IUDICO.DataModel.DB
         public readonly static FxGroupOperations ChangeMembers;
     }
 
+    public partial class FxCurriculumOperations : FxDataObject, IFxDataObject
+    {
+    }
+
     public partial class TblPermissions : IntKeyedDataObject, IIntKeyedDataObject
     {
         public DateTimeInterval WorkingInterval
@@ -94,7 +98,7 @@ namespace IUDICO.DataModel.DB
     {
     }
 
-    public partial class TblCurriculums : IntKeyedDataObject, IIntKeyedDataObject
+    public partial class TblCurriculums : SecuredDataObject, ISecuredDataObject
     {
     }
 
@@ -102,10 +106,6 @@ namespace IUDICO.DataModel.DB
 
     public partial class TblGroups : SecuredDataObject, ISecuredDataObject
     {
-        public static partial class Schema
-        {
-            
-        }
     }
 
     public partial class TblPages : IntKeyedDataObject, IIntKeyedDataObject { }

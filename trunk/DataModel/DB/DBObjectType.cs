@@ -19,7 +19,10 @@ namespace IUDICO.DataModel.DB
         STAGE,
 
         [SecuredObjectType("Group", typeof(TblGroups), typeof(FxGroupOperations))]
-        GROUP
+        GROUP,
+
+        [SecuredObjectType("Curriculum", typeof(TblCurriculums), typeof(FxCurriculumOperations))]
+        CURRICULUM
     }
 
     public static class ObjectTypeHelper

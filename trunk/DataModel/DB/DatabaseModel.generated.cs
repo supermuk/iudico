@@ -425,6 +425,22 @@ namespace IUDICO.DataModel.DB
 			return ((int)(result.ReturnValue));
 		}
 		
+		[Function(Name="dbo.Security_CheckPermissionCurriculum")]
+		[return: Parameter(DbType="Int")]
+		public int Security_CheckPermissionCurriculum([Parameter(Name="UserID", DbType="Int")] System.Nullable<int> userID, [Parameter(Name="CurriculumOperationID", DbType="Int")] System.Nullable<int> curriculumOperationID, [Parameter(Name="CurriculumID", DbType="Int")] System.Nullable<int> curriculumID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, curriculumOperationID, curriculumID, targetDate);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.Security_CheckPermissionGroup")]
+		[return: Parameter(DbType="Int")]
+		public int Security_CheckPermissionGroup([Parameter(Name="UserID", DbType="Int")] System.Nullable<int> userID, [Parameter(Name="GroupOperationID", DbType="Int")] System.Nullable<int> groupOperationID, [Parameter(Name="GroupID", DbType="Int")] System.Nullable<int> groupID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, groupOperationID, groupID, targetDate);
+			return ((int)(result.ReturnValue));
+		}
+		
 		[Function(Name="dbo.Security_CheckPermissionStage")]
 		[return: Parameter(DbType="Int")]
 		public int Security_CheckPermissionStage([Parameter(Name="UserID", DbType="Int")] System.Nullable<int> userID, [Parameter(Name="StageOperationID", DbType="Int")] System.Nullable<int> stageOperationID, [Parameter(Name="StageID", DbType="Int")] System.Nullable<int> stageID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
@@ -448,6 +464,20 @@ namespace IUDICO.DataModel.DB
 			return ((ISingleResult<Security_GetOperationsForCourseResult>)(result.ReturnValue));
 		}
 		
+		[Function(Name="dbo.Security_GetOperationsForCurriculum")]
+		public ISingleResult<Security_GetOperationsForCurriculumResult> Security_GetOperationsForCurriculum([Parameter(Name="UserID", DbType="Int")] System.Nullable<int> userID, [Parameter(Name="CurriculumID", DbType="Int")] System.Nullable<int> curriculumID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, curriculumID, targetDate);
+			return ((ISingleResult<Security_GetOperationsForCurriculumResult>)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.Security_GetOperationsForGroup")]
+		public ISingleResult<Security_GetOperationsForGroupResult> Security_GetOperationsForGroup([Parameter(Name="UserID", DbType="Int")] System.Nullable<int> userID, [Parameter(Name="GroupID", DbType="Int")] System.Nullable<int> groupID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, groupID, targetDate);
+			return ((ISingleResult<Security_GetOperationsForGroupResult>)(result.ReturnValue));
+		}
+		
 		[Function(Name="dbo.Security_GetOperationsForStage")]
 		public ISingleResult<Security_GetOperationsForStageResult> Security_GetOperationsForStage([Parameter(Name="UserID", DbType="Int")] System.Nullable<int> userID, [Parameter(Name="StageID", DbType="Int")] System.Nullable<int> stageID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
 		{
@@ -467,6 +497,20 @@ namespace IUDICO.DataModel.DB
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, courseOperationID, targetDate);
 			return ((ISingleResult<Security_GetPermissionsCourseResult>)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.Security_GetPermissionsCurriculum")]
+		public ISingleResult<Security_GetPermissionsCurriculumResult> Security_GetPermissionsCurriculum([Parameter(Name="UserID", DbType="Int")] System.Nullable<int> userID, [Parameter(Name="CurriculumOperationID", DbType="Int")] System.Nullable<int> curriculumOperationID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, curriculumOperationID, targetDate);
+			return ((ISingleResult<Security_GetPermissionsCurriculumResult>)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.Security_GetPermissionsGroup")]
+		public ISingleResult<Security_GetPermissionsGroupResult> Security_GetPermissionsGroup([Parameter(Name="UserID", DbType="Int")] System.Nullable<int> userID, [Parameter(Name="GroupOperationID", DbType="Int")] System.Nullable<int> groupOperationID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, groupOperationID, targetDate);
+			return ((ISingleResult<Security_GetPermissionsGroupResult>)(result.ReturnValue));
 		}
 		
 		[Function(Name="dbo.Security_GetPermissionsStage")]
@@ -908,7 +952,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_CurriculumOperations", Storage="_TblPermissions", OtherKey="CurriculumsOperationRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_CurriculumOperations", Storage="_TblPermissions", OtherKey="CurriculumOperationRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -4670,7 +4714,7 @@ namespace IUDICO.DataModel.DB
 		
 		private System.Nullable<int> _CurriculumRef;
 		
-		private System.Nullable<int> _CurriculumsOperationRef;
+		private System.Nullable<int> _CurriculumOperationRef;
 		
 		private System.Nullable<int> _StageRef;
 		
@@ -4752,8 +4796,8 @@ namespace IUDICO.DataModel.DB
     partial void OnCourseOperationRefChanged();
     partial void OnCurriculumRefChanging(System.Nullable<int> value);
     partial void OnCurriculumRefChanged();
-    partial void OnCurriculumsOperationRefChanging(System.Nullable<int> value);
-    partial void OnCurriculumsOperationRefChanged();
+    partial void OnCurriculumOperationRefChanging(System.Nullable<int> value);
+    partial void OnCurriculumOperationRefChanged();
     partial void OnStageRefChanging(System.Nullable<int> value);
     partial void OnStageRefChanged();
     partial void OnStageOperationRefChanging(System.Nullable<int> value);
@@ -5023,26 +5067,26 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Column(Storage="_CurriculumsOperationRef", DbType="Int")]
-		public System.Nullable<int> CurriculumsOperationRef
+		[Column(Storage="_CurriculumOperationRef", DbType="Int")]
+		public System.Nullable<int> CurriculumOperationRef
 		{
 			get
 			{
-				return this._CurriculumsOperationRef;
+				return this._CurriculumOperationRef;
 			}
 			set
 			{
-				if ((this._CurriculumsOperationRef != value))
+				if ((this._CurriculumOperationRef != value))
 				{
 					if (this._FxCurriculumOperations.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnCurriculumsOperationRefChanging(value);
+					this.OnCurriculumOperationRefChanging(value);
 					this.SendPropertyChanging();
-					this._CurriculumsOperationRef = value;
-					this.SendPropertyChanged("CurriculumsOperationRef");
-					this.OnCurriculumsOperationRefChanged();
+					this._CurriculumOperationRef = value;
+					this.SendPropertyChanged("CurriculumOperationRef");
+					this.OnCurriculumOperationRefChanged();
 				}
 			}
 		}
@@ -5402,7 +5446,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_CurriculumOperations", Storage="_FxCurriculumOperations", ThisKey="CurriculumsOperationRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_CurriculumOperations", Storage="_FxCurriculumOperations", ThisKey="CurriculumOperationRef", IsForeignKey=true)]
 		public FxCurriculumOperations FxCurriculumOperations
 		{
 			get
@@ -5425,11 +5469,11 @@ namespace IUDICO.DataModel.DB
 					if ((value != null))
 					{
 						value.TblPermissions.Add(this);
-						this._CurriculumsOperationRef = value.ID;
+						this._CurriculumOperationRef = value.ID;
 					}
 					else
 					{
-						this._CurriculumsOperationRef = default(Nullable<int>);
+						this._CurriculumOperationRef = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("FxCurriculumOperations");
 				}
@@ -7530,6 +7574,58 @@ namespace IUDICO.DataModel.DB
 		}
 	}
 	
+	public partial class Security_GetOperationsForCurriculumResult
+	{
+		
+		private System.Nullable<int> _CurriculumOperationRef;
+		
+		public Security_GetOperationsForCurriculumResult()
+		{
+		}
+		
+		[Column(Storage="_CurriculumOperationRef", DbType="Int")]
+		public System.Nullable<int> CurriculumOperationRef
+		{
+			get
+			{
+				return this._CurriculumOperationRef;
+			}
+			set
+			{
+				if ((this._CurriculumOperationRef != value))
+				{
+					this._CurriculumOperationRef = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Security_GetOperationsForGroupResult
+	{
+		
+		private System.Nullable<int> _GroupOperationRef;
+		
+		public Security_GetOperationsForGroupResult()
+		{
+		}
+		
+		[Column(Storage="_GroupOperationRef", DbType="Int")]
+		public System.Nullable<int> GroupOperationRef
+		{
+			get
+			{
+				return this._GroupOperationRef;
+			}
+			set
+			{
+				if ((this._GroupOperationRef != value))
+				{
+					this._GroupOperationRef = value;
+				}
+			}
+		}
+	}
+	
 	public partial class Security_GetOperationsForStageResult
 	{
 		
@@ -7747,6 +7843,346 @@ namespace IUDICO.DataModel.DB
 				if ((this._CourseOperationRef != value))
 				{
 					this._CourseOperationRef = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Security_GetPermissionsCurriculumResult
+	{
+		
+		private System.Nullable<int> _ID;
+		
+		private System.Nullable<int> _ParentPermitionRef;
+		
+		private System.Nullable<System.DateTime> _DateSince;
+		
+		private System.Nullable<System.DateTime> _DateTill;
+		
+		private System.Nullable<int> _OwnerUserRef;
+		
+		private System.Nullable<int> _OwnerGroupRef;
+		
+		private System.Nullable<bool> _CanBeDelagated;
+		
+		private System.Nullable<int> _CurriculumRef;
+		
+		private System.Nullable<int> _CurriculumOperationRef;
+		
+		public Security_GetPermissionsCurriculumResult()
+		{
+		}
+		
+		[Column(Storage="_ID", DbType="Int")]
+		public System.Nullable<int> ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_ParentPermitionRef", DbType="Int")]
+		public System.Nullable<int> ParentPermitionRef
+		{
+			get
+			{
+				return this._ParentPermitionRef;
+			}
+			set
+			{
+				if ((this._ParentPermitionRef != value))
+				{
+					this._ParentPermitionRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_DateSince", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateSince
+		{
+			get
+			{
+				return this._DateSince;
+			}
+			set
+			{
+				if ((this._DateSince != value))
+				{
+					this._DateSince = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_DateTill", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateTill
+		{
+			get
+			{
+				return this._DateTill;
+			}
+			set
+			{
+				if ((this._DateTill != value))
+				{
+					this._DateTill = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_OwnerUserRef", DbType="Int")]
+		public System.Nullable<int> OwnerUserRef
+		{
+			get
+			{
+				return this._OwnerUserRef;
+			}
+			set
+			{
+				if ((this._OwnerUserRef != value))
+				{
+					this._OwnerUserRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_OwnerGroupRef", DbType="Int")]
+		public System.Nullable<int> OwnerGroupRef
+		{
+			get
+			{
+				return this._OwnerGroupRef;
+			}
+			set
+			{
+				if ((this._OwnerGroupRef != value))
+				{
+					this._OwnerGroupRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_CanBeDelagated", DbType="Bit")]
+		public System.Nullable<bool> CanBeDelagated
+		{
+			get
+			{
+				return this._CanBeDelagated;
+			}
+			set
+			{
+				if ((this._CanBeDelagated != value))
+				{
+					this._CanBeDelagated = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_CurriculumRef", DbType="Int")]
+		public System.Nullable<int> CurriculumRef
+		{
+			get
+			{
+				return this._CurriculumRef;
+			}
+			set
+			{
+				if ((this._CurriculumRef != value))
+				{
+					this._CurriculumRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_CurriculumOperationRef", DbType="Int")]
+		public System.Nullable<int> CurriculumOperationRef
+		{
+			get
+			{
+				return this._CurriculumOperationRef;
+			}
+			set
+			{
+				if ((this._CurriculumOperationRef != value))
+				{
+					this._CurriculumOperationRef = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Security_GetPermissionsGroupResult
+	{
+		
+		private System.Nullable<int> _ID;
+		
+		private System.Nullable<int> _ParentPermitionRef;
+		
+		private System.Nullable<System.DateTime> _DateSince;
+		
+		private System.Nullable<System.DateTime> _DateTill;
+		
+		private System.Nullable<int> _OwnerUserRef;
+		
+		private System.Nullable<int> _OwnerGroupRef;
+		
+		private System.Nullable<bool> _CanBeDelagated;
+		
+		private System.Nullable<int> _GroupRef;
+		
+		private System.Nullable<int> _GroupOperationRef;
+		
+		public Security_GetPermissionsGroupResult()
+		{
+		}
+		
+		[Column(Storage="_ID", DbType="Int")]
+		public System.Nullable<int> ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_ParentPermitionRef", DbType="Int")]
+		public System.Nullable<int> ParentPermitionRef
+		{
+			get
+			{
+				return this._ParentPermitionRef;
+			}
+			set
+			{
+				if ((this._ParentPermitionRef != value))
+				{
+					this._ParentPermitionRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_DateSince", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateSince
+		{
+			get
+			{
+				return this._DateSince;
+			}
+			set
+			{
+				if ((this._DateSince != value))
+				{
+					this._DateSince = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_DateTill", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateTill
+		{
+			get
+			{
+				return this._DateTill;
+			}
+			set
+			{
+				if ((this._DateTill != value))
+				{
+					this._DateTill = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_OwnerUserRef", DbType="Int")]
+		public System.Nullable<int> OwnerUserRef
+		{
+			get
+			{
+				return this._OwnerUserRef;
+			}
+			set
+			{
+				if ((this._OwnerUserRef != value))
+				{
+					this._OwnerUserRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_OwnerGroupRef", DbType="Int")]
+		public System.Nullable<int> OwnerGroupRef
+		{
+			get
+			{
+				return this._OwnerGroupRef;
+			}
+			set
+			{
+				if ((this._OwnerGroupRef != value))
+				{
+					this._OwnerGroupRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_CanBeDelagated", DbType="Bit")]
+		public System.Nullable<bool> CanBeDelagated
+		{
+			get
+			{
+				return this._CanBeDelagated;
+			}
+			set
+			{
+				if ((this._CanBeDelagated != value))
+				{
+					this._CanBeDelagated = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_GroupRef", DbType="Int")]
+		public System.Nullable<int> GroupRef
+		{
+			get
+			{
+				return this._GroupRef;
+			}
+			set
+			{
+				if ((this._GroupRef != value))
+				{
+					this._GroupRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_GroupOperationRef", DbType="Int")]
+		public System.Nullable<int> GroupOperationRef
+		{
+			get
+			{
+				return this._GroupOperationRef;
+			}
+			set
+			{
+				if ((this._GroupOperationRef != value))
+				{
+					this._GroupOperationRef = value;
 				}
 			}
 		}
