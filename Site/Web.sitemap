@@ -17,8 +17,10 @@
       <siteMapNode title="My Groups" />
     </siteMapNode>
     <siteMapNode title="Admin" roles="ADMIN">
-      <siteMapNode title="Create User" url="CreateUser.aspx" />
-      <siteMapNode title="Create Group" url="CreateGroup.aspx?Admin" />
+      <siteMapNode title="Users" url="~/Admin/Users.aspx" />
+      <siteMapNode title="" />
+      <siteMapNode title="Create User" url="~/Admin/CreateUser.aspx" />
+      <siteMapNode title="Create Group" url="~/Admin/CreateGroup.aspx?Admin" />
     </siteMapNode>
   </siteMapNode>
 </siteMap>

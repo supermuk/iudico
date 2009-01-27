@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Web.Caching;
+using System.Web;
 using IUDICO.DataModel;
 using IUDICO.DBManager;
 using LEX.CONTROLS;
@@ -186,8 +186,7 @@ namespace IUDICO.UnitTest.Base
                 Debug.WriteLine(string.Format("Running script '{0}'...", s));
                 updateAction(context);
             }
-
-            ServerModel.Initialize(Connection.ConnectionString, new Cache());
+            ServerModel.Initialize(Connection.ConnectionString, HttpRuntime.Cache);
         }
 
         protected override void FinializeFixture()

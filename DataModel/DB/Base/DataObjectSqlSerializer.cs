@@ -117,11 +117,14 @@ namespace IUDICO.DataModel.DB.Base
             SelectSql = "SELECT " + ColumnNames + " FROM " + SqlUtils.WrapDbId(TableName);
         }
 
-        public static void AppendQuerySql([NotNull] SqlSerializationContext context, [NotNull]IDBCondition cond)
+        public static void AppendQuerySql([NotNull] SqlSerializationContext context, [CanBeNull]IDBCondition cond)
         {
             context.Write(SelectSql);
-            context.Write(" WHERE ");
-            cond.Write(context);
+            if (cond != null)
+            {
+                context.Write(" WHERE ");
+                cond.Write(context);
+            }
         }
 
         public static List<TDataObject> FullRead(IDataReader reader, int estimatedCount)

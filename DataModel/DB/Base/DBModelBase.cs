@@ -21,9 +21,20 @@ namespace IUDICO.DataModel.DB.Base
     }
 
     [AttributeUsage(AttributeTargets.Field)]
-    [BaseTypeRequired(typeof(IFxDataObject))]
+    [BaseTypeRequired(typeof(INamedDataObject))]
     public class TableRecordAttribute : Attribute
     {
+        public readonly string Name;
+
+        public TableRecordAttribute(string name)
+        {
+            Name = name;
+        }
+
+        public TableRecordAttribute()
+            : this(null)
+        {
+        }
     }
 
     [AttributeUsage(AttributeTargets.Class)]
@@ -67,7 +78,7 @@ namespace IUDICO.DataModel.DB.Base
 
     public interface IFxDataObject : IIntKeyedDataObject, INamedDataObject { }
 
-    public interface IRelationshipTable
+    public interface IRelationshipTable : IDataObject
     {
     }
 
@@ -87,6 +98,12 @@ namespace IUDICO.DataModel.DB.Base
 
     public abstract class DataObject
     {
+        public static class Schema
+        {
+            public static readonly PropertyCondition
+                ID = "ID",
+                UserRef = "UserRef";
+        }
     }
 
     [DebuggerDisplay("DataObject: {ID}")]
@@ -170,16 +187,16 @@ namespace IUDICO.DataModel.DB.Base
         List<TDataObject> FullCached<TDataObject>()
             where TDataObject : class, IDataObject, new();
 
-        List<TDataObject> Query<TDataObject>([NotNull] IDBCondition cond)
+        List<TDataObject> Query<TDataObject>([CanBeNull] IDBCondition cond)
             where TDataObject : IDataObject, new();
 
         TDataObject QuerySingle<TDataObject>([NotNull] IDBCondition cond)
             where TDataObject : IDataObject, new();
 
-        List<int> LookupIds<TDataObject>(IIntKeyedDataObject owner)
+        List<int> LookupIds<TDataObject>([NotNull]IIntKeyedDataObject owner, [CanBeNull] IDBCondition condition)
             where TDataObject : IDataObject;
 
-        List<int> LookupMany2ManyIds<TDataObject>(IIntKeyedDataObject firstPart);
+        List<int> LookupMany2ManyIds<TDataObject>(IIntKeyedDataObject firstPart, IDBCondition condition);
 
         void Link(IIntKeyedDataObject do1, IIntKeyedDataObject do2);
 

@@ -18,7 +18,7 @@ public partial class ThemeResultControl : System.Web.UI.UserControl
 
 
         var userId = ((CustomUser) Membership.GetUser()).ID;
-        var pages = ServerModel.DB.Load <TblPages>(ServerModel.DB.LookupIds<TblPages>(theme));
+        var pages = ServerModel.DB.Load <TblPages>(ServerModel.DB.LookupIds<TblPages>(theme, null));
 
         foreach (var page in pages)
         {
@@ -44,7 +44,7 @@ public partial class ThemeResultControl : System.Web.UI.UserControl
     {
         int userRank = 0;
 
-        var userAnswers = ServerModel.DB.Load<TblUserAnswers>(ServerModel.DB.LookupIds<TblUserAnswers>(question));
+        var userAnswers = ServerModel.DB.Load<TblUserAnswers>(ServerModel.DB.LookupIds<TblUserAnswers>(question, null));
 
         if (userAnswers != null)
         {
@@ -95,7 +95,7 @@ public partial class ThemeResultControl : System.Web.UI.UserControl
 
     private static int GetUserRank(TblPages page, int userId)
     {
-        var questionsIDs = ServerModel.DB.LookupIds<TblQuestions>(page);
+        var questionsIDs = ServerModel.DB.LookupIds<TblQuestions>(page, null);
         var questions = ServerModel.DB.Load<TblQuestions>(questionsIDs);
 
         int userRank = 0;

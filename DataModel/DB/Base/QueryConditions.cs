@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Reflection;
+using IUDICO.DataModel.Common;
+using System.Linq;
 
 namespace IUDICO.DataModel.DB.Base
 {
@@ -85,6 +87,11 @@ namespace IUDICO.DataModel.DB.Base
         {
             context.Write("[" + PropertyName + "]");            
         }
+
+        public static implicit operator PropertyCondition (string name)
+        {
+            return new PropertyCondition(name);
+        }
     }
 
     public enum COMPARE_KIND
@@ -155,11 +162,11 @@ namespace IUDICO.DataModel.DB.Base
         }
     }
 
-    public class ValueCondition : IDBCondition
+    public class ValueCondition<TValue> : IDBCondition
     {
-        public object Value { get; private set; }
+        public TValue Value { get; private set; }
 
-        public ValueCondition(object value)
+        public ValueCondition(TValue value)
         {
             Value = value;
         }
@@ -167,6 +174,96 @@ namespace IUDICO.DataModel.DB.Base
         public void Write(SqlSerializationContext context)
         {
             context.Write(context.AddParameter(Value));            
+        }
+
+        public static implicit operator ValueCondition<TValue> (TValue v)
+        {
+            return new ValueCondition<TValue>(v);
+        }
+    }
+
+    public enum IN_CONDITION_KIND
+    {
+        IN,
+        NOT_IN,
+        EQUAL
+    }
+
+    public class InCondition : IDBCondition
+    {
+        public readonly IDBCondition Arg;
+        public readonly ISubSelectCondition SubSelect;
+        public readonly IN_CONDITION_KIND Kind;
+
+        public InCondition(IDBCondition arg, ISubSelectCondition subSelect)
+            : this(arg, subSelect, IN_CONDITION_KIND.IN)
+        {
+        }
+
+        public InCondition(IDBCondition arg, ISubSelectCondition subSelect, IN_CONDITION_KIND kind)
+        {
+            Arg = arg;
+            SubSelect = subSelect;
+            Kind = kind;
+        }
+
+        public void Write(SqlSerializationContext context)
+        {
+            Arg.Write(context);
+            context.Write(" ");
+            context.Write(KindToString(Kind));
+            context.Write(" (");
+            SubSelect.Write(context);
+            context.Write(")");
+        }
+
+        private static string KindToString(IN_CONDITION_KIND kind)
+        {
+            switch (kind)
+            {
+                case IN_CONDITION_KIND.EQUAL:
+                    return "=";
+
+                case IN_CONDITION_KIND.IN:
+                    return "IN";
+
+                case IN_CONDITION_KIND.NOT_IN:
+                    return "NOT IN";
+
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
+    }
+
+    public class SubSelectCondition<TDataObject> : ISubSelectCondition
+        where TDataObject : IDataObject, new()
+    {
+        public readonly string[] FieldNames;
+        public readonly IDBCondition Condition;
+
+        public SubSelectCondition(string fieldName, IDBCondition cond)
+            : this(new[] {fieldName}, cond)
+        {
+        }
+
+        public SubSelectCondition(string[] fieldNames, IDBCondition cond)
+        {
+            FieldNames = fieldNames;
+            Condition = cond;
+        }
+
+        public void Write(SqlSerializationContext context)
+        {
+            context.Write("SELECT ");
+            context.Write(FieldNames.Select(f => SqlUtils.WrapDbId(f)).ConcatComma());
+            context.Write(" FROM ");
+            context.Write(SqlUtils.WrapDbId(DataObjectInfo<TDataObject>.TableName));
+            if (Condition != null)
+            {
+                context.Write(" WHERE ");
+                Condition.Write(context);
+            }
         }
     }
 }

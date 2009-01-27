@@ -76,7 +76,7 @@ namespace IUDICO.DataModel.Controllers
 
         private static void BuildThemes(TblCourses course, TreeNode node)
         {
-            var themes = ServerModel.DB.Load<TblThemes>(ServerModel.DB.LookupIds<TblThemes>(course));
+            var themes = ServerModel.DB.Load<TblThemes>(ServerModel.DB.LookupIds<TblThemes>(course, null));
 
             foreach (var theme in themes)
             {

@@ -33,6 +33,10 @@ namespace IUDICO.DataModel.DB
             {
                 throw new DMError("Unable to find 'Query' method");
             }
+            if (LOAD_METHOD == null)
+            {
+                throw new DMError("Unable to find Load method");
+            }
         }
 
 
@@ -411,7 +415,7 @@ namespace IUDICO.DataModel.DB
             }
         }
 
-        public List<int> LookupIds<TDataObject>(IIntKeyedDataObject owner)
+        public List<int> LookupIds<TDataObject>([NotNull] IIntKeyedDataObject owner, [CanBeNull] IDBCondition condition)
             where TDataObject : IDataObject
         {
             using (DBScope("Looking up ids of " + owner.GetType().Name + " for " + typeof(TDataObject).Name))
@@ -419,14 +423,14 @@ namespace IUDICO.DataModel.DB
                 using (var c = GetConnectionSafe().CreateCommand())
                 {
                     var sc = new SqlSerializationContext((SqlCommand)c);
-                    LookupHelper.AppendLookupSql(sc, owner, typeof(TDataObject));
+                    LookupHelper.AppendLookupSql(sc, owner, typeof(TDataObject), condition);
                     sc.Finish();
                     return c.FullReadInts();
                 }
             }
         }
 
-        public List<TDataObject> Query<TDataObject>([NotNull] IDBCondition cond)
+        public List<TDataObject> Query<TDataObject>([CanBeNull] IDBCondition cond)
             where TDataObject : IDataObject, new()
         {
             using (DBScope("Custom query for " + typeof(TDataObject)))
@@ -477,7 +481,7 @@ namespace IUDICO.DataModel.DB
             } 
         }
 
-        public List<int> LookupMany2ManyIds<TDataObject>(IIntKeyedDataObject firstPart)
+        public List<int> LookupMany2ManyIds<TDataObject>(IIntKeyedDataObject firstPart, IDBCondition condition)
         {
             using (DBScope("Looking up many-2-many ids between " + firstPart.GetType().Name + " and " + typeof(TDataObject).Name))
             {
@@ -544,6 +548,7 @@ namespace IUDICO.DataModel.DB
         }
 
         public static readonly MethodInfo FIXED_METHOD = typeof(DatabaseModel).GetMethod("Fx");
+        public static readonly MethodInfo LOAD_METHOD = typeof (DatabaseModel).GetMethod("Load", new[] {typeof (int)});
         public static readonly MethodInfo LOAD_LIST_METHOD = typeof(DatabaseModel).GetMethod("Load", new[] { typeof(IList<int>) });
         public static readonly MethodInfo QUERY_METHOD = typeof (DatabaseModel).GetMethod("Query");
 

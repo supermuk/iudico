@@ -138,6 +138,7 @@
     <Compile Include="Controllers\StudentPageController.cs" />
     <Compile Include="Controllers\ThemeResultController.cs">
     </Compile>
+    <Compile Include="DataModelPresentationLevel.cs" />
     <Compile Include="DB\Base\DBModelBase.cs" />
     <Compile Include="DB\Base\DataObjectSqlSerializer.cs" />
     <Compile Include="DB\Base\DataObjectLookupHelper.cs" />

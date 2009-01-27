@@ -21,12 +21,8 @@ namespace IUDICO.Site.Pages
 
         protected override void OnLoad(EventArgs e)
         {
+            UserPermissions.UserID = ServerModel.User.Current.ID;
             base.OnLoad(e);
-            UserPermissions.UserID = 1;
-            if (!IsPostBack && !IsCallback)
-            {
-                DataBind();
-            }
         }
 
         public override void DataBind()

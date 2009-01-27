@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Web.Security;
+using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.Security
 {
@@ -32,7 +33,14 @@ namespace IUDICO.DataModel.Security
         {
             get
             {
-                return _FirstName + " " + _LastName;
+                if (_FirstName.IsNotNull() || _LastName.IsNotNull())
+                {
+                    return _FirstName + " " + _LastName;
+                }
+                else
+                {
+                    return Login;
+                }
             }
         }
 

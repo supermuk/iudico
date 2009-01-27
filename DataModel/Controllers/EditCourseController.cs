@@ -69,7 +69,7 @@ namespace IUDICO.DataModel.Controllers
 
         private static void BuildThema(TblCourses course, TreeNode rootNode)
         {
-            var themas = ServerModel.DB.Load<TblThemes>(ServerModel.DB.LookupIds<TblThemes>(course));
+            var themas = ServerModel.DB.Load<TblThemes>(ServerModel.DB.LookupIds<TblThemes>(course, null));
             foreach (var i in themas)
             {
                 var themaNode = new TreeNode(i.Name, i.ID.ToString());
@@ -81,7 +81,7 @@ namespace IUDICO.DataModel.Controllers
 
         private static void BuildPages(TblThemes theme, TreeNode themaNode)
         {
-            var pages = ServerModel.DB.Load<TblPages>(ServerModel.DB.LookupIds<TblPages>(theme));
+            var pages = ServerModel.DB.Load<TblPages>(ServerModel.DB.LookupIds<TblPages>(theme, null));
             
             foreach (var i in pages)
             {
@@ -157,7 +157,7 @@ namespace IUDICO.DataModel.Controllers
         public static void deleteCourse(int courseId)
         {
             var course = ServerModel.DB.Load<TblCourses>(courseId);
-            var themes = ServerModel.DB.LookupIds<TblThemes>(course);
+            var themes = ServerModel.DB.LookupIds<TblThemes>(course, null);
 
             foreach (var i in themes)
             {
@@ -169,7 +169,7 @@ namespace IUDICO.DataModel.Controllers
         public static void deleteTheme(int themeId)
         {
             var theme = ServerModel.DB.Load<TblThemes>(themeId);
-            var pages = ServerModel.DB.LookupIds<TblPages>(theme);
+            var pages = ServerModel.DB.LookupIds<TblPages>(theme, null);
 
             foreach (var i in pages)
             {
@@ -183,7 +183,7 @@ namespace IUDICO.DataModel.Controllers
             var page = ServerModel.DB.Load<TblPages>(pageId);
             deleteFiles(page);
 
-            var question = ServerModel.DB.LookupIds<TblQuestions>(page);
+            var question = ServerModel.DB.LookupIds<TblQuestions>(page, null);
             
             foreach (var i in question)
             {
@@ -195,7 +195,7 @@ namespace IUDICO.DataModel.Controllers
 
         private static void deleteFiles(TblPages page)
         {
-            var files = ServerModel.DB.Load<TblFiles>(ServerModel.DB.LookupIds<TblFiles>(page));
+            var files = ServerModel.DB.Load<TblFiles>(ServerModel.DB.LookupIds<TblFiles>(page, null));
 
             foreach (var file in files)
             {
@@ -205,7 +205,7 @@ namespace IUDICO.DataModel.Controllers
                 }
             }
 
-            var folders = ServerModel.DB.Load<TblFiles>(ServerModel.DB.LookupIds<TblFiles>(page));
+            var folders = ServerModel.DB.Load<TblFiles>(ServerModel.DB.LookupIds<TblFiles>(page, null));
 
             foreach (var file in folders)
             {
@@ -229,7 +229,7 @@ namespace IUDICO.DataModel.Controllers
         {
             var compiledQuestion = (ServerModel.DB.Load<TblCompiledQuestions>(compiledQuestionId));
             
-            var compiledQuestionsData = ServerModel.DB.LookupIds<TblCompiledQuestionsData>(compiledQuestion);
+            var compiledQuestionsData = ServerModel.DB.LookupIds<TblCompiledQuestionsData>(compiledQuestion, null);
 
             foreach (var i in compiledQuestionsData)
             {
