@@ -2,6 +2,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
-    <ic:ThemeResult ID = "themeResult" runat = "server"></ic:ThemeResult>
+    <i:ThemeResult ID = "themeResult" runat = "server"></i:ThemeResult>
 </asp:Content>
 

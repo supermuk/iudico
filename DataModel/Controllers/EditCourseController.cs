@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Security;
-using System.Web.UI.WebControls;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.Security;
-
+using TreeNode=System.Web.UI.WebControls.TreeNode;
+using TreeView=System.Web.UI.WebControls.TreeView;
+using TextBox=System.Web.UI.WebControls.TextBox;
 namespace IUDICO.DataModel.Controllers
 {
     public class EditCourseController : ControllerBase
@@ -15,32 +16,105 @@ namespace IUDICO.DataModel.Controllers
 
         public HttpRequest Request { get; set; }
 
-        [PersistantField]
-        private int currentCourseId = -1;
+        public TextBox RenameTextBox { get; set; }
+
+        private const string isCourseFlag = "course:";
+
+        private const string isThemeFlag = "theme:";
 
         private const string courseIdRequestParameter = "courseId";
 
+        [PersistantField]
+        private bool isTreeBuilded;
 
         public void moveUpButton_Click(object sender, EventArgs e)
         {
-            
+            if(isSelectedNodePage())
+            {
+                int index = GetIndexOfParentTheme();
+                if (index > 0)
+                {
+                    MovePage(--index);
+                }
+            }
         }
+
+        private bool isSelectedNodePage()
+        {
+            return !CourseTreeView.SelectedNode.Value.Contains(isThemeFlag)
+                   && !CourseTreeView.SelectedNode.Value.Contains(isCourseFlag);
+        }
+
+        private int GetIndexOfParentTheme()
+        {
+            return CourseTreeView.Nodes[0].ChildNodes.IndexOf(CourseTreeView.SelectedNode.Parent);
+        }
+
+        private void MovePage(int index)
+        {
+            var newThemeValue = CourseTreeView.Nodes[0].ChildNodes[index].Value;
+            var newThemeId = newThemeValue.Replace(isThemeFlag, string.Empty);
+            AssignPageToNewTheme(int.Parse(CourseTreeView.SelectedNode.Value), int.Parse(newThemeId));
+            RebuildTree();
+        }
+
+        private void RebuildTree()
+        {
+            isTreeBuilded = false;
+            RenameTextBox.Text = string.Empty;
+            CourseTreeView.Nodes.Clear();
+        }
+
         public void moveDownButton_Click(object sender, EventArgs e)
         {
-
+            if (isSelectedNodePage())
+            {
+                int index = GetIndexOfParentTheme();
+                if (index < CourseTreeView.Nodes[0].ChildNodes.Count)
+                {
+                    MovePage(++index);
+                }
+            }
         }
+       
         public void renameButton_Click(object sender, EventArgs e)
         {
-            
+            if (!RenameTextBox.Visible && CourseTreeView.SelectedNode != null)
+            {
+                RenameTextBox.Visible = true;
+            }
+            else
+            {
+                if(!RenameTextBox.Text.Equals(string.Empty))
+                {
+                    if (CourseTreeView.SelectedNode != null)
+                    {
+                        var selectedNodeVal = CourseTreeView.SelectedNode.Value;
+
+                        if(selectedNodeVal.Contains(isCourseFlag))
+                        {
+                            RenameCourse(selectedNodeVal, RenameTextBox.Text);
+                        }
+                        else if(selectedNodeVal.Contains(isThemeFlag))
+                        {
+                            RenameTheme(selectedNodeVal, RenameTextBox.Text);
+                        }
+                        else
+                        {
+                            RenamePage(selectedNodeVal, RenameTextBox.Text);
+                        }
+                        RebuildTree();
+                    }
+                }
+                RenameTextBox.Visible = false;
+
+            }
         }
         public void deleteButton_Click(object sender, EventArgs e)
         {
 
         }
-        public void saveButton_Click(object sender, EventArgs e)
-        {
 
-        }
         public void pageLoad(object sender, EventArgs e)
         {
             if (Request[courseIdRequestParameter] != null)
@@ -48,7 +122,7 @@ namespace IUDICO.DataModel.Controllers
                 int courseId;
                 if (int.TryParse(Request[courseIdRequestParameter], out courseId))
                 {
-                    if(courseId != currentCourseId)
+                    if(!isTreeBuilded)
                         BuildCourseTree(courseId);
                 }
             }
@@ -59,11 +133,12 @@ namespace IUDICO.DataModel.Controllers
            // if(isUserHavePermission(courseId))
             {
                 var course = ServerModel.DB.Load<TblCourses>(courseId);
-                var rootNode = new TreeNode(course.Name, course.ID.ToString());
+                var rootNode = new TreeNode(course.Name, isCourseFlag + course.ID);
                 CourseTreeView.Nodes.Add(rootNode);
 
                 BuildThema(course, rootNode);
-                currentCourseId = courseId;
+                isTreeBuilded = true;
+                CourseTreeView.ExpandAll();
             }
         }
 
@@ -72,7 +147,7 @@ namespace IUDICO.DataModel.Controllers
             var themas = ServerModel.DB.Load<TblThemes>(ServerModel.DB.LookupIds<TblThemes>(course, null));
             foreach (var i in themas)
             {
-                var themaNode = new TreeNode(i.Name, i.ID.ToString());
+                var themaNode = new TreeNode(i.Name, isThemeFlag + i.ID);
                 rootNode.ChildNodes.Add(themaNode);
 
                 BuildPages(i, themaNode);
@@ -97,58 +172,39 @@ namespace IUDICO.DataModel.Controllers
 
             return allUserCourses.Contains(courseId);
         }
-    }
 
-    interface IEditCourseChange
-    {
-        void makeChange();
-    }
-
-    class DeletePage : IEditCourseChange
-    {
-        private int id;
-
-        public DeletePage(int id)
+        private static void AssignPageToNewTheme(int pageId, int themeId)
         {
-            this.id = id;
+            var page = ServerModel.DB.Load<TblPages>(pageId);
+            page.ThemeRef = themeId;
+            ServerModel.DB.Update(page);
         }
 
-        public void makeChange()
+        private static void RenameCourse(string courseIdVal,string newName)
         {
-            throw new System.NotImplementedException();
-        }
-    }
+            var courseId = int.Parse(courseIdVal.Replace(isCourseFlag, string.Empty));
 
-    class DeleteTheme : IEditCourseChange
-    {
-        private int id;
-
-        public DeleteTheme(int id)
-        {
-            this.id = id;
+            var course = ServerModel.DB.Load<TblCourses>(courseId);
+            course.Name = newName;
+            ServerModel.DB.Update(course);
         }
 
-        public void makeChange()
+        private static void RenameTheme(string themeIdVal, string newName)
         {
-            throw new System.NotImplementedException();
-        }
-    }
+            var themeId = int.Parse(themeIdVal.Replace(isThemeFlag, string.Empty));
 
-    class MovePage : IEditCourseChange
-    {
-        private int pageId;
-
-        private int themeId;
-
-        public MovePage(int pageId, int themeId)
-        {
-            this.pageId = pageId;
-            this.themeId = themeId;
+            var theme = ServerModel.DB.Load<TblThemes>(themeId);
+            theme.Name = newName;
+            ServerModel.DB.Update(theme);
         }
 
-        public void makeChange()
+        private static void RenamePage(string pageIdVal, string newName)
         {
-            throw new System.NotImplementedException();
+            var pageId = int.Parse(pageIdVal);
+
+            var page = ServerModel.DB.Load<TblPages>(pageId);
+            page.PageName = newName;
+            ServerModel.DB.Update(page);
         }
     }
 
