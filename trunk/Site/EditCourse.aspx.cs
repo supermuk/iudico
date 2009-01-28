@@ -12,10 +12,10 @@ public partial class EditCourse : ControlledPage<EditCourseController>
         moveDown.Click += c.moveDownButton_Click;
         rename.Click += c.renameButton_Click;
         delete.Click += c.deleteButton_Click;
-        save.Click += c.saveButton_Click;
 
         c.Request = Request;
-        
+
+        c.RenameTextBox = renameTextBox;
         c.CourseTreeView = courseTreeView;
     }
 }

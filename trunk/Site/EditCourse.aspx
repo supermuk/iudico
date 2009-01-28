@@ -4,11 +4,8 @@
 <title>Edit Course</title>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
-    <asp:Button ID="moveUp" runat="server" Text="Move Up" Enabled = "false"/>
-    <asp:Button ID="moveDown" runat="server" Text="Move Down" Enabled = "false"/>
-    <asp:Button ID="rename" runat="server" Text="Rename" Enabled = "false"/>
-    <asp:Button ID="delete" runat="server" Text="Delete" Enabled = "false"/>
-    <asp:Button ID="save" runat="server" Text="Save" />
+    <asp:Button ID="moveUp" runat="server" Text="Move Up" />
+    <asp:Button ID="moveDown" runat="server" Text="Move Down" />
     <asp:TreeView ID="courseTreeView" runat="server" ImageSet="XPFileExplorer" 
         NodeIndent="15">
         <ParentNodeStyle Font-Bold="False" />
@@ -18,5 +15,8 @@
         <NodeStyle Font-Names="Tahoma" Font-Size="8pt" ForeColor="Black" 
             HorizontalPadding="2px" NodeSpacing="0px" VerticalPadding="2px" />
     </asp:TreeView>
+    <asp:Button ID="delete" runat="server" Text="Delete" Enabled = "false"/>
+    <asp:Button ID="rename" runat="server" Text="Rename" />
+    <asp:TextBox ID="renameTextBox" runat="server" Visible = "false"></asp:TextBox>
     </asp:Content>
 
