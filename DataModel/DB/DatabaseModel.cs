@@ -142,6 +142,11 @@ namespace IUDICO.DataModel.DB
     {
     }
 
+    [ManyToManyRelationship(typeof(TblStages), typeof(TblThemes))]
+    public partial class RelStagesThemes : RelTable, IRelationshipTable
+    {
+    }
+
     [DBEnum("fxRoles")]
     public enum FX_ROLE
     {
