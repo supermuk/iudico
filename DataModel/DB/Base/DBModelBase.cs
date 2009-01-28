@@ -102,7 +102,11 @@ namespace IUDICO.DataModel.DB.Base
         {
             public static readonly PropertyCondition
                 ID = "ID",
-                UserRef = "UserRef";
+                UserRef = "UserRef",
+                ThemeRef = "ThemeRef",
+                StageRef = "StageRef",
+                CourseRef = "CourseRef",
+                CurriculumRef = "CurriculumRef";
         }
     }
 
