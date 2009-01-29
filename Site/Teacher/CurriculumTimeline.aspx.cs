@@ -21,15 +21,9 @@ public partial class CurriculumTimeline : ControlledPage<CurriculumTimelineContr
         c.TimeTillTextBox = TextBox_TimeTill;
 
         c.GrantButton = Button_Grant;
-        c.CurriculumForGroupLabel = Label_CurriculumForGroup;
+
         c.OperationList = DropDownList_Operation;
 
-        CurriculumAssigment p = PreviousPage as CurriculumAssigment;
-        if (p != null)
-        {
-            c.curriculumID = p.CurriculumID;
-            c.groupID = p.GroupID;
-        }
 
         Load += c.PageLoad;
     }

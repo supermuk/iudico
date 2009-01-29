@@ -1,7 +1,7 @@
 ﻿using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
 
-public partial class EditCourse : ControlledPage<EditCourseController>
+public partial class CourseEdit : ControlledPage<EditCourseController>
 {
     protected override void BindController(EditCourseController c)
     {

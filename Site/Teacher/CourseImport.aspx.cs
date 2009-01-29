@@ -1,7 +1,7 @@
 ﻿using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
 
-public partial class ImportCourse : ControlledPage<ImportCourseController>
+public partial class CourseImport : ControlledPage<ImportCourseController>
 {
     protected override void BindController(ImportCourseController c)
     {
