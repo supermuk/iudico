@@ -18,7 +18,7 @@ namespace IUDICO.DataModel.Controllers
 
         public Button AssignButton { get; set; }
         public Button SwitchViewButton { get; set; }
-        public Button TimelineButton { get; set; }
+        public Button UnsignButton { get; set; }
 
         public ListBox CurriculumsListBox { get; set; }
         public ListBox GroupsListBox { get; set; }
@@ -46,6 +46,7 @@ namespace IUDICO.DataModel.Controllers
                     ServerModel.DB.Load<TblCurriculums>(curriculumID),
                     FxCurriculumOperations.View
                     , null, groupID, DateTimeInterval.Full);
+
             }
         }
 
@@ -71,6 +72,12 @@ namespace IUDICO.DataModel.Controllers
 
         private void fillAssigmentsTree()
         {
+            AssigmentsTree.Nodes.Clear();
+            foreach (TblCurriculums curriculum in ServerModel.DB.Query<TblCurriculums>(null))
+            {
+                TreeNode curriculumNode = new TreeNode(curriculum.Name, curriculum.ID.ToString());
+                //CurriculumsListBox.Items.Add(curriculumItem);
+            }
         }
 
 

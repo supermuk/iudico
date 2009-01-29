@@ -12,9 +12,11 @@
       <siteMapNode title="Create Group" url="CreateGroup.aspx?Trainer" />
     </siteMapNode>
     <siteMapNode title="Lector" roles="LECTOR">
-      <siteMapNode title="Create Group" url="CreateGroup.aspx?Lector" />
-      <siteMapNode title="My Courses" />
-      <siteMapNode title="My Groups" />
+      <siteMapNode title="Create Group" url="~/Admin/CreateGroup.aspx?Lector" />
+      <siteMapNode title="UpLoad Course" url="~/Teacher/CourseImport.aspx" />
+      <siteMapNode title="Create Curriculum" url="~/Teacher/CurriculumEdit.aspx" />
+      <siteMapNode title="Assign Curriculum" url="~/Teacher/CurriculumAssigment.aspx" />
+      <siteMapNode title="Detailed Curriculum Assign" url="~/Teacher/CurriculumTimeline.aspx" />
     </siteMapNode>
     <siteMapNode title="Admin" roles="ADMIN">
       <siteMapNode title="Users" url="~/Admin/Users.aspx" />

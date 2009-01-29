@@ -17,41 +17,11 @@ public partial class CurriculumAssigment : ControlledPage<CurriculumAssignContro
 
         c.AssignButton = Button_Assign;
         c.SwitchViewButton = Button_SwitchView;
-        c.TimelineButton = Button_Timeline;
+        c.UnsignButton = Button_Unsign;
 
         c.GroupsListBox = ListBox_Groups;
         c.CurriculumsListBox = ListBox_Curriculums;
         
         Load += c.PageLoad;
-    }
-
-    public int GroupID
-    {
-        get
-        {
-            if (ListBox_Groups.SelectedValue != null)
-            {
-                return int.Parse(ListBox_Groups.SelectedValue);
-            }
-            else
-            {
-                return -1;
-            }
-        }
-    }
-
-    public int CurriculumID
-    {
-        get
-        {
-            if (ListBox_Curriculums.SelectedValue != null)
-            {
-                return int.Parse(ListBox_Curriculums.SelectedValue);
-            }
-            else
-            {
-                return -1;
-            }
-        }
     }
 }
