@@ -178,7 +178,7 @@ namespace IUDICO.DataModel.Controllers
 
         public int CompareTo(SortPageBydateHelper other)
         {
-            return Date.CompareTo(other.Date);
+            return other.Date.CompareTo(Date);
         }
 
         public override bool Equals(object obj)
