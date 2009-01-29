@@ -129,7 +129,9 @@
     <Compile Include="Common\XmlAttributes.cs" />
     <Compile Include="Common\XmlUtility.cs" />
     <Compile Include="Common\Zipper.cs" />
+    <Compile Include="Controllers\CurriculumAssignController.cs" />
     <Compile Include="Controllers\CurriculumEditController.cs" />
+    <Compile Include="Controllers\CurriculumTimelineController.cs" />
     <Compile Include="Controllers\EditCourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IdentityNode.cs" />
