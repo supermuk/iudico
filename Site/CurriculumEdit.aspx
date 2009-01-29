@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CurriculumEdit.aspx.cs" Inherits="CurriculumEdit" %>
 
-<%@ Register TagPrefix="iudico" Namespace="IUDICO.Web.Controls" %>
+<%@ Register TagPrefix="iudico" Namespace="IUDICO.DataModel.Controllers" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -19,8 +19,6 @@
         left: 11px;" Text="Available Courses:"></asp:Label>
     <asp:Label ID="Label_Curriculums" runat="server" Style="position: absolute; top: 19px;
         left: 292px;" Text="Available Curriculums:"></asp:Label>
-    <asp:HyperLink ID="HyperLink_CourseManagment0" runat="server" Style="position: absolute;
-        top: 317px; left: 284px;">Curriculum managment</asp:HyperLink>
     <asp:HyperLink ID="HyperLink_CourseManagment" runat="server" Style="position: absolute;
         top: 308px; left: 8px;" NavigateUrl="~/ImportCourse.aspx">Don&#39;t have courses? Create new!</asp:HyperLink>
     <iudico:IdentityTreeView ID="TreeView_Curriculums" runat="server" Style="position: absolute;
@@ -41,6 +39,8 @@
         left: 531px; bottom: 179px;" Text="Delete" />
     <asp:Button ID="Button_AddTheme" runat="server" Style="position: absolute; top: 251px;
         left: 190px;" EnableTheming="True" Text="Add theme" />
+    <asp:HyperLink ID="HyperLink_CourseManagment0" runat="server" Style="position: absolute;
+        top: 432px; left: 288px;">Curriculum managment</asp:HyperLink>
     </form>
 </body>
 </html>

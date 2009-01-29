@@ -13,7 +13,6 @@ public partial class CurriculumEdit : ControlledPage<CurriculumEditController>
     {
         base.BindController(c);
 
-        #region Controls binding
         c.CourseTree = TreeView_Courses;
         c.CurriculumTree = TreeView_Curriculums;
 
@@ -25,7 +24,6 @@ public partial class CurriculumEdit : ControlledPage<CurriculumEditController>
 
         c.NameTextBox = TextBox_Name;
         c.DescriptionTextBox = TextBox_Description;
-        #endregion
 
         Load += c.PageLoad;   
     }

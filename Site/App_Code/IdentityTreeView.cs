@@ -8,8 +8,7 @@ using System.ComponentModel;
 using System.Web.UI;
 using IUDICO.DataModel.Controllers;
 
-
-namespace IUDICO.Web.Controls
+namespace IUDICO.DataModel.Controllers
 {
     public class IdentityTreeView : TreeView
     {

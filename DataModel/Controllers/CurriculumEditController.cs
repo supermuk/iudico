@@ -29,7 +29,8 @@ namespace IUDICO.DataModel.Controllers
 
         public void PageLoad(object sender, EventArgs e)
         {
-            //registering for events
+           
+            //registering for events            
             CreateCurriculumButton.Click += new EventHandler(CreateCurriculumButton_Click);
             AddThemeButton.Click += new EventHandler(AddThemeButton_Click);
             CreateStageButton.Click += new EventHandler(CreateStageButton_Click);
@@ -41,6 +42,7 @@ namespace IUDICO.DataModel.Controllers
                 fillCourseTree();
                 fillCurriculumTree();
             }
+            
         }
 
         private void ModifyButton_Click(object sender, EventArgs e)
