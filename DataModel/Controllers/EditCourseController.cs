@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Web;
 using System.Web.Security;
 using IUDICO.DataModel.Common;
@@ -203,8 +204,17 @@ namespace IUDICO.DataModel.Controllers
             var pageId = int.Parse(pageIdVal);
 
             var page = ServerModel.DB.Load<TblPages>(pageId);
-            page.PageName = newName;
+            page.PageName = CheckExtension(newName);
             ServerModel.DB.Update(page);
+        }
+
+        private static string CheckExtension(string newName)
+        {
+            var ext = Path.GetExtension(newName);
+
+            var aspxExt = ".aspx";
+
+            return !ext.Equals(aspxExt) ? newName + aspxExt : newName;
         }
     }
 

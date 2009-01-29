@@ -9,6 +9,8 @@ using IUDICO.DataModel.Security;
 
 public partial class ThemeResultControl : System.Web.UI.UserControl
 {
+    private const string pageDetailsUrl = "../TestDetails.aspx?pageId={0}";
+
     public int ThemeId { get; set; }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -28,12 +30,14 @@ public partial class ThemeResultControl : System.Web.UI.UserControl
                 var passStatusCell = new TableCell();
                 var pageRankCell = new TableCell();
                 var userRankCell = new TableCell();
+                var pageDetails = new TableCell();
 
+                SetPageDetailsLink(pageDetails, page.ID);
                 SetPageNameAndRank(page, pageNameCell, pageRankCell);
                 SetPageResult(page, userId, passStatusCell, userRankCell);
 
                 var row = new TableRow();
-                row.Cells.AddRange(new []{pageNameCell, passStatusCell, userRankCell, pageRankCell});
+                row.Cells.AddRange(new []{pageNameCell, passStatusCell, userRankCell, pageRankCell, pageDetails});
                 resultTable.Rows.Add(row);
             }
         }
@@ -125,5 +129,10 @@ public partial class ThemeResultControl : System.Web.UI.UserControl
         }
 
         return currentUserAnswers;
+    }
+
+    private static void SetPageDetailsLink(TableCell cell, int pageId)
+    {
+        cell.Controls.Add(new HyperLink{Text = "Details", NavigateUrl = string.Format(pageDetailsUrl, pageId)});
     }
 }

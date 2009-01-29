@@ -14,5 +14,14 @@
         <NodeStyle Font-Names="Tahoma" Font-Size="8pt" ForeColor="Black" 
             HorizontalPadding="2px" NodeSpacing="0px" VerticalPadding="2px" />
     </asp:TreeView>
+    <asp:Table ID="lastPagesResultTable" runat="server" GridLines="Both" Height="49px" 
+        Width="481px">
+        <asp:TableRow runat="server">
+            <asp:TableCell runat="server" HorizontalAlign="Center">Page</asp:TableCell>
+            <asp:TableCell runat="server" HorizontalAlign="Center">Theme Name</asp:TableCell>
+            <asp:TableCell runat="server" HorizontalAlign="Center">Result</asp:TableCell>
+            <asp:TableCell runat="server" HorizontalAlign="Center">Date</asp:TableCell>
+        </asp:TableRow>
+    </asp:Table>
 </asp:Content>
 

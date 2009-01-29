@@ -10,6 +10,7 @@ public partial class StudentPage : ControlledPage<StudentPageController>
         showResult.Click += c.showResultButton_Click;
         Load += c.page_Load;
         c.CurriculumnTreeView = curriculumTreeView;
+        c.LastPagesResult = lastPagesResultTable;
         c.Response = Response;
     }
 }
