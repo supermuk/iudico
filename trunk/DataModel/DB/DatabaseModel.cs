@@ -44,6 +44,14 @@ namespace IUDICO.DataModel.DB
 
     public partial class FxCurriculumOperations : FxDataObject, IFxDataObject
     {
+        [TableRecord]
+        public readonly static FxCurriculumOperations View;
+
+        static FxCurriculumOperations()
+        {
+            View = ServerModel.DB.Load<FxCurriculumOperations>(3);
+        }
+       
     }
 
     public partial class TblPermissions : IntKeyedDataObject, IIntKeyedDataObject
