@@ -19,7 +19,7 @@
         top: 140px; left: 300px;" ShowLines="True" ShowCheckBoxes="All">
     </iudico:IdentityTreeView>
     <iudico:IdentityTreeView ID="TreeView_Courses" runat="server" Style="position: absolute;
-        top: 140px; left: 0px;" ShowLines="True" ShowCheckBoxes="Leaf">
+        top: 140px; left: 0px;" ImageSet="Custom" ShowCheckBoxes="Leaf">
     </iudico:IdentityTreeView>
     <asp:Button ID="Button_CreateCurriculum" runat="server" Style="position: absolute;
         top: 220px; left: 550px;" Text="Create new curriculum" />

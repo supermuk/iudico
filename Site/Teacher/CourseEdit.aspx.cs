@@ -1,21 +1,27 @@
 ﻿using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
+using System.Web.UI;
 
-public partial class CourseEdit : ControlledPage<EditCourseController>
+public partial class CourseEdit : ControlledPage<CourseEditController>
 {
-    protected override void BindController(EditCourseController c)
+    protected override void BindController(CourseEditController c)
     {
         base.BindController(c);
 
-        LoadComplete += c.pageLoad;
-        moveUp.Click += c.moveUpButton_Click;
-        moveDown.Click += c.moveDownButton_Click;
-        rename.Click += c.renameButton_Click;
-        delete.Click += c.deleteButton_Click;
+        c.NameTextBox = TextBox_Name;
+        c.DescriptionTextBox = TextBox_Description;
+        c.CourseUpload = FileUpload_Course;
+        c.NotifyLabel = Label_Notify;
+        c.ImportButton = Button_Import;
+        c.DeleteButton = Button_Delete;
+        c.CourseTree = TreeView_Courses;
 
-        c.Request = Request;
+        Load += c.PageLoad;
 
-        c.RenameTextBox = renameTextBox;
-        c.CourseTreeView = courseTreeView;
+        //Add postback trigger for file upload control
+        UpdatePanelControlTrigger trigger = new PostBackTrigger();
+        trigger.ControlID = Button_Import.UniqueID;
+        UpdatePanel panel = (UpdatePanel)Master.FindControl("UpdatePanel1");
+        panel.Triggers.Add(trigger);
     }
 }
