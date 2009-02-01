@@ -12,7 +12,7 @@ using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.Controllers
 {
-    public class CurriculumAssignController : ControllerBase
+    public class CurriculumAssignmentController : ControllerBase
     {
         public TreeView AssigmentsTree { get; set; }
 

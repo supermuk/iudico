@@ -28,8 +28,7 @@ namespace IUDICO.DataModel.Controllers
         public TextBox DescriptionTextBox { get; set; }
 
         public void PageLoad(object sender, EventArgs e)
-        {
-           
+        {           
             //registering for events            
             CreateCurriculumButton.Click += new EventHandler(CreateCurriculumButton_Click);
             AddThemeButton.Click += new EventHandler(AddThemeButton_Click);
@@ -98,6 +97,10 @@ namespace IUDICO.DataModel.Controllers
             curriculum.Name = NameTextBox.Text;
             curriculum.Description = DescriptionTextBox.Text;
             curriculum.ID = ServerModel.DB.Insert<TblCurriculums>(curriculum);
+
+            //grant permissions for this curriculum
+            PermissionsManager.Grand(curriculum, FxCourseOperations.Use, ServerModel.User.Current.ID, null, DateTimeInterval.Full);
+            PermissionsManager.Grand(curriculum, FxCourseOperations.Modify, ServerModel.User.Current.ID, null, DateTimeInterval.Full);
 
             //Update curriculum tree
             CurriculumTree.Nodes.Add(new IdendtityNode(curriculum));
@@ -223,6 +226,9 @@ namespace IUDICO.DataModel.Controllers
         private void fillCourseTree()
         {
             CourseTree.Nodes.Clear();
+            IList<int> myCoursesIDs = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.COURSE,
+                ServerModel.User.Current.ID, FxCourseOperations.Modify.ID, DateTime.Now);
+
             foreach (TblCourses course in ServerModel.DB.Query<TblCourses>(null))
             {
                 IdendtityNode courseNode = new IdendtityNode(course);
@@ -244,6 +250,9 @@ namespace IUDICO.DataModel.Controllers
         private void fillCurriculumTree()
         {
             CurriculumTree.Nodes.Clear();
+            IList<int> myCurriculumsIDs = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.CURRICULUM,
+                ServerModel.User.Current.ID, FxCurriculumOperations.Modify.ID, DateTime.Now);
+
             foreach (TblCurriculums curriculum in ServerModel.DB.Query<TblCurriculums>(null))
             {
                 IdendtityNode curriculumNode = new IdendtityNode(curriculum);

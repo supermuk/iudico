@@ -7,9 +7,9 @@ using System.Web.UI.WebControls;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
 
-public partial class CurriculumAssigment : ControlledPage<CurriculumAssignController>
+public partial class CurriculumAssignment : ControlledPage<CurriculumAssignmentController>
 {
-    protected override void BindController(CurriculumAssignController c)
+    protected override void BindController(CurriculumAssignmentController c)
     {
         base.BindController(c);
 

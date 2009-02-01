@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
-    CodeFile="CurriculumAssigment.aspx.cs" Inherits="CurriculumAssigment" %>
+    CodeFile="CurriculumAssignment.aspx.cs" Inherits="CurriculumAssignment" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="Server">
     <asp:ListBox ID="ListBox_Groups" runat="server" Style="position: absolute; top: 140px;
