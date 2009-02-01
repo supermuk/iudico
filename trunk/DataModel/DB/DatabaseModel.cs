@@ -12,11 +12,40 @@ namespace IUDICO.DataModel.DB
         }
     }
 
-    public partial class FxCourseOperations : FxDataObject, IFxDataObject { }
+    public partial class FxCourseOperations : FxDataObject, IFxDataObject
+    {
+        [TableRecord]
+        public readonly static FxCourseOperations Modify;
+
+        [TableRecord]
+        public readonly static FxCourseOperations Use;
+
+        static FxCourseOperations()
+        {
+            foreach (FxCourseOperations courseOperation in ServerModel.DB.Query<FxCourseOperations>(null))
+            {
+                switch (courseOperation.Name)
+                {
+                    case "Use":
+                        {
+                            Use = courseOperation;
+                            break;
+                        }
+                    case "Modify":
+                        {
+                            Modify = courseOperation;
+                            break;
+                        }
+                }
+            }
+
+        }
+
+    }
 
     public partial class FxThemeOperations : FxDataObject, IFxDataObject { }
 
-    public partial class FxStageOperations : FxDataObject, IFxDataObject {}
+    public partial class FxStageOperations : FxDataObject, IFxDataObject { }
 
     public partial class FxRoles : FxDataObject, IFxDataObject
     {
@@ -45,13 +74,48 @@ namespace IUDICO.DataModel.DB
     public partial class FxCurriculumOperations : FxDataObject, IFxDataObject
     {
         [TableRecord]
+        public readonly static FxCurriculumOperations Modify;
+
+        [TableRecord]
+        public readonly static FxCurriculumOperations Use;
+
+        [TableRecord]
         public readonly static FxCurriculumOperations View;
+
+        [TableRecord]
+        public readonly static FxCurriculumOperations Pass;
 
         static FxCurriculumOperations()
         {
-            View = ServerModel.DB.Load<FxCurriculumOperations>(3);
+            foreach (FxCurriculumOperations curriculumOperation in ServerModel.DB.Query<FxCurriculumOperations>(null))
+            {
+                switch (curriculumOperation.Name)
+                {
+                    case "Use":
+                        {
+                            Use = curriculumOperation;
+                            break;
+                        }
+                    case "Modify":
+                        {
+                            Modify = curriculumOperation;
+                            break;
+                        }
+                    case "View":
+                        {
+                            View = curriculumOperation;
+                            break;
+                        }
+                    case "Pass":
+                        {
+                            Pass = curriculumOperation;
+                            break;
+                        }
+                }
+            }
+
         }
-       
+
     }
 
     public partial class TblPermissions : IntKeyedDataObject, IIntKeyedDataObject
@@ -71,7 +135,7 @@ namespace IUDICO.DataModel.DB
 
         public int? GetObjectID(SECURED_OBJECT_TYPE ot)
         {
-            return (int?) GetType().GetProperty(ot.GetSecurityAtr().Name + "Ref").GetValue(this, null);
+            return (int?)GetType().GetProperty(ot.GetSecurityAtr().Name + "Ref").GetValue(this, null);
         }
 
         public void SetObjectID(SECURED_OBJECT_TYPE ot, int value)
@@ -102,7 +166,7 @@ namespace IUDICO.DataModel.DB
     {
     }
 
-    public partial class TblCourses : SecuredDataObject, ISecuredDataObject  
+    public partial class TblCourses : SecuredDataObject, ISecuredDataObject
     {
     }
 
@@ -118,9 +182,9 @@ namespace IUDICO.DataModel.DB
 
     public partial class TblPages : IntKeyedDataObject, IIntKeyedDataObject { }
 
-    public partial class TblQuestions : IntKeyedDataObject, IIntKeyedDataObject {}
+    public partial class TblQuestions : IntKeyedDataObject, IIntKeyedDataObject { }
 
-    public partial class TblSampleBusinesObject : IntKeyedDataObject, IIntKeyedDataObject {}
+    public partial class TblSampleBusinesObject : IntKeyedDataObject, IIntKeyedDataObject { }
 
     public partial class TblStages : SecuredDataObject, ISecuredDataObject
     {
@@ -130,7 +194,7 @@ namespace IUDICO.DataModel.DB
     {
     }
 
-    public partial class TblUserAnswers : IntKeyedDataObject, IIntKeyedDataObject {}
+    public partial class TblUserAnswers : IntKeyedDataObject, IIntKeyedDataObject { }
 
     public partial class TblUsers : IntKeyedDataObject, IIntKeyedDataObject
     {
@@ -142,7 +206,7 @@ namespace IUDICO.DataModel.DB
 
     [ManyToManyRelationship(typeof(TblUsers), typeof(FxRoles))]
     public partial class RelUserRoles : RelTable, IRelationshipTable
-    {   
+    {
     }
 
     [ManyToManyRelationship(typeof(TblUsers), typeof(TblGroups))]

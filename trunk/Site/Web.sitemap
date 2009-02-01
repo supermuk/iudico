@@ -3,7 +3,7 @@
   <siteMapNode url="" title=""  description="">
     <siteMapNode url="Home.aspx" title="Home" />
     <siteMapNode title="User">
-      <siteMapNode title="My Personal Info" />
+      <siteMapNode title="My Personal Info" url="~/User/MyInfo.aspx"/>
       <siteMapNode url="~/User/MyPermissions.aspx" title="My permissions" />
     </siteMapNode>
     <siteMapNode title="Student" roles="STUDENT">
@@ -12,11 +12,12 @@
       <siteMapNode title="Create Group" url="CreateGroup.aspx?Trainer" />
     </siteMapNode>
     <siteMapNode title="Lector" roles="LECTOR">
-      <siteMapNode title="Create Group" url="~/Admin/CreateGroup.aspx?Lector" />
-      <siteMapNode title="UpLoad Course" url="~/Teacher/CourseImport.aspx" />
-      <siteMapNode title="Create Curriculum" url="~/Teacher/CurriculumEdit.aspx" />
-      <siteMapNode title="Assign Curriculum" url="~/Teacher/CurriculumAssigment.aspx" />
-      <siteMapNode title="Detailed Curriculum Assign" url="~/Teacher/CurriculumTimeline.aspx" />
+      <siteMapNode title="Groups" url="~/Admin/CreateGroup.aspx?Lector" />
+      <siteMapNode title="Courses" url="~/Teacher/CourseImport.aspx" />
+      <siteMapNode title="Curriculums" url="~/Teacher/CurriculumEdit.aspx" />
+      <siteMapNode title="Assignment" url="~/Teacher/CurriculumAssignment.aspx" >
+        <siteMapNode title="Detailed assignment" url="~/Teacher/CurriculumTimeline.aspx" />
+      </siteMapNode>
     </siteMapNode>
     <siteMapNode title="Admin" roles="ADMIN">
       <siteMapNode title="Users" url="~/Admin/Users.aspx" />

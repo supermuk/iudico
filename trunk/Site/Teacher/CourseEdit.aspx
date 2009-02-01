@@ -1,22 +1,27 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CourseEdit.aspx.cs" Inherits="CourseEdit" Title="Untitled Page" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
+    CodeFile="CourseEdit.aspx.cs" Inherits="CourseEdit" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
-<title>Edit Course</title>
+<%@ Register TagPrefix="iudico" Namespace="IUDICO.DataModel.Controllers" %>
+<asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="Server">
+    <asp:Label ID="Label_Name" runat="server" Text="Name" Style="position: absolute;
+        top: 120px; left: 0px;"></asp:Label>
+    <asp:Label ID="Label_Notify" runat="server" Style="position: absolute; top: 280px;
+        left: 0px;"></asp:Label>
+    <asp:Label ID="Label_Description" runat="server" Text="Description" Style="position: absolute;
+        top: 160px; left: 0px;"></asp:Label>
+    <asp:TextBox ID="TextBox_Name" runat="server" Style="position: absolute; top: 120px;
+        left: 100px; bottom: 470px;"></asp:TextBox>
+    <asp:TextBox ID="TextBox_Description" runat="server" Style="position: absolute; top: 160px;
+        left: 100px;"></asp:TextBox>
+    <asp:Button ID="Button_Import" runat="server" Text="Import Course" Style="position: absolute;
+        top: 240px; left: 60px;" />
+    <asp:Button ID="Button_Delete" runat="server" Text="Delete" Style="position: absolute;
+        top: 120px; left: 460px;" />
+    <asp:FileUpload ID="FileUpload_Course" runat="server" Style="position: absolute;
+        top: 200px; left: 0px;" />
+    <asp:Label ID="Label_Courses" runat="server" Style="position: absolute; top: 120px;
+        left: 300px;" Text="Available Courses:"></asp:Label>
+    <iudico:IdentityTreeView ID="TreeView_Courses" runat="server" Style="position: absolute;
+        top: 140px; left: 300px;" ImageSet="Custom" ShowCheckBoxes="Root">
+    </iudico:IdentityTreeView>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
-    <asp:Button ID="moveUp" runat="server" Text="Move Up" />
-    <asp:Button ID="moveDown" runat="server" Text="Move Down" />
-    <asp:TreeView ID="courseTreeView" runat="server" ImageSet="XPFileExplorer" 
-        NodeIndent="15">
-        <ParentNodeStyle Font-Bold="False" />
-        <HoverNodeStyle Font-Underline="True" ForeColor="#6666AA" />
-        <SelectedNodeStyle BackColor="#B5B5B5" Font-Underline="False" 
-            HorizontalPadding="0px" VerticalPadding="0px" />
-        <NodeStyle Font-Names="Tahoma" Font-Size="8pt" ForeColor="Black" 
-            HorizontalPadding="2px" NodeSpacing="0px" VerticalPadding="2px" />
-    </asp:TreeView>
-    <asp:Button ID="delete" runat="server" Text="Delete" Enabled = "false"/>
-    <asp:Button ID="rename" runat="server" Text="Rename" />
-    <asp:TextBox ID="renameTextBox" runat="server" Visible = "false"></asp:TextBox>
-    </asp:Content>
-
