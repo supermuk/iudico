@@ -28,7 +28,7 @@ namespace IUDICO.DataModel.WebControl
 
         public override string CreateCodeForTest(int testId)
         {
-            return string.Format("IUDICO.DataModel.WebTest.TextBoxTest({0}.Text, {1})", Name, testId);
+            return string.Format("IUDICO.DataModel.WebTest.CompiledTest({0}.Text, {1})", Name, testId);
         }
     }
 }

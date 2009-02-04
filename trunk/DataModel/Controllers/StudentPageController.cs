@@ -6,6 +6,7 @@ using System.Web.UI.WebControls;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.Security;
+using TestingSystem;
 
 namespace IUDICO.DataModel.Controllers
 {
@@ -224,7 +225,18 @@ namespace IUDICO.DataModel.Controllers
                     var latestUserAnswer = FindUserAnswerWithNeededDate(currUserAnswers, date);
 
                     if (latestUserAnswer.UserAnswer == question.CorrectAnswer)
-                        userRank += (int)question.Rank;
+                    {
+                        userRank += (int) question.Rank;
+                    }
+                    else if (latestUserAnswer.IsCompiledAnswer)
+                    {
+                        var userCompiledAnswers = ServerModel.DB.Load<TblCompiledAnswers>((int)latestUserAnswer.CompiledAnswerRef);
+
+                        if (userCompiledAnswers.StatusRef == (int)Status.Accepted)
+                        {
+                            userRank += (int)question.Rank;
+                        }
+                    }
                 }
                 else
                 {
