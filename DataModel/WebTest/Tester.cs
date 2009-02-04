@@ -26,17 +26,12 @@ namespace IUDICO.DataModel.WebTest
                 ua.QuestionRef = t.Id;
                 ua.Date = DateTime.Now;
                 ua.UserRef = ((CustomUser) Membership.GetUser()).ID;
-                if(t is CompiledTest)
-                {
-                    
-
-                }
-                else
-                {
-                    ua.UserAnswer = t.UserAnswer;
-                    ua.IsCompiledAnswer = false;
-                }
+                ua.UserAnswer = t.UserAnswer;
+                ua.IsCompiledAnswer = t is CompiledTest;
                 ServerModel.DB.Insert(ua);
+                
+                if(ua.IsCompiledAnswer)
+                    (new CompilationManager()).Compile(ua);
             }
         }
     }

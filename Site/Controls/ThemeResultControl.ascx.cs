@@ -6,6 +6,7 @@ using IUDICO.DataModel;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.ImportManagers;
 using IUDICO.DataModel.Security;
+using TestingSystem;
 
 public partial class ThemeResultControl : System.Web.UI.UserControl
 {
@@ -58,7 +59,18 @@ public partial class ThemeResultControl : System.Web.UI.UserControl
                 var latestUserAnswer = FindLatestUserAnswer(currUserAnswers);
 
                 if (latestUserAnswer.UserAnswer == question.CorrectAnswer)
+                {
                     userRank += (int) question.Rank;
+                }
+                else if (latestUserAnswer.IsCompiledAnswer)
+                {
+                    var userCompiledAnswers = ServerModel.DB.Load<TblCompiledAnswers>((int) latestUserAnswer.CompiledAnswerRef);
+
+                    if(userCompiledAnswers.StatusRef == (int)Status.Accepted)
+                    {
+                        userRank += (int)question.Rank;
+                    }
+                }
             }
             else
             {

@@ -192,6 +192,7 @@
     <Compile Include="WebControl\WebTestControl.cs" />
     <Compile Include="WebControl\WebTextBox.cs" />
     <Compile Include="WebTest\ComboBoxTest.cs" />
+    <Compile Include="WebTest\CompilationManager.cs" />
     <Compile Include="WebTest\CompiledTest.cs" />
     <Compile Include="WebTest\SimpleQuestionTest.cs" />
     <Compile Include="WebTest\Test.cs" />

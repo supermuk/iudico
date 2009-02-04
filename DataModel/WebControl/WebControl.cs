@@ -31,7 +31,7 @@ namespace IUDICO.DataModel.WebControl
 
         private void ReadFontAttributes([NotNull] HtmlStyleReader styles)
         {
-            string font_size = styles[HtmlTextWriterStyle.FontSize];
+            /*string font_size = styles[HtmlTextWriterStyle.FontSize];
             if (!string.IsNullOrEmpty(font_size))
             {
                 GraphicsUnit u = font_size.EndsWith("pt") ? GraphicsUnit.Point : GraphicsUnit.Pixel;
@@ -46,7 +46,7 @@ namespace IUDICO.DataModel.WebControl
                 }
                 font_size = font_size.Remove(font_size.Length - 2);
                 font = new Font(styles[HtmlTextWriterStyle.FontFamily], float.Parse(font_size), fs, u);
-            }
+            }*/
         }
 
         private void ReadSizeAttributes([NotNull] HtmlStyleReader styles)

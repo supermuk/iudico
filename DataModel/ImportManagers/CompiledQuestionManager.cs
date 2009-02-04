@@ -77,7 +77,7 @@ namespace IUDICO.DataModel.ImportManagers
         {
             foreach (FX_LANGUAGE l in Enum.GetValues(typeof(FX_LANGUAGE)))
             {
-                if (l.ToString().Equals(lang))
+                if (l.ToString().ToLower().Equals(lang.ToLower()))
                     return l;
             }
 
