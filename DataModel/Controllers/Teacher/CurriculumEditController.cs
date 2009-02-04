@@ -27,8 +27,10 @@ namespace IUDICO.DataModel.Controllers
         public TextBox NameTextBox { get; set; }
         public TextBox DescriptionTextBox { get; set; }
 
+        public Label NotifyLabel { get; set; }
+
         public void PageLoad(object sender, EventArgs e)
-        {           
+        {
             //registering for events            
             CreateCurriculumButton.Click += new EventHandler(CreateCurriculumButton_Click);
             AddThemeButton.Click += new EventHandler(AddThemeButton_Click);
@@ -41,15 +43,27 @@ namespace IUDICO.DataModel.Controllers
                 fillCourseTree();
                 fillCurriculumTree();
             }
-            
         }
 
         private void ModifyButton_Click(object sender, EventArgs e)
         {
+            bool checkedNodes = false;
+            if (NameTextBox.Text.Trim() == "")
+            {
+                NotifyLabel.Text = "Enter curriculum new name.";
+                return;
+            }
+            if (DescriptionTextBox.Text.Trim() == "")
+            {
+                NotifyLabel.Text = "Enter curriculum new description.";
+                return;
+            }
+
             foreach (IdendtityNode node in CurriculumTree.CheckedNodes)
             {
                 if (node.Type == NodeType.Stage)
                 {
+                    checkedNodes = true;
                     TblStages stage = ServerModel.DB.Load<TblStages>(node.ID);
                     stage.Name = NameTextBox.Text;
                     stage.Description = DescriptionTextBox.Text;
@@ -60,6 +74,7 @@ namespace IUDICO.DataModel.Controllers
                 }
                 if (node.Type == NodeType.Curriculum)
                 {
+                    checkedNodes = true;
                     TblCurriculums curriculum = ServerModel.DB.Load<TblCurriculums>(node.ID);
                     curriculum.Name = NameTextBox.Text;
                     curriculum.Description = DescriptionTextBox.Text;
@@ -69,14 +84,32 @@ namespace IUDICO.DataModel.Controllers
                     node.ToolTip = curriculum.Description;
                 }
             }
+            if (!checkedNodes)
+            {
+                NotifyLabel.Text = "Check some curriculums or stages to modify.";
+                return;
+            }
         }
 
         private void CreateStageButton_Click(object sender, EventArgs e)
         {
+            bool checkedCurriculums = false;
+            if (NameTextBox.Text.Trim() == "")
+            {
+                NotifyLabel.Text = "Enter stage name.";
+                return;
+            }
+            if (DescriptionTextBox.Text.Trim() == "")
+            {
+                NotifyLabel.Text = "Enter stage description.";
+                return;
+            }
+
             foreach (IdendtityNode curriculum in CurriculumTree.CheckedNodes)
             {
                 if (curriculum.Type == NodeType.Curriculum)
                 {
+                    checkedCurriculums = true;
                     //Create new stage
                     TblStages stage = new TblStages();
                     stage.Name = NameTextBox.Text;
@@ -88,10 +121,25 @@ namespace IUDICO.DataModel.Controllers
                     curriculum.ChildNodes.Add(new IdendtityNode(stage));
                 }
             }
+            if (!checkedCurriculums)
+            {
+                NotifyLabel.Text = "Check some curriculums to which stage will be added.";
+                return;
+            }
         }
 
         private void CreateCurriculumButton_Click(object sender, EventArgs e)
         {
+            if (NameTextBox.Text.Trim() == "")
+            {
+                NotifyLabel.Text = "Enter curriculum name.";
+                return;
+            }
+            if (DescriptionTextBox.Text.Trim() == "")
+            {
+                NotifyLabel.Text = "Enter curriculum description.";
+                return;
+            }
             //create new curriculum
             TblCurriculums curriculum = new TblCurriculums();
             curriculum.Name = NameTextBox.Text;
@@ -99,8 +147,8 @@ namespace IUDICO.DataModel.Controllers
             curriculum.ID = ServerModel.DB.Insert<TblCurriculums>(curriculum);
 
             //grant permissions for this curriculum
-            PermissionsManager.Grand(curriculum, FxCourseOperations.Use, ServerModel.User.Current.ID, null, DateTimeInterval.Full);
-            PermissionsManager.Grand(curriculum, FxCourseOperations.Modify, ServerModel.User.Current.ID, null, DateTimeInterval.Full);
+            //PermissionsManager.Grand(curriculum, FxCourseOperations.Use, ServerModel.User.Current.ID, null, DateTimeInterval.Full);
+            //PermissionsManager.Grand(curriculum, FxCourseOperations.Modify, ServerModel.User.Current.ID, null, DateTimeInterval.Full);
 
             //Update curriculum tree
             CurriculumTree.Nodes.Add(new IdendtityNode(curriculum));
@@ -108,6 +156,7 @@ namespace IUDICO.DataModel.Controllers
 
         private void AddThemeButton_Click(object sender, EventArgs e)
         {
+            bool added = false;
             foreach (IdendtityNode theme in CourseTree.CheckedNodes)
             {
                 if (theme.Type == NodeType.Theme)
@@ -117,6 +166,7 @@ namespace IUDICO.DataModel.Controllers
                         if (stage.Type == NodeType.Stage)
                         {
                             bool stageAlreadyHaveThisTheme = false;
+                            added = true;
                             foreach (IdendtityNode stageChild in stage.ChildNodes)
                             {
                                 if (stageChild.ID == theme.ID)
@@ -139,12 +189,21 @@ namespace IUDICO.DataModel.Controllers
                         }
                     }
                 }
-
+            }
+            if (!added)
+            {
+                NotifyLabel.Text = "Check some themes and some stages to link with.";
             }
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
+            //CHECK IF CURRICULUM IS ASSIGNED TO SOME GROUP
+            if (CurriculumTree.CheckedNodes.Count == 0)
+            {
+                NotifyLabel.Text = "Check some node to delete.";
+                return;
+            }
             List<IdendtityNode> deletedNodes = new List<IdendtityNode>();
             foreach (IdendtityNode node in CurriculumTree.CheckedNodes)
             {
@@ -186,7 +245,7 @@ namespace IUDICO.DataModel.Controllers
 
         }
 
-        private void deleteTheme(IdendtityNode theme,List<IdendtityNode> deletedNodes)
+        private void deleteTheme(IdendtityNode theme, List<IdendtityNode> deletedNodes)
         {
             if (!deletedNodes.Contains(theme))
             {
@@ -227,15 +286,14 @@ namespace IUDICO.DataModel.Controllers
         {
             CourseTree.Nodes.Clear();
             IList<int> myCoursesIDs = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.COURSE,
-                ServerModel.User.Current.ID, FxCourseOperations.Modify.ID, DateTime.Now);
+                ServerModel.User.Current.ID, FxCourseOperations.Use.ID, DateTime.Now);
 
+            //foreach (TblCourses course in ServerModel.DB.Load<TblCourses>(myCoursesIDs))
             foreach (TblCourses course in ServerModel.DB.Query<TblCourses>(null))
             {
                 IdendtityNode courseNode = new IdendtityNode(course);
-                foreach (TblThemes theme in ServerModel.DB.Query<TblThemes>
-                    (new CompareCondition(
-                        DataObject.Schema.CourseRef,
-                        new ValueCondition<int>(course.ID), COMPARE_KIND.EQUAL)))
+                List<int> themesIDs = ServerModel.DB.LookupIds<TblThemes>(course, null);
+                foreach (TblThemes theme in ServerModel.DB.Load<TblThemes>(themesIDs))
                 {
                     IdendtityNode themeNode = new IdendtityNode(theme);
                     courseNode.ChildNodes.Add(themeNode);
@@ -243,7 +301,10 @@ namespace IUDICO.DataModel.Controllers
                 CourseTree.Nodes.Add(courseNode);
             }
             CourseTree.ExpandAll();
-
+            if (CourseTree.Nodes.Count == 0)
+            {
+                NotifyLabel.Text = "You have no courses, upload some first.";
+            }
 
         }
 
@@ -253,22 +314,16 @@ namespace IUDICO.DataModel.Controllers
             IList<int> myCurriculumsIDs = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.CURRICULUM,
                 ServerModel.User.Current.ID, FxCurriculumOperations.Modify.ID, DateTime.Now);
 
+            //foreach (TblCurriculums curriculum in ServerModel.DB.Load<TblCurriculums>(myCurriculumsIDs))
             foreach (TblCurriculums curriculum in ServerModel.DB.Query<TblCurriculums>(null))
             {
                 IdendtityNode curriculumNode = new IdendtityNode(curriculum);
-                foreach (TblStages stage in ServerModel.DB.Query<TblStages>
-                    (new CompareCondition(
-                        DataObject.Schema.CurriculumRef,
-                        new ValueCondition<int>(curriculum.ID), COMPARE_KIND.EQUAL)))
+                List<int> stagesIDs = ServerModel.DB.LookupIds<TblStages>(curriculum, null);
+                foreach (TblStages stage in ServerModel.DB.Load<TblStages>(stagesIDs))
                 {
                     IdendtityNode stageNode = new IdendtityNode(stage);
-                    foreach (TblThemes theme in ServerModel.DB.Query<TblThemes>
-                        (new InCondition(
-                            DataObject.Schema.ID,
-                            new SubSelectCondition<RelStagesThemes>("ThemeRef",
-                               new CompareCondition(
-                                  DataObject.Schema.StageRef,
-                                  new ValueCondition<int>(stage.ID), COMPARE_KIND.EQUAL)))))
+                    List<int> themesIDs = ServerModel.DB.LookupMany2ManyIds<TblThemes>(stage, null);
+                    foreach (TblThemes theme in ServerModel.DB.Load<TblThemes>(themesIDs))
                     {
                         IdendtityNode themeNode = new IdendtityNode(theme);
                         stageNode.ChildNodes.Add(themeNode);
@@ -280,6 +335,4 @@ namespace IUDICO.DataModel.Controllers
             CurriculumTree.ExpandAll();
         }
     }
-
-
 }

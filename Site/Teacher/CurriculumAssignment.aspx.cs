@@ -21,7 +21,9 @@ public partial class CurriculumAssignment : ControlledPage<CurriculumAssignmentC
 
         c.GroupsListBox = ListBox_Groups;
         c.CurriculumsListBox = ListBox_Curriculums;
-        
+
+        c.NotifyLabel = Label_Notify;
+
         Load += c.PageLoad;
     }
 }

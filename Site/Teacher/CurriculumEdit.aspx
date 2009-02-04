@@ -1,8 +1,10 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
     CodeFile="CurriculumEdit.aspx.cs" Inherits="CurriculumEdit" %>
-<%@ Register TagPrefix="iudico" Namespace="IUDICO.DataModel.Controllers" %>
 
+<%@ Register TagPrefix="iudico" Namespace="IUDICO.DataModel.Controllers" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="Server">
+    <asp:Label ID="Label_Notify" runat="server" Style="position: absolute; top: 60px;
+        left: 0px;"></asp:Label>
     <asp:TextBox ID="TextBox_Name" runat="server" Style="position: absolute; top: 120px;
         left: 650px;"></asp:TextBox>
     <asp:TextBox ID="TextBox_Description" runat="server" Style="position: absolute; top: 170px;

@@ -5,12 +5,12 @@
 <asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="Server">
     <asp:Label ID="Label_Name" runat="server" Text="Name" Style="position: absolute;
         top: 120px; left: 0px;"></asp:Label>
-    <asp:Label ID="Label_Notify" runat="server" Style="position: absolute; top: 280px;
+    <asp:Label ID="Label_Notify" runat="server" Style="position: absolute; top: 60px;
         left: 0px;"></asp:Label>
     <asp:Label ID="Label_Description" runat="server" Text="Description" Style="position: absolute;
         top: 160px; left: 0px;"></asp:Label>
     <asp:TextBox ID="TextBox_Name" runat="server" Style="position: absolute; top: 120px;
-        left: 100px; bottom: 470px;"></asp:TextBox>
+        left: 100px;"></asp:TextBox>
     <asp:TextBox ID="TextBox_Description" runat="server" Style="position: absolute; top: 160px;
         left: 100px;"></asp:TextBox>
     <asp:Button ID="Button_Import" runat="server" Text="Import Course" Style="position: absolute;

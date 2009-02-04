@@ -13,7 +13,7 @@
     </siteMapNode>
     <siteMapNode title="Lector" roles="LECTOR">
       <siteMapNode title="Groups" url="~/Admin/CreateGroup.aspx?Lector" />
-      <siteMapNode title="Courses" url="~/Teacher/CourseImport.aspx" />
+      <siteMapNode title="Courses" url="~/Teacher/CourseEdit.aspx" />
       <siteMapNode title="Curriculums" url="~/Teacher/CurriculumEdit.aspx" />
       <siteMapNode title="Assignment" url="~/Teacher/CurriculumAssignment.aspx" >
         <siteMapNode title="Detailed assignment" url="~/Teacher/CurriculumTimeline.aspx" />

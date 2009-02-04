@@ -25,6 +25,8 @@ public partial class CurriculumEdit : ControlledPage<CurriculumEditController>
         c.NameTextBox = TextBox_Name;
         c.DescriptionTextBox = TextBox_Description;
 
+        c.NotifyLabel = Label_Notify;
+
         Load += c.PageLoad;   
     }
 

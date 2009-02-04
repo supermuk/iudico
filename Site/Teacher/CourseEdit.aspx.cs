@@ -23,5 +23,6 @@ public partial class CourseEdit : ControlledPage<CourseEditController>
         trigger.ControlID = Button_Import.UniqueID;
         UpdatePanel panel = (UpdatePanel)Master.FindControl("UpdatePanel1");
         panel.Triggers.Add(trigger);
+
     }
 }

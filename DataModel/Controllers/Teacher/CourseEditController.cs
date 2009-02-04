@@ -37,35 +37,53 @@ namespace IUDICO.DataModel.Controllers
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            foreach (TblCourses course in CourseTree.CheckedNodes)
+            //argument validation
+            if (CourseTree.CheckedNodes.Count == 0)
             {
+                NotifyLabel.Text = "Check some courses to delete.";
+                return;
+            }
+
+            //validate if current course is used in any curriculum
+            for (int i = 0; i < CourseTree.CheckedNodes.Count; i++)
+            {
+                IdendtityNode courseNode = CourseTree.CheckedNodes[i] as IdendtityNode;
+                TblCourses course = ServerModel.DB.Load<TblCourses>(courseNode.ID);
+
                 foreach (TblThemes theme in getThemesOfCourse(course))
                 {
-                    TblStages relatedStage = ServerModel.DB.QuerySingle<TblStages>
-                        (new InCondition(
-                            DataObject.Schema.ID,
-                            new SubSelectCondition<RelStagesThemes>("StageRef",
-                               new CompareCondition(
-                                  DataObject.Schema.ThemeRef,
-                                  new ValueCondition<int>(theme.ID), COMPARE_KIND.EQUAL))));
-                    if (relatedStage != null)
-                    { 
-                        TblCurriculums relatedCurriculum = ServerModel.DB.Load<TblCurriculums>((int)relatedStage.CurriculumRef);
-                        NotifyLabel.Text = "Theme " + theme.Name + "of course " + course.Name +
-                            "is used in stage " + relatedStage.Name + " in curriculum " + relatedCurriculum.Name;
-                        NotifyLabel.Style["color"] = "violet";
+                    List<int> stagesIDs = ServerModel.DB.LookupMany2ManyIds<TblStages>(theme, null);
+                    IList<TblStages> relatedStages = ServerModel.DB.Load<TblStages>(stagesIDs);
+                    if (relatedStages.Count > 0)
+                    {
+                        TblCurriculums relatedCurriculum = ServerModel.DB.Load<TblCurriculums>((int)relatedStages[0].CurriculumRef);
+                        NotifyLabel.Text = "Theme " + theme.Name + " of course: " + course.Name +
+                            " is used in stage: " + relatedStages[0].Name + " in curriculum: " + relatedCurriculum.Name;
                         return;
                     }
 
                 }
-                //REMOVE COURSE!
+                //REMOVE PERMISSIONS
+                //REMOVE COURSE FROM DATABASE!!!
+                //CourseCleaner.deleteCourse(course.ID);
+                CourseTree.Nodes.Remove(courseNode);
+                i--;
             }
-
-
         }
 
         private void ImportButton_Click(object sender, EventArgs e)
         {
+            //validate arguments
+            if (NameTextBox.Text.Trim() == "")
+            {
+                NotifyLabel.Text = "Enter course name.";
+                return;
+            }
+            if (DescriptionTextBox.Text.Trim() == "")
+            {
+                NotifyLabel.Text = "Enter course description.";
+                return;
+            }
             if (CourseUpload.HasFile)
             {
                 try
@@ -78,24 +96,28 @@ namespace IUDICO.DataModel.Controllers
 
                     int courseId = CourseManager.Import(projectPaths, NameTextBox.Text, DescriptionTextBox.Text);
 
-                    //update view
-                    NotifyLabel.Text = "Course was uploaded successfully.";
-                    NotifyLabel.Style["color"] = "blue";
+                    
+                    
 
                     TblCourses course = ServerModel.DB.Load<TblCourses>(courseId);
 
                     //grant permissions for this course
-                    PermissionsManager.Grand(course, FxCourseOperations.Use, ServerModel.User.Current.ID, null, DateTimeInterval.Full);
-                    PermissionsManager.Grand(course, FxCourseOperations.Modify, ServerModel.User.Current.ID, null, DateTimeInterval.Full);
+                    //PermissionsManager.Grand(course, FxCourseOperations.Use, ServerModel.User.Current.ID, null, DateTimeInterval.Full);
+                    //PermissionsManager.Grand(course, FxCourseOperations.Modify, ServerModel.User.Current.ID, null, DateTimeInterval.Full);
 
-                    //Update course tree
+                    //update view
                     addCourseNode(course);
+                    NotifyLabel.Text = "Course was uploaded successfully.";
                 }
                 catch
                 {
                     NotifyLabel.Text = "Error occurred during course upload.";
-                    NotifyLabel.Style["color"] = "red";
                 }
+            }
+            else
+            {
+                NotifyLabel.Text = "Specify course path.";
+                return;
             }
         }
 
@@ -123,7 +145,8 @@ namespace IUDICO.DataModel.Controllers
             IList<int> myCoursesIDs = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.COURSE,
                 ServerModel.User.Current.ID, FxCourseOperations.Modify.ID, DateTime.Now);
 
-            foreach (TblCourses course in ServerModel.DB.Load<TblCourses>(myCoursesIDs))
+            //foreach (TblCourses course in ServerModel.DB.Load<TblCourses>(myCoursesIDs))
+            foreach (TblCourses course in ServerModel.DB.Query<TblCourses>(null))
             {
                 addCourseNode(course);
             }
@@ -141,12 +164,103 @@ namespace IUDICO.DataModel.Controllers
             CourseTree.Nodes.Add(courseNode);
         }
 
-        private List<TblThemes> getThemesOfCourse(TblCourses course)
+        private IList<TblThemes> getThemesOfCourse(TblCourses course)
         {
-            return ServerModel.DB.Query<TblThemes>
-                    (new CompareCondition(
-                        DataObject.Schema.CourseRef,
-                        new ValueCondition<int>(course.ID), COMPARE_KIND.EQUAL));
+            List<int> themesIDs = ServerModel.DB.LookupIds<TblThemes>(course, null);
+            return ServerModel.DB.Load<TblThemes>(themesIDs);
+        }
+
+        static class CourseCleaner
+        {
+            public static void deleteCourse(int courseId)
+            {
+                var course = ServerModel.DB.Load<TblCourses>(courseId);
+                var themes = ServerModel.DB.LookupIds<TblThemes>(course, null);
+
+                foreach (var i in themes)
+                {
+                    deleteTheme(i);
+                }
+                ServerModel.DB.Delete<TblCourses>(courseId);
+            }
+
+            public static void deleteTheme(int themeId)
+            {
+                var theme = ServerModel.DB.Load<TblThemes>(themeId);
+                var pages = ServerModel.DB.LookupIds<TblPages>(theme, null);
+
+                foreach (var i in pages)
+                {
+                    deletePage(i);
+                }
+                ServerModel.DB.Delete<TblThemes>(themeId);
+            }
+
+            public static void deletePage(int pageId)
+            {
+                var page = ServerModel.DB.Load<TblPages>(pageId);
+                deleteFiles(page);
+
+                var question = ServerModel.DB.LookupIds<TblQuestions>(page, null);
+
+                foreach (var i in question)
+                {
+                    deleteQuestion(i);
+                }
+
+                ServerModel.DB.Delete<TblPages>(pageId);
+            }
+
+            private static void deleteFiles(TblPages page)
+            {
+                var files = ServerModel.DB.Load<TblFiles>(ServerModel.DB.LookupIds<TblFiles>(page, null));
+
+                foreach (var file in files)
+                {
+                    if (file.PID != null)
+                    {
+                        ServerModel.DB.Delete<TblFiles>(file.ID);
+                    }
+                }
+
+                var folders = ServerModel.DB.Load<TblFiles>(ServerModel.DB.LookupIds<TblFiles>(page, null));
+
+                foreach (var file in folders)
+                {
+                    ServerModel.DB.Delete<TblFiles>(file.ID);
+                }
+            }
+
+            private static void deleteQuestion(int questionId)
+            {
+                var question = ServerModel.DB.Load<TblQuestions>(questionId);
+
+                if (question.IsCompiled)
+                {
+                    deleteCompiledQuestion((int)question.CompiledQuestionRef);
+                }
+
+                ServerModel.DB.Delete<TblQuestions>(questionId);
+            }
+
+            private static void deleteCompiledQuestion(int compiledQuestionId)
+            {
+                var compiledQuestion = (ServerModel.DB.Load<TblCompiledQuestions>(compiledQuestionId));
+
+                var compiledQuestionsData = ServerModel.DB.LookupIds<TblCompiledQuestionsData>(compiledQuestion, null);
+
+                foreach (var i in compiledQuestionsData)
+                {
+                    deleteCompiledQuestionData(i);
+                }
+
+                ServerModel.DB.Delete<TblCompiledQuestions>(compiledQuestionId);
+            }
+
+            private static void deleteCompiledQuestionData(int compiledQuestionDataId)
+            {
+                ServerModel.DB.Delete<TblCompiledQuestionsData>(compiledQuestionDataId);
+            }
         }
     }
 }
