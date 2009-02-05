@@ -7,6 +7,7 @@ using IUDICO.DataModel;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.DB.Base;
+using IUDICO.DataModel.Security;
 using IUDICO.UnitTest.Base;
 using NUnit.Framework;
 
@@ -192,6 +193,33 @@ namespace IUDICO.UnitTest
 
             Assert.Greater(groups.Count, 0);
             Assert.IsNotNull(groups.Find(p => p.ID == group2.ID));
+        }
+
+        [Test]
+        public void GetGroupPermissionsTest()
+        {
+            var c = new TblCourses
+            {
+                Name = "test course",
+                Description = "unit test course"
+            };
+            ServerModel.DB.Insert(c);
+
+            var g = new TblGroups
+            {
+                Name = "test group"
+            };
+            ServerModel.DB.Insert(g);
+
+            PermissionsManager.Grand(c, FxCourseOperations.Edit, null, g.ID, new DateTimeInterval(DateTime.Now.AddDays(-1), DateTime.Now.AddDays(1)));
+
+            var ids = PermissionsManager.GetObjectsForGroup(SECURED_OBJECT_TYPE.COURSE, g.ID, FxCourseOperations.Edit.ID, DateTime.Now);
+            Assert.AreEqual(1, ids.Count);
+            Assert.AreEqual(c.ID, ids[0]);
+
+            ids = PermissionsManager.GetObjectsForGroup(SECURED_OBJECT_TYPE.COURSE, g.ID, null, null);
+            Assert.AreEqual(1, ids.Count);
+            Assert.AreEqual(c.ID, ids[0]);
         }
 
         protected override bool NeedToRecreateDB

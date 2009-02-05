@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Common;
@@ -6,43 +6,46 @@ using IUDICO.DataModel.Controllers;
 using IUDICO.DataModel.DB;
 using LEX.CONTROLS;
 
-public class Admin_EditUserController : ControllerBase, IDataModelPresenter
+public class Admin_EditUserController : ControllerBase
 {
-    public bool IsDirty
-    {
-        get { return false; }
-    }
-
-    public ReadOnlyCollection<IDataModelChange> Changes
-    {
-        get { return null; }
-    }
-
     public override void Initialize()
     {
         base.Initialize();
 
         User = ServerModel.DB.Load<TblUsers>(UserID);
-        var roles = ServerModel.DB.LookupMany2ManyIds<FxRoles>(User, null);
+        var roles = ServerModel.User.ByLogin(User.Login).Roles;
 
-        StudentRoleChecked.Value = roles.Contains(FxRoles.STUDENT.ID);
-        TrainerRoleChecked.Value = roles.Contains(FxRoles.TRAINER.ID);
-        LectorRoleChecked.Value = roles.Contains(FxRoles.LECTOR.ID);
-        AdminRoleChecked.Value = roles.Contains(FxRoles.ADMIN.ID);
-        SuperAdminRoleChecked.Value = roles.Contains(FxRoles.SUPER_ADMIN.ID);
-
-        superAdminRoleEnable.Value = AdminRoleEnable.Value = ServerModel.User.Current.Roles.Contains(FxRoles.SUPER_ADMIN.Name);
+        StudentRoleChecked.Value = roles.Contains(FxRoles.STUDENT.Name);
+        TrainerRoleChecked.Value = roles.Contains(FxRoles.TRAINER.Name);
+        LectorRoleChecked.Value = roles.Contains(FxRoles.LECTOR.Name);
+        AdminRoleChecked.Value = roles.Contains(FxRoles.ADMIN.Name);
+        SuperAdminRoleChecked.Value = roles.Contains(FxRoles.SUPER_ADMIN.Name);
     }
 
-    public override void Loaded()
+    public void ApplyRoles()
     {
-        base.Loaded();
+        var roles = ServerModel.DB.LookupMany2ManyIds<FxRoles>(User, null);
+        Action<IValue<bool>, FxRoles> updateProc = (v, r) =>
+        {
+            if (v.Value != roles.Contains(r.ID))
+            {
+                if (v.Value)
+                {
+                    ServerModel.DB.Link(User, r);
+                }
+                else
+                {
+                    ServerModel.DB.UnLink(User, r);
+                }
+            }
+        };
 
-        StudentRoleTitle.Value = FxRoles.STUDENT.Name;
-        TrainerRoleTitle.Value = FxRoles.TRAINER.Name;
-        LectorRoleTitle.Value = FxRoles.LECTOR.Name;
-        AdminRoleTitle.Value = FxRoles.ADMIN.Name;
-        SuperAdminRoleTitle.Value = FxRoles.SUPER_ADMIN.Name;
+        updateProc(StudentRoleChecked, FxRoles.STUDENT);
+        updateProc(TrainerRoleChecked, FxRoles.TRAINER);
+        updateProc(LectorRoleChecked, FxRoles.LECTOR);
+        updateProc(AdminRoleChecked, FxRoles.ADMIN);
+        updateProc(SuperAdminRoleChecked, FxRoles.SUPER_ADMIN);
+        ServerModel.User.NotifyUpdated(User);
     }
 
     [PersistantField]
@@ -56,17 +59,6 @@ public class Admin_EditUserController : ControllerBase, IDataModelPresenter
     [PersistantField]
     public readonly IVariable<bool> SuperAdminRoleChecked = false.AsVariable();
 
-    public readonly IVariable<string>
-        StudentRoleTitle = string.Empty.AsVariable(),
-        TrainerRoleTitle = string.Empty.AsVariable(),
-        LectorRoleTitle = string.Empty.AsVariable(),
-        AdminRoleTitle = string.Empty.AsVariable(),
-        SuperAdminRoleTitle = string.Empty.AsVariable();
-
-    public readonly IVariable<bool>
-        AdminRoleEnable = false.AsVariable(),
-        superAdminRoleEnable = false.AsVariable();
-
     [PersistantField]
     public TblUsers User;
 
@@ -79,14 +71,25 @@ public partial class Admin_EditUser : ControlledPage<Admin_EditUserController>
     protected override void BindController(Admin_EditUserController c)
     {
         base.BindController(c);
-        Bind(lbStudentRoleTitle, c.StudentRoleTitle);
-        Bind(lbTrainerRoleTitle, c.TrainerRoleTitle);
-        Bind(lbLectorRoleTitle, c.LectorRoleTitle);
-        Bind(lbAdminRoleTitle, c.AdminRoleTitle);
-        Bind(lbSuperAdminRoleTitle, c.SuperAdminRoleTitle);
 
-        BindEnabled(cbAdminRole, c.AdminRoleEnable);
-        BindEnabled(cbSuperAdminRole, c.superAdminRoleEnable);
+        var currentUser = ServerModel.User.Current;
+        var isAdmin = currentUser.IsAdmin();
+
+        Bind(btnApply, c.ApplyRoles);
+        BindEnabled(btnApply, isAdmin);
+        BindEnabled(btnInclude, isAdmin);
+
+        Bind(lbStudentRoleTitle, FxRoles.STUDENT.Name);
+        Bind(lbTrainerRoleTitle, FxRoles.TRAINER.Name);
+        Bind(lbLectorRoleTitle, FxRoles.LECTOR.Name);
+        Bind(lbAdminRoleTitle, FxRoles.ADMIN.Name);
+        Bind(lbSuperAdminRoleTitle, FxRoles.SUPER_ADMIN.Name);
+
+        BindEnabled(cbStudentRole, isAdmin);
+        BindEnabled(cbTrainerRole, isAdmin);
+        BindEnabled(cbLectorRole, isAdmin);
+        BindEnabled(cbAdminRole, currentUser.IsSuperAdmin());
+        BindEnabled(cbSuperAdminRole, currentUser.IsSuperAdmin());
 
         BindChecked2Ways(cbStudentRole, c.StudentRoleChecked);
         BindChecked2Ways(cbTrainerRole, c.TrainerRoleChecked);
@@ -141,6 +144,7 @@ public partial class Admin_EditUser : ControlledPage<Admin_EditUserController>
                         GroupID = group.ID,
                         BackUrl = Request.RawUrl
                     }, Server);
+            lnkExclude.Enabled = ServerModel.User.Current.IsUpperStudent();
         }
     }
 }

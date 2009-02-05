@@ -1,15 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.Controllers;
 using LEX.CONTROLS;
 
 namespace IUDICO.DataModel
 {
+    public interface IControlledPage
+    {
+        bool IsFirstTimeRequest { get; }
+    }
+
     ///<summary>
     /// Base class for all projects' page
     ///</summary>
@@ -43,7 +47,7 @@ namespace IUDICO.DataModel
         }
     }
 
-    public abstract class ControlledPage<ControllerType> : Page
+    public abstract class ControlledPage<ControllerType> : Page, IControlledPage
         where ControllerType : ControllerBase, new()
     {
         /// <summary>
@@ -51,6 +55,11 @@ namespace IUDICO.DataModel
         /// </summary>
         public override void DataBind()
         {
+        }
+
+        public bool IsFirstTimeRequest
+        {
+            get { return !IsPostBack && !IsCallback; }
         }
 
         protected ControlledPage()
@@ -62,12 +71,6 @@ namespace IUDICO.DataModel
                 HttpContext.Current.Response.End();
             }
             Controller = new ControllerType();
-        }
-
-        protected EventHandler BindToEventHandler([NotNull]Action a)
-        {
-            CheckBindingAllowed();
-            return (o, e) => a();
         }
 
         protected void BindChecked([NotNull] ICheckBoxControl checkBox, IValue<bool> value)
@@ -90,11 +93,23 @@ namespace IUDICO.DataModel
             enable.Changed += (iv, v) => c.Enabled = v;
         }
 
+        protected void BindEnabled([NotNull]System.Web.UI.WebControls.WebControl c, bool enable)
+        {
+            CheckBindingAllowed();
+            c.Enabled = enable;
+        }
+
         protected void Bind([NotNull]ITextControl c, [NotNull] IValue<string> text)
         {
             CheckBindingAllowed();
             c.Text = text.Value;
             text.Changed += (v, newVal) => c.Text = newVal;
+        }
+
+        protected void Bind([NotNull]ITextControl c, [CanBeNull]string text)
+        {
+            CheckBindingAllowed();
+            c.Text = text;
         }
         
         protected void Bind<T>([NotNull] ITextControl c, [NotNull] IValue<T> value, [NotNull] Func<T, string> presentator)
@@ -104,8 +119,15 @@ namespace IUDICO.DataModel
             value.Changed += (v, newVal) => c.Text = presentator(newVal);
         }
 
+        public void Bind([NotNull] IButtonControl button, Action action)
+        {
+            CheckBindingAllowed();
+            button.Click += (o, e) => action();
+        }
+
         protected virtual void BindController(ControllerType c)
         {
+            CheckBindingAllowed();
         }
 
         protected override void LoadViewState(object savedState)

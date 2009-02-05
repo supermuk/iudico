@@ -49,6 +49,11 @@ namespace IUDICO.DataModel.Security
         {
             return "Security_CheckPermission" + Name.Capitalize();
         }
+
+        public string GetRetrievePermissionsForGroupProcName()
+        {
+            return "Security_GetGroupPermissions" + Name;
+        }
     }
 
     public struct DataObjectOperationInfo
@@ -96,6 +101,12 @@ namespace IUDICO.DataModel.Security
         public static IList<int> GetPermissions(SECURED_OBJECT_TYPE type, int userID, DateTime? targetDate, int? operationID)
         {
             return GetIDsFromPermissionsInternal(type, userID, targetDate, operationID, "ID");
+        }
+
+        [NotNull]
+        public static IList<int> GetObjectsForGroup(SECURED_OBJECT_TYPE objectType, int groupID, int? operationID, DateTime? targetDate)
+        {
+            return GetIDsFromPermissionsForGroupInternal(objectType, groupID, operationID, targetDate, objectType.GetSecurityAtr().Name + "Ref");
         }
 
         public static void Grand([NotNull] ISecuredDataObject dataObject, IFxDataObject operation, int? userID, int? groupID, DateTimeInterval interval)
@@ -146,6 +157,7 @@ namespace IUDICO.DataModel.Security
                         CreateGetOperationsForObjectProc(a, c);
                         CreateGetPermissionsForUser(a, c);
                         CreateCheckPermissionProc(a, c);
+                        CreateGetPermissionsForGroup(a, c);
                     }
                 }
             }
@@ -162,6 +174,26 @@ namespace IUDICO.DataModel.Security
                     var at = objectType.GetSecurityAtr();
                     cmd.CommandText = at.GetRetrievePermissionsProcName();
                     cmd.Parameters.Assign(new { UserID = userID, TargetDate = targetDate });
+                    cmd.Parameters.AddWithValue(at.Name + "OperationID", operationID);
+
+                    var r = cmd.FullReadInts(columnName);
+                    r.RemoveDuplicates();
+                    return r;
+                }
+            }
+        }
+
+        [NotNull]
+        private static IList<int> GetIDsFromPermissionsForGroupInternal(SECURED_OBJECT_TYPE objectType, int groupID, int? operationID, DateTime? targetDate, string columnName)
+        {
+            using (var c = ServerModel.AcruireOpenedConnection())
+            {
+                using (var cmd = c.CreateCommand())
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    var at = objectType.GetSecurityAtr();
+                    cmd.CommandText = at.GetRetrievePermissionsForGroupProcName();
+                    cmd.Parameters.Assign(new { GroupID = groupID, TargetDate = targetDate});
                     cmd.Parameters.AddWithValue(at.Name + "OperationID", operationID);
 
                     var r = cmd.FullReadInts(columnName);
@@ -198,6 +230,12 @@ namespace IUDICO.DataModel.Security
             var procName = a.GetCheckPermissionProcName();
             SqlUtils.RecreateProc(procName, string.Format(CHECK_PERMISSION_PROC_TEMPLATE,
                 procName, a.Name, PERMISSION_DATE_FILTER, PERMISSION_DB_ERROR_MESSAGE), cmd);
+        }
+
+        private static void CreateGetPermissionsForGroup([NotNull] SecuredObjectTypeAttribute a, [NotNull] IDbCommand cmd)
+        {
+            string procName = a.GetRetrievePermissionsForGroupProcName();
+            SqlUtils.RecreateProc(procName, string.Format(RETRIEVE_PERMISSIONS_FOR_GROUP_PROC_TEMPLATE, procName, a.Name, PERMISSION_DATE_FILTER), cmd);
         }
 
         private static void CheckSupport(Type @class, Type @intf)
@@ -241,6 +279,19 @@ BEGIN
 			(@{1}OperationID = {1}OperationRef)
 		) AND
 		{2}
+END";
+        private const string RETRIEVE_PERMISSIONS_FOR_GROUP_PROC_TEMPLATE = @"CREATE PROCEDURE {0}
+    @GroupID int,
+    @{1}OperationID int = NULL,
+    @TargetDate datetime = NULL
+AS
+BEGIN
+    IF @TargetDate IS NULL
+        SET @TargetDate = GETDATE();
+    
+    SELECT " + PERMISSIONS_SELECT_COLUMNS + @"
+    FROM tblPermissions 
+    WHERE (@GroupID = OwnerGroupRef) AND ((@{1}OperationID IS NULL) OR (@{1}OperationID = {1}OperationRef)) AND {2}
 END";
         private const string RETRIEVE_OBJECT_OPERATIONS_PROC_TEMPLATE =
             @"CREATE PROCEDURE {0}

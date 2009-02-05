@@ -10,10 +10,10 @@ namespace IUDICO.Site.Pages
         {
             base.BindController(c);
 
-            Button1.Click += BindToEventHandler(c.Test1);
-            Button2.Click += BindToEventHandler(c.Test2);
-            Button3.Click += BindToEventHandler(c.Test3);
-            TestPersistedListButton.Click += BindToEventHandler(c.TestPersistedList);
+            Bind(Button1, c.Test1);
+            Bind(Button2, c.Test2);
+            Bind(Button3, c.Test3);
+            Bind(TestPersistedListButton, c.TestPersistedList);
 
             Bind(PersistedListLabel, c.PersistedCollection);
             Bind(lbIncrement, c.PersistedInt, i => i.ToString());

@@ -70,7 +70,7 @@ namespace IUDICO.DataModel.Controllers
         public static string BuildUrlParams(TController c, HttpServerUtility server)
         {
             var b = new StringBuilder();
-            foreach (var p in __ControllerParameters.Reverse())
+            foreach (var p in __ControllerParameters)
             {
                 var v = p.Value[c];
                 var mt = p.Value.MemberType;
