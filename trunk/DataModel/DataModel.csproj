@@ -104,6 +104,10 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TestingSystem, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\TestingSystem.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\CacheUtility.cs" />
@@ -129,13 +133,12 @@
     <Compile Include="Common\XmlAttributes.cs" />
     <Compile Include="Common\XmlUtility.cs" />
     <Compile Include="Common\Zipper.cs" />
-    <Compile Include="Controllers\UserInfoController.cs" />
-    <Compile Include="Controllers\Teacher\CurriculumAssignmentController.cs" />
-    <Compile Include="Controllers\Teacher\CurriculumEditController.cs" />
-    <Compile Include="Controllers\Teacher\CurriculumTimelineController.cs" />
+    <Compile Include="Controllers\CourseEditController.cs" />
+    <Compile Include="Controllers\CurriculumAssignmentController.cs" />
+    <Compile Include="Controllers\CurriculumEditController.cs" />
+    <Compile Include="Controllers\CurriculumTimelineController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IdentityNode.cs" />
-    <Compile Include="Controllers\Teacher\CourseEditController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\OpenTestController.cs" />
@@ -143,6 +146,7 @@
     <Compile Include="Controllers\TestDetailController.cs" />
     <Compile Include="Controllers\ThemeResultController.cs">
     </Compile>
+    <Compile Include="Controllers\UserInfoController.cs" />
     <Compile Include="DataModelPresentationLevel.cs" />
     <Compile Include="DB\Base\DBModelBase.cs" />
     <Compile Include="DB\Base\DataObjectSqlSerializer.cs" />

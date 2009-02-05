@@ -53,6 +53,12 @@ namespace IUDICO.DataModel.Common
             c.Add(GetKey<T>(id), obj, null, DateTime.MaxValue, DEFAULT_EXPIRATION, priority, onRemoved);
         }
 
+        public static void Remove<T>(this Cache c, T obj)
+            where T : class
+        {
+            c.Remove(GetKey<T>(obj));
+        }
+
         public static string GetKey<T>(object id)
             where T : class
         {

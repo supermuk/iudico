@@ -29,6 +29,7 @@ public class Admin_RemoveUserFromGroupController : Admin_User_GroupOperationCont
     public void DoExclude()
     {
         ServerModel.DB.UnLink(User, Group);
+        ServerModel.User.NotifyUpdated(User);
     }
 }
 

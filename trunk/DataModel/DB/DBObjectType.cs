@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB.Base;
 using IUDICO.DataModel.Security;
@@ -39,6 +40,14 @@ namespace IUDICO.DataModel.DB
                 {
                     __SecuredTypes.Add(f.GetAtr<SecuredObjectTypeAttribute>().RuntimeClass, (SECURED_OBJECT_TYPE)f.GetValue(null));
                 }
+            }
+        }
+
+        public static ICollection<SECURED_OBJECT_TYPE> All
+        {
+            get
+            {
+                return __SecuredTypes.Values;
             }
         }
 

@@ -8,9 +8,9 @@ using IUDICO.DataModel.Security;
 using IUDICO.DataModel;
 using System.Linq;
 
-namespace IUDICO.Web.Controls
+namespace Controls
 {
-    public partial class UserPermissions : ControlledUserControl
+    public partial class UserObjectPermissions : ControlledUserControl
     {
         public SECURED_OBJECT_TYPE? ObjectType { get; set; }
 

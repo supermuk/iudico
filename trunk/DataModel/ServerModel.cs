@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
@@ -26,7 +27,7 @@ namespace IUDICO.DataModel
                 DB = new DatabaseModel(AcruireOpenedConnection());
                 DB.Initialize(cache);
                 PermissionsManager.Initialize(DB.GetConnectionSafe());
-                DBKeyValueAttributeInitialize();
+                TableRecordAttributeInitialize();
             }
         }
 
@@ -50,7 +51,7 @@ namespace IUDICO.DataModel
             return res;
         }
 
-        private static void DBKeyValueAttributeInitialize()
+        private static void TableRecordAttributeInitialize()
         {
             foreach(var t in Assembly.GetExecutingAssembly().GetTypes())
             {
@@ -62,10 +63,11 @@ namespace IUDICO.DataModel
                         var items = (IEnumerable) DatabaseModel.FIXED_METHOD.MakeGenericMethod(new[] {t}).Invoke(DB, Type.EmptyTypes);
                         foreach (var f in fields)
                         {
+                            var atr = f.GetAtr<TableRecordAttribute>();
                             bool found = false;
                             foreach (IFxDataObject i in items)
                             {
-                                if (i.Name == f.Name)
+                                if (i.Name == atr.Name.IsNull(f.Name))
                                 {
                                     found = true;
                                     if (f.FieldType == typeof(int))
@@ -109,7 +111,7 @@ namespace IUDICO.DataModel
         {
             get
             {
-                return (CustomUser) Membership.GetUser();
+                return ByLogin(((CustomUser) Membership.GetUser()).Login); // To get the latest version
             }
         }
 
@@ -142,11 +144,11 @@ FROM tblUsers WHERE Login = @Login", cn);
                         return null;
                     }
                 }
-                cmd.CommandText = "GetUserRoles";
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Assign(new { UserLogin = login });
-                roles = cmd.FullReadStrings();
             }
+
+            var roleIDs = ServerModel.DB.LookupMany2ManyIds<FxRoles>(ServerModel.DB.Load<TblUsers>(fID), null);
+            roles = new List<string>(ServerModel.DB.Load<FxRoles>(roleIDs).Select(r => r.Name));
+
             res = new CustomUser(fID, fName, lName, login, pHash, email, roles);
             DoCache(res);
             return res;
@@ -193,6 +195,11 @@ FROM tblUsers WHERE Email = @Email", cn);
             return res;
         }
 
+        public void NotifyUpdated(TblUsers u)
+        {
+            HttpRuntime.Cache.Remove(ByLogin(u.Login));
+        }
+
         private void DoCache(CustomUser u)
         {
             lock (this)
@@ -216,5 +223,38 @@ FROM tblUsers WHERE Email = @Email", cn);
         }
 
         private readonly List<CustomUser> CachedUsers = new List<CustomUser>();
+    }
+
+    public static class CustomUserExtenders
+    {
+        public static bool IsStudent(this CustomUser u)
+        {
+            return u.Roles.Contains(FxRoles.STUDENT.Name);
+        }
+
+        public static bool IsTrainer(this CustomUser u)
+        {
+            return u.Roles.Contains(FxRoles.TRAINER.Name);
+        }
+
+        public static bool Islector(this CustomUser u)
+        {
+            return u.Roles.Contains(FxRoles.LECTOR.Name);
+        }
+
+        public static bool IsAdmin(this CustomUser u)
+        {
+            return u.Roles.Contains(FxRoles.ADMIN.Name) || u.IsSuperAdmin();
+        }
+
+        public static bool IsSuperAdmin(this CustomUser u)
+        {
+            return u.Roles.Contains(FxRoles.SUPER_ADMIN.Name);
+        }
+
+        public static bool IsUpperStudent(this CustomUser u)
+        {
+            return u.IsStudent() ? u.Roles.Count > 1 : u.Roles.Count > 0;
+        }
     }
 }

@@ -57,6 +57,7 @@
     </tr>            
 </table>
 <br />
+<asp:Button ID="btnApply" Text="Apply" runat="server" />
 
 <h2><asp:Label ID="lbUserGroups" runat="server" /></h2>
 <asp:GridView 
