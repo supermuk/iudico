@@ -19,9 +19,6 @@ namespace IUDICO.DataModel.DB
 
         [TableRecord]
         public readonly static FxCourseOperations Use;
-
-        [TableRecord]
-        public static FxCourseOperations Edit;
     }
 
     public partial class FxThemeOperations : FxDataObject, IFxDataObject { }

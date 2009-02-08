@@ -1,6 +1,6 @@
-﻿using System;
-using IUDICO.DataModel;
+﻿using IUDICO.DataModel;
+using IUDICO.DataModel.Controllers;
 
-public partial class CreateUser : ControlledPage
+public partial class CreateUser : ControlledPage<Admin_CreateUserController>
 {
 }

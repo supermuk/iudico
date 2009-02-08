@@ -1,14 +1,6 @@
 ﻿using System;
 using IUDICO.DataModel;
-
-public class Admin_IncludeUserIntoGroupController : Admin_User_GroupOperationControllerBase
-{
-    public void DoInclude()
-    {
-        ServerModel.DB.Link(User, Group);
-        ServerModel.User.NotifyUpdated(User);
-    }
-}
+using IUDICO.DataModel.Controllers;
 
 public partial class Admin_IncludeUserIntoGroup : ControlledPage<Admin_IncludeUserIntoGroupController>
 {

@@ -98,34 +98,36 @@ namespace IUDICO.DataModel.DB.Base
 
     public abstract class DataObject
     {
-        public static class Schema
+        protected DataObject()
         {
-            public static readonly PropertyCondition
-                ID = "ID",
-                UserRef = "UserRef",
-                ThemeRef = "ThemeRef",
-                StageRef = "StageRef",
-                CourseRef = "CourseRef",
-                CurriculumRef = "CurriculumRef";
-        }
-    }
-
-    [DebuggerDisplay("DataObject: {ID}")]
-    public abstract class IntKeyedDataObject : DataObject, ICloneable
-    {
-        protected IntKeyedDataObject()
-        {
-            ((INotifyPropertyChanged)this).PropertyChanged += PropertyChangingHook;
+            ((INotifyPropertyChanging) this).PropertyChanging += PropertyChangingHook;
         }
 
-        private static void PropertyChangingHook(object sender, PropertyChangedEventArgs e)
+        private static void PropertyChangingHook(object sender, PropertyChangingEventArgs e)
         {
-            if (e.PropertyName == "ID")
+            if (e.PropertyName == "sysState" || e.PropertyName == "ID")
             {
-                throw new InvalidOperationException("Cannot change property because it is foreign key");
+                 throw new InvalidOperationException("It's forbidden to change " + e.PropertyName + "property ");
             }
         }
 
+        public static class Schema
+        {
+            public static readonly IDBCondition<int>
+                ID = new PropertyCondition<int>("ID"),
+                UserRef = new PropertyCondition<int>("UserRef"),
+                ThemeRef = new PropertyCondition<int>("ThemeRef"),
+                StageRef = new PropertyCondition<int>("StageRef"),
+                CourseRef = new PropertyCondition<int>("CourseRef"),
+                CurriculumRef = new PropertyCondition<int>("CurriculumRef");
+            public static readonly IDBCondition<DateTime>
+                DateSince = new PropertyCondition<DateTime>("DateSince"),
+                DateTill = new PropertyCondition<DateTime>("DateTill");
+        }
+    }
+
+    public abstract class IntKeyedDataObject : DataObject, ICloneable
+    {
         public object Clone()
         {
             return MemberwiseClone();
@@ -191,16 +193,16 @@ namespace IUDICO.DataModel.DB.Base
         List<TDataObject> FullCached<TDataObject>()
             where TDataObject : class, IDataObject, new();
 
-        List<TDataObject> Query<TDataObject>([CanBeNull] IDBCondition cond)
+        List<TDataObject> Query<TDataObject>([CanBeNull] IDBPredicate cond)
             where TDataObject : IDataObject, new();
 
-        TDataObject QuerySingle<TDataObject>([NotNull] IDBCondition cond)
+        TDataObject QuerySingle<TDataObject>([NotNull] IDBPredicate cond)
             where TDataObject : IDataObject, new();
 
-        List<int> LookupIds<TDataObject>([NotNull]IIntKeyedDataObject owner, [CanBeNull] IDBCondition condition)
+        List<int> LookupIds<TDataObject>([NotNull]IIntKeyedDataObject owner, [CanBeNull] IDBPredicate condition)
             where TDataObject : IDataObject;
 
-        List<int> LookupMany2ManyIds<TDataObject>(IIntKeyedDataObject firstPart, IDBCondition condition);
+        List<int> LookupMany2ManyIds<TDataObject>(IIntKeyedDataObject firstPart, IDBPredicate condition);
 
         void Link(IIntKeyedDataObject do1, IIntKeyedDataObject do2);
 

@@ -410,13 +410,6 @@ namespace IUDICO.DataModel.DB
 			return ((System.Nullable<System.Guid>)(this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod()))).ReturnValue));
 		}
 		
-		[Function(Name="dbo.GetUserRoles")]
-		public ISingleResult<GetUserRolesResult> GetUserRoles([Parameter(Name="UserLogin", DbType="NVarChar(MAX)")] string userLogin)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userLogin);
-			return ((ISingleResult<GetUserRolesResult>)(result.ReturnValue));
-		}
-		
 		[Function(Name="dbo.Security_CheckPermissionCourse")]
 		[return: Parameter(DbType="Int")]
 		public int Security_CheckPermissionCourse([Parameter(Name="UserID", DbType="Int")] System.Nullable<int> userID, [Parameter(Name="CourseOperationID", DbType="Int")] System.Nullable<int> courseOperationID, [Parameter(Name="CourseID", DbType="Int")] System.Nullable<int> courseID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
@@ -455,6 +448,41 @@ namespace IUDICO.DataModel.DB
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, themeOperationID, themeID, targetDate);
 			return ((int)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.Security_GetGroupPermissionsCourse")]
+		public ISingleResult<Security_GetGroupPermissionsCourseResult> Security_GetGroupPermissionsCourse([Parameter(Name="GroupID", DbType="Int")] System.Nullable<int> groupID, [Parameter(Name="CourseOperationID", DbType="Int")] System.Nullable<int> courseOperationID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), groupID, courseOperationID, targetDate);
+			return ((ISingleResult<Security_GetGroupPermissionsCourseResult>)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.Security_GetGroupPermissionsCurriculum")]
+		public ISingleResult<Security_GetGroupPermissionsCurriculumResult> Security_GetGroupPermissionsCurriculum([Parameter(Name="GroupID", DbType="Int")] System.Nullable<int> groupID, [Parameter(Name="CurriculumOperationID", DbType="Int")] System.Nullable<int> curriculumOperationID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), groupID, curriculumOperationID, targetDate);
+			return ((ISingleResult<Security_GetGroupPermissionsCurriculumResult>)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.Security_GetGroupPermissionsGroup")]
+		public ISingleResult<Security_GetGroupPermissionsGroupResult> Security_GetGroupPermissionsGroup([Parameter(Name="GroupID", DbType="Int")] System.Nullable<int> groupID, [Parameter(Name="GroupOperationID", DbType="Int")] System.Nullable<int> groupOperationID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), groupID, groupOperationID, targetDate);
+			return ((ISingleResult<Security_GetGroupPermissionsGroupResult>)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.Security_GetGroupPermissionsStage")]
+		public ISingleResult<Security_GetGroupPermissionsStageResult> Security_GetGroupPermissionsStage([Parameter(Name="GroupID", DbType="Int")] System.Nullable<int> groupID, [Parameter(Name="StageOperationID", DbType="Int")] System.Nullable<int> stageOperationID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), groupID, stageOperationID, targetDate);
+			return ((ISingleResult<Security_GetGroupPermissionsStageResult>)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.Security_GetGroupPermissionsTheme")]
+		public ISingleResult<Security_GetGroupPermissionsThemeResult> Security_GetGroupPermissionsTheme([Parameter(Name="GroupID", DbType="Int")] System.Nullable<int> groupID, [Parameter(Name="ThemeOperationID", DbType="Int")] System.Nullable<int> themeOperationID, [Parameter(Name="TargetDate", DbType="DateTime")] System.Nullable<System.DateTime> targetDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), groupID, themeOperationID, targetDate);
+			return ((ISingleResult<Security_GetGroupPermissionsThemeResult>)(result.ReturnValue));
 		}
 		
 		[Function(Name="dbo.Security_GetOperationsForCourse")]
@@ -548,6 +576,8 @@ namespace IUDICO.DataModel.DB
 		
 		private string _Description;
 		
+		private short _SysState;
+		
 		private EntitySet<TblCompiledAnswers> _TblCompiledAnswers;
 		
     #region Extensibility Method Definitions
@@ -560,6 +590,8 @@ namespace IUDICO.DataModel.DB
     partial void OnNameChanged();
     partial void OnDescriptionChanging(string value);
     partial void OnDescriptionChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public FxCompiledStatuses()
@@ -628,7 +660,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblCompiledAnswers_fxdCompiledStatuses", Storage="_TblCompiledAnswers", OtherKey="StatusRef", DeleteRule="NO ACTION")]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_tblCompiledAnswers_fxdCompiledStatuses", Storage="_TblCompiledAnswers", ThisKey="ID", OtherKey="StatusRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblCompiledAnswers> TblCompiledAnswers
 		{
 			get
@@ -688,6 +740,8 @@ namespace IUDICO.DataModel.DB
 		
 		private bool _CanBeDelegated;
 		
+		private short _SysState;
+		
 		private EntitySet<TblPermissions> _TblPermissions;
 		
     #region Extensibility Method Definitions
@@ -702,6 +756,8 @@ namespace IUDICO.DataModel.DB
     partial void OnDescriptionChanged();
     partial void OnCanBeDelegatedChanging(bool value);
     partial void OnCanBeDelegatedChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public FxCourseOperations()
@@ -790,7 +846,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_CourseOperations", Storage="_TblPermissions", OtherKey="CourseOperationRef", DeleteRule="NO ACTION")]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_Permissions_CourseOperations", Storage="_TblPermissions", ThisKey="ID", OtherKey="CourseOperationRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -850,6 +926,8 @@ namespace IUDICO.DataModel.DB
 		
 		private bool _CanBeDelegated;
 		
+		private short _SysState;
+		
 		private EntitySet<TblPermissions> _TblPermissions;
 		
     #region Extensibility Method Definitions
@@ -864,6 +942,8 @@ namespace IUDICO.DataModel.DB
     partial void OnDescriptionChanged();
     partial void OnCanBeDelegatedChanging(bool value);
     partial void OnCanBeDelegatedChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public FxCurriculumOperations()
@@ -952,7 +1032,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_CurriculumOperations", Storage="_TblPermissions", OtherKey="CurriculumOperationRef", DeleteRule="NO ACTION")]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_Permissions_CurriculumOperations", Storage="_TblPermissions", ThisKey="ID", OtherKey="CurriculumOperationRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -1012,6 +1112,8 @@ namespace IUDICO.DataModel.DB
 		
 		private bool _CanBeDelegated;
 		
+		private short _SysState;
+		
 		private EntitySet<TblPermissions> _TblPermissions;
 		
     #region Extensibility Method Definitions
@@ -1026,6 +1128,8 @@ namespace IUDICO.DataModel.DB
     partial void OnDescriptionChanged();
     partial void OnCanBeDelegatedChanging(bool value);
     partial void OnCanBeDelegatedChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public FxGroupOperations()
@@ -1114,7 +1218,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_GroupOperations", Storage="_TblPermissions", OtherKey="GroupOperationRef", DeleteRule="NO ACTION")]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_Permissions_GroupOperations", Storage="_TblPermissions", ThisKey="ID", OtherKey="GroupOperationRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -1170,6 +1294,8 @@ namespace IUDICO.DataModel.DB
 		
 		private string _Name;
 		
+		private short _SysState;
+		
 		private EntitySet<TblCompiledQuestions> _TblCompiledQuestions;
 		
     #region Extensibility Method Definitions
@@ -1180,6 +1306,8 @@ namespace IUDICO.DataModel.DB
     partial void OnIDChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public FxLanguages()
@@ -1228,7 +1356,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblCompiledQuestions_fxdLanguages", Storage="_TblCompiledQuestions", OtherKey="LanguageRef", DeleteRule="NO ACTION")]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_tblCompiledQuestions_fxdLanguages", Storage="_TblCompiledQuestions", ThisKey="ID", OtherKey="LanguageRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblCompiledQuestions> TblCompiledQuestions
 		{
 			get
@@ -1288,6 +1436,8 @@ namespace IUDICO.DataModel.DB
 		
 		private bool _CanBeDelegated;
 		
+		private short _SysState;
+		
 		private EntitySet<TblPermissions> _TblPermissions;
 		
     #region Extensibility Method Definitions
@@ -1302,6 +1452,8 @@ namespace IUDICO.DataModel.DB
     partial void OnDescriptionChanged();
     partial void OnCanBeDelegatedChanging(bool value);
     partial void OnCanBeDelegatedChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public FxPageOperations()
@@ -1390,7 +1542,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_PageOperations", Storage="_TblPermissions", OtherKey="PageOperationRef", DeleteRule="NO ACTION")]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_Permissions_PageOperations", Storage="_TblPermissions", ThisKey="ID", OtherKey="PageOperationRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -1446,6 +1618,8 @@ namespace IUDICO.DataModel.DB
 		
 		private string _Name;
 		
+		private short _SysState;
+		
 		private EntitySet<TblThemes> _TblThemes;
 		
     #region Extensibility Method Definitions
@@ -1456,6 +1630,8 @@ namespace IUDICO.DataModel.DB
     partial void OnIDChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public FxPageOrders()
@@ -1504,7 +1680,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblThemes_fxdPageOrders", Storage="_TblThemes", OtherKey="PageOrderRef", DeleteRule="NO ACTION")]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_tblThemes_fxdPageOrders", Storage="_TblThemes", ThisKey="ID", OtherKey="PageOrderRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblThemes> TblThemes
 		{
 			get
@@ -1560,6 +1756,8 @@ namespace IUDICO.DataModel.DB
 		
 		private string _Type;
 		
+		private short _SysState;
+		
 		private EntitySet<TblPages> _TblPages;
 		
     #region Extensibility Method Definitions
@@ -1570,6 +1768,8 @@ namespace IUDICO.DataModel.DB
     partial void OnIDChanged();
     partial void OnTypeChanging(string value);
     partial void OnTypeChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public FxPageTypes()
@@ -1618,7 +1818,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Page_PageType", Storage="_TblPages", OtherKey="PageTypeRef", DeleteRule="NO ACTION")]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_Page_PageType", Storage="_TblPages", ThisKey="ID", OtherKey="PageTypeRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPages> TblPages
 		{
 			get
@@ -1676,6 +1896,8 @@ namespace IUDICO.DataModel.DB
 		
 		private string _Description;
 		
+		private short _SysState;
+		
 		private EntitySet<RelUserRoles> _RelUserRoles;
 		
     #region Extensibility Method Definitions
@@ -1688,6 +1910,8 @@ namespace IUDICO.DataModel.DB
     partial void OnNameChanged();
     partial void OnDescriptionChanging(string value);
     partial void OnDescriptionChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public FxRoles()
@@ -1756,7 +1980,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_ROLE_ID", Storage="_RelUserRoles", OtherKey="RoleID", DeleteRule="NO ACTION")]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_ROLE_ID", Storage="_RelUserRoles", ThisKey="ID", OtherKey="RoleID", DeleteRule="NO ACTION")]
 		public EntitySet<RelUserRoles> RelUserRoles
 		{
 			get
@@ -1813,6 +2057,8 @@ namespace IUDICO.DataModel.DB
 		private string _Description;
 		
 		private bool _CanBeDelegated;
+		
+		private short _SysState;
 		
 		public FxSampleBusinesObjectOperation()
 		{
@@ -1881,6 +2127,22 @@ namespace IUDICO.DataModel.DB
 				}
 			}
 		}
+		
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this._SysState = value;
+				}
+			}
+		}
 	}
 	
 	[Table(Name="dbo.fxStageOperations")]
@@ -1897,6 +2159,8 @@ namespace IUDICO.DataModel.DB
 		
 		private bool _CanBeDelegated;
 		
+		private short _SysState;
+		
 		private EntitySet<TblPermissions> _TblPermissions;
 		
     #region Extensibility Method Definitions
@@ -1911,6 +2175,8 @@ namespace IUDICO.DataModel.DB
     partial void OnDescriptionChanged();
     partial void OnCanBeDelegatedChanging(bool value);
     partial void OnCanBeDelegatedChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public FxStageOperations()
@@ -1999,7 +2265,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_StageOperations", Storage="_TblPermissions", OtherKey="StageOperationRef", DeleteRule="NO ACTION")]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_Permissions_StageOperations", Storage="_TblPermissions", ThisKey="ID", OtherKey="StageOperationRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -2059,6 +2345,8 @@ namespace IUDICO.DataModel.DB
 		
 		private bool _CanBeDelegated;
 		
+		private short _SysState;
+		
 		private EntitySet<TblPermissions> _TblPermissions;
 		
     #region Extensibility Method Definitions
@@ -2073,6 +2361,8 @@ namespace IUDICO.DataModel.DB
     partial void OnDescriptionChanged();
     partial void OnCanBeDelegatedChanging(bool value);
     partial void OnCanBeDelegatedChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public FxThemeOperations()
@@ -2161,7 +2451,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_ThemeOperations", Storage="_TblPermissions", OtherKey="ThemeOperationRef", DeleteRule="NO ACTION")]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_Permissions_ThemeOperations", Storage="_TblPermissions", ThisKey="ID", OtherKey="ThemeOperationRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -2217,6 +2527,8 @@ namespace IUDICO.DataModel.DB
 		
 		private int _ThemeRef;
 		
+		private short _SysState;
+		
 		private EntityRef<TblStages> _TblStages;
 		
 		private EntityRef<TblThemes> _TblThemes;
@@ -2229,6 +2541,8 @@ namespace IUDICO.DataModel.DB
     partial void OnStageRefChanged();
     partial void OnThemeRefChanging(int value);
     partial void OnThemeRefChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public RelStagesThemes()
@@ -2286,7 +2600,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Stage", Storage="_TblStages", ThisKey="StageRef", IsForeignKey=true)]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_Stage", Storage="_TblStages", ThisKey="StageRef", OtherKey="ID", IsForeignKey=true)]
 		public TblStages TblStages
 		{
 			get
@@ -2320,7 +2654,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_THEME", Storage="_TblThemes", ThisKey="ThemeRef", IsForeignKey=true)]
+		[Association(Name="FK_THEME", Storage="_TblThemes", ThisKey="ThemeRef", OtherKey="ID", IsForeignKey=true)]
 		public TblThemes TblThemes
 		{
 			get
@@ -2385,6 +2719,8 @@ namespace IUDICO.DataModel.DB
 		
 		private int _GroupRef;
 		
+		private short _SysState;
+		
 		private EntityRef<TblGroups> _TblGroups;
 		
 		private EntityRef<TblUsers> _TblUsers;
@@ -2397,6 +2733,8 @@ namespace IUDICO.DataModel.DB
     partial void OnUserRefChanged();
     partial void OnGroupRefChanging(int value);
     partial void OnGroupRefChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public RelUserGroups()
@@ -2454,7 +2792,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_GROUP", Storage="_TblGroups", ThisKey="GroupRef", IsForeignKey=true)]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_GROUP", Storage="_TblGroups", ThisKey="GroupRef", OtherKey="ID", IsForeignKey=true)]
 		public TblGroups TblGroups
 		{
 			get
@@ -2488,7 +2846,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_USER", Storage="_TblUsers", ThisKey="UserRef", IsForeignKey=true)]
+		[Association(Name="FK_USER", Storage="_TblUsers", ThisKey="UserRef", OtherKey="ID", IsForeignKey=true)]
 		public TblUsers TblUsers
 		{
 			get
@@ -2553,6 +2911,8 @@ namespace IUDICO.DataModel.DB
 		
 		private int _RoleID;
 		
+		private short _SysState;
+		
 		private EntityRef<FxRoles> _FxRoles;
 		
 		private EntityRef<TblUsers> _TblUsers;
@@ -2565,6 +2925,8 @@ namespace IUDICO.DataModel.DB
     partial void OnUserIDChanged();
     partial void OnRoleIDChanging(int value);
     partial void OnRoleIDChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public RelUserRoles()
@@ -2622,7 +2984,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_ROLE_ID", Storage="_FxRoles", ThisKey="RoleID", IsForeignKey=true)]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_ROLE_ID", Storage="_FxRoles", ThisKey="RoleID", OtherKey="ID", IsForeignKey=true)]
 		public FxRoles FxRoles
 		{
 			get
@@ -2656,7 +3038,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_USER_ID", Storage="_TblUsers", ThisKey="UserID", IsForeignKey=true)]
+		[Association(Name="FK_USER_ID", Storage="_TblUsers", ThisKey="UserID", OtherKey="ID", IsForeignKey=true)]
 		public TblUsers TblUsers
 		{
 			get
@@ -2788,6 +3170,8 @@ namespace IUDICO.DataModel.DB
 		
 		private int _StatusRef;
 		
+		private short _SysState;
+		
 		private EntityRef<FxCompiledStatuses> _FxCompiledStatuses;
 		
 		private EntitySet<TblUserAnswers> _TblUserAnswers;
@@ -2804,6 +3188,8 @@ namespace IUDICO.DataModel.DB
     partial void OnMemoryUsedChanged();
     partial void OnStatusRefChanging(int value);
     partial void OnStatusRefChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public TblCompiledAnswers()
@@ -2897,7 +3283,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblCompiledAnswers_fxdCompiledStatuses", Storage="_FxCompiledStatuses", ThisKey="StatusRef", IsForeignKey=true)]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_tblCompiledAnswers_fxdCompiledStatuses", Storage="_FxCompiledStatuses", ThisKey="StatusRef", OtherKey="ID", IsForeignKey=true)]
 		public FxCompiledStatuses FxCompiledStatuses
 		{
 			get
@@ -2931,7 +3337,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblUserAnswers_tblCompiledAnswers", Storage="_TblUserAnswers", OtherKey="CompiledAnswerRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblUserAnswers_tblCompiledAnswers", Storage="_TblUserAnswers", ThisKey="ID", OtherKey="CompiledAnswerRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblUserAnswers> TblUserAnswers
 		{
 			get
@@ -2987,6 +3393,8 @@ namespace IUDICO.DataModel.DB
 		
 		private string _Output;
 		
+		private short _SysState;
+		
 		public TblCompiledAnswersData()
 		{
 		}
@@ -3038,6 +3446,22 @@ namespace IUDICO.DataModel.DB
 				}
 			}
 		}
+		
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this._SysState = value;
+				}
+			}
+		}
 	}
 	
 	[Table(Name="dbo.tblCompiledQuestions")]
@@ -3055,6 +3479,8 @@ namespace IUDICO.DataModel.DB
 		private System.Nullable<int> _MemoryLimit;
 		
 		private System.Nullable<int> _OutputLimit;
+		
+		private short _SysState;
 		
 		private EntityRef<FxLanguages> _FxLanguages;
 		
@@ -3076,6 +3502,8 @@ namespace IUDICO.DataModel.DB
     partial void OnMemoryLimitChanged();
     partial void OnOutputLimitChanging(System.Nullable<int> value);
     partial void OnOutputLimitChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public TblCompiledQuestions()
@@ -3190,7 +3618,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblCompiledQuestions_fxdLanguages", Storage="_FxLanguages", ThisKey="LanguageRef", IsForeignKey=true)]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_tblCompiledQuestions_fxdLanguages", Storage="_FxLanguages", ThisKey="LanguageRef", OtherKey="ID", IsForeignKey=true)]
 		public FxLanguages FxLanguages
 		{
 			get
@@ -3224,7 +3672,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblCompiledQuestionsData_tblCompiledQuestions", Storage="_TblCompiledQuestionsData", OtherKey="CompiledQuestionRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblCompiledQuestionsData_tblCompiledQuestions", Storage="_TblCompiledQuestionsData", ThisKey="ID", OtherKey="CompiledQuestionRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblCompiledQuestionsData> TblCompiledQuestionsData
 		{
 			get
@@ -3237,7 +3685,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblQuestions_tblCompiledQuestions", Storage="_TblQuestions", OtherKey="CompiledQuestionRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblQuestions_tblCompiledQuestions", Storage="_TblQuestions", ThisKey="ID", OtherKey="CompiledQuestionRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblQuestions> TblQuestions
 		{
 			get
@@ -3309,6 +3757,8 @@ namespace IUDICO.DataModel.DB
 		
 		private string _Output;
 		
+		private short _SysState;
+		
 		private EntityRef<TblCompiledQuestions> _TblCompiledQuestions;
 		
     #region Extensibility Method Definitions
@@ -3323,6 +3773,8 @@ namespace IUDICO.DataModel.DB
     partial void OnInputChanged();
     partial void OnOutputChanging(string value);
     partial void OnOutputChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public TblCompiledQuestionsData()
@@ -3415,7 +3867,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblCompiledQuestionsData_tblCompiledQuestions", Storage="_TblCompiledQuestions", ThisKey="CompiledQuestionRef", IsForeignKey=true)]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_tblCompiledQuestionsData_tblCompiledQuestions", Storage="_TblCompiledQuestions", ThisKey="CompiledQuestionRef", OtherKey="ID", IsForeignKey=true)]
 		public TblCompiledQuestions TblCompiledQuestions
 		{
 			get
@@ -3486,6 +3958,8 @@ namespace IUDICO.DataModel.DB
 		
 		private System.Nullable<int> _Version;
 		
+		private short _SysState;
+		
 		private EntitySet<TblThemes> _TblThemes;
 		
 		private EntitySet<TblPermissions> _TblPermissions;
@@ -3504,6 +3978,8 @@ namespace IUDICO.DataModel.DB
     partial void OnUploadDateChanged();
     partial void OnVersionChanging(System.Nullable<int> value);
     partial void OnVersionChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public TblCourses()
@@ -3613,7 +4089,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Chapter_Course", Storage="_TblThemes", OtherKey="CourseRef", DeleteRule="NO ACTION")]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_Chapter_Course", Storage="_TblThemes", ThisKey="ID", OtherKey="CourseRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblThemes> TblThemes
 		{
 			get
@@ -3626,7 +4122,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Courses", Storage="_TblPermissions", OtherKey="CourseRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_Courses", Storage="_TblPermissions", ThisKey="ID", OtherKey="CourseRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -3696,6 +4192,8 @@ namespace IUDICO.DataModel.DB
 		
 		private string _Description;
 		
+		private short _SysState;
+		
 		private EntitySet<TblPermissions> _TblPermissions;
 		
 		private EntitySet<TblStages> _TblStages;
@@ -3710,6 +4208,8 @@ namespace IUDICO.DataModel.DB
     partial void OnNameChanged();
     partial void OnDescriptionChanging(string value);
     partial void OnDescriptionChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public TblCurriculums()
@@ -3779,7 +4279,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Curriculums", Storage="_TblPermissions", OtherKey="CurriculumRef", DeleteRule="NO ACTION")]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_Permissions_Curriculums", Storage="_TblPermissions", ThisKey="ID", OtherKey="CurriculumRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -3792,7 +4312,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblStages_tblCurriculums", Storage="_TblStages", OtherKey="CurriculumRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblStages_tblCurriculums", Storage="_TblStages", ThisKey="ID", OtherKey="CurriculumRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblStages> TblStages
 		{
 			get
@@ -3868,6 +4388,8 @@ namespace IUDICO.DataModel.DB
 		
 		private System.Nullable<bool> _IsDirectory;
 		
+		private short _SysState;
+		
 		private EntityRef<TblFiles> _TblFiles_tblFiles;
 		
 		private EntitySet<TblFiles> _TblFiles_tblFiles1;
@@ -3890,6 +4412,8 @@ namespace IUDICO.DataModel.DB
     partial void OnNameChanged();
     partial void OnIsDirectoryChanging(System.Nullable<bool> value);
     partial void OnIsDirectoryChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public TblFiles()
@@ -4028,7 +4552,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblFiles_tblFiles", Storage="_TblFiles_tblFiles", ThisKey="PID", IsForeignKey=true)]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_tblFiles_tblFiles", Storage="_TblFiles_tblFiles", ThisKey="PID", OtherKey="ID", IsForeignKey=true)]
 		public TblFiles TblFiles_tblFiles
 		{
 			get
@@ -4062,7 +4606,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblFiles_tblFiles", Storage="_TblFiles_tblFiles1", OtherKey="PID", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblFiles_tblFiles", Storage="_TblFiles_tblFiles1", ThisKey="ID", OtherKey="PID", DeleteRule="NO ACTION")]
 		public EntitySet<TblFiles> TblFiles_tblFiles1
 		{
 			get
@@ -4075,7 +4619,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblFiles_tblPages", Storage="_TblPages", ThisKey="PageRef", IsForeignKey=true)]
+		[Association(Name="FK_tblFiles_tblPages", Storage="_TblPages", ThisKey="PageRef", OtherKey="ID", IsForeignKey=true)]
 		public TblPages TblPages
 		{
 			get
@@ -4152,6 +4696,8 @@ namespace IUDICO.DataModel.DB
 		
 		private string _Name;
 		
+		private short _SysState;
+		
 		private EntitySet<RelUserGroups> _RelUserGroups;
 		
 		private EntitySet<TblPermissions> _TblPermissions;
@@ -4168,6 +4714,8 @@ namespace IUDICO.DataModel.DB
     partial void OnIDChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public TblGroups()
@@ -4219,7 +4767,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_GROUP", Storage="_RelUserGroups", OtherKey="GroupRef", DeleteRule="NO ACTION")]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_GROUP", Storage="_RelUserGroups", ThisKey="ID", OtherKey="GroupRef", DeleteRule="NO ACTION")]
 		public EntitySet<RelUserGroups> RelUserGroups
 		{
 			get
@@ -4232,7 +4800,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_GroupObjects", Storage="_TblPermissions", OtherKey="GroupObjectRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_GroupObjects", Storage="_TblPermissions", ThisKey="ID", OtherKey="GroupObjectRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -4245,7 +4813,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Groups", Storage="_Permissions_Groups", OtherKey="GroupRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_Groups", Storage="_Permissions_Groups", ThisKey="ID", OtherKey="GroupRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> Permissions_Groups
 		{
 			get
@@ -4258,7 +4826,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_OwnerGroup", Storage="_Permissions_OwnerGroup", OtherKey="OwnerGroupRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_OwnerGroup", Storage="_Permissions_OwnerGroup", ThisKey="ID", OtherKey="OwnerGroupRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> Permissions_OwnerGroup
 		{
 			get
@@ -4358,6 +4926,8 @@ namespace IUDICO.DataModel.DB
 		
 		private System.Data.Linq.Binary _PageFile;
 		
+		private short _SysState;
+		
 		private EntitySet<TblQuestions> _TblQuestions;
 		
 		private EntityRef<FxPageTypes> _FxPageTypes;
@@ -4384,6 +4954,8 @@ namespace IUDICO.DataModel.DB
     partial void OnPageNameChanged();
     partial void OnPageFileChanging(System.Data.Linq.Binary value);
     partial void OnPageFileChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public TblPages()
@@ -4524,7 +5096,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_CorrectAnswer_Page", Storage="_TblQuestions", OtherKey="PageRef", DeleteRule="NO ACTION")]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_CorrectAnswer_Page", Storage="_TblQuestions", ThisKey="ID", OtherKey="PageRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblQuestions> TblQuestions
 		{
 			get
@@ -4537,7 +5129,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Page_PageType", Storage="_FxPageTypes", ThisKey="PageTypeRef", IsForeignKey=true)]
+		[Association(Name="FK_Page_PageType", Storage="_FxPageTypes", ThisKey="PageTypeRef", OtherKey="ID", IsForeignKey=true)]
 		public FxPageTypes FxPageTypes
 		{
 			get
@@ -4571,7 +5163,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Page_Theme", Storage="_TblThemes", ThisKey="ThemeRef", IsForeignKey=true)]
+		[Association(Name="FK_Page_Theme", Storage="_TblThemes", ThisKey="ThemeRef", OtherKey="ID", IsForeignKey=true)]
 		public TblThemes TblThemes
 		{
 			get
@@ -4605,7 +5197,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Pages", Storage="_TblPermissions", OtherKey="PageRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_Pages", Storage="_TblPermissions", ThisKey="ID", OtherKey="PageRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -4618,7 +5210,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblFiles_tblPages", Storage="_TblFiles", OtherKey="PageRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblFiles_tblPages", Storage="_TblFiles", ThisKey="ID", OtherKey="PageRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblFiles> TblFiles
 		{
 			get
@@ -4736,6 +5328,8 @@ namespace IUDICO.DataModel.DB
 		
 		private System.Nullable<int> _GroupOperationRef;
 		
+		private short _SysState;
+		
 		private EntityRef<TblPermissions> _ParentPermitionRefTblPermissions;
 		
 		private EntitySet<TblPermissions> _PARENT_PERMITION;
@@ -4818,6 +5412,8 @@ namespace IUDICO.DataModel.DB
     partial void OnGroupRefChanged();
     partial void OnGroupOperationRefChanging(System.Nullable<int> value);
     partial void OnGroupOperationRefChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public TblPermissions()
@@ -5331,7 +5927,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_PARENT_PERMITION", Storage="_ParentPermitionRefTblPermissions", ThisKey="ParentPermitionRef", IsForeignKey=true)]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_PARENT_PERMITION", Storage="_ParentPermitionRefTblPermissions", ThisKey="ParentPermitionRef", OtherKey="ID", IsForeignKey=true)]
 		public TblPermissions ParentPermitionRefTblPermissions
 		{
 			get
@@ -5365,7 +5981,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_PARENT_PERMITION", Storage="_PARENT_PERMITION", OtherKey="ParentPermitionRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_PARENT_PERMITION", Storage="_PARENT_PERMITION", ThisKey="ID", OtherKey="ParentPermitionRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> PARENT_PERMITION
 		{
 			get
@@ -5378,7 +5994,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_CourseOperations", Storage="_FxCourseOperations", ThisKey="CourseOperationRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_CourseOperations", Storage="_FxCourseOperations", ThisKey="CourseOperationRef", OtherKey="ID", IsForeignKey=true)]
 		public FxCourseOperations FxCourseOperations
 		{
 			get
@@ -5412,7 +6028,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Courses", Storage="_TblCourses", ThisKey="CourseRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_Courses", Storage="_TblCourses", ThisKey="CourseRef", OtherKey="ID", IsForeignKey=true)]
 		public TblCourses TblCourses
 		{
 			get
@@ -5446,7 +6062,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_CurriculumOperations", Storage="_FxCurriculumOperations", ThisKey="CurriculumOperationRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_CurriculumOperations", Storage="_FxCurriculumOperations", ThisKey="CurriculumOperationRef", OtherKey="ID", IsForeignKey=true)]
 		public FxCurriculumOperations FxCurriculumOperations
 		{
 			get
@@ -5480,7 +6096,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Curriculums", Storage="_TblCurriculums", ThisKey="CurriculumRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_Curriculums", Storage="_TblCurriculums", ThisKey="CurriculumRef", OtherKey="ID", IsForeignKey=true)]
 		public TblCurriculums TblCurriculums
 		{
 			get
@@ -5514,7 +6130,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_GroupObjects", Storage="_TblGroups", ThisKey="GroupObjectRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_GroupObjects", Storage="_TblGroups", ThisKey="GroupObjectRef", OtherKey="ID", IsForeignKey=true)]
 		public TblGroups TblGroups
 		{
 			get
@@ -5548,7 +6164,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_GroupOperations", Storage="_FxGroupOperations", ThisKey="GroupOperationRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_GroupOperations", Storage="_FxGroupOperations", ThisKey="GroupOperationRef", OtherKey="ID", IsForeignKey=true)]
 		public FxGroupOperations FxGroupOperations
 		{
 			get
@@ -5582,7 +6198,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Groups", Storage="_GroupRefTblGroups", ThisKey="GroupRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_Groups", Storage="_GroupRefTblGroups", ThisKey="GroupRef", OtherKey="ID", IsForeignKey=true)]
 		public TblGroups GroupRefTblGroups
 		{
 			get
@@ -5616,7 +6232,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_OwnerGroup", Storage="_OwnerGroupRefTblGroups", ThisKey="OwnerGroupRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_OwnerGroup", Storage="_OwnerGroupRefTblGroups", ThisKey="OwnerGroupRef", OtherKey="ID", IsForeignKey=true)]
 		public TblGroups OwnerGroupRefTblGroups
 		{
 			get
@@ -5650,7 +6266,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_OwnerUser", Storage="_TblUsers", ThisKey="OwnerUserRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_OwnerUser", Storage="_TblUsers", ThisKey="OwnerUserRef", OtherKey="ID", IsForeignKey=true)]
 		public TblUsers TblUsers
 		{
 			get
@@ -5684,7 +6300,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_PageOperations", Storage="_FxPageOperations", ThisKey="PageOperationRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_PageOperations", Storage="_FxPageOperations", ThisKey="PageOperationRef", OtherKey="ID", IsForeignKey=true)]
 		public FxPageOperations FxPageOperations
 		{
 			get
@@ -5718,7 +6334,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Pages", Storage="_TblPages", ThisKey="PageRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_Pages", Storage="_TblPages", ThisKey="PageRef", OtherKey="ID", IsForeignKey=true)]
 		public TblPages TblPages
 		{
 			get
@@ -5752,7 +6368,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_StageOperations", Storage="_FxStageOperations", ThisKey="StageOperationRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_StageOperations", Storage="_FxStageOperations", ThisKey="StageOperationRef", OtherKey="ID", IsForeignKey=true)]
 		public FxStageOperations FxStageOperations
 		{
 			get
@@ -5786,7 +6402,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Stages", Storage="_TblStages", ThisKey="StageRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_Stages", Storage="_TblStages", ThisKey="StageRef", OtherKey="ID", IsForeignKey=true)]
 		public TblStages TblStages
 		{
 			get
@@ -5820,7 +6436,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_ThemeOperations", Storage="_FxThemeOperations", ThisKey="ThemeOperationRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_ThemeOperations", Storage="_FxThemeOperations", ThisKey="ThemeOperationRef", OtherKey="ID", IsForeignKey=true)]
 		public FxThemeOperations FxThemeOperations
 		{
 			get
@@ -5854,7 +6470,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Themes", Storage="_TblThemes", ThisKey="ThemeRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_Themes", Storage="_TblThemes", ThisKey="ThemeRef", OtherKey="ID", IsForeignKey=true)]
 		public TblThemes TblThemes
 		{
 			get
@@ -5888,7 +6504,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_UserObjects", Storage="_UserObjectRefTblUsers", ThisKey="UserObjectRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_UserObjects", Storage="_UserObjectRefTblUsers", ThisKey="UserObjectRef", OtherKey="ID", IsForeignKey=true)]
 		public TblUsers UserObjectRefTblUsers
 		{
 			get
@@ -5975,6 +6591,8 @@ namespace IUDICO.DataModel.DB
 		
 		private System.Nullable<int> _CompiledQuestionRef;
 		
+		private short _SysState;
+		
 		private EntityRef<TblPages> _TblPages;
 		
 		private EntityRef<TblCompiledQuestions> _TblCompiledQuestions;
@@ -5999,6 +6617,8 @@ namespace IUDICO.DataModel.DB
     partial void OnIsCompiledChanged();
     partial void OnCompiledQuestionRefChanging(System.Nullable<int> value);
     partial void OnCompiledQuestionRefChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public TblQuestions()
@@ -6157,7 +6777,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_CorrectAnswer_Page", Storage="_TblPages", ThisKey="PageRef", IsForeignKey=true)]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_CorrectAnswer_Page", Storage="_TblPages", ThisKey="PageRef", OtherKey="ID", IsForeignKey=true)]
 		public TblPages TblPages
 		{
 			get
@@ -6191,7 +6831,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblQuestions_tblCompiledQuestions", Storage="_TblCompiledQuestions", ThisKey="CompiledQuestionRef", IsForeignKey=true)]
+		[Association(Name="FK_tblQuestions_tblCompiledQuestions", Storage="_TblCompiledQuestions", ThisKey="CompiledQuestionRef", OtherKey="ID", IsForeignKey=true)]
 		public TblCompiledQuestions TblCompiledQuestions
 		{
 			get
@@ -6225,7 +6865,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_UserAnswer_CorrectAnswer", Storage="_TblUserAnswers", OtherKey="QuestionRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_UserAnswer_CorrectAnswer", Storage="_TblUserAnswers", ThisKey="ID", OtherKey="QuestionRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblUserAnswers> TblUserAnswers
 		{
 			get
@@ -6279,6 +6919,8 @@ namespace IUDICO.DataModel.DB
 		
 		private string _Name;
 		
+		private short _SysState;
+		
 		public TblSampleBusinesObject()
 		{
 		}
@@ -6314,6 +6956,22 @@ namespace IUDICO.DataModel.DB
 				}
 			}
 		}
+		
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this._SysState = value;
+				}
+			}
+		}
 	}
 	
 	[Table(Name="dbo.tblStages")]
@@ -6329,6 +6987,8 @@ namespace IUDICO.DataModel.DB
 		private string _Description;
 		
 		private System.Nullable<int> _CurriculumRef;
+		
+		private short _SysState;
 		
 		private EntitySet<TblPermissions> _TblPermissions;
 		
@@ -6348,6 +7008,8 @@ namespace IUDICO.DataModel.DB
     partial void OnDescriptionChanged();
     partial void OnCurriculumRefChanging(System.Nullable<int> value);
     partial void OnCurriculumRefChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public TblStages()
@@ -6442,7 +7104,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Stages", Storage="_TblPermissions", OtherKey="StageRef", DeleteRule="NO ACTION")]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_Permissions_Stages", Storage="_TblPermissions", ThisKey="ID", OtherKey="StageRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -6455,7 +7137,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Stage", Storage="_RelStagesThemes", OtherKey="StageRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Stage", Storage="_RelStagesThemes", ThisKey="ID", OtherKey="StageRef", DeleteRule="NO ACTION")]
 		public EntitySet<RelStagesThemes> RelStagesThemes
 		{
 			get
@@ -6468,7 +7150,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblStages_tblCurriculums", Storage="_TblCurriculums", ThisKey="CurriculumRef", IsForeignKey=true)]
+		[Association(Name="FK_tblStages_tblCurriculums", Storage="_TblCurriculums", ThisKey="CurriculumRef", OtherKey="ID", IsForeignKey=true)]
 		public TblCurriculums TblCurriculums
 		{
 			get
@@ -6563,6 +7245,8 @@ namespace IUDICO.DataModel.DB
 		
 		private System.Nullable<int> _PageOrderRef;
 		
+		private short _SysState;
+		
 		private EntityRef<TblCourses> _TblCourses;
 		
 		private EntitySet<TblPages> _TblPages;
@@ -6587,6 +7271,8 @@ namespace IUDICO.DataModel.DB
     partial void OnIsControlChanged();
     partial void OnPageOrderRefChanging(System.Nullable<int> value);
     partial void OnPageOrderRefChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public TblThemes()
@@ -6707,7 +7393,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Chapter_Course", Storage="_TblCourses", ThisKey="CourseRef", IsForeignKey=true)]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_Chapter_Course", Storage="_TblCourses", ThisKey="CourseRef", OtherKey="ID", IsForeignKey=true)]
 		public TblCourses TblCourses
 		{
 			get
@@ -6741,7 +7447,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Page_Theme", Storage="_TblPages", OtherKey="ThemeRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Page_Theme", Storage="_TblPages", ThisKey="ID", OtherKey="ThemeRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPages> TblPages
 		{
 			get
@@ -6754,7 +7460,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Themes", Storage="_TblPermissions", OtherKey="ThemeRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_Themes", Storage="_TblPermissions", ThisKey="ID", OtherKey="ThemeRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -6767,7 +7473,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblThemes_fxdPageOrders", Storage="_FxPageOrders", ThisKey="PageOrderRef", IsForeignKey=true)]
+		[Association(Name="FK_tblThemes_fxdPageOrders", Storage="_FxPageOrders", ThisKey="PageOrderRef", OtherKey="ID", IsForeignKey=true)]
 		public FxPageOrders FxPageOrders
 		{
 			get
@@ -6801,7 +7507,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_THEME", Storage="_RelStagesThemes", OtherKey="ThemeRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_THEME", Storage="_RelStagesThemes", ThisKey="ID", OtherKey="ThemeRef", DeleteRule="NO ACTION")]
 		public EntitySet<RelStagesThemes> RelStagesThemes
 		{
 			get
@@ -6891,6 +7597,8 @@ namespace IUDICO.DataModel.DB
 		
 		private System.Nullable<int> _CompiledAnswerRef;
 		
+		private short _SysState;
+		
 		private EntityRef<TblCompiledAnswers> _TblCompiledAnswers;
 		
 		private EntityRef<TblQuestions> _TblQuestions;
@@ -6915,6 +7623,8 @@ namespace IUDICO.DataModel.DB
     partial void OnIsCompiledAnswerChanged();
     partial void OnCompiledAnswerRefChanging(System.Nullable<int> value);
     partial void OnCompiledAnswerRefChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public TblUserAnswers()
@@ -7077,7 +7787,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblUserAnswers_tblCompiledAnswers", Storage="_TblCompiledAnswers", ThisKey="CompiledAnswerRef", IsForeignKey=true)]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_tblUserAnswers_tblCompiledAnswers", Storage="_TblCompiledAnswers", ThisKey="CompiledAnswerRef", OtherKey="ID", IsForeignKey=true)]
 		public TblCompiledAnswers TblCompiledAnswers
 		{
 			get
@@ -7111,7 +7841,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_UserAnswer_CorrectAnswer", Storage="_TblQuestions", ThisKey="QuestionRef", IsForeignKey=true)]
+		[Association(Name="FK_UserAnswer_CorrectAnswer", Storage="_TblQuestions", ThisKey="QuestionRef", OtherKey="ID", IsForeignKey=true)]
 		public TblQuestions TblQuestions
 		{
 			get
@@ -7145,7 +7875,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_UserAnswers_Users", Storage="_TblUsers", ThisKey="UserRef", IsForeignKey=true)]
+		[Association(Name="FK_UserAnswers_Users", Storage="_TblUsers", ThisKey="UserRef", OtherKey="ID", IsForeignKey=true)]
 		public TblUsers TblUsers
 		{
 			get
@@ -7218,6 +7948,8 @@ namespace IUDICO.DataModel.DB
 		
 		private string _Email;
 		
+		private short _SysState;
+		
 		private EntitySet<TblPermissions> _TblPermissions;
 		
 		private EntitySet<TblPermissions> _Permissions_UserObjects;
@@ -7244,6 +7976,8 @@ namespace IUDICO.DataModel.DB
     partial void OnPasswordHashChanged();
     partial void OnEmailChanging(string value);
     partial void OnEmailChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
     #endregion
 		
 		public TblUsers()
@@ -7376,7 +8110,27 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_OwnerUser", Storage="_TblPermissions", OtherKey="OwnerUserRef", DeleteRule="NO ACTION")]
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_Permissions_OwnerUser", Storage="_TblPermissions", ThisKey="ID", OtherKey="OwnerUserRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -7389,7 +8143,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_UserObjects", Storage="_Permissions_UserObjects", OtherKey="UserObjectRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_UserObjects", Storage="_Permissions_UserObjects", ThisKey="ID", OtherKey="UserObjectRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> Permissions_UserObjects
 		{
 			get
@@ -7402,7 +8156,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_USER", Storage="_RelUserGroups", OtherKey="UserRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_USER", Storage="_RelUserGroups", ThisKey="ID", OtherKey="UserRef", DeleteRule="NO ACTION")]
 		public EntitySet<RelUserGroups> RelUserGroups
 		{
 			get
@@ -7415,7 +8169,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_USER_ID", Storage="_RelUserRoles", OtherKey="UserID", DeleteRule="NO ACTION")]
+		[Association(Name="FK_USER_ID", Storage="_RelUserRoles", ThisKey="ID", OtherKey="UserID", DeleteRule="NO ACTION")]
 		public EntitySet<RelUserRoles> RelUserRoles
 		{
 			get
@@ -7428,7 +8182,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_UserAnswers_Users", Storage="_TblUserAnswers", OtherKey="UserRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_UserAnswers_Users", Storage="_TblUserAnswers", ThisKey="ID", OtherKey="UserRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblUserAnswers> TblUserAnswers
 		{
 			get
@@ -7522,27 +8276,851 @@ namespace IUDICO.DataModel.DB
 		}
 	}
 	
-	public partial class GetUserRolesResult
+	public partial class Security_GetGroupPermissionsCourseResult
 	{
 		
-		private string _Name;
+		private System.Nullable<int> _ID;
 		
-		public GetUserRolesResult()
+		private System.Nullable<int> _ParentPermitionRef;
+		
+		private System.Nullable<System.DateTime> _DateSince;
+		
+		private System.Nullable<System.DateTime> _DateTill;
+		
+		private System.Nullable<int> _OwnerUserRef;
+		
+		private System.Nullable<int> _OwnerGroupRef;
+		
+		private System.Nullable<bool> _CanBeDelagated;
+		
+		private System.Nullable<int> _CourseRef;
+		
+		private System.Nullable<int> _CourseOperationRef;
+		
+		public Security_GetGroupPermissionsCourseResult()
 		{
 		}
 		
-		[Column(Storage="_Name", DbType="NVarChar(20)")]
-		public string Name
+		[Column(Storage="_ID", DbType="Int")]
+		public System.Nullable<int> ID
 		{
 			get
 			{
-				return this._Name;
+				return this._ID;
 			}
 			set
 			{
-				if ((this._Name != value))
+				if ((this._ID != value))
 				{
-					this._Name = value;
+					this._ID = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_ParentPermitionRef", DbType="Int")]
+		public System.Nullable<int> ParentPermitionRef
+		{
+			get
+			{
+				return this._ParentPermitionRef;
+			}
+			set
+			{
+				if ((this._ParentPermitionRef != value))
+				{
+					this._ParentPermitionRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_DateSince", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateSince
+		{
+			get
+			{
+				return this._DateSince;
+			}
+			set
+			{
+				if ((this._DateSince != value))
+				{
+					this._DateSince = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_DateTill", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateTill
+		{
+			get
+			{
+				return this._DateTill;
+			}
+			set
+			{
+				if ((this._DateTill != value))
+				{
+					this._DateTill = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_OwnerUserRef", DbType="Int")]
+		public System.Nullable<int> OwnerUserRef
+		{
+			get
+			{
+				return this._OwnerUserRef;
+			}
+			set
+			{
+				if ((this._OwnerUserRef != value))
+				{
+					this._OwnerUserRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_OwnerGroupRef", DbType="Int")]
+		public System.Nullable<int> OwnerGroupRef
+		{
+			get
+			{
+				return this._OwnerGroupRef;
+			}
+			set
+			{
+				if ((this._OwnerGroupRef != value))
+				{
+					this._OwnerGroupRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_CanBeDelagated", DbType="Bit")]
+		public System.Nullable<bool> CanBeDelagated
+		{
+			get
+			{
+				return this._CanBeDelagated;
+			}
+			set
+			{
+				if ((this._CanBeDelagated != value))
+				{
+					this._CanBeDelagated = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_CourseRef", DbType="Int")]
+		public System.Nullable<int> CourseRef
+		{
+			get
+			{
+				return this._CourseRef;
+			}
+			set
+			{
+				if ((this._CourseRef != value))
+				{
+					this._CourseRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_CourseOperationRef", DbType="Int")]
+		public System.Nullable<int> CourseOperationRef
+		{
+			get
+			{
+				return this._CourseOperationRef;
+			}
+			set
+			{
+				if ((this._CourseOperationRef != value))
+				{
+					this._CourseOperationRef = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Security_GetGroupPermissionsCurriculumResult
+	{
+		
+		private System.Nullable<int> _ID;
+		
+		private System.Nullable<int> _ParentPermitionRef;
+		
+		private System.Nullable<System.DateTime> _DateSince;
+		
+		private System.Nullable<System.DateTime> _DateTill;
+		
+		private System.Nullable<int> _OwnerUserRef;
+		
+		private System.Nullable<int> _OwnerGroupRef;
+		
+		private System.Nullable<bool> _CanBeDelagated;
+		
+		private System.Nullable<int> _CurriculumRef;
+		
+		private System.Nullable<int> _CurriculumOperationRef;
+		
+		public Security_GetGroupPermissionsCurriculumResult()
+		{
+		}
+		
+		[Column(Storage="_ID", DbType="Int")]
+		public System.Nullable<int> ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_ParentPermitionRef", DbType="Int")]
+		public System.Nullable<int> ParentPermitionRef
+		{
+			get
+			{
+				return this._ParentPermitionRef;
+			}
+			set
+			{
+				if ((this._ParentPermitionRef != value))
+				{
+					this._ParentPermitionRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_DateSince", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateSince
+		{
+			get
+			{
+				return this._DateSince;
+			}
+			set
+			{
+				if ((this._DateSince != value))
+				{
+					this._DateSince = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_DateTill", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateTill
+		{
+			get
+			{
+				return this._DateTill;
+			}
+			set
+			{
+				if ((this._DateTill != value))
+				{
+					this._DateTill = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_OwnerUserRef", DbType="Int")]
+		public System.Nullable<int> OwnerUserRef
+		{
+			get
+			{
+				return this._OwnerUserRef;
+			}
+			set
+			{
+				if ((this._OwnerUserRef != value))
+				{
+					this._OwnerUserRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_OwnerGroupRef", DbType="Int")]
+		public System.Nullable<int> OwnerGroupRef
+		{
+			get
+			{
+				return this._OwnerGroupRef;
+			}
+			set
+			{
+				if ((this._OwnerGroupRef != value))
+				{
+					this._OwnerGroupRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_CanBeDelagated", DbType="Bit")]
+		public System.Nullable<bool> CanBeDelagated
+		{
+			get
+			{
+				return this._CanBeDelagated;
+			}
+			set
+			{
+				if ((this._CanBeDelagated != value))
+				{
+					this._CanBeDelagated = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_CurriculumRef", DbType="Int")]
+		public System.Nullable<int> CurriculumRef
+		{
+			get
+			{
+				return this._CurriculumRef;
+			}
+			set
+			{
+				if ((this._CurriculumRef != value))
+				{
+					this._CurriculumRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_CurriculumOperationRef", DbType="Int")]
+		public System.Nullable<int> CurriculumOperationRef
+		{
+			get
+			{
+				return this._CurriculumOperationRef;
+			}
+			set
+			{
+				if ((this._CurriculumOperationRef != value))
+				{
+					this._CurriculumOperationRef = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Security_GetGroupPermissionsGroupResult
+	{
+		
+		private System.Nullable<int> _ID;
+		
+		private System.Nullable<int> _ParentPermitionRef;
+		
+		private System.Nullable<System.DateTime> _DateSince;
+		
+		private System.Nullable<System.DateTime> _DateTill;
+		
+		private System.Nullable<int> _OwnerUserRef;
+		
+		private System.Nullable<int> _OwnerGroupRef;
+		
+		private System.Nullable<bool> _CanBeDelagated;
+		
+		private System.Nullable<int> _GroupRef;
+		
+		private System.Nullable<int> _GroupOperationRef;
+		
+		public Security_GetGroupPermissionsGroupResult()
+		{
+		}
+		
+		[Column(Storage="_ID", DbType="Int")]
+		public System.Nullable<int> ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_ParentPermitionRef", DbType="Int")]
+		public System.Nullable<int> ParentPermitionRef
+		{
+			get
+			{
+				return this._ParentPermitionRef;
+			}
+			set
+			{
+				if ((this._ParentPermitionRef != value))
+				{
+					this._ParentPermitionRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_DateSince", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateSince
+		{
+			get
+			{
+				return this._DateSince;
+			}
+			set
+			{
+				if ((this._DateSince != value))
+				{
+					this._DateSince = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_DateTill", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateTill
+		{
+			get
+			{
+				return this._DateTill;
+			}
+			set
+			{
+				if ((this._DateTill != value))
+				{
+					this._DateTill = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_OwnerUserRef", DbType="Int")]
+		public System.Nullable<int> OwnerUserRef
+		{
+			get
+			{
+				return this._OwnerUserRef;
+			}
+			set
+			{
+				if ((this._OwnerUserRef != value))
+				{
+					this._OwnerUserRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_OwnerGroupRef", DbType="Int")]
+		public System.Nullable<int> OwnerGroupRef
+		{
+			get
+			{
+				return this._OwnerGroupRef;
+			}
+			set
+			{
+				if ((this._OwnerGroupRef != value))
+				{
+					this._OwnerGroupRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_CanBeDelagated", DbType="Bit")]
+		public System.Nullable<bool> CanBeDelagated
+		{
+			get
+			{
+				return this._CanBeDelagated;
+			}
+			set
+			{
+				if ((this._CanBeDelagated != value))
+				{
+					this._CanBeDelagated = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_GroupRef", DbType="Int")]
+		public System.Nullable<int> GroupRef
+		{
+			get
+			{
+				return this._GroupRef;
+			}
+			set
+			{
+				if ((this._GroupRef != value))
+				{
+					this._GroupRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_GroupOperationRef", DbType="Int")]
+		public System.Nullable<int> GroupOperationRef
+		{
+			get
+			{
+				return this._GroupOperationRef;
+			}
+			set
+			{
+				if ((this._GroupOperationRef != value))
+				{
+					this._GroupOperationRef = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Security_GetGroupPermissionsStageResult
+	{
+		
+		private System.Nullable<int> _ID;
+		
+		private System.Nullable<int> _ParentPermitionRef;
+		
+		private System.Nullable<System.DateTime> _DateSince;
+		
+		private System.Nullable<System.DateTime> _DateTill;
+		
+		private System.Nullable<int> _OwnerUserRef;
+		
+		private System.Nullable<int> _OwnerGroupRef;
+		
+		private System.Nullable<bool> _CanBeDelagated;
+		
+		private System.Nullable<int> _StageRef;
+		
+		private System.Nullable<int> _StageOperationRef;
+		
+		public Security_GetGroupPermissionsStageResult()
+		{
+		}
+		
+		[Column(Storage="_ID", DbType="Int")]
+		public System.Nullable<int> ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_ParentPermitionRef", DbType="Int")]
+		public System.Nullable<int> ParentPermitionRef
+		{
+			get
+			{
+				return this._ParentPermitionRef;
+			}
+			set
+			{
+				if ((this._ParentPermitionRef != value))
+				{
+					this._ParentPermitionRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_DateSince", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateSince
+		{
+			get
+			{
+				return this._DateSince;
+			}
+			set
+			{
+				if ((this._DateSince != value))
+				{
+					this._DateSince = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_DateTill", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateTill
+		{
+			get
+			{
+				return this._DateTill;
+			}
+			set
+			{
+				if ((this._DateTill != value))
+				{
+					this._DateTill = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_OwnerUserRef", DbType="Int")]
+		public System.Nullable<int> OwnerUserRef
+		{
+			get
+			{
+				return this._OwnerUserRef;
+			}
+			set
+			{
+				if ((this._OwnerUserRef != value))
+				{
+					this._OwnerUserRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_OwnerGroupRef", DbType="Int")]
+		public System.Nullable<int> OwnerGroupRef
+		{
+			get
+			{
+				return this._OwnerGroupRef;
+			}
+			set
+			{
+				if ((this._OwnerGroupRef != value))
+				{
+					this._OwnerGroupRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_CanBeDelagated", DbType="Bit")]
+		public System.Nullable<bool> CanBeDelagated
+		{
+			get
+			{
+				return this._CanBeDelagated;
+			}
+			set
+			{
+				if ((this._CanBeDelagated != value))
+				{
+					this._CanBeDelagated = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_StageRef", DbType="Int")]
+		public System.Nullable<int> StageRef
+		{
+			get
+			{
+				return this._StageRef;
+			}
+			set
+			{
+				if ((this._StageRef != value))
+				{
+					this._StageRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_StageOperationRef", DbType="Int")]
+		public System.Nullable<int> StageOperationRef
+		{
+			get
+			{
+				return this._StageOperationRef;
+			}
+			set
+			{
+				if ((this._StageOperationRef != value))
+				{
+					this._StageOperationRef = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Security_GetGroupPermissionsThemeResult
+	{
+		
+		private System.Nullable<int> _ID;
+		
+		private System.Nullable<int> _ParentPermitionRef;
+		
+		private System.Nullable<System.DateTime> _DateSince;
+		
+		private System.Nullable<System.DateTime> _DateTill;
+		
+		private System.Nullable<int> _OwnerUserRef;
+		
+		private System.Nullable<int> _OwnerGroupRef;
+		
+		private System.Nullable<bool> _CanBeDelagated;
+		
+		private System.Nullable<int> _ThemeRef;
+		
+		private System.Nullable<int> _ThemeOperationRef;
+		
+		public Security_GetGroupPermissionsThemeResult()
+		{
+		}
+		
+		[Column(Storage="_ID", DbType="Int")]
+		public System.Nullable<int> ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_ParentPermitionRef", DbType="Int")]
+		public System.Nullable<int> ParentPermitionRef
+		{
+			get
+			{
+				return this._ParentPermitionRef;
+			}
+			set
+			{
+				if ((this._ParentPermitionRef != value))
+				{
+					this._ParentPermitionRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_DateSince", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateSince
+		{
+			get
+			{
+				return this._DateSince;
+			}
+			set
+			{
+				if ((this._DateSince != value))
+				{
+					this._DateSince = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_DateTill", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateTill
+		{
+			get
+			{
+				return this._DateTill;
+			}
+			set
+			{
+				if ((this._DateTill != value))
+				{
+					this._DateTill = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_OwnerUserRef", DbType="Int")]
+		public System.Nullable<int> OwnerUserRef
+		{
+			get
+			{
+				return this._OwnerUserRef;
+			}
+			set
+			{
+				if ((this._OwnerUserRef != value))
+				{
+					this._OwnerUserRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_OwnerGroupRef", DbType="Int")]
+		public System.Nullable<int> OwnerGroupRef
+		{
+			get
+			{
+				return this._OwnerGroupRef;
+			}
+			set
+			{
+				if ((this._OwnerGroupRef != value))
+				{
+					this._OwnerGroupRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_CanBeDelagated", DbType="Bit")]
+		public System.Nullable<bool> CanBeDelagated
+		{
+			get
+			{
+				return this._CanBeDelagated;
+			}
+			set
+			{
+				if ((this._CanBeDelagated != value))
+				{
+					this._CanBeDelagated = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_ThemeRef", DbType="Int")]
+		public System.Nullable<int> ThemeRef
+		{
+			get
+			{
+				return this._ThemeRef;
+			}
+			set
+			{
+				if ((this._ThemeRef != value))
+				{
+					this._ThemeRef = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_ThemeOperationRef", DbType="Int")]
+		public System.Nullable<int> ThemeOperationRef
+		{
+			get
+			{
+				return this._ThemeOperationRef;
+			}
+			set
+			{
+				if ((this._ThemeOperationRef != value))
+				{
+					this._ThemeOperationRef = value;
 				}
 			}
 		}

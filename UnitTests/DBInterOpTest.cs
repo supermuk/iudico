@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Linq;
+using System.Linq;
 using System.Web;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Common;
@@ -19,63 +20,69 @@ namespace IUDICO.UnitTest
         [Test]
         public void SimpleDBOperationsTest()
         {
-            var r = new TblPermissions
+            using (var c = new DataObjectCleaner())
             {
-                CanBeDelagated = false
-            };
-            var r2 = new TblPermissions
-            {
-                CanBeDelagated = false
-            };
-            var r3 = new TblPermissions
-            {
-                CanBeDelagated = false
-            };
-            ServerModel.DB.Insert(r);
-            ServerModel.DB.Insert<TblPermissions>(new[] { r2, r3 });
-            var id1 = r.ID;
-            var id2 = r2.ID;
-            var id3 = r3.ID;
+                var r = new TblPermissions
+                            {
+                                CanBeDelagated = false
+                            };
+                var r2 = new TblPermissions
+                             {
+                                 CanBeDelagated = false
+                             };
+                var r3 = new TblPermissions
+                             {
+                                 CanBeDelagated = false
+                             };
+                c.Insert(r);
+                c.Insert<TblPermissions>(new[] {r2, r3});
+                var id1 = r.ID;
+                var id2 = r2.ID;
+                var id3 = r3.ID;
 
-            r = ServerModel.DB.Load<TblPermissions>(id1);
-            Assert.IsNotNull(r);
-            Assert.IsFalse(r.CanBeDelagated);
-            var dt1 = DateTime.Now;
-            r.DateTill = dt1;
-            ServerModel.DB.Update(r);
+                r = ServerModel.DB.Load<TblPermissions>(id1);
+                Assert.IsNotNull(r);
+                Assert.IsFalse(r.CanBeDelagated);
+                var dt1 = DateTime.Now;
+                r.DateTill = dt1;
+                ServerModel.DB.Update(r);
 
-            r = ServerModel.DB.Load<TblPermissions>(id1);
-            AreEqual(r.DateTill, dt1);
+                r = ServerModel.DB.Load<TblPermissions>(id1);
+                AreEqual(r.DateTill, dt1);
 
-            IList<TblPermissions> ls = ServerModel.DB.Load<TblPermissions>(new[] { id2, id3 });
-            ls[0].DateSince = dt1;
-            ls[1].DateTill = dt1;
-            ServerModel.DB.Update(ls);
+                IList<TblPermissions> ls = ServerModel.DB.Load<TblPermissions>(new[] {id2, id3});
+                ls[0].DateSince = dt1;
+                ls[1].DateTill = dt1;
+                ServerModel.DB.Update(ls);
 
-            ls = ServerModel.DB.Load<TblPermissions>(new[] {id2, id3});
-            AreEqual(ls[0].DateSince, dt1);
-            AreEqual(ls[1].DateTill, dt1);
+                ls = ServerModel.DB.Load<TblPermissions>(new[] {id2, id3});
+                AreEqual(ls[0].DateSince, dt1);
+                AreEqual(ls[1].DateTill, dt1);
+            }
         }
         
         [Test]
         public void BinaryDataOperationsTest()
         {
-            var fileContent = new byte[] { 13, 13, 13, 13 };
-            var file = new TblFiles
+            using (var c = new DataObjectCleaner())
             {
-                File = new Binary(fileContent),
-            };
-            ServerModel.DB.Insert(file);
-            var id1 = file.ID;
+                var fileContent = new byte[] { 13, 13, 13, 13 };
+                var file = new TblFiles
+                               {
+                                   File = new Binary(fileContent),
+                               };
+                c.Insert(file);
+                var id1 = file.ID;
 
-            var loadedFile = ServerModel.DB.Load<TblFiles>(id1);
-            Assert.AreEqual(loadedFile.File.ToArray(), fileContent);
+                var loadedFile = ServerModel.DB.Load<TblFiles>(id1);
+                Assert.AreEqual(loadedFile.File.ToArray(), fileContent);
 
-            loadedFile.File = null;
-            ServerModel.DB.Update(loadedFile);
+                loadedFile.File = null;
+                ServerModel.DB.Update(loadedFile);
 
-            loadedFile = ServerModel.DB.Load<TblFiles>(id1);
-            Assert.IsNull(loadedFile.File);
+                loadedFile = ServerModel.DB.Load<TblFiles>(id1);
+                Assert.IsNull(loadedFile.File);
+            }
         }
 
         [Test]
@@ -105,121 +112,176 @@ namespace IUDICO.UnitTest
         [Test]
         public void LookupIDsTest()
         {
-            var d = DateTime.Now;
-            string email = d.Year.ToString() + d.Month + d.Day + d.Hour + d.Minute + d.Second + d.Millisecond + "@gmail.com";
-            var u = new TblUsers
+            using (var c = new DataObjectCleaner())
             {
-                Email = email,
-                FirstName = "Test",
-                LastName = "Test",
-                Login = email,
-                PasswordHash = email
-            };
-            ServerModel.DB.Insert(u);
+                TblUsers u = GetUniqueUserForTesting();
+                c.Insert(u);
 
-            var a1 = new TblUserAnswers { UserRef = u.ID };
-            var a2 = (TblUserAnswers)a1.Clone();
-            var a3 = (TblUserAnswers)a1.Clone();
-            ServerModel.DB.Insert<TblUserAnswers>(new[] {a1, a2, a3});
+                var a1 = new TblUserAnswers { UserRef = u.ID };
+                var a2 = (TblUserAnswers)a1.Clone();
+                var a3 = (TblUserAnswers)a1.Clone();
+                ServerModel.DB.Insert<TblUserAnswers>(new[] {a1, a2, a3});
 
-            var ids = ServerModel.DB.LookupIds<TblUserAnswers>(u, null);
-            Assert.AreEqual(ids, new[] { a1.ID, a2.ID, a3.ID });
+                var ids = ServerModel.DB.LookupIds<TblUserAnswers>(u, null);
+                Assert.AreEqual(ids, new[] { a1.ID, a2.ID, a3.ID });
 
-            var g1 = new TblGroups
-             {
-                 Name = "TestGroup1"
-             };
-            var g2 = (TblGroups) g1.Clone();
-            ServerModel.DB.Insert<TblGroups>(new[] {g1, g2});
+                var g1 = new TblGroups
+                             {
+                                 Name = "TestGroup1"
+                             };
+                var g2 = (TblGroups) g1.Clone();
+                c.Insert<TblGroups>(new[] {g1, g2});
 
-            ServerModel.DB.Link(u, g1);
-            ServerModel.DB.Link(g2, u);
+                ServerModel.DB.Link(u, g1);
+                ServerModel.DB.Link(g2, u);
 
-            var uIds = ServerModel.DB.LookupMany2ManyIds<TblGroups>(u, null);
-            Assert.AreEqual(new[] { g1.ID, g2.ID }, uIds);
+                var uIds = ServerModel.DB.LookupMany2ManyIds<TblGroups>(u, null);
+                Assert.AreEqual(new[] { g1.ID, g2.ID }, uIds);
 
-            var g1Ids = ServerModel.DB.LookupMany2ManyIds<TblUsers>(g1, null);
-            Assert.AreEqual(new[] {u.ID}, g1Ids);
+                var g1Ids = ServerModel.DB.LookupMany2ManyIds<TblUsers>(g1, null);
+                Assert.AreEqual(new[] {u.ID}, g1Ids);
 
-            var g2Ids = ServerModel.DB.LookupMany2ManyIds<TblUsers>(g2, null);
-            Assert.AreEqual(new[] {u.ID}, g2Ids);
+                var g2Ids = ServerModel.DB.LookupMany2ManyIds<TblUsers>(g2, null);
+                Assert.AreEqual(new[] {u.ID}, g2Ids);
 
-            ServerModel.DB.UnLink(g1, u);
-            var newIds = ServerModel.DB.LookupMany2ManyIds<TblGroups>(u, null);
-            Assert.AreEqual(new[] {g2.ID}, newIds);
+                ServerModel.DB.UnLink(g1, u);
+                var newIds = ServerModel.DB.LookupMany2ManyIds<TblGroups>(u, null);
+                Assert.AreEqual(new[] {g2.ID}, newIds);
+            }
         }
 
         [Test]
         public void SubSelectConditionTest()
         {
-            var user = new TblUsers
+            using (var c = new DataObjectCleaner())
             {
-                Email = new Random().Next() + "@" + new Random().Next() + "." + new Random().Next(),
-                FirstName = "Test",
-                LastName = "User",
-                PasswordHash = "hello"
-            };
+                var user = GetUniqueUserForTesting();
+                c.Insert(user);
 
-            user.Login = user.Email;
-            ServerModel.DB.Insert(user);
+                var group1 = new TblGroups
+                                 {
+                                     Name = user.Email + "_g1"
+                                 };
+                var group2 = new TblGroups
+                                 {
+                                     Name = user.Email + "_g2"
+                                 };
+                ServerModel.DB.Insert((IList<TblGroups>)new[] {group1, group2});
 
-            var group1 = new TblGroups
-            {
-                Name = user.Email + "_g1"
-            };
-            var group2 = new TblGroups
-            {
-                Name = user.Email + "_g2"
-            };
-            ServerModel.DB.Insert((IList<TblGroups>)new[] {group1, group2});
+                ServerModel.DB.Link(user, group1);
 
-            ServerModel.DB.Link(user, group1);
+                var groupIds = ServerModel.DB.LookupMany2ManyIds<TblGroups>(user, null);
+                Assert.AreEqual(1, groupIds.Count);
+                Assert.Contains(group1.ID, groupIds);
 
-            var groupIds = ServerModel.DB.LookupMany2ManyIds<TblGroups>(user, null);
-            Assert.AreEqual(1, groupIds.Count);
-            Assert.Contains(group1.ID, groupIds);
+                var groups = ServerModel.DB.Query<TblGroups>(new InCondition<int>(
+                     DataObject.Schema.ID,
+                     new SubSelectCondition<RelUserGroups>("GroupRef", 
+                                                           new CompareCondition<int>(
+                                                               DataObject.Schema.UserRef,
+                                                               new ValueCondition<int>(user.ID),
+                                                               COMPARE_KIND.EQUAL
+                                                               )
+                         ),
+                     IN_CONDITION_KIND.NOT_IN
+                     ));
 
-            var groups = ServerModel.DB.Query<TblGroups>(new InCondition(
-                DataObject.Schema.ID,
-                new SubSelectCondition<RelUserGroups>("GroupRef", 
-                    new CompareCondition(
-                        DataObject.Schema.UserRef,
-                        new ValueCondition<int>(user.ID),
-                        COMPARE_KIND.EQUAL
-                    )
-                ),
-                IN_CONDITION_KIND.NOT_IN
-            ));
-
-            Assert.Greater(groups.Count, 0);
-            Assert.IsNotNull(groups.Find(p => p.ID == group2.ID));
+                Assert.Greater(groups.Count, 0);
+                Assert.IsNotNull(groups.Find(p => p.ID == group2.ID));
+            }
         }
 
         [Test]
         public void GetGroupPermissionsTest()
         {
-            var c = new TblCourses
+            using (var cl = new DataObjectCleaner())
             {
-                Name = "test course",
-                Description = "unit test course"
-            };
-            ServerModel.DB.Insert(c);
+                var c = new TblCourses
+                            {
+                                Name = "test course",
+                                Description = "unit test course"
+                            };
+                cl.Insert(c);
 
-            var g = new TblGroups
+                var g = new TblGroups
+                            {
+                                Name = "test group"
+                            };
+                cl.Insert(g);
+
+                PermissionsManager.Grand(c, FxCourseOperations.Modify, null, g.ID, new DateTimeInterval(DateTime.Now.AddDays(-1), DateTime.Now.AddDays(1)));
+
+                var ids = PermissionsManager.GetObjectsForGroup(SECURED_OBJECT_TYPE.COURSE, g.ID, FxCourseOperations.Modify.ID, DateTime.Now);
+                Assert.AreEqual(1, ids.Count);
+                Assert.AreEqual(c.ID, ids[0]);
+
+                ids = PermissionsManager.GetObjectsForGroup(SECURED_OBJECT_TYPE.COURSE, g.ID, null, null);
+                Assert.AreEqual(1, ids.Count);
+                Assert.AreEqual(c.ID, ids[0]);
+            }
+        }
+
+        [Test]
+        public void SoftDeleteTest()
+        {
+            var obj = new TblGroups {Name = "test group"};
+            ServerModel.DB.Insert(obj);
+
+            var id = obj.ID;
+            Assert.Greater(id, 0);
+
+            ServerModel.DB.Delete<TblGroups>(id);
+
+            // Check that object exists in database
+            var groups = new List<TblGroups>(from g in ServerModel.DB.TblGroups where g.ID == id select g);
+            Assert.AreEqual(1, groups.Count);
+
+            // Check that it is not retrieving via query
+            var objs = ServerModel.DB.Query<TblGroups>(
+                new CompareCondition<int>(
+                    DataObject.Schema.ID, 
+                    new ValueCondition<int>(id),
+                    COMPARE_KIND.EQUAL));
+            Assert.IsEmpty(objs);
+
+            // ... and via Load
+            var ok = false;
+            try
             {
-                Name = "test group"
-            };
-            ServerModel.DB.Insert(g);
+                ServerModel.DB.Load<TblGroups>(id);
+            }
+            catch
+            {
+                ok = true;
+            }
+            Assert.IsTrue(ok);
+        }
 
-            PermissionsManager.Grand(c, FxCourseOperations.Edit, null, g.ID, new DateTimeInterval(DateTime.Now.AddDays(-1), DateTime.Now.AddDays(1)));
+        [Test]
+        public void GetUsersAndGroupForObjectTest()
+        {
+            using (var c = new DataObjectCleaner())
+            {
+                var g = new TblGroups {Name = "test group"};
+                c.Insert(g);
+                
+                var user = GetUniqueUserForTesting();
+                c.Insert(user);
 
-            var ids = PermissionsManager.GetObjectsForGroup(SECURED_OBJECT_TYPE.COURSE, g.ID, FxCourseOperations.Edit.ID, DateTime.Now);
-            Assert.AreEqual(1, ids.Count);
-            Assert.AreEqual(c.ID, ids[0]);
+                var group = new TblGroups {Name = "test owner group"};
+                c.Insert(group);
 
-            ids = PermissionsManager.GetObjectsForGroup(SECURED_OBJECT_TYPE.COURSE, g.ID, null, null);
-            Assert.AreEqual(1, ids.Count);
-            Assert.AreEqual(c.ID, ids[0]);
+                PermissionsManager.Grand(g, FxGroupOperations.View, user.ID, null, DateTimeInterval.Full);
+                PermissionsManager.Grand(g, FxGroupOperations.ChangeMembers, null, group.ID, DateTimeInterval.Full);
+
+                var ids = PermissionsManager.GetUsersForObject(SECURED_OBJECT_TYPE.GROUP, g.ID, null, null);
+                Assert.AreEqual(1, ids.Count);
+                Assert.AreEqual(user.ID, ids[0]);
+
+                var gids = PermissionsManager.GetGroupsForObject(SECURED_OBJECT_TYPE.GROUP, g.ID, null, null);
+                Assert.AreEqual(1, ids.Count);
+                Assert.AreEqual(group.ID, gids[0]);
+            }
         }
 
         protected override bool NeedToRecreateDB
@@ -228,6 +290,20 @@ namespace IUDICO.UnitTest
             {
                 return false;
             }
+        }
+
+        private static TblUsers GetUniqueUserForTesting()
+        {
+            var d = DateTime.Now;
+            string uname = (d.Year%100).ToString() + d.Second + d.Millisecond + d.Ticks + new Random().Next(99);
+            return new TblUsers
+            {
+                Email = uname + "@gmail.com",
+                FirstName = "Test",
+                LastName = "Test",
+                Login = uname,
+                PasswordHash = uname
+            };
         }
     }
 }

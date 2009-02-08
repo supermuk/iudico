@@ -10,6 +10,7 @@ using System.Text;
 using System.Web.Caching;
 using IUDICO.DataModel.Common;
 using LEX.CONTROLS;
+using Utils=IUDICO.DataModel.Common.Utils;
 
 namespace IUDICO.DataModel.DB.Base
 {
@@ -86,6 +87,7 @@ namespace IUDICO.DataModel.DB.Base
         public static readonly List<ColumnInfo> Columns;
         public static readonly string ColumnNames;
         public static readonly string SelectSql;
+        public static readonly IDBPredicate AliveRecordsFilter = new CompareCondition<int>(new PropertyCondition<int>("sysState"), new ValueCondition<int>(0), COMPARE_KIND.EQUAL);
 
         private static SqlConnection __CacheDepCommandConnection;
 
@@ -111,20 +113,18 @@ namespace IUDICO.DataModel.DB.Base
 
             Columns = new List<ColumnInfo>(
                 from p in type.GetProperties()
-                where p.HasAtr<ColumnAttribute>()
+                where Utils.HasAtr<ColumnAttribute>(p)
                 select new ColumnInfo(type, p));
             ColumnNames = Columns.Select(c => SqlUtils.WrapDbId(c.Name)).ConcatComma();
             SelectSql = "SELECT " + ColumnNames + " FROM " + SqlUtils.WrapDbId(TableName);
         }
 
-        public static void AppendQuerySql([NotNull] SqlSerializationContext context, [CanBeNull]IDBCondition cond)
+        public static void AppendQuerySql([NotNull] SqlSerializationContext context, [CanBeNull]IDBPredicate cond)
         {
             context.Write(SelectSql);
-            if (cond != null)
-            {
-                context.Write(" WHERE ");
-                cond.Write(context);
-            }
+            cond = cond != null ? new AndCondtion(AliveRecordsFilter, cond) : AliveRecordsFilter;
+            context.Write(" WHERE ");
+            cond.Write(context);
         }
 
         public static List<TDataObject> FullRead(IDataReader reader, int estimatedCount)
@@ -199,9 +199,8 @@ namespace IUDICO.DataModel.DB.Base
         private static readonly string __ColumnNamesWithoutID;
 
         private static readonly string __SelectRangeSqlTemplate_1;
-        private const string __SelectRangeSqlTemplate_2 = @"SELECT * FROM OrderedObjects WHERE RowNumber BETWEEN {0} AND {1}";
+        private const string __SelectRangeSqlTemplate_2 = @"SELECT * FROM OrderedObjects WHERE Row(Number BETWEEN {0} AND {1}) AND sysState = 0";
         private static readonly string UpdateSqlHeader;
-        public static readonly string DeleteSqlHeader;
         public static readonly string InsertSqlHeader;
 
         static DataObjectSqlSerializer()
@@ -212,16 +211,13 @@ namespace IUDICO.DataModel.DB.Base
             __ColumnNamesWithoutID = (from c in DataObjectInfo<TDataObject>.Columns where c.Name != "ID" select SqlUtils.WrapDbId(c.Name)).ConcatComma();
             string tName = DataObjectInfo<TDataObject>.TableName;
             UpdateSqlHeader = "UPDATE " + SqlUtils.WrapDbId(tName) + " SET ";
-            InsertSqlHeader = "INSERT INTO " + SqlUtils.WrapDbId(tName) + " " + SqlUtils.WrapArc(__ColumnNamesWithoutID) + " VALUES ";
-            DeleteSqlHeader = "DELETE " + SqlUtils.WrapDbId(tName) + " WHERE ID";
+            InsertSqlHeader = "INSERT INTO " + SqlUtils.WrapDbId(tName) + " " + SqlUtils.WrapArc(__ColumnNamesWithoutID) + " VALUES ";            
             __SelectRangeSqlTemplate_1 = string.Format(@"WITH OrderedObjects AS
 (SELECT {0}, ROW_NUMBER() OVER (ORDER BY ID) AS 'RowNumber'
     FROM {1} as objs)", DataObjectInfo<TDataObject>.ColumnNames, tName);
         }
 
- 
-
-        public static void AppendSelectRangeSql([NotNull] SqlSerializationContext context, int from, int to, IDBCondition st)
+        public static void AppendSelectRangeSql([NotNull] SqlSerializationContext context, int from, int to, IDBPredicate st)
         {
             context.Write(__SelectRangeSqlTemplate_1, context.AddParameter(from), context.AddParameter(to));
             if (st != null)
@@ -256,19 +252,20 @@ namespace IUDICO.DataModel.DB.Base
             context.Write("select SCOPE_IDENTITY()");
         }
 
-        public static void AppendDeleteSql([NotNull]SqlSerializationContext context, int id)
+        public static void AppendSoftDeleteSql([NotNull]SqlSerializationContext context, int id)
         {
-            context.Write(DeleteSqlHeader);
-            context.Write("=" + id);
+            context.Write(UpdateSqlHeader);
+            context.Write(" sysState = 1 WHERE ID = ");
+            context.Write(id.ToString());
         }
 
-        public static void AppendDeleteSql([NotNull]SqlSerializationContext context, [NotNull]ICollection<int> objs)
+        public static void AppendSoftDeleteSql([NotNull]SqlSerializationContext context, [NotNull]ICollection<int> objs)
         {
             if (objs == null || objs.Count == 0)
             {
                 throw new ArgumentException("Collection cannot be empty", "objs");
             }
-            context.Write(DeleteSqlHeader + " IN " + SqlUtils.WrapArc(
+            context.Write(UpdateSqlHeader + " sysState = 1 WHERE ID IN " + SqlUtils.WrapArc(
                                                          objs.ConcatComma()
                                                          ));
         }

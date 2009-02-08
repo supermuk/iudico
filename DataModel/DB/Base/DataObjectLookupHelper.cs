@@ -54,7 +54,7 @@ namespace IUDICO.DataModel.DB.Base
             Put(__MMInfos, mmr.Second, mmr.First, new ManyToManyLookupInfo(secondKey, tableName, firstKey, relType));
         }
 
-        public static void AppendLookupSql([NotNull]SqlSerializationContext context, [NotNull]IIntKeyedDataObject owner, [NotNull]Type detailType, [CanBeNull]IDBCondition condition)
+        public static void AppendLookupSql([NotNull]SqlSerializationContext context, [NotNull]IIntKeyedDataObject owner, [NotNull]Type detailType, [CanBeNull]IDBPredicate condition)
         {
             var r = Get(__Infos, owner.GetType(), detailType);
             if (r.IsEmpty)

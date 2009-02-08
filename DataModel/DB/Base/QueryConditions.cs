@@ -1,53 +1,70 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using IUDICO.DataModel.Common;
-using System.Linq;
 
 namespace IUDICO.DataModel.DB.Base
 {
-    public class OrCondtion : IDBCondition
+    public abstract class MultipleCondtion : IDBPredicate
     {
-        public OrCondtion(IDBCondition a, IDBCondition b)
+        protected abstract void WriteOperator(SqlSerializationContext context);
+
+        protected MultipleCondtion(params IDBPredicate[] conds)
         {
-            _A = a;
-            _B = b;
+            if (conds.Length <= 1)
+                throw new ArgumentException("AndCondition constructor cannot be created with no subcondition or with only one. You must provide at least two conditions");
+            _Conds = conds;
         }
 
         public void Write(SqlSerializationContext context)
         {
             context.Write("(");
-            _A.Write(context);
+            bool notFirst = false;
+            foreach (var cond in _Conds)
+            {
+                if (notFirst)
+                {
+                    WriteOperator(context);
+                }
+                else
+                {
+                    notFirst = true;
+                }
+                cond.Write(context);
+            }
+            context.Write(")");
+        }
+
+        private readonly IDBPredicate[] _Conds;
+    }
+
+    public class OrCondtion : MultipleCondtion
+    {
+        public OrCondtion(params IDBPredicate[] conds) : base(conds)
+        {
+        }
+
+        protected override void WriteOperator(SqlSerializationContext context)
+        {
             context.Write(" OR ");
-            _B.Write(context);
-            context.Write(")");
         }
-
-        private readonly IDBCondition _A, _B;
     }
 
-    public class AndCondtion : IDBCondition
+    public class AndCondtion : MultipleCondtion
     {
-        public AndCondtion(IDBCondition a, IDBCondition b)
+        public AndCondtion(params IDBPredicate[] conds) : base(conds)
         {
-            _A = a;
-            _B = b;
         }
 
-        public void Write(SqlSerializationContext context)
+        protected override void WriteOperator(SqlSerializationContext context)
         {
-            context.Write("(");
-            _A.Write(context);
             context.Write(" AND ");
-            _B.Write(context);
-            context.Write(")");
         }
-
-        private readonly IDBCondition _A, _B;
     }
 
-    public class EqualCondition : IDBCondition
+    public class LikeObjectCondition : IDBPredicate
     {
-        public EqualCondition(object param)
+        public LikeObjectCondition(object param)
         {
             _Param = param;
         }
@@ -74,7 +91,32 @@ namespace IUDICO.DataModel.DB.Base
         private readonly object _Param;
     }
 
-    public class PropertyCondition : IDBCondition
+    public class BetweenCondition<TValue> : IDBPredicate
+    {
+        public BetweenCondition(IDBCondition<TValue> operand, IDBCondition<TValue> lowBound, IDBCondition<TValue> hiBound)
+        {
+            _Operand = operand;
+            _LowBound = lowBound;
+            _HiBound = hiBound;
+        }
+
+        public void Write(SqlSerializationContext context)
+        {
+            context.Write("(");
+            _Operand.Write(context);
+            context.Write(" BETWEEN ");
+            _LowBound.Write(context);
+            context.Write(" AND ");
+            _HiBound.Write(context);
+            context.Write(")");
+        }
+
+        private readonly IDBCondition<TValue> _Operand;
+        private readonly IDBCondition<TValue> _LowBound;
+        private readonly IDBCondition<TValue> _HiBound;
+    }
+
+    public class PropertyCondition<TProperty> : IDBCondition<TProperty>
     {
         public string PropertyName { get; private set; }
 
@@ -87,10 +129,24 @@ namespace IUDICO.DataModel.DB.Base
         {
             context.Write("[" + PropertyName + "]");            
         }
+    }
 
-        public static implicit operator PropertyCondition (string name)
-        {
-            return new PropertyCondition(name);
+    public class DateTimeBetweenCondition : AndCondtion
+    {
+         //((DateSince IS NULL) OR (DateSince <= @TargetDate)) AND ((DateTill IS NULL) OR (DateTill >= @TargetDate))
+        public DateTimeBetweenCondition(IDBCondition<DateTime> operand, IDBCondition<DateTime> lowBound, IDBCondition<DateTime> hiBound)
+            : base
+            (
+                new OrCondtion(
+                    new IsNullCondition<DateTime>(lowBound),
+                    new CompareCondition<DateTime>(lowBound, operand, COMPARE_KIND.NOT_MORE)
+                ),
+                new OrCondtion(
+                    new IsNullCondition<DateTime>(hiBound),
+                    new CompareCondition<DateTime>(operand, hiBound, COMPARE_KIND.NOT_MORE)
+                )
+            )
+        {          
         }
     }
 
@@ -106,13 +162,13 @@ namespace IUDICO.DataModel.DB.Base
         LIKE
     }
 
-    public class CompareCondition : IDBCondition
+    public class CompareCondition<TComparisionType> : IDBPredicate
     {
-        public IDBCondition A { get; private set; }
-        public IDBCondition B { get; private set; }
+        public IDBCondition<TComparisionType> A { get; private set; }
+        public IDBCondition<TComparisionType> B { get; private set; }
         public COMPARE_KIND Kind { get; private set; }
 
-        public CompareCondition(IDBCondition a, IDBCondition b, COMPARE_KIND kind)
+        public CompareCondition(IDBCondition<TComparisionType> a, IDBCondition<TComparisionType> b, COMPARE_KIND kind)
         {
             A = a;
             B = b;
@@ -162,7 +218,7 @@ namespace IUDICO.DataModel.DB.Base
         }
     }
 
-    public class ValueCondition<TValue> : IDBCondition
+    public class ValueCondition<TValue> : IDBCondition<TValue>
     {
         public TValue Value { get; private set; }
 
@@ -189,18 +245,18 @@ namespace IUDICO.DataModel.DB.Base
         EQUAL
     }
 
-    public class InCondition : IDBCondition
+    public class InCondition<TValue> : IDBPredicate
     {
-        public readonly IDBCondition Arg;
+        public readonly IDBCondition<TValue> Arg;
         public readonly ISubSelectCondition SubSelect;
         public readonly IN_CONDITION_KIND Kind;
 
-        public InCondition(IDBCondition arg, ISubSelectCondition subSelect)
+        public InCondition(IDBCondition<TValue> arg, ISubSelectCondition subSelect)
             : this(arg, subSelect, IN_CONDITION_KIND.IN)
         {
         }
 
-        public InCondition(IDBCondition arg, ISubSelectCondition subSelect, IN_CONDITION_KIND kind)
+        public InCondition(IDBCondition<TValue> arg, ISubSelectCondition subSelect, IN_CONDITION_KIND kind)
         {
             Arg = arg;
             SubSelect = subSelect;
@@ -240,14 +296,14 @@ namespace IUDICO.DataModel.DB.Base
         where TDataObject : IDataObject, new()
     {
         public readonly string[] FieldNames;
-        public readonly IDBCondition Condition;
+        public readonly IDBPredicate Condition;
 
-        public SubSelectCondition(string fieldName, IDBCondition cond)
+        public SubSelectCondition(string fieldName, IDBPredicate cond)
             : this(new[] {fieldName}, cond)
         {
         }
 
-        public SubSelectCondition(string[] fieldNames, IDBCondition cond)
+        public SubSelectCondition(string[] fieldNames, IDBPredicate cond)
         {
             FieldNames = fieldNames;
             Condition = cond;
@@ -265,5 +321,42 @@ namespace IUDICO.DataModel.DB.Base
                 Condition.Write(context);
             }
         }
+    }
+
+    public class IsNullCondition<TValue> : IDBPredicate
+    {
+        public IsNullCondition(IDBCondition<TValue> value)
+        {
+            _Value = value;
+        }
+
+        public void Write(SqlSerializationContext context)
+        {
+            context.Write("(");
+            _Value.Write(context);
+            context.Write(" IS NULL");
+            context.Write(")");
+        }
+
+        private readonly IDBCondition<TValue> _Value;
+    }
+
+        public class IsNotNullCondition<TValue> : IDBPredicate
+    {
+        public IsNotNullCondition(IDBCondition<TValue> value)
+        {
+            _Value = value;
+        }
+
+        public void Write(SqlSerializationContext context)
+        {
+            context.Write("(");
+            _Value.Write(context);
+            context.Write(" IS NOT NULL");
+            context.Write(")");
+
+        }
+
+        private readonly IDBCondition<TValue> _Value;
     }
 }

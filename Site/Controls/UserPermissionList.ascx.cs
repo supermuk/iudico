@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
 using System.Collections.Generic;
 
@@ -54,7 +55,7 @@ namespace Controls
 
         private static string GetPermissionsLabel(bool v, string title)
         {
-            return v ? "You don't have permissions to any of " + title : title + " you have access to:";
+            return v ? "You don't have permissions to any of " + title : title.Pluralize() + " you have access to:";
         }
 
         private readonly List<KeyValuePair<ITextControl, UserObjectPermissions>> _ObjectPermissions = new List<KeyValuePair<ITextControl, UserObjectPermissions>>();

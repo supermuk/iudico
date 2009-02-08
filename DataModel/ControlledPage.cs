@@ -106,6 +106,12 @@ namespace IUDICO.DataModel
             text.Changed += (v, newVal) => c.Text = newVal;
         }
 
+        protected void Bind2Ways([NotNull] TextBox tb, [NotNull] IVariable<string> text)
+        {
+            Bind(tb, text);
+            tb.TextChanged += (o, e) => text.Value = tb.Text;
+        }
+
         protected void Bind([NotNull]ITextControl c, [CanBeNull]string text)
         {
             CheckBindingAllowed();
@@ -117,6 +123,13 @@ namespace IUDICO.DataModel
         {
             CheckBindingAllowed();
             value.Changed += (v, newVal) => c.Text = presentator(newVal);
+        }
+
+        protected void BindTitle<T>([NotNull] IValue<T> value, [NotNull] Func<T, string> presentator)
+            where T : IComparable<T>
+        {
+            CheckBindingAllowed();
+            value.Changed += (v, newVal) => Title = presentator(newVal);
         }
 
         public void Bind([NotNull] IButtonControl button, Action action)
@@ -187,6 +200,16 @@ namespace IUDICO.DataModel
             __BindingAllowed = true;
             BindController(Controller);
             __BindingAllowed = false;
+        }
+
+        protected override void OnPreRenderComplete(EventArgs e)
+        {
+            if (Controller.RedirectUrl.IsNotNull())
+            {
+                Response.Redirect(Controller.RedirectUrl);
+            }
+            else
+                base.OnPreRenderComplete(e);
         }
 
         protected void CheckBindingAllowed()

@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Reflection;
-using System.Security.Policy;
 using System.Text;
 using System.Web;
 using IUDICO.DataModel.Common;
 using LEX.CONTROLS;
-using System.Linq;
 
 namespace IUDICO.DataModel.Controllers
 {
@@ -38,6 +36,27 @@ namespace IUDICO.DataModel.Controllers
         public virtual void ValidateParameters()
         {
         }
+
+        protected void RedirectToController<TController>(TController c)
+            where TController : ControllerBase
+        {
+            if (RedirectUrl.IsNotNull())
+            {
+                throw new DMError("Already redirected");
+            }
+            RedirectUrl = ServerModel.Forms.BuildRedirectUrl(c);
+        }
+
+        protected void Redirect(string url)
+        {
+            if (RedirectUrl.IsNotNull())
+            {
+                throw new DMError("Already redirected");
+            }
+            RedirectUrl = url;
+        }
+
+        public string RedirectUrl { get; private set; }
     }
 
     public class DefaultController : ControllerBase
@@ -67,7 +86,7 @@ namespace IUDICO.DataModel.Controllers
             }
         }
 
-        public static string BuildUrlParams(TController c, HttpServerUtility server)
+        public static string BuildUrlParams(TController c)
         {
             var b = new StringBuilder();
             foreach (var p in __ControllerParameters)
@@ -89,7 +108,7 @@ namespace IUDICO.DataModel.Controllers
                             }
                             b.Append(p.Key);
                             b.Append('=');
-                            b.Append(server.UrlEncode(vstr));
+                            b.Append(HttpContext.Current.Server.UrlEncode(vstr));
                         }
                     }
                     else
