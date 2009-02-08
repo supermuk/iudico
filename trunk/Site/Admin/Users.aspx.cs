@@ -1,39 +1,37 @@
-﻿using System.Web.UI.WebControls;
-using IUDICO.DataModel;
+﻿using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
 using IUDICO.DataModel.DB;
 
-public class Admin_UsersController : ControllerBase
-{
-}
-
 public partial class Admin_Users : ControlledPage<Admin_UsersController>
 {
+    protected override void BindController(Admin_UsersController c)
+    {
+        base.BindController(c);
+        UserList.ActionEnabled = UserList_ActionEnabled;
+        UserList.ActionTitle = UserList_ActionTitle;
+        UserList.ActionUrl = UserList_ActionUrl;
+    }
+
     public override void DataBind()
     {
         base.DataBind();
-        var users = ServerModel.DB.Query<TblUsers>(null);
-        gvUsers.DataSource = users;
-        gvUsers.DataBind();
+        UserList.DataSource = Controller.GetUsers();
+        UserList.DataBind();
+        btnCreateUser.PostBackUrl = ServerModel.Forms.BuildRedirectUrl(new Admin_CreateUserController {BackUrl = Request.RawUrl});
     }
 
-    protected void gvUsers_OnRowDataBound(object sender, GridViewRowEventArgs e)
+    private string UserList_ActionUrl(TblUsers arg)
     {
-        if (e.Row.RowType == DataControlRowType.DataRow)
-        {
-            var user = (TblUsers)e.Row.DataItem;
+        return ServerModel.Forms.BuildRedirectUrl(new Admin_RemoveUserConfirmationController{BackUrl = Request.RawUrl, UserID = arg.ID});
+    }
 
-            var lbLogin = (LinkButton) e.Row.FindControl("lbLogin");
-            var lbFirstName = (Label) e.Row.FindControl("lbFirstName");
-            var lbSecondName = (Label) e.Row.FindControl("lbSecondName");
-            var lbEmail = (Label) e.Row.FindControl("lbEmail");
+    private string UserList_ActionTitle(TblUsers arg)
+    {
+        return "Remove";
+    }
 
-            lbLogin.PostBackUrl = "~/Admin/EditUser.aspx?UserID=" + user.ID;
-            lbLogin.Text = user.Login;
-            lbFirstName.Text = user.FirstName;
-            lbSecondName.Text = user.LastName;
-            lbEmail.Text = user.Email;
-        }
-
+    private bool UserList_ActionEnabled(TblUsers arg)
+    {
+        return true;
     }
 }

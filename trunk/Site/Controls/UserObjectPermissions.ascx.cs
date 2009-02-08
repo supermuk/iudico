@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Web.UI;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.DB.Base;
@@ -10,7 +11,7 @@ using System.Linq;
 
 namespace Controls
 {
-    public partial class UserObjectPermissions : ControlledUserControl
+    public partial class UserObjectPermissions : UserControl
     {
         public SECURED_OBJECT_TYPE? ObjectType { get; set; }
 

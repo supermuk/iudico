@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using LEX.CONTROLS;
-using System.Collections.Generic;
 
 namespace IUDICO.DataModel.Common
 {
@@ -49,16 +49,21 @@ namespace IUDICO.DataModel.Common
 
         public static string ConcatComma<T>([NotNull] this IEnumerable<T> data)
         {
+            return data.ConcatSeparator(",");
+        }
+
+        public static string ConcatSeparator<T>([NotNull] this IEnumerable<T> data, [NotNull] string separator)
+        {
             var s = new StringBuilder();
             foreach (var i in data)
             {
                 if (s.Length > 0)
                 {
-                    s.Append(",");
+                    s.Append(separator);
                 }
                 s.Append(i);
             }
-            return s.ToString();
+            return s.ToString();                        
         }
 
         public static void RemoveDuplicates<T>([NotNull] this List<T> list)

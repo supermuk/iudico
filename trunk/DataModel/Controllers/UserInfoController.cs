@@ -1,14 +1,9 @@
 ﻿using System;
-using System.IO;
-using System.Web.UI.WebControls;
-using IUDICO.DataModel.Common;
-using IUDICO.DataModel.ImportManagers;
+using System.Collections.Generic;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.DB.Base;
-using IUDICO.DataModel.Security;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace IUDICO.DataModel.Controllers
 {
@@ -89,10 +84,10 @@ namespace IUDICO.DataModel.Controllers
         private IList<TblGroups> getUserGroups(TblUsers user)
         {
             return ServerModel.DB.Query<TblGroups>(
-                new InCondition(
+                new InCondition<int>(
                    DataObject.Schema.ID,
                    new SubSelectCondition<RelUserGroups>("GroupRef",
-                      new CompareCondition(
+                      new CompareCondition<int>(
                          DataObject.Schema.UserRef,
                          new ValueCondition<int>(user.ID),
                          COMPARE_KIND.EQUAL

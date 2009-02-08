@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using LEX.CONTROLS;
 using System.Threading;
+using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.Common
 {

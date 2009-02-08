@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Web.UI.WebControls;
-using System.Xml;
-using IUDICO.DataModel.Common;
-using IUDICO.DataModel.ImportManagers;
-using IUDICO.DataModel.DB;
 using System.Web.UI;
+using System.Web.UI.WebControls;
+using IUDICO.DataModel.Common;
+using IUDICO.DataModel.DB;
 using IUDICO.DataModel.Security;
-using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.Controllers
 {

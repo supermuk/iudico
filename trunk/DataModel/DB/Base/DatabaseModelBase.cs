@@ -1,5 +1,3 @@
-#define MULTY_MACHINE
-
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,11 +7,11 @@ using System.Data.Linq.Mapping;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Web.Caching;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB.Base;
 using LEX.CONTROLS;
-using System.Threading;
 
 namespace IUDICO.DataModel.DB
 {
@@ -37,8 +35,11 @@ namespace IUDICO.DataModel.DB
             {
                 throw new DMError("Unable to find Load method");
             }
+            if (DELETE_METHOD == null)
+            {
+                throw new DMError("Unable to find Delete method");
+            }
         }
-
 
         public void Initialize(Cache c)
         {
@@ -85,18 +86,6 @@ namespace IUDICO.DataModel.DB
                         }
                     }
                 }
-            }
-        }
-
-        public IDBCondition QueryStatement 
-        { 
-            get
-            {
-                return _QueryStatement;
-            } 
-            set
-            {
-                _QueryStatement = value;
             }
         }
 
@@ -265,7 +254,7 @@ namespace IUDICO.DataModel.DB
                 Logger.WriteLine("Running sql...");
                 using (var cmd = GetConnectionSafe().CreateCommand())
                 {
-                    cmd.CommandText = DataObjectInfo<TDataObject>.SelectSql + " WHERE [ID] = " + id;
+                    cmd.CommandText = DataObjectInfo<TDataObject>.SelectSql + " WHERE [ID] = " + id + " AND sysState = 0";
                     using (var r = cmd.LexExecuteReader())
                     {
                         if (r.Read())
@@ -295,7 +284,7 @@ namespace IUDICO.DataModel.DB
                 using (var cmd = GetConnectionSafe().CreateCommand())
                 {
                     List<TDataObject> result;
-                    cmd.CommandText = DataObjectInfo<TDataObject>.SelectSql + " WHERE ID IN (" + ids.ConcatComma() + ")";
+                    cmd.CommandText = DataObjectInfo<TDataObject>.SelectSql + " WHERE (ID IN (" + ids.ConcatComma() + ")) AND sysState = 0";
                     using (var r = cmd.LexExecuteReader())
                     {
                         result = DataObjectInfo<TDataObject>.FullRead(r, ids.Count);
@@ -325,7 +314,7 @@ namespace IUDICO.DataModel.DB
                 using (var cmd = GetConnectionSafe().CreateCommand())
                 {
                     var cn = new SqlSerializationContext((SqlCommand) cmd);
-                    DataObjectSqlSerializer<TDataObject>.AppendSelectRangeSql(cn, from, to, QueryStatement);
+                    DataObjectSqlSerializer<TDataObject>.AppendSelectRangeSql(cn, from, to, null);
                     cn.Finish();
                     using (var r = cmd.LexExecuteReader())
                     {
@@ -351,7 +340,7 @@ namespace IUDICO.DataModel.DB
                 using (var cmd = GetConnectionSafe().CreateCommand())
                 {
                     var sc = new SqlSerializationContext((SqlCommand)cmd);
-                    DataObjectSqlSerializer<TDataObject>.AppendDeleteSql(sc, id);
+                    DataObjectSqlSerializer<TDataObject>.AppendSoftDeleteSql(sc, id);
                     sc.Finish();
                     cmd.LexExecuteNonQuery();
                 }
@@ -374,7 +363,7 @@ namespace IUDICO.DataModel.DB
                     using (var cmd = GetConnectionSafe().CreateCommand())
                     {
                         var sc = new SqlSerializationContext((SqlCommand) cmd);
-                        DataObjectSqlSerializer<TDataObject>.AppendDeleteSql(sc, ids);
+                        DataObjectSqlSerializer<TDataObject>.AppendSoftDeleteSql(sc, ids);
                         sc.Finish();
                         cmd.LexExecuteNonQuery();
                     }
@@ -415,7 +404,7 @@ namespace IUDICO.DataModel.DB
             }
         }
 
-        public List<int> LookupIds<TDataObject>([NotNull] IIntKeyedDataObject owner, [CanBeNull] IDBCondition condition)
+        public List<int> LookupIds<TDataObject>([NotNull] IIntKeyedDataObject owner, [CanBeNull] IDBPredicate condition)
             where TDataObject : IDataObject
         {
             using (DBScope("Looking up ids of " + owner.GetType().Name + " for " + typeof(TDataObject).Name))
@@ -430,7 +419,7 @@ namespace IUDICO.DataModel.DB
             }
         }
 
-        public List<TDataObject> Query<TDataObject>([CanBeNull] IDBCondition cond)
+        public List<TDataObject> Query<TDataObject>([CanBeNull] IDBPredicate cond)
             where TDataObject : IDataObject, new()
         {
             using (DBScope("Custom query for " + typeof(TDataObject)))
@@ -457,7 +446,7 @@ namespace IUDICO.DataModel.DB
             } 
         }
 
-        public TDataObject QuerySingle<TDataObject>([NotNull] IDBCondition cond)
+        public TDataObject QuerySingle<TDataObject>([NotNull] IDBPredicate cond)
             where TDataObject : IDataObject, new()
         {
             using (DBScope("Custom query for " + typeof(TDataObject)))
@@ -481,7 +470,7 @@ namespace IUDICO.DataModel.DB
             } 
         }
 
-        public List<int> LookupMany2ManyIds<TDataObject>(IIntKeyedDataObject firstPart, IDBCondition condition)
+        public List<int> LookupMany2ManyIds<TDataObject>([NotNull]IIntKeyedDataObject firstPart, [CanBeNull]IDBPredicate condition)
         {
             using (DBScope("Looking up many-2-many ids between " + firstPart.GetType().Name + " and " + typeof(TDataObject).Name))
             {
@@ -551,6 +540,7 @@ namespace IUDICO.DataModel.DB
         public static readonly MethodInfo LOAD_METHOD = typeof (DatabaseModel).GetMethod("Load", new[] {typeof (int)});
         public static readonly MethodInfo LOAD_LIST_METHOD = typeof(DatabaseModel).GetMethod("Load", new[] { typeof(IList<int>) });
         public static readonly MethodInfo QUERY_METHOD = typeof (DatabaseModel).GetMethod("Query");
+        public static readonly MethodInfo DELETE_METHOD = typeof(DatabaseModel).GetMethod("Delete", new[] { typeof(int) });
 
         private static string FormatCacheKey<TDataObject>(int id)
             where TDataObject : IIntKeyedDataObject
@@ -579,27 +569,13 @@ namespace IUDICO.DataModel.DB
         private void CacheIt<TDataObject>(TDataObject obj)
             where TDataObject : IIntKeyedDataObject, new()
         {
-#if MULTY_MACHINE   
-            Cache.Add(FormatCacheKey<TDataObject>(obj.ID), obj, DataObjectInfo<TDataObject>.CacheDependency, DateTime.MaxValue, new TimeSpan(1, 1, 1), CacheItemPriority.Normal, CacheItem_Removed);            
-#else
             Cache[FormatCacheKey<TDataObject>(obj.ID)] = obj;
-#endif
         }
-
-#if MULTY_MACHINE  
-        private void CacheItem_Removed(string key, object value, CacheItemRemovedReason reason)
-        {
-            Logger.WriteLine(key + " was removed from Cache. Reason is " + reason);      
-        }
-#endif
 
         private static IDisposable DBScope(string operation)
         {
             return new DBModelScope(operation);
         }
-
-        [ThreadStatic]
-        private static IDBCondition _QueryStatement;
 
         #region FxObjectsStorage
 

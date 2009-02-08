@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.DB.Base;
 using LEX.CONTROLS;
-using System.Collections.Generic;
 
 namespace IUDICO.DataModel.Security
 {
@@ -109,7 +110,19 @@ namespace IUDICO.DataModel.Security
             return GetIDsFromPermissionsForGroupInternal(objectType, groupID, operationID, targetDate, objectType.GetSecurityAtr().Name + "Ref");
         }
 
-        public static void Grand([NotNull] ISecuredDataObject dataObject, IFxDataObject operation, int? userID, int? groupID, DateTimeInterval interval)
+        public static IList<int> GetUsersForObject(SECURED_OBJECT_TYPE objectType, int objectID, int? operationID, DateTime? targetDate)
+        {
+            var prms = ServerModel.DB.Query<TblPermissions>(GetQueryForObject(objectType, objectID, operationID, targetDate));
+            return new List<int>(from p in prms where p.OwnerUserRef.HasValue select p.OwnerUserRef.Value);
+        }
+
+        public static IList<int> GetGroupsForObject(SECURED_OBJECT_TYPE objectType, int objectID, int? operationID, DateTime? targetDate)
+        {
+            var prms = ServerModel.DB.Query<TblPermissions>(GetQueryForObject(objectType, objectID, operationID, targetDate));
+            return new List<int>(from p in prms where p.OwnerGroupRef.HasValue select p.OwnerGroupRef.Value);
+        }
+
+        public static void Grand([NotNull] ISecuredDataObject dataObject, [NotNull]IFxDataObject operation, int? userID, int? groupID, DateTimeInterval interval)
         {
             if ((userID == null && groupID == null) || (userID != null && groupID != null))
             {
@@ -255,6 +268,18 @@ namespace IUDICO.DataModel.Security
                 res.Add(new DataObjectOperationInfo(o.ID, o.Name));
             }
             return new ReadOnlyCollection<DataObjectOperationInfo>(res);
+        }
+
+        private static IDBPredicate GetQueryForObject(SECURED_OBJECT_TYPE objectType, int objectID, int? operationID, DateTime? targetDate)
+        {
+            var name = objectType.GetSecurityAtr().Name;
+
+            var conds = new IDBPredicate[operationID != null ? 3 : 2];
+            conds[0] = new CompareCondition<int>(new PropertyCondition<int>(name + "Ref"), new ValueCondition<int>(objectID), COMPARE_KIND.EQUAL);
+            conds[1] = new DateTimeBetweenCondition(new ValueCondition<DateTime>(targetDate ?? DateTime.Now), DataObject.Schema.DateSince, DataObject.Schema.DateTill);
+            if (operationID != null)
+                conds[2] = new CompareCondition<int>(new PropertyCondition<int>(name + "OperationRef"), new ValueCondition<int>(operationID.Value), COMPARE_KIND.EQUAL);
+            return new AndCondtion(conds);
         }
 
         private static Guid? ID;

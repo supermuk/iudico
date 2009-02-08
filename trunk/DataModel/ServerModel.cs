@@ -1,19 +1,20 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Caching;
 using System.Web.Security;
+using IUDICO.DataModel.Common;
+using IUDICO.DataModel.Controllers;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.DB.Base;
 using IUDICO.DataModel.Security;
 using LEX.CONTROLS;
-using IUDICO.DataModel.Common;
-using System.Collections;
-using System.Linq;
+using Extenders=LEX.CONTROLS.Extenders;
+using Utils=IUDICO.DataModel.Common.Utils;
 
 namespace IUDICO.DataModel
 {
@@ -39,6 +40,8 @@ namespace IUDICO.DataModel
 
         public static UserModel User = new UserModel();
 
+        public static FormsModel Forms = new FormsModel();
+
         public static SqlConnection AcquireConnection()
         {
             return new SqlConnection(_ConnectionString);
@@ -57,7 +60,7 @@ namespace IUDICO.DataModel
             {
                 if (t.GetInterface(typeof(IFxDataObject).Name) != null)
                 {
-                    var fields = new List<FieldInfo>(t.GetFields(BindingFlags.Static | BindingFlags.SetField | BindingFlags.Public).Where(f => f.HasAtr<TableRecordAttribute>()));
+                    var fields = new List<FieldInfo>(t.GetFields(BindingFlags.Static | BindingFlags.SetField | BindingFlags.Public).Where(f => Utils.HasAtr<TableRecordAttribute>(f)));
                     if (fields.Count > 0)
                     {
                         var items = (IEnumerable) DatabaseModel.FIXED_METHOD.MakeGenericMethod(new[] {t}).Invoke(DB, Type.EmptyTypes);
@@ -67,7 +70,7 @@ namespace IUDICO.DataModel
                             bool found = false;
                             foreach (IFxDataObject i in items)
                             {
-                                if (i.Name == atr.Name.IsNull(f.Name))
+                                if (i.Name == Extenders.IsNull(atr.Name, f.Name))
                                 {
                                     found = true;
                                     if (f.FieldType == typeof(int))
@@ -117,82 +120,50 @@ namespace IUDICO.DataModel
 
         public CustomUser ByLogin(string login)
         {
-            CustomUser res;
-            if (HttpRuntime.Cache.TryGet(login, out res))
-                return res;
+//            CustomUser res;
+            // TODO: Fix User caching
+//            if (HttpRuntime.Cache.TryGet(login, out res))
+//                return res;
 
-            int fID;
-            string fName, lName, pHash, email;
-            List<string> roles;
-            using (var cn = ServerModel.AcruireOpenedConnection())
-            {
-                var cmd = new SqlCommand(@"SELECT ID, FirstName, LastName, PasswordHash, Email 
-FROM tblUsers WHERE Login = @Login", cn);
-                cmd.Parameters.Assign(new { Login = login });
-                using (var r = cmd.ExecuteReader())
-                {
-                    if (r.Read())
-                    {
-                        fID = r.GetInt32(0);
-                        fName = r.GetStringNull(1);
-                        lName = r.GetStringNull(2);
-                        pHash = r.GetStringNull(3);
-                        email = r.GetStringNull(4);
-                    }
-                    else
-                    {
+            var users = ServerModel.DB.Query<TblUsers>(
+                new CompareCondition<string>(
+                    new PropertyCondition<string>("Login"),
+                    new ValueCondition<string>(login),
+                    COMPARE_KIND.EQUAL));
+
+            if (users.Count == 0)
                         return null;
-                    }
-                }
-            }
 
-            var roleIDs = ServerModel.DB.LookupMany2ManyIds<FxRoles>(ServerModel.DB.Load<TblUsers>(fID), null);
-            roles = new List<string>(ServerModel.DB.Load<FxRoles>(roleIDs).Select(r => r.Name));
-
-            res = new CustomUser(fID, fName, lName, login, pHash, email, roles);
-            DoCache(res);
-            return res;
+            return CreateUser(users[0]);
+//            DoCache(res);
         }
 
         public CustomUser ByEmail(string email)
         {
-            CustomUser res = CachedUsers.Find(u => u.Email == email);
-            if (res != null)
-            {
-                return res;
+            // TODO: Fix User caching
+//            CustomUser res = CachedUsers.Find(u => u.Email == email);
+//            if (res != null)
+//            {
+//                return res;
+//            }
+
+            var users = ServerModel.DB.Query<TblUsers>(
+                new CompareCondition<string>(
+                    new PropertyCondition<string>("Email"),
+                    new ValueCondition<string>(email),
+                    COMPARE_KIND.EQUAL));
+            if (users.Count == 0)
+                return null;
+
+            return CreateUser(users[0]);
+//            DoCache(res);
             }
 
-            int fID;
-            string fName, lName, pHash, login;
-            List<string> roles;
-            using (var cn = ServerModel.AcruireOpenedConnection())
-            {
-                var cmd = new SqlCommand(@"SELECT ID, FirstName, LastName, PasswordHash, Login 
-FROM tblUsers WHERE Email = @Email", cn);
-                cmd.Parameters.Assign(new { Email = email });
-                using (var r = cmd.ExecuteReader())
-                {
-                    if (r.Read())
+        private static CustomUser CreateUser(TblUsers user)
                     {
-                        fID = r.GetInt32(0);
-                        fName = r.GetStringNull(1);
-                        lName = r.GetStringNull(2);
-                        pHash = r.GetStringNull(3);
-                        login = r.GetStringNull(4);
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-                cmd.CommandText = "GetUserRoles";
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Assign(new { UserLogin = login });
-                roles = cmd.FullReadStrings();
-            }
-            res = new CustomUser(fID, fName, lName, login, pHash, email, roles);
-            DoCache(res);
-            return res;
+            var roleIDs = ServerModel.DB.LookupMany2ManyIds<FxRoles>(user, null);
+            var roles = new List<string>(ServerModel.DB.Load<FxRoles>(roleIDs).Select(r => r.Name));
+            return new CustomUser(user.ID, user.FirstName, user.LastName, user.Login, user.PasswordHash, user.Email, roles);
         }
 
         public void NotifyUpdated(TblUsers u)
@@ -223,6 +194,32 @@ FROM tblUsers WHERE Email = @Email", cn);
         }
 
         private readonly List<CustomUser> CachedUsers = new List<CustomUser>();
+    }
+
+    public sealed class FormsModel
+    {
+        public void Initialize()
+        {
+        }
+
+        public void Register<TController>([NotNull] string url)
+            where TController : ControllerBase
+        {
+            _Pages.Add(typeof(TController), url);
+        }
+
+        [NotNull]
+        public string BuildRedirectUrl<TController>(TController c)
+            where TController : ControllerBase
+        {
+            if (c.BackUrl == null)
+            {
+                throw new DMError("BackUrl is not specified");
+            }
+            return _Pages[typeof(TController)] + "?" + ControllerParametersUtility<TController>.BuildUrlParams(c);
+        }
+
+        private readonly Dictionary<Type, string> _Pages = new Dictionary<Type, string>();
     }
 
     public static class CustomUserExtenders

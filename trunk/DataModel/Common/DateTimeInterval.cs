@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace IUDICO.DataModel.Common
 {
     public struct DateTimeInterval

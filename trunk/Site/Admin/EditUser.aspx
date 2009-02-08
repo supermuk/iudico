@@ -60,28 +60,7 @@
 <asp:Button ID="btnApply" Text="Apply" runat="server" />
 
 <h2><asp:Label ID="lbUserGroups" runat="server" /></h2>
-<asp:GridView 
-    ID="gvGroups"
-    AutoGenerateColumns="false"
-    Width="100%"
-    OnRowDataBound="gvGroups_OnRowDataBound"
-    runat="server">
-    <Columns>
-        <asp:TemplateField ControlStyle-Width="80%">
-            <HeaderTemplate>
-                <asp:Label Text="Group" runat="server" />
-            </HeaderTemplate>
-            <ItemTemplate>
-                <asp:LinkButton runat="server" ID="lnkGroupName" />
-            </ItemTemplate>
-        </asp:TemplateField>
-        <asp:TemplateField ControlStyle-Width="20%">
-            <ItemTemplate>
-                <asp:LinkButton runat="server" Text="Exclude" ID="lnkExclude" />
-            </ItemTemplate>
-        </asp:TemplateField>       
-    </Columns>
-</asp:GridView>
+<i:GroupList ID="GroupList" runat="server" />
 <br />
 
 <asp:Button ID="btnInclude" Text="Include..." runat="server" />

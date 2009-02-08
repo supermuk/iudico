@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 namespace IUDICO.DataModel.Common
 {
     public static class Extenders

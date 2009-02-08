@@ -12,6 +12,7 @@
     void Application_Start(object sender, EventArgs e) 
     {
         ServerModel.Initialize(WebConfigurationManager.ConnectionStrings["IUDICO"].ConnectionString, HttpRuntime.Cache);
+        PagesReg.RegisterPages(ServerModel.Forms);
     } 
         
     void Application_End(object sender, EventArgs e) 

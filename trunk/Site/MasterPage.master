@@ -20,6 +20,7 @@
             <StaticMenuItemStyle CssClass="staticmenuitem" />
             <StaticHoverStyle CssClass="staticmenuitemhover" />
         </asp:Menu>
+        <br />
         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
             <ContentTemplate>
                 <asp:ContentPlaceHolder ID="MainContent" runat="server">
