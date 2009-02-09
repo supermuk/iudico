@@ -118,6 +118,7 @@
     <Compile Include="Common\FileExtentions.cs" />
     <Compile Include="Common\HtmlStyleReader.cs" />
     <Compile Include="Common\HttpUtility.cs" />
+    <Compile Include="Common\IdentityNode.cs" />
     <Compile Include="Common\Logger.cs" />
     <Compile Include="Common\DMError.cs" />
     <Compile Include="Common\EnglishLanguage.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="Common\ProjectPaths.cs" />
     <Compile Include="Common\SqlUtils.cs" />
     <Compile Include="Common\Memorizer.cs" />
+    <Compile Include="Common\TeacherHelper.cs" />
     <Compile Include="Common\UniqueId.cs" />
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Common\ViewStateUtility.cs" />
@@ -177,6 +179,7 @@
     <Compile Include="ImportManagers\FilesManager.cs" />
     <Compile Include="ImportManagers\PracticeManager.cs" />
     <Compile Include="ImportManagers\QuestionManager.cs" />
+    <Compile Include="ImportManagers\RemoveManager\CourseCleaner.cs" />
     <Compile Include="ImportManagers\ThemeManager.cs" />
     <Compile Include="ImportManagers\TheoryManager.cs" />
     <Compile Include="MasterPageBase.cs">
