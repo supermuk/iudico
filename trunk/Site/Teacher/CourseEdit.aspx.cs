@@ -1,6 +1,6 @@
-﻿using IUDICO.DataModel;
+﻿using System.Web.UI;
+using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
-using System.Web.UI;
 
 public partial class CourseEdit : ControlledPage<CourseEditController>
 {

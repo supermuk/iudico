@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Linq;
 using System.Linq;
-using System.Web;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
@@ -255,6 +254,26 @@ namespace IUDICO.UnitTest
                 ok = true;
             }
             Assert.IsTrue(ok);
+        }
+
+        [Test]
+        public void SoftDeleteLookupCascadeDeleteTest()
+        {
+            using (var c = new DataObjectCleaner())
+            {
+                var u = GetUniqueUserForTesting();
+                var g = new TblGroups {Name = "test group"};
+
+                ServerModel.DB.Insert(u);
+                c.Insert(g);
+
+                ServerModel.DB.Link(u, g);
+
+                ServerModel.DB.Delete<TblUsers>(u.ID);
+
+                var ids = ServerModel.DB.LookupMany2ManyIds<TblUsers>(g, null);
+                Assert.AreEqual(0, ids.Count);
+            }
         }
 
         [Test]

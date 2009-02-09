@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using IUDICO.DataModel;
+﻿using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
-using IUDICO.DataModel.DB;
-using IUDICO.DataModel.Security;
 
 public partial class User_MyInfo : ControlledPage<UserInfoController>
 {

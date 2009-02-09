@@ -100,10 +100,10 @@ namespace IUDICO.DataModel.DB.Base
     {
         protected DataObject()
         {
-            ((INotifyPropertyChanging) this).PropertyChanging += PropertyChangingHook;
+            ((INotifyPropertyChanged) this).PropertyChanged += PropertyChangedHook;
         }
 
-        private static void PropertyChangingHook(object sender, PropertyChangingEventArgs e)
+        private static void PropertyChangedHook(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "sysState" || e.PropertyName == "ID")
             {

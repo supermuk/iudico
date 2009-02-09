@@ -5,10 +5,10 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
 <IFRAME ID="testDetailsFrame" scrolling="auto" Runat="Server" width="500px" height="100%"></IFRAME>
 <br />
-<asp:label id="pageRank" Runat="Server"></asp:label>
+<asp:Label id="pageRank" Runat="Server"></asp:Label>
 <br />
-<asp:label id="questionCount" Runat="Server"></asp:label>
+<asp:Label id="questionCount" Runat="Server"></asp:Label>
 <br />
-<asp:label id="maximumRank" Runat="Server"></asp:label>
+<asp:Label id="maximumRank" Runat="Server"></asp:Label>
 </asp:Content>
 

@@ -1,6 +1,6 @@
 ﻿using System;
-using IUDICO.DataModel.Controllers;
 using IUDICO.DataModel;
+using IUDICO.DataModel.Controllers;
 
 public partial class Admin_RemoveUserFromGroup : ControlledPage<Admin_RemoveUserFromGroupController>
 {
