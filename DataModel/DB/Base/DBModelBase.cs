@@ -58,11 +58,11 @@ namespace IUDICO.DataModel.DB.Base
             if (t.GetInterface(typeof(IIntKeyedDataObject).Name) == null)
             {
                 throw new DMError("Class {0} is not support {1} so it cannot take participation in Many-To-Many relationship", t.FullName, typeof(IIntKeyedDataObject).Name);
-            } 
+            }
         }
     }
 
-    public interface IDataObject {}
+    public interface IDataObject { }
 
     public interface INamedDataObject : IDataObject
     {
@@ -74,7 +74,7 @@ namespace IUDICO.DataModel.DB.Base
         int ID { get; }
     }
 
-    public interface ISecuredDataObject : IIntKeyedDataObject, INamedDataObject {}
+    public interface ISecuredDataObject : IIntKeyedDataObject, INamedDataObject { }
 
     public interface IFxDataObject : IIntKeyedDataObject, INamedDataObject { }
 
@@ -100,14 +100,14 @@ namespace IUDICO.DataModel.DB.Base
     {
         protected DataObject()
         {
-            ((INotifyPropertyChanged) this).PropertyChanged += PropertyChangedHook;
+            ((INotifyPropertyChanged)this).PropertyChanged += PropertyChangedHook;
         }
 
         private static void PropertyChangedHook(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "sysState" || e.PropertyName == "ID")
             {
-                 throw new InvalidOperationException("It's forbidden to change " + e.PropertyName + "property ");
+                throw new InvalidOperationException("It's forbidden to change " + e.PropertyName + "property ");
             }
         }
 
@@ -119,7 +119,11 @@ namespace IUDICO.DataModel.DB.Base
                 ThemeRef = new PropertyCondition<int>("ThemeRef"),
                 StageRef = new PropertyCondition<int>("StageRef"),
                 CourseRef = new PropertyCondition<int>("CourseRef"),
-                CurriculumRef = new PropertyCondition<int>("CurriculumRef");
+                CurriculumRef = new PropertyCondition<int>("CurriculumRef"),
+                CurriculumOperationRef = new PropertyCondition<int>("CurriculumOperationRef"),
+                CourseOperationRef = new PropertyCondition<int>("CourseOperationRef"),
+                OwnerGroupRef = new PropertyCondition<int>("OwnerGroupRef"),
+                OwnerUserRef = new PropertyCondition<int>("OwnerUserRef");
             public static readonly IDBCondition<DateTime>
                 DateSince = new PropertyCondition<DateTime>("DateSince"),
                 DateTill = new PropertyCondition<DateTime>("DateTill");
@@ -135,7 +139,7 @@ namespace IUDICO.DataModel.DB.Base
     }
 
     public abstract class SecuredDataObject : IntKeyedDataObject
-    {   
+    {
     }
 
     [DebuggerDisplay("Fx: {ID} - {Name}")]
