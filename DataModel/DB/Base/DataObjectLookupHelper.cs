@@ -62,7 +62,7 @@ namespace IUDICO.DataModel.DB.Base
             if (owner.ID <= 0)
                 throw new DMError("{0} has invalid ID = {1}", owner.GetType().Name, owner.ID);
 
-            context.Write("SELECT ID FROM [{0}] where [{1}] = {2}", r.TableName, r.RefColumnName, context.AddParameter(owner.ID));
+            context.Write("SELECT ID FROM [{0}] where ([{1}] = {2}) and sysState = 0", r.TableName, r.RefColumnName, context.AddParameter(owner.ID));
             if (condition != null)
             {
                 context.Write(" AND (");
@@ -79,20 +79,20 @@ namespace IUDICO.DataModel.DB.Base
             if (firstPart.ID <= 0)
                 throw new DMError("{0} has invalid ID = {1}", firstPart.GetType(), firstPart.ID);
 
-            context.Write("SELECT [{0}] FROM [{1}] WHERE [{2}] = {3}",
+            context.Write("SELECT [{0}] FROM [{1}] WHERE ([{2}] = {3}) and sysState = 0",
                 r.IDColumnName, r.TableName, r.RefColumnName, context.AddParameter(firstPart.ID));
         }
 
         public static void AppendMMLinkSql([NotNull] SqlSerializationContext context, IIntKeyedDataObject o1, IIntKeyedDataObject o2)
         {
-            var r = Get(__MMInfos, o1.GetType(), o2.GetType());
-            if (r.IsEmpty)
-                throw new DMError("Couldnt fond many-to-many relation between {1} and {1}", o1.GetType().Name, o2.GetType().Name);
-
             if (o1.ID <= 0)
                 throw new DMError("{0} has invalid ID = {1}", o1.GetType(), o1.ID);
             if (o2.ID <= 0)
                 throw new DMError("{0} has invalid ID = {1}", o2.GetType(), o2.ID);
+
+            var r = Get(__MMInfos, o1.GetType(), o2.GetType());
+            if (r.IsEmpty)
+                throw new DMError("Couldnt fond many-to-many relation between {1} and {1}", o1.GetType().Name, o2.GetType().Name);
 
             context.Write("INSERT INTO [{0}] ([{1}], [{2}]) VALUES ({3}, {4})", 
                 r.TableName, r.RefColumnName, r.IDColumnName, context.AddParameter(o1.ID), context.AddParameter(o2.ID));
@@ -111,6 +111,23 @@ namespace IUDICO.DataModel.DB.Base
 
             context.Write("DELETE [{0}] WHERE [{1}] = {3} AND [{2}] = {4}",
                 r.TableName, r.RefColumnName, r.IDColumnName, context.AddParameter(o1.ID), context.AddParameter(o2.ID));
+        }
+
+        public static void AppendMMUnlinkAllSqlSafe<TDataObject>([NotNull] SqlSerializationContext context, int id)
+            where TDataObject : IIntKeyedDataObject
+        {
+            if (id <= 0)
+                throw new DMError("Invalid ID: " + id);
+
+            Dictionary<Type, ManyToManyLookupInfo> lookups;
+            if (__MMInfos.TryGetValue(typeof(TDataObject), out lookups))
+            {
+                foreach (var vs in lookups.Values)
+                {
+                    context.Write("UPDATE [{0}] SET sysState = 1 WHERE {1} = {2}", vs.TableName, vs.RefColumnName, id);
+                    context.Next();
+                }                
+            }
         }
 
         private struct LookupInfo

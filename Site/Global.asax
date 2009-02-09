@@ -1,10 +1,7 @@
-﻿<%@ Import Namespace="System.Web.Configuration"%>
-<%@ Import Namespace="System.Collections.Generic"%>
-<%@ Import Namespace="IUDICO.DataModel.DB"%>
+﻿<%@ Import Namespace="IUDICO.DataModel.Common"%>
 <%@ Import Namespace="LEX.CONTROLS"%>
 <%@ Import Namespace="IUDICO.DataModel"%>
-<%@ Import Namespace="IUDICO.DataModel.Common"%>
-<%@ Import Namespace="IUDICO.DataModel.Security"%>
+<%@ Import Namespace="System.Web.Configuration"%>
 <%@ Application Language="C#" %>
 
 <script runat="server">

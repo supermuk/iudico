@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Windows.Forms;
 using IUDICO.DBManager;
 using LEX.CONTROLS;
-using System.IO;
 
 namespace DBUpdater
 {

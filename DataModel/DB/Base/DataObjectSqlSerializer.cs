@@ -10,7 +10,6 @@ using System.Text;
 using System.Web.Caching;
 using IUDICO.DataModel.Common;
 using LEX.CONTROLS;
-using Utils=IUDICO.DataModel.Common.Utils;
 
 namespace IUDICO.DataModel.DB.Base
 {
@@ -113,7 +112,7 @@ namespace IUDICO.DataModel.DB.Base
 
             Columns = new List<ColumnInfo>(
                 from p in type.GetProperties()
-                where Utils.HasAtr<ColumnAttribute>(p)
+                where p.HasAtr<ColumnAttribute>()
                 select new ColumnInfo(type, p));
             ColumnNames = Columns.Select(c => SqlUtils.WrapDbId(c.Name)).ConcatComma();
             SelectSql = "SELECT " + ColumnNames + " FROM " + SqlUtils.WrapDbId(TableName);
@@ -233,8 +232,7 @@ namespace IUDICO.DataModel.DB.Base
                            where ci.Name != "ID"
                            select SqlUtils.WrapDbId(ci.Name) + "=" + context.AddParameter(ci.Storage.GetValue(instance))
                           ).ConcatComma()
-                          + " WHERE ID=" + context.AddParameter(instance.ID)
-                );
+                          + " WHERE ID=" + instance.ID);
         }
 
         public static void AppendInsertSql([NotNull]SqlSerializationContext context, [NotNull]TDataObject obj)
@@ -257,6 +255,9 @@ namespace IUDICO.DataModel.DB.Base
             context.Write(UpdateSqlHeader);
             context.Write(" sysState = 1 WHERE ID = ");
             context.Write(id.ToString());
+            context.Next();
+            LookupHelper.AppendMMUnlinkAllSqlSafe<TDataObject>(context, id);
+            
         }
 
         public static void AppendSoftDeleteSql([NotNull]SqlSerializationContext context, [NotNull]ICollection<int> objs)
@@ -265,9 +266,13 @@ namespace IUDICO.DataModel.DB.Base
             {
                 throw new ArgumentException("Collection cannot be empty", "objs");
             }
-            context.Write(UpdateSqlHeader + " sysState = 1 WHERE ID IN " + SqlUtils.WrapArc(
-                                                         objs.ConcatComma()
-                                                         ));
+            context.Write(UpdateSqlHeader + " sysState = 1 WHERE ID IN " + SqlUtils.WrapArc(objs.ConcatComma()));
+            context.Next();
+            foreach (var i in objs)
+            {
+                LookupHelper.AppendMMUnlinkAllSqlSafe<TDataObject>(context, i);   
+                context.Next();
+            }
         }
     }
 }
