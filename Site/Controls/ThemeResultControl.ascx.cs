@@ -64,9 +64,15 @@ public partial class ThemeResultControl : System.Web.UI.UserControl
                 }
                 else if (latestUserAnswer.IsCompiledAnswer)
                 {
-                    var userCompiledAnswers = ServerModel.DB.Load<TblCompiledAnswers>((int) latestUserAnswer.CompiledAnswerRef);
+                    var userCompiledAnswers = ServerModel.DB.Load<TblCompiledAnswers>(ServerModel.DB.LookupIds<TblCompiledAnswers>(latestUserAnswer, null));
 
-                    if(userCompiledAnswers.StatusRef == (int)Status.Accepted)
+                    bool allAcepted = true;
+
+                    foreach (var compiledAnswer in userCompiledAnswers)
+                    {
+                        allAcepted &= (compiledAnswer.StatusRef == (int)Status.Accepted);
+                    }
+                    if (allAcepted)
                     {
                         userRank += (int)question.Rank;
                     }

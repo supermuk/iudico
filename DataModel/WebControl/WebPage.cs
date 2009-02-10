@@ -227,7 +227,7 @@ namespace IUDICO.DataModel.WebControl
         private static void AddScriptHeader(TextWriter w)
         {
             if (w == null) throw new ArgumentNullException("w");
-            w.Write("<%@ Page Language=\"C#\"%>");
+            w.Write("<%@ Page Language=\"C#\" ValidateRequest=\"false\"%>");
         }
 
         private string CreateCodeFile()
