@@ -22,15 +22,15 @@ namespace IUDICO.DataModel.WebTest
             var program = CompilationAssistant.CreateProgram(userAnswer.UserAnswer, (int)compiledQuestion.MemoryLimit, (int)compiledQuestion.TimeLimit,
                                         compiledQuestion.LanguageRef);
 
-            if (compiledQuestionData != null && compiledQuestionData.Count != 0)
-            {
-                program.InputTest = compiledQuestionData[0].Input;
-                program.OutputTest = compiledQuestionData[0].Output.Replace("\r", string.Empty);
-            }
-
             var tester = CompilationAssistant.CreateTester();
+            
+            foreach(var c in compiledQuestionData)
+            {
+                program.InputTest = c.Input;
+                program.OutputTest = c.Output.Replace("\r", string.Empty);
 
-            Store(tester.TestProgram(program), userAnswer);
+                Store(tester.TestProgram(program), userAnswer);
+            }
 
         }
 
@@ -40,13 +40,11 @@ namespace IUDICO.DataModel.WebTest
                                      {
                                          MemoryUsed = res.MemoryUsed,
                                          TimeUsed = res.TimeUsed,
-                                         StatusRef = (int)res.ProgramStatus
+                                         StatusRef = (int) res.ProgramStatus,
+                                         Output = res.Output,
+                                         UserAnswerRef = ans.ID
                                      };
-
             ServerModel.DB.Insert(compiledAnswer);
-            ans.CompiledAnswerRef = compiledAnswer.ID;
-            
-            ServerModel.DB.Update(ans);
         }
     }
 

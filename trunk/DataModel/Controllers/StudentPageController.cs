@@ -222,17 +222,23 @@ namespace IUDICO.DataModel.Controllers
                 var currUserAnswers = FindUserAnswers(userAnswers, userId);
                 if (currUserAnswers.Count != 0)
                 {
-                    var latestUserAnswer = FindUserAnswerWithNeededDate(currUserAnswers, date);
+                    var userAnswerWithNeededDate = FindUserAnswerWithNeededDate(currUserAnswers, date);
 
-                    if (latestUserAnswer.UserAnswer == question.CorrectAnswer)
+                    if (userAnswerWithNeededDate.UserAnswer == question.CorrectAnswer)
                     {
                         userRank += (int) question.Rank;
                     }
-                    else if (latestUserAnswer.IsCompiledAnswer)
+                    else if (userAnswerWithNeededDate.IsCompiledAnswer)
                     {
-                        var userCompiledAnswers = ServerModel.DB.Load<TblCompiledAnswers>((int)latestUserAnswer.CompiledAnswerRef);
+                        var userCompiledAnswers = ServerModel.DB.Load<TblCompiledAnswers>(ServerModel.DB.LookupIds<TblCompiledAnswers>(userAnswerWithNeededDate, null));
 
-                        if (userCompiledAnswers.StatusRef == (int)Status.Accepted)
+                        bool allAcepted = true;
+
+                        foreach (var compiledAnswer in userCompiledAnswers)
+                        {
+                            allAcepted &= (compiledAnswer.StatusRef == (int)Status.Accepted);
+                        }
+                        if(allAcepted)
                         {
                             userRank += (int)question.Rank;
                         }
