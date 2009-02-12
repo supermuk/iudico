@@ -104,10 +104,6 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TestingSystem, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\TestingSystem.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\CacheUtility.cs" />
@@ -217,6 +213,12 @@
     <Compile Include="WebTest\Test.cs" />
     <Compile Include="WebTest\Tester.cs" />
     <Compile Include="WebTest\TextBoxTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TestingSystem\TestingSystem\TestingSystem.csproj">
+      <Project>{498A9F11-9290-46D8-AFAF-32CC14C7FDDE}</Project>
+      <Name>TestingSystem</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
