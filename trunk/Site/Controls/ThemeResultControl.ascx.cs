@@ -12,6 +12,10 @@ public partial class ThemeResultControl : System.Web.UI.UserControl
 {
     private const string pageDetailsUrl = "../TestDetails.aspx?pageId={0}";
 
+    private const string compiledDetailsUrl = "../CompiledQuestionsDetails.aspx?pageId={0}";
+
+    private static bool isContainCompiledQuestions;
+
     public int ThemeId { get; set; }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -25,6 +29,8 @@ public partial class ThemeResultControl : System.Web.UI.UserControl
 
         foreach (var page in pages)
         {
+            isContainCompiledQuestions = false;
+            
             if (page.PageTypeRef == (int)FX_PAGETYPE.Practice)
             {
                 var pageNameCell = new TableCell();
@@ -39,7 +45,14 @@ public partial class ThemeResultControl : System.Web.UI.UserControl
 
                 var row = new TableRow();
                 row.Cells.AddRange(new []{pageNameCell, passStatusCell, userRankCell, pageRankCell, pageDetails});
+                if (isContainCompiledQuestions)
+                {
+                    var compileDetails = new TableCell();
+                    SetCompiledDetailsLink(compileDetails, page.ID);
+                    row.Cells.Add(compileDetails);
+                }
                 resultTable.Rows.Add(row);
+
             }
         }
         
@@ -124,6 +137,8 @@ public partial class ThemeResultControl : System.Web.UI.UserControl
 
         foreach (var question in questions)
         {
+            isContainCompiledQuestions = question.IsCompiled;
+
             userRank += CalculateUserRank(question, userId);
         }
         return userRank;
@@ -152,5 +167,10 @@ public partial class ThemeResultControl : System.Web.UI.UserControl
     private static void SetPageDetailsLink(TableCell cell, int pageId)
     {
         cell.Controls.Add(new HyperLink{Text = "Details", NavigateUrl = string.Format(pageDetailsUrl, pageId)});
+    }
+
+    private static void SetCompiledDetailsLink(TableCell cell, int pageId)
+    {
+        cell.Controls.Add(new HyperLink { Text = "Compiled Details", NavigateUrl = string.Format(compiledDetailsUrl, pageId) });
     }
 }

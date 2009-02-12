@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using IUDICO.DataModel.DB;
+using IUDICO.DataModel.ImportManagers;
 using TestingSystem;
 using TestingSystem.Compile;
 using CompilationTester = TestingSystem.Tester;
@@ -95,15 +96,19 @@ namespace IUDICO.DataModel.WebTest
 
         private static string LanguageName(int languageRef)
         {
-            switch (languageRef)
+            switch ((FX_LANGUAGE)languageRef)
             {
-                case (2):
+                case (FX_LANGUAGE.Cpp):
                     {
                         return vc6Language;
                     }
-                case (3):
+                case (FX_LANGUAGE.Delphi):
                     {
                         return delphiLanguage;
+                    }
+                case (FX_LANGUAGE.CS):
+                    {
+                        return dotNETLanguage;
                     }
             }
             return string.Empty;
