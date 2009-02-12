@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
+using System.Text;
 using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.Common
@@ -107,6 +109,23 @@ namespace IUDICO.DataModel.Common
         public static string WrapArc([NotNull] string id)
         {
             return string.Concat("(", id, ")");
+        }
+
+        public static string SqlQueryToString([NotNull]IDbCommand cmd)
+        {
+            var b = new StringBuilder();
+            b.AppendLine(cmd.CommandText);
+            var prms = cmd.Parameters;
+            if (prms != null && prms.Count > 0)
+            {
+                foreach (IDbDataParameter p in prms)
+                {
+                    b.Append(p.ParameterName);
+                    b.Append(" = ");
+                    b.Append(p.Value);
+               }   
+            }
+            return b.ToString();
         }
     }
 }

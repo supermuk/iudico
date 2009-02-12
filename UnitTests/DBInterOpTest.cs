@@ -303,6 +303,30 @@ namespace IUDICO.UnitTest
             }
         }
 
+        [Test]
+        public void SafeDeleteAndPermissionManagerTest()
+        {
+            using (var c = new DataObjectCleaner())
+            {
+                var u = GetUniqueUserForTesting();
+                c.Insert(u);
+
+                var g = new TblGroups {Name = "g1"};
+                ServerModel.DB.Insert(g);
+
+                PermissionsManager.Grand(g, FxGroupOperations.View, u.ID, null, DateTimeInterval.Full);
+
+                var res1 = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.GROUP, u.ID, null, null);
+                Assert.AreEqual(1, res1.Count);
+                Assert.AreEqual(g.ID, res1[0]);
+
+                ServerModel.DB.Delete<TblGroups>(g.ID);
+
+                var res2 = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.GROUP, u.ID, null, null);
+                Assert.AreEqual(0, res2.Count);
+            }
+        }
+
         protected override bool NeedToRecreateDB
         {
             get

@@ -128,7 +128,7 @@ namespace IUDICO.DataModel.Security
             {
                 throw new ArgumentException("One and only one of parameters (userID, groupID) must be specified");
             }
-            var doType = dataObject.GetObjectType();
+            var doType = ObjectTypeHelper.GetObjectType(dataObject.GetType());
             var p = new TblPermissions
             {
                 OwnerUserRef = userID,
@@ -298,6 +298,7 @@ BEGIN
 	SELECT " + PERMISSIONS_SELECT_COLUMNS + @"
     FROM tblPermissions WHERE
         ({1}Ref IS NOT NULL) AND
+        (sysState = 0) AND
 		(@UserID = OwnerUserRef OR OwnerGroupRef IN (
 			SELECT GroupRef FROM relUserGroups WHERE UserRef = @UserID)) AND
 		((@{1}OperationID IS NULL) OR 
@@ -316,7 +317,9 @@ BEGIN
     
     SELECT " + PERMISSIONS_SELECT_COLUMNS + @"
     FROM tblPermissions 
-    WHERE (@GroupID = OwnerGroupRef) AND ((@{1}OperationID IS NULL) OR (@{1}OperationID = {1}OperationRef)) AND {2}
+    WHERE (@GroupID = OwnerGroupRef) AND 
+    sysState = 0 AND
+    ((@{1}OperationID IS NULL) OR (@{1}OperationID = {1}OperationRef)) AND {2}
 END";
         private const string RETRIEVE_OBJECT_OPERATIONS_PROC_TEMPLATE =
             @"CREATE PROCEDURE {0}
@@ -331,6 +334,7 @@ BEGIN
 	SELECT DISTINCT {1}OperationRef
 	FROM tblPermissions WHERE
 		@UserID = OwnerUserRef AND
+        sysState = 0 AND
 		((@{1}ID IS NULL) OR
 			(@{1}ID = {1}Ref)
 		)  AND 
@@ -351,6 +355,7 @@ BEGIN
 
 	IF	(NOT EXISTS (SELECT ID FROM tblPermissions WHERE 
 		@UserID = OwnerUserRef AND
+        sysState = 0 AND
 		@{1}ID = {1}Ref AND
 		@{1}OperationID = {1}OperationRef AND
 		{2}
