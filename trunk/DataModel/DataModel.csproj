@@ -164,8 +164,8 @@
     <Compile Include="DB\Base\DataObjectSqlSerializer.cs" />
     <Compile Include="DB\Base\DataObjectLookupHelper.cs" />
     <Compile Include="DB\Base\DatabaseModelBase.cs" />
-    <Compile Include="DB\Base\QueryConditions.cs" />
-    <Compile Include="DB\Base\QueryCondtionsInterfaces.cs" />
+    <Compile Include="DB\Base\DBOps.cs" />
+    <Compile Include="DB\Base\DBOpInterfaces.cs" />
     <Compile Include="DB\DataObjectCleaner.cs" />
     <Compile Include="HttpHandlers\ImageHandler.cs" />
     <Compile Include="HttpHandlers\IudicoHttpHandler.cs" />

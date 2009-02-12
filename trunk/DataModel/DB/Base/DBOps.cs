@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using IUDICO.DataModel.Common;
+using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.DB.Base
 {
@@ -116,7 +118,7 @@ namespace IUDICO.DataModel.DB.Base
         private readonly IDBCondition<TValue> _HiBound;
     }
 
-    public class PropertyCondition<TProperty> : IDBCondition<TProperty>
+    public class PropertyCondition<TProperty> : IDBPropertyCondition<TProperty>
     {
         public string PropertyName { get; private set; }
 
@@ -127,7 +129,9 @@ namespace IUDICO.DataModel.DB.Base
 
         public void Write(SqlSerializationContext context)
         {
-            context.Write("[" + PropertyName + "]");            
+            context.Write("[");
+            context.Write(PropertyName);
+            context.Write("]");
         }
     }
 
@@ -220,7 +224,7 @@ namespace IUDICO.DataModel.DB.Base
 
     public class ValueCondition<TValue> : IDBCondition<TValue>
     {
-        public TValue Value { get; private set; }
+        public TValue Value { get; internal set; }
 
         public ValueCondition(TValue value)
         {
@@ -358,5 +362,80 @@ namespace IUDICO.DataModel.DB.Base
         }
 
         private readonly IDBCondition<TValue> _Value;
+    }
+
+    public class PropertyAssignement<TValue> : IDBPropertyAssignement<TValue>
+    {
+        public PropertyAssignement([NotNull] IDBPropertyCondition<TValue> prop, [NotNull] IDBCondition<TValue> value)
+        {
+            _Property = prop;
+            _Value = value;
+        }
+
+        public void Write(SqlSerializationContext context)
+        {
+            _Property.Write(context);
+            context.Write("=");
+            _Value.Write(context);
+        }
+
+        public IDBPropertyCondition<TValue> PropertyName
+        {
+            get { return _Property; }
+        }
+
+        public IDBCondition<TValue> Value
+        {
+            get { return _Value; }
+        }
+
+        private readonly IDBPropertyCondition<TValue> _Property;
+        private readonly IDBCondition<TValue> _Value;
+    }
+
+    public class UpdateOperation<TDataObject> : IDBUpdateOperation<TDataObject>
+        where TDataObject : IDataObject, new()
+    {
+        public UpdateOperation(IDBPredicate condition, params IDBPropertyAssignementBase[] assignements)
+        {
+            if (assignements == null || assignements.Length == 0)
+            {
+                throw new ArgumentNullException("assignements");
+            }
+            _Assignements = assignements;
+            _Condition = condition;
+        }
+
+        public void Write(SqlSerializationContext context)
+        {
+            context.Write("UPDATE " + DataObjectInfo<TDataObject>.TableName + " SET ");
+            bool notFirst = false;
+            foreach (var a in _Assignements)
+            {
+                if (notFirst)
+                    context.Write(",");
+                else
+                    notFirst = true;
+                a.Write(context);
+            }
+            if (_Condition != null)
+            {
+                context.Write(" WHERE ");        
+                _Condition.Write(context);
+            }
+        }
+
+        public IEnumerable<IDBPropertyAssignementBase> Assignements
+        {
+            get { return _Assignements; }
+        }
+
+        public IDBPredicate Condition
+        {
+            get { return _Condition; }
+        }
+
+        private readonly IEnumerable<IDBPropertyAssignementBase> _Assignements;
+        private readonly IDBPredicate _Condition;
     }
 }

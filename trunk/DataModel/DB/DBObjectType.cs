@@ -55,24 +55,14 @@ namespace IUDICO.DataModel.DB
             return GetAttribute(obj);
         }
 
-        public static SECURED_OBJECT_TYPE GetObjectType([NotNull] this ISecuredDataObject sd)
+        public static SECURED_OBJECT_TYPE GetObjectType([NotNull] Type t)
         {
             SECURED_OBJECT_TYPE res;
-            if (!__SecuredTypes.TryGetValue(sd.GetType(), out res))
+            if (!__SecuredTypes.TryGetValue(t, out res))
             {
-                throw new DMError("Could not figure out secured index of {0}. All SecuredDataObject's classes should be added to {1}", sd.GetType().FullName, typeof(SECURED_OBJECT_TYPE).Name);
+                throw new DMError("Could not figure out secured index of {0}. All SecuredDataObject's classes should be added to {1}", t.FullName, typeof(SECURED_OBJECT_TYPE).Name);
             }
-            return res;
-        }
-
-        public static bool IsSecured([NotNull]Type t)
-        {
-            return __SecuredTypes.ContainsKey(t);
-        }
-
-        public static bool IsSecured([NotNull] this DataObject d)
-        {
-            return IsSecured(d.GetType());
+            return res;            
         }
 
         private static readonly Func<SECURED_OBJECT_TYPE, SecuredObjectTypeAttribute> GetAttribute = 

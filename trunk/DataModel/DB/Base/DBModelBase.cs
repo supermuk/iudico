@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using IUDICO.DataModel.Common;
@@ -113,7 +114,7 @@ namespace IUDICO.DataModel.DB.Base
 
         public static class Schema
         {
-            public static readonly IDBCondition<int>
+            public static readonly IDBPropertyCondition<int>
                 ID = new PropertyCondition<int>("ID"),
                 UserRef = new PropertyCondition<int>("UserRef"),
                 ThemeRef = new PropertyCondition<int>("ThemeRef"),
@@ -123,8 +124,9 @@ namespace IUDICO.DataModel.DB.Base
                 CurriculumOperationRef = new PropertyCondition<int>("CurriculumOperationRef"),
                 CourseOperationRef = new PropertyCondition<int>("CourseOperationRef"),
                 OwnerGroupRef = new PropertyCondition<int>("OwnerGroupRef"),
-                OwnerUserRef = new PropertyCondition<int>("OwnerUserRef");
-            public static readonly IDBCondition<DateTime>
+                OwnerUserRef = new PropertyCondition<int>("OwnerUserRef"),
+                SysState = new PropertyCondition<int>("sysState");
+            public static readonly IDBPropertyCondition<DateTime>
                 DateSince = new PropertyCondition<DateTime>("DateSince"),
                 DateTill = new PropertyCondition<DateTime>("DateTill");
         }
@@ -172,6 +174,9 @@ namespace IUDICO.DataModel.DB.Base
 
         void Update<TDataObject>(IList<TDataObject> objs)
             where TDataObject : class, IIntKeyedDataObject, new();
+
+        void Update<TDataObject>([NotNull] IDBUpdateOperation<TDataObject> op, [NotNull] IDbConnection cn, [CanBeNull] IDbTransaction transaction)
+            where TDataObject : class, IDataObject, new();
 
         TDataObject Load<TDataObject>(int id)
             where TDataObject : class, IIntKeyedDataObject, new();

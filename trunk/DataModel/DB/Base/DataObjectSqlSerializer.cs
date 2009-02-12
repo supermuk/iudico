@@ -54,7 +54,7 @@ namespace IUDICO.DataModel.DB.Base
         public void Finish()
         {
             _Cmd.CommandText = _SqlBuilder.ToString();
-            _SqlBuilder.Remove(0, _SqlBuilder.Length - 1);
+            _SqlBuilder.Length = 0;
         }
 
         [StringFormatMethod("fmt")]
@@ -87,6 +87,7 @@ namespace IUDICO.DataModel.DB.Base
         public static readonly string ColumnNames;
         public static readonly string SelectSql;
         public static readonly IDBPredicate AliveRecordsFilter = new CompareCondition<int>(new PropertyCondition<int>("sysState"), new ValueCondition<int>(0), COMPARE_KIND.EQUAL);
+        public static readonly bool IsSecured;
 
         private static SqlConnection __CacheDepCommandConnection;
 
@@ -116,6 +117,7 @@ namespace IUDICO.DataModel.DB.Base
                 select new ColumnInfo(type, p));
             ColumnNames = Columns.Select(c => SqlUtils.WrapDbId(c.Name)).ConcatComma();
             SelectSql = "SELECT " + ColumnNames + " FROM " + SqlUtils.WrapDbId(TableName);
+            IsSecured = typeof (ISecuredDataObject).IsAssignableFrom(typeof (TDataObject));
         }
 
         public static void AppendQuerySql([NotNull] SqlSerializationContext context, [CanBeNull]IDBPredicate cond)

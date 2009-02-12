@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Common;
+using System.Data;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 using System.Data.SqlClient;
@@ -122,11 +122,8 @@ namespace IUDICO.DataModel.DB
             {
                 using (DBScope("Inserting multiple " + typeof(TDataObject).Name + ". Count = " + objs.Count))
                 {
-                    DbConnection cn = GetConnectionSafe();
-
-                    var transaction = cn.BeginTransaction();
-                    try
-                    {
+                    RunInTransaction(GetConnectionSafe(), (cn, transaction) =>
+                    {                        
                         using (var cmd = cn.CreateCommand())
                         {
                             cmd.Transaction = transaction;
@@ -167,17 +164,7 @@ namespace IUDICO.DataModel.DB
                                 }
                             }
                         }
-                        transaction.Commit();
-                    }
-                    catch
-                    {
-                        Logger.WriteLine("Rolling back transaction...");
-                        transaction.Rollback();
-                    }
-                    finally
-                    {
-                        transaction.Dispose();
-                    }
+                    });
                 }
             }
         }
@@ -206,13 +193,11 @@ namespace IUDICO.DataModel.DB
             {
                 using (DBScope("Updating multiple " + typeof(TDataObject).Name + ". Count = " + objs.Count))
                 {
-                    var connection = GetConnectionSafe();
-                    var transaction = connection.BeginTransaction();
-                    try
+                    RunInTransaction(GetConnectionSafe(), (cn, transaction) =>
                     {
-                        using (var cmd = connection.CreateCommand())
+                        using (var cmd = cn.CreateCommand())
                         {
-                            var sc = new SqlSerializationContext((SqlCommand) cmd);
+                            var sc = new SqlSerializationContext((SqlCommand)cmd);
                             foreach (var o in objs)
                             {
                                 DataObjectSqlSerializer<TDataObject>.AppendUpdateSql(sc, o);
@@ -225,16 +210,24 @@ namespace IUDICO.DataModel.DB
                             cmd.Transaction = transaction;
                             cmd.LexExecuteNonQuery();
                         }
-                        transaction.Commit();
-                    }
-                    catch
-                    {
-                        transaction.Rollback();
-                    }
-                    finally
-                    {
-                        transaction.Dispose();
-                    }
+                    });
+                }
+            }
+        }
+
+        [Obsolete("Use it on your own risk - this method don't update Cache. Your changes can be override by other request or left invisible for the system")]
+        public void Update<TDataObject>([NotNull]IDBUpdateOperation<TDataObject> op, [NotNull] IDbConnection cn, [CanBeNull] IDbTransaction transaction)
+            where TDataObject : class, IDataObject, new()
+        {           
+            using (DBScope("Executing update operation"))
+            {               
+                using (var cmd = cn.CreateCommand())
+                {
+                    cmd.Transaction = transaction;
+                    var sc = new SqlSerializationContext((SqlCommand) cmd);
+                    op.Write(sc);
+                    sc.Finish();
+                    cmd.LexExecuteNonQuery();
                 }
             }
         }
@@ -337,13 +330,30 @@ namespace IUDICO.DataModel.DB
             using (DBScope("Removing " + typeof(TDataObject).Name + ". ID = " + id))
             {
                 Removed<TDataObject>(id);
-                using (var cmd = GetConnectionSafe().CreateCommand())
+                RunInTransaction(GetConnectionSafe(), (cn, transaction) =>
                 {
-                    var sc = new SqlSerializationContext((SqlCommand)cmd);
-                    DataObjectSqlSerializer<TDataObject>.AppendSoftDeleteSql(sc, id);
-                    sc.Finish();
-                    cmd.LexExecuteNonQuery();
-                }
+                    using (var cmd = cn.CreateCommand())
+                    {
+                        cmd.Transaction = transaction;
+                        var sc = new SqlSerializationContext((SqlCommand)cmd);
+                        DataObjectSqlSerializer<TDataObject>.AppendSoftDeleteSql(sc, id);
+                        sc.Finish();
+                        cmd.LexExecuteNonQuery();
+
+                        if (DataObjectInfo<TDataObject>.IsSecured)
+                        {
+                            var updOp = new UpdateOperation<TblPermissions>(
+                                new CompareCondition<int>
+                                (
+                                    new PropertyCondition<int>(ObjectTypeHelper.GetObjectType(typeof(TDataObject)).GetSecurityAtr().Name + "Ref"),
+                                    new ValueCondition<int>(id),
+                                    COMPARE_KIND.EQUAL
+                                ),
+                                new PropertyAssignement<int>(DataObject.Schema.SysState, new ValueCondition<int>(1)));
+                            Update(updOp, cn, transaction);
+                        }
+                    }
+                });
             }
         }
 
@@ -360,13 +370,37 @@ namespace IUDICO.DataModel.DB
                         Cache.Remove(FormatCacheKey<TDataObject>(i));
                     }
 
-                    using (var cmd = GetConnectionSafe().CreateCommand())
+                    RunInTransaction(GetConnectionSafe(), (cn, transaction) =>
                     {
-                        var sc = new SqlSerializationContext((SqlCommand) cmd);
-                        DataObjectSqlSerializer<TDataObject>.AppendSoftDeleteSql(sc, ids);
-                        sc.Finish();
-                        cmd.LexExecuteNonQuery();
-                    }
+                        using (var cmd = cn.CreateCommand())
+                        {
+                            cmd.Transaction = transaction;
+                            var sc = new SqlSerializationContext((SqlCommand) cmd);
+                            DataObjectSqlSerializer<TDataObject>.
+                                AppendSoftDeleteSql(sc, ids);
+                            sc.Finish();
+                            cmd.LexExecuteNonQuery();
+                        }
+
+                        if (DataObjectInfo<TDataObject>.IsSecured)
+                        {
+                            var idCond = new ValueCondition<int>(0);
+
+                            var updOp = new UpdateOperation<TblPermissions>(
+                                new CompareCondition<int>
+                                    (
+                                    new PropertyCondition<int>(ObjectTypeHelper.GetObjectType(typeof(TDataObject)).GetSecurityAtr().Name + "Ref"),
+                                    idCond,
+                                    COMPARE_KIND.EQUAL
+                                    ),
+                                new PropertyAssignement<int>(DataObject.Schema.SysState, new ValueCondition<int>(1)));
+                            foreach (var id in ids)
+                            {
+                                idCond.Value = id;
+                                Update(updOp, cn, transaction);
+                            }
+                        }
+                    });
                 }
             }
         }
@@ -541,6 +575,26 @@ namespace IUDICO.DataModel.DB
         public static readonly MethodInfo LOAD_LIST_METHOD = typeof(DatabaseModel).GetMethod("Load", new[] { typeof(IList<int>) });
         public static readonly MethodInfo QUERY_METHOD = typeof (DatabaseModel).GetMethod("Query");
         public static readonly MethodInfo DELETE_METHOD = typeof(DatabaseModel).GetMethod("Delete", new[] { typeof(int) });
+
+        private static void RunInTransaction([NotNull] IDbConnection connection, [NotNull] Action<IDbConnection, IDbTransaction> operation)
+        {
+            var transaction = connection.BeginTransaction();
+            try
+            {
+                operation(connection, transaction);
+                transaction.Commit();
+            }
+            catch (Exception)
+            {
+                Logger.WriteLine("Rolling back transaction...");
+                transaction.Rollback();
+                throw;
+            }
+            finally
+            {
+                transaction.Dispose();
+            }
+        }
 
         private static string FormatCacheKey<TDataObject>(int id)
             where TDataObject : IIntKeyedDataObject
