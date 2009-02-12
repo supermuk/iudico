@@ -23,7 +23,8 @@ namespace IUDICO.DataModel.ImportManagers
         Ruby = 12,
         Smalltalk = 13,
         SQL = 14,
-        VBScript = 15
+        VBScript = 15,
+        CS = 16
     }
 
     class CompiledQuestionManager
