@@ -63,7 +63,6 @@ namespace TestingSystem
         static void Main()
         {
             NETWrapperPath = AppDomain.CurrentDomain.BaseDirectory + @"ExeWrapperDotNET.exe";
-            File.WriteAllText(@"D:/a.txt", NETWrapperPath);
             //Set error mode, for hiding error message boxes.
             SetErrorMode(0x0001 | 0x0002 | 0x0004 | 0x8000);
             Result result = new Result();
