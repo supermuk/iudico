@@ -18,10 +18,11 @@
     <asp:Label ID="Label_Curriculums" runat="server" Style="position: absolute; top: 120px;
         left: 300px;" Text="Available Curriculums:"></asp:Label>
     <iudico:IdentityTreeView ID="TreeView_Curriculums" runat="server" Style="position: absolute;
-        top: 140px; left: 300px;" ShowLines="True" ShowCheckBoxes="All">
+        top: 140px; left: 300px;" ImageSet="XPFileExplorer">
+        <SelectedNodeStyle BackColor="#00CC00" />
     </iudico:IdentityTreeView>
     <iudico:IdentityTreeView ID="TreeView_Courses" runat="server" Style="position: absolute;
-        top: 140px; left: 0px;" ImageSet="Custom" ShowCheckBoxes="Leaf">
+        top: 140px; left: 0px;" ImageSet="XPFileExplorer" ShowCheckBoxes="Leaf">
     </iudico:IdentityTreeView>
     <asp:Button ID="Button_CreateCurriculum" runat="server" Style="position: absolute;
         top: 220px; left: 550px;" Text="Create new curriculum" />

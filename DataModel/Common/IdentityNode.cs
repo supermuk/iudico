@@ -46,6 +46,7 @@ namespace IUDICO.DataModel.Controllers
         public IdendtityNode(string text, int id)
             : this(text)
         {
+            Value = id.ToString();
             ID = id;
         }
 

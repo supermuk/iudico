@@ -19,11 +19,11 @@ namespace IUDICO.DataModel.Controllers
         public Button AddThemeButton { get; set; }
         public Button DeleteButton { get; set; }
         public Button ModifyButton { get; set; }
-
         public TextBox NameTextBox { get; set; }
         public TextBox DescriptionTextBox { get; set; }
-
         public Label NotifyLabel { get; set; }
+
+        private string rawUrl;
 
         public void PageLoad(object sender, EventArgs e)
         {
@@ -33,114 +33,96 @@ namespace IUDICO.DataModel.Controllers
             CreateStageButton.Click += new EventHandler(CreateStageButton_Click);
             DeleteButton.Click += new EventHandler(DeleteButton_Click);
             ModifyButton.Click += new EventHandler(ModifyButton_Click);
+            CurriculumTree.SelectedNodeChanged += new EventHandler(CurriculumTree_SelectedNodeChanged);
 
+            rawUrl = (sender as Page).Request.RawUrl;
+            NotifyLabel.Text = "";
             if (!(sender as Page).IsPostBack)
             {
                 fillCourseTree();
                 fillCurriculumTree();
+
+                ModifyButton.Enabled = false;
+                DeleteButton.Enabled = false;
+                CreateStageButton.Enabled = false;
+                AddThemeButton.Enabled = false;
+            }
+        }
+
+        private void CurriculumTree_SelectedNodeChanged(object sender, EventArgs e)
+        {
+            IdendtityNode selectedNode = CurriculumTree.SelectedNode as IdendtityNode;
+
+            switch (selectedNode.Type)
+            {
+                case NodeType.Curriculum:
+                    {
+                        CreateStageButton.Enabled = true;
+                        DeleteButton.Enabled = true;
+                        ModifyButton.Enabled = true;
+                        AddThemeButton.Enabled = false;
+                        break;
+                    }
+                case NodeType.Stage:
+                    {
+                        CreateStageButton.Enabled = false;
+                        DeleteButton.Enabled = true;
+                        ModifyButton.Enabled = true;
+                        AddThemeButton.Enabled = true;
+                        break;
+                    }
+                case NodeType.Theme:
+                    {
+                        CreateStageButton.Enabled = false;
+                        DeleteButton.Enabled = true;
+                        ModifyButton.Enabled = false;
+                        AddThemeButton.Enabled = false;
+                        break;
+                    }
             }
         }
 
         private void ModifyButton_Click(object sender, EventArgs e)
         {
-            //argument validation
-            bool checkedNodes = false;
-            if (NameTextBox.Text.Trim() == "")
+            //modifying selected node
+            IdendtityNode modifiedNode = CurriculumTree.SelectedNode as IdendtityNode;
+            if (modifiedNode.Type == NodeType.Stage)
             {
-                NotifyLabel.Text = "Enter curriculum new name.";
-                return;
+                TblStages stage = ServerModel.DB.Load<TblStages>(modifiedNode.ID);
+                stage.Name = NameTextBox.Text;
+                stage.Description = DescriptionTextBox.Text;
+                ServerModel.DB.Update<TblStages>(stage);
             }
-            if (DescriptionTextBox.Text.Trim() == "")
+            if (modifiedNode.Type == NodeType.Curriculum)
             {
-                NotifyLabel.Text = "Enter curriculum new description.";
-                return;
+                TblCurriculums curriculum = ServerModel.DB.Load<TblCurriculums>(modifiedNode.ID);
+                curriculum.Name = NameTextBox.Text;
+                curriculum.Description = DescriptionTextBox.Text;
+                ServerModel.DB.Update<TblCurriculums>(curriculum);
             }
 
-            //modifying selected nodes
-            foreach (IdendtityNode node in CurriculumTree.CheckedNodes)
-            {
-                if (node.Type == NodeType.Stage)
-                {
-                    checkedNodes = true;
-                    TblStages stage = ServerModel.DB.Load<TblStages>(node.ID);
-                    stage.Name = NameTextBox.Text;
-                    stage.Description = DescriptionTextBox.Text;
-                    ServerModel.DB.Update<TblStages>(stage);
-
-                    node.Text = stage.Name;
-                    node.ToolTip = stage.Description;
-                }
-                if (node.Type == NodeType.Curriculum)
-                {
-                    checkedNodes = true;
-                    TblCurriculums curriculum = ServerModel.DB.Load<TblCurriculums>(node.ID);
-                    curriculum.Name = NameTextBox.Text;
-                    curriculum.Description = DescriptionTextBox.Text;
-                    ServerModel.DB.Update<TblCurriculums>(curriculum);
-
-                    node.Text = curriculum.Name;
-                    node.ToolTip = curriculum.Description;
-                }
-            }
-            if (!checkedNodes)
-            {
-                NotifyLabel.Text = "Check some curriculums or stages to modify.";
-                return;
-            }
+            modifiedNode.Text = NameTextBox.Text;
+            modifiedNode.ToolTip = DescriptionTextBox.Text;
         }
 
         private void CreateStageButton_Click(object sender, EventArgs e)
         {
-            //argument validation
-            bool checkedCurriculums = false;
-            if (NameTextBox.Text.Trim() == "")
-            {
-                NotifyLabel.Text = "Enter stage name.";
-                return;
-            }
-            if (DescriptionTextBox.Text.Trim() == "")
-            {
-                NotifyLabel.Text = "Enter stage description.";
-                return;
-            }
-
             //adding new stage
-            foreach (IdendtityNode curriculum in CurriculumTree.CheckedNodes)
-            {
-                if (curriculum.Type == NodeType.Curriculum)
-                {
-                    checkedCurriculums = true;
-                    //Create new stage
-                    TblStages stage = new TblStages();
-                    stage.Name = NameTextBox.Text;
-                    stage.Description = DescriptionTextBox.Text;
-                    stage.CurriculumRef = curriculum.ID;
-                    stage.ID = ServerModel.DB.Insert<TblStages>(stage);
+            IdendtityNode curriculumNode = CurriculumTree.SelectedNode as IdendtityNode;
 
-                    //Update curriculum tree
-                    curriculum.ChildNodes.Add(new IdendtityNode(stage));
-                }
-            }
-            if (!checkedCurriculums)
-            {
-                NotifyLabel.Text = "Check some curriculums to which stage will be added.";
-                return;
-            }
+            //Create new stage
+            TblStages stage = new TblStages();
+            stage.Name = NameTextBox.Text;
+            stage.Description = DescriptionTextBox.Text;
+            stage.CurriculumRef = curriculumNode.ID;
+            ServerModel.DB.Insert<TblStages>(stage);
+
+            //Update curriculum tree
+            curriculumNode.ChildNodes.Add(new IdendtityNode(stage));
         }
 
         private void CreateCurriculumButton_Click(object sender, EventArgs e)
         {
-            //argument validation
-            if (NameTextBox.Text.Trim() == "")
-            {
-                NotifyLabel.Text = "Enter curriculum name.";
-                return;
-            }
-            if (DescriptionTextBox.Text.Trim() == "")
-            {
-                NotifyLabel.Text = "Enter curriculum description.";
-                return;
-            }
             //create new curriculum
             TblCurriculums curriculum = new TblCurriculums();
             curriculum.Name = NameTextBox.Text;
@@ -157,147 +139,61 @@ namespace IUDICO.DataModel.Controllers
 
         private void AddThemeButton_Click(object sender, EventArgs e)
         {
-            bool added = false;
             foreach (IdendtityNode themeNode in CourseTree.CheckedNodes)
             {
-                if (themeNode.Type == NodeType.Theme)
+                IdendtityNode stageNode = CurriculumTree.SelectedNode as IdendtityNode;
+
+                if (TeacherHelper.StageContainsTheme(stageNode.ID, themeNode.ID))
                 {
-                    foreach (IdendtityNode stageNode in CurriculumTree.CheckedNodes)
-                    {
-                        if (stageNode.Type == NodeType.Stage)
-                        {
-                            bool stageAlreadyHaveThisTheme = false;
-                            added = true;
-                            foreach (IdendtityNode stageChild in stageNode.ChildNodes)
-                            {
-                                if (stageChild.ID == themeNode.ID)
-                                {
-                                    stageAlreadyHaveThisTheme = true;
-                                    break;
-                                }
-                            }
-                            if (stageAlreadyHaveThisTheme)
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                ServerModel.DB.Link(
-                                    ServerModel.DB.Load<TblStages>(stageNode.ID),
-                                    ServerModel.DB.Load<TblThemes>(themeNode.ID));
-                                stageNode.ChildNodes.Add(new IdendtityNode(ServerModel.DB.Load<TblThemes>(themeNode.ID)));
-                            }
-                        }
-                    }
+                    break;
                 }
-            }
-            if (!added)
-            {
-                NotifyLabel.Text = "Check some themes and some stages to link with.";
+                else
+                {
+                    ServerModel.DB.Link(
+                        ServerModel.DB.Load<TblStages>(stageNode.ID),
+                        ServerModel.DB.Load<TblThemes>(themeNode.ID));
+                    stageNode.ChildNodes.Add(new IdendtityNode(ServerModel.DB.Load<TblThemes>(themeNode.ID)));
+                }
             }
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            if (CurriculumTree.CheckedNodes.Count == 0)
+            IdendtityNode deletedNode = CurriculumTree.SelectedNode as IdendtityNode;
+            int themeID = -1;
+            int stageID = -1;
+            int curriculumID = -1;
+            switch (deletedNode.Type)
             {
-                NotifyLabel.Text = "Check some node to delete.";
-                return;
-            }
-
-            for (int i = 0; i < CurriculumTree.CheckedNodes.Count; i++)
-            {
-                IdendtityNode node = CurriculumTree.CheckedNodes[i] as IdendtityNode;
-                if (node != null)
-                {
-                    switch (node.Type)
+                case NodeType.Theme:
                     {
-                        case NodeType.Curriculum:
-                            {
-                                TblCurriculums curriculum = ServerModel.DB.Load<TblCurriculums>(node.ID);
-                                IList<TblGroups> groups = TeacherHelper.GetCurriculumGroups(curriculum);
-                                if (groups.Count != 0)
-                                {
-                                    NotifyLabel.Text = "Curriculum " + curriculum.Name + " is assigned to next group(s): ";
-                                    foreach (TblGroups group in groups)
-                                    {
-                                        NotifyLabel.Text += group.Name + ", ";
-                                    }
-                                    NotifyLabel.Text = NotifyLabel.Text.Trim(' ', ',');
-                                    NotifyLabel.Text += ". Remove assigments first.";
-                                    return;
-                                }
-
-                                deleteCurriculum(node);
-                                break;
-                            }
-                        case NodeType.Stage:
-                            {
-                                deleteStage(node);
-                                break;
-                            }
-                        case NodeType.Theme:
-                            {
-                                deleteTheme(node);
-                                break;
-                            }
+                        themeID = deletedNode.ID;
+                        stageID = (deletedNode.Parent as IdendtityNode).ID;
+                        curriculumID = (deletedNode.Parent.Parent as IdendtityNode).ID;
+                        break;
                     }
-
-                    if (node.Parent != null)
+                case NodeType.Stage:
                     {
-                        node.Parent.ChildNodes.Remove(node);
+                        stageID = deletedNode.ID;
+                        curriculumID = (deletedNode.Parent as IdendtityNode).ID;
+                        break;
                     }
-                    else
+                case NodeType.Curriculum:
                     {
-                        CurriculumTree.Nodes.Remove(node);
+                        curriculumID = deletedNode.ID;
+                        break;
                     }
-                }
-                i--;
             }
 
-        }
+            Redirect(ServerModel.Forms.BuildRedirectUrl<CurriculumDeleteConfirmationController>(
+                 new CurriculumDeleteConfirmationController
+                 {
+                     BackUrl = rawUrl,
+                     CurriculumID = curriculumID,
+                     StageID = stageID,
+                     ThemeID = themeID
+                 }));
 
-        private void deleteTheme(IdendtityNode theme)
-        {
-            //remove permissions
-            IList<TblPermissions> permissions = TeacherHelper.PermissionsForTheme
-                (ServerModel.DB.Load<TblThemes>(theme.ID));
-            ServerModel.DB.Delete<TblPermissions>(permissions);
-
-            ServerModel.DB.UnLink(
-                        ServerModel.DB.Load<TblStages>(((theme.Parent) as IdendtityNode).ID),
-                        ServerModel.DB.Load<TblThemes>(theme.ID));
-        }
-
-        private void deleteStage(IdendtityNode stage)
-        {
-            foreach (IdendtityNode theme in stage.ChildNodes)
-            {
-                deleteTheme(theme);
-            }
-
-            //remove permissions
-            IList<TblPermissions> permissions = TeacherHelper.PermissionsForStage
-                (ServerModel.DB.Load<TblStages>(stage.ID));
-            ServerModel.DB.Delete<TblPermissions>(permissions);
-
-            ServerModel.DB.Delete<TblStages>(stage.ID);
-        }
-
-        private void deleteCurriculum(IdendtityNode curriculum)
-        {
-
-
-            foreach (IdendtityNode stage in curriculum.ChildNodes)
-            {
-                deleteStage(stage);
-            }
-            //remove permissions
-            IList<TblPermissions> permissions = TeacherHelper.PermissionsForCurriculum
-                (ServerModel.DB.Load<TblCurriculums>(curriculum.ID));
-            ServerModel.DB.Delete<TblPermissions>(permissions);
-
-            ServerModel.DB.Delete<TblCurriculums>(curriculum.ID);
         }
 
         private void fillCourseTree()
@@ -329,12 +225,10 @@ namespace IUDICO.DataModel.Controllers
             foreach (TblCurriculums curriculum in TeacherHelper.MyCurriculums(FxCurriculumOperations.Modify))
             {
                 IdendtityNode curriculumNode = new IdendtityNode(curriculum);
-                List<int> stagesIDs = ServerModel.DB.LookupIds<TblStages>(curriculum, null);
-                foreach (TblStages stage in ServerModel.DB.Load<TblStages>(stagesIDs))
+                foreach (TblStages stage in TeacherHelper.StagesForCurriculum(curriculum))
                 {
                     IdendtityNode stageNode = new IdendtityNode(stage);
-                    List<int> themesIDs = ServerModel.DB.LookupMany2ManyIds<TblThemes>(stage, null);
-                    foreach (TblThemes theme in ServerModel.DB.Load<TblThemes>(themesIDs))
+                    foreach (TblThemes theme in TeacherHelper.ThemesForStage(stage))
                     {
                         IdendtityNode themeNode = new IdendtityNode(theme);
                         stageNode.ChildNodes.Add(themeNode);

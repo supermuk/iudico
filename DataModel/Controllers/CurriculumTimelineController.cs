@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.Controllers
 {
     public class CurriculumTimelineController : ControllerBase
     {
         public TreeView CurriculumTree { get; set; }
-
         public Button GrantButton { get; set; }
-
         public TextBox DateSinceTextBox { get; set; }
         public TextBox DateTillTextBox { get; set; }
         public TextBox TimeSinceTextBox { get; set; }
@@ -17,6 +16,11 @@ namespace IUDICO.DataModel.Controllers
 
         public DropDownList OperationList { get; set; }
         public DropDownList AssigmentList { get; set; }
+
+        [ControllerParameter]
+        public int GroupID;
+        [ControllerParameter]
+        public int CurriculumID;
 
         public void PageLoad(object sender, EventArgs e)
         {

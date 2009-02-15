@@ -22,6 +22,7 @@
     <asp:Label ID="Label_Courses" runat="server" Style="position: absolute; top: 120px;
         left: 300px;" Text="Available Courses:"></asp:Label>
     <iudico:IdentityTreeView ID="TreeView_Courses" runat="server" Style="position: absolute;
-        top: 140px; left: 300px;" ImageSet="Custom" ShowCheckBoxes="Root">
+        top: 140px; left: 300px;" ImageSet="XPFileExplorer">
+        <SelectedNodeStyle BackColor="#00CC00" />
     </iudico:IdentityTreeView>
 </asp:Content>
