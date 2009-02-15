@@ -33,6 +33,12 @@ namespace IUDICO.DataModel.Common
             return ServerModel.DB.Load<TblThemes>(themesIDs);
         }
 
+        public static IList<TblStages> StagesForCurriculum(TblCurriculums curriculum)
+        {
+            List<int> stagesIDs = ServerModel.DB.LookupIds<TblStages>(curriculum, null);
+            return ServerModel.DB.Load<TblStages>(stagesIDs);
+        }
+
         public static IList<TblPermissions> PermissionsForCourse(TblCourses course)
         {
             return ServerModel.DB.Query<TblPermissions>(
@@ -136,7 +142,7 @@ namespace IUDICO.DataModel.Common
             }
         }
 
-        public static IList<TblGroups> GetCurriculumGroups(TblCurriculums curriculum)
+        public static IList<TblGroups> GetGroupsForCurriculum(TblCurriculums curriculum)
         {
             return ServerModel.DB.Query<TblGroups>(
                 new InCondition<int>(DataObject.Schema.ID,
@@ -145,6 +151,18 @@ namespace IUDICO.DataModel.Common
                             DataObject.Schema.CurriculumRef,
                             new ValueCondition<int>(curriculum.ID), COMPARE_KIND.EQUAL))));
         }
+
+        public static IList<TblCurriculums> GetCurriculumsForGroup(TblGroups group)
+        {
+            return ServerModel.DB.Query<TblCurriculums>(
+                new InCondition<int>(DataObject.Schema.ID,
+                    new SubSelectCondition<TblPermissions>("CurriculumRef",
+                         new CompareCondition<int>(
+                            DataObject.Schema.OwnerGroupRef,
+                            new ValueCondition<int>(group.ID), COMPARE_KIND.EQUAL))));
+        }
+
+
 
         public static void UnSignGroupFromCurriculum(TblGroups group, TblCurriculums curriculum)
         {
@@ -158,6 +176,22 @@ namespace IUDICO.DataModel.Common
                       new ValueCondition<int>(group.ID), COMPARE_KIND.EQUAL)));
 
             ServerModel.DB.Delete<TblPermissions>(persmissions);
+        }
+
+        public static bool StageContainsTheme(int stageID, int themeID)
+        {
+            TblStages stage = ServerModel.DB.Load<TblStages>(stageID);
+            TblThemes theme = ServerModel.DB.Load<TblThemes>(themeID);
+
+            foreach (TblThemes childThemes in ThemesForStage(stage))
+            {
+                if (childThemes.ID == theme.ID)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
     }

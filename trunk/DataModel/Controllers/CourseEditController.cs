@@ -22,79 +22,60 @@ namespace IUDICO.DataModel.Controllers
         public Button DeleteButton { get; set; }
 
         private readonly ProjectPaths projectPaths = new ProjectPaths();
+        private string rawUrl;
 
         public void PageLoad(object sender, EventArgs e)
         {
             //registering for events            
             ImportButton.Click += new EventHandler(ImportButton_Click);
             DeleteButton.Click += new EventHandler(DeleteButton_Click);
+            CourseTree.SelectedNodeChanged += new EventHandler(CourseTree_SelectedNodeChanged);
+
+            rawUrl = (sender as Page).Request.RawUrl;
+            NotifyLabel.Text = "";
             if (!(sender as Page).IsPostBack)
             {
                 fillCourseTree();
+
+                DeleteButton.Enabled = false;
             }
+        }
+
+        void CourseTree_SelectedNodeChanged(object sender, EventArgs e)
+        {
+            if ((CourseTree.SelectedNode as IdendtityNode).Type == NodeType.Course)
+            {
+                DeleteButton.Enabled = true;
+            }
+            else
+            {
+                DeleteButton.Enabled = false;
+            }
+
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            //argument validation
-            if (CourseTree.CheckedNodes.Count == 0)
-            {
-                NotifyLabel.Text = "Check some courses to delete.";
-                return;
-            }
-
-            //validate if current course is used in any curriculum
-            for (int i = 0; i < CourseTree.CheckedNodes.Count; i++)
-            {
-                IdendtityNode courseNode = CourseTree.CheckedNodes[i] as IdendtityNode;
-                TblCourses course = ServerModel.DB.Load<TblCourses>(courseNode.ID);
-
-                foreach (TblThemes theme in TeacherHelper.ThemesForCourse(course))
+            IdendtityNode courseNode = CourseTree.SelectedNode as IdendtityNode;
+            TblCourses course = ServerModel.DB.Load<TblCourses>(courseNode.ID);
+            Redirect(ServerModel.Forms.BuildRedirectUrl<CourseDeleteConfirmationController>(
+                new CourseDeleteConfirmationController
                 {
-                    TblStages relatedStage = TeacherHelper.StageForTheme(theme);
-                    if (relatedStage != null)
-                    {
-                        TblCurriculums relatedCurriculum = ServerModel.DB.Load<TblCurriculums>((int)relatedStage.CurriculumRef);
-                        TblUsers owner = TeacherHelper.GetCurriculumOwner(relatedCurriculum);
-                        NotifyLabel.Text = "Theme " + theme.Name + " of course: " + course.Name +
-                            " is used in stage: " + relatedStage.Name + " in curriculum: " + relatedCurriculum.Name +
-                            " by: " + owner.DisplayName;
-                        return;
-                    }
-
-                }
-
-                //remove permissions
-                IList<TblPermissions> permissions = TeacherHelper.PermissionsForCourse(course);
-                ServerModel.DB.Delete<TblPermissions>(permissions);
-
-                //remove course
-                CourseCleaner.deleteCourse(course.ID);
-                CourseTree.Nodes.Remove(courseNode);
-                i--;
-            }
+                    CourseID = course.ID,
+                    BackUrl = rawUrl
+                }));
         }
 
         private void ImportButton_Click(object sender, EventArgs e)
         {
-            //validate arguments
-            if (NameTextBox.Text.Trim() == "")
-            {
-                NotifyLabel.Text = "Enter course name.";
-                return;
-            }
-            if (DescriptionTextBox.Text.Trim() == "")
-            {
-                NotifyLabel.Text = "Enter course description.";
-                return;
-            }
-
             if (CourseUpload.HasFile)
             {
                 try
                 {
                     PrepareCourse();
-                    int courseId = CourseManager.Import(projectPaths, NameTextBox.Text, DescriptionTextBox.Text);
+
+                    string courseName = NameTextBox.Text == "" ? Path.GetFileNameWithoutExtension(CourseUpload.FileName) : NameTextBox.Text;
+                    int courseId = CourseManager.Import(projectPaths, courseName, DescriptionTextBox.Text);
                     TblCourses course = ServerModel.DB.Load<TblCourses>(courseId);
 
                     //grant permissions for this course
@@ -126,9 +107,7 @@ namespace IUDICO.DataModel.Controllers
         private void InitializePaths(string fileName)
         {
             projectPaths.PathToTemp = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-
             Directory.CreateDirectory(projectPaths.PathToTemp);
-
             projectPaths.PathToCourseZipFile = Path.Combine(projectPaths.PathToTemp, fileName);
             projectPaths.PathToTempCourseFolder = Path.Combine(projectPaths.PathToTemp,
                                                                Path.GetFileNameWithoutExtension(fileName));
@@ -137,7 +116,6 @@ namespace IUDICO.DataModel.Controllers
         private void fillCourseTree()
         {
             CourseTree.Nodes.Clear();
-
             foreach (TblCourses course in TeacherHelper.MyCourses(FxCourseOperations.Modify))
             {
                 addCourseNode(course);

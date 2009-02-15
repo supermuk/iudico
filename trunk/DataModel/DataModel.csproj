@@ -142,9 +142,11 @@
     <Compile Include="Controllers\Admin_UsersController.cs" />
     <Compile Include="Controllers\Admin_CreateUserController.cs" />
     <Compile Include="Controllers\CompiledQuestionsResultController.cs" />
+    <Compile Include="Controllers\CourseDeleteConfirmationController.cs" />
     <Compile Include="Controllers\CourseEditController.cs" />
     <Compile Include="Controllers\CreateGroupController.cs" />
     <Compile Include="Controllers\CurriculumAssignmentController.cs" />
+    <Compile Include="Controllers\CurriculumDeleteConfirmationController.cs" />
     <Compile Include="Controllers\CurriculumEditController.cs" />
     <Compile Include="Controllers\CurriculumTimelineController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

@@ -28,12 +28,15 @@ namespace IUDICO.DataModel.Controllers
         [PersistantField]
         private bool curriculumToGroupView = true;
 
+        string rawUrl;
+
         public void PageLoad(object sender, EventArgs e)
         {
             AssignButton.Click += new EventHandler(AssignButton_Click);
             UnsignButton.Click += new EventHandler(UnsignButton_Click);
             SwitchViewButton.Click += new EventHandler(SwitchViewButton_Click);
 
+            rawUrl = (sender as Page).Request.RawUrl;
             if (!(sender as Page).IsPostBack)
             {
                 fillGroupsList();
@@ -53,7 +56,7 @@ namespace IUDICO.DataModel.Controllers
                 TblGroups group = ServerModel.DB.Load<TblGroups>(groupID);
 
                 bool isAssigned = false;
-                IList<TblGroups> assignedGroups = TeacherHelper.GetCurriculumGroups(curriculum);
+                IList<TblGroups> assignedGroups = TeacherHelper.GetGroupsForCurriculum(curriculum);
                 foreach (TblGroups assignedGroup in assignedGroups)
                 {
                     if (assignedGroup.ID == group.ID)
@@ -95,7 +98,7 @@ namespace IUDICO.DataModel.Controllers
                         {
                             if (groupNode.ID == groupID)
                             {
-                                foreach (IdendtityNode curriculumNode in AssigmentsTree.Nodes)
+                                foreach (IdendtityNode curriculumNode in groupNode.ChildNodes)
                                 {
                                     if (curriculumNode.ID == curriculumID)
                                     {
@@ -131,7 +134,7 @@ namespace IUDICO.DataModel.Controllers
                 TblCurriculums curriculum = ServerModel.DB.Load<TblCurriculums>(curriculumID);
                 TblGroups group = ServerModel.DB.Load<TblGroups>(groupID);
 
-                IList<TblGroups> assignedGroups = TeacherHelper.GetCurriculumGroups(curriculum);
+                IList<TblGroups> assignedGroups = TeacherHelper.GetGroupsForCurriculum(curriculum);
                 foreach (TblGroups assignedGroup in assignedGroups)
                 {
                     if (assignedGroup.ID == group.ID)
@@ -144,6 +147,8 @@ namespace IUDICO.DataModel.Controllers
 
                 PermissionsManager.Grand(curriculum, FxCurriculumOperations.View
                     , null, groupID, DateTimeInterval.Full);
+                PermissionsManager.Grand(curriculum, FxCurriculumOperations.Pass
+                    , null, groupID, DateTimeInterval.Full);
 
                 if (curriculumToGroupView)
                 {
@@ -151,8 +156,7 @@ namespace IUDICO.DataModel.Controllers
                     {
                         if (curriculumNode.ID == curriculumID)
                         {
-                            IdendtityNode groupNode = new IdendtityNode(group.Name, group.ID);
-                            curriculumNode.ChildNodes.Add(groupNode);
+                            addGroupNode(group, curriculumNode);
                             curriculumNode.Expand();
                             break;
                         }
@@ -164,8 +168,7 @@ namespace IUDICO.DataModel.Controllers
                     {
                         if (groupNode.ID == groupID)
                         {
-                            IdendtityNode curriculumNode = new IdendtityNode(curriculum.Name, curriculum.ID);
-                            groupNode.ChildNodes.Add(curriculumNode);
+                            addCurriculumNode(curriculum, groupNode);
                             groupNode.Expand();
                             break;
                         }
@@ -217,13 +220,9 @@ namespace IUDICO.DataModel.Controllers
                     IdendtityNode curriculumNode = new IdendtityNode(curriculum.Name, curriculum.ID);
                     AssigmentsTree.Nodes.Add(curriculumNode);
 
-                    IList<TblGroups> assignedGroups = TeacherHelper.GetCurriculumGroups(curriculum);
-                    foreach (TblGroups group in assignedGroups)
+                    foreach (TblGroups group in TeacherHelper.GetGroupsForCurriculum(curriculum))
                     {
-                        IdendtityNode groupNode = new IdendtityNode(group.Name, group.ID);
-                        //groupNode.NavigateUrl = "~/Teacher/CurriculumAssignment.aspx?groupID=" + group.ID +
-                        //    "&curriculumID=" + curriculum.ID;
-                        curriculumNode.ChildNodes.Add(groupNode);
+                        addGroupNode(group, curriculumNode);
                     }
                 }
             }
@@ -231,17 +230,31 @@ namespace IUDICO.DataModel.Controllers
             {
                 foreach (TblGroups group in ServerModel.DB.Query<TblGroups>(null))
                 {
-                    TreeNode groupNode = new IdendtityNode(group.Name, group.ID);
+                    IdendtityNode groupNode = new IdendtityNode(group.Name, group.ID);
                     AssigmentsTree.Nodes.Add(groupNode);
 
-                    IList<int> assignedCurriculumsIDs = PermissionsManager.GetObjectsForGroup(SECURED_OBJECT_TYPE.CURRICULUM, group.ID, null, null);
-                    foreach (TblCurriculums curriculum in ServerModel.DB.Load<TblCurriculums>(assignedCurriculumsIDs))
+                    foreach (TblCurriculums curriculum in TeacherHelper.GetCurriculumsForGroup(group))
                     {
-                        IdendtityNode curriculumNode = new IdendtityNode(curriculum.Name, curriculum.ID);
-                        groupNode.ChildNodes.Add(curriculumNode);
+                        addCurriculumNode(curriculum, groupNode);
                     }
                 }
             }
+        }
+
+        private void addGroupNode(TblGroups group, IdendtityNode parent)
+        {
+            IdendtityNode groupNode = new IdendtityNode(group.Name, group.ID);
+            //groupNode.NavigateUrl = ServerModel.Forms.BuildRedirectUrl(
+            //    new CurriculumTimelineController { GroupID = group.ID, CurriculumID = parent.ID });
+            parent.ChildNodes.Add(groupNode);
+        }
+
+        private void addCurriculumNode(TblCurriculums curriculum, IdendtityNode parent)
+        {
+            IdendtityNode groupNode = new IdendtityNode(curriculum.Name, curriculum.ID);
+            //groupNode.NavigateUrl = ServerModel.Forms.BuildRedirectUrl(
+            //    new CurriculumTimelineController {  GroupID = parent.ID, CurriculumID = curriculum.ID });
+            parent.ChildNodes.Add(groupNode);
         }
     }
 
