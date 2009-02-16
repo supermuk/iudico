@@ -1,4 +1,7 @@
-﻿<%@ Master Language="C#" Inherits="IUDICO.DataModel.MasterPageBase" %>
+﻿<%@ Import Namespace="System.Linq"%>
+<%@ Import Namespace="IUDICO.DataModel"%>
+<%@ Import Namespace="IUDICO.DataModel.Security"%>
+<%@ Master Language="C#" Inherits="IUDICO.DataModel.MasterPageBase" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -7,6 +10,17 @@
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
     <link rel="Stylesheet" href="Styles/Main.css" type="text/css" />
+<script runat="server">
+protected void MainMenu_DataBind(object sender, EventArgs e)
+{
+    ((Control) sender).Visible = ServerModel.User.Current != null;
+}
+protected void MainMenu_ItemDataBound(object sender, MenuEventArgs e)
+{
+    var cu = ServerModel.User.Current;
+    e.Item.Enabled = cu != null && ((SiteMapNode) e.Item.DataItem).Roles.Cast<string>().All(r => cu.Roles.Contains(r));
+}
+</script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -14,7 +28,7 @@
         <asp:ScriptManager ID="ScriptManager1" runat="server">
         </asp:ScriptManager>
         <asp:SiteMapDataSource ID="SiteMap" ShowStartingNode="false" runat="server" />
-        <asp:Menu ID="MainMenu" Orientation="Horizontal" DataSourceID="SiteMap" runat="server">
+        <asp:Menu ID="MainMenu" OnMenuItemDataBound="MainMenu_ItemDataBound" OnDataBinding="MainMenu_DataBind" Orientation="Horizontal" DataSourceID="SiteMap" runat="server">
             <DynamicMenuItemStyle CssClass="dynamicmenuitem" />
             <DynamicHoverStyle CssClass="dynamicmenuhover" />
             <StaticMenuItemStyle CssClass="staticmenuitem" />
