@@ -15,11 +15,11 @@ namespace IUDICO.DataModel.ImportManagers
             int rank = GetPageRank(answerNode);
 
             string tempFileName = Path.Combine(projectPaths.PathToTempCourseFolder, XmlUtility.getIdentifierRef(node) + FileExtentions.Html);
-            string fileName = tempFileName.Replace(FileExtentions.Html, FileExtentions.Aspx);
 
-            var pageTable = StorePageWithoutPageFile(themeRef, Path.GetFileName(fileName), rank);
-            
-            WebPage webPage = CreateAspxPage(tempFileName, Path.GetFileNameWithoutExtension(fileName), pageTable.ID, answerNode, projectPaths.PathToTempCourseFolder);
+            var pageTable = StorePageWithoutPageFile(themeRef, XmlUtility.getIdentifier(node), rank);
+
+            WebPage webPage = CreateAspxPage(tempFileName, Path.GetFileNameWithoutExtension(tempFileName),
+                pageTable.ID, answerNode, projectPaths.PathToTempCourseFolder);
 
             AddPageFileToPage(pageTable, webPage.ByteRepresentation);
         }

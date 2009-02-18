@@ -38,8 +38,8 @@ namespace IUDICO.DataModel.WebControl
             w.RenderEndTag();
             foreach (string text in list)
             {
-                w.AddAttribute(HtmlTextWriterAttribute.Id, Name.ToLower() + "_" + text);
-                w.AddAttribute("GroupName", Name.ToLower());
+                w.AddAttribute(HtmlTextWriterAttribute.Id, (Name + "_" + text).Replace(" ", string.Empty) );
+                w.AddAttribute("GroupName", Name);
                 w.AddAttribute("runat", "server");
                 w.RenderBeginTag(singleCase ? "asp:radiobutton" : "asp:checkbox");
                 w.RenderEndTag();
@@ -56,7 +56,7 @@ namespace IUDICO.DataModel.WebControl
 
             for (int i = 0; i < list.Count; i++)
             {
-                s.AppendFormat("{0}.Checked", Name.ToLower() + "_" + list[i]);
+                s.AppendFormat("{0}.Checked", (Name + "_" + list[i]).Replace(" ", string.Empty) );
 
                 if (i != list.Count - 1)
                     s.Append(',');

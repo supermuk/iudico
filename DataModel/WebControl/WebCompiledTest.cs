@@ -17,7 +17,7 @@ namespace IUDICO.DataModel.WebControl
         {
             base.Store(w);
             w.AddAttribute("runat", "server");
-            w.AddAttribute("mode", "multiline");
+            w.AddAttribute("TextMode", "multiline");
             w.RenderBeginTag("asp:TextBox");
             if (!string.IsNullOrEmpty(text))
             {
