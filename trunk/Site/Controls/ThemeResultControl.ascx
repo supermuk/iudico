@@ -10,6 +10,7 @@
             VerticalAlign="Top">UserRank</asp:TableCell>
         <asp:TableCell runat="server" Height="30px" HorizontalAlign="Center" 
             VerticalAlign="Top">PageRank</asp:TableCell>
+        <asp:TableCell runat="server"></asp:TableCell>
     </asp:TableRow>
 </asp:Table>
 

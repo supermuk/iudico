@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 using System.Web;
+using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.HttpHandlers
@@ -9,18 +10,22 @@ namespace IUDICO.DataModel.HttpHandlers
     {
         public override void ProcessRequest(HttpContext context)
         {
-            var testPage = "Tests";
+            var testsFolder = "Tests";
             var practicePageId = int.Parse(context.Request.QueryString[pageIdRequestParameter]);
             var page = ServerModel.DB.Load<TblPages>(practicePageId);
-            string pathToTests = Path.Combine(context.Request.PhysicalApplicationPath, testPage);
+            var pathToTests = Path.Combine(context.Request.PhysicalApplicationPath, testsFolder);
+            
             if (!Directory.Exists(pathToTests))
                 Directory.CreateDirectory(pathToTests);
-            var path = Path.Combine(pathToTests, page.PageName);
+
+            var pageFileName = page.PageName + FileExtentions.Aspx;
+            var path = Path.Combine(pathToTests, pageFileName);
            
-            string url = context.Request.Url.ToString().Remove(context.Request.Url.ToString().LastIndexOf("/"));
-            var aspx = Encoding.UTF8.GetString(page.PageFile.ToArray());
-            File.WriteAllText(path, changeImageUrl(aspx, page));
-            context.Response.Redirect(string.Format("{0}/{1}/{2}", url, testPage, page.PageName));
+            var url = context.Request.Url.ToString().Remove(context.Request.Url.ToString().LastIndexOf("/"));
+            var aspxPageText = Encoding.Default.GetString(page.PageFile.ToArray());
+            
+            File.WriteAllText(path, changeImageUrl(aspxPageText, page));
+            context.Response.Redirect(string.Format("{0}/{1}/{2}", url, testsFolder, pageFileName));
         }
 
         public override bool IsReusable

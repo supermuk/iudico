@@ -9,11 +9,10 @@ namespace IUDICO.DataModel.ImportManagers
     {
         public static void Import(XmlNode node, int themeId, ProjectPaths projectPaths)
         {
-            string pageName = XmlUtility.getIdentifierRef(node) + FileExtentions.Html;
-            string fileName  = Path.Combine(projectPaths.PathToTempCourseFolder, pageName);
+            string fileName  = Path.Combine(projectPaths.PathToTempCourseFolder, XmlUtility.getIdentifierRef(node) + FileExtentions.Html);
 
             byte[] file = FilesManager.GetByteFile(fileName);
-            int id = Store(themeId, pageName, file);
+            int id = Store(themeId, XmlUtility.getIdentifier(node), file);
             FilesManager.StoreAllPageFiles(id, fileName);
         }
 
