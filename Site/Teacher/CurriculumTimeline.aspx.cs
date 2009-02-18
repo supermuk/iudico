@@ -8,16 +8,10 @@ public partial class CurriculumTimeline : ControlledPage<CurriculumTimelineContr
         base.BindController(c);
 
         c.CurriculumTree = TreeView_Curriculum;
+        c.NotifyLabel = Label_Notify;
 
-        c.DateSinceTextBox = TextBox_DateSince;
-        c.DateTillTextBox = TextBox_DateTill;
-        c.TimeSinceTextBox = TextBox_TimeSince;
-        c.TimeTillTextBox = TextBox_TimeTill;
-
+        c.RemoveButton = Button_Remove;
         c.GrantButton = Button_Grant;
-
-        c.OperationList = DropDownList_Operation;
-
 
         Load += c.PageLoad;
     }
