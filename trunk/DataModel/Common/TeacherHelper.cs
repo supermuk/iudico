@@ -8,6 +8,40 @@ namespace IUDICO.DataModel.Common
 {
     class TeacherHelper
     {
+        public static IList<TblCourses> MyCourses(FxCourseOperations operation)
+        {
+            return ServerModel.DB.Query<TblCourses>(
+                  new InCondition<int>(DataObject.Schema.ID,
+                     new SubSelectCondition<TblPermissions>("CourseRef",
+                        new AndCondtion(
+                           new CompareCondition<int>(
+                              DataObject.Schema.OwnerUserRef,
+                              new ValueCondition<int>(ServerModel.User.Current.ID), COMPARE_KIND.EQUAL),
+                           new CompareCondition<int>(
+                              DataObject.Schema.CourseOperationRef,
+                              new ValueCondition<int>(operation.ID), COMPARE_KIND.EQUAL),
+                           new CompareCondition<int>(
+                              DataObject.Schema.SysState,
+                              new ValueCondition<int>(0), COMPARE_KIND.EQUAL)))));
+        }
+
+        public static IList<TblCurriculums> MyCurriculums(FxCurriculumOperations operation)
+        {
+            return ServerModel.DB.Query<TblCurriculums>(
+                  new InCondition<int>(DataObject.Schema.ID,
+                     new SubSelectCondition<TblPermissions>("CurriculumRef",
+                        new AndCondtion(
+                           new CompareCondition<int>(
+                              DataObject.Schema.OwnerUserRef,
+                              new ValueCondition<int>(ServerModel.User.Current.ID), COMPARE_KIND.EQUAL),
+                           new CompareCondition<int>(
+                              DataObject.Schema.CurriculumOperationRef,
+                              new ValueCondition<int>(operation.ID), COMPARE_KIND.EQUAL),
+                           new CompareCondition<int>(
+                              DataObject.Schema.SysState,
+                              new ValueCondition<int>(0), COMPARE_KIND.EQUAL)))));
+        }
+
         public static IList<TblStages> StagesForTheme(TblThemes theme)
         {
             List<int> stagesIDs = ServerModel.DB.LookupMany2ManyIds<TblStages>(theme, null);
@@ -37,6 +71,12 @@ namespace IUDICO.DataModel.Common
         {
             List<int> stagesIDs = ServerModel.DB.LookupIds<TblStages>(curriculum, null);
             return ServerModel.DB.Load<TblStages>(stagesIDs);
+        }
+
+        public static IList<TblThemes> ThemesForCourse(TblCourses course)
+        {
+            List<int> themesIDs = ServerModel.DB.LookupIds<TblThemes>(course, null);
+            return ServerModel.DB.Load<TblThemes>(themesIDs);
         }
 
         public static IList<TblPermissions> PermissionsForCourse(TblCourses course)
@@ -71,50 +111,6 @@ namespace IUDICO.DataModel.Common
                            new ValueCondition<int>(theme.ID), COMPARE_KIND.EQUAL));
         }
 
-        public static IList<TblCourses> MyCourses(FxCourseOperations operation)
-        {
-            //IList<int> myCoursesIDs = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.COURSE,
-            //    ServerModel.User.Current.ID, operation.ID, DateTime.Now);
-
-            //return ServerModel.DB.Load<TblCourses>(myCoursesIDs);
-
-            return ServerModel.DB.Query<TblCourses>(
-                  new InCondition<int>(DataObject.Schema.ID,
-                     new SubSelectCondition<TblPermissions>("CourseRef",
-                        new AndCondtion(
-                           new CompareCondition<int>(
-                              DataObject.Schema.OwnerUserRef,
-                              new ValueCondition<int>(ServerModel.User.Current.ID), COMPARE_KIND.EQUAL),
-                           new CompareCondition<int>(
-                              DataObject.Schema.CourseOperationRef,
-                              new ValueCondition<int>(operation.ID), COMPARE_KIND.EQUAL)))));
-        }
-
-        public static IList<TblCurriculums> MyCurriculums(FxCurriculumOperations operation)
-        {
-            //IList<int> myCurriculumsIDs = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.CURRICULUM,
-            //    ServerModel.User.Current.ID, operation.ID, DateTime.Now);
-
-            //return ServerModel.DB.Load<TblCurriculums>(myCurriculumsIDs);
-
-            return ServerModel.DB.Query<TblCurriculums>(
-                  new InCondition<int>(DataObject.Schema.ID,
-                     new SubSelectCondition<TblPermissions>("CurriculumRef",
-                        new AndCondtion(
-                           new CompareCondition<int>(
-                              DataObject.Schema.OwnerUserRef,
-                              new ValueCondition<int>(ServerModel.User.Current.ID), COMPARE_KIND.EQUAL),
-                           new CompareCondition<int>(
-                              DataObject.Schema.CurriculumOperationRef,
-                              new ValueCondition<int>(operation.ID), COMPARE_KIND.EQUAL)))));
-        }
-
-        public static IList<TblThemes> ThemesForCourse(TblCourses course)
-        {
-            List<int> themesIDs = ServerModel.DB.LookupIds<TblThemes>(course, null);
-            return ServerModel.DB.Load<TblThemes>(themesIDs);
-        }
-
         public static IList<TblUsers> GetCurriculumOwners(TblCurriculums curriculum)
         {
             return ServerModel.DB.Query<TblUsers>(
@@ -126,7 +122,10 @@ namespace IUDICO.DataModel.Common
                             new ValueCondition<int>(curriculum.ID), COMPARE_KIND.EQUAL),
                          new CompareCondition<int>(
                             DataObject.Schema.CurriculumOperationRef,
-                            new ValueCondition<int>(FxCurriculumOperations.Modify.ID), COMPARE_KIND.EQUAL)))));
+                            new ValueCondition<int>(FxCurriculumOperations.Modify.ID), COMPARE_KIND.EQUAL),
+                         new CompareCondition<int>(
+                              DataObject.Schema.SysState,
+                              new ValueCondition<int>(0), COMPARE_KIND.EQUAL)))));
         }
 
         public static TblUsers GetCurriculumOwner(TblCurriculums curriculum)
@@ -146,23 +145,29 @@ namespace IUDICO.DataModel.Common
         {
             return ServerModel.DB.Query<TblGroups>(
                 new InCondition<int>(DataObject.Schema.ID,
-                    new SubSelectCondition<TblPermissions>("OwnerGroupRef",
+                   new SubSelectCondition<TblPermissions>("OwnerGroupRef",
+                      new AndCondtion( 
                          new CompareCondition<int>(
                             DataObject.Schema.CurriculumRef,
-                            new ValueCondition<int>(curriculum.ID), COMPARE_KIND.EQUAL))));
+                            new ValueCondition<int>(curriculum.ID), COMPARE_KIND.EQUAL),
+                         new CompareCondition<int>(
+                            DataObject.Schema.SysState,
+                            new ValueCondition<int>(0), COMPARE_KIND.EQUAL)))));
         }
 
         public static IList<TblCurriculums> GetCurriculumsForGroup(TblGroups group)
         {
             return ServerModel.DB.Query<TblCurriculums>(
                 new InCondition<int>(DataObject.Schema.ID,
-                    new SubSelectCondition<TblPermissions>("CurriculumRef",
+                   new SubSelectCondition<TblPermissions>("CurriculumRef",
+                      new AndCondtion(
                          new CompareCondition<int>(
                             DataObject.Schema.OwnerGroupRef,
-                            new ValueCondition<int>(group.ID), COMPARE_KIND.EQUAL))));
+                            new ValueCondition<int>(group.ID), COMPARE_KIND.EQUAL),
+                         new CompareCondition<int>(
+                            DataObject.Schema.SysState,
+                            new ValueCondition<int>(0), COMPARE_KIND.EQUAL)))));
         }
-
-
 
         public static void UnSignGroupFromCurriculum(TblGroups group, TblCurriculums curriculum)
         {
@@ -178,11 +183,18 @@ namespace IUDICO.DataModel.Common
             ServerModel.DB.Delete<TblPermissions>(persmissions);
         }
 
+        public static void SignGroupForCurriculum(TblGroups group, TblCurriculums curriculum)
+        {
+            PermissionsManager.Grand(curriculum, FxCurriculumOperations.View
+                    , null, group.ID, DateTimeInterval.Full);
+            PermissionsManager.Grand(curriculum, FxCurriculumOperations.Pass
+                    , null, group.ID, DateTimeInterval.Full);
+        }
+
         public static bool StageContainsTheme(int stageID, int themeID)
         {
             TblStages stage = ServerModel.DB.Load<TblStages>(stageID);
             TblThemes theme = ServerModel.DB.Load<TblThemes>(themeID);
-
             foreach (TblThemes childThemes in ThemesForStage(stage))
             {
                 if (childThemes.ID == theme.ID)
@@ -190,7 +202,6 @@ namespace IUDICO.DataModel.Common
                     return true;
                 }
             }
-
             return false;
         }
 

@@ -2,6 +2,9 @@
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel.DB;
+using IUDICO.DataModel.Common;
+using IUDICO.DataModel.Security;
+using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.Controllers
 {
@@ -9,13 +12,13 @@ namespace IUDICO.DataModel.Controllers
     {
         public TreeView CurriculumTree { get; set; }
         public Button GrantButton { get; set; }
+        public Button RemoveButton { get; set; }
+        public Label NotifyLabel { get; set; }
         public TextBox DateSinceTextBox { get; set; }
         public TextBox DateTillTextBox { get; set; }
-        public TextBox TimeSinceTextBox { get; set; }
-        public TextBox TimeTillTextBox { get; set; }
+
 
         public DropDownList OperationList { get; set; }
-        public DropDownList AssigmentList { get; set; }
 
         [ControllerParameter]
         public int GroupID;
@@ -24,23 +27,27 @@ namespace IUDICO.DataModel.Controllers
 
         public void PageLoad(object sender, EventArgs e)
         {
+            CurriculumTree.SelectedNodeChanged += new EventHandler(CurriculumTree_SelectedNodeChanged);
             if (!(sender as Page).IsPostBack)
             {
-                OperationList.Items.Add("View");
-                OperationList.SelectedIndex = 0;
-
-                fillAssigmentList();
+                TblCurriculums curriculum = ServerModel.DB.Load<TblCurriculums>(CurriculumID);
+                TblGroups group = ServerModel.DB.Load<TblGroups>(GroupID);
+                NotifyLabel.Text = "Detailed timeline for curriculum: " + curriculum.Name + " for group: " + group.Name;
+                fillCurriculumTree();
             }
 
             //GrantButton.Click += new EventHandler(GrantButton_Click);
         }
 
+        void CurriculumTree_SelectedNodeChanged(object sender, EventArgs e)
+        {
+
+        }
+
         //private void GrantButton_Click(object sender, EventArgs e)
         //{
-        //    DateTime since = DateTime.Parse(DateSinceTextBox.Text)
-        //        .Add(TimeSpan.Parse(TimeSinceTextBox.Text));
-        //    DateTime till = DateTime.Parse(DateTillTextBox.Text)
-        //        .Add(TimeSpan.Parse(TimeTillTextBox.Text));
+        //    DateTime since = DateTime.Parse(DateSinceTextBox.Text);
+        //    DateTime till = DateTime.Parse(DateTillTextBox.Text);
         //    DateTimeInterval datetime = new DateTimeInterval(since, till);
 
 
@@ -72,39 +79,24 @@ namespace IUDICO.DataModel.Controllers
         //    }
         //}
 
-        //private void fillCurriculumTree()
-        //{
-        //    CurriculumTree.Nodes.Clear();
-
-        //    TblCurriculums curriculum = ServerModel.DB.Load<TblCurriculums>(curriculumID);
-        //    IdendtityNode curriculumNode = new IdendtityNode(curriculum);
-        //    foreach (TblStages stage in ServerModel.DB.Query<TblStages>
-        //        (new CompareCondition(
-        //            DataObject.Schema.CurriculumRef,
-        //            new ValueCondition<int>(curriculum.ID), COMPARE_KIND.EQUAL)))
-        //    {
-        //        IdendtityNode stageNode = new IdendtityNode(stage);
-        //        foreach (TblThemes theme in ServerModel.DB.Query<TblThemes>
-        //            (new InCondition(
-        //                DataObject.Schema.ID,
-        //                new SubSelectCondition<RelStagesThemes>("ThemeRef",
-        //                   new CompareCondition(
-        //                      DataObject.Schema.StageRef,
-        //                      new ValueCondition<int>(stage.ID), COMPARE_KIND.EQUAL)))))
-        //        {
-        //            IdendtityNode themeNode = new IdendtityNode(theme);
-        //            stageNode.ChildNodes.Add(themeNode);
-        //        }
-        //        curriculumNode.ChildNodes.Add(stageNode);
-        //    }
-        //    CurriculumTree.Nodes.Add(curriculumNode);
-
-        //    CurriculumTree.ExpandAll();
-        //}
-
-        private void fillAssigmentList()
+        private void fillCurriculumTree()
         {
+            CurriculumTree.Nodes.Clear();
+            TblCurriculums curriculum = ServerModel.DB.Load<TblCurriculums>(CurriculumID);
+            IdendtityNode curriculumNode = new IdendtityNode(curriculum);
 
+            foreach (TblStages stage in TeacherHelper.StagesForCurriculum(curriculum))
+            {
+                IdendtityNode stageNode = new IdendtityNode(stage);
+                foreach (TblThemes theme in TeacherHelper.ThemesForStage(stage))
+                {
+                    IdendtityNode themeNode = new IdendtityNode(theme);
+                    stageNode.ChildNodes.Add(themeNode);
+                }
+                curriculumNode.ChildNodes.Add(stageNode);
+            }
+            CurriculumTree.Nodes.Add(curriculumNode);
+            CurriculumTree.ExpandAll();
         }
 
     }
