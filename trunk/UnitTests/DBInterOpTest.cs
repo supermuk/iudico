@@ -304,7 +304,7 @@ namespace IUDICO.UnitTest
         }
 
         [Test]
-        public void SafeDeleteAndPermissionManagerTest()
+        public void SafeDeleteAndPermissionManagerTest_GetObjectsForUser()
         {
             using (var c = new DataObjectCleaner())
             {
@@ -323,6 +323,81 @@ namespace IUDICO.UnitTest
                 ServerModel.DB.Delete<TblGroups>(g.ID);
 
                 var res2 = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.GROUP, u.ID, null, null);
+                Assert.AreEqual(0, res2.Count);
+            }
+        }
+
+        [Test]
+        public void SafeDeleteAndPermissionManagerTest_GetUsersForObject()
+        {
+            using (var c = new DataObjectCleaner())
+            {
+                var u = GetUniqueUserForTesting();
+                c.Insert(u);
+
+                var g = new TblGroups { Name = "TestGroup1" };
+                ServerModel.DB.Insert(g);
+
+                PermissionsManager.Grand(g, FxGroupOperations.View, u.ID, null, DateTimeInterval.Full);
+                PermissionsManager.Grand(g, FxGroupOperations.Rename, u.ID, null, DateTimeInterval.Full);
+
+                var res1 = PermissionsManager.GetUsersForObject(SECURED_OBJECT_TYPE.GROUP, g.ID, null, null);
+                Assert.AreEqual(1, res1.Count);
+                Assert.AreEqual(u.ID, res1[0]);
+
+                ServerModel.DB.Delete<TblUsers>(u.ID);
+
+                var res2 = PermissionsManager.GetUsersForObject(SECURED_OBJECT_TYPE.GROUP, g.ID, null, null);
+                Assert.AreEqual(0, res2.Count);
+            }
+        }
+
+        [Test]
+        public void SafeDeleteAndPermissionManagerTest_GetObjectsForGroup()
+        {
+            using (var c = new DataObjectCleaner())
+            {
+                var course = new TblCourses { Name = "TestCourse2" };
+                ServerModel.DB.Insert(course);
+
+                var g = new TblGroups { Name = "TestGroup2" };
+                ServerModel.DB.Insert(g);
+
+                PermissionsManager.Grand(course, FxCourseOperations.Use, null, g.ID, DateTimeInterval.Full);
+                PermissionsManager.Grand(course, FxCourseOperations.Modify, null, g.ID, DateTimeInterval.Full);
+
+                var res1 = PermissionsManager.GetObjectsForGroup(SECURED_OBJECT_TYPE.COURSE, g.ID, null, null);
+                Assert.AreEqual(1, res1.Count);
+                Assert.AreEqual(course.ID, res1[0]);
+
+                ServerModel.DB.Delete<TblCourses>(course.ID);
+
+                var res2 = PermissionsManager.GetObjectsForGroup(SECURED_OBJECT_TYPE.COURSE, g.ID, null, null);
+                Assert.AreEqual(0, res2.Count);
+            }
+        }
+
+        [Test]
+        public void SafeDeleteAndPermissionManagerTest_GetGroupsForObject()
+        {
+            using (var c = new DataObjectCleaner())
+            {
+                var course = new TblCourses { Name = "TestCourse3" };
+                ServerModel.DB.Insert(course);
+
+                var g = new TblGroups { Name = "TestGroup3" };
+                ServerModel.DB.Insert(g);
+
+                PermissionsManager.Grand(course, FxCourseOperations.Use, null, g.ID, DateTimeInterval.Full);
+                PermissionsManager.Grand(course, FxCourseOperations.Modify, null, g.ID, DateTimeInterval.Full);
+
+                var res1 = PermissionsManager.GetGroupsForObject(SECURED_OBJECT_TYPE.COURSE, course.ID, null, null);
+                Assert.AreEqual(1, res1.Count);
+                Assert.AreEqual(g.ID, res1[0]);
+
+                ServerModel.DB.Delete<TblCourses>(course.ID);
+
+                var res2 = PermissionsManager.GetGroupsForObject(SECURED_OBJECT_TYPE.COURSE, course.ID, null, null);
                 Assert.AreEqual(0, res2.Count);
             }
         }
