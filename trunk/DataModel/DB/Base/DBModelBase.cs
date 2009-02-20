@@ -122,6 +122,8 @@ namespace IUDICO.DataModel.DB.Base
                 CourseRef = new PropertyCondition<int>("CourseRef"),
                 CurriculumRef = new PropertyCondition<int>("CurriculumRef"),
                 CurriculumOperationRef = new PropertyCondition<int>("CurriculumOperationRef"),
+                StageOperationRef = new PropertyCondition<int>("StageOperationRef"),
+                ThemeOperationRef = new PropertyCondition<int>("ThemeOperationRef"),
                 CourseOperationRef = new PropertyCondition<int>("CourseOperationRef"),
                 OwnerGroupRef = new PropertyCondition<int>("OwnerGroupRef"),
                 OwnerUserRef = new PropertyCondition<int>("OwnerUserRef"),

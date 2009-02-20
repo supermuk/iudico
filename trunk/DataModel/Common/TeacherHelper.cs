@@ -10,6 +10,9 @@ namespace IUDICO.DataModel.Common
     {
         public static IList<TblCourses> MyCourses(FxCourseOperations operation)
         {
+            IList<int> iDs = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.COURSE, ServerModel.User.Current.ID, operation.ID, null);
+            return ServerModel.DB.Load<TblCourses>(iDs);
+
             return ServerModel.DB.Query<TblCourses>(
                   new InCondition<int>(DataObject.Schema.ID,
                      new SubSelectCondition<TblPermissions>("CourseRef",
@@ -27,6 +30,9 @@ namespace IUDICO.DataModel.Common
 
         public static IList<TblCurriculums> MyCurriculums(FxCurriculumOperations operation)
         {
+            IList<int> iDs = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.CURRICULUM, ServerModel.User.Current.ID, operation.ID, null);
+            return ServerModel.DB.Load<TblCurriculums>(iDs);
+
             return ServerModel.DB.Query<TblCurriculums>(
                   new InCondition<int>(DataObject.Schema.ID,
                      new SubSelectCondition<TblPermissions>("CurriculumRef",
@@ -79,7 +85,7 @@ namespace IUDICO.DataModel.Common
             return ServerModel.DB.Load<TblThemes>(themesIDs);
         }
 
-        public static IList<TblPermissions> PermissionsForCourse(TblCourses course)
+        public static IList<TblPermissions> AllPermissionsForCourse(TblCourses course)
         {
             return ServerModel.DB.Query<TblPermissions>(
                         new CompareCondition<int>(
@@ -87,7 +93,7 @@ namespace IUDICO.DataModel.Common
                            new ValueCondition<int>(course.ID), COMPARE_KIND.EQUAL));
         }
 
-        public static IList<TblPermissions> PermissionsForCurriculum(TblCurriculums curriculum)
+        public static IList<TblPermissions> AllPermissionsForCurriculum(TblCurriculums curriculum)
         {
             return ServerModel.DB.Query<TblPermissions>(
                         new CompareCondition<int>(
@@ -95,7 +101,7 @@ namespace IUDICO.DataModel.Common
                            new ValueCondition<int>(curriculum.ID), COMPARE_KIND.EQUAL));
         }
 
-        public static IList<TblPermissions> PermissionsForStage(TblStages stage)
+        public static IList<TblPermissions> AllPermissionsForStage(TblStages stage)
         {
             return ServerModel.DB.Query<TblPermissions>(
                         new CompareCondition<int>(
@@ -103,12 +109,84 @@ namespace IUDICO.DataModel.Common
                            new ValueCondition<int>(stage.ID), COMPARE_KIND.EQUAL));
         }
 
-        public static IList<TblPermissions> PermissionsForTheme(TblThemes theme)
+        public static IList<TblPermissions> AllPermissionsForTheme(TblThemes theme)
         {
             return ServerModel.DB.Query<TblPermissions>(
                         new CompareCondition<int>(
                            DataObject.Schema.ThemeRef,
                            new ValueCondition<int>(theme.ID), COMPARE_KIND.EQUAL));
+        }
+
+        public static TblPermissions GroupPermissionsForCurriculum(TblGroups group, TblCurriculums curriculum, FxCurriculumOperations operation)
+        {
+            IList<TblPermissions> permissions = ServerModel.DB.Query<TblPermissions>(
+                      new AndCondtion(
+                         new CompareCondition<int>(
+                            DataObject.Schema.CurriculumRef,
+                            new ValueCondition<int>(curriculum.ID), COMPARE_KIND.EQUAL),
+                         new CompareCondition<int>(
+                            DataObject.Schema.CurriculumOperationRef,
+                            new ValueCondition<int>(operation.ID), COMPARE_KIND.EQUAL),
+                         new CompareCondition<int>(
+                            DataObject.Schema.OwnerGroupRef,
+                            new ValueCondition<int>(group.ID), COMPARE_KIND.EQUAL)));
+
+            if (permissions.Count != 1)
+            {
+                throw new Exception("There should be only one permission per operation");
+            }
+            else
+            {
+                return permissions[0];
+            }
+        }
+
+        public static TblPermissions GroupPermissionsForStage(TblGroups group, TblStages stage, FxStageOperations operation)
+        {
+            IList<TblPermissions> permissions = ServerModel.DB.Query<TblPermissions>(
+                     new AndCondtion(
+                        new CompareCondition<int>(
+                           DataObject.Schema.StageRef,
+                           new ValueCondition<int>(stage.ID), COMPARE_KIND.EQUAL),
+                        new CompareCondition<int>(
+                           DataObject.Schema.StageOperationRef,
+                           new ValueCondition<int>(operation.ID), COMPARE_KIND.EQUAL),
+                        new CompareCondition<int>(
+                            DataObject.Schema.OwnerGroupRef,
+                            new ValueCondition<int>(group.ID), COMPARE_KIND.EQUAL)));
+
+            if (permissions.Count != 1)
+            {
+                throw new Exception("There should be only one permission per operation");
+            }
+            else
+            {
+                return permissions[0];
+            }
+        }
+
+        public static TblPermissions GroupPermissionsForTheme(TblGroups group, TblThemes theme, FxThemeOperations operation)
+        {
+            IList<TblPermissions> permissions = ServerModel.DB.Query<TblPermissions>(
+                      new AndCondtion(
+                         new CompareCondition<int>(
+                            DataObject.Schema.ThemeRef,
+                            new ValueCondition<int>(theme.ID), COMPARE_KIND.EQUAL),
+                         new CompareCondition<int>(
+                            DataObject.Schema.ThemeOperationRef,
+                            new ValueCondition<int>(operation.ID), COMPARE_KIND.EQUAL),
+                         new CompareCondition<int>(
+                            DataObject.Schema.OwnerGroupRef,
+                            new ValueCondition<int>(group.ID), COMPARE_KIND.EQUAL)));
+
+            if (permissions.Count != 1)
+            {
+                throw new Exception("There should be only one permission per operation");
+            }
+            else
+            {
+                return permissions[0];
+            }
         }
 
         public static IList<TblUsers> GetCurriculumOwners(TblCurriculums curriculum)
@@ -126,6 +204,9 @@ namespace IUDICO.DataModel.Common
                          new CompareCondition<int>(
                               DataObject.Schema.SysState,
                               new ValueCondition<int>(0), COMPARE_KIND.EQUAL)))));
+
+            IList<int> iDs = PermissionsManager.GetUsersForObject(SECURED_OBJECT_TYPE.CURRICULUM, curriculum.ID, null, null);
+            return ServerModel.DB.Load<TblUsers>(iDs);
         }
 
         public static TblUsers GetCurriculumOwner(TblCurriculums curriculum)
@@ -146,17 +227,23 @@ namespace IUDICO.DataModel.Common
             return ServerModel.DB.Query<TblGroups>(
                 new InCondition<int>(DataObject.Schema.ID,
                    new SubSelectCondition<TblPermissions>("OwnerGroupRef",
-                      new AndCondtion( 
+                      new AndCondtion(
                          new CompareCondition<int>(
                             DataObject.Schema.CurriculumRef,
                             new ValueCondition<int>(curriculum.ID), COMPARE_KIND.EQUAL),
                          new CompareCondition<int>(
                             DataObject.Schema.SysState,
                             new ValueCondition<int>(0), COMPARE_KIND.EQUAL)))));
+
+            IList<int> iDs = PermissionsManager.GetGroupsForObject(SECURED_OBJECT_TYPE.CURRICULUM, curriculum.ID, null, null);
+            return ServerModel.DB.Load<TblGroups>(iDs);
         }
 
         public static IList<TblCurriculums> GetCurriculumsForGroup(TblGroups group)
         {
+            IList<int> iDs = PermissionsManager.GetObjectsForGroup(SECURED_OBJECT_TYPE.CURRICULUM, group.ID, null, null);
+            return ServerModel.DB.Load<TblCurriculums>(iDs);
+
             return ServerModel.DB.Query<TblCurriculums>(
                 new InCondition<int>(DataObject.Schema.ID,
                    new SubSelectCondition<TblPermissions>("CurriculumRef",
@@ -189,6 +276,14 @@ namespace IUDICO.DataModel.Common
                     , null, group.ID, DateTimeInterval.Full);
             PermissionsManager.Grand(curriculum, FxCurriculumOperations.Pass
                     , null, group.ID, DateTimeInterval.Full);
+
+            foreach (TblStages stage in StagesForCurriculum(curriculum))
+            {
+                PermissionsManager.Grand(stage, FxStageOperations.View
+                   , null, group.ID, DateTimeInterval.Full);
+                PermissionsManager.Grand(stage, FxStageOperations.Pass
+                   , null, group.ID, DateTimeInterval.Full);
+            }
         }
 
         public static bool StageContainsTheme(int stageID, int themeID)
