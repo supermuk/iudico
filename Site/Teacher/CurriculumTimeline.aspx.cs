@@ -8,10 +8,8 @@ public partial class CurriculumTimeline : ControlledPage<CurriculumTimelineContr
         base.BindController(c);
 
         c.CurriculumTree = TreeView_Curriculum;
+        c.TimeTable = Table_Time;
         c.NotifyLabel = Label_Notify;
-
-        c.RemoveButton = Button_Remove;
-        c.GrantButton = Button_Grant;
 
         Load += c.PageLoad;
     }

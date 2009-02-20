@@ -21,9 +21,23 @@ namespace IUDICO.DataModel.DB
         public readonly static FxCourseOperations Use;
     }
 
-    public partial class FxThemeOperations : FxDataObject, IFxDataObject { }
+    public partial class FxThemeOperations : FxDataObject, IFxDataObject
+    {
+        [TableRecord]
+        public readonly static FxThemeOperations View;
 
-    public partial class FxStageOperations : FxDataObject, IFxDataObject {}
+        [TableRecord]
+        public readonly static FxThemeOperations Pass;
+    }
+
+    public partial class FxStageOperations : FxDataObject, IFxDataObject
+    {
+        [TableRecord]
+        public readonly static FxStageOperations View;
+
+        [TableRecord]
+        public readonly static FxStageOperations Pass;
+    }
 
     public partial class FxRoles : FxDataObject, IFxDataObject
     {
@@ -61,7 +75,7 @@ namespace IUDICO.DataModel.DB
         public readonly static FxCurriculumOperations View;
 
         [TableRecord]
-        public readonly static FxCurriculumOperations Pass;      
+        public readonly static FxCurriculumOperations Pass;
     }
 
     public partial class TblPermissions : IntKeyedDataObject, IIntKeyedDataObject
@@ -81,7 +95,7 @@ namespace IUDICO.DataModel.DB
 
         public int? GetObjectID(SECURED_OBJECT_TYPE ot)
         {
-            return (int?) GetType().GetProperty(ot.GetSecurityAtr().Name + "Ref").GetValue(this, null);
+            return (int?)GetType().GetProperty(ot.GetSecurityAtr().Name + "Ref").GetValue(this, null);
         }
 
         public void SetObjectID(SECURED_OBJECT_TYPE ot, int value)
@@ -112,7 +126,7 @@ namespace IUDICO.DataModel.DB
     {
     }
 
-    public partial class TblCourses : SecuredDataObject, ISecuredDataObject  
+    public partial class TblCourses : SecuredDataObject, ISecuredDataObject
     {
     }
 
@@ -128,9 +142,9 @@ namespace IUDICO.DataModel.DB
 
     public partial class TblPages : IntKeyedDataObject, IIntKeyedDataObject { }
 
-    public partial class TblQuestions : IntKeyedDataObject, IIntKeyedDataObject {}
+    public partial class TblQuestions : IntKeyedDataObject, IIntKeyedDataObject { }
 
-    public partial class TblSampleBusinesObject : IntKeyedDataObject, IIntKeyedDataObject {}
+    public partial class TblSampleBusinesObject : IntKeyedDataObject, IIntKeyedDataObject { }
 
     public partial class TblStages : SecuredDataObject, ISecuredDataObject
     {
@@ -140,7 +154,7 @@ namespace IUDICO.DataModel.DB
     {
     }
 
-    public partial class TblUserAnswers : IntKeyedDataObject, IIntKeyedDataObject {}
+    public partial class TblUserAnswers : IntKeyedDataObject, IIntKeyedDataObject { }
 
     public partial class TblUsers : IntKeyedDataObject, IIntKeyedDataObject
     {
@@ -152,7 +166,7 @@ namespace IUDICO.DataModel.DB
 
     [ManyToManyRelationship(typeof(TblUsers), typeof(FxRoles))]
     public partial class RelUserRoles : RelTable, IRelationshipTable
-    {   
+    {
     }
 
     [ManyToManyRelationship(typeof(TblUsers), typeof(TblGroups))]

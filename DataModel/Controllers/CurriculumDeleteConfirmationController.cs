@@ -36,6 +36,7 @@ namespace IUDICO.DataModel.Controllers
             if (ThemeID != -1)
             {
                 theme = ServerModel.DB.Load<TblThemes>(ThemeID);
+                stage = ServerModel.DB.Load<TblStages>(StageID);
                 NotifyLabel.Text += "theme: " + theme.Name + ".This theme is used in curriculum: " + curriculum.Name;
             }
             else
@@ -62,7 +63,7 @@ namespace IUDICO.DataModel.Controllers
 
         }
 
-        void DeleteButton_Click(object sender, EventArgs e)
+        private void DeleteButton_Click(object sender, EventArgs e)
         {
             if (ThemeID != -1)
             {
@@ -95,7 +96,7 @@ namespace IUDICO.DataModel.Controllers
         private void deleteTheme(TblThemes theme, TblStages parentStage)
         {
             //remove permissions
-            ServerModel.DB.Delete<TblPermissions>(TeacherHelper.PermissionsForTheme(theme));
+            ServerModel.DB.Delete<TblPermissions>(TeacherHelper.AllPermissionsForTheme(theme));
             ServerModel.DB.UnLink(theme, parentStage);
         }
 
@@ -107,7 +108,7 @@ namespace IUDICO.DataModel.Controllers
             }
 
             //remove permissions
-            ServerModel.DB.Delete<TblPermissions>(TeacherHelper.PermissionsForStage(stage));
+            ServerModel.DB.Delete<TblPermissions>(TeacherHelper.AllPermissionsForStage(stage));
             ServerModel.DB.Delete<TblStages>(stage.ID);
         }
 
@@ -118,7 +119,7 @@ namespace IUDICO.DataModel.Controllers
                 deleteStage(stage);
             }
             //remove permissions
-            ServerModel.DB.Delete<TblPermissions>(TeacherHelper.PermissionsForCurriculum(curriculum));
+            ServerModel.DB.Delete<TblPermissions>(TeacherHelper.AllPermissionsForCurriculum(curriculum));
             ServerModel.DB.Delete<TblCurriculums>(curriculum.ID);
         }
 

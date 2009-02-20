@@ -40,9 +40,9 @@ namespace IUDICO.DataModel.Controllers
         {
             foreach (TblThemes theme in TeacherHelper.ThemesForCourse(course))
             {
-                ServerModel.DB.Delete<TblPermissions>(TeacherHelper.PermissionsForTheme(theme));
+                ServerModel.DB.Delete<TblPermissions>(TeacherHelper.AllPermissionsForTheme(theme));
             }
-            ServerModel.DB.Delete<TblPermissions>(TeacherHelper.PermissionsForCourse(course));
+            ServerModel.DB.Delete<TblPermissions>(TeacherHelper.AllPermissionsForCourse(course));
 
             CourseCleaner.deleteCourse(course.ID);
             Redirect(BackUrl);

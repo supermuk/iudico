@@ -80,7 +80,7 @@ namespace IUDICO.DataModel.Controllers
                         assignButton.ID = group.ID.ToString() + assignChar + curriculum.ID;
                         assignButton.Click += new EventHandler(assignButton_Click);
                         assignButton.Text = "Assign";
-
+                        
                         curriculumCell.Controls.Add(assignButton);
                     }
 
