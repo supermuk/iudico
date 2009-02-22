@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Data.Common;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using System.Web.Caching;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB.Base;
@@ -15,6 +15,11 @@ using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.DB
 {
+    public interface IDBScope : IDisposable
+    {
+        SqlConnection Connection { get; }
+    }
+
     public partial class DatabaseModel : IDBOperator
     {
         static DatabaseModel()
@@ -92,11 +97,11 @@ namespace IUDICO.DataModel.DB
         public int Insert<TDataObject>(TDataObject obj)
             where TDataObject : class, IIntKeyedDataObject, new()
         {
-            using (DBScope("Inserting " + typeof(TDataObject).Name))
+            using (var scope = DBScope("Inserting " + typeof(TDataObject).Name))
             {
-                using (var cmd = GetConnectionSafe().CreateCommand())
+                using (var cmd = scope.Connection.CreateCommand())
                 {
-                    var sc = new SqlSerializationContext((SqlCommand) cmd);
+                    var sc = new SqlSerializationContext(cmd);
                     DataObjectSqlSerializer<TDataObject>.AppendInsertSql(sc, obj);
                     sc.Finish();
 
@@ -120,9 +125,9 @@ namespace IUDICO.DataModel.DB
         {
             if (objs.Count > 0)
             {
-                using (DBScope("Inserting multiple " + typeof(TDataObject).Name + ". Count = " + objs.Count))
+                using (var scope = DBScope("Inserting multiple " + typeof(TDataObject).Name + ". Count = " + objs.Count))
                 {
-                    RunInTransaction(GetConnectionSafe(), (cn, transaction) =>
+                    RunInTransaction(scope.Connection, (cn, transaction) =>
                     {                        
                         using (var cmd = cn.CreateCommand())
                         {
@@ -172,11 +177,11 @@ namespace IUDICO.DataModel.DB
         public void Update<TDataObject>(TDataObject obj)
             where TDataObject : class, IIntKeyedDataObject, new()
         {
-            using (DBScope("Updating " + typeof(TDataObject).Name))
+            using (var scope = DBScope("Updating " + typeof(TDataObject).Name))
             {
-                using (var cmd = GetConnectionSafe().CreateCommand())
+                using (var cmd = scope.Connection.CreateCommand())
                 {
-                    var sc = new SqlSerializationContext((SqlCommand) cmd);
+                    var sc = new SqlSerializationContext(cmd);
                     DataObjectSqlSerializer<TDataObject>.AppendUpdateSql(sc, obj);
                     sc.Finish();
                     cmd.LexExecuteNonQuery();
@@ -191,9 +196,9 @@ namespace IUDICO.DataModel.DB
             //TODO: Update cache here. not only delete cached items
             if (objs.Count > 0)
             {
-                using (DBScope("Updating multiple " + typeof(TDataObject).Name + ". Count = " + objs.Count))
+                using (var scope = DBScope("Updating multiple " + typeof(TDataObject).Name + ". Count = " + objs.Count))
                 {
-                    RunInTransaction(GetConnectionSafe(), (cn, transaction) =>
+                    RunInTransaction(scope.Connection, (cn, transaction) =>
                     {
                         using (var cmd = cn.CreateCommand())
                         {
@@ -235,7 +240,7 @@ namespace IUDICO.DataModel.DB
         public TDataObject Load<TDataObject>(int id)
             where TDataObject : class, IIntKeyedDataObject, new()
         {
-            using (DBScope("Loading " + typeof(TDataObject).Name + ". ID = " + id))
+            using (var scope = DBScope("Loading " + typeof(TDataObject).Name + ". ID = " + id))
             {
                 var res = (TDataObject) Cache[FormatCacheKey<TDataObject>(id)];
                 if (res != null)
@@ -245,7 +250,7 @@ namespace IUDICO.DataModel.DB
                 }
 
                 Logger.WriteLine("Running sql...");
-                using (var cmd = GetConnectionSafe().CreateCommand())
+                using (var cmd = scope.Connection.CreateCommand())
                 {
                     cmd.CommandText = DataObjectInfo<TDataObject>.SelectSql + " WHERE [ID] = " + id + " AND sysState = 0";
                     using (var r = cmd.LexExecuteReader())
@@ -272,9 +277,9 @@ namespace IUDICO.DataModel.DB
                 return new TDataObject[0];
             }
 
-            using (DBScope("Loading multiple " + typeof(TDataObject).Name + ". Count = " + ids.Count))
+            using (var scope = DBScope("Loading multiple " + typeof(TDataObject).Name + ". Count = " + ids.Count))
             {
-                using (var cmd = GetConnectionSafe().CreateCommand())
+                using (var cmd = scope.Connection.CreateCommand())
                 {
                     List<TDataObject> result;
                     cmd.CommandText = DataObjectInfo<TDataObject>.SelectSql + " WHERE (ID IN (" + ids.ConcatComma() + ")) AND sysState = 0";
@@ -296,41 +301,13 @@ namespace IUDICO.DataModel.DB
             }
         }
 
-        public IList<TDataObject> LoadRange<TDataObject>(int from, int to)
-            where TDataObject : class, IIntKeyedDataObject, new()
-        {
-            if (from > to)
-                throw new ArgumentException("'from' must be not greater than 'to'");
-
-            using (DBScope("Loading range of " + typeof(TDataObject).Name + " between " + from + " and " + to))
-            {
-                using (var cmd = GetConnectionSafe().CreateCommand())
-                {
-                    var cn = new SqlSerializationContext((SqlCommand) cmd);
-                    DataObjectSqlSerializer<TDataObject>.AppendSelectRangeSql(cn, from, to, null);
-                    cn.Finish();
-                    using (var r = cmd.LexExecuteReader())
-                    {
-                        var res = DataObjectInfo<TDataObject>.FullRead(r, to - from + 1);
-                        foreach (var o in res)
-                        {
-                            CacheIt(o);
-                            Logger.WriteLine("ID = " + o.ID);
-                        }
-
-                        return res;
-                    }
-                }
-            }
-        }
-
         public void Delete<TDataObject>(int id)
             where TDataObject : class, IIntKeyedDataObject, new()
         {
-            using (DBScope("Removing " + typeof(TDataObject).Name + ". ID = " + id))
+            using (var scope = DBScope("Removing " + typeof(TDataObject).Name + ". ID = " + id))
             {
                 Removed<TDataObject>(id);
-                RunInTransaction(GetConnectionSafe(), (cn, transaction) =>
+                RunInTransaction(scope.Connection, (cn, transaction) =>
                 {
                     using (var cmd = cn.CreateCommand())
                     {
@@ -362,7 +339,7 @@ namespace IUDICO.DataModel.DB
         {
             if (ids.Count > 0)
             {
-                using (DBScope("Removing multiple " + typeof(TDataObject).Name + ". Count = " + ids.Count))
+                using (var scope = DBScope("Removing multiple " + typeof(TDataObject).Name + ". Count = " + ids.Count))
                 {
                     foreach (var i in ids)
                     {
@@ -370,7 +347,7 @@ namespace IUDICO.DataModel.DB
                         Cache.Remove(FormatCacheKey<TDataObject>(i));
                     }
 
-                    RunInTransaction(GetConnectionSafe(), (cn, transaction) =>
+                    RunInTransaction(scope.Connection, (cn, transaction) =>
                     {
                         using (var cmd = cn.CreateCommand())
                         {
@@ -417,35 +394,14 @@ namespace IUDICO.DataModel.DB
             return FxObjectsStorage<TFxDataObject>.Items;
         }
 
-        public List<TDataObject> FullCached<TDataObject>()
-            where TDataObject : class, IDataObject, new()
-        {
-            using (DBScope("Getting full cached table " + typeof(TDataObject).Name))
-            {
-                string tableName = DataObjectInfo<TDataObject>.TableName;
-                var r = (List<TDataObject>)Cache[tableName];
-                if (r == null)
-                {
-                    Logger.WriteLine("Selecting...");
-                    r = new List<TDataObject>(GetTable<TDataObject>());
-                    Cache.Add(tableName, r, DataObjectInfo<TDataObject>.CacheDependency, DateTime.MaxValue, new TimeSpan(1, 1, 1), CacheItemPriority.AboveNormal, null);
-                }
-                else
-                {
-                    Logger.WriteLine("Got from Cache");
-                }
-                return r;
-            }
-        }
-
         public List<int> LookupIds<TDataObject>([NotNull] IIntKeyedDataObject owner, [CanBeNull] IDBPredicate condition)
             where TDataObject : IDataObject
         {
-            using (DBScope("Looking up ids of " + owner.GetType().Name + " for " + typeof(TDataObject).Name))
+            using (var scope = DBScope("Looking up ids of " + owner.GetType().Name + " for " + typeof(TDataObject).Name))
             {
-                using (var c = GetConnectionSafe().CreateCommand())
+                using (var c = scope.Connection.CreateCommand())
                 {
-                    var sc = new SqlSerializationContext((SqlCommand)c);
+                    var sc = new SqlSerializationContext(c);
                     LookupHelper.AppendLookupSql(sc, owner, typeof(TDataObject), condition);
                     sc.Finish();
                     return c.FullReadInts();
@@ -456,11 +412,11 @@ namespace IUDICO.DataModel.DB
         public List<TDataObject> Query<TDataObject>([CanBeNull] IDBPredicate cond)
             where TDataObject : IDataObject, new()
         {
-            using (DBScope("Custom query for " + typeof(TDataObject)))
+            using (var scope = DBScope("Custom query for " + typeof(TDataObject)))
             {
-                using (var c = GetConnectionSafe().CreateCommand())
+                using (var c = scope.Connection.CreateCommand())
                 {
-                    var sc = new SqlSerializationContext((SqlCommand)c);
+                    var sc = new SqlSerializationContext(c);
                     DataObjectInfo<TDataObject>.AppendQuerySql(sc, cond);
                     sc.Finish();
                     using (var r = c.LexExecuteReader())
@@ -480,14 +436,14 @@ namespace IUDICO.DataModel.DB
             } 
         }
 
-        public TDataObject QuerySingle<TDataObject>([NotNull] IDBPredicate cond)
+        public TDataObject QuerySingleOrDefault<TDataObject>([NotNull] IDBPredicate cond)
             where TDataObject : IDataObject, new()
         {
-            using (DBScope("Custom query for " + typeof(TDataObject)))
+            using (var scope = DBScope("Custom query for " + typeof(TDataObject)))
             {
-                using (var c = GetConnectionSafe().CreateCommand())
+                using (var c = scope.Connection.CreateCommand())
                 {
-                    var sc = new SqlSerializationContext((SqlCommand)c);
+                    var sc = new SqlSerializationContext(c);
                     DataObjectInfo<TDataObject>.AppendQuerySql(sc, cond);
                     sc.Finish();
                     using (var r = c.ExecuteReader())
@@ -498,7 +454,7 @@ namespace IUDICO.DataModel.DB
                                 throw new InvalidOperationException("Too many objects");
                             return DataObjectInfo<TDataObject>.Read(r);
                         }
-                        throw new InvalidOperationException("No object selected");
+                        return default(TDataObject);
                     }
                 }
             } 
@@ -506,11 +462,11 @@ namespace IUDICO.DataModel.DB
 
         public List<int> LookupMany2ManyIds<TDataObject>([NotNull]IIntKeyedDataObject firstPart, [CanBeNull]IDBPredicate condition)
         {
-            using (DBScope("Looking up many-2-many ids between " + firstPart.GetType().Name + " and " + typeof(TDataObject).Name))
+            using (var scope = DBScope("Looking up many-2-many ids between " + firstPart.GetType().Name + " and " + typeof(TDataObject).Name))
             {
-                using (var c = GetConnectionSafe().CreateCommand())
+                using (var c = scope.Connection.CreateCommand())
                 {
-                    var sc = new SqlSerializationContext((SqlCommand)c);
+                    var sc = new SqlSerializationContext(c);
                     LookupHelper.AppendMMLookupSql(sc, firstPart, typeof(TDataObject));
                     sc.Finish();
                     return c.FullReadInts();
@@ -520,11 +476,11 @@ namespace IUDICO.DataModel.DB
 
         public void Link(IIntKeyedDataObject do1, IIntKeyedDataObject do2)
         {
-            using (DBScope("Linking " + do1.GetType().Name + ": " + do1.ID + " and " + do2.GetType().Name + ": " + do2.ID))
+            using (var scope = DBScope("Linking " + do1.GetType().Name + ": " + do1.ID + " and " + do2.GetType().Name + ": " + do2.ID))
             {
-                using (var c = GetConnectionSafe().CreateCommand())
+                using (var c = scope.Connection.CreateCommand())
                 {
-                    var sc = new SqlSerializationContext((SqlCommand)c);
+                    var sc = new SqlSerializationContext(c);
                     LookupHelper.AppendMMLinkSql(sc, do1, do2);
                     sc.Finish();
                     c.LexExecuteNonQuery();
@@ -534,38 +490,14 @@ namespace IUDICO.DataModel.DB
 
         public void UnLink(IIntKeyedDataObject do1, IIntKeyedDataObject do2)
         {
-            using (DBScope("UnLinking " + do1.GetType().Name + ": " + do1.ID + " and " + do2.GetType().Name + ": " + do2.ID))
+            using (var scope = DBScope("UnLinking " + do1.GetType().Name + ": " + do1.ID + " and " + do2.GetType().Name + ": " + do2.ID))
             {
-                using (var c = GetConnectionSafe().CreateCommand())
+                using (var c = scope.Connection.CreateCommand())
                 {
-                    var sc = new SqlSerializationContext((SqlCommand)c);
+                    var sc = new SqlSerializationContext(c);
                     LookupHelper.AppendMMUnLinkSql(sc, do1, do2);
                     sc.Finish();
                     c.LexExecuteNonQuery();
-                }
-            }
-        }
-
-        public int Count<TDataObject>()
-            where TDataObject : IDataObject, new()
-        {
-            using (DBScope("Select count of " + typeof(TDataObject).Name))
-            {
-                var o = Cache[FormatCacheCountKey<TDataObject>()];
-                if (o != null)
-                {
-                    var res = (int) o;
-                    Logger.WriteLine("Cached: " + res);
-                    return res;
-                }
-
-                using (var c = GetConnectionSafe().CreateCommand())
-                {
-                    c.CommandText = string.Format("SELECT COUNT(*) FROM [{0}]", DataObjectInfo<TDataObject>.TableName);
-                    var res = c.LexExecuteScalar<int>();
-                    Logger.WriteLine("Count: " + res);
-                    Cache[FormatCacheCountKey<TDataObject>()] = res;
-                    return res;
                 }
             }
         }
@@ -626,7 +558,8 @@ namespace IUDICO.DataModel.DB
             Cache[FormatCacheKey<TDataObject>(obj.ID)] = obj;
         }
 
-        private static IDisposable DBScope(string operation)
+        [NotNull]
+        private static IDBScope DBScope([NotNull] string operation)
         {
             return new DBModelScope(operation);
         }
@@ -647,13 +580,18 @@ namespace IUDICO.DataModel.DB
 
         #region DBModelScope
 
-        private class DBModelScope : IDisposable
+        private class DBModelScope : IDBScope
         {
             public readonly string Name;
 
             public DBModelScope([NotNull] string name)
             {
-                Monitor.Enter(typeof(DBModelScope));
+                //Monitor.Enter(typeof(DBModelScope));
+//                if (Current != null)
+//                {
+//                    throw new InvalidOperationException("Cannot enter into DB scope. There is scope already assigned to the operation");
+//                }
+                Current = this;
                 Name = name;
                 Enter();
             }
@@ -672,9 +610,33 @@ namespace IUDICO.DataModel.DB
 
             public void Dispose()
             {
+                if (_Connection != null)
+                {
+                    _Connection.Dispose();
+                }
                 Leave();
-                Monitor.Exit(typeof(DBModelScope));
+                Current = null;
+                //Monitor.Exit(typeof(DBModelScope));
             }
+
+            [NotNull]
+            public SqlConnection Connection
+            {
+                get
+                {
+                    if (_Connection == null)
+                    {
+                        _Connection = ServerModel.AcruireOpenedConnection();
+                    }
+                    return _Connection;
+                }
+            }
+
+            [CanBeNull]
+            private SqlConnection _Connection;
+
+            [CanBeNull] [ThreadStatic] 
+            private static DBModelScope Current;
         }
 
         #endregion

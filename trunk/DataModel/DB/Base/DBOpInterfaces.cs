@@ -18,6 +18,7 @@ namespace IUDICO.DataModel.DB.Base
 
     public interface IDBPropertyCondition<TProperty> : IDBCondition<TProperty>
     {
+        string PropertyName { get; }
     }
 
     public interface IDBPredicate : IDBCondition<bool>

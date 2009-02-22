@@ -4,14 +4,6 @@ using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.DB
 {
-    public partial class DatabaseModel
-    {
-        public DbConnection GetConnectionSafe()
-        {
-            return ServerModel.AcruireOpenedConnection();
-        }
-    }
-
     public partial class FxCourseOperations : FxDataObject, IFxDataObject
     {
         [TableRecord]
