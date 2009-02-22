@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
@@ -13,8 +14,8 @@ using IUDICO.DataModel.DB;
 using IUDICO.DataModel.DB.Base;
 using IUDICO.DataModel.Security;
 using LEX.CONTROLS;
-using Extenders=LEX.CONTROLS.Extenders;
-using Utils=IUDICO.DataModel.Common.Utils;
+using Extenders = LEX.CONTROLS.Extenders;
+using Utils = IUDICO.DataModel.Common.Utils;
 
 namespace IUDICO.DataModel
 {
@@ -25,15 +26,15 @@ namespace IUDICO.DataModel
             using (Logger.Scope("Initializing ServerModel..."))
             {
                 _ConnectionString = connectionString;
-                DB = new DatabaseModel(AcruireOpenedConnection());
-                DB.Initialize(cache);
-                PermissionsManager.Initialize(DB.GetConnectionSafe());
+                (DB = new DatabaseModel(AcruireOpenedConnection())).Initialize(cache);
+                PermissionsManager.Initialize();
                 TableRecordAttributeInitialize();
             }
         }
 
         public static void UnInitialize()
         {
+            DB.Dispose();
         }
 
         public static DatabaseModel DB;
@@ -56,14 +57,14 @@ namespace IUDICO.DataModel
 
         private static void TableRecordAttributeInitialize()
         {
-            foreach(var t in Assembly.GetExecutingAssembly().GetTypes())
+            foreach (var t in Assembly.GetExecutingAssembly().GetTypes())
             {
                 if (t.GetInterface(typeof(IFxDataObject).Name) != null)
                 {
                     var fields = new List<FieldInfo>(t.GetFields(BindingFlags.Static | BindingFlags.SetField | BindingFlags.Public).Where(f => Utils.HasAtr<TableRecordAttribute>(f)));
                     if (fields.Count > 0)
                     {
-                        var items = (IEnumerable) DatabaseModel.FIXED_METHOD.MakeGenericMethod(new[] {t}).Invoke(DB, Type.EmptyTypes);
+                        var items = (IEnumerable)DatabaseModel.FIXED_METHOD.MakeGenericMethod(new[] { t }).Invoke(DB, Type.EmptyTypes);
                         foreach (var f in fields)
                         {
                             var atr = f.GetAtr<TableRecordAttribute>();
@@ -114,16 +115,17 @@ namespace IUDICO.DataModel
         {
             get
             {
-                return ByLogin(((CustomUser) Membership.GetUser()).Login); // To get the latest version
+                var mu = Membership.GetUser();
+                return mu != null ? ByLogin(((CustomUser)mu).Login) : null; // To get the latest version
             }
         }
 
         public CustomUser ByLogin(string login)
         {
-//            CustomUser res;
+            //            CustomUser res;
             // TODO: Fix User caching
-//            if (HttpRuntime.Cache.TryGet(login, out res))
-//                return res;
+            //            if (HttpRuntime.Cache.TryGet(login, out res))
+            //                return res;
 
             var users = ServerModel.DB.Query<TblUsers>(
                 new CompareCondition<string>(
@@ -132,20 +134,20 @@ namespace IUDICO.DataModel
                     COMPARE_KIND.EQUAL));
 
             if (users.Count == 0)
-                        return null;
+                return null;
 
             return CreateUser(users[0]);
-//            DoCache(res);
+            //            DoCache(res);
         }
 
         public CustomUser ByEmail(string email)
         {
             // TODO: Fix User caching
-//            CustomUser res = CachedUsers.Find(u => u.Email == email);
-//            if (res != null)
-//            {
-//                return res;
-//            }
+            //            CustomUser res = CachedUsers.Find(u => u.Email == email);
+            //            if (res != null)
+            //            {
+            //                return res;
+            //            }
 
             var users = ServerModel.DB.Query<TblUsers>(
                 new CompareCondition<string>(
@@ -156,11 +158,11 @@ namespace IUDICO.DataModel
                 return null;
 
             return CreateUser(users[0]);
-//            DoCache(res);
-            }
+            //            DoCache(res);
+        }
 
         private static CustomUser CreateUser(TblUsers user)
-                    {
+        {
             var roleIDs = ServerModel.DB.LookupMany2ManyIds<FxRoles>(user, null);
             var roles = new List<string>(ServerModel.DB.Load<FxRoles>(roleIDs).Select(r => r.Name));
             return new CustomUser(user.ID, user.FirstName, user.LastName, user.Login, user.PasswordHash, user.Email, roles);

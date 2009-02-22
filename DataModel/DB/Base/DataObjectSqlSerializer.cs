@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 using System.Data.SqlClient;
@@ -97,7 +98,7 @@ namespace IUDICO.DataModel.DB.Base
             {
                 if (__CacheDepCommandConnection == null)
                 {
-                    __CacheDepCommandConnection = (SqlConnection)ServerModel.DB.GetConnectionSafe();
+                    __CacheDepCommandConnection = ServerModel.AcruireOpenedConnection();
                 }
                 var c = new SqlCommand(string.Format("SELECT * FROM [{0}]", TableName), __CacheDepCommandConnection);
                 return new SqlCacheDependency(c);
@@ -258,6 +259,16 @@ namespace IUDICO.DataModel.DB.Base
             context.Write(" sysState = 1 WHERE ID = ");
             context.Write(id.ToString());
             context.Next();
+            if (typeof(TDataObject).IsAssignableFrom(typeof(TblUsers)))
+            {
+                context.Write(DataObjectSqlSerializer<TblPermissions>.UpdateSqlHeader + "sysState = 1 WHERE " + DataObject.Schema.OwnerUserRef.PropertyName + " = " + id);
+                context.Next();
+                
+            } else if (typeof(TDataObject).IsAssignableFrom(typeof(TblGroups)))
+            {
+                context.Write(DataObjectSqlSerializer<TblPermissions>.UpdateSqlHeader + "sysState = 1 WHERE " + DataObject.Schema.OwnerGroupRef.PropertyName + " = " + id);
+                context.Next();
+            }
             LookupHelper.AppendMMUnlinkAllSqlSafe<TDataObject>(context, id);
             
         }
@@ -268,8 +279,19 @@ namespace IUDICO.DataModel.DB.Base
             {
                 throw new ArgumentException("Collection cannot be empty", "objs");
             }
-            context.Write(UpdateSqlHeader + " sysState = 1 WHERE ID IN " + SqlUtils.WrapArc(objs.ConcatComma()));
+            var objIDs = SqlUtils.WrapArc(objs.ConcatComma());
+            context.Write(UpdateSqlHeader + " sysState = 1 WHERE ID IN " + objIDs);
             context.Next();
+            if (typeof(TDataObject).IsAssignableFrom(typeof(TblUsers)))
+            {
+                context.Write(DataObjectSqlSerializer<TblPermissions>.UpdateSqlHeader + "sysState = 1 WHERE " + DataObject.Schema.OwnerUserRef.PropertyName + " IN " + objIDs);
+                context.Next();
+                
+            } else if (typeof(TDataObject).IsAssignableFrom(typeof(TblGroups)))
+            {
+                context.Write(DataObjectSqlSerializer<TblPermissions>.UpdateSqlHeader + "sysState = 1 WHERE " + DataObject.Schema.OwnerGroupRef.PropertyName + " IN " + objIDs);
+                context.Next();
+            }
             foreach (var i in objs)
             {
                 LookupHelper.AppendMMUnlinkAllSqlSafe<TDataObject>(context, i);   

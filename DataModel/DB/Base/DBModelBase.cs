@@ -186,9 +186,6 @@ namespace IUDICO.DataModel.DB.Base
         IList<TDataObject> Load<TDataObject>(IList<int> ids)
             where TDataObject : class, IIntKeyedDataObject, new();
 
-        IList<TDataObject> LoadRange<TDataObject>(int from, int to)
-            where TDataObject : class, IIntKeyedDataObject, new();
-
         void Delete<TDataObject>(int id)
             where TDataObject : class, IIntKeyedDataObject, new();
 
@@ -201,13 +198,10 @@ namespace IUDICO.DataModel.DB.Base
         ReadOnlyCollection<TFxDataObject> Fx<TFxDataObject>()
             where TFxDataObject : class, IFxDataObject;
 
-        List<TDataObject> FullCached<TDataObject>()
-            where TDataObject : class, IDataObject, new();
-
         List<TDataObject> Query<TDataObject>([CanBeNull] IDBPredicate cond)
             where TDataObject : IDataObject, new();
 
-        TDataObject QuerySingle<TDataObject>([NotNull] IDBPredicate cond)
+        TDataObject QuerySingleOrDefault<TDataObject>([NotNull] IDBPredicate cond)
             where TDataObject : IDataObject, new();
 
         List<int> LookupIds<TDataObject>([NotNull]IIntKeyedDataObject owner, [CanBeNull] IDBPredicate condition)
@@ -218,8 +212,5 @@ namespace IUDICO.DataModel.DB.Base
         void Link(IIntKeyedDataObject do1, IIntKeyedDataObject do2);
 
         void UnLink(IIntKeyedDataObject do1, IIntKeyedDataObject do2);
-
-        int Count<TDataObject>()
-            where TDataObject : IDataObject, new();
     }
 }

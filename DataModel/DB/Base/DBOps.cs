@@ -15,7 +15,7 @@ namespace IUDICO.DataModel.DB.Base
         {
             if (conds.Length <= 1)
                 throw new ArgumentException("AndCondition constructor cannot be created with no subcondition or with only one. You must provide at least two conditions");
-            _Conds = conds;
+            _Conds = new List<IDBPredicate>(conds);
         }
 
         public void Write(SqlSerializationContext context)
@@ -37,7 +37,12 @@ namespace IUDICO.DataModel.DB.Base
             context.Write(")");
         }
 
-        private readonly IDBPredicate[] _Conds;
+        public void Append(IDBPredicate cond)
+        {
+            _Conds.Add(cond);    
+        }
+
+        private readonly List<IDBPredicate> _Conds;
     }
 
     public class OrCondtion : MultipleCondtion

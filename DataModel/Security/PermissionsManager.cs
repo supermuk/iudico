@@ -112,14 +112,22 @@ namespace IUDICO.DataModel.Security
 
         public static IList<int> GetUsersForObject(SECURED_OBJECT_TYPE objectType, int objectID, int? operationID, DateTime? targetDate)
         {
-            var prms = ServerModel.DB.Query<TblPermissions>(GetQueryForObject(objectType, objectID, operationID, targetDate));
-            return new List<int>(from p in prms where p.OwnerUserRef.HasValue select p.OwnerUserRef.Value);
+            var condtion = GetQueryForObject(objectType, objectID, operationID, targetDate);
+            condtion.Append(new IsNotNullCondition<int>(DataObject.Schema.OwnerUserRef));
+            var prms = ServerModel.DB.Query<TblPermissions>(condtion);
+            var res = new List<int>(prms.Select(p => p.OwnerUserRef.Value));
+            res.RemoveDuplicates();
+            return res;
         }
 
         public static IList<int> GetGroupsForObject(SECURED_OBJECT_TYPE objectType, int objectID, int? operationID, DateTime? targetDate)
         {
-            var prms = ServerModel.DB.Query<TblPermissions>(GetQueryForObject(objectType, objectID, operationID, targetDate));
-            return new List<int>(from p in prms where p.OwnerGroupRef.HasValue select p.OwnerGroupRef.Value);
+            var condtion = GetQueryForObject(objectType, objectID, operationID, targetDate);
+            condtion.Append(new IsNotNullCondition<int>(DataObject.Schema.OwnerGroupRef));
+            var prms = ServerModel.DB.Query<TblPermissions>(condtion);
+            var res = new List<int>(prms.Select(p => p.OwnerGroupRef.Value));
+            res.RemoveDuplicates();
+            return res;
         }
 
         public static void Grand([NotNull] ISecuredDataObject dataObject, [NotNull]IFxDataObject operation, int? userID, int? groupID, DateTimeInterval interval)
@@ -141,7 +149,7 @@ namespace IUDICO.DataModel.Security
             ServerModel.DB.Insert(p);
         }
 
-        public static void Initialize([NotNull] DbConnection connection)
+        public static void Initialize()
         {
             using (Logger.Scope("Initializing Security"))
             {
@@ -151,26 +159,29 @@ namespace IUDICO.DataModel.Security
                 }
                 ID = Guid.NewGuid();
 
-                using (var c = connection.CreateCommand())
+                using (var cn = ServerModel.AcruireOpenedConnection())
                 {
-                    CreateDBVersionFunc(c);
-
-                    foreach (var f in typeof(SECURED_OBJECT_TYPE).GetFields())
+                    using (var c = cn.CreateCommand())
                     {
-                        if (f.IsSpecialName)
-                            continue;
+                        CreateDBVersionFunc(c);
 
-                        Logger.WriteLine(f.Name);
+                        foreach (var f in typeof(SECURED_OBJECT_TYPE).GetFields())
+                        {
+                            if (f.IsSpecialName)
+                                continue;
 
-                        var a = f.GetAtr<SecuredObjectTypeAttribute>();
-                        CheckSupport(a.RuntimeClass, typeof (ISecuredDataObject));
-                        CheckSupport(a.OperationsClass, typeof (IFxDataObject));
-                        CheckSupport(a.OperationsClass, typeof(INamedDataObject));
+                            Logger.WriteLine(f.Name);
 
-                        CreateGetOperationsForObjectProc(a, c);
-                        CreateGetPermissionsForUser(a, c);
-                        CreateCheckPermissionProc(a, c);
-                        CreateGetPermissionsForGroup(a, c);
+                            var a = f.GetAtr<SecuredObjectTypeAttribute>();
+                            CheckSupport(a.RuntimeClass, typeof (ISecuredDataObject));
+                            CheckSupport(a.OperationsClass, typeof (IFxDataObject));
+                            CheckSupport(a.OperationsClass, typeof(INamedDataObject));
+
+                            CreateGetOperationsForObjectProc(a, c);
+                            CreateGetPermissionsForUser(a, c);
+                            CreateCheckPermissionProc(a, c);
+                            CreateGetPermissionsForGroup(a, c);
+                        }
                     }
                 }
             }
@@ -270,7 +281,7 @@ namespace IUDICO.DataModel.Security
             return new ReadOnlyCollection<DataObjectOperationInfo>(res);
         }
 
-        private static IDBPredicate GetQueryForObject(SECURED_OBJECT_TYPE objectType, int objectID, int? operationID, DateTime? targetDate)
+        private static AndCondtion GetQueryForObject(SECURED_OBJECT_TYPE objectType, int objectID, int? operationID, DateTime? targetDate)
         {
             var name = objectType.GetSecurityAtr().Name;
 
