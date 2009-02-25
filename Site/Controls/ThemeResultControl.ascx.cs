@@ -10,9 +10,9 @@ using TestingSystem;
 
 public partial class ThemeResultControl : System.Web.UI.UserControl
 {
-    private const string pageDetailsUrl = "../TestDetails.aspx?pageId={0}";
+    private const string pageDetailsUrl = "../Student/TestDetails.aspx?pageId={0}";
 
-    private const string compiledDetailsUrl = "../CompiledQuestionsDetails.aspx?pageId={0}";
+    private const string compiledDetailsUrl = "../Student/CompiledQuestionsDetails.aspx?pageId={0}";
 
     private static bool isContainCompiledQuestions;
 

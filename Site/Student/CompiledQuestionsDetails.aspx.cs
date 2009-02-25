@@ -40,7 +40,7 @@ public partial class CompiledQuestionsDetails : ControlledPage<CompiledQuestions
         {
             if (question.IsCompiled)
             {
-                var cqr = (CompiledQuestionResult)LoadControl("~/Controls/CompiledQuestionResult.ascx");
+                var cqr = (CompiledQuestionResult)LoadControl("../Controls/CompiledQuestionResult.ascx");
                 cqr.Question = question;
                 placeHolder.Controls.Add(cqr);
             }
