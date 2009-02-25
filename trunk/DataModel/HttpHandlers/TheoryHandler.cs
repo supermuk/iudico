@@ -10,7 +10,7 @@ namespace IUDICO.DataModel.HttpHandlers
         {
             var theoryPageId = int.Parse(context.Request[pageIdRequestParameter]);
             var page = ServerModel.DB.Load<TblPages>(theoryPageId);
-            var html = Encoding.Default.GetString(page.PageFile.ToArray());
+            var html = Encoding.GetEncoding(1251).GetString(page.PageFile.ToArray());
             context.Response.Write(changeImageUrl(html, page));
         }
 

@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CompiledQuestionsDetails.aspx.cs" Inherits="CompiledQuestionsDetails" Title="Compiled Question Statistic"%>
-<%@ Reference Control="./Controls/CompiledQuestionResult.ascx"%>
+<%@ Reference Control="../Controls/CompiledQuestionResult.ascx"%>
 <script runat="server">
 
 </script>

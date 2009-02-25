@@ -18,7 +18,7 @@ namespace IUDICO.DataModel.WebControl
         public WebPage(string pathToPage)
         {
             var doc = new XmlDocument();
-            doc.LoadXml(File.ReadAllText(pathToPage, Encoding.Default));
+            doc.LoadXml(File.ReadAllText(pathToPage, Encoding.GetEncoding(1251)));
             if (doc.DocumentElement != null)
             {
                 SetAnswerIndexes(doc.DocumentElement);
@@ -118,7 +118,7 @@ namespace IUDICO.DataModel.WebControl
 
             sw.Close();
 
-            byteRepresentation = Encoding.Default.GetBytes(sw.GetStringBuilder().ToString());
+            byteRepresentation = Encoding.GetEncoding(1251).GetBytes(sw.GetStringBuilder().ToString());
 
             QuestionManager.Import(pageRef, answerNode, controls, pathToTempCourseFolder);
         }

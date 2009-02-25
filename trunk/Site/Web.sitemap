@@ -6,7 +6,7 @@
       <siteMapNode title="My Personal Info" url="~/User/MyInfo.aspx"/>
       <siteMapNode url="~/User/MyPermissions.aspx" title="My permissions" />
     </siteMapNode>
-    <siteMapNode title="Student" roles="STUDENT" url="~/StudentPage.aspx">
+    <siteMapNode title="Student" roles="STUDENT" url="~/Student/StudentPage.aspx">
     </siteMapNode>
     <siteMapNode title="Trainer" roles="TRAINER">
     </siteMapNode>
