@@ -3,8 +3,20 @@
 
 <asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="Server">
     <asp:Label ID="Label_Notify" runat="server"></asp:Label>
-    <asp:BulletedList ID="BulletedList_Groups" runat="server">
-    </asp:BulletedList>
-    <asp:Button ID="Button_Delete" runat="server" Text="Delete" />
-    <asp:Button ID="Button_Back" runat="server" Text="Back" />
+    <table>
+        <tr>
+            <td rowspan="2">
+                <asp:BulletedList ID="BulletedList_Groups" runat="server">
+                </asp:BulletedList>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Button ID="Button_Delete" runat="server" Text="Delete" />
+            </td>
+            <td>
+                <asp:Button ID="Button_Back" runat="server" Text="Back" />
+            </td>
+        </tr>
+    </table>
 </asp:Content>

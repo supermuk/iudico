@@ -13,8 +13,8 @@ namespace IUDICO.DataModel.Controllers
         public TreeView CurriculumTree { get; set; }
         public Table TimeTable { get; set; }
         public Label NotifyLabel { get; set; }
-
-        public DropDownList OperationList { get; set; }
+        public Button AddOperationButton { get; set; }
+        public DropDownList OperationDropDownList { get; set; }
 
         [ControllerParameter]
         public int GroupID;
@@ -22,14 +22,20 @@ namespace IUDICO.DataModel.Controllers
         public int CurriculumID;
 
         private TblGroups group;
+        private TblCurriculums curriculum;
+
+        private const string noNodeSelected = "Select node to modify";
 
         public void PageLoad(object sender, EventArgs e)
         {
             group = ServerModel.DB.Load<TblGroups>(GroupID);
+            curriculum = ServerModel.DB.Load<TblCurriculums>(CurriculumID);
             CurriculumTree.SelectedNodeChanged += new EventHandler(CurriculumTree_SelectedNodeChanged);
+            OperationDropDownList.SelectedIndexChanged += new EventHandler(OperationDropDownList_SelectedIndexChanged);
+            AddOperationButton.Click += new EventHandler(AddOperationButton_Click);
             if (!(sender as Page).IsPostBack)
             {
-                TblCurriculums curriculum = ServerModel.DB.Load<TblCurriculums>(CurriculumID);
+
                 NotifyLabel.Text = "Detailed timeline for curriculum: " + curriculum.Name + " for group: " + group.Name;
                 fillCurriculumTree();
             }
@@ -42,6 +48,73 @@ namespace IUDICO.DataModel.Controllers
 
         }
 
+        void OperationDropDownList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedIndex = OperationDropDownList.SelectedIndex;
+        }
+
+        public void PagePreRender(object sender, EventArgs e)
+        {
+            CurriculumTree_SelectedNodeChanged(CurriculumTree, EventArgs.Empty);
+        }
+
+        void AddOperationButton_Click(object sender, EventArgs e)
+        {
+            IdendtityNode selectedNode = CurriculumTree.SelectedNode as IdendtityNode;
+            if (selectedNode == null)
+            {
+                NotifyLabel.Text = noNodeSelected;
+                return;
+            }
+            switch (selectedNode.Type)
+            {
+                case NodeType.Curriculum:
+                    {
+                        TblCurriculums curriculum = ServerModel.DB.Load<TblCurriculums>(selectedNode.ID);
+                        FxCurriculumOperations operation = ServerModel.DB.Load<FxCurriculumOperations>(int.Parse(OperationDropDownList.SelectedValue));
+                        TblPermissions permission = TeacherHelper.GroupPermissionsForCurriculum(group, curriculum, operation);
+                        if (permission != null)
+                        {
+                            NotifyLabel.Text = "Group aready have permission to " + operation.Name;
+                        }
+                        else
+                        {
+                            PermissionsManager.Grand(curriculum, operation, null, group.ID, DateTimeInterval.Full);
+                        }
+                        break;
+                    }
+                case NodeType.Stage:
+                    {
+                        TblStages stage = ServerModel.DB.Load<TblStages>(selectedNode.ID);
+                        FxStageOperations operation = ServerModel.DB.Load<FxStageOperations>(int.Parse(OperationDropDownList.SelectedValue));
+                        TblPermissions permission = TeacherHelper.GroupPermissionsForStage(group, stage, operation);
+                        if (permission != null)
+                        {
+                            NotifyLabel.Text = "Group aready have permission to " + operation.Name;
+                        }
+                        else
+                        {
+                            PermissionsManager.Grand(stage, operation, null, group.ID, DateTimeInterval.Full);
+                        }
+                        break;
+                    }
+                case NodeType.Theme:
+                    {
+                        buildStageTable(ServerModel.DB.Load<TblStages>((selectedNode.Parent as IdendtityNode).ID));
+                        OperationDropDownList.Items.Clear();
+                        OperationDropDownList.Items.Add(new ListItem(FxStageOperations.Pass.Name, FxStageOperations.Pass.ID.ToString()));
+                        OperationDropDownList.Items.Add(new ListItem(FxStageOperations.View.Name, FxStageOperations.View.ID.ToString()));
+                        selectedNode.Parent.Select();
+                        break;
+                    }
+            }
+        }
+
+        [PersistantField]
+        bool curriculumOperations;
+        [PersistantField]
+        int selectedIndex;
+
         private void CurriculumTree_SelectedNodeChanged(object sender, EventArgs e)
         {
             IdendtityNode selectedNode = CurriculumTree.SelectedNode as IdendtityNode;
@@ -50,16 +123,33 @@ namespace IUDICO.DataModel.Controllers
                 case NodeType.Curriculum:
                     {
                         buildCurriculumTable(ServerModel.DB.Load<TblCurriculums>(selectedNode.ID));
+                        if (!curriculumOperations)
+                        {
+                            OperationDropDownList.Items.Clear();
+                            OperationDropDownList.Items.Add(new ListItem(FxCurriculumOperations.Pass.Name, FxCurriculumOperations.Pass.ID.ToString()));
+                            OperationDropDownList.Items.Add(new ListItem(FxCurriculumOperations.View.Name, FxCurriculumOperations.View.ID.ToString()));
+                            curriculumOperations = true;
+                        }
                         break;
                     }
                 case NodeType.Stage:
                     {
                         buildStageTable(ServerModel.DB.Load<TblStages>(selectedNode.ID));
+                        if (curriculumOperations)
+                        {
+                            OperationDropDownList.Items.Clear();
+                            OperationDropDownList.Items.Add(new ListItem(FxStageOperations.Pass.Name, FxStageOperations.Pass.ID.ToString()));
+                            OperationDropDownList.Items.Add(new ListItem(FxStageOperations.View.Name, FxStageOperations.View.ID.ToString()));
+                            curriculumOperations = false;
+                        }
                         break;
                     }
                 case NodeType.Theme:
                     {
                         buildStageTable(ServerModel.DB.Load<TblStages>((selectedNode.Parent as IdendtityNode).ID));
+                        OperationDropDownList.Items.Clear();
+                        OperationDropDownList.Items.Add(new ListItem(FxStageOperations.Pass.Name, FxStageOperations.Pass.ID.ToString()));
+                        OperationDropDownList.Items.Add(new ListItem(FxStageOperations.View.Name, FxStageOperations.View.ID.ToString()));
                         selectedNode.Parent.Select();
                         break;
                     }
@@ -69,10 +159,8 @@ namespace IUDICO.DataModel.Controllers
         private void buildCurriculumTable(TblCurriculums curriculum)
         {
             buildHeaderRow();
-            FxCurriculumOperations[] operations =
-                new FxCurriculumOperations[] { FxCurriculumOperations.View, FxCurriculumOperations.Pass };
 
-            foreach (FxCurriculumOperations operation in operations)
+            foreach (FxCurriculumOperations operation in TeacherHelper.GroupOperationsForCurriculum(group, curriculum))
             {
                 TimeTable.Rows.Add(buildOperationRow(curriculum.ID, operation.ID, SECURED_OBJECT_TYPE.CURRICULUM));
             }
@@ -81,10 +169,8 @@ namespace IUDICO.DataModel.Controllers
         private void buildStageTable(TblStages stage)
         {
             buildHeaderRow();
-            FxStageOperations[] operations =
-                new FxStageOperations[] { FxStageOperations.View, FxStageOperations.Pass };
 
-            foreach (FxStageOperations operation in operations)
+            foreach (FxStageOperations operation in TeacherHelper.GroupOperationsForStage(group, stage))
             {
                 TimeTable.Rows.Add(buildOperationRow(stage.ID, operation.ID, SECURED_OBJECT_TYPE.STAGE));
             }
@@ -105,17 +191,17 @@ namespace IUDICO.DataModel.Controllers
         private void buildHeaderRow()
         {
             TimeTable.Rows.Clear();
-            TableRow headerRow = new TableRow();
+            TableHeaderRow headerRow = new TableHeaderRow();
 
-            TableCell headerCell = new TableCell();
+            TableHeaderCell headerCell = new TableHeaderCell();
             headerCell.Text = "Operation";
             headerRow.Cells.Add(headerCell);
 
-            headerCell = new TableCell();
+            headerCell = new TableHeaderCell();
             headerCell.Text = "Time";
             headerRow.Cells.Add(headerCell);
 
-            headerCell = new TableCell();
+            headerCell = new TableHeaderCell();
             headerCell.Text = "";
             headerRow.Cells.Add(headerCell);
 
@@ -243,6 +329,7 @@ namespace IUDICO.DataModel.Controllers
             return operationRow;
         }
 
+        // "magic" words
         readonly string minDateTime = (new DateTime(1753, 1, 1, 0, 0, 0)).ToString();
         readonly string maxDateTime = (new DateTime(9999, 12, 31, 23, 59, 59)).ToString();
         private const string curriculumChar = "c";
@@ -265,7 +352,8 @@ namespace IUDICO.DataModel.Controllers
             FxCurriculumOperations operation = ServerModel.DB.Load<FxCurriculumOperations>(operationID);
             TblPermissions permission = TeacherHelper.GroupPermissionsForCurriculum(group, curriculum, operation);
 
-            RemovePermission(permission, curriculumID, operationID, button);
+            ServerModel.DB.Delete<TblPermissions>(permission.ID);
+            //RemovePermission(permission, curriculumID, operationID, button);
         }
 
         private void RemoveStageButton_Click(object sender, EventArgs e)
@@ -280,22 +368,8 @@ namespace IUDICO.DataModel.Controllers
             FxStageOperations operation = ServerModel.DB.Load<FxStageOperations>(operationID);
             TblPermissions permission = TeacherHelper.GroupPermissionsForStage(group, stage, operation);
 
-            RemovePermission(permission, stageID, operationID, button);
-        }
-
-        private void RemoveThemeButton_Click(object sender, EventArgs e)
-        {
-            Button button = sender as Button;
-            int themeID = int.Parse(button.ID.Split
-                (new string[] { removeChar, themeChar }, StringSplitOptions.RemoveEmptyEntries)[0]);
-            int operationID = int.Parse(button.ID.Split
-                (new string[] { removeChar, themeChar }, StringSplitOptions.RemoveEmptyEntries)[1]);
-
-            TblThemes theme = ServerModel.DB.Load<TblThemes>(themeID);
-            FxThemeOperations operation = ServerModel.DB.Load<FxThemeOperations>(operationID);
-            TblPermissions permission = TeacherHelper.GroupPermissionsForTheme(group, theme, operation);
-
-            RemovePermission(permission, themeID, operationID, button);
+            ServerModel.DB.Delete<TblPermissions>(permission.ID);
+            //RemovePermission(permission, stageID, operationID, button);
         }
 
         private void RemovePermission(TblPermissions permission, int dataObjectId, int operationId, Button senderButton)
@@ -341,21 +415,6 @@ namespace IUDICO.DataModel.Controllers
             TblPermissions permission = TeacherHelper.GroupPermissionsForStage(group, stage, operation);
 
             ApplyPermission(permission, stage.ID, operation.ID, button);
-        }
-
-        private void ApppyThemeButton_Click(object sender, EventArgs e)
-        {
-            Button button = sender as Button;
-            int themeID = int.Parse(button.ID.Split
-                (new string[] { applyChar, themeChar }, StringSplitOptions.RemoveEmptyEntries)[0]);
-            int operationID = int.Parse(button.ID.Split
-                (new string[] { applyChar, themeChar }, StringSplitOptions.RemoveEmptyEntries)[1]);
-
-            TblThemes theme = ServerModel.DB.Load<TblThemes>(themeID);
-            FxThemeOperations operation = ServerModel.DB.Load<FxThemeOperations>(operationID);
-            TblPermissions permission = TeacherHelper.GroupPermissionsForTheme(group, theme, operation);
-
-            ApplyPermission(permission, theme.ID, operation.ID, button);
         }
 
         private void ApplyPermission(TblPermissions permission, int dataObjectId, int operationId, Button senderButton)

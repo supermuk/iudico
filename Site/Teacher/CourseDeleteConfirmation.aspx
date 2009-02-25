@@ -3,8 +3,22 @@
 
 <asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="Server">
     <asp:Label ID="Label_Notify" runat="server"></asp:Label>
-    <asp:GridView ID="GridView_Dependencies" runat="server">
-    </asp:GridView>
-    <asp:Button ID="Button_Delete" runat="server" Text="Delete" />
-    <asp:Button ID="Button_Back" runat="server" Text="Back" />
+    <table>
+        <tr>
+            <td rowspan="2">
+                <asp:GridView ID="GridView_Dependencies" runat="server">
+                </asp:GridView>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Button ID="Button_Delete" runat="server" Text="Delete" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Button ID="Button_Back" runat="server" Text="Back" />
+            </td>
+        </tr>
+    </table>
 </asp:Content>

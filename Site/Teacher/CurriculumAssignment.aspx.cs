@@ -12,8 +12,11 @@ public partial class Teacher_CurriculumAssignment : ControlledPage<CurriculumAss
     protected override void BindController(CurriculumAssignmentController c)
     {
         base.BindController(c);
-
+        
         c.AssigmentsTable = Table_Assignments;
+        c.MainTable = Table_Main;
+        c.NotifyLabel = Label_Notify;
+
         Load += c.PageLoad;
     }
 }
