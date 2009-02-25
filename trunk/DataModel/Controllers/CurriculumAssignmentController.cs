@@ -15,11 +15,24 @@ namespace IUDICO.DataModel.Controllers
     public class CurriculumAssignmentController : ControllerBase
     {
         public Table AssigmentsTable { get; set; }
+        public Table MainTable { get; set; }
+        public Label NotifyLabel { get; set; }
+
         private string rawUrl;
+
+        //"magic words"
+        private const string pageDescription = "This is curriculum assignment page.";
+        private const string noCurriculums = "You have no curriculums to assign. Create some first";
+        private const string noGroups = "You have no groups to assign. Create some first";
+        private const string neitherCurriculumsNorGroup = "You have neither groups nor curriculums to assign. Create some first";
+        private const char assignChar = 'a';
+        private const char modifyChar = 'm';
+        private const char unsignChar = 'u';
 
         public void PageLoad(object sender, EventArgs e)
         {
             rawUrl = (sender as Page).Request.RawUrl;
+            NotifyLabel.Text = pageDescription;
             fillAssigmentsTable();
         }
 
@@ -33,7 +46,7 @@ namespace IUDICO.DataModel.Controllers
             headerRow.Cells.Add(emptyHeaderCell);
             foreach (TblGroups group in ServerModel.DB.Query<TblGroups>(null))
             {
-                TableCell headerCell = new TableCell();
+                TableHeaderCell headerCell = new TableHeaderCell();
                 headerCell.Text = group.Name;
                 headerRow.Cells.Add(headerCell);
             }
@@ -42,7 +55,7 @@ namespace IUDICO.DataModel.Controllers
             foreach (TblCurriculums curriculum in TeacherHelper.MyCurriculums(FxCurriculumOperations.Use))
             {
                 TableRow curriculumRow = new TableRow();
-                TableCell curriculumHeaderCell = new TableCell();
+                TableHeaderCell curriculumHeaderCell = new TableHeaderCell();
                 curriculumHeaderCell.Text = curriculum.Name;
 
                 curriculumRow.Cells.Add(curriculumHeaderCell);
@@ -80,7 +93,7 @@ namespace IUDICO.DataModel.Controllers
                         assignButton.ID = group.ID.ToString() + assignChar + curriculum.ID;
                         assignButton.Click += new EventHandler(assignButton_Click);
                         assignButton.Text = "Assign";
-                        
+
                         curriculumCell.Controls.Add(assignButton);
                     }
 
@@ -88,11 +101,29 @@ namespace IUDICO.DataModel.Controllers
                 }
                 AssigmentsTable.Rows.Add(curriculumRow);
             }
-        }
 
-        private const char assignChar = 'a';
-        private const char modifyChar = 'm';
-        private const char unsignChar = 'u';
+            if (AssigmentsTable.Rows.Count == 1)
+            {
+                if (AssigmentsTable.Rows[0].Cells.Count == 1)
+                {
+                    NotifyLabel.Text = neitherCurriculumsNorGroup;
+                    MainTable.Visible = false;
+                }
+                else
+                {
+                    NotifyLabel.Text = noCurriculums;
+                    MainTable.Visible = false;
+                }
+            }
+            else
+            {
+                if (AssigmentsTable.Rows[0].Cells.Count == 1)
+                {
+                    NotifyLabel.Text = noGroups;
+                    MainTable.Visible = false;
+                }
+            }
+        }
 
         private void assignButton_Click(object sender, EventArgs e)
         {

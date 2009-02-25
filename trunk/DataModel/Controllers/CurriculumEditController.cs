@@ -13,7 +13,6 @@ namespace IUDICO.DataModel.Controllers
 
         public TreeView CourseTree { get; set; }
         public TreeView CurriculumTree { get; set; }
-
         public Button CreateCurriculumButton { get; set; }
         public Button CreateStageButton { get; set; }
         public Button AddThemeButton { get; set; }
@@ -24,6 +23,10 @@ namespace IUDICO.DataModel.Controllers
         public Label NotifyLabel { get; set; }
 
         private string rawUrl;
+
+        //"magic words"
+        private const string pageDescription = "This is curriculum edit page page. Create/Edit/Delete your curriculum here.";
+        private const string noCourses = "You have no courses, upload some first.";
 
         public void PageLoad(object sender, EventArgs e)
         {
@@ -36,7 +39,7 @@ namespace IUDICO.DataModel.Controllers
             CurriculumTree.SelectedNodeChanged += new EventHandler(CurriculumTree_SelectedNodeChanged);
 
             rawUrl = (sender as Page).Request.RawUrl;
-            NotifyLabel.Text = "";
+            NotifyLabel.Text = pageDescription;
             if (!(sender as Page).IsPostBack)
             {
                 fillCourseTree();
@@ -213,7 +216,7 @@ namespace IUDICO.DataModel.Controllers
             CourseTree.ExpandAll();
             if (CourseTree.Nodes.Count == 0)
             {
-                NotifyLabel.Text = "You have no courses, upload some first.";
+                NotifyLabel.Text = noCourses;
             }
 
         }

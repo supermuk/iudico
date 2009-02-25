@@ -16,6 +16,8 @@ public partial class CourseEdit : ControlledPage<CourseEditController>
         c.DeleteButton = Button_Delete;
         c.CourseTree = TreeView_Courses;
 
+        Title = "Course Edit";
+
         Load += c.PageLoad;
 
         //Add postback trigger for file upload control

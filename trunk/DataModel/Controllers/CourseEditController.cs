@@ -24,6 +24,12 @@ namespace IUDICO.DataModel.Controllers
         private readonly ProjectPaths projectPaths = new ProjectPaths();
         private string rawUrl;
 
+        //"magic words"
+        private const string pageDescription = "This is course upload page. Please selected course, specify name and description and upload it.";
+        private const string uploadSucces = "Course was uploaded successfully.";
+        private const string uploadError = "Error occurred during course upload.";
+        private const string fileNotFound = "Specify course path.";
+
         public void PageLoad(object sender, EventArgs e)
         {
             //registering for events            
@@ -32,7 +38,7 @@ namespace IUDICO.DataModel.Controllers
             CourseTree.SelectedNodeChanged += new EventHandler(CourseTree_SelectedNodeChanged);
 
             rawUrl = (sender as Page).Request.RawUrl;
-            NotifyLabel.Text = "";
+            NotifyLabel.Text = pageDescription;
             if (!(sender as Page).IsPostBack)
             {
                 fillCourseTree();
@@ -84,16 +90,16 @@ namespace IUDICO.DataModel.Controllers
 
                     //update view
                     addCourseNode(course);
-                    NotifyLabel.Text = "Course was uploaded successfully.";
+                    NotifyLabel.Text = uploadSucces;
                 }
                 catch
                 {
-                    NotifyLabel.Text = "Error occurred during course upload.";
+                    NotifyLabel.Text = uploadError;
                 }
             }
             else
             {
-                NotifyLabel.Text = "Specify course path.";
+                NotifyLabel.Text = fileNotFound;
             }
         }
 

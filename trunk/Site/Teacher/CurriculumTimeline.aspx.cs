@@ -10,7 +10,10 @@ public partial class CurriculumTimeline : ControlledPage<CurriculumTimelineContr
         c.CurriculumTree = TreeView_Curriculum;
         c.TimeTable = Table_Time;
         c.NotifyLabel = Label_Notify;
+        c.OperationDropDownList = DropDownList_Operations;
+        c.AddOperationButton = Button_Add;
 
+        PreRender += c.PagePreRender;
         Load += c.PageLoad;
     }
 }
