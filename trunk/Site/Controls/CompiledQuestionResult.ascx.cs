@@ -28,12 +28,17 @@ public partial class CompiledQuestionResult : UserControl
 
         SetHeader(q.TestName, compiledQuestion);
 
-        var compiledData = ServerModel.DB.Load<TblCompiledQuestionsData>(ServerModel.DB.LookupIds<TblCompiledQuestionsData>(compiledQuestion, null));
-        var compileAnswer = GetCompiledAnswer(FindLatestUserAnswer(userAnswers));
-        
-        for (int i = 0; i < compiledData.Count; i++)
+        if (userAnswers.Count != 0)
         {
-            SetResults(compiledData[i], compileAnswer[i]);
+            var compiledData =
+                ServerModel.DB.Load<TblCompiledQuestionsData>(
+                    ServerModel.DB.LookupIds<TblCompiledQuestionsData>(compiledQuestion, null));
+            var compileAnswer = GetCompiledAnswer(FindLatestUserAnswer(userAnswers));
+
+            for (int i = 0; i < compiledData.Count; i++)
+            {
+                SetResults(compiledData[i], compileAnswer[i]);
+            }
         }
     }
 

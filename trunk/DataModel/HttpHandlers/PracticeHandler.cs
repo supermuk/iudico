@@ -22,7 +22,9 @@ namespace IUDICO.DataModel.HttpHandlers
             var path = Path.Combine(pathToTests, pageFileName);
            
             var url = context.Request.Url.ToString().Remove(context.Request.Url.ToString().LastIndexOf("/"));
-            var aspxPageText = Encoding.Default.GetString(page.PageFile.ToArray());
+            url = url.Remove(url.LastIndexOf("/"));    
+            
+            var aspxPageText = Encoding.GetEncoding(1251).GetString(page.PageFile.ToArray());
             
             File.WriteAllText(path, changeImageUrl(aspxPageText, page));
             context.Response.Redirect(string.Format("{0}/{1}/{2}", url, testsFolder, pageFileName));
