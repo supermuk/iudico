@@ -6,13 +6,13 @@ public partial class StudentPage : ControlledPage<StudentPageController>
     protected override void BindController(StudentPageController c)
     {
         base.BindController(c);
-        openTest.Click += c.openTestButton_Click;
-        showResult.Click += c.showResultButton_Click;
-        curriculumTreeView.SelectedNodeChanged += c.curriculumnTree_SelectionChanged;
-        rebuildTreeButton.Click += c.rebuildTreeButton_Click;
-        modeChangerButton.Click += c.modeButton_Click;
-        curriculumCalendar.SelectionChanged += c.selectedDateChanged;
-        Load += c.page_Load;
+        openTest.Click += c.OpenTestButton_Click;
+        showResult.Click += c.ShowResultButton_Click;
+        curriculumTreeView.SelectedNodeChanged += c.CurriculumnTree_SelectionChanged;
+        rebuildTreeButton.Click += c.RebuildTreeButton_Click;
+        modeChangerButton.Click += c.ModeButton_Click;
+        curriculumCalendar.SelectionChanged += c.SelectedDateChanged;
+        Load += c.Page_Load;
         c.ChangeModeButton = modeChangerButton;
         c.CurriculumnTreeView = curriculumTreeView;
         c.LastPagesResult = lastPagesResultTable;

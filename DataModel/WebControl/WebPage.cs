@@ -114,7 +114,7 @@ namespace IUDICO.DataModel.WebControl
         {
             var sw = new StringWriter(); 
 
-            ConstructPageCode(new HtmlTextWriter(sw), pageName);
+            ConstructPageCode(new HtmlTextWriter(sw), pageName, pageRef);
 
             sw.Close();
 
@@ -123,38 +123,39 @@ namespace IUDICO.DataModel.WebControl
             QuestionManager.Import(pageRef, answerNode, controls, pathToTempCourseFolder);
         }
 
-        private void ConstructPageCode(HtmlTextWriter w, string pageName)
+        private void ConstructPageCode(HtmlTextWriter w, string pageName,int pageId)
         {
             AddScriptHeader(w);
-            WriteHtml(w, pageName);
+            WriteHtml(w, pageName, pageId);
         }
 
-        private void WriteHtml(HtmlTextWriter w, string pageName)
+        private void WriteHtml(HtmlTextWriter w, string pageName, int pageId)
         {
             w.RenderBeginTag(HtmlTextWriterTag.Html);
             
             WriteHead(w, pageName);
 
-            WriteBody(w);
+            WriteBody(w, pageId);
 
             w.RenderEndTag();
         }
 
-        private void WriteBody(HtmlTextWriter w)
+        private void WriteBody(HtmlTextWriter w, int pageId)
         {
             w.RenderBeginTag(HtmlTextWriterTag.Body);
-            WriteForm(w);
+            WriteForm(w, pageId);
             w.RenderEndTag();
         }
 
-        private void WriteForm(HtmlTextWriter w)
+        private void WriteForm(HtmlTextWriter w, int pageId)
         {
             w.AddAttribute("runat", "server");
+            w.AddAttribute("OnLoad", "OnFormLoad");
             w.RenderBeginTag(HtmlTextWriterTag.Form);
 
             StoreControls(w);
 
-            WriteScript(w);
+            WriteScript(w, pageId);
 
             w.RenderEndTag();
         }
@@ -165,11 +166,11 @@ namespace IUDICO.DataModel.WebControl
                 c.Store(w);
         }
 
-        private void WriteScript(HtmlTextWriter w)
+        private void WriteScript(HtmlTextWriter w, int pageId)
         {
             w.AddAttribute("runat", "server");
             w.RenderBeginTag(HtmlTextWriterTag.Script);
-            w.WriteEncodedText(CreateCodeFile());
+            w.Write(CreateCodeFile(pageId));
             w.RenderEndTag();
         }
 
@@ -230,22 +231,72 @@ namespace IUDICO.DataModel.WebControl
             w.Write("<%@ Page Language=\"C#\" ValidateRequest=\"false\"%>");
         }
 
-        private string CreateCodeFile()
+        private string CreateCodeFile(int pageId)
         {
             var s = new StringBuilder();
-
-            s.AppendLine("void onClick(object sender, EventArgs e){" + "\n");
-            s.AppendFormat("IUDICO.DataModel.WebTest.Tester tester = new IUDICO.DataModel.WebTest.Tester();" + "\n");
-            foreach (IUDICO.DataModel.WebControl.WebControl t in Controls)
-            {
-                if (t is WebTestControl)
-                    s.AppendFormat("tester.AddTest(new {0});" + "\n",
-                                   (t as WebTestControl).CreateCodeForTest());
-            }
-            s.AppendLine("tester.Submit();" + "\n");
-            s.AppendLine("}");
-
+            AddAnswerFiller(s, pageId);
+            CreateOnFormLoadEvent(s);
+            CreateOnClickEvent(s);
+            
             return s.ToString();
+        }
+
+        private void CreateOnClickEvent(StringBuilder s)
+        {
+            s.AppendLine("void onClick(object sender, EventArgs e)");
+            s.AppendLine("{");
+                s.AppendLine("IUDICO.DataModel.WebTest.Tester tester = new IUDICO.DataModel.WebTest.Tester();");
+                foreach (IUDICO.DataModel.WebControl.WebControl t in Controls)
+                {
+                    if (t is WebTestControl)
+                        s.AppendFormat("tester.AddTest(new {0});",
+                                   (t as WebTestControl).CreateCodeForTest());
+                }
+                s.AppendLine();
+                s.AppendLine("tester.Submit();");
+                s.AppendLine("tester.NextTestPage(Response, Request[\"themeId\"], Request[\"pageIndex\"]);");
+            s.AppendLine("}");
+        }
+
+        private void CreateOnFormLoadEvent(StringBuilder s)
+        {
+            s.AppendLine("protected void OnFormLoad(object sender, EventArgs e)");
+            s.AppendLine("{");
+            s.AppendLine("if (Request[\"submit\"] != null)");
+                s.AppendLine("{");
+                    s.AppendLine("if (Request[\"submit\"] == \"false\")");
+                    s.AppendLine("{");
+            
+                    foreach (var t in Controls)
+                    {
+                        if (t is WebButton)
+                            s.AppendFormat("{0}.Enabled = false;", t.Name);
+                    }
+                    s.AppendLine("}");
+                    
+                    s.AppendLine("if (Request[\"answers\"] == \"true\")");
+                    s.AppendLine("{");
+                        s.AppendLine("WriteAnswers();");
+                    s.AppendLine("}");
+                s.AppendLine("}");
+            s.AppendLine("}");
+        }
+
+        private void AddAnswerFiller(StringBuilder s, int pageId)
+        {
+            s.AppendLine("void WriteAnswers()");
+            s.AppendLine("{");
+
+            const string answerFillerVaribleName = "answerFiller";
+
+            s.AppendFormat("IUDICO.DataModel.WebControl.AnswerFiller {0} = new IUDICO.DataModel.WebControl.AnswerFiller({1});", answerFillerVaribleName, pageId);
+            s.AppendLine();
+            foreach (var control in controls)
+            {
+                if(control is WebTestControl)
+                    s.AppendLine((control as WebTestControl).CreateAnswerFillerCode(answerFillerVaribleName));
+            }
+            s.AppendLine("}");
         }
     }
 }

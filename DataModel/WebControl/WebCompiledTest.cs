@@ -30,5 +30,10 @@ namespace IUDICO.DataModel.WebControl
         {
             return string.Format("IUDICO.DataModel.WebTest.CompiledTest({0}.Text, {1})", Name, testId);
         }
+
+        public override string CreateAnswerFillerCode(string answerFillerVaribleName)
+        {
+            return string.Empty;
+        }
     }
 }

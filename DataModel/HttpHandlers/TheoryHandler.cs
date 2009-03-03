@@ -11,7 +11,7 @@ namespace IUDICO.DataModel.HttpHandlers
             var theoryPageId = int.Parse(context.Request[pageIdRequestParameter]);
             var page = ServerModel.DB.Load<TblPages>(theoryPageId);
             var html = Encoding.GetEncoding(1251).GetString(page.PageFile.ToArray());
-            context.Response.Write(changeImageUrl(html, page));
+            context.Response.Write(ChangeImageUrl(html, page));
         }
 
         public override bool IsReusable

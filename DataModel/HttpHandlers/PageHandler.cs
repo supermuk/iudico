@@ -11,7 +11,7 @@ namespace IUDICO.DataModel.HttpHandlers
         private const string folderRegexGroup = "folder";
         private static readonly string imageFileRequest = string.Format("DisplayImage.iif?{0}=", imageIdRequestParameter);
 
-        protected static string changeImageUrl(string pageText, TblPages page)
+        protected static string ChangeImageUrl(string pageText, TblPages page)
         {
             var imageUrlRegex = new Regex(string.Format(@"src=""(?<{0}>(?<{1}>\w+.files)/(?<{2}>\w+.\w+))""", urlRegexGroup, folderRegexGroup, imageRegexGroup));
             MatchCollection matches = imageUrlRegex.Matches(pageText);

@@ -11,23 +11,46 @@ namespace IUDICO.DataModel.HttpHandlers
         public override void ProcessRequest(HttpContext context)
         {
             var testsFolder = "Tests";
-            var practicePageId = int.Parse(context.Request.QueryString[pageIdRequestParameter]);
-            var page = ServerModel.DB.Load<TblPages>(practicePageId);
+
+            TblPages page = GetPage(context);
             var pathToTests = Path.Combine(context.Request.PhysicalApplicationPath, testsFolder);
             
-            if (!Directory.Exists(pathToTests))
-                Directory.CreateDirectory(pathToTests);
+            CreateTestsDirectory(pathToTests);
 
             var pageFileName = page.PageName + FileExtentions.Aspx;
             var path = Path.Combine(pathToTests, pageFileName);
            
+            string url = GetUrl(context);
+
+            WritePageToFile(page, path);
+            context.Response.Redirect(string.Format("{0}/{1}/{2}?submit={3}&answers={4}&themeId={5}&pageIndex={6}",
+                url, testsFolder, pageFileName, context.Request["submit"], context.Request["answers"], context.Request["themeId"], context.Request["pageIndex"]));
+        }
+
+        private static void CreateTestsDirectory(string pathToTests)
+        {
+            if (!Directory.Exists(pathToTests))
+                Directory.CreateDirectory(pathToTests);
+        }
+
+        private static string GetUrl(HttpContext context)
+        {
             var url = context.Request.Url.ToString().Remove(context.Request.Url.ToString().LastIndexOf("/"));
-            url = url.Remove(url.LastIndexOf("/"));    
-            
+            url = url.Remove(url.LastIndexOf("/"));
+            return url;
+        }
+
+        private static TblPages GetPage(HttpContext context)
+        {
+            var practicePageId = int.Parse(context.Request[pageIdRequestParameter]);
+            return ServerModel.DB.Load<TblPages>(practicePageId);
+        }
+
+        private static void WritePageToFile(TblPages page, string path)
+        {
             var aspxPageText = Encoding.GetEncoding(1251).GetString(page.PageFile.ToArray());
             
-            File.WriteAllText(path, changeImageUrl(aspxPageText, page));
-            context.Response.Redirect(string.Format("{0}/{1}/{2}", url, testsFolder, pageFileName));
+            File.WriteAllText(path, ChangeImageUrl(aspxPageText, page));
         }
 
         public override bool IsReusable
