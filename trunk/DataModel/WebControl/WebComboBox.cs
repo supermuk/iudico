@@ -39,5 +39,10 @@ namespace IUDICO.DataModel.WebControl
         {
             return string.Format("IUDICO.DataModel.WebTest.ComboBoxTest({0}.SelectedIndex, {1})", Name, testId);
         }
+
+        public override string CreateAnswerFillerCode(string answerFillerVaribleName)
+        {
+            return string.Empty;
+        }
     }
 }

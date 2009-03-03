@@ -10,6 +10,7 @@ namespace IUDICO.DataModel.WebControl
     internal class WebSimpleQuestion : WebTestControl
     {
         private readonly List<string> list = new List<string>();
+
         private string question;
         private bool singleCase;
 
@@ -38,7 +39,7 @@ namespace IUDICO.DataModel.WebControl
             w.RenderEndTag();
             foreach (string text in list)
             {
-                w.AddAttribute(HtmlTextWriterAttribute.Id, (Name + "_" + text).Replace(" ", string.Empty) );
+                w.AddAttribute(HtmlTextWriterAttribute.Id, CreateId(Name, text) );
                 w.AddAttribute("GroupName", Name);
                 w.AddAttribute("runat", "server");
                 w.RenderBeginTag(singleCase ? "asp:radiobutton" : "asp:checkbox");
@@ -50,19 +51,39 @@ namespace IUDICO.DataModel.WebControl
             w.RenderEndTag();
         }
 
+        private static string CreateId(string name, string text)
+        {
+            return (name + "_" + text).Replace(" ", string.Empty);
+        }
+
         public override string CreateCodeForTest(int testId)
         {
             var s = new StringBuilder();
 
             for (int i = 0; i < list.Count; i++)
             {
-                s.AppendFormat("{0}.Checked", (Name + "_" + list[i]).Replace(" ", string.Empty) );
+                s.AppendFormat("{0}.Checked", CreateId(Name, list[i]) );
 
                 if (i != list.Count - 1)
                     s.Append(',');
             }
 
             return string.Format("IUDICO.DataModel.WebTest.SimpleQuestionTest({0}, {1})", testId, s);
+        }
+
+        public override string CreateAnswerFillerCode(string answerFillerVaribleName)
+        {
+            var s = new StringBuilder();
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                s.AppendFormat("{0}", CreateId(Name, list[i]));
+
+                if (i != list.Count - 1)
+                    s.Append(',');
+            }
+
+            return string.Format("{0}.SetAnswer(\"{1}\", {2});", answerFillerVaribleName, Name, s);
         }
     }
 }

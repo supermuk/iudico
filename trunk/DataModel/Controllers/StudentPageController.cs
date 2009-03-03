@@ -30,31 +30,35 @@ namespace IUDICO.DataModel.Controllers
 
         [PersistantField] private bool isViewMode = true;
 
-        private const string themeResultRequest = "ThemeResult.aspx?themeId={0}";
-        private const string openTestRequest = "OpenTest.aspx?openThema={0}";
+        private const string showResultRequest = "ThemeResult.aspx?themeId={0}";
+        private const string openTestRequest = "OpenTest.aspx?openThema={0}&submit={1}";
 
 
-        public void openTestButton_Click(object sender, EventArgs e)
+        public void OpenTestButton_Click(object sender, EventArgs e)
         {
-            openCorrespondingPage(openTestRequest);
-        }
+            var selectedNode = (IdendtityNode)CurriculumnTreeView.SelectedNode;
 
-        public void showResultButton_Click(object sender, EventArgs e)
-        {
-            openCorrespondingPage(themeResultRequest);
-        }
+            var permissions = StudentHelper.GetPermissionForNode(selectedNode, SECURED_OBJECT_TYPE.THEME, false);
 
-        private void openCorrespondingPage(string pageUrlFormat)
-        {
-            var selectedNode = (IdendtityNode) CurriculumnTreeView.SelectedNode;
-            
+            bool showSubmit = StudentHelper.IsDateAllowed(DateTime.Today, permissions);
+
             if (selectedNode.Type == NodeType.Theme)
-                Response.Redirect(string.Format(pageUrlFormat, selectedNode.ID));
+                Response.Redirect(string.Format(openTestRequest, selectedNode.ID, showSubmit));
         }
 
-        public void page_Load(object sender, EventArgs e)
+
+
+        public void ShowResultButton_Click(object sender, EventArgs e)
         {
-            setCalendarColor();
+            var selectedNode = (IdendtityNode)CurriculumnTreeView.SelectedNode;
+
+            if (selectedNode.Type == NodeType.Theme)
+                Response.Redirect(string.Format(showResultRequest, selectedNode.ID));
+        }
+
+        public void Page_Load(object sender, EventArgs e)
+        {
+            SetCalendarColor();
             if (!((Page) sender).IsPostBack)
             {
                 BuildTree(null);
@@ -62,7 +66,7 @@ namespace IUDICO.DataModel.Controllers
             BuildLatestResultTable();
         }
 
-        public void modeButton_Click(object sender, EventArgs e)
+        public void ModeButton_Click(object sender, EventArgs e)
         {
             if (isViewMode)
             {
@@ -74,29 +78,29 @@ namespace IUDICO.DataModel.Controllers
                 ChangeModeButton.Text = "Show Pass Dates";
                 isViewMode = true;
             }
-            selectDatesForSelectedNode();
+            SelectDatesForSelectedNode();
         }
 
-        public void rebuildTreeButton_Click(object sender, EventArgs e)
+        public void RebuildTreeButton_Click(object sender, EventArgs e)
         {
             BuildTree(null);
             CurriculumnCalendar.SelectedDates.Clear();
         }
 
-        public void selectedDateChanged(object sender, EventArgs e)
+        public void SelectedDateChanged(object sender, EventArgs e)
         {
             BuildTree(CurriculumnCalendar.SelectedDate);
         }
 
-        public void curriculumnTree_SelectionChanged(object sender, EventArgs e)
+        public void CurriculumnTree_SelectionChanged(object sender, EventArgs e)
         {
-            selectDatesForSelectedNode();
+            SelectDatesForSelectedNode();
         }
 
-        private void selectDatesForSelectedNode()
+        private void SelectDatesForSelectedNode()
         {
             CurriculumnCalendar.SelectedDates.Clear();
-            setCalendarColor();
+            SetCalendarColor();
 
             var selectedNode = (IdendtityNode)CurriculumnTreeView.SelectedNode;
 
@@ -104,43 +108,46 @@ namespace IUDICO.DataModel.Controllers
             {
                 if (selectedNode.Type == NodeType.Curriculum)
                 {
-                    selectDatesForObject(selectedNode, SECURED_OBJECT_TYPE.CURRICULUM);
-                    setOpenTestButtonVisibility(selectedNode, SECURED_OBJECT_TYPE.CURRICULUM);
+                    SelectDatesForObject(selectedNode, SECURED_OBJECT_TYPE.CURRICULUM);
+                    SetOpenTestButtonVisibility(selectedNode, SECURED_OBJECT_TYPE.CURRICULUM);
                 }
                 if (selectedNode.Type == NodeType.Stage)
                 {
-                    selectDatesForObject(selectedNode, SECURED_OBJECT_TYPE.STAGE);
-                    setOpenTestButtonVisibility(selectedNode, SECURED_OBJECT_TYPE.STAGE);
+                    SelectDatesForObject(selectedNode, SECURED_OBJECT_TYPE.STAGE);
+                    SetOpenTestButtonVisibility(selectedNode, SECURED_OBJECT_TYPE.STAGE);
                 }
                 if (selectedNode.Type == NodeType.Theme)
                 {
-                    selectDatesForObject(selectedNode, SECURED_OBJECT_TYPE.THEME);
-                    setOpenTestButtonVisibility(selectedNode, SECURED_OBJECT_TYPE.THEME);
+                    SelectDatesForObject((IdendtityNode) selectedNode.Parent, SECURED_OBJECT_TYPE.STAGE);
+                    SetOpenTestButtonVisibility((IdendtityNode) selectedNode.Parent, SECURED_OBJECT_TYPE.STAGE);
                 }
             }
         }
 
-        private void setCalendarColor()
+        private void SetCalendarColor()
         {
             CurriculumnCalendar.SelectedDayStyle.BackColor = isViewMode ? Color.Blue : Color.Green;
         }
 
-        private void selectDatesForObject(IdendtityNode selectedNode, SECURED_OBJECT_TYPE type)
+        private void SelectDatesForObject(IdendtityNode selectedNode, SECURED_OBJECT_TYPE type)
         {
-            var permission = StudentHelper.getPermissionForNode(selectedNode, type, isViewMode);
+            var permissions = StudentHelper.GetPermissionForNode(selectedNode, type, isViewMode);
 
-            if (StudentHelper.isBothDatesAreNull(permission.DateSince, permission.DateTill))
+            if(permissions.Count == 0)
             {
-                selectDates(DateTime.Today, DateTime.Today.AddYears(1));
+                SelectDates(DateTime.Today, DateTime.Today.AddYears(1));
             }
             else
             {
-                selectDates(permission.DateSince, permission.DateTill);
+                foreach (var permission in permissions)
+                {
+                    SelectDates(permission.DateSince, permission.DateTill);
+                }
             }
-            
+ 
         }
 
-        private void selectDates(DateTime? since, DateTime? till)
+        private void SelectDates(DateTime? since, DateTime? till)
         {
             if(since == null)
             {
@@ -186,18 +193,11 @@ namespace IUDICO.DataModel.Controllers
             }
         }
 
-        private void setOpenTestButtonVisibility(IdendtityNode selectedNode, SECURED_OBJECT_TYPE type)
+        private void SetOpenTestButtonVisibility(IdendtityNode selectedNode, SECURED_OBJECT_TYPE type)
         {
-            var permission = StudentHelper.getPermissionForNode(selectedNode, type, true);
+            var permissions = StudentHelper.GetPermissionForNode(selectedNode, type, true);
 
-            if (StudentHelper.isBothDatesAreNull(permission.DateSince, permission.DateTill))
-            {
-                OpenTestButton.Enabled = true;
-            }
-            else
-            {
-                OpenTestButton.Enabled = StudentHelper.isDateInPeriod(DateTime.Now, permission.DateSince, permission.DateTill);
-            }
+            OpenTestButton.Enabled = StudentHelper.IsDateAllowed(DateTime.Now, permissions);
             
         }
 
@@ -216,15 +216,15 @@ namespace IUDICO.DataModel.Controllers
             {
                 var node = new IdendtityNode(curriculum);
 
-                var permission = StudentHelper.getPermission(curriculum.ID, SECURED_OBJECT_TYPE.CURRICULUM, isViewMode);
+                var permissions = StudentHelper.GetPermission(curriculum.ID, SECURED_OBJECT_TYPE.CURRICULUM, isViewMode);
 
-                if(StudentHelper.isDateInPeriod(date, permission.DateSince, permission.DateTill))
-                {
-                    BuildStages(curriculum, node, date, isViewMode);
+                    if (StudentHelper.IsDateAllowed(date, permissions))
+                    {
+                        BuildStages(curriculum, node, date, isViewMode);
 
-                    if(node.ChildNodes.Count != 0)
-                        CurriculumnTreeView.Nodes.Add(node);
-                }
+                        if (node.ChildNodes.Count != 0)
+                            CurriculumnTreeView.Nodes.Add(node);
+                    }
             }
 
             CurriculumnTreeView.ExpandAll();
@@ -238,9 +238,9 @@ namespace IUDICO.DataModel.Controllers
             {
                 var child = new IdendtityNode(stage);
                 
-                var permission = StudentHelper.getPermission(stage.ID, SECURED_OBJECT_TYPE.STAGE, isViewMode);
+                var permissions = StudentHelper.GetPermission(stage.ID, SECURED_OBJECT_TYPE.STAGE, isViewMode);
 
-                if ( (permission == null) || (StudentHelper.isDateInPeriod(date, permission.DateSince, permission.DateTill) ) )
+                if (StudentHelper.IsDateAllowed(date, permissions))
                 {
                     BuildThemes(stage, child, date, isViewMode);
 
@@ -255,13 +255,9 @@ namespace IUDICO.DataModel.Controllers
             var themesIds = ServerModel.DB.LookupMany2ManyIds<TblThemes>(stage, null);
             var themes = ServerModel.DB.Load<TblThemes>(themesIds);
 
-
             foreach (var theme in themes)
             {
-                var permission = StudentHelper.getPermission(theme.ID, SECURED_OBJECT_TYPE.THEME, isViewMode);
-                
-                if ( (permission == null) || (StudentHelper.isDateInPeriod(date, permission.DateSince, permission.DateTill) ) )
-                    node.ChildNodes.Add(new IdendtityNode(theme));
+                node.ChildNodes.Add(new IdendtityNode(theme));
             }
         }
     }
@@ -415,7 +411,7 @@ namespace IUDICO.DataModel.Controllers
 
     class StudentHelper
     {
-        public static bool isBothDatesAreNull(DateTime? firstDate, DateTime? secondDate)
+        public static bool IsBothDatesAreNull(DateTime? firstDate, DateTime? secondDate)
         {
             return (firstDate == null) && (secondDate == null);
         }
@@ -442,38 +438,59 @@ namespace IUDICO.DataModel.Controllers
             return sortHelpers;
         }
 
-        public static TblPermissions getPermissionForNode(IdendtityNode node, SECURED_OBJECT_TYPE type, bool isViewMode)
+        public static List<TblPermissions> GetPermissionForNode(IdendtityNode node, SECURED_OBJECT_TYPE type, bool isViewMode)
         {
-            var permission = getPermission((node).ID, type, isViewMode);
+            var permissions = GetPermission((node).ID, type, isViewMode);
 
-            if(permission == null)
-                return getPermissionForNode(((IdendtityNode)node.Parent), getParentForObject(type), isViewMode);
+            var list = new List<TblPermissions>();
 
-            return permission;
+            if (permissions.Count == 0 && type != SECURED_OBJECT_TYPE.CURRICULUM)
+            {
+                list.AddRange(GetPermissionForNode(((IdendtityNode) node.Parent), GetParentForObject(type), isViewMode));
+            }
+            else
+            {
+                list.AddRange(permissions);
+            }
+                
+            
+            return list;
         }
 
-        public static TblPermissions getPermission(int id, SECURED_OBJECT_TYPE type, bool isViewMode)
+        public static IList<TblPermissions> GetPermission(int id, SECURED_OBJECT_TYPE type, bool isViewMode)
         {
-            var permissionsIds = PermissionsManager.GetPermissions(type, ((CustomUser)Membership.GetUser()).ID, null, getOperationId(type, isViewMode));
+            var permissionsIds = PermissionsManager.GetPermissions(type, ((CustomUser)Membership.GetUser()).ID, null, null);
             
             var permisions = ServerModel.DB.Load<TblPermissions>(permissionsIds);
 
-            var permisionsForNode = findObjectPermission(type, id, permisions);
-
-            if (permisionsForNode.Count != 0)
-                return permisionsForNode[0];
-
-                return null;
+            return FindObjectPermission(type, id, GetOperationId(type, isViewMode), permisions);
         }
 
-        public static bool isDateInPeriod(DateTime? date, DateTime? startPeriod, DateTime? endPeriod)
+        public static bool IsDateAllowed(DateTime? date, IList<TblPermissions> permissions)
+        {
+            if(permissions.Count == 0)
+            {
+                return true;
+            }
+
+            bool b = false;
+
+            foreach (var permission in permissions)
+            {
+                b = b || IsDateInPeriod(date, permission.DateSince, permission.DateTill);
+            }
+
+            return b;
+        }
+
+        public static bool IsDateInPeriod(DateTime? date, DateTime? startPeriod, DateTime? endPeriod)
         {
             if (date == null)
             {
                 return true;
             }
 
-            if (isBothDatesAreNull(startPeriod, endPeriod))
+            if (IsBothDatesAreNull(startPeriod, endPeriod))
             {
                 return true;
             }
@@ -490,33 +507,29 @@ namespace IUDICO.DataModel.Controllers
             return ((startPeriod <= date) && (date <= endPeriod));
         }
 
-        private static IList<TblPermissions> findObjectPermission(SECURED_OBJECT_TYPE type, int objectId, IList<TblPermissions> allPermissions)
+        private static IList<TblPermissions> FindObjectPermission(SECURED_OBJECT_TYPE type, int objectId, int operationId, IList<TblPermissions> allPermissions)
         {
             switch (type)
             {
                 case (SECURED_OBJECT_TYPE.CURRICULUM):
                     {
-                        return findPerrmisionForCurriculumn(objectId, allPermissions);
+                        return FindPerrmisionForCurriculumn(objectId, operationId, allPermissions);
                     }
                 case (SECURED_OBJECT_TYPE.STAGE):
                     {
-                        return findPerrmisionForStage(objectId, allPermissions);
-                    }
-                case (SECURED_OBJECT_TYPE.THEME):
-                    {
-                        return findPerrmisionForTheme(objectId, allPermissions);
+                        return FindPerrmisionForStage(objectId, operationId, allPermissions);
                     }
             }
             return new List<TblPermissions>();
         }
 
-        private static IList<TblPermissions> findPerrmisionForStage(int stageId, IList<TblPermissions> allPermisions)
+        private static IList<TblPermissions> FindPerrmisionForStage(int stageId, int operationId, IList<TblPermissions> allPermisions)
         {
             var list = new List<TblPermissions>();
 
             foreach (var permission in allPermisions)
             {
-                if(permission.StageRef == stageId)
+                if(permission.StageRef == stageId && permission.StageOperationRef == operationId)
                 {
                     list.Add(permission);
                 }
@@ -525,13 +538,13 @@ namespace IUDICO.DataModel.Controllers
             return list;
         }
 
-        private static IList<TblPermissions> findPerrmisionForCurriculumn(int curriculumnId, IList<TblPermissions> allPermisions)
+        private static IList<TblPermissions> FindPerrmisionForCurriculumn(int curriculumnId, int operationId, IList<TblPermissions> allPermisions)
         {
             var list = new List<TblPermissions>();
 
             foreach (var permission in allPermisions)
             {
-                if (permission.CurriculumRef == curriculumnId)
+                if (permission.CurriculumRef == curriculumnId && permission.CurriculumOperationRef == operationId)
                 {
                     list.Add(permission);
                 }
@@ -540,72 +553,40 @@ namespace IUDICO.DataModel.Controllers
             return list;
         }
 
-        private static IList<TblPermissions> findPerrmisionForTheme(int themeId, IList<TblPermissions> allPermisions)
-        {
-            var list = new List<TblPermissions>();
-
-            foreach (var permission in allPermisions)
-            {
-                if (permission.ThemeRef == themeId)
-                {
-                    list.Add(permission);
-                }
-            }
-
-            return list;
-        }
-
-        private static FxCurriculumOperations getFxOperationForCurriculumn(bool isViewMode)
+        private static FxCurriculumOperations GetFxOperationForCurriculumn(bool isViewMode)
         {
             return isViewMode ? FxCurriculumOperations.View : FxCurriculumOperations.Pass; 
         }
 
-        private static FxStageOperations getFxOperationForStage(bool isViewMode)
+        private static FxStageOperations GetFxOperationForStage(bool isViewMode)
         {
             return isViewMode ? FxStageOperations.View : FxStageOperations.Pass;
         }
 
-        private static FxThemeOperations getFxOperationForTheme(bool isViewMode)
-        {
-            return isViewMode ? FxThemeOperations.View : FxThemeOperations.Pass;
-        }
-
-        private static int getOperationId(SECURED_OBJECT_TYPE type, bool isViewMode)
+        private static int GetOperationId(SECURED_OBJECT_TYPE type, bool isViewMode)
         {
             switch (type)
             {
                 case(SECURED_OBJECT_TYPE.CURRICULUM):
                     {
-                        return getFxOperationForCurriculumn(isViewMode).ID;
+                        return GetFxOperationForCurriculumn(isViewMode).ID;
+
                     }
                 case (SECURED_OBJECT_TYPE.STAGE):
                     {
-                        return getFxOperationForStage(isViewMode).ID;
-                    }
-                case (SECURED_OBJECT_TYPE.THEME):
-                    {
-                        return getFxOperationForTheme(isViewMode).ID;
+                        return GetFxOperationForStage(isViewMode).ID;
                     }
                 default:
                     return 0;
             }
         }
 
-        private static SECURED_OBJECT_TYPE getParentForObject(SECURED_OBJECT_TYPE type)
+        private static SECURED_OBJECT_TYPE GetParentForObject(SECURED_OBJECT_TYPE type)
         {
-            switch (type)
-            {
-                case (SECURED_OBJECT_TYPE.STAGE):
-                    {
-                        return SECURED_OBJECT_TYPE.CURRICULUM;
-                    }
-                case (SECURED_OBJECT_TYPE.THEME):
-                    {
-                        return SECURED_OBJECT_TYPE.STAGE;
-                    }
-                default:
-                    return SECURED_OBJECT_TYPE.CURRICULUM;
-            }
+            if (type == SECURED_OBJECT_TYPE.STAGE)
+                return SECURED_OBJECT_TYPE.CURRICULUM;
+            
+            return SECURED_OBJECT_TYPE.CURRICULUM;
         }
     }
 }

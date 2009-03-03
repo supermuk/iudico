@@ -197,6 +197,7 @@
     <Compile Include="UserControlBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="WebControl\AnswerFiller.cs" />
     <Compile Include="WebControl\WebButton.cs" />
     <Compile Include="WebControl\WebCodeSnippet.cs" />
     <Compile Include="WebControl\WebComboBox.cs" />

@@ -15,22 +15,24 @@ public partial class CompiledQuestionsDetails : ControlledPage<CompiledQuestions
     protected override void BindController(CompiledQuestionsDetailsController c)
     {
         base.BindController(c);
-        Load += pageLoad;
+        Load += PageLoad;
         placeHolder = (ContentPlaceHolder) Master.FindControl("MainContent");
 
     }
-    public void pageLoad(object sender, EventArgs e)
+    
+    public void PageLoad(object sender, EventArgs e)
     {
         if (Request[pageIdRequestParameter] != null)
         {
-            buildStatistic(int.Parse(Request[pageIdRequestParameter]));
+            BuildStatistic(int.Parse(Request[pageIdRequestParameter]));
         }
         else
         {
             throw new Exception("Page Id is not specified");
         }
     }
-    private void buildStatistic(int pageId)
+    
+    private void BuildStatistic(int pageId)
     {
         var page = ServerModel.DB.Load<TblPages>(pageId);
         var questions = ServerModel.DB.Load<TblQuestions>(ServerModel.DB.LookupIds<TblQuestions>(page, null));
