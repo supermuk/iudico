@@ -9,10 +9,10 @@ public partial class ThemeResult : ControlledPage<ThemeResultController>
     protected override void BindController(ThemeResultController c)
     {
         base.BindController(c);
-        Load += pageLoad;
+        Load += PageLoad;
   
     }
-    public void pageLoad(object sender, EventArgs e)
+    public void PageLoad(object sender, EventArgs e)
     {
         if (Request[themeId] != null)
         {

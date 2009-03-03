@@ -23,10 +23,10 @@ namespace IUDICO.DataModel.Controllers
 
         public string pageIDRequestParameter = "pageId";
 
-        private const string testPageRequestPattern = "DisplayIudicoTestPage.ipp?PageId={0}";
+        private const string testPageRequestPattern = "DisplayIudicoTestPage.ipp?pageId={0}&submit=false&answers=true&themeId=0&pageIndex=0";
 
 
-        public void pageLoad(object sender, EventArgs e)
+        public void PageLoad(object sender, EventArgs e)
         {
             LoadIFrame();
 

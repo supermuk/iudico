@@ -5,11 +5,11 @@
     <style type="text/css">
         .style1
         {
-            width: 283px;
+            width: 250px;
         }
         .style2
         {
-            width: 209px;
+            width: 406px;
         }
     </style>
 </asp:Content>
@@ -28,7 +28,10 @@
             <td class="style2">
    
     <asp:Button ID="rebuildTreeButton" runat="server" 
-        Text="Refresh Tree" Width="192px"/>
+        Text="Refresh Tree" Width="111px"/>
+   
+    <asp:Button ID="modeChangerButton" runat="server" Text="Show Pass Dates" 
+        Width="142px" />
    
             </td>
             <td>
@@ -53,7 +56,7 @@
     <asp:Calendar ID="curriculumCalendar" runat="server" BackColor="White"
         BorderColor="#999999" CellPadding="4" DayNameFormat="Shortest" 
         Font-Names="Verdana" Font-Size="8pt" ForeColor="Black" 
-        ShowGridLines="True">
+        ShowGridLines="True" Height="247px" Width="252px">
         <SelectedDayStyle BackColor="#666666" Font-Bold="True" ForeColor="White" />
         <SelectorStyle BackColor="#CCCCCC" />
         <WeekendDayStyle BackColor="#FFFFCC" />
@@ -73,15 +76,6 @@
                 &nbsp;</td>
             <td class="style2">
    
-    <asp:Button ID="modeChangerButton" runat="server" Text="Show Pass Dates" 
-        Width="193px" />
-   
-            </td>
-            <td>
-                &nbsp;</td>
-        </tr>
-    </table>
-   
     <asp:Table ID="lastPagesResultTable" runat="server" GridLines="Both" Height="49px" 
         Width="481px">
         <asp:TableRow runat="server">
@@ -92,5 +86,11 @@
         </asp:TableRow>
     </asp:Table>
     
-</asp:Content>
+            </td>
+            <td>
+                &nbsp;</td>
+        </tr>
+    </table>
+   
+    </asp:Content>
 

@@ -21,6 +21,8 @@ namespace IUDICO.DataModel.WebControl
 
         public abstract string CreateCodeForTest(int testId);
 
+        public abstract string CreateAnswerFillerCode(string answerFillerVaribleName);
+
         public int CreateQuestionID()
         {
             var q = new TblQuestions();
