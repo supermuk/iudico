@@ -5,12 +5,13 @@ using IUDICO.DataModel.DB;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.Security;
 using IUDICO.DataModel.DB.Base;
+using EO.Web;
 
 namespace IUDICO.DataModel.Controllers
 {
     public class CurriculumTimelineController : ControllerBase
     {
-        public TreeView CurriculumTree { get; set; }
+        public System.Web.UI.WebControls.TreeView CurriculumTree { get; set; }
         public Table TimeTable { get; set; }
         public Label NotifyLabel { get; set; }
         public Button AddOperationButton { get; set; }
@@ -30,6 +31,7 @@ namespace IUDICO.DataModel.Controllers
         {
             group = ServerModel.DB.Load<TblGroups>(GroupID);
             curriculum = ServerModel.DB.Load<TblCurriculums>(CurriculumID);
+
             CurriculumTree.SelectedNodeChanged += new EventHandler(CurriculumTree_SelectedNodeChanged);
             OperationDropDownList.SelectedIndexChanged += new EventHandler(OperationDropDownList_SelectedIndexChanged);
             AddOperationButton.Click += new EventHandler(AddOperationButton_Click);
@@ -108,6 +110,8 @@ namespace IUDICO.DataModel.Controllers
                         break;
                     }
             }
+            CurriculumTree_SelectedNodeChanged(CurriculumTree, EventArgs.Empty);
+
         }
 
         [PersistantField]
@@ -202,7 +206,7 @@ namespace IUDICO.DataModel.Controllers
             headerRow.Cells.Add(headerCell);
 
             headerCell = new TableHeaderCell();
-            headerCell.Text = "";
+            headerCell.Text = "ZZZzzzz";
             headerRow.Cells.Add(headerCell);
 
             TimeTable.Rows.Add(headerRow);
@@ -215,12 +219,16 @@ namespace IUDICO.DataModel.Controllers
             TableCell operationCell = new TableCell();
             Label dataSinceLabel = new Label();
             dataSinceLabel.Text = "Since:";
-            TextBox dataSinceTextBox = new TextBox();
-            dataSinceTextBox.ID = dataObjectId.ToString() + since + operationId.ToString();
+            DatePicker dateSincePicker = new DatePicker();
+            dateSincePicker.ID = dataObjectId.ToString() + since + operationId.ToString();
+            //  TextBox dataSinceTextBox = new TextBox();
+            // dataSinceTextBox.ID = dataObjectId.ToString() + since + operationId.ToString();
             Label dataTillLabel = new Label();
             dataTillLabel.Text = "Till:";
-            TextBox dataTillTextBox = new TextBox();
-            dataTillTextBox.ID = dataObjectId.ToString() + till + operationId.ToString();
+            DatePicker dateTillPicker = new DatePicker();
+            dateTillPicker.ID = dataObjectId.ToString() + till + operationId.ToString();
+            // TextBox dataTillTextBox = new TextBox();
+            //  dataTillTextBox.ID = dataObjectId.ToString() + till + operationId.ToString();
 
             TblPermissions permission = null;
             TableCell operationNameCell = new TableCell();
@@ -261,27 +269,33 @@ namespace IUDICO.DataModel.Controllers
 
             if (permission.DateSince.HasValue)
             {
-                dataSinceTextBox.Text = permission.DateSince.Value.ToString();
+                dateSincePicker.SelectedDate = permission.DateSince.Value;
+                //dataSinceTextBox.Text = permission.DateSince.Value.ToString();
             }
             else
             {
-                dataSinceTextBox.Text = minDateTime;
+                dateSincePicker.SelectedDate = minDateTime;
+                //dataSinceTextBox.Text = minDateTime;
             }
 
             if (permission.DateTill.HasValue)
             {
-                dataTillTextBox.Text = permission.DateTill.Value.ToString();
+                dateTillPicker.SelectedDate = permission.DateTill.Value;
+                //dataTillTextBox.Text = permission.DateTill.Value.ToString();
             }
             else
             {
-                dataTillTextBox.Text = DateTime.MaxValue.ToString();
+                dateTillPicker.SelectedDate = maxDateTime;
+                //dataTillTextBox.Text = DateTime.MaxValue.ToString();
             }
 
 
             operationCell.Controls.Add(dataSinceLabel);
-            operationCell.Controls.Add(dataSinceTextBox);
+            operationCell.Controls.Add(dateSincePicker);
+            //operationCell.Controls.Add(dataSinceTextBox);
             operationCell.Controls.Add(dataTillLabel);
-            operationCell.Controls.Add(dataTillTextBox);
+            operationCell.Controls.Add(dateTillPicker);
+            //operationCell.Controls.Add(dataTillTextBox);
             operationRow.Cells.Add(operationCell);
 
             operationCell = new TableCell();
@@ -330,8 +344,8 @@ namespace IUDICO.DataModel.Controllers
         }
 
         // "magic" words
-        readonly string minDateTime = (new DateTime(1753, 1, 1, 0, 0, 0)).ToString();
-        readonly string maxDateTime = (new DateTime(9999, 12, 31, 23, 59, 59)).ToString();
+        readonly DateTime minDateTime = (new DateTime(2009, 1, 1, 0, 0, 0));
+        readonly DateTime maxDateTime = (new DateTime(2010, 12, 31, 23, 59, 59));
         private const string curriculumChar = "c";
         private const string stageChar = "s";
         private const string themeChar = "t";
@@ -374,17 +388,17 @@ namespace IUDICO.DataModel.Controllers
 
         private void RemovePermission(TblPermissions permission, int dataObjectId, int operationId, Button senderButton)
         {
-            permission.DateSince = null;
-            permission.DateTill = null;
+            //permission.DateSince = null;
+            //permission.DateTill = null;
 
-            TextBox sinceTextBox = (senderButton.Parent.Parent as TableRow).Cells[1].FindControl(dataObjectId.ToString() + since + operationId.ToString()) as TextBox;
-            TextBox tillTextBox = (senderButton.Parent.Parent as TableRow).Cells[1].FindControl(dataObjectId.ToString() + till + operationId.ToString()) as TextBox;
-            sinceTextBox.Text = minDateTime;
-            tillTextBox.Text = maxDateTime;
-            tillTextBox.Style["color"] = "black";
-            sinceTextBox.Style["color"] = "black";
+            //TextBox sinceTextBox = (senderButton.Parent.Parent as TableRow).Cells[1].FindControl(dataObjectId.ToString() + since + operationId.ToString()) as TextBox;
+            //TextBox tillTextBox = (senderButton.Parent.Parent as TableRow).Cells[1].FindControl(dataObjectId.ToString() + till + operationId.ToString()) as TextBox;
+            //sinceTextBox.Text = minDateTime;
+            //tillTextBox.Text = maxDateTime;
+            //tillTextBox.Style["color"] = "black";
+            //sinceTextBox.Style["color"] = "black";
 
-            ServerModel.DB.Update<TblPermissions>(permission);
+            //ServerModel.DB.Update<TblPermissions>(permission);
         }
 
         private void ApppyCurriculumButton_Click(object sender, EventArgs e)
@@ -419,27 +433,12 @@ namespace IUDICO.DataModel.Controllers
 
         private void ApplyPermission(TblPermissions permission, int dataObjectId, int operationId, Button senderButton)
         {
-            TextBox sinceTextBox = (senderButton.Parent.Parent as TableRow).Cells[1].FindControl(dataObjectId.ToString() + since + operationId.ToString()) as TextBox;
-            TextBox tillTextBox = (senderButton.Parent.Parent as TableRow).Cells[1].FindControl(dataObjectId.ToString() + till + operationId.ToString()) as TextBox;
-            DateTime sinceDateTime, tillDateTime;
-            if (DateTime.TryParse(sinceTextBox.Text, out sinceDateTime))
-            {
-                permission.DateSince = sinceDateTime;
-                sinceTextBox.Style["color"] = "black";
-            }
-            else
-            {
-                sinceTextBox.Style["color"] = "red";
-            }
-            if (DateTime.TryParse(tillTextBox.Text, out tillDateTime))
-            {
-                permission.DateTill = tillDateTime;
-                tillTextBox.Style["color"] = "black";
-            }
-            else
-            {
-                tillTextBox.Style["color"] = "red";
-            }
+            DatePicker sinceDatePicker = (senderButton.Parent.Parent as TableRow).Cells[1].FindControl(dataObjectId.ToString() + since + operationId.ToString()) as DatePicker;
+            DatePicker tillDatePicker = (senderButton.Parent.Parent as TableRow).Cells[1].FindControl(dataObjectId.ToString() + till + operationId.ToString()) as DatePicker;
+
+            permission.DateSince = sinceDatePicker.SelectedDate;
+            permission.DateTill = tillDatePicker.SelectedDate;
+
             ServerModel.DB.Update<TblPermissions>(permission);
         }
 

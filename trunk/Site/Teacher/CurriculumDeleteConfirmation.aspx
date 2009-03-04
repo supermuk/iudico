@@ -5,7 +5,7 @@
     <asp:Label ID="Label_Notify" runat="server"></asp:Label>
     <table>
         <tr>
-            <td rowspan="2">
+            <td colspan="2">
                 <asp:BulletedList ID="BulletedList_Groups" runat="server">
                 </asp:BulletedList>
             </td>

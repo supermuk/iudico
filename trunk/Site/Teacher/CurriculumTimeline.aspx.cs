@@ -13,6 +13,8 @@ public partial class CurriculumTimeline : ControlledPage<CurriculumTimelineContr
         c.OperationDropDownList = DropDownList_Operations;
         c.AddOperationButton = Button_Add;
 
+        Title = "Detailed timeline settings";
+
         PreRender += c.PagePreRender;
         Load += c.PageLoad;
     }
