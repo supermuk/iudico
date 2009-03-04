@@ -13,6 +13,8 @@ public partial class CourseDeleteConfirmation : ControlledPage<CourseDeleteConfi
     {
         base.BindController(c);
 
+        Title = "Course delete confirmation";
+
         c.DependenciesGridView = GridView_Dependencies;
         c.DeleteButton = Button_Delete;
         c.NotifyLabel = Label_Notify;

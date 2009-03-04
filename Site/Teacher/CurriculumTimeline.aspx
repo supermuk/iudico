@@ -15,7 +15,7 @@
                 <table>
                     <tr>
                         <td colspan="2">
-                            <asp:Table ID="Table_Time" runat="server">
+                            <asp:Table ID="Table_Time" runat="server" GridLines="Both"  BorderColor="Black" BorderWidth="1">
                             </asp:Table>
                         </td>
                     </tr>
