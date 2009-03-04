@@ -5,7 +5,7 @@
     <asp:Label ID="Label_Notify" runat="server"></asp:Label>
     <table>
         <tr>
-            <td rowspan="2">
+            <td colspan="2">
                 <asp:GridView ID="GridView_Dependencies" runat="server">
                 </asp:GridView>
             </td>
@@ -14,8 +14,6 @@
             <td>
                 <asp:Button ID="Button_Delete" runat="server" Text="Delete" />
             </td>
-        </tr>
-        <tr>
             <td>
                 <asp:Button ID="Button_Back" runat="server" Text="Back" />
             </td>

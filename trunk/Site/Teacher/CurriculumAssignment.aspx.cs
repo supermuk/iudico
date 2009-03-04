@@ -12,7 +12,9 @@ public partial class Teacher_CurriculumAssignment : ControlledPage<CurriculumAss
     protected override void BindController(CurriculumAssignmentController c)
     {
         base.BindController(c);
-        
+
+        Title = "Curriculum assignment";
+
         c.AssigmentsTable = Table_Assignments;
         c.MainTable = Table_Main;
         c.NotifyLabel = Label_Notify;
