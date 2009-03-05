@@ -23,5 +23,7 @@ public static class PagesReg
         f.Register<CourseEditController>("~/Teacher/CourseEdit.aspx");
         f.Register<CourseDeleteConfirmationController>("~/Teacher/CourseDeleteConfirmation.aspx");
         f.Register<CurriculumAssignmentController>("~/Teacher/CurriculumAssignment.aspx");
+        f.Register<StatisticSelectController>("~/Teacher/StatisticSelect.aspx");
+        f.Register<StatisticShowController>("~/Teacher/StatisticShow.aspx");
     }
 }
