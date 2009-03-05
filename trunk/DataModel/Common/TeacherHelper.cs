@@ -301,8 +301,8 @@ namespace IUDICO.DataModel.Common
 
         public static IList<TblCurriculums> GetCurriculumsForGroup(TblGroups group)
         {
-            IList<int> iDs = PermissionsManager.GetObjectsForGroup(SECURED_OBJECT_TYPE.CURRICULUM, group.ID, null, null);
-            return ServerModel.DB.Load<TblCurriculums>(iDs);
+            //IList<int> iDs = PermissionsManager.GetObjectsForGroup(SECURED_OBJECT_TYPE.CURRICULUM, group.ID, null, null);
+            //return ServerModel.DB.Load<TblCurriculums>(iDs);
 
             return ServerModel.DB.Query<TblCurriculums>(
                 new InCondition<int>(DataObject.Schema.ID,
@@ -342,7 +342,7 @@ namespace IUDICO.DataModel.Common
 
                 ServerModel.DB.Delete<TblPermissions>(stagePermissions);
             }
-           
+
         }
 
         public static void SignGroupForCurriculum(TblGroups group, TblCurriculums curriculum)
@@ -392,6 +392,55 @@ namespace IUDICO.DataModel.Common
         {
             List<int> teachersIDs = ServerModel.DB.LookupMany2ManyIds<TblUsers>(FxRoles.LECTOR, null);
             return ServerModel.DB.Load<TblUsers>(teachersIDs);
+        }
+
+        public static IList<TblUsers> GetStudentsOfGroup(TblGroups group)
+        {
+            List<int> studentsIDs = ServerModel.DB.LookupMany2ManyIds<TblUsers>(group, null);
+            return ServerModel.DB.Load<TblUsers>(studentsIDs);
+        }
+
+        public static IList<TblPages> PagesOfTheme(TblThemes theme)
+        {
+            return ServerModel.DB.Query<TblPages>(new CompareCondition<int>(
+                              DataObject.Schema.ThemeRef,
+                              new ValueCondition<int>(theme.ID), COMPARE_KIND.EQUAL));
+        }
+
+        public static IList<TblQuestions> QuestionsOfPage(TblPages page)
+        {
+            return ServerModel.DB.Query<TblQuestions>(new CompareCondition<int>(
+                                 DataObject.Schema.PageRef,
+                                 new ValueCondition<int>(page.ID), COMPARE_KIND.EQUAL));
+        }
+
+        public static TblUserAnswers GetUserAnswerForQuestion(TblUsers user, TblQuestions question)
+        {
+            IList<TblUserAnswers> answers = ServerModel.DB.Query<TblUserAnswers>(new AndCondtion(
+                new CompareCondition<int>(
+                                     DataObject.Schema.UserRef,
+                                     new ValueCondition<int>(user.ID), COMPARE_KIND.EQUAL),
+                new CompareCondition<int>(
+                                     DataObject.Schema.QuestionRef,
+                                     new ValueCondition<int>(question.ID), COMPARE_KIND.EQUAL)));
+
+            TblUserAnswers lastAnswer = null;
+            foreach (TblUserAnswers answer in answers)
+            {
+                if (lastAnswer == null)
+                {
+                    lastAnswer = answer;
+                }
+                else
+                {
+                    if (lastAnswer.Date < answer.Date)
+                    {
+                        lastAnswer = answer;
+                    }
+                }
+            }
+
+            return lastAnswer;
         }
     }
 }

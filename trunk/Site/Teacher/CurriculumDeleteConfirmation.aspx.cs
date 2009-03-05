@@ -13,7 +13,7 @@ public partial class CurriculumDeleteConfirmation : ControlledPage<CurriculumDel
     {
         base.BindController(c);
 
-        Title = "urriculum delete confirmation";
+        Title = "Curriculum delete confirmation";
 
         c.GroupsBulletedList = BulletedList_Groups;
         c.DeleteButton = Button_Delete;
