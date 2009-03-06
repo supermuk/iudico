@@ -206,7 +206,7 @@ namespace IUDICO.DataModel.Controllers
             headerRow.Cells.Add(headerCell);
 
             headerCell = new TableHeaderCell();
-            headerCell.Text = "ZZZzzzz";
+            headerCell.Text = "";
             headerRow.Cells.Add(headerCell);
 
             TimeTable.Rows.Add(headerRow);
