@@ -117,7 +117,9 @@ namespace IUDICO.DataModel.DB.Base
             public static readonly IDBPropertyCondition<int>
                 ID = new PropertyCondition<int>("ID"),
                 UserRef = new PropertyCondition<int>("UserRef"),
+                QuestionRef = new PropertyCondition<int>("QuestionRef"),
                 ThemeRef = new PropertyCondition<int>("ThemeRef"),
+                PageRef = new PropertyCondition<int>("PageRef"),
                 StageRef = new PropertyCondition<int>("StageRef"),
                 CourseRef = new PropertyCondition<int>("CourseRef"),
                 CurriculumRef = new PropertyCondition<int>("CurriculumRef"),
