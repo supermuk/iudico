@@ -1,56 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Web.Security;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel;
+using IUDICO.DataModel.Common;
+using IUDICO.DataModel.Controllers;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.ImportManagers;
-using IUDICO.DataModel.Security;
-using TestingSystem;
 
 public partial class ThemeResultControl : System.Web.UI.UserControl
 {
-    private const string pageDetailsUrl = "../Student/TestDetails.aspx?pageId={0}";
-
-    private const string compiledDetailsUrl = "../Student/CompiledQuestionsDetails.aspx?pageId={0}";
-
-    private static bool isContainCompiledQuestions;
-
     public int ThemeId { get; set; }
 
     protected void Page_Load(object sender, EventArgs e)
     {
         var theme = ServerModel.DB.Load<TblThemes>(ThemeId);
-        themeName.Text = theme.Name;
+        var user = ServerModel.User.Current;
+        var userId = user.ID;
 
+        SetHeaderText(theme.Name, user.UserName);
 
-        var userId = ((CustomUser) Membership.GetUser()).ID;
         var pages = ServerModel.DB.Load <TblPages>(ServerModel.DB.LookupIds<TblPages>(theme, null));
 
         foreach (var page in pages)
         {
-            isContainCompiledQuestions = false;
-            
             if (page.PageTypeRef == (int)FX_PAGETYPE.Practice)
             {
-                var pageNameCell = new TableCell();
-                var passStatusCell = new TableCell();
-                var pageRankCell = new TableCell();
-                var userRankCell = new TableCell();
-                var pageDetails = new TableCell();
-
-                SetPageDetailsLink(pageDetails, page.ID);
-                SetPageNameAndRank(page, pageNameCell, pageRankCell);
-                SetPageResult(page, userId, passStatusCell, userRankCell);
+                int userRank = UserResultCalculator.GetUserRank(page, userId);
 
                 var row = new TableRow();
-                row.Cells.AddRange(new []{pageNameCell, passStatusCell, userRankCell, pageRankCell, pageDetails});
-                if (isContainCompiledQuestions)
-                {
-                    var compileDetails = new TableCell();
-                    SetCompiledDetailsLink(compileDetails, page.ID);
-                    row.Cells.Add(compileDetails);
-                }
+
+                SetPageName(row, page.PageName);
+                SetStatus(row, userRank, (int) page.PageRank);
+                SetUserRank(row, userRank);
+                SetPageRank(row, (int) page.PageRank);
+                SetUserAnswersLink(row, page.ID);
+                SetCorrectAnswersLink(row, page.ID);
+
+                if (UserResultCalculator.IsContainCompiledQuestions(page))
+                    SetCompiledDetailsLink(row, page.ID);
+
                 resultTable.Rows.Add(row);
 
             }
@@ -58,119 +45,84 @@ public partial class ThemeResultControl : System.Web.UI.UserControl
         
     }
 
-    private static int CalculateUserRank(TblQuestions question, int userId)
+    private void SetHeaderText(string theme, string user)
     {
-        int userRank = 0;
-
-        var userAnswers = ServerModel.DB.Load<TblUserAnswers>(ServerModel.DB.LookupIds<TblUserAnswers>(question, null));
-
-        if (userAnswers != null)
-        {
-            var currUserAnswers = FindUserAnswers(userAnswers, userId);
-            if (currUserAnswers.Count != 0)
-            {
-                var latestUserAnswer = FindLatestUserAnswer(currUserAnswers);
-
-                if (latestUserAnswer.UserAnswer == question.CorrectAnswer)
-                {
-                    userRank += (int) question.Rank;
-                }
-                else if (latestUserAnswer.IsCompiledAnswer)
-                {
-                    var userCompiledAnswers = ServerModel.DB.Load<TblCompiledAnswers>(ServerModel.DB.LookupIds<TblCompiledAnswers>(latestUserAnswer, null));
-
-                    bool allAcepted = true;
-
-                    foreach (var compiledAnswer in userCompiledAnswers)
-                    {
-                        allAcepted &= (compiledAnswer.StatusRef == (int)Status.Accepted);
-                    }
-                    if (allAcepted)
-                    {
-                        userRank += (int)question.Rank;
-                    }
-                }
-            }
-            else
-            {
-                userRank = -1;
-            }
-        }
-        
-        return userRank;
+        themeName.Text = string.Format("Statictic for theme:{0} for Current User:{1}", theme, user);
     }
 
-    private static TblUserAnswers FindLatestUserAnswer(IList<TblUserAnswers> userAnswers)
+    private static void SetStatus(TableRow row, int userRank, int pageRank)
     {
-        var latestUserAnswer = userAnswers[0];
-        foreach (var o in userAnswers)
-        {
-            if (o.Date > latestUserAnswer.Date)
-                latestUserAnswer = o;
-        }
-
-        return latestUserAnswer;
-    }
-
-    private static void SetPageResult(TblPages page, int userId, TableCell passStatusCell, TableCell userRankCell)
-    {
-        int userRank = GetUserRank(page, userId);
+        var c = new TableCell();
 
         if (userRank < 0)
         {
-            userRankCell.Text = "NO RANK";
-            passStatusCell.Text = "NO RESULT";
+            c.Text = "NO RESULT";
         }
         else
         {
-            userRankCell.Text = userRank.ToString();
-            passStatusCell.Text = userRank >= (int)page.PageRank ? "pass" : "fail";
-        }
-    }
-
-    private static int GetUserRank(TblPages page, int userId)
-    {
-        var questionsIDs = ServerModel.DB.LookupIds<TblQuestions>(page, null);
-        var questions = ServerModel.DB.Load<TblQuestions>(questionsIDs);
-
-        int userRank = 0;
-
-        foreach (var question in questions)
-        {
-            isContainCompiledQuestions = question.IsCompiled;
-
-            userRank += CalculateUserRank(question, userId);
-        }
-        return userRank;
-    }
-
-    private static void SetPageNameAndRank(TblPages page, TableCell pageNameCell, TableCell pageRankCell)
-    {
-        pageNameCell.Text =  page.PageName;
-
-        pageRankCell.Text = page.PageRank.ToString();
-    }
-
-    private static IList<TblUserAnswers> FindUserAnswers(IList<TblUserAnswers> userAnswers, int userId)
-    {
-        var currentUserAnswers = new List<TblUserAnswers>();
-
-        foreach (var o in userAnswers)
-        {
-            if (o.UserRef == userId)
-                currentUserAnswers.Add(o);
+            c.Text = userRank >= pageRank ? "pass" : "fail";
         }
 
-        return currentUserAnswers;
+        row.Cells.Add(c);
     }
 
-    private static void SetPageDetailsLink(TableCell cell, int pageId)
+    private static void SetUserRank(TableRow row, int userRank)
     {
-        cell.Controls.Add(new HyperLink{Text = "Details", NavigateUrl = string.Format(pageDetailsUrl, pageId)});
+        var c = new TableCell
+                    {
+                        Text = (userRank < 0 ? "NO RANK" : userRank.ToString())
+                    };
+
+        row.Cells.Add(c);
     }
 
-    private static void SetCompiledDetailsLink(TableCell cell, int pageId)
+    private static void SetPageName(TableRow row, string pageName)
     {
-        cell.Controls.Add(new HyperLink { Text = "Compiled Details", NavigateUrl = string.Format(compiledDetailsUrl, pageId) });
+        var c = new TableCell {Text = pageName};
+
+        row.Cells.Add(c);
+    }
+
+    private static void SetPageRank(TableRow row, int pageRank)
+    {
+        var c = new TableCell {Text = pageRank.ToString()};
+
+        row.Cells.Add(c);
+    }
+
+    private static void SetCorrectAnswersLink(TableRow row, int pageId)
+    {
+        var c = new TableCell();
+        c.Controls.Add(new HyperLink{Text = "Correct Answers", NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new TestDetailsController
+                                                                                    {
+                                                                                        BackUrl = string.Empty,
+                                                                                        PageId = pageId,
+                                                                                        AnswerFlag = "correct"
+                                                                                    })});
+        row.Cells.Add(c);
+    }
+
+    private static void SetUserAnswersLink(TableRow row, int pageId)
+    {
+        var c = new TableCell();
+        c.Controls.Add(new HyperLink
+                           {Text = "User Answers", NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new TestDetailsController
+                                                                                    {
+                                                                                        BackUrl = string.Empty,
+                                                                                        PageId = pageId,
+                                                                                        AnswerFlag = "user"
+                                                                                    })});
+        row.Cells.Add(c);
+    }
+
+    private static void SetCompiledDetailsLink(TableRow row, int pageId)
+    {
+        var c = new TableCell();
+        c.Controls.Add(new HyperLink { Text = "Compiled Details", NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new CompiledQuestionsDetailsController
+                                                                                                                       {
+                                                                                        BackUrl = string.Empty,
+                                                                                        PageId = pageId    
+                                                                                    })});
+        row.Cells.Add(c);
     }
 }

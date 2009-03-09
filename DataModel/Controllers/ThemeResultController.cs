@@ -2,5 +2,7 @@
 {
     public class ThemeResultController : ControllerBase
     {
+        [ControllerParameter]
+        public int ThemeId;
     }
 }

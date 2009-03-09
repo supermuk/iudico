@@ -30,30 +30,46 @@ public partial class CompiledQuestionResult : UserControl
 
         if (userAnswers.Count != 0)
         {
-            var compiledData =
-                ServerModel.DB.Load<TblCompiledQuestionsData>(
-                    ServerModel.DB.LookupIds<TblCompiledQuestionsData>(compiledQuestion, null));
-            var compileAnswer = GetCompiledAnswer(FindLatestUserAnswer(userAnswers));
-
-            for (int i = 0; i < compiledData.Count; i++)
-            {
-                SetResults(compiledData[i], compileAnswer[i]);
-            }
+            SetResults(compiledQuestion, userAnswers);
         }
+        else
+        {
+            SetNoResultStatus(q);
+        }
+    }
+
+    private void SetNoResultStatus(TblQuestions q)
+    {
+        compiledAnswerTable.Visible = false;
+        statusLabel.Visible = true;
+        statusLabel.Text = string.Format("You not compile {0} yet", q.TestName);
+    }
+
+    private void SetResults(TblCompiledQuestions compiledQuestion, IList<TblUserAnswers> userAnswers)
+    {
+        var compiledData = GetCompiledData(compiledQuestion);
+        var compileAnswer = GetCompiledAnswer(FindLatestUserAnswer(userAnswers));
+
+        for (int i = 0; i < compiledData.Count; i++)
+        {
+            SetTestCaseResult(compiledData[i], compileAnswer[i]);
+        }
+    }
+
+    private static IList<TblCompiledQuestionsData> GetCompiledData(TblCompiledQuestions compiledQuestion)
+    {
+        return ServerModel.DB.Load<TblCompiledQuestionsData>(
+            ServerModel.DB.LookupIds<TblCompiledQuestionsData>(compiledQuestion, null));
     }
 
     private void SetHeader(string name, TblCompiledQuestions ua)
     {
-        nameLabel.Text += name;
-        timeLimitLabel.Text += ua.TimeLimit.ToString();
-        memoryLimitLabel.Text += ua.MemoryLimit.ToString();
-        languageLabel.Text += ((FX_LANGUAGE) ua.LanguageRef).ToString();
+        headerLabel.Text = string.Format("Name:{0}; Time Limit:{1}; Memory Limit:{2}; Language:{3};",
+        name, ua.TimeLimit, ua.MemoryLimit, ((FX_LANGUAGE) ua.LanguageRef));
     }
 
-    private void SetResults(TblCompiledQuestionsData compiledData, TblCompiledAnswers compileAnswer)
+    private void SetTestCaseResult(TblCompiledQuestionsData compiledData, TblCompiledAnswers compileAnswer)
     {
-        var tableRow = new TableRow();
-
         var inputCell = new TableCell {Text = compiledData.Input};
 
         var expectedOutputCell = new TableCell {Text = compiledData.Output};
@@ -66,7 +82,10 @@ public partial class CompiledQuestionResult : UserControl
 
         var statusCell = new TableCell {Text = ((Status) compileAnswer.StatusRef).ToString()};
 
+
+        var tableRow = new TableRow();
         tableRow.Cells.AddRange(new[]{inputCell, expectedOutputCell, userOutputCell, timeUsedCell, memoryUsedCell, statusCell});
+
 
         compiledAnswerTable.Rows.Add(tableRow);
     }

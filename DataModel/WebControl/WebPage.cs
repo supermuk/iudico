@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 using System.Web.UI;
 using System.Xml;
 using IUDICO.DataModel.ImportManagers;
@@ -249,12 +250,15 @@ namespace IUDICO.DataModel.WebControl
                 foreach (IUDICO.DataModel.WebControl.WebControl t in Controls)
                 {
                     if (t is WebTestControl)
-                        s.AppendFormat("tester.AddTest(new {0});",
-                                   (t as WebTestControl).CreateCodeForTest());
+                    {
+                        s.AppendFormat("tester.AddTest(new {0});", (t as WebTestControl).CreateCodeForTest());
+                        s.AppendLine();
+                    }
+
                 }
                 s.AppendLine();
                 s.AppendLine("tester.Submit();");
-                s.AppendLine("tester.NextTestPage(Response, Request[\"themeId\"], Request[\"pageIndex\"]);");
+                s.AppendLine("tester.NextTestPage(Response, Request);");
             s.AppendLine("}");
         }
 
@@ -262,23 +266,19 @@ namespace IUDICO.DataModel.WebControl
         {
             s.AppendLine("protected void OnFormLoad(object sender, EventArgs e)");
             s.AppendLine("{");
-            s.AppendLine("if (Request[\"submit\"] != null)");
-                s.AppendLine("{");
-                    s.AppendLine("if (Request[\"submit\"] == \"false\")");
-                    s.AppendLine("{");
-            
                     foreach (var t in Controls)
                     {
                         if (t is WebButton)
-                            s.AppendFormat("{0}.Enabled = false;", t.Name);
+                        {
+                            s.AppendFormat("{0}.Enabled = IUDICO.DataModel.WebControl.TestPageHelper.IsSubmitEnabled(Request);", t.Name);
+                            s.AppendLine();
+                        }
                     }
-                    s.AppendLine("}");
-                    
-                    s.AppendLine("if (Request[\"answers\"] == \"true\")");
+
+                    s.AppendLine("if (IUDICO.DataModel.WebControl.TestPageHelper.IsWriteAnswers(Request))");
                     s.AppendLine("{");
                         s.AppendLine("WriteAnswers();");
                     s.AppendLine("}");
-                s.AppendLine("}");
             s.AppendLine("}");
         }
 
@@ -289,7 +289,7 @@ namespace IUDICO.DataModel.WebControl
 
             const string answerFillerVaribleName = "answerFiller";
 
-            s.AppendFormat("IUDICO.DataModel.WebControl.AnswerFiller {0} = new IUDICO.DataModel.WebControl.AnswerFiller({1});", answerFillerVaribleName, pageId);
+            s.AppendFormat("IUDICO.DataModel.WebControl.AnswerFiller {0} = new IUDICO.DataModel.WebControl.AnswerFiller({1}, Request);", answerFillerVaribleName, pageId);
             s.AppendLine();
             foreach (var control in controls)
             {
@@ -299,4 +299,18 @@ namespace IUDICO.DataModel.WebControl
             s.AppendLine("}");
         }
     }
+
+    public class TestPageHelper
+    {
+        public static bool IsWriteAnswers(HttpRequest request)
+        {
+            return !(request["answers"]).ToLower().Equals("false");
+        }
+
+        public static bool IsSubmitEnabled(HttpRequest request)
+        {
+            return !(request["submit"]).ToLower().Equals("false");
+        }
+    }
+
 }

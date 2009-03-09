@@ -1,29 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel.DB;
+using IUDICO.DataModel.HttpHandlers;
+using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.Controllers
 {
     public class TestDetailsController : ControllerBase
     {
-        public HttpRequest Request { get; set; }
-
         private HtmlControl iframe;
 
         public ContentPlaceHolder PageContent { get; set; }
 
-        public Label PageRank { get; set; }
+        public IVariable<string> PageRank = string.Empty.AsVariable();
 
-        public Label MaxPageRank { get; set; }
+        public IVariable<string> MaxPageRank = string.Empty.AsVariable();
 
-        public Label QuestionCount { get; set; }
+        public IVariable<string> QuestionCount = string.Empty.AsVariable();
 
-        public string pageIDRequestParameter = "pageId";
+        public IVariable<string> PageTitle = string.Empty.AsVariable();
 
-        private const string testPageRequestPattern = "DisplayIudicoTestPage.ipp?pageId={0}&submit=false&answers=true&themeId=0&pageIndex=0";
+        public IVariable<string> PageHeader = string.Empty.AsVariable();
+
+        [ControllerParameter]
+        public string AnswerFlag;
+
+        [ControllerParameter]
+        public int PageId;
 
 
         public void PageLoad(object sender, EventArgs e)
@@ -35,16 +40,18 @@ namespace IUDICO.DataModel.Controllers
 
         private void ShowPage()
         {
-            if(Request[pageIDRequestParameter] != null)
+            if(PageId != 0)
             {
-                TblPages page = GetPage(Request[pageIDRequestParameter]);
+                TblPages page = GetPage(PageId);
 
                 var questions = ServerModel.DB.Load<TblQuestions>(ServerModel.DB.LookupIds<TblQuestions>(page, null));
 
-                SetMaxRankLabel(GetMaxRank(questions));
-                SetRankLabel((int) page.PageRank);
-                SetCountLabel(questions.Count);
-                SetUrl(page.ID);
+                SetHeader(page);
+
+                MaxPageRank.Value = GetMaxRank(questions).ToString();
+                PageRank.Value = ((int)page.PageRank).ToString();
+                QuestionCount.Value = (questions.Count).ToString();
+                SetUrl();
             }
             else
             {
@@ -52,24 +59,18 @@ namespace IUDICO.DataModel.Controllers
             }
         }
 
-        private void SetMaxRankLabel(int rank)
+        private void SetHeader(TblPages page)
         {
-            MaxPageRank.Text = "Maximal Posible Rank: " + rank;
+            PageTitle.Value = GetPageTitleType();
+            PageHeader.Value = string.Format("{0} for Page: {1}", GetPageTitleType(), page.PageName); 
         }
 
-        private void SetRankLabel(int rank)
+        private void SetUrl()
         {
-            PageRank.Text = "Page Rank: " + rank;
-        }
+            var request =
+                RequestBuilder.newRequest("DisplayIudicoTestPage.ipp").AddPageId(PageId.ToString()).AddAnswers(AnswerFlag);
 
-        private void SetCountLabel(int count)
-        {
-            QuestionCount.Text = "Questions on Page: " + count;
-        }
-
-        private void SetUrl(int pageId)
-        {
-            iframe.Attributes["src"] = string.Format(testPageRequestPattern, pageId);
+            iframe.Attributes["src"] = request.BuildRequestForHandler();
         }
 
         private static int GetMaxRank(IList<TblQuestions> questions)
@@ -82,11 +83,10 @@ namespace IUDICO.DataModel.Controllers
             return maxRank;
         }
 
-        private static TblPages GetPage(string pageId)
+        private static TblPages GetPage(int pageId)
         {
-            return ServerModel.DB.Load<TblPages>(int.Parse(pageId));
+            return ServerModel.DB.Load<TblPages>(pageId);
         }
-
 
         private void LoadIFrame()
         {
@@ -100,6 +100,20 @@ namespace IUDICO.DataModel.Controllers
             {
                 throw new Exception("Can't load page Content");
             }
+        }
+    
+        public string GetPageTitleType()
+        {
+            if (AnswerFlag.ToLower().Equals("user"))
+            {
+                return "Last Answers";
+            }
+
+            if (AnswerFlag.ToLower().Equals("correct"))
+            {
+                return "Correct Answers";
+            }
+            return "";
         }
     }
 }
