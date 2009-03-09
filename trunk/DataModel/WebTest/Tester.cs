@@ -35,11 +35,11 @@ namespace IUDICO.DataModel.WebTest
                     (new CompilationManager()).Compile(ua);
             }
         }
-    
-        public void NextTestPage(HttpResponse response, string themeId, string pageIndex)
+
+        public void NextTestPage(HttpResponse response, HttpRequest request)
         {
-            int theme = int.Parse(themeId);
-            int page = int.Parse(pageIndex);
+            int theme = int.Parse(request["themeId"]);
+            int page = int.Parse(request["pageIndex"]);
             int nextPage = page + 1;
 
             string pageUrl = string.Format("../Student/OpenTest.aspx?openThema={0}&pageIndex={1}", theme, nextPage);

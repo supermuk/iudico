@@ -1,14 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Web;
-using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.Security;
-using TestingSystem;
+using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.Controllers
 {
@@ -16,9 +13,7 @@ namespace IUDICO.DataModel.Controllers
     {
         public TreeView CurriculumnTreeView { get; set; }
 
-        public HttpResponse Response { get; set; }
-
-        public Table LastPagesResult { get; set; }
+        public Table LastPagesResultTable { get; set; }
 
         public Button ChangeModeButton { get; set; }
 
@@ -28,10 +23,11 @@ namespace IUDICO.DataModel.Controllers
 
         private const int countHowManyPagesToShow = 5;
 
-        [PersistantField] private bool isViewMode = true;
+        public IVariable<string> UserName = string.Empty.AsVariable();
 
-        private const string showResultRequest = "ThemeResult.aspx?themeId={0}";
-        private const string openTestRequest = "OpenTest.aspx?openThema={0}&submit={1}";
+        public IVariable<string> Description = string.Empty.AsVariable();
+
+        [PersistantField] private bool isViewMode = true;
 
 
         public void OpenTestButton_Click(object sender, EventArgs e)
@@ -43,21 +39,21 @@ namespace IUDICO.DataModel.Controllers
             bool showSubmit = StudentHelper.IsDateAllowed(DateTime.Today, permissions);
 
             if (selectedNode.Type == NodeType.Theme)
-                Response.Redirect(string.Format(openTestRequest, selectedNode.ID, showSubmit));
+                RedirectToController(new OpenTestController { BackUrl = string.Empty, OpenThema = selectedNode.ID, Submit = showSubmit.ToString(), PageIndex = 0 });
         }
-
-
 
         public void ShowResultButton_Click(object sender, EventArgs e)
         {
             var selectedNode = (IdendtityNode)CurriculumnTreeView.SelectedNode;
-
             if (selectedNode.Type == NodeType.Theme)
-                Response.Redirect(string.Format(showResultRequest, selectedNode.ID));
+                RedirectToController(new ThemeResultController{ BackUrl = string.Empty, ThemeId = selectedNode.ID });
         }
 
         public void Page_Load(object sender, EventArgs e)
         {
+            UserName.Value = ServerModel.User.Current.UserName;
+            Description.Value = string.Format("From this page you can open test or see test results; And see you last {0} result", countHowManyPagesToShow);
+
             SetCalendarColor();
             if (!((Page) sender).IsPostBack)
             {
@@ -89,11 +85,13 @@ namespace IUDICO.DataModel.Controllers
 
         public void SelectedDateChanged(object sender, EventArgs e)
         {
+            Description.Value = string.Format("Display themes that you can {0} in selected date", isViewMode ? "view" : "pass");
             BuildTree(CurriculumnCalendar.SelectedDate);
         }
 
         public void CurriculumnTree_SelectionChanged(object sender, EventArgs e)
         {
+            Description.Value = string.Format("In calendar your see dates when you can {0} test", isViewMode ? "view" : "pass");
             SelectDatesForSelectedNode();
         }
 
@@ -173,23 +171,27 @@ namespace IUDICO.DataModel.Controllers
 
         private void BuildLatestResultTable()
         {
-            var listOfPages = StudentHelper.GetLatestResults();
+            var listOfPages = UserResultCalculator.GetLatestResults();
 
-            int countOfShowedPages = listOfPages.Count > countHowManyPagesToShow
-                                         ? countHowManyPagesToShow
-                                         : listOfPages.Count;
+            int countOfShowedPages = Math.Min(countHowManyPagesToShow, listOfPages.Count);
 
-            for (int i = 0; i < countOfShowedPages; i++)
+            if (countOfShowedPages != 0)
             {
-                var pageNameCell = new TableCell{Text = listOfPages[i].PageName};
-                var themeNameCell = new TableCell{ Text = listOfPages[i].ThemeName};
-                var pageStatusPageCell = new TableCell{ Text = listOfPages[i].GetStatus};
-                var dateCell = new TableCell{ Text = listOfPages[i].Date.ToString() };
+                for (int i = 0; i < countOfShowedPages; i++)
+                {
+                    var pageNameCell = new TableCell {Text = listOfPages[i].PageName};
+                    var themeNameCell = new TableCell {Text = listOfPages[i].ThemeName};
+                    var pageStatusPageCell = new TableCell {Text = listOfPages[i].GetStatus()};
+                    var dateCell = new TableCell {Text = listOfPages[i].Date.ToString()};
 
-                var row = new TableRow();
-                row.Cells.AddRange(new[] { pageNameCell, themeNameCell, pageStatusPageCell, dateCell});
-                LastPagesResult.Rows.Add(row);
-
+                    var row = new TableRow();
+                    row.Cells.AddRange(new[] {pageNameCell, themeNameCell, pageStatusPageCell, dateCell});
+                    LastPagesResultTable.Rows.Add(row);
+                }
+            }
+            else
+            {
+                LastPagesResultTable.Visible = false;
             }
         }
 
@@ -201,13 +203,12 @@ namespace IUDICO.DataModel.Controllers
             
         }
 
-
         private void BuildTree(DateTime? date)
         {
             CurriculumnTreeView.Nodes.Clear();
 
             var userCurriculumsIds = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.CURRICULUM,
-                ((CustomUser) Membership.GetUser()).ID, FxCurriculumOperations.View.ID, null);
+                ServerModel.User.Current.ID, FxCurriculumOperations.View.ID, null);
            
 
             var userCurriculums = ServerModel.DB.Load<TblCurriculums>(userCurriculumsIds);
@@ -242,7 +243,7 @@ namespace IUDICO.DataModel.Controllers
 
                 if (StudentHelper.IsDateAllowed(date, permissions))
                 {
-                    BuildThemes(stage, child, date, isViewMode);
+                    BuildThemes(stage, child);
 
                     if (child.ChildNodes.Count != 0)
                         node.ChildNodes.Add(child);
@@ -250,7 +251,7 @@ namespace IUDICO.DataModel.Controllers
             }
         }
 
-        private static void BuildThemes(TblStages stage, TreeNode node, DateTime? date, bool isViewMode)
+        private static void BuildThemes(TblStages stage, TreeNode node)
         {
             var themesIds = ServerModel.DB.LookupMany2ManyIds<TblThemes>(stage, null);
             var themes = ServerModel.DB.Load<TblThemes>(themesIds);
@@ -262,331 +263,5 @@ namespace IUDICO.DataModel.Controllers
         }
     }
 
-    class SortPageBydateHelper : IComparable<SortPageBydateHelper>
-    {
-        public string ThemeName { get; set; }
 
-        public string PageName
-        { 
-            get
-            {
-                return page.PageName;
-            }
-        }
-
-        private readonly TblPages page;
-
-        public DateTime Date { get; set; }
-
-        public SortPageBydateHelper(int userAnswerId)
-        {
-            var ans = ServerModel.DB.Load<TblUserAnswers>(userAnswerId);
-
-            Date = (DateTime)ans.Date;
-
-            var que = ServerModel.DB.Load<TblQuestions>((int)ans.QuestionRef);
-
-            page = ServerModel.DB.Load<TblPages>((int)que.PageRef);
-
-            var theme = ServerModel.DB.Load<TblThemes>((int)page.ThemeRef);
-
-            ThemeName = theme.Name;
-
-        }
-
-        public int CompareTo(SortPageBydateHelper other)
-        {
-            return other.Date.CompareTo(Date);
-        }
-
-        public override bool Equals(object obj)
-        {
-            var obj2 = obj as SortPageBydateHelper;
-
-            if (obj2 != null)
-                return page.ID == obj2.page.ID && Date.Equals(obj2.Date);
-
-            return false;
-        }
-
-        public override int GetHashCode()
-        {
-                int result = page.ID;
-                result = (result * 397) ^ (ThemeName != null ? ThemeName.GetHashCode() : 0);
-                result = (result * 397) ^ (PageName != null ? PageName.GetHashCode() : 0);
-                result = (result * 397) ^ Date.GetHashCode();
-                return result;
-        }
-
-        public string GetStatus
-        {
-            get
-            {
-                var userRank = GetUserRank(page, ((CustomUser) Membership.GetUser()).ID, Date);
-
-                return userRank >= (int)page.PageRank ? "pass" : "fail";
-            }
-        }
-
-        private static int CalculateUserRank(TblQuestions question, int userId, DateTime date)
-        {
-            int userRank = 0;
-
-            var userAnswers = ServerModel.DB.Load<TblUserAnswers>(ServerModel.DB.LookupIds<TblUserAnswers>(question, null));
-
-            if (userAnswers != null)
-            {
-                var currUserAnswers = FindUserAnswers(userAnswers, userId);
-                if (currUserAnswers.Count != 0)
-                {
-                    var userAnswerWithNeededDate = FindUserAnswerWithNeededDate(currUserAnswers, date);
-
-                    if (userAnswerWithNeededDate.UserAnswer == question.CorrectAnswer)
-                    {
-                        userRank += (int) question.Rank;
-                    }
-                    else if (userAnswerWithNeededDate.IsCompiledAnswer)
-                    {
-                        var userCompiledAnswers = ServerModel.DB.Load<TblCompiledAnswers>(ServerModel.DB.LookupIds<TblCompiledAnswers>(userAnswerWithNeededDate, null));
-
-                        bool allAcepted = true;
-
-                        foreach (var compiledAnswer in userCompiledAnswers)
-                        {
-                            allAcepted &= (compiledAnswer.StatusRef == (int)Status.Accepted);
-                        }
-                        if(allAcepted)
-                        {
-                            userRank += (int)question.Rank;
-                        }
-                    }
-                }
-                else
-                {
-                    userRank = -1;
-                }
-            }
-
-            return userRank;
-        }
-
-        private static TblUserAnswers FindUserAnswerWithNeededDate(IList<TblUserAnswers> userAnswers, DateTime date)
-        {
-            foreach (var o in userAnswers)
-            {
-                if (o.Date.ToString().Equals(date.ToString()))
-                    return o;
-            }
-
-            return null;
-        }
-
-        private static IList<TblUserAnswers> FindUserAnswers(IList<TblUserAnswers> userAnswers, int userId)
-        {
-            var currentUserAnswers = new List<TblUserAnswers>();
-
-            foreach (var o in userAnswers)
-            {
-                if (o.UserRef == userId)
-                    currentUserAnswers.Add(o);
-            }
-
-            return currentUserAnswers;
-        }
-
-        private static int GetUserRank(TblPages page, int userId, DateTime date)
-        {
-            var questionsIDs = ServerModel.DB.LookupIds<TblQuestions>(page, null);
-            var questions = ServerModel.DB.Load<TblQuestions>(questionsIDs);
-
-            int userRank = 0;
-
-            foreach (var question in questions)
-            {
-                userRank += CalculateUserRank(question, userId, date);
-            }
-            return userRank;
-        }
-    }
-
-    class StudentHelper
-    {
-        public static bool IsBothDatesAreNull(DateTime? firstDate, DateTime? secondDate)
-        {
-            return (firstDate == null) && (secondDate == null);
-        }
-
-        public static List<SortPageBydateHelper> GetLatestResults()
-        {
-            var user = ServerModel.DB.Load<TblUsers>(((CustomUser)Membership.GetUser()).ID);
-            var userAnswersIds = ServerModel.DB.LookupIds<TblUserAnswers>(user, null);
-
-            var sortHelpers = new List<SortPageBydateHelper>();
-
-            foreach (var answerId in userAnswersIds)
-            {
-                var currHelper = new SortPageBydateHelper(answerId);
-
-                if (!sortHelpers.Contains(currHelper))
-                {
-                    sortHelpers.Add(currHelper);
-                }
-            }
-
-            sortHelpers.Sort();
-
-            return sortHelpers;
-        }
-
-        public static List<TblPermissions> GetPermissionForNode(IdendtityNode node, SECURED_OBJECT_TYPE type, bool isViewMode)
-        {
-            var permissions = GetPermission((node).ID, type, isViewMode);
-
-            var list = new List<TblPermissions>();
-
-            if (permissions.Count == 0 && type != SECURED_OBJECT_TYPE.CURRICULUM)
-            {
-                list.AddRange(GetPermissionForNode(((IdendtityNode) node.Parent), GetParentForObject(type), isViewMode));
-            }
-            else
-            {
-                list.AddRange(permissions);
-            }
-                
-            
-            return list;
-        }
-
-        public static IList<TblPermissions> GetPermission(int id, SECURED_OBJECT_TYPE type, bool isViewMode)
-        {
-            var permissionsIds = PermissionsManager.GetPermissions(type, ((CustomUser)Membership.GetUser()).ID, null, null);
-            
-            var permisions = ServerModel.DB.Load<TblPermissions>(permissionsIds);
-
-            return FindObjectPermission(type, id, GetOperationId(type, isViewMode), permisions);
-        }
-
-        public static bool IsDateAllowed(DateTime? date, IList<TblPermissions> permissions)
-        {
-            if(permissions.Count == 0)
-            {
-                return true;
-            }
-
-            bool b = false;
-
-            foreach (var permission in permissions)
-            {
-                b = b || IsDateInPeriod(date, permission.DateSince, permission.DateTill);
-            }
-
-            return b;
-        }
-
-        public static bool IsDateInPeriod(DateTime? date, DateTime? startPeriod, DateTime? endPeriod)
-        {
-            if (date == null)
-            {
-                return true;
-            }
-
-            if (IsBothDatesAreNull(startPeriod, endPeriod))
-            {
-                return true;
-            }
-
-            if(startPeriod == null)
-            {
-                return date <= endPeriod;
-            }
-
-            if (endPeriod == null)
-            {
-                return date >= startPeriod;
-            }
-            return ((startPeriod <= date) && (date <= endPeriod));
-        }
-
-        private static IList<TblPermissions> FindObjectPermission(SECURED_OBJECT_TYPE type, int objectId, int operationId, IList<TblPermissions> allPermissions)
-        {
-            switch (type)
-            {
-                case (SECURED_OBJECT_TYPE.CURRICULUM):
-                    {
-                        return FindPerrmisionForCurriculumn(objectId, operationId, allPermissions);
-                    }
-                case (SECURED_OBJECT_TYPE.STAGE):
-                    {
-                        return FindPerrmisionForStage(objectId, operationId, allPermissions);
-                    }
-            }
-            return new List<TblPermissions>();
-        }
-
-        private static IList<TblPermissions> FindPerrmisionForStage(int stageId, int operationId, IList<TblPermissions> allPermisions)
-        {
-            var list = new List<TblPermissions>();
-
-            foreach (var permission in allPermisions)
-            {
-                if(permission.StageRef == stageId && permission.StageOperationRef == operationId)
-                {
-                    list.Add(permission);
-                }
-            }
-
-            return list;
-        }
-
-        private static IList<TblPermissions> FindPerrmisionForCurriculumn(int curriculumnId, int operationId, IList<TblPermissions> allPermisions)
-        {
-            var list = new List<TblPermissions>();
-
-            foreach (var permission in allPermisions)
-            {
-                if (permission.CurriculumRef == curriculumnId && permission.CurriculumOperationRef == operationId)
-                {
-                    list.Add(permission);
-                }
-            }
-
-            return list;
-        }
-
-        private static FxCurriculumOperations GetFxOperationForCurriculumn(bool isViewMode)
-        {
-            return isViewMode ? FxCurriculumOperations.View : FxCurriculumOperations.Pass; 
-        }
-
-        private static FxStageOperations GetFxOperationForStage(bool isViewMode)
-        {
-            return isViewMode ? FxStageOperations.View : FxStageOperations.Pass;
-        }
-
-        private static int GetOperationId(SECURED_OBJECT_TYPE type, bool isViewMode)
-        {
-            switch (type)
-            {
-                case(SECURED_OBJECT_TYPE.CURRICULUM):
-                    {
-                        return GetFxOperationForCurriculumn(isViewMode).ID;
-
-                    }
-                case (SECURED_OBJECT_TYPE.STAGE):
-                    {
-                        return GetFxOperationForStage(isViewMode).ID;
-                    }
-                default:
-                    return 0;
-            }
-        }
-
-        private static SECURED_OBJECT_TYPE GetParentForObject(SECURED_OBJECT_TYPE type)
-        {
-            if (type == SECURED_OBJECT_TYPE.STAGE)
-                return SECURED_OBJECT_TYPE.CURRICULUM;
-            
-            return SECURED_OBJECT_TYPE.CURRICULUM;
-        }
-    }
 }

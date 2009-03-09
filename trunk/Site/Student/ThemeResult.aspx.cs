@@ -4,19 +4,18 @@ using IUDICO.DataModel.Controllers;
 
 public partial class ThemeResult : ControlledPage<ThemeResultController>
 {
-    private const string themeId = "themeId";
-
     protected override void BindController(ThemeResultController c)
     {
         base.BindController(c);
         Load += PageLoad;
-  
     }
+
     public void PageLoad(object sender, EventArgs e)
     {
-        if (Request[themeId] != null)
+        if (Controller.ThemeId != 0)
         {
-            themeResult.ThemeId = int.Parse(Request[themeId]);
+            headerLabel.Text = "Statistic for Theme";
+            themeResult.ThemeId = Controller.ThemeId;
         }
         else
         {

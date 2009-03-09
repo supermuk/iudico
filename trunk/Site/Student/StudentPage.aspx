@@ -2,20 +2,14 @@
 <%@ Register TagPrefix="iudico" Namespace="IUDICO.DataModel.Controllers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
-    <style type="text/css">
-        .style1
-        {
-            width: 250px;
-        }
-        .style2
-        {
-            width: 406px;
-        }
-    </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
     
+    <asp:Label runat = "server" ID = "headerLabel" Font-Bold="True" Font-Size="XX-Large"></asp:Label>
+    <br />
+    <asp:Label runat = "server" ID = "descriptionLabel"></asp:Label>
+    <br />
     <table style="width:100%;">
         <tr>
             <td class="style1">

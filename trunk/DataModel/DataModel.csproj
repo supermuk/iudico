@@ -128,8 +128,10 @@
     <Compile Include="Common\ProjectPaths.cs" />
     <Compile Include="Common\SqlUtils.cs" />
     <Compile Include="Common\Memorizer.cs" />
+    <Compile Include="Common\StudentHelper.cs" />
     <Compile Include="Common\TeacherHelper.cs" />
     <Compile Include="Common\UniqueId.cs" />
+    <Compile Include="Common\UserResultCalculator.cs" />
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Common\ViewStateUtility.cs" />
     <Compile Include="Common\XmlAttributes.cs" />
@@ -176,6 +178,7 @@
     <Compile Include="HttpHandlers\IudicoHttpHandler.cs" />
     <Compile Include="HttpHandlers\PageHandler.cs" />
     <Compile Include="HttpHandlers\PracticeHandler.cs" />
+    <Compile Include="HttpHandlers\RequestBuilder.cs" />
     <Compile Include="HttpHandlers\TheoryHandler.cs" />
     <Compile Include="DB\DatabaseModel.cs" />
     <Compile Include="DB\DatabaseModel.generated.cs" />
