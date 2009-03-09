@@ -20,11 +20,16 @@ public partial class ThemeResultControl : System.Web.UI.UserControl
 
         var pages = ServerModel.DB.Load <TblPages>(ServerModel.DB.LookupIds<TblPages>(theme, null));
 
+        int totalPageRank = 0;
+        int totalUserRank = 0;
+
         foreach (var page in pages)
         {
             if (page.PageTypeRef == (int)FX_PAGETYPE.Practice)
             {
                 int userRank = UserResultCalculator.GetUserRank(page, userId);
+                totalUserRank += userRank;
+                totalPageRank += (int)page.PageRank;
 
                 var row = new TableRow();
 
@@ -39,10 +44,9 @@ public partial class ThemeResultControl : System.Web.UI.UserControl
                     SetCompiledDetailsLink(row, page.ID);
 
                 resultTable.Rows.Add(row);
-
             }
         }
-        
+        SetTotalRow(totalPageRank, (totalUserRank < 0) ? 0 : totalUserRank);
     }
 
     private void SetHeaderText(string theme, string user)
@@ -124,5 +128,19 @@ public partial class ThemeResultControl : System.Web.UI.UserControl
                                                                                         PageId = pageId    
                                                                                     })});
         row.Cells.Add(c);
+    }
+
+    private void SetTotalRow(int totalUserRank, int totalPageRank)
+    {
+        var row = new TableRow();
+
+        var emptyCell = new TableCell();
+        var totalCell = new TableCell{ Text = "Total" };
+        var userRankCell = new TableCell { Text = totalUserRank.ToString() };
+        var pageRankCell = new TableCell { Text = totalPageRank.ToString() };
+
+        row.Cells.AddRange(new[] { totalCell, emptyCell, pageRankCell, userRankCell});
+        resultTable.Rows.Add(row);
+        
     }
 }
