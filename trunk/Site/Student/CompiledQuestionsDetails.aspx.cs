@@ -9,7 +9,6 @@ using IUDICO.DataModel.DB;
 /// </summary>
 public partial class CompiledQuestionsDetails : ControlledPage<CompiledQuestionsDetailsController>
 {
-    private const string pageIdRequestParameter = "pageId";
     private ContentPlaceHolder placeHolder;
 
     protected override void BindController(CompiledQuestionsDetailsController c)
@@ -22,9 +21,9 @@ public partial class CompiledQuestionsDetails : ControlledPage<CompiledQuestions
     
     public void PageLoad(object sender, EventArgs e)
     {
-        if (Request[pageIdRequestParameter] != null)
+        if (Controller.PageId != 0)
         {
-            BuildStatistic(int.Parse(Request[pageIdRequestParameter]));
+            BuildStatistic(Controller.PageId);
         }
         else
         {
@@ -36,12 +35,12 @@ public partial class CompiledQuestionsDetails : ControlledPage<CompiledQuestions
     {
         var page = ServerModel.DB.Load<TblPages>(pageId);
         var questions = ServerModel.DB.Load<TblQuestions>(ServerModel.DB.LookupIds<TblQuestions>(page, null));
-        pageNameLabel.Text = page.PageName;
 
         foreach (var question in questions)
         {
             if (question.IsCompiled)
             {
+                headerLabel.Text = string.Format("Compilation Details For Question From Page:{0}", page.PageName);
                 var cqr = (CompiledQuestionResult)LoadControl("../Controls/CompiledQuestionResult.ascx");
                 cqr.Question = question;
                 placeHolder.Controls.Add(cqr);

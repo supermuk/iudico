@@ -15,9 +15,10 @@ public partial class StudentPage : ControlledPage<StudentPageController>
         Load += c.Page_Load;
         c.ChangeModeButton = modeChangerButton;
         c.CurriculumnTreeView = curriculumTreeView;
-        c.LastPagesResult = lastPagesResultTable;
+        c.LastPagesResultTable = lastPagesResultTable;
         c.CurriculumnCalendar = curriculumCalendar;
         c.OpenTestButton = openTest;
-        c.Response = Response;
+        Bind(headerLabel, c.UserName, un => string.Format("Student Page For: {0}", un));
+        Bind(descriptionLabel, c.Description);
     }
 }

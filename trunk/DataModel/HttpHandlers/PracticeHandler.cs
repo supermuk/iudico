@@ -22,9 +22,12 @@ namespace IUDICO.DataModel.HttpHandlers
            
             string url = GetUrl(context);
 
+            var requestBuilder = RequestBuilder.newRequest(string.Format("{0}/{1}/{2}", url, testsFolder, pageFileName))
+                .AddSubmit(context.Request["submit"]).AddAnswers(context.Request["answers"])
+                    .AddThemeId(context.Request["themeId"]).AddPageIndex(context.Request["pageIndex"]);
+
             WritePageToFile(page, path);
-            context.Response.Redirect(string.Format("{0}/{1}/{2}?submit={3}&answers={4}&themeId={5}&pageIndex={6}",
-                url, testsFolder, pageFileName, context.Request["submit"], context.Request["answers"], context.Request["themeId"], context.Request["pageIndex"]));
+            context.Response.Redirect(requestBuilder.BuildRequestForTest());
         }
 
         private static void CreateTestsDirectory(string pathToTests)

@@ -2,6 +2,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
-    <i:ThemeResult ID = "themeResult" runat = "server"></i:ThemeResult>
+<asp:Label runat = "server" ID = "headerLabel" Font-Bold="True" Font-Size="XX-Large"></asp:Label>
+<br />
+<i:ThemeResult ID = "themeResult" runat = "server"></i:ThemeResult>
 </asp:Content>
 

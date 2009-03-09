@@ -8,10 +8,11 @@ public partial class TestDetails : ControlledPage<TestDetailsController>
     {
         base.BindController(c);
         Load += c.PageLoad;
-        c.Request = Request;
         c.PageContent = (ContentPlaceHolder)Master.FindControl("MainContent");
-        c.MaxPageRank = maximumRank;
-        c.PageRank = pageRank;
-        c.QuestionCount = questionCount;
+        Bind(maximumRankLabel, c.MaxPageRank, gn => string.Format("Maximal Posible Rank:{0}", gn));
+        Bind(pageRankLabel, c.PageRank, gn => string.Format("Page Rank:{0}", gn));
+        Bind(questionCountLabel, c.QuestionCount, gn => string.Format("Questions on Page:{0}", gn));
+        BindTitle(c.PageTitle, pt => pt);
+        Bind(headerLabel, c.PageHeader);
     }
 }
