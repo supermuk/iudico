@@ -10,8 +10,8 @@ namespace IUDICO.DataModel.Common
     {
         public static IList<TblCourses> MyCourses(FxCourseOperations operation)
         {
-            IList<int> iDs = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.COURSE, ServerModel.User.Current.ID, operation.ID, null);
-            return ServerModel.DB.Load<TblCourses>(iDs);
+            //IList<int> iDs = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.COURSE, ServerModel.User.Current.ID, operation.ID, null);
+            //return ServerModel.DB.Load<TblCourses>(iDs);
 
             return ServerModel.DB.Query<TblCourses>(
                   new InCondition<int>(DataObject.Schema.ID,
@@ -441,6 +441,98 @@ namespace IUDICO.DataModel.Common
             }
 
             return lastAnswer;
+        }
+
+        public static IList<FxCourseOperations> CourseOperations()
+        {
+            return ServerModel.DB.Query<FxCourseOperations>(null);
+        }
+
+        public static bool HavePermissionForCourse(TblCourses course, FxCourseOperations operation)
+        {
+            IList<TblPermissions> permissions = ServerModel.DB.Query<TblPermissions>(
+                           new AndCondtion(
+                              new CompareCondition<int>(
+                                 DataObject.Schema.OwnerUserRef,
+                                 new ValueCondition<int>(ServerModel.User.Current.ID), COMPARE_KIND.EQUAL),
+                              new CompareCondition<int>(
+                                 DataObject.Schema.CourseOperationRef,
+                                 new ValueCondition<int>(operation.ID), COMPARE_KIND.EQUAL),
+                              new CompareCondition<int>(
+                                 DataObject.Schema.CourseRef,
+                                 new ValueCondition<int>(course.ID), COMPARE_KIND.EQUAL)));
+            if (permissions.Count == 0)
+            {
+                return false;
+            }
+            else
+            {
+                if (permissions.Count == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new Exception("Not allowed multiple operations");
+                }
+            }
+        }
+
+        public static bool HavePermissionForCourse(int userId, TblCourses course, FxCourseOperations operation)
+        {
+            IList<TblPermissions> permissions = ServerModel.DB.Query<TblPermissions>(
+                           new AndCondtion(
+                              new CompareCondition<int>(
+                                 DataObject.Schema.OwnerUserRef,
+                                 new ValueCondition<int>(userId), COMPARE_KIND.EQUAL),
+                              new CompareCondition<int>(
+                                 DataObject.Schema.CourseOperationRef,
+                                 new ValueCondition<int>(operation.ID), COMPARE_KIND.EQUAL),
+                              new CompareCondition<int>(
+                                 DataObject.Schema.CourseRef,
+                                 new ValueCondition<int>(course.ID), COMPARE_KIND.EQUAL)));
+            if (permissions.Count == 0)
+            {
+                return false;
+            }
+            else
+            {
+                if (permissions.Count == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new Exception("Not allowed multiple operations");
+                }
+            }
+        }
+
+        public static TblPermissions GetPermissionForCourse(TblCourses course, FxCourseOperations operation)
+        {
+            IList<TblPermissions> permissions = ServerModel.DB.Query<TblPermissions>(
+                           new AndCondtion(
+                              new CompareCondition<int>(
+                                 DataObject.Schema.OwnerUserRef,
+                                 new ValueCondition<int>(ServerModel.User.Current.ID), COMPARE_KIND.EQUAL),
+                              new CompareCondition<int>(
+                                 DataObject.Schema.CourseOperationRef,
+                                 new ValueCondition<int>(operation.ID), COMPARE_KIND.EQUAL),
+                              new CompareCondition<int>(
+                                 DataObject.Schema.CourseRef,
+                                 new ValueCondition<int>(course.ID), COMPARE_KIND.EQUAL)));
+            if (permissions.Count == 0)
+            {
+                return null;
+            }
+            if (permissions.Count == 1)
+            {
+                return permissions[0];
+            }
+            else
+            {
+                throw new Exception("Not allowed multiple operations");
+            }
         }
     }
 }
