@@ -25,6 +25,8 @@ public static class PagesReg
         f.Register<CurriculumAssignmentController>("~/Teacher/CurriculumAssignment.aspx");
         f.Register<StatisticSelectController>("~/Teacher/StatisticSelect.aspx");
         f.Register<StatisticShowController>("~/Teacher/StatisticShow.aspx");
+        f.Register<CourseShareController>("~/Teacher/CourseShare.aspx");
+        f.Register<TeacherObjectsController>("~/Teacher/TeacherObjects.aspx");
 
         f.Register<StudentPageController>("~/Student/StudentPage.aspx");
         f.Register<TestDetailsController>("~/Student/TestDetails.aspx");
