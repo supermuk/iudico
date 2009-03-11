@@ -1,5 +1,4 @@
-﻿using System.Data.Common;
-using IUDICO.DataModel.Common;
+﻿using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.DB
@@ -118,17 +117,17 @@ namespace IUDICO.DataModel.DB
     {
     }
 
-    public partial class TblCourses : SecuredDataObject, ISecuredDataObject
+    public partial class TblCourses : SecuredDataObject<FxCourseOperations>, ISecuredDataObject<FxCourseOperations>
     {
     }
 
-    public partial class TblCurriculums : SecuredDataObject, ISecuredDataObject
+    public partial class TblCurriculums : SecuredDataObject<FxCurriculumOperations>, ISecuredDataObject<FxCurriculumOperations>
     {
     }
 
     public partial class TblFiles : IntKeyedDataObject, IIntKeyedDataObject { }
 
-    public partial class TblGroups : SecuredDataObject, ISecuredDataObject
+    public partial class TblGroups : SecuredDataObject<FxGroupOperations>, ISecuredDataObject<FxGroupOperations>
     {
     }
 
@@ -138,11 +137,11 @@ namespace IUDICO.DataModel.DB
 
     public partial class TblSampleBusinesObject : IntKeyedDataObject, IIntKeyedDataObject { }
 
-    public partial class TblStages : SecuredDataObject, ISecuredDataObject
+    public partial class TblStages : SecuredDataObject<FxStageOperations>, ISecuredDataObject<FxStageOperations>
     {
     }
 
-    public partial class TblThemes : SecuredDataObject, ISecuredDataObject
+    public partial class TblThemes : SecuredDataObject<FxThemeOperations>, ISecuredDataObject<FxThemeOperations>
     {
     }
 

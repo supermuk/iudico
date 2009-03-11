@@ -77,6 +77,11 @@ namespace IUDICO.DataModel.DB.Base
 
     public interface ISecuredDataObject : IIntKeyedDataObject, INamedDataObject { }
 
+    public interface ISecuredDataObject<TOperations> : ISecuredDataObject
+        where TOperations : IFxDataObject
+    {        
+    }
+
     public interface IFxDataObject : IIntKeyedDataObject, INamedDataObject { }
 
     public interface IRelationshipTable : IDataObject
@@ -144,7 +149,8 @@ namespace IUDICO.DataModel.DB.Base
         }
     }
 
-    public abstract class SecuredDataObject : IntKeyedDataObject
+    public abstract class SecuredDataObject<TOperations> : IntKeyedDataObject
+        where TOperations : IFxDataObject
     {
     }
 

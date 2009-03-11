@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
-using System.Data.Common;
 using System.Linq;
+using System.Security;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.DB.Base;
@@ -130,8 +130,16 @@ namespace IUDICO.DataModel.Security
             return res;
         }
 
-        public static void Grand([NotNull] ISecuredDataObject dataObject, [NotNull]IFxDataObject operation, int? userID, int? groupID, DateTimeInterval interval)
+        public static void Grand<TSecuredDataObject, TOperation>([NotNull] TSecuredDataObject dataObject, [NotNull]TOperation operation, int? userID, int? groupID, DateTimeInterval interval)
+            where TSecuredDataObject : class, ISecuredDataObject<TOperation>
+            where TOperation : class, IFxDataObject
         {
+            if (dataObject == null)
+                throw new ArgumentNullException("dataObject");
+
+            if (operation == null)
+                throw new ArgumentNullException("operation");   
+
             if ((userID == null && groupID == null) || (userID != null && groupID != null))
             {
                 throw new ArgumentException("One and only one of parameters (userID, groupID) must be specified");
@@ -143,6 +151,38 @@ namespace IUDICO.DataModel.Security
                 OwnerGroupRef = groupID,
                 CanBeDelagated = true,
                 WorkingInterval = interval
+            };
+            p.SetObjectID(doType, dataObject.ID);
+            p.SetOperationID(doType, operation.ID);
+            ServerModel.DB.Insert(p);
+        }
+
+        public static void Delegate<TSecuredDataObject, TOperation>(int ownerUserID, [NotNull] TSecuredDataObject dataObject, [NotNull] TOperation operation, int? targetUserID, int? targetGroupID, DateTimeInterval interval)
+            where TSecuredDataObject : class, ISecuredDataObject<TOperation>
+            where TOperation : class, IFxDataObject
+        {
+            if (dataObject == null)
+                throw new ArgumentNullException("dataObject");
+
+            if ((targetUserID == null && targetGroupID == null) || (targetUserID != null && targetGroupID != null))
+                throw new ArgumentException("One and only one of parameters (targetUserID, targetGroupID) must be specified");
+
+            if (operation == null)
+                throw new ArgumentNullException("operation");           
+
+            var doType = ObjectTypeHelper.GetObjectType(dataObject.GetType());
+
+            var prm = GetPermissions(doType, ownerUserID, null, operation.ID);
+            if (prm.Count < 0)
+                throw new SecurityException(string.Format("User {0} have no access to do {1} on {2} ID = {3}. Cannot perform delegation", ownerUserID, operation.Name, dataObject.GetType().Name, dataObject.ID));
+            
+            var p = new TblPermissions
+            {
+                CanBeDelagated = true,
+                OwnerGroupRef = targetGroupID,
+                OwnerUserRef = targetUserID,
+                WorkingInterval = interval,
+                ParentPermitionRef = prm[0]
             };
             p.SetObjectID(doType, dataObject.ID);
             p.SetOperationID(doType, operation.ID);
@@ -239,7 +279,7 @@ namespace IUDICO.DataModel.Security
         private static void CreateGetPermissionsForUser([NotNull] SecuredObjectTypeAttribute a, [NotNull] IDbCommand cmd)
         {
             string procName = a.GetRetrievePermissionsProcName();
-            SqlUtils.RecreateProc(procName, string.Format(RETRIEVE_PERMISSIONS_PROC_TEMPLATE, procName, a.Name, PERMISSION_DATE_FILTER), cmd);
+            SqlUtils.RecreateProc(procName, string.Format(RETRIEVE_PERMISSIONS_PROC_TEMPLATE, procName, a.Name), cmd);
         }
 
         private static void CreateGetOperationsForObjectProc([NotNull] SecuredObjectTypeAttribute a, [NotNull] IDbCommand cmd)
@@ -259,7 +299,7 @@ namespace IUDICO.DataModel.Security
         private static void CreateGetPermissionsForGroup([NotNull] SecuredObjectTypeAttribute a, [NotNull] IDbCommand cmd)
         {
             string procName = a.GetRetrievePermissionsForGroupProcName();
-            SqlUtils.RecreateProc(procName, string.Format(RETRIEVE_PERMISSIONS_FOR_GROUP_PROC_TEMPLATE, procName, a.Name, PERMISSION_DATE_FILTER), cmd);
+            SqlUtils.RecreateProc(procName, string.Format(RETRIEVE_PERMISSIONS_FOR_GROUP_PROC_TEMPLATE, procName, a.Name), cmd);
         }
 
         private static void CheckSupport(Type @class, Type @intf)
@@ -296,8 +336,11 @@ namespace IUDICO.DataModel.Security
         private static Guid? ID;
         private const string PERMISSION_DATE_FILTER = "((DateSince IS NULL) OR (DateSince <= @TargetDate)) AND ((DateTill IS NULL) OR (DateTill >= @TargetDate))";
         private const string PERMISSION_DB_ERROR_MESSAGE = "Not enough permission to perform this operation";
-        private const string PERMISSIONS_SELECT_COLUMNS = "[ID], [ParentPermitionRef], [DateSince], [DateTill], [OwnerUserRef], [OwnerGroupRef], [CanBeDelagated], [{1}Ref], [{1}OperationRef]";
-        private const string RETRIEVE_PERMISSIONS_PROC_TEMPLATE = @"CREATE PROCEDURE {0}
+        private static readonly string[] PERMISSIONS_SELECT_COLUMNS_1 = new[] { "[ID]" , "[ParentPermitionRef]", "[DateSince]", "[DateTill]", "[OwnerUserRef]", "[OwnerGroupRef]", "[CanBeDelagated]" };
+        private static readonly string[] PERMISSIONS_SELECT_COLUMNS_2 = new[] { "[{1}Ref]", "[{1}OperationRef]" };
+        private static readonly string[] PERMISSIONS_SELECT_COLUMNS = new List<string>(PERMISSIONS_SELECT_COLUMNS_1.Concat(PERMISSIONS_SELECT_COLUMNS_2)).ToArray();
+        private static readonly string PERMISSIONS_SELECT_COLUMNS_SQL = PERMISSIONS_SELECT_COLUMNS.ConcatComma();
+        private static readonly string RETRIEVE_PERMISSIONS_PROC_TEMPLATE = @"CREATE PROCEDURE {0}
 	@UserID int,
 	@{1}OperationID int = NULL,
 	@TargetDate datetime = NULL
@@ -306,18 +349,31 @@ BEGIN
     IF @TargetDate IS NULL 
 		SET @TargetDate = GETDATE(); 
     
-	SELECT " + PERMISSIONS_SELECT_COLUMNS + @"
-    FROM tblPermissions WHERE
-        ({1}Ref IS NOT NULL) AND
-        (sysState = 0) AND
-		(@UserID = OwnerUserRef OR OwnerGroupRef IN (
-			SELECT GroupRef FROM relUserGroups WHERE UserRef = @UserID)) AND
-		((@{1}OperationID IS NULL) OR 
-			(@{1}OperationID = {1}OperationRef)
-		) AND
-		{2}
+	WITH FlatPermissionList (" + PERMISSIONS_SELECT_COLUMNS_SQL + @") AS
+	(
+		SELECT " + PERMISSIONS_SELECT_COLUMNS_SQL + @"
+		FROM tblPermissions 
+		WHERE ((@UserID = OwnerUserRef) OR (EXISTS (SELECT * FROM relUserGroups WHERE @UserID = UserRef AND OwnerGroupRef = relUserGroups.GroupRef ))) AND 
+            (sysState = 0) AND 
+            ((@{1}OperationID IS NULL) OR (@{1}OperationID = {1}OperationRef)) AND
+            ((DateSince IS NULL) OR (DateSince <= @TargetDate)) 
+            AND ((DateTill IS NULL) OR (DateTill >= @TargetDate))
+		
+		UNION ALL
+		
+		SELECT " + PERMISSIONS_SELECT_COLUMNS_1.Select(p => "p." + p).Concat(PERMISSIONS_SELECT_COLUMNS_2.Select(p => "parent_prms." + p)).ConcatComma() + @"
+		FROM tblPermissions p
+		INNER JOIN FlatPermissionList parent_prms ON p.ParentPermitionRef = parent_prms.ID AND
+            (parent_prms.[CanBeDelagated] = 1) AND
+            (p.sysState = 0) AND 
+            ((p.DateSince IS NULL) OR (p.DateSince <= @TargetDate)) 
+            AND ((p.DateTill IS NULL) OR (p.DateTill >= @TargetDate))
+	)
+
+    SELECT * from FlatPermissionList
 END";
-        private const string RETRIEVE_PERMISSIONS_FOR_GROUP_PROC_TEMPLATE = @"CREATE PROCEDURE {0}
+
+        private static readonly string RETRIEVE_PERMISSIONS_FOR_GROUP_PROC_TEMPLATE = @"CREATE PROCEDURE {0}
     @GroupID int,
     @{1}OperationID int = NULL,
     @TargetDate datetime = NULL
@@ -326,13 +382,31 @@ BEGIN
     IF @TargetDate IS NULL
         SET @TargetDate = GETDATE();
     
-    SELECT " + PERMISSIONS_SELECT_COLUMNS + @"
-    FROM tblPermissions 
-    WHERE (@GroupID = OwnerGroupRef) AND 
-    sysState = 0 AND
-    ((@{1}OperationID IS NULL) OR (@{1}OperationID = {1}OperationRef)) AND {2}
+
+	WITH FlatPermissionList (" + PERMISSIONS_SELECT_COLUMNS_SQL + @") AS
+	(
+		SELECT " + PERMISSIONS_SELECT_COLUMNS_SQL + @"
+		FROM tblPermissions 
+		WHERE (@GroupID = OwnerGroupRef) AND 
+            (sysState = 0) AND 
+            ((@{1}OperationID IS NULL) OR (@{1}OperationID = {1}OperationRef)) AND
+            ((DateSince IS NULL) OR (DateSince <= @TargetDate)) 
+            AND ((DateTill IS NULL) OR (DateTill >= @TargetDate))
+		
+		UNION ALL
+		
+		SELECT " + PERMISSIONS_SELECT_COLUMNS_1.Select(p => "p." + p).Concat(PERMISSIONS_SELECT_COLUMNS_2.Select(p => "parent_prms." + p)).ConcatComma() + @"
+		FROM tblPermissions p
+		INNER JOIN FlatPermissionList parent_prms ON p.ParentPermitionRef = parent_prms.ID AND
+            (parent_prms.[CanBeDelagated] = 1) AND
+            (p.sysState = 0) AND 
+            ((p.DateSince IS NULL) OR (p.DateSince <= @TargetDate)) 
+            AND ((p.DateTill IS NULL) OR (p.DateTill >= @TargetDate))
+	)
+
+    SELECT * from FlatPermissionList
 END";
-        private const string RETRIEVE_OBJECT_OPERATIONS_PROC_TEMPLATE =
+        private static readonly string RETRIEVE_OBJECT_OPERATIONS_PROC_TEMPLATE =
             @"CREATE PROCEDURE {0}
 	@UserID int,
 	@{1}ID int = NULL,
@@ -342,15 +416,27 @@ BEGIN
 	IF @TargetDate IS NULL 
 		SET @TargetDate = GETDATE(); 
 
-	SELECT DISTINCT {1}OperationRef
-	FROM tblPermissions WHERE
-		@UserID = OwnerUserRef AND
-        sysState = 0 AND
-		((@{1}ID IS NULL) OR
-			(@{1}ID = {1}Ref)
-		)  AND 
-        {2}
+	WITH FlatPermissionList (" + PERMISSIONS_SELECT_COLUMNS_SQL + @") AS
+	(
+		SELECT " + PERMISSIONS_SELECT_COLUMNS_SQL + @"
+		FROM tblPermissions 
+		WHERE ((@UserID = OwnerUserRef) OR (EXISTS (SELECT * FROM relUserGroups WHERE @UserID = UserRef AND OwnerGroupRef = relUserGroups.GroupRef ))) AND 
+            (sysState = 0) AND 
+            ((DateSince IS NULL) OR (DateSince <= @TargetDate)) 
+            AND ((DateTill IS NULL) OR (DateTill >= @TargetDate))
 		
+		UNION ALL
+		
+		SELECT " + PERMISSIONS_SELECT_COLUMNS_1.Select(p => "p." + p).Concat(PERMISSIONS_SELECT_COLUMNS_2.Select(p => "parent_prms." + p)).ConcatComma() + @"
+		FROM tblPermissions p
+		INNER JOIN FlatPermissionList parent_prms ON p.ParentPermitionRef = parent_prms.ID AND
+            (parent_prms.[CanBeDelagated] = 1) AND
+            (p.sysState = 0) AND 
+            ((p.DateSince IS NULL) OR (p.DateSince <= @TargetDate)) 
+            AND ((p.DateTill IS NULL) OR (p.DateTill >= @TargetDate))
+	)
+
+    SELECT DISTINCT {1}OperationRef from FlatPermissionList		
 END";
 
         private const string CHECK_PERMISSION_PROC_TEMPLATE =
