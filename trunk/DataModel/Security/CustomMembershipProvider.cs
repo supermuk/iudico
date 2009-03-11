@@ -42,8 +42,7 @@ namespace IUDICO.DataModel.Security
 
         public override bool ValidateUser(string username, string password)
         {
-            return ServerModel.User.ByLogin(username).PasswordHash ==
-                FormsAuthentication.HashPasswordForStoringInConfigFile(password, "MD5");
+            return ServerModel.User.ByLogin(username).PasswordHash == ServerModel.User.GetPasswordHash(password);
         }
 
         public override bool UnlockUser(string userName)

@@ -106,7 +106,7 @@ namespace IUDICO.DataModel
             {
                 LastName = @login,
                 Login = @login,
-                PasswordHash = FormsAuthentication.HashPasswordForStoringInConfigFile(password, "MD5"),
+                PasswordHash = ServerModel.User.GetPasswordHash(password),
                 Email = email
             });
         }
@@ -171,6 +171,11 @@ namespace IUDICO.DataModel
         public void NotifyUpdated(TblUsers u)
         {
             HttpRuntime.Cache.Remove(ByLogin(u.Login));
+        }
+
+        public string GetPasswordHash(string password)
+        {
+            return FormsAuthentication.HashPasswordForStoringInConfigFile(password, "MD5");
         }
 
         private void DoCache(CustomUser u)

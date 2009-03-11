@@ -137,6 +137,7 @@
     <Compile Include="Common\XmlAttributes.cs" />
     <Compile Include="Common\XmlUtility.cs" />
     <Compile Include="Common\Zipper.cs" />
+    <Compile Include="Controllers\Admin_CreateBulkUserController.cs" />
     <Compile Include="Controllers\Admin_EditGroupController.cs" />
     <Compile Include="Controllers\Admin_EditUserController.cs" />
     <Compile Include="Controllers\Admin_GroupsController.cs" />
