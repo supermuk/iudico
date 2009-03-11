@@ -133,8 +133,8 @@ namespace IUDICO.DataModel.Controllers
             curriculum.ID = ServerModel.DB.Insert<TblCurriculums>(curriculum);
 
             //grant permissions for this curriculum
-            PermissionsManager.Grand(curriculum, FxCourseOperations.Use, ServerModel.User.Current.ID, null, DateTimeInterval.Full);
-            PermissionsManager.Grand(curriculum, FxCourseOperations.Modify, ServerModel.User.Current.ID, null, DateTimeInterval.Full);
+//            PermissionsManager.Grand(curriculum, FxCourseOperations.Use, ServerModel.User.Current.ID, null, DateTimeInterval.Full);
+//            PermissionsManager.Grand(curriculum, FxCourseOperations.Modify, ServerModel.User.Current.ID, null, DateTimeInterval.Full);
 
             //Update curriculum tree
             CurriculumTree.Nodes.Add(new IdendtityNode(curriculum));

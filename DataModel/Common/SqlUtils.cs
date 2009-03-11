@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
@@ -47,7 +48,9 @@ namespace IUDICO.DataModel.Common
 
                 while (r.Read())
                 {
-                    result.Add(r.GetInt32(0));
+                    var v = r.GetValue(0);
+                    if (!(v is DBNull))
+                        result.Add((int)v);
                 }
 
                 return result;
@@ -68,7 +71,9 @@ namespace IUDICO.DataModel.Common
                     {
                         id = r.GetOrdinal(columnName);
                     }
-                    result.Add(r.GetInt32(id));
+                    var v = r.GetValue(id);
+                    if (!(v is DBNull))
+                        result.Add((int)v);
                 }
 
                 return result;

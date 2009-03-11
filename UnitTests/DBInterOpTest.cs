@@ -402,6 +402,69 @@ namespace IUDICO.UnitTest
             }
         }
 
+        [Test]
+        public void DelegatePermissionTest()
+        {
+            using (var c = new DataObjectCleaner())
+            {
+                var u = GetUniqueUserForTesting();
+                c.Insert(u);
+
+                var u2 = GetUniqueUserForTesting();
+                c.Insert(u2);
+
+                var g = new TblGroups {Name = "delegated group"};
+                c.Insert(g);
+
+                PermissionsManager.Grand(g, FxGroupOperations.Rename, u.ID, null, DateTimeInterval.Full);
+
+                PermissionsManager.Delegate(u.ID, g, FxGroupOperations.Rename, u2.ID, null, DateTimeInterval.Full);
+
+                var GroupIds = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.GROUP, u2.ID, null, null);
+                Assert.AreEqual(1, GroupIds.Count);
+                Assert.AreEqual(g.ID, GroupIds[0]);
+
+                var courseIds = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.COURSE, u2.ID, null, null);
+                Assert.AreEqual(0, courseIds.Count);
+            }
+        }
+
+        [Test]
+        public void GetObjectForUserIncludedInGroupTest()
+        {
+            using (var c = new DataObjectCleaner())
+            {
+                var user = GetUniqueUserForTesting();
+                c.Insert(user);
+
+                var group = new TblGroups {Name = "test group with user"};
+                c.Insert(group);
+                ServerModel.DB.Link(user, group);
+
+                var course = new TblCourses
+                {
+                    Name = "test_course",
+                    Description = "test description"
+                };
+                c.Insert(course);
+
+                PermissionsManager.Grand(course, FxCourseOperations.Use, null, group.ID, DateTimeInterval.Full);
+                Assert.AreEqual(0, PermissionsManager.GetObjectsForGroup(SECURED_OBJECT_TYPE.COURSE, group.ID, FxCourseOperations.Modify.ID, null).Count);
+
+                var ids1 = PermissionsManager.GetObjectsForGroup(SECURED_OBJECT_TYPE.COURSE, group.ID, FxCourseOperations.Use.ID, null);
+                Assert.AreEqual(1, ids1.Count);
+                Assert.AreEqual(course.ID, ids1[0]);
+
+                var ids2 = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.COURSE, user.ID, null, null);                
+                Assert.AreEqual(1, ids2.Count);
+                Assert.AreEqual(course.ID, ids2[0]);
+
+                var ids3 = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.COURSE, user.ID, FxCourseOperations.Use.ID, null);
+                Assert.AreEqual(1, ids3.Count);
+                Assert.AreEqual(course.ID, ids3[0]);
+            }
+        }
+
         protected override bool NeedToRecreateDB
         {
             get
