@@ -115,7 +115,7 @@ namespace IUDICO.DataModel.DB
     partial void UpdateTblUsers(TblUsers instance);
     partial void DeleteTblUsers(TblUsers instance);
     #endregion
-		
+
 		public DatabaseModel(string connection) : 
 				base(connection, mappingSource)
 		{
