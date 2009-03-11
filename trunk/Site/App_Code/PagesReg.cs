@@ -16,6 +16,7 @@ public static class PagesReg
         f.Register<Admin_RemoveGroupConfirmationController>("~/Admin/RemoveGroupConfirmation.aspx");
         f.Register<Admin_RemoveUserConfirmationController>("~/Admin/RemoveUserConfirmation.aspx");
         f.Register<Admin_UsersController>("~/Admin/Users.aspx");
+        f.Register<Admin_CreateBulkUserController>("~/Admin/CreateUserBulk.aspx");
 
         f.Register<CurriculumTimelineController>("~/Teacher/CurriculumTimeline.aspx");
         f.Register<CurriculumEditController>("~/Teacher/CurriculumEdit.aspx");

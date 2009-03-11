@@ -54,7 +54,7 @@ namespace Controls
             {
                 Type pType = typeof (TblPermissions);
                 var refProp = pType.GetProperty(ot.GetSecurityAtr().Name + "Ref");
-                var ids = new List<int>(permissions.Select(p => (int) refProp.GetValue(p, null)).Distinct());
+                var ids = new List<int>(permissions.Select(p => refProp.GetValue(p, null)).NonNull().Cast<int>().Distinct());
                 var objs =
                     new DataObjectDictionary(
                         (IEnumerable)

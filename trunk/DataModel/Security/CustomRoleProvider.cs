@@ -8,8 +8,6 @@ namespace IUDICO.DataModel.Security
 {
     public class CustomRoleProvider : RoleProvider
     {
-        #region Overrides of RoleProvider
-
         public override bool IsUserInRole(string username, string roleName)
         {
             return ServerModel.User.ByLogin(username).Roles.Contains(roleName);
@@ -65,7 +63,5 @@ namespace IUDICO.DataModel.Security
             get { return "IUDICO"; }
             set { throw new InvalidOperationException("Changing ApplicationName is not allowed"); }
         }
-
-        #endregion
     }
 }

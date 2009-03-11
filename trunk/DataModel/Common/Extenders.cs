@@ -12,5 +12,15 @@ namespace IUDICO.DataModel.Common
             }
             yield return v;
         }
+
+        public static IEnumerable<T> NonNull<T>(this IEnumerable<T> collection)
+            where T: class
+        {
+            foreach (var t in collection)
+            {
+                if (t != null)
+                    yield return t;
+            }
+        }
     }
 }
