@@ -101,7 +101,7 @@ namespace IUDICO.DataModel.Common
             return false;
         }
 
-        public static IList<UserAnswer> GetLatestResults()
+        public static IList<UserAnswer> GetLatestResultsByQuestions()
         {
             var user = ServerModel.DB.Load<TblUsers>(ServerModel.User.Current.ID);
             var userAnswersIds = ServerModel.DB.LookupIds<TblUserAnswers>(user, null);
@@ -165,7 +165,7 @@ namespace IUDICO.DataModel.Common
             var obj2 = obj as UserAnswer;
 
             if (obj2 != null)
-                return page.ID == obj2.page.ID && Date.Equals(obj2.Date);
+                return (page.ID == obj2.page.ID && Date.ToString().Equals(obj2.Date.ToString()));
 
             return false;
         }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -23,6 +24,8 @@ namespace IUDICO.DataModel.Controllers
 
         private const int countHowManyPagesToShow = 5;
 
+        private int userId;
+
         public IVariable<string> UserName = string.Empty.AsVariable();
 
         public IVariable<string> Description = string.Empty.AsVariable();
@@ -36,12 +39,21 @@ namespace IUDICO.DataModel.Controllers
         {
             var selectedNode = (IdendtityNode)CurriculumnTreeView.SelectedNode;
 
-            var permissions = StudentHelper.GetPermissionForNode(selectedNode, SECURED_OBJECT_TYPE.THEME, false);
-
-            bool showSubmit = StudentHelper.IsDateAllowed(DateTime.Today, permissions);
-
             if (selectedNode.Type == NodeType.Theme)
-                RedirectToController(new OpenTestController { BackUrl = string.Empty, OpenThema = selectedNode.ID, Submit = showSubmit.ToString(), PageIndex = 0 });
+            {
+                var permissions = StudentHelper.GetPermissionForNode(userId, selectedNode, false);
+
+                bool showSubmit = StudentHelper.IsDateAllowed(DateTime.Today, permissions);
+
+                if (selectedNode.Type == NodeType.Theme)
+                    RedirectToController(new OpenTestController
+                                             {
+                                                 BackUrl = string.Empty,
+                                                 OpenThema = selectedNode.ID,
+                                                 Submit = showSubmit.ToString(),
+                                                 PageIndex = 0
+                                             });
+            }
         }
 
         public void ShowResultButton_Click(object sender, EventArgs e)
@@ -53,6 +65,8 @@ namespace IUDICO.DataModel.Controllers
 
         public void Page_Load(object sender, EventArgs e)
         {
+            userId = ServerModel.User.Current.ID;
+
             SetCalendarColor();
             if (!((Page) sender).IsPostBack)
             {
@@ -61,31 +75,31 @@ namespace IUDICO.DataModel.Controllers
             BuildLatestResultTable();
 
             UserName.Value = ServerModel.User.Current.UserName;
+            
             if (isControlNow)
             {
-                Description.Value = "You have control now. Do you best";
+                CurriculumnCalendar.Enabled = false;
+                ShowDescriptionForControl();
             }
             else
             {
-                Description.Value = string.Format("From this page you can open test or see test results; And see you last {0} result", countHowManyPagesToShow);
+                ShowCommonDescription();
             }
         }
 
         public void ModeButton_Click(object sender, EventArgs e)
         {
-            if (isControlNow)
+            if (!isControlNow)
             {
-                if (isViewMode)
-                {
-                    ChangeModeButton.Text = "Show View Dates";
-                    isViewMode = false;
-                }
-                else
-                {
-                    ChangeModeButton.Text = "Show Pass Dates";
-                    isViewMode = true;
-                }
+                ChangeModeButton.Text = isViewMode ? "Show View Dates" : "Show Pass Dates";
+                
+                isViewMode = !isViewMode;
                 SelectDatesForSelectedNode();
+
+                if(CurriculumnTreeView.SelectedNode == null)
+                    ShowDescriptionForDataSelection();
+                else
+                    ShowDescriptionForNodeSelection();
             }
         }
 
@@ -103,16 +117,19 @@ namespace IUDICO.DataModel.Controllers
 
             if (!isControlNow)
             {
-                Description.Value = string.Format("Display themes that you can {0} in selected date",
-                                                  isViewMode ? "view" : "pass");
+                ShowDescriptionForDataSelection();
                 BuildTree(CurriculumnCalendar.SelectedDate);
             }
         }
 
         public void CurriculumnTree_SelectionChanged(object sender, EventArgs e)
         {
-            Description.Value = string.Format("In calendar your see dates when you can {0} test", isViewMode ? "view" : "pass");
-            SelectDatesForSelectedNode();
+            if (!isControlNow)
+            {
+                ShowDescriptionForNodeSelection();
+                SelectDatesForSelectedNode();
+            }
+            SetOpenTestButtonVisibility();
         }
 
         private void SelectDatesForSelectedNode()
@@ -124,21 +141,7 @@ namespace IUDICO.DataModel.Controllers
 
             if (selectedNode != null)
             {
-                if (selectedNode.Type == NodeType.Curriculum)
-                {
-                    SelectDatesForObject(selectedNode, SECURED_OBJECT_TYPE.CURRICULUM);
-                    SetOpenTestButtonVisibility(selectedNode, SECURED_OBJECT_TYPE.CURRICULUM);
-                }
-                if (selectedNode.Type == NodeType.Stage)
-                {
-                    SelectDatesForObject(selectedNode, SECURED_OBJECT_TYPE.STAGE);
-                    SetOpenTestButtonVisibility(selectedNode, SECURED_OBJECT_TYPE.STAGE);
-                }
-                if (selectedNode.Type == NodeType.Theme)
-                {
-                    SelectDatesForObject((IdendtityNode) selectedNode.Parent, SECURED_OBJECT_TYPE.STAGE);
-                    SetOpenTestButtonVisibility((IdendtityNode) selectedNode.Parent, SECURED_OBJECT_TYPE.STAGE);
-                }
+                SelectDatesForObject(selectedNode);
             }
         }
 
@@ -150,9 +153,9 @@ namespace IUDICO.DataModel.Controllers
                 CurriculumnCalendar.SelectedDayStyle.BackColor = Color.Red;
         }
 
-        private void SelectDatesForObject(IdendtityNode selectedNode, SECURED_OBJECT_TYPE type)
+        private void SelectDatesForObject(IdendtityNode selectedNode)
         {
-            var permissions = StudentHelper.GetPermissionForNode(selectedNode, type, isViewMode);
+            var permissions = StudentHelper.GetPermissionForNode(userId, selectedNode, isViewMode);
 
             if(permissions.Count == 0)
             {
@@ -160,12 +163,17 @@ namespace IUDICO.DataModel.Controllers
             }
             else
             {
-                foreach (var permission in permissions)
-                {
-                    SelectDates(permission.DateSince, permission.DateTill);
-                }
+                SelectDatesForPermissions(permissions);
             }
  
+        }
+
+        private void SelectDatesForPermissions(IList<TblPermissions> permissions)
+        {
+            foreach (var permission in permissions)
+            {
+                SelectDates(permission.DateSince, permission.DateTill);
+            }
         }
 
         private void SelectDates(DateTime? since, DateTime? till)
@@ -194,7 +202,7 @@ namespace IUDICO.DataModel.Controllers
 
         private void BuildLatestResultTable()
         {
-            var listOfPages = UserResultCalculator.GetLatestResults();
+            var listOfPages = UserResultCalculator.GetLatestResultsByQuestions();
 
             int countOfShowedPages = Math.Min(countHowManyPagesToShow, listOfPages.Count);
 
@@ -218,12 +226,23 @@ namespace IUDICO.DataModel.Controllers
             }
         }
 
-        private void SetOpenTestButtonVisibility(IdendtityNode selectedNode, SECURED_OBJECT_TYPE type)
+        private void SetOpenTestButtonVisibility()
         {
-            var permissions = StudentHelper.GetPermissionForNode(selectedNode, type, true);
+            var selectedNode = (IdendtityNode)CurriculumnTreeView.SelectedNode;
 
-            OpenTestButton.Enabled = StudentHelper.IsDateAllowed(DateTime.Now, permissions);
-            
+            if (selectedNode != null)
+            {
+                if (selectedNode.Type == NodeType.Curriculum || selectedNode.Type == NodeType.Stage)
+                {
+                    OpenTestButton.Enabled = false;
+                }
+                else
+                {
+                    var permissions = StudentHelper.GetPermissionForNode(userId, selectedNode, true);
+
+                    OpenTestButton.Enabled = StudentHelper.IsDateAllowed(DateTime.Now, permissions);
+                }
+            }
         }
 
         private void BuildTree(DateTime? date)
@@ -240,7 +259,7 @@ namespace IUDICO.DataModel.Controllers
             {
                 var node = new IdendtityNode(curriculum);
 
-                var permissions = StudentHelper.GetPermission(curriculum.ID, SECURED_OBJECT_TYPE.CURRICULUM, isViewMode);
+                var permissions = StudentHelper.GetPermission(curriculum.ID, userId, NodeType.Curriculum, isViewMode);
 
                     if (StudentHelper.IsDateAllowed(date, permissions))
                     {
@@ -269,7 +288,7 @@ namespace IUDICO.DataModel.Controllers
             {
                 var child = new IdendtityNode(stage);
                 
-                var permissions = StudentHelper.GetPermission(stage.ID, SECURED_OBJECT_TYPE.STAGE, isViewMode);
+                var permissions = StudentHelper.GetPermission(stage.ID, userId, NodeType.Stage, isViewMode);
 
                 if (StudentHelper.IsDateAllowed(date, permissions))
                 {
@@ -295,7 +314,7 @@ namespace IUDICO.DataModel.Controllers
 
             foreach (var theme in themes)
             {
-                CheckForControlChapterTime(stage.ID, theme);
+                IsControlChapterTime(stage.ID, theme);
 
                 if(isControlNow)
                 {
@@ -309,15 +328,43 @@ namespace IUDICO.DataModel.Controllers
             }
         }
 
-        private void CheckForControlChapterTime(int stageId, TblThemes theme)
+        private void IsControlChapterTime(int stageId, TblThemes theme)
         {
-            var permissions = StudentHelper.GetPermission(stageId, SECURED_OBJECT_TYPE.STAGE, false);
+            var permissions = StudentHelper.GetPermission(stageId, userId, NodeType.Stage, false);
 
             if (theme.IsControl)
-                if(StudentHelper.IsDateAllowed(DateTime.Now, permissions))
+                if(!StudentHelper.IsAllDatasAreNull(permissions))
+                    if (StudentHelper.IsDateAllowed(DateTime.Now, permissions))
+                    {
+                        isControlNow = true;
+                        SelectDatesForPermissions(permissions);
+                        SetCalendarColor();
+                        return;
+                    }
 
 
             isControlNow = false;
+        }
+
+        private void ShowDescriptionForDataSelection()
+        {
+            Description.Value = string.Format("Display themes that you can {0} in selected date",
+                                              isViewMode ? "view" : "pass");
+        }
+
+        private void ShowCommonDescription()
+        {
+            Description.Value = string.Format("From this page you can open test or see test results; And see you last {0} result", countHowManyPagesToShow);
+        }
+
+        private void ShowDescriptionForControl()
+        {
+            Description.Value = "You have control now. Do you best";
+        }
+
+        private void ShowDescriptionForNodeSelection()
+        {
+            Description.Value = string.Format("In calendar your see dates when you can {0} test", isViewMode ? "view" : "pass");
         }
     }
 

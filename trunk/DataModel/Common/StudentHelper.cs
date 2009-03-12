@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web.Security;
 using IUDICO.DataModel.Controllers;
 using IUDICO.DataModel.DB;
-using IUDICO.DataModel.Security;
+using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.Common
 {
@@ -14,32 +13,42 @@ namespace IUDICO.DataModel.Common
             return (firstDate == null) && (secondDate == null);
         }
 
-        public static IList<TblPermissions> GetPermissionForNode(IdendtityNode node, SECURED_OBJECT_TYPE type, bool isViewMode)
+        public static IList<TblPermissions> GetPermissionForNode(int userId, IdendtityNode node, bool isView)
         {
-            var permissions = GetPermission((node).ID, type, isViewMode);
+            if (node.Type == NodeType.Theme) //If Node is Theme take Parent Stage permission 
+                return GetPermissionForNode(userId, ((IdendtityNode)node.Parent), isView);
 
-            var list = new List<TblPermissions>();
+            var permissions = GetPermission(node.ID, userId, node.Type, isView);
 
-            if (permissions.Count == 0 && type != SECURED_OBJECT_TYPE.CURRICULUM)
-            {
-                list.AddRange(GetPermissionForNode(((IdendtityNode)node.Parent), GetParentForObject(type), isViewMode));
-            }
-            else
-            {
-                list.AddRange(permissions);
-            }
+            if (permissions.Count == 0) //If no permission for Stage take Parent Curriculumn permission
+                return GetPermissionForNode(userId, ((IdendtityNode) node.Parent), isView);
 
+            if (node.Type == NodeType.Stage && IsAllDatasAreNull(permissions)) //If node is stage and dates is null take Parent Curriculumn
+                return GetPermissionForNode(userId, ((IdendtityNode)node.Parent), isView);
 
-            return list;
+            return permissions;
         }
 
-        public static IList<TblPermissions> GetPermission(int id, SECURED_OBJECT_TYPE type, bool isViewMode)
+        public static IList<TblPermissions> GetPermission(int secureObjectId, int userId, NodeType type, bool isView)
         {
-            var permissionsIds = PermissionsManager.GetPermissions(type, ((CustomUser)Membership.GetUser()).ID, null, null);
+            var secureObject = GetSecureObject(secureObjectId, type);
 
-            var permisions = ServerModel.DB.Load<TblPermissions>(permissionsIds);
+            var allPermissionsForObject = ServerModel.DB.Load<TblPermissions>(ServerModel.DB.LookupIds<TblPermissions>(secureObject, null));
 
-            return FindObjectPermission(type, id, GetOperationId(type, isViewMode), permisions);
+            var permissionForUser = ExtractPermissionsForUser(userId, allPermissionsForObject);
+
+            return FindPermissionsForOperation(type, isView, permissionForUser);
+        }
+
+        private static IIntKeyedDataObject GetSecureObject(int id, NodeType type)
+        {
+            if (NodeType.Curriculum == type)
+                return ServerModel.DB.Load<TblCurriculums>(id);
+
+            if (NodeType.Stage == type)
+                return ServerModel.DB.Load<TblStages>(id);
+
+            throw new Exception("Wrong node type");
         }
 
         public static bool IsDateAllowed(DateTime? date, IList<TblPermissions> permissions)
@@ -54,6 +63,19 @@ namespace IUDICO.DataModel.Common
             foreach (var permission in permissions)
             {
                 b = b || IsDateInPeriod(date, permission.DateSince, permission.DateTill);
+            }
+
+            return b;
+        }
+
+        public static bool IsAllDatasAreNull(IList<TblPermissions> permissions)
+        {
+
+            bool b = false;
+
+            foreach (var permission in permissions)
+            {
+                b = b || IsBothDatesAreNull(permission.DateSince, permission.DateTill);
             }
 
             return b;
@@ -83,86 +105,71 @@ namespace IUDICO.DataModel.Common
             return ((startPeriod <= date) && (date <= endPeriod));
         }
 
-        private static IList<TblPermissions> FindObjectPermission(SECURED_OBJECT_TYPE type, int objectId, int operationId, IList<TblPermissions> allPermissions)
+        private static IList<TblPermissions> ExtractPermissionsForUser(int userId, IList<TblPermissions> allPermissions)
+        {
+            var groupsIds = GetGroupsIdsForUser(userId);
+
+            var list = new List<TblPermissions>();
+
+            foreach (var p in allPermissions)
+            {
+                if (p.OwnerGroupRef != null && groupsIds.Contains((int)p.OwnerGroupRef))
+                    list.Add(p);
+            }
+
+            return list;
+        }
+
+        private static IList<int> GetGroupsIdsForUser(int userId)
+        {
+            return ServerModel.DB.LookupMany2ManyIds<TblGroups>(ServerModel.DB.Load<TblUsers>(userId), null);
+        }
+
+        private static IList<TblPermissions> FindPermissionsForOperation(NodeType type, bool isView, IList<TblPermissions> allPermissions)
         {
             switch (type)
             {
-                case (SECURED_OBJECT_TYPE.CURRICULUM):
-                    {
-                        return FindPerrmisionForCurriculumn(objectId, operationId, allPermissions);
-                    }
-                case (SECURED_OBJECT_TYPE.STAGE):
-                    {
-                        return FindPerrmisionForStage(objectId, operationId, allPermissions);
-                    }
+                case (NodeType.Curriculum):
+                        return FindPerrmisionForCurriculumOperation(GetOperationId(type, isView), allPermissions);
+                case (NodeType.Stage):
+                        return FindPerrmisionForStageOperation(GetOperationId(type, isView), allPermissions);
             }
             return new List<TblPermissions>();
         }
 
-        private static IList<TblPermissions> FindPerrmisionForStage(int stageId, int operationId, IList<TblPermissions> allPermisions)
+        private static IList<TblPermissions> FindPerrmisionForStageOperation(int operationId, IList<TblPermissions> allPermisions)
         {
             var list = new List<TblPermissions>();
 
             foreach (var permission in allPermisions)
-            {
-                if (permission.StageRef == stageId && permission.StageOperationRef == operationId)
-                {
+                if (permission.StageOperationRef == operationId)
                     list.Add(permission);
-                }
-            }
 
             return list;
         }
 
-        private static IList<TblPermissions> FindPerrmisionForCurriculumn(int curriculumnId, int operationId, IList<TblPermissions> allPermisions)
+        private static IList<TblPermissions> FindPerrmisionForCurriculumOperation(int operationId, IList<TblPermissions> allPermisions)
         {
             var list = new List<TblPermissions>();
 
             foreach (var permission in allPermisions)
-            {
-                if (permission.CurriculumRef == curriculumnId && permission.CurriculumOperationRef == operationId)
-                {
+                if (permission.CurriculumOperationRef == operationId)
                     list.Add(permission);
-                }
-            }
 
             return list;
         }
 
-        private static FxCurriculumOperations GetFxOperationForCurriculumn(bool isViewMode)
+        private static int GetOperationId(NodeType type, bool isViewMode)
         {
-            return isViewMode ? FxCurriculumOperations.View : FxCurriculumOperations.Pass;
-        }
+            if(NodeType.Curriculum == type)
+                return isViewMode ? FxCurriculumOperations.View.ID : FxCurriculumOperations.Pass.ID;
 
-        private static FxStageOperations GetFxOperationForStage(bool isViewMode)
-        {
-            return isViewMode ? FxStageOperations.View : FxStageOperations.Pass;
-        }
+            if(NodeType.Stage == type)
+                return isViewMode ? FxStageOperations.View.ID : FxStageOperations.Pass.ID;
+                
 
-        private static int GetOperationId(SECURED_OBJECT_TYPE type, bool isViewMode)
-        {
-            switch (type)
-            {
-                case (SECURED_OBJECT_TYPE.CURRICULUM):
-                    {
-                        return GetFxOperationForCurriculumn(isViewMode).ID;
+            return 0;
 
-                    }
-                case (SECURED_OBJECT_TYPE.STAGE):
-                    {
-                        return GetFxOperationForStage(isViewMode).ID;
-                    }
-                default:
-                    return 0;
-            }
-        }
-
-        private static SECURED_OBJECT_TYPE GetParentForObject(SECURED_OBJECT_TYPE type)
-        {
-            if (type == SECURED_OBJECT_TYPE.STAGE)
-                return SECURED_OBJECT_TYPE.CURRICULUM;
-
-            return SECURED_OBJECT_TYPE.CURRICULUM;
         }
     }
-}
+} 
