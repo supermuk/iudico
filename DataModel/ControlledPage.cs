@@ -64,7 +64,7 @@ namespace IUDICO.DataModel
 
         protected ControlledPage()
         {
-            if ((User == null  || User.Identity == null || !User.Identity.IsAuthenticated) &&
+            if ((User == null || User.Identity == null || !User.Identity.IsAuthenticated) &&
                 typeof(ControllerType) != typeof(LoginController))
             {
                 FormsAuthentication.RedirectToLoginPage();
@@ -83,7 +83,7 @@ namespace IUDICO.DataModel
         protected void BindChecked2Ways([NotNull] ICheckBoxControl checkBox, IVariable<bool> value)
         {
             BindChecked(checkBox, value);
-            checkBox.CheckedChanged += (c, e) => value.Value = ((ICheckBoxControl) c).Checked;
+            checkBox.CheckedChanged += (c, e) => value.Value = ((ICheckBoxControl)c).Checked;
         }
 
         protected void BindEnabled([NotNull]System.Web.UI.WebControls.WebControl c, IValue<bool> enable)
@@ -91,12 +91,19 @@ namespace IUDICO.DataModel
             CheckBindingAllowed();
             c.Enabled = enable.Value;
             enable.Changed += (iv, v) => c.Enabled = v;
-        }
+        }   
 
         protected void BindEnabled([NotNull]System.Web.UI.WebControls.WebControl c, bool enable)
         {
             CheckBindingAllowed();
             c.Enabled = enable;
+        }
+
+        protected void BindVisible([NotNull]System.Web.UI.WebControls.WebControl c, IValue<bool> visible)
+        {
+            CheckBindingAllowed();
+            c.Visible = visible.Value;
+            visible.Changed += (iv, v) => c.Visible = v;
         }
 
         protected void Bind([NotNull]ITextControl c, [NotNull] IValue<string> text)
@@ -117,7 +124,7 @@ namespace IUDICO.DataModel
             CheckBindingAllowed();
             c.Text = text;
         }
-        
+
         protected void Bind<T>([NotNull] ITextControl c, [NotNull] IValue<T> value, [NotNull] Func<T, string> presentator)
             where T : IComparable<T>
         {
@@ -145,7 +152,7 @@ namespace IUDICO.DataModel
 
         protected override void LoadViewState(object savedState)
         {
-            var p = PersistantStateMetaData.Get(typeof (ControllerType));
+            var p = PersistantStateMetaData.Get(typeof(ControllerType));
             if (p.IsEmpty)
             {
                 base.LoadViewState(savedState);
@@ -161,7 +168,7 @@ namespace IUDICO.DataModel
         protected override object SaveViewState()
         {
             var r = base.SaveViewState();
-            var p = PersistantStateMetaData.Get(typeof (ControllerType));
+            var p = PersistantStateMetaData.Get(typeof(ControllerType));
             if (!p.IsEmpty)
             {
                 r = new Pair(r, p.SaveStateFor(Controller));
@@ -184,7 +191,7 @@ namespace IUDICO.DataModel
             base.OnLoadComplete(e);
             if (!IsPostBack && !IsCallback)
             {
-                DataBind(); 
+                DataBind();
             }
         }
 
@@ -222,5 +229,16 @@ namespace IUDICO.DataModel
 
         protected readonly ControllerType Controller;
         private bool __BindingAllowed;
+    }
+
+    public abstract class TeacherPage<ControllerType> : ControlledPage<ControllerType>
+        where ControllerType : BaseTeacherController, new()
+    {
+        public Label Label_PageCaption;
+
+        public override void DataBind()
+        {
+            Bind(Label_PageCaption, Controller.Caption);
+        }
     }
 }

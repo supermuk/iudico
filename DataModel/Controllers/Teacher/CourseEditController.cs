@@ -8,71 +8,67 @@ using IUDICO.DataModel.DB;
 using IUDICO.DataModel.ImportManagers;
 using IUDICO.DataModel.ImportManagers.RemoveManager;
 using IUDICO.DataModel.Security;
+using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.Controllers
 {
-    public class CourseEditController : ControllerBase
+    public class CourseEditController : BaseTeacherController
     {
-        public TextBox NameTextBox { get; set; }
-        public TextBox DescriptionTextBox { get; set; }
+        public IVariable<string> CourseName = string.Empty.AsVariable();
+        public IVariable<string> CourseDescription = string.Empty.AsVariable();
+        [PersistantField]
+        public IVariable<bool> DeleteButtonEnabled = false.AsVariable();
+
         public FileUpload CourseUpload { get; set; }
         public TreeView CourseTree { get; set; }
-        public Label NotifyLabel { get; set; }
-        public Button ImportButton { get; set; }
-        public Button DeleteButton { get; set; }
 
         private readonly ProjectPaths projectPaths = new ProjectPaths();
-        private string rawUrl;
 
         //"magic words"
+        private const string pageCaption = "Course management by: ";
         private const string pageDescription = "This is course upload page. Please selected course, specify name and description and upload it.";
         private const string uploadSucces = "Course was uploaded successfully.";
         private const string uploadError = "Error occurred during course upload.";
         private const string fileNotFound = "Specify course path.";
 
-        public void PageLoad(object sender, EventArgs e)
+
+        public override void Loaded()
         {
-            //registering for events            
-            ImportButton.Click += new EventHandler(ImportButton_Click);
-            DeleteButton.Click += new EventHandler(DeleteButton_Click);
+            base.Loaded();
+
+            Caption.Value = pageCaption + ServerModel.User.Current.UserName;
+            Description.Value = pageDescription;
+            Title.Value = Caption.Value;
+            Message.Value = string.Empty;
+
             CourseTree.SelectedNodeChanged += new EventHandler(CourseTree_SelectedNodeChanged);
-
-            rawUrl = (sender as Page).Request.RawUrl;
-            NotifyLabel.Text = pageDescription;
-            if (!(sender as Page).IsPostBack)
-            {
-                fillCourseTree();
-
-                DeleteButton.Enabled = false;
-            }
         }
 
-        void CourseTree_SelectedNodeChanged(object sender, EventArgs e)
+        private void CourseTree_SelectedNodeChanged(object sender, EventArgs e)
         {
             if ((CourseTree.SelectedNode as IdendtityNode).Type == NodeType.Course)
             {
-                DeleteButton.Enabled = true;
+                DeleteButtonEnabled.Value = true;
             }
             else
             {
-                DeleteButton.Enabled = false;
+                DeleteButtonEnabled.Value = false;
             }
 
         }
 
-        private void DeleteButton_Click(object sender, EventArgs e)
+        public void DeleteButton_Click()
         {
             IdendtityNode courseNode = CourseTree.SelectedNode as IdendtityNode;
-            TblCourses course = ServerModel.DB.Load<TblCourses>(courseNode.ID);
             Redirect(ServerModel.Forms.BuildRedirectUrl<CourseDeleteConfirmationController>(
                 new CourseDeleteConfirmationController
                 {
-                    CourseID = course.ID,
-                    BackUrl = rawUrl
+                    CourseID = courseNode.ID,
+                    BackUrl = RawUrl
                 }));
         }
 
-        private void ImportButton_Click(object sender, EventArgs e)
+        public void ImportButton_Click()
         {
             if (CourseUpload.HasFile)
             {
@@ -80,26 +76,25 @@ namespace IUDICO.DataModel.Controllers
                 {
                     PrepareCourse();
 
-                    string courseName = NameTextBox.Text == "" ? Path.GetFileNameWithoutExtension(CourseUpload.FileName) : NameTextBox.Text;
-                    int courseId = CourseManager.Import(projectPaths, courseName, DescriptionTextBox.Text);
+                    string courseName = CourseName.Value == "" ? Path.GetFileNameWithoutExtension(CourseUpload.FileName) : CourseName.Value;
+                    int courseId = CourseManager.Import(projectPaths, courseName, CourseDescription.Value);
                     TblCourses course = ServerModel.DB.Load<TblCourses>(courseId);
 
                     //grant permissions for this course
                     PermissionsManager.Grand(course, FxCourseOperations.Use, ServerModel.User.Current.ID, null, DateTimeInterval.Full);
                     PermissionsManager.Grand(course, FxCourseOperations.Modify, ServerModel.User.Current.ID, null, DateTimeInterval.Full);
 
-                    //update view
-                    addCourseNode(course);
-                    NotifyLabel.Text = uploadSucces;
+                    //Update course tree
+                    CourseTree.Nodes.Add(new IdendtityNode(course));
                 }
                 catch
                 {
-                    NotifyLabel.Text = uploadError;
+                    Message.Value = uploadError;
                 }
             }
             else
             {
-                NotifyLabel.Text = fileNotFound;
+                Message.Value = fileNotFound;
             }
         }
 
@@ -119,25 +114,9 @@ namespace IUDICO.DataModel.Controllers
                                                                Path.GetFileNameWithoutExtension(fileName));
         }
 
-        private void fillCourseTree()
+        public IList<TblCourses> GetCourses()
         {
-            CourseTree.Nodes.Clear();
-            foreach (TblCourses course in TeacherHelper.MyCourses(FxCourseOperations.Modify))
-            {
-                addCourseNode(course);
-            }
-            CourseTree.ExpandAll();
-        }
-
-        private void addCourseNode(TblCourses course)
-        {
-            IdendtityNode courseNode = new IdendtityNode(course);
-            foreach (TblThemes theme in TeacherHelper.ThemesForCourse(course))
-            {
-                IdendtityNode themeNode = new IdendtityNode(theme);
-                courseNode.ChildNodes.Add(themeNode);
-            }
-            CourseTree.Nodes.Add(courseNode);
+            return TeacherHelper.CurrentUserCourses(FxCourseOperations.Modify);
         }
     }
 }

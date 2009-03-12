@@ -3,7 +3,23 @@
 
 <%@ Register TagPrefix="iudico" Namespace="IUDICO.DataModel.Controllers" %>
 <asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="Server">
-    <asp:Label ID="Label_Notify" runat="server"></asp:Label>
+    <table>
+        <tr>
+            <td>
+                <asp:Label ID="Label_PageCaption" runat="server" Font-Bold="True" Font-Size="XX-Large"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Label ID="Label_PageDescription" runat="server"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Label ID="Label_PageMessage" runat="server" ForeColor="#CC0000"></asp:Label>
+            </td>
+        </tr>
+    </table>
     <table>
         <tr>
             <td valign="top">
@@ -13,18 +29,18 @@
                             <table>
                                 <tr>
                                     <td>
-                                        <asp:Label ID="Label_Name" runat="server" Text="Name"></asp:Label>
+                                        <asp:Label ID="Label_CourseName" runat="server" Text="Name"></asp:Label>
                                     </td>
                                     <td colspan="2">
-                                        <asp:TextBox ID="TextBox_Name" runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="TextBox_CourseName" runat="server"></asp:TextBox>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <asp:Label ID="Label_Description" runat="server" Text="Description"></asp:Label>
+                                        <asp:Label ID="Label_CourseDescription" runat="server" Text="Description"></asp:Label>
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="TextBox_Description" runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="TextBox_CourseDescription" runat="server"></asp:TextBox>
                                     </td>
                                 </tr>
                             </table>
@@ -34,8 +50,10 @@
                         <td>
                             <asp:FileUpload ID="FileUpload_Course" runat="server" />
                         </td>
+                    </tr>
+                    <tr>
                         <td>
-                            <asp:Button ID="Button_Import" runat="server" Text="Import Course" />
+                            <asp:Button ID="Button_ImportCourse" runat="server" Text="Import Course" />
                         </td>
                     </tr>
                 </table>
@@ -57,7 +75,7 @@
                 </table>
             </td>
             <td valign="top">
-                <asp:Button ID="Button_Delete" runat="server" Text="Delete" />
+                <asp:Button ID="Button_DeleteCourse" runat="server" Text="Delete" />
             </td>
         </tr>
     </table>

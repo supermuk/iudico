@@ -2,7 +2,23 @@
     CodeFile="CourseDeleteConfirmation.aspx.cs" Inherits="CourseDeleteConfirmation" %>
 
 <asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="Server">
-    <asp:Label ID="Label_Notify" runat="server"></asp:Label>
+    <table>
+        <tr>
+            <td>
+                <asp:Label ID="Label_PageCaption" runat="server" Font-Bold="True" Font-Size="XX-Large"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Label ID="Label_PageDescription" runat="server"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Label ID="Label_PageMessage" runat="server"></asp:Label>
+            </td>
+        </tr>
+    </table>
     <table>
         <tr>
             <td colspan="2">

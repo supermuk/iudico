@@ -32,7 +32,7 @@ namespace IUDICO.DataModel.Controllers
         private void fillCoursesList()
         {
             CoursesTable.Rows.Clear();
-            foreach (TblCourses course in TeacherHelper.MyCourses(FxCourseOperations.Use))
+            foreach (TblCourses course in TeacherHelper.CurrentUserCourses(FxCourseOperations.Use))
             {
                 TableRow courseRow = new TableRow();
                 TableCell courseCell = new TableCell();
@@ -59,7 +59,7 @@ namespace IUDICO.DataModel.Controllers
         private void fillCurriculumsList()
         {
             CurriculumsTable.Rows.Clear();
-            foreach (TblCurriculums curriculum in TeacherHelper.MyCurriculums(FxCurriculumOperations.Use))
+            foreach (TblCurriculums curriculum in TeacherHelper.CurrentUserCurriculums(FxCurriculumOperations.Use))
             {
                 TableRow curriculumRow = new TableRow();
                 TableCell curriculumCell = new TableCell();

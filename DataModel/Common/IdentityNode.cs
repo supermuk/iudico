@@ -6,7 +6,7 @@ using System.Web.UI.WebControls;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.DB.Base;
 
-namespace IUDICO.DataModel.Controllers
+namespace IUDICO.DataModel.Common
 {
     public enum NodeType { Curriculum, Stage, Theme, Course };
 
