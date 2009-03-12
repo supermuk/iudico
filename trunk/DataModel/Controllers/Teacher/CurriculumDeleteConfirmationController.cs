@@ -12,7 +12,7 @@ using System.Data;
 
 namespace IUDICO.DataModel.Controllers
 {
-    public class CurriculumDeleteConfirmationController : ControllerBase
+    public class CurriculumDeleteConfirmationController : BaseTeacherController
     {
         [ControllerParameter]
         public int CurriculumID;
@@ -25,45 +25,69 @@ namespace IUDICO.DataModel.Controllers
         public Button DeleteButton { get; set; }
         public Label NotifyLabel { get; set; }
 
+        //"magic words"
+        private const string pageCaption = "Deleting {0}: {1}";
+        private const string stageStr = "stage";
+        private const string themeStr = "theme";
+        private const string curriculumStr = "curriculum";
+        private const string pageDescription = "{0}, you want to delete {1}: {2}{3}, which is assigned to next groups:";
+        private const string usedInCurriculum = ". It is used in curriculum {0}";
+        private const string noneMessage = "None.";
+
         private TblCurriculums curriculum;
         private TblStages stage;
         private TblThemes theme;
 
-        public void PageLoad(object sender, EventArgs e)
+        public override void Loaded()
         {
+            base.Loaded();
+
+            Caption.Value = pageCaption;
+            Description.Value = pageDescription.Replace("{0}", ServerModel.User.Current.UserName);
+
             curriculum = ServerModel.DB.Load<TblCurriculums>(CurriculumID);
-            NotifyLabel.Text = "You want to delete ";
+
             if (ThemeID != -1)
             {
                 theme = ServerModel.DB.Load<TblThemes>(ThemeID);
                 stage = ServerModel.DB.Load<TblStages>(StageID);
-                NotifyLabel.Text += "theme: " + theme.Name + ".This theme is used in curriculum: " + curriculum.Name;
+                Description.Value = Description.Value.
+                    Replace("{1}", themeStr).
+                    Replace("{2}", theme.Name).
+                    Replace("{3}", usedInCurriculum.Replace("{0}", curriculum.Name));
+                Caption.Value = Caption.Value.
+                    Replace("{0}", themeStr).
+                    Replace("{1}", theme.Name);
             }
             else
             {
                 if (StageID != -1)
                 {
                     stage = ServerModel.DB.Load<TblStages>(StageID);
-                    NotifyLabel.Text += "stage: " + stage.Name + ".This stage is used in curriculum: " + curriculum.Name;
+                    Description.Value = Description.Value.
+                        Replace("{1}", stageStr).
+                        Replace("{2}", stage.Name).
+                        Replace("{3}", usedInCurriculum.Replace("{0}", curriculum.Name));
+                    Caption.Value = Caption.Value.
+                        Replace("{0}", stageStr).
+                        Replace("{1}", stage.Name);
                 }
                 else
                 {
-                    NotifyLabel.Text += "curiculum: " + curriculum.Name;
-
+                    Description.Value = Description.Value.
+                        Replace("{1}", curriculumStr).
+                        Replace("{2}", curriculum.Name).
+                        Replace("{3}", string.Empty);
+                    Caption.Value = Caption.Value.
+                        Replace("{0}", curriculumStr).
+                        Replace("{1}", curriculum.Name);
                 }
             }
-            NotifyLabel.Text += ".And this curriculum is assigned to next groups: ";
 
-            fillGroupsList();
-            if (GroupsBulletedList.Items.Count == 0)
-            {
-                NotifyLabel.Text += "None";
-            }
-            DeleteButton.Click += new EventHandler(DeleteButton_Click);
-
+            Title.Value = Caption.Value;
         }
 
-        private void DeleteButton_Click(object sender, EventArgs e)
+        public void DeleteButton_Click()
         {
             if (ThemeID != -1)
             {
@@ -84,13 +108,19 @@ namespace IUDICO.DataModel.Controllers
             Redirect(BackUrl);
         }
 
-        private void fillGroupsList()
+        public IList<string> GetGroups()
         {
-            GroupsBulletedList.Items.Clear();
+            IList<string> result = new List<string>();
             foreach (TblGroups group in TeacherHelper.GetGroupsForCurriculum(curriculum))
             {
-                GroupsBulletedList.Items.Add(group.Name);
+                result.Add(group.Name);
             }
+            if (result.Count == 0)
+            {
+                Message.Value = noneMessage;
+            }
+
+            return result;
         }
 
         private void deleteTheme(TblThemes theme, TblStages parentStage)

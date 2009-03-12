@@ -12,31 +12,31 @@ using System.Data;
 
 namespace IUDICO.DataModel.Controllers
 {
-    public class CourseDeleteConfirmationController : ControllerBase
+    public class CourseDeleteConfirmationController : BaseTeacherController
     {
         [ControllerParameter]
         public int CourseID;
 
-        public GridView DependenciesGridView { get; set; }
-        public Button DeleteButton { get; set; }
-        public Label NotifyLabel { get; set; }
-
         private TblCourses course;
 
-        public void PageLoad(object sender, EventArgs e)
+        //"magic words"
+        private const string pageCaption = "Deleting course: {0}";
+        private const string pageDescription = "{0}, you want to delete course: {1}. This course is used in next objects:";
+        private const string noneMessage = "None.";
+
+        public override void Loaded()
         {
+            base.Loaded();
+
             course = ServerModel.DB.Load<TblCourses>(CourseID);
-            NotifyLabel.Text = "You want to delete course: " + course.Name + ".This course is used in next objects: ";
-            fillDependenciesGrid();
-            if(DependenciesGridView.Rows.Count==0)
-            {
-                NotifyLabel.Text += "None";
-            }
-            DeleteButton.Click += new EventHandler(DeleteButton_Click);
-            
+            Caption.Value = pageCaption.Replace("{0}", course.Name);
+            Description.Value = pageDescription.
+                Replace("{0}", ServerModel.User.Current.UserName).
+                Replace("{1}", course.Name);
+            Title.Value = Caption.Value;
         }
 
-        void DeleteButton_Click(object sender, EventArgs e)
+        public void DeleteButton_Click()
         {
             foreach (TblThemes theme in TeacherHelper.ThemesForCourse(course))
             {
@@ -48,7 +48,7 @@ namespace IUDICO.DataModel.Controllers
             Redirect(BackUrl);
         }
 
-        private void fillDependenciesGrid()
+        public DataTable GetDependencies()
         {
             DataTable dependenciesData = new DataTable();
             dependenciesData.Columns.Add("Theme");
@@ -72,8 +72,12 @@ namespace IUDICO.DataModel.Controllers
                 }
             }
 
-            DependenciesGridView.DataSource = dependenciesData;
-            DependenciesGridView.DataBind();
+            if (dependenciesData.Rows.Count == 0)
+            {
+                Message.Value = noneMessage;
+            }
+
+            return dependenciesData;
         }
 
     }

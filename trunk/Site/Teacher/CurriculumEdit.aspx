@@ -3,7 +3,23 @@
 
 <%@ Register TagPrefix="iudico" Namespace="IUDICO.DataModel.Controllers" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="Server">
-    <asp:Label ID="Label_Notify" runat="server"></asp:Label>
+    <table>
+        <tr>
+            <td>
+                <asp:Label ID="Label_PageCaption" runat="server" Font-Bold="True" Font-Size="XX-Large"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Label ID="Label_PageDescription" runat="server"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Label ID="Label_PageMessage" runat="server" ForeColor="#CC0000"></asp:Label>
+            </td>
+        </tr>
+    </table>
     <table>
         <tr>
             <td valign="top">
@@ -41,7 +57,7 @@
                     </tr>
                 </table>
             </td>
-            <td>
+            <td valign="top">
                 <table>
                     <tr>
                         <td>
@@ -60,22 +76,22 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2">
-                            <asp:Button ID="Button_CreateCurriculum" runat="server" Text="Create new curriculum" />
+                        <td colspan="2" align="center">
+                            <asp:Button ID="Button_CreateCurriculum" runat="server" Text="Create curriculum" />
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2">
-                            <asp:Button ID="Button_AddStage" runat="server" Text="Add new stage" />
+                        <td colspan="2" align="center">
+                            <asp:Button ID="Button_AddStage" runat="server" Text="Add stage" />
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2">
+                        <td colspan="2" align="center">
                             <asp:Button ID="Button_Delete" runat="server" Text="Delete" />
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2">
+                        <td colspan="2" align="center">
                             <asp:Button ID="Button_Modify" runat="server" Text="Modify" />
                         </td>
                     </tr>

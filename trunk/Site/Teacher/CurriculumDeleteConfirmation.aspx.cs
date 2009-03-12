@@ -13,13 +13,22 @@ public partial class CurriculumDeleteConfirmation : ControlledPage<CurriculumDel
     {
         base.BindController(c);
 
-        Title = "Curriculum delete confirmation";
+        Bind(Label_PageCaption, c.Caption);
+        Bind(Label_PageDescription, c.Description);
+        Bind(Label_PageMessage, c.Message);
+        BindTitle(c.Title, gn => gn);
+        Bind(Button_Delete, c.DeleteButton_Click);
 
         c.GroupsBulletedList = BulletedList_Groups;
-        c.DeleteButton = Button_Delete;
-        c.NotifyLabel = Label_Notify;
 
         Button_Back.PostBackUrl = c.BackUrl;
-        Load += c.PageLoad;
+    }
+
+    public override void DataBind()
+    {
+        base.DataBind();
+
+        BulletedList_Groups.DataSource = Controller.GetGroups();
+        BulletedList_Groups.DataBind();
     }
 }

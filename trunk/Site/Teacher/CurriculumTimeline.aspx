@@ -3,7 +3,23 @@
 
 <%@ Register TagPrefix="iudico" Namespace="IUDICO.DataModel.Controllers" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="Server">
-    <asp:Label ID="Label_Notify" runat="server"></asp:Label>
+    <table>
+        <tr>
+            <td>
+                <asp:Label ID="Label_PageCaption" runat="server" Font-Bold="True" Font-Size="XX-Large"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Label ID="Label_PageDescription" runat="server"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Label ID="Label_PageMessage" runat="server" ForeColor="#CC0000"></asp:Label>
+            </td>
+        </tr>
+    </table>
     <table>
         <tr>
             <td valign="top">
@@ -11,24 +27,8 @@
                     <SelectedNodeStyle BackColor="#00CC00" />
                 </iudico:IdentityTreeView>
             </td>
-            <td>
-                <table>
-                    <tr>
-                        <td colspan="2">
-                            <asp:Table ID="Table_Time" runat="server" GridLines="Both"  BorderColor="Black" BorderWidth="1">
-                            </asp:Table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <asp:DropDownList ID="DropDownList_Operations" runat="server">
-                            </asp:DropDownList>
-                        </td>
-                        <td>
-                            <asp:Button ID="Button_Add" runat="server" Text="Add operation"></asp:Button>
-                        </td>
-                    </tr>
-                </table>
+            <td valign="top">
+                <i:OperationsTable runat="server" ID="OperationsTable" />
             </td>
         </tr>
     </table>

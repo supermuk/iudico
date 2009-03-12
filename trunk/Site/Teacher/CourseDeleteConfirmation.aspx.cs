@@ -13,13 +13,23 @@ public partial class CourseDeleteConfirmation : ControlledPage<CourseDeleteConfi
     {
         base.BindController(c);
 
-        Title = "Course delete confirmation";
-
-        c.DependenciesGridView = GridView_Dependencies;
-        c.DeleteButton = Button_Delete;
-        c.NotifyLabel = Label_Notify;
+        Bind(Label_PageCaption, c.Caption);
+        Bind(Label_PageDescription, c.Description);
+        Bind(Label_PageMessage, c.Message);
+        BindTitle(c.Title, gn => gn);
+        Bind(Button_Delete, c.DeleteButton_Click);
 
         Button_Back.PostBackUrl = c.BackUrl;
-        Load += c.PageLoad;
+
+        
     }
+
+    public override void DataBind()
+    {
+        base.DataBind();
+
+        GridView_Dependencies.DataSource = Controller.GetDependencies();
+        GridView_Dependencies.DataBind();
+    }
+
 }

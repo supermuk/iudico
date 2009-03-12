@@ -6,9 +6,9 @@ using IUDICO.DataModel.Security;
 
 namespace IUDICO.DataModel.Common
 {
-    class TeacherHelper
+    public static class TeacherHelper
     {
-        public static IList<TblCourses> MyCourses(FxCourseOperations operation)
+        public static IList<TblCourses> CurrentUserCourses(FxCourseOperations operation)
         {
             //IList<int> iDs = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.COURSE, ServerModel.User.Current.ID, operation.ID, null);
             //return ServerModel.DB.Load<TblCourses>(iDs);
@@ -28,7 +28,7 @@ namespace IUDICO.DataModel.Common
                               new ValueCondition<int>(0), COMPARE_KIND.EQUAL)))));
         }
 
-        public static IList<TblCurriculums> MyCurriculums(FxCurriculumOperations operation)
+        public static IList<TblCurriculums> CurrentUserCurriculums(FxCurriculumOperations operation)
         {
             IList<int> iDs = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.CURRICULUM, ServerModel.User.Current.ID, operation.ID, null);
             return ServerModel.DB.Load<TblCurriculums>(iDs);
@@ -206,6 +206,18 @@ namespace IUDICO.DataModel.Common
                     return null;
                 }
             }
+        }
+
+        public static IList<TblPermissions> GroupPermissionsForStage(TblGroups group, TblStages stage)
+        {
+            return ServerModel.DB.Query<TblPermissions>(
+                     new AndCondtion(
+                        new CompareCondition<int>(
+                           DataObject.Schema.StageRef,
+                           new ValueCondition<int>(stage.ID), COMPARE_KIND.EQUAL),
+                        new CompareCondition<int>(
+                            DataObject.Schema.OwnerGroupRef,
+                            new ValueCondition<int>(group.ID), COMPARE_KIND.EQUAL)));
         }
 
         public static IList<FxStageOperations> GroupOperationsForStage(TblGroups group, TblStages stage)

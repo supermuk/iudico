@@ -7,15 +7,17 @@ public partial class CurriculumTimeline : ControlledPage<CurriculumTimelineContr
     {
         base.BindController(c);
 
+        Bind(Label_PageCaption, c.Caption);
+        Bind(Label_PageDescription, c.Description);
+        Bind(Label_PageMessage, c.Message);
+        Bind(OperationsTable, c.PermissionID);
+        BindTitle(c.Title, gn => gn);
+        
         c.CurriculumTree = TreeView_Curriculum;
-        c.TimeTable = Table_Time;
-        c.NotifyLabel = Label_Notify;
-        c.OperationDropDownList = DropDownList_Operations;
-        c.AddOperationButton = Button_Add;
+    }
 
-        Title = "Detailed timeline settings";
-
-        PreRender += c.PagePreRender;
-        Load += c.PageLoad;
+    public override void DataBind()
+    {
+        base.DataBind();
     }
 }
