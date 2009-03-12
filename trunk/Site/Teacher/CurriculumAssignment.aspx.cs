@@ -7,18 +7,16 @@ using System.Web.UI.WebControls;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
 
-public partial class Teacher_CurriculumAssignment : ControlledPage<CurriculumAssignmentController>
+public partial class CurriculumAssignment : ControlledPage<CurriculumAssignmentController>
 {
     protected override void BindController(CurriculumAssignmentController c)
     {
         base.BindController(c);
 
-        Title = "Curriculum assignment";
-
-        c.AssigmentsTable = Table_Assignments;
-        c.MainTable = Table_Main;
-        c.NotifyLabel = Label_Notify;
-
-        Load += c.PageLoad;
+        Bind(Label_PageCaption, c.Caption);
+        Bind(Label_PageDescription, c.Description);
+        Bind(Label_PageMessage, c.Message);
+        BindTitle(c.Title, gn => gn);
+        BindVisible(Table_Main, c.MainTableVisible);
     }
 }

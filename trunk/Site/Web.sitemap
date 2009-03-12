@@ -8,8 +8,6 @@
     </siteMapNode>
     <siteMapNode title="Student" roles="STUDENT" url="~/Student/StudentPage.aspx">
     </siteMapNode>
-    <siteMapNode title="Trainer" roles="TRAINER">
-    </siteMapNode>
     <siteMapNode title="Lector" roles="LECTOR">
       <siteMapNode title="Groups" url="~/Admin/Groups.aspx?Lector" />
       <siteMapNode title="Courses" url="~/Teacher/CourseEdit.aspx" />
@@ -25,5 +23,6 @@
       <siteMapNode title="Create User" url="~/Admin/CreateUser.aspx" />
       <siteMapNode title="Create Group" url="~/Admin/CreateGroup.aspx?Admin" />
     </siteMapNode>
+    <siteMapNode title="Logout" url="Login.aspx"></siteMapNode>
   </siteMapNode>
 </siteMap>

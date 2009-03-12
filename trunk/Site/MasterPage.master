@@ -1,6 +1,7 @@
-﻿<%@ Import Namespace="System.Linq"%>
-<%@ Import Namespace="IUDICO.DataModel"%>
-<%@ Import Namespace="IUDICO.DataModel.Security"%>
+﻿<%@ Import Namespace="System.Linq" %>
+<%@ Import Namespace="IUDICO.DataModel" %>
+<%@ Import Namespace="IUDICO.DataModel.Security" %>
+
 <%@ Master Language="C#" Inherits="IUDICO.DataModel.MasterPageBase" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -10,17 +11,23 @@
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
     <link rel="Stylesheet" href="Styles/Main.css" type="text/css" />
-<script runat="server">
-protected void MainMenu_DataBind(object sender, EventArgs e)
-{
-    ((Control) sender).Visible = ServerModel.User.Current != null;
-}
-protected void MainMenu_ItemDataBound(object sender, MenuEventArgs e)
-{
-    var cu = ServerModel.User.Current;
-    e.Item.Enabled = cu != null && ((SiteMapNode) e.Item.DataItem).Roles.Cast<string>().All(r => cu.Roles.Contains(r));
-}
-</script>
+
+    <script runat="server">
+        protected void MainMenu_DataBind(object sender, EventArgs e)
+        {
+            ((Control)sender).Visible = ServerModel.User.Current != null;
+        }
+        protected void MainMenu_ItemDataBound(object sender, MenuEventArgs e)
+        {
+            var cu = ServerModel.User.Current;
+            e.Item.Enabled = cu != null && ((SiteMapNode)e.Item.DataItem).Roles.Cast<string>().All(r => cu.Roles.Contains(r));
+            if (!e.Item.Enabled)
+            {
+                (sender as Menu).Items.Remove(e.Item);
+            }
+        }
+    </script>
+
 </head>
 <body>
     <form id="form1" runat="server">
@@ -28,11 +35,12 @@ protected void MainMenu_ItemDataBound(object sender, MenuEventArgs e)
         <asp:ScriptManager ID="ScriptManager1" runat="server">
         </asp:ScriptManager>
         <asp:SiteMapDataSource ID="SiteMap" ShowStartingNode="false" runat="server" />
-        <asp:Menu ID="MainMenu" OnMenuItemDataBound="MainMenu_ItemDataBound" OnDataBinding="MainMenu_DataBind" Orientation="Horizontal" DataSourceID="SiteMap" runat="server">
+        <asp:Menu ID="MainMenu" OnMenuItemDataBound="MainMenu_ItemDataBound" OnDataBinding="MainMenu_DataBind"
+            Orientation="Horizontal" DataSourceID="SiteMap" runat="server">
             <DynamicMenuItemStyle CssClass="dynamicmenuitem" />
-            <DynamicHoverStyle CssClass="dynamicmenuhover" />
+            <DynamicHoverStyle CssClass="dynamicmenuitem" />
             <StaticMenuItemStyle CssClass="staticmenuitem" />
-            <StaticHoverStyle CssClass="staticmenuitemhover" />
+            <StaticHoverStyle CssClass="staticmenuitem" />
         </asp:Menu>
         <br />
         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
