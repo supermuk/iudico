@@ -34,7 +34,11 @@ namespace IUDICO.DataModel
 
         public static void UnInitialize()
         {
-            DB.Dispose();
+            if (DB != null)
+            {
+                DB.Dispose();
+                DB = null;
+            }
         }
 
         public static DatabaseModel DB;
@@ -61,7 +65,7 @@ namespace IUDICO.DataModel
             {
                 if (t.GetInterface(typeof(IFxDataObject).Name) != null)
                 {
-                    var fields = new List<FieldInfo>(t.GetFields(BindingFlags.Static | BindingFlags.SetField | BindingFlags.Public).Where(f => Utils.HasAtr<TableRecordAttribute>(f)));
+                    var fields = new List<FieldInfo>(t.GetFields(BindingFlags.Static | BindingFlags.SetField | BindingFlags.Public).Where(Utils.HasAtr<TableRecordAttribute>));
                     if (fields.Count > 0)
                     {
                         var items = (IEnumerable)DatabaseModel.FIXED_METHOD.MakeGenericMethod(new[] { t }).Invoke(DB, Type.EmptyTypes);
@@ -110,13 +114,15 @@ namespace IUDICO.DataModel
                 Email = email
             });
         }
-
+        
+        [CanBeNull]
         public CustomUser Current
         {
             get
             {
-                var mu = Membership.GetUser();
-                return mu != null ? ByLogin(((CustomUser)mu).Login) : null; // To get the latest version
+                var mu = (CustomUser) Membership.GetUser();
+                return mu != null ? ByLogin(mu.Login) : null; // To get the latest version
+
             }
         }
 

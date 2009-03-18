@@ -6,6 +6,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
 
 <h2><asp:Label ID="lbUserRoles" runat="server" /></h2>
+Check/uncheck roles and press 'apply' button to submit changes <br /> <br />
 
 <table border="1">
     <tr>
@@ -60,6 +61,9 @@
 <asp:Button ID="btnApply" Text="Apply" runat="server" />
 
 <h2><asp:Label ID="lbUserGroups" runat="server" /></h2>
+Press 'Exclude' button to remove user from group <br />
+Press 'Include' button to add user to other groups <br />
+Click on group link to reach screen with group's details <br /> <br />
 <i:GroupList ID="GroupList" runat="server" />
 <br />
 
