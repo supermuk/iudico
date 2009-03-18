@@ -4,6 +4,10 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
 
+<h1>Create Multiple Users</h1>
+
+Fill in group prefix, desired users count and password and press 'Create' button <br />
+
 <table>
     <tr>
         <th style="text-align:left">

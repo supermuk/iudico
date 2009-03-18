@@ -3,6 +3,9 @@
 <asp:Content ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ContentPlaceHolderID="MainContent" runat="Server">
+    
+    <h1>Create IUDICO Group</h1>
+    Type desired name for group and press 'Create' button <br />
     <table>
         <tr>
             <td>
