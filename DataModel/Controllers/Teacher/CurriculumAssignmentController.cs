@@ -18,7 +18,7 @@ namespace IUDICO.DataModel.Controllers
         public IVariable<bool> MainTableVisible = true.AsVariable();
 
         //"magic words"
-        private const string pageCaption = "Curriculum assignment by: ";
+        private const string pageCaption = "Curriculum assignment.";
         private const string pageDescription = "This is curriculum assignment page. Select group and curriculum to assign.";
         private const string noCurriculums = "You have no curriculums to assign. Create some first.";
         private const string noGroups = "You have no groups to assign. Create some first.";
@@ -29,7 +29,7 @@ namespace IUDICO.DataModel.Controllers
         {
             base.Loaded();
 
-            Caption.Value = pageCaption + ServerModel.User.Current.UserName;
+            Caption.Value = pageCaption;
             Description.Value = pageDescription;
             Title.Value = Caption.Value;
 

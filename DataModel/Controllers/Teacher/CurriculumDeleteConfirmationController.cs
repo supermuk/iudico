@@ -30,7 +30,7 @@ namespace IUDICO.DataModel.Controllers
         private const string stageStr = "stage";
         private const string themeStr = "theme";
         private const string curriculumStr = "curriculum";
-        private const string pageDescription = "{0}, you want to delete {1}: {2}{3}, which is assigned to next groups:";
+        private const string pageDescription = "You want to delete {1}: {2}{3}, which is assigned to next groups:";
         private const string usedInCurriculum = ". It is used in curriculum {0}";
         private const string noneMessage = "None.";
 
@@ -43,7 +43,7 @@ namespace IUDICO.DataModel.Controllers
             base.Loaded();
 
             Caption.Value = pageCaption;
-            Description.Value = pageDescription.Replace("{0}", ServerModel.User.Current.UserName);
+            Description.Value = pageDescription;
 
             curriculum = ServerModel.DB.Load<TblCurriculums>(CurriculumID);
 

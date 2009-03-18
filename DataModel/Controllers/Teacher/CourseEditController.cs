@@ -14,7 +14,9 @@ namespace IUDICO.DataModel.Controllers
 {
     public class CourseEditController : BaseTeacherController
     {
+        [PersistantField]
         public IVariable<string> CourseName = string.Empty.AsVariable();
+        [PersistantField]
         public IVariable<string> CourseDescription = string.Empty.AsVariable();
         [PersistantField]
         public IVariable<bool> DeleteButtonEnabled = false.AsVariable();
@@ -25,7 +27,7 @@ namespace IUDICO.DataModel.Controllers
         private readonly ProjectPaths projectPaths = new ProjectPaths();
 
         //"magic words"
-        private const string pageCaption = "Course management by: ";
+        private const string pageCaption = "Course management.";
         private const string pageDescription = "This is course upload page. Please selected course, specify name and description and upload it.";
         private const string uploadSucces = "Course was uploaded successfully.";
         private const string uploadError = "Error occurred during course upload.";
@@ -36,7 +38,7 @@ namespace IUDICO.DataModel.Controllers
         {
             base.Loaded();
 
-            Caption.Value = pageCaption + ServerModel.User.Current.UserName;
+            Caption.Value = pageCaption;
             Description.Value = pageDescription;
             Title.Value = Caption.Value;
             Message.Value = string.Empty;
@@ -85,7 +87,7 @@ namespace IUDICO.DataModel.Controllers
                     PermissionsManager.Grand(course, FxCourseOperations.Modify, ServerModel.User.Current.ID, null, DateTimeInterval.Full);
 
                     //Update course tree
-                    CourseTree.Nodes.Add(new IdendtityNode(course));
+                    CourseTree.DataSource = GetCourses();
                 }
                 catch
                 {

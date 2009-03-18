@@ -18,9 +18,18 @@ namespace IUDICO.DataModel.Controllers
     {
         public IVariable<string> Caption = string.Empty.AsVariable();
         public IVariable<string> Description = string.Empty.AsVariable();
-        public IVariable<string> Message = string.Empty.AsVariable();
+        public IVariable<string> Message = "Default message".AsVariable();
         public IVariable<string> Title = string.Empty.AsVariable();
         public string RawUrl = "";
         public bool IsPostBack = false;
+
+        public override void Loaded()
+        {
+            base.Loaded();
+
+            Message.Value = "";
+        }
     }
+
+
 }

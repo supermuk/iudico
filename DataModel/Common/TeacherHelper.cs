@@ -10,8 +10,8 @@ namespace IUDICO.DataModel.Common
     {
         public static IList<TblCourses> CurrentUserCourses(FxCourseOperations operation)
         {
-            //IList<int> iDs = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.COURSE, ServerModel.User.Current.ID, operation.ID, null);
-            //return ServerModel.DB.Load<TblCourses>(iDs);
+            IList<int> iDs = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.COURSE, ServerModel.User.Current.ID, operation.ID, null);
+            return ServerModel.DB.Load<TblCourses>(iDs);
 
             return ServerModel.DB.Query<TblCourses>(
                   new InCondition<int>(DataObject.Schema.ID,
@@ -23,6 +23,23 @@ namespace IUDICO.DataModel.Common
                            new CompareCondition<int>(
                               DataObject.Schema.CourseOperationRef,
                               new ValueCondition<int>(operation.ID), COMPARE_KIND.EQUAL),
+                           new CompareCondition<int>(
+                              DataObject.Schema.SysState,
+                              new ValueCondition<int>(0), COMPARE_KIND.EQUAL)))));
+        }
+
+        public static IList<TblCourses> CurrentUserCourses()
+        {
+            IList<int> iDs = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.COURSE, ServerModel.User.Current.ID, null, null);
+            return ServerModel.DB.Load<TblCourses>(iDs);
+
+            return ServerModel.DB.Query<TblCourses>(
+                  new InCondition<int>(DataObject.Schema.ID,
+                     new SubSelectCondition<TblPermissions>("CourseRef",
+                        new AndCondtion(
+                           new CompareCondition<int>(
+                              DataObject.Schema.OwnerUserRef,
+                              new ValueCondition<int>(ServerModel.User.Current.ID), COMPARE_KIND.EQUAL),
                            new CompareCondition<int>(
                               DataObject.Schema.SysState,
                               new ValueCondition<int>(0), COMPARE_KIND.EQUAL)))));
@@ -43,6 +60,23 @@ namespace IUDICO.DataModel.Common
                            new CompareCondition<int>(
                               DataObject.Schema.CurriculumOperationRef,
                               new ValueCondition<int>(operation.ID), COMPARE_KIND.EQUAL),
+                           new CompareCondition<int>(
+                              DataObject.Schema.SysState,
+                              new ValueCondition<int>(0), COMPARE_KIND.EQUAL)))));
+        }
+
+        public static IList<TblCurriculums> CurrentUserCurriculums()
+        {
+            IList<int> iDs = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.CURRICULUM, ServerModel.User.Current.ID, null, null);
+            return ServerModel.DB.Load<TblCurriculums>(iDs);
+
+            return ServerModel.DB.Query<TblCurriculums>(
+                  new InCondition<int>(DataObject.Schema.ID,
+                     new SubSelectCondition<TblPermissions>("CurriculumRef",
+                        new AndCondtion(
+                           new CompareCondition<int>(
+                              DataObject.Schema.OwnerUserRef,
+                              new ValueCondition<int>(ServerModel.User.Current.ID), COMPARE_KIND.EQUAL),
                            new CompareCondition<int>(
                               DataObject.Schema.SysState,
                               new ValueCondition<int>(0), COMPARE_KIND.EQUAL)))));
@@ -144,68 +178,6 @@ namespace IUDICO.DataModel.Common
                          new CompareCondition<int>(
                             DataObject.Schema.SysState,
                             new ValueCondition<int>(0), COMPARE_KIND.EQUAL)))));
-        }
-
-        public static TblPermissions GroupPermissionsForCurriculum(TblGroups group, TblCurriculums curriculum, FxCurriculumOperations operation)
-        {
-            IList<TblPermissions> permissions = ServerModel.DB.Query<TblPermissions>(
-                      new AndCondtion(
-                         new CompareCondition<int>(
-                            DataObject.Schema.CurriculumRef,
-                            new ValueCondition<int>(curriculum.ID), COMPARE_KIND.EQUAL),
-                         new CompareCondition<int>(
-                            DataObject.Schema.CurriculumOperationRef,
-                            new ValueCondition<int>(operation.ID), COMPARE_KIND.EQUAL),
-                         new CompareCondition<int>(
-                            DataObject.Schema.OwnerGroupRef,
-                            new ValueCondition<int>(group.ID), COMPARE_KIND.EQUAL)));
-
-            if (permissions.Count > 1)
-            {
-                throw new Exception("There should be only one permission per operation");
-            }
-            else
-            {
-                if (permissions.Count == 1)
-                {
-                    return permissions[0];
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-        public static TblPermissions GroupPermissionsForStage(TblGroups group, TblStages stage, FxStageOperations operation)
-        {
-            IList<TblPermissions> permissions = ServerModel.DB.Query<TblPermissions>(
-                     new AndCondtion(
-                        new CompareCondition<int>(
-                           DataObject.Schema.StageRef,
-                           new ValueCondition<int>(stage.ID), COMPARE_KIND.EQUAL),
-                        new CompareCondition<int>(
-                           DataObject.Schema.StageOperationRef,
-                           new ValueCondition<int>(operation.ID), COMPARE_KIND.EQUAL),
-                        new CompareCondition<int>(
-                            DataObject.Schema.OwnerGroupRef,
-                            new ValueCondition<int>(group.ID), COMPARE_KIND.EQUAL)));
-
-            if (permissions.Count > 1)
-            {
-                throw new Exception("There should be only one permission per operation");
-            }
-            else
-            {
-                if (permissions.Count == 1)
-                {
-                    return permissions[0];
-                }
-                else
-                {
-                    return null;
-                }
-            }
         }
 
         public static IList<TblPermissions> GroupPermissionsForStage(TblGroups group, TblStages stage)
@@ -460,7 +432,73 @@ namespace IUDICO.DataModel.Common
             return ServerModel.DB.Query<FxCourseOperations>(null);
         }
 
-        public static bool HavePermissionForCourse(TblCourses course, FxCourseOperations operation)
+        public static IList<TblGroups> GetUserGroups(TblUsers user)
+        {
+            IList<int> groupIDs = ServerModel.DB.LookupMany2ManyIds<TblGroups>(user, null);
+            return ServerModel.DB.Load<TblGroups>(groupIDs);
+        }
+
+        public static bool AreParentAndChildByCourse(TblUsers parent, TblUsers child, TblCourses course)
+        {
+            IList<TblPermissions> parentPermissions =
+                ServerModel.DB.Query<TblPermissions>(
+                      new AndCondtion(
+                         new CompareCondition<int>(
+                            DataObject.Schema.OwnerUserRef,
+                            new ValueCondition<int>(parent.ID), COMPARE_KIND.EQUAL),
+                         new CompareCondition<int>(
+                            DataObject.Schema.CourseRef,
+                            new ValueCondition<int>(course.ID), COMPARE_KIND.EQUAL)));
+
+            IList<TblPermissions> childPermissions =
+                ServerModel.DB.Query<TblPermissions>(
+                      new AndCondtion(
+                         new CompareCondition<int>(
+                            DataObject.Schema.OwnerUserRef,
+                            new ValueCondition<int>(child.ID), COMPARE_KIND.EQUAL),
+                         new CompareCondition<int>(
+                            DataObject.Schema.CourseRef,
+                            new ValueCondition<int>(course.ID), COMPARE_KIND.EQUAL)));
+
+            foreach (TblPermissions parentPermission in parentPermissions)
+            {
+                foreach (TblPermissions childPermission in childPermissions)
+                {
+                    if (childPermission.ParentPermitionRef.HasValue
+                        && childPermission.ParentPermitionRef.Value == parentPermission.ID)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public static bool AreParentAndChildByCourse(TblPermissions parentPermission, TblUsers child, TblCourses course)
+        {
+            IList<TblPermissions> childPermissions =
+                ServerModel.DB.Query<TblPermissions>(
+                      new AndCondtion(
+                         new CompareCondition<int>(
+                            DataObject.Schema.OwnerUserRef,
+                            new ValueCondition<int>(child.ID), COMPARE_KIND.EQUAL),
+                         new CompareCondition<int>(
+                            DataObject.Schema.CourseRef,
+                            new ValueCondition<int>(course.ID), COMPARE_KIND.EQUAL)));
+
+            foreach (TblPermissions childPermission in childPermissions)
+            {
+                if (childPermission.ParentPermitionRef.HasValue
+                    && childPermission.ParentPermitionRef.Value == parentPermission.ID)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static TblPermissions GetPermissionForCourse(TblCourses course, FxCourseOperations operation)
         {
             IList<TblPermissions> permissions = ServerModel.DB.Query<TblPermissions>(
                            new AndCondtion(
@@ -475,18 +513,39 @@ namespace IUDICO.DataModel.Common
                                  new ValueCondition<int>(course.ID), COMPARE_KIND.EQUAL)));
             if (permissions.Count == 0)
             {
-                return false;
+                return null;
+            }
+            if (permissions.Count == 1)
+            {
+                return permissions[0];
             }
             else
             {
-                if (permissions.Count == 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    throw new Exception("Not allowed multiple operations");
-                }
+                throw new Exception("Not allowed multiple operations");
+            }
+        }
+
+        public static void RemovePermissionForCourse(TblCourses course, FxCourseOperations operation,TblUsers user)
+        {
+            IList<TblPermissions> permissions = ServerModel.DB.Query<TblPermissions>(
+                           new AndCondtion(
+                              new CompareCondition<int>(
+                                 DataObject.Schema.OwnerUserRef,
+                                 new ValueCondition<int>(user.ID), COMPARE_KIND.EQUAL),
+                              new CompareCondition<int>(
+                                 DataObject.Schema.CourseOperationRef,
+                                 new ValueCondition<int>(operation.ID), COMPARE_KIND.EQUAL),
+                              new CompareCondition<int>(
+                                 DataObject.Schema.CourseRef,
+                                 new ValueCondition<int>(course.ID), COMPARE_KIND.EQUAL)));
+            
+            if (permissions.Count == 1)
+            {
+                ServerModel.DB.Delete<TblPermissions>(permissions[0].ID);
+            }
+            else
+            {
+                throw new Exception("Not allowed multiple operations or permission must exist.");
             }
         }
 
@@ -517,33 +576,6 @@ namespace IUDICO.DataModel.Common
                 {
                     throw new Exception("Not allowed multiple operations");
                 }
-            }
-        }
-
-        public static TblPermissions GetPermissionForCourse(TblCourses course, FxCourseOperations operation)
-        {
-            IList<TblPermissions> permissions = ServerModel.DB.Query<TblPermissions>(
-                           new AndCondtion(
-                              new CompareCondition<int>(
-                                 DataObject.Schema.OwnerUserRef,
-                                 new ValueCondition<int>(ServerModel.User.Current.ID), COMPARE_KIND.EQUAL),
-                              new CompareCondition<int>(
-                                 DataObject.Schema.CourseOperationRef,
-                                 new ValueCondition<int>(operation.ID), COMPARE_KIND.EQUAL),
-                              new CompareCondition<int>(
-                                 DataObject.Schema.CourseRef,
-                                 new ValueCondition<int>(course.ID), COMPARE_KIND.EQUAL)));
-            if (permissions.Count == 0)
-            {
-                return null;
-            }
-            if (permissions.Count == 1)
-            {
-                return permissions[0];
-            }
-            else
-            {
-                throw new Exception("Not allowed multiple operations");
             }
         }
     }

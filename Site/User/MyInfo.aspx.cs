@@ -8,15 +8,24 @@ public partial class User_MyInfo : ControlledPage<UserInfoController>
     {
         base.BindController(c);
 
-        c.FirstNameTextBox = TextBox_FirstName;
-        c.SecondNameTextBox = TextBox_SecondName;
-        c.LoginTextBox = TextBox_Login;
-        c.EmailTextBox = TextBox_Email;
-        c.RolesTextBox = TextBox_Roles;
-        c.GroupsTextBox = TextBox_Groups;
-        c.ChangePassword = ChangePassword;
-        c.UpdateButton = Button_Update;
+        Bind2Ways(TextBox_FirstName, c.FirstName);
+        Bind2Ways(TextBox_SecondName, c.SecondName);
+        Bind(TextBox_Login, c.Login);
+        Bind2Ways(TextBox_Email, c.Email);
+        Bind(Label_Roles, c.Roles);
+        Bind(Button_Update, c.UpdateButton_Click);
 
-        Load += c.PageLoad;
+        BindTitle(c.Title, gn => gn);
+        Bind(Label_PageCaption, c.Caption);
+        Bind(Label_PageDescription, c.Description);
+        Bind(Label_PageMessage, c.Message);
+    }
+
+    public override void DataBind()
+    {
+        base.DataBind();
+
+        BulletedList_Groups.DataSource = Controller.GetGroups();
+        BulletedList_Groups.DataBind();
     }
 }

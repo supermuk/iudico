@@ -5,7 +5,6 @@ using IUDICO.DataModel.DB;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.Security;
 using IUDICO.DataModel.DB.Base;
-using EO.Web;
 using LEX.CONTROLS;
 using System.Collections.Generic;
 
@@ -15,17 +14,19 @@ namespace IUDICO.DataModel.Controllers
     {
         public System.Web.UI.WebControls.TreeView CurriculumTree { get; set; }
 
-        public IVariable<string> PermissionID = "-1".AsVariable();
+        public IVariable<string> TimeLineData = "-1".AsVariable();
 
         [ControllerParameter]
         public int GroupID;
         [ControllerParameter]
         public int CurriculumID;
+        [ControllerParameter]
+        public string SelectedNode;
 
         private TblGroups group;
         private TblCurriculums curriculum;
 
-        private const string noNodeSelected = "Select node to modify.";
+        //private const string noNodeSelected = "Select node to modify.";
         private const string pageCaption = "Timeline for group: {0} and curriculum: {1}";
         private const string pageDescription = "This is detailed timeline for group: {0} and curriculum: {1}. You can manage group operations here.";
         private const string curriculumChar = "c";
@@ -47,39 +48,55 @@ namespace IUDICO.DataModel.Controllers
                                     Replace("{1}", curriculum.Name);
             Title.Value = Caption.Value;
 
-            
+
             CurriculumTree.SelectedNodeChanged += new EventHandler(CurriculumTree_SelectedNodeChanged);
+
             if (!IsPostBack)
             {
                 CurriculumTree.DataSource = GetCurriculum();
-                CurriculumTree.Nodes[0].Select();
+                CurriculumTree.ExpandAll();
+                if (SelectedNode != null)
+                {
+                    CurriculumTree.FindNode(SelectedNode).Select();
+                }
+                else
+                {
+                    CurriculumTree.Nodes[0].Select();
+                }
             }
-            if (CurriculumTree.SelectedNode != null)
+            else
             {
-                CurriculumTree_SelectedNodeChanged(this, EventArgs.Empty);
+                RedirectToController<CurriculumTimelineController>(new CurriculumTimelineController()
+                {
+                    BackUrl = RawUrl,
+                    GroupID = group.ID,
+                    CurriculumID = curriculum.ID,
+                    SelectedNode = CurriculumTree.SelectedNode.ValuePath
+                });
             }
+            CurriculumTree_SelectedNodeChanged(CurriculumTree, EventArgs.Empty);
         }
 
         private void CurriculumTree_SelectedNodeChanged(object sender, EventArgs e)
         {
             IdendtityNode selectedNode = CurriculumTree.SelectedNode as IdendtityNode;
+            string encodedData = selectedNode.ValuePath + " " + GroupID.ToString() + " ";
             switch (selectedNode.Type)
             {
                 case NodeType.Curriculum:
                     {
-                        string encodedData = GroupID.ToString() + " " + CurriculumID + " " + curriculumChar;
-                        PermissionID.Value = encodedData;
+                        TimeLineData.Value = encodedData + selectedNode.ID + " " + curriculumChar;
                         break;
                     }
                 case NodeType.Stage:
                     {
-                        TblStages stage = ServerModel.DB.Load<TblStages>(selectedNode.ID);
-                        string encodedData = GroupID.ToString() + " " + stage.ID + " " + stageChar;
-                        PermissionID.Value = TeacherHelper.GroupPermissionsForStage(group,stage )[0].ID.ToString();
+                        TimeLineData.Value = encodedData + selectedNode.ID + " " + stageChar;
                         break;
                     }
                 case NodeType.Theme:
                     {
+                        selectedNode.Parent.Select();
+                        CurriculumTree_SelectedNodeChanged(CurriculumTree, EventArgs.Empty);
                         break;
                     }
             }
@@ -87,10 +104,10 @@ namespace IUDICO.DataModel.Controllers
 
         public IList<TblCurriculums> GetCurriculum()
         {
-             List<TblCurriculums> result = new List<TblCurriculums>();
-             result.Add(ServerModel.DB.Load<TblCurriculums>(CurriculumID));
+            List<TblCurriculums> result = new List<TblCurriculums>();
+            result.Add(ServerModel.DB.Load<TblCurriculums>(CurriculumID));
 
-             return result;
+            return result;
         }
 
     }
