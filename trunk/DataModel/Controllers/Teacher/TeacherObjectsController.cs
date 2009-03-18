@@ -12,19 +12,26 @@ using System.Data;
 
 namespace IUDICO.DataModel.Controllers
 {
-    public class TeacherObjectsController : ControllerBase
+    public class TeacherObjectsController : BaseTeacherController
     {
 
         public Table CoursesTable { get; set; }
         public Table CurriculumsTable { get; set; }
-        public Label NotifyLabel { get; set; }
-        private string rawUrl;
 
+        //"magic words"
+        private const string pageCaption = "Teacher objects.";
+        private const string pageDescription = "Here are listed all your courses and curriculums. Select object to proceed.";
+        private const string noCourses = "None (Click to upload some)";
+        private const string noCurriculums = "None (Click to create some)";
 
-        public void PageLoad(object sender, EventArgs e)
+        public override void Loaded()
         {
-            NotifyLabel.Text = "All your data objects are listes here. Choose any for share.";
-            rawUrl = (sender as Page).Request.RawUrl;
+            base.Loaded();
+
+            Caption.Value = pageCaption;
+            Description.Value = pageDescription;
+            Title.Value = Caption.Value;
+
             fillCoursesList();
             fillCurriculumsList();
         }
@@ -32,16 +39,15 @@ namespace IUDICO.DataModel.Controllers
         private void fillCoursesList()
         {
             CoursesTable.Rows.Clear();
-            foreach (TblCourses course in TeacherHelper.CurrentUserCourses(FxCourseOperations.Use))
+            foreach (TblCourses course in TeacherHelper.CurrentUserCourses())
             {
                 TableRow courseRow = new TableRow();
                 TableCell courseCell = new TableCell();
                 HyperLink courseHyperLink = new HyperLink();
                 courseHyperLink.Text = course.Name;
-                courseHyperLink.NavigateUrl = ServerModel.Forms.BuildRedirectUrl<CourseShareController>(
-                    new CourseShareController { CourseId = course.ID, BackUrl = rawUrl });
+                courseHyperLink.NavigateUrl = ServerModel.Forms.BuildRedirectUrl<CourseTeachersListController>(
+                    new CourseTeachersListController { CourseId = course.ID, BackUrl = RawUrl });
                 courseCell.Controls.Add(courseHyperLink);
-
                 courseRow.Cells.Add(courseCell);
                 CoursesTable.Rows.Add(courseRow);
             }
@@ -50,7 +56,11 @@ namespace IUDICO.DataModel.Controllers
             {
                 TableRow courseRow = new TableRow();
                 TableCell courseCell = new TableCell();
-                courseCell.Text = "None (Click to upload some)";
+                HyperLink courseLink = new HyperLink();
+                courseLink.Text = noCourses;
+                courseLink.NavigateUrl = ServerModel.Forms.BuildRedirectUrl<CourseEditController>
+                    (new CourseEditController { BackUrl = RawUrl });
+                courseCell.Controls.Add(courseLink);
                 courseRow.Cells.Add(courseCell);
                 CoursesTable.Rows.Add(courseRow);
             }
@@ -59,7 +69,7 @@ namespace IUDICO.DataModel.Controllers
         private void fillCurriculumsList()
         {
             CurriculumsTable.Rows.Clear();
-            foreach (TblCurriculums curriculum in TeacherHelper.CurrentUserCurriculums(FxCurriculumOperations.Use))
+            foreach (TblCurriculums curriculum in TeacherHelper.CurrentUserCurriculums())
             {
                 TableRow curriculumRow = new TableRow();
                 TableCell curriculumCell = new TableCell();
@@ -72,7 +82,11 @@ namespace IUDICO.DataModel.Controllers
             {
                 TableRow curriculumRow = new TableRow();
                 TableCell curriculumCell = new TableCell();
-                curriculumCell.Text = "None (Click to create some)";
+                HyperLink curriculumLink = new HyperLink();
+                curriculumLink.Text = noCurriculums;
+                curriculumLink.NavigateUrl = ServerModel.Forms.BuildRedirectUrl<CurriculumEditController>
+                    (new CurriculumEditController { BackUrl = RawUrl });
+                curriculumCell.Controls.Add(curriculumLink);
                 curriculumRow.Cells.Add(curriculumCell);
                 CurriculumsTable.Rows.Add(curriculumRow);
             }

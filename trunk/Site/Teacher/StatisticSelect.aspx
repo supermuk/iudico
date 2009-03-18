@@ -2,16 +2,32 @@
     CodeFile="StatisticSelect.aspx.cs" Inherits="StatisticSelect" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
-    <asp:Label ID="Label_Notify" runat="server"></asp:Label>
     <table>
         <tr>
             <td>
-                <asp:Label ID="Label_Group" runat="server">Select Group:</asp:Label>
+                <asp:Label ID="Label_PageCaption" runat="server" Font-Bold="True" Font-Size="XX-Large"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Label ID="Label_PageDescription" runat="server"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Label ID="Label_PageMessage" runat="server" ForeColor="#CC0000"></asp:Label>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td>
+                <asp:Label ID="Label_Group" runat="server">Group:</asp:Label>
                 <asp:DropDownList ID="DropDownList_Groups" runat="server" AutoPostBack="True">
                 </asp:DropDownList>
             </td>
             <td>
-                <asp:Label ID="Label_Curriculums" runat="server">Select Curriculum:</asp:Label>
+                <asp:Label ID="Label_Curriculums" runat="server">Curriculum:</asp:Label>
                 <asp:DropDownList ID="DropDownList_Curriculums" runat="server">
                 </asp:DropDownList>
             </td>

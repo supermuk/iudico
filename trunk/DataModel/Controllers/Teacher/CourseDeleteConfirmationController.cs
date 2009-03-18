@@ -20,8 +20,8 @@ namespace IUDICO.DataModel.Controllers
         private TblCourses course;
 
         //"magic words"
-        private const string pageCaption = "Deleting course: {0}";
-        private const string pageDescription = "{0}, you want to delete course: {1}. This course is used in next objects:";
+        private const string pageCaption = "Deleting course: {0}.";
+        private const string pageDescription = "You want to delete course: {0}. This course is used in next objects:";
         private const string noneMessage = "None.";
 
         public override void Loaded()
@@ -31,8 +31,7 @@ namespace IUDICO.DataModel.Controllers
             course = ServerModel.DB.Load<TblCourses>(CourseID);
             Caption.Value = pageCaption.Replace("{0}", course.Name);
             Description.Value = pageDescription.
-                Replace("{0}", ServerModel.User.Current.UserName).
-                Replace("{1}", course.Name);
+                Replace("{0}", course.Name);
             Title.Value = Caption.Value;
         }
 

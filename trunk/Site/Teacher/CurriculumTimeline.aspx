@@ -23,12 +23,12 @@
     <table>
         <tr>
             <td valign="top">
-                <iudico:IdentityTreeView ID="TreeView_Curriculum" runat="server" ImageSet="XPFileExplorer">
+                <iudico:IdentityTreeView ID="TreeView_Curriculum" runat="server">
                     <SelectedNodeStyle BackColor="#00CC00" />
                 </iudico:IdentityTreeView>
             </td>
             <td valign="top">
-                <i:OperationsTable runat="server" ID="OperationsTable" />
+                <i:OperationsTable runat="server" ID="OperationsTable_Operations" />
             </td>
         </tr>
     </table>

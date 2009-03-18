@@ -13,13 +13,17 @@ public partial class StatisticSelect : ControlledPage<StatisticSelectController>
     {
         base.BindController(c);
 
-        Title = "Statistic selection";
+        Bind(Button_Show, c.ShowButton_Click);
+        BindEnabled(Button_Show, c.ShowButtonEnabled);
+
+        Bind(Label_PageCaption, c.Caption);
+        Bind(Label_PageDescription, c.Description);
+        Bind(Label_PageMessage, c.Message);
+        BindTitle(c.Title, gn => gn);
 
         c.CurriculumsDropDownList = DropDownList_Curriculums;
         c.GroupsDropDownList = DropDownList_Groups;
-        c.ShowButton = Button_Show;
-        c.NotifyLabel = Label_Notify;
-
-        Load += c.PageLoad;
+        c.RawUrl = Request.RawUrl;
+        c.IsPostBack = IsPostBack;
     }
 }

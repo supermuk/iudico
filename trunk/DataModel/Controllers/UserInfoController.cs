@@ -4,104 +4,79 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.DB.Base;
+using LEX.CONTROLS;
+using IUDICO.DataModel.Common;
 
 namespace IUDICO.DataModel.Controllers
 {
     public class UserInfoController : ControllerBase
     {
-        public TextBox FirstNameTextBox { get; set; }
-        public TextBox SecondNameTextBox { get; set; }
+        public IVariable<string> FirstName = string.Empty.AsVariable();
+        public IVariable<string> SecondName = string.Empty.AsVariable();
+        public IVariable<string> Email = string.Empty.AsVariable();
+        public IVariable<string> Login = string.Empty.AsVariable();
+        public IVariable<string> Roles = string.Empty.AsVariable();
+        public IVariable<string> Caption = string.Empty.AsVariable();
+        public IVariable<string> Description = string.Empty.AsVariable();
+        public IVariable<string> Message = string.Empty.AsVariable();
+        public IVariable<string> Title = string.Empty.AsVariable();
 
-        public TextBox EmailTextBox { get; set; }
-        public TextBox LoginTextBox { get; set; }
+        //"magic words"
+        private const string pageCaption = "User personal info.";
+        private const string pageDescription = "This is your info page. Here you can change your name, email and password. Look up for your roles and groups.";
 
-        public TextBox RolesTextBox { get; set; }
-        public TextBox GroupsTextBox { get; set; }
-
-        public ChangePassword ChangePassword { get; set; }
-
-        public Button UpdateButton { get; set; }
-
-        public void PageLoad(object sender, EventArgs e)
+        public override void Loaded()
         {
-            //registering for events            
-            UpdateButton.Click += new EventHandler(UpdateButton_Click);
-            if (!(sender as Page).IsPostBack)
-            {
-                fillFields();
-            }
+            base.Loaded();
+
+            Caption.Value = pageCaption;
+            Description.Value = pageDescription;
+            Title.Value = Caption.Value;
+
+            fillInfo();
         }
 
-        private void UpdateButton_Click(object sender, EventArgs e)
+
+        public void UpdateButton_Click()
         {
             TblUsers currentUser = ServerModel.DB.Load<TblUsers>(ServerModel.User.Current.ID);
 
-            currentUser.FirstName = FirstNameTextBox.Text;
-            currentUser.LastName = SecondNameTextBox.Text;
-            if (IsValidEmailAddress(EmailTextBox.Text))
-            {
-                currentUser.Email = EmailTextBox.Text;
-                EmailTextBox.Style["color"] = "black";
-            }
-            else
-            {
-                EmailTextBox.Style["color"] = "red";
-                return;
-            }
-            currentUser.Login = LoginTextBox.Text;
+            currentUser.FirstName = FirstName.Value;
+            currentUser.LastName = SecondName.Value;
+            currentUser.Email = Email.Value;
+
             ServerModel.DB.Update<TblUsers>(currentUser);
         }
 
-        private void fillFields()
+        private void fillInfo()
         {
             TblUsers currentUser = ServerModel.DB.Load<TblUsers>(ServerModel.User.Current.ID);
 
-            FirstNameTextBox.Text = currentUser.FirstName;
-            SecondNameTextBox.Text = currentUser.LastName;
-            EmailTextBox.Text = currentUser.Email;
-            LoginTextBox.Text = currentUser.Login;
+            FirstName.Value = currentUser.FirstName;
+            SecondName.Value = currentUser.LastName;
+            Email.Value = currentUser.Email;
+            Login.Value = currentUser.Login;
 
             string roles = "";
             foreach (string role in ServerModel.User.Current.Roles)
             {
                 roles += role + ", ";
             }
-            roles.TrimEnd(' ', ',');
+            roles = roles.TrimEnd(' ', ',');
+            Roles.Value = roles;
+        }
 
-            string groups = "";
-            foreach (TblGroups group in getUserGroups(currentUser))
+        public IList<string> GetGroups()
+        {
+            TblUsers currentUser = ServerModel.DB.Load<TblUsers>(ServerModel.User.Current.ID);
+            List<string> result = new List<string>();
+            foreach (TblGroups group in TeacherHelper.GetUserGroups(currentUser))
             {
-                groups += group.Name + ", ";
+                result.Add(group.Name);
             }
-            groups.TrimEnd(' ', ',');
 
-            RolesTextBox.Text = roles;
-            GroupsTextBox.Text = groups;
-
-
+            return result;
         }
-
-        private IList<TblGroups> getUserGroups(TblUsers user)
-        {
-            return ServerModel.DB.Query<TblGroups>(
-                new InCondition<int>(
-                   DataObject.Schema.ID,
-                   new SubSelectCondition<RelUserGroups>("GroupRef",
-                      new CompareCondition<int>(
-                         DataObject.Schema.UserRef,
-                         new ValueCondition<int>(user.ID),
-                         COMPARE_KIND.EQUAL
-                     )
-                 ),
-                 IN_CONDITION_KIND.NOT_IN
-             ));
-        }
-
-        public static bool IsValidEmailAddress(string sEmail)
-        {
-            return true;
-        }
-
 
     }
 }

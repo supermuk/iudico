@@ -11,7 +11,9 @@ namespace IUDICO.DataModel.Controllers
 {
     public class CurriculumEditController : BaseTeacherController
     {
+        [PersistantField]
         public IVariable<string> ObjectName = string.Empty.AsVariable();
+        [PersistantField]
         public IVariable<string> ObjectDescription = string.Empty.AsVariable();
 
         [PersistantField]
@@ -27,18 +29,17 @@ namespace IUDICO.DataModel.Controllers
         public TreeView CurriculumTree { get; set; }
 
         //"magic words"
-        private const string pageCaption = "Curriculum management by: ";
+        private const string pageCaption = "Curriculum management.";
         private const string pageDescription = "This is curriculum edit page page. Create/Edit/Delete your curriculum here.";
         private const string noCourses = "You have no courses, upload some first.";
         private const string noThemesSelected = "Select some themes to add.";
-        private const string alreadyHaveTheme1 = "Stage: ";
-        private const string alreadyHaveTheme2 = " already contains theme(s) :";
+        private const string alreadyHaveTheme = "Stage: {0} already contains theme(s) :";
 
         public override void Loaded()
         {
             base.Loaded();
 
-            Caption.Value = pageCaption + ServerModel.User.Current.UserName;
+            Caption.Value = pageCaption;
             Description.Value = pageDescription;
             Title.Value = Caption.Value;
             Message.Value = string.Empty;
@@ -140,7 +141,7 @@ namespace IUDICO.DataModel.Controllers
             }
 
             IdendtityNode stageNode = CurriculumTree.SelectedNode as IdendtityNode;
-            Message.Value = alreadyHaveTheme1 + stageNode.Text + alreadyHaveTheme2;
+            Message.Value = alreadyHaveTheme.Replace("{0}", stageNode.Text);
             bool alreadyHaveSomeTheme = false;
 
             for (int i = 0; i < CourseTree.CheckedNodes.Count; i++)

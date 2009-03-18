@@ -1,5 +1,5 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
-    CodeFile="TeacherObjects.aspx.cs" Inherits="TeacherObjects" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
+    CodeFile="CourseTeachersList.aspx.cs" Inherits="CourseTeachersList" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
     <table>
@@ -19,22 +19,27 @@
             </td>
         </tr>
     </table>
-    <table border="1">
+    <table>
         <tr>
-            <td>
-                <asp:Label runat="server" ID="Label_Courses">Your courses:</asp:Label>
-            </td>
-            <td>
-                <asp:Label runat="server" ID="Label_Curriculums">Your curriculums:</asp:Label>
+            <td colspan="2">
+                <asp:Label ID="Label_SharedBy" runat="server"></asp:Label>
             </td>
         </tr>
         <tr>
             <td>
-                <asp:Table runat="server" ID="Table_Courses">
-                </asp:Table>
+                <asp:Label ID="Label_SharedWith" runat="server">Already shared with:</asp:Label>
             </td>
             <td>
-                <asp:Table runat="server" ID="Table_Curriculums">
+                <asp:Table ID="Table_SharedWith" runat="server">
+                </asp:Table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Label ID="Label_CanBeShared" runat="server">Can be shared with:</asp:Label>
+            </td>
+            <td>
+                <asp:Table ID="Table_CanBeShared" runat="server">
                 </asp:Table>
             </td>
         </tr>

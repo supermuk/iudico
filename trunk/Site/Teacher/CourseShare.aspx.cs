@@ -13,12 +13,11 @@ public partial class CourseShare : ControlledPage<CourseShareController>
     {
         base.BindController(c);
 
-        Title = "Course share";
-
-        c.OperationsTable = Table_Operations;
-        c.TeachersTable = Table_Teachers;
-        c.NotifyLabel = Label_Notify;
-
-        Load += c.PageLoad;
+        Bind(Label_PageCaption, c.Caption);
+        Bind(Label_PageDescription, c.Description);
+        Bind(Label_PageMessage, c.Message);
+        BindTitle(c.Title, gn => gn);
+        Bind(Button_Update, c.UpdateButton_Click);
+        c.Operations = Table_Operations;
     }
 }

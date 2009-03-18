@@ -13,12 +13,12 @@ public partial class TeacherObjects : ControlledPage<TeacherObjectsController>
     {
         base.BindController(c);
 
-        Title = "Teacher objects";
+        Bind(Label_PageCaption, c.Caption);
+        Bind(Label_PageDescription, c.Description);
+        Bind(Label_PageMessage, c.Message);
+        BindTitle(c.Title, gn => gn);
 
         c.CurriculumsTable = Table_Curriculums;
         c.CoursesTable = Table_Courses;
-        c.NotifyLabel = Label_Notify;
-
-        Load += c.PageLoad;
     }
 }
