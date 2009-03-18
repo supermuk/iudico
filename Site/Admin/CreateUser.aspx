@@ -5,6 +5,9 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
+    <h1>Create User</h1>
+    To create IUDICO account fill in the form and press 'Create User' button <br />
+    To create many users for the time click on 'Create multiple' link <br /><br />
     <asp:CreateUserWizard 
         ID="CreateUserWizard1" 
         FinishDestinationPageUrl="~/Login.aspx" 

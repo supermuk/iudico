@@ -23,7 +23,7 @@
             e.Item.Enabled = cu != null && ((SiteMapNode)e.Item.DataItem).Roles.Cast<string>().All(r => cu.Roles.Contains(r));
             if (!e.Item.Enabled)
             {
-                (sender as Menu).Items.Remove(e.Item);
+                ((Menu)sender).Items.Remove(e.Item);
             }
         }
     </script>
@@ -43,6 +43,11 @@
             <StaticHoverStyle CssClass="staticmenuitem" />
         </asp:Menu>
         <br />
+        
+        <b>
+            <asp:SiteMapPath runat="server" />
+        </b>
+        
         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
             <ContentTemplate>
                 <asp:ContentPlaceHolder ID="MainContent" runat="server">
