@@ -50,7 +50,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <iudico:IdentityTreeView ID="TreeView_Curriculums" runat="server" ImageSet="XPFileExplorer">
+                            <iudico:IdentityTreeView ID="TreeView_Curriculums" runat="server">
                                 <SelectedNodeStyle BackColor="#00CC00" />
                             </iudico:IdentityTreeView>
                         </td>

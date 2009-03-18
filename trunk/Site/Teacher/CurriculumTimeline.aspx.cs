@@ -1,5 +1,6 @@
 ﻿using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
+using System.Web.UI;
 
 public partial class CurriculumTimeline : ControlledPage<CurriculumTimelineController>
 {
@@ -10,9 +11,10 @@ public partial class CurriculumTimeline : ControlledPage<CurriculumTimelineContr
         Bind(Label_PageCaption, c.Caption);
         Bind(Label_PageDescription, c.Description);
         Bind(Label_PageMessage, c.Message);
-        Bind(OperationsTable, c.PermissionID);
+        Bind(OperationsTable_Operations, c.TimeLineData);
         BindTitle(c.Title, gn => gn);
-        
+
+        c.IsPostBack = IsPostBack;
         c.CurriculumTree = TreeView_Curriculum;
     }
 

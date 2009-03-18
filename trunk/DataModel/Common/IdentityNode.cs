@@ -60,12 +60,14 @@ namespace IUDICO.DataModel.Common
             : this(course.Name, course.ID, course.Description)
         {
             Type = NodeType.Course;
+            
         }
 
         public IdendtityNode(TblCurriculums curriculum)
             : this(curriculum.Name, curriculum.ID, curriculum.Description)
         {
             Type = NodeType.Curriculum;
+            
         }
 
         public IdendtityNode(TblStages stage)
@@ -121,5 +123,6 @@ namespace IUDICO.DataModel.Common
             return null;
         }
 
+        
     }
 }

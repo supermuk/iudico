@@ -12,7 +12,7 @@ using System.Data;
 
 namespace IUDICO.DataModel.Controllers
 {
-    public class StatisticShowController : ControllerBase
+    public class StatisticShowController : BaseTeacherController
     {
         [ControllerParameter]
         public int GroupID;
@@ -22,16 +22,28 @@ namespace IUDICO.DataModel.Controllers
         TblCurriculums curriculum;
         TblGroups group;
 
+        //"magic words"
+        private const string pageCaption = "Statistic.";
+        private const string pageDescription = "This is statisic for group: {0} based on curriculum: {1}. This statistaic is based on passed pages count.";
+        private const string studentStr = "Student";
+        private const string totalStr = "Total";
+        private const string noStudents = "Theare are no students in this group.";
 
         public Label NotifyLabel { get; set; }
         public Table StatisticTable { get; set; }
 
-        public void PageLoad(object sender, EventArgs e)
+        public override void Loaded()
         {
+            base.Loaded();
+
             curriculum = ServerModel.DB.Load<TblCurriculums>(CurriculumID);
             group = ServerModel.DB.Load<TblGroups>(GroupID);
 
-            NotifyLabel.Text = "This is statisic for group: " + group.Name + " based on curriculum: " + curriculum.Name;
+            Caption.Value = pageCaption;
+            Description.Value = pageDescription.
+                Replace("{0}", group.Name).
+                Replace("{1}", curriculum.Name);
+            Title.Value = Caption.Value;
 
             fillStatisticTable();
         }
@@ -43,10 +55,8 @@ namespace IUDICO.DataModel.Controllers
             TableHeaderRow headerRow = new TableHeaderRow();
 
             TableHeaderCell headerCell = new TableHeaderCell();
-            headerCell.Text = "Student";
-
+            headerCell.Text = studentStr;
             headerRow.Cells.Add(headerCell);
-
 
             foreach (TblStages stage in TeacherHelper.StagesForCurriculum(curriculum))
             {
@@ -58,7 +68,7 @@ namespace IUDICO.DataModel.Controllers
                 }
             }
             headerCell = new TableHeaderCell();
-            headerCell.Text = "Total";
+            headerCell.Text = totalStr;
             headerRow.Cells.Add(headerCell);
 
             StatisticTable.Rows.Add(headerRow);
@@ -75,11 +85,10 @@ namespace IUDICO.DataModel.Controllers
                 int totalCurriculum = 0;
                 foreach (TblStages stage in TeacherHelper.StagesForCurriculum(curriculum))
                 {
-
-
                     foreach (TblThemes theme in TeacherHelper.ThemesForStage(stage))
                     {
-                        studentCell = new TableHeaderCell();
+                        studentCell = new TableCell();
+                        studentCell.HorizontalAlign = HorizontalAlign.Center;
                         int pasedPages = 0;
                         int totalPages = 0;
                         foreach (TblPages page in TeacherHelper.PagesOfTheme(theme))
@@ -92,7 +101,7 @@ namespace IUDICO.DataModel.Controllers
                                 {
                                     if (userAnswer.IsCompiledAnswer)
                                     {
-                                       
+
                                     }
                                     else
                                     {
@@ -121,7 +130,8 @@ namespace IUDICO.DataModel.Controllers
                     }
                 }
 
-                studentCell = new TableHeaderCell();
+                studentCell = new TableCell();
+                studentCell.HorizontalAlign = HorizontalAlign.Center;
                 studentCell.Text = pasedCurriculum.ToString() + "/" + totalCurriculum.ToString();
                 studentRow.Cells.Add(studentCell);
                 StatisticTable.Rows.Add(studentRow);
@@ -130,7 +140,7 @@ namespace IUDICO.DataModel.Controllers
             if (StatisticTable.Rows.Count == 1)
             {
                 StatisticTable.Visible = false;
-                NotifyLabel.Text = "Theare are no students in this group.";
+                Message.Value = noStudents;
             }
         }
 

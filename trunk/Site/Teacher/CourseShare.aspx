@@ -2,12 +2,25 @@
     CodeFile="CourseShare.aspx.cs" Inherits="CourseShare" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
-    <asp:Label runat="server" ID="Label_Notify"></asp:Label>
     <table>
         <tr>
             <td>
-                <asp:Label ID="Label_Operations" runat="server">Available operations:</asp:Label>
+                <asp:Label ID="Label_PageCaption" runat="server" Font-Bold="True" Font-Size="XX-Large"></asp:Label>
             </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Label ID="Label_PageDescription" runat="server"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Label ID="Label_PageMessage" runat="server" ForeColor="#CC0000"></asp:Label>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
             <td>
                 <asp:Table ID="Table_Operations" runat="server">
                 </asp:Table>
@@ -15,11 +28,7 @@
         </tr>
         <tr>
             <td>
-                <asp:Label ID="Label1" runat="server">Available teachers:</asp:Label>
-            </td>
-            <td>
-                <asp:Table ID="Table_Teachers" runat="server">
-                </asp:Table>
+                <asp:Button runat="server" ID="Button_Update" Text="Update" />
             </td>
         </tr>
     </table>

@@ -32,9 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EO.Web, Version=6.0.63.2, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+    <Reference Include="GMDatePicker, Version=0.9.2592.39607, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\EO.Web.dll</HintPath>
+      <HintPath>..\Lib\GMDatePicker.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -150,9 +150,10 @@
     <Compile Include="Controllers\Admin_CreateUserController.cs" />
     <Compile Include="Controllers\CompiledQuestionsResultController.cs" />
     <Compile Include="Controllers\Teacher\BaseTeacherController.cs" />
+    <Compile Include="Controllers\Teacher\CourseShareController.cs" />
     <Compile Include="Controllers\Teacher\CourseDeleteConfirmationController.cs" />
     <Compile Include="Controllers\Teacher\CourseEditController.cs" />
-    <Compile Include="Controllers\Teacher\CourseShareController.cs" />
+    <Compile Include="Controllers\Teacher\CourseTeachersListController.cs" />
     <Compile Include="Controllers\CreateGroupController.cs" />
     <Compile Include="Controllers\Teacher\CurriculumAssignmentController.cs" />
     <Compile Include="Controllers\Teacher\CurriculumDeleteConfirmationController.cs" />

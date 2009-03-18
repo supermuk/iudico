@@ -9,82 +9,73 @@ using IUDICO.DataModel.ImportManagers;
 using IUDICO.DataModel.ImportManagers.RemoveManager;
 using IUDICO.DataModel.Security;
 using System.Data;
+using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.Controllers
 {
-    public class CourseShareController : ControllerBase
+    public class CourseShareController : BaseTeacherController
     {
         [ControllerParameter]
         public int CourseId;
+        [ControllerParameter]
+        public int TeacherId;
+
+        public Table Operations { get; set; }
+
         private TblCourses course;
+        private TblUsers teacher;
 
+        //"magic words"
+        private const string pageCaption = "Share of course: {0} to {1}.";
+        private const string pageDescription = "Here you can share course: {0} to {1}, select operations to be shared.";
 
-        public Table TeachersTable { get; set; }
-        public Table OperationsTable { get; set; }
-        public Label NotifyLabel { get; set; }
-
-
-
-        public void PageLoad(object sender, EventArgs e)
+        public override void Loaded()
         {
-            NotifyLabel.Text = "Select operation and teacher to share";
+            base.Loaded();
+
             course = ServerModel.DB.Load<TblCourses>(CourseId);
+            teacher = ServerModel.DB.Load<TblUsers>(TeacherId);
+
+            Caption.Value = pageCaption.
+                Replace("{0}", course.Name).
+                Replace("{1}", teacher.DisplayName);
+            Description.Value = pageDescription.
+                Replace("{0}", course.Name).
+                Replace("{1}", teacher.DisplayName);
+            Title.Value = Caption.Value;
 
             fillOperationsTable();
-            fillTeachersTable();
         }
 
-        private void fillTeachersTable()
+        public void UpdateButton_Click()
         {
-            TeachersTable.Rows.Clear();
-
-            foreach (TblUsers teacher in TeacherHelper.GetTeachers())
-            {
-                if (teacher.ID != ServerModel.User.Current.ID)
-                {
-                    TableRow teacherRow = new TableRow();
-                    TableCell teacherCell = new TableCell();
-
-                    Button teacherButton = new Button();
-                    teacherButton.Text = teacher.DisplayName;
-                    teacherButton.ID = teacher.ID.ToString();
-                    teacherButton.Click += new EventHandler(teacherButton_Click);
-                    teacherCell.Controls.Add(teacherButton);
-
-                    teacherRow.Cells.Add(teacherCell);
-                    TeachersTable.Rows.Add(teacherRow);
-                }
-
-            }
-        }
-
-        void teacherButton_Click(object sender, EventArgs e)
-        {
-            int teacherId = int.Parse((sender as Button).ID);
-            TblUsers teacher = ServerModel.DB.Load<TblUsers>(teacherId);
-
-            foreach (TableRow operationRow in OperationsTable.Rows)
+            foreach (TableRow operationRow in Operations.Rows)
             {
                 CheckBox operationCheckBox = operationRow.Cells[0].Controls[0] as CheckBox;
-                if (operationCheckBox.Checked)
+                if (operationCheckBox.Enabled)
                 {
                     FxCourseOperations operation = ServerModel.DB.Load<FxCourseOperations>(int.Parse(operationCheckBox.ID));
-                    if (TeacherHelper.HavePermissionForCourse(teacherId, course, operation))
+                    if (operationCheckBox.Checked)
                     {
-                        NotifyLabel.Text = "Teacher: " + teacher.DisplayName + " already have permission to: " + operation.Name;
+                        if (!TeacherHelper.HavePermissionForCourse(teacher.ID, course, operation))
+                        {
+                            TeacherHelper.Share(TeacherHelper.GetPermissionForCourse(course, operation), teacher.ID, false);
+                        }
                     }
                     else
                     {
-                        TeacherHelper.Share(TeacherHelper.GetPermissionForCourse(course, operation), teacher.ID, false);
+                        if (TeacherHelper.HavePermissionForCourse(teacher.ID, course, operation))
+                        {
+                            TeacherHelper.RemovePermissionForCourse(course, operation, teacher);
+                        }
                     }
                 }
             }
-
         }
 
         private void fillOperationsTable()
         {
-            OperationsTable.Rows.Clear();
+            Operations.Rows.Clear();
 
             foreach (FxCourseOperations operation in TeacherHelper.CourseOperations())
             {
@@ -100,13 +91,15 @@ namespace IUDICO.DataModel.Controllers
                 {
                     operationCheckBox.Enabled = false;
                 }
-
+                else
+                {
+                    operationCheckBox.Checked = TeacherHelper.AreParentAndChildByCourse(permission, teacher, course);
+                }
                 operationCell.Controls.Add(operationCheckBox);
 
                 operationRow.Cells.Add(operationCell);
-                OperationsTable.Rows.Add(operationRow);
+                Operations.Rows.Add(operationRow);
             }
         }
-
     }
 }

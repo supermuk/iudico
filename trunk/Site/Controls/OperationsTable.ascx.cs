@@ -8,6 +8,9 @@ using IUDICO.DataModel.DB;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.Security;
+using GrayMatterSoft;
+using System.Drawing;
+using IUDICO.DataModel.Controllers;
 
 public partial class OperationsTable : UserControl, ITextControl
 {
@@ -22,115 +25,27 @@ public partial class OperationsTable : UserControl, ITextControl
     private const string till = "Till";
     private const string apply = "Apply";
     private const string remove = "Remove";
-
+    private const string noDateSelected = "Date is not set up";
     TblGroups group;
     TblCurriculums curriculum;
     TblStages stage;
+    string valuePath;
 
-    private void buildCurriculumTable(TblCurriculums curriculum)
+    protected override void OnLoad(EventArgs e)
     {
-        while (Table_Operations.Rows.Count != 2)
-        {
-            Table_Operations.Rows.RemoveAt(1);
+        base.OnLoad(e);
 
-        }
-        foreach (TblPermissions permission in TeacherHelper.GroupPermissionsForCurriculum(group, curriculum))
+        if (DropDownList_CurriculumOperations.Items.Count == 0)
         {
-            Table_Operations.Rows.AddAt(Table_Operations.Rows.Count - 1, buildCurriculumPermissionRow(permission));
+            fillCurriculumOperations();
         }
+        if (DropDownList_StageOperations.Items.Count == 0)
+        {
+            fillStageOperations();
+        }
+
+
     }
-
-    private TableRow buildCurriculumPermissionRow(TblPermissions permission)
-    {
-        TableRow operationRow = new TableRow();
-
-        TableCell operationCell = new TableCell();
-        Label dateSinceLabel = new Label();
-        dateSinceLabel.Text = since;
-        TextBox dateSinceTextBox = new TextBox();
-        dateSinceTextBox.ID = since + permission.ID.ToString();
-
-        Label dateTillLabel = new Label();
-        dateTillLabel.Text = till;
-        TextBox dateTillTextBox = new TextBox();
-        dateTillTextBox.ID = till + permission.ID.ToString();
-
-        TableCell operationNameCell = new TableCell();
-        FxCurriculumOperations curriculumOperation =
-                        ServerModel.DB.Load<FxCurriculumOperations>(permission.CurriculumOperationRef.Value);
-        operationNameCell.Text = curriculumOperation.Name;
-        operationRow.Cells.Add(operationNameCell);
-
-        if (permission.DateSince.HasValue)
-        {
-            dateSinceTextBox.Text = permission.DateSince.Value.ToString();
-        }
-        else
-        {
-            dateSinceTextBox.Text = minDateTime.ToString();
-        }
-
-        if (permission.DateTill.HasValue)
-        {
-            dateTillTextBox.Text = permission.DateTill.Value.ToString();
-        }
-        else
-        {
-            dateTillTextBox.Text = maxDateTime.ToString();
-        }
-
-        operationCell.Controls.Add(dateSinceLabel);
-        operationCell.Controls.Add(dateSinceTextBox);
-        operationCell.Controls.Add(dateTillLabel);
-        operationCell.Controls.Add(dateTillTextBox);
-        operationRow.Cells.Add(operationCell);
-
-        operationCell = new TableCell();
-
-        Button ApppyButton = new Button();
-        ApppyButton.ID = applyChar + permission.ID.ToString();
-        ApppyButton.Click += new EventHandler(ApppyCurriculumButton_Click);
-        ApppyButton.Text = apply;
-
-        Button RemoveButton = new Button();
-        RemoveButton.ID = removeChar + permission.ID.ToString();
-        RemoveButton.Click += new EventHandler(RemoveCurriculumButton_Click);
-        RemoveButton.Text = remove;
-
-        operationCell.Controls.Add(ApppyButton);
-        operationCell.Controls.Add(RemoveButton);
-        operationRow.Cells.Add(operationCell);
-
-        return operationRow;
-    }
-
-    private void RemoveCurriculumButton_Click(object sender, EventArgs e)
-    {
-        Button button = sender as Button;
-        int permissionID = int.Parse(button.ID.Replace(removeChar, ""));
-        ServerModel.DB.Delete<TblPermissions>(permissionID);
-        buildCurriculumTable(curriculum);
-    }
-
-    private void ApppyCurriculumButton_Click(object sender, EventArgs e)
-    {
-        Button button = sender as Button;
-        int permissionID = int.Parse(button.ID.Replace(applyChar, ""));
-        ApplyPermission(permissionID, button);
-    }
-
-    private void ApplyPermission(int permissionID, Button senderButton)
-    {
-        TextBox sinceDatePicker = (senderButton.Parent.Parent as TableRow).Cells[1].FindControl(since + permissionID) as TextBox;
-        TextBox tillDatePicker = (senderButton.Parent.Parent as TableRow).Cells[1].FindControl(till + permissionID) as TextBox;
-
-        TblPermissions permission = ServerModel.DB.Load<TblPermissions>(permissionID);
-        permission.DateSince = DateTime.Parse(sinceDatePicker.Text);
-        permission.DateTill = DateTime.Parse(tillDatePicker.Text);
-
-        ServerModel.DB.Update<TblPermissions>(permission);
-    }
-
 
     public string Text
     {
@@ -147,53 +62,201 @@ public partial class OperationsTable : UserControl, ITextControl
             }
 
             Visible = true;
+            valuePath = value.Split()[0];
+            group = ServerModel.DB.Load<TblGroups>(int.Parse(value.Split()[1]));
 
-
-            group = ServerModel.DB.Load<TblGroups>(int.Parse(value.Split()[0]));
-            if (value.Split()[2] == curriculumChar)
+            if (value.Split()[3] == curriculumChar)
             {
-                curriculum = ServerModel.DB.Load<TblCurriculums>(int.Parse(value.Split()[1]));
-                if (DropDownList_Operations.Items.Count == 0)
-                {
-                    addCurriculumOperations();
-                }
+                curriculum = ServerModel.DB.Load<TblCurriculums>(int.Parse(value.Split()[2]));
                 buildCurriculumTable(curriculum);
-                Button_AddOperation.Click += new EventHandler(Button_AddOperation_Click);
+                DropDownList_CurriculumOperations.Visible = true;
+                DropDownList_StageOperations.Visible = false;
+                Button_AddOperation.Click += new EventHandler(Button_AddCurriculumOperation);
             }
-            if (value.Split()[2] == stageChar)
+            if (value.Split()[3] == stageChar)
             {
-                stage = ServerModel.DB.Load<TblStages>(int.Parse(value.Split()[1]));
-                addStageOperations();
+                stage = ServerModel.DB.Load<TblStages>(int.Parse(value.Split()[2]));
+                curriculum = ServerModel.DB.Load<TblCurriculums>(stage.CurriculumRef.Value);
+
+                buildStageTable(stage);
+                DropDownList_CurriculumOperations.Visible = false;
+                DropDownList_StageOperations.Visible = true;
+                Button_AddOperation.Click += new EventHandler(Button_AddStageOperation);
             }
         }
     }
 
-
-
-    void Button_AddOperation_Click(object sender, EventArgs e)
+    private void buildCurriculumTable(TblCurriculums curriculum)
     {
-        FxCurriculumOperations operation = ServerModel.DB.Load<FxCurriculumOperations>(int.Parse(DropDownList_Operations.SelectedValue));
+        foreach (TblPermissions permission in TeacherHelper.GroupPermissionsForCurriculum(group, curriculum))
+        {
+            Table_Operations.Rows.AddAt(Table_Operations.Rows.Count - 1, buildPermissionRow(permission));
+        }
+    }
+
+    private void buildStageTable(TblStages stage)
+    {
+        foreach (TblPermissions permission in TeacherHelper.GroupPermissionsForStage(group, stage))
+        {
+            Table_Operations.Rows.AddAt(Table_Operations.Rows.Count - 1, buildPermissionRow(permission));
+        }
+    }
+
+    private TableRow buildPermissionRow(TblPermissions permission)
+    {
+        TableRow operationRow = new TableRow();
+
+        TableCell operationCell = new TableCell();
+        Label dateSinceLabel = new Label();
+        dateSinceLabel.Text = since + ": ";
+        GMDatePicker dateSinceDatePicker = recreateDatePicker(since + permission.ID.ToString());
+        Label dateTillLabel = new Label();
+        dateTillLabel.Text = till + ": ";
+        GMDatePicker dateTillDatePicker = recreateDatePicker(till + permission.ID.ToString());
+
+        TableCell operationNameCell = new TableCell();
+        if (permission.StageOperationRef.HasValue)
+        {
+            FxStageOperations stageOperation =
+                            ServerModel.DB.Load<FxStageOperations>(permission.StageOperationRef.Value);
+            operationNameCell.Text = stageOperation.Name;
+        }
+        if (permission.CurriculumOperationRef.HasValue)
+        {
+            FxCurriculumOperations curriculumOperation =
+                            ServerModel.DB.Load<FxCurriculumOperations>(permission.CurriculumOperationRef.Value);
+            operationNameCell.Text = curriculumOperation.Name;
+        }
+        operationRow.Cells.Add(operationNameCell);
+
+        Table layoutTable = new Table();
+        TableRow layoutRow = new TableRow();
+
+        TableCell sinceLabelCell = new TableCell();
+        sinceLabelCell.Controls.Add(dateSinceLabel);
+
+        TableCell sincePickerCell = new TableCell();
+        sincePickerCell.Width = 200;
+        sincePickerCell.HorizontalAlign = HorizontalAlign.Right;
+        sincePickerCell.Controls.Add(dateSinceDatePicker);
+
+        TableCell tillLabelCell = new TableCell();
+        tillLabelCell.Controls.Add(dateTillLabel);
+
+        TableCell tillPickerCell = new TableCell();
+        tillPickerCell.Width = 200;
+        tillPickerCell.HorizontalAlign = HorizontalAlign.Right;
+        tillPickerCell.Controls.Add(dateTillDatePicker);
+
+        layoutRow.Cells.Add(sinceLabelCell);
+        layoutRow.Cells.Add(sincePickerCell);
+        layoutRow.Cells.Add(tillLabelCell);
+        layoutRow.Cells.Add(tillPickerCell);
+        layoutTable.Rows.Add(layoutRow);
+
+        operationCell.Controls.Add(layoutTable);
+        operationRow.Cells.Add(operationCell);
+
+        if (permission.DateSince.HasValue)
+        {
+            dateSinceDatePicker.InitialText = permission.DateSince.Value.ToShortDateString();
+            dateSinceDatePicker.InitialTimePickerText = permission.DateSince.Value.ToShortTimeString();
+        }
+
+        if (permission.DateTill.HasValue)
+        {
+            dateTillDatePicker.InitialText = permission.DateTill.Value.ToShortDateString();
+            dateTillDatePicker.InitialTimePickerText = permission.DateTill.Value.ToShortTimeString();
+        }
+
+        operationCell = new TableCell();
+
+        Button ApppyButton = new Button();
+        ApppyButton.ID = applyChar + permission.ID.ToString();
+        ApppyButton.Click += new EventHandler(ApppyButton_Click);
+        ApppyButton.Text = apply;
+
+        Button RemoveButton = new Button();
+        RemoveButton.ID = removeChar + permission.ID.ToString();
+        RemoveButton.Click += new EventHandler(RemoveButton_Click);
+        RemoveButton.Text = remove;
+
+        operationCell.Controls.Add(ApppyButton);
+        operationCell.Controls.Add(RemoveButton);
+        operationRow.Cells.Add(operationCell);
+
+        return operationRow;
+    }
+
+    private void ApppyButton_Click(object sender, EventArgs e)
+    {
+        Button button = sender as Button;
+        int permissionID = int.Parse(button.ID.Replace(applyChar, ""));
+
+        GMDatePicker sinceDatePicker = (button.Parent.Parent as TableRow).Cells[1].FindControl(since + permissionID) as GMDatePicker;
+        GMDatePicker tillDatePicker = (button.Parent.Parent as TableRow).Cells[1].FindControl(till + permissionID) as GMDatePicker;
+
+        TblPermissions permission = ServerModel.DB.Load<TblPermissions>(permissionID);
+        if (sinceDatePicker.IsNull)
+        {
+            permission.DateSince = null;
+        }
+        else
+        {
+            permission.DateSince = sinceDatePicker.Date;
+            sinceDatePicker.Date = sinceDatePicker.Date;
+        }
+
+        if (tillDatePicker.IsNull)
+        {
+            permission.DateTill = null;
+        }
+        else
+        {
+            permission.DateTill = tillDatePicker.Date;
+            tillDatePicker.Date = tillDatePicker.Date;
+        }
+
+        ServerModel.DB.Update<TblPermissions>(permission);
+    }
+
+    private void RemoveButton_Click(object sender, EventArgs e)
+    {
+        Button button = sender as Button;
+        int permissionID = int.Parse(button.ID.Replace(removeChar, ""));
+        ServerModel.DB.Delete<TblPermissions>(permissionID);
+    }
+
+    private void Button_AddCurriculumOperation(object sender, EventArgs e)
+    {
+        FxCurriculumOperations operation = ServerModel.DB.Load<FxCurriculumOperations>(int.Parse(DropDownList_CurriculumOperations.SelectedValue));
         PermissionsManager.Grand(curriculum, operation, null, group.ID, DateTimeInterval.Full);
-
-        buildCurriculumTable(curriculum);
     }
 
-    private void addCurriculumOperations()
+    private void Button_AddStageOperation(object sender, EventArgs e)
     {
-        DropDownList_Operations.Items.Add(new ListItem(FxCurriculumOperations.View.Name, FxCurriculumOperations.View.ID.ToString()));
-        DropDownList_Operations.Items.Add(new ListItem(FxCurriculumOperations.Pass.Name, FxCurriculumOperations.Pass.ID.ToString()));
+        FxStageOperations operation = ServerModel.DB.Load<FxStageOperations>(int.Parse(DropDownList_StageOperations.SelectedValue));
+        PermissionsManager.Grand(stage, operation, null, group.ID, DateTimeInterval.Full);
     }
 
-    private void addStageOperations()
+    private void fillCurriculumOperations()
     {
-        DropDownList_Operations.Items.Add(new ListItem(FxStageOperations.View.Name, FxStageOperations.View.ID.ToString()));
-        DropDownList_Operations.Items.Add(new ListItem(FxStageOperations.Pass.Name, FxStageOperations.Pass.ID.ToString()));
+        DropDownList_CurriculumOperations.Items.Add(new ListItem(FxCurriculumOperations.View.Name, FxCurriculumOperations.View.ID.ToString()));
+        DropDownList_CurriculumOperations.Items.Add(new ListItem(FxCurriculumOperations.Pass.Name, FxCurriculumOperations.Pass.ID.ToString()));
+    }
+
+    private void fillStageOperations()
+    {
+        DropDownList_StageOperations.Items.Add(new ListItem(FxStageOperations.View.Name, FxStageOperations.View.ID.ToString()));
+        DropDownList_StageOperations.Items.Add(new ListItem(FxStageOperations.Pass.Name, FxStageOperations.Pass.ID.ToString()));
     }
 
     protected override object SaveViewState()
     {
 
-        object[] newState = new object[2] { base.SaveViewState(), DropDownList_Operations.SelectedIndex };
+        object[] newState = new object[5] { base.SaveViewState(), 
+            DropDownList_CurriculumOperations.SelectedIndex, DropDownList_CurriculumOperations.Visible,
+            DropDownList_StageOperations.SelectedIndex, DropDownList_StageOperations.Visible        };
         return newState;
     }
 
@@ -201,7 +264,27 @@ public partial class OperationsTable : UserControl, ITextControl
     {
         object[] newState = savedState as object[];
         base.LoadViewState(newState[0]);
-        addCurriculumOperations();
-        DropDownList_Operations.SelectedIndex = int.Parse(newState[1].ToString());
+
+        fillCurriculumOperations();
+        fillStageOperations();
+
+        DropDownList_CurriculumOperations.SelectedIndex = int.Parse(newState[1].ToString());
+        DropDownList_CurriculumOperations.Visible = bool.Parse(newState[2].ToString());
+        DropDownList_StageOperations.SelectedIndex = int.Parse(newState[3].ToString());
+        DropDownList_StageOperations.Visible = bool.Parse(newState[4].ToString());
+    }
+
+    private GMDatePicker recreateDatePicker(string ID)
+    {
+        GMDatePicker DatePicker = new GMDatePicker();
+        DatePicker.ID = ID;
+        DatePicker.EnableTimePicker = true;
+        DatePicker.DisplayMode = DisplayMode.Label;
+        DatePicker.InitialValueMode = InitialValueMode.Null;
+        DatePicker.InitialText = noDateSelected;
+        DatePicker.NoneText = noDateSelected;
+        DatePicker.CalendarTheme = CalendarTheme.Silver;
+
+        return DatePicker;
     }
 }
