@@ -14,7 +14,7 @@
         <tr>
             <td class="style1">
     
-    <asp:Button ID="openTest" runat="server" Text="Open Test" />
+    <asp:Button ID="openTest" runat="server" Text="Open Test" Enabled="False" />
     
     <asp:Button ID="showResult" runat="server" Text="Show Result"/>
     
@@ -46,6 +46,8 @@
    
             </td>
             <td class="style2">
+   
+                <asp:ListBox ID="periodDescription" runat="server" Rows="1" Width="252px"></asp:ListBox>
    
     <asp:Calendar ID="curriculumCalendar" runat="server" BackColor="White"
         BorderColor="#999999" CellPadding="4" DayNameFormat="Shortest" 

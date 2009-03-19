@@ -148,7 +148,9 @@
     <Compile Include="Controllers\Admin_SelectGroupController.cs" />
     <Compile Include="Controllers\Admin_UsersController.cs" />
     <Compile Include="Controllers\Admin_CreateUserController.cs" />
-    <Compile Include="Controllers\CompiledQuestionsResultController.cs" />
+    <Compile Include="Controllers\Student\CompiledQuestionsResultController.cs" />
+    <Compile Include="Controllers\Student\CurriculumnResultController.cs" />
+    <Compile Include="Controllers\Student\StageResultController.cs" />
     <Compile Include="Controllers\Teacher\BaseTeacherController.cs" />
     <Compile Include="Controllers\Teacher\CourseShareController.cs" />
     <Compile Include="Controllers\Teacher\CourseDeleteConfirmationController.cs" />
@@ -162,13 +164,13 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
-    <Compile Include="Controllers\OpenTestController.cs" />
+    <Compile Include="Controllers\Student\OpenTestController.cs" />
     <Compile Include="Controllers\Teacher\StatisticSelectController.cs" />
     <Compile Include="Controllers\Teacher\StatisticShowController.cs" />
-    <Compile Include="Controllers\StudentPageController.cs" />
+    <Compile Include="Controllers\Student\StudentPageController.cs" />
     <Compile Include="Controllers\Teacher\TeacherObjectsController.cs" />
     <Compile Include="Controllers\TestDetailController.cs" />
-    <Compile Include="Controllers\ThemeResultController.cs">
+    <Compile Include="Controllers\Student\ThemeResultController.cs">
     </Compile>
     <Compile Include="Controllers\UserInfoController.cs" />
     <Compile Include="DataModelPresentationLevel.cs" />
