@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel;
-using IUDICO.DataModel.Controllers;
+using IUDICO.DataModel.Controllers.Student;
 using IUDICO.DataModel.DB;
 
 /// <summary>

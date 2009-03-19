@@ -3,6 +3,7 @@ using System.Web.UI.WebControls;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.Controllers;
+using IUDICO.DataModel.Controllers.Student;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.ImportManagers;
 
@@ -10,13 +11,23 @@ public partial class ThemeResultControl : System.Web.UI.UserControl
 {
     public int ThemeId { get; set; }
 
+    public string CurriculumnName { get; set; }
+
+    public string StageName { get; set; }
+
+    public ThemeResultControl()
+    {
+        resultTable = new Table();
+        themeName = new Label();
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         var theme = ServerModel.DB.Load<TblThemes>(ThemeId);
         var user = ServerModel.User.Current;
         var userId = user.ID;
 
-        SetHeaderText(theme.Name, user.UserName);
+        SetHeaderText(theme.Name, CurriculumnName, StageName, user.UserName);
 
         var pages = ServerModel.DB.Load <TblPages>(ServerModel.DB.LookupIds<TblPages>(theme, null));
 
@@ -49,9 +60,9 @@ public partial class ThemeResultControl : System.Web.UI.UserControl
         SetTotalRow(totalPageRank, (totalUserRank < 0) ? 0 : totalUserRank);
     }
 
-    private void SetHeaderText(string theme, string user)
+    private void SetHeaderText(string theme, string curriculumnName, string stageName, string user)
     {
-        themeName.Text = string.Format("Statictic for theme:{0} for Current User:{1}", theme, user);
+        themeName.Text = string.Format(@"Statistic for theme: {0}\{1}\{2} for user: {3}", curriculumnName, stageName, theme, user);
     }
 
     private static void SetStatus(TableRow row, int userRank, int pageRank)
@@ -134,12 +145,11 @@ public partial class ThemeResultControl : System.Web.UI.UserControl
     {
         var row = new TableRow();
 
-        var emptyCell = new TableCell();
         var totalCell = new TableCell{ Text = "Total" };
         var userRankCell = new TableCell { Text = totalUserRank.ToString() };
         var pageRankCell = new TableCell { Text = totalPageRank.ToString() };
 
-        row.Cells.AddRange(new[] { totalCell, emptyCell, pageRankCell, userRankCell});
+        row.Cells.AddRange(new[] { totalCell, new TableCell(), pageRankCell, userRankCell, new TableCell(), new TableCell() });
         resultTable.Rows.Add(row);
         
     }

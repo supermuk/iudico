@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using IUDICO.DataModel.Controllers;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.DB.Base;
 
@@ -53,9 +52,9 @@ namespace IUDICO.DataModel.Common
 
         public static bool IsDateAllowed(DateTime? date, IList<TblPermissions> permissions)
         {
-            if (permissions.Count == 0)
+            if (permissions == null || permissions.Count == 0)
             {
-                return true;
+                return false;
             }
 
             bool b = false;

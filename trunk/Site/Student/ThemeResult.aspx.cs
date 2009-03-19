@@ -1,6 +1,6 @@
 ﻿using System;
 using IUDICO.DataModel;
-using IUDICO.DataModel.Controllers;
+using IUDICO.DataModel.Controllers.Student;
 
 public partial class ThemeResult : ControlledPage<ThemeResultController>
 {
@@ -16,6 +16,8 @@ public partial class ThemeResult : ControlledPage<ThemeResultController>
         {
             headerLabel.Text = "Statistic for Theme";
             themeResult.ThemeId = Controller.ThemeId;
+            themeResult.CurriculumnName = Controller.CurriculumnName;
+            themeResult.StageName = Controller.StageName;
         }
         else
         {
