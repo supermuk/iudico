@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.UI;
 using System.Xml;
 using CourseImport.Common;
+using System.Security.Cryptography;
 
 namespace IUDICO.DataModel.WebControl
 {
@@ -53,7 +54,7 @@ namespace IUDICO.DataModel.WebControl
 
         private static string CreateId(string name, string text)
         {
-            return (name + "_" + text).Replace(" ", string.Empty);
+            return (name + "_" + GetMD5Hash(text));
         }
 
         public override string CreateCodeForTest(int testId)
@@ -84,6 +85,21 @@ namespace IUDICO.DataModel.WebControl
             }
 
             return string.Format("{0}.SetAnswer(\"{1}\", {2});", answerFillerVaribleName, Name, s);
+        }
+
+        public static string GetMD5Hash(string input)
+        {
+            MD5CryptoServiceProvider x = new MD5CryptoServiceProvider();
+
+            byte[] bs = Encoding.GetEncoding(1251).GetBytes(input);
+            bs = x.ComputeHash(bs);
+
+            StringBuilder s = new StringBuilder();
+
+            foreach (byte b in bs)
+                s.Append(b.ToString("x2").ToLower());
+            
+            return s.ToString();
         }
     }
 }
