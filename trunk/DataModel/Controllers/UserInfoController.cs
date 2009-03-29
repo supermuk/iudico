@@ -11,9 +11,13 @@ namespace IUDICO.DataModel.Controllers
 {
     public class UserInfoController : ControllerBase
     {
+        [PersistantField]
         public IVariable<string> FirstName = string.Empty.AsVariable();
+        [PersistantField]
         public IVariable<string> SecondName = string.Empty.AsVariable();
+        [PersistantField]
         public IVariable<string> Email = string.Empty.AsVariable();
+        
         public IVariable<string> Login = string.Empty.AsVariable();
         public IVariable<string> Roles = string.Empty.AsVariable();
         public IVariable<string> Caption = string.Empty.AsVariable();
