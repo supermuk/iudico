@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Text;
 using System.Web;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
@@ -23,8 +22,10 @@ namespace IUDICO.DataModel.HttpHandlers
             string url = GetUrl(context);
 
             var requestBuilder = RequestBuilder.newRequest(string.Format("{0}/{1}/{2}", url, testsFolder, pageFileName))
-                .AddSubmit(context.Request["submit"]).AddAnswers(context.Request["answers"])
-                    .AddThemeId(context.Request["themeId"]).AddPageIndex(context.Request["pageIndex"]);
+                .AddSubmit(context.Request["Submit"]).AddAnswers(context.Request["Answers"])
+                    .AddThemeId(context.Request["ThemeId"]).AddPageIndex(context.Request["PageIndex"])
+                        .AddCurriculumnName(context.Request["CurriculumnName"])
+                            .AddStageName(context.Request["StageName"]);
 
             WritePageToFile(page, path);
             context.Response.Redirect(requestBuilder.BuildRequestForTest());
@@ -51,7 +52,7 @@ namespace IUDICO.DataModel.HttpHandlers
 
         private static void WritePageToFile(TblPages page, string path)
         {
-            var aspxPageText = Encoding.GetEncoding(1251).GetString(page.PageFile.ToArray());
+            var aspxPageText = StudentHelper.GetEncoding().GetString(page.PageFile.ToArray());
             
             File.WriteAllText(path, ChangeImageUrl(aspxPageText, page));
         }

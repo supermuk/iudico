@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Common;
@@ -7,7 +8,7 @@ using IUDICO.DataModel.Controllers.Student;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.ImportManagers;
 
-public partial class ThemeResultControl : System.Web.UI.UserControl
+public partial class ThemeResultControl : UserControl
 {
     public int ThemeId { get; set; }
 

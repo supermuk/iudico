@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Xml;
+using IUDICO.DataModel.Common;
 using IUDICO.DataModel.ImportManagers;
 
 namespace IUDICO.DataModel.WebControl
@@ -19,7 +20,7 @@ namespace IUDICO.DataModel.WebControl
         public WebPage(string pathToPage)
         {
             var doc = new XmlDocument();
-            doc.LoadXml(File.ReadAllText(pathToPage, Encoding.GetEncoding(1251)));
+            doc.LoadXml(File.ReadAllText(pathToPage, StudentHelper.GetEncoding()));
             if (doc.DocumentElement != null)
             {
                 SetAnswerIndexes(doc.DocumentElement);
@@ -91,7 +92,7 @@ namespace IUDICO.DataModel.WebControl
 
         private void Parse(XmlNode node)
         {
-            IUDICO.DataModel.WebControl.WebControl c = GetControlForParse(node);
+            WebControl c = GetControlForParse(node);
             if (c != null)
             {
                 c.Parse(node);
@@ -119,7 +120,7 @@ namespace IUDICO.DataModel.WebControl
 
             sw.Close();
 
-            byteRepresentation = Encoding.GetEncoding(1251).GetBytes(sw.GetStringBuilder().ToString());
+            byteRepresentation = StudentHelper.GetEncoding().GetBytes(sw.GetStringBuilder().ToString());
 
             QuestionManager.Import(pageRef, answerNode, controls, pathToTempCourseFolder);
         }
@@ -133,7 +134,9 @@ namespace IUDICO.DataModel.WebControl
         private void WriteHtml(HtmlTextWriter w, string pageName, int pageId)
         {
             w.RenderBeginTag(HtmlTextWriterTag.Html);
-            
+
+            DisableTextSelection(w);
+
             WriteHead(w, pageName);
 
             WriteBody(w, pageId);
@@ -143,6 +146,7 @@ namespace IUDICO.DataModel.WebControl
 
         private void WriteBody(HtmlTextWriter w, int pageId)
         {
+            w.AddAttribute("oncontextmenu", "return false"); //Disable context menu on page
             w.RenderBeginTag(HtmlTextWriterTag.Body);
             WriteForm(w, pageId);
             w.RenderEndTag();
@@ -163,7 +167,7 @@ namespace IUDICO.DataModel.WebControl
 
         private void StoreControls(HtmlTextWriter w)
         {
-            foreach (IUDICO.DataModel.WebControl.WebControl c in Controls)
+            foreach (WebControl c in Controls)
                 c.Store(w);
         }
 
@@ -242,12 +246,21 @@ namespace IUDICO.DataModel.WebControl
             return s.ToString();
         }
 
+        private static void DisableTextSelection(HtmlTextWriter w)
+        {
+            w.RenderBeginTag(HtmlTextWriterTag.Script);
+            w.WriteLine("document.onselectstart=new Function('return false');");
+            w.WriteLine("document.onmousedown=function(){return false;};");
+            w.WriteLine("document.onclick=function(){return true;};");
+            w.RenderEndTag();
+        }
+
         private void CreateOnClickEvent(StringBuilder s)
         {
             s.AppendLine("void onClick(object sender, EventArgs e)");
             s.AppendLine("{");
                 s.AppendLine("IUDICO.DataModel.WebTest.Tester tester = new IUDICO.DataModel.WebTest.Tester();");
-                foreach (IUDICO.DataModel.WebControl.WebControl t in Controls)
+                foreach (WebControl t in Controls)
                 {
                     if (t is WebTestControl)
                     {

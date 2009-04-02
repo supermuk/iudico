@@ -49,6 +49,8 @@ namespace IUDICO.DataModel.Controllers.Student
                                                      BackUrl = string.Empty,
                                                      OpenThema = selectedNode.ID,
                                                      Submit = showSubmit.ToString(),
+                                                     CurriculumnName = selectedNode.Parent.Parent.Text,
+                                                     StageName = selectedNode.Parent.Text,
                                                      PageIndex = 0
                                                  });
                 }

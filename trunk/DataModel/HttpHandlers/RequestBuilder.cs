@@ -14,6 +14,10 @@
 
         private string pageIndex = "0";
 
+        private string curriculumnName = string.Empty;
+
+        private string stageName = string.Empty;
+
         private RequestBuilder(string pageUrl)
         {
             this.pageUrl = pageUrl;
@@ -54,19 +58,31 @@
             return this;
         }
 
+        public RequestBuilder AddCurriculumnName(string parameter)
+        {
+            curriculumnName = parameter;
+            return this;
+        }
+
+        public RequestBuilder AddStageName(string parameter)
+        {
+            stageName = parameter;
+            return this;
+        }
+
         public string BuildRequestForTest()
         {
             if (answers.Equals("correct"))
                 submit = "false";
 
-            return string.Format("{0}?submit={1}&answers={2}&themeId={3}&pageIndex={4}",
-                pageUrl, submit, answers, themeId, pageIndex);
+            return string.Format("{0}?Submit={1}&Answers={2}&ThemeId={3}&PageIndex={4}&CurriculumnName={5}&StageName={6}",
+                pageUrl, submit, answers, themeId, pageIndex, curriculumnName, stageName);
         }
 
         public string BuildRequestForHandler()
         {
-            return string.Format("{0}?pageId={1}&submit={2}&answers={3}&themeId={4}&pageIndex={5}",
-                pageUrl, pageId, submit, answers, themeId, pageIndex);
+            return string.Format("{0}?PageId={1}&Submit={2}&Answers={3}&ThemeId={4}&PageIndex={5}&CurriculumnName={6}&StageName={7}",
+                pageUrl, pageId, submit, answers, themeId, pageIndex, curriculumnName, stageName);
         }
     }
 }
