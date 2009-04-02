@@ -1,5 +1,5 @@
-﻿using System.Text;
-using System.Web;
+﻿using System.Web;
+using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.HttpHandlers
@@ -10,7 +10,7 @@ namespace IUDICO.DataModel.HttpHandlers
         {
             var theoryPageId = int.Parse(context.Request[pageIdRequestParameter]);
             var page = ServerModel.DB.Load<TblPages>(theoryPageId);
-            var html = Encoding.GetEncoding(1251).GetString(page.PageFile.ToArray());
+            var html = StudentHelper.GetEncoding().GetString(page.PageFile.ToArray());
             context.Response.Write(ChangeImageUrl(html, page));
         }
 

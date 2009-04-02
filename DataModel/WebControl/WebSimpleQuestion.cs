@@ -5,6 +5,7 @@ using System.Web.UI;
 using System.Xml;
 using CourseImport.Common;
 using System.Security.Cryptography;
+using IUDICO.DataModel.Common;
 
 namespace IUDICO.DataModel.WebControl
 {
@@ -91,7 +92,7 @@ namespace IUDICO.DataModel.WebControl
         {
             MD5CryptoServiceProvider x = new MD5CryptoServiceProvider();
 
-            byte[] bs = Encoding.GetEncoding(1251).GetBytes(input);
+            byte[] bs = StudentHelper.GetEncoding().GetBytes(input);
             bs = x.ComputeHash(bs);
 
             StringBuilder s = new StringBuilder();
