@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.DB.Base;
 
@@ -169,6 +170,11 @@ namespace IUDICO.DataModel.Common
 
             return 0;
 
+        }
+
+        public static Encoding GetEncoding()
+        {
+            return Encoding.GetEncoding(1251);
         }
     }
 } 
