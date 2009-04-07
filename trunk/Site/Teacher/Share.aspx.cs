@@ -7,9 +7,9 @@ using System.Web.UI.WebControls;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
 
-public partial class CourseShare : ControlledPage<CourseShareController>
+public partial class Share : ControlledPage<ShareController>
 {
-    protected override void BindController(CourseShareController c)
+    protected override void BindController(ShareController c)
     {
         base.BindController(c);
 

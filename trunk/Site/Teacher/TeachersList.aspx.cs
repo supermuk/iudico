@@ -7,9 +7,9 @@ using System.Web.UI.WebControls;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
 
-public partial class CourseTeachersList : ControlledPage<CourseTeachersListController>
+public partial class TeachersList : ControlledPage<TeachersListController>
 {
-    protected override void BindController(CourseTeachersListController c)
+    protected override void BindController(TeachersListController c)
     {
         base.BindController(c);
 
@@ -17,7 +17,7 @@ public partial class CourseTeachersList : ControlledPage<CourseTeachersListContr
         Bind(Label_PageDescription, c.Description);
         Bind(Label_PageMessage, c.Message);
         BindTitle(c.Title, gn => gn);
-        Bind(Label_SharedBy, c.CourseOwner);
+        Bind(Label_SharedBy, c.ObjectOwner);
 
         c.RawUrl = Request.RawUrl;
         c.CanBeSharedTeachers = Table_CanBeShared;

@@ -152,10 +152,10 @@
     <Compile Include="Controllers\Student\CurriculumnResultController.cs" />
     <Compile Include="Controllers\Student\StageResultController.cs" />
     <Compile Include="Controllers\Teacher\BaseTeacherController.cs" />
-    <Compile Include="Controllers\Teacher\CourseShareController.cs" />
+    <Compile Include="Controllers\Teacher\ShareController.cs" />
     <Compile Include="Controllers\Teacher\CourseDeleteConfirmationController.cs" />
     <Compile Include="Controllers\Teacher\CourseEditController.cs" />
-    <Compile Include="Controllers\Teacher\CourseTeachersListController.cs" />
+    <Compile Include="Controllers\Teacher\TeachersListController.cs" />
     <Compile Include="Controllers\CreateGroupController.cs" />
     <Compile Include="Controllers\Teacher\CurriculumAssignmentController.cs" />
     <Compile Include="Controllers\Teacher\CurriculumDeleteConfirmationController.cs" />

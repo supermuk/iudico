@@ -134,6 +134,7 @@ namespace IUDICO.DataModel.DB.Base
                 CourseOperationRef = new PropertyCondition<int>("CourseOperationRef"),
                 OwnerGroupRef = new PropertyCondition<int>("OwnerGroupRef"),
                 OwnerUserRef = new PropertyCondition<int>("OwnerUserRef"),
+                ParentPermitionRef = new PropertyCondition<int>("ParentPermitionRef"),
                 SysState = new PropertyCondition<int>("sysState");
             public static readonly IDBPropertyCondition<DateTime>
                 DateSince = new PropertyCondition<DateTime>("DateSince"),

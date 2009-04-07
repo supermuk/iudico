@@ -45,8 +45,8 @@ namespace IUDICO.DataModel.Controllers
                 TableCell courseCell = new TableCell();
                 HyperLink courseHyperLink = new HyperLink();
                 courseHyperLink.Text = course.Name;
-                courseHyperLink.NavigateUrl = ServerModel.Forms.BuildRedirectUrl<CourseTeachersListController>(
-                    new CourseTeachersListController { CourseId = course.ID, BackUrl = RawUrl });
+                courseHyperLink.NavigateUrl = ServerModel.Forms.BuildRedirectUrl<TeachersListController>(
+                    new TeachersListController { CourseId = course.ID, CurriculumId = -1, BackUrl = RawUrl });
                 courseCell.Controls.Add(courseHyperLink);
                 courseRow.Cells.Add(courseCell);
                 CoursesTable.Rows.Add(courseRow);
@@ -73,7 +73,11 @@ namespace IUDICO.DataModel.Controllers
             {
                 TableRow curriculumRow = new TableRow();
                 TableCell curriculumCell = new TableCell();
-                curriculumCell.Text = curriculum.Name;
+                HyperLink curriculumHyperLink = new HyperLink();
+                curriculumHyperLink.Text = curriculum.Name;
+                curriculumHyperLink.NavigateUrl = ServerModel.Forms.BuildRedirectUrl<TeachersListController>(
+                    new TeachersListController { CourseId = -1, CurriculumId = curriculum.ID, BackUrl = RawUrl });
+                curriculumCell.Controls.Add(curriculumHyperLink);
                 curriculumRow.Cells.Add(curriculumCell);
                 CurriculumsTable.Rows.Add(curriculumRow);
             }
