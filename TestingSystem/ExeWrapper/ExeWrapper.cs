@@ -138,7 +138,13 @@ namespace TestingSystem
             result.MemoryUsed = (int)memoryCounter.Memory / 1024;
 
             //some programs output 0 char that is not acceptible, we replace it with 13(return)  char
-            result.Output = result.Output.Replace((char)0, (char)13);
+            for (int i = 0; i < 32; i++)
+            {
+                if (i != 9 && i != 10 && i != 13)
+                {
+                    result.Output = result.Output.Replace((char)i, (char)13);
+                }
+            }
 
             //serialize and deserialize output
             //this is done becase string is changed during serialization
