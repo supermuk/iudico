@@ -249,9 +249,9 @@ namespace IUDICO.DataModel.WebControl
         private static void DisableTextSelection(HtmlTextWriter w)
         {
             w.RenderBeginTag(HtmlTextWriterTag.Script);
-            w.WriteLine("document.onselectstart=new Function('return false');");
-            w.WriteLine("document.onmousedown=function(){return false;};");
-            w.WriteLine("document.onclick=function(){return true;};");
+            //w.WriteLine("document.onselectstart=new Function('return false');");
+            //w.WriteLine("document.onmousedown=function(){return false;};");
+            //w.WriteLine("document.onclick=function(){return true;};");
             w.RenderEndTag();
         }
 
