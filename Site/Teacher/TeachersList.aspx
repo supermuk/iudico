@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
-    CodeFile="CourseTeachersList.aspx.cs" Inherits="CourseTeachersList" %>
+    CodeFile="TeachersList.aspx.cs" Inherits="TeachersList" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
     <table>
@@ -15,7 +15,7 @@
         </tr>
         <tr>
             <td>
-                <asp:Label ID="Label_PageMessage" runat="server" ForeColor="#CC0000"></asp:Label>
+                <asp:Label ID="Label_PageMessage" runat="server"></asp:Label>
             </td>
         </tr>
     </table>

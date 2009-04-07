@@ -126,13 +126,14 @@ namespace IUDICO.DataModel.Controllers
         private void deleteTheme(TblThemes theme, TblStages parentStage)
         {
             //remove permissions
-            ServerModel.DB.Delete<TblPermissions>(TeacherHelper.AllPermissionsForTheme(theme));
             ServerModel.DB.UnLink(theme, parentStage);
+            ServerModel.DB.Delete<TblPermissions>(TeacherHelper.AllPermissionsForTheme(theme));
+            ServerModel.DB.Delete<TblThemes>(theme.ID);
         }
 
         private void deleteStage(TblStages stage)
         {
-            foreach (TblThemes theme in TeacherHelper.ThemesForStage(stage))
+            foreach (TblThemes theme in TeacherHelper.ThemesOfStage(stage))
             {
                 deleteTheme(theme, stage);
             }
@@ -144,7 +145,7 @@ namespace IUDICO.DataModel.Controllers
 
         private void deleteCurriculum(TblCurriculums curriculum)
         {
-            foreach (TblStages stage in TeacherHelper.StagesForCurriculum(curriculum))
+            foreach (TblStages stage in TeacherHelper.StagesOfCurriculum(curriculum))
             {
                 deleteStage(stage);
             }

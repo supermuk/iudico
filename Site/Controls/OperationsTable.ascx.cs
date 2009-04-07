@@ -106,7 +106,7 @@ public partial class OperationsTable : UserControl, ITextControl
     {
         TableRow operationRow = new TableRow();
 
-        TableCell operationCell = new TableCell();
+        
         Label dateSinceLabel = new Label();
         dateSinceLabel.Text = since + ": ";
         GMDatePicker dateSinceDatePicker = recreateDatePicker(since + permission.ID.ToString());
@@ -136,7 +136,6 @@ public partial class OperationsTable : UserControl, ITextControl
         sinceLabelCell.Controls.Add(dateSinceLabel);
 
         TableCell sincePickerCell = new TableCell();
-        sincePickerCell.Width = 200;
         sincePickerCell.HorizontalAlign = HorizontalAlign.Right;
         sincePickerCell.Controls.Add(dateSinceDatePicker);
 
@@ -144,19 +143,13 @@ public partial class OperationsTable : UserControl, ITextControl
         tillLabelCell.Controls.Add(dateTillLabel);
 
         TableCell tillPickerCell = new TableCell();
-        tillPickerCell.Width = 200;
         tillPickerCell.HorizontalAlign = HorizontalAlign.Right;
         tillPickerCell.Controls.Add(dateTillDatePicker);
 
-        layoutRow.Cells.Add(sinceLabelCell);
-        layoutRow.Cells.Add(sincePickerCell);
-        layoutRow.Cells.Add(tillLabelCell);
-        layoutRow.Cells.Add(tillPickerCell);
-        layoutTable.Rows.Add(layoutRow);
-
-        operationCell.Controls.Add(layoutTable);
-        operationRow.Cells.Add(operationCell);
-
+        operationRow.Cells.Add(sinceLabelCell);
+        operationRow.Cells.Add(sincePickerCell);
+        operationRow.Cells.Add(tillLabelCell);
+        operationRow.Cells.Add(tillPickerCell);
         if (permission.DateSince.HasValue)
         {
             dateSinceDatePicker.InitialText = permission.DateSince.Value.ToShortDateString();
@@ -169,7 +162,7 @@ public partial class OperationsTable : UserControl, ITextControl
             dateTillDatePicker.InitialTimePickerText = permission.DateTill.Value.ToShortTimeString();
         }
 
-        operationCell = new TableCell();
+        TableCell operationCell = new TableCell();
 
         Button ApppyButton = new Button();
         ApppyButton.ID = applyChar + permission.ID.ToString();
@@ -193,8 +186,8 @@ public partial class OperationsTable : UserControl, ITextControl
         Button button = sender as Button;
         int permissionID = int.Parse(button.ID.Replace(applyChar, ""));
 
-        GMDatePicker sinceDatePicker = (button.Parent.Parent as TableRow).Cells[1].FindControl(since + permissionID) as GMDatePicker;
-        GMDatePicker tillDatePicker = (button.Parent.Parent as TableRow).Cells[1].FindControl(till + permissionID) as GMDatePicker;
+        GMDatePicker sinceDatePicker = (button.Parent.Parent as TableRow).Cells[2].Controls[0] as GMDatePicker;
+        GMDatePicker tillDatePicker = (button.Parent.Parent as TableRow).Cells[4].Controls[0] as GMDatePicker;
 
         TblPermissions permission = ServerModel.DB.Load<TblPermissions>(permissionID);
         if (sinceDatePicker.IsNull)
@@ -284,7 +277,7 @@ public partial class OperationsTable : UserControl, ITextControl
         DatePicker.InitialText = noDateSelected;
         DatePicker.NoneText = noDateSelected;
         DatePicker.CalendarTheme = CalendarTheme.Silver;
-
+        DatePicker.TimeGranularity = 5;
         return DatePicker;
     }
 }

@@ -58,9 +58,9 @@ namespace IUDICO.DataModel.Controllers
             headerCell.Text = studentStr;
             headerRow.Cells.Add(headerCell);
 
-            foreach (TblStages stage in TeacherHelper.StagesForCurriculum(curriculum))
+            foreach (TblStages stage in TeacherHelper.StagesOfCurriculum(curriculum))
             {
-                foreach (TblThemes theme in TeacherHelper.ThemesForStage(stage))
+                foreach (TblThemes theme in TeacherHelper.ThemesOfStage(stage))
                 {
                     headerCell = new TableHeaderCell();
                     headerCell.Text = theme.Name;
@@ -83,9 +83,9 @@ namespace IUDICO.DataModel.Controllers
 
                 int pasedCurriculum = 0;
                 int totalCurriculum = 0;
-                foreach (TblStages stage in TeacherHelper.StagesForCurriculum(curriculum))
+                foreach (TblStages stage in TeacherHelper.StagesOfCurriculum(curriculum))
                 {
-                    foreach (TblThemes theme in TeacherHelper.ThemesForStage(stage))
+                    foreach (TblThemes theme in TeacherHelper.ThemesOfStage(stage))
                     {
                         studentCell = new TableCell();
                         studentCell.HorizontalAlign = HorizontalAlign.Center;

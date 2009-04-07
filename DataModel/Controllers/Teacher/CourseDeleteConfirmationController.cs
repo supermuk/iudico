@@ -37,7 +37,7 @@ namespace IUDICO.DataModel.Controllers
 
         public void DeleteButton_Click()
         {
-            foreach (TblThemes theme in TeacherHelper.ThemesForCourse(course))
+            foreach (TblThemes theme in TeacherHelper.ThemesOfCourse(course))
             {
                 ServerModel.DB.Delete<TblPermissions>(TeacherHelper.AllPermissionsForTheme(theme));
             }
@@ -54,7 +54,7 @@ namespace IUDICO.DataModel.Controllers
             dependenciesData.Columns.Add("is used in Curriculum");
             dependenciesData.Columns.Add("by");
 
-            foreach (TblThemes theme in TeacherHelper.ThemesForCourse(course))
+            foreach (TblThemes theme in TeacherHelper.ThemesOfCourse(course))
             {
                 IList<TblStages> relatedStages = TeacherHelper.StagesForTheme(theme);
                 foreach (TblStages relatedStage in relatedStages)
