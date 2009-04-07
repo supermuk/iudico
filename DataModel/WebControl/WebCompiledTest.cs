@@ -33,7 +33,7 @@ namespace IUDICO.DataModel.WebControl
 
         public override string CreateAnswerFillerCode(string answerFillerVaribleName)
         {
-            return string.Empty;
+            return string.Format("{0}.SetAnswer({1});", answerFillerVaribleName, Name);
         }
     }
 }
