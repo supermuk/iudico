@@ -36,7 +36,7 @@ namespace IUDICO.DataModel.Controllers
                         foreach (TblCourses course in coursesData)
                         {
                             IdendtityNode courseNode = new IdendtityNode(course);
-                            foreach (TblThemes theme in TeacherHelper.ThemesForCourse(course))
+                            foreach (TblThemes theme in TeacherHelper.ThemesOfCourse(course))
                             {
                                 IdendtityNode themeNode = new IdendtityNode(theme);
                                 courseNode.ChildNodes.Add(themeNode);
@@ -51,10 +51,10 @@ namespace IUDICO.DataModel.Controllers
                             foreach (TblCurriculums curriculum in curriculumssData)
                             {
                                 IdendtityNode curriculumNode = new IdendtityNode(curriculum);
-                                foreach (TblStages stage in TeacherHelper.StagesForCurriculum(curriculum))
+                                foreach (TblStages stage in TeacherHelper.StagesOfCurriculum(curriculum))
                                 {
                                     IdendtityNode stageNode = new IdendtityNode(stage);
-                                    foreach (TblThemes theme in TeacherHelper.ThemesForStage(stage))
+                                    foreach (TblThemes theme in TeacherHelper.ThemesOfStage(stage))
                                     {
                                         IdendtityNode themeNode = new IdendtityNode(theme);
                                         stageNode.ChildNodes.Add(themeNode);

@@ -56,7 +56,7 @@ namespace IUDICO.DataModel.Controllers
         {
             TblUsers currentUser = ServerModel.DB.Load<TblUsers>(ServerModel.User.Current.ID);
 
-            FirstName.Value = currentUser.FirstName;
+            FirstName.Value = currentUser.FirstName == null ? string.Empty : currentUser.FirstName;
             SecondName.Value = currentUser.LastName;
             Email.Value = currentUser.Email;
             Login.Value = currentUser.Login;

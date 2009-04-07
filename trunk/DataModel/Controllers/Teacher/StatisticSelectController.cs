@@ -38,7 +38,18 @@ namespace IUDICO.DataModel.Controllers
             if (!IsPostBack)
             {
                 fillGroupsList();
-                GroupsDropDownList_SelectedIndexChanged(GroupsDropDownList, EventArgs.Empty);
+                if (GroupsDropDownList.Items.Count == 0)
+                {
+                    GroupsDropDownList.Enabled = false;
+                    CurriculumsDropDownList.Enabled = false;
+                    ShowButtonEnabled.Value = false;
+
+                    Message.Value = noGroups;
+                }
+                else
+                {
+                    GroupsDropDownList_SelectedIndexChanged(GroupsDropDownList, EventArgs.Empty);
+                }
             }
         }
 
@@ -84,15 +95,6 @@ namespace IUDICO.DataModel.Controllers
             foreach (TblGroups group in ServerModel.DB.Query<TblGroups>(null))
             {
                 GroupsDropDownList.Items.Add(new ListItem(group.Name, group.ID.ToString()));
-            }
-
-            if (GroupsDropDownList.Items.Count == 0)
-            {
-                GroupsDropDownList.Enabled = false;
-                CurriculumsDropDownList.Enabled = false;
-                ShowButtonEnabled.Value = false;
-
-                Message.Value = noGroups;
             }
         }
 
