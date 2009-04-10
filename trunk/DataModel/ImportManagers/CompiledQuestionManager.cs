@@ -58,7 +58,7 @@ namespace IUDICO.DataModel.ImportManagers
             foreach (XmlNode n in node.ChildNodes)
                 if (XmlUtility.isTestCase(n))
                     if(n.HasChildNodes)
-                        StoreData(compiledQuestionRef, n.ChildNodes[1].InnerText, n.ChildNodes[0].InnerText);
+                        StoreData(compiledQuestionRef, n.LastChild.InnerText, n.FirstChild.InnerText);
         }
 
         private static void StoreData(int compiledQuestionRef, string input, string ouput)

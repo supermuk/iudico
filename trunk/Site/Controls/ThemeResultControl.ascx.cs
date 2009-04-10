@@ -41,7 +41,7 @@ public partial class ThemeResultControl : UserControl
             if (page.PageTypeRef == (int)FX_PAGETYPE.Practice)
             {
                 int userRank = UserResultCalculator.GetUserRank(page, userId);
-                totalUserRank += userRank;
+                totalUserRank += (userRank < 0 ? 0 : userRank);
                 totalPageRank += (int)page.PageRank;
 
                 var row = new TableRow();

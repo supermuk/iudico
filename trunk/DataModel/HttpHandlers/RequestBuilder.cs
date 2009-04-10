@@ -18,6 +18,8 @@
 
         private string stageName = string.Empty;
 
+        private string shiftedPagesIds = string.Empty;
+
         private RequestBuilder(string pageUrl)
         {
             this.pageUrl = pageUrl;
@@ -70,19 +72,25 @@
             return this;
         }
 
+        public RequestBuilder AddShiftedPagesIds(string parameter)
+        {
+            shiftedPagesIds = parameter;
+            return this;
+        }
+
         public string BuildRequestForTest()
         {
-            if (answers.Equals("correct"))
+            if (answers.Equals("correct") || answers.Equals("user"))
                 submit = "false";
 
-            return string.Format("{0}?Submit={1}&Answers={2}&ThemeId={3}&PageIndex={4}&CurriculumnName={5}&StageName={6}",
-                pageUrl, submit, answers, themeId, pageIndex, curriculumnName, stageName);
+            return string.Format("{0}?Submit={1}&Answers={2}&ThemeId={3}&PageIndex={4}&CurriculumnName={5}&StageName={6}&ShiftedPagesIds={7}",
+                pageUrl, submit, answers, themeId, pageIndex, curriculumnName, stageName, shiftedPagesIds);
         }
 
         public string BuildRequestForHandler()
         {
-            return string.Format("{0}?PageId={1}&Submit={2}&Answers={3}&ThemeId={4}&PageIndex={5}&CurriculumnName={6}&StageName={7}",
-                pageUrl, pageId, submit, answers, themeId, pageIndex, curriculumnName, stageName);
+            return string.Format("{0}?PageId={1}&Submit={2}&Answers={3}&ThemeId={4}&PageIndex={5}&CurriculumnName={6}&StageName={7}&ShiftedPagesIds={8}",
+                pageUrl, pageId, submit, answers, themeId, pageIndex, curriculumnName, stageName, shiftedPagesIds);
         }
     }
 }

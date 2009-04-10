@@ -7,10 +7,10 @@ namespace IUDICO.DataModel.HttpHandlers
 {
     class PracticeHandler : PageHandler
     {
+        private const string testsFolder = "Tests";
+
         public override void ProcessRequest(HttpContext context)
         {
-            var testsFolder = "Tests";
-
             TblPages page = GetPage(context);
             var pathToTests = Path.Combine(context.Request.PhysicalApplicationPath, testsFolder);
             
@@ -25,7 +25,7 @@ namespace IUDICO.DataModel.HttpHandlers
                 .AddSubmit(context.Request["Submit"]).AddAnswers(context.Request["Answers"])
                     .AddThemeId(context.Request["ThemeId"]).AddPageIndex(context.Request["PageIndex"])
                         .AddCurriculumnName(context.Request["CurriculumnName"])
-                            .AddStageName(context.Request["StageName"]);
+                            .AddStageName(context.Request["StageName"]).AddShiftedPagesIds(context.Request["ShiftedPagesIds"]);
 
             WritePageToFile(page, path);
             context.Response.Redirect(requestBuilder.BuildRequestForTest());

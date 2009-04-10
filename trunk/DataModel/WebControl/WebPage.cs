@@ -240,7 +240,7 @@ namespace IUDICO.DataModel.WebControl
         {
             var s = new StringBuilder();
             AddAnswerFiller(s, pageId);
-            CreateOnFormLoadEvent(s);
+            CreateOnFormLoadEvent(s, pageId);
             CreateOnClickEvent(s);
             
             return s.ToString();
@@ -249,6 +249,7 @@ namespace IUDICO.DataModel.WebControl
         private static void DisableTextSelection(HtmlTextWriter w)
         {
             w.RenderBeginTag(HtmlTextWriterTag.Script);
+            w.WriteLine("history.forward(0)");
             //w.WriteLine("document.onselectstart=new Function('return false');");
             //w.WriteLine("document.onmousedown=function(){return false;};");
             //w.WriteLine("document.onclick=function(){return true;};");
@@ -275,7 +276,7 @@ namespace IUDICO.DataModel.WebControl
             s.AppendLine("}");
         }
 
-        private void CreateOnFormLoadEvent(StringBuilder s)
+        private void CreateOnFormLoadEvent(StringBuilder s, int pageId)
         {
             s.AppendLine("protected void OnFormLoad(object sender, EventArgs e)");
             s.AppendLine("{");
@@ -283,7 +284,7 @@ namespace IUDICO.DataModel.WebControl
                     {
                         if (t is WebButton)
                         {
-                            s.AppendFormat("{0}.Enabled = IUDICO.DataModel.WebControl.TestPageHelper.IsSubmitEnabled(Request);", t.Name);
+                            s.AppendFormat("{0}.Enabled = IUDICO.DataModel.WebControl.TestPageHelper.IsSubmitEnabled(Request, {1});", t.Name, pageId);
                             s.AppendLine();
                         }
                     }
@@ -320,9 +321,12 @@ namespace IUDICO.DataModel.WebControl
             return !(request["answers"]).ToLower().Equals("false");
         }
 
-        public static bool IsSubmitEnabled(HttpRequest request)
+        public static bool IsSubmitEnabled(HttpRequest request, int pageId)
         {
-            return !(request["submit"]).ToLower().Equals("false");
+            if((request["submit"]).ToLower().Equals("false"))
+                return false;
+            
+            return StudentHelper.IsUserCanSubmit(pageId);
         }
     }
 

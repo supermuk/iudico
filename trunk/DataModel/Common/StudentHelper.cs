@@ -6,11 +6,24 @@ using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.Common
 {
-    class StudentHelper
+    static class StudentHelper
     {
-        public static bool IsBothDatesAreNull(DateTime? firstDate, DateTime? secondDate)
+        public const char PAGES_ID_SPLITTER = '*';
+
+
+        public static Encoding GetEncoding()
         {
-            return (firstDate == null) && (secondDate == null);
+            return Encoding.GetEncoding(1251);
+        }
+
+        public static string GetShiftedPagesIds(int themeId)
+        {
+            var theme = ServerModel.DB.Load<TblThemes>(themeId);
+            var pagesIds = ServerModel.DB.LookupIds<TblPages>(theme, null);
+
+            RandomShuffle(pagesIds);
+
+            return CreateParameterRequestFromCollection(pagesIds, /*theme.PageCountToShow*/ 5);
         }
 
         public static IList<TblPermissions> GetPermissionForNode(int userId, IdendtityNode node, bool isView)
@@ -38,17 +51,6 @@ namespace IUDICO.DataModel.Common
             var permissionForUser = ExtractPermissionsForUser(userId, allPermissionsForObject);
 
             return FindPermissionsForOperation(type, isView, permissionForUser);
-        }
-
-        private static IIntKeyedDataObject GetSecureObject(int id, NodeType type)
-        {
-            if (NodeType.Curriculum == type)
-                return ServerModel.DB.Load<TblCurriculums>(id);
-
-            if (NodeType.Stage == type)
-                return ServerModel.DB.Load<TblStages>(id);
-
-            throw new Exception("Wrong node type");
         }
 
         public static bool IsDateAllowed(DateTime? date, IList<TblPermissions> permissions)
@@ -81,7 +83,57 @@ namespace IUDICO.DataModel.Common
             return b;
         }
 
-        public static bool IsDateInPeriod(DateTime? date, DateTime? startPeriod, DateTime? endPeriod)
+        public static bool IsUserCanSubmit(int pageId)
+        {
+            var page = ServerModel.DB.Load<TblPages>(pageId);
+            var theme = ServerModel.DB.Load<TblThemes>((int) page.ThemeRef);
+
+            return CheckCountOfSubmits(page, /*theme.MaxCountToSubmit*/1);
+        }
+
+
+        private static bool CheckCountOfSubmits(TblPages p, int? maxCountToSubmit)
+        {
+            if (maxCountToSubmit == null)
+                return true;
+
+            return GetCountOfUserSubmits(p) < maxCountToSubmit;
+        }
+
+        private static int GetCountOfUserSubmits(TblPages p)
+        {
+            var allQuestionsFromPageIds = ServerModel.DB.LookupIds<TblQuestions>(p, null);
+            if (allQuestionsFromPageIds.Count > 0)
+            {
+                int userSubmitCount = 0;
+
+                var allUsersAnswersIdsForQuestion =
+                    ServerModel.DB.LookupIds<TblUserAnswers>(ServerModel.DB.Load<TblQuestions>(allQuestionsFromPageIds[0]),
+                                                             null);
+
+                var allUsersAnswersForQuestion = ServerModel.DB.Load<TblUserAnswers>(allUsersAnswersIdsForQuestion);
+
+                int currentUserId = 0;
+                if (ServerModel.User.Current != null) currentUserId = ServerModel.User.Current.ID;
+
+                foreach (var ua in allUsersAnswersForQuestion)
+                {
+                    if (ua.UserRef == currentUserId)
+                        userSubmitCount++;
+
+                }
+
+                return userSubmitCount;
+            }
+            return 0;
+        }
+
+        private static bool IsBothDatesAreNull(DateTime? firstDate, DateTime? secondDate)
+        {
+            return (firstDate == null) && (secondDate == null);
+        }
+
+        private static bool IsDateInPeriod(DateTime? date, DateTime? startPeriod, DateTime? endPeriod)
         {
             if (date == null)
             {
@@ -103,6 +155,17 @@ namespace IUDICO.DataModel.Common
                 return date >= startPeriod;
             }
             return ((startPeriod <= date) && (date <= endPeriod));
+        }
+
+        private static IIntKeyedDataObject GetSecureObject(int id, NodeType type)
+        {
+            if (NodeType.Curriculum == type)
+                return ServerModel.DB.Load<TblCurriculums>(id);
+
+            if (NodeType.Stage == type)
+                return ServerModel.DB.Load<TblStages>(id);
+
+            throw new Exception("Wrong node type");
         }
 
         private static IList<TblPermissions> ExtractPermissionsForUser(int userId, IList<TblPermissions> allPermissions)
@@ -130,9 +193,9 @@ namespace IUDICO.DataModel.Common
             switch (type)
             {
                 case (NodeType.Curriculum):
-                        return FindPerrmisionForCurriculumOperation(GetOperationId(type, isView), allPermissions);
+                    return FindPerrmisionForCurriculumOperation(GetOperationId(type, isView), allPermissions);
                 case (NodeType.Stage):
-                        return FindPerrmisionForStageOperation(GetOperationId(type, isView), allPermissions);
+                    return FindPerrmisionForStageOperation(GetOperationId(type, isView), allPermissions);
             }
             return new List<TblPermissions>();
         }
@@ -161,20 +224,50 @@ namespace IUDICO.DataModel.Common
 
         private static int GetOperationId(NodeType type, bool isViewMode)
         {
-            if(NodeType.Curriculum == type)
+            if (NodeType.Curriculum == type)
                 return isViewMode ? FxCurriculumOperations.View.ID : FxCurriculumOperations.Pass.ID;
 
-            if(NodeType.Stage == type)
+            if (NodeType.Stage == type)
                 return isViewMode ? FxStageOperations.View.ID : FxStageOperations.Pass.ID;
-                
+
 
             return 0;
 
         }
 
-        public static Encoding GetEncoding()
+        private static string CreateParameterRequestFromCollection(List<int> pagesIds, int? countOfPageToShow)
         {
-            return Encoding.GetEncoding(1251);
+            var pagesIdsParameter = new StringBuilder();
+
+            int count = (countOfPageToShow == null) ? pagesIds.Count : Math.Min(pagesIds.Count, (int)countOfPageToShow);
+
+            for (int i = 0; i < count; i++ )
+                pagesIdsParameter.Append(pagesIds[i] + PAGES_ID_SPLITTER.ToString());
+
+            var pagesIdsParameterString = pagesIdsParameter.ToString();
+
+            if (pagesIdsParameterString.Equals(string.Empty))
+                return pagesIdsParameterString;
+            
+            return pagesIdsParameterString.Remove(pagesIdsParameterString.Length - 1); //Remove last character and return
+        }
+
+        private static void RandomShuffle(List<int> collectionOfPagesIds)
+        {
+            collectionOfPagesIds.Sort(new RandomPageComparer());
+        }
+    }
+
+    class RandomPageComparer : Comparer<int>
+    {
+        private readonly Random randomizer = new Random();
+
+        public override int Compare(int x, int y)
+        {
+            if (x.Equals(y))
+                return 0;
+
+            return randomizer.Next(-1, 1);
         }
     }
 } 

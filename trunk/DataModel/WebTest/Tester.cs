@@ -23,12 +23,15 @@ namespace IUDICO.DataModel.WebTest
         {
             foreach (Test t in tests)
             {
-                var ua = new TblUserAnswers();
-                ua.QuestionRef = t.Id;
-                ua.Date = DateTime.Now;
-                ua.UserRef = ((CustomUser) Membership.GetUser()).ID;
-                ua.UserAnswer = t.UserAnswer;
-                ua.IsCompiledAnswer = t is CompiledTest;
+                var ua = new TblUserAnswers
+                             {
+                                 QuestionRef = t.Id,
+                                 Date = DateTime.Now,
+                                 UserRef = ((CustomUser) Membership.GetUser()).ID,
+                                 UserAnswer = t.UserAnswer,
+                                 IsCompiledAnswer = t is CompiledTest
+                             };
+
                 ServerModel.DB.Insert(ua);
                 
                 if(ua.IsCompiledAnswer)
@@ -42,10 +45,10 @@ namespace IUDICO.DataModel.WebTest
             int page = int.Parse(request["PageIndex"]);
             int nextPage = page + 1;
 
-            string pageUrl = string.Format("../Student/OpenTest.aspx?OpenThema={0}&PageIndex={1}&CurriculumnName={2}&StageName={3}",
-                theme, nextPage, request["CurriculumnName"], request["StageName"]);
+            string pageUrl = string.Format("../Student/OpenTest.aspx?OpenThema={0}&PageIndex={1}&CurriculumnName={2}&StageName={3}&ShiftedPagesIds={4}",
+                theme, nextPage, request["CurriculumnName"], request["StageName"], request["ShiftedPagesIds"]);
 
-            response.Write(string.Format("<script>window.open('{0}','_parent');</script>", pageUrl));
+            response.Write(string.Format("<script>window.open('{0}','_parent','copyhistory=no');</script>", pageUrl));
         }
     }
 }

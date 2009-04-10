@@ -13,13 +13,20 @@ namespace IUDICO.DataModel.Controllers.Student
     public class StudentPageController : ControllerBase
     {
         private const int countHowManyPagesToShow = 5;
-        public IVariable<string> Description = string.Empty.AsVariable();
-        [PersistantField] private bool isControlNow;
-        [PersistantField] private bool isViewMode = true;
-        public ListBox PeriodDescription;
+
         private int userId;
 
-        public IVariable<string> UserName = string.Empty.AsVariable();
+        [PersistantField] private bool isControlNow;
+        
+        [PersistantField] private bool isViewMode = true;
+
+        public readonly IVariable<string> Description = string.Empty.AsVariable();
+
+        public readonly IVariable<string> UserName = string.Empty.AsVariable();
+
+
+        #region Page Controls
+        
         public TreeView CurriculumnTreeView { get; set; }
 
         public Table LastPagesResultTable { get; set; }
@@ -29,6 +36,10 @@ namespace IUDICO.DataModel.Controllers.Student
         public Button OpenTestButton { get; set; }
 
         public Calendar CurriculumnCalendar { get; set; }
+
+        public ListBox PeriodDescription;
+        
+        #endregion
 
 
         public void OpenTestButton_Click(object sender, EventArgs e)
@@ -51,7 +62,8 @@ namespace IUDICO.DataModel.Controllers.Student
                                                      Submit = showSubmit.ToString(),
                                                      CurriculumnName = selectedNode.Parent.Parent.Text,
                                                      StageName = selectedNode.Parent.Text,
-                                                     PageIndex = 0
+                                                     PageIndex = 0,
+                                                     ShiftedPagesIds = StudentHelper.GetShiftedPagesIds(selectedNode.ID)
                                                  });
                 }
             }
@@ -161,6 +173,7 @@ namespace IUDICO.DataModel.Controllers.Student
             }
             SetButtonVisibility();
         }
+
 
         private void SelectDatesForSelectedNode()
         {
