@@ -76,6 +76,8 @@
             </td>
             <td valign="top">
                 <asp:Button ID="Button_DeleteCourse" runat="server" Text="Delete" />
+                <br />
+                <asp:Button ID="Button_CourseBehaviour" runat="server" Text="Course Behaviour" />
             </td>
         </tr>
     </table>

@@ -152,6 +152,8 @@
     <Compile Include="Controllers\Student\CurriculumnResultController.cs" />
     <Compile Include="Controllers\Student\StageResultController.cs" />
     <Compile Include="Controllers\Teacher\BaseTeacherController.cs" />
+    <Compile Include="Controllers\Teacher\CourseBehaviorController.cs" />
+    <Compile Include="Controllers\Teacher\ThemePagesController.cs" />
     <Compile Include="Controllers\Teacher\ShareController.cs" />
     <Compile Include="Controllers\Teacher\CourseDeleteConfirmationController.cs" />
     <Compile Include="Controllers\Teacher\CourseEditController.cs" />

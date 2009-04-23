@@ -69,6 +69,14 @@ namespace IUDICO.DataModel.DB
         public readonly static FxCurriculumOperations Pass;
     }
 
+    public partial class FxPageOrders : FxDataObject, IFxDataObject
+    {
+        [TableRecord]
+        public static readonly FxPageOrders Straight;
+        [TableRecord]
+        public static readonly FxPageOrders Random;
+    }
+
     public partial class TblPermissions : IntKeyedDataObject, IIntKeyedDataObject
     {
         public DateTimeInterval WorkingInterval
