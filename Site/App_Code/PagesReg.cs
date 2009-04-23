@@ -1,6 +1,7 @@
 ﻿using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
 using IUDICO.DataModel.Controllers.Student;
+using IUDICO.DataModel.Controllers.Teacher;
 
 public static class PagesReg
 {
@@ -30,6 +31,8 @@ public static class PagesReg
         f.Register<TeachersListController>("~/Teacher/TeachersList.aspx");
         f.Register<TeacherObjectsController>("~/Teacher/TeacherObjects.aspx");
         f.Register<ShareController>("~/Teacher/Share.aspx");
+        f.Register<ThemePagesController>("~/Teacher/ThemePages.aspx");
+        f.Register<CourseBehaviorController>("~/Teacher/CourseBehavior.aspx");
 
         f.Register<StudentPageController>("~/Student/StudentPage.aspx");
         f.Register<TestDetailsController>("~/Student/TestDetails.aspx");

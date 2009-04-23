@@ -17,6 +17,7 @@ public partial class CourseEdit : ControlledPage<CourseEditController>
         BindTitle(c.Title, gn => gn);
         Bind(Button_ImportCourse, c.ImportButton_Click);
         Bind(Button_DeleteCourse, c.DeleteButton_Click);
+        Bind(Button_CourseBehaviour, c.CourseBehaviourButton_Click);
         BindEnabled(Button_DeleteCourse, c.DeleteButtonEnabled);
 
         c.CourseUpload = FileUpload_Course;

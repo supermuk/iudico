@@ -21,9 +21,10 @@ namespace IUDICO.DataModel.Common
             var theme = ServerModel.DB.Load<TblThemes>(themeId);
             var pagesIds = ServerModel.DB.LookupIds<TblPages>(theme, null);
 
-            RandomShuffle(pagesIds);
+            if (theme.PageOrderRef == FxPageOrders.Random.ID)
+                RandomShuffle(pagesIds);
 
-            return CreateParameterRequestFromCollection(pagesIds, /*theme.PageCountToShow*/ 5);
+            return CreateParameterRequestFromCollection(pagesIds, theme.PageCountToShow);
         }
 
         public static IList<TblPermissions> GetPermissionForNode(int userId, IdendtityNode node, bool isView)
@@ -88,7 +89,7 @@ namespace IUDICO.DataModel.Common
             var page = ServerModel.DB.Load<TblPages>(pageId);
             var theme = ServerModel.DB.Load<TblThemes>((int) page.ThemeRef);
 
-            return CheckCountOfSubmits(page, /*theme.MaxCountToSubmit*/1);
+            return CheckCountOfSubmits(page, theme.MaxCountToSubmit);
         }
 
 
