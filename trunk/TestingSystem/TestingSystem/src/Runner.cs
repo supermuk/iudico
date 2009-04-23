@@ -105,6 +105,11 @@ namespace TestingSystem
 
                     //deserialize output
                     string output = exeProcess.StandardOutput.ReadToEnd();
+                    //terminate process
+                    if (!exeProcess.HasExited)
+                    {
+                        exeProcess.Kill();
+                    }
                     byte[] buffer = new byte[output.Length];
                     for (int i = 0; i < output.Length; i++)
                     {

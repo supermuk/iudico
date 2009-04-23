@@ -155,6 +155,7 @@ namespace TestingSystem
             stringSerializer.Serialize(stringStream, result.Output);
             stringStream.Position = 0;
             result.Output = stringSerializer.Deserialize(stringStream) as string;
+            result.Output = result.Output.Trim();
 
             //set program status
             if (result.ProgramStatus != Status.TimeLimit)
