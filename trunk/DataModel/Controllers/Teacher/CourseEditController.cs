@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel.Common;
+using IUDICO.DataModel.Controllers.Teacher;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.ImportManagers;
 using IUDICO.DataModel.ImportManagers.RemoveManager;
@@ -119,6 +120,19 @@ namespace IUDICO.DataModel.Controllers
         public IList<TblCourses> GetCourses()
         {
             return TeacherHelper.CurrentUserCourses(FxCourseOperations.Modify);
+        }
+
+        public void CourseBehaviourButton_Click()
+        {
+		var selectedNode = (IdendtityNode)CourseTree.SelectedNode;
+
+		if(selectedNode != null)
+			if(selectedNode.Type == NodeType.Course)
+				  RedirectToController(new CourseBehaviorController
+                                                 {
+                                                     BackUrl = string.Empty,
+                                                     CourseId = selectedNode.ID
+                                                 });                      
         }
     }
 }
