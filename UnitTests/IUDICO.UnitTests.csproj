@@ -60,7 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\TestFixtureDB.cs" />
-    <Compile Include="DatabaseSetup.cs" />
     <Compile Include="DBInterOpTest.cs" />
     <Compile Include="DynamicSyntaxObjectTest.cs" />
     <Compile Include="OpenPageTest.cs" />
