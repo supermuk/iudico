@@ -8,6 +8,11 @@ namespace IUDICO.DataModel.ImportManagers
 {
     public class CourseManager
     {
+        public static void ExtractZipFile(ProjectPaths projectPaths)
+        {
+            Zipper.ExtractZipFile(projectPaths.PathToCourseZipFile, projectPaths.PathToTempCourseFolder);
+        }
+
         public static int Import(ProjectPaths projectPaths, string name, string description)
         {
             projectPaths.PathToAnswerXml = Path.Combine(projectPaths.PathToTempCourseFolder, "answers.xml");
