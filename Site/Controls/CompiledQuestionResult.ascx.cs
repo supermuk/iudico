@@ -30,7 +30,7 @@ public partial class CompiledQuestionResult : UserControl
 
         if (userAnswers.Count != 0)
         {
-            SetResults(compiledQuestion, userAnswers);
+            SetResults(userAnswers);
         }
         else
         {
@@ -45,21 +45,17 @@ public partial class CompiledQuestionResult : UserControl
         statusLabel.Text = string.Format("You not compile {0} yet", q.TestName);
     }
 
-    private void SetResults(TblCompiledQuestions compiledQuestion, IList<TblUserAnswers> userAnswers)
+    private void SetResults(IList<TblUserAnswers> userAnswers)
     {
-        var compiledData = GetCompiledData(compiledQuestion);
         var compileAnswer = GetCompiledAnswer(FindLatestUserAnswer(userAnswers));
 
-        for (int i = 0; i < compiledData.Count; i++)
-        {
-            SetTestCaseResult(compiledData[i], compileAnswer[i]);
-        }
+        foreach (var ca in compileAnswer)    
+            SetTestCaseResult(GetCompiledQuestionDataForCompiledAnswer(ca), ca);
     }
 
-    private static IList<TblCompiledQuestionsData> GetCompiledData(TblCompiledQuestions compiledQuestion)
+    private static TblCompiledQuestionsData GetCompiledQuestionDataForCompiledAnswer(TblCompiledAnswers ca)
     {
-        return ServerModel.DB.Load<TblCompiledQuestionsData>(
-            ServerModel.DB.LookupIds<TblCompiledQuestionsData>(compiledQuestion, null));
+        return ServerModel.DB.Load<TblCompiledQuestionsData>(ca.CompiledQuestionsDataRef);
     }
 
     private void SetHeader(string name, TblCompiledQuestions ua)

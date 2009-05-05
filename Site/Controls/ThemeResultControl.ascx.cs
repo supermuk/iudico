@@ -26,46 +26,49 @@ public partial class ThemeResultControl : UserControl
     {
         var theme = ServerModel.DB.Load<TblThemes>(ThemeId);
         var user = ServerModel.User.Current;
-        var userId = user.ID;
-        var userRoles = user.Roles;
-
-        SetHeaderText(theme.Name, CurriculumnName, StageName, user.UserName);
-
-        var pages = ServerModel.DB.Load <TblPages>(ServerModel.DB.LookupIds<TblPages>(theme, null));
-
-        int totalPageRank = 0;
-        int totalUserRank = 0;
-
-        foreach (var page in pages)
+        if (user != null)
         {
-            if (page.PageTypeRef == (int)FX_PAGETYPE.Practice)
+            var userId = user.ID;
+            var userRoles = user.Roles;
+
+            SetHeaderText(theme.Name, CurriculumnName, StageName, user.UserName);
+
+            var pages = ServerModel.DB.Load <TblPages>(ServerModel.DB.LookupIds<TblPages>(theme, null));
+
+            int totalPageRank = 0;
+            int totalUserRank = 0;
+
+            foreach (var page in pages)
             {
-                int userRank = UserResultCalculator.GetUserRank(page, userId);
-                totalUserRank += (userRank < 0 ? 0 : userRank);
-                totalPageRank += (int)page.PageRank;
-
-                var row = new TableRow();
-
-                SetPageName(row, page.PageName);
-                SetStatus(row, userRank, (int) page.PageRank);
-                SetUserRank(row, userRank);
-                SetPageRank(row, (int) page.PageRank);
-                SetUserAnswersLink(row, page.ID);
-
-                if (userRoles.Contains(FX_ROLE.ADMIN.ToString()) ||
-                    userRoles.Contains(FX_ROLE.LECTOR.ToString()) ||
-                    userRoles.Contains(FX_ROLE.SUPER_ADMIN.ToString()))
+                if (page.PageTypeRef == (int)FX_PAGETYPE.Practice)
                 {
-                    SetCorrectAnswersLink(row, page.ID);
+                    int userRank = UserResultCalculator.GetUserRank(page, userId);
+                    totalUserRank += (userRank < 0 ? 0 : userRank);
+                    totalPageRank += (int)page.PageRank;
+
+                    var row = new TableRow();
+
+                    SetPageName(row, page.PageName);
+                    SetStatus(row, userRank, (int) page.PageRank);
+                    SetUserRank(row, userRank);
+                    SetPageRank(row, (int) page.PageRank);
+                    SetUserAnswersLink(row, page.ID);
+
+                    if (userRoles.Contains(FX_ROLE.ADMIN.ToString()) ||
+                        userRoles.Contains(FX_ROLE.LECTOR.ToString()) ||
+                        userRoles.Contains(FX_ROLE.SUPER_ADMIN.ToString()))
+                    {
+                        SetCorrectAnswersLink(row, page.ID);
+                    }
+
+                    if (UserResultCalculator.IsContainCompiledQuestions(page))
+                        SetCompiledDetailsLink(row, page.ID);
+
+                    resultTable.Rows.Add(row);
                 }
-
-                if (UserResultCalculator.IsContainCompiledQuestions(page))
-                    SetCompiledDetailsLink(row, page.ID);
-
-                resultTable.Rows.Add(row);
             }
+            SetTotalRow(totalPageRank, (totalUserRank < 0) ? 0 : totalUserRank);
         }
-        SetTotalRow(totalPageRank, (totalUserRank < 0) ? 0 : totalUserRank);
     }
 
     private void SetHeaderText(string theme, string curriculumnName, string stageName, string user)

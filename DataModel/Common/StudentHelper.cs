@@ -8,7 +8,7 @@ namespace IUDICO.DataModel.Common
 {
     static class StudentHelper
     {
-        public const char PAGES_ID_SPLITTER = '*';
+        public const char PagesIdSplitter = '*';
 
 
         public static Encoding GetEncoding()
@@ -243,7 +243,7 @@ namespace IUDICO.DataModel.Common
             int count = (countOfPageToShow == null) ? pagesIds.Count : Math.Min(pagesIds.Count, (int)countOfPageToShow);
 
             for (int i = 0; i < count; i++ )
-                pagesIdsParameter.Append(pagesIds[i] + PAGES_ID_SPLITTER.ToString());
+                pagesIdsParameter.Append(pagesIds[i] + PagesIdSplitter.ToString());
 
             var pagesIdsParameterString = pagesIdsParameter.ToString();
 
@@ -261,14 +261,14 @@ namespace IUDICO.DataModel.Common
 
     class RandomPageComparer : Comparer<int>
     {
-        private readonly Random randomizer = new Random();
+        private readonly Random _randomizer = new Random();
 
         public override int Compare(int x, int y)
         {
             if (x.Equals(y))
                 return 0;
 
-            return randomizer.Next(-1, 1);
+            return _randomizer.Next(-1, 1);
         }
     }
 } 
