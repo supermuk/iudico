@@ -7,13 +7,13 @@ public partial class StudentPage : ControlledPage<StudentPageController>
     {
         base.BindController(c);
 
-        openTest.Click += c.OpenTestButton_Click;
-        showResult.Click += c.ShowResultButton_Click;
-        curriculumTreeView.SelectedNodeChanged += c.CurriculumnTree_SelectionChanged;
-        rebuildTreeButton.Click += c.RebuildTreeButton_Click;
-        modeChangerButton.Click += c.ModeButton_Click;
+        openTest.Click += c.OpenTestButtonClick;
+        showResult.Click += c.ShowResultButtonClick;
+        curriculumTreeView.SelectedNodeChanged += c.CurriculumnTreeSelectionChanged;
+        rebuildTreeButton.Click += c.RebuildTreeButtonClick;
+        modeChangerButton.Click += c.ModeButtonClick;
         curriculumCalendar.SelectionChanged += c.SelectedDateChanged;
-        Load += c.Page_Load;
+        Load += c.PageLoad;
 
         c.ChangeModeButton = modeChangerButton;
         c.CurriculumnTreeView = curriculumTreeView;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Web;
 using System.Web.Security;
 using IUDICO.DataModel.DB;
@@ -12,16 +13,16 @@ namespace IUDICO.DataModel.WebTest
     /// </summary>
     public class Tester
     {
-        private readonly List<Test> tests = new List<Test>();
+        private readonly List<Test> _tests = new List<Test>();
 
         public void AddTest(Test newTest)
         {
-            tests.Add(newTest);
+            _tests.Add(newTest);
         }
 
         public void Submit()
         {
-            foreach (Test t in tests)
+            foreach (Test t in _tests)
             {
                 var ua = new TblUserAnswers
                              {
@@ -33,9 +34,14 @@ namespace IUDICO.DataModel.WebTest
                              };
 
                 ServerModel.DB.Insert(ua);
-                
-                if(ua.IsCompiledAnswer)
-                    (new CompilationManager()).Compile(ua);
+
+                if (ua.IsCompiledAnswer)
+                {
+                    var ca = new CompilationManager(ua);
+                    ca.SetCompilationStatusesToEnqueued();
+
+                    ThreadPool.QueueUserWorkItem(delegate { ca.Compile(); });
+                }
             }
         }
 

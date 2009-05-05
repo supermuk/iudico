@@ -7,12 +7,12 @@ namespace IUDICO.DataModel.HttpHandlers
 {
     class PracticeHandler : PageHandler
     {
-        private const string testsFolder = "Tests";
+        private const string TestsFolder = "Tests";
 
         public override void ProcessRequest(HttpContext context)
         {
             TblPages page = GetPage(context);
-            var pathToTests = Path.Combine(context.Request.PhysicalApplicationPath, testsFolder);
+            var pathToTests = Path.Combine(context.Request.PhysicalApplicationPath, TestsFolder);
             
             CreateTestsDirectory(pathToTests);
 
@@ -21,7 +21,7 @@ namespace IUDICO.DataModel.HttpHandlers
            
             string url = GetUrl(context);
 
-            var requestBuilder = RequestBuilder.newRequest(string.Format("{0}/{1}/{2}", url, testsFolder, pageFileName))
+            var requestBuilder = RequestBuilder.NewRequest(string.Format("{0}/{1}/{2}", url, TestsFolder, pageFileName))
                 .AddSubmit(context.Request["Submit"]).AddAnswers(context.Request["Answers"])
                     .AddThemeId(context.Request["ThemeId"]).AddPageIndex(context.Request["PageIndex"])
                         .AddCurriculumnName(context.Request["CurriculumnName"])

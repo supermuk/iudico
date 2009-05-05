@@ -10,7 +10,7 @@ namespace IUDICO.DataModel.Controllers
 {
     public class TestDetailsController : ControllerBase
     {
-        private HtmlControl iframe;
+        private HtmlControl _iframe;
 
         public ContentPlaceHolder PageContent { get; set; }
 
@@ -68,9 +68,9 @@ namespace IUDICO.DataModel.Controllers
         private void SetUrl()
         {
             var request =
-                RequestBuilder.newRequest("DisplayIudicoTestPage.ipp").AddPageId(PageId.ToString()).AddAnswers(AnswerFlag);
+                RequestBuilder.NewRequest("DisplayIudicoTestPage.ipp").AddPageId(PageId.ToString()).AddAnswers(AnswerFlag);
 
-            iframe.Attributes["src"] = request.BuildRequestForHandler();
+            _iframe.Attributes["src"] = request.BuildRequestForHandler();
         }
 
         private static int GetMaxRank(IList<TblQuestions> questions)
@@ -92,8 +92,8 @@ namespace IUDICO.DataModel.Controllers
         {
             if (PageContent != null)
             {
-                iframe = (HtmlControl)PageContent.FindControl("testDetailsFrame");
-                if (iframe == null)
+                _iframe = (HtmlControl)PageContent.FindControl("testDetailsFrame");
+                if (_iframe == null)
                     throw new Exception("Can't load iframe");
             }
             else

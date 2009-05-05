@@ -103,6 +103,9 @@ namespace IUDICO.DataModel.Common
 
         public static IList<UserAnswer> GetLatestResultsByQuestions()
         {
+            if (ServerModel.User.Current == null)
+                throw new Exception("There no current user");
+
             var user = ServerModel.DB.Load<TblUsers>(ServerModel.User.Current.ID);
             var userAnswersIds = ServerModel.DB.LookupIds<TblUserAnswers>(user, null);
 
@@ -118,7 +121,7 @@ namespace IUDICO.DataModel.Common
 
             sortAnswers.Sort();
 
-            return sortAnswers;
+            return sortAnswers;    
         }
     }
 
@@ -131,11 +134,11 @@ namespace IUDICO.DataModel.Common
         {
             get
             {
-                return page.PageName;
+                return _page.PageName;
             }
         }
 
-        private readonly TblPages page;
+        private readonly TblPages _page;
 
         public DateTime Date { get; set; }
 
@@ -147,9 +150,9 @@ namespace IUDICO.DataModel.Common
 
             var que = ServerModel.DB.Load<TblQuestions>((int)ans.QuestionRef);
 
-            page = ServerModel.DB.Load<TblPages>((int)que.PageRef);
+            _page = ServerModel.DB.Load<TblPages>((int)que.PageRef);
 
-            var theme = ServerModel.DB.Load<TblThemes>((int)page.ThemeRef);
+            var theme = ServerModel.DB.Load<TblThemes>((int)_page.ThemeRef);
 
             ThemeName = theme.Name;
 
@@ -165,14 +168,14 @@ namespace IUDICO.DataModel.Common
             var obj2 = obj as UserAnswer;
 
             if (obj2 != null)
-                return (page.ID == obj2.page.ID && Date.ToString().Equals(obj2.Date.ToString()));
+                return (_page.ID == obj2._page.ID && Date.ToString().Equals(obj2.Date.ToString()));
 
             return false;
         }
 
         public override int GetHashCode()
         {
-            int result = page.ID;
+            int result = _page.ID;
             result = (result * 397) ^ (ThemeName != null ? ThemeName.GetHashCode() : 0);
             result = (result * 397) ^ (PageName != null ? PageName.GetHashCode() : 0);
             result = (result * 397) ^ Date.GetHashCode();
@@ -181,9 +184,12 @@ namespace IUDICO.DataModel.Common
 
         public string GetStatus()
         {
-            var userRank = UserResultCalculator.GetUserRank(page, ServerModel.User.Current.ID, Date);
+            if (ServerModel.User.Current == null)
+                throw new Exception("There no current user");
 
-            return userRank >= (int)page.PageRank ? "pass" : "fail";
+            var userRank = UserResultCalculator.GetUserRank(_page, ServerModel.User.Current.ID, Date);
+
+            return userRank >= (int) _page.PageRank ? "pass" : "fail";
         }
     }
 
@@ -210,18 +216,18 @@ namespace IUDICO.DataModel.Common
 
     class UserAnswerByDateFinder : IUserAnswerFinder
     {
-        private DateTime date;
+        private DateTime _date;
 
         public UserAnswerByDateFinder(DateTime date)
         {
-            this.date = date;
+            _date = date;
         }
 
         public TblUserAnswers FindUserAnswer(IList<TblUserAnswers> userAnswers)
         {
             foreach (var o in userAnswers)
             {
-                if (o.Date.ToString().Equals(date.ToString()))
+                if (o.Date.ToString().Equals(_date.ToString()))
                     return o;
             }
 
