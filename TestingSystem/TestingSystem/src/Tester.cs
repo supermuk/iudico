@@ -68,8 +68,11 @@ namespace TestingSystem
                 testResult.ProgramStatus = Status.CompilationError;
                 testResult.Output = compileResult.StandartOutput;
             }
-
-            Directory.Delete(programDirectory, true);
+            try
+            {
+                Directory.Delete(programDirectory, true);
+            }
+            catch { }
             return testResult;
         }
 
