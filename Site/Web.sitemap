@@ -15,6 +15,7 @@
       <siteMapNode title="Assignment" url="~/Teacher/CurriculumAssignment.aspx" />
       <siteMapNode title="Statistic" url="~/Teacher/StatisticSelect.aspx" />
       <siteMapNode title="My objects" url="~/Teacher/TeacherObjects.aspx" />
+      <siteMapNode title="ReCompilation" url="~/Teacher/ReCompilationPage.aspx" />
     </siteMapNode>
     <siteMapNode title="Admin" roles="ADMIN">
       <siteMapNode title="Users" url="~/Admin/Users.aspx" />

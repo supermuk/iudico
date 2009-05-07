@@ -7,11 +7,11 @@ public partial class CourseBehavior : ControlledPage<CourseBehaviorController>
     {
         base.BindController(c);
         Load += c.PageLoad;
-        c.CourseBehaviorTable = courseBehavior;
-        saveButton.Click += c.saveButton_Click;
+        c.CourseBehaviorTable = _courseBehavior;
+        _saveButton.Click += c.SaveButtonClick;
         BindTitle(c.CourseName, cn => string.Format("Course Details For: {0}", cn));
-        Bind(headerLabel, c.CourseName, cn => string.Format("Course Details For: {0}", cn));
-        descriptionLabel.Text = "On this page you can change behavior of course themes";
+        Bind(_headerLabel, c.CourseName, cn => string.Format("Course Details For: {0}", cn));
+        _descriptionLabel.Text = "On this page you can change behavior of course themes";
     }
 
 }

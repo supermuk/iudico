@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.ImportManagers;
 using TestingSystem;
@@ -13,14 +14,39 @@ namespace IUDICO.DataModel.WebTest
     {
         private readonly IList<TblCompiledQuestionsData> _compiledQuestionData;
 
-        private readonly IList<TblCompiledAnswers> _compiledAnswers = new List<TblCompiledAnswers>();
+        private IList<TblCompiledAnswers> _compiledAnswers; 
 
         private readonly Program _program;
 
         private readonly TblUserAnswers _userAnswer;
 
 
-        public CompilationManager(TblUserAnswers userAnswer)
+        public static CompilationManager GetNewManager(TblUserAnswers userAnswer)
+        {
+            return new CompilationManager(userAnswer);
+        }
+
+
+        public void StartCompilation()
+        {
+            SetCompilationStatusesToEnqueued();
+
+            AddCompilationToTaskQueue();
+        }
+
+        public void ReCompile()
+        {
+            DeletePreviousCompiledAnswers(_userAnswer);
+            StartCompilation();
+        }
+
+
+        private void AddCompilationToTaskQueue()
+        {
+            ThreadPool.QueueUserWorkItem(delegate { Compile(); });
+        }
+
+        private CompilationManager(TblUserAnswers userAnswer)
         {
             _userAnswer = userAnswer;
 
@@ -30,12 +56,13 @@ namespace IUDICO.DataModel.WebTest
 
             _compiledQuestionData = ServerModel.DB.Load<TblCompiledQuestionsData>(ServerModel.DB.LookupIds<TblCompiledQuestionsData>(compiledQuestion, null));
 
-            _program = CompilationAssistant.CreateProgram(_userAnswer, compiledQuestion);
+            _program = SettingFactory.CreateProgram(_userAnswer, compiledQuestion);
         }
 
-
-        public void SetCompilationStatusesToEnqueued()
+        private void SetCompilationStatusesToEnqueued()
         {
+            _compiledAnswers = new List<TblCompiledAnswers>();
+
             foreach (var c in _compiledQuestionData)
             {
                 var ca = StorePreCompiledAnswer(_userAnswer, c);
@@ -43,9 +70,9 @@ namespace IUDICO.DataModel.WebTest
             }
         }
 
-        public void Compile()
+        private void Compile()
         {
-            var tester = CompilationAssistant.CreateTester();
+            var tester = SettingFactory.CreateTester();
 
             foreach (var c in _compiledAnswers)
             {
@@ -61,6 +88,12 @@ namespace IUDICO.DataModel.WebTest
 
         }
 
+
+        private static void DeletePreviousCompiledAnswers(TblUserAnswers ua)
+        {
+            var compiledAnswersIds = ServerModel.DB.LookupIds<TblCompiledAnswers>(ua, null);
+            ServerModel.DB.Delete<TblCompiledAnswers>(compiledAnswersIds);
+        }
 
         private static TblCompiledQuestionsData GetTestCaseData(TblCompiledAnswers c)
         {
@@ -95,7 +128,7 @@ namespace IUDICO.DataModel.WebTest
         }
     }
 
-    static class CompilationAssistant
+    static class SettingFactory
     {
         private const string DotNetPath = @"Compilers\dotNET\csc.exe";
         private const string DelphiPath = @"Compilers\Delphi7\Dcc32.exe";
@@ -106,9 +139,10 @@ namespace IUDICO.DataModel.WebTest
         private const string Vc6Language = "VC6";
 
 
-        private static Settings CreateSettings()
+        private static Settings GetSettings()
         {
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            
             var settings = new Settings
             {
                 Compilers = new List<Compiler>(),
@@ -126,7 +160,7 @@ namespace IUDICO.DataModel.WebTest
 
         public static CompilationTester CreateTester()
         {
-            return new CompilationTester(CreateSettings());
+            return new CompilationTester(GetSettings());
         }
 
         public static Program CreateProgram(TblUserAnswers ua, TblCompiledQuestions cq)

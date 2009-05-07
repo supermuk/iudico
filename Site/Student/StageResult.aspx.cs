@@ -10,7 +10,7 @@ public partial class StageResult : ControlledPage<StageResultController>
     {
         if (Controller.StageId != 0)
         {
-            headerLabel.Text = "Statistic for Stage";
+            _headerLabel.Text = "Statistic for Stage";
 
             var content = (ContentPlaceHolder)Master.FindControl("MainContent");
 
