@@ -65,19 +65,17 @@
                 <asp:Label ID="Label_Groups" runat="server" Text="Groups:"></asp:Label>
             </td>
             <td>
-                <asp:BulletedList ID="BulletedList_Groups" runat="server">
-                </asp:BulletedList>
+                <asp:BulletedList ID="BulletedList_Groups" runat="server" />
             </td>
         </tr>
         <tr>
             <td>
-                <asp:Button ID="Button_Update" Text="Update" runat="server"></asp:Button>
+                <asp:Button ID="Button_Update" Text="Update" runat="server" />
             </td>
         </tr>
         <tr>
             <td colspan="2">
-                <asp:ChangePassword ID="ChangePassword" runat="server" Enabled="false">
-                </asp:ChangePassword>
+                <asp:ChangePassword ID="ChangePassword" runat="server" ContinueDestinationPageUrl="<%= Request.RawUrl %>" />
             </td>
         </tr>
     </table>

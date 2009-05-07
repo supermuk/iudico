@@ -1,11 +1,25 @@
 ﻿using System;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
+using IUDICO.DataModel.Controllers.Student;
 
 namespace IUDICO.Site.Pages
 {
     public partial class Home : ControlledPage<HomeController>
     {
+        protected override void OnPreInit(EventArgs e)
+        {
+            base.OnPreInit(e);
+
+            string url;
+            if (ServerModel.User.Current.IsStudent())
+                url = ServerModel.Forms.BuildRedirectUrl(new StudentPageController{BackUrl = Request.RawUrl});
+            else
+                url = ServerModel.Forms.BuildRedirectUrl(new HomeController{BackUrl = Request.RawUrl});
+
+            Server.Transfer(url);            
+        }
+
         protected override void BindController(HomeController c)
         {
             base.BindController(c);

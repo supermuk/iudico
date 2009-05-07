@@ -32,8 +32,13 @@
 <body>
     <form id="form1" runat="server">
     <div>
-        <asp:ScriptManager ID="ScriptManager1" runat="server">
-        </asp:ScriptManager>
+        <asp:ScriptManager runat="server" />
+        <asp:UpdateProgress DisplayAfter="1" runat="server">
+            <ProgressTemplate>
+                <div class="ajax-progress">
+                    Please wait...</div>
+            </ProgressTemplate>
+        </asp:UpdateProgress>
         <asp:SiteMapDataSource ID="SiteMap" ShowStartingNode="false" runat="server" />
         <asp:Menu ID="MainMenu" OnMenuItemDataBound="MainMenu_ItemDataBound" OnDataBinding="MainMenu_DataBind"
             Orientation="Horizontal" DataSourceID="SiteMap" runat="server">
@@ -43,15 +48,12 @@
             <StaticHoverStyle CssClass="staticmenuitem" />
         </asp:Menu>
         <br />
-        
         <b>
             <asp:SiteMapPath runat="server" />
         </b>
-        
-        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <asp:UpdatePanel runat="server">
             <ContentTemplate>
-                <asp:ContentPlaceHolder ID="MainContent" runat="server">
-                </asp:ContentPlaceHolder>
+                <asp:ContentPlaceHolder ID="MainContent" runat="server" />
             </ContentTemplate>
         </asp:UpdatePanel>
     </div>

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Security;
 using System.Web.Security;
+using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.Security
 {
@@ -27,7 +29,23 @@ namespace IUDICO.DataModel.Security
 
         public override bool ChangePassword(string username, string oldPassword, string newPassword)
         {
-            throw new NotImplementedException();
+            if (oldPassword != newPassword)
+            {
+                var user = ServerModel.User.Current;
+                if (user.UserName != username)
+                    throw new SecurityException("You cann't change password of another user");
+                var u = ServerModel.DB.Load<TblUsers>(user.ID);
+                var oldHash = ServerModel.User.GetPasswordHash(oldPassword);
+
+                if (u.PasswordHash != oldHash)
+                    return false;
+
+                var newHash = ServerModel.User.GetPasswordHash(newPassword);
+                u.PasswordHash = newHash;
+                ServerModel.DB.Update(u);
+                return true;
+            }
+            return false;
         }
 
         public override string ResetPassword(string username, string answer)
