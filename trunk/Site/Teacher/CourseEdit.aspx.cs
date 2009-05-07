@@ -23,19 +23,16 @@ public partial class CourseEdit : ControlledPage<CourseEditController>
         c.CourseUpload = FileUpload_Course;
         c.CourseTree = TreeView_Courses;
         c.RawUrl = Request.RawUrl;
-        
+
         //Add postback trigger for file upload control
         UpdatePanelControlTrigger trigger = new PostBackTrigger();
         trigger.ControlID = Button_ImportCourse.UniqueID;
-        UpdatePanel panel = (UpdatePanel)Master.FindControl("UpdatePanel1");
-        panel.Triggers.Add(trigger);
-
+        Master.GlobalUpdatePanel.Triggers.Add(trigger);
     }
 
     public override void DataBind()
     {
         base.DataBind();
-
         TreeView_Courses.DataSource = Controller.GetCourses();
     }
 }
