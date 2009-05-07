@@ -9,13 +9,18 @@ using IUDICO.DataModel.DB;
 /// </summary>
 public partial class CompiledQuestionsDetails : ControlledPage<CompiledQuestionsDetailsController>
 {
-    private ContentPlaceHolder placeHolder;
+    private ContentPlaceHolder _placeHolder;
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        Response.AddHeader("Refresh", "5");
+    }
 
     protected override void BindController(CompiledQuestionsDetailsController c)
     {
         base.BindController(c);
         Load += PageLoad;
-        placeHolder = (ContentPlaceHolder) Master.FindControl("MainContent");
+        _placeHolder = (ContentPlaceHolder) Master.FindControl("MainContent");
 
     }
     
@@ -40,10 +45,10 @@ public partial class CompiledQuestionsDetails : ControlledPage<CompiledQuestions
         {
             if (question.IsCompiled)
             {
-                headerLabel.Text = string.Format("Compilation Details For Question From Page:{0}", page.PageName);
+                _headerLabel.Text = string.Format("Compilation Details For Question From Page:{0}", page.PageName);
                 var cqr = (CompiledQuestionResult)LoadControl("../Controls/CompiledQuestionResult.ascx");
                 cqr.Question = question;
-                placeHolder.Controls.Add(cqr);
+                _placeHolder.Controls.Add(cqr);
             }
         }
     }

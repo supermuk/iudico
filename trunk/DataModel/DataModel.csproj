@@ -153,6 +153,7 @@
     <Compile Include="Controllers\Student\StageResultController.cs" />
     <Compile Include="Controllers\Teacher\BaseTeacherController.cs" />
     <Compile Include="Controllers\Teacher\CourseBehaviorController.cs" />
+    <Compile Include="Controllers\Teacher\ReCompilePageController.cs" />
     <Compile Include="Controllers\Teacher\ThemePagesController.cs" />
     <Compile Include="Controllers\Teacher\ShareController.cs" />
     <Compile Include="Controllers\Teacher\CourseDeleteConfirmationController.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="WebControl\WebSimpleQuestion.cs" />
     <Compile Include="WebControl\WebTestControl.cs" />
     <Compile Include="WebControl\WebTextBox.cs" />
+    <Compile Include="WebTest\TestManager.cs" />
     <Compile Include="WebTest\ComboBoxTest.cs" />
     <Compile Include="WebTest\CompilationManager.cs" />
     <Compile Include="WebTest\CompiledTest.cs" />
