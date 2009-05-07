@@ -13,6 +13,11 @@
     <link rel="Stylesheet" href="Styles/Main.css" type="text/css" />
 
     <script runat="server">
+        public UpdatePanel GlobalUpdatePanel
+        {
+            get { return globalUpdatePanel; }
+        }
+        
         protected void MainMenu_DataBind(object sender, EventArgs e)
         {
             ((Control)sender).Visible = ServerModel.User.Current != null;
@@ -51,7 +56,7 @@
         <b>
             <asp:SiteMapPath runat="server" />
         </b>
-        <asp:UpdatePanel runat="server">
+        <asp:UpdatePanel ID="globalUpdatePanel" runat="server">
             <ContentTemplate>
                 <asp:ContentPlaceHolder ID="MainContent" runat="server" />
             </ContentTemplate>
