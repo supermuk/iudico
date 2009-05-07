@@ -608,5 +608,10 @@ namespace IUDICO.DataModel.Common
 
             return permissions[0];
         }
+
+        public static IList<TblCompiledAnswers> GetCompiledAnswers(TblUserAnswers userAnswer)
+        {
+            return ServerModel.DB.Load<TblCompiledAnswers>(ServerModel.DB.LookupIds<TblCompiledAnswers>(userAnswer, null));
+        }
     }
 }
