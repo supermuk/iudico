@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using IUDICO.DataModel.DB;
-using IUDICO.DataModel.DB.Base;
 using LEX.CONTROLS;
 using IUDICO.DataModel.Common;
 
@@ -26,7 +23,7 @@ namespace IUDICO.DataModel.Controllers
         public IVariable<string> Title = string.Empty.AsVariable();
 
         //"magic words"
-        private const string pageCaption = "User personal info.";
+        private const string pageCaption = "User personal info";
         private const string pageDescription = "This is your info page. Here you can change your name, email and password. Look up for your roles and groups.";
 
         public override void Loaded()
@@ -49,7 +46,7 @@ namespace IUDICO.DataModel.Controllers
             currentUser.LastName = SecondName.Value;
             currentUser.Email = Email.Value;
 
-            ServerModel.DB.Update<TblUsers>(currentUser);
+            ServerModel.DB.Update(currentUser);
         }
 
         private void fillInfo()
@@ -81,6 +78,5 @@ namespace IUDICO.DataModel.Controllers
 
             return result;
         }
-
     }
 }

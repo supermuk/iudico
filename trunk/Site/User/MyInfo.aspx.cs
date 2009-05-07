@@ -1,4 +1,5 @@
-﻿using IUDICO.DataModel;
+﻿using System;
+using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
 
 public partial class User_MyInfo : ControlledPage<UserInfoController>
