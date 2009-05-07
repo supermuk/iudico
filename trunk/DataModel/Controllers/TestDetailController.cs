@@ -92,7 +92,7 @@ namespace IUDICO.DataModel.Controllers
         {
             if (PageContent != null)
             {
-                _iframe = (HtmlControl)PageContent.FindControl("testDetailsFrame");
+                _iframe = (HtmlControl)PageContent.FindControl("_testDetailsFrame");
                 if (_iframe == null)
                     throw new Exception("Can't load iframe");
             }
