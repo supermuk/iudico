@@ -101,7 +101,21 @@ namespace IUDICO.DataModel.Controllers
                                 {
                                     if (userAnswer.IsCompiledAnswer)
                                     {
-
+                                        IList<TblCompiledAnswers> compiledAnswers = TeacherHelper.GetCompiledAnswers(userAnswer);
+                                        bool allAreCorrect = true;
+                                        foreach (TblCompiledAnswers compiledAnswer in compiledAnswers)
+                                        {
+                                            TblCompiledQuestionsData compiledData = ServerModel.DB.Load<TblCompiledQuestionsData>(compiledAnswer.CompiledQuestionsDataRef);
+                                            if (compiledData.Output != compiledAnswer.Output)
+                                            {
+                                                allAreCorrect = false;
+                                                break;
+                                            }
+                                        }
+                                        if (allAreCorrect)
+                                        {
+                                            userRank += question.Rank.HasValue ? question.Rank.Value : 0;                                        
+                                        }
                                     }
                                     else
                                     {

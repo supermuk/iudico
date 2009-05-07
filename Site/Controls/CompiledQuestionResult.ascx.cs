@@ -25,12 +25,22 @@ public partial class CompiledQuestionResult : UserControl
     {
         var compiledQuestion = ServerModel.DB.Load<TblCompiledQuestions>((int) q.CompiledQuestionRef);
         var userAnswers = ServerModel.DB.Load<TblUserAnswers>(ServerModel.DB.LookupIds<TblUserAnswers>(q, null));
+        
+        var answersForCurrentUser = new List<TblUserAnswers>();
+        int userId = ServerModel.User.Current.ID;
+
+        foreach (var uAns in userAnswers)
+        {
+            if (uAns.UserRef == userId)
+                answersForCurrentUser.Add(uAns);
+        }
+
 
         SetHeader(q.TestName, compiledQuestion);
 
         if (userAnswers.Count != 0)
         {
-            SetResults(userAnswers);
+            SetResults(answersForCurrentUser);
         }
         else
         {

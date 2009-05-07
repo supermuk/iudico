@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
     CodeFile="CourseEdit.aspx.cs" Inherits="CourseEdit" %>
-<%@ MasterType VirtualPath="~/MasterPage.master" %>
 
+<%@ MasterType VirtualPath="~/MasterPage.master" %>
 <%@ Register TagPrefix="iudico" Namespace="IUDICO.DataModel.Controllers" %>
 <asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="Server">
     <table>
