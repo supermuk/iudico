@@ -14,10 +14,10 @@ public partial class ThemeResult : ControlledPage<ThemeResultController>
     {
         if (Controller.ThemeId != 0)
         {
-            headerLabel.Text = "Statistic for Theme";
-            themeResult.ThemeId = Controller.ThemeId;
-            themeResult.CurriculumnName = Controller.CurriculumnName;
-            themeResult.StageName = Controller.StageName;
+            _headerLabel.Text = "Statistic for Theme";
+            _themeResult.ThemeId = Controller.ThemeId;
+            _themeResult.CurriculumnName = Controller.CurriculumnName;
+            _themeResult.StageName = Controller.StageName;
         }
         else
         {

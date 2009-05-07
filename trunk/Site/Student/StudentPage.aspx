@@ -6,25 +6,25 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
     
-    <asp:Label runat = "server" ID = "headerLabel" Font-Bold="True" Font-Size="XX-Large"></asp:Label>
+    <asp:Label runat = "server" ID = "_headerLabel" Font-Bold="True" Font-Size="XX-Large"></asp:Label>
     <br />
-    <asp:Label runat = "server" ID = "descriptionLabel"></asp:Label>
+    <asp:Label runat = "server" ID = "_descriptionLabel"></asp:Label>
     <br />
     <table style="width:100%;">
         <tr>
             <td class="style1">
     
-    <asp:Button ID="openTest" runat="server" Text="Open Test" Enabled="False" />
+    <asp:Button ID="_openTest" runat="server" Text="Open Test" Enabled="False" />
     
-    <asp:Button ID="showResult" runat="server" Text="Show Result"/>
+    <asp:Button ID="_showResult" runat="server" Text="Show Result"/>
     
             </td>
             <td class="style2">
    
-    <asp:Button ID="rebuildTreeButton" runat="server" 
+    <asp:Button ID="_rebuildTreeButton" runat="server" 
         Text="Refresh Tree" Width="111px"/>
    
-    <asp:Button ID="modeChangerButton" runat="server" Text="Show Pass Dates" 
+    <asp:Button ID="_modeChangerButton" runat="server" Text="Show Pass Dates" 
         Width="142px" />
    
             </td>
@@ -34,7 +34,7 @@
         <tr>
             <td class="style1">
     
-    <iudico:IdentityTreeView ID="curriculumTreeView" runat="server" ImageSet="XPFileExplorer" 
+    <iudico:IdentityTreeView ID="_curriculumTreeView" runat="server" ImageSet="XPFileExplorer" 
         NodeIndent="15" Width="122px" Height="188px">
         <ParentNodeStyle Font-Bold="False" />
         <HoverNodeStyle Font-Underline="True" ForeColor="#6666AA" />
@@ -47,9 +47,9 @@
             </td>
             <td class="style2">
    
-                <asp:ListBox ID="periodDescription" runat="server" Rows="1" Width="252px"></asp:ListBox>
+                <asp:ListBox ID="_periodDescription" runat="server" Rows="1" Width="252px"></asp:ListBox>
    
-    <asp:Calendar ID="curriculumCalendar" runat="server" BackColor="White"
+    <asp:Calendar ID="_curriculumCalendar" runat="server" BackColor="White"
         BorderColor="#999999" CellPadding="4" DayNameFormat="Shortest" 
         Font-Names="Verdana" Font-Size="8pt" ForeColor="Black" 
         ShowGridLines="True" Height="247px" Width="252px">
@@ -72,7 +72,7 @@
                 &nbsp;</td>
             <td class="style2">
    
-    <asp:Table ID="lastPagesResultTable" runat="server" GridLines="Both" Height="49px" 
+    <asp:Table ID="_lastPagesResultTable" runat="server" GridLines="Both" Height="49px" 
         Width="481px">
         <asp:TableRow runat="server">
             <asp:TableCell runat="server" HorizontalAlign="Center">Page</asp:TableCell>

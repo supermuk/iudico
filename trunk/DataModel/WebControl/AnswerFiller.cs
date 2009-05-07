@@ -8,22 +8,22 @@ namespace IUDICO.DataModel.WebControl
 {
     public class AnswerFiller
     {
-        private readonly IList<TblQuestions> questions;
+        private readonly IList<TblQuestions> _questions;
 
-        private readonly bool showLatestAnswer;
+        private readonly bool _showLatestAnswer;
 
         public AnswerFiller(int pageId, HttpRequest request)
         {
             var page = ServerModel.DB.Load<TblPages>(pageId);
-            questions = ServerModel.DB.Load<TblQuestions>(ServerModel.DB.LookupIds<TblQuestions>(page, null));
-            showLatestAnswer = (request["answers"] == "user");
+            _questions = ServerModel.DB.Load<TblQuestions>(ServerModel.DB.LookupIds<TblQuestions>(page, null));
+            _showLatestAnswer = (request["answers"] == "user");
         }
 
         private string GetAnswerForQuestion(string name)
         {
             var q = FindQuestion(name);
 
-            if (showLatestAnswer)
+            if (_showLatestAnswer)
                 return FindAnswer(ServerModel.User.Current.ID, q);
 
             return q.CorrectAnswer;
@@ -31,11 +31,11 @@ namespace IUDICO.DataModel.WebControl
 
         private TblQuestions FindQuestion(string name)
         {
-            foreach (var c in questions)
+            foreach (var c in _questions)
             {
                 if (c.TestName.Equals(name))
                 {
-                    questions.Remove(c);
+                    _questions.Remove(c);
                     return c;
                 }
             }

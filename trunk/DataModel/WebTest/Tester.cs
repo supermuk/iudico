@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Collections.Generic;
 using System.Web;
-using System.Web.Security;
-using IUDICO.DataModel.DB;
-using IUDICO.DataModel.Security;
 
 namespace IUDICO.DataModel.WebTest
 {
@@ -23,26 +18,7 @@ namespace IUDICO.DataModel.WebTest
         public void Submit()
         {
             foreach (Test t in _tests)
-            {
-                var ua = new TblUserAnswers
-                             {
-                                 QuestionRef = t.Id,
-                                 Date = DateTime.Now,
-                                 UserRef = ((CustomUser) Membership.GetUser()).ID,
-                                 UserAnswer = t.UserAnswer,
-                                 IsCompiledAnswer = t is CompiledTest
-                             };
-
-                ServerModel.DB.Insert(ua);
-
-                if (ua.IsCompiledAnswer)
-                {
-                    var ca = new CompilationManager(ua);
-                    ca.SetCompilationStatusesToEnqueued();
-
-                    ThreadPool.QueueUserWorkItem(delegate { ca.Compile(); });
-                }
-            }
+                TestManager.StartTesting(t);
         }
 
         public void NextTestPage(HttpResponse response, HttpRequest request)

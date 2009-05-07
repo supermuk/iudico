@@ -7,22 +7,22 @@ public partial class StudentPage : ControlledPage<StudentPageController>
     {
         base.BindController(c);
 
-        openTest.Click += c.OpenTestButtonClick;
-        showResult.Click += c.ShowResultButtonClick;
-        curriculumTreeView.SelectedNodeChanged += c.CurriculumnTreeSelectionChanged;
-        rebuildTreeButton.Click += c.RebuildTreeButtonClick;
-        modeChangerButton.Click += c.ModeButtonClick;
-        curriculumCalendar.SelectionChanged += c.SelectedDateChanged;
+        _openTest.Click += c.OpenTestButtonClick;
+        _showResult.Click += c.ShowResultButtonClick;
+        _curriculumTreeView.SelectedNodeChanged += c.CurriculumnTreeSelectionChanged;
+        _rebuildTreeButton.Click += c.RebuildTreeButtonClick;
+        _modeChangerButton.Click += c.ModeButtonClick;
+        _curriculumCalendar.SelectionChanged += c.SelectedDateChanged;
         Load += c.PageLoad;
 
-        c.ChangeModeButton = modeChangerButton;
-        c.CurriculumnTreeView = curriculumTreeView;
-        c.LastPagesResultTable = lastPagesResultTable;
-        c.CurriculumnCalendar = curriculumCalendar;
-        c.PeriodDescription = periodDescription;
-        c.OpenTestButton = openTest;
+        c.ChangeModeButton = _modeChangerButton;
+        c.CurriculumnTreeView = _curriculumTreeView;
+        c.LastPagesResultTable = _lastPagesResultTable;
+        c.CurriculumnCalendar = _curriculumCalendar;
+        c.PeriodDescription = _periodDescription;
+        c.OpenTestButton = _openTest;
 
-        Bind(headerLabel, c.UserName, un => string.Format("Student Page For: {0}", un));
-        Bind(descriptionLabel, c.Description);
+        Bind(_headerLabel, c.UserName, un => string.Format("Student Page For: {0}", un));
+        Bind(_descriptionLabel, c.Description);
     }
 }

@@ -13,11 +13,11 @@ namespace IUDICO.DataModel.Controllers.Teacher
 
         public readonly IVariable<string> CourseName = string.Empty.AsVariable();
         
-        private const string PAGE_ORDER_LIST_ID = "PageOrder";
-        private const string PAGE_COUNT_TO_SHOW_LIST_ID = "PageCountToShow";
-        private const string MAX_COUNT_TO_SUBMIT_LIST_ID = "MaxCountToSubmit";
-        private const string ALL = "All";
-        private const string NONE = "None";
+        private const string PageOrderListId = "PageOrder";
+        private const string PageCountToShowListId = "PageCountToShow";
+        private const string MaxCountToSubmitListId = "MaxCountToSubmit";
+        private const string All = "All";
+        private const string None = "None";
 
         public Table CourseBehaviorTable{ get; set;}
 
@@ -35,7 +35,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
                 AddThemeToTable(themes[i - 1], i);
         }
 
-        public void saveButton_Click(object sender, EventArgs e)
+        public void SaveButtonClick(object sender, EventArgs e)
         {
             foreach (TableRow row in CourseBehaviorTable.Rows)
             {
@@ -43,9 +43,9 @@ namespace IUDICO.DataModel.Controllers.Teacher
                 {
                     var theme = ServerModel.DB.Load<TblThemes>(int.Parse(row.ID));
                     
-                    theme.PageOrderRef = SetPageOrder((DropDownList)row.FindControl(PAGE_ORDER_LIST_ID));
-                    theme.PageCountToShow = SetPageCountToShow((DropDownList)row.FindControl(PAGE_COUNT_TO_SHOW_LIST_ID));
-                    theme.MaxCountToSubmit = SetMaxCountToSubmit((DropDownList)row.FindControl(MAX_COUNT_TO_SUBMIT_LIST_ID));
+                    theme.PageOrderRef = SetPageOrder((DropDownList)row.FindControl(PageOrderListId));
+                    theme.PageCountToShow = SetPageCountToShow((DropDownList)row.FindControl(PageCountToShowListId));
+                    theme.MaxCountToSubmit = SetMaxCountToSubmit((DropDownList)row.FindControl(MaxCountToSubmitListId));
                     
                     ServerModel.DB.Update(theme);
                 }
@@ -72,8 +72,8 @@ namespace IUDICO.DataModel.Controllers.Teacher
             themePages.Controls.Add(new HyperLink
             {
                 Text = "Pages",
-                NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new ThemePagesController()
-                {
+                NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new ThemePagesController
+                                                                     {
                     BackUrl = string.Empty,
                     ThemeId = theme.ID
                 })
@@ -86,7 +86,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
 
         private static int? SetPageOrder(DropDownList pageOrderDropDownList)
         {
-            foreach (var e in Enum.GetValues(typeof(FX_PAGE_ORDER)))
+            foreach (var e in Enum.GetValues(typeof(FxPageOrder)))
                 if (e.ToString().Equals(pageOrderDropDownList.SelectedValue))
                     return (int)e;
 
@@ -97,7 +97,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
         {
             var selectedValue = pageCountToShowDropDownList.SelectedValue;
 
-            if(selectedValue == ALL)
+            if(selectedValue == All)
                 return null;
 
             return int.Parse(selectedValue);
@@ -107,7 +107,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
         {
             var selectedValue = maxCountToSubmitDropDownList.SelectedValue;
 
-            if (selectedValue == NONE)
+            if (selectedValue == None)
                 return null;
 
             return int.Parse(selectedValue);
@@ -115,48 +115,48 @@ namespace IUDICO.DataModel.Controllers.Teacher
 
         private static DropDownList GetPageOrderDropDownList(int? pageOrderRef)
         {
-            var list = new DropDownList {ID = PAGE_ORDER_LIST_ID};
+            var list = new DropDownList {ID = PageOrderListId};
 
-            foreach (var s in Enum.GetNames(typeof(FX_PAGE_ORDER)))
+            foreach (var s in Enum.GetNames(typeof(FxPageOrder)))
                 list.Items.Add(s);
 
-            list.SelectedValue = ((pageOrderRef == null) ? FX_PAGE_ORDER.Straight : (FX_PAGE_ORDER) pageOrderRef).ToString();
+            list.SelectedValue = ((pageOrderRef == null) ? FxPageOrder.Straight : (FxPageOrder) pageOrderRef).ToString();
 
             return list;
         }
 
         private static DropDownList GetPageCountToShowDropDownList(TblThemes theme)
         {
-            var list = new DropDownList {ID = PAGE_COUNT_TO_SHOW_LIST_ID};
+            var list = new DropDownList {ID = PageCountToShowListId};
 
             var pagesIds = ServerModel.DB.LookupIds<TblPages>(theme, null);
 
             for (int i = 1; i <= pagesIds.Count; i++)
                 list.Items.Add(i.ToString());
 
-            list.Items.Add(ALL);
+            list.Items.Add(All);
 
-            list.SelectedValue = theme.PageCountToShow == null ? ALL : theme.PageCountToShow.ToString();
+            list.SelectedValue = theme.PageCountToShow == null ? All : theme.PageCountToShow.ToString();
 
             return list;
         }
 
         private static DropDownList GetMaxCountToSubmitDropDownList(int? maxCountToSubmit)
         {
-            var list = new DropDownList {ID = MAX_COUNT_TO_SUBMIT_LIST_ID};
+            var list = new DropDownList {ID = MaxCountToSubmitListId};
 
             list.Items.AddRange(new[] { new ListItem("0"), new ListItem("1"),
                                         new ListItem("3"), new ListItem("5"),
-                                        new ListItem("10"), new ListItem(NONE) });
+                                        new ListItem("10"), new ListItem(None) });
 
-            list.SelectedValue = maxCountToSubmit == null ? NONE : maxCountToSubmit.ToString();
+            list.SelectedValue = maxCountToSubmit == null ? None : maxCountToSubmit.ToString();
 
             return list;
         }
     }
 
     [DBEnum("fxPageOrders")]
-    enum FX_PAGE_ORDER
+    enum FxPageOrder
     {
         Straight = 1,
         Random = 2

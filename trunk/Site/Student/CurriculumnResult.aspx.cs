@@ -10,7 +10,7 @@ public partial class CurriculumnResult : ControlledPage<CurriculumnResultControl
     {
         if (Controller.CurriculumnId != 0)
         {
-            headerLabel.Text = "Statistic for Curriculumn";
+            _headerLabel.Text = "Statistic for Curriculumn";
 
             var content = (ContentPlaceHolder)Master.FindControl("MainContent");
 
