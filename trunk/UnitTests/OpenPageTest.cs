@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using IUDICO.DataModel;
-using IUDICO.DataModel.Common;
+using IUDICO.DataModel.Common.ImportUtils;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.ImportManagers;
 using IUDICO.UnitTest.Base;

@@ -1,4 +1,4 @@
-namespace IUDICO.DataModel.Common
+namespace IUDICO.DataModel.Common.ImportUtils
 {
     public sealed class PageType
     {

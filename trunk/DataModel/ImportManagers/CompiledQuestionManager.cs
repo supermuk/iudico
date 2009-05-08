@@ -1,6 +1,6 @@
 using System;
 using System.Xml;
-using IUDICO.DataModel.Common;
+using IUDICO.DataModel.Common.ImportUtils;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.DB.Base;
 
@@ -31,7 +31,7 @@ namespace IUDICO.DataModel.ImportManagers
     {
         public static int Import(XmlNode node)
         {
-            int id = Store(GetLanguage(node), XmlUtility.getTimeLimit(node), XmlUtility.getMemoryLimit(node), XmlUtility.getOutputLimit(node));
+            int id = Store(GetLanguage(node), XmlUtility.GetTimeLimit(node), XmlUtility.GetMemoryLimit(node), XmlUtility.GetOutputLimit(node));
             SetInputOutput(node, id);
             
             return id;
@@ -56,7 +56,7 @@ namespace IUDICO.DataModel.ImportManagers
         private static void SetInputOutput(XmlNode node, int compiledQuestionRef)
         {
             foreach (XmlNode n in node.ChildNodes)
-                if (XmlUtility.isTestCase(n))
+                if (XmlUtility.IsTestCase(n))
                     if(n.HasChildNodes)
                         StoreData(compiledQuestionRef, n.LastChild.InnerText, n.FirstChild.InnerText);
         }
@@ -87,7 +87,7 @@ namespace IUDICO.DataModel.ImportManagers
         private static FX_LANGUAGE GetLanguage(XmlNode node)
         {
             foreach (XmlNode n in node.ChildNodes)
-                if (XmlUtility.isLanguage(n))
+                if (XmlUtility.IsLanguage(n))
                     return LanguageIndex(n.InnerText);
             return 0;
         }

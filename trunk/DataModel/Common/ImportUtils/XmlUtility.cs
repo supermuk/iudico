@@ -1,50 +1,50 @@
 using System.Xml;
 
-namespace IUDICO.DataModel.Common
+namespace IUDICO.DataModel.Common.ImportUtils
 {
     public sealed class XmlUtility
     {
-        public static bool isChapter(XmlNode node)
+        public static bool IsChapter(XmlNode node)
         {
-            return (getPageType(node) == PageType.Chapter);
+            return (GetPageType(node) == PageType.Chapter);
         }
 
-        public static bool isControlChapter(XmlNode node)
+        public static bool IsControlChapter(XmlNode node)
         {
-            return (getPageType(node) == PageType.ControlChapter);
+            return (GetPageType(node) == PageType.ControlChapter);
         }
 
-        public static bool isTheory(XmlNode node)
+        public static bool IsTheory(XmlNode node)
         {
-            return (getPageType(node) == PageType.Theory);
+            return (GetPageType(node) == PageType.Theory);
         }
 
-        public static bool isPractice(XmlNode node)
+        public static bool IsPractice(XmlNode node)
         {
-            return (getPageType(node) == PageType.Practice);
+            return (GetPageType(node) == PageType.Practice);
         }
 
-        public static bool isPage(XmlNode node)
+        public static bool IsPage(XmlNode node)
         {
-            return isTheory(node) || isPractice(node);
+            return IsTheory(node) || IsPractice(node);
         }
 
-        public static bool isItem(XmlNode node)
+        public static bool IsItem(XmlNode node)
         {
             return (node.Name == "item");
         }
 
-        public static bool isLanguage(XmlNode node)
+        public static bool IsLanguage(XmlNode node)
         {
             return (node.Name == "language");
         }
 
-        public static bool isTestCase(XmlNode node)
+        public static bool IsTestCase(XmlNode node)
         {
             return (node.Name == "testcase");
         }
 
-        public static string getIdentifier(XmlNode node)
+        public static string GetIdentifier(XmlNode node)
         {
             if (node.Attributes != null)
                 if (node.Attributes[XmlAttributes.Identifier] != null)
@@ -53,7 +53,7 @@ namespace IUDICO.DataModel.Common
             return null;
         }
 
-        public static string getId(XmlNode node)
+        public static string GetId(XmlNode node)
         {
             if (node.Attributes != null)
                 if (node.Attributes[XmlAttributes.Id] != null)
@@ -62,7 +62,7 @@ namespace IUDICO.DataModel.Common
             return null;
         }
 
-        public static string getIdentifierRef(XmlNode node)
+        public static string GetIdentifierRef(XmlNode node)
         {
             if (node.Attributes != null)
                 if (node.Attributes[XmlAttributes.Reference] != null)
@@ -71,7 +71,7 @@ namespace IUDICO.DataModel.Common
             return null;
         }
 
-        public static string getPageType(XmlNode node)
+        public static string GetPageType(XmlNode node)
         {
             if (node.Attributes != null)
                 if (node.Attributes[XmlAttributes.PageType] != null)
@@ -80,7 +80,7 @@ namespace IUDICO.DataModel.Common
             return null;
         }
 
-        public static int getTimeLimit(XmlNode node)
+        public static int GetTimeLimit(XmlNode node)
         {
             if (node.Attributes != null)
                 if (node.Attributes[XmlAttributes.TimeLimit] != null)
@@ -89,7 +89,7 @@ namespace IUDICO.DataModel.Common
             return 0;
         }
 
-        public static int getMemoryLimit(XmlNode node)
+        public static int GetMemoryLimit(XmlNode node)
         {
             if (node.Attributes != null)
                 if (node.Attributes[XmlAttributes.MemoryLimit] != null)
@@ -98,7 +98,7 @@ namespace IUDICO.DataModel.Common
             return 0;
         }
 
-        public static int getOutputLimit(XmlNode node)
+        public static int GetOutputLimit(XmlNode node)
         {
             if (node.Attributes != null)
                 if (node.Attributes[XmlAttributes.OutputLimit] != null)
@@ -107,7 +107,7 @@ namespace IUDICO.DataModel.Common
             return 0;
         }
 
-        public static string getAnswer(XmlNode node)
+        public static string GetAnswer(XmlNode node)
         {
             if (node.Attributes != null)
                 if (node.Attributes[XmlAttributes.Answer] != null)

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Xml;
-using IUDICO.DataModel.Common;
+using IUDICO.DataModel.Common.ImportUtils;
 using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.ImportManagers
@@ -48,7 +48,7 @@ namespace IUDICO.DataModel.ImportManagers
         {
             foreach (XmlNode node in document.ChildNodes)
             {
-                if (XmlUtility.isItem(node))
+                if (XmlUtility.IsItem(node))
                 {
                     ThemeManager.Import(node, courseId, projectPaths);
                 }

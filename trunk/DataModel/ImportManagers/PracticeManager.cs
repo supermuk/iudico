@@ -1,6 +1,6 @@
 using System.IO;
 using System.Xml;
-using IUDICO.DataModel.Common;
+using IUDICO.DataModel.Common.ImportUtils;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.WebControl;
 
@@ -10,13 +10,13 @@ namespace IUDICO.DataModel.ImportManagers
     {
         public static void Import(XmlNode node, int themeRef, ProjectPaths projectPaths)
         {
-            XmlNode answerNode = GetAnswerNode(XmlUtility.getIdentifier(node), projectPaths);
+            XmlNode answerNode = GetAnswerNode(XmlUtility.GetIdentifier(node), projectPaths);
 
             int rank = GetPageRank(answerNode);
 
-            string tempFileName = Path.Combine(projectPaths.PathToTempCourseFolder, XmlUtility.getIdentifierRef(node) + FileExtentions.Html);
+            string tempFileName = Path.Combine(projectPaths.PathToTempCourseFolder, XmlUtility.GetIdentifierRef(node) + FileExtentions.Html);
 
-            var pageTable = StorePageWithoutPageFile(themeRef, XmlUtility.getIdentifier(node), rank);
+            var pageTable = StorePageWithoutPageFile(themeRef, XmlUtility.GetIdentifier(node), rank);
 
             WebPage webPage = CreateAspxPage(tempFileName, Path.GetFileNameWithoutExtension(tempFileName),
                 pageTable.ID, answerNode, projectPaths.PathToTempCourseFolder);
@@ -53,7 +53,7 @@ namespace IUDICO.DataModel.ImportManagers
         {
             foreach (XmlNode currNode in node.ChildNodes)
             {
-                if (XmlUtility.getId(currNode) != null && XmlUtility.getId(currNode).Equals(pageName))
+                if (XmlUtility.GetId(currNode) != null && XmlUtility.GetId(currNode).Equals(pageName))
                 {
                     return currNode;
                 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using IUDICO.DataModel.DB;
 using TestingSystem;
 
-namespace IUDICO.DataModel.Common
+namespace IUDICO.DataModel.Common.TestingUtils
 {
     public class UserResultCalculator
     {
@@ -125,7 +125,6 @@ namespace IUDICO.DataModel.Common
         }
     }
 
-
     public class UserAnswer : IComparable<UserAnswer>
     {
         public string ThemeName { get; set; }
@@ -193,7 +192,6 @@ namespace IUDICO.DataModel.Common
         }
     }
 
-
     interface IUserAnswerFinder
     {
         TblUserAnswers FindUserAnswer(IList<TblUserAnswers> userAnswers);
@@ -203,14 +201,18 @@ namespace IUDICO.DataModel.Common
     {
         public TblUserAnswers FindUserAnswer(IList<TblUserAnswers> userAnswers)
         {
-            var latestUserAnswer = userAnswers[0];
-            foreach (var o in userAnswers)
+            if (userAnswers.Count != 0)
             {
-                if (o.Date > latestUserAnswer.Date)
-                    latestUserAnswer = o;
-            }
+                var latestUserAnswer = userAnswers[0];
+                foreach (var o in userAnswers)
+                {
+                    if (o.Date > latestUserAnswer.Date)
+                        latestUserAnswer = o;
+                }
 
-            return latestUserAnswer;
+                return latestUserAnswer;
+            }
+            return null;
         }
     }
 
