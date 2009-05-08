@@ -111,9 +111,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\CacheUtility.cs" />
+    <Compile Include="Common\ComparableDictionary.cs" />
+    <Compile Include="Common\ComparableList.cs" />
     <Compile Include="Common\DateTimeInterval.cs" />
     <Compile Include="Common\DynamicClass.cs" />
     <Compile Include="Common\DynamicClassView.cs" />
+    <Compile Include="Common\Expressions\BoolExpression.cs" />
+    <Compile Include="Common\Expressions\Equal.cs" />
+    <Compile Include="Common\Expressions\MoreThan.cs" />
+    <Compile Include="Common\Expressions\NotEqual.cs" />
     <Compile Include="Common\Extenders.cs" />
     <Compile Include="Common\ImportUtils\FileExtentions.cs" />
     <Compile Include="Common\HtmlStyleReader.cs" />
