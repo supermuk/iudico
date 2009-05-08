@@ -1,6 +1,6 @@
 using System.IO;
 using System.Xml;
-using IUDICO.DataModel.Common;
+using IUDICO.DataModel.Common.ImportUtils;
 using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.ImportManagers
@@ -9,10 +9,10 @@ namespace IUDICO.DataModel.ImportManagers
     {
         public static void Import(XmlNode node, int themeId, ProjectPaths projectPaths)
         {
-            string fileName  = Path.Combine(projectPaths.PathToTempCourseFolder, XmlUtility.getIdentifierRef(node) + FileExtentions.Html);
+            string fileName  = Path.Combine(projectPaths.PathToTempCourseFolder, XmlUtility.GetIdentifierRef(node) + FileExtentions.Html);
 
             byte[] file = FilesManager.GetByteFile(fileName);
-            int id = Store(themeId, XmlUtility.getIdentifier(node), file);
+            int id = Store(themeId, XmlUtility.GetIdentifier(node), file);
             FilesManager.StoreAllPageFiles(id, fileName);
         }
 

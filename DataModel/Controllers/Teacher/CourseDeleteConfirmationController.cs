@@ -43,7 +43,7 @@ namespace IUDICO.DataModel.Controllers
             }
             ServerModel.DB.Delete<TblPermissions>(TeacherHelper.AllPermissionsForCourse(course));
 
-            CourseCleaner.deleteCourse(course.ID);
+            CourseCleaner.DeleteCourse(course.ID);
             Redirect(BackUrl);
         }
 

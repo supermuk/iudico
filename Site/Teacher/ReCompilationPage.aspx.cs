@@ -20,6 +20,6 @@ public partial class Teacher_ReCompilationPage : ControlledPage<ReCompilePageCon
         _reCompileButton.Click += c.ReCompileButtonClick;
 
         _headerLabel.Text = "ReCompile Page";
-        _descriptionLabel.Text = "On this page you can recompile group results";
+        Bind(_descriptionLabel, c.Description);
     }
 }

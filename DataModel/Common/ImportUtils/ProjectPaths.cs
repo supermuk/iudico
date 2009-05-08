@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace IUDICO.DataModel.Common
+namespace IUDICO.DataModel.Common.ImportUtils
 {
     public class ProjectPaths
     {

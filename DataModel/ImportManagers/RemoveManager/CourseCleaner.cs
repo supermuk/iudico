@@ -1,104 +1,113 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using IUDICO.DataModel.DB;
+﻿using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.ImportManagers.RemoveManager
 {
     class CourseCleaner
     {
-        public static void deleteCourse(int courseId)
+        public static void DeleteCourse(int courseId)
         {
             var course = ServerModel.DB.Load<TblCourses>(courseId);
             var themes = ServerModel.DB.LookupIds<TblThemes>(course, null);
 
             foreach (var i in themes)
-            {
-                deleteTheme(i);
-            }
+                DeleteTheme(i);
+
             ServerModel.DB.Delete<TblCourses>(courseId);
         }
 
-        public static void deleteTheme(int themeId)
+        public static void DeleteTheme(int themeId)
         {
             var theme = ServerModel.DB.Load<TblThemes>(themeId);
             var pages = ServerModel.DB.LookupIds<TblPages>(theme, null);
 
             foreach (var i in pages)
-            {
-                deletePage(i);
-            }
+                DeletePage(i);
+
             ServerModel.DB.Delete<TblThemes>(themeId);
         }
 
-        public static void deletePage(int pageId)
+        public static void DeletePage(int pageId)
         {
             var page = ServerModel.DB.Load<TblPages>(pageId);
-            deleteFiles(page);
+            DeleteFiles(page);
 
             var question = ServerModel.DB.LookupIds<TblQuestions>(page, null);
 
             foreach (var i in question)
-            {
-                deleteQuestion(i);
-            }
+                DeleteQuestion(i);
+
 
             ServerModel.DB.Delete<TblPages>(pageId);
         }
 
-        private static void deleteFiles(TblPages page)
+        private static void DeleteFiles(TblPages page)
         {
             var files = ServerModel.DB.Load<TblFiles>(ServerModel.DB.LookupIds<TblFiles>(page, null));
 
             foreach (var file in files)
             {
                 if (file.PID != null)
-                {
                     ServerModel.DB.Delete<TblFiles>(file.ID);
-                }
             }
 
             var folders = ServerModel.DB.Load<TblFiles>(ServerModel.DB.LookupIds<TblFiles>(page, null));
 
             foreach (var file in folders)
-            {
                 ServerModel.DB.Delete<TblFiles>(file.ID);
-            }
         }
 
-        private static void deleteQuestion(int questionId)
+        private static void DeleteQuestion(int questionId)
         {
             var question = ServerModel.DB.Load<TblQuestions>(questionId);
 
+            var userAnswersIds = ServerModel.DB.LookupIds<TblUserAnswers>(question, null);
+            
+            foreach (var ua in userAnswersIds)
+                DeleteUserAnswer(ua);
+
             if (question.IsCompiled)
             {
-                int compiledQuestionRef = (int)question.CompiledQuestionRef;
+                var compiledQuestionRef = (int)question.CompiledQuestionRef;
                 question.CompiledQuestionRef = null;
-                ServerModel.DB.Update<TblQuestions>(question);
-                deleteCompiledQuestion(compiledQuestionRef);
+                ServerModel.DB.Update(question);
+                DeleteCompiledQuestion(compiledQuestionRef);
             }
 
             ServerModel.DB.Delete<TblQuestions>(questionId);
         }
 
-        private static void deleteCompiledQuestion(int compiledQuestionId)
+        private static void DeleteCompiledQuestion(int compiledQuestionId)
         {
             var compiledQuestion = (ServerModel.DB.Load<TblCompiledQuestions>(compiledQuestionId));
 
             var compiledQuestionsData = ServerModel.DB.LookupIds<TblCompiledQuestionsData>(compiledQuestion, null);
 
             foreach (var i in compiledQuestionsData)
-            {
-                deleteCompiledQuestionData(i);
-            }
+                DeleteCompiledQuestionData(i);
 
             ServerModel.DB.Delete<TblCompiledQuestions>(compiledQuestionId);
         }
 
-        private static void deleteCompiledQuestionData(int compiledQuestionDataId)
+        private static void DeleteCompiledQuestionData(int compiledQuestionDataId)
         {
             ServerModel.DB.Delete<TblCompiledQuestionsData>(compiledQuestionDataId);
+        }
+
+        private static void DeleteUserAnswer(int userAnswerId)
+        {
+            var userAnswer = ServerModel.DB.Load<TblUserAnswers>(userAnswerId);
+
+            var compiledAnswersIds = ServerModel.DB.LookupIds<TblCompiledAnswers>(userAnswer, null);
+
+            foreach (var ca in compiledAnswersIds)
+                DeleteCompiledAnswer(ca);
+
+            ServerModel.DB.Delete<TblUserAnswers>(userAnswerId);
+        }
+
+        private static void DeleteCompiledAnswer(int compiledAnswerId)
+        {
+            ServerModel.DB.Delete<TblCompiledAnswers>(compiledAnswerId);
         }
     }
 }

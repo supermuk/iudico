@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
-using IUDICO.DataModel.Common;
+using IUDICO.DataModel.Common.ImportUtils;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.WebControl;
 
@@ -83,7 +83,7 @@ namespace IUDICO.DataModel.ImportManagers
 
         private static string GetAnswer(XmlNode node)
         {
-            return XmlUtility.getAnswer(node);
+            return XmlUtility.GetAnswer(node);
         }
     }
 }
