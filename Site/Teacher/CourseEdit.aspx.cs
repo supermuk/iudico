@@ -27,7 +27,8 @@ public partial class CourseEdit : ControlledPage<CourseEditController>
         //Add postback trigger for file upload control
         UpdatePanelControlTrigger trigger = new PostBackTrigger();
         trigger.ControlID = Button_ImportCourse.UniqueID;
-        Master.GlobalUpdatePanel.Triggers.Add(trigger);
+        UpdatePanel panel = (UpdatePanel)Master.FindControl("globalUpdatePanel");
+        panel.Triggers.Add(trigger);
     }
 
     public override void DataBind()
