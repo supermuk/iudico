@@ -17,7 +17,7 @@ namespace IUDICO.Site.Pages
             else
                 url = ServerModel.Forms.BuildRedirectUrl(new HomeController{BackUrl = Request.RawUrl});
 
-            Server.Transfer(url);            
+            Response.Redirect(url);         
         }
 
         protected override void BindController(HomeController c)

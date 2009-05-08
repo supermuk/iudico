@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel.DB;
@@ -9,7 +7,7 @@ using IUDICO.DataModel.Common;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
 
-public partial class AssignmentTable : System.Web.UI.UserControl
+public partial class AssignmentTable : UserControl
 {
     private const char assignChar = 'a';
     private const char modifyChar = 'm';
