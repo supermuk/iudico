@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
@@ -143,6 +144,24 @@ namespace IUDICO.DataModel
         {
             CheckBindingAllowed();
             button.Click += (o, e) => action();
+        }
+
+        protected void Bind<TDictionary>(ListControl list, IVariable<TDictionary> values, [NotNull]IVariable<int> value)
+            where TDictionary : Dictionary<int, string>, IComparable<TDictionary>
+        {
+            CheckBindingAllowed();
+            values.Changed += (v, newVal) =>
+                              {
+                                  list.Items.Clear();
+                                  foreach (var p in newVal)
+                                  {
+                                      list.Items.Add(new ListItem(p.Value, p.Key.ToString()));
+                                  }
+                              };
+            list.SelectedIndexChanged += (s, e) =>
+            {
+                value.Value = int.Parse(((ListControl)s).SelectedItem.Value);
+            };
         }
 
         protected virtual void BindController(ControllerType c)

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
@@ -17,6 +16,33 @@ namespace IUDICO.DataModel.Controllers
         public readonly IVariable<string> ErrorText = string.Empty.AsVariable();
         [PersistantField]
         public readonly IVariable<string> Password = string.Empty.AsVariable();
+
+        [PersistantField]
+        public readonly IVariable<int> SelectedGroupID = (-2).AsVariable();
+
+        [PersistantField]
+        public readonly IVariable<string> NewGroupName = string.Empty.AsVariable();
+
+        [PersistantField] 
+        public IVariable<bool> MakeStudent = false.AsVariable();
+
+        public readonly IVariable<ComparableDictionary<int, string>> Groups = new ComparableDictionary<int, string>().AsVariable();
+        
+
+
+        public override void Loaded()
+        {
+            base.Loaded();
+            var groups = ServerModel.DB.Query<TblGroups>(null);
+            var list = new ComparableDictionary<int, string>();
+            list.Add(-1, "<new>");
+            foreach (var g in groups)
+            {
+                list.Add(g.ID, g.Name);
+            }
+
+            Groups.Value = list;
+        }
 
         public void DoCreate()
         {
@@ -44,7 +70,27 @@ namespace IUDICO.DataModel.Controllers
                     try
                     {
                         ServerModel.DB.Insert<TblUsers>(users);
+
+                        if (!string.IsNullOrEmpty(NewGroupName.Value))
+                        {
+                            var g = new TblGroups
+                            {
+                                Name = NewGroupName.Value
+                            };
+                            ServerModel.DB.Insert(g);
+
+                            foreach (var u in users)
+                            {
+                                ServerModel.DB.Link(u, g);
+                                if (MakeStudent.Value)
+                                {
+                                    ServerModel.DB.Link(u, FxRoles.STUDENT);
+                                }
+                            }
+                        }
+
                         ErrorText.Value = null;
+
                         RedirectToController(new Admin_UsersController {BackUrl = HttpContext.Current.Request.RawUrl});
                     }
                     catch
