@@ -27,25 +27,24 @@ public partial class CompiledQuestionResult : UserControl
         var userAnswers = ServerModel.DB.Load<TblUserAnswers>(ServerModel.DB.LookupIds<TblUserAnswers>(q, null));
         
         var answersForCurrentUser = new List<TblUserAnswers>();
-        int userId = ServerModel.User.Current.ID;
-
-        foreach (var uAns in userAnswers)
+        if (ServerModel.User.Current != null)
         {
-            if (uAns.UserRef == userId)
-                answersForCurrentUser.Add(uAns);
+            int userId = ServerModel.User.Current.ID;
+
+            foreach (var uAns in userAnswers)
+            {
+                if (uAns.UserRef == userId)
+                    answersForCurrentUser.Add(uAns);
+            }
         }
 
 
         SetHeader(q.TestName, compiledQuestion);
 
         if (userAnswers.Count != 0)
-        {
             SetResults(answersForCurrentUser);
-        }
         else
-        {
             SetNoResultStatus(q);
-        }
     }
 
     private void SetNoResultStatus(TblQuestions q)

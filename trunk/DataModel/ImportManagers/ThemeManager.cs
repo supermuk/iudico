@@ -1,5 +1,5 @@
 using System.Xml;
-using IUDICO.DataModel.Common;
+using IUDICO.DataModel.Common.ImportUtils;
 using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.ImportManagers
@@ -8,7 +8,7 @@ namespace IUDICO.DataModel.ImportManagers
     {
         public static void Import(XmlNode theme, int courseId, ProjectPaths projectPaths)
         {
-            int id = Store(courseId, XmlUtility.getIdentifier(theme), XmlUtility.isControlChapter(theme));
+            int id = Store(courseId, XmlUtility.GetIdentifier(theme), XmlUtility.IsControlChapter(theme));
 
             SearchPages(theme, id, projectPaths);
         }
@@ -17,20 +17,20 @@ namespace IUDICO.DataModel.ImportManagers
         {
             foreach (XmlNode node in thema.ChildNodes)
             {
-                if (node != null && XmlUtility.isItem(node))
+                if (node != null && XmlUtility.IsItem(node))
                 {
-                    if (XmlUtility.isPage(node))
+                    if (XmlUtility.IsPage(node))
                     {
-                            if (XmlUtility.isPractice(node))
+                            if (XmlUtility.IsPractice(node))
                             {
                                 PracticeManager.Import(node, themeId, projectPaths);
                             }
-                            if (XmlUtility.isTheory(node))
+                            if (XmlUtility.IsTheory(node))
                             {
                                 TheoryManager.Import(node, themeId, projectPaths);
                             }
                     }
-                    else if (XmlUtility.isChapter(node))
+                    else if (XmlUtility.IsChapter(node))
                     {
                         SearchPages(node, themeId, projectPaths);
                     }

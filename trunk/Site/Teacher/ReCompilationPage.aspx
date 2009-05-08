@@ -25,20 +25,23 @@
         </tr>
         <tr>
             <td>
-                <asp:DropDownList ID="_groupDropDownList" runat="server" AutoPostBack="True">
+                <asp:DropDownList ID="_groupDropDownList" runat="server" AutoPostBack="True" 
+                    Width="200px">
                 </asp:DropDownList>
             </td>
             <td>
-                &nbsp;</td>
+            </td>
             <td>
                 <asp:DropDownList ID="_curriculumnDropDownList" runat="server" 
-                    AutoPostBack="True">
+                    AutoPostBack="True" Width="200px">
                 </asp:DropDownList>
-                <asp:DropDownList ID="_stageDropDownList" runat="server" AutoPostBack="True">
+                <asp:DropDownList ID="_stageDropDownList" runat="server" AutoPostBack="True" 
+                    Width="200px">
                 </asp:DropDownList>
-                <asp:DropDownList ID="_themeDropDownList" runat="server" AutoPostBack="True">
+                <asp:DropDownList ID="_themeDropDownList" runat="server" AutoPostBack="True" 
+                    Width="200px">
                 </asp:DropDownList>
-            </td>
+                        </td>
         </tr>
     </table>
     <br />

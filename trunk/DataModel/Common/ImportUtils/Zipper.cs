@@ -2,11 +2,11 @@ using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using LEX.CONTROLS;
 
-namespace IUDICO.DataModel.Common
+namespace IUDICO.DataModel.Common.ImportUtils
 {
     public static class Zipper
     {
-        private const int readBufferSize = 2048;
+        private const int ReadBufferSize = 2048;
 
         /// <summary>
         /// Puts folder's content to zip archive
@@ -37,7 +37,7 @@ namespace IUDICO.DataModel.Common
 
         public static void ExtractZipFile([NotNull] string zipFileName, [NotNull] string dirName)
         {
-            var data = new byte[readBufferSize];
+            var data = new byte[ReadBufferSize];
             using (var zipStream = new ZipInputStream(File.OpenRead(zipFileName)))
             {
                 ZipEntry entry;
@@ -58,7 +58,7 @@ namespace IUDICO.DataModel.Common
                         using (FileStream fileStream = File.Create(fullName))
                         {
                             int readed;
-                            while ((readed = zipStream.Read(data, 0, readBufferSize)) > 0)
+                            while ((readed = zipStream.Read(data, 0, ReadBufferSize)) > 0)
                             {
                                 fileStream.Write(data, 0, readed);
                             }

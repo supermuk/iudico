@@ -2,7 +2,7 @@
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel;
-using IUDICO.DataModel.Common;
+using IUDICO.DataModel.Common.TestingUtils;
 using IUDICO.DataModel.Controllers;
 using IUDICO.DataModel.Controllers.Student;
 using IUDICO.DataModel.DB;
