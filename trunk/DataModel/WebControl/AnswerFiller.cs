@@ -24,7 +24,7 @@ namespace IUDICO.DataModel.WebControl
             var q = FindQuestion(name);
 
             if (_showLatestAnswer)
-                return FindAnswer(ServerModel.User.Current.ID, q);
+                if (ServerModel.User.Current != null) return FindAnswer(ServerModel.User.Current.ID, q);
 
             return q.CorrectAnswer;
         }
@@ -54,7 +54,11 @@ namespace IUDICO.DataModel.WebControl
                 if (ans.UserRef == userId)
                     answers.Add(ans);
             }
-            return (new LatestUserAnswerFinder()).FindUserAnswer(answers).UserAnswer;
+
+            if (answers.Count > 0)
+                return (new LatestUserAnswerFinder()).FindUserAnswer(answers).UserAnswer;
+            
+            return string.Empty;
         }
 
         public void SetAnswer(TextBox control)
@@ -66,9 +70,10 @@ namespace IUDICO.DataModel.WebControl
         {
             var answer = GetAnswerForQuestion(id);
 
-            for (int i = 0; i < list.Length; i++)
+            if (!answer.Equals(string.Empty))
             {
-                list[i].Checked = answer[i].Equals('1');
+                for (int i = 0; i < list.Length; i++)
+                    list[i].Checked = answer[i].Equals('1');
             }
         }
         
@@ -76,9 +81,10 @@ namespace IUDICO.DataModel.WebControl
         {
             var answer = GetAnswerForQuestion(id);
 
-            for (int i = 0; i < list.Length; i++)
+            if (!answer.Equals(string.Empty))
             {
-                list[i].Checked = answer[i].Equals('1');
+                for (int i = 0; i < list.Length; i++)
+                    list[i].Checked = answer[i].Equals('1');
             }
         }
     }
