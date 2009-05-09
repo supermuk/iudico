@@ -1,7 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="SelectGroup.aspx.cs" Inherits="Admin_SelectGroup" Title="Untitled Page" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
-</asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
 <h2><asp:Label ID="lbMessage" runat="server" /></h2>
 <asp:GridView 

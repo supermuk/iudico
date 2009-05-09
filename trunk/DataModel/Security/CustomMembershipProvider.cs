@@ -60,7 +60,8 @@ namespace IUDICO.DataModel.Security
 
         public override bool ValidateUser(string username, string password)
         {
-            return ServerModel.User.ByLogin(username).PasswordHash == ServerModel.User.GetPasswordHash(password);
+            CustomUser u = ServerModel.User.ByLogin(username);
+            return u != null && u.PasswordHash == ServerModel.User.GetPasswordHash(password);
         }
 
         public override bool UnlockUser(string userName)

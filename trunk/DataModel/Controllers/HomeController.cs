@@ -2,6 +2,7 @@
 using System.Linq;
 using IUDICO.DataModel.Common;
 using LEX.CONTROLS;
+using LEX.CONTROLS.Expressions;
 
 namespace IUDICO.DataModel.Controllers
 {

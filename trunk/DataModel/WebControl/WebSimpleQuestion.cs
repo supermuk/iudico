@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Xml;
 using CourseImport.Common;
-using System.Security.Cryptography;
 using IUDICO.DataModel.Common;
 
 namespace IUDICO.DataModel.WebControl

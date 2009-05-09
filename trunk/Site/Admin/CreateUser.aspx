@@ -1,9 +1,5 @@
 ﻿<%@ Page Title="Create Multiple Users" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CreateUser.aspx.cs" Inherits="CreateUser" %>
-<%@ Import Namespace="IUDICO.DataModel.Controllers"%>
-<%@ Import Namespace="IUDICO.DataModel"%>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
-</asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
     <h1>Create User</h1>
     To create IUDICO account fill in the form and press 'Create User' button <br />

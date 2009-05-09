@@ -60,8 +60,7 @@ namespace IUDICO.DataModel.Controllers
     }
 
     public class DefaultController : ControllerBase
-    {
-        
+    {   
     }
 
     public static class ControllerParametersUtility<TController>
@@ -88,6 +87,9 @@ namespace IUDICO.DataModel.Controllers
 
         public static string BuildUrlParams(TController c)
         {
+            if (__ControllerParameters.Count == 0)
+                return null;
+
             var b = new StringBuilder();
             foreach (var p in __ControllerParameters)
             {

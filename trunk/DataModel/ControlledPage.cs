@@ -48,8 +48,8 @@ namespace IUDICO.DataModel
         }
     }
 
-    public abstract class ControlledPage<ControllerType> : Page, IControlledPage
-        where ControllerType : ControllerBase, new()
+    public abstract class ControlledPage<TController> : Page, IControlledPage
+        where TController : ControllerBase, new()
     {
         /// <summary>
         /// Do nothing. It's required to override in derived class to bind exactly controls realy need it
@@ -65,13 +65,7 @@ namespace IUDICO.DataModel
 
         protected ControlledPage()
         {
-            if ((User == null || User.Identity == null || !User.Identity.IsAuthenticated) &&
-                typeof(ControllerType) != typeof(LoginController))
-            {
-                FormsAuthentication.RedirectToLoginPage();
-                HttpContext.Current.Response.End();
-            }
-            Controller = new ControllerType();
+            Controller = new TController();
         }
 
         protected void BindChecked([NotNull] ICheckBoxControl checkBox, IValue<bool> value)
@@ -150,28 +144,37 @@ namespace IUDICO.DataModel
             where TDictionary : Dictionary<int, string>, IComparable<TDictionary>
         {
             CheckBindingAllowed();
+
+            EventHandler changeHandler = (s, e) =>
+            {
+                value.Value = int.Parse(((ListControl)s).SelectedItem.Value);
+            };
+
             values.Changed += (v, newVal) =>
                               {
+                                  var raiseChanged = list.Items.Count == 0;
                                   list.Items.Clear();
                                   foreach (var p in newVal)
                                   {
                                       list.Items.Add(new ListItem(p.Value, p.Key.ToString()));
                                   }
+                                  if (raiseChanged)
+                                      changeHandler(list, EventArgs.Empty);
+
                               };
-            list.SelectedIndexChanged += (s, e) =>
-            {
-                value.Value = int.Parse(((ListControl)s).SelectedItem.Value);
-            };
+            list.SelectedIndexChanged += changeHandler;
+            if (list.SelectedIndex < 0 && values.Value.Count > 0)
+                list.SelectedIndex = 0;
         }
 
-        protected virtual void BindController(ControllerType c)
+        protected virtual void BindController(TController c)
         {
             CheckBindingAllowed();
         }
 
         protected override void LoadViewState(object savedState)
         {
-            var p = PersistantStateMetaData.Get(typeof(ControllerType));
+            var p = PersistantStateMetaData.Get(typeof(TController));
             if (p.IsEmpty)
             {
                 base.LoadViewState(savedState);
@@ -187,7 +190,7 @@ namespace IUDICO.DataModel
         protected override object SaveViewState()
         {
             var r = base.SaveViewState();
-            var p = PersistantStateMetaData.Get(typeof(ControllerType));
+            var p = PersistantStateMetaData.Get(typeof(TController));
             if (!p.IsEmpty)
             {
                 r = new Pair(r, p.SaveStateFor(Controller));
@@ -198,7 +201,7 @@ namespace IUDICO.DataModel
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            if (!IsPostBack && !IsCallback)
+            if (IsFirstTimeRequest)
             {
                 Controller.Initialize();
             }
@@ -208,7 +211,7 @@ namespace IUDICO.DataModel
         protected override void OnLoadComplete(EventArgs e)
         {
             base.OnLoadComplete(e);
-            if (!IsPostBack && !IsCallback)
+            if (IsFirstTimeRequest)
             {
                 DataBind();
             }
@@ -216,7 +219,7 @@ namespace IUDICO.DataModel
 
         protected override void OnPreInit(EventArgs e)
         {
-            ControllerParametersUtility<ControllerType>.LoadParametrs(Controller, Request.QueryString, Server);
+            ControllerParametersUtility<TController>.LoadParametrs(Controller, Request.QueryString, Server);
             base.OnPreInit(e);
         }
 
@@ -246,18 +249,7 @@ namespace IUDICO.DataModel
             }
         }
 
-        protected readonly ControllerType Controller;
+        protected readonly TController Controller;
         private bool __BindingAllowed;
-    }
-
-    public abstract class TeacherPage<ControllerType> : ControlledPage<ControllerType>
-        where ControllerType : BaseTeacherController, new()
-    {
-        public Label Label_PageCaption;
-
-        public override void DataBind()
-        {
-            Bind(Label_PageCaption, Controller.Caption);
-        }
     }
 }

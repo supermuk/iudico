@@ -8,6 +8,7 @@ using IUDICO.DataModel.Common.TestingUtils;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.Security;
 using LEX.CONTROLS;
+using LEX.CONTROLS.Expressions;
 
 namespace IUDICO.DataModel.Controllers.Student
 {

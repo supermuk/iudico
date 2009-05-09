@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using IUDICO.DataModel.DB;
-using IUDICO.DataModel.Common;
 using IUDICO.DataModel;
+using IUDICO.DataModel.Common;
 using IUDICO.DataModel.Controllers;
+using IUDICO.DataModel.DB;
 
 public partial class AssignmentTable : UserControl
 {
