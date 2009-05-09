@@ -1,8 +1,6 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
     CodeFile="CreateUserBulk.aspx.cs" Inherits="Admin_CreateUserBulk" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-</asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
     <h1>
         Create Multiple Users</h1>
@@ -38,8 +36,15 @@
                 <asp:Label Text="Add to Group:" runat="server" />
             </th>
             <td>
-                <asp:DropDownList ID="cbGroups" runat="server" AutoPostBack="true" Enabled="false" />
-                <asp:TextBox ID="tbNewGroup" runat="server" />
+                <asp:UpdatePanel runat="server">
+                    <ContentTemplate>
+                        <asp:CheckBox ID="cbAddToGroup" runat="server" AutoPostBack="true" />
+                        <asp:DropDownList ID="cbGroups" runat="server" AutoPostBack="true" Width="130px" />
+                        <asp:Label ID="lbNewGroup" runat="server" Text="Name:" /> <asp:TextBox ID="tbNewGroup" runat="server" />
+                        
+                        
+                    </ContentTemplate>
+                </asp:UpdatePanel>
             </td>
         </tr>
         <tr>

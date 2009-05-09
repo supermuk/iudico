@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
@@ -14,8 +13,8 @@ using IUDICO.DataModel.DB;
 using IUDICO.DataModel.DB.Base;
 using IUDICO.DataModel.Security;
 using LEX.CONTROLS;
-using Extenders = LEX.CONTROLS.Extenders;
-using Utils = IUDICO.DataModel.Common.Utils;
+using Extenders=LEX.CONTROLS.Extenders;
+using Utils=IUDICO.DataModel.Common.Utils;
 
 namespace IUDICO.DataModel
 {
@@ -218,7 +217,7 @@ namespace IUDICO.DataModel
         public void Register<TController>([NotNull] string url)
             where TController : ControllerBase
         {
-            _Pages.Add(typeof(TController), url);
+            _pages.Add(typeof(TController), url);
         }
 
         [NotNull]
@@ -229,10 +228,12 @@ namespace IUDICO.DataModel
             {
                 throw new DMError("BackUrl is not specified");
             }
-            return _Pages[typeof(TController)] + "?" + ControllerParametersUtility<TController>.BuildUrlParams(c);
+            var @params = ControllerParametersUtility<TController>.BuildUrlParams(c);
+            var res = _pages[typeof (TController)];
+            return string.IsNullOrEmpty(@params) ? res : res + '?' + @params;
         }
 
-        private readonly Dictionary<Type, string> _Pages = new Dictionary<Type, string>();
+        private readonly Dictionary<Type, string> _pages = new Dictionary<Type, string>();
     }
 
     public static class CustomUserExtenders

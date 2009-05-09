@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using IUDICO.DataModel.Common;
-using IUDICO.DataModel.DB.Base;
 using IUDICO.DataModel.Security;
 using LEX.CONTROLS;
 

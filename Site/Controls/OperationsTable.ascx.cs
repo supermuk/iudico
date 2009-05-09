@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using IUDICO.DataModel.DB;
+using GrayMatterSoft;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Common;
+using IUDICO.DataModel.DB;
 using IUDICO.DataModel.Security;
-using GrayMatterSoft;
-using System.Drawing;
-using IUDICO.DataModel.Controllers;
 
 public partial class OperationsTable : UserControl, ITextControl
 {

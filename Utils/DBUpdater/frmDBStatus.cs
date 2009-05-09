@@ -4,7 +4,6 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Windows.Forms;
 using IUDICO.DBManager;
-using LEX.CONTROLS;
 
 namespace DBUpdater
 {

@@ -13,9 +13,9 @@ namespace IUDICO.Site.Pages
 
             string url;
             if (ServerModel.User.Current.IsStudent())
-                url = ServerModel.Forms.BuildRedirectUrl(new StudentPageController{BackUrl = Request.RawUrl});
+                url = ServerModel.Forms.BuildRedirectUrl(new StudentPageController{BackUrl = string.Empty});
             else
-                url = ServerModel.Forms.BuildRedirectUrl(new HomeController{BackUrl = Request.RawUrl});
+                url = ServerModel.Forms.BuildRedirectUrl(new HomeController{BackUrl = string.Empty});
 
             Response.Redirect(url);         
         }

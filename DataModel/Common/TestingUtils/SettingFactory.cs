@@ -39,9 +39,9 @@ namespace IUDICO.DataModel.Common.TestingUtils
             return settings;
         }
 
-        public static CompilationTester CreateTester()
+        public static Tester CreateTester()
         {
-            return new CompilationTester(GetSettings());
+            return new Tester(GetSettings());
         }
 
         public static Program CreateProgram(TblUserAnswers ua, TblCompiledQuestions cq)

@@ -1,6 +1,6 @@
-﻿using System;
-using IUDICO.DataModel;
+﻿using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
+using LEX.CONTROLS.Expressions;
 
 public partial class Admin_CreateUserBulk : ControlledPage<Admin_CreateBulkUserController>
 {
@@ -13,9 +13,14 @@ public partial class Admin_CreateUserBulk : ControlledPage<Admin_CreateBulkUserC
         Bind2Ways(tbCount, c.Count);
         Bind2Ways(tbPassword, c.Password);
         Bind(lbErrors, c.ErrorText);
-        Bind(cbGroups, c.Groups, c.SelectedGroupID);
         BindChecked2Ways(cbMakeStudent, c.MakeStudent);
         Bind2Ways(tbNewGroup, c.NewGroupName);
-        //BindVisible(tbNewGroup, new MoreThan<int>(c.SelectedGroupID, 0.AsVariable())););
+        Bind(cbGroups, c.Groups, c.SelectedGroupID);
+
+        BindChecked2Ways(cbAddToGroup, c.AddToGroup);
+        var newGroup = c.AddToGroup.And(new Equal<int>(c.SelectedGroupID, (-1).AsVariable()));
+        BindVisible(lbNewGroup, newGroup);
+        BindVisible(tbNewGroup, newGroup);
+        BindVisible(cbGroups, c.AddToGroup);
     }
 }

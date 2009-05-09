@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel.DB;
-using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.Common
 {

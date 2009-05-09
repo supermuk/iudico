@@ -1,9 +1,6 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="StudentPage.aspx.cs" Inherits="StudentPage" Title="Student Page" %>
 <%@ Register TagPrefix="iudico" Namespace="IUDICO.DataModel.Controllers" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
-</asp:Content>
-
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
     
     <asp:Label runat = "server" ID = "_headerLabel" Font-Bold="True" Font-Size="XX-Large"></asp:Label>
