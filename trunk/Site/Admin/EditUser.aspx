@@ -1,8 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="EditUser.aspx.cs" Inherits="Admin_EditUser" Title="Untitled Page" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
-</asp:Content>
-
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
 
 <h2><asp:Label ID="lbUserRoles" runat="server" /></h2>

@@ -1,7 +1,5 @@
 ﻿<%@ Page Language="C#" CodeFile="Home.aspx.cs" Inherits="IUDICO.Site.Pages.Home" %>
 
-<asp:Content id="Content1" contentplaceholderid="head" runat="Server">
-</asp:Content>
 <asp:Content id="Content2" contentplaceholderid="MainContent" runat="Server">
 <asp:Button runat="server" ID="Button1" Text="Test1" />
 <br />

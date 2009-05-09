@@ -1,7 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CreateGroup.aspx.cs" Inherits="CreateGroup" Title="Untitled Page" %>
 
-<asp:Content ContentPlaceHolderID="head" runat="Server">
-</asp:Content>
 <asp:Content ContentPlaceHolderID="MainContent" runat="Server">
     
     <h1>Create IUDICO Group</h1>

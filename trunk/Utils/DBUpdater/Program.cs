@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using DBUpdater.Properties;
-using LEX.CONTROLS;
 
 namespace DBUpdater
 {
