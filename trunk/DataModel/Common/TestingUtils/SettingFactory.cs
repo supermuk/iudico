@@ -22,7 +22,7 @@ namespace IUDICO.DataModel.Common.TestingUtils
         private static Settings GetSettings()
         {
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            
+
             var settings = new Settings
                                {
                                    Compilers = new List<Compiler>(),
@@ -31,10 +31,19 @@ namespace IUDICO.DataModel.Common.TestingUtils
                                    Password = ""
                                };
 
-            settings.Compilers.Add(new Compiler(DotNetLanguage, Path.Combine(baseDirectory, DotNetPath), "/t:exe $SourceFilePath$", "cs"));
+            string reference = "/reference:";
+            List<string> referenceList = new List<string>() { "System.Core.dll", "System.Xml.Linq.dll", 
+                 "System.WorkflowServices.dll", "System.Net.dll","System.Data.Linq.dll","System.Data.Entity.dll","System.AddIn.dll" };
+            string allReferences = "";
+            foreach (string systemReference in referenceList)
+            {
+                allReferences += reference + systemReference + " ";
+            }
+
+            settings.Compilers.Add(new Compiler(DotNetLanguage, Path.Combine(baseDirectory, DotNetPath), @"/t:exe " + allReferences + "$SourceFilePath$", "cs"));
             settings.Compilers.Add(new Compiler(DelphiLanguage, Path.Combine(baseDirectory, DelphiPath), "-U\"$CompilerDirectory$\" $SourceFilePath$", "pas"));
             settings.Compilers.Add(new Compiler(Vc6Language, Path.Combine(baseDirectory, Vc6Path), "/I\"$CompilerDirectory$\" $SourceFilePath$ /link /LIBPATH:\"$CompilerDirectory$\"", "cpp"));
-            
+
             return settings;
         }
 
@@ -48,8 +57,8 @@ namespace IUDICO.DataModel.Common.TestingUtils
             return new Program
                        {
                            Source = ua.UserAnswer,
-                           MemoryLimit = (int) cq.MemoryLimit,
-                           TimeLimit = (int) cq.TimeLimit,
+                           MemoryLimit = (int)cq.MemoryLimit,
+                           TimeLimit = (int)cq.TimeLimit,
                            Language = LanguageName(cq.LanguageRef)
                        };
         }
