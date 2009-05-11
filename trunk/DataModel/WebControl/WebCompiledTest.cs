@@ -5,12 +5,12 @@ namespace IUDICO.DataModel.WebControl
 {
     internal class WebCompiledTest : WebTestControl
     {
-        private string text;
+        private string _text;
 
         public override void Parse(XmlNode node)
         {
             base.Parse(node);
-            text = node.InnerText;
+            _text = node.InnerText;
         }
 
         public override void Store(HtmlTextWriter w)
@@ -19,9 +19,9 @@ namespace IUDICO.DataModel.WebControl
             w.AddAttribute("runat", "server");
             w.AddAttribute("TextMode", "multiline");
             w.RenderBeginTag("asp:TextBox");
-            if (!string.IsNullOrEmpty(text))
+            if (!string.IsNullOrEmpty(_text))
             {
-                w.Write(text);
+                w.Write(_text);
             }
             w.RenderEndTag();
         }

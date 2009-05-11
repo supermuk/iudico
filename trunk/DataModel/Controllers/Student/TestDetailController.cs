@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using IUDICO.DataModel.Common.TestRequestUtils;
 using IUDICO.DataModel.DB;
-using IUDICO.DataModel.HttpHandlers;
 using LEX.CONTROLS;
 using LEX.CONTROLS.Expressions;
 
-namespace IUDICO.DataModel.Controllers
+namespace IUDICO.DataModel.Controllers.Student
 {
     public class TestDetailsController : ControllerBase
     {
@@ -26,7 +26,7 @@ namespace IUDICO.DataModel.Controllers
         public IVariable<string> PageHeader = string.Empty.AsVariable();
 
         [ControllerParameter]
-        public string AnswerFlag;
+        public int TestType;
 
         [ControllerParameter]
         public int PageId;
@@ -68,10 +68,7 @@ namespace IUDICO.DataModel.Controllers
 
         private void SetUrl()
         {
-            var request =
-                RequestBuilder.NewRequest("DisplayIudicoTestPage.ipp").AddPageId(PageId.ToString()).AddAnswers(AnswerFlag);
-
-            _iframe.Attributes["src"] = request.BuildRequestForHandler();
+            _iframe.Attributes["src"] = RequestBuilder.NewRequestForHandler(PageId).AddTestSessionType((TestSessionType) TestType).Build();
         }
 
         private static int GetMaxRank(IList<TblQuestions> questions)
@@ -105,12 +102,12 @@ namespace IUDICO.DataModel.Controllers
     
         public string GetPageTitleType()
         {
-            if (AnswerFlag.ToLower().Equals("user"))
+            if (TestType == (int) TestSessionType.UserAnswer)
             {
-                return "Last Answers";
+                return "User Answers";
             }
 
-            if (AnswerFlag.ToLower().Equals("correct"))
+            if (TestType == (int)TestSessionType.CorrectAnswer)
             {
                 return "Correct Answers";
             }

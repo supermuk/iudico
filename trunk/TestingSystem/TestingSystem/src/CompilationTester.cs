@@ -5,7 +5,7 @@ namespace TestingSystem
     /// <summary>
     /// Main component class. Compiles provided source and runnes *.exe files againts tests.
     /// </summary>
-    public class Tester
+    public class CompilationTester
     {
         /// <summary>
         /// Represents settings of this component.
@@ -78,13 +78,13 @@ namespace TestingSystem
         }
 
         /// <summary>
-        /// Creates new instance of <see cref="Tester"/> class.
+        /// Creates new instance of <see cref="CompilationTester"/> class.
         /// </summary>
         /// 
         /// <param name="settings">
         /// Settings of this component.
         /// </param>
-        public Tester(Settings settings)
+        public CompilationTester(Settings settings)
         {
             ProjectHelper.ValidateNotNull(settings, "settings");
             this.settings = settings;

@@ -10,6 +10,7 @@ using IUDICO.DataModel;
 using IUDICO.DataModel.Common;
 using IUDICO.DBManager;
 using LEX.CONTROLS;
+using LEX.CONTROLS.Expressions;
 using NUnit.Framework;
 
 namespace IUDICO.UnitTest.Base

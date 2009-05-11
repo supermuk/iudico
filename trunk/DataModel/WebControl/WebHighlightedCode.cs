@@ -6,49 +6,49 @@ using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.WebControl
 {
-    public enum LANGUAGE
+    public enum Language
     {
         Axapta = 1,
         Cpp = 2,
         Delphi = 4,
-        HTML = 8,
+        Html = 8,
         Java = 16,
         JavaScript = 32,
         Perl = 64,
-        PHP = 128,
+        Php = 128,
         Python = 256,
-        RIB = 512,
-        RSL = 1024,
+        Rib = 512,
+        Rsl = 1024,
         Ruby = 2048,
         Smalltalk = 4096,
-        SQL = 8192,
-        VBScript = 16384
+        Sql = 8192,
+        VbScript = 16384
     }
 
-    internal class WebHighlightedCode : IUDICO.DataModel.WebControl.WebControl
+    internal class WebHighlightedCode : WebControl
     {
-        private LANGUAGE language;
-        private string text;
+        private Language _language;
+        private string _text;
 
         public override void Parse([NotNull] XmlNode node)
         {
             base.Parse(node);
             node = node.SelectSingleNode("pre");
-            text = node.InnerText;
+            _text = node.InnerText;
             node = node.SelectSingleNode("code");
-            language = (LANGUAGE) Enum.Parse(typeof (LANGUAGE), node.Attributes["class"].Value, true);
+            _language = (Language) Enum.Parse(typeof (Language), node.Attributes["class"].Value, true);
         }
 
         public override void Store(HtmlTextWriter w)
         {
             base.Store(w);
-            string ls = language.ToString().ToLower();
+            string ls = _language.ToString().ToLower();
             w.AddAttribute(HtmlTextWriterAttribute.Name, "code");
             w.AddStyleAttribute(HtmlTextWriterStyle.Overflow, "auto");
             w.RenderBeginTag(HtmlTextWriterTag.Span);
             w.AddAttribute(HtmlTextWriterAttribute.Class, ls);
             w.WriteFullBeginTag(string.Concat("pre><code class=\"", ls, "\""));
-            w.Write(HttpUtility.HtmlEncode(text));
+            w.Write(HttpUtility.HtmlEncode(_text));
             w.WriteFullBeginTag("/code></pre");
             w.RenderEndTag();
         }
