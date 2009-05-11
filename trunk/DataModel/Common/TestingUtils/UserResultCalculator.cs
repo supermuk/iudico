@@ -7,44 +7,58 @@ namespace IUDICO.DataModel.Common.TestingUtils
 {
     public class UserResultCalculator
     {
-        private static int CalculateUserRank(TblQuestions question, int userId, IUserAnswerFinder finder)
+        private static UserResult CalculateUserRank(TblQuestions question, int userId, IUserAnswerFinder finder)
         {
-            int userRank = 0;
+            var userResult = new UserResult();
 
-            var userAnswers = ServerModel.DB.Load<TblUserAnswers>(ServerModel.DB.LookupIds<TblUserAnswers>(question, null));
+            IList<TblUserAnswers> userAnswers = GetUserAnswers(question, userId);
 
-            if (userAnswers != null)
-            {
-                var currUserAnswers = FindUserAnswers(userAnswers, userId);
-                
-                if (currUserAnswers.Count != 0)
+            if (IsUserAnsweredForQuestion(userAnswers))
                 {
-                    var userAnswerWithNeededDate = finder.FindUserAnswer(currUserAnswers);
+                    var userAnswerWithNeededDate = finder.FindUserAnswer(userAnswers);
 
                     if (userAnswerWithNeededDate.UserAnswer == question.CorrectAnswer)
                     {
-                        userRank += (int) question.Rank;
+                        userResult.AddRank((int)question.Rank);
                     }
                     else if (userAnswerWithNeededDate.IsCompiledAnswer)
                     {
-                        var userCompiledAnswers = ServerModel.DB.Load<TblCompiledAnswers>(ServerModel.DB.LookupIds<TblCompiledAnswers>(userAnswerWithNeededDate, null));
-
-                        bool allAcepted = true;
-
-                        foreach (var compiledAnswer in userCompiledAnswers)
-                            allAcepted &= (compiledAnswer.StatusRef == (int)Status.Accepted);
-
-                        if (allAcepted)
-                            userRank += (int)question.Rank;
+                        userResult.AddRank(GetCompiledUserRank(question, userAnswerWithNeededDate));
                     }
                 }
                 else
                 {
-                    userRank = -1;
+                    userResult.SetStatusNoAnswer();
                 }
-            }
 
-            return userRank;
+            return userResult;
+        }
+
+        private static IList<TblUserAnswers> GetUserAnswers(TblQuestions question, int userId)
+        {
+            var allAnswers =  ServerModel.DB.Load<TblUserAnswers>(ServerModel.DB.LookupIds<TblUserAnswers>(question, null));
+
+            return FindUserAnswers(allAnswers, userId);
+        }
+
+        private static bool IsUserAnsweredForQuestion(IList<TblUserAnswers> userAnswers)
+        {
+            return (userAnswers != null) && (userAnswers.Count != 0);
+        }
+
+        private static int GetCompiledUserRank(TblQuestions question, TblUserAnswers userAnswerWithNeededDate)
+        {
+            var userCompiledAnswers = ServerModel.DB.Load<TblCompiledAnswers>(ServerModel.DB.LookupIds<TblCompiledAnswers>(userAnswerWithNeededDate, null));
+
+            bool allAcepted = true;
+
+            foreach (var compiledAnswer in userCompiledAnswers)
+                allAcepted &= (compiledAnswer.StatusRef == (int)Status.Accepted);
+
+            if (allAcepted)
+                return (int)question.Rank;
+
+            return 0;
         }
 
         private static IList<TblUserAnswers> FindUserAnswers(IList<TblUserAnswers> userAnswers, int userId)
@@ -77,7 +91,7 @@ namespace IUDICO.DataModel.Common.TestingUtils
             int userRank = 0;
 
             foreach (var question in questions)
-                userRank += CalculateUserRank(question, userId, finder);
+                userRank += CalculateUserRank(question, userId, finder).Rank;
 
             return userRank;
         }

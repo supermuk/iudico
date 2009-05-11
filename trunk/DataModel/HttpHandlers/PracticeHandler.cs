@@ -1,7 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Web;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.Common.ImportUtils;
+using IUDICO.DataModel.Common.TestRequestUtils;
 using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.HttpHandlers
@@ -17,19 +19,22 @@ namespace IUDICO.DataModel.HttpHandlers
             
             CreateTestsDirectory(pathToTests);
 
-            var pageFileName = page.PageName + FileExtentions.Aspx;
+            var pageFileName = page.PageName + Guid.NewGuid() + FileExtentions.Aspx;
             var path = Path.Combine(pathToTests, pageFileName);
            
             string url = GetUrl(context);
 
-            var requestBuilder = RequestBuilder.NewRequest(string.Format("{0}/{1}/{2}", url, TestsFolder, pageFileName))
-                .AddSubmit(context.Request["Submit"]).AddAnswers(context.Request["Answers"])
-                    .AddThemeId(context.Request["ThemeId"]).AddPageIndex(context.Request["PageIndex"])
-                        .AddCurriculumnName(context.Request["CurriculumnName"])
-                            .AddStageName(context.Request["StageName"]).AddShiftedPagesIds(context.Request["ShiftedPagesIds"]);
+            var requestBuilder =
+                RequestBuilder.NewRequest(CreateUrlForPage(pageFileName, url), page.ID)
+                .ExtractParametersFromExistedRequest(context.Request);
 
             WritePageToFile(page, path);
-            context.Response.Redirect(requestBuilder.BuildRequestForTest());
+            context.Response.Redirect(requestBuilder.Build());
+        }
+
+        private static string CreateUrlForPage(string pageFileName, string url)
+        {
+            return string.Format("{0}/{1}/{2}", url, TestsFolder, pageFileName);
         }
 
         private static void CreateTestsDirectory(string pathToTests)

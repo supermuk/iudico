@@ -7,21 +7,21 @@ namespace IUDICO.DataModel.WebControl
 {
     internal class WebTextBox : WebTestControl
     {
-        private string text;
+        private string _text;
 
         public override void Parse([NotNull] XmlNode node)
         {
             base.Parse(node);
             XmlAttribute at = node.Attributes["value"];
-            text = HtmlUtility.QuotesDecode(at != null ? at.Value : node.InnerText);
+            _text = HtmlUtility.QuotesDecode(at != null ? at.Value : node.InnerText);
         }
 
         public override void Store(HtmlTextWriter w)
         {
             base.Store(w);
-            if (!string.IsNullOrEmpty(text))
+            if (!string.IsNullOrEmpty(_text))
             {
-                w.AddAttribute(HtmlTextWriterAttribute.Value, HtmlUtility.QuotesEncode(text));
+                w.AddAttribute(HtmlTextWriterAttribute.Value, HtmlUtility.QuotesEncode(_text));
             }
 
             w.AddAttribute(HtmlTextWriterAttribute.Type, "text");

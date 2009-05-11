@@ -6,7 +6,9 @@ namespace IUDICO.DataModel.Common.ImportUtils
         public const string Html = ".html";
         public const string WordHtmlFolder = ".files";
 
-        public const string IudicoPracticePage = "ipp";
-        public const string IudicoTheoryPage = "itp";
+        public const string NoExtention = "";
+
+        public const string IudicoPracticePage = ".ipp";
+        public const string IudicoTheoryPage = ".itp";
     }
 }

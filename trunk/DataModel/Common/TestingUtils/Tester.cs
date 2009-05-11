@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Web;
-using IUDICO.DataModel.Common.TestingUtils;
+using IUDICO.DataModel.WebTest;
 
-namespace IUDICO.DataModel.WebTest
+namespace IUDICO.DataModel.Common.TestingUtils
 {
     /// <summary>
     /// Summary description for PageTest
@@ -16,7 +16,12 @@ namespace IUDICO.DataModel.WebTest
             _tests.Add(newTest);
         }
 
-        public void Submit()
+        public void TryToSubmit(HttpRequest request)
+        {
+            Submit();
+        }
+
+        private void Submit()
         {
             foreach (Test t in _tests)
                 TestManager.StartTesting(t);
@@ -28,8 +33,8 @@ namespace IUDICO.DataModel.WebTest
             int page = int.Parse(request["PageIndex"]);
             int nextPage = page + 1;
 
-            string pageUrl = string.Format("../Student/OpenTest.aspx?OpenThema={0}&PageIndex={1}&CurriculumnName={2}&StageName={3}&ShiftedPagesIds={4}",
-                theme, nextPage, request["CurriculumnName"], request["StageName"], request["ShiftedPagesIds"]);
+            string pageUrl = string.Format("../Student/OpenTest.aspx?OpenThema={0}&PageIndex={1}&CurriculumnId={2}&StageId={3}&PagesIds={4}",
+                                           theme, nextPage, request["CurriculumnId"], request["StageId"], request["PagesIds"]);
 
             response.Write(string.Format("<script>window.open('{0}','_parent','copyhistory=no');</script>", pageUrl));
         }

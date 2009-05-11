@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using LEX.CONTROLS;
+using LEX.CONTROLS.Expressions;
 
 namespace DBUpdater
 {

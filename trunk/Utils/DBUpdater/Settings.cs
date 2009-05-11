@@ -1,4 +1,6 @@
-﻿namespace DBUpdater.Properties {
+﻿using LEX.CONTROLS;
+
+namespace DBUpdater.Properties {
     
     
     // This class allows you to handle specific events on the settings class:

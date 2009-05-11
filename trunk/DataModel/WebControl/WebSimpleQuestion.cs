@@ -11,40 +11,40 @@ namespace IUDICO.DataModel.WebControl
 {
     internal class WebSimpleQuestion : WebTestControl
     {
-        private readonly List<string> list = new List<string>();
+        private readonly List<string> _list = new List<string>();
 
-        private string question;
-        private bool singleCase;
+        private string _question;
+        private bool _singleCase;
 
         public override void Parse(XmlNode node)
         {
             base.Parse(node);
 
-            singleCase = node.Attributes["name"].Value.EndsWith("single");
-            question = node.SelectSingleNode("p").InnerText;
+            _singleCase = node.Attributes["name"].Value.EndsWith("single");
+            _question = node.SelectSingleNode("p").InnerText;
             XmlNodeList spans = node.SelectNodes("span");
             if (spans != null)
                 foreach (XmlNode s in spans)
                 {
-                    list.Add(s.InnerText);
+                    _list.Add(s.InnerText);
                 }
         }
 
         public override void Store(HtmlTextWriter w)
         {
             base.Store(w);
-            w.AddAttribute(HtmlTextWriterAttribute.Name, singleCase ? "gen:single" : "gen:multy");
+            w.AddAttribute(HtmlTextWriterAttribute.Name, _singleCase ? "gen:single" : "gen:multy");
             w.AddAttribute("runat", "server");
             w.RenderBeginTag(HtmlTextWriterTag.Div);
             w.RenderBeginTag(HtmlTextWriterTag.P);
-            w.Write(HttpUtility.HtmlEncode(question));
+            w.Write(HttpUtility.HtmlEncode(_question));
             w.RenderEndTag();
-            foreach (string text in list)
+            foreach (string text in _list)
             {
                 w.AddAttribute(HtmlTextWriterAttribute.Id, CreateId(Name, text) );
                 w.AddAttribute("GroupName", Name);
                 w.AddAttribute("runat", "server");
-                w.RenderBeginTag(singleCase ? "asp:radiobutton" : "asp:checkbox");
+                w.RenderBeginTag(_singleCase ? "asp:radiobutton" : "asp:checkbox");
                 w.RenderEndTag();
                 w.Write(HtmlUtility.QuotesEncode(text));
                 w.RenderBeginTag(HtmlTextWriterTag.Br);
@@ -55,18 +55,18 @@ namespace IUDICO.DataModel.WebControl
 
         private static string CreateId(string name, string text)
         {
-            return (name + "_" + GetMD5Hash(text));
+            return (name + "_" + GetMd5Hash(text));
         }
 
         public override string CreateCodeForTest(int testId)
         {
             var s = new StringBuilder();
 
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < _list.Count; i++)
             {
-                s.AppendFormat("{0}.Checked", CreateId(Name, list[i]) );
+                s.AppendFormat("{0}.Checked", CreateId(Name, _list[i]) );
 
-                if (i != list.Count - 1)
+                if (i != _list.Count - 1)
                     s.Append(',');
             }
 
@@ -77,18 +77,18 @@ namespace IUDICO.DataModel.WebControl
         {
             var s = new StringBuilder();
 
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < _list.Count; i++)
             {
-                s.AppendFormat("{0}", CreateId(Name, list[i]));
+                s.AppendFormat("{0}", CreateId(Name, _list[i]));
 
-                if (i != list.Count - 1)
+                if (i != _list.Count - 1)
                     s.Append(',');
             }
 
             return string.Format("{0}.SetAnswer(\"{1}\", {2});", answerFillerVaribleName, Name, s);
         }
 
-        public static string GetMD5Hash(string input)
+        public static string GetMd5Hash(string input)
         {
             MD5CryptoServiceProvider x = new MD5CryptoServiceProvider();
 

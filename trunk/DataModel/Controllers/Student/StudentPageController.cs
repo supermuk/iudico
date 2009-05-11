@@ -52,20 +52,19 @@ namespace IUDICO.DataModel.Controllers.Student
 
                 if (selectedNode.Type == NodeType.Theme)
                 {
-                    IList<TblPermissions> permissions = StudentHelper.GetPermissionForNode(_userId, selectedNode, false);
+                 //   IList<TblPermissions> permissions = StudentHelper.GetPermissionForNode(_userId, selectedNode, false);
 
-                    bool showSubmit = StudentHelper.IsDateAllowed(DateTime.Now, permissions);
+                //    bool showSubmit = StudentHelper.IsDateAllowed(DateTime.Now, permissions);
 
                     if (selectedNode.Type == NodeType.Theme)
                         RedirectToController(new OpenTestController
                                                  {
                                                      BackUrl = string.Empty,
                                                      OpenThema = selectedNode.ID,
-                                                     Submit = showSubmit.ToString(),
-                                                     CurriculumnName = selectedNode.Parent.Parent.Text,
-                                                     StageName = selectedNode.Parent.Text,
+                                                     CurriculumnId = ((IdendtityNode)selectedNode.Parent.Parent).ID,
+                                                     StageId = ((IdendtityNode)selectedNode.Parent).ID,
                                                      PageIndex = 0,
-                                                     ShiftedPagesIds = StudentHelper.GetShiftedPagesIds(selectedNode.ID)
+                                                     PagesIds = StudentHelper.GetShiftedPagesIds(selectedNode.ID)
                                                  });
                 }
             }

@@ -1,6 +1,6 @@
 ﻿using System.Web.UI.WebControls;
 using IUDICO.DataModel;
-using IUDICO.DataModel.Controllers;
+using IUDICO.DataModel.Controllers.Student;
 
 public partial class TestDetails : ControlledPage<TestDetailsController>
 {

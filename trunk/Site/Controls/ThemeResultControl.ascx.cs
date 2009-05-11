@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Common.TestingUtils;
-using IUDICO.DataModel.Controllers;
+using IUDICO.DataModel.Common.TestRequestUtils;
 using IUDICO.DataModel.Controllers.Student;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.ImportManagers;
@@ -123,7 +123,7 @@ public partial class ThemeResultControl : UserControl
                                                                                     {
                                                                                         BackUrl = string.Empty,
                                                                                         PageId = pageId,
-                                                                                        AnswerFlag = "correct"
+                                                                                        TestType = (int) TestSessionType.CorrectAnswer
                                                                                     })});
         row.Cells.Add(c);
     }
@@ -136,7 +136,7 @@ public partial class ThemeResultControl : UserControl
                                                                                     {
                                                                                         BackUrl = string.Empty,
                                                                                         PageId = pageId,
-                                                                                        AnswerFlag = "user"
+                                                                                        TestType = (int) TestSessionType.UserAnswer
                                                                                     })});
         row.Cells.Add(c);
     }

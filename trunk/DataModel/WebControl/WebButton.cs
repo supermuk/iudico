@@ -6,19 +6,19 @@ namespace IUDICO.DataModel.WebControl
 {
     internal class WebButton : WebControl
     {
-        private string text;
+        private string _text;
 
         public override void Parse(XmlNode node)
         {
             base.Parse(node);
-            text = HtmlUtility.QuotesDecode(node.Attributes["value"].Value);
+            _text = HtmlUtility.QuotesDecode(node.Attributes["value"].Value);
         }
 
         public override void Store(HtmlTextWriter w)
         {
             base.Store(w);
             w.AddAttribute(HtmlTextWriterAttribute.Type, "button");
-            w.AddAttribute("Text", HtmlUtility.QuotesEncode(text));
+            w.AddAttribute("Text", HtmlUtility.QuotesEncode(_text));
             w.AddAttribute("runat", "server");
             w.AddAttribute(HtmlTextWriterAttribute.Onclick, "onClick");
             w.RenderBeginTag("asp:Button");
