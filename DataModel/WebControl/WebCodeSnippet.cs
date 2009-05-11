@@ -5,12 +5,12 @@ namespace IUDICO.DataModel.WebControl
 {
     internal class WebCodeSnippet : WebControl
     {
-        private string htmlCode;
+        private string _htmlCode;
 
         public override void Parse(XmlNode node)
         {
             base.Parse(node);
-            htmlCode = node.InnerXml;
+            _htmlCode = node.InnerXml;
         }
 
         public override void Store(HtmlTextWriter w)
@@ -19,7 +19,7 @@ namespace IUDICO.DataModel.WebControl
             w.AddAttribute(HtmlTextWriterAttribute.Name, "snippet");
             w.AddStyleAttribute(HtmlTextWriterStyle.Overflow, "auto");
             w.RenderBeginTag(HtmlTextWriterTag.Div);
-            w.Write(htmlCode);
+            w.Write(_htmlCode);
             w.RenderEndTag();
         }
     }

@@ -7,14 +7,14 @@ namespace IUDICO.DataModel.WebControl
 {
     internal class WebComboBox : WebTestControl
     {
-        private readonly List<string> items = new List<string>();
+        private readonly List<string> _items = new List<string>();
 
         public override void Parse([NotNull] XmlNode node)
         {
             base.Parse(node);
             foreach (XmlNode sub in node.ChildNodes)
             {
-                items.Add(sub.InnerText);
+                _items.Add(sub.InnerText);
             }
         }
 
@@ -24,11 +24,11 @@ namespace IUDICO.DataModel.WebControl
             w.AddAttribute("runat", "server");
             w.RenderBeginTag("asp:DropDownList");
 
-            int count = items.Count;
+            int count = _items.Count;
             for (int i = 0; i < count; i++)
             {
                 w.RenderBeginTag("asp:ListItem");
-                w.Write(items[i]);
+                w.Write(_items[i]);
                 w.RenderEndTag();
             }
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.UI;
 using System.Xml;
 using IUDICO.DataModel.Common;
@@ -13,9 +12,9 @@ namespace IUDICO.DataModel.WebControl
 {
     public class WebPage
     {
-        private readonly Dictionary<string, int> answersIndexes = new Dictionary<string, int>();
-        private readonly List<WebControl> controls = new List<WebControl>();
-        private byte[] byteRepresentation;
+        private readonly Dictionary<string, int> _answersIndexes = new Dictionary<string, int>();
+        private readonly List<WebControl> _controls = new List<WebControl>();
+        private byte[] _byteRepresentation;
 
         public WebPage(string pathToPage)
         {
@@ -30,12 +29,12 @@ namespace IUDICO.DataModel.WebControl
 
         public byte[] ByteRepresentation
         {
-            get { return byteRepresentation; }
+            get { return _byteRepresentation; }
         }
 
         public List<WebControl> Controls
         {
-            get { return controls; }
+            get { return _controls; }
         }
 
         private static WebControl GetControlForParse(XmlNode node)
@@ -98,7 +97,7 @@ namespace IUDICO.DataModel.WebControl
                 c.Parse(node);
                 if (c is WebTestControl)
                 {
-                    (c as WebTestControl).AnswerIndex = answersIndexes[c.Name];
+                    (c as WebTestControl).AnswerIndex = _answersIndexes[c.Name];
                 }
 
                 Controls.Add(c);
@@ -116,22 +115,22 @@ namespace IUDICO.DataModel.WebControl
         {
             var sw = new StringWriter(); 
 
-            ConstructPageCode(new HtmlTextWriter(sw), pageName, pageRef);
+            ConstructPageCode(new HtmlTextWriter(sw), pageName);
 
             sw.Close();
 
-            byteRepresentation = StudentHelper.GetEncoding().GetBytes(sw.GetStringBuilder().ToString());
+            _byteRepresentation = StudentHelper.GetEncoding().GetBytes(sw.GetStringBuilder().ToString());
 
-            QuestionManager.Import(pageRef, answerNode, controls, pathToTempCourseFolder);
+            QuestionManager.Import(pageRef, answerNode, _controls, pathToTempCourseFolder);
         }
 
-        private void ConstructPageCode(HtmlTextWriter w, string pageName,int pageId)
+        private void ConstructPageCode(HtmlTextWriter w, string pageName)
         {
             AddScriptHeader(w);
-            WriteHtml(w, pageName, pageId);
+            WriteHtml(w, pageName);
         }
 
-        private void WriteHtml(HtmlTextWriter w, string pageName, int pageId)
+        private void WriteHtml(HtmlTextWriter w, string pageName)
         {
             w.RenderBeginTag(HtmlTextWriterTag.Html);
 
@@ -139,20 +138,20 @@ namespace IUDICO.DataModel.WebControl
 
             WriteHead(w, pageName);
 
-            WriteBody(w, pageId);
+            WriteBody(w);
 
             w.RenderEndTag();
         }
 
-        private void WriteBody(HtmlTextWriter w, int pageId)
+        private void WriteBody(HtmlTextWriter w)
         {
             w.AddAttribute("oncontextmenu", "return false"); //Disable context menu on page
             w.RenderBeginTag(HtmlTextWriterTag.Body);
-            WriteForm(w, pageId);
+            WriteForm(w);
             w.RenderEndTag();
         }
 
-        private void WriteForm(HtmlTextWriter w, int pageId)
+        private void WriteForm(HtmlTextWriter w)
         {
             w.AddAttribute("runat", "server");
             w.AddAttribute("OnLoad", "OnFormLoad");
@@ -160,7 +159,7 @@ namespace IUDICO.DataModel.WebControl
 
             StoreControls(w);
 
-            WriteScript(w, pageId);
+            WriteScript(w);
 
             w.RenderEndTag();
         }
@@ -171,11 +170,11 @@ namespace IUDICO.DataModel.WebControl
                 c.Store(w);
         }
 
-        private void WriteScript(HtmlTextWriter w, int pageId)
+        private void WriteScript(HtmlTextWriter w)
         {
             w.AddAttribute("runat", "server");
             w.RenderBeginTag(HtmlTextWriterTag.Script);
-            w.Write(CreateCodeFile(pageId));
+            w.Write(CreateCodeFile());
             w.RenderEndTag();
         }
 
@@ -221,7 +220,7 @@ namespace IUDICO.DataModel.WebControl
             {
                 try
                 {
-                    answersIndexes.Add(matches[i].Value.Trim(Convert.ToChar("'")), (i));
+                    _answersIndexes.Add(matches[i].Value.Trim(Convert.ToChar("'")), (i));
                 }
                 catch (Exception)
                 {
@@ -236,11 +235,11 @@ namespace IUDICO.DataModel.WebControl
             w.Write("<%@ Page Language=\"C#\" ValidateRequest=\"false\"%>");
         }
 
-        private string CreateCodeFile(int pageId)
+        private string CreateCodeFile()
         {
             var s = new StringBuilder();
-            AddAnswerFiller(s, pageId);
-            CreateOnFormLoadEvent(s, pageId);
+            CodeForAnswerFiller(s);
+            CreateOnFormLoadEvent(s);
             CreateOnClickEvent(s);
             
             return s.ToString();
@@ -260,7 +259,7 @@ namespace IUDICO.DataModel.WebControl
         {
             s.AppendLine("void onClick(object sender, EventArgs e)");
             s.AppendLine("{");
-                s.AppendLine("IUDICO.DataModel.WebTest.Tester tester = new IUDICO.DataModel.WebTest.Tester();");
+                s.AppendLine("var tester = new IUDICO.DataModel.Common.TestingUtils.Tester();");
                 foreach (WebControl t in Controls)
                 {
                     if (t is WebTestControl)
@@ -271,41 +270,76 @@ namespace IUDICO.DataModel.WebControl
 
                 }
                 s.AppendLine();
-                s.AppendLine("tester.Submit();");
+                s.AppendLine("tester.TryToSubmit(Request);");
                 s.AppendLine("tester.NextTestPage(Response, Request);");
             s.AppendLine("}");
         }
 
-        private void CreateOnFormLoadEvent(StringBuilder s, int pageId)
+        private void CreateOnFormLoadEvent(StringBuilder s)
         {
             s.AppendLine("protected void OnFormLoad(object sender, EventArgs e)");
             s.AppendLine("{");
-                    foreach (var t in Controls)
-                    {
-                        if (t is WebButton)
-                        {
-                            s.AppendFormat("{0}.Enabled = IUDICO.DataModel.WebControl.TestPageHelper.IsSubmitEnabled(Request, {1});", t.Name, pageId);
-                            s.AppendLine();
-                        }
-                    }
+            
+            CodeForUnitTesting(s);
+            CodeForFillingAnswers(s);
+            CodetForCheckingIsSubmitEnabled(s);
 
-                    s.AppendLine("if (IUDICO.DataModel.WebControl.TestPageHelper.IsWriteAnswers(Request))");
-                    s.AppendLine("{");
-                        s.AppendLine("WriteAnswers();");
-                    s.AppendLine("}");
             s.AppendLine("}");
         }
 
-        private void AddAnswerFiller(StringBuilder s, int pageId)
+        private void CodeForFillingAnswers(StringBuilder s)
         {
-            s.AppendLine("void WriteAnswers()");
+            s.AppendLine("if (IUDICO.DataModel.Common.TestRequestUtils.RequestConditionChecker.DoFillAnswers(Request))");
+            s.AppendLine("{");
+            s.AppendLine("FillAnswers();");
+            CodeForDisableSubmit(s);
+            s.AppendLine("return;");
+            s.AppendLine("}");
+        }
+
+        private void CodeForUnitTesting(StringBuilder s)
+        {
+            s.AppendLine("if (IUDICO.DataModel.Common.TestRequestUtils.RequestConditionChecker.IsForUnitTesting(Request))");
+            s.AppendLine("{");
+            CodeForDisableSubmit(s);
+            s.AppendLine("return;");
+            s.AppendLine("}");
+        }
+
+        private void CodetForCheckingIsSubmitEnabled(StringBuilder s)
+        {
+            foreach (var t in Controls)
+            {
+                if (t is WebButton)
+                {
+                    s.AppendFormat("{0}.Enabled = IUDICO.DataModel.Common.TestRequestUtils.RequestConditionChecker.IsSubmitEnabled(Request);", t.Name);
+                    s.AppendLine();
+                }
+            }
+        }
+
+        private void CodeForDisableSubmit(StringBuilder s)
+        {
+            foreach (var t in Controls)
+            {
+                if (t is WebButton)
+                {
+                    s.AppendFormat("{0}.Enabled = false;", t.Name);
+                    s.AppendLine();
+                }
+            }
+        }
+
+        private void CodeForAnswerFiller(StringBuilder s)
+        {
+            s.AppendLine("void FillAnswers()");
             s.AppendLine("{");
 
             const string answerFillerVaribleName = "answerFiller";
 
-            s.AppendFormat("IUDICO.DataModel.WebControl.AnswerFiller {0} = new IUDICO.DataModel.WebControl.AnswerFiller({1}, Request);", answerFillerVaribleName, pageId);
+            s.AppendFormat("var {0} = new IUDICO.DataModel.Common.TestingUtils.AnswerFiller(Request);", answerFillerVaribleName);
             s.AppendLine();
-            foreach (var control in controls)
+            foreach (var control in _controls)
             {
                 if(control is WebTestControl)
                     s.AppendLine((control as WebTestControl).CreateAnswerFillerCode(answerFillerVaribleName));
@@ -313,21 +347,4 @@ namespace IUDICO.DataModel.WebControl
             s.AppendLine("}");
         }
     }
-
-    public class TestPageHelper
-    {
-        public static bool IsWriteAnswers(HttpRequest request)
-        {
-            return !(request["answers"]).ToLower().Equals("false");
-        }
-
-        public static bool IsSubmitEnabled(HttpRequest request, int pageId)
-        {
-            if((request["submit"]).ToLower().Equals("false"))
-                return false;
-            
-            return StudentHelper.IsUserCanSubmit(pageId);
-        }
-    }
-
 }

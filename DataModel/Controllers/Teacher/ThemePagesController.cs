@@ -1,5 +1,7 @@
-﻿using System;
+using System;
 using System.Web.UI.WebControls;
+using IUDICO.DataModel.Common.TestRequestUtils;
+using IUDICO.DataModel.Controllers.Student;
 using IUDICO.DataModel.DB;
 using LEX.CONTROLS;
 using LEX.CONTROLS.Expressions;
@@ -36,7 +38,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
                                                                                     {
                                                                                         BackUrl = string.Empty,
                                                                                         PageId = page.ID,
-                                                                                        AnswerFlag = "correct"
+                                                                                        TestType = (int)TestSessionType.CorrectAnswer
                                                                                     })});
                 row.Cells.AddRange(new[] { number, name, rank, correctAnswers});
 

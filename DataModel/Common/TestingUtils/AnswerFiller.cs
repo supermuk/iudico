@@ -1,32 +1,48 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.UI.WebControls;
-using IUDICO.DataModel.Common.TestingUtils;
+using IUDICO.DataModel.Common.TestRequestUtils;
 using IUDICO.DataModel.DB;
 
-namespace IUDICO.DataModel.WebControl
+namespace IUDICO.DataModel.Common.TestingUtils
 {
     public class AnswerFiller
     {
         private readonly IList<TblQuestions> _questions;
 
-        private readonly bool _showLatestAnswer;
+        private readonly bool _fillUserAnswer;
 
-        public AnswerFiller(int pageId, HttpRequest request)
+        private readonly bool _fillCorrectAnswer;
+
+        public AnswerFiller(HttpRequest request)
         {
-            var page = ServerModel.DB.Load<TblPages>(pageId);
+            var page = ServerModel.DB.Load<TblPages>(TestRequestParser.GetPageId(request));
+
             _questions = ServerModel.DB.Load<TblQuestions>(ServerModel.DB.LookupIds<TblQuestions>(page, null));
-            _showLatestAnswer = (request["answers"] == "user");
+
+            _fillUserAnswer = RequestConditionChecker.DoFillUserAnswers(request);
+
+            _fillCorrectAnswer = RequestConditionChecker.DoFillCorrectAnswers(request);
         }
 
         private string GetAnswerForQuestion(string name)
         {
             var q = FindQuestion(name);
 
-            if (_showLatestAnswer)
-                if (ServerModel.User.Current != null) return FindAnswer(ServerModel.User.Current.ID, q);
+            if (_fillUserAnswer && _fillCorrectAnswer)
+                throw new Exception("Someone try to cheat");
 
-            return q.CorrectAnswer;
+
+            if (_fillUserAnswer)
+                if (ServerModel.User.Current != null)
+                    return FindAnswer(ServerModel.User.Current.ID, q);
+
+
+            if (_fillCorrectAnswer)
+                return q.CorrectAnswer;
+
+            return string.Empty;
         }
 
         private TblQuestions FindQuestion(string name)

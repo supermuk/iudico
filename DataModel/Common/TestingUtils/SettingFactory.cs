@@ -5,7 +5,6 @@ using IUDICO.DataModel.DB;
 using IUDICO.DataModel.ImportManagers;
 using TestingSystem;
 using TestingSystem.Compile;
-using CompilationTester = TestingSystem.Tester;
 
 namespace IUDICO.DataModel.Common.TestingUtils
 {
@@ -39,9 +38,9 @@ namespace IUDICO.DataModel.Common.TestingUtils
             return settings;
         }
 
-        public static Tester CreateTester()
+        public static CompilationTester CreateTester()
         {
-            return new Tester(GetSettings());
+            return new CompilationTester(GetSettings());
         }
 
         public static Program CreateProgram(TblUserAnswers ua, TblCompiledQuestions cq)
