@@ -19,6 +19,7 @@ public partial class CourseEdit : ControlledPage<CourseEditController>
         Bind(Button_DeleteCourse, c.DeleteButton_Click);
         Bind(Button_CourseBehaviour, c.CourseBehaviourButton_Click);
         BindEnabled(Button_DeleteCourse, c.DeleteButtonEnabled);
+        BindEnabled(Button_CourseBehaviour, c.DeleteButtonEnabled);
 
         c.CourseUpload = FileUpload_Course;
         c.CourseTree = TreeView_Courses;

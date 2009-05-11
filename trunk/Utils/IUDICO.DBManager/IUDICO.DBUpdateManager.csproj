@@ -31,7 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LEX.CONTROLS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=44ea94c3b070248a, processorArchitecture=MSIL" />
+    <Reference Include="LEX.CONTROLS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=44ea94c3b070248a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\LEX.CONTROLS.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>

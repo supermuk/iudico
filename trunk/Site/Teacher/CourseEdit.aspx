@@ -75,10 +75,19 @@
                     </tr>
                 </table>
             </td>
-            <td valign="top">
-                <asp:Button ID="Button_DeleteCourse" runat="server" Text="Delete" />
-                <br />
-                <asp:Button ID="Button_CourseBehaviour" runat="server" Text="Course Behaviour" />
+            <td valign="top" align="center">
+                <table>
+                    <tr>
+                        <td>
+                            <asp:Button ID="Button_DeleteCourse" runat="server" Text="Delete" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:Button ID="Button_CourseBehaviour" runat="server" Text="Course Behaviour" />
+                        </td>
+                    </tr>
+                </table>
             </td>
         </tr>
     </table>

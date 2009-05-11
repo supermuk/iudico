@@ -15,7 +15,14 @@ namespace TestingSystem
                 Assembly assembly = Assembly.LoadFile(input);
                 //get entry point
                 MethodInfo entryPoint = assembly.EntryPoint;
-                ParameterInfo[] parameters = entryPoint.GetParameters();
+                ParameterInfo[] parametersInfo = entryPoint.GetParameters();
+
+                object[] parameters = new object[parametersInfo.Length];
+                //setting default values for args.
+                for (int i = 0; i < parametersInfo.Length; i++)
+                {
+                    parameters[i] = parametersInfo[i].ParameterType.IsPrimitive ? Activator.CreateInstance(parametersInfo[i].ParameterType) : null;
+                }
                 //invoke exe file
                 entryPoint.Invoke(null, parameters);
 
