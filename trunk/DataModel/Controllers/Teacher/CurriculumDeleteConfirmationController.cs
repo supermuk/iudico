@@ -120,8 +120,8 @@ namespace IUDICO.DataModel.Controllers
         {
             //remove permissions
             ServerModel.DB.UnLink(theme, parentStage);
-            ServerModel.DB.Delete<TblPermissions>(TeacherHelper.AllPermissionsForTheme(theme));
-            ServerModel.DB.Delete<TblThemes>(theme.ID);
+            //ServerModel.DB.Delete<TblPermissions>(TeacherHelper.AllPermissionsForTheme(theme));
+            //ServerModel.DB.Delete<TblThemes>(theme.ID);
         }
 
         private void deleteStage(TblStages stage)

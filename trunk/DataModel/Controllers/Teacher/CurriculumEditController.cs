@@ -30,6 +30,7 @@ namespace IUDICO.DataModel.Controllers
 
         //"magic words"
         private const string pageCaption = "Curriculum management.";
+        private const string noName = "Please enter the name.";
         private const string pageDescription = "This is curriculum edit page page. Create/Edit/Delete your curriculum here.";
         private const string noCourses = "You have no courses, upload some first.";
         private const string noThemesSelected = "Select some themes to add.";
@@ -118,6 +119,11 @@ namespace IUDICO.DataModel.Controllers
 
         public void CreateCurriculumButton_Click()
         {
+            if (ObjectName.Value.Equals(string.Empty))
+            {
+                Message.Value = noName;
+                return;
+            }
             //create new curriculum
             TblCurriculums curriculum = new TblCurriculums();
             curriculum.Name = ObjectName.Value;
