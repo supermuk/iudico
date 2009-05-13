@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Web;
-using IUDICO.DataModel.Common;
 using IUDICO.DataModel.Common.ImportUtils;
+using IUDICO.DataModel.Common.StudentUtils;
 using IUDICO.DataModel.Common.TestRequestUtils;
 using IUDICO.DataModel.DB;
 
@@ -25,7 +25,7 @@ namespace IUDICO.DataModel.HttpHandlers
             string url = GetUrl(context);
 
             var requestBuilder =
-                RequestBuilder.NewRequest(CreateUrlForPage(pageFileName, url), page.ID)
+                TestRequestBuilder.NewRequestForPage(CreateUrlForPage(pageFileName, url), page.ID)
                 .ExtractParametersFromExistedRequest(context.Request);
 
             WritePageToFile(page, path);
@@ -58,7 +58,7 @@ namespace IUDICO.DataModel.HttpHandlers
 
         private static void WritePageToFile(TblPages page, string path)
         {
-            var aspxPageText = StudentHelper.GetEncoding().GetString(page.PageFile.ToArray());
+            var aspxPageText = StudentEncoding.GetEncoding().GetString(page.PageFile.ToArray());
             
             File.WriteAllText(path, ChangeImageUrl(aspxPageText, page));
         }

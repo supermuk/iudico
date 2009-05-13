@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using IUDICO.DataModel.Common.ImportUtils;
 using IUDICO.DataModel.Common.TestRequestUtils;
 using IUDICO.DataModel.DB;
 using LEX.CONTROLS;
@@ -30,6 +31,9 @@ namespace IUDICO.DataModel.Controllers.Student
 
         [ControllerParameter]
         public int PageId;
+
+        [ControllerParameter]
+        public int UserId;
 
 
         public void PageLoad(object sender, EventArgs e)
@@ -68,7 +72,8 @@ namespace IUDICO.DataModel.Controllers.Student
 
         private void SetUrl()
         {
-            _iframe.Attributes["src"] = RequestBuilder.NewRequestForHandler(PageId).AddTestSessionType((TestSessionType) TestType).Build();
+            _iframe.Attributes["src"] = TestRequestBuilder.NewRequestForHandler(PageId, FileExtentions.IudicoPracticePage)
+                .AddTestSessionType((TestSessionType)TestType).AddUserId(UserId).Build();
         }
 
         private static int GetMaxRank(IList<TblQuestions> questions)
