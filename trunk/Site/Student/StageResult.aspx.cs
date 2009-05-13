@@ -8,7 +8,7 @@ public partial class StageResult : ControlledPage<StageResultController>
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Controller.StageId != 0)
+        if (Controller.StageId != 0 && Controller.UserId != 0)
         {
             _headerLabel.Text = "Statistic for Stage";
 
@@ -22,6 +22,7 @@ public partial class StageResult : ControlledPage<StageResultController>
             {
                 var t = (ThemeResultControl)LoadControl("../Controls/ThemeResultControl.ascx");
                 t.ThemeId = i;
+                t.UserId = Controller.UserId;
                 t.StageName = stage.Name;
                 t.CurriculumnName = Controller.CurriculumnName;
 

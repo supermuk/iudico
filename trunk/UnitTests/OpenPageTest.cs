@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Common.ImportUtils;
+using IUDICO.DataModel.Common.TestRequestUtils;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.ImportManagers;
 using IUDICO.UnitTest.Base;
@@ -16,9 +18,21 @@ namespace IUDICO.UnitTest
         {
             //using (var c = new DataObjectCleaner())
             {
-                int courseId = ImportTestCourse(@"D:\Iudico\Courses\C++.zip");
+                int courseId = ImportTestCourse(@"D:\Iudico\Courses\C++Course [21 questions].zip");
 
                 var pagesIds = GetPagesIds(courseId);
+
+                var pages = ServerModel.DB.Load<TblPages>(pagesIds); 
+
+                foreach (var p in pages)
+                {
+                    string extension = (p.PageTypeRef == (int)FX_PAGETYPE.Practice)
+                        ? FileExtentions.IudicoPracticePage
+                        : FileExtentions.IudicoTheoryPage;
+
+                    var url = TestRequestBuilder.NewRequestForHandler(p.ID, extension).AddTestSessionType(TestSessionType.UnitTesting).Build();
+                    Console.WriteLine(url); 
+                }
             }
         }
 

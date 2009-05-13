@@ -16,6 +16,7 @@ public partial class StudentPage : ControlledPage<StudentPageController>
         Load += c.PageLoad;
 
         c.ChangeModeButton = _modeChangerButton;
+        c.RebuildTreeButton = _rebuildTreeButton;
         c.CurriculumnTreeView = _curriculumTreeView;
         c.LastPagesResultTable = _lastPagesResultTable;
         c.CurriculumnCalendar = _curriculumCalendar;

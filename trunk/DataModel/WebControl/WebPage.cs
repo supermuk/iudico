@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.UI;
 using System.Xml;
-using IUDICO.DataModel.Common;
+using IUDICO.DataModel.Common.StudentUtils;
 using IUDICO.DataModel.ImportManagers;
 
 namespace IUDICO.DataModel.WebControl
@@ -19,7 +19,7 @@ namespace IUDICO.DataModel.WebControl
         public WebPage(string pathToPage)
         {
             var doc = new XmlDocument();
-            doc.LoadXml(File.ReadAllText(pathToPage, StudentHelper.GetEncoding()));
+            doc.LoadXml(File.ReadAllText(pathToPage, StudentEncoding.GetEncoding()));
             if (doc.DocumentElement != null)
             {
                 SetAnswerIndexes(doc.DocumentElement);
@@ -119,7 +119,7 @@ namespace IUDICO.DataModel.WebControl
 
             sw.Close();
 
-            _byteRepresentation = StudentHelper.GetEncoding().GetBytes(sw.GetStringBuilder().ToString());
+            _byteRepresentation = StudentEncoding.GetEncoding().GetBytes(sw.GetStringBuilder().ToString());
 
             QuestionManager.Import(pageRef, answerNode, _controls, pathToTempCourseFolder);
         }

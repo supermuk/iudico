@@ -8,7 +8,7 @@ public partial class CurriculumnResult : ControlledPage<CurriculumnResultControl
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Controller.CurriculumnId != 0)
+        if (Controller.CurriculumnId != 0 && Controller.UserId != 0)
         {
             _headerLabel.Text = "Statistic for Curriculumn";
 
@@ -26,6 +26,7 @@ public partial class CurriculumnResult : ControlledPage<CurriculumnResultControl
                 {
                     var t = (ThemeResultControl) LoadControl("../Controls/ThemeResultControl.ascx");
                     t.ThemeId = i;
+                    t.UserId = Controller.UserId;
                     t.StageName = stage.Name;
                     t.CurriculumnName = curriculumn.Name;
 

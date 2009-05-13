@@ -11,17 +11,7 @@ using TestingSystem;
 /// </summary>
 public partial class CompiledQuestionResult : UserControl
 {
-
-    public TblQuestions Question
-    {
-        set
-        {
-            BuildCompiledQuestionsResult(value);
-        }
-        
-    }
-
-    private void BuildCompiledQuestionsResult(TblQuestions q)
+    public void BuildCompiledQuestionsResult(TblQuestions q, int userId)
     {
         var compiledQuestion = ServerModel.DB.Load<TblCompiledQuestions>((int) q.CompiledQuestionRef);
         var userAnswers = ServerModel.DB.Load<TblUserAnswers>(ServerModel.DB.LookupIds<TblUserAnswers>(q, null));
@@ -29,8 +19,6 @@ public partial class CompiledQuestionResult : UserControl
         var answersForCurrentUser = new List<TblUserAnswers>();
         if (ServerModel.User.Current != null)
         {
-            int userId = ServerModel.User.Current.ID;
-
             foreach (var uAns in userAnswers)
             {
                 if (uAns.UserRef == userId)
@@ -49,9 +37,9 @@ public partial class CompiledQuestionResult : UserControl
 
     private void SetNoResultStatus(TblQuestions q)
     {
-        compiledAnswerTable.Visible = false;
-        statusLabel.Visible = true;
-        statusLabel.Text = string.Format("You not compile {0} yet", q.TestName);
+        _compiledAnswerTable.Visible = false;
+        _statusLabel.Visible = true;
+        _statusLabel.Text = string.Format("You not compile {0} yet", q.TestName);
     }
 
     private void SetResults(IList<TblUserAnswers> userAnswers)
@@ -69,7 +57,7 @@ public partial class CompiledQuestionResult : UserControl
 
     private void SetHeader(string name, TblCompiledQuestions ua)
     {
-        headerLabel.Text = string.Format("Name:{0}; Time Limit:{1}; Memory Limit:{2}; Language:{3};",
+        _headerLabel.Text = string.Format("Name:{0}; Time Limit:{1}; Memory Limit:{2}; Language:{3};",
         name, ua.TimeLimit, ua.MemoryLimit, ((FX_LANGUAGE) ua.LanguageRef));
     }
 
@@ -92,7 +80,7 @@ public partial class CompiledQuestionResult : UserControl
         tableRow.Cells.AddRange(new[]{inputCell, expectedOutputCell, userOutputCell, timeUsedCell, memoryUsedCell, statusCell});
 
 
-        compiledAnswerTable.Rows.Add(tableRow);
+        _compiledAnswerTable.Rows.Add(tableRow);
     }
 
     private static TblUserAnswers FindLatestUserAnswer(IList<TblUserAnswers> userAnswers)

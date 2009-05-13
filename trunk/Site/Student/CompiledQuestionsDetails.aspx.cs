@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel;
+using IUDICO.DataModel.Common.StudentUtils;
 using IUDICO.DataModel.Controllers.Student;
 using IUDICO.DataModel.DB;
 
@@ -28,7 +29,7 @@ public partial class CompiledQuestionsDetails : ControlledPage<CompiledQuestions
     {
         if (Controller.PageId != 0)
         {
-            BuildStatistic(Controller.PageId);
+            BuildStatistic(Controller.PageId, Controller.UserId);
         }
         else
         {
@@ -36,10 +37,10 @@ public partial class CompiledQuestionsDetails : ControlledPage<CompiledQuestions
         }
     }
     
-    private void BuildStatistic(int pageId)
+    private void BuildStatistic(int pageId, int userId)
     {
         var page = ServerModel.DB.Load<TblPages>(pageId);
-        var questions = ServerModel.DB.Load<TblQuestions>(ServerModel.DB.LookupIds<TblQuestions>(page, null));
+        var questions = StudentRecordFinder.GetQuestionsForPage(pageId);
 
         foreach (var question in questions)
         {
@@ -47,9 +48,11 @@ public partial class CompiledQuestionsDetails : ControlledPage<CompiledQuestions
             {
                 _headerLabel.Text = string.Format("Compilation Details For Question From Page:{0}", page.PageName);
                 var cqr = (CompiledQuestionResult)LoadControl("../Controls/CompiledQuestionResult.ascx");
-                cqr.Question = question;
+                cqr.BuildCompiledQuestionsResult(question, userId);
                 _placeHolder.Controls.Add(cqr);
             }
         }
     }
+
+
 }

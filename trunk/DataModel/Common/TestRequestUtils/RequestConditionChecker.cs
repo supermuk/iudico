@@ -1,4 +1,6 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
+using IUDICO.DataModel.Common.StudentUtils;
 
 namespace IUDICO.DataModel.Common.TestRequestUtils
 {
@@ -27,8 +29,15 @@ namespace IUDICO.DataModel.Common.TestRequestUtils
         public static bool IsSubmitEnabled(HttpRequest request)
         {
             int pageId = TestRequestParser.GetPageId(request);
+            
+            if (ServerModel.User.Current != null)
+            {
+                int userId = ServerModel.User.Current.ID;
 
-            return StudentHelper.IsUserCanSubmit(pageId);
+                return UserSubmitCountChecker.IsUserCanSubmitOnPage(userId, pageId)
+                    && StudentPermissionsHelper.IsDateAllowed(DateTime.Now, userId, TestRequestParser.GetStageId((request)), NodeType.Stage, OperationType.Pass);
+            }
+            return false;
         }
     }
 }
