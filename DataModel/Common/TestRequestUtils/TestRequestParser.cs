@@ -54,5 +54,21 @@ namespace IUDICO.DataModel.Common.TestRequestUtils
 
             return (TestSessionType)type;
         }
+
+        public static string GetTestPagesIds(HttpRequest request)
+        {
+            if (request["PagesIds"] == null)
+                throw new Exception("Wrong Request. No PagesIds");
+
+            return request["PagesIds"];
+        }
+
+        public static int GetUserId(HttpRequest request)
+        {
+            if (request["UserId"] == null)
+                throw new Exception("Wrong Request. No UserId");
+
+            return Convert.ToInt32(request["UserId"]);
+        }
     }
 }

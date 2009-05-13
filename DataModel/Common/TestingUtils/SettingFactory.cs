@@ -13,10 +13,12 @@ namespace IUDICO.DataModel.Common.TestingUtils
         private const string DotNetPath = @"Compilers\dotNET\csc.exe";
         private const string DelphiPath = @"Compilers\Delphi7\Dcc32.exe";
         private const string Vc6Path = @"Compilers\VC6\CL.EXE";
+        private const string Vc8Path = @"Compilers\VC8\CL.EXE";
 
-        private const string DotNetLanguage = "CS dotNET 2.0";
+        private const string DotNetLanguage = "CS dotNET 3.5";
         private const string DelphiLanguage = "Dcc32";
         private const string Vc6Language = "VC6";
+        private const string Vc8Language = "VC8";
 
 
         private static Settings GetSettings()
@@ -31,9 +33,34 @@ namespace IUDICO.DataModel.Common.TestingUtils
                                    Password = ""
                                };
 
-            string reference = "/reference:";
-            List<string> referenceList = new List<string>() { "System.Core.dll", "System.Xml.Linq.dll", 
-                 "System.WorkflowServices.dll", "System.Net.dll","System.Data.Linq.dll","System.Data.Entity.dll","System.AddIn.dll" };
+            AddDotNetCompilersToSettings(settings, baseDirectory);
+            AddDelphiCompilersToSettings(settings, baseDirectory);
+            AddVc6CompilersToSettings(settings, baseDirectory);
+            AddVc8CompilersToSettings(settings, baseDirectory);
+            return settings;
+        }
+
+        private static void AddVc8CompilersToSettings(Settings settings, string baseDirectory)
+        {
+            settings.Compilers.Add(new Compiler(Vc8Language, Path.Combine(baseDirectory, Vc8Path), "/I\"$CompilerDirectory$\" $SourceFilePath$ /link /LIBPATH:\"$CompilerDirectory$\"", "cpp"));
+        }
+
+        private static void AddVc6CompilersToSettings(Settings settings, string baseDirectory)
+        {
+            settings.Compilers.Add(new Compiler(Vc6Language, Path.Combine(baseDirectory, Vc6Path), "/I\"$CompilerDirectory$\" $SourceFilePath$ /link /LIBPATH:\"$CompilerDirectory$\"", "cpp"));
+        }
+
+        private static void AddDelphiCompilersToSettings(Settings settings, string baseDirectory)
+        {
+            settings.Compilers.Add(new Compiler(DelphiLanguage, Path.Combine(baseDirectory, DelphiPath), "-U\"$CompilerDirectory$\" $SourceFilePath$", "pas"));
+        }
+
+        private static void AddDotNetCompilersToSettings(Settings settings, string baseDirectory)
+        {
+            const string reference = "/reference:";
+            var referenceList = new List<string>
+                                    { "System.Core.dll", "System.Xml.Linq.dll", 
+                                                     "System.WorkflowServices.dll", "System.Net.dll","System.Data.Linq.dll","System.Data.Entity.dll","System.AddIn.dll" };
             string allReferences = "";
             foreach (string systemReference in referenceList)
             {
@@ -41,10 +68,6 @@ namespace IUDICO.DataModel.Common.TestingUtils
             }
 
             settings.Compilers.Add(new Compiler(DotNetLanguage, Path.Combine(baseDirectory, DotNetPath), @"/t:exe " + allReferences + "$SourceFilePath$", "cs"));
-            settings.Compilers.Add(new Compiler(DelphiLanguage, Path.Combine(baseDirectory, DelphiPath), "-U\"$CompilerDirectory$\" $SourceFilePath$", "pas"));
-            settings.Compilers.Add(new Compiler(Vc6Language, Path.Combine(baseDirectory, Vc6Path), "/I\"$CompilerDirectory$\" $SourceFilePath$ /link /LIBPATH:\"$CompilerDirectory$\"", "cpp"));
-
-            return settings;
         }
 
         public static CompilationTester CreateTester()
@@ -69,7 +92,7 @@ namespace IUDICO.DataModel.Common.TestingUtils
             {
                 case (FX_LANGUAGE.Cpp):
                     {
-                        return Vc6Language;
+                        return Vc8Language;
                     }
                 case (FX_LANGUAGE.Delphi):
                     {

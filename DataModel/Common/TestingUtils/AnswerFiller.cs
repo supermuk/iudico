@@ -15,6 +15,8 @@ namespace IUDICO.DataModel.Common.TestingUtils
 
         private readonly bool _fillCorrectAnswer;
 
+        private readonly int _userId;
+
         public AnswerFiller(HttpRequest request)
         {
             var page = ServerModel.DB.Load<TblPages>(TestRequestParser.GetPageId(request));
@@ -24,6 +26,8 @@ namespace IUDICO.DataModel.Common.TestingUtils
             _fillUserAnswer = RequestConditionChecker.DoFillUserAnswers(request);
 
             _fillCorrectAnswer = RequestConditionChecker.DoFillCorrectAnswers(request);
+
+            _userId = TestRequestParser.GetUserId(request);
         }
 
         private string GetAnswerForQuestion(string name)
@@ -35,12 +39,22 @@ namespace IUDICO.DataModel.Common.TestingUtils
 
 
             if (_fillUserAnswer)
-                if (ServerModel.User.Current != null)
-                    return FindAnswer(ServerModel.User.Current.ID, q);
+                return FindAnswer(_userId, q);
 
 
             if (_fillCorrectAnswer)
-                return q.CorrectAnswer;
+            {
+                if (ServerModel.User.Current != null)
+                    if (ServerModel.User.Current.Roles != null)
+                    {
+                        var currentUserRoles = ServerModel.User.Current.Roles;
+
+                        if (currentUserRoles.Contains(FX_ROLE.ADMIN.ToString()) ||
+                                currentUserRoles.Contains(FX_ROLE.LECTOR.ToString()) ||
+                                    currentUserRoles.Contains(FX_ROLE.SUPER_ADMIN.ToString()))
+                            return q.CorrectAnswer;
+                    }
+            }
 
             return string.Empty;
         }

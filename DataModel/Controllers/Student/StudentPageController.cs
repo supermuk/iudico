@@ -4,9 +4,9 @@ using System.Drawing;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel.Common;
+using IUDICO.DataModel.Common.StudentUtils;
 using IUDICO.DataModel.Common.TestingUtils;
 using IUDICO.DataModel.DB;
-using IUDICO.DataModel.Security;
 using LEX.CONTROLS;
 using LEX.CONTROLS.Expressions;
 
@@ -17,10 +17,21 @@ namespace IUDICO.DataModel.Controllers.Student
         private const int CountHowManyPagesToShow = 5;
 
         private int _userId;
-
-        [PersistantField] private bool _isControlNow;
         
-        [PersistantField] private bool _isViewMode = true;
+        [PersistantField] private bool _isViewOperations = true;
+
+        [PersistantField] private bool _isControlInProgress;
+
+        public OperationType GetOperationType
+        {
+            get
+            {
+                if (_isViewOperations)
+                    return OperationType.View;
+
+                return OperationType.Pass;
+            }
+        }
 
         public readonly IVariable<string> Description = string.Empty.AsVariable();
 
@@ -37,6 +48,8 @@ namespace IUDICO.DataModel.Controllers.Student
 
         public Button OpenTestButton { get; set; }
 
+        public Button RebuildTreeButton { get; set; }
+
         public Calendar CurriculumnCalendar { get; set; }
 
         public ListBox PeriodDescription;
@@ -52,19 +65,16 @@ namespace IUDICO.DataModel.Controllers.Student
 
                 if (selectedNode.Type == NodeType.Theme)
                 {
-                 //   IList<TblPermissions> permissions = StudentHelper.GetPermissionForNode(_userId, selectedNode, false);
+                        var shifter = new PageShifter(selectedNode.ID);
 
-                //    bool showSubmit = StudentHelper.IsDateAllowed(DateTime.Now, permissions);
-
-                    if (selectedNode.Type == NodeType.Theme)
                         RedirectToController(new OpenTestController
                                                  {
                                                      BackUrl = string.Empty,
                                                      OpenThema = selectedNode.ID,
-                                                     CurriculumnId = ((IdendtityNode)selectedNode.Parent.Parent).ID,
-                                                     StageId = ((IdendtityNode)selectedNode.Parent).ID,
+                                                     CurriculumnId = ((IdendtityNode) selectedNode.Parent.Parent).ID,
+                                                     StageId = ((IdendtityNode) selectedNode.Parent).ID,
                                                      PageIndex = 0,
-                                                     PagesIds = StudentHelper.GetShiftedPagesIds(selectedNode.ID)
+                                                     PagesIds = shifter.GetRequestParameter()
                                                  });
                 }
             }
@@ -82,7 +92,8 @@ namespace IUDICO.DataModel.Controllers.Student
                                                  BackUrl = string.Empty,
                                                  ThemeId = selectedNode.ID,
                                                  CurriculumnName = selectedNode.Parent.Parent.Text,
-                                                 StageName = selectedNode.Parent.Text
+                                                 StageName = selectedNode.Parent.Text,
+                                                 UserId = _userId
                                              });
 
                 if (selectedNode.Type == NodeType.Stage)
@@ -91,13 +102,15 @@ namespace IUDICO.DataModel.Controllers.Student
                                                  BackUrl = string.Empty,
                                                  StageId = selectedNode.ID,
                                                  CurriculumnName = selectedNode.Parent.Text,
+                                                 UserId = _userId
                                              });
 
                 if (selectedNode.Type == NodeType.Curriculum)
                     RedirectToController(new CurriculumnResultController
                                              {
                                                  BackUrl = string.Empty,
-                                                 CurriculumnId = selectedNode.ID
+                                                 CurriculumnId = selectedNode.ID,
+                                                 UserId = _userId
                                              });
             }
         }
@@ -105,69 +118,59 @@ namespace IUDICO.DataModel.Controllers.Student
         public void PageLoad(object sender, EventArgs e)
         {
             if (ServerModel.User.Current != null)
+            {
                 _userId = ServerModel.User.Current.ID;
-
-            SetCalendarColor();
-
-            if (!((Page) sender).IsPostBack)
-                BuildTree(null);
-
-            BuildLatestResultTable();
-
-            if (ServerModel.User.Current != null)
                 UserName.Value = ServerModel.User.Current.UserName;
 
-            if (_isControlNow)
-            {
-                CurriculumnCalendar.Enabled = false;
-                ShowDescriptionForControl();
-            }
-            else
-            {
-                ShowCommonDescription();
+                if (!((Page)sender).IsPostBack)
+                {
+                    ShowCommonDescription();
+                    var controlInfo = BuildTree(null);
+
+                    if (controlInfo.IsControlStartsNow)
+                    {
+                        DoPreControlPreparation();
+                        BuildTreeForControl(controlInfo);
+                        SelectDatesPeriods(controlInfo.DatePeriods);
+                        _isControlInProgress = true;
+                    }
+                }
+                BuildLatestResultTable();
             }
         }
 
         public void ModeButtonClick(object sender, EventArgs e)
         {
-            if (!_isControlNow)
-            {
-                ChangeModeButton.Text = _isViewMode ? "Show View Dates" : "Show Pass Dates";
+                ChangeModeButton.Text = string.Format("Show {0} Dates", GetOperationType);
 
-                _isViewMode = !_isViewMode;
+                _isViewOperations = !_isViewOperations;
+
                 SelectDatesForSelectedNode();
 
                 if (CurriculumnTreeView.SelectedNode == null)
                     ShowDescriptionForDataSelection();
                 else
                     ShowDescriptionForNodeSelection();
-            }
         }
 
         public void RebuildTreeButtonClick(object sender, EventArgs e)
         {
-            if (!_isControlNow)
-            {
-                BuildTree(null);
-                CurriculumnCalendar.SelectedDates.Clear();
-                PeriodDescription.Items.Clear();
-            }
+            BuildTree(null);
+            CurriculumnCalendar.SelectedDates.Clear();
+            PeriodDescription.Items.Clear();
         }
 
         public void SelectedDateChanged(object sender, EventArgs e)
         {
             PeriodDescription.Items.Clear();
             OpenTestButton.Enabled = false;
-            if (!_isControlNow)
-            {
-                ShowDescriptionForDataSelection();
-                BuildTree(CurriculumnCalendar.SelectedDate);
-            }
+            ShowDescriptionForDataSelection();
+            BuildTree(CurriculumnCalendar.SelectedDate);
         }
 
         public void CurriculumnTreeSelectionChanged(object sender, EventArgs e)
         {
-            if (!_isControlNow)
+            if (!_isControlInProgress)
             {
                 ShowDescriptionForNodeSelection();
                 SelectDatesForSelectedNode();
@@ -175,6 +178,22 @@ namespace IUDICO.DataModel.Controllers.Student
             SetButtonVisibility();
         }
 
+
+        private void BuildTreeForControl(ControlInfo info)
+        {
+            CurriculumnTreeView.Nodes.Clear();
+
+            var themeNode = new IdendtityNode(info.Theme);
+
+            var stageNode = new IdendtityNode(info.Stage);
+            stageNode.ChildNodes.Add(themeNode);
+
+            var currNode = new IdendtityNode(info.Curriculumn);
+            currNode.ChildNodes.Add(stageNode);
+
+            CurriculumnTreeView.Nodes.Add(currNode);
+            CurriculumnTreeView.ExpandAll();
+        }
 
         private void SelectDatesForSelectedNode()
         {
@@ -184,55 +203,57 @@ namespace IUDICO.DataModel.Controllers.Student
             var selectedNode = (IdendtityNode) CurriculumnTreeView.SelectedNode;
 
             if (selectedNode != null)
-            {
                 SelectDatesForObject(selectedNode);
-            }
         }
 
         private void SetCalendarColor()
         {
-            CurriculumnCalendar.SelectedDayStyle.BackColor = _isViewMode ? Color.Blue : Color.Green;
+            CurriculumnCalendar.SelectedDayStyle.BackColor = _isViewOperations ? Color.Blue : Color.Green;
+        }
 
-            if (_isControlNow)
-                CurriculumnCalendar.SelectedDayStyle.BackColor = Color.Red;
+        private void DoPreControlPreparation()
+        {
+            CurriculumnCalendar.SelectedDayStyle.BackColor = Color.Red;
+            ChangeModeButton.Enabled = false;
+            RebuildTreeButton.Enabled = false;
+            CurriculumnCalendar.Enabled = false;
+            ShowDescriptionForControl();
         }
 
         private void SelectDatesForObject(IdendtityNode selectedNode)
         {
-            IList<TblPermissions> permissions = StudentHelper.GetPermissionForNode(_userId, selectedNode, _isViewMode);
+            IList<DatePeriod> datePeriods;
 
-            if (permissions.Count == 0)
-            {
-                SelectDates(DateTime.Today, DateTime.Today.AddYears(1));
-            }
+
+            if(selectedNode.Type == NodeType.Theme)
+                datePeriods = StudentPermissionsHelper.GetPermissionsDatePeriods(_userId, ((IdendtityNode)selectedNode.Parent).ID, ((IdendtityNode)selectedNode.Parent).Type, GetOperationType);
             else
-            {
-                SelectDatesForPermissions(permissions);
-            }
+                datePeriods = StudentPermissionsHelper.GetPermissionsDatePeriods(_userId, selectedNode.ID, selectedNode.Type, GetOperationType);
+
+
+            if (datePeriods.Count == 0)
+                SelectDates(DateTime.Today, DateTime.Today.AddYears(1));
+            else
+                SelectDatesPeriods(datePeriods);
         }
 
-        private void SelectDatesForPermissions(IList<TblPermissions> permissions)
+        private void SelectDatesPeriods(IList<DatePeriod> periods)
         {
             PeriodDescription.Items.Clear();
-            foreach (TblPermissions permission in permissions)
-            {
-                SelectDates(permission.DateSince, permission.DateTill);
-            }
+            
+            foreach (var p in periods)
+                SelectDates(p.Start, p.End);
         }
 
         private void SelectDates(DateTime? since, DateTime? till)
         {
             if (since == null)
-            {
                 since = DateTime.Today;
-            }
 
             if (till == null)
-            {
                 till = DateTime.Today.AddYears(1);
-            }
 
-            if (till > since)
+            if (till >= since)
             {
                 var nextDay = (DateTime) since;
 
@@ -278,131 +299,93 @@ namespace IUDICO.DataModel.Controllers.Student
             if (selectedNode != null)
             {
                 if (selectedNode.Type == NodeType.Curriculum || selectedNode.Type == NodeType.Stage)
-                {
                     OpenTestButton.Enabled = false;
-                }
                 else
-                {
-                    IList<TblPermissions> permissions = StudentHelper.GetPermissionForNode(_userId, selectedNode, true);
-
-                    OpenTestButton.Enabled = StudentHelper.IsDateAllowed(DateTime.Now, permissions);
-                }
+                    OpenTestButton.Enabled = StudentPermissionsHelper.IsDateAllowed(DateTime.Now, _userId, ((IdendtityNode)selectedNode.Parent).ID, NodeType.Stage, OperationType.View);
             }
         }
 
-        private void BuildTree(DateTime? date)
+
+        private ControlInfo BuildTree(DateTime? date)
         {
             CurriculumnTreeView.Nodes.Clear();
 
-            if (ServerModel.User.Current != null)
+            var userCurriculums = StudentRecordFinder.GetCurriculumnsForUser(_userId);
+
+            ControlInfo controlInfo = null;
+
+            foreach (TblCurriculums curriculum in userCurriculums)
             {
-                IList<int> userCurriculumsIds = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.CURRICULUM,
-                                                                                     ServerModel.User.Current.ID,
-                                                                                     FxCurriculumOperations.View.ID,
-                                                                                     null);
+                var node = new IdendtityNode(curriculum);
 
-
-                IList<TblCurriculums> userCurriculums = ServerModel.DB.Load<TblCurriculums>(userCurriculumsIds);
-
-                foreach (TblCurriculums curriculum in userCurriculums)
+                if (StudentPermissionsHelper.IsDateAllowed(date, _userId, node.ID, node.Type, GetOperationType))
                 {
-                    var node = new IdendtityNode(curriculum);
+                    controlInfo = BuildStages(curriculum, node, date);
 
-                    IList<TblPermissions> permissions = StudentHelper.GetPermission(curriculum.ID, _userId,
-                                                                                    NodeType.Curriculum, _isViewMode);
+                    if (controlInfo.IsControlStartsNow)
+                        return controlInfo;
 
-                    if (StudentHelper.IsDateAllowed(date, permissions))
-                    {
-                        BuildStages(curriculum, node, date);
-
-                        if (_isControlNow)
-                        {
-                            CurriculumnTreeView.Nodes.Clear();
-                            CurriculumnTreeView.Nodes.Add(node);
-                            return;
-                        }
-
-                        if (node.ChildNodes.Count != 0)
-                            CurriculumnTreeView.Nodes.Add(node);
-                    }
+                    if (node.ChildNodes.Count != 0)
+                        CurriculumnTreeView.Nodes.Add(node);
                 }
             }
 
             CurriculumnTreeView.ExpandAll();
+
+            return controlInfo;
         }
 
-        private void BuildStages(TblCurriculums curriculum, TreeNode node, DateTime? date)
+        private ControlInfo BuildStages(TblCurriculums curriculum, TreeNode node, DateTime? date)
         {
-            IList<TblStages> stages =
-                ServerModel.DB.Load<TblStages>(ServerModel.DB.LookupIds<TblStages>(curriculum, null));
+            IList<TblStages> stages = StudentRecordFinder.GetStagesForCurriculum(curriculum);
+
+            ControlInfo controlInfo = null;
 
             foreach (TblStages stage in stages)
             {
                 var child = new IdendtityNode(stage);
 
-                IList<TblPermissions> permissions = StudentHelper.GetPermission(stage.ID, _userId, NodeType.Stage,
-                                                                                _isViewMode);
-
-                if (StudentHelper.IsDateAllowed(date, permissions))
+                if (StudentPermissionsHelper.IsDateAllowed(date, _userId, stage.ID, NodeType.Stage, GetOperationType))
                 {
-                    BuildThemes(stage, child);
+                    controlInfo = BuildThemes(stage, child);
 
-                    if (_isControlNow)
+                    if (controlInfo.IsControlStartsNow)
                     {
-                        node.ChildNodes.Clear();
-                        node.ChildNodes.Add(child);
-                        return;
+                        controlInfo.AddCurriculumn(curriculum);
+                        return controlInfo;
                     }
-
                     if (child.ChildNodes.Count != 0)
                         node.ChildNodes.Add(child);
                 }
             }
+
+            return controlInfo;
         }
 
-        private void BuildThemes(TblStages stage, TreeNode node)
+        private ControlInfo BuildThemes(TblStages stage, TreeNode node)
         {
-            List<int> themesIds = ServerModel.DB.LookupMany2ManyIds<TblThemes>(stage, null);
-            IList<TblThemes> themes = ServerModel.DB.Load<TblThemes>(themesIds);
+            var themes = StudentRecordFinder.GetThemesForStage(stage);
+
+            ControlInfo controlInfo = null;
 
             foreach (TblThemes theme in themes)
             {
-                IsControlChapterTime(stage.ID, theme);
+                controlInfo = StudentPermissionsHelper.IsTimeForControl(_userId, stage, theme);
 
-                if (_isControlNow)
-                {
-                    node.ChildNodes.Clear();
-                    node.ChildNodes.Add(new IdendtityNode(theme));
-                    return;
-                }
+                if (controlInfo.IsControlStartsNow)
+                    return controlInfo;
 
-                if (!theme.IsControl)
+                if(!theme.IsControl)
                     node.ChildNodes.Add(new IdendtityNode(theme));
             }
+
+            return controlInfo;
         }
 
-        private void IsControlChapterTime(int stageId, TblThemes theme)
-        {
-            IList<TblPermissions> permissions = StudentHelper.GetPermission(stageId, _userId, NodeType.Stage, false);
-
-            if (theme.IsControl)
-                if (!StudentHelper.IsAllDatasAreNull(permissions))
-                    if (StudentHelper.IsDateAllowed(DateTime.Now, permissions))
-                    {
-                        _isControlNow = true;
-                        SelectDatesForPermissions(permissions);
-                        SetCalendarColor();
-                        return;
-                    }
-
-
-            _isControlNow = false;
-        }
 
         private void ShowDescriptionForDataSelection()
         {
-            Description.Value = string.Format("Display themes that you can {0} in selected date",
-                                              _isViewMode ? "view" : "pass");
+            Description.Value = string.Format("Display themes that you can {0} in selected date", GetOperationType);
         }
 
         private void ShowCommonDescription()
@@ -419,8 +402,7 @@ namespace IUDICO.DataModel.Controllers.Student
 
         private void ShowDescriptionForNodeSelection()
         {
-            Description.Value = string.Format("In calendar your see dates when you can {0} test",
-                                              _isViewMode ? "view" : "pass");
+            Description.Value = string.Format("In calendar your see dates when you can {0} test", GetOperationType);
         }
     }
 }

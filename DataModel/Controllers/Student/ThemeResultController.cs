@@ -5,6 +5,9 @@
         [ControllerParameter] public string CurriculumnName;
 
         [ControllerParameter] public string StageName;
+
         [ControllerParameter] public int ThemeId;
+
+        [ControllerParameter] public int UserId;
     }
 }

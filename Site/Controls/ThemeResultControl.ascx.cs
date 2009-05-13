@@ -12,26 +12,29 @@ public partial class ThemeResultControl : UserControl
 {
     public int ThemeId { get; set; }
 
+    public int UserId { get; set; }
+
     public string CurriculumnName { get; set; }
 
     public string StageName { get; set; }
 
     public ThemeResultControl()
     {
-        resultTable = new Table();
-        themeName = new Label();
+        _resultTable = new Table();
+        _themeName = new Label();
     }
 
     protected void Page_Load(object sender, EventArgs e)
     {
         var theme = ServerModel.DB.Load<TblThemes>(ThemeId);
-        var user = ServerModel.User.Current;
-        if (user != null)
+        var currentUser = ServerModel.User.Current;
+        
+        if (currentUser != null)
         {
-            var userId = user.ID;
-            var userRoles = user.Roles;
+            var user = ServerModel.DB.Load<TblUsers>(UserId);
+            var currentUserRoles = currentUser.Roles;
 
-            SetHeaderText(theme.Name, CurriculumnName, StageName, user.UserName);
+            SetHeaderText(theme.Name, CurriculumnName, StageName, user.DisplayName);
 
             var pages = ServerModel.DB.Load <TblPages>(ServerModel.DB.LookupIds<TblPages>(theme, null));
 
@@ -42,7 +45,7 @@ public partial class ThemeResultControl : UserControl
             {
                 if (page.PageTypeRef == (int)FX_PAGETYPE.Practice)
                 {
-                    int userRank = UserResultCalculator.GetUserRank(page, userId);
+                    int userRank = UserResultCalculator.GetUserRank(page, user.ID);
                     totalUserRank += (userRank < 0 ? 0 : userRank);
                     totalPageRank += (int)page.PageRank;
 
@@ -52,19 +55,19 @@ public partial class ThemeResultControl : UserControl
                     SetStatus(row, userRank, (int) page.PageRank);
                     SetUserRank(row, userRank);
                     SetPageRank(row, (int) page.PageRank);
-                    SetUserAnswersLink(row, page.ID);
+                    SetUserAnswersLink(row, page.ID, user.ID);
 
-                    if (userRoles.Contains(FX_ROLE.ADMIN.ToString()) ||
-                        userRoles.Contains(FX_ROLE.LECTOR.ToString()) ||
-                        userRoles.Contains(FX_ROLE.SUPER_ADMIN.ToString()))
+                    if (currentUserRoles.Contains(FX_ROLE.ADMIN.ToString()) ||
+                        currentUserRoles.Contains(FX_ROLE.LECTOR.ToString()) ||
+                        currentUserRoles.Contains(FX_ROLE.SUPER_ADMIN.ToString()))
                     {
                         SetCorrectAnswersLink(row, page.ID);
                     }
 
                     if (UserResultCalculator.IsContainCompiledQuestions(page))
-                        SetCompiledDetailsLink(row, page.ID);
+                        SetCompiledDetailsLink(row, page.ID, user.ID);
 
-                    resultTable.Rows.Add(row);
+                    _resultTable.Rows.Add(row);
                 }
             }
             SetTotalRow(totalPageRank, (totalUserRank < 0) ? 0 : totalUserRank);
@@ -73,7 +76,7 @@ public partial class ThemeResultControl : UserControl
 
     private void SetHeaderText(string theme, string curriculumnName, string stageName, string user)
     {
-        themeName.Text = string.Format(@"Statistic for theme: {0}\{1}\{2} for user: {3}", curriculumnName, stageName, theme, user);
+        _themeName.Text = string.Format(@"Statistic for theme: {0}\{1}\{2} for user: {3}", curriculumnName, stageName, theme, user);
     }
 
     private static void SetStatus(TableRow row, int userRank, int pageRank)
@@ -128,7 +131,7 @@ public partial class ThemeResultControl : UserControl
         row.Cells.Add(c);
     }
 
-    private static void SetUserAnswersLink(TableRow row, int pageId)
+    private static void SetUserAnswersLink(TableRow row, int pageId, int userId)
     {
         var c = new TableCell();
         c.Controls.Add(new HyperLink
@@ -136,18 +139,20 @@ public partial class ThemeResultControl : UserControl
                                                                                     {
                                                                                         BackUrl = string.Empty,
                                                                                         PageId = pageId,
-                                                                                        TestType = (int) TestSessionType.UserAnswer
+                                                                                        TestType = (int) TestSessionType.UserAnswer,
+                                                                                        UserId = userId
                                                                                     })});
         row.Cells.Add(c);
     }
 
-    private static void SetCompiledDetailsLink(TableRow row, int pageId)
+    private static void SetCompiledDetailsLink(TableRow row, int pageId, int userId)
     {
         var c = new TableCell();
         c.Controls.Add(new HyperLink { Text = "Compiled Details", NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new CompiledQuestionsDetailsController
                                                                                                                        {
                                                                                         BackUrl = string.Empty,
-                                                                                        PageId = pageId    
+                                                                                        PageId = pageId,
+                                                                                        UserId = userId
                                                                                     })});
         row.Cells.Add(c);
     }
@@ -161,7 +166,7 @@ public partial class ThemeResultControl : UserControl
         var pageRankCell = new TableCell { Text = totalPageRank.ToString() };
 
         row.Cells.AddRange(new[] { totalCell, new TableCell(), pageRankCell, userRankCell, new TableCell(), new TableCell() });
-        resultTable.Rows.Add(row);
+        _resultTable.Rows.Add(row);
         
     }
 }

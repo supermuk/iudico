@@ -12,16 +12,17 @@ public partial class ThemeResult : ControlledPage<ThemeResultController>
 
     public void PageLoad(object sender, EventArgs e)
     {
-        if (Controller.ThemeId != 0)
+        if (Controller.ThemeId != 0 && Controller.UserId != 0)
         {
             _headerLabel.Text = "Statistic for Theme";
             _themeResult.ThemeId = Controller.ThemeId;
+            _themeResult.UserId = Controller.UserId;
             _themeResult.CurriculumnName = Controller.CurriculumnName;
             _themeResult.StageName = Controller.StageName;
         }
         else
         {
-            throw new Exception("ThemeId is not specified");
+            throw new Exception("ThemeId or UserId is not specified");
         }
     }
 }
