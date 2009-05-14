@@ -2,6 +2,7 @@
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel;
+using IUDICO.DataModel.Common.StudentUtils;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.ImportManagers;
 using TestingSystem;
@@ -17,13 +18,12 @@ public partial class CompiledQuestionResult : UserControl
         var userAnswers = ServerModel.DB.Load<TblUserAnswers>(ServerModel.DB.LookupIds<TblUserAnswers>(q, null));
         
         var answersForCurrentUser = new List<TblUserAnswers>();
+        
         if (ServerModel.User.Current != null)
         {
             foreach (var uAns in userAnswers)
-            {
                 if (uAns.UserRef == userId)
                     answersForCurrentUser.Add(uAns);
-            }
         }
 
 
@@ -44,16 +44,12 @@ public partial class CompiledQuestionResult : UserControl
 
     private void SetResults(IList<TblUserAnswers> userAnswers)
     {
-        var compileAnswer = GetCompiledAnswer(FindLatestUserAnswer(userAnswers));
+        var compileAnswer = StudentRecordFinder.GetCompiledAnswersForAnswer(FindLatestUserAnswer(userAnswers));
 
-        foreach (var ca in compileAnswer)    
-            SetTestCaseResult(GetCompiledQuestionDataForCompiledAnswer(ca), ca);
+        foreach (var ca in compileAnswer)
+            SetTestCaseResult(StudentRecordFinder.GetCompiledQuestionDataForCompiledAnswer(ca), ca);
     }
 
-    private static TblCompiledQuestionsData GetCompiledQuestionDataForCompiledAnswer(TblCompiledAnswers ca)
-    {
-        return ServerModel.DB.Load<TblCompiledQuestionsData>(ca.CompiledQuestionsDataRef);
-    }
 
     private void SetHeader(string name, TblCompiledQuestions ua)
     {
@@ -87,16 +83,9 @@ public partial class CompiledQuestionResult : UserControl
     {
         var latestUserAnswer = userAnswers[0];
         foreach (var o in userAnswers)
-        {
             if (o.Date > latestUserAnswer.Date)
                 latestUserAnswer = o;
-        }
 
         return latestUserAnswer;
-    }
-
-    private static IList<TblCompiledAnswers> GetCompiledAnswer(TblUserAnswers ua)
-    {
-        return ServerModel.DB.Load<TblCompiledAnswers>(ServerModel.DB.LookupIds<TblCompiledAnswers>(ua, null));
     }
 }

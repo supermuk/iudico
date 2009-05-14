@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel.Common;
+using IUDICO.DataModel.Common.StatisticUtils;
 using IUDICO.DataModel.Common.StudentUtils;
-using IUDICO.DataModel.Common.TestingUtils;
 using IUDICO.DataModel.DB;
 using LEX.CONTROLS;
 using LEX.CONTROLS.Expressions;
@@ -65,9 +65,10 @@ namespace IUDICO.DataModel.Controllers.Student
 
                 if (selectedNode.Type == NodeType.Theme)
                 {
-                        var shifter = new PageShifter(selectedNode.ID);
-
-                        RedirectToController(new OpenTestController
+                    var shifter = new PageShifter(selectedNode.ID);
+                    StatisticManager.MarkNotIncludedPages(shifter.NotUsedPages);
+                    StatisticManager.MarkUsedPages(shifter.UsedPages);
+                    RedirectToController(new OpenTestController
                                                  {
                                                      BackUrl = string.Empty,
                                                      OpenThema = selectedNode.ID,
@@ -268,27 +269,22 @@ namespace IUDICO.DataModel.Controllers.Student
 
         private void BuildLatestResultTable()
         {
-            IList<UserAnswer> listOfPages = UserResultCalculator.GetLatestResultsByQuestions();
+            var listOfPages = StatisticManager.GetUserLatestAnswers(_userId);
 
             int countOfShowedPages = Math.Min(CountHowManyPagesToShow, listOfPages.Count);
 
-            if (countOfShowedPages != 0)
+            LastPagesResultTable.Visible = (countOfShowedPages != 0);
+                
+            for (int i = 0; i < countOfShowedPages; i++)
             {
-                for (int i = 0; i < countOfShowedPages; i++)
-                {
-                    var pageNameCell = new TableCell {Text = listOfPages[i].PageName};
-                    var themeNameCell = new TableCell {Text = listOfPages[i].ThemeName};
-                    var pageStatusPageCell = new TableCell {Text = listOfPages[i].GetStatus()};
-                    var dateCell = new TableCell {Text = listOfPages[i].Date.ToString()};
+                var pageNameCell = new TableCell {Text = listOfPages[i].PageName};
+                var themeNameCell = new TableCell {Text = listOfPages[i].ThemeName};
+                var pageStatusPageCell = new TableCell {Text = listOfPages[i].GetStatus().ToString()};
+                var dateCell = new TableCell {Text = listOfPages[i].Date.ToString()};
 
-                    var row = new TableRow();
-                    row.Cells.AddRange(new[] {pageNameCell, themeNameCell, pageStatusPageCell, dateCell});
-                    LastPagesResultTable.Rows.Add(row);
-                }
-            }
-            else
-            {
-                LastPagesResultTable.Visible = false;
+                var row = new TableRow();
+                row.Cells.AddRange(new[] {pageNameCell, themeNameCell, pageStatusPageCell, dateCell});
+                LastPagesResultTable.Rows.Add(row);        
             }
         }
 
@@ -351,7 +347,7 @@ namespace IUDICO.DataModel.Controllers.Student
 
                     if (controlInfo.IsControlStartsNow)
                     {
-                        controlInfo.AddCurriculumn(curriculum);
+                        controlInfo.AddCurriculumnToInfo(curriculum);
                         return controlInfo;
                     }
                     if (child.ChildNodes.Count != 0)

@@ -24,7 +24,8 @@ namespace IUDICO.DataModel.Common.TestingUtils
                              Date = DateTime.Now,
                              UserRef = ((CustomUser)Membership.GetUser()).ID,
                              UserAnswer = t.UserAnswer,
-                             IsCompiledAnswer = t is CompiledTest
+                             IsCompiledAnswer = t is CompiledTest,
+                             AnswerTypeRef = FxAnswerType.UserAnswer.ID
                          };
 
             ServerModel.DB.Insert(ua);

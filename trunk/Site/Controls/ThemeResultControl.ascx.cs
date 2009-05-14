@@ -2,11 +2,10 @@ using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel;
-using IUDICO.DataModel.Common.TestingUtils;
+using IUDICO.DataModel.Common.StatisticUtils;
 using IUDICO.DataModel.Common.TestRequestUtils;
 using IUDICO.DataModel.Controllers.Student;
 using IUDICO.DataModel.DB;
-using IUDICO.DataModel.ImportManagers;
 
 public partial class ThemeResultControl : UserControl
 {
@@ -36,36 +35,35 @@ public partial class ThemeResultControl : UserControl
 
             SetHeaderText(theme.Name, CurriculumnName, StageName, user.DisplayName);
 
-            var pages = ServerModel.DB.Load <TblPages>(ServerModel.DB.LookupIds<TblPages>(theme, null));
-
             int totalPageRank = 0;
             int totalUserRank = 0;
 
-            foreach (var page in pages)
+            var userResults = StatisticManager.GetStatisticForThemeForUser(user.ID, theme.ID);
+
+            foreach (var ur in userResults)
             {
-                if (page.PageTypeRef == (int)FX_PAGETYPE.Practice)
+                if (ur.Status != ResultStatus.NotIncluded)
                 {
-                    int userRank = UserResultCalculator.GetUserRank(page, user.ID);
-                    totalUserRank += (userRank < 0 ? 0 : userRank);
-                    totalPageRank += (int)page.PageRank;
+                    totalUserRank += ur.UserRank;
+                    totalPageRank += ur.PageRank;
 
                     var row = new TableRow();
 
-                    SetPageName(row, page.PageName);
-                    SetStatus(row, userRank, (int) page.PageRank);
-                    SetUserRank(row, userRank);
-                    SetPageRank(row, (int) page.PageRank);
-                    SetUserAnswersLink(row, page.ID, user.ID);
+                    SetPageName(row, ur.Page.PageName);
+                    SetStatus(row, ur.Status);
+                    SetUserRank(row, ur.UserRank);
+                    SetPageRank(row, (int) ur.Page.PageRank);
+                    SetUserAnswersLink(row, ur.Page.ID, user.ID);
 
                     if (currentUserRoles.Contains(FX_ROLE.ADMIN.ToString()) ||
                         currentUserRoles.Contains(FX_ROLE.LECTOR.ToString()) ||
                         currentUserRoles.Contains(FX_ROLE.SUPER_ADMIN.ToString()))
                     {
-                        SetCorrectAnswersLink(row, page.ID);
+                        SetCorrectAnswersLink(row, ur.Page.ID);
                     }
 
-                    if (UserResultCalculator.IsContainCompiledQuestions(page))
-                        SetCompiledDetailsLink(row, page.ID, user.ID);
+                    if (StatisticManager.IsContainCompiledQuestions(ur.Page))
+                        SetCompiledDetailsLink(row, ur.Page.ID, user.ID);
 
                     _resultTable.Rows.Add(row);
                 }
@@ -79,18 +77,9 @@ public partial class ThemeResultControl : UserControl
         _themeName.Text = string.Format(@"Statistic for theme: {0}\{1}\{2} for user: {3}", curriculumnName, stageName, theme, user);
     }
 
-    private static void SetStatus(TableRow row, int userRank, int pageRank)
+    private static void SetStatus(TableRow row, ResultStatus status )
     {
-        var c = new TableCell();
-
-        if (userRank < 0)
-        {
-            c.Text = "NO RESULT";
-        }
-        else
-        {
-            c.Text = userRank >= pageRank ? "pass" : "fail";
-        }
+        var c = new TableCell {Text = status.ToString()};
 
         row.Cells.Add(c);
     }
@@ -99,7 +88,7 @@ public partial class ThemeResultControl : UserControl
     {
         var c = new TableCell
                     {
-                        Text = (userRank < 0 ? "NO RANK" : userRank.ToString())
+                        Text = userRank.ToString()
                     };
 
         row.Cells.Add(c);
