@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Web;
 using System.Web.UI.WebControls;
+using IUDICO.DataModel.Common.StatisticUtils;
 using IUDICO.DataModel.Common.TestRequestUtils;
 using IUDICO.DataModel.DB;
 
@@ -86,7 +87,7 @@ namespace IUDICO.DataModel.Common.TestingUtils
             }
 
             if (answers.Count > 0)
-                return (new LatestUserAnswerFinder()).FindUserAnswer(answers).UserAnswer;
+                return StatisticManager.FindLatestUserAnswer(answers).UserAnswer;
             
             return string.Empty;
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.Security;
 
@@ -7,11 +6,6 @@ namespace IUDICO.DataModel.Common.StudentUtils
 {
     public class StudentRecordFinder
     {
-        public static List<TblUserAnswers>  GetUserAnswersForQuestion(int userId, int questionId)
-        {
-            throw new NotImplementedException();
-        }
-
         public static IList<TblCurriculums> GetCurriculumnsForUser(int userId)
         {
             var curriculumnIds = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.CURRICULUM, userId, null, null);
@@ -91,6 +85,92 @@ namespace IUDICO.DataModel.Common.StudentUtils
             var questionsIds = ServerModel.DB.LookupIds<TblQuestions>(page, null);
 
             return ServerModel.DB.Load<TblQuestions>(questionsIds);
+        }
+
+        public static TblThemes GetThemeForPage(int pageId)
+        {
+            var page = ServerModel.DB.Load<TblPages>(pageId);
+            return ServerModel.DB.Load<TblThemes>((int)page.ThemeRef);
+        }
+
+        public static IList<TblUserAnswers> GetAnswersForQuestion(TblQuestions question)
+        {
+            var allUsersAnswersIdsForQuestion = ServerModel.DB.LookupIds<TblUserAnswers>(question, null);
+
+            return ServerModel.DB.Load<TblUserAnswers>(allUsersAnswersIdsForQuestion);
+        }
+
+        public static IList<TblUserAnswers> GetUserAnswersForQuestion(TblQuestions question, int userId)
+        {
+            var allAnswersForQuestion = GetAnswersForQuestion(question);
+
+            var result = new List<TblUserAnswers>();
+
+            foreach (var a in allAnswersForQuestion)
+                if (a.UserRef == userId)
+                    result.Add(a);
+
+            return result;
+        }
+
+        public static List<TblUserAnswers> ExtractIncludedAnswers(IList<TblUserAnswers> userAnswers)
+        {
+            var result = new List<TblUserAnswers>();
+
+            foreach (var ua in userAnswers)
+                if (ua.AnswerTypeRef == FxAnswerType.UserAnswer.ID)
+                    result.Add(ua);
+
+            return result;
+        }
+
+        public static IList<TblUserAnswers> GetAnswersForUser(int userId)
+        {
+            var user = ServerModel.DB.Load<TblUsers>(userId);
+             
+            var answersIds = ServerModel.DB.LookupIds<TblUserAnswers>(user, null);
+
+            return ServerModel.DB.Load<TblUserAnswers>(answersIds);
+        }
+
+        public static TblPages GetPageForQuestion(int questionId)
+        {
+            var que = ServerModel.DB.Load<TblQuestions>(questionId);
+
+            return ServerModel.DB.Load<TblPages>((int)que.PageRef);
+        }
+
+        public static TblThemes GetTheme(int themeId)
+        {
+            return ServerModel.DB.Load<TblThemes>(themeId);
+        }
+
+        public static IList<TblQuestions> GetQuestionsForPage(TblPages page)
+        {
+            var questionsIDs = ServerModel.DB.LookupIds<TblQuestions>(page, null);
+
+            return ServerModel.DB.Load<TblQuestions>(questionsIDs);
+        }
+
+        public static IList<TblCompiledAnswers> GetCompiledAnswersForAnswer(TblUserAnswers ua)
+        {
+            var compiledAnswersIds = ServerModel.DB.LookupIds<TblCompiledAnswers>(ua, null);
+
+            return ServerModel.DB.Load<TblCompiledAnswers>(compiledAnswersIds);
+        }
+
+        public static TblCompiledQuestionsData GetCompiledQuestionDataForCompiledAnswer(TblCompiledAnswers ca)
+        {
+            return ServerModel.DB.Load<TblCompiledQuestionsData>(ca.CompiledQuestionsDataRef);
+        }
+
+        public static IList<TblPages> GetPagesForTheme(int themeId)
+        {
+            var theme = ServerModel.DB.Load<TblThemes>(themeId);
+
+            List<int> pagesIds = ServerModel.DB.LookupIds<TblPages>(theme, null);
+
+            return ServerModel.DB.Load<TblPages>(pagesIds);
         }
     }
 }

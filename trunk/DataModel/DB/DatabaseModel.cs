@@ -77,6 +77,16 @@ namespace IUDICO.DataModel.DB
         public static readonly FxPageOrders Random;
     }
 
+    public partial class FxAnswerType : FxDataObject, IFxDataObject
+    {
+        [TableRecord]
+        public static readonly FxAnswerType UserAnswer;
+        [TableRecord]
+        public static readonly FxAnswerType EmptyAnswer;
+        [TableRecord]
+        public static readonly FxAnswerType NotIncludedAnswer;
+    }
+
     public partial class TblPermissions : IntKeyedDataObject, IIntKeyedDataObject
     {
         public DateTimeInterval WorkingInterval
