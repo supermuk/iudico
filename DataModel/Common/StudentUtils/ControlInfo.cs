@@ -33,7 +33,7 @@ namespace IUDICO.DataModel.Common.StudentUtils
             get { return _isControlStartsNow; }
         }
 
-        public void AddCurriculumn(TblCurriculums curriculumn)
+        public void AddCurriculumnToInfo(TblCurriculums curriculumn)
         {
             if(_curriculumn == null)
                 _curriculumn = curriculumn;

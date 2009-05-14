@@ -121,6 +121,9 @@
     <Compile Include="Common\HtmlStyleReader.cs" />
     <Compile Include="Common\HttpUtility.cs" />
     <Compile Include="Common\IdentityNode.cs" />
+    <Compile Include="Common\StatisticUtils\StatisticManager.cs" />
+    <Compile Include="Common\StatisticUtils\UserResultForPage.cs" />
+    <Compile Include="Common\StatisticUtils\UserResultForQuestion.cs" />
     <Compile Include="Common\StudentUtils\ControlInfo.cs" />
     <Compile Include="Common\StudentUtils\DatePeriod.cs" />
     <Compile Include="Common\StudentUtils\StudentEncoding.cs" />
@@ -141,8 +144,7 @@
     <Compile Include="Common\TestingUtils\AnswerFiller.cs" />
     <Compile Include="Common\TestingUtils\CompilationTestManager.cs" />
     <Compile Include="Common\TestingUtils\Tester.cs" />
-    <Compile Include="Common\TestingUtils\UserResult.cs" />
-    <Compile Include="Common\TestingUtils\UserResultCalculator.cs" />
+    <Compile Include="Common\StatisticUtils\UserResultForPageForDate.cs" />
     <Compile Include="Common\TestRequestUtils\TestRequestBuilder.cs" />
     <Compile Include="Common\TestRequestUtils\RequestConditionChecker.cs" />
     <Compile Include="Common\TestRequestUtils\TestRequestParser.cs" />

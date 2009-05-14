@@ -6,20 +6,17 @@ namespace IUDICO.DataModel.Common.StudentUtils
     {
         public static bool IsUserCanSubmitOnPage(int userId, int pageId)
         {
-            var page = ServerModel.DB.Load<TblPages>(pageId);
-            var theme = ServerModel.DB.Load<TblThemes>((int)page.ThemeRef);
+            TblThemes theme = StudentRecordFinder.GetThemeForPage(pageId);
 
-            return CheckCountOfSubmits(page, theme.MaxCountToSubmit, pageId);
+            return CheckCountOfSubmits(theme.MaxCountToSubmit, userId, pageId);
         }
 
-        private static bool CheckCountOfSubmits(TblPages p, int? maxCountToSubmit, int userId)
+        private static bool CheckCountOfSubmits(int? maxCountToSubmit, int userId, int pageId)
         {
             if (IsCountOfSubmitsUnlimited(maxCountToSubmit))
                 return true;
 
-            return GetCountOfUserSubmits(p, userId) < maxCountToSubmit;
-
-
+            return GetCountOfUserSubmits(pageId, userId) < maxCountToSubmit;
         }
 
         private static bool IsCountOfSubmitsUnlimited(int? maxCountToSubmit)
@@ -27,31 +24,13 @@ namespace IUDICO.DataModel.Common.StudentUtils
             return (maxCountToSubmit == null);
         }
 
-        private static int GetCountOfUserSubmits(TblPages p, int userId)
+        private static int GetCountOfUserSubmits(int pageId, int userId)
         {
-            var allQuestionsFromPageIds = ServerModel.DB.LookupIds<TblQuestions>(p, null);
-            
-            if (allQuestionsFromPageIds.Count > 0)
-            {
-                int userSubmitCount = 0;
+            var allQuestionsFromPage = StudentRecordFinder.GetQuestionsForPage(pageId);
 
-                var allUsersAnswersIdsForQuestion =
-                    ServerModel.DB.LookupIds<TblUserAnswers>(ServerModel.DB.Load<TblQuestions>(allQuestionsFromPageIds[0]),
-                                                             null);
+            var allUsersAnswersForQuestion = StudentRecordFinder.GetUserAnswersForQuestion(allQuestionsFromPage[0], userId);
 
-                var allUsersAnswersForQuestion = ServerModel.DB.Load<TblUserAnswers>(allUsersAnswersIdsForQuestion);
-
-
-                foreach (var ua in allUsersAnswersForQuestion)
-                {
-                    if (ua.UserRef == userId)
-                        userSubmitCount++;
-
-                }
-
-                return userSubmitCount;
-            }
-            return 0;
+            return StudentRecordFinder.ExtractIncludedAnswers(allUsersAnswersForQuestion).Count;
         }
     }
 }

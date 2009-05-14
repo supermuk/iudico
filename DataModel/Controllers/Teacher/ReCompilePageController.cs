@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel.Common;
+using IUDICO.DataModel.Common.StatisticUtils;
 using IUDICO.DataModel.Common.TestingUtils;
 using IUDICO.DataModel.DB;
 using LEX.CONTROLS;
@@ -85,7 +86,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
                                     answersForQuestion.Add(c);
                             }
 
-                            var lstUserAnswer = (new LatestUserAnswerFinder().FindUserAnswer(answersForQuestion));
+                            var lstUserAnswer = StatisticManager.FindLatestUserAnswer(answersForQuestion);
                             
                             if(lstUserAnswer != null)
                                 answersForReCompilation.Add(lstUserAnswer);
