@@ -172,5 +172,23 @@ namespace IUDICO.DataModel.Common.StudentUtils
 
             return ServerModel.DB.Load<TblPages>(pagesIds);
         }
+
+        public static IList<TblPages> GetPagesForCourse(int courseId)
+        {
+            var course = ServerModel.DB.Load<TblCourses>(courseId);
+
+            var themesIds = ServerModel.DB.LookupIds<TblThemes>(course, null);
+            var themes = ServerModel.DB.Load<TblThemes>(themesIds);
+
+            var allPagesIds = new List<int>();
+
+            foreach (var theme in themes)
+            {
+                var pagesIds = ServerModel.DB.LookupIds<TblPages>(theme, null);
+                allPagesIds.AddRange(pagesIds);
+            }
+
+            return ServerModel.DB.Load<TblPages>(allPagesIds);
+        }
     }
 }

@@ -308,7 +308,7 @@ namespace IUDICO.DataModel.Controllers.Student
 
             var userCurriculums = StudentRecordFinder.GetCurriculumnsForUser(_userId);
 
-            ControlInfo controlInfo = null;
+            var controlInfo = new ControlInfo();
 
             foreach (TblCurriculums curriculum in userCurriculums)
             {
