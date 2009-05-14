@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using IUDICO.DataModel;
 using IUDICO.DataModel.Common.ImportUtils;
-using IUDICO.DataModel.Common.TestRequestUtils;
-using IUDICO.DataModel.DB;
+using IUDICO.DataModel.Common.StudentUtils;
 using IUDICO.DataModel.ImportManagers;
 using IUDICO.UnitTest.Base;
 using NUnit.Framework;
@@ -16,13 +13,9 @@ namespace IUDICO.UnitTest
         [Test]
         public void TestOpenPage()
         {
-            //using (var c = new DataObjectCleaner())
-            {
                 int courseId = ImportTestCourse(@"D:\Iudico\Courses\C++Course [21 questions].zip");
 
-                var pagesIds = GetPagesIds(courseId);
-
-                var pages = ServerModel.DB.Load<TblPages>(pagesIds); 
+                var pages = StudentRecordFinder.GetPagesForCourse(courseId);
 
                 foreach (var p in pages)
                 {
@@ -30,10 +23,9 @@ namespace IUDICO.UnitTest
                         ? FileExtentions.IudicoPracticePage
                         : FileExtentions.IudicoTheoryPage;
 
-                    var url = TestRequestBuilder.NewRequestForHandler(p.ID, extension).AddTestSessionType(TestSessionType.UnitTesting).Build();
+                    var url = string.Format(@"/Site/Student/IudicoPage{0}?PageId={1}", extension, p.ID);
                     Console.WriteLine(url); 
                 }
-            }
         }
 
         private static int ImportTestCourse(string path)
@@ -45,22 +37,6 @@ namespace IUDICO.UnitTest
             return CourseManager.Import(projectPath, "TestCourse", "For Testing");
         }
 
-        private static List<int> GetPagesIds(int courseId)
-        {
-            var course = ServerModel.DB.Load<TblCourses>(courseId);
 
-            var themesIds = ServerModel.DB.LookupIds<TblThemes>(course, null);
-            var themes = ServerModel.DB.Load<TblThemes>(themesIds);
-
-            var allPagesIds = new List<int>();
-
-            foreach (var theme in themes)
-            {
-                var pagesIds = ServerModel.DB.LookupIds<TblPages>(theme, null);
-                allPagesIds.AddRange(pagesIds);
-            }
-
-            return allPagesIds;
-        }
     }
 }
