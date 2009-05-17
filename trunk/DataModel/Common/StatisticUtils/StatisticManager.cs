@@ -9,6 +9,35 @@ namespace IUDICO.DataModel.Common.StatisticUtils
 {
     public class StatisticManager
     {
+        public static bool IsContainCompiledQuestions(TblPages page)
+        {
+            var questions = StudentRecordFinder.GetQuestionsForPage(page);
+
+            foreach (var question in questions)
+                if (question.IsCompiled)
+                    return true;
+
+            return false;
+        }
+
+        public static UserThemeRankHolder GetUserRankForTheme(int userId, int themeId)
+        {
+            int userRank = 0;
+            int themeRank = 0;
+
+            var results = GetStatisticForThemeForUser(userId, themeId);
+
+            foreach (var r in results)
+                if (r.Status != ResultStatus.NotIncluded)
+                {
+                    userRank += r.UserRank;
+                    themeRank += r.PageRank;
+                }
+
+            return new UserThemeRankHolder(userRank, themeRank);
+        }
+
+
         public static IList<UserResultForPageForDate> GetUserLatestAnswers(int userId)
         {
             var answers = StudentRecordFinder.GetAnswersForUser(userId);
@@ -30,17 +59,6 @@ namespace IUDICO.DataModel.Common.StatisticUtils
             return sortAnswers;
         }
 
-        public static bool IsContainCompiledQuestions(TblPages page)
-        {
-            var questions = StudentRecordFinder.GetQuestionsForPage(page);
-
-            foreach (var question in questions)
-                if (question.IsCompiled)
-                    return true;
-
-            return false;
-        }
-
         public static IList<UserResultForPage> GetStatisticForThemeForUser(int userId, int themeId)
         {
             var pages = StudentRecordFinder.GetPagesForTheme(themeId);
@@ -57,31 +75,35 @@ namespace IUDICO.DataModel.Common.StatisticUtils
             return result;
         }
 
+
         public static TblUserAnswers FindUserAnswerForDate(IList<TblUserAnswers> userAnswers, DateTime? date)
         {
             foreach (var o in userAnswers)
-            {
                 if (o.Date.ToString().Equals(date.ToString()))
                     return o;
-            }
 
             return null;
         }
-
 
         public static TblUserAnswers FindLatestUserAnswer(IList<TblUserAnswers> userAnswers)
         {
-            if (userAnswers != null && userAnswers.Count != 0)
+            if (userAnswers != null)
             {
-                var latestUserAnswer = userAnswers[0];
-                foreach (var o in userAnswers)
-                    if (o.Date > latestUserAnswer.Date)
-                        latestUserAnswer = o;
+                var includedAnswers = StudentRecordFinder.ExtractIncludedAnswers(userAnswers);
+                
+                if (includedAnswers.Count > 0)
+                {
+                    var latestUserAnswer = includedAnswers[0];
+                    foreach (var o in includedAnswers)
+                        if (o.Date > latestUserAnswer.Date)
+                            latestUserAnswer = o;
 
-                return latestUserAnswer;
+                    return latestUserAnswer;
+                }
             }
             return null;
         }
+
 
         public static void MarkUsedPages(IList<TblPages> usedPages)
         {
@@ -127,6 +149,29 @@ namespace IUDICO.DataModel.Common.StatisticUtils
                     ServerModel.DB.Insert(ua);
                 }
             }
+        }
+    }
+
+    public class UserThemeRankHolder
+    {
+        private readonly int _userRank;
+
+        private readonly int _themeRank;
+
+        public UserThemeRankHolder(int userRank, int themeRank)
+        {
+            _userRank = userRank;
+            _themeRank = themeRank;
+        }
+
+        public int UserRank
+        {
+            get { return _userRank; }
+        }
+
+        public int ThemeRank
+        {
+            get { return _themeRank; }
         }
     }
 }
