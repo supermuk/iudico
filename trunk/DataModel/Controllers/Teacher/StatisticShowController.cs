@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel.Common;
+using IUDICO.DataModel.Common.StatisticUtils;
+using IUDICO.DataModel.Controllers.Student;
 using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.Controllers
@@ -68,9 +70,8 @@ namespace IUDICO.DataModel.Controllers
 
             foreach (TblUsers student in TeacherHelper.GetStudentsOfGroup(group))
             {
-                TableRow studentRow = new TableRow();
-                TableCell studentCell = new TableHeaderCell();
-                studentCell.Text = student.DisplayName;
+                var studentRow = new TableRow();
+                TableCell studentCell = new TableHeaderCell {Text = student.DisplayName};
 
                 studentRow.Cells.Add(studentCell);
 
@@ -80,66 +81,33 @@ namespace IUDICO.DataModel.Controllers
                 {
                     foreach (TblThemes theme in TeacherHelper.ThemesOfStage(stage))
                     {
-                        studentCell = new TableCell();
-                        studentCell.HorizontalAlign = HorizontalAlign.Center;
-                        int pasedPages = 0;
-                        int totalPages = 0;
-                        foreach (TblPages page in TeacherHelper.PagesOfTheme(theme))
-                        {
-                            int userRank = 0;
-                            foreach (TblQuestions question in TeacherHelper.QuestionsOfPage(page))
-                            {
-                                TblUserAnswers userAnswer = TeacherHelper.GetUserAnswerForQuestion(student, question);
-                                if (userAnswer != null)
-                                {
-                                    if (userAnswer.IsCompiledAnswer)
-                                    {
-                                        IList<TblCompiledAnswers> compiledAnswers = TeacherHelper.GetCompiledAnswers(userAnswer);
-                                        bool allAreCorrect = true;
-                                        foreach (TblCompiledAnswers compiledAnswer in compiledAnswers)
-                                        {
-                                            TblCompiledQuestionsData compiledData = ServerModel.DB.Load<TblCompiledQuestionsData>(compiledAnswer.CompiledQuestionsDataRef);
-                                            if (compiledData.Output != compiledAnswer.Output)
-                                            {
-                                                allAreCorrect = false;
-                                                break;
-                                            }
-                                        }
-                                        if (allAreCorrect)
-                                        {
-                                            userRank += question.Rank.HasValue ? question.Rank.Value : 0;                                        
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (userAnswer.UserAnswer == question.CorrectAnswer)
-                                        {
-                                            userRank += question.Rank.HasValue ? question.Rank.Value : 0;
-                                        }
-                                    }
-                                }
-                            }
-                            if (page.PageRank.HasValue)
-                            {
-                                totalPages++;
-                                if (userRank >= page.PageRank.Value)
-                                {
-                                    pasedPages++;
-                                }
+                        var res = StatisticManager.GetUserRankForTheme(student.ID, theme.ID);
 
-                            }
-                        }
+                        studentCell = new TableCell{HorizontalAlign = HorizontalAlign.Center};
+                        studentCell.Controls.Add(new HyperLink
+                                                     {
+                                                         Text = res.UserRank + "/" + res.ThemeRank,
+                                                         NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new ThemeResultController
+                                                         {
+                                                             BackUrl = string.Empty,
+                                                             ThemeId = theme.ID,
+                                                             CurriculumnName = ServerModel.DB.Load<TblCurriculums>((int) stage.CurriculumRef).Name,
+                                                             StageName = stage.Name,
+                                                             UserId = student.ID
+                                                         })
+                                                     });
 
-                        studentCell.Text = pasedPages.ToString() + "/" + totalPages.ToString();
-                        pasedCurriculum += pasedPages;
-                        totalCurriculum += totalPages;
+                        pasedCurriculum += res.UserRank;
+                        totalCurriculum += res.ThemeRank;
                         studentRow.Cells.Add(studentCell);
                     }
                 }
 
-                studentCell = new TableCell();
-                studentCell.HorizontalAlign = HorizontalAlign.Center;
-                studentCell.Text = pasedCurriculum.ToString() + "/" + totalCurriculum.ToString();
+                studentCell = new TableCell
+                                  {
+                                      HorizontalAlign = HorizontalAlign.Center,
+                                      Text = pasedCurriculum + "/" + totalCurriculum
+                                  };
                 studentRow.Cells.Add(studentCell);
                 StatisticTable.Rows.Add(studentRow);
             }

@@ -87,8 +87,13 @@ namespace IUDICO.DataModel.Common.TestingUtils
             }
 
             if (answers.Count > 0)
-                return StatisticManager.FindLatestUserAnswer(answers).UserAnswer;
-            
+            {
+                var lstUserAnswer = StatisticManager.FindLatestUserAnswer(answers);
+
+                if (lstUserAnswer != null)
+                    return lstUserAnswer.UserAnswer;
+            }
+
             return string.Empty;
         }
 
