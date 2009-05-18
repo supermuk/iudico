@@ -92,7 +92,7 @@ namespace IUDICO.DataModel.WebControl
         {
             var x = new MD5CryptoServiceProvider();
 
-            byte[] bs = StudentEncoding.GetEncoding().GetBytes(input);
+            byte[] bs = Encoding.Unicode.GetBytes(input);
             bs = x.ComputeHash(bs);
 
             var s = new StringBuilder();

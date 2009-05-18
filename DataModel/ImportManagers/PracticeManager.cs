@@ -21,7 +21,7 @@ namespace IUDICO.DataModel.ImportManagers
             WebPage webPage = CreateAspxPage(tempFileName, Path.GetFileNameWithoutExtension(tempFileName),
                 pageTable.ID, answerNode, projectPaths.PathToTempCourseFolder);
 
-            AddPageFileToPage(pageTable, webPage.ByteRepresentation);
+            AddPageFileToPage(pageTable, webPage.BinaryRepresentation);
         }
 
         private static TblPages StorePageWithoutPageFile(int themaRef, string name, int rank)

@@ -5,7 +5,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.UI;
 using System.Xml;
-using IUDICO.DataModel.Common.StudentUtils;
 using IUDICO.DataModel.ImportManagers;
 
 namespace IUDICO.DataModel.WebControl
@@ -14,12 +13,15 @@ namespace IUDICO.DataModel.WebControl
     {
         private readonly Dictionary<string, int> _answersIndexes = new Dictionary<string, int>();
         private readonly List<WebControl> _controls = new List<WebControl>();
-        private byte[] _byteRepresentation;
+        private byte[] _binaryRepresentation;
 
         public WebPage(string pathToPage)
         {
             var doc = new XmlDocument();
-            doc.LoadXml(File.ReadAllText(pathToPage, StudentEncoding.GetEncoding()));
+            using (var reader = new StreamReader(pathToPage)) // File.ReadAllText is not applicable here, because we should know how to deal with 2 encodings: Unicode and the old one - 1250.
+            {
+                doc.LoadXml(reader.ReadToEnd());
+            }
             if (doc.DocumentElement != null)
             {
                 SetAnswerIndexes(doc.DocumentElement);
@@ -27,9 +29,9 @@ namespace IUDICO.DataModel.WebControl
             }
         }
 
-        public byte[] ByteRepresentation
+        public byte[] BinaryRepresentation
         {
-            get { return _byteRepresentation; }
+            get { return _binaryRepresentation; }
         }
 
         public List<WebControl> Controls
@@ -119,7 +121,7 @@ namespace IUDICO.DataModel.WebControl
 
             sw.Close();
 
-            _byteRepresentation = StudentEncoding.GetEncoding().GetBytes(sw.GetStringBuilder().ToString());
+            _binaryRepresentation = Encoding.Unicode.GetBytes(sw.GetStringBuilder().ToString());
 
             QuestionManager.Import(pageRef, answerNode, _controls, pathToTempCourseFolder);
         }
@@ -218,14 +220,8 @@ namespace IUDICO.DataModel.WebControl
 
             for (int i = 0; i < matches.Count; i++)
             {
-                try
-                {
-                    _answersIndexes.Add(matches[i].Value.Trim(Convert.ToChar("'")), (i));
-                }
-                catch (Exception)
-                {
-                    //TODO: write proper regex for extract empty text from textbox control !!!
-                }
+               //TODO: write proper regex for extract empty text from textbox control !!!
+                _answersIndexes.Add(matches[i].Value.Trim(Convert.ToChar("'")), (i));
             }
         }
 

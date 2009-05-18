@@ -13,9 +13,9 @@ namespace IUDICO.DataModel.ImportManagers
             SearchPages(theme, id, projectPaths);
         }
 
-        private static void SearchPages(XmlNode thema, int themeId, ProjectPaths projectPaths)
+        private static void SearchPages(XmlNode theme, int themeId, ProjectPaths projectPaths)
         {
-            foreach (XmlNode node in thema.ChildNodes)
+            foreach (XmlNode node in theme.ChildNodes)
             {
                 if (node != null && XmlUtility.IsItem(node))
                 {
