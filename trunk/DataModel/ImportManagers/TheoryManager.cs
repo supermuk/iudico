@@ -11,7 +11,7 @@ namespace IUDICO.DataModel.ImportManagers
         {
             string fileName  = Path.Combine(projectPaths.PathToTempCourseFolder, XmlUtility.GetIdentifierRef(node) + FileExtentions.Html);
 
-            byte[] file = FilesManager.GetByteFile(fileName);
+            byte[] file = File.ReadAllBytes(fileName);
             int id = Store(themeId, XmlUtility.GetIdentifier(node), file);
             FilesManager.StoreAllPageFiles(id, fileName);
         }

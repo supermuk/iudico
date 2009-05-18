@@ -139,6 +139,9 @@ namespace IUDICO.DataModel.DB.Base
             public static readonly IDBPropertyCondition<DateTime>
                 DateSince = new PropertyCondition<DateTime>("DateSince"),
                 DateTill = new PropertyCondition<DateTime>("DateTill");
+
+            public static readonly IDBPropertyCondition<string>
+                Login = new PropertyCondition<string>("Login");
         }
     }
 

@@ -65,7 +65,7 @@
     <Compile Include="Base\TestFixtureDB.cs" />
     <Compile Include="DBInterOpTest.cs" />
     <Compile Include="DynamicSyntaxObjectTest.cs" />
-    <Compile Include="OpenPageTest.cs" />
+    <Compile Include="ImportCourseTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

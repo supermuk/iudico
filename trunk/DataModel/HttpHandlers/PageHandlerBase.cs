@@ -4,28 +4,28 @@ using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.HttpHandlers
 {
-    abstract class PageHandler : IudicoHttpHandler
+    public abstract class PageHandlerBase : IudicoHttpHandlerBase
     {
-        private const string imageRegexGroup = "image";
-        private const string urlRegexGroup = "url";
-        private const string folderRegexGroup = "folder";
-        private static readonly string imageFileRequest = string.Format("DisplayImage.iif?{0}=", imageIdRequestParameter);
+        private const string ImageRegexGroup = "image";
+        private const string UrlRegexGroup = "url";
+        private const string FolderRegexGroup = "folder";
+        private const string ImageFileRequest = "DisplayImage.iif?" + imageIdRequestParameter + "=";
 
         protected static string ChangeImageUrl(string pageText, TblPages page)
         {
-            var imageUrlRegex = new Regex(string.Format(@"src=""(?<{0}>(?<{1}>\w+.files)/(?<{2}>\w+.\w+))""", urlRegexGroup, folderRegexGroup, imageRegexGroup));
+            var imageUrlRegex = new Regex(string.Format(@"src=""(?<{0}>(?<{1}>\w+.files)/(?<{2}>\w+.\w+))""", UrlRegexGroup, FolderRegexGroup, ImageRegexGroup));
             MatchCollection matches = imageUrlRegex.Matches(pageText);
             foreach (Match m in matches)
             {
-                string imageName = m.Groups[imageRegexGroup].Value;
-                string folderName = m.Groups[folderRegexGroup].Value;
+                string imageName = m.Groups[ImageRegexGroup].Value;
+                string folderName = m.Groups[FolderRegexGroup].Value;
 
                 var list = ServerModel.DB.LookupIds<TblFiles>(page, null);
                 var files = ServerModel.DB.Load<TblFiles>(list);
 
                 
-                string newUrl = string.Concat(imageFileRequest, FindFileId(files, folderName, imageName));
-                pageText = pageText.Replace(m.Groups[urlRegexGroup].Value, newUrl);
+                string newUrl = string.Concat(ImageFileRequest, FindFileId(files, folderName, imageName));
+                pageText = pageText.Replace(m.Groups[UrlRegexGroup].Value, newUrl);
             }
 
             return pageText;

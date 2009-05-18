@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using IUDICO.DataModel.Common.ImportUtils;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.DB.Base;
@@ -12,20 +13,26 @@ namespace IUDICO.DataModel.ImportManagers
         Practice = 2
     }
 
+    public static class FxPageTypeExtender
+    {
+        public static string GetHandlerExtention(this FX_PAGETYPE pageType)
+        {
+            switch (pageType)
+            {
+                case FX_PAGETYPE.Theory:
+                    return FileExtentions.IudicoTheoryPage;
+
+                case FX_PAGETYPE.Practice:
+                    return FileExtentions.IudicoPracticePage;
+
+                default:
+                    throw new InvalidOperationException("Invalid page type: " + pageType);
+            }
+        }
+    }
+
     public class FilesManager
     {
-        public static byte[] GetByteFile(string fileName)
-        {
-            var fs = new FileStream(fileName, FileMode.Open);
-            var br = new BinaryReader(fs);
-            byte[] res = br.ReadBytes((int)fs.Length);
-
-            br.Close();
-            fs.Close();
-
-            return res;
-        }
-
         public static void StoreAllPageFiles(int pageRef, string pageFileName)
         {
             string directoryName = pageFileName.Replace(FileExtentions.Html, FileExtentions.WordHtmlFolder);
@@ -50,7 +57,7 @@ namespace IUDICO.DataModel.ImportManagers
                             Name = file.Name,
                             IsDirectory = false,
                             PageRef = pageRef,
-                            File = GetByteFile(file.FullName),
+                            File = File.ReadAllBytes(file.FullName),
                             PID = pid
                         };
 

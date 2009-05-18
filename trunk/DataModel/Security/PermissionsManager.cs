@@ -193,7 +193,7 @@ namespace IUDICO.DataModel.Security
         {
             using (Logger.Scope("Initializing Security"))
             {
-                if (ID != null)
+                if (IsInitialized())
                 {
                     throw new DMError("{0} is already initialized", typeof(PermissionsManager).Name);
                 }
@@ -225,6 +225,16 @@ namespace IUDICO.DataModel.Security
                     }
                 }
             }
+        }
+
+        public static void UnInitialize()
+        {
+            ID = null;
+        }
+
+        public static bool IsInitialized()
+        {
+            return ID != null;
         }
 
         [NotNull]
