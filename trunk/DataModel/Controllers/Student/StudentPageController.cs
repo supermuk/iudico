@@ -128,7 +128,7 @@ namespace IUDICO.DataModel.Controllers.Student
                     ShowCommonDescription();
                     var controlInfo = BuildTree(null);
 
-                    if (controlInfo.IsControlStartsNow)
+                    if (controlInfo != null && controlInfo.IsControlStartsNow)
                     {
                         DoPreControlPreparation();
                         BuildTreeForControl(controlInfo);
@@ -301,7 +301,7 @@ namespace IUDICO.DataModel.Controllers.Student
             }
         }
 
-
+        [CanBeNull]
         private ControlInfo BuildTree(DateTime? date)
         {
             CurriculumnTreeView.Nodes.Clear();
@@ -318,7 +318,7 @@ namespace IUDICO.DataModel.Controllers.Student
                 {
                     controlInfo = BuildStages(curriculum, node, date);
 
-                    if (controlInfo.IsControlStartsNow)
+                    if (controlInfo != null && controlInfo.IsControlStartsNow)
                         return controlInfo;
 
                     if (node.ChildNodes.Count != 0)

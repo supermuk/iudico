@@ -116,7 +116,11 @@ namespace IUDICO.UnitTest
                 TblUsers u = GetUniqueUserForTesting();
                 c.Insert(u);
 
-                var a1 = new TblUserAnswers { UserRef = u.ID };
+                var a1 = new TblUserAnswers 
+                { 
+                    UserRef = u.ID, 
+                    AnswerTypeRef = FxAnswerType.EmptyAnswer.ID 
+                };
                 var a2 = (TblUserAnswers)a1.Clone();
                 var a3 = (TblUserAnswers)a1.Clone();
                 ServerModel.DB.Insert<TblUserAnswers>(new[] {a1, a2, a3});

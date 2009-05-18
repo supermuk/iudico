@@ -33,6 +33,10 @@ namespace IUDICO.DataModel
 
         public static void UnInitialize()
         {
+            if (PermissionsManager.IsInitialized())
+            {
+                PermissionsManager.UnInitialize();
+            }
             if (DB != null)
             {
                 DB.Dispose();

@@ -1,4 +1,5 @@
-﻿<%@ Import Namespace="System.Linq"%>
+﻿<%@ Import Namespace="IUDICO.DataModel.Security"%>
+<%@ Import Namespace="System.Linq"%>
 <%@ Import Namespace="IUDICO.DataModel"%>
 <%@ Master Language="C#" Inherits="IUDICO.DataModel.MasterPageBase" %>
 
@@ -9,6 +10,9 @@
     <link rel="Stylesheet" href="Main.css" type="text/css" />
 
     <script runat="server">
+
+        private CustomUser _currentUser;
+        
         public UpdatePanel GlobalUpdatePanel
         {
             get { return globalUpdatePanel; }
@@ -16,12 +20,13 @@
         
         protected void MainMenu_DataBind(object sender, EventArgs e)
         {
-            ((Control)sender).Visible = ServerModel.User.Current != null;
+            if (_currentUser == null)
+                _currentUser = ServerModel.User.Current;
+            ((Control)sender).Visible = _currentUser != null;
         }
         protected void MainMenu_ItemDataBound(object sender, MenuEventArgs e)
         {
-            var cu = ServerModel.User.Current;
-            e.Item.Enabled = cu != null && ((SiteMapNode)e.Item.DataItem).Roles.Cast<string>().All(r => cu.Roles.Contains(r));
+            e.Item.Enabled = _currentUser != null && ((SiteMapNode)e.Item.DataItem).Roles.Cast<string>().All(r => _currentUser.Roles.Contains(r));
             if (!e.Item.Enabled)
             {
                 ((Menu)sender).Items.Remove(e.Item);
@@ -31,7 +36,7 @@
 
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form runat="server">
     <div>
         <asp:ScriptManager runat="server" />
         <asp:UpdateProgress DisplayAfter="1" runat="server">

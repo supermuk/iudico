@@ -173,7 +173,7 @@ namespace IUDICO.DataModel.Common.StudentUtils
             return ServerModel.DB.Load<TblPages>(pagesIds);
         }
 
-        public static IList<TblPages> GetPagesForCourse(int courseId)
+        public static IList<TblPages> GetCoursePages(int courseId)
         {
             var course = ServerModel.DB.Load<TblCourses>(courseId);
 
