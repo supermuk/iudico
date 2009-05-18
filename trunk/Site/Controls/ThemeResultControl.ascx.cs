@@ -3,6 +3,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Common.StatisticUtils;
+using IUDICO.DataModel.Common.StudentUtils;
 using IUDICO.DataModel.Common.TestRequestUtils;
 using IUDICO.DataModel.Controllers.Student;
 using IUDICO.DataModel.DB;
@@ -31,7 +32,6 @@ public partial class ThemeResultControl : UserControl
         if (currentUser != null)
         {
             var user = ServerModel.DB.Load<TblUsers>(UserId);
-            var currentUserRoles = currentUser.Roles;
 
             SetHeaderText(theme.Name, CurriculumnName, StageName, user.DisplayName);
 
@@ -55,12 +55,8 @@ public partial class ThemeResultControl : UserControl
                     SetPageRank(row, (int) ur.Page.PageRank);
                     SetUserAnswersLink(row, ur.Page.ID, user.ID);
 
-                    if (currentUserRoles.Contains(FX_ROLE.ADMIN.ToString()) ||
-                        currentUserRoles.Contains(FX_ROLE.LECTOR.ToString()) ||
-                        currentUserRoles.Contains(FX_ROLE.SUPER_ADMIN.ToString()))
-                    {
+                    if (StudentRoleChecker.IsCurrentUserLector())
                         SetCorrectAnswersLink(row, ur.Page.ID);
-                    }
 
                     if (StatisticManager.IsContainCompiledQuestions(ur.Page))
                         SetCompiledDetailsLink(row, ur.Page.ID, user.ID);

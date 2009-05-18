@@ -335,7 +335,7 @@ namespace IUDICO.DataModel.Controllers.Student
         {
             IList<TblStages> stages = StudentRecordFinder.GetStagesForCurriculum(curriculum);
 
-            ControlInfo controlInfo = null;
+            ControlInfo controlInfo = new ControlInfo();
 
             foreach (TblStages stage in stages)
             {
@@ -362,7 +362,7 @@ namespace IUDICO.DataModel.Controllers.Student
         {
             var themes = StudentRecordFinder.GetThemesForStage(stage);
 
-            ControlInfo controlInfo = null;
+            ControlInfo controlInfo = new ControlInfo();
 
             foreach (TblThemes theme in themes)
             {

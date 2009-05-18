@@ -11,7 +11,7 @@ namespace IUDICO.DataModel.HttpHandlers
             // TODO: Check security
 
             var imageFileId = int.Parse(context.Request[imageIdRequestParameter]);
-            TblFiles files = ServerModel.DB.Load<TblFiles>(imageFileId);
+            var files = ServerModel.DB.Load<TblFiles>(imageFileId);
             context.Response.ContentType = Path.GetExtension(files.Name);
             context.Response.OutputStream.Write(files.File.ToArray(), 0, files.File.Length);
         }
