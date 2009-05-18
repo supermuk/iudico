@@ -3,6 +3,7 @@ using System.Web.UI.WebControls;
 using IUDICO.DataModel.Common.TestRequestUtils;
 using IUDICO.DataModel.Controllers.Student;
 using IUDICO.DataModel.DB;
+using IUDICO.DataModel.ImportManagers;
 using LEX.CONTROLS;
 using LEX.CONTROLS.Expressions;
 
@@ -31,16 +32,27 @@ namespace IUDICO.DataModel.Controllers.Teacher
 
                 var number = new TableCell {Text = i.ToString()};
                 var name = new TableCell {Text = page.PageName};
-                var rank = new TableCell {Text = page.PageRank.ToString()};
-
                 var correctAnswers = new TableCell();
-                correctAnswers.Controls.Add(new HyperLink{Text = "Correct Answers", NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new TestDetailsController
-                                                                                    {
-                                                                                        BackUrl = string.Empty,
-                                                                                        PageId = page.ID,
-                                                                                        TestType = (int)TestSessionType.CorrectAnswer
-                                                                                    })});
-                row.Cells.AddRange(new[] { number, name, rank, correctAnswers});
+                var rank = new TableCell();
+
+                if (page.PageTypeRef == (int?)FX_PAGETYPE.Practice)
+                {
+                    rank.Text = page.PageRank.ToString();
+
+                    
+                    correctAnswers.Controls.Add(new HyperLink
+                    {
+                        Text = "Correct Answers",
+                        NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new TestDetailsController
+                        {
+                            BackUrl = string.Empty,
+                            PageId = page.ID,
+                            TestType = (int)TestSessionType.CorrectAnswer
+                        })
+                    });
+                }
+
+                row.Cells.AddRange(new[] { number, name, rank, correctAnswers });
 
                 ThemePagesTable.Rows.Add(row);
             }
