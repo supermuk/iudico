@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Security;
 using IUDICO.DataModel.Common.StudentUtils;
 using IUDICO.DataModel.DB;
+using IUDICO.DataModel.ImportManagers;
 using IUDICO.DataModel.Security;
 
 namespace IUDICO.DataModel.Common.StatisticUtils
@@ -67,9 +68,12 @@ namespace IUDICO.DataModel.Common.StatisticUtils
 
             foreach (var p in pages)
             {
-                var ur = new UserResultForPage(userId, p, null);
-                ur.Calc();
-                result.Add(ur);
+                if (p.PageTypeRef == (int?)FX_PAGETYPE.Practice)
+                {
+                    var ur = new UserResultForPage(userId, p, null);
+                    ur.Calc();
+                    result.Add(ur);
+                }
             }
 
             return result;
@@ -109,21 +113,25 @@ namespace IUDICO.DataModel.Common.StatisticUtils
         {
             foreach (var page in usedPages)
             {
-                var questions = StudentRecordFinder.GetQuestionsForPage(page);
-
-                foreach (var q in questions)
+                if (page.PageTypeRef == (int?)FX_PAGETYPE.Practice)
                 {
-                    var ua = new TblUserAnswers
-                    {
-                        QuestionRef = q.ID,
-                        Date = DateTime.Now,
-                        UserRef = ((CustomUser)Membership.GetUser()).ID,
-                        UserAnswer = string.Empty,
-                        IsCompiledAnswer = false,
-                        AnswerTypeRef = FxAnswerType.EmptyAnswer.ID
-                    };
 
-                    ServerModel.DB.Insert(ua);
+                    var questions = StudentRecordFinder.GetQuestionsForPage(page);
+
+                    foreach (var q in questions)
+                    {
+                        var ua = new TblUserAnswers
+                                     {
+                                         QuestionRef = q.ID,
+                                         Date = DateTime.Now,
+                                         UserRef = ((CustomUser) Membership.GetUser()).ID,
+                                         UserAnswer = string.Empty,
+                                         IsCompiledAnswer = false,
+                                         AnswerTypeRef = FxAnswerType.EmptyAnswer.ID
+                                     };
+
+                        ServerModel.DB.Insert(ua);
+                    }
                 }
             }
         }
@@ -132,21 +140,24 @@ namespace IUDICO.DataModel.Common.StatisticUtils
         {
             foreach (var page in usedPages)
             {
-                var questions = StudentRecordFinder.GetQuestionsForPage(page);
-
-                foreach (var q in questions)
+                if (page.PageTypeRef == (int?) FX_PAGETYPE.Practice)
                 {
-                    var ua = new TblUserAnswers
-                    {
-                        QuestionRef = q.ID,
-                        Date = DateTime.Now,
-                        UserRef = ((CustomUser)Membership.GetUser()).ID,
-                        UserAnswer = string.Empty,
-                        IsCompiledAnswer = false,
-                        AnswerTypeRef = FxAnswerType.NotIncludedAnswer.ID
-                    };
+                    var questions = StudentRecordFinder.GetQuestionsForPage(page);
 
-                    ServerModel.DB.Insert(ua);
+                    foreach (var q in questions)
+                    {
+                        var ua = new TblUserAnswers
+                                     {
+                                         QuestionRef = q.ID,
+                                         Date = DateTime.Now,
+                                         UserRef = ((CustomUser) Membership.GetUser()).ID,
+                                         UserAnswer = string.Empty,
+                                         IsCompiledAnswer = false,
+                                         AnswerTypeRef = FxAnswerType.NotIncludedAnswer.ID
+                                     };
+
+                        ServerModel.DB.Insert(ua);
+                    }
                 }
             }
         }
