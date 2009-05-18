@@ -138,6 +138,7 @@
     <Compile Include="Common\StudentUtils\PageShifter.cs" />
     <Compile Include="Common\StudentUtils\StudentPermissionsHelper.cs" />
     <Compile Include="Common\StudentUtils\StudentRecordFinder.cs" />
+    <Compile Include="Common\StudentUtils\StudentRoleChecker.cs" />
     <Compile Include="Common\StudentUtils\UserSubmitCountChecker.cs" />
     <Compile Include="Common\TeacherHelper.cs" />
     <Compile Include="Common\TestingUtils\AnswerFiller.cs" />

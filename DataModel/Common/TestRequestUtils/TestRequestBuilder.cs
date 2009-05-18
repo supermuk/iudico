@@ -1,6 +1,3 @@
-using System.Web;
-using IUDICO.DataModel.Common.ImportUtils;
-
 namespace IUDICO.DataModel.Common.TestRequestUtils
 {
     public class TestRequestBuilder
@@ -9,9 +6,7 @@ namespace IUDICO.DataModel.Common.TestRequestUtils
 
         private TestSessionType _testSessionType = TestSessionType.Ordinary;
 
-        private readonly string _pageUrl;
-
-        private int _pageId;
+        private readonly int _pageId;
 
         private int _themeId;
 
@@ -28,17 +23,11 @@ namespace IUDICO.DataModel.Common.TestRequestUtils
 
         public static TestRequestBuilder NewRequestForHandler(int pageId, string extension)
         {
-            return new TestRequestBuilder("IudicoPage", extension, pageId);
+            return new TestRequestBuilder(extension, pageId);
         }
 
-        public static TestRequestBuilder NewRequestForPage(string pageUrl, int pageId)
+        private TestRequestBuilder(string extention, int pageId)
         {
-            return new TestRequestBuilder(pageUrl, FileExtentions.NoExtention, pageId);
-        }
-
-        private TestRequestBuilder(string pageUrl, string extention, int pageId)
-        {
-            _pageUrl = pageUrl;
             _extention = extention;
             _pageId = pageId;
         }
@@ -85,24 +74,10 @@ namespace IUDICO.DataModel.Common.TestRequestUtils
             return this;
         }
 
-        public TestRequestBuilder ExtractParametersFromExistedRequest(HttpRequest request)
-        {
-            _pageId = TestRequestParser.GetPageId(request);
-            _curriculumnId = TestRequestParser.GetCurriculumnId(request);
-            _stageId = TestRequestParser.GetStageId(request);
-            _themeId = TestRequestParser.GetThemeId(request);
-            _pagesIds = TestRequestParser.GetTestPagesIds(request);
-            _pageIndex = TestRequestParser.GetPageIndex(request);
-            _testSessionType = TestRequestParser.GetTestSessionType(request);
-            _userId = TestRequestParser.GetUserId(request);
-
-            return this;
-        }
-
         public string Build()
         {
-            return string.Format("{0}{1}?PageId={2}&CurriculumnId={3}&StageId={4}&ThemeId={5}&PagesIds={6}&PageIndex={7}&TestSessionType={8}&UserId={9}",
-                                _pageUrl, _extention, _pageId, _curriculumnId, _stageId, _themeId, _pagesIds, _pageIndex, (int)_testSessionType, _userId);
+            return string.Format("IudicoPage{0}?PageId={1}&CurriculumnId={2}&StageId={3}&ThemeId={4}&PagesIds={5}&PageIndex={6}&TestSessionType={7}&UserId={8}",
+                                _extention, _pageId, _curriculumnId, _stageId, _themeId, _pagesIds, _pageIndex, (int)_testSessionType, _userId);
         }
     }
 }

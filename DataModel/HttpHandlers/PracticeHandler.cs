@@ -3,7 +3,9 @@ using System.IO;
 using System.Text;
 using System.Web;
 using IUDICO.DataModel.Common.ImportUtils;
+using IUDICO.DataModel.Common.TestRequestUtils;
 using IUDICO.DataModel.DB;
+using IUDICO.DataModel.ImportManagers;
 
 namespace IUDICO.DataModel.HttpHandlers
 {
@@ -13,9 +15,12 @@ namespace IUDICO.DataModel.HttpHandlers
 
         public void ProcessRequest(HttpContext context)
         {
-            // TODO: Check security
+            RequestConditionChecker.IsRequestCorrectForPractice(context.Request);
 
             TblPages page = GetPage(context);
+
+            CheckPageType(page);
+
             var pathToTests = Path.Combine(context.Request.PhysicalApplicationPath, TestsFolder);
             
             EnsureDirectoryExists(pathToTests);
@@ -29,6 +34,12 @@ namespace IUDICO.DataModel.HttpHandlers
 
             // TODO: Fix renewing page on postback and uncomment following line:
             //File.Delete(path);
+        }
+
+        private static void CheckPageType(TblPages page)
+        {
+            if (page.PageTypeRef != (int?)FX_PAGETYPE.Practice)
+                throw new Exception("Wrong handler for page");
         }
 
         private static void EnsureDirectoryExists(string fullPath)
