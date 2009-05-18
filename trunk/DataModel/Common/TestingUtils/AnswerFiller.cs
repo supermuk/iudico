@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel.Common.StatisticUtils;
+using IUDICO.DataModel.Common.StudentUtils;
 using IUDICO.DataModel.Common.TestRequestUtils;
 using IUDICO.DataModel.DB;
 
@@ -44,18 +45,8 @@ namespace IUDICO.DataModel.Common.TestingUtils
 
 
             if (_fillCorrectAnswer)
-            {
-                if (ServerModel.User.Current != null)
-                    if (ServerModel.User.Current.Roles != null)
-                    {
-                        var currentUserRoles = ServerModel.User.Current.Roles;
-
-                        if (currentUserRoles.Contains(FX_ROLE.ADMIN.ToString()) ||
-                                currentUserRoles.Contains(FX_ROLE.LECTOR.ToString()) ||
-                                    currentUserRoles.Contains(FX_ROLE.SUPER_ADMIN.ToString()))
-                            return q.CorrectAnswer;
-                    }
-            }
+                if (StudentRoleChecker.IsCurrentUserLector())
+                    return q.CorrectAnswer;
 
             return string.Empty;
         }
