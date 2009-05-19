@@ -319,7 +319,7 @@ namespace TestingSystem.Compile
         {
             get
             {
-                return new Compiler(Language.Delphi7, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\Delphi7\Dcc32.exe"), 
+                return new Compiler(Language.Delphi7, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\Delphi7\Dcc32.exe"),
                 "-U\"$CompilerDirectory$\" $SourceFilePath$", "pas");
             }
         }

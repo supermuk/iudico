@@ -48,7 +48,18 @@ namespace TestingSystem
             //write source into a file
             string programDirectory = Path.Combine(Settings.TestingDirectory, ProgramName);
             Directory.CreateDirectory(programDirectory);
+
             string programPath = Path.Combine(programDirectory, ProgramName + "." + currentCompiler.Extension);
+            if (program.Language == Language.Java6)
+            {
+                const string classStr = "class";
+                string className = program.Source.Substring(
+                    program.Source.IndexOf(classStr) + classStr.Length,
+                    program.Source.IndexOf("{") - (program.Source.IndexOf(classStr) + classStr.Length)
+                    );
+                className = className.Trim();
+                programPath = Path.Combine(programDirectory, className + "." + currentCompiler.Extension);
+            }
             StreamWriter writer = new StreamWriter(programPath);
             writer.Write(program.Source);
             writer.Close();
