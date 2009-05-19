@@ -302,7 +302,7 @@ namespace TestingSystem.Compile
                 }
 
                 return new Compiler(Language.DotNet3, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\dotNET3\csc.exe"),
-                @"/t:exe " + allReferences + "$SourceFilePath$", "cs");
+                @"/t:exe " + allReferences + "\"$SourceFilePath$\"", "cs");
             }
         }
 
@@ -311,7 +311,7 @@ namespace TestingSystem.Compile
             get
             {
                 return new Compiler(Language.Java6, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\Java6\bin\javac.exe"),
-                "$SourceFilePath$", "java");
+                "\"$SourceFilePath$\"", "java");
             }
         }
 
