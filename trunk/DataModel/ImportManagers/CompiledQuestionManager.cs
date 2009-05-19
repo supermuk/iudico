@@ -1,32 +1,9 @@
-using System;
 using System.Xml;
 using IUDICO.DataModel.Common.ImportUtils;
 using IUDICO.DataModel.DB;
-using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.ImportManagers
 {
-    [DBEnum("fxLanguages")]
-    public enum FX_LANGUAGE
-    {
-        Axapta = 1,
-        Cpp = 2,
-        Delphi = 3,
-        HTML = 4,
-        Java = 5,
-        JavaScript = 6,
-        Perl = 7,
-        PHP = 8,
-        Python = 9,
-        RIB = 10,
-        RSL = 11,
-        Ruby = 12,
-        Smalltalk = 13,
-        SQL = 14,
-        VBScript = 15,
-        CS = 16
-    }
-
     class CompiledQuestionManager
     {
         public static int Import(XmlNode node)
@@ -37,11 +14,11 @@ namespace IUDICO.DataModel.ImportManagers
             return id;
         }
 
-        private static int Store(FX_LANGUAGE language, int timeLimit, int memoryLimit, int outputLimit)
+        private static int Store(FxLanguages language, int timeLimit, int memoryLimit, int outputLimit)
         {
             var cq = new TblCompiledQuestions
                          {
-                             LanguageRef = ((int) language),
+                             LanguageRef = language.ID,
                              MemoryLimit = memoryLimit,
                              TimeLimit = timeLimit,
                              OutputLimit = outputLimit
@@ -73,23 +50,29 @@ namespace IUDICO.DataModel.ImportManagers
             ServerModel.DB.Insert(cqd);
         }
 
-        private static FX_LANGUAGE LanguageIndex(string lang)
+        private static FxLanguages LanguageName(string lang)
         {
-            foreach (FX_LANGUAGE l in Enum.GetValues(typeof(FX_LANGUAGE)))
+            switch(lang)
             {
-                if (l.ToString().ToLower().Equals(lang.ToLower()))
-                    return l;
+                case ("CS"):
+                    return FxLanguages.DotNet3;
+                case ("Cpp"):
+                    return FxLanguages.Vs8CPlusPlus;
+                case ("Delphi"):
+                    return FxLanguages.Delphi7;
+                case ("Java"):
+                    return FxLanguages.Java6;
+                default:
+                    return FxLanguages.DotNet3;
             }
-
-            return 0;
         }
 
-        private static FX_LANGUAGE GetLanguage(XmlNode node)
+        private static FxLanguages GetLanguage(XmlNode node)
         {
             foreach (XmlNode n in node.ChildNodes)
                 if (XmlUtility.IsLanguage(n))
-                    return LanguageIndex(n.InnerText);
-            return 0;
+                    return LanguageName(n.InnerText);
+            return FxLanguages.DotNet3;
         }
     }
 }
