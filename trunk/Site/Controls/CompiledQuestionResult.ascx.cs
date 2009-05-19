@@ -53,7 +53,7 @@ public partial class CompiledQuestionResult : UserControl
     private void SetHeader(string name, TblCompiledQuestions ua)
     {
         _headerLabel.Text = string.Format("Name:{0}; Time Limit:{1}; Memory Limit:{2}; Language:{3};",
-        name, ua.TimeLimit, ua.MemoryLimit, LanguageHelper.FxLanguageToLanguage(ua.LanguageRef));
+        name, ua.TimeLimit, ua.MemoryLimit, LanguageHelper.FxLanguagesToLanguage(ua.LanguageRef));
     }
 
     private void SetTestCaseResult(TblCompiledQuestionsData compiledData, TblCompiledAnswers compileAnswer)
