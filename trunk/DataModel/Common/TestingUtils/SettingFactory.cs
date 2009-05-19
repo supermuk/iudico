@@ -41,7 +41,7 @@ namespace IUDICO.DataModel.Common.TestingUtils
                            Source = ua.UserAnswer,
                            MemoryLimit = (int)cq.MemoryLimit,
                            TimeLimit = (int)cq.TimeLimit,
-                           Language = LanguageHelper.FxLanguageToLanguage(cq.LanguageRef)
+                           Language = LanguageHelper.FxLanguagesToLanguage(cq.LanguageRef)
                        };
         }
     }
