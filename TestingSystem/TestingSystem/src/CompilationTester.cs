@@ -1,5 +1,4 @@
 ﻿using System.IO;
-
 namespace TestingSystem
 {
     /// <summary>
@@ -10,12 +9,12 @@ namespace TestingSystem
         /// <summary>
         /// Represents settings of this component.
         /// </summary>
-        private Settings settings;
+        public readonly Settings Settings;
 
         /// <summary>
         /// Represents the name of source and exe files.
         /// </summary>
-        const string programName = "program";
+        public const string ProgramName = "program";
 
         /// <summary>
         /// Tests provided program.
@@ -30,9 +29,9 @@ namespace TestingSystem
         /// </returns>
         public Result TestProgram(Program program)
         {
-            //search fo apropriate compiler
+            //search for apropriate compiler
             Compile.Compiler currentCompiler = null;
-            foreach (Compile.Compiler compiler in settings.Compilers)
+            foreach (Compile.Compiler compiler in Settings.Compilers)
             {
                 if (compiler.Name == program.Language)
                 {
@@ -47,9 +46,9 @@ namespace TestingSystem
             }
 
             //write source into a file
-            string programDirectory = Path.Combine(settings.TestingDirectory, programName);
+            string programDirectory = Path.Combine(Settings.TestingDirectory, ProgramName);
             Directory.CreateDirectory(programDirectory);
-            string programPath = Path.Combine(programDirectory, programName + "." + currentCompiler.Extension);
+            string programPath = Path.Combine(programDirectory, ProgramName + "." + currentCompiler.Extension);
             StreamWriter writer = new StreamWriter(programPath);
             writer.Write(program.Source);
             writer.Close();
@@ -60,8 +59,7 @@ namespace TestingSystem
             Result testResult = null;
             if (compileResult.Compiled)
             {
-                Runner executer = new Runner(settings.UserName, settings.Password);
-                testResult = executer.Execute(Path.ChangeExtension(programPath, "exe"), program);
+                testResult = Runner.Execute(Path.ChangeExtension(programPath, "exe"), program);
             }
             else
             {
@@ -69,16 +67,19 @@ namespace TestingSystem
                 testResult.ProgramStatus = Status.CompilationError;
                 testResult.Output = compileResult.StandartOutput;
             }
+
+
             try
             {
                 Directory.Delete(programDirectory, true);
             }
-            catch { }
+            catch
+            { }
             return testResult;
         }
 
         /// <summary>
-        /// Creates new instance of <see cref="CompilationTester"/> class.
+        /// Creates new instance of <see cref="Tester"/> class.
         /// </summary>
         /// 
         /// <param name="settings">
@@ -87,7 +88,7 @@ namespace TestingSystem
         public CompilationTester(Settings settings)
         {
             ProjectHelper.ValidateNotNull(settings, "settings");
-            this.settings = settings;
+            this.Settings = settings;
         }
 
     }

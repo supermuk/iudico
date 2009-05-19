@@ -1,5 +1,4 @@
 ﻿using System;
-
 namespace TestingSystem
 {
     /// <summary>
@@ -26,7 +25,7 @@ namespace TestingSystem
         /// <summary>
         /// Resresents the language of provided program.
         /// </summary>
-        private string language;
+        private Language language;
 
         /// <summary>
         /// Represents the maximum time(in milliseconds) of program execution.
@@ -102,7 +101,7 @@ namespace TestingSystem
         /// <value>
         /// The language of provided program.
         /// </value>
-        public string Language
+        public Language Language
         {
             get
             {

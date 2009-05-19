@@ -7,6 +7,7 @@ namespace TestingSystem
     {
         static void Main(string[] args)
         {
+
             try
             {
                 //get path to .exe file
@@ -16,7 +17,6 @@ namespace TestingSystem
                 //get entry point
                 MethodInfo entryPoint = assembly.EntryPoint;
                 ParameterInfo[] parametersInfo = entryPoint.GetParameters();
-
                 object[] parameters = new object[parametersInfo.Length];
                 //setting default values for args.
                 for (int i = 0; i < parametersInfo.Length; i++)

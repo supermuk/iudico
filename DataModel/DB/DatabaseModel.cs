@@ -30,6 +30,27 @@ namespace IUDICO.DataModel.DB
         public readonly static FxStageOperations Pass;
     }
 
+    public partial class FxLanguages : FxDataObject, IFxDataObject
+    {
+        [TableRecord]
+        public static readonly FxLanguages Vs6CPlusPlus;
+
+        [TableRecord]
+        public static readonly FxLanguages Vs8CPlusPlus;
+
+        [TableRecord]
+        public static readonly FxLanguages DotNet2;
+
+        [TableRecord]
+        public static readonly FxLanguages DotNet3;
+
+        [TableRecord]
+        public static readonly FxLanguages Java6;
+
+        [TableRecord]
+        public static readonly FxLanguages Delphi7;
+    }
+
     public partial class FxRoles : FxDataObject, IFxDataObject
     {
         [TableRecord]
