@@ -8,7 +8,7 @@
         /// <summary>
         /// Program was compiled, it passed time and memory limits, but it returns wrong output.
         /// </summary>
-        WrongAnswer,
+        WrongAnswer = 1,
 
         /// <summary>
         /// Program was compiled, it passed time and memory limits, and it returns correct output.
