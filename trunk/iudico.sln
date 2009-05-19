@@ -8,7 +8,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Site", "Site\", "{A1E0299F-
 		Debug.AspNetCompiler.VirtualPath = "/Site"
 		Debug.AspNetCompiler.PhysicalPath = "Site\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\Site\"
-		Debug.AspNetCompiler.Updateable = "false"
+		Debug.AspNetCompiler.Updateable = "falsee"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
@@ -29,8 +29,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.DBUpdateManager", "Utils\IUDICO.DBManager\IUDICO.DBUpdateManager.csproj", "{F95D74A2-02F6-442D-8363-F1E43FB9A2DB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBUpdater", "Utils\DBUpdater\DBUpdater.csproj", "{09E61840-75A2-4776-82CA-2A23A731EDEE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExeWrapper", "TestingSystem\ExeWrapper\ExeWrapper.csproj", "{E58FD4CF-9626-40F8-8507-3F16FE97EA6E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExeWrapperDotNET", "TestingSystem\ExeWrapperDotNET\ExeWrapperDotNET.csproj", "{CE7B5354-2E75-41A3-A4E3-DF3A076C0A86}"
 EndProject
@@ -84,14 +82,6 @@ Global
 		{09E61840-75A2-4776-82CA-2A23A731EDEE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{09E61840-75A2-4776-82CA-2A23A731EDEE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{09E61840-75A2-4776-82CA-2A23A731EDEE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{E58FD4CF-9626-40F8-8507-3F16FE97EA6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E58FD4CF-9626-40F8-8507-3F16FE97EA6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E58FD4CF-9626-40F8-8507-3F16FE97EA6E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{E58FD4CF-9626-40F8-8507-3F16FE97EA6E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{E58FD4CF-9626-40F8-8507-3F16FE97EA6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E58FD4CF-9626-40F8-8507-3F16FE97EA6E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E58FD4CF-9626-40F8-8507-3F16FE97EA6E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{E58FD4CF-9626-40F8-8507-3F16FE97EA6E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{CE7B5354-2E75-41A3-A4E3-DF3A076C0A86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CE7B5354-2E75-41A3-A4E3-DF3A076C0A86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE7B5354-2E75-41A3-A4E3-DF3A076C0A86}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

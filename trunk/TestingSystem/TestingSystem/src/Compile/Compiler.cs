@@ -264,7 +264,8 @@ namespace TestingSystem.Compile
         {
             get
             {
-                return new Compiler(Language.Vs6CPlusPlus, @"..\..\test_files\Compilers\VC6\CL.EXE",
+
+                return new Compiler(Language.Vs6CPlusPlus, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\VC6\CL.EXE"),
                 "/I\"$CompilerDirectory$\" $SourceFilePath$ /link /LIBPATH:\"$CompilerDirectory$\"", "cpp");
             }
         }
@@ -273,7 +274,7 @@ namespace TestingSystem.Compile
         {
             get
             {
-                return new Compiler(Language.Vs8CPlusPlus, @"..\..\test_files\Compilers\VC8\CL.EXE",
+                return new Compiler(Language.Vs8CPlusPlus, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\VC8\CL.EXE"),
                 "/I\"$CompilerDirectory$\" $SourceFilePath$ /link /LIBPATH:\"$CompilerDirectory$\"", "cpp");
             }
         }
@@ -282,7 +283,8 @@ namespace TestingSystem.Compile
         {
             get
             {
-                return new Compiler(Language.DotNet2, @"..\..\test_files\Compilers\dotNET3\csc.exe", @"/t:exe $SourceFilePath$", "cs");
+                return new Compiler(Language.DotNet2, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\dotNET2\csc.exe"),
+                @"/t:exe $SourceFilePath$", "cs");
             }
         }
 
@@ -299,7 +301,8 @@ namespace TestingSystem.Compile
                     allReferences += reference + systemReference + " ";
                 }
 
-                return new Compiler(Language.DotNet3, @"..\..\test_files\Compilers\dotNET3\csc.exe", @"/t:exe " + allReferences + "$SourceFilePath$", "cs");
+                return new Compiler(Language.DotNet3, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\dotNET3\csc.exe"),
+                @"/t:exe " + allReferences + "$SourceFilePath$", "cs");
             }
         }
 
@@ -307,7 +310,8 @@ namespace TestingSystem.Compile
         {
             get
             {
-                return new Compiler(Language.Java6, @"..\..\test_files\Compilers\Java6\bin\javac.exe", "$SourceFilePath$", "java");
+                return new Compiler(Language.Java6, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\Java6\bin\javac.exe"),
+                "$SourceFilePath$", "java");
             }
         }
 
@@ -315,7 +319,8 @@ namespace TestingSystem.Compile
         {
             get
             {
-                return new Compiler(Language.Delphi7, @"..\..\test_files\Compilers\Delphi7\Dcc32.exe", "-U\"$CompilerDirectory$\" $SourceFilePath$", "pas");
+                return new Compiler(Language.Delphi7, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\Delphi7\Dcc32.exe"), 
+                "-U\"$CompilerDirectory$\" $SourceFilePath$", "pas");
             }
         }
     }

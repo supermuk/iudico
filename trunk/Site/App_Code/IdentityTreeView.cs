@@ -21,12 +21,12 @@ namespace IUDICO.DataModel.Controllers
             }
             set
             {
-//                try
-//                {
-//                    base.DataSource = value;
-//                }
-//                catch
-//                {
+                try
+                {
+                    base.DataSource = value;
+                }
+                catch
+                {
                     IList<TblCourses> coursesData = value as IList<TblCourses>;
                     IList<TblCurriculums> curriculumssData = value as IList<TblCurriculums>;
 
@@ -71,7 +71,7 @@ namespace IUDICO.DataModel.Controllers
                         }
                     }
                     CollapseAll();
-//                }
+                }
             }
 
         }
