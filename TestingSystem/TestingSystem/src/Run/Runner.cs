@@ -61,7 +61,7 @@ namespace TestingSystem
         /// <remarks>
         /// .NET wrapping application was designed because of not working SetErrorMode function with .NET programs.
         /// </remarks>
-        private static string NETWrapperPath = "ExeWrapperDotNET.exe";
+        private static string NETWrapperPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Bin\ExeWrapperDotNET.exe");
 
         /// <summary>
         /// The path for wrapping exe for java applications.
@@ -70,7 +70,7 @@ namespace TestingSystem
         /// <remarks>
         /// java wrapping application was designed because of not working SetErrorMode function with .NET programs.
         /// </remarks>
-        private static string JavaWrapperPath = @"..\..\test_files\Compilers\Java6\bin\java.exe";
+        private static string JavaWrapperPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\Java6\bin\java.exe");
 
         /// <summary>
         /// Executes provided exe file and returns the result of program using.
@@ -143,6 +143,7 @@ namespace TestingSystem
                 result.TimeUsed = (int)exeProcess.TotalProcessorTime.TotalMilliseconds;
                 result.MemoryUsed = (int)memoryCounter.Memory / 1024;
 
+                result.Output = result.Output.Trim();
 
                 //set program status
                 if (result.ProgramStatus != Status.TimeLimit)
