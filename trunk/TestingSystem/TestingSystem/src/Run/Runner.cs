@@ -120,6 +120,7 @@ namespace TestingSystem
 
                 exeProcess.StartInfo.FileName = exePath;
                 exeProcess.StartInfo.Arguments = arguments;
+                exeProcess.StartInfo.Arguments = exeProcess.StartInfo.Arguments;
 
                 //start process
                 MemoryCounter memoryCounter = new MemoryCounter(exeProcess, 20);
@@ -205,12 +206,12 @@ namespace TestingSystem
         {
             if (program.Language == Language.DotNet2 || program.Language == Language.DotNet3)
             {
-                return ExecuteWin32(NETWrapperPath, program, exePath);
+                return ExecuteWin32(NETWrapperPath, program, "\"" + exePath + "\"");
             }
             if (program.Language == Language.Java6)
             {
                 return ExecuteWin32(JavaWrapperPath, program,
-                    "-cp " + Path.GetDirectoryName(exePath) + " " + Path.GetFileNameWithoutExtension(exePath));
+                    "-cp " + "\"" + Path.GetDirectoryName(exePath) + "\" " + Path.GetFileNameWithoutExtension(exePath));
             }
 
             return ExecuteWin32(exePath, program, "");
