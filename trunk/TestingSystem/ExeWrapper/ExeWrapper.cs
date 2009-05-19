@@ -3,8 +3,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Xml.Serialization;
+using System.Threading;
 
 namespace TestingSystem
 {
@@ -56,13 +56,13 @@ namespace TestingSystem
         /// <remarks>
         /// .NET wrapping application was designed because of not working SetErrorMode function with .NET programs.
         /// </remarks>
-        private static string NETWrapperPath;
+        private static string NETWrapperPath = "ExeWrapperDotNET.exe";
+
         /// <summary>
         /// Runs provided .exe file and returns the resulting statistic( time usage, memory usage, output). 
         /// </summary>
         static void Main()
         {
-            NETWrapperPath = AppDomain.CurrentDomain.BaseDirectory + @"ExeWrapperDotNET.exe";
             //Set error mode, for hiding error message boxes.
             SetErrorMode(0x0001 | 0x0002 | 0x0004 | 0x8000);
             Result result = new Result();
@@ -99,6 +99,7 @@ namespace TestingSystem
             //check if provided exe. is .NET based
             exeProcess.StartInfo.FileName = NETWrapperPath;
             exeProcess.StartInfo.Arguments = "\"" + exePath + "\"";
+            
             try
             {
                 //if true we run .NET wrapper
@@ -114,7 +115,6 @@ namespace TestingSystem
                 exeProcess.StartInfo.Arguments = "";
                 exeProcess.StartInfo.FileName = exePath;
             }
-
             //start process
             MemoryCounter memoryCounter = new MemoryCounter(exeProcess, 20);
             exeProcess.Start();
@@ -145,7 +145,7 @@ namespace TestingSystem
                     result.Output = result.Output.Replace((char)i, (char)13);
                 }
             }
-
+            
             //serialize and deserialize output
             //this is done becase string is changed during serialization
             //as program.OutputTest was serilized/deserialized
@@ -155,7 +155,6 @@ namespace TestingSystem
             stringSerializer.Serialize(stringStream, result.Output);
             stringStream.Position = 0;
             result.Output = stringSerializer.Deserialize(stringStream) as string;
-            result.Output = result.Output.Trim();
 
             //set program status
             if (result.ProgramStatus != Status.TimeLimit)

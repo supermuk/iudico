@@ -135,6 +135,7 @@
     <Compile Include="Common\ImportUtils\ProjectPaths.cs" />
     <Compile Include="Common\SqlUtils.cs" />
     <Compile Include="Common\Memorizer.cs" />
+    <Compile Include="Common\StudentUtils\LanguageHelper.cs" />
     <Compile Include="Common\StudentUtils\PageShifter.cs" />
     <Compile Include="Common\StudentUtils\StudentPermissionsHelper.cs" />
     <Compile Include="Common\StudentUtils\StudentRecordFinder.cs" />

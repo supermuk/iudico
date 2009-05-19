@@ -1,4 +1,8 @@
-﻿namespace TestingSystem.Compile
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+namespace TestingSystem.Compile
 {
     /// <summary>
     /// Represents the result of compilation.

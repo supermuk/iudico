@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.InteropServices;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-
+using System.IO;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 namespace TestingSystem.Compile
 {
     /// <summary>
@@ -14,7 +15,7 @@ namespace TestingSystem.Compile
         /// <summary>
         /// Represents the name of compilator.
         /// </summary>
-        private string name;
+        private Language name;
 
         /// <summary>
         /// Represents the location of compilator in file system.
@@ -56,7 +57,7 @@ namespace TestingSystem.Compile
         /// <value>
         /// The name of compilator.
         /// </value>
-        public string Name
+        public Language Name
         {
             get
             {
@@ -129,6 +130,7 @@ namespace TestingSystem.Compile
         /// </exception>
         public CompileResult Compile(string sourceFilePath)
         {
+            bool compilingJava = Name == Language.Java6;
             ProjectHelper.ValidateFileExists(sourceFilePath, "sourceFilePath");
             sourceFilePath = Path.GetFullPath(sourceFilePath);
 
@@ -138,7 +140,7 @@ namespace TestingSystem.Compile
                 {
                     //get shot pathes for compilers (some of them dont' work with long names)
                     string shortLocation = ToShortPathName(Path.GetDirectoryName(location));
-                    string shortSourceFilePath = ToShortPathName(sourceFilePath);
+                    string shortSourceFilePath = compilingJava ? sourceFilePath : ToShortPathName(sourceFilePath);
 
                     //set compilation arguments
                     process.StartInfo.FileName = location;
@@ -160,7 +162,11 @@ namespace TestingSystem.Compile
                     string standardError = process.StandardError.ReadToEnd();
                     process.WaitForExit();
 
-                    bool compiled = File.Exists(Path.ChangeExtension(shortSourceFilePath, "exe"));
+                    bool compiled = compilingJava ?
+                        File.Exists(Path.ChangeExtension(sourceFilePath, "class"))
+                             :
+                        File.Exists(Path.ChangeExtension(sourceFilePath, "exe"));
+
 
                     //create and return the result of compilation
                     CompileResult result = new CompileResult(compiled, standardOutput, standardError);
@@ -196,7 +202,7 @@ namespace TestingSystem.Compile
         /// <exception cref="FileNotFoundException">
         /// If <paramref name="location"/> is incorrect.
         /// </exception>
-        public Compiler(string name, string location, string arguments, string extension)
+        public Compiler(Language name, string location, string arguments, string extension)
         {
             ProjectHelper.ValidateNotNull(name, "name");
             ProjectHelper.ValidateFileExists(location, "location");
@@ -245,7 +251,7 @@ namespace TestingSystem.Compile
         /// <returns>
         /// The short path string.
         /// </returns>
-        private static string ToShortPathName(string longName)
+        public static string ToShortPathName(string longName)
         {
             StringBuilder shortNameBuffer = new StringBuilder(256);
             uint bufferSize = (uint)shortNameBuffer.Capacity;
@@ -253,5 +259,66 @@ namespace TestingSystem.Compile
 
             return shortNameBuffer.ToString();
         }
+
+        public static Compiler VS6CPlusPlusCompiler
+        {
+            get
+            {
+                return new Compiler(Language.Vs6CPlusPlus, @"..\..\test_files\Compilers\VC6\CL.EXE",
+                "/I\"$CompilerDirectory$\" $SourceFilePath$ /link /LIBPATH:\"$CompilerDirectory$\"", "cpp");
+            }
+        }
+
+        public static Compiler VS8CPlusPlusCompiler
+        {
+            get
+            {
+                return new Compiler(Language.Vs8CPlusPlus, @"..\..\test_files\Compilers\VC8\CL.EXE",
+                "/I\"$CompilerDirectory$\" $SourceFilePath$ /link /LIBPATH:\"$CompilerDirectory$\"", "cpp");
+            }
+        }
+
+        public static Compiler DotNet2Compiler
+        {
+            get
+            {
+                return new Compiler(Language.DotNet2, @"..\..\test_files\Compilers\dotNET3\csc.exe", @"/t:exe $SourceFilePath$", "cs");
+            }
+        }
+
+        public static Compiler DotNet3Compiler
+        {
+            get
+            {
+                string reference = "/reference:";
+                List<string> referenceList = new List<string>() { "System.Core.dll", "System.Xml.Linq.dll", 
+                 "System.WorkflowServices.dll", "System.Net.dll","System.Data.Linq.dll","System.Data.Entity.dll","System.AddIn.dll" };
+                string allReferences = "";
+                foreach (string systemReference in referenceList)
+                {
+                    allReferences += reference + systemReference + " ";
+                }
+
+                return new Compiler(Language.DotNet3, @"..\..\test_files\Compilers\dotNET3\csc.exe", @"/t:exe " + allReferences + "$SourceFilePath$", "cs");
+            }
+        }
+
+        public static Compiler JavaCompiler
+        {
+            get
+            {
+                return new Compiler(Language.Java6, @"..\..\test_files\Compilers\Java6\bin\javac.exe", "$SourceFilePath$", "java");
+            }
+        }
+
+        public static Compiler Delphi7Compiler
+        {
+            get
+            {
+                return new Compiler(Language.Delphi7, @"..\..\test_files\Compilers\Delphi7\Dcc32.exe", "-U\"$CompilerDirectory$\" $SourceFilePath$", "pas");
+            }
+        }
     }
+
+
 }

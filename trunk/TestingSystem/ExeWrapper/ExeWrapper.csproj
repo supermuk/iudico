@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{E58FD4CF-9626-40F8-8507-3F16FE97EA6E}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -45,12 +45,11 @@
     <Reference Include="System.Xml" />
     <Reference Include="TestingSystem, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\TestingSystem.dll</HintPath>
+      <HintPath>..\TestingSystem\bin\Debug\TestingSystem.exe</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExeWrapper.cs" />
-    <Compile Include="MemoryCounter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -61,7 +60,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <PropertyGroup>
-    <PostBuildEvent>copy $(TargetPath)  $(SolutionDir)Site\Bin</PostBuildEvent>
-  </PropertyGroup>
 </Project>

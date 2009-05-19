@@ -8,42 +8,42 @@
         /// <summary>
         /// Program was compiled, it passed time and memory limits, but it returns wrong output.
         /// </summary>
-        WrongAnswer = 1,
+        WrongAnswer,
 
         /// <summary>
         /// Program was compiled, it passed time and memory limits, and it returns correct output.
         /// </summary>
-        Accepted = 2,
+        Accepted,
 
         /// <summary>
         /// Program was compiled, but it takes too much time to run.
         /// </summary>
-        TimeLimit = 3,
+        TimeLimit,
 
         /// <summary>
         /// Program was compiled, but it takes too much memory during run.
         /// </summary>
-        MemoryLimit = 4,
+        MemoryLimit,
 
         /// <summary>
         /// Program wasn't compiled succesfully.
         /// </summary>
-        CompilationError = 5,
+        CompilationError,
 
         /// <summary>
         /// Program was compiled, and it is running right now.
         /// </summary>
-        Running = 6,
+        Running,
 
         /// <summary>
         /// Program was received, and it is waiting too proceed.
         /// </summary>
-        Enqueued = 7,
+        Enqueued,
 
         /// <summary>
         /// Program was compiled, but it crashed during execution.
         /// </summary>
-        Crashed = 8,
+        Crashed,
 
     };
 }

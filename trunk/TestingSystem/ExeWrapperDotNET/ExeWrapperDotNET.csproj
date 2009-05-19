@@ -56,7 +56,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <PropertyGroup>
-    <PostBuildEvent>copy $(TargetPath)  $(SolutionDir)Site\Bin</PostBuildEvent>
-  </PropertyGroup>
 </Project>
