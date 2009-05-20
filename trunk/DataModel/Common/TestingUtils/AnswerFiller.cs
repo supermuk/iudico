@@ -45,7 +45,7 @@ namespace IUDICO.DataModel.Common.TestingUtils
 
 
             if (_fillCorrectAnswer)
-                if (StudentRoleChecker.IsCurrentUserLector())
+                if (ServerModel.User.Current.Islector())
                     return q.CorrectAnswer;
 
             return string.Empty;

@@ -55,7 +55,7 @@ public partial class ThemeResultControl : UserControl
                     SetPageRank(row, (int) ur.Page.PageRank);
                     SetUserAnswersLink(row, ur.Page.ID, user.ID);
 
-                    if (StudentRoleChecker.IsCurrentUserLector())
+                    if (ServerModel.User.Current.Islector())
                         SetCorrectAnswersLink(row, ur.Page.ID);
 
                     if (StatisticManager.IsContainCompiledQuestions(ur.Page))

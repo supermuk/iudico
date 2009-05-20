@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.UI;
 using System.Xml;
 using CourseImport.Common;
-using IUDICO.DataModel.Common.StudentUtils;
 
 namespace IUDICO.DataModel.WebControl
 {
