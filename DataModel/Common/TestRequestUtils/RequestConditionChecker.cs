@@ -93,7 +93,7 @@ namespace IUDICO.DataModel.Common.TestRequestUtils
 
         private static void CheckTypeCorrectAnswer(HttpRequest request)
         {
-            if(StudentRoleChecker.IsCurrentUserLector())
+            if (ServerModel.User.Current.Islector())
             {
                 if(TestRequestParser.GetCurriculumnId(request) == 0 &&
                         TestRequestParser.GetStageId(request) == 0 &&
@@ -120,7 +120,7 @@ namespace IUDICO.DataModel.Common.TestRequestUtils
                                         TestRequestParser.GetUserId(request) > 0 &&
                                             TestRequestParser.GetPageId(request) > 0)
                 {
-                    if(!StudentRoleChecker.IsCurrentUserLector())
+                    if (ServerModel.User.Current.Islector())
                     {
                         if (ServerModel.User.Current != null)
                             if (ServerModel.User.Current.ID != TestRequestParser.GetUserId(request))
@@ -135,7 +135,7 @@ namespace IUDICO.DataModel.Common.TestRequestUtils
 
         private static void CheckTypeUnitTest(HttpRequest request)
         {
-            if (StudentRoleChecker.IsCurrentUserSuperAdmin())
+            if (ServerModel.User.Current.IsSuperAdmin())
             {
                 if (TestRequestParser.GetCurriculumnId(request) == 0 &&
                         TestRequestParser.GetStageId(request) == 0 &&
