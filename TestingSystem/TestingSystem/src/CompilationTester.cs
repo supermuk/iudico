@@ -58,6 +58,7 @@ namespace TestingSystem
                     program.Source.IndexOf("{") - (program.Source.IndexOf(classStr) + classStr.Length)
                     );
                 className = className.Trim();
+
                 foreach (char invalidChar in Path.GetInvalidFileNameChars())
                 {
                     if (className.Contains(invalidChar.ToString()))
@@ -66,10 +67,10 @@ namespace TestingSystem
                         break;
                     }
                 }
-                
+
 
                 programPath = Path.Combine(programDirectory, className + "." + currentCompiler.Extension);
-                 
+
             }
             StreamWriter writer = new StreamWriter(programPath);
             writer.Write(program.Source);
