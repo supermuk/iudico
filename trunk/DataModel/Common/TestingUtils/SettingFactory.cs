@@ -18,10 +18,10 @@ namespace IUDICO.DataModel.Common.TestingUtils
                                    TestingDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()),
                                };
 
-            settings.Compilers.Add(Compiler.VS8CPlusPlusCompiler);
-            settings.Compilers.Add(Compiler.VS6CPlusPlusCompiler);
+            settings.Compilers.Add(Compiler.VC8Compiler);
+            settings.Compilers.Add(Compiler.VC6Compiler);
             settings.Compilers.Add(Compiler.Delphi7Compiler);
-            settings.Compilers.Add(Compiler.JavaCompiler);
+            settings.Compilers.Add(Compiler.Java6Compiler);
             settings.Compilers.Add(Compiler.DotNet2Compiler);
             settings.Compilers.Add(Compiler.DotNet3Compiler);
 

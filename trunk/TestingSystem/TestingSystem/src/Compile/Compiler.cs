@@ -260,21 +260,21 @@ namespace TestingSystem.Compile
             return shortNameBuffer.ToString();
         }
 
-        public static Compiler VS6CPlusPlusCompiler
+        public static Compiler VC6Compiler
         {
             get
             {
 
-                return new Compiler(Language.Vs6CPlusPlus, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\VC6\CL.EXE"),
+                return new Compiler(Language.VC6, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\VC6\CL.EXE"),
                 "/I\"$CompilerDirectory$\" $SourceFilePath$ /link /LIBPATH:\"$CompilerDirectory$\"", "cpp");
             }
         }
 
-        public static Compiler VS8CPlusPlusCompiler
+        public static Compiler VC8Compiler
         {
             get
             {
-                return new Compiler(Language.Vs8CPlusPlus, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\VC8\CL.EXE"),
+                return new Compiler(Language.VC8, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\VC8\CL.EXE"),
                 "/I\"$CompilerDirectory$\" $SourceFilePath$ /link /LIBPATH:\"$CompilerDirectory$\"", "cpp");
             }
         }
@@ -283,7 +283,7 @@ namespace TestingSystem.Compile
         {
             get
             {
-                return new Compiler(Language.DotNet2, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\dotNET2\csc.exe"),
+                return new Compiler(Language.CSharp2, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\CSharp2\csc.exe"),
                 @"/t:exe $SourceFilePath$", "cs");
             }
         }
@@ -301,12 +301,12 @@ namespace TestingSystem.Compile
                     allReferences += reference + systemReference + " ";
                 }
 
-                return new Compiler(Language.DotNet3, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\dotNET3\csc.exe"),
+                return new Compiler(Language.CSharp3, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\CSharp3\csc.exe"),
                 @"/t:exe " + allReferences + "\"$SourceFilePath$\"", "cs");
             }
         }
 
-        public static Compiler JavaCompiler
+        public static Compiler Java6Compiler
         {
             get
             {
