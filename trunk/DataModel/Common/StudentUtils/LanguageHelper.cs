@@ -11,21 +11,21 @@ namespace IUDICO.DataModel.Common.StudentUtils
                 return Language.Delphi7;
 
             if (FxLanguages.DotNet2.ID == id)
-                return Language.DotNet2;
+                return Language.CSharp2;
 
             if (FxLanguages.DotNet3.ID == id)
-                return Language.DotNet3;
+                return Language.CSharp3;
 
             if (FxLanguages.Java6.ID == id)
                 return Language.Java6;
 
             if (FxLanguages.Vs6CPlusPlus.ID == id)
-                return Language.Vs6CPlusPlus;
+                return Language.VC6;
 
             if (FxLanguages.Vs8CPlusPlus.ID == id)
-                return Language.Vs8CPlusPlus;
+                return Language.VC8;
 
-            return Language.DotNet3;
+            return Language.CSharp3;
         }
     }
 }

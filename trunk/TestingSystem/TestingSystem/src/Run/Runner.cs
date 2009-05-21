@@ -204,7 +204,7 @@ namespace TestingSystem
         /// </exception>
         public static Result Execute(string exePath, Program program)
         {
-            if (program.Language == Language.DotNet2 || program.Language == Language.DotNet3)
+            if (program.Language == Language.CSharp2 || program.Language == Language.CSharp3)
             {
                 return ExecuteWin32(NETWrapperPath, program, "\"" + exePath + "\"");
             }
