@@ -1,0 +1,68 @@
+﻿<%@ Import Namespace="IUDICO.DataModel.Security"%>
+<%@ Import Namespace="System.Linq"%>
+<%@ Import Namespace="IUDICO.DataModel"%>
+<%@ Master Language="C#" Inherits="IUDICO.DataModel.MasterPageBase" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>IUDICO Study and Testing system</title>
+    <link rel="Stylesheet" href="Main.css" type="text/css" />
+
+    <script runat="server">
+
+        private CustomUser _currentUser;
+        
+        public UpdatePanel GlobalUpdatePanel
+        {
+            get { return globalUpdatePanel; }
+        }
+        
+        protected void MainMenu_DataBind(object sender, EventArgs e)
+        {
+            if (_currentUser == null)
+                _currentUser = ServerModel.User.Current;
+            ((Control)sender).Visible = _currentUser != null;
+        }
+        protected void MainMenu_ItemDataBound(object sender, MenuEventArgs e)
+        {
+            e.Item.Enabled = _currentUser != null && ((SiteMapNode)e.Item.DataItem).Roles.Cast<string>().All(r => _currentUser.Roles.Contains(r));
+            if (!e.Item.Enabled)
+            {
+                ((Menu)sender).Items.Remove(e.Item);
+            }
+        }
+    </script>
+
+</head>
+<body>
+    <form runat="server">
+    <div>
+        <asp:ScriptManager runat="server" />
+        <asp:UpdateProgress DisplayAfter="1" runat="server">
+            <ProgressTemplate>
+                <div class="ajax-progress">
+                    Please wait...</div>
+            </ProgressTemplate>
+        </asp:UpdateProgress>
+        <asp:SiteMapDataSource ID="SiteMap" ShowStartingNode="false" runat="server" />
+        <asp:Menu ID="MainMenu" OnMenuItemDataBound="MainMenu_ItemDataBound" OnDataBinding="MainMenu_DataBind"
+            Orientation="Horizontal" DataSourceID="SiteMap" runat="server">
+            <DynamicMenuItemStyle CssClass="dynamicmenuitem" />
+            <DynamicHoverStyle CssClass="dynamicmenuitem" />
+            <StaticMenuItemStyle CssClass="staticmenuitem" />
+            <StaticHoverStyle CssClass="staticmenuitem" />
+        </asp:Menu>
+        <br />
+        <b>
+            <asp:SiteMapPath runat="server" />
+        </b>
+        <asp:UpdatePanel ID="globalUpdatePanel" runat="server">
+            <ContentTemplate>
+                <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+            </ContentTemplate>
+        </asp:UpdatePanel>
+    </div>
+    </form>
+</body>
+</html>

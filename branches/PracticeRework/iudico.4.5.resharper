@@ -1,0 +1,11 @@
+<Configuration>
+  <CodeAnnotations>
+    <Namespace>LEX.CONTROLS</Namespace>
+    <DefaultNamespace>LEX.CONTROLS</DefaultNamespace>
+  </CodeAnnotations>
+  <Daemon.SolutionSettings>
+    <SkipFilesAndFolders>
+      <Item>F7A3C8E8-7545-4D92-8FF5-0927B4D845EF/d:DB/f:DatabaseModel.generated.cs</Item>
+    </SkipFilesAndFolders>
+  </Daemon.SolutionSettings>
+</Configuration>
