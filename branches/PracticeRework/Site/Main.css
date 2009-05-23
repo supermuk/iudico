@@ -1,0 +1,33 @@
+﻿.staticmenuitem, .dynamicmenuitem
+{
+	font-weight: bold;
+	background-color: Silver
+}
+
+.staticmenuitem, .staticmenuitemhover
+{
+	margin-left: 20px;
+}
+
+.staticmenuitemhover, .dynamicmenuhover
+{
+	font-style:italic;
+	background-color:Gray;
+	cursor: pointer
+}
+
+.ajax-progress
+{
+	width: 100px;
+	height: 20px;
+	background-color: #BBBB55;
+	color: Black;
+	position: fixed;
+	display:block;
+	top: 0px;
+	left: 45%;
+	font-family: Tahoma;
+	font-size: small;
+	font-weight: bold;
+	text-align: center;
+}

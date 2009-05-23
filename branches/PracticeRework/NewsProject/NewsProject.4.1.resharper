@@ -1,0 +1,7 @@
+<Configuration>
+  <Daemon.SolutionSettings>
+    <SkipFilesAndFolders>
+      <Item>5DA61E69-73DF-4E6C-A215-36F4166C54DD/d:DB/f:DatabaseModel.generated.cs</Item>
+    </SkipFilesAndFolders>
+  </Daemon.SolutionSettings>
+</Configuration>
