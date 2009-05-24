@@ -140,7 +140,7 @@ namespace IUDICO.DataModel
             button.Click += (o, e) => action();
         }
 
-        protected void Bind<TDictionary>(ListControl list, IVariable<TDictionary> values, [NotNull]IVariable<int> value)
+        protected void Bind<TDictionary>([NotNull] ListControl list, IVariable<TDictionary> values, [NotNull]IVariable<int> value)
             where TDictionary : Dictionary<int, string>, IComparable<TDictionary>
         {
             CheckBindingAllowed();
@@ -226,9 +226,9 @@ namespace IUDICO.DataModel
         protected override void OnInitComplete(EventArgs e)
         {
             base.OnInitComplete(e);
-            __BindingAllowed = true;
+            _bindingAllowed = true;
             BindController(Controller);
-            __BindingAllowed = false;
+            _bindingAllowed = false;
         }
 
         protected override void OnPreRenderComplete(EventArgs e)
@@ -243,13 +243,13 @@ namespace IUDICO.DataModel
 
         protected void CheckBindingAllowed()
         {
-            if (!__BindingAllowed)
+            if (!_bindingAllowed)
             {
                 throw new DMError("Binding is not allowed");
             }
         }
 
         protected readonly TController Controller;
-        private bool __BindingAllowed;
+        private bool _bindingAllowed;
     }
 }
