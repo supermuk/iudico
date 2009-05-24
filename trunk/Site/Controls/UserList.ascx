@@ -3,6 +3,7 @@
 <asp:GridView 
     ID="gvUsers" 
     AutoGenerateColumns="false"
+    Width="100%"
     OnRowDataBound="gvUsers_OnRowDataBound"
     runat="server">
     <Columns>

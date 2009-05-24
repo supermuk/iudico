@@ -48,8 +48,7 @@ public partial class Admin_EditUser : ControlledPage<Admin_EditUserController>
         lbUserGroups.Text = (GroupList.Visible = groups.Count > 0) ?
             string.Format("{0} participating in following groups:", userName) :
             string.Format("{0} are not participating in any groups", userName);
-        lbUserRoles.Text = "Roles for " + userName;
-        Title = "Edit User Profile - " + userName;
+         lbUserRoles.Text = Title = "Edit User Profile - " + userName;
         btnInclude.PostBackUrl = ServerModel.Forms.BuildRedirectUrl(new Admin_SelectGroupController
         {
             UserID = Controller.User.ID,

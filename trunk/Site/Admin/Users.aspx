@@ -2,14 +2,17 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
 
-<h1>Users available in the system:</h1>
+<h1>Users available in the system</h1>
+<p class="descriptions">
 Press 'create' button to create new one <br />
 Press 'remove' button for certain user to delete it <br />
-Click on link with login of user to reach the screen with user's details <br /> <br />
+Click on link with login of user to reach the screen with user's details <br />
+</p>
 <i:UserList ID="UserList" runat="server" />
 
-<br />
+<div style="text-align: left">
 <asp:Button ID="btnCreateUser" runat="server" Text="Create" />
+</div>
 
 </asp:Content>
 
