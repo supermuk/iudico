@@ -13,11 +13,11 @@ namespace IUDICO.Site.Pages
 
             string url;
             if (ServerModel.User.Current.IsStudent())
-                url = ServerModel.Forms.BuildRedirectUrl(new StudentPageController{BackUrl = string.Empty});
+                url = ServerModel.Forms.BuildRedirectUrl(new StudentPageController { BackUrl = string.Empty });
             else
-                url = ServerModel.Forms.BuildRedirectUrl(new HomeController{BackUrl = string.Empty});
+                url = "~/User/MyInfo.aspx";
 
-            Response.Redirect(url);         
+            Response.Redirect(url);
         }
 
         protected override void BindController(HomeController c)

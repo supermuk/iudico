@@ -9,6 +9,7 @@ namespace App_Code
     {
         public static void RegisterPages(FormsModel f)
         {
+            f.Register<HomeController>("~/Home.aspx");
             f.Register<LoginController>("~/Login.aspx");
             f.Register<Admin_EditGroupController>("~/Admin/EditGroup.aspx");
             f.Register<Admin_SelectGroupController>("~/Admin/SelectGroup.aspx");
