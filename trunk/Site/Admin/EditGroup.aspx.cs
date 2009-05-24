@@ -1,4 +1,5 @@
-﻿using IUDICO.DataModel;
+﻿using System;
+using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
 using IUDICO.DataModel.DB;
 
@@ -9,7 +10,9 @@ public partial class Admin_EditGroup : ControlledPage<Admin_EditGroupController>
         base.BindController(c);
         Bind(btnApply, c.ApplyChanges);
         Bind2Ways(tbGroupName, c.GroupName);
-        BindTitle(c.GroupName, gn => "Edit " + gn);
+        Func<string, string> titlePresentator = gn => "Edit group " + gn;
+        BindTitle(c.GroupName, titlePresentator);
+        Bind(lbTitle, c.GroupName, titlePresentator);
         Bind(lbGroupUsers, c.GroupName, gn => string.Format("Users participate in '{0}'", gn));
         UserList.ActionEnabled = UserList_ActionEnabled;
         UserList.ActionTitle = UserList_ActionTitle;

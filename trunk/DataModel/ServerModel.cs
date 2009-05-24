@@ -24,7 +24,7 @@ namespace IUDICO.DataModel
         {
             using (Logger.Scope("Initializing ServerModel..."))
             {
-                _ConnectionString = connectionString;
+                _connectionString = connectionString;
                 (DB = new DatabaseModel(AcruireOpenedConnection())).Initialize(cache);
                 PermissionsManager.Initialize();
                 TableRecordAttributeInitialize();
@@ -52,7 +52,7 @@ namespace IUDICO.DataModel
 
         public static SqlConnection AcquireConnection()
         {
-            return new SqlConnection(_ConnectionString);
+            return new SqlConnection(_connectionString);
         }
 
         public static SqlConnection AcruireOpenedConnection()
@@ -102,7 +102,7 @@ namespace IUDICO.DataModel
             }
         }
 
-        private static string _ConnectionString;
+        private static string _connectionString;
     }
 
     public sealed class UserModel
@@ -152,7 +152,7 @@ namespace IUDICO.DataModel
         public CustomUser ByEmail(string email)
         {
             // TODO: Fix User caching
-            //            CustomUser res = CachedUsers.Find(u => u.Email == email);
+            //            CustomUser res = _cachedUsers.Find(u => u.Email == email);
             //            if (res != null)
             //            {
             //                return res;
@@ -192,7 +192,7 @@ namespace IUDICO.DataModel
             lock (this)
             {
                 HttpRuntime.Cache.Add(u, u.Login, CacheItemPriority.High, OnRemovedFromCache);
-                CachedUsers.Add(u);
+                _cachedUsers.Add(u);
             }
         }
 
@@ -201,15 +201,15 @@ namespace IUDICO.DataModel
             string ck = CacheUtility.GetKey<CustomUser>(key);
             lock (this)
             {
-                var ind = CachedUsers.FindIndex(u => u.Login == ck);
+                var ind = _cachedUsers.FindIndex(u => u.Login == ck);
                 if (ind >= 0)
                 {
-                    CachedUsers.RemoveAt(ind);
+                    _cachedUsers.RemoveAt(ind);
                 }
             }
         }
 
-        private readonly List<CustomUser> CachedUsers = new List<CustomUser>();
+        private readonly List<CustomUser> _cachedUsers = new List<CustomUser>();
     }
 
     public sealed class FormsModel

@@ -2,8 +2,10 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
     <h1>Create User</h1>
+    <p class="descriptions">
     To create IUDICO account fill in the form and press 'Create User' button <br />
-    To create many users for the time click on 'Create multiple' link <br /><br />
+    To create many users for the time hit 'Create multiple' button<br />
+    </p>
     <asp:CreateUserWizard 
         ID="CreateUserWizard1" 
         FinishDestinationPageUrl="~/Login.aspx" 
@@ -16,6 +18,8 @@
             <asp:CompleteWizardStep runat="server" />
         </WizardSteps>
     </asp:CreateUserWizard>
-    <asp:LinkButton runat="server" ID="lbCreateMultiple" Text="Create multiple" />
+    <div style="text-align:left">
+        <asp:Button runat="server" ID="lbCreateMultiple" Text="Create multiple" />
+    </div>
 </asp:Content>
 
