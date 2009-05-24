@@ -9,33 +9,33 @@
     </p>
     <table>
         <tr>
-            <th style="text-align: left">
+            <td style="text-align: left">
                 <asp:Label Text="Prefix:" runat="server" />
-            </th>
+            </td>
             <td>
                 <asp:TextBox ID="tbPrefix" runat="server" />
             </td>
         </tr>
         <tr>
-            <th style="text-align: left">
+            <td style="text-align: left">
                 <asp:Label Text="Count:" runat="server" />
-            </th>
+            </td>
             <td>
                 <asp:TextBox ID="tbCount" runat="server" />
             </td>
         </tr>
         <tr>
-            <th style="text-align: left">
+            <td style="text-align: left">
                 <asp:Label Text="Password:" runat="server" />
-            </th>
+            </td>
             <td>
                 <asp:TextBox ID="tbPassword" runat="server" />
             </td>
         </tr>
         <tr>
-            <th style="text-align: left">
+            <td style="text-align: left">
                 <asp:Label Text="Add to Group:" runat="server" />
-            </th>
+            </td>
             <td>
                 <asp:UpdatePanel runat="server">
                     <ContentTemplate>
@@ -48,9 +48,9 @@
             </td>
         </tr>
         <tr>
-            <th style="text-align: left">
+            <td style="text-align: left">
                 <asp:Label ID="Label1" Text="Make Student:" runat="server" />
-            </th>
+            </td>
             <td>
                 <asp:CheckBox runat="server" ID="cbMakeStudent" AutoPostBack="true" />
             </td>

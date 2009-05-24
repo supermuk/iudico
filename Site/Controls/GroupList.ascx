@@ -5,7 +5,10 @@
     AutoGenerateColumns="false"
     Width="100%"
     OnRowDataBound="gvGroups_OnRowDataBound"
+    AllowPaging="true"
+    OnPageIndexChanging="GroupsPageIndexChanging"
     runat="server">
+    <PagerSettings Position="TopAndBottom" Mode="NumericFirstLast" />
     <Columns>
         <asp:TemplateField ControlStyle-Width="80%">
             <HeaderTemplate>

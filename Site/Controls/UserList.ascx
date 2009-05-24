@@ -5,7 +5,11 @@
     AutoGenerateColumns="false"
     Width="100%"
     OnRowDataBound="gvUsers_OnRowDataBound"
+    AllowPaging="true"
+    OnPageIndexChanging="UsersPageIndexChanging"
+    PageSize="25"
     runat="server">
+    <PagerSettings Position="TopAndBottom" Mode="NumericFirstLast" />
     <Columns>
         <asp:TemplateField>
             <HeaderTemplate>

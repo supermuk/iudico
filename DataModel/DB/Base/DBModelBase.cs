@@ -141,7 +141,10 @@ namespace IUDICO.DataModel.DB.Base
                 DateTill = new PropertyCondition<DateTime>("DateTill");
 
             public static readonly IDBPropertyCondition<string>
-                Login = new PropertyCondition<string>("Login");
+                Login = new PropertyCondition<string>("Login"),
+                FirstName = new PropertyCondition<string>("FirstName"),
+                LastName = new PropertyCondition<string>("LastName"),
+                Email = new PropertyCondition<string>("Email");
         }
     }
 

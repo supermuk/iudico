@@ -78,10 +78,10 @@
                 <div class="menu-holder" style="width: 100%">
                     <asp:Menu ID="MainMenu" OnMenuItemDataBound="MainMenu_ItemDataBound" OnDataBinding="MainMenu_DataBind"
                         Orientation="Horizontal" DataSourceID="SiteMap" runat="server">
-                        <DynamicMenuItemStyle CssClass="dynamicmenuitem" />
-                        <DynamicHoverStyle CssClass="dynamicmenuitem" />
-                        <StaticMenuItemStyle CssClass="staticmenuitem" />
-                        <StaticHoverStyle CssClass="staticmenuitem" />
+                        <StaticMenuItemStyle CssClass="menu-static" />
+                        <StaticHoverStyle CssClass="menu-hover" />
+                            <DynamicHoverStyle CssClass="menu-static" />
+                        <DynamicHoverStyle CssClass="menu-hover" />
                     </asp:Menu>
                 </div>
                 <br />

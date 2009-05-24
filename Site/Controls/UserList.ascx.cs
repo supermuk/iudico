@@ -48,4 +48,10 @@ public partial class Controls_UserList : UserControl
             }
         }
     }
+
+    protected void UsersPageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        ((GridView) sender).PageIndex = e.NewPageIndex;
+        Page.DataBind();
+    }
 }
