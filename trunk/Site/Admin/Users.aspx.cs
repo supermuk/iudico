@@ -10,6 +10,8 @@ public partial class Admin_Users : ControlledPage<Admin_UsersController>
         UserList.ActionEnabled = UserList_ActionEnabled;
         UserList.ActionTitle = UserList_ActionTitle;
         UserList.ActionUrl = UserList_ActionUrl;
+        Bind2Ways(tbSearchPattern, c.SearchPattern);
+        Bind(btnSearch, DataBind);
     }
 
     public override void DataBind()

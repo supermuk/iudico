@@ -1,4 +1,20 @@
-﻿.staticmenuitem, .dynamicmenuitem
+﻿.menu-static
+{
+    border-width: 1px;
+    border-color: Green;
+    border-style: dotted;
+}
+
+.menu-hover
+{
+    border-width: 1px;
+    border-color: Gray;
+    border-style: solid;
+    background-color: Green;
+    color: Black;
+}
+
+.staticmenuitem, .dynamicmenuitem
 {
 	font-weight: bold;
 	background-color: #CCFF99;
@@ -11,8 +27,7 @@
 
 .staticmenuitemhover, .dynamicmenuhover
 {
-	font-style:italic;
-	background-color:Lime;
+    background-color: Red;
 	cursor: pointer
 }
 
@@ -127,7 +142,8 @@ input[type="button"], input[type="submit"]
 }
 
 td input[type="button"], 
-td input[type="submit"]
+td input[type="submit"],
+td select
 {
    margin-top: 0;
    margin-bottom: 0; 
@@ -138,7 +154,7 @@ input[type="checkbox"]
     cursor: pointer;
 }
 
-input[type="text"], input[type="password"]
+input[type="text"], input[type="password"], select
 {
     border-width: 1px;
     border-style: dashed;
@@ -164,4 +180,39 @@ table
 td
 {
     padding-left: 5px;
+}
+
+th
+{
+    border-color: Green;
+    border-width: 1px;
+    border-style: solid;
+    border-bottom-width: 4px;
+    border-bottom-style: double;
+    background-image: url('/Images/logo-back.png');
+    background-repeat: repeat-x;
+    background-attachment: scroll;
+}
+
+th:hover, h1:hover
+{
+    color: Green;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, select:focus
+{
+    background-color: #FFFF66;
+    border-style: solid;
+}
+
+input[type="text"]:hover, input[type="password"]:hover, select:hover
+{
+    border-style: solid;
+}
+
+input[type="button"]:hover, input[type="submit"]:hover
+{
+    border-color: Gray;
+    background-color: Green;
+    color: Black;
 }
