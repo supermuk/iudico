@@ -30,7 +30,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
 
         public void PageLoad(object sender, EventArgs e)
         {
-            Description.Value = "Selct Group and Theme that your want to recompile";
+            Description.Value = "Select Group and Theme that your want to recompile";
             
             if (!((Page)sender).IsPostBack)
             {
@@ -132,8 +132,15 @@ namespace IUDICO.DataModel.Controllers.Teacher
 
             var groups = ServerModel.DB.Query<TblGroups>(null);
 
-            foreach (var g in groups)
-                GroupDropDownList.Items.Add(new ListItem(g.Name, g.ID.ToString()));
+            if (groups.Count != 0)
+            {
+                foreach (var g in groups)
+                    GroupDropDownList.Items.Add(new ListItem(g.Name, g.ID.ToString()));
+            }
+            else
+            {
+                Description.Value = "No groups avalible";
+            }
         }
 
         private void CreateCurriculumnList()
@@ -142,12 +149,15 @@ namespace IUDICO.DataModel.Controllers.Teacher
             StageDropDownList.Items.Clear();
             ThemeDropDownList.Items.Clear();
 
-            var selectedGroup = ServerModel.DB.Load<TblGroups>(int.Parse(GroupDropDownList.SelectedItem.Value));
+            if (GroupDropDownList.SelectedItem != null)
+            {
+                var selectedGroup = ServerModel.DB.Load<TblGroups>(int.Parse(GroupDropDownList.SelectedItem.Value));
 
-            var curriculumns = TeacherHelper.GetCurriculumsForGroup(selectedGroup);
+                var curriculumns = TeacherHelper.GetCurriculumsForGroup(selectedGroup);
 
-            foreach (var c in curriculumns)
-                CurriculumnDropDownList.Items.Add(new ListItem(c.Name, c.ID.ToString()));
+                foreach (var c in curriculumns)
+                    CurriculumnDropDownList.Items.Add(new ListItem(c.Name, c.ID.ToString()));
+            }
         }
 
         private void CreateStageList()
@@ -155,24 +165,30 @@ namespace IUDICO.DataModel.Controllers.Teacher
             StageDropDownList.Items.Clear();
             ThemeDropDownList.Items.Clear();
 
-            var selectedCurriculumn = ServerModel.DB.Load<TblCurriculums>(int.Parse(CurriculumnDropDownList.SelectedItem.Value));
-            var stagesIds = ServerModel.DB.LookupIds<TblStages>(selectedCurriculumn, null);
-            var stages = ServerModel.DB.Load<TblStages>(stagesIds);
+            if (CurriculumnDropDownList.SelectedItem != null)
+            {
+                var selectedCurriculumn = ServerModel.DB.Load<TblCurriculums>(int.Parse(CurriculumnDropDownList.SelectedItem.Value));
+                var stagesIds = ServerModel.DB.LookupIds<TblStages>(selectedCurriculumn, null);
+                var stages = ServerModel.DB.Load<TblStages>(stagesIds);
 
-            foreach (var s in stages)
-                StageDropDownList.Items.Add(new ListItem(s.Name, s.ID.ToString()));
+                foreach (var s in stages)
+                    StageDropDownList.Items.Add(new ListItem(s.Name, s.ID.ToString()));
+            }
         }
 
         private void CreateThemeList()
         {
             ThemeDropDownList.Items.Clear();
 
-            var selectedStage = ServerModel.DB.Load<TblStages>(int.Parse(StageDropDownList.SelectedItem.Value));
-            var themesIds = ServerModel.DB.LookupMany2ManyIds<TblThemes>(selectedStage, null);
-            var themes = ServerModel.DB.Load<TblThemes>(themesIds);
+            if (StageDropDownList.SelectedItem != null)
+            {
+                var selectedStage = ServerModel.DB.Load<TblStages>(int.Parse(StageDropDownList.SelectedItem.Value));
+                var themesIds = ServerModel.DB.LookupMany2ManyIds<TblThemes>(selectedStage, null);
+                var themes = ServerModel.DB.Load<TblThemes>(themesIds);
 
-            foreach (var s in themes)
-                ThemeDropDownList.Items.Add(new ListItem(s.Name, s.ID.ToString()));
+                foreach (var s in themes)
+                    ThemeDropDownList.Items.Add(new ListItem(s.Name, s.ID.ToString()));
+            }
         }
     }
 }
