@@ -13,7 +13,10 @@ namespace IUDICO.DataModel.Controllers.Teacher
         public int CourseId;
 
         public readonly IVariable<string> CourseName = string.Empty.AsVariable();
-        
+
+        public readonly IVariable<string> Description = string.Empty.AsVariable();
+
+
         private const string PageOrderListId = "PageOrder";
         private const string PageCountToShowListId = "PageCountToShow";
         private const string MaxCountToSubmitListId = "MaxCountToSubmit";
@@ -34,6 +37,8 @@ namespace IUDICO.DataModel.Controllers.Teacher
 
             for (int i = 1; i <= themes.Count; i++ )
                 AddThemeToTable(themes[i - 1], i);
+
+            Description.Value = "On this page you can change behavior of course themes";
         }
 
         public void SaveButtonClick(object sender, EventArgs e)
@@ -51,6 +56,8 @@ namespace IUDICO.DataModel.Controllers.Teacher
                     ServerModel.DB.Update(theme);
                 }
             }
+
+            Description.Value = "You Preferences is saved";
         }
 
         private void AddThemeToTable(TblThemes theme, int i)
