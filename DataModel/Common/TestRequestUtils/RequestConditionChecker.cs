@@ -120,12 +120,8 @@ namespace IUDICO.DataModel.Common.TestRequestUtils
                                         TestRequestParser.GetUserId(request) > 0 &&
                                             TestRequestParser.GetPageId(request) > 0)
                 {
-                    if (ServerModel.User.Current.Islector())
-                    {
-                        if (ServerModel.User.Current != null)
-                            if (ServerModel.User.Current.ID != TestRequestParser.GetUserId(request))
-                                throw new Exception("You not allowed to see this page");
-                    }
+                    if (!ServerModel.User.Current.Islector())
+                        throw new Exception("You must be Lector to see this page");
                 }
                 else
                 {
