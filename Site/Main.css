@@ -3,6 +3,7 @@
     border-width: 1px;
     border-color: Green;
     border-style: dotted;
+    text-align: left;
 }
 
 .menu-hover
@@ -11,6 +12,7 @@
     border-color: Gray;
     border-style: solid;
     background-color: Green;
+    text-align: left;
     color: Black;
 }
 
@@ -121,7 +123,7 @@
 
 .menu-holder
 {
-    background-color: #DDDDDD;
+    background-color: #DDDDDD;*
 }
 
 .descriptions
