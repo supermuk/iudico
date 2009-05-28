@@ -21,6 +21,16 @@ public partial class User_MyInfo : ControlledPage<UserInfoController>
         Bind(Label_PageMessage, c.Message);
     }
 
+    protected override void OnLoad(System.EventArgs e)
+    {
+        base.OnLoad(e);
+
+        if (IsFirstTimeRequest)
+        {
+            ChangePassword.ContinueDestinationPageUrl = Request.RawUrl;
+        }
+    }
+
     public override void DataBind()
     {
         base.DataBind();
