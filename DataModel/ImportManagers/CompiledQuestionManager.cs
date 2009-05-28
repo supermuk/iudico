@@ -1,6 +1,7 @@
 using System.Xml;
 using IUDICO.DataModel.Common.ImportUtils;
 using IUDICO.DataModel.DB;
+using System;
 
 namespace IUDICO.DataModel.ImportManagers
 {
@@ -52,18 +53,18 @@ namespace IUDICO.DataModel.ImportManagers
 
         private static FxLanguages LanguageName(string lang)
         {
-            switch(lang)
+            switch (lang.ToUpper())
             {
                 case ("CS"):
                     return FxLanguages.DotNet3;
-                case ("Cpp"):
+                case ("CPP"):
                     return FxLanguages.Vs8CPlusPlus;
-                case ("Delphi"):
+                case ("DELPHI"):
                     return FxLanguages.Delphi7;
-                case ("Java"):
+                case ("JAVA"):
                     return FxLanguages.Java6;
                 default:
-                    return FxLanguages.DotNet3;
+                    throw new ArgumentOutOfRangeException(String.Format("lang {0} is not found", lang));
             }
         }
 
