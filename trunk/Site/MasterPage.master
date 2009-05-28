@@ -81,6 +81,7 @@
                         <StaticMenuItemStyle CssClass="menu-static" />
                         <StaticHoverStyle CssClass="menu-hover" />
                             <DynamicHoverStyle CssClass="menu-static" />
+                            <DynamicMenuStyle CssClass="menu-static" />
                         <DynamicHoverStyle CssClass="menu-hover" />
                     </asp:Menu>
                 </div>
