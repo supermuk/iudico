@@ -26,6 +26,10 @@
                 <asp:DropDownList ID="_groupDropDownList" runat="server" AutoPostBack="True" 
                     Width="200px">
                 </asp:DropDownList>
+                <br />
+                <br />
+                <asp:DropDownList ID="_userDropDownList" runat="server" Width="200px">
+                </asp:DropDownList>
             </td>
             <td>
             </td>

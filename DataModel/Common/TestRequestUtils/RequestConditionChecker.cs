@@ -103,11 +103,14 @@ namespace IUDICO.DataModel.Common.TestRequestUtils
                                         TestRequestParser.GetUserId(request) == 0 && 
                                             TestRequestParser.GetPageId(request) > 0)
                 {
-                    return;       
+                    if (!ServerModel.User.Current.Islector())
+                        throw new Exception("You must be Lector to see this page");       
                 }
-                throw new Exception("Url is Not correct");
+                else
+                    throw new Exception("Url is Not correct");
             }
-            throw new Exception("You not allowed to see this page");
+            else
+                throw new Exception("You not allowed to see this page");
         }
 
         private static void CheckTypeUserAnswer(HttpRequest request)
@@ -120,8 +123,7 @@ namespace IUDICO.DataModel.Common.TestRequestUtils
                                         TestRequestParser.GetUserId(request) > 0 &&
                                             TestRequestParser.GetPageId(request) > 0)
                 {
-                    if (!ServerModel.User.Current.Islector())
-                        throw new Exception("You must be Lector to see this page");
+                    return;
                 }
                 else
                 {
@@ -143,9 +145,11 @@ namespace IUDICO.DataModel.Common.TestRequestUtils
                 {
                     return;
                 }
-                throw new Exception("Url is Not correct");
+                else
+                    throw new Exception("Url is Not correct");
             }
-            throw new Exception("You must be SUPER ADMIN to test");
+            else
+                throw new Exception("You must be SUPER ADMIN to test");
         }
 
         private static void CheckTypeOrdinary(HttpRequest request)

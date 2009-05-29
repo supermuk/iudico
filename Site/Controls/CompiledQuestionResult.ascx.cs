@@ -14,21 +14,12 @@ public partial class CompiledQuestionResult : UserControl
     public void BuildCompiledQuestionsResult(TblQuestions q, int userId)
     {
         var compiledQuestion = ServerModel.DB.Load<TblCompiledQuestions>((int) q.CompiledQuestionRef);
-        var userAnswers = ServerModel.DB.Load<TblUserAnswers>(ServerModel.DB.LookupIds<TblUserAnswers>(q, null));
-        
-        var answersForCurrentUser = new List<TblUserAnswers>();
-        
-        if (ServerModel.User.Current != null)
-        {
-            foreach (var uAns in userAnswers)
-                if (uAns.UserRef == userId)
-                    answersForCurrentUser.Add(uAns);
-        }
-
-
+        var answersForCurrentUser = StudentRecordFinder.GetUserAnswersForQuestion(q, userId);
+       
         SetHeader(q.TestName, compiledQuestion);
+        SetTableHeader();
 
-        if (userAnswers.Count != 0)
+        if (answersForCurrentUser.Count != 0)
             SetResults(answersForCurrentUser);
         else
             SetNoResultStatus(q);
@@ -56,11 +47,45 @@ public partial class CompiledQuestionResult : UserControl
         name, ua.TimeLimit, ua.MemoryLimit, LanguageHelper.FxLanguagesToLanguage(ua.LanguageRef));
     }
 
+    private void SetTableHeader()
+    {
+        var tableRow = new TableRow();
+
+        if (ServerModel.User.Current.Islector())
+        {
+            var inputCell = new TableCell { Text = "Input" };
+
+            var expectedOutputCell = new TableCell { Text = "Expected Output" };
+
+            tableRow.Cells.AddRange(new[] { inputCell, expectedOutputCell });
+        }
+
+        var userOutputCell = new TableCell { Text = "User Output" };
+
+        var timeUsedCell = new TableCell { Text = "Time Used" };
+
+        var memoryUsedCell = new TableCell { Text = "Memory Used" };
+
+        var statusCell = new TableCell { Text = "Status" };
+
+
+        tableRow.Cells.AddRange(new[] { userOutputCell, timeUsedCell, memoryUsedCell, statusCell });
+
+        _compiledAnswerTable.Rows.Add(tableRow);
+    }
+
     private void SetTestCaseResult(TblCompiledQuestionsData compiledData, TblCompiledAnswers compileAnswer)
     {
-        var inputCell = new TableCell {Text = compiledData.Input};
+        var tableRow = new TableRow();
 
-        var expectedOutputCell = new TableCell {Text = compiledData.Output};
+        if (ServerModel.User.Current.Islector())
+        {
+            var inputCell = new TableCell {Text = compiledData.Input};
+
+            var expectedOutputCell = new TableCell {Text = compiledData.Output};
+
+            tableRow.Cells.AddRange(new[] {inputCell, expectedOutputCell});
+        }
 
         var userOutputCell = new TableCell {Text = compileAnswer.Output};
 
@@ -70,10 +95,8 @@ public partial class CompiledQuestionResult : UserControl
 
         var statusCell = new TableCell {Text = ((Status) compileAnswer.StatusRef).ToString()};
 
-
-        var tableRow = new TableRow();
-        tableRow.Cells.AddRange(new[]{inputCell, expectedOutputCell, userOutputCell, timeUsedCell, memoryUsedCell, statusCell});
-
+        
+        tableRow.Cells.AddRange(new[]{userOutputCell, timeUsedCell, memoryUsedCell, statusCell});
 
         _compiledAnswerTable.Rows.Add(tableRow);
     }
