@@ -21,6 +21,14 @@ namespace IUDICO.DataModel.Common.StudentUtils
 
         }
 
+        public static IList<TblUsers> GetUsersFromGroup(int groupId)
+        {
+            var group = ServerModel.DB.Load<TblGroups>(groupId);
+            var usersIds = ServerModel.DB.LookupMany2ManyIds<TblUsers>(group, null);
+
+            return ServerModel.DB.Load<TblUsers>(usersIds);
+        }
+
         public static IList<TblPermissions> GetAllPermissionsForCurrriculumn(int curriculumnId)
         {
             var curriculumn = ServerModel.DB.Load<TblCurriculums>(curriculumnId);
@@ -122,6 +130,17 @@ namespace IUDICO.DataModel.Common.StudentUtils
                     result.Add(ua);
 
             return result;
+        }
+
+        public static List<TblUserAnswers> ExtractCompiledAnswers(IList<TblUserAnswers> userAnswers)
+        {
+            var compiledAnswers = new List<TblUserAnswers>();
+
+            foreach (var ua in userAnswers)
+                if (ua.IsCompiledAnswer)
+                    compiledAnswers.Add(ua);
+
+            return compiledAnswers;
         }
 
         public static IList<TblUserAnswers> GetAnswersForUser(int userId)

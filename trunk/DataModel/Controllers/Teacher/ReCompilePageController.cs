@@ -4,6 +4,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.Common.StatisticUtils;
+using IUDICO.DataModel.Common.StudentUtils;
 using IUDICO.DataModel.Common.TestingUtils;
 using IUDICO.DataModel.DB;
 using LEX.CONTROLS;
@@ -17,6 +18,8 @@ namespace IUDICO.DataModel.Controllers.Teacher
 
 
         public Button ReCompileButton { get; set;}
+
+        public DropDownList UserDropDownList { get; set; }
 
         public DropDownList GroupDropDownList { get; set; }
 
@@ -39,65 +42,25 @@ namespace IUDICO.DataModel.Controllers.Teacher
                 CreateStageList();
                 CreateThemeList();
             }
+
+            ReCompileButton.Enabled = ((ServerModel.User.Current.Islector())
+                                        && (ThemeDropDownList.SelectedItem != null));
         }
 
         public void ReCompileButtonClick(object sender, EventArgs e)
         {
-            var selectedGroup = ServerModel.DB.Load<TblGroups>(int.Parse(GroupDropDownList.SelectedItem.Value));
-            var usersIds = ServerModel.DB.LookupMany2ManyIds<TblUsers>(selectedGroup, null);
-            var users = ServerModel.DB.Load<TblUsers>(usersIds);
+            IList<TblUsers> users = GetUsersForReCompilation();
 
             if (ThemeDropDownList.SelectedItem != null)
             {
-
-                var selectedTheme = ServerModel.DB.Load<TblThemes>(int.Parse(ThemeDropDownList.SelectedItem.Value));
-
-                var pagesIds = ServerModel.DB.LookupIds<TblPages>(selectedTheme, null);
-                var pages = ServerModel.DB.Load<TblPages>(pagesIds);
+                var pages = StudentRecordFinder.GetPagesForTheme(int.Parse(ThemeDropDownList.SelectedItem.Value));
 
                 var answersForReCompilation = new List<TblUserAnswers>();
 
-
-
                 foreach (var page in pages)
-                {
-                    var questionsIds = ServerModel.DB.LookupIds<TblQuestions>(page, null);
+                    AddAnswersFromPageToReCompilationList(page, users, answersForReCompilation);
 
-                    foreach (var u in users)
-                    {
-                        var userAnswerIds = ServerModel.DB.LookupIds<TblUserAnswers>(u, null);
-                        var userAnswers = ServerModel.DB.Load<TblUserAnswers>(userAnswerIds);
-
-                        var compiledAnswers = new List<TblUserAnswers>();
-
-                        foreach (var ua in userAnswers)
-                        {
-                            if (ua.IsCompiledAnswer)
-                                compiledAnswers.Add(ua);
-                        }
-
-                        foreach (var q in questionsIds)
-                        {
-                            var answersForQuestion = new List<TblUserAnswers>();
-
-                            foreach (var c in compiledAnswers)
-                            {
-                                if (c.QuestionRef == q)
-                                    answersForQuestion.Add(c);
-                            }
-
-                            var lstUserAnswer = StatisticManager.FindLatestUserAnswer(answersForQuestion);
-                            
-                            if(lstUserAnswer != null)
-                                answersForReCompilation.Add(lstUserAnswer);
-                        }
-
-                    }
-                }
-
-
-                foreach (var n in answersForReCompilation)
-                    CompilationTestManager.GetNewManager(n).ReCompile();
+                ReCompile(answersForReCompilation);
 
                 Description.Value = "ReCompilation is started";
             }
@@ -105,14 +68,13 @@ namespace IUDICO.DataModel.Controllers.Teacher
             {
                 Description.Value = "Theme not selected !!!";
             }
-
         }
 
         public void GroupDropDownListSelectedIndexChanged(object sender, EventArgs e)
         {
             CreateCurriculumnList();
             CreateStageList();
-            CreateThemeList();    
+            CreateThemeList();
         }
 
         public void CurriculumnDropDownListSelectedIndexChanged(object sender, EventArgs e)
@@ -126,6 +88,58 @@ namespace IUDICO.DataModel.Controllers.Teacher
             CreateThemeList();
         }
 
+
+        private static void AddAnswersFromPageToReCompilationList(TblPages page, IList<TblUsers> users, List<TblUserAnswers> answersForReCompilation)
+        {
+            var questions = StudentRecordFinder.GetQuestionsForPage(page);
+
+            foreach (var u in users)
+            {
+                foreach (var q in questions)
+                {
+                    TblUserAnswers lstUserAnswer = GetLastUserAnswerForCompiledQuestion(q, u);
+
+                    AddAnswerToReCompilationList(lstUserAnswer, answersForReCompilation);
+                }
+            }
+        }
+
+        private static void AddAnswerToReCompilationList(TblUserAnswers lstUserAnswer, List<TblUserAnswers> answersForReCompilation)
+        {
+            if(lstUserAnswer != null)
+                answersForReCompilation.Add(lstUserAnswer);
+        }
+
+        private static void ReCompile(List<TblUserAnswers> answersForReCompilation)
+        {
+            foreach (var n in answersForReCompilation)
+                CompilationTestManager.GetNewManager(n).ReCompile();
+        }
+
+        private static TblUserAnswers GetLastUserAnswerForCompiledQuestion(TblQuestions q, TblUsers u)
+        {
+            var userAnswers = StudentRecordFinder.GetUserAnswersForQuestion(q, u.ID);
+
+            var compiledAnswers = StudentRecordFinder.ExtractCompiledAnswers(userAnswers);
+
+            return StatisticManager.FindLatestUserAnswer(compiledAnswers);
+        }
+
+        private IList<TblUsers> GetUsersForReCompilation()
+        {
+            var users = new List<TblUsers>();
+
+            int selectedUserId = int.Parse(UserDropDownList.SelectedItem.Value);
+            int selectedGroupId = int.Parse(GroupDropDownList.SelectedItem.Value);
+
+            if(selectedUserId == 0)
+                users.AddRange(StudentRecordFinder.GetUsersFromGroup(selectedGroupId));
+            else
+                users.Add(ServerModel.DB.Load<TblUsers>(selectedUserId));
+
+            return users;
+        }
+
         private void CreateGroupList()
         {
             GroupDropDownList.Items.Clear();
@@ -136,10 +150,27 @@ namespace IUDICO.DataModel.Controllers.Teacher
             {
                 foreach (var g in groups)
                     GroupDropDownList.Items.Add(new ListItem(g.Name, g.ID.ToString()));
+
+                CreateUserList();
             }
             else
             {
                 Description.Value = "No groups avalible";
+            }
+        }
+
+        private void CreateUserList()
+        {
+            UserDropDownList.Items.Clear();
+
+            if (GroupDropDownList.SelectedItem != null)
+            {
+                var users = StudentRecordFinder.GetUsersFromGroup(int.Parse(GroupDropDownList.SelectedItem.Value));
+
+                UserDropDownList.Items.Add(new ListItem("All Users From Group", "0"));
+
+                foreach (var u in users)
+                    UserDropDownList.Items.Add(new ListItem(u.Login, u.ID.ToString()));
             }
         }
 
@@ -168,8 +199,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
             if (CurriculumnDropDownList.SelectedItem != null)
             {
                 var selectedCurriculumn = ServerModel.DB.Load<TblCurriculums>(int.Parse(CurriculumnDropDownList.SelectedItem.Value));
-                var stagesIds = ServerModel.DB.LookupIds<TblStages>(selectedCurriculumn, null);
-                var stages = ServerModel.DB.Load<TblStages>(stagesIds);
+                var stages = StudentRecordFinder.GetStagesForCurriculum(selectedCurriculumn);
 
                 foreach (var s in stages)
                     StageDropDownList.Items.Add(new ListItem(s.Name, s.ID.ToString()));
@@ -183,8 +213,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
             if (StageDropDownList.SelectedItem != null)
             {
                 var selectedStage = ServerModel.DB.Load<TblStages>(int.Parse(StageDropDownList.SelectedItem.Value));
-                var themesIds = ServerModel.DB.LookupMany2ManyIds<TblThemes>(selectedStage, null);
-                var themes = ServerModel.DB.Load<TblThemes>(themesIds);
+                var themes = StudentRecordFinder.GetThemesForStage(selectedStage);
 
                 foreach (var s in themes)
                     ThemeDropDownList.Items.Add(new ListItem(s.Name, s.ID.ToString()));

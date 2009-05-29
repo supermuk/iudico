@@ -12,6 +12,8 @@ public partial class Teacher_ReCompilationPage : ControlledPage<ReCompilePageCon
         c.CurriculumnDropDownList = _curriculumnDropDownList;
         c.StageDropDownList = _stageDropDownList;
         c.ThemeDropDownList = _themeDropDownList;
+        c.UserDropDownList = _userDropDownList;
+        c.ReCompileButton = _reCompileButton;
 
         _groupDropDownList.SelectedIndexChanged += c.GroupDropDownListSelectedIndexChanged;
         _curriculumnDropDownList.SelectedIndexChanged += c.CurriculumnDropDownListSelectedIndexChanged;
