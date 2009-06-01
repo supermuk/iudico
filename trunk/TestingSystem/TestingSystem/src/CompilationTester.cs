@@ -53,12 +53,19 @@ namespace TestingSystem
             if (program.Language == Language.Java6)
             {
                 const string classStr = "class";
-                string className = program.Source.Substring(
-                    program.Source.IndexOf(classStr) + classStr.Length,
-                    program.Source.IndexOf("{") - (program.Source.IndexOf(classStr) + classStr.Length)
-                    );
-                className = className.Trim();
-
+                string className;
+                try
+                {
+                    className = program.Source.Substring(
+                        program.Source.IndexOf(classStr) + classStr.Length,
+                        program.Source.IndexOf("{", program.Source.IndexOf(classStr)) - (program.Source.IndexOf(classStr) + classStr.Length)
+                        );
+                    className = className.Trim();
+                }
+                catch
+                {
+                    className = ProgramName;
+                }
                 foreach (char invalidChar in Path.GetInvalidFileNameChars())
                 {
                     if (className.Contains(invalidChar.ToString()))

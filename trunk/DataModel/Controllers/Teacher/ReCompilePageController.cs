@@ -72,6 +72,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
 
         public void GroupDropDownListSelectedIndexChanged(object sender, EventArgs e)
         {
+            CreateUserList();
             CreateCurriculumnList();
             CreateStageList();
             CreateThemeList();
