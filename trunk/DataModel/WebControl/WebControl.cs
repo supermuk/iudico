@@ -60,7 +60,13 @@ namespace IUDICO.DataModel.WebControl
 
         private void ReadPositionAttributes([NotNull] HtmlStyleReader styles)
         {
-            _location = new Point(int.Parse(styles[HtmlTextWriterStyle.Left]), int.Parse(styles[HtmlTextWriterStyle.Top]));
+            string left = styles[HtmlTextWriterStyle.Left];
+            string right = styles[HtmlTextWriterStyle.Top];
+                
+            int x = (left == string.Empty) ? 0 : int.Parse(left);
+            int y = (right == string.Empty) ? 0 : int.Parse(right);
+
+            _location = new Point(x, y);
         }
 
         private void AddSizeAttributes([NotNull] HtmlTextWriter w)

@@ -85,7 +85,7 @@ namespace IUDICO.DataModel.Common.TestingUtils
         private void PrepateTestCaseForTesting(TblCompiledQuestionsData testCase)
         {
             _program.InputTest = testCase.Input;
-            _program.OutputTest = testCase.Output.Replace("\r", string.Empty);
+            _program.OutputTest = testCase.Output;
         }
 
         private static void DeletePreviousCompiledAnswers(TblUserAnswers ua)

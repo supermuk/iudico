@@ -1,5 +1,6 @@
 ﻿using System.Web.UI;
 using System.Xml;
+using CourseImport.Common;
 
 namespace IUDICO.DataModel.WebControl
 {
@@ -21,7 +22,7 @@ namespace IUDICO.DataModel.WebControl
             w.RenderBeginTag("asp:TextBox");
             if (!string.IsNullOrEmpty(_text))
             {
-                w.Write(_text);
+                w.Write(HtmlUtility.QuotesEncode(_text));
             }
             w.RenderEndTag();
         }
