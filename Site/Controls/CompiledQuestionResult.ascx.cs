@@ -13,9 +13,9 @@ public partial class CompiledQuestionResult : UserControl
 {
     public void BuildCompiledQuestionsResult(TblQuestions q, int userId)
     {
-        var compiledQuestion = ServerModel.DB.Load<TblCompiledQuestions>((int) q.CompiledQuestionRef);
+        var compiledQuestion = ServerModel.DB.Load<TblCompiledQuestions>((int)q.CompiledQuestionRef);
         var answersForCurrentUser = StudentRecordFinder.GetUserAnswersForQuestion(q, userId);
-       
+
         SetHeader(q.TestName, compiledQuestion);
         SetTableHeader();
 
@@ -80,23 +80,26 @@ public partial class CompiledQuestionResult : UserControl
 
         if (ServerModel.User.Current.Islector())
         {
-            var inputCell = new TableCell {Text = compiledData.Input};
+            var inputCell = new TableCell { Text = MakeSpaceAndEnterVisible(compiledData.Input) };
 
-            var expectedOutputCell = new TableCell {Text = compiledData.Output};
+            var expectedOutputCell = new TableCell { Text = MakeSpaceAndEnterVisible(compiledData.Output) };
 
-            tableRow.Cells.AddRange(new[] {inputCell, expectedOutputCell});
+            tableRow.Cells.AddRange(new[] { inputCell, expectedOutputCell });
         }
 
-        var userOutputCell = new TableCell {Text = compileAnswer.Output};
+        var userOutputCell = new TableCell
+        {
+            Text = MakeSpaceAndEnterVisible(compileAnswer.Output)
+        };
 
-        var timeUsedCell = new TableCell {Text = compileAnswer.TimeUsed.ToString()};
+        var timeUsedCell = new TableCell { Text = compileAnswer.TimeUsed.ToString() };
 
-        var memoryUsedCell = new TableCell {Text = compileAnswer.MemoryUsed.ToString()};
+        var memoryUsedCell = new TableCell { Text = compileAnswer.MemoryUsed.ToString() };
 
-        var statusCell = new TableCell {Text = ((Status) compileAnswer.StatusRef).ToString()};
+        var statusCell = new TableCell { Text = ((Status)compileAnswer.StatusRef).ToString() };
 
-        
-        tableRow.Cells.AddRange(new[]{userOutputCell, timeUsedCell, memoryUsedCell, statusCell});
+
+        tableRow.Cells.AddRange(new[] { userOutputCell, timeUsedCell, memoryUsedCell, statusCell });
 
         _compiledAnswerTable.Rows.Add(tableRow);
     }
@@ -109,5 +112,10 @@ public partial class CompiledQuestionResult : UserControl
                 latestUserAnswer = o;
 
         return latestUserAnswer;
+    }
+
+    private string MakeSpaceAndEnterVisible(string input)
+    {
+        return input.Replace("\r", "\\r").Replace("\n", "\\n");
     }
 }

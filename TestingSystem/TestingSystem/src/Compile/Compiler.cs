@@ -283,8 +283,16 @@ namespace TestingSystem.Compile
         {
             get
             {
+                string reference = "/reference:";
+                List<string> referenceList = new List<string>() { "system.dll" };
+                string allReferences = "";
+                foreach (string systemReference in referenceList)
+                {
+                    allReferences += reference + systemReference + " ";
+                }
+
                 return new Compiler(Language.CSharp2, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\CSharp2\csc.exe"),
-                @"/t:exe $SourceFilePath$", "cs");
+                @"/t:exe " + allReferences + "$SourceFilePath$", "cs");
             }
         }
 
@@ -293,7 +301,7 @@ namespace TestingSystem.Compile
             get
             {
                 string reference = "/reference:";
-                List<string> referenceList = new List<string>() { "System.Core.dll", "System.Xml.Linq.dll", 
+                List<string> referenceList = new List<string>() { "system.dll","System.Core.dll", "System.Xml.Linq.dll", 
                  "System.WorkflowServices.dll", "System.Net.dll","System.Data.Linq.dll","System.Data.Entity.dll","System.AddIn.dll" };
                 string allReferences = "";
                 foreach (string systemReference in referenceList)
