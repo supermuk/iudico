@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System.Web;
 using IUDICO.DataModel.Common.TestRequestUtils;
-using IUDICO.DataModel.WebTest;
 
 namespace IUDICO.DataModel.Common.TestingUtils
 {
@@ -10,13 +8,6 @@ namespace IUDICO.DataModel.Common.TestingUtils
     /// </summary>
     public class Tester
     {
-        private readonly List<Test> _tests = new List<Test>();
-
-        public void AddTest(Test newTest)
-        {
-            _tests.Add(newTest);
-        }
-
         public void TryToSubmit(HttpRequest request)
         {
             if (RequestConditionChecker.IsSubmitEnabled(request)) 
@@ -25,8 +16,8 @@ namespace IUDICO.DataModel.Common.TestingUtils
 
         private void Submit()
         {
-            foreach (Test t in _tests)
-                TestManager.StartTesting(t);
+           // foreach (Test t in _tests)
+                //TestManager.StartTesting(t);
         }
 
         public void NextTestPage(HttpResponse response, HttpRequest request)

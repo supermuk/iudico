@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace IUDICO.DataModel.WebControl
 {
-    internal class WebCodeSnippet : WebControl
+    internal class WebCodeSnippet : WebControlBase
     {
         private string _htmlCode;
 

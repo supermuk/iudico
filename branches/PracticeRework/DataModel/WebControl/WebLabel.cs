@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace IUDICO.DataModel.WebControl
 {
-    internal class WebLabel : WebControl
+    internal class WebLabel : WebControlBase
     {
         private string _text;
 
@@ -18,8 +18,10 @@ namespace IUDICO.DataModel.WebControl
         public override void Store(HtmlTextWriter w)
         {
             base.Store(w);
-            w.RenderBeginTag(HtmlTextWriterTag.Span);
-            w.Write(HttpUtility.HtmlEncode(_text).Replace(Environment.NewLine, "<br />"));
+
+            w.RenderBeginTag("asp:Label");
+                if(_text != null)
+                    w.Write(HttpUtility.HtmlEncode(_text).Replace(Environment.NewLine, "<br />"));
             w.RenderEndTag();
         }
     }

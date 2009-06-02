@@ -5,7 +5,7 @@ using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.WebControl
 {
-    internal class WebComboBox : WebTestControl
+    internal class WebComboBox : WebTestControlBase
     {
         private readonly List<string> _items = new List<string>();
 
@@ -13,36 +13,19 @@ namespace IUDICO.DataModel.WebControl
         {
             base.Parse(node);
             foreach (XmlNode sub in node.ChildNodes)
-            {
                 _items.Add(sub.InnerText);
-            }
         }
 
         public override void Store([NotNull] HtmlTextWriter w)
         {
             base.Store(w);
-            w.AddAttribute("runat", "server");
-            w.RenderBeginTag("asp:DropDownList");
 
-            int count = _items.Count;
-            for (int i = 0; i < count; i++)
-            {
-                w.RenderBeginTag("asp:ListItem");
-                w.Write(_items[i]);
-                w.RenderEndTag();
-            }
+            w.RenderBeginTag("it:ComboBoxTest");
+
+            foreach(var i in _items)
+                w.WriteLine(string.Format(@"<asp:ListItem Text=""{0}"" />", i));
 
             w.RenderEndTag();
-        }
-
-        public override string CreateCodeForTest(int testId)
-        {
-            return string.Format("IUDICO.DataModel.WebTest.ComboBoxTest({0}.SelectedIndex, {1})", Name, testId);
-        }
-
-        public override string CreateAnswerFillerCode(string answerFillerVaribleName)
-        {
-            return string.Empty;
         }
     }
 }
