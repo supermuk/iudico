@@ -25,7 +25,7 @@ namespace IUDICO.DataModel.WebControl
         VbScript = 16384
     }
 
-    internal class WebHighlightedCode : WebControl
+    internal class WebHighlightedCode : WebControlBase
     {
         private Language _language;
         private string _text;

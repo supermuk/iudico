@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F7A3C8E8-7545-4D92-8FF5-0927B4D845EF}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -232,24 +232,23 @@
     <Compile Include="UserControlBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="WebControl\ITestControl.cs" />
+    <Compile Include="WebControl\TestControlBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="WebControl\WebButton.cs" />
     <Compile Include="WebControl\WebCodeSnippet.cs" />
     <Compile Include="WebControl\WebComboBox.cs" />
     <Compile Include="WebControl\WebCompiledTest.cs" />
-    <Compile Include="WebControl\WebControl.cs" />
+    <Compile Include="WebControl\WebControlBase.cs" />
     <Compile Include="WebControl\WebHighlightedCode.cs" />
     <Compile Include="WebControl\WebLabel.cs" />
     <Compile Include="WebControl\WebPage.cs" />
     <Compile Include="WebControl\WebSimpleQuestion.cs" />
-    <Compile Include="WebControl\WebTestControl.cs" />
+    <Compile Include="WebControl\WebTestControlBase.cs" />
     <Compile Include="WebControl\WebTextBox.cs" />
     <Compile Include="Common\TestingUtils\TestManager.cs" />
-    <Compile Include="WebTest\ComboBoxTest.cs" />
     <Compile Include="Common\TestingUtils\SettingFactory.cs" />
-    <Compile Include="WebTest\CompiledTest.cs" />
-    <Compile Include="WebTest\SimpleQuestionTest.cs" />
-    <Compile Include="WebTest\Test.cs" />
-    <Compile Include="WebTest\TextBoxTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TestingSystem\TestingSystem\TestingSystem.csproj">

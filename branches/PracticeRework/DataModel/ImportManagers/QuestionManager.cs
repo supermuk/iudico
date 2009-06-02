@@ -10,16 +10,16 @@ namespace IUDICO.DataModel.ImportManagers
 {
     public class QuestionManager
     {
-        public static void Import(int pageRef, XmlNode answerNode, List<WebControl.WebControl> tests, string pathToTempCourseFolder)
+        public static void Import(int pageRef, XmlNode answerNode, List<WebControl.WebControlBase> tests, string pathToTempCourseFolder)
         {
-            foreach (WebControl.WebControl c in tests)
-                if (c is WebTestControl)
+            foreach (WebControl.WebControlBase c in tests)
+                if (c is WebTestControlBase)
                     StoreTest(c, answerNode, pageRef, pathToTempCourseFolder);
         }
 
-        private static void StoreTest(WebControl.WebControl c, XmlNode answerNode, int pageRef, string pathToTempCourseFolder)
+        private static void StoreTest(WebControl.WebControlBase c, XmlNode answerNode, int pageRef, string pathToTempCourseFolder)
         {
-            XmlNode questionAnswerNode = GetTestAnswerNode(answerNode, ((WebTestControl) c).AnswerIndex);
+            XmlNode questionAnswerNode = GetTestAnswerNode(answerNode, ((WebTestControlBase) c).AnswerIndex);
 
             if(c is WebCompiledTest)
             {
@@ -31,17 +31,17 @@ namespace IUDICO.DataModel.ImportManagers
             }
         }
 
-        private static void StoreTestControl(WebControl.WebControl c, int pageRef, XmlNode questionAnswerNode, string pathToTempCourseFolder)
+        private static void StoreTestControl(WebControl.WebControlBase c, int pageRef, XmlNode questionAnswerNode, string pathToTempCourseFolder)
         {
-            StoreQuestion(((WebTestControl) c).Id, pageRef, c.Name,
+            StoreQuestion(((WebTestControlBase) c).Id, pageRef, c.Name,
                           GetAnswer(questionAnswerNode), GetRank(questionAnswerNode));
             if (c is WebCodeSnippet)
                 FilesManager.StoreAllPageFiles(pageRef, Path.Combine(pathToTempCourseFolder, c.Name) + FileExtentions.WordHtmlFolder);
         }
 
-        private static void StoreCompiledTestControl(WebControl.WebControl c, int pageRef, XmlNode questionAnswerNode)
+        private static void StoreCompiledTestControl(WebControl.WebControlBase c, int pageRef, XmlNode questionAnswerNode)
         {
-            StoreCompiledQuestion(((WebTestControl) c).Id, pageRef, c.Name,
+            StoreCompiledQuestion(((WebTestControlBase) c).Id, pageRef, c.Name,
                                   CompiledQuestionManager.Import(questionAnswerNode), GetRank(questionAnswerNode));
         }
 
