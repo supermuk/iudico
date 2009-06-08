@@ -53,6 +53,20 @@ namespace TestingSystem
             if (program.Language == Language.Java6)
             {
                 const string classStr = "class";
+                const string packageStr = "package";
+                int packageIndex = program.Source.IndexOf(packageStr);
+                if (packageIndex != -1)
+                {
+                    try
+                    {
+                        program.Source = program.Source.Remove
+                            (packageIndex, program.Source.IndexOf(";", packageIndex) - packageIndex + 1);
+                    }
+                    catch
+                    { 
+                    
+                    }
+                }
                 string className;
                 try
                 {
