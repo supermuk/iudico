@@ -3,13 +3,16 @@ using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
 using LEX.CONTROLS;
 using LEX.CONTROLS.Expressions;
+using System.Web.UI.WebControls;
 
 namespace IUDICO.DataModel.Controllers
 {
     public class CurriculumAssignmentController : BaseTeacherController
     {
         public IVariable<bool> MainTableVisible = true.AsVariable();
-
+        [PersistantField]
+        public IVariable<string> VisibleGroupID = "-1".AsVariable();
+        public DropDownList GroupList;
         //"magic words"
         private const string pageCaption = "Curriculum assignment.";
         private const string pageDescription = "This is curriculum assignment page. Select group and curriculum to assign.";
@@ -49,6 +52,11 @@ namespace IUDICO.DataModel.Controllers
                     Message.Value = noGroups;
                 }
             }
+        }
+
+        public void AddGroup()
+        {
+            VisibleGroupID.Value = GroupList.SelectedValue;
         }
     }
 

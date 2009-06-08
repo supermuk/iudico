@@ -23,14 +23,23 @@
         <asp:TableRow>
             <asp:TableHeaderCell>
             </asp:TableHeaderCell>
-            <asp:TableHeaderCell Text="Groups">
+            <asp:TableHeaderCell Text="Curriculums">
             </asp:TableHeaderCell>
         </asp:TableRow>
         <asp:TableRow>
-            <asp:TableHeaderCell Text="Curriculums">
+            <asp:TableHeaderCell Text="Groups">
             </asp:TableHeaderCell>
             <asp:TableCell>
                 <i:AssignmentTable runat="server" ID="AssignmentTable" />
+            </asp:TableCell>
+        </asp:TableRow>
+        <asp:TableRow>
+            <asp:TableCell>
+                <asp:DropDownList runat="server" ID="GroupList">
+                </asp:DropDownList>
+            </asp:TableCell>
+            <asp:TableCell>
+                <asp:Button runat="server" ID="Button_AddGroup" Text="Add Group"></asp:Button>
             </asp:TableCell>
         </asp:TableRow>
     </asp:Table>
