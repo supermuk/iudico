@@ -7,7 +7,7 @@ using IUDICO.DataModel.Common;
 using IUDICO.DataModel.Controllers;
 using IUDICO.DataModel.DB;
 
-public partial class AssignmentTable : UserControl
+public partial class AssignmentTable : UserControl, ITextControl
 {
     private const char assignChar = 'a';
     private const char modifyChar = 'm';
@@ -16,6 +16,8 @@ public partial class AssignmentTable : UserControl
     private const string modify = "Modify";
     private const string assign = "Assign";
     private const string unsign = "Unsign";
+
+    public int VisibleGroupID = -1;
 
     protected override void OnLoad(EventArgs e)
     {
@@ -36,35 +38,36 @@ public partial class AssignmentTable : UserControl
         TableHeaderCell emptyHeaderCell = new TableHeaderCell();
         emptyHeaderCell.Text = "";
         headerRow.Cells.Add(emptyHeaderCell);
-        foreach (TblGroups group in groups)
+        foreach (TblCurriculums curriculum in curriculums)
         {
             TableHeaderCell headerCell = new TableHeaderCell();
-            headerCell.Text = group.Name;
+            headerCell.Text = curriculum.Name;
             headerRow.Cells.Add(headerCell);
         }
         Table_Assignments.Rows.Add(headerRow);
 
-        //create row for each curriculum
-        foreach (TblCurriculums curriculum in curriculums)
+        //create row for each group
+        foreach (TblGroups group in groups)
         {
-            TableRow curriculumRow = new TableRow();
-            TableHeaderCell curriculumHeaderCell = new TableHeaderCell();
-            curriculumHeaderCell.Text = curriculum.Name;
-            curriculumRow.Cells.Add(curriculumHeaderCell);
+            TableRow groupRow = new TableRow();
+            TableHeaderCell groupHeaderCell = new TableHeaderCell();
+            groupHeaderCell.Text = group.Name;
+            groupRow.Cells.Add(groupHeaderCell);
 
-            IList<TblGroups> assignedGroups = TeacherHelper.GetGroupsForCurriculum(curriculum);
-            foreach (TblGroups group in groups)
+            IList<TblCurriculums> assignedCurriculums = TeacherHelper.GetCurriculumsForGroup(group);
+
+            foreach (TblCurriculums curriculum in curriculums)
             {
                 bool isAssigned = false;
-                foreach (TblGroups assignedGroup in assignedGroups)
+                foreach (TblCurriculums assignedCurriculum in assignedCurriculums)
                 {
-                    if (assignedGroup.ID == group.ID)
+                    if (assignedCurriculum.ID == curriculum.ID)
                     {
                         isAssigned = true;
                         break;
                     }
                 }
-                TableCell curriculumCell = new TableCell();
+                TableCell groupCell = new TableCell();
                 if (isAssigned)
                 {
                     Button modifyButton = new Button();
@@ -83,8 +86,8 @@ public partial class AssignmentTable : UserControl
                     unsignButton.Click += new EventHandler(unsignButton_Click);
                     unsignButton.Text = unsign;
 
-                    curriculumCell.Controls.Add(modifyButton);
-                    curriculumCell.Controls.Add(unsignButton);
+                    groupCell.Controls.Add(modifyButton);
+                    groupCell.Controls.Add(unsignButton);
                 }
                 else
                 {
@@ -92,13 +95,17 @@ public partial class AssignmentTable : UserControl
                     assignButton.ID = group.ID.ToString() + assignChar + curriculum.ID;
                     assignButton.Click += new EventHandler(assignButton_Click);
                     assignButton.Text = assign;
-                    
-                    curriculumCell.Controls.Add(assignButton);
+
+                    groupCell.Controls.Add(assignButton);
                 }
 
-                curriculumRow.Cells.Add(curriculumCell);
+                groupRow.Cells.Add(groupCell);
             }
-            Table_Assignments.Rows.Add(curriculumRow);
+            if (assignedCurriculums.Count == 0 && group.ID != VisibleGroupID)
+            {
+                groupRow.Visible = false;
+            }
+            Table_Assignments.Rows.Add(groupRow);
         }
     }
 
@@ -133,6 +140,19 @@ public partial class AssignmentTable : UserControl
 
         TeacherHelper.UnSignGroupFromCurriculum(group, curriculum);
         buildAssignTable();
+    }
+
+    public string Text
+    {
+        get
+        {
+            return VisibleGroupID.ToString();
+        }
+        set
+        {
+            VisibleGroupID = int.Parse(value);
+            buildAssignTable();
+        }
     }
 
 }
