@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
 using System.Web.UI;
 using System.Xml;
 using CourseImport.Common;
@@ -36,7 +35,7 @@ namespace IUDICO.DataModel.WebControl
             w.AddAttribute("runat", "server");
             w.RenderBeginTag(HtmlTextWriterTag.Div);
             w.RenderBeginTag(HtmlTextWriterTag.P);
-            w.Write(HttpUtility.HtmlEncode(_question));
+            w.Write(_question);
             w.RenderEndTag();
             foreach (string text in _list)
             {
