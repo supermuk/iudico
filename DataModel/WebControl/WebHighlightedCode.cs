@@ -48,7 +48,7 @@ namespace IUDICO.DataModel.WebControl
             w.RenderBeginTag(HtmlTextWriterTag.Span);
             w.AddAttribute(HtmlTextWriterAttribute.Class, ls);
             w.WriteFullBeginTag(string.Concat("pre><code class=\"", ls, "\""));
-            w.Write(HttpUtility.HtmlEncode(_text));
+            w.Write(_text);
             w.WriteFullBeginTag("/code></pre");
             w.RenderEndTag();
         }
