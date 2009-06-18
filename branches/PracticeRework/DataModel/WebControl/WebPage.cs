@@ -129,7 +129,11 @@ namespace IUDICO.DataModel.WebControl
         private void ConstructPageCode(HtmlTextWriter w)
         {
             AddHeader(w);
-            StoreControls(w);
+            w.AddAttribute("runat", "server");
+            w.AddStyleAttribute(HtmlTextWriterStyle.Position, "relative");
+            w.RenderBeginTag(HtmlTextWriterTag.Div);
+                StoreControls(w);
+            w.RenderEndTag();
         }
 
 

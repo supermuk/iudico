@@ -3,7 +3,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
 <asp:Label runat = "server" ID = "_headerLabel" Font-Bold="True" Font-Size="XX-Large"></asp:Label>
 <br />
-<IFRAME ID="_testDetailsFrame" scrolling="auto" Runat="Server" width="100%" height="500px"></IFRAME>
+<asp:Panel ID="_testDetailsPanel" scrolling="auto" Runat="Server" width="100%" 
+        height="500px" BorderStyle="Solid"></asp:Panel>
 <br />
 <asp:Label id="_pageRankLabel" Runat="Server"></asp:Label>
 <br />

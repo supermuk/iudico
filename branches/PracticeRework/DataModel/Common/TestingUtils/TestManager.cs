@@ -5,25 +5,25 @@ using IUDICO.DataModel.Security;
 
 namespace IUDICO.DataModel.Common.TestingUtils
 {
-    static class TestManager
+    public static class TestManager
     {
-        public static void StartTesting()
+        public static void StartTesting(int questionId, string userAnswer, bool isCompiledTest)
         {
-            var ua = ExtractAndSaveAnswerFromTest();
+            var ua = SaveAnswer(questionId, userAnswer, isCompiledTest);
 
             if (ua.IsCompiledAnswer)
                 CompilationTestManager.GetNewManager(ua).StartCompilation();
         }
 
-        private static TblUserAnswers ExtractAndSaveAnswerFromTest()
+        private static TblUserAnswers SaveAnswer(int questionId, string userAnswer, bool isCompiledTest)
         {
             var ua = new TblUserAnswers
                          {
-                             //QuestionRef = t.Id,
+                             QuestionRef = questionId,
                              Date = DateTime.Now,
                              UserRef = ((CustomUser)Membership.GetUser()).ID,
-                             //UserAnswer = t.UserAnswer,
-                            // IsCompiledAnswer = t is CompiledTest,
+                             UserAnswer = userAnswer,
+                             IsCompiledAnswer = isCompiledTest,
                              AnswerTypeRef = FxAnswerType.UserAnswer.ID
                          };
 
