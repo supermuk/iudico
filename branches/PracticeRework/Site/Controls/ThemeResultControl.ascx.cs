@@ -4,7 +4,6 @@ using System.Web.UI.WebControls;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Common.StatisticUtils;
 using IUDICO.DataModel.Common.StudentUtils;
-using IUDICO.DataModel.Common.TestRequestUtils;
 using IUDICO.DataModel.Controllers.Student;
 using IUDICO.DataModel.DB;
 

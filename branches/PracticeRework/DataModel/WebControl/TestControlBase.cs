@@ -4,7 +4,7 @@ namespace IUDICO.DataModel.WebControl
 {
     public abstract class TestControlBase : UserControl
     {
-        public string QuestionId;
+        public int QuestionId;
 
         protected abstract void ApplyStyles();
     }

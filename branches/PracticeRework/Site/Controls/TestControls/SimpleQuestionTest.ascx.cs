@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using IUDICO.DataModel.Common.TestingUtils;
 using IUDICO.DataModel.WebControl;
 
 namespace Controls.TestControls
@@ -37,6 +38,38 @@ namespace Controls.TestControls
         protected override void ApplyStyles()
         {
             _testPanel.Attributes["Style"] = Attributes["Style"];
+        }
+
+        public void SubmitAnswer()
+        {
+            string ans = string.Empty;
+
+            foreach (var b in Items)
+                ans += b.Selected ? "1" : "0";
+
+            TestManager.StartTesting(QuestionId, ans, false);
+        }
+
+        public void FillCorrectAnswer()
+        {
+            var answer = AnswerFiller.GetCorrectAnswer(QuestionId);
+
+            if (!answer.Equals(string.Empty))
+            {
+                for (int i = 0; i < Items.Count; i++)
+                    Items[i].Selected = answer[i].Equals('1');
+            }
+        }
+
+        public void FillUserAnswer(int userId)
+        {
+            var answer = AnswerFiller.GetUserAnswer(QuestionId, userId);
+
+            if (!answer.Equals(string.Empty))
+            {
+                for (int i = 0; i < Items.Count; i++)
+                    Items[i].Selected = answer[i].Equals('1');
+            }
         }
     }
 }
