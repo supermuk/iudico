@@ -20,8 +20,12 @@ namespace IUDICO.DataModel.WebControl
         {   
             base.Store(w);
 
-            w.AddAttribute("InnerText", HtmlUtility.QuotesEncode(_text));
+          //  w.AddAttribute("InnerText", HtmlUtility.QuotesEncode(_text));
             w.RenderBeginTag("it:TextBoxTest");
+
+            if (_text != null)
+                w.Write(_text);
+
             w.RenderEndTag();
         }
     }

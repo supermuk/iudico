@@ -69,7 +69,7 @@ namespace IUDICO.DataModel.Controllers.Student
             if ((FX_PAGETYPE)page.PageTypeRef == FX_PAGETYPE.Practice)
             {
                 control = TestControlHelper.GetPracticeControl(page, PageContent);
-                FillAnswer(control);
+                
             }
             else
             {
@@ -78,20 +78,27 @@ namespace IUDICO.DataModel.Controllers.Student
 
             PageContent.Controls.Clear();
             PageContent.Controls.Add(control);
+            FillAnswer(control);
         }
 
         private void FillAnswer(Control control)
         {
-        foreach (var c in control.Controls)
-            if (c is ITestControl)
+            foreach (var c in control.Controls)
             {
-                if (TestType == (int) TestSessionType.UserAnswer)
+                if (c is ITestControl)
                 {
-                    ((ITestControl) c).FillUserAnswer(UserId);
+                    if (TestType == (int) TestSessionType.UserAnswer)
+                    {
+                        ((ITestControl) c).FillUserAnswer(UserId);
+                    }
+                    if (TestType == (int) TestSessionType.CorrectAnswer)
+                    {
+                        ((ITestControl) c).FillCorrectAnswer();
+                    }
                 }
-                if (TestType == (int) TestSessionType.CorrectAnswer)
+                if(c is Button)
                 {
-                    ((ITestControl) c).FillCorrectAnswer();
+                    ((Button) c).Enabled = false;
                 }
             }
         }
