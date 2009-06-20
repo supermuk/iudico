@@ -69,18 +69,22 @@ namespace IUDICO.DataModel.Common.StatisticUtils
 
             bool allAcepted = true;
 
-            foreach (var compiledAnswer in userCompiledAnswers)
+            if (userCompiledAnswers.Count != 0)
             {
-                if (compiledAnswer.StatusRef == (int)Status.Enqueued)
-                    return ResultStatus.Enqueued;
+                foreach (var compiledAnswer in userCompiledAnswers)
+                {
+                    if (compiledAnswer.StatusRef == (int) Status.Enqueued)
+                        return ResultStatus.Enqueued;
 
-                allAcepted &= (compiledAnswer.StatusRef == (int) Status.Accepted);
+                    allAcepted &= (compiledAnswer.StatusRef == (int) Status.Accepted);
+                }
+
+                return allAcepted ? ResultStatus.Pass : ResultStatus.Fail;
             }
-
-            if (allAcepted)
-                return ResultStatus.Pass;
-
-            return ResultStatus.Fail;
+            else
+            {
+                return ResultStatus.Fail;
+            }
         }
 
         private ResultStatus FindFirstAnswered()
