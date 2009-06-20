@@ -6,11 +6,10 @@ namespace Controls.TestControls
 {
     public partial class TextBoxTest : TestControlBase, ITestControl
     {
-        public string InnerText;
+        //public string InnerText;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _testTextBox.Text = InnerText;
             ApplyStyles();
         }
 

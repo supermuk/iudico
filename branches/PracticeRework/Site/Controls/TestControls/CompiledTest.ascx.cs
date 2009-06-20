@@ -8,7 +8,7 @@ namespace Controls.TestControls
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            ApplyStyles();
+           ApplyStyles();
         }
 
         protected override void ApplyStyles()

@@ -67,8 +67,8 @@ namespace IUDICO.DataModel.WebControl
         {
             if (_size.Width != 0 && _size.Height != 0)
             {
-                w.AddStyleAttribute(HtmlTextWriterStyle.Width, _size.Width.ToString());
-                w.AddStyleAttribute(HtmlTextWriterStyle.Height, _size.Height.ToString());
+                w.AddStyleAttribute(HtmlTextWriterStyle.Width, string.Format("{0}px",_size.Width.ToString()));
+                w.AddStyleAttribute(HtmlTextWriterStyle.Height, string.Format("{0}px",_size.Height.ToString()));
             }
         }
 
