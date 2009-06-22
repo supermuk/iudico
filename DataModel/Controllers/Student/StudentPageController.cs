@@ -71,7 +71,7 @@ namespace IUDICO.DataModel.Controllers.Student
                     RedirectToController(new OpenTestController
                                                  {
                                                      BackUrl = string.Empty,
-                                                     OpenThema = selectedNode.ID,
+                                                     ThemaId = selectedNode.ID,
                                                      CurriculumnId = ((IdendtityNode) selectedNode.Parent.Parent).ID,
                                                      StageId = ((IdendtityNode) selectedNode.Parent).ID,
                                                      PageIndex = 0,

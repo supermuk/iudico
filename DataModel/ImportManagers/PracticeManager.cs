@@ -18,8 +18,8 @@ namespace IUDICO.DataModel.ImportManagers
 
             var pageTable = StorePageWithoutPageFile(themeRef, XmlUtility.GetIdentifier(node), rank);
 
-            WebPage webPage = CreateAspxPage(tempFileName, Path.GetFileNameWithoutExtension(tempFileName),
-                pageTable.ID, answerNode, projectPaths.PathToTempCourseFolder);
+            WebPage webPage = CreateAspControl(tempFileName, pageTable.ID,
+                answerNode, projectPaths.PathToTempCourseFolder);
 
             AddPageFileToPage(pageTable, webPage.BinaryRepresentation);
         }
@@ -66,10 +66,10 @@ namespace IUDICO.DataModel.ImportManagers
             return int.Parse(node.LastChild.InnerText);
         }
 
-        private static WebPage CreateAspxPage(string tempFileName, string fileName, int pageRef, XmlNode answerNode, string pathToTempCourseFolder)
+        private static WebPage CreateAspControl(string tempFileName, int pageRef, XmlNode answerNode, string pathToTempCourseFolder)
         {
             var page = new WebPage(tempFileName);
-            page.TransformToAspx(fileName, pageRef, answerNode, pathToTempCourseFolder);
+            page.TransformToAspControl(pageRef, answerNode, pathToTempCourseFolder);
             return page;
         }
 

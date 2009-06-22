@@ -19,10 +19,24 @@ public partial class CompiledQuestionResult : UserControl
         SetHeader(q.TestName, compiledQuestion);
         SetTableHeader();
 
-        if (answersForCurrentUser.Count != 0)
-            SetResults(answersForCurrentUser);
+        if (answersForCurrentUser != null && answersForCurrentUser.Count != 0)
+        {
+            var lastUserAnswer = FindLatestUserAnswer(answersForCurrentUser);
+            var compileAnswer = StudentRecordFinder.GetCompiledAnswersForAnswer(lastUserAnswer);
+
+            if (compileAnswer != null && compileAnswer.Count != 0)
+            {
+                SetResults(compileAnswer);
+            }
+            else
+            {
+                SetNoResultStatus(q);
+            }
+        }
         else
+        {
             SetNoResultStatus(q);
+        }
     }
 
     private void SetNoResultStatus(TblQuestions q)
@@ -32,10 +46,8 @@ public partial class CompiledQuestionResult : UserControl
         _statusLabel.Text = string.Format("You not compile {0} yet", q.TestName);
     }
 
-    private void SetResults(IList<TblUserAnswers> userAnswers)
+    private void SetResults(IList<TblCompiledAnswers> compileAnswer)
     {
-        var compileAnswer = StudentRecordFinder.GetCompiledAnswersForAnswer(FindLatestUserAnswer(userAnswers));
-
         foreach (var ca in compileAnswer)
             SetTestCaseResult(StudentRecordFinder.GetCompiledQuestionDataForCompiledAnswer(ca), ca);
     }
