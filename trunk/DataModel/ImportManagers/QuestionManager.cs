@@ -10,16 +10,23 @@ namespace IUDICO.DataModel.ImportManagers
 {
     public class QuestionManager
     {
-        public static void Import(int pageRef, XmlNode answerNode, List<WebControl.WebControl> tests, string pathToTempCourseFolder)
+        public static void Import(int pageRef, XmlNode answerNode, List<WebControlBase> tests, string pathToTempCourseFolder)
         {
-            foreach (WebControl.WebControl c in tests)
-                if (c is WebTestControl)
-                    StoreTest(c, answerNode, pageRef, pathToTempCourseFolder);
+            foreach (WebControlBase c in tests)
+            {
+                if (c is WebTestControlBase)
+                    StoreTest(c, answerNode, pageRef);
+
+                if (c is WebCodeSnippet)
+                    FilesManager.StoreAllPageFiles(pageRef,
+                                                   Path.Combine(pathToTempCourseFolder, c.Name) +
+                                                   FileExtentions.WordHtmlFolder);
+            }
         }
 
-        private static void StoreTest(WebControl.WebControl c, XmlNode answerNode, int pageRef, string pathToTempCourseFolder)
+        private static void StoreTest(WebControlBase c, XmlNode answerNode, int pageRef)
         {
-            XmlNode questionAnswerNode = GetTestAnswerNode(answerNode, ((WebTestControl) c).AnswerIndex);
+            XmlNode questionAnswerNode = GetTestAnswerNode(answerNode, ((WebTestControlBase) c).AnswerIndex);
 
             if(c is WebCompiledTest)
             {
@@ -27,21 +34,19 @@ namespace IUDICO.DataModel.ImportManagers
             }
             else
             {
-                StoreTestControl(c, pageRef, questionAnswerNode, pathToTempCourseFolder);
+                StoreControl(c, pageRef, questionAnswerNode);
             }
         }
 
-        private static void StoreTestControl(WebControl.WebControl c, int pageRef, XmlNode questionAnswerNode, string pathToTempCourseFolder)
+        private static void StoreControl(WebControlBase c, int pageRef, XmlNode questionAnswerNode)
         {
-            StoreQuestion(((WebTestControl) c).Id, pageRef, c.Name,
+            StoreQuestion(((WebTestControlBase) c).Id, pageRef, c.Name,
                           GetAnswer(questionAnswerNode), GetRank(questionAnswerNode));
-            if (c is WebCodeSnippet)
-                FilesManager.StoreAllPageFiles(pageRef, Path.Combine(pathToTempCourseFolder, c.Name) + FileExtentions.WordHtmlFolder);
         }
 
-        private static void StoreCompiledTestControl(WebControl.WebControl c, int pageRef, XmlNode questionAnswerNode)
+        private static void StoreCompiledTestControl(WebControlBase c, int pageRef, XmlNode questionAnswerNode)
         {
-            StoreCompiledQuestion(((WebTestControl) c).Id, pageRef, c.Name,
+            StoreCompiledQuestion(((WebTestControlBase) c).Id, pageRef, c.Name,
                                   CompiledQuestionManager.Import(questionAnswerNode), GetRank(questionAnswerNode));
         }
 
@@ -78,6 +83,7 @@ namespace IUDICO.DataModel.ImportManagers
             foreach (XmlNode n in node.ChildNodes)
                 if (n.Name == "rank")
                     return Int32.Parse(n.InnerText);
+            
             return 0;
         }
 

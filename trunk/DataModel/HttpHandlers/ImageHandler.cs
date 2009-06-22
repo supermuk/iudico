@@ -1,19 +1,23 @@
 ﻿using System.IO;
 using System.Web;
+using IUDICO.DataModel.Common.StudentUtils;
 using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.HttpHandlers
 {
-    public class ImageHandler : IudicoHttpHandlerBase, IHttpHandler
+    public class ImageHandler : IHttpHandler
     {
         public void ProcessRequest(HttpContext context)
         {
-            // TODO: Check security
-
-            var imageFileId = int.Parse(context.Request[imageIdRequestParameter]);
+            var imageFileId = int.Parse(context.Request[TestControlHelper.ImageIdRequestParameter]);
             var files = ServerModel.DB.Load<TblFiles>(imageFileId);
             context.Response.ContentType = Path.GetExtension(files.Name);
             context.Response.OutputStream.Write(files.File.ToArray(), 0, files.File.Length);
+        }
+
+        public bool IsReusable
+        {
+            get { return false; }
         }
     }
 }

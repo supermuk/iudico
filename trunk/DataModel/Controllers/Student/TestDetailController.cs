@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Web.UI.HtmlControls;
+using System.Web.UI;
 using System.Web.UI.WebControls;
-using IUDICO.DataModel.Common.ImportUtils;
-using IUDICO.DataModel.Common.TestRequestUtils;
+using IUDICO.DataModel.Common.StudentUtils;
 using IUDICO.DataModel.DB;
+using IUDICO.DataModel.ImportManagers;
+using IUDICO.DataModel.WebControl;
 using LEX.CONTROLS;
 using LEX.CONTROLS.Expressions;
 
@@ -12,9 +13,7 @@ namespace IUDICO.DataModel.Controllers.Student
 {
     public class TestDetailsController : ControllerBase
     {
-        private HtmlControl _iframe;
-
-        public ContentPlaceHolder PageContent { get; set; }
+        public Panel PageContent { get; set; }
 
         public IVariable<string> PageRank = string.Empty.AsVariable();
 
@@ -38,8 +37,6 @@ namespace IUDICO.DataModel.Controllers.Student
 
         public void PageLoad(object sender, EventArgs e)
         {
-            LoadIFrame();
-
             ShowPage();
         }
 
@@ -53,14 +50,56 @@ namespace IUDICO.DataModel.Controllers.Student
 
                 SetHeader(page);
 
+                AddControl(page);
+
                 MaxPageRank.Value = GetMaxRank(questions).ToString();
                 PageRank.Value = ((int)page.PageRank).ToString();
                 QuestionCount.Value = (questions.Count).ToString();
-                SetUrl();
             }
             else
             {
                 throw new Exception("Page ID is not specified");
+            }
+        }
+
+        private void AddControl(TblPages page)
+        {
+            Control control;
+
+            if ((FX_PAGETYPE)page.PageTypeRef == FX_PAGETYPE.Practice)
+            {
+                control = TestControlHelper.GetPracticeControl(page, PageContent);
+                
+            }
+            else
+            {
+                throw new Exception("You can't see details for theory page");
+            }
+
+            PageContent.Controls.Clear();
+            PageContent.Controls.Add(control);
+            FillAnswer(control);
+        }
+
+        private void FillAnswer(Control control)
+        {
+            foreach (var c in control.Controls)
+            {
+                if (c is ITestControl)
+                {
+                    if (TestType == (int) TestSessionType.UserAnswer)
+                    {
+                        ((ITestControl) c).FillUserAnswer(UserId);
+                    }
+                    if (TestType == (int) TestSessionType.CorrectAnswer)
+                    {
+                        ((ITestControl) c).FillCorrectAnswer();
+                    }
+                }
+                if(c is Button)
+                {
+                    ((Button) c).Enabled = false;
+                }
             }
         }
 
@@ -70,11 +109,6 @@ namespace IUDICO.DataModel.Controllers.Student
             PageHeader.Value = string.Format("{0} for Page: {1}", GetPageTitleType(), page.PageName); 
         }
 
-        private void SetUrl()
-        {
-            _iframe.Attributes["src"] = TestRequestBuilder.NewRequestForHandler(PageId, FileExtentions.IudicoPracticePage)
-                .AddTestSessionType((TestSessionType)TestType).AddUserId(UserId).Build();
-        }
 
         private static int GetMaxRank(IList<TblQuestions> questions)
         {
@@ -91,20 +125,6 @@ namespace IUDICO.DataModel.Controllers.Student
             return ServerModel.DB.Load<TblPages>(pageId);
         }
 
-        private void LoadIFrame()
-        {
-            if (PageContent != null)
-            {
-                _iframe = (HtmlControl)PageContent.FindControl("_testDetailsFrame");
-                if (_iframe == null)
-                    throw new Exception("Can't load iframe");
-            }
-            else
-            {
-                throw new Exception("Can't load page Content");
-            }
-        }
-    
         public string GetPageTitleType()
         {
             if (TestType == (int) TestSessionType.UserAnswer)
@@ -118,5 +138,11 @@ namespace IUDICO.DataModel.Controllers.Student
             }
             return "";
         }
+    }
+
+    public enum TestSessionType
+    {
+        UserAnswer,
+        CorrectAnswer
     }
 }
