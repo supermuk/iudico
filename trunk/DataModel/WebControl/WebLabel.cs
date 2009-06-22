@@ -4,7 +4,7 @@ using System.Xml;
 
 namespace IUDICO.DataModel.WebControl
 {
-    internal class WebLabel : WebControl
+    internal class WebLabel : WebControlBase
     {
         private string _text;
 

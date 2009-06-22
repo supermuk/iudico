@@ -4,7 +4,7 @@ using CourseImport.Common;
 
 namespace IUDICO.DataModel.WebControl
 {
-    internal class WebButton : WebControl
+    internal class WebButton : WebControlBase
     {
         private string _text;
 
@@ -17,10 +17,8 @@ namespace IUDICO.DataModel.WebControl
         public override void Store(HtmlTextWriter w)
         {
             base.Store(w);
-            w.AddAttribute(HtmlTextWriterAttribute.Type, "button");
             w.AddAttribute("Text", HtmlUtility.QuotesEncode(_text));
             w.AddAttribute("runat", "server");
-            w.AddAttribute(HtmlTextWriterAttribute.Onclick, "onClick");
             w.RenderBeginTag("asp:Button");
             w.RenderEndTag();
         }

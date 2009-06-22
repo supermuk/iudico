@@ -13,24 +13,6 @@ namespace IUDICO.DataModel.ImportManagers
         Practice = 2
     }
 
-    public static class FxPageTypeExtender
-    {
-        public static string GetHandlerExtention(this FX_PAGETYPE pageType)
-        {
-            switch (pageType)
-            {
-                case FX_PAGETYPE.Theory:
-                    return FileExtentions.IudicoTheoryPage;
-
-                case FX_PAGETYPE.Practice:
-                    return FileExtentions.IudicoPracticePage;
-
-                default:
-                    throw new InvalidOperationException("Invalid page type: " + pageType);
-            }
-        }
-    }
-
     public class FilesManager
     {
         public static void StoreAllPageFiles(int pageRef, string pageFileName)
@@ -41,11 +23,11 @@ namespace IUDICO.DataModel.ImportManagers
             {
                 var d = new DirectoryInfo(directoryName);
 
-                int dirID = StoreFolder(directoryName, pageRef);
+                int dirId = StoreFolder(directoryName, pageRef);
 
                 foreach (var file in d.GetFiles())
                 {
-                    StoreFile(dirID, file, pageRef);
+                    StoreFile(dirId, file, pageRef);
                 }
             }
         }

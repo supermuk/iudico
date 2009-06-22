@@ -1,67 +1,31 @@
-using System;
 using System.Collections.Generic;
-using System.Web;
-using System.Web.UI.WebControls;
 using IUDICO.DataModel.Common.StatisticUtils;
-using IUDICO.DataModel.Common.StudentUtils;
-using IUDICO.DataModel.Common.TestRequestUtils;
 using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.Common.TestingUtils
 {
     public class AnswerFiller
     {
-        private readonly IList<TblQuestions> _questions;
-
-        private readonly bool _fillUserAnswer;
-
-        private readonly bool _fillCorrectAnswer;
-
-        private readonly int _userId;
-
-        public AnswerFiller(HttpRequest request)
+        public static string GetUserAnswer(int questionId, int userId)
         {
-            var page = ServerModel.DB.Load<TblPages>(TestRequestParser.GetPageId(request));
+            TblQuestions q = GetQuestion(questionId);
 
-            _questions = ServerModel.DB.Load<TblQuestions>(ServerModel.DB.LookupIds<TblQuestions>(page, null));
-
-            _fillUserAnswer = RequestConditionChecker.DoFillUserAnswers(request);
-
-            _fillCorrectAnswer = RequestConditionChecker.DoFillCorrectAnswers(request);
-
-            _userId = TestRequestParser.GetUserId(request);
+            return FindAnswer(userId, q);
         }
 
-        private string GetAnswerForQuestion(string name)
+        public static string GetCorrectAnswer(int questionId)
         {
-            var q = FindQuestion(name);
+            TblQuestions q = GetQuestion(questionId);
 
-            if (_fillUserAnswer && _fillCorrectAnswer)
-                throw new Exception("Someone try to cheat");
-
-
-            if (_fillUserAnswer)
-                return FindAnswer(_userId, q);
-
-
-            if (_fillCorrectAnswer)
-                if (ServerModel.User.Current.Islector())
-                    return q.CorrectAnswer;
+            if (ServerModel.User.Current.Islector())
+                return q.CorrectAnswer;
 
             return string.Empty;
         }
 
-        private TblQuestions FindQuestion(string name)
+        private static TblQuestions GetQuestion(int questionId)
         {
-            foreach (var c in _questions)
-            {
-                if (c.TestName.Equals(name))
-                {
-                    _questions.Remove(c);
-                    return c;
-                }
-            }
-            return null;
+            return ServerModel.DB.Load<TblQuestions>(questionId);
         }
 
         private static string FindAnswer(int userId, TblQuestions question)
@@ -86,33 +50,6 @@ namespace IUDICO.DataModel.Common.TestingUtils
             }
 
             return string.Empty;
-        }
-
-        public void SetAnswer(TextBox control)
-        {
-            control.Text = GetAnswerForQuestion(control.ID);
-        }
-       
-        public void SetAnswer(string id, params RadioButton[] list)
-        {
-            var answer = GetAnswerForQuestion(id);
-
-            if (!answer.Equals(string.Empty))
-            {
-                for (int i = 0; i < list.Length; i++)
-                    list[i].Checked = answer[i].Equals('1');
-            }
-        }
-        
-        public void SetAnswer(string id, params CheckBox[] list)
-        {
-            var answer = GetAnswerForQuestion(id);
-
-            if (!answer.Equals(string.Empty))
-            {
-                for (int i = 0; i < list.Length; i++)
-                    list[i].Checked = answer[i].Equals('1');
-            }
         }
     }
 }
