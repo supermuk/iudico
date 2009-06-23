@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F7A3C8E8-7545-4D92-8FF5-0927B4D845EF}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -135,6 +135,8 @@
     <Compile Include="Common\ImportUtils\ProjectPaths.cs" />
     <Compile Include="Common\SqlUtils.cs" />
     <Compile Include="Common\Memorizer.cs" />
+    <Compile Include="Common\StudentUtils\HandlerPaths.cs" />
+    <Compile Include="Common\StudentUtils\ImageHandlerHelper.cs" />
     <Compile Include="Common\StudentUtils\LanguageHelper.cs" />
     <Compile Include="Common\StudentUtils\PageShifter.cs" />
     <Compile Include="Common\StudentUtils\StudentPermissionsHelper.cs" />
@@ -198,8 +200,6 @@
     <Compile Include="DB\Base\DBOps.cs" />
     <Compile Include="DB\Base\DBOpInterfaces.cs" />
     <Compile Include="DB\DataObjectCleaner.cs" />
-    <Compile Include="HttpHandlers\ImageHandler.cs" />
-    <Compile Include="HttpHandlers\TheoryHandler.cs" />
     <Compile Include="DB\DatabaseModel.cs" />
     <Compile Include="DB\DatabaseModel.generated.cs" />
     <Compile Include="ImportManagers\CompiledQuestionManager.cs" />
