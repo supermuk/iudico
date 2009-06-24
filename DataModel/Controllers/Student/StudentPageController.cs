@@ -6,6 +6,7 @@ using System.Web.UI.WebControls;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.Common.StatisticUtils;
 using IUDICO.DataModel.Common.StudentUtils;
+using IUDICO.DataModel.Common.TestingUtils;
 using IUDICO.DataModel.DB;
 using LEX.CONTROLS;
 using LEX.CONTROLS.Expressions;
@@ -297,7 +298,7 @@ namespace IUDICO.DataModel.Controllers.Student
                 if (selectedNode.Type == NodeType.Curriculum || selectedNode.Type == NodeType.Stage)
                     OpenTestButton.Enabled = false;
                 else
-                    OpenTestButton.Enabled = StudentPermissionsHelper.IsDateAllowed(DateTime.Now, _userId, ((IdendtityNode)selectedNode.Parent).ID, NodeType.Stage, OperationType.View);
+                    OpenTestButton.Enabled = ConditionChecker.IsViewingAllowed(((IdendtityNode)selectedNode.Parent).ID);
             }
         }
 
