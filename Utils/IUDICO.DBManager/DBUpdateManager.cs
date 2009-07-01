@@ -20,6 +20,31 @@ namespace IUDICO.DBManager
 
     public static class DBUpdateManager
     {
+        public static IEnumerable<string> SplitSqlCommands(string cmds)
+        {
+            var gos = _SplitSqlCommands.Matches(cmds);
+
+            var result = new List<string>(gos.Count);
+            var prevIndex = 0;
+            foreach (Match m in gos)
+            {
+                var cmd = cmds.Substring(prevIndex, m.Index - prevIndex).Trim();
+                if (!string.IsNullOrEmpty(cmd))
+                {
+                    result.Add(cmd);
+                }
+                prevIndex = m.Index + 4;
+            }
+            var lastCmd = cmds.Substring(prevIndex);
+            if (lastCmd.EndsWith("GO", StringComparison.CurrentCultureIgnoreCase))
+            {
+                lastCmd = lastCmd.Remove(lastCmd.Length - 2);
+            }
+            result.Add(lastCmd);
+
+            return result;
+        }
+
         public static string GetDBUsageSql(string dbName)
         {
             return string.Format(@"select [status], [hostname], [PROGRAM_NAME] from master.dbo.sysprocesses where dbid = (SELECT database_id from sys.databases where name = '{0}')", dbName);
@@ -268,28 +293,6 @@ END", version, alter ? "ALTER" : "CREATE");
                 c.LexExecuteNonQuery();
             }
             return true;
-        }
-
-        private static IEnumerable<string> SplitSqlCommands(string cmds)
-        {
-            var result = new List<string>();
-
-            var gos = _SplitSqlCommands.Matches(cmds);
-            var prevIndex = 0;
-            foreach (Match m in gos)
-            {
-                var cmd = cmds.Substring(prevIndex, m.Index - prevIndex);
-                result.Add(cmd);
-                prevIndex = m.Index + 4;
-            }
-            var lastCmd = cmds.Substring(prevIndex);
-            if (lastCmd.EndsWith("GO", StringComparison.CurrentCultureIgnoreCase))
-            {
-                lastCmd = lastCmd.Remove(lastCmd.Length - 2);
-            }
-            result.Add(lastCmd);
-
-            return result;
         }
 
         private static readonly Regex _SplitSqlCommands = new Regex(@"\sGO\s", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);

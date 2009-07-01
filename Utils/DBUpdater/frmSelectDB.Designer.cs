@@ -40,6 +40,8 @@
             this.tbUserName = new LEX.CONTROLS.RememberTextBox();
             this.lexLabel3 = new LEX.CONTROLS.LexLabel();
             this.cbWindowsAutentication = new LEX.CONTROLS.CheckBoxEx();
+            this.btnConsole = new System.Windows.Forms.Button();
+            this.btnTypeConnectionString = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,7 +66,7 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(272, 118);
+            this.btnOk.Location = new System.Drawing.Point(337, 118);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(143, 23);
             this.btnOk.TabIndex = 6;
@@ -75,7 +77,7 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(86, 118);
+            this.btnCancel.Location = new System.Drawing.Point(15, 118);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(133, 23);
             this.btnCancel.TabIndex = 5;
@@ -164,14 +166,36 @@
             this.cbWindowsAutentication.UseVisualStyleBackColor = true;
             this.cbWindowsAutentication.Value = true;
             // 
+            // btnConsole
+            // 
+            this.btnConsole.Location = new System.Drawing.Point(171, 118);
+            this.btnConsole.Name = "btnConsole";
+            this.btnConsole.Size = new System.Drawing.Size(115, 23);
+            this.btnConsole.TabIndex = 7;
+            this.btnConsole.Text = "Console";
+            this.btnConsole.UseVisualStyleBackColor = true;
+            this.btnConsole.Click += new System.EventHandler(this.btnConsole_Click);
+            // 
+            // btnTypeConnectionString
+            // 
+            this.btnTypeConnectionString.Location = new System.Drawing.Point(286, 118);
+            this.btnTypeConnectionString.Name = "btnTypeConnectionString";
+            this.btnTypeConnectionString.Size = new System.Drawing.Size(30, 23);
+            this.btnTypeConnectionString.TabIndex = 8;
+            this.btnTypeConnectionString.Text = "...";
+            this.btnTypeConnectionString.UseVisualStyleBackColor = true;
+            this.btnTypeConnectionString.Click += new System.EventHandler(this.btnTypeConnectionString_Click);
+            // 
             // frmSelectDB
             // 
             this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(492, 150);
+            this.ClientSize = new System.Drawing.Size(486, 150);
             this.ControlBox = false;
+            this.Controls.Add(this.btnTypeConnectionString);
+            this.Controls.Add(this.btnConsole);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.tbDBName);
             this.Controls.Add(this.lexLabel2);
@@ -206,6 +230,8 @@
         private LEX.CONTROLS.LexLabel lexLabel4;
         private LEX.CONTROLS.RememberTextBox tbUserName;
         private LEX.CONTROLS.LexLabel lexLabel3;
+        private System.Windows.Forms.Button btnConsole;
+        private System.Windows.Forms.Button btnTypeConnectionString;
 
     }
 }

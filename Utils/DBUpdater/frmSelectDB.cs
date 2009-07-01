@@ -33,6 +33,30 @@ namespace DBUpdater
                 Hide();
         }
 
+        private void btnTypeConnectionString_Click(object sender, EventArgs e)
+        {
+            string cn = null;
+            using (var f = new frmConnectionString())
+            {
+                if (f.ShowDialog(this) == DialogResult.OK)
+                {
+                    cn = f.ConnectionString;
+                }
+                else return;
+            }
+
+            using (var fc = new frmDBConsole())
+            {
+                fc.ConnectionString = cn;
+                fc.ShowDialog(this);
+            }
+        }
+
+        private void btnConsole_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         #region Logic
 
         private bool PerformSelectDataBase()
