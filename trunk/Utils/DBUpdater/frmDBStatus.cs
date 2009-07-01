@@ -180,6 +180,15 @@ namespace DBUpdater
             lv.Columns[0].Width = lv.ClientSize.Width;
         }
 
+        private void btnConsole_Click(object sender, EventArgs e)
+        {
+            using (var frmDBConsole = new frmDBConsole())
+            {
+                frmDBConsole.ConnectionString = _Connection.ConnectionString;
+                frmDBConsole.ShowDialog();
+            }
+        }
+
         private readonly IVariable<bool> _EnableUserActions = true.AsVariable();
         private readonly SqlConnection _Connection;
         private readonly frmSelectDB _OwnerForm;

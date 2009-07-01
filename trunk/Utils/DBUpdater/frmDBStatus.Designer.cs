@@ -37,10 +37,11 @@
             this.lvRunned = new System.Windows.Forms.ListView();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnRun = new LEX.CONTROLS.ReleatedButton();
             this.lvScripts = new System.Windows.Forms.ListView();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
-            this.btnRun = new LEX.CONTROLS.ReleatedButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.btnConsole = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -88,7 +89,6 @@
             this.btnOk.TabIndex = 3;
             this.btnOk.Text = "&OK";
             this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += btnOk_Click;
             // 
             // tabPage3
             // 
@@ -131,6 +131,18 @@
             this.tabPage1.Text = "Scripts to run";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // btnRun
+            // 
+            this.btnRun.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRun.Location = new System.Drawing.Point(596, 6);
+            this.btnRun.Name = "btnRun";
+            this.btnRun.Size = new System.Drawing.Size(56, 149);
+            this.btnRun.TabIndex = 1;
+            this.btnRun.Text = "&RUN";
+            this.btnRun.UseVisualStyleBackColor = true;
+            this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
+            // 
             // lvScripts
             // 
             this.lvScripts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -152,18 +164,6 @@
             // 
             this.columnHeader1.Text = "Script name";
             // 
-            // btnRun
-            // 
-            this.btnRun.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRun.Location = new System.Drawing.Point(596, 6);
-            this.btnRun.Name = "btnRun";
-            this.btnRun.Size = new System.Drawing.Size(56, 149);
-            this.btnRun.TabIndex = 1;
-            this.btnRun.Text = "&RUN";
-            this.btnRun.UseVisualStyleBackColor = true;
-            this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
-            // 
             // tabControl1
             // 
             this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Bottom;
@@ -178,11 +178,22 @@
             this.tabControl1.Size = new System.Drawing.Size(666, 187);
             this.tabControl1.TabIndex = 1;
             // 
+            // btnConsole
+            // 
+            this.btnConsole.Location = new System.Drawing.Point(236, 7);
+            this.btnConsole.Name = "btnConsole";
+            this.btnConsole.Size = new System.Drawing.Size(75, 23);
+            this.btnConsole.TabIndex = 4;
+            this.btnConsole.Text = "&Console";
+            this.btnConsole.UseVisualStyleBackColor = true;
+            this.btnConsole.Click += new System.EventHandler(this.btnConsole_Click);
+            // 
             // frmDBStatus
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(666, 248);
+            this.Controls.Add(this.btnConsole);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnRecreateDataBase);
             this.Controls.Add(this.tabControl1);
@@ -214,5 +225,6 @@
         private System.Windows.Forms.ListView lvScripts;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.Button btnConsole;
     }
 }
