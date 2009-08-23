@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using DBUpdater.Properties;
-using LEX.CONTROLS;
+using LEX.CONTROLS.DBUpdater.Properties;
 
-namespace DBUpdater
+namespace LEX.CONTROLS.DBUpdater
 {
     static class Program
     {
@@ -18,9 +17,12 @@ namespace DBUpdater
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            Application.Run(new frmSelectDB());
-
-            Settings.Default.Save();
+            var sb = SelectDatabaseForm.ShowPrompt(null);
+            if (sb != null)
+            {
+                Application.Run(new DBStatusForm(sb));
+                Settings.Default.Save();
+            }
         }
     }
 }
