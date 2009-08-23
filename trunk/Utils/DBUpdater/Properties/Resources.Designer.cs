@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DBUpdater.Properties
+namespace LEX.CONTROLS.DBUpdater.Properties
 {
 
 
