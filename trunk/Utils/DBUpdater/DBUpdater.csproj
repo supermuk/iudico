@@ -52,53 +52,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="frmConnectionString.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmConnectionString.Designer.cs">
-      <DependentUpon>frmConnectionString.cs</DependentUpon>
-    </Compile>
-    <Compile Include="frmDBConsole.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmDBConsole.Designer.cs">
-      <DependentUpon>frmDBConsole.cs</DependentUpon>
-    </Compile>
-    <Compile Include="frmDBStatus.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmDBStatus.Designer.cs">
-      <DependentUpon>frmDBStatus.cs</DependentUpon>
-    </Compile>
-    <Compile Include="frmSelectDB.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmSelectDB.Designer.cs">
-      <DependentUpon>frmSelectDB.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="frmConnectionString.resx">
-      <DependentUpon>frmConnectionString.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmDBConsole.resx">
-      <DependentUpon>frmDBConsole.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmDBStatus.resx">
-      <DependentUpon>frmDBStatus.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmSelectDB.resx">
-      <DependentUpon>frmSelectDB.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SqlCommandExceptionDetails.resx">
-      <DependentUpon>SqlCommandExceptionDetails.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
@@ -115,21 +73,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="SqlCommandExceptionDetails.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SqlCommandExceptionDetails.Designer.cs">
-      <DependentUpon>SqlCommandExceptionDetails.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\IUDICO.DBManager\IUDICO.DBUpdateManager.csproj">
-      <Project>{F95D74A2-02F6-442D-8363-F1E43FB9A2DB}</Project>
-      <Name>IUDICO.DBUpdateManager</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
