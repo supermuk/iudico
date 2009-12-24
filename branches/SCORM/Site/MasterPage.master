@@ -1,0 +1,103 @@
+﻿<%@ Import Namespace="System.Runtime.Remoting.Channels" %>
+<%@ Import Namespace="IUDICO.DataModel.Security" %>
+<%@ Import Namespace="System.Linq" %>
+<%@ Import Namespace="IUDICO.DataModel" %>
+
+<%@ Master Language="C#" Inherits="IUDICO.DataModel.MasterPageBase" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>IUDICO Study and Testing system</title>
+    <link rel="Stylesheet" href="Main.css" type="text/css" />
+
+    <script runat="server">
+
+        private CustomUser _currentUser;
+
+        public UpdatePanel GlobalUpdatePanel
+        {
+            get { return globalUpdatePanel; }
+        }
+
+        protected void MainMenu_DataBind(object sender, EventArgs e)
+        {
+            if (_currentUser == null)
+                _currentUser = ServerModel.User.Current;
+            ((Control)sender).Visible = _currentUser != null;
+        }
+        protected void MainMenu_ItemDataBound(object sender, MenuEventArgs e)
+        {
+            e.Item.Enabled = _currentUser != null && ((SiteMapNode)e.Item.DataItem).Roles.Cast<string>().All(r => _currentUser.Roles.Contains(r));
+            if (!e.Item.Enabled)
+            {
+                ((Menu)sender).Items.Remove(e.Item);
+            }
+        }
+    </script>
+
+    <script type="text/javascript" language="javascript">
+
+        var styles = ['dotted', 'dashed', 'solid', 'dashed'];
+
+        function updateTimer() {
+            var d = new Date();
+            var e = document.getElementById('spWatch');
+            e.innerHTML = d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
+            e.style.borderStyle = styles[d.getSeconds() % 4];
+        }
+    
+        function initialize() {
+            setInterval(updateTimer, 1000);
+            updateTimer();
+        }
+    </script>
+
+</head>
+<body onload="javascript:initialize()">
+    <form runat="server">
+    <center>
+        <div class="glb-container">
+            <asp:ScriptManager runat="server" />
+            <asp:UpdateProgress DisplayAfter="1" runat="server">
+                <ProgressTemplate>
+                    <div class="ajax-progress">
+                        Processing... Please wait</div>
+                </ProgressTemplate>
+            </asp:UpdateProgress>
+            <asp:SiteMapDataSource ID="SiteMap" ShowStartingNode="false" runat="server" />
+            <center>
+                <div class="logo">  
+                    <div style="width: 637px; height: 80px">
+                        <span id="spWatch">
+                        </span>
+                        <img src='/Images/logo.png' alt="IUDICO. Remote Education - made it easy" />
+                    </div>
+                </div>
+                <div class="content">
+                <div class="menu-holder" style="width: 100%">
+                    <asp:Menu ID="MainMenu" OnMenuItemDataBound="MainMenu_ItemDataBound" OnDataBinding="MainMenu_DataBind"
+                        Orientation="Horizontal" DataSourceID="SiteMap" runat="server">
+                        <StaticMenuItemStyle CssClass="menu-static" />
+                        <StaticHoverStyle CssClass="menu-hover" />
+                            <DynamicHoverStyle CssClass="menu-static" />
+                            <DynamicMenuStyle CssClass="menu-static" />
+                        <DynamicHoverStyle CssClass="menu-hover" />
+                    </asp:Menu>
+                </div>
+                <br />
+                <b>
+                    <asp:SiteMapPath runat="server" />
+                </b>
+                <asp:UpdatePanel ID="globalUpdatePanel" runat="server">
+                    <ContentTemplate>
+                        <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+                </div>
+            </center>
+        </div>
+    </center>
+    </form>
+</body>
+</html>
