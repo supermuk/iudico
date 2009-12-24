@@ -14,6 +14,7 @@ namespace IUDICO.DataModel.Common
 
     public static class Utils
     {
+        /*
         public static bool HasAtr<T>([NotNull] this ICustomAttributeProvider target)
             where T: Attribute
         {
@@ -26,7 +27,8 @@ namespace IUDICO.DataModel.Common
         {
             return (T) target.Atr<T>();
         }
-
+        */
+        
         public static bool TryGetAtr<T>(this ICustomAttributeProvider target, out T res)
             where T: Attribute
         {
@@ -46,7 +48,7 @@ namespace IUDICO.DataModel.Common
                 return true;
             }
         }
-
+        
         public static string ConcatComma<T>([NotNull] this IEnumerable<T> data)
         {
             return data.ConcatSeparator(",");

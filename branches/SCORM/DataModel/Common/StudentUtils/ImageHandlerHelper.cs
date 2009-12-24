@@ -41,6 +41,7 @@ namespace IUDICO.DataModel.Common.StudentUtils
 
         private static int FindFolderId(IEnumerable<TblFiles> files, string folderName)
         {
+            /*
             foreach (var folder in files)
             {
                 if (folder.Name == folderName && (bool)folder.IsDirectory)
@@ -48,13 +49,17 @@ namespace IUDICO.DataModel.Common.StudentUtils
                     return folder.ID;
                 }
             }
+            */
+
+            throw new NotImplementedException();
+            
             return 0;
         }
 
         private static int FindFileId(IEnumerable<TblFiles> files, string folderName, string imageName)
         {
             int folderId = FindFolderId(files, folderName);
-
+            /*
             foreach (var file in files)
             {
                 if (file.Name == imageName && file.PID == folderId)
@@ -62,6 +67,9 @@ namespace IUDICO.DataModel.Common.StudentUtils
                     return file.ID;
                 }
             }
+            */
+            throw new NotImplementedException();
+
             return 0;
         }
     }

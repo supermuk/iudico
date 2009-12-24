@@ -211,7 +211,7 @@ namespace IUDICO.DataModel.Security
                                 continue;
 
                             Logger.WriteLine(f.Name);
-
+                            
                             var a = f.GetAtr<SecuredObjectTypeAttribute>();
                             CheckSupport(a.RuntimeClass, typeof (ISecuredDataObject));
                             CheckSupport(a.OperationsClass, typeof (IFxDataObject));

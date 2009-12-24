@@ -1,4 +1,5 @@
 ﻿using IUDICO.DataModel.DB;
+using System;
 
 namespace IUDICO.DataModel.ImportManagers.RemoveManager
 {
@@ -7,23 +8,64 @@ namespace IUDICO.DataModel.ImportManagers.RemoveManager
         public static void DeleteCourse(int courseId)
         {
             var course = ServerModel.DB.Load<TblCourses>(courseId);
-            var themes = ServerModel.DB.LookupIds<TblThemes>(course, null);
+            var organizations = ServerModel.DB.LookupIds<TblOrganizations>(course, null);
+            var resources = ServerModel.DB.LookupIds<TblResources>(course, null);
+            //var themes = ServerModel.DB.LookupIds<TblCourses>(course, null);
 
-            foreach (var i in themes)
-                DeleteTheme(i);
+            foreach (var i in organizations)
+                DeleteOrganization(i);
+
+            foreach (var i in resources)
+                DeleteResource(i);
 
             ServerModel.DB.Delete<TblCourses>(courseId);
         }
 
+        public static void DeleteOrganization(int organizationID)
+        {
+            var organization = ServerModel.DB.Load<TblOrganizations>(organizationID);
+            var items = ServerModel.DB.LookupIds<TblItems>(organization, null);
+
+            foreach (var i in items)
+                ServerModel.DB.Delete<TblItems>(i);
+
+            ServerModel.DB.Delete<TblOrganizations>(organizationID);
+        }
+
+        public static void DeleteResource(int resourceID)
+        {
+            var resource = ServerModel.DB.Load<TblResources>(resourceID);
+            var files = ServerModel.DB.LookupMany2ManyIds<TblFiles>(resource, null);
+
+            foreach (var i in files)
+            {
+                ServerModel.DB.Delete<TblFiles>(i);
+            }
+
+            foreach (var i in resource.RelResourcesDependency)
+            {
+                ServerModel.DB.UnLink(ServerModel.DB.Load<TblResources>(i.DependantRef), resource);
+            }
+
+            foreach (var i in resource.RelResourcesDependency_tblResources_Dependency)
+            {
+                ServerModel.DB.UnLink(resource, ServerModel.DB.Load<TblResources>(i.DependencyRef));
+            }
+
+            ServerModel.DB.Delete<TblResources>(resourceID);
+        }
+
+        /*
+
         public static void DeleteTheme(int themeId)
         {
-            var theme = ServerModel.DB.Load<TblThemes>(themeId);
+            var theme = ServerModel.DB.Load<TblCourses>(themeId);
             var pages = ServerModel.DB.LookupIds<TblPages>(theme, null);
 
             foreach (var i in pages)
                 DeletePage(i);
 
-            ServerModel.DB.Delete<TblThemes>(themeId);
+            ServerModel.DB.Delete<TblCourses>(themeId);
         }
 
         public static void DeletePage(int pageId)
@@ -33,16 +75,18 @@ namespace IUDICO.DataModel.ImportManagers.RemoveManager
 
             var question = ServerModel.DB.LookupIds<TblQuestions>(page, null);
 
-            foreach (var i in question)
-                DeleteQuestion(i);
+            //foreach (var i in question)
+                //DeleteQuestion(i);
 
 
-            ServerModel.DB.Delete<TblPages>(pageId);
+            //ServerModel.DB.Delete<TblPages>(pageId);
         }
-
+        
         private static void DeleteFiles(TblPages page)
         {
             var files = ServerModel.DB.Load<TblFiles>(ServerModel.DB.LookupIds<TblFiles>(page, null));
+
+            throw new NotImplementedException();
 
             foreach (var file in files)
             {
@@ -92,7 +136,7 @@ namespace IUDICO.DataModel.ImportManagers.RemoveManager
         {
             ServerModel.DB.Delete<TblCompiledQuestionsData>(compiledQuestionDataId);
         }
-
+        */
         private static void DeleteUserAnswer(int userAnswerId)
         {
             var userAnswer = ServerModel.DB.Load<TblUserAnswers>(userAnswerId);

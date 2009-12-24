@@ -3,6 +3,7 @@ using System.Xml;
 using IUDICO.DataModel.Common.ImportUtils;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.WebControl;
+using System.Text;
 
 namespace IUDICO.DataModel.ImportManagers
 {
@@ -18,10 +19,49 @@ namespace IUDICO.DataModel.ImportManagers
 
             var pageTable = StorePageWithoutPageFile(themeRef, XmlUtility.GetIdentifier(node), rank);
 
-            WebPage webPage = CreateAspControl(tempFileName, pageTable.ID,
-                answerNode, projectPaths.PathToTempCourseFolder);
+            int fileID = SearchForResources(node, pageTable.ID, projectPaths.PathToTempCourseFolder);
 
-            AddPageFileToPage(pageTable, webPage.BinaryRepresentation);
+            AddPageFileToPage(pageTable, fileID);
+        }
+
+        private static int SearchForResources(XmlNode node, int pageRef, string courseTempPath)
+        {
+            XmlNode resource = XmlUtility.GetNode(node, "//ns:resource[@identifier='" + node.Attributes["identifierref"].Value + "']");
+            string filePath = resource.Attributes["href"].Value;
+            int fileID = 0;
+
+            foreach (XmlNode childNode in resource.ChildNodes)
+            {
+                if (XmlUtility.IsFile(childNode))
+                {
+                    TblFiles file = StoreFile(childNode, pageRef, Path.Combine(courseTempPath, childNode.Attributes["href"].Value));
+
+                    if (filePath == file.Name)
+                    {
+                        fileID = file.ID;
+                    }
+                }
+            }
+
+            return fileID;
+        }
+
+        private static TblFiles StoreFile(XmlNode node, int pageRef, string filePath)
+        {
+            var reader = new StreamReader(filePath);
+            byte[] file = Encoding.Unicode.GetBytes(reader.ReadToEnd());
+
+            var f = new TblFiles
+            {
+                PageRef = pageRef,
+                File = file,
+                Name = node.Attributes["href"].Value,
+                IsDirectory = false,
+            };
+
+            ServerModel.DB.Insert(f);
+
+            return f;
         }
 
         private static TblPages StorePageWithoutPageFile(int themaRef, string name, int rank)
@@ -73,9 +113,9 @@ namespace IUDICO.DataModel.ImportManagers
             return page;
         }
 
-        private static void AddPageFileToPage(TblPages page, byte[] pageFile)
+        private static void AddPageFileToPage(TblPages page, int fileID)
         {
-            page.PageFile = pageFile;
+            page.PageFile = fileID.ToString();
 
             ServerModel.DB.Update(page);
         }

@@ -68,12 +68,13 @@ namespace IUDICO.DataModel.Common.StatisticUtils
 
             foreach (var p in pages)
             {
-                if (p.PageTypeRef == (int?)FX_PAGETYPE.Practice)
+                /*if (p.PageTypeRef == (int?)FX_PAGETYPE.Practice)
                 {
                     var ur = new UserResultForPage(userId, p, null);
                     ur.Calc();
                     result.Add(ur);
-                }
+                }*/
+                throw new NotImplementedException();
             }
 
             return result;
@@ -113,7 +114,8 @@ namespace IUDICO.DataModel.Common.StatisticUtils
         {
             foreach (var page in usedPages)
             {
-                if (page.PageTypeRef == (int?)FX_PAGETYPE.Practice)
+                throw new NotImplementedException();
+                /*if (page.PageTypeRef == (int?)FX_PAGETYPE.Practice)
                 {
 
                     var questions = StudentRecordFinder.GetQuestionsForPage(page);
@@ -133,6 +135,7 @@ namespace IUDICO.DataModel.Common.StatisticUtils
                         ServerModel.DB.Insert(ua);
                     }
                 }
+                */
             }
         }
 
@@ -140,6 +143,8 @@ namespace IUDICO.DataModel.Common.StatisticUtils
         {
             foreach (var page in usedPages)
             {
+                throw new NotImplementedException();
+                /*
                 if (page.PageTypeRef == (int?) FX_PAGETYPE.Practice)
                 {
                     var questions = StudentRecordFinder.GetQuestionsForPage(page);
@@ -159,6 +164,7 @@ namespace IUDICO.DataModel.Common.StatisticUtils
                         ServerModel.DB.Insert(ua);
                     }
                 }
+                */
             }
         }
     }

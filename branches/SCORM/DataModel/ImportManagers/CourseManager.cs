@@ -8,56 +8,34 @@ namespace IUDICO.DataModel.ImportManagers
 {
     public class CourseManager
     {
-        public static void ExtractZipFile(ProjectPaths projectPaths)
-        {
-            Zipper.ExtractZipFile(projectPaths.PathToCourseZipFile, projectPaths.PathToTempCourseFolder);
-        }
-
         public static int Import(ProjectPaths projectPaths, string name, string description)
         {
-            projectPaths.PathToAnswerXml = Path.Combine(projectPaths.PathToTempCourseFolder, "answers.xml");
+            // load manifest
+            XmlDocument imsmanifest = new XmlDocument();
+            imsmanifest.Load(projectPaths.PathToManifestXml);
 
-            int id = Store(name, description);
+            // store the course in db
+            int courseID = Store(name, description);
 
-            ManageThemes(id, projectPaths);
-
-            return id;
-        }
-
-        private static void ManageThemes(int courseId, ProjectPaths projectPaths)
-        {
-            XmlDocument imsmanifest = GetImsmanifest(projectPaths.PathToTempCourseFolder);
-
-            if (imsmanifest.DocumentElement != null)
+            XmlNodeList resources = XmlUtility.GetNodes(imsmanifest.DocumentElement, "/ns:manifest/ns:resources/ns:resource");
+            foreach (XmlNode resource in resources)
             {
-                XmlNode document = imsmanifest.DocumentElement.FirstChild;
-
-                foreach (XmlNode node in document)
-                    SearchThemes(node, courseId, projectPaths);
+                ResourceManager.ParseResource(projectPaths, courseID, resource);
             }
-        }
 
-        private static XmlDocument GetImsmanifest(string pathToTempCourseFolder)
-        {
-            var imsmanifest = new XmlDocument();
-            imsmanifest.Load(Path.Combine(pathToTempCourseFolder, "imsmanifest.xml"));
-            return imsmanifest;
-        }
-
-        private static void SearchThemes(XmlNode document, int courseId, ProjectPaths projectPaths)
-        {
-            foreach (XmlNode node in document.ChildNodes)
+            // import list of <organization> elements
+            XmlNodeList organizations = XmlUtility.GetNodes(imsmanifest.DocumentElement, "/ns:manifest/ns:organizations/ns:organization");
+            foreach (XmlNode node in organizations)
             {
-                if (XmlUtility.IsItem(node))
-                {
-                    ThemeManager.Import(node, courseId, projectPaths);
-                }
+                OrganizationManager.Import(node, courseID);
             }
+
+            return courseID;
         }
 
         private static int Store(string name, string description)
         {
-            var c = new TblCourses
+            TblCourses t = new TblCourses
             {
                 Name = name,
                 Description = description,
@@ -65,9 +43,9 @@ namespace IUDICO.DataModel.ImportManagers
                 Version = 1
             };
 
-            ServerModel.DB.Insert(c);
+            ServerModel.DB.Insert(t);
 
-            return c.ID;
+            return t.ID;
         }
     }
 }

@@ -5,6 +5,7 @@ namespace IUDICO.DataModel.Common.ImportUtils
 {
     public class ProjectPaths
     {
+        public string PathToManifestXml;
         public string PathToAnswerXml;
         public string PathToTempCourseFolder;
         public string PathToCourseZipFile;
@@ -16,6 +17,8 @@ namespace IUDICO.DataModel.Common.ImportUtils
             Directory.CreateDirectory(PathToTemp);
             PathToCourseZipFile = Path.Combine(PathToTemp, fileName);
             PathToTempCourseFolder = Path.Combine(PathToTemp, Path.GetFileNameWithoutExtension(fileName));
+            PathToManifestXml = Path.Combine(PathToTempCourseFolder, "imsmanifest.xml");
+            PathToAnswerXml = Path.Combine(PathToTempCourseFolder, "answers.xml");
         }
     }
 }

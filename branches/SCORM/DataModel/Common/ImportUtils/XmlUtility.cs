@@ -44,6 +44,31 @@ namespace IUDICO.DataModel.Common.ImportUtils
             return (node.Name == "testcase");
         }
 
+        public static bool IsFile(XmlNode node)
+        {
+            return (node.Name == "file");
+        }
+
+        public static XmlNode GetNode(XmlNode node, string path)
+        {
+            XmlNamespaceManager nsmgr = new XmlNamespaceManager(node.OwnerDocument.NameTable);
+            if (node.OwnerDocument.DocumentElement.HasAttribute("xmlns"))
+            {
+                nsmgr.AddNamespace("ns", node.OwnerDocument.DocumentElement.Attributes["xmlns"].Value);
+            }
+            return node.SelectSingleNode(path, nsmgr);
+        }
+
+        public static XmlNodeList GetNodes(XmlNode node, string path)
+        {
+            XmlNamespaceManager nsmgr = new XmlNamespaceManager(node.OwnerDocument.NameTable);
+            if (node.OwnerDocument.DocumentElement.HasAttribute("xmlns"))
+            {
+                nsmgr.AddNamespace("ns", node.OwnerDocument.DocumentElement.Attributes["xmlns"].Value);
+            }
+            return node.SelectNodes(path, nsmgr);
+        }
+
         public static string GetIdentifier(XmlNode node)
         {
             if (node.Attributes != null)

@@ -12,7 +12,7 @@ namespace IUDICO.DataModel.HttpHandlers
         {
             var imageFileId = ImageHandlerHelper.GetImageIdFromRequest(context.Request);
             var files = ServerModel.DB.Load<TblFiles>(imageFileId);
-            context.Response.ContentType = Path.GetExtension(files.Name);
+            context.Response.ContentType = Path.GetExtension(files.Path);
             context.Response.OutputStream.Write(files.File.ToArray(), 0, files.File.Length);
         }
 

@@ -77,7 +77,9 @@ namespace IUDICO.DataModel.Controllers
             {
                 try
                 {
-                    PrepareCourse();
+                    projectPaths.Initialize(CourseUpload.FileName);
+                    CourseUpload.SaveAs(projectPaths.PathToCourseZipFile);
+                    Zipper.ExtractZipFile(projectPaths.PathToCourseZipFile, projectPaths.PathToTempCourseFolder);
 
                     string courseName = CourseName.Value == "" ? Path.GetFileNameWithoutExtension(CourseUpload.FileName) : CourseName.Value;
                     int courseId = CourseManager.Import(projectPaths, courseName, CourseDescription.Value);
@@ -90,31 +92,16 @@ namespace IUDICO.DataModel.Controllers
                     //Update course tree
                     CourseTree.DataSource = GetCourses();
                 }
-                catch
+                catch(Exception e)
                 {
-                    Message.Value = uploadError;
+                    Message.Value = e.ToString();
+                    //Message.Value = uploadError;
                 }
             }
             else
             {
                 Message.Value = fileNotFound;
             }
-        }
-
-        private void PrepareCourse()
-        {
-            InitializePaths(CourseUpload.FileName);
-            CourseUpload.SaveAs(projectPaths.PathToCourseZipFile);
-            Zipper.ExtractZipFile(projectPaths.PathToCourseZipFile, projectPaths.PathToTempCourseFolder);
-        }
-
-        private void InitializePaths(string fileName)
-        {
-            projectPaths.PathToTemp = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-            Directory.CreateDirectory(projectPaths.PathToTemp);
-            projectPaths.PathToCourseZipFile = Path.Combine(projectPaths.PathToTemp, fileName);
-            projectPaths.PathToTempCourseFolder = Path.Combine(projectPaths.PathToTemp,
-                                                               Path.GetFileNameWithoutExtension(fileName));
         }
 
         public IList<TblCourses> GetCourses()
@@ -124,15 +111,15 @@ namespace IUDICO.DataModel.Controllers
 
         public void CourseBehaviourButton_Click()
         {
-		var selectedNode = (IdendtityNode)CourseTree.SelectedNode;
+		    var selectedNode = (IdendtityNode)CourseTree.SelectedNode;
 
-		if(selectedNode != null)
-			if(selectedNode.Type == NodeType.Course)
-				  RedirectToController(new CourseBehaviorController
-                                                 {
-                                                     BackUrl = string.Empty,
-                                                     CourseId = selectedNode.ID
-                                                 });                      
+		    if(selectedNode != null)
+			    if(selectedNode.Type == NodeType.Course)
+				      RedirectToController(new CourseBehaviorController
+                                                     {
+                                                         BackUrl = string.Empty,
+                                                         CourseId = selectedNode.ID
+                                                     });                      
         }
     }
 }
