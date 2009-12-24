@@ -19,8 +19,8 @@ namespace IUDICO.DataModel.HttpHandlers
 
             CheckPageType(page);
 
-            var html = Encoding.Unicode.GetString(page.PageFile.ToArray());
-            context.Response.Write(ImageHandlerHelper.ChangeImageUrl(html, page));
+//            var html = Encoding.Unicode.GetString(page.PageFile.ToArray());
+//            context.Response.Write(ImageHandlerHelper.ChangeImageUrl(html, page));
         }
 
         public bool IsReusable
@@ -30,8 +30,9 @@ namespace IUDICO.DataModel.HttpHandlers
 
         private static void CheckPageType(TblPages page)
         {
-            if(page.PageTypeRef != (int?) FX_PAGETYPE.Theory)
-                throw new Exception("Wrong handler for page");
+            throw new NotImplementedException("FX_PAGETYPE");
+            //if(page.PageTypeRef != (int?) FX_PAGETYPE.Theory)
+            //    throw new Exception("Wrong handler for page");
         }
     }
 }

@@ -156,19 +156,17 @@ namespace IUDICO.DataModel.DB
     {
     }
 
-    public partial class TblCourses : SecuredDataObject<FxCourseOperations>, ISecuredDataObject<FxCourseOperations>
-    {
-    }
+    public partial class TblCourses : SecuredDataObject<FxCourseOperations>, ISecuredDataObject<FxCourseOperations> {}
 
     public partial class TblCurriculums : SecuredDataObject<FxCurriculumOperations>, ISecuredDataObject<FxCurriculumOperations>
     {
     }
 
+    public partial class TblThemes : SecuredDataObject<FxThemeOperations>, ISecuredDataObject<FxThemeOperations> { }
+
     public partial class TblFiles : IntKeyedDataObject, IIntKeyedDataObject { }
 
-    public partial class TblGroups : SecuredDataObject<FxGroupOperations>, ISecuredDataObject<FxGroupOperations>
-    {
-    }
+    public partial class TblGroups : SecuredDataObject<FxGroupOperations>, ISecuredDataObject<FxGroupOperations> { }
 
     public partial class TblPages : IntKeyedDataObject, IIntKeyedDataObject { }
 
@@ -176,15 +174,16 @@ namespace IUDICO.DataModel.DB
 
     public partial class TblSampleBusinesObject : IntKeyedDataObject, IIntKeyedDataObject { }
 
-    public partial class TblStages : SecuredDataObject<FxStageOperations>, ISecuredDataObject<FxStageOperations>
-    {
-    }
+    public partial class TblStages : SecuredDataObject<FxStageOperations>, ISecuredDataObject<FxStageOperations> { }
 
-    public partial class TblThemes : SecuredDataObject<FxThemeOperations>, ISecuredDataObject<FxThemeOperations>
-    {
-    }
 
     public partial class TblUserAnswers : IntKeyedDataObject, IIntKeyedDataObject { }
+
+    public partial class TblOrganizations : IntKeyedDataObject, IIntKeyedDataObject { }
+    
+    public partial class TblItems : IntKeyedDataObject, IIntKeyedDataObject { }
+
+    public partial class TblResources : IntKeyedDataObject, IIntKeyedDataObject { }
 
     public partial class TblUsers : IntKeyedDataObject, IIntKeyedDataObject
     {
@@ -206,6 +205,16 @@ namespace IUDICO.DataModel.DB
 
     [ManyToManyRelationship(typeof(TblStages), typeof(TblThemes))]
     public partial class RelStagesThemes : RelTable, IRelationshipTable
+    {
+    }
+
+    [ManyToManyRelationship(typeof(TblResources), typeof(TblResources))]
+    public partial class RelResourcesDependency : RelTable, IRelationshipTable
+    {
+    }
+
+    [ManyToManyRelationship(typeof(TblResources), typeof(TblFiles))]
+    public partial class RelResourcesFiles : RelTable, IRelationshipTable
     {
     }
 

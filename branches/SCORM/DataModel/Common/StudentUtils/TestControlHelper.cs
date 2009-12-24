@@ -5,15 +5,19 @@ using System.Text.RegularExpressions;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel.DB;
+using System;
 
 namespace IUDICO.DataModel.Common.StudentUtils
 {
     public static class TestControlHelper
     {
+
         private static string GetControlString(TblPages page)
         {
-            string controlString = Encoding.Unicode.GetString(page.PageFile.ToArray());
-            return controlString;
+            //string controlString = Encoding.Unicode.GetString(page.PageFile.ToArray());
+            //return controlString;
+            throw new NotImplementedException();
+            return "";
         }
 
         public static Control GetTheoryControl(TblPages page, Panel p)

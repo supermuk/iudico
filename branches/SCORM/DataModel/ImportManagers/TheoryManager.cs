@@ -22,7 +22,7 @@ namespace IUDICO.DataModel.ImportManagers
             {
                 ThemeRef = themaRef,
                 PageName = name,
-                PageFile = file,
+                //PageFile = file,
                 PageTypeRef = ((int)FX_PAGETYPE.Theory)
             };
 

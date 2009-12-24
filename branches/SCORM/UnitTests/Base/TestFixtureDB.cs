@@ -62,7 +62,7 @@ namespace IUDICO.UnitTest.Base
 
         #region NUnitDBInteractionContext
 
-        private class NUnitDBInteractionContext : IDBUpdaterInteractionContext
+        private class NUnitDBInteractionContext
         {
             static NUnitDBInteractionContext()
             {

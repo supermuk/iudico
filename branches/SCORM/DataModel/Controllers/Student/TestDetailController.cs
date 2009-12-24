@@ -66,7 +66,7 @@ namespace IUDICO.DataModel.Controllers.Student
         {
             Control control;
 
-            if ((FX_PAGETYPE)page.PageTypeRef == FX_PAGETYPE.Practice)
+            /*if ((FX_PAGETYPE)page.PageTypeRef == FX_PAGETYPE.Practice)
             {
                 control = TestControlHelper.GetPracticeControl(page, PageContent);
                 
@@ -74,7 +74,8 @@ namespace IUDICO.DataModel.Controllers.Student
             else
             {
                 throw new Exception("You can't see details for theory page");
-            }
+            }*/
+            throw new NotImplementedException();
 
             PageContent.Controls.Clear();
             PageContent.Controls.Add(control);

@@ -27,7 +27,22 @@ namespace IUDICO.DataModel.DB.Base
                 AssociationAttribute aa;
                 if (p.TryGetAtr(out aa))
                 {
-                    if (p.PropertyType == mmr.First)
+                    if (p.PropertyType == mmr.First && p.PropertyType == mmr.Second)
+                    {
+                        if (firstKey == null)
+                        {
+                            firstKey = aa.ThisKey;
+                        }
+                        else if (secondKey == null)
+                        {
+                            secondKey = aa.ThisKey;
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException();
+                        }
+                    }
+                    else if (p.PropertyType == mmr.First)
                     {
                         if (firstKey != null)
                         {
@@ -92,7 +107,7 @@ namespace IUDICO.DataModel.DB.Base
 
             var r = Get(__MMInfos, o1.GetType(), o2.GetType());
             if (r.IsEmpty)
-                throw new DMError("Couldnt fond many-to-many relation between {1} and {1}", o1.GetType().Name, o2.GetType().Name);
+                throw new DMError("Couldnt fond many-to-many relation between {1} and {2}", o1.GetType().Name, o2.GetType().Name);
 
             context.Write("INSERT INTO [{0}] ([{1}], [{2}]) VALUES ({3}, {4})", 
                 r.TableName, r.RefColumnName, r.IDColumnName, context.AddParameter(o1.ID), context.AddParameter(o2.ID));

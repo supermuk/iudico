@@ -15,18 +15,17 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Site", "Site\", "{A1E0299F-
 		Release.AspNetCompiler.VirtualPath = "/Site"
 		Release.AspNetCompiler.PhysicalPath = "Site\"
 		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\Site\"
-		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.Updateable = "falsee"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "2935"
+		VWDVirtualPath = "/"
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\DataModel.csproj", "{F7A3C8E8-7545-4D92-8FF5-0927B4D845EF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.UnitTests", "UnitTests\IUDICO.UnitTests.csproj", "{E99F9341-7DD8-457F-818A-EF56561B5596}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.DBUpdateManager", "Utils\IUDICO.DBManager\IUDICO.DBUpdateManager.csproj", "{F95D74A2-02F6-442D-8363-F1E43FB9A2DB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBUpdater", "Utils\DBUpdater\DBUpdater.csproj", "{09E61840-75A2-4776-82CA-2A23A731EDEE}"
 EndProject
@@ -66,14 +65,6 @@ Global
 		{E99F9341-7DD8-457F-818A-EF56561B5596}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E99F9341-7DD8-457F-818A-EF56561B5596}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E99F9341-7DD8-457F-818A-EF56561B5596}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{F95D74A2-02F6-442D-8363-F1E43FB9A2DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F95D74A2-02F6-442D-8363-F1E43FB9A2DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F95D74A2-02F6-442D-8363-F1E43FB9A2DB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{F95D74A2-02F6-442D-8363-F1E43FB9A2DB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{F95D74A2-02F6-442D-8363-F1E43FB9A2DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F95D74A2-02F6-442D-8363-F1E43FB9A2DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F95D74A2-02F6-442D-8363-F1E43FB9A2DB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{F95D74A2-02F6-442D-8363-F1E43FB9A2DB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{09E61840-75A2-4776-82CA-2A23A731EDEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{09E61840-75A2-4776-82CA-2A23A731EDEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09E61840-75A2-4776-82CA-2A23A731EDEE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

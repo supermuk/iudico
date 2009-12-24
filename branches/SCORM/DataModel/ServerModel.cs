@@ -68,7 +68,7 @@ namespace IUDICO.DataModel
             {
                 if (t.GetInterface(typeof(IFxDataObject).Name) != null)
                 {
-                    var fields = new List<FieldInfo>(t.GetFields(BindingFlags.Static | BindingFlags.SetField | BindingFlags.Public).Where(Utils.HasAtr<TableRecordAttribute>));
+                    var fields = new List<FieldInfo>(t.GetFields(BindingFlags.Static | BindingFlags.SetField | BindingFlags.Public).Where(LEX.CONTROLS.Extenders.HasAtr<TableRecordAttribute>));
                     if (fields.Count > 0)
                     {
                         var items = (IEnumerable)DatabaseModel.FIXED_METHOD.MakeGenericMethod(new[] { t }).Invoke(DB, Type.EmptyTypes);

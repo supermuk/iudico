@@ -123,7 +123,8 @@ namespace IUDICO.DataModel.WebControl
 
             _binaryRepresentation = Encoding.Unicode.GetBytes(sw.GetStringBuilder().ToString());
 
-            QuestionManager.Import(pageRef, answerNode, _controls, pathToTempCourseFolder);
+            throw new NotImplementedException();
+            //QuestionManager.Import(pageRef, answerNode, _controls, pathToTempCourseFolder);
         }
 
         private void ConstructPageCode(HtmlTextWriter w)

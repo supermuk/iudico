@@ -72,10 +72,6 @@
       <Project>{F7A3C8E8-7545-4D92-8FF5-0927B4D845EF}</Project>
       <Name>DataModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utils\IUDICO.DBManager\IUDICO.DBUpdateManager.csproj">
-      <Project>{F95D74A2-02F6-442D-8363-F1E43FB9A2DB}</Project>
-      <Name>IUDICO.DBUpdateManager</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

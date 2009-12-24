@@ -34,6 +34,8 @@ namespace IUDICO.DataModel.Controllers.Teacher
                 var correctAnswers = new TableCell();
                 var rank = new TableCell();
 
+                throw new NotImplementedException();
+                /*
                 if (page.PageTypeRef == (int?)FX_PAGETYPE.Practice)
                 {
                     rank.Text = page.PageRank.ToString();
@@ -50,6 +52,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
                         })
                     });
                 }
+                */
 
                 row.Cells.AddRange(new[] { number, name, rank, correctAnswers });
 

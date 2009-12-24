@@ -40,7 +40,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="LEX.CONTROLS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=44ea94c3b070248a, processorArchitecture=MSIL">
+    <Reference Include="LEX.CONTROLS, Version=1.1.1.17, Culture=neutral, PublicKeyToken=44ea94c3b070248a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\LEX.CONTROLS.dll</HintPath>
     </Reference>
@@ -203,14 +203,11 @@
     <Compile Include="HttpHandlers\TheoryHandler.cs" />
     <Compile Include="DB\DatabaseModel.cs" />
     <Compile Include="DB\DatabaseModel.generated.cs" />
-    <Compile Include="ImportManagers\CompiledQuestionManager.cs" />
     <Compile Include="ImportManagers\CourseManager.cs" />
-    <Compile Include="ImportManagers\FilesManager.cs" />
-    <Compile Include="ImportManagers\PracticeManager.cs" />
-    <Compile Include="ImportManagers\QuestionManager.cs" />
+    <Compile Include="ImportManagers\ItemManager.cs" />
+    <Compile Include="ImportManagers\OrganizationManager.cs" />
     <Compile Include="ImportManagers\RemoveManager\CourseCleaner.cs" />
-    <Compile Include="ImportManagers\ThemeManager.cs" />
-    <Compile Include="ImportManagers\TheoryManager.cs" />
+    <Compile Include="ImportManagers\ResourceManager.cs" />
     <Compile Include="MasterPageBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -238,7 +235,6 @@
     <Compile Include="WebControl\WebControlBase.cs" />
     <Compile Include="WebControl\WebHighlightedCode.cs" />
     <Compile Include="WebControl\WebLabel.cs" />
-    <Compile Include="WebControl\WebPage.cs" />
     <Compile Include="WebControl\WebSimpleQuestion.cs" />
     <Compile Include="WebControl\WebTestControlBase.cs" />
     <Compile Include="WebControl\WebTextBox.cs" />
