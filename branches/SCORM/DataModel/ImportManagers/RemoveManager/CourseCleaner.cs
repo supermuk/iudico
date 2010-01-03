@@ -1,5 +1,6 @@
 ﻿using IUDICO.DataModel.DB;
 using System;
+using System.IO;
 
 namespace IUDICO.DataModel.ImportManagers.RemoveManager
 {
@@ -19,6 +20,7 @@ namespace IUDICO.DataModel.ImportManagers.RemoveManager
                 DeleteResource(i);
 
             ServerModel.DB.Delete<TblCourses>(courseId);
+            Directory.Delete(CourseManager.GetCoursePath(courseId), true);
         }
 
         public static void DeleteOrganization(int organizationID)

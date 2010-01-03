@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Xml;
+using System.Web;
 using IUDICO.DataModel.Common.ImportUtils;
 using IUDICO.DataModel.DB;
 
@@ -45,7 +46,22 @@ namespace IUDICO.DataModel.ImportManagers
 
             ServerModel.DB.Insert(t);
 
+            string CoursePath = GetCoursePath(t.ID);
+
+            if (!Directory.Exists(CoursePath))
+            {
+                Directory.CreateDirectory(CoursePath);
+            }
+
             return t.ID;
+        }
+
+        public static string GetCoursePath(int courseID)
+        {
+            string AssetsPath = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "Assets");
+            string CoursePath = Path.Combine(AssetsPath, courseID.ToString());
+
+            return CoursePath;
         }
     }
 }
