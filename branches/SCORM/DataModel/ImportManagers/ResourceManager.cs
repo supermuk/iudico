@@ -55,17 +55,8 @@ namespace IUDICO.DataModel.ImportManagers
             foreach (XmlNode node in fileNodes)
             {
                 string href = node.Attributes["href"].Value;
-                string path = Path.Combine(projectPaths.PathToTempCourseFolder, href);    
-                byte[] file = null;
 
-                //TODO: check if relative, absolute, url?
-
-                if (File.Exists(path))
-                {
-                    file = File.ReadAllBytes(path);
-                }
-
-                int fileID = StoreFile(href, file);
+                int fileID = StoreFile(href, projectPaths, courseID);
                 LinkFile(ID, fileID);
             }
 
@@ -84,15 +75,41 @@ namespace IUDICO.DataModel.ImportManagers
             return ServerModel.DB.Insert(r);
         }
 
-        private static int StoreFile(string href, byte[] file)
+        private static int StoreFile(string href, ProjectPaths projectPaths, int courseID)
         {
+            string FilePath = Path.Combine(projectPaths.PathToTempCourseFolder, href);
+
+            if (File.Exists(FilePath))
+            {
+                string AssetFilePath = Path.Combine(CourseManager.GetCoursePath(courseID), href);
+
+                string AssetDirectoryPath = Directory.GetParent(AssetFilePath).ToString();
+                RecursiveCreateDirectory(AssetDirectoryPath);
+
+                File.Copy(FilePath, AssetFilePath);
+            }
+
             TblFiles f = new TblFiles
             {
                 Path = href,
-                File = file
             };
 
             return ServerModel.DB.Insert(f);
+        }
+
+        private static void RecursiveCreateDirectory(string Path)
+        {
+            string ParentPath = Directory.GetParent(Path).ToString();
+
+            if (!Directory.Exists(ParentPath))
+            {
+                RecursiveCreateDirectory(ParentPath);
+            }
+
+            if (!Directory.Exists(Path))
+            {
+                Directory.CreateDirectory(Path);
+            }
         }
 
         private static void LinkDependency(int dependantID, int dependencyID)
