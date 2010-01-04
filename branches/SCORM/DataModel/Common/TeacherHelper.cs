@@ -50,10 +50,16 @@ namespace IUDICO.DataModel.Common
             return ServerModel.DB.Load<TblStages>(stagesIDs);
         }
 
+        public static IList<TblOrganizations> OrganizationsOfCourse(TblCourses course)
+        {
+            List<int> orgIDs = ServerModel.DB.LookupIds<TblOrganizations>(course, null);
+            return ServerModel.DB.Load<TblOrganizations>(orgIDs);
+        }
+
         public static IList<TblThemes> ThemesOfCourse(TblCourses course)
         {
-            List<int> themesIDs = ServerModel.DB.LookupIds<TblThemes>(course, null);
-            return ServerModel.DB.Load<TblThemes>(themesIDs);
+            List<int> themeIDs = ServerModel.DB.LookupIds<TblThemes>(course, null);
+            return ServerModel.DB.Load<TblThemes>(themeIDs);
         }
 
         public static IList<TblPermissions> CurrentUserPermissionsForCourse(TblCourses course)
@@ -112,6 +118,15 @@ namespace IUDICO.DataModel.Common
                            new ValueCondition<int>(theme.ID), COMPARE_KIND.EQUAL));
         }
 
+
+        public static IList<TblPermissions> AllPermissionsForOrganization(TblOrganizations organization)
+        {
+            return ServerModel.DB.Query<TblPermissions>(
+                        new CompareCondition<int>(
+                           DataObject.Schema.OrganizationRef,
+                           new ValueCondition<int>(organization.ID), COMPARE_KIND.EQUAL));
+        }
+        
         public static IList<TblPermissions> GroupPermissionsForCurriculum(TblGroups group, TblCurriculums curriculum)
         {
             return ServerModel.DB.Query<TblPermissions>(
@@ -235,13 +250,14 @@ namespace IUDICO.DataModel.Common
             }
         }
 
-        public static bool StageContainsTheme(int stageID, int themeID)
+        public static bool StageContainsTheme(int stageID, int orgID)
         {
             TblStages stage = ServerModel.DB.Load<TblStages>(stageID);
-            TblThemes theme = ServerModel.DB.Load<TblThemes>(themeID);
+            TblOrganizations org = ServerModel.DB.Load<TblOrganizations>(orgID);
+
             foreach (TblThemes childThemes in ThemesOfStage(stage))
             {
-                if (childThemes.ID == theme.ID)
+                if (childThemes.OrganizationRef == org.ID)
                 {
                     return true;
                 }

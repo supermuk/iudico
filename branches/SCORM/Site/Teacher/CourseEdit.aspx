@@ -82,11 +82,14 @@
                             <asp:Button ID="Button_DeleteCourse" runat="server" Text="Delete" />
                         </td>
                     </tr>
-                    <tr>
+                    <!--
+                    is there a point in it???
+                    <tr> 
                         <td>
                             <asp:Button ID="Button_CourseBehaviour" runat="server" Text="Course Behaviour" />
                         </td>
                     </tr>
+                    -->
                 </table>
             </td>
         </tr>

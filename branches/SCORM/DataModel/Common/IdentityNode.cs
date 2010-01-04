@@ -4,7 +4,7 @@ using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.Common
 {
-    public enum NodeType { Curriculum, Stage, Theme, Course };
+    public enum NodeType { Curriculum, Stage, Theme, Course, Organization };
 
     public class IdendtityNode : TreeNode
     {
@@ -76,6 +76,12 @@ namespace IUDICO.DataModel.Common
             : this(theme.Name, theme.ID)
         {
             Type = NodeType.Theme;
+        }
+
+        public IdendtityNode(TblOrganizations org)
+            : this(org.Title, org.ID)
+        {
+            Type = NodeType.Organization;
         }
 
         public IdendtityNode()

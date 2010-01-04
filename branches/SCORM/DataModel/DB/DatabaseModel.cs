@@ -176,7 +176,6 @@ namespace IUDICO.DataModel.DB
 
     public partial class TblStages : SecuredDataObject<FxStageOperations>, ISecuredDataObject<FxStageOperations> { }
 
-
     public partial class TblUserAnswers : IntKeyedDataObject, IIntKeyedDataObject { }
 
     public partial class TblOrganizations : IntKeyedDataObject, IIntKeyedDataObject { }

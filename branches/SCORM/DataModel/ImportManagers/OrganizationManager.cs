@@ -10,10 +10,10 @@ namespace IUDICO.DataModel.ImportManagers
 {
     public class OrganizationManager
     {
-        public static void Import(XmlNode organization, int courseID)
+        public static int Import(XmlNode organization, int courseID)
         {
             // store organization in db
-            int organizationID = Store(courseID, XmlUtility.GetNode(organization, "ns:title").Value);
+            int organizationID = Store(courseID, XmlUtility.GetNode(organization, "ns:title").InnerText);
 
             // import list of <item>
             XmlNodeList items = XmlUtility.GetNodes(organization, "ns:item");
@@ -21,6 +21,8 @@ namespace IUDICO.DataModel.ImportManagers
             {
                 ItemManager.Import(node, organizationID, null);
             }
+
+            return organizationID;
         }
 
         private static int Store(int courseID, string title)

@@ -32,13 +32,17 @@ namespace IUDICO.DataModel.Controllers.Teacher
             var course = ServerModel.DB.Load<TblCourses>(CourseId);
             CourseName.Value = course.Name;
 
-            var themesIds = ServerModel.DB.LookupIds<TblThemes>(course, null);
-            var themes = ServerModel.DB.Load<TblThemes>(themesIds);
+            var organizationIds = ServerModel.DB.LookupIds<TblOrganizations>(course, null);
+            var organizations = ServerModel.DB.Load<TblOrganizations>(organizationIds);
+            
+            //var themesIds = ServerModel.DB.LookupIds<TblThemes>(course, null);
+            //var themes = ServerModel.DB.Load<TblThemes>(themesIds);
 
-            for (int i = 1; i <= themes.Count; i++ )
-                AddThemeToTable(themes[i - 1], i);
+            for (int i = 1; i <= organizations.Count; ++i)
+                AddOrganizationToTable(organizations[i - 1], i);
+                //AddThemeToTable(themes[i - 1], i);
 
-            Description.Value = "On this page you can change behavior of course themes";
+            Description.Value = "On this page you can change behavior of course organizations";
         }
 
         public void SaveButtonClick(object sender, EventArgs e)
@@ -58,6 +62,39 @@ namespace IUDICO.DataModel.Controllers.Teacher
             }
 
             Description.Value = "You Preferences is saved";
+        }
+
+        private void AddOrganizationToTable(TblOrganizations org, int i)
+        {
+            var row = new TableRow { ID = org.ID.ToString() };
+            var number = new TableCell { Text = i.ToString(), HorizontalAlign = HorizontalAlign.Center };
+            var name = new TableCell { Text = org.Title, HorizontalAlign = HorizontalAlign.Center };
+            //var type = new TableCell { Text = theme.IsControl.ToString(), HorizontalAlign = HorizontalAlign.Center };
+
+            //var pageOrder = new TableCell { HorizontalAlign = HorizontalAlign.Center };
+            //pageOrder.Controls.Add(GetPageOrderDropDownList(theme.PageOrderRef));
+
+            //var pageCountToShow = new TableCell { HorizontalAlign = HorizontalAlign.Center };
+            //pageCountToShow.Controls.Add(GetPageCountToShowDropDownList(theme));
+
+            //var maxCountToSubmit = new TableCell { HorizontalAlign = HorizontalAlign.Center };
+            //maxCountToSubmit.Controls.Add(GetMaxCountToSubmitDropDownList(theme.MaxCountToSubmit));
+            /*
+            var themePages = new TableCell();
+            themePages.Controls.Add(new HyperLink
+            {
+                Text = "Pages",
+                NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new ThemePagesController
+                {
+                    BackUrl = string.Empty,
+                    ThemeId = theme.ID
+                })
+            });
+            */
+
+            //row.Cells.AddRange(new[] { number, name, type, pageOrder, pageCountToShow, maxCountToSubmit, themePages });
+            row.Cells.AddRange(new[] { number, name });
+            CourseBehaviorTable.Rows.Add(row);
         }
 
         private void AddThemeToTable(TblThemes theme, int i)
