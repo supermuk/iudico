@@ -1,0 +1,1 @@
+INSERT INTO fxLanguages (Name) VALUES ('CS');
