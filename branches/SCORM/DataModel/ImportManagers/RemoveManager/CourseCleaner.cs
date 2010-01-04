@@ -11,13 +11,16 @@ namespace IUDICO.DataModel.ImportManagers.RemoveManager
             var course = ServerModel.DB.Load<TblCourses>(courseId);
             var organizations = ServerModel.DB.LookupIds<TblOrganizations>(course, null);
             var resources = ServerModel.DB.LookupIds<TblResources>(course, null);
-            //var themes = ServerModel.DB.LookupIds<TblCourses>(course, null);
+            var themes = ServerModel.DB.LookupIds<TblThemes>(course, null);
 
             foreach (var i in organizations)
                 DeleteOrganization(i);
 
             foreach (var i in resources)
                 DeleteResource(i);
+
+            foreach (var i in themes)
+                DeleteTheme(i);
 
             ServerModel.DB.Delete<TblCourses>(courseId);
             Directory.Delete(CourseManager.GetCoursePath(courseId), true);
@@ -57,19 +60,17 @@ namespace IUDICO.DataModel.ImportManagers.RemoveManager
             ServerModel.DB.Delete<TblResources>(resourceID);
         }
 
-        /*
-
         public static void DeleteTheme(int themeId)
         {
-            var theme = ServerModel.DB.Load<TblCourses>(themeId);
-            var pages = ServerModel.DB.LookupIds<TblPages>(theme, null);
+            //var theme = ServerModel.DB.Load<TblCourses>(themeId);
+            //var pages = ServerModel.DB.LookupIds<TblPages>(theme, null);
 
-            foreach (var i in pages)
-                DeletePage(i);
+            //foreach (var i in pages)
+                //DeletePage(i);
 
             ServerModel.DB.Delete<TblCourses>(themeId);
         }
-
+        /*
         public static void DeletePage(int pageId)
         {
             var page = ServerModel.DB.Load<TblPages>(pageId);

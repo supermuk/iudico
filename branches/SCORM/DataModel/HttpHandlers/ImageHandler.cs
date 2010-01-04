@@ -2,6 +2,7 @@
 using System.Web;
 using IUDICO.DataModel.Common.StudentUtils;
 using IUDICO.DataModel.DB;
+using System;
 
 
 namespace IUDICO.DataModel.HttpHandlers
@@ -13,7 +14,9 @@ namespace IUDICO.DataModel.HttpHandlers
             var imageFileId = ImageHandlerHelper.GetImageIdFromRequest(context.Request);
             var files = ServerModel.DB.Load<TblFiles>(imageFileId);
             context.Response.ContentType = Path.GetExtension(files.Path);
-            context.Response.OutputStream.Write(files.File.ToArray(), 0, files.File.Length);
+            //context.Response.OutputStream.Write(files.File.ToArray(), 0, files.File.Length);
+
+            throw new NotImplementedException();
         }
 
         public bool IsReusable

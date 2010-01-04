@@ -5003,8 +5003,6 @@ namespace IUDICO.DataModel.DB
 		
 		private string _Path;
 		
-		private System.Data.Linq.Binary _File;
-		
 		private int _SysState;
 		
 		private EntitySet<RelResourcesFiles> _RelResourcesFiles;
@@ -5017,8 +5015,6 @@ namespace IUDICO.DataModel.DB
     partial void OnIDChanged();
     partial void OnPathChanging(string value);
     partial void OnPathChanged();
-    partial void OnFileChanging(System.Data.Linq.Binary value);
-    partial void OnFileChanged();
     partial void OnSysStateChanging(int value);
     partial void OnSysStateChanged();
     #endregion
@@ -5065,26 +5061,6 @@ namespace IUDICO.DataModel.DB
 					this._Path = value;
 					this.SendPropertyChanged("Path");
 					this.OnPathChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_File", DbType="VarBinary(MAX) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
-		public System.Data.Linq.Binary File
-		{
-			get
-			{
-				return this._File;
-			}
-			set
-			{
-				if ((this._File != value))
-				{
-					this.OnFileChanging(value);
-					this.SendPropertyChanging();
-					this._File = value;
-					this.SendPropertyChanged("File");
-					this.OnFileChanged();
 				}
 			}
 		}
@@ -5748,9 +5724,13 @@ namespace IUDICO.DataModel.DB
 		
 		private short _SysState;
 		
+		private EntitySet<TblPermissions> _TblPermissions;
+		
 		private EntitySet<TblItems> _TblItems;
 		
 		private EntityRef<TblCourses> _TblCourses;
+		
+		private EntitySet<TblThemes> _TblThemes;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -5768,8 +5748,10 @@ namespace IUDICO.DataModel.DB
 		
 		public TblOrganizations()
 		{
+			this._TblPermissions = new EntitySet<TblPermissions>(new Action<TblPermissions>(this.attach_TblPermissions), new Action<TblPermissions>(this.detach_TblPermissions));
 			this._TblItems = new EntitySet<TblItems>(new Action<TblItems>(this.attach_TblItems), new Action<TblItems>(this.detach_TblItems));
 			this._TblCourses = default(EntityRef<TblCourses>);
+			this._TblThemes = new EntitySet<TblThemes>(new Action<TblThemes>(this.attach_TblThemes), new Action<TblThemes>(this.detach_TblThemes));
 			OnCreated();
 		}
 		
@@ -5857,6 +5839,19 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
+		[Association(Name="FK_Permissions_Organizations", Storage="_TblPermissions", OtherKey="OrganizationRef", DeleteRule="NO ACTION")]
+		public EntitySet<TblPermissions> TblPermissions
+		{
+			get
+			{
+				return this._TblPermissions;
+			}
+			set
+			{
+				this._TblPermissions.Assign(value);
+			}
+		}
+		
 		[Association(Name="FK_tblItems_tblOrganizations", Storage="_TblItems", OtherKey="OrganizationRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblItems> TblItems
 		{
@@ -5904,6 +5899,19 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
+		[Association(Name="FK_tblThemes_tblOrganizations", Storage="_TblThemes", OtherKey="OrganizationRef", DeleteRule="NO ACTION")]
+		public EntitySet<TblThemes> TblThemes
+		{
+			get
+			{
+				return this._TblThemes;
+			}
+			set
+			{
+				this._TblThemes.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -5924,6 +5932,18 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
+		private void attach_TblPermissions(TblPermissions entity)
+		{
+			this.SendPropertyChanging();
+			entity.TblOrganizations = this;
+		}
+		
+		private void detach_TblPermissions(TblPermissions entity)
+		{
+			this.SendPropertyChanging();
+			entity.TblOrganizations = null;
+		}
+		
 		private void attach_TblItems(TblItems entity)
 		{
 			this.SendPropertyChanging();
@@ -5931,6 +5951,18 @@ namespace IUDICO.DataModel.DB
 		}
 		
 		private void detach_TblItems(TblItems entity)
+		{
+			this.SendPropertyChanging();
+			entity.TblOrganizations = null;
+		}
+		
+		private void attach_TblThemes(TblThemes entity)
+		{
+			this.SendPropertyChanging();
+			entity.TblOrganizations = this;
+		}
+		
+		private void detach_TblThemes(TblThemes entity)
 		{
 			this.SendPropertyChanging();
 			entity.TblOrganizations = null;
@@ -6329,6 +6361,8 @@ namespace IUDICO.DataModel.DB
 		
 		private System.Nullable<int> _GroupOperationRef;
 		
+		private System.Nullable<int> _OrganizationRef;
+		
 		private short _SysState;
 		
 		private EntityRef<TblPermissions> _ParentPermitionRefTblPermissions;
@@ -6348,6 +6382,8 @@ namespace IUDICO.DataModel.DB
 		private EntityRef<FxGroupOperations> _FxGroupOperations;
 		
 		private EntityRef<TblGroups> _GroupRefTblGroups;
+		
+		private EntityRef<TblOrganizations> _TblOrganizations;
 		
 		private EntityRef<TblGroups> _OwnerGroupRefTblGroups;
 		
@@ -6413,6 +6449,8 @@ namespace IUDICO.DataModel.DB
     partial void OnGroupRefChanged();
     partial void OnGroupOperationRefChanging(System.Nullable<int> value);
     partial void OnGroupOperationRefChanged();
+    partial void OnOrganizationRefChanging(System.Nullable<int> value);
+    partial void OnOrganizationRefChanged();
     partial void OnSysStateChanging(short value);
     partial void OnSysStateChanged();
     #endregion
@@ -6428,6 +6466,7 @@ namespace IUDICO.DataModel.DB
 			this._TblGroups = default(EntityRef<TblGroups>);
 			this._FxGroupOperations = default(EntityRef<FxGroupOperations>);
 			this._GroupRefTblGroups = default(EntityRef<TblGroups>);
+			this._TblOrganizations = default(EntityRef<TblOrganizations>);
 			this._OwnerGroupRefTblGroups = default(EntityRef<TblGroups>);
 			this._TblUsers = default(EntityRef<TblUsers>);
 			this._FxPageOperations = default(EntityRef<FxPageOperations>);
@@ -6928,6 +6967,30 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
+		[Column(Storage="_OrganizationRef", DbType="Int")]
+		public System.Nullable<int> OrganizationRef
+		{
+			get
+			{
+				return this._OrganizationRef;
+			}
+			set
+			{
+				if ((this._OrganizationRef != value))
+				{
+					if (this._TblOrganizations.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnOrganizationRefChanging(value);
+					this.SendPropertyChanging();
+					this._OrganizationRef = value;
+					this.SendPropertyChanged("OrganizationRef");
+					this.OnOrganizationRefChanged();
+				}
+			}
+		}
+		
 		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
 		public short SysState
 		{
@@ -7229,6 +7292,40 @@ namespace IUDICO.DataModel.DB
 						this._GroupRef = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("GroupRefTblGroups");
+				}
+			}
+		}
+		
+		[Association(Name="FK_Permissions_Organizations", Storage="_TblOrganizations", ThisKey="OrganizationRef", IsForeignKey=true)]
+		public TblOrganizations TblOrganizations
+		{
+			get
+			{
+				return this._TblOrganizations.Entity;
+			}
+			set
+			{
+				TblOrganizations previousValue = this._TblOrganizations.Entity;
+				if (((previousValue != value) 
+							|| (this._TblOrganizations.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TblOrganizations.Entity = null;
+						previousValue.TblPermissions.Remove(this);
+					}
+					this._TblOrganizations.Entity = value;
+					if ((value != null))
+					{
+						value.TblPermissions.Add(this);
+						this._OrganizationRef = value.ID;
+					}
+					else
+					{
+						this._OrganizationRef = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("TblOrganizations");
 				}
 			}
 		}
@@ -8553,6 +8650,8 @@ namespace IUDICO.DataModel.DB
 		
 		private System.Nullable<int> _CourseRef;
 		
+		private System.Nullable<int> _OrganizationRef;
+		
 		private bool _IsControl;
 		
 		private System.Nullable<int> _PageOrderRef;
@@ -8571,6 +8670,8 @@ namespace IUDICO.DataModel.DB
 		
 		private EntityRef<FxPageOrders> _FxPageOrders;
 		
+		private EntityRef<TblOrganizations> _TblOrganizations;
+		
 		private EntitySet<RelStagesThemes> _RelStagesThemes;
 		
     #region Extensibility Method Definitions
@@ -8583,6 +8684,8 @@ namespace IUDICO.DataModel.DB
     partial void OnNameChanged();
     partial void OnCourseRefChanging(System.Nullable<int> value);
     partial void OnCourseRefChanged();
+    partial void OnOrganizationRefChanging(System.Nullable<int> value);
+    partial void OnOrganizationRefChanged();
     partial void OnIsControlChanging(bool value);
     partial void OnIsControlChanged();
     partial void OnPageOrderRefChanging(System.Nullable<int> value);
@@ -8601,6 +8704,7 @@ namespace IUDICO.DataModel.DB
 			this._TblPages = new EntitySet<TblPages>(new Action<TblPages>(this.attach_TblPages), new Action<TblPages>(this.detach_TblPages));
 			this._TblPermissions = new EntitySet<TblPermissions>(new Action<TblPermissions>(this.attach_TblPermissions), new Action<TblPermissions>(this.detach_TblPermissions));
 			this._FxPageOrders = default(EntityRef<FxPageOrders>);
+			this._TblOrganizations = default(EntityRef<TblOrganizations>);
 			this._RelStagesThemes = new EntitySet<RelStagesThemes>(new Action<RelStagesThemes>(this.attach_RelStagesThemes), new Action<RelStagesThemes>(this.detach_RelStagesThemes));
 			OnCreated();
 		}
@@ -8665,6 +8769,30 @@ namespace IUDICO.DataModel.DB
 					this._CourseRef = value;
 					this.SendPropertyChanged("CourseRef");
 					this.OnCourseRefChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_OrganizationRef", DbType="Int")]
+		public System.Nullable<int> OrganizationRef
+		{
+			get
+			{
+				return this._OrganizationRef;
+			}
+			set
+			{
+				if ((this._OrganizationRef != value))
+				{
+					if (this._TblOrganizations.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnOrganizationRefChanging(value);
+					this.SendPropertyChanging();
+					this._OrganizationRef = value;
+					this.SendPropertyChanged("OrganizationRef");
+					this.OnOrganizationRefChanged();
 				}
 			}
 		}
@@ -8863,6 +8991,40 @@ namespace IUDICO.DataModel.DB
 						this._PageOrderRef = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("FxPageOrders");
+				}
+			}
+		}
+		
+		[Association(Name="FK_tblThemes_tblOrganizations", Storage="_TblOrganizations", ThisKey="OrganizationRef", IsForeignKey=true)]
+		public TblOrganizations TblOrganizations
+		{
+			get
+			{
+				return this._TblOrganizations.Entity;
+			}
+			set
+			{
+				TblOrganizations previousValue = this._TblOrganizations.Entity;
+				if (((previousValue != value) 
+							|| (this._TblOrganizations.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TblOrganizations.Entity = null;
+						previousValue.TblThemes.Remove(this);
+					}
+					this._TblOrganizations.Entity = value;
+					if ((value != null))
+					{
+						value.TblThemes.Add(this);
+						this._OrganizationRef = value.ID;
+					}
+					else
+					{
+						this._OrganizationRef = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("TblOrganizations");
 				}
 			}
 		}

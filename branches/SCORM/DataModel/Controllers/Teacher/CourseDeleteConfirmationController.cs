@@ -3,6 +3,7 @@ using System.Data;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.ImportManagers.RemoveManager;
+using System;
 
 namespace IUDICO.DataModel.Controllers
 {
@@ -49,7 +50,7 @@ namespace IUDICO.DataModel.Controllers
             dependenciesData.Columns.Add("by");
 
             foreach (TblThemes theme in TeacherHelper.ThemesOfCourse(course))
-            {
+            {   
                 IList<TblStages> relatedStages = TeacherHelper.StagesForTheme(theme);
                 foreach (TblStages relatedStage in relatedStages)
                 {

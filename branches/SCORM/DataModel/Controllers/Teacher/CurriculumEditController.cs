@@ -152,20 +152,29 @@ namespace IUDICO.DataModel.Controllers
 
             for (int i = 0; i < CourseTree.CheckedNodes.Count; i++)
             {
-                IdendtityNode themeNode = CourseTree.CheckedNodes[i] as IdendtityNode;
+                IdendtityNode orgNode = CourseTree.CheckedNodes[i] as IdendtityNode;
 
-
-                if (TeacherHelper.StageContainsTheme(stageNode.ID, themeNode.ID))
+                if (TeacherHelper.StageContainsTheme(stageNode.ID, orgNode.ID))
                 {
-                    Message.Value += themeNode.Text + ", ";
+                    Message.Value += orgNode.Text + ", ";
                     alreadyHaveSomeTheme = true;
                 }
                 else
                 {
+                    TblOrganizations org = ServerModel.DB.Load<TblOrganizations>(orgNode.ID);
+
+                    TblThemes t = new TblThemes
+                    {
+                        Name = org.Title,
+                        CourseRef = org.ID
+                    };
+
+                    ServerModel.DB.Insert(t);
+
                     ServerModel.DB.Link(
                         ServerModel.DB.Load<TblStages>(stageNode.ID),
-                        ServerModel.DB.Load<TblThemes>(themeNode.ID));
-                    stageNode.ChildNodes.Add(new IdendtityNode(ServerModel.DB.Load<TblThemes>(themeNode.ID)));
+                        ServerModel.DB.Load<TblThemes>(t.ID));
+                    stageNode.ChildNodes.Add(new IdendtityNode(ServerModel.DB.Load<TblThemes>(t.ID)));
                 }
 
                 CourseTree.CheckedNodes[i].Checked = false;
