@@ -4,31 +4,32 @@ using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.Common.StatisticUtils
 {
-    public class UserResultForPage
+    public class UserResultForItem
     {
         private readonly int _userId;
 
-        private readonly TblPages _page;
+        private readonly TblItems _item;
 
         private ResultStatus _status;
 
         private int _pageRank;
 
         private int _userRank;
+
         private readonly DateTime? _date;
 
-        public UserResultForPage(int userId, TblPages page, DateTime? date)
+        public UserResultForItem(int userId, TblItems item, DateTime? date)
         {
             _date = date;
             _userId = userId;
-            _page = page;
+            _item = item;
 
-            _pageRank = (int)_page.PageRank;
+            //_pageRank = (int)_page.PageRank;
         }
 
         public void Calc()
         {
-            var questions = StudentRecordFinder.GetQuestionsForPage(_page.ID);
+            var questions = StudentRecordFinder.GetQuestionsForPage(_item.ID);
 
             foreach (var q in questions)
             {
@@ -99,9 +100,9 @@ namespace IUDICO.DataModel.Common.StatisticUtils
             get { return _pageRank; }
         }
 
-        public TblPages Page
+        public TblItems Item
         {
-            get { return _page; }
+            get { return _item; }
         }
     }
 }

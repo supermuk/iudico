@@ -36,6 +36,7 @@ namespace IUDICO.DataModel.Controllers
             {
                 ServerModel.DB.Delete<TblPermissions>(TeacherHelper.AllPermissionsForTheme(theme));
             }
+            
             ServerModel.DB.Delete<TblPermissions>(TeacherHelper.AllPermissionsForCourse(course));
 
             CourseCleaner.DeleteCourse(course.ID);
@@ -48,22 +49,21 @@ namespace IUDICO.DataModel.Controllers
             dependenciesData.Columns.Add("Theme");
             dependenciesData.Columns.Add("is used in Curriculum");
             dependenciesData.Columns.Add("by");
-
-            foreach (TblThemes theme in TeacherHelper.ThemesOfCourse(course))
+            
+            foreach (TblThemes Theme in TeacherHelper.ThemesOfCourse(course))
             {   
-                IList<TblStages> relatedStages = TeacherHelper.StagesForTheme(theme);
-                foreach (TblStages relatedStage in relatedStages)
+                TblStages Stage = ServerModel.DB.Load<TblStages>(Theme.StageRef);
+                TblCurriculums Curriculum = ServerModel.DB.Load<TblCurriculums>(Stage.CurriculumRef);
+                IList<TblUsers> CurriculumOwners = TeacherHelper.GetCurriculumOwners(Curriculum);
+                    
+                string[] owners = new string[CurriculumOwners.Count];
+                
+                for (int i = 0; i < owners.Length; i++)
                 {
-                    TblCurriculums relatedCurriculum = ServerModel.DB.Load<TblCurriculums>((int)relatedStage.CurriculumRef);
-                    IList<TblUsers> curriculumOwners = TeacherHelper.GetCurriculumOwners(relatedCurriculum);
-                    string owners = "";
-                    foreach (TblUsers curriculumOwner in curriculumOwners)
-                    {
-                        owners += curriculumOwner.DisplayName + ", ";
-                    }
-                    owners = owners.TrimEnd(' ', ',');
-                    dependenciesData.Rows.Add(theme.Name, relatedCurriculum.Name, owners);
+                    owners[i] = CurriculumOwners[i].DisplayName;
                 }
+
+                dependenciesData.Rows.Add(Theme.Name, Curriculum.Name, String.Join(", ", owners));
             }
 
             if (dependenciesData.Rows.Count == 0)

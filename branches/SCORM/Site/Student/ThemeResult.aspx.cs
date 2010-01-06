@@ -1,6 +1,7 @@
 ﻿using System;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers.Student;
+using IUDICO.DataModel.DB;
 
 public partial class ThemeResult : ControlledPage<ThemeResultController>
 {
@@ -12,17 +13,25 @@ public partial class ThemeResult : ControlledPage<ThemeResultController>
 
     public void PageLoad(object sender, EventArgs e)
     {
-        if (Controller.ThemeId != 0 && Controller.UserId != 0)
+        if (Controller.ThemeId == 0)
         {
-            _headerLabel.Text = "Statistic for Theme";
-            _themeResult.ThemeId = Controller.ThemeId;
-            _themeResult.UserId = Controller.UserId;
-            _themeResult.CurriculumnName = Controller.CurriculumnName;
-            _themeResult.StageName = Controller.StageName;
+            throw new Exception("Wrong request (Theme ID not specified)");
         }
-        else
+
+        if (Controller.UserId == 0)
         {
-            throw new Exception("ThemeId or UserId is not specified");
+            throw new Exception("Wrong request (User ID not specified)");
         }
+
+        TblThemes theme = ServerModel.DB.Load<TblThemes>(Controller.ThemeId);
+        TblStages stage = ServerModel.DB.Load<TblStages>(theme.StageRef);
+        TblCurriculums curriculum = ServerModel.DB.Load<TblCurriculums>(stage.CurriculumRef);
+
+        _themeResult.ThemeId = Controller.ThemeId;
+        _themeResult.UserId = Controller.UserId;
+        _themeResult.StageName = stage.Name;
+        _themeResult.CurriculumnName = curriculum.Name;
+
+        _headerLabel.Text = string.Format("Statistic for Theme: {0}", theme.Name);
     }
 }

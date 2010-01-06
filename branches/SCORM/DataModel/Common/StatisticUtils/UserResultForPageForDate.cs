@@ -10,7 +10,8 @@ namespace IUDICO.DataModel.Common.StatisticUtils
         { 
             get
             {
-                return StudentRecordFinder.GetTheme((int) _page.ThemeRef).Name;
+                throw new NotImplementedException();
+                //return StudentRecordFinder.GetTheme((int)_item).Name;
             }
         }
 
@@ -18,13 +19,13 @@ namespace IUDICO.DataModel.Common.StatisticUtils
         {
             get
             {
-                return _page.PageName;
+                return _item.Title;
             }
         }
 
         private readonly int _userId;
 
-        private readonly TblPages _page;
+        private readonly TblItems _item;
 
         public DateTime Date { get; set; }
 
@@ -33,7 +34,7 @@ namespace IUDICO.DataModel.Common.StatisticUtils
         {
             Date = (DateTime)ua.Date;
 
-            _page = StudentRecordFinder.GetPageForQuestion((int) ua.QuestionRef);
+            //_page = StudentRecordFinder.GetPageForQuestion((int) ua.QuestionRef);
 
             _userId = userId;
         }
@@ -45,17 +46,23 @@ namespace IUDICO.DataModel.Common.StatisticUtils
 
         public bool Equals(UserResultForPageForDate other)
         {
+            throw new NotImplementedException();
+            /*
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
             return other._userId == _userId && Equals(other._page, _page) && other.Date.Equals(Date);
+             * */
         }
 
         public override bool Equals(object obj)
         {
+            throw new NotImplementedException();
+            /*
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != typeof (UserResultForPageForDate)) return false;
             return Equals((UserResultForPageForDate) obj);
+             * */
         }
 
         public override int GetHashCode()
@@ -63,7 +70,7 @@ namespace IUDICO.DataModel.Common.StatisticUtils
             unchecked
             {
                 int result = _userId;
-                result = (result*397) ^ (_page != null ? _page.GetHashCode() : 0);
+                result = (result*397) ^ (_item != null ? _item.GetHashCode() : 0);
                 result = (result*397) ^ Date.GetHashCode();
                 return result;
             }
@@ -71,7 +78,7 @@ namespace IUDICO.DataModel.Common.StatisticUtils
 
         public ResultStatus GetStatus()
         {
-            var status = new UserResultForPage(_userId, _page, Date);
+            var status = new UserResultForItem(_userId, _item, Date);
             status.Calc();
 
             return status.Status;

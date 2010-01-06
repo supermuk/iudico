@@ -66,17 +66,19 @@ namespace IUDICO.DataModel.Controllers.Student
 
                 if (selectedNode.Type == NodeType.Theme)
                 {
+                    /*
                     var shifter = new PageShifter(selectedNode.ID);
                     StatisticManager.MarkNotIncludedPages(shifter.NotUsedPages);
                     StatisticManager.MarkUsedPages(shifter.UsedPages);
+                    */
                     RedirectToController(new OpenTestController
                                                  {
                                                      BackUrl = string.Empty,
-                                                     ThemaId = selectedNode.ID,
-                                                     CurriculumnId = ((IdendtityNode) selectedNode.Parent.Parent).ID,
-                                                     StageId = ((IdendtityNode) selectedNode.Parent).ID,
-                                                     PageIndex = 0,
-                                                     PagesIds = shifter.GetRequestParameter()
+                                                     ThemeId = selectedNode.ID,
+                                                     //CurriculumnId = ((IdendtityNode) selectedNode.Parent.Parent).ID,
+                                                     //StageId = ((IdendtityNode) selectedNode.Parent).ID,
+                                                     PageIndex = 0
+                                                     //PagesIds = shifter.GetRequestParameter()
                                                  });
                 }
             }
@@ -93,8 +95,8 @@ namespace IUDICO.DataModel.Controllers.Student
                                              {
                                                  BackUrl = string.Empty,
                                                  ThemeId = selectedNode.ID,
-                                                 CurriculumnName = selectedNode.Parent.Parent.Text,
-                                                 StageName = selectedNode.Parent.Text,
+                                                 //CurriculumnName = selectedNode.Parent.Parent.Text,
+                                                 //StageName = selectedNode.Parent.Text,
                                                  UserId = _userId
                                              });
 
@@ -334,7 +336,7 @@ namespace IUDICO.DataModel.Controllers.Student
 
         private ControlInfo BuildStages(TblCurriculums curriculum, TreeNode node, DateTime? date)
         {
-            IList<TblStages> stages = StudentRecordFinder.GetStagesForCurriculum(curriculum);
+            IList<TblStages> stages = TeacherHelper.StagesOfCurriculum(curriculum);
 
             ControlInfo controlInfo = new ControlInfo();
 
@@ -361,7 +363,7 @@ namespace IUDICO.DataModel.Controllers.Student
 
         private ControlInfo BuildThemes(TblStages stage, TreeNode node)
         {
-            var themes = StudentRecordFinder.GetThemesForStage(stage);
+            var themes = TeacherHelper.ThemesOfStage(stage);
 
             ControlInfo controlInfo = new ControlInfo();
 

@@ -29,7 +29,7 @@ namespace IUDICO.DataModel.ImportManagers
         {
             TblOrganizations t = new TblOrganizations
             {
-                CourseID = courseID,
+                CourseRef = courseID,
                 Title = title
             };
 

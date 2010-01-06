@@ -32,34 +32,39 @@ namespace IUDICO.DataModel.Common
             return ServerModel.DB.Load<TblCurriculums>(iDs);
         }
 
-        public static IList<TblStages> StagesForTheme(TblThemes theme)
+        public static IList<TblItems> ItemsOfOrganization(TblOrganizations org)
         {
-            List<int> stagesIDs = ServerModel.DB.LookupMany2ManyIds<TblStages>(theme, null);
-            return ServerModel.DB.Load<TblStages>(stagesIDs);
+            return ServerModel.DB.Query<TblItems>(new CompareCondition<int>(
+                              DataObject.Schema.OrganizationRef,
+                              new ValueCondition<int>(org.ID), COMPARE_KIND.EQUAL));
         }
 
         public static IList<TblThemes> ThemesOfStage(TblStages stage)
         {
-            List<int> themesIDs = ServerModel.DB.LookupMany2ManyIds<TblThemes>(stage, null);
-            return ServerModel.DB.Load<TblThemes>(themesIDs);
+            return ServerModel.DB.Query<TblThemes>(new CompareCondition<int>(
+                              DataObject.Schema.StageRef,
+                              new ValueCondition<int>(stage.ID), COMPARE_KIND.EQUAL));
         }
 
         public static IList<TblStages> StagesOfCurriculum(TblCurriculums curriculum)
         {
-            List<int> stagesIDs = ServerModel.DB.LookupIds<TblStages>(curriculum, null);
-            return ServerModel.DB.Load<TblStages>(stagesIDs);
+            return ServerModel.DB.Query<TblStages>(new CompareCondition<int>(
+                              DataObject.Schema.CurriculumRef,
+                              new ValueCondition<int>(curriculum.ID), COMPARE_KIND.EQUAL));
         }
 
         public static IList<TblOrganizations> OrganizationsOfCourse(TblCourses course)
         {
-            List<int> orgIDs = ServerModel.DB.LookupIds<TblOrganizations>(course, null);
-            return ServerModel.DB.Load<TblOrganizations>(orgIDs);
+            return ServerModel.DB.Query<TblOrganizations>(new CompareCondition<int>(
+                              DataObject.Schema.CourseRef,
+                              new ValueCondition<int>(course.ID), COMPARE_KIND.EQUAL));
         }
 
         public static IList<TblThemes> ThemesOfCourse(TblCourses course)
         {
-            List<int> themeIDs = ServerModel.DB.LookupIds<TblThemes>(course, null);
-            return ServerModel.DB.Load<TblThemes>(themeIDs);
+            return ServerModel.DB.Query<TblThemes>(new CompareCondition<int>(
+                              DataObject.Schema.CourseRef,
+                              new ValueCondition<int>(course.ID), COMPARE_KIND.EQUAL));
         }
 
         public static IList<TblPermissions> CurrentUserPermissionsForCourse(TblCourses course)
@@ -218,7 +223,7 @@ namespace IUDICO.DataModel.Common
 
             ServerModel.DB.Delete<TblPermissions>(curriculumPermissions);
 
-            foreach (TblStages stage in StagesOfCurriculum(curriculum))
+            foreach (TblStages stage in TeacherHelper.StagesOfCurriculum(curriculum))
             {
                 List<TblPermissions> stagePermissions = ServerModel.DB.Query<TblPermissions>(
                 new AndCondtion(
@@ -241,7 +246,7 @@ namespace IUDICO.DataModel.Common
             PermissionsManager.Grand(curriculum, FxCurriculumOperations.Pass
                     , null, group.ID, DateTimeInterval.Full);
 
-            foreach (TblStages stage in StagesOfCurriculum(curriculum))
+            foreach (TblStages stage in TeacherHelper.StagesOfCurriculum(curriculum))
             {
                 PermissionsManager.Grand(stage, FxStageOperations.View
                    , null, group.ID, DateTimeInterval.Full);
@@ -255,7 +260,7 @@ namespace IUDICO.DataModel.Common
             TblStages stage = ServerModel.DB.Load<TblStages>(stageID);
             TblOrganizations org = ServerModel.DB.Load<TblOrganizations>(orgID);
 
-            foreach (TblThemes childThemes in ThemesOfStage(stage))
+            foreach (TblThemes childThemes in TeacherHelper.ThemesOfStage(stage))
             {
                 if (childThemes.OrganizationRef == org.ID)
                 {

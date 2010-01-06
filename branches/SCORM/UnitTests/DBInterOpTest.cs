@@ -60,7 +60,7 @@ namespace IUDICO.UnitTest
             }
         }
         
-        [Test]
+        /*[Test]
         public void BinaryDataOperationsTest()
         {
             using (var c = new DataObjectCleaner())
@@ -82,7 +82,7 @@ namespace IUDICO.UnitTest
                 loadedFile = ServerModel.DB.Load<TblFiles>(id1);
                 Assert.IsNull(loadedFile.File);
             }
-        }
+        }*/
 
         [Test]
         [ExpectedException(typeof(InvalidOperationException))]

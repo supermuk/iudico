@@ -202,11 +202,6 @@ namespace IUDICO.DataModel.DB
     {
     }
 
-    [ManyToManyRelationship(typeof(TblStages), typeof(TblThemes))]
-    public partial class RelStagesThemes : RelTable, IRelationshipTable
-    {
-    }
-
     [ManyToManyRelationship(typeof(TblResources), typeof(TblResources))]
     public partial class RelResourcesDependency : RelTable, IRelationshipTable
     {

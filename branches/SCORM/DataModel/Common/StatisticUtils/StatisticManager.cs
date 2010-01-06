@@ -10,15 +10,17 @@ namespace IUDICO.DataModel.Common.StatisticUtils
 {
     public class StatisticManager
     {
-        public static bool IsContainCompiledQuestions(TblPages page)
+        public static bool IsContainCompiledQuestions(TblItems item)
         {
-            var questions = StudentRecordFinder.GetQuestionsForPage(page);
+            throw new NotImplementedException();
+            /*var questions = StudentRecordFinder.GetQuestionsForItem(item);
 
             foreach (var question in questions)
                 if (question.IsCompiled)
                     return true;
 
             return false;
+             * */
         }
 
         public static UserThemeRankHolder GetUserRankForTheme(int userId, int themeId)
@@ -60,13 +62,13 @@ namespace IUDICO.DataModel.Common.StatisticUtils
             return sortAnswers;
         }
 
-        public static IList<UserResultForPage> GetStatisticForThemeForUser(int userId, int themeId)
+        public static IList<UserResultForItem> GetStatisticForThemeForUser(int userId, int themeId)
         {
-            var pages = StudentRecordFinder.GetPagesForTheme(themeId);
+            var items = StudentRecordFinder.GetItemsForTheme(themeId);
 
-            var result = new List<UserResultForPage>();
+            var result = new List<UserResultForItem>();
 
-            foreach (var p in pages)
+            foreach (var item in items)
             {
                 /*if (p.PageTypeRef == (int?)FX_PAGETYPE.Practice)
                 {

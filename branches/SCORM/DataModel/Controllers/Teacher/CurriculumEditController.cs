@@ -166,14 +166,16 @@ namespace IUDICO.DataModel.Controllers
                     TblThemes t = new TblThemes
                     {
                         Name = org.Title,
-                        CourseRef = org.ID
+                        CourseRef = org.CourseRef,
+                        OrganizationRef = org.ID,
+                        StageRef = stageNode.ID
                     };
 
                     ServerModel.DB.Insert(t);
 
-                    ServerModel.DB.Link(
+                    /*ServerModel.DB.Link(
                         ServerModel.DB.Load<TblStages>(stageNode.ID),
-                        ServerModel.DB.Load<TblThemes>(t.ID));
+                        ServerModel.DB.Load<TblThemes>(t.ID));*/
                     stageNode.ChildNodes.Add(new IdendtityNode(ServerModel.DB.Load<TblThemes>(t.ID)));
                 }
 
