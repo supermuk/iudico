@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using IUDICO.DataModel.DB;
+using IUDICO.DataModel.DB.Base;
 using IUDICO.DataModel.Security;
 
 namespace IUDICO.DataModel.Common.StudentUtils
@@ -74,7 +75,7 @@ namespace IUDICO.DataModel.Common.StudentUtils
 
             return result;
         }
-
+        /*
         public static IList<TblThemes> GetThemesForStage(TblStages stage)
         {
             List<int> themesIds = ServerModel.DB.LookupMany2ManyIds<TblThemes>(stage, null);
@@ -86,7 +87,7 @@ namespace IUDICO.DataModel.Common.StudentUtils
             List<int> stagesIds = ServerModel.DB.LookupIds<TblStages>(curriculum, null);
             return ServerModel.DB.Load<TblStages>(stagesIds);
         }
-
+        */
         public static IList<TblQuestions> GetQuestionsForPage(int pageId)
         {
             var page = ServerModel.DB.Load<TblPages>(pageId);
@@ -182,7 +183,8 @@ namespace IUDICO.DataModel.Common.StudentUtils
         {
             return ServerModel.DB.Load<TblCompiledQuestionsData>(ca.CompiledQuestionsDataRef);
         }
-
+        
+        /*
         public static IList<TblPages> GetPagesForTheme(int themeId)
         {
             var theme = ServerModel.DB.Load<TblThemes>(themeId);
@@ -190,6 +192,16 @@ namespace IUDICO.DataModel.Common.StudentUtils
             List<int> pagesIds = ServerModel.DB.LookupIds<TblPages>(theme, null);
 
             return ServerModel.DB.Load<TblPages>(pagesIds);
+        }
+        */
+
+        public static IList<TblItems> GetItemsForTheme(int themeId)
+        {
+            var theme = ServerModel.DB.Load<TblThemes>(themeId);
+
+            return ServerModel.DB.Query<TblItems>(new CompareCondition<int>(
+                              DataObject.Schema.OrganizationRef,
+                              new ValueCondition<int>(theme.OrganizationRef), COMPARE_KIND.EQUAL));
         }
 
         public static IList<TblPages> GetCoursePages(int courseId)

@@ -25,14 +25,18 @@ namespace IUDICO.DataModel.ImportManagers
         {
             string identifier = resource.Attributes["identifier"].Value;
             string type = resource.Attributes["adlcp:scormType"].Value;
+            string resourseHref = resource.Attributes["href"].Value;
 
             if (resources.ContainsKey(identifier))
+            {
                 return resources[identifier];
+            }
 
-            int ID = Store(identifier, type, courseID);
+            int ID = Store(identifier, type, resourseHref, courseID);
             resources[identifier] = ID;
             
             XmlNodeList dependencyNodes = XmlUtility.GetNodes(resource, "ns:dependency");
+
             foreach (XmlNode node in dependencyNodes)
             {
                 string dependencyIdentifier = node.Attributes["identifierref"].Value;
@@ -52,6 +56,7 @@ namespace IUDICO.DataModel.ImportManagers
             }
 
             XmlNodeList fileNodes = XmlUtility.GetNodes(resource, "ns:file");
+
             foreach (XmlNode node in fileNodes)
             {
                 string href = node.Attributes["href"].Value;
@@ -63,13 +68,14 @@ namespace IUDICO.DataModel.ImportManagers
             return ID;
         }
 
-        private static int Store(string identifier, string type, int courseID)
+        private static int Store(string identifier, string type, string href, int courseID)
         {
             TblResources r = new TblResources
             {
                 CourseRef = courseID,
                 Identifier = identifier,
-                Type = type
+                Type = type,
+                Href = href
             };
 
             return ServerModel.DB.Insert(r);
@@ -86,7 +92,7 @@ namespace IUDICO.DataModel.ImportManagers
                 string AssetDirectoryPath = Directory.GetParent(AssetFilePath).ToString();
                 RecursiveCreateDirectory(AssetDirectoryPath);
 
-                File.Copy(FilePath, AssetFilePath);
+                File.Copy(FilePath, AssetFilePath, true);
             }
 
             TblFiles f = new TblFiles

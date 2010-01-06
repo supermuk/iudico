@@ -53,12 +53,14 @@ namespace IUDICO.DataModel.Controllers.Teacher
 
             if (ThemeDropDownList.SelectedItem != null)
             {
-                var pages = StudentRecordFinder.GetPagesForTheme(int.Parse(ThemeDropDownList.SelectedItem.Value));
+                var items = StudentRecordFinder.GetItemsForTheme(int.Parse(ThemeDropDownList.SelectedItem.Value));
 
                 var answersForReCompilation = new List<TblUserAnswers>();
 
-                foreach (var page in pages)
-                    AddAnswersFromPageToReCompilationList(page, users, answersForReCompilation);
+                foreach (var item in items)
+                {
+                    AddAnswersFromPageToReCompilationList(item, users, answersForReCompilation);
+                }
 
                 ReCompile(answersForReCompilation);
 
@@ -90,9 +92,11 @@ namespace IUDICO.DataModel.Controllers.Teacher
         }
 
 
-        private static void AddAnswersFromPageToReCompilationList(TblPages page, IList<TblUsers> users, List<TblUserAnswers> answersForReCompilation)
+        private static void AddAnswersFromPageToReCompilationList(TblItems item, IList<TblUsers> users, List<TblUserAnswers> answersForReCompilation)
         {
-            var questions = StudentRecordFinder.GetQuestionsForPage(page);
+            throw new NotImplementedException();
+            /*
+            var questions = StudentRecordFinder.GetQuestionsForPage(item);
 
             foreach (var u in users)
             {
@@ -103,6 +107,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
                     AddAnswerToReCompilationList(lstUserAnswer, answersForReCompilation);
                 }
             }
+            */
         }
 
         private static void AddAnswerToReCompilationList(TblUserAnswers lstUserAnswer, List<TblUserAnswers> answersForReCompilation)
@@ -200,7 +205,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
             if (CurriculumnDropDownList.SelectedItem != null)
             {
                 var selectedCurriculumn = ServerModel.DB.Load<TblCurriculums>(int.Parse(CurriculumnDropDownList.SelectedItem.Value));
-                var stages = StudentRecordFinder.GetStagesForCurriculum(selectedCurriculumn);
+                var stages = selectedCurriculumn.TblStages;
 
                 foreach (var s in stages)
                     StageDropDownList.Items.Add(new ListItem(s.Name, s.ID.ToString()));
@@ -214,7 +219,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
             if (StageDropDownList.SelectedItem != null)
             {
                 var selectedStage = ServerModel.DB.Load<TblStages>(int.Parse(StageDropDownList.SelectedItem.Value));
-                var themes = StudentRecordFinder.GetThemesForStage(selectedStage);
+                var themes = TeacherHelper.ThemesOfStage(selectedStage);
 
                 foreach (var s in themes)
                     ThemeDropDownList.Items.Add(new ListItem(s.Name, s.ID.ToString()));

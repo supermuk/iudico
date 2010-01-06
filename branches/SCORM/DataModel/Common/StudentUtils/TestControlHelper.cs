@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel.DB;
-using System;
 
 namespace IUDICO.DataModel.Common.StudentUtils
 {
@@ -20,6 +21,24 @@ namespace IUDICO.DataModel.Common.StudentUtils
             return "";
         }
 
+        public static Control GetControl(TblResources resource, Panel p, int courseID)
+        {
+//            string AssetsPath = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "Assets");
+//            string CoursePath = Path.Combine(AssetsPath, courseID.ToString());
+//            string ResourcePath = Path.Combine(CoursePath, resource.Href);
+//            string ResourceFile = File.ReadAllText(ResourcePath);
+
+            Uri BaseUri = new Uri("http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + HttpContext.Current.Request.ApplicationPath);
+            Uri AssetsUri = new Uri(BaseUri, "Assets/");
+            Uri CourseUri = new Uri(AssetsUri, courseID.ToString() + "/");
+            Uri ResourceUri = new Uri(CourseUri, resource.Href);
+            
+            Control ResourceControl = p.Page.ParseControl(string.Format(@"<IFRAME ID=""_iFrame""  width=""100%"" height=""100%"" src=""{0}""></IFRAME>", ResourceUri.ToString()));
+
+            return ResourceControl;
+        }
+
+        
         public static Control GetTheoryControl(TblPages page, Panel p)
         {
             p.ScrollBars = ScrollBars.None;
@@ -42,5 +61,6 @@ namespace IUDICO.DataModel.Common.StudentUtils
 
             return divFromPageControl;
         }
+        
     }
 }

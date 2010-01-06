@@ -71,7 +71,7 @@ public partial class OperationsTable : UserControl, ITextControl
             if (value.Split()[3] == stageChar)
             {
                 stage = ServerModel.DB.Load<TblStages>(int.Parse(value.Split()[2]));
-                curriculum = ServerModel.DB.Load<TblCurriculums>(stage.CurriculumRef.Value);
+                curriculum = ServerModel.DB.Load<TblCurriculums>(stage.CurriculumRef);
 
                 buildStageTable(stage);
                 DropDownList_CurriculumOperations.Visible = false;

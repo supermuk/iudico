@@ -48,17 +48,21 @@ public partial class ThemeResultControl : UserControl
 
                     var row = new TableRow();
 
-                    SetPageName(row, ur.Page.PageName);
+                    SetPageName(row, ur.Item.Title);
                     SetStatus(row, ur.Status);
                     SetUserRank(row, ur.UserRank);
-                    SetPageRank(row, (int) ur.Page.PageRank);
-                    SetUserAnswersLink(row, ur.Page.ID, user.ID);
+                    //SetPageRank(row, (int) ur.Page.PageRank);
+                    SetUserAnswersLink(row, ur.Item.ID, user.ID);
 
                     if (ServerModel.User.Current.Islector())
-                        SetCorrectAnswersLink(row, ur.Page.ID);
+                    {
+                        SetCorrectAnswersLink(row, ur.Item.ID);
+                    }
 
-                    if (StatisticManager.IsContainCompiledQuestions(ur.Page))
-                        SetCompiledDetailsLink(row, ur.Page.ID, user.ID);
+                    if (StatisticManager.IsContainCompiledQuestions(ur.Item))
+                    {
+                        SetCompiledDetailsLink(row, ur.Item.ID, user.ID);
+                    }
 
                     _resultTable.Rows.Add(row);
                 }

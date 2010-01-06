@@ -91,8 +91,8 @@ namespace IUDICO.DataModel.Controllers
                                                          {
                                                              BackUrl = string.Empty,
                                                              ThemeId = theme.ID,
-                                                             CurriculumnName = ServerModel.DB.Load<TblCurriculums>((int) stage.CurriculumRef).Name,
-                                                             StageName = stage.Name,
+                                                             //CurriculumnName = ServerModel.DB.Load<TblCurriculums>((int) stage.CurriculumRef).Name,
+                                                             //StageName = stage.Name,
                                                              UserId = student.ID
                                                          })
                                                      });

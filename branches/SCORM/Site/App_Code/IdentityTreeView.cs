@@ -57,9 +57,11 @@ namespace IUDICO.DataModel.Controllers
                             foreach (TblCurriculums curriculum in curriculumssData)
                             {
                                 IdendtityNode curriculumNode = new IdendtityNode(curriculum);
+                                
                                 foreach (TblStages stage in TeacherHelper.StagesOfCurriculum(curriculum))
                                 {
                                     IdendtityNode stageNode = new IdendtityNode(stage);
+                                    
                                     foreach (TblThemes theme in TeacherHelper.ThemesOfStage(stage))
                                     {
                                         IdendtityNode themeNode = new IdendtityNode(theme);
