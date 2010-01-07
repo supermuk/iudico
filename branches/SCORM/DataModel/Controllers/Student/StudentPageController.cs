@@ -68,8 +68,8 @@ namespace IUDICO.DataModel.Controllers.Student
                 {
                     /*
                     var shifter = new PageShifter(selectedNode.ID);
-                    StatisticManager.MarkNotIncludedPages(shifter.NotUsedPages);
-                    StatisticManager.MarkUsedPages(shifter.UsedPages);
+                    //StatisticManager.MarkNotIncludedPages(shifter.NotUsedPages);
+                    //StatisticManager.MarkUsedPages(shifter.UsedPages);
                     */
                     RedirectToController(new OpenTestController
                                                  {

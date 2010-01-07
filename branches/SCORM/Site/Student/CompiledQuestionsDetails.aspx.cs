@@ -39,6 +39,7 @@ public partial class CompiledQuestionsDetails : ControlledPage<CompiledQuestions
     
     private void BuildStatistic(int pageId, int userId)
     {
+        /*
         var page = ServerModel.DB.Load<TblPages>(pageId);
         var questions = StudentRecordFinder.GetQuestionsForPage(pageId);
 
@@ -52,6 +53,7 @@ public partial class CompiledQuestionsDetails : ControlledPage<CompiledQuestions
                 _placeHolder.Controls.Add(cqr);
             }
         }
+        */ 
     }
 
 

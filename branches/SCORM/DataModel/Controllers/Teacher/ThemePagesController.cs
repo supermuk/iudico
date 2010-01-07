@@ -22,8 +22,11 @@ namespace IUDICO.DataModel.Controllers.Teacher
             var theme = ServerModel.DB.Load<TblThemes>(ThemeId);
             ThemeName.Value = theme.Name;
 
-            var pagesIds = ServerModel.DB.LookupIds<TblPages>(theme, null);
+            throw new NotImplementedException();
+            /*
 
+            var pagesIds = ServerModel.DB.LookupIds<TblPages>(theme, null);
+            
             for (int i = 1; i <= pagesIds.Count; i++)
             {
                 var page = ServerModel.DB.Load<TblPages>(pagesIds[i - 1]);
@@ -35,7 +38,6 @@ namespace IUDICO.DataModel.Controllers.Teacher
                 var rank = new TableCell();
 
                 throw new NotImplementedException();
-                /*
                 if (page.PageTypeRef == (int?)FX_PAGETYPE.Practice)
                 {
                     rank.Text = page.PageRank.ToString();
@@ -52,12 +54,12 @@ namespace IUDICO.DataModel.Controllers.Teacher
                         })
                     });
                 }
-                */
 
                 row.Cells.AddRange(new[] { number, name, rank, correctAnswers });
 
                 ThemePagesTable.Rows.Add(row);
             }
+            */
 
         }
     }

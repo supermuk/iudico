@@ -50,6 +50,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
         public void ReCompileButtonClick(object sender, EventArgs e)
         {
             IList<TblUsers> users = GetUsersForReCompilation();
+            throw new NotImplementedException();
 
             if (ThemeDropDownList.SelectedItem != null)
             {
@@ -59,7 +60,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
 
                 foreach (var item in items)
                 {
-                    AddAnswersFromPageToReCompilationList(item, users, answersForReCompilation);
+                    //AddAnswersFromPageToReCompilationList(item, users, answersForReCompilation);
                 }
 
                 ReCompile(answersForReCompilation);
@@ -91,11 +92,10 @@ namespace IUDICO.DataModel.Controllers.Teacher
             CreateThemeList();
         }
 
-
+/*
         private static void AddAnswersFromPageToReCompilationList(TblItems item, IList<TblUsers> users, List<TblUserAnswers> answersForReCompilation)
         {
             throw new NotImplementedException();
-            /*
             var questions = StudentRecordFinder.GetQuestionsForPage(item);
 
             foreach (var u in users)
@@ -107,9 +107,8 @@ namespace IUDICO.DataModel.Controllers.Teacher
                     AddAnswerToReCompilationList(lstUserAnswer, answersForReCompilation);
                 }
             }
-            */
         }
-
+*/
         private static void AddAnswerToReCompilationList(TblUserAnswers lstUserAnswer, List<TblUserAnswers> answersForReCompilation)
         {
             if(lstUserAnswer != null)

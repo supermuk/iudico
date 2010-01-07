@@ -87,7 +87,7 @@ namespace IUDICO.DataModel.Common.StudentUtils
             List<int> stagesIds = ServerModel.DB.LookupIds<TblStages>(curriculum, null);
             return ServerModel.DB.Load<TblStages>(stagesIds);
         }
-        */
+        
         public static IList<TblQuestions> GetQuestionsForPage(int pageId)
         {
             var page = ServerModel.DB.Load<TblPages>(pageId);
@@ -101,7 +101,7 @@ namespace IUDICO.DataModel.Common.StudentUtils
             var page = ServerModel.DB.Load<TblPages>(pageId);
             return ServerModel.DB.Load<TblThemes>((int)page.ThemeRef);
         }
-
+        */
         public static IList<TblUserAnswers> GetAnswersForQuestion(TblQuestions question)
         {
             var allUsersAnswersIdsForQuestion = ServerModel.DB.LookupIds<TblUserAnswers>(question, null);
@@ -152,26 +152,26 @@ namespace IUDICO.DataModel.Common.StudentUtils
 
             return ServerModel.DB.Load<TblUserAnswers>(answersIds);
         }
-
+/*
         public static TblPages GetPageForQuestion(int questionId)
         {
             var que = ServerModel.DB.Load<TblQuestions>(questionId);
 
             return ServerModel.DB.Load<TblPages>((int)que.PageRef);
         }
-
+*/
         public static TblThemes GetTheme(int themeId)
         {
             return ServerModel.DB.Load<TblThemes>(themeId);
         }
-
+/*
         public static IList<TblQuestions> GetQuestionsForPage(TblPages page)
         {
             var questionsIDs = ServerModel.DB.LookupIds<TblQuestions>(page, null);
 
             return ServerModel.DB.Load<TblQuestions>(questionsIDs);
         }
-
+*/
         public static IList<TblCompiledAnswers> GetCompiledAnswersForAnswer(TblUserAnswers ua)
         {
             var compiledAnswersIds = ServerModel.DB.LookupIds<TblCompiledAnswers>(ua, null);
@@ -203,7 +203,7 @@ namespace IUDICO.DataModel.Common.StudentUtils
                               DataObject.Schema.OrganizationRef,
                               new ValueCondition<int>(theme.OrganizationRef), COMPARE_KIND.EQUAL));
         }
-
+/*
         public static IList<TblPages> GetCoursePages(int courseId)
         {
             var course = ServerModel.DB.Load<TblCourses>(courseId);
@@ -221,5 +221,6 @@ namespace IUDICO.DataModel.Common.StudentUtils
 
             return ServerModel.DB.Load<TblPages>(allPagesIds);
         }
+*/
     }
 }
