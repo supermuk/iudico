@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\CacheUtility.cs" />
+    <Compile Include="Common\Cmi.cs" />
     <Compile Include="Common\ComparableDictionary.cs" />
     <Compile Include="Common\ComparableList.cs" />
     <Compile Include="Common\DateTimeInterval.cs" />

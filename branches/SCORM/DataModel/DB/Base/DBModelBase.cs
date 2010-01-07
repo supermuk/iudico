@@ -124,6 +124,7 @@ namespace IUDICO.DataModel.DB.Base
                 UserRef = new PropertyCondition<int>("UserRef"),
                 QuestionRef = new PropertyCondition<int>("QuestionRef"),
                 ThemeRef = new PropertyCondition<int>("ThemeRef"),
+                AttemptRef = new PropertyCondition<int>("AttemptRef"),
                 PageRef = new PropertyCondition<int>("PageRef"),
                 StageRef = new PropertyCondition<int>("StageRef"),
                 CourseRef = new PropertyCondition<int>("CourseRef"),
@@ -137,15 +138,20 @@ namespace IUDICO.DataModel.DB.Base
                 OwnerUserRef = new PropertyCondition<int>("OwnerUserRef"),
                 ParentPermitionRef = new PropertyCondition<int>("ParentPermitionRef"),
                 SysState = new PropertyCondition<int>("sysState");
+            
             public static readonly IDBPropertyCondition<DateTime>
                 DateSince = new PropertyCondition<DateTime>("DateSince"),
                 DateTill = new PropertyCondition<DateTime>("DateTill");
 
             public static readonly IDBPropertyCondition<string>
+                Name = new PropertyCondition<string>("Name"),
                 Login = new PropertyCondition<string>("Login"),
                 FirstName = new PropertyCondition<string>("FirstName"),
                 LastName = new PropertyCondition<string>("LastName"),
                 Email = new PropertyCondition<string>("Email");
+
+            public static readonly IDBPropertyCondition<bool>
+                IsLeaf = new PropertyCondition<bool>("IsLeaf");
         }
     }
 
