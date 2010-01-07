@@ -39,6 +39,18 @@ namespace IUDICO.DataModel.Common
                               new ValueCondition<int>(org.ID), COMPARE_KIND.EQUAL));
         }
 
+        public static IList<TblItems> LeafItemsOfOrganization(TblOrganizations org)
+        {
+            return ServerModel.DB.Query<TblItems>(
+                  new AndCondtion(
+                     new CompareCondition<int>(
+                           DataObject.Schema.OrganizationRef,
+                           new ValueCondition<int>(org.ID), COMPARE_KIND.EQUAL),
+                     new CompareCondition<bool>(
+                           DataObject.Schema.IsLeaf,
+                           new ValueCondition<bool>(true), COMPARE_KIND.EQUAL)));
+        }
+
         public static IList<TblThemes> ThemesOfStage(TblStages stage)
         {
             return ServerModel.DB.Query<TblThemes>(new CompareCondition<int>(

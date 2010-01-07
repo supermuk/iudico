@@ -192,6 +192,10 @@ namespace IUDICO.DataModel.DB
         }
     }
 
+    public partial class TblAttempts : IntKeyedDataObject, IIntKeyedDataObject { }
+
+    public partial class TblAttemptsVars : IntKeyedDataObject, IIntKeyedDataObject { }
+
     [ManyToManyRelationship(typeof(TblUsers), typeof(FxRoles))]
     public partial class RelUserRoles : RelTable, IRelationshipTable
     {
