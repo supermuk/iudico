@@ -122,7 +122,7 @@
     <Compile Include="Common\HttpUtility.cs" />
     <Compile Include="Common\IdentityNode.cs" />
     <Compile Include="Common\StatisticUtils\StatisticManager.cs" />
-    <Compile Include="Common\StatisticUtils\UserResultForPage.cs" />
+    <Compile Include="Common\StatisticUtils\UserResultForItem.cs" />
     <Compile Include="Common\StatisticUtils\UserResultForQuestion.cs" />
     <Compile Include="Common\StudentUtils\ControlInfo.cs" />
     <Compile Include="Common\StudentUtils\DatePeriod.cs" />
@@ -137,7 +137,6 @@
     <Compile Include="Common\Memorizer.cs" />
     <Compile Include="Common\StudentUtils\ImageHandlerHelper.cs" />
     <Compile Include="Common\StudentUtils\LanguageHelper.cs" />
-    <Compile Include="Common\StudentUtils\PageShifter.cs" />
     <Compile Include="Common\StudentUtils\StudentPermissionsHelper.cs" />
     <Compile Include="Common\StudentUtils\StudentRecordFinder.cs" />
     <Compile Include="Common\StudentUtils\TestControlHelper.cs" />

@@ -34,7 +34,7 @@
         
         $.ajax({
           type: "POST",
-          url: "API.asmx/SetValue",
+          url: "/API.asmx/SetValue",
           data: "{name: '"+name+"', value: '"+value+"'}",
           contentType: "application/json; charset=utf-8",
           dataType: "json",
