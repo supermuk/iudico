@@ -17,6 +17,7 @@ namespace IUDICO.DataModel.ImportManagers
 
             // import list of <item>
             XmlNodeList items = XmlUtility.GetNodes(organization, "ns:item");
+
             foreach (XmlNode node in items)
             {
                 ItemManager.Import(node, organizationID, null);

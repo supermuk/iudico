@@ -13,6 +13,8 @@ namespace IUDICO.DataModel.ImportManagers
     {
         private static Dictionary<string, int> resources = new Dictionary<string, int>();
 
+        private static Dictionary<string, bool> dependancies = new Dictionary<string, bool>();
+
         public static Dictionary<string, int> Resources
         {
             get
@@ -21,51 +23,75 @@ namespace IUDICO.DataModel.ImportManagers
             }
         }
 
-        public static int ParseResource(ProjectPaths projectPaths, int courseID, XmlNode resource)
+        public static void ParseResource(ProjectPaths projectPaths, int courseID, XmlNode resource)
         {
             string identifier = resource.Attributes["identifier"].Value;
             string type = resource.Attributes["adlcp:scormType"].Value;
-            string resourseHref = resource.Attributes["href"].Value;
 
             if (resources.ContainsKey(identifier))
             {
-                return resources[identifier];
+                return;
             }
 
-            int ID = Store(identifier, type, resourseHref, courseID);
-            resources[identifier] = ID;
-            
+            if (resource.Attributes["href"] != null)
+            {
+                string resourseHref = resource.Attributes["href"].Value;
+                int ID = Store(identifier, type, resourseHref, courseID);
+                resources[identifier] = ID;
+
+                HashSet<string> dependencyFiles = GetDependencyFiles(resource);
+                XmlNodeList fileNodes = XmlUtility.GetNodes(resource, "ns:file");
+
+                foreach (XmlNode node in fileNodes)
+                {
+                    string href = node.Attributes["href"].Value;
+
+                    int fileID = StoreFile(href, projectPaths, courseID);
+                    //LinkFile(ID, fileID);
+                }
+
+                foreach (string file in dependencyFiles)
+                {
+                    int fileID = StoreFile(file, projectPaths, courseID);
+                    //LinkFile(ID, fileID);
+                }
+
+                resources[identifier] = ID;
+            }
+        }
+
+        public static HashSet<string> GetDependencyFiles(XmlNode resource)
+        {
             XmlNodeList dependencyNodes = XmlUtility.GetNodes(resource, "ns:dependency");
+            HashSet<string> files = new HashSet<string>();
 
-            foreach (XmlNode node in dependencyNodes)
+            foreach (XmlNode dependancyNode in dependencyNodes)
             {
-                string dependencyIdentifier = node.Attributes["identifierref"].Value;
-                int dependencyID = 0;
+                string identifier = dependancyNode.Attributes["identifierref"].Value;
 
-                if (!resources.ContainsKey(dependencyIdentifier))
+                if (dependancies.ContainsKey(identifier))
                 {
-                    XmlNode resourceNode = XmlUtility.GetNode(resource.ParentNode, "ns:resource[@id='" + dependencyIdentifier + "']");
-                    dependencyID = ParseResource(projectPaths, courseID, resourceNode);
-                }
-                else
-                {
-                    dependencyID = resources[dependencyIdentifier];
+                    continue;
                 }
 
-                LinkDependency(ID, dependencyID);
+                files.Concat(GetDependencyFiles(dependancyNode));
+
+                XmlNode dependancy = XmlUtility.GetNode(resource.ParentNode, "ns:resource[@identifier='" + identifier + "']");
+
+                if (dependancy != null)
+                {
+                    XmlNodeList fileNodes = XmlUtility.GetNodes(dependancy, "ns:file");
+
+                    foreach (XmlNode fileNode in fileNodes)
+                    {
+                        files.Add(fileNode.Attributes["href"].Value);
+                    }
+
+                    dependancies[identifier] = true;
+                }
             }
 
-            XmlNodeList fileNodes = XmlUtility.GetNodes(resource, "ns:file");
-
-            foreach (XmlNode node in fileNodes)
-            {
-                string href = node.Attributes["href"].Value;
-
-                int fileID = StoreFile(href, projectPaths, courseID);
-                LinkFile(ID, fileID);
-            }
-
-            return ID;
+            return files;
         }
 
         private static int Store(string identifier, string type, string href, int courseID)
