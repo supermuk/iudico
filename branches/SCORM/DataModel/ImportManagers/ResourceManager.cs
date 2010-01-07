@@ -143,7 +143,7 @@ namespace IUDICO.DataModel.ImportManagers
                 // A good buffer size; should always be base2 in case of Unicode
                 byte[] buffer = new byte[4096];
 
-                while (ReadFile.Read(buffer, 0, 4096))
+                while (ReadFile.Read(buffer, 0, 4096) > 0)
                 {
                     // Uses the encoding we defined above
                     string line = Enc.GetString(buffer);
@@ -152,17 +152,17 @@ namespace IUDICO.DataModel.ImportManagers
             }
             else
             {
-                File.Copy(FilePath, AssetFilePath, true);
+                File.Copy(From, To, true);
             }
         }
 
         private static Encoding GetFileEncoding(FileStream File)
         {
-            if (file.CanSeek)
+            if (File.CanSeek)
             {
                 byte[] bom = new byte[4];
-                file.Read(bom, 0, 4);
-                file.Seek(0, SeekOrigin.Begin);
+                File.Read(bom, 0, 4);
+                File.Seek(0, SeekOrigin.Begin);
 
                 if ((bom[0] == 0xef && bom[1] == 0xbb && bom[2] == 0xbf) || // utf-8
                     (bom[0] == 0xff && bom[1] == 0xfe) || // ucs-2le, ucs-4le, and ucs-16le
