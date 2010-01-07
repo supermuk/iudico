@@ -52,7 +52,12 @@
             updateTimer();
         }
     </script>
-
+    
+    <script type="text/javascript" src="/Scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="/Scripts/API.js"></script>
+    <script type="text/javascript">
+        window.API_1484_11 = new API_1484_11();
+    </script>
 </head>
 <body onload="javascript:initialize()">
     <form runat="server">

@@ -118,7 +118,7 @@ namespace IUDICO.DataModel.ImportManagers
                 string AssetDirectoryPath = Directory.GetParent(AssetFilePath).ToString();
                 RecursiveCreateDirectory(AssetDirectoryPath);
 
-                File.Copy(FilePath, AssetFilePath, true);
+                CopyFile(FilePath, AssetFilePath);
             }
 
             TblFiles f = new TblFiles
@@ -127,6 +127,59 @@ namespace IUDICO.DataModel.ImportManagers
             };
 
             return ServerModel.DB.Insert(f);
+        }
+
+        private static void CopyFile(string From, string To)
+        {
+            string Extention = Path.GetExtension(From).ToLower();
+
+            if (Extention == "htm" || Extention == "html" || Extention == "js")
+            {
+                FileStream ReadFile = new FileStream(From, FileMode.Open, FileAccess.Read, FileShare.Read);
+                File.Create(To);
+                //FileStream WriteFile = new FileStream(To, FileMode.Create, FileAccess.Write, FileShare.None);
+                Encoding Enc = GetFileEncoding(ReadFile);
+                
+                // A good buffer size; should always be base2 in case of Unicode
+                byte[] buffer = new byte[4096];
+
+                while (ReadFile.Read(buffer, 0, 4096))
+                {
+                    // Uses the encoding we defined above
+                    string line = Enc.GetString(buffer);
+                    File.AppendAllText(To, line, Enc);
+                }
+            }
+            else
+            {
+                File.Copy(FilePath, AssetFilePath, true);
+            }
+        }
+
+        private static Encoding GetFileEncoding(FileStream File)
+        {
+            if (file.CanSeek)
+            {
+                byte[] bom = new byte[4];
+                file.Read(bom, 0, 4);
+                file.Seek(0, SeekOrigin.Begin);
+
+                if ((bom[0] == 0xef && bom[1] == 0xbb && bom[2] == 0xbf) || // utf-8
+                    (bom[0] == 0xff && bom[1] == 0xfe) || // ucs-2le, ucs-4le, and ucs-16le
+                    (bom[0] == 0xfe && bom[1] == 0xff) || // utf-16 and ucs-2
+                    (bom[0] == 0 && bom[1] == 0 && bom[2] == 0xfe && bom[3] == 0xff)) // ucs-4
+                {
+                    return Encoding.Unicode;
+                }
+                else
+                {
+                    return Encoding.ASCII;
+                }
+            }
+            else
+            {
+                return Encoding.ASCII;
+            }
         }
 
         private static void RecursiveCreateDirectory(string Path)
