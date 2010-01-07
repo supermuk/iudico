@@ -10,8 +10,7 @@ namespace IUDICO.DataModel.Common.StatisticUtils
         { 
             get
             {
-                throw new NotImplementedException();
-                //return StudentRecordFinder.GetTheme((int)_item).Name;
+                return StudentRecordFinder.GetTheme(_theme.ID).Name;
             }
         }
 
@@ -25,7 +24,10 @@ namespace IUDICO.DataModel.Common.StatisticUtils
 
         private readonly int _userId;
 
+        private readonly TblThemes _theme;
+
         private readonly TblItems _item;
+        //private readonly TblPages _page;
 
         public DateTime Date { get; set; }
 

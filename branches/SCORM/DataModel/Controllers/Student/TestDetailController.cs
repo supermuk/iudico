@@ -37,9 +37,9 @@ namespace IUDICO.DataModel.Controllers.Student
 
         public void PageLoad(object sender, EventArgs e)
         {
-            ShowPage();
+            //ShowPage();
         }
-
+/*
         private void ShowPage()
         {
             if(PageId != 0)
@@ -66,7 +66,7 @@ namespace IUDICO.DataModel.Controllers.Student
         {
             Control control;
 
-            /*if ((FX_PAGETYPE)page.PageTypeRef == FX_PAGETYPE.Practice)
+            if ((FX_PAGETYPE)page.PageTypeRef == FX_PAGETYPE.Practice)
             {
                 control = TestControlHelper.GetPracticeControl(page, PageContent);
                 
@@ -74,14 +74,14 @@ namespace IUDICO.DataModel.Controllers.Student
             else
             {
                 throw new Exception("You can't see details for theory page");
-            }*/
+            }
             throw new NotImplementedException();
 
             PageContent.Controls.Clear();
             PageContent.Controls.Add(control);
             FillAnswer(control);
         }
-
+*/
         private void FillAnswer(Control control)
         {
             foreach (var c in control.Controls)
@@ -103,13 +103,13 @@ namespace IUDICO.DataModel.Controllers.Student
                 }
             }
         }
-
+/*
         private void SetHeader(TblPages page)
         {
             PageTitle.Value = GetPageTitleType();
             PageHeader.Value = string.Format("{0} for Page: {1}", GetPageTitleType(), page.PageName); 
         }
-
+*/
 
         private static int GetMaxRank(IList<TblQuestions> questions)
         {
@@ -120,12 +120,12 @@ namespace IUDICO.DataModel.Controllers.Student
             }
             return maxRank;
         }
-
+/*
         private static TblPages GetPage(int pageId)
         {
             return ServerModel.DB.Load<TblPages>(pageId);
         }
-
+*/
         public string GetPageTitleType()
         {
             if (TestType == (int) TestSessionType.UserAnswer)

@@ -168,8 +168,6 @@ namespace IUDICO.DataModel.DB
 
     public partial class TblGroups : SecuredDataObject<FxGroupOperations>, ISecuredDataObject<FxGroupOperations> { }
 
-    public partial class TblPages : IntKeyedDataObject, IIntKeyedDataObject { }
-
     public partial class TblQuestions : IntKeyedDataObject, IIntKeyedDataObject { }
 
     public partial class TblSampleBusinesObject : IntKeyedDataObject, IIntKeyedDataObject { }

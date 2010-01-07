@@ -172,7 +172,7 @@ namespace IUDICO.DataModel.Common
         {
             IList<int> iDs = PermissionsManager.GetUsersForObject(SECURED_OBJECT_TYPE.CURRICULUM, curriculum.ID, null, null);
             return ServerModel.DB.Load<TblUsers>(iDs);
-
+/*
             return ServerModel.DB.Query<TblUsers>(
                 new InCondition<int>(DataObject.Schema.ID,
                     new SubSelectCondition<TblPermissions>("OwnerUserRef",
@@ -186,6 +186,7 @@ namespace IUDICO.DataModel.Common
                          new CompareCondition<int>(
                               DataObject.Schema.SysState,
                               new ValueCondition<int>(0), COMPARE_KIND.EQUAL)))));
+ */ 
         }
 
         public static IList<TblGroups> GetGroupsForCurriculum(TblCurriculums curriculum)
@@ -306,7 +307,7 @@ namespace IUDICO.DataModel.Common
             List<int> studentsIDs = ServerModel.DB.LookupMany2ManyIds<TblUsers>(group, null);
             return ServerModel.DB.Load<TblUsers>(studentsIDs);
         }
-
+/*
         public static IList<TblPages> PagesOfTheme(TblThemes theme)
         {
             return ServerModel.DB.Query<TblPages>(new CompareCondition<int>(
@@ -320,7 +321,7 @@ namespace IUDICO.DataModel.Common
                                  DataObject.Schema.PageRef,
                                  new ValueCondition<int>(page.ID), COMPARE_KIND.EQUAL));
         }
-
+*/
         public static TblUserAnswers GetUserAnswerForQuestion(TblUsers user, TblQuestions question)
         {
             IList<TblUserAnswers> answers = ServerModel.DB.Query<TblUserAnswers>(new AndCondtion(

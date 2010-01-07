@@ -81,6 +81,12 @@ namespace IUDICO.DataModel.DB
     partial void InsertRelUserRoles(RelUserRoles instance);
     partial void UpdateRelUserRoles(RelUserRoles instance);
     partial void DeleteRelUserRoles(RelUserRoles instance);
+    partial void InsertTblAttempts(TblAttempts instance);
+    partial void UpdateTblAttempts(TblAttempts instance);
+    partial void DeleteTblAttempts(TblAttempts instance);
+    partial void InsertTblAttemptsVars(TblAttemptsVars instance);
+    partial void UpdateTblAttemptsVars(TblAttemptsVars instance);
+    partial void DeleteTblAttemptsVars(TblAttemptsVars instance);
     partial void InsertTblCompiledAnswers(TblCompiledAnswers instance);
     partial void UpdateTblCompiledAnswers(TblCompiledAnswers instance);
     partial void DeleteTblCompiledAnswers(TblCompiledAnswers instance);
@@ -108,9 +114,6 @@ namespace IUDICO.DataModel.DB
     partial void InsertTblOrganizations(TblOrganizations instance);
     partial void UpdateTblOrganizations(TblOrganizations instance);
     partial void DeleteTblOrganizations(TblOrganizations instance);
-    partial void InsertTblPages(TblPages instance);
-    partial void UpdateTblPages(TblPages instance);
-    partial void DeleteTblPages(TblPages instance);
     partial void InsertTblPermissions(TblPermissions instance);
     partial void UpdateTblPermissions(TblPermissions instance);
     partial void DeleteTblPermissions(TblPermissions instance);
@@ -302,6 +305,22 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
+		public System.Data.Linq.Table<TblAttempts> TblAttempts
+		{
+			get
+			{
+				return this.GetTable<TblAttempts>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TblAttemptsVars> TblAttemptsVars
+		{
+			get
+			{
+				return this.GetTable<TblAttemptsVars>();
+			}
+		}
+		
 		public System.Data.Linq.Table<TblCompiledAnswers> TblCompiledAnswers
 		{
 			get
@@ -371,14 +390,6 @@ namespace IUDICO.DataModel.DB
 			get
 			{
 				return this.GetTable<TblOrganizations>();
-			}
-		}
-		
-		public System.Data.Linq.Table<TblPages> TblPages
-		{
-			get
-			{
-				return this.GetTable<TblPages>();
 			}
 		}
 		
@@ -1931,8 +1942,6 @@ namespace IUDICO.DataModel.DB
 		
 		private short _SysState;
 		
-		private EntitySet<TblPages> _TblPages;
-		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -1947,7 +1956,6 @@ namespace IUDICO.DataModel.DB
 		
 		public FxPageTypes()
 		{
-			this._TblPages = new EntitySet<TblPages>(new Action<TblPages>(this.attach_TblPages), new Action<TblPages>(this.detach_TblPages));
 			OnCreated();
 		}
 		
@@ -2011,19 +2019,6 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Page_PageType", Storage="_TblPages", OtherKey="PageTypeRef", DeleteRule="NO ACTION")]
-		public EntitySet<TblPages> TblPages
-		{
-			get
-			{
-				return this._TblPages;
-			}
-			set
-			{
-				this._TblPages.Assign(value);
-			}
-		}
-		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -2042,18 +2037,6 @@ namespace IUDICO.DataModel.DB
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_TblPages(TblPages entity)
-		{
-			this.SendPropertyChanging();
-			entity.FxPageTypes = this;
-		}
-		
-		private void detach_TblPages(TblPages entity)
-		{
-			this.SendPropertyChanging();
-			entity.FxPageTypes = null;
 		}
 	}
 	
@@ -3650,6 +3633,401 @@ namespace IUDICO.DataModel.DB
 		}
 	}
 	
+	[Table(Name="dbo.tblAttempts")]
+	public partial class TblAttempts : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private int _ThemeRef;
+		
+		private int _UserRef;
+		
+		private EntityRef<TblThemes> _TblThemes;
+		
+		private EntityRef<TblUsers> _TblUsers;
+		
+		private EntitySet<TblAttemptsVars> _TblAttemptsVars;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnThemeRefChanging(int value);
+    partial void OnThemeRefChanged();
+    partial void OnUserRefChanging(int value);
+    partial void OnUserRefChanged();
+    #endregion
+		
+		public TblAttempts()
+		{
+			this._TblThemes = default(EntityRef<TblThemes>);
+			this._TblUsers = default(EntityRef<TblUsers>);
+			this._TblAttemptsVars = new EntitySet<TblAttemptsVars>(new Action<TblAttemptsVars>(this.attach_TblAttemptsVars), new Action<TblAttemptsVars>(this.detach_TblAttemptsVars));
+			OnCreated();
+		}
+		
+		[Column(Storage="_ID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_ThemeRef", DbType="Int NOT NULL")]
+		public int ThemeRef
+		{
+			get
+			{
+				return this._ThemeRef;
+			}
+			set
+			{
+				if ((this._ThemeRef != value))
+				{
+					if (this._TblThemes.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnThemeRefChanging(value);
+					this.SendPropertyChanging();
+					this._ThemeRef = value;
+					this.SendPropertyChanged("ThemeRef");
+					this.OnThemeRefChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_UserRef", DbType="Int NOT NULL")]
+		public int UserRef
+		{
+			get
+			{
+				return this._UserRef;
+			}
+			set
+			{
+				if ((this._UserRef != value))
+				{
+					if (this._TblUsers.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUserRefChanging(value);
+					this.SendPropertyChanging();
+					this._UserRef = value;
+					this.SendPropertyChanged("UserRef");
+					this.OnUserRefChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_tblAttempts_tblThemes", Storage="_TblThemes", ThisKey="ThemeRef", IsForeignKey=true)]
+		public TblThemes TblThemes
+		{
+			get
+			{
+				return this._TblThemes.Entity;
+			}
+			set
+			{
+				TblThemes previousValue = this._TblThemes.Entity;
+				if (((previousValue != value) 
+							|| (this._TblThemes.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TblThemes.Entity = null;
+						previousValue.TblAttempts.Remove(this);
+					}
+					this._TblThemes.Entity = value;
+					if ((value != null))
+					{
+						value.TblAttempts.Add(this);
+						this._ThemeRef = value.ID;
+					}
+					else
+					{
+						this._ThemeRef = default(int);
+					}
+					this.SendPropertyChanged("TblThemes");
+				}
+			}
+		}
+		
+		[Association(Name="FK_tblAttempts_tblUsers", Storage="_TblUsers", ThisKey="UserRef", IsForeignKey=true)]
+		public TblUsers TblUsers
+		{
+			get
+			{
+				return this._TblUsers.Entity;
+			}
+			set
+			{
+				TblUsers previousValue = this._TblUsers.Entity;
+				if (((previousValue != value) 
+							|| (this._TblUsers.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TblUsers.Entity = null;
+						previousValue.TblAttempts.Remove(this);
+					}
+					this._TblUsers.Entity = value;
+					if ((value != null))
+					{
+						value.TblAttempts.Add(this);
+						this._UserRef = value.ID;
+					}
+					else
+					{
+						this._UserRef = default(int);
+					}
+					this.SendPropertyChanged("TblUsers");
+				}
+			}
+		}
+		
+		[Association(Name="FK_tblAttemptsVars_tblAttempts", Storage="_TblAttemptsVars", OtherKey="AttemptRef", DeleteRule="NO ACTION")]
+		public EntitySet<TblAttemptsVars> TblAttemptsVars
+		{
+			get
+			{
+				return this._TblAttemptsVars;
+			}
+			set
+			{
+				this._TblAttemptsVars.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_TblAttemptsVars(TblAttemptsVars entity)
+		{
+			this.SendPropertyChanging();
+			entity.TblAttempts = this;
+		}
+		
+		private void detach_TblAttemptsVars(TblAttemptsVars entity)
+		{
+			this.SendPropertyChanging();
+			entity.TblAttempts = null;
+		}
+	}
+	
+	[Table(Name="dbo.tblAttemptsVars")]
+	public partial class TblAttemptsVars : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private int _AttemptRef;
+		
+		private string _Name;
+		
+		private string _Value;
+		
+		private EntityRef<TblAttempts> _TblAttempts;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnAttemptRefChanging(int value);
+    partial void OnAttemptRefChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnValueChanging(string value);
+    partial void OnValueChanged();
+    #endregion
+		
+		public TblAttemptsVars()
+		{
+			this._TblAttempts = default(EntityRef<TblAttempts>);
+			OnCreated();
+		}
+		
+		[Column(Storage="_ID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_AttemptRef", DbType="Int NOT NULL")]
+		public int AttemptRef
+		{
+			get
+			{
+				return this._AttemptRef;
+			}
+			set
+			{
+				if ((this._AttemptRef != value))
+				{
+					if (this._TblAttempts.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAttemptRefChanging(value);
+					this.SendPropertyChanging();
+					this._AttemptRef = value;
+					this.SendPropertyChanged("AttemptRef");
+					this.OnAttemptRefChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_Name", DbType="VarChar(200) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_Value", DbType="VarChar(MAX) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string Value
+		{
+			get
+			{
+				return this._Value;
+			}
+			set
+			{
+				if ((this._Value != value))
+				{
+					this.OnValueChanging(value);
+					this.SendPropertyChanging();
+					this._Value = value;
+					this.SendPropertyChanged("Value");
+					this.OnValueChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_tblAttemptsVars_tblAttempts", Storage="_TblAttempts", ThisKey="AttemptRef", IsForeignKey=true)]
+		public TblAttempts TblAttempts
+		{
+			get
+			{
+				return this._TblAttempts.Entity;
+			}
+			set
+			{
+				TblAttempts previousValue = this._TblAttempts.Entity;
+				if (((previousValue != value) 
+							|| (this._TblAttempts.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TblAttempts.Entity = null;
+						previousValue.TblAttemptsVars.Remove(this);
+					}
+					this._TblAttempts.Entity = value;
+					if ((value != null))
+					{
+						value.TblAttemptsVars.Add(this);
+						this._AttemptRef = value.ID;
+					}
+					else
+					{
+						this._AttemptRef = default(int);
+					}
+					this.SendPropertyChanged("TblAttempts");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
 	[Table(Name="dbo.tblCompiledAnswers")]
 	public partial class TblCompiledAnswers : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -4708,7 +5086,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblOrganizations_tblCourses", Storage="_TblOrganizations", OtherKey="CourseID", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblOrganizations_tblCourses", Storage="_TblOrganizations", OtherKey="CourseRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblOrganizations> TblOrganizations
 		{
 			get
@@ -5718,7 +6096,7 @@ namespace IUDICO.DataModel.DB
 		
 		private int _ID;
 		
-		private int _CourseID;
+		private int _CourseRef;
 		
 		private string _Title;
 		
@@ -5738,8 +6116,8 @@ namespace IUDICO.DataModel.DB
     partial void OnCreated();
     partial void OnIDChanging(int value);
     partial void OnIDChanged();
-    partial void OnCourseIDChanging(int value);
-    partial void OnCourseIDChanged();
+    partial void OnCourseRefChanging(int value);
+    partial void OnCourseRefChanged();
     partial void OnTitleChanging(string value);
     partial void OnTitleChanged();
     partial void OnSysStateChanging(short value);
@@ -5775,26 +6153,26 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Column(Storage="_CourseID", DbType="Int NOT NULL")]
-		public int CourseID
+		[Column(Storage="_CourseRef", DbType="Int NOT NULL")]
+		public int CourseRef
 		{
 			get
 			{
-				return this._CourseID;
+				return this._CourseRef;
 			}
 			set
 			{
-				if ((this._CourseID != value))
+				if ((this._CourseRef != value))
 				{
 					if (this._TblCourses.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnCourseIDChanging(value);
+					this.OnCourseRefChanging(value);
 					this.SendPropertyChanging();
-					this._CourseID = value;
-					this.SendPropertyChanged("CourseID");
-					this.OnCourseIDChanged();
+					this._CourseRef = value;
+					this.SendPropertyChanged("CourseRef");
+					this.OnCourseRefChanged();
 				}
 			}
 		}
@@ -5865,7 +6243,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblOrganizations_tblCourses", Storage="_TblCourses", ThisKey="CourseID", IsForeignKey=true)]
+		[Association(Name="FK_tblOrganizations_tblCourses", Storage="_TblCourses", ThisKey="CourseRef", IsForeignKey=true)]
 		public TblCourses TblCourses
 		{
 			get
@@ -5888,11 +6266,11 @@ namespace IUDICO.DataModel.DB
 					if ((value != null))
 					{
 						value.TblOrganizations.Add(this);
-						this._CourseID = value.ID;
+						this._CourseRef = value.ID;
 					}
 					else
 					{
-						this._CourseID = default(int);
+						this._CourseRef = default(int);
 					}
 					this.SendPropertyChanged("TblCourses");
 				}
@@ -5966,350 +6344,6 @@ namespace IUDICO.DataModel.DB
 		{
 			this.SendPropertyChanging();
 			entity.TblOrganizations = null;
-		}
-	}
-	
-	[Table(Name="dbo.tblPages")]
-	public partial class TblPages : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID;
-		
-		private System.Nullable<int> _ThemeRef;
-		
-		private System.Nullable<int> _PageTypeRef;
-		
-		private System.Nullable<int> _PageRank;
-		
-		private string _PageName;
-		
-		private string _PageFile;
-		
-		private short _SysState;
-		
-		private EntitySet<TblQuestions> _TblQuestions;
-		
-		private EntityRef<FxPageTypes> _FxPageTypes;
-		
-		private EntityRef<TblThemes> _TblThemes;
-		
-		private EntitySet<TblPermissions> _TblPermissions;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIDChanging(int value);
-    partial void OnIDChanged();
-    partial void OnThemeRefChanging(System.Nullable<int> value);
-    partial void OnThemeRefChanged();
-    partial void OnPageTypeRefChanging(System.Nullable<int> value);
-    partial void OnPageTypeRefChanged();
-    partial void OnPageRankChanging(System.Nullable<int> value);
-    partial void OnPageRankChanged();
-    partial void OnPageNameChanging(string value);
-    partial void OnPageNameChanged();
-    partial void OnPageFileChanging(string value);
-    partial void OnPageFileChanged();
-    partial void OnSysStateChanging(short value);
-    partial void OnSysStateChanged();
-    #endregion
-		
-		public TblPages()
-		{
-			this._TblQuestions = new EntitySet<TblQuestions>(new Action<TblQuestions>(this.attach_TblQuestions), new Action<TblQuestions>(this.detach_TblQuestions));
-			this._FxPageTypes = default(EntityRef<FxPageTypes>);
-			this._TblThemes = default(EntityRef<TblThemes>);
-			this._TblPermissions = new EntitySet<TblPermissions>(new Action<TblPermissions>(this.attach_TblPermissions), new Action<TblPermissions>(this.detach_TblPermissions));
-			OnCreated();
-		}
-		
-		[Column(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this.OnIDChanging(value);
-					this.SendPropertyChanging();
-					this._ID = value;
-					this.SendPropertyChanged("ID");
-					this.OnIDChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_ThemeRef", DbType="Int")]
-		public System.Nullable<int> ThemeRef
-		{
-			get
-			{
-				return this._ThemeRef;
-			}
-			set
-			{
-				if ((this._ThemeRef != value))
-				{
-					if (this._TblThemes.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnThemeRefChanging(value);
-					this.SendPropertyChanging();
-					this._ThemeRef = value;
-					this.SendPropertyChanged("ThemeRef");
-					this.OnThemeRefChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_PageTypeRef", DbType="Int")]
-		public System.Nullable<int> PageTypeRef
-		{
-			get
-			{
-				return this._PageTypeRef;
-			}
-			set
-			{
-				if ((this._PageTypeRef != value))
-				{
-					if (this._FxPageTypes.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnPageTypeRefChanging(value);
-					this.SendPropertyChanging();
-					this._PageTypeRef = value;
-					this.SendPropertyChanged("PageTypeRef");
-					this.OnPageTypeRefChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_PageRank", DbType="Int")]
-		public System.Nullable<int> PageRank
-		{
-			get
-			{
-				return this._PageRank;
-			}
-			set
-			{
-				if ((this._PageRank != value))
-				{
-					this.OnPageRankChanging(value);
-					this.SendPropertyChanging();
-					this._PageRank = value;
-					this.SendPropertyChanged("PageRank");
-					this.OnPageRankChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_PageName", DbType="NVarChar(50)")]
-		public string PageName
-		{
-			get
-			{
-				return this._PageName;
-			}
-			set
-			{
-				if ((this._PageName != value))
-				{
-					this.OnPageNameChanging(value);
-					this.SendPropertyChanging();
-					this._PageName = value;
-					this.SendPropertyChanged("PageName");
-					this.OnPageNameChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_PageFile", DbType="VarChar(250)")]
-		public string PageFile
-		{
-			get
-			{
-				return this._PageFile;
-			}
-			set
-			{
-				if ((this._PageFile != value))
-				{
-					this.OnPageFileChanging(value);
-					this.SendPropertyChanging();
-					this._PageFile = value;
-					this.SendPropertyChanged("PageFile");
-					this.OnPageFileChanged();
-				}
-			}
-		}
-		
-		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
-		public short SysState
-		{
-			get
-			{
-				return this._SysState;
-			}
-			set
-			{
-				if ((this._SysState != value))
-				{
-					this.OnSysStateChanging(value);
-					this.SendPropertyChanging();
-					this._SysState = value;
-					this.SendPropertyChanged("SysState");
-					this.OnSysStateChanged();
-				}
-			}
-		}
-		
-		[Association(Name="FK_CorrectAnswer_Page", Storage="_TblQuestions", OtherKey="PageRef", DeleteRule="NO ACTION")]
-		public EntitySet<TblQuestions> TblQuestions
-		{
-			get
-			{
-				return this._TblQuestions;
-			}
-			set
-			{
-				this._TblQuestions.Assign(value);
-			}
-		}
-		
-		[Association(Name="FK_Page_PageType", Storage="_FxPageTypes", ThisKey="PageTypeRef", IsForeignKey=true)]
-		public FxPageTypes FxPageTypes
-		{
-			get
-			{
-				return this._FxPageTypes.Entity;
-			}
-			set
-			{
-				FxPageTypes previousValue = this._FxPageTypes.Entity;
-				if (((previousValue != value) 
-							|| (this._FxPageTypes.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._FxPageTypes.Entity = null;
-						previousValue.TblPages.Remove(this);
-					}
-					this._FxPageTypes.Entity = value;
-					if ((value != null))
-					{
-						value.TblPages.Add(this);
-						this._PageTypeRef = value.ID;
-					}
-					else
-					{
-						this._PageTypeRef = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("FxPageTypes");
-				}
-			}
-		}
-		
-		[Association(Name="FK_Page_Theme", Storage="_TblThemes", ThisKey="ThemeRef", IsForeignKey=true)]
-		public TblThemes TblThemes
-		{
-			get
-			{
-				return this._TblThemes.Entity;
-			}
-			set
-			{
-				TblThemes previousValue = this._TblThemes.Entity;
-				if (((previousValue != value) 
-							|| (this._TblThemes.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._TblThemes.Entity = null;
-						previousValue.TblPages.Remove(this);
-					}
-					this._TblThemes.Entity = value;
-					if ((value != null))
-					{
-						value.TblPages.Add(this);
-						this._ThemeRef = value.ID;
-					}
-					else
-					{
-						this._ThemeRef = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("TblThemes");
-				}
-			}
-		}
-		
-		[Association(Name="FK_Permissions_Pages", Storage="_TblPermissions", OtherKey="PageRef", DeleteRule="NO ACTION")]
-		public EntitySet<TblPermissions> TblPermissions
-		{
-			get
-			{
-				return this._TblPermissions;
-			}
-			set
-			{
-				this._TblPermissions.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_TblQuestions(TblQuestions entity)
-		{
-			this.SendPropertyChanging();
-			entity.TblPages = this;
-		}
-		
-		private void detach_TblQuestions(TblQuestions entity)
-		{
-			this.SendPropertyChanging();
-			entity.TblPages = null;
-		}
-		
-		private void attach_TblPermissions(TblPermissions entity)
-		{
-			this.SendPropertyChanging();
-			entity.TblPages = this;
-		}
-		
-		private void detach_TblPermissions(TblPermissions entity)
-		{
-			this.SendPropertyChanging();
-			entity.TblPages = null;
 		}
 	}
 	
@@ -6391,8 +6425,6 @@ namespace IUDICO.DataModel.DB
 		
 		private EntityRef<FxPageOperations> _FxPageOperations;
 		
-		private EntityRef<TblPages> _TblPages;
-		
 		private EntityRef<FxStageOperations> _FxStageOperations;
 		
 		private EntityRef<TblStages> _TblStages;
@@ -6470,7 +6502,6 @@ namespace IUDICO.DataModel.DB
 			this._OwnerGroupRefTblGroups = default(EntityRef<TblGroups>);
 			this._TblUsers = default(EntityRef<TblUsers>);
 			this._FxPageOperations = default(EntityRef<FxPageOperations>);
-			this._TblPages = default(EntityRef<TblPages>);
 			this._FxStageOperations = default(EntityRef<FxStageOperations>);
 			this._TblStages = default(EntityRef<TblStages>);
 			this._FxThemeOperations = default(EntityRef<FxThemeOperations>);
@@ -6834,10 +6865,6 @@ namespace IUDICO.DataModel.DB
 			{
 				if ((this._PageRef != value))
 				{
-					if (this._TblPages.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnPageRefChanging(value);
 					this.SendPropertyChanging();
 					this._PageRef = value;
@@ -7432,40 +7459,6 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Pages", Storage="_TblPages", ThisKey="PageRef", IsForeignKey=true)]
-		public TblPages TblPages
-		{
-			get
-			{
-				return this._TblPages.Entity;
-			}
-			set
-			{
-				TblPages previousValue = this._TblPages.Entity;
-				if (((previousValue != value) 
-							|| (this._TblPages.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._TblPages.Entity = null;
-						previousValue.TblPermissions.Remove(this);
-					}
-					this._TblPages.Entity = value;
-					if ((value != null))
-					{
-						value.TblPermissions.Add(this);
-						this._PageRef = value.ID;
-					}
-					else
-					{
-						this._PageRef = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("TblPages");
-				}
-			}
-		}
-		
 		[Association(Name="FK_Permissions_StageOperations", Storage="_FxStageOperations", ThisKey="StageOperationRef", IsForeignKey=true)]
 		public FxStageOperations FxStageOperations
 		{
@@ -7691,8 +7684,6 @@ namespace IUDICO.DataModel.DB
 		
 		private short _SysState;
 		
-		private EntityRef<TblPages> _TblPages;
-		
 		private EntityRef<TblCompiledQuestions> _TblCompiledQuestions;
 		
 		private EntitySet<TblUserAnswers> _TblUserAnswers;
@@ -7721,7 +7712,6 @@ namespace IUDICO.DataModel.DB
 		
 		public TblQuestions()
 		{
-			this._TblPages = default(EntityRef<TblPages>);
 			this._TblCompiledQuestions = default(EntityRef<TblCompiledQuestions>);
 			this._TblUserAnswers = new EntitySet<TblUserAnswers>(new Action<TblUserAnswers>(this.attach_TblUserAnswers), new Action<TblUserAnswers>(this.detach_TblUserAnswers));
 			OnCreated();
@@ -7758,10 +7748,6 @@ namespace IUDICO.DataModel.DB
 			{
 				if ((this._PageRef != value))
 				{
-					if (this._TblPages.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnPageRefChanging(value);
 					this.SendPropertyChanging();
 					this._PageRef = value;
@@ -7895,40 +7881,6 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_CorrectAnswer_Page", Storage="_TblPages", ThisKey="PageRef", IsForeignKey=true)]
-		public TblPages TblPages
-		{
-			get
-			{
-				return this._TblPages.Entity;
-			}
-			set
-			{
-				TblPages previousValue = this._TblPages.Entity;
-				if (((previousValue != value) 
-							|| (this._TblPages.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._TblPages.Entity = null;
-						previousValue.TblQuestions.Remove(this);
-					}
-					this._TblPages.Entity = value;
-					if ((value != null))
-					{
-						value.TblQuestions.Add(this);
-						this._PageRef = value.ID;
-					}
-					else
-					{
-						this._PageRef = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("TblPages");
-				}
-			}
-		}
-		
 		[Association(Name="FK_tblQuestions_tblCompiledQuestions", Storage="_TblCompiledQuestions", ThisKey="CompiledQuestionRef", IsForeignKey=true)]
 		public TblCompiledQuestions TblCompiledQuestions
 		{
@@ -8023,6 +7975,8 @@ namespace IUDICO.DataModel.DB
 		
 		private string _Type;
 		
+		private string _Href;
+		
 		private short _SysState;
 		
 		private EntitySet<RelResourcesDependency> _RelResourcesDependency;
@@ -8047,6 +8001,8 @@ namespace IUDICO.DataModel.DB
     partial void OnIdentifierChanged();
     partial void OnTypeChanging(string value);
     partial void OnTypeChanged();
+    partial void OnHrefChanging(string value);
+    partial void OnHrefChanged();
     partial void OnSysStateChanging(short value);
     partial void OnSysStateChanged();
     #endregion
@@ -8141,6 +8097,26 @@ namespace IUDICO.DataModel.DB
 					this._Type = value;
 					this.SendPropertyChanged("Type");
 					this.OnTypeChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_Href", DbType="NVarChar(200)")]
+		public string Href
+		{
+			get
+			{
+				return this._Href;
+			}
+			set
+			{
+				if ((this._Href != value))
+				{
+					this.OnHrefChanging(value);
+					this.SendPropertyChanging();
+					this._Href = value;
+					this.SendPropertyChanged("Href");
+					this.OnHrefChanged();
 				}
 			}
 		}
@@ -8395,7 +8371,7 @@ namespace IUDICO.DataModel.DB
 		
 		private string _Description;
 		
-		private System.Nullable<int> _CurriculumRef;
+		private int _CurriculumRef;
 		
 		private short _SysState;
 		
@@ -8404,6 +8380,8 @@ namespace IUDICO.DataModel.DB
 		private EntitySet<RelStagesThemes> _RelStagesThemes;
 		
 		private EntityRef<TblCurriculums> _TblCurriculums;
+		
+		private EntitySet<TblThemes> _TblThemes;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -8415,7 +8393,7 @@ namespace IUDICO.DataModel.DB
     partial void OnNameChanged();
     partial void OnDescriptionChanging(string value);
     partial void OnDescriptionChanged();
-    partial void OnCurriculumRefChanging(System.Nullable<int> value);
+    partial void OnCurriculumRefChanging(int value);
     partial void OnCurriculumRefChanged();
     partial void OnSysStateChanging(short value);
     partial void OnSysStateChanged();
@@ -8426,6 +8404,7 @@ namespace IUDICO.DataModel.DB
 			this._TblPermissions = new EntitySet<TblPermissions>(new Action<TblPermissions>(this.attach_TblPermissions), new Action<TblPermissions>(this.detach_TblPermissions));
 			this._RelStagesThemes = new EntitySet<RelStagesThemes>(new Action<RelStagesThemes>(this.attach_RelStagesThemes), new Action<RelStagesThemes>(this.detach_RelStagesThemes));
 			this._TblCurriculums = default(EntityRef<TblCurriculums>);
+			this._TblThemes = new EntitySet<TblThemes>(new Action<TblThemes>(this.attach_TblThemes), new Action<TblThemes>(this.detach_TblThemes));
 			OnCreated();
 		}
 		
@@ -8489,8 +8468,8 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Column(Storage="_CurriculumRef", DbType="Int")]
-		public System.Nullable<int> CurriculumRef
+		[Column(Storage="_CurriculumRef", DbType="Int NOT NULL")]
+		public int CurriculumRef
 		{
 			get
 			{
@@ -8586,10 +8565,23 @@ namespace IUDICO.DataModel.DB
 					}
 					else
 					{
-						this._CurriculumRef = default(Nullable<int>);
+						this._CurriculumRef = default(int);
 					}
 					this.SendPropertyChanged("TblCurriculums");
 				}
+			}
+		}
+		
+		[Association(Name="FK_tblThemes_tblStages", Storage="_TblThemes", OtherKey="StageRef", DeleteRule="NO ACTION")]
+		public EntitySet<TblThemes> TblThemes
+		{
+			get
+			{
+				return this._TblThemes;
+			}
+			set
+			{
+				this._TblThemes.Assign(value);
 			}
 		}
 		
@@ -8636,6 +8628,18 @@ namespace IUDICO.DataModel.DB
 			this.SendPropertyChanging();
 			entity.TblStages = null;
 		}
+		
+		private void attach_TblThemes(TblThemes entity)
+		{
+			this.SendPropertyChanging();
+			entity.TblStages = this;
+		}
+		
+		private void detach_TblThemes(TblThemes entity)
+		{
+			this.SendPropertyChanging();
+			entity.TblStages = null;
+		}
 	}
 	
 	[Table(Name="dbo.tblThemes")]
@@ -8648,9 +8652,11 @@ namespace IUDICO.DataModel.DB
 		
 		private string _Name;
 		
-		private System.Nullable<int> _CourseRef;
+		private int _CourseRef;
 		
-		private System.Nullable<int> _OrganizationRef;
+		private int _OrganizationRef;
+		
+		private int _StageRef;
 		
 		private bool _IsControl;
 		
@@ -8664,13 +8670,15 @@ namespace IUDICO.DataModel.DB
 		
 		private EntityRef<TblCourses> _TblCourses;
 		
-		private EntitySet<TblPages> _TblPages;
-		
 		private EntitySet<TblPermissions> _TblPermissions;
+		
+		private EntitySet<TblAttempts> _TblAttempts;
 		
 		private EntityRef<FxPageOrders> _FxPageOrders;
 		
 		private EntityRef<TblOrganizations> _TblOrganizations;
+		
+		private EntityRef<TblStages> _TblStages;
 		
 		private EntitySet<RelStagesThemes> _RelStagesThemes;
 		
@@ -8682,10 +8690,12 @@ namespace IUDICO.DataModel.DB
     partial void OnIDChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
-    partial void OnCourseRefChanging(System.Nullable<int> value);
+    partial void OnCourseRefChanging(int value);
     partial void OnCourseRefChanged();
-    partial void OnOrganizationRefChanging(System.Nullable<int> value);
+    partial void OnOrganizationRefChanging(int value);
     partial void OnOrganizationRefChanged();
+    partial void OnStageRefChanging(int value);
+    partial void OnStageRefChanged();
     partial void OnIsControlChanging(bool value);
     partial void OnIsControlChanged();
     partial void OnPageOrderRefChanging(System.Nullable<int> value);
@@ -8701,10 +8711,11 @@ namespace IUDICO.DataModel.DB
 		public TblThemes()
 		{
 			this._TblCourses = default(EntityRef<TblCourses>);
-			this._TblPages = new EntitySet<TblPages>(new Action<TblPages>(this.attach_TblPages), new Action<TblPages>(this.detach_TblPages));
 			this._TblPermissions = new EntitySet<TblPermissions>(new Action<TblPermissions>(this.attach_TblPermissions), new Action<TblPermissions>(this.detach_TblPermissions));
+			this._TblAttempts = new EntitySet<TblAttempts>(new Action<TblAttempts>(this.attach_TblAttempts), new Action<TblAttempts>(this.detach_TblAttempts));
 			this._FxPageOrders = default(EntityRef<FxPageOrders>);
 			this._TblOrganizations = default(EntityRef<TblOrganizations>);
+			this._TblStages = default(EntityRef<TblStages>);
 			this._RelStagesThemes = new EntitySet<RelStagesThemes>(new Action<RelStagesThemes>(this.attach_RelStagesThemes), new Action<RelStagesThemes>(this.detach_RelStagesThemes));
 			OnCreated();
 		}
@@ -8749,8 +8760,8 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Column(Storage="_CourseRef", DbType="Int")]
-		public System.Nullable<int> CourseRef
+		[Column(Storage="_CourseRef", DbType="Int NOT NULL")]
+		public int CourseRef
 		{
 			get
 			{
@@ -8773,8 +8784,8 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Column(Storage="_OrganizationRef", DbType="Int")]
-		public System.Nullable<int> OrganizationRef
+		[Column(Storage="_OrganizationRef", DbType="Int NOT NULL")]
+		public int OrganizationRef
 		{
 			get
 			{
@@ -8793,6 +8804,30 @@ namespace IUDICO.DataModel.DB
 					this._OrganizationRef = value;
 					this.SendPropertyChanged("OrganizationRef");
 					this.OnOrganizationRefChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_StageRef", DbType="Int NOT NULL")]
+		public int StageRef
+		{
+			get
+			{
+				return this._StageRef;
+			}
+			set
+			{
+				if ((this._StageRef != value))
+				{
+					if (this._TblStages.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnStageRefChanging(value);
+					this.SendPropertyChanging();
+					this._StageRef = value;
+					this.SendPropertyChanged("StageRef");
+					this.OnStageRefChanged();
 				}
 			}
 		}
@@ -8928,23 +8963,10 @@ namespace IUDICO.DataModel.DB
 					}
 					else
 					{
-						this._CourseRef = default(Nullable<int>);
+						this._CourseRef = default(int);
 					}
 					this.SendPropertyChanged("TblCourses");
 				}
-			}
-		}
-		
-		[Association(Name="FK_Page_Theme", Storage="_TblPages", OtherKey="ThemeRef", DeleteRule="NO ACTION")]
-		public EntitySet<TblPages> TblPages
-		{
-			get
-			{
-				return this._TblPages;
-			}
-			set
-			{
-				this._TblPages.Assign(value);
 			}
 		}
 		
@@ -8958,6 +8980,19 @@ namespace IUDICO.DataModel.DB
 			set
 			{
 				this._TblPermissions.Assign(value);
+			}
+		}
+		
+		[Association(Name="FK_tblAttempts_tblThemes", Storage="_TblAttempts", OtherKey="ThemeRef", DeleteRule="NO ACTION")]
+		public EntitySet<TblAttempts> TblAttempts
+		{
+			get
+			{
+				return this._TblAttempts;
+			}
+			set
+			{
+				this._TblAttempts.Assign(value);
 			}
 		}
 		
@@ -9022,9 +9057,43 @@ namespace IUDICO.DataModel.DB
 					}
 					else
 					{
-						this._OrganizationRef = default(Nullable<int>);
+						this._OrganizationRef = default(int);
 					}
 					this.SendPropertyChanged("TblOrganizations");
+				}
+			}
+		}
+		
+		[Association(Name="FK_tblThemes_tblStages", Storage="_TblStages", ThisKey="StageRef", IsForeignKey=true)]
+		public TblStages TblStages
+		{
+			get
+			{
+				return this._TblStages.Entity;
+			}
+			set
+			{
+				TblStages previousValue = this._TblStages.Entity;
+				if (((previousValue != value) 
+							|| (this._TblStages.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TblStages.Entity = null;
+						previousValue.TblThemes.Remove(this);
+					}
+					this._TblStages.Entity = value;
+					if ((value != null))
+					{
+						value.TblThemes.Add(this);
+						this._StageRef = value.ID;
+					}
+					else
+					{
+						this._StageRef = default(int);
+					}
+					this.SendPropertyChanged("TblStages");
 				}
 			}
 		}
@@ -9062,18 +9131,6 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		private void attach_TblPages(TblPages entity)
-		{
-			this.SendPropertyChanging();
-			entity.TblThemes = this;
-		}
-		
-		private void detach_TblPages(TblPages entity)
-		{
-			this.SendPropertyChanging();
-			entity.TblThemes = null;
-		}
-		
 		private void attach_TblPermissions(TblPermissions entity)
 		{
 			this.SendPropertyChanging();
@@ -9081,6 +9138,18 @@ namespace IUDICO.DataModel.DB
 		}
 		
 		private void detach_TblPermissions(TblPermissions entity)
+		{
+			this.SendPropertyChanging();
+			entity.TblThemes = null;
+		}
+		
+		private void attach_TblAttempts(TblAttempts entity)
+		{
+			this.SendPropertyChanging();
+			entity.TblThemes = this;
+		}
+		
+		private void detach_TblAttempts(TblAttempts entity)
 		{
 			this.SendPropertyChanging();
 			entity.TblThemes = null;
@@ -9504,6 +9573,8 @@ namespace IUDICO.DataModel.DB
 		
 		private EntitySet<TblPermissions> _Permissions_UserObjects;
 		
+		private EntitySet<TblAttempts> _TblAttempts;
+		
 		private EntitySet<RelUserGroups> _RelUserGroups;
 		
 		private EntitySet<RelUserRoles> _RelUserRoles;
@@ -9534,6 +9605,7 @@ namespace IUDICO.DataModel.DB
 		{
 			this._TblPermissions = new EntitySet<TblPermissions>(new Action<TblPermissions>(this.attach_TblPermissions), new Action<TblPermissions>(this.detach_TblPermissions));
 			this._Permissions_UserObjects = new EntitySet<TblPermissions>(new Action<TblPermissions>(this.attach_Permissions_UserObjects), new Action<TblPermissions>(this.detach_Permissions_UserObjects));
+			this._TblAttempts = new EntitySet<TblAttempts>(new Action<TblAttempts>(this.attach_TblAttempts), new Action<TblAttempts>(this.detach_TblAttempts));
 			this._RelUserGroups = new EntitySet<RelUserGroups>(new Action<RelUserGroups>(this.attach_RelUserGroups), new Action<RelUserGroups>(this.detach_RelUserGroups));
 			this._RelUserRoles = new EntitySet<RelUserRoles>(new Action<RelUserRoles>(this.attach_RelUserRoles), new Action<RelUserRoles>(this.detach_RelUserRoles));
 			this._TblUserAnswers = new EntitySet<TblUserAnswers>(new Action<TblUserAnswers>(this.attach_TblUserAnswers), new Action<TblUserAnswers>(this.detach_TblUserAnswers));
@@ -9706,6 +9778,19 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
+		[Association(Name="FK_tblAttempts_tblUsers", Storage="_TblAttempts", OtherKey="UserRef", DeleteRule="NO ACTION")]
+		public EntitySet<TblAttempts> TblAttempts
+		{
+			get
+			{
+				return this._TblAttempts;
+			}
+			set
+			{
+				this._TblAttempts.Assign(value);
+			}
+		}
+		
 		[Association(Name="FK_USER", Storage="_RelUserGroups", OtherKey="UserRef", DeleteRule="NO ACTION")]
 		public EntitySet<RelUserGroups> RelUserGroups
 		{
@@ -9787,6 +9872,18 @@ namespace IUDICO.DataModel.DB
 		{
 			this.SendPropertyChanging();
 			entity.UserObjectRefTblUsers = null;
+		}
+		
+		private void attach_TblAttempts(TblAttempts entity)
+		{
+			this.SendPropertyChanging();
+			entity.TblUsers = this;
+		}
+		
+		private void detach_TblAttempts(TblAttempts entity)
+		{
+			this.SendPropertyChanging();
+			entity.TblUsers = null;
 		}
 		
 		private void attach_RelUserGroups(RelUserGroups entity)

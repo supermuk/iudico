@@ -218,7 +218,5 @@ namespace IUDICO.DataModel.ImportManagers
 
             ServerModel.DB.Link(resource, file);
         }
-        
-
     }
 }

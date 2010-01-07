@@ -11,8 +11,8 @@ namespace IUDICO.DataModel.Common.TestingUtils
             {
                 int userId = ServerModel.User.Current.ID;
 
-                return UserSubmitCountChecker.IsUserCanSubmitOnPage(userId, pageId)
-                       && StudentPermissionsHelper.IsDateAllowed(DateTime.Now, userId, stageId, NodeType.Stage, OperationType.Pass);
+                return /*UserSubmitCountChecker.IsUserCanSubmitOnPage(userId, pageId)
+                       &&*/ StudentPermissionsHelper.IsDateAllowed(DateTime.Now, userId, stageId, NodeType.Stage, OperationType.Pass);
             }
             return false;
         }

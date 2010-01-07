@@ -108,7 +108,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
             pageOrder.Controls.Add(GetPageOrderDropDownList(theme.PageOrderRef));
 
             var pageCountToShow = new TableCell {HorizontalAlign = HorizontalAlign.Center};
-            pageCountToShow.Controls.Add(GetPageCountToShowDropDownList(theme));
+            //pageCountToShow.Controls.Add(GetPageCountToShowDropDownList(theme));
 
             var maxCountToSubmit = new TableCell {HorizontalAlign = HorizontalAlign.Center};
             maxCountToSubmit.Controls.Add(GetMaxCountToSubmitDropDownList(theme.MaxCountToSubmit));
@@ -170,6 +170,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
             return list;
         }
 
+        /*
         private static DropDownList GetPageCountToShowDropDownList(TblThemes theme)
         {
             var list = new DropDownList {ID = PageCountToShowListId};
@@ -185,6 +186,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
 
             return list;
         }
+        */
 
         private static DropDownList GetMaxCountToSubmitDropDownList(int? maxCountToSubmit)
         {

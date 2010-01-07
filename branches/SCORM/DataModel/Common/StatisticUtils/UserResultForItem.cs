@@ -29,6 +29,7 @@ namespace IUDICO.DataModel.Common.StatisticUtils
 
         public void Calc()
         {
+            /*
             var questions = StudentRecordFinder.GetQuestionsForPage(_item.ID);
 
             foreach (var q in questions)
@@ -61,6 +62,7 @@ namespace IUDICO.DataModel.Common.StatisticUtils
                 _status = ResultStatus.Pass;
             else
                 _status = ResultStatus.Fail;
+            */
         }
 
         private void SetEnqueued()

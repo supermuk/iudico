@@ -61,7 +61,7 @@ namespace IUDICO.DataModel.Common.StatisticUtils
 
             return sortAnswers;
         }
-
+        
         public static IList<UserResultForItem> GetStatisticForThemeForUser(int userId, int themeId)
         {
             var items = StudentRecordFinder.GetItemsForTheme(themeId);
@@ -109,65 +109,6 @@ namespace IUDICO.DataModel.Common.StatisticUtils
                 }
             }
             return null;
-        }
-
-
-        public static void MarkUsedPages(IList<TblPages> usedPages)
-        {
-            foreach (var page in usedPages)
-            {
-                throw new NotImplementedException();
-                /*if (page.PageTypeRef == (int?)FX_PAGETYPE.Practice)
-                {
-
-                    var questions = StudentRecordFinder.GetQuestionsForPage(page);
-
-                    foreach (var q in questions)
-                    {
-                        var ua = new TblUserAnswers
-                                     {
-                                         QuestionRef = q.ID,
-                                         Date = DateTime.Now,
-                                         UserRef = ((CustomUser) Membership.GetUser()).ID,
-                                         UserAnswer = string.Empty,
-                                         IsCompiledAnswer = false,
-                                         AnswerTypeRef = FxAnswerType.EmptyAnswer.ID
-                                     };
-
-                        ServerModel.DB.Insert(ua);
-                    }
-                }
-                */
-            }
-        }
-
-        public static void MarkNotIncludedPages(IList<TblPages> usedPages)
-        {
-            foreach (var page in usedPages)
-            {
-                throw new NotImplementedException();
-                /*
-                if (page.PageTypeRef == (int?) FX_PAGETYPE.Practice)
-                {
-                    var questions = StudentRecordFinder.GetQuestionsForPage(page);
-
-                    foreach (var q in questions)
-                    {
-                        var ua = new TblUserAnswers
-                                     {
-                                         QuestionRef = q.ID,
-                                         Date = DateTime.Now,
-                                         UserRef = ((CustomUser) Membership.GetUser()).ID,
-                                         UserAnswer = string.Empty,
-                                         IsCompiledAnswer = false,
-                                         AnswerTypeRef = FxAnswerType.NotIncludedAnswer.ID
-                                     };
-
-                        ServerModel.DB.Insert(ua);
-                    }
-                }
-                */
-            }
         }
     }
 

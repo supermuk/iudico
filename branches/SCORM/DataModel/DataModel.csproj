@@ -136,7 +136,6 @@
     <Compile Include="Common\ImportUtils\ProjectPaths.cs" />
     <Compile Include="Common\SqlUtils.cs" />
     <Compile Include="Common\Memorizer.cs" />
-    <Compile Include="Common\StudentUtils\ImageHandlerHelper.cs" />
     <Compile Include="Common\StudentUtils\LanguageHelper.cs" />
     <Compile Include="Common\StudentUtils\StudentPermissionsHelper.cs" />
     <Compile Include="Common\StudentUtils\StudentRecordFinder.cs" />
@@ -198,8 +197,6 @@
     <Compile Include="DB\Base\DBOps.cs" />
     <Compile Include="DB\Base\DBOpInterfaces.cs" />
     <Compile Include="DB\DataObjectCleaner.cs" />
-    <Compile Include="HttpHandlers\ImageHandler.cs" />
-    <Compile Include="HttpHandlers\TheoryHandler.cs" />
     <Compile Include="DB\DatabaseModel.cs" />
     <Compile Include="DB\DatabaseModel.generated.cs" />
     <Compile Include="ImportManagers\CourseManager.cs" />
@@ -247,6 +244,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="HttpHandlers\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
