@@ -20,7 +20,22 @@ namespace IUDICO.DataModel.ImportManagers
             // store the course in db
             int courseID = Store(name, description);
 
+            string CoursePath = GetCoursePath(courseID);
+
+            if (!Directory.Exists(CoursePath))
+            {
+                Directory.CreateDirectory(CoursePath);
+            }
+
+            string ManifestPath = Path.Combine(CoursePath, "immanifest.xml");
+
+            if (!File.Exists(ManifestPath))
+            {
+                File.Copy(projectPaths.PathToManifestXml, ManifestPath);
+            }
+
             XmlNodeList resources = XmlUtility.GetNodes(imsmanifest.DocumentElement, "/ns:manifest/ns:resources/ns:resource");
+            
             foreach (XmlNode resource in resources)
             {
                 ResourceManager.ParseResource(projectPaths, courseID, resource);
@@ -28,6 +43,7 @@ namespace IUDICO.DataModel.ImportManagers
 
             // import list of <organization> elements
             XmlNodeList organizations = XmlUtility.GetNodes(imsmanifest.DocumentElement, "/ns:manifest/ns:organizations/ns:organization");
+            
             foreach (XmlNode node in organizations)
             {
                 OrganizationManager.Import(node, courseID);
@@ -47,13 +63,6 @@ namespace IUDICO.DataModel.ImportManagers
             };
 
             ServerModel.DB.Insert(t);
-
-            string CoursePath = GetCoursePath(t.ID);
-
-            if (!Directory.Exists(CoursePath))
-            {
-                Directory.CreateDirectory(CoursePath);
-            }
 
             return t.ID;
         }

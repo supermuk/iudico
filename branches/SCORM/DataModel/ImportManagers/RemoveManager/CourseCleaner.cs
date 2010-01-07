@@ -14,13 +14,19 @@ namespace IUDICO.DataModel.ImportManagers.RemoveManager
             var themes = ServerModel.DB.LookupIds<TblThemes>(course, null);
 
             foreach (var i in organizations)
+            {
                 DeleteOrganization(i);
+            }
 
             foreach (var i in resources)
+            {
                 DeleteResource(i);
+            }
 
             foreach (var i in themes)
+            {
                 DeleteTheme(i);
+            }
 
             ServerModel.DB.Delete<TblCourses>(courseId);
             Directory.Delete(CourseManager.GetCoursePath(courseId), true);
@@ -32,7 +38,9 @@ namespace IUDICO.DataModel.ImportManagers.RemoveManager
             var items = ServerModel.DB.LookupIds<TblItems>(organization, null);
 
             foreach (var i in items)
+            {
                 ServerModel.DB.Delete<TblItems>(i);
+            }
 
             ServerModel.DB.Delete<TblOrganizations>(organizationID);
         }
@@ -42,10 +50,7 @@ namespace IUDICO.DataModel.ImportManagers.RemoveManager
             var resource = ServerModel.DB.Load<TblResources>(resourceID);
             var files = ServerModel.DB.LookupMany2ManyIds<TblFiles>(resource, null);
 
-            foreach (var i in files)
-            {
-                ServerModel.DB.Delete<TblFiles>(i);
-            }
+            ServerModel.DB.Delete<TblFiles>(files);
 
             foreach (var i in resource.RelResourcesDependency)
             {
@@ -62,13 +67,7 @@ namespace IUDICO.DataModel.ImportManagers.RemoveManager
 
         public static void DeleteTheme(int themeId)
         {
-            //var theme = ServerModel.DB.Load<TblCourses>(themeId);
-            //var pages = ServerModel.DB.LookupIds<TblPages>(theme, null);
-
-            //foreach (var i in pages)
-                //DeletePage(i);
-
-            ServerModel.DB.Delete<TblCourses>(themeId);
+            ServerModel.DB.Delete<TblThemes>(themeId);
         }
         /*
         public static void DeletePage(int pageId)
@@ -85,7 +84,7 @@ namespace IUDICO.DataModel.ImportManagers.RemoveManager
             //ServerModel.DB.Delete<TblPages>(pageId);
         }
         
-        private static void DeleteFiles(TblPages page)
+        private static void DeleteFiles(TblCourses course)
         {
             var files = ServerModel.DB.Load<TblFiles>(ServerModel.DB.LookupIds<TblFiles>(page, null));
 
@@ -102,7 +101,7 @@ namespace IUDICO.DataModel.ImportManagers.RemoveManager
             foreach (var file in folders)
                 ServerModel.DB.Delete<TblFiles>(file.ID);
         }
-
+        
         private static void DeleteQuestion(int questionId)
         {
             var question = ServerModel.DB.Load<TblQuestions>(questionId);
@@ -139,7 +138,7 @@ namespace IUDICO.DataModel.ImportManagers.RemoveManager
         {
             ServerModel.DB.Delete<TblCompiledQuestionsData>(compiledQuestionDataId);
         }
-        */
+        
         private static void DeleteUserAnswer(int userAnswerId)
         {
             var userAnswer = ServerModel.DB.Load<TblUserAnswers>(userAnswerId);
@@ -156,5 +155,6 @@ namespace IUDICO.DataModel.ImportManagers.RemoveManager
         {
             ServerModel.DB.Delete<TblCompiledAnswers>(compiledAnswerId);
         }
+        */
     }
 }
