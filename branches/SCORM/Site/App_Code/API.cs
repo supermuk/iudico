@@ -17,6 +17,7 @@ using IUDICO.DataModel.Common;
 [System.Web.Script.Services.ScriptService]
 public class API : System.Web.Services.WebService
 {
+    CmiDataModel CmiDM;
 
     public API()
     {
@@ -28,38 +29,40 @@ public class API : System.Web.Services.WebService
     [WebMethod]
     public int Initialize(int themeId)
     {
-        int attemptId = Cmi.Initialize(themeId);
+        CmiDM = new CmiDataModel(themeId, ServerModel.User.Current.ID);
 
-        return attemptId;
+        return CmiDM.Attempt.ID;
     }
 
     [WebMethod]
     public void SetValue(string name, string value, int attemptId)
     {
-        Cmi.SetVariable(name, value, attemptId);
+        string[] parts = name.Split('.');
+
+        if (parts[0] != "cmi")
+        {
+            throw new NotImplementedException();
+        }
+        else
+        {
+            CmiDM = new CmiDataModel(attemptId);
+            CmiDM.SetValue(string.Join(".", parts, 1, parts.Length - 1), value);
+        }
     }
 
     [WebMethod]
     public string GetValue(string name, int attemptId)
     {
-        switch (name)
-        {
-            case "cmi._version":
-                return "1.0";
-            case "cmi.learner_id":
-                return ServerModel.User.Current.ID.ToString();
-            default:
-                string[] parts = name.Split('.');
+        string[] parts = name.Split('.');
 
-                switch (parts[parts.Length - 1])
-                {
-                    case "_children":
-                        return Cmi.GetChildren(string.Join(".", parts, 0, parts.Length - 1), attemptId);
-                    case "_count":
-                        return Cmi.GetCount(string.Join(".", parts, 0, parts.Length - 1), attemptId);
-                    default:
-                        return Cmi.GetVariable(name, attemptId);
-                }
+        if (parts[0] != "cmi")
+        {
+            throw new NotImplementedException();
+        }
+        else
+        {
+            CmiDM = new CmiDataModel(attemptId);
+            return CmiDM.GetValue(string.Join(".", parts, 1, parts.Length - 1));
         }
     }
 }
