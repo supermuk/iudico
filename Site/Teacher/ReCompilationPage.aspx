@@ -1,5 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ReCompilationPage.aspx.cs" Inherits="Teacher_ReCompilationPage" Title="ReCompilation Page" %>
 
+<%@ Register assembly="BoxOver" namespace="BoxOver" tagprefix="boxover" %>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
     <asp:Label ID="_headerLabel" runat="server" Font-Bold="True" Font-Size="XX-Large"></asp:Label>
     <br />
@@ -11,15 +13,25 @@
             <td>
                 &nbsp;</td>
             <td>
-                &nbsp;</td>
+                <boxover:BoxOver ID="BoxOver5" runat="server" Body="Choose theme!" 
+                    ControlToValidate="_themeDropDownList" Header="Help!" />
+            </td>
         </tr>
         <tr>
             <td>
                 &nbsp;</td>
             <td>
-                &nbsp;</td>
+                <boxover:BoxOver ID="BoxOver3" runat="server" Body="Click to build course!" 
+                    ControlToValidate="_reCompileButton" Header="Help!" />
+                <boxover:BoxOver ID="BoxOver1" runat="server" Body="Choose curriculum!" 
+                    ControlToValidate="_curriculumnDropDownList" Header="Help!" />
+            </td>
             <td>
-                &nbsp;</td>
+                <boxover:BoxOver ID="BoxOver6" runat="server" Body="Choose user!" 
+                    ControlToValidate="_userDropDownList" Header="Help!" />
+                <boxover:BoxOver ID="BoxOver4" runat="server" Body="Choose stage!" 
+                    ControlToValidate="_stageDropDownList" Header="Help!" />
+            </td>
         </tr>
         <tr>
             <td>
@@ -32,6 +44,8 @@
                 </asp:DropDownList>
             </td>
             <td>
+                <boxover:BoxOver ID="BoxOver2" runat="server" Body="Choose grop!" 
+                    ControlToValidate="_groupDropDownList" Header="Help!" />
             </td>
             <td>
                 <asp:DropDownList ID="_curriculumnDropDownList" runat="server" 

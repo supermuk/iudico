@@ -31,17 +31,18 @@ public partial class Controls_GroupList : UserControl
             var group = (TblGroups)e.Row.DataItem;
             var lnkAction = (Button)e.Row.FindControl("lnkAction");
             var lnkGroupName = (LinkButton)e.Row.FindControl("lnkGroupName");
-
+            var hf = (HiddenField)e.Row.FindControl("groupID");
             lnkGroupName.Text = group.Name;
             lnkGroupName.PostBackUrl = ServerModel.Forms.BuildRedirectUrl(new Admin_EditGroupController
             {
                 GroupID = group.ID,
                 BackUrl = Request.RawUrl
             });
+            hf.Value = group.ID.ToString();
             lnkAction.Text = ActionTitle(group);
             if (lnkAction.Enabled = ActionEnabled(group))
             {
-                lnkAction.PostBackUrl = ActionUrl(group);
+               // lnkAction.PostBackUrl = ActionUrl(group);
             }
         }
     }
@@ -50,5 +51,14 @@ public partial class Controls_GroupList : UserControl
     {
         ((GridView) sender).PageIndex = e.NewPageIndex;
         Page.DataBind();
+    }
+    protected void btnOKClick(object sender, EventArgs e)
+    {
+        var hf = (HiddenField)(sender as Control).Parent.FindControl("groupID");
+        Admin_RemoveGroupConfirmationController c = new Admin_RemoveGroupConfirmationController();
+        c.GroupID = int.Parse(hf.Value);
+        c.DoRemove();
+
+        gvGroups.DataBind();
     }
 }

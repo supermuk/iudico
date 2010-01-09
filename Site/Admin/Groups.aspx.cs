@@ -23,7 +23,7 @@ public partial class Admin_Groups : ControlledPage<Admin_GroupsController>
 
     private string GroupList_ActionUrl(TblGroups group)
     {
-        return ServerModel.Forms.BuildRedirectUrl(new Admin_RemoveGroupConfirmationController { BackUrl = Request.RawUrl, GroupID = group.ID });
+        return "";// ServerModel.Forms.BuildRedirectUrl(new Admin_RemoveGroupConfirmationController { BackUrl = Request.RawUrl, GroupID = group.ID });
     }
 
     private string GroupList_ActionTitle(TblGroups group)

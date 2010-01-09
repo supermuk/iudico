@@ -1,11 +1,65 @@
 ﻿using System.Collections.Generic;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.Security;
+using System;
+using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.Common.StudentUtils
 {
     public class StudentRecordFinder
     {
+        public static IList<DateTime?> GetAllDates(int userID)
+        {
+            IList<DateTime?> res = new List<DateTime?>();
+            var user = ServerModel.DB.Load<TblUsers>(userID);
+            var notesIds = ServerModel.DB.LookupIds<TblUserNotes>(user, null);
+            var notes = ServerModel.DB.Load<TblUserNotes>(notesIds);
+            foreach (TblUserNotes i in notes)
+            {
+                res.Add(i.Date);
+            }
+            return res;
+        }
+        public static string GetDateDescription(int userID, DateTime date)
+        {
+            string res = string.Empty; 
+            CompareCondition<DateTime> cond =  new CompareCondition<DateTime>(
+                           DataObject.Schema.Date, new ValueCondition<DateTime>(date), COMPARE_KIND.EQUAL);
+            var user = ServerModel.DB.Load<TblUsers>(userID);
+            var notesIds = ServerModel.DB.LookupIds<TblUserNotes>(user, cond);
+            var notes = ServerModel.DB.Load<TblUserNotes>(notesIds);
+            foreach (TblUserNotes i in notes)
+            {
+                res += i.Description + "\n";
+            }
+            return res;
+        }
+        public static void SetDataDescription(int userID, DateTime date, string desc)
+        {
+            CompareCondition<DateTime> cond = new CompareCondition<DateTime>(
+                DataObject.Schema.Date, new ValueCondition<DateTime>(date), COMPARE_KIND.EQUAL);
+            var user = ServerModel.DB.Load<TblUsers>(userID);
+            var notesIds = ServerModel.DB.LookupIds<TblUserNotes>(user, cond);
+            var notes = ServerModel.DB.Load<TblUserNotes>(notesIds);
+            if (notes.Count == 0)
+            {
+                TblUserNotes note = new TblUserNotes()
+                                        {
+                                            Date = date,
+                                            Description = desc,
+                                            SysState = 0,
+                                            UserRef = userID                                     
+                                        }
+                ;
+                ServerModel.DB.Insert(note);
+            }
+            else
+            {
+                TblUserNotes note = notes[0];
+                note.Description = desc;
+                ServerModel.DB.Update(note);
+            }
+        }
         public static IList<TblCurriculums> GetCurriculumnsForUser(int userId)
         {
             var curriculumnIds = PermissionsManager.GetObjectsForUser(SECURED_OBJECT_TYPE.CURRICULUM, userId, null, null);
