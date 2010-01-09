@@ -136,10 +136,12 @@ namespace IUDICO.DataModel.DB.Base
                 OwnerUserRef = new PropertyCondition<int>("OwnerUserRef"),
                 ParentPermitionRef = new PropertyCondition<int>("ParentPermitionRef"),
                 SysState = new PropertyCondition<int>("sysState");
+
             public static readonly IDBPropertyCondition<DateTime>
                 DateSince = new PropertyCondition<DateTime>("DateSince"),
-                DateTill = new PropertyCondition<DateTime>("DateTill");
-
+                DateTill = new PropertyCondition<DateTime>("DateTill"),
+                Date = new PropertyCondition<DateTime>("Date");
+                
             public static readonly IDBPropertyCondition<string>
                 Login = new PropertyCondition<string>("Login"),
                 FirstName = new PropertyCondition<string>("FirstName"),

@@ -1,5 +1,7 @@
 <%@ Page Language="C#" CodeFile="Login.aspx.cs" Inherits="LoginPage" %>
 
+<%@ Register assembly="BoxOver" namespace="BoxOver" tagprefix="boxover" %>
+
 <asp:Content ContentPlaceHolderID="MainContent" runat="Server">
     <center class="login-placeholder">
         <asp:Login ID="Login1" runat="server" CssClass="login">
@@ -33,15 +35,24 @@
                     <tr>
                         <td colspan="2">
                             <asp:CheckBox ID="RememberMe" runat="server" Text="Remember me next time." />
+                            <boxover:BoxOver ID="BoxOver2" runat="server" Body="Enter the password!" 
+                                ControlToValidate="Password" Header="Help!" />
                         </td>
                     </tr>
                     <tr>
                         <td align="center" colspan="2" style="color: Red;">
                             <asp:Literal ID="FailureText" runat="server" EnableViewState="False"></asp:Literal>
+                            <boxover:BoxOver ID="BoxOver3" runat="server" Body="Press to Log In!" 
+                                ControlToValidate="LoginButton" Header="Help!" />
                         </td>
                     </tr>
                     <tr>
                         <td align="right" style="text-align:right" colspan="2">
+                            <boxover:BoxOver ID="BoxOver4" runat="server" 
+                                Body="Check to rememder your password!" ControlToValidate="RememberMe" 
+                                Header="Help!" />
+                            <boxover:BoxOver ID="BoxOver1" runat="server" Body="Enter user name!" 
+                                ControlToValidate="UserName" Header="Help!" />
                             <asp:Button ID="LoginButton" runat="server" CommandName="Login" Text="Log In" ValidationGroup="Login1" />
                         </td>
                     </tr>

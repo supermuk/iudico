@@ -1,9 +1,15 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="IncludeUserIntoGroup.aspx.cs" Inherits="Admin_IncludeUserIntoGroup" Title="Confirm Including User" %>
 
+<%@ Register assembly="BoxOver" namespace="BoxOver" tagprefix="boxover" %>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
  <h2><asp:Label ID="lbConfirmationText" runat="server" /></h2>
  <br />
+    <boxover:BoxOver ID="BoxOver1" runat="server" Body="Click to confirm!" 
+        ControlToValidate="btnYes" Header="Help!" />
  <asp:Button Text="YES" ID="btnYes" runat="server" OnClick="DoInclude" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
  <asp:Button Text="Cancel" ID="btnNo" runat="server" />
+    <boxover:BoxOver ID="BoxOver2" runat="server" Body="Click to abort!" 
+        ControlToValidate="btnNo" Header="Help!" />
 </asp:Content>
 

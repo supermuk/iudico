@@ -1,0 +1,10 @@
+C:\Users\CHUK\Desktop\BoxOver\BoxOver\bin\Debug\BoxOver.dll
+C:\Users\CHUK\Desktop\BoxOver\BoxOver\bin\Debug\BoxOver.pdb
+C:\Users\CHUK\Desktop\BoxOver\BoxOver\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\CHUK\Desktop\BoxOver\BoxOver\obj\Debug\BoxOver.dll
+C:\Users\CHUK\Desktop\BoxOver\BoxOver\obj\Debug\BoxOver.pdb
+C:\Users\CHUK\Desktop\AJAX_AND_ERROR_Box\IUDICO\BoxOver\BoxOver\bin\Debug\BoxOver.dll
+C:\Users\CHUK\Desktop\AJAX_AND_ERROR_Box\IUDICO\BoxOver\BoxOver\bin\Debug\BoxOver.pdb
+C:\Users\CHUK\Desktop\AJAX_AND_ERROR_Box\IUDICO\BoxOver\BoxOver\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\CHUK\Desktop\AJAX_AND_ERROR_Box\IUDICO\BoxOver\BoxOver\obj\Debug\BoxOver.dll
+C:\Users\CHUK\Desktop\AJAX_AND_ERROR_Box\IUDICO\BoxOver\BoxOver\obj\Debug\BoxOver.pdb

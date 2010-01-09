@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Untitled Page</title>
+    
+    <script language="JavaScript">
+ 
+function disableCtrlKeyCombination(e)
+{alert(1);
+        //list all CTRL + key combinations you want to disable
+        var forbiddenKeys = new Array('a', 'n', 'c', 'x', 'v', 'j');
+        var key;
+        var isCtrl;
+
+        if(window.event)
+        {
+                key = window.event.keyCode;     //IE
+                if(window.event.ctrlKey)
+                        isCtrl = true;
+                else
+                        isCtrl = false;
+        }
+        else
+        {
+                key = e.which;     //firefox
+                if(e.ctrlKey)
+                        isCtrl = true;
+                else
+                        isCtrl = false;
+        }
+        
+        var targ;
+	
+	if (e.target) targ = e.target;
+	else if (e.srcElement) targ = e.srcElement;
+	if (targ.nodeType == 3) // defeat Safari bug
+		targ = targ.parentNode;
+
+        //if ctrl is pressed check if other key is in forbidenKeys array
+        if(isCtrl)
+        {
+        return false;
+              
+        }
+        return true;
+}
+</script>
+    
+    
+</head>
+<body>
+
+
+<div tabindex="" style="background-color:red;  border: 2px solid #000000;height: 500px;outline: none;width: 500px;" onkeydown="disableCtrlKeyCombination(event)" onkeypress="disableCtrlKeyCombination(event)">
+sdfsdfaegrtdgh<br />
+rthrdtfhfg<br />
+hffg<br />
+<br />
+fgdhdfgdfgdfgdfgh<br />
+<div style="background-color:Blue">
+dsfghdfghfghfdgh<br />
+hhhhhhhhhhhhhhhhhhh<br />
+sdfsdfs<br />
+dfsdfsdfsdfsd<br />
+</div>
+</div>
+
+
+</body>
+</html>
