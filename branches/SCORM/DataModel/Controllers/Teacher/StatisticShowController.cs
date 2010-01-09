@@ -90,10 +90,9 @@ namespace IUDICO.DataModel.Controllers
                                                          NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new ThemeResultController
                                                          {
                                                              BackUrl = string.Empty,
-                                                             ThemeId = theme.ID,
+                                                             LearnerSessionId = theme.ID,
                                                              //CurriculumnName = ServerModel.DB.Load<TblCurriculums>((int) stage.CurriculumRef).Name,
                                                              //StageName = stage.Name,
-                                                             UserId = student.ID
                                                          })
                                                      });
 

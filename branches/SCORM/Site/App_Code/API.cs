@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using System.Web;
+using System.Web.SessionState;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml.Linq;
@@ -21,21 +22,23 @@ public class API : System.Web.Services.WebService
 
     public API()
     {
+        int LearnerSessionId = Convert.ToInt32(HttpContext.Current.Session["CurrentLearnerSessionId"].ToString());
+        int UserId = ServerModel.User.Current.ID;
 
+        CmiDM = new CmiDataModel(LearnerSessionId, UserId, false);
         //Uncomment the following line if using designed components 
         //InitializeComponent(); 
     }
 
-    [WebMethod]
-    public int Initialize(int themeId)
+    [WebMethod(EnableSession = true)]
+    public void Initialize()
     {
-        CmiDM = new CmiDataModel(themeId, ServerModel.User.Current.ID);
-
-        return CmiDM.Attempt.ID;
+        //CmiDM = new CmiDataModel(themeId, ServerModel.User.Current.ID);
+        //return CmiDM.Attempt.ID;
     }
 
-    [WebMethod]
-    public void SetValue(string name, string value, int attemptId)
+    [WebMethod(EnableSession = true)]
+    public void SetValue(string name, string value)
     {
         string[] parts = name.Split('.');
 
@@ -45,13 +48,12 @@ public class API : System.Web.Services.WebService
         }
         else
         {
-            CmiDM = new CmiDataModel(attemptId);
             CmiDM.SetValue(string.Join(".", parts, 1, parts.Length - 1), value);
         }
     }
 
-    [WebMethod]
-    public string GetValue(string name, int attemptId)
+    [WebMethod(EnableSession = true)]
+    public string GetValue(string name)
     {
         string[] parts = name.Split('.');
 
@@ -61,7 +63,6 @@ public class API : System.Web.Services.WebService
         }
         else
         {
-            CmiDM = new CmiDataModel(attemptId);
             return CmiDM.GetValue(string.Join(".", parts, 1, parts.Length - 1));
         }
     }

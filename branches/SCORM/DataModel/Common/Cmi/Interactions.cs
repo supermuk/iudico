@@ -34,14 +34,14 @@ namespace IUDICO.DataModel.Common.Cmi
         {
             _collections = new Dictionary<string, CmiBaseCollection>
             {
-                {"correct_responses", new Cmi.CorrectResponses(_attempt, _userID)}
+                {"correct_responses", new Cmi.CorrectResponses(LearnerSessionId, UserID)}
             };
         }
 
         #endregion
 
-        public Interactions(TblAttempts attempt, int userID)
-            : base(attempt, userID)
+        public Interactions(int _LearnerSessionId, int _UserID)
+            : base(_LearnerSessionId, _UserID)
         {
         }
 
@@ -114,14 +114,11 @@ namespace IUDICO.DataModel.Common.Cmi
                 throw new Exception("Requested variable is write-only");
             }
 
-            List<TblAttemptsVars> list = ServerModel.DB.Query<TblAttemptsVars>(
+            List<TblLearnerSessionsVars> list = ServerModel.DB.Query<TblLearnerSessionsVars>(
                         new AndCondtion(
                             new CompareCondition<int>(
-                                DataObject.Schema.AttemptRef,
-                                new ValueCondition<int>(Attempt.ID), COMPARE_KIND.EQUAL),
-                            new CompareCondition<int>(
-                                DataObject.Schema.UserRef,
-                                new ValueCondition<int>(UserID), COMPARE_KIND.EQUAL),
+                                DataObject.Schema.LearnerSessionRef,
+                                new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),
                             new CompareCondition<string>(
                                 DataObject.Schema.Name,
                                 new ValueCondition<string>("cmi.interactions." + n + "." + name), COMPARE_KIND.EQUAL)));
@@ -143,11 +140,11 @@ namespace IUDICO.DataModel.Common.Cmi
                 throw new Exception("Requested variable is read-only");
             }
 
-            List<TblAttemptsVars> list = ServerModel.DB.Query<TblAttemptsVars>(
+            List<TblLearnerSessionsVars> list = ServerModel.DB.Query<TblLearnerSessionsVars>(
                         new AndCondtion(
                             new CompareCondition<int>(
-                                DataObject.Schema.AttemptRef,
-                                new ValueCondition<int>(Attempt.ID), COMPARE_KIND.EQUAL),
+                                DataObject.Schema.LearnerSessionRef,
+                                new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),
                             new CompareCondition<string>(
                                 DataObject.Schema.Name,
                                 new ValueCondition<string>("cmi.interactions." + n + "." + name), COMPARE_KIND.EQUAL)));
@@ -155,20 +152,20 @@ namespace IUDICO.DataModel.Common.Cmi
             if (list.Count > 0)
             {
                 list[0].Value = value;
-                ServerModel.DB.Update<TblAttemptsVars>(list[0]);
+                ServerModel.DB.Update<TblLearnerSessionsVars>(list[0]);
 
                 return list[0].ID;
             }
             else
             {
-                TblAttemptsVars av = new TblAttemptsVars
+                TblLearnerSessionsVars lsv = new TblLearnerSessionsVars
                 {
-                    AttemptRef = Attempt.ID,
+                    LearnerSessionRef = LearnerSessionId,
                     Name = "cmi.interactions." + n + "." + name,
                     Value = value
                 };
 
-                return ServerModel.DB.Insert<TblAttemptsVars>(av);
+                return ServerModel.DB.Insert<TblLearnerSessionsVars>(lsv);
             }
         }
 
@@ -182,11 +179,11 @@ namespace IUDICO.DataModel.Common.Cmi
 
         protected string GetCount()
         {
-            List<TblAttemptsVars> list = ServerModel.DB.Query<TblAttemptsVars>(
+            List<TblLearnerSessionsVars> list = ServerModel.DB.Query<TblLearnerSessionsVars>(
                         new AndCondtion(
                             new CompareCondition<int>(
-                                DataObject.Schema.AttemptRef,
-                                new ValueCondition<int>(Attempt.ID), COMPARE_KIND.EQUAL),
+                                DataObject.Schema.LearnerSessionRef,
+                                new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),
                             new CompareCondition<string>(
                                 DataObject.Schema.Name,
                                 new ValueCondition<string>("cmi.interactions.%"), COMPARE_KIND.LIKE)));

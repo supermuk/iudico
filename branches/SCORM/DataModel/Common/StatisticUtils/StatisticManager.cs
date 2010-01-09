@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Security;
 using IUDICO.DataModel.Common.StudentUtils;
 using IUDICO.DataModel.DB;
+using IUDICO.DataModel.DB.Base;
 using IUDICO.DataModel.ImportManagers;
 using IUDICO.DataModel.Security;
 
@@ -82,6 +83,14 @@ namespace IUDICO.DataModel.Common.StatisticUtils
             return result;
         }
 
+        public static List<TblLearnerSessionsVars> GetStatisticForLearnerSession(int learnerSessionId)
+        {
+            return ServerModel.DB.Query<TblLearnerSessionsVars>(
+                new AndCondtion(
+                    new CompareCondition<int>(
+                        DataObject.Schema.LearnerSessionRef,
+                        new ValueCondition<int>(learnerSessionId), COMPARE_KIND.EQUAL)));
+        }
 
         public static TblUserAnswers FindUserAnswerForDate(IList<TblUserAnswers> userAnswers, DateTime? date)
         {

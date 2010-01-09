@@ -8,16 +8,16 @@ namespace IUDICO.DataModel.Common
 {
     abstract public class CmiBase
     {
-        protected TblAttempts _attempt;
+        protected int _learnerSessionId;
         protected int _userID;
 
         #region Properties
 
-        public TblAttempts Attempt
+        public int LearnerSessionId
         {
             get
             {
-                return _attempt;
+                return _learnerSessionId;
             }
         }
 
@@ -31,10 +31,10 @@ namespace IUDICO.DataModel.Common
 
         #endregion
 
-        public CmiBase(TblAttempts attempt, int userID)
+        public CmiBase(int _LearnerSessionId, int _UserID)
         {
-            _attempt = attempt;
-            _userID = userID;
+            _learnerSessionId = _LearnerSessionId;
+            _userID = _UserID;
 
             Initialize();
         }
@@ -49,16 +49,16 @@ namespace IUDICO.DataModel.Common
 
     abstract public class CmiBaseCollection
     {
-        protected TblAttempts _attempt;
+        protected int _learnerSessionId;
         protected int _userID;
 
         #region Properties
 
-        public TblAttempts Attempt
+        public int LearnerSessionId
         {
             get
             {
-                return _attempt;
+                return _learnerSessionId;
             }
         }
 
@@ -72,10 +72,10 @@ namespace IUDICO.DataModel.Common
 
         #endregion
 
-        public CmiBaseCollection(TblAttempts attempt, int userID)
+        public CmiBaseCollection(int _LearnerSessionId, int _UserID)
         {
-            _attempt = attempt;
-            _userID = userID;
+            _learnerSessionId = _LearnerSessionId;
+            _userID = _UserID;
 
             Initialize();
         }
@@ -157,33 +157,27 @@ namespace IUDICO.DataModel.Common
 
         #region Variables
 
-        private int _themeID;
-        private int _userID;
-        private TblAttempts _attempt;
+        private int _learnerSessionId;
+        private int _userId;
+        private bool _isSystem;
 
         #endregion
 
         #region Properties
 
-        public TblAttempts Attempt
+        public int LearnerSessionId
         {
             get
             {
-                return _attempt;
+                return _learnerSessionId;
             }
         }
-        public int ThemeID
+
+        public int UserId
         {
             get
             {
-                return _themeID;
-            }
-        }
-        public int UserID
-        {
-            get
-            {
-                return _userID;
+                return _userId;
             }
         }
 
@@ -191,23 +185,14 @@ namespace IUDICO.DataModel.Common
 
         #region Public Methods
 
-        public CmiDataModel(int themeID, int userID)
+        public CmiDataModel(int _LearnerSessionId, int _UserId, bool _IsSystem)
         {
-            _themeID = themeID;
-            _userID = userID;
+            _learnerSessionId = _LearnerSessionId;
+            _userId = _UserId;
+            _isSystem = _IsSystem;
+
 
             Initialize();
-            SetCollections();
-        }
-
-        public CmiDataModel(int AttemptId)
-        {
-            _attempt = ServerModel.DB.Load<TblAttempts>(AttemptId);
-            
-            _themeID = _attempt.ThemeRef;
-            _userID = _attempt.UserRef;
-
-            SetCollections();
         }
 
         public string GetValue(string path)
@@ -274,41 +259,24 @@ namespace IUDICO.DataModel.Common
 
         private void Initialize()
         {
-            // Check cmi.exit to resume or not?
-            // Initialize variables (cmi.entry) and etc
-            // Load Attempt
-
-            TblAttempts a = new TblAttempts
-            {
-                ThemeRef = _themeID,
-                UserRef = _userID
-            };
-
-            int AttemptId = ServerModel.DB.Insert(a);
-
-            _attempt = ServerModel.DB.Load<TblAttempts>(AttemptId);
-        }
-
-        private void SetCollections()
-        {
             _collections = new Dictionary<string, CmiBase>
             {
-                {"interactions", new Cmi.Interactions(_attempt, _userID)}
+                {"interactions", new Cmi.Interactions(LearnerSessionId, UserId)}
             };
         }
 
         private int SetVariable(string name, string value)
         {
-            if (_variables[name].Write == false)
+            if (_variables[name].Write == false && !_isSystem)
             {
                 throw new Exception("Requested variable is read-only");
             }
 
-            List<TblAttemptsVars> list = ServerModel.DB.Query<TblAttemptsVars>(
+            List<TblLearnerSessionsVars> list = ServerModel.DB.Query<TblLearnerSessionsVars>(
                         new AndCondtion(
                             new CompareCondition<int>(
-                                DataObject.Schema.AttemptRef,
-                                new ValueCondition<int>(Attempt.ID), COMPARE_KIND.EQUAL),
+                                DataObject.Schema.LearnerSessionRef,
+                                new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),
                             new CompareCondition<string>(
                                 DataObject.Schema.Name,
                                 new ValueCondition<string>("cmi." + name), COMPARE_KIND.EQUAL)));
@@ -316,20 +284,20 @@ namespace IUDICO.DataModel.Common
             if (list.Count > 0)
             {
                 list[0].Value = value;
-                ServerModel.DB.Update<TblAttemptsVars>(list[0]);
+                ServerModel.DB.Update<TblLearnerSessionsVars>(list[0]);
 
                 return list[0].ID;
             }
             else
             {
-                TblAttemptsVars av = new TblAttemptsVars
+                TblLearnerSessionsVars lsv = new TblLearnerSessionsVars
                 {
-                    AttemptRef = Attempt.ID,
+                    LearnerSessionRef = LearnerSessionId,
                     Name = "cmi." + name,
                     Value = value
                 };
 
-                return ServerModel.DB.Insert<TblAttemptsVars>(av);
+                return ServerModel.DB.Insert<TblLearnerSessionsVars>(lsv);
             }
         }
 
@@ -347,11 +315,11 @@ namespace IUDICO.DataModel.Common
                 case "learner_name":
                     return ServerModel.User.Current.UserName;
                 default:
-                    List<TblAttemptsVars> list = ServerModel.DB.Query<TblAttemptsVars>(
+                    List<TblLearnerSessionsVars> list = ServerModel.DB.Query<TblLearnerSessionsVars>(
                         new AndCondtion(
                             new CompareCondition<int>(
-                                DataObject.Schema.AttemptRef,
-                                new ValueCondition<int>(Attempt.ID), COMPARE_KIND.EQUAL),
+                                DataObject.Schema.LearnerSessionRef,
+                                new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),
                             new CompareCondition<string>(
                                 DataObject.Schema.Name,
                                 new ValueCondition<string>("cmi." + name), COMPARE_KIND.EQUAL)));

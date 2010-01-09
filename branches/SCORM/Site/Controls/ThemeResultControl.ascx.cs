@@ -9,7 +9,7 @@ using IUDICO.DataModel.DB;
 
 public partial class ThemeResultControl : UserControl
 {
-    public int ThemeId { get; set; }
+    public int LearnerSessionId { get; set; }
 
     public int UserId { get; set; }
 
@@ -25,18 +25,33 @@ public partial class ThemeResultControl : UserControl
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        var theme = ServerModel.DB.Load<TblThemes>(ThemeId);
+        var learnerSession = ServerModel.DB.Load<TblLearnerSessions>(LearnerSessionId);
+        var learnerAttempt = ServerModel.DB.Load<TblLearnerAttempts>(learnerSession.LearnerAttemptRef);
+        var theme = ServerModel.DB.Load<TblThemes>(learnerAttempt.ThemeRef);
         var currentUser = ServerModel.User.Current;
         
         if (currentUser != null)
         {
             var user = ServerModel.DB.Load<TblUsers>(UserId);
-
             SetHeaderText(theme.Name, CurriculumnName, StageName, user.DisplayName);
 
-            int totalPageRank = 0;
-            int totalUserRank = 0;
+            var userResults = StatisticManager.GetStatisticForLearnerSession(LearnerSessionId);
 
+            foreach (var ur in userResults)
+            {
+                if (ur.Name.StartsWith("cmi.interactions."))
+                {
+                    string[] parts = ur.Name.Split('.');
+                }
+            }
+            
+            
+            
+            
+            
+            
+            
+            /*
             var userResults = StatisticManager.GetStatisticForThemeForUser(user.ID, theme.ID);
 
             foreach (var ur in userResults)
@@ -68,6 +83,7 @@ public partial class ThemeResultControl : UserControl
                 }
             }
             SetTotalRow(totalPageRank, (totalUserRank < 0) ? 0 : totalUserRank);
+             * */
         }
     }
 
