@@ -114,6 +114,9 @@ namespace IUDICO.DataModel.DB
     partial void InsertTblUserAnswers(TblUserAnswers instance);
     partial void UpdateTblUserAnswers(TblUserAnswers instance);
     partial void DeleteTblUserAnswers(TblUserAnswers instance);
+    partial void InsertTblUserNotes(TblUserNotes instance);
+    partial void UpdateTblUserNotes(TblUserNotes instance);
+    partial void DeleteTblUserNotes(TblUserNotes instance);
     partial void InsertTblUsers(TblUsers instance);
     partial void UpdateTblUsers(TblUsers instance);
     partial void DeleteTblUsers(TblUsers instance);
@@ -8067,7 +8070,191 @@ namespace IUDICO.DataModel.DB
 			entity.TblUserAnswers = null;
 		}
 	}
-	
+    [Table(Name = "dbo.tblUserNotes")]
+    public partial class TblUserNotes : INotifyPropertyChanging, INotifyPropertyChanged
+    {
+            #region Extensibility Method Definitions
+            partial void OnLoaded();
+            partial void OnValidate(System.Data.Linq.ChangeAction action);
+            partial void OnCreated();
+            partial void OnIDChanging(int value);
+            partial void OnIDChanged();
+            partial void OnUserRefChanging(System.Nullable<int> value);
+            partial void OnUserRefChanged();
+            partial void OnDescriptionChanging(string value);
+            partial void OnDescriptionChanged();
+            partial void OnDateChanging(System.Nullable<System.DateTime> value);
+            partial void OnDateChanged();
+            partial void OnSysStateChanging(short value);
+            partial void OnSysStateChanged();
+            #endregion
+        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+
+        private int _ID;
+        private System.Nullable<int> _UserRef;
+        string _Description;
+        private System.Nullable<DateTime> _Date;
+        private short _SysState;
+        private EntityRef<TblUsers> _TblUsers;
+
+        public TblUserNotes()
+		{
+            this._TblUsers = default(EntityRef<TblUsers>);
+		    OnCreated();
+		}
+        [Column(Storage = "_ID", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
+        public int ID
+        {
+            get
+            {
+                return this._ID;
+            }
+            set
+            {
+                if ((this._ID != value))
+                {
+                    this.OnIDChanging(value);
+                    this.SendPropertyChanging();
+                    this._ID = value;
+                    this.SendPropertyChanged("ID");
+                    this.OnIDChanged();
+                }
+            }
+        }
+        [Column(Storage="_UserRef", DbType="Int")]
+		public System.Nullable<int> UserRef
+		{
+			get
+			{
+				return this._UserRef;
+			}
+			set
+			{
+				if ((this._UserRef != value))
+				{
+					if (this._TblUsers.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUserRefChanging(value);
+					this.SendPropertyChanging();
+					this._UserRef = value;
+					this.SendPropertyChanged("UserRef");
+					this.OnUserRefChanged();
+				}
+			}
+		}
+        [Column(Storage="_Description", DbType="NVarChar(MAX)", UpdateCheck=UpdateCheck.Never)]
+        public string Description
+		{
+			get
+			{
+                return this._Description;
+			}
+			set
+			{
+                if ((this._Description != value))
+				{
+                    this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+                    this._Description = value;
+					this.SendPropertyChanged("Description");
+                    this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_Date", DbType="DateTime")]
+		public System.Nullable<System.DateTime> Date
+		{
+			get
+			{
+				return this._Date;
+			}
+			set
+			{
+				if ((this._Date != value))
+				{
+					this.OnDateChanging(value);
+					this.SendPropertyChanging();
+					this._Date = value;
+					this.SendPropertyChanged("Date");
+					this.OnDateChanged();
+				}
+			}
+		}
+        [Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+        [Association(Name = "FK_UserNotes_Users", Storage = "_TblUsers", ThisKey = "UserRef", IsForeignKey = true)]
+        public TblUsers TblUsers
+        {
+            get
+            {
+                return this._TblUsers.Entity;
+            }
+            set
+            {
+                TblUsers previousValue = this._TblUsers.Entity;
+                if (((previousValue != value)
+                            || (this._TblUsers.HasLoadedOrAssignedValue == false)))
+                {
+                    this.SendPropertyChanging();
+                    if ((previousValue != null))
+                    {
+                        this._TblUsers.Entity = null;
+                        previousValue.TblUserNotes.Remove(this);
+                    }
+                    this._TblUsers.Entity = value;
+                    if ((value != null))
+                    {
+                        value.TblUserNotes.Add(this);
+                        this._UserRef = value.ID;
+                    }
+                    else
+                    {
+                        this._UserRef = default(Nullable<int>);
+                    }
+                    this.SendPropertyChanged("TblUsers");
+                }
+            }
+        }
+        public event PropertyChangingEventHandler PropertyChanging;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void SendPropertyChanging()
+        {
+            if ((this.PropertyChanging != null))
+            {
+                this.PropertyChanging(this, emptyChangingEventArgs);
+            }
+        }
+
+        protected virtual void SendPropertyChanged(String propertyName)
+        {
+            if ((this.PropertyChanged != null))
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
 	[Table(Name="dbo.tblUsers")]
 	public partial class TblUsers : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -8097,6 +8284,8 @@ namespace IUDICO.DataModel.DB
 		private EntitySet<RelUserRoles> _RelUserRoles;
 		
 		private EntitySet<TblUserAnswers> _TblUserAnswers;
+        
+        private EntitySet<TblUserNotes> _TblUserNotes;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -8125,6 +8314,7 @@ namespace IUDICO.DataModel.DB
 			this._RelUserGroups = new EntitySet<RelUserGroups>(new Action<RelUserGroups>(this.attach_RelUserGroups), new Action<RelUserGroups>(this.detach_RelUserGroups));
 			this._RelUserRoles = new EntitySet<RelUserRoles>(new Action<RelUserRoles>(this.attach_RelUserRoles), new Action<RelUserRoles>(this.detach_RelUserRoles));
 			this._TblUserAnswers = new EntitySet<TblUserAnswers>(new Action<TblUserAnswers>(this.attach_TblUserAnswers), new Action<TblUserAnswers>(this.detach_TblUserAnswers));
+            this._TblUserNotes = new EntitySet<TblUserNotes>(new Action<TblUserNotes>(this.attach_TblUserNotes), new Action<TblUserNotes>(this.detach_TblUserNotes));
 			OnCreated();
 		}
 		
@@ -8332,6 +8522,18 @@ namespace IUDICO.DataModel.DB
 				this._TblUserAnswers.Assign(value);
 			}
 		}
+        [Association(Name = "FK_UserNotes_Users", Storage = "_TblUserNotes", OtherKey = "UserRef", DeleteRule = "NO ACTION")]
+        public EntitySet<TblUserNotes> TblUserNotes
+        {
+            get
+            {
+                return this._TblUserNotes;
+            }
+            set
+            {
+                this._TblUserNotes.Assign(value);
+            }
+        }
 		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
@@ -8412,6 +8614,17 @@ namespace IUDICO.DataModel.DB
 			this.SendPropertyChanging();
 			entity.TblUsers = null;
 		}
+        private void attach_TblUserNotes(TblUserNotes entity)
+        {
+            this.SendPropertyChanging();
+            entity.TblUsers = this;
+        }
+
+        private void detach_TblUserNotes(TblUserNotes entity)
+        {
+            this.SendPropertyChanging();
+            entity.TblUsers = null;
+        }
 	}
 }
 #pragma warning restore 1591

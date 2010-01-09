@@ -2,7 +2,7 @@
 <%@ Import Namespace="IUDICO.DataModel.Security" %>
 <%@ Import Namespace="System.Linq" %>
 <%@ Import Namespace="IUDICO.DataModel" %>
-
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajax" %>
 <%@ Master Language="C#" Inherits="IUDICO.DataModel.MasterPageBase" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -25,6 +25,11 @@
             if (_currentUser == null)
                 _currentUser = ServerModel.User.Current;
             ((Control)sender).Visible = _currentUser != null;
+            if (_currentUser != null)
+            {
+                //HyperLink hyp = FindControl("hypLogout") as HyperLink;
+                hypLogout.Attributes.Add("style", "display:block;");
+            }
         }
         protected void MainMenu_ItemDataBound(object sender, MenuEventArgs e)
         {
@@ -52,9 +57,19 @@
             updateTimer();
         }
     </script>
+ <script language="JavaScript">
+ 
+function disableCtrlKeyCombination(evt)
+{
+//alert(1);
+       var disabled = {a:0, c:0, x:0, v:0};
+var ctrlMod = (window.event)? window.event.ctrlKey : evt.ctrlKey;
+return ctrlMod ? false : true;
+}
+</script>
 
 </head>
-<body onload="javascript:initialize()">
+<body onload="javascript:initialize()" >
     <form runat="server">
     <center>
         <div class="glb-container">
@@ -65,6 +80,28 @@
                         Processing... Please wait</div>
                 </ProgressTemplate>
             </asp:UpdateProgress>
+            
+                 <ajax:ModalPopupExtender ID="popup" CancelControlID="btnCancel" runat="server" TargetControlID="hypLogout"  PopupControlID="pnlPopup" BackgroundCssClass="modalBackground" DropShadow="true" PopupDragHandleControlID="pnlPopup" ></ajax:ModalPopupExtender>
+                    <asp:Panel ID="pnlPopup" runat="server" Width="280px" Height="70px" BackColor="#cccccc" style="display:none;"> 
+                       <table style="padding: 5px; width: 100%" cellspacing="5">
+                        <tr>
+                            <td colspan="2">
+                                <asp:Label ID="Label2" BackColor="Transparent" runat="server" Text="Are you sure you want to logout?" />
+                                <asp:HiddenField ID="groupID" runat="server" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <asp:Button ID="btnOK" PostBackUrl="~/Logout.ashx" runat="server" Width="100px" Height="20px"
+                                    Text="OK" />
+                            </td>
+                            <td align="right">
+                                <asp:Button ID="btnCancel" runat="server" Width="100px" Height="20px" Text="Cancel" />
+                            </td>
+                        </tr>
+                    </table>
+                    </asp:Panel>
+            
             <asp:SiteMapDataSource ID="SiteMap" ShowStartingNode="false" runat="server" />
             <center>
                 <div class="logo">  
@@ -85,6 +122,7 @@
                         <DynamicHoverStyle CssClass="menu-hover" />
                     </asp:Menu>
                 </div>
+                <div style="text-align:right;"><asp:HyperLink ID="hypLogout" NavigateUrl="~/Logout.ashx" runat="server" Visible="True" style="display:none;">Logout</asp:HyperLink></div>
                 <br />
                 <b>
                     <asp:SiteMapPath runat="server" />

@@ -13,6 +13,8 @@ public partial class StudentPage : ControlledPage<StudentPageController>
         _rebuildTreeButton.Click += c.RebuildTreeButtonClick;
         _modeChangerButton.Click += c.ModeButtonClick;
         _curriculumCalendar.SelectionChanged += c.SelectedDateChanged;
+		_descriptionButton.Click += c.SetDescriptionButtonClick;
+        _showNotes.Click += c.ShowDescriptionButtonClick;
         Load += c.PageLoad;
 
         c.ChangeModeButton = _modeChangerButton;
@@ -22,6 +24,9 @@ public partial class StudentPage : ControlledPage<StudentPageController>
         c.CurriculumnCalendar = _curriculumCalendar;
         c.PeriodDescription = _periodDescription;
         c.OpenTestButton = _openTest;
+        c.UserDescription = _userDescription;
+        c.DescriptionButton = _descriptionButton;
+        c.ShowDescription = _showNotes;
 
         Bind(_headerLabel, c.UserName, un => string.Format("Student Page For: {0}", un));
         Bind(_descriptionLabel, c.Description);
