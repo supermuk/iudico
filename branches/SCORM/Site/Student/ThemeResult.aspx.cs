@@ -13,22 +13,19 @@ public partial class ThemeResult : ControlledPage<ThemeResultController>
 
     public void PageLoad(object sender, EventArgs e)
     {
-        if (Controller.ThemeId == 0)
+        if (Controller.LearnerSessionId == 0)
         {
-            throw new Exception("Wrong request (Theme ID not specified)");
+            throw new Exception("Wrong request (LearnerSession ID not specified)");
         }
 
-        if (Controller.UserId == 0)
-        {
-            throw new Exception("Wrong request (User ID not specified)");
-        }
-
-        TblThemes theme = ServerModel.DB.Load<TblThemes>(Controller.ThemeId);
+        TblLearnerSessions learnerSession = ServerModel.DB.Load<TblLearnerSessions>(Controller.LearnerSessionId);
+        TblLearnerAttempts learnerAttempt = ServerModel.DB.Load<TblLearnerAttempts>(learnerSession.LearnerAttemptRef);
+        TblThemes theme = ServerModel.DB.Load<TblThemes>(learnerAttempt.ThemeRef);
         TblStages stage = ServerModel.DB.Load<TblStages>(theme.StageRef);
         TblCurriculums curriculum = ServerModel.DB.Load<TblCurriculums>(stage.CurriculumRef);
 
-        _themeResult.ThemeId = Controller.ThemeId;
-        _themeResult.UserId = Controller.UserId;
+        _themeResult.LearnerSessionId = Controller.LearnerSessionId;
+        _themeResult.UserId = learnerAttempt.UserRef;
         _themeResult.StageName = stage.Name;
         _themeResult.CurriculumnName = curriculum.Name;
 

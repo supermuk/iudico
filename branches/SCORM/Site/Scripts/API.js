@@ -1,9 +1,8 @@
-﻿API_1484_11 = function(themeId)
+﻿API_1484_11 = function(LearnerAttemptId)
 {
     this.values = {};
     this.cache = {};
-    this.themeId = parseInt(themeId);
-    this.attemptId = null;
+    this.LearnerAttemptId = parseInt(LearnerAttemptId);
     
     this.traceLog = function(message)
     {
@@ -15,17 +14,13 @@
     {
         this.traceLog('Initialize(\'' + parameter + '\')');
         
-        var response = eval('(' +
-        $.ajax({
+        var response = $.ajax({
           type: "POST",
           url: "/API.asmx/Initialize",
-          data: "{themeId: '"+this.themeId+"'}",
           contentType: "application/json; charset=utf-8",
           dataType: "json",
           async: false
-        }).responseText + ')');
-        
-        this.attemptId = response["d"];
+        }).responseText;
         
         return "true";
     }
@@ -43,7 +38,7 @@
         $.ajax({
           type: "POST",
           url: "/API.asmx/GetValue",
-          data: "{name: '"+name+"', attemptId: '"+this.attemptId+"'}",
+          data: "{name: '"+name+"'}",
           contentType: "application/json; charset=utf-8",
           dataType: "json",
           async: false
@@ -59,7 +54,7 @@
         $.ajax({
           type: "POST",
           url: "/API.asmx/SetValue",
-          data: "{name: '"+name+"', value: '"+value+"', attemptId: '"+this.attemptId+"'}",
+          data: "{name: '"+name+"', value: '"+value+"'}",
           contentType: "application/json; charset=utf-8",
           dataType: "json",
           async: false

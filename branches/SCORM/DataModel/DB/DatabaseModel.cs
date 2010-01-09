@@ -164,8 +164,6 @@ namespace IUDICO.DataModel.DB
 
     public partial class TblThemes : SecuredDataObject<FxThemeOperations>, ISecuredDataObject<FxThemeOperations> { }
 
-    public partial class TblFiles : IntKeyedDataObject, IIntKeyedDataObject { }
-
     public partial class TblGroups : SecuredDataObject<FxGroupOperations>, ISecuredDataObject<FxGroupOperations> { }
 
     public partial class TblQuestions : IntKeyedDataObject, IIntKeyedDataObject { }
@@ -190,9 +188,9 @@ namespace IUDICO.DataModel.DB
         }
     }
 
-    public partial class TblAttempts : IntKeyedDataObject, IIntKeyedDataObject { }
-
-    public partial class TblAttemptsVars : IntKeyedDataObject, IIntKeyedDataObject { }
+    public partial class TblLearnerAttempts : IntKeyedDataObject, IIntKeyedDataObject { }
+    public partial class TblLearnerSessions : IntKeyedDataObject, IIntKeyedDataObject { }
+    public partial class TblLearnerSessionsVars : IntKeyedDataObject, IIntKeyedDataObject { }
 
     [ManyToManyRelationship(typeof(TblUsers), typeof(FxRoles))]
     public partial class RelUserRoles : RelTable, IRelationshipTable
@@ -203,16 +201,12 @@ namespace IUDICO.DataModel.DB
     public partial class RelUserGroups : RelTable, IRelationshipTable
     {
     }
-
+    /*
     [ManyToManyRelationship(typeof(TblResources), typeof(TblResources))]
     public partial class RelResourcesDependency : RelTable, IRelationshipTable
     {
     }
-
-    [ManyToManyRelationship(typeof(TblResources), typeof(TblFiles))]
-    public partial class RelResourcesFiles : RelTable, IRelationshipTable
-    {
-    }
+     * */
 
     [DBEnum("fxRoles")]
     public enum FX_ROLE

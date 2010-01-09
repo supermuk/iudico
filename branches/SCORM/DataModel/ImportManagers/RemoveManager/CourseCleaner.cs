@@ -47,21 +47,6 @@ namespace IUDICO.DataModel.ImportManagers.RemoveManager
 
         public static void DeleteResource(int resourceID)
         {
-            var resource = ServerModel.DB.Load<TblResources>(resourceID);
-            var files = ServerModel.DB.LookupMany2ManyIds<TblFiles>(resource, null);
-
-            ServerModel.DB.Delete<TblFiles>(files);
-
-            foreach (var i in resource.RelResourcesDependency)
-            {
-                ServerModel.DB.UnLink(ServerModel.DB.Load<TblResources>(i.DependantRef), resource);
-            }
-
-            foreach (var i in resource.RelResourcesDependency_tblResources_Dependency)
-            {
-                ServerModel.DB.UnLink(resource, ServerModel.DB.Load<TblResources>(i.DependencyRef));
-            }
-
             ServerModel.DB.Delete<TblResources>(resourceID);
         }
 

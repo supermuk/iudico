@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using IUDICO.DataModel.Common;
@@ -66,19 +67,21 @@ namespace IUDICO.DataModel.Controllers.Student
 
                 if (selectedNode.Type == NodeType.Theme)
                 {
-                    /*
-                    var shifter = new PageShifter(selectedNode.ID);
-                    //StatisticManager.MarkNotIncludedPages(shifter.NotUsedPages);
-                    //StatisticManager.MarkUsedPages(shifter.UsedPages);
-                    */
+                    TblLearnerAttempts la = new TblLearnerAttempts
+                    {
+                        ThemeRef = selectedNode.ID,
+                        UserRef = ServerModel.User.Current.ID,
+                        Started = DateTime.Now,
+                    };
+
+                    int LearnerAttemptId = ServerModel.DB.Insert<TblLearnerAttempts>(la);
+
+                    HttpContext.Current.Session["CurrentLearnerAttemptId"] = LearnerAttemptId;
+
                     RedirectToController(new OpenTestController
                                                  {
                                                      BackUrl = string.Empty,
-                                                     ThemeId = selectedNode.ID,
-                                                     //CurriculumnId = ((IdendtityNode) selectedNode.Parent.Parent).ID,
-                                                     //StageId = ((IdendtityNode) selectedNode.Parent).ID,
                                                      PageIndex = 0
-                                                     //PagesIds = shifter.GetRequestParameter()
                                                  });
                 }
             }
@@ -94,10 +97,9 @@ namespace IUDICO.DataModel.Controllers.Student
                     RedirectToController(new ThemeResultController
                                              {
                                                  BackUrl = string.Empty,
-                                                 ThemeId = selectedNode.ID,
+                                                 LearnerSessionId = selectedNode.ID,
                                                  //CurriculumnName = selectedNode.Parent.Parent.Text,
                                                  //StageName = selectedNode.Parent.Text,
-                                                 UserId = _userId
                                              });
 
                 if (selectedNode.Type == NodeType.Stage)

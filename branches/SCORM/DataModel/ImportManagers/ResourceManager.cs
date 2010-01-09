@@ -46,14 +46,12 @@ namespace IUDICO.DataModel.ImportManagers
                 {
                     string href = node.Attributes["href"].Value;
 
-                    int fileID = StoreFile(href, projectPaths, courseID);
-                    //LinkFile(ID, fileID);
+                    StoreFile(href, projectPaths, courseID);
                 }
 
                 foreach (string file in dependencyFiles)
                 {
-                    int fileID = StoreFile(file, projectPaths, courseID);
-                    //LinkFile(ID, fileID);
+                    StoreFile(file, projectPaths, courseID);
                 }
 
                 resources[identifier] = ID;
@@ -107,7 +105,7 @@ namespace IUDICO.DataModel.ImportManagers
             return ServerModel.DB.Insert(r);
         }
 
-        private static int StoreFile(string href, ProjectPaths projectPaths, int courseID)
+        private static void StoreFile(string href, ProjectPaths projectPaths, int courseID)
         {
             string FilePath = Path.Combine(projectPaths.PathToTempCourseFolder, href);
 
@@ -118,37 +116,24 @@ namespace IUDICO.DataModel.ImportManagers
                 string AssetDirectoryPath = Directory.GetParent(AssetFilePath).ToString();
                 RecursiveCreateDirectory(AssetDirectoryPath);
 
-                CopyFile(FilePath, AssetFilePath);
+                if (!File.Exists(AssetFilePath))
+                {
+                    CopyFile(FilePath, AssetFilePath);
+                }
             }
-
-            TblFiles f = new TblFiles
-            {
-                Path = href,
-            };
-
-            return ServerModel.DB.Insert(f);
         }
 
         private static void CopyFile(string From, string To)
         {
             string Extention = Path.GetExtension(From).ToLower();
 
-            if (Extention == "htm" || Extention == "html" || Extention == "js")
+            if (Extention == ".htm" || Extention == ".html" || Extention == ".js")
             {
-                FileStream ReadFile = new FileStream(From, FileMode.Open, FileAccess.Read, FileShare.Read);
-                File.Create(To);
-                //FileStream WriteFile = new FileStream(To, FileMode.Create, FileAccess.Write, FileShare.None);
-                Encoding Enc = GetFileEncoding(ReadFile);
-                
-                // A good buffer size; should always be base2 in case of Unicode
-                byte[] buffer = new byte[4096];
+                byte[] buffer = File.ReadAllBytes(From);
+                Encoding Enc = GetFileEncoding(From);
 
-                while (ReadFile.Read(buffer, 0, 4096) > 0)
-                {
-                    // Uses the encoding we defined above
-                    string line = Enc.GetString(buffer);
-                    File.AppendAllText(To, line, Enc);
-                }
+                string contents = Enc.GetString(buffer);
+                File.WriteAllText(To, contents, Encoding.UTF8);
             }
             else
             {
@@ -156,13 +141,17 @@ namespace IUDICO.DataModel.ImportManagers
             }
         }
 
-        private static Encoding GetFileEncoding(FileStream File)
+        private static Encoding GetFileEncoding(string From)
         {
-            if (File.CanSeek)
+            FileStream ReadFile = new FileStream(From, FileMode.Open, FileAccess.Read, FileShare.Read);
+
+            if (ReadFile.CanSeek)
             {
                 byte[] bom = new byte[4];
-                File.Read(bom, 0, 4);
-                File.Seek(0, SeekOrigin.Begin);
+
+                ReadFile.Read(bom, 0, 4);
+                ReadFile.Seek(0, SeekOrigin.Begin);
+                ReadFile.Close();
 
                 if ((bom[0] == 0xef && bom[1] == 0xbb && bom[2] == 0xbf) || // utf-8
                     (bom[0] == 0xff && bom[1] == 0xfe) || // ucs-2le, ucs-4le, and ucs-16le
@@ -178,6 +167,8 @@ namespace IUDICO.DataModel.ImportManagers
             }
             else
             {
+                ReadFile.Close();
+
                 return Encoding.ASCII;
             }
         }
@@ -197,26 +188,6 @@ namespace IUDICO.DataModel.ImportManagers
             }
         }
 
-        private static void LinkDependency(int dependantID, int dependencyID)
-        {
-            RelResourcesDependency r = new RelResourcesDependency
-            {
-                DependantRef = dependantID,
-                DependencyRef = dependencyID
-            };
-
-            TblResources dependant = ServerModel.DB.Load<TblResources>(dependantID);
-            TblResources dependancy = ServerModel.DB.Load<TblResources>(dependencyID);
-
-            ServerModel.DB.Link(dependant, dependancy);
-        }
-
-        private static void LinkFile(int resourceID, int fileID)
-        {
-            TblResources resource = ServerModel.DB.Load<TblResources>(resourceID);
-            TblFiles file = ServerModel.DB.Load<TblFiles>(fileID);
-
-            ServerModel.DB.Link(resource, file);
-        }
+        
     }
 }
