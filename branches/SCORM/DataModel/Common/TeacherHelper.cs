@@ -322,6 +322,20 @@ namespace IUDICO.DataModel.Common
                                  new ValueCondition<int>(page.ID), COMPARE_KIND.EQUAL));
         }
 */
+        public static int GetLastLearnerAttempt(int UserID, int ThemeID)
+        {
+            List<TblLearnerAttempts> learnerAttempts = ServerModel.DB.Query<TblLearnerAttempts>(
+                        new AndCondtion(
+                            new CompareCondition<int>(
+                                DataObject.Schema.ThemeRef,
+                                new ValueCondition<int>(ThemeID), COMPARE_KIND.EQUAL),
+                            new CompareCondition<int>(
+                                DataObject.Schema.UserRef,
+                                new ValueCondition<int>(UserID), COMPARE_KIND.EQUAL)));
+
+            return learnerAttempts[learnerAttempts.Count - 1].ID;
+        }
+
         public static TblUserAnswers GetUserAnswerForQuestion(TblUsers user, TblQuestions question)
         {
             IList<TblUserAnswers> answers = ServerModel.DB.Query<TblUserAnswers>(new AndCondtion(

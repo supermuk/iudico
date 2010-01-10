@@ -29,6 +29,7 @@ namespace IUDICO.DataModel.Common.StatisticUtils
 
         public void Calc()
         {
+
             /*
             var questions = StudentRecordFinder.GetQuestionsForPage(_item.ID);
 

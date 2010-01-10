@@ -21,8 +21,8 @@ public partial class StageResult : ControlledPage<StageResultController>
             foreach (var i in themesId)
             {
                 var t = (ThemeResultControl)LoadControl("../Controls/ThemeResultControl.ascx");
-                t.LearnerSessionId = i;
-                t.UserId = Controller.UserId;
+//                t.LearnerSessionId = i;
+//                t.UserId = Controller.UserId;
                 t.StageName = stage.Name;
                 t.CurriculumnName = Controller.CurriculumnName;
 

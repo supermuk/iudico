@@ -1,6 +1,7 @@
 using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Collections.Generic;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Common.StatisticUtils;
 using IUDICO.DataModel.Common.StudentUtils;
@@ -9,9 +10,13 @@ using IUDICO.DataModel.DB;
 
 public partial class ThemeResultControl : UserControl
 {
-    public int LearnerSessionId { get; set; }
+    public TblLearnerAttempts LearnerAttempt { get; set; }
 
-    public int UserId { get; set; }
+    public IList<TblLearnerSessions> LearnerSessions { get; set; }
+
+    public TblUsers User { get; set; }
+
+    public TblThemes Theme { get; set; }
 
     public string CurriculumnName { get; set; }
 
@@ -25,30 +30,57 @@ public partial class ThemeResultControl : UserControl
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        var learnerSession = ServerModel.DB.Load<TblLearnerSessions>(LearnerSessionId);
-        var learnerAttempt = ServerModel.DB.Load<TblLearnerAttempts>(learnerSession.LearnerAttemptRef);
-        var theme = ServerModel.DB.Load<TblThemes>(learnerAttempt.ThemeRef);
         var currentUser = ServerModel.User.Current;
         
         if (currentUser != null)
         {
-            var user = ServerModel.DB.Load<TblUsers>(UserId);
-            SetHeaderText(theme.Name, CurriculumnName, StageName, user.DisplayName);
+            SetHeaderText(Theme.Name, CurriculumnName, StageName, User.DisplayName);
+            Dictionary<int, TableRow> rows = new Dictionary<int, TableRow>();
 
-            var userResults = StatisticManager.GetStatisticForLearnerSession(LearnerSessionId);
-
-            foreach (var ur in userResults)
+            foreach (TblLearnerSessions learnerSession in LearnerSessions)
             {
-                if (ur.Name.StartsWith("cmi.interactions."))
+                List<TblLearnerSessionsVars> userResults = StatisticManager.GetStatisticForLearnerSession(learnerSession.ID);
+                TblItems item = ServerModel.DB.Load<TblItems>(learnerSession.ItemRef);
+                
+                string correntAnswer = null;
+                string userAnswer = null;
+
+                foreach (var ur in userResults)
                 {
-                    string[] parts = ur.Name.Split('.');
+                    if (ur.Name.StartsWith("cmi.interactions."))
+                    {
+                        string[] parts = ur.Name.Split('.');
+                        int questionNum = Convert.ToInt32(parts[2]);
+
+                        switch (parts[3])
+                        {
+                            case "correct_responses":
+                                correntAnswer = ur.Value;
+                                break;
+                            case "learner_response":
+                                userAnswer = ur.Value;
+                                break;
+                        }
+                    }
                 }
+
+                if (correntAnswer == null)
+                    continue;
+
+                var row = new TableRow();
+
+                row.Cells.Add(new TableCell { Text = item.Title });
+                row.Cells.Add(new TableCell { Text = userAnswer });
+                row.Cells.Add(new TableCell { Text = correntAnswer });
+                row.Cells.Add(new TableCell { Text = (correntAnswer==userAnswer ? "correct" : "wrong" ) });
+
+                rows[item.ID] = row;
             }
-            
-            
-            
-            
-            
+
+            foreach (KeyValuePair<int, TableRow> kvp in rows)
+            {
+                _resultTable.Rows.Add(kvp.Value);
+            }
             
             
             /*
@@ -73,17 +105,12 @@ public partial class ThemeResultControl : UserControl
                     {
                         SetCorrectAnswersLink(row, ur.Item.ID);
                     }
-
-                    if (StatisticManager.IsContainCompiledQuestions(ur.Item))
-                    {
-                        SetCompiledDetailsLink(row, ur.Item.ID, user.ID);
-                    }
-
+                    
                     _resultTable.Rows.Add(row);
                 }
             }
             SetTotalRow(totalPageRank, (totalUserRank < 0) ? 0 : totalUserRank);
-             * */
+            */
         }
     }
 

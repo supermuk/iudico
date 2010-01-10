@@ -9,6 +9,7 @@ using IUDICO.DataModel.Common.StatisticUtils;
 using IUDICO.DataModel.Common.StudentUtils;
 using IUDICO.DataModel.Common.TestingUtils;
 using IUDICO.DataModel.DB;
+using IUDICO.DataModel.DB.Base;
 using LEX.CONTROLS;
 using LEX.CONTROLS.Expressions;
 
@@ -97,7 +98,7 @@ namespace IUDICO.DataModel.Controllers.Student
                     RedirectToController(new ThemeResultController
                                              {
                                                  BackUrl = string.Empty,
-                                                 LearnerSessionId = selectedNode.ID,
+                                                 LearnerAttemptId = TeacherHelper.GetLastLearnerAttempt(_userId, selectedNode.ID)
                                                  //CurriculumnName = selectedNode.Parent.Parent.Text,
                                                  //StageName = selectedNode.Parent.Text,
                                              });

@@ -25,8 +25,10 @@ public partial class CurriculumnResult : ControlledPage<CurriculumnResultControl
                 foreach (var i in themesId)
                 {
                     var t = (ThemeResultControl) LoadControl("../Controls/ThemeResultControl.ascx");
+/*
                     t.LearnerSessionId = i;
                     t.UserId = Controller.UserId;
+*/
                     t.StageName = stage.Name;
                     t.CurriculumnName = curriculumn.Name;
 
