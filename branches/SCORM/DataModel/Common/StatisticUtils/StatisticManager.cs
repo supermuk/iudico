@@ -11,19 +11,19 @@ namespace IUDICO.DataModel.Common.StatisticUtils
 {
     public class StatisticManager
     {
+        /*
         public static bool IsContainCompiledQuestions(TblItems item)
         {
-            throw new NotImplementedException();
-            /*var questions = StudentRecordFinder.GetQuestionsForItem(item);
+            //throw new NotImplementedException();
+            var questions = StudentRecordFinder.GetQuestionsForItem(item);
 
             foreach (var question in questions)
                 if (question.IsCompiled)
                     return true;
 
             return false;
-             * */
         }
-
+        */
         public static UserThemeRankHolder GetUserRankForTheme(int userId, int themeId)
         {
             int userRank = 0;
@@ -71,13 +71,9 @@ namespace IUDICO.DataModel.Common.StatisticUtils
 
             foreach (var item in items)
             {
-                /*if (p.PageTypeRef == (int?)FX_PAGETYPE.Practice)
-                {
-                    var ur = new UserResultForPage(userId, p, null);
-                    ur.Calc();
-                    result.Add(ur);
-                }*/
-                throw new NotImplementedException();
+                var ur = new UserResultForItem(userId, item, null);
+                ur.Calc();
+                result.Add(ur);
             }
 
             return result;
@@ -86,10 +82,9 @@ namespace IUDICO.DataModel.Common.StatisticUtils
         public static List<TblLearnerSessionsVars> GetStatisticForLearnerSession(int learnerSessionId)
         {
             return ServerModel.DB.Query<TblLearnerSessionsVars>(
-                new AndCondtion(
                     new CompareCondition<int>(
                         DataObject.Schema.LearnerSessionRef,
-                        new ValueCondition<int>(learnerSessionId), COMPARE_KIND.EQUAL)));
+                        new ValueCondition<int>(learnerSessionId), COMPARE_KIND.EQUAL));
         }
 
         public static TblUserAnswers FindUserAnswerForDate(IList<TblUserAnswers> userAnswers, DateTime? date)

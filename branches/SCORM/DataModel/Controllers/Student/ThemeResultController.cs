@@ -2,6 +2,6 @@
 {
     public class ThemeResultController : ControllerBase
     {
-        [ControllerParameter] public int LearnerSessionId;
+        [ControllerParameter] public int LearnerAttemptId;
     }
 }

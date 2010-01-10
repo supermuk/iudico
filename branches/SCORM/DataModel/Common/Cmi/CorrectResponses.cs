@@ -31,7 +31,7 @@ namespace IUDICO.DataModel.Common.Cmi
                                 new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),
                             new CompareCondition<string>(
                                 DataObject.Schema.Name,
-                                new ValueCondition<string>("cmi.interactions." + n + ".correct_responses."), COMPARE_KIND.LIKE)));
+                                new ValueCondition<string>("cmi.interactions." + n + ".correct_responses.%"), COMPARE_KIND.LIKE)));
 
             return list.Count.ToString();
         }

@@ -24,7 +24,7 @@ namespace IUDICO.DataModel.Common.Cmi
             {"description", new CmiVariable("description", true, true, null, null)},
 
             //{"objectives", new CmiVariable("objectives", true, false, null)),
-            //{"correct_responses", new CmiVariable("correct_responses", true, false, null)),
+            //{"correct_responses", new CmiVariable("correct_responses", true, false, null)},
             {"learner_response", new CmiVariable("learner_response", true, true, null, null)},
         };
 
