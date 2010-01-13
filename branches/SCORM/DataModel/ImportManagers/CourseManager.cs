@@ -13,6 +13,11 @@ namespace IUDICO.DataModel.ImportManagers
     {
         public static int Import(ProjectPaths projectPaths, string name, string description)
         {
+            if (!File.Exists(projectPaths.PathToManifestXml))
+            {
+                throw new Exception("No imsmanifest.xml file found");
+            }
+
             // load manifest
             XmlDocument imsmanifest = new XmlDocument();
             imsmanifest.Load(projectPaths.PathToManifestXml);
@@ -27,7 +32,7 @@ namespace IUDICO.DataModel.ImportManagers
                 Directory.CreateDirectory(CoursePath);
             }
 
-            string ManifestPath = Path.Combine(CoursePath, "immanifest.xml");
+            string ManifestPath = Path.Combine(CoursePath, "imsmanifest.xml");
 
             if (!File.Exists(ManifestPath))
             {

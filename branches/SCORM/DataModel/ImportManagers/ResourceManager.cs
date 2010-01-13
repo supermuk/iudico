@@ -125,6 +125,8 @@ namespace IUDICO.DataModel.ImportManagers
 
         private static void CopyFile(string From, string To)
         {
+            File.Copy(From, To, true);
+            /*
             string Extention = Path.GetExtension(From).ToLower();
 
             if (Extention == ".htm" || Extention == ".html" || Extention == ".js")
@@ -132,13 +134,16 @@ namespace IUDICO.DataModel.ImportManagers
                 byte[] buffer = File.ReadAllBytes(From);
                 Encoding Enc = GetFileEncoding(From);
 
-                string contents = Enc.GetString(buffer);
-                File.WriteAllText(To, contents, Encoding.UTF8);
+                buffer = Encoding.Convert(Enc, Encoding.Unicode, buffer);
+
+                string contents = Encoding.Unicode.GetString(buffer);
+                File.WriteAllText(To, contents, Encoding.Unicode);
             }
             else
             {
                 File.Copy(From, To, true);
             }
+            */
         }
 
         private static Encoding GetFileEncoding(string From)
