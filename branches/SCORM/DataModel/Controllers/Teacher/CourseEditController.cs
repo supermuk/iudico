@@ -94,7 +94,8 @@ namespace IUDICO.DataModel.Controllers
                 }
                 catch(Exception e)
                 {
-                    Message.Value = e.ToString();
+                    //Message.Value = e.ToString();
+                    Message.Value = e.Message;
                     //Message.Value = uploadError;
                 }
             }

@@ -27,7 +27,10 @@ namespace IUDICO.DataModel.ImportManagers
             {
                 string resourceIdentifier = item.Attributes["identifierref"].Value;
 
-                int itemID = Store(parentID, organizationID, XmlUtility.GetNode(item, "ns:title").InnerText, ResourceManager.Resources[resourceIdentifier]);
+                if (ResourceManager.Resources.ContainsKey(resourceIdentifier))
+                {
+                    Store(parentID, organizationID, XmlUtility.GetNode(item, "ns:title").InnerText, ResourceManager.Resources[resourceIdentifier]);
+                }
             }
         }
 

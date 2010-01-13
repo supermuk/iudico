@@ -7,7 +7,9 @@
     this.traceLog = function(message)
     {
         if (typeof eval('console') != 'undefined')
+		{
             console.log(message);
+		}
     }
 
     this.Initialize = function(parameter)
