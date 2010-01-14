@@ -6,9 +6,16 @@
     
     this.traceLog = function(message)
     {
-        if (typeof eval('console') != 'undefined')
+        try
 		{
-            console.log(message);
+			if (typeof eval('console') != 'undefined')
+			{
+				console.log(message);
+			}
+		}
+		catch(e)
+		{
+		
 		}
     }
 
