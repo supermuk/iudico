@@ -72,9 +72,9 @@ namespace IUDICO.DataModel.ImportManagers
                     continue;
                 }
 
-                files.Concat(GetDependencyFiles(dependancyNode));
-
                 XmlNode dependancy = XmlUtility.GetNode(resource.ParentNode, "ns:resource[@identifier='" + identifier + "']");
+
+                files = GetDependencyFiles(dependancy);
 
                 if (dependancy != null)
                 {

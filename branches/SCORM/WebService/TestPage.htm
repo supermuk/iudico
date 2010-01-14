@@ -27,26 +27,15 @@
             allInfo.TestCases.Length = 2;
 
 
-            var input = "[";
-            var output = "[";
-            for(var i = 0; i < allInfo.TestCases.Length; i++)
-            {
-                input += "\"" + allInfo.TestCases[i].Input + "\"";
-                output += "\"" + allInfo.TestCases[i].Output + "\"";
-                if( i != allInfo.TestCases.Length - 1)
-                {
-                    input += ",";
-                    output += ",";
-                }
-            }
-            input += "]";
-            output += "]";
+            var input = [1,2];
+            var output = [1,2];
+            
             $.ajax({
                 type: "POST",
-                url: "http://localhost:58903/Service1.asmx/Compile", //webservice url
+                url: "http://localhost:49440/Service1.asmx/Compile", //webservice url
                 contentType: "application/json; charset=utf-8",
-                data: "{'source': '" + userAnswer + "', 'language': "+ allInfo.Language+", 'input':' " + input +"', 'output': '"+ output + "', 'timeLimit': " + allInfo.TimeLimit + ", 'memoryLimit':"+ allInfo.MemoryLimit+"}",
-                dataType: "json",
+                data: {'source': userAnswer, 'language': allInfo.Language, 'input': input, 'output': output, 'timelimit': allInfo.TimeLimit, 'memorylimit': allInfo.MemoryLimit},
+                dataType: 'json',
                 success: 
                         function(response)
                         {

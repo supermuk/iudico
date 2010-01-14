@@ -13,6 +13,7 @@ using TestingSystem;
 
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
+using System.Web.Script.Services;
 
 namespace WebService
 {
@@ -23,7 +24,7 @@ namespace WebService
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [ToolboxItem(false)]
     // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
-    [System.Web.Script.Services.ScriptService]
+    [ScriptService]
     public class Service1 : System.Web.Services.WebService
     {
         /// <summary>
@@ -37,9 +38,10 @@ namespace WebService
         /// <param name="memoryLimit">Memory limit for program</param>
         /// <returns>0 if program status Accepted, 1 in other cases</returns>
         [WebMethod]
-        public float Compile(string source, string language, string input, string output, int timeLimit, int memoryLimit)
+        [ScriptMethod(ResponseFormat=ResponseFormat.Json)]
+        public string Compile(string source, string language, string input, string output, int timelimit, int memorylimit)
         {
-            return 1;
+            return input;
             string[] inputs;
             string[] outputs;
             JavaScriptSerializer ser = new JavaScriptSerializer();
@@ -51,8 +53,8 @@ namespace WebService
             {
                 Program p = new Program();
                 p.Source = HttpUtility.UrlDecode(source);
-                p.MemoryLimit = memoryLimit;
-                p.TimeLimit = timeLimit;
+                p.MemoryLimit = memorylimit;
+                p.TimeLimit = timelimit;
                 p.InputTest = inputs[i];
                 p.OutputTest = outputs[i];
                
@@ -77,10 +79,10 @@ namespace WebService
                 Result result = tester.TestProgram(p);
                 if (result.ProgramStatus != Status.Accepted)
                 {
-                    return 0;
+                    //return 0;
                 }
             }
-            return 1;
+            //return 1;
         }
         /// <summary>
         /// Just to test connection
