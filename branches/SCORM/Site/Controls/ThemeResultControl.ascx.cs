@@ -44,6 +44,7 @@ public partial class ThemeResultControl : UserControl
                 
                 string correntAnswer = null;
                 string userAnswer = null;
+                string result = null;
 
                 foreach (var ur in userResults)
                 {
@@ -60,19 +61,24 @@ public partial class ThemeResultControl : UserControl
                             case "learner_response":
                                 userAnswer = ur.Value;
                                 break;
+                            case "result":
+                                result = ur.Value;
+                                break;
                         }
                     }
                 }
 
                 if (correntAnswer == null)
+                {
                     continue;
+                }
 
                 var row = new TableRow();
 
                 row.Cells.Add(new TableCell { Text = item.Title });
                 row.Cells.Add(new TableCell { Text = userAnswer });
                 row.Cells.Add(new TableCell { Text = correntAnswer });
-                row.Cells.Add(new TableCell { Text = (correntAnswer==userAnswer ? "correct" : "wrong" ) });
+                row.Cells.Add(new TableCell { Text = result });
 
                 rows[item.ID] = row;
             }
@@ -81,36 +87,6 @@ public partial class ThemeResultControl : UserControl
             {
                 _resultTable.Rows.Add(kvp.Value);
             }
-            
-            
-            /*
-            var userResults = StatisticManager.GetStatisticForThemeForUser(user.ID, theme.ID);
-
-            foreach (var ur in userResults)
-            {
-                if (ur.Status != ResultStatus.NotIncluded)
-                {
-                    totalUserRank += ur.UserRank;
-                    totalPageRank += ur.PageRank;
-
-                    var row = new TableRow();
-
-                    SetPageName(row, ur.Item.Title);
-                    SetStatus(row, ur.Status);
-                    SetUserRank(row, ur.UserRank);
-                    //SetPageRank(row, (int) ur.Page.PageRank);
-                    SetUserAnswersLink(row, ur.Item.ID, user.ID);
-
-                    if (ServerModel.User.Current.Islector())
-                    {
-                        SetCorrectAnswersLink(row, ur.Item.ID);
-                    }
-                    
-                    _resultTable.Rows.Add(row);
-                }
-            }
-            SetTotalRow(totalPageRank, (totalUserRank < 0) ? 0 : totalUserRank);
-            */
         }
     }
 
