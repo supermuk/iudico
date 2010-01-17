@@ -23,6 +23,14 @@ namespace IUDICO.DataModel.ImportManagers
             }
         }
 
+        public static Dictionary<string, bool> Dependencies
+        {
+            get
+            {
+                return dependancies;
+            }
+        }
+
         public static void ParseResource(ProjectPaths projectPaths, int courseID, XmlNode resource)
         {
             string identifier = resource.Attributes["identifier"].Value;

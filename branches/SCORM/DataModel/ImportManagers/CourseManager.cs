@@ -13,6 +13,9 @@ namespace IUDICO.DataModel.ImportManagers
     {
         public static int Import(ProjectPaths projectPaths, string name, string description)
         {
+            ResourceManager.Resources.Clear();
+            ResourceManager.Dependencies.Clear();
+
             if (!File.Exists(projectPaths.PathToManifestXml))
             {
                 throw new Exception("No imsmanifest.xml file found");
