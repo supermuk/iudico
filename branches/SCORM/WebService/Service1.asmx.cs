@@ -38,25 +38,18 @@ namespace WebService
         /// <param name="memoryLimit">Memory limit for program</param>
         /// <returns>0 if program status Accepted, 1 in other cases</returns>
         [WebMethod]
-        [ScriptMethod(ResponseFormat=ResponseFormat.Json)]
-        public string Compile(string source, string language, string input, string output, int timelimit, int memorylimit)
+        public string Compile(string source, string language, string[] input, string[] output, int timelimit, int memorylimit)
         {
-            return input;
-            string[] inputs;
-            string[] outputs;
-            JavaScriptSerializer ser = new JavaScriptSerializer();
-            inputs = ser.Deserialize<string[]>(input);
-            outputs = ser.Deserialize<string[]>(output);
-
             float score = 1;
-            for (int i = 0; i < inputs.Length; i++)
+
+            for (int i = 0; i < input.Length; i++)
             {
                 Program p = new Program();
                 p.Source = HttpUtility.UrlDecode(source);
                 p.MemoryLimit = memorylimit;
                 p.TimeLimit = timelimit;
-                p.InputTest = inputs[i];
-                p.OutputTest = outputs[i];
+                p.InputTest = input[i];
+                p.OutputTest = output[i];
                
                 switch (language)
                 {
@@ -77,12 +70,14 @@ namespace WebService
                 CompilationTester tester = new CompilationTester(settings);
 
                 Result result = tester.TestProgram(p);
+                
                 if (result.ProgramStatus != Status.Accepted)
                 {
-                    //return 0;
+                    return "false";
                 }
             }
-            //return 1;
+
+            return "true";
         }
         /// <summary>
         /// Just to test connection
