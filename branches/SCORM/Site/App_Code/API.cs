@@ -31,10 +31,11 @@ public class API : System.Web.Services.WebService
     }
 
     [WebMethod(EnableSession = true)]
-    public void Initialize()
+    public int Initialize()
     {
         //CmiDM = new CmiDataModel(themeId, ServerModel.User.Current.ID);
         //return CmiDM.Attempt.ID;
+        return 1;
     }
 
     [WebMethod(EnableSession = true)]
