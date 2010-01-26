@@ -36,7 +36,7 @@ namespace WebService
         /// <param name="output">Serialized array of output data</param>
         /// <param name="timeLimit">Time limit for program</param>
         /// <param name="memoryLimit">Memory limit for program</param>
-        /// <returns>0 if program status Accepted, 1 in other cases</returns>
+        /// <returns>"Accepted" if program status Accepted, ProgramStatus + index of failed test in other cases</returns>
         [WebMethod]
         public string Compile(string source, string language, string[] input, string[] output, int timelimit, int memorylimit)
         {
@@ -73,11 +73,11 @@ namespace WebService
                 
                 if (result.ProgramStatus != Status.Accepted)
                 {
-                    return "false";
+                    return System.Enum.GetName(typeof(Status), result.ProgramStatus) + " Test: " + i.ToString();
                 }
             }
 
-            return "true";
+            return "Accepted";
         }
         /// <summary>
         /// Just to test connection
