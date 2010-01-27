@@ -6,29 +6,24 @@ using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.Common.Cmi
 {
-    class Score: CmiBase
+    class Score: CmiFirstLevelCollectionElement
     {
         #region Cmi Variables
 
-        private static Dictionary<string, CmiVariable> _variables = new Dictionary<string, CmiVariable>
+        private static Dictionary<string, CmiElement> elements = new Dictionary<string, CmiElement>
         {
-            {"scaled", new CmiVariable("scaled", true, true, null, null)},
-            {"row", new CmiVariable("raw", true, true, null, null)},
-            {"max", new CmiVariable("max", true, true, null, null)},
-            {"min", new CmiVariable("min", true, true, null, null)}
+            {"scaled", new CmiElement("scaled", true, true, null, null, "score.scaled")},
+            {"row", new CmiElement("raw", true, true, null, null, "score.row")},
+            {"max", new CmiElement("max", true, true, null, null, "score.max")},
+            {"min", new CmiElement("min", true, true, null, null, "score.min")}
         };
 
-        private Dictionary<string, CmiBaseCollection> _collections;
-
-        public override void Initialize()
-        {
-
-        }
+        public override void Initialize(){}
 
         #endregion
 
-        public Score(int _LearnerSessionId, int _UserID)
-            : base(_LearnerSessionId, _UserID)
+        public Score(int learnerSessionId, int userID)
+            : base(learnerSessionId, userID)
         {
         }
 
@@ -39,7 +34,7 @@ namespace IUDICO.DataModel.Common.Cmi
             {
                 return GetChildren();
             }
-            else if( _variables.ContainsKey(path) )
+            else if( elements.ContainsKey(path) )
             {
                 return GetVariable(path);
             }
@@ -54,48 +49,34 @@ namespace IUDICO.DataModel.Common.Cmi
             {
                 throw new Exception("Requested variable is read-only");
             }
-            else if (_variables.ContainsKey(path) &&  double.TryParse(value, out _value) )
+            else if (elements.ContainsKey(path) &&  double.TryParse(value, out _value) )
             {
-                if (path == "scaled")
-                {
-                    if (_value >= -1 && _value <= 1)
-                    {
-                        return SetVariable(path, value);
-
-                    }
-                }
-                else
-                {
-                    return SetVariable(path, value);
-                }
-
+                elements[path].Verifier.Validate(value);
+                return SetVariable(path, value);
             }
 
             throw new Exception("Requested variable is not supported");
         }
 
-
-
-
         protected string GetVariable(string name)
         {
-            if (_variables[name].Read == false)
+            if (elements[name].Read == false)
             {
                 throw new Exception("Requested variable is write-only");
             }
 
-            List<TblLearnerSessionsVars> list = ServerModel.DB.Query<TblLearnerSessionsVars>(
+            List<TblVarsScore> list = ServerModel.DB.Query<TblVarsScore>(
                         new AndCondtion(
                             new CompareCondition<int>(
                                 DataObject.Schema.LearnerSessionRef,
                                 new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),
                             new CompareCondition<string>(
                                 DataObject.Schema.Name,
-                                new ValueCondition<string>("cmi.score." + name), COMPARE_KIND.EQUAL)));
+                                new ValueCondition<string>(name), COMPARE_KIND.EQUAL)));
 
             if (list.Count > 0)
             {
-                return list[0].Value;
+                return list[0].Value.ToString();
             }
             else
             {
@@ -105,44 +86,44 @@ namespace IUDICO.DataModel.Common.Cmi
 
         protected int SetVariable(string name, string value)
         {
-             if (_variables[name].Write == false)
+             if (elements[name].Write == false)
             {
                 throw new Exception("Requested variable is read-only");
             }
 
-            List<TblLearnerSessionsVars> list = ServerModel.DB.Query<TblLearnerSessionsVars>(
+             List<TblVarsScore> list = ServerModel.DB.Query<TblVarsScore>(
                         new AndCondtion(
                             new CompareCondition<int>(
                                 DataObject.Schema.LearnerSessionRef,
                                 new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),
                             new CompareCondition<string>(
                                 DataObject.Schema.Name,
-                                new ValueCondition<string>("cmi.score." + name), COMPARE_KIND.EQUAL)));
+                                new ValueCondition<string>(name), COMPARE_KIND.EQUAL)));
 
             if (list.Count > 0)
             {
                 list[0].Value = value;
-                ServerModel.DB.Update<TblLearnerSessionsVars>(list[0]);
+                ServerModel.DB.Update<TblVarsScore>(list[0]);
 
                 return list[0].ID;
             }
             else
             {
-                TblLearnerSessionsVars lsv = new TblLearnerSessionsVars
+                TblVarsScore lsv = new TblVarsScore
                 {
                     LearnerSessionRef = LearnerSessionId,
-                    Name = "cmi.score." + name,
+                    Name = name,
                     Value = value
                 };
 
-                return ServerModel.DB.Insert<TblLearnerSessionsVars>(lsv);
+                return ServerModel.DB.Insert<TblVarsScore>(lsv);
             }
         }
 
         protected string GetChildren()
         {
-            string[] childArray = new string[_variables.Keys.Count];
-            _variables.Keys.CopyTo(childArray, 0);
+            string[] childArray = new string[elements.Keys.Count];
+            elements.Keys.CopyTo(childArray, 0);
 
             return string.Join(",", childArray);
         }

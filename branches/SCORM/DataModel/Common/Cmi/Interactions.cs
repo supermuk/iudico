@@ -6,43 +6,41 @@ using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.Common.Cmi
 {
-    class Interactions: CmiBase
+    class Interactions: CmiFirstLevelCollectionElement
     {
         #region Cmi Variables
 
-        private static Dictionary<string, CmiVariable> _variables = new Dictionary<string, CmiVariable>
+        private static Dictionary<string, CmiElement> elements = new Dictionary<string, CmiElement>
         {
-            {"id", new CmiVariable("id", true, true, null, null)},
-            {"type", new CmiVariable("type", true, true,
-                new string[] { "true-false", "multiple-choice", "fill-in", "long-fill-in", "matching", "performance", "sequencing", "likert", "numeric", "other"}, null)},
-            
-            {"timestamp", new CmiVariable("timestamp", true, true, null, null)},
-            {"weighting", new CmiVariable("weighting", true, true, null, null)},
-            {"result", new CmiVariable("result", true, true,
-                new string[] { "correct", "incorrect", "unanticipated", "neutral", "_real" }, null )},
-            {"latency", new CmiVariable("latency", true, true, null, null)},
-            {"description", new CmiVariable("description", true, true, null, null)},
-
-            //{"objectives", new CmiVariable("objectives", true, false, null)),
-            //{"correct_responses", new CmiVariable("correct_responses", true, false, null)},
-            {"learner_response", new CmiVariable("learner_response", true, true, null, null)},
+            {"id", new CmiElement("id", true, true, null, null, "interaction.id")},
+            {"type", new CmiElement("type", true, true,
+                new string[] { "true-false", "choice", "fill-in", "long-fill-in", "matching", "performance", "sequencing", "likert", "numeric", "other"}, null, "interaction.type")},
+            {"timestamp", new CmiElement("timestamp", true, true, null, null, "interaction.timestamp")},
+            {"weighting", new CmiElement("weighting", true, true, null, null, "interaction.weighting")},
+            {"result", new CmiElement("result", true, true,
+                new string[] { "correct", "incorrect", "unanticipated", "neutral", "_real"}, null,"interaction.result" )},
+            {"latency", new CmiElement("latency", true, true, null, null, "interaction.latency")},
+            {"description", new CmiElement("description", true, true, null, null, "interaction.description")},
+            {"learner_response", new CmiElement("learner_response", true, true, null, null, "interaction.learner_response")},
         };
 
-        private Dictionary<string, CmiBaseCollection> _collections;
-
-        public override void Initialize()
-        {
-            _collections = new Dictionary<string, CmiBaseCollection>
-            {
-                {"correct_responses", new Cmi.CorrectResponses(LearnerSessionId, UserID)}
-            };
-        }
+        private Dictionary<string, CmiSecondLevelCollectionElement> collections;
 
         #endregion
 
-        public Interactions(int _LearnerSessionId, int _UserID)
-            : base(_LearnerSessionId, _UserID)
+        public Interactions(int learnerSessionId, int userID)
+            : base(learnerSessionId, userID)
         {
+          Initialize();
+        }
+
+        public override void Initialize()
+        {
+          collections = new Dictionary<string, CmiSecondLevelCollectionElement>
+            {
+                {"objectives", new InteractionObjectives(LearnerSessionId, UserID)},
+                {"correct_responses", new InteractionCorrectResponses(LearnerSessionId, UserID)}
+            };
         }
 
         public override string GetValue(string path)
@@ -63,13 +61,13 @@ namespace IUDICO.DataModel.Common.Cmi
             }
             else if (int.TryParse(parts[0], out id))
             {
-                if (_variables.ContainsKey(parts[1]) && parts.Length == 2)
+                if (elements.ContainsKey(parts[1]) && parts.Length == 2)
                 {
                     return GetVariable(parts[0], parts[1]);
                 }
-                else if (_collections.ContainsKey(parts[1]))
+                else if (collections.ContainsKey(parts[1]))
                 {
-                    return _collections[parts[1]].GetValue(parts[0], string.Join(".", parts, 2, parts.Length - 2));
+                  return collections[parts[1]].GetValue(parts[0], string.Join(".", parts, 2, parts.Length - 2));
                 }
             }
 
@@ -94,13 +92,14 @@ namespace IUDICO.DataModel.Common.Cmi
             }
             else if (int.TryParse(parts[0], out id))
             {
-                if (_variables.ContainsKey(parts[1]) && parts.Length == 2)
+                if (elements.ContainsKey(parts[1]) && parts.Length == 2)
                 {
+                    elements[parts[1]].Verifier.Validate(value);
                     return SetVariable(parts[0], parts[1], value);
                 }
-                else if (_collections.ContainsKey(parts[1]))
+                else if (collections.ContainsKey(parts[1]))
                 {
-                    return _collections[parts[1]].SetValue(parts[0], string.Join(".", parts, 2, parts.Length - 2), value);
+                    return collections[parts[1]].SetValue(parts[0], string.Join(".", parts, 2, parts.Length - 2), value);
                 }
             }
 
@@ -109,19 +108,25 @@ namespace IUDICO.DataModel.Common.Cmi
 
         protected string GetVariable(string n, string name)
         {
-            if (_variables[name].Read == false)
+            if (elements[name].Read == false)
             {
                 throw new Exception("Requested variable is write-only");
             }
 
-            List<TblLearnerSessionsVars> list = ServerModel.DB.Query<TblLearnerSessionsVars>(
+            int number;
+            int.TryParse(n, out number);
+
+            List<TblVarsInteractions> list = ServerModel.DB.Query<TblVarsInteractions>(
                         new AndCondtion(
                             new CompareCondition<int>(
                                 DataObject.Schema.LearnerSessionRef,
                                 new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),
                             new CompareCondition<string>(
                                 DataObject.Schema.Name,
-                                new ValueCondition<string>("cmi.interactions." + n + "." + name), COMPARE_KIND.EQUAL)));
+                                new ValueCondition<string>(name), COMPARE_KIND.EQUAL),
+                            new CompareCondition<int>(
+                                DataObject.Schema.Number,
+                                new ValueCondition<int>(number), COMPARE_KIND.EQUAL)));
 
             if (list.Count > 0)
             {
@@ -135,60 +140,78 @@ namespace IUDICO.DataModel.Common.Cmi
 
         protected int SetVariable(string n, string name, string value)
         {
-            if (_variables[name].Write == false)
+            if (elements[name].Write == false)
             {
                 throw new Exception("Requested variable is read-only");
             }
 
-            List<TblLearnerSessionsVars> list = ServerModel.DB.Query<TblLearnerSessionsVars>(
+            int number;
+            int.TryParse(n, out number);
+
+            List<TblVarsInteractions> list = ServerModel.DB.Query<TblVarsInteractions>(
                         new AndCondtion(
                             new CompareCondition<int>(
                                 DataObject.Schema.LearnerSessionRef,
                                 new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),
                             new CompareCondition<string>(
                                 DataObject.Schema.Name,
-                                new ValueCondition<string>("cmi.interactions." + n + "." + name), COMPARE_KIND.EQUAL)));
+                                new ValueCondition<string>(name), COMPARE_KIND.EQUAL),
+                            new CompareCondition<int>(
+                                DataObject.Schema.Number,
+                                new ValueCondition<int>(number), COMPARE_KIND.EQUAL)));
 
             if (list.Count > 0)
             {
                 list[0].Value = value;
-                ServerModel.DB.Update<TblLearnerSessionsVars>(list[0]);
+                ServerModel.DB.Update<TblVarsInteractions>(list[0]);
 
                 return list[0].ID;
             }
             else
             {
-                TblLearnerSessionsVars lsv = new TblLearnerSessionsVars
+                TblVarsInteractions lsv = new TblVarsInteractions
                 {
                     LearnerSessionRef = LearnerSessionId,
-                    Name = "cmi.interactions." + n + "." + name,
-                    Value = value
+                    Name = name,
+                    Value = value,
+                    Number = number
                 };
 
-                return ServerModel.DB.Insert<TblLearnerSessionsVars>(lsv);
+                return ServerModel.DB.Insert<TblVarsInteractions>(lsv);
             }
         }
 
         protected string GetChildren()
         {
-            string[] childArray = new string[_variables.Keys.Count];
-            _variables.Keys.CopyTo(childArray, 0);
+            string[] childArray = new string[elements.Keys.Count];
+            elements.Keys.CopyTo(childArray, 0);
 
             return string.Join(",", childArray);
         }
 
         protected string GetCount()
         {
-            List<TblLearnerSessionsVars> list = ServerModel.DB.Query<TblLearnerSessionsVars>(
-                        new AndCondtion(
+            List<TblVarsInteractions> list = ServerModel.DB.Query<TblVarsInteractions>(
                             new CompareCondition<int>(
                                 DataObject.Schema.LearnerSessionRef,
-                                new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),
-                            new CompareCondition<string>(
-                                DataObject.Schema.Name,
-                                new ValueCondition<string>("cmi.interactions.%"), COMPARE_KIND.LIKE)));
+                                new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL
+                            )
+            );
 
-            return list.Count.ToString();
+            int count = 0;
+            for (int i = 0; i < list.Count; i++)
+            {
+              count++;
+              for (int j = 0; j < i; j++)
+              {
+                if (list[i].Number == list[j].Number)
+                {
+                  count--;
+                  break;
+                }
+              }
+            }
+            return count.ToString();
         }
     }
 }

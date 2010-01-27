@@ -123,6 +123,7 @@ namespace IUDICO.DataModel.DB.Base
                 ID = new PropertyCondition<int>("ID"),
                 UserRef = new PropertyCondition<int>("UserRef"),
                 QuestionRef = new PropertyCondition<int>("QuestionRef"),
+                InteractionRef =new PropertyCondition<int>("InteractionRef"),
                 ThemeRef = new PropertyCondition<int>("ThemeRef"),
                 PageRef = new PropertyCondition<int>("PageRef"),
                 StageRef = new PropertyCondition<int>("StageRef"),
@@ -139,7 +140,8 @@ namespace IUDICO.DataModel.DB.Base
                 SysState = new PropertyCondition<int>("sysState"),
                 ItemRef = new PropertyCondition<int>("ItemRef"),
                 LearnerAttemptRef = new PropertyCondition<int>("LearnerAttemptRef"),
-                LearnerSessionRef = new PropertyCondition<int>("LearnerSessionRef");
+                LearnerSessionRef = new PropertyCondition<int>("LearnerSessionRef"),
+                Number = new PropertyCondition<int>("Number");
             
             public static readonly IDBPropertyCondition<DateTime>
                 DateSince = new PropertyCondition<DateTime>("DateSince"),

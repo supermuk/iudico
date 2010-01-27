@@ -190,7 +190,11 @@ namespace IUDICO.DataModel.DB
 
     public partial class TblLearnerAttempts : IntKeyedDataObject, IIntKeyedDataObject { }
     public partial class TblLearnerSessions : IntKeyedDataObject, IIntKeyedDataObject { }
-    public partial class TblLearnerSessionsVars : IntKeyedDataObject, IIntKeyedDataObject { }
+    public partial class TblVars : IntKeyedDataObject, IIntKeyedDataObject { }
+    public partial class TblVarsInteractions : IntKeyedDataObject, IIntKeyedDataObject { }
+    public partial class TblVarsInteractionObjectives : IntKeyedDataObject, IIntKeyedDataObject { }
+    public partial class TblVarsInteractionCorrectResponses : IntKeyedDataObject, IIntKeyedDataObject { }
+    public partial class TblVarsScore : IntKeyedDataObject, IIntKeyedDataObject { }
 
     [ManyToManyRelationship(typeof(TblUsers), typeof(FxRoles))]
     public partial class RelUserRoles : RelTable, IRelationshipTable
