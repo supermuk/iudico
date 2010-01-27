@@ -6,10 +6,14 @@ using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.Common
 {
-    abstract public class CmiBase
+    /// <summary>
+    /// Base class for collections of elements in cmi request which lie in first level e.g 
+    /// cmi.interactions
+    /// </summary>
+    abstract public class CmiFirstLevelCollectionElement
     {
-        protected int _learnerSessionId;
-        protected int _userID;
+        protected int learnerSessionId;
+        protected int userID;
 
         #region Properties
 
@@ -17,7 +21,7 @@ namespace IUDICO.DataModel.Common
         {
             get
             {
-                return _learnerSessionId;
+                return learnerSessionId;
             }
         }
 
@@ -25,16 +29,16 @@ namespace IUDICO.DataModel.Common
         {
             get
             {
-                return _userID;
+                return userID;
             }
         }
 
         #endregion
 
-        public CmiBase(int _LearnerSessionId, int _UserID)
+        public CmiFirstLevelCollectionElement(int learnerSessionId, int userID)
         {
-            _learnerSessionId = _LearnerSessionId;
-            _userID = _UserID;
+            this.learnerSessionId = learnerSessionId;
+            this.userID = userID;
 
             Initialize();
         }
@@ -47,7 +51,11 @@ namespace IUDICO.DataModel.Common
         abstract public int SetValue(string path, string value);
     }
 
-    abstract public class CmiBaseCollection
+    /// <summary>
+    /// Base class for collections of elements in cmi request which lie in second level e.g 
+    /// cmi.interactions.n.objectives
+    /// </summary>
+    abstract public class CmiSecondLevelCollectionElement
     {
         protected int _learnerSessionId;
         protected int _userID;
@@ -72,7 +80,7 @@ namespace IUDICO.DataModel.Common
 
         #endregion
 
-        public CmiBaseCollection(int _LearnerSessionId, int _UserID)
+        public CmiSecondLevelCollectionElement(int _LearnerSessionId, int _UserID)
         {
             _learnerSessionId = _LearnerSessionId;
             _userID = _UserID;
@@ -88,15 +96,27 @@ namespace IUDICO.DataModel.Common
         abstract public int SetValue(string n, string path, string value);
     }
 
-    public class CmiVariable
+    /// <summary>
+    /// Simple Data Model Element e.g cmi.exit or cmi.interactions.id
+    /// </summary>
+    public class CmiElement
     {
         private string name;
         private bool read;
         private bool write;
         private string[] allowed;
         private string init;
+        private Cmi.DataModelVerifier verifier;
 
         #region Properties
+
+        public Cmi.DataModelVerifier Verifier
+        {
+          get
+          {
+            return verifier;
+          }
+        }
 
         public bool Read
         {
@@ -116,50 +136,55 @@ namespace IUDICO.DataModel.Common
 
         #endregion
 
-        public CmiVariable(string _name, bool _read, bool _write, string[] _allowed, string _init)
+        public CmiElement(string name, bool read, bool write, string[] allowed, string init, string verifierElementName)
         {
-            name = _name;
-            read = _read;
-            write = _write;
-            allowed = _allowed;
-            init = _init;
+            this.name = name;
+            this.read = read;
+            this.write = write;
+            this.allowed = allowed;
+            this.init = init;
+            this.verifier = new Cmi.DataModelVerifier(verifierElementName);
         }
     }
 
+    /// <summary>
+    /// DataModel interface which allows to get or set values of DataModelElements.
+    /// Use GetValue and SetValue methods
+    /// </summary>
     public class CmiDataModel
     {
         #region Cmi Variables
 
-        private static Dictionary<string, CmiVariable> _variables = new Dictionary<string, CmiVariable>
+        private static Dictionary<string, CmiElement> elements = new Dictionary<string, CmiElement>
         {
-            {"completion_status", new CmiVariable("completion_status", true, true, new string[] { "completed", "incomplete", "not_attempted", "unknown" }, "unknown")},
-            {"credit", new CmiVariable("credit", true, false, new string[] { "credit", "no-credit" }, "credit")},
-            {"entry", new CmiVariable("entry", true, false, new string[] { "ab-initio", "resume", "" }, "ab-initio" )},
+            {"completion_status", new CmiElement("completion_status", true, true, new string[] { "completed", "incomplete", "not_attempted", "unknown"}, "unknown", "completion_status")},
+            {"credit", new CmiElement("credit", true, false, new string[] { "credit", "no-credit" }, "credit", "credit")},
+            {"entry", new CmiElement("entry", true, false, new string[] { "ab-initio", "resume", "" }, "ab-initio" , "entry")},
             
-            {"exit", new CmiVariable("exit", true, true, null, null)},
-            {"launch_data", new CmiVariable("launch_data", true, false, null, null)},
-            {"learner_id", new CmiVariable("learner_id", true, false, null, null)},
-            {"learner_name", new CmiVariable("learner_name", true, false, null, null)},
-            {"location", new CmiVariable("location", true, true, null, null)},
-            {"max_time_allowed", new CmiVariable("max_time_allowed", true, false, null, null)},
-            {"mode", new CmiVariable("mode", true, false, null, null)},
-            {"progress_measure", new CmiVariable("progress_measure", true, true, null, null)},
-            {"scaled_passing_score", new CmiVariable("scaled_passing_score", true, false, null, null)},
-            {"success_status", new CmiVariable("success_status", true, true, null, null)},
-            {"suspend_data", new CmiVariable("suspend_data", true, true, null, null)},
-            {"time_limit_action", new CmiVariable("time_limit_action", true, false, null, null)},
-            {"session_time", new CmiVariable("session_time", false, true, null, null)},
+            {"exit", new CmiElement("exit", true, true, null, null, "exit")},
+            {"launch_data", new CmiElement("launch_data", true, false, null, null, "launch_data")},
+            {"learner_id", new CmiElement("learner_id", true, false, null, null, "learner_id")},
+            {"learner_name", new CmiElement("learner_name", true, false, null, null, "learner_name")},
+            {"location", new CmiElement("location", true, true, null, null, "location")},
+            {"max_time_allowed", new CmiElement("max_time_allowed", true, false, null, null, "max_time_allowed")},
+            {"mode", new CmiElement("mode", true, false, null, null, "mode")},
+            {"progress_measure", new CmiElement("progress_measure", true, true, null, null, "progress_measure")},
+            {"scaled_passing_score", new CmiElement("scaled_passing_score", true, false, null, null, "scaled_passing_score")},
+            {"success_status", new CmiElement("success_status", true, true, new string[]{"passed", "failed", "unknown"}, "unknown", "success_status")},
+            {"suspend_data", new CmiElement("suspend_data", true, true, null, null, "suspend_data")},
+            {"time_limit_action", new CmiElement("time_limit_action", true, false, null, null, "time_limit_action")},
+            {"session_time", new CmiElement("session_time", false, true, null, null, "session_time")},
         };
 
-        private Dictionary<string, CmiBase> _collections;
+        private Dictionary<string, CmiFirstLevelCollectionElement> collections;
 
         #endregion
 
         #region Variables
 
-        private int _learnerSessionId;
-        private int _userId;
-        private bool _isSystem;
+        private int learnerSessionId;
+        private int userId;
+        private bool isSystem;
 
         #endregion
 
@@ -169,7 +194,7 @@ namespace IUDICO.DataModel.Common
         {
             get
             {
-                return _learnerSessionId;
+                return learnerSessionId;
             }
         }
 
@@ -177,7 +202,7 @@ namespace IUDICO.DataModel.Common
         {
             get
             {
-                return _userId;
+                return userId;
             }
         }
 
@@ -185,12 +210,11 @@ namespace IUDICO.DataModel.Common
 
         #region Public Methods
 
-        public CmiDataModel(int _LearnerSessionId, int _UserId, bool _IsSystem)
+        public CmiDataModel(int learnerSessionId, int userId, bool isSystem)
         {
-            _learnerSessionId = _LearnerSessionId;
-            _userId = _UserId;
-            _isSystem = _IsSystem;
-
+            this.learnerSessionId = learnerSessionId;
+            this.userId = userId;
+            this.isSystem = isSystem;
 
             Initialize();
         }
@@ -210,15 +234,19 @@ namespace IUDICO.DataModel.Common
                 {
                     return GetChildren();
                 }
-                else if (_variables.ContainsKey(name))
+                else if (name == "total_time")
                 {
-                    return GetVariable(name);
+                    return GetTotalTime();
+                }
+                else if (elements.ContainsKey(name))
+                {
+                  return GetVariable(name);
                 }
             }
 
-            if (_collections.ContainsKey(name))
+            if (collections.ContainsKey(name))
             {
-                return _collections[name].GetValue(string.Join(".", parts, 1, parts.Length - 1));
+                return collections[name].GetValue(string.Join(".", parts, 1, parts.Length - 1));
             }
 
             throw new Exception("Requested variable is not supported");
@@ -231,6 +259,7 @@ namespace IUDICO.DataModel.Common
 
             if (name == path)
             {
+                elements[name].Verifier.Validate(value);
                 if (name == "_version")
                 {
                     throw new Exception("Requested variable is read-only");
@@ -239,15 +268,19 @@ namespace IUDICO.DataModel.Common
                 {
                     throw new Exception("Requested variable is read-only");
                 }
-                else if (_variables.ContainsKey(name))
+                else if (name == "total_time")
                 {
-                    return SetVariable(name, value);
+                    throw new Exception("Requested variable is read-only");
+                }
+                else if (elements.ContainsKey(name))
+                {
+                  return SetVariable(name, value);
                 }
             }
 
-            if (_collections.ContainsKey(name))
+            if (collections.ContainsKey(name))
             {
-                return _collections[name].SetValue(string.Join(".", parts, 1, parts.Length - 1), value);
+                return collections[name].SetValue(string.Join(".", parts, 1, parts.Length - 1), value);
             }
 
             throw new Exception("Requested variable is not supported");
@@ -259,51 +292,52 @@ namespace IUDICO.DataModel.Common
 
         private void Initialize()
         {
-            _collections = new Dictionary<string, CmiBase>
+            collections = new Dictionary<string, CmiFirstLevelCollectionElement>
             {
-                {"interactions", new Cmi.Interactions(LearnerSessionId, UserId)}
+                {"interactions", new Cmi.Interactions(LearnerSessionId, UserId)},
+                {"score", new Cmi.Score(LearnerSessionId, UserId)}
             };
         }
 
         private int SetVariable(string name, string value)
         {
-            if (_variables[name].Write == false && !_isSystem)
+            if (elements[name].Write == false && ! isSystem)
             {
                 throw new Exception("Requested variable is read-only");
             }
 
-            List<TblLearnerSessionsVars> list = ServerModel.DB.Query<TblLearnerSessionsVars>(
+            List<TblVars> list = ServerModel.DB.Query<TblVars>(
                         new AndCondtion(
                             new CompareCondition<int>(
                                 DataObject.Schema.LearnerSessionRef,
                                 new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),
                             new CompareCondition<string>(
                                 DataObject.Schema.Name,
-                                new ValueCondition<string>("cmi." + name), COMPARE_KIND.EQUAL)));
+                                new ValueCondition<string>(name), COMPARE_KIND.EQUAL)));
 
             if (list.Count > 0)
             {
                 list[0].Value = value;
-                ServerModel.DB.Update<TblLearnerSessionsVars>(list[0]);
+                ServerModel.DB.Update<TblVars>(list[0]);
 
                 return list[0].ID;
             }
             else
             {
-                TblLearnerSessionsVars lsv = new TblLearnerSessionsVars
+                TblVars lsv = new TblVars
                 {
                     LearnerSessionRef = LearnerSessionId,
-                    Name = "cmi." + name,
+                    Name = name,
                     Value = value
                 };
 
-                return ServerModel.DB.Insert<TblLearnerSessionsVars>(lsv);
+                return ServerModel.DB.Insert<TblVars>(lsv);
             }
         }
 
         private string GetVariable(string name)
         {
-            if (_variables[name].Read == false)
+            if (elements[name].Read == false)
             {
                 throw new Exception("Requested variable is write-only");
             }
@@ -315,7 +349,7 @@ namespace IUDICO.DataModel.Common
                 case "learner_name":
                     return ServerModel.User.Current.UserName;
                 default:
-                    List<TblLearnerSessionsVars> list = ServerModel.DB.Query<TblLearnerSessionsVars>(
+                    List<TblVars> list = ServerModel.DB.Query<TblVars>(
                         new AndCondtion(
                             new CompareCondition<int>(
                                 DataObject.Schema.LearnerSessionRef,
@@ -337,10 +371,27 @@ namespace IUDICO.DataModel.Common
 
         private string GetChildren()
         {
-            string[] childArray = new string[_variables.Keys.Count];
-            _variables.Keys.CopyTo(childArray, 0);
+            string[] childArray = new string[elements.Keys.Count];
+            elements.Keys.CopyTo(childArray, 0);
 
             return string.Join(",", childArray);
+        }
+
+        private string GetTotalTime()
+        {
+          //Переробити!!!
+          int result = 0;
+          /*List<TblVars> list = ServerModel.DB.Query<TblVars>(
+                  new CompareCondition<string>(
+                      DataObject.Schema.Name,
+                      new ValueCondition<string>("session_time"), COMPARE_KIND.EQUAL));
+          
+          for (int i = 0; i < list.Count; i++)
+          {
+            result+=TimeSpan.Parse(list[i].Value);
+          }*/
+
+          return result.ToString();
         }
 
         #endregion

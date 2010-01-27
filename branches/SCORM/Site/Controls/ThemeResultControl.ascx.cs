@@ -39,7 +39,7 @@ public partial class ThemeResultControl : UserControl
 
             foreach (TblLearnerSessions learnerSession in LearnerSessions)
             {
-                List<TblLearnerSessionsVars> userResults = StatisticManager.GetStatisticForLearnerSession(learnerSession.ID);
+                List<TblVars> userResults = StatisticManager.GetStatisticForLearnerSession(learnerSession.ID);
                 TblItems item = ServerModel.DB.Load<TblItems>(learnerSession.ItemRef);
                 
                 string correntAnswer = null;
