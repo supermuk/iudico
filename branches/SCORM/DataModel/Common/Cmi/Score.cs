@@ -13,7 +13,7 @@ namespace IUDICO.DataModel.Common.Cmi
         private static Dictionary<string, CmiElement> elements = new Dictionary<string, CmiElement>
         {
             {"scaled", new CmiElement("scaled", true, true, null, null, "score.scaled")},
-            {"row", new CmiElement("raw", true, true, null, null, "score.row")},
+            {"row", new CmiElement("row", true, true, null, null, "score.row")},
             {"max", new CmiElement("max", true, true, null, null, "score.max")},
             {"min", new CmiElement("min", true, true, null, null, "score.min")}
         };
