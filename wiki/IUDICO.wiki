@@ -18,4 +18,6 @@ To deploy IUDICO on production server you need to:
 
 = Tests =
 
-IUDICO contains a series of NUnit tests that helps testing base functionality
+IUDICO contains a series of NUnit tests that helps testing the system.
+Before committing make sure it passes the tests in UnitTests project.
+Also when adding new functionality add as new unit tests to make sure all of the code is tested.
