@@ -1,8 +1,0 @@
-DROP PROCEDURE [spCompiledQuestionsInsert]
-DROP PROCEDURE [spCompiledQuestionsDataInsert]
-DROP PROCEDURE [spThemesInsert]
-DROP PROCEDURE [spPagesInsert]
-DROP PROCEDURE [spFilesInsert]
-DROP PROCEDURE [spCoursesInsert]
-DROP PROCEDURE [spUserAnswersInsert]
-DROP PROCEDURE [spQuestionsInsert]

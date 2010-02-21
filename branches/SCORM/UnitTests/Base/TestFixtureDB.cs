@@ -12,6 +12,7 @@ using IUDICO.DBManager;
 using LEX.CONTROLS;
 using LEX.CONTROLS.Expressions;
 using NUnit.Framework;
+using LEX.CONTROLS.DBUpdater;
 
 namespace IUDICO.UnitTest.Base
 {
@@ -62,7 +63,7 @@ namespace IUDICO.UnitTest.Base
 
         #region NUnitDBInteractionContext
 
-        private class NUnitDBInteractionContext
+        private class NUnitDBInteractionContext: IDBUpdaterInteractionContext
         {
             static NUnitDBInteractionContext()
             {
@@ -156,6 +157,7 @@ namespace IUDICO.UnitTest.Base
         {
             var context = new NUnitDBInteractionContext(this);
             var dbExists = (bool) DBUpdateManager.IsDatabaseExists(_DataBaseName)(context);
+
             if (NeedToRecreateDB || !dbExists)
             {
                 if (dbExists)
@@ -177,11 +179,11 @@ namespace IUDICO.UnitTest.Base
             }
 
             var scriptsToRun = ((KeyValuePair<IList<string>, IList<string>>)DBUpdateManager.GetScriptsToRun(context)).Value;
-            Debug.Write("Scripts to run:" + scriptsToRun.ConcatComma());
+            Debug.WriteLine("Scripts to run:" + scriptsToRun.ConcatComma());
             foreach (var s in scriptsToRun)
             {
                 var updateAction = DBUpdateManager.UpgrateToNextVersion(
-                    DBUpdateManager.ExtractScriptVersion(s),
+                    0,
                     File.ReadAllText(Path.Combine(context.DBScriptsPath,
                     s + ".sql")), s);
                 Debug.WriteLine(string.Format("Running script '{0}'...", s));
