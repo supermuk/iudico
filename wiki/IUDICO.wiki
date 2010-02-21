@@ -1,0 +1,20 @@
+IUDICO is a testing system based on SCORM specifications developed on .NET
+
+= Development =
+
+To set up IUDICO you need to:
+
+  # step1
+  # step2
+
+
+= Deployment =
+
+To deploy IUDICO on production server you need to:
+
+  # step1
+  # step2
+
+= Tests =
+
+IUDICO contains a series of NUnit tests that helps testing base functionality
