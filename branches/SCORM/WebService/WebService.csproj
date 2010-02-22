@@ -53,8 +53,7 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TestPage.htm" />
-    <Content Include="jquery-1.3.2.js" />
+    <Content Include="crossdomain.xml" />
     <Content Include="Service1.asmx" />
     <Content Include="Web.config" />
   </ItemGroup>
