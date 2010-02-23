@@ -1,4 +1,4 @@
-= Schedule =
+= Iteration Schedule =
 
 || *Iteration/Sprint Name* || *Start Data* || *End Date* || *Target* ||
 || Iteration #1 || March 1 || April 15 ||TBD||
