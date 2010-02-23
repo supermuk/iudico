@@ -3,9 +3,11 @@
 
 To minimize integration issues the following techniques have to be used:
 
-- Unit tests
-- Automation Tests?
-- Automated Builds?
+ * Unit tests
+ * Automation Tests?
+ * Automated Builds?
+ * Code reviews
+ * Weekly meetings
 
 
 = Unit Tests =
