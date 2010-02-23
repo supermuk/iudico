@@ -1,0 +1,5 @@
+= Team Contact Information =
+
+| *Name* || *Phone Num* || *Skype ID* || *E-Mail* ||
+|| Petro Kushchak || +380 50 3707193 || peter.kuschak ||pkushchak@gmail.com ||
+|| Vyacheslav Litynskyy || +380679283828 || litykyahoo.com || ||
