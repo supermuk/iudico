@@ -1,6 +1,6 @@
 #labels Featured
+= Development Environment =
 
-= Required software =
   # TortoiseSVN: http://tortoisesvn.net/downloads
   # SQL Server 2005 Express: http://www.microsoft.com/Sqlserver/2005/en/us/express-down.aspx
   # Microsoft SQL Server Management Studio Express: http://www.microsoft.com/downloads/details.aspx?FamilyID=c243a5ae-4bd1-4e3d-94b8-5a0f62bf7796&DisplayLang=en
@@ -13,7 +13,7 @@
       d. To confirm that the installation succeeded, type the following URL into your browser, http://localhost.     <br>
   # Adobe Flash Player (needed only for compiled tests): http://get.adobe.com/flashplayer/?promoid=DXLUJ
 
-= Development =
+= Build HOWTO =
 
 To start adding features to IUDICO you need to:
 
