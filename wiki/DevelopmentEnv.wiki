@@ -12,10 +12,14 @@
       c. Expand Internet Information Services. Select all features to install, and then click OK to start installation.      <br>
       d. To confirm that the installation succeeded, type the following URL into your browser, http://localhost.     <br>
   # Adobe Flash Player (needed only for compiled tests): http://get.adobe.com/flashplayer/?promoid=DXLUJ
+  # ASP.NET MVC???
+
 
 = Build HOWTO =
 
-To start adding features to IUDICO you need to:
+To start adding features to IUDICO you need to perform the following steps.
+
+== Getting Code ==
 
   # Download the latest version of IUDICO: http://code.google.com/p/iudico/source/checkout
       a. Create new folder <br>
@@ -23,10 +27,14 @@ To start adding features to IUDICO you need to:
       c. SVN Checkout <br>
       d. URL of repository http://iudico.googlecode.com/svn/trunk/ or some branch as in the example (check where is the latest version) <br>
       http://img341.imageshack.us/img341/5996/70008924.jpg
+
+= Setup Database ==
   # Open Microsoft SQL Server Management Studio Express and create new database IUDICO
   # Open \iudico\DBScripts\iudico.sql and click "Execute"
     http://img709.imageshack.us/img709/7117/92598931.jpg
   # Open \iudico\DataModel\GenerateLinqClasses.cmd (if needed change name of datebase and SQL Server “/server:.\SQLEXPRESS /database:IUDICO”)
+ 
+== Configure Web Service ==
   # Open iudico.sln in Visual Studio and press Ctrk+F5
   # Open Login.aspx page (ex. http://localhost:2935/Login.aspx). To login as Administrator use: User Name: Lex Password: {{{***}}}.
   # Publish WebService (ex. to folder C:\WebService\).
