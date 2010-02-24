@@ -33,7 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingSystem", "TestingSys
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebService", "WebService\WebService.csproj", "{887A30E5-F62B-4912-9442-407AB3A08759}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.UnitTests", "UnitTests\IUDICO.UnitTests.csproj", "{E99F9341-7DD8-457F-818A-EF56561B5596}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{E99F9341-7DD8-457F-818A-EF56561B5596}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
