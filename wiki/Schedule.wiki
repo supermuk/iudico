@@ -1,13 +1,7 @@
-= Iteration Schedule =
-
-||#|| *Iteration/Sprint Name* || *Start Date* || *End Date* || *Target* ||
-||1|| Iteration #1 || March 1 || April 15 ||TBD||
-||2|| Iteration #2 || TBD || TBD ||TBD||
-
-
 
 = Milestones =
 
 ||#|| *Milestone Name* || *Deadline Date* || *Description* ||
-||1|| Conference|| April 15 || Get stable product to demo on conference ||
-||2|| || || ||
+||1|| Startup|| March 4 ||Status Review ||
+||2|| Conference|| April 15 || Demo on Conference ||
+||3|| || || ||
