@@ -40,8 +40,6 @@ namespace WebService
         [WebMethod]
         public string Compile(string source, string language, string[] input, string[] output, int timelimit, int memorylimit)
         {
-            //float score = 1;
-
             for (int i = 0; i < input.Length; i++)
             {
                 Program p = new Program();
