@@ -1,6 +1,6 @@
 = Product Documentation =
 ----
-thesis Mykola Kavf
+Thesis Mykola Kavf
 
 Mahysterska work Micha Yaremko
 
