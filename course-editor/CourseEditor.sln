@@ -39,6 +39,7 @@ Global
 		{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}.Precompilation|x86.ActiveCfg = Release
 		{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}.Release|Any CPU.ActiveCfg = Release
 		{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}.Release|x86.ActiveCfg = Release
+		{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}.Release|x86.Build.0 = Release
 		{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}.UnitTest|Any CPU.ActiveCfg = Release
 		{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}.UnitTest|x86.ActiveCfg = Release
 	EndGlobalSection
