@@ -108,7 +108,7 @@ namespace FireFly.CourseEditor.GUI
             this.miUp,
             this.miDown});
             this.cmsManifestNode.Name = "cmsManifestNode";
-            this.cmsManifestNode.Size = new System.Drawing.Size(179, 158);
+            this.cmsManifestNode.Size = new System.Drawing.Size(179, 180);
             // 
             // miNew
             // 
@@ -219,6 +219,7 @@ namespace FireFly.CourseEditor.GUI
             this.miUp.Text = "Move &Up";
             this.miUp.ToolTipText = "Move current item up";
             this.miUp.Visible = false;
+            this.miUp.Click += new System.EventHandler(this.miUp_Click);
             // 
             // miDown
             // 
@@ -229,6 +230,7 @@ namespace FireFly.CourseEditor.GUI
             this.miDown.Text = "Move &Down";
             this.miDown.ToolTipText = "Move current item down";
             this.miDown.Visible = false;
+            this.miDown.Click += new System.EventHandler(this.miDown_Click);
             // 
             // tcEditor
             // 
