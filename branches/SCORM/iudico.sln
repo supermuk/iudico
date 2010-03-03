@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebService", "WebService\We
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{E99F9341-7DD8-457F-818A-EF56561B5596}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WebSetup", "WebSetup\WebSetup.vdproj", "{9EE3C7A2-A5F9-42C9-8DBF-462A259E95A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{E99F9341-7DD8-457F-818A-EF56561B5596}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E99F9341-7DD8-457F-818A-EF56561B5596}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E99F9341-7DD8-457F-818A-EF56561B5596}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9EE3C7A2-A5F9-42C9-8DBF-462A259E95A6}.Debug|Any CPU.ActiveCfg = Debug
+		{9EE3C7A2-A5F9-42C9-8DBF-462A259E95A6}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{9EE3C7A2-A5F9-42C9-8DBF-462A259E95A6}.Release|Any CPU.ActiveCfg = Release
+		{9EE3C7A2-A5F9-42C9-8DBF-462A259E95A6}.Release|Mixed Platforms.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

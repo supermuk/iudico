@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Base\TestFixtureWeb.cs" />
     <Compile Include="Base\TestFixtureDB.cs" />
+    <Compile Include="BasicTests.cs" />
     <Compile Include="DBInterOpTest.cs" />
     <Compile Include="DynamicSyntaxObjectTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
