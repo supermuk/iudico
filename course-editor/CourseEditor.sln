@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseEditor", "CourseEditor.csproj", "{FB48587D-389E-40A0-BD66-F772279A719A}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,14 @@ Global
 		{FB48587D-389E-40A0-BD66-F772279A719A}.UnitTest|Any CPU.Build.0 = UnitTest|Any CPU
 		{FB48587D-389E-40A0-BD66-F772279A719A}.UnitTest|x86.ActiveCfg = UnitTest|x86
 		{FB48587D-389E-40A0-BD66-F772279A719A}.UnitTest|x86.Build.0 = UnitTest|x86
+		{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}.Debug|Any CPU.ActiveCfg = Debug
+		{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}.Debug|x86.ActiveCfg = Debug
+		{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}.Precompilation|Any CPU.ActiveCfg = Release
+		{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}.Precompilation|x86.ActiveCfg = Release
+		{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}.Release|Any CPU.ActiveCfg = Release
+		{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}.Release|x86.ActiveCfg = Release
+		{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}.UnitTest|Any CPU.ActiveCfg = Release
+		{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}.UnitTest|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

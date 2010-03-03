@@ -780,5 +780,15 @@ namespace FireFly.CourseEditor.GUI
         {
             AddChapter(PageType.ControlChapter);
         }
+
+        private void miUp_Click(object sender, EventArgs e)
+        {
+            MoveCurrentItem(true);
+        }
+
+        private void miDown_Click(object sender, EventArgs e)
+        {
+            MoveCurrentItem(false);
+        }
     }
 }
