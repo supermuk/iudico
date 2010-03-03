@@ -12,7 +12,7 @@
       c. Expand Internet Information Services. Select all features to install, and then click OK to start installation.      <br>
       d. To confirm that the installation succeeded, type the following URL into your browser, http://localhost.     <br>
   # Adobe Flash Player (needed only for compiled tests): http://get.adobe.com/flashplayer/?promoid=DXLUJ
-  # ASP.NET MVC???
+
 
 
 = Build HOWTO =
@@ -45,3 +45,4 @@ To start adding features to IUDICO you need to perform the following steps.
   # Publishing Web Service in IIS. To check if Web Service published successful go to URL http://localhost/Service1.asmx (or http://localhost:8080/Service1.asmx or another port that you specified)
     http://img682.imageshack.us/img682/8833/63975742.jpg
     http://img94.imageshack.us/img94/9700/38862181.jpg
+  # Use http://HOST_NAME/Service1.asmx/Compile as "Service Address" in Compiled Tests and Advanced Compiled Tests
