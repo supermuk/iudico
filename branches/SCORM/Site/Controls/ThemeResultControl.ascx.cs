@@ -7,6 +7,7 @@ using IUDICO.DataModel.Common.StatisticUtils;
 using IUDICO.DataModel.Common.StudentUtils;
 using IUDICO.DataModel.Controllers.Student;
 using IUDICO.DataModel.DB;
+using IUDICO.DataModel.Common;
 
 public partial class ThemeResultControl : UserControl
 {
@@ -39,34 +40,44 @@ public partial class ThemeResultControl : UserControl
 
             foreach (TblLearnerSessions learnerSession in LearnerSessions)
             {
-                List<TblVars> userResults = StatisticManager.GetStatisticForLearnerSession(learnerSession.ID);
+                //List<TblVarsInteractions> userResults = StatisticManager.GetStatisticForLearnerSession(learnerSession.ID);
                 TblItems item = ServerModel.DB.Load<TblItems>(learnerSession.ItemRef);
                 
                 string correntAnswer = null;
                 string userAnswer = null;
                 string result = null;
 
-                foreach (var ur in userResults)
+                CmiDataModel cmiDataModel = new CmiDataModel(learnerSession.ID, ServerModel.User.Current.ID, false);
+                for (int i = 0; i < int.Parse(cmiDataModel.GetValue("interactions._count"));i++)
                 {
-                    if (ur.Name.StartsWith("cmi.interactions."))
-                    {
-                        string[] parts = ur.Name.Split('.');
-                        int questionNum = Convert.ToInt32(parts[2]);
-
-                        switch (parts[3])
-                        {
-                            case "correct_responses":
-                                correntAnswer = ur.Value;
-                                break;
-                            case "learner_response":
-                                userAnswer = ur.Value;
-                                break;
-                            case "result":
-                                result = ur.Value;
-                                break;
-                        }
-                    }
+                  correntAnswer = cmiDataModel.GetValue(String.Format("interactions.{0}.correct_responses.0.pattern", i));
+                  userAnswer = cmiDataModel.GetValue(String.Format("interactions.{0}.learner_response", i));
+                  result = cmiDataModel.GetValue(String.Format("interactions.{0}.result", i));
                 }
+
+                  /*foreach (var ur in userResults)
+                  {
+                    //if (ur.Name.StartsWith("cmi.interactions."))
+                    {
+                      string[] parts = ur.Name.Split('.');
+                      //int questionNum = Convert.ToInt32(parts[2]);
+                      int questionNum = ur.Number;
+
+                      //switch (parts[3])
+                      switch (parts[0])
+                      {
+                        case "correct_responses":
+                          correntAnswer = ur.Value;
+                          break;
+                        case "learner_response":
+                          userAnswer = ur.Value;
+                          break;
+                        case "result":
+                          result = ur.Value;
+                          break;
+                      }
+                    }
+                  }*/
 
                 if (correntAnswer == null)
                 {
