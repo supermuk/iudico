@@ -79,10 +79,10 @@ namespace IUDICO.DataModel.Common.StatisticUtils
             return result;
         }
 
-        public static List<TblVars> GetStatisticForLearnerSession(int learnerSessionId)
+        public static List<TblVarsInteractions> GetStatisticForLearnerSession(int learnerSessionId)
         {
-            return ServerModel.DB.Query<TblVars>(
-                    new CompareCondition<int>(
+          return ServerModel.DB.Query<TblVarsInteractions>(
+                        new CompareCondition<int>(
                         DataObject.Schema.LearnerSessionRef,
                         new ValueCondition<int>(learnerSessionId), COMPARE_KIND.EQUAL));
         }
