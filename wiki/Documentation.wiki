@@ -1,3 +1,7 @@
 = Product Documentation =
-
+----
+thesis Mykola Kavf
+Mahysterska work Micha Yaremko
+June 2009
 [http://iudico.googlecode.com/files/iudico_doc.7z Documentation  Mykola Kavf & Micha Yaremko]
+----
