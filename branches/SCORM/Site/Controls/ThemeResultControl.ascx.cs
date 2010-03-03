@@ -36,67 +36,86 @@ public partial class ThemeResultControl : UserControl
         if (currentUser != null)
         {
             SetHeaderText(Theme.Name, CurriculumnName, StageName, User.DisplayName);
-            Dictionary<int, TableRow> rows = new Dictionary<int, TableRow>();
+            //Dictionary<int, TableRow> rows = new Dictionary<int, TableRow>();
+            List<TableRow> rows = new List<TableRow>();
 
             foreach (TblLearnerSessions learnerSession in LearnerSessions)
             {
                 //List<TblVarsInteractions> userResults = StatisticManager.GetStatisticForLearnerSession(learnerSession.ID);
                 TblItems item = ServerModel.DB.Load<TblItems>(learnerSession.ItemRef);
                 
-                string correntAnswer = null;
+                string correctAnswer = null;
                 string userAnswer = null;
                 string result = null;
 
                 CmiDataModel cmiDataModel = new CmiDataModel(learnerSession.ID, ServerModel.User.Current.ID, false);
                 for (int i = 0; i < int.Parse(cmiDataModel.GetValue("interactions._count"));i++)
                 {
-                  correntAnswer = cmiDataModel.GetValue(String.Format("interactions.{0}.correct_responses.0.pattern", i));
+                  correctAnswer = cmiDataModel.GetValue(String.Format("interactions.{0}.correct_responses.0.pattern", i));
                   userAnswer = cmiDataModel.GetValue(String.Format("interactions.{0}.learner_response", i));
                   result = cmiDataModel.GetValue(String.Format("interactions.{0}.result", i));
-                }
 
-                  /*foreach (var ur in userResults)
+                  if (correctAnswer == null)
                   {
-                    //if (ur.Name.StartsWith("cmi.interactions."))
-                    {
-                      string[] parts = ur.Name.Split('.');
-                      //int questionNum = Convert.ToInt32(parts[2]);
-                      int questionNum = ur.Number;
-
-                      //switch (parts[3])
-                      switch (parts[0])
-                      {
-                        case "correct_responses":
-                          correntAnswer = ur.Value;
-                          break;
-                        case "learner_response":
-                          userAnswer = ur.Value;
-                          break;
-                        case "result":
-                          result = ur.Value;
-                          break;
-                      }
-                    }
-                  }*/
-
-                if (correntAnswer == null)
-                {
                     continue;
+                  }
+
+                  var row = new TableRow();
+                  row.Cells.Add(new TableCell { Text = item.Title });
+                  row.Cells.Add(new TableCell { Text = userAnswer });
+                  row.Cells.Add(new TableCell { Text = correctAnswer });
+                  row.Cells.Add(new TableCell { Text = result });
+
+                  rows.Add(row);
                 }
 
-                var row = new TableRow();
+                /*foreach (var ur in userResults)
+                {
+                  //if (ur.Name.StartsWith("cmi.interactions."))
+                  {
+                    string[] parts = ur.Name.Split('.');
+                    //int questionNum = Convert.ToInt32(parts[2]);
+                    int questionNum = ur.Number;
+
+                    //switch (parts[3])
+                    switch (parts[0])
+                    {
+                      case "correct_responses":
+                        correntAnswer = ur.Value;
+                        break;
+                      case "learner_response":
+                        userAnswer = ur.Value;
+                        break;
+                      case "result":
+                        result = ur.Value;
+                        break;
+                    }
+                  }
+                }*/
+
+                //if (correctAnswer == null)
+                //{
+                //  continue;
+                //}
+
+                /*var row = new TableRow();
 
                 row.Cells.Add(new TableCell { Text = item.Title });
                 row.Cells.Add(new TableCell { Text = userAnswer });
-                row.Cells.Add(new TableCell { Text = correntAnswer });
+                row.Cells.Add(new TableCell { Text = correctAnswer });
                 row.Cells.Add(new TableCell { Text = result });
 
-                rows[item.ID] = row;
+                //rows.[item.ID] = row;
+                rows.Add(row);*/
             }
 
-            foreach (KeyValuePair<int, TableRow> kvp in rows)
+            /*foreach (KeyValuePair<int, TableRow> kvp in rows)
             {
                 _resultTable.Rows.Add(kvp.Value);
+            }*/
+            foreach(TableRow row in rows)
+            {
+              _resultTable.Rows.Add(row);
             }
         }
     }
