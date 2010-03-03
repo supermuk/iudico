@@ -356,7 +356,7 @@ namespace IUDICO.DataModel.Common
                                 new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),
                             new CompareCondition<string>(
                                 DataObject.Schema.Name,
-                                new ValueCondition<string>("cmi." + name), COMPARE_KIND.EQUAL)));
+                                new ValueCondition<string>(name), COMPARE_KIND.EQUAL)));
 
                     if (list.Count > 0)
                     {
