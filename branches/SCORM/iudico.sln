@@ -4,7 +4,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Site", "Site\", "{A1E0299F-BEB1-4DBB-8689-11964AD80D41}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFramework = "3.5"
-		ProjectReferences = "{F7A3C8E8-7545-4D92-8FF5-0927B4D845EF}|IUDICO.DataModel.dll;{498A9F11-9290-46D8-AFAF-32CC14C7FDDE}|TestingSystem.dll;"
+		ProjectReferences = "{F7A3C8E8-7545-4D92-8FF5-0927B4D845EF}|IUDICO.DataModel.dll;{498A9F11-9290-46D8-AFAF-32CC14C7FDDE}|TestingSystem.dll;{87B27629-F231-4D37-84B0-B531BA95F6A7}|BoxOver.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/Site"
 		Debug.AspNetCompiler.PhysicalPath = "Site\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\Site\"
@@ -19,7 +19,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Site", "Site\", "{A1E0299F-
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "2935"
+		VWDPort = "1207"
+		VWDDynamicPort = "true"
 		VWDVirtualPath = "/"
 	EndProjectSection
 EndProject
@@ -36,6 +37,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{E99F9341-7DD8-457F-818A-EF56561B5596}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WebSetup", "WebSetup\WebSetup.vdproj", "{9EE3C7A2-A5F9-42C9-8DBF-462A259E95A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxOver", "BoxOver\BoxOver\BoxOver.csproj", "{87B27629-F231-4D37-84B0-B531BA95F6A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,6 +108,14 @@ Global
 		{9EE3C7A2-A5F9-42C9-8DBF-462A259E95A6}.Debug|Mixed Platforms.ActiveCfg = Debug
 		{9EE3C7A2-A5F9-42C9-8DBF-462A259E95A6}.Release|Any CPU.ActiveCfg = Release
 		{9EE3C7A2-A5F9-42C9-8DBF-462A259E95A6}.Release|Mixed Platforms.ActiveCfg = Release
+		{87B27629-F231-4D37-84B0-B531BA95F6A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87B27629-F231-4D37-84B0-B531BA95F6A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87B27629-F231-4D37-84B0-B531BA95F6A7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{87B27629-F231-4D37-84B0-B531BA95F6A7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{87B27629-F231-4D37-84B0-B531BA95F6A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87B27629-F231-4D37-84B0-B531BA95F6A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87B27629-F231-4D37-84B0-B531BA95F6A7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{87B27629-F231-4D37-84B0-B531BA95F6A7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

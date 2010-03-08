@@ -1,6 +1,8 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
     CodeFile="CreateUserBulk.aspx.cs" Inherits="Admin_CreateUserBulk" %>
 
+<%@ Register assembly="BoxOver" namespace="BoxOver" tagprefix="boxover" %>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
     <h1>
         Create Multiple Users</h1>
@@ -13,7 +15,11 @@
                 <asp:Label Text="Prefix:" runat="server" />
             </td>
             <td>
+                <boxover:BoxOver ID="BoxOver8" runat="server" Body="Click to save users!" 
+                    ControlToValidate="btnCreate" Header="Help!" />
                 <asp:TextBox ID="tbPrefix" runat="server" />
+                <boxover:BoxOver ID="BoxOver1" runat="server" Body="Enter prefix for user!" 
+                    ControlToValidate="tbPrefix" Header="Help!" />
             </td>
         </tr>
         <tr>
@@ -22,6 +28,8 @@
             </td>
             <td>
                 <asp:TextBox ID="tbCount" runat="server" />
+                <boxover:BoxOver ID="BoxOver2" runat="server" Body="Enter number of accounts!" 
+                    ControlToValidate="tbCount" Header="Help!" />
             </td>
         </tr>
         <tr>
@@ -30,6 +38,8 @@
             </td>
             <td>
                 <asp:TextBox ID="tbPassword" runat="server" />
+                <boxover:BoxOver ID="BoxOver3" runat="server" Body="Enter default password!" 
+                    ControlToValidate="tbPassword" Header="Help!" />
             </td>
         </tr>
         <tr>
@@ -52,7 +62,17 @@
                 <asp:Label ID="Label1" Text="Make Student:" runat="server" />
             </td>
             <td>
+                <boxover:BoxOver ID="BoxOver5" runat="server" Body="Choose group!" 
+                    ControlToValidate="cbGroups" Header="Help!" />
                 <asp:CheckBox runat="server" ID="cbMakeStudent" AutoPostBack="true" />
+                <boxover:BoxOver ID="BoxOver7" runat="server" 
+                    Body="Check to make user a student!" ControlToValidate="cbMakeStudent" 
+                    Header="Help!" />
+                <boxover:BoxOver ID="BoxOver4" runat="server" 
+                    Body="Check if you want to add user to group!" ControlToValidate="cbAddToGroup" 
+                    Header="Help!" />
+                <boxover:BoxOver ID="BoxOver6" runat="server" Body="Enter new group name!" 
+                    ControlToValidate="tbNewGroup" Header="Help!" />
             </td>
         </tr>
     </table>

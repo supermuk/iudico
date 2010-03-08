@@ -1,6 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
     CodeFile="Share.aspx.cs" Inherits="Share" %>
 
+<%@ Register assembly="BoxOver" namespace="BoxOver" tagprefix="boxover" %>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
     <table>
         <tr>
@@ -29,6 +31,9 @@
         <tr>
             <td>
                 <asp:Button runat="server" ID="Button_Update" Text="Update" />
+                <boxover:BoxOver ID="BoxOver1" runat="server" 
+                    Body="Click to update information!" ControlToValidate="Button_Update" 
+                    Header="Help!" />
             </td>
         </tr>
     </table>

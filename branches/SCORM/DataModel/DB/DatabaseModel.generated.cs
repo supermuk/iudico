@@ -123,6 +123,9 @@ namespace IUDICO.DataModel.DB
     partial void InsertTblUserAnswers(TblUserAnswers instance);
     partial void UpdateTblUserAnswers(TblUserAnswers instance);
     partial void DeleteTblUserAnswers(TblUserAnswers instance);
+    partial void InsertTblUserNotes(TblUserNotes instance);
+    partial void UpdateTblUserNotes(TblUserNotes instance);
+    partial void DeleteTblUserNotes(TblUserNotes instance);
     partial void InsertTblUsers(TblUsers instance);
     partial void UpdateTblUsers(TblUsers instance);
     partial void DeleteTblUsers(TblUsers instance);
@@ -436,6 +439,14 @@ namespace IUDICO.DataModel.DB
 			get
 			{
 				return this.GetTable<TblUserAnswers>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TblUserNotes> TblUserNotes
+		{
+			get
+			{
+				return this.GetTable<TblUserNotes>();
 			}
 		}
 		
@@ -9196,6 +9207,164 @@ namespace IUDICO.DataModel.DB
 		{
 			this.SendPropertyChanging();
 			entity.TblUserAnswers = null;
+		}
+	}
+	
+	[Table(Name="dbo.tblUserNotes")]
+	public partial class TblUserNotes : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private System.Nullable<int> _UserRef;
+		
+		private string _Description;
+		
+		private System.Nullable<System.DateTime> _Date;
+		
+		private short _SysState;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnUserRefChanging(System.Nullable<int> value);
+    partial void OnUserRefChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnDateChanged();
+    partial void OnSysStateChanging(short value);
+    partial void OnSysStateChanged();
+    #endregion
+		
+		public TblUserNotes()
+		{
+			OnCreated();
+		}
+		
+		[Column(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_UserRef", DbType="Int")]
+		public System.Nullable<int> UserRef
+		{
+			get
+			{
+				return this._UserRef;
+			}
+			set
+			{
+				if ((this._UserRef != value))
+				{
+					this.OnUserRefChanging(value);
+					this.SendPropertyChanging();
+					this._UserRef = value;
+					this.SendPropertyChanged("UserRef");
+					this.OnUserRefChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_Description", DbType="NVarChar(MAX)", UpdateCheck=UpdateCheck.Never)]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_Date", DbType="DateTime")]
+		public System.Nullable<System.DateTime> Date
+		{
+			get
+			{
+				return this._Date;
+			}
+			set
+			{
+				if ((this._Date != value))
+				{
+					this.OnDateChanging(value);
+					this.SendPropertyChanging();
+					this._Date = value;
+					this.SendPropertyChanged("Date");
+					this.OnDateChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
+		{
+			get
+			{
+				return this._SysState;
+			}
+			set
+			{
+				if ((this._SysState != value))
+				{
+					this.OnSysStateChanging(value);
+					this.SendPropertyChanging();
+					this._SysState = value;
+					this.SendPropertyChanged("SysState");
+					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
