@@ -1,6 +1,8 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
     CodeFile="EditGroup.aspx.cs" Inherits="Admin_EditGroup" Title="Untitled Page" %>
 
+<%@ Register assembly="BoxOver" namespace="BoxOver" tagprefix="boxover" %>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
     <asp:Panel runat="server">
         <h1><asp:Label runat="server" ID="lbTitle" /></h1>
@@ -10,8 +12,12 @@
         <asp:Label ID="lbGroupName" Text="Group Name:" runat="server" />
         &nbsp;
         <asp:TextBox ID="tbGroupName" runat="server" />
+        <boxover:BoxOver ID="BoxOver1" runat="server" Body="Enter group name!" 
+            ControlToValidate="tbGroupName" Header="Help!" />
         <br />
         <asp:Button ID="btnApply" Text="Apply" runat="server" />
+        <boxover:BoxOver ID="BoxOver2" runat="server" Body="Click to apply changes!" 
+            ControlToValidate="btnApply" Header="Help!" />
     </asp:Panel>
     <asp:Panel runat="server">
         <h2>

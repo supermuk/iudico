@@ -18,6 +18,7 @@ namespace IUDICO.DataModel.Controllers.Student
     public class StudentPageController : ControllerBase
     {
         private const int CountHowManyPagesToShow = 5;
+        private IList<DateTime?> _noteDates;
 
         private int _userId;
         
@@ -57,6 +58,12 @@ namespace IUDICO.DataModel.Controllers.Student
 
         public ListBox PeriodDescription;
         
+        public TextBox UserDescription;
+
+        public Button DescriptionButton;
+
+        public Button ShowDescription;
+            
         #endregion
 
 
@@ -86,6 +93,20 @@ namespace IUDICO.DataModel.Controllers.Student
                                                  });
                 }
             }
+        }
+
+        public void ShowDescriptionButtonClick(object sender, EventArgs e)
+        {
+            CurriculumnCalendar.SelectedDates.Clear();
+            CurriculumnCalendar.SelectedDayStyle.BackColor = Color.Orange;
+            foreach (DateTime date in StudentRecordFinder.GetAllDates(_userId))
+            {
+                CurriculumnCalendar.SelectedDates.Add(date);
+            }
+        }
+        public void SetDescriptionButtonClick(object sender, EventArgs e)
+        {
+            StudentRecordFinder.SetDataDescription(_userId, CurriculumnCalendar.SelectedDate, UserDescription.Text);
         }
 
         public void ShowResultButtonClick(object sender, EventArgs e)
@@ -139,7 +160,8 @@ namespace IUDICO.DataModel.Controllers.Student
                         DoPreControlPreparation();
                         BuildTreeForControl(controlInfo);
                         SelectDatesPeriods(controlInfo.DatePeriods);
-                        _isControlInProgress = true;
+                        UserDescription.Text = StudentRecordFinder.GetDateDescription(_userId, CurriculumnCalendar.SelectedDate);
+                       _isControlInProgress = true;
                     }
                 }
                 BuildLatestResultTable();
@@ -169,10 +191,11 @@ namespace IUDICO.DataModel.Controllers.Student
 
         public void SelectedDateChanged(object sender, EventArgs e)
         {
-            PeriodDescription.Items.Clear();
+            CurriculumnCalendar.SelectedDayStyle.BackColor = Color.Gray;
             OpenTestButton.Enabled = false;
             ShowDescriptionForDataSelection();
             BuildTree(CurriculumnCalendar.SelectedDate);
+            UserDescription.Text = StudentRecordFinder.GetDateDescription(_userId, CurriculumnCalendar.SelectedDate);
         }
 
         public void CurriculumnTreeSelectionChanged(object sender, EventArgs e)

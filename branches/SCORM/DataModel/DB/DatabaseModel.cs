@@ -180,6 +180,8 @@ namespace IUDICO.DataModel.DB
 
     public partial class TblResources : IntKeyedDataObject, IIntKeyedDataObject { }
 
+    public partial class TblUserNotes : IntKeyedDataObject, IIntKeyedDataObject { }
+
     public partial class TblUsers : IntKeyedDataObject, IIntKeyedDataObject
     {
         public string DisplayName

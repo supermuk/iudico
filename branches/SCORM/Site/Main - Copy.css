@@ -1,11 +1,4 @@
-﻿.modalBackground
-{
-	background-color:#000;
-	filter:alpha(opacity=80);
-	opacity:0.8;
-}
-
-.menu-static
+﻿.menu-static
 {
     border-width: 1px;
     border-color: Green;
@@ -53,6 +46,7 @@
 	font-family: Tahoma;
 	font-size: small;
 	font-weight: bold;
+	text-align: center;
 	z-index: 5;
 }
 
