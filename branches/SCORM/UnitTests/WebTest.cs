@@ -10,6 +10,7 @@ namespace IUDICO.UnitTest
     [TestFixture]
     public class WebTest: TestFixtureWeb
     {
+        [Test]
         public void Test001()
         {
             Selenium.Open("http://localhost/TestPage1.htm");
