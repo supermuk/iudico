@@ -26,26 +26,26 @@ namespace IUDICO.UnitTest.Base
     /// Tester class for testing Web application using Selenium. The class provides a fluent interface 
     /// for testing.
     /// </summary>
-    public class TestFixtureWeb
+    public class TestFixtureWeb: TestFixtureDB
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SeleniumTesterBase"/> class.
         /// </summary>
-        public TestFixtureWeb()
-        {
+        public TestFixtureWeb(): base()
+        {           
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
 
             browserType = (BrowserType)Enum.Parse(
                                             typeof(BrowserType),
-                                            ConfigurationManager.AppSettings["BrowserType"],
+                                            ConfigurationManager.AppSettings["SELENIUM_BROWSER"],
                                             true);
-            testMachine = ConfigurationManager.AppSettings["TestMachine"];
+            testMachine = ConfigurationManager.AppSettings["SELENIUM_HOST"];
             seleniumPort = int.Parse(
-                ConfigurationManager.AppSettings["SeleniumPort"],
+                ConfigurationManager.AppSettings["SELENIUM_PORT"],
                 CultureInfo.InvariantCulture);
-            seleniumSpeed = ConfigurationManager.AppSettings["SeleniumSpeed"];
-            browserUrl = ConfigurationManager.AppSettings["BrowserUrl"];
+            seleniumSpeed = ConfigurationManager.AppSettings["SELENIUM_SPEED"];
+            browserUrl = ConfigurationManager.AppSettings["SELENIUM_URL"];
 
             string browserExe;
 
