@@ -9397,6 +9397,8 @@ namespace IUDICO.DataModel.DB
 		private EntitySet<RelUserRoles> _RelUserRoles;
 		
 		private EntitySet<TblUserAnswers> _TblUserAnswers;
+        
+        private EntitySet<TblUserNotes> _TblUserNotes;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -9425,6 +9427,7 @@ namespace IUDICO.DataModel.DB
 			this._RelUserGroups = new EntitySet<RelUserGroups>(new Action<RelUserGroups>(this.attach_RelUserGroups), new Action<RelUserGroups>(this.detach_RelUserGroups));
 			this._RelUserRoles = new EntitySet<RelUserRoles>(new Action<RelUserRoles>(this.attach_RelUserRoles), new Action<RelUserRoles>(this.detach_RelUserRoles));
 			this._TblUserAnswers = new EntitySet<TblUserAnswers>(new Action<TblUserAnswers>(this.attach_TblUserAnswers), new Action<TblUserAnswers>(this.detach_TblUserAnswers));
+            this._TblUserNotes = new EntitySet<TblUserNotes>(new Action<TblUserNotes>(this.attach_TblUserNotes), new Action<TblUserNotes>(this.detach_TblUserNotes));
 			OnCreated();
 		}
 		
@@ -9632,6 +9635,19 @@ namespace IUDICO.DataModel.DB
 				this._TblUserAnswers.Assign(value);
 			}
 		}
+
+        [Association(Name = "FK_UserNotes_Users", Storage = "_TblUserNotes", OtherKey = "UserRef", DeleteRule = "NO ACTION")]
+        public EntitySet<TblUserNotes> TblUserNotes
+        {
+            get
+            {
+                return this._TblUserNotes;
+            }
+            set
+            {
+                this._TblUserNotes.Assign(value);
+            }
+        }
 		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
@@ -9712,6 +9728,17 @@ namespace IUDICO.DataModel.DB
 			this.SendPropertyChanging();
 			entity.TblUsers = null;
 		}
+        private void attach_TblUserNotes(TblUserNotes entity)
+        {
+            this.SendPropertyChanging();
+            entity.TblUsers = this;
+        }
+
+        private void detach_TblUserNotes(TblUserNotes entity)
+        {
+            this.SendPropertyChanging();
+            entity.TblUsers = null;
+        }
 	}
 	
 	[Table(Name="dbo.tblVars")]
