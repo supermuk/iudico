@@ -21,6 +21,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Site", "Site\", "{A1E0299F-
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "1207"
 		VWDDynamicPort = "true"
+		VWDDynamicPort = "true"
 		VWDVirtualPath = "/"
 	EndProjectSection
 EndProject

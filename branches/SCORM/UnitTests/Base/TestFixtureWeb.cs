@@ -6,6 +6,7 @@ using System.IO;
 using System.Threading;
 using Selenium;
 using NUnit.Framework;
+using System.Text;
 
 namespace IUDICO.UnitTest.Base
 {
@@ -26,13 +27,14 @@ namespace IUDICO.UnitTest.Base
     /// Tester class for testing Web application using Selenium. The class provides a fluent interface 
     /// for testing.
     /// </summary>
-    public class TestFixtureWeb: TestFixtureDB
+    public class TestFixtureWeb : TestFixtureDB
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SeleniumTesterBase"/> class.
         /// </summary>
-        public TestFixtureWeb(): base()
-        {           
+        public TestFixtureWeb()
+            : base()
+        {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
 
@@ -63,13 +65,38 @@ namespace IUDICO.UnitTest.Base
             }
 
             selenium = new DefaultSelenium(testMachine, seleniumPort, browserExe, browserUrl);
-            selenium.Start();
+            //selenium.SetTimeout("1000000");
 
             Console.WriteLine("Started Selenium session (browser type={0})", browserType);
 
             // sets the speed of execution of GUI commands
             if (false == String.IsNullOrEmpty(seleniumSpeed))
                 selenium.SetSpeed(seleniumSpeed);
+        }
+
+        [TestFixtureSetUp]
+        protected override void InitializeFixture()
+        {
+            base.InitializeFixture();
+
+            verificationErrors = new StringBuilder();
+
+            selenium.Start();            
+        }
+
+        [TestFixtureTearDown]
+        protected override void  FinializeFixture()
+        {
+            base.FinializeFixture();
+
+            try
+            {
+                selenium.Stop();
+            }
+            catch (SeleniumException)
+            {
+
+            }
         }
 
         /// <summary>
@@ -428,7 +455,7 @@ namespace IUDICO.UnitTest.Base
         public TestFixtureWeb BrowserBackButton()
         {
             selenium.GoBack();
-            return Pause();
+            return Pause(1000);
         }
 
         /// <summary>
@@ -625,9 +652,9 @@ namespace IUDICO.UnitTest.Base
         /// <returns>
         /// The same <see cref="SeleniumTesterBase"/> object.
         /// </returns>
-        public TestFixtureWeb Pause()
+        public TestFixtureWeb Pause(int miliseconds)
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(miliseconds);
             return this;
         }
 
@@ -647,7 +674,7 @@ namespace IUDICO.UnitTest.Base
                     "xpath=//select[contains(@id,'{0}')]",
                     inputControlId),
                 value);
-            return Pause();
+            return Pause(1000);
         }
 
         /// <summary>
@@ -662,6 +689,8 @@ namespace IUDICO.UnitTest.Base
             return this;
         }
 
+        private StringBuilder verificationErrors;
+        
         private readonly ISelenium selenium;
 
         private readonly BrowserType browserType = BrowserType.InternetExplorer;
