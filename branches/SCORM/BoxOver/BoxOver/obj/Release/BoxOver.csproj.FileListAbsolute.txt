@@ -1,0 +1,5 @@
+C:\Documents and Settings\Predator\Desktop\scorm\BoxOver\BoxOver\bin\Release\BoxOver.dll
+C:\Documents and Settings\Predator\Desktop\scorm\BoxOver\BoxOver\bin\Release\BoxOver.pdb
+C:\Documents and Settings\Predator\Desktop\scorm\BoxOver\BoxOver\obj\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\Predator\Desktop\scorm\BoxOver\BoxOver\obj\Release\BoxOver.dll
+C:\Documents and Settings\Predator\Desktop\scorm\BoxOver\BoxOver\obj\Release\BoxOver.pdb
