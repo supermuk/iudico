@@ -354,14 +354,18 @@ namespace FireFly.CourseEditor.Course
             return System.Enum.GetName(typeof(LANGUAGE), lang);
         }
 
-        public CompiledQuestion(int? rank, long memoryLimit, long outputLimit, long timeLimit, LANGUAGE? language)
+        public CompiledQuestion(int? rank, string serviceAddress, long memoryLimit, long outputLimit, long timeLimit, LANGUAGE? language)
             : base(null, rank)
         {
+            ServiceAddress = serviceAddress;
             MemoryLimit = memoryLimit;
             OutputLimit = outputLimit;
             TimeLimit = timeLimit;
             Language = language;
         }
+
+        [XmlAttribute("service_address")]
+        public string ServiceAddress;
 
         [XmlAttribute("memory_limit")]
         public long MemoryLimit;

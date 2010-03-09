@@ -119,7 +119,7 @@ namespace FireFly.CourseEditor.GUI.HtmlEditor
 
         public override Question StoreAnswersItem()
         {
-            return new CompiledQuestion(Rank, _MemoryLimit, _OutputLimit, _TimeLimit, Language) { Tests = TestCases };
+            return new CompiledQuestion(Rank, _ServiceAddress, _MemoryLimit, _OutputLimit, _TimeLimit, Language) { Tests = TestCases };
         }
 
         public override void ReadAnswerItem(Question q)
@@ -131,6 +131,7 @@ namespace FireFly.CourseEditor.GUI.HtmlEditor
             OutputLimit = cq.OutputLimit;
             Language = cq.Language;
             TestCases = cq.Tests;
+            ServiceAddress = cq.ServiceAddress;
         }
 
         protected override void InternalValidate()
