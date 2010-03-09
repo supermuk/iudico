@@ -743,7 +743,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblUserAnswers_AnswerTypeRef", Storage="_TblUserAnswers", OtherKey="AnswerTypeRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblUserAnswers_AnswerTypeRef", Storage="_TblUserAnswers", ThisKey="ID", OtherKey="AnswerTypeRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblUserAnswers> TblUserAnswers
 		{
 			get
@@ -905,7 +905,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblCompiledAnswers_fxdCompiledStatuses", Storage="_TblCompiledAnswers", OtherKey="StatusRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblCompiledAnswers_fxdCompiledStatuses", Storage="_TblCompiledAnswers", ThisKey="ID", OtherKey="StatusRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblCompiledAnswers> TblCompiledAnswers
 		{
 			get
@@ -1091,7 +1091,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_CourseOperations", Storage="_TblPermissions", OtherKey="CourseOperationRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_CourseOperations", Storage="_TblPermissions", ThisKey="ID", OtherKey="CourseOperationRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -1277,7 +1277,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_CurriculumOperations", Storage="_TblPermissions", OtherKey="CurriculumOperationRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_CurriculumOperations", Storage="_TblPermissions", ThisKey="ID", OtherKey="CurriculumOperationRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -1463,7 +1463,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_GroupOperations", Storage="_TblPermissions", OtherKey="GroupOperationRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_GroupOperations", Storage="_TblPermissions", ThisKey="ID", OtherKey="GroupOperationRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -1601,7 +1601,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblCompiledQuestions_fxdLanguages", Storage="_TblCompiledQuestions", OtherKey="LanguageRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblCompiledQuestions_fxdLanguages", Storage="_TblCompiledQuestions", ThisKey="ID", OtherKey="LanguageRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblCompiledQuestions> TblCompiledQuestions
 		{
 			get
@@ -1787,7 +1787,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_PageOperations", Storage="_TblPermissions", OtherKey="PageOperationRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_PageOperations", Storage="_TblPermissions", ThisKey="ID", OtherKey="PageOperationRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -2035,7 +2035,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Page_PageType", Storage="_TblPages", OtherKey="PageTypeRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Page_PageType", Storage="_TblPages", ThisKey="ID", OtherKey="PageTypeRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPages> TblPages
 		{
 			get
@@ -2197,7 +2197,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_ROLE_ID", Storage="_RelUserRoles", OtherKey="RoleID", DeleteRule="NO ACTION")]
+		[Association(Name="FK_ROLE_ID", Storage="_RelUserRoles", ThisKey="ID", OtherKey="RoleID", DeleteRule="NO ACTION")]
 		public EntitySet<RelUserRoles> RelUserRoles
 		{
 			get
@@ -2482,7 +2482,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_StageOperations", Storage="_TblPermissions", OtherKey="StageOperationRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_StageOperations", Storage="_TblPermissions", ThisKey="ID", OtherKey="StageOperationRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -2668,7 +2668,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_ThemeOperations", Storage="_TblPermissions", OtherKey="ThemeOperationRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_ThemeOperations", Storage="_TblPermissions", ThisKey="ID", OtherKey="ThemeOperationRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -2817,7 +2817,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_GROUP", Storage="_TblGroups", ThisKey="GroupRef", IsForeignKey=true)]
+		[Association(Name="FK_GROUP", Storage="_TblGroups", ThisKey="GroupRef", OtherKey="ID", IsForeignKey=true)]
 		public TblGroups TblGroups
 		{
 			get
@@ -2851,7 +2851,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_USER", Storage="_TblUsers", ThisKey="UserRef", IsForeignKey=true)]
+		[Association(Name="FK_USER", Storage="_TblUsers", ThisKey="UserRef", OtherKey="ID", IsForeignKey=true)]
 		public TblUsers TblUsers
 		{
 			get
@@ -3009,7 +3009,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_ROLE_ID", Storage="_FxRoles", ThisKey="RoleID", IsForeignKey=true)]
+		[Association(Name="FK_ROLE_ID", Storage="_FxRoles", ThisKey="RoleID", OtherKey="ID", IsForeignKey=true)]
 		public FxRoles FxRoles
 		{
 			get
@@ -3043,7 +3043,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_USER_ID", Storage="_TblUsers", ThisKey="UserID", IsForeignKey=true)]
+		[Association(Name="FK_USER_ID", Storage="_TblUsers", ThisKey="UserID", OtherKey="ID", IsForeignKey=true)]
 		public TblUsers TblUsers
 		{
 			get
@@ -3427,7 +3427,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblCompiledAnswers_fxdCompiledStatuses", Storage="_FxCompiledStatuses", ThisKey="StatusRef", IsForeignKey=true)]
+		[Association(Name="FK_tblCompiledAnswers_fxdCompiledStatuses", Storage="_FxCompiledStatuses", ThisKey="StatusRef", OtherKey="ID", IsForeignKey=true)]
 		public FxCompiledStatuses FxCompiledStatuses
 		{
 			get
@@ -3461,7 +3461,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblCompiledAnswers_tblCompiledQuestionsData", Storage="_TblCompiledQuestionsData", ThisKey="CompiledQuestionsDataRef", IsForeignKey=true)]
+		[Association(Name="FK_tblCompiledAnswers_tblCompiledQuestionsData", Storage="_TblCompiledQuestionsData", ThisKey="CompiledQuestionsDataRef", OtherKey="ID", IsForeignKey=true)]
 		public TblCompiledQuestionsData TblCompiledQuestionsData
 		{
 			get
@@ -3495,7 +3495,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblCompiledAnswers_tblUserAnswers", Storage="_TblUserAnswers", ThisKey="UserAnswerRef", IsForeignKey=true)]
+		[Association(Name="FK_tblCompiledAnswers_tblUserAnswers", Storage="_TblUserAnswers", ThisKey="UserAnswerRef", OtherKey="ID", IsForeignKey=true)]
 		public TblUserAnswers TblUserAnswers
 		{
 			get
@@ -3724,7 +3724,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblCompiledQuestions_fxdLanguages", Storage="_FxLanguages", ThisKey="LanguageRef", IsForeignKey=true)]
+		[Association(Name="FK_tblCompiledQuestions_fxdLanguages", Storage="_FxLanguages", ThisKey="LanguageRef", OtherKey="ID", IsForeignKey=true)]
 		public FxLanguages FxLanguages
 		{
 			get
@@ -3758,7 +3758,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblCompiledQuestionsData_tblCompiledQuestions", Storage="_TblCompiledQuestionsData", OtherKey="CompiledQuestionRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblCompiledQuestionsData_tblCompiledQuestions", Storage="_TblCompiledQuestionsData", ThisKey="ID", OtherKey="CompiledQuestionRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblCompiledQuestionsData> TblCompiledQuestionsData
 		{
 			get
@@ -3771,7 +3771,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblQuestions_tblCompiledQuestions", Storage="_TblQuestions", OtherKey="CompiledQuestionRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblQuestions_tblCompiledQuestions", Storage="_TblQuestions", ThisKey="ID", OtherKey="CompiledQuestionRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblQuestions> TblQuestions
 		{
 			get
@@ -3976,7 +3976,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblCompiledAnswers_tblCompiledQuestionsData", Storage="_TblCompiledAnswers", OtherKey="CompiledQuestionsDataRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblCompiledAnswers_tblCompiledQuestionsData", Storage="_TblCompiledAnswers", ThisKey="ID", OtherKey="CompiledQuestionsDataRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblCompiledAnswers> TblCompiledAnswers
 		{
 			get
@@ -3989,7 +3989,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblCompiledQuestionsData_tblCompiledQuestions", Storage="_TblCompiledQuestions", ThisKey="CompiledQuestionRef", IsForeignKey=true)]
+		[Association(Name="FK_tblCompiledQuestionsData_tblCompiledQuestions", Storage="_TblCompiledQuestions", ThisKey="CompiledQuestionRef", OtherKey="ID", IsForeignKey=true)]
 		public TblCompiledQuestions TblCompiledQuestions
 		{
 			get
@@ -4229,7 +4229,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Courses", Storage="_TblPermissions", OtherKey="CourseRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_Courses", Storage="_TblPermissions", ThisKey="ID", OtherKey="CourseRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -4242,7 +4242,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblOrganizations_tblCourses", Storage="_TblOrganizations", OtherKey="CourseRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblOrganizations_tblCourses", Storage="_TblOrganizations", ThisKey="ID", OtherKey="CourseRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblOrganizations> TblOrganizations
 		{
 			get
@@ -4255,7 +4255,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblResources_tblCourses", Storage="_TblResources", OtherKey="CourseRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblResources_tblCourses", Storage="_TblResources", ThisKey="ID", OtherKey="CourseRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblResources> TblResources
 		{
 			get
@@ -4268,7 +4268,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Themes_Course", Storage="_TblThemes", OtherKey="CourseRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Themes_Course", Storage="_TblThemes", ThisKey="ID", OtherKey="CourseRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblThemes> TblThemes
 		{
 			get
@@ -4469,7 +4469,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Curriculums_Stages", Storage="_TblStages", OtherKey="CurriculumRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Curriculums_Stages", Storage="_TblStages", ThisKey="ID", OtherKey="CurriculumRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblStages> TblStages
 		{
 			get
@@ -4482,7 +4482,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Curriculums", Storage="_TblPermissions", OtherKey="CurriculumRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_Curriculums", Storage="_TblPermissions", ThisKey="ID", OtherKey="CurriculumRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -4641,7 +4641,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_GROUP", Storage="_RelUserGroups", OtherKey="GroupRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_GROUP", Storage="_RelUserGroups", ThisKey="ID", OtherKey="GroupRef", DeleteRule="NO ACTION")]
 		public EntitySet<RelUserGroups> RelUserGroups
 		{
 			get
@@ -4654,7 +4654,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_GroupObjects", Storage="_TblPermissions", OtherKey="GroupObjectRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_GroupObjects", Storage="_TblPermissions", ThisKey="ID", OtherKey="GroupObjectRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -4667,7 +4667,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Groups", Storage="_Permissions_Groups", OtherKey="GroupRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_Groups", Storage="_Permissions_Groups", ThisKey="ID", OtherKey="GroupRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> Permissions_Groups
 		{
 			get
@@ -4680,7 +4680,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_OwnerGroup", Storage="_Permissions_OwnerGroup", OtherKey="OwnerGroupRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_OwnerGroup", Storage="_Permissions_OwnerGroup", ThisKey="ID", OtherKey="OwnerGroupRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> Permissions_OwnerGroup
 		{
 			get
@@ -4974,7 +4974,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblItems_tblItems", Storage="_TblItems_tblItems", ThisKey="PID", IsForeignKey=true)]
+		[Association(Name="FK_tblItems_tblItems", Storage="_TblItems_tblItems", ThisKey="PID", OtherKey="ID", IsForeignKey=true)]
 		public TblItems TblItems_tblItems
 		{
 			get
@@ -5008,7 +5008,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblItems_tblItems", Storage="_TblItems_tblItems1", OtherKey="PID", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblItems_tblItems", Storage="_TblItems_tblItems1", ThisKey="ID", OtherKey="PID", DeleteRule="NO ACTION")]
 		public EntitySet<TblItems> TblItems_tblItems1
 		{
 			get
@@ -5021,7 +5021,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblItems_tblLearnerSessions", Storage="_TblLearnerSessions", OtherKey="ItemRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblItems_tblLearnerSessions", Storage="_TblLearnerSessions", ThisKey="ID", OtherKey="ItemRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblLearnerSessions> TblLearnerSessions
 		{
 			get
@@ -5034,7 +5034,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblItems_tblOrganizations", Storage="_TblOrganizations", ThisKey="OrganizationRef", IsForeignKey=true)]
+		[Association(Name="FK_tblItems_tblOrganizations", Storage="_TblOrganizations", ThisKey="OrganizationRef", OtherKey="ID", IsForeignKey=true)]
 		public TblOrganizations TblOrganizations
 		{
 			get
@@ -5068,7 +5068,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblItems_tblResources", Storage="_TblResources", ThisKey="ResourceRef", IsForeignKey=true)]
+		[Association(Name="FK_tblItems_tblResources", Storage="_TblResources", ThisKey="ResourceRef", OtherKey="ID", IsForeignKey=true)]
 		public TblResources TblResources
 		{
 			get
@@ -5311,7 +5311,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblLearnerAttempts_tblLearnerSessions", Storage="_TblLearnerSessions", OtherKey="LearnerAttemptRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblLearnerAttempts_tblLearnerSessions", Storage="_TblLearnerSessions", ThisKey="ID", OtherKey="LearnerAttemptRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblLearnerSessions> TblLearnerSessions
 		{
 			get
@@ -5484,7 +5484,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblItems_tblLearnerSessions", Storage="_TblItems", ThisKey="ItemRef", IsForeignKey=true)]
+		[Association(Name="FK_tblItems_tblLearnerSessions", Storage="_TblItems", ThisKey="ItemRef", OtherKey="ID", IsForeignKey=true)]
 		public TblItems TblItems
 		{
 			get
@@ -5518,7 +5518,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblLearnerAttempts_tblLearnerSessions", Storage="_TblLearnerAttempts", ThisKey="LearnerAttemptRef", IsForeignKey=true)]
+		[Association(Name="FK_tblLearnerAttempts_tblLearnerSessions", Storage="_TblLearnerAttempts", ThisKey="LearnerAttemptRef", OtherKey="ID", IsForeignKey=true)]
 		public TblLearnerAttempts TblLearnerAttempts
 		{
 			get
@@ -5702,7 +5702,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Organizations_Themes", Storage="_TblThemes", OtherKey="OrganizationRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Organizations_Themes", Storage="_TblThemes", ThisKey="ID", OtherKey="OrganizationRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblThemes> TblThemes
 		{
 			get
@@ -5715,7 +5715,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Organizations", Storage="_TblPermissions", OtherKey="OrganizationRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_Organizations", Storage="_TblPermissions", ThisKey="ID", OtherKey="OrganizationRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -5728,7 +5728,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblItems_tblOrganizations", Storage="_TblItems", OtherKey="OrganizationRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblItems_tblOrganizations", Storage="_TblItems", ThisKey="ID", OtherKey="OrganizationRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblItems> TblItems
 		{
 			get
@@ -5741,7 +5741,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblOrganizations_tblCourses", Storage="_TblCourses", ThisKey="CourseRef", IsForeignKey=true)]
+		[Association(Name="FK_tblOrganizations_tblCourses", Storage="_TblCourses", ThisKey="CourseRef", OtherKey="ID", IsForeignKey=true)]
 		public TblCourses TblCourses
 		{
 			get
@@ -6030,7 +6030,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_CorrectAnswer_Page", Storage="_TblQuestions", OtherKey="PageRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_CorrectAnswer_Page", Storage="_TblQuestions", ThisKey="ID", OtherKey="PageRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblQuestions> TblQuestions
 		{
 			get
@@ -6043,7 +6043,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Page_PageType", Storage="_FxPageTypes", ThisKey="PageTypeRef", IsForeignKey=true)]
+		[Association(Name="FK_Page_PageType", Storage="_FxPageTypes", ThisKey="PageTypeRef", OtherKey="ID", IsForeignKey=true)]
 		public FxPageTypes FxPageTypes
 		{
 			get
@@ -6077,7 +6077,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Pages", Storage="_TblPermissions", OtherKey="PageRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_Pages", Storage="_TblPermissions", ThisKey="ID", OtherKey="PageRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -6833,7 +6833,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_PARENT_PERMITION", Storage="_ParentPermitionRefTblPermissions", ThisKey="ParentPermitionRef", IsForeignKey=true)]
+		[Association(Name="FK_PARENT_PERMITION", Storage="_ParentPermitionRefTblPermissions", ThisKey="ParentPermitionRef", OtherKey="ID", IsForeignKey=true)]
 		public TblPermissions ParentPermitionRefTblPermissions
 		{
 			get
@@ -6867,7 +6867,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_PARENT_PERMITION", Storage="_PARENT_PERMITION", OtherKey="ParentPermitionRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_PARENT_PERMITION", Storage="_PARENT_PERMITION", ThisKey="ID", OtherKey="ParentPermitionRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> PARENT_PERMITION
 		{
 			get
@@ -6880,7 +6880,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_CourseOperations", Storage="_FxCourseOperations", ThisKey="CourseOperationRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_CourseOperations", Storage="_FxCourseOperations", ThisKey="CourseOperationRef", OtherKey="ID", IsForeignKey=true)]
 		public FxCourseOperations FxCourseOperations
 		{
 			get
@@ -6914,7 +6914,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Courses", Storage="_TblCourses", ThisKey="CourseRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_Courses", Storage="_TblCourses", ThisKey="CourseRef", OtherKey="ID", IsForeignKey=true)]
 		public TblCourses TblCourses
 		{
 			get
@@ -6948,7 +6948,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_CurriculumOperations", Storage="_FxCurriculumOperations", ThisKey="CurriculumOperationRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_CurriculumOperations", Storage="_FxCurriculumOperations", ThisKey="CurriculumOperationRef", OtherKey="ID", IsForeignKey=true)]
 		public FxCurriculumOperations FxCurriculumOperations
 		{
 			get
@@ -6982,7 +6982,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Curriculums", Storage="_TblCurriculums", ThisKey="CurriculumRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_Curriculums", Storage="_TblCurriculums", ThisKey="CurriculumRef", OtherKey="ID", IsForeignKey=true)]
 		public TblCurriculums TblCurriculums
 		{
 			get
@@ -7016,7 +7016,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_GroupObjects", Storage="_TblGroups", ThisKey="GroupObjectRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_GroupObjects", Storage="_TblGroups", ThisKey="GroupObjectRef", OtherKey="ID", IsForeignKey=true)]
 		public TblGroups TblGroups
 		{
 			get
@@ -7050,7 +7050,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_GroupOperations", Storage="_FxGroupOperations", ThisKey="GroupOperationRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_GroupOperations", Storage="_FxGroupOperations", ThisKey="GroupOperationRef", OtherKey="ID", IsForeignKey=true)]
 		public FxGroupOperations FxGroupOperations
 		{
 			get
@@ -7084,7 +7084,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Groups", Storage="_GroupRefTblGroups", ThisKey="GroupRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_Groups", Storage="_GroupRefTblGroups", ThisKey="GroupRef", OtherKey="ID", IsForeignKey=true)]
 		public TblGroups GroupRefTblGroups
 		{
 			get
@@ -7118,7 +7118,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Organizations", Storage="_TblOrganizations", ThisKey="OrganizationRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_Organizations", Storage="_TblOrganizations", ThisKey="OrganizationRef", OtherKey="ID", IsForeignKey=true)]
 		public TblOrganizations TblOrganizations
 		{
 			get
@@ -7152,7 +7152,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_OwnerGroup", Storage="_OwnerGroupRefTblGroups", ThisKey="OwnerGroupRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_OwnerGroup", Storage="_OwnerGroupRefTblGroups", ThisKey="OwnerGroupRef", OtherKey="ID", IsForeignKey=true)]
 		public TblGroups OwnerGroupRefTblGroups
 		{
 			get
@@ -7186,7 +7186,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_OwnerUser", Storage="_TblUsers", ThisKey="OwnerUserRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_OwnerUser", Storage="_TblUsers", ThisKey="OwnerUserRef", OtherKey="ID", IsForeignKey=true)]
 		public TblUsers TblUsers
 		{
 			get
@@ -7220,7 +7220,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_PageOperations", Storage="_FxPageOperations", ThisKey="PageOperationRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_PageOperations", Storage="_FxPageOperations", ThisKey="PageOperationRef", OtherKey="ID", IsForeignKey=true)]
 		public FxPageOperations FxPageOperations
 		{
 			get
@@ -7254,7 +7254,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Pages", Storage="_TblPages", ThisKey="PageRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_Pages", Storage="_TblPages", ThisKey="PageRef", OtherKey="ID", IsForeignKey=true)]
 		public TblPages TblPages
 		{
 			get
@@ -7288,7 +7288,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_StageOperations", Storage="_FxStageOperations", ThisKey="StageOperationRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_StageOperations", Storage="_FxStageOperations", ThisKey="StageOperationRef", OtherKey="ID", IsForeignKey=true)]
 		public FxStageOperations FxStageOperations
 		{
 			get
@@ -7322,7 +7322,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Stages", Storage="_TblStages", ThisKey="StageRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_Stages", Storage="_TblStages", ThisKey="StageRef", OtherKey="ID", IsForeignKey=true)]
 		public TblStages TblStages
 		{
 			get
@@ -7356,7 +7356,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_ThemeOperations", Storage="_FxThemeOperations", ThisKey="ThemeOperationRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_ThemeOperations", Storage="_FxThemeOperations", ThisKey="ThemeOperationRef", OtherKey="ID", IsForeignKey=true)]
 		public FxThemeOperations FxThemeOperations
 		{
 			get
@@ -7390,7 +7390,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Themes", Storage="_TblThemes", ThisKey="ThemeRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_Themes", Storage="_TblThemes", ThisKey="ThemeRef", OtherKey="ID", IsForeignKey=true)]
 		public TblThemes TblThemes
 		{
 			get
@@ -7424,7 +7424,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_UserObjects", Storage="_UserObjectRefTblUsers", ThisKey="UserObjectRef", IsForeignKey=true)]
+		[Association(Name="FK_Permissions_UserObjects", Storage="_UserObjectRefTblUsers", ThisKey="UserObjectRef", OtherKey="ID", IsForeignKey=true)]
 		public TblUsers UserObjectRefTblUsers
 		{
 			get
@@ -7717,7 +7717,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_CorrectAnswer_Page", Storage="_TblPages", ThisKey="PageRef", IsForeignKey=true)]
+		[Association(Name="FK_CorrectAnswer_Page", Storage="_TblPages", ThisKey="PageRef", OtherKey="ID", IsForeignKey=true)]
 		public TblPages TblPages
 		{
 			get
@@ -7751,7 +7751,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblQuestions_tblCompiledQuestions", Storage="_TblCompiledQuestions", ThisKey="CompiledQuestionRef", IsForeignKey=true)]
+		[Association(Name="FK_tblQuestions_tblCompiledQuestions", Storage="_TblCompiledQuestions", ThisKey="CompiledQuestionRef", OtherKey="ID", IsForeignKey=true)]
 		public TblCompiledQuestions TblCompiledQuestions
 		{
 			get
@@ -7785,7 +7785,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_UserAnswer_CorrectAnswer", Storage="_TblUserAnswers", OtherKey="QuestionRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_UserAnswer_CorrectAnswer", Storage="_TblUserAnswers", ThisKey="ID", OtherKey="QuestionRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblUserAnswers> TblUserAnswers
 		{
 			get
@@ -8002,7 +8002,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblItems_tblResources", Storage="_TblItems", OtherKey="ResourceRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblItems_tblResources", Storage="_TblItems", ThisKey="ID", OtherKey="ResourceRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblItems> TblItems
 		{
 			get
@@ -8015,7 +8015,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblResources_tblCourses", Storage="_TblCourses", ThisKey="CourseRef", IsForeignKey=true)]
+		[Association(Name="FK_tblResources_tblCourses", Storage="_TblCourses", ThisKey="CourseRef", OtherKey="ID", IsForeignKey=true)]
 		public TblCourses TblCourses
 		{
 			get
@@ -8295,7 +8295,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Curriculums_Stages", Storage="_TblCurriculums", ThisKey="CurriculumRef", IsForeignKey=true)]
+		[Association(Name="FK_Curriculums_Stages", Storage="_TblCurriculums", ThisKey="CurriculumRef", OtherKey="ID", IsForeignKey=true)]
 		public TblCurriculums TblCurriculums
 		{
 			get
@@ -8329,7 +8329,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Stages", Storage="_TblPermissions", OtherKey="StageRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_Stages", Storage="_TblPermissions", ThisKey="ID", OtherKey="StageRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -8342,7 +8342,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Stages_Themes", Storage="_TblThemes", OtherKey="StageRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Stages_Themes", Storage="_TblThemes", ThisKey="ID", OtherKey="StageRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblThemes> TblThemes
 		{
 			get
@@ -8681,7 +8681,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Organizations_Themes", Storage="_TblOrganizations", ThisKey="OrganizationRef", IsForeignKey=true)]
+		[Association(Name="FK_Organizations_Themes", Storage="_TblOrganizations", ThisKey="OrganizationRef", OtherKey="ID", IsForeignKey=true)]
 		public TblOrganizations TblOrganizations
 		{
 			get
@@ -8715,7 +8715,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_Themes", Storage="_TblPermissions", OtherKey="ThemeRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_Themes", Storage="_TblPermissions", ThisKey="ID", OtherKey="ThemeRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -8728,7 +8728,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Stages_Themes", Storage="_TblStages", ThisKey="StageRef", IsForeignKey=true)]
+		[Association(Name="FK_Stages_Themes", Storage="_TblStages", ThisKey="StageRef", OtherKey="ID", IsForeignKey=true)]
 		public TblStages TblStages
 		{
 			get
@@ -8762,7 +8762,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Themes_Course", Storage="_TblCourses", ThisKey="CourseRef", IsForeignKey=true)]
+		[Association(Name="FK_Themes_Course", Storage="_TblCourses", ThisKey="CourseRef", OtherKey="ID", IsForeignKey=true)]
 		public TblCourses TblCourses
 		{
 			get
@@ -9062,7 +9062,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblCompiledAnswers_tblUserAnswers", Storage="_TblCompiledAnswers", OtherKey="UserAnswerRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_tblCompiledAnswers_tblUserAnswers", Storage="_TblCompiledAnswers", ThisKey="ID", OtherKey="UserAnswerRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblCompiledAnswers> TblCompiledAnswers
 		{
 			get
@@ -9075,7 +9075,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_tblUserAnswers_AnswerTypeRef", Storage="_FxAnswerType", ThisKey="AnswerTypeRef", IsForeignKey=true)]
+		[Association(Name="FK_tblUserAnswers_AnswerTypeRef", Storage="_FxAnswerType", ThisKey="AnswerTypeRef", OtherKey="ID", IsForeignKey=true)]
 		public FxAnswerType FxAnswerType
 		{
 			get
@@ -9109,7 +9109,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_UserAnswer_CorrectAnswer", Storage="_TblQuestions", ThisKey="QuestionRef", IsForeignKey=true)]
+		[Association(Name="FK_UserAnswer_CorrectAnswer", Storage="_TblQuestions", ThisKey="QuestionRef", OtherKey="ID", IsForeignKey=true)]
 		public TblQuestions TblQuestions
 		{
 			get
@@ -9143,7 +9143,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_UserAnswers_Users", Storage="_TblUsers", ThisKey="UserRef", IsForeignKey=true)]
+		[Association(Name="FK_UserAnswers_Users", Storage="_TblUsers", ThisKey="UserRef", OtherKey="ID", IsForeignKey=true)]
 		public TblUsers TblUsers
 		{
 			get
@@ -9397,8 +9397,6 @@ namespace IUDICO.DataModel.DB
 		private EntitySet<RelUserRoles> _RelUserRoles;
 		
 		private EntitySet<TblUserAnswers> _TblUserAnswers;
-        
-        private EntitySet<TblUserNotes> _TblUserNotes;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -9427,7 +9425,6 @@ namespace IUDICO.DataModel.DB
 			this._RelUserGroups = new EntitySet<RelUserGroups>(new Action<RelUserGroups>(this.attach_RelUserGroups), new Action<RelUserGroups>(this.detach_RelUserGroups));
 			this._RelUserRoles = new EntitySet<RelUserRoles>(new Action<RelUserRoles>(this.attach_RelUserRoles), new Action<RelUserRoles>(this.detach_RelUserRoles));
 			this._TblUserAnswers = new EntitySet<TblUserAnswers>(new Action<TblUserAnswers>(this.attach_TblUserAnswers), new Action<TblUserAnswers>(this.detach_TblUserAnswers));
-            this._TblUserNotes = new EntitySet<TblUserNotes>(new Action<TblUserNotes>(this.attach_TblUserNotes), new Action<TblUserNotes>(this.detach_TblUserNotes));
 			OnCreated();
 		}
 		
@@ -9571,7 +9568,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_OwnerUser", Storage="_TblPermissions", OtherKey="OwnerUserRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_OwnerUser", Storage="_TblPermissions", ThisKey="ID", OtherKey="OwnerUserRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> TblPermissions
 		{
 			get
@@ -9584,7 +9581,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_Permissions_UserObjects", Storage="_Permissions_UserObjects", OtherKey="UserObjectRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_Permissions_UserObjects", Storage="_Permissions_UserObjects", ThisKey="ID", OtherKey="UserObjectRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblPermissions> Permissions_UserObjects
 		{
 			get
@@ -9597,7 +9594,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_USER", Storage="_RelUserGroups", OtherKey="UserRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_USER", Storage="_RelUserGroups", ThisKey="ID", OtherKey="UserRef", DeleteRule="NO ACTION")]
 		public EntitySet<RelUserGroups> RelUserGroups
 		{
 			get
@@ -9610,7 +9607,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_USER_ID", Storage="_RelUserRoles", OtherKey="UserID", DeleteRule="NO ACTION")]
+		[Association(Name="FK_USER_ID", Storage="_RelUserRoles", ThisKey="ID", OtherKey="UserID", DeleteRule="NO ACTION")]
 		public EntitySet<RelUserRoles> RelUserRoles
 		{
 			get
@@ -9623,7 +9620,7 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
-		[Association(Name="FK_UserAnswers_Users", Storage="_TblUserAnswers", OtherKey="UserRef", DeleteRule="NO ACTION")]
+		[Association(Name="FK_UserAnswers_Users", Storage="_TblUserAnswers", ThisKey="ID", OtherKey="UserRef", DeleteRule="NO ACTION")]
 		public EntitySet<TblUserAnswers> TblUserAnswers
 		{
 			get
@@ -9635,19 +9632,6 @@ namespace IUDICO.DataModel.DB
 				this._TblUserAnswers.Assign(value);
 			}
 		}
-
-        [Association(Name = "FK_UserNotes_Users", Storage = "_TblUserNotes", OtherKey = "UserRef", DeleteRule = "NO ACTION")]
-        public EntitySet<TblUserNotes> TblUserNotes
-        {
-            get
-            {
-                return this._TblUserNotes;
-            }
-            set
-            {
-                this._TblUserNotes.Assign(value);
-            }
-        }
 		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
@@ -9728,17 +9712,6 @@ namespace IUDICO.DataModel.DB
 			this.SendPropertyChanging();
 			entity.TblUsers = null;
 		}
-        private void attach_TblUserNotes(TblUserNotes entity)
-        {
-            this.SendPropertyChanging();
-            entity.TblUsers = this;
-        }
-
-        private void detach_TblUserNotes(TblUserNotes entity)
-        {
-            this.SendPropertyChanging();
-            entity.TblUsers = null;
-        }
 	}
 	
 	[Table(Name="dbo.tblVars")]
