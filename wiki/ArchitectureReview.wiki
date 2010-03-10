@@ -9,7 +9,9 @@
     # SCORM Management System
   * Course Editor
   * Web Service for Compiled Tests
+
 [http://iudico.googlecode.com/files/main_diagram.png]
+
 Розглянемо детальніше кожну підсистему
  
 ==LMS (Learning Management System)==
