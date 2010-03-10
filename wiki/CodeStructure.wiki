@@ -32,7 +32,7 @@
 
 ===Common===
 
-|| Cmi    || Cmi.cs                         || Базовий кдас для елементів cmi||
+|| *Cmi*    || 'Cmi.cs'                         || Базовий кдас для елементів cmi||
 ||        || DataModelVerifiers.cs          || Валідатор для властивостей cmi елементів||
 ||        || InteractionCorrectResponses.cs ||||
 ||        || InteractionObjectives.cs       ||||
