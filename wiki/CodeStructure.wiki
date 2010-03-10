@@ -1,15 +1,16 @@
 #labels Phase-Implementation
 = Source Code Structure =
 
-=== Проекти ===
+===Проекти===
 
   * Site 
   * DataModel
   * DBUpdater
   * Testing System
 
-=== Site ===
- Складається з
+===Site===
+
+Складається з
   * Admin  - сторінки адміна
   * Student - сторінки студента  
   * Teacher - сторінки викладача
