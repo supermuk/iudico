@@ -20,7 +20,7 @@
   * Scripts - javascripts (API.js т.д.)
   * Assets  - збережені імпортовані курси
 
-==Data Model==
+===Data Model===
 Проект містить в собі набір класів які відповідають за логіку системи і взаємодію між собою
 
   * Сommon
@@ -30,4 +30,12 @@
   * Security
   * Web Control
 
-==Common==
+===Common===
+
+|| Cmi    || Cmi.cs                         || Базовий кдас для елементів cmi||
+||        || DataModelVerifiers.cs          || Валідатор для властивостей cmi елементів||
+||        || InteractionCorrectResponses.cs ||||
+||        || InteractionObjectives.cs       ||||
+||        || Interactions.cs                ||||
+||        || SchemaDataComponents.cs        || Набір констант||
+||        || Score.cs                       ||||
