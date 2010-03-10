@@ -70,7 +70,7 @@ namespace FireFly.CourseEditor.GUI.HtmlEditor
 
         public override string GetScoTestInitializer()
         {
-            return string.Format("new simpleTest('{0}', '{1}')", Name, CorrectAnswer);
+            return string.Format("new simpleTest('{0}', /*BEG*/'{1}'/*END*/)", Name, CorrectAnswer);
         }
 
         protected override void Parse([NotNull]XmlNode node)
