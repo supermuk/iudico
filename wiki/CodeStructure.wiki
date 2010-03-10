@@ -33,11 +33,11 @@
 ===Common===
 
 || *Cmi*|| `Cmi.cs`|| Базовий кдас для елементів cmi||
-|||| `DataModelVerifiers.cs`|| Валідатор для властивостей cmi елементів||
-|||| `InteractionCorrectResponses.cs` ||||
-|||| `InteractionObjectives.cs`       ||||
-|||| `Interactions.cs`                ||||
-|||| `SchemaDataComponents.cs `       || Набір констант||
-|||| `Score.cs`                       ||||
+|| || `DataModelVerifiers.cs`|| Валідатор для властивостей cmi елементів||
+|| || `InteractionCorrectResponses.cs` ||||
+|| || `InteractionObjectives.cs`       ||||
+|| || `Interactions.cs`                ||||
+|| || `SchemaDataComponents.cs `       || Набір констант||
+|| || `Score.cs`                       ||||
 || *ImportUtils*||`FileExtentions.cs`||||
-||||``||||
+|| ||``||||
