@@ -49,12 +49,12 @@
 || ||`UserResultForItem.cs`||||
 || ||`UserResultForPageForDate.cs`||||
 || ||`UserResultForQuestion.cs`||||
-|| ||``||||
-|| ||``||||
-|| ||``||||
-|| ||``||||
-|| ||``||||
-|| ||``||||
+|| *StudentUtils*||`ControlInfo.cs`|| Клас для відображення поточної інформації про контрол на якому виконується тест||
+|| ||`DatePeriod.cs`|| Клас для роботи з датою проведення тестів||
+|| ||`LanguageHelper.cs`||||
+|| ||`StudentPermissionsHelper.cs`|| Клас для роботи із Permissions для Student||
+|| ||`StudentRecordFinder.cs`|| Клас для отримання різних записів із БД для даного користувача||
+|| ||`UserSubmitCountChecker.cs`|| _не використовується_ ||
 || ||``||||
 || ||``||||
 || ||``||||
