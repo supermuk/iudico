@@ -32,12 +32,20 @@
 
 ===Common===
 
-|| *Cmi*|| `Cmi.cs`|| Базовий кдас для елементів cmi||
+|| *Cmi*|| `Cmi.cs`|| Базовий клас для елементів cmi||
 || || `DataModelVerifiers.cs`|| Валідатор для властивостей cmi елементів||
 || || `InteractionCorrectResponses.cs` ||||
 || || `InteractionObjectives.cs`       ||||
 || || `Interactions.cs`                ||||
 || || `SchemaDataComponents.cs `       || Набір констант||
 || || `Score.cs`                       ||||
-|| *ImportUtils*||`FileExtentions.cs`||||
+|| *ImportUtils*||`FileExtentions.cs`|| Набір констант розширень файлів ||
+|| ||`PageType.cs`||Набір констант типів сторінок||
+|| ||`ProjectPaths.cs`||Набір констант шляхів до директорій||
+|| ||`XmlAttributes.cs`||Набір констант Хml атрибутів||
+|| ||`XmlUtility.cs`|| Клас для роботи з manifest.xml ||
+|| ||`Zipper.cs`|| Клас для розархівування імпортованого курсу ||
+|| ||``||||
+|| ||``||||
+|| ||``||||
 || ||``||||
