@@ -56,32 +56,22 @@
 || ||`StudentRecordFinder.cs`|| Клас для отримання різних записів із БД для даного користувача||
 || ||`UserSubmitCountChecker.cs`|| _не використовується_ ||
 || *Other*||`CacheUtility.cs`||||
-|| ||`ComparableDictionary.cs`||||
-|| ||`ComparableList.cs`||||
+|| ||`ComparableDictionary.cs`|| Реалізація Dictionary з порівнянням ||
+|| ||`ComparableList.cs`||_не використовується_||
 || ||`DataObjectDictionary.cs`||||
 || ||`DateTimeInterval.cs`||||
-|| ||`DMError.cs`||||
+|| ||`DMError.cs`|| Data Model Error Клас||
 || ||`DynamicClass.cs`||||
 || ||`DynamicClassView.cs`||||
-|| ||`EnglishLanguage.cs`||||
-|| ||`Extenders.cs`||||
+|| ||`EnglishLanguage.cs`||Клас для роботи з англійським текстом||
+|| ||`Extenders.cs`||_не використовується_||
 || ||`HtmlStyleReader.cs`||||
-|| ||`HttpUtility.cs`||||
-|| ||`IdentityNode.cs`||||
-|| ||`Logger.cs`||||
+|| ||`HttpUtility.cs`||Encodes quotes of <see cref="text" /> to can be used in Html code||
+|| ||`IdentityNode.cs`|| Клас-вузол для деревоподібних даних||
+|| ||`Logger.cs`|| Клас логування||
 || ||`MemberInfoAbstractionLayer.cs`||||
 || ||`Memorizer.cs`||||
-|| ||`SqlUtils.cs`||||
-|| ||`TeacherHelper.cs`||||
+|| ||`SqlUtils.cs`|| Набір деяких функцій для роботи з Sql||
+|| ||`TeacherHelper.cs`||Клас для отримання різних записів з БД для даного викладача||
 || ||`Utils.cs`||||
 || ||`ViewStateUtility.cs`||||
-|| ||``||||
-|| ||``||||
-|| ||``||||
-|| ||``||||
-|| ||``||||
-|| ||``||||
-|| ||``||||
-|| ||``||||
-|| ||``||||
-|| ||``||||
