@@ -175,7 +175,7 @@ namespace FireFly.CourseEditor.GUI.HtmlEditor
             input += "]";
             output += "]";
 
-            string result = string.Format("new compiledTest('', '', '{0}', '{1}', '{2}', {3}, {4}, {5}, {6}",
+            string result = string.Format("new compiledTest('', '', '{0}', '{1}', '{2}', {3}, {4}, {5}, /*BEG*/{6}/*END*/",
                 Name, ServiceAddress, CompiledQuestion.GetLanguageString(Language), TimeLimit, MemoryLimit, input, output);
 
 
