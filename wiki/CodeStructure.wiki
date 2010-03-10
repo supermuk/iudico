@@ -55,6 +55,26 @@
 || ||`StudentPermissionsHelper.cs`|| Клас для роботи із Permissions для Student||
 || ||`StudentRecordFinder.cs`|| Клас для отримання різних записів із БД для даного користувача||
 || ||`UserSubmitCountChecker.cs`|| _не використовується_ ||
+|| *Other*||`CacheUtility.cs`||||
+|| ||`ComparableDictionary.cs`||||
+|| ||`ComparableList.cs`||||
+|| ||`DataObjectDictionary.cs`||||
+|| ||`DateTimeInterval.cs`||||
+|| ||`DMError.cs`||||
+|| ||`DynamicClass.cs`||||
+|| ||`DynamicClassView.cs`||||
+|| ||`EnglishLanguage.cs`||||
+|| ||`Extenders.cs`||||
+|| ||`HtmlStyleReader.cs`||||
+|| ||`HttpUtility.cs`||||
+|| ||`IdentityNode.cs`||||
+|| ||`Logger.cs`||||
+|| ||`MemberInfoAbstractionLayer.cs`||||
+|| ||`Memorizer.cs`||||
+|| ||`SqlUtils.cs`||||
+|| ||`TeacherHelper.cs`||||
+|| ||`Utils.cs`||||
+|| ||`ViewStateUtility.cs`||||
 || ||``||||
 || ||``||||
 || ||``||||
