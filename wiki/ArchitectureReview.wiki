@@ -50,7 +50,7 @@ Site – візуальне представлення системи
 ||	  ||Share Course	        ||поділитись курсом з iншим Teacher||
 ||	  ||View Statistic	        ||переглянути статитистику проходження тестів||
 ||	  ||View Teacher List	        ||переглянути список Teacher||
-
+[http://iudico.googlecode.com/files/use_case_student.png]
 
 ===Testing System===
 Частина яка відповідає за відображення тестування,проходження,зберігання та показ реузльтатів тестування
