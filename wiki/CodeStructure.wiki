@@ -19,3 +19,15 @@
   * Login/Home pages - домашня сторінка та сторінка авторизації
   * Scripts - javascripts (API.js т.д.)
   * Assets  - збережені імпортовані курси
+
+==Data Model==
+Проект містить в собі набір класів які відповідають за логіку системи і взаємодію між собою
+
+  * Сommon
+  * Controllers
+  * DB
+  * Import Managers
+  * Security
+  * Web Control
+
+==Common==
