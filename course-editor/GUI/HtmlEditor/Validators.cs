@@ -228,6 +228,11 @@ namespace FireFly.CourseEditor.GUI.HtmlEditor
                         _Errors.Append(error.Message);
                     }
                 }
+
+                foreach (string error in i.Errors)
+                {
+                    this._Errors.AppendLine(error);
+                }
             }
             return _Errors.Length == 0;
         }

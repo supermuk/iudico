@@ -210,4 +210,66 @@ namespace FireFly.CourseEditor.Common
         /// </summary>
         void ReValidate();
     }
+
+    /// <summary>
+    /// Implements Event Arguments for validation purpose.
+    /// </summary>
+    public class ValidationEventArgs : EventArgs
+    {
+        #region Protected Fields
+
+        protected bool isValid;
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Receives list of validation fails messages.
+        /// </summary>
+        public List<string> Messages
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets boolean value representing if validation was succesfull('true') or failed('false').
+        /// </summary>
+        public bool IsValid
+        {
+            get
+            {
+                return this.isValid && (this.Messages.Count == 0);
+            }
+            set
+            {
+                this.isValid = value;
+            }
+        }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes IsValid value with 'true'.
+        /// </summary>
+        public ValidationEventArgs()
+        {
+            this.Messages = new List<string>();
+            this.IsValid = true;
+        }
+
+        /// <summary>
+        /// Initializes IsValid with parameter.
+        /// </summary>
+        /// <param name="isValid">Boolean value to initialize IsValid property.</param>
+        public ValidationEventArgs(bool isValid)
+        {
+            this.IsValid = isValid;
+        }
+
+        #endregion
+    }
 }

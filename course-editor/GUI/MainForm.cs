@@ -31,13 +31,12 @@ namespace FireFly.CourseEditor.GUI
             Course.CourseChanged += () =>
             {
                 saveToolStripButton.Enabled = saveToolStripMenuItem.Enabled = true;
-                
             };
             Course.CourseClosing += Course_Closing;
             Settings.Default.PropertyChanged += Settings_Changed;
             _StopPreviewInvoker = StopCoursePreview;
-            miShowToolBar.Checked = Settings.Default.Options_ShowToolBar;
-        }
+            miShowToolBar.Checked = Settings.Default.Options_ShowToolBar;           
+        }        
 
         ///<summary>
         ///  Registers new Tool Box button in main tool-set
