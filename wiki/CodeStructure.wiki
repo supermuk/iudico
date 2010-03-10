@@ -66,7 +66,7 @@
 || ||`EnglishLanguage.cs`||Клас для роботи з англійським текстом||
 || ||`Extenders.cs`||_не використовується_||
 || ||`HtmlStyleReader.cs`||||
-|| ||`HttpUtility.cs`||Encodes quotes of <see cref="text" /> to can be used in Html code||
+|| ||`HttpUtility.cs`||||
 || ||`IdentityNode.cs`|| Клас-вузол для деревоподібних даних||
 || ||`Logger.cs`|| Клас логування||
 || ||`MemberInfoAbstractionLayer.cs`||||
