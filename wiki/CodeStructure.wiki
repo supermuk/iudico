@@ -1,2 +1,20 @@
 #labels Phase-Implementation
 = Source Code Structure =
+
+=== Проекти ===
+
+  * Site 
+  * DataModel
+  * DBUpdater
+  * Testing System
+
+=== Site ===
+ Складається з
+  * Admin  - сторінки адміна
+  * Student - сторінки студента  
+  * Teacher - сторінки викладача
+  * User - спільні сторінки для всіх користувачів (інформація,дозволи)
+  * Controls - набір web контролів
+  * Login/Home pages - домашня сторінка та сторінка авторизації
+  * Scripts - javascripts (API.js т.д.)
+  * Assets  - збережені імпортовані курси
