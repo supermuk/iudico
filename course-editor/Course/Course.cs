@@ -396,11 +396,15 @@ namespace FireFly.CourseEditor.Course
                 CourseSaving();
             }
             HtmlPageBase.StorePages();
-
+            
+            State &= ~CourseStates.Saving;
+            
+            
             var cv = new CourseValidator();
             if (!cv.Validate())
             {
                 ErrorDialog.ShowError("THIS COURSE IS INVALID!!! It cannot be played. Errors:" + Environment.NewLine + cv.GetErrorMessages());
+                State &= ~CourseStates.Modified;
                 return false;
             }
 
@@ -409,7 +413,6 @@ namespace FireFly.CourseEditor.Course
                 ManifestType.Serializer.Serialize(f, __Manifest, ManifestNamespaces.SerializerNamespaces);
             }
             Answers.SaveToFile(MapPath(ANSWERS_FILE_NAME));
-            State &= ~CourseStates.Saving;
             State &= ~CourseStates.Modified;
 
             if (CourseSaved != null)
@@ -531,7 +534,7 @@ namespace FireFly.CourseEditor.Course
         /// Raises when course change
         ///</summary>
         public static event Action CourseChanged;
-
+               
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private static string __FullPath;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]

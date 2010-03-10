@@ -6,6 +6,7 @@ using FireFly.CourseEditor.Common;
 using FireFly.CourseEditor.GUI;
 using FireFly.CourseEditor.GUI.HtmlEditor;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace FireFly.CourseEditor.Course.Manifest
 {
@@ -31,10 +32,11 @@ namespace FireFly.CourseEditor.Course.Manifest
         private string parametersField;
 
         public ItemType()
-        {
-        }
+        {            
+        }        
 
         protected ItemType([NotNull]string title, [NotNull]string identifier, [NotNull]string identifierRef)
+            :this()
         {
             this.Identifier = identifier;
             _title = title;
@@ -239,6 +241,16 @@ namespace FireFly.CourseEditor.Course.Manifest
             }
         }
 
+        [XmlIgnore]
+        [Description("Returns boolean 'true' if item has zero sub-items. Otherwise 'false'.")]
+        public bool IsLeaf
+        {
+            get
+            {
+                return (this.SubItems.Count == 0);
+            }
+        }
+
         [XmlAttribute]
         public string parameters
         {
@@ -376,6 +388,36 @@ namespace FireFly.CourseEditor.Course.Manifest
             }
         }
 
-        public event Action Disposed;
+        public event Action Disposed;     
+
+        /// <summary>
+        /// Checks if current item is a leaf chapter.
+        /// </summary>
+        /// <returns>Boolean 'true' if item is leaf chapter. Otherwise 'false'.</returns>
+        public bool CheckForLeafChapter()
+        {
+            if (this.IsLeaf == false) return false;
+            if (this.PageType != PageType.Chapter && this.PageType != PageType.ControlChapter) return false;
+                        
+            return true;
+        }
+
+        /// <summary>
+        /// List of string values representing errors while validation.
+        /// </summary>
+        public List<string> Errors
+        {
+            get
+            {
+                var result = new List<string>(); 
+                
+                if (CheckForLeafChapter() == true)
+                { 
+                    result.Add("Empty chapter '" + this.Title + "' was detected! Please remove it or fill with content!");
+                }
+
+                return result;
+            }
+        }
     }
 }
