@@ -1,15 +1,17 @@
 #labels Phase-Implementation
 = Source Code Structure =
+Використовується MVC
 
 ===Проекти===
 
-  * Site 
-  * DataModel
+  * Site        (View)
+  * DataModel   (Model + Controllers) 
   * DBUpdater
   * Testing System
   * WebService
 
 ===Site===
+Відображає інформацію на сторінках використовуюючи контроли. (View)
 
 Складається з
   * Admin            - сторінки адміна
