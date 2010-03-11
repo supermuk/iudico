@@ -82,3 +82,14 @@
 Кожен клас має відповідну aspx сторінку із проекту Site
 
 ===DB===
+Класи для роботи з базою даних
+|| *Base*||`DatabaseModelBase.cs`||||
+|| ||`DataObjectLookupHelper.cs`||||
+|| ||`DataObjectSqlSerializer.cs`||||
+|| ||`DBModelBase.cs`||||
+|| ||`DBOpInterfaces.cs`||||
+|| ||`DBOps.cs`||||
+|| *Other*||`DatabaseModel.cs`||||
+|| ||`DatabaseModel.generated.cs`||||
+|| ||`DataObjectCleaner.cs`||||
+|| ||`DBObjectType.cs`||||
