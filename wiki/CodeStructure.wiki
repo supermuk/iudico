@@ -29,7 +29,7 @@
   * Import Managers
   * Security
   * Web Control
-`*`
+ha:`*`
 ===Common===
 
 || *Cmi*|| `Cmi.cs`|| Базовий клас для елементів cmi||
