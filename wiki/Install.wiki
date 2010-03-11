@@ -1,4 +1,11 @@
 #labels Featured
-= Installation/Deployment =
+=Development Environment=
 
-TBD
+  # SQL Server 2005 Express: http://www.microsoft.com/Sqlserver/2005/en/us/express-down.aspx <br>
+  # .Net Framework 3.5: http://www.microsoft.com/downloads/details.aspx?FamilyId=333325FD-AE52-4E35-B531-508D977D32A6&displaylang=en <br>
+
+=Course Editor Installation=
+  # Run setup.exe <br>
+  # Choose your destination folder:<br>
+http://img710.imageshack.us/img710/3396/courseeditor.jpg
+=Iudic Installation=
