@@ -13,3 +13,8 @@ C:\Documents and Settings\Predator\Desktop\scorm\BoxOver\BoxOver\bin\Debug\BoxOv
 C:\Documents and Settings\Predator\Desktop\scorm\BoxOver\BoxOver\obj\Debug\ResolveAssemblyReference.cache
 C:\Documents and Settings\Predator\Desktop\scorm\BoxOver\BoxOver\obj\Debug\BoxOver.dll
 C:\Documents and Settings\Predator\Desktop\scorm\BoxOver\BoxOver\obj\Debug\BoxOver.pdb
+C:\Documents and Settings\iryna.martyniv\Desktop\IUDICO_Checking\BoxOver\BoxOver\bin\Debug\BoxOver.dll
+C:\Documents and Settings\iryna.martyniv\Desktop\IUDICO_Checking\BoxOver\BoxOver\bin\Debug\BoxOver.pdb
+C:\Documents and Settings\iryna.martyniv\Desktop\IUDICO_Checking\BoxOver\BoxOver\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\iryna.martyniv\Desktop\IUDICO_Checking\BoxOver\BoxOver\obj\Debug\BoxOver.dll
+C:\Documents and Settings\iryna.martyniv\Desktop\IUDICO_Checking\BoxOver\BoxOver\obj\Debug\BoxOver.pdb
