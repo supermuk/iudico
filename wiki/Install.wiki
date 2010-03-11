@@ -18,7 +18,7 @@ http://img193.imageshack.us/img193/3396/courseeditor.jpg
 http://img22.imageshack.us/img22/3396/courseeditor.jpg
   # In  order to uninstall Iudico run Uninstall Iudico link in Start Menu
 
-=Web Service Installation=
+=WebService Installation=
   # Run setup.exe
   # Choose your destination folder:<br>
 http://img717.imageshack.us/img717/3396/courseeditor.jpg
@@ -26,4 +26,5 @@ http://img717.imageshack.us/img717/3396/courseeditor.jpg
 
 =Configuring Iudico=
   # To check if Iudico site was installed successfully open Internet Information Service(IIS). You must see something like this:
-  # To run Iudico site type the following url in your browser:
+http://img96.imageshack.us/img96/3396/courseeditor.jpg
+  # To run Iudico site type the following url in your browser: http://localhost:2386/Login.aspx
