@@ -93,3 +93,11 @@
 || ||`DatabaseModel.generated.cs`||||
 || ||`DataObjectCleaner.cs`||||
 || ||`DBObjectType.cs`||||
+
+===ImportManagers===
+Набір класів для імпорту різних даних у систему
+||`CourseCleaner.cs`|| Клас для коректного видалення курсу||
+||`CourseManager.cs`|| Клас для імпорту курсу||
+||`ItemManager.cs`|| ||
+||`OrganizationManager.cs`||||
+||`ResourceManager.cs`|| Клас для імпорту ресурсів ||
