@@ -69,6 +69,11 @@ namespace FireFly.CourseEditor.Common
             return MessageBox.Show(string.Format("Are you sure to delete '{0}'?", name), "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
         }
 
+        public static bool ConfirmRemoveAndMerge([NotNull]string name)
+        {
+            return MessageBox.Show(string.Format("Are you sure to remove '{0}' but merge(save) it's content?", name), "Remove&Merge Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
+        }
+
         [NotNull]
         public static T GetCustomAttribute<T>([NotNull]this ICustomAttributeProvider ap)
             where T : Attribute

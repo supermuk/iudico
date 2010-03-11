@@ -71,11 +71,11 @@ namespace FireFly.CourseEditor.GUI
             this.miAddRollupConsiderations = new System.Windows.Forms.ToolStripMenuItem();
             this.miAddConstrainedChoiceConsiderations = new System.Windows.Forms.ToolStripMenuItem();
             this.miAddExtensionObjectives = new System.Windows.Forms.ToolStripMenuItem();
+            this.miAddCollectionSequencing = new System.Windows.Forms.ToolStripMenuItem();
             this.miDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.miProperties = new System.Windows.Forms.ToolStripMenuItem();
             this.miExpandAll = new System.Windows.Forms.ToolStripMenuItem();
             this.tvManifest = new FireFly.CourseEditor.GUI.FFTreeView();
-            this.miAddCollectionSequencing = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsManifestNode.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -99,6 +99,7 @@ namespace FireFly.CourseEditor.GUI
             this.ilNodes.Images.SetKeyName(13, "PageWithError");
             this.ilNodes.Images.SetKeyName(14, "Summary");
             this.ilNodes.Images.SetKeyName(15, "Theory");
+            this.ilNodes.Images.SetKeyName(16, "ControlChapter");
             // 
             // cmsManifestNode
             // 
@@ -108,7 +109,7 @@ namespace FireFly.CourseEditor.GUI
             this.miProperties,
             this.miExpandAll});
             this.cmsManifestNode.Name = "cmsManifest";
-            this.cmsManifestNode.Size = new System.Drawing.Size(153, 114);
+            this.cmsManifestNode.Size = new System.Drawing.Size(130, 92);
             this.cmsManifestNode.Opening += new System.ComponentModel.CancelEventHandler(this.cmsManifestNode_Opening);
             // 
             // miAdd
@@ -154,13 +155,13 @@ namespace FireFly.CourseEditor.GUI
             this.miAdd.Image = global::FireFly.CourseEditor.Properties.Resources.add_to_list16;
             this.miAdd.ImageTransparentColor = System.Drawing.Color.Fuchsia;
             this.miAdd.Name = "miAdd";
-            this.miAdd.Size = new System.Drawing.Size(152, 22);
+            this.miAdd.Size = new System.Drawing.Size(129, 22);
             this.miAdd.Text = "&Add";
             this.miAdd.DropDownOpening += new System.EventHandler(this.miAdd_DropDownOpening);
             // 
             // miAddOrganization
             // 
-            this.miAddOrganization.Image = global::FireFly.CourseEditor.Properties.Resources.Chapter;
+            this.miAddOrganization.Image = ((System.Drawing.Image)(resources.GetObject("miAddOrganization.Image")));
             this.miAddOrganization.ImageTransparentColor = System.Drawing.Color.Fuchsia;
             this.miAddOrganization.Name = "miAddOrganization";
             this.miAddOrganization.Size = new System.Drawing.Size(239, 22);
@@ -421,12 +422,19 @@ namespace FireFly.CourseEditor.GUI
             this.miAddExtensionObjectives.Text = "objectives(extension)";
             this.miAddExtensionObjectives.Click += new System.EventHandler(this.miAddExtensionObjectives_Click);
             // 
+            // miAddCollectionSequencing
+            // 
+            this.miAddCollectionSequencing.Name = "miAddCollectionSequencing";
+            this.miAddCollectionSequencing.Size = new System.Drawing.Size(239, 22);
+            this.miAddCollectionSequencing.Text = "Sequencing";
+            this.miAddCollectionSequencing.Click += new System.EventHandler(this.miAddCollectionSequencing_Click);
+            // 
             // miDelete
             // 
             this.miDelete.Image = global::FireFly.CourseEditor.Properties.Resources.delete_16;
             this.miDelete.ImageTransparentColor = System.Drawing.Color.Fuchsia;
             this.miDelete.Name = "miDelete";
-            this.miDelete.Size = new System.Drawing.Size(152, 22);
+            this.miDelete.Size = new System.Drawing.Size(129, 22);
             this.miDelete.Text = "&Delete";
             this.miDelete.Click += new System.EventHandler(this.miDelete_Click);
             // 
@@ -435,14 +443,14 @@ namespace FireFly.CourseEditor.GUI
             this.miProperties.Image = global::FireFly.CourseEditor.Properties.Resources.properties_16;
             this.miProperties.ImageTransparentColor = System.Drawing.Color.Fuchsia;
             this.miProperties.Name = "miProperties";
-            this.miProperties.Size = new System.Drawing.Size(152, 22);
+            this.miProperties.Size = new System.Drawing.Size(129, 22);
             this.miProperties.Text = "&Properties";
             this.miProperties.Click += new System.EventHandler(this.miProperties_Click);
             // 
             // miExpandAll
             // 
             this.miExpandAll.Name = "miExpandAll";
-            this.miExpandAll.Size = new System.Drawing.Size(152, 22);
+            this.miExpandAll.Size = new System.Drawing.Size(129, 22);
             this.miExpandAll.Text = "&Expand All";
             this.miExpandAll.Click += new System.EventHandler(this.miExpandAll_Click);
             // 
@@ -458,13 +466,6 @@ namespace FireFly.CourseEditor.GUI
             this.tvManifest.Size = new System.Drawing.Size(227, 374);
             this.tvManifest.TabIndex = 1;
             this.tvManifest.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvManifest_NodeMouseClick);
-            // 
-            // miAddCollectionSequencing
-            // 
-            this.miAddCollectionSequencing.Name = "miAddCollectionSequencing";
-            this.miAddCollectionSequencing.Size = new System.Drawing.Size(239, 22);
-            this.miAddCollectionSequencing.Text = "Sequencing";
-            this.miAddCollectionSequencing.Click += new System.EventHandler(this.miAddCollectionSequencing_Click);
             // 
             // ManifestBrowser
             // 

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{FB48587D-389E-40A0-BD66-F772279A719A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -460,13 +460,25 @@
     <EmbeddedResource Include="Course\flXHR.swf" />
     <EmbeddedResource Include="Course\jquery.min.extended.js" />
     <EmbeddedResource Include="Course\swfobject.js" />
+    <None Include="Images\Chapter.bmp" />
+    <None Include="Images\ControlChapter.bmp" />
+    <None Include="Images\arrow_down.png" />
+    <None Include="Images\arrow_up.png" />
+    <None Include="Images\ChapterGrouping.bmp" />
+    <None Include="Images\ControlChapterGrouping.bmp" />
     <Content Include="Images\FireFly.ico" />
     <None Include="Images\Redo.bmp" />
     <None Include="Images\Rename.bmp" />
     <EmbeddedResource Include="Images\Splash.jpg" />
+    <None Include="Images\group.gif" />
+    <None Include="Images\group.png" />
+    <None Include="Images\group2.png" />
     <Content Include="Images\HtmlToolBar_AdvancedCompiledTest.bmp" />
+    <None Include="Images\R_green_16.bmp" />
+    <None Include="Images\merge.gif" />
     <Content Include="Images\start.bmp" />
     <Content Include="Images\stop.bmp" />
+    <None Include="Images\wrap.png" />
     <None Include="Images\Undo.bmp" />
   </ItemGroup>
   <ItemGroup>

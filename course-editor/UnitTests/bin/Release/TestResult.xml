@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="C:\Users\Андрій\Documents\Visual Studio 2008\Projects\_Univer09-10\IUDICO\course-editor\UnitTests\bin\Release\UnitTests.dll" total="8" errors="0" failures="0" not-run="0" ignored="0" skipped="0" invalid="0" date="2010-03-11" time="20:20:27">
+  <environment nunit-version="2.5.0.9122" clr-version="2.0.50727.4927" os-version="Microsoft Windows NT 6.1.7600.0" platform="Win32NT" cwd="C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE" machine-name="SHOCOMP" user="Андрій" user-domain="SHOCOMP" />
+  <culture-info current-culture="uk-UA" current-uiculture="uk-UA" />
+  <test-suite name="C:\Users\Андрій\Documents\Visual Studio 2008\Projects\_Univer09-10\IUDICO\course-editor\UnitTests\bin\Release\UnitTests.dll" executed="True" success="True" time="0.135" asserts="0">
+    <results>
+      <test-suite name="FireFly" executed="True" success="True" time="0.130" asserts="0">
+        <results>
+          <test-suite name="UnitTest" executed="True" success="True" time="0.127" asserts="0">
+            <results>
+              <test-suite name="ItemTypeTests" description="Unit tests for FireFly.CourseEditor.Course.Manifest ItemType." executed="True" success="True" time="0.118" asserts="0">
+                <results>
+                  <test-case name="FireFly.UnitTest.ItemTypeTests.CheckForLeafChapterTest" description="CheckForLeafChapter method testing. Includes Errors property." executed="True" success="True" time="0.060" asserts="6" />
+                  <test-case name="FireFly.UnitTest.ItemTypeTests.IdentifierTest" description="ItemType Identifier testing." executed="True" success="True" time="0.001" asserts="2" />
+                  <test-case name="FireFly.UnitTest.ItemTypeTests.InsertGroupingChapter_ExceptionsTest" description="Insert grouping chapter method testing. Check for groupingItem invalid values used." executed="True" success="True" time="0.003" asserts="1" />
+                  <test-case name="FireFly.UnitTest.ItemTypeTests.InsertGroupingChapter_SubItemsTest" description="Insert grouping chapter method testing. Check if SubItems are reordered properly." executed="True" success="True" time="0.002" asserts="4" />
+                  <test-case name="FireFly.UnitTest.ItemTypeTests.IsLeafTest" description="IsLeaf property testing." executed="True" success="True" time="0.001" asserts="3" />
+                  <test-case name="FireFly.UnitTest.ItemTypeTests.RemoveAndMerge_ExceptionTest" description="RemoveAndMerge method testing with wrong situation." executed="True" success="True" time="0.004" asserts="0" />
+                  <test-case name="FireFly.UnitTest.ItemTypeTests.RemoveAndMerge_SubItemsTest" description="Remove chapter and merge it's children with parent's children method test." executed="True" success="True" time="0.006" asserts="13" />
+                  <test-case name="FireFly.UnitTest.ItemTypeTests.TitleTest" description="ItemType Title testing." executed="True" success="True" time="0.020" asserts="2" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

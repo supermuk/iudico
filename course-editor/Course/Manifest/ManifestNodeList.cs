@@ -31,6 +31,14 @@ namespace FireFly.CourseEditor.Course.Manifest
             Course.NotifyManifestChanged(Parent, new[] { item }, ManifestChangeTypes.ChildrenAdded);
         }
 
+        public new void AddRange([NotNull]IEnumerable<T> list)
+        {
+            foreach (T item in list)
+            {
+                this.Add(item);
+            }
+        }
+
         public new bool Remove([NotNull]T item)
         {
             var res = base.Remove(item);
