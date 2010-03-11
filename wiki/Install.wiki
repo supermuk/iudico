@@ -8,4 +8,13 @@
   # Run setup.exe <br>
   # Choose your destination folder:<br>
 http://img710.imageshack.us/img710/3396/courseeditor.jpg
-=Iudic Installation=
+  # In  order to uninstall Course Editor run Uninstall Course Editor link in Start Menu
+=Iudico Installation=
+  # Run setup.exe
+  # Choose your destination folder:<br>
+http://img193.imageshack.us/img193/3396/courseeditor.jpg
+  # In  order to uninstall Iudico run Uninstall Course Editor link in Start Menu
+
+=Configuring Iudico=
+  #To check if Iudico site was installed successfully open Internet Information Service(IIS). You must see something like this:
+  #To run Iudico site type the following url in your browser:
