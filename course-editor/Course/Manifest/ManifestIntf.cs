@@ -74,6 +74,18 @@ namespace FireFly.CourseEditor.Course.Manifest
         /// SCORM items contains in container
         /// </summary>
         ManifestNodeList<ItemType> SubItems { get; set; }
+
+        /// <summary>
+        /// Inserts grouping item, which is child of current item and contains sub items of current item.
+        /// A parent of child nodes should be changed to new grouping Item.
+        /// </summary>
+        /// <param name="groupingItem">ItemType item, which would act as grouping item.</param>
+        void InsertGroupingItem([NotNull]ItemType groupingItem);
+
+        /// <summary>
+        /// Adds all subItems of current item to parent of current item. Removes current item.
+        /// </summary>
+        void RemoveAndMerge();
     }
 
     /// <summary>

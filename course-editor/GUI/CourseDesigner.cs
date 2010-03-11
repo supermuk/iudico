@@ -27,7 +27,10 @@ namespace FireFly.CourseEditor.GUI
                                                  _EditInMSWordActiveNotifier,
                                                  _DeleteActiveNotifier,
                                                  _UpActiveNotifier,
-                                                 _DownActiveNotifier;
+                                                 _DownActiveNotifier,
+                                                 _InsertGroupingChapterActiveNotifier,
+                                                 _InsertGroupingControlChapterActiveNotifier,
+                                                 _RemoveMergeActiveNotifier;
 
         ///<summary>
         ///  Creates new instance of <see cref="CourseDesigner"/> class docked in specified dock panel
@@ -95,6 +98,9 @@ namespace FireFly.CourseEditor.GUI
             _DeleteActiveNotifier = Forms.Main.RegisterToolBoxButton(tvItems, miDelete);
             _UpActiveNotifier = Forms.Main.RegisterToolBoxButton(tvItems, miUp, (s, e) => MoveCurrentItem(true));
             _DownActiveNotifier = Forms.Main.RegisterToolBoxButton(tvItems, miDown, (s, e) => MoveCurrentItem(false));
+            _InsertGroupingChapterActiveNotifier = Forms.Main.RegisterToolBoxButton(tvItems, miInsertGroupingChapter);
+            _InsertGroupingControlChapterActiveNotifier = Forms.Main.RegisterToolBoxButton(tvItems, miInsertGroupingControlChapter);
+            _RemoveMergeActiveNotifier = Forms.Main.RegisterToolBoxButton(tvItems, miRemoveMerge);
         }
 
         private void Course_Saving()
@@ -151,6 +157,13 @@ namespace FireFly.CourseEditor.GUI
             var summary = miAddSummaryPage.Visible = PossibilityManager.CanAddSummaryPage(node);
             var chapter = miAddChapter.Visible = PossibilityManager.CanAddChapter(node);
             var controlChapter = miAddControlChapter.Visible = PossibilityManager.CanAddChapter(node);
+            var insertGrouping =  PossibilityManager.CanInsertGroupingItem(node);
+            miInsertGroupingChapter.Visible = insertGrouping;
+            miInsertGroupingControlChapter.Visible = insertGrouping;
+            miInsert.Visible = insertGrouping;
+            var removeMerge = miRemoveMerge.Visible = PossibilityManager.CanRemoveMerge(node);
+
+            miGrouping.Visible = insertGrouping || removeMerge;
 
             var n = node as ItemType;
             var word = miEditInMSWord.Visible = n != null && n.PageType == PageType.Theory;
@@ -167,6 +180,9 @@ namespace FireFly.CourseEditor.GUI
             _DeleteActiveNotifier(delete);
             _UpActiveNotifier(sn.PrevNode != null);
             _DownActiveNotifier(sn.NextNode != null);
+            _InsertGroupingChapterActiveNotifier(insertGrouping);
+            _InsertGroupingControlChapterActiveNotifier(insertGrouping);
+            _RemoveMergeActiveNotifier(removeMerge);
         }
 
         /// <summary>
@@ -790,5 +806,64 @@ namespace FireFly.CourseEditor.GUI
         {
             MoveCurrentItem(false);
         }
+
+        private void miInsertGroupingChapter_Click(object sender, EventArgs e)
+        {
+            InsertGroupingItem(PageType.Chapter);
+        }
+
+        private void miInsertGroupingControlChapter_Click(object sender, EventArgs e)
+        {
+            InsertGroupingItem(PageType.ControlChapter);
+        }
+
+        private void InsertGroupingItem(PageType pageType)
+        {
+            var treeNode = tvItems.SelectedNode;
+            var manNode = treeNode.Tag as IManifestNode;
+            IManifestNode n;
+            if ((manNode is IItemContainer) == false)
+            {
+                return;
+            }
+            
+            var newItem = ItemType.CreateNewItem(String.Format("New Grouping {0}", pageType), Guid.NewGuid().ToString(), string.Empty, pageType);
+            n = newItem;
+            (manNode as IItemContainer).InsertGroupingItem(newItem);
+            tvItems.SelectedNode = treeNode.Nodes.Find(n.UID, true)[0];
+
+            treeNode = treeNode.Nodes.Find(n.UID, true)[0];
+            treeNode.BeginEdit();
+        }
+
+        private void RemoveAndMerge()
+        {
+            var treeNode = tvItems.SelectedNode;
+            var treeNodeParent = treeNode.Parent;
+            var manNode = treeNode.Tag as IManifestNode;
+            if (Extenders.ConfirmRemoveAndMerge(treeNode.Text) == true)
+            {
+                IManifestNode n = manNode.Parent;
+                if ((manNode is IItemContainer) == false)
+                {
+                    return;
+                }
+                if (treeNodeParent == null)
+                {
+                    return;
+                }
+
+                (manNode as IItemContainer).RemoveAndMerge();
+                tvItems.SelectedNode = treeNodeParent;
+
+                treeNode = treeNodeParent;
+                treeNode.BeginEdit();
+            }
+        }
+
+        private void miRemoveMerge_Click(object sender, EventArgs e)
+        {
+            RemoveAndMerge();
+        }        
     }
 }

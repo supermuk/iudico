@@ -32,11 +32,11 @@ namespace FireFly.CourseEditor.Course.Manifest
         private string parametersField;
 
         public ItemType()
-        {            
-        }        
+        {
+        }
 
         protected ItemType([NotNull]string title, [NotNull]string identifier, [NotNull]string identifierRef)
-            :this()
+            : this()
         {
             this.Identifier = identifier;
             _title = title;
@@ -156,7 +156,7 @@ namespace FireFly.CourseEditor.Course.Manifest
                 Course.NotifyManifestChanged(this, ManifestChangeTypes.Changed);
             }
         }
-        
+
         [Description("Sequencing information is associated with items in a hierarchical structure by associating a single <sequencing> element with the hierarchical item")]
         [Category("Main")]
         [XmlElement("sequencing", Namespace = ManifestNamespaces.Imsss)]
@@ -348,17 +348,69 @@ namespace FireFly.CourseEditor.Course.Manifest
             }
         }
 
+        /// <summary>
+        /// Inserts grouping item, which is child of current item and contains sub items of current item.
+        /// A parent of child nodes should be changed to new grouping Item.
+        /// </summary>
+        /// <param name="groupingItem"><see cref="ItemType"/> item, which would act as grouping item.</param>
+        public void InsertGroupingItem([NotNull]ItemType groupingItem)
+        {
+            if (groupingItem == null)
+            {
+                throw new ArgumentNullException("Grouping Item can't be null!");
+            }
+
+            if (groupingItem.PageType != PageType.Chapter && groupingItem.PageType != PageType.ControlChapter)
+            {
+                throw new ArgumentException("Grouping Item should be a Chapter or Control Chapter!");
+            }
+
+            //1. Add all children to grouping item.
+            foreach (ItemType item in this.SubItems)
+            {
+                groupingItem.SubItems.Add(item);
+            }
+
+            //2. Clear list of children, but not use Removing tool!!!
+            this.SubItems = new ManifestNodeList<ItemType>(this);
+
+            //3. Add grouping item to list of children.
+            this.SubItems.Add(groupingItem);
+        }
+
+        /// <summary>
+        /// Adds all subItems of current item to parent of current item. Removes current item.
+        /// </summary>
+        public void RemoveAndMerge()
+        {
+            if (this.Parent is IItemContainer == false)
+            {
+                throw new InvalidOperationException("Parent of '" + this.Title + "' should be a container of items!");
+            }
+
+            IItemContainer parent = this.Parent as IItemContainer;
+
+            //1. Add all children to Parent
+            parent.SubItems.AddRange(this.SubItems);
+
+            //2. Clean subItems but do not remove!
+            this.SubItems = new ManifestNodeList<ItemType>();
+
+            //3. Remove item.
+            parent.RemoveChild(this);
+        }
+
         public override void Dispose()
         {
             if (pageType == PageType.Question)
             {
                 Course.Answers.RemoveItem(Identifier);
             }
-            
+
             var r = Course.Manifest.resources[IdentifierRef];
             if (r != null)
             {
-                
+
                 r.Dispose();
                 Course.Manifest.resources.Resources.Remove(r);
             }
@@ -381,14 +433,14 @@ namespace FireFly.CourseEditor.Course.Manifest
             }
 
             base.Dispose();
-            
+
             if (Disposed != null)
             {
                 Disposed();
             }
         }
 
-        public event Action Disposed;     
+        public event Action Disposed;
 
         /// <summary>
         /// Checks if current item is a leaf chapter.
@@ -398,7 +450,7 @@ namespace FireFly.CourseEditor.Course.Manifest
         {
             if (this.IsLeaf == false) return false;
             if (this.PageType != PageType.Chapter && this.PageType != PageType.ControlChapter) return false;
-                        
+
             return true;
         }
 
@@ -409,10 +461,10 @@ namespace FireFly.CourseEditor.Course.Manifest
         {
             get
             {
-                var result = new List<string>(); 
-                
+                var result = new List<string>();
+
                 if (CheckForLeafChapter() == true)
-                { 
+                {
                     result.Add("Empty chapter '" + this.Title + "' was detected! Please remove it or fill with content!");
                 }
 

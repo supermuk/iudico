@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseEditor", "CourseEdito
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{97725E02-865F-4478-B9D5-FF81617A9117}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,18 @@ Global
 		{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}.Release|x86.Build.0 = Release
 		{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}.UnitTest|Any CPU.ActiveCfg = Release
 		{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}.UnitTest|x86.ActiveCfg = Release
+		{97725E02-865F-4478-B9D5-FF81617A9117}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97725E02-865F-4478-B9D5-FF81617A9117}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97725E02-865F-4478-B9D5-FF81617A9117}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{97725E02-865F-4478-B9D5-FF81617A9117}.Precompilation|Any CPU.ActiveCfg = Release|Any CPU
+		{97725E02-865F-4478-B9D5-FF81617A9117}.Precompilation|Any CPU.Build.0 = Release|Any CPU
+		{97725E02-865F-4478-B9D5-FF81617A9117}.Precompilation|x86.ActiveCfg = Release|Any CPU
+		{97725E02-865F-4478-B9D5-FF81617A9117}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97725E02-865F-4478-B9D5-FF81617A9117}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97725E02-865F-4478-B9D5-FF81617A9117}.Release|x86.ActiveCfg = Release|Any CPU
+		{97725E02-865F-4478-B9D5-FF81617A9117}.UnitTest|Any CPU.ActiveCfg = Release|Any CPU
+		{97725E02-865F-4478-B9D5-FF81617A9117}.UnitTest|Any CPU.Build.0 = Release|Any CPU
+		{97725E02-865F-4478-B9D5-FF81617A9117}.UnitTest|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

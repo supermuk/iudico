@@ -56,7 +56,7 @@ namespace FireFly.CourseEditor.Course.Manifest
                 }
                 else
                 {
-                    ((ManifestType) Parent.Parent).Title = value;
+                    ((ManifestType) Parent.Parent.Parent).Title = value;
                 }
             }
         }
@@ -169,6 +169,58 @@ namespace FireFly.CourseEditor.Course.Manifest
                 m_SubItems = value;
                 Course.NotifyManifestChanged(this, ManifestChangeTypes.ChildrenReordered );
             }
+        }
+
+        /// <summary>
+        /// Inserts grouping item, which is child of current item and contains sub items of current item.
+        /// A parent of child nodes should be changed to new grouping Item.
+        /// </summary>
+        /// <param name="groupingItem"><see cref="ItemType"/> item, which would act as grouping item.</param>
+        public void InsertGroupingItem([NotNull]ItemType groupingItem)
+        {
+            if (groupingItem == null)
+            {
+                throw new ArgumentNullException("Grouping Item can't be null!");
+            }
+
+            if (groupingItem.PageType != PageType.Chapter && groupingItem.PageType != PageType.ControlChapter)
+            {
+                throw new ArgumentException("Grouping Item should be a Chapter or Control Chapter!");
+            }
+
+            //1. Add all children to grouping item.
+            foreach (ItemType item in this.SubItems)
+            {
+                groupingItem.SubItems.Add(item);
+            }
+
+            //2. Clear list of children, but not use Removing tool!!!
+            this.SubItems = new ManifestNodeList<ItemType>(this);
+
+            //3. Add grouping item to list of children.
+            this.SubItems.Add(groupingItem);
+        }
+
+        /// <summary>
+        /// Adds all subItems of current item to parent of current item. Removes current item.
+        /// </summary>
+        public void RemoveAndMerge()
+        {
+            if (this.Parent is IItemContainer == false)
+            {
+                throw new InvalidOperationException("Parent of '" + this.Title + "' should be a container of items!");
+            }
+
+            IItemContainer parent = this.Parent as IItemContainer;
+
+            //1. Add all children to Parent
+            parent.SubItems.AddRange(this.SubItems);
+
+            //2. Clean subItems but do not remove!
+            this.SubItems = new ManifestNodeList<ItemType>();
+
+            //3. Remove item.
+            parent.RemoveChild(this);
         }
 
         private static IEnumerable<ItemType> enumerateItemRec(IItemContainer item)

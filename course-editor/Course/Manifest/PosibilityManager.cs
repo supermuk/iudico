@@ -256,5 +256,46 @@ namespace FireFly.CourseEditor.Course.Manifest
         {            
             return (currentNode is SequencingCollection) && ((SequencingCollection)currentNode).sequencingCollection != null;
         }
+
+        public static bool CanInsertGroupingItem(object currentNode)
+        {
+            if ((currentNode is IItemContainer) == false) 
+            {
+                return false;
+            }
+
+            bool result = (currentNode is ItemType);
+            result = result && ((((ItemType)currentNode).PageType == PageType.Chapter) || (((ItemType)currentNode).PageType == PageType.ControlChapter));
+            result = result || (currentNode is OrganizationType);
+            result = result && (((IItemContainer)currentNode).SubItems.Count > 0);
+            return result;
+        }
+
+        public static bool CanRemoveMerge(object currentNode)
+        {
+            //Order matters!
+            if (currentNode is IManifestNode == false)
+            {
+                return false;
+            }
+
+            if (((IManifestNode)currentNode).Parent is IItemContainer == false)
+            {
+                return false;
+            }
+
+            if (currentNode is IItemContainer == false)
+            {
+                return false;
+            }
+
+            if (((IItemContainer)currentNode).SubItems.Count == 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
     }
 }
