@@ -1,0 +1,116 @@
+= Source Code Structure LMS =
+
+===Проекти===
+
+  * Site        (View)
+  * DataModel   (Model + Controllers) 
+  * DBUpdater
+  * Testing System
+  * WebService
+
+===Site===
+Відображає інформацію на сторінках використовуюючи контроли. (View)
+
+Складається з
+  * Admin            - сторінки адміна
+  * Student          - сторінки студента  
+  * Teacher          - сторінки викладача
+  * User             - спільні сторінки для всіх користувачів (інформація,дозволи)
+  * Controls         - набір web контролів
+  * Login/Home pages - домашня сторінка та сторінка авторизації
+  * Scripts          - javascripts (API.js т.д.)
+  * Assets           - збережені імпортовані курси
+
+===Data Model===
+Проект містить в собі набір класів які відповідають за логіку системи і взаємодію між собою
+
+  * Сommon
+  * Controllers
+  * DB
+  * Import Managers
+  * Security
+  * Web Control
+
+===Common===
+
+|| *Cmi*|| `Cmi.cs`|| Базовий клас для елементів cmi||
+|| || `DataModelVerifiers.cs`|| Валідатор для властивостей cmi елементів||
+|| || `InteractionCorrectResponses.cs` ||||
+|| || `InteractionObjectives.cs`       ||||
+|| || `Interactions.cs`                ||||
+|| || `SchemaDataComponents.cs `       || Набір констант||
+|| || `Score.cs`                       ||||
+|| *ImportUtils*||`FileExtentions.cs`|| Набір констант розширень файлів ||
+|| ||`PageType.cs`||Набір констант типів сторінок||
+|| ||`ProjectPaths.cs`||Набір констант шляхів до директорій||
+|| ||`XmlAttributes.cs`||Набір констант Хml атрибутів||
+|| ||`XmlUtility.cs`|| Клас для роботи з manifest.xml ||
+|| ||`Zipper.cs`|| Клас для розархівування імпортованого курсу ||
+|| *StatisticUtils*||`StatisticManager.cs`|| Набір класів для збору статистики проходження тестів||
+|| ||`UserResultForItem.cs`||||
+|| ||`UserResultForPageForDate.cs`||||
+|| ||`UserResultForQuestion.cs`||||
+|| *StudentUtils*||`ControlInfo.cs`|| Клас для відображення поточної інформації про контрол на якому виконується тест||
+|| ||`DatePeriod.cs`|| Клас для роботи з датою проведення тестів||
+|| ||`LanguageHelper.cs`||||
+|| ||`StudentPermissionsHelper.cs`|| Клас для роботи із Permissions для Student||
+|| ||`StudentRecordFinder.cs`|| Клас для отримання різних записів із БД для даного користувача||
+|| ||`UserSubmitCountChecker.cs`|| _не використовується_ ||
+|| *Other*||`CacheUtility.cs`||||
+|| ||`ComparableDictionary.cs`|| Реалізація Dictionary з порівнянням ||
+|| ||`ComparableList.cs`||_не використовується_||
+|| ||`DataObjectDictionary.cs`||||
+|| ||`DateTimeInterval.cs`||||
+|| ||`DMError.cs`|| Data Model Error Клас||
+|| ||`DynamicClass.cs`||||
+|| ||`DynamicClassView.cs`||||
+|| ||`EnglishLanguage.cs`||Клас для роботи з англійським текстом||
+|| ||`Extenders.cs`||_не використовується_||
+|| ||`HtmlStyleReader.cs`||||
+|| ||`HttpUtility.cs`||||
+|| ||`IdentityNode.cs`|| Клас-вузол для деревоподібних даних||
+|| ||`Logger.cs`|| Клас логування||
+|| ||`MemberInfoAbstractionLayer.cs`||||
+|| ||`Memorizer.cs`||||
+|| ||`SqlUtils.cs`|| Набір деяких функцій для роботи з Sql||
+|| ||`TeacherHelper.cs`||Клас для отримання різних записів з БД для даного викладача||
+|| ||`Utils.cs`||||
+|| ||`ViewStateUtility.cs`||||
+
+===Controllers===
+
+Набір класів які відповідають за взаємодію Представлення з Моделлю.
+Кожен клас має відповідну aspx сторінку із проекту Site
+
+===DB===
+Класи для роботи з базою даних
+|| *Base*||`DatabaseModelBase.cs`||||
+|| ||`DataObjectLookupHelper.cs`||||
+|| ||`DataObjectSqlSerializer.cs`||||
+|| ||`DBModelBase.cs`||||
+|| ||`DBOpInterfaces.cs`||||
+|| ||`DBOps.cs`||||
+|| *Other*||`DatabaseModel.cs`||||
+|| ||`DatabaseModel.generated.cs`||||
+|| ||`DataObjectCleaner.cs`||||
+|| ||`DBObjectType.cs`||||
+
+===ImportManagers===
+
+Набір класів для імпорту різних даних у систему
+||`CourseCleaner.cs`|| Клас для коректного видалення курсу||
+||`CourseManager.cs`|| Клас для імпорту курсу||
+||`ItemManager.cs`|| ||
+||`OrganizationManager.cs`||||
+||`ResourceManager.cs`|| Клас для імпорту ресурсів ||
+
+===Security===
+
+Набір класів для роботи з Permissions для різних користувачів
+
+===Webcontrol===
+
+Розширена реалізація деяких webcontrols
+
+===Testing System===
+Набір класів для роботи з компільованими тестами
