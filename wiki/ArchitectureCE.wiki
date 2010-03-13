@@ -1,4 +1,4 @@
-==Course Editor  і Web Service==
+==Course Editor==
 Ці дві частини не належать до LMS і є окремими допоміжними частинами
 Призначення Course Editor
   * Генерація SCORM сумісних об’єктів
