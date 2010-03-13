@@ -4,8 +4,8 @@
 ==2008==
 
 
-[http://iudico.googlecode.com/files/ Thesis -  Mykola Kavf]
-[http://iudico.googlecode.com/files/ Mahisterska - MykhailoYaremko]
+ * [http://iudico.googlecode.com/files/ Thesis -  Mykola Kavf]
+ * [http://iudico.googlecode.com/files/ Mahisterska - MykhailoYaremko]
 
 
 == 2009 ==
