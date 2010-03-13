@@ -57,7 +57,7 @@
             updateTimer();
         }
     </script>
- <script language="JavaScript">
+ <script language="JavaScript" type="text/javascript">
  
 function disableCtrlKeyCombination(evt)
 {
