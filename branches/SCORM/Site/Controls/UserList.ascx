@@ -44,9 +44,18 @@
             </ItemTemplate>
         </asp:TemplateField>
         <asp:TemplateField>
+            <HeaderTemplate>
+                <asp:Label ID="Label1" Text="IP" runat="server" />
+            </HeaderTemplate>
+            <ItemTemplate>
+                <asp:Label ID="lbIP" runat="server" />
+            </ItemTemplate>
+        </asp:TemplateField>
+        <asp:TemplateField>
             <ItemTemplate>
                 <asp:Button ID="btnAction" runat="server" />
             </ItemTemplate>
         </asp:TemplateField>
+        
     </Columns>
 </asp:GridView>
