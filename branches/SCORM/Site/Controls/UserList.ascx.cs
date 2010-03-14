@@ -4,6 +4,7 @@ using System.Web.UI.WebControls;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
 using IUDICO.DataModel.DB;
+using System.Linq;
 
 public partial class Controls_UserList : UserControl
 {
@@ -34,6 +35,7 @@ public partial class Controls_UserList : UserControl
             var lbFirstName = (Label)e.Row.FindControl("lbFirstName");
             var lbSecondName = (Label)e.Row.FindControl("lbSecondName");
             var lbEmail = (Label)e.Row.FindControl("lbEmail");
+            var lbIP = (Label)e.Row.FindControl("lbIP");
             var btnAction = (Button) e.Row.FindControl("btnAction");
 
             lbLogin.PostBackUrl = ServerModel.Forms.BuildRedirectUrl(new Admin_EditUserController { BackUrl = Request.RawUrl, UserID = user.ID });
@@ -45,6 +47,12 @@ public partial class Controls_UserList : UserControl
             if (btnAction.Enabled = ActionEnabled(user))
             {
                 btnAction.PostBackUrl = ActionUrl(user);
+            }
+
+            var ip = ServerModel.DB.TblUsersSignIn.Where(u => u.UserId == user.ID).FirstOrDefault();
+            if (ip != null)
+            {
+                lbIP.Text = ip.TblComputers.IP;
             }
         }
     }

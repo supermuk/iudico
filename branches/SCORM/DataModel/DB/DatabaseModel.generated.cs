@@ -81,6 +81,9 @@ namespace IUDICO.DataModel.DB
     partial void InsertTblCompiledQuestionsData(TblCompiledQuestionsData instance);
     partial void UpdateTblCompiledQuestionsData(TblCompiledQuestionsData instance);
     partial void DeleteTblCompiledQuestionsData(TblCompiledQuestionsData instance);
+    partial void InsertTblComputers(TblComputers instance);
+    partial void UpdateTblComputers(TblComputers instance);
+    partial void DeleteTblComputers(TblComputers instance);
     partial void InsertTblCourses(TblCourses instance);
     partial void UpdateTblCourses(TblCourses instance);
     partial void DeleteTblCourses(TblCourses instance);
@@ -129,6 +132,9 @@ namespace IUDICO.DataModel.DB
     partial void InsertTblUsers(TblUsers instance);
     partial void UpdateTblUsers(TblUsers instance);
     partial void DeleteTblUsers(TblUsers instance);
+    partial void InsertTblUsersSignIn(TblUsersSignIn instance);
+    partial void UpdateTblUsersSignIn(TblUsersSignIn instance);
+    partial void DeleteTblUsersSignIn(TblUsersSignIn instance);
     partial void InsertTblVars(TblVars instance);
     partial void UpdateTblVars(TblVars instance);
     partial void DeleteTblVars(TblVars instance);
@@ -322,6 +328,14 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
+		public System.Data.Linq.Table<TblComputers> TblComputers
+		{
+			get
+			{
+				return this.GetTable<TblComputers>();
+			}
+		}
+		
 		public System.Data.Linq.Table<TblCourses> TblCourses
 		{
 			get
@@ -455,6 +469,14 @@ namespace IUDICO.DataModel.DB
 			get
 			{
 				return this.GetTable<TblUsers>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TblUsersSignIn> TblUsersSignIn
+		{
+			get
+			{
+				return this.GetTable<TblUsersSignIn>();
 			}
 		}
 		
@@ -4053,6 +4075,168 @@ namespace IUDICO.DataModel.DB
 		{
 			this.SendPropertyChanging();
 			entity.TblCompiledQuestionsData = null;
+		}
+	}
+	
+	[Table(Name="dbo.tblComputers")]
+	public partial class TblComputers : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _ComputerName;
+		
+		private string _IP;
+		
+		private string _LectureRoom;
+		
+		private EntitySet<TblUsersSignIn> _TblUsersSignIn;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnComputerNameChanging(string value);
+    partial void OnComputerNameChanged();
+    partial void OnIPChanging(string value);
+    partial void OnIPChanged();
+    partial void OnLectureRoomChanging(string value);
+    partial void OnLectureRoomChanged();
+    #endregion
+		
+		public TblComputers()
+		{
+			this._TblUsersSignIn = new EntitySet<TblUsersSignIn>(new Action<TblUsersSignIn>(this.attach_TblUsersSignIn), new Action<TblUsersSignIn>(this.detach_TblUsersSignIn));
+			OnCreated();
+		}
+		
+		[Column(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_ComputerName", DbType="NVarChar(100)")]
+		public string ComputerName
+		{
+			get
+			{
+				return this._ComputerName;
+			}
+			set
+			{
+				if ((this._ComputerName != value))
+				{
+					this.OnComputerNameChanging(value);
+					this.SendPropertyChanging();
+					this._ComputerName = value;
+					this.SendPropertyChanged("ComputerName");
+					this.OnComputerNameChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_IP", DbType="NVarChar(15)")]
+		public string IP
+		{
+			get
+			{
+				return this._IP;
+			}
+			set
+			{
+				if ((this._IP != value))
+				{
+					this.OnIPChanging(value);
+					this.SendPropertyChanging();
+					this._IP = value;
+					this.SendPropertyChanged("IP");
+					this.OnIPChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_LectureRoom", DbType="NVarChar(50)")]
+		public string LectureRoom
+		{
+			get
+			{
+				return this._LectureRoom;
+			}
+			set
+			{
+				if ((this._LectureRoom != value))
+				{
+					this.OnLectureRoomChanging(value);
+					this.SendPropertyChanging();
+					this._LectureRoom = value;
+					this.SendPropertyChanged("LectureRoom");
+					this.OnLectureRoomChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_tblUsersSignIn_tblComputers", Storage="_TblUsersSignIn", ThisKey="ID", OtherKey="ComputerId", DeleteRule="NO ACTION")]
+		public EntitySet<TblUsersSignIn> TblUsersSignIn
+		{
+			get
+			{
+				return this._TblUsersSignIn;
+			}
+			set
+			{
+				this._TblUsersSignIn.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_TblUsersSignIn(TblUsersSignIn entity)
+		{
+			this.SendPropertyChanging();
+			entity.TblComputers = this;
+		}
+		
+		private void detach_TblUsersSignIn(TblUsersSignIn entity)
+		{
+			this.SendPropertyChanging();
+			entity.TblComputers = null;
 		}
 	}
 	
@@ -9392,6 +9576,8 @@ namespace IUDICO.DataModel.DB
 		
 		private EntitySet<TblPermissions> _Permissions_UserObjects;
 		
+		private EntityRef<TblUsersSignIn> _TblUsersSignIn;
+		
 		private EntitySet<RelUserGroups> _RelUserGroups;
 		
 		private EntitySet<RelUserRoles> _RelUserRoles;
@@ -9422,6 +9608,7 @@ namespace IUDICO.DataModel.DB
 		{
 			this._TblPermissions = new EntitySet<TblPermissions>(new Action<TblPermissions>(this.attach_TblPermissions), new Action<TblPermissions>(this.detach_TblPermissions));
 			this._Permissions_UserObjects = new EntitySet<TblPermissions>(new Action<TblPermissions>(this.attach_Permissions_UserObjects), new Action<TblPermissions>(this.detach_Permissions_UserObjects));
+			this._TblUsersSignIn = default(EntityRef<TblUsersSignIn>);
 			this._RelUserGroups = new EntitySet<RelUserGroups>(new Action<RelUserGroups>(this.attach_RelUserGroups), new Action<RelUserGroups>(this.detach_RelUserGroups));
 			this._RelUserRoles = new EntitySet<RelUserRoles>(new Action<RelUserRoles>(this.attach_RelUserRoles), new Action<RelUserRoles>(this.detach_RelUserRoles));
 			this._TblUserAnswers = new EntitySet<TblUserAnswers>(new Action<TblUserAnswers>(this.attach_TblUserAnswers), new Action<TblUserAnswers>(this.detach_TblUserAnswers));
@@ -9594,6 +9781,35 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
+		[Association(Name="FK_tblUsersSignIn_tblUsers", Storage="_TblUsersSignIn", ThisKey="ID", OtherKey="UserId", IsUnique=true, IsForeignKey=false, DeleteRule="NO ACTION")]
+		public TblUsersSignIn TblUsersSignIn
+		{
+			get
+			{
+				return this._TblUsersSignIn.Entity;
+			}
+			set
+			{
+				TblUsersSignIn previousValue = this._TblUsersSignIn.Entity;
+				if (((previousValue != value) 
+							|| (this._TblUsersSignIn.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TblUsersSignIn.Entity = null;
+						previousValue.TblUsers = null;
+					}
+					this._TblUsersSignIn.Entity = value;
+					if ((value != null))
+					{
+						value.TblUsers = this;
+					}
+					this.SendPropertyChanged("TblUsersSignIn");
+				}
+			}
+		}
+		
 		[Association(Name="FK_USER", Storage="_RelUserGroups", ThisKey="ID", OtherKey="UserRef", DeleteRule="NO ACTION")]
 		public EntitySet<RelUserGroups> RelUserGroups
 		{
@@ -9711,6 +9927,198 @@ namespace IUDICO.DataModel.DB
 		{
 			this.SendPropertyChanging();
 			entity.TblUsers = null;
+		}
+	}
+	
+	[Table(Name="dbo.tblUsersSignIn")]
+	public partial class TblUsersSignIn : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _UserId;
+		
+		private int _ComputerId;
+		
+		private System.Nullable<System.DateTime> _LastLogin;
+		
+		private EntityRef<TblComputers> _TblComputers;
+		
+		private EntityRef<TblUsers> _TblUsers;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUserIdChanging(int value);
+    partial void OnUserIdChanged();
+    partial void OnComputerIdChanging(int value);
+    partial void OnComputerIdChanged();
+    partial void OnLastLoginChanging(System.Nullable<System.DateTime> value);
+    partial void OnLastLoginChanged();
+    #endregion
+		
+		public TblUsersSignIn()
+		{
+			this._TblComputers = default(EntityRef<TblComputers>);
+			this._TblUsers = default(EntityRef<TblUsers>);
+			OnCreated();
+		}
+		
+		[Column(Storage="_UserId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					if (this._TblUsers.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._UserId = value;
+					this.SendPropertyChanged("UserId");
+					this.OnUserIdChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_ComputerId", DbType="Int NOT NULL")]
+		public int ComputerId
+		{
+			get
+			{
+				return this._ComputerId;
+			}
+			set
+			{
+				if ((this._ComputerId != value))
+				{
+					if (this._TblComputers.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnComputerIdChanging(value);
+					this.SendPropertyChanging();
+					this._ComputerId = value;
+					this.SendPropertyChanged("ComputerId");
+					this.OnComputerIdChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_LastLogin", DbType="DateTime")]
+		public System.Nullable<System.DateTime> LastLogin
+		{
+			get
+			{
+				return this._LastLogin;
+			}
+			set
+			{
+				if ((this._LastLogin != value))
+				{
+					this.OnLastLoginChanging(value);
+					this.SendPropertyChanging();
+					this._LastLogin = value;
+					this.SendPropertyChanged("LastLogin");
+					this.OnLastLoginChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_tblUsersSignIn_tblComputers", Storage="_TblComputers", ThisKey="ComputerId", OtherKey="ID", IsForeignKey=true)]
+		public TblComputers TblComputers
+		{
+			get
+			{
+				return this._TblComputers.Entity;
+			}
+			set
+			{
+				TblComputers previousValue = this._TblComputers.Entity;
+				if (((previousValue != value) 
+							|| (this._TblComputers.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TblComputers.Entity = null;
+						previousValue.TblUsersSignIn.Remove(this);
+					}
+					this._TblComputers.Entity = value;
+					if ((value != null))
+					{
+						value.TblUsersSignIn.Add(this);
+						this._ComputerId = value.ID;
+					}
+					else
+					{
+						this._ComputerId = default(int);
+					}
+					this.SendPropertyChanged("TblComputers");
+				}
+			}
+		}
+		
+		[Association(Name="FK_tblUsersSignIn_tblUsers", Storage="_TblUsers", ThisKey="UserId", OtherKey="ID", IsForeignKey=true)]
+		public TblUsers TblUsers
+		{
+			get
+			{
+				return this._TblUsers.Entity;
+			}
+			set
+			{
+				TblUsers previousValue = this._TblUsers.Entity;
+				if (((previousValue != value) 
+							|| (this._TblUsers.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TblUsers.Entity = null;
+						previousValue.TblUsersSignIn = null;
+					}
+					this._TblUsers.Entity = value;
+					if ((value != null))
+					{
+						value.TblUsersSignIn = this;
+						this._UserId = value.ID;
+					}
+					else
+					{
+						this._UserId = default(int);
+					}
+					this.SendPropertyChanged("TblUsers");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
