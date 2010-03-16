@@ -46,3 +46,12 @@ To start adding features to IUDICO you need to perform the following steps.
     http://img682.imageshack.us/img682/8833/63975742.jpg
     http://img94.imageshack.us/img94/9700/38862181.jpg
   # Use http://HOST_NAME/Service1.asmx/Compile as "Service Address" in Compiled Tests and Advanced Compiled Tests
+== Setup IP Security service ==
+The default installation of IIS 7 does not include the role service for IP security. To use IP security on IIS, you must install the role service using the following steps for Windows Server 2008 or Windows Server 2008 R2:
+  # On the taskbar, click Start, point to Administrative Tools, and then click Server Manager.
+  # In the Server Manager hierarchy pane, expand Roles, and then click Web Server (IIS).
+  # In the Web Server (IIS) pane, scroll to the Role Services section, and then click Add Role Services.
+  # On the Select Role Services page of the Add Role Services Wizard, select IP and Domain Restrictions, and then click Next.
+     http://i1.iis.net/resources/images/configreference/ipSecurity_setup_1.png
+  # On the Confirm Installation Selections page, click Install.
+  # On the Results page, click Close.
