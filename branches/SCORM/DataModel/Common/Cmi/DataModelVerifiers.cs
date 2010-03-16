@@ -44,36 +44,36 @@ namespace IUDICO.DataModel.Common.Cmi
           DataModelElementsVerifier.ValidateSessionTime(value);
           break;
 
-        case "interactions.id":
+        case "interaction.id":
           DataModelInteractionVerifier.ValidateId(value);
           break;
-        case "interactions.type":
+        case "interaction.type":
           DataModelInteractionVerifier.ValidateType(value);
           break;
-        case "interactions.timestamp":
+        case "interaction.timestamp":
           DataModelInteractionVerifier.ValidateTimeStamp(value);
           break;
-        case "interactions.weighting":
+        case "interaction.weighting":
           DataModelInteractionVerifier.ValidateWeighting(value);
           break;
-        case "interactions.result":
+        case "interaction.result":
           DataModelInteractionVerifier.ValidateResult(value);
           break;
-        case "interactions.latency":
+        case "interaction.latency":
           DataModelInteractionVerifier.ValidateLatency(value);
           break;
-        case "interactions.description":
+        case "interaction.description":
           DataModelInteractionVerifier.ValidateDescription(value);
           break;
-        case "interactions.learner_response":
+        case "interaction.learner_response":
           DataModelInteractionVerifier.ValidateLearnerResponse(value);
           break;
 
-        case "interactions.objectives.id":
+        case "interaction.objective.id":
           DataModelInteractionObjectiveVerifier.ValidateId(value);
           break;
 
-        case "interactions.correct_responses.pattern":
+        case "interaction.correct_response.pattern":
           DataModelCorrectResponseVerifier.ValidatePattern(value);
           break;
 
