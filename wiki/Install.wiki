@@ -3,6 +3,13 @@
 
   # SQL Server 2005 Express: http://www.microsoft.com/Sqlserver/2005/en/us/express-down.aspx <br>
   # .Net Framework 3.5: http://www.microsoft.com/downloads/details.aspx?FamilyId=333325FD-AE52-4E35-B531-508D977D32A6&displaylang=en <br>
+  # Mozilla Firefox: http://www.mozilla-europe.org/uk/firefox/
+  # Internet Information Service 7 (IIS 7):
+      a. Click Start then click Control Panel then click Programs.      <br>
+      b. Click Turn Windows features on or off.      <br>
+      c. Expand Internet Information Services. Select all features to install, and then click OK to start installation.      <br>
+      d. To confirm that the installation succeeded, type the following URL into your browser, http://localhost.     <br>
+  # Adobe Flash Player (needed only for compiled tests): http://get.adobe.com/flashplayer/?promoid=DXLUJ
 
 =Course Editor Installation=
   # Run setup.exe <br>
@@ -16,6 +23,8 @@ http://img710.imageshack.us/img710/3396/courseeditor.jpg
 http://img193.imageshack.us/img193/3396/courseeditor.jpg
   # Choose database server that you are installing to(e.g. .\ or .\SQLEXPRESS):<br>
 http://img22.imageshack.us/img22/3396/courseeditor.jpg
+  # Choose Iudico site ip and port(make sure that it is open!) on the server machine(we recommend use computer ip in the local network):<br>
+http://img294.imageshack.us/img294/700/86856602.jpg
   # In  order to uninstall Iudico run Uninstall Iudico link in Start Menu
 
 =WebService Installation=
@@ -23,8 +32,11 @@ http://img22.imageshack.us/img22/3396/courseeditor.jpg
   # Choose your destination folder:<br>
 http://img717.imageshack.us/img717/3396/courseeditor.jpg
   # In  order to uninstall WebService run Uninstall WebService link in Start Menu
+  # Choose WebService ip and port(make sure that it is open!) on the server machine(we recommend use computer ip in the local network):<br>
+   http://img24.imageshack.us/img24/460/60551184.jpg
 
 =Configuring Iudico=
   # To check if Iudico site was installed successfully open Internet Information Service(IIS). You must see something like this:
+  # Use http://WEB_SERVICE_IP:WEB_SERVICE_PORT/Service1.asmx/Compile as "Service Address" in Compiled Tests and Advanced Compiled Tests
 http://img96.imageshack.us/img96/3396/courseeditor.jpg
   # To run Iudico site type the following url in your browser: http://localhost:2386/Login.aspx
