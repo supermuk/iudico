@@ -13,30 +13,23 @@
 
 =Course Editor Installation=
   # Run setup.exe <br>
-  # Choose your destination folder:<br>
-http://img710.imageshack.us/img710/3396/courseeditor.jpg
+  # Choose your destination folder:<br>http://img710.imageshack.us/img710/3396/courseeditor.jpg
   # In  order to uninstall Course Editor run Uninstall Course Editor link in Start Menu
 
 =Iudico Installation=
   # Run setup.exe
-  # Choose your destination folder:<br>
-http://img193.imageshack.us/img193/3396/courseeditor.jpg
-  # Choose database server that you are installing to(e.g. .\ or .\SQLEXPRESS):<br>
-http://img22.imageshack.us/img22/3396/courseeditor.jpg
-  # Choose Iudico site ip and port(make sure that it is open!) on the server machine(we recommend use server ip in the local network):<br>
-http://img294.imageshack.us/img294/700/86856602.jpg
+  # Choose your destination folder:<br>http://img193.imageshack.us/img193/3396/courseeditor.jpg
+  # Choose database server that you are installing to(e.g. .\ or .\SQLEXPRESS):<br>http://img22.imageshack.us/img22/3396/courseeditor.jpg
+  # Choose Iudico site ip and port(make sure that it is open!) on the server machine(we recommend use server ip in the local network):<br>http://img294.imageshack.us/img294/700/86856602.jpg
   # In  order to uninstall Iudico run Uninstall Iudico link in Start Menu
 
 =WebService Installation=
   # Run setup.exe
-  # Choose your destination folder:<br>
-http://img717.imageshack.us/img717/3396/courseeditor.jpg
+  # Choose your destination folder:<br>http://img717.imageshack.us/img717/3396/courseeditor.jpg
   # In  order to uninstall WebService run Uninstall WebService link in Start Menu
-  # Choose WebService ip and port(make sure that it is open!) on the server machine(we recommend use server ip in the local network):<br>
-http://img24.imageshack.us/img24/460/60551184.jpg
+  # Choose WebService ip and port(make sure that it is open!) on the server machine(we recommend use server ip in the local network):<br>http://img24.imageshack.us/img24/460/60551184.jpg
 
 =Configuring Iudico=
   # To check if Iudico site was installed successfully open Internet Information Service(IIS). You must see something like this:
-  # Use http://WEB_SERVICE_IP:WEB_SERVICE_PORT/Service1.asmx/Compile as "Service Address" in Compiled Tests and Advanced Compiled Tests
-http://img96.imageshack.us/img96/3396/courseeditor.jpg
+  # Use http://WEB_SERVICE_IP:WEB_SERVICE_PORT/Service1.asmx/Compile as "Service Address" in Compiled Tests and Advanced Compiled Tests<br>http://img96.imageshack.us/img96/3396/courseeditor.jpg
   # To run Iudico site type the following url in your browser: http://localhost:2386/Login.aspx
