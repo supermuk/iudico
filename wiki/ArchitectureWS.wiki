@@ -8,3 +8,4 @@
   * Перевищено ліміт пам’яті, тест №
   * Перевищено ліміт часу виконання, тест №
   * Успішно
+[http://iudico.googlecode.com/files/class_diagram_testing_system.png]
