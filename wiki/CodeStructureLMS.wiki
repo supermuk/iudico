@@ -57,26 +57,31 @@
 || ||`StudentPermissionsHelper.cs`|| Клас для роботи із Permissions для Student||
 || ||`StudentRecordFinder.cs`|| Клас для отримання різних записів із БД для даного користувача||
 || ||`UserSubmitCountChecker.cs`|| _не використовується_ ||
-|| *Other*||`CacheUtility.cs`||||
-|| ||`ComparableDictionary.cs`|| Реалізація Dictionary з порівнянням ||
-|| ||`ComparableList.cs`||_не використовується_||
-|| ||`DataObjectDictionary.cs`||||
-|| ||`DateTimeInterval.cs`||||
-|| ||`DMError.cs`|| Data Model Error Клас||
-|| ||`DynamicClass.cs`||||
-|| ||`DynamicClassView.cs`||||
-|| ||`EnglishLanguage.cs`||Клас для роботи з англійським текстом||
-|| ||`Extenders.cs`||_не використовується_||
-|| ||`HtmlStyleReader.cs`||||
-|| ||`HttpUtility.cs`||||
-|| ||`IdentityNode.cs`|| Клас-вузол для деревоподібних даних||
-|| ||`Logger.cs`|| Клас логування||
-|| ||`MemberInfoAbstractionLayer.cs`||||
-|| ||`Memorizer.cs`||||
-|| ||`SqlUtils.cs`|| Набір деяких функцій для роботи з Sql||
-|| ||`TeacherHelper.cs`||Клас для отримання різних записів з БД для даного викладача||
-|| ||`Utils.cs`||||
-|| ||`ViewStateUtility.cs`||||
+|| *Other*||
+||[http://iudico.googlecode.com/files/pubclass.gif] [http://iudico.googlecode.com/files/static.gif]||`  AbstractionLayerExtenders`|| ||	
+||[http://iudico.googlecode.com/files/pubclass.gif] [http://iudico.googlecode.com/files/static.gif] ||`  CacheUtility`|| ||	
+||[http://iudico.googlecode.com/files/pubclass.gif]  ||` 	CmiDataModel`|| DataModel interface which allows to get or set values of DataModelElements. Use GetValue and SetValue methods ||
+||[http://iudico.googlecode.com/files/pubclass.gif]  ||` 	CmiElement`|| 	Simple Data Model Element e.g cmi.exit or cmi.interactions.id ||
+||[http://iudico.googlecode.com/files/pubclass.gif]  ||` 	CmiFirstLevelCollectionElement`|| Base class for collections of elements in cmi request which lie in first level e.g cmi.interactions ||
+||[http://iudico.googlecode.com/files/pubclass.gif]  ||` 	CmiSecondLevelCollectionElement`|| Base class for collections of elements in cmi request which lie in second level e.g cmi.interactions.n.objectives ||
+||[http://iudico.googlecode.com/files/pubclass.gif]  ||` 	ComparableDictionary`||	Dictionary which implements Comparation ||
+||[http://iudico.googlecode.com/files/pubclass.gif]  ||` 	ComparableList`|| Deprecated ||
+||[http://iudico.googlecode.com/files/pubclass.gif]  ||` 	DMError `|| Data Model Errors ||
+||[http://iudico.googlecode.com/files/pubclass.gif]  ||` 	DataObjectDictionary`|||| 	
+||[http://iudico.googlecode.com/files/pubclass.gif]  ||` 	DataObjectDictionary`|||| 	
+||[http://iudico.googlecode.com/files/pubclass.gif]  ||` 	DynamicClass `||||	
+||[http://iudico.googlecode.com/files/pubclass.gif]  ||` 	DynamicClassView`||||	
+||[http://iudico.googlecode.com/files/pubclass.gif] [http://iudico.googlecode.com/files/static.gif] ||`  EnglishLanguage `||	Class to work with english text|| 
+||[http://iudico.googlecode.com/files/pubclass.gif] [http://iudico.googlecode.com/files/static.gif] ||`  Extenders `||	Deprecated ||
+||[http://iudico.googlecode.com/files/pubclass.gif]  ||` 	HtmlStyleReader `||||	
+||[http://iudico.googlecode.com/files/pubclass.gif]  ||` 	IdendtityNode `||Node for course tree ||
+||[http://iudico.googlecode.com/files/pubclass.gif] [http://iudico.googlecode.com/files/static.gif] ||`  Logger`|| Class to log data|| 
+||[http://iudico.googlecode.com/files/pubclass.gif] [http://iudico.googlecode.com/files/static.gif] ||`  MemorizeHelper`|||| 	
+||[http://iudico.googlecode.com/files/pubclass.gif]  ||` 	Memorizer`||||	
+||[http://iudico.googlecode.com/files/pubclass.gif]  ||` 	PersistantFieldAttribute `||||	
+||[http://iudico.googlecode.com/files/pubclass.gif] [http://iudico.googlecode.com/files/static.gif] ||`  SqlUtils `||Some sql queries ||
+||[http://iudico.googlecode.com/files/pubclass.gif] [http://iudico.googlecode.com/files/static.gif] ||`  TeacherHelper`|| Class to retrive data (bind to Teacher) from database ||
+||[http://iudico.googlecode.com/files/pubclass.gif] [http://iudico.googlecode.com/files/static.gif] ||`  Utils`||||
 
 ===Controllers===
 
