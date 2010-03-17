@@ -97,6 +97,53 @@
 Набір класів які відповідають за взаємодію Представлення з Моделлю.
 Кожен клас має відповідну aspx сторінку із проекту Site
 
+|| *Student* ||
+||[http://iudico.googlecode.com/files/pubclass.gif]||`CompiledQuestionsDetailsController`|| Controller for CompiledQuestionsDetails.aspx page ||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`CurriculumnResultController`||   Controller for CurriculumnResult.aspx page||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`OpenTestController`||   Controller for OpenTest.aspx page||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`StageResultController`||   Controller for StageResult.aspx page||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`StudentPageController`||   Controller for StudentPage.aspx page||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`TestDetailsController`||   Controller for TestDetails.aspx page||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`ThemeResultController`||   Controller for ThemeResult.aspx page|| 
+|| *Teacher* ||      
+||[http://iudico.googlecode.com/files/pubclass.gif]||`BaseTeacherController`||  Base Teacher Controller ||
+||[http://iudico.googlecode.com/files/pubclass.gif]||`CourseBehaviorController`||  Controller for CourseBehavior.aspx page||   
+||[http://iudico.googlecode.com/files/pubclass.gif]||`CourseDeleteConfirmationController`||  Controller for CourseDeleteConfirmation.aspx page || 
+||[http://iudico.googlecode.com/files/pubclass.gif]||`CourseEditController`||  Controller for CourseEdit.aspx page || 
+||[http://iudico.googlecode.com/files/pubclass.gif]||`CurriculumAssignmentController`||  Controller for CurriculumAssignment.aspx page||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`CurriculumDeleteConfirmationController`||  Controller for    CurriculumDeleteConfirmation.aspx page || 
+||[http://iudico.googlecode.com/files/pubclass.gif]||`CurriculumEditController`|| Controller for CurriculumEdit.aspx page||   
+||[http://iudico.googlecode.com/files/pubclass.gif]||`CurriculumTimelineController`||  Controller for CurriculumTimeline.aspx page||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`ReCompilePageController`||  Controller for ReCompilationPage.aspx page|| 
+||[http://iudico.googlecode.com/files/pubclass.gif]||`ShareController`||  Controller for Share.aspx page||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`StatisticSelectController`||  Controller for StatisticSelect.aspx page||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`StatisticShowController`||  Controller for StatisticShow.aspx page || 
+||[http://iudico.googlecode.com/files/pubclass.gif]||`TeacherObjectsController`||  Controller for TeacherObjects.aspx page || 
+||[http://iudico.googlecode.com/files/pubclass.gif]||`TeachersListController`||  Controller for TeachersList.aspx page ||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`ThemePagesController`||  Controller for ThemePages.aspx page||  
+|| *Admin* ||
+||[http://iudico.googlecode.com/files/pubclass.gif]||`Admin_CreateBulkUserController`||  Controller for CreateBulkUser.aspx page || 
+||[http://iudico.googlecode.com/files/pubclass.gif]||`Admin_CreateUserController`||  Controller for CreateUser.aspx page || 
+||[http://iudico.googlecode.com/files/pubclass.gif]||`Admin_EditGroupController`||  Controller for EditGroup.aspx page || 
+||[http://iudico.googlecode.com/files/pubclass.gif]||`Admin_EditUserController`||  Controller for EditUser.aspx page || 
+||[http://iudico.googlecode.com/files/pubclass.gif]||`Admin_GroupsController`||  Controller for Groups.aspx page||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`Admin_IncludeUserIntoGroupController`||  Controller for IncludeUserIntoGroup.aspx page || 
+||[http://iudico.googlecode.com/files/pubclass.gif]||`Admin_RemoveGroupConfirmationController`||  Controller for RemoveGroupConfirmation.aspx page || 
+||[http://iudico.googlecode.com/files/pubclass.gif]||`Admin_RemoveUserConfirmationController`||||   
+||[http://iudico.googlecode.com/files/pubclass.gif]||`Admin_RemoveUserFromGroupController`||  Controller for RemoveUserFromGroup.aspx page  ||
+||[http://iudico.googlecode.com/files/pubclass.gif]||`Admin_SelectGroupController`||  Controller for SelectGroup.aspx page ||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`Admin_User_GroupOperationControllerBase`|| ||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`Admin_UsersController`|| Controller for Users.aspx page || 
+|| *Other* ||
+||[http://iudico.googlecode.com/files/pubclass.gif]||`ControllerBase`||  Base Controller class||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`ControllerParameterAttribute`||||   
+||[http://iudico.googlecode.com/files/pubclass.gif][http://iudico.googlecode.com/files/static.gif]||`ControllerParametersUtility<TController>`|||| 
+||[http://iudico.googlecode.com/files/pubclass.gif]||`CreateGroupController`||  Controller for CreateGroup.aspx page|| 
+||[http://iudico.googlecode.com/files/pubclass.gif]||`HomeController`||  Controller for Home.aspx page || 
+||[http://iudico.googlecode.com/files/pubclass.gif]||`IdentityTreeView`|| ||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`LoginController`||  Controller for Login.aspx page||
+||[http://iudico.googlecode.com/files/pubclass.gif]||`UserInfoController`||  Controller for UserInfo.aspx page ||
+
 ===DB===
 Класи для роботи з базою даних
 || *Base*||`DatabaseModelBase.cs`||||
