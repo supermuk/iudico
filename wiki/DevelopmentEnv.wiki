@@ -55,3 +55,11 @@ The default installation of IIS 7 does not include the role service for IP secur
      http://i1.iis.net/resources/images/configreference/ipSecurity_setup_1.png
   # On the Confirm Installation Selections page, click Install.
   # On the Results page, click Close.
+
+For installation security service on Windows Vista or Windows 7 you should do next:
+  # On the taskbar, click Start, and then click Control Panel.
+  # In Control Panel, click Programs and Features, and then click Turn Windows Features on or off.
+  # Expand Internet Information Services, then World Wide Web Services, then Security.
+     http://i2.iis.net/resources/images/configreference/ipSecurity_setup_2.png
+  # Select IP Security, and then click OK.
+  
