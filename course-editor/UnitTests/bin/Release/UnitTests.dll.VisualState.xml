@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
-  <TopNode>[0-1009]C:\Users\Андрій\Documents\Visual Studio 2008\Projects\_Univer09-10\IUDICO\course-editor\UnitTests\bin\Release\UnitTests.dll</TopNode>
-  <SelectedNode>[0-1011]FireFly.UnitTest</SelectedNode>
+  <TopNode>[0-1020]c:\Users\Андрій\Documents\Visual Studio 2008\Projects\_Univer09-10\IUDICO\course-editor\UnitTests\bin\Release\UnitTests.dll</TopNode>
+  <SelectedNode>[0-1020]c:\Users\Андрій\Documents\Visual Studio 2008\Projects\_Univer09-10\IUDICO\course-editor\UnitTests\bin\Release\UnitTests.dll</SelectedNode>
   <ExcludeCategories>false</ExcludeCategories>
   <Nodes>
-    <Node UniqueName="[0-1009]C:\Users\Андрій\Documents\Visual Studio 2008\Projects\_Univer09-10\IUDICO\course-editor\UnitTests\bin\Release\UnitTests.dll" Expanded="true" />
-    <Node UniqueName="[0-1010]FireFly" Expanded="true" />
-    <Node UniqueName="[0-1011]FireFly.UnitTest" Expanded="true" />
-    <Node UniqueName="[0-1000]FireFly.UnitTest.ItemTypeTests" Expanded="true" />
+    <Node UniqueName="[0-1020]c:\Users\Андрій\Documents\Visual Studio 2008\Projects\_Univer09-10\IUDICO\course-editor\UnitTests\bin\Release\UnitTests.dll" Expanded="true" />
+    <Node UniqueName="[0-1021]FireFly" Expanded="true" />
+    <Node UniqueName="[0-1022]FireFly.UnitTests" Expanded="true" />
+    <Node UniqueName="[0-1011]FireFly.UnitTests.ItemTypeTests" Expanded="true" />
+    <Node UniqueName="[0-1000]FireFly.UnitTests.SequencingManagerTests" Expanded="true" />
+    <Node UniqueName="[0-1006]FireFly.UnitTests.SequencingPatternTests" Expanded="true" />
   </Nodes>
 </VisualState>

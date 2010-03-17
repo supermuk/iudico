@@ -1,24 +1,41 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name="C:\Users\Андрій\Documents\Visual Studio 2008\Projects\_Univer09-10\IUDICO\course-editor\UnitTests\bin\Release\UnitTests.dll" total="8" errors="0" failures="0" not-run="0" ignored="0" skipped="0" invalid="0" date="2010-03-11" time="20:20:27">
-  <environment nunit-version="2.5.0.9122" clr-version="2.0.50727.4927" os-version="Microsoft Windows NT 6.1.7600.0" platform="Win32NT" cwd="C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE" machine-name="SHOCOMP" user="Андрій" user-domain="SHOCOMP" />
+<test-results name="c:\Users\Андрій\Documents\Visual Studio 2008\Projects\_Univer09-10\IUDICO\course-editor\UnitTests\bin\Release\UnitTests.dll" total="17" errors="0" failures="0" not-run="0" ignored="0" skipped="0" invalid="0" date="2010-03-17" time="23:32:28">
+  <environment nunit-version="2.5.0.9122" clr-version="2.0.50727.4927" os-version="Microsoft Windows NT 6.1.7600.0" platform="Win32NT" cwd="c:\Users\Андрій\Documents\Visual Studio 2008\Projects\_Univer09-10\IUDICO\course-editor" machine-name="SHOCOMP" user="Андрій" user-domain="SHOCOMP" />
   <culture-info current-culture="uk-UA" current-uiculture="uk-UA" />
-  <test-suite name="C:\Users\Андрій\Documents\Visual Studio 2008\Projects\_Univer09-10\IUDICO\course-editor\UnitTests\bin\Release\UnitTests.dll" executed="True" success="True" time="0.135" asserts="0">
+  <test-suite name="c:\Users\Андрій\Documents\Visual Studio 2008\Projects\_Univer09-10\IUDICO\course-editor\UnitTests\bin\Release\UnitTests.dll" executed="True" success="True" time="0.091" asserts="0">
     <results>
-      <test-suite name="FireFly" executed="True" success="True" time="0.130" asserts="0">
+      <test-suite name="FireFly" executed="True" success="True" time="0.091" asserts="0">
         <results>
-          <test-suite name="UnitTest" executed="True" success="True" time="0.127" asserts="0">
+          <test-suite name="UnitTests" executed="True" success="True" time="0.091" asserts="0">
             <results>
-              <test-suite name="ItemTypeTests" description="Unit tests for FireFly.CourseEditor.Course.Manifest ItemType." executed="True" success="True" time="0.118" asserts="0">
+              <test-suite name="ItemTypeTests" description="Unit tests for FireFly.CourseEditor.Course.Manifest ItemType." executed="True" success="True" time="0.051" asserts="0">
                 <results>
-                  <test-case name="FireFly.UnitTest.ItemTypeTests.CheckForLeafChapterTest" description="CheckForLeafChapter method testing. Includes Errors property." executed="True" success="True" time="0.060" asserts="6" />
-                  <test-case name="FireFly.UnitTest.ItemTypeTests.IdentifierTest" description="ItemType Identifier testing." executed="True" success="True" time="0.001" asserts="2" />
-                  <test-case name="FireFly.UnitTest.ItemTypeTests.InsertGroupingChapter_ExceptionsTest" description="Insert grouping chapter method testing. Check for groupingItem invalid values used." executed="True" success="True" time="0.003" asserts="1" />
-                  <test-case name="FireFly.UnitTest.ItemTypeTests.InsertGroupingChapter_SubItemsTest" description="Insert grouping chapter method testing. Check if SubItems are reordered properly." executed="True" success="True" time="0.002" asserts="4" />
-                  <test-case name="FireFly.UnitTest.ItemTypeTests.IsLeafTest" description="IsLeaf property testing." executed="True" success="True" time="0.001" asserts="3" />
-                  <test-case name="FireFly.UnitTest.ItemTypeTests.RemoveAndMerge_ExceptionTest" description="RemoveAndMerge method testing with wrong situation." executed="True" success="True" time="0.004" asserts="0" />
-                  <test-case name="FireFly.UnitTest.ItemTypeTests.RemoveAndMerge_SubItemsTest" description="Remove chapter and merge it's children with parent's children method test." executed="True" success="True" time="0.006" asserts="13" />
-                  <test-case name="FireFly.UnitTest.ItemTypeTests.TitleTest" description="ItemType Title testing." executed="True" success="True" time="0.020" asserts="2" />
+                  <test-case name="FireFly.UnitTests.ItemTypeTests.CheckForLeafChapterTest" description="CheckForLeafChapter method testing. Includes Errors property." executed="True" success="True" time="0.007" asserts="7" />
+                  <test-case name="FireFly.UnitTests.ItemTypeTests.IdentifierTest" description="ItemType Identifier testing." executed="True" success="True" time="0.000" asserts="2" />
+                  <test-case name="FireFly.UnitTests.ItemTypeTests.InsertGroupingChapter_ExceptionsTest" description="Insert grouping chapter method testing. Check for groupingItem invalid values used." executed="True" success="True" time="0.002" asserts="1" />
+                  <test-case name="FireFly.UnitTests.ItemTypeTests.InsertGroupingChapter_SubItemsTest" description="Insert grouping chapter method testing. Check if SubItems are reordered properly." executed="True" success="True" time="0.002" asserts="4" />
+                  <test-case name="FireFly.UnitTests.ItemTypeTests.IsLeafTest" description="IsLeaf property testing." executed="True" success="True" time="0.001" asserts="3" />
+                  <test-case name="FireFly.UnitTests.ItemTypeTests.RemoveAndMerge_ExceptionTest" description="RemoveAndMerge method testing with wrong situation." executed="True" success="True" time="0.004" asserts="0" />
+                  <test-case name="FireFly.UnitTests.ItemTypeTests.RemoveAndMerge_SubItemsTest" description="Remove chapter and merge it's children with parent's children method test." executed="True" success="True" time="0.004" asserts="13" />
+                  <test-case name="FireFly.UnitTests.ItemTypeTests.TitleTest" description="ItemType Title testing." executed="True" success="True" time="0.023" asserts="2" />
+                </results>
+              </test-suite>
+              <test-suite name="SequencingManagerTests" description="Tests functionality of SequencingManager class." executed="True" success="True" time="0.021" asserts="0">
+                <results>
+                  <test-case name="FireFly.UnitTests.SequencingManagerTests.ClearSequencingTest" description="Tests ClearSequencing method and Constructor by default." executed="True" success="True" time="0.004" asserts="3" />
+                  <test-case name="FireFly.UnitTests.SequencingManagerTests.CreateNewSequencingTest" description="Tests Sequencing not null after item created." executed="True" success="True" time="0.001" asserts="10" />
+                  <test-case name="FireFly.UnitTests.SequencingManagerTests.CreateOrganizationDefaultSequencingTest" description="Tests Sequencing not null after organization sequencing creation." executed="True" success="True" time="0.000" asserts="1" />
+                  <test-case name="FireFly.UnitTests.SequencingManagerTests.CreateSimplePreConditionRuleTest" description="Tests CreatePreConditionRule method." executed="True" success="True" time="0.003" asserts="3" />
+                  <test-case name="FireFly.UnitTests.SequencingManagerTests.SequencingAfterInitializingTest" description="Tests object after default constructor invoked." executed="True" success="True" time="0.004" asserts="12" />
+                </results>
+              </test-suite>
+              <test-suite name="SequencingPatternTests" description="Tests functionality of SequencingPattern class." executed="True" success="True" time="0.007" asserts="0">
+                <results>
+                  <test-case name="FireFly.UnitTests.SequencingPatternTests.ApplyPatternTest" description="Tests ApplyPattern method." executed="True" success="True" time="0.000" asserts="1" />
+                  <test-case name="FireFly.UnitTests.SequencingPatternTests.AreAllChaptersTest" description="Tests are all chapters method." executed="True" success="True" time="0.001" asserts="3" />
+                  <test-case name="FireFly.UnitTests.SequencingPatternTests.AreAllPagesTest" description="Tests are all pages(question or theory) method." executed="True" success="True" time="0.001" asserts="3" />
+                  <test-case name="FireFly.UnitTests.SequencingPatternTests.CanApplyPatternTest" description="Tests CanApplyPattern method." executed="True" success="True" time="0.001" asserts="6" />
                 </results>
               </test-suite>
             </results>

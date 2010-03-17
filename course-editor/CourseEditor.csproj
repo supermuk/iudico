@@ -154,7 +154,9 @@
     <Compile Include="Common\PropertyGridUtils.cs" />
     <Compile Include="Common\ConfigHelper.cs" />
     <Compile Include="Common\UndoRedoUtils.cs" />
+    <Compile Include="Course\SequencingIntf.cs" />
     <Compile Include="Course\SequencingManager.cs" />
+    <Compile Include="Course\SequencingPatterns.cs" />
     <Compile Include="GUI\HtmlEditor\AdvanchedCompiledTest\AdvanchedCompiledTest.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -476,8 +478,10 @@
     <Content Include="Images\HtmlToolBar_AdvancedCompiledTest.bmp" />
     <None Include="Images\R_green_16.bmp" />
     <None Include="Images\merge.gif" />
+    <None Include="Images\SequenceIcon.gif" />
     <Content Include="Images\start.bmp" />
     <Content Include="Images\stop.bmp" />
+    <None Include="Images\S_red_16.bmp" />
     <None Include="Images\wrap.png" />
     <None Include="Images\Undo.bmp" />
   </ItemGroup>

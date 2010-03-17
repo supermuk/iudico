@@ -275,7 +275,7 @@ namespace FireFly.CourseEditor.Common
         [NotNull]
         public override string ToString()
         {
-            return string.Format("BindPropertyAttribute. Source = {0}, Property = {1}", Source, Property);
+            return string.Format("BindPropertyAttribute. Source = {0}, ID = {1}", Source, Property);
         }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]

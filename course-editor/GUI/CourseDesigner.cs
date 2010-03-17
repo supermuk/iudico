@@ -101,6 +101,9 @@ namespace FireFly.CourseEditor.GUI
             _InsertGroupingChapterActiveNotifier = Forms.Main.RegisterToolBoxButton(tvItems, miInsertGroupingChapter);
             _InsertGroupingControlChapterActiveNotifier = Forms.Main.RegisterToolBoxButton(tvItems, miInsertGroupingControlChapter);
             _RemoveMergeActiveNotifier = Forms.Main.RegisterToolBoxButton(tvItems, miRemoveMerge);
+
+            miForcedSequentialOrder.ToolTipText = ForcedSequentialOrderSequencingPattern.Description;
+            miForcedForwardOnlyOrder.ToolTipText = ForcedForwardOnlySequencingPattern.Description;
         }
 
         private void Course_Saving()
@@ -165,6 +168,21 @@ namespace FireFly.CourseEditor.GUI
 
             miGrouping.Visible = insertGrouping || removeMerge;
 
+            #region Sequencing
+
+            var forcedSequentialOrder = ForcedSequentialOrderSequencingPattern.CanApplyPattern(node);
+            var forcedForwardOnlyOrder = ForcedForwardOnlySequencingPattern.CanApplyPattern(node);
+            //-> Place for new one
+
+            miForcedSequentialOrder.Visible = forcedSequentialOrder;
+            miForcedForwardOnlyOrder.Visible = forcedForwardOnlyOrder;
+            //-> Place for new one
+            
+            miApplyPatterns.Visible = miSequencing.Visible = forcedSequentialOrder || forcedForwardOnlyOrder || false;//<- Place for new one
+            
+
+            #endregion
+
             var n = node as ItemType;
             var word = miEditInMSWord.Visible = n != null && n.PageType == PageType.Theory;
             miNew.Visible = page || summary || chapter || controlChapter;
@@ -208,7 +226,7 @@ namespace FireFly.CourseEditor.GUI
         }
 
         /// <summary>
-        /// Displays properties of specified object in Property Editor using Wrappers
+        /// Displays properties of specified object in ID Editor using Wrappers
         /// </summary>
         /// <param name="o">Object which properties should be displayed</param>
         private void DisplayProperties([CanBeNull]ITitled o)
@@ -233,13 +251,10 @@ namespace FireFly.CourseEditor.GUI
         [NotNull]
         private ItemType CreateNewItem([NotNull]PageType pageType)
         {
-            Course.Manifest.metadata = new MetadataType("ADL SCORM", "2004 4th Edition");
-
             var title = ConfigHelper.GetDefaultItemTitle(pageType);
             var resIdn = IdGenerator.GenerateUniqueFileName(title, ".html", Course.FullPath);
             var resource = new ResourceType(resIdn, "webcontent", pageType, resIdn + ".html");
-
-
+            
             Course.Manifest.resources.Resources.Add(resource);
 
             if (pageType == PageType.Question)
@@ -562,7 +577,7 @@ namespace FireFly.CourseEditor.GUI
             IManifestNode n;
             if (manNode is IItemContainer)
             {
-                var newItem = ItemType.CreateNewItem(String.Format("New {0}", chapterType), Guid.NewGuid().ToString(), string.Empty, chapterType);
+                var newItem = ItemType.CreateNewItem(String.Format("New {0}", chapterType), Guid.NewGuid().ToString(), null, chapterType);
                 n = newItem;
                 (manNode as IItemContainer).SubItems.Add(newItem);
                 tvItems.SelectedNode = treeNode.Nodes.Find(n.UID, true)[0];
@@ -854,16 +869,31 @@ namespace FireFly.CourseEditor.GUI
                 }
 
                 (manNode as IItemContainer).RemoveAndMerge();
+                
                 tvItems.SelectedNode = treeNodeParent;
 
                 treeNode = treeNodeParent;
                 treeNode.BeginEdit();
+
+                UpdateTreeContextMenu(treeNodeParent.Tag as IManifestNode, treeNodeParent); 
             }
         }
 
         private void miRemoveMerge_Click(object sender, EventArgs e)
         {
             RemoveAndMerge();
+        }
+
+        private void miForcedSequentialOrder_Click(object sender, EventArgs e)
+        {
+            var treeNode = tvItems.SelectedNode;
+            ForcedSequentialOrderSequencingPattern.ApplyPattern(treeNode.Tag);
+        }
+
+        private void miForwardOnlyOrder_Click(object sender, EventArgs e)
+        {
+            var treeNode = tvItems.SelectedNode;
+            ForcedForwardOnlySequencingPattern.ApplyPattern(treeNode.Tag);
         }        
     }
 }

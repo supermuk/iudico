@@ -2120,17 +2120,17 @@ namespace FireFly.CourseEditor.Course.Manifest
     [XmlType(Namespace = ManifestNamespaces.Imsss)]
     [Description("Container for the set of sequencing information. The reuse happens when the IDRef attribute of the <sequencing> element references an ID attribute of a <sequencing> element that it is a child element of the <sequencingCollection>.")]
     [Category("Main")]
-    public class SequencingCollection : AbstractManifestNode, IContainer
+    public class SequencingCollectionType : AbstractManifestNode, IContainer
     {
         private ManifestNodeList<SequencingType> sequencingCollectionField;
-                
+            
         [XmlElement("sequencing", Namespace=ManifestNamespaces.Imsss)]
         [Description("Container for the set of sequencing information.")]
         [Category("Main")]
         public ManifestNodeList<SequencingType> sequencingCollection
         {
             get
-            {
+            {                
                 return this.sequencingCollectionField;
             }
             set
@@ -2147,9 +2147,9 @@ namespace FireFly.CourseEditor.Course.Manifest
             }
         }
 
-        public SequencingCollection()
+        public SequencingCollectionType()
         {
-            this.sequencingCollection = new ManifestNodeList<SequencingType>();
+            this.sequencingCollection = new ManifestNodeList<SequencingType>(this);
         }
 
         public override string ToString()
@@ -2296,6 +2296,7 @@ namespace FireFly.CourseEditor.Course.Manifest
             organizations.Organizations.Add(org);
             resources = new ResourcesType();
             Identifier = identifier;
+            this.metadata = new MetadataType("ADL SCORM", "2004 4th Edition");
         }
 
         /// <summary>
@@ -2303,7 +2304,7 @@ namespace FireFly.CourseEditor.Course.Manifest
         /// </summary>
         public ManifestType()
         {
-            this.sequencingCollection = new SequencingCollection();
+            this.sequencingCollection = new SequencingCollectionType();
         }
 
         private MetadataType metadataField;
@@ -2312,7 +2313,7 @@ namespace FireFly.CourseEditor.Course.Manifest
 
         private ResourcesType resourcesField;
 
-        private SequencingCollection sequencingCollectionField;
+        private SequencingCollectionType sequencingCollectionField;
 
         private ManifestNodeList<ManifestType> manifestField;
 
@@ -2365,10 +2366,10 @@ namespace FireFly.CourseEditor.Course.Manifest
             }
         }
 
-        [XmlElement("sequencingCollection", Namespace = ManifestNamespaces.Imsss)]
+        
         [Description("Container for the set of sequencing information.")]
         [Category("Main")]
-        public SequencingCollection sequencingCollection
+        public SequencingCollectionType sequencingCollection
         {
             get
             {

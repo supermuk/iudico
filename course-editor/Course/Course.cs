@@ -439,7 +439,7 @@ namespace FireFly.CourseEditor.Course
 
             __FullPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
             Directory.CreateDirectory(__FullPath);
-            __Manifest = new ManifestType("NewCourse") { version = CourseUpgradeManager.LastVersion };
+            __Manifest = new ManifestType("New Course") { version = CourseUpgradeManager.LastVersion };
             __Manifest.ResolveTree(__Manifest);
             __Organization = __Manifest.organizations.Organizations[0];
             __Manifest.organizations.@default = __Organization.identifier;

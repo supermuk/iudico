@@ -539,7 +539,7 @@ namespace FireFly.CourseEditor.GUI
  
         private void miAddCollectionSequencing_Click(object sender, EventArgs e)
         {
-            SequencingCollection c = (SequencingCollection)tvManifest.SelectedNode.Tag;
+            SequencingCollectionType c = (SequencingCollectionType)tvManifest.SelectedNode.Tag;
 
             Debug.Assert(c.sequencingCollection != null, "Empty sequencing Collection.");
 

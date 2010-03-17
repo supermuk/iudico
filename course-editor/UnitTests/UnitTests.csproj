@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="ManifestTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SequencingTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CourseEditor.csproj">

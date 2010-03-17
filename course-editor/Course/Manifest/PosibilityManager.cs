@@ -254,7 +254,7 @@ namespace FireFly.CourseEditor.Course.Manifest
 
         public static bool CanAddCollectionSequencing(object currentNode)
         {            
-            return (currentNode is SequencingCollection) && ((SequencingCollection)currentNode).sequencingCollection != null;
+            return (currentNode is SequencingCollectionType) && ((SequencingCollectionType)currentNode).sequencingCollection != null;
         }
 
         public static bool CanInsertGroupingItem(object currentNode)

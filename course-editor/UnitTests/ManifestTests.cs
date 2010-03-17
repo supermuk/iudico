@@ -5,7 +5,7 @@ using System.Text;
 using NUnit.Framework;
 using FireFly.CourseEditor.Course.Manifest;
 
-namespace FireFly.UnitTest
+namespace FireFly.UnitTests
 {
     [TestFixture]
     [Description("Unit tests for FireFly.CourseEditor.Course.Manifest ItemType.")]
@@ -88,16 +88,17 @@ namespace FireFly.UnitTest
             {
                 this.item.InsertGroupingItem(null);
             }
-            catch
+            catch(ArgumentNullException)
             {
                 excCounter++;
             }
 
             try
             {
-                this.item.InsertGroupingItem(ItemType.CreateNewItem("", "", null, PageType.Question));
+                ItemType item1 = ItemType.CreateNewItem("Item1", "Item1ID", null, PageType.Theory);
+                this.item.InsertGroupingItem(item1);
             }
-            catch
+            catch(ArgumentException)
             {
                 excCounter++;
             }
@@ -124,6 +125,9 @@ namespace FireFly.UnitTest
             this.item.SubItems.Add(item2);
             Assert.AreEqual(false, this.item.CheckForLeafChapter());
             Assert.AreEqual(0, this.item.Errors.Count);
+
+            ItemType leafTheory  = ItemType.CreateNewItem("Chapter", "Item3", null, PageType.Theory);
+            Assert.AreEqual(false, leafTheory.CheckForLeafChapter());
         }
 
         [Test]
