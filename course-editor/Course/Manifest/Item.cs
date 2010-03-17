@@ -18,7 +18,7 @@ namespace FireFly.CourseEditor.Course.Manifest
     [XmlInclude(typeof(ResourceType))]
     [XmlInclude(typeof(PageType))]
     [XmlInclude(typeof(LimitConditionsType))]
-    public class ItemType : AbstractManifestNode, IItemContainer, ITitled
+    public class ItemType : AbstractManifestNode, IItemContainer, ITitled, ISequencing
     {
         private ManifestNodeList<ItemType> itemField;
         private PresentationType presentation;
@@ -43,12 +43,12 @@ namespace FireFly.CourseEditor.Course.Manifest
             IdentifierRef = identifierRef;
         }
 
-        public static ItemType CreateNewItem([NotNull]string title, [NotNull]string identifier, [NotNull]string identifierRef, PageType pageType)
+        public static ItemType CreateNewItem([NotNull]string title, [NotNull]string identifier, [NotNull]string identifierRef, [NotNull]PageType pageType)
         {
             var result = new ItemType(title, identifier, identifierRef);
             result.pageType = pageType;
 
-            result.Sequencing = SequencingManager.CreateNewSequencing(pageType);
+            result.Sequencing = SequencingManager.CreateNewSequencing(result);
 
             if (pageType == PageType.Question)
             {
@@ -454,9 +454,9 @@ namespace FireFly.CourseEditor.Course.Manifest
             return true;
         }
 
-        /// <summary>
-        /// List of string values representing errors while validation.
-        /// </summary>
+        
+        [Description("List of string values representing errors while validation.")]
+        [XmlIgnore]
         public List<string> Errors
         {
             get

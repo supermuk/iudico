@@ -10,15 +10,23 @@ namespace FireFly.CourseEditor.Course.Manifest
     /// </summary>
     public static class SequencingManager
     {
+        #region Constants
+
+        public const string primaryObjectiveSufix = "_satisfied";
+        public const string sharedObjectivePrefix = "global.";
+
+        #endregion
+
         #region Create Sequencing
 
         /// <summary>
         /// Main entry point for creating Sequencing object.
         /// </summary>
-        /// <param name="pageType">PageType value to customize default sequencing srategy for.</param>
-        /// <returns>SequencingType value with default sequencing strategy elements for current page type.</returns>
-        public static SequencingType CreateNewSequencing(PageType pageType)
+        /// <param name="item"><see cref="ItemType"/> value to customize default sequencing srategy for.</param>
+        /// <returns>SequencingType value with default sequencing strategy elements for current item.</returns>
+        public static SequencingType CreateNewSequencing([NotNull]ItemType item)
         {
+            PageType pageType = item.PageType;
             SequencingType result = new SequencingType();
 
             switch (pageType)
@@ -39,6 +47,8 @@ namespace FireFly.CourseEditor.Course.Manifest
                     
                     break;
             }
+
+            CustomizePrimaryObjectives(ref result, item);
 
             return result;
         }
@@ -105,6 +115,7 @@ namespace FireFly.CourseEditor.Course.Manifest
                 sequencing.deliveryControls = new DeliveryControlsType();
             }            
             sequencing.deliveryControls.completionSetByContent = true;
+            sequencing.deliveryControls.objectiveSetByContent = true;
             sequencing.deliveryControls.tracked = true;
             
             if (sequencing.limitConditions == null)
@@ -112,6 +123,12 @@ namespace FireFly.CourseEditor.Course.Manifest
                 sequencing.limitConditions = new LimitConditionsType();
                 sequencing.limitConditions.attemptLimit = "1";
             }
+
+            if (sequencing.rollupRules == null)
+            {
+                sequencing.rollupRules = new RollupRulesType();
+            }
+            sequencing.rollupRules.objectiveMeasureWeight = 0;
         }
 
         /// <summary>
@@ -124,7 +141,8 @@ namespace FireFly.CourseEditor.Course.Manifest
             {
                 sequencing.deliveryControls = new DeliveryControlsType();
             }
-            sequencing.deliveryControls.tracked = false;
+            sequencing.deliveryControls.completionSetByContent = false;
+            sequencing.deliveryControls.objectiveSetByContent = false;
         }
 
         /// <summary>
@@ -133,7 +151,7 @@ namespace FireFly.CourseEditor.Course.Manifest
         /// <param name="condition">SequencingRuleConditionType enumerable value represents Rule Condition.</param>
         /// <param name="action">PreConditionRuleActionType enumerable value represents PreCondition Rule Action.</param>
         /// <returns>PreConditionRuleType value with appropriate parameters.</returns>
-        public static PreConditionRuleType CreateSimplePreConditionRule(SequencingRuleConditionType condition, PreConditionRuleActionType action)
+        public static PreConditionRuleType CreateSimplePreConditionRule([NotNull]SequencingRuleConditionType condition, [NotNull]PreConditionRuleActionType action)
         {  
             PreConditionRuleType preConditionRule = new PreConditionRuleType();
             preConditionRule.ruleConditions = new SequencingRuleTypeRuleConditions();
@@ -143,6 +161,44 @@ namespace FireFly.CourseEditor.Course.Manifest
             preConditionRule.ruleAction = new PreConditionRuleTypeRuleAction();
             preConditionRule.ruleAction.action = action;
             return preConditionRule;
+        }
+
+        /// <summary>
+        /// Applies base elements to primary objective.
+        /// </summary>
+        /// <param name="sequencing">SequencingType value represents object to customize.</param>
+        /// <param name="item"><see cref="ItemType"/> value represents item to apply sequencing to.</param>
+        public static ObjectiveTypeMapInfo CustomizePrimaryObjectives([NotNull]ref SequencingType sequencing, [NotNull]ItemType item)
+        { 
+            //Adding primary objective and mapped global objective with default IDs.
+            if (sequencing.objectives == null)
+            {
+                sequencing.objectives = new ObjectivesType();
+            }
+            sequencing.objectives.primaryObjective = new ObjectivesTypePrimaryObjective();
+            
+            string primaryObjectiveID = item.Identifier + primaryObjectiveSufix;
+
+            string targetObjectiveID = sharedObjectivePrefix + item.Identifier;
+
+            sequencing.objectives.primaryObjective.objectiveID = primaryObjectiveID;
+            ObjectiveTypeMapInfo mapInfo = new ObjectiveTypeMapInfo();
+            mapInfo.targetObjectiveID = targetObjectiveID;
+            mapInfo.readSatisfiedStatus = true;
+            mapInfo.writeSatisfiedStatus = true;
+            sequencing.objectives.primaryObjective.mapInfo.Add(mapInfo);
+
+            return mapInfo;
+        }
+
+        /// <summary>
+        /// Simply creates new instance of SequencingType object for item's sequencing property.
+        /// </summary>
+        /// <param name="item">Item to clear sequecing in.</param>
+        public static SequencingType ClearSequencing([NotNull]ISequencing item)
+        {
+            item.Sequencing = new SequencingType();
+            return item.Sequencing;
         }
 
         #endregion

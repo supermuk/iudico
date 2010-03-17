@@ -20,7 +20,7 @@ namespace FireFly.CourseEditor.GUI.HtmlEditor
         ///<summary>
         /// Win-Control represent this one
         ///</summary>
-        public new ComboBox Control;
+        protected new ComboBox Control;
 
         private const string CORRECT_INDEX_PROPERTY = "Correct index",
             CORRECT_INDEX_PROPERTY_ERROR = "'" + CORRECT_INDEX_PROPERTY + "' must be specified",
@@ -32,7 +32,7 @@ namespace FireFly.CourseEditor.GUI.HtmlEditor
         ///</summary>
         [DefaultValue(0)]
         [DisplayName(CORRECT_INDEX_PROPERTY)]
-        [Description("Index of Drop-Down that should be determined as correct")]
+        [Description("Index of Drop-Down that should be determined as correct. Starts with 0,1,2...")]
         public int? CorrectIndex
         {
             get { return _CorrectIndex; }
@@ -99,7 +99,8 @@ namespace FireFly.CourseEditor.GUI.HtmlEditor
         [NotNull]
         protected override Control CreateWindowControl()
         {
-            return new ComboBox();
+            Control = new ComboBox();
+            return Control;
         }
 
         protected override void Parse([NotNull]XmlNode node)

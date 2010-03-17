@@ -35,15 +35,6 @@ namespace FireFly.CourseEditor.GUI
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tvItems = new FireFly.CourseEditor.GUI.FFTreeView();
             this.cmsManifestNode = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miRename = new System.Windows.Forms.ToolStripMenuItem();
-            this.tcEditor = new System.Windows.Forms.TabControl();
-            this.tpPlainText = new System.Windows.Forms.TabPage();
-            this.tbText = new FireFly.CourseEditor.GUI.FFTextBox();
-            this.tpBrowser = new System.Windows.Forms.TabPage();
-            this.webBrowser = new FireFly.CourseEditor.GUI.FFWebBrowser();
-            this.tpPageDesigner = new System.Windows.Forms.TabPage();
-            this.errorsSummary = new FireFly.CourseEditor.GUI.HtmlEditor.PageErrorsSummary();
-            this._pageEditor = new FireFly.CourseEditor.GUI.HtmlEditor.PageEditor();
             this.miNew = new System.Windows.Forms.ToolStripMenuItem();
             this.miAddChapter = new System.Windows.Forms.ToolStripMenuItem();
             this.miAddTheory = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,11 +46,24 @@ namespace FireFly.CourseEditor.GUI
             this.miInsertGroupingChapter = new System.Windows.Forms.ToolStripMenuItem();
             this.miInsertGroupingControlChapter = new System.Windows.Forms.ToolStripMenuItem();
             this.miRemoveMerge = new System.Windows.Forms.ToolStripMenuItem();
+            this.miSequencing = new System.Windows.Forms.ToolStripMenuItem();
+            this.miApplyPatterns = new System.Windows.Forms.ToolStripMenuItem();
+            this.miForcedSequentialOrder = new System.Windows.Forms.ToolStripMenuItem();
+            this.miForcedForwardOnlyOrder = new System.Windows.Forms.ToolStripMenuItem();
+            this.miRename = new System.Windows.Forms.ToolStripMenuItem();
             this.miDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.miProperties = new System.Windows.Forms.ToolStripMenuItem();
             this.miEditInMSWord = new System.Windows.Forms.ToolStripMenuItem();
             this.miUp = new System.Windows.Forms.ToolStripMenuItem();
             this.miDown = new System.Windows.Forms.ToolStripMenuItem();
+            this.tcEditor = new System.Windows.Forms.TabControl();
+            this.tpPlainText = new System.Windows.Forms.TabPage();
+            this.tbText = new FireFly.CourseEditor.GUI.FFTextBox();
+            this.tpBrowser = new System.Windows.Forms.TabPage();
+            this.webBrowser = new FireFly.CourseEditor.GUI.FFWebBrowser();
+            this.tpPageDesigner = new System.Windows.Forms.TabPage();
+            this.errorsSummary = new FireFly.CourseEditor.GUI.HtmlEditor.PageErrorsSummary();
+            this._pageEditor = new FireFly.CourseEditor.GUI.HtmlEditor.PageEditor();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -108,6 +112,7 @@ namespace FireFly.CourseEditor.GUI
             this.cmsManifestNode.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miNew,
             this.miGrouping,
+            this.miSequencing,
             this.miRename,
             this.miDelete,
             this.miProperties,
@@ -115,103 +120,7 @@ namespace FireFly.CourseEditor.GUI
             this.miUp,
             this.miDown});
             this.cmsManifestNode.Name = "cmsManifestNode";
-            this.cmsManifestNode.Size = new System.Drawing.Size(179, 202);
-            // 
-            // miRename
-            // 
-            this.miRename.Name = "miRename";
-            this.miRename.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.miRename.Size = new System.Drawing.Size(178, 22);
-            this.miRename.Text = "&Rename";
-            // 
-            // tcEditor
-            // 
-            this.tcEditor.Alignment = System.Windows.Forms.TabAlignment.Bottom;
-            this.tcEditor.Controls.Add(this.tpPlainText);
-            this.tcEditor.Controls.Add(this.tpBrowser);
-            this.tcEditor.Controls.Add(this.tpPageDesigner);
-            this.tcEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcEditor.Location = new System.Drawing.Point(0, 0);
-            this.tcEditor.Multiline = true;
-            this.tcEditor.Name = "tcEditor";
-            this.tcEditor.SelectedIndex = 0;
-            this.tcEditor.Size = new System.Drawing.Size(495, 439);
-            this.tcEditor.TabIndex = 2;
-            // 
-            // tpPlainText
-            // 
-            this.tpPlainText.BackColor = System.Drawing.SystemColors.Control;
-            this.tpPlainText.Controls.Add(this.tbText);
-            this.tpPlainText.Location = new System.Drawing.Point(4, 4);
-            this.tpPlainText.Name = "tpPlainText";
-            this.tpPlainText.Padding = new System.Windows.Forms.Padding(3);
-            this.tpPlainText.Size = new System.Drawing.Size(487, 413);
-            this.tpPlainText.TabIndex = 0;
-            this.tpPlainText.Text = "Plain text";
-            // 
-            // tbText
-            // 
-            this.tbText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbText.Location = new System.Drawing.Point(3, 3);
-            this.tbText.Multiline = true;
-            this.tbText.Name = "tbText";
-            this.tbText.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbText.Size = new System.Drawing.Size(481, 407);
-            this.tbText.TabIndex = 1;
-            this.tbText.WordWrap = false;
-            // 
-            // tpBrowser
-            // 
-            this.tpBrowser.Controls.Add(this.webBrowser);
-            this.tpBrowser.Location = new System.Drawing.Point(4, 4);
-            this.tpBrowser.Name = "tpBrowser";
-            this.tpBrowser.Padding = new System.Windows.Forms.Padding(3);
-            this.tpBrowser.Size = new System.Drawing.Size(487, 413);
-            this.tpBrowser.TabIndex = 1;
-            this.tpBrowser.Text = "Browser";
-            this.tpBrowser.UseVisualStyleBackColor = true;
-            // 
-            // webBrowser
-            // 
-            this.webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser.Location = new System.Drawing.Point(3, 3);
-            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser.Name = "webBrowser";
-            this.webBrowser.Size = new System.Drawing.Size(481, 407);
-            this.webBrowser.TabIndex = 0;
-            // 
-            // tpPageDesigner
-            // 
-            this.tpPageDesigner.BackColor = System.Drawing.SystemColors.Control;
-            this.tpPageDesigner.Controls.Add(this.errorsSummary);
-            this.tpPageDesigner.Controls.Add(this._pageEditor);
-            this.tpPageDesigner.Location = new System.Drawing.Point(4, 4);
-            this.tpPageDesigner.Name = "tpPageDesigner";
-            this.tpPageDesigner.Padding = new System.Windows.Forms.Padding(3);
-            this.tpPageDesigner.Size = new System.Drawing.Size(487, 413);
-            this.tpPageDesigner.TabIndex = 2;
-            this.tpPageDesigner.Text = "Page Designer";
-            // 
-            // errorsSummary
-            // 
-            this.errorsSummary.AutoSize = true;
-            this.errorsSummary.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.errorsSummary.BackColor = System.Drawing.Color.White;
-            this.errorsSummary.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.errorsSummary.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.errorsSummary.Location = new System.Drawing.Point(3, 380);
-            this.errorsSummary.Name = "errorsSummary";
-            this.errorsSummary.Size = new System.Drawing.Size(481, 30);
-            this.errorsSummary.TabIndex = 1;
-            // 
-            // _pageEditor
-            // 
-            this._pageEditor.BackColor = System.Drawing.Color.White;
-            this._pageEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._pageEditor.Location = new System.Drawing.Point(3, 3);
-            this._pageEditor.Name = "_pageEditor";
-            this._pageEditor.Size = new System.Drawing.Size(481, 407);
-            this._pageEditor.TabIndex = 0;
+            this.cmsManifestNode.Size = new System.Drawing.Size(179, 224);
             // 
             // miNew
             // 
@@ -329,6 +238,46 @@ namespace FireFly.CourseEditor.GUI
             this.miRemoveMerge.ToolTipText = "Remove item and merge it\'s children";
             this.miRemoveMerge.Click += new System.EventHandler(this.miRemoveMerge_Click);
             // 
+            // miSequencing
+            // 
+            this.miSequencing.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miApplyPatterns});
+            this.miSequencing.Image = global::FireFly.CourseEditor.Properties.Resources.SequenceIcon;
+            this.miSequencing.ImageTransparentColor = System.Drawing.Color.Fuchsia;
+            this.miSequencing.Name = "miSequencing";
+            this.miSequencing.Size = new System.Drawing.Size(178, 22);
+            this.miSequencing.Text = "&Sequencing";
+            // 
+            // miApplyPatterns
+            // 
+            this.miApplyPatterns.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miForcedSequentialOrder,
+            this.miForcedForwardOnlyOrder});
+            this.miApplyPatterns.Name = "miApplyPatterns";
+            this.miApplyPatterns.Size = new System.Drawing.Size(152, 22);
+            this.miApplyPatterns.Text = "&Apply Patterns";
+            // 
+            // miForcedSequentialOrder
+            // 
+            this.miForcedSequentialOrder.Name = "miForcedSequentialOrder";
+            this.miForcedSequentialOrder.Size = new System.Drawing.Size(201, 22);
+            this.miForcedSequentialOrder.Text = "Forced Sequential Order";
+            this.miForcedSequentialOrder.Click += new System.EventHandler(this.miForcedSequentialOrder_Click);
+            // 
+            // miForcedForwardOnlyOrder
+            // 
+            this.miForcedForwardOnlyOrder.Name = "miForcedForwardOnlyOrder";
+            this.miForcedForwardOnlyOrder.Size = new System.Drawing.Size(201, 22);
+            this.miForcedForwardOnlyOrder.Text = "Forward-Only Order";
+            this.miForcedForwardOnlyOrder.Click += new System.EventHandler(this.miForwardOnlyOrder_Click);
+            // 
+            // miRename
+            // 
+            this.miRename.Name = "miRename";
+            this.miRename.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this.miRename.Size = new System.Drawing.Size(178, 22);
+            this.miRename.Text = "&Rename";
+            // 
             // miDelete
             // 
             this.miDelete.Image = global::FireFly.CourseEditor.Properties.Resources.delete_16;
@@ -379,6 +328,95 @@ namespace FireFly.CourseEditor.GUI
             this.miDown.ToolTipText = "Move current item down";
             this.miDown.Visible = false;
             this.miDown.Click += new System.EventHandler(this.miDown_Click);
+            // 
+            // tcEditor
+            // 
+            this.tcEditor.Alignment = System.Windows.Forms.TabAlignment.Bottom;
+            this.tcEditor.Controls.Add(this.tpPlainText);
+            this.tcEditor.Controls.Add(this.tpBrowser);
+            this.tcEditor.Controls.Add(this.tpPageDesigner);
+            this.tcEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tcEditor.Location = new System.Drawing.Point(0, 0);
+            this.tcEditor.Multiline = true;
+            this.tcEditor.Name = "tcEditor";
+            this.tcEditor.SelectedIndex = 0;
+            this.tcEditor.Size = new System.Drawing.Size(495, 439);
+            this.tcEditor.TabIndex = 2;
+            // 
+            // tpPlainText
+            // 
+            this.tpPlainText.BackColor = System.Drawing.SystemColors.Control;
+            this.tpPlainText.Controls.Add(this.tbText);
+            this.tpPlainText.Location = new System.Drawing.Point(4, 4);
+            this.tpPlainText.Name = "tpPlainText";
+            this.tpPlainText.Padding = new System.Windows.Forms.Padding(3);
+            this.tpPlainText.Size = new System.Drawing.Size(487, 413);
+            this.tpPlainText.TabIndex = 0;
+            this.tpPlainText.Text = "Plain text";
+            // 
+            // tbText
+            // 
+            this.tbText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbText.Location = new System.Drawing.Point(3, 3);
+            this.tbText.Multiline = true;
+            this.tbText.Name = "tbText";
+            this.tbText.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.tbText.Size = new System.Drawing.Size(481, 407);
+            this.tbText.TabIndex = 1;
+            this.tbText.WordWrap = false;
+            // 
+            // tpBrowser
+            // 
+            this.tpBrowser.Controls.Add(this.webBrowser);
+            this.tpBrowser.Location = new System.Drawing.Point(4, 4);
+            this.tpBrowser.Name = "tpBrowser";
+            this.tpBrowser.Padding = new System.Windows.Forms.Padding(3);
+            this.tpBrowser.Size = new System.Drawing.Size(487, 413);
+            this.tpBrowser.TabIndex = 1;
+            this.tpBrowser.Text = "Browser";
+            this.tpBrowser.UseVisualStyleBackColor = true;
+            // 
+            // webBrowser
+            // 
+            this.webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser.Location = new System.Drawing.Point(3, 3);
+            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser.Name = "webBrowser";
+            this.webBrowser.Size = new System.Drawing.Size(481, 407);
+            this.webBrowser.TabIndex = 0;
+            // 
+            // tpPageDesigner
+            // 
+            this.tpPageDesigner.BackColor = System.Drawing.SystemColors.Control;
+            this.tpPageDesigner.Controls.Add(this.errorsSummary);
+            this.tpPageDesigner.Controls.Add(this._pageEditor);
+            this.tpPageDesigner.Location = new System.Drawing.Point(4, 4);
+            this.tpPageDesigner.Name = "tpPageDesigner";
+            this.tpPageDesigner.Padding = new System.Windows.Forms.Padding(3);
+            this.tpPageDesigner.Size = new System.Drawing.Size(487, 413);
+            this.tpPageDesigner.TabIndex = 2;
+            this.tpPageDesigner.Text = "Page Designer";
+            // 
+            // errorsSummary
+            // 
+            this.errorsSummary.AutoSize = true;
+            this.errorsSummary.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.errorsSummary.BackColor = System.Drawing.Color.White;
+            this.errorsSummary.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.errorsSummary.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.errorsSummary.Location = new System.Drawing.Point(3, 380);
+            this.errorsSummary.Name = "errorsSummary";
+            this.errorsSummary.Size = new System.Drawing.Size(481, 30);
+            this.errorsSummary.TabIndex = 1;
+            // 
+            // _pageEditor
+            // 
+            this._pageEditor.BackColor = System.Drawing.Color.White;
+            this._pageEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._pageEditor.Location = new System.Drawing.Point(3, 3);
+            this._pageEditor.Name = "_pageEditor";
+            this._pageEditor.Size = new System.Drawing.Size(481, 407);
+            this._pageEditor.TabIndex = 0;
             // 
             // CourseDesigner
             // 
@@ -431,5 +469,9 @@ namespace FireFly.CourseEditor.GUI
         private System.Windows.Forms.ToolStripMenuItem miRemoveMerge;
         private System.Windows.Forms.ToolStripMenuItem miInsertGroupingChapter;
         private System.Windows.Forms.ToolStripMenuItem miInsertGroupingControlChapter;
+        private System.Windows.Forms.ToolStripMenuItem miSequencing;
+        private System.Windows.Forms.ToolStripMenuItem miApplyPatterns;
+        private System.Windows.Forms.ToolStripMenuItem miForcedSequentialOrder;
+        private System.Windows.Forms.ToolStripMenuItem miForcedForwardOnlyOrder;
     }
 }

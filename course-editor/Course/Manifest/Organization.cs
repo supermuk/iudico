@@ -9,7 +9,7 @@ namespace FireFly.CourseEditor.Course.Manifest
     [XmlType("organization", Namespace = ManifestNamespaces.Imscp)]
     [Description("Element describes a particular hierarchical organization. The content of organization can be a lesson, module, course, chapter, etc")]
     [Category("Main")]
-    public class OrganizationType : AbstractManifestNode, IItemContainer, ITitled
+    public class OrganizationType : AbstractManifestNode, IItemContainer, ITitled, ISequencing
     {
         private static int number = 1;
 
@@ -23,11 +23,17 @@ namespace FireFly.CourseEditor.Course.Manifest
 
         private SequencingType sequencingField;
 
+        private bool objectivesGlobalToSystemField = true;
+
+        private bool sharedDataGlobalToSystemField = true;
+
         public OrganizationType()
         {
             identifier = string.Concat("Organization", number++);
             structureField = "hierarchical";
             this.Sequencing = SequencingManager.CreateOrganizationDefaultSequencing();
+            //To protect local objectives from outer intrusion.
+            this.objectivesGlobalToSystem = false; 
         }
 
         //TODO: Fix FFServer and remove this stub
@@ -126,6 +132,36 @@ namespace FireFly.CourseEditor.Course.Manifest
             }
         }
 
+        [Category("Main")]
+        [XmlAttribute("objectivesGlobalToSystem",Namespace= ManifestNamespaces.Adlseq)]
+        [DefaultValue(true)]
+        public bool objectivesGlobalToSystem
+        {
+            get
+            {
+                return this.objectivesGlobalToSystemField;
+            }
+            set
+            {
+                this.objectivesGlobalToSystemField = value;
+            }
+        }
+
+        [Category("Main")]
+        [XmlAttribute("sharedDataGlobalToSystem", Namespace = ManifestNamespaces.Adlcp)]
+        [DefaultValue(true)]
+        public bool sharedDataGlobalToSystem
+        {
+            get
+            {
+                return this.sharedDataGlobalToSystemField;
+            }
+            set
+            {
+                this.sharedDataGlobalToSystemField = value;
+            }
+        }
+
         public override string ToString()
         {
             return Title;
@@ -168,6 +204,16 @@ namespace FireFly.CourseEditor.Course.Manifest
             {
                 m_SubItems = value;
                 Course.NotifyManifestChanged(this, ManifestChangeTypes.ChildrenReordered );
+            }
+        }
+
+        [XmlIgnore]
+        [Description("Returns boolean 'true' if organization has zero sub-items. Otherwise 'false'.")]
+        public bool IsLeaf
+        {
+            get
+            {
+                return (this.SubItems.Count == 0);
             }
         }
 

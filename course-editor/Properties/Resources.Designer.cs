@@ -277,6 +277,20 @@ namespace FireFly.CourseEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap S_red_16 {
+            get {
+                object obj = ResourceManager.GetObject("S_red_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap SequenceIcon {
+            get {
+                object obj = ResourceManager.GetObject("SequenceIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap start {
             get {
                 object obj = ResourceManager.GetObject("start", resourceCulture);

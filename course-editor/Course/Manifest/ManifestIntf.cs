@@ -76,6 +76,11 @@ namespace FireFly.CourseEditor.Course.Manifest
         ManifestNodeList<ItemType> SubItems { get; set; }
 
         /// <summary>
+        /// Inspects if item has children (subItems) or not.
+        /// </summary>
+        bool IsLeaf { get; }
+
+        /// <summary>
         /// Inserts grouping item, which is child of current item and contains sub items of current item.
         /// A parent of child nodes should be changed to new grouping Item.
         /// </summary>
