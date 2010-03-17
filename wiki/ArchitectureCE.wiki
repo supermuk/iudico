@@ -12,4 +12,5 @@
   * Правила проходження курсу(порядок, бали, котрі потрібно набрати за час проходження курсу).
 
 [http://iudico.googlecode.com/files/use_case_course_editor.png]
+
 Use case діаґрама для Course Editor
