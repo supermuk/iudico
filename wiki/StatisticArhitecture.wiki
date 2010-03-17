@@ -14,7 +14,7 @@
 
 Взаємодію користувача з статистикою можна описати наступною структурою:
 
-[http://iudico.googlecode.com.files/statistic_structure.jpg]
+[http://iudico.googlecode.com/files/statistic_structure.jpg]
 
    Сторінки та код реалізації.
 Для того щоб краще зрозуміти  саму архітектуру статистики варто розглянути сторінки та код реалізації.
