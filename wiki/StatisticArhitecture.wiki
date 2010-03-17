@@ -1,4 +1,4 @@
-==StatisticArhitecture==
+===StatisticArhitecture===
   Структура таблиць DB необхідних для статистики.
 
 
