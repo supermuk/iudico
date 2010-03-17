@@ -7,7 +7,6 @@
   * DBUpdater
   * Testing System
   * BoxOver
-  * WebService
 
 ===Site===
 Відображає інформацію на сторінках використовуюючи контроли. (View)
@@ -34,29 +33,39 @@
 
 ===Common===
 
-|| *Cmi*|| `Cmi.cs`|| Базовий клас для елементів cmi||
-|| || `DataModelVerifiers.cs`|| Валідатор для властивостей cmi елементів||
-|| || `InteractionCorrectResponses.cs` ||||
-|| || `InteractionObjectives.cs`       ||||
-|| || `Interactions.cs`                ||||
-|| || `SchemaDataComponents.cs `       || Набір констант||
-|| || `Score.cs`                       ||||
-|| *ImportUtils*||`FileExtentions.cs`|| Набір констант розширень файлів ||
-|| ||`PageType.cs`||Набір констант типів сторінок||
-|| ||`ProjectPaths.cs`||Набір констант шляхів до директорій||
-|| ||`XmlAttributes.cs`||Набір констант Хml атрибутів||
-|| ||`XmlUtility.cs`|| Клас для роботи з manifest.xml ||
-|| ||`Zipper.cs`|| Клас для розархівування імпортованого курсу ||
-|| *StatisticUtils*||`StatisticManager.cs`|| Набір класів для збору статистики проходження тестів||
-|| ||`UserResultForItem.cs`||||
-|| ||`UserResultForPageForDate.cs`||||
-|| ||`UserResultForQuestion.cs`||||
-|| *StudentUtils*||`ControlInfo.cs`|| Клас для відображення поточної інформації про контрол на якому виконується тест||
-|| ||`DatePeriod.cs`|| Клас для роботи з датою проведення тестів||
-|| ||`LanguageHelper.cs`||||
-|| ||`StudentPermissionsHelper.cs`|| Клас для роботи із Permissions для Student||
-|| ||`StudentRecordFinder.cs`|| Клас для отримання різних записів із БД для даного користувача||
-|| ||`UserSubmitCountChecker.cs`|| _не використовується_ ||
+|| *Cmi*||
+||[http://iudico.googlecode.com/files/pubclass.gif] || `Cmi.cs`|| Base class ||
+||[http://iudico.googlecode.com/files/pubclass.gif] || `DataModelVerifiers.cs`|| Validator for cmi properties elements ||
+||[http://iudico.googlecode.com/files/privclass.gif] || `InteractionCorrectResponses.cs` ||||
+||[http://iudico.googlecode.com/files/privclass.gif] || `InteractionObjectives.cs`       ||||
+||[http://iudico.googlecode.com/files/privclass.gif] || `Interactions.cs`                ||||
+||[http://iudico.googlecode.com/files/privclass.gif] || `SchemaDataComponents.cs `       || Constants||
+||[http://iudico.googlecode.com/files/privclass.gif] || `Score.cs`                       ||||
+|| *ImportUtils*||
+||[http://iudico.googlecode.com/files/pubclass.gif] || `FileExtentions`|| Necessary constants of file extentions || 
+||[http://iudico.googlecode.com/files/pubclass.gif] || `PageType`|| Necessary constants of courses pages types||  
+||[http://iudico.googlecode.com/files/pubclass.gif] || `ProjectPaths`|| Necessary constants of filepathes || 
+||[http://iudico.googlecode.com/files/pubclass.gif] || `XmlAttributes`||  || 
+||[http://iudico.googlecode.com/files/pubclass.gif] || `XmlUtility`||  Constants to work with xml file (manifest.xml etc) || 
+||[http://iudico.googlecode.com/files/pubclass.gif] [http://iudico.googlecode.com/files/static.gif]|| `Zipper`||  Puts folder's content to zip archive || 
+|| *StatisticUtils* ||
+|| [http://iudico.googlecode.com/files/pubclass.gif]||`StatisticManager.cs`|| Constants of necessary types of courses pages ||
+|| [http://iudico.googlecode.com/files/pubclass.gif]||`UserResultForItem.cs`||||
+|| [http://iudico.googlecode.com/files/pubclass.gif]||`UserResultForPageForDate.cs`||||
+|| [http://iudico.googlecode.com/files/pubclass.gif]||`UserResultForQuestion.cs`||||
+|| *StudentUtils*||
+||[http://iudico.googlecode.com/files/privclass.gif] ||`ControlInfo.cs`|| Class to represent data control which shows tests||
+||[http://iudico.googlecode.com/files/pubclass.gif] ||`DatePeriod.cs`|| Deprecated ||
+||[http://iudico.googlecode.com/files/pubclass.gif][http://iudico.googlecode.com/files/static.gif] ||`LanguageHelper.cs`|| Class to represent data of programming language ||
+||[http://iudico.googlecode.com/files/pubclass.gif][http://iudico.googlecode.com/files/static.gif] ||`StudentPermissionsHelper.cs`||Class to work with student permissions||
+||[http://iudico.googlecode.com/files/pubclass.gif] ||`StudentRecordFinder.cs`||  Class to get records (bind to Student) from database||
+|| [http://iudico.googlecode.com/files/pubclass.gif]||`UserSubmitCountChecker.cs`|| Deprecated ||
+|| *Testing Utils* ||
+||[http://iudico.googlecode.com/files/pubclass.gif] ||`AnswerFiller`||||
+||[http://iudico.googlecode.com/files/privclass.gif] ||`CompilationTestManager`||||
+||[http://iudico.googlecode.com/files/pubclass.gif] [http://iudico.googlecode.com/files/static.gif]||`ConditionChecker`||||   
+||[http://iudico.googlecode.com/files/privclass.gif] [http://iudico.googlecode.com/files/static.gif]||`SettingFactory`||||
+||[http://iudico.googlecode.com/files/pubclass.gif] [http://iudico.googlecode.com/files/static.gif]||`TestManager`|||| 
 || *Other*||
 ||[http://iudico.googlecode.com/files/pubclass.gif] [http://iudico.googlecode.com/files/static.gif]||`  AbstractionLayerExtenders`|| ||	
 ||[http://iudico.googlecode.com/files/pubclass.gif] [http://iudico.googlecode.com/files/static.gif] ||`  CacheUtility`|| ||	
