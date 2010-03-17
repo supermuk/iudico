@@ -146,36 +146,67 @@
 
 ===DB===
 Класи для роботи з базою даних
-|| *Base*||`DatabaseModelBase.cs`||||
-|| ||`DataObjectLookupHelper.cs`||||
-|| ||`DataObjectSqlSerializer.cs`||||
-|| ||`DBModelBase.cs`||||
-|| ||`DBOpInterfaces.cs`||||
-|| ||`DBOps.cs`||||
-|| *Other*||`DatabaseModel.cs`||||
-|| ||`DatabaseModel.generated.cs`||||
-|| ||`DataObjectCleaner.cs`||||
-|| ||`DBObjectType.cs`||||
+|| *Base*||
+||[http://iudico.googlecode.com/files/pubclass.gif]||`DatabaseModelBase.cs`||||
+||[http://iudico.googlecode.com/files/pubclass.gif] ||`DataObjectLookupHelper.cs`||||
+|| [http://iudico.googlecode.com/files/pubclass.gif]||`DataObjectSqlSerializer.cs`||||
+|| [http://iudico.googlecode.com/files/pubclass.gif]||`DBModelBase.cs`||||
+||[http://iudico.googlecode.com/files/pubclass.gif] ||`DBOpInterfaces.cs`||||
+||[http://iudico.googlecode.com/files/pubclass.gif] ||`DBOps.cs`||||
+|| *Other*||
+||[http://iudico.googlecode.com/files/pubclass.gif]||`DatabaseModel.cs`||||
+|| [http://iudico.googlecode.com/files/pubclass.gif]||`DatabaseModel.generated.cs`||||
+||[http://iudico.googlecode.com/files/pubclass.gif] ||`DataObjectCleaner.cs`||||
+|| [http://iudico.googlecode.com/files/pubclass.gif]||`DBObjectType.cs`||||
 
 ===ImportManagers===
 
 Набір класів для імпорту різних даних у систему
-||`CourseCleaner.cs`|| Клас для коректного видалення курсу||
-||`CourseManager.cs`|| Клас для імпорту курсу||
-||`ItemManager.cs`|| ||
-||`OrganizationManager.cs`||||
-||`ResourceManager.cs`|| Клас для імпорту ресурсів ||
+
+||[http://iudico.googlecode.com/files/pubclass.gif]||`CourseManager`||  Class to work with courses || 
+||[http://iudico.googlecode.com/files/pubclass.gif]||`ItemManager`||  Class to work with items ||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`OrganizationManager`|| ||   
+||[http://iudico.googlecode.com/files/pubclass.gif]||`ResourceManager`||  Class to work with resources ||  
+
 
 ===Security===
 
 Набір класів для роботи з Permissions для різних користувачів
+||[http://iudico.googlecode.com/files/pubclass.gif]||`CustomMembershipProvider `||||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`CustomRoleProvider`||||     
+||[http://iudico.googlecode.com/files/pubclass.gif]||`CustomUser`||||     
+||[http://iudico.googlecode.com/files/pubclass.gif][http://iudico.googlecode.com/files/static.gif]||`PermissionsManager `||||    
+||[http://iudico.googlecode.com/files/pubclass.gif]||`SecuredObjectTypeAttribute `||||    
+
 
 ===Webcontrol===
 
 Розширена реалізація деяких webcontrols
+||[http://iudico.googlecode.com/files/privclass.gif]||`ITestControl`||||
+||[http://iudico.googlecode.com/files/privclass.gif]||`WebButton`||||
+||[http://iudico.googlecode.com/files/privclass.gif]||`WebCodeSnippet`||||
+||[http://iudico.googlecode.com/files/privclass.gif]||`WebComboBox`||||
+||[http://iudico.googlecode.com/files/privclass.gif]||`WebCompiledTest`||||
+||[http://iudico.googlecode.com/files/privclass.gif]||`WebHighlightedCode`||||
+||[http://iudico.googlecode.com/files/privclass.gif]||`WebSimpleQuestion`||||
+||[http://iudico.googlecode.com/files/privclass.gif]||`WebTextBox`||||
+||[http://iudico.googlecode.com/files/pubclass.gif]||`ItemListTestControlBase`||||   
+||[http://iudico.googlecode.com/files/pubclass.gif]||`TestControlBase`||||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`TextBoxTestControlBase`||||   
+||[http://iudico.googlecode.com/files/pubclass.gif]||`WebControlBase`||||   
+||[http://iudico.googlecode.com/files/pubclass.gif]||`WebTestControlBase`|||| 
+
 
 ===Testing System===
 Набір класів для роботи з компільованими тестами
+
+||[http://iudico.googlecode.com/files/pubclass.gif]||`CompilationTester`||  Main component class. Compiles provided source and runnes *.exe files againts tests.||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`MemoryCounter`||||   
+||[http://iudico.googlecode.com/files/pubclass.gif]||`Program`||  This class represents program to test.||  
+||[http://iudico.googlecode.com/files/pubclass.gif]||`Result`||||   
+||[http://iudico.googlecode.com/files/pubclass.gif]||`Runner`||||   
+||[http://iudico.googlecode.com/files/pubclass.gif]||`Settings`||||  
+
 
 ===BoxOver===
 Проект для відображення вспливаючих підказок для різних контролів
