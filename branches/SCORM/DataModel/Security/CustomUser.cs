@@ -17,7 +17,6 @@ namespace IUDICO.DataModel.Security
             _Login = login;
             PasswordHash = passwordHash;
             Roles = new ReadOnlyCollection<string>(roles);
-            PasswordHash = passwordHash;
         }
 
         protected CustomUser(string name, object providerUserKey, string email, string passwordQuestion, string comment, bool isApproved, bool isLockedOut, DateTime creationDate, DateTime lastLoginDate, DateTime lastActivityDate, DateTime lastPasswordChangedDate, DateTime lastLockoutDate)
