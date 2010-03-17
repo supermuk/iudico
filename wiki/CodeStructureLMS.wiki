@@ -6,6 +6,7 @@
   * DataModel   (Model + Controllers) 
   * DBUpdater
   * Testing System
+  * BoxOver
   * WebService
 
 ===Site===
@@ -114,3 +115,6 @@
 
 ===Testing System===
 Набір класів для роботи з компільованими тестами
+
+===BoxOver===
+Проект для відображення вспливаючих підказок для різних контролів
