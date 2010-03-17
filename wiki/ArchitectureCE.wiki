@@ -13,4 +13,4 @@
 
 [http://iudico.googlecode.com/files/use_case_course_editor.png]
 
-Use case діаґрама для Course Editor
+  Use case діаграма для Course Editor
