@@ -1,0 +1,14 @@
+#labels Featured
+== Introduction ==
+
+Course Editor has or will have shortly ability to apply next sequencing pattern to nodes of course structure.
+Documentation is not complete!
+
+
+== Sequecning Patterns Details ==
+
+|| Strategy Name || Nodes' type criterion || Description ||
+|| Organization Default Sequencing || Organization || Is applied to Organization just created. Any sub item may be opened at any moment of time any number of times. If Organization is attempted – selection flows to the first child item. ||
+|| Chapter Default Sequecning || Chapter || Is applied to any Chapter item just created. Any sub item may be opened at any moment of time any number of times. If Chapter is attempted– selection flows to the first child item. ||
+|| Control Chapter Default Sequencing || Control Chapter || Is applied to any Control Chapter just created. Student can attempt this chapter only once.  Sub items (children) may be passed in straight forward-only order only.  Student can’t see other items except current control chapter and it's sub items. If Control Chapter is attempted– selection flows to the first child item. ||
+|| ... 7 patterns left .. ||
