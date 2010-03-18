@@ -3,18 +3,9 @@
 
 ==2009==
 
-*   Яремко Михайло Зіновійович
+ * [http://iudico.googlecode.com/files/MykhailoYaremko.7z Розробка підсистеми перевірки знань для онлайнової системи] (Яремко Михайло Зіновійович)
 
-*Розробка підсистеми перевірки знань для онлайнової системи
-
-
-
-
- * [http://iudico.googlecode.com/files/MykhailoYaremko.7z Mahisterska - MykhailoYaremko]
-
-
-
- * [http://iudico.googlecode.com/files/Mykola%20Kavf.7z Thesis -  Mykola Kavf]
+ * [http://iudico.googlecode.com/files/Mykola%20Kavf.7z Thesis???] (Mykola Kavf)
 
 
 
