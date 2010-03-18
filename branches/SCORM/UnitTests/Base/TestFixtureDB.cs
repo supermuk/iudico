@@ -16,37 +16,6 @@ using LEX.CONTROLS.DBUpdater;
 
 namespace IUDICO.UnitTest.Base
 {
-    public class TestFixture
-    {
-        [TestFixtureSetUp]
-        protected virtual void InitializeFixture()
-        {
-        }
-
-        [TestFixtureTearDown]
-        protected virtual void FinializeFixture()
-        {
-        }
-
-        protected static void AreEqual(DateTime a, DateTime b)
-        {
-            Assert.AreEqual(a.AddTicks(-a.Ticks), b.AddTicks(-b.Ticks));
-        }
-
-        protected static void AreEqual(DateTime? a, DateTime? b)
-        {
-            if (a != null && b != null)
-            {
-                AreEqual(a.Value, b.Value);
-            }
-            else
-            {
-                Assert.AreEqual(a, b);
-            }
-        }
-
-    }
-
     public class TestFixtureDB : TestFixture
     {
         protected SqlConnection Connection
@@ -123,7 +92,7 @@ namespace IUDICO.UnitTest.Base
         }
 
         #endregion
-
+        
         public TestFixtureDB()
         {
             var cB = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["IUDICO_TEST"].ConnectionString);
@@ -141,6 +110,11 @@ namespace IUDICO.UnitTest.Base
 
             _Connection = new SqlConnection(cB2.ToString());
             _Connection.Open();
+        }
+
+        ~TestFixtureDB()
+        {
+            _Connection.Close();
         }
 
         protected void CreateTestDataBase()
@@ -202,7 +176,7 @@ namespace IUDICO.UnitTest.Base
             }
         }
 
-        protected virtual bool NeedToRecreateDB { get { return true; } }
+        protected virtual bool NeedToRecreateDB { get { return false; } }
 
         private readonly SqlConnection _Connection;
         private readonly string _DataBaseName;
