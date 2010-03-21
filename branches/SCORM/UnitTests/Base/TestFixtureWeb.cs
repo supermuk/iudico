@@ -68,20 +68,19 @@ namespace IUDICO.UnitTest.Base
             //selenium.SetTimeout("1000000");
 
             Console.WriteLine("Started Selenium session (browser type={0})", browserType);
-
-            // sets the speed of execution of GUI commands
-            if (false == String.IsNullOrEmpty(seleniumSpeed))
-                selenium.SetSpeed(seleniumSpeed);
         }
 
         [TestFixtureSetUp]
         protected override void InitializeFixture()
         {
             base.InitializeFixture();
-
             verificationErrors = new StringBuilder();
+            
+            selenium.Start();
 
-            selenium.Start();            
+            // sets the speed of execution of GUI commands
+            if (false == String.IsNullOrEmpty(seleniumSpeed))
+                selenium.SetSpeed(seleniumSpeed);
         }
 
         [TestFixtureTearDown]
