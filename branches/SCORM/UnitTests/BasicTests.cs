@@ -14,7 +14,7 @@ using System.Diagnostics;
 namespace IUDICO.UnitTest
 {
     [TestFixture]
-    class BasicTests: TestFixtureDB
+    public class BasicTests: TestFixtureDB
     {
         [Test]
         public void CourseTest()
