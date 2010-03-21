@@ -196,6 +196,13 @@ namespace IUDICO.UnitTest.Base
             return this;
         }
 
+        public TestFixtureWeb AssertHasText(string expectedText)
+        {
+            Assert.AreEqual(true, Selenium.GetBodyText().Contains(expectedText), "Text not found");
+
+            return this;
+        }
+
         /// <summary>
         /// Asserts that the application is currently on the specified page.
         /// </summary>
