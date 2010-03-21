@@ -77,6 +77,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\TestFixture.cs" />
     <Compile Include="Base\TestFixtureWeb.cs" />
     <Compile Include="Base\TestFixtureDB.cs" />
     <Compile Include="BasicTests.cs" />
