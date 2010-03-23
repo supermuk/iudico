@@ -4,6 +4,9 @@ using IUDICO.DataModel.Common;
 using IUDICO.DataModel.Common.StatisticUtils;
 using IUDICO.DataModel.Controllers.Student;
 using IUDICO.DataModel.DB;
+using System.Linq;
+using System;
+using System.Collections;
 
 namespace IUDICO.DataModel.Controllers
 {
@@ -81,12 +84,42 @@ namespace IUDICO.DataModel.Controllers
                 {
                     foreach (TblThemes theme in TeacherHelper.ThemesOfStage(stage))
                     {
-                        var res = StatisticManager.GetUserRankForTheme(student.ID, theme.ID);
+                        int result = 0;
+                        int totalresult = 0;
+                        foreach(TblLearnerAttempts attempt in TeacherHelper.AttemptsOfTheme(theme) )
+                        {
 
+                          if(attempt.ID == TeacherHelper.GetLastLearnerAttempt(student.ID,theme.ID))
+                          foreach(TblLearnerSessions session in TeacherHelper.SessionsOfAttempt(attempt))
+                            {
+                              
+                                string res = "";
+
+                                CmiDataModel cmiDataModel = new CmiDataModel(session.ID, student.ID, false);
+                                for (int i = 0; i < int.Parse(cmiDataModel.GetValue("interactions._count")); i++)
+                                {
+                                    
+                                    res = cmiDataModel.GetValue(String.Format("interactions.{0}.result", i));
+                                    totalresult += 1;
+                                    if (res == "correct")
+                                    {
+                                        result += 1;
+                                        
+                                    }
+                                  
+                                }
+                  
+                          
+                            
+                            }
+                        }
+                    
+                
                         studentCell = new TableCell{HorizontalAlign = HorizontalAlign.Center};
+                         
                         studentCell.Controls.Add(new HyperLink
                                                      {
-                                                         Text = res.UserRank + "/" + res.ThemeRank,
+                                                         Text = result+"/"+totalresult,
                                                          NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new ThemeResultController
                                                          {
                                                              BackUrl = string.Empty,
@@ -96,8 +129,8 @@ namespace IUDICO.DataModel.Controllers
                                                          })
                                                      });
 
-                        pasedCurriculum += res.UserRank;
-                        totalCurriculum += res.ThemeRank;
+                        pasedCurriculum += result;
+                        totalCurriculum += totalresult;
                         studentRow.Cells.Add(studentCell);
                     }
                 }

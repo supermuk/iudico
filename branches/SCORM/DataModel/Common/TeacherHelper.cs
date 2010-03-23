@@ -57,6 +57,31 @@ namespace IUDICO.DataModel.Common
                               DataObject.Schema.StageRef,
                               new ValueCondition<int>(stage.ID), COMPARE_KIND.EQUAL));
         }
+        public static IList<TblLearnerAttempts> AttemptsOfTheme(TblThemes theme)
+        {
+            return ServerModel.DB.Query<TblLearnerAttempts>(new CompareCondition<int>(
+                              DataObject.Schema.ThemeRef,
+                              new ValueCondition<int>(theme.ID), COMPARE_KIND.EQUAL));
+        }
+       
+        public static IList<TblLearnerSessions> SessionsOfAttempt(TblLearnerAttempts attempt)
+        {
+            return ServerModel.DB.Query<TblLearnerSessions>(new CompareCondition<int>(
+                              DataObject.Schema.LearnerAttemptRef,
+                              new ValueCondition<int>(attempt.ID), COMPARE_KIND.EQUAL));
+        }
+        public static IList<TblVarsInteractionCorrectResponses> CorrectResponsesOfSession(TblLearnerSessions session)
+        {
+            return ServerModel.DB.Query<TblVarsInteractionCorrectResponses>(new CompareCondition<int>(
+                              DataObject.Schema.LearnerSessionRef,
+                              new ValueCondition<int>(session.ID), COMPARE_KIND.EQUAL));
+        }
+        public static IList<TblVarsInteractions> VarInteractionsOfSession(TblLearnerSessions session)
+        {
+            return ServerModel.DB.Query<TblVarsInteractions>(new CompareCondition<int>(
+                              DataObject.Schema.LearnerSessionRef,
+                              new ValueCondition<int>(session.ID), COMPARE_KIND.EQUAL));
+        }
 
         public static IList<TblStages> StagesOfCurriculum(TblCurriculums curriculum)
         {
@@ -332,8 +357,9 @@ namespace IUDICO.DataModel.Common
                             new CompareCondition<int>(
                                 DataObject.Schema.UserRef,
                                 new ValueCondition<int>(UserID), COMPARE_KIND.EQUAL)));
-
-            return learnerAttempts[learnerAttempts.Count - 1].ID;
+            if (learnerAttempts.Count > 0)
+                return learnerAttempts[learnerAttempts.Count - 1].ID;
+            else return 0;
         }
 
         public static TblUserAnswers GetUserAnswerForQuestion(TblUsers user, TblQuestions question)
