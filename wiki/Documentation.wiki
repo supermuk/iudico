@@ -5,7 +5,7 @@
 
  * [http://iudico.googlecode.com/files/MykhailoYaremko.7z Розробка підсистеми перевірки знань для онлайнової системи] (Яремко Михайло Зіновійович)
 
- * [http://iudico.googlecode.com/files/Mykola%20Kavf.7z Розробка підсистеми керування онлайновим навчальним курсом] (Mykola Kavf)
+ * [http://iudico.googlecode.com/files/Mykola%20Kavf.7z Розробка підсистеми керування онлайновим навчальним курсом] (Кавф Микола Йосифович)
 
 
 
