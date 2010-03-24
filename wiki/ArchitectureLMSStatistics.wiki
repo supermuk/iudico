@@ -3,32 +3,35 @@
 
 [http://iudico.googlecode.com/files/statistic_db.jpg]
 
-  *_tblGroups_-  містить дані про групу;
-  *_tblCurriculums_- навчальні плани;
-  *_tblStages_-  етапи;
-  *_tblThemes_- теми, що містяться у відповідному етапі;
-  *_tblLearnerAttempts_- спроби користувача пройти тест від початку до кінця;  
-  *_tblLearnerSessions_-  ;
-  *_? tblVarsInteractionCorrectResponses_- запитання для користувача;
-  *_? tblVarsInteractions_- відповіді користувача;
-  *_?tblVarsScore_- відповіді користувача(чи правильно він дав відповідь на  конкретнеретне    запитання).
+  *_tblGroups_-  містить дані про групу
+  *_tblCurriculums_- навчальні плани
+  *_tblStages_-  етапи
+  *_tblThemes_- теми, що містяться у відповідному етапі
+  *_tblLearnerAttempts_- спроби користувача пройти тест від початку до кінця  
+  *_tblLearnerSessions_-  набір одразу декількох питань
+  *_tblVarsInteractionCorrectResponses_- запитання для користувача
+  *_tblVarsInteractions_- відповіді користувача.
+  
 
-Взаємодію користувача з статистикою можна описати наступною структурою:
+Право переглядати статистику мають викладач та адміністратор.
 
-[http://iudico.googlecode.com/files/statistic_structure.jpg].
+[http://iudico.googlecode.com/files/usecase_teacher_statistic.jpg].
 
-  *Сторінки та код реалізації.*
-Для того щоб краще зрозуміти  саму архітектуру статистики варто розглянути сторінки та код реалізації.
+Переглянути статистику можна на сторінці Teacher>Statistic. Користувач повинен вибрати
+групу та відповідний їй навчальний план(Curriculumn). 
+
+[http://iudico.googlecode.com/files/activity_diagram_teacher_statistic.jpg].
+
+ 
+Для того щоб краще зрозуміти  саму архітектуру статистики розглянемо деяку взаємодію між 
+об'єктами системи.
+
+[http://iudico.googlecode.com/files/siquence_diagram_teacher_statistic.jpg].
 
 
 Після того як користувач відкрив сторінку  >Lector>Statistic, керування передається відповідному контроллеру -  StatisticSelectController. У ньому заповнюються відповідні контейнери для можливості вибору групи та відповідного навчального плану(Curriculumn), який закріплений за групою.
+ Дані відображаються з бази даних за допомогою ServerModel та CmiDataModel. Щоб відобразити статистику, керування передається StatisticShowController контроллеру. 
+Користувач має змогу переглянути результати тестування  для конкретного студента який входить в групу.  Відображається сумарна кількість балів по темі яку він міг набрати, і яку набрав практично. Також користувач має змогу переглянути результати тестування по конкретній темі більш детально.
 
-[http://iudico.googlecode.com/files/statistic_page_select.jpg].
 
-Після переходу на сторінку результатів керування передаєтся іншому контроллеру- StatisticShowController, який і буде відповідати за відображення статистики. В даному випадку будуть відображатися результати тестування по групі для відповідного навчального плану. 
-
-[http://iudico.googlecode.com/files/statistic_page_show_result.jpg].
-
-Як саме повинні заповнюватися дані можна побачити розглянувши фрагмент коду:
-{{{
-}}}
+[http://iudico.googlecode.com/files/class_diagram_teacher_statistic.jpg].
