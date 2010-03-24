@@ -11,3 +11,6 @@
 [http://iudico.googlecode.com/files/class_diagram_testing_system.png]
 
   Архітектура класів сервісу тестування.
+
+[http://iudico.googlecode.com/files/use_case_WS.jpg]
+  Use case діаграма для веб сервісу
