@@ -167,13 +167,14 @@ namespace IUDICO.DataModel.Common
             {"learner_name", new CmiElement("learner_name", true, false, null, null, "learner_name")},
             {"location", new CmiElement("location", true, true, null, null, "location")},
             {"max_time_allowed", new CmiElement("max_time_allowed", true, false, null, null, "max_time_allowed")},
-            {"mode", new CmiElement("mode", true, false, null, null, "mode")},
+            {"mode", new CmiElement("mode", true, false, new string[]{"browse", "normal", "review"}, "normal", "mode")},
             {"progress_measure", new CmiElement("progress_measure", true, true, null, null, "progress_measure")},
             {"scaled_passing_score", new CmiElement("scaled_passing_score", true, false, null, null, "scaled_passing_score")},
             {"success_status", new CmiElement("success_status", true, true, new string[]{"passed", "failed", "unknown"}, "unknown", "success_status")},
             {"suspend_data", new CmiElement("suspend_data", true, true, null, null, "suspend_data")},
-            {"time_limit_action", new CmiElement("time_limit_action", true, false, null, null, "time_limit_action")},
+            {"time_limit_action", new CmiElement("time_limit_action", true, false, new string[]{"exit,message", "continue,message", "exit,no message", "continue,no message"}, "continue,no message", "time_limit_action")},
             {"session_time", new CmiElement("session_time", false, true, null, null, "session_time")},
+            {"total_time", new CmiElement("total_time", true, false, null, null, "total_time")}
         };
 
         private Dictionary<string, CmiFirstLevelCollectionElement> collections;
@@ -258,22 +259,14 @@ namespace IUDICO.DataModel.Common
             string name = parts[0];
 
             if (name == path)
-            {
-                elements[name].Verifier.Validate(value);
-                if (name == "_version")
-                {
-                    throw new Exception("Requested variable is read-only");
-                }
-                else if (name == "_children")
-                {
-                    throw new Exception("Requested variable is read-only");
-                }
-                else if (name == "total_time")
+            {                
+                if (name == "_version" || name=="_children" || name=="total_time" || name=="_count")
                 {
                     throw new Exception("Requested variable is read-only");
                 }
                 else if (elements.ContainsKey(name))
                 {
+                  elements[name].Verifier.Validate(value);
                   return SetVariable(name, value);
                 }
             }
@@ -379,19 +372,7 @@ namespace IUDICO.DataModel.Common
 
         private string GetTotalTime()
         {
-          //Переробити!!!
-          int result = 0;
-          /*List<TblVars> list = ServerModel.DB.Query<TblVars>(
-                  new CompareCondition<string>(
-                      DataObject.Schema.Name,
-                      new ValueCondition<string>("session_time"), COMPARE_KIND.EQUAL));
-          
-          for (int i = 0; i < list.Count; i++)
-          {
-            result+=TimeSpan.Parse(list[i].Value);
-          }*/
-
-          return result.ToString();
+          throw new NotImplementedException();
         }
 
         #endregion

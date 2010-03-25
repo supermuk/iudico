@@ -68,51 +68,8 @@ public partial class ThemeResultControl : UserControl
 
                   rows.Add(row);
                 }
-
-                /*foreach (var ur in userResults)
-                {
-                  //if (ur.Name.StartsWith("cmi.interactions."))
-                  {
-                    string[] parts = ur.Name.Split('.');
-                    //int questionNum = Convert.ToInt32(parts[2]);
-                    int questionNum = ur.Number;
-
-                    //switch (parts[3])
-                    switch (parts[0])
-                    {
-                      case "correct_responses":
-                        correntAnswer = ur.Value;
-                        break;
-                      case "learner_response":
-                        userAnswer = ur.Value;
-                        break;
-                      case "result":
-                        result = ur.Value;
-                        break;
-                    }
-                  }
-                }*/
-
-                //if (correctAnswer == null)
-                //{
-                //  continue;
-                //}
-
-                /*var row = new TableRow();
-
-                row.Cells.Add(new TableCell { Text = item.Title });
-                row.Cells.Add(new TableCell { Text = userAnswer });
-                row.Cells.Add(new TableCell { Text = correctAnswer });
-                row.Cells.Add(new TableCell { Text = result });
-
-                //rows.[item.ID] = row;
-                rows.Add(row);*/
             }
 
-            /*foreach (KeyValuePair<int, TableRow> kvp in rows)
-            {
-                _resultTable.Rows.Add(kvp.Value);
-            }*/
             foreach(TableRow row in rows)
             {
               _resultTable.Rows.Add(row);

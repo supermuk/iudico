@@ -25,20 +25,32 @@ namespace IUDICO.DataModel.Common.Cmi
         case "completion_status":
           DataModelElementsVerifier.ValidateCompletionStatus(value);
           break;
+        case "credit":
+          DataModelElementsVerifier.ValidateCredit(value);
+          break;
         case "entry":
           DataModelElementsVerifier.ValidateEntry(value);
           break;
         case "location":
           DataModelElementsVerifier.ValidateLocation(value);
           break;
+        case "mode":
+          DataModelElementsVerifier.ValidateMode(value);
+          break;
         case "progress_measure":
           DataModelElementsVerifier.ValidateProgressMeasure(value);
+          break;
+        case "scaled_passing_score":
+          DataModelElementsVerifier.ValidateScaledPassingScore(value);
           break;
         case "success_status":
           DataModelElementsVerifier.ValidateSuccessStatus(value);
           break;
         case "suspend_data":
           DataModelElementsVerifier.ValidateSuspendData(value);
+          break;
+        case "time_limit_action":
+          DataModelElementsVerifier.ValidateTimeLimitAction(value);
           break;
         case "session_time":
           DataModelElementsVerifier.ValidateSessionTime(value);
@@ -119,6 +131,22 @@ namespace IUDICO.DataModel.Common.Cmi
     /// All normal enum values are valid.
     /// </summary>
     /// <param name="value">The value to validate.</param>
+    public static void ValidateCredit(string value)
+    {
+      switch (value)
+      {
+        case "credit":
+        case "no-credit":
+          break;
+        default:
+          throw new ArgumentOutOfRangeException("value");
+      }
+    }
+
+    /// <summary>
+    /// All normal enum values are valid.
+    /// </summary>
+    /// <param name="value">The value to validate.</param>
     public static void ValidateEntry(string value)
     {
       switch (value)
@@ -145,10 +173,47 @@ namespace IUDICO.DataModel.Common.Cmi
     }
 
     /// <summary>
+    /// All normal enum values are valid.
+    /// </summary>
+    /// <param name="value">The value to validate.</param>
+    public static void ValidateMode(string value)
+    {
+      switch (value)
+      {
+        case "browse":
+        case "normal":
+        case "review":
+          break;
+        default:
+          throw new ArgumentOutOfRangeException("value");
+      }
+    }
+
+    /// <summary>
     /// Valid values are 0.0 to 1.0
     /// </summary>
     /// <param name="value">The value to validate</param>
     public static void ValidateProgressMeasure(string stringValue)
+    {
+      float value;
+      if (float.TryParse(stringValue, out value))
+      {
+        if (value < 0.0 || value > 1.0 || Single.IsNaN(value) || Single.IsInfinity(value))
+        {
+          throw new ArgumentOutOfRangeException("value");
+        }
+      }
+      else
+      {
+        throw new ArgumentOutOfRangeException("value");
+      }
+    }
+
+    /// <summary>
+    /// Valid values are 0.0 to 1.0
+    /// </summary>
+    /// <param name="value">The value to validate</param>
+    public static void ValidateScaledPassingScore(string stringValue)
     {
       float value;
       if (float.TryParse(stringValue, out value))
@@ -190,6 +255,24 @@ namespace IUDICO.DataModel.Common.Cmi
       if (value != null && value.Length > BaseSchemaInternal.ActivityAttemptItem.MaxSuspendDataLength)
       {
         throw new ArgumentOutOfRangeException("value");
+      }
+    }
+
+    /// <summary>
+    /// All normal enum values are valid.
+    /// </summary>
+    /// <param name="value">The value to validate.</param>
+    public static void ValidateTimeLimitAction(string value)
+    {
+      switch (value)
+      {
+        case "exit,message":
+        case "continue,message":
+        case "exit,no message":
+        case "continue,no message":
+          break;
+        default:
+          throw new ArgumentOutOfRangeException("value");
       }
     }
 
