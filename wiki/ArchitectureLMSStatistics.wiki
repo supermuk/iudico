@@ -15,18 +15,18 @@
 
 Право переглядати статистику мають викладач та адміністратор.
 
-[http://iudico.googlecode.com/files/usecase_teacher_statistic.jpg].
+[http://iudico.googlecode.com/files/usecase_statistic.jpg].
 
 Переглянути статистику можна на сторінці Teacher>Statistic. Користувач повинен вибрати
 групу та відповідний їй навчальний план(Curriculumn). 
 
-[http://iudico.googlecode.com/files/activity_diagram_teacher_statistic.jpg].
+[http://iudico.googlecode.com/files/activity_diagram_statistic.jpg].
 
  
 Для того щоб краще зрозуміти  саму архітектуру статистики розглянемо деяку взаємодію між 
 об'єктами системи.
 
-[http://iudico.googlecode.com/files/siquence_diagram_teacher_statistic.jpg].
+[http://iudico.googlecode.com/files/siquence_diagram_statistic.jpg].
 
 Після того як користувач відкрив сторінку  >Lector>Statistic, керування передається відповідному контроллеру -  StatisticSelectController. У ньому заповнюються відповідні контейнери для можливості вибору групи та відповідного навчального плану(Curriculumn), який закріплений за групою.
  Дані відображаються з бази даних за допомогою ServerModel та CmiDataModel. Щоб відобразити статистику, керування передається StatisticShowController контроллеру. 
