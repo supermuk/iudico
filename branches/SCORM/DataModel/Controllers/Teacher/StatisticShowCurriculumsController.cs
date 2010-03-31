@@ -91,8 +91,17 @@ namespace IUDICO.DataModel.Controllers
            
                 foreach (TblCurriculums curr in curriculums)
                 {
-                    headerCell = new TableHeaderCell();
-                    headerCell.Text = curr.Name;
+                    headerCell = new TableHeaderCell{ HorizontalAlign = HorizontalAlign.Center };
+                   headerCell.Controls.Add(new HyperLink
+                    {
+                        Text = curr.Name,
+                        NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new StatisticShowController
+                        {
+                            GroupID = GroupID,
+                            CurriculumID = curr.ID,
+                            BackUrl = RawUrl
+                        })
+                    });
                     headerRow.Cells.Add(headerCell);
                 }
             
