@@ -1,5 +1,6 @@
 ﻿using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
+using System.Web.UI.WebControls;
 
 public partial class StatisticSelect : ControlledPage<StatisticSelectController>
 {
@@ -15,9 +16,16 @@ public partial class StatisticSelect : ControlledPage<StatisticSelectController>
         Bind(Label_PageMessage, c.Message);
         BindTitle(c.Title, gn => gn);
 
-        c.CurriculumsDropDownList = DropDownList_Curriculums;
         c.GroupsDropDownList = DropDownList_Groups;
+        c.CurriculumsCheckBoxList = CheckBoxCurriculums;
         c.RawUrl = Request.RawUrl;
         c.IsPostBack = IsPostBack;
+       
+       
+    }
+
+    protected void CheckBoxCurriculums_SelectedIndexChanged(object sender, System.EventArgs e)
+    {
+
     }
 }

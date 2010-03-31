@@ -4,13 +4,15 @@ using IUDICO.DataModel.Common;
 using IUDICO.DataModel.DB;
 using LEX.CONTROLS;
 using LEX.CONTROLS.Expressions;
+using System.Collections.Generic;
 
 namespace IUDICO.DataModel.Controllers
 {
     public class StatisticSelectController : BaseTeacherController
     {
         public DropDownList GroupsDropDownList { get; set; }
-        public DropDownList CurriculumsDropDownList { get; set; }
+        public string CheckedCurriculums { get; set; }
+        public CheckBoxList CurriculumsCheckBoxList { get; set; }
 
         [PersistantField]
         public IVariable<bool> ShowButtonEnabled = false.AsVariable();
@@ -35,7 +37,7 @@ namespace IUDICO.DataModel.Controllers
                 if (GroupsDropDownList.Items.Count == 0)
                 {
                     GroupsDropDownList.Enabled = false;
-                    CurriculumsDropDownList.Enabled = false;
+                    CurriculumsCheckBoxList.Enabled = false;
                     ShowButtonEnabled.Value = false;
 
                     Message.Value = noGroups;
@@ -51,34 +53,60 @@ namespace IUDICO.DataModel.Controllers
 
         public void ShowButton_Click()
         {
-            RedirectToController<StatisticShowController>(new StatisticShowController
+            int selected_item_count = 0;
+            for (int i = 0; i < CurriculumsCheckBoxList.Items.Count; i++)
             {
-                CurriculumID = int.Parse(CurriculumsDropDownList.SelectedValue),
-                GroupID = int.Parse(GroupsDropDownList.SelectedValue),
-                BackUrl = RawUrl
-            });
+                if (CurriculumsCheckBoxList.Items[i].Selected == true)
+                {
+                    selected_item_count += 1;
+                    CheckedCurriculums += (int.Parse(CurriculumsCheckBoxList.Items[i].Value)).ToString() + "_";
+                }
+            }
+            if (selected_item_count == 1)
+            {
+                string tmp = "";
+                for (int i = 0; i < CheckedCurriculums.Length-1; i++)
+                {
+                    tmp += CheckedCurriculums[i].ToString();
+                }
+                    RedirectToController<StatisticShowController>(new StatisticShowController
+                    {
+                        GroupID = int.Parse(GroupsDropDownList.SelectedValue),
+                        CurriculumID =Convert.ToInt32(tmp),
+                        BackUrl = RawUrl
+                    });
+            }
+            else
+            {
+                RedirectToController<StatisticShowCurriculumsController>(new StatisticShowCurriculumsController
+                {
+                    GroupID = int.Parse(GroupsDropDownList.SelectedValue),
+                    CurriculumsID = CheckedCurriculums,
+                    BackUrl = RawUrl
+                });
+            }
         }
 
         private void GroupsDropDownList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CurriculumsDropDownList.Items.Clear();
+            CurriculumsCheckBoxList.Items.Clear();
             TblGroups selectedGroup = ServerModel.DB.Load<TblGroups>(int.Parse(GroupsDropDownList.SelectedValue));
 
-            foreach (TblCurriculums curriculum in TeacherHelper.GetCurriculumsForGroup(selectedGroup))
+            foreach (TblCurriculums curr in TeacherHelper.GetCurriculumsForGroup(selectedGroup))
             {
-                CurriculumsDropDownList.Items.Add(new ListItem(curriculum.Name, curriculum.ID.ToString()));
+                CurriculumsCheckBoxList.Items.Add(new ListItem(curr.Name, curr.ID.ToString()));
             }
 
-            if (CurriculumsDropDownList.Items.Count == 0)
+            if (CurriculumsCheckBoxList.Items.Count == 0)
             {
-                CurriculumsDropDownList.Enabled = false;
+                CurriculumsCheckBoxList.Enabled= false;
                 ShowButtonEnabled.Value = false;
 
                 Message.Value = noCurriculums;
             }
             else
             {
-                CurriculumsDropDownList.Enabled = true;
+                CurriculumsCheckBoxList.Enabled = true;
                 ShowButtonEnabled.Value = true;
             }
         }
