@@ -2,6 +2,9 @@
 
 Логічним чином охоплює дані повязані із збереженням коричтувачів
 
+[http://iudico.googlecode.com/files/Users.png]
+                                                  Рис 1. Схема Users
+
 === tblUsers ===
 В таблиці зберігаються усі користувачі (Студенти,Викладачі,Адміністратори)
 
@@ -20,5 +23,20 @@
 
 Таблиця які звязують tblUser-tblGroups та tblUser-fxRoles відповідно
 
-[http://iudico.googlecode.com/files/Users.png]
+Нижче наведені Activity Diagram які взаємодіють з даними таблицями
+
+[http://iudico.googlecode.com/files/create_user_activity.png]
+     Рис 2. Activity Diagram - Cтворення коричтувача
+
+[http://iudico.googlecode.com/files/user_activity.png]
+     Рис 3. Activity Diagram - Видалення коритувача, включення/ виключення із групи, зміна ролей
+
+[http://iudico.googlecode.com/files/create_group_activity.png]
+     Рис 4. Activity Diagram - Cтворення групи
+
+[http://iudico.googlecode.com/files/group_activity.png]
+     Рис 5. Activity Diagram - Видалення групи, включення/ виключення користувача із групи, зміна назви групи
+
+
+
     
