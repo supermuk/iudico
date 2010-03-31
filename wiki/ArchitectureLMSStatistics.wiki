@@ -5,15 +5,16 @@
 
 
   Опис таблиць бази даних.
-  ||Таблиця||Опис||
-  ||tblGroups||групи||
-  ||tblCurriculums||навчальні плани||
-  ||tblStages||етапи||
-  ||tblThemes||теми||
-  ||tblLearnerAttempts||спроби проходження тесту||  
-  ||tblLearnerSessions||набір  питань||
-  ||tblVarsInteractionCorrectResponses||питання по тесту(темі)||
-  ||tblVarsInteractions||відповіді користувача||
+
+||Таблиця||Опис||
+||tblGroups||групи||
+||tblCurriculums||навчальні плани||
+||tblStages||етапи||
+||tblThemes||теми||
+||tblLearnerAttempts||спроби проходження тесту||  
+||tblLearnerSessions||набір  питань||
+||tblVarsInteractionCorrectResponses||питання по тесту(темі)||
+||tblVarsInteractions||відповіді користувача||
   
 
 Право переглядати статистику мають викладач та адміністратор.
