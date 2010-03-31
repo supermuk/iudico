@@ -535,6 +535,7 @@ namespace FireFly.CourseEditor.GUI
 
             AppendWordResources(n);
         }
+        
         private void AppendWordResources(ItemType item)
         {
             string dirShortPath = string.Format("{0}.files", item.IdentifierRef);

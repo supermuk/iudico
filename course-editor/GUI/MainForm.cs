@@ -321,7 +321,8 @@ namespace FireFly.CourseEditor.GUI
 
         private void Course_Opened()
         {
-            saveToolStripMenuItem.Enabled = saveAsToolStripMenuItem.Enabled = saveToolStripButton.Enabled = false;
+            saveToolStripMenuItem.Enabled = saveToolStripButton.Enabled = false;
+            saveAsToolStripMenuItem.Enabled = true;
             Course.Manifest.TitleChanged += Manifest_TitleChanged;
             Manifest_TitleChanged();
 
