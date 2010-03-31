@@ -14,3 +14,6 @@
 
   Діаграма розподілення компонентів:
 [http://iudico.googlecode.com/files/distribution_diagram.png]
+
+  Діаграма, котра демонструє використання шаблону MVC у Site
+[http://iudico.googlecode.com/files/mcv_diagram.png]
