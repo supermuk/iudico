@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using IUDICO.DataModel.Common;
 using LEX.CONTROLS;
+using System.Web.UI.WebControls;
 
 namespace IUDICO.DataModel.Controllers
 {
@@ -75,7 +76,7 @@ namespace IUDICO.DataModel.Controllers
                 {
                     IMemberAL al = field.ToAbstaction();
                     var mt = al.MemberType;
-                    if (mt == typeof(int) || mt == typeof(string) || mt.IsEnum)
+                    if (mt == typeof(int) || mt == typeof(string) || mt.IsEnum )
                     {
                         __ControllerParameters.Add(field.Name, al);
                     }

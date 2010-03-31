@@ -31,6 +31,7 @@ namespace App_Code
             f.Register<CourseDeleteConfirmationController>("~/Teacher/CourseDeleteConfirmation.aspx");
             f.Register<CurriculumAssignmentController>("~/Teacher/CurriculumAssignment.aspx");
             f.Register<StatisticSelectController>("~/Teacher/StatisticSelect.aspx");
+            f.Register<StatisticShowCurriculumsController>("~/Teacher/StatisticShowCurriculums.aspx");
             f.Register<StatisticShowController>("~/Teacher/StatisticShow.aspx");
             f.Register<TeachersListController>("~/Teacher/TeachersList.aspx");
             f.Register<TeacherObjectsController>("~/Teacher/TeacherObjects.aspx");

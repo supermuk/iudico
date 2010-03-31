@@ -31,11 +31,13 @@
                 </asp:DropDownList>
             </td>
             <td>
-                <boxover:BoxOver ID="BoxOver2" runat="server" Body="Choose curriculum!" 
-                    ControlToValidate="DropDownList_Curriculums" Header="Help!" />
-                <asp:Label ID="Label_Curriculums" runat="server">Curriculum:</asp:Label>
-                <asp:DropDownList ID="DropDownList_Curriculums" runat="server">
-                </asp:DropDownList>
+                <asp:Label ID="Label_Curriculums" runat="server">Curriculums:</asp:Label>
+            </td>
+            <td>
+                <asp:CheckBoxList ID="CheckBoxCurriculums" runat="server" 
+                    onselectedindexchanged="CheckBoxCurriculums_SelectedIndexChanged" 
+                    Height="48px">
+                </asp:CheckBoxList>
             </td>
         </tr>
         <tr>
@@ -43,6 +45,12 @@
                 <asp:Button ID="Button_Show" runat="server" Text="Show" />
                 <boxover:BoxOver ID="BoxOver3" runat="server" Body="Click to apply filter!" 
                     ControlToValidate="Button_Show" Header="Help!" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                &nbsp;</td>
+            <td>
             </td>
         </tr>
     </table>
