@@ -40,6 +40,9 @@ Selenium Remote Control (RC) являє собою сервер, написан�
 
 http://selenium.openqa.org/selenium-rc.png
 
+Тестування в Selenium виглядають так:
+http://seleniumhq.org/docs/_images/chapt5_img02_Architecture_Diagram_1.png
+
 ===Інсталяція===
  # Скачати Selenium RC з [http://seleniumhq.org/projects/remote-control/ Selenium RC сайту]
  # Розархувувати в довільну папку. Запустити Selenium сервер за допомогою команди _java -jar selenium-server.jar_. Якщо не виникне помилок то на консолі повинно появитися щось подібне до:
