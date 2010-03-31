@@ -13,4 +13,4 @@
 [http://iudico.googlecode.com/files/main_diagram.png]
 
   Діаграма розподілення компонентів:
-[http://iudico.googlecode.com/files/main_diagram.png]
+[http://iudico.googlecode.com/files/distribution_diagram.png]
