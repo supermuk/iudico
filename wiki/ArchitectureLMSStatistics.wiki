@@ -1,8 +1,10 @@
 =Cтатистика IUDICO =
 ==Структура таблиць DB необхідних для статистики.==
 
-[http://iudico.googlecode.com/files/statistic_db.jpg]
+[http://iudico.googlecode.com/files/statistic_db.jpg].
 
+
+  Опис таблиць бази даних.
   ||Таблиця||Опис||
   ||tblGroups||групи||
   ||tblCurriculums||навчальні плани||
@@ -23,6 +25,8 @@
 
 [http://iudico.googlecode.com/files/activity_statistic.jpg].
 
+
+Опис діаграми видів діяльності.
 ||Дія||Стан||Опис||
 ||teacher>statistic||Statistic||сторінка статистики||
 ||select group||select group||вибір групи||
