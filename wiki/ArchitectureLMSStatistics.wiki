@@ -3,24 +3,35 @@
 
 [http://iudico.googlecode.com/files/statistic_db.jpg]
 
-  *_tblGroups_-  містить дані про групу
-  *_tblCurriculums_- навчальні плани
-  *_tblStages_-  етапи
-  *_tblThemes_- теми, що містяться у відповідному етапі
-  *_tblLearnerAttempts_- спроби користувача пройти тест від початку до кінця  
-  *_tblLearnerSessions_-  набір одразу декількох питань
-  *_tblVarsInteractionCorrectResponses_- запитання для користувача
-  *_tblVarsInteractions_- відповіді користувача.
+  ||Таблиця||Опис||
+  ||tblGroups||групи||
+  ||tblCurriculums||навчальні плани||
+  ||tblStages||етапи||
+  ||tblThemes||теми||
+  ||tblLearnerAttempts||спроби проходження тесту||  
+  ||tblLearnerSessions||набір  питань||
+  ||tblVarsInteractionCorrectResponses||питання по тесту(темі)||
+  ||tblVarsInteractions||відповіді користувача||
   
 
 Право переглядати статистику мають викладач та адміністратор.
 
 [http://iudico.googlecode.com/files/usecase_statistic.jpg].
 
-Переглянути статистику можна на сторінці Teacher>Statistic. Користувач повинен вибрати
-групу та відповідний їй навчальний план(Curriculumn). 
+   Переглянути статистику можна на сторінці Teacher>Statistic. Користувач повинен вибрати
+групу та навчальні плани(curriculums), по яких він би хотів переглянути статистику. У статистиці відображаються результати тестування конкретної групи по навчальних планах. Для того щоб переглянути результати необхідно перейти на іншу сторінку за допомогою клацання по кнопці "Show". Далі користувач може вибрати конкретний навчальний план у якому будуть відображатися результати по темах які він містить. Для більш детального перегляду можна переглянути тему для конкретного студента. 
 
-[http://iudico.googlecode.com/files/activity_diagram_statistic.jpg].
+[http://iudico.googlecode.com/files/activity_statistic.jpg].
+
+||Дія||Стан||Опис||
+||teacher>statistic||Statistic||сторінка статистики||
+||select group||select group||вибір групи||
+||select curriculums||select curriculums||вибір навчального плану||
+||show statistic data||show statistic data||відобразити дані||
+||many curriculums||statistic for many curriculums||для декількох планів||
+||one curriculum||statistic for one curriculum||результати для одного плану||
+||select curriculum||statistic for one curriculum||результати для одного плану||
+||select theme||theme_result||результати по темі||
 
  
 Для того щоб краще зрозуміти  саму архітектуру статистики розглянемо деяку взаємодію між 
@@ -28,8 +39,7 @@
 
 [http://iudico.googlecode.com/files/siquence_diagram_statistic.jpg].
 
-Після того як користувач відкрив сторінку  >Lector>Statistic, керування передається відповідному контроллеру -  StatisticSelectController. У ньому заповнюються відповідні контейнери для можливості вибору групи та відповідного навчального плану(Curriculumn), який закріплений за групою.
- Дані відображаються з бази даних за допомогою ServerModel та CmiDataModel. Щоб відобразити статистику, керування передається StatisticShowController контроллеру. 
-Користувач має змогу переглянути результати тестування  для конкретного студента який входить в групу.  Відображається сумарна кількість балів по темі яку він міг набрати, і яку набрав практично. 
+Після того як користувач відкрив сторінку  >Lector>Statistic, керування передається відповідному контроллеру -  StatisticSelectController. У ньому заповнюються відповідні контейнери для можливості вибору групи та навчальних планів, закріплених за групою. Щоб відобразити статистику для декількох навчальних планів керування передається StatisticShowсСurriculumsController контроллеру. Якщо ж користувач вибрав один curriculum то дані відображаються за допомогою StatisticShowController контроллера. 
+Користувач має змогу переглянути результати тестування  для конкретного студента який входить в групу.  Відображається сумарна кількість балів по навчальному плану, яку він міг набрати, і яку набрав практично. Аналогічно відображаються дані для тем відповідного плану.  
 
 [http://iudico.googlecode.com/files/class_diagram_teacher_statistic.jpg].
