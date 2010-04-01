@@ -8,6 +8,8 @@ using IUDICO.DataModel.DB;
 using IUDICO.UnitTest.Base;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.Security;
+using System.Globalization;
+using System.Threading;
 
 namespace IUDICO.UnitTest
 {
@@ -53,6 +55,9 @@ namespace IUDICO.UnitTest
     {
       base.InitializeFixture();
       Initialize();
+
+      CultureInfo ci = new CultureInfo("uk-UA");
+      Thread.CurrentThread.CurrentCulture = ci;
     }
 
     void Initialize()
