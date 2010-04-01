@@ -23,6 +23,9 @@
 || SCORM || Sharable Content Object Reference Model - стандарт, детальніше на www.scorm.com або AdlNet Organization ||
 || SN || (S&N) - Sequencing and Navigation - Впорядкування та навігація ||
 || rollup evaluation || Процес обчислення значень параметрів. Значення параметрів батьківського елемента вичислюються на основі значень параметрів синівських елементів ||
-||  ||  ||
+|| curriculum ||  ||
+|| group || група (академічна) ||
+|| theme ||  ||
+|| stage ||  ||
 
 потребує доповнення !!!
