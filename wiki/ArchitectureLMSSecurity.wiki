@@ -74,3 +74,4 @@
 `</location>`
 
 Атрибут allowUnlisted зберігає значення, котре ми задаємо за допомогою діалогового вікна Edit Feature Settings:
+  http://iudico.googlecode.com/files/edit_featured_settings.JPG
