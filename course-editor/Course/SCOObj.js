@@ -18,10 +18,10 @@ function SCOObj(passRank) {
                 doSetValue("cmi.interactions." + i + ".result", this.tests[i].getResult());
             }
         }
-        if (doGetValue("cmi.objectives._count") > 0) {
+        /*if (doGetValue("cmi.objectives._count") > 0) {
             //Sets primary objective status 'satisfied'.
             doSetValue("cmi.objectives.0.success_status", "passed");
-        }
+        }*/
         $('#Button1')[0].disabled = true;
 
         if (this.compiled == 0) {
@@ -37,7 +37,7 @@ function SCOObj(passRank) {
             doSetValue("cmi.exit", "normal");
 
             doCommit();
-            doSetValue("adl.nav.request", "continue");
+            //doSetValue("adl.nav.request", "continue");
             doTerminate();
         }
     }
@@ -49,6 +49,7 @@ function SCOObj(passRank) {
     for (var i = 1; i < argLength; i++) {
         this.tests.push(arguments[i]);
 
+        this.compileURL = doGetValue("lnu.settings.compile_service_url");
         numInteractions = doGetValue("cmi.interactions._count");
         //alert(numInteractions);
         if (numInteractions == 0) {
@@ -67,6 +68,8 @@ function SCOObj(passRank) {
         }
     }
 }
+
+SCOObj.compileURL = null;
 
 function simpleTest(ID, correctAnswer) {
     this.ID = ID;
@@ -145,15 +148,17 @@ function compiledTest(IDBefore, IDAfter, ID, url, language, timelimit, memorylim
     this.output = output;
     this.url = url;
 
-    jQuery.flXHRproxy.registerOptions(this.url, { xmlResponseText: false });
-
     this.processAnswer = function(SCOObj, i) {
         var sourceT = $('#' + this.IDBefore + ' pre').text() + $('#' + this.ID).val() + $('#' + this.IDAfter + ' pre').text();
         var dataT = { 'source': sourceT, 'language': language, 'input': input, 'output': output, 'timelimit': timelimit, 'memorylimit': memorylimit };
 
+        var url = SCOObj.compileURL || this.url;
+
+        jQuery.flXHRproxy.registerOptions(url, { xmlResponseText: false });
+
         $.ajax({
             type: "POST",
-            url: this.url,
+            url: url,
             data: dataT,
             dataType: 'xml',
             transport: 'flXHRproxy',
