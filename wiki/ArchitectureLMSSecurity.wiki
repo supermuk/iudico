@@ -1,1 +1,49 @@
-TBD
+ =Логування ір адреси користувача=
+Для збереження ІР адреси користувачів використовуються таблиці tblComputers та tblUsersSignIn:
+  http://iudico.googlecode.com/files/DbRelations.JPG
+Додавання записів в базу даних здійснюється засобами linq в момент логування користувача:
+  [код буде замінено діаграмою]
+
+  signInInfo = new IUDICO.DataModel.DB.TblUsersSignIn();
+
+  signInInfo.UserId = user.ID; 
+
+  signInInfo.ComputerId = computerId; 
+
+  signInInfo.LastLogin = System.DateTime.Now; 
+
+  ServerModel.DB.TblUsersSignIn.InsertOnSubmit(signInInfo); 
+
+  ServerModel.DB.SubmitChanges(); 
+
+Для отримання ідентифікатора комп’ютера використовується метод LookupOrAddComputer, котрий повертає цей ідентифікатор, а також у разі відсутності даних про машину з шуканою ІР адресою створює новий запис у базі даних. Метод приймає параметром ІР адресу комп’ютера,  якого здійснюється легування в систему. Саму ІР адресу отримаємо наступним чином:
+  string IP = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+Побачити ІР адресу, з якої користувач заходив востаннє, можна за допомогою меню Admin->Users:
+  http://iudico.googlecode.com/files/UserIPLogging.JPG
+Заповнення стовпця ІР здійснюється за допомогою наступного коду:
+    var ip = ServerModel.DB.TblUsersSignIn.Where(u => u.UserId == user.ID).FirstOrDefault();
+
+    if (ip != null)
+
+    {
+       lbIP.Text = ip.TblComputers.IP;
+    }
+
+ =Інсталяція IP Security сервісу=
+За замовчуванням інсталяція IIS 7 не включає сервіс IP security. Для використання IIS IP security необхідно додати сервіс за наступною послідовністю. Для Windows Server 2008 та Windows Server 2008 R2:
+ # Клікнути Start на панелі задач, перейти до Administrative Tools, після чого відкрити Server Manager.
+ # В дереві Server Manager відкрити Roles, де вибрати Web Server (IIS).
+ # В Web Server (IIS) вибрати секцію Role Services і додати сервіс за допомогою Add Role Service.
+ # У вікні Select Role Service (Add Role Service Wizard) слід вибрати IP and Domain Restrictions та клікнути Next.
+  http://iudico.googlecode.com/files/ipSecurity_1.png
+ # На сторінці Confirm Installation Selections клікнути Install.
+ # На сторінці Results клікнути Close
+
+Для операційних систем Windows Vista та Windows 7 це здійснюється наступним чином:
+ # Клікнути Start на панелі задач, перейти до Control Panel.
+ # В Control Panel клікнути Programs and Features, потім клікнути Turn Windows Features on and off.
+ # В дереві відкрити Internet Information Services, після чого відкрити World Wide Web Services і тоді перейти до Security.
+ # Вибрати IP Security та клікнути OK.
+  http://iudico.googlecode.com/files/ipSecurity_2_w7.png
+
+ =Блокування ір через IIS Manager=
