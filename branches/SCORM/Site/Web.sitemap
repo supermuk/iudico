@@ -20,6 +20,7 @@
     <siteMapNode title="Admin" roles="ADMIN">
       <siteMapNode title="Users" url="~/Admin/Users.aspx" />
       <siteMapNode title="Groups" url="~/Admin/Groups.aspx" />
+      <siteMapNode title="Settings" url="~/Admin/Settings.aspx" />
       <siteMapNode title="" />
       <siteMapNode title="Create User" url="~/Admin/CreateUser.aspx" />
       <siteMapNode title="Create Group" url="~/Admin/CreateGroup.aspx?Admin" />

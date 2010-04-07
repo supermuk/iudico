@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F7A3C8E8-7545-4D92-8FF5-0927B4D845EF}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -128,6 +128,7 @@
     <Compile Include="Common\HtmlStyleReader.cs" />
     <Compile Include="Common\HttpUtility.cs" />
     <Compile Include="Common\IdentityNode.cs" />
+    <Compile Include="Common\Lnu\Lnu.cs" />
     <Compile Include="Common\StatisticUtils\StatisticManager.cs" />
     <Compile Include="Common\StatisticUtils\UserResultForItem.cs" />
     <Compile Include="Common\StatisticUtils\UserResultForQuestion.cs" />
@@ -165,8 +166,12 @@
     <Compile Include="Controllers\Admin_RemoveUserConfirmationController.cs" />
     <Compile Include="Controllers\Admin_RemoveUserFromGroupController.cs" />
     <Compile Include="Controllers\Admin_SelectGroupController.cs" />
+    <Compile Include="Controllers\Admin_SettingsController.cs" />
     <Compile Include="Controllers\Admin_UsersController.cs" />
     <Compile Include="Controllers\Admin_CreateUserController.cs" />
+    <Compile Include="Controllers\Admin_CreateSettingController.cs" />
+    <Compile Include="Controllers\Admin_EditSettingController.cs" />
+    <Compile Include="Controllers\Admin_RemoveSettingConfirmationController.cs" />
     <Compile Include="Controllers\Student\CompiledQuestionsResultController.cs" />
     <Compile Include="Controllers\Student\CurriculumnResultController.cs" />
     <Compile Include="Controllers\Student\StageResultController.cs" />

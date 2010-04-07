@@ -150,6 +150,7 @@ namespace IUDICO.DataModel.DB.Base
 
             public static readonly IDBPropertyCondition<string>
                 Name = new PropertyCondition<string>("Name"),
+                Value = new PropertyCondition<string>("Value"),
                 Login = new PropertyCondition<string>("Login"),
                 FirstName = new PropertyCondition<string>("FirstName"),
                 LastName = new PropertyCondition<string>("LastName"),

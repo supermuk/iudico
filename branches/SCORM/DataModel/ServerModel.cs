@@ -214,6 +214,10 @@ namespace IUDICO.DataModel
 
     public sealed class FormsModel
     {
+        public FormsModel()
+        {
+        }
+
         public void Initialize()
         {
         }

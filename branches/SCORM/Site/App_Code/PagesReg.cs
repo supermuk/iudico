@@ -16,11 +16,15 @@ namespace App_Code
             f.Register<Admin_RemoveUserFromGroupController>("~/Admin/RemoveUserFromGroup.aspx");
             f.Register<Admin_IncludeUserIntoGroupController>("~/Admin/IncludeUserIntoGroup.aspx");
             f.Register<Admin_EditUserController>("~/Admin/EditUser.aspx");
+            f.Register<Admin_EditSettingController>("~/Admin/EditSetting.aspx");
             f.Register<Admin_GroupsController>("~/Admin/Groups.aspx");
             f.Register<CreateGroupController>("~/Admin/CreateGroup.aspx");
             f.Register<Admin_CreateUserController>("~/Admin/CreateUser.aspx");
             f.Register<Admin_RemoveGroupConfirmationController>("~/Admin/RemoveGroupConfirmation.aspx");
             f.Register<Admin_RemoveUserConfirmationController>("~/Admin/RemoveUserConfirmation.aspx");
+            f.Register<Admin_RemoveSettingConfirmationController>("~/Admin/RemoveSettingConfirmation.aspx");
+            f.Register<Admin_SettingsController>("~/Admin/Settings.aspx");
+            f.Register<Admin_CreateSettingController>("~/Admin/CreateSetting.aspx");
             f.Register<Admin_UsersController>("~/Admin/Users.aspx");
             f.Register<Admin_CreateBulkUserController>("~/Admin/CreateUserBulk.aspx");
 

@@ -19,6 +19,7 @@ using IUDICO.DataModel.Common;
 public class API : System.Web.Services.WebService
 {
     CmiDataModel CmiDM;
+    LnuDataModel LnuDM;
 
     public API()
     {
@@ -26,6 +27,7 @@ public class API : System.Web.Services.WebService
         int UserId = ServerModel.User.Current.ID;
 
         CmiDM = new CmiDataModel(LearnerSessionId, UserId, false);
+        LnuDM = new LnuDataModel();
         //Uncomment the following line if using designed components 
         //InitializeComponent(); 
     }
@@ -58,7 +60,11 @@ public class API : System.Web.Services.WebService
     {
         string[] parts = name.Split('.');
 
-        if (parts[0] != "cmi")
+        if (parts[0] == "lnu")
+        {
+            return LnuDM.GetValue(string.Join(".", parts, 1, parts.Length - 1));
+        }
+        else if (parts[0] != "cmi")
         {
             throw new NotImplementedException();
         }

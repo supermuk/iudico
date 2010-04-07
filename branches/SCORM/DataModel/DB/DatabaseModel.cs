@@ -197,6 +197,7 @@ namespace IUDICO.DataModel.DB
     public partial class TblVarsInteractionObjectives : IntKeyedDataObject, IIntKeyedDataObject { }
     public partial class TblVarsInteractionCorrectResponses : IntKeyedDataObject, IIntKeyedDataObject { }
     public partial class TblVarsScore : IntKeyedDataObject, IIntKeyedDataObject { }
+    public partial class TblSettings : IntKeyedDataObject, IIntKeyedDataObject { }
 
     [ManyToManyRelationship(typeof(TblUsers), typeof(FxRoles))]
     public partial class RelUserRoles : RelTable, IRelationshipTable
