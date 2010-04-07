@@ -11,6 +11,6 @@
     # Компільовані тести, в котрих користувач повинен ввести код, котрий скомпілюється і пройде первірку на тестах
   * Правила проходження курсу(порядок, бали, котрі потрібно набрати за час проходження курсу).
 
-[http://iudico.googlecode.com/files/use_case_course_editor.png]
+[http://iudico.googlecode.com/files/ce_user_use_case_diagram.jpg]
 
   Use case діаграма для Course Editor
