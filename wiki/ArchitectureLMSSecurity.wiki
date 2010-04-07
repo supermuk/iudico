@@ -46,4 +46,31 @@
  # Вибрати IP Security та клікнути OK.
   http://iudico.googlecode.com/files/ipSecurity_2_w7.png
 
+
  =Блокування ір через IIS Manager=
+ Контролювати список адрес, котрим заборонено доступ можна за допомогою графічного інтерфейсу менеджера сервера IIS 7. Для цього слід виконати наступне:
+ # Клікнути Start на панелі задач, перейти за наступним шляхом Control Panel → Administrative Tools →  Internet Information Services (IIS) Manager.
+ # На панелі Connections слід вибрати сайт Iudico.
+ # В розділі IIS слід відкрити IPv4 Address and Domain Restrictions.
+  http://iudico.googlecode.com/files/ip_address_and_domain_restr.JPG
+ # На панелі Actions обираємо Add Deny Entry та в діалоговому вікні вводимо потрібну нам ІР адресу або ж цілий ряд послідовних адрес.
+ Також можна змінити правила доступу для адрес, не зазначених в списку. За допомогою менеджера сервера IIS 7 це здійснюється наступним чином:
+ # Здійснити вище описані пункти 1-3
+ # На панелі Actions вибрати Edit Feature Settings…
+ # Вибрати значення Allow/Deny
+ Значення Allow означатиме, що всі ІР адерси, котрі явним чином не вказані в списку дозволених автоматично стають такими. Якщо ж обрати значення Deny, то не зазначені адреси будуть вважатись заблокованими. В такому випадку слід додати певні адреси як дозволені, інакше доступ до сайту буде блоковано і змінити налаштування через веб-сторінку буде неможливо.
+ Діалогове вікно для додавання ІР адрес в список IP Security сервера IIS виглядає наступним чином:
+  http://iudico.googlecode.com/files/Add_deny_entry.JPG
+ Список ІР адрес зберігається в конфігураційному файлі сайту. Повний шлях в XML-дереві виглядає наступним чином:
+`<location path="Iudico">`
+   `<system.webServer>`
+      `<security>`
+         `<ipSecurity allowUnlisted="true" >`
+            `<add ipAddress="192.168.100.1" />`
+            `<add ipAddress="169.254.0.0" />`
+         `</ipSecurity>`
+      `</security>`
+   `</system.webServer>`
+`</location>`
+
+Атрибут allowUnlisted зберігає значення, котре ми задаємо за допомогою діалогового вікна Edit Feature Settings:
