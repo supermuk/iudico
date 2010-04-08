@@ -123,7 +123,7 @@ namespace IUDICO.DataModel.DB.Base
         public static void AppendQuerySql([NotNull] SqlSerializationContext context, [CanBeNull]IDBPredicate cond)
         {
             context.Write(SelectSql);
-            cond = cond != null ? new AndCondtion(AliveRecordsFilter, cond) : AliveRecordsFilter;
+            cond = cond != null ? new AndCondition(AliveRecordsFilter, cond) : AliveRecordsFilter;
             context.Write(" WHERE ");
             cond.Write(context);
         }

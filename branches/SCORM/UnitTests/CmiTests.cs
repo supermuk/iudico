@@ -411,14 +411,101 @@ namespace IUDICO.UnitTest
     [Test]
     public void MultipleLearnerSessionsSimpleCmiTest()
     {
-      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, true);      
+      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, true);
       dataModel.SetValue("entry", "ab-initio");
       ServerModel.DB.Insert(currentSession);
       dataModel = new CmiDataModel(currentSession.ID, userID, true);
       dataModel.SetValue("entry", "resume");
       Assert.AreEqual(dataModel.GetValue("entry"), "resume");
+
+      //clean database
+      List<int> IDs = new List<int>();
+      for (int i = 1; i <= 2; i++)
+      {
+        IDs.Add(i);
+      }
+      ServerModel.DB.Delete<TblVars>(IDs);
     }
 
+    [Test]
+    public void DefaultValuesCmiTest()
+    {
+      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, true);
+      Assert.AreEqual(dataModel.GetValue("completion_status"), "unknown");
+
+      //clean database
+      List<int> IDs = new List<int>();
+      for (int i = 1; i <= 1; i++)
+      {
+        IDs.Add(i);
+      }
+      ServerModel.DB.Delete<TblVars>(IDs);
+    }
+
+    [Test]
+    public void GetCollectionCmiTest()
+    {
+      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, true);
+      dataModel.SetValue("completion_status", "completed");
+      dataModel.SetValue("credit", "credit");
+      dataModel.SetValue("entry", "ab-initio");
+      dataModel.SetValue("launch_data", "bob");
+      dataModel.SetValue("interactions.0.id", "test1");
+      dataModel.SetValue("interactions.0.type", "choice");
+      dataModel.SetValue("interactions.1.type", "long-fill-in");
+      dataModel.SetValue("interactions.1.weighting", "1,0");
+      dataModel.SetValue("interactions.0.correct_responses.0.pattern", "110");
+      dataModel.SetValue("interactions.1.correct_responses.0.pattern", "011");
+
+      List<TblVars> collection1 = dataModel.GetCollection<TblVars>("*");
+      List<TblVarsInteractions> collection2 = dataModel.GetCollection<TblVarsInteractions>("interactions.*.*");
+      List<TblVarsInteractions> collection3 = dataModel.GetCollection<TblVarsInteractions>("interactions.1.*");
+      List<TblVarsInteractionCorrectResponses> collection4 = dataModel.GetCollection<TblVarsInteractionCorrectResponses>("interactions.*.correct_responses.*");
+      List<TblVarsInteractionCorrectResponses> collection5 = dataModel.GetCollection<TblVarsInteractionCorrectResponses>("interactions.1.correct_responses.*");
+
+      Assert.AreEqual(collection1[0].Name, "completion_status");
+      Assert.AreEqual(collection1[1].Name, "credit");
+      Assert.AreEqual(collection1[2].Name, "entry");
+      Assert.AreEqual(collection1[3].Name, "launch_data");
+      Assert.AreEqual(collection1[0].Value, "completed");
+      Assert.AreEqual(collection1[1].Value, "credit");
+      Assert.AreEqual(collection1[2].Value, "ab-initio");
+      Assert.AreEqual(collection1[3].Value, "bob");
+
+      Assert.AreEqual(collection2[0].Name, "id");
+      Assert.AreEqual(collection2[1].Name, "type");
+      Assert.AreEqual(collection2[2].Name, "type");
+      Assert.AreEqual(collection2[3].Name, "weighting");
+      Assert.AreEqual(collection2[0].Value, "test1");
+      Assert.AreEqual(collection2[1].Value, "choice");
+      Assert.AreEqual(collection2[2].Value, "long-fill-in");
+      Assert.AreEqual(collection2[3].Value, "1,0");
+
+      Assert.AreEqual(collection3[0].Name, "type");
+      Assert.AreEqual(collection3[1].Name, "weighting");
+      Assert.AreEqual(collection3[0].Value, "long-fill-in");
+      Assert.AreEqual(collection3[1].Value, "1,0");
+
+      Assert.AreEqual(collection4[0].Name, "pattern");
+      Assert.AreEqual(collection4[1].Name, "pattern");
+      Assert.AreEqual(collection4[0].Value, "110");
+      Assert.AreEqual(collection4[1].Value, "011");
+
+      Assert.AreEqual(collection5[0].Name, "pattern");
+      Assert.AreEqual(collection5[0].Value, "011");
+
+      //clean database
+      List<int> IDs = new List<int>();
+      for (int i = 1; i <= 4; i++)
+      {
+        IDs.Add(i);
+      }
+      ServerModel.DB.Delete<TblVars>(IDs);
+      ServerModel.DB.Delete<TblVarsInteractions>(IDs);
+      ServerModel.DB.Delete<TblVarsInteractionCorrectResponses>(IDs);
+    }
+
+    #region Get Count Tests
     [Test]
     public void GetCountInteractionCmiTest()
     {
@@ -436,5 +523,6 @@ namespace IUDICO.UnitTest
       dataModel.SetValue("interactions.0.correct_responses.1.pattern", "010");
       Assert.AreEqual(dataModel.GetValue("interactions.0.correct_responses._count"), "2");
     }
+    #endregion
   }  
 }

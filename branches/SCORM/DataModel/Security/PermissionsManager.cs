@@ -331,7 +331,7 @@ namespace IUDICO.DataModel.Security
             return new ReadOnlyCollection<DataObjectOperationInfo>(res);
         }
 
-        private static AndCondtion GetQueryForObject(SECURED_OBJECT_TYPE objectType, int objectID, int? operationID, DateTime? targetDate)
+        private static AndCondition GetQueryForObject(SECURED_OBJECT_TYPE objectType, int objectID, int? operationID, DateTime? targetDate)
         {
             var name = objectType.GetSecurityAtr().Name;
 
@@ -340,7 +340,7 @@ namespace IUDICO.DataModel.Security
             conds[1] = new DateTimeBetweenCondition(new ValueCondition<DateTime>(targetDate ?? DateTime.Now), DataObject.Schema.DateSince, DataObject.Schema.DateTill);
             if (operationID != null)
                 conds[2] = new CompareCondition<int>(new PropertyCondition<int>(name + "OperationRef"), new ValueCondition<int>(operationID.Value), COMPARE_KIND.EQUAL);
-            return new AndCondtion(conds);
+            return new AndCondition(conds);
         }
 
         private static Guid? ID;

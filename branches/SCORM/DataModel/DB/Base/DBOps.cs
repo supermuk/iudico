@@ -57,9 +57,9 @@ namespace IUDICO.DataModel.DB.Base
         }
     }
 
-    public class AndCondtion : MultipleCondtion
+    public class AndCondition : MultipleCondtion
     {
-        public AndCondtion(params IDBPredicate[] conds) : base(conds)
+        public AndCondition(params IDBPredicate[] conds) : base(conds)
         {
         }
 
@@ -140,7 +140,7 @@ namespace IUDICO.DataModel.DB.Base
         }
     }
 
-    public class DateTimeBetweenCondition : AndCondtion
+    public class DateTimeBetweenCondition : AndCondition
     {
          //((DateSince IS NULL) OR (DateSince <= @TargetDate)) AND ((DateTill IS NULL) OR (DateTill >= @TargetDate))
         public DateTimeBetweenCondition(IDBCondition<DateTime> operand, IDBCondition<DateTime> lowBound, IDBCondition<DateTime> hiBound)

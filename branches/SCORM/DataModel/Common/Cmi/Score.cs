@@ -66,7 +66,7 @@ namespace IUDICO.DataModel.Common.Cmi
             }
 
             List<TblVarsScore> list = ServerModel.DB.Query<TblVarsScore>(
-                        new AndCondtion(
+                        new AndCondition(
                             new CompareCondition<int>(
                                 DataObject.Schema.LearnerSessionRef,
                                 new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),
@@ -92,7 +92,7 @@ namespace IUDICO.DataModel.Common.Cmi
             }
 
              List<TblVarsScore> list = ServerModel.DB.Query<TblVarsScore>(
-                        new AndCondtion(
+                        new AndCondition(
                             new CompareCondition<int>(
                                 DataObject.Schema.LearnerSessionRef,
                                 new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),

@@ -105,44 +105,37 @@ namespace IUDICO.DataModel.Common
         private bool read;
         private bool write;
         private string[] allowed;
-        private string init;
+        private string defaultValue;
         private Cmi.DataModelVerifier verifier;
 
         #region Properties
 
         public Cmi.DataModelVerifier Verifier
         {
-          get
-          {
-            return verifier;
-          }
+          get { return verifier; }
         }
-
         public bool Read
         {
-            get
-            {
-                return read;
-            }
+            get { return read; }
         }
-
         public bool Write
         {
-            get
-            {
-                return write;
-            }
+            get { return write; }
+        }
+        public string DefaultValue
+        {
+            get { return defaultValue; }
         }
 
         #endregion
 
-        public CmiElement(string name, bool read, bool write, string[] allowed, string init, string verifierElementName)
+        public CmiElement(string name, bool read, bool write, string[] allowed, string defaultValue, string verifierElementName)
         {
             this.name = name;
             this.read = read;
             this.write = write;
             this.allowed = allowed;
-            this.init = init;
+            this.defaultValue = defaultValue;
             this.verifier = new Cmi.DataModelVerifier(verifierElementName);
         }
     }
@@ -192,18 +185,11 @@ namespace IUDICO.DataModel.Common
 
         public int LearnerSessionId
         {
-            get
-            {
-                return learnerSessionId;
-            }
+            get { return learnerSessionId; }
         }
-
         public int UserId
         {
-            get
-            {
-                return userId;
-            }
+            get { return userId; }
         }
 
         #endregion
@@ -217,6 +203,105 @@ namespace IUDICO.DataModel.Common
             this.isSystem = isSystem;
 
             Initialize();
+        }
+
+        /// <summary>
+        /// Get collection of Cmi Data Model elements.Examples:
+        /// dataModel.GetCollection<TblVars>("*");
+        /// dataModel.GetCollection<TblVarsInteractions>("interactions.*.*");
+        /// dataModel.GetCollection<TblVarsInteractions>("interactions.i.*");
+        /// dataModel.GetCollection<TblVarsInteractionCorrectResponses>("interactions.*.correct_responses.*");
+        /// dataModel.GetCollection<TblVarsInteractionCorrectResponses>("interactions.i.correct_responses.*");
+        /// Collections are sorted by Number(or InteractionRef)property and, at coincidence, by Name property!
+        /// </summary>
+        /// <typeparam name="TDataObject"></typeparam>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public List<TDataObject> GetCollection<TDataObject>(string path)
+                                 where TDataObject:IDataObject, new()
+        {
+          string[] parts = path.Split('.');
+          int number;
+          List<IDBPredicate> predicats=new List<IDBPredicate>();
+          predicats.Add(new CompareCondition<int>(DataObject.Schema.LearnerSessionRef, new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL));
+
+          //parsing path
+          if (path == "*")
+          {
+          }
+          else if (parts[0] == "interactions")
+          {
+            if(parts.Length==3 && parts[2]=="*")
+            {
+              if (parts[1] == "*") 
+              {
+              }
+              else if (int.TryParse(parts[1], out number))
+              {
+                predicats.Add(new CompareCondition<int>(DataObject.Schema.Number, new ValueCondition<int>(number), COMPARE_KIND.EQUAL));
+              }
+              else
+              {
+                throw new NotSupportedException("Requested variable is not supported");
+              }
+            }
+            else if(parts.Length==4 && parts[2]=="correct_responses" && parts[3]=="*")
+            {
+              if(parts[1] == "*")
+              {
+              }
+              else if(int.TryParse(parts[1], out number))
+              {
+                predicats.Add(new CompareCondition<int>(DataObject.Schema.InteractionRef, new ValueCondition<int>(number), COMPARE_KIND.EQUAL));
+              }
+              else
+              {
+                throw new NotSupportedException("Requested variable is not supported");
+              }
+            }
+            else
+            {
+              throw new NotSupportedException("Requested variable is not supported");
+            }
+          }
+          else
+          {
+            throw new NotSupportedException("Requested variable is not supported");
+          }
+
+          //execute SQL command
+          List<TDataObject> result;
+          if(predicats.Count>1)
+          {
+            result = ServerModel.DB.Query<TDataObject>(new AndCondition(predicats.ToArray()));
+          }
+          else
+          {
+            result = ServerModel.DB.Query<TDataObject>(predicats[0]);
+          }
+
+          //sort:by Name
+          if (typeof(TDataObject) == typeof(TblVars))
+          {
+            (result as List<TblVars>).Sort((t1, t2) => { return t1.Name.CompareTo(t2.Name); });
+          }
+          //sort:first by Number, then by Name
+          else if (typeof(TDataObject) == typeof(TblVarsInteractions))
+          {
+            (result as List<TblVarsInteractions>).Sort((t1, t2) => { return t1.Number.CompareTo(t2.Number)==0 ?
+                                                                            t1.Name.CompareTo(t2.Name):
+                                                                            t1.Number.CompareTo(t2.Number);});
+          }
+          //sort:first by InteractionRef, then by Name
+          else if(typeof(TDataObject) == typeof(TblVarsInteractionCorrectResponses))
+          {
+            (result as List<TblVarsInteractionCorrectResponses>).Sort((t1, t2) => { return t1.InteractionRef.CompareTo(t2.InteractionRef)==0 ?
+                                                                                           t1.Name.CompareTo(t2.Name):
+                                                                                           t1.InteractionRef.CompareTo(t2.InteractionRef);
+            });
+          }
+          
+          return result;
         }
 
         public string GetValue(string path)
@@ -299,7 +384,7 @@ namespace IUDICO.DataModel.Common
             }
 
             List<TblVars> list = ServerModel.DB.Query<TblVars>(
-                        new AndCondtion(
+                        new AndCondition(
                             new CompareCondition<int>(
                                 DataObject.Schema.LearnerSessionRef,
                                 new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),
@@ -342,7 +427,7 @@ namespace IUDICO.DataModel.Common
                     return ServerModel.User.Current.UserName;
                 default:
                     List<TblVars> list = ServerModel.DB.Query<TblVars>(
-                        new AndCondtion(
+                        new AndCondition(
                             new CompareCondition<int>(
                                 DataObject.Schema.LearnerSessionRef,
                                 new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),
@@ -356,7 +441,7 @@ namespace IUDICO.DataModel.Common
                     }
                     else
                     {
-                        return "";
+                      return elements[name].DefaultValue == null ? "" : elements[name].DefaultValue;
                     }
             }
         }

@@ -49,7 +49,38 @@ public partial class ThemeResultControl : UserControl
                 string result = null;
 
                 CmiDataModel cmiDataModel = new CmiDataModel(learnerSession.ID, ServerModel.User.Current.ID, false);
-                for (int i = 0; i < int.Parse(cmiDataModel.GetValue("interactions._count"));i++)
+                List<TblVarsInteractions> interactionsCollection = cmiDataModel.GetCollection<TblVarsInteractions>("interactions.*.*");
+                List<TblVarsInteractionCorrectResponses> interactionCorrectResponsesCollection = cmiDataModel.GetCollection<TblVarsInteractionCorrectResponses>("interactions.*.correct_responses.*");
+
+                for (int i = 0, j = 0; i < int.Parse(cmiDataModel.GetValue("interactions._count")); i++)
+                {
+                  correctAnswer = interactionCorrectResponsesCollection[i].Value;
+                  for (; j < interactionsCollection.Count && i == interactionsCollection[j].Number; j++)
+                  {
+                    if (interactionsCollection[j].Name == "learner_response")
+                    {
+                      userAnswer = interactionsCollection[j].Value;
+                    }
+                    else if (interactionsCollection[j].Name == "result")
+                    {
+                      result = interactionsCollection[j].Value;
+                    }
+                  }
+
+                  if (correctAnswer == null)
+                  {
+                    continue;
+                  }
+
+                  var row = new TableRow();
+                  row.Cells.Add(new TableCell { Text = item.Title });
+                  row.Cells.Add(new TableCell { Text = userAnswer });
+                  row.Cells.Add(new TableCell { Text = correctAnswer });
+                  row.Cells.Add(new TableCell { Text = result });
+
+                  rows.Add(row);
+                }
+                /*for (int i = 0; i < int.Parse(cmiDataModel.GetValue("interactions._count"));i++)
                 {
                   correctAnswer = cmiDataModel.GetValue(String.Format("interactions.{0}.correct_responses.0.pattern", i));
                   userAnswer = cmiDataModel.GetValue(String.Format("interactions.{0}.learner_response", i));
@@ -67,7 +98,7 @@ public partial class ThemeResultControl : UserControl
                   row.Cells.Add(new TableCell { Text = result });
 
                   rows.Add(row);
-                }
+                }*/
             }
 
             foreach(TableRow row in rows)

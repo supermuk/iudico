@@ -113,7 +113,7 @@ namespace IUDICO.DataModel.Common.Cmi
             int.TryParse(n, out number);
 
             List<TblVarsInteractions> list = ServerModel.DB.Query<TblVarsInteractions>(
-                        new AndCondtion(
+                        new AndCondition(
                             new CompareCondition<int>(
                                 DataObject.Schema.LearnerSessionRef,
                                 new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),
@@ -130,7 +130,7 @@ namespace IUDICO.DataModel.Common.Cmi
             }
             else
             {
-                return "";
+              return "";
             }
         }
 
@@ -145,7 +145,7 @@ namespace IUDICO.DataModel.Common.Cmi
             int.TryParse(n, out number);
 
             List<TblVarsInteractions> list = ServerModel.DB.Query<TblVarsInteractions>(
-                        new AndCondtion(
+                        new AndCondition(
                             new CompareCondition<int>(
                                 DataObject.Schema.LearnerSessionRef,
                                 new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),
