@@ -35,6 +35,7 @@ namespace IUDICO.DataModel.Controllers
         private const string noCourses = "You have no courses, upload some first.";
         private const string noThemesSelected = "Select some themes to add.";
         private const string alreadyHaveTheme = "Stage: {0} already contains theme(s) :";
+        private const string noStageName = "Please enter stage name";
 
         public override void Loaded()
         {
@@ -103,6 +104,11 @@ namespace IUDICO.DataModel.Controllers
 
         public void AddStageButton_Click()
         {
+            if (ObjectName.Value.Equals(string.Empty))
+            {
+              Message.Value = noStageName;
+              return;
+            }
             //adding new stage
             IdendtityNode curriculumNode = CurriculumTree.SelectedNode as IdendtityNode;
 

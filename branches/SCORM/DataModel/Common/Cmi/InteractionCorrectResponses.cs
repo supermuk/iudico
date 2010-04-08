@@ -28,7 +28,7 @@ namespace IUDICO.DataModel.Common.Cmi
             int.TryParse(n, out number);
 
             List<TblVarsInteractionCorrectResponses> list = ServerModel.DB.Query<TblVarsInteractionCorrectResponses>(
-                          new AndCondtion(
+                          new AndCondition(
                             new CompareCondition<int>(
                                 DataObject.Schema.LearnerSessionRef,
                                 new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),
@@ -107,7 +107,7 @@ namespace IUDICO.DataModel.Common.Cmi
             int.TryParse(m, out number);
 
             List<TblVarsInteractionCorrectResponses> list = ServerModel.DB.Query<TblVarsInteractionCorrectResponses>(
-                        new AndCondtion(
+                        new AndCondition(
                             new CompareCondition<int>(
                                 DataObject.Schema.LearnerSessionRef,
                                 new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),
@@ -143,7 +143,7 @@ namespace IUDICO.DataModel.Common.Cmi
             int.TryParse(m, out number);
 
             List<TblVarsInteractionCorrectResponses> list = ServerModel.DB.Query<TblVarsInteractionCorrectResponses>(
-                        new AndCondtion(
+                        new AndCondition(
                             new CompareCondition<int>(
                                 DataObject.Schema.LearnerSessionRef,
                                 new ValueCondition<int>(LearnerSessionId), COMPARE_KIND.EQUAL),

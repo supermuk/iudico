@@ -42,7 +42,7 @@ namespace IUDICO.DataModel.Common
         public static IList<TblItems> LeafItemsOfOrganization(TblOrganizations org)
         {
             return ServerModel.DB.Query<TblItems>(
-                  new AndCondtion(
+                  new AndCondition(
                      new CompareCondition<int>(
                            DataObject.Schema.OrganizationRef,
                            new ValueCondition<int>(org.ID), COMPARE_KIND.EQUAL),
@@ -107,7 +107,7 @@ namespace IUDICO.DataModel.Common
         public static IList<TblPermissions> CurrentUserPermissionsForCourse(TblCourses course)
         {
             return ServerModel.DB.Query<TblPermissions>(
-                  new AndCondtion(
+                  new AndCondition(
                      new CompareCondition<int>(
                            DataObject.Schema.CourseRef,
                            new ValueCondition<int>(course.ID), COMPARE_KIND.EQUAL),
@@ -119,7 +119,7 @@ namespace IUDICO.DataModel.Common
         public static IList<TblPermissions> CurrentUserPermissionsForCurriculum(TblCurriculums curriculum)
         {
             return ServerModel.DB.Query<TblPermissions>(
-                  new AndCondtion(
+                  new AndCondition(
                      new CompareCondition<int>(
                            DataObject.Schema.CurriculumRef,
                            new ValueCondition<int>(curriculum.ID), COMPARE_KIND.EQUAL),
@@ -172,7 +172,7 @@ namespace IUDICO.DataModel.Common
         public static IList<TblPermissions> GroupPermissionsForCurriculum(TblGroups group, TblCurriculums curriculum)
         {
             return ServerModel.DB.Query<TblPermissions>(
-                      new AndCondtion(
+                      new AndCondition(
                          new CompareCondition<int>(
                             DataObject.Schema.CurriculumRef,
                             new ValueCondition<int>(curriculum.ID), COMPARE_KIND.EQUAL),
@@ -184,7 +184,7 @@ namespace IUDICO.DataModel.Common
         public static IList<TblPermissions> GroupPermissionsForStage(TblGroups group, TblStages stage)
         {
             return ServerModel.DB.Query<TblPermissions>(
-                     new AndCondtion(
+                     new AndCondition(
                         new CompareCondition<int>(
                            DataObject.Schema.StageRef,
                            new ValueCondition<int>(stage.ID), COMPARE_KIND.EQUAL),
@@ -222,7 +222,7 @@ namespace IUDICO.DataModel.Common
             return ServerModel.DB.Query<TblGroups>(
                 new InCondition<int>(DataObject.Schema.ID,
                    new SubSelectCondition<TblPermissions>("OwnerGroupRef",
-                      new AndCondtion(
+                      new AndCondition(
                          new CompareCondition<int>(
                             DataObject.Schema.CurriculumRef,
                             new ValueCondition<int>(curriculum.ID), COMPARE_KIND.EQUAL),
@@ -239,7 +239,7 @@ namespace IUDICO.DataModel.Common
             return ServerModel.DB.Query<TblCurriculums>(
                 new InCondition<int>(DataObject.Schema.ID,
                    new SubSelectCondition<TblPermissions>("CurriculumRef",
-                      new AndCondtion(
+                      new AndCondition(
                          new CompareCondition<int>(
                             DataObject.Schema.OwnerGroupRef,
                             new ValueCondition<int>(group.ID), COMPARE_KIND.EQUAL),
@@ -251,7 +251,7 @@ namespace IUDICO.DataModel.Common
         public static void UnSignGroupFromCurriculum(TblGroups group, TblCurriculums curriculum)
         {
             List<TblPermissions> curriculumPermissions = ServerModel.DB.Query<TblPermissions>(
-                new AndCondtion(
+                new AndCondition(
                    new CompareCondition<int>(
                       DataObject.Schema.CurriculumRef,
                       new ValueCondition<int>(curriculum.ID), COMPARE_KIND.EQUAL),
@@ -264,7 +264,7 @@ namespace IUDICO.DataModel.Common
             foreach (TblStages stage in TeacherHelper.StagesOfCurriculum(curriculum))
             {
                 List<TblPermissions> stagePermissions = ServerModel.DB.Query<TblPermissions>(
-                new AndCondtion(
+                new AndCondition(
                    new CompareCondition<int>(
                       DataObject.Schema.StageRef,
                       new ValueCondition<int>(stage.ID), COMPARE_KIND.EQUAL),
@@ -350,7 +350,7 @@ namespace IUDICO.DataModel.Common
         public static int GetLastLearnerAttempt(int UserID, int ThemeID)
         {
             List<TblLearnerAttempts> learnerAttempts = ServerModel.DB.Query<TblLearnerAttempts>(
-                        new AndCondtion(
+                        new AndCondition(
                             new CompareCondition<int>(
                                 DataObject.Schema.ThemeRef,
                                 new ValueCondition<int>(ThemeID), COMPARE_KIND.EQUAL),
@@ -364,7 +364,7 @@ namespace IUDICO.DataModel.Common
 
         public static TblUserAnswers GetUserAnswerForQuestion(TblUsers user, TblQuestions question)
         {
-            IList<TblUserAnswers> answers = ServerModel.DB.Query<TblUserAnswers>(new AndCondtion(
+            IList<TblUserAnswers> answers = ServerModel.DB.Query<TblUserAnswers>(new AndCondition(
                 new CompareCondition<int>(
                                      DataObject.Schema.UserRef,
                                      new ValueCondition<int>(user.ID), COMPARE_KIND.EQUAL),
@@ -411,7 +411,7 @@ namespace IUDICO.DataModel.Common
         {
             IList<TblPermissions> parentPermissions =
                 ServerModel.DB.Query<TblPermissions>(
-                      new AndCondtion(
+                      new AndCondition(
                          new CompareCondition<int>(
                             DataObject.Schema.OwnerUserRef,
                             new ValueCondition<int>(parent.ID), COMPARE_KIND.EQUAL),
@@ -421,7 +421,7 @@ namespace IUDICO.DataModel.Common
 
             IList<TblPermissions> childPermissions =
                 ServerModel.DB.Query<TblPermissions>(
-                      new AndCondtion(
+                      new AndCondition(
                          new CompareCondition<int>(
                             DataObject.Schema.OwnerUserRef,
                             new ValueCondition<int>(child.ID), COMPARE_KIND.EQUAL),
@@ -447,7 +447,7 @@ namespace IUDICO.DataModel.Common
         {
             IList<TblPermissions> childPermissions =
                 ServerModel.DB.Query<TblPermissions>(
-                      new AndCondtion(
+                      new AndCondition(
                          new CompareCondition<int>(
                             DataObject.Schema.OwnerUserRef,
                             new ValueCondition<int>(child.ID), COMPARE_KIND.EQUAL),
@@ -471,7 +471,7 @@ namespace IUDICO.DataModel.Common
         {
             IList<TblPermissions> childPermissions =
                 ServerModel.DB.Query<TblPermissions>(
-                      new AndCondtion(
+                      new AndCondition(
                          new CompareCondition<int>(
                             DataObject.Schema.OwnerUserRef,
                             new ValueCondition<int>(child.ID), COMPARE_KIND.EQUAL),
@@ -495,7 +495,7 @@ namespace IUDICO.DataModel.Common
         {
             IList<TblPermissions> childPermissions =
                 ServerModel.DB.Query<TblPermissions>(
-                      new AndCondtion(
+                      new AndCondition(
                          new CompareCondition<int>(
                             DataObject.Schema.OwnerUserRef,
                             new ValueCondition<int>(child.ID), COMPARE_KIND.EQUAL),
@@ -519,7 +519,7 @@ namespace IUDICO.DataModel.Common
         {
             IList<TblPermissions> parentPermissions =
                 ServerModel.DB.Query<TblPermissions>(
-                      new AndCondtion(
+                      new AndCondition(
                          new CompareCondition<int>(
                             DataObject.Schema.OwnerUserRef,
                             new ValueCondition<int>(parent.ID), COMPARE_KIND.EQUAL),
@@ -529,7 +529,7 @@ namespace IUDICO.DataModel.Common
 
             IList<TblPermissions> childPermissions =
                 ServerModel.DB.Query<TblPermissions>(
-                      new AndCondtion(
+                      new AndCondition(
                          new CompareCondition<int>(
                             DataObject.Schema.OwnerUserRef,
                             new ValueCondition<int>(child.ID), COMPARE_KIND.EQUAL),
@@ -555,7 +555,7 @@ namespace IUDICO.DataModel.Common
         {
             IList<TblPermissions> childPermissions =
                 ServerModel.DB.Query<TblPermissions>(
-                      new AndCondtion(
+                      new AndCondition(
                          new CompareCondition<int>(
                             DataObject.Schema.OwnerUserRef,
                             new ValueCondition<int>(child.ID), COMPARE_KIND.EQUAL),
@@ -578,7 +578,7 @@ namespace IUDICO.DataModel.Common
         public static TblPermissions CurrentUserPermissionForCourse(TblCourses course, FxCourseOperations operation)
         {
             IList<TblPermissions> permissions = ServerModel.DB.Query<TblPermissions>(
-                           new AndCondtion(
+                           new AndCondition(
                               new CompareCondition<int>(
                                  DataObject.Schema.OwnerUserRef,
                                  new ValueCondition<int>(ServerModel.User.Current.ID), COMPARE_KIND.EQUAL),
@@ -600,7 +600,7 @@ namespace IUDICO.DataModel.Common
         public static TblPermissions CurrentUserPermissionForCurriculum(TblCurriculums curriculum, FxCurriculumOperations operation)
         {
             IList<TblPermissions> permissions = ServerModel.DB.Query<TblPermissions>(
-                           new AndCondtion(
+                           new AndCondition(
                               new CompareCondition<int>(
                                  DataObject.Schema.OwnerUserRef,
                                  new ValueCondition<int>(ServerModel.User.Current.ID), COMPARE_KIND.EQUAL),
@@ -636,7 +636,7 @@ namespace IUDICO.DataModel.Common
         public static TblPermissions GetPermissionForCourse(TblPermissions parentPermission, TblUsers user, TblCourses course, FxCourseOperations operation)
         {
             IList<TblPermissions> permissions = ServerModel.DB.Query<TblPermissions>(
-                           new AndCondtion(
+                           new AndCondition(
                               new CompareCondition<int>(
                                  DataObject.Schema.OwnerUserRef,
                                  new ValueCondition<int>(user.ID), COMPARE_KIND.EQUAL),
@@ -661,7 +661,7 @@ namespace IUDICO.DataModel.Common
         public static TblPermissions GetPermissionForCurriculum(TblPermissions parentPermission, TblUsers user, TblCurriculums curriculum, FxCurriculumOperations operation)
         {
             IList<TblPermissions> permissions = ServerModel.DB.Query<TblPermissions>(
-                           new AndCondtion(
+                           new AndCondition(
                               new CompareCondition<int>(
                                  DataObject.Schema.OwnerUserRef,
                                  new ValueCondition<int>(user.ID), COMPARE_KIND.EQUAL),
