@@ -70,8 +70,8 @@ namespace IUDICO.DataModel.Common.Cmi
             {
                 return GetVariable(n, parts[0], parts[1]);
             }
-            
-            throw new Exception("Requested variable is not supported");
+
+            throw new NotSupportedException("Requested variable is not supported");
         }
 
         public override int SetValue(string n, string path, string value)
@@ -83,7 +83,7 @@ namespace IUDICO.DataModel.Common.Cmi
             {
                 if (parts[0] == "_count")
                 {
-                    throw new Exception("Requested variable is read-only");
+                    throw new CmiReadWriteOnlyException("Requested variable is read-only");
                 }
             }
             else if (int.TryParse(parts[0], out id) && elements.ContainsKey(parts[1]) && parts.Length == 2)
@@ -92,7 +92,7 @@ namespace IUDICO.DataModel.Common.Cmi
                 return SetVariable(n, parts[0], parts[1], value);
             }
 
-            throw new Exception("Requested variable is not supported");
+            throw new NotSupportedException("Requested variable is not supported");
         }
 
         protected string GetVariable(string n, string m, string name)
@@ -121,14 +121,21 @@ namespace IUDICO.DataModel.Common.Cmi
                                 DataObject.Schema.Number,
                                 new ValueCondition<int>(number), COMPARE_KIND.EQUAL)));
 
-            return list[0].Value;
+            if (list.Count > 0)
+            {
+              return list[0].Value;
+            }
+            else
+            {
+              return "";
+            }
         }
 
         protected int SetVariable(string n, string m, string name, string value)
         {
             if (elements[name].Write == false)
             {
-              throw new Exception("Requested variable is read-only");
+              throw new CmiReadWriteOnlyException("Requested variable is read-only");
             }
 
             int interactionRef, number;

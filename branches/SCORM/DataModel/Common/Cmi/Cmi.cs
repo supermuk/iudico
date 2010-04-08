@@ -160,7 +160,6 @@ namespace IUDICO.DataModel.Common
             {"completion_status", new CmiElement("completion_status", true, true, new string[] { "completed", "incomplete", "not_attempted", "unknown"}, "unknown", "completion_status")},
             {"credit", new CmiElement("credit", true, false, new string[] { "credit", "no-credit" }, "credit", "credit")},
             {"entry", new CmiElement("entry", true, false, new string[] { "ab-initio", "resume", "" }, "ab-initio" , "entry")},
-            
             {"exit", new CmiElement("exit", true, true, null, null, "exit")},
             {"launch_data", new CmiElement("launch_data", true, false, null, null, "launch_data")},
             {"learner_id", new CmiElement("learner_id", true, false, null, null, "learner_id")},
@@ -250,7 +249,7 @@ namespace IUDICO.DataModel.Common
                 return collections[name].GetValue(string.Join(".", parts, 1, parts.Length - 1));
             }
 
-            throw new Exception("Requested variable is not supported");
+            throw new NotSupportedException("Requested variable is not supported");
         }
 
         public int SetValue(string path, string value)
@@ -259,10 +258,10 @@ namespace IUDICO.DataModel.Common
             string name = parts[0];
 
             if (name == path)
-            {                
+            {  
                 if (name == "_version" || name=="_children" || name=="total_time" || name=="_count")
                 {
-                    throw new Exception("Requested variable is read-only");
+                  throw new CmiReadWriteOnlyException("Requested variable is read-only");
                 }
                 else if (elements.ContainsKey(name))
                 {
@@ -276,7 +275,7 @@ namespace IUDICO.DataModel.Common
                 return collections[name].SetValue(string.Join(".", parts, 1, parts.Length - 1), value);
             }
 
-            throw new Exception("Requested variable is not supported");
+            throw new NotSupportedException("Requested variable is not supported");
         }
 
         #endregion
@@ -296,7 +295,7 @@ namespace IUDICO.DataModel.Common
         {
             if (elements[name].Write == false && ! isSystem)
             {
-                throw new Exception("Requested variable is read-only");
+              throw new CmiReadWriteOnlyException("Requested variable is read-only");
             }
 
             List<TblVars> list = ServerModel.DB.Query<TblVars>(
@@ -332,7 +331,7 @@ namespace IUDICO.DataModel.Common
         {
             if (elements[name].Read == false)
             {
-                throw new Exception("Requested variable is write-only");
+              throw new CmiReadWriteOnlyException("Requested variable is write-only");
             }
 
             switch (name)
@@ -376,5 +375,10 @@ namespace IUDICO.DataModel.Common
         }
 
         #endregion
+    }
+
+    public class CmiReadWriteOnlyException:Exception
+    {
+      public CmiReadWriteOnlyException(string message):base(message){}
     }
 }

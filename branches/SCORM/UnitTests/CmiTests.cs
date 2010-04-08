@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,49 +19,20 @@ namespace IUDICO.UnitTest
     int sessionID;
     int userID;
     TblLearnerSessions currentSession;
-    const string s = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
     [TestFixtureSetUp]
     protected override void InitializeFixture()
     {
       base.InitializeFixture();
       Initialize();
-
-      CultureInfo ci = new CultureInfo("uk-UA");
-      Thread.CurrentThread.CurrentCulture = ci;
     }
 
     void Initialize()
     {
+      //NumberFormat.NumberDecimalSeparator must be ','!
+      CultureInfo ci = new CultureInfo("uk-UA");
+      Thread.CurrentThread.CurrentCulture = ci;
+
       TblCourses course = new TblCourses
       {
         Name = "course"
@@ -127,23 +98,20 @@ namespace IUDICO.UnitTest
     }
 
     [Test]
-    public void TestSessionIDAndUserID()
+    public void SessionIDAndUserIDTest()
     {
       Assert.IsNotNull(sessionID > 0 && userID > 0);
     }
 
+    #region MainCmiTests
     [Test]
-    public void TestSimpleCmi()
+    public void SimpleCmiTest()
     {
       CmiDataModel dataModel = new CmiDataModel(sessionID, userID, true);
       dataModel.SetValue("completion_status", "completed");
       dataModel.SetValue("credit", "credit");
       dataModel.SetValue("entry", "ab-initio");
       dataModel.SetValue("launch_data", "bob");
-
-      //dataModel.SetValue("learner_id", userID);
-      //dataModel.SetValue("learner_name", "Santason");
-
       dataModel.SetValue("location", "chkPt1.p3.f5");
       dataModel.SetValue("max_time_allowed", "105");
       dataModel.SetValue("mode", "browse");
@@ -168,10 +136,11 @@ namespace IUDICO.UnitTest
       Assert.AreEqual(dataModel.GetValue("time_limit_action"), "continue,message");
       Assert.AreEqual(dataModel.GetValue("_version"), "1.0");
       Assert.AreEqual(dataModel.GetValue("_children"), "completion_status,credit,entry,exit,launch_data,learner_id,learner_name,location,max_time_allowed,mode,progress_measure,scaled_passing_score,success_status,suspend_data,time_limit_action,session_time,total_time");
-      //Assert.AreEqual(dataModel.GetValue("total_time"), "1000");//not implemented
+      //Assert.AreEqual(dataModel.GetValue("total_time"), "1000");//not implemented, and as a result session_time isn't needed
       //Assert.AreEqual(dataModel.GetValue("learner_id"), userID);//?
       //Assert.AreEqual(dataModel.GetValue("learner_name"), "Santason");//?
 
+      //clearing database
       List<int> IDs = new List<int>();
       for (int i = 1; i <= 13;i++ )
       {
@@ -180,168 +149,267 @@ namespace IUDICO.UnitTest
       ServerModel.DB.Delete<TblVars>(IDs);
     }
 
-    #region CmiDataModel ReadOnly Tests
-
-    [Test, ExpectedException(typeof(Exception))]
-    public void TestCmiCreditReadOnly()
+    [Test]
+    public void InteractionCmiTest()
     {
       CmiDataModel dataModel = new CmiDataModel(sessionID, userID, false);
-      dataModel.SetValue("credit", "credit");
+      dataModel.SetValue("interactions.0.id", "test1");
+      dataModel.SetValue("interactions.0.type", "choice");
+      dataModel.SetValue("interactions.0.timestamp", "2003-07-25T03:00:00");
+      dataModel.SetValue("interactions.0.weighting", "1,0");
+      dataModel.SetValue("interactions.0.learner_response", "true");
+      dataModel.SetValue("interactions.0.result", "010");
+      dataModel.SetValue("interactions.0.latency", "PT5M");
+      dataModel.SetValue("interactions.0.description", "Which of the following are red?");
+
+      Assert.AreEqual(dataModel.GetValue("interactions.0.id"), "test1");
+      Assert.AreEqual(dataModel.GetValue("interactions.0.type"), "choice");
+      Assert.AreEqual(dataModel.GetValue("interactions.0.timestamp"), "2003-07-25T03:00:00");
+      Assert.AreEqual(dataModel.GetValue("interactions.0.weighting"), "1,0");
+      Assert.AreEqual(dataModel.GetValue("interactions.0.learner_response"), "true");
+      Assert.AreEqual(dataModel.GetValue("interactions.0.result"), "010");
+      Assert.AreEqual(dataModel.GetValue("interactions.0.latency"), "PT5M");
+      Assert.AreEqual(dataModel.GetValue("interactions.0.description"), "Which of the following are red?");
+      Assert.AreEqual(dataModel.GetValue("interactions._children"), "id,type,timestamp,weighting,result,latency,description,learner_response");
+
+      //clearing database
+      List<int> IDs = new List<int>();
+      for (int i = 1; i <= 8; i++)
+      {
+        IDs.Add(i);
+      }
+      ServerModel.DB.Delete<TblVarsInteractions>(IDs);
     }
 
-    [Test, ExpectedException(typeof(Exception))]
-    public void TestCmiEntryReadOnly()
+    [Test]
+    public void InteractionCorrectResponseCmiTest()
     {
       CmiDataModel dataModel = new CmiDataModel(sessionID, userID, false);
-      dataModel.SetValue("entry", "ab-initio");
+      dataModel.SetValue("interactions.0.correct_responses.0.pattern", "001");
+
+      Assert.AreEqual(dataModel.GetValue("interactions.0.correct_responses.0.pattern"), "001");
+
+      //clearing database
+      List<int> IDs = new List<int>();
+      for (int i = 1; i <= 1; i++)
+      {
+        IDs.Add(i);
+      }
+      ServerModel.DB.Delete<TblVarsInteractionCorrectResponses>(IDs);
+    }
+    #endregion
+
+    #region CmiDataModel Read/Write Only Tests
+    [Test]
+    public void ReadOnlySimpleCmiTest()
+    {
+      var cmiReadOnlyTestCases = new[] { new { Key = "credit", Value = "credit", ExceptionType = typeof(CmiReadWriteOnlyException), IsSystem=false},
+                                         new { Key = "entry", Value = "ab-initio", ExceptionType = typeof(CmiReadWriteOnlyException), IsSystem=false },
+                                         new { Key = "launch_data", Value = "bob", ExceptionType = typeof(CmiReadWriteOnlyException), IsSystem=false },
+                                         new { Key = "learner_id", Value = "bob", ExceptionType = typeof(CmiReadWriteOnlyException), IsSystem=false },
+                                         new { Key = "learner_name", Value = "bob", ExceptionType = typeof(CmiReadWriteOnlyException), IsSystem=false },
+                                         new { Key = "max_time_allowed", Value = "105", ExceptionType = typeof(CmiReadWriteOnlyException), IsSystem=false },
+                                         new { Key = "mode", Value = "review", ExceptionType = typeof(CmiReadWriteOnlyException), IsSystem=false },
+                                         new { Key = "scaled_passing_score", Value = "0,5", ExceptionType = typeof(CmiReadWriteOnlyException), IsSystem=false },
+                                         new { Key = "time_limit_action", Value = "continue,message", ExceptionType = typeof(CmiReadWriteOnlyException), IsSystem=false },
+                                         new { Key = "_version", Value = "1,5", ExceptionType = typeof(CmiReadWriteOnlyException), IsSystem=true },
+                                         new { Key = "_children", Value = "bob", ExceptionType = typeof(CmiReadWriteOnlyException), IsSystem=true },
+                                         new { Key = "total_time", Value = "1000", ExceptionType = typeof(CmiReadWriteOnlyException), IsSystem=true }
+      };
+
+      for (int i = 0; i < cmiReadOnlyTestCases.Length; i++)
+      {
+        CmiDataModel dataModel = new CmiDataModel(sessionID, userID, cmiReadOnlyTestCases[i].IsSystem);
+        try
+        {
+          dataModel.SetValue(cmiReadOnlyTestCases[i].Key, cmiReadOnlyTestCases[i].Value);
+          Assert.IsTrue(false);
+        }
+        catch (Exception e)
+        {
+          if (cmiReadOnlyTestCases[i].ExceptionType == e.GetType())
+          {
+            Assert.IsTrue(true);
+          }
+          else
+          {
+            Assert.IsTrue(false);
+          }
+        }
+      }
     }
 
-    [Test, ExpectedException(typeof(Exception))]
-    public void TestCmiLaunchDataReadOnly()
+    [Test]
+    public void ReadOnlyInteractionCmiTest()
     {
+      var cmiReadOnlyTestCases = new[] { new { Key = "interactions._children", Value = "bob", ExceptionType = typeof(CmiReadWriteOnlyException), IsSystem=true},
+                                         new { Key = "interactions._count", Value = "5", ExceptionType = typeof(CmiReadWriteOnlyException), IsSystem=true }
+      };
+
+      for (int i = 0; i < cmiReadOnlyTestCases.Length; i++)
+      {
+        CmiDataModel dataModel = new CmiDataModel(sessionID, userID, cmiReadOnlyTestCases[i].IsSystem);
+        try
+        {
+          dataModel.SetValue(cmiReadOnlyTestCases[i].Key, cmiReadOnlyTestCases[i].Value);
+          Assert.IsTrue(false);
+        }
+        catch (Exception e)
+        {
+          if (cmiReadOnlyTestCases[i].ExceptionType == e.GetType())
+          {
+            Assert.IsTrue(true);
+          }
+          else
+          {
+            Assert.IsTrue(false);
+          }
+        }
+      }
+    }
+
+    [Test]
+    public void ReadOnlyInteractionCorrectResponseCmiTest()
+    {
+      var cmiReadOnlyTestCases = new[] { new { Key = "interactions.0.correct_responses._count", Value = "5", ExceptionType = typeof(CmiReadWriteOnlyException), IsSystem=true }
+      };
+
+      for (int i = 0; i < cmiReadOnlyTestCases.Length; i++)
+      {
+        CmiDataModel dataModel = new CmiDataModel(sessionID, userID, cmiReadOnlyTestCases[i].IsSystem);
+        try
+        {
+          dataModel.SetValue(cmiReadOnlyTestCases[i].Key, cmiReadOnlyTestCases[i].Value);
+          Assert.IsTrue(false);
+        }
+        catch (Exception e)
+        {
+          if (cmiReadOnlyTestCases[i].ExceptionType == e.GetType())
+          {
+            Assert.IsTrue(true);
+          }
+          else
+          {
+            Assert.IsTrue(false);
+          }
+        }
+      }
+    }
+
+    [Test]
+    public void WriteOnlySimpleCmiTest()
+    {
+      string[] cmiWriteOnlyTestCases = new string[]
+      {        
+        "session_time"
+      };
+
       CmiDataModel dataModel = new CmiDataModel(sessionID, userID, false);
-      dataModel.SetValue("launch_data", "bob");
-    }
-
-    [Test, ExpectedException(typeof(Exception))]
-    public void TestCmiLearnerIdReadOnly()
-    {
-      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, false);
-      dataModel.SetValue("learner_id", "bob");
-    }
-
-    [Test, ExpectedException(typeof(Exception))]
-    public void TestCmiLearnerNameReadOnly()
-    {
-      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, false);
-      dataModel.SetValue("learner_name", "bob");
-    }
-
-    [Test, ExpectedException(typeof(Exception))]
-    public void TestMaxTimeAllowedReadOnly()
-    {
-      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, false);
-      dataModel.SetValue("max_time_allowed", "105");
-    }
-
-    [Test, ExpectedException(typeof(Exception))]
-    public void TestModeReadOnly()
-    {
-      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, false);
-      dataModel.SetValue("mode", "review");
-    }
-
-    [Test, ExpectedException(typeof(Exception))]
-    public void TestScaledPassingScoreReadOnly()
-    {
-      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, false);
-      dataModel.SetValue("scaled_passing_score", "0,5");
-    }
-
-    [Test, ExpectedException(typeof(Exception))]
-    public void TestTimeLimitActionReadOnly()
-    {
-      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, false);
-      dataModel.SetValue("time_limit_action", "continue,message");
-    }
-
-    [Test, ExpectedException(typeof(Exception))]
-    public void TestSessionTimeWriteOnly()
-    {
-      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, false);
-      dataModel.GetValue("session_time");
-    }
-
-    [Test, ExpectedException(typeof(Exception))]
-    public void TestVersionReadOnly()
-    {
-      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, true);
-      dataModel.SetValue("_version", "1,5");
-    }
-
-    [Test, ExpectedException(typeof(Exception))]
-    public void TestChildrenReadOnly()
-    {
-      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, true);
-      dataModel.SetValue("_children", "bob");
-    }
-
-    [Test, ExpectedException(typeof(Exception))]
-    public void TestTotalTimeReadOnly()
-    {
-      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, true);
-      dataModel.SetValue("total_time", "1000");
+      for (int i = 0; i < cmiWriteOnlyTestCases.Length; i++)
+      {
+        try
+        {
+          dataModel.GetValue(cmiWriteOnlyTestCases[i]);
+          Assert.IsTrue(false);
+        }
+        catch (CmiReadWriteOnlyException)
+        {
+          Assert.IsTrue(true);
+        }
+        catch
+        {
+          Assert.IsTrue(false);
+        }
+      }
     }
     #endregion
 
     #region CmiDataModel Validation Tests
-
-    [Test, ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void TestCmiCreditValidate()
+    [Test]
+    public void ValidationSimpleCmiTest()
     {
+      string s = new string('a',1050);
+      KeyValuePair<string, string>[] CmiValidationTestCases = new KeyValuePair<string, string>[]
+      {
+        new KeyValuePair<string, string>("credit", "lol"),
+        new KeyValuePair<string, string>("entry", "lol"),
+        new KeyValuePair<string, string>("completion_status", "lol"),
+        new KeyValuePair<string, string>("location", s),
+        new KeyValuePair<string, string>("mode", "lol"),
+        new KeyValuePair<string, string>("progress_measure", "1,5"),
+        new KeyValuePair<string, string>("scaled_passing_score", "1,5"),
+        new KeyValuePair<string, string>("success_status", "lol"),
+        new KeyValuePair<string, string>("time_limit_action", "lol"),
+      };
+
       CmiDataModel dataModel = new CmiDataModel(sessionID, userID, false);
-      dataModel.SetValue("credit", "lol");
+      for (int i = 0; i < CmiValidationTestCases.Length; i++)
+      {
+        try
+        {
+          dataModel.SetValue(CmiValidationTestCases[i].Key, CmiValidationTestCases[i].Value);
+          Assert.IsTrue(false);
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+          Assert.IsTrue(true);
+        }
+        catch
+        {
+          Assert.IsTrue(false);
+        }
+      }
     }
 
-    [Test, ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void TestCmiEntryValidate()
+    [Test]
+    public void ValidationInteractionCmiTest()
     {
-      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, false);
-      dataModel.SetValue("entry", "lol");
+      string s1 = new string('a', 5000);
+      string s2 = new string('a', 300);
+      var CmiValidationTestCases = new[] { new { Key = "interactions.0.id", Value = s1, ExceptionType = typeof(ArgumentOutOfRangeException), IsSystem=false},
+                                           new { Key = "interactions.0.id", Value = "", ExceptionType = typeof(ArgumentException), IsSystem=false },
+                                           new { Key = "interactions.0.id", Value = "A9934_\\gdfgd%", ExceptionType = typeof(ArgumentException), IsSystem=false },
+                                           new { Key = "interactions.0.type", Value = "lol", ExceptionType = typeof(ArgumentOutOfRangeException), IsSystem=false },
+                                           new { Key = "interactions.0.timestamp", Value = "2203-07-25T03:00:00", ExceptionType = typeof(ArgumentOutOfRangeException), IsSystem=false },
+                                           new { Key = "interactions.0.timestamp", Value = "zz2003-07-25T03:00:00", ExceptionType = typeof(FormatException), IsSystem=false },
+                                           new { Key = "interactions.0.weighting", Value = "p105t", ExceptionType = typeof(ArgumentOutOfRangeException), IsSystem=false },
+                                           new { Key = "interactions.0.result", Value = "bob", ExceptionType = typeof(ArgumentOutOfRangeException), IsSystem=false },
+                                           new { Key = "interactions.0.result", Value = "NaN", ExceptionType = typeof(ArgumentOutOfRangeException), IsSystem=false },
+                                           new { Key = "interactions.0.description", Value = s2, ExceptionType = typeof(ArgumentOutOfRangeException), IsSystem=false },
+                                           new { Key = "interactions.0.learner_response", Value = "NaN", ExceptionType = typeof(ArgumentOutOfRangeException), IsSystem=false },
+      };
+      
+      for (int i = 0; i < CmiValidationTestCases.Length; i++)
+      {
+        CmiDataModel dataModel = new CmiDataModel(sessionID, userID, CmiValidationTestCases[i].IsSystem);
+        try
+        {
+          dataModel.SetValue(CmiValidationTestCases[i].Key, CmiValidationTestCases[i].Value);
+          Assert.IsTrue(false);
+        }
+        catch (Exception e)
+        {   
+          if(CmiValidationTestCases[i].ExceptionType==e.GetType())
+          {
+            Assert.IsTrue(true);
+          }
+          else
+          {
+            Assert.IsTrue(false);
+          }
+        }
+      }
     }
 
-    [Test, ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void TestCmiCompletionStatusValidate()
+    [Test, Ignore]
+    public void ValidationInteractionCorrectResponseCmiTest()
     {
-      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, false);
-      dataModel.SetValue("completion_status", "lol");
-    }
-
-    [Test, ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void TestCmiLocationValidate()
-    {
-      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, false);
-      dataModel.SetValue("location", s);
-    }
-
-    [Test, ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void TestCmiModeValidate()
-    {
-      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, false);
-      dataModel.SetValue("mode", "lol");
-    }
-
-    [Test, ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void TestCmiProgressMeasureValidate()
-    {
-      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, false);
-      dataModel.SetValue("progress_measure", "1,5");
-    }
-
-    [Test, ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void TestCmiScaledPassingScoreValidate()
-    {
-      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, false);
-      dataModel.SetValue("scaled_passing_score", "1,5");
-    }
-
-    [Test, ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void TestCmiSuccessStatusValidate()
-    {
-      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, false);
-      dataModel.SetValue("success_status", "lol");
-    }
-
-    [Test, ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void TestCmiTimeLimitActionValidate()
-    {
-      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, false);
-      dataModel.SetValue("time_limit_action", "lol");
+      Assert.IsTrue(false);
     }
     #endregion
 
     [Test]
-    public void TestSimpleCmiMultipleLearnerSessions()
+    public void MultipleLearnerSessionsSimpleCmiTest()
     {
       CmiDataModel dataModel = new CmiDataModel(sessionID, userID, true);      
       dataModel.SetValue("entry", "ab-initio");
@@ -349,6 +417,24 @@ namespace IUDICO.UnitTest
       dataModel = new CmiDataModel(currentSession.ID, userID, true);
       dataModel.SetValue("entry", "resume");
       Assert.AreEqual(dataModel.GetValue("entry"), "resume");
+    }
+
+    [Test]
+    public void GetCountInteractionCmiTest()
+    {
+      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, true);
+      dataModel.SetValue("interactions.0.id", "test1");
+      dataModel.SetValue("interactions.1.type", "choice");
+      Assert.AreEqual(dataModel.GetValue("interactions._count"), "2");
+    }
+
+    [Test]
+    public void GetCountInteractionCorrectResponseCmiTest()
+    {
+      CmiDataModel dataModel = new CmiDataModel(sessionID, userID, true);
+      dataModel.SetValue("interactions.0.correct_responses.0.pattern", "110");
+      dataModel.SetValue("interactions.0.correct_responses.1.pattern", "010");
+      Assert.AreEqual(dataModel.GetValue("interactions.0.correct_responses._count"), "2");
     }
   }  
 }

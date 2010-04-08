@@ -323,7 +323,6 @@ namespace IUDICO.DataModel.Common.Cmi
     {
       switch (value)
       {
-        case null:
         case "fill-in":
         case "likert":
         case "long-fill-in":
@@ -347,19 +346,19 @@ namespace IUDICO.DataModel.Common.Cmi
     public static void ValidateTimeStamp(string value)
     {
       string[] ValidTimeStampFormats = {"yyyy",
-                                              "yyyy-MM",
-                                              "yyyy-MM-dd",
-                                              "yyyy-MM-ddTHH",
-                                              "yyyy-MM-ddTHH:mm",
-                                              "yyyy-MM-ddTHH:mm:ss",
-                                              "yyyy-MM-ddTHH:mm:ss.f",
-                                              "yyyy-MM-ddTHH:mm:ss.fzz",
-                                              "yyyy-MM-ddTHH:mm:ss.fzzz",
-                                              "yyyy-MM-ddTHH:mm:ss.fZ",
-                                              "yyyy-MM-ddTHH:mm:ss.ff",
-                                              "yyyy-MM-ddTHH:mm:ss.ffzz",
-                                              "yyyy-MM-ddTHH:mm:ss.ffzzz",
-                                              "yyyy-MM-ddTHH:mm:ss.ffZ"};
+                                        "yyyy-MM",
+                                        "yyyy-MM-dd",
+                                        "yyyy-MM-ddTHH",
+                                        "yyyy-MM-ddTHH:mm",
+                                        "yyyy-MM-ddTHH:mm:ss",
+                                        "yyyy-MM-ddTHH:mm:ss.f",
+                                        "yyyy-MM-ddTHH:mm:ss.fzz",
+                                        "yyyy-MM-ddTHH:mm:ss.fzzz",
+                                        "yyyy-MM-ddTHH:mm:ss.fZ",
+                                        "yyyy-MM-ddTHH:mm:ss.ff",
+                                        "yyyy-MM-ddTHH:mm:ss.ffzz",
+                                        "yyyy-MM-ddTHH:mm:ss.ffzzz",
+                                        "yyyy-MM-ddTHH:mm:ss.ffZ"};
 
       // let DateTime.ParseExact throw an appropriate exception if the string
       // is not valid
