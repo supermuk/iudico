@@ -46,3 +46,14 @@
 Користувач має змогу переглянути результати тестування  для конкретного студента який входить в групу.  Відображається сумарна кількість балів по навчальному плану, яку він міг набрати, і яку набрав практично. Аналогічно відображаються дані для тем відповідного плану.  
 
 [http://iudico.googlecode.com/files/class_diagram_statistic.jpg].
+
+Опис класів
+||№||Class||Description||
+||1||Controller Base||Based class||
+||2||BaseTeacherController||Base Teacher Controller ||
+||3||ServerModel||static class for connection to DB||
+||4||StatisticSelectController||Controller for StatisticSelect.aspx page||
+||5||StatisticShowCurriculumsController||Controller for StatisticShowCurriculums.aspx page||
+||6||StatisticShowCurriculum||Controller for StatisticShow.aspx page||
+||7||TeacherHelper||Static class||
+||8||CmiDataModel||interface which allows to get or set values of DataModelElements?. Use GetValue?  and SetValue?  methods ||
