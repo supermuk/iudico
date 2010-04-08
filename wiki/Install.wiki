@@ -1,15 +1,21 @@
 #labels Featured
-=Development Environment=
+=Середовище Користувача=
 
   # SQL Server 2005 Express: http://www.microsoft.com/Sqlserver/2005/en/us/express-down.aspx <br>
   # .Net Framework 3.5: http://www.microsoft.com/downloads/details.aspx?FamilyId=333325FD-AE52-4E35-B531-508D977D32A6&displaylang=en <br>
   # Mozilla Firefox: http://www.mozilla-europe.org/uk/firefox/
   # Internet Information Service 7 (IIS 7):
-      a. Click Start then click Control Panel then click Programs.      <br>
-      b. Click Turn Windows features on or off.      <br>
-      c. Expand Internet Information Services. Select all features to install, and then click OK to start installation.      <br>
-      d. To confirm that the installation succeeded, type the following URL into your browser, http://localhost.
-  # Adobe Flash Player (needed only for compiled tests): http://get.adobe.com/flashplayer/?promoid=DXLUJ
+      a. Натисність меню Пуск(Start), після чого виберіть Панель Управління(Control Panel), а тоді меню Програми(Programs).      <br>
+      b. Натисніть Включити або відключити властивості Windows(Turn Windows features on or off).      <br>
+      c. Розкрийте Internet Information Services(IIS). Виберіть всі можливі пункти для інсталяції, тоді натисність OK для того, щоб розпочати інсталяцію IIS.     <br>
+      d. Для перевірки правильності встановлення введіть наступний URL у Вашому броузері, http://localhost.
+  # Adobe Flash Player (потрібний тільки для компільованих тестів): http://get.adobe.com/flashplayer/?promoid=DXLUJ
+
+=Інсталяційний Пакет=
+Включає в себе три компонента:
+  # Інсталятор Курс Едітора(Course Editor).
+  # Інсталятор Іудіко(Iudico).
+  # Інсталятор Веб Сервісу(WebService) для тестування компільованих тестів.   
 
 =Course Editor Installation=
   # Run setup.exe <br>
