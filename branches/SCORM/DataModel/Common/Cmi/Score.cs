@@ -38,7 +38,7 @@ namespace IUDICO.DataModel.Common.Cmi
             {
                 return GetVariable(path);
             }
-            throw new Exception("Requested variable is not supported");
+            throw new NotSupportedException("Requested variable is not supported");
         }
 
         public override int SetValue(string path, string value)
@@ -55,7 +55,7 @@ namespace IUDICO.DataModel.Common.Cmi
                 return SetVariable(path, value);
             }
 
-            throw new Exception("Requested variable is not supported");
+            throw new NotSupportedException("Requested variable is not supported");
         }
 
         protected string GetVariable(string name)

@@ -69,8 +69,8 @@ namespace IUDICO.DataModel.Common.Cmi
             {
                 return GetVariable(n, parts[0], parts[1]);
             }
-            
-            throw new Exception("Requested variable is not supported");
+
+            throw new NotSupportedException("Requested variable is not supported");
         }
 
         public override int SetValue(string n, string path, string value)
@@ -91,7 +91,7 @@ namespace IUDICO.DataModel.Common.Cmi
                 return SetVariable(n, parts[0], parts[1], value);
             }
 
-            throw new Exception("Requested variable is not supported");
+            throw new NotSupportedException("Requested variable is not supported");
         }
 
         protected string GetVariable(string n, string m, string name)
