@@ -73,5 +73,8 @@
    `</system.webServer>`
 `</location>`
 
-Атрибут allowUnlisted зберігає значення, котре ми задаємо за допомогою діалогового вікна Edit Feature Settings:
+ Атрибут allowUnlisted зберігає значення, котре ми задаємо за допомогою діалогового вікна Edit Feature Settings:
   http://iudico.googlecode.com/files/edit_featured_settings.JPG
+
+ =Блокування ір через веб інтерфейс=
+Для керування списком ІР адрес через веб інтерфейс використовується бібліотека Microsoft.Web.Administration.dll. Бібліотека містить класи, що дозволяють зчитувати та вносити зміни у в секцію ipSecurity. Одним з таких класів є ServerManager. Він містить метод GetWebConfiguration, котрий повертає конфігурацію для вказаного в параметрах сайту. До отриманої конфігурації застосовується метод GetSection, який дає доступ до секції ipSecurity. Всі елементи з цієї секції зберігаються в змінній класу ConfigurationElementCollection. Для додавання нової ІР адреси до конфігурації слід створити новий елемент для цієї колекції та змінити потрібні атрибути за допомогою методу SetAttributeValue чи за ключем: element["allowed"] = false.
