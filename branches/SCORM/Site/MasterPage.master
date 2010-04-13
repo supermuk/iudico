@@ -121,7 +121,10 @@ return ctrlMod ? false : true;
                         <DynamicHoverStyle CssClass="menu-hover" />
                     </asp:Menu>
                 </div>
-				<div style="text-align:right;"><asp:HyperLink ID="hypLogout" NavigateUrl="~/Logout.ashx" runat="server" Visible="True" style="display:none;">Logout</asp:HyperLink></div>
+				<div style="text-align:right;"><asp:HyperLink ID="hypLogout" NavigateUrl="~/Logout.ashx" runat="server" Visible="True" style="display:none;">Logout</asp:HyperLink>
+                    <asp:HyperLink ID="HyperLink1" runat="server" 
+                        NavigateUrl="~/Admin/SearchPageSolr.aspx">Search</asp:HyperLink>
+                    </div>
                 <br />
                 <b>
                     <asp:SiteMapPath runat="server" />
