@@ -4,7 +4,7 @@
 
 <asp:Content ContentPlaceHolderID="MainContent" runat="Server">
     <center class="login-placeholder">
-        <asp:Login ID="Login1" runat="server" CssClass="login">
+        <asp:Login ID="Login1" runat="server" CssClass="login" onload="Login1_Load">
             <LayoutTemplate>
                 <table border="0" cellpadding="0">
                     <tr>

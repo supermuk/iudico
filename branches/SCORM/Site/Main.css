@@ -1,8 +1,8 @@
 ﻿.modalBackground
 {
 	background-color:#000;
-	filter:alpha(opacity=80);
-	opacity:0.8;
+	/*filter:alpha(opacity=80);
+	opacity:0.8;*/
 }
 
 .menu-static
@@ -129,7 +129,7 @@
 
 .menu-holder
 {
-    background-color: #DDDDDD;*
+    background-color: #DDDDDD;
 }
 
 .descriptions

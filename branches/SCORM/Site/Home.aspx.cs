@@ -5,6 +5,7 @@ using IUDICO.DataModel.Controllers.Student;
 
 namespace IUDICO.Site.Pages
 {
+
     public partial class Home : ControlledPage<HomeController>
     {
         protected override void OnPreInit(EventArgs e)
@@ -43,6 +44,10 @@ namespace IUDICO.Site.Pages
         {
             UserPermissions.DataBind();
         }
-    }
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+        }
+}
 }
 

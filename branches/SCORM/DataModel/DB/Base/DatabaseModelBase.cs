@@ -300,6 +300,40 @@ namespace IUDICO.DataModel.DB
             }
         }
 
+        public IList<TDataObject> Load<TDataObject>(string columnName, IList<int> ids)
+            where TDataObject : class, IIntKeyedDataObject, new()
+        {
+            // TODO: Try to get needed objects from Cache first
+
+            if (ids.Count == 0)
+            {
+                return new TDataObject[0];
+            }
+
+            using (var scope = DBScope("Loading multiple " + typeof(TDataObject).Name + ". Count = " + ids.Count))
+            {
+                using (var cmd = scope.Connection.CreateCommand())
+                {
+                    List<TDataObject> result;
+                    cmd.CommandText = DataObjectInfo<TDataObject>.SelectSql + " WHERE (" + columnName + " IN (" + ids.ConcatComma() + ")) AND sysState = 0";
+                    using (var r = cmd.LexExecuteReader())
+                    {
+                        result = DataObjectInfo<TDataObject>.FullRead(r, ids.Count);
+                    }
+                    //if (result.Count != ids.Count)
+                    //{
+                    //    throw new DMError("Count of populated objects ({0}) lower than requested to extract {1}", result.Count, ids.Count);
+                    //}
+                    //foreach (var o in result)
+                    //{
+                    //    Logger.WriteLine("ID = " + o.ID);
+                    //    CacheIt(o);
+                    //}
+                    return result;
+                }
+            }
+        }
+
         public void Delete<TDataObject>(int id)
             where TDataObject : class, IIntKeyedDataObject, new()
         {

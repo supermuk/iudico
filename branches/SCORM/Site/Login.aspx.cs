@@ -16,4 +16,12 @@ public partial class LoginPage : ControlledPage<LoginController>
         hyp.Attributes.Add("style", "display:none;");
         base.OnLoad(e);
     }
+    protected void Login1_Load(object sender, EventArgs e)
+    {
+
+    }
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
 }

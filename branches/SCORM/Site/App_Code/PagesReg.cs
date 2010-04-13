@@ -27,6 +27,7 @@ namespace App_Code
             f.Register<Admin_CreateSettingController>("~/Admin/CreateSetting.aspx");
             f.Register<Admin_UsersController>("~/Admin/Users.aspx");
             f.Register<Admin_CreateBulkUserController>("~/Admin/CreateUserBulk.aspx");
+            f.Register<Admin_SearchPageSolrController>("~/Admin/SearchPageSolr.aspx");
 
             f.Register<CurriculumTimelineController>("~/Teacher/CurriculumTimeline.aspx");
             f.Register<CurriculumEditController>("~/Teacher/CurriculumEdit.aspx");
