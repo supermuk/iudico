@@ -70,7 +70,9 @@ namespace FireFly.CourseEditor.Course.Manifest
             //Node couldnot be null.
             if (currentNode == null)
             {
-                throw new ArgumentNullException("Node, to apply sequencing pattern to could not be null!");
+                return false;
+
+                //throw new ArgumentNullException("Node, to apply sequencing pattern to could not be null!");
             }
 
             //Node should be of ItemType or OrganizationType

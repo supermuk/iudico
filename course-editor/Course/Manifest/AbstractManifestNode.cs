@@ -59,7 +59,7 @@ namespace FireFly.CourseEditor.Course.Manifest
         public void ResolveTree([NotNull]IManifestNode parent)
         {
             // TODO: Precompile this code to expression by type
-            Parent = parent;
+            this.Parent = parent;
             foreach (PropertyInfo p in GetType().GetProperties())
             {
                 if (p.PropertyType.GetInterface("IManifestNode") != null && p.Name != "Parent" && p.CanWrite)
