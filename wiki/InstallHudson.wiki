@@ -1,0 +1,1 @@
+- opysaty yak installer pidklyucheno do Hudson
