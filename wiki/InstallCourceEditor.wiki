@@ -1,0 +1,11 @@
+=Інсталяція Курс Едітора(Course Editor)=
+Інсталятор Курс Едітора створює копію програми з усіма необхідними для її роботи компонентами на машині користувача.
+Кроки інсталяції:
+  # Запустіть setup.exe <br>
+  # Виберіть папку, куди буде встановлено програму:<br>http://img710.imageshack.us/img710/3396/courseeditor.jpg
+  # Для того щоб деінсталювати Курс Едітор запустіть лінк Uninstall Course Editor в меню Пуск(Start Menu)
+
+
+
+
+=detalno opysaty kudy yaki komponenty vstanovlyuyutsya, yaki fajly/klyuchi v registry zminyuyutsya=
