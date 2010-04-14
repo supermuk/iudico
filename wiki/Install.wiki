@@ -7,9 +7,9 @@
 
 
 
-- opysaty vsi instalyaciyni pakety yaki ye v systemi i yak yih vstanovlyuvaty (ostannie chastkovo opysano)
-- detalno opysaty kudy yaki komponenty vstanovlyuyutsya, yaki fajly/klyuchi v registry zminyuyutsya
+= opysaty vsi instalyaciyni pakety yaki ye v systemi i yak yih vstanovlyuvaty (ostannie chastkovo opysano)=
+= detalno opysaty kudy yaki komponenty vstanovlyuyutsya, yaki fajly/klyuchi v registry zminyuyutsya=
 
-- opysaty yakyi installer vykorystano (installshield) i yakym chynom nalashnovano installation proekt
+= opysaty yakyi installer vykorystano (installshield) i yakym chynom nalashnovano installation proekt=
 
-- opysaty yak installer pidklyucheno do Hudson
+= opysaty yak installer pidklyucheno do Hudson=
