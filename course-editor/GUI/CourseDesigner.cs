@@ -52,7 +52,10 @@ namespace FireFly.CourseEditor.GUI
                     PlainTextEnabled = Settings.Default.Options_PlainTextEnabled;
                 }
             };
-            Course.CourseClosed += tcEditor.Hide;
+            Course.CourseClosed += () =>
+                {
+                    tcEditor.Hide();
+                };
             Course.CourseSaving += Course_Saving;
             Course.ManifestChanged += Course_ManifestChanged;
             tvItems.ManifestTreeBuilt += () =>
@@ -160,7 +163,7 @@ namespace FireFly.CourseEditor.GUI
             var summary = miAddSummaryPage.Visible = PossibilityManager.CanAddSummaryPage(node);
             var chapter = miAddChapter.Visible = PossibilityManager.CanAddChapter(node);
             var controlChapter = miAddControlChapter.Visible = PossibilityManager.CanAddChapter(node);
-            var insertGrouping =  PossibilityManager.CanInsertGroupingItem(node);
+            var insertGrouping = PossibilityManager.CanInsertGroupingItem(node);
             miInsertGroupingChapter.Visible = insertGrouping;
             miInsertGroupingControlChapter.Visible = insertGrouping;
             miInsert.Visible = insertGrouping;
@@ -177,9 +180,9 @@ namespace FireFly.CourseEditor.GUI
             miForcedSequentialOrder.Visible = forcedSequentialOrder;
             miForcedForwardOnlyOrder.Visible = forcedForwardOnlyOrder;
             //-> Place for new one
-            
+
             miApplyPatterns.Visible = miSequencing.Visible = forcedSequentialOrder || forcedForwardOnlyOrder || false;//<- Place for new one
-            
+
 
             #endregion
 
@@ -254,7 +257,7 @@ namespace FireFly.CourseEditor.GUI
             var title = ConfigHelper.GetDefaultItemTitle(pageType);
             var resIdn = IdGenerator.GenerateUniqueFileName(title, ".html", Course.FullPath);
             var resource = new ResourceType(resIdn, "webcontent", pageType, resIdn + ".html");
-            
+
             Course.Manifest.resources.Resources.Add(resource);
 
             if (pageType == PageType.Question)
@@ -284,13 +287,13 @@ namespace FireFly.CourseEditor.GUI
 
                 resource.dependency.Add(dep);
             }
-            
+
 
             var node = (IItemContainer)tvItems.SelectedNode.Tag;
             var resultItem = ItemType.CreateNewItem(title, resIdn, resIdn, pageType);
             node.SubItems.Add(resultItem);
 
-            
+
 
             return resultItem;
         }
@@ -535,7 +538,7 @@ namespace FireFly.CourseEditor.GUI
 
             AppendWordResources(n);
         }
-        
+
         private void AppendWordResources(ItemType item)
         {
             string dirShortPath = string.Format("{0}.files", item.IdentifierRef);
@@ -609,7 +612,7 @@ namespace FireFly.CourseEditor.GUI
             }
 
             AppendWordResources(ti);
-            
+
             (tvItems.SelectedNode = tvItems.Nodes.Find(ti.UID, true)[0]).Expand();
         }
 
@@ -675,7 +678,7 @@ namespace FireFly.CourseEditor.GUI
                     //var node = (ItemType)tvItems.SelectedNode.Tag;
                     //var res = Course.Manifest.resources[node.IdentifierRef];
 
-                    
+
 
                     ((IDisposable)tvItems.SelectedNode.Tag).Dispose();
 
@@ -842,7 +845,7 @@ namespace FireFly.CourseEditor.GUI
             {
                 return;
             }
-            
+
             var newItem = ItemType.CreateNewItem(String.Format("New Grouping {0}", pageType), Guid.NewGuid().ToString(), string.Empty, pageType);
             n = newItem;
             (manNode as IItemContainer).InsertGroupingItem(newItem);
@@ -870,13 +873,13 @@ namespace FireFly.CourseEditor.GUI
                 }
 
                 (manNode as IItemContainer).RemoveAndMerge();
-                
+
                 tvItems.SelectedNode = treeNodeParent;
 
                 treeNode = treeNodeParent;
                 treeNode.BeginEdit();
 
-                UpdateTreeContextMenu(treeNodeParent.Tag as IManifestNode, treeNodeParent); 
+                UpdateTreeContextMenu(treeNodeParent.Tag as IManifestNode, treeNodeParent);
             }
         }
 
@@ -895,6 +898,6 @@ namespace FireFly.CourseEditor.GUI
         {
             var treeNode = tvItems.SelectedNode;
             ForcedForwardOnlySequencingPattern.ApplyPattern(treeNode.Tag);
-        }        
+        }
     }
 }

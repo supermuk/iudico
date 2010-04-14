@@ -157,13 +157,13 @@
     <Compile Include="Course\SequencingIntf.cs" />
     <Compile Include="Course\SequencingManager.cs" />
     <Compile Include="Course\SequencingPatterns.cs" />
-    <Compile Include="GUI\HtmlEditor\AdvanchedCompiledTest\AdvanchedCompiledTest.cs">
+    <Compile Include="GUI\HtmlEditor\AdvancedCompiledTest\AdvancedCompiledTest.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\HtmlEditor\AdvanchedCompiledTest\AdvanchedCompiledTest.designer.cs">
-      <DependentUpon>AdvanchedCompiledTest.cs</DependentUpon>
+    <Compile Include="GUI\HtmlEditor\AdvancedCompiledTest\AdvancedCompiledTest.designer.cs">
+      <DependentUpon>AdvancedCompiledTest.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\HtmlEditor\AdvanchedCompiledTest\HtmlAdvanchedCompiledTest.cs" />
+    <Compile Include="GUI\HtmlEditor\AdvancedCompiledTest\HtmlAdvancedCompiledTest.cs" />
     <Compile Include="GUI\HtmlEditor\BoundControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -425,8 +425,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="GUI\HtmlEditor\AdvanchedCompiledTest\AdvanchedCompiledTest.resx">
-      <DependentUpon>AdvanchedCompiledTest.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\HtmlEditor\AdvancedCompiledTest\AdvancedCompiledTest.resx">
+      <DependentUpon>AdvancedCompiledTest.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\HtmlEditor\HighlightControl\sample.css" />
@@ -462,6 +462,7 @@
     <EmbeddedResource Include="Course\flXHR.swf" />
     <EmbeddedResource Include="Course\jquery.min.extended.js" />
     <EmbeddedResource Include="Course\swfobject.js" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Images\Chapter.bmp" />
     <None Include="Images\ControlChapter.bmp" />
     <None Include="Images\arrow_down.png" />
