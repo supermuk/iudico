@@ -76,7 +76,7 @@ namespace IUDICO.DataModel.Controllers
                         BackUrl = RawUrl
                     });
             }
-            else
+            else if(selected_item_count >1)
             {
                 RedirectToController<StatisticShowCurriculumsController>(new StatisticShowCurriculumsController
                 {
@@ -85,6 +85,7 @@ namespace IUDICO.DataModel.Controllers
                     BackUrl = RawUrl
                 });
             }
+           
         }
 
         private void GroupsDropDownList_SelectedIndexChanged(object sender, EventArgs e)
