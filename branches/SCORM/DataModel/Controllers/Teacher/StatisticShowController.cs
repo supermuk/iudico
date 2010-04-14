@@ -7,6 +7,7 @@ using IUDICO.DataModel.DB;
 using System.Linq;
 using System;
 using System.Collections;
+using System.Drawing;
 
 namespace IUDICO.DataModel.Controllers
 {
@@ -16,9 +17,13 @@ namespace IUDICO.DataModel.Controllers
         public int GroupID;
         [ControllerParameter]
         public int CurriculumID;
+        [ControllerParameter]
+        public int UserId;
+        
 
         TblCurriculums curriculum;
         TblGroups group;
+        TblUsers user;
 
         //"magic words"
         private const string pageCaption = "Statistic.";
@@ -35,7 +40,7 @@ namespace IUDICO.DataModel.Controllers
             base.Loaded();
 
             curriculum = ServerModel.DB.Load<TblCurriculums>(CurriculumID);
-            group = ServerModel.DB.Load<TblGroups>(GroupID);
+            group = ServerModel.DB.Load<TblGroups>(GroupID);  
 
             Caption.Value = pageCaption;
             Description.Value = pageDescription.
@@ -48,6 +53,15 @@ namespace IUDICO.DataModel.Controllers
 
         private void fillStatisticTable()
         {
+            IList<TblUsers> ilistusers;
+            ilistusers = TeacherHelper.GetStudentsOfGroup(group);
+            if (UserId > 0)
+            {
+                user = ServerModel.DB.Load<TblUsers>(UserId);
+                ilistusers.Clear();
+                ilistusers.Add(user);
+            }
+
             StatisticTable.Rows.Clear();
 
             TableHeaderRow headerRow = new TableHeaderRow();
@@ -70,8 +84,9 @@ namespace IUDICO.DataModel.Controllers
             headerRow.Cells.Add(headerCell);
 
             StatisticTable.Rows.Add(headerRow);
+           
 
-            foreach (TblUsers student in TeacherHelper.GetStudentsOfGroup(group))
+            foreach (TblUsers student in ilistusers)
             {
                 var studentRow = new TableRow();
                 TableCell studentCell = new TableHeaderCell {Text = student.DisplayName};
@@ -93,20 +108,20 @@ namespace IUDICO.DataModel.Controllers
                           foreach(TblLearnerSessions session in TeacherHelper.SessionsOfAttempt(attempt))
                             {
                               
-                                string res = "";
-
                                 CmiDataModel cmiDataModel = new CmiDataModel(session.ID, student.ID, false);
-                                for (int i = 0; i < int.Parse(cmiDataModel.GetValue("interactions._count")); i++)
+                                List<TblVarsInteractions> interactionsCollection = cmiDataModel.GetCollection<TblVarsInteractions>("interactions.*.*");
+                               
+                                for (int i = 0, j = 0; i < int.Parse(cmiDataModel.GetValue("interactions._count")); i++)
                                 {
-                                    
-                                    res = cmiDataModel.GetValue(String.Format("interactions.{0}.result", i));
                                     totalresult += 1;
-                                    if (res == "correct")
+                                 for (; j < interactionsCollection.Count && i == interactionsCollection[j].Number; j++)
+                                 {
+                                  if (interactionsCollection[j].Name == "result")
                                     {
-                                        result += 1;
-                                        
+                                     if(interactionsCollection[j].Value == "correct")result+=1;
                                     }
-                                  
+                                 }
+                               
                                 }
                   
                           
@@ -128,6 +143,11 @@ namespace IUDICO.DataModel.Controllers
                                                              //StageName = stage.Name,
                                                          })
                                                      });
+                        if (totalresult == 0)
+                        {
+                            studentCell.BackColor = Color.Yellow;
+                        }
+                        else studentCell.BackColor = Color.YellowGreen;
 
                         pasedCurriculum += result;
                         totalCurriculum += totalresult;

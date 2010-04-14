@@ -62,7 +62,7 @@ namespace IUDICO.DataModel.Controllers
                if(ids[i] > 0)
                {
                 curriculums.Add( ServerModel.DB.Load<TblCurriculums>(ids[i]));
-                tmp_curriculums += curriculums[i].Name+",";
+                tmp_curriculums += curriculums[i].Name+", ";
                 }
             }
 
@@ -92,7 +92,9 @@ namespace IUDICO.DataModel.Controllers
                 foreach (TblCurriculums curr in curriculums)
                 {
                     headerCell = new TableHeaderCell{ HorizontalAlign = HorizontalAlign.Center };
-                   headerCell.Controls.Add(new HyperLink
+                  
+
+                    headerCell.Controls.Add(new HyperLink
                     {
                         Text = curr.Name,
                         NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new StatisticShowController
@@ -137,21 +139,22 @@ namespace IUDICO.DataModel.Controllers
                                     foreach (TblLearnerSessions session in TeacherHelper.SessionsOfAttempt(attempt))
                                     {
 
-                                        string res = "";
-
                                         CmiDataModel cmiDataModel = new CmiDataModel(session.ID, student.ID, false);
-                                        for (int i = 0; i < int.Parse(cmiDataModel.GetValue("interactions._count")); i++)
+                                        List<TblVarsInteractions> interactionsCollection = cmiDataModel.GetCollection<TblVarsInteractions>("interactions.*.*");
+
+                                        for (int i = 0, j = 0; i < int.Parse(cmiDataModel.GetValue("interactions._count")); i++)
                                         {
-
-                                            res = cmiDataModel.GetValue(String.Format("interactions.{0}.result", i));
                                             totalresult += 1;
-                                            if (res == "correct")
+                                            for (; j < interactionsCollection.Count && i == interactionsCollection[j].Number; j++)
                                             {
-                                                result += 1;
-
+                                                if (interactionsCollection[j].Name == "result")
+                                                {
+                                                    if (interactionsCollection[j].Value == "correct") result += 1;
+                                                }
                                             }
 
                                         }
+                  
 
 
 
@@ -170,6 +173,7 @@ namespace IUDICO.DataModel.Controllers
                         {
                             GroupID = GroupID,
                             CurriculumID = curr.ID,
+                            UserId = student.ID,
                             BackUrl = RawUrl
                         })
                     });
