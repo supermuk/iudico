@@ -1,0 +1,13 @@
+=CmiDBSchema=
+
+[http://iudico.googlecode.com/files/cmi.png]
+
+===tblVarsScore===
+
+===tblVarsInteractions===
+
+===tblVars===
+
+===tblVarsInteractionObjectives===
+
+===tblVarsInteractionCorrectResponces===
