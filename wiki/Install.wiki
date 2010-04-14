@@ -1,4 +1,12 @@
 #labels Featured
+=Інсталяційний пакет=
+Включає в себе три окремих компоненти:
+  # Інсталятор Курс Едітора(Course Editor) - програми для створення\редагування курсів.
+  # Інсталятор Іудіко(Iudico) - реалізації LMS для тестування студентів.
+  # Інсталятор веб-сервісу Іудіко(WebService) - сервісу для тестування компільованих тестів.   
+
+
+
 - opysaty vsi instalyaciyni pakety yaki ye v systemi i yak yih vstanovlyuvaty (ostannie chastkovo opysano)
 - detalno opysaty kudy yaki komponenty vstanovlyuyutsya, yaki fajly/klyuchi v registry zminyuyutsya
 
