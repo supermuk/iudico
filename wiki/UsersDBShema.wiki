@@ -32,16 +32,16 @@
 
 Нижче наведені Activity Diagram які взаємодіють з даними таблицями
 
-[http://iudico.googlecode.com/files/create_user_activity.png]
+[http://iudico.googlecode.com/files/createuser.png]
      Рис 2. Activity Diagram - Cтворення коричтувача
 
-[http://iudico.googlecode.com/files/user_activity.png]
+[http://iudico.googlecode.com/files/useractivity.png]
      Рис 3. Activity Diagram - Видалення коритувача, включення/ виключення із групи, зміна ролей
 
-[http://iudico.googlecode.com/files/create_group_activity.png]
+[http://iudico.googlecode.com/files/creategroup.png]
      Рис 4. Activity Diagram - Cтворення групи
 
-[http://iudico.googlecode.com/files/group_activity.png]
+[http://iudico.googlecode.com/files/groupcativity.png]
      Рис 5. Activity Diagram - Видалення групи, включення/ виключення користувача із групи, зміна назви групи
 
 
