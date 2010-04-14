@@ -13,6 +13,16 @@
             </td>
             <td valign="top">
                 <table style="width: 100%;">
+                    <%--<tr>
+                        <td align="left">
+                            <asp:RadioButton ID="RadioButton1" runat="server" Text="Enter ip" />
+                        </td>
+                        <td align="left">
+                            <asp:RadioButton ID="RadioButton2" runat="server" Text="Enter ip range" />
+                        </td>
+                        <td align="left">
+                            &nbsp;</td>
+                    </tr>--%>
                     <tr>
                         <td align="left" width="100">
                             <asp:Label ID="Label1" runat="server" Text="Enter ip:"></asp:Label>
@@ -26,7 +36,7 @@
                     </tr>
                     <tr>
                         <td align="left">
-                        </td>
+                            &nbsp;</td>
                         <td align="left">
                         </td>
                         <td align="left">
@@ -34,6 +44,7 @@
                             onclick="removeButton_Click" />
                         </td>
                     </tr>
+                    
                 </table>
             </td>
         </tr>
