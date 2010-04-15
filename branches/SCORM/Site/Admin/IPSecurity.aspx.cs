@@ -15,7 +15,7 @@ public partial class Admin_IPSecurity : System.Web.UI.Page
         {
             using (ServerManager serverManager = new ServerManager())
             {
-                Configuration config = serverManager.GetWebConfiguration("Hudson IUDICO");
+                Configuration config = serverManager.GetApplicationHostConfiguration();//.GetWebConfiguration("Hudson IUDICO");
                 ConfigurationSection section = config.GetSection("system.webServer/security/ipSecurity");
                 ConfigurationElementCollection coll = section.GetCollection();
                 CheckBoxList1.Items.Clear();
