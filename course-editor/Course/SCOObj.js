@@ -34,7 +34,7 @@ function SCOObj(passRank) {
 
         if (this.compiled <= 0) {
             doSetValue("cmi.completion_status", "completed");
-            doSetValue("cmi.exit", "normal");
+            doSetValue("cmi.exit", "suspend");
 
             doCommit();
             //doSetValue("adl.nav.request", "continue");
