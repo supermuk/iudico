@@ -6,54 +6,76 @@
   </PropertyGroup>
   <ItemGroup>
     <_SolutionProjectProjects Include="CourseEditor.csproj" />
+    <_SolutionProjectProjects Include="Setup\Setup.vdproj" />
+    <_SolutionProjectProjects Include="UnitTests\UnitTests.csproj" />
   </ItemGroup>
   <ItemGroup Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') ">
     <BuildLevel0 Include="CourseEditor.csproj">
       <Configuration>Debug</Configuration>
       <Platform>AnyCPU</Platform>
     </BuildLevel0>
+    <BuildLevel1 Include="UnitTests\UnitTests.csproj">
+      <Configuration>Debug</Configuration>
+      <Platform>AnyCPU</Platform>
+    </BuildLevel1>
   </ItemGroup>
   <ItemGroup Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'x86') ">
     <BuildLevel0 Include="CourseEditor.csproj">
       <Configuration>Debug</Configuration>
       <Platform>x86</Platform>
     </BuildLevel0>
+    <SkipLevel1 Include="UnitTests" />
   </ItemGroup>
   <ItemGroup Condition=" ('$(Configuration)' == 'Precompilation') and ('$(Platform)' == 'Any CPU') ">
     <BuildLevel0 Include="CourseEditor.csproj">
       <Configuration>Precompilation</Configuration>
       <Platform>AnyCPU</Platform>
     </BuildLevel0>
+    <BuildLevel1 Include="UnitTests\UnitTests.csproj">
+      <Configuration>Release</Configuration>
+      <Platform>AnyCPU</Platform>
+    </BuildLevel1>
   </ItemGroup>
   <ItemGroup Condition=" ('$(Configuration)' == 'Precompilation') and ('$(Platform)' == 'x86') ">
     <BuildLevel0 Include="CourseEditor.csproj">
       <Configuration>Precompilation</Configuration>
       <Platform>x86</Platform>
     </BuildLevel0>
+    <SkipLevel1 Include="UnitTests" />
   </ItemGroup>
   <ItemGroup Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') ">
     <BuildLevel0 Include="CourseEditor.csproj">
       <Configuration>Release</Configuration>
       <Platform>AnyCPU</Platform>
     </BuildLevel0>
+    <BuildLevel1 Include="UnitTests\UnitTests.csproj">
+      <Configuration>Release</Configuration>
+      <Platform>AnyCPU</Platform>
+    </BuildLevel1>
   </ItemGroup>
   <ItemGroup Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'x86') ">
     <BuildLevel0 Include="CourseEditor.csproj">
       <Configuration>Release</Configuration>
       <Platform>x86</Platform>
     </BuildLevel0>
+    <SkipLevel1 Include="UnitTests" />
   </ItemGroup>
   <ItemGroup Condition=" ('$(Configuration)' == 'UnitTest') and ('$(Platform)' == 'Any CPU') ">
     <BuildLevel0 Include="CourseEditor.csproj">
       <Configuration>UnitTest</Configuration>
       <Platform>AnyCPU</Platform>
     </BuildLevel0>
+    <BuildLevel1 Include="UnitTests\UnitTests.csproj">
+      <Configuration>Release</Configuration>
+      <Platform>AnyCPU</Platform>
+    </BuildLevel1>
   </ItemGroup>
   <ItemGroup Condition=" ('$(Configuration)' == 'UnitTest') and ('$(Platform)' == 'x86') ">
     <BuildLevel0 Include="CourseEditor.csproj">
       <Configuration>UnitTest</Configuration>
       <Platform>x86</Platform>
     </BuildLevel0>
+    <SkipLevel1 Include="UnitTests" />
   </ItemGroup>
   <UsingTask TaskName="Microsoft.Build.Tasks.CreateTemporaryVCProject" AssemblyName="Microsoft.Build.Tasks.v3.5, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <UsingTask TaskName="Microsoft.Build.Tasks.ResolveVCProjectOutput" AssemblyName="Microsoft.Build.Tasks.v3.5, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
@@ -67,11 +89,11 @@
     <AspNetConfiguration>$(Configuration)</AspNetConfiguration>
   </PropertyGroup>
   <PropertyGroup>
-    <SolutionDir>Z:\uni\iudico-course-editor\</SolutionDir>
+    <SolutionDir>C:\Documents and Settings\Maladoy\Desktop\New Folder\course-editor\</SolutionDir>
     <SolutionExt>.sln</SolutionExt>
     <SolutionFileName>CourseEditor.sln</SolutionFileName>
     <SolutionName>CourseEditor</SolutionName>
-    <SolutionPath>Z:\uni\iudico-course-editor\CourseEditor.sln</SolutionPath>
+    <SolutionPath>C:\Documents and Settings\Maladoy\Desktop\New Folder\course-editor\CourseEditor.sln</SolutionPath>
   </PropertyGroup>
   <PropertyGroup>
     <TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)' == '' and '$(MSBuildToolsVersion)' == '2.0'">v2.0</TargetFrameworkVersion>
@@ -81,6 +103,8 @@
     <CurrentSolutionConfigurationContents>
       <SolutionConfiguration xmlns="">
         <ProjectConfiguration Project="{FB48587D-389E-40A0-BD66-F772279A719A}">Debug|AnyCPU</ProjectConfiguration>
+        <ProjectConfiguration Project="{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}">Debug</ProjectConfiguration>
+        <ProjectConfiguration Project="{97725E02-865F-4478-B9D5-FF81617A9117}">Debug|AnyCPU</ProjectConfiguration>
       </SolutionConfiguration>
     </CurrentSolutionConfigurationContents>
   </PropertyGroup>
@@ -88,6 +112,8 @@
     <CurrentSolutionConfigurationContents>
       <SolutionConfiguration xmlns="">
         <ProjectConfiguration Project="{FB48587D-389E-40A0-BD66-F772279A719A}">Debug|x86</ProjectConfiguration>
+        <ProjectConfiguration Project="{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}">Debug</ProjectConfiguration>
+        <ProjectConfiguration Project="{97725E02-865F-4478-B9D5-FF81617A9117}">Debug|AnyCPU</ProjectConfiguration>
       </SolutionConfiguration>
     </CurrentSolutionConfigurationContents>
   </PropertyGroup>
@@ -95,6 +121,8 @@
     <CurrentSolutionConfigurationContents>
       <SolutionConfiguration xmlns="">
         <ProjectConfiguration Project="{FB48587D-389E-40A0-BD66-F772279A719A}">Precompilation|AnyCPU</ProjectConfiguration>
+        <ProjectConfiguration Project="{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}">Release</ProjectConfiguration>
+        <ProjectConfiguration Project="{97725E02-865F-4478-B9D5-FF81617A9117}">Release|AnyCPU</ProjectConfiguration>
       </SolutionConfiguration>
     </CurrentSolutionConfigurationContents>
   </PropertyGroup>
@@ -102,6 +130,8 @@
     <CurrentSolutionConfigurationContents>
       <SolutionConfiguration xmlns="">
         <ProjectConfiguration Project="{FB48587D-389E-40A0-BD66-F772279A719A}">Precompilation|x86</ProjectConfiguration>
+        <ProjectConfiguration Project="{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}">Release</ProjectConfiguration>
+        <ProjectConfiguration Project="{97725E02-865F-4478-B9D5-FF81617A9117}">Release|AnyCPU</ProjectConfiguration>
       </SolutionConfiguration>
     </CurrentSolutionConfigurationContents>
   </PropertyGroup>
@@ -109,6 +139,8 @@
     <CurrentSolutionConfigurationContents>
       <SolutionConfiguration xmlns="">
         <ProjectConfiguration Project="{FB48587D-389E-40A0-BD66-F772279A719A}">Release|AnyCPU</ProjectConfiguration>
+        <ProjectConfiguration Project="{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}">Release</ProjectConfiguration>
+        <ProjectConfiguration Project="{97725E02-865F-4478-B9D5-FF81617A9117}">Release|AnyCPU</ProjectConfiguration>
       </SolutionConfiguration>
     </CurrentSolutionConfigurationContents>
   </PropertyGroup>
@@ -116,6 +148,8 @@
     <CurrentSolutionConfigurationContents>
       <SolutionConfiguration xmlns="">
         <ProjectConfiguration Project="{FB48587D-389E-40A0-BD66-F772279A719A}">Release|x86</ProjectConfiguration>
+        <ProjectConfiguration Project="{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}">Release</ProjectConfiguration>
+        <ProjectConfiguration Project="{97725E02-865F-4478-B9D5-FF81617A9117}">Release|AnyCPU</ProjectConfiguration>
       </SolutionConfiguration>
     </CurrentSolutionConfigurationContents>
   </PropertyGroup>
@@ -123,6 +157,8 @@
     <CurrentSolutionConfigurationContents>
       <SolutionConfiguration xmlns="">
         <ProjectConfiguration Project="{FB48587D-389E-40A0-BD66-F772279A719A}">UnitTest|AnyCPU</ProjectConfiguration>
+        <ProjectConfiguration Project="{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}">Release</ProjectConfiguration>
+        <ProjectConfiguration Project="{97725E02-865F-4478-B9D5-FF81617A9117}">Release|AnyCPU</ProjectConfiguration>
       </SolutionConfiguration>
     </CurrentSolutionConfigurationContents>
   </PropertyGroup>
@@ -130,6 +166,8 @@
     <CurrentSolutionConfigurationContents>
       <SolutionConfiguration xmlns="">
         <ProjectConfiguration Project="{FB48587D-389E-40A0-BD66-F772279A719A}">UnitTest|x86</ProjectConfiguration>
+        <ProjectConfiguration Project="{3CABDEAF-98AD-46BB-9CF5-A88AECC58959}">Release</ProjectConfiguration>
+        <ProjectConfiguration Project="{97725E02-865F-4478-B9D5-FF81617A9117}">Release|AnyCPU</ProjectConfiguration>
       </SolutionConfiguration>
     </CurrentSolutionConfigurationContents>
   </PropertyGroup>
@@ -213,17 +251,123 @@
     <MSBuild Projects="CourseEditor.csproj" Targets="Publish" Properties="Configuration=UnitTest; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'UnitTest') and ('$(Platform)' == 'Any CPU') " />
     <MSBuild Projects="CourseEditor.csproj" Targets="Publish" Properties="Configuration=UnitTest; Platform=x86; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'UnitTest') and ('$(Platform)' == 'x86') " />
   </Target>
+  <Target Name="Setup" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;Debug|Any CPU&quot;." Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;Debug|x86&quot;." Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'x86') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;Precompilation|Any CPU&quot;." Condition=" ('$(Configuration)' == 'Precompilation') and ('$(Platform)' == 'Any CPU') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;Precompilation|x86&quot;." Condition=" ('$(Configuration)' == 'Precompilation') and ('$(Platform)' == 'x86') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;Release|Any CPU&quot;." Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') " />
+    <Warning Text="The project file &quot;Setup\Setup.vdproj&quot; is not supported by MSBuild and cannot be built." Code="MSB4078" HelpKeyword="MSBuild.SolutionParseUnknownProjectType" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'x86') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;UnitTest|Any CPU&quot;." Condition=" ('$(Configuration)' == 'UnitTest') and ('$(Platform)' == 'Any CPU') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;UnitTest|x86&quot;." Condition=" ('$(Configuration)' == 'UnitTest') and ('$(Platform)' == 'x86') " />
+  </Target>
+  <Target Name="Setup:Clean" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;Debug|Any CPU&quot;." Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;Debug|x86&quot;." Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'x86') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;Precompilation|Any CPU&quot;." Condition=" ('$(Configuration)' == 'Precompilation') and ('$(Platform)' == 'Any CPU') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;Precompilation|x86&quot;." Condition=" ('$(Configuration)' == 'Precompilation') and ('$(Platform)' == 'x86') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;Release|Any CPU&quot;." Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') " />
+    <Warning Text="The project file &quot;Setup\Setup.vdproj&quot; is not supported by MSBuild and cannot be built." Code="MSB4078" HelpKeyword="MSBuild.SolutionParseUnknownProjectType" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'x86') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;UnitTest|Any CPU&quot;." Condition=" ('$(Configuration)' == 'UnitTest') and ('$(Platform)' == 'Any CPU') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;UnitTest|x86&quot;." Condition=" ('$(Configuration)' == 'UnitTest') and ('$(Platform)' == 'x86') " />
+  </Target>
+  <Target Name="Setup:Rebuild" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;Debug|Any CPU&quot;." Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;Debug|x86&quot;." Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'x86') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;Precompilation|Any CPU&quot;." Condition=" ('$(Configuration)' == 'Precompilation') and ('$(Platform)' == 'Any CPU') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;Precompilation|x86&quot;." Condition=" ('$(Configuration)' == 'Precompilation') and ('$(Platform)' == 'x86') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;Release|Any CPU&quot;." Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') " />
+    <Warning Text="The project file &quot;Setup\Setup.vdproj&quot; is not supported by MSBuild and cannot be built." Code="MSB4078" HelpKeyword="MSBuild.SolutionParseUnknownProjectType" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'x86') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;UnitTest|Any CPU&quot;." Condition=" ('$(Configuration)' == 'UnitTest') and ('$(Platform)' == 'Any CPU') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;UnitTest|x86&quot;." Condition=" ('$(Configuration)' == 'UnitTest') and ('$(Platform)' == 'x86') " />
+  </Target>
+  <Target Name="Setup:Publish" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;Debug|Any CPU&quot;." Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;Debug|x86&quot;." Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'x86') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;Precompilation|Any CPU&quot;." Condition=" ('$(Configuration)' == 'Precompilation') and ('$(Platform)' == 'Any CPU') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;Precompilation|x86&quot;." Condition=" ('$(Configuration)' == 'Precompilation') and ('$(Platform)' == 'x86') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;Release|Any CPU&quot;." Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') " />
+    <Warning Text="The project file &quot;Setup\Setup.vdproj&quot; is not supported by MSBuild and cannot be built." Code="MSB4078" HelpKeyword="MSBuild.SolutionParseUnknownProjectType" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'x86') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;UnitTest|Any CPU&quot;." Condition=" ('$(Configuration)' == 'UnitTest') and ('$(Platform)' == 'Any CPU') " />
+    <Message Text="The project &quot;Setup&quot; is not selected for building in solution configuration &quot;UnitTest|x86&quot;." Condition=" ('$(Configuration)' == 'UnitTest') and ('$(Platform)' == 'x86') " />
+  </Target>
+  <Target Name="UnitTests" DependsOnTargets="CourseEditor" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(UnitTestsBuildOutput)">
+    <MSBuild Projects="UnitTests\UnitTests.csproj" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') ">
+      <Output TaskParameter="TargetOutputs" ItemName="UnitTestsBuildOutput" />
+    </MSBuild>
+    <Message Text="The project &quot;UnitTests&quot; is not selected for building in solution configuration &quot;Debug|x86&quot;." Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'x86') " />
+    <MSBuild Projects="UnitTests\UnitTests.csproj" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Precompilation') and ('$(Platform)' == 'Any CPU') ">
+      <Output TaskParameter="TargetOutputs" ItemName="UnitTestsBuildOutput" />
+    </MSBuild>
+    <Message Text="The project &quot;UnitTests&quot; is not selected for building in solution configuration &quot;Precompilation|x86&quot;." Condition=" ('$(Configuration)' == 'Precompilation') and ('$(Platform)' == 'x86') " />
+    <MSBuild Projects="UnitTests\UnitTests.csproj" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') ">
+      <Output TaskParameter="TargetOutputs" ItemName="UnitTestsBuildOutput" />
+    </MSBuild>
+    <Message Text="The project &quot;UnitTests&quot; is not selected for building in solution configuration &quot;Release|x86&quot;." Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'x86') " />
+    <MSBuild Projects="UnitTests\UnitTests.csproj" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'UnitTest') and ('$(Platform)' == 'Any CPU') ">
+      <Output TaskParameter="TargetOutputs" ItemName="UnitTestsBuildOutput" />
+    </MSBuild>
+    <Message Text="The project &quot;UnitTests&quot; is not selected for building in solution configuration &quot;UnitTest|x86&quot;." Condition=" ('$(Configuration)' == 'UnitTest') and ('$(Platform)' == 'x86') " />
+  </Target>
+  <Target Name="UnitTests:Clean" DependsOnTargets="CourseEditor:Clean" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <MSBuild Projects="UnitTests\UnitTests.csproj" Targets="Clean" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') " />
+    <Message Text="The project &quot;UnitTests&quot; is not selected for building in solution configuration &quot;Debug|x86&quot;." Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'x86') " />
+    <MSBuild Projects="UnitTests\UnitTests.csproj" Targets="Clean" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Precompilation') and ('$(Platform)' == 'Any CPU') " />
+    <Message Text="The project &quot;UnitTests&quot; is not selected for building in solution configuration &quot;Precompilation|x86&quot;." Condition=" ('$(Configuration)' == 'Precompilation') and ('$(Platform)' == 'x86') " />
+    <MSBuild Projects="UnitTests\UnitTests.csproj" Targets="Clean" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') " />
+    <Message Text="The project &quot;UnitTests&quot; is not selected for building in solution configuration &quot;Release|x86&quot;." Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'x86') " />
+    <MSBuild Projects="UnitTests\UnitTests.csproj" Targets="Clean" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'UnitTest') and ('$(Platform)' == 'Any CPU') " />
+    <Message Text="The project &quot;UnitTests&quot; is not selected for building in solution configuration &quot;UnitTest|x86&quot;." Condition=" ('$(Configuration)' == 'UnitTest') and ('$(Platform)' == 'x86') " />
+  </Target>
+  <Target Name="UnitTests:Rebuild" DependsOnTargets="CourseEditor:Rebuild" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(UnitTestsBuildOutput)">
+    <MSBuild Projects="UnitTests\UnitTests.csproj" Targets="Rebuild" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') ">
+      <Output TaskParameter="TargetOutputs" ItemName="UnitTestsBuildOutput" />
+    </MSBuild>
+    <Message Text="The project &quot;UnitTests&quot; is not selected for building in solution configuration &quot;Debug|x86&quot;." Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'x86') " />
+    <MSBuild Projects="UnitTests\UnitTests.csproj" Targets="Rebuild" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Precompilation') and ('$(Platform)' == 'Any CPU') ">
+      <Output TaskParameter="TargetOutputs" ItemName="UnitTestsBuildOutput" />
+    </MSBuild>
+    <Message Text="The project &quot;UnitTests&quot; is not selected for building in solution configuration &quot;Precompilation|x86&quot;." Condition=" ('$(Configuration)' == 'Precompilation') and ('$(Platform)' == 'x86') " />
+    <MSBuild Projects="UnitTests\UnitTests.csproj" Targets="Rebuild" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') ">
+      <Output TaskParameter="TargetOutputs" ItemName="UnitTestsBuildOutput" />
+    </MSBuild>
+    <Message Text="The project &quot;UnitTests&quot; is not selected for building in solution configuration &quot;Release|x86&quot;." Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'x86') " />
+    <MSBuild Projects="UnitTests\UnitTests.csproj" Targets="Rebuild" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'UnitTest') and ('$(Platform)' == 'Any CPU') ">
+      <Output TaskParameter="TargetOutputs" ItemName="UnitTestsBuildOutput" />
+    </MSBuild>
+    <Message Text="The project &quot;UnitTests&quot; is not selected for building in solution configuration &quot;UnitTest|x86&quot;." Condition=" ('$(Configuration)' == 'UnitTest') and ('$(Platform)' == 'x86') " />
+  </Target>
+  <Target Name="UnitTests:Publish" DependsOnTargets="CourseEditor:Publish" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <MSBuild Projects="UnitTests\UnitTests.csproj" Targets="Publish" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') " />
+    <Message Text="The project &quot;UnitTests&quot; is not selected for building in solution configuration &quot;Debug|x86&quot;." Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'x86') " />
+    <MSBuild Projects="UnitTests\UnitTests.csproj" Targets="Publish" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Precompilation') and ('$(Platform)' == 'Any CPU') " />
+    <Message Text="The project &quot;UnitTests&quot; is not selected for building in solution configuration &quot;Precompilation|x86&quot;." Condition=" ('$(Configuration)' == 'Precompilation') and ('$(Platform)' == 'x86') " />
+    <MSBuild Projects="UnitTests\UnitTests.csproj" Targets="Publish" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') " />
+    <Message Text="The project &quot;UnitTests&quot; is not selected for building in solution configuration &quot;Release|x86&quot;." Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'x86') " />
+    <MSBuild Projects="UnitTests\UnitTests.csproj" Targets="Publish" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'UnitTest') and ('$(Platform)' == 'Any CPU') " />
+    <Message Text="The project &quot;UnitTests&quot; is not selected for building in solution configuration &quot;UnitTest|x86&quot;." Condition=" ('$(Configuration)' == 'UnitTest') and ('$(Platform)' == 'x86') " />
+  </Target>
   <Target Name="Build" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(CollectedBuildOutput)">
     <MSBuild Condition="@(BuildLevel0) != ''" Projects="@(BuildLevel0)" Properties="Configuration=%(Configuration); Platform=%(Platform); BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" BuildInParallel="true" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)">
       <Output TaskParameter="TargetOutputs" ItemName="CollectedBuildOutput" />
     </MSBuild>
     <Message Text="The project &quot;%(SkipLevel0.Identity)&quot; is not selected for building in solution configuration &quot;$(Configuration)|$(Platform)&quot;." Condition="@(SkipLevel0) != ''" />
     <Warning Text="The project configuration for project &quot;%(MissingConfigLevel0.Identity)&quot; was not specified in the solution file for the solution configuration &quot;$(Configuration)|$(Platform)&quot;." Code="MSB4121" HelpKeyword="MSBuild.SolutionProjectConfigurationMissing" Condition="@(MissingConfigLevel0) != ''" />
+    <CallTarget Targets="Setup" RunEachTargetSeparately="true" />
+    <MSBuild Condition="@(BuildLevel1) != ''" Projects="@(BuildLevel1)" Properties="Configuration=%(Configuration); Platform=%(Platform); BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" BuildInParallel="true" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)">
+      <Output TaskParameter="TargetOutputs" ItemName="CollectedBuildOutput" />
+    </MSBuild>
+    <Message Text="The project &quot;%(SkipLevel1.Identity)&quot; is not selected for building in solution configuration &quot;$(Configuration)|$(Platform)&quot;." Condition="@(SkipLevel1) != ''" />
+    <Warning Text="The project configuration for project &quot;%(MissingConfigLevel1.Identity)&quot; was not specified in the solution file for the solution configuration &quot;$(Configuration)|$(Platform)&quot;." Code="MSB4121" HelpKeyword="MSBuild.SolutionProjectConfigurationMissing" Condition="@(MissingConfigLevel1) != ''" />
   </Target>
   <Target Name="Clean" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
     <MSBuild Condition="@(BuildLevel0) != ''" Projects="@(BuildLevel0)" Properties="Configuration=%(Configuration); Platform=%(Platform); BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" Targets="Clean" ToolsVersion="$(ProjectToolsVersion)" BuildInParallel="true" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" />
     <Message Text="The project &quot;%(SkipLevel0.Identity)&quot; is not selected for building in solution configuration &quot;$(Configuration)|$(Platform)&quot;." Condition="@(SkipLevel0) != ''" />
     <Warning Text="The project configuration for project &quot;%(MissingConfigLevel0.Identity)&quot; was not specified in the solution file for the solution configuration &quot;$(Configuration)|$(Platform)&quot;." Code="MSB4121" HelpKeyword="MSBuild.SolutionProjectConfigurationMissing" Condition="@(MissingConfigLevel0) != ''" />
+    <CallTarget Targets="Setup:Clean" RunEachTargetSeparately="true" />
+    <MSBuild Condition="@(BuildLevel1) != ''" Projects="@(BuildLevel1)" Properties="Configuration=%(Configuration); Platform=%(Platform); BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" Targets="Clean" ToolsVersion="$(ProjectToolsVersion)" BuildInParallel="true" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" />
+    <Message Text="The project &quot;%(SkipLevel1.Identity)&quot; is not selected for building in solution configuration &quot;$(Configuration)|$(Platform)&quot;." Condition="@(SkipLevel1) != ''" />
+    <Warning Text="The project configuration for project &quot;%(MissingConfigLevel1.Identity)&quot; was not specified in the solution file for the solution configuration &quot;$(Configuration)|$(Platform)&quot;." Code="MSB4121" HelpKeyword="MSBuild.SolutionProjectConfigurationMissing" Condition="@(MissingConfigLevel1) != ''" />
     <Delete Files="CourseEditor.sln.cache" />
   </Target>
   <Target Name="Rebuild" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(CollectedBuildOutput)">
@@ -232,10 +376,20 @@
     </MSBuild>
     <Message Text="The project &quot;%(SkipLevel0.Identity)&quot; is not selected for building in solution configuration &quot;$(Configuration)|$(Platform)&quot;." Condition="@(SkipLevel0) != ''" />
     <Warning Text="The project configuration for project &quot;%(MissingConfigLevel0.Identity)&quot; was not specified in the solution file for the solution configuration &quot;$(Configuration)|$(Platform)&quot;." Code="MSB4121" HelpKeyword="MSBuild.SolutionProjectConfigurationMissing" Condition="@(MissingConfigLevel0) != ''" />
+    <CallTarget Targets="Setup:Rebuild" RunEachTargetSeparately="true" />
+    <MSBuild Condition="@(BuildLevel1) != ''" Projects="@(BuildLevel1)" Properties="Configuration=%(Configuration); Platform=%(Platform); BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" Targets="Rebuild" ToolsVersion="$(ProjectToolsVersion)" BuildInParallel="true" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)">
+      <Output TaskParameter="TargetOutputs" ItemName="CollectedBuildOutput" />
+    </MSBuild>
+    <Message Text="The project &quot;%(SkipLevel1.Identity)&quot; is not selected for building in solution configuration &quot;$(Configuration)|$(Platform)&quot;." Condition="@(SkipLevel1) != ''" />
+    <Warning Text="The project configuration for project &quot;%(MissingConfigLevel1.Identity)&quot; was not specified in the solution file for the solution configuration &quot;$(Configuration)|$(Platform)&quot;." Code="MSB4121" HelpKeyword="MSBuild.SolutionProjectConfigurationMissing" Condition="@(MissingConfigLevel1) != ''" />
   </Target>
   <Target Name="Publish" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
     <MSBuild Condition="@(BuildLevel0) != ''" Projects="@(BuildLevel0)" Properties="Configuration=%(Configuration); Platform=%(Platform); BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" Targets="Publish" ToolsVersion="$(ProjectToolsVersion)" BuildInParallel="true" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" />
     <Message Text="The project &quot;%(SkipLevel0.Identity)&quot; is not selected for building in solution configuration &quot;$(Configuration)|$(Platform)&quot;." Condition="@(SkipLevel0) != ''" />
     <Warning Text="The project configuration for project &quot;%(MissingConfigLevel0.Identity)&quot; was not specified in the solution file for the solution configuration &quot;$(Configuration)|$(Platform)&quot;." Code="MSB4121" HelpKeyword="MSBuild.SolutionProjectConfigurationMissing" Condition="@(MissingConfigLevel0) != ''" />
+    <CallTarget Targets="Setup:Publish" RunEachTargetSeparately="true" />
+    <MSBuild Condition="@(BuildLevel1) != ''" Projects="@(BuildLevel1)" Properties="Configuration=%(Configuration); Platform=%(Platform); BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" Targets="Publish" ToolsVersion="$(ProjectToolsVersion)" BuildInParallel="true" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" />
+    <Message Text="The project &quot;%(SkipLevel1.Identity)&quot; is not selected for building in solution configuration &quot;$(Configuration)|$(Platform)&quot;." Condition="@(SkipLevel1) != ''" />
+    <Warning Text="The project configuration for project &quot;%(MissingConfigLevel1.Identity)&quot; was not specified in the solution file for the solution configuration &quot;$(Configuration)|$(Platform)&quot;." Code="MSB4121" HelpKeyword="MSBuild.SolutionProjectConfigurationMissing" Condition="@(MissingConfigLevel1) != ''" />
   </Target>
 </Project>
