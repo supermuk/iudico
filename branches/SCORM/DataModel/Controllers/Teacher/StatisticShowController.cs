@@ -195,7 +195,7 @@ namespace IUDICO.DataModel.Controllers
                 studentCell = new TableCell { HorizontalAlign = HorizontalAlign.Center };
                 double temp_total;
                 if (totalCurriculum != 0)
-                    temp_total = pasedCurriculum / totalCurriculum;
+                    temp_total = pasedCurriculum / totalCurriculum * 100;
                 else temp_total = 0;
                 studentCell.Text = (temp_total).ToString();
                 studentRow.Cells.Add(studentCell);
