@@ -7,16 +7,20 @@ using IUDICO.DataModel.DB;
 using System.Linq;
 using System;
 using System.Collections;
+using IUDICO.DataModel.DB.Base;
+using LEX.CONTROLS;
+using LEX.CONTROLS.Expressions;
 
 namespace IUDICO.DataModel.Controllers
 {
-   public class StatisticShowCurriculumsController: BaseTeacherController
+    public class StatisticShowCurriculumsController : BaseTeacherController
     {
         [ControllerParameter]
         public int GroupID;
         [ControllerParameter]
         public string CurriculumsID;
- 
+        [PersistantField]
+        public readonly IVariable<string> Find_StudName = string.Empty.AsVariable();
         List<TblCurriculums> curriculums = new List<TblCurriculums>();
         TblGroups group;
 
@@ -29,7 +33,8 @@ namespace IUDICO.DataModel.Controllers
 
         public Label NotifyLabel { get; set; }
         public Table StatisticTable { get; set; }
-        private List<int> ids  = new List<int>();
+        public Table StatisticTable_constant { get; set; }
+        private List<int> ids = new List<int>();
 
         public List<int> ParsString(string str)
         {
@@ -59,17 +64,17 @@ namespace IUDICO.DataModel.Controllers
             ids = ParsString(CurriculumsID);
             for (int i = 0; i < ids.Count; i++)
             {
-               if(ids[i] > 0)
-               {
-                curriculums.Add( ServerModel.DB.Load<TblCurriculums>(ids[i]));
-                tmp_curriculums += curriculums[i].Name+", ";
+                if (ids[i] > 0)
+                {
+                    curriculums.Add(ServerModel.DB.Load<TblCurriculums>(ids[i]));
+                    tmp_curriculums += curriculums[i].Name + ",";
                 }
             }
 
-            if(tmp_curriculums.Length > 0)
-            tmp_curriculums.Replace(tmp_curriculums[tmp_curriculums.Length-1],' ');
+            if (tmp_curriculums.Length > 0)
+                tmp_curriculums.Replace(tmp_curriculums[tmp_curriculums.Length - 1], ' ');
 
-                Caption.Value = pageCaption;
+            Caption.Value = pageCaption;
             Description.Value = pageDescription.
                 Replace("{0}", group.Name).
                 Replace("{1}", tmp_curriculums);
@@ -77,7 +82,17 @@ namespace IUDICO.DataModel.Controllers
 
             fillStatisticTable();
         }
+        public void Button_FindStud_Click()
+        {
+            StatisticTable_constant = TeacherHelper.Search_Function(StatisticTable, Find_StudName.Value, null, curriculums, GroupID, RawUrl);
 
+            StatisticTable.Rows.Clear();
+            for (int i = 0; i < StatisticTable_constant.Rows.Count; i++)
+            {
+                StatisticTable.Rows.Add(StatisticTable_constant.Rows[i]);
+                i--;
+            }
+        }
         private void fillStatisticTable()
         {
             StatisticTable.Rows.Clear();
@@ -88,25 +103,25 @@ namespace IUDICO.DataModel.Controllers
             headerCell.Text = studentStr;
             headerRow.Cells.Add(headerCell);
 
-           
-                foreach (TblCurriculums curr in curriculums)
-                {
-                    headerCell = new TableHeaderCell{ HorizontalAlign = HorizontalAlign.Center };
-                  
 
-                    headerCell.Controls.Add(new HyperLink
+            foreach (TblCurriculums curr in curriculums)
+            {
+                headerCell = new TableHeaderCell { HorizontalAlign = HorizontalAlign.Center };
+
+
+                headerCell.Controls.Add(new HyperLink
+                {
+                    Text = curr.Name,
+                    NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new StatisticShowController
                     {
-                        Text = curr.Name,
-                        NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new StatisticShowController
-                        {
-                            GroupID = GroupID,
-                            CurriculumID = curr.ID,
-                            BackUrl = RawUrl
-                        })
-                    });
-                    headerRow.Cells.Add(headerCell);
-                }
-            
+                        GroupID = GroupID,
+                        CurriculumID = curr.ID,
+                        BackUrl = RawUrl
+                    })
+                });
+                headerRow.Cells.Add(headerCell);
+            }
+
             headerCell = new TableHeaderCell();
             headerCell.Text = totalStr;
             headerRow.Cells.Add(headerCell);
@@ -154,7 +169,7 @@ namespace IUDICO.DataModel.Controllers
                                             }
 
                                         }
-                  
+
 
 
 
@@ -182,15 +197,15 @@ namespace IUDICO.DataModel.Controllers
                     pasedCurriculums += pasedCurriculum;
                     totalCurriculums += totalCurriculum;
 
-                  
+
                 }
-                    studentCell = new TableCell
-                    {
-                        HorizontalAlign = HorizontalAlign.Center,
-                        Text = pasedCurriculums + "/" + totalCurriculums
-                    };
-                    studentRow.Cells.Add(studentCell);
-                    StatisticTable.Rows.Add(studentRow);
+                studentCell = new TableCell
+                {
+                    HorizontalAlign = HorizontalAlign.Center,
+                    Text = pasedCurriculums + "/" + totalCurriculums
+                };
+                studentRow.Cells.Add(studentCell);
+                StatisticTable.Rows.Add(studentRow);
             }
 
             if (StatisticTable.Rows.Count == 1)

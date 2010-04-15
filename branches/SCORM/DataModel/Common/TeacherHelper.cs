@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using IUDICO.DataModel.DB;
 using IUDICO.DataModel.DB.Base;
 using IUDICO.DataModel.Security;
+using System.Web.UI.WebControls;
+using System.Collections;
+using IUDICO.DataModel.Common;
+using IUDICO.DataModel.Common.StatisticUtils;
+using IUDICO.DataModel.Controllers.Student;
+using System.Linq;
+using LEX.CONTROLS;
+using LEX.CONTROLS.Expressions;
 
 namespace IUDICO.DataModel.Common
 {
@@ -686,6 +694,208 @@ namespace IUDICO.DataModel.Common
         public static IList<TblCompiledAnswers> GetCompiledAnswers(TblUserAnswers userAnswer)
         {
             return ServerModel.DB.Load<TblCompiledAnswers>(ServerModel.DB.LookupIds<TblCompiledAnswers>(userAnswer, null));
+        }
+        public static Table Sort(Table table, TblCurriculums curriculm)
+        {
+            Table temp = new Table();
+
+            for (int i = 1; i < table.Rows.Count; i++)
+            {
+                int max = 0;
+                int row = 0;
+                for (int j = 1; j < table.Rows.Count; j++)
+                {
+                    if (Int32.Parse(table.Rows[j].Cells[table.Rows[j].Cells.Count - 2].Text) > max)
+                    {
+                        max = Int32.Parse(table.Rows[j].Cells[table.Rows[j].Cells.Count - 2].Text);
+                        row = j;
+
+                    }
+                }
+                temp.Rows.Add(table.Rows[row]);
+                table.Rows.RemoveAt(row);
+                i--;
+
+            }
+            return temp;
+        }
+
+        public static Table Search_Function(Table table, string Search_Name, TblCurriculums curriculum, List<TblCurriculums> curriculums, int GroupID, string RawUrl)
+        {
+            Table temp = new Table();
+            if (curriculum != null)
+            {
+                TableHeaderRow headerRow = new TableHeaderRow();
+                TableHeaderCell headerCell = new TableHeaderCell();
+                headerCell.Text = "Student";
+                headerRow.Cells.Add(headerCell);
+
+                foreach (TblStages stage in TeacherHelper.StagesOfCurriculum(curriculum))
+                {
+                    foreach (TblThemes theme in TeacherHelper.ThemesOfStage(stage))
+                    {
+                        headerCell = new TableHeaderCell();
+                        headerCell.Text = theme.Name;
+                        headerRow.Cells.Add(headerCell);
+                    }
+                }
+                headerCell = new TableHeaderCell();
+                headerCell.Text = "Total";
+                headerRow.Cells.Add(headerCell);
+
+                headerCell = new TableHeaderCell();
+                headerCell.Text = "Percent";
+                headerRow.Cells.Add(headerCell);
+
+                headerCell = new TableHeaderCell();
+                headerCell.Text = "ECTS";
+                headerRow.Cells.Add(headerCell);
+
+                temp.Rows.Add(headerRow);
+
+                for (int i = 1; i < table.Rows.Count; i++)
+                {
+
+                    string[] temp_array = table.Rows[i].Cells[0].Text.ToString().Split(' ');
+
+                    if (temp_array.Length == 2)
+                    {
+                        if (Find_Student(Search_Name, temp_array[0], temp_array[1]) == true)
+                        {
+
+                            temp.Rows.Add(table.Rows[i]);
+                            i--;
+                        }
+
+                    }
+                    else
+                    {
+
+                        if (Find_Student(Search_Name, temp_array[0], "") == true)
+                        {
+
+                            temp.Rows.Add(table.Rows[i]);
+                        }
+                    }
+
+
+                }
+            }
+            else
+            {
+                TableHeaderRow headerRow = new TableHeaderRow();
+
+                TableHeaderCell headerCell = new TableHeaderCell();
+                headerCell.Text = "Student";
+                headerRow.Cells.Add(headerCell);
+
+
+                foreach (TblCurriculums curr in curriculums)
+                {
+                    headerCell = new TableHeaderCell { HorizontalAlign = HorizontalAlign.Center };
+                    headerCell.Controls.Add(new HyperLink
+                    {
+                        Text = curr.Name,
+                        NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new IUDICO.DataModel.Controllers.StatisticShowController
+                        {
+                            GroupID = GroupID,
+                            CurriculumID = curr.ID,
+                            BackUrl = RawUrl
+                        })
+                    });
+                    headerRow.Cells.Add(headerCell);
+                }
+
+                headerCell = new TableHeaderCell();
+                headerCell.Text = "Total";
+                headerRow.Cells.Add(headerCell);
+
+                temp.Rows.Add(headerRow);
+                for (int i = 1; i < table.Rows.Count; i++)
+                {
+
+                    string[] temp_array = table.Rows[i].Cells[0].Text.ToString().Split(' ');
+
+                    if (temp_array.Length == 2)
+                    {
+                        if (Find_Student(Search_Name, temp_array[0], temp_array[1]) == true)
+                        {
+
+                            temp.Rows.Add(table.Rows[i]);
+                            i--;
+                        }
+
+                    }
+                    else
+                    {
+
+                        if (Find_Student(Search_Name, temp_array[0], "") == true)
+                        {
+
+                            temp.Rows.Add(table.Rows[i]);
+                        }
+                    }
+
+
+                }
+            }
+
+            return temp;
+
+        }
+        public static string ECTS_code(double Points)
+        {
+            if (Points >= 91)
+                return "A";
+            if ((Points >= 81) && (Points <= 90))
+                return "B";
+            if ((Points >= 71) && (Points <= 80))
+                return "C";
+            if ((Points >= 61) && (Points <= 70))
+                return "D";
+            if ((Points >= 51) && (Points <= 60))
+                return "E";
+            if ((Points >= 30) && (Points <= 50))
+                return "Fx";
+            return null;
+        }
+        public static bool Find_Student(string Find_name, string Student_name, string Student_LastName)
+        {
+            string[] Find = Find_name.Split(' ');
+            if (Student_name == null)
+            {
+                Student_name = "";
+            }
+            if (Student_LastName == null)
+            {
+                Student_LastName = "";
+            }
+
+            if ((Student_name.Length != 0) && (Student_LastName.Length != 0))
+            {
+                if (Find.Length == 2)
+                {
+                    if ((Student_name.Contains(Find[0]) == true) && (Student_LastName.Contains(Find[1]) == true))
+                        return true;
+                    else
+
+                        if ((Student_name.Contains(Find[1]) == true) && (Student_LastName.Contains(Find[0]) == true))
+                            return true;
+                }
+                else
+                    if ((Student_name.Contains(Find[0]) == true) || (Student_LastName.Contains(Find[0]) == true))
+                        return true;
+            }
+            else
+            {
+                if ((Student_name.Length != 0) && (Student_LastName.Length == 0) && (Find.Length == 1) && (Student_name.Contains(Find[0]) == true))
+                    return true;
+                else
+                    if ((Student_name.Length == 0) && (Student_LastName.Length != 0) && (Find.Length == 1) && (Student_LastName.Contains(Find[0]) == true))
+                        return true;
+            }
+            return false;
+
         }
     }
 }
