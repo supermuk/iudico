@@ -12,6 +12,7 @@ using IUDICO.DataModel.DB;
 using System.Xml;
 using System.Windows.Forms;
 using System.Diagnostics;
+using IUDICO.DataModel.ImportManagers;
 
 
 public partial class _Default : System.Web.UI.Page
@@ -19,7 +20,9 @@ public partial class _Default : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        string searchPath = @"C:\Documents and Settings\iryna.martyniv\Desktop\IUDICO_Checking\Site\Assets";
+        string searchPath = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "Assets");
+        //string searchPath = @"C:\Documents and Settings\iryna.martyniv\Desktop\IUDICO_Checking\Site\Assets";
+
         string[] dirs = Directory.GetDirectories(searchPath, "*");
         List<int> ids = new List<int>();
 
@@ -73,7 +76,8 @@ public partial class _Default : System.Web.UI.Page
                 writer.WriteString(name);
                 writer.WriteEndElement();
 
-                FileStream file = new FileStream("C:\\Documents and Settings\\iryna.martyniv\\Desktop\\IUDICO_Checking\\Site\\Assets\\" + res.CourseRef.ToString() + "\\" + res.Href.ToString(), FileMode.OpenOrCreate, FileAccess.Read);
+                string filePath = Path.Combine(CourseManager.GetCoursePath(res.CourseRef), res.Href.ToString());
+                FileStream file = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Read);
                 StreamReader sr = new StreamReader(file);
                 string s = sr.ReadToEnd();
                 sr.Close();
