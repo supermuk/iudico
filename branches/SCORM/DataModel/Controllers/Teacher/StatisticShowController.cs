@@ -128,14 +128,14 @@ namespace IUDICO.DataModel.Controllers
 
                 studentRow.Cells.Add(studentCell);
 
-                int pasedCurriculum = 0;
-                int totalCurriculum = 0;
+                double pasedCurriculum = 0;
+                double totalCurriculum = 0;
                 foreach (TblStages stage in TeacherHelper.StagesOfCurriculum(curriculum))
                 {
                     foreach (TblThemes theme in TeacherHelper.ThemesOfStage(stage))
                     {
-                        int result = 0;
-                        int totalresult = 0;
+                        double result = 0;
+                        double totalresult = 0;
                         foreach (TblLearnerAttempts attempt in TeacherHelper.AttemptsOfTheme(theme))
                         {
                             if (attempt.ID == TeacherHelper.GetLastLearnerAttempt(student.ID, theme.ID))
