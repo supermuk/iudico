@@ -5,12 +5,7 @@ using IUDICO.DataModel.DB.Base;
 using IUDICO.DataModel.Security;
 using System.Web.UI.WebControls;
 using System.Collections;
-using IUDICO.DataModel.Common;
-using IUDICO.DataModel.Common.StatisticUtils;
-using IUDICO.DataModel.Controllers.Student;
-using System.Linq;
-using LEX.CONTROLS;
-using LEX.CONTROLS.Expressions;
+
 
 namespace IUDICO.DataModel.Common
 {
@@ -695,9 +690,36 @@ namespace IUDICO.DataModel.Common
         {
             return ServerModel.DB.Load<TblCompiledAnswers>(ServerModel.DB.LookupIds<TblCompiledAnswers>(userAnswer, null));
         }
-        public static Table Sort(Table table, TblCurriculums curriculm)
+        public static Table Sort(Table table, TblCurriculums curriculum)
         {
             Table temp = new Table();
+            TableHeaderRow headerRow = new TableHeaderRow();
+            TableHeaderCell headerCell = new TableHeaderCell();
+            headerCell.Text = "Student";
+            headerRow.Cells.Add(headerCell);
+
+            foreach (TblStages stage in TeacherHelper.StagesOfCurriculum(curriculum))
+            {
+                foreach (TblThemes theme in TeacherHelper.ThemesOfStage(stage))
+                {
+                    headerCell = new TableHeaderCell();
+                    headerCell.Text = theme.Name;
+                    headerRow.Cells.Add(headerCell);
+                }
+            }
+            headerCell = new TableHeaderCell();
+            headerCell.Text = "Total";
+            headerRow.Cells.Add(headerCell);
+
+            headerCell = new TableHeaderCell();
+            headerCell.Text = "Percent";
+            headerRow.Cells.Add(headerCell);
+
+            headerCell = new TableHeaderCell();
+            headerCell.Text = "ECTS";
+            headerRow.Cells.Add(headerCell);
+
+            temp.Rows.Add(headerRow);
 
             for (int i = 1; i < table.Rows.Count; i++)
             {
@@ -855,7 +877,9 @@ namespace IUDICO.DataModel.Common
                 return "D";
             if ((Points >= 51) && (Points <= 60))
                 return "E";
-            if ((Points >= 30) && (Points <= 50))
+            if ((Points >= 31) && (Points <= 50))
+                return "F";
+            if ((Points >= 0) && (Points <= 30))
                 return "Fx";
             return null;
         }
