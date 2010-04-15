@@ -34,18 +34,18 @@
 
 ==Структурне тестування==
 Цей тип тестування використовується для перевірки внутрішніх структур даних і зв’язку між ними. Для забезпечення робочого коду потрібно, щоб кожна лінійка коду викликалася під час тестів. Якщо ж вона не викликається, то можливість дефекту у коді зростає. Ми будемо використовувати NUnit для структурного тестування. Потрібно перевірити коректність роботи таких компонентів:
-  *  	DB.Base
-  *		DB.Other
-  *  	Import Managers
-  *  	Security
-  *  	Webcontrol
-  *  	CMI
-  *  	Testing system
-  *  	Utils
-    *  	Student Utils
-    *  	Statistic Utils
-    *  	Import Utils
-    *  	Testing Utils
-  *  	Controllers
+|| DB.Base || 0% ||
+|| DB.Other || 0% ||
+|| Import Managers || 0% ||
+|| Security || 0% ||
+|| Webcontrol || 0% ||
+|| CMI || 67% ||
+|| Testing system || 0% ||
+|| Utils || 0% ||
+|| Student Utils || 0% ||
+|| Statistic Utils || 0% ||
+|| Import Utils || 0% ||
+|| Testing Utils || 0% ||
+|| Controllers || 0% ||
 
   Для повної інформації стосовно цих компонентів можна подивитися у розділі [http://code.google.com/p/iudico/wiki/CodeStructureLMS Структури коду]
