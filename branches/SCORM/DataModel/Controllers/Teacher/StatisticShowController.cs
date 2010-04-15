@@ -8,6 +8,9 @@ using System.Linq;
 using System;
 using System.Collections;
 using System.Drawing;
+using IUDICO.DataModel.DB.Base;
+using LEX.CONTROLS;
+using LEX.CONTROLS.Expressions;
 
 namespace IUDICO.DataModel.Controllers
 {
@@ -19,8 +22,8 @@ namespace IUDICO.DataModel.Controllers
         public int CurriculumID;
         [ControllerParameter]
         public int UserId;
-        
-
+        [PersistantField]
+        public readonly IVariable<string> Find_StudName = string.Empty.AsVariable();
         TblCurriculums curriculum;
         TblGroups group;
         TblUsers user;
@@ -29,18 +32,21 @@ namespace IUDICO.DataModel.Controllers
         private const string pageCaption = "Statistic.";
         private const string pageDescription = "This is statisic for group: {0} based on curriculum: {1}. This statistaic is based on passed pages count.";
         private const string studentStr = "Student";
+
         private const string totalStr = "Total";
         private const string noStudents = "Theare are no students in this group.";
 
         public Label NotifyLabel { get; set; }
         public Table StatisticTable { get; set; }
 
+        public Table StatisticTable_constant { get; set; }
+
         public override void Loaded()
         {
             base.Loaded();
 
             curriculum = ServerModel.DB.Load<TblCurriculums>(CurriculumID);
-            group = ServerModel.DB.Load<TblGroups>(GroupID);  
+            group = ServerModel.DB.Load<TblGroups>(GroupID);
 
             Caption.Value = pageCaption;
             Description.Value = pageDescription.
@@ -49,6 +55,30 @@ namespace IUDICO.DataModel.Controllers
             Title.Value = Caption.Value;
 
             fillStatisticTable();
+        }
+        public void Button_Sort_Click()
+        {
+            StatisticTable_constant.Rows.Clear();
+            StatisticTable_constant = TeacherHelper.Sort(StatisticTable, curriculum);
+            StatisticTable.Rows.Clear();
+            for (int i = 0; i < StatisticTable_constant.Rows.Count; i++)
+            {
+                StatisticTable.Rows.Add(StatisticTable_constant.Rows[i]);
+                i--;
+            }
+        }
+        public void Button_FindStud_Click()
+        {
+
+
+            StatisticTable_constant = TeacherHelper.Search_Function(StatisticTable, Find_StudName.Value, curriculum, null, 0, "");
+
+            StatisticTable.Rows.Clear();
+            for (int i = 0; i < StatisticTable_constant.Rows.Count; i++)
+            {
+                StatisticTable.Rows.Add(StatisticTable_constant.Rows[i]);
+                i--;
+            }
         }
 
         private void fillStatisticTable()
@@ -61,7 +91,6 @@ namespace IUDICO.DataModel.Controllers
                 ilistusers.Clear();
                 ilistusers.Add(user);
             }
-
             StatisticTable.Rows.Clear();
 
             TableHeaderRow headerRow = new TableHeaderRow();
@@ -83,13 +112,19 @@ namespace IUDICO.DataModel.Controllers
             headerCell.Text = totalStr;
             headerRow.Cells.Add(headerCell);
 
-            StatisticTable.Rows.Add(headerRow);
-           
+            headerCell = new TableHeaderCell();
+            headerCell.Text = "Percent";
+            headerRow.Cells.Add(headerCell);
 
-            foreach (TblUsers student in ilistusers)
+            headerCell = new TableHeaderCell();
+            headerCell.Text = "ECTS";
+            headerRow.Cells.Add(headerCell);
+
+            StatisticTable.Rows.Add(headerRow);
+            foreach (TblUsers student in TeacherHelper.GetStudentsOfGroup(group))
             {
                 var studentRow = new TableRow();
-                TableCell studentCell = new TableHeaderCell {Text = student.DisplayName};
+                TableCell studentCell = new TableHeaderCell { Text = student.DisplayName };
 
                 studentRow.Cells.Add(studentCell);
 
@@ -101,48 +136,43 @@ namespace IUDICO.DataModel.Controllers
                     {
                         int result = 0;
                         int totalresult = 0;
-                        foreach(TblLearnerAttempts attempt in TeacherHelper.AttemptsOfTheme(theme) )
+                        foreach (TblLearnerAttempts attempt in TeacherHelper.AttemptsOfTheme(theme))
                         {
-
-                          if(attempt.ID == TeacherHelper.GetLastLearnerAttempt(student.ID,theme.ID))
-                          foreach(TblLearnerSessions session in TeacherHelper.SessionsOfAttempt(attempt))
-                            {
-                              
-                                CmiDataModel cmiDataModel = new CmiDataModel(session.ID, student.ID, false);
-                                List<TblVarsInteractions> interactionsCollection = cmiDataModel.GetCollection<TblVarsInteractions>("interactions.*.*");
-                               
-                                for (int i = 0, j = 0; i < int.Parse(cmiDataModel.GetValue("interactions._count")); i++)
+                            if (attempt.ID == TeacherHelper.GetLastLearnerAttempt(student.ID, theme.ID))
+                                foreach (TblLearnerSessions session in TeacherHelper.SessionsOfAttempt(attempt))
                                 {
-                                    totalresult += 1;
-                                 for (; j < interactionsCollection.Count && i == interactionsCollection[j].Number; j++)
-                                 {
-                                  if (interactionsCollection[j].Name == "result")
+                                    CmiDataModel cmiDataModel = new CmiDataModel(session.ID, student.ID, false);
+                                    List<TblVarsInteractions> interactionsCollection = cmiDataModel.GetCollection<TblVarsInteractions>("interactions.*.*");
+
+                                    for (int i = 0, j = 0; i < int.Parse(cmiDataModel.GetValue("interactions._count")); i++)
                                     {
-                                     if(interactionsCollection[j].Value == "correct")result+=1;
+                                        totalresult += 1;
+                                        for (; j < interactionsCollection.Count && i == interactionsCollection[j].Number; j++)
+                                        {
+                                            if (interactionsCollection[j].Name == "result")
+                                            {
+                                                if (interactionsCollection[j].Value == "correct") result += 1;
+                                            }
+                                        }
+
                                     }
-                                 }
-                               
                                 }
-                  
-                          
-                            
-                            }
                         }
-                    
-                
-                        studentCell = new TableCell{HorizontalAlign = HorizontalAlign.Center};
-                         
+
+
+                        studentCell = new TableCell { HorizontalAlign = HorizontalAlign.Center };
+
                         studentCell.Controls.Add(new HyperLink
-                                                     {
-                                                         Text = result+"/"+totalresult,
-                                                         NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new ThemeResultController
-                                                         {
-                                                             BackUrl = string.Empty,
-                                                             LearnerAttemptId = TeacherHelper.GetLastLearnerAttempt(student.ID, theme.ID),
-                                                             //CurriculumnName = ServerModel.DB.Load<TblCurriculums>((int) stage.CurriculumRef).Name,
-                                                             //StageName = stage.Name,
-                                                         })
-                                                     });
+                        {
+                            Text = result + "/" + totalresult,
+                            NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new ThemeResultController
+                            {
+                                BackUrl = string.Empty,
+                                LearnerAttemptId = TeacherHelper.GetLastLearnerAttempt(student.ID, theme.ID),
+
+                            })
+                        });
+
                         if (totalresult == 0)
                         {
                             studentCell.BackColor = Color.Yellow;
@@ -152,14 +182,26 @@ namespace IUDICO.DataModel.Controllers
                         pasedCurriculum += result;
                         totalCurriculum += totalresult;
                         studentRow.Cells.Add(studentCell);
+
                     }
                 }
 
                 studentCell = new TableCell
-                                  {
-                                      HorizontalAlign = HorizontalAlign.Center,
-                                      Text = pasedCurriculum + "/" + totalCurriculum
-                                  };
+                {
+                    HorizontalAlign = HorizontalAlign.Center,
+                    Text = pasedCurriculum + "/" + totalCurriculum
+                };
+                studentRow.Cells.Add(studentCell);
+                studentCell = new TableCell { HorizontalAlign = HorizontalAlign.Center };
+                double temp_total;
+                if (totalCurriculum != 0)
+                    temp_total = pasedCurriculum / totalCurriculum;
+                else temp_total = 0;
+                studentCell.Text = (temp_total).ToString();
+                studentRow.Cells.Add(studentCell);
+                studentCell = new TableCell { HorizontalAlign = HorizontalAlign.Center };
+                studentCell.Text = TeacherHelper.ECTS_code(temp_total);
+
                 studentRow.Cells.Add(studentCell);
                 StatisticTable.Rows.Add(studentRow);
             }
@@ -169,7 +211,13 @@ namespace IUDICO.DataModel.Controllers
                 StatisticTable.Visible = false;
                 Message.Value = noStudents;
             }
+
+
+
         }
+
+
+
 
     }
 }

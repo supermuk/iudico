@@ -6,9 +6,10 @@ public partial class Teacher_StatisticShowCurriculums : ControlledPage<Statistic
 {
     protected override void BindController(StatisticShowCurriculumsController c)
     {
-        
-        base.BindController(c);
 
+        base.BindController(c);
+        Bind2Ways(TextBox_FindStud, c.Find_StudName);
+        Bind(Button_FindStud, c.Button_FindStud_Click);
         Bind(Label_PageCaption, c.Caption);
         Bind(Label_PageDescription, c.Description);
         BindTitle(c.Title, gn => gn);
