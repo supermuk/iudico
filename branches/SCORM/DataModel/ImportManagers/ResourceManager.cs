@@ -200,7 +200,5 @@ namespace IUDICO.DataModel.ImportManagers
                 Directory.CreateDirectory(Path);
             }
         }
-
-        
     }
 }

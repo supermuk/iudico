@@ -69,6 +69,18 @@ namespace IUDICO.DataModel.Common.ImportUtils
             return node.SelectNodes(path, nsmgr);
         }
 
+        public static XmlNode GetNodeById(XmlNodeList nodeList, string Id)
+        {
+            foreach(XmlNode node in nodeList)
+            {
+              if(GetId(node)==Id)
+              {
+                return node;
+              }
+            }
+            return null;
+        }
+
         public static string GetIdentifier(XmlNode node)
         {
             if (node.Attributes != null)

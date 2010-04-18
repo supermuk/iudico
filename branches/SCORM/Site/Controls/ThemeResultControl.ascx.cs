@@ -51,10 +51,18 @@ public partial class ThemeResultControl : UserControl
                 CmiDataModel cmiDataModel = new CmiDataModel(learnerSession.ID, ServerModel.User.Current.ID, false);
                 List<TblVarsInteractions> interactionsCollection = cmiDataModel.GetCollection<TblVarsInteractions>("interactions.*.*");
                 List<TblVarsInteractionCorrectResponses> interactionCorrectResponsesCollection = cmiDataModel.GetCollection<TblVarsInteractionCorrectResponses>("interactions.*.correct_responses.*");
+                int count=int.Parse(cmiDataModel.GetValue("interactions._count"));
 
-                for (int i = 0, j = 0; i < int.Parse(cmiDataModel.GetValue("interactions._count")); i++)
+                for (int i = 0, j = 0; i < count; i++)
                 {
-                  correctAnswer = interactionCorrectResponsesCollection[i].Value;
+                  if (interactionCorrectResponsesCollection[i].Value!=null)
+                  {
+                    correctAnswer = interactionCorrectResponsesCollection[i].Value;
+                  }
+                  else
+                  {
+                    continue;
+                  }
                   for (; j < interactionsCollection.Count && i == interactionsCollection[j].Number; j++)
                   {
                     if (interactionsCollection[j].Name == "learner_response")
@@ -65,11 +73,6 @@ public partial class ThemeResultControl : UserControl
                     {
                       result = interactionsCollection[j].Value;
                     }
-                  }
-
-                  if (correctAnswer == null)
-                  {
-                    continue;
                   }
 
                   var row = new TableRow();
