@@ -10,26 +10,35 @@ namespace IUDICO.DataModel.ImportManagers
 {
     public class ItemManager
     {
-        public static void Import(XmlNode item, int organizationID, int? parentID)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="manifestItem"> Item tag from manifest file for current item </param>
+        /// <param name="answerItems">Organization tag with current item tag from answers file</param>
+        /// <param name="organizationID"></param>
+        /// <param name="parentID"></param>
+        public static void Import(XmlNode manifestItem, XmlNodeList answerItems, int organizationID, int? parentID)
         {
-            XmlNodeList childItems = XmlUtility.GetNodes(item, "ns:item");
-            
+            XmlNodeList childItems = XmlUtility.GetNodes(manifestItem, "ns:item");
+
             if (childItems.Count > 0)
             {
-                int itemID = Store(parentID, organizationID, XmlUtility.GetNode(item, "ns:title").InnerText, null);
+                int itemID = Store(parentID, organizationID, XmlUtility.GetNode(manifestItem, "ns:title").InnerText, null, null);
 
                 foreach (XmlNode node in childItems)
                 {
-                    Import(node, organizationID, itemID);
+                  Import(node, answerItems, organizationID, itemID);
                 }
             }
             else
             {
-                string resourceIdentifier = item.Attributes["identifierref"].Value;
+                //string resourceIdentifier = manifestItem.Attributes["identifierref"].Value;
+                string resourceIdentifier = XmlUtility.GetIdentifierRef(manifestItem);
 
                 if (ResourceManager.Resources.ContainsKey(resourceIdentifier))
                 {
-                    Store(parentID, organizationID, XmlUtility.GetNode(item, "ns:title").InnerText, ResourceManager.Resources[resourceIdentifier]);
+                    Store(parentID, organizationID, XmlUtility.GetNode(manifestItem, "ns:title").InnerText,
+                          ResourceManager.Resources[resourceIdentifier], XmlUtility.GetNodeById(answerItems, XmlUtility.GetIdentifier(manifestItem)));
                 }
             }
         }
@@ -41,16 +50,37 @@ namespace IUDICO.DataModel.ImportManagers
         /// <param name="organizationID">Organization ID to which this item belongs</param>
         /// <param name="title">Title of this item received from "title" tag</param>
         /// <param name="resourceID">Resource to which this item is linked</param>
+        /// <param name="item">XmlNode represents *item* tag in answers file with rank tag</param>
         /// <returns>ID of the stored item</returns>
-        private static int Store(int? pid, int organizationID, string title, int? resourceID)
+        private static int Store(int? pid, int organizationID, string title, int? resourceID, XmlNode item)
         {
+            int? totalRank = null;
+            if(item!=null)
+            {
+                XmlNodeList questions = XmlUtility.GetNodes(item, "question");
+                totalRank = 0;
+                foreach (XmlNode question in questions)
+                {
+                  int rank = 0;
+                  if (int.TryParse(XmlUtility.GetNode(question, "rank").InnerText, out rank))
+                  {
+                    totalRank += rank;
+                  }
+                  else
+                  {
+                    throw new Exception("Cannot get rank for item");
+                  }
+                }
+            }
+
             TblItems t = new TblItems
             {
                 PID = pid,
                 OrganizationRef = organizationID,
                 Title = title,
                 IsLeaf = resourceID != null,
-                ResourceRef = resourceID
+                ResourceRef = resourceID,
+                Rank = totalRank
             };
 
             ServerModel.DB.Insert(t);

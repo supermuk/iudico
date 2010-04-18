@@ -20,10 +20,17 @@ namespace IUDICO.DataModel.ImportManagers
             {
                 throw new Exception("No imsmanifest.xml file found");
             }
+            if(!File.Exists(projectPaths.PathToAnswerXml))
+            {
+                throw new Exception("No answers.xml file found");
+            }
 
             // load manifest
             XmlDocument imsmanifest = new XmlDocument();
             imsmanifest.Load(projectPaths.PathToManifestXml);
+            // load answers
+            XmlDocument answers = new XmlDocument();
+            answers.Load(projectPaths.PathToAnswerXml);
 
             // store the course in db
             int courseID = Store(name, description);
@@ -36,10 +43,15 @@ namespace IUDICO.DataModel.ImportManagers
             }
 
             string ManifestPath = Path.Combine(CoursePath, "imsmanifest.xml");
+            string AnswersPath = Path.Combine(CoursePath, "answers.xml");
 
             if (!File.Exists(ManifestPath))
             {
                 File.Copy(projectPaths.PathToManifestXml, ManifestPath);
+            }
+            if (!File.Exists(AnswersPath))
+            {
+              File.Copy(projectPaths.PathToAnswerXml, AnswersPath);
             }
 
             XmlNodeList resources = XmlUtility.GetNodes(imsmanifest.DocumentElement, "/ns:manifest/ns:resources/ns:resource");
@@ -49,12 +61,14 @@ namespace IUDICO.DataModel.ImportManagers
                 ResourceManager.ParseResource(projectPaths, courseID, resource);
             }
 
-            // import list of <organization> elements
-            XmlNodeList organizations = XmlUtility.GetNodes(imsmanifest.DocumentElement, "/ns:manifest/ns:organizations/ns:organization");
-            
-            foreach (XmlNode node in organizations)
+            // import list of <organization> elements in imsmanifest.xml
+            XmlNodeList organizationList = XmlUtility.GetNodes(imsmanifest.DocumentElement, "/ns:manifest/ns:organizations/ns:organization");
+            // import list of <organization> elements in answers.xml
+            XmlNodeList answerList = XmlUtility.GetNodes(answers.DocumentElement, "/answers/organization");
+
+            foreach (XmlNode node in organizationList)
             {
-                OrganizationManager.Import(node, courseID);
+                OrganizationManager.Import(node, XmlUtility.GetNodeById(answerList, XmlUtility.GetIdentifier(node)), courseID);
             }
 
             return courseID;

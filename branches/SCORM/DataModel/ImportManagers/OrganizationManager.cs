@@ -5,22 +5,31 @@ using System.Text;
 using System.Xml;
 using IUDICO.DataModel.Common.ImportUtils;
 using IUDICO.DataModel.DB;
+using IUDICO.DataModel.DB.Base;
 
 namespace IUDICO.DataModel.ImportManagers
 {
     public class OrganizationManager
     {
-        public static int Import(XmlNode organization, int courseID)
+        /// <summary>
+        /// Import organization from XmlNodes
+        /// </summary>
+        /// <param name="imsmanifestOrganization">Organization in imsmanifest.xml</param>
+        /// <param name="answersOrganization">Same organization(rank and questions) in answers.xml</param>
+        /// <param name="courseID"></param>
+        /// <returns></returns>
+        public static int Import(XmlNode manifestXmlOrganization, XmlNode answersXmlOrganization, int courseID)
         {
             // store organization in db
-            int organizationID = Store(courseID, XmlUtility.GetNode(organization, "ns:title").InnerText);
+            int organizationID = Store(courseID, XmlUtility.GetNode(manifestXmlOrganization, "ns:title").InnerText);
 
             // import list of <item>
-            XmlNodeList items = XmlUtility.GetNodes(organization, "ns:item");
+            XmlNodeList manifestItems = XmlUtility.GetNodes(manifestXmlOrganization, "ns:item");
+            XmlNodeList answerItems = XmlUtility.GetNodes(answersXmlOrganization, "item");
 
-            foreach (XmlNode node in items)
+            foreach (XmlNode node in manifestItems)
             {
-                ItemManager.Import(node, organizationID, null);
+                ItemManager.Import(node, answerItems, organizationID, null);
             }
 
             return organizationID;
@@ -37,6 +46,20 @@ namespace IUDICO.DataModel.ImportManagers
             ServerModel.DB.Insert(t);
 
             return t.ID;
+        }
+
+        private static int GetRank(int organizationID)
+        {
+            int result=0;
+            List<TblItems> items = ServerModel.DB.Query<TblItems>(new CompareCondition<int>(DataObject.Schema.OrganizationRef, new ValueCondition<int>(organizationID), COMPARE_KIND.EQUAL));
+            foreach(TblItems item in items)
+            {
+              if(item.Rank!=null)
+              {
+                result += (int) item.Rank;
+              }
+            }
+            return result;
         }
     }
 }

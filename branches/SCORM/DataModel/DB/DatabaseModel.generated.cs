@@ -117,9 +117,6 @@ namespace IUDICO.DataModel.DB
     partial void InsertTblResources(TblResources instance);
     partial void UpdateTblResources(TblResources instance);
     partial void DeleteTblResources(TblResources instance);
-    partial void InsertTblSettings(TblSettings instance);
-    partial void UpdateTblSettings(TblSettings instance);
-    partial void DeleteTblSettings(TblSettings instance);
     partial void InsertTblStages(TblStages instance);
     partial void UpdateTblStages(TblStages instance);
     partial void DeleteTblStages(TblStages instance);
@@ -4870,6 +4867,8 @@ namespace IUDICO.DataModel.DB
 		
 		private int _SysState;
 		
+		private System.Nullable<int> _Rank;
+		
 		private EntityRef<TblItems> _TblItems_tblItems;
 		
 		private EntitySet<TblItems> _TblItems_tblItems1;
@@ -4898,6 +4897,8 @@ namespace IUDICO.DataModel.DB
     partial void OnIsLeafChanged();
     partial void OnSysStateChanging(int value);
     partial void OnSysStateChanged();
+    partial void OnRankChanging(System.Nullable<int> value);
+    partial void OnRankChanged();
     #endregion
 		
 		public TblItems()
@@ -5058,6 +5059,26 @@ namespace IUDICO.DataModel.DB
 					this._SysState = value;
 					this.SendPropertyChanged("SysState");
 					this.OnSysStateChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_Rank", DbType="Int")]
+		public System.Nullable<int> Rank
+		{
+			get
+			{
+				return this._Rank;
+			}
+			set
+			{
+				if ((this._Rank != value))
+				{
+					this.OnRankChanging(value);
+					this.SendPropertyChanging();
+					this._Rank = value;
+					this.SendPropertyChanged("Rank");
+					this.OnRankChanged();
 				}
 			}
 		}
@@ -8374,10 +8395,8 @@ namespace IUDICO.DataModel.DB
 	}
 	
 	[Table(Name="dbo.tblSettings")]
-	public partial class TblSettings : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class TblSettings
 	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private int _ID;
 		
@@ -8385,24 +8404,13 @@ namespace IUDICO.DataModel.DB
 		
 		private string _Value;
 		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIDChanging(int value);
-    partial void OnIDChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnValueChanging(string value);
-    partial void OnValueChanged();
-    #endregion
+		private short _SysState;
 		
 		public TblSettings()
 		{
-			OnCreated();
 		}
 		
-		[Column(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		[Column(Storage="_ID", AutoSync=AutoSync.Always, DbType="Int NOT NULL IDENTITY", IsDbGenerated=true)]
 		public int ID
 		{
 			get
@@ -8413,11 +8421,7 @@ namespace IUDICO.DataModel.DB
 			{
 				if ((this._ID != value))
 				{
-					this.OnIDChanging(value);
-					this.SendPropertyChanging();
 					this._ID = value;
-					this.SendPropertyChanged("ID");
-					this.OnIDChanged();
 				}
 			}
 		}
@@ -8433,11 +8437,7 @@ namespace IUDICO.DataModel.DB
 			{
 				if ((this._Name != value))
 				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
 					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
 				}
 			}
 		}
@@ -8453,32 +8453,24 @@ namespace IUDICO.DataModel.DB
 			{
 				if ((this._Value != value))
 				{
-					this.OnValueChanging(value);
-					this.SendPropertyChanging();
 					this._Value = value;
-					this.SendPropertyChanged("Value");
-					this.OnValueChanged();
 				}
 			}
 		}
 		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
+		[Column(Name="sysState", Storage="_SysState", DbType="SmallInt NOT NULL")]
+		public short SysState
 		{
-			if ((this.PropertyChanging != null))
+			get
 			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
+				return this._SysState;
 			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
+			set
 			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+				if ((this._SysState != value))
+				{
+					this._SysState = value;
+				}
 			}
 		}
 	}
