@@ -10,11 +10,10 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
     <asp:TextBox ID="_searchQuery" runat="server"></asp:TextBox>
-<p style="height: 45px">
-    <asp:Button ID="Button1" runat="server" Text="Search" />
-<p style="height: 45px">
-    <asp:ListBox ID="_resultsListBox" runat="server"></asp:ListBox>
-    <asp:Button ID="_openResult" runat="server" Text="Open" />
-
+    <p style="height: 45px">
+        <asp:Button ID="Button1" runat="server" Text="Search" />
+    <p style="height: 45px">
+        <asp:ListBox ID="_resultsListBox" runat="server"></asp:ListBox>
+        <asp:Button ID="_openResult" runat="server" Text="Open" />
 </asp:Content>
 
