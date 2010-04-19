@@ -30,8 +30,9 @@ namespace IUDICO.DataModel.Controllers
 
         public void Button1_Click(object sender, EventArgs e)
         {
+            string result = "";
+            string score = "";
             ResultsListBox.Visible = true;
-            //Open.Visible = true;
             this.ResultsListBox.Items.Clear();
             if (this.SearchQuery1.Text.ToString() != "")
             {
@@ -47,9 +48,19 @@ namespace IUDICO.DataModel.Controllers
                     XmlNodeList nodes = xmlDoc.SelectNodes("/response/result/doc");
                     foreach (XmlNode node in nodes)
                     {
+                        result = "";
+                        //XmlNodeList scoreNode = node.SelectNodes("/response/result/doc/float");
                         XmlNodeList docNodes = node.SelectNodes("str");
                         string docName = "";
                         string docId = "";
+                        //foreach (XmlNode floatNode in scoreNode)
+                        //{
+                        //    MessageBox.Show("hh");
+                        //    if (floatNode.Attributes["name"].Value == "score")
+                        //    {
+                        //        score = floatNode.InnerText;
+                        //    }
+                        //}
                         foreach (XmlNode strNode in docNodes)
                         {
                             if (strNode.Attributes["name"].Value == "name")
@@ -61,7 +72,11 @@ namespace IUDICO.DataModel.Controllers
                                docId = strNode.InnerText;
                             }
                         }
-                        this.ResultsListBox.Items.Add(new ListItem(docName,docId));
+                        var stages = ServerModel.DB.Load<TblCourses>(Int32.Parse(docId));
+                        string name = stages.Description;
+                        result = (i + 1).ToString() + ". " + docName;
+                        this.ResultsListBox.Items.Add(new ListItem(result,docId));
+                        this.ResultsListBox.Items.Add("____Description: " + name);
                         i++;
                     }
                     if (i != 0)
