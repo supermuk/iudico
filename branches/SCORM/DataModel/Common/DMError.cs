@@ -3,6 +3,9 @@ using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.Common
 {
+    /// <summary>
+    /// Data Model Errors
+    /// </summary>
     public class DMError : ApplicationException
     {
         public DMError([NotNull] string errorMessage)

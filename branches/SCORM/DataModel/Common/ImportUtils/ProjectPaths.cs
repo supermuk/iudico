@@ -3,6 +3,9 @@ using System.IO;
 
 namespace IUDICO.DataModel.Common.ImportUtils
 {
+    /// <summary>
+    /// Constants of necessary pathes to files
+    /// </summary>
     public class ProjectPaths
     {
         public string PathToManifestXml;

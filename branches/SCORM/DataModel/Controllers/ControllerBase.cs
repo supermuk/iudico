@@ -15,6 +15,9 @@ namespace IUDICO.DataModel.Controllers
     {
     }
 
+    /// <summary>
+    /// Base Controller class
+    /// </summary>
     public abstract class ControllerBase
     {
         [ControllerParameter]

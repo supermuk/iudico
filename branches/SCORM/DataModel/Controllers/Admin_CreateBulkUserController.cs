@@ -8,6 +8,9 @@ using LEX.CONTROLS.Expressions;
 
 namespace IUDICO.DataModel.Controllers
 {
+    /// <summary>
+    /// Controller for CreateBulkUser.aspx page
+    /// </summary>
     public class Admin_CreateBulkUserController : ControllerBase
     {
         [PersistantField]

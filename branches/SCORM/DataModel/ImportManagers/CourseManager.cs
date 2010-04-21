@@ -9,6 +9,9 @@ using IUDICO.DataModel.Common;
 
 namespace IUDICO.DataModel.ImportManagers
 {
+    /// <summary>
+    /// Class to work with courses
+    /// </summary>
     public class CourseManager
     {
         public static int Import(ProjectPaths projectPaths, string name, string description)

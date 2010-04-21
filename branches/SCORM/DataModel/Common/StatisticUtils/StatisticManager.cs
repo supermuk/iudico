@@ -9,6 +9,9 @@ using IUDICO.DataModel.Security;
 
 namespace IUDICO.DataModel.Common.StatisticUtils
 {
+    /// <summary>
+    /// Constants of necessary types of courses pages
+    /// </summary>
     public class StatisticManager
     {
         /*

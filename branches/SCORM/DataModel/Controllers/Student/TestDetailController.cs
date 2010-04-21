@@ -11,6 +11,9 @@ using LEX.CONTROLS.Expressions;
 
 namespace IUDICO.DataModel.Controllers.Student
 {
+    /// <summary>
+    /// Controller for TestDetails.aspx page
+    /// </summary>
     public class TestDetailsController : ControllerBase
     {
         public Panel PageContent { get; set; }

@@ -2,6 +2,9 @@ namespace IUDICO.DataModel.Common.ImportUtils
 {
     public sealed class XmlAttributes
     {
+        /// <summary>
+        /// Constants of necessary xml attributes
+        /// </summary>
         public static readonly string Id = "id";
         public static readonly string Identifier = "identifier";
         public static readonly string Answer = "answer";

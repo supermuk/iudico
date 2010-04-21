@@ -2,6 +2,9 @@ using System.Xml;
 
 namespace IUDICO.DataModel.Common.ImportUtils
 {
+    /// <summary>
+    /// Constants of to work with xml file (manifest.xml etc)
+    /// </summary>
     public sealed class XmlUtility
     {
         public static bool IsChapter(XmlNode node)

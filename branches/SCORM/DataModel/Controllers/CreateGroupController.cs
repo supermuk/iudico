@@ -4,6 +4,9 @@ using IUDICO.DataModel.Security;
 
 namespace IUDICO.DataModel.Controllers
 {
+    /// <summary>
+    /// Controller for CreateGroup.aspx page
+    /// </summary>
     public class CreateGroupController : ControllerBase
     {
         public int Create(string name)

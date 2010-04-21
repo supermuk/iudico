@@ -7,6 +7,9 @@ using LEX.CONTROLS.Expressions;
 
 namespace IUDICO.DataModel.Controllers
 {
+    /// <summary>
+    /// Controller for CurriculumTimeline.aspx page
+    /// </summary>
     public class CurriculumTimelineController : BaseTeacherController
     {
         public System.Web.UI.WebControls.TreeView CurriculumTree { get; set; }

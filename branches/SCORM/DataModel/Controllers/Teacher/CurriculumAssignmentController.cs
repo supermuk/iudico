@@ -7,6 +7,9 @@ using System.Web.UI.WebControls;
 
 namespace IUDICO.DataModel.Controllers
 {
+    /// <summary>
+    /// Controller for CurriculumAssignment.aspx page
+    /// </summary>
     public class CurriculumAssignmentController : BaseTeacherController
     {
         public IVariable<bool> MainTableVisible = true.AsVariable();

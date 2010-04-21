@@ -7,6 +7,9 @@ using System;
 
 namespace IUDICO.DataModel.Controllers
 {
+    /// <summary>
+    /// Controller for CourseDeleteConfirmation.aspx page
+    /// </summary>
     public class CourseDeleteConfirmationController : BaseTeacherController
     {
         [ControllerParameter]

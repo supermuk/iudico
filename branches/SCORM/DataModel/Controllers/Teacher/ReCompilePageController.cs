@@ -12,6 +12,9 @@ using LEX.CONTROLS.Expressions;
 
 namespace IUDICO.DataModel.Controllers.Teacher
 {
+    /// <summary>
+    /// Controller for ReCompilationPage.aspx page
+    /// </summary>
     public class ReCompilePageController : ControllerBase
     {
         public readonly IVariable<string> Description = string.Empty.AsVariable();

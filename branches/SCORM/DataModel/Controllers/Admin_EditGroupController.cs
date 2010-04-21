@@ -6,6 +6,9 @@ using LEX.CONTROLS.Expressions;
 
 namespace IUDICO.DataModel.Controllers
 {
+    /// <summary>
+    /// Controller for EditGroup.aspx page
+    /// </summary>
     public class Admin_EditGroupController : ControllerBase
     {
         [ControllerParameter]

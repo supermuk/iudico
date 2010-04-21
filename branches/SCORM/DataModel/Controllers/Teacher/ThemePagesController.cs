@@ -8,6 +8,9 @@ using LEX.CONTROLS.Expressions;
 
 namespace IUDICO.DataModel.Controllers.Teacher
 {
+    /// <summary>
+    /// Controller for  ThemePages.aspx page
+    /// </summary>
     public class ThemePagesController : ControllerBase
     {
         [ControllerParameter]

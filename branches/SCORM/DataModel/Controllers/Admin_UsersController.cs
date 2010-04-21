@@ -7,6 +7,9 @@ using LEX.CONTROLS.Expressions;
 
 namespace IUDICO.DataModel.Controllers
 {
+    /// <summary>
+    /// Controller for Users.aspx page
+    /// </summary>
     public class Admin_UsersController : ControllerBase
     {
         [PersistantField]

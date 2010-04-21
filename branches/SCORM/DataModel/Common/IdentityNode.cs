@@ -6,6 +6,9 @@ namespace IUDICO.DataModel.Common
 {
     public enum NodeType { Curriculum, Stage, Theme, Course, Organization };
 
+    /// <summary>
+    /// Node for course tree
+    /// </summary>
     public class IdendtityNode : TreeNode
     {
         int id;

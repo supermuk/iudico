@@ -9,6 +9,9 @@ using System.IO;
 
 namespace IUDICO.DataModel.ImportManagers
 {
+    /// <summary>
+    /// Class to work with resources
+    /// </summary>
     public class ResourceManager
     {
         private static Dictionary<string, int> resources = new Dictionary<string, int>();

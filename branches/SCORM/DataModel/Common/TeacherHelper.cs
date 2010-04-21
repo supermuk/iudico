@@ -9,6 +9,9 @@ using System.Collections;
 
 namespace IUDICO.DataModel.Common
 {
+    /// <summary>
+    /// Class to retrive data (bind to Teacher) from database
+    /// </summary>
     public static class TeacherHelper
     {
         public static IList<TblCourses> CurrentUserCourses(FxCourseOperations operation)

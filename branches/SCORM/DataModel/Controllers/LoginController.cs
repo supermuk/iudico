@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace IUDICO.DataModel.Controllers
 {
+    /// <summary>
+    /// Controller for Login.aspx page
+    /// </summary>
     public class LoginController : ControllerBase
     {
         public void Authenticate(object sender, AuthenticateEventArgs e)
@@ -66,6 +69,8 @@ namespace IUDICO.DataModel.Controllers
                 ServerModel.DB.SubmitChanges();
                 return computer.ID;
             }
+
+            //return 0;
         }
     }
 }
