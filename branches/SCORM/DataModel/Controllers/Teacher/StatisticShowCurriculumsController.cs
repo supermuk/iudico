@@ -67,12 +67,12 @@ namespace IUDICO.DataModel.Controllers
                 if (ids[i] > 0)
                 {
                     curriculums.Add(ServerModel.DB.Load<TblCurriculums>(ids[i]));
-                    tmp_curriculums += curriculums[i].Name + ",";
+                    if(i < ids.Count-1)tmp_curriculums += curriculums[i].Name + ",";
+                    if (i == ids.Count - 1) tmp_curriculums += curriculums[i].Name + " ";
                 }
             }
 
-            if (tmp_curriculums.Length > 0)
-                tmp_curriculums.Replace(tmp_curriculums[tmp_curriculums.Length - 1], ' ');
+           
 
             Caption.Value = pageCaption;
             Description.Value = pageDescription.
@@ -135,21 +135,28 @@ namespace IUDICO.DataModel.Controllers
 
                 studentRow.Cells.Add(studentCell);
 
-                int pasedCurriculums = 0;
-                int totalCurriculums = 0;
+                double pasedCurriculums = 0;
+                double totalCurriculums = 0;
                 foreach (TblCurriculums curr in curriculums)
                 {
-                    int pasedCurriculum = 0;
-                    int totalCurriculum = 0;
+                    double pasedCurriculum = 0;
+                    double totalCurriculum = 0;
                     foreach (TblStages stage in TeacherHelper.StagesOfCurriculum(curr))
                     {
                         foreach (TblThemes theme in TeacherHelper.ThemesOfStage(stage))
                         {
-                            int result = 0;
-                            int totalresult = 0;
+                            double result = 0;
+                            double totalresult = 0;
+                            bool islearnerattempt = false;
+                            TblOrganizations organization;
+                            organization = ServerModel.DB.Load<TblOrganizations>(theme.OrganizationRef);
+                            foreach (TblItems items in TeacherHelper.ItemsOfOrganization(organization))
+                            {
+                                totalresult += Convert.ToDouble(items.Rank);
+                            }
                             foreach (TblLearnerAttempts attempt in TeacherHelper.AttemptsOfTheme(theme))
                             {
-
+                                if (attempt != null) islearnerattempt = true;
                                 if (attempt.ID == TeacherHelper.GetLastLearnerAttempt(student.ID, theme.ID))
                                     foreach (TblLearnerSessions session in TeacherHelper.SessionsOfAttempt(attempt))
                                     {
@@ -159,12 +166,13 @@ namespace IUDICO.DataModel.Controllers
 
                                         for (int i = 0, j = 0; i < int.Parse(cmiDataModel.GetValue("interactions._count")); i++)
                                         {
-                                            totalresult += 1;
+                                           
                                             for (; j < interactionsCollection.Count && i == interactionsCollection[j].Number; j++)
                                             {
                                                 if (interactionsCollection[j].Name == "result")
                                                 {
-                                                    if (interactionsCollection[j].Value == "correct") result += 1;
+                                                    TblItems itm = ServerModel.DB.Load<TblItems>(session.ItemRef);
+                                                    if (interactionsCollection[j].Value == "correct") result += Convert.ToDouble(itm.Rank);
                                                 }
                                             }
 
@@ -206,6 +214,7 @@ namespace IUDICO.DataModel.Controllers
                 };
                 studentRow.Cells.Add(studentCell);
                 StatisticTable.Rows.Add(studentRow);
+                StatisticTable.HorizontalAlign = HorizontalAlign.Center;
             }
 
             if (StatisticTable.Rows.Count == 1)

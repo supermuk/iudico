@@ -136,8 +136,17 @@ namespace IUDICO.DataModel.Controllers
                     {
                         double result = 0;
                         double totalresult = 0;
+                        bool islearnerattempt = false;
+                        TblOrganizations organization;
+                        organization= ServerModel.DB.Load<TblOrganizations>(theme.OrganizationRef);
+                        foreach(TblItems items in TeacherHelper.ItemsOfOrganization(organization))
+                        {
+                            totalresult +=Convert.ToDouble(items.Rank);
+                        }
+                       
                         foreach (TblLearnerAttempts attempt in TeacherHelper.AttemptsOfTheme(theme))
                         {
+                          if(attempt != null)  islearnerattempt = true;
                             if (attempt.ID == TeacherHelper.GetLastLearnerAttempt(student.ID, theme.ID))
                                 foreach (TblLearnerSessions session in TeacherHelper.SessionsOfAttempt(attempt))
                                 {
@@ -146,12 +155,12 @@ namespace IUDICO.DataModel.Controllers
 
                                     for (int i = 0, j = 0; i < int.Parse(cmiDataModel.GetValue("interactions._count")); i++)
                                     {
-                                        totalresult += 1;
                                         for (; j < interactionsCollection.Count && i == interactionsCollection[j].Number; j++)
                                         {
                                             if (interactionsCollection[j].Name == "result")
                                             {
-                                                if (interactionsCollection[j].Value == "correct") result += 1;
+                                                TblItems itm = ServerModel.DB.Load<TblItems>(session.ItemRef);
+                                                if (interactionsCollection[j].Value == "correct") result += Convert.ToDouble(itm.Rank);
                                             }
                                         }
 
@@ -160,11 +169,17 @@ namespace IUDICO.DataModel.Controllers
                         }
 
 
-                        studentCell = new TableCell { HorizontalAlign = HorizontalAlign.Center };
+                       
+                        string attmpt = "";
+                        if (islearnerattempt == true)
+                        {
+                            attmpt = "(" + TeacherHelper.GetLastIndexOfAttempts(student.ID, theme.ID).ToString() + " attempt )";
+                        }
 
+                        studentCell = new TableCell { HorizontalAlign = HorizontalAlign.Center };
                         studentCell.Controls.Add(new HyperLink
                         {
-                            Text = result + "/" + totalresult,
+                            Text = result + "/" + totalresult + attmpt,
                             NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new ThemeResultController
                             {
                                 BackUrl = string.Empty,
@@ -173,8 +188,9 @@ namespace IUDICO.DataModel.Controllers
                             })
                         });
 
-                        if (totalresult == 0)
+                        if (islearnerattempt == false)
                         {
+                            studentCell.Enabled = false;
                             studentCell.BackColor = Color.Yellow;
                         }
                         else studentCell.BackColor = Color.YellowGreen;
@@ -197,7 +213,7 @@ namespace IUDICO.DataModel.Controllers
                 if (totalCurriculum != 0)
                     temp_total = pasedCurriculum / totalCurriculum * 100;
                 else temp_total = 0;
-                studentCell.Text = (temp_total).ToString();
+                studentCell.Text = (temp_total).ToString("F2");
                 studentRow.Cells.Add(studentCell);
                 studentCell = new TableCell { HorizontalAlign = HorizontalAlign.Center };
                 studentCell.Text = TeacherHelper.ECTS_code(temp_total);
