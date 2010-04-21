@@ -35,7 +35,7 @@ namespace IUDICO.DataModel.Common
             var ats = target.GetCustomAttributes(typeof (T), true);
             if (ats.Length > 1)
             {
-                throw new InvalidOperationException("Too many attributes");
+                throw new InvalidOperationException(Translations.Utils_TryGetAtr_Too_many_attributes);
             }
             if (ats.Length == 0)
             {

@@ -24,7 +24,7 @@ namespace IUDICO.DataModel.Common
             }
             else
             {
-                throw new Exception("Requested variable is not supported");
+                throw new Exception(Translations.LnuDataModel_GetValue_Requested_variable_is_not_supported);
             }
         }
 
@@ -43,7 +43,7 @@ namespace IUDICO.DataModel.Common
 
                 if (setting == null)
                 {
-                    throw new Exception("Requested variable is not supported");
+                    throw new Exception(Translations.LnuDataModel_GetValue_Requested_variable_is_not_supported);
                 }
 
                 setting.Value = value;
@@ -54,7 +54,7 @@ namespace IUDICO.DataModel.Common
             }
             else
             {
-                throw new Exception("Requested variable is not supported");
+                throw new Exception(Translations.LnuDataModel_GetValue_Requested_variable_is_not_supported);
             }
         }
     }

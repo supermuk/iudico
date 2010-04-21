@@ -24,7 +24,7 @@ namespace IUDICO.DataModel.Common
             }
             else
             {
-                throw new KeyNotFoundException(string.Format("Object {0} with ID {1} not found in the Cache", typeof(T).Name, id));
+                throw new KeyNotFoundException(string.Format(Translations.CacheUtility_Get_Object__0__with_ID__1__not_found_in_the_Cache, typeof(T).Name, id));
             }
         }
 

@@ -38,7 +38,7 @@ namespace IUDICO.DataModel.Common.Cmi
             {
                 return GetVariable(path);
             }
-            throw new NotSupportedException("Requested variable is not supported");
+            throw new NotSupportedException(Translations.Score_GetValue_Requested_variable_is_not_supported);
         }
 
         public override int SetValue(string path, string value)
@@ -47,7 +47,7 @@ namespace IUDICO.DataModel.Common.Cmi
 
             if (path == "_children")
             {
-                throw new Exception("Requested variable is read-only");
+                throw new Exception(Translations.Score_SetValue_Requested_variable_is_read_only);
             }
             else if (elements.ContainsKey(path) &&  double.TryParse(value, out _value) )
             {
@@ -55,14 +55,14 @@ namespace IUDICO.DataModel.Common.Cmi
                 return SetVariable(path, value);
             }
 
-            throw new NotSupportedException("Requested variable is not supported");
+            throw new NotSupportedException(Translations.Score_GetValue_Requested_variable_is_not_supported);
         }
 
         protected string GetVariable(string name)
         {
             if (elements[name].Read == false)
             {
-                throw new Exception("Requested variable is write-only");
+                throw new Exception(Translations.Score_GetVariable_Requested_variable_is_write_only);
             }
 
             List<TblVarsScore> list = ServerModel.DB.Query<TblVarsScore>(
@@ -88,7 +88,7 @@ namespace IUDICO.DataModel.Common.Cmi
         {
              if (elements[name].Write == false)
             {
-                throw new Exception("Requested variable is read-only");
+                throw new Exception(Translations.Score_SetValue_Requested_variable_is_read_only);
             }
 
              List<TblVarsScore> list = ServerModel.DB.Query<TblVarsScore>(

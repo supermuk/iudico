@@ -130,12 +130,12 @@ namespace IUDICO.DataModel.Controllers.Student
         {
             if (TestType == (int) TestSessionType.UserAnswer)
             {
-                return "User Answers";
+                return Translations.TestDetailsController_GetPageTitleType_User_Answers;
             }
 
             if (TestType == (int)TestSessionType.CorrectAnswer)
             {
-                return "Correct Answers";
+                return Translations.TestDetailsController_GetPageTitleType_Correct_Answers;
             }
             return "";
         }
