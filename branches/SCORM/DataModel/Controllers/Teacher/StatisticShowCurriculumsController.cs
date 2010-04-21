@@ -25,11 +25,11 @@ namespace IUDICO.DataModel.Controllers
         TblGroups group;
 
         //"magic words"
-        private const string pageCaption = "Statistic.";
-        private const string pageDescription = "This is statisic for group: {0} based on curriculums: {1}.";
-        private const string studentStr = "Student";
-        private const string totalStr = "Total";
-        private const string noStudents = "Theare are no students in this group.";
+        private readonly string pageCaption = Translations.StatisticShowCurriculumsController_pageCaption_Statistic_;
+        private readonly string pageDescription = Translations.StatisticShowCurriculumsController_pageDescription_This_is_statisic_for_group___0__based_on_curriculums___1__;
+        private readonly string studentStr = Translations.StatisticShowCurriculumsController_studentStr_Student;
+        private readonly string totalStr = Translations.StatisticShowCurriculumsController_totalStr_Total;
+        private readonly string noStudents = Translations.StatisticShowCurriculumsController_noStudents_Theare_are_no_students_in_this_group_;
 
         public Label NotifyLabel { get; set; }
         public Table StatisticTable { get; set; }

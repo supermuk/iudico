@@ -15,9 +15,9 @@ namespace IUDICO.DataModel.Controllers
         private TblCourses course;
 
         //"magic words"
-        private const string pageCaption = "Deleting course: {0}.";
-        private const string pageDescription = "You want to delete course: {0}. This course is used in next objects:";
-        private const string noneMessage = "None.";
+        private readonly string pageCaption = Translations.CourseDeleteConfirmationController_pageCaption_Deleting_course___0__;
+        private readonly string pageDescription = Translations.CourseDeleteConfirmationController_pageDescription_You_want_to_delete_course___0___This_course_is_used_in_next_objects_;
+        private readonly string noneMessage = Translations.CourseDeleteConfirmationController_noneMessage_None_;
 
         public override void Loaded()
         {
@@ -46,9 +46,9 @@ namespace IUDICO.DataModel.Controllers
         public DataTable GetDependencies()
         {
             DataTable dependenciesData = new DataTable();
-            dependenciesData.Columns.Add("Theme");
-            dependenciesData.Columns.Add("is used in Curriculum");
-            dependenciesData.Columns.Add("by");
+            dependenciesData.Columns.Add(Translations.CourseDeleteConfirmationController_GetDependencies_Theme);
+            dependenciesData.Columns.Add(Translations.CourseDeleteConfirmationController_GetDependencies_is_used_in_Curriculum);
+            dependenciesData.Columns.Add(Translations.CourseDeleteConfirmationController_GetDependencies_by);
             
             foreach (TblThemes Theme in TeacherHelper.ThemesOfCourse(course))
             {   

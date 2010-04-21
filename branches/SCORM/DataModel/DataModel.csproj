@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F7A3C8E8-7545-4D92-8FF5-0927B4D845EF}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -258,6 +258,11 @@
     <Compile Include="Security\CustomUser.cs" />
     <Compile Include="Security\PermissionsManager.cs" />
     <Compile Include="ServerModel.cs" />
+    <Compile Include="Translations.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Translations.resx</DependentUpon>
+    </Compile>
     <Compile Include="UserControlBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -283,6 +288,13 @@
       <Project>{498A9F11-9290-46D8-AFAF-32CC14C7FDDE}</Project>
       <Name>TestingSystem</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Translations.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Translations.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HttpHandlers\" />

@@ -43,7 +43,7 @@ namespace IUDICO.DataModel.Controllers
         {
             if (RedirectUrl.IsNotNull())
             {
-                throw new DMError("Already redirected");
+                throw new DMError(Translations.ControllerBase_RedirectToController_Already_redirected);
             }
             RedirectUrl = ServerModel.Forms.BuildRedirectUrl(c);
         }
@@ -52,7 +52,7 @@ namespace IUDICO.DataModel.Controllers
         {
             if (RedirectUrl.IsNotNull())
             {
-                throw new DMError("Already redirected");
+                throw new DMError(Translations.ControllerBase_RedirectToController_Already_redirected);
             }
             RedirectUrl = url;
         }
@@ -81,7 +81,7 @@ namespace IUDICO.DataModel.Controllers
                         __ControllerParameters.Add(field.Name, al);
                     }
                     else
-                        throw new DMError("Type {0} cannot be specified for controller parameter", mt.FullName);
+                        throw new DMError(Translations.ControllerParametersUtility_ControllerParametersUtility_Type__0__cannot_be_specified_for_controller_parameter, mt.FullName);
                 }
             }
         }

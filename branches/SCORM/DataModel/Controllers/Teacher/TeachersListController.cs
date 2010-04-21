@@ -22,14 +22,14 @@ namespace IUDICO.DataModel.Controllers
         public Table CanBeSharedTeachers { get; set; }
 
         //"magic words"
-        private const string pageCaption = "Share of {0}: {1}.";
-        private const string courseStr = "course";
-        private const string curriculumStr = "curriculum";
-        private const string pageDescription = "Here you can share {0}: {1} to another teachers, or edit previously done share.";
-        private const string noTeachers = "Nobody.";
-        private const string grantedObject = "{0} granted you permission to {1} this {2}";
-        private const string ownObject = "This {0} is your own so you can {1} it.";
-        private const string breakLine = "<br>";
+        private readonly string pageCaption = Translations.TeachersListController_pageCaption_Share_of__0____1__;
+        private readonly string courseStr = Translations.TeachersListController_courseStr_course;
+        private readonly string curriculumStr = Translations.TeachersListController_curriculumStr_curriculum;
+        private readonly string pageDescription = Translations.TeachersListController_pageDescription_Here_you_can_share__0____1__to_another_teachers__or_edit_previously_done_share_;
+        private readonly string noTeachers = Translations.TeachersListController_noTeachers_Nobody_;
+        private readonly string grantedObject = Translations.TeachersListController_grantedObject__0__granted_you_permission_to__1__this__2_;
+        private readonly string ownObject = Translations.TeachersListController_ownObject_This__0__is_your_own_so_you_can__1__it_;
+        private readonly string breakLine = "<br>";
         
         public override void Loaded()
         {

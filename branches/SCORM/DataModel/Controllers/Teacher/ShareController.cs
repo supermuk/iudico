@@ -21,11 +21,11 @@ namespace IUDICO.DataModel.Controllers
         private TblUsers teacher;
 
         //"magic words"
-        private const string pageCaption = "Share of {0}: {1} to {2}.";
-        private const string pageDescription = "Here you can share {0}: {1} to {2}, select operations to be shared.";
-        private const string courseStr = "course";
-        private const string curriculumStr = "curriculum";
-        private const string delegateStr = "Allow to delegate this operation.";
+        private readonly string pageCaption = Translations.ShareController_pageCaption_Share_of__0____1__to__2__;
+        private readonly string pageDescription = Translations.ShareController_pageDescription_Here_you_can_share__0____1__to__2___select_operations_to_be_shared_;
+        private readonly string courseStr = Translations.ShareController_courseStr_course;
+        private readonly string curriculumStr = Translations.ShareController_curriculumStr_curriculum;
+        private readonly string delegateStr = Translations.ShareController_delegateStr_Allow_to_delegate_this_operation_;
 
 
         public override void Loaded()

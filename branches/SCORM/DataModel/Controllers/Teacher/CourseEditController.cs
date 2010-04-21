@@ -28,11 +28,11 @@ namespace IUDICO.DataModel.Controllers
         private readonly ProjectPaths projectPaths = new ProjectPaths();
 
         //"magic words"
-        private const string pageCaption = "Course management.";
-        private const string pageDescription = "This is course upload page. Please selected course, specify name and description and upload it.";
-        private const string uploadSucces = "Course was uploaded successfully.";
-        private const string uploadError = "Error occurred during course upload.";
-        private const string fileNotFound = "Specify course path.";
+        private readonly string pageCaption = Translations.CourseEditController_pageCaption_Course_management_;
+        private readonly string pageDescription = Translations.CourseEditController_pageDescription_This_is_course_upload_page__Please_selected_course__specify_name_and_description_and_upload_it_;
+        private readonly string uploadSucces = Translations.CourseEditController_uploadSucces_Course_was_uploaded_successfully_;
+        private readonly string uploadError = Translations.CourseEditController_uploadError_Error_occurred_during_course_upload_;
+        private readonly string fileNotFound = Translations.CourseEditController_fileNotFound_Specify_course_path_;
 
 
         public override void Loaded()

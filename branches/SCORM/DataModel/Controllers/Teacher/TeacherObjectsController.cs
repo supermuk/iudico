@@ -11,10 +11,10 @@ namespace IUDICO.DataModel.Controllers
         public Table CurriculumsTable { get; set; }
 
         //"magic words"
-        private const string pageCaption = "Teacher objects.";
-        private const string pageDescription = "Here are listed all your courses and curriculums. Select object to proceed.";
-        private const string noCourses = "None (Click to upload some)";
-        private const string noCurriculums = "None (Click to create some)";
+        private readonly string pageCaption = Translations.TeacherObjectsController_pageCaption_Teacher_objects_;
+        private readonly string pageDescription = Translations.TeacherObjectsController_pageDescription_Here_are_listed_all_your_courses_and_curriculums__Select_object_to_proceed_;
+        private readonly string noCourses = Translations.TeacherObjectsController_noCourses_None__Click_to_upload_some_;
+        private readonly string noCurriculums = Translations.TeacherObjectsController_noCurriculums_None__Click_to_create_some_;
 
         public override void Loaded()
         {

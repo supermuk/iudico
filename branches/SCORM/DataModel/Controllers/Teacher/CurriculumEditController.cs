@@ -29,13 +29,13 @@ namespace IUDICO.DataModel.Controllers
         public TreeView CurriculumTree { get; set; }
 
         //"magic words"
-        private const string pageCaption = "Curriculum management.";
-        private const string noName = "Please enter the name.";
-        private const string pageDescription = "This is curriculum edit page page. Create/Edit/Delete your curriculum here.";
-        private const string noCourses = "You have no courses, upload some first.";
-        private const string noThemesSelected = "Select some themes to add.";
-        private const string alreadyHaveTheme = "Stage: {0} already contains theme(s) :";
-        private const string noStageName = "Please enter stage name";
+        private readonly string pageCaption = Translations.CurriculumEditController_pageCaption_Curriculum_management_;
+        private readonly string noName = Translations.CurriculumEditController_noName_Please_enter_the_name_;
+        private readonly string pageDescription = Translations.CurriculumEditController_pageDescription_This_is_curriculum_edit_page_page__Create_Edit_Delete_your_curriculum_here_;
+        private readonly string noCourses = Translations.CurriculumEditController_noCourses_You_have_no_courses__upload_some_first_;
+        private readonly string noThemesSelected = Translations.CurriculumEditController_noThemesSelected_Select_some_themes_to_add_;
+        private readonly string alreadyHaveTheme = Translations.CurriculumEditController_alreadyHaveTheme_Stage___0__already_contains_theme_s___;
+        private readonly string noStageName = Translations.CurriculumEditController_noStageName_Please_enter_stage_name;
 
         public override void Loaded()
         {

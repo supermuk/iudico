@@ -59,7 +59,7 @@ namespace IUDICO.DataModel.DB
             SECURED_OBJECT_TYPE res;
             if (!__SecuredTypes.TryGetValue(t, out res))
             {
-                throw new DMError("Could not figure out secured index of {0}. All SecuredDataObject's classes should be added to {1}", t.FullName, typeof(SECURED_OBJECT_TYPE).Name);
+                throw new DMError(Translations.ObjectTypeHelper_GetObjectType_Could_not_figure_out_secured_index_of__0___All_SecuredDataObject_s_classes_should_be_added_to__1_, t.FullName, typeof(SECURED_OBJECT_TYPE).Name);
             }
             return res;            
         }

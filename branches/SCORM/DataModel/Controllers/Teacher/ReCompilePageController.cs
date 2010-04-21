@@ -33,7 +33,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
 
         public void PageLoad(object sender, EventArgs e)
         {
-            Description.Value = "Select Group and Theme that your want to recompile";
+            Description.Value = Translations.ReCompilePageController_PageLoad_Select_Group_and_Theme_that_your_want_to_recompile;
             
             if (!((Page)sender).IsPostBack)
             {
@@ -65,11 +65,11 @@ namespace IUDICO.DataModel.Controllers.Teacher
 
                 ReCompile(answersForReCompilation);
 
-                Description.Value = "ReCompilation is started";
+                Description.Value = Translations.ReCompilePageController_ReCompileButtonClick_ReCompilation_is_started;
             }
             else
             {
-                Description.Value = "Theme not selected !!!";
+                Description.Value = Translations.ReCompilePageController_ReCompileButtonClick_Theme_not_selected____;
             }
         }
 
@@ -160,7 +160,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
             }
             else
             {
-                Description.Value = "No groups avalible";
+                Description.Value = Translations.ReCompilePageController_CreateGroupList_No_groups_avalible;
             }
         }
 
@@ -172,7 +172,7 @@ namespace IUDICO.DataModel.Controllers.Teacher
             {
                 var users = StudentRecordFinder.GetUsersFromGroup(int.Parse(GroupDropDownList.SelectedItem.Value));
 
-                UserDropDownList.Items.Add(new ListItem("All Users From Group", "0"));
+                UserDropDownList.Items.Add(new ListItem(Translations.ReCompilePageController_CreateUserList_All_Users_From_Group, "0"));
 
                 foreach (var u in users)
                     UserDropDownList.Items.Add(new ListItem(u.Login, u.ID.ToString()));

@@ -23,8 +23,8 @@ namespace IUDICO.DataModel.Controllers
         public IVariable<string> Title = string.Empty.AsVariable();
 
         //"magic words"
-        private const string pageCaption = "User personal info";
-        private const string pageDescription = "This is your info page. Here you can change your name, email and password. Look up for your roles and groups.";
+        private readonly string pageCaption = Translations.UserInfoController_pageCaption;
+        private readonly string pageDescription = Translations.UserInfoController_pageDescription_This_is_your_info_page__Here_you_can_change_your_name__email_and_password__Look_up_for_your_roles_and_groups_;
 
         public override void Loaded()
         {

@@ -58,7 +58,7 @@ namespace IUDICO.DataModel.DB.Base
         {
             if (t.GetInterface(typeof(IIntKeyedDataObject).Name) == null)
             {
-                throw new DMError("Class {0} is not support {1} so it cannot take participation in Many-To-Many relationship", t.FullName, typeof(IIntKeyedDataObject).Name);
+                throw new DMError(Translations.ManyToManyRelationshipAttribute_CheckSupport_Class__0__is_not_support__1__so_it_cannot_take_participation_in_Many_To_Many_relationship, t.FullName, typeof(IIntKeyedDataObject).Name);
             }
         }
     }
@@ -179,7 +179,7 @@ namespace IUDICO.DataModel.DB.Base
     {
         protected FxDataObject()
         {
-            ((INotifyPropertyChanging)this).PropertyChanging += (s, e) => { throw new DMError("Cannot change readonly object {0}", s.GetType().Name); };
+            ((INotifyPropertyChanging)this).PropertyChanging += (s, e) => { throw new DMError(Translations.FxDataObject_FxDataObject_Cannot_change_readonly_object__0_, s.GetType().Name); };
         }
     }
 
@@ -187,7 +187,7 @@ namespace IUDICO.DataModel.DB.Base
     {
         protected RelTable()
         {
-            throw new DMError("Impossible to create relation dataobject. Please use methods of ServerModel.DB instead");
+            throw new DMError(Translations.RelTable_RelTable_Impossible_to_create_relation_dataobject__Please_use_methods_of_ServerModel_DB_instead);
         }
     }
 

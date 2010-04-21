@@ -14,11 +14,11 @@ namespace IUDICO.DataModel.Controllers
         public IVariable<string> VisibleGroupID = "-1".AsVariable();
         public DropDownList GroupList;
         //"magic words"
-        private const string pageCaption = "Curriculum assignment.";
-        private const string pageDescription = "This is curriculum assignment page. Select group and curriculum to assign.";
-        private const string noCurriculums = "You have no curriculums to assign. Create some first.";
-        private const string noGroups = "You have no groups to assign. Create some first.";
-        private const string neitherCurriculumsNorGroup = "You have neither groups nor curriculums to assign. Create some first.";
+        private readonly string pageCaption = Translations.CurriculumAssignmentController_pageCaption_Curriculum_assignment_;
+        private readonly string pageDescription = Translations.CurriculumAssignmentController_pageDescription_This_is_curriculum_assignment_page__Select_group_and_curriculum_to_assign_;
+        private readonly string noCurriculums = Translations.CurriculumAssignmentController_noCurriculums_You_have_no_curriculums_to_assign__Create_some_first_;
+        private readonly string noGroups = Translations.CurriculumAssignmentController_noGroups_You_have_no_groups_to_assign__Create_some_first_;
+        private readonly string neitherCurriculumsNorGroup = Translations.CurriculumAssignmentController_neitherCurriculumsNorGroup_You_have_neither_groups_nor_curriculums_to_assign__Create_some_first_;
 
 
         public override void Loaded()

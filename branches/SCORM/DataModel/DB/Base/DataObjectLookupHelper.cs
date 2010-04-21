@@ -62,7 +62,7 @@ namespace IUDICO.DataModel.DB.Base
             }
             if (firstKey.IsNull() || secondKey.IsNull())
             {
-                throw new DMError("Invalid many-to-many relationship definition for {0}-{1}", mmr.First.Name, mmr.Second.Name);
+                throw new DMError(Translations.LookupHelper_RegisterMMLookup_Invalid_many_to_many_relationship_definition_for__0___1_, mmr.First.Name, mmr.Second.Name);
             }
             string tableName = SqlSerializationContext.ExtractTableName(relType.GetAtr<TableAttribute>().Name);
             Put(__MMInfos, mmr.First, mmr.Second, new ManyToManyLookupInfo(firstKey, tableName, secondKey, relType));
@@ -73,9 +73,9 @@ namespace IUDICO.DataModel.DB.Base
         {
             var r = Get(__Infos, owner.GetType(), detailType);
             if (r.IsEmpty)
-                throw new DMError("Couldnt found relation between {0} and {1}", owner.GetType(), detailType);
+                throw new DMError(Translations.LookupHelper_AppendLookupSql_Couldnt_found_relation_between__0__and__1_, owner.GetType(), detailType);
             if (owner.ID <= 0)
-                throw new DMError("{0} has invalid ID = {1}", owner.GetType().Name, owner.ID);
+                throw new DMError(Translations.LookupHelper_AppendLookupSql_, owner.GetType().Name, owner.ID);
 
             context.Write("SELECT ID FROM [{0}] where ([{1}] = {2}) and sysState = 0", r.TableName, r.RefColumnName, context.AddParameter(owner.ID));
             if (condition != null)
@@ -90,9 +90,9 @@ namespace IUDICO.DataModel.DB.Base
         {
             var r = Get(__MMInfos, firstPart.GetType(), otherType);
             if (r.IsEmpty)
-                throw new DMError("Couldnt fond many-to-many relation between {1} and {1}", firstPart.GetType().Name, otherType.Name);
+                throw new DMError(Translations.LookupHelper_AppendMMLookupSql_Couldnt_fond_many_to_many_relation_between__1__and__1_, firstPart.GetType().Name, otherType.Name);
             if (firstPart.ID <= 0)
-                throw new DMError("{0} has invalid ID = {1}", firstPart.GetType(), firstPart.ID);
+                throw new DMError(Translations.LookupHelper_AppendLookupSql_, firstPart.GetType(), firstPart.ID);
 
             context.Write("SELECT [{0}] FROM [{1}] WHERE ([{2}] = {3}) and sysState = 0",
                 r.IDColumnName, r.TableName, r.RefColumnName, context.AddParameter(firstPart.ID));
@@ -101,13 +101,13 @@ namespace IUDICO.DataModel.DB.Base
         public static void AppendMMLinkSql([NotNull] SqlSerializationContext context, IIntKeyedDataObject o1, IIntKeyedDataObject o2)
         {
             if (o1.ID <= 0)
-                throw new DMError("{0} has invalid ID = {1}", o1.GetType(), o1.ID);
+                throw new DMError(Translations.LookupHelper_AppendLookupSql_, o1.GetType(), o1.ID);
             if (o2.ID <= 0)
-                throw new DMError("{0} has invalid ID = {1}", o2.GetType(), o2.ID);
+                throw new DMError(Translations.LookupHelper_AppendLookupSql_, o2.GetType(), o2.ID);
 
             var r = Get(__MMInfos, o1.GetType(), o2.GetType());
             if (r.IsEmpty)
-                throw new DMError("Couldnt fond many-to-many relation between {1} and {2}", o1.GetType().Name, o2.GetType().Name);
+                throw new DMError(Translations.LookupHelper_AppendMMLinkSql_Couldnt_fond_many_to_many_relation_between__1__and__2_, o1.GetType().Name, o2.GetType().Name);
 
             context.Write("INSERT INTO [{0}] ([{1}], [{2}]) VALUES ({3}, {4})", 
                 r.TableName, r.RefColumnName, r.IDColumnName, context.AddParameter(o1.ID), context.AddParameter(o2.ID));
@@ -117,12 +117,12 @@ namespace IUDICO.DataModel.DB.Base
         {
             var r = Get(__MMInfos, o1.GetType(), o2.GetType());
             if (r.IsEmpty)
-                throw new DMError("Couldnt fond many-to-many relation between {1} and {1}", o1.GetType().Name, o2.GetType().Name);
+                throw new DMError(Translations.LookupHelper_AppendMMLookupSql_Couldnt_fond_many_to_many_relation_between__1__and__1_, o1.GetType().Name, o2.GetType().Name);
 
             if (o1.ID <= 0)
-                throw new DMError("{0} has invalid ID = {1}", o1.GetType(), o1.ID);
+                throw new DMError(Translations.LookupHelper_AppendLookupSql_, o1.GetType(), o1.ID);
             if (o2.ID <= 0)
-                throw new DMError("{0} has invalid ID = {1}", o2.GetType(), o2.ID);
+                throw new DMError(Translations.LookupHelper_AppendLookupSql_, o2.GetType(), o2.ID);
 
             context.Write("DELETE [{0}] WHERE [{1}] = {3} AND [{2}] = {4}",
                 r.TableName, r.RefColumnName, r.IDColumnName, context.AddParameter(o1.ID), context.AddParameter(o2.ID));
@@ -187,7 +187,7 @@ namespace IUDICO.DataModel.DB.Base
         {
             if (t.GetInterface(typeof(IIntKeyedDataObject).Name) == null)
             {
-                throw new DMError("Cannot register many-to-many relationship. Class {0} doesn't support {1}", t.FullName, typeof(IIntKeyedDataObject).Name);
+                throw new DMError(Translations.LookupHelper_CheckMMSupport_Cannot_register_many_to_many_relationship__Class__0__doesn_t_support__1_, t.FullName, typeof(IIntKeyedDataObject).Name);
             }
         }
 
@@ -221,7 +221,7 @@ namespace IUDICO.DataModel.DB.Base
             }
             else
             {
-                Logger.WriteLine("[WARNING] Ignored {0} - {1} relationship because the same is already exists", key1.Name, key2.Name);
+                Logger.WriteLine(Translations.LookupHelper_Put__WARNING__Ignored__0_____1__relationship_because_the_same_is_already_exists, key1.Name, key2.Name);
             }
         }
 

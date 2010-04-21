@@ -19,13 +19,13 @@ namespace IUDICO.DataModel.Controllers
         public Label NotifyLabel { get; set; }
 
         //"magic words"
-        private const string pageCaption = "Deleting {0}: {1}";
-        private const string stageStr = "stage";
-        private const string themeStr = "theme";
-        private const string curriculumStr = "curriculum";
-        private const string pageDescription = "You want to delete {1}: {2}{3}, which is assigned to next groups:";
-        private const string usedInCurriculum = ". It is used in curriculum {0}";
-        private const string noneMessage = "None.";
+        private readonly string pageCaption = Translations.CurriculumDeleteConfirmationController_pageCaption_Deleting__0____1_;
+        private readonly string stageStr = Translations.CurriculumDeleteConfirmationController_stageStr_stage;
+        private readonly string themeStr = Translations.CurriculumDeleteConfirmationController_themeStr_theme;
+        private readonly string curriculumStr = Translations.CurriculumDeleteConfirmationController_curriculumStr_curriculum;
+        private readonly string pageDescription = Translations.CurriculumDeleteConfirmationController_pageDescription_You_want_to_delete__1____2__3___which_is_assigned_to_next_groups_;
+        private readonly string usedInCurriculum = Translations.CurriculumDeleteConfirmationController_usedInCurriculum___It_is_used_in_curriculum__0_;
+        private readonly string noneMessage = Translations.CurriculumDeleteConfirmationController_noneMessage_None_;
 
         private TblCurriculums curriculum;
         private TblStages stage;

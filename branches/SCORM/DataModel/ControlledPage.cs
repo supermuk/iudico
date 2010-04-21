@@ -245,7 +245,7 @@ namespace IUDICO.DataModel
         {
             if (!_bindingAllowed)
             {
-                throw new DMError("Binding is not allowed");
+                throw new DMError(Translations.ControlledPage_CheckBindingAllowed_Binding_is_not_allowed);
             }
         }
 

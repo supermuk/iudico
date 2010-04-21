@@ -55,7 +55,7 @@ namespace IUDICO.DataModel.Controllers
             {
                 if (AddToGroup.Value && SelectedGroupID.Value == -1 && string.IsNullOrEmpty(NewGroupName.Value))
                 {
-                    ErrorText.Value = "Group name is empty";
+                    ErrorText.Value = Translations.Admin_CreateBulkUserController_DoCreate_Group_name_is_empty;
                 }
 
                 if (Password.Value.Trim().IsNotNull())
@@ -107,17 +107,17 @@ namespace IUDICO.DataModel.Controllers
                     }
                     catch
                     {
-                        ErrorText.Value = "Some of users like these already exist";
+                        ErrorText.Value = Translations.Admin_CreateBulkUserController_DoCreate_Some_of_users_like_these_already_exist;
                     }
                 }
                 else
                 {
-                    ErrorText.Value = "Password is not specified";
+                    ErrorText.Value = Translations.Admin_CreateBulkUserController_DoCreate_Password_is_not_specified;
                 }
             }
             else
             {
-                ErrorText.Value = string.Format("{0} is not a number", Count.Value);
+                ErrorText.Value = string.Format(Translations.Admin_CreateBulkUserController_DoCreate__0__is_not_a_number, Count.Value);
             }
         }
     }

@@ -276,7 +276,7 @@ namespace IUDICO.DataModel.DB.Base
         {
             if (objs == null || objs.Count == 0)
             {
-                throw new ArgumentException("Collection cannot be empty", "objs");
+                throw new ArgumentException(Translations.DataObjectSqlSerializer_AppendSoftDeleteSql_Collection_cannot_be_empty, "objs");
             }
             var objIDs = SqlUtils.WrapArc(objs.ConcatComma());
             context.Write(UpdateSqlHeader + " sysState = 1 WHERE ID IN " + objIDs);
