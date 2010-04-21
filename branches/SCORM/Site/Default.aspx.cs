@@ -38,6 +38,13 @@ public partial class _Default : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        //Tomcat start
+        //System.Diagnostics.Process proc2 = new System.Diagnostics.Process();
+        //proc2.EnableRaisingEvents = false;
+        //proc2.StartInfo.FileName = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "tomcat-solr\\tomcatStart.bat");
+        //proc2.Start();
+
+
         //SEARCHING FOR DIRECTORIES IN ASSETS DIRECTORY, WHICH ARE THEMES
         string searchPath = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "Assets");
         //string searchPath = @"C:\Documents and Settings\iryna.martyniv\Desktop\IUDICO_Checking\Site\Assets";
@@ -55,25 +62,32 @@ public partial class _Default : System.Web.UI.Page
         }
 
         var stages = ServerModel.DB.Load<TblResources>("CourseRef", ids);
-
-        //DELETING PREVIOUS CREATING XMLs
         string xmlindex = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "tomcat-solr\\apache-solr-1.4.0\\Iudico\\");
         //string[] filePaths = Directory.GetFiles(@"C:\apps\tomcat-solr\apache-solr-1.4.0\Iudico", "*.xml");
-        string[] filePaths = Directory.GetFiles(xmlindex, "*.xml");
-        foreach (string filePath in filePaths)
+
+        try
         {
-            File.Delete(filePath);
+            //DELETING PREVIOUS CREATING XMLs
+            string[] filePaths = Directory.GetFiles(xmlindex, "*.xml");
+            foreach (string filePath in filePaths)
+            {
+                File.Delete(filePath);
+            }
+
+
+            //DELETING SOLR INDEX
+            HttpWebRequest request = WebRequest.Create("http://localhost:8080/apache-solr-1.4.0/update?stream.body=%3Cdelete%3E%3Cquery%3Ename:*%3C/query%3E%3C/delete%3E") as HttpWebRequest;
+            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            { }
+
+            HttpWebRequest requestCommit = WebRequest.Create("http://localhost:8080/apache-solr-1.4.0/update?stream.body=%3Ccommit/%3E") as HttpWebRequest;
+            using (HttpWebResponse response = requestCommit.GetResponse() as HttpWebResponse)
+            { }
         }
-
-
-        //DELETING SOLR INDEX
-        HttpWebRequest request = WebRequest.Create("http://localhost:8080/apache-solr-1.4.0/update?stream.body=%3Cdelete%3E%3Cquery%3Ename:*%3C/query%3E%3C/delete%3E") as HttpWebRequest;
-        using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-        { }
-
-        HttpWebRequest requestCommit = WebRequest.Create("http://localhost:8080/apache-solr-1.4.0/update?stream.body=%3Ccommit/%3E") as HttpWebRequest;
-        using (HttpWebResponse response = requestCommit.GetResponse() as HttpWebResponse)
-        { }
+        catch (Exception ex)
+        {
+            MessageBox.Show("Tomcat isn't running: " + ex.Message.ToString());
+        }
 
         //CREATING NEW INDEX
         string filename = "";
@@ -168,7 +182,7 @@ public partial class _Default : System.Web.UI.Page
 
             }
 
-           
+
             HttpWebRequest requestCommit1 = WebRequest.Create("http://localhost:8080/apache-solr-1.4.0/update?stream.body=%3Ccommit/%3E") as HttpWebRequest;
             using (HttpWebResponse response = requestCommit1.GetResponse() as HttpWebResponse)
             {
