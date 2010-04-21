@@ -14,7 +14,7 @@ namespace IUDICO.DataModel.DB.Base
         protected MultipleCondtion(params IDBPredicate[] conds)
         {
             if (conds.Length <= 1)
-                throw new ArgumentException("AndCondition constructor cannot be created with no subcondition or with only one. You must provide at least two conditions");
+                throw new ArgumentException(Translations.MultipleCondtion_MultipleCondtion_AndCondition_constructor_cannot_be_created_with_no_subcondition_or_with_only_one__You_must_provide_at_least_two_conditions);
             _Conds = new List<IDBPredicate>(conds);
         }
 

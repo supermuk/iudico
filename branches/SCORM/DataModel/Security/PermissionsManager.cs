@@ -142,7 +142,7 @@ namespace IUDICO.DataModel.Security
 
             if ((userID == null && groupID == null) || (userID != null && groupID != null))
             {
-                throw new ArgumentException("One and only one of parameters (userID, groupID) must be specified");
+                throw new ArgumentException(Translations.PermissionsManager_Grand_One_and_only_one_of_parameters__userID__groupID__must_be_specified);
             }
             var doType = ObjectTypeHelper.GetObjectType(dataObject.GetType());
             var p = new TblPermissions
@@ -165,7 +165,7 @@ namespace IUDICO.DataModel.Security
                 throw new ArgumentNullException("dataObject");
 
             if ((targetUserID == null && targetGroupID == null) || (targetUserID != null && targetGroupID != null))
-                throw new ArgumentException("One and only one of parameters (targetUserID, targetGroupID) must be specified");
+                throw new ArgumentException(Translations.PermissionsManager_Delegate_One_and_only_one_of_parameters__targetUserID__targetGroupID__must_be_specified);
 
             if (operation == null)
                 throw new ArgumentNullException("operation");           
@@ -174,7 +174,7 @@ namespace IUDICO.DataModel.Security
 
             var prm = GetPermissions(doType, ownerUserID, null, operation.ID);
             if (prm.Count < 0)
-                throw new SecurityException(string.Format("User {0} have no access to do {1} on {2} ID = {3}. Cannot perform delegation", ownerUserID, operation.Name, dataObject.GetType().Name, dataObject.ID));
+                throw new SecurityException(string.Format(Translations.PermissionsManager_Delegate_, ownerUserID, operation.Name, dataObject.GetType().Name, dataObject.ID));
             
             var p = new TblPermissions
             {
@@ -191,11 +191,11 @@ namespace IUDICO.DataModel.Security
 
         public static void Initialize()
         {
-            using (Logger.Scope("Initializing Security"))
+            using (Logger.Scope(Translations.PermissionsManager_Initialize_Initializing_Security))
             {
                 if (IsInitialized())
                 {
-                    throw new DMError("{0} is already initialized", typeof(PermissionsManager).Name);
+                    throw new DMError(Translations.PermissionsManager_Initialize__0__is_already_initialized, typeof(PermissionsManager).Name);
                 }
                 ID = Guid.NewGuid();
 
@@ -316,7 +316,7 @@ namespace IUDICO.DataModel.Security
         {
             if (@class.GetInterface(@intf.Name) == null)
             {
-                throw new DMError("DataObject {0} must support {1} interface to be a secured object", @class.Name, intf.Name);
+                throw new DMError(Translations.PermissionsManager_CheckSupport_DataObject__0__must_support__1__interface_to_be_a_secured_object, @class.Name, intf.Name);
             }
         }
 

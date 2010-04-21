@@ -85,7 +85,7 @@ namespace IUDICO.DataModel.Controllers
                     }
                     else
                     {
-                        this.ResultsListBox.Items.Add("No data found");
+                        this.ResultsListBox.Items.Add(Translations.Admin_SearchPageSolrController_Button1_Click_No_data_found);
                     }
                 }
             }

@@ -49,12 +49,12 @@ namespace IUDICO.DataModel.Security
 
         public override string GetPassword()
         {
-            throw new InvalidOperationException("GetPassword is not available");
+            throw new InvalidOperationException(Translations.CustomUser_GetPassword_GetPassword_is_not_available);
         }
 
         public override string GetPassword(string passwordAnswer)
         {
-            throw new InvalidOperationException("GetPassword is not available");
+            throw new InvalidOperationException(Translations.CustomUser_GetPassword_GetPassword_is_not_available);
         }
 
         public override bool IsApproved

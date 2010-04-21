@@ -36,7 +36,7 @@ namespace IUDICO.DataModel.Controllers
             }
             catch (Exception ex)
             {
-                ErrorText.Value = "Error creating setting - possibly setting with such name already exists";
+                ErrorText.Value = Translations.Admin_CreateSettingController_CreateSetting_Error_creating_setting___possibly_setting_with_such_name_already_exists;
             }
         }
     }

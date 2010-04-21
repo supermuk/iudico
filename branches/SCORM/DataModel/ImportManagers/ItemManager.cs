@@ -68,7 +68,7 @@ namespace IUDICO.DataModel.ImportManagers
                   }
                   else
                   {
-                    throw new Exception("Cannot get rank for item");
+                    throw new Exception(Translations.ItemManager_Store_Cannot_get_rank_for_item);
                   }
                 }
             }

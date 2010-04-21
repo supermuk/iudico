@@ -18,10 +18,10 @@ namespace IUDICO.DataModel.Controllers
         public IVariable<bool> ShowButtonEnabled = false.AsVariable();
 
         //"magic words"
-        private const string pageCaption = "Statistic selection.";
-        private const string pageDescription = "Select group and then select curriculum to view statistic.";
-        private const string noCurriculums = "You have no curriculums assigned for this group.";
-        private const string noGroups = "You have no groups at all. Create some first.";
+        private readonly string pageCaption = Translations.StatisticSelectController_pageCaption_Statistic_selection_;
+        private readonly string pageDescription = Translations.StatisticSelectController_pageDescription_Select_group_and_then_select_curriculum_to_view_statistic_;
+        private readonly string noCurriculums = Translations.StatisticSelectController_noCurriculums_You_have_no_curriculums_assigned_for_this_group_;
+        private readonly string noGroups = Translations.StatisticSelectController_noGroups_You_have_no_groups_at_all__Create_some_first_;
 
         public override void Loaded()
         {

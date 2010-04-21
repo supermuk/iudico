@@ -29,12 +29,12 @@ namespace IUDICO.DataModel.Controllers
         TblUsers user;
 
         //"magic words"
-        private const string pageCaption = "Statistic.";
-        private const string pageDescription = "This is statisic for group: {0} based on curriculum: {1}. This statistaic is based on passed pages count.";
-        private const string studentStr = "Student";
+        private readonly string pageCaption = Translations.StatisticShowController_pageCaption_Statistic_;
+        private readonly string pageDescription = Translations.StatisticShowController_pageDescription_This_is_statisic_for_group___0__based_on_curriculum___1___This_statistaic_is_based_on_passed_pages_count_;
+        private readonly string studentStr = Translations.StatisticShowController_studentStr_Student;
 
-        private const string totalStr = "Total";
-        private const string noStudents = "Theare are no students in this group.";
+        private readonly string totalStr = Translations.StatisticShowController_totalStr_Total;
+        private readonly string noStudents = Translations.StatisticShowController_noStudents_Theare_are_no_students_in_this_group_;
 
         public Label NotifyLabel { get; set; }
         public Table StatisticTable { get; set; }
@@ -113,7 +113,7 @@ namespace IUDICO.DataModel.Controllers
             headerRow.Cells.Add(headerCell);
 
             headerCell = new TableHeaderCell();
-            headerCell.Text = "Percent";
+            headerCell.Text = Translations.StatisticShowController_fillStatisticTable_Percent;
             headerRow.Cells.Add(headerCell);
 
             headerCell = new TableHeaderCell();

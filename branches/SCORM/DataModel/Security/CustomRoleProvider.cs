@@ -20,12 +20,12 @@ namespace IUDICO.DataModel.Security
 
         public override void CreateRole(string roleName)
         {
-            throw new InvalidOperationException("CreateRole is not allowed");
+            throw new InvalidOperationException(Translations.CustomRoleProvider_CreateRole_CreateRole_is_not_allowed);
         }
 
         public override bool DeleteRole(string roleName, bool throwOnPopulatedRole)
         {
-            throw new InvalidOperationException("DeleteRole is not allowed");
+            throw new InvalidOperationException(Translations.CustomRoleProvider_DeleteRole_DeleteRole_is_not_allowed);
         }
 
         public override bool RoleExists(string roleName)
@@ -61,7 +61,7 @@ namespace IUDICO.DataModel.Security
         public override string ApplicationName
         {
             get { return "IUDICO"; }
-            set { throw new InvalidOperationException("Changing ApplicationName is not allowed"); }
+            set { throw new InvalidOperationException(Translations.CustomRoleProvider_ApplicationName_Changing_ApplicationName_is_not_allowed); }
         }
     }
 }

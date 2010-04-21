@@ -24,10 +24,10 @@ namespace IUDICO.DataModel.Controllers
         private TblCurriculums curriculum;
 
         //private const string noNodeSelected = "Select node to modify.";
-        private const string pageCaption = "Timeline for group: {0} and curriculum: {1}";
-        private const string pageDescription = "This is detailed timeline for group: {0} and curriculum: {1}. You can manage group operations here.";
-        private const string curriculumChar = "c";
-        private const string stageChar = "s";
+        private readonly string pageCaption = Translations.CurriculumTimelineController_pageCaption_Timeline_for_group___0__and_curriculum___1_;
+        private readonly string pageDescription = Translations.CurriculumTimelineController_pageDescription_This_is_detailed_timeline_for_group___0__and_curriculum___1___You_can_manage_group_operations_here_;
+        private readonly string curriculumChar = "c";
+        private readonly string stageChar = "s";
 
         public override void Loaded()
         {

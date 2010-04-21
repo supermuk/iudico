@@ -25,23 +25,23 @@ namespace IUDICO.DataModel.DB
         {
             if (FIXED_METHOD == null)
             {
-                throw new DMError("'Fx' method is not initialized");
+                throw new DMError(Translations.DatabaseModel_DatabaseModel__Fx__method_is_not_initialized);
             }
             if (LOAD_LIST_METHOD == null)
             {
-                throw new DMError("'Load List' method is not initialized");
+                throw new DMError(Translations.DatabaseModel_DatabaseModel__Load_List__method_is_not_initialized);
             }
             if (QUERY_METHOD == null)
             {
-                throw new DMError("Unable to find 'Query' method");
+                throw new DMError(Translations.DatabaseModel_DatabaseModel_Unable_to_find__Query__method);
             }
             if (LOAD_METHOD == null)
             {
-                throw new DMError("Unable to find Load method");
+                throw new DMError(Translations.DatabaseModel_DatabaseModel_Unable_to_find_Load_method);
             }
             if (DELETE_METHOD == null)
             {
-                throw new DMError("Unable to find Delete method");
+                throw new DMError(Translations.DatabaseModel_DatabaseModel_Unable_to_find_Delete_method);
             }
         }
 
@@ -57,7 +57,7 @@ namespace IUDICO.DataModel.DB
 
         private void Initialize()
         {
-            using (DBScope("Initializing Database Model..."))
+            using (DBScope(Translations.DatabaseModel_Initialize_Initializing_Database_Model___))
             {
                 foreach (var t in Assembly.GetExecutingAssembly().GetTypes())
                 {
@@ -67,9 +67,9 @@ namespace IUDICO.DataModel.DB
                         if (t.TryGetAtr(out mmat))
                         {
                             if (!t.IsSubclassOf(typeof (RelTable)))
-                                throw new DMError("Class {0} cannot take participation into many-to-many relationship because it is not derived from {1}", t.FullName, typeof(RelTable).Name);
+                                throw new DMError(Translations.DatabaseModel_Initialize_Class__0__cannot_take_participation_into_many_to_many_relationship_because_it_is_not_derived_from__1_, t.FullName, typeof(RelTable).Name);
                             if (!t.HasAtr<TableAttribute>())
-                                throw new DMError("Class {0} cannot take participation into many-to-many relationship because it is not marked with {1}", t.FullName, typeof(TableAttribute).Name);
+                                throw new DMError(Translations.DatabaseModel_Initialize_Class__0__cannot_take_participation_into_many_to_many_relationship_because_it_is_not_marked_with__1_, t.FullName, typeof(TableAttribute).Name);
                             LookupHelper.RegisterMMLookup(mmat, t);
                         }
                         else if (t.GetInterface(typeof(IIntKeyedDataObject).Name) != null && 
@@ -96,7 +96,7 @@ namespace IUDICO.DataModel.DB
         public int Insert<TDataObject>(TDataObject obj)
             where TDataObject : class, IIntKeyedDataObject, new()
         {
-            using (var scope = DBScope("Inserting " + typeof(TDataObject).Name))
+            using (var scope = DBScope(Translations.DatabaseModel_Insert_Inserting_ + typeof(TDataObject).Name))
             {
                 using (var cmd = scope.Connection.CreateCommand())
                 {
@@ -124,7 +124,7 @@ namespace IUDICO.DataModel.DB
         {
             if (objs.Count > 0)
             {
-                using (var scope = DBScope("Inserting multiple " + typeof(TDataObject).Name + ". Count = " + objs.Count))
+                using (var scope = DBScope(Translations.DatabaseModel_Insert_Inserting_multiple_ + typeof(TDataObject).Name + Translations.DatabaseModel_Insert_ + objs.Count))
                 {
                     RunInTransaction(scope.Connection, (cn, transaction) =>
                     {                        
@@ -136,7 +136,7 @@ namespace IUDICO.DataModel.DB
                             {
                                 if (o.ID != 0)
                                 {
-                                    throw new DMError("DataObject has been already inserted.");
+                                    throw new DMError(Translations.DatabaseModel_Insert_DataObject_has_been_already_inserted_);
                                 }
                                 DataObjectSqlSerializer<TDataObject>.AppendInsertSql(sc, o);
                                 sc.Next();
@@ -150,7 +150,7 @@ namespace IUDICO.DataModel.DB
                                 while (true)
                                 {
                                     if (!r.Read())
-                                        throw new DMError("Invalid Data Reader");
+                                        throw new DMError(Translations.DatabaseModel_Insert_Invalid_Data_Reader);
                                     int id = Convert.ToInt32(r.GetDecimal(0));
                                     TDataObject obj = objs[i];
                                     DataObjectSqlSerializer<TDataObject>.KeyColumn.Storage.SetValue(obj, id);
@@ -176,7 +176,7 @@ namespace IUDICO.DataModel.DB
         public void Update<TDataObject>(TDataObject obj)
             where TDataObject : class, IIntKeyedDataObject, new()
         {
-            using (var scope = DBScope("Updating " + typeof(TDataObject).Name))
+            using (var scope = DBScope(Translations.DatabaseModel_Update_Updating_ + typeof(TDataObject).Name))
             {
                 using (var cmd = scope.Connection.CreateCommand())
                 {
@@ -195,7 +195,7 @@ namespace IUDICO.DataModel.DB
             //TODO: Update cache here. not only delete cached items
             if (objs.Count > 0)
             {
-                using (var scope = DBScope("Updating multiple " + typeof(TDataObject).Name + ". Count = " + objs.Count))
+                using (var scope = DBScope(Translations.DatabaseModel_Update_Updating_multiple_ + typeof(TDataObject).Name + Translations.DatabaseModel_Insert_ + objs.Count))
                 {
                     RunInTransaction(scope.Connection, (cn, transaction) =>
                     {
@@ -223,7 +223,7 @@ namespace IUDICO.DataModel.DB
         public void Update<TDataObject>([NotNull]IDBUpdateOperation<TDataObject> op, [NotNull] IDbConnection cn, [CanBeNull] IDbTransaction transaction)
             where TDataObject : class, IDataObject, new()
         {           
-            using (DBScope("Executing update operation"))
+            using (DBScope(Translations.DatabaseModel_Update_Executing_update_operation))
             {               
                 using (var cmd = cn.CreateCommand())
                 {
@@ -239,16 +239,16 @@ namespace IUDICO.DataModel.DB
         public TDataObject Load<TDataObject>(int id)
             where TDataObject : class, IIntKeyedDataObject, new()
         {
-            using (var scope = DBScope("Loading " + typeof(TDataObject).Name + ". ID = " + id))
+            using (var scope = DBScope(Translations.DatabaseModel_Load_Loading_ + typeof(TDataObject).Name + ". ID = " + id))
             {
                 var res = (TDataObject) Cache[FormatCacheKey<TDataObject>(id)];
                 if (res != null)
                 {
-                    Logger.WriteLine("Got from cache");
+                    Logger.WriteLine(Translations.DatabaseModel_Load_Got_from_cache);
                     return res;
                 }
 
-                Logger.WriteLine("Running sql...");
+                Logger.WriteLine(Translations.DatabaseModel_Load_Running_sql___);
                 using (var cmd = scope.Connection.CreateCommand())
                 {
                     cmd.CommandText = DataObjectInfo<TDataObject>.SelectSql + " WHERE [ID] = " + id + " AND sysState = 0";
@@ -260,7 +260,7 @@ namespace IUDICO.DataModel.DB
                             CacheIt(res);
                             return res;
                         }
-                        throw new DMError("Invalid object ID: {0}", id);
+                        throw new DMError(Translations.DatabaseModel_Load_Invalid_object_ID___0_, id);
                     }
                 }
             }
@@ -276,7 +276,7 @@ namespace IUDICO.DataModel.DB
                 return new TDataObject[0];
             }
 
-            using (var scope = DBScope("Loading multiple " + typeof(TDataObject).Name + ". Count = " + ids.Count))
+            using (var scope = DBScope(Translations.DatabaseModel_Load_Loading_multiple_ + typeof(TDataObject).Name + Translations.DatabaseModel_Insert_ + ids.Count))
             {
                 using (var cmd = scope.Connection.CreateCommand())
                 {
@@ -288,7 +288,7 @@ namespace IUDICO.DataModel.DB
                     }
                     if (result.Count != ids.Count)
                     {
-                        throw new DMError("Count of populated objects ({0}) lower than requested to extract {1}", result.Count, ids.Count);
+                        throw new DMError(Translations.DatabaseModel_Load_Count_of_populated_objects___0___lower_than_requested_to_extract__1_, result.Count, ids.Count);
                     }
                     foreach (var o in result)
                     {
@@ -310,7 +310,7 @@ namespace IUDICO.DataModel.DB
                 return new TDataObject[0];
             }
 
-            using (var scope = DBScope("Loading multiple " + typeof(TDataObject).Name + ". Count = " + ids.Count))
+            using (var scope = DBScope(Translations.DatabaseModel_Load_Loading_multiple_ + typeof(TDataObject).Name + Translations.DatabaseModel_Insert_ + ids.Count))
             {
                 using (var cmd = scope.Connection.CreateCommand())
                 {
@@ -337,7 +337,7 @@ namespace IUDICO.DataModel.DB
         public void Delete<TDataObject>(int id)
             where TDataObject : class, IIntKeyedDataObject, new()
         {
-            using (var scope = DBScope("Removing " + typeof(TDataObject).Name + ". ID = " + id))
+            using (var scope = DBScope(Translations.DatabaseModel_Delete_Removing_ + typeof(TDataObject).Name + ". ID = " + id))
             {
                 Removed<TDataObject>(id);
                 RunInTransaction(scope.Connection, (cn, transaction) =>
@@ -372,7 +372,7 @@ namespace IUDICO.DataModel.DB
         {
             if (ids.Count > 0)
             {
-                using (var scope = DBScope("Removing multiple " + typeof(TDataObject).Name + ". Count = " + ids.Count))
+                using (var scope = DBScope(Translations.DatabaseModel_Delete_Removing_multiple_ + typeof(TDataObject).Name + Translations.DatabaseModel_Insert_ + ids.Count))
                 {
                     foreach (var i in ids)
                     {
@@ -430,7 +430,7 @@ namespace IUDICO.DataModel.DB
         public List<int> LookupIds<TDataObject>([NotNull] IIntKeyedDataObject owner, [CanBeNull] IDBPredicate condition)
             where TDataObject : IDataObject
         {
-            using (var scope = DBScope("Looking up ids of " + owner.GetType().Name + " for " + typeof(TDataObject).Name))
+            using (var scope = DBScope(Translations.DatabaseModel_LookupIds_Looking_up_ids_of_ + owner.GetType().Name + Translations.DatabaseModel_LookupIds__for_ + typeof(TDataObject).Name))
             {
                 using (var c = scope.Connection.CreateCommand())
                 {
@@ -445,7 +445,7 @@ namespace IUDICO.DataModel.DB
         public List<TDataObject> Query<TDataObject>([CanBeNull] IDBPredicate cond)
             where TDataObject : IDataObject, new()
         {
-            using (var scope = DBScope("Custom query for " + typeof(TDataObject)))
+            using (var scope = DBScope(Translations.DatabaseModel_Query_Custom_query_for_ + typeof(TDataObject)))
             {
                 using (var c = scope.Connection.CreateCommand())
                 {
@@ -472,7 +472,7 @@ namespace IUDICO.DataModel.DB
         public TDataObject QuerySingleOrDefault<TDataObject>([NotNull] IDBPredicate cond)
             where TDataObject : IDataObject, new()
         {
-            using (var scope = DBScope("Custom query for " + typeof(TDataObject)))
+            using (var scope = DBScope(Translations.DatabaseModel_Query_Custom_query_for_ + typeof(TDataObject)))
             {
                 using (var c = scope.Connection.CreateCommand())
                 {
@@ -484,7 +484,7 @@ namespace IUDICO.DataModel.DB
                         if (r.Read())
                         {
                             if (r.Read())
-                                throw new InvalidOperationException("Too many objects");
+                                throw new InvalidOperationException(Translations.DatabaseModel_QuerySingleOrDefault_Too_many_objects);
                             return DataObjectInfo<TDataObject>.Read(r);
                         }
                         return default(TDataObject);
@@ -495,7 +495,7 @@ namespace IUDICO.DataModel.DB
 
         public List<int> LookupMany2ManyIds<TDataObject>([NotNull]IIntKeyedDataObject firstPart, [CanBeNull]IDBPredicate condition)
         {
-            using (var scope = DBScope("Looking up many-2-many ids between " + firstPart.GetType().Name + " and " + typeof(TDataObject).Name))
+            using (var scope = DBScope(Translations.DatabaseModel_LookupMany2ManyIds_Looking_up_many_2_many_ids_between_ + firstPart.GetType().Name + Translations.DatabaseModel_LookupMany2ManyIds__and_ + typeof(TDataObject).Name))
             {
                 using (var c = scope.Connection.CreateCommand())
                 {
@@ -509,7 +509,7 @@ namespace IUDICO.DataModel.DB
 
         public void Link(IIntKeyedDataObject do1, IIntKeyedDataObject do2)
         {
-            using (var scope = DBScope("Linking " + do1.GetType().Name + ": " + do1.ID + " and " + do2.GetType().Name + ": " + do2.ID))
+            using (var scope = DBScope("Linking " + do1.GetType().Name + ": " + do1.ID + Translations.DatabaseModel_LookupMany2ManyIds__and_ + do2.GetType().Name + ": " + do2.ID))
             {
                 using (var c = scope.Connection.CreateCommand())
                 {
@@ -523,7 +523,7 @@ namespace IUDICO.DataModel.DB
 
         public void UnLink(IIntKeyedDataObject do1, IIntKeyedDataObject do2)
         {
-            using (var scope = DBScope("UnLinking " + do1.GetType().Name + ": " + do1.ID + " and " + do2.GetType().Name + ": " + do2.ID))
+            using (var scope = DBScope(Translations.DatabaseModel_UnLink_UnLinking_ + do1.GetType().Name + ": " + do1.ID + Translations.DatabaseModel_LookupMany2ManyIds__and_ + do2.GetType().Name + ": " + do2.ID))
             {
                 using (var c = scope.Connection.CreateCommand())
                 {
@@ -551,7 +551,7 @@ namespace IUDICO.DataModel.DB
             }
             catch (Exception)
             {
-                Logger.WriteLine("Rolling back transaction...");
+                Logger.WriteLine(Translations.DatabaseModel_RunInTransaction_Rolling_back_transaction___);
                 transaction.Rollback();
                 throw;
             }

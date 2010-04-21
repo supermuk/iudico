@@ -18,11 +18,11 @@ namespace IUDICO.DataModel.ImportManagers
 
             if (!File.Exists(projectPaths.PathToManifestXml))
             {
-                throw new Exception("No imsmanifest.xml file found");
+                throw new Exception(Translations.CourseManager_Import_No_imsmanifest_xml_file_found);
             }
             if(!File.Exists(projectPaths.PathToAnswerXml))
             {
-                throw new Exception("No answers.xml file found");
+                throw new Exception(Translations.CourseManager_Import_No_answers_xml_file_found);
             }
 
             // load manifest

@@ -24,7 +24,7 @@ namespace IUDICO.DataModel.Security
 
         public override string GetPassword(string username, string answer)
         {
-            throw new InvalidOperationException("GetPassword is not allowed");
+            throw new InvalidOperationException(Translations.CustomMembershipProvider_GetPassword_GetPassword_is_not_allowed);
         }
 
         public override bool ChangePassword(string username, string oldPassword, string newPassword)
@@ -33,7 +33,7 @@ namespace IUDICO.DataModel.Security
             {
                 var user = ServerModel.User.Current;
                 if (user.UserName != username)
-                    throw new SecurityException("You cann't change password of another user");
+                    throw new SecurityException(Translations.CustomMembershipProvider_ChangePassword_You_cann_t_change_password_of_another_user);
                 var u = ServerModel.DB.Load<TblUsers>(user.ID);
                 var oldHash = ServerModel.User.GetPasswordHash(oldPassword);
 
@@ -127,7 +127,7 @@ namespace IUDICO.DataModel.Security
         public override string ApplicationName
         {
             get { return "IUDICO"; }
-            set { throw new InvalidOperationException("Changing ApplicationName is not allowed"); }
+            set { throw new InvalidOperationException(Translations.CustomMembershipProvider_ApplicationName_Changing_ApplicationName_is_not_allowed); }
         }
 
         public override int MaxInvalidPasswordAttempts

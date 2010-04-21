@@ -22,7 +22,7 @@ namespace IUDICO.DataModel
     {
         public static void Initialize(string connectionString, Cache cache)
         {
-            using (Logger.Scope("Initializing ServerModel..."))
+            using (Logger.Scope(Translations.ServerModel_Initialize_Initializing_ServerModel___))
             {
                 _connectionString = connectionString;
                 (DB = new DatabaseModel(AcruireOpenedConnection())).Initialize(cache);
@@ -94,7 +94,7 @@ namespace IUDICO.DataModel
                             }
                             if (!found)
                             {
-                                throw new DMError("Couldn't found DB value for {0}.{1} marked with {2}", t.Name, f.Name, typeof(TableRecordAttribute).Name);
+                                throw new DMError(Translations.ServerModel_TableRecordAttributeInitialize_Couldn_t_found_DB_value_for__0___1__marked_with__2_, t.Name, f.Name, typeof(TableRecordAttribute).Name);
                             }
                         }
                     }
@@ -234,7 +234,7 @@ namespace IUDICO.DataModel
         {
             if (c.BackUrl == null)
             {
-                throw new DMError("BackUrl is not specified");
+                throw new DMError(Translations.FormsModel_BuildRedirectUrl_BackUrl_is_not_specified);
             }
             var @params = ControllerParametersUtility<TController>.BuildUrlParams(c);
             var res = _pages[typeof (TController)];
