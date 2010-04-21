@@ -15,7 +15,7 @@ public partial class Admin_IPSecurity : System.Web.UI.Page
         {
             using (ServerManager serverManager = new ServerManager())
             {
-                Configuration config = serverManager.GetWebConfiguration("Hudson IUDICO");
+                Configuration config = serverManager.GetWebConfiguration("Iudico");//Hudson IUDICO
                 ConfigurationSection section = config.GetSection("system.webServer/security/ipSecurity");
                 ConfigurationElementCollection coll = section.GetCollection();
                 CheckBoxList1.Items.Clear();
@@ -28,11 +28,43 @@ public partial class Admin_IPSecurity : System.Web.UI.Page
         
     }
 
-    static string[] GetRange(string ips)
+    private string[] ConvertIP(string line)
+    {
+        string[] arr = line.Split(',');
+        List<string> ips = new List<string>();
+        foreach (string item in arr)
+        {
+            if (item.Contains("-"))
+            {
+                foreach (string ip in GetRange(item))
+                {
+                    if (!ips.Contains(ip))
+                    {
+                        ips.Add(ip);
+                    }
+                }
+            }
+            else
+            {
+                if (IsValid(item) && !ips.Contains(item))
+                {
+                    ips.Add(item);
+                }
+            }
+        }
+
+        return ips.ToArray();
+    }
+
+    private string[] GetRange(string ips)
     {
         List<string> range = new List<string>();
         string ip = ips.Substring(0, ips.IndexOf("-"));
         string ip2 = ips.Substring(ips.IndexOf("-") + 1);
+        if (!IsValid(ip) || !IsValid(ip2))
+        {
+            throw new Exception("Invalid ip");
+        }
         string[] ip1sections = ip.Split('.');
         string[] ip2sections = ip2.Split('.');
         if (ip1sections[0] != ip2sections[0] || ip1sections[1] != ip2sections[1]
@@ -40,22 +72,22 @@ public partial class Admin_IPSecurity : System.Web.UI.Page
             || (Convert.ToInt32(ip1sections[2]) <= Convert.ToInt32(ip2sections[2])
                 && Convert.ToInt32(ip1sections[3]) > Convert.ToInt32(ip2sections[3])))
         {
-            throw new Exception("Wrong range bounds");
+            throw new Exception("Wrong sequence");
         }
         else
         {
-            range.Add(ip);
             while (!ip.Equals(ip2))
             {
                 ip = Iterate(ip);
                 range.Add(ip);
+                Console.WriteLine(ip);
             }
         }
 
         return range.ToArray();
     }
 
-    static string Iterate(string ip)
+    private string Iterate(string ip)
     {
         string[] string_sections = ip.Split('.');
         int[] sections = new int[4];
@@ -78,7 +110,7 @@ public partial class Admin_IPSecurity : System.Web.UI.Page
         return sections[0] + "." + sections[1] + "." + sections[2] + "." + sections[3];
     }
 
-    static bool IsValid(string ip)
+    private bool IsValid(string ip)
     {
         string[] sections = ip.Split('.');
         if (sections.Count() != 4)
@@ -105,26 +137,15 @@ public partial class Admin_IPSecurity : System.Web.UI.Page
             Configuration config = serverManager.GetWebConfiguration("Iudico");
             ConfigurationSection section = config.GetSection("system.webServer/security/ipSecurity");
             ConfigurationElementCollection coll = section.GetCollection();
-            string ip = TextBox1.Text.Replace(" ", "");
-            if (ip.Contains("-"))
+            string ips = TextBox1.Text.Replace(" ", "");
+            foreach (string ip in ConvertIP(ips))
             {
-                string left = ip.Substring(0, ip.IndexOf("-"));
-                string right = ip.Substring(ip.IndexOf("-") + 1);
-                if (IsValid(left) && IsValid(right))
-                {
-                    GetRange(ip);
-                    foreach (string item in GetRange(ip))
-                    {
-                        ConfigurationElement element = coll.CreateElement("add");
-                        element.SetAttributeValue("ipAddress", item);
-                        element["allowed"] = false;
-                        coll.Add(element);
-                        CheckBoxList1.Items.Add(item);
-                    }
-                }
-
+                ConfigurationElement element = coll.CreateElement("add");
+                element.SetAttributeValue("ipAddress", ip);
+                element["allowed"] = false;
+                coll.Add(element);
+                CheckBoxList1.Items.Add(ip);
             }
-            
             serverManager.CommitChanges();
             TextBox1.Text = "";
         }
