@@ -288,7 +288,7 @@ namespace FireFly.CourseEditor.Course
         /// <summary>
         /// Gets or sets PassRank for item
         /// </summary>
-
+        [Description("Determines how many points should take user to pass this test.")]
         [XmlElement("passRank")]
         public int? PassRank { get; set; }
     }

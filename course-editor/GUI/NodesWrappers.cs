@@ -78,6 +78,7 @@ namespace FireFly.CourseEditor.GUI
                 return _Wrapper;
             }
 
+            [Description("Determines how many points should take user to pass this test.")]
             public int? PassRank
             {
                 get
