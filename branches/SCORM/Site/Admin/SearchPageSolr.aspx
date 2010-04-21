@@ -13,6 +13,7 @@
     <p style="height: 45px">
         <asp:Button ID="Button1" runat="server" Text="Search" />
     <p style="height: 45px">
+        <asp:Label ID="_searchResultsLabel" runat="server" Text="Search Results:"></asp:Label>
         <asp:ListBox ID="_resultsListBox" runat="server"></asp:ListBox>
         <asp:Button ID="_openResult" runat="server" Text="Open" />
 </asp:Content>

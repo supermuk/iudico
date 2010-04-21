@@ -26,6 +26,7 @@ namespace IUDICO.DataModel.Controllers
         public System.Web.UI.WebControls.ListBox ResultsListBox;
         public System.Web.UI.WebControls.TextBox SearchQuery1;
         public System.Web.UI.WebControls.Button Open;
+        public System.Web.UI.WebControls.Label SearchResults;
         int i = 0;
 
         public void Button1_Click(object sender, EventArgs e)
@@ -33,61 +34,77 @@ namespace IUDICO.DataModel.Controllers
             string result = "";
             string score = "";
             ResultsListBox.Visible = true;
+            SearchResults.Visible = true;
             this.ResultsListBox.Items.Clear();
-            if (this.SearchQuery1.Text.ToString() != "")
+            try
             {
-                HttpWebRequest request = WebRequest.Create("http://localhost:8080/apache-solr-1.4.0/select?q=" + this.SearchQuery1.Text) as HttpWebRequest;
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                if (this.SearchQuery1.Text.ToString() != "")
                 {
-                    // Get the response stream  
-                    StreamReader reader = new StreamReader(response.GetResponseStream());
-                    // Console application output
-                    XmlDocument xmlDoc = new XmlDocument();
-                    xmlDoc.LoadXml(reader.ReadToEnd());
-                    ///str[attribute::name='id']
-                    XmlNodeList nodes = xmlDoc.SelectNodes("/response/result/doc");
-                    foreach (XmlNode node in nodes)
+                    HttpWebRequest request = WebRequest.Create("http://localhost:8080/apache-solr-1.4.0/select?q=" + this.SearchQuery1.Text + "&fl=*%2Cscore") as HttpWebRequest;
+                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                     {
-                        result = "";
-                        //XmlNodeList scoreNode = node.SelectNodes("/response/result/doc/float");
-                        XmlNodeList docNodes = node.SelectNodes("str");
-                        string docName = "";
-                        string docId = "";
-                        //foreach (XmlNode floatNode in scoreNode)
-                        //{
-                        //    MessageBox.Show("hh");
-                        //    if (floatNode.Attributes["name"].Value == "score")
-                        //    {
-                        //        score = floatNode.InnerText;
-                        //    }
-                        //}
-                        foreach (XmlNode strNode in docNodes)
+                        // Get the response stream  
+                        StreamReader reader = new StreamReader(response.GetResponseStream());
+                        // Console application output
+                        XmlDocument xmlDoc = new XmlDocument();
+                        xmlDoc.LoadXml(reader.ReadToEnd());
+                        ///str[attribute::name='id']
+                        XmlNodeList nodes = xmlDoc.SelectNodes("/response/result/doc");
+                        foreach (XmlNode node in nodes)
                         {
-                            if (strNode.Attributes["name"].Value == "name")
+                            result = "";
+                            XmlNodeList scoreNode = node.SelectNodes("float");
+                            XmlNodeList docNodes = node.SelectNodes("str");
+                            string docName = "";
+                            string docId = "";
+                            foreach (XmlNode floatNode in scoreNode)
                             {
-                               docName = strNode.InnerText;
+                                if (floatNode.Attributes["name"].Value == "score")
+                                {
+                                    score = floatNode.InnerText;
+                                }
                             }
-                            if (strNode.Attributes["name"].Value == "id")
+                            foreach (XmlNode strNode in docNodes)
                             {
-                               docId = strNode.InnerText;
+                                if (strNode.Attributes["name"].Value == "name")
+                                {
+                                    docName = strNode.InnerText;
+                                }
+                                if (strNode.Attributes["name"].Value == "id")
+                                {
+                                    docId = strNode.InnerText;
+                                }
                             }
+                            var stages = ServerModel.DB.Load<TblCourses>(Int32.Parse(docId));
+                            string name = stages.Description;
+                            string curriculumn = "";
+                            List<int> docList = new List<int>();
+                            docList.Add(Int32.Parse(docId));
+                            var stagesT = ServerModel.DB.Load<TblThemes>("CourseRef", docList);
+                            foreach (TblThemes st in stagesT)
+                            {
+                                var stagesS = ServerModel.DB.Load<TblStages>(st.StageRef);
+                                var stagesC = ServerModel.DB.Load<TblCurriculums>(stagesS.CurriculumRef);
+                                curriculumn = stagesC.Name;
+                            }
+                            result = (i + 1).ToString() + ". " + docName + " ;.....Description: " + name + " ;.....Curriculumn: " + curriculumn + " ;.... Score: " + score;
+                            this.ResultsListBox.Items.Add(new ListItem(result, docId));
+                            i++;
                         }
-                        var stages = ServerModel.DB.Load<TblCourses>(Int32.Parse(docId));
-                        string name = stages.Description;
-                        result = (i + 1).ToString() + ". " + docName;
-                        this.ResultsListBox.Items.Add(new ListItem(result,docId));
-                        this.ResultsListBox.Items.Add("____Description: " + name);
-                        i++;
-                    }
-                    if (i != 0)
-                    {
-                        Open.Visible = true;
-                    }
-                    else
-                    {
-                        this.ResultsListBox.Items.Add(Translations.Admin_SearchPageSolrController_Button1_Click_No_data_found);
+                        if (i != 0)
+                        {
+                            Open.Visible = true;
+                        }
+                        else
+                        {
+                            this.ResultsListBox.Items.Add("No data found");
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Tomcat isn't running: " + ex.Message.ToString());
             }
           
         }
