@@ -6,6 +6,9 @@ using LEX.CONTROLS.Expressions;
 
 namespace IUDICO.DataModel.Controllers
 {
+    /// <summary>
+    /// Controller for UserInfo.aspx page
+    /// </summary>
     public class UserInfoController : ControllerBase
     {
         [PersistantField]

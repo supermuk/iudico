@@ -11,6 +11,9 @@ namespace IUDICO.DataModel.Controllers
 {
     public class CurriculumEditController : BaseTeacherController
     {
+        /// <summary>
+        /// Controller for CurriculumEdit.aspx page
+        /// </summary>
         [PersistantField]
         public IVariable<string> ObjectName = string.Empty.AsVariable();
         [PersistantField]

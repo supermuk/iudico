@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace IUDICO.DataModel.Common
 {
+    /// <summary>
+    /// Deprecated
+    /// </summary>
     public class ComparableList<T> : List<T>, IComparable<ComparableList<T>>
         where T : IComparable<T>
     {

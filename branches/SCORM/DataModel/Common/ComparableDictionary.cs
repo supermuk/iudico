@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace IUDICO.DataModel.Common
 {
+    /// <summary>
+    /// Dictionary which implements Comparation
+    /// </summary>
     public class ComparableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IComparable<ComparableDictionary<TKey, TValue>>
     {
         #region Implementation of IComparable<ComparableDictionary<TKey,TValue>>

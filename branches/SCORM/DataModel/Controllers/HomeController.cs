@@ -6,6 +6,9 @@ using LEX.CONTROLS.Expressions;
 
 namespace IUDICO.DataModel.Controllers
 {
+    /// <summary>
+    /// Controller for Home.aspx page
+    /// </summary>
     public class HomeController : ControllerBase
     {
         public void Test1()

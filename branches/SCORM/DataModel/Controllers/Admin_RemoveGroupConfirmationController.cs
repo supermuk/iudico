@@ -3,6 +3,9 @@ using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.Controllers
 {
+    /// <summary>
+    /// Controller for RemoveGroupConfirmation.aspx page
+    /// </summary>
     public class Admin_RemoveGroupConfirmationController : ControllerBase
     {
         public override void Initialize()

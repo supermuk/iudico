@@ -10,6 +10,9 @@ namespace IUDICO.DataModel.Controllers
         INCLUDE
     }
 
+    /// <summary>
+    /// Controller for SelectGroup.aspx page
+    /// </summary>
     public class Admin_SelectGroupController : ControllerBase
     {
         public override void Initialize()

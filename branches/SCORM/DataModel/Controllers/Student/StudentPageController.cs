@@ -15,6 +15,9 @@ using LEX.CONTROLS.Expressions;
 
 namespace IUDICO.DataModel.Controllers.Student
 {
+    /// <summary>
+    /// Controller for StudentPage.aspx page
+    /// </summary>
     public class StudentPageController : ControllerBase
     {
         private const int CountHowManyPagesToShow = 5;

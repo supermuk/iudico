@@ -5,6 +5,7 @@ namespace IUDICO.DataModel.Controllers
 {
     public class Admin_User_GroupOperationControllerBase : ControllerBase
     {
+
         public override void Initialize()
         {
             base.Initialize();
@@ -23,6 +24,9 @@ namespace IUDICO.DataModel.Controllers
         public int GroupID;
     }
 
+    /// <summary>
+    /// Controller for RemoveUserFromGroup.aspx page
+    /// </summary>
     public class Admin_RemoveUserFromGroupController : Admin_User_GroupOperationControllerBase
     {
         public void DoExclude()

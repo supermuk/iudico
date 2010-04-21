@@ -14,6 +14,9 @@ using LEX.CONTROLS.Expressions;
 
 namespace IUDICO.DataModel.Controllers
 {
+    /// <summary>
+    /// Controller for StatisticShow.aspx page
+    /// </summary>
     public class StatisticShowController : BaseTeacherController
     {
         [ControllerParameter]

@@ -2,6 +2,9 @@
 
 namespace IUDICO.DataModel.Common.StudentUtils
 {
+    /// <summary>
+    /// Deprecated
+    /// </summary>
     /*
     class UserSubmitCountChecker
     {

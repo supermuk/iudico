@@ -1,5 +1,8 @@
 namespace IUDICO.DataModel.Common.ImportUtils
 {
+    /// <summary>
+    /// Constants of necessary file extentions 
+    /// </summary>
     public sealed class FileExtentions
     {
         public const string Aspx = ".aspx";

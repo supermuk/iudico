@@ -2,6 +2,9 @@
 
 namespace IUDICO.DataModel.Common
 {
+    /// <summary>
+    /// Deprecated
+    /// </summary>
     public static class Extenders
     {
         public static IEnumerable<T> Append<T>(this IEnumerable<T> collection, T v)

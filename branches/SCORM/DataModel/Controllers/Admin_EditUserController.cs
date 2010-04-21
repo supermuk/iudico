@@ -7,6 +7,9 @@ using LEX.CONTROLS.Expressions;
 
 namespace IUDICO.DataModel.Controllers
 {
+    /// <summary>
+    /// Controller for EditUser.aspx page
+    /// </summary>
     public class Admin_EditUserController : ControllerBase
     {
         public override void Initialize()

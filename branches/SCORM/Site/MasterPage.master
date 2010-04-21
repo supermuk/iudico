@@ -3,7 +3,7 @@
 <%@ Import Namespace="System.Linq" %>
 <%@ Import Namespace="IUDICO.DataModel" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajax" %>
-<%@ Master Language="C#" Inherits="IUDICO.DataModel.MasterPageBase" %>
+<%@ Master Language="C#" Inherits="System.Web.UI.MasterPage" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -39,7 +39,21 @@
                 ((Menu)sender).Items.Remove(e.Item);
             }
         }
-    </script>
+
+        protected void UALocaleImageButton_Click(object sender, ImageClickEventArgs e)
+        {
+            Session["MyCulture"] = "uk-UA";
+            Server.Transfer(Request.Path);
+        }
+
+        protected void ENLocaleImageButton_Click(object sender, ImageClickEventArgs e)
+        {
+            Session["MyCulture"] = "en-gb";
+            Server.Transfer(Request.Path);
+        }
+        
+        
+</script>
 
     <script type="text/javascript" language="javascript">
 
@@ -73,6 +87,16 @@ return ctrlMod ? false : true;
 <body onload="javascript:initialize()">
     <form runat="server">
     <center>
+        <div style="width:58px; height:17px; float:right">
+            <asp:ImageButton ID="UALocaleImageButton" runat="server" Height="16px" 
+                ImageUrl="~/Images/ukraine_flag-small.png" Width="25px" ImageAlign="Left" 
+                onclick="UALocaleImageButton_Click" 
+                meta:resourcekey="UALocaleImageButtonResource1" />   
+            <asp:ImageButton ID="ENLocaleImageButton" runat="server" 
+                ImageUrl="~/Images/great_britain_flag.png" Height="16px" 
+                ImageAlign="Right" Width="25px" onclick="ENLocaleImageButton_Click" 
+                meta:resourcekey="ENLocaleImageButtonResource1" />
+        </div>
         <div class="glb-container">
             <asp:ScriptManager runat="server" />
             <asp:UpdateProgress DisplayAfter="1" runat="server">
@@ -81,39 +105,46 @@ return ctrlMod ? false : true;
                         Processing... Please wait</div>
                 </ProgressTemplate>
             </asp:UpdateProgress>
-                 <ajax:ModalPopupExtender ID="popup" CancelControlID="btnCancel" runat="server" TargetControlID="hypLogout"  PopupControlID="pnlPopup" BackgroundCssClass="modalBackground" DropShadow="true" PopupDragHandleControlID="pnlPopup" ></ajax:ModalPopupExtender>
-                    <asp:Panel ID="pnlPopup" runat="server" Width="280px" Height="70px" BackColor="#cccccc" style="display:none;"> 
+                 <ajax:ModalPopupExtender ID="popup" CancelControlID="btnCancel" 
+                runat="server" TargetControlID="hypLogout"  PopupControlID="pnlPopup" 
+                BackgroundCssClass="modalBackground" DropShadow="True" 
+                PopupDragHandleControlID="pnlPopup" DynamicServicePath="" Enabled="True" ></ajax:ModalPopupExtender>
+                    <asp:Panel ID="pnlPopup" runat="server" Width="280px" Height="70px" 
+                BackColor="#CCCCCC" style="display:none;" meta:resourcekey="pnlPopupResource1"> 
                        <table style="padding: 5px; width: 100%" cellspacing="5">
                         <tr>
                             <td colspan="2">
-                                <asp:Label ID="Label2" BackColor="Transparent" runat="server" Text="Are you sure you want to logout?" />
+                                <asp:Label ID="Label2" BackColor="Transparent" runat="server" 
+                                    Text="Are you sure you want to logout?" meta:resourcekey="Label2Resource1" />
                                 <asp:HiddenField ID="groupID" runat="server" />
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <asp:Button ID="btnOK" PostBackUrl="~/Logout.ashx" runat="server" Width="100px" Height="20px"
-                                    Text="OK" />
+                                    Text="OK" meta:resourcekey="btnOKResource1" />
                             </td>
                             <td align="right">
-                                <asp:Button ID="btnCancel" runat="server" Width="100px" Height="20px" Text="Cancel" />
+                                <asp:Button ID="btnCancel" runat="server" Width="100px" Height="20px" 
+                                    Text="Cancel" meta:resourcekey="btnCancelResource1" />
                             </td>
                         </tr>
                     </table>
                     </asp:Panel>
-            <asp:SiteMapDataSource ID="SiteMap" ShowStartingNode="false" runat="server" />
+            <asp:SiteMapDataSource ID="SiteMap" ShowStartingNode="False" runat="server" />
             <center>
                 <div class="logo">  
                     <div style="width: 637px; height: 80px">
                         <span id="spWatch">
                         </span>
                         <img src='/Images/logo.png' alt="IUDICO. Remote Education - made it easy" />
-                    </div>
+                        </div>
                 </div>
                 <div class="content">
                 <div class="menu-holder" style="width: 100%">
                     <asp:Menu ID="MainMenu" OnMenuItemDataBound="MainMenu_ItemDataBound" OnDataBinding="MainMenu_DataBind"
-                        Orientation="Horizontal" DataSourceID="SiteMap" runat="server">
+                        Orientation="Horizontal" DataSourceID="SiteMap" runat="server" 
+                        meta:resourcekey="MainMenuResource1">
                         <StaticMenuItemStyle CssClass="menu-static" />
                         <StaticHoverStyle CssClass="menu-hover" />
                             <DynamicHoverStyle CssClass="menu-static" />
@@ -121,13 +152,16 @@ return ctrlMod ? false : true;
                         <DynamicHoverStyle CssClass="menu-hover" />
                     </asp:Menu>
                 </div>
-				<div style="text-align:right;"><asp:HyperLink ID="hypLogout" NavigateUrl="~/Logout.ashx" runat="server" Visible="True" style="display:none;">Logout</asp:HyperLink>
+				<div style="text-align:right;"><asp:HyperLink ID="hypLogout" 
+                        NavigateUrl="~/Logout.ashx" runat="server" style="display:none;" 
+                        meta:resourcekey="hypLogoutResource1">Logout</asp:HyperLink>
                     <asp:HyperLink ID="HyperLink1" runat="server" 
-                        NavigateUrl="~/Admin/SearchPageSolr.aspx">Search</asp:HyperLink>
+                        NavigateUrl="~/Admin/SearchPageSolr.aspx" 
+                        meta:resourcekey="HyperLink1Resource1">Search</asp:HyperLink>
                     </div>
                 <br />
                 <b>
-                    <asp:SiteMapPath runat="server" />
+                    <asp:SiteMapPath runat="server" meta:resourcekey="SiteMapPathResource1" />
                 </b>
                 <asp:UpdatePanel ID="globalUpdatePanel" runat="server">
                     <ContentTemplate>

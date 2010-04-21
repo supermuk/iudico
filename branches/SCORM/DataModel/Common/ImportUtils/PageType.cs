@@ -1,5 +1,8 @@
 namespace IUDICO.DataModel.Common.ImportUtils
 {
+    /// <summary>
+    /// Constants of necessary types of courses pages
+    /// </summary>
     public sealed class PageType
     {
         public static readonly string Chapter = "Chapter";

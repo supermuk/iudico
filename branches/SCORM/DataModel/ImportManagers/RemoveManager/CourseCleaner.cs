@@ -4,6 +4,9 @@ using System.IO;
 
 namespace IUDICO.DataModel.ImportManagers.RemoveManager
 {
+    /// <summary>
+    /// Class for cleaning courses
+    /// </summary>
     class CourseCleaner
     {
         public static void DeleteCourse(int courseId)

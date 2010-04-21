@@ -3,6 +3,9 @@ using TestingSystem;
 
 namespace IUDICO.DataModel.Common.StudentUtils
 {
+    /// <summary>
+    /// Class to represent data of programming language
+    /// </summary>
     public static class LanguageHelper
     {
         public static Language FxLanguagesToLanguage(int id)

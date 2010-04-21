@@ -5,6 +5,9 @@ namespace IUDICO.DataModel.Controllers
 {
     public class Admin_RemoveUserConfirmationController : ControllerBase
     {
+        /// <summary>
+        /// Controller for RemoveUserConfirmation.aspx page
+        /// </summary>
         public override void Initialize()
         {
             base.Initialize();

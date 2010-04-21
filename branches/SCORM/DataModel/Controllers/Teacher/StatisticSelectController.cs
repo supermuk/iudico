@@ -8,6 +8,9 @@ using System.Collections.Generic;
 
 namespace IUDICO.DataModel.Controllers
 {
+    /// <summary>
+    /// Controller for  StatisticSelect.aspx page
+    /// </summary>
     public class StatisticSelectController : BaseTeacherController
     {
         public DropDownList GroupsDropDownList { get; set; }

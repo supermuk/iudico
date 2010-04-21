@@ -7,6 +7,7 @@ namespace IUDICO.DataModel.Common
     public class DataObjectDictionary<TDataObject> : Dictionary<int, TDataObject>
         where TDataObject : IIntKeyedDataObject
     {
+
         public DataObjectDictionary(IEnumerable<TDataObject> objs)
         {
             foreach (var o in objs)

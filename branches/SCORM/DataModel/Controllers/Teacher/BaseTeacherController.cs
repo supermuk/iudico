@@ -3,6 +3,9 @@ using LEX.CONTROLS.Expressions;
 
 namespace IUDICO.DataModel.Controllers
 {
+    /// <summary>
+    /// Base Teacher Controller
+    /// </summary>
     public class BaseTeacherController : ControllerBase
     {
         public IVariable<string> Caption = string.Empty.AsVariable();

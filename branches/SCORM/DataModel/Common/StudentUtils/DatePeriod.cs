@@ -4,8 +4,12 @@ using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.Common.StudentUtils
 {
+    /// <summary>
+    /// Class to represent period of date
+    /// </summary>
     class DatePeriod
     {
+ 
         private readonly DateTime? _start;
 
         private readonly DateTime? _end;

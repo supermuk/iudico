@@ -7,6 +7,8 @@ using System.Web.UI.WebControls;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.Controllers;
 using LEX.CONTROLS;
+using System.Threading;
+using System.Globalization;
 
 namespace IUDICO.DataModel
 {
@@ -239,6 +241,27 @@ namespace IUDICO.DataModel
             }
             else
                 base.OnPreRenderComplete(e);
+        }
+
+        private const string m_DefaultCulture = "en-gb";
+
+        protected override void InitializeCulture()
+        {
+            //retrieve culture information from session
+            string culture = Convert.ToString(Session["MyCulture"]);
+
+            //check whether a culture is stored in the session
+            if (!string.IsNullOrEmpty(culture))
+                Culture = culture;
+            else
+                Culture = m_DefaultCulture;
+
+            //set culture to current thread
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(culture);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
+
+            //call base class
+            base.InitializeCulture();
         }
 
         protected void CheckBindingAllowed()

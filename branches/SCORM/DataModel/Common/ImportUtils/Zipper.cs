@@ -4,15 +4,16 @@ using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.Common.ImportUtils
 {
+    /// <summary>
+    /// Puts folder's content to zip archive
+    /// </summary>
+    /// <param name="zipFileName">Path to result zip file</param>
+    /// <param name="folder">Folder to archive</param>
     public static class Zipper
     {
         private const int ReadBufferSize = 2048;
 
-        /// <summary>
-        /// Puts folder's content to zip archive
-        /// </summary>
-        /// <param name="zipFileName">Path to result zip file</param>
-        /// <param name="folder">Folder to archive</param>
+ 
         public static void CreateZip([NotNull] string zipFileName, [NotNull] string folder)
         {
 #if CHECKERS

@@ -4,8 +4,11 @@ using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.Common.StudentUtils
 {
-    public enum OperationType { Pass, View };
 
+    public enum OperationType { Pass, View };
+    /// <summary>
+    /// Class to work with student permissions
+    /// </summary>
     static class StudentPermissionsHelper
     {
         public static IList<DatePeriod> GetPermissionsDatePeriods(int userId, int objectId, NodeType type, OperationType opType)

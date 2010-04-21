@@ -6,6 +6,9 @@ using System;
 
 namespace IUDICO.DataModel.Common.StudentUtils
 {
+    /// <summary>
+    /// Class to get records (bind to Student) from database
+    /// </summary>
     public class StudentRecordFinder
     {
         public static IList<DateTime?> GetAllDates(int userID)

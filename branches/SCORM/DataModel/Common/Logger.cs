@@ -5,6 +5,9 @@ using LEX.CONTROLS;
 
 namespace IUDICO.DataModel.Common
 {
+    /// <summary>
+    /// Class to log data
+    /// </summary>
     public static class Logger
     {
         static Logger()

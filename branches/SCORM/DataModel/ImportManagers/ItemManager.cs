@@ -8,6 +8,9 @@ using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.ImportManagers
 {
+    /// <summary>
+    /// Class to work with items
+    /// </summary>
     public class ItemManager
     {
         /// <summary>

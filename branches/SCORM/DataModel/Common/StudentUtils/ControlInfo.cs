@@ -3,6 +3,9 @@ using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.Common.StudentUtils
 {
+    /// <summary>
+    /// Class to represent data control which shows tests
+    /// </summary>
     class ControlInfo
     {
         private TblCurriculums _curriculumn;

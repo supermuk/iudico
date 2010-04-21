@@ -13,6 +13,9 @@ using LEX.CONTROLS.Expressions;
 
 namespace IUDICO.DataModel.Controllers
 {
+    /// <summary>
+    /// Controller for CourseEdit.aspx page
+    /// </summary>
     public class CourseEditController : BaseTeacherController
     {
         [PersistantField]

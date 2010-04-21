@@ -5,6 +5,9 @@ using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.Controllers
 {
+    /// <summary>
+    /// Controller for Share.aspx page
+    /// </summary>
     public class ShareController : BaseTeacherController
     {
         [ControllerParameter]

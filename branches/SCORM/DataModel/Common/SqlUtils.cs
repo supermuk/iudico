@@ -13,6 +13,9 @@ namespace IUDICO.DataModel.Common
         AMBIGUOUS_DATA
     }
 
+    /// <summary>
+    /// Some sql queries
+    /// </summary>
     public static class SqlUtils
     {
         [NotNull]

@@ -4,9 +4,11 @@ using IUDICO.DataModel.DB;
 
 namespace IUDICO.DataModel.Controllers
 {
+    /// <summary>
+    /// Controller for TeacherObjects.aspx page
+    /// </summary>
     public class TeacherObjectsController : BaseTeacherController
     {
-
         public Table CoursesTable { get; set; }
         public Table CurriculumsTable { get; set; }
 

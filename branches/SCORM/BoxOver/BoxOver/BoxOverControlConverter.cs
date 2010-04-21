@@ -3,6 +3,9 @@ using System.Web.UI.WebControls;
 
 namespace BoxOver
 {
+    /// <summary>
+    /// BoxOverControlConverter
+    /// </summary>
     public class BoxOverControlConverter : ControlIDConverter
     {
         protected override bool FilterControl(Control control)
