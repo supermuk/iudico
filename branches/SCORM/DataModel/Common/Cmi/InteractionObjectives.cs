@@ -70,7 +70,7 @@ namespace IUDICO.DataModel.Common.Cmi
                 return GetVariable(n, parts[0], parts[1]);
             }
 
-            throw new NotSupportedException("Requested variable is not supported");
+            throw new NotSupportedException(Translations.InteractionObjectives_GetValue_Requested_variable_is_not_supported);
         }
 
         public override int SetValue(string n, string path, string value)
@@ -82,7 +82,7 @@ namespace IUDICO.DataModel.Common.Cmi
             {
                 if (parts[0] == "_count")
                 {
-                    throw new Exception("Requested variable is read-only");
+                    throw new Exception(Translations.InteractionObjectives_SetValue_Requested_variable_is_read_only);
                 }
             }
             else if (int.TryParse(parts[0], out id) && elements.ContainsKey(parts[1]) && parts.Length == 2)
@@ -91,14 +91,14 @@ namespace IUDICO.DataModel.Common.Cmi
                 return SetVariable(n, parts[0], parts[1], value);
             }
 
-            throw new NotSupportedException("Requested variable is not supported");
+            throw new NotSupportedException(Translations.InteractionObjectives_GetValue_Requested_variable_is_not_supported);
         }
 
         protected string GetVariable(string n, string m, string name)
         {
             if (elements[name].Read == false)
             {
-                throw new Exception("Requested variable is write-only");
+                throw new Exception(Translations.InteractionObjectives_GetVariable_Requested_variable_is_write_only);
             }
 
             int interactionRef, number;
@@ -127,7 +127,7 @@ namespace IUDICO.DataModel.Common.Cmi
         {
             if (elements[name].Write == false)
             {
-                throw new Exception("Requested variable is read-only");
+                throw new Exception(Translations.InteractionObjectives_SetValue_Requested_variable_is_read_only);
             }
 
             int interactionRef, number;

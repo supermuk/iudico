@@ -318,7 +318,7 @@ namespace IUDICO.DataModel.Common
             sharedPermission.CanBeDelagated = canBeDelegated;
             if (sharedPermission.OwnerGroupRef != null)
             {
-                throw new Exception("Only user based permissions can be shared");
+                throw new Exception(Translations.TeacherHelper_Share_Only_user_based_permissions_can_be_shared);
             }
             sharedPermission.OwnerUserRef = userID;
             sharedPermission.ParentPermitionRef = myPermission.ID;
@@ -709,7 +709,7 @@ namespace IUDICO.DataModel.Common
             Table temp = new Table();
             TableHeaderRow headerRow = new TableHeaderRow();
             TableHeaderCell headerCell = new TableHeaderCell();
-            headerCell.Text = "Student";
+            headerCell.Text = Translations.TeacherHelper_Sort_Student;
             headerRow.Cells.Add(headerCell);
 
             foreach (TblStages stage in TeacherHelper.StagesOfCurriculum(curriculum))
@@ -722,11 +722,11 @@ namespace IUDICO.DataModel.Common
                 }
             }
             headerCell = new TableHeaderCell();
-            headerCell.Text = "Total";
+            headerCell.Text = Translations.TeacherHelper_Sort_Total;
             headerRow.Cells.Add(headerCell);
 
             headerCell = new TableHeaderCell();
-            headerCell.Text = "Percent";
+            headerCell.Text = Translations.TeacherHelper_Sort_Percent;
             headerRow.Cells.Add(headerCell);
 
             headerCell = new TableHeaderCell();
@@ -763,7 +763,7 @@ namespace IUDICO.DataModel.Common
             {
                 TableHeaderRow headerRow = new TableHeaderRow();
                 TableHeaderCell headerCell = new TableHeaderCell();
-                headerCell.Text = "Student";
+                headerCell.Text = Translations.TeacherHelper_Sort_Student;
                 headerRow.Cells.Add(headerCell);
 
                 foreach (TblStages stage in TeacherHelper.StagesOfCurriculum(curriculum))
@@ -776,11 +776,11 @@ namespace IUDICO.DataModel.Common
                     }
                 }
                 headerCell = new TableHeaderCell();
-                headerCell.Text = "Total";
+                headerCell.Text = Translations.TeacherHelper_Sort_Total;
                 headerRow.Cells.Add(headerCell);
 
                 headerCell = new TableHeaderCell();
-                headerCell.Text = "Percent";
+                headerCell.Text = Translations.TeacherHelper_Sort_Percent;
                 headerRow.Cells.Add(headerCell);
 
                 headerCell = new TableHeaderCell();
@@ -822,7 +822,7 @@ namespace IUDICO.DataModel.Common
                 TableHeaderRow headerRow = new TableHeaderRow();
 
                 TableHeaderCell headerCell = new TableHeaderCell();
-                headerCell.Text = "Student";
+                headerCell.Text = Translations.TeacherHelper_Sort_Student;
                 headerRow.Cells.Add(headerCell);
 
 
@@ -843,7 +843,7 @@ namespace IUDICO.DataModel.Common
                 }
 
                 headerCell = new TableHeaderCell();
-                headerCell.Text = "Total";
+                headerCell.Text = Translations.TeacherHelper_Sort_Total;
                 headerRow.Cells.Add(headerCell);
 
                 temp.Rows.Add(headerRow);

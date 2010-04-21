@@ -116,6 +116,42 @@ namespace IUDICO.DataModel {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Object {0} with ID {1} not found in the Cache.
+        /// </summary>
+        internal static string CacheUtility_Get_Object__0__with_ID__1__not_found_in_the_Cache {
+            get {
+                return ResourceManager.GetString("CacheUtility_Get_Object__0__with_ID__1__not_found_in_the_Cache", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested variable is not supported.
+        /// </summary>
+        internal static string CmiDataModel_GetCollection_Requested_variable_is_not_supported {
+            get {
+                return ResourceManager.GetString("CmiDataModel_GetCollection_Requested_variable_is_not_supported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested variable is write-only.
+        /// </summary>
+        internal static string CmiDataModel_GetVariable_Requested_variable_is_write_only {
+            get {
+                return ResourceManager.GetString("CmiDataModel_GetVariable_Requested_variable_is_write_only", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested variable is read-only.
+        /// </summary>
+        internal static string CmiDataModel_SetValue_Requested_variable_is_read_only {
+            get {
+                return ResourceManager.GetString("CmiDataModel_SetValue_Requested_variable_is_read_only", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Binding is not allowed.
         /// </summary>
         internal static string ControlledPage_CheckBindingAllowed_Binding_is_not_allowed {
@@ -862,11 +898,101 @@ namespace IUDICO.DataModel {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Requested variable is not supported.
+        /// </summary>
+        internal static string InteractionCorrectResponses_GetValue_Requested_variable_is_not_supported {
+            get {
+                return ResourceManager.GetString("InteractionCorrectResponses_GetValue_Requested_variable_is_not_supported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested variable is write-only.
+        /// </summary>
+        internal static string InteractionCorrectResponses_GetVariable_Requested_variable_is_write_only {
+            get {
+                return ResourceManager.GetString("InteractionCorrectResponses_GetVariable_Requested_variable_is_write_only", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested variable is read-only.
+        /// </summary>
+        internal static string InteractionCorrectResponses_SetValue_Requested_variable_is_read_only {
+            get {
+                return ResourceManager.GetString("InteractionCorrectResponses_SetValue_Requested_variable_is_read_only", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested variable is not supported.
+        /// </summary>
+        internal static string InteractionObjectives_GetValue_Requested_variable_is_not_supported {
+            get {
+                return ResourceManager.GetString("InteractionObjectives_GetValue_Requested_variable_is_not_supported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested variable is write-only.
+        /// </summary>
+        internal static string InteractionObjectives_GetVariable_Requested_variable_is_write_only {
+            get {
+                return ResourceManager.GetString("InteractionObjectives_GetVariable_Requested_variable_is_write_only", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested variable is read-only.
+        /// </summary>
+        internal static string InteractionObjectives_SetValue_Requested_variable_is_read_only {
+            get {
+                return ResourceManager.GetString("InteractionObjectives_SetValue_Requested_variable_is_read_only", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested variable is not supported.
+        /// </summary>
+        internal static string Interactions_GetValue_Requested_variable_is_not_supported {
+            get {
+                return ResourceManager.GetString("Interactions_GetValue_Requested_variable_is_not_supported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested variable is write-only.
+        /// </summary>
+        internal static string Interactions_GetVariable_Requested_variable_is_write_only {
+            get {
+                return ResourceManager.GetString("Interactions_GetVariable_Requested_variable_is_write_only", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested variable is read-only.
+        /// </summary>
+        internal static string Interactions_SetValue_Requested_variable_is_read_only {
+            get {
+                return ResourceManager.GetString("Interactions_SetValue_Requested_variable_is_read_only", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot get rank for item.
         /// </summary>
         internal static string ItemManager_Store_Cannot_get_rank_for_item {
             get {
                 return ResourceManager.GetString("ItemManager_Store_Cannot_get_rank_for_item", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested variable is not supported.
+        /// </summary>
+        internal static string LnuDataModel_GetValue_Requested_variable_is_not_supported {
+            get {
+                return ResourceManager.GetString("LnuDataModel_GetValue_Requested_variable_is_not_supported", resourceCulture);
             }
         }
         
@@ -969,6 +1095,24 @@ namespace IUDICO.DataModel {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Wrong request (LearnerAttempt ID not specified).
+        /// </summary>
+        internal static string OpenTestController_PageLoad_Wrong_request__LearnerAttempt_ID_not_specified_ {
+            get {
+                return ResourceManager.GetString("OpenTestController_PageLoad_Wrong_request__LearnerAttempt_ID_not_specified_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You opened {0}({1}) page.
+        /// </summary>
+        internal static string OpenTestController_ShowCurrent_You_opened__0___1___page {
+            get {
+                return ResourceManager.GetString("OpenTestController_ShowCurrent_You_opened__0___1___page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DataObject {0} must support {1} interface to be a secured object.
         /// </summary>
         internal static string PermissionsManager_CheckSupport_DataObject__0__must_support__1__interface_to_be_a_secured_object {
@@ -1026,6 +1170,47 @@ namespace IUDICO.DataModel {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} can be applied to instance field only but applied to static ({1}.{2}).
+        /// </summary>
+        internal static string PersistantStateMetaData_GetFieldsDataInternal__0__can_be_applied_to_instance_field_only_but_applied_to_static___1___2__ {
+            get {
+                return ResourceManager.GetString("PersistantStateMetaData_GetFieldsDataInternal__0__can_be_applied_to_instance_fiel" +
+                        "d_only_but_applied_to_static___1___2__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid count of target values expected {0} but {1} found.
+        /// </summary>
+        internal static string PersistantStateMetaData_LoadStateFor_Invalid_count_of_target_values_expected__0__but__1__found {
+            get {
+                return ResourceManager.GetString("PersistantStateMetaData_LoadStateFor_Invalid_count_of_target_values_expected__0__" +
+                        "but__1__found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type {0} is not supposed to be marked with {2}. Invalid type. Only ValueTypes, strings and classes which implement {1} or {5}. Any combination with {3}&lt;T&gt; and {4}&lt;T&gt; by this types also supported..
+        /// </summary>
+        internal static string PersistantValueInfo_PersistantValueInfo_Type__0__is_not_supposed_to_be_marked_with__2___Invalid_type__Only_ValueTypes__strings_and_classes_which_implement__1__or__5___Any_combination_with__3__T__and__4__T__by_this_types_also_supported_ {
+            get {
+                return ResourceManager.GetString("PersistantValueInfo_PersistantValueInfo_Type__0__is_not_supposed_to_be_marked_wit" +
+                        "h__2___Invalid_type__Only_ValueTypes__strings_and_classes_which_implement__1__or" +
+                        "__5___Any_combination_with__3__T__and__4__T__by_this_types_also_supported_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type {0} cannot be persisted because it&apos;s don&apos;t have parameterless constructor.
+        /// </summary>
+        internal static string PersistantValueInfo_SafeGetConstructor_Type__0__cannot_be_persisted_because_it_s_don_t_have_parameterless_constructor {
+            get {
+                return ResourceManager.GetString("PersistantValueInfo_SafeGetConstructor_Type__0__cannot_be_persisted_because_it_s_" +
+                        "don_t_have_parameterless_constructor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No groups avalible.
         /// </summary>
         internal static string ReCompilePageController_CreateGroupList_No_groups_avalible {
@@ -1078,6 +1263,33 @@ namespace IUDICO.DataModel {
             get {
                 return ResourceManager.GetString("RelTable_RelTable_Impossible_to_create_relation_dataobject__Please_use_methods_of" +
                         "_ServerModel_DB_instead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested variable is not supported.
+        /// </summary>
+        internal static string Score_GetValue_Requested_variable_is_not_supported {
+            get {
+                return ResourceManager.GetString("Score_GetValue_Requested_variable_is_not_supported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested variable is write-only.
+        /// </summary>
+        internal static string Score_GetVariable_Requested_variable_is_write_only {
+            get {
+                return ResourceManager.GetString("Score_GetVariable_Requested_variable_is_write_only", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested variable is read-only.
+        /// </summary>
+        internal static string Score_SetValue_Requested_variable_is_read_only {
+            get {
+                return ResourceManager.GetString("Score_SetValue_Requested_variable_is_read_only", resourceCulture);
             }
         }
         
@@ -1287,6 +1499,91 @@ namespace IUDICO.DataModel {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show {0} Dates.
+        /// </summary>
+        internal static string StudentPageController_ModeButtonClick_Show__0__Dates {
+            get {
+                return ResourceManager.GetString("StudentPageController_ModeButtonClick_Show__0__Dates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From this page you can open test or see test results; And see you last {0} result.
+        /// </summary>
+        internal static string StudentPageController_ShowCommonDescription_From_this_page_you_can_open_test_or_see_test_results__And_see_you_last__0__result {
+            get {
+                return ResourceManager.GetString("StudentPageController_ShowCommonDescription_From_this_page_you_can_open_test_or_s" +
+                        "ee_test_results__And_see_you_last__0__result", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have control now. Do you best.
+        /// </summary>
+        internal static string StudentPageController_ShowDescriptionForControl_You_have_control_now__Do_you_best {
+            get {
+                return ResourceManager.GetString("StudentPageController_ShowDescriptionForControl_You_have_control_now__Do_you_best" +
+                        "", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display themes that you can {0} in selected date.
+        /// </summary>
+        internal static string StudentPageController_ShowDescriptionForDataSelection_Display_themes_that_you_can__0__in_selected_date {
+            get {
+                return ResourceManager.GetString("StudentPageController_ShowDescriptionForDataSelection_Display_themes_that_you_can" +
+                        "__0__in_selected_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In calendar your see dates when you can {0} test.
+        /// </summary>
+        internal static string StudentPageController_ShowDescriptionForNodeSelection_In_calendar_your_see_dates_when_you_can__0__test {
+            get {
+                return ResourceManager.GetString("StudentPageController_ShowDescriptionForNodeSelection_In_calendar_your_see_dates_" +
+                        "when_you_can__0__test", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only user based permissions can be shared.
+        /// </summary>
+        internal static string TeacherHelper_Share_Only_user_based_permissions_can_be_shared {
+            get {
+                return ResourceManager.GetString("TeacherHelper_Share_Only_user_based_permissions_can_be_shared", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Percent.
+        /// </summary>
+        internal static string TeacherHelper_Sort_Percent {
+            get {
+                return ResourceManager.GetString("TeacherHelper_Sort_Percent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Student.
+        /// </summary>
+        internal static string TeacherHelper_Sort_Student {
+            get {
+                return ResourceManager.GetString("TeacherHelper_Sort_Student", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total.
+        /// </summary>
+        internal static string TeacherHelper_Sort_Total {
+            get {
+                return ResourceManager.GetString("TeacherHelper_Sort_Total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to None (Click to upload some).
         /// </summary>
         internal static string TeacherObjectsController_noCourses_None__Click_to_upload_some_ {
@@ -1388,6 +1685,24 @@ namespace IUDICO.DataModel {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Correct Answers.
+        /// </summary>
+        internal static string TestDetailsController_GetPageTitleType_Correct_Answers {
+            get {
+                return ResourceManager.GetString("TestDetailsController_GetPageTitleType_Correct_Answers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Answers.
+        /// </summary>
+        internal static string TestDetailsController_GetPageTitleType_User_Answers {
+            get {
+                return ResourceManager.GetString("TestDetailsController_GetPageTitleType_User_Answers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User personal info.
         /// </summary>
         internal static string UserInfoController_pageCaption {
@@ -1403,6 +1718,15 @@ namespace IUDICO.DataModel {
             get {
                 return ResourceManager.GetString("UserInfoController_pageDescription_This_is_your_info_page__Here_you_can_change_yo" +
                         "ur_name__email_and_password__Look_up_for_your_roles_and_groups_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Too many attributes.
+        /// </summary>
+        internal static string Utils_TryGetAtr_Too_many_attributes {
+            get {
+                return ResourceManager.GetString("Utils_TryGetAtr_Too_many_attributes", resourceCulture);
             }
         }
     }

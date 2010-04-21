@@ -552,4 +552,109 @@
 	<data name="CourseBehaviorController_SaveButtonClick_You_Preferences_is_saved">
 		<value xml:space="preserve">You Preferences is saved</value>
 	</data>
+	<data name="TestDetailsController_GetPageTitleType_User_Answers">
+		<value xml:space="preserve">User Answers</value>
+	</data>
+	<data name="TestDetailsController_GetPageTitleType_Correct_Answers">
+		<value xml:space="preserve">Correct Answers</value>
+	</data>
+	<data name="StudentPageController_ModeButtonClick_Show__0__Dates">
+		<value xml:space="preserve">Show {0} Dates</value>
+	</data>
+	<data name="StudentPageController_ShowDescriptionForDataSelection_Display_themes_that_you_can__0__in_selected_date">
+		<value xml:space="preserve">Display themes that you can {0} in selected date</value>
+	</data>
+	<data name="StudentPageController_ShowCommonDescription_From_this_page_you_can_open_test_or_see_test_results__And_see_you_last__0__result">
+		<value xml:space="preserve">From this page you can open test or see test results; And see you last {0} result</value>
+	</data>
+	<data name="StudentPageController_ShowDescriptionForControl_You_have_control_now__Do_you_best">
+		<value xml:space="preserve">You have control now. Do you best</value>
+	</data>
+	<data name="StudentPageController_ShowDescriptionForNodeSelection_In_calendar_your_see_dates_when_you_can__0__test">
+		<value xml:space="preserve">In calendar your see dates when you can {0} test</value>
+	</data>
+	<data name="OpenTestController_PageLoad_Wrong_request__LearnerAttempt_ID_not_specified_">
+		<value xml:space="preserve">Wrong request (LearnerAttempt ID not specified)</value>
+	</data>
+	<data name="OpenTestController_ShowCurrent_You_opened__0___1___page">
+		<value xml:space="preserve">You opened {0}({1}) page</value>
+	</data>
+	<data name="PersistantValueInfo_PersistantValueInfo_Type__0__is_not_supposed_to_be_marked_with__2___Invalid_type__Only_ValueTypes__strings_and_classes_which_implement__1__or__5___Any_combination_with__3__T__and__4__T__by_this_types_also_supported_">
+		<value><![CDATA[Type {0} is not supposed to be marked with {2}. Invalid type. Only ValueTypes, strings and classes which implement {1} or {5}. Any combination with {3}<T> and {4}<T> by this types also supported.]]></value>
+	</data>
+	<data name="PersistantValueInfo_SafeGetConstructor_Type__0__cannot_be_persisted_because_it_s_don_t_have_parameterless_constructor">
+		<value><![CDATA[Type {0} cannot be persisted because it's don't have parameterless constructor]]></value>
+	</data>
+	<data name="PersistantStateMetaData_GetFieldsDataInternal__0__can_be_applied_to_instance_field_only_but_applied_to_static___1___2__">
+		<value xml:space="preserve">{0} can be applied to instance field only but applied to static ({1}.{2})</value>
+	</data>
+	<data name="PersistantStateMetaData_LoadStateFor_Invalid_count_of_target_values_expected__0__but__1__found">
+		<value xml:space="preserve">Invalid count of target values expected {0} but {1} found</value>
+	</data>
+	<data name="Utils_TryGetAtr_Too_many_attributes">
+		<value xml:space="preserve">Too many attributes</value>
+	</data>
+	<data name="TeacherHelper_Share_Only_user_based_permissions_can_be_shared">
+		<value xml:space="preserve">Only user based permissions can be shared</value>
+	</data>
+	<data name="TeacherHelper_Sort_Student">
+		<value xml:space="preserve">Student</value>
+	</data>
+	<data name="TeacherHelper_Sort_Total">
+		<value xml:space="preserve">Total</value>
+	</data>
+	<data name="TeacherHelper_Sort_Percent">
+		<value xml:space="preserve">Percent</value>
+	</data>
+	<data name="CacheUtility_Get_Object__0__with_ID__1__not_found_in_the_Cache">
+		<value xml:space="preserve">Object {0} with ID {1} not found in the Cache</value>
+	</data>
+	<data name="LnuDataModel_GetValue_Requested_variable_is_not_supported">
+		<value xml:space="preserve">Requested variable is not supported</value>
+	</data>
+	<data name="Score_GetValue_Requested_variable_is_not_supported">
+		<value xml:space="preserve">Requested variable is not supported</value>
+	</data>
+	<data name="Score_SetValue_Requested_variable_is_read_only">
+		<value xml:space="preserve">Requested variable is read-only</value>
+	</data>
+	<data name="Score_GetVariable_Requested_variable_is_write_only">
+		<value xml:space="preserve">Requested variable is write-only</value>
+	</data>
+	<data name="Interactions_GetValue_Requested_variable_is_not_supported">
+		<value xml:space="preserve">Requested variable is not supported</value>
+	</data>
+	<data name="Interactions_SetValue_Requested_variable_is_read_only">
+		<value xml:space="preserve">Requested variable is read-only</value>
+	</data>
+	<data name="Interactions_GetVariable_Requested_variable_is_write_only">
+		<value xml:space="preserve">Requested variable is write-only</value>
+	</data>
+	<data name="InteractionObjectives_GetValue_Requested_variable_is_not_supported">
+		<value xml:space="preserve">Requested variable is not supported</value>
+	</data>
+	<data name="InteractionObjectives_SetValue_Requested_variable_is_read_only">
+		<value xml:space="preserve">Requested variable is read-only</value>
+	</data>
+	<data name="InteractionObjectives_GetVariable_Requested_variable_is_write_only">
+		<value xml:space="preserve">Requested variable is write-only</value>
+	</data>
+	<data name="InteractionCorrectResponses_GetValue_Requested_variable_is_not_supported">
+		<value xml:space="preserve">Requested variable is not supported</value>
+	</data>
+	<data name="InteractionCorrectResponses_SetValue_Requested_variable_is_read_only">
+		<value xml:space="preserve">Requested variable is read-only</value>
+	</data>
+	<data name="InteractionCorrectResponses_GetVariable_Requested_variable_is_write_only">
+		<value xml:space="preserve">Requested variable is write-only</value>
+	</data>
+	<data name="CmiDataModel_GetCollection_Requested_variable_is_not_supported">
+		<value xml:space="preserve">Requested variable is not supported</value>
+	</data>
+	<data name="CmiDataModel_SetValue_Requested_variable_is_read_only">
+		<value xml:space="preserve">Requested variable is read-only</value>
+	</data>
+	<data name="CmiDataModel_GetVariable_Requested_variable_is_write_only">
+		<value xml:space="preserve">Requested variable is write-only</value>
+	</data>
 </root>

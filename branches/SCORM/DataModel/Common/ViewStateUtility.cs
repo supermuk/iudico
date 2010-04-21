@@ -96,7 +96,7 @@ namespace IUDICO.DataModel.Common
         {
             if (!BuildProcs(storage.MemberType, out Creator, out Persistor, out Restorer, ref storage))
             {
-                throw new DMError("Type {0} is not supposed to be marked with {2}. Invalid type. Only ValueTypes, strings and classes which implement {1} or {5}. Any combination with {3}<T> and {4}<T> by this types also supported.", storage.MemberType.FullName, typeof(IViewStateSerializable).Name, typeof(PersistantFieldAttribute).Name, typeof(IVariable<>).Name, typeof(ICollection<>).Name, typeof(IIntKeyedDataObject).Name);
+                throw new DMError(Translations.PersistantValueInfo_PersistantValueInfo_Type__0__is_not_supposed_to_be_marked_with__2___Invalid_type__Only_ValueTypes__strings_and_classes_which_implement__1__or__5___Any_combination_with__3__T__and__4__T__by_this_types_also_supported_, storage.MemberType.FullName, typeof(IViewStateSerializable).Name, typeof(PersistantFieldAttribute).Name, typeof(IVariable<>).Name, typeof(ICollection<>).Name, typeof(IIntKeyedDataObject).Name);
             }
             Storage = storage;
         }
@@ -198,7 +198,7 @@ namespace IUDICO.DataModel.Common
             var res = t.GetConstructor(Type.EmptyTypes);
             if (res == null)
             {
-                throw new DMError("Type {0} cannot be persisted because it's don't have parameterless constructor", t.FullName);
+                throw new DMError(Translations.PersistantValueInfo_SafeGetConstructor_Type__0__cannot_be_persisted_because_it_s_don_t_have_parameterless_constructor, t.FullName);
             }
             return res;
         }
@@ -264,7 +264,7 @@ namespace IUDICO.DataModel.Common
                 {
                     if (inf.IsStatic)
                     {
-                        throw new DMError("{0} can be applied to instance field only but applied to static ({1}.{2})", typeof(PersistantFieldAttribute).Name, t.Name, inf.Name);
+                        throw new DMError(Translations.PersistantStateMetaData_GetFieldsDataInternal__0__can_be_applied_to_instance_field_only_but_applied_to_static___1___2__, typeof(PersistantFieldAttribute).Name, t.Name, inf.Name);
                     }
                     values.Add(new PersistantValueInfo(inf.ToAbstaction()));
                 }
@@ -300,7 +300,7 @@ namespace IUDICO.DataModel.Common
             var st = (object[])state;
             if (st.Length != Values.Count)
             {
-                throw new DMError("Invalid count of target values expected {0} but {1} found", Values.Count, st.Length);
+                throw new DMError(Translations.PersistantStateMetaData_LoadStateFor_Invalid_count_of_target_values_expected__0__but__1__found, Values.Count, st.Length);
             }
             for (var i = Values.Count - 1; i >= 0; --i)
             {

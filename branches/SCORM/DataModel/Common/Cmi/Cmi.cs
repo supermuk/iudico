@@ -242,7 +242,7 @@ namespace IUDICO.DataModel.Common
               }
               else
               {
-                throw new NotSupportedException("Requested variable is not supported");
+                throw new NotSupportedException(Translations.CmiDataModel_GetCollection_Requested_variable_is_not_supported);
               }
             }
             else if(parts.Length==4 && parts[2]=="correct_responses" && parts[3]=="*")
@@ -256,17 +256,17 @@ namespace IUDICO.DataModel.Common
               }
               else
               {
-                throw new NotSupportedException("Requested variable is not supported");
+                throw new NotSupportedException(Translations.CmiDataModel_GetCollection_Requested_variable_is_not_supported);
               }
             }
             else
             {
-              throw new NotSupportedException("Requested variable is not supported");
+              throw new NotSupportedException(Translations.CmiDataModel_GetCollection_Requested_variable_is_not_supported);
             }
           }
           else
           {
-            throw new NotSupportedException("Requested variable is not supported");
+            throw new NotSupportedException(Translations.CmiDataModel_GetCollection_Requested_variable_is_not_supported);
           }
 
           //execute SQL command
@@ -334,7 +334,7 @@ namespace IUDICO.DataModel.Common
                 return collections[name].GetValue(string.Join(".", parts, 1, parts.Length - 1));
             }
 
-            throw new NotSupportedException("Requested variable is not supported");
+            throw new NotSupportedException(Translations.CmiDataModel_GetCollection_Requested_variable_is_not_supported);
         }
 
         public int SetValue(string path, string value)
@@ -346,7 +346,7 @@ namespace IUDICO.DataModel.Common
             {  
                 if (name == "_version" || name=="_children" || name=="total_time" || name=="_count")
                 {
-                  throw new CmiReadWriteOnlyException("Requested variable is read-only");
+                  throw new CmiReadWriteOnlyException(Translations.CmiDataModel_SetValue_Requested_variable_is_read_only);
                 }
                 else if (elements.ContainsKey(name))
                 {
@@ -360,7 +360,7 @@ namespace IUDICO.DataModel.Common
                 return collections[name].SetValue(string.Join(".", parts, 1, parts.Length - 1), value);
             }
 
-            throw new NotSupportedException("Requested variable is not supported");
+            throw new NotSupportedException(Translations.CmiDataModel_GetCollection_Requested_variable_is_not_supported);
         }
 
         #endregion
@@ -380,7 +380,7 @@ namespace IUDICO.DataModel.Common
         {
             if (elements[name].Write == false && ! isSystem)
             {
-              throw new CmiReadWriteOnlyException("Requested variable is read-only");
+              throw new CmiReadWriteOnlyException(Translations.CmiDataModel_SetValue_Requested_variable_is_read_only);
             }
 
             List<TblVars> list = ServerModel.DB.Query<TblVars>(
@@ -416,7 +416,7 @@ namespace IUDICO.DataModel.Common
         {
             if (elements[name].Read == false)
             {
-              throw new CmiReadWriteOnlyException("Requested variable is write-only");
+              throw new CmiReadWriteOnlyException(Translations.CmiDataModel_GetVariable_Requested_variable_is_write_only);
             }
 
             switch (name)

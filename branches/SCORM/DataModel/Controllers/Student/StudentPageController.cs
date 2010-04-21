@@ -170,7 +170,7 @@ namespace IUDICO.DataModel.Controllers.Student
 
         public void ModeButtonClick(object sender, EventArgs e)
         {
-                ChangeModeButton.Text = string.Format("Show {0} Dates", GetOperationType);
+                ChangeModeButton.Text = string.Format(Translations.StudentPageController_ModeButtonClick_Show__0__Dates, GetOperationType);
 
                 _isViewOperations = !_isViewOperations;
 
@@ -410,24 +410,24 @@ namespace IUDICO.DataModel.Controllers.Student
 
         private void ShowDescriptionForDataSelection()
         {
-            Description.Value = string.Format("Display themes that you can {0} in selected date", GetOperationType);
+            Description.Value = string.Format(Translations.StudentPageController_ShowDescriptionForDataSelection_Display_themes_that_you_can__0__in_selected_date, GetOperationType);
         }
 
         private void ShowCommonDescription()
         {
             Description.Value =
-                string.Format("From this page you can open test or see test results; And see you last {0} result",
+                string.Format(Translations.StudentPageController_ShowCommonDescription_From_this_page_you_can_open_test_or_see_test_results__And_see_you_last__0__result,
                               CountHowManyPagesToShow);
         }
 
         private void ShowDescriptionForControl()
         {
-            Description.Value = "You have control now. Do you best";
+            Description.Value = Translations.StudentPageController_ShowDescriptionForControl_You_have_control_now__Do_you_best;
         }
 
         private void ShowDescriptionForNodeSelection()
         {
-            Description.Value = string.Format("In calendar your see dates when you can {0} test", GetOperationType);
+            Description.Value = string.Format(Translations.StudentPageController_ShowDescriptionForNodeSelection_In_calendar_your_see_dates_when_you_can__0__test, GetOperationType);
         }
     }
 }
