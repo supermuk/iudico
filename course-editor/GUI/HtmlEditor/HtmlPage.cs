@@ -21,7 +21,7 @@ namespace FireFly.CourseEditor.GUI.HtmlEditor
         private const string PASS_RANK_PROPERTY = "Pass rank",
                              PASS_RANK_PROPERTY_ERROR = "'" + PASS_RANK_PROPERTY + "' must be specified",
                              PASS_RANK_PROPERTY_ERROR2 = "'" + PASS_RANK_PROPERTY + "' must be a positive number",
-                             PASS_RANK_IS_MORE_THAN_SUM_OF_RANKS = "'Pass Rank' is more then sum of Ranks of all exam controls",
+                             PASS_RANK_IS_MORE_THAN_SUM_OF_RANKS = "'" + PASS_RANK_PROPERTY + "' is more then sum of Ranks of all exam controls",
                              NO_BUTTONS_ERROR = "No buttons is present on examination",
                              MORE_THEN_ONE_BUTTON = "Too many submit buttons present";
 
@@ -78,10 +78,10 @@ namespace FireFly.CourseEditor.GUI.HtmlEditor
         new public static HtmlPage GetPage(ItemType item)
         {
             HtmlPage resultPage = (HtmlPage)HtmlPageBase.GetPage(item);
-            if (resultPage != null)
-            {
-                resultPage._PassRank = 1;
-            }
+            //if (resultPage != null)
+            //{
+            //    resultPage._PassRank = 1;
+            //}
             return resultPage;
         }
 
