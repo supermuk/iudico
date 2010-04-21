@@ -8,7 +8,8 @@
     <table style="width:100%" bgcolor="White">
         <tr>
             <td align="left" bgcolor="White" width="200" >
-                <asp:CheckBoxList ID="CheckBoxList1" Width="200" Height="200" valign="top" runat="server">
+                <asp:CheckBoxList ID="CheckBoxList1" Width="200" Height="200" valign="top" 
+                    runat="server" RepeatLayout="Flow">
                 </asp:CheckBoxList>
             </td>
             <td valign="top">
@@ -24,8 +25,8 @@
                             &nbsp;</td>
                     </tr>--%>
                     <tr>
-                        <td align="left" width="100">
-                            <asp:Label ID="Label1" runat="server" Text="Enter ip:"></asp:Label>
+                        <td align="left" width="150">
+                            <asp:Label ID="Label1" runat="server" Text="Enter ip or range:"></asp:Label>
                         </td>
                         <td align="left" width="150">
                             <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
@@ -44,7 +45,6 @@
                             onclick="removeButton_Click" />
                         </td>
                     </tr>
-                    
                 </table>
             </td>
         </tr>
