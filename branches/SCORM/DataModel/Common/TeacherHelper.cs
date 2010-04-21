@@ -40,6 +40,7 @@ namespace IUDICO.DataModel.Common
             return ServerModel.DB.Query<TblItems>(new CompareCondition<int>(
                               DataObject.Schema.OrganizationRef,
                               new ValueCondition<int>(org.ID), COMPARE_KIND.EQUAL));
+           
         }
 
         public static IList<TblItems> LeafItemsOfOrganization(TblOrganizations org)
@@ -363,6 +364,19 @@ namespace IUDICO.DataModel.Common
             if (learnerAttempts.Count > 0)
                 return learnerAttempts[learnerAttempts.Count - 1].ID;
             else return 0;
+        }
+        public static int GetLastIndexOfAttempts(int UserID, int ThemeID)
+        {
+            List<TblLearnerAttempts> learnerAttempts = ServerModel.DB.Query<TblLearnerAttempts>(
+                       new AndCondition(
+                           new CompareCondition<int>(
+                               DataObject.Schema.ThemeRef,
+                               new ValueCondition<int>(ThemeID), COMPARE_KIND.EQUAL),
+                           new CompareCondition<int>(
+                               DataObject.Schema.UserRef,
+                               new ValueCondition<int>(UserID), COMPARE_KIND.EQUAL)));
+            return (learnerAttempts.Count);
+            
         }
 
         public static TblUserAnswers GetUserAnswerForQuestion(TblUsers user, TblQuestions question)
