@@ -15,7 +15,7 @@ public partial class Admin_IPSecurity : System.Web.UI.Page
         {
             using (ServerManager serverManager = new ServerManager())
             {
-                Configuration config = serverManager.GetWebConfiguration("Iudico");//Hudson IUDICO
+                Configuration config = serverManager.GetWebConfiguration("Hudson IUDICO");//Iudico
                 ConfigurationSection section = config.GetSection("system.webServer/security/ipSecurity");
                 ConfigurationElementCollection coll = section.GetCollection();
                 CheckBoxList1.Items.Clear();
@@ -134,7 +134,7 @@ public partial class Admin_IPSecurity : System.Web.UI.Page
     {
         using (ServerManager serverManager = new ServerManager())
         {
-            Configuration config = serverManager.GetWebConfiguration("Iudico");
+            Configuration config = serverManager.GetWebConfiguration("Hudson IUDICO");
             ConfigurationSection section = config.GetSection("system.webServer/security/ipSecurity");
             ConfigurationElementCollection coll = section.GetCollection();
             string ips = TextBox1.Text.Replace(" ", "");
@@ -154,7 +154,7 @@ public partial class Admin_IPSecurity : System.Web.UI.Page
     {
         using (ServerManager serverManager = new ServerManager())
         {
-            Configuration config = serverManager.GetWebConfiguration("Iudico");
+            Configuration config = serverManager.GetWebConfiguration("Hudson IUDICO");
             ConfigurationSection section = config.GetSection("system.webServer/security/ipSecurity");
             ConfigurationElementCollection coll = section.GetCollection();
             for (int i = 0; i < CheckBoxList1.Items.Count; i++)
