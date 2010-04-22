@@ -1,21 +1,4 @@
 =Cтатистика IUDICO =
-==Структура таблиць DB необхідних для статистики.==
-
-[http://iudico.googlecode.com/files/statistic_db.jpg].
-
-
-  Опис таблиць бази даних.
-
-||№||Таблиця||Опис||
-||1||tblGroups||групи||
-||2||tblCurriculums||навчальні плани||
-||3||tblStages||етапи||
-||4||tblThemes||теми||
-||5||tblLearnerAttempts||спроби проходження тесту||  
-||6||tblLearnerSessions||набір  питань||
-||7||tblVarsInteractionCorrectResponses||питання по тесту(темі)||
-||8||tblVarsInteractions||відповіді користувача||
-  
 
 Право переглядати статистику мають викладач та адміністратор.
 
@@ -57,3 +40,20 @@
 ||6||StatisticShowCurriculum||контроллер що відповідає за StatisticShow.aspx сторінку(сторінка для відображення результатів тестування по темах навчального плану)||
 ||7||TeacherHelper||статичний клас, що містить методи для доступу до бази даних||
 ||8||CmiDataModel||інтерфейс, за допомогою якого можна редагувати базу даних||
+
+==Структура таблиць DB необхідних для статистики.==
+
+[http://iudico.googlecode.com/files/statistic_db.jpg].
+
+
+  Опис таблиць бази даних.
+
+||№||Таблиця||Опис||
+||1||tblGroups||групи||
+||2||tblCurriculums||навчальні плани||
+||3||tblStages||етапи||
+||4||tblThemes||теми||
+||5||tblLearnerAttempts||спроби проходження тесту||  
+||6||tblLearnerSessions||набір  питань||
+||7||tblVarsInteractionCorrectResponses||питання по тесту(темі)||
+||8||tblVarsInteractions||відповіді користувача||
