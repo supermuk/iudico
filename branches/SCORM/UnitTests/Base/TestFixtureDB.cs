@@ -29,73 +29,12 @@ namespace IUDICO.UnitTest.Base
                 return _Connection;
             }
         }
-
-        #region NUnitDBInteractionContext
-
-        private class NUnitDBInteractionContext: IDBUpdaterInteractionContext
-        {
-            static NUnitDBInteractionContext()
-            {
-                _ScriptsPath = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Environment.CurrentDirectory))), "DBScripts");
-            }
-
-            public NUnitDBInteractionContext(TestFixtureDB fixture)
-            {
-                _Fixture = fixture;
-            }
-
-            #region Implementation of IAsyncExecuterContext
-
-            public IVariable<bool> EnableUserActions
-            {
-                get { return _EnableUserActions; }
-            }
-
-            public void AsyncOperationsCompleted()
-            {
-            }
-
-            public void AsyncOperationBegins(string title)
-            {
-                Debug.WriteLine("Star operation: " + title);
-            }
-
-            public void AsyncError(string error)
-            {
-                throw new InvalidOperationException(error);
-            }
-
-            #endregion
-
-            #region Implementation of IDBUpdaterInteractionContext
-
-            public string DBName
-            {
-                get { return _Fixture._DataBaseName; }
-            }
-
-            public SqlConnection Connection
-            {
-                get { return _Fixture._Connection; }
-            }
-
-            public string DBScriptsPath
-            {
-                get { return _ScriptsPath; }
-            }
-
-            #endregion
-
-            private readonly IVariable<bool> _EnableUserActions = true.AsVariable();
-            private readonly TestFixtureDB _Fixture;
-            private static readonly string _ScriptsPath;
-        }
-
-        #endregion
         
         public TestFixtureDB()
         {
+            /*
             var cB = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["IUDICO_TEST"].ConnectionString);
+            
             _DataBaseName = cB.InitialCatalog;
             var cB2 = new SqlConnectionStringBuilder
                  {
@@ -107,64 +46,18 @@ namespace IUDICO.UnitTest.Base
                 cB2.UserID = cB.UserID;
                 cB2.Password = cB.Password;
             }
-
-            _Connection = new SqlConnection(cB2.ToString());
+            */
+            
+            _Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["IUDICO_TEST"].ConnectionString);
             _Connection.Open();
-        }
-
-        /*
-        ~TestFixtureDB()
-        {
-            _Connection.Close();
-        }
-        */
-        protected void CreateTestDataBase()
-        {
-            DBUpdateManager.CreateDataBase(new NUnitDBInteractionContext(this));
-        }
-
-        protected void DropTestDataBase()
-        {
-            DBUpdateManager.DropDataBase(new NUnitDBInteractionContext(this));
         }
 
         protected override void InitializeFixture()
         {
-            var context = new NUnitDBInteractionContext(this);
-            var dbExists = (bool) DBUpdateManager.IsDatabaseExists(_DataBaseName)(context);
+            ServerModel.Initialize(_Connection.ConnectionString, HttpRuntime.Cache);
 
-            if (NeedToRecreateDB || !dbExists)
-            {
-                if (dbExists)
-                {
-                    Debug.WriteLine(string.Format("Deleting database '{0}'...", context.DBName));
-                    DropTestDataBase();
-                }
-                Debug.WriteLine(string.Format("Creating database '{0}'...", context.DBName));
-                CreateTestDataBase();
-            }
-            else
-            {
-                _Connection.Close();
-                _Connection.ConnectionString = new SqlConnectionStringBuilder(_Connection.ConnectionString)
-                   {
-                       InitialCatalog = _DataBaseName
-                   }.ToString();
-                _Connection.Open();
-            }
-
-            var scriptsToRun = ((KeyValuePair<IList<string>, IList<string>>)DBUpdateManager.GetScriptsToRun(context)).Value;
-            Debug.WriteLine("Scripts to run:" + scriptsToRun.ConcatComma());
-            foreach (var s in scriptsToRun)
-            {
-                var updateAction = DBUpdateManager.UpgrateToNextVersion(
-                    0,
-                    File.ReadAllText(Path.Combine(context.DBScriptsPath,
-                    s + ".sql")), s);
-                Debug.WriteLine(string.Format("Running script '{0}'...", s));
-                updateAction(context);
-            }
-            ServerModel.Initialize(Connection.ConnectionString, HttpRuntime.Cache);
+            if (!ServerModel.DB.DatabaseExists())
+                ServerModel.DB.CreateDatabase();
         }
 
         protected override void FinializeFixture()
@@ -173,13 +66,19 @@ namespace IUDICO.UnitTest.Base
 
             if (NeedToRecreateDB)
             {
-                DropTestDataBase();
+                ServerModel.DB.DeleteDatabase();
             }
         }
 
-        protected virtual bool NeedToRecreateDB { get { return false; } }
+        protected virtual bool NeedToRecreateDB
+        {
+            get
+            {
+                return false;
+            }
+        }
 
         private readonly SqlConnection _Connection;
-        private readonly string _DataBaseName;
+        //private readonly string _DataBaseName;
     }
 }

@@ -520,6 +520,13 @@ namespace IUDICO.DataModel.DB
 			}
 		}
 		
+		[Function(Name="dbo.fn_diagramobjects", IsComposable=true)]
+		[return: Parameter(DbType="Int")]
+		public System.Nullable<int> Fn_diagramobjects()
+		{
+			return ((System.Nullable<int>)(this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod()))).ReturnValue));
+		}
+		
 		[Function(Name="dbo.GetSecurityID", IsComposable=true)]
 		[return: Parameter(DbType="UniqueIdentifier")]
 		public System.Nullable<System.Guid> GetSecurityID()
@@ -670,6 +677,52 @@ namespace IUDICO.DataModel.DB
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, themeOperationID, targetDate);
 			return ((ISingleResult<Security_GetPermissionsThemeResult>)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.sp_alterdiagram")]
+		[return: Parameter(DbType="Int")]
+		public int Sp_alterdiagram([Parameter(DbType="NVarChar(128)")] string diagramname, [Parameter(DbType="Int")] System.Nullable<int> owner_id, [Parameter(DbType="Int")] System.Nullable<int> version, [Parameter(DbType="VarBinary(MAX)")] System.Data.Linq.Binary definition)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), diagramname, owner_id, version, definition);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.sp_creatediagram")]
+		[return: Parameter(DbType="Int")]
+		public int Sp_creatediagram([Parameter(DbType="NVarChar(128)")] string diagramname, [Parameter(DbType="Int")] System.Nullable<int> owner_id, [Parameter(DbType="Int")] System.Nullable<int> version, [Parameter(DbType="VarBinary(MAX)")] System.Data.Linq.Binary definition)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), diagramname, owner_id, version, definition);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.sp_dropdiagram")]
+		[return: Parameter(DbType="Int")]
+		public int Sp_dropdiagram([Parameter(DbType="NVarChar(128)")] string diagramname, [Parameter(DbType="Int")] System.Nullable<int> owner_id)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), diagramname, owner_id);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.sp_helpdiagramdefinition")]
+		public ISingleResult<Sp_helpdiagramdefinitionResult> Sp_helpdiagramdefinition([Parameter(DbType="NVarChar(128)")] string diagramname, [Parameter(DbType="Int")] System.Nullable<int> owner_id)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), diagramname, owner_id);
+			return ((ISingleResult<Sp_helpdiagramdefinitionResult>)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.sp_helpdiagrams")]
+		public ISingleResult<Sp_helpdiagramsResult> Sp_helpdiagrams([Parameter(DbType="NVarChar(128)")] string diagramname, [Parameter(DbType="Int")] System.Nullable<int> owner_id)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), diagramname, owner_id);
+			return ((ISingleResult<Sp_helpdiagramsResult>)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.sp_renamediagram")]
+		[return: Parameter(DbType="Int")]
+		public int Sp_renamediagram([Parameter(DbType="NVarChar(128)")] string diagramname, [Parameter(DbType="Int")] System.Nullable<int> owner_id, [Parameter(DbType="NVarChar(128)")] string new_diagramname)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), diagramname, owner_id, new_diagramname);
+			return ((int)(result.ReturnValue));
 		}
 	}
 	
@@ -13208,6 +13261,148 @@ namespace IUDICO.DataModel.DB
 				if ((this._ThemeOperationRef != value))
 				{
 					this._ThemeOperationRef = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Sp_helpdiagramdefinitionResult
+	{
+		
+		private System.Nullable<int> _Version;
+		
+		private System.Data.Linq.Binary _Definition;
+		
+		public Sp_helpdiagramdefinitionResult()
+		{
+		}
+		
+		[Column(Name="version", Storage="_Version", DbType="Int")]
+		public System.Nullable<int> Version
+		{
+			get
+			{
+				return this._Version;
+			}
+			set
+			{
+				if ((this._Version != value))
+				{
+					this._Version = value;
+				}
+			}
+		}
+		
+		[Column(Name="definition", Storage="_Definition", DbType="VarBinary(MAX)", CanBeNull=true)]
+		public System.Data.Linq.Binary Definition
+		{
+			get
+			{
+				return this._Definition;
+			}
+			set
+			{
+				if ((this._Definition != value))
+				{
+					this._Definition = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Sp_helpdiagramsResult
+	{
+		
+		private string _Database;
+		
+		private string _Name;
+		
+		private System.Nullable<int> _ID;
+		
+		private string _Owner;
+		
+		private System.Nullable<int> _OwnerID;
+		
+		public Sp_helpdiagramsResult()
+		{
+		}
+		
+		[Column(Storage="_Database", DbType="NVarChar(128)")]
+		public string Database
+		{
+			get
+			{
+				return this._Database;
+			}
+			set
+			{
+				if ((this._Database != value))
+				{
+					this._Database = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_Name", DbType="NVarChar(128)")]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this._Name = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_ID", DbType="Int")]
+		public System.Nullable<int> ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_Owner", DbType="NVarChar(128)")]
+		public string Owner
+		{
+			get
+			{
+				return this._Owner;
+			}
+			set
+			{
+				if ((this._Owner != value))
+				{
+					this._Owner = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_OwnerID", DbType="Int")]
+		public System.Nullable<int> OwnerID
+		{
+			get
+			{
+				return this._OwnerID;
+			}
+			set
+			{
+				if ((this._OwnerID != value))
+				{
+					this._OwnerID = value;
 				}
 			}
 		}
