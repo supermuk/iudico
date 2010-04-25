@@ -103,7 +103,6 @@ namespace IUDICO.DataModel.Controllers
                                 if (r.ID == 1) isStudent = true;
                                 if ((isStudent == true) && (r.ID != 1)) isStudent = false;
                             }
-                            MessageBox.Show(isStudent.ToString());
                             var stages = ServerModel.DB.Load<TblCourses>(Int32.Parse(docId));
                             string name = stages.Description;
                             string curriculumn = "";
