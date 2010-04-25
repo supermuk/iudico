@@ -112,12 +112,6 @@ namespace IUDICO.UnitTest.Base
             _Connection.Open();
         }
 
-        /*
-        ~TestFixtureDB()
-        {
-            _Connection.Close();
-        }
-        */
         protected void CreateTestDataBase()
         {
             DBUpdateManager.CreateDataBase(new NUnitDBInteractionContext(this));
