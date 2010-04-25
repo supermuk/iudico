@@ -1,0 +1,1 @@
+java -Durl=http://localhost:8080/apache-solr-1.4.0/update -jar C:\apps\tomcat-solr\apache-solr-1.4.0\Iudico\post.jar C:\apps\tomcat-solr\apache-solr-1.4.0\Iudico\*.xml

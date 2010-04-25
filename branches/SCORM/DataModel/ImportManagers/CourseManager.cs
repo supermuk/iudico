@@ -94,7 +94,18 @@ namespace IUDICO.DataModel.ImportManagers
 
         public static string GetCoursePath(int courseID)
         {
-            string AssetsPath = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "Assets");
+            string path;
+
+            if (HttpContext.Current == null)
+            {
+                path = Path.Combine(System.Environment.CurrentDirectory, "Site");
+            }
+            else
+            {
+                path = HttpContext.Current.Request.PhysicalApplicationPath;
+            }
+
+            string AssetsPath = Path.Combine(path, "Assets");
             string CoursePath = Path.Combine(AssetsPath, courseID.ToString());
 
             return CoursePath;

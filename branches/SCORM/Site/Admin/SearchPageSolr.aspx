@@ -4,17 +4,19 @@
     <style type="text/css">
         #TextArea1
         {
-            height: 51px;
+            height: 241px;
+            width: 489px;
         }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
     <asp:TextBox ID="_searchQuery" runat="server"></asp:TextBox>
-    <p style="height: 45px">
+    <p style="height: 28px; width: 917px;">
         <asp:Button ID="Button1" runat="server" Text="Search" />
-    <p style="height: 45px">
-        <asp:Label ID="_searchResultsLabel" runat="server" Text="Search Results:"></asp:Label>
-        <asp:ListBox ID="_resultsListBox" runat="server"></asp:ListBox>
-        <asp:Button ID="_openResult" runat="server" Text="Open" />
+        <asp:Button ID="_openResult" runat="server" Text="Open" Height="22px" />
+    <p style="height: 320px; width: 926px;">
+        <asp:ListBox ID="_resultsListBox" runat="server" Font-Bold="False" 
+            Font-Size="Large" Height="320px" Width="930px"></asp:ListBox>
+        
 </asp:Content>
 
