@@ -1,0 +1,54 @@
+Apr 6, 2010 9:50:02 AM org.apache.catalina.core.ApplicationContext log
+INFO: org.apache.webapp.balancer.BalancerFilter: init(): ruleChain: [org.apache.webapp.balancer.RuleChain: [org.apache.webapp.balancer.rules.URLStringMatchRule: Target string: News / Redirect URL: http://www.cnn.com], [org.apache.webapp.balancer.rules.RequestParameterRule: Target param name: paramName / Target param value: paramValue / Redirect URL: http://www.yahoo.com], [org.apache.webapp.balancer.rules.AcceptEverythingRule: Redirect URL: http://jakarta.apache.org]]
+Apr 6, 2010 9:50:03 AM org.apache.catalina.core.ApplicationContext log
+INFO: ContextListener: contextInitialized()
+Apr 6, 2010 9:50:03 AM org.apache.catalina.core.ApplicationContext log
+INFO: SessionListener: contextInitialized()
+Apr 6, 2010 9:50:03 AM org.apache.catalina.core.ApplicationContext log
+INFO: ContextListener: contextInitialized()
+Apr 6, 2010 9:50:03 AM org.apache.catalina.core.ApplicationContext log
+INFO: SessionListener: contextInitialized()
+Apr 6, 2010 9:57:04 AM org.apache.catalina.core.ApplicationContext log
+INFO: SessionListener: contextDestroyed()
+Apr 6, 2010 9:57:04 AM org.apache.catalina.core.ApplicationContext log
+INFO: ContextListener: contextDestroyed()
+Apr 6, 2010 9:57:04 AM org.apache.catalina.core.ApplicationContext log
+INFO: SessionListener: contextDestroyed()
+Apr 6, 2010 9:57:04 AM org.apache.catalina.core.ApplicationContext log
+INFO: ContextListener: contextDestroyed()
+Apr 6, 2010 9:57:38 AM org.apache.catalina.core.ApplicationContext log
+INFO: org.apache.webapp.balancer.BalancerFilter: init(): ruleChain: [org.apache.webapp.balancer.RuleChain: [org.apache.webapp.balancer.rules.URLStringMatchRule: Target string: News / Redirect URL: http://www.cnn.com], [org.apache.webapp.balancer.rules.RequestParameterRule: Target param name: paramName / Target param value: paramValue / Redirect URL: http://www.yahoo.com], [org.apache.webapp.balancer.rules.AcceptEverythingRule: Redirect URL: http://jakarta.apache.org]]
+Apr 6, 2010 9:57:38 AM org.apache.catalina.core.ApplicationContext log
+INFO: ContextListener: contextInitialized()
+Apr 6, 2010 9:57:38 AM org.apache.catalina.core.ApplicationContext log
+INFO: SessionListener: contextInitialized()
+Apr 6, 2010 9:57:38 AM org.apache.catalina.core.ApplicationContext log
+INFO: ContextListener: contextInitialized()
+Apr 6, 2010 9:57:38 AM org.apache.catalina.core.ApplicationContext log
+INFO: SessionListener: contextInitialized()
+Apr 6, 2010 10:00:45 AM org.apache.catalina.core.ApplicationContext log
+INFO: SessionListener: contextDestroyed()
+Apr 6, 2010 10:00:45 AM org.apache.catalina.core.ApplicationContext log
+INFO: ContextListener: contextDestroyed()
+Apr 6, 2010 10:00:45 AM org.apache.catalina.core.ApplicationContext log
+INFO: SessionListener: contextDestroyed()
+Apr 6, 2010 10:00:45 AM org.apache.catalina.core.ApplicationContext log
+INFO: ContextListener: contextDestroyed()
+Apr 6, 2010 10:02:00 AM org.apache.catalina.core.ApplicationContext log
+INFO: org.apache.webapp.balancer.BalancerFilter: init(): ruleChain: [org.apache.webapp.balancer.RuleChain: [org.apache.webapp.balancer.rules.URLStringMatchRule: Target string: News / Redirect URL: http://www.cnn.com], [org.apache.webapp.balancer.rules.RequestParameterRule: Target param name: paramName / Target param value: paramValue / Redirect URL: http://www.yahoo.com], [org.apache.webapp.balancer.rules.AcceptEverythingRule: Redirect URL: http://jakarta.apache.org]]
+Apr 6, 2010 10:02:01 AM org.apache.catalina.core.ApplicationContext log
+INFO: ContextListener: contextInitialized()
+Apr 6, 2010 10:02:01 AM org.apache.catalina.core.ApplicationContext log
+INFO: SessionListener: contextInitialized()
+Apr 6, 2010 10:02:01 AM org.apache.catalina.core.ApplicationContext log
+INFO: ContextListener: contextInitialized()
+Apr 6, 2010 10:02:01 AM org.apache.catalina.core.ApplicationContext log
+INFO: SessionListener: contextInitialized()
+Apr 6, 2010 10:59:35 AM org.apache.catalina.core.ApplicationContext log
+INFO: SessionListener: contextDestroyed()
+Apr 6, 2010 10:59:35 AM org.apache.catalina.core.ApplicationContext log
+INFO: ContextListener: contextDestroyed()
+Apr 6, 2010 10:59:35 AM org.apache.catalina.core.ApplicationContext log
+INFO: SessionListener: contextDestroyed()
+Apr 6, 2010 10:59:35 AM org.apache.catalina.core.ApplicationContext log
+INFO: ContextListener: contextDestroyed()

@@ -22,9 +22,6 @@ public partial class Admin_SearchPageSolr : ControlledPage<Admin_SearchPageSolrC
         c.ResultsListBox = _resultsListBox;
         c.SearchQuery1 = _searchQuery;
         c.Open = _openResult;
-        c.SearchResults = _searchResultsLabel;
-
-
 
     }
 
@@ -32,6 +29,5 @@ public partial class Admin_SearchPageSolr : ControlledPage<Admin_SearchPageSolrC
     {
         _openResult.Visible = false;
         _resultsListBox.Visible = false;
-        _searchResultsLabel.Visible = false;
     }
 }

@@ -17,24 +17,27 @@ using System.Xml;
 using IUDICO.DataModel;
 using IUDICO.DataModel.Controllers;
 using IUDICO.DataModel.Controllers.Student;
+using System.Web.Security;
+using IUDICO.DataModel.Security;
 
 
 namespace IUDICO.DataModel.Controllers
 {
     public class Admin_SearchPageSolrController : ControllerBase
     {
+        public TblUsers User;
+
         public System.Web.UI.WebControls.ListBox ResultsListBox;
         public System.Web.UI.WebControls.TextBox SearchQuery1;
         public System.Web.UI.WebControls.Button Open;
-        public System.Web.UI.WebControls.Label SearchResults;
+        public System.Web.UI.WebControls.TextBox ResultText;
         int i = 0;
 
         public void Button1_Click(object sender, EventArgs e)
         {
+            int UserID = 0;
             string result = "";
             string score = "";
-            ResultsListBox.Visible = true;
-            SearchResults.Visible = true;
             this.ResultsListBox.Items.Clear();
             try
             {
@@ -48,7 +51,6 @@ namespace IUDICO.DataModel.Controllers
                         // Console application output
                         XmlDocument xmlDoc = new XmlDocument();
                         xmlDoc.LoadXml(reader.ReadToEnd());
-                        ///str[attribute::name='id']
                         XmlNodeList nodes = xmlDoc.SelectNodes("/response/result/doc");
                         foreach (XmlNode node in nodes)
                         {
@@ -75,9 +77,37 @@ namespace IUDICO.DataModel.Controllers
                                     docId = strNode.InnerText;
                                 }
                             }
+
+                            List<int> usersCurriculums = new List<int>();
+                            UserID = ((CustomUser)Membership.GetUser()).ID;
+                            var currentUser = ServerModel.DB.Load<TblUsers>(UserID);
+                            var groups = ServerModel.DB.Load<TblGroups>(ServerModel.DB.LookupMany2ManyIds<TblGroups>(currentUser, null));
+                            List<int> listGroups = new List<int>();
+                            foreach (TblGroups g in groups)
+                            {
+                                listGroups.Clear();
+                                listGroups.Add(g.ID);
+                                var currGroups = ServerModel.DB.Load<TblPermissions>("OwnerGroupRef", listGroups);
+                                foreach (TblPermissions curG in currGroups)
+                                {
+                                    if (curG.CurriculumRef != null)
+                                    {
+                                        usersCurriculums.Add(Int32.Parse(curG.CurriculumRef.ToString()));
+                                    }
+                                }
+                            }
+                            bool isStudent = false;
+                            var role = ServerModel.DB.Load<FxRoles>(ServerModel.DB.LookupMany2ManyIds<FxRoles>(currentUser, null));
+                            foreach (FxRoles r in role)
+                            {
+                                if (r.ID == 1) isStudent = true;
+                                if ((isStudent == true) && (r.ID != 1)) isStudent = false;
+                            }
+                            MessageBox.Show(isStudent.ToString());
                             var stages = ServerModel.DB.Load<TblCourses>(Int32.Parse(docId));
                             string name = stages.Description;
                             string curriculumn = "";
+                            bool relevant = false;
                             List<int> docList = new List<int>();
                             docList.Add(Int32.Parse(docId));
                             var stagesT = ServerModel.DB.Load<TblThemes>("CourseRef", docList);
@@ -86,10 +116,24 @@ namespace IUDICO.DataModel.Controllers
                                 var stagesS = ServerModel.DB.Load<TblStages>(st.StageRef);
                                 var stagesC = ServerModel.DB.Load<TblCurriculums>(stagesS.CurriculumRef);
                                 curriculumn = stagesC.Name;
+                                if (isStudent == false) relevant = true;
+                                else
+                                    if (usersCurriculums.Contains(stagesC.ID))
+                                        relevant = true;
                             }
-                            result = (i + 1).ToString() + ". " + docName + " ;.....Description: " + name + " ;.....Curriculumn: " + curriculumn + " ;.... Score: " + score;
-                            this.ResultsListBox.Items.Add(new ListItem(result, docId));
-                            i++;
+                            if (relevant == true)
+                            {
+                                if (name != "")
+                                {
+                                    result = (i + 1).ToString() + ". " + docName + " ; . . . . Description: " + name + " ; . . . . Curriculumn: " + curriculumn + " ; . . . . Score: " + score;
+                                }
+                                else
+                                {
+                                    result = (i + 1).ToString() + ". " + docName + " ; . . . . Curriculumn: " + curriculumn + " ; . . . . Score: " + score;
+                                }
+                                this.ResultsListBox.Items.Add(new ListItem(result, docId));
+                                i++;
+                            }
                         }
                         if (i != 0)
                         {
@@ -100,11 +144,18 @@ namespace IUDICO.DataModel.Controllers
                             this.ResultsListBox.Items.Add("No data found");
                         }
                     }
+                    ResultsListBox.Visible = true;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Tomcat isn't running: " + ex.Message.ToString());
+                if (ex.Message.ToString() == "Unable to connect to the remote server")
+                {
+                    System.Diagnostics.Process procTomcat = new System.Diagnostics.Process();
+                    procTomcat.EnableRaisingEvents = false;
+                    procTomcat.StartInfo.FileName = Path.Combine(System.Environment.CurrentDirectory, "Site\\tomcat-solr\\tomcatStart.bat");
+                    procTomcat.Start();
+                }
             }
           
         }
