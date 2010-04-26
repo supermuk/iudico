@@ -36,7 +36,7 @@
     
     void Application_Start(object sender, EventArgs e) 
     {
-        ApplicationPath = HttpContext.Current.Request.PhysicalApplicationPath;
+        ApplicationPath = HttpRuntime.AppDomainAppPath;
         
         WriteStartTomcat();
         System.Diagnostics.Process procTomcat = new System.Diagnostics.Process();
