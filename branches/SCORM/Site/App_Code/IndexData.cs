@@ -40,10 +40,10 @@ public class IndexData
 
     public void Index()
     {
-         MessageBox.Show("IndexData");
+         //MessageBox.Show("IndexData");
        
             //SEARCHING FOR DIRECTORIES IN ASSETS DIRECTORY, WHICH ARE THEMES
-            string searchPath = Path.Combine(System.Environment.CurrentDirectory, "Site\\Assets");
+            string searchPath = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "Assets");
             string[] dirs = Directory.GetDirectories(searchPath, "*");
             List<int> ids = new List<int>();
 
@@ -57,7 +57,7 @@ public class IndexData
             }
 
             var stages = ServerModel.DB.Load<TblResources>("CourseRef", ids);
-            string xmlindex = Path.Combine(System.Environment.CurrentDirectory, "Site\\tomcat-solr\\apache-solr-1.4.0\\Iudico\\");
+            string xmlindex = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "tomcat-solr\\apache-solr-1.4.0\\Iudico\\");
 
         try
         {            
@@ -85,7 +85,7 @@ public class IndexData
             {
                 System.Diagnostics.Process procTomcat = new System.Diagnostics.Process();
                 procTomcat.EnableRaisingEvents = false;
-                procTomcat.StartInfo.FileName = Path.Combine(System.Environment.CurrentDirectory, "Site\\tomcat-solr\\tomcatStart.bat");
+                procTomcat.StartInfo.FileName = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "tomcat-solr\\tomcatStart.bat");
                 procTomcat.Start();
             }
         }
@@ -198,7 +198,7 @@ public class IndexData
             {
                 System.Diagnostics.Process procTomcat = new System.Diagnostics.Process();
                 procTomcat.EnableRaisingEvents = false;
-                procTomcat.StartInfo.FileName = Path.Combine(System.Environment.CurrentDirectory, "Site\\tomcat-solr\\tomcatStart.bat");
+                procTomcat.StartInfo.FileName = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "tomcat-solr\\tomcatStart.bat");
                 procTomcat.Start();
             }
         }
