@@ -32,14 +32,16 @@
     
     private const string DummyPageUrl = "http://localhost:1207/WebForm1.aspx";
     private const string DummyCacheItemKey = "GGG";
-
+    private string ApplicationPath;
+    
     void Application_Start(object sender, EventArgs e) 
     {
-        WriteStartTomcat();
+        ApplicationPath = HttpContext.Current.Request.PhysicalApplicationPath;
         
+        WriteStartTomcat();
         System.Diagnostics.Process procTomcat = new System.Diagnostics.Process();
         procTomcat.EnableRaisingEvents = false;
-        procTomcat.StartInfo.FileName = Path.Combine(System.Environment.CurrentDirectory, "Site\\tomcat-solr\\tomcatStart.bat");
+        procTomcat.StartInfo.FileName = Path.Combine(ApplicationPath, "tomcat-solr\\tomcatStart.bat");
         procTomcat.Start();
         
         ServerModel.Initialize(WebConfigurationManager.ConnectionStrings["IUDICO"].ConnectionString, HttpRuntime.Cache);
@@ -144,12 +146,12 @@
 
     private void WriteStartTomcat()
     {
-        string setCatalina = "set CATALINA_HOME = " + System.Environment.CurrentDirectory + "\\Site\\tomcat-solr\\apache-tomcat-5.5.28\r\n";
-        string setJava = "set JAVA_HOME = C:\\Program Files\\Java\\jdk1.6.0\r\n";
-        string command = "cd " + System.Environment.CurrentDirectory + "\\Site\\tomcat-solr\\solr\r\n" + System.Environment.CurrentDirectory + "\\Site\\tomcat-solr\\apache-tomcat-5.5.28\\bin\\startup.bat";
+        string setCatalina = "set CATALINA_HOME = " + ApplicationPath + "\\tomcat-solr\\apache-tomcat-5.5.28\r\n";
+        //string setJava = "set JAVA_HOME = C:\\Program Files\\Java\\jdk1.6.0\r\n";
+        string command = "cd " + ApplicationPath + "\\Site\\tomcat-solr\\solr\r\n" + ApplicationPath + "\\tomcat-solr\\apache-tomcat-5.5.28\\bin\\startup.bat";
 
-        System.IO.StreamWriter file = new System.IO.StreamWriter(System.Environment.CurrentDirectory + "\\Site\\tomcat-solr\\tomcatStart.bat");
-        file.WriteLine(setCatalina + setJava + command);
+        System.IO.StreamWriter file = new System.IO.StreamWriter(ApplicationPath + "\\tomcat-solr\\tomcatStart.bat");
+        file.WriteLine(setCatalina /*+ setJava*/ + command);
 
         file.Close();
 
