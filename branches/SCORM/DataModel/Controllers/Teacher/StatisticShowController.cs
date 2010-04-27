@@ -124,7 +124,7 @@ namespace IUDICO.DataModel.Controllers
             headerRow.Cells.Add(headerCell);
 
             StatisticTable.Rows.Add(headerRow);
-            foreach (TblUsers student in TeacherHelper.GetStudentsOfGroup(group))
+            foreach (TblUsers student in ilistusers)
             {
                 var studentRow = new TableRow();
                 TableCell studentCell = new TableHeaderCell { Text = student.DisplayName };
@@ -139,7 +139,7 @@ namespace IUDICO.DataModel.Controllers
                     {
                         double result = 0;
                         double totalresult = 0;
-                        bool islearnerattempt = false;
+                        int learnercount = TeacherHelper.GetLastIndexOfAttempts(student.ID, theme.ID);
                         TblOrganizations organization;
                         organization= ServerModel.DB.Load<TblOrganizations>(theme.OrganizationRef);
                         foreach(TblItems items in TeacherHelper.ItemsOfOrganization(organization))
@@ -149,34 +149,39 @@ namespace IUDICO.DataModel.Controllers
                        
                         foreach (TblLearnerAttempts attempt in TeacherHelper.AttemptsOfTheme(theme))
                         {
-                          if(attempt != null)  islearnerattempt = true;
-                            if (attempt.ID == TeacherHelper.GetLastLearnerAttempt(student.ID, theme.ID))
-                                foreach (TblLearnerSessions session in TeacherHelper.SessionsOfAttempt(attempt))
-                                {
-                                    CmiDataModel cmiDataModel = new CmiDataModel(session.ID, student.ID, false);
-                                    List<TblVarsInteractions> interactionsCollection = cmiDataModel.GetCollection<TblVarsInteractions>("interactions.*.*");
+                          if (attempt.ID == TeacherHelper.GetLastLearnerAttempt(student.ID, theme.ID))
+                        
+                              foreach (TblLearnerSessions session in TeacherHelper.SessionsOfAttempt(attempt))
+                              {
+                                  CmiDataModel cmiDataModel = new CmiDataModel(session.ID, student.ID, false);
+                                  List<TblVarsInteractions> interactionsCollection = cmiDataModel.GetCollection<TblVarsInteractions>("interactions.*.*");
 
-                                    for (int i = 0, j = 0; i < int.Parse(cmiDataModel.GetValue("interactions._count")); i++)
-                                    {
-                                        for (; j < interactionsCollection.Count && i == interactionsCollection[j].Number; j++)
-                                        {
-                                            if (interactionsCollection[j].Name == "result")
-                                            {
-                                                TblItems itm = ServerModel.DB.Load<TblItems>(session.ItemRef);
-                                                if (interactionsCollection[j].Value == "correct") result += Convert.ToDouble(itm.Rank);
-                                            }
-                                        }
+                                  for (int i = 0, j = 0; i < int.Parse(cmiDataModel.GetValue("interactions._count")); i++)
+                                  {
+                                      for (; j < interactionsCollection.Count && i == interactionsCollection[j].Number; j++)
+                                      {
+                                          if (interactionsCollection[j].Name == "result")
+                                          {
+                                              TblItems itm = ServerModel.DB.Load<TblItems>(session.ItemRef);
+                                              if (interactionsCollection[j].Value == "correct") result += Convert.ToDouble(itm.Rank);
+                                          }
+                                      }
 
-                                    }
-                                }
+                                  }
+                              
+                              }
                         }
 
 
                        
                         string attmpt = "";
-                        if (islearnerattempt == true)
+                        if (learnercount > 0)
                         {
-                            attmpt = "(" + TeacherHelper.GetLastIndexOfAttempts(student.ID, theme.ID).ToString() + " attempt )";
+                            attmpt = "(" + learnercount.ToString() + " attempt )";
+                        }
+                        else if (learnercount == 0)
+                        {
+                            attmpt = "";
                         }
 
                         studentCell = new TableCell { HorizontalAlign = HorizontalAlign.Center };
@@ -191,12 +196,12 @@ namespace IUDICO.DataModel.Controllers
                             })
                         });
 
-                        if (islearnerattempt == false)
+                        if (learnercount == 0)
                         {
                             studentCell.Enabled = false;
                             studentCell.BackColor = Color.Yellow;
                         }
-                        else studentCell.BackColor = Color.YellowGreen;
+                        else if (learnercount >0) studentCell.BackColor = Color.YellowGreen;
 
                         pasedCurriculum += result;
                         totalCurriculum += totalresult;
