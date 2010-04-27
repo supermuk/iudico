@@ -6,6 +6,7 @@
   # Microsoft SQL Server Management Studio Express: http://www.microsoft.com/downloads/details.aspx?FamilyID=c243a5ae-4bd1-4e3d-94b8-5a0f62bf7796&DisplayLang=en
   # Microsoft Visual Studio 2008
   # .Net Framework 3.5: http://www.microsoft.com/downloads/details.aspx?FamilyId=333325FD-AE52-4E35-B531-508D977D32A6&displaylang=en
+  # Microsoft Visual J#® 2.0 Redistributable Package: http://www.microsoft.com/downloads/details.aspx?familyid=E9D87F37-2ADC-4C32-95B3-B5E3A21BAB2C&displaylang=en
   # Internet Information Service 7 (IIS 7):
       a. Click Start then click Control Panel then click Programs.      <br>
       b. Click Turn Windows features on or off.      <br>
