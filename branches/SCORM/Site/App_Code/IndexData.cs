@@ -40,7 +40,6 @@ public class IndexData
 
     public void Index()
     {
-         //MessageBox.Show("IndexData");
        
             //SEARCHING FOR DIRECTORIES IN ASSETS DIRECTORY, WHICH ARE THEMES
             string searchPath = Path.Combine(HttpRuntime.AppDomainAppVirtualPath, "Assets");
@@ -188,7 +187,6 @@ public class IndexData
 
 
             }
-            MessageBox.Show("indexed");
 
 
         }
