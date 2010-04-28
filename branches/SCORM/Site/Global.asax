@@ -108,7 +108,7 @@
         if (null != HttpContext.Current.Cache[DummyCacheItemKey]) return;
 
         HttpContext.Current.Cache.Add(DummyCacheItemKey, "Index", null, DateTime.MaxValue,
-            TimeSpan.FromMinutes(2), CacheItemPriority.NotRemovable,
+            TimeSpan.FromMinutes(1440), CacheItemPriority.NotRemovable,
             new CacheItemRemovedCallback(CacheItemRemovedCallback));
     }
 
