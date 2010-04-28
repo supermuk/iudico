@@ -45,7 +45,7 @@ namespace WebService
             for (int i = 0; i < input.Length; i++)
             {
                 Program p = new Program();
-                p.Source = HttpUtility.UrlDecode(source);
+                p.Source = source;
                 p.MemoryLimit = memorylimit;
                 p.TimeLimit = timelimit;
                 p.InputTest = input[i];
