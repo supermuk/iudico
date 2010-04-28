@@ -695,6 +695,88 @@ namespace IUDICO.UnitTest.Base
             return this;
         }
 
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// click in button with value...
+        /// </summary>
+        /// <param name="controlvalue"></param>
+        /// <returns></returns>
+        public TestFixtureWeb ClickOnButtonWithValue(string controlvalue)
+        {
+            selenium.Click(
+        String.Format(
+            CultureInfo.InvariantCulture,
+            "xpath=//input[@type='submit' and @value='{0}']",
+            controlvalue));
+            //selenium.WaitForPageToLoad("10000");
+            //Pause();
+            return this;
+        }
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// return true for visible tegs
+        /// </summary>
+        /// <param name="locator"></param>
+        /// <returns></returns>
+        public TestFixtureWeb AssertIsVisibleTeg(string locator)
+        {
+            Assert.IsTrue(selenium.IsVisible(locator));
+            return this;
+        }
+        
+        /// <summary>
+        /// return true for unvisible tegs
+        /// </summary>
+        /// <param name="locator"></param>
+        /// <returns></returns>
+        public TestFixtureWeb AssertIsNotVisibleTeg(string locator)
+        {
+            Assert.IsFalse(selenium.IsVisible(locator));
+            return this;
+        }
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// click on last button with value remove
+        /// </summary>
+        /// <returns></returns>
+        public TestFixtureWeb ClickOnLastButtonRemove()
+        {
+            List<string> but = new List<string>(selenium.GetAllButtons());
+            int index = 0;
+            int len = but.Count;
+            foreach (string a in but)
+            {
+                if (index == 3)
+                {
+                    selenium.Click(a);
+                }
+                index++;
+            }
+            selenium.WaitForPageToLoad("10000");
+            return this;
+        }
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public TestFixtureWeb ClickOnLinkButton11(string controlId)
+        {
+            selenium.Click(
+                String.Format(
+                    CultureInfo.InvariantCulture,
+                    "xpath=//a[contains(@id,'{0}')]",
+                    controlId));
+            selenium.WaitForPageToLoad("30000");
+            //Pause();
+            return this;
+        }
+
+        public TestFixtureWeb AssertIsNotTextAvailable(string value)
+        {
+            Assert.IsFalse(
+                selenium.IsElementPresent(
+                    "xpath=//label[text()='" + value + "']"),
+                "Value '{0}' is not available",
+                value);
+            return this;
+        }
         private StringBuilder verificationErrors;
         
         private readonly ISelenium selenium;
