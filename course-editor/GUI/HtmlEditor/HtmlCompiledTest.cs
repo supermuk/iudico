@@ -163,8 +163,8 @@ namespace FireFly.CourseEditor.GUI.HtmlEditor
             for(int i = 0; i < TestCases.Count; ++i)
             {
                 CompiledTestCase item = TestCases[i];
-                input += item.Input;
-                output += item.Output;
+                input += "'" + item.Input + "'";
+                output += "'" + item.Output + "'";
 
                 if (i != TestCases.Count - 1)
                 {
