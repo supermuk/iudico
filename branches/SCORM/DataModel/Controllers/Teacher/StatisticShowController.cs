@@ -141,39 +141,39 @@ namespace IUDICO.DataModel.Controllers
                         double totalresult = 0;
                         int learnercount = TeacherHelper.GetLastIndexOfAttempts(student.ID, theme.ID);
                         TblOrganizations organization;
-                        organization= ServerModel.DB.Load<TblOrganizations>(theme.OrganizationRef);
-                        foreach(TblItems items in TeacherHelper.ItemsOfOrganization(organization))
+                        organization = ServerModel.DB.Load<TblOrganizations>(theme.OrganizationRef);
+                        foreach (TblItems items in TeacherHelper.ItemsOfOrganization(organization))
                         {
-                            totalresult +=Convert.ToDouble(items.Rank);
+                            totalresult += Convert.ToDouble(items.Rank);
                         }
-                       
+
                         foreach (TblLearnerAttempts attempt in TeacherHelper.AttemptsOfTheme(theme))
                         {
-                          if (attempt.ID == TeacherHelper.GetLastLearnerAttempt(student.ID, theme.ID))
-                        
-                              foreach (TblLearnerSessions session in TeacherHelper.SessionsOfAttempt(attempt))
-                              {
-                                  CmiDataModel cmiDataModel = new CmiDataModel(session.ID, student.ID, false);
-                                  List<TblVarsInteractions> interactionsCollection = cmiDataModel.GetCollection<TblVarsInteractions>("interactions.*.*");
+                            if (attempt.ID == TeacherHelper.GetLastLearnerAttempt(student.ID, theme.ID))
 
-                                  for (int i = 0, j = 0; i < int.Parse(cmiDataModel.GetValue("interactions._count")); i++)
-                                  {
-                                      for (; j < interactionsCollection.Count && i == interactionsCollection[j].Number; j++)
-                                      {
-                                          if (interactionsCollection[j].Name == "result")
-                                          {
-                                              TblItems itm = ServerModel.DB.Load<TblItems>(session.ItemRef);
-                                              if (interactionsCollection[j].Value == "correct") result += Convert.ToDouble(itm.Rank);
-                                          }
-                                      }
+                                foreach (TblLearnerSessions session in TeacherHelper.SessionsOfAttempt(attempt))
+                                {
+                                    CmiDataModel cmiDataModel = new CmiDataModel(session.ID, student.ID, false);
+                                    List<TblVarsInteractions> interactionsCollection = cmiDataModel.GetCollection<TblVarsInteractions>("interactions.*.*");
 
-                                  }
-                              
-                              }
+                                    for (int i = 0, j = 0; i < int.Parse(cmiDataModel.GetValue("interactions._count")); i++)
+                                    {
+                                        for (; j < interactionsCollection.Count && i == interactionsCollection[j].Number; j++)
+                                        {
+                                            if (interactionsCollection[j].Name == "result")
+                                            {
+                                                TblItems itm = ServerModel.DB.Load<TblItems>(session.ItemRef);
+                                                if (interactionsCollection[j].Value == "correct") result += Convert.ToDouble(itm.Rank);
+                                            }
+                                        }
+
+                                    }
+
+                                }
                         }
 
 
-                       
+
                         string attmpt = "";
                         if (learnercount > 0)
                         {
@@ -201,7 +201,7 @@ namespace IUDICO.DataModel.Controllers
                             studentCell.Enabled = false;
                             studentCell.BackColor = Color.Yellow;
                         }
-                        else if (learnercount >0) studentCell.BackColor = Color.YellowGreen;
+                        else if (learnercount > 0) studentCell.BackColor = Color.YellowGreen;
 
                         pasedCurriculum += result;
                         totalCurriculum += totalresult;

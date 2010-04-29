@@ -93,6 +93,17 @@ namespace IUDICO.DataModel.Controllers
                 i--;
             }
         }
+        public void Button_Sort_Click()
+        {
+            StatisticTable_constant.Rows.Clear();
+            //StatisticTable_constant = TeacherHelper.Sort(StatisticTable, curriculum);
+            StatisticTable.Rows.Clear();
+            for (int i = 0; i < StatisticTable_constant.Rows.Count; i++)
+            {
+                StatisticTable.Rows.Add(StatisticTable_constant.Rows[i]);
+                i--;
+            }
+        }
         private void fillStatisticTable()
         {
             StatisticTable.Rows.Clear();
@@ -125,6 +136,15 @@ namespace IUDICO.DataModel.Controllers
             headerCell = new TableHeaderCell();
             headerCell.Text = totalStr;
             headerRow.Cells.Add(headerCell);
+
+            headerCell = new TableHeaderCell();
+            headerCell.Text = Translations.StatisticShowController_fillStatisticTable_Percent;
+            headerRow.Cells.Add(headerCell);
+
+            headerCell = new TableHeaderCell();
+            headerCell.Text = "ECTS";
+            headerRow.Cells.Add(headerCell);
+
 
             StatisticTable.Rows.Add(headerRow);
 
@@ -212,6 +232,16 @@ namespace IUDICO.DataModel.Controllers
                     HorizontalAlign = HorizontalAlign.Center,
                     Text = pasedCurriculums + "/" + totalCurriculums
                 };
+                studentRow.Cells.Add(studentCell);
+                studentCell = new TableCell { HorizontalAlign = HorizontalAlign.Center };
+                double temp_total;
+                if (totalCurriculums != 0)
+                    temp_total = pasedCurriculums / totalCurriculums * 100;
+                else temp_total = 0;
+                studentCell.Text = (temp_total).ToString("F2");
+                studentRow.Cells.Add(studentCell);
+                studentCell = new TableCell { HorizontalAlign = HorizontalAlign.Center };
+                studentCell.Text = TeacherHelper.ECTS_code(temp_total);
                 studentRow.Cells.Add(studentCell);
                 StatisticTable.Rows.Add(studentRow);
                 StatisticTable.HorizontalAlign = HorizontalAlign.Center;
