@@ -13,14 +13,13 @@ namespace IUDICO.UnitTest
 	[TestFixture]
     public class WebTest2 : TestFixtureWeb
 	{
+
        private StringBuilder verificationErrors;
 
-
-
-        ///User Autorization
-        /// <summary>
-        /// Correct Login
-        /// </summary>
+       ///User Autorization
+       /// <summary>
+       //Correct Login
+       /// </summary>
 		[Test]
 		public void Test01_CorrectLogin()
 		{
@@ -32,9 +31,8 @@ namespace IUDICO.UnitTest
 
             AssertIsOnPage("StudentPage.aspx", null);
 		}
-        /// <summary>
-        /// InCorrect Login
-        /// </summary>
+
+        // InCorrect Login
         [Test]
         public void Test02_InCorrectLogin()
         {
@@ -48,9 +46,8 @@ namespace IUDICO.UnitTest
             AssertIsOnPage("Login.aspx", null);
         }
 
-        /// <summary>
-        /// Logout Test
-        /// </summary>
+
+        // Logout Test
         [Test]
         public void Test03_LogoutTest()
         {
@@ -73,29 +70,30 @@ namespace IUDICO.UnitTest
         /// </summary>
         
         //import corse
-        [Test, Ignore]
+        [Test]
         public void Test04_ImportCourse()
         {
             Selenium.Open("/Login.aspx");
             Selenium.WaitForPageToLoad("7000");
-            Selenium.Type("ctl00$MainContent$Login1$UserName", "lex");
-            Selenium.Type("ctl00$MainContent$Login1$Password", "lex");
-            Selenium.Click("ctl00$MainContent$Login1$LoginButton");
-            Selenium.WaitForPageToLoad("2000");
+            Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
+            Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
+            Selenium.Click("ctl00_MainContent_Login1_LoginButton");
+
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("30000");
             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "TestCourse");
             Selenium.Click("ctl00_MainContent_TextBox_CourseDescription");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "TestCourse");
+            //Selenium.AttachFile("ctl00_MainContent_FileUpload_Course", "http://localhost:2935/course.zip");
+       
             Selenium.Click("ctl00_MainContent_FileUpload_Course");
             Selenium.Type("ctl00_MainContent_FileUpload_Course", "");
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
             Selenium.WaitForPageToLoad("30000");
 
-            AssertHtmlText("ctl00_MainContent_TreeView_Coursest0", "TestCourse");
-            AssertHasText("TestCourse");
             AssertIsOnPage("CourseEdit.aspx", null);
+            Assert.AreEqual("TestCourse", Selenium.GetTable("//div[@id='ctl00_MainContent_TreeView_Courses']/table.0.2"));
 
             Selenium.Click("ctl00_MainContent_TreeView_Coursest0");
             Selenium.Click("ctl00_MainContent_Button_DeleteCourse");
@@ -103,7 +101,7 @@ namespace IUDICO.UnitTest
         }
 
         //imports bad course
-        [Test, Ignore]
+        [Test]
         public void Test05_ImportBadCourse()
         {
             Selenium.Open("/Login.aspx");
@@ -126,10 +124,32 @@ namespace IUDICO.UnitTest
             AssertHtmlText("ctl00_MainContent_Label_PageMessage", "No imsmanifest.xml file found");
             AssertIsOnPage("CourseEdit.aspx", null);
         }
+        //bad import
+        [Test]
+        public void Test06_BadImport()
+        {
+            Selenium.Open("/Login.aspx");
+            Selenium.WaitForPageToLoad("7000");
+            Selenium.Type("ctl00$MainContent$Login1$UserName", "lex");
+            Selenium.Type("ctl00$MainContent$Login1$Password", "lex");
+            Selenium.Click("ctl00$MainContent$Login1$LoginButton");
+            Selenium.WaitForPageToLoad("2000");
+            Selenium.Click("link=Courses");
+            Selenium.WaitForPageToLoad("30000");
+            Selenium.Click("ctl00_MainContent_TextBox_CourseName");
+            Selenium.Type("ctl00_MainContent_TextBox_CourseName", "TestCourse");
+            Selenium.Click("ctl00_MainContent_TextBox_CourseDescription");
+            Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "TestCourse");
+            Selenium.Click("ctl00_MainContent_Button_ImportCourse");
+            Selenium.WaitForPageToLoad("30000");
+
+            AssertHtmlText("ctl00_MainContent_Label_PageMessage", "Specify course path.");
+            AssertIsOnPage("CourseEdit.aspx", null);
+        }
 
         //create and delete course
-        [Test, Ignore]
-        public void Test06_DeleteCourse()
+        [Test]
+        public void Test07_DeleteCourse()
         {
             Selenium.Open("/Login.aspx");
             Selenium.WaitForPageToLoad("7000");
@@ -150,12 +170,19 @@ namespace IUDICO.UnitTest
             Selenium.WaitForPageToLoad("30000");
 
             AssertIsOnPage("CourseEdit.aspx", null);
-
+            try
+            {
+                Assert.IsFalse(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Coursest0"));
+            }
+            catch (AssertionException e)
+            {
+                verificationErrors.Append(e.Message);
+            }
         }
 
         //create 2 courses & delete first
-        [Test, Ignore]
-        public void Test07_DeleteCourse2()
+        [Test]
+        public void Test08_DeleteCourse2()
         {
             Selenium.Open("/Login.aspx");
             Selenium.WaitForPageToLoad("7000");
@@ -182,16 +209,26 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Button_Delete");
             Selenium.WaitForPageToLoad("30000");
 
-            AssertIsOnPage("CourseEdit.aspx", null);
-
+            AssertIsOnPage("CourseEdit.aspx", null); 
+            try
+            {
+                Assert.IsTrue(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Coursest0"));
+                Assert.IsFalse(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Coursest2"));
+                Assert.AreEqual("TestCourse2", Selenium.GetText("ctl00_MainContent_TreeView_Coursest0"));
+            }
+            catch (AssertionException e)
+            {
+                verificationErrors.Append(e.Message);
+            }
             Selenium.Click("ctl00_MainContent_TreeView_Coursest0");
             Selenium.Click("ctl00_MainContent_Button_DeleteCourse");
             Selenium.Click("ctl00_MainContent_Button_Delete");
+            
         }
 
         //create 2 courses & delete second
-        [Test, Ignore]
-        public void Test08_DeleteCourse3()
+        [Test]
+        public void Test09_DeleteCourse3()
         {
             Selenium.Open("/Login.aspx");
             Selenium.WaitForPageToLoad("7000");
@@ -219,7 +256,16 @@ namespace IUDICO.UnitTest
             Selenium.WaitForPageToLoad("30000");
 
             AssertIsOnPage("CourseEdit.aspx", null);
-
+            try
+            {
+                Assert.IsTrue(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Coursest0"));
+                Assert.IsFalse(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Coursest2"));
+                Assert.AreEqual("TestCourse", Selenium.GetText("ctl00_MainContent_TreeView_Coursest0"));
+            }
+            catch (AssertionException e)
+            {
+                verificationErrors.Append(e.Message);
+            }
             Selenium.Click("ctl00_MainContent_TreeView_Coursest0");
             Selenium.Click("ctl00_MainContent_Button_DeleteCourse");
             Selenium.Click("ctl00_MainContent_Button_Delete");
@@ -228,7 +274,7 @@ namespace IUDICO.UnitTest
 
         //create group
         [Test]
-        public void Test09_CreateGroup()
+        public void Test10_CreateGroup()
         {
             Selenium.Open("/Login.aspx");
             Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
@@ -244,15 +290,15 @@ namespace IUDICO.UnitTest
             Selenium.WaitForPageToLoad("30000");
 
             AssertIsOnPage("Groups.aspx", null);
-            AssertHasText("Test_Group");
+            Assert.AreEqual("Test_Group", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups.1.0"));
 
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_lnkAction");
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_btnOK");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
         }
 
         //create & change group name
         [Test]
-        public void Test10_ChangeNameGroup()
+        public void Test11_ChangeNameGroup()
         {
             Selenium.Open("/Login.aspx");
             Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
@@ -271,15 +317,16 @@ namespace IUDICO.UnitTest
             Selenium.WaitForPageToLoad("30000");
 
             AssertIsOnPage("Groups.aspx", null);
-            AssertHasText("New_Group");
+            Assert.AreEqual("New_Group", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups.1.0"));
 
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_lnkAction");
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_btnOK");
+
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
         }
 
         //create & change group name
         [Test]
-        public void Test11_ChangeNameGroup2()
+        public void Test12_ChangeNameGroup2()
         {
             Selenium.Open("/Login.aspx");
             Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
@@ -294,7 +341,7 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_btnCreate");
             Selenium.Click("link=Groups");
             Selenium.WaitForPageToLoad("30000");
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_lnkGroupName");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkGroupName");
             Selenium.WaitForPageToLoad("30000");
             Selenium.Click("ctl00_MainContent_tbGroupName");
             Selenium.Type("ctl00_MainContent_tbGroupName", "New_Group");
@@ -303,15 +350,15 @@ namespace IUDICO.UnitTest
             Selenium.WaitForPageToLoad("30000");
 
             AssertIsOnPage("Groups.aspx", null);
-            AssertHasText("New_Group");
+            Assert.AreEqual("New_Group", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups.1.0"));
 
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_lnkAction");
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_btnOK");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
         }
 
         //create & delete group
         [Test]
-        public void Test12_DeleteGroup()
+        public void Test13_DeleteGroup()
         {
             Selenium.Open("/Login.aspx");
             Selenium.Click("ctl00_MainContent_Login1_UserName");
@@ -326,18 +373,27 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_btnCreate");
             Selenium.Click("link=Groups");
             Selenium.WaitForPageToLoad("30000");
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_lnkAction");
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_btnOK");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
             Selenium.WaitForPageToLoad("30000");
             Selenium.Click("link=Groups");
             Selenium.WaitForPageToLoad("30000");
 
             AssertIsOnPage("Groups.aspx", null);
+            try
+	        {
+		        Assert.IsFalse(Selenium.IsElementPresent("ctl00_MainContent_GroupList_gvGroups"));
+	        }
+	        catch (AssertionException e)
+	        {
+		        verificationErrors.Append(e.Message);
+	        }
+
         }
 
         //create curriculum
         [Test]
-        public void Test13_CreateCurriculum()
+        public void Test14_CreateCurriculum()
         {
             Selenium.Open("/Login.aspx");
             Selenium.Click("ctl00_MainContent_Login1_UserName");
@@ -371,7 +427,14 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst2");
 
             AssertIsOnPage("CurriculumEdit.aspx", null);
-            AssertHasText("Curriculum_test");
+            try
+            {
+                Assert.IsTrue(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Curriculumst2"));
+            }
+            catch (AssertionException e)
+            {
+                verificationErrors.Append(e.Message);
+            }
 
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_Delete");
@@ -385,7 +448,7 @@ namespace IUDICO.UnitTest
 
         //change name of stage
         [Test]
-        public void Test14_ModifyCurriculum()
+        public void Test15_ModifyCurriculum()
         {
             Selenium.Open("/Login.aspx");
             Selenium.Click("ctl00_MainContent_Login1_UserName");
@@ -428,7 +491,7 @@ namespace IUDICO.UnitTest
             Selenium.Type("ctl00_MainContent_TextBox_Description", "");
 
             AssertIsOnPage("CurriculumEdit.aspx", null);
-            AssertHasText("New_name");
+            Assert.AreEqual("New_name", Selenium.GetText("ctl00_MainContent_TreeView_Curriculumst1"));
 
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_Delete");
@@ -442,7 +505,7 @@ namespace IUDICO.UnitTest
 
         //change name of curriculum
         [Test]
-        public void Test15_ModifyCurriculum2()
+        public void Test16_ModifyCurriculum2()
         {
             Selenium.Open("/Login.aspx");
             Selenium.Click("ctl00_MainContent_Login1_UserName");
@@ -485,7 +548,7 @@ namespace IUDICO.UnitTest
             Selenium.Type("ctl00_MainContent_TextBox_Description", "");
 
             AssertIsOnPage("CurriculumEdit.aspx", null);
-            AssertHasText("New_curriculum");
+            Assert.AreEqual("New_curriculum", Selenium.GetText("ctl00_MainContent_TreeView_Curriculumst1"));
 
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_Delete");
@@ -499,7 +562,7 @@ namespace IUDICO.UnitTest
 
         //delete theme from curriculum
         [Test]
-        public void Test16_DeleteCuriculum()
+        public void Test17_DeleteCuriculum()
         {
             Selenium.Open("/Login.aspx");
             Selenium.Click("ctl00_MainContent_Login1_UserName");
@@ -538,6 +601,14 @@ namespace IUDICO.UnitTest
             Selenium.Click("//img[@alt='Expand Curriculum_test']");
 
             AssertIsOnPage("CurriculumEdit.aspx", null);
+            try
+            {
+                Assert.IsFalse(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Curriculumst2"));
+            }
+            catch (AssertionException e)
+            {
+                verificationErrors.Append(e.Message);
+            }
 
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_Delete");
@@ -551,7 +622,7 @@ namespace IUDICO.UnitTest
 
         //delete stage from curriculum
         [Test]
-        public void Test17_DeleteCuriculum2()
+        public void Test18_DeleteCuriculum2()
         {
             Selenium.Open("/Login.aspx");
             Selenium.Click("ctl00_MainContent_Login1_UserName");
@@ -589,7 +660,15 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Button_Delete");
 
             AssertIsOnPage("CurriculumEdit.aspx", null);
-
+            try
+            {
+                Assert.IsFalse(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Curriculumst1"));
+            }
+            catch (AssertionException e)
+            {
+                verificationErrors.Append(e.Message);
+            }
+            
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_Delete");
             Selenium.Click("ctl00_MainContent_Button_Delete");
@@ -602,7 +681,7 @@ namespace IUDICO.UnitTest
 
         //delete curriculum
         [Test]
-        public void Test18_DeleteCuriculum3()
+        public void Test19_DeleteCuriculum3()
         {
             Selenium.Open("/Login.aspx");
             Selenium.Click("ctl00_MainContent_Login1_UserName");
@@ -640,6 +719,14 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Button_Delete");
 
             AssertIsOnPage("CurriculumEdit.aspx", null);
+            try
+            {
+                Assert.IsFalse(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Curriculumst0"));
+            }
+            catch (AssertionException e)
+            {
+                verificationErrors.Append(e.Message);
+            }
 
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("30000");
@@ -650,7 +737,7 @@ namespace IUDICO.UnitTest
         /*
         //add assignment
         [Test]
-        public void Test19_Add_Assignment()
+        public void Test20_Add_Assignment()
         {
             Selenium.Open("/Login.aspx");
             Selenium.Click("ctl00_MainContent_Login1_UserName");
