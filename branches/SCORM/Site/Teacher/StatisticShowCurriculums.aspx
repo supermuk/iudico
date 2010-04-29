@@ -21,6 +21,8 @@
                 <br />
                 <asp:TextBox ID="TextBox_FindStud" runat="server" Width="99px"></asp:TextBox>
                 <asp:Button ID="Button_FindStud" runat="server" Text="Find student" />
+                <asp:Button ID="Button_Sort" runat="server" Height="26px" Text="Sort" 
+                    Width="108px" />
                 <asp:Button ID="ButtonShow_all" runat="server" Text="Show all" Width="101px" />
             </td>
         </tr>

@@ -828,6 +828,7 @@ namespace IUDICO.DataModel.Common
                 headerCell.Text = Translations.TeacherHelper_Sort_Student;
                 headerRow.Cells.Add(headerCell);
 
+                
 
                 foreach (TblCurriculums curr in curriculums)
                 {
@@ -848,6 +849,15 @@ namespace IUDICO.DataModel.Common
                 headerCell = new TableHeaderCell();
                 headerCell.Text = Translations.TeacherHelper_Sort_Total;
                 headerRow.Cells.Add(headerCell);
+
+                headerCell = new TableHeaderCell();
+                headerCell.Text = Translations.TeacherHelper_Sort_Percent;
+                headerRow.Cells.Add(headerCell);
+
+                headerCell = new TableHeaderCell();
+                headerCell.Text = "ECTS";
+                headerRow.Cells.Add(headerCell);
+                
 
                 temp.Rows.Add(headerRow);
                 for (int i = 1; i < table.Rows.Count; i++)
