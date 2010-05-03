@@ -37,12 +37,17 @@
     void Application_Start(object sender, EventArgs e) 
     {
         ApplicationPath = HttpRuntime.AppDomainAppPath;
-        
-        WriteStartTomcat();
-        System.Diagnostics.Process procTomcat = new System.Diagnostics.Process();
-        procTomcat.EnableRaisingEvents = false;
-        procTomcat.StartInfo.FileName = Path.Combine(ApplicationPath, "tomcat-solr\\tomcatStart.bat");
-        procTomcat.Start();
+
+        string tomcatFile = Path.Combine(ApplicationPath, "tomcat-solr\\tomcatStart.bat");
+
+        if (File.Exists(tomcatFile))
+        {
+            WriteStartTomcat();
+            System.Diagnostics.Process procTomcat = new System.Diagnostics.Process();
+            procTomcat.EnableRaisingEvents = false;
+            procTomcat.StartInfo.FileName = Path.Combine(ApplicationPath, "tomcat-solr\\tomcatStart.bat");
+            procTomcat.Start();
+        }
         
         ServerModel.Initialize(WebConfigurationManager.ConnectionStrings["IUDICO"].ConnectionString, HttpRuntime.Cache);
         PagesReg.RegisterPages(ServerModel.Forms);

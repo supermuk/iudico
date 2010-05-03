@@ -11,6 +11,12 @@ namespace IUDICO.UnitTest
     [TestFixture]
     public class WebTest: TestFixtureWeb
     {
+        [TearDown]
+        public void TearDown()
+        {
+            Selenium.Open("/Logout.aspx");
+        }
+
         /// <summary>
         /// Correct Login
         /// </summary>
@@ -26,48 +32,6 @@ namespace IUDICO.UnitTest
 
             AssertIsOnPage("StudentPage.aspx", null);
         }
-        //[Test]
-        //public void TheUntitledTest1()
-        //{
-        //    Selenium.Open("/Login.aspx");
-        //    Selenium.WaitForPageToLoad("7000");
-        //    Selenium.Type("ctl00$MainContent$Login1$UserName", "lex");
-        //    Selenium.Type("ctl00$MainContent$Login1$Password", "lex");
-        //    Selenium.Click("ctl00$MainContent$Login1$LoginButton");
-        //    Selenium.WaitForPageToLoad("7000");
-    
-        //    Selenium.Click("link=Users");
-        //    Selenium.WaitForPageToLoad("30000");
-        //    //Selenium.Type("ctl00_MainContent_tbSearchPattern", "vladykx");
-        //    //Selenium.Click("ctl00_MainContent_btnSearch");
-        //    //ClickOnButtonWithValue("Remove");
-        //    ClickOnLastButtonRemove();
-
-        //    AssertLabelText("ctl00_MainContent_lbConfirmationText", "Do you really want to delete V P(vladykx)?");
-
-
-        //}
-        //[Test]
-        //public void TheUntitledTest()
-        //{
-        //    Selenium.Open("/Login.aspx");
-        //    Selenium.WaitForPageToLoad("7000");
-        //    Selenium.Type("ctl00$MainContent$Login1$UserName", "lex");
-        //    Selenium.Type("ctl00$MainContent$Login1$Password", "lex");
-        //    Selenium.Click("ctl00$MainContent$Login1$LoginButton");
-        //    Selenium.WaitForPageToLoad("7000");
-
-        //    Selenium.Click("link=Groups");
-        //    Selenium.WaitForPageToLoad("30000");
-        //    //Selenium.Click("link=123");
-        //    //Selenium.WaitForPageToLoad("30000");
-        //    ClickOnLastButtonRemove();
-        //    Selenium.WaitForPageToLoad("30000");
-        //    Selenium.Click("ctl00$MainContent$GroupList$gvGroups$ctl03$btnOK");
-        //    Selenium.WaitForPageToLoad("30000");
-        //    AssertIsOnPage("Groups.aspx?Lector", null);
-
-        //}
 
         /// <summary>
         /// Incorrect Login
@@ -80,7 +44,7 @@ namespace IUDICO.UnitTest
             Selenium.Type("ctl00$MainContent$Login1$UserName", "baduser");
             Selenium.Type("ctl00$MainContent$Login1$Password", "baduser");
             Selenium.Click("ctl00$MainContent$Login1$LoginButton");
-            Pause(3000);
+            Selenium.WaitForPageToLoad("7000");
             
             AssertHasText("Your login attempt was not successful. Please try again.");
             AssertIsOnPage("Login.aspx", null);
