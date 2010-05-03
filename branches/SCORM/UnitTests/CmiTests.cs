@@ -27,12 +27,16 @@ namespace IUDICO.UnitTest
       Initialize();
     }
 
+    [SetUp]
+    protected void PreTestSetUp()
+    {
+        //NumberFormat.NumberDecimalSeparator must be ','!
+        CultureInfo ci = new CultureInfo("uk-UA");
+        Thread.CurrentThread.CurrentCulture = ci;
+    }
+
     void Initialize()
     {
-      //NumberFormat.NumberDecimalSeparator must be ','!
-      CultureInfo ci = new CultureInfo("uk-UA");
-      Thread.CurrentThread.CurrentCulture = ci;
-
       TblCourses course = new TblCourses
       {
         Name = "course"
