@@ -12,22 +12,17 @@ namespace IUDICO.DataModel.Controllers
     {
         public void Authenticate(object sender, AuthenticateEventArgs e)
         {
-            //var l = (Login) sender;
-            //e.Authenticated = Membership.ValidateUser(l.UserName, l.Password);
-
             var l = (Login)sender;
             bool isAuthenticated = Membership.ValidateUser(l.UserName, l.Password);
 
             if (isAuthenticated)
             {
-                Admin_UsersController auc = new Admin_UsersController();
-
-                var userVasia = ServerModel.DB.TblUsers.Where(u => u.Login == "vasia").SingleOrDefault();
-
-                IUDICO.DataModel.DB.TblUsers us;
-
                 var user = ServerModel.DB.TblUsers.Where(u => u.Login == l.UserName).SingleOrDefault();
-                string IP = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+                string IP = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+                if (IP == null)
+                {
+                    IP = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+                }
                 var computerId = this.LookupOrAddComputer(IP);
                 var signInInfo = ServerModel.DB.TblUsersSignIn.Where(u => u.TblUsers == user).SingleOrDefault();
                 if (signInInfo != null)
@@ -45,7 +40,6 @@ namespace IUDICO.DataModel.Controllers
                 }
 
                 ServerModel.DB.SubmitChanges();
-
             }
 
             e.Authenticated = isAuthenticated; 
@@ -69,8 +63,6 @@ namespace IUDICO.DataModel.Controllers
                 ServerModel.DB.SubmitChanges();
                 return computer.ID;
             }
-
-            //return 0;
         }
     }
 }
