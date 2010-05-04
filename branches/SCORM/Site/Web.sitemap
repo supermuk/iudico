@@ -24,7 +24,6 @@
       <siteMapNode title="" />
       <siteMapNode title="Create User" url="~/Admin/CreateUser.aspx" />
       <siteMapNode title="Create Group" url="~/Admin/CreateGroup.aspx?Admin" />
-      <siteMapNode title="IP Security" url="~/Admin/IPSecurity.aspx" />
     </siteMapNode>
     <!--<siteMapNode title="Logout" url="Logout.ashx"></siteMapNode>-->
   </siteMapNode>
