@@ -83,21 +83,27 @@ namespace IUDICO.UnitTest
             Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
+            Selenium.WaitForPageToLoad("7000");
 
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
+            
             Selenium.Type("ctl00_MainContent_TextBox_FirstName", "NewFName");
             Selenium.Click("ctl00_MainContent_Button_Update");
-            
             Selenium.Click("link=Home");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
+
+            AssertIsOnPage("StudentPage.aspx", null);
+            AssertLabelText("ctl00_MainContent__headerLabel", "Student Page For: Volodymyr Shtenovych");
 
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
+            
             Selenium.Type("ctl00_MainContent_TextBox_FirstName", "Volodymyr");
             Selenium.Click("ctl00_MainContent_Button_Update");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Home");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("StudentPage.aspx", null);
             AssertLabelText("ctl00_MainContent__headerLabel", "Student Page For: Volodymyr Shtenovych");
@@ -114,21 +120,24 @@ namespace IUDICO.UnitTest
             Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
+            Selenium.WaitForPageToLoad("7000");
 
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_TextBox_SecondName", "NewSName");
             Selenium.Click("ctl00_MainContent_Button_Update");
 
             Selenium.Click("link=Home");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
+
+            AssertLabelText("ctl00_MainContent__headerLabel", "Student Page For: NewSName Shtenovych");
 
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_TextBox_SecondName", "Shtenovych");
             Selenium.Click("ctl00_MainContent_Button_Update");
             Selenium.Click("link=Home");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("StudentPage.aspx", null);
             AssertLabelText("ctl00_MainContent__headerLabel", "Student Page For: Volodymyr Shtenovych");
@@ -146,23 +155,23 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
 
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_TextBox_Email", "mail@mail.mail");
             Selenium.Click("ctl00_MainContent_Button_Update");
 
             Selenium.Click("link=Home");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_TextBox_Email", "ShVolodya@gmail.com");
             Selenium.Click("ctl00_MainContent_Button_Update");
             
             Selenium.Click("link=Home");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("MyInfo.aspx", null);
             AssertTextBoxValue("ctl00_MainContent_TextBox_Email", "ShVolodya@gmail.com");
@@ -180,27 +189,27 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
 
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_TextBox_FirstName", "NewFName");
             Selenium.Type("ctl00_MainContent_TextBox_SecondName", "NewSName");
             Selenium.Type("ctl00_MainContent_TextBox_Email", "NewMail@n.n");
             Selenium.Click("ctl00_MainContent_Button_Update");
 
             Selenium.Click("link=Home");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_TextBox_FirstName", "Volodymyr");
             Selenium.Type("ctl00_MainContent_TextBox_SecondName", "Shtenovych");
             Selenium.Type("ctl00_MainContent_TextBox_Email", "ShVolodya@gmail.com");
             Selenium.Click("ctl00_MainContent_Button_Update");
             
             Selenium.Click("link=Home");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("MyInfo.aspx", null);
             AssertTextBoxValue("ctl00_MainContent_TextBox_FirstName", "Volodymyr");
@@ -219,7 +228,7 @@ namespace IUDICO.UnitTest
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_CurrentPassword", "badpassword");
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_NewPassword", "newpassword");
@@ -241,7 +250,7 @@ namespace IUDICO.UnitTest
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_CurrentPassword", "lex");
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_NewPassword", "lex");
@@ -264,7 +273,7 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
 
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_CurrentPassword", "lex");
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_NewPassword", "1111");
@@ -287,7 +296,7 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
 
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_CurrentPassword", "lex");
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_ConfirmNewPassword", "11111");
@@ -309,7 +318,7 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
 
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_CurrentPassword", "lex");
             Selenium.Click("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_ChangePasswordPushButton");
 
@@ -330,7 +339,7 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
 
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_CurrentPassword", "lex");
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_NewPassword", "newpassword");
             Selenium.Click("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_ChangePasswordPushButton");
@@ -352,7 +361,7 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
 
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_NewPassword", "newpassword");
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_ConfirmNewPassword", "newpassword");
@@ -376,7 +385,7 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
 
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_NewPassword", "newpassword");
             Selenium.Click("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_ChangePasswordPushButton");
@@ -398,7 +407,7 @@ namespace IUDICO.UnitTest
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_CurrentPassword", "lex");
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_NewPassword", "lex1");
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_ConfirmNewPassword", "lex1");
@@ -406,13 +415,13 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_ChangePassword_SuccessContainerID_ContinuePushButton");
             Selenium.Click("ctl00_hypLogout");
             Selenium.Click("ctl00_btnOK");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex1");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
 
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_CurrentPassword", "lex1");
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_NewPassword", "lex");
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_ConfirmNewPassword", "lex");
@@ -420,7 +429,7 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_ChangePassword_SuccessContainerID_ContinuePushButton");
             Selenium.Click("ctl00_hypLogout");
             Selenium.Click("ctl00_btnOK");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
@@ -439,7 +448,7 @@ namespace IUDICO.UnitTest
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
             Selenium.Click("link=My permissions");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("MyPermissions.aspx", null);
             AssertHasText("You don't have permissions to any of Course");
@@ -460,7 +469,7 @@ namespace IUDICO.UnitTest
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
             Selenium.Click("link=Create Group");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_btnCreate");
 
             AssertIsOnPage("CreateGroup.aspx", null);
@@ -479,18 +488,18 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
             
             Selenium.Click("//tr[@id='ctl00_MainMenun15']/td/table/tbody/tr/td/a");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             
             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkGroupName");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             
             Selenium.Type("ctl00_MainContent_tbGroupName", "12");
             Selenium.Click("ctl00_MainContent_btnApply");
             Selenium.Click("//tr[@id='ctl00_MainMenun15']/td/table/tbody/tr/td/a");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             
             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkGroupName");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_tbGroupName", "123");
             Selenium.Click("ctl00_MainContent_btnApply");
 
@@ -510,16 +519,16 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
 
             Selenium.Click("link=Create Group");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_tbGroupName", "TestGroup1");
             Selenium.Click("ctl00_MainContent_btnCreate");
             Selenium.Click("//tr[@id='ctl00_MainMenun15']/td/table/tbody/tr/td/a");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_lnkAction");
             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_btnOK");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("//tr[@id='ctl00_MainMenun15']/td/table/tbody/tr/td/a");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("Groups.aspx", null);
         }
@@ -536,24 +545,24 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
             
             Selenium.Click("link=Users");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_UserList_gvUsers_ctl04_lbLogin");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             
             Selenium.Click("ctl00_MainContent_cbTrainerRole");
             Selenium.Click("ctl00_MainContent_btnApply");
             Selenium.Click("link=Users");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             
             Selenium.Click("ctl00_MainContent_UserList_gvUsers_ctl04_lbLogin");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             Selenium.Click("ctl00_MainContent_cbTrainerRole");
             Selenium.Click("ctl00_MainContent_btnApply");
             Selenium.Click("link=Users");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_UserList_gvUsers_ctl04_lbLogin");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("EditUser.aspx", null);
             AssertCheckBoxState(false, "ctl00_MainContent_cbTrainerRole");
@@ -571,24 +580,24 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
 
             Selenium.Click("link=Users");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_UserList_gvUsers_ctl04_lbLogin");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             Selenium.Click("ctl00_MainContent_cbLectorRole");
             Selenium.Click("ctl00_MainContent_btnApply");
             Selenium.Click("link=Users");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             Selenium.Click("ctl00_MainContent_UserList_gvUsers_ctl04_lbLogin");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             Selenium.Click("ctl00_MainContent_cbLectorRole");
             Selenium.Click("ctl00_MainContent_btnApply");
             Selenium.Click("link=Users");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_UserList_gvUsers_ctl04_lbLogin");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("EditUser.aspx", null);
             AssertCheckBoxState(false, "ctl00_MainContent_cbLectorRole");
@@ -606,24 +615,24 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
 
             Selenium.Click("link=Users");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_UserList_gvUsers_ctl04_lbLogin");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             Selenium.Click("ctl00_MainContent_cbAdminRole");
             Selenium.Click("ctl00_MainContent_btnApply");
             Selenium.Click("link=Users");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             Selenium.Click("ctl00_MainContent_UserList_gvUsers_ctl04_lbLogin");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             Selenium.Click("ctl00_MainContent_cbAdminRole");
             Selenium.Click("ctl00_MainContent_btnApply");
             Selenium.Click("link=Users");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_UserList_gvUsers_ctl04_lbLogin");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("EditUser.aspx", null);
             AssertCheckBoxState(false, "ctl00_MainContent_cbAdminRole");
@@ -642,13 +651,13 @@ namespace IUDICO.UnitTest
 
             Selenium.Click("//tr[@id='ctl00_MainMenun14']/td/table/tbody/tr/td");
             Selenium.Click("link=Users");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_UserList_gvUsers_ctl04_lbLogin");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_btnInclude");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_gvGroups_ctl02_lnkSelect");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_btnYes");
 
             AssertLabelText("ctl00_MainContent_GroupList_gvGroups_ctl02_Label1", "Group");
@@ -666,7 +675,7 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
             
             Selenium.Click("link=Create User");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             
             Selenium.Type("ctl00_MainContent_CreateUserWizard1_CreateUserStepContainer_UserName", "TestUser14");
             Selenium.Type("ctl00_MainContent_CreateUserWizard1_CreateUserStepContainer_Password", "1111");
@@ -677,7 +686,7 @@ namespace IUDICO.UnitTest
             
             Selenium.Click("ctl00_hypLogout");
             Selenium.Click("ctl00_btnOK");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             
             Selenium.Type("ctl00_MainContent_Login1_UserName", "TestUser14");
             Selenium.Type("ctl00_MainContent_Login1_Password", "1111");
@@ -685,17 +694,17 @@ namespace IUDICO.UnitTest
             
             Selenium.Click("ctl00_hypLogout");
             Selenium.Click("ctl00_btnOK");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             
             Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
             
             Selenium.Click("link=Users");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             ClickOnLastButtonRemove();
             //selenium.Click("ctl00_MainContent_UserList_gvUsers_ctl05_btnAction");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_btnYes");
             Selenium.Type("ctl00_MainContent_tbSearchPattern", "TestUser14");
             Selenium.Click("ctl00_MainContent_btnSearch");
@@ -717,9 +726,9 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
             
             Selenium.Click("link=Users");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_btnCreateUser");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             
             Selenium.Type("ctl00_MainContent_CreateUserWizard1_CreateUserStepContainer_UserName", "TestUser20");
             Selenium.Type("ctl00_MainContent_CreateUserWizard1_CreateUserStepContainer_Password", "1111");
@@ -731,7 +740,7 @@ namespace IUDICO.UnitTest
             
             Selenium.Click("ctl00_hypLogout");
             Selenium.Click("ctl00_btnOK");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             
             Selenium.Type("ctl00_MainContent_Login1_UserName", "TestUser20");
             Selenium.Type("ctl00_MainContent_Login1_Password", "1111");
@@ -739,17 +748,17 @@ namespace IUDICO.UnitTest
             
             Selenium.Click("ctl00_hypLogout");
             Selenium.Click("ctl00_btnOK");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
             
             Selenium.Click("link=Users");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             ClickOnLastButtonRemove();
             //selenium.Click("ctl00_MainContent_UserList_gvUsers_ctl05_btnAction");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_btnYes");
             
             Selenium.Type("ctl00_MainContent_tbSearchPattern", "TestUser20");
@@ -770,9 +779,9 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
 
             Selenium.Click("link=Users");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_btnCreateUser");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             Selenium.Type("ctl00_MainContent_CreateUserWizard1_CreateUserStepContainer_UserName", "TestUser21");
             Selenium.Type("ctl00_MainContent_CreateUserWizard1_CreateUserStepContainer_Password", "1111");
@@ -783,21 +792,21 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_CreateUserWizard1_CompleteStepContainer_ContinueButtonButton");
 
             Selenium.Click("link=TestUser21");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             
             Selenium.Click("ctl00_MainContent_btnInclude");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             ClickOnButtonWithValue("Include");
 
             //Selenium.Click("ctl00_MainContent_gvGroups_ctl02_lnkSelect");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_btnYes");
 
             Selenium.Click("link=Users");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             ClickOnLastButtonRemove();
             //selenium.Click("ctl00_MainContent_UserList_gvUsers_ctl05_btnAction");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_btnYes");
 
             Selenium.Type("ctl00_MainContent_tbSearchPattern", "TestUser21");
