@@ -38,16 +38,17 @@
     {
         ApplicationPath = HttpRuntime.AppDomainAppPath;
 
-        string tomcatFile = Path.Combine(ApplicationPath, "tomcat-solr\\tomcatStart.bat");
-
-        if (File.Exists(tomcatFile))
+        try
         {
+
             WriteStartTomcat();
             System.Diagnostics.Process procTomcat = new System.Diagnostics.Process();
             procTomcat.EnableRaisingEvents = false;
             procTomcat.StartInfo.FileName = Path.Combine(ApplicationPath, "tomcat-solr\\tomcatStart.bat");
             procTomcat.Start();
         }
+        catch (Exception ex)
+        { }
         
         ServerModel.Initialize(WebConfigurationManager.ConnectionStrings["IUDICO"].ConnectionString, HttpRuntime.Cache);
         PagesReg.RegisterPages(ServerModel.Forms);
@@ -151,15 +152,21 @@
 
     private void WriteStartTomcat()
     {
-        string setCatalina = "set CATALINA_HOME = " + ApplicationPath + "\\tomcat-solr\\apache-tomcat-5.5.28\r\n";
-        //string setJava = "set JAVA_HOME = C:\\Program Files\\Java\\jdk1.6.0\r\n";
-        string command = "cd " + ApplicationPath + "\\Site\\tomcat-solr\\solr\r\n" + ApplicationPath + "\\tomcat-solr\\apache-tomcat-5.5.28\\bin\\startup.bat";
+        try
+        {
+            string setCatalina = "set CATALINA_HOME = " + ApplicationPath + "tomcat-solr\\apache-tomcat-5.5.28\r\n";
+            string setJava = "set JAVA_HOME = C:\\Program Files\\Java\\jdk1.6.0\r\n";
+            string command = "cd " + ApplicationPath + "tomcat-solr\\solr\r\n" + ApplicationPath + "tomcat-solr\\apache-tomcat-5.5.28\\bin\\startup.bat";
 
-        System.IO.StreamWriter file = new System.IO.StreamWriter(ApplicationPath + "\\tomcat-solr\\tomcatStart.bat");
-        file.WriteLine(setCatalina /*+ setJava*/ + command);
+            System.IO.StreamWriter file = new System.IO.StreamWriter(ApplicationPath + "tomcat-solr\\tomcatStart.bat");
+            file.WriteLine(setCatalina + setJava + command);
 
-        file.Close();
+            file.Close();
+        }
+        catch (Exception ex)
+        {
 
+        }
     }
 
 </script>
