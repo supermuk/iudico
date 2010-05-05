@@ -24,7 +24,7 @@ namespace IUDICO.UnitTest
 		public void Test01_CorrectLogin()
 		{
 			Selenium.Open("/Login.aspx");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 			Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
 			Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
 			Selenium.Click("ctl00_MainContent_Login1_LoginButton");
@@ -59,7 +59,7 @@ namespace IUDICO.UnitTest
             Pause(3000);
             Selenium.Click("ctl00_hypLogout");
             Selenium.Click("ctl00_btnOK");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("Login.aspx", null);
         }
@@ -80,7 +80,7 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
 
             Selenium.Click("link=Courses");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "TestCourse");
             Selenium.Click("ctl00_MainContent_TextBox_CourseDescription");
@@ -90,7 +90,7 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_FileUpload_Course");
             Selenium.Type("ctl00_MainContent_FileUpload_Course", "");
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("CourseEdit.aspx", null);
             Assert.AreEqual("TestCourse", Selenium.GetTable("//div[@id='ctl00_MainContent_TreeView_Courses']/table.0.2"));
@@ -106,20 +106,26 @@ namespace IUDICO.UnitTest
         {
             Selenium.Open("/Login.aspx");
             Selenium.WaitForPageToLoad("7000");
+            
             Selenium.Type("ctl00$MainContent$Login1$UserName", "lex");
             Selenium.Type("ctl00$MainContent$Login1$Password", "lex");
             Selenium.Click("ctl00$MainContent$Login1$LoginButton");
             Selenium.WaitForPageToLoad("2000");
+            
             Selenium.Click("link=Courses");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
+            
             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "TestCourse");
             Selenium.Click("ctl00_MainContent_TextBox_CourseDescription");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "TestCourse");
-            Selenium.Click("ctl00_MainContent_FileUpload_Course");
-            Selenium.Type("ctl00_MainContent_FileUpload_Course", "");
+            Selenium.AttachFile("ctl00_MainContent_FileUpload_Course", "http://localhost:2935/TestCourses/Noimsmanifest.zip");
+            //Selenium.Click("ctl00_MainContent_FileUpload_Course");
+            //Selenium.Type("ctl00_MainContent_FileUpload_Course", "");
+            
+            
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             AssertHtmlText("ctl00_MainContent_Label_PageMessage", "No imsmanifest.xml file found");
             AssertIsOnPage("CourseEdit.aspx", null);
@@ -135,13 +141,13 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00$MainContent$Login1$LoginButton");
             Selenium.WaitForPageToLoad("2000");
             Selenium.Click("link=Courses");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "TestCourse");
             Selenium.Click("ctl00_MainContent_TextBox_CourseDescription");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "TestCourse");
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             AssertHtmlText("ctl00_MainContent_Label_PageMessage", "Specify course path.");
             AssertIsOnPage("CourseEdit.aspx", null);
@@ -156,18 +162,23 @@ namespace IUDICO.UnitTest
             Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Courses");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "TestCourse");
             Selenium.Click("ctl00_MainContent_TextBox_CourseDescription");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "TestCourse");
-            Selenium.Click("ctl00_MainContent_FileUpload_Course");
-            Selenium.Type("ctl00_MainContent_FileUpload_Course", "");
+            Selenium.AttachFile("ctl00_MainContent_FileUpload_Course", "http://localhost:2935/TestCourses/GoodCourse.zip");
+            //Selenium.Click("ctl00_MainContent_FileUpload_Course");
+            //Selenium.Type("ctl00_MainContent_FileUpload_Course", "");
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
+            Selenium.WaitForPageToLoad("7000");
+            
             Selenium.Click("ctl00_MainContent_TreeView_Coursest0");
             Selenium.Click("ctl00_MainContent_Button_DeleteCourse");
             Selenium.Click("ctl00_MainContent_Button_Delete");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("CourseEdit.aspx", null);
             try
@@ -189,25 +200,26 @@ namespace IUDICO.UnitTest
             Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Courses");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "TestCourse");
             Selenium.Click("ctl00_MainContent_TextBox_CourseDescription");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "TestCourse");
-            Selenium.Click("ctl00_MainContent_FileUpload_Course");
-            Selenium.Type("ctl00_MainContent_FileUpload_Course", "");
+            Selenium.AttachFile("ctl00_MainContent_FileUpload_Course", "http://localhost:2935/TestCourses/GoodCourse.zip");
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "TestCourse2");
             Selenium.Click("ctl00_MainContent_TextBox_CourseDescription");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "TestCourse2");
-            Selenium.Click("ctl00_MainContent_FileUpload_Course");
-            Selenium.Type("ctl00_MainContent_FileUpload_Course", "");
+            Selenium.AttachFile("ctl00_MainContent_FileUpload_Course", "http://localhost:2935/TestCourses/GoodCourse.zip");
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
             Selenium.Click("ctl00_MainContent_TreeView_Coursest0");
             Selenium.Click("ctl00_MainContent_Button_DeleteCourse");
             Selenium.Click("ctl00_MainContent_Button_Delete");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("CourseEdit.aspx", null); 
             try
@@ -235,25 +247,31 @@ namespace IUDICO.UnitTest
             Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
+            Selenium.WaitForPageToLoad("7000");
+
             Selenium.Click("link=Courses");
+            Selenium.WaitForPageToLoad("7000");
+
             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "TestCourse");
             Selenium.Click("ctl00_MainContent_TextBox_CourseDescription");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "TestCourse");
-            Selenium.Click("ctl00_MainContent_FileUpload_Course");
-            Selenium.Type("ctl00_MainContent_FileUpload_Course", "");
+            Selenium.AttachFile("ctl00_MainContent_FileUpload_Course", "http://localhost:2935/TestCourses/GoodCourse.zip");
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
+            Selenium.WaitForPageToLoad("7000");
+
             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "TestCourse2");
             Selenium.Click("ctl00_MainContent_TextBox_CourseDescription");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "TestCourse2");
-            Selenium.Click("ctl00_MainContent_FileUpload_Course");
-            Selenium.Type("ctl00_MainContent_FileUpload_Course", "");
+            Selenium.AttachFile("ctl00_MainContent_FileUpload_Course", "http://localhost:2935/TestCourses/GoodCourse.zip");
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
+            Selenium.WaitForPageToLoad("7000");
+            
             Selenium.Click("ctl00_MainContent_TreeView_Coursest2");
             Selenium.Click("ctl00_MainContent_Button_DeleteCourse");
             Selenium.Click("ctl00_MainContent_Button_Delete");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("CourseEdit.aspx", null);
             try
@@ -280,17 +298,26 @@ namespace IUDICO.UnitTest
             Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
+            Selenium.WaitForPageToLoad("7000");
+            
             Selenium.Click("link=Groups");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
+
+            decimal groups = Selenium.GetXpathCount("//table[@id='ctl00_MainContent_GroupList_gvGroups']/tbody/tr");
+            
             Selenium.Click("ctl00_MainContent_btnCreateGroup");
-            Selenium.WaitForPageToLoad("30000");
-            Selenium.Type("ctl00_MainContent_tbGroupName", "Test_Group");
+            Selenium.WaitForPageToLoad("7000");
+
+            Selenium.Type("ctl00_MainContent_tbGroupName", "New_Test_Group");
             Selenium.Click("ctl00_MainContent_btnCreate");
+            Selenium.WaitForPageToLoad("7000");
+            
             Selenium.Click("link=Groups");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("Groups.aspx", null);
-            Assert.AreEqual("Test_Group", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups.1.0"));
+            Assert.AreEqual(groups+1, Selenium.GetXpathCount("//table[@id='ctl00_MainContent_GroupList_gvGroups']/tbody/tr"));
+            Assert.AreEqual("New_Test_Group", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups." + groups + ".0"));
 
             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
@@ -305,19 +332,22 @@ namespace IUDICO.UnitTest
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
             Selenium.Click("link=Groups");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_btnCreateGroup");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_tbGroupName", "Test_Group");
             Selenium.Click("ctl00_MainContent_btnCreate");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_tbGroupName");
             Selenium.Type("ctl00_MainContent_tbGroupName", "New_Group");
             Selenium.Click("ctl00_MainContent_btnApply");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Groups");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("Groups.aspx", null);
-            Assert.AreEqual("New_Group", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups.1.0"));
+
+            Assert.AreEqual("New_Group", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups." + Selenium.GetXpathCount("//table[@id='ctl00_MainContent_GroupList_gvGroups']/tbody/tr") + ".0"));
 
 
             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
@@ -334,23 +364,23 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
             Selenium.WaitForPageToLoad("2000");
             Selenium.Click("link=Groups");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_btnCreateGroup");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_tbGroupName", "Test_Group");
             Selenium.Click("ctl00_MainContent_btnCreate");
             Selenium.Click("link=Groups");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkGroupName");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_tbGroupName");
             Selenium.Type("ctl00_MainContent_tbGroupName", "New_Group");
             Selenium.Click("ctl00_MainContent_btnApply");
             Selenium.Click("link=Groups");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("Groups.aspx", null);
-            Assert.AreEqual("New_Group", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups.1.0"));
+            Assert.AreEqual("New_Group", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups." + Selenium.GetXpathCount("//table[@id='ctl00_MainContent_GroupList_gvGroups']/tbody/tr") + ".0"));
 
             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
@@ -365,19 +395,20 @@ namespace IUDICO.UnitTest
             Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Groups");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_btnCreateGroup");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_tbGroupName", "Test_Group");
             Selenium.Click("ctl00_MainContent_btnCreate");
             Selenium.Click("link=Groups");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Groups");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("Groups.aspx", null);
             try
@@ -400,18 +431,17 @@ namespace IUDICO.UnitTest
             Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
-
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Courses");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "Test_for_curriculum");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "Test_for_curriculum");
-            Selenium.Click("ctl00_MainContent_FileUpload_Course");
-            Selenium.Type("ctl00_MainContent_FileUpload_Course", "");
+            Selenium.AttachFile("ctl00_MainContent_FileUpload_Course", "http://localhost:2935/TestCourses/GoodCourse.zip");
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Curriculums");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TextBox_Name");
             Selenium.Type("ctl00_MainContent_TextBox_Name", "Curriculum_test");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "Curriculum_test");
@@ -439,8 +469,9 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_Delete");
             Selenium.Click("ctl00_MainContent_Button_Delete");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Courses");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TreeView_Coursest0");
             Selenium.Click("ctl00_MainContent_Button_DeleteCourse");
             Selenium.Click("ctl00_MainContent_Button_Delete");
@@ -455,18 +486,17 @@ namespace IUDICO.UnitTest
             Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
-
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Courses");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "Test_for_curriculum");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "Test_for_curriculum");
-            Selenium.Click("ctl00_MainContent_FileUpload_Course");
-            Selenium.Type("ctl00_MainContent_FileUpload_Course", "");
+            Selenium.AttachFile("ctl00_MainContent_FileUpload_Course", "http://localhost:2935/TestCourses/GoodCourse.zip");
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Curriculums");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TextBox_Name");
             Selenium.Type("ctl00_MainContent_TextBox_Name", "Curriculum_test");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "Curriculum_test");
@@ -480,7 +510,7 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Button_AddTheme");
             Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst2");
-
+            /*
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
             Selenium.Type("ctl00_MainContent_TextBox_Name", "New_name");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "New_name");
@@ -489,7 +519,7 @@ namespace IUDICO.UnitTest
             Selenium.Type("ctl00_MainContent_TextBox_Name", "");
             Selenium.Click("ctl00_MainContent_TextBox_Description");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "");
-
+            */
             AssertIsOnPage("CurriculumEdit.aspx", null);
             Assert.AreEqual("New_name", Selenium.GetText("ctl00_MainContent_TreeView_Curriculumst1"));
 
@@ -497,7 +527,7 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Button_Delete");
             Selenium.Click("ctl00_MainContent_Button_Delete");
             Selenium.Click("link=Courses");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TreeView_Coursest0");
             Selenium.Click("ctl00_MainContent_Button_DeleteCourse");
             Selenium.Click("ctl00_MainContent_Button_Delete");
@@ -514,16 +544,16 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
 
             Selenium.Click("link=Courses");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "Test_for_curriculum");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "Test_for_curriculum");
             Selenium.Click("ctl00_MainContent_FileUpload_Course");
             Selenium.Type("ctl00_MainContent_FileUpload_Course", "");
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Curriculums");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TextBox_Name");
             Selenium.Type("ctl00_MainContent_TextBox_Name", "Curriculum_test");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "Curriculum_test");
@@ -554,7 +584,7 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Button_Delete");
             Selenium.Click("ctl00_MainContent_Button_Delete");
             Selenium.Click("link=Courses");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TreeView_Coursest0");
             Selenium.Click("ctl00_MainContent_Button_DeleteCourse");
             Selenium.Click("ctl00_MainContent_Button_Delete");
@@ -571,16 +601,16 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
 
             Selenium.Click("link=Courses");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "Test_for_curriculum");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "Test_for_curriculum");
             Selenium.Click("ctl00_MainContent_FileUpload_Course");
             Selenium.Type("ctl00_MainContent_FileUpload_Course", "");
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Curriculums");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TextBox_Name");
             Selenium.Type("ctl00_MainContent_TextBox_Name", "Curriculum_test");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "Curriculum_test");
@@ -614,7 +644,7 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Button_Delete");
             Selenium.Click("ctl00_MainContent_Button_Delete");
             Selenium.Click("link=Courses");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TreeView_Coursest0");
             Selenium.Click("ctl00_MainContent_Button_DeleteCourse");
             Selenium.Click("ctl00_MainContent_Button_Delete");
@@ -631,16 +661,16 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
 
             Selenium.Click("link=Courses");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "Test_for_curriculum");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "Test_for_curriculum");
             Selenium.Click("ctl00_MainContent_FileUpload_Course");
             Selenium.Type("ctl00_MainContent_FileUpload_Course", "");
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Curriculums");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TextBox_Name");
             Selenium.Type("ctl00_MainContent_TextBox_Name", "Curriculum_test");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "Curriculum_test");
@@ -673,7 +703,7 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Button_Delete");
             Selenium.Click("ctl00_MainContent_Button_Delete");
             Selenium.Click("link=Courses");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TreeView_Coursest0");
             Selenium.Click("ctl00_MainContent_Button_DeleteCourse");
             Selenium.Click("ctl00_MainContent_Button_Delete");
@@ -690,16 +720,16 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
 
             Selenium.Click("link=Courses");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "Test_for_curriculum");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "Test_for_curriculum");
             Selenium.Click("ctl00_MainContent_FileUpload_Course");
             Selenium.Type("ctl00_MainContent_FileUpload_Course", "");
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Curriculums");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TextBox_Name");
             Selenium.Type("ctl00_MainContent_TextBox_Name", "Curriculum_test");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "Curriculum_test");
@@ -729,7 +759,7 @@ namespace IUDICO.UnitTest
             }
 
             Selenium.Click("link=Courses");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TreeView_Coursest0");
             Selenium.Click("ctl00_MainContent_Button_DeleteCourse");
             Selenium.Click("ctl00_MainContent_Button_Delete");
@@ -746,23 +776,23 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
 
             Selenium.Click("link=Groups");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_btnCreateGroup");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_tbGroupName");
             Selenium.Type("ctl00_MainContent_tbGroupName", "Ass_test_group");
             Selenium.Click("ctl00_MainContent_btnCreate");
             Selenium.Click("link=Courses");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "Ass_course");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "Ass_test");
             Selenium.Click("ctl00_MainContent_FileUpload_Course");
             Selenium.Type("ctl00_MainContent_FileUpload_Course", "");
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Curriculums");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TextBox_Name");
             Selenium.Type("ctl00_MainContent_TextBox_Name", "Ass_curric");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "Ass_curric");
@@ -775,7 +805,7 @@ namespace IUDICO.UnitTest
             Selenium.Click("ctl00_MainContent_TreeView_Coursesn1CheckBox");
             Selenium.Click("ctl00_MainContent_Button_AddTheme");
             Selenium.Click("link=Assignment");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Select("ctl00_MainContent_GroupList", "label=Ass_test_group");
             Selenium.Click("ctl00_MainContent_Button_AddGroup");
            // :( Selenium.Click("ctl00_MainContent_AssignmentTable_1a27");
@@ -787,7 +817,7 @@ namespace IUDICO.UnitTest
             Selenium.Click("//td[@onclick=\"SetDate_ctl00_MainContent_OperationsTable_Operations_Till138('04/29/2010')\"]");
             Selenium.Click("ctl00_MainContent_OperationsTable_Operations_a138");
             Selenium.Click("link=Assignment");
-            Selenium.WaitForPageToLoad("30000");
+            Selenium.WaitForPageToLoad("7000");
         }
          */
 
