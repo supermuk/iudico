@@ -14,7 +14,7 @@ namespace IUDICO.UnitTest
         [TearDown]
         public void TearDown()
         {
-            Selenium.Open("/Logout.aspx");
+            Selenium.Open("/Logout.ashx");
         }
 
         /// <summary>
