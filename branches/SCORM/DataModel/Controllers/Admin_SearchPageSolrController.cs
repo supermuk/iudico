@@ -148,13 +148,17 @@ namespace IUDICO.DataModel.Controllers
             }
             catch (Exception ex)
             {
-                if (ex.Message.ToString() == "Unable to connect to the remote server")
+                try
                 {
-                    System.Diagnostics.Process procTomcat = new System.Diagnostics.Process();
-                    procTomcat.EnableRaisingEvents = false;
-                    procTomcat.StartInfo.FileName = Path.Combine(System.Environment.CurrentDirectory, "Site\\tomcat-solr\\tomcatStart.bat");
-                    procTomcat.Start();
+                    if (ex.Message.ToString() == "Unable to connect to the remote server")
+                    {
+                        System.Diagnostics.Process procTomcat = new System.Diagnostics.Process();
+                        procTomcat.EnableRaisingEvents = false;
+                        procTomcat.StartInfo.FileName = Path.Combine(System.Environment.CurrentDirectory, "Site\\tomcat-solr\\tomcatStart.bat");
+                        procTomcat.Start();
+                    }
                 }
+                catch (Exception ex1) { }
             }
           
         }
