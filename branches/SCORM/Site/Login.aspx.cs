@@ -16,6 +16,8 @@ public partial class LoginPage : ControlledPage<LoginController>
     {
         HyperLink hyp = Master.FindControl("hypLogout") as HyperLink;
         hyp.Attributes.Add("style", "display:none;");
+        HyperLink hypSearch = Master.FindControl("HyperLink1") as HyperLink;
+        hypSearch.Attributes.Add("style", "display:none;");
         base.OnLoad(e);
     }
     protected void Login1_Load(object sender, EventArgs e)
