@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <ComponentGroup Id="IudicoFiles">
+            <ComponentRef Id="CourseEditor.application" />
+            <ComponentRef Id="CourseEditor.exe" />
+            <ComponentRef Id="CourseEditor.exe.config" />
+            <ComponentRef Id="CourseEditor.exe.manifest" />
+            <ComponentRef Id="CourseEditor.pdb" />
+            <ComponentRef Id="CourseEditor.vshost.application" />
+            <ComponentRef Id="CourseEditor.vshost.exe" />
+            <ComponentRef Id="CourseEditor.vshost.exe.config" />
+            <ComponentRef Id="ICSharpCode.SharpZipLib.dll" />
+            <ComponentRef Id="SgmlReaderDll.dll" />
+            <ComponentRef Id="WeifenLuo.WinFormsUI.Docking.dll" />
+            <ComponentRef Id="CourseEditor.application_1" />
+            <ComponentRef Id="CourseEditor.exe_1" />
+            <ComponentRef Id="CourseEditor.exe.config_1" />
+            <ComponentRef Id="CourseEditor.exe.manifest_1" />
+            <ComponentRef Id="CourseEditor.pdb_1" />
+            <ComponentRef Id="ICSharpCode.SharpZipLib.dll_1" />
+            <ComponentRef Id="SgmlReaderDll.dll_1" />
+            <ComponentRef Id="WeifenLuo.WinFormsUI.Docking.dll_1" />
+        </ComponentGroup>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="INSTALLLOCATION">
+            <Component Id="CourseEditor.application" Guid="{79417368-05FC-4803-AF36-DB19CEB36591}">
+                <File Id="CourseEditor.application" KeyPath="yes" Source="$(var.FileDirectory)\CourseEditor.application" />
+            </Component>
+            <Component Id="CourseEditor.exe" Guid="{2D3660AE-D1A0-4781-BD44-E5C1C3E8F809}">
+                <File Id="CourseEditor.exe" KeyPath="yes" Source="$(var.FileDirectory)\CourseEditor.exe" />
+            </Component>
+            <Component Id="CourseEditor.exe.config" Guid="{D0465E56-171F-4677-A1C6-ECE8439DB9EC}">
+                <File Id="CourseEditor.exe.config" KeyPath="yes" Source="$(var.FileDirectory)\CourseEditor.exe.config" />
+            </Component>
+            <Component Id="CourseEditor.exe.manifest" Guid="{CC2AFF65-5B28-4B1E-ACF5-F9A413774947}">
+                <File Id="CourseEditor.exe.manifest" KeyPath="yes" Source="$(var.FileDirectory)\CourseEditor.exe.manifest" />
+            </Component>
+            <Component Id="CourseEditor.pdb" Guid="{EAE9CE41-20E1-47E2-A295-1C841561B207}">
+                <File Id="CourseEditor.pdb" KeyPath="yes" Source="$(var.FileDirectory)\CourseEditor.pdb" />
+            </Component>
+            <Component Id="CourseEditor.vshost.application" Guid="{5D6E8212-B5C3-4442-AFAD-BB23D6D3E090}">
+                <File Id="CourseEditor.vshost.application" KeyPath="yes" Source="$(var.FileDirectory)\CourseEditor.vshost.application" />
+            </Component>
+            <Component Id="CourseEditor.vshost.exe" Guid="{BB4D6000-C2C1-4868-8D92-16CB17E6C871}">
+                <File Id="CourseEditor.vshost.exe" KeyPath="yes" Source="$(var.FileDirectory)\CourseEditor.vshost.exe" />
+            </Component>
+            <Component Id="CourseEditor.vshost.exe.config" Guid="{EB450C76-4B88-4151-9BC3-50DF14D79406}">
+                <File Id="CourseEditor.vshost.exe.config" KeyPath="yes" Source="$(var.FileDirectory)\CourseEditor.vshost.exe.config" />
+            </Component>
+            <Component Id="ICSharpCode.SharpZipLib.dll" Guid="{D695E103-610D-4D38-92F1-F8AC7A657D8B}">
+                <File Id="ICSharpCode.SharpZipLib.dll" KeyPath="yes" Source="$(var.FileDirectory)\ICSharpCode.SharpZipLib.dll" />
+            </Component>
+            <Component Id="SgmlReaderDll.dll" Guid="{4332CAC3-5448-46D6-BDEB-70F70B87CEBC}">
+                <File Id="SgmlReaderDll.dll" KeyPath="yes" Source="$(var.FileDirectory)\SgmlReaderDll.dll" />
+            </Component>
+            <Component Id="WeifenLuo.WinFormsUI.Docking.dll" Guid="{068C4A55-48E3-44BA-B43E-7700FC3CEC42}">
+                <File Id="WeifenLuo.WinFormsUI.Docking.dll" KeyPath="yes" Source="$(var.FileDirectory)\WeifenLuo.WinFormsUI.Docking.dll" />
+            </Component>
+            <Directory Id="RELEASE" Name="RELEASE">
+                <Component Id="CourseEditor.application_1" Guid="{42F898EA-687D-4F7C-B1F5-F5D2D71F6E53}">
+                    <File Id="CourseEditor.application_1" KeyPath="yes" Source="$(var.FileDirectory)\RELEASE\CourseEditor.application" />
+                </Component>
+                <Component Id="CourseEditor.exe_1" Guid="{70E38F14-57E3-4FC5-995D-D08333285666}">
+                    <File Id="CourseEditor.exe_1" KeyPath="yes" Source="$(var.FileDirectory)\RELEASE\CourseEditor.exe" />
+                </Component>
+                <Component Id="CourseEditor.exe.config_1" Guid="{C6A371AB-DB7A-41E1-830B-359E6A7D5675}">
+                    <File Id="CourseEditor.exe.config_1" KeyPath="yes" Source="$(var.FileDirectory)\RELEASE\CourseEditor.exe.config" />
+                </Component>
+                <Component Id="CourseEditor.exe.manifest_1" Guid="{F2C54AA4-ADB7-4F4F-9995-574A092FCBEA}">
+                    <File Id="CourseEditor.exe.manifest_1" KeyPath="yes" Source="$(var.FileDirectory)\RELEASE\CourseEditor.exe.manifest" />
+                </Component>
+                <Component Id="CourseEditor.pdb_1" Guid="{82B5A6FC-E295-4067-8EA6-7C5AA06ED50A}">
+                    <File Id="CourseEditor.pdb_1" KeyPath="yes" Source="$(var.FileDirectory)\RELEASE\CourseEditor.pdb" />
+                </Component>
+                <Component Id="ICSharpCode.SharpZipLib.dll_1" Guid="{F1E455E9-BC88-4D98-A925-B5032C8B4D07}">
+                    <File Id="ICSharpCode.SharpZipLib.dll_1" KeyPath="yes" Source="$(var.FileDirectory)\RELEASE\ICSharpCode.SharpZipLib.dll" />
+                </Component>
+                <Component Id="SgmlReaderDll.dll_1" Guid="{39AD3723-09A7-49E8-8ADC-91E1B997719D}">
+                    <File Id="SgmlReaderDll.dll_1" KeyPath="yes" Source="$(var.FileDirectory)\RELEASE\SgmlReaderDll.dll" />
+                </Component>
+                <Component Id="WeifenLuo.WinFormsUI.Docking.dll_1" Guid="{C7010B6A-17E4-47AC-BFF3-2FD6055C7A26}">
+                    <File Id="WeifenLuo.WinFormsUI.Docking.dll_1" KeyPath="yes" Source="$(var.FileDirectory)\RELEASE\WeifenLuo.WinFormsUI.Docking.dll" />
+                </Component>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+</Wix>
