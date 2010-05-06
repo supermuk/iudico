@@ -1,0 +1,2283 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <ComponentGroup Id="IudicoFiles">
+            <ComponentRef Id="API.asmx" />
+            <ComponentRef Id="Global.asax" />
+            <ComponentRef Id="Home.aspx" />
+            <ComponentRef Id="Home.aspx.cs" />
+            <ComponentRef Id="Login.aspx" />
+            <ComponentRef Id="Login.aspx.cs" />
+            <ComponentRef Id="Logout.ashx" />
+            <ComponentRef Id="Main.css" />
+            <ComponentRef Id="MasterPage.master" />
+            <ComponentRef Id="web.config" />
+            <ComponentRef Id="Web.sitemap" />
+            <ComponentRef Id="all_wcprops" />
+            <ComponentRef Id="dir_prop_base" />
+            <ComponentRef Id="entries" />
+            <ComponentRef Id="Login.aspx.cs.svn_base" />
+            <ComponentRef Id="Login.aspx.svn_base" />
+            <ComponentRef Id="Main.css.svn_base" />
+            <ComponentRef Id="API.asmx.svn_base" />
+            <ComponentRef Id="Global.asax.svn_base" />
+            <ComponentRef Id="Home.aspx.cs.svn_base" />
+            <ComponentRef Id="Home.aspx.svn_base" />
+            <ComponentRef Id="Login.aspx.cs.svn_base_1" />
+            <ComponentRef Id="Login.aspx.svn_base_1" />
+            <ComponentRef Id="Logout.ashx.svn_base" />
+            <ComponentRef Id="Main.css.svn_base_1" />
+            <ComponentRef Id="MasterPage.master.svn_base" />
+            <ComponentRef Id="web.config.svn_base" />
+            <ComponentRef Id="Web.sitemap.svn_base" />
+            <ComponentRef Id="CreateGroup.aspx" />
+            <ComponentRef Id="CreateGroup.aspx.cs" />
+            <ComponentRef Id="CreateSetting.aspx" />
+            <ComponentRef Id="CreateSetting.aspx.cs" />
+            <ComponentRef Id="CreateUser.aspx" />
+            <ComponentRef Id="CreateUser.aspx.cs" />
+            <ComponentRef Id="CreateUserBulk.aspx" />
+            <ComponentRef Id="CreateUserBulk.aspx.cs" />
+            <ComponentRef Id="EditGroup.aspx" />
+            <ComponentRef Id="EditGroup.aspx.cs" />
+            <ComponentRef Id="EditSetting.aspx" />
+            <ComponentRef Id="EditSetting.aspx.cs" />
+            <ComponentRef Id="EditUser.aspx" />
+            <ComponentRef Id="EditUser.aspx.cs" />
+            <ComponentRef Id="Groups.aspx" />
+            <ComponentRef Id="Groups.aspx.cs" />
+            <ComponentRef Id="IncludeUserIntoGroup.aspx" />
+            <ComponentRef Id="IncludeUserIntoGroup.aspx.cs" />
+            <ComponentRef Id="RemoveGroupConfirmation.aspx" />
+            <ComponentRef Id="RemoveGroupConfirmation.aspx.cs" />
+            <ComponentRef Id="RemoveSettingConfirmation.aspx" />
+            <ComponentRef Id="RemoveSettingConfirmation.aspx.cs" />
+            <ComponentRef Id="RemoveUserConfirmation.aspx" />
+            <ComponentRef Id="RemoveUserConfirmation.aspx.cs" />
+            <ComponentRef Id="RemoveUserFromGroup.aspx" />
+            <ComponentRef Id="RemoveUserFromGroup.aspx.cs" />
+            <ComponentRef Id="SearchPageSolr.aspx" />
+            <ComponentRef Id="SearchPageSolr.aspx.cs" />
+            <ComponentRef Id="SelectGroup.aspx" />
+            <ComponentRef Id="SelectGroup.aspx.cs" />
+            <ComponentRef Id="Settings.aspx" />
+            <ComponentRef Id="Settings.aspx.cs" />
+            <ComponentRef Id="Users.aspx" />
+            <ComponentRef Id="Users.aspx.cs" />
+            <ComponentRef Id="all_wcprops_1" />
+            <ComponentRef Id="entries_1" />
+            <ComponentRef Id="CreateUser.aspx.cs.svn_base" />
+            <ComponentRef Id="CreateUser.aspx.svn_base" />
+            <ComponentRef Id="CreateGroup.aspx.cs.svn_base" />
+            <ComponentRef Id="CreateGroup.aspx.svn_base" />
+            <ComponentRef Id="CreateSetting.aspx.cs.svn_base" />
+            <ComponentRef Id="CreateSetting.aspx.svn_base" />
+            <ComponentRef Id="CreateUser.aspx.cs.svn_base_1" />
+            <ComponentRef Id="CreateUser.aspx.svn_base_1" />
+            <ComponentRef Id="CreateUserBulk.aspx.cs.svn_base" />
+            <ComponentRef Id="CreateUserBulk.aspx.svn_base" />
+            <ComponentRef Id="EditGroup.aspx.cs.svn_base" />
+            <ComponentRef Id="EditGroup.aspx.svn_base" />
+            <ComponentRef Id="EditSetting.aspx.cs.svn_base" />
+            <ComponentRef Id="EditSetting.aspx.svn_base" />
+            <ComponentRef Id="EditUser.aspx.cs.svn_base" />
+            <ComponentRef Id="EditUser.aspx.svn_base" />
+            <ComponentRef Id="Groups.aspx.cs.svn_base" />
+            <ComponentRef Id="Groups.aspx.svn_base" />
+            <ComponentRef Id="IncludeUserIntoGroup.aspx.cs.svn_base" />
+            <ComponentRef Id="IncludeUserIntoGroup.aspx.svn_base" />
+            <ComponentRef Id="RemoveGroupConfirmation.aspx.cs.svn_base" />
+            <ComponentRef Id="RemoveGroupConfirmation.aspx.svn_base" />
+            <ComponentRef Id="RemoveSettingConfirmation.aspx.cs.svn_base" />
+            <ComponentRef Id="RemoveSettingConfirmation.aspx.svn_base" />
+            <ComponentRef Id="RemoveUserConfirmation.aspx.cs.svn_base" />
+            <ComponentRef Id="RemoveUserConfirmation.aspx.svn_base" />
+            <ComponentRef Id="RemoveUserFromGroup.aspx.cs.svn_base" />
+            <ComponentRef Id="RemoveUserFromGroup.aspx.svn_base" />
+            <ComponentRef Id="SearchPageSolr.aspx.cs.svn_base" />
+            <ComponentRef Id="SearchPageSolr.aspx.svn_base" />
+            <ComponentRef Id="SelectGroup.aspx.cs.svn_base" />
+            <ComponentRef Id="SelectGroup.aspx.svn_base" />
+            <ComponentRef Id="Settings.aspx.cs.svn_base" />
+            <ComponentRef Id="Settings.aspx.svn_base" />
+            <ComponentRef Id="Users.aspx.cs.svn_base" />
+            <ComponentRef Id="Users.aspx.svn_base" />
+            <ComponentRef Id="API.cs" />
+            <ComponentRef Id="ClassDiagram.cd" />
+            <ComponentRef Id="IdentityTreeView.cs" />
+            <ComponentRef Id="IndexData.cs" />
+            <ComponentRef Id="PagesReg.cs" />
+            <ComponentRef Id="all_wcprops_2" />
+            <ComponentRef Id="entries_2" />
+            <ComponentRef Id="IdentityTreeView.cs.svn_base" />
+            <ComponentRef Id="API.cs.svn_base" />
+            <ComponentRef Id="ClassDiagram.cd.svn_base" />
+            <ComponentRef Id="IdentityTreeView.cs.svn_base_1" />
+            <ComponentRef Id="IndexData.cs.svn_base" />
+            <ComponentRef Id="PagesReg.cs.svn_base" />
+            <ComponentRef Id="all_wcprops_3" />
+            <ComponentRef Id="entries_3" />
+            <ComponentRef Id="Login.aspx.resx" />
+            <ComponentRef Id="Login.aspx.uk_UA.resx" />
+            <ComponentRef Id="MasterPage.master.resx" />
+            <ComponentRef Id="MasterPage.master.uk_UA.resx" />
+            <ComponentRef Id="all_wcprops_4" />
+            <ComponentRef Id="entries_4" />
+            <ComponentRef Id="Login.aspx.resx.svn_base" />
+            <ComponentRef Id="Login.aspx.uk_UA.resx.svn_base" />
+            <ComponentRef Id="MasterPage.master.resx.svn_base" />
+            <ComponentRef Id="MasterPage.master.uk_UA.resx.svn_base" />
+            <ComponentRef Id="all_wcprops_5" />
+            <ComponentRef Id="dir_prop_base_1" />
+            <ComponentRef Id="entries_5" />
+            <ComponentRef Id="AjaxControlToolkit.dll" />
+            <ComponentRef Id="AjaxControlToolkit.dll.refresh" />
+            <ComponentRef Id="BoxOver.dll" />
+            <ComponentRef Id="BoxOver.pdb" />
+            <ComponentRef Id="GMDatePicker.dll" />
+            <ComponentRef Id="GMDatePicker.dll.refresh" />
+            <ComponentRef Id="ICSharpCode.SharpZipLib.dll" />
+            <ComponentRef Id="ICSharpCode.SharpZipLib.dll.refresh" />
+            <ComponentRef Id="IUDICO.DataModel.dll" />
+            <ComponentRef Id="IUDICO.DataModel.pdb" />
+            <ComponentRef Id="LEX.CONTROLS.dll" />
+            <ComponentRef Id="LEX.CONTROLS.dll.refresh" />
+            <ComponentRef Id="Microsoft.Web.Administration.dll.refresh" />
+            <ComponentRef Id="nunit.framework.dll" />
+            <ComponentRef Id="nunit.framework.dll.refresh" />
+            <ComponentRef Id="nunit.framework.extensions.dll" />
+            <ComponentRef Id="nunit.framework.extensions.dll.refresh" />
+            <ComponentRef Id="nunit.framework.xml" />
+            <ComponentRef Id="TestingSystem.dll" />
+            <ComponentRef Id="TestingSystem.pdb" />
+            <ComponentRef Id="ThoughtWorks.Selenium.Core.dll" />
+            <ComponentRef Id="ThoughtWorks.Selenium.Core.dll.refresh" />
+            <ComponentRef Id="ThoughtWorks.Selenium.IntegrationTests.dll" />
+            <ComponentRef Id="ThoughtWorks.Selenium.IntegrationTests.dll.refresh" />
+            <ComponentRef Id="ThoughtWorks.Selenium.UnitTests.dll" />
+            <ComponentRef Id="ThoughtWorks.Selenium.UnitTests.dll.refresh" />
+            <ComponentRef Id="all_wcprops_6" />
+            <ComponentRef Id="dir_prop_base_2" />
+            <ComponentRef Id="entries_6" />
+            <ComponentRef Id="AjaxControlToolkit.dll.refresh.svn_base" />
+            <ComponentRef Id="GMDatePicker.dll.refresh.svn_base" />
+            <ComponentRef Id="ICSharpCode.SharpZipLib.dll.refresh.svn_base" />
+            <ComponentRef Id="LEX.CONTROLS.dll.refresh.svn_base" />
+            <ComponentRef Id="Microsoft.Web.Administration.dll.refresh.svn_base" />
+            <ComponentRef Id="nunit.framework.dll.refresh.svn_base" />
+            <ComponentRef Id="nunit.framework.extensions.dll.refresh.svn_base" />
+            <ComponentRef Id="ThoughtWorks.Selenium.Core.dll.refresh.svn_base" />
+            <ComponentRef Id="ThoughtWorks.Selenium.IntegrationTests.dll.refresh.svn_base" />
+            <ComponentRef Id="ThoughtWorks.Selenium.UnitTests.dll.refresh.svn_base" />
+            <ComponentRef Id="AjaxControlToolkit.dll.refresh.svn_base_1" />
+            <ComponentRef Id="GMDatePicker.dll.refresh.svn_base_1" />
+            <ComponentRef Id="ICSharpCode.SharpZipLib.dll.refresh.svn_base_1" />
+            <ComponentRef Id="LEX.CONTROLS.dll.refresh.svn_base_1" />
+            <ComponentRef Id="Microsoft.Web.Administration.dll.refresh.svn_base_1" />
+            <ComponentRef Id="nunit.framework.dll.refresh.svn_base_1" />
+            <ComponentRef Id="nunit.framework.extensions.dll.refresh.svn_base_1" />
+            <ComponentRef Id="nunit.framework.xml.svn_base" />
+            <ComponentRef Id="ThoughtWorks.Selenium.Core.dll.refresh.svn_base_1" />
+            <ComponentRef Id="ThoughtWorks.Selenium.IntegrationTests.dll.refresh.svn_base_1" />
+            <ComponentRef Id="ThoughtWorks.Selenium.UnitTests.dll.refresh.svn_base_1" />
+            <ComponentRef Id="AssignmentTable.ascx" />
+            <ComponentRef Id="AssignmentTable.ascx.cs" />
+            <ComponentRef Id="CompiledQuestionResult.ascx" />
+            <ComponentRef Id="CompiledQuestionResult.ascx.cs" />
+            <ComponentRef Id="GroupList.ascx" />
+            <ComponentRef Id="GroupList.ascx.cs" />
+            <ComponentRef Id="OperationsTable.ascx" />
+            <ComponentRef Id="OperationsTable.ascx.cs" />
+            <ComponentRef Id="SettingList.ascx" />
+            <ComponentRef Id="SettingList.ascx.cs" />
+            <ComponentRef Id="ThemeResultControl.ascx" />
+            <ComponentRef Id="ThemeResultControl.ascx.cs" />
+            <ComponentRef Id="UserList.ascx" />
+            <ComponentRef Id="UserList.ascx.cs" />
+            <ComponentRef Id="UserObjectPermissions.ascx" />
+            <ComponentRef Id="UserObjectPermissions.ascx.cs" />
+            <ComponentRef Id="UserPermissionList.ascx" />
+            <ComponentRef Id="UserPermissionList.ascx.cs" />
+            <ComponentRef Id="all_wcprops_7" />
+            <ComponentRef Id="entries_7" />
+            <ComponentRef Id="UserObjectPermissions.ascx.cs.svn_base" />
+            <ComponentRef Id="UserObjectPermissions.ascx.svn_base" />
+            <ComponentRef Id="AssignmentTable.ascx.cs.svn_base" />
+            <ComponentRef Id="AssignmentTable.ascx.svn_base" />
+            <ComponentRef Id="CompiledQuestionResult.ascx.cs.svn_base" />
+            <ComponentRef Id="CompiledQuestionResult.ascx.svn_base" />
+            <ComponentRef Id="GroupList.ascx.cs.svn_base" />
+            <ComponentRef Id="GroupList.ascx.svn_base" />
+            <ComponentRef Id="OperationsTable.ascx.cs.svn_base" />
+            <ComponentRef Id="OperationsTable.ascx.svn_base" />
+            <ComponentRef Id="SettingList.ascx.cs.svn_base" />
+            <ComponentRef Id="SettingList.ascx.svn_base" />
+            <ComponentRef Id="ThemeResultControl.ascx.cs.svn_base" />
+            <ComponentRef Id="ThemeResultControl.ascx.svn_base" />
+            <ComponentRef Id="UserList.ascx.cs.svn_base" />
+            <ComponentRef Id="UserList.ascx.svn_base" />
+            <ComponentRef Id="UserObjectPermissions.ascx.cs.svn_base_1" />
+            <ComponentRef Id="UserObjectPermissions.ascx.svn_base_1" />
+            <ComponentRef Id="UserPermissionList.ascx.cs.svn_base" />
+            <ComponentRef Id="UserPermissionList.ascx.svn_base" />
+            <ComponentRef Id="ComboBoxTest.ascx" />
+            <ComponentRef Id="ComboBoxTest.ascx.cs" />
+            <ComponentRef Id="CompiledTest.ascx" />
+            <ComponentRef Id="CompiledTest.ascx.cs" />
+            <ComponentRef Id="SimpleQuestionTest.ascx" />
+            <ComponentRef Id="SimpleQuestionTest.ascx.cs" />
+            <ComponentRef Id="TextBoxTest.ascx" />
+            <ComponentRef Id="TextBoxTest.ascx.cs" />
+            <ComponentRef Id="all_wcprops_8" />
+            <ComponentRef Id="entries_8" />
+            <ComponentRef Id="ComboBoxTest.ascx.cs.svn_base" />
+            <ComponentRef Id="ComboBoxTest.ascx.svn_base" />
+            <ComponentRef Id="CompiledTest.ascx.cs.svn_base" />
+            <ComponentRef Id="CompiledTest.ascx.svn_base" />
+            <ComponentRef Id="SimpleQuestionTest.ascx.cs.svn_base" />
+            <ComponentRef Id="SimpleQuestionTest.ascx.svn_base" />
+            <ComponentRef Id="TextBoxTest.ascx.cs.svn_base" />
+            <ComponentRef Id="TextBoxTest.ascx.svn_base" />
+            <ComponentRef Id="DefaultErrorHandler.aspx" />
+            <ComponentRef Id="DefaultErrorHandler.aspx.cs" />
+            <ComponentRef Id="InternalServerErrorHandler.aspx" />
+            <ComponentRef Id="InternalServerErrorHandler.aspx.cs" />
+            <ComponentRef Id="MIMENotAcceptedErrorHandler.aspx" />
+            <ComponentRef Id="MIMENotAcceptedErrorHandler.aspx.cs" />
+            <ComponentRef Id="NoAccessErrorHandler.aspx" />
+            <ComponentRef Id="NoAccessErrorHandler.aspx.cs" />
+            <ComponentRef Id="PageNotFoundErrorHandler.aspx" />
+            <ComponentRef Id="PageNotFoundErrorHandler.aspx.cs" />
+            <ComponentRef Id="TimedOutErrorHandler.aspx" />
+            <ComponentRef Id="TimedOutErrorHandler.aspx.cs" />
+            <ComponentRef Id="all_wcprops_9" />
+            <ComponentRef Id="entries_9" />
+            <ComponentRef Id="DefaultErrorHandler.aspx.cs.svn_base" />
+            <ComponentRef Id="DefaultErrorHandler.aspx.svn_base" />
+            <ComponentRef Id="InternalServerErrorHandler.aspx.cs.svn_base" />
+            <ComponentRef Id="InternalServerErrorHandler.aspx.svn_base" />
+            <ComponentRef Id="MIMENotAcceptedErrorHandler.aspx.cs.svn_base" />
+            <ComponentRef Id="MIMENotAcceptedErrorHandler.aspx.svn_base" />
+            <ComponentRef Id="NoAccessErrorHandler.aspx.cs.svn_base" />
+            <ComponentRef Id="NoAccessErrorHandler.aspx.svn_base" />
+            <ComponentRef Id="PageNotFoundErrorHandler.aspx.cs.svn_base" />
+            <ComponentRef Id="PageNotFoundErrorHandler.aspx.svn_base" />
+            <ComponentRef Id="TimedOutErrorHandler.aspx.cs.svn_base" />
+            <ComponentRef Id="TimedOutErrorHandler.aspx.svn_base" />
+            <ComponentRef Id="_403.jpg" />
+            <ComponentRef Id="_404.jpg" />
+            <ComponentRef Id="_406.jpg" />
+            <ComponentRef Id="_408.jpg" />
+            <ComponentRef Id="_500.jpg" />
+            <ComponentRef Id="close.png" />
+            <ComponentRef Id="exclamation.jpeg" />
+            <ComponentRef Id="great_britain_flag.png" />
+            <ComponentRef Id="logo_back.png" />
+            <ComponentRef Id="Logo.png" />
+            <ComponentRef Id="ukraine_flag_small.png" />
+            <ComponentRef Id="warning.png" />
+            <ComponentRef Id="all_wcprops_10" />
+            <ComponentRef Id="dir_prop_base_3" />
+            <ComponentRef Id="entries_10" />
+            <ComponentRef Id="_403.jpg.svn_base" />
+            <ComponentRef Id="_404.jpg.svn_base" />
+            <ComponentRef Id="_406.jpg.svn_base" />
+            <ComponentRef Id="_408.jpg.svn_base" />
+            <ComponentRef Id="_500.jpg.svn_base" />
+            <ComponentRef Id="close.png.svn_base" />
+            <ComponentRef Id="exclamation.jpeg.svn_base" />
+            <ComponentRef Id="great_britain_flag.png.svn_base" />
+            <ComponentRef Id="logo_back.png.svn_base" />
+            <ComponentRef Id="Logo.png.svn_base" />
+            <ComponentRef Id="ukraine_flag_small.png.svn_base" />
+            <ComponentRef Id="warning.png.svn_base" />
+            <ComponentRef Id="_403.jpg.svn_base_1" />
+            <ComponentRef Id="_404.jpg.svn_base_1" />
+            <ComponentRef Id="_406.jpg.svn_base_1" />
+            <ComponentRef Id="_408.jpg.svn_base_1" />
+            <ComponentRef Id="_500.jpg.svn_base_1" />
+            <ComponentRef Id="close.png.svn_base_1" />
+            <ComponentRef Id="exclamation.jpeg.svn_base_1" />
+            <ComponentRef Id="great_britain_flag.png.svn_base_1" />
+            <ComponentRef Id="logo_back.png.svn_base_1" />
+            <ComponentRef Id="Logo.png.svn_base_1" />
+            <ComponentRef Id="ukraine_flag_small.png.svn_base_1" />
+            <ComponentRef Id="warning.png.svn_base_1" />
+            <ComponentRef Id="all_wcprops_11" />
+            <ComponentRef Id="entries_11" />
+            <ComponentRef Id="API.js" />
+            <ComponentRef Id="jquery.min.js" />
+            <ComponentRef Id="all_wcprops_12" />
+            <ComponentRef Id="entries_12" />
+            <ComponentRef Id="API.js.svn_base" />
+            <ComponentRef Id="jquery.min.js.svn_base" />
+            <ComponentRef Id="CompiledQuestionsDetails.aspx" />
+            <ComponentRef Id="CompiledQuestionsDetails.aspx.cs" />
+            <ComponentRef Id="CurriculumnResult.aspx" />
+            <ComponentRef Id="CurriculumnResult.aspx.cs" />
+            <ComponentRef Id="OpenTest.aspx" />
+            <ComponentRef Id="OpenTest.aspx.cs" />
+            <ComponentRef Id="StageResult.aspx" />
+            <ComponentRef Id="StageResult.aspx.cs" />
+            <ComponentRef Id="StudentPage.aspx" />
+            <ComponentRef Id="StudentPage.aspx.cs" />
+            <ComponentRef Id="TestDetails.aspx" />
+            <ComponentRef Id="TestDetails.aspx.cs" />
+            <ComponentRef Id="ThemeResult.aspx" />
+            <ComponentRef Id="ThemeResult.aspx.cs" />
+            <ComponentRef Id="all_wcprops_13" />
+            <ComponentRef Id="entries_13" />
+            <ComponentRef Id="CompiledQuestionsDetails.aspx.cs.svn_base" />
+            <ComponentRef Id="CompiledQuestionsDetails.aspx.svn_base" />
+            <ComponentRef Id="StudentPage.aspx.cs.svn_base" />
+            <ComponentRef Id="StudentPage.aspx.svn_base" />
+            <ComponentRef Id="ThemeResult.aspx.cs.svn_base" />
+            <ComponentRef Id="ThemeResult.aspx.svn_base" />
+            <ComponentRef Id="CompiledQuestionsDetails.aspx.cs.svn_base_1" />
+            <ComponentRef Id="CompiledQuestionsDetails.aspx.svn_base_1" />
+            <ComponentRef Id="CurriculumnResult.aspx.cs.svn_base" />
+            <ComponentRef Id="CurriculumnResult.aspx.svn_base" />
+            <ComponentRef Id="OpenTest.aspx.cs.svn_base" />
+            <ComponentRef Id="OpenTest.aspx.svn_base" />
+            <ComponentRef Id="StageResult.aspx.cs.svn_base" />
+            <ComponentRef Id="StageResult.aspx.svn_base" />
+            <ComponentRef Id="StudentPage.aspx.cs.svn_base_1" />
+            <ComponentRef Id="StudentPage.aspx.svn_base_1" />
+            <ComponentRef Id="TestDetails.aspx.cs.svn_base" />
+            <ComponentRef Id="TestDetails.aspx.svn_base" />
+            <ComponentRef Id="ThemeResult.aspx.cs.svn_base_1" />
+            <ComponentRef Id="ThemeResult.aspx.svn_base_1" />
+            <ComponentRef Id="CompiledQuestionsDetails.aspx.resx" />
+            <ComponentRef Id="CompiledQuestionsDetails.aspx.uk.resx" />
+            <ComponentRef Id="CurriculumnResult.aspx.resx" />
+            <ComponentRef Id="CurriculumnResult.aspx.uk.resx" />
+            <ComponentRef Id="OpenTest.aspx.resx" />
+            <ComponentRef Id="OpenTest.aspx.uk.resx" />
+            <ComponentRef Id="StageResult.aspx.resx" />
+            <ComponentRef Id="StageResult.aspx.uk.resx" />
+            <ComponentRef Id="StudentPage.aspx.resx" />
+            <ComponentRef Id="StudentPage.aspx.uk.resx" />
+            <ComponentRef Id="TestDetails.aspx.resx" />
+            <ComponentRef Id="TestDetails.aspx.uk.resx" />
+            <ComponentRef Id="ThemeResult.aspx.resx" />
+            <ComponentRef Id="ThemeResult.aspx.uk.resx" />
+            <ComponentRef Id="all_wcprops_14" />
+            <ComponentRef Id="entries_14" />
+            <ComponentRef Id="CompiledQuestionsDetails.aspx.resx.svn_base" />
+            <ComponentRef Id="CompiledQuestionsDetails.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="CurriculumnResult.aspx.resx.svn_base" />
+            <ComponentRef Id="CurriculumnResult.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="OpenTest.aspx.resx.svn_base" />
+            <ComponentRef Id="OpenTest.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="StageResult.aspx.resx.svn_base" />
+            <ComponentRef Id="StageResult.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="StudentPage.aspx.resx.svn_base" />
+            <ComponentRef Id="StudentPage.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="TestDetails.aspx.resx.svn_base" />
+            <ComponentRef Id="TestDetails.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="ThemeResult.aspx.resx.svn_base" />
+            <ComponentRef Id="ThemeResult.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="CourseBehavior.aspx" />
+            <ComponentRef Id="CourseBehavior.aspx.cs" />
+            <ComponentRef Id="CourseDeleteConfirmation.aspx" />
+            <ComponentRef Id="CourseDeleteConfirmation.aspx.cs" />
+            <ComponentRef Id="CourseEdit.aspx" />
+            <ComponentRef Id="CourseEdit.aspx.cs" />
+            <ComponentRef Id="CurriculumAssignment.aspx" />
+            <ComponentRef Id="CurriculumAssignment.aspx.cs" />
+            <ComponentRef Id="CurriculumDeleteConfirmation.aspx" />
+            <ComponentRef Id="CurriculumDeleteConfirmation.aspx.cs" />
+            <ComponentRef Id="CurriculumEdit.aspx" />
+            <ComponentRef Id="CurriculumEdit.aspx.cs" />
+            <ComponentRef Id="CurriculumTimeline.aspx" />
+            <ComponentRef Id="CurriculumTimeline.aspx.cs" />
+            <ComponentRef Id="ReCompilationPage.aspx" />
+            <ComponentRef Id="ReCompilationPage.aspx.cs" />
+            <ComponentRef Id="Share.aspx" />
+            <ComponentRef Id="Share.aspx.cs" />
+            <ComponentRef Id="StatisticSelect.aspx" />
+            <ComponentRef Id="StatisticSelect.aspx.cs" />
+            <ComponentRef Id="StatisticShow.aspx" />
+            <ComponentRef Id="StatisticShow.aspx.cs" />
+            <ComponentRef Id="StatisticShowCurriculums.aspx" />
+            <ComponentRef Id="StatisticShowCurriculums.aspx.cs" />
+            <ComponentRef Id="TeacherObjects.aspx" />
+            <ComponentRef Id="TeacherObjects.aspx.cs" />
+            <ComponentRef Id="TeachersList.aspx" />
+            <ComponentRef Id="TeachersList.aspx.cs" />
+            <ComponentRef Id="ThemePages.aspx" />
+            <ComponentRef Id="ThemePages.aspx.cs" />
+            <ComponentRef Id="all_wcprops_15" />
+            <ComponentRef Id="entries_15" />
+            <ComponentRef Id="CourseBehavior.aspx.cs.svn_base" />
+            <ComponentRef Id="CourseBehavior.aspx.svn_base" />
+            <ComponentRef Id="CourseDeleteConfirmation.aspx.cs.svn_base" />
+            <ComponentRef Id="CourseDeleteConfirmation.aspx.svn_base" />
+            <ComponentRef Id="CourseEdit.aspx.cs.svn_base" />
+            <ComponentRef Id="CourseEdit.aspx.svn_base" />
+            <ComponentRef Id="CurriculumAssignment.aspx.cs.svn_base" />
+            <ComponentRef Id="CurriculumAssignment.aspx.svn_base" />
+            <ComponentRef Id="CurriculumDeleteConfirmation.aspx.cs.svn_base" />
+            <ComponentRef Id="CurriculumDeleteConfirmation.aspx.svn_base" />
+            <ComponentRef Id="CurriculumEdit.aspx.cs.svn_base" />
+            <ComponentRef Id="CurriculumEdit.aspx.svn_base" />
+            <ComponentRef Id="CurriculumTimeline.aspx.cs.svn_base" />
+            <ComponentRef Id="CurriculumTimeline.aspx.svn_base" />
+            <ComponentRef Id="ReCompilationPage.aspx.cs.svn_base" />
+            <ComponentRef Id="ReCompilationPage.aspx.svn_base" />
+            <ComponentRef Id="Share.aspx.cs.svn_base" />
+            <ComponentRef Id="Share.aspx.svn_base" />
+            <ComponentRef Id="StatisticSelect.aspx.cs.svn_base" />
+            <ComponentRef Id="StatisticSelect.aspx.svn_base" />
+            <ComponentRef Id="StatisticShow.aspx.cs.svn_base" />
+            <ComponentRef Id="StatisticShow.aspx.svn_base" />
+            <ComponentRef Id="StatisticShowCurriculums.aspx.cs.svn_base" />
+            <ComponentRef Id="StatisticShowCurriculums.aspx.svn_base" />
+            <ComponentRef Id="TeacherObjects.aspx.cs.svn_base" />
+            <ComponentRef Id="TeacherObjects.aspx.svn_base" />
+            <ComponentRef Id="TeachersList.aspx.cs.svn_base" />
+            <ComponentRef Id="TeachersList.aspx.svn_base" />
+            <ComponentRef Id="ThemePages.aspx.cs.svn_base" />
+            <ComponentRef Id="ThemePages.aspx.svn_base" />
+            <ComponentRef Id="CourseBehavior.aspx.resx" />
+            <ComponentRef Id="CourseBehavior.aspx.uk.resx" />
+            <ComponentRef Id="CourseDeleteConfirmation.aspx.resx" />
+            <ComponentRef Id="CourseDeleteConfirmation.aspx.uk.resx" />
+            <ComponentRef Id="CourseEdit.aspx.resx" />
+            <ComponentRef Id="CourseEdit.aspx.uk.resx" />
+            <ComponentRef Id="CurriculumAssignment.aspx.resx" />
+            <ComponentRef Id="CurriculumAssignment.aspx.uk.resx" />
+            <ComponentRef Id="CurriculumDeleteConfirmation.aspx.resx" />
+            <ComponentRef Id="CurriculumDeleteConfirmation.aspx.uk.resx" />
+            <ComponentRef Id="CurriculumEdit.aspx.resx" />
+            <ComponentRef Id="CurriculumEdit.aspx.uk.resx" />
+            <ComponentRef Id="CurriculumTimeline.aspx.resx" />
+            <ComponentRef Id="CurriculumTimeline.aspx.uk.resx" />
+            <ComponentRef Id="ReCompilationPage.aspx.resx" />
+            <ComponentRef Id="ReCompilationPage.aspx.uk.resx" />
+            <ComponentRef Id="Share.aspx.resx" />
+            <ComponentRef Id="Share.aspx.uk.resx" />
+            <ComponentRef Id="StatisticSelect.aspx.resx" />
+            <ComponentRef Id="StatisticSelect.aspx.uk.resx" />
+            <ComponentRef Id="StatisticShow.aspx.resx" />
+            <ComponentRef Id="StatisticShow.aspx.uk.resx" />
+            <ComponentRef Id="TeacherObjects.aspx.resx" />
+            <ComponentRef Id="TeacherObjects.aspx.uk.resx" />
+            <ComponentRef Id="TeachersList.aspx.resx" />
+            <ComponentRef Id="TeachersList.aspx.uk.resx" />
+            <ComponentRef Id="ThemePages.aspx.resx" />
+            <ComponentRef Id="ThemePages.aspx.uk.resx" />
+            <ComponentRef Id="all_wcprops_16" />
+            <ComponentRef Id="entries_16" />
+            <ComponentRef Id="CourseBehavior.aspx.resx.svn_base" />
+            <ComponentRef Id="CourseBehavior.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="CourseDeleteConfirmation.aspx.resx.svn_base" />
+            <ComponentRef Id="CourseDeleteConfirmation.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="CourseEdit.aspx.resx.svn_base" />
+            <ComponentRef Id="CourseEdit.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="CurriculumAssignment.aspx.resx.svn_base" />
+            <ComponentRef Id="CurriculumAssignment.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="CurriculumDeleteConfirmation.aspx.resx.svn_base" />
+            <ComponentRef Id="CurriculumDeleteConfirmation.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="CurriculumEdit.aspx.resx.svn_base" />
+            <ComponentRef Id="CurriculumEdit.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="CurriculumTimeline.aspx.resx.svn_base" />
+            <ComponentRef Id="CurriculumTimeline.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="ReCompilationPage.aspx.resx.svn_base" />
+            <ComponentRef Id="ReCompilationPage.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="Share.aspx.resx.svn_base" />
+            <ComponentRef Id="Share.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="StatisticSelect.aspx.resx.svn_base" />
+            <ComponentRef Id="StatisticSelect.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="StatisticShow.aspx.resx.svn_base" />
+            <ComponentRef Id="StatisticShow.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="TeacherObjects.aspx.resx.svn_base" />
+            <ComponentRef Id="TeacherObjects.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="TeachersList.aspx.resx.svn_base" />
+            <ComponentRef Id="TeachersList.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="ThemePages.aspx.resx.svn_base" />
+            <ComponentRef Id="ThemePages.aspx.uk.resx.svn_base" />
+            <ComponentRef Id="GoodCourse.zip" />
+            <ComponentRef Id="Noimsmanifest.zip" />
+            <ComponentRef Id="all_wcprops_17" />
+            <ComponentRef Id="entries_17" />
+            <ComponentRef Id="GoodCourse.zip.svn_base" />
+            <ComponentRef Id="Noimsmanifest.zip.svn_base" />
+            <ComponentRef Id="GoodCourse.zip.svn_base_1" />
+            <ComponentRef Id="Noimsmanifest.zip.svn_base_1" />
+            <ComponentRef Id="all_wcprops_18" />
+            <ComponentRef Id="entries_18" />
+            <ComponentRef Id="build.xml" />
+            <ComponentRef Id="CHANGES.txt" />
+            <ComponentRef Id="common_build.xml" />
+            <ComponentRef Id="Copy_of_NOTICE.txt" />
+            <ComponentRef Id="delete.bat" />
+            <ComponentRef Id="index.bat" />
+            <ComponentRef Id="LICENSE.txt" />
+            <ComponentRef Id="NOTICE.txt" />
+            <ComponentRef Id="README.txt" />
+            <ComponentRef Id="all_wcprops_19" />
+            <ComponentRef Id="entries_19" />
+            <ComponentRef Id="build.xml.svn_base" />
+            <ComponentRef Id="CHANGES.txt.svn_base" />
+            <ComponentRef Id="common_build.xml.svn_base" />
+            <ComponentRef Id="Copy_of_NOTICE.txt.svn_base" />
+            <ComponentRef Id="delete.bat.svn_base" />
+            <ComponentRef Id="index.bat.svn_base" />
+            <ComponentRef Id="LICENSE.txt.svn_base" />
+            <ComponentRef Id="NOTICE.txt.svn_base" />
+            <ComponentRef Id="README.txt.svn_base" />
+            <ComponentRef Id="MyInfo.aspx" />
+            <ComponentRef Id="MyInfo.aspx.cs" />
+            <ComponentRef Id="MyPermissions.aspx" />
+            <ComponentRef Id="MyPermissions.aspx.cs" />
+            <ComponentRef Id="all_wcprops_20" />
+            <ComponentRef Id="entries_20" />
+            <ComponentRef Id="MyInfo.aspx.cs.svn_base" />
+            <ComponentRef Id="MyInfo.aspx.svn_base" />
+            <ComponentRef Id="MyPermissions.aspx.cs.svn_base" />
+            <ComponentRef Id="MyPermissions.aspx.svn_base" />
+        </ComponentGroup>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="INSTALLLOCATION">
+            <Component Id="API.asmx" Guid="{27B825B1-FA1C-4EDE-8B1F-1037F22D833A}">
+                <File Id="API.asmx" KeyPath="yes" Source="$(var.FileDirectory)\API.asmx" />
+            </Component>
+            <Component Id="Global.asax" Guid="{CC34AFAE-633A-4D1B-A87B-288BC94F29E7}">
+                <File Id="Global.asax" KeyPath="yes" Source="$(var.FileDirectory)\Global.asax" />
+            </Component>
+            <Component Id="Home.aspx" Guid="{239D9D64-A84C-44BD-865E-42892374174C}">
+                <File Id="Home.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Home.aspx" />
+            </Component>
+            <Component Id="Home.aspx.cs" Guid="{62CECE95-A840-4D89-9173-6E7B92A224DD}">
+                <File Id="Home.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Home.aspx.cs" />
+            </Component>
+            <Component Id="Login.aspx" Guid="{2F5C54BC-DB2D-4FA8-8D48-194328792C9D}">
+                <File Id="Login.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Login.aspx" />
+            </Component>
+            <Component Id="Login.aspx.cs" Guid="{7E28C7E9-4AA1-4290-9989-D8CB08101665}">
+                <File Id="Login.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Login.aspx.cs" />
+            </Component>
+            <Component Id="Logout.ashx" Guid="{3A8DB65C-10B2-427F-879E-6AEADD5A1FA8}">
+                <File Id="Logout.ashx" KeyPath="yes" Source="$(var.FileDirectory)\Logout.ashx" />
+            </Component>
+            <Component Id="Main.css" Guid="{623049DC-FB6D-4217-ADD0-1933BBC88453}">
+                <File Id="Main.css" KeyPath="yes" Source="$(var.FileDirectory)\Main.css" />
+            </Component>
+            <Component Id="MasterPage.master" Guid="{53D2ABBF-B557-4D01-9E78-43E91A1E88B1}">
+                <File Id="MasterPage.master" KeyPath="yes" Source="$(var.FileDirectory)\MasterPage.master" />
+            </Component>
+            <Component Id="web.config" Guid="{7A1A38FB-3853-4860-9DC6-3B98EF3D2BE6}">
+                <File Id="web.config" KeyPath="yes" Source="$(var.FileDirectory)\web.config" />
+            </Component>
+            <Component Id="Web.sitemap" Guid="{CF4950C7-E1C1-4517-A387-E8FE15E800A6}">
+                <File Id="Web.sitemap" KeyPath="yes" Source="$(var.FileDirectory)\Web.sitemap" />
+            </Component>
+            <Directory Id="_.svn" Name=".svn">
+                <Component Id="all_wcprops" Guid="{1EA726A7-F079-468D-8AED-FEB8230228BD}">
+                    <File Id="all_wcprops" KeyPath="yes" Source="$(var.FileDirectory)\.svn\all-wcprops" />
+                </Component>
+                <Component Id="dir_prop_base" Guid="{CFBAE16C-3F64-4BF2-981B-ECD05A73C95B}">
+                    <File Id="dir_prop_base" KeyPath="yes" Source="$(var.FileDirectory)\.svn\dir-prop-base" />
+                </Component>
+                <Component Id="entries" Guid="{8D4F307B-5479-43A6-8DA0-267FA2FE2923}">
+                    <File Id="entries" KeyPath="yes" Source="$(var.FileDirectory)\.svn\entries" />
+                </Component>
+                <Directory Id="prop_base" Name="prop-base">
+                    <Component Id="Login.aspx.cs.svn_base" Guid="{FE3DCE18-762C-4817-A095-305BAC8BE532}">
+                        <File Id="Login.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\.svn\prop-base\Login.aspx.cs.svn-base" />
+                    </Component>
+                    <Component Id="Login.aspx.svn_base" Guid="{362616DE-5DB3-4EBA-A8A8-97A9DF4E991E}">
+                        <File Id="Login.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\.svn\prop-base\Login.aspx.svn-base" />
+                    </Component>
+                    <Component Id="Main.css.svn_base" Guid="{4C317B45-55C7-41BF-9F10-4053ED2698C6}">
+                        <File Id="Main.css.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\.svn\prop-base\Main.css.svn-base" />
+                    </Component>
+                </Directory>
+                <Directory Id="text_base" Name="text-base">
+                    <Component Id="API.asmx.svn_base" Guid="{CC08EEEA-E626-4500-9DCC-B9547E99BEC3}">
+                        <File Id="API.asmx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\.svn\text-base\API.asmx.svn-base" />
+                    </Component>
+                    <Component Id="Global.asax.svn_base" Guid="{59DB6690-06E8-4614-AD9C-1BE8C714265E}">
+                        <File Id="Global.asax.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\.svn\text-base\Global.asax.svn-base" />
+                    </Component>
+                    <Component Id="Home.aspx.cs.svn_base" Guid="{C3D2DAE8-B2C7-4B1A-A60B-15303CDAECA1}">
+                        <File Id="Home.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\.svn\text-base\Home.aspx.cs.svn-base" />
+                    </Component>
+                    <Component Id="Home.aspx.svn_base" Guid="{4EC0982D-707E-4D64-9578-B1D6CA0B4CFD}">
+                        <File Id="Home.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\.svn\text-base\Home.aspx.svn-base" />
+                    </Component>
+                    <Component Id="Login.aspx.cs.svn_base_1" Guid="{6BC8A82E-ED63-4E86-AAF5-80B8A13C8F3D}">
+                        <File Id="Login.aspx.cs.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\.svn\text-base\Login.aspx.cs.svn-base" />
+                    </Component>
+                    <Component Id="Login.aspx.svn_base_1" Guid="{8A736820-A4E3-47D9-941B-85117C9EFD55}">
+                        <File Id="Login.aspx.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\.svn\text-base\Login.aspx.svn-base" />
+                    </Component>
+                    <Component Id="Logout.ashx.svn_base" Guid="{A5A9DF29-81DE-4E2E-8B17-FDB7EC49B0DF}">
+                        <File Id="Logout.ashx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\.svn\text-base\Logout.ashx.svn-base" />
+                    </Component>
+                    <Component Id="Main.css.svn_base_1" Guid="{7E0F49AF-2BC7-4542-9365-F6E676B73EDF}">
+                        <File Id="Main.css.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\.svn\text-base\Main.css.svn-base" />
+                    </Component>
+                    <Component Id="MasterPage.master.svn_base" Guid="{38952D35-E095-44B0-9A46-B5D94832EFA1}">
+                        <File Id="MasterPage.master.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\.svn\text-base\MasterPage.master.svn-base" />
+                    </Component>
+                    <Component Id="web.config.svn_base" Guid="{EA599C2B-C9D2-47D4-A88D-A7F5FEF8C63A}">
+                        <File Id="web.config.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\.svn\text-base\web.config.svn-base" />
+                    </Component>
+                    <Component Id="Web.sitemap.svn_base" Guid="{D402AFAE-449B-429B-8C8D-F07F85370C3F}">
+                        <File Id="Web.sitemap.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\.svn\text-base\Web.sitemap.svn-base" />
+                    </Component>
+                </Directory>
+            </Directory>
+            <Directory Id="Admin" Name="Admin">
+                <Component Id="CreateGroup.aspx" Guid="{7D029ADD-3EF0-42DD-B3A3-52FD6D4461E0}">
+                    <File Id="CreateGroup.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Admin\CreateGroup.aspx" />
+                </Component>
+                <Component Id="CreateGroup.aspx.cs" Guid="{A58EBBA2-B515-4E59-9208-A5353820E343}">
+                    <File Id="CreateGroup.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Admin\CreateGroup.aspx.cs" />
+                </Component>
+                <Component Id="CreateSetting.aspx" Guid="{6E6064BD-142B-4137-B03D-2103662E0C6B}">
+                    <File Id="CreateSetting.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Admin\CreateSetting.aspx" />
+                </Component>
+                <Component Id="CreateSetting.aspx.cs" Guid="{2636E55E-D102-4513-8965-1A9CA3F96EA4}">
+                    <File Id="CreateSetting.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Admin\CreateSetting.aspx.cs" />
+                </Component>
+                <Component Id="CreateUser.aspx" Guid="{C45A11EC-7117-4AA6-A13E-FC843FF58EDF}">
+                    <File Id="CreateUser.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Admin\CreateUser.aspx" />
+                </Component>
+                <Component Id="CreateUser.aspx.cs" Guid="{DE65A885-6BEF-422F-B34F-370687127476}">
+                    <File Id="CreateUser.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Admin\CreateUser.aspx.cs" />
+                </Component>
+                <Component Id="CreateUserBulk.aspx" Guid="{1C050DA2-5CFB-48B8-BC00-CEADBB9900E3}">
+                    <File Id="CreateUserBulk.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Admin\CreateUserBulk.aspx" />
+                </Component>
+                <Component Id="CreateUserBulk.aspx.cs" Guid="{A44A5EEB-28DC-469A-9EEB-2C89AEBF940C}">
+                    <File Id="CreateUserBulk.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Admin\CreateUserBulk.aspx.cs" />
+                </Component>
+                <Component Id="EditGroup.aspx" Guid="{1DDF5221-9322-4A3D-A02C-1FCD0EFACCBD}">
+                    <File Id="EditGroup.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Admin\EditGroup.aspx" />
+                </Component>
+                <Component Id="EditGroup.aspx.cs" Guid="{2EB036CE-7006-4127-97BB-F69A26629D16}">
+                    <File Id="EditGroup.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Admin\EditGroup.aspx.cs" />
+                </Component>
+                <Component Id="EditSetting.aspx" Guid="{780A0209-9CFA-4886-A699-B899A0B50929}">
+                    <File Id="EditSetting.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Admin\EditSetting.aspx" />
+                </Component>
+                <Component Id="EditSetting.aspx.cs" Guid="{0BAD77A0-7C1D-446C-A16A-E215DAA4C294}">
+                    <File Id="EditSetting.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Admin\EditSetting.aspx.cs" />
+                </Component>
+                <Component Id="EditUser.aspx" Guid="{B56DBFD9-A59B-4348-BB9E-74EA15CBEB39}">
+                    <File Id="EditUser.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Admin\EditUser.aspx" />
+                </Component>
+                <Component Id="EditUser.aspx.cs" Guid="{899E1645-28BC-42A4-8E50-5A936B4EDDCB}">
+                    <File Id="EditUser.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Admin\EditUser.aspx.cs" />
+                </Component>
+                <Component Id="Groups.aspx" Guid="{676D8C49-8C3E-4F9B-B928-52118683D31B}">
+                    <File Id="Groups.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Admin\Groups.aspx" />
+                </Component>
+                <Component Id="Groups.aspx.cs" Guid="{3E12FFB6-CBD3-4B55-ADA5-26ABB77D5FFD}">
+                    <File Id="Groups.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Admin\Groups.aspx.cs" />
+                </Component>
+                <Component Id="IncludeUserIntoGroup.aspx" Guid="{07B62072-3C46-45A8-881C-3E701A5103F4}">
+                    <File Id="IncludeUserIntoGroup.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Admin\IncludeUserIntoGroup.aspx" />
+                </Component>
+                <Component Id="IncludeUserIntoGroup.aspx.cs" Guid="{784A4EAE-5F28-4DA3-B3FD-DB97CC6C3F61}">
+                    <File Id="IncludeUserIntoGroup.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Admin\IncludeUserIntoGroup.aspx.cs" />
+                </Component>
+                <Component Id="RemoveGroupConfirmation.aspx" Guid="{85CA8FCD-6E93-4E01-B44A-11C44A5A4B4D}">
+                    <File Id="RemoveGroupConfirmation.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Admin\RemoveGroupConfirmation.aspx" />
+                </Component>
+                <Component Id="RemoveGroupConfirmation.aspx.cs" Guid="{4FC75FD8-5414-44AA-82F3-82168EEB148F}">
+                    <File Id="RemoveGroupConfirmation.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Admin\RemoveGroupConfirmation.aspx.cs" />
+                </Component>
+                <Component Id="RemoveSettingConfirmation.aspx" Guid="{63966C24-2585-4790-BD4E-80E4ED901EC7}">
+                    <File Id="RemoveSettingConfirmation.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Admin\RemoveSettingConfirmation.aspx" />
+                </Component>
+                <Component Id="RemoveSettingConfirmation.aspx.cs" Guid="{6F7D67C0-8BE6-40F4-9243-E95B3A2F2280}">
+                    <File Id="RemoveSettingConfirmation.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Admin\RemoveSettingConfirmation.aspx.cs" />
+                </Component>
+                <Component Id="RemoveUserConfirmation.aspx" Guid="{A9EB2504-D872-4175-91EA-CE462EA5D3CD}">
+                    <File Id="RemoveUserConfirmation.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Admin\RemoveUserConfirmation.aspx" />
+                </Component>
+                <Component Id="RemoveUserConfirmation.aspx.cs" Guid="{8A0FB950-342E-4509-86EF-6250842155AD}">
+                    <File Id="RemoveUserConfirmation.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Admin\RemoveUserConfirmation.aspx.cs" />
+                </Component>
+                <Component Id="RemoveUserFromGroup.aspx" Guid="{C4EE9EC6-E6A5-46C6-9740-D5C793581198}">
+                    <File Id="RemoveUserFromGroup.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Admin\RemoveUserFromGroup.aspx" />
+                </Component>
+                <Component Id="RemoveUserFromGroup.aspx.cs" Guid="{9A9C3859-F251-4B41-A38A-8268C1BC1E93}">
+                    <File Id="RemoveUserFromGroup.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Admin\RemoveUserFromGroup.aspx.cs" />
+                </Component>
+                <Component Id="SearchPageSolr.aspx" Guid="{2DBBC709-C44E-480F-958E-187F252B5D17}">
+                    <File Id="SearchPageSolr.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Admin\SearchPageSolr.aspx" />
+                </Component>
+                <Component Id="SearchPageSolr.aspx.cs" Guid="{3E92F916-3A1A-40AC-8C39-1EFCF9294085}">
+                    <File Id="SearchPageSolr.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Admin\SearchPageSolr.aspx.cs" />
+                </Component>
+                <Component Id="SelectGroup.aspx" Guid="{8AA5DCF7-E30E-40D5-823B-C1AD842424F8}">
+                    <File Id="SelectGroup.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Admin\SelectGroup.aspx" />
+                </Component>
+                <Component Id="SelectGroup.aspx.cs" Guid="{961EEA17-1D78-420E-8986-B4C78DCFA39C}">
+                    <File Id="SelectGroup.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Admin\SelectGroup.aspx.cs" />
+                </Component>
+                <Component Id="Settings.aspx" Guid="{A08BAA36-1588-48BC-8773-BE2EA7E9B5C5}">
+                    <File Id="Settings.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Admin\Settings.aspx" />
+                </Component>
+                <Component Id="Settings.aspx.cs" Guid="{57CA3A81-22F3-4852-9142-4B7D1BD1A4B1}">
+                    <File Id="Settings.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Admin\Settings.aspx.cs" />
+                </Component>
+                <Component Id="Users.aspx" Guid="{4AFDAE9D-FA60-44B6-B9F7-A1C3DB8A8B39}">
+                    <File Id="Users.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Admin\Users.aspx" />
+                </Component>
+                <Component Id="Users.aspx.cs" Guid="{00FF5303-7582-4375-98E7-337361434284}">
+                    <File Id="Users.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Admin\Users.aspx.cs" />
+                </Component>
+                <Directory Id="_.svn_1" Name=".svn">
+                    <Component Id="all_wcprops_1" Guid="{18D4666E-EF86-41FC-94B3-91A221670B67}">
+                        <File Id="all_wcprops_1" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\all-wcprops" />
+                    </Component>
+                    <Component Id="entries_1" Guid="{9E2253A6-CDD6-48F9-92E4-821CEB87BB78}">
+                        <File Id="entries_1" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\entries" />
+                    </Component>
+                    <Directory Id="prop_base_1" Name="prop-base">
+                        <Component Id="CreateUser.aspx.cs.svn_base" Guid="{E73B447F-9094-44D7-97E5-09D6BCD0FB63}">
+                            <File Id="CreateUser.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\prop-base\CreateUser.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="CreateUser.aspx.svn_base" Guid="{BCC0E64B-0EC4-4EAC-80D0-9D9791718E02}">
+                            <File Id="CreateUser.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\prop-base\CreateUser.aspx.svn-base" />
+                        </Component>
+                    </Directory>
+                    <Directory Id="text_base_1" Name="text-base">
+                        <Component Id="CreateGroup.aspx.cs.svn_base" Guid="{B0FA59A6-DD9C-4B62-8BFD-896655D4AD31}">
+                            <File Id="CreateGroup.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\CreateGroup.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="CreateGroup.aspx.svn_base" Guid="{8110652A-CC03-4905-9A01-93835E5529C4}">
+                            <File Id="CreateGroup.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\CreateGroup.aspx.svn-base" />
+                        </Component>
+                        <Component Id="CreateSetting.aspx.cs.svn_base" Guid="{79C37115-1AA9-4972-928D-DFB5E8EC02CD}">
+                            <File Id="CreateSetting.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\CreateSetting.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="CreateSetting.aspx.svn_base" Guid="{FE4FE03D-806F-46B8-BEF1-77DF76D9DA40}">
+                            <File Id="CreateSetting.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\CreateSetting.aspx.svn-base" />
+                        </Component>
+                        <Component Id="CreateUser.aspx.cs.svn_base_1" Guid="{AF5106BE-880B-4694-B584-3639BE7B6D70}">
+                            <File Id="CreateUser.aspx.cs.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\CreateUser.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="CreateUser.aspx.svn_base_1" Guid="{4FA287FB-AD75-4F84-9CB0-65E9705F5836}">
+                            <File Id="CreateUser.aspx.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\CreateUser.aspx.svn-base" />
+                        </Component>
+                        <Component Id="CreateUserBulk.aspx.cs.svn_base" Guid="{D41D170C-6CA8-4A0B-A053-BECE017398FB}">
+                            <File Id="CreateUserBulk.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\CreateUserBulk.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="CreateUserBulk.aspx.svn_base" Guid="{07214C9D-C9B1-4CA9-9C94-3E7485233BD7}">
+                            <File Id="CreateUserBulk.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\CreateUserBulk.aspx.svn-base" />
+                        </Component>
+                        <Component Id="EditGroup.aspx.cs.svn_base" Guid="{0884A2D3-FF62-41E6-99CE-C431B6BD767C}">
+                            <File Id="EditGroup.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\EditGroup.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="EditGroup.aspx.svn_base" Guid="{215CADFD-4CE2-431B-B697-F90542F32FE1}">
+                            <File Id="EditGroup.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\EditGroup.aspx.svn-base" />
+                        </Component>
+                        <Component Id="EditSetting.aspx.cs.svn_base" Guid="{24D7AFC4-86C4-4E5C-B96C-87A3E206A84B}">
+                            <File Id="EditSetting.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\EditSetting.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="EditSetting.aspx.svn_base" Guid="{B5932DC1-DE13-4FF0-A813-AE8E36C5689F}">
+                            <File Id="EditSetting.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\EditSetting.aspx.svn-base" />
+                        </Component>
+                        <Component Id="EditUser.aspx.cs.svn_base" Guid="{DAFFF4B7-3E75-4FFE-9EA5-F1557EE06FB0}">
+                            <File Id="EditUser.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\EditUser.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="EditUser.aspx.svn_base" Guid="{4B0679FD-9932-4AC0-BCE4-AAA0C7F4D7DE}">
+                            <File Id="EditUser.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\EditUser.aspx.svn-base" />
+                        </Component>
+                        <Component Id="Groups.aspx.cs.svn_base" Guid="{49576B38-6E13-4A27-8BF8-AFAEE4E185A1}">
+                            <File Id="Groups.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\Groups.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="Groups.aspx.svn_base" Guid="{1AE5863B-FAA0-4C95-BD68-F5AF36A79EB6}">
+                            <File Id="Groups.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\Groups.aspx.svn-base" />
+                        </Component>
+                        <Component Id="IncludeUserIntoGroup.aspx.cs.svn_base" Guid="{F9AD8347-66D9-42A3-A52E-B4DBAB50A9D8}">
+                            <File Id="IncludeUserIntoGroup.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\IncludeUserIntoGroup.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="IncludeUserIntoGroup.aspx.svn_base" Guid="{D440B899-70EC-4791-B823-F24739C19FBA}">
+                            <File Id="IncludeUserIntoGroup.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\IncludeUserIntoGroup.aspx.svn-base" />
+                        </Component>
+                        <Component Id="RemoveGroupConfirmation.aspx.cs.svn_base" Guid="{21588AC7-F48A-4F68-BCE3-9F9E4F59D07A}">
+                            <File Id="RemoveGroupConfirmation.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\RemoveGroupConfirmation.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="RemoveGroupConfirmation.aspx.svn_base" Guid="{4CE4AF02-500B-4961-9471-AD1C8F7ABD37}">
+                            <File Id="RemoveGroupConfirmation.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\RemoveGroupConfirmation.aspx.svn-base" />
+                        </Component>
+                        <Component Id="RemoveSettingConfirmation.aspx.cs.svn_base" Guid="{8A6211FC-32FF-4C44-AE57-BE9F2CFC9A0F}">
+                            <File Id="RemoveSettingConfirmation.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\RemoveSettingConfirmation.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="RemoveSettingConfirmation.aspx.svn_base" Guid="{2B549C91-E3CE-4B30-95A8-FB8387C2DCD2}">
+                            <File Id="RemoveSettingConfirmation.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\RemoveSettingConfirmation.aspx.svn-base" />
+                        </Component>
+                        <Component Id="RemoveUserConfirmation.aspx.cs.svn_base" Guid="{6B4E64B3-753A-4ACD-AFAA-73AFDCA82CD3}">
+                            <File Id="RemoveUserConfirmation.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\RemoveUserConfirmation.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="RemoveUserConfirmation.aspx.svn_base" Guid="{CE99C3B0-77E4-4EEA-90D0-701B4380A0E4}">
+                            <File Id="RemoveUserConfirmation.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\RemoveUserConfirmation.aspx.svn-base" />
+                        </Component>
+                        <Component Id="RemoveUserFromGroup.aspx.cs.svn_base" Guid="{2E9A611F-3BAB-4205-97F1-00ACA5CD7D42}">
+                            <File Id="RemoveUserFromGroup.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\RemoveUserFromGroup.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="RemoveUserFromGroup.aspx.svn_base" Guid="{2ABCA6B5-EE80-47BD-8FF9-C5E5D319C9EA}">
+                            <File Id="RemoveUserFromGroup.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\RemoveUserFromGroup.aspx.svn-base" />
+                        </Component>
+                        <Component Id="SearchPageSolr.aspx.cs.svn_base" Guid="{734902FD-3FE9-4FAA-81AD-1E40A55C896C}">
+                            <File Id="SearchPageSolr.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\SearchPageSolr.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="SearchPageSolr.aspx.svn_base" Guid="{6273297A-A231-48D9-8787-58F357C5CFF6}">
+                            <File Id="SearchPageSolr.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\SearchPageSolr.aspx.svn-base" />
+                        </Component>
+                        <Component Id="SelectGroup.aspx.cs.svn_base" Guid="{C64C90F2-E775-4074-A6CA-74C17058935E}">
+                            <File Id="SelectGroup.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\SelectGroup.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="SelectGroup.aspx.svn_base" Guid="{3CAB1BA6-BFDD-4099-BFB1-7626C93A389A}">
+                            <File Id="SelectGroup.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\SelectGroup.aspx.svn-base" />
+                        </Component>
+                        <Component Id="Settings.aspx.cs.svn_base" Guid="{3ABC4725-C949-4CB7-B7FF-C4AD557271D2}">
+                            <File Id="Settings.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\Settings.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="Settings.aspx.svn_base" Guid="{6104355D-5E2B-4E56-B24D-F108FA4D492F}">
+                            <File Id="Settings.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\Settings.aspx.svn-base" />
+                        </Component>
+                        <Component Id="Users.aspx.cs.svn_base" Guid="{45860F64-C7F8-450A-850B-E35ACF9AC961}">
+                            <File Id="Users.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\Users.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="Users.aspx.svn_base" Guid="{301FF6FB-6400-4D90-A1BD-309461512270}">
+                            <File Id="Users.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Admin\.svn\text-base\Users.aspx.svn-base" />
+                        </Component>
+                    </Directory>
+                </Directory>
+            </Directory>
+            <Directory Id="App_Code" Name="App_Code">
+                <Component Id="API.cs" Guid="{66F2D7EA-CA0C-4E5C-A8BE-BF53C83EC47F}">
+                    <File Id="API.cs" KeyPath="yes" Source="$(var.FileDirectory)\App_Code\API.cs" />
+                </Component>
+                <Component Id="ClassDiagram.cd" Guid="{D9EA0F79-FD55-421C-BB69-DA61554FFE42}">
+                    <File Id="ClassDiagram.cd" KeyPath="yes" Source="$(var.FileDirectory)\App_Code\ClassDiagram.cd" />
+                </Component>
+                <Component Id="IdentityTreeView.cs" Guid="{FE24878B-B8FB-4D8F-9069-331F6AA353E3}">
+                    <File Id="IdentityTreeView.cs" KeyPath="yes" Source="$(var.FileDirectory)\App_Code\IdentityTreeView.cs" />
+                </Component>
+                <Component Id="IndexData.cs" Guid="{E89D36D8-A18F-486E-8A2C-7AAB70BBBC1B}">
+                    <File Id="IndexData.cs" KeyPath="yes" Source="$(var.FileDirectory)\App_Code\IndexData.cs" />
+                </Component>
+                <Component Id="PagesReg.cs" Guid="{8DB662EB-78DF-4237-8C67-687995D4A663}">
+                    <File Id="PagesReg.cs" KeyPath="yes" Source="$(var.FileDirectory)\App_Code\PagesReg.cs" />
+                </Component>
+                <Directory Id="_.svn_2" Name=".svn">
+                    <Component Id="all_wcprops_2" Guid="{54C44ABB-230D-4A61-B0DC-6984F3F090F3}">
+                        <File Id="all_wcprops_2" KeyPath="yes" Source="$(var.FileDirectory)\App_Code\.svn\all-wcprops" />
+                    </Component>
+                    <Component Id="entries_2" Guid="{923B2ED4-A85C-4189-9954-94536288262E}">
+                        <File Id="entries_2" KeyPath="yes" Source="$(var.FileDirectory)\App_Code\.svn\entries" />
+                    </Component>
+                    <Directory Id="prop_base_2" Name="prop-base">
+                        <Component Id="IdentityTreeView.cs.svn_base" Guid="{898C9412-3F7C-4449-972A-CDE64926E989}">
+                            <File Id="IdentityTreeView.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\App_Code\.svn\prop-base\IdentityTreeView.cs.svn-base" />
+                        </Component>
+                    </Directory>
+                    <Directory Id="text_base_2" Name="text-base">
+                        <Component Id="API.cs.svn_base" Guid="{CB086C06-31FB-44EF-99C3-80237D1617BF}">
+                            <File Id="API.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\App_Code\.svn\text-base\API.cs.svn-base" />
+                        </Component>
+                        <Component Id="ClassDiagram.cd.svn_base" Guid="{0980D135-2511-491E-992F-5CE8AB452957}">
+                            <File Id="ClassDiagram.cd.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\App_Code\.svn\text-base\ClassDiagram.cd.svn-base" />
+                        </Component>
+                        <Component Id="IdentityTreeView.cs.svn_base_1" Guid="{929DE1BA-BF85-4912-8639-81954B224888}">
+                            <File Id="IdentityTreeView.cs.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\App_Code\.svn\text-base\IdentityTreeView.cs.svn-base" />
+                        </Component>
+                        <Component Id="IndexData.cs.svn_base" Guid="{DD5F4AF9-B61E-4561-8125-112FFE0605FA}">
+                            <File Id="IndexData.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\App_Code\.svn\text-base\IndexData.cs.svn-base" />
+                        </Component>
+                        <Component Id="PagesReg.cs.svn_base" Guid="{1C3DFCFB-C62B-44C5-A565-1AB0C8A72E87}">
+                            <File Id="PagesReg.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\App_Code\.svn\text-base\PagesReg.cs.svn-base" />
+                        </Component>
+                    </Directory>
+                </Directory>
+            </Directory>
+            <Directory Id="App_GlobalResources" Name="App_GlobalResources">
+                <Directory Id="_.svn_3" Name=".svn">
+                    <Component Id="all_wcprops_3" Guid="{19F0FE47-37FF-4DB9-8AC9-4C3B29FFF8F6}">
+                        <File Id="all_wcprops_3" KeyPath="yes" Source="$(var.FileDirectory)\App_GlobalResources\.svn\all-wcprops" />
+                    </Component>
+                    <Component Id="entries_3" Guid="{60861D8E-D3C0-4BAF-AFD1-482AC685FD09}">
+                        <File Id="entries_3" KeyPath="yes" Source="$(var.FileDirectory)\App_GlobalResources\.svn\entries" />
+                    </Component>
+                </Directory>
+            </Directory>
+            <Directory Id="App_LocalResources" Name="App_LocalResources">
+                <Component Id="Login.aspx.resx" Guid="{29709757-1C81-4F2A-B30E-648861B4EEAD}">
+                    <File Id="Login.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\App_LocalResources\Login.aspx.resx" />
+                </Component>
+                <Component Id="Login.aspx.uk_UA.resx" Guid="{A1BC6E84-6F70-4D76-915B-9AD713E8675B}">
+                    <File Id="Login.aspx.uk_UA.resx" KeyPath="yes" Source="$(var.FileDirectory)\App_LocalResources\Login.aspx.uk-UA.resx" />
+                </Component>
+                <Component Id="MasterPage.master.resx" Guid="{32BCCD4B-38CD-4104-A84C-6960595E7C27}">
+                    <File Id="MasterPage.master.resx" KeyPath="yes" Source="$(var.FileDirectory)\App_LocalResources\MasterPage.master.resx" />
+                </Component>
+                <Component Id="MasterPage.master.uk_UA.resx" Guid="{A3ABDAFA-7844-4603-AACE-B8087638DF73}">
+                    <File Id="MasterPage.master.uk_UA.resx" KeyPath="yes" Source="$(var.FileDirectory)\App_LocalResources\MasterPage.master.uk-UA.resx" />
+                </Component>
+                <Directory Id="_.svn_4" Name=".svn">
+                    <Component Id="all_wcprops_4" Guid="{08AC70A6-9B7E-404A-B1AB-CCE3857D09A6}">
+                        <File Id="all_wcprops_4" KeyPath="yes" Source="$(var.FileDirectory)\App_LocalResources\.svn\all-wcprops" />
+                    </Component>
+                    <Component Id="entries_4" Guid="{D7C7BF15-2D59-45B2-ACB7-08F572C6877C}">
+                        <File Id="entries_4" KeyPath="yes" Source="$(var.FileDirectory)\App_LocalResources\.svn\entries" />
+                    </Component>
+                    <Directory Id="text_base_3" Name="text-base">
+                        <Component Id="Login.aspx.resx.svn_base" Guid="{060277CF-1D85-44AF-9B6C-ABE220981693}">
+                            <File Id="Login.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\App_LocalResources\.svn\text-base\Login.aspx.resx.svn-base" />
+                        </Component>
+                        <Component Id="Login.aspx.uk_UA.resx.svn_base" Guid="{3F9F31C4-DF03-49AC-A104-B761DB0D741E}">
+                            <File Id="Login.aspx.uk_UA.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\App_LocalResources\.svn\text-base\Login.aspx.uk-UA.resx.svn-base" />
+                        </Component>
+                        <Component Id="MasterPage.master.resx.svn_base" Guid="{BD9B3D7E-51A9-4F58-8CC1-418A9185EBE8}">
+                            <File Id="MasterPage.master.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\App_LocalResources\.svn\text-base\MasterPage.master.resx.svn-base" />
+                        </Component>
+                        <Component Id="MasterPage.master.uk_UA.resx.svn_base" Guid="{B221CBB0-78C6-43D5-A252-5AD588B122E3}">
+                            <File Id="MasterPage.master.uk_UA.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\App_LocalResources\.svn\text-base\MasterPage.master.uk-UA.resx.svn-base" />
+                        </Component>
+                    </Directory>
+                </Directory>
+            </Directory>
+            <Directory Id="Assets" Name="Assets">
+                <Directory Id="_.svn_5" Name=".svn">
+                    <Component Id="all_wcprops_5" Guid="{2159A9C4-78F9-4A17-A7AC-5C12B3A7C803}">
+                        <File Id="all_wcprops_5" KeyPath="yes" Source="$(var.FileDirectory)\Assets\.svn\all-wcprops" />
+                    </Component>
+                    <Component Id="dir_prop_base_1" Guid="{26511C57-93FA-43C8-BEF5-9D6AB65B6266}">
+                        <File Id="dir_prop_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Assets\.svn\dir-prop-base" />
+                    </Component>
+                    <Component Id="entries_5" Guid="{98AEB757-4229-4723-A95C-989707999F61}">
+                        <File Id="entries_5" KeyPath="yes" Source="$(var.FileDirectory)\Assets\.svn\entries" />
+                    </Component>
+                </Directory>
+            </Directory>
+            <Directory Id="Bin" Name="Bin">
+                <Component Id="AjaxControlToolkit.dll" Guid="{2F65BFCD-3CFC-427A-848B-B0224CB1E35C}">
+                    <File Id="AjaxControlToolkit.dll" KeyPath="yes" Source="$(var.FileDirectory)\Bin\AjaxControlToolkit.dll" />
+                </Component>
+                <Component Id="AjaxControlToolkit.dll.refresh" Guid="{6E945F16-FFFC-40D8-BCCA-3F29411B55BD}">
+                    <File Id="AjaxControlToolkit.dll.refresh" KeyPath="yes" Source="$(var.FileDirectory)\Bin\AjaxControlToolkit.dll.refresh" />
+                </Component>
+                <Component Id="BoxOver.dll" Guid="{42C934EB-8B1C-4D8E-B3B3-77E30B0F414D}">
+                    <File Id="BoxOver.dll" KeyPath="yes" Source="$(var.FileDirectory)\Bin\BoxOver.dll" />
+                </Component>
+                <Component Id="BoxOver.pdb" Guid="{19988ECD-CCA8-44EC-8813-600B12AB8A25}">
+                    <File Id="BoxOver.pdb" KeyPath="yes" Source="$(var.FileDirectory)\Bin\BoxOver.pdb" />
+                </Component>
+                <Component Id="GMDatePicker.dll" Guid="{8240B868-4D49-4AD4-B74C-ED0B379CC14D}">
+                    <File Id="GMDatePicker.dll" KeyPath="yes" Source="$(var.FileDirectory)\Bin\GMDatePicker.dll" />
+                </Component>
+                <Component Id="GMDatePicker.dll.refresh" Guid="{1C156766-93B9-464C-93FA-ADD298833CBC}">
+                    <File Id="GMDatePicker.dll.refresh" KeyPath="yes" Source="$(var.FileDirectory)\Bin\GMDatePicker.dll.refresh" />
+                </Component>
+                <Component Id="ICSharpCode.SharpZipLib.dll" Guid="{0F7F0681-65C2-4310-8728-B6A40466B43B}">
+                    <File Id="ICSharpCode.SharpZipLib.dll" KeyPath="yes" Source="$(var.FileDirectory)\Bin\ICSharpCode.SharpZipLib.dll" />
+                </Component>
+                <Component Id="ICSharpCode.SharpZipLib.dll.refresh" Guid="{F065444F-F6D7-4862-A1B5-BC109675D6C8}">
+                    <File Id="ICSharpCode.SharpZipLib.dll.refresh" KeyPath="yes" Source="$(var.FileDirectory)\Bin\ICSharpCode.SharpZipLib.dll.refresh" />
+                </Component>
+                <Component Id="IUDICO.DataModel.dll" Guid="{BE4F2B15-A94A-4836-990D-8D734BBFAF1D}">
+                    <File Id="IUDICO.DataModel.dll" KeyPath="yes" Source="$(var.FileDirectory)\Bin\IUDICO.DataModel.dll" />
+                </Component>
+                <Component Id="IUDICO.DataModel.pdb" Guid="{B66ACE46-FAEC-4F5B-8F93-921309EE96D0}">
+                    <File Id="IUDICO.DataModel.pdb" KeyPath="yes" Source="$(var.FileDirectory)\Bin\IUDICO.DataModel.pdb" />
+                </Component>
+                <Component Id="LEX.CONTROLS.dll" Guid="{528B7CDE-B5F6-4227-9178-07F7FE913E1F}">
+                    <File Id="LEX.CONTROLS.dll" KeyPath="yes" Source="$(var.FileDirectory)\Bin\LEX.CONTROLS.dll" />
+                </Component>
+                <Component Id="LEX.CONTROLS.dll.refresh" Guid="{C7B851C7-C6EF-4328-BEDF-B9D6D59D3E78}">
+                    <File Id="LEX.CONTROLS.dll.refresh" KeyPath="yes" Source="$(var.FileDirectory)\Bin\LEX.CONTROLS.dll.refresh" />
+                </Component>
+                <Component Id="Microsoft.Web.Administration.dll.refresh" Guid="{6538FB2F-FCEF-4EE6-AC58-84A97E4E26A5}">
+                    <File Id="Microsoft.Web.Administration.dll.refresh" KeyPath="yes" Source="$(var.FileDirectory)\Bin\Microsoft.Web.Administration.dll.refresh" />
+                </Component>
+                <Component Id="nunit.framework.dll" Guid="{DF587CE3-80DF-4BB3-B159-8A4A9EC155CD}">
+                    <File Id="nunit.framework.dll" KeyPath="yes" Source="$(var.FileDirectory)\Bin\nunit.framework.dll" />
+                </Component>
+                <Component Id="nunit.framework.dll.refresh" Guid="{4CA68967-0BAC-4D37-9D3A-3732FA6C1C4F}">
+                    <File Id="nunit.framework.dll.refresh" KeyPath="yes" Source="$(var.FileDirectory)\Bin\nunit.framework.dll.refresh" />
+                </Component>
+                <Component Id="nunit.framework.extensions.dll" Guid="{2D6C850F-D378-4BDD-91B1-DE6E03D5F63D}">
+                    <File Id="nunit.framework.extensions.dll" KeyPath="yes" Source="$(var.FileDirectory)\Bin\nunit.framework.extensions.dll" />
+                </Component>
+                <Component Id="nunit.framework.extensions.dll.refresh" Guid="{0CF2150C-2EC5-4725-8ADF-D858F4BB0357}">
+                    <File Id="nunit.framework.extensions.dll.refresh" KeyPath="yes" Source="$(var.FileDirectory)\Bin\nunit.framework.extensions.dll.refresh" />
+                </Component>
+                <Component Id="nunit.framework.xml" Guid="{AF7A8F99-80E5-4621-A27A-C6B31016A37E}">
+                    <File Id="nunit.framework.xml" KeyPath="yes" Source="$(var.FileDirectory)\Bin\nunit.framework.xml" />
+                </Component>
+                <Component Id="TestingSystem.dll" Guid="{1A634FFC-1727-48C6-87E7-2FEBB97FA22A}">
+                    <File Id="TestingSystem.dll" KeyPath="yes" Source="$(var.FileDirectory)\Bin\TestingSystem.dll" />
+                </Component>
+                <Component Id="TestingSystem.pdb" Guid="{129D9B68-FC18-40F3-B604-20FB981F1C06}">
+                    <File Id="TestingSystem.pdb" KeyPath="yes" Source="$(var.FileDirectory)\Bin\TestingSystem.pdb" />
+                </Component>
+                <Component Id="ThoughtWorks.Selenium.Core.dll" Guid="{D6163343-7421-4DCB-A467-75858EAA6F28}">
+                    <File Id="ThoughtWorks.Selenium.Core.dll" KeyPath="yes" Source="$(var.FileDirectory)\Bin\ThoughtWorks.Selenium.Core.dll" />
+                </Component>
+                <Component Id="ThoughtWorks.Selenium.Core.dll.refresh" Guid="{4EB5BD50-48CD-4908-B642-DC0EF061DFE1}">
+                    <File Id="ThoughtWorks.Selenium.Core.dll.refresh" KeyPath="yes" Source="$(var.FileDirectory)\Bin\ThoughtWorks.Selenium.Core.dll.refresh" />
+                </Component>
+                <Component Id="ThoughtWorks.Selenium.IntegrationTests.dll" Guid="{722A5AC9-E58E-4882-B550-571BCD5C643F}">
+                    <File Id="ThoughtWorks.Selenium.IntegrationTests.dll" KeyPath="yes" Source="$(var.FileDirectory)\Bin\ThoughtWorks.Selenium.IntegrationTests.dll" />
+                </Component>
+                <Component Id="ThoughtWorks.Selenium.IntegrationTests.dll.refresh" Guid="{15B66970-5A10-4393-A8F9-BC30006AD567}">
+                    <File Id="ThoughtWorks.Selenium.IntegrationTests.dll.refresh" KeyPath="yes" Source="$(var.FileDirectory)\Bin\ThoughtWorks.Selenium.IntegrationTests.dll.refresh" />
+                </Component>
+                <Component Id="ThoughtWorks.Selenium.UnitTests.dll" Guid="{660B6BE1-EB2E-4B5E-8120-04C792AAE0DA}">
+                    <File Id="ThoughtWorks.Selenium.UnitTests.dll" KeyPath="yes" Source="$(var.FileDirectory)\Bin\ThoughtWorks.Selenium.UnitTests.dll" />
+                </Component>
+                <Component Id="ThoughtWorks.Selenium.UnitTests.dll.refresh" Guid="{C4F9E956-B829-41A4-BBFB-CF3C5376A6E3}">
+                    <File Id="ThoughtWorks.Selenium.UnitTests.dll.refresh" KeyPath="yes" Source="$(var.FileDirectory)\Bin\ThoughtWorks.Selenium.UnitTests.dll.refresh" />
+                </Component>
+                <Directory Id="_.svn_6" Name=".svn">
+                    <Component Id="all_wcprops_6" Guid="{1C1C1D02-1AE3-4CA8-BC4E-0A033593CFFD}">
+                        <File Id="all_wcprops_6" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\all-wcprops" />
+                    </Component>
+                    <Component Id="dir_prop_base_2" Guid="{F531301E-6DE6-4A68-9A4E-5FC3869F61A4}">
+                        <File Id="dir_prop_base_2" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\dir-prop-base" />
+                    </Component>
+                    <Component Id="entries_6" Guid="{0F77064F-B40E-433E-8025-F932406D9B2A}">
+                        <File Id="entries_6" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\entries" />
+                    </Component>
+                    <Directory Id="prop_base_3" Name="prop-base">
+                        <Component Id="AjaxControlToolkit.dll.refresh.svn_base" Guid="{B1312C04-232D-4240-A3D0-DAD40C788994}">
+                            <File Id="AjaxControlToolkit.dll.refresh.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\prop-base\AjaxControlToolkit.dll.refresh.svn-base" />
+                        </Component>
+                        <Component Id="GMDatePicker.dll.refresh.svn_base" Guid="{4CFFC2F2-5C8C-4F6F-BE0D-174B445D31BE}">
+                            <File Id="GMDatePicker.dll.refresh.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\prop-base\GMDatePicker.dll.refresh.svn-base" />
+                        </Component>
+                        <Component Id="ICSharpCode.SharpZipLib.dll.refresh.svn_base" Guid="{54AE6CB8-059E-4487-81FC-E392DD959239}">
+                            <File Id="ICSharpCode.SharpZipLib.dll.refresh.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\prop-base\ICSharpCode.SharpZipLib.dll.refresh.svn-base" />
+                        </Component>
+                        <Component Id="LEX.CONTROLS.dll.refresh.svn_base" Guid="{03394447-E565-4D4F-9F53-3F2A0BACEE30}">
+                            <File Id="LEX.CONTROLS.dll.refresh.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\prop-base\LEX.CONTROLS.dll.refresh.svn-base" />
+                        </Component>
+                        <Component Id="Microsoft.Web.Administration.dll.refresh.svn_base" Guid="{D449F36D-F313-484D-A1B7-3CD4FAFA6517}">
+                            <File Id="Microsoft.Web.Administration.dll.refresh.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\prop-base\Microsoft.Web.Administration.dll.refresh.svn-base" />
+                        </Component>
+                        <Component Id="nunit.framework.dll.refresh.svn_base" Guid="{FBE45ECC-AFEA-43CB-8917-F90BF4C02B3D}">
+                            <File Id="nunit.framework.dll.refresh.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\prop-base\nunit.framework.dll.refresh.svn-base" />
+                        </Component>
+                        <Component Id="nunit.framework.extensions.dll.refresh.svn_base" Guid="{250AB162-960F-42A8-A223-C054E4FAED2F}">
+                            <File Id="nunit.framework.extensions.dll.refresh.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\prop-base\nunit.framework.extensions.dll.refresh.svn-base" />
+                        </Component>
+                        <Component Id="ThoughtWorks.Selenium.Core.dll.refresh.svn_base" Guid="{C7537312-1718-4BD6-B567-3E630B5EE503}">
+                            <File Id="ThoughtWorks.Selenium.Core.dll.refresh.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\prop-base\ThoughtWorks.Selenium.Core.dll.refresh.svn-base" />
+                        </Component>
+                        <Component Id="ThoughtWorks.Selenium.IntegrationTests.dll.refresh.svn_base" Guid="{5DF14B83-E6F1-4847-9567-20FB1C051B00}">
+                            <File Id="ThoughtWorks.Selenium.IntegrationTests.dll.refresh.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\prop-base\ThoughtWorks.Selenium.IntegrationTests.dll.refresh.svn-base" />
+                        </Component>
+                        <Component Id="ThoughtWorks.Selenium.UnitTests.dll.refresh.svn_base" Guid="{929AA3E4-4CF0-4E27-A3CA-828D38C05398}">
+                            <File Id="ThoughtWorks.Selenium.UnitTests.dll.refresh.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\prop-base\ThoughtWorks.Selenium.UnitTests.dll.refresh.svn-base" />
+                        </Component>
+                    </Directory>
+                    <Directory Id="text_base_4" Name="text-base">
+                        <Component Id="AjaxControlToolkit.dll.refresh.svn_base_1" Guid="{F9CF7B35-53FD-42CC-B2B1-FE0C215B7E69}">
+                            <File Id="AjaxControlToolkit.dll.refresh.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\text-base\AjaxControlToolkit.dll.refresh.svn-base" />
+                        </Component>
+                        <Component Id="GMDatePicker.dll.refresh.svn_base_1" Guid="{E7654AEB-7754-4CF0-A78B-62BED93B9458}">
+                            <File Id="GMDatePicker.dll.refresh.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\text-base\GMDatePicker.dll.refresh.svn-base" />
+                        </Component>
+                        <Component Id="ICSharpCode.SharpZipLib.dll.refresh.svn_base_1" Guid="{05471299-8BA3-406C-9A8E-2945F971BE94}">
+                            <File Id="ICSharpCode.SharpZipLib.dll.refresh.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\text-base\ICSharpCode.SharpZipLib.dll.refresh.svn-base" />
+                        </Component>
+                        <Component Id="LEX.CONTROLS.dll.refresh.svn_base_1" Guid="{15E63354-38D2-435B-B65A-A3711AABE11E}">
+                            <File Id="LEX.CONTROLS.dll.refresh.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\text-base\LEX.CONTROLS.dll.refresh.svn-base" />
+                        </Component>
+                        <Component Id="Microsoft.Web.Administration.dll.refresh.svn_base_1" Guid="{A53B0027-D599-47B0-8EC6-74C80970DE5A}">
+                            <File Id="Microsoft.Web.Administration.dll.refresh.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\text-base\Microsoft.Web.Administration.dll.refresh.svn-base" />
+                        </Component>
+                        <Component Id="nunit.framework.dll.refresh.svn_base_1" Guid="{D3094EC4-0311-42BA-818F-9F74AFB57A14}">
+                            <File Id="nunit.framework.dll.refresh.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\text-base\nunit.framework.dll.refresh.svn-base" />
+                        </Component>
+                        <Component Id="nunit.framework.extensions.dll.refresh.svn_base_1" Guid="{15E44C83-8282-4908-8F8F-9596A5B3C144}">
+                            <File Id="nunit.framework.extensions.dll.refresh.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\text-base\nunit.framework.extensions.dll.refresh.svn-base" />
+                        </Component>
+                        <Component Id="nunit.framework.xml.svn_base" Guid="{32A57B0E-F3B9-4240-A223-08F9612D20F0}">
+                            <File Id="nunit.framework.xml.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\text-base\nunit.framework.xml.svn-base" />
+                        </Component>
+                        <Component Id="ThoughtWorks.Selenium.Core.dll.refresh.svn_base_1" Guid="{440F10B2-312D-46AE-B056-E0866BCD621F}">
+                            <File Id="ThoughtWorks.Selenium.Core.dll.refresh.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\text-base\ThoughtWorks.Selenium.Core.dll.refresh.svn-base" />
+                        </Component>
+                        <Component Id="ThoughtWorks.Selenium.IntegrationTests.dll.refresh.svn_base_1" Guid="{2C57C449-3C52-437C-842E-E109981237AF}">
+                            <File Id="ThoughtWorks.Selenium.IntegrationTests.dll.refresh.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\text-base\ThoughtWorks.Selenium.IntegrationTests.dll.refresh.svn-base" />
+                        </Component>
+                        <Component Id="ThoughtWorks.Selenium.UnitTests.dll.refresh.svn_base_1" Guid="{7C64088A-86CB-4F7E-BF72-EDFFCC0355F6}">
+                            <File Id="ThoughtWorks.Selenium.UnitTests.dll.refresh.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Bin\.svn\text-base\ThoughtWorks.Selenium.UnitTests.dll.refresh.svn-base" />
+                        </Component>
+                    </Directory>
+                </Directory>
+            </Directory>
+            <Directory Id="Controls" Name="Controls">
+                <Component Id="AssignmentTable.ascx" Guid="{67300C6F-6BC6-49F0-9665-3ADBC913799A}">
+                    <File Id="AssignmentTable.ascx" KeyPath="yes" Source="$(var.FileDirectory)\Controls\AssignmentTable.ascx" />
+                </Component>
+                <Component Id="AssignmentTable.ascx.cs" Guid="{9B604B2D-5CBF-42D5-9C3A-3F5DC4FF561B}">
+                    <File Id="AssignmentTable.ascx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Controls\AssignmentTable.ascx.cs" />
+                </Component>
+                <Component Id="CompiledQuestionResult.ascx" Guid="{7C9A0C7E-973E-4175-9850-45759ED80DFF}">
+                    <File Id="CompiledQuestionResult.ascx" KeyPath="yes" Source="$(var.FileDirectory)\Controls\CompiledQuestionResult.ascx" />
+                </Component>
+                <Component Id="CompiledQuestionResult.ascx.cs" Guid="{69B279B0-F463-4F08-BC1B-5DB3423A4635}">
+                    <File Id="CompiledQuestionResult.ascx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Controls\CompiledQuestionResult.ascx.cs" />
+                </Component>
+                <Component Id="GroupList.ascx" Guid="{9D813BE7-4BBF-4B1D-A382-E728C1B0328F}">
+                    <File Id="GroupList.ascx" KeyPath="yes" Source="$(var.FileDirectory)\Controls\GroupList.ascx" />
+                </Component>
+                <Component Id="GroupList.ascx.cs" Guid="{4242C7A5-0D5A-4667-A07D-7067844E2410}">
+                    <File Id="GroupList.ascx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Controls\GroupList.ascx.cs" />
+                </Component>
+                <Component Id="OperationsTable.ascx" Guid="{86BE9B35-7068-4E9B-BCB0-315C8B722DF5}">
+                    <File Id="OperationsTable.ascx" KeyPath="yes" Source="$(var.FileDirectory)\Controls\OperationsTable.ascx" />
+                </Component>
+                <Component Id="OperationsTable.ascx.cs" Guid="{87028079-D8FE-4001-AAE7-8394904F6542}">
+                    <File Id="OperationsTable.ascx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Controls\OperationsTable.ascx.cs" />
+                </Component>
+                <Component Id="SettingList.ascx" Guid="{9B994918-6593-4957-A755-B2CF0F84DF3D}">
+                    <File Id="SettingList.ascx" KeyPath="yes" Source="$(var.FileDirectory)\Controls\SettingList.ascx" />
+                </Component>
+                <Component Id="SettingList.ascx.cs" Guid="{63FA5B28-D2E4-496E-8FF5-DBD597D3154F}">
+                    <File Id="SettingList.ascx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Controls\SettingList.ascx.cs" />
+                </Component>
+                <Component Id="ThemeResultControl.ascx" Guid="{BB116AA5-7009-4ABD-9DEC-2E008894D847}">
+                    <File Id="ThemeResultControl.ascx" KeyPath="yes" Source="$(var.FileDirectory)\Controls\ThemeResultControl.ascx" />
+                </Component>
+                <Component Id="ThemeResultControl.ascx.cs" Guid="{70B95AD3-82E5-4765-AD4B-A22F7307A880}">
+                    <File Id="ThemeResultControl.ascx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Controls\ThemeResultControl.ascx.cs" />
+                </Component>
+                <Component Id="UserList.ascx" Guid="{DDA41F54-CB88-4D65-B495-4B1E0E8FB307}">
+                    <File Id="UserList.ascx" KeyPath="yes" Source="$(var.FileDirectory)\Controls\UserList.ascx" />
+                </Component>
+                <Component Id="UserList.ascx.cs" Guid="{657397CE-2A44-4AB9-A9FC-F2237868E867}">
+                    <File Id="UserList.ascx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Controls\UserList.ascx.cs" />
+                </Component>
+                <Component Id="UserObjectPermissions.ascx" Guid="{54A72073-17DD-4010-8E41-B6382152D1FC}">
+                    <File Id="UserObjectPermissions.ascx" KeyPath="yes" Source="$(var.FileDirectory)\Controls\UserObjectPermissions.ascx" />
+                </Component>
+                <Component Id="UserObjectPermissions.ascx.cs" Guid="{24D932CB-82D7-45FD-9436-9415F83ADB9B}">
+                    <File Id="UserObjectPermissions.ascx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Controls\UserObjectPermissions.ascx.cs" />
+                </Component>
+                <Component Id="UserPermissionList.ascx" Guid="{24FBF63F-533E-4F47-8A08-F21048337230}">
+                    <File Id="UserPermissionList.ascx" KeyPath="yes" Source="$(var.FileDirectory)\Controls\UserPermissionList.ascx" />
+                </Component>
+                <Component Id="UserPermissionList.ascx.cs" Guid="{5E2C6718-8E01-4E53-8EAD-549F819EA495}">
+                    <File Id="UserPermissionList.ascx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Controls\UserPermissionList.ascx.cs" />
+                </Component>
+                <Directory Id="_.svn_7" Name=".svn">
+                    <Component Id="all_wcprops_7" Guid="{0EB6F5E4-FED3-455E-A5EB-B3D438CC5DBD}">
+                        <File Id="all_wcprops_7" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\all-wcprops" />
+                    </Component>
+                    <Component Id="entries_7" Guid="{73320F00-8382-419D-B075-68F4B09D35C4}">
+                        <File Id="entries_7" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\entries" />
+                    </Component>
+                    <Directory Id="prop_base_4" Name="prop-base">
+                        <Component Id="UserObjectPermissions.ascx.cs.svn_base" Guid="{13AEDDD6-003E-4B75-BC3C-36EB4E89DD8A}">
+                            <File Id="UserObjectPermissions.ascx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\prop-base\UserObjectPermissions.ascx.cs.svn-base" />
+                        </Component>
+                        <Component Id="UserObjectPermissions.ascx.svn_base" Guid="{6F5ADD0D-E2CB-4019-9F28-4DEC1239128D}">
+                            <File Id="UserObjectPermissions.ascx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\prop-base\UserObjectPermissions.ascx.svn-base" />
+                        </Component>
+                    </Directory>
+                    <Directory Id="text_base_5" Name="text-base">
+                        <Component Id="AssignmentTable.ascx.cs.svn_base" Guid="{4B0A9AFF-99B8-4FA5-8105-E3C6F03EF05A}">
+                            <File Id="AssignmentTable.ascx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\text-base\AssignmentTable.ascx.cs.svn-base" />
+                        </Component>
+                        <Component Id="AssignmentTable.ascx.svn_base" Guid="{987E0E56-C38E-4087-B9C4-8097B7DFC27D}">
+                            <File Id="AssignmentTable.ascx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\text-base\AssignmentTable.ascx.svn-base" />
+                        </Component>
+                        <Component Id="CompiledQuestionResult.ascx.cs.svn_base" Guid="{A5F33D49-1D29-479A-92FD-84247B93D946}">
+                            <File Id="CompiledQuestionResult.ascx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\text-base\CompiledQuestionResult.ascx.cs.svn-base" />
+                        </Component>
+                        <Component Id="CompiledQuestionResult.ascx.svn_base" Guid="{0C0689E5-15F7-49B3-8252-35170A825131}">
+                            <File Id="CompiledQuestionResult.ascx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\text-base\CompiledQuestionResult.ascx.svn-base" />
+                        </Component>
+                        <Component Id="GroupList.ascx.cs.svn_base" Guid="{D9F1A298-5908-441B-854A-38CF9929EC1B}">
+                            <File Id="GroupList.ascx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\text-base\GroupList.ascx.cs.svn-base" />
+                        </Component>
+                        <Component Id="GroupList.ascx.svn_base" Guid="{E77671D6-734E-42FA-9063-F7CAD756588D}">
+                            <File Id="GroupList.ascx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\text-base\GroupList.ascx.svn-base" />
+                        </Component>
+                        <Component Id="OperationsTable.ascx.cs.svn_base" Guid="{FDB8F79D-2646-49A4-AA11-6C52B00D5271}">
+                            <File Id="OperationsTable.ascx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\text-base\OperationsTable.ascx.cs.svn-base" />
+                        </Component>
+                        <Component Id="OperationsTable.ascx.svn_base" Guid="{8D9A8314-902B-4886-8675-F08AE3D7E15A}">
+                            <File Id="OperationsTable.ascx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\text-base\OperationsTable.ascx.svn-base" />
+                        </Component>
+                        <Component Id="SettingList.ascx.cs.svn_base" Guid="{3CF25D54-859B-4025-9EA4-50D9F2BFE5D1}">
+                            <File Id="SettingList.ascx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\text-base\SettingList.ascx.cs.svn-base" />
+                        </Component>
+                        <Component Id="SettingList.ascx.svn_base" Guid="{EB115069-1B51-4C34-9958-BCEFB6BEAA17}">
+                            <File Id="SettingList.ascx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\text-base\SettingList.ascx.svn-base" />
+                        </Component>
+                        <Component Id="ThemeResultControl.ascx.cs.svn_base" Guid="{8634B5F5-5149-486A-B78D-8A2866867CDD}">
+                            <File Id="ThemeResultControl.ascx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\text-base\ThemeResultControl.ascx.cs.svn-base" />
+                        </Component>
+                        <Component Id="ThemeResultControl.ascx.svn_base" Guid="{B14A8A9B-9CBB-4135-817E-2BD963E95FA6}">
+                            <File Id="ThemeResultControl.ascx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\text-base\ThemeResultControl.ascx.svn-base" />
+                        </Component>
+                        <Component Id="UserList.ascx.cs.svn_base" Guid="{98F30D9C-7455-4BE8-B1F3-79C5AA546361}">
+                            <File Id="UserList.ascx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\text-base\UserList.ascx.cs.svn-base" />
+                        </Component>
+                        <Component Id="UserList.ascx.svn_base" Guid="{42C917EA-C3BC-4628-B57C-728AD3320D1C}">
+                            <File Id="UserList.ascx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\text-base\UserList.ascx.svn-base" />
+                        </Component>
+                        <Component Id="UserObjectPermissions.ascx.cs.svn_base_1" Guid="{BFB485E5-7624-4206-ADE9-523E3603A0E1}">
+                            <File Id="UserObjectPermissions.ascx.cs.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\text-base\UserObjectPermissions.ascx.cs.svn-base" />
+                        </Component>
+                        <Component Id="UserObjectPermissions.ascx.svn_base_1" Guid="{086B4189-1907-41A5-ACCF-4B67B1DD409F}">
+                            <File Id="UserObjectPermissions.ascx.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\text-base\UserObjectPermissions.ascx.svn-base" />
+                        </Component>
+                        <Component Id="UserPermissionList.ascx.cs.svn_base" Guid="{120D3E24-3F11-4DC9-B6BE-2A92260A7EFE}">
+                            <File Id="UserPermissionList.ascx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\text-base\UserPermissionList.ascx.cs.svn-base" />
+                        </Component>
+                        <Component Id="UserPermissionList.ascx.svn_base" Guid="{239AA342-6E7B-4836-9A53-E5B65D05D2AF}">
+                            <File Id="UserPermissionList.ascx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\.svn\text-base\UserPermissionList.ascx.svn-base" />
+                        </Component>
+                    </Directory>
+                </Directory>
+                <Directory Id="TestControls" Name="TestControls">
+                    <Component Id="ComboBoxTest.ascx" Guid="{5E516F92-B10B-4586-8B3A-16634DBA00F7}">
+                        <File Id="ComboBoxTest.ascx" KeyPath="yes" Source="$(var.FileDirectory)\Controls\TestControls\ComboBoxTest.ascx" />
+                    </Component>
+                    <Component Id="ComboBoxTest.ascx.cs" Guid="{07E581F8-94DD-466A-9D1D-114D0A6A0D1C}">
+                        <File Id="ComboBoxTest.ascx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Controls\TestControls\ComboBoxTest.ascx.cs" />
+                    </Component>
+                    <Component Id="CompiledTest.ascx" Guid="{C486BE73-2CC3-416F-BDC0-2A81C5272BAA}">
+                        <File Id="CompiledTest.ascx" KeyPath="yes" Source="$(var.FileDirectory)\Controls\TestControls\CompiledTest.ascx" />
+                    </Component>
+                    <Component Id="CompiledTest.ascx.cs" Guid="{08A6A0C8-E1BF-4E20-BF68-FB22A9253CEF}">
+                        <File Id="CompiledTest.ascx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Controls\TestControls\CompiledTest.ascx.cs" />
+                    </Component>
+                    <Component Id="SimpleQuestionTest.ascx" Guid="{4EEC73FF-DB22-4314-A5F0-5F4DB5B7FEAD}">
+                        <File Id="SimpleQuestionTest.ascx" KeyPath="yes" Source="$(var.FileDirectory)\Controls\TestControls\SimpleQuestionTest.ascx" />
+                    </Component>
+                    <Component Id="SimpleQuestionTest.ascx.cs" Guid="{2D5D8A29-9204-42AE-A909-A801E1F3BED7}">
+                        <File Id="SimpleQuestionTest.ascx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Controls\TestControls\SimpleQuestionTest.ascx.cs" />
+                    </Component>
+                    <Component Id="TextBoxTest.ascx" Guid="{0A0A1824-8091-42EC-828B-D990927F468C}">
+                        <File Id="TextBoxTest.ascx" KeyPath="yes" Source="$(var.FileDirectory)\Controls\TestControls\TextBoxTest.ascx" />
+                    </Component>
+                    <Component Id="TextBoxTest.ascx.cs" Guid="{EC637936-E92F-482D-8688-F8B659E72D63}">
+                        <File Id="TextBoxTest.ascx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Controls\TestControls\TextBoxTest.ascx.cs" />
+                    </Component>
+                    <Directory Id="_.svn_8" Name=".svn">
+                        <Component Id="all_wcprops_8" Guid="{601D5E44-F0F3-4B5C-B69E-6F0BA1886170}">
+                            <File Id="all_wcprops_8" KeyPath="yes" Source="$(var.FileDirectory)\Controls\TestControls\.svn\all-wcprops" />
+                        </Component>
+                        <Component Id="entries_8" Guid="{54C1F610-7AED-47B2-93A4-4845ADDC03AE}">
+                            <File Id="entries_8" KeyPath="yes" Source="$(var.FileDirectory)\Controls\TestControls\.svn\entries" />
+                        </Component>
+                        <Directory Id="text_base_6" Name="text-base">
+                            <Component Id="ComboBoxTest.ascx.cs.svn_base" Guid="{E0BF753F-EE68-403D-8670-9C5BA7350B6C}">
+                                <File Id="ComboBoxTest.ascx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\TestControls\.svn\text-base\ComboBoxTest.ascx.cs.svn-base" />
+                            </Component>
+                            <Component Id="ComboBoxTest.ascx.svn_base" Guid="{C48BD7C2-73C1-4896-8AED-324B55D8F912}">
+                                <File Id="ComboBoxTest.ascx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\TestControls\.svn\text-base\ComboBoxTest.ascx.svn-base" />
+                            </Component>
+                            <Component Id="CompiledTest.ascx.cs.svn_base" Guid="{458C0659-067F-4D57-80C8-D80720A64514}">
+                                <File Id="CompiledTest.ascx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\TestControls\.svn\text-base\CompiledTest.ascx.cs.svn-base" />
+                            </Component>
+                            <Component Id="CompiledTest.ascx.svn_base" Guid="{88B58233-7CD6-4297-90BA-9D81107FF9DD}">
+                                <File Id="CompiledTest.ascx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\TestControls\.svn\text-base\CompiledTest.ascx.svn-base" />
+                            </Component>
+                            <Component Id="SimpleQuestionTest.ascx.cs.svn_base" Guid="{30C57690-1C86-4294-8914-B910C8F7A6F3}">
+                                <File Id="SimpleQuestionTest.ascx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\TestControls\.svn\text-base\SimpleQuestionTest.ascx.cs.svn-base" />
+                            </Component>
+                            <Component Id="SimpleQuestionTest.ascx.svn_base" Guid="{89A8E98D-195F-4EBF-AE52-25132B095FC0}">
+                                <File Id="SimpleQuestionTest.ascx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\TestControls\.svn\text-base\SimpleQuestionTest.ascx.svn-base" />
+                            </Component>
+                            <Component Id="TextBoxTest.ascx.cs.svn_base" Guid="{4A820C33-4F2F-4085-A1B1-B7727A2F39C9}">
+                                <File Id="TextBoxTest.ascx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\TestControls\.svn\text-base\TextBoxTest.ascx.cs.svn-base" />
+                            </Component>
+                            <Component Id="TextBoxTest.ascx.svn_base" Guid="{C3934C5E-AEF8-4B51-8A29-5D33925FD65B}">
+                                <File Id="TextBoxTest.ascx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Controls\TestControls\.svn\text-base\TextBoxTest.ascx.svn-base" />
+                            </Component>
+                        </Directory>
+                    </Directory>
+                </Directory>
+            </Directory>
+            <Directory Id="ErrorHandling" Name="ErrorHandling">
+                <Component Id="DefaultErrorHandler.aspx" Guid="{3DD47D66-A4D3-42B1-ACBD-1EC2C2D62169}">
+                    <File Id="DefaultErrorHandler.aspx" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\DefaultErrorHandler.aspx" />
+                </Component>
+                <Component Id="DefaultErrorHandler.aspx.cs" Guid="{AA434BD2-CA00-4CB6-B5B2-3048B1782D32}">
+                    <File Id="DefaultErrorHandler.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\DefaultErrorHandler.aspx.cs" />
+                </Component>
+                <Component Id="InternalServerErrorHandler.aspx" Guid="{701DE7B9-5B65-47C9-AFDB-6C568173AB87}">
+                    <File Id="InternalServerErrorHandler.aspx" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\InternalServerErrorHandler.aspx" />
+                </Component>
+                <Component Id="InternalServerErrorHandler.aspx.cs" Guid="{17C55975-11EC-4380-BEAC-AEFF7BDDFADA}">
+                    <File Id="InternalServerErrorHandler.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\InternalServerErrorHandler.aspx.cs" />
+                </Component>
+                <Component Id="MIMENotAcceptedErrorHandler.aspx" Guid="{78FFC609-1DC2-4878-9A02-D32A340B1B3B}">
+                    <File Id="MIMENotAcceptedErrorHandler.aspx" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\MIMENotAcceptedErrorHandler.aspx" />
+                </Component>
+                <Component Id="MIMENotAcceptedErrorHandler.aspx.cs" Guid="{102FC78A-AB95-4011-971D-7408AFB81F6D}">
+                    <File Id="MIMENotAcceptedErrorHandler.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\MIMENotAcceptedErrorHandler.aspx.cs" />
+                </Component>
+                <Component Id="NoAccessErrorHandler.aspx" Guid="{3721472C-4873-4FEC-AC7F-6EF969C88080}">
+                    <File Id="NoAccessErrorHandler.aspx" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\NoAccessErrorHandler.aspx" />
+                </Component>
+                <Component Id="NoAccessErrorHandler.aspx.cs" Guid="{EA3C9DB6-1843-4E6C-8554-24BC737C11AF}">
+                    <File Id="NoAccessErrorHandler.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\NoAccessErrorHandler.aspx.cs" />
+                </Component>
+                <Component Id="PageNotFoundErrorHandler.aspx" Guid="{C5F8DB51-5208-4EAF-B1F9-8E7ED766DA63}">
+                    <File Id="PageNotFoundErrorHandler.aspx" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\PageNotFoundErrorHandler.aspx" />
+                </Component>
+                <Component Id="PageNotFoundErrorHandler.aspx.cs" Guid="{1DCF02EF-B461-449A-A277-CDFC7BF0A5E8}">
+                    <File Id="PageNotFoundErrorHandler.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\PageNotFoundErrorHandler.aspx.cs" />
+                </Component>
+                <Component Id="TimedOutErrorHandler.aspx" Guid="{A4F4A4E3-3FF7-4999-B767-FFC6F7167BCB}">
+                    <File Id="TimedOutErrorHandler.aspx" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\TimedOutErrorHandler.aspx" />
+                </Component>
+                <Component Id="TimedOutErrorHandler.aspx.cs" Guid="{00D1883C-1E25-43F2-8C87-3138DDAB2CB9}">
+                    <File Id="TimedOutErrorHandler.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\TimedOutErrorHandler.aspx.cs" />
+                </Component>
+                <Directory Id="_.svn_9" Name=".svn">
+                    <Component Id="all_wcprops_9" Guid="{7042E220-7DDC-4882-8E74-52D1F776E11B}">
+                        <File Id="all_wcprops_9" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\.svn\all-wcprops" />
+                    </Component>
+                    <Component Id="entries_9" Guid="{660A681F-9D43-4ECA-8A9A-ABBF3107A7BD}">
+                        <File Id="entries_9" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\.svn\entries" />
+                    </Component>
+                    <Directory Id="text_base_7" Name="text-base">
+                        <Component Id="DefaultErrorHandler.aspx.cs.svn_base" Guid="{C18028CA-CAAA-41D8-8430-32D3A73E818D}">
+                            <File Id="DefaultErrorHandler.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\.svn\text-base\DefaultErrorHandler.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="DefaultErrorHandler.aspx.svn_base" Guid="{0EF53C8F-B246-44C7-B79F-1AD0102AE3EA}">
+                            <File Id="DefaultErrorHandler.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\.svn\text-base\DefaultErrorHandler.aspx.svn-base" />
+                        </Component>
+                        <Component Id="InternalServerErrorHandler.aspx.cs.svn_base" Guid="{102DB738-EB38-47E8-84C5-E03D785C792B}">
+                            <File Id="InternalServerErrorHandler.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\.svn\text-base\InternalServerErrorHandler.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="InternalServerErrorHandler.aspx.svn_base" Guid="{3B74ADDA-9ECE-477D-B7D2-E3A763354B1B}">
+                            <File Id="InternalServerErrorHandler.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\.svn\text-base\InternalServerErrorHandler.aspx.svn-base" />
+                        </Component>
+                        <Component Id="MIMENotAcceptedErrorHandler.aspx.cs.svn_base" Guid="{568D8B7A-D22A-45B6-9AE8-ED13131C33B3}">
+                            <File Id="MIMENotAcceptedErrorHandler.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\.svn\text-base\MIMENotAcceptedErrorHandler.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="MIMENotAcceptedErrorHandler.aspx.svn_base" Guid="{60FFDF72-E0A7-48B8-8768-A00C6A7D491B}">
+                            <File Id="MIMENotAcceptedErrorHandler.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\.svn\text-base\MIMENotAcceptedErrorHandler.aspx.svn-base" />
+                        </Component>
+                        <Component Id="NoAccessErrorHandler.aspx.cs.svn_base" Guid="{2E69A809-326E-46FB-B544-E76EDE164FF9}">
+                            <File Id="NoAccessErrorHandler.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\.svn\text-base\NoAccessErrorHandler.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="NoAccessErrorHandler.aspx.svn_base" Guid="{A629F2E3-0BD0-4F67-B502-FE5C392EA071}">
+                            <File Id="NoAccessErrorHandler.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\.svn\text-base\NoAccessErrorHandler.aspx.svn-base" />
+                        </Component>
+                        <Component Id="PageNotFoundErrorHandler.aspx.cs.svn_base" Guid="{9E0D0212-E498-43FA-9F42-F2C58B0FFBD0}">
+                            <File Id="PageNotFoundErrorHandler.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\.svn\text-base\PageNotFoundErrorHandler.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="PageNotFoundErrorHandler.aspx.svn_base" Guid="{96B81187-D4B0-48DB-8110-958D1C507605}">
+                            <File Id="PageNotFoundErrorHandler.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\.svn\text-base\PageNotFoundErrorHandler.aspx.svn-base" />
+                        </Component>
+                        <Component Id="TimedOutErrorHandler.aspx.cs.svn_base" Guid="{4B0FAF81-68C0-4F5A-BB1D-8FC90B256978}">
+                            <File Id="TimedOutErrorHandler.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\.svn\text-base\TimedOutErrorHandler.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="TimedOutErrorHandler.aspx.svn_base" Guid="{14501679-AF00-4BEE-8E3D-FC4F2E4AD86C}">
+                            <File Id="TimedOutErrorHandler.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\ErrorHandling\.svn\text-base\TimedOutErrorHandler.aspx.svn-base" />
+                        </Component>
+                    </Directory>
+                </Directory>
+            </Directory>
+            <Directory Id="Images" Name="Images">
+                <Component Id="_403.jpg" Guid="{D5EC25AF-53A9-4493-BDDD-FCC794F488D7}">
+                    <File Id="_403.jpg" KeyPath="yes" Source="$(var.FileDirectory)\Images\403.jpg" />
+                </Component>
+                <Component Id="_404.jpg" Guid="{1A2F9E2A-BBFA-41B4-BAEB-A722AB07FB25}">
+                    <File Id="_404.jpg" KeyPath="yes" Source="$(var.FileDirectory)\Images\404.jpg" />
+                </Component>
+                <Component Id="_406.jpg" Guid="{2972646D-3912-4678-87CB-F4D44FC1F705}">
+                    <File Id="_406.jpg" KeyPath="yes" Source="$(var.FileDirectory)\Images\406.jpg" />
+                </Component>
+                <Component Id="_408.jpg" Guid="{11157233-61EE-4B00-A314-A52ECB8C3DD7}">
+                    <File Id="_408.jpg" KeyPath="yes" Source="$(var.FileDirectory)\Images\408.jpg" />
+                </Component>
+                <Component Id="_500.jpg" Guid="{6F547370-3673-4EB2-83FF-ECCB28EEF04D}">
+                    <File Id="_500.jpg" KeyPath="yes" Source="$(var.FileDirectory)\Images\500.jpg" />
+                </Component>
+                <Component Id="close.png" Guid="{A5813437-2B1E-4436-A79A-7B2A52BF70B3}">
+                    <File Id="close.png" KeyPath="yes" Source="$(var.FileDirectory)\Images\close.png" />
+                </Component>
+                <Component Id="exclamation.jpeg" Guid="{C468CC84-AB2E-49A0-90B5-C10F9220C0F5}">
+                    <File Id="exclamation.jpeg" KeyPath="yes" Source="$(var.FileDirectory)\Images\exclamation.jpeg" />
+                </Component>
+                <Component Id="great_britain_flag.png" Guid="{4010DEAA-2438-4F40-96D3-0CAACB4260FD}">
+                    <File Id="great_britain_flag.png" KeyPath="yes" Source="$(var.FileDirectory)\Images\great_britain_flag.png" />
+                </Component>
+                <Component Id="logo_back.png" Guid="{C7F9644B-2CCD-4ABD-A2D0-7E1A3834A527}">
+                    <File Id="logo_back.png" KeyPath="yes" Source="$(var.FileDirectory)\Images\logo-back.png" />
+                </Component>
+                <Component Id="Logo.png" Guid="{DF26E22E-BA6A-4712-ADAA-3458E58450CD}">
+                    <File Id="Logo.png" KeyPath="yes" Source="$(var.FileDirectory)\Images\Logo.png" />
+                </Component>
+                <Component Id="ukraine_flag_small.png" Guid="{8E95BFCB-DEFD-4EB7-9B6A-BE79D18E4F40}">
+                    <File Id="ukraine_flag_small.png" KeyPath="yes" Source="$(var.FileDirectory)\Images\ukraine_flag-small.png" />
+                </Component>
+                <Component Id="warning.png" Guid="{3AB11AC5-8E97-42E1-96BB-C731C6C7FC8C}">
+                    <File Id="warning.png" KeyPath="yes" Source="$(var.FileDirectory)\Images\warning.png" />
+                </Component>
+                <Directory Id="_.svn_10" Name=".svn">
+                    <Component Id="all_wcprops_10" Guid="{9C7EA5B2-0B39-463D-9EB7-D98C39BB5DE0}">
+                        <File Id="all_wcprops_10" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\all-wcprops" />
+                    </Component>
+                    <Component Id="dir_prop_base_3" Guid="{110804F6-1397-4AD0-AD39-A156C61D50EC}">
+                        <File Id="dir_prop_base_3" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\dir-prop-base" />
+                    </Component>
+                    <Component Id="entries_10" Guid="{47411420-65EA-4A57-B2F3-BC3B5A943D36}">
+                        <File Id="entries_10" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\entries" />
+                    </Component>
+                    <Directory Id="prop_base_5" Name="prop-base">
+                        <Component Id="_403.jpg.svn_base" Guid="{B3640483-A147-4217-8D64-983406DAB62D}">
+                            <File Id="_403.jpg.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\prop-base\403.jpg.svn-base" />
+                        </Component>
+                        <Component Id="_404.jpg.svn_base" Guid="{430BB909-2109-4B2D-B05E-C9700F874BBD}">
+                            <File Id="_404.jpg.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\prop-base\404.jpg.svn-base" />
+                        </Component>
+                        <Component Id="_406.jpg.svn_base" Guid="{CA0A17BA-B61E-4D2E-AC2C-F82379C95F4A}">
+                            <File Id="_406.jpg.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\prop-base\406.jpg.svn-base" />
+                        </Component>
+                        <Component Id="_408.jpg.svn_base" Guid="{DDDBB0C3-E7B6-4B84-ACFA-85E55D400421}">
+                            <File Id="_408.jpg.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\prop-base\408.jpg.svn-base" />
+                        </Component>
+                        <Component Id="_500.jpg.svn_base" Guid="{4B333072-6DCD-475D-BB98-69276B12B615}">
+                            <File Id="_500.jpg.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\prop-base\500.jpg.svn-base" />
+                        </Component>
+                        <Component Id="close.png.svn_base" Guid="{9D397EDA-597C-43B5-A058-D7F1E74937EB}">
+                            <File Id="close.png.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\prop-base\close.png.svn-base" />
+                        </Component>
+                        <Component Id="exclamation.jpeg.svn_base" Guid="{93837C63-3CDC-465E-9FC0-FAA0F0DDD75E}">
+                            <File Id="exclamation.jpeg.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\prop-base\exclamation.jpeg.svn-base" />
+                        </Component>
+                        <Component Id="great_britain_flag.png.svn_base" Guid="{8BC50817-EBDC-4892-93DF-D34AC9C0CA61}">
+                            <File Id="great_britain_flag.png.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\prop-base\great_britain_flag.png.svn-base" />
+                        </Component>
+                        <Component Id="logo_back.png.svn_base" Guid="{E3815AF2-B893-46BD-9DFE-FA1DE12D3D00}">
+                            <File Id="logo_back.png.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\prop-base\logo-back.png.svn-base" />
+                        </Component>
+                        <Component Id="Logo.png.svn_base" Guid="{B8A38BE0-B26E-475D-B6C7-8D07A4CFE0B3}">
+                            <File Id="Logo.png.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\prop-base\Logo.png.svn-base" />
+                        </Component>
+                        <Component Id="ukraine_flag_small.png.svn_base" Guid="{6759C948-393F-4D2B-852A-8B559A5DF5DD}">
+                            <File Id="ukraine_flag_small.png.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\prop-base\ukraine_flag-small.png.svn-base" />
+                        </Component>
+                        <Component Id="warning.png.svn_base" Guid="{B52DF8C2-7FEB-486A-98E3-94C72C5F0AE6}">
+                            <File Id="warning.png.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\prop-base\warning.png.svn-base" />
+                        </Component>
+                    </Directory>
+                    <Directory Id="text_base_8" Name="text-base">
+                        <Component Id="_403.jpg.svn_base_1" Guid="{742FAEBC-5384-4048-B228-063A5E33F6B1}">
+                            <File Id="_403.jpg.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\text-base\403.jpg.svn-base" />
+                        </Component>
+                        <Component Id="_404.jpg.svn_base_1" Guid="{21695E6F-C1A4-42C7-A365-E063DF69C4E3}">
+                            <File Id="_404.jpg.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\text-base\404.jpg.svn-base" />
+                        </Component>
+                        <Component Id="_406.jpg.svn_base_1" Guid="{62A925CC-6976-4610-9167-0B51C15ADEF4}">
+                            <File Id="_406.jpg.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\text-base\406.jpg.svn-base" />
+                        </Component>
+                        <Component Id="_408.jpg.svn_base_1" Guid="{DCB14D26-A70A-49A6-8771-69CE918CB4FC}">
+                            <File Id="_408.jpg.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\text-base\408.jpg.svn-base" />
+                        </Component>
+                        <Component Id="_500.jpg.svn_base_1" Guid="{A5FFDBD8-2404-4A2E-AD0E-331A280DC044}">
+                            <File Id="_500.jpg.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\text-base\500.jpg.svn-base" />
+                        </Component>
+                        <Component Id="close.png.svn_base_1" Guid="{91A0B625-E9E3-4A1F-A505-718F183229F9}">
+                            <File Id="close.png.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\text-base\close.png.svn-base" />
+                        </Component>
+                        <Component Id="exclamation.jpeg.svn_base_1" Guid="{7CF4C085-4A78-4AEC-BC1A-DE0755ADD5E9}">
+                            <File Id="exclamation.jpeg.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\text-base\exclamation.jpeg.svn-base" />
+                        </Component>
+                        <Component Id="great_britain_flag.png.svn_base_1" Guid="{53FA1AB3-1378-4E28-ACCE-87B6DEE5D02E}">
+                            <File Id="great_britain_flag.png.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\text-base\great_britain_flag.png.svn-base" />
+                        </Component>
+                        <Component Id="logo_back.png.svn_base_1" Guid="{AFF11CE1-B806-48E5-AE52-E33D50F33D39}">
+                            <File Id="logo_back.png.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\text-base\logo-back.png.svn-base" />
+                        </Component>
+                        <Component Id="Logo.png.svn_base_1" Guid="{4E9EFD4D-6AD6-46B3-A620-BC672CBDA0EC}">
+                            <File Id="Logo.png.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\text-base\Logo.png.svn-base" />
+                        </Component>
+                        <Component Id="ukraine_flag_small.png.svn_base_1" Guid="{BDDFF9D6-7972-4E24-A142-249DCB5406E2}">
+                            <File Id="ukraine_flag_small.png.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\text-base\ukraine_flag-small.png.svn-base" />
+                        </Component>
+                        <Component Id="warning.png.svn_base_1" Guid="{C5BACF8E-9D64-44E5-8428-35BF7C9048CF}">
+                            <File Id="warning.png.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Images\.svn\text-base\warning.png.svn-base" />
+                        </Component>
+                    </Directory>
+                </Directory>
+            </Directory>
+            <Directory Id="Index" Name="Index">
+                <Directory Id="_.svn_11" Name=".svn">
+                    <Component Id="all_wcprops_11" Guid="{7F4CE774-020A-423A-AC0C-557FB54757CB}">
+                        <File Id="all_wcprops_11" KeyPath="yes" Source="$(var.FileDirectory)\Index\.svn\all-wcprops" />
+                    </Component>
+                    <Component Id="entries_11" Guid="{C469D95A-9021-496E-B8E4-69FDE9C8A899}">
+                        <File Id="entries_11" KeyPath="yes" Source="$(var.FileDirectory)\Index\.svn\entries" />
+                    </Component>
+                </Directory>
+            </Directory>
+            <Directory Id="Scripts" Name="Scripts">
+                <Component Id="API.js" Guid="{42508DB4-0DD0-45ED-A066-7FFA38CAC64E}">
+                    <File Id="API.js" KeyPath="yes" Source="$(var.FileDirectory)\Scripts\API.js" />
+                </Component>
+                <Component Id="jquery.min.js" Guid="{7DCE849B-F5E4-4AE6-BE36-D30357DAF122}">
+                    <File Id="jquery.min.js" KeyPath="yes" Source="$(var.FileDirectory)\Scripts\jquery.min.js" />
+                </Component>
+                <Directory Id="_.svn_12" Name=".svn">
+                    <Component Id="all_wcprops_12" Guid="{BFB27E50-2D14-4525-B4A7-6ED5764E8AF5}">
+                        <File Id="all_wcprops_12" KeyPath="yes" Source="$(var.FileDirectory)\Scripts\.svn\all-wcprops" />
+                    </Component>
+                    <Component Id="entries_12" Guid="{43640E97-DB77-4EFD-B4C0-46CEAF1F3D3C}">
+                        <File Id="entries_12" KeyPath="yes" Source="$(var.FileDirectory)\Scripts\.svn\entries" />
+                    </Component>
+                    <Directory Id="text_base_9" Name="text-base">
+                        <Component Id="API.js.svn_base" Guid="{E636E701-118C-4551-B1D0-2FD8297365AA}">
+                            <File Id="API.js.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Scripts\.svn\text-base\API.js.svn-base" />
+                        </Component>
+                        <Component Id="jquery.min.js.svn_base" Guid="{21193EC8-88FC-4E68-9D2A-63E980699EA3}">
+                            <File Id="jquery.min.js.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Scripts\.svn\text-base\jquery.min.js.svn-base" />
+                        </Component>
+                    </Directory>
+                </Directory>
+            </Directory>
+            <Directory Id="Student" Name="Student">
+                <Component Id="CompiledQuestionsDetails.aspx" Guid="{ACE3A205-74BE-4D00-A6C7-5200426E098D}">
+                    <File Id="CompiledQuestionsDetails.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Student\CompiledQuestionsDetails.aspx" />
+                </Component>
+                <Component Id="CompiledQuestionsDetails.aspx.cs" Guid="{A10B7F45-31CC-4C37-8475-8B997554F633}">
+                    <File Id="CompiledQuestionsDetails.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Student\CompiledQuestionsDetails.aspx.cs" />
+                </Component>
+                <Component Id="CurriculumnResult.aspx" Guid="{B82FBA26-8C3F-4C0D-B3CD-8380E2567DCD}">
+                    <File Id="CurriculumnResult.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Student\CurriculumnResult.aspx" />
+                </Component>
+                <Component Id="CurriculumnResult.aspx.cs" Guid="{E2EA1788-99AC-4ECE-B70E-0FC1C6D1EDC3}">
+                    <File Id="CurriculumnResult.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Student\CurriculumnResult.aspx.cs" />
+                </Component>
+                <Component Id="OpenTest.aspx" Guid="{A1C3C494-98CD-4FEC-AD74-7067BC67529B}">
+                    <File Id="OpenTest.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Student\OpenTest.aspx" />
+                </Component>
+                <Component Id="OpenTest.aspx.cs" Guid="{CF9FD89B-336C-4390-9E56-AAAD8102903F}">
+                    <File Id="OpenTest.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Student\OpenTest.aspx.cs" />
+                </Component>
+                <Component Id="StageResult.aspx" Guid="{DD9A495F-D48D-434A-89BD-29EDE2E11623}">
+                    <File Id="StageResult.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Student\StageResult.aspx" />
+                </Component>
+                <Component Id="StageResult.aspx.cs" Guid="{07A2B10E-B210-4773-AE6C-D9AB89820775}">
+                    <File Id="StageResult.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Student\StageResult.aspx.cs" />
+                </Component>
+                <Component Id="StudentPage.aspx" Guid="{FCEF1767-BEAF-4556-AE60-FD361BA10CC5}">
+                    <File Id="StudentPage.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Student\StudentPage.aspx" />
+                </Component>
+                <Component Id="StudentPage.aspx.cs" Guid="{1878E151-6858-4CB1-94CD-1AD05BBDAC75}">
+                    <File Id="StudentPage.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Student\StudentPage.aspx.cs" />
+                </Component>
+                <Component Id="TestDetails.aspx" Guid="{1EC030EA-396A-41CF-8984-7C79019A6BDE}">
+                    <File Id="TestDetails.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Student\TestDetails.aspx" />
+                </Component>
+                <Component Id="TestDetails.aspx.cs" Guid="{42C4589D-E4B3-4296-B883-DFFEBAF74A43}">
+                    <File Id="TestDetails.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Student\TestDetails.aspx.cs" />
+                </Component>
+                <Component Id="ThemeResult.aspx" Guid="{B3630776-5861-455D-B33B-70C2EE515FC8}">
+                    <File Id="ThemeResult.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Student\ThemeResult.aspx" />
+                </Component>
+                <Component Id="ThemeResult.aspx.cs" Guid="{602CCA8C-D79E-43FB-A2C0-2D0678FCEBD8}">
+                    <File Id="ThemeResult.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Student\ThemeResult.aspx.cs" />
+                </Component>
+                <Directory Id="_.svn_13" Name=".svn">
+                    <Component Id="all_wcprops_13" Guid="{091E88B6-BD9E-4831-8B11-03643A90E5E2}">
+                        <File Id="all_wcprops_13" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\all-wcprops" />
+                    </Component>
+                    <Component Id="entries_13" Guid="{9FB1AA0D-BAD6-4995-BA1F-0364E6327745}">
+                        <File Id="entries_13" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\entries" />
+                    </Component>
+                    <Directory Id="prop_base_6" Name="prop-base">
+                        <Component Id="CompiledQuestionsDetails.aspx.cs.svn_base" Guid="{2E4A032F-E640-4002-A021-C8623FDBDB2E}">
+                            <File Id="CompiledQuestionsDetails.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\prop-base\CompiledQuestionsDetails.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="CompiledQuestionsDetails.aspx.svn_base" Guid="{E3B0C4CB-0753-4C98-8485-A20F701366A9}">
+                            <File Id="CompiledQuestionsDetails.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\prop-base\CompiledQuestionsDetails.aspx.svn-base" />
+                        </Component>
+                        <Component Id="StudentPage.aspx.cs.svn_base" Guid="{ACA34B0A-68A2-4EBE-BA5B-14F0DE6D82E1}">
+                            <File Id="StudentPage.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\prop-base\StudentPage.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="StudentPage.aspx.svn_base" Guid="{D669B86A-3967-4ADE-989E-F955A52B1390}">
+                            <File Id="StudentPage.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\prop-base\StudentPage.aspx.svn-base" />
+                        </Component>
+                        <Component Id="ThemeResult.aspx.cs.svn_base" Guid="{5B44B30E-2698-49EB-A305-08CB8AB541CA}">
+                            <File Id="ThemeResult.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\prop-base\ThemeResult.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="ThemeResult.aspx.svn_base" Guid="{39060DE2-B8A8-4283-9FDD-0F2441CDDD55}">
+                            <File Id="ThemeResult.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\prop-base\ThemeResult.aspx.svn-base" />
+                        </Component>
+                    </Directory>
+                    <Directory Id="text_base_10" Name="text-base">
+                        <Component Id="CompiledQuestionsDetails.aspx.cs.svn_base_1" Guid="{6A3A4272-C9A8-40A8-95DD-3F8BA3B0DE5E}">
+                            <File Id="CompiledQuestionsDetails.aspx.cs.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\text-base\CompiledQuestionsDetails.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="CompiledQuestionsDetails.aspx.svn_base_1" Guid="{E7CCA403-F230-434E-8D57-30C185700594}">
+                            <File Id="CompiledQuestionsDetails.aspx.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\text-base\CompiledQuestionsDetails.aspx.svn-base" />
+                        </Component>
+                        <Component Id="CurriculumnResult.aspx.cs.svn_base" Guid="{1B03FD08-0FB6-41DC-A5C2-2D27C7E38B26}">
+                            <File Id="CurriculumnResult.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\text-base\CurriculumnResult.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="CurriculumnResult.aspx.svn_base" Guid="{F253B835-F5DC-4859-8BA7-C13E063269FB}">
+                            <File Id="CurriculumnResult.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\text-base\CurriculumnResult.aspx.svn-base" />
+                        </Component>
+                        <Component Id="OpenTest.aspx.cs.svn_base" Guid="{19758484-A265-42E3-8BDF-794AC4CE698A}">
+                            <File Id="OpenTest.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\text-base\OpenTest.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="OpenTest.aspx.svn_base" Guid="{44E9C2BD-6F43-4B75-890B-E85B23029BD1}">
+                            <File Id="OpenTest.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\text-base\OpenTest.aspx.svn-base" />
+                        </Component>
+                        <Component Id="StageResult.aspx.cs.svn_base" Guid="{E3038CB6-6804-45C1-876C-82A480FD31AF}">
+                            <File Id="StageResult.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\text-base\StageResult.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="StageResult.aspx.svn_base" Guid="{61EAB965-B275-42E2-B1F2-09F93C634EEE}">
+                            <File Id="StageResult.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\text-base\StageResult.aspx.svn-base" />
+                        </Component>
+                        <Component Id="StudentPage.aspx.cs.svn_base_1" Guid="{FC5A45C8-8918-43EC-B5AC-E9347C88BFA1}">
+                            <File Id="StudentPage.aspx.cs.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\text-base\StudentPage.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="StudentPage.aspx.svn_base_1" Guid="{9A562CE9-0995-470F-A6D4-412A052417D5}">
+                            <File Id="StudentPage.aspx.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\text-base\StudentPage.aspx.svn-base" />
+                        </Component>
+                        <Component Id="TestDetails.aspx.cs.svn_base" Guid="{9E4B0302-1605-4E51-8098-7EE3518EA99C}">
+                            <File Id="TestDetails.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\text-base\TestDetails.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="TestDetails.aspx.svn_base" Guid="{9DB43350-1A6D-4C16-B38D-DDCC37D56FAF}">
+                            <File Id="TestDetails.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\text-base\TestDetails.aspx.svn-base" />
+                        </Component>
+                        <Component Id="ThemeResult.aspx.cs.svn_base_1" Guid="{90F958BD-2CAF-42CE-B01D-3F13F6E3D19D}">
+                            <File Id="ThemeResult.aspx.cs.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\text-base\ThemeResult.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="ThemeResult.aspx.svn_base_1" Guid="{52E42777-AED7-4473-92D9-75DB6DC7DA6D}">
+                            <File Id="ThemeResult.aspx.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\Student\.svn\text-base\ThemeResult.aspx.svn-base" />
+                        </Component>
+                    </Directory>
+                </Directory>
+                <Directory Id="App_LocalResources_1" Name="App_LocalResources">
+                    <Component Id="CompiledQuestionsDetails.aspx.resx" Guid="{ED2F0726-8495-4AB3-88DA-AA58A1E2AA2C}">
+                        <File Id="CompiledQuestionsDetails.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\CompiledQuestionsDetails.aspx.resx" />
+                    </Component>
+                    <Component Id="CompiledQuestionsDetails.aspx.uk.resx" Guid="{FDB7DA5F-229C-4B4D-8C64-BBE80BB6763C}">
+                        <File Id="CompiledQuestionsDetails.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\CompiledQuestionsDetails.aspx.uk.resx" />
+                    </Component>
+                    <Component Id="CurriculumnResult.aspx.resx" Guid="{A33E708B-120E-4EFD-B2E3-A526178C0E02}">
+                        <File Id="CurriculumnResult.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\CurriculumnResult.aspx.resx" />
+                    </Component>
+                    <Component Id="CurriculumnResult.aspx.uk.resx" Guid="{A7D022D5-7DA2-49DB-9E9E-672DE6EAEB61}">
+                        <File Id="CurriculumnResult.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\CurriculumnResult.aspx.uk.resx" />
+                    </Component>
+                    <Component Id="OpenTest.aspx.resx" Guid="{7DCA468F-830B-4B2B-900F-F6ED19856251}">
+                        <File Id="OpenTest.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\OpenTest.aspx.resx" />
+                    </Component>
+                    <Component Id="OpenTest.aspx.uk.resx" Guid="{A49E6B5E-1642-4892-982C-95C9EBD737DA}">
+                        <File Id="OpenTest.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\OpenTest.aspx.uk.resx" />
+                    </Component>
+                    <Component Id="StageResult.aspx.resx" Guid="{2E5CE2CD-C3FB-4812-B3F6-CE313AE477AC}">
+                        <File Id="StageResult.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\StageResult.aspx.resx" />
+                    </Component>
+                    <Component Id="StageResult.aspx.uk.resx" Guid="{DBE35EB8-6EA3-4F6B-AF3F-5CA871ED1310}">
+                        <File Id="StageResult.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\StageResult.aspx.uk.resx" />
+                    </Component>
+                    <Component Id="StudentPage.aspx.resx" Guid="{051D009B-1A50-48E0-AC63-F2E582A450D6}">
+                        <File Id="StudentPage.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\StudentPage.aspx.resx" />
+                    </Component>
+                    <Component Id="StudentPage.aspx.uk.resx" Guid="{F0C9F584-7984-408E-BC0D-A51674B815D5}">
+                        <File Id="StudentPage.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\StudentPage.aspx.uk.resx" />
+                    </Component>
+                    <Component Id="TestDetails.aspx.resx" Guid="{D2CA4C3D-6C32-4B90-8CF8-E5F2267785E5}">
+                        <File Id="TestDetails.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\TestDetails.aspx.resx" />
+                    </Component>
+                    <Component Id="TestDetails.aspx.uk.resx" Guid="{06655AB5-1ADD-4922-AA6C-EBC53409E64A}">
+                        <File Id="TestDetails.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\TestDetails.aspx.uk.resx" />
+                    </Component>
+                    <Component Id="ThemeResult.aspx.resx" Guid="{0E93824F-9923-47C6-824C-05C50BD9A3BA}">
+                        <File Id="ThemeResult.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\ThemeResult.aspx.resx" />
+                    </Component>
+                    <Component Id="ThemeResult.aspx.uk.resx" Guid="{CC9F9534-B1FA-4EE1-AF55-88EBD342C36C}">
+                        <File Id="ThemeResult.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\ThemeResult.aspx.uk.resx" />
+                    </Component>
+                    <Directory Id="_.svn_14" Name=".svn">
+                        <Component Id="all_wcprops_14" Guid="{C9168A60-3E84-46B1-9284-B77D250AC877}">
+                            <File Id="all_wcprops_14" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\.svn\all-wcprops" />
+                        </Component>
+                        <Component Id="entries_14" Guid="{D8A9CE8E-8A49-44BF-AD8E-10F2EFDD058C}">
+                            <File Id="entries_14" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\.svn\entries" />
+                        </Component>
+                        <Directory Id="text_base_11" Name="text-base">
+                            <Component Id="CompiledQuestionsDetails.aspx.resx.svn_base" Guid="{E7AAED83-303D-4AF7-B2B8-ACE4D505D15D}">
+                                <File Id="CompiledQuestionsDetails.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\.svn\text-base\CompiledQuestionsDetails.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="CompiledQuestionsDetails.aspx.uk.resx.svn_base" Guid="{48C805BD-1E1F-4F91-A279-2526856DB9E1}">
+                                <File Id="CompiledQuestionsDetails.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\.svn\text-base\CompiledQuestionsDetails.aspx.uk.resx.svn-base" />
+                            </Component>
+                            <Component Id="CurriculumnResult.aspx.resx.svn_base" Guid="{BA835639-2A80-4256-AD4B-37AD8CF3E62C}">
+                                <File Id="CurriculumnResult.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\.svn\text-base\CurriculumnResult.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="CurriculumnResult.aspx.uk.resx.svn_base" Guid="{7F6D6952-AEFF-4B34-BD7C-79219BA460DA}">
+                                <File Id="CurriculumnResult.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\.svn\text-base\CurriculumnResult.aspx.uk.resx.svn-base" />
+                            </Component>
+                            <Component Id="OpenTest.aspx.resx.svn_base" Guid="{B1707F00-376A-4BEC-9DC8-83F272AFA6AA}">
+                                <File Id="OpenTest.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\.svn\text-base\OpenTest.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="OpenTest.aspx.uk.resx.svn_base" Guid="{5A18F1D7-4EC8-4A63-A35D-21A8B114F9CB}">
+                                <File Id="OpenTest.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\.svn\text-base\OpenTest.aspx.uk.resx.svn-base" />
+                            </Component>
+                            <Component Id="StageResult.aspx.resx.svn_base" Guid="{0BE2099B-E27E-4347-A7CA-170D889FCA95}">
+                                <File Id="StageResult.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\.svn\text-base\StageResult.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="StageResult.aspx.uk.resx.svn_base" Guid="{73D2F91A-9ED1-451A-9E04-4081B4092FCF}">
+                                <File Id="StageResult.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\.svn\text-base\StageResult.aspx.uk.resx.svn-base" />
+                            </Component>
+                            <Component Id="StudentPage.aspx.resx.svn_base" Guid="{9FBE7C51-A858-454F-BBA2-207FC527AA55}">
+                                <File Id="StudentPage.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\.svn\text-base\StudentPage.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="StudentPage.aspx.uk.resx.svn_base" Guid="{0CEF3CAC-B8BE-49FE-A656-A859A05BB510}">
+                                <File Id="StudentPage.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\.svn\text-base\StudentPage.aspx.uk.resx.svn-base" />
+                            </Component>
+                            <Component Id="TestDetails.aspx.resx.svn_base" Guid="{6F4DF8E7-54BB-4D11-B7B6-C0010575468D}">
+                                <File Id="TestDetails.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\.svn\text-base\TestDetails.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="TestDetails.aspx.uk.resx.svn_base" Guid="{9D5C8FDD-0683-4B97-A9E2-E2FB8399E808}">
+                                <File Id="TestDetails.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\.svn\text-base\TestDetails.aspx.uk.resx.svn-base" />
+                            </Component>
+                            <Component Id="ThemeResult.aspx.resx.svn_base" Guid="{F9968015-3B56-409D-84D2-46C75B5F56E3}">
+                                <File Id="ThemeResult.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\.svn\text-base\ThemeResult.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="ThemeResult.aspx.uk.resx.svn_base" Guid="{0734CE1D-FA7E-445A-BBC1-DB8A502D01AF}">
+                                <File Id="ThemeResult.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Student\App_LocalResources\.svn\text-base\ThemeResult.aspx.uk.resx.svn-base" />
+                            </Component>
+                        </Directory>
+                    </Directory>
+                </Directory>
+            </Directory>
+            <Directory Id="Teacher" Name="Teacher">
+                <Component Id="CourseBehavior.aspx" Guid="{F0F98FE9-9BB9-486C-B76C-5A2328047077}">
+                    <File Id="CourseBehavior.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\CourseBehavior.aspx" />
+                </Component>
+                <Component Id="CourseBehavior.aspx.cs" Guid="{25205B1E-05C7-4249-A0E5-665D754D0003}">
+                    <File Id="CourseBehavior.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\CourseBehavior.aspx.cs" />
+                </Component>
+                <Component Id="CourseDeleteConfirmation.aspx" Guid="{1FE295D2-9E3E-4C76-B81E-0E4B18350FF1}">
+                    <File Id="CourseDeleteConfirmation.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\CourseDeleteConfirmation.aspx" />
+                </Component>
+                <Component Id="CourseDeleteConfirmation.aspx.cs" Guid="{801CE2D4-CB8F-4CA0-B348-FCA86E4B0578}">
+                    <File Id="CourseDeleteConfirmation.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\CourseDeleteConfirmation.aspx.cs" />
+                </Component>
+                <Component Id="CourseEdit.aspx" Guid="{1EE9B48D-83D6-48A3-88EC-F83882C4408D}">
+                    <File Id="CourseEdit.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\CourseEdit.aspx" />
+                </Component>
+                <Component Id="CourseEdit.aspx.cs" Guid="{DDB7E8CB-490D-4B2F-88B3-453C2ACE0C6C}">
+                    <File Id="CourseEdit.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\CourseEdit.aspx.cs" />
+                </Component>
+                <Component Id="CurriculumAssignment.aspx" Guid="{CCA45B44-D00A-45AD-AB74-44153415A560}">
+                    <File Id="CurriculumAssignment.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\CurriculumAssignment.aspx" />
+                </Component>
+                <Component Id="CurriculumAssignment.aspx.cs" Guid="{C20482B4-E25C-4CC8-AA0D-C04BE41DEAC5}">
+                    <File Id="CurriculumAssignment.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\CurriculumAssignment.aspx.cs" />
+                </Component>
+                <Component Id="CurriculumDeleteConfirmation.aspx" Guid="{9C0474AB-D398-411B-A6AF-B9423CCEA8EE}">
+                    <File Id="CurriculumDeleteConfirmation.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\CurriculumDeleteConfirmation.aspx" />
+                </Component>
+                <Component Id="CurriculumDeleteConfirmation.aspx.cs" Guid="{DA6883DD-BF71-446B-96EA-87FB18CD46C1}">
+                    <File Id="CurriculumDeleteConfirmation.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\CurriculumDeleteConfirmation.aspx.cs" />
+                </Component>
+                <Component Id="CurriculumEdit.aspx" Guid="{786BDF58-D42A-4E64-9880-14AE3D1434DB}">
+                    <File Id="CurriculumEdit.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\CurriculumEdit.aspx" />
+                </Component>
+                <Component Id="CurriculumEdit.aspx.cs" Guid="{366AFADD-9402-4535-868E-39AE84972AB1}">
+                    <File Id="CurriculumEdit.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\CurriculumEdit.aspx.cs" />
+                </Component>
+                <Component Id="CurriculumTimeline.aspx" Guid="{3FEDC660-AD6E-4A02-9BC9-836FA1E3C1EE}">
+                    <File Id="CurriculumTimeline.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\CurriculumTimeline.aspx" />
+                </Component>
+                <Component Id="CurriculumTimeline.aspx.cs" Guid="{AD84B8EE-217D-4B5B-9F36-656C470C565C}">
+                    <File Id="CurriculumTimeline.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\CurriculumTimeline.aspx.cs" />
+                </Component>
+                <Component Id="ReCompilationPage.aspx" Guid="{1D95E297-4D2A-41B8-A6E0-56D79D604788}">
+                    <File Id="ReCompilationPage.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\ReCompilationPage.aspx" />
+                </Component>
+                <Component Id="ReCompilationPage.aspx.cs" Guid="{98102BF8-01AC-4ACB-9EA0-8002ECABE2E0}">
+                    <File Id="ReCompilationPage.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\ReCompilationPage.aspx.cs" />
+                </Component>
+                <Component Id="Share.aspx" Guid="{4AA5B017-A78D-4FDC-9E9C-CAFC4D9DCEF5}">
+                    <File Id="Share.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\Share.aspx" />
+                </Component>
+                <Component Id="Share.aspx.cs" Guid="{0465F8E6-8744-42C1-8803-C2D9CFF600A2}">
+                    <File Id="Share.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\Share.aspx.cs" />
+                </Component>
+                <Component Id="StatisticSelect.aspx" Guid="{B2C31EC4-43B4-446E-993B-CE90EF6117D5}">
+                    <File Id="StatisticSelect.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\StatisticSelect.aspx" />
+                </Component>
+                <Component Id="StatisticSelect.aspx.cs" Guid="{825F1436-A035-4534-ADFD-69A3138D2C55}">
+                    <File Id="StatisticSelect.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\StatisticSelect.aspx.cs" />
+                </Component>
+                <Component Id="StatisticShow.aspx" Guid="{75D277F5-6A3A-49E4-9462-0D0DD2EFF076}">
+                    <File Id="StatisticShow.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\StatisticShow.aspx" />
+                </Component>
+                <Component Id="StatisticShow.aspx.cs" Guid="{107287A7-5FA0-4A93-AFF3-1D58335C4B98}">
+                    <File Id="StatisticShow.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\StatisticShow.aspx.cs" />
+                </Component>
+                <Component Id="StatisticShowCurriculums.aspx" Guid="{285FD94C-3251-4522-87EE-15025ADF8756}">
+                    <File Id="StatisticShowCurriculums.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\StatisticShowCurriculums.aspx" />
+                </Component>
+                <Component Id="StatisticShowCurriculums.aspx.cs" Guid="{B961D77F-0EBF-445B-A510-2183F5A442DC}">
+                    <File Id="StatisticShowCurriculums.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\StatisticShowCurriculums.aspx.cs" />
+                </Component>
+                <Component Id="TeacherObjects.aspx" Guid="{89F4504C-2069-4205-9CB6-C2F3C052D400}">
+                    <File Id="TeacherObjects.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\TeacherObjects.aspx" />
+                </Component>
+                <Component Id="TeacherObjects.aspx.cs" Guid="{49A5546F-90AE-49E0-AD34-399C62D80937}">
+                    <File Id="TeacherObjects.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\TeacherObjects.aspx.cs" />
+                </Component>
+                <Component Id="TeachersList.aspx" Guid="{B764DA08-6656-4FBC-BEE6-C2D356FD4625}">
+                    <File Id="TeachersList.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\TeachersList.aspx" />
+                </Component>
+                <Component Id="TeachersList.aspx.cs" Guid="{4EE584A1-49A2-4ECD-9970-3E268AA05A38}">
+                    <File Id="TeachersList.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\TeachersList.aspx.cs" />
+                </Component>
+                <Component Id="ThemePages.aspx" Guid="{4C04F68C-96A5-4622-8789-77C66B509979}">
+                    <File Id="ThemePages.aspx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\ThemePages.aspx" />
+                </Component>
+                <Component Id="ThemePages.aspx.cs" Guid="{AF92B776-1D7C-453C-A872-9A87F914722D}">
+                    <File Id="ThemePages.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\ThemePages.aspx.cs" />
+                </Component>
+                <Directory Id="_.svn_15" Name=".svn">
+                    <Component Id="all_wcprops_15" Guid="{B56CE7AA-D529-40D2-B27B-3A5CE84873E3}">
+                        <File Id="all_wcprops_15" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\all-wcprops" />
+                    </Component>
+                    <Component Id="entries_15" Guid="{5FF9C842-6113-426B-A78A-1794EB034E37}">
+                        <File Id="entries_15" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\entries" />
+                    </Component>
+                    <Directory Id="text_base_12" Name="text-base">
+                        <Component Id="CourseBehavior.aspx.cs.svn_base" Guid="{D7EF0B59-3D0A-46E1-BF25-6DE596FAE10D}">
+                            <File Id="CourseBehavior.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\CourseBehavior.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="CourseBehavior.aspx.svn_base" Guid="{04D5CCAE-14AA-4CCA-82F2-CE8EF07A9C06}">
+                            <File Id="CourseBehavior.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\CourseBehavior.aspx.svn-base" />
+                        </Component>
+                        <Component Id="CourseDeleteConfirmation.aspx.cs.svn_base" Guid="{431A9379-3A2E-48BE-9D39-9C7537176ED9}">
+                            <File Id="CourseDeleteConfirmation.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\CourseDeleteConfirmation.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="CourseDeleteConfirmation.aspx.svn_base" Guid="{B6E00BC0-F13C-4913-8F4D-E29329E366EE}">
+                            <File Id="CourseDeleteConfirmation.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\CourseDeleteConfirmation.aspx.svn-base" />
+                        </Component>
+                        <Component Id="CourseEdit.aspx.cs.svn_base" Guid="{EA79F14D-2327-42BC-8CED-8B9747BC6214}">
+                            <File Id="CourseEdit.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\CourseEdit.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="CourseEdit.aspx.svn_base" Guid="{3C47FB84-6DBF-4B10-B85C-32AC653EFE3A}">
+                            <File Id="CourseEdit.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\CourseEdit.aspx.svn-base" />
+                        </Component>
+                        <Component Id="CurriculumAssignment.aspx.cs.svn_base" Guid="{57656BE7-045C-416B-9BE4-AD0595A1C510}">
+                            <File Id="CurriculumAssignment.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\CurriculumAssignment.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="CurriculumAssignment.aspx.svn_base" Guid="{921B4121-6A99-4DBC-9724-CEFB966DF526}">
+                            <File Id="CurriculumAssignment.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\CurriculumAssignment.aspx.svn-base" />
+                        </Component>
+                        <Component Id="CurriculumDeleteConfirmation.aspx.cs.svn_base" Guid="{395086B2-677D-408C-9560-779697142423}">
+                            <File Id="CurriculumDeleteConfirmation.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\CurriculumDeleteConfirmation.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="CurriculumDeleteConfirmation.aspx.svn_base" Guid="{A27A5BAE-A302-4617-B14A-4EC6509DDEEF}">
+                            <File Id="CurriculumDeleteConfirmation.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\CurriculumDeleteConfirmation.aspx.svn-base" />
+                        </Component>
+                        <Component Id="CurriculumEdit.aspx.cs.svn_base" Guid="{B67A58A0-4BDE-4E2A-A87F-F3FFBD8B4F02}">
+                            <File Id="CurriculumEdit.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\CurriculumEdit.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="CurriculumEdit.aspx.svn_base" Guid="{F563E9EF-607A-41DD-A3F0-BF81E24E2347}">
+                            <File Id="CurriculumEdit.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\CurriculumEdit.aspx.svn-base" />
+                        </Component>
+                        <Component Id="CurriculumTimeline.aspx.cs.svn_base" Guid="{53463790-9FC7-493C-A926-A5D0EACD2D20}">
+                            <File Id="CurriculumTimeline.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\CurriculumTimeline.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="CurriculumTimeline.aspx.svn_base" Guid="{DC2E53EB-2E8E-4547-AC99-D199FC832D7C}">
+                            <File Id="CurriculumTimeline.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\CurriculumTimeline.aspx.svn-base" />
+                        </Component>
+                        <Component Id="ReCompilationPage.aspx.cs.svn_base" Guid="{6E2D1E47-40B5-4B52-A090-A72BBF0A4C36}">
+                            <File Id="ReCompilationPage.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\ReCompilationPage.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="ReCompilationPage.aspx.svn_base" Guid="{40869E7F-731B-4B88-AD6E-3D6805ED25A9}">
+                            <File Id="ReCompilationPage.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\ReCompilationPage.aspx.svn-base" />
+                        </Component>
+                        <Component Id="Share.aspx.cs.svn_base" Guid="{601DA32F-798F-4879-8D6E-FE587D8A5BCF}">
+                            <File Id="Share.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\Share.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="Share.aspx.svn_base" Guid="{B3B46408-26A7-474D-9092-0F216D25D8FE}">
+                            <File Id="Share.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\Share.aspx.svn-base" />
+                        </Component>
+                        <Component Id="StatisticSelect.aspx.cs.svn_base" Guid="{C9F69FAB-BFBF-467D-A1E0-6A365B676A92}">
+                            <File Id="StatisticSelect.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\StatisticSelect.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="StatisticSelect.aspx.svn_base" Guid="{A731A85B-CED2-4FBE-BAC3-1731D721589D}">
+                            <File Id="StatisticSelect.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\StatisticSelect.aspx.svn-base" />
+                        </Component>
+                        <Component Id="StatisticShow.aspx.cs.svn_base" Guid="{6D6982E2-CA27-4006-B114-401408AE20E3}">
+                            <File Id="StatisticShow.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\StatisticShow.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="StatisticShow.aspx.svn_base" Guid="{B9FF6263-FB6A-47E0-A46A-725E842ED72B}">
+                            <File Id="StatisticShow.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\StatisticShow.aspx.svn-base" />
+                        </Component>
+                        <Component Id="StatisticShowCurriculums.aspx.cs.svn_base" Guid="{3341DA9A-72A5-48E8-A7B3-9CE021A15FED}">
+                            <File Id="StatisticShowCurriculums.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\StatisticShowCurriculums.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="StatisticShowCurriculums.aspx.svn_base" Guid="{A3CE8D03-0F3A-46CA-BFD5-639DF9DCD079}">
+                            <File Id="StatisticShowCurriculums.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\StatisticShowCurriculums.aspx.svn-base" />
+                        </Component>
+                        <Component Id="TeacherObjects.aspx.cs.svn_base" Guid="{AD538E40-E0DA-4B7E-955B-558BF9F2D224}">
+                            <File Id="TeacherObjects.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\TeacherObjects.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="TeacherObjects.aspx.svn_base" Guid="{08F8AC50-215A-4637-82FA-E6B9D1B9A6A8}">
+                            <File Id="TeacherObjects.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\TeacherObjects.aspx.svn-base" />
+                        </Component>
+                        <Component Id="TeachersList.aspx.cs.svn_base" Guid="{2CE698AE-2BD1-4591-BFE8-9889CB8035E0}">
+                            <File Id="TeachersList.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\TeachersList.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="TeachersList.aspx.svn_base" Guid="{E656B805-7256-4DF7-B03B-2C7AEFF2F344}">
+                            <File Id="TeachersList.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\TeachersList.aspx.svn-base" />
+                        </Component>
+                        <Component Id="ThemePages.aspx.cs.svn_base" Guid="{8BCF7E73-AA62-4BB6-8601-CE6573E9D28D}">
+                            <File Id="ThemePages.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\ThemePages.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="ThemePages.aspx.svn_base" Guid="{46101E51-9139-42BF-9C5D-81F5A4D17A0E}">
+                            <File Id="ThemePages.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\.svn\text-base\ThemePages.aspx.svn-base" />
+                        </Component>
+                    </Directory>
+                </Directory>
+                <Directory Id="App_LocalResources_2" Name="App_LocalResources">
+                    <Component Id="CourseBehavior.aspx.resx" Guid="{F7B1564D-41B5-44EF-8B6D-42C227EE8B3B}">
+                        <File Id="CourseBehavior.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\CourseBehavior.aspx.resx" />
+                    </Component>
+                    <Component Id="CourseBehavior.aspx.uk.resx" Guid="{DE404C32-526B-4C57-B809-C4CD8F9D01AF}">
+                        <File Id="CourseBehavior.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\CourseBehavior.aspx.uk.resx" />
+                    </Component>
+                    <Component Id="CourseDeleteConfirmation.aspx.resx" Guid="{FD4F0E3E-582A-4701-B868-7DD507A226CC}">
+                        <File Id="CourseDeleteConfirmation.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\CourseDeleteConfirmation.aspx.resx" />
+                    </Component>
+                    <Component Id="CourseDeleteConfirmation.aspx.uk.resx" Guid="{5FC4CE84-4CEB-40E6-B239-CB15543FAB8E}">
+                        <File Id="CourseDeleteConfirmation.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\CourseDeleteConfirmation.aspx.uk.resx" />
+                    </Component>
+                    <Component Id="CourseEdit.aspx.resx" Guid="{FEEEC169-3FC2-4EC6-BFD6-505631A47A39}">
+                        <File Id="CourseEdit.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\CourseEdit.aspx.resx" />
+                    </Component>
+                    <Component Id="CourseEdit.aspx.uk.resx" Guid="{8C0FE33A-25B0-47E9-B4B1-A47FD6F29F01}">
+                        <File Id="CourseEdit.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\CourseEdit.aspx.uk.resx" />
+                    </Component>
+                    <Component Id="CurriculumAssignment.aspx.resx" Guid="{93473663-E57C-44CF-8F91-DB43F8F70D0F}">
+                        <File Id="CurriculumAssignment.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\CurriculumAssignment.aspx.resx" />
+                    </Component>
+                    <Component Id="CurriculumAssignment.aspx.uk.resx" Guid="{14A1516D-058F-44A7-A7C4-7C538ED021FC}">
+                        <File Id="CurriculumAssignment.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\CurriculumAssignment.aspx.uk.resx" />
+                    </Component>
+                    <Component Id="CurriculumDeleteConfirmation.aspx.resx" Guid="{7EF4197A-070D-4C64-97D3-B556F1ACB489}">
+                        <File Id="CurriculumDeleteConfirmation.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\CurriculumDeleteConfirmation.aspx.resx" />
+                    </Component>
+                    <Component Id="CurriculumDeleteConfirmation.aspx.uk.resx" Guid="{91A0854C-F095-45D3-A4E2-0395F976486B}">
+                        <File Id="CurriculumDeleteConfirmation.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\CurriculumDeleteConfirmation.aspx.uk.resx" />
+                    </Component>
+                    <Component Id="CurriculumEdit.aspx.resx" Guid="{32C44316-04FD-4DE2-BCFE-55BFDAD5E8D3}">
+                        <File Id="CurriculumEdit.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\CurriculumEdit.aspx.resx" />
+                    </Component>
+                    <Component Id="CurriculumEdit.aspx.uk.resx" Guid="{9FE58146-E4AA-4BBF-AA68-A99F41334602}">
+                        <File Id="CurriculumEdit.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\CurriculumEdit.aspx.uk.resx" />
+                    </Component>
+                    <Component Id="CurriculumTimeline.aspx.resx" Guid="{78561B97-F84F-4A9C-9E59-B93F942214CD}">
+                        <File Id="CurriculumTimeline.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\CurriculumTimeline.aspx.resx" />
+                    </Component>
+                    <Component Id="CurriculumTimeline.aspx.uk.resx" Guid="{09426132-ED8D-440D-84E9-49E6A5531B39}">
+                        <File Id="CurriculumTimeline.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\CurriculumTimeline.aspx.uk.resx" />
+                    </Component>
+                    <Component Id="ReCompilationPage.aspx.resx" Guid="{F93BFBF8-117A-4A20-97CA-A9BB765A636C}">
+                        <File Id="ReCompilationPage.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\ReCompilationPage.aspx.resx" />
+                    </Component>
+                    <Component Id="ReCompilationPage.aspx.uk.resx" Guid="{FB3B0E79-51D2-4B72-A51D-DBB2A4726E56}">
+                        <File Id="ReCompilationPage.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\ReCompilationPage.aspx.uk.resx" />
+                    </Component>
+                    <Component Id="Share.aspx.resx" Guid="{C87155D9-A503-4605-AEA9-4FA097EA1EAC}">
+                        <File Id="Share.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\Share.aspx.resx" />
+                    </Component>
+                    <Component Id="Share.aspx.uk.resx" Guid="{953C43A9-B09C-40DE-8597-AFD547E60407}">
+                        <File Id="Share.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\Share.aspx.uk.resx" />
+                    </Component>
+                    <Component Id="StatisticSelect.aspx.resx" Guid="{852B1518-F8E4-4BB4-9E71-DE1A079BB47F}">
+                        <File Id="StatisticSelect.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\StatisticSelect.aspx.resx" />
+                    </Component>
+                    <Component Id="StatisticSelect.aspx.uk.resx" Guid="{743941BE-A8AC-4D8C-B17A-1A57A65D69DB}">
+                        <File Id="StatisticSelect.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\StatisticSelect.aspx.uk.resx" />
+                    </Component>
+                    <Component Id="StatisticShow.aspx.resx" Guid="{43ED48F8-1E93-4EF6-BDFD-E9870B6E7F20}">
+                        <File Id="StatisticShow.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\StatisticShow.aspx.resx" />
+                    </Component>
+                    <Component Id="StatisticShow.aspx.uk.resx" Guid="{448799A6-4B10-4AC7-A50A-A80D039414B8}">
+                        <File Id="StatisticShow.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\StatisticShow.aspx.uk.resx" />
+                    </Component>
+                    <Component Id="TeacherObjects.aspx.resx" Guid="{78616A49-795B-4A11-90D1-A3FB3AA33007}">
+                        <File Id="TeacherObjects.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\TeacherObjects.aspx.resx" />
+                    </Component>
+                    <Component Id="TeacherObjects.aspx.uk.resx" Guid="{B087C332-357C-40FA-B7B9-CCDE129ACBBD}">
+                        <File Id="TeacherObjects.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\TeacherObjects.aspx.uk.resx" />
+                    </Component>
+                    <Component Id="TeachersList.aspx.resx" Guid="{314C43E4-514B-44BB-B9D3-E6BFF404EA8F}">
+                        <File Id="TeachersList.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\TeachersList.aspx.resx" />
+                    </Component>
+                    <Component Id="TeachersList.aspx.uk.resx" Guid="{8EEA535E-5700-4763-A5FC-7F697D22D072}">
+                        <File Id="TeachersList.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\TeachersList.aspx.uk.resx" />
+                    </Component>
+                    <Component Id="ThemePages.aspx.resx" Guid="{817CD4A9-4470-406F-BCCF-7EB083444DC8}">
+                        <File Id="ThemePages.aspx.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\ThemePages.aspx.resx" />
+                    </Component>
+                    <Component Id="ThemePages.aspx.uk.resx" Guid="{5CAFBC2B-671B-44E8-AB3C-A379E3942FB6}">
+                        <File Id="ThemePages.aspx.uk.resx" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\ThemePages.aspx.uk.resx" />
+                    </Component>
+                    <Directory Id="_.svn_16" Name=".svn">
+                        <Component Id="all_wcprops_16" Guid="{AFFA5933-3032-4657-BDAF-4B7C55054517}">
+                            <File Id="all_wcprops_16" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\all-wcprops" />
+                        </Component>
+                        <Component Id="entries_16" Guid="{EEC93C7A-5A9D-46C3-AABF-966C8F4002CC}">
+                            <File Id="entries_16" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\entries" />
+                        </Component>
+                        <Directory Id="text_base_13" Name="text-base">
+                            <Component Id="CourseBehavior.aspx.resx.svn_base" Guid="{FEF6CCE9-CE25-4BEB-97DC-58B3F61680F7}">
+                                <File Id="CourseBehavior.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\CourseBehavior.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="CourseBehavior.aspx.uk.resx.svn_base" Guid="{9C85868F-76F7-4749-9576-3390CECCD1EA}">
+                                <File Id="CourseBehavior.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\CourseBehavior.aspx.uk.resx.svn-base" />
+                            </Component>
+                            <Component Id="CourseDeleteConfirmation.aspx.resx.svn_base" Guid="{8443BDE7-5CEF-4C9B-9EF0-76B83E1D5F1E}">
+                                <File Id="CourseDeleteConfirmation.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\CourseDeleteConfirmation.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="CourseDeleteConfirmation.aspx.uk.resx.svn_base" Guid="{70906897-E6EB-4E4A-AC68-B77AA9A23830}">
+                                <File Id="CourseDeleteConfirmation.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\CourseDeleteConfirmation.aspx.uk.resx.svn-base" />
+                            </Component>
+                            <Component Id="CourseEdit.aspx.resx.svn_base" Guid="{169CACDB-5DC4-47A5-9F85-86030F13981F}">
+                                <File Id="CourseEdit.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\CourseEdit.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="CourseEdit.aspx.uk.resx.svn_base" Guid="{1C134163-10F9-4F67-A86A-A215BCD720F0}">
+                                <File Id="CourseEdit.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\CourseEdit.aspx.uk.resx.svn-base" />
+                            </Component>
+                            <Component Id="CurriculumAssignment.aspx.resx.svn_base" Guid="{E25B9AE3-C245-41E3-A2EF-E6C06A4C2BD6}">
+                                <File Id="CurriculumAssignment.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\CurriculumAssignment.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="CurriculumAssignment.aspx.uk.resx.svn_base" Guid="{7DF9E578-BF65-42BB-BD54-D288C696DF39}">
+                                <File Id="CurriculumAssignment.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\CurriculumAssignment.aspx.uk.resx.svn-base" />
+                            </Component>
+                            <Component Id="CurriculumDeleteConfirmation.aspx.resx.svn_base" Guid="{0EFB7FDE-13F5-4CB4-AC2F-C17ED386BE47}">
+                                <File Id="CurriculumDeleteConfirmation.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\CurriculumDeleteConfirmation.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="CurriculumDeleteConfirmation.aspx.uk.resx.svn_base" Guid="{85C69110-A261-4F5C-AA22-6F4BB34617B0}">
+                                <File Id="CurriculumDeleteConfirmation.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\CurriculumDeleteConfirmation.aspx.uk.resx.svn-base" />
+                            </Component>
+                            <Component Id="CurriculumEdit.aspx.resx.svn_base" Guid="{60088820-8D7F-4615-9724-E084C2C974A2}">
+                                <File Id="CurriculumEdit.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\CurriculumEdit.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="CurriculumEdit.aspx.uk.resx.svn_base" Guid="{08F189B8-D37A-4414-9F4B-A269E02AFE90}">
+                                <File Id="CurriculumEdit.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\CurriculumEdit.aspx.uk.resx.svn-base" />
+                            </Component>
+                            <Component Id="CurriculumTimeline.aspx.resx.svn_base" Guid="{D80FCEB5-2CCA-45F2-8555-AADFF741833D}">
+                                <File Id="CurriculumTimeline.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\CurriculumTimeline.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="CurriculumTimeline.aspx.uk.resx.svn_base" Guid="{7027EA3A-260F-4B1D-9817-1F3B6D4B908D}">
+                                <File Id="CurriculumTimeline.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\CurriculumTimeline.aspx.uk.resx.svn-base" />
+                            </Component>
+                            <Component Id="ReCompilationPage.aspx.resx.svn_base" Guid="{352618C4-CBA2-4623-8428-09BC2F38B1ED}">
+                                <File Id="ReCompilationPage.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\ReCompilationPage.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="ReCompilationPage.aspx.uk.resx.svn_base" Guid="{2E99FCF9-212B-4691-BA15-EAA42897540B}">
+                                <File Id="ReCompilationPage.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\ReCompilationPage.aspx.uk.resx.svn-base" />
+                            </Component>
+                            <Component Id="Share.aspx.resx.svn_base" Guid="{370B0422-9E38-4A1E-9E38-9543AF0D76AF}">
+                                <File Id="Share.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\Share.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="Share.aspx.uk.resx.svn_base" Guid="{725CC921-339C-4C31-8CCE-DB19CDDAB431}">
+                                <File Id="Share.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\Share.aspx.uk.resx.svn-base" />
+                            </Component>
+                            <Component Id="StatisticSelect.aspx.resx.svn_base" Guid="{FA027516-4879-41A0-A15C-90D67D1CA377}">
+                                <File Id="StatisticSelect.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\StatisticSelect.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="StatisticSelect.aspx.uk.resx.svn_base" Guid="{532DAE83-681E-4783-B2EE-E4E31DCD7466}">
+                                <File Id="StatisticSelect.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\StatisticSelect.aspx.uk.resx.svn-base" />
+                            </Component>
+                            <Component Id="StatisticShow.aspx.resx.svn_base" Guid="{784EF3D7-D1D5-4061-BA01-5FE560A7E4D8}">
+                                <File Id="StatisticShow.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\StatisticShow.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="StatisticShow.aspx.uk.resx.svn_base" Guid="{B25925FC-13DE-4B0C-8A07-A0E91CFB8B49}">
+                                <File Id="StatisticShow.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\StatisticShow.aspx.uk.resx.svn-base" />
+                            </Component>
+                            <Component Id="TeacherObjects.aspx.resx.svn_base" Guid="{0BE12355-2FE5-4AAD-8712-5488511ABC39}">
+                                <File Id="TeacherObjects.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\TeacherObjects.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="TeacherObjects.aspx.uk.resx.svn_base" Guid="{86F13C1F-77DB-4F5C-87A7-25D00F8A821D}">
+                                <File Id="TeacherObjects.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\TeacherObjects.aspx.uk.resx.svn-base" />
+                            </Component>
+                            <Component Id="TeachersList.aspx.resx.svn_base" Guid="{E45854A9-B890-48CE-A5A5-F218CE29DFE4}">
+                                <File Id="TeachersList.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\TeachersList.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="TeachersList.aspx.uk.resx.svn_base" Guid="{0D42494A-42CA-4E04-B67E-D96CC2611AAD}">
+                                <File Id="TeachersList.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\TeachersList.aspx.uk.resx.svn-base" />
+                            </Component>
+                            <Component Id="ThemePages.aspx.resx.svn_base" Guid="{F0C97B7D-C75A-41E8-9189-475C6AE08D6C}">
+                                <File Id="ThemePages.aspx.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\ThemePages.aspx.resx.svn-base" />
+                            </Component>
+                            <Component Id="ThemePages.aspx.uk.resx.svn_base" Guid="{DCE09245-8C9B-4AD0-95EA-896E46254359}">
+                                <File Id="ThemePages.aspx.uk.resx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Teacher\App_LocalResources\.svn\text-base\ThemePages.aspx.uk.resx.svn-base" />
+                            </Component>
+                        </Directory>
+                    </Directory>
+                </Directory>
+            </Directory>
+            <Directory Id="TestCourses" Name="TestCourses">
+                <Component Id="GoodCourse.zip" Guid="{43FB7C76-CB72-45FD-8B74-6E57250F7209}">
+                    <File Id="GoodCourse.zip" KeyPath="yes" Source="$(var.FileDirectory)\TestCourses\GoodCourse.zip" />
+                </Component>
+                <Component Id="Noimsmanifest.zip" Guid="{4CEDC432-362A-48DA-A13A-3D5C1AF39D8F}">
+                    <File Id="Noimsmanifest.zip" KeyPath="yes" Source="$(var.FileDirectory)\TestCourses\Noimsmanifest.zip" />
+                </Component>
+                <Directory Id="_.svn_17" Name=".svn">
+                    <Component Id="all_wcprops_17" Guid="{10575426-474C-4BA7-A248-226D1D5B530D}">
+                        <File Id="all_wcprops_17" KeyPath="yes" Source="$(var.FileDirectory)\TestCourses\.svn\all-wcprops" />
+                    </Component>
+                    <Component Id="entries_17" Guid="{7A45BFC5-3F04-4395-959F-FEFF7C8853B6}">
+                        <File Id="entries_17" KeyPath="yes" Source="$(var.FileDirectory)\TestCourses\.svn\entries" />
+                    </Component>
+                    <Directory Id="prop_base_7" Name="prop-base">
+                        <Component Id="GoodCourse.zip.svn_base" Guid="{819B996E-1EC0-4353-95D0-889346EB2E1B}">
+                            <File Id="GoodCourse.zip.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\TestCourses\.svn\prop-base\GoodCourse.zip.svn-base" />
+                        </Component>
+                        <Component Id="Noimsmanifest.zip.svn_base" Guid="{1173A58F-EDBE-4844-AD46-DF6A5F054642}">
+                            <File Id="Noimsmanifest.zip.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\TestCourses\.svn\prop-base\Noimsmanifest.zip.svn-base" />
+                        </Component>
+                    </Directory>
+                    <Directory Id="text_base_14" Name="text-base">
+                        <Component Id="GoodCourse.zip.svn_base_1" Guid="{81368A9B-8D9F-467B-A2CA-3D12359EC0E7}">
+                            <File Id="GoodCourse.zip.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\TestCourses\.svn\text-base\GoodCourse.zip.svn-base" />
+                        </Component>
+                        <Component Id="Noimsmanifest.zip.svn_base_1" Guid="{1BC77DF7-4945-452E-9F7A-8543245AF433}">
+                            <File Id="Noimsmanifest.zip.svn_base_1" KeyPath="yes" Source="$(var.FileDirectory)\TestCourses\.svn\text-base\Noimsmanifest.zip.svn-base" />
+                        </Component>
+                    </Directory>
+                </Directory>
+            </Directory>
+            <Directory Id="tomcat_solr" Name="tomcat-solr">
+                <Directory Id="_.svn_18" Name=".svn">
+                    <Component Id="all_wcprops_18" Guid="{091D555F-DA90-497F-902A-847636A4F933}">
+                        <File Id="all_wcprops_18" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\.svn\all-wcprops" />
+                    </Component>
+                    <Component Id="entries_18" Guid="{C5B82BF4-024C-42F5-AF71-B646208CEAA8}">
+                        <File Id="entries_18" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\.svn\entries" />
+                    </Component>
+                </Directory>
+                <Directory Id="apache_solr_1.4.0" Name="apache-solr-1.4.0">
+                    <Component Id="build.xml" Guid="{49E3B810-D1B4-49D4-8D10-10BB4A84CF82}">
+                        <File Id="build.xml" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\apache-solr-1.4.0\build.xml" />
+                    </Component>
+                    <Component Id="CHANGES.txt" Guid="{166DF7E8-49A6-46EE-9CF8-B2A8FAB4D86C}">
+                        <File Id="CHANGES.txt" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\apache-solr-1.4.0\CHANGES.txt" />
+                    </Component>
+                    <Component Id="common_build.xml" Guid="{952A58E5-721E-4713-BB2B-3B173A2908CE}">
+                        <File Id="common_build.xml" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\apache-solr-1.4.0\common-build.xml" />
+                    </Component>
+                    <Component Id="Copy_of_NOTICE.txt" Guid="{3CCC05CB-A9A2-4863-A995-8ED51A703AA5}">
+                        <File Id="Copy_of_NOTICE.txt" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\apache-solr-1.4.0\Copy of NOTICE.txt" />
+                    </Component>
+                    <Component Id="delete.bat" Guid="{242BE7C6-82E6-4B6C-8588-FE5FC43C6891}">
+                        <File Id="delete.bat" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\apache-solr-1.4.0\delete.bat" />
+                    </Component>
+                    <Component Id="index.bat" Guid="{FF8D46CC-A507-4A88-97AF-13C8412E0870}">
+                        <File Id="index.bat" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\apache-solr-1.4.0\index.bat" />
+                    </Component>
+                    <Component Id="LICENSE.txt" Guid="{BB41CA40-4136-467E-AF5F-64D08A01874D}">
+                        <File Id="LICENSE.txt" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\apache-solr-1.4.0\LICENSE.txt" />
+                    </Component>
+                    <Component Id="NOTICE.txt" Guid="{E256F7D6-4935-4A2B-BB85-8C5DEE21880C}">
+                        <File Id="NOTICE.txt" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\apache-solr-1.4.0\NOTICE.txt" />
+                    </Component>
+                    <Component Id="README.txt" Guid="{C067783C-DFCA-43E5-A30A-CE9326C9F6AC}">
+                        <File Id="README.txt" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\apache-solr-1.4.0\README.txt" />
+                    </Component>
+                    <Directory Id="_.svn_19" Name=".svn">
+                        <Component Id="all_wcprops_19" Guid="{0989CF5B-A656-440E-A5B9-EE0439BEDDDE}">
+                            <File Id="all_wcprops_19" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\apache-solr-1.4.0\.svn\all-wcprops" />
+                        </Component>
+                        <Component Id="entries_19" Guid="{5C146CD0-FD88-4996-82AE-C9CA583061C6}">
+                            <File Id="entries_19" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\apache-solr-1.4.0\.svn\entries" />
+                        </Component>
+                        <Directory Id="text_base_15" Name="text-base">
+                            <Component Id="build.xml.svn_base" Guid="{DA654A97-B8FC-42BC-AF1B-70DB8DF0BD81}">
+                                <File Id="build.xml.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\apache-solr-1.4.0\.svn\text-base\build.xml.svn-base" />
+                            </Component>
+                            <Component Id="CHANGES.txt.svn_base" Guid="{369484D5-BB20-4540-A896-66CD337EB9C0}">
+                                <File Id="CHANGES.txt.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\apache-solr-1.4.0\.svn\text-base\CHANGES.txt.svn-base" />
+                            </Component>
+                            <Component Id="common_build.xml.svn_base" Guid="{B1094489-C407-436E-9A10-8165134B3A60}">
+                                <File Id="common_build.xml.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\apache-solr-1.4.0\.svn\text-base\common-build.xml.svn-base" />
+                            </Component>
+                            <Component Id="Copy_of_NOTICE.txt.svn_base" Guid="{FA530517-5C72-4405-A2A3-1C32A7E31622}">
+                                <File Id="Copy_of_NOTICE.txt.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\apache-solr-1.4.0\.svn\text-base\Copy of NOTICE.txt.svn-base" />
+                            </Component>
+                            <Component Id="delete.bat.svn_base" Guid="{1AF6BD3C-0044-43BE-8AF2-CADC64490B68}">
+                                <File Id="delete.bat.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\apache-solr-1.4.0\.svn\text-base\delete.bat.svn-base" />
+                            </Component>
+                            <Component Id="index.bat.svn_base" Guid="{C2F991F2-29F0-45CE-B74B-E9E6EB6460B4}">
+                                <File Id="index.bat.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\apache-solr-1.4.0\.svn\text-base\index.bat.svn-base" />
+                            </Component>
+                            <Component Id="LICENSE.txt.svn_base" Guid="{A565F4DE-1556-4B03-B0CD-D61D719771B7}">
+                                <File Id="LICENSE.txt.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\apache-solr-1.4.0\.svn\text-base\LICENSE.txt.svn-base" />
+                            </Component>
+                            <Component Id="NOTICE.txt.svn_base" Guid="{E128CED3-F44D-4CD7-92B3-0B8C9F8FA963}">
+                                <File Id="NOTICE.txt.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\apache-solr-1.4.0\.svn\text-base\NOTICE.txt.svn-base" />
+                            </Component>
+                            <Component Id="README.txt.svn_base" Guid="{A5493EA0-C6E7-4C4B-AB6C-4E6B8E70932A}">
+                                <File Id="README.txt.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\tomcat-solr\apache-solr-1.4.0\.svn\text-base\README.txt.svn-base" />
+                            </Component>
+                        </Directory>
+                    </Directory>
+                </Directory>
+            </Directory>
+            <Directory Id="User" Name="User">
+                <Component Id="MyInfo.aspx" Guid="{CE6C1C31-DADF-479C-ABBF-5FE6DC387143}">
+                    <File Id="MyInfo.aspx" KeyPath="yes" Source="$(var.FileDirectory)\User\MyInfo.aspx" />
+                </Component>
+                <Component Id="MyInfo.aspx.cs" Guid="{1609544A-0BF9-4CBE-929F-C91A0862F202}">
+                    <File Id="MyInfo.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\User\MyInfo.aspx.cs" />
+                </Component>
+                <Component Id="MyPermissions.aspx" Guid="{8CC09F16-3E73-4763-834C-B4269B5641B5}">
+                    <File Id="MyPermissions.aspx" KeyPath="yes" Source="$(var.FileDirectory)\User\MyPermissions.aspx" />
+                </Component>
+                <Component Id="MyPermissions.aspx.cs" Guid="{807B23A8-1E7B-43E2-B61F-3745F3247871}">
+                    <File Id="MyPermissions.aspx.cs" KeyPath="yes" Source="$(var.FileDirectory)\User\MyPermissions.aspx.cs" />
+                </Component>
+                <Directory Id="_.svn_20" Name=".svn">
+                    <Component Id="all_wcprops_20" Guid="{B16517D3-858A-4C81-9319-8972919A13B5}">
+                        <File Id="all_wcprops_20" KeyPath="yes" Source="$(var.FileDirectory)\User\.svn\all-wcprops" />
+                    </Component>
+                    <Component Id="entries_20" Guid="{54C9E5AC-C1A9-44D4-BC39-A95DCAEBC0BF}">
+                        <File Id="entries_20" KeyPath="yes" Source="$(var.FileDirectory)\User\.svn\entries" />
+                    </Component>
+                    <Directory Id="text_base_16" Name="text-base">
+                        <Component Id="MyInfo.aspx.cs.svn_base" Guid="{C54DE809-5864-45F0-906D-9EAC8CC97E06}">
+                            <File Id="MyInfo.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\User\.svn\text-base\MyInfo.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="MyInfo.aspx.svn_base" Guid="{B37C9767-E369-4265-9A47-07164CF642B8}">
+                            <File Id="MyInfo.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\User\.svn\text-base\MyInfo.aspx.svn-base" />
+                        </Component>
+                        <Component Id="MyPermissions.aspx.cs.svn_base" Guid="{00FD911A-04B8-4420-A928-280563964484}">
+                            <File Id="MyPermissions.aspx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\User\.svn\text-base\MyPermissions.aspx.cs.svn-base" />
+                        </Component>
+                        <Component Id="MyPermissions.aspx.svn_base" Guid="{F199E0E9-9C3A-4F03-8346-5B935EA0FA1D}">
+                            <File Id="MyPermissions.aspx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\User\.svn\text-base\MyPermissions.aspx.svn-base" />
+                        </Component>
+                    </Directory>
+                </Directory>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+</Wix>
