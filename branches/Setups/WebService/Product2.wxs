@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <ComponentGroup Id="IudicoFiles">
+            <ComponentRef Id="crossdomain.xml" />
+            <ComponentRef Id="Service1.asmx" />
+            <ComponentRef Id="Service1.asmx.cs" />
+            <ComponentRef Id="Web.config" />
+            <ComponentRef Id="WebService.csproj" />
+            <ComponentRef Id="WebService.csproj.user" />
+            <ComponentRef Id="all_wcprops" />
+            <ComponentRef Id="dir_prop_base" />
+            <ComponentRef Id="entries" />
+            <ComponentRef Id="format" />
+            <ComponentRef Id="crossdomain.xml.svn_base" />
+            <ComponentRef Id="Service1.asmx.cs.svn_base" />
+            <ComponentRef Id="Service1.asmx.svn_base" />
+            <ComponentRef Id="Web.config.svn_base" />
+            <ComponentRef Id="WebService.csproj.svn_base" />
+            <ComponentRef Id="WebService.csproj.user.svn_base" />
+            <ComponentRef Id="TestingSystem.dll" />
+            <ComponentRef Id="TestingSystem.pdb" />
+            <ComponentRef Id="WebService.dll" />
+            <ComponentRef Id="WebService.pdb" />
+            <ComponentRef Id="WebService.csproj.FileListAbsolute.txt" />
+            <ComponentRef Id="WebService.dll_1" />
+            <ComponentRef Id="WebService.pdb_1" />
+            <ComponentRef Id="AssemblyInfo.cs" />
+            <ComponentRef Id="all_wcprops_1" />
+            <ComponentRef Id="entries_1" />
+            <ComponentRef Id="format_1" />
+            <ComponentRef Id="AssemblyInfo.cs.svn_base" />
+        </ComponentGroup>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="INSTALLLOCATION">
+            <Component Id="crossdomain.xml" Guid="{ED5C8455-E1C4-49B2-AC08-A5C250AD5A18}">
+                <File Id="crossdomain.xml" KeyPath="yes" Source="$(var.FileDirectory)\crossdomain.xml" />
+            </Component>
+            <Component Id="Service1.asmx" Guid="{3A743B76-2024-4203-BB15-E05BAC74903F}">
+                <File Id="Service1.asmx" KeyPath="yes" Source="$(var.FileDirectory)\Service1.asmx" />
+            </Component>
+            <Component Id="Service1.asmx.cs" Guid="{24A3DC28-F0CE-4A29-BC36-46A9F9458177}">
+                <File Id="Service1.asmx.cs" KeyPath="yes" Source="$(var.FileDirectory)\Service1.asmx.cs" />
+            </Component>
+            <Component Id="Web.config" Guid="{8A893FE0-15C9-4A6E-84AB-9FDA11C07685}">
+                <File Id="Web.config" KeyPath="yes" Source="$(var.FileDirectory)\Web.config" />
+            </Component>
+            <Component Id="WebService.csproj" Guid="{F9176CED-16C2-419B-879D-74127E71A9CD}">
+                <File Id="WebService.csproj" KeyPath="yes" Source="$(var.FileDirectory)\WebService.csproj" />
+            </Component>
+            <Component Id="WebService.csproj.user" Guid="{0956D332-1114-42CC-8B87-70FACA06A325}">
+                <File Id="WebService.csproj.user" KeyPath="yes" Source="$(var.FileDirectory)\WebService.csproj.user" />
+            </Component>
+            <Directory Id="_.svn" Name=".svn">
+                <Component Id="all_wcprops" Guid="{03D55451-B6C6-412F-8D6B-1D647D46140B}">
+                    <File Id="all_wcprops" KeyPath="yes" Source="$(var.FileDirectory)\.svn\all-wcprops" />
+                </Component>
+                <Component Id="dir_prop_base" Guid="{D0772425-5338-46A2-BAA1-BACDE5873732}">
+                    <File Id="dir_prop_base" KeyPath="yes" Source="$(var.FileDirectory)\.svn\dir-prop-base" />
+                </Component>
+                <Component Id="entries" Guid="{8D6C30DD-0978-496A-BF56-B89340C2A357}">
+                    <File Id="entries" KeyPath="yes" Source="$(var.FileDirectory)\.svn\entries" />
+                </Component>
+                <Component Id="format" Guid="{0F98FCA5-CFB9-43A2-AE6A-D2428D132A62}">
+                    <File Id="format" KeyPath="yes" Source="$(var.FileDirectory)\.svn\format" />
+                </Component>
+                <Directory Id="text_base" Name="text-base">
+                    <Component Id="crossdomain.xml.svn_base" Guid="{681D661B-4911-4685-AC91-B5B58D4465EF}">
+                        <File Id="crossdomain.xml.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\.svn\text-base\crossdomain.xml.svn-base" />
+                    </Component>
+                    <Component Id="Service1.asmx.cs.svn_base" Guid="{BCAB8646-6843-440E-BB3A-A9D723F881AB}">
+                        <File Id="Service1.asmx.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\.svn\text-base\Service1.asmx.cs.svn-base" />
+                    </Component>
+                    <Component Id="Service1.asmx.svn_base" Guid="{0CA6A692-9584-4C4F-86BD-529F0C05C051}">
+                        <File Id="Service1.asmx.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\.svn\text-base\Service1.asmx.svn-base" />
+                    </Component>
+                    <Component Id="Web.config.svn_base" Guid="{D1C5E07D-6C9F-4412-8D7A-BAC897F71F2F}">
+                        <File Id="Web.config.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\.svn\text-base\Web.config.svn-base" />
+                    </Component>
+                    <Component Id="WebService.csproj.svn_base" Guid="{2304EC7D-983A-45BA-AFB9-1DBE268EB197}">
+                        <File Id="WebService.csproj.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\.svn\text-base\WebService.csproj.svn-base" />
+                    </Component>
+                    <Component Id="WebService.csproj.user.svn_base" Guid="{E940780A-3EC1-4E23-9A32-EBB554D57DB5}">
+                        <File Id="WebService.csproj.user.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\.svn\text-base\WebService.csproj.user.svn-base" />
+                    </Component>
+                </Directory>
+            </Directory>
+            <Directory Id="bin" Name="bin">
+                <Component Id="TestingSystem.dll" Guid="{067ABAEE-A4D6-4248-A933-E5EDE31AE016}">
+                    <File Id="TestingSystem.dll" KeyPath="yes" Source="$(var.FileDirectory)\bin\TestingSystem.dll" />
+                </Component>
+                <Component Id="TestingSystem.pdb" Guid="{E9DC091B-FC6E-46D6-B3BD-5F285F5281F2}">
+                    <File Id="TestingSystem.pdb" KeyPath="yes" Source="$(var.FileDirectory)\bin\TestingSystem.pdb" />
+                </Component>
+                <Component Id="WebService.dll" Guid="{5CCFF62B-EE29-45C5-B9A1-45ACDECF9160}">
+                    <File Id="WebService.dll" KeyPath="yes" Source="$(var.FileDirectory)\bin\WebService.dll" />
+                </Component>
+                <Component Id="WebService.pdb" Guid="{FF915EC1-37C2-43FE-B20F-87686A57EE5C}">
+                    <File Id="WebService.pdb" KeyPath="yes" Source="$(var.FileDirectory)\bin\WebService.pdb" />
+                </Component>
+            </Directory>
+            <Directory Id="obj" Name="obj">
+                <Directory Id="Debug" Name="Debug">
+                    <Component Id="WebService.csproj.FileListAbsolute.txt" Guid="{201A2752-D081-4630-943C-36077A761841}">
+                        <File Id="WebService.csproj.FileListAbsolute.txt" KeyPath="yes" Source="$(var.FileDirectory)\obj\Debug\WebService.csproj.FileListAbsolute.txt" />
+                    </Component>
+                    <Component Id="WebService.dll_1" Guid="{304400C8-A66E-4CEC-BDDB-3F68A95E666E}">
+                        <File Id="WebService.dll_1" KeyPath="yes" Source="$(var.FileDirectory)\obj\Debug\WebService.dll" />
+                    </Component>
+                    <Component Id="WebService.pdb_1" Guid="{626197C6-B7E4-4663-BD68-E27907897BDA}">
+                        <File Id="WebService.pdb_1" KeyPath="yes" Source="$(var.FileDirectory)\obj\Debug\WebService.pdb" />
+                    </Component>
+                </Directory>
+            </Directory>
+            <Directory Id="Properties" Name="Properties">
+                <Component Id="AssemblyInfo.cs" Guid="{E88CE026-E4F1-40CB-9756-49827FE591B4}">
+                    <File Id="AssemblyInfo.cs" KeyPath="yes" Source="$(var.FileDirectory)\Properties\AssemblyInfo.cs" />
+                </Component>
+                <Directory Id="_.svn_1" Name=".svn">
+                    <Component Id="all_wcprops_1" Guid="{E5CF7AD7-9680-4885-90ED-B3F7750A5BCB}">
+                        <File Id="all_wcprops_1" KeyPath="yes" Source="$(var.FileDirectory)\Properties\.svn\all-wcprops" />
+                    </Component>
+                    <Component Id="entries_1" Guid="{4EC0AE94-BFE9-4BB2-9787-F149F4D95F1A}">
+                        <File Id="entries_1" KeyPath="yes" Source="$(var.FileDirectory)\Properties\.svn\entries" />
+                    </Component>
+                    <Component Id="format_1" Guid="{9DAA2BBB-2B6F-4CED-987E-042EB4726314}">
+                        <File Id="format_1" KeyPath="yes" Source="$(var.FileDirectory)\Properties\.svn\format" />
+                    </Component>
+                    <Directory Id="text_base_1" Name="text-base">
+                        <Component Id="AssemblyInfo.cs.svn_base" Guid="{5A2B0C23-5BC1-498D-BDAC-94D7C619B68E}">
+                            <File Id="AssemblyInfo.cs.svn_base" KeyPath="yes" Source="$(var.FileDirectory)\Properties\.svn\text-base\AssemblyInfo.cs.svn-base" />
+                        </Component>
+                    </Directory>
+                </Directory>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+</Wix>

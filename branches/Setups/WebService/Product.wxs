@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util='http://schemas.microsoft.com/wix/UtilExtension' xmlns:iis='http://schemas.microsoft.com/wix/IIsExtension'>
+	<Product Id="3bf73814-a893-4d8f-a2cb-951a6013cbf9" Name="$(var.TargetName)" Language="1058" Version="1.0.0.0" Manufacturer="LNU" UpgradeCode="771af632-0daf-46ed-be96-ec63856b4a2a" Codepage="1251">
+		<Package InstallerVersion="200" Compressed="yes" />
+
+		<Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLLOCATION" Name="$(var.TargetName)">
+				</Directory>
+			</Directory>
+
+			<!--AppPool -->
+			<Component Id="AppPoolComponent" Guid="6b27e78e-bcbc-462a-bd7a-50cf991c7e39">
+				<iis:WebAppPool Id="IudicoAppPool" Identity="localSystem" Name="WebServiceAppPool"/>
+			</Component>
+
+			<!--WebSite-->
+			<Component Id='WebSiteComponent' Guid='6b27e78e-bcbc-462a-bd7a-50cf991c7d39' DiskId='1'>
+				<iis:WebSite Id='IudicoWebService' Description='IudicoWebService' Directory='INSTALLLOCATION'>
+					<iis:WebAddress Id='WebAdress' Port="[IUDICOPORT]" IP="[IUDICOIP]"/>
+					<iis:WebApplication Id='TestWebApplication' Name='Test' WebAppPool='IudicoAppPool'/>
+				</iis:WebSite>
+			</Component>
+
+			<!--Changing registry-->
+			<Component Id='RegistryComponent' Guid='d37534fa-9102-488f-8c14-2a7b0acbace2'>
+				<RegistryKey Root="HKCU" Key="Software\Microsoft\$(var.TargetName)" Action="createAndRemoveOnUninstall">
+					<RegistryValue Name="Installed" Type="integer" Value="1"  KeyPath="yes"/>
+					<RegistryValue Name="InstallPath" Type="string" Value="[INSTALLLOCATION]"/>
+				</RegistryKey>
+			</Component>
+		</Directory>
+
+		<Feature Id="ProductFeature" Title="Iudico_WebService" Level="1">
+			<ComponentRef Id="WebSiteComponent"/>
+			<ComponentRef Id="AppPoolComponent"/>
+			<ComponentRef Id="RegistryComponent"/>
+			<ComponentGroupRef Id="IudicoFiles"/>
+		</Feature>
+
+		<!--UI-->
+		<UIRef Id="MyWixUI_InstallDir"/>
+
+		<!--Dialog properties-->
+		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
+		<Property Id="IUDICOIP" Value="192.168.1.2"/>
+		<Property Id="IUDICOPORT" Value="8082"/>
+	</Product>
+</Wix>
