@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<!--My set of dialogs-->
+		<UI Id ="MyWixUI_InstallDir">
+			<UIRef Id="WixUI_InstallDir" />
+			<UIRef Id="WixUI_ErrorProgressText" />
+
+			<DialogRef Id="SiteIpPortDlg"/>
+
+			<Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg" Order="2">1</Publish>
+			<Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">1</Publish>
+			<Publish Dialog="InstallDirDlg" Control="Next" Event="NewDialog" Value="SiteIpPortDlg" Order="4">1</Publish>
+			<Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="SiteIpPortDlg" Order="2">1</Publish>
+		</UI>
+	</Fragment>
+</Wix>
