@@ -1,0 +1,7 @@
+D:\C#\Iudico Setups\Iudico Setup\bin\Debug\Iudico.wixpdb
+obj\Debug\Product.wixobj
+obj\Debug\Product2.wixobj
+obj\Debug\SiteIpPortDlg.wixobj
+obj\Debug\SqlDlg.wixobj
+obj\Debug\MyWixUI_InstallDir.wixobj
+D:\Hudson\data\jobs\IUDICO Setup\workspace\Iudico Setup\bin\Debug\Iudico.wixpdb

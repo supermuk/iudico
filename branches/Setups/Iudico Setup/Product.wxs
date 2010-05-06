@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util='http://schemas.microsoft.com/wix/UtilExtension' xmlns:sql='http://schemas.microsoft.com/wix/SqlExtension' xmlns:iis='http://schemas.microsoft.com/wix/IIsExtension'>
+	<Product Id="36090710-50df-4a96-aa9c-4465c981ae3a" Name="$(var.TargetName)" Language="1058" Version="1.0.0.0" Manufacturer="LNU" UpgradeCode="ade63f5d-e24f-4d10-8e3d-557983984621" Codepage="1251">
+		<Package InstallerVersion="200" Compressed="yes" />
+
+		<Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLLOCATION" Name="$(var.TargetName)">
+				</Directory>
+			</Directory>
+
+			<!--Configuring web.config-->
+			<Component Id='SettingsComponent' Guid='d37534fa-9102-488f-8d14-2a7b0acbace1'>
+				<util:XmlFile Id='XmlSettings1' File='[INSTALLLOCATION]web.config'
+											Action='setValue' Name='connectionString' Value='Data Source=[IUDICODATABASESERVER];Initial Catalog=IUDICO;integrated Security=True;' ElementPath='//connectionStrings/add[\[]@name="IUDICO"[\]]' Sequence='1' />
+			</Component>
+			
+			<!--AppPool -->
+			<Component Id="AppPoolComponent" Guid="6b27e78e-bcbc-462a-bd7a-50cf991c7e39">
+				<iis:WebAppPool Id="IudicoAppPool" Identity="localSystem" Name="IudicoAppPool"/>
+			</Component>
+
+			<!--WebSite-->
+			<Component Id='WebSiteComponent' Guid='6b27e78e-bcbc-462a-bd7a-50cf991c7d39' DiskId='1'>
+				<iis:WebSite Id='IudicoWebSite' Description='IudicoWebSite' Directory='INSTALLLOCATION'>
+					<iis:WebAddress Id='WebAdress' Port="[IUDICOPORT]" IP="[IUDICOIP]"/>
+					<iis:WebApplication Id='TestWebApplication' Name='Test' WebAppPool='IudicoAppPool'/>
+				</iis:WebSite>
+			</Component>
+
+			<!--Creating Iudico database-->
+			<Component Id='SqlComponent' Guid='d37534fa-9102-488f-8c14-2a7b0acbace1'>
+				<sql:SqlDatabase Id='SqlDatabase' Database='IUDICO' Server='[IUDICODATABASESERVER]'
+												 CreateOnInstall='yes' DropOnUninstall='yes' ContinueOnError='yes'>
+					<sql:SqlScript Id='CreateTable' BinaryKey='CreateTable' ExecuteOnInstall='yes' />
+				</sql:SqlDatabase>
+			</Component>
+
+			<!--Changing registry-->
+			<Component Id='RegistryComponent' Guid='d37534fa-9102-488f-8c14-2a7b0acbace2'>
+				<RegistryKey Root="HKCU" Key="Software\Microsoft\$(var.TargetName)" Action="createAndRemoveOnUninstall">
+					<RegistryValue Name="Installed" Type="integer" Value="1"  KeyPath="yes"/>
+					<RegistryValue Name="InstallPath" Type="string" Value="[INSTALLLOCATION]"/>
+				</RegistryKey>
+			</Component>
+		</Directory>
+		
+		<!--Executing SQL scripts-->
+		<Binary Id='CreateTable' SourceFile='$(var.FileDirectory)\..\DBScripts\iudico.sql' />
+
+		<Feature Id="ProductFeature" Title="Iudico_Setup" Level="1">
+			<ComponentRef Id="SqlComponent"/>
+			<ComponentRef Id="WebSiteComponent"/>
+			<ComponentRef Id="AppPoolComponent"/>
+			<ComponentRef Id="SettingsComponent"/>
+			<ComponentRef Id="RegistryComponent"/>
+			<ComponentGroupRef Id="IudicoFiles"/>
+		</Feature>
+
+		<!--UI-->
+		<UIRef Id="MyWixUI_InstallDir"/>
+
+		<!--Dialog properties-->
+		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
+		<Property Id="IUDICOIP" Value="192.168.1.2"/>
+		<Property Id="IUDICOPORT" Value="8080"/>
+		<Property Id="IUDICODATABASESERVER" Value=".\"/>
+	</Product>
+</Wix>
