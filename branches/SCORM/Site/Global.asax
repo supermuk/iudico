@@ -30,7 +30,7 @@
 
 <script runat="server">
     
-    private const string DummyPageUrl = "http://localhost:1207/WebForm1.aspx";
+    private const string DummyPageUrl = "http://localhost:2935/WebForm1.aspx";
     private const string DummyCacheItemKey = "GGG";
     private string ApplicationPath;
     
@@ -114,7 +114,7 @@
         if (null != HttpContext.Current.Cache[DummyCacheItemKey]) return;
 
         HttpContext.Current.Cache.Add(DummyCacheItemKey, "Index", null, DateTime.MaxValue,
-            TimeSpan.FromMinutes(1440), CacheItemPriority.NotRemovable,
+            TimeSpan.FromMinutes(2), CacheItemPriority.NotRemovable,
             new CacheItemRemovedCallback(CacheItemRemovedCallback));
     }
 
