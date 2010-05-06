@@ -712,6 +712,15 @@ namespace IUDICO.UnitTest.Base
             //Pause();
             return this;
         }
+
+        public TestFixtureWeb AssertCountButtonOnPage()
+        {
+            List<string> button = new List<string>(selenium.GetAllButtons());
+            int count = button.Count;
+            
+            Assert.AreEqual(6, count);
+            return this;
+        }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
         /// return true for visible tegs
@@ -747,6 +756,28 @@ namespace IUDICO.UnitTest.Base
             foreach (string a in but)
             {
                 if (index == 3)
+                {
+                    selenium.Click(a);
+                }
+                index++;
+            }
+            selenium.WaitForPageToLoad("10000");
+            return this;
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// click on last button with value remove
+        /// </summary>
+        /// <returns></returns>
+        public TestFixtureWeb ClickOnLButtonRemoveGroup()
+        {
+            List<string> but = new List<string>(selenium.GetAllButtons());
+            int index = 0;
+            int len = but.Count;
+            foreach (string a in but)
+            {
+                if (index == 6)
                 {
                     selenium.Click(a);
                 }
