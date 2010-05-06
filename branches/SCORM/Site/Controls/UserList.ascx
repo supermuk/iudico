@@ -45,10 +45,18 @@
         </asp:TemplateField>
         <asp:TemplateField>
             <HeaderTemplate>
-                <asp:Label ID="Label1" Text="IP" runat="server" />
+                <asp:Label ID="lbIPHeader" Text="IP" runat="server" />
             </HeaderTemplate>
             <ItemTemplate>
                 <asp:Label ID="lbIP" runat="server" />
+            </ItemTemplate>
+        </asp:TemplateField>
+        <asp:TemplateField>
+            <HeaderTemplate>
+                <asp:Label ID="lbLastLoginHeader" Text="Last login" runat="server" />
+            </HeaderTemplate>
+            <ItemTemplate>
+                <asp:Label ID="lbLastLogin" runat="server" />
             </ItemTemplate>
         </asp:TemplateField>
         <asp:TemplateField>
