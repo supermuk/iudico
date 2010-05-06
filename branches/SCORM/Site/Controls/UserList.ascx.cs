@@ -37,6 +37,7 @@ public partial class Controls_UserList : UserControl
             var lbEmail = (Label)e.Row.FindControl("lbEmail");
             var lbIP = (Label)e.Row.FindControl("lbIP");
             var btnAction = (Button) e.Row.FindControl("btnAction");
+            var lbLastLogin = (Label)e.Row.FindControl("lbLastLogin");
 
             lbLogin.PostBackUrl = ServerModel.Forms.BuildRedirectUrl(new Admin_EditUserController { BackUrl = Request.RawUrl, UserID = user.ID });
             lbLogin.Text = user.Login;
@@ -49,10 +50,11 @@ public partial class Controls_UserList : UserControl
                 btnAction.PostBackUrl = ActionUrl(user);
             }
 
-            var ip = ServerModel.DB.TblUsersSignIn.Where(u => u.UserId == user.ID).FirstOrDefault();
-            if (ip != null)
+            var signInInfo = ServerModel.DB.TblUsersSignIn.Where(u => u.UserId == user.ID).FirstOrDefault();
+            if (signInInfo != null)
             {
-                lbIP.Text = ip.TblComputers.IP;
+                lbIP.Text = signInInfo.TblComputers.IP;
+                lbLastLogin.Text = signInInfo.LastLogin.Value.ToString();
             }
         }
     }
