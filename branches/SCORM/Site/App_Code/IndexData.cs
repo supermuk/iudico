@@ -42,6 +42,7 @@ public class IndexData
     {
        
             //SEARCHING FOR DIRECTORIES IN ASSETS DIRECTORY, WHICH ARE THEMES
+            //string searchPath = Path.Combine(HttpRuntime.AppDomainAppVirtualPath, "Assets");
             string searchPath = Path.Combine(HttpRuntime.AppDomainAppPath, "Assets");
             string[] dirs = Directory.GetDirectories(searchPath, "*");
             List<int> ids = new List<int>();
