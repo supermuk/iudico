@@ -48,7 +48,7 @@ Inherits="Admin_Settings" Title="Settings" %>
                                     <cc1:ComboBox ID="ComboBox1" runat="server" 
                                             DropDownStyle="Simple" 
                                         OnSelectedIndexChanged="ComboBox1_SelectedIndexChanged" AutoPostBack="True" 
-                                        MaxLength="0">
+                                        MaxLength="0" AutoCompleteMode="Suggest">
                                     <asp:ListItem>Allow</asp:ListItem>
                                     <asp:ListItem>Deny</asp:ListItem>
                                         </cc1:ComboBox>

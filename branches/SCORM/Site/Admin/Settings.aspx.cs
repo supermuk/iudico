@@ -185,7 +185,15 @@ public partial class Admin_Settings : ControlledPage<Admin_SettingsController>
             {
                 ConfigurationElement element = coll.CreateElement("add");
                 element.SetAttributeValue("ipAddress", ip);
-                element["allowed"] = false;
+                if (ComboBox1.SelectedValue == "Allow")
+                {
+                    element["allowed"] = false;
+                }
+                else
+                {
+                    element["allowed"] = true;
+                }
+                
                 coll.Add(element);
                 CheckBoxList1.Items.Add(ip);
             }
