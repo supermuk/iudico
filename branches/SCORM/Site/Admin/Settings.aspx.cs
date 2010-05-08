@@ -24,15 +24,37 @@ public partial class Admin_Settings : ControlledPage<Admin_SettingsController>
             {
                 Configuration config = serverManager.GetWebConfiguration(siteName);
                 ConfigurationSection section = config.GetSection("system.webServer/security/ipSecurity");
-                ConfigurationElementCollection coll = section.GetCollection();
-                CheckBoxList1.Items.Clear();
-                for (int i = 0; i < coll.Count; i++)
+                if (Convert.ToBoolean(section.Attributes["allowUnlisted"].Value))
                 {
-                    CheckBoxList1.Items.Add(coll[i].Attributes["ipAddress"].Value.ToString());
+                    ComboBox1.SelectedValue = "Allow";
+                    ConfigurationElementCollection coll = section.GetCollection();
+                    CheckBoxList1.Items.Clear();
+                    for (int i = 0; i < coll.Count; i++)
+                    {
+                        if (!Convert.ToBoolean(coll[i].Attributes["allowed"].Value))
+                        {
+                            CheckBoxList1.Items.Add(coll[i].Attributes["ipAddress"].Value.ToString());
+                        }
+                        
+                    }
                 }
+                else
+                {
+                    ComboBox1.SelectedValue = "Deny";
+                    ConfigurationElementCollection coll = section.GetCollection();
+                    CheckBoxList1.Items.Clear();
+                    for (int i = 0; i < coll.Count; i++)
+                    {
+                        if (Convert.ToBoolean(coll[i].Attributes["allowed"].Value))
+                        {
+                            CheckBoxList1.Items.Add(coll[i].Attributes["ipAddress"].Value.ToString());
+                        }
+
+                    }
+                }
+                
             }
         }
-
     }
 
     protected override void BindController(Admin_SettingsController c)
@@ -197,6 +219,46 @@ public partial class Admin_Settings : ControlledPage<Admin_SettingsController>
             for (int i = 0; i < coll.Count; i++)
             {
                 CheckBoxList1.Items.Add(coll[i].Attributes["ipAddress"].Value.ToString());
+            }
+        }
+    }
+    protected void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (Page.IsPostBack)
+        {
+            using (ServerManager serverManager = new ServerManager())
+            {
+                Configuration config = serverManager.GetWebConfiguration(siteName);
+                ConfigurationSection section = config.GetSection("system.webServer/security/ipSecurity");
+                if (ComboBox1.SelectedValue == "Allow")
+                {
+
+                    section.Attributes["allowUnlisted"].Value = true;
+                    ConfigurationElementCollection coll = section.GetCollection();
+                    CheckBoxList1.Items.Clear();
+                    for (int i = 0; i < coll.Count; i++)
+                    {
+                        if (!Convert.ToBoolean(coll[i].Attributes["allowed"].Value))
+                        {
+                            CheckBoxList1.Items.Add(coll[i].Attributes["ipAddress"].Value.ToString());
+                        }
+
+                    }
+                }
+                else
+                {
+                    section.Attributes["allowUnlisted"].Value = false;
+                    ConfigurationElementCollection coll = section.GetCollection();
+                    CheckBoxList1.Items.Clear();
+                    for (int i = 0; i < coll.Count; i++)
+                    {
+                        if (Convert.ToBoolean(coll[i].Attributes["allowed"].Value))
+                        {
+                            CheckBoxList1.Items.Add(coll[i].Attributes["ipAddress"].Value.ToString());
+                        }
+                    }
+                }
+                serverManager.CommitChanges();
             }
         }
     }
