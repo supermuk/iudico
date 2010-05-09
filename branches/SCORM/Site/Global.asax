@@ -33,6 +33,7 @@
     private const string DummyPageUrl = "http://localhost:2935/WebForm1.aspx";
     private const string DummyCacheItemKey = "GGG";
     private string ApplicationPath;
+    private Dictionary<string, DateTime> activity;
     
     void Application_Start(object sender, EventArgs e) 
     {
@@ -52,6 +53,8 @@
         
         ServerModel.Initialize(WebConfigurationManager.ConnectionStrings["IUDICO"].ConnectionString, HttpRuntime.Cache);
         PagesReg.RegisterPages(ServerModel.Forms);
+        activity = new Dictionary<string, DateTime>();
+        Application["activityList"] = activity;
 
         RegisterCacheEntry();
     } 

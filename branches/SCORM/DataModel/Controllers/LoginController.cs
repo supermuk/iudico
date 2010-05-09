@@ -2,6 +2,8 @@
 using System.Web.UI.WebControls;
 using System.Web;
 using System.Linq;
+using System.Collections.Generic;
+using System;
 
 namespace IUDICO.DataModel.Controllers
 {
@@ -14,8 +16,17 @@ namespace IUDICO.DataModel.Controllers
         {
             var l = (Login)sender;
             bool isAuthenticated = Membership.ValidateUser(l.UserName, l.Password);
+            Dictionary<string, DateTime> activity = (Dictionary<string, DateTime>)HttpContext.Current.Application["activityList"];
+            bool isOnline = false;
+            if (activity.Keys.Contains(l.UserName))
+            {
+                if (activity[l.UserName].AddMinutes(Convert.ToInt32(System.Configuration.ConfigurationSettings.AppSettings["noLogInTimeout"])) > DateTime.Now)
+                {
+                    isOnline = true;
+                }
+            }
 
-            if (isAuthenticated)
+            if (isAuthenticated && !isOnline)
             {
                 var user = ServerModel.DB.TblUsers.Where(u => u.Login == l.UserName).SingleOrDefault();
                 string IP = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
@@ -38,11 +49,11 @@ namespace IUDICO.DataModel.Controllers
                     signInInfo.LastLogin = System.DateTime.Now;
                     ServerModel.DB.TblUsersSignIn.InsertOnSubmit(signInInfo);
                 }
-
+                
                 ServerModel.DB.SubmitChanges();
             }
 
-            e.Authenticated = isAuthenticated; 
+            e.Authenticated = isAuthenticated && !isOnline; 
         }
 
         private int LookupOrAddComputer(string ip)
