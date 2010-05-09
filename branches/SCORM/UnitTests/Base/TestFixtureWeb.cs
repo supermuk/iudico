@@ -74,7 +74,6 @@ namespace IUDICO.UnitTest.Base
         protected override void InitializeFixture()
         {
             base.InitializeFixture();
-            verificationErrors = new StringBuilder();
             
             selenium.Start();
 
@@ -808,11 +807,10 @@ namespace IUDICO.UnitTest.Base
                 value);
             return this;
         }
-        private StringBuilder verificationErrors;
         
-        private readonly ISelenium selenium;
+        protected readonly ISelenium selenium;
 
-        private readonly BrowserType browserType = BrowserType.InternetExplorer;
+        private readonly BrowserType browserType = BrowserType.Firefox;
 
         private readonly string testMachine;
 
