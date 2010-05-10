@@ -9,7 +9,7 @@
   * [#Control_Chapter_Default_Sequencing Control Chapter Default Sequencing]
   * [#Forced_Forward-only_Order Forced Forward-only Order]
   * [#Forced_Sequential_Order Forced Sequential Order]
-  * [#Post_Test Post Test]
+  * [#Post-Test Post-Test]
   * [#Pre-Test_or_Post-Test Pre-Test or Post-Test]
   * [#Random_Post-Test Random Post-Test]
   * [#Remediation Remediation]
