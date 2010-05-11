@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ServerModel_Initialize_Initializing_ServerModel___" xml:space="preserve">
-    <value>Initializing ServerModel...</value>
+    <value>Ініціалізація ServerModel...</value>
   </data>
   <data name="ServerModel_TableRecordAttributeInitialize_Couldn_t_found_DB_value_for__0___1__marked_with__2_" xml:space="preserve">
     <value>Couldn't found DB value for {0}.{1} marked with {2}</value>
@@ -130,19 +130,19 @@
     <value>Binding is not allowed</value>
   </data>
   <data name="PermissionsManager_Grand_One_and_only_one_of_parameters__userID__groupID__must_be_specified" xml:space="preserve">
-    <value>One and only one of parameters (userID, groupID) must be specified</value>
+    <value>Один і тільки один з параметрів (userID, groupID) мусить бути зазначеним</value>
   </data>
   <data name="PermissionsManager_Delegate_One_and_only_one_of_parameters__targetUserID__targetGroupID__must_be_specified" xml:space="preserve">
-    <value>One and only one of parameters (targetUserID, targetGroupID) must be specified</value>
+    <value>Один і тільки один з параметрів (targetUserID, targetGroupID) мусить бути зазначеним</value>
   </data>
   <data name="PermissionsManager_Delegate_" xml:space="preserve">
-    <value>User {0} have no access to do {1} on {2} ID = {3}. Cannot perform delegation</value>
+    <value>Користувач {0} не має доступу до {1} на {2} ID = {3}. Неможливо виконати дію</value>
   </data>
   <data name="PermissionsManager_Initialize_Initializing_Security" xml:space="preserve">
-    <value>Initializing Security</value>
+    <value>Ініціалізація Security</value>
   </data>
   <data name="PermissionsManager_Initialize__0__is_already_initialized" xml:space="preserve">
-    <value>{0} is already initialized</value>
+    <value>{0} вже ініціалізований</value>
   </data>
   <data name="PermissionsManager_CheckSupport_DataObject__0__must_support__1__interface_to_be_a_secured_object" xml:space="preserve">
     <value>DataObject {0} must support {1} interface to be a secured object</value>
@@ -184,13 +184,13 @@
     <value>Class {0} is not support {1} so it cannot take participation in Many-To-Many relationship</value>
   </data>
   <data name="FxDataObject_FxDataObject_Cannot_change_readonly_object__0_" xml:space="preserve">
-    <value>Cannot change readonly object {0}</value>
+    <value>Неможливо змінити об'єкт, доступний лише для читання {0}</value>
   </data>
   <data name="RelTable_RelTable_Impossible_to_create_relation_dataobject__Please_use_methods_of_ServerModel_DB_instead" xml:space="preserve">
     <value>Impossible to create relation dataobject. Please use methods of ServerModel.DB instead</value>
   </data>
   <data name="DataObjectSqlSerializer_AppendSoftDeleteSql_Collection_cannot_be_empty" xml:space="preserve">
-    <value>Collection cannot be empty</value>
+    <value>Колекція не може бути порожньою</value>
   </data>
   <data name="LookupHelper_RegisterMMLookup_Invalid_many_to_many_relationship_definition_for__0___1_" xml:space="preserve">
     <value>Invalid many-to-many relationship definition for {0}-{1}</value>
@@ -199,7 +199,7 @@
     <value>Couldnt found relation between {0} and {1}</value>
   </data>
   <data name="LookupHelper_AppendLookupSql_" xml:space="preserve">
-    <value>{0} has invalid ID = {1}</value>
+    <value>{0} має неправильний ID = {1}</value>
   </data>
   <data name="LookupHelper_AppendMMLookupSql_Couldnt_fond_many_to_many_relation_between__1__and__1_" xml:space="preserve">
     <value>Couldnt fond many-to-many relation between {1} and {1}</value>
@@ -253,25 +253,25 @@
     <value>Неправильний Data Reader</value>
   </data>
   <data name="DatabaseModel_Update_Updating_" xml:space="preserve">
-    <value>Updating </value>
+    <value>Оновлення</value>
   </data>
   <data name="DatabaseModel_Update_Updating_multiple_" xml:space="preserve">
-    <value>Updating multiple </value>
+    <value>Оновлення багатьох</value>
   </data>
   <data name="DatabaseModel_Update_Executing_update_operation" xml:space="preserve">
-    <value>Executing update operation</value>
+    <value>Виконання операції оновлення</value>
   </data>
   <data name="DatabaseModel_Load_Loading_" xml:space="preserve">
     <value>Завантаження</value>
   </data>
   <data name="DatabaseModel_Load_Got_from_cache" xml:space="preserve">
-    <value>Got from cache</value>
+    <value>Отримане з кешу</value>
   </data>
   <data name="DatabaseModel_Load_Running_sql___" xml:space="preserve">
-    <value>Running sql...</value>
+    <value>Виконання sql...</value>
   </data>
   <data name="DatabaseModel_Load_Invalid_object_ID___0_" xml:space="preserve">
-    <value>Invalid object ID: {0}</value>
+    <value>Некоректний object ID: {0}</value>
   </data>
   <data name="DatabaseModel_Load_Loading_multiple_" xml:space="preserve">
     <value>Завантаження кількох</value>
@@ -286,7 +286,7 @@
     <value>Видалення кількох</value>
   </data>
   <data name="DatabaseModel_LookupIds_Looking_up_ids_of_" xml:space="preserve">
-    <value>Looking up ids of </value>
+    <value>Пошук id для </value>
   </data>
   <data name="DatabaseModel_LookupIds__for_" xml:space="preserve">
     <value>для</value>
@@ -295,7 +295,7 @@
     <value>Custom query for </value>
   </data>
   <data name="DatabaseModel_QuerySingleOrDefault_Too_many_objects" xml:space="preserve">
-    <value>Too many objects</value>
+    <value>Занадто багато об'єктів</value>
   </data>
   <data name="DatabaseModel_LookupMany2ManyIds_Looking_up_many_2_many_ids_between_" xml:space="preserve">
     <value>Looking up many-2-many ids between </value>
@@ -307,7 +307,7 @@
     <value>UnLinking </value>
   </data>
   <data name="DatabaseModel_RunInTransaction_Rolling_back_transaction___" xml:space="preserve">
-    <value>Rolling back transaction...</value>
+    <value>Відкат транзакції...</value>
   </data>
   <data name="UserInfoController_pageCaption" xml:space="preserve">
     <value>Особиста інформація користувача</value>
@@ -430,7 +430,7 @@
     <value>навчальний план</value>
   </data>
   <data name="ShareController_delegateStr_Allow_to_delegate_this_operation_" xml:space="preserve">
-    <value>Allow to delegate this operation.</value>
+    <value>Дозволити делегування цієї операції</value>
   </data>
   <data name="ReCompilePageController_PageLoad_Select_Group_and_Theme_that_your_want_to_recompile" xml:space="preserve">
     <value>Виберіть групу і тему, яку ви хочете перекомпілювати.</value>
@@ -478,7 +478,7 @@
     <value>Видалення {0}: {1}</value>
   </data>
   <data name="CurriculumDeleteConfirmationController_stageStr_stage" xml:space="preserve">
-    <value>stage</value>
+    <value>стадія</value>
   </data>
   <data name="CurriculumDeleteConfirmationController_themeStr_theme" xml:space="preserve">
     <value>тема</value>
@@ -571,7 +571,7 @@
     <value>В календарі ви бачите дати, коли ви можете  {0} тест</value>
   </data>
   <data name="OpenTestController_PageLoad_Wrong_request__LearnerAttempt_ID_not_specified_" xml:space="preserve">
-    <value>Wrong request (LearnerAttempt ID not specified)</value>
+    <value>Некоректний запит (LearnerAttempt ID не вибраний)</value>
   </data>
   <data name="OpenTestController_ShowCurrent_You_opened__0___1___page" xml:space="preserve">
     <value>Ви відкрили {0}({1}) сторінку</value>
@@ -607,43 +607,43 @@
     <value>Об'єкт  {0} з ID {1} не знайдений в кеші</value>
   </data>
   <data name="LnuDataModel_GetValue_Requested_variable_is_not_supported" xml:space="preserve">
-    <value>Requested variable is not supported</value>
+    <value>Дана змінна не підтримується</value>
   </data>
   <data name="Score_GetValue_Requested_variable_is_not_supported" xml:space="preserve">
-    <value>Requested variable is not supported</value>
+    <value>Дана змінна не підтримується</value>
   </data>
   <data name="Score_SetValue_Requested_variable_is_read_only" xml:space="preserve">
-    <value>Requested variable is read-only</value>
+    <value>Дана змінна доступна лише для читання</value>
   </data>
   <data name="Score_GetVariable_Requested_variable_is_write_only" xml:space="preserve">
-    <value>Requested variable is write-only</value>
+    <value>Дана змінна доступна лише для писання</value>
   </data>
   <data name="Interactions_GetValue_Requested_variable_is_not_supported" xml:space="preserve">
-    <value>Requested variable is not supported</value>
+    <value>Дана змінна не підтримується</value>
   </data>
   <data name="Interactions_SetValue_Requested_variable_is_read_only" xml:space="preserve">
-    <value>Requested variable is read-only</value>
+    <value>Дана змінна доступна лише для читання</value>
   </data>
   <data name="Interactions_GetVariable_Requested_variable_is_write_only" xml:space="preserve">
-    <value>Requested variable is write-only</value>
+    <value>Дана змінна доступна лише для писання</value>
   </data>
   <data name="InteractionObjectives_GetValue_Requested_variable_is_not_supported" xml:space="preserve">
-    <value>Requested variable is not supported</value>
+    <value>Дана змінна не підтримується</value>
   </data>
   <data name="InteractionObjectives_SetValue_Requested_variable_is_read_only" xml:space="preserve">
-    <value>Requested variable is read-only</value>
+    <value>Дана змінна доступна лише для читання</value>
   </data>
   <data name="InteractionObjectives_GetVariable_Requested_variable_is_write_only" xml:space="preserve">
-    <value>Requested variable is write-only</value>
+    <value>Дана змінна доступна лише для писання</value>
   </data>
   <data name="InteractionCorrectResponses_GetValue_Requested_variable_is_not_supported" xml:space="preserve">
-    <value>Requested variable is not supported</value>
+    <value>Дана змінна не підтримується</value>
   </data>
   <data name="InteractionCorrectResponses_SetValue_Requested_variable_is_read_only" xml:space="preserve">
-    <value>Requested variable is read-only</value>
+    <value>Дана змінна доступна лише для читання</value>
   </data>
   <data name="InteractionCorrectResponses_GetVariable_Requested_variable_is_write_only" xml:space="preserve">
-    <value>Requested variable is write-only</value>
+    <value>Дана змінна доступна лише для писання</value>
   </data>
   <data name="CmiDataModel_GetCollection_Requested_variable_is_not_supported" xml:space="preserve">
     <value>Така змінна не підтримується</value>
