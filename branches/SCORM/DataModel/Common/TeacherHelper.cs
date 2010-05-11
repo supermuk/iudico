@@ -792,33 +792,7 @@ namespace IUDICO.DataModel.Common
 
                 temp.Rows.Add(headerRow);
 
-                for (int i = 1; i < table.Rows.Count; i++)
-                {
 
-                    string[] temp_array = table.Rows[i].Cells[0].Text.ToString().Split(' ');
-
-                    if (temp_array.Length == 2)
-                    {
-                        if (Find_Student(Search_Name, temp_array[0], temp_array[1]) == true)
-                        {
-
-                            temp.Rows.Add(table.Rows[i]);
-                            i--;
-                        }
-
-                    }
-                    else
-                    {
-
-                        if (Find_Student(Search_Name, temp_array[0], "") == true)
-                        {
-
-                            temp.Rows.Add(table.Rows[i]);
-                        }
-                    }
-
-
-                }
             }
             else
             {
@@ -828,7 +802,7 @@ namespace IUDICO.DataModel.Common
                 headerCell.Text = Translations.TeacherHelper_Sort_Student;
                 headerRow.Cells.Add(headerCell);
 
-                
+
 
                 foreach (TblCurriculums curr in curriculums)
                 {
@@ -857,9 +831,10 @@ namespace IUDICO.DataModel.Common
                 headerCell = new TableHeaderCell();
                 headerCell.Text = "ECTS";
                 headerRow.Cells.Add(headerCell);
-                
+
 
                 temp.Rows.Add(headerRow);
+            }
                 for (int i = 1; i < table.Rows.Count; i++)
                 {
 
@@ -887,7 +862,7 @@ namespace IUDICO.DataModel.Common
 
 
                 }
-            }
+            
 
             return temp;
 

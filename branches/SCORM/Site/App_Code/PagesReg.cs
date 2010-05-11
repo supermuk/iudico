@@ -38,6 +38,7 @@ namespace App_Code
             f.Register<StatisticSelectController>("~/Teacher/StatisticSelect.aspx");
             f.Register<StatisticShowCurriculumsController>("~/Teacher/StatisticShowCurriculums.aspx");
             f.Register<StatisticShowController>("~/Teacher/StatisticShow.aspx");
+            f.Register<StatisticShowGraphController>("~/Teacher/StatisticShowGraph.aspx");
             f.Register<TeachersListController>("~/Teacher/TeachersList.aspx");
             f.Register<TeacherObjectsController>("~/Teacher/TeacherObjects.aspx");
             f.Register<ShareController>("~/Teacher/Share.aspx");
