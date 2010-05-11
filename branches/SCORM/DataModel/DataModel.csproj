@@ -48,6 +48,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\LEX.CONTROLS.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" />
     <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\Microsoft.Web.Administration.dll</HintPath>
@@ -208,6 +209,7 @@
     <Compile Include="Controllers\Teacher\CourseBehaviorController.cs" />
     <Compile Include="Controllers\Teacher\ReCompilePageController.cs" />
     <Compile Include="Controllers\Teacher\StatisticShowCurriculumsController.cs" />
+    <Compile Include="Controllers\Teacher\StatisticShowGraphController.cs" />
     <Compile Include="Controllers\Teacher\ThemePagesController.cs" />
     <Compile Include="Controllers\Teacher\ShareController.cs" />
     <Compile Include="Controllers\Teacher\CourseDeleteConfirmationController.cs" />

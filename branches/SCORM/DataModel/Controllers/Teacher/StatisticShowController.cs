@@ -3,6 +3,7 @@ using System.Web.UI.WebControls;
 using IUDICO.DataModel.Common;
 using IUDICO.DataModel.Common.StatisticUtils;
 using IUDICO.DataModel.Controllers.Student;
+using IUDICO.DataModel.Controllers.Teacher;
 using IUDICO.DataModel.DB;
 using System.Linq;
 using System;
@@ -73,8 +74,7 @@ namespace IUDICO.DataModel.Controllers
         public void Button_FindStud_Click()
         {
 
-
-            StatisticTable_constant = TeacherHelper.Search_Function(StatisticTable, Find_StudName.Value, curriculum, null, 0, "");
+           StatisticTable_constant = TeacherHelper.Search_Function(StatisticTable, Find_StudName.Value, curriculum, null, GroupID, RawUrl);
 
             StatisticTable.Rows.Clear();
             for (int i = 0; i < StatisticTable_constant.Rows.Count; i++)
@@ -127,7 +127,19 @@ namespace IUDICO.DataModel.Controllers
             foreach (TblUsers student in ilistusers)
             {
                 var studentRow = new TableRow();
-                TableCell studentCell = new TableHeaderCell { Text = student.DisplayName };
+                TableCell studentCell = new TableHeaderCell { HorizontalAlign = HorizontalAlign.Center };
+                studentCell.Controls.Add(new HyperLink
+                {
+                    Text = student.DisplayName,
+                    NavigateUrl = ServerModel.Forms.BuildRedirectUrl(new StatisticShowGraphController
+                    {
+                        GroupID = GroupID,
+                        CurriculumID = curriculum.ID,
+                        UserId = student.ID,
+                        BackUrl = RawUrl
+                    })
+                });
+
 
                 studentRow.Cells.Add(studentCell);
 
