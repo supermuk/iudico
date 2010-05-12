@@ -27,16 +27,18 @@ namespace IUDICO.UnitTest
       Initialize();
     }
 
-    [SetUp]
-    protected void PreTestSetUp()
-    {
-        //NumberFormat.NumberDecimalSeparator must be ','!
-        CultureInfo ci = new CultureInfo("uk-UA");
-        Thread.CurrentThread.CurrentCulture = ci;
-    }
+		[TestFixtureTearDown]
+		protected override void FinializeFixture()
+		{
+			base.FinializeFixture();
+		}
 
     void Initialize()
     {
+      //NumberFormat.NumberDecimalSeparator must be ','!
+      CultureInfo ci = new CultureInfo("uk-UA");
+      Thread.CurrentThread.CurrentCulture = ci;
+
       TblCourses course = new TblCourses
       {
         Name = "course"
@@ -98,7 +100,7 @@ namespace IUDICO.UnitTest
         LastName = "Test",
         Login = uname,
         PasswordHash = uname
-      };      
+      };
     }
 
     [Test]
