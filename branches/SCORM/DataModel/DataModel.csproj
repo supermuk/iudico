@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F7A3C8E8-7545-4D92-8FF5-0927B4D845EF}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -253,6 +253,38 @@
     <Compile Include="ControlledPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="New Data Model\Activity.cs" />
+    <Compile Include="New Data Model\AIFormDataProcessor.cs" />
+    <Compile Include="New Data Model\AIRenderer.cs" />
+    <Compile Include="New Data Model\AssessmentItemManager.cs" />
+    <Compile Include="New Data Model\DataModel.cs" />
+    <Compile Include="New Data Model\DataModelVerifiers.cs" />
+    <Compile Include="New Data Model\GlobalSuppressions.cs" />
+    <Compile Include="New Data Model\LearningSession.cs" />
+    <Compile Include="New Data Model\Localization\ILocalizationProvider.cs" />
+    <Compile Include="New Data Model\Localization\LocalizationManager.cs" />
+    <Compile Include="New Data Model\Localization\LocalizationSettings.cs" />
+    <Compile Include="New Data Model\LrmRloHandler.cs" />
+    <Compile Include="New Data Model\ManifestConverter.cs" />
+    <Compile Include="New Data Model\ManifestReader.cs" />
+    <Compile Include="New Data Model\Navigator.cs" />
+    <Compile Include="New Data Model\PackageReader.cs" />
+    <Compile Include="New Data Model\Packages.cs" />
+    <Compile Include="New Data Model\Properties\AIResources.Designer.cs" />
+    <Compile Include="New Data Model\Properties\AssemblyInfo.cs" />
+    <Compile Include="New Data Model\Properties\Resources.Designer.cs" />
+    <Compile Include="New Data Model\Properties\ValidatorResources.Designer.cs" />
+    <Compile Include="New Data Model\RloHandler.cs" />
+    <Compile Include="New Data Model\SchemaDataComponents.cs" />
+    <Compile Include="New Data Model\Scorm12SeqNav.cs" />
+    <Compile Include="New Data Model\Scorm2004SeqNav.cs" />
+    <Compile Include="New Data Model\TableOfContentsElement.cs" />
+    <Compile Include="New Data Model\Utilities\Disposer.cs" />
+    <Compile Include="New Data Model\Utilities\Encoding.cs" />
+    <Compile Include="New Data Model\Utilities\HtmlTextReader.cs" />
+    <Compile Include="New Data Model\Utilities\ReadOnlyDictionary.cs" />
+    <Compile Include="New Data Model\Utilities\Utilities.cs" />
+    <Compile Include="New Data Model\Validator.cs" />
     <Compile Include="PageParserFilter.cs" />
     <Compile Include="DB\DBObjectType.cs" />
     <Compile Include="Security\ActivityModule.cs">
@@ -296,6 +328,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="New Data Model\Properties\AIResources.resx" />
+    <EmbeddedResource Include="New Data Model\Properties\Resources.resx" />
+    <EmbeddedResource Include="New Data Model\Properties\ValidatorResources.resx" />
     <EmbeddedResource Include="Translations.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Translations.Designer.cs</LastGenOutput>
@@ -304,6 +339,11 @@
     <EmbeddedResource Include="Translations.uk.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="New Data Model\Resources\HeadExecuteViewScript" />
+    <None Include="New Data Model\Resources\HeadGradingViewScript" />
+    <None Include="New Data Model\Resources\ReviewViewScript" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HttpHandlers\" />
