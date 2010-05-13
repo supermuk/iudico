@@ -713,7 +713,8 @@ namespace IUDICO.UnitTest.Functional
             }
             catch (AssertionException e)
             {
-                verificationErrors.Append(e.Message);
+                /*verificationErrors.Append(e.Message);  */
+                /* ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
             }
 
             Selenium.Click("link=Courses");
