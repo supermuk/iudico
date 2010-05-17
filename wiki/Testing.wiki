@@ -40,7 +40,7 @@
 || Import Managers || 0 || || ||
 || Security || 0 || || ||
 || Webcontrol || 0 || || ||
-|| CMI || 67% || Саша || ||
+|| CMI || 13/16 || Саша || 08/04/2010 ||
 || Testing system || 0 || || ||
 || Utils || 0 || || ||
 || Student Utils || 0 || || ||
