@@ -30,6 +30,8 @@ namespace IUDICO.DataModel.Common
 
         public int SetValue(string path, string value)
         {
+            throw new Exception(Translations.LnuDataModel_GetValue_Requested_variable_is_not_supported);
+            /*
             string[] parts = path.Split('.');
             string type = parts[0];
 
@@ -55,7 +57,7 @@ namespace IUDICO.DataModel.Common
             else
             {
                 throw new Exception(Translations.LnuDataModel_GetValue_Requested_variable_is_not_supported);
-            }
+            }*/
         }
     }
 }
