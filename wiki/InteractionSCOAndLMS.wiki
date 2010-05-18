@@ -35,7 +35,7 @@ Sequencing Model використовує Sequencing Definition Model з imsmani
 
 ActivityTree являє собою деревовидну структуру курсу. Складовими частинами цього дерева є об'єкти типу Activity.
 
-Процес взаємодії SCO та LMS зображено на діаграмі:<br>
+==Модель взаємодії SCO та LMS==
 [http://img153.imageshack.us/img153/4645/scolms.jpg]
 <br>
 Модель взаємодії SCO та LMS
