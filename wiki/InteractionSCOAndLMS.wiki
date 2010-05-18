@@ -1,13 +1,44 @@
 =Взаємодія  SCO та LMS=
 На цій сторінці описується процес завантаження курсу в LMS і його програвання від початку і до моменту виведення статистики. Базові поняття SCORM-у тут описані в світлі конкретної реалізації під Iudico.
 
-==Базові поняття архітектури. imsmanifest.xml==
+==imsmanifest.xml==
+[http://img208.imageshack.us/img208/6274/imsmanifest.jpg]
+<br>Структура imsmanifest.xml
 
-==Базові поняття архітектури. Activity==
+imsmanifest.xml входить до складу кожного SCORM-сумісного курсу. Його структура детально описана в книзі SCORM-2004.САМ. Зупинимось лише на деяких особливостях його реалізації в Iudico.
+Кореневим елементом в маніфесті є "organization". Він містить дочірні елементи - "item". Однією з їх складових є Sequencing Definition Model, яка задає правила сіквенсінгу для даного елемента "item". Також до всіх листкових елементів прив*язаний певний resource, який містить посилання на .html сторінку, яка являє собою найменшу неподільну частинку курсу, що програється.
 
-==Базові поняття архітектури. Activity Tree==
+==Activity==
+Сутність activity детально описана в книзі SCORM-2004.SN. Зупинимось лише на особливостях його реалізації в Iudico.
+Сутності activity відповідає тип Activity є run-time репрезентацією елемента "item" в imsmanifest.xml. До кожного об'єкту типу Activity прив*язаний екземпляр типу Activity Run-Time Model.
+Activity Run-Time Model складається з таких складових:
+ # RTE Data Model
+ # Sequencing Model
+  * Tracking Model
+  * Overall sequencing process
+  * Navigation Behavior
+  * Termination Behavior
+  * Rollup behaviour
+  * Selection and randomization Behavior
+  * Sequecning Behavior
+  * Delivery Behavior
+ # Navigation Model
+Компоненту RTE Data Model відповідає CmiDataModel у специфікації SCORM-у. 
+більш детальна інформація про кожен з цих компонентів містяться в книжках SCORM-2004.RTE і SCORM-2004.SN
+Sequencing Model використовує Sequencing Definition Model з imsmanifest.xml для ініціалізації при створенні activity.
+До всіх листкових activities прив*язаний певний resource, який містить посилання на .html сторінку, яка являє собою найменшу неподільну частинку курсу, що програється.
 
-Процес взаємодії SCO та LMS зображено на діаграмі.
+==Activity Tree==
+[http://img39.imageshack.us/img39/5476/activitytree.jpg]
+<br>
+Структура ActivityTree
+
+ActivityTree являє собою деревовидну структуру курсу. Складовими частинами цього дерева є об'єкти типу Activity.
+
+Процес взаємодії SCO та LMS зображено на діаграмі:<br>
+[http://img153.imageshack.us/img153/4645/scolms.jpg]
+<br>
+Модель взаємодії SCO та LMS
 
 Зупинимось на найважливіших місцях:
 ==Завантаження курсу в LMS==
