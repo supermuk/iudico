@@ -80,15 +80,13 @@
     <Compile Include="Base\TestFixture.cs" />
     <Compile Include="Base\TestFixtureWeb.cs" />
     <Compile Include="Base\TestFixtureDB.cs" />
-    <Compile Include="BasicTests.cs" />
-    <Compile Include="CmiTests.cs" />
-    <Compile Include="DBInterOpTest.cs" />
+    <Compile Include="Unit\CmiTests.cs" />
+    <Compile Include="Unit\DBInterOpTest.cs" />
+    <Compile Include="Functional\AdminTests.cs" />
     <Compile Include="Functional\TeacherTests.cs" />
     <Compile Include="Functional\UserIdentification.cs" />
     <Compile Include="Functional\UserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebTest.cs" />
-    <Compile Include="WebTest2.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataModel\DataModel.csproj">
@@ -98,9 +96,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TestCourses\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

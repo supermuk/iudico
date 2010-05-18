@@ -21,8 +21,6 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
             Selenium.WaitForPageToLoad("7000");
-
-            //AssertIsOnPage("Home.aspx", null);
         }
 
         [TearDown]
