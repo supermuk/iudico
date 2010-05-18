@@ -10,42 +10,54 @@ namespace IUDICO.UnitTest.Functional
     [TestFixture]
     public class UserTests: TestFixtureWeb
     {
+        [SetUp]
+        public void SetUp()
+        {
+            Selenium.Open("/Login.aspx");
+            Selenium.WaitForPageToLoad("7000");
+
+            Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
+            Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
+            Selenium.Click("ctl00_MainContent_Login1_LoginButton");
+            Selenium.WaitForPageToLoad("7000");
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            Selenium.Open("/Logout.ashx");
+        }
         #region ChangeUserInfo
+        
         /// <summary>
         /// change first name
         /// </summary>
         [Test]
         public void ChangeFirstName()
         {
-            Selenium.Open("/Login.aspx");
-            Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
-            Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
-            Selenium.Click("ctl00_MainContent_Login1_LoginButton");
-            Selenium.WaitForPageToLoad("7000");
 
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("7000");
+            Selenium.WaitForPageToLoad("3000");
 
             Selenium.Type("ctl00_MainContent_TextBox_FirstName", "NewFName");
             Selenium.Click("ctl00_MainContent_Button_Update");
             Selenium.Click("link=Home");
-            Selenium.WaitForPageToLoad("7000");
+            Selenium.WaitForPageToLoad("3000");
 
             AssertIsOnPage("StudentPage.aspx", null);
-            AssertLabelText("ctl00_MainContent__headerLabel", "Student Page For: Volodymyr Shtenovych");
+            AssertLabelText("ctl00_MainContent__headerLabel", "Student Page For: NewFName Shtenovych");
 
             Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("7000");
+            Selenium.WaitForPageToLoad("3000");
 
             Selenium.Type("ctl00_MainContent_TextBox_FirstName", "Volodymyr");
             Selenium.Click("ctl00_MainContent_Button_Update");
-            Selenium.WaitForPageToLoad("7000");
+            //Selenium.WaitForPageToLoad("3000");
             Selenium.Click("link=Home");
-            Selenium.WaitForPageToLoad("7000");
+            Selenium.WaitForPageToLoad("3000");
 
             AssertIsOnPage("StudentPage.aspx", null);
             AssertLabelText("ctl00_MainContent__headerLabel", "Student Page For: Volodymyr Shtenovych");
-
         }
 
         /// <summary>
@@ -54,12 +66,6 @@ namespace IUDICO.UnitTest.Functional
         [Test]
         public void ChangeSecondName()
         {
-            Selenium.Open("/Login.aspx");
-            Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
-            Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
-            Selenium.Click("ctl00_MainContent_Login1_LoginButton");
-            Selenium.WaitForPageToLoad("7000");
-
             Selenium.Click("link=My Personal Info");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_TextBox_SecondName", "NewSName");
@@ -68,7 +74,7 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Click("link=Home");
             Selenium.WaitForPageToLoad("7000");
 
-            AssertLabelText("ctl00_MainContent__headerLabel", "Student Page For: NewSName Shtenovych");
+            AssertLabelText("ctl00_MainContent__headerLabel", "Student Page For: Volodymyr NewSName");
 
             Selenium.Click("link=My Personal Info");
             Selenium.WaitForPageToLoad("7000");
@@ -87,11 +93,6 @@ namespace IUDICO.UnitTest.Functional
         [Test]
         public void ChangeEmail()
         {
-            Selenium.Open("/Login.aspx");
-            Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
-            Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
-            Selenium.Click("ctl00_MainContent_Login1_LoginButton");
-
             Selenium.Click("link=My Personal Info");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_TextBox_Email", "mail@mail.mail");
@@ -121,11 +122,6 @@ namespace IUDICO.UnitTest.Functional
         [Test]
         public void ChangeInfoAll()
         {
-            Selenium.Open("/Login.aspx");
-            Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
-            Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
-            Selenium.Click("ctl00_MainContent_Login1_LoginButton");
-
             Selenium.Click("link=My Personal Info");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_TextBox_FirstName", "NewFName");
@@ -135,6 +131,8 @@ namespace IUDICO.UnitTest.Functional
 
             Selenium.Click("link=Home");
             Selenium.WaitForPageToLoad("7000");
+
+            AssertLabelText("ctl00_MainContent__headerLabel", "Student Page For: NewFName NewSName");
 
             Selenium.Click("link=My Personal Info");
             Selenium.WaitForPageToLoad("7000");
@@ -153,20 +151,45 @@ namespace IUDICO.UnitTest.Functional
             AssertTextBoxValue("ctl00_MainContent_TextBox_FirstName", "Volodymyr");
             AssertTextBoxValue("ctl00_MainContent_TextBox_SecondName", "Shtenovych");
             AssertTextBoxValue("ctl00_MainContent_TextBox_Email", "ShVolodya@gmail.com");
+
+            Selenium.Click("ctl00_hypLogout");
+            Selenium.Click("ctl00_btnOK");
         }
         #endregion
 
         #region ChangePassword
+
+        ///// <summary>
+        ///// change password bad
+        ///// </summary>
+        //[Test]
+        //public void ChangePasswordTooSmall()
+        //{
+        //    Selenium.Open("/Login.aspx");
+        //    Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
+        //    Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
+        //    Selenium.Click("ctl00_MainContent_Login1_LoginButton");
+        //    Selenium.WaitForPageToLoad("7000");
+        //    Selenium.Click("link=My Personal Info");
+        //    Selenium.WaitForPageToLoad("7000");
+
+
+        //    Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_CurrentPassword", "lex");
+        //    Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_NewPassword", "lex");
+        //    Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_ConfirmNewPassword", "lex");
+        //    Selenium.Click("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_ChangePasswordPushButton");
+        //    Selenium.WaitForPageToLoad("7000");
+
+        //    AssertIsOnPage("MyInfo.aspx", null);
+        //    AssertHasText("Password incorrect or New Password invalid. New Password length minimum: 3. Non-alphanumeric characters required: 0.");
+        //}
+
         /// <summary>
         /// change password bad
         /// </summary>
         [Test]
         public void ChangePasswordInvalidCurrentPassword()
         {
-            Selenium.Open("/Login.aspx");
-            Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
-            Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
-            Selenium.Click("ctl00_MainContent_Login1_LoginButton");
             Selenium.Click("link=My Personal Info");
             Selenium.WaitForPageToLoad("7000");
 
@@ -185,32 +208,6 @@ namespace IUDICO.UnitTest.Functional
         [Test]
         public void ChangePasswordSamePassword()
         {
-            Selenium.Open("/Login.aspx");
-            Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
-            Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
-            Selenium.Click("ctl00_MainContent_Login1_LoginButton");
-            Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("7000");
-
-            Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_CurrentPassword", "lex");
-            Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_NewPassword", "lex");
-            Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_ConfirmNewPassword", "lex");
-            Selenium.Click("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_ChangePasswordPushButton");
-
-            AssertIsOnPage("MyInfo.aspx", null);
-            AssertHasText("Password incorrect or New Password invalid. New Password length minimum: 3. Non-alphanumeric characters required: 0.");
-        }
-
-        /// <summary>
-        /// change password bad
-        /// </summary>
-        [Test]
-        public void ChangePasswordTooSmall()
-        {
-            Selenium.Open("/Login.aspx");
-            Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
-            Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
-            Selenium.Click("ctl00_MainContent_Login1_LoginButton");
             Selenium.Click("link=My Personal Info");
             Selenium.WaitForPageToLoad("7000");
 
@@ -229,11 +226,6 @@ namespace IUDICO.UnitTest.Functional
         [Test]
         public void ChangePasswordConfirmDontMatch()
         {
-            Selenium.Open("/Login.aspx");
-            Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
-            Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
-            Selenium.Click("ctl00_MainContent_Login1_LoginButton");
-
             Selenium.Click("link=My Personal Info");
             Selenium.WaitForPageToLoad("7000");
 
@@ -252,33 +244,6 @@ namespace IUDICO.UnitTest.Functional
         [Test]
         public void ChangePasswordConfirmNotSet()
         {
-            Selenium.Open("/Login.aspx");
-            Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
-            Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
-            Selenium.Click("ctl00_MainContent_Login1_LoginButton");
-
-            Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("7000");
-            Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_CurrentPassword", "lex");
-            Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_NewPassword", "newpassword");
-            Selenium.Click("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_ChangePasswordPushButton");
-
-            AssertIsOnPage("MyInfo.aspx", null);
-            AssertIsNotVisibleTeg("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_NewPasswordRequired");
-            AssertIsVisibleTeg("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_ConfirmNewPasswordRequired");
-        }
-
-        /// <summary>
-        /// change password bad
-        /// </summary>
-        [Test]
-        public void ChangePasswordNewPasswordNotSet()
-        {
-            Selenium.Open("/Login.aspx");
-            Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
-            Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
-            Selenium.Click("ctl00_MainContent_Login1_LoginButton");
-
             Selenium.Click("link=My Personal Info");
             Selenium.WaitForPageToLoad("7000");
 
@@ -294,13 +259,41 @@ namespace IUDICO.UnitTest.Functional
         /// change password bad
         /// </summary>
         [Test]
+        public void ChangePasswordNewPasswordAndConfirmNotSet()
+        {
+            Selenium.Click("link=My Personal Info");
+            Selenium.WaitForPageToLoad("7000");
+            Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_CurrentPassword", "lex");
+            Selenium.Click("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_ChangePasswordPushButton");
+
+            AssertIsOnPage("MyInfo.aspx", null);
+            AssertIsVisibleTeg("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_NewPasswordRequired");
+            AssertIsVisibleTeg("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_ConfirmNewPasswordRequired");
+        }
+
+        /// <summary>
+        /// change password bad
+        /// </summary>
+        [Test]
+        public void ChangePasswordBad()
+        {
+            Selenium.Click("link=My Personal Info");
+            Selenium.WaitForPageToLoad("7000");
+            Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_CurrentPassword", "lex");
+            Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_NewPassword", "newpassword");
+            Selenium.Click("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_ChangePasswordPushButton");
+
+            AssertIsOnPage("MyInfo.aspx", null);
+            AssertIsNotVisibleTeg("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_NewPasswordRequired");
+            AssertIsVisibleTeg("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_ConfirmNewPasswordRequired");
+        }
+
+        /// <summary>
+        /// change password bad
+        /// </summary>
+        [Test]
         public void ChangePasswordCurrentPasswordNotSet()
         {
-            Selenium.Open("/Login.aspx");
-            Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
-            Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
-            Selenium.Click("ctl00_MainContent_Login1_LoginButton");
-
             Selenium.Click("link=My Personal Info");
             Selenium.WaitForPageToLoad("7000");
 
@@ -320,11 +313,6 @@ namespace IUDICO.UnitTest.Functional
         [Test]
         public void ChangePasswordCurrentAndConfirmNotSet()
         {
-            Selenium.Open("/Login.aspx");
-            Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
-            Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
-            Selenium.Click("ctl00_MainContent_Login1_LoginButton");
-
             Selenium.Click("link=My Personal Info");
             Selenium.WaitForPageToLoad("7000");
 
@@ -338,36 +326,11 @@ namespace IUDICO.UnitTest.Functional
         }
 
         /// <summary>
-        /// change password bad
-        /// </summary>
-        [Test]
-        public void ChangePasswordNewPasswordAndConfirmNotSet()
-        {
-            Selenium.Open("/Login.aspx");
-            Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
-            Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
-            Selenium.Click("ctl00_MainContent_Login1_LoginButton");
-
-            Selenium.Click("link=My Personal Info");
-            Selenium.WaitForPageToLoad("7000");
-            Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_CurrentPassword", "lex");
-            Selenium.Click("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_ChangePasswordPushButton");
-
-            AssertIsOnPage("MyInfo.aspx", null);
-            AssertIsVisibleTeg("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_NewPasswordRequired");
-            AssertIsVisibleTeg("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_ConfirmNewPasswordRequired");
-        }
-
-        /// <summary>
         /// change password good
         /// </summary>
         [Test]
         public void ChangePassword()
         {
-            Selenium.Open("/Login.aspx");
-            Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
-            Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
-            Selenium.Click("ctl00_MainContent_Login1_LoginButton");
             Selenium.Click("link=My Personal Info");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_CurrentPassword", "lex");
@@ -381,7 +344,7 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex1");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
-
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=My Personal Info");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_ChangePassword_ChangePasswordContainerID_CurrentPassword", "lex1");
@@ -395,9 +358,10 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
             Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
-
+            Selenium.WaitForPageToLoad("7000");
             AssertIsOnPage("StudentPage.aspx", null);
         }
+
         #endregion
 
         #region Permissions
@@ -407,10 +371,6 @@ namespace IUDICO.UnitTest.Functional
         [Test]
         public void MyPermissionsUser()
         {
-            Selenium.Open("/Login.aspx");
-            Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
-            Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
-            Selenium.Click("ctl00_MainContent_Login1_LoginButton");
             Selenium.Click("link=My permissions");
             Selenium.WaitForPageToLoad("7000");
 
