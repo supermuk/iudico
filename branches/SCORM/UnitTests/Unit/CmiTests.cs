@@ -27,18 +27,22 @@ namespace IUDICO.UnitTest
       Initialize();
     }
 
-		[TestFixtureTearDown]
-		protected override void FinializeFixture()
-		{
-			base.FinializeFixture();
-		}
+	[TestFixtureTearDown]
+	protected override void FinializeFixture()
+	{
+		base.FinializeFixture();
+	}
+
+    [SetUp]
+    protected void PreTestSetUp()
+    {
+        //NumberFormat.NumberDecimalSeparator must be ','!
+        CultureInfo ci = new CultureInfo("uk-UA");
+        Thread.CurrentThread.CurrentCulture = ci;
+    }
 
     void Initialize()
     {
-      //NumberFormat.NumberDecimalSeparator must be ','!
-      CultureInfo ci = new CultureInfo("uk-UA");
-      Thread.CurrentThread.CurrentCulture = ci;
-
       TblCourses course = new TblCourses
       {
         Name = "course"
