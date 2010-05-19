@@ -30,7 +30,7 @@ namespace IUDICO.UnitTest.Functional
         }
 
         [Test]
-        public void ImportCourse()
+        public void CourseImport()
         {
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("7000");
@@ -53,7 +53,7 @@ namespace IUDICO.UnitTest.Functional
         }
 
         [Test]
-        public void ImportCourseNoIMSmanifest()
+        public void CourseImportNoIMSmanifest()
         {
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("7000");
@@ -71,7 +71,7 @@ namespace IUDICO.UnitTest.Functional
         }
 
         [Test]
-        public void ImportCourseNoCourseSelected()
+        public void CourseImportNoCourseSelected()
         {
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("7000");
@@ -83,12 +83,12 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
             Selenium.WaitForPageToLoad("7000");
 
-            AssertHtmlText("ctl00_MainContent_Label_PageMessage", "Specify course path.");
+            AssertHtmlText("ctl00_MainContent_Label_PageMessage", "Вкажіть шлях до курсу.");
             AssertIsOnPage("CourseEdit.aspx", null);
         }
 
         [Test]
-        public void DeleteCourse()
+        public void CourseDelete()
         {
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("7000");
@@ -113,7 +113,7 @@ namespace IUDICO.UnitTest.Functional
         }
 
         [Test]
-        public void DeleteAttachedCourse()
+        public void CourseDeleteAttached()
         {
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("7000");
@@ -160,22 +160,22 @@ namespace IUDICO.UnitTest.Functional
         }
 
         [Test]
-        public void CreateGroup()
+        public void Group_Create()
         {
             Selenium.Click("link=Groups");
             Selenium.WaitForPageToLoad("7000");
-            decimal groups = Selenium.GetXpathCount("//table[@id='ctl00_MainContent_GroupList_gvGroups']/tbody/tr");
             Selenium.Click("ctl00_MainContent_btnCreateGroup");
             Selenium.WaitForPageToLoad("7000");
-            Selenium.Type("ctl00_MainContent_tbGroupName", "New_Test_Group");
+            Selenium.Type("ctl00_MainContent_tbGroupName", "New_Test_Group2");
             Selenium.Click("ctl00_MainContent_btnCreate");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Groups");
             Selenium.WaitForPageToLoad("7000");
+            decimal groups = (Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr") - 2);
 
             AssertIsOnPage("Groups.aspx", null);
-            Assert.AreEqual(groups + 1, Selenium.GetXpathCount("//table[@id='ctl00_MainContent_GroupList_gvGroups']/tbody/tr"));
-            Assert.AreEqual("New_Test_Group", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups." + groups + ".0"));
+            Assert.AreEqual(groups + 1, (Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr")-1));
+            Assert.AreEqual("New_Test_Group2", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups." + (groups + 1) + ".0"));
 
             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
@@ -184,20 +184,21 @@ namespace IUDICO.UnitTest.Functional
         }
 
         [Test]
-        public void CreateGroupNoName()
+        public void Group_CreateNoName()
         {
             Selenium.Click("link=Groups");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_btnCreateGroup");
             Selenium.Click("link=Groups");
             Selenium.WaitForPageToLoad("7000");
+            decimal groups = (Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr") - 2);
 
             AssertIsOnPage("Groups.aspx", null);
-            Assert.IsFalse(Selenium.IsElementPresent("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkGroupName"));
+            Assert.IsFalse(Selenium.IsElementPresent("ctl00_MainContent_GroupList_gvGroups." + (groups+1) + ".0"));
         }
 
         [Test]
-        public void RenameGroup()
+        public void Group_Rename()
         {
             Selenium.Click("link=Groups");
             Selenium.WaitForPageToLoad("7000");
@@ -209,48 +210,47 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Type("ctl00_MainContent_tbGroupName", "New_Group");
             Selenium.Click("ctl00_MainContent_btnApply");
             Selenium.Click("link=Groups");
-            Selenium.WaitForPageToLoad("7000");
+            Selenium.WaitForPageToLoad("7000"); decimal groups = (Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr") - 2);
 
             AssertIsOnPage("Groups.aspx", null);
-            Assert.AreEqual("New_Group", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups." +
-                Selenium.GetXpathCount("//table[@id='ctl00_MainContent_GroupList_gvGroups']/tbody/tr") + ".0"));
+            Assert.AreEqual("New_Group", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups." + (groups + 1) + ".0"));
 
 
-            //Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
-            //Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
-            //Selenium.WaitForPageToLoad("7000");
-            //Selenium.Click("link=Groups");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
+            Selenium.WaitForPageToLoad("7000");
+
         }
 
         [Test]
-        public void DeleteGroup()
+        public void Group_Try_To_Delete()
         {
             Selenium.Click("link=Groups");
-            Selenium.WaitForPageToLoad("7000");
+            Selenium.WaitForPageToLoad("7000");          
             Selenium.Click("ctl00_MainContent_btnCreateGroup");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_tbGroupName", "Test_Group");
-            Selenium.Click("ctl00_MainContent_btnCreate");
+            Selenium.Click("ctl00_MainContent_btnCreate");    
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Groups");
             Selenium.WaitForPageToLoad("7000");
+            decimal groups = (Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr") - 2);
 
             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnCancel");
 
             AssertIsOnPage("Groups.aspx", null);
-            Assert.AreEqual("Test_Group", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups.1.0"));
-            Assert.IsTrue(Selenium.IsElementPresent("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkGroupName"));
+            Assert.AreEqual(groups + 1, (Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr")-1));
+            Assert.AreEqual("Test_Group", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups." + (groups+1) + ".0"));
 
-            //Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
-            //Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
-            //Selenium.WaitForPageToLoad("7000");
-            //Selenium.Click("link=Groups");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
+            Selenium.WaitForPageToLoad("7000");
+            Selenium.Click("link=Groups");
 
         }
-
         [Test]
-        public void DeleteRenamedGroup()
+        public void Group_Delete()
         {
             Selenium.Click("link=Groups");
             Selenium.WaitForPageToLoad("7000");
@@ -258,27 +258,89 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_tbGroupName", "Test_Group");
             Selenium.Click("ctl00_MainContent_btnCreate");
-            Selenium.Click("ctl00_MainContent_tbGroupName");
+            Selenium.WaitForPageToLoad("7000");
+            Selenium.Click("link=Groups");
+            Selenium.WaitForPageToLoad("7000");
+            Selenium.Click("ctl00_MainContent_btnCreateGroup");
+            Selenium.WaitForPageToLoad("7000");
+            Selenium.Type("ctl00_MainContent_tbGroupName", "Test_Group2");
+            Selenium.Click("ctl00_MainContent_btnCreate");
+            Selenium.WaitForPageToLoad("7000");
+            Selenium.Click("link=Groups");
+            Selenium.WaitForPageToLoad("7000");
+            decimal groups = (Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr") - 2);
+
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_lnkAction");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_btnOK");
+            Selenium.WaitForPageToLoad("7000");
+            Selenium.Click("link=Groups");
+            Selenium.WaitForPageToLoad("7000");
+
+            AssertIsOnPage("Groups.aspx", null);
+            Assert.AreEqual(groups, (Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr") - 1));
+
+            Selenium.Click("link=Groups");
+            Selenium.WaitForPageToLoad("7000");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
+            Selenium.WaitForPageToLoad("7000");
+        }
+
+        [Test]
+        public void Group_Try_To_DeleteRenamed()
+        {
+            Selenium.Click("link=Groups");
+            Selenium.WaitForPageToLoad("7000");
+            Selenium.Click("ctl00_MainContent_btnCreateGroup");
+            Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_tbGroupName", "New_Test_Group");
+            Selenium.Click("ctl00_MainContent_btnCreate");
+            Selenium.Click("ctl00_MainContent_tbGroupName");
+            Selenium.Type("ctl00_MainContent_tbGroupName", "Very_New_Test_Group");
             Selenium.Click("ctl00_MainContent_btnApply");
             Selenium.Click("link=Groups");
             Selenium.WaitForPageToLoad("7000");
+            decimal groups = (Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr") - 2);
 
             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnCancel");
 
             AssertIsOnPage("Groups.aspx", null);
-            Assert.AreEqual("New_Test_Group", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups.1.0"));
-            Assert.IsTrue(Selenium.IsElementPresent("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkGroupName"));
+            Assert.AreEqual(groups + 1, (Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr") - 1));
+            Assert.AreEqual("Very_New_Test_Group", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups." + (groups + 1) + ".0"));
 
-            //Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
-            //Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
-            //Selenium.WaitForPageToLoad("7000");
-            //Selenium.Click("link=Groups");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
+            Selenium.WaitForPageToLoad("7000");
+        }
+        [Test]
+        public void Group_DeleteRenamed()
+        {
+            Selenium.Click("link=Groups");
+            Selenium.WaitForPageToLoad("7000");
+            Selenium.Click("ctl00_MainContent_btnCreateGroup");
+            Selenium.WaitForPageToLoad("7000");
+            Selenium.Type("ctl00_MainContent_tbGroupName", "New_Test_Group");
+            Selenium.Click("ctl00_MainContent_btnCreate");
+            Selenium.Click("ctl00_MainContent_tbGroupName");
+            Selenium.Type("ctl00_MainContent_tbGroupName", "Very_New_Test_Group");
+            Selenium.Click("ctl00_MainContent_btnApply");
+            Selenium.Click("link=Groups");
+            Selenium.WaitForPageToLoad("7000");
+            decimal groups = (Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr") - 2);
+
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
+            Selenium.WaitForPageToLoad("7000");
+            Selenium.Click("link=Groups");
+            Selenium.WaitForPageToLoad("7000");
+
+            AssertIsOnPage("Groups.aspx", null);
+            Assert.AreEqual(groups, (Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr") - 1));
         }
 
         [Test]
-        public void CreateCurriculum()
+        public void CurriculumCreate()
         {
             Selenium.Click("link=Curriculums");
             Selenium.WaitForPageToLoad("7000");
@@ -298,7 +360,7 @@ namespace IUDICO.UnitTest.Functional
         }
 
         [Test]
-        public void CreateCurriculumWithStage()
+        public void CurriculumCreateWithStage()
         {
             Selenium.Click("link=Curriculums");
             Selenium.WaitForPageToLoad("7000");
@@ -323,7 +385,7 @@ namespace IUDICO.UnitTest.Functional
         }
 
         [Test]
-        public void CreateCurriculumAndModifyStage()
+        public void CurriculumCreateAndModifyStage()
         {
             Selenium.Click("link=Curriculums");
             Selenium.WaitForPageToLoad("7000");
@@ -355,7 +417,7 @@ namespace IUDICO.UnitTest.Functional
         }
 
         [Test]
-        public void CreateCurriculumAndModify()
+        public void CurriculumCreateAndModify()
         {
             Selenium.Click("link=Curriculums");
             Selenium.WaitForPageToLoad("7000");
@@ -387,7 +449,7 @@ namespace IUDICO.UnitTest.Functional
         }
 
         [Test]
-        public void CreateCurriculumAndDeleteStage()
+        public void CurriculumCreateAndDeleteStage()
         {
             Selenium.Click("link=Curriculums");
             Selenium.WaitForPageToLoad("7000");
@@ -407,10 +469,16 @@ namespace IUDICO.UnitTest.Functional
 
             AssertIsOnPage("CurriculumEdit.aspx", null);
             Assert.IsFalse(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Curriculumst1"));
+
+            Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
+            Selenium.Click("ctl00_MainContent_Button_Delete");
+            Selenium.WaitForPageToLoad("7000");
+            Selenium.Click("ctl00_MainContent_Button_Delete");
+            Selenium.WaitForPageToLoad("7000");
         }
 
         [Test]
-        public void CreateCurriculumAndDelete()
+        public void CurriculumCreateAndDelete()
         {
             Selenium.Click("link=Curriculums");
             Selenium.WaitForPageToLoad("7000");
@@ -434,7 +502,7 @@ namespace IUDICO.UnitTest.Functional
         }
 
         [Test]
-        public void CreateCurriculumWithCourse()
+        public void CurriculumCreateWithCourse()
         {
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("7000");
@@ -477,7 +545,7 @@ namespace IUDICO.UnitTest.Functional
         }
 
         [Test]
-        public void RenameCurriculumWithCourse()
+        public void CurriculumRenameWithCourse()
         {
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("7000");
@@ -502,7 +570,7 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Click("ctl00_MainContent_Button_AddTheme");
             Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst2");
-            //?
+            
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
             Selenium.Type("ctl00_MainContent_TextBox_Name", "New_name");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "New_name");
@@ -511,7 +579,7 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Type("ctl00_MainContent_TextBox_Name", "");
             Selenium.Click("ctl00_MainContent_TextBox_Description");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "");
-            //
+            
             AssertIsOnPage("CurriculumEdit.aspx", null);
             Assert.AreEqual("New_name", Selenium.GetText("ctl00_MainContent_TreeView_Curriculumst1"));
 
@@ -529,7 +597,7 @@ namespace IUDICO.UnitTest.Functional
         }
 
         [Test]
-        public void RenameCurriculum2WithCourse()
+        public void CurriculumRenameWithCourse2()
         {
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("7000");
@@ -579,7 +647,7 @@ namespace IUDICO.UnitTest.Functional
         }
 
         [Test]
-        public void DeleteCuriculum()
+        public void CuriculumDelete()
         {
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("7000");
@@ -628,7 +696,7 @@ namespace IUDICO.UnitTest.Functional
         }
 
         [Test]
-        public void DeleteCuriculum2()
+        public void CuriculumDelete2()
         {
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("7000");
@@ -677,7 +745,7 @@ namespace IUDICO.UnitTest.Functional
         }
 
         [Test]
-        public void DeleteCuriculum3()
+        public void CuriculumDelete3()
         {
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("7000");
@@ -723,14 +791,8 @@ namespace IUDICO.UnitTest.Functional
         }
 
         [Test]
-        public void DeleteAndCeateCuriculum()
+        public void CuriculumDeleteAndCreate()
         {
-            Selenium.Open("/Login.aspx");
-            Selenium.Click("ctl00_MainContent_Login1_UserName");
-            Selenium.Type("ctl00_MainContent_Login1_UserName", "lex");
-            Selenium.Type("ctl00_MainContent_Login1_Password", "lex");
-            Selenium.Click("ctl00_MainContent_Login1_LoginButton");
-            Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
@@ -785,7 +847,7 @@ namespace IUDICO.UnitTest.Functional
         }
 
         [Test]
-        public void DeleteAndCeateCuriculum2()
+        public void CuriculumDeleteAndCreate2()
         {
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("7000");
@@ -845,7 +907,7 @@ namespace IUDICO.UnitTest.Functional
         }
 
         [Test]
-        public void DeleteAndCeateCuriculum3()
+        public void CuriculumDeleteAndCreate3()
         {
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("7000");
@@ -908,7 +970,7 @@ namespace IUDICO.UnitTest.Functional
         [Test]
         public void TeacherShareCourse_OnlyUse()
         {
-            string word = "teacher15";
+            string word = "teacher001";
             Selenium.Click("link=Create User");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_CreateUserWizard1_CreateUserStepContainer_UserName", word);
@@ -956,7 +1018,7 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=TestCourse");
 
-            Assert.IsTrue(Selenium.IsTextPresent("granted you permission to Use this course"));
+            Assert.IsTrue(Selenium.IsTextPresent(" надав вам права для Use цього курс"));
 
             Selenium.Click("ctl00_hypLogout");
             Selenium.Click("ctl00_btnOK");
@@ -981,7 +1043,7 @@ namespace IUDICO.UnitTest.Functional
         [Test]
         public void TeacherShareCourse_OnlyModify()
         {
-            string word = "teacher16";
+            string word = "teacher011";
             Selenium.Click("link=Create User");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_CreateUserWizard1_CreateUserStepContainer_UserName", word);
@@ -1003,7 +1065,7 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "TestCourse");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "TestCourse");
-            Selenium.AttachFile("ctl00_MainContent_FileUpload_Course", "http://localhost:2935/TestCourses/GoodCourse.zip");
+            Selenium.AttachFile("ctl00_MainContent_FileUpload_Course", "http://localhost:2935/TestCourses/GoodCourse.zip"); 
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=My objects");
@@ -1028,7 +1090,7 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=TestCourse");
 
-            Assert.IsTrue(Selenium.IsTextPresent("granted you permission to Modify this course"));
+            Assert.IsTrue(Selenium.IsTextPresent("надав вам права для Modify цього курс"));
 
             Selenium.Click("ctl00_hypLogout");
             Selenium.Click("ctl00_btnOK");
@@ -1053,7 +1115,7 @@ namespace IUDICO.UnitTest.Functional
         [Test]
         public void TeacherShareCourse_UseAndModify()
         {
-            string word = "teacher18";
+            string word = "teacher020";
             Selenium.Click("link=Create User");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_CreateUserWizard1_CreateUserStepContainer_UserName", word);
@@ -1101,8 +1163,8 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=TestCourse");
 
-            Assert.IsTrue(Selenium.IsTextPresent("granted you permission to Modify this course"));
-            Assert.IsTrue(Selenium.IsTextPresent("granted you permission to Use this course"));
+            Assert.IsTrue(Selenium.IsTextPresent("надав вам права для Modify цього курс"));
+            Assert.IsTrue(Selenium.IsTextPresent("надав вам права для Use цього курс"));
 
             Selenium.Click("ctl00_hypLogout");
             Selenium.Click("ctl00_btnOK");
@@ -1127,7 +1189,7 @@ namespace IUDICO.UnitTest.Functional
         [Test]
         public void TeacherShareCourse_OnlyUse_AllowDelegate()
         {
-            string word = "teacher43";
+            string word = "teacher030";
             Selenium.Click("link=Create User");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_CreateUserWizard1_CreateUserStepContainer_UserName", word);
@@ -1174,7 +1236,7 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=TestCourse");
 
-            Assert.IsTrue(Selenium.IsTextPresent("granted you permission to Use this course"));
+            Assert.IsTrue(Selenium.IsTextPresent("надав вам права для Use цього курс"));
 
             Selenium.Click("ctl00_hypLogout");
             Selenium.Click("ctl00_btnOK");
@@ -1199,7 +1261,7 @@ namespace IUDICO.UnitTest.Functional
          [Test]
          public void TeacherShareCourse_OnlyModify_AllowDelegate()
          {
-            string word = "teacher59";
+            string word = "teacher040";
             Selenium.Click("link=Create User");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_CreateUserWizard1_CreateUserStepContainer_UserName", word);
@@ -1247,7 +1309,7 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=TestCourse");
 
-            Assert.IsTrue(Selenium.IsTextPresent("granted you permission to Modify this course"));
+            Assert.IsTrue(Selenium.IsTextPresent("надав вам права для Modify цього курс"));
 
             Selenium.Click("ctl00_hypLogout");
             Selenium.Click("ctl00_btnOK");
@@ -1271,7 +1333,7 @@ namespace IUDICO.UnitTest.Functional
          [Test]
          public void TeacherShareCourse_UseAndModify_AllowDelegate()
          {
-             string word = "teacher60";
+             string word = "teacher050";
             Selenium.Click("link=Create User");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Type("ctl00_MainContent_CreateUserWizard1_CreateUserStepContainer_UserName", word);
@@ -1321,8 +1383,8 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=TestCourse");
 
-            Assert.IsTrue(Selenium.IsTextPresent("granted you permission to Modify this course"));
-            Assert.IsTrue(Selenium.IsTextPresent("granted you permission to Use this course"));
+            Assert.IsTrue(Selenium.IsTextPresent("надав вам права для Modify цього курс"));
+            Assert.IsTrue(Selenium.IsTextPresent("надав вам права для Use цього курс"));
 
             Selenium.Click("ctl00_hypLogout");
             Selenium.Click("ctl00_btnOK");
@@ -1347,7 +1409,7 @@ namespace IUDICO.UnitTest.Functional
         [Test]
          public void TeacherShareCurr_OnlyUse()
          {
-             string word = "teacher22";
+             string word = "teacher060";
              Selenium.Click("link=Create User");
              Selenium.WaitForPageToLoad("7000");
              Selenium.Type("ctl00_MainContent_CreateUserWizard1_CreateUserStepContainer_UserName", word);
@@ -1392,7 +1454,7 @@ namespace IUDICO.UnitTest.Functional
              Selenium.WaitForPageToLoad("7000");
              Selenium.Click("link=TeacherCurr");
 
-             Assert.IsTrue(Selenium.IsTextPresent("granted you permission to Use this curriculum"));
+             Assert.IsTrue(Selenium.IsTextPresent("надав вам права для Use цього навчальний план"));
 
              Selenium.Click("ctl00_hypLogout");
              Selenium.Click("ctl00_btnOK");
@@ -1417,7 +1479,7 @@ namespace IUDICO.UnitTest.Functional
          [Test]
          public void TeacherShareCurr_OnlyModify()
          {
-             string word = "teacher25";
+             string word = "teacher070";
              Selenium.Click("link=Create User");
              Selenium.WaitForPageToLoad("7000");
              Selenium.Type("ctl00_MainContent_CreateUserWizard1_CreateUserStepContainer_UserName", word);
@@ -1462,7 +1524,7 @@ namespace IUDICO.UnitTest.Functional
              Selenium.WaitForPageToLoad("7000");
              Selenium.Click("link=TeacherCurr");
 
-             Assert.IsTrue(Selenium.IsTextPresent("granted you permission to Modify this curriculum"));
+             Assert.IsTrue(Selenium.IsTextPresent("надав вам права для Modify цього навчальний план"));
 
              Selenium.Click("ctl00_hypLogout");
              Selenium.Click("ctl00_btnOK");
@@ -1488,7 +1550,7 @@ namespace IUDICO.UnitTest.Functional
          [Test]
          public void TeacherShareCurr_UseAndModify()
          {
-             string word = "teacher30";
+             string word = "teacher080";
              Selenium.Click("link=Create User");
              Selenium.WaitForPageToLoad("7000");
              Selenium.Type("ctl00_MainContent_CreateUserWizard1_CreateUserStepContainer_UserName", word);
@@ -1534,8 +1596,8 @@ namespace IUDICO.UnitTest.Functional
              Selenium.WaitForPageToLoad("7000");
              Selenium.Click("link=TeacherCurr");
 
-             Assert.IsTrue(Selenium.IsTextPresent("granted you permission to Modify this curriculum"));
-             Assert.IsTrue(Selenium.IsTextPresent("granted you permission to Use this curriculum"));
+             Assert.IsTrue(Selenium.IsTextPresent("надав вам права для Modify цього навчальний план"));
+             Assert.IsTrue(Selenium.IsTextPresent("надав вам права для Use цього навчальний план"));
 
              Selenium.Click("ctl00_hypLogout");
              Selenium.Click("ctl00_btnOK");
@@ -1560,7 +1622,7 @@ namespace IUDICO.UnitTest.Functional
          [Test]
          public void TeacherShareCurr_OnlyUse_AllowDelegate()
          {
-             string word = "teacher23";
+             string word = "teacher090";
              Selenium.Click("link=Create User");
              Selenium.WaitForPageToLoad("7000");
              Selenium.Type("ctl00_MainContent_CreateUserWizard1_CreateUserStepContainer_UserName", word);
@@ -1607,7 +1669,7 @@ namespace IUDICO.UnitTest.Functional
              Selenium.WaitForPageToLoad("7000");
              Selenium.Click("link=TeacherCurr");
 
-             Assert.IsTrue(Selenium.IsTextPresent("granted you permission to Use this curriculum"));
+             Assert.IsTrue(Selenium.IsTextPresent("надав вам права для Use цього навчальний план"));
 
              Selenium.Click("ctl00_hypLogout");
              Selenium.Click("ctl00_btnOK");
@@ -1632,7 +1694,7 @@ namespace IUDICO.UnitTest.Functional
          [Test]
          public void TeacherShareCurr_OnlyModify_AllowDelegate()
          {
-             string word = "teacher26";
+             string word = "teacher100";
              Selenium.Click("link=Create User");
              Selenium.WaitForPageToLoad("7000");
              Selenium.Type("ctl00_MainContent_CreateUserWizard1_CreateUserStepContainer_UserName", word);
@@ -1679,7 +1741,7 @@ namespace IUDICO.UnitTest.Functional
              Selenium.WaitForPageToLoad("7000");
              Selenium.Click("link=TeacherCurr");
 
-             Assert.IsTrue(Selenium.IsTextPresent("granted you permission to Modify this curriculum"));
+             Assert.IsTrue(Selenium.IsTextPresent("надав вам права для Modify цього навчальний план"));
 
              Selenium.Click("ctl00_hypLogout");
              Selenium.Click("ctl00_btnOK");
@@ -1705,7 +1767,7 @@ namespace IUDICO.UnitTest.Functional
          [Test]
          public void TeacherShareCurr_UseAndModify_AllowDelegate()
          {
-             string word = "teacher31";
+             string word = "teacher110";
              Selenium.Click("link=Create User");
              Selenium.WaitForPageToLoad("7000");
              Selenium.Type("ctl00_MainContent_CreateUserWizard1_CreateUserStepContainer_UserName", word);
@@ -1755,8 +1817,8 @@ namespace IUDICO.UnitTest.Functional
              Selenium.WaitForPageToLoad("7000");
              Selenium.Click("link=TeacherCurr");
 
-             Assert.IsTrue(Selenium.IsTextPresent("granted you permission to Modify this curriculum"));
-             Assert.IsTrue(Selenium.IsTextPresent("granted you permission to Use this curriculum"));
+             Assert.IsTrue(Selenium.IsTextPresent("надав вам права для Modify цього навчальний план"));
+             Assert.IsTrue(Selenium.IsTextPresent("надав вам права для Use цього навчальний план"));
 
              Selenium.Click("ctl00_hypLogout");
              Selenium.Click("ctl00_btnOK");
@@ -1782,7 +1844,6 @@ namespace IUDICO.UnitTest.Functional
          [Test]
          public void TeacherShareCurr_OnlyView()
          {
-             Selenium.Open("/Student/StudentPage.aspx");
              Selenium.Click("link=Create User");
              Selenium.WaitForPageToLoad("7000");
              Selenium.Type("ctl00_MainContent_CreateUserWizard1_CreateUserStepContainer_UserName", "teacher");
@@ -1817,7 +1878,6 @@ namespace IUDICO.UnitTest.Functional
          [Test]
          public void TeacherShareCurr_OnlyPass()
          {
-             Selenium.Open("/Student/StudentPage.aspx");
              Selenium.Click("link=Create User");
              Selenium.WaitForPageToLoad("7000");
              Selenium.Type("ctl00_MainContent_CreateUserWizard1_CreateUserStepContainer_UserName", "teacher");
@@ -1850,6 +1910,158 @@ namespace IUDICO.UnitTest.Functional
              Assert.IsTrue(Selenium.IsTextPresent("teacher(teacher)"));
          }
          */
+
+
+         //add assignment
+         [Test]
+         public void Group_Assign_To_Curr()
+         {
+             
+             Selenium.Click("link=Groups");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_btnCreateGroup");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_tbGroupName");
+             Selenium.Type("ctl00_MainContent_tbGroupName", "Ass_test_group");
+             Selenium.Click("ctl00_MainContent_btnCreate");
+             Selenium.Click("link=Courses");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
+             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "Ass_course");
+             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "Ass_test");
+             Selenium.AttachFile("ctl00_MainContent_FileUpload_Course", "http://localhost:2935/TestCourses/GoodCourse.zip");
+             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("link=Curriculums");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_TextBox_Name");
+             Selenium.Type("ctl00_MainContent_TextBox_Name", "Ass_curric");
+             Selenium.Type("ctl00_MainContent_TextBox_Description", "Ass_curric");
+             Selenium.Click("ctl00_MainContent_Button_CreateCurriculum");
+             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
+             Selenium.Click("ctl00_MainContent_Button_AddStage");
+             Selenium.Click("//img[@alt='Expand Ass_curric']");
+             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
+             Selenium.Click("//img[@alt='Expand Ass_course']");
+             Selenium.Click("ctl00_MainContent_TreeView_Coursesn1CheckBox");
+             Selenium.Click("ctl00_MainContent_Button_AddTheme");
+             Selenium.Click("link=Assignment");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Select("ctl00_MainContent_GroupList", "label=Ass_test_group");
+             Selenium.Click("ctl00_MainContent_Button_AddGroup");
+             ClickOnButtonWithValue("Assign");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("link=Users");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_UserList_gvUsers_ctl03_lbLogin");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_btnInclude");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_gvGroups_ctl02_lnkSelect");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_btnYes");
+
+             Selenium.Click("link=Home");
+             Selenium.WaitForPageToLoad("7000");
+             Assert.IsTrue(Selenium.IsElementPresent("ctl00_MainContent__curriculumTreeViewt0"));
+
+             Selenium.Click("//tr[@id='ctl00_MainMenun15']/td/table/tbody/tr/td/a");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
+             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("link=Curriculums");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
+             Selenium.Click("ctl00_MainContent_Button_Delete");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_Button_Delete");
+             Selenium.Click("link=Courses");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_TreeView_Coursest0");
+             Selenium.Click("ctl00_MainContent_Button_DeleteCourse");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_Button_Delete");
+             Selenium.WaitForPageToLoad("7000");
+
+
+         }
+         [Test]
+         public void Group_Unsign_From_Curr()
+         {
+             Selenium.Click("link=Groups");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_btnCreateGroup");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_tbGroupName");
+             Selenium.Type("ctl00_MainContent_tbGroupName", "Ass_test_group");
+             Selenium.Click("ctl00_MainContent_btnCreate");
+             Selenium.Click("link=Courses");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
+             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "Ass_course");
+             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "Ass_test");
+             Selenium.AttachFile("ctl00_MainContent_FileUpload_Course", "http://localhost:2935/TestCourses/GoodCourse.zip");
+             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("link=Curriculums");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_TextBox_Name");
+             Selenium.Type("ctl00_MainContent_TextBox_Name", "Ass_curric");
+             Selenium.Type("ctl00_MainContent_TextBox_Description", "Ass_curric");
+             Selenium.Click("ctl00_MainContent_Button_CreateCurriculum");
+             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
+             Selenium.Click("ctl00_MainContent_Button_AddStage");
+             Selenium.Click("//img[@alt='Expand Ass_curric']");
+             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
+             Selenium.Click("//img[@alt='Expand Ass_course']");
+             Selenium.Click("ctl00_MainContent_TreeView_Coursesn1CheckBox");
+             Selenium.Click("ctl00_MainContent_Button_AddTheme");
+             Selenium.Click("link=Assignment");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Select("ctl00_MainContent_GroupList", "label=Ass_test_group");
+             Selenium.Click("ctl00_MainContent_Button_AddGroup");
+             ClickOnButtonWithValue("Assign");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("link=Users");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_UserList_gvUsers_ctl03_lbLogin");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_btnInclude");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_gvGroups_ctl02_lnkSelect");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_btnYes");
+
+             Selenium.Click("link=Assignment");
+             Selenium.WaitForPageToLoad("7000");
+             ClickOnButtonWithValue("Unsign");
+             Selenium.Click("link=Home");
+             Selenium.WaitForPageToLoad("7000");
+
+             Assert.IsFalse(Selenium.IsElementPresent("ctl00_MainContent__curriculumTreeViewt0"));
+
+             Selenium.Click("//tr[@id='ctl00_MainMenun15']/td/table/tbody/tr/td/a");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
+             Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("link=Curriculums");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
+             Selenium.Click("ctl00_MainContent_Button_Delete");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_Button_Delete");
+             Selenium.Click("link=Courses");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_TreeView_Coursest0");
+             Selenium.Click("ctl00_MainContent_Button_DeleteCourse");
+             Selenium.WaitForPageToLoad("7000");
+             Selenium.Click("ctl00_MainContent_Button_Delete");
+             Selenium.WaitForPageToLoad("7000");
+         }
+
+
 
     }
 }
