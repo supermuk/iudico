@@ -1,64 +1,19 @@
- - opysaty yak installer pidklyucheno do Hudson
- #  Створюєм новий проект (Job в системі Hudson). Для пркиладу розглянемо "Course Editor Setup"
- #  Копіюємо інсталяційний проект в папку "..\data\jobs\Course Editor Setup\workspace\"
- #  Переходимо на сторінку http://localhost:8080/job/Course%20Editor%20Setup/configure та додаємо "Build step" як це показано на рис. 1
-[http://img708.imageshack.us/img708/8216/cesetupconfig.png]
+Для автоматичного створення інсталяційних пакетів створюємо окремі проекти в системі Hudson. Для прикладу розглянемо Iudico Setup. В налаштуваннях обираємо «Build after other projects are built» і вказуєм назву проекту, після якого почнеться збірка, в даному випадку «Iudico» (див. рис. 1). Інсталяційний пакет створюється за допомогою Wix.
+[http://img8.imageshack.us/img8/2028/pic1jd.png]
 <br />
-                                                                      рис. 1
+Рис. 1. Налаштування проекту Iudico Setup
+
+Усі проекти для створення інсталяційних проектів знаходяться у репозиторії за адресою http://iudico.googlecode.com/svn/branches/Setups. У файлі bat.go містяться batch команди, які виконують компіляцію Wix проекту. Ці команди можна прописувати вручну або ж скопіювати із «Output» вікна під час компіляції проекту у Visual Studio(див. рис.2).
+[http://img696.imageshack.us/img696/850/pic2ff.jpg]
 <br />
-<br />
-Компілювання проекту відбувається за допомогою IsCmdBld.exe який розташований у "..\InstallShield\2009\System"
+Рис. 2. Команди для компіляції інсталяційних проектів Wix
 
-Параметри команди
-{{{
-                        --REQUIRED--
-
-        -p <file name> project file name
-
-                        --OPTIONAL--
-
-        -r <release name> name of the release
-        -b <build location> full path to the output folders and files
-        -s silent build
-        -i <.ini file path> full path to an .ini file
-        -u upgrade only
-        -x stop at first error
-        -w treat warnings as errors
-        -l <Path Variable>="New Path" override path variable location
-        -n dont compile setup.rul
-        -q2 WINDOWS INSTALLER PROJECTS: build tables and refresh files
-            PROFESSIONAL PROJECTS: rebuild only changes since the last build
-        -q3 only compile setup.rul
-        -o merge module search path
-
-                --WINDOWS INSTALLER PROJECTS--
-
-        -a <product configuration> name of the product configuration
-        -c <release configuration>
-                COMP = Files compressed into .msi file;
-                UNCOMP = Files remain uncompressed
-        -f <release flags>
-        -e <Y/N> include Setup.exe in the build
-        -y <Product Version> version number in the format xx.xx.xxxxx
-        -m <CUB file> name of the CUB file to use to validate the package
-        -q1 build tables only
-        -t Microsoft(R) .NET Framework path
-        -h skip upgrade validators
-        -g minimum target MSI version
-        -j minimum target Microsoft(R) .NET Framework version
-        -z <Property=Value> set Property to Value in built MSI
-
-                --WINDOWS INSTALLER PATCHES--
-
-        -patch_config <patch configuration> patch configuration name
-}}}
-<br />
 <hr />
 <br />
-Щоб виконання проекту "Course Editor Setup" запускалось автоматично пілся успішної компіляції проекту "Course Editor" необхідно перейти на сторінку http://localhost:8080/job/Course%20Editor/configure та додати "Post build Action" як показано на рис. 2
+Щоб виконання проекту "Course Editor Setup" запускалось автоматично пілся успішної компіляції проекту "Course Editor" необхідно перейти на сторінку http://localhost:8080/job/Course%20Editor/configure та додати "Post build Action" як показано на рис. 3
 [http://img228.imageshack.us/img228/9272/cesetup.png]
 <br />
-                                   рис. 2
+                                   рис. 3
 <br />
 <br />
 Навідміну від першого варіанту, в якому задавався "Build Trigger" для проетку "Course Editor Setup", можна визначити чи запускати проект якшо попередній є "Unstable", тобто не пройшов усі Unit чи Automated тести.
