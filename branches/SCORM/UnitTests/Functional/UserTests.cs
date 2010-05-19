@@ -382,5 +382,7 @@ namespace IUDICO.UnitTest.Functional
             AssertHasText("You don't have permissions to any of Curriculum");
         }
         #endregion
+
+        
     }
 }
