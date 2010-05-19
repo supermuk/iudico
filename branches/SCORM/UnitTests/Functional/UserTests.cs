@@ -375,11 +375,12 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("MyPermissions.aspx", null);
-            AssertHasText("You don't have permissions to any of Course");
-            AssertHasText("You don't have permissions to any of Theme");
-            AssertHasText("You don't have permissions to any of Stage");
-            AssertHasText("You don't have permissions to any of Group");
-            AssertHasText("You don't have permissions to any of Curriculum");
+            AssertHasText("Courses you have access to:");
+            AssertHasText("Themes you have access to:");
+            AssertHasText("Stages you have access to:");
+            AssertHasText("Groups you have access to:");
+            AssertHasText("Curriculums you have access to:");
+            AssertCheckBoxState(true, "ctl00_MainContent_uplPermissions_ctl11_PermissionsGrid_ctl02_ctl00");
         }
         #endregion
 
