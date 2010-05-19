@@ -80,6 +80,7 @@
     <Compile Include="Base\TestFixture.cs" />
     <Compile Include="Base\TestFixtureWeb.cs" />
     <Compile Include="Base\TestFixtureDB.cs" />
+    <Compile Include="Functional\StudentTests.cs" />
     <Compile Include="Unit\CmiTests.cs" />
     <Compile Include="Unit\DBInterOpTest.cs" />
     <Compile Include="Functional\AdminTests.cs" />
@@ -87,6 +88,8 @@
     <Compile Include="Functional\UserIdentification.cs" />
     <Compile Include="Functional\UserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unit\ImportManagers.cs" />
+    <Compile Include="Unit\ImportUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataModel\DataModel.csproj">

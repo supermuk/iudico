@@ -12,7 +12,7 @@ using IUDICO.UnitTest.Base;
 using NUnit.Framework;
 using System.Diagnostics;
 
-namespace IUDICO.UnitTest
+namespace IUDICO.UnitTest.Unit
 {
     [TestFixture]
     public class DBInterOpTest : TestFixtureDB

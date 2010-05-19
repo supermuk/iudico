@@ -11,7 +11,7 @@ using IUDICO.DataModel.Security;
 using System.Globalization;
 using System.Threading;
 
-namespace IUDICO.UnitTest
+namespace IUDICO.UnitTest.Unit
 {
   [TestFixture]
   public class CmiTests : TestFixtureDB
