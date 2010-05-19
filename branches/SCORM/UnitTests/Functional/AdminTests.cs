@@ -52,6 +52,12 @@ namespace IUDICO.UnitTest.Functional
         [Test]
         public void EditNameGroup()
         {
+            Selenium.Click("link=Create Group");
+            Selenium.WaitForPageToLoad("7000");
+            Selenium.Type("ctl00_MainContent_tbGroupName", "123");
+            Selenium.Click("ctl00_MainContent_btnCreate");
+            Selenium.WaitForPageToLoad("7000");
+
             Selenium.Click("//tr[@id='ctl00_MainMenun15']/td/table/tbody/tr/td/a");
             Selenium.WaitForPageToLoad("7000");
 
@@ -70,6 +76,12 @@ namespace IUDICO.UnitTest.Functional
 
             AssertIsOnPage("EditGroup.aspx", null);
             AssertLabelText("ctl00_MainContent_lbTitle", "Edit group 123");
+
+            Selenium.Click("//tr[@id='ctl00_MainMenun15']/td/table/tbody/tr/td/a");
+            Selenium.WaitForPageToLoad("30000");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
+            //Selenium.WaitForPageToLoad("30000");
         }
 
         /// <summary>
@@ -509,6 +521,12 @@ namespace IUDICO.UnitTest.Functional
         [Test]
         public void IncludeGroupToOldUser()
         {
+            Selenium.Click("link=Create Group");
+            Selenium.WaitForPageToLoad("7000");
+            Selenium.Type("ctl00_MainContent_tbGroupName", "123");
+            Selenium.Click("ctl00_MainContent_btnCreate");
+            Selenium.WaitForPageToLoad("7000");
+
             Selenium.Click("//tr[@id='ctl00_MainMenun14']/td/table/tbody/tr/td");
             Selenium.Click("link=Users");
             Selenium.WaitForPageToLoad("7000");
@@ -523,19 +541,24 @@ namespace IUDICO.UnitTest.Functional
 
             AssertLabelText("ctl00_MainContent_GroupList_gvGroups_ctl02_Label1", "Group");
 
-            Selenium.Click("link=Groups");
-            Selenium.WaitForPageToLoad("7000");
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkGroupName");
-            Selenium.WaitForPageToLoad("7000");
-            Selenium.Click("ctl00_MainContent_UserList_gvUsers_ctl04_btnAction");
-            Selenium.WaitForPageToLoad("7000");
-            Selenium.Click("ctl00_MainContent_btnYes");
-            Selenium.Click("link=Users");
-            Selenium.WaitForPageToLoad("7000");
-            Selenium.Click("ctl00_MainContent_UserList_gvUsers_ctl04_lbLogin");
-            Selenium.WaitForPageToLoad("7000");
+            //Selenium.Click("link=Groups");
+            //Selenium.WaitForPageToLoad("7000");
+            //Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkGroupName");
+            //Selenium.WaitForPageToLoad("7000");
+            //Selenium.Click("ctl00_MainContent_UserList_gvUsers_ctl04_btnAction");
+            //Selenium.WaitForPageToLoad("7000");
+            //Selenium.Click("ctl00_MainContent_btnYes");
+            //Selenium.Click("link=Users");
+            //Selenium.WaitForPageToLoad("7000");
+            //Selenium.Click("ctl00_MainContent_UserList_gvUsers_ctl04_lbLogin");
+            //Selenium.WaitForPageToLoad("7000");
 
-            AssertLabelText("ctl00_MainContent_lbUserGroups", "V P(vladykx) are not participating in any groups");
+            //AssertLabelText("ctl00_MainContent_lbUserGroups", "V P(vladykx) are not participating in any groups");
+            Selenium.Click("//tr[@id='ctl00_MainMenun15']/td/table/tbody/tr/td/a");
+            Selenium.WaitForPageToLoad("30000");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
+            Selenium.WaitForPageToLoad("7000");
         }
 
         /// <summary>
@@ -866,7 +889,7 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_lbCreateMultiple");
             Selenium.WaitForPageToLoad("7000");
-            Selenium.Type("ctl00_MainContent_tbPrefix", "TestUsers00");
+            Selenium.Type("ctl00_MainContent_tbPrefix", "TestUsers000");
             Selenium.Type("ctl00_MainContent_tbCount", "2");
             Selenium.Type("ctl00_MainContent_tbPassword", "1111");
             Selenium.Click("ctl00_MainContent_btnCreate");
@@ -876,7 +899,7 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Click("ctl00_btnOK");
             Selenium.WaitForPageToLoad("7000");
 
-            Selenium.Type("ctl00_MainContent_Login1_UserName", "TestUsers000");
+            Selenium.Type("ctl00_MainContent_Login1_UserName", "TestUsers0000");
             Selenium.Type("ctl00_MainContent_Login1_Password", "1111");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
             Selenium.WaitForPageToLoad("30000");
@@ -887,7 +910,7 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Click("ctl00_btnOK");
             Selenium.WaitForPageToLoad("30000");
 
-            Selenium.Type("ctl00_MainContent_Login1_UserName", "TestUsers001");
+            Selenium.Type("ctl00_MainContent_Login1_UserName", "TestUsers0001");
             Selenium.Type("ctl00_MainContent_Login1_Password", "1111");
             Selenium.Click("ctl00_MainContent_Login1_LoginButton");
             Selenium.WaitForPageToLoad("30000");
@@ -910,14 +933,14 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_btnYes");
 
-            Assert.IsTrue(Selenium.IsTextPresent("TestUsers000"));
+            Assert.IsTrue(Selenium.IsTextPresent("TestUsers0000"));
 
             ClickOnLastButtonRemove();
             //Selenium.Click("ctl00_MainContent_UserList_gvUsers_ctl05_btnAction");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_btnYes");
 
-            Assert.IsTrue(Selenium.IsTextPresent("TestUsers001"));
+            Assert.IsTrue(Selenium.IsTextPresent("TestUsers0001"));
         }
 
 
