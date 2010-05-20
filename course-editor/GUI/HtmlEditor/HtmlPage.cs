@@ -78,10 +78,10 @@ namespace FireFly.CourseEditor.GUI.HtmlEditor
         new public static HtmlPage GetPage(ItemType item)
         {
             HtmlPage resultPage = (HtmlPage)HtmlPageBase.GetPage(item);
-            //if (resultPage != null)
-            //{
-            //    resultPage._PassRank = 1;
-            //}
+            if (resultPage != null)
+            {
+               
+            }
             return resultPage;
         }
 

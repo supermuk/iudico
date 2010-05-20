@@ -72,7 +72,7 @@ namespace FireFly.CourseEditor.Course.Manifest
             set
             {
                 controlModeField = value;
-                Course.NotifyManifestChanged(this, ManifestChangeTypes.Changed);
+                Course.NotifyManifestChanged(this,new IManifestNode[]{value}, ManifestChangeTypes.Changed);
             }
         }
 
@@ -112,12 +112,20 @@ namespace FireFly.CourseEditor.Course.Manifest
         {
             get
             {
+                if (auxiliaryResourcesField == null)
+                {
+                    return null;
+                }
+                if (auxiliaryResourcesField.Count == 0)
+                {
+                    return null;
+                }
                 return auxiliaryResourcesField;
             }
             set
             {
                 auxiliaryResourcesField = value;
-                Course.NotifyManifestChanged(this, ManifestChangeTypes.Changed);
+                Course.NotifyManifestChanged(this, new IManifestNode[]{value}, ManifestChangeTypes.Changed);
             }
         }
 
@@ -1025,6 +1033,12 @@ namespace FireFly.CourseEditor.Course.Manifest
             operatorField = ConditionOperatorType.noOp;
         }
 
+        public RollupRuleTypeRollupConditionsRollupCondition(ConditionOperatorType @operator, RollupRuleConditionType condition)
+        {
+            this.@operator = @operator;
+            this.condition = condition;
+        }
+
         [XmlAttribute]
         [Description("The unary logical operator to be applied to the individual condition.")]
         [DefaultValue(ConditionOperatorType.noOp)]
@@ -1440,6 +1454,15 @@ namespace FireFly.CourseEditor.Course.Manifest
             operatorField = ConditionOperatorType.noOp;
         }
 
+        public SequencingRuleTypeRuleConditionsRuleCondition(string referencedObjective, int measureThreshold, [NotNull]ConditionOperatorType @operator, SequencingRuleConditionType condition)
+            :this()
+        {
+            this.referencedObjective = referencedObjective;
+            this.measureThreshold = measureThreshold;
+            this.@operator = @operator;
+            this.condition = condition;
+        }
+
         [Description("This attribute represents the identifier of a local objective associated with the activity. The status of this objective will be used during the evaluation of the condition.")]
         [XmlAttribute(DataType = "anyURI")]
         public string referencedObjective
@@ -1457,6 +1480,7 @@ namespace FireFly.CourseEditor.Course.Manifest
 
         [Description("The value used as a threshold during measurebased condition evaluations.")]
         [XmlAttribute]
+        [DefaultValue(0)]//Not SCORM specified
         public decimal measureThreshold
         {
             get
@@ -2365,7 +2389,6 @@ namespace FireFly.CourseEditor.Course.Manifest
                 Course.NotifyManifestChanged(this, ManifestChangeTypes.Changed);
             }
         }
-
         
         [Description("Container for the set of sequencing information.")]
         [Category("Main")]
@@ -5434,10 +5457,13 @@ namespace FireFly.CourseEditor.Course.Manifest
     [Category("Main")]
     public enum HideLMSUIType
     {
-        abandon,
+        previous,
         @continue,
         exit,
-        previous,
+        exitAll,
+        abandon,
+        abandonAll,
+        suspendAll        
     }
 
     [XmlType("navigationInterface", Namespace = ManifestNamespaces.Adlnav)]

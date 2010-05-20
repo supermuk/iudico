@@ -33,6 +33,7 @@ namespace FireFly.CourseEditor.Course.Manifest
 
         public ItemType()
         {
+            this.SequencingPatterns = new SequencingPatternList(this);
         }
 
         protected ItemType([NotNull]string title, [NotNull]string identifier, [NotNull]string identifierRef)
@@ -48,7 +49,14 @@ namespace FireFly.CourseEditor.Course.Manifest
             var result = new ItemType(title, identifier, identifierRef);
             result.pageType = pageType;
 
-            result.Sequencing = SequencingManager.CreateNewSequencing(result);
+            if (pageType != PageType.Chapter && pageType != PageType.ControlChapter)
+            {
+                result.Sequencing = SequencingManager.CreateNewSequencing(result);
+            }
+            else
+            {
+                SequencingManager.CreateNewSequencing(result);
+            }
 
             if (pageType == PageType.Question)
             {
@@ -389,9 +397,10 @@ namespace FireFly.CourseEditor.Course.Manifest
             }
 
             IItemContainer parent = this.Parent as IItemContainer;
+            int position = parent.SubItems.IndexOf(this);
 
             //1. Add all children to Parent
-            parent.SubItems.AddRange(this.SubItems);
+            parent.SubItems.InsertRange(position, this.SubItems);
 
             //2. Clean subItems but do not remove!
             this.SubItems = new ManifestNodeList<ItemType>();
@@ -469,6 +478,55 @@ namespace FireFly.CourseEditor.Course.Manifest
                 }
 
                 return result;
+            }
+        }
+
+        [Description("Sequencing pattern collection. Defines sequencing strategy of current item or/and it's subitems or/and parent.")]
+        [XmlIgnore]
+        public SequencingPatternList SequencingPatterns
+        {
+            get;
+            set;           
+        }
+
+        [Description("Array of string representation of Sequencing patterns ids applied to current node.")]
+        [XmlArray("sequencingPatterns")]
+        [XmlArrayItem("sequencingPattern")]
+        public string[] SequencingPatternsIDArray
+        {
+            get
+            {
+                var query = from pattern in this.SequencingPatterns
+                            select pattern.ID;
+                if (query.Count() == 0)
+                {
+                    return null;
+                }
+                return query.ToArray();
+            }
+            set
+            {
+                if (value == null)
+                {
+                    this.SequencingPatterns = new SequencingPatternList(this);
+                    return;
+                }                                
+
+                foreach (Type type in SequencingPatternList.GetAllKnownPatterns())
+                {
+                    ISequencingPattern pattern = type.GetConstructor(new Type[] { }).Invoke(new object[] { }) as ISequencingPattern;
+                    
+                    string patternID = type.GetProperty("ID").GetValue(pattern, new object[] { }) as string;
+
+                    if (value.Exists(curr => curr == patternID) == true)
+                    {
+                        if (this.SequencingPatterns == null)
+                        {
+                            this.SequencingPatterns = new SequencingPatternList(this);
+                        }
+                        this.SequencingPatterns.Add(type);
+                    }
+                }               
             }
         }
     }

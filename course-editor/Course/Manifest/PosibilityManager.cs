@@ -228,6 +228,13 @@ namespace FireFly.CourseEditor.Course.Manifest
 
         public static bool CanRemove(object currentNode)
         {
+            if (currentNode is IManifestNode)
+            {
+                if ((currentNode as IManifestNode).Parent == null)
+                {
+                    return false;
+                }
+            }
             if (currentNode is ItemType)
             {
                 return true;

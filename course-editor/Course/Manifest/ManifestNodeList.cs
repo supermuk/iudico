@@ -23,6 +23,24 @@ namespace FireFly.CourseEditor.Course.Manifest
             Parent = parent;
         }
 
+        public new void Insert(int index, [NotNull]T item)
+        {
+            base.Insert(index, item);
+            item.Parent = Parent;
+            Course.NotifyManifestChanged(Parent, new T[] { item }, ManifestChangeTypes.ChildrenAdded);
+        }
+
+        public new void InsertRange(int index, [NotNull]IEnumerable<T> items)
+        {
+            base.InsertRange(index, items);            
+            foreach (T item in items)
+            {
+                item.Parent = Parent;
+            }
+            List<T> insertedItems = new List<T>(items);
+            Course.NotifyManifestChanged(Parent, insertedItems.ToArray() , ManifestChangeTypes.ChildrenAdded);
+        }
+
         public new void Add([NotNull]T item)
         {
             base.Add(item);
