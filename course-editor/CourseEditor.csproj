@@ -173,6 +173,12 @@
     <Compile Include="GUI\HtmlEditor\PageErrorsSummary.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="GUI\NumericDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\NumericDialog.designer.cs">
+      <DependentUpon>NumericDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\SplashForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -450,6 +456,9 @@
       <DependentUpon>PageErrorsSummary.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\NumericDialog.resx">
+      <DependentUpon>NumericDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\SplashForm.resx">
       <DependentUpon>SplashForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -462,13 +471,13 @@
     <EmbeddedResource Include="Course\flXHR.swf" />
     <EmbeddedResource Include="Course\jquery.min.extended.js" />
     <EmbeddedResource Include="Course\swfobject.js" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="Images\Chapter.bmp" />
     <None Include="Images\ControlChapter.bmp" />
     <None Include="Images\arrow_down.png" />
     <None Include="Images\arrow_up.png" />
     <None Include="Images\ChapterGrouping.bmp" />
     <None Include="Images\ControlChapterGrouping.bmp" />
+    <Content Include="Course\copyBlocker.js" />
     <Content Include="Images\FireFly.ico" />
     <None Include="Images\Redo.bmp" />
     <None Include="Images\Rename.bmp" />

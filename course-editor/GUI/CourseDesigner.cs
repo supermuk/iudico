@@ -105,8 +105,16 @@ namespace FireFly.CourseEditor.GUI
             _InsertGroupingControlChapterActiveNotifier = Forms.Main.RegisterToolBoxButton(tvItems, miInsertGroupingControlChapter);
             _RemoveMergeActiveNotifier = Forms.Main.RegisterToolBoxButton(tvItems, miRemoveMerge);
 
-            miForcedSequentialOrder.ToolTipText = ForcedSequentialOrderSequencingPattern.Description;
-            miForcedForwardOnlyOrder.ToolTipText = ForcedForwardOnlySequencingPattern.Description;
+            miForcedSequentialOrder.ToolTipText = (new ForcedSequentialOrderSequencingPattern()).Description;
+            miForcedForwardOnlyOrder.ToolTipText = (new ForcedForwardOnlySequencingPattern()).Description;
+            miOrganizationDefaultPattern.ToolTipText = (new OrganizationDefaultSequencingPattern()).Description;
+            miChapterDefaultPattern.ToolTipText = (new ChapterDefaultSequencingPattern()).Description;
+            miControlChapterDefaultPattern.ToolTipText = (new ControlChapterDefaultSequencingPattern()).Description;
+            miPostTestSequencingPattern.ToolTipText = (new PostTestSequencingPattern()).Description;
+            miRandomSetOfTests.ToolTipText = (new RandomSetSequencingPattern()).Description;
+            miPrePostTest.ToolTipText = (new PrePostTestSequencingPattern()).Description;
+            miRandomPostTest.ToolTipText = (new RandomPostTestSequencingPattern()).Description;
+            //-> Place for new one
         }
 
         private void Course_Saving()
@@ -173,16 +181,44 @@ namespace FireFly.CourseEditor.GUI
 
             #region Sequencing
 
-            var forcedSequentialOrder = ForcedSequentialOrderSequencingPattern.CanApplyPattern(node);
-            var forcedForwardOnlyOrder = ForcedForwardOnlySequencingPattern.CanApplyPattern(node);
+            var forcedSequentialOrder = (new ForcedSequentialOrderSequencingPattern()).CanApplyPattern(node);
+            var forcedForwardOnlyOrder = (new ForcedForwardOnlySequencingPattern()).CanApplyPattern(node);
+            var organizationDefaultSequencing = (new OrganizationDefaultSequencingPattern()).CanApplyPattern(node);
+            var chapterDefaultSequencing = (new ChapterDefaultSequencingPattern()).CanApplyPattern(node);
+            var controlChapterDefaultSequencing = (new ControlChapterDefaultSequencingPattern()).CanApplyPattern(node);
+            var postTestSequencing = (new PostTestSequencingPattern()).CanApplyPattern(node);
+            var randomSetOfTest = (new RandomSetSequencingPattern()).CanApplyPattern(node);
+            var prePostTest = (new PrePostTestSequencingPattern()).CanApplyPattern(node);
+            var randomPostTest = (new RandomPostTestSequencingPattern()).CanApplyPattern(node);
             //-> Place for new one
 
             miForcedSequentialOrder.Visible = forcedSequentialOrder;
             miForcedForwardOnlyOrder.Visible = forcedForwardOnlyOrder;
+            miOrganizationDefaultPattern.Visible = organizationDefaultSequencing;
+            miChapterDefaultPattern.Visible = chapterDefaultSequencing;
+            miControlChapterDefaultPattern.Visible = controlChapterDefaultSequencing;
+            miPostTestSequencingPattern.Visible = postTestSequencing;
+            miRandomSetOfTests.Visible = randomSetOfTest;
+            miPrePostTest.Visible = prePostTest;
+            miRandomPostTest.Visible = false;
             //-> Place for new one
 
-            miApplyPatterns.Visible = miSequencing.Visible = forcedSequentialOrder || forcedForwardOnlyOrder || false;//<- Place for new one
+            miApplyPatterns.Visible = miSequencing.Visible = forcedSequentialOrder || forcedForwardOnlyOrder || organizationDefaultSequencing || chapterDefaultSequencing || controlChapterDefaultSequencing || postTestSequencing || randomSetOfTest || prePostTest || randomPostTest || false;//<- Place for new one
 
+            if (node is ISequencing)
+            { 
+                ISequencing nodeSeq = (node as ISequencing);
+                miForcedSequentialOrder.Checked = nodeSeq.SequencingPatterns.ContainsPattern(typeof(ForcedSequentialOrderSequencingPattern));
+                miForcedForwardOnlyOrder.Checked = nodeSeq.SequencingPatterns.ContainsPattern(typeof(ForcedForwardOnlySequencingPattern));
+                miOrganizationDefaultPattern.Checked = nodeSeq.SequencingPatterns.ContainsPattern(typeof(OrganizationDefaultSequencingPattern));
+                miChapterDefaultPattern.Checked = nodeSeq.SequencingPatterns.ContainsPattern(typeof(ChapterDefaultSequencingPattern));
+                miControlChapterDefaultPattern.Checked = nodeSeq.SequencingPatterns.ContainsPattern(typeof(ControlChapterDefaultSequencingPattern));
+                miPostTestSequencingPattern.Checked = nodeSeq.SequencingPatterns.ContainsPattern(typeof(PostTestSequencingPattern));
+                miRandomSetOfTests.Checked = miRandomSetOfTestsSelectCount.Visible = nodeSeq.SequencingPatterns.ContainsPattern(typeof(RandomSetSequencingPattern));
+                miPrePostTest.Checked = nodeSeq.SequencingPatterns.ContainsPattern(typeof(PrePostTestSequencingPattern));
+                miRandomPostTest.Checked = miRandomPostTestTryNumber.Visible = nodeSeq.SequencingPatterns.ContainsPattern(typeof(RandomPostTestSequencingPattern));
+                //-> Place for new one
+            }
 
             #endregion
 
@@ -678,18 +714,18 @@ namespace FireFly.CourseEditor.GUI
                     //var node = (ItemType)tvItems.SelectedNode.Tag;
                     //var res = Course.Manifest.resources[node.IdentifierRef];
 
+                    var selectedNode = tvItems.SelectedNode;
 
-
-                    ((IDisposable)tvItems.SelectedNode.Tag).Dispose();
+                    ((IDisposable)selectedNode.Tag).Dispose();
 
                     //if (res != null)
                     //{
                     //    Course.Manifest.resources.Resources.Remove(res);
                     //}
 
-                    IContainer c = tvItems.SelectedNode.Parent.Tag as IContainer;
+                    IContainer c = selectedNode.Parent.Tag as IContainer;
                     Debug.Assert(c != null, "Parent of the selected object is not support Manifest.IContainer");
-                    c.RemoveChild(tvItems.SelectedNode.Tag as IManifestNode);
+                    c.RemoveChild(selectedNode.Tag as IManifestNode);
                 }
                 catch (IOException)
                 {
@@ -888,16 +924,84 @@ namespace FireFly.CourseEditor.GUI
             RemoveAndMerge();
         }
 
-        private void miForcedSequentialOrder_Click(object sender, EventArgs e)
+        private void miSequencingPatternClick(ISequencingPattern pattern)
         {
             var treeNode = tvItems.SelectedNode;
-            ForcedSequentialOrderSequencingPattern.ApplyPattern(treeNode.Tag);
+            ISequencing tagSeq = (ISequencing)treeNode.Tag;
+            if (tagSeq.SequencingPatterns.ContainsPattern(pattern.GetType()))
+            {
+                tagSeq.SequencingPatterns.Remove(pattern.GetType());
+            }
+            else
+            {
+                tagSeq.SequencingPatterns.Add(pattern);
+            }
+            UpdateTreeContextMenu(treeNode.Tag as IManifestNode, treeNode);
+        }
+
+        private void miForcedSequentialOrder_Click(object sender, EventArgs e)
+        {
+            miSequencingPatternClick(new ForcedSequentialOrderSequencingPattern());
         }
 
         private void miForwardOnlyOrder_Click(object sender, EventArgs e)
         {
+            miSequencingPatternClick(new ForcedForwardOnlySequencingPattern());
+        }
+
+        private void miOrganizationDefaultPattern_Click(object sender, EventArgs e)
+        {
+            miSequencingPatternClick(new OrganizationDefaultSequencingPattern());
+        }
+
+        private void miChapterDefaultPattern_Click(object sender, EventArgs e)
+        {
+            miSequencingPatternClick(new ChapterDefaultSequencingPattern());        
+        }
+
+        private void miControlChapterDefaultPattern_Click(object sender, EventArgs e)
+        {
+            miSequencingPatternClick(new ControlChapterDefaultSequencingPattern());
+        }
+
+        private void miPostTestSequencingPattern_Click(object sender, EventArgs e)
+        {
+            miSequencingPatternClick(new PostTestSequencingPattern());
+        }
+
+        private void miRandomSetOfTests_Click(object sender, EventArgs e)
+        {
+            miSequencingPatternClick(new RandomSetSequencingPattern());
+        }
+
+        private void miRandomSetOfTestsSelectCount_Click(object sender, EventArgs e)
+        {
             var treeNode = tvItems.SelectedNode;
-            ForcedForwardOnlySequencingPattern.ApplyPattern(treeNode.Tag);
+            ISequencing tagSeq = (ISequencing)treeNode.Tag;
+            int selectCount = 0;
+            RandomSetSequencingPattern.GetSelectCount(treeNode.Tag, ref selectCount);
+            RandomSetSequencingPattern.SetSelectCount(treeNode.Tag, ref selectCount);
+            UpdateTreeContextMenu(treeNode.Tag as IManifestNode, treeNode);
+        }
+
+        private void miPrePostTest_Click(object sender, EventArgs e)
+        {
+            miSequencingPatternClick(new PrePostTestSequencingPattern());
+        }
+
+        private void miRandomPostTest_Click(object sender, EventArgs e)
+        {
+            miSequencingPatternClick(new RandomPostTestSequencingPattern());
+        }
+
+        private void miRandomPostTestTryNumber_Click(object sender, EventArgs e)
+        {
+            var treeNode = tvItems.SelectedNode;
+            ISequencing tagSeq = (ISequencing)treeNode.Tag;
+            int attemptLimit = 0;
+            RandomPostTestSequencingPattern.GetAttemptLimit(treeNode.Tag, ref attemptLimit);
+            RandomPostTestSequencingPattern.SetAttemptLimit(treeNode.Tag, ref attemptLimit);
+            UpdateTreeContextMenu(treeNode.Tag as IManifestNode, treeNode);
         }
     }
 }

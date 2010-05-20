@@ -30,7 +30,7 @@ namespace FireFly.CourseEditor.Course
         /// </summary>
         public const string LANGUAGES_NAMESPACE = "FireFly.CourseEditor.GUI.HtmlEditor.HighlightControl.";
 
-        ///// <summary>
+        /// <summary>
         /// Defines the name of file with answers in course package
         /// </summary>
         public const string MANIFEST_FILE_NAME = "imsmanifest.xml";

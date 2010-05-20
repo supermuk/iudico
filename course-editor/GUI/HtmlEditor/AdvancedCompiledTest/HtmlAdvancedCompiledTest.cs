@@ -77,8 +77,8 @@ namespace FireFly.CourseEditor.GUI.HtmlEditor.AdvancedCompiledTestControl
       input += "]";
       output += "]";
 
-      string result = string.Format("new compiledTest('TextBoxBefore', 'TextBoxAfter', 'TextBoxUserCode', '{0}', '{1}', {2}, {3}, {4}, {5}",
-          ServiceAddress, CompiledQuestion.GetLanguageString(Language), TimeLimit, MemoryLimit, input, output);
+      string result = string.Format("new compiledTest('TextBoxBefore', 'TextBoxAfter', 'TextBoxUserCode', '{0}', '{1}', {2}, {3}, {4}, /*BEG*/{5}/*END*/, {6}",
+          ServiceAddress, CompiledQuestion.GetLanguageString(Language), TimeLimit, MemoryLimit, input, output, this.Rank.ToString());
 
 
       result += ")";

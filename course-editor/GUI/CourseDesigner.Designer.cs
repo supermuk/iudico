@@ -48,8 +48,18 @@ namespace FireFly.CourseEditor.GUI
             this.miRemoveMerge = new System.Windows.Forms.ToolStripMenuItem();
             this.miSequencing = new System.Windows.Forms.ToolStripMenuItem();
             this.miApplyPatterns = new System.Windows.Forms.ToolStripMenuItem();
+            this.miOrganizationDefaultPattern = new System.Windows.Forms.ToolStripMenuItem();
+            this.miChapterDefaultPattern = new System.Windows.Forms.ToolStripMenuItem();
+            this.miControlChapterDefaultPattern = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.miForcedSequentialOrder = new System.Windows.Forms.ToolStripMenuItem();
             this.miForcedForwardOnlyOrder = new System.Windows.Forms.ToolStripMenuItem();
+            this.miPostTestSequencingPattern = new System.Windows.Forms.ToolStripMenuItem();
+            this.miPrePostTest = new System.Windows.Forms.ToolStripMenuItem();
+            this.miRandomSetOfTests = new System.Windows.Forms.ToolStripMenuItem();
+            this.miRandomSetOfTestsSelectCount = new System.Windows.Forms.ToolStripMenuItem();
+            this.miRandomPostTest = new System.Windows.Forms.ToolStripMenuItem();
+            this.miRandomPostTestTryNumber = new System.Windows.Forms.ToolStripMenuItem();
             this.miRename = new System.Windows.Forms.ToolStripMenuItem();
             this.miDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.miProperties = new System.Windows.Forms.ToolStripMenuItem();
@@ -251,25 +261,105 @@ namespace FireFly.CourseEditor.GUI
             // miApplyPatterns
             // 
             this.miApplyPatterns.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miOrganizationDefaultPattern,
+            this.miChapterDefaultPattern,
+            this.miControlChapterDefaultPattern,
+            this.toolStripSeparator1,
             this.miForcedSequentialOrder,
-            this.miForcedForwardOnlyOrder});
+            this.miForcedForwardOnlyOrder,
+            this.miPostTestSequencingPattern,
+            this.miPrePostTest,
+            this.miRandomSetOfTests,
+            this.miRandomPostTest});
             this.miApplyPatterns.Name = "miApplyPatterns";
             this.miApplyPatterns.Size = new System.Drawing.Size(152, 22);
             this.miApplyPatterns.Text = "&Apply Patterns";
             // 
+            // miOrganizationDefaultPattern
+            // 
+            this.miOrganizationDefaultPattern.Name = "miOrganizationDefaultPattern";
+            this.miOrganizationDefaultPattern.Size = new System.Drawing.Size(265, 22);
+            this.miOrganizationDefaultPattern.Text = "Organization Default Sequencing";
+            this.miOrganizationDefaultPattern.Click += new System.EventHandler(this.miOrganizationDefaultPattern_Click);
+            // 
+            // miChapterDefaultPattern
+            // 
+            this.miChapterDefaultPattern.Name = "miChapterDefaultPattern";
+            this.miChapterDefaultPattern.Size = new System.Drawing.Size(265, 22);
+            this.miChapterDefaultPattern.Text = "Chapter Default Sequencing";
+            this.miChapterDefaultPattern.Click += new System.EventHandler(this.miChapterDefaultPattern_Click);
+            // 
+            // miControlChapterDefaultPattern
+            // 
+            this.miControlChapterDefaultPattern.Name = "miControlChapterDefaultPattern";
+            this.miControlChapterDefaultPattern.Size = new System.Drawing.Size(265, 22);
+            this.miControlChapterDefaultPattern.Text = "Control Chapter Default Sequencing";
+            this.miControlChapterDefaultPattern.Click += new System.EventHandler(this.miControlChapterDefaultPattern_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(262, 6);
+            // 
             // miForcedSequentialOrder
             // 
             this.miForcedSequentialOrder.Name = "miForcedSequentialOrder";
-            this.miForcedSequentialOrder.Size = new System.Drawing.Size(201, 22);
+            this.miForcedSequentialOrder.Size = new System.Drawing.Size(265, 22);
             this.miForcedSequentialOrder.Text = "Forced Sequential Order";
             this.miForcedSequentialOrder.Click += new System.EventHandler(this.miForcedSequentialOrder_Click);
             // 
             // miForcedForwardOnlyOrder
             // 
             this.miForcedForwardOnlyOrder.Name = "miForcedForwardOnlyOrder";
-            this.miForcedForwardOnlyOrder.Size = new System.Drawing.Size(201, 22);
+            this.miForcedForwardOnlyOrder.Size = new System.Drawing.Size(265, 22);
             this.miForcedForwardOnlyOrder.Text = "Forward-Only Order";
             this.miForcedForwardOnlyOrder.Click += new System.EventHandler(this.miForwardOnlyOrder_Click);
+            // 
+            // miPostTestSequencingPattern
+            // 
+            this.miPostTestSequencingPattern.Name = "miPostTestSequencingPattern";
+            this.miPostTestSequencingPattern.Size = new System.Drawing.Size(265, 22);
+            this.miPostTestSequencingPattern.Text = "Post-Test";
+            this.miPostTestSequencingPattern.Click += new System.EventHandler(this.miPostTestSequencingPattern_Click);
+            // 
+            // miPrePostTest
+            // 
+            this.miPrePostTest.Name = "miPrePostTest";
+            this.miPrePostTest.Size = new System.Drawing.Size(265, 22);
+            this.miPrePostTest.Text = "Pre-Test or Post-Test";
+            this.miPrePostTest.Click += new System.EventHandler(this.miPrePostTest_Click);
+            // 
+            // miRandomSetOfTests
+            // 
+            this.miRandomSetOfTests.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miRandomSetOfTestsSelectCount});
+            this.miRandomSetOfTests.Name = "miRandomSetOfTests";
+            this.miRandomSetOfTests.Size = new System.Drawing.Size(265, 22);
+            this.miRandomSetOfTests.Text = "Random Set of Tests";
+            this.miRandomSetOfTests.Click += new System.EventHandler(this.miRandomSetOfTests_Click);
+            // 
+            // miRandomSetOfTestsSelectCount
+            // 
+            this.miRandomSetOfTestsSelectCount.Name = "miRandomSetOfTestsSelectCount";
+            this.miRandomSetOfTestsSelectCount.Size = new System.Drawing.Size(197, 22);
+            this.miRandomSetOfTestsSelectCount.Text = "Define number of  tests";
+            this.miRandomSetOfTestsSelectCount.Click += new System.EventHandler(this.miRandomSetOfTestsSelectCount_Click);
+            // 
+            // miRandomPostTest
+            // 
+            this.miRandomPostTest.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miRandomPostTestTryNumber});
+            this.miRandomPostTest.Name = "miRandomPostTest";
+            this.miRandomPostTest.Size = new System.Drawing.Size(265, 22);
+            this.miRandomPostTest.Text = "Random Post-Test";
+            this.miRandomPostTest.Click += new System.EventHandler(this.miRandomPostTest_Click);
+            // 
+            // miRandomPostTestTryNumber
+            // 
+            this.miRandomPostTestTryNumber.Name = "miRandomPostTestTryNumber";
+            this.miRandomPostTestTryNumber.Size = new System.Drawing.Size(192, 22);
+            this.miRandomPostTestTryNumber.Text = "Define number of tries";
+            this.miRandomPostTestTryNumber.Click += new System.EventHandler(this.miRandomPostTestTryNumber_Click);
             // 
             // miRename
             // 
@@ -473,5 +563,15 @@ namespace FireFly.CourseEditor.GUI
         private System.Windows.Forms.ToolStripMenuItem miApplyPatterns;
         private System.Windows.Forms.ToolStripMenuItem miForcedSequentialOrder;
         private System.Windows.Forms.ToolStripMenuItem miForcedForwardOnlyOrder;
+        private System.Windows.Forms.ToolStripMenuItem miChapterDefaultPattern;
+        private System.Windows.Forms.ToolStripMenuItem miOrganizationDefaultPattern;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem miControlChapterDefaultPattern;
+        private System.Windows.Forms.ToolStripMenuItem miPostTestSequencingPattern;
+        private System.Windows.Forms.ToolStripMenuItem miRandomSetOfTests;
+        private System.Windows.Forms.ToolStripMenuItem miRandomSetOfTestsSelectCount;
+        private System.Windows.Forms.ToolStripMenuItem miPrePostTest;
+        private System.Windows.Forms.ToolStripMenuItem miRandomPostTest;
+        private System.Windows.Forms.ToolStripMenuItem miRandomPostTestTryNumber;
     }
 }

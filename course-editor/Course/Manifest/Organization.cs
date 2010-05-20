@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Xml.Serialization;
 using FireFly.CourseEditor.Common;
+using System.Linq;
 
 namespace FireFly.CourseEditor.Course.Manifest
 {
@@ -27,13 +28,18 @@ namespace FireFly.CourseEditor.Course.Manifest
 
         private bool sharedDataGlobalToSystemField = true;
 
+       // private SequencingPattern sequencingPatternField;
+
         public OrganizationType()
         {
             identifier = string.Concat("Organization", number++);
             structureField = "hierarchical";
-            this.Sequencing = SequencingManager.CreateOrganizationDefaultSequencing();
+            this.SequencingPatterns = new SequencingPatternList(this);
+            SequencingManager.CreateOrganizationDefaultSequencing(this);
+            
             //To protect local objectives from outer intrusion.
-            this.objectivesGlobalToSystem = false; 
+            this.objectivesGlobalToSystem = false;
+            
         }
 
         //TODO: Fix FFServer and remove this stub
@@ -288,6 +294,55 @@ namespace FireFly.CourseEditor.Course.Manifest
                 foreach (var i in enumerateItemRec(this))
                 {
                     yield return i;
+                }
+            }
+        }
+
+        [Description("Sequencing pattern collection. Defines sequencing strategy of current item or/and it's subitems or/and parent.")]
+        [XmlIgnore]
+        public SequencingPatternList SequencingPatterns
+        {
+            get;
+            set;
+        }
+
+        [Description("Array of string representation of Sequencing patterns ids applied to current node.")]
+        [XmlArray("sequencingPatterns")]
+        [XmlArrayItem("sequencingPattern")]
+        public string[] SequencingPatternsIDArray
+        {
+            get
+            {
+                var query = from pattern in this.SequencingPatterns
+                            select pattern.ID;
+                if (query.Count() == 0)
+                {
+                    return null;
+                }
+                return query.ToArray();
+            }
+            set
+            {
+                if (value == null)
+                {
+                    this.SequencingPatterns = new SequencingPatternList(this);
+                    return;
+                }                
+
+                foreach (Type type in SequencingPatternList.GetAllKnownPatterns())
+                {
+                    ISequencingPattern pattern = type.GetConstructor(new Type[] { }).Invoke(new object[] { }) as ISequencingPattern;
+
+                    string patternID = type.GetProperty("ID").GetValue(pattern, new object[] { }) as string;
+
+                    if (value.Exists(curr => curr == patternID) == true)
+                    {
+                        if (this.SequencingPatterns == null)
+                        {
+                            this.SequencingPatterns = new SequencingPatternList(this);
+                        }
+                        this.SequencingPatterns.Add(type);
+                    }
                 }
             }
         }

@@ -93,7 +93,7 @@ namespace FireFly.CourseEditor.GUI.HtmlEditor
         [NotNull]
         public override string GetScoTestInitializer()
         {
-            return string.Format("new simpleTest('{0}', '{1}')", Name, CorrectAnswer);
+            return string.Format("new simpleTest('{0}', '{1}', {2})", Name, CorrectAnswer, this.Rank.ToString());
         }
 
         [NotNull]

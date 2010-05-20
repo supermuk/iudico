@@ -107,12 +107,20 @@ function getObjectiveIndex(id){
             return i;
     return -1;
 }
-
-function getScore(objectiveID){
+//scoreType: min, max, raw, scaled
+function getScore(objectiveID, scoreType){
     var index = getObjectiveIndex(objectiveID);
-    var res = doGetValue("cmi.objectives." + index + ".score.scaled");
+    var res = doGetValue("cmi.objectives." + index + ".score."+scoreType);
     return res != null ? res : 0;
 }
+
+//scoreType: min, max, raw, scaled
+function setScore(objectiveID, scoreType, scoreValue) {
+    var index = getObjectiveIndex(objectiveID);
+    doSetValue("cmi.objectives." + index + ".score." + scoreType, scoreValue);
+}
+
+
 
 var totalMax = 0;
 var total = 0;
@@ -130,7 +138,7 @@ function getTotalMessage()
 function updateSummaryPageItem(id, maxPoints, passPoints)
 {
     var item = document.getElementById(id);
-    var points = getScore(id);
+    var points = getScore(id, "scaled")*100;
     if (points != null)
     {
         total = total + points;                   // Потенційні граблі!!!
