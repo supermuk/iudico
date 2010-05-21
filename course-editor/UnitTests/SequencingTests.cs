@@ -25,12 +25,13 @@ namespace FireFly.UnitTests
 
         protected SequencingType sequencing;
 
+        protected OrganizationType organization;
+
         #endregion
 
         [SetUp]
         public void SettingUp()
-        { 
-            
+        {             
                       
             this.chapterItem = ItemType.CreateNewItem("chapter item", "ci", null, PageType.Chapter);
             this.controlChapterItem = ItemType.CreateNewItem("controlChapter item", "cci", "ewrt", PageType.ControlChapter);
@@ -48,6 +49,8 @@ namespace FireFly.UnitTests
             this.items.Add(unknownItem);
 
             this.sequencing = new SequencingType();
+
+            this.organization = new OrganizationType();
         }
 
         [Description("Tests Sequencing not null after item created.")]
@@ -66,8 +69,8 @@ namespace FireFly.UnitTests
         [Test]
         public void CreateOrganizationDefaultSequencingTest()
         {
-            SequencingType seq = SequencingManager.CreateOrganizationDefaultSequencing();
-            Assert.IsNotNull(seq);
+            SequencingManager.CreateOrganizationDefaultSequencing(this.organization);
+            Assert.AreEqual(1, this.organization.SequencingPatterns.Count);
         }
 
         [Description("Tests object after default constructor invoked.")]
@@ -115,6 +118,7 @@ namespace FireFly.UnitTests
     [Description("Tests functionality of SequencingPattern class.")]
     public class SequencingPatternTests
     {
+        SequencingPattern pattern;
         OrganizationType organization;
         ItemType chapter;
         ItemType controlChapter;
@@ -122,6 +126,7 @@ namespace FireFly.UnitTests
         [SetUp]
         public void SetUp()
         {
+            this.pattern = new SequencingPattern();
             this.organization = new OrganizationType();
             this.chapter = ItemType.CreateNewItem("Chapter", "chapter_base", null, PageType.Chapter);
             this.controlChapter = ItemType.CreateNewItem("Control Chapter", "control chapter", null, PageType.ControlChapter);
@@ -135,30 +140,30 @@ namespace FireFly.UnitTests
             
             try
             {
-                SequencingPattern.CanApplyPattern(null); 
+                pattern.CanApplyPattern(null); 
             }
             catch(ArgumentNullException)
             {
                 excCount++;
             }
 
-            Assert.IsFalse(SequencingPattern.CanApplyPattern(excCount));
-            Assert.IsFalse(SequencingPattern.CanApplyPattern(organization));
-            Assert.IsFalse(SequencingPattern.CanApplyPattern(chapter));
+            Assert.IsFalse(pattern.CanApplyPattern(excCount));
+            Assert.IsFalse(pattern.CanApplyPattern(organization));
+            Assert.IsFalse(pattern.CanApplyPattern(chapter));
 
             ItemType chapter1 = ItemType.CreateNewItem("chapter1", "chapter1_id", null, PageType.Chapter);
             ItemType controlChapter1 = ItemType.CreateNewItem("controlChapter1", "controlChapter1_id", null, PageType.ControlChapter);
             ItemType theory = ItemType.CreateNewItem("theory1", "theory_id", null, PageType.Theory);
 
             this.controlChapter.SubItems.Add(theory);
-            Assert.IsTrue(SequencingPattern.CanApplyPattern(controlChapter));
+            Assert.IsTrue(pattern.CanApplyPattern(controlChapter));
 
             this.organization.SubItems.Add(theory);
             this.organization.SubItems.Add(controlChapter1);
-            Assert.IsTrue(SequencingPattern.CanApplyPattern(this.organization));
+            Assert.IsTrue(pattern.CanApplyPattern(this.organization));
 
             theory.SubItems.Add(chapter1);
-            Assert.IsFalse(SequencingPattern.CanApplyPattern(theory));
+            Assert.IsFalse(pattern.CanApplyPattern(theory));
         }
 
         [Description("Tests ApplyPattern method.")]
@@ -168,7 +173,7 @@ namespace FireFly.UnitTests
             bool catched = false;
             try
             {
-            SequencingPattern.ApplyPattern(this.organization);
+            this.pattern.ApplyPattern(this.organization);
             }
             catch(InvalidOperationException)
             {
@@ -176,7 +181,7 @@ namespace FireFly.UnitTests
             }
             Assert.AreEqual(true, catched);
             this.organization.SubItems.Add(this.controlChapter);
-            SequencingPattern.ApplyPattern(this.organization);
+            this.pattern.ApplyPattern(this.organization);
         }
 
         [Description("Tests are all chapters method.")]
