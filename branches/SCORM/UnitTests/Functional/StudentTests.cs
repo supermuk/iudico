@@ -1194,8 +1194,8 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "Test");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "Test");
 
-            //Selenium.AttachFile("ctl00_MainContent_FileUpload_Course", "http://localhost:2935/TestCourses/newEditor1.zip");
-            Selenium.Type("ctl00_MainContent_FileUpload_Course", "C:\\Users\\Іван\\Desktop\\newEditor1.zip");
+            Selenium.AttachFile("ctl00_MainContent_FileUpload_Course", "http://localhost:2935/TestCourses/newEditor1.zip");
+            //Selenium.Type("ctl00_MainContent_FileUpload_Course", "C:\\Users\\Іван\\Desktop\\newEditor1.zip");
 
 
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
