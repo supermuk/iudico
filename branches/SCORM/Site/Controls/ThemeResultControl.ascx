@@ -6,7 +6,6 @@
     <asp:TableRow runat="server">
         <asp:TableCell runat="server" HorizontalAlign="Center" VerticalAlign="Top">Question</asp:TableCell>
         <asp:TableCell runat="server" Height="30px" HorizontalAlign="Center" VerticalAlign="Top">User Answer</asp:TableCell>
-        <asp:TableCell runat="server" Height="30px" HorizontalAlign="Center" VerticalAlign="Top">Correct Answer</asp:TableCell>
         <asp:TableCell ID="TableCell1" runat="server" Height="30px" HorizontalAlign="Center" VerticalAlign="Top">Status</asp:TableCell>
     </asp:TableRow>
 </asp:Table>
