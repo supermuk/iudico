@@ -78,7 +78,7 @@ public partial class ThemeResultControl : UserControl
                   var row = new TableRow();
                   row.Cells.Add(new TableCell { Text = item.Title });
                   row.Cells.Add(new TableCell { Text = userAnswer });
-                  row.Cells.Add(new TableCell { Text = correctAnswer });
+                  //row.Cells.Add(new TableCell { Text = correctAnswer });
                   row.Cells.Add(new TableCell { Text = result });
 
                   rows.Add(row);
