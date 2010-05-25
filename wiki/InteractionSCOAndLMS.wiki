@@ -1,48 +1,69 @@
-=Взаємодія  SCO та LMS=
-На цій сторінці описується процес завантаження курсу в LMS і його програвання від початку і до моменту виведення статистики. Базові поняття SCORM-у тут описані в світлі конкретної реалізації в Iudico.
+Найважливішою з точки зору SCORM - сумісності є частина системи навчання, яка відповідає за програвання курсу від моменту початку тестування до формування статистики по кожній спробі проходження тестів. У системі IUDICO за це відповідальна Testing System.
 
-==imsmanifest.xml==
 [http://img208.imageshack.us/img208/6274/imsmanifest.jpg]
-<br>Структура imsmanifest.xml
+ Рисунок 1. Структура imsmanifest.xml
 
-imsmanifest.xml входить до складу кожного SCORM-сумісного курсу. Його структура детально описана в книзі SCORM-2004.САМ. Зупинимось лише на деяких особливостях його реалізації в Iudico.
-Кореневим елементом в маніфесті є "organization". Він містить дочірні елементи - "item". Однією з їх складових є Sequencing Definition Model, яка задає правила сіквенсінгу для даного елемента "item". Також до всіх листкових елементів прив*язаний певний resource, який містить посилання на .html сторінку, яка являє собою найменшу неподільну частинку курсу, що програється.
+Для впровадження повної SCORM – сумісності  в цю підсистему розроблено модель, реалізація якої повинна забезпечувати повну функціональність згідно стандарту.
 
-==Activity==
-Сутність activity детально описана в книзі SCORM-2004.SN. Зупинимось лише на особливостях його реалізації в Iudico.
-Сутності activity відповідає тип Activity є run-time репрезентацією елемента "item" в imsmanifest.xml. До кожного об'єкту типу Activity прив*язаний екземпляр типу Activity Run-Time Model.
-Activity Run-Time Model складається з таких складових:
- # RTE Data Model
- # Sequencing Model
-  * Tracking Model
-  * Overall sequencing process
-  * Navigation Behavior
-  * Termination Behavior
-  * Rollup behaviour
-  * Selection and randomization Behavior
-  * Sequecning Behavior
-  * Delivery Behavior
- # Navigation Model
-Компоненту RTE Data Model відповідає CmiDataModel у специфікації SCORM-у. 
-більш детальна інформація про кожен з цих компонентів містяться в книжках SCORM-2004.RTE і SCORM-2004.SN
-Sequencing Model використовує Sequencing Definition Model з imsmanifest.xml для ініціалізації при створенні activity.
-До всіх листкових activities прив*язаний певний resource, який містить посилання на .html сторінку, яка являє собою найменшу неподільну частинку курсу, що програється.
+Файл imsmanifest.xml входить до складу кожного SCORM - сумісного курсу. Його структура детально описана в книзі SCORM-2004 САМ. Кореневим елементом в маніфесті є "organization". Він містить дочірні елементи - "item". Однією з їх складових є Модель визначення Впорядкування, яка задає правила впорядкування для даного елемента "item". Також до кожного з листкових елементів прив’язаний певний resource - ресурс, який містить посилання на html сторінку. Ця сторінка є найменшою неподільною частинкою курсу, що програється. Якщо ця частинка комунікує з LMS через екземпляр API, то її називають об’єктом контенту (Shareable Content Object, SCO). Якщо ж це просто html-сторінка чи інший статичний ресурс, то таку частинку називають asset.
 
-==Activity Tree==
+===Activity===
+
+Сутність activity детально описана в книзі SCORM-2004 SN. У моделі їй відповідає тип Activity, що є run-time репрезентацією елемента «item» в imsmanifest.xml. До кожного об’єкту типу Activity прив’язаний екземпляр типу Activity Run-Time Model. Activity Run-Time Model складається з:
+
+ # RTE Data Model _Модель Даних підчас виконання_
+ # Sequencing Model: _Модель Впорядкування_
+  * Tracking Model _Модель Стеження_
+  * Overall sequencing process _Загальний процес впорядкування_
+  * Navigation Behavior _Навігаційна Поведінка_
+  * Termination Behavior _Поведінка Завершення роботи_
+  * Rollup behaviour _Поведінка обчислення значень батьківських елементів на основі значень елементів нащадків_
+  * Selection and randomization Behavior _Поведінка Вибору та Перемішування_
+  * Sequecning Behavior _Поведінка Впорядкування_
+  * Delivery Behavior _Поведінка доставки_
+ # Navigation Model _Навігаційна Модель_
+
+Компоненту RTE Data Model відповідає CmiDataModel у специфікації SCORM. Більш детальна інформація про кожен з цих компонентів містяться в книжках SCORM-2004 RTE і SCORM-2004 SN. Sequencing Model використовує Sequencing Definition Model з imsmanifest.xml для ініціалізації при створенні Activity. Аналогічно як і у imsmanifest.xml, до кожного листкового Activity прив’язаний відповідний resource.
+
+
+===Activity Tree===
+
+ActivityTree – це деревовидна структура курсу. Вузлами цього дерева є об’єкти типу Activity (Рис. 2)
+
+
 [http://img39.imageshack.us/img39/5476/activitytree.jpg]
-<br>
-Структура ActivityTree
+ Рисунок 2. Структура Activity Tree
 
-ActivityTree являє собою деревовидну структуру курсу. Складовими частинами цього дерева є об'єкти типу Activity.
+Розглянемо найважливіші етапи взаємодії SCO та LMS (Рис. 3):
 
-==Модель взаємодії SCO та LMS==
-[http://img153.imageshack.us/img153/4645/scolms.jpg]
-<br>
-Модель взаємодії SCO та LMS
+[http://fs70.www.ex.ua/get/2485680/image003.jpg]
+ Рисунок 3. Модель взаємодії SCO та LMS
 
-Зупинимось на найважливіших місцях:
-==Завантаження курсу в LMS==
-Під час завантаження курсу в LMS він перевіряється на валідність:тип ManifestValidator перевіряє imsmanifest.xml на дотримання вимог SCORM-у, а PackageValidator перевіряє весь курс на цілісність і валідність.
-==Програвання курсу==
-Після початку програвання курсу утворюється об'єкт типу Navigator. Цей об'єкт привязується до  Activity Tree. Обєкт Navigator відповідає за подачу навчального матеріалу учневі.
-Тип ManifestReader зчитує Sequencing Definition Model з imsmanifest.xml і записує її в підрозділ Activity Run-Time Model->Sequencing Model відповідного Activity.Взаємодія LMS зі Scoobj.js відбувається за допомогою API функцій GetValue i SetValue, які відповідно зчитують і записують CmiDataModel інформацію з підрозділу Activity Run-Time Model->RTE Data Model відповідного Activity. Після закінчення програвання курсу формується статистика.
+===Завантаження курсу в LMS===
+
+Під час завантаження в LMS курс перевіряється на правильність: об’єкт типу ManifestValidator перевіряє imsmanifest.xml на дотримання вимог SCORM, а PackageValidator перевіряє весь курс на цілісність і правильність згідно SCORM CAM.(Рис. 4)
+
+[http://fs70.www.ex.ua/get/2485684/Validators.jpg]
+ Рисунок 4. Валідатори маніфесту та package'а.
+
+===Програвання курсу===
+
+Після початку програвання курсу утворюється об'єкт типу Navigator. Цей об'єкт прив’язується до Activity Tree. Об’єкт Navigator відповідає за подачу навчального матеріалу учневі (Рис. 5). Об’єкт типу ManifestReader зчитує Sequencing Definition Model з imsmanifest.xml і записує її в підрозділ Activity Run-Time Model->Sequencing Model відповідного Activity (Рис. 5).
+
+[http://fs66.www.ex.ua/get/2485704/LearningComponents.jpg]
+
+Рисунок 5. Діаграма класів Activity, Activity Tree, Navigator
+
+===CMI Data Model===
+
+Для реалізації моделі даних CMI використовується клас LearningDataModel, а також набір класів, що відповідає за представлення та перевірку (-verifier) відповідних сутностей моделі даних. (Рис. 6)
+
+Класи із суфіксом Verifierv1p3 відповідають за перевірку моделі даних, описаної в стандарті SCORM 2004 4th Ed.
+
+[http://fs70.www.ex.ua/get/2485682/DataModel.jpg]
+ Рисунок 6. Діаграма класів CMI Data Model
+
+[http://fs69.www.ex.ua/get/2485683/ManifestReader.jpg]
+ Рисунок 7. Діаграма класів Manifest Reader – парсера маніфесту imsmanifest.xml
+
+В курсах утворених за допомогою редактора FireFly Course Editor функції SCO реалізовані у файлі SCOObj.js. Взаємодія SCO із LMS відбувається за допомогою API функцій GetValue i SetValue, які відповідно зчитують і записують CmiDataModel-інформацію з підрозділу Activity Run-Time Model ‑> RTE Data Model відповідного Activity. Після закінчення програвання курсу формується статистика.
