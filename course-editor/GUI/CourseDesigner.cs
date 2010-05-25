@@ -572,7 +572,35 @@ namespace FireFly.CourseEditor.GUI
                 }
             }
 
+            AddCopyBlockingScript(n);
             AppendWordResources(n);
+            
+        }
+
+        private void AddCopyBlockingScript(ItemType item)
+        { 
+            bool fileExists = File.Exists(item.PageHref);
+
+            if (fileExists == true)
+            {
+                string fileContents = File.ReadAllText(item.PageHref);
+                string blockingScriptComments = "<!--CEBlockCopyScript-->";
+                string blockingScript = "<script> function disableselect(e) {return false;} function reEnable() { return true;}document.onselectstart = new Function(\"return false\"); document.oncontextmenu = new Function(\"return false\"); if (window.sidebar) { document.onmousedown = disableselect; document.onclick = reEnable }</script>";
+
+                bool containsScript = fileContents.Contains(blockingScriptComments);
+
+                if (containsScript == false)
+                {
+                    int index = fileContents.IndexOf("</head>");
+
+                    if (index > 0)
+                    {
+                        fileContents = fileContents.Insert(index, blockingScriptComments + blockingScript);
+                    }
+
+                    File.WriteAllText(item.PageHref, fileContents);
+                }
+            }
         }
 
         private void AppendWordResources(ItemType item)
@@ -647,6 +675,7 @@ namespace FireFly.CourseEditor.GUI
                 }
             }
 
+            AddCopyBlockingScript(ti);
             AppendWordResources(ti);
 
             (tvItems.SelectedNode = tvItems.Nodes.Find(ti.UID, true)[0]).Expand();
