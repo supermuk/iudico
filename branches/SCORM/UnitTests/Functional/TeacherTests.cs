@@ -34,18 +34,20 @@ namespace IUDICO.UnitTest.Functional
         {
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("7000");
-            
+            decimal courses = Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/table[2]/tbody/tr/td[2]/table/tbody/tr[2]/td/div/table");
             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "TestCourse");
             Selenium.Click("ctl00_MainContent_TextBox_CourseDescription");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "TestCourse");
             Selenium.AttachFile("ctl00_MainContent_FileUpload_Course", "http://localhost:2935/TestCourses/GoodCourse.zip");
+            //Selenium.Type("ctl00_MainContent_FileUpload_Course", "C:\\Users\\Ігор\\Desktop\\Kursova\\IUDICO\\Site\\TestCourses\\newEditor1.zip");
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
             Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("CourseEdit.aspx", null);
-            Assert.AreEqual("TestCourse", Selenium.GetTable("//div[@id='ctl00_MainContent_TreeView_Courses']/table.0.2"));
-
+            //Assert.AreEqual("TestCourse", Selenium.GetTable("//div[@id='ctl00_MainContent_TreeView_Courses']/table.0.2"));          
+            Assert.AreEqual(courses + 1, Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/table[2]/tbody/tr/td[2]/table/tbody/tr[2]/td/div/table"));
+            
             Selenium.Click("ctl00_MainContent_TreeView_Coursest0");
             Selenium.Click("ctl00_MainContent_Button_DeleteCourse");
             Selenium.WaitForPageToLoad("7000");
@@ -63,6 +65,7 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Click("ctl00_MainContent_TextBox_CourseDescription");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "TestCourse");
             Selenium.AttachFile("ctl00_MainContent_FileUpload_Course", "http://localhost:2935/TestCourses/Noimsmanifest.zip");
+            //Selenium.Type("ctl00_MainContent_FileUpload_Course", "C:\\Users\\Ігор\\Desktop\\Kursova\\IUDICO\\Site\\TestCourses\\newEditor1.zip");
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
             Selenium.WaitForPageToLoad("7000");
 
@@ -83,7 +86,7 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
             Selenium.WaitForPageToLoad("7000");
 
-            AssertHtmlText("ctl00_MainContent_Label_PageMessage", "Вкажіть шлях до курсу.");
+            AssertHtmlText("ctl00_MainContent_Label_PageMessage", "Specify course path.");
             AssertIsOnPage("CourseEdit.aspx", null);
         }
 
@@ -92,12 +95,13 @@ namespace IUDICO.UnitTest.Functional
         {
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("7000");
-
+            decimal courses = Selenium.GetXpathCount("//*[@id='ctl00_MainContent_TreeView_Courses']");
             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "TestCourse");
             Selenium.Click("ctl00_MainContent_TextBox_CourseDescription");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "TestCourse");
             Selenium.AttachFile("ctl00_MainContent_FileUpload_Course", "http://localhost:2935/TestCourses/GoodCourse.zip");
+            //Selenium.Type("ctl00_MainContent_FileUpload_Course", "C:\\Users\\Ігор\\Desktop\\Kursova\\IUDICO\\Site\\TestCourses\\newEditor1.zip");
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
             Selenium.WaitForPageToLoad("7000");
 
@@ -108,8 +112,8 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("CourseEdit.aspx", null);
-
-            Assert.IsFalse(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Coursest0"));
+            Assert.AreEqual(courses, Selenium.GetXpathCount("//*[@id='ctl00_MainContent_TreeView_Courses']"));
+            //Assert.IsFalse(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Coursest0"));
         }
 
         [Test]
@@ -117,10 +121,13 @@ namespace IUDICO.UnitTest.Functional
         {
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("7000");
+            
+            decimal courses = Selenium.GetXpathCount("//*[@id='ctl00_MainContent_TreeView_Courses']");
             Selenium.Click("ctl00_MainContent_TextBox_CourseName");
             Selenium.Type("ctl00_MainContent_TextBox_CourseName", "Test_for_curriculum");
             Selenium.Type("ctl00_MainContent_TextBox_CourseDescription", "Test_for_curriculum");
             Selenium.AttachFile("ctl00_MainContent_FileUpload_Course", "http://localhost:2935/TestCourses/GoodCourse.zip");
+            //Selenium.Type("ctl00_MainContent_FileUpload_Course", "C:\\Users\\Ігор\\Desktop\\Kursova\\IUDICO\\Site\\TestCourses\\newEditor1.zip");
             Selenium.Click("ctl00_MainContent_Button_ImportCourse");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Curriculums");
@@ -131,25 +138,24 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Click("ctl00_MainContent_Button_CreateCurriculum");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_AddStage");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
-            Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
+            //Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
             Selenium.Click("ctl00_MainContent_TreeView_Coursesn1CheckBox");
             Selenium.Click("ctl00_MainContent_Button_AddTheme");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst2");
 
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TreeView_Coursest0");
             Selenium.Click("ctl00_MainContent_Button_DeleteCourse");
-            Selenium.WaitForPageToLoad("7000");
-
-            AssertIsOnPage("CourseDeleteConfirmation.aspx", null);
-            Assert.IsTrue(Selenium.IsElementPresent("ctl00_MainContent_GridView_Dependencies"));
-
+            Selenium.WaitForPageToLoad("7000");          
             Selenium.Click("ctl00_MainContent_Button_Delete");
             Selenium.WaitForPageToLoad("7000");
+            //AssertIsOnPage("CourseDeleteConfirmation.aspx", null);
+            Assert.AreEqual(courses, Selenium.GetXpathCount("//*[@id='ctl00_MainContent_TreeView_Courses']"));
+
             Selenium.Click("link=Curriculums");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
@@ -174,11 +180,14 @@ namespace IUDICO.UnitTest.Functional
             decimal groups = (Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr") - 2);
 
             AssertIsOnPage("Groups.aspx", null);
-            Assert.AreEqual(groups + 1, (Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr")-1));
+            Assert.AreEqual(groups + 1, (Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr") - 1));
             Assert.AreEqual("New_Test_Group2", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups." + (groups + 1) + ".0"));
 
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_lnkAction");
+            //ClickOnLButtonRemoveGroup(groups);
+            //decimal groups2 = Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr/td[2]");
+            //Selenium.Click("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr[" + (groups2) + "]/td[2]");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_btnOK");
             Selenium.WaitForPageToLoad("7000");
         }
 
@@ -215,8 +224,8 @@ namespace IUDICO.UnitTest.Functional
             Assert.AreEqual("New_Group", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups." + (groups + 1) + ".0"));
 
 
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_lnkAction");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_btnOK");
             Selenium.WaitForPageToLoad("7000");
 
         }
@@ -242,8 +251,8 @@ namespace IUDICO.UnitTest.Functional
             Assert.AreEqual(groups + 1, (Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr")-1));
             Assert.AreEqual("Test_Group", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups." + (groups+1) + ".0"));
 
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_lnkAction");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_btnOK");
             Selenium.WaitForPageToLoad("7000");
 
 
@@ -269,8 +278,8 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
             decimal groups = (Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr") - 2);
 
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_lnkAction");
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_btnOK");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl05_lnkAction");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl05_btnOK");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Groups");
             Selenium.WaitForPageToLoad("7000");
@@ -280,8 +289,8 @@ namespace IUDICO.UnitTest.Functional
 
             Selenium.Click("link=Groups");
             Selenium.WaitForPageToLoad("7000");
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_lnkAction");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_btnOK");
             Selenium.WaitForPageToLoad("7000");
         }
 
@@ -301,15 +310,15 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
             decimal groups = (Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr") - 2);
 
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnCancel");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_lnkAction");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_btnCancel");
 
             AssertIsOnPage("Groups.aspx", null);
             Assert.AreEqual(groups + 1, (Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr") - 1));
             Assert.AreEqual("Very_New_Test_Group", Selenium.GetTable("ctl00_MainContent_GroupList_gvGroups." + (groups + 1) + ".0"));
 
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_lnkAction");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_btnOK");
             Selenium.WaitForPageToLoad("7000");
         }
         [Test]
@@ -328,8 +337,8 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
             decimal groups = (Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/div/table/tbody/tr") - 2);
 
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_lnkAction");
-            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl03_btnOK");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_lnkAction");
+            Selenium.Click("ctl00_MainContent_GroupList_gvGroups_ctl04_btnOK");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Groups");
             Selenium.WaitForPageToLoad("7000");
@@ -369,7 +378,7 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Click("ctl00_MainContent_Button_CreateCurriculum");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_AddStage");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
             Pause(3000);
 
@@ -395,7 +404,7 @@ namespace IUDICO.UnitTest.Functional
 
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_AddStage");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
             Selenium.Type("ctl00_MainContent_TextBox_Name", "New_name");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "New_name");
@@ -427,7 +436,7 @@ namespace IUDICO.UnitTest.Functional
 
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_AddStage");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Type("ctl00_MainContent_TextBox_Name", "New_name");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "New_name");
@@ -458,7 +467,7 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Click("ctl00_MainContent_Button_CreateCurriculum");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_AddStage");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
 
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
             Selenium.Click("ctl00_MainContent_Button_Delete");
@@ -481,13 +490,14 @@ namespace IUDICO.UnitTest.Functional
         {
             Selenium.Click("link=Curriculums");
             Selenium.WaitForPageToLoad("7000");
+            decimal curr = Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/table[2]/tbody/tr/td[3]/table/tbody/tr[2]/td/div/table");
             Selenium.Click("ctl00_MainContent_TextBox_Name");
             Selenium.Type("ctl00_MainContent_TextBox_Name", "Curriculum_test");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "Curriculum_test");
             Selenium.Click("ctl00_MainContent_Button_CreateCurriculum");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_AddStage");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
 
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
@@ -497,7 +507,8 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("CurriculumEdit.aspx", null);
-            Assert.IsFalse(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Curriculumst0"));
+            Assert.AreEqual(curr, Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/table[2]/tbody/tr/td[3]/table/tbody/tr[2]/td/div/table"));
+
         }
 
         [Test]
@@ -519,12 +530,12 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Click("ctl00_MainContent_Button_CreateCurriculum");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_AddStage");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
-            Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
+            //Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
             Selenium.Click("ctl00_MainContent_TreeView_Coursesn1CheckBox");
             Selenium.Click("ctl00_MainContent_Button_AddTheme");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst2");
 
             AssertIsOnPage("CurriculumEdit.aspx", null);
@@ -562,12 +573,12 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Click("ctl00_MainContent_Button_CreateCurriculum");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_AddStage");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
-            Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
+            //Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
             Selenium.Click("ctl00_MainContent_TreeView_Coursesn1CheckBox");
             Selenium.Click("ctl00_MainContent_Button_AddTheme");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst2");
             
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
@@ -614,12 +625,12 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Click("ctl00_MainContent_Button_CreateCurriculum");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_AddStage");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
-            Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
+            //Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
             Selenium.Click("ctl00_MainContent_TreeView_Coursesn1CheckBox");
             Selenium.Click("ctl00_MainContent_Button_AddTheme");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst2");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Type("ctl00_MainContent_TextBox_Name", "New_curriculum");
@@ -658,29 +669,31 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Curriculums");
             Selenium.WaitForPageToLoad("7000");
+            decimal curr = Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/table[2]/tbody/tr/td[3]/table/tbody/tr[2]/td/div/table");
             Selenium.Click("ctl00_MainContent_TextBox_Name");
             Selenium.Type("ctl00_MainContent_TextBox_Name", "Curriculum_test");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "Curriculum_test");
             Selenium.Click("ctl00_MainContent_Button_CreateCurriculum");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_AddStage");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
-            Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
+            //Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
             Selenium.Click("ctl00_MainContent_TreeView_Coursesn1CheckBox");
             Selenium.Click("ctl00_MainContent_Button_AddTheme");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst2");
 
             Selenium.Click("ctl00_MainContent_Button_Delete");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("ctl00_MainContent_Button_Delete");
             Selenium.WaitForPageToLoad("7000");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
 
             AssertIsOnPage("CurriculumEdit.aspx", null);
-            Assert.IsFalse(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Curriculumst2"));
-
+            //Assert.IsFalse(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Curriculumst2"));
+            Assert.AreEqual(curr + 1, Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/table[2]/tbody/tr/td[3]/table/tbody/tr[2]/td/div/table"));
+            
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_Delete");
             Selenium.WaitForPageToLoad("7000");
@@ -707,18 +720,19 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Curriculums");
             Selenium.WaitForPageToLoad("7000");
+            decimal curr = Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/table[2]/tbody/tr/td[3]/table/tbody/tr[2]/td/div/table");
             Selenium.Click("ctl00_MainContent_TextBox_Name");
             Selenium.Type("ctl00_MainContent_TextBox_Name", "Curriculum_test");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "Curriculum_test");
             Selenium.Click("ctl00_MainContent_Button_CreateCurriculum");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_AddStage");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
-            Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
+            //Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
             Selenium.Click("ctl00_MainContent_TreeView_Coursesn1CheckBox");
             Selenium.Click("ctl00_MainContent_Button_AddTheme");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst2");
 
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
@@ -728,7 +742,8 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
 
             AssertIsOnPage("CurriculumEdit.aspx", null);
-            Assert.IsFalse(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Curriculumst1"));
+            //Assert.IsFalse(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Curriculumst1"));
+            Assert.AreEqual(curr +1 , Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/table[2]/tbody/tr/td[3]/table/tbody/tr[2]/td/div/table"));
 
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_Delete");
@@ -756,18 +771,19 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Curriculums");
             Selenium.WaitForPageToLoad("7000");
+            decimal curr = Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/table[2]/tbody/tr/td[3]/table/tbody/tr[2]/td/div/table");
             Selenium.Click("ctl00_MainContent_TextBox_Name");
             Selenium.Type("ctl00_MainContent_TextBox_Name", "Curriculum_test");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "Curriculum_test");
             Selenium.Click("ctl00_MainContent_Button_CreateCurriculum");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_AddStage");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
-            Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
+            //Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
             Selenium.Click("ctl00_MainContent_TreeView_Coursesn1CheckBox");
             Selenium.Click("ctl00_MainContent_Button_AddTheme");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst2");
 
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
@@ -778,7 +794,8 @@ namespace IUDICO.UnitTest.Functional
 
             AssertIsOnPage("CurriculumEdit.aspx", null);
 
-            Assert.IsFalse(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Curriculumst0"));
+            //Assert.IsFalse(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Curriculumst0"));
+            Assert.AreEqual(curr, Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/table[2]/tbody/tr/td[3]/table/tbody/tr[2]/td/div/table"));
 
             Selenium.Click("link=Courses");
             Selenium.WaitForPageToLoad("7000");
@@ -802,18 +819,19 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Curriculums");
             Selenium.WaitForPageToLoad("7000");
+            decimal curr = Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/table[2]/tbody/tr/td[3]/table/tbody/tr[2]/td/div/table");
             Selenium.Click("ctl00_MainContent_TextBox_Name");
             Selenium.Type("ctl00_MainContent_TextBox_Name", "Curriculum_test");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "Curriculum_test");
             Selenium.Click("ctl00_MainContent_Button_CreateCurriculum");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_AddStage");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
-            Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
+            //Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
             Selenium.Click("ctl00_MainContent_TreeView_Coursesn1CheckBox");
             Selenium.Click("ctl00_MainContent_Button_AddTheme");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst2");
 
             Selenium.Click("ctl00_MainContent_Button_Delete");
@@ -821,16 +839,17 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Click("ctl00_MainContent_Button_Delete");
             Selenium.WaitForPageToLoad("7000");
 
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
-            Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
+            //Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
             Selenium.Click("ctl00_MainContent_TreeView_Coursesn1CheckBox");
             Selenium.Click("ctl00_MainContent_Button_AddTheme");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst2");
 
             AssertIsOnPage("CurriculumEdit.aspx", null);
-            Assert.IsTrue(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Curriculumst0"));
+            //Assert.IsTrue(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Curriculumst0"));
+            Assert.AreEqual(curr+1, Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/table[2]/tbody/tr/td[3]/table/tbody/tr[2]/td/div/table"));
 
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_Delete");
@@ -858,18 +877,19 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Curriculums");
             Selenium.WaitForPageToLoad("7000");
+            decimal curr = Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/table[2]/tbody/tr/td[3]/table/tbody/tr[2]/td/div/table");
             Selenium.Click("ctl00_MainContent_TextBox_Name");
             Selenium.Type("ctl00_MainContent_TextBox_Name", "Curriculum_test");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "Curriculum_test");
             Selenium.Click("ctl00_MainContent_Button_CreateCurriculum");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_AddStage");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
-            Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
+            //Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
             Selenium.Click("ctl00_MainContent_TreeView_Coursesn1CheckBox");
             Selenium.Click("ctl00_MainContent_Button_AddTheme");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
 
             Selenium.Click("ctl00_MainContent_Button_Delete");
@@ -882,15 +902,16 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Click("ctl00_MainContent_TextBox_Description");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "Curriculum_test2");
             Selenium.Click("ctl00_MainContent_Button_AddStage");
-            Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Coursesn1CheckBox");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
             Selenium.Click("ctl00_MainContent_Button_AddTheme");
-            Selenium.Click("//img[@alt='Expand Curriculum_test2']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test2']");
 
             AssertIsOnPage("CurriculumEdit.aspx", null);
-            Assert.IsTrue(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Curriculumst0"));
+            //Assert.IsTrue(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Curriculumst0"));
+            Assert.AreEqual(curr + 1, Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/table[2]/tbody/tr/td[3]/table/tbody/tr[2]/td/div/table"));
 
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_Delete");
@@ -918,18 +939,19 @@ namespace IUDICO.UnitTest.Functional
             Selenium.WaitForPageToLoad("7000");
             Selenium.Click("link=Curriculums");
             Selenium.WaitForPageToLoad("7000");
+            decimal curr = Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/table[2]/tbody/tr/td[3]/table/tbody/tr[2]/td/div/table");     
             Selenium.Click("ctl00_MainContent_TextBox_Name");
             Selenium.Type("ctl00_MainContent_TextBox_Name", "Curriculum_test");
             Selenium.Type("ctl00_MainContent_TextBox_Description", "Curriculum_test");
             Selenium.Click("ctl00_MainContent_Button_CreateCurriculum");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_AddStage");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
-            Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
+            //Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
             Selenium.Click("ctl00_MainContent_TreeView_Coursesn1CheckBox");
             Selenium.Click("ctl00_MainContent_Button_AddTheme");
-            Selenium.Click("//img[@alt='Expand Curriculum_test']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test']");
 
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_Delete");
@@ -943,15 +965,16 @@ namespace IUDICO.UnitTest.Functional
             Selenium.Click("ctl00_MainContent_Button_CreateCurriculum");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_AddStage");
-            Selenium.Click("//img[@alt='Expand Curriculum_test2']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test2']");
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
-            Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
+            //Selenium.Click("//img[@alt='Expand Test_for_curriculum']");
             Selenium.Click("ctl00_MainContent_TreeView_Coursesn1CheckBox");
             Selenium.Click("ctl00_MainContent_Button_AddTheme");
-            Selenium.Click("//img[@alt='Expand Curriculum_test2']");
+            //Selenium.Click("//img[@alt='Expand Curriculum_test2']");
 
             AssertIsOnPage("CurriculumEdit.aspx", null);
-            Assert.IsTrue(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Curriculumst0"));
+            //Assert.IsTrue(Selenium.IsElementPresent("ctl00_MainContent_TreeView_Curriculumst0"));
+            Assert.AreEqual(curr, Selenium.GetXpathCount("//html/body/form/center/div[2]/center/div[2]/div[3]/table[2]/tbody/tr/td[3]/table/tbody/tr[2]/td/div/table"));
 
             Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
             Selenium.Click("ctl00_MainContent_Button_Delete");
@@ -1941,9 +1964,9 @@ namespace IUDICO.UnitTest.Functional
              Selenium.Click("ctl00_MainContent_Button_CreateCurriculum");
              Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
              Selenium.Click("ctl00_MainContent_Button_AddStage");
-             Selenium.Click("//img[@alt='Expand Ass_curric']");
+             //Selenium.Click("//img[@alt='Expand Ass_curric']");
              Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
-             Selenium.Click("//img[@alt='Expand Ass_course']");
+             //Selenium.Click("//img[@alt='Expand Ass_course']");
              Selenium.Click("ctl00_MainContent_TreeView_Coursesn1CheckBox");
              Selenium.Click("ctl00_MainContent_Button_AddTheme");
              Selenium.Click("link=Assignment");
@@ -2013,9 +2036,9 @@ namespace IUDICO.UnitTest.Functional
              Selenium.Click("ctl00_MainContent_Button_CreateCurriculum");
              Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
              Selenium.Click("ctl00_MainContent_Button_AddStage");
-             Selenium.Click("//img[@alt='Expand Ass_curric']");
+             //Selenium.Click("//img[@alt='Expand Ass_curric']");
              Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
-             Selenium.Click("//img[@alt='Expand Ass_course']");
+             //Selenium.Click("//img[@alt='Expand Ass_course']");
              Selenium.Click("ctl00_MainContent_TreeView_Coursesn1CheckBox");
              Selenium.Click("ctl00_MainContent_Button_AddTheme");
              Selenium.Click("link=Assignment");
@@ -2112,7 +2135,7 @@ namespace IUDICO.UnitTest.Functional
 
              Selenium.Click("ctl00_MainContent_Button_ImportCourse");
              Selenium.WaitForPageToLoad("7000");
-             Selenium.Click("//img[@alt='Expand Test']");
+             //Selenium.Click("//img[@alt='Expand Test']");
              Selenium.Click("link=Curriculums");
              Selenium.WaitForPageToLoad("7000");
              Selenium.Type("ctl00_MainContent_TextBox_Name", "Test");
@@ -2120,12 +2143,12 @@ namespace IUDICO.UnitTest.Functional
              Selenium.Click("ctl00_MainContent_Button_CreateCurriculum");
              Selenium.Click("ctl00_MainContent_TreeView_Curriculumst0");
              Selenium.Click("ctl00_MainContent_Button_AddStage");
-             Selenium.Click("//img[@alt='Expand Test']");
+             //Selenium.Click("//img[@alt='Expand Test']");
              Selenium.Click("ctl00_MainContent_TreeView_Curriculumst1");
-             Selenium.Click("//img[@alt='Expand Test']");
+             //Selenium.Click("//img[@alt='Expand Test']");
              Selenium.Click("ctl00_MainContent_TreeView_Coursesn1CheckBox");
              Selenium.Click("ctl00_MainContent_Button_AddTheme");
-             Selenium.Click("//img[@alt='Expand Test']");
+             //Selenium.Click("//img[@alt='Expand Test']");
              Selenium.Click("link=Assignment");
              Selenium.WaitForPageToLoad("7000");
              Selenium.Click("ctl00_MainContent_Button_AddGroup");
