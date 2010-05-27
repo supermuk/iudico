@@ -48,7 +48,7 @@ ActivityTree – це деревовидна структура курсу. Ву
 
 ===Програвання курсу===
 
-Після початку програвання курсу утворюється об'єкт типу Navigator. Цей об'єкт прив’язується до Activity Tree. Об’єкт Navigator відповідає за подачу навчального матеріалу учневі (Рис. 5). Об’єкт типу ManifestReader(Рис. 7) зчитує Sequencing Definition Model з imsmanifest.xml і записує її в підрозділ Activity Run-Time Model->Sequencing Model відповідного Activity (Рис. 5).
+Після початку програвання курсу утворюється об'єкт типу Navigator. Цей об'єкт прив’язується до Activity Tree.(Рис. 8) Об’єкт Navigator відповідає за подачу навчального матеріалу учневі (Рис. 5). Об’єкт типу ManifestReader(Рис. 7) зчитує Sequencing Definition Model з imsmanifest.xml і записує її в підрозділ Activity Run-Time Model->Sequencing Model відповідного Activity (Рис. 5).
 
 [http://fs66.www.ex.ua/get/2485704/LearningComponents.jpg]
 
@@ -65,5 +65,8 @@ ActivityTree – це деревовидна структура курсу. Ву
 
 [http://img23.imageshack.us/img23/2606/manifestreadercut.jpg]
  Рисунок 7. Діаграма класів Manifest Reader – парсера маніфесту imsmanifest.xml
+
+[http://img297.imageshack.us/img297/1291/dynamicview.jpg]
+ Рисунок 8. Sequence діаграма програвання навчального курсу.
 
 В курсах утворених за допомогою редактора FireFly Course Editor функції SCO реалізовані у файлі SCOObj.js. Взаємодія SCO із LMS відбувається за допомогою API функцій GetValue i SetValue, які відповідно зчитують і записують CmiDataModel-інформацію з підрозділу Activity Run-Time Model ‑> RTE Data Model відповідного Activity. Після закінчення програвання курсу формується статистика.
