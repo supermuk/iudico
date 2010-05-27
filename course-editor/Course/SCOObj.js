@@ -186,14 +186,14 @@ function complexTest(ID, correctAnswer, rank) {
         var count = 0;
         for (var i=0; i<answer.length; i++)
         {
-            count += (answer.charAt(i) == correctAnswer.charAt(i) ? 1 : -1);
+            count += (answer.charAt(i) == correctAnswer.charAt(i) ? 1 : 0);
         }
         var result = count * this.Rank / answer.length;
         return result;
     }
     
     this.getScoreMin = function(){
-        return -this.Rank;
+        return 0;
     }
     
     this.getScoreMax = function(){
