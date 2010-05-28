@@ -25,12 +25,22 @@
    **Variable="Installed" Type="integer" Value="1"<br>
    **Variable="InstallPath" Type="string" Value="[INSTALLLOCATION]", де INSTALLLOCATION – повний шлях до папки, де інстальований Iudico
 
-Кроки інсталяції:
-  # Запустіть setup.exe
-  # Виберіть папку, куди буде встановлено програму:<br>http://img193.imageshack.us/img193/3396/courseeditor.jpg
-  # Виберіть сервер баз даних, на який буде встановлено базу даних IUDICO(наприклад .\ або .\SQLEXPRESS):<br>http://img22.imageshack.us/img22/3396/courseeditor.jpg
-  # Виберіть ip-адресу і порт для веб-сайту(обовязково перевірте чи порт відкритий!):<br>http://img294.imageshack.us/img294/700/86856602.jpg
-  # Для того щоб деінсталювати Іудіко запустіть лінк Uninstall Iudico в меню Пуск(Start Menu)
+=Кроки інсталяції:=
+  # Запустіть Iudico.msi
+  # Виберіть папку, куди буде встановлено програму:<br>
+http://img44.imageshack.us/img44/5967/iu1.png
+<br> 
+Рисунок 1. Вибір папки для встановлення.
+  # Виберіть ip-адресу, порт і назву для веб-сайту Iudico(обовязково перевірте чи порт відкритий!):<br>
+http://img63.imageshack.us/img63/1675/iu2x.png
+<br>
+Рисунок 2. Вибір ip-адреси, порту і назву для веб-сайту Iudico
+  # Виберіть сервер баз даних, на який буде встановлено базу даних IUDICO(наприклад .\ або .\SQLEXPRESS)<br>
+http://img257.imageshack.us/img257/4548/iu3.png
+<br>
+Рисунок 3. Вибір серверу баз даних, на який буде встановлено базу даних IUDICO
+=Процес деінсталяції=
+Control Panel->Programs and Features ->Iudico->Uninstall
 
 =Кофігурація Іудіко=
   # Для перевірки коректності встановлення Іудіко відкрийте Internet Information Service(IIS). Ви маєте побачити щось на зразок:<br>http://img96.imageshack.us/img96/3396/courseeditor.jpg
