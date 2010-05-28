@@ -1,11 +1,21 @@
-=Інсталяція Курс Едітора(Course Editor)=
-Інсталятор Курс Едітора створює копію програми з усіма необхідними для її роботи компонентами на машині користувача.
-Кроки інсталяції:
-  # Запустіть setup.exe <br>
-  # Виберіть папку, куди буде встановлено програму:<br>http://img710.imageshack.us/img710/3396/courseeditor.jpg
-  # Для того щоб деінсталювати Курс Едітор запустіть лінк Uninstall Course Editor в меню Пуск(Start Menu)
+=Системні вимоги=
+  # Net Framework 3.5[2]
 
+=Інсталяція Iudico Course Editor=
+Інсталяція Iudico Course Editor відбувається у декілька етапів:
+  # Перед запуском процесу інсталяції інсталятор перевіряє наявність .NET 3.5 і прав адміністратора.
+  # Відбувається копіювання всіх необхідних для роботи Iudico Course Editor  файлів у директорію, що вказується при інсталяції
+  # Виконуються зміни у реєстрі за ключем “Software\Microsoft\Iudico", а саме прописуються дві змінні:
+  ** Variable="Installed" Type="integer" Value="1"
+  ** Variable="InstallPath" Type="string" Value="[INSTALLLOCATION]", де INSTALLLOCATION – повний шлях до папки, де інстальований Iudico
+  # Створюється ярлик на “Iudico Course Editor.exe” в меню Пуск 
 
+=Кроки інсталяції:=
+  # Запустіть Iudico Course Editor.msi
+  # Виберіть директорію, куди буде встановлено програму:<br>
+http://img692.imageshack.us/img692/1238/iu4.png
+<br>
+Рисунок 4. Вибір папки для встановлення.
 
-
-=detalno opysaty kudy yaki komponenty vstanovlyuyutsya, yaki fajly/klyuchi v registry zminyuyutsya=
+=Процес деінсталяції=
+Control Panel->Programs and Features ->Iudico Course Editor->Uninstall
