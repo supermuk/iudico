@@ -42,7 +42,7 @@ http://img257.imageshack.us/img257/4548/iu3.png
 =Процес деінсталяції=
 Control Panel->Programs and Features ->Iudico->Uninstall
 
-=Кофігурація Іудіко=
+=Конфігурація Іудіко=
   # Для перевірки коректності встановлення Іудіко відкрийте Internet Information Service(IIS). Ви маєте побачити щось на зразок:<br>http://img96.imageshack.us/img96/3396/courseeditor.jpg
   # При роботі з Курс Едітором використовуйте http://WEB_SERVICE_IP:WEB_SERVICE_PORT/Service1.asmx/Compile як "Service Address" в Compiled Tests і Advanced Compiled Tests
   # Для запуску веб-сайту Іудіко використовуйте наступний url у Вашому броузері: http://IUDICO_IP:IUDICO_PORT/Login.aspx
