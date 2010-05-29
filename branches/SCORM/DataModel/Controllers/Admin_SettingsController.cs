@@ -18,21 +18,11 @@ namespace IUDICO.DataModel.Controllers
 
             if (ptrn.IsNull())
             {
-                return ServerModel.DB.Query<TblSettings>(null);
+                return ServerModel.Settings.GetAll();
             }
             else
             {
-                var vc = new ValueCondition<string>("%" + ptrn + "%");
-                return ServerModel.DB.Query<TblSettings>(new OrCondtion(
-                    new CompareCondition<string>(
-                        DataObject.Schema.Name,
-                        vc,
-                        COMPARE_KIND.LIKE),
-                    new CompareCondition<string>(
-                        DataObject.Schema.Value,
-                        vc,
-                        COMPARE_KIND.LIKE)
-                 ));
+                return ServerModel.Settings.Query(ptrn);
             }
         }
     }

@@ -22,15 +22,9 @@ namespace IUDICO.DataModel.Controllers
 
         public void CreateSetting()
         {
-            var setting = new TblSettings
-            {
-                Name = Name.Value,
-                Value = Value.Value
-            };
-
             try
             {
-                ServerModel.DB.Insert(setting);
+                ServerModel.Settings.SetValue(Name.Value, Value.Value);
 
                 RedirectToController(new Admin_SettingsController { BackUrl = HttpContext.Current.Request.RawUrl });
             }

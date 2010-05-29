@@ -14,15 +14,14 @@ namespace IUDICO.DataModel.Controllers
         {
             base.Initialize();
 
-            Setting = ServerModel.DB.Load<TblSettings>(SettingID);
+            Setting = ServerModel.Settings.GetSettings(SettingID);
             Value.Value = Setting.Value;
         }
 
         public void EditSetting()
         {
             Setting.Value = Value.Value;
-
-            ServerModel.DB.Update(Setting);
+            ServerModel.Settings.SetValue(Setting.Name, Setting.Value);
 
             RedirectToController(new Admin_SettingsController { BackUrl = HttpContext.Current.Request.RawUrl });
         }
