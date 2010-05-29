@@ -158,6 +158,7 @@
     <Compile Include="Common\HttpUtility.cs" />
     <Compile Include="Common\IdentityNode.cs" />
     <Compile Include="Common\Lnu\Lnu.cs" />
+    <Compile Include="Common\Settings.cs" />
     <Compile Include="Common\StatisticUtils\StatisticManager.cs" />
     <Compile Include="Common\StatisticUtils\UserResultForItem.cs" />
     <Compile Include="Common\StatisticUtils\UserResultForQuestion.cs" />

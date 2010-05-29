@@ -26,6 +26,7 @@ namespace IUDICO.DataModel
             {
                 _connectionString = connectionString;
                 (DB = new DatabaseModel(AcruireOpenedConnection())).Initialize(cache);
+                Settings = new LMSSettings();
                 PermissionsManager.Initialize();
                 TableRecordAttributeInitialize();
             }
@@ -45,6 +46,8 @@ namespace IUDICO.DataModel
         }
 
         public static DatabaseModel DB;
+
+        public static LMSSettings Settings;
 
         public static UserModel User = new UserModel();
 
