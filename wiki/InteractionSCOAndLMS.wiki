@@ -70,3 +70,9 @@ ActivityTree – це деревовидна структура курсу. Ву
  Рисунок 8. Sequence діаграма програвання навчального курсу.
 
 В курсах утворених за допомогою редактора FireFly Course Editor функції SCO реалізовані у файлі SCOObj.js. Взаємодія SCO із LMS відбувається за допомогою API функцій GetValue i SetValue, які відповідно зчитують і записують CmiDataModel-інформацію з підрозділу Activity Run-Time Model ‑> RTE Data Model відповідного Activity. Після закінчення програвання курсу формується статистика.
+
+----
+
+Модель розроблена на основі вихідного коду [http://slk.codeplex.com Microsoft SharePoint Learning Kit v1.4]
+
+Ліцензія: [http://slk.codeplex.com/license Microsoft Public License]
