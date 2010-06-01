@@ -73,6 +73,6 @@ ActivityTree – це деревовидна структура курсу. Ву
 
 ----
 
-Модель розроблена на основі вихідного коду [http://slk.codeplex.com Microsoft SharePoint Learning Kit v1.4]
+Модель розроблена на основі вихідного коду [http://slk.codeplex.com/SourceControl/changeset/changes/61722 Microsoft SharePoint Learning Kit ChangeSet 61722]
 
 Ліцензія: [http://slk.codeplex.com/license Microsoft Public License]
