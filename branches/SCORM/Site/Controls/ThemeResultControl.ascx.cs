@@ -28,6 +28,8 @@ public partial class ThemeResultControl : UserControl
         _resultTable = new Table();
         _themeName = new Label();
     }
+   
+
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -78,7 +80,7 @@ public partial class ThemeResultControl : UserControl
                   var row = new TableRow();
                   row.Cells.Add(new TableCell { Text = item.Title });
                   row.Cells.Add(new TableCell { Text = userAnswer });
-                  //row.Cells.Add(new TableCell { Text = correctAnswer });
+                  row.Cells.Add(new TableCell { Text = correctAnswer });
                   row.Cells.Add(new TableCell { Text = result });
 
                   rows.Add(row);
@@ -114,6 +116,7 @@ public partial class ThemeResultControl : UserControl
     private void SetHeaderText(string theme, string curriculumnName, string stageName, string user)
     {
         _themeName.Text = string.Format(@"Statistic for theme: {0}\{1}\{2} for user: {3}", curriculumnName, stageName, theme, user);
+        _startDateTime.Text = string.Format("Date Time: {0}", LearnerAttempt.Started.ToString());
     }
 
     private static void SetStatus(TableRow row, ResultStatus status )
