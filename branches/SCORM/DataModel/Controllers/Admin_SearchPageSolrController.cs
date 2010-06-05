@@ -26,11 +26,12 @@ namespace IUDICO.DataModel.Controllers
     public class Admin_SearchPageSolrController : ControllerBase
     {
         public TblUsers User;
-
-        public System.Web.UI.WebControls.ListBox ResultsListBox;
+        public System.Web.UI.WebControls.Panel ResultsPanel;
         public System.Web.UI.WebControls.TextBox SearchQuery1;
         public System.Web.UI.WebControls.Button Open;
         public System.Web.UI.WebControls.TextBox ResultText;
+        public List<System.Web.UI.WebControls.LinkButton> linkButton = new List<LinkButton>();
+        
         int i = 0;
 
         public void Button1_Click(object sender, EventArgs e)
@@ -38,11 +39,15 @@ namespace IUDICO.DataModel.Controllers
             int UserID = 0;
             string result = "";
             string score = "";
-            this.ResultsListBox.Items.Clear();
+            this.ResultsPanel.Controls.Clear();
+            for (int k = 0; k < 100; k++)
+            {
+                linkButton[i].Visible = false;
+            }
             try
             {
                 if (this.SearchQuery1.Text.ToString() != "")
-                {
+               {
                     HttpWebRequest request = WebRequest.Create("http://localhost:8080/apache-solr-1.4.0/select?q=" + this.SearchQuery1.Text + "&fl=*%2Cscore") as HttpWebRequest;
                     using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                     {
@@ -130,20 +135,26 @@ namespace IUDICO.DataModel.Controllers
                                 {
                                     result = (i + 1).ToString() + ". " + docName + " ; . . . . Curriculumn: " + curriculumn + " ; . . . . Score: " + score;
                                 }
-                                this.ResultsListBox.Items.Add(new ListItem(result, docId));
+
+                                linkButton[i].Text = docName;
+                                linkButton[i].ID = docId;
+                                linkButton[i].Visible = true;
+                                System.Web.UI.WebControls.Label labelInf = new System.Web.UI.WebControls.Label();
+                                labelInf.Text = "            Description: " + name + " ; . . . . Curriculumn: " + curriculumn + " ; . . . . Score: " + score;
+                                this.ResultsPanel.Controls.Add(linkButton[i]);
+                                this.ResultsPanel.Controls.Add(labelInf);   
                                 i++;
                             }
                         }
-                        if (i != 0)
+                        if (i ==0)
                         {
-                            Open.Visible = true;
-                        }
-                        else
-                        {
-                            this.ResultsListBox.Items.Add("No data found");
+                            System.Web.UI.WebControls.Label noResult = new System.Web.UI.WebControls.Label();
+                            noResult.Text = "No data found";
+                            this.ResultsPanel.Controls.Add(noResult); 
                         }
                     }
-                    ResultsListBox.Visible = true;
+                    ResultsPanel.Visible = true;
+ 
                 }
             }
             catch (Exception ex)
@@ -163,13 +174,16 @@ namespace IUDICO.DataModel.Controllers
           
         }
 
-        public void Button2_Click(object sender, EventArgs e)
+
+        public void openCourse(object sender, EventArgs e)
         {
-            if (ResultsListBox.SelectedValue.ToString() != "")
+            string id = ((HyperLink)sender).ID;
+
+            if (id.ToString() != "")
             {
                 TblLearnerAttempts la = new TblLearnerAttempts
                 {
-                    ThemeRef = Int32.Parse(ResultsListBox.SelectedValue),
+                    ThemeRef = Int32.Parse(id),
                     UserRef = ServerModel.User.Current.ID,
                     Started = DateTime.Now,
                 };
@@ -184,7 +198,7 @@ namespace IUDICO.DataModel.Controllers
                     PageIndex = 0
                 });
             }
-           
+
         }
     }
 }
