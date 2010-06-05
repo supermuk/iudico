@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="SearchPageSolr.aspx.cs" Inherits="Admin_SearchPageSolr" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="SearchPageSolr.aspx.cs" Inherits="Admin_SearchPageSolr"   %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" Runat="Server">
     <style type="text/css">
@@ -15,8 +15,7 @@
         <asp:Button ID="Button1" runat="server" Text="Search" />
         <asp:Button ID="_openResult" runat="server" Text="Open" Height="22px" />
     <p style="height: 320px; width: 926px;">
-        <asp:ListBox ID="_resultsListBox" runat="server" Font-Bold="False" 
-            Font-Size="Large" Height="320px" Width="930px"></asp:ListBox>
-        
+        &nbsp;<asp:Panel ID="_resultsPanel" runat="server">
+        </asp:Panel>
 </asp:Content>
 
