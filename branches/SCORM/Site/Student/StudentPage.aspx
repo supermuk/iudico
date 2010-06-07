@@ -53,6 +53,10 @@
                 <boxover:BoxOver ID="BoxOver3" runat="server" Body="Evailable curriculums!" 
                     ControlToValidate="_curriculumTreeView" Header="Help!" />
    
+                <br />
+                <asp:Label ID="Label3" runat="server" Text="Number of tests:"></asp:Label>
+                <asp:TextBox ID="_testCount" runat="server" Width="46px">35</asp:TextBox>
+   
             </td>
             <td class="style2">
    
