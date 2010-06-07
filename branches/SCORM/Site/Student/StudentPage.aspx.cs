@@ -27,6 +27,7 @@ public partial class StudentPage : ControlledPage<StudentPageController>
         c.UserDescription = _userDescription;
         c.DescriptionButton = _descriptionButton;
         c.ShowDescription = _showNotes;
+        c.TestCount = _testCount;
 
         Bind(_headerLabel, c.UserName, un => string.Format("Student Page For: {0}", un));
         Bind(_descriptionLabel, c.Description);

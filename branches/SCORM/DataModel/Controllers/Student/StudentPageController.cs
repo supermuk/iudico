@@ -66,6 +66,8 @@ namespace IUDICO.DataModel.Controllers.Student
         public Button DescriptionButton;
 
         public Button ShowDescription;
+
+        public TextBox TestCount;
             
         #endregion
 
@@ -89,11 +91,15 @@ namespace IUDICO.DataModel.Controllers.Student
 
                     HttpContext.Current.Session["CurrentLearnerAttemptId"] = LearnerAttemptId;
 
-                    RedirectToController(new OpenTestController
-                                                 {
-                                                     BackUrl = string.Empty,
-                                                     PageIndex = 0
-                                                 });
+                    int testCount1 = 0;
+                    Int32.TryParse(this.TestCount.Text, out testCount1);
+                    OpenTestController controller1 = new OpenTestController()
+                     {
+                         BackUrl = string.Empty,
+                         PageIndex = 0,
+                         testCount = testCount1
+                     };
+                    RedirectToController(controller1);
                 }
             }
         }
