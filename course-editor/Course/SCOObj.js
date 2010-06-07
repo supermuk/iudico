@@ -29,7 +29,7 @@ function SCOObj(passRank) {
         var scoreScaled = (scoreRaw - scoreMin) / (scoreMax - scoreMin);
         var success_status = (scoreRaw >= this.passRank ? "passed" : "failed");
         doSetValue("cmi.score.raw", scoreRaw);
-	doSetValue("cmi.score.min", scoreMin);
+	    doSetValue("cmi.score.min", scoreMin);
         doSetValue("cmi.score.max", scoreMax);        
         doSetValue("cmi.score.scaled", scoreScaled);
         doSetValue("cmi.completion_status", "completed");
@@ -105,13 +105,11 @@ function simpleTest(ID, correctAnswer, rank) {
     this.Rank = rank;
 
     this.getAnswer = function() {
-        var answer = document.getElementById(ID).value;
-        return answer;
-        //return $('#' + this.ID)[0].value;
+        return $('#' + this.ID)[0].value;
     }
 
     this.setAnswer = function(answer) {
-        document.$('#' + this.ID)[0].value = answer;
+        $('#' + this.ID)[0].value = answer;
     }
 
     this.getCorrectAnswer = function() {
