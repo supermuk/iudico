@@ -154,7 +154,7 @@ function complexTest(ID, correctAnswer, rank) {
     }
 
     this.setAnswer = function(answer) {
-        var result = answer.split(',');
+        var result = answer.split('');
         var inputArray = $('#' + this.ID + ' input');
 
         for (var i = 0; i < inputArray.length; i++) {
