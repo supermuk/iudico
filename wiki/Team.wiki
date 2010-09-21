@@ -1,25 +1,27 @@
 #labels Featured
 = Contact Information =
 
+*currently working on a project:* 
 || *Name* || *Phone* || *Skype ID* || *E-Mail* ||
 || Anatoliy Muzychuk ||  || anatoliy.muzychuk || anatol.muzychuk@gmail.com||
 || Petro Kushchak || +38 (050) 37-07-193 || peter.kuschak ||pkushchak@gmail.com ||
 || Svyatoslav Litynskyy || +38 (067) 92-83-828 || liVELYKISTERTYtykyahoo.com || s.litynsVELYKISTERTYkyy@gmail.com ||
 || Lubomir Galamaga || +38 (097) 04-36-518 || galamaga.lyubomir || galamagal86@gmail.com ||
-|| Oleksiy Pristayko ||+38 (097) 61-55-836 || oleksiy.pristayko || oleksiyami@gmail.com ||
 || Orest Mykhaylovych || +38 (097) 30-65-564 || orest.mykhaylovych || sm.lpml@gmail.com ||
-|| Yuriy Dobryanskyy || +38 (097) 17-72-615 || yuriy_dobryanskyy || yuriy.dobryanskyy@gmail.com ||
 || Andrew Hymytsya || +38 (096) 65-90-109 || andriy.khymytsia || akhymytsia@gmail.com ||
-|| Andrew Stetskyy  || +38 (097) 11-49-252 || astecya || astecya@gmail.com ||
 || Igor Petrovych || +38 (067) 34-08-164 || ipetrovych || panzarulz@gmail.com, ipetrovych@gmail.com ||
 || Andriy Shafran || +38 (067) 25-78-340 || shopen21 || shopen21@gmail.com ||
 || Bogdan Makogin || || || ajukraine@gmail.com ||
 || Olexandr Zotov || +38 (097) 15-12-430 || boblox5 || Boblox12@gmail.com ||
 || Vladyslav Petrovych || || vladykx || ||
+|| Ivan Gurskii || +38 (096) 74-62-198 || huakin || huakin1990@gmail.com ||
+|| Igor Gerasym || +38 (097) 17-74-260 || telepatboy || gerasymi@gmail.com ||
+|| Oleg Mukutyuk || +38 (096) 750-66-37 || dohlito || OlegMukutyuk@gmail.com ||
+*worked on the project:*
+|| Oleksiy Pristayko ||+38 (097) 61-55-836 || oleksiy.pristayko || oleksiyami@gmail.com ||
+|| Yuriy Dobryanskyy || +38 (097) 17-72-615 || yuriy_dobryanskyy || yuriy.dobryanskyy@gmail.com ||
+|| Andrew Stetskyy  || +38 (097) 11-49-252 || astecya || astecya@gmail.com ||
 || Iryna Mykytyuk || +38 (063) 62-55-615 || irynkaa13 || irynkaa@gmail.com ||
 || Mykola Kavf || +38(066) 89-99-177 || kavf.mukola || kavf.mukola@gmail.com ||
 || Volodya Shtenovych || || || shvolodya@gmail.com ||
 || Micha Yaremko || || || YaremkoMicha@gmail.com ||
-|| Ivan Gurskii || +38 (096) 74-62-198 || huakin || huakin1990@gmail.com ||
-|| Igor Gerasym || +38 (097) 17-74-260 || telepatboy || gerasymi@gmail.com ||
-|| Oleg Mukutyuk || +38 (096) 750-66-37 || dohlito || OlegMukutyuk@gmail.com ||
