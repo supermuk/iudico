@@ -1,0 +1,660 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ServerModel_Initialize_Initializing_ServerModel___" xml:space="preserve">
+    <value>Initializing ServerModel...</value>
+  </data>
+  <data name="ServerModel_TableRecordAttributeInitialize_Couldn_t_found_DB_value_for__0___1__marked_with__2_" xml:space="preserve">
+    <value>Couldn't found DB value for {0}.{1} marked with {2}</value>
+  </data>
+  <data name="FormsModel_BuildRedirectUrl_BackUrl_is_not_specified" xml:space="preserve">
+    <value>BackUrl is not specified</value>
+  </data>
+  <data name="ControlledPage_CheckBindingAllowed_Binding_is_not_allowed" xml:space="preserve">
+    <value>Binding is not allowed</value>
+  </data>
+  <data name="PermissionsManager_Grand_One_and_only_one_of_parameters__userID__groupID__must_be_specified" xml:space="preserve">
+    <value>One and only one of parameters (userID, groupID) must be specified</value>
+  </data>
+  <data name="PermissionsManager_Delegate_One_and_only_one_of_parameters__targetUserID__targetGroupID__must_be_specified" xml:space="preserve">
+    <value>One and only one of parameters (targetUserID, targetGroupID) must be specified</value>
+  </data>
+  <data name="PermissionsManager_Delegate_" xml:space="preserve">
+    <value>User {0} have no access to do {1} on {2} ID = {3}. Cannot perform delegation</value>
+  </data>
+  <data name="PermissionsManager_Initialize_Initializing_Security" xml:space="preserve">
+    <value>Initializing Security</value>
+  </data>
+  <data name="PermissionsManager_Initialize__0__is_already_initialized" xml:space="preserve">
+    <value>{0} is already initialized</value>
+  </data>
+  <data name="PermissionsManager_CheckSupport_DataObject__0__must_support__1__interface_to_be_a_secured_object" xml:space="preserve">
+    <value>DataObject {0} must support {1} interface to be a secured object</value>
+  </data>
+  <data name="CustomUser_GetPassword_GetPassword_is_not_available" xml:space="preserve">
+    <value>GetPassword is not available</value>
+  </data>
+  <data name="CustomRoleProvider_CreateRole_CreateRole_is_not_allowed" xml:space="preserve">
+    <value>CreateRole is not allowed</value>
+  </data>
+  <data name="CustomRoleProvider_DeleteRole_DeleteRole_is_not_allowed" xml:space="preserve">
+    <value>DeleteRole is not allowed</value>
+  </data>
+  <data name="CustomRoleProvider_ApplicationName_Changing_ApplicationName_is_not_allowed" xml:space="preserve">
+    <value>Changing ApplicationName is not allowed</value>
+  </data>
+  <data name="CustomMembershipProvider_GetPassword_GetPassword_is_not_allowed" xml:space="preserve">
+    <value>GetPassword is not allowed</value>
+  </data>
+  <data name="CustomMembershipProvider_ChangePassword_You_cann_t_change_password_of_another_user" xml:space="preserve">
+    <value>You cann't change password of another user</value>
+  </data>
+  <data name="CustomMembershipProvider_ApplicationName_Changing_ApplicationName_is_not_allowed" xml:space="preserve">
+    <value>Changing ApplicationName is not allowed</value>
+  </data>
+  <data name="ItemManager_Store_Cannot_get_rank_for_item" xml:space="preserve">
+    <value>Cannot get rank for item</value>
+  </data>
+  <data name="CourseManager_Import_No_imsmanifest_xml_file_found" xml:space="preserve">
+    <value>No imsmanifest.xml file found</value>
+  </data>
+  <data name="CourseManager_Import_No_answers_xml_file_found" xml:space="preserve">
+    <value>No answers.xml file found</value>
+  </data>
+  <data name="ObjectTypeHelper_GetObjectType_Could_not_figure_out_secured_index_of__0___All_SecuredDataObject_s_classes_should_be_added_to__1_" xml:space="preserve">
+    <value>Could not figure out secured index of {0}. All SecuredDataObject's classes should be added to {1}</value>
+  </data>
+  <data name="MultipleCondtion_MultipleCondtion_AndCondition_constructor_cannot_be_created_with_no_subcondition_or_with_only_one__You_must_provide_at_least_two_conditions" xml:space="preserve">
+    <value>AndCondition constructor cannot be created with no subcondition or with only one. You must provide at least two conditions</value>
+  </data>
+  <data name="ManyToManyRelationshipAttribute_CheckSupport_Class__0__is_not_support__1__so_it_cannot_take_participation_in_Many_To_Many_relationship" xml:space="preserve">
+    <value>Class {0} is not support {1} so it cannot take participation in Many-To-Many relationship</value>
+  </data>
+  <data name="FxDataObject_FxDataObject_Cannot_change_readonly_object__0_" xml:space="preserve">
+    <value>Cannot change readonly object {0}</value>
+  </data>
+  <data name="RelTable_RelTable_Impossible_to_create_relation_dataobject__Please_use_methods_of_ServerModel_DB_instead" xml:space="preserve">
+    <value>Impossible to create relation dataobject. Please use methods of ServerModel.DB instead</value>
+  </data>
+  <data name="DataObjectSqlSerializer_AppendSoftDeleteSql_Collection_cannot_be_empty" xml:space="preserve">
+    <value>Collection cannot be empty</value>
+  </data>
+  <data name="LookupHelper_RegisterMMLookup_Invalid_many_to_many_relationship_definition_for__0___1_" xml:space="preserve">
+    <value>Invalid many-to-many relationship definition for {0}-{1}</value>
+  </data>
+  <data name="LookupHelper_AppendLookupSql_Couldnt_found_relation_between__0__and__1_" xml:space="preserve">
+    <value>Couldnt found relation between {0} and {1}</value>
+  </data>
+  <data name="LookupHelper_AppendLookupSql_" xml:space="preserve">
+    <value>{0} has invalid ID = {1}</value>
+  </data>
+  <data name="LookupHelper_AppendMMLookupSql_Couldnt_fond_many_to_many_relation_between__1__and__1_" xml:space="preserve">
+    <value>Couldnt fond many-to-many relation between {1} and {1}</value>
+  </data>
+  <data name="LookupHelper_AppendMMLinkSql_Couldnt_fond_many_to_many_relation_between__1__and__2_" xml:space="preserve">
+    <value>Couldnt fond many-to-many relation between {1} and {2}</value>
+  </data>
+  <data name="LookupHelper_CheckMMSupport_Cannot_register_many_to_many_relationship__Class__0__doesn_t_support__1_" xml:space="preserve">
+    <value>Cannot register many-to-many relationship. Class {0} doesn't support {1}</value>
+  </data>
+  <data name="LookupHelper_Put__WARNING__Ignored__0_____1__relationship_because_the_same_is_already_exists" xml:space="preserve">
+    <value>[WARNING] Ignored {0} - {1} relationship because the same is already exists</value>
+  </data>
+  <data name="DatabaseModel_DatabaseModel__Fx__method_is_not_initialized" xml:space="preserve">
+    <value>'Fx' method is not initialized</value>
+  </data>
+  <data name="DatabaseModel_DatabaseModel__Load_List__method_is_not_initialized" xml:space="preserve">
+    <value>'Load List' method is not initialized</value>
+  </data>
+  <data name="DatabaseModel_DatabaseModel_Unable_to_find__Query__method" xml:space="preserve">
+    <value>Unable to find 'Query' method</value>
+  </data>
+  <data name="DatabaseModel_DatabaseModel_Unable_to_find_Load_method" xml:space="preserve">
+    <value>Unable to find Load method</value>
+  </data>
+  <data name="DatabaseModel_DatabaseModel_Unable_to_find_Delete_method" xml:space="preserve">
+    <value>Unable to find Delete method</value>
+  </data>
+  <data name="DatabaseModel_Initialize_Initializing_Database_Model___" xml:space="preserve">
+    <value>Initializing Database Model...</value>
+  </data>
+  <data name="DatabaseModel_Initialize_Class__0__cannot_take_participation_into_many_to_many_relationship_because_it_is_not_derived_from__1_" xml:space="preserve">
+    <value>Class {0} cannot take participation into many-to-many relationship because it is not derived from {1}</value>
+  </data>
+  <data name="DatabaseModel_Initialize_Class__0__cannot_take_participation_into_many_to_many_relationship_because_it_is_not_marked_with__1_" xml:space="preserve">
+    <value>Class {0} cannot take participation into many-to-many relationship because it is not marked with {1}</value>
+  </data>
+  <data name="DatabaseModel_Insert_Inserting_" xml:space="preserve">
+    <value>Inserting </value>
+  </data>
+  <data name="DatabaseModel_Insert_Inserting_multiple_" xml:space="preserve">
+    <value>Inserting multiple </value>
+  </data>
+  <data name="DatabaseModel_Insert_" xml:space="preserve">
+    <value>. Count = </value>
+  </data>
+  <data name="DatabaseModel_Insert_DataObject_has_been_already_inserted_" xml:space="preserve">
+    <value>DataObject has been already inserted.</value>
+  </data>
+  <data name="DatabaseModel_Insert_Invalid_Data_Reader" xml:space="preserve">
+    <value>Invalid Data Reader</value>
+  </data>
+  <data name="DatabaseModel_Update_Updating_" xml:space="preserve">
+    <value>Updating </value>
+  </data>
+  <data name="DatabaseModel_Update_Updating_multiple_" xml:space="preserve">
+    <value>Updating multiple </value>
+  </data>
+  <data name="DatabaseModel_Update_Executing_update_operation" xml:space="preserve">
+    <value>Executing update operation</value>
+  </data>
+  <data name="DatabaseModel_Load_Loading_" xml:space="preserve">
+    <value>Loading </value>
+  </data>
+  <data name="DatabaseModel_Load_Got_from_cache" xml:space="preserve">
+    <value>Got from cache</value>
+  </data>
+  <data name="DatabaseModel_Load_Running_sql___" xml:space="preserve">
+    <value>Running sql...</value>
+  </data>
+  <data name="DatabaseModel_Load_Invalid_object_ID___0_" xml:space="preserve">
+    <value>Invalid object ID: {0}</value>
+  </data>
+  <data name="DatabaseModel_Load_Loading_multiple_" xml:space="preserve">
+    <value>Loading multiple </value>
+  </data>
+  <data name="DatabaseModel_Load_Count_of_populated_objects___0___lower_than_requested_to_extract__1_" xml:space="preserve">
+    <value>Count of populated objects ({0}) lower than requested to extract {1}</value>
+  </data>
+  <data name="DatabaseModel_Delete_Removing_" xml:space="preserve">
+    <value>Removing </value>
+  </data>
+  <data name="DatabaseModel_Delete_Removing_multiple_" xml:space="preserve">
+    <value>Removing multiple </value>
+  </data>
+  <data name="DatabaseModel_LookupIds_Looking_up_ids_of_" xml:space="preserve">
+    <value>Looking up ids of </value>
+  </data>
+  <data name="DatabaseModel_LookupIds__for_" xml:space="preserve">
+    <value> for </value>
+  </data>
+  <data name="DatabaseModel_Query_Custom_query_for_" xml:space="preserve">
+    <value>Custom query for </value>
+  </data>
+  <data name="DatabaseModel_QuerySingleOrDefault_Too_many_objects" xml:space="preserve">
+    <value>Too many objects</value>
+  </data>
+  <data name="DatabaseModel_LookupMany2ManyIds_Looking_up_many_2_many_ids_between_" xml:space="preserve">
+    <value>Looking up many-2-many ids between </value>
+  </data>
+  <data name="DatabaseModel_LookupMany2ManyIds__and_" xml:space="preserve">
+    <value> and </value>
+  </data>
+  <data name="DatabaseModel_UnLink_UnLinking_" xml:space="preserve">
+    <value>UnLinking </value>
+  </data>
+  <data name="DatabaseModel_RunInTransaction_Rolling_back_transaction___" xml:space="preserve">
+    <value>Rolling back transaction...</value>
+  </data>
+  <data name="UserInfoController_pageCaption" xml:space="preserve">
+    <value>User personal info</value>
+  </data>
+	<data name="UserInfoController_pageDescription_This_is_your_info_page__Here_you_can_change_your_name__email_and_password__Look_up_for_your_roles_and_groups_">
+		<value xml:space="preserve">This is your info page. Here you can change your name, email and password. Look up for your roles and groups.</value>
+	</data>
+	<data name="ControllerBase_RedirectToController_Already_redirected">
+		<value xml:space="preserve">Already redirected</value>
+	</data>
+	<data name="ControllerParametersUtility_ControllerParametersUtility_Type__0__cannot_be_specified_for_controller_parameter">
+		<value xml:space="preserve">Type {0} cannot be specified for controller parameter</value>
+	</data>
+	<data name="Admin_SearchPageSolrController_Button1_Click_No_data_found">
+		<value xml:space="preserve">No data found</value>
+	</data>
+	<data name="Admin_CreateSettingController_CreateSetting_Error_creating_setting___possibly_setting_with_such_name_already_exists">
+		<value xml:space="preserve">Error creating setting - possibly setting with such name already exists</value>
+	</data>
+	<data name="Admin_CreateBulkUserController_DoCreate_Group_name_is_empty">
+		<value xml:space="preserve">Group name is empty</value>
+	</data>
+	<data name="Admin_CreateBulkUserController_DoCreate_Some_of_users_like_these_already_exist">
+		<value xml:space="preserve">Some of users like these already exist</value>
+	</data>
+	<data name="Admin_CreateBulkUserController_DoCreate_Password_is_not_specified">
+		<value xml:space="preserve">Password is not specified</value>
+	</data>
+	<data name="Admin_CreateBulkUserController_DoCreate__0__is_not_a_number">
+		<value xml:space="preserve">{0} is not a number</value>
+	</data>
+	<data name="TeachersListController_pageCaption_Share_of__0____1__">
+		<value xml:space="preserve">Share of {0}: {1}.</value>
+	</data>
+	<data name="TeachersListController_courseStr_course">
+		<value xml:space="preserve">course</value>
+	</data>
+	<data name="TeachersListController_curriculumStr_curriculum">
+		<value xml:space="preserve">curriculum</value>
+	</data>
+	<data name="TeachersListController_pageDescription_Here_you_can_share__0____1__to_another_teachers__or_edit_previously_done_share_">
+		<value xml:space="preserve">Here you can share {0}: {1} to another teachers, or edit previously done share.</value>
+	</data>
+	<data name="TeachersListController_noTeachers_Nobody_">
+		<value xml:space="preserve">Nobody.</value>
+	</data>
+	<data name="TeachersListController_grantedObject__0__granted_you_permission_to__1__this__2_">
+		<value xml:space="preserve">{0} granted you permission to {1} this {2}</value>
+	</data>
+	<data name="TeachersListController_ownObject_This__0__is_your_own_so_you_can__1__it_">
+		<value xml:space="preserve">This {0} is your own so you can {1} it.</value>
+	</data>
+	<data name="TeacherObjectsController_pageCaption_Teacher_objects_">
+		<value xml:space="preserve">Teacher objects.</value>
+	</data>
+	<data name="TeacherObjectsController_pageDescription_Here_are_listed_all_your_courses_and_curriculums__Select_object_to_proceed_">
+		<value xml:space="preserve">Here are listed all your courses and curriculums. Select object to proceed.</value>
+	</data>
+	<data name="TeacherObjectsController_noCourses_None__Click_to_upload_some_">
+		<value xml:space="preserve">None (Click to upload some)</value>
+	</data>
+	<data name="TeacherObjectsController_noCurriculums_None__Click_to_create_some_">
+		<value xml:space="preserve">None (Click to create some)</value>
+	</data>
+	<data name="StatisticShowCurriculumsController_pageCaption_Statistic_">
+		<value xml:space="preserve">Statistic.</value>
+	</data>
+	<data name="StatisticShowCurriculumsController_pageDescription_This_is_statisic_for_group___0__based_on_curriculums___1__">
+		<value xml:space="preserve">This is statisic for group: {0} based on curriculums: {1}.</value>
+	</data>
+	<data name="StatisticShowCurriculumsController_studentStr_Student">
+		<value xml:space="preserve">Student</value>
+	</data>
+	<data name="StatisticShowCurriculumsController_totalStr_Total">
+		<value xml:space="preserve">Total</value>
+	</data>
+	<data name="StatisticShowCurriculumsController_noStudents_Theare_are_no_students_in_this_group_">
+		<value xml:space="preserve">Theare are no students in this group.</value>
+	</data>
+	<data name="StatisticShowController_pageCaption_Statistic_">
+		<value xml:space="preserve">Statistic.</value>
+	</data>
+	<data name="StatisticShowController_pageDescription_This_is_statisic_for_group___0__based_on_curriculum___1___This_statistaic_is_based_on_passed_pages_count_">
+		<value xml:space="preserve">This is statisic for group: {0} based on curriculum: {1}. This statistaic is based on passed pages count.</value>
+	</data>
+	<data name="StatisticShowController_studentStr_Student">
+		<value xml:space="preserve">Student</value>
+	</data>
+	<data name="StatisticShowController_totalStr_Total">
+		<value xml:space="preserve">Total</value>
+	</data>
+	<data name="StatisticShowController_noStudents_Theare_are_no_students_in_this_group_">
+		<value xml:space="preserve">Theare are no students in this group.</value>
+	</data>
+	<data name="StatisticShowController_fillStatisticTable_Percent">
+		<value xml:space="preserve">Percent</value>
+	</data>
+	<data name="StatisticSelectController_pageCaption_Statistic_selection_">
+		<value xml:space="preserve">Statistic selection.</value>
+	</data>
+	<data name="StatisticSelectController_pageDescription_Select_group_and_then_select_curriculum_to_view_statistic_">
+		<value xml:space="preserve">Select group and then select curriculum to view statistic.</value>
+	</data>
+	<data name="StatisticSelectController_noCurriculums_You_have_no_curriculums_assigned_for_this_group_">
+		<value xml:space="preserve">You have no curriculums assigned for this group.</value>
+	</data>
+	<data name="StatisticSelectController_noGroups_You_have_no_groups_at_all__Create_some_first_">
+		<value xml:space="preserve">You have no groups at all. Create some first.</value>
+	</data>
+	<data name="ShareController_pageCaption_Share_of__0____1__to__2__">
+		<value xml:space="preserve">Share of {0}: {1} to {2}.</value>
+	</data>
+	<data name="ShareController_pageDescription_Here_you_can_share__0____1__to__2___select_operations_to_be_shared_">
+		<value xml:space="preserve">Here you can share {0}: {1} to {2}, select operations to be shared.</value>
+	</data>
+	<data name="ShareController_courseStr_course">
+		<value xml:space="preserve">course</value>
+	</data>
+	<data name="ShareController_curriculumStr_curriculum">
+		<value xml:space="preserve">curriculum</value>
+	</data>
+	<data name="ShareController_delegateStr_Allow_to_delegate_this_operation_">
+		<value xml:space="preserve">Allow to delegate this operation.</value>
+	</data>
+	<data name="ReCompilePageController_PageLoad_Select_Group_and_Theme_that_your_want_to_recompile">
+		<value xml:space="preserve">Select Group and Theme that your want to recompile</value>
+	</data>
+	<data name="ReCompilePageController_ReCompileButtonClick_ReCompilation_is_started">
+		<value xml:space="preserve">ReCompilation is started</value>
+	</data>
+	<data name="ReCompilePageController_ReCompileButtonClick_Theme_not_selected____">
+		<value xml:space="preserve">Theme not selected !!!</value>
+	</data>
+	<data name="ReCompilePageController_CreateGroupList_No_groups_avalible">
+		<value xml:space="preserve">No groups avalible</value>
+	</data>
+	<data name="ReCompilePageController_CreateUserList_All_Users_From_Group">
+		<value xml:space="preserve">All Users From Group</value>
+	</data>
+	<data name="CurriculumTimelineController_pageCaption_Timeline_for_group___0__and_curriculum___1_">
+		<value xml:space="preserve">Timeline for group: {0} and curriculum: {1}</value>
+	</data>
+	<data name="CurriculumTimelineController_pageDescription_This_is_detailed_timeline_for_group___0__and_curriculum___1___You_can_manage_group_operations_here_">
+		<value xml:space="preserve">This is detailed timeline for group: {0} and curriculum: {1}. You can manage group operations here.</value>
+	</data>
+	<data name="CurriculumEditController_pageCaption_Curriculum_management_">
+		<value xml:space="preserve">Curriculum management.</value>
+	</data>
+	<data name="CurriculumEditController_noName_Please_enter_the_name_">
+		<value xml:space="preserve">Please enter the name.</value>
+	</data>
+	<data name="CurriculumEditController_pageDescription_This_is_curriculum_edit_page_page__Create_Edit_Delete_your_curriculum_here_">
+		<value xml:space="preserve">This is curriculum edit page page. Create/Edit/Delete your curriculum here.</value>
+	</data>
+	<data name="CurriculumEditController_noCourses_You_have_no_courses__upload_some_first_">
+		<value xml:space="preserve">You have no courses, upload some first.</value>
+	</data>
+	<data name="CurriculumEditController_noThemesSelected_Select_some_themes_to_add_">
+		<value xml:space="preserve">Select some themes to add.</value>
+	</data>
+	<data name="CurriculumEditController_alreadyHaveTheme_Stage___0__already_contains_theme_s___">
+		<value xml:space="preserve">Stage: {0} already contains theme(s) :</value>
+	</data>
+	<data name="CurriculumEditController_noStageName_Please_enter_stage_name">
+		<value xml:space="preserve">Please enter stage name</value>
+	</data>
+	<data name="CurriculumDeleteConfirmationController_pageCaption_Deleting__0____1_">
+		<value xml:space="preserve">Deleting {0}: {1}</value>
+	</data>
+	<data name="CurriculumDeleteConfirmationController_stageStr_stage">
+		<value xml:space="preserve">stage</value>
+	</data>
+	<data name="CurriculumDeleteConfirmationController_themeStr_theme">
+		<value xml:space="preserve">theme</value>
+	</data>
+	<data name="CurriculumDeleteConfirmationController_curriculumStr_curriculum">
+		<value xml:space="preserve">curriculum</value>
+	</data>
+	<data name="CurriculumDeleteConfirmationController_pageDescription_You_want_to_delete__1____2__3___which_is_assigned_to_next_groups_">
+		<value xml:space="preserve">You want to delete {1}: {2}{3}, which is assigned to next groups:</value>
+	</data>
+	<data name="CurriculumDeleteConfirmationController_usedInCurriculum___It_is_used_in_curriculum__0_">
+		<value xml:space="preserve">. It is used in curriculum {0}</value>
+	</data>
+	<data name="CurriculumDeleteConfirmationController_noneMessage_None_">
+		<value xml:space="preserve">None.</value>
+	</data>
+	<data name="CurriculumAssignmentController_pageCaption_Curriculum_assignment_">
+		<value xml:space="preserve">Curriculum assignment.</value>
+	</data>
+	<data name="CurriculumAssignmentController_pageDescription_This_is_curriculum_assignment_page__Select_group_and_curriculum_to_assign_">
+		<value xml:space="preserve">This is curriculum assignment page. Select group and curriculum to assign.</value>
+	</data>
+	<data name="CurriculumAssignmentController_noCurriculums_You_have_no_curriculums_to_assign__Create_some_first_">
+		<value xml:space="preserve">You have no curriculums to assign. Create some first.</value>
+	</data>
+	<data name="CurriculumAssignmentController_noGroups_You_have_no_groups_to_assign__Create_some_first_">
+		<value xml:space="preserve">You have no groups to assign. Create some first.</value>
+	</data>
+	<data name="CurriculumAssignmentController_neitherCurriculumsNorGroup_You_have_neither_groups_nor_curriculums_to_assign__Create_some_first_">
+		<value xml:space="preserve">You have neither groups nor curriculums to assign. Create some first.</value>
+	</data>
+	<data name="CourseEditController_pageCaption_Course_management_">
+		<value xml:space="preserve">Course management.</value>
+	</data>
+	<data name="CourseEditController_pageDescription_This_is_course_upload_page__Please_selected_course__specify_name_and_description_and_upload_it_">
+		<value xml:space="preserve">This is course upload page. Please selected course, specify name and description and upload it.</value>
+	</data>
+	<data name="CourseEditController_uploadSucces_Course_was_uploaded_successfully_">
+		<value xml:space="preserve">Course was uploaded successfully.</value>
+	</data>
+	<data name="CourseEditController_uploadError_Error_occurred_during_course_upload_">
+		<value xml:space="preserve">Error occurred during course upload.</value>
+	</data>
+	<data name="CourseEditController_fileNotFound_Specify_course_path_">
+		<value xml:space="preserve">Specify course path.</value>
+	</data>
+	<data name="CourseDeleteConfirmationController_pageCaption_Deleting_course___0__">
+		<value xml:space="preserve">Deleting course: {0}.</value>
+	</data>
+	<data name="CourseDeleteConfirmationController_pageDescription_You_want_to_delete_course___0___This_course_is_used_in_next_objects_">
+		<value xml:space="preserve">You want to delete course: {0}. This course is used in next objects:</value>
+	</data>
+	<data name="CourseDeleteConfirmationController_noneMessage_None_">
+		<value xml:space="preserve">None.</value>
+	</data>
+	<data name="CourseDeleteConfirmationController_GetDependencies_Theme">
+		<value xml:space="preserve">Theme</value>
+	</data>
+	<data name="CourseDeleteConfirmationController_GetDependencies_is_used_in_Curriculum">
+		<value xml:space="preserve">is used in Curriculum</value>
+	</data>
+	<data name="CourseDeleteConfirmationController_GetDependencies_by">
+		<value xml:space="preserve">by</value>
+	</data>
+	<data name="CourseBehaviorController_PageLoad_On_this_page_you_can_change_behavior_of_course_organizations">
+		<value xml:space="preserve">On this page you can change behavior of course organizations</value>
+	</data>
+	<data name="CourseBehaviorController_SaveButtonClick_You_Preferences_is_saved">
+		<value xml:space="preserve">You Preferences is saved</value>
+	</data>
+	<data name="TestDetailsController_GetPageTitleType_User_Answers">
+		<value xml:space="preserve">User Answers</value>
+	</data>
+	<data name="TestDetailsController_GetPageTitleType_Correct_Answers">
+		<value xml:space="preserve">Correct Answers</value>
+	</data>
+	<data name="StudentPageController_ModeButtonClick_Show__0__Dates">
+		<value xml:space="preserve">Show {0} Dates</value>
+	</data>
+	<data name="StudentPageController_ShowDescriptionForDataSelection_Display_themes_that_you_can__0__in_selected_date">
+		<value xml:space="preserve">Display themes that you can {0} in selected date</value>
+	</data>
+	<data name="StudentPageController_ShowCommonDescription_From_this_page_you_can_open_test_or_see_test_results__And_see_you_last__0__result">
+		<value xml:space="preserve">From this page you can open test or see test results; And see you last {0} result</value>
+	</data>
+	<data name="StudentPageController_ShowDescriptionForControl_You_have_control_now__Do_you_best">
+		<value xml:space="preserve">You have control now. Do you best</value>
+	</data>
+	<data name="StudentPageController_ShowDescriptionForNodeSelection_In_calendar_your_see_dates_when_you_can__0__test">
+		<value xml:space="preserve">In calendar your see dates when you can {0} test</value>
+	</data>
+	<data name="OpenTestController_PageLoad_Wrong_request__LearnerAttempt_ID_not_specified_">
+		<value xml:space="preserve">Wrong request (LearnerAttempt ID not specified)</value>
+	</data>
+	<data name="OpenTestController_ShowCurrent_You_opened__0___1___page">
+		<value xml:space="preserve">You opened {0}({1}) page</value>
+	</data>
+	<data name="PersistantValueInfo_PersistantValueInfo_Type__0__is_not_supposed_to_be_marked_with__2___Invalid_type__Only_ValueTypes__strings_and_classes_which_implement__1__or__5___Any_combination_with__3__T__and__4__T__by_this_types_also_supported_">
+		<value><![CDATA[Type {0} is not supposed to be marked with {2}. Invalid type. Only ValueTypes, strings and classes which implement {1} or {5}. Any combination with {3}<T> and {4}<T> by this types also supported.]]></value>
+	</data>
+	<data name="PersistantValueInfo_SafeGetConstructor_Type__0__cannot_be_persisted_because_it_s_don_t_have_parameterless_constructor">
+		<value><![CDATA[Type {0} cannot be persisted because it's don't have parameterless constructor]]></value>
+	</data>
+	<data name="PersistantStateMetaData_GetFieldsDataInternal__0__can_be_applied_to_instance_field_only_but_applied_to_static___1___2__">
+		<value xml:space="preserve">{0} can be applied to instance field only but applied to static ({1}.{2})</value>
+	</data>
+	<data name="PersistantStateMetaData_LoadStateFor_Invalid_count_of_target_values_expected__0__but__1__found">
+		<value xml:space="preserve">Invalid count of target values expected {0} but {1} found</value>
+	</data>
+	<data name="Utils_TryGetAtr_Too_many_attributes">
+		<value xml:space="preserve">Too many attributes</value>
+	</data>
+	<data name="TeacherHelper_Share_Only_user_based_permissions_can_be_shared">
+		<value xml:space="preserve">Only user based permissions can be shared</value>
+	</data>
+	<data name="TeacherHelper_Sort_Student">
+		<value xml:space="preserve">Student</value>
+	</data>
+	<data name="TeacherHelper_Sort_Total">
+		<value xml:space="preserve">Total</value>
+	</data>
+	<data name="TeacherHelper_Sort_Percent">
+		<value xml:space="preserve">Percent</value>
+	</data>
+	<data name="CacheUtility_Get_Object__0__with_ID__1__not_found_in_the_Cache">
+		<value xml:space="preserve">Object {0} with ID {1} not found in the Cache</value>
+	</data>
+	<data name="LnuDataModel_GetValue_Requested_variable_is_not_supported">
+		<value xml:space="preserve">Requested variable is not supported</value>
+	</data>
+	<data name="Score_GetValue_Requested_variable_is_not_supported">
+		<value xml:space="preserve">Requested variable is not supported</value>
+	</data>
+	<data name="Score_SetValue_Requested_variable_is_read_only">
+		<value xml:space="preserve">Requested variable is read-only</value>
+	</data>
+	<data name="Score_GetVariable_Requested_variable_is_write_only">
+		<value xml:space="preserve">Requested variable is write-only</value>
+	</data>
+	<data name="Interactions_GetValue_Requested_variable_is_not_supported">
+		<value xml:space="preserve">Requested variable is not supported</value>
+	</data>
+	<data name="Interactions_SetValue_Requested_variable_is_read_only">
+		<value xml:space="preserve">Requested variable is read-only</value>
+	</data>
+	<data name="Interactions_GetVariable_Requested_variable_is_write_only">
+		<value xml:space="preserve">Requested variable is write-only</value>
+	</data>
+	<data name="InteractionObjectives_GetValue_Requested_variable_is_not_supported">
+		<value xml:space="preserve">Requested variable is not supported</value>
+	</data>
+	<data name="InteractionObjectives_SetValue_Requested_variable_is_read_only">
+		<value xml:space="preserve">Requested variable is read-only</value>
+	</data>
+	<data name="InteractionObjectives_GetVariable_Requested_variable_is_write_only">
+		<value xml:space="preserve">Requested variable is write-only</value>
+	</data>
+	<data name="InteractionCorrectResponses_GetValue_Requested_variable_is_not_supported">
+		<value xml:space="preserve">Requested variable is not supported</value>
+	</data>
+	<data name="InteractionCorrectResponses_SetValue_Requested_variable_is_read_only">
+		<value xml:space="preserve">Requested variable is read-only</value>
+	</data>
+	<data name="InteractionCorrectResponses_GetVariable_Requested_variable_is_write_only">
+		<value xml:space="preserve">Requested variable is write-only</value>
+	</data>
+	<data name="CmiDataModel_GetCollection_Requested_variable_is_not_supported">
+		<value xml:space="preserve">Requested variable is not supported</value>
+	</data>
+	<data name="CmiDataModel_SetValue_Requested_variable_is_read_only">
+		<value xml:space="preserve">Requested variable is read-only</value>
+	</data>
+	<data name="CmiDataModel_GetVariable_Requested_variable_is_write_only">
+		<value xml:space="preserve">Requested variable is write-only</value>
+	</data>
+</root>
