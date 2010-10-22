@@ -54,17 +54,21 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="crossdomain.xml" />
-    <Content Include="Service1.asmx" />
+    <Content Include="CompileService.asmx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Service1.asmx.cs">
-      <DependentUpon>Service1.asmx</DependentUpon>
+    <Compile Include="CompileService.asmx.cs">
+      <DependentUpon>CompileService.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TestingSystem\ExeWrapperDotNET\ExeWrapperDotNET.csproj">
+      <Project>{CE7B5354-2E75-41A3-A4E3-DF3A076C0A86}</Project>
+      <Name>ExeWrapperDotNET</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TestingSystem\TestingSystem\TestingSystem.csproj">
       <Project>{498A9F11-9290-46D8-AFAF-32CC14C7FDDE}</Project>
       <Name>TestingSystem</Name>

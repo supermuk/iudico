@@ -18,7 +18,7 @@ public partial class Admin_Settings : ControlledPage<Admin_SettingsController>
     {
         siteName = System.Configuration.ConfigurationSettings.AppSettings["siteName"];
 
-        if (!Page.IsPostBack)
+        /*if (!Page.IsPostBack)
         {
             using (ServerManager serverManager = new ServerManager())
             {
@@ -54,7 +54,7 @@ public partial class Admin_Settings : ControlledPage<Admin_SettingsController>
                 }
                 
             }
-        }
+        }*/
     }
 
     protected override void BindController(Admin_SettingsController c)
