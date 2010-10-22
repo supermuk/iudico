@@ -25,7 +25,7 @@ namespace WebService
     [ToolboxItem(false)]
     // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
     [ScriptService]
-    public class Service1 : System.Web.Services.WebService
+    public class CompileService : System.Web.Services.WebService
     {
         /// <summary>
         /// Creates and compile program
