@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Butterfly">
+  <DataContextMoniker Name="/ButterflyDataContext" />
+  <nestedChildShapes>
+    <classShape Id="883f5d94-3d41-44c1-9a67-efb69db0d5ad" absoluteBounds="3.5, 0.875, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/ButterflyDataContext/Node" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9df36f01-f130-496f-9761-d94da42ddced" absoluteBounds="3.515, 1.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="dd2137a2-b1eb-4421-9d9c-f49269989255" absoluteBounds="0.75, 0.875, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/ButterflyDataContext/Course" />
+      <nestedChildShapes>
+        <elementListCompartment Id="709f32d4-dff8-4366-8c1b-412d683037f3" absoluteBounds="0.765, 1.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(3.5 : 1.50298725335537); (3.25 : 1.50298725335537); (3.25 : 2.0301696113782); (3.5 : 2.0301696113782)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ButterflyDataContext/Node/Node_Node" />
+      <nodes>
+        <classShapeMoniker Id="883f5d94-3d41-44c1-9a67-efb69db0d5ad" />
+        <classShapeMoniker Id="883f5d94-3d41-44c1-9a67-efb69db0d5ad" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 1.12649362667768); (3.5 : 1.12649362667768)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/ButterflyDataContext/Course/Course_Node" />
+      <nodes>
+        <classShapeMoniker Id="dd2137a2-b1eb-4421-9d9c-f49269989255" />
+        <classShapeMoniker Id="883f5d94-3d41-44c1-9a67-efb69db0d5ad" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

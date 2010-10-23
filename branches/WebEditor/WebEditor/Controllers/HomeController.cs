@@ -6,11 +6,10 @@ using System.Web.Mvc;
 
 namespace WebEditor.Controllers
 {
-    [HandleError]
-    public class IndexController : Controller
+    public class HomeController : BaseController
     {
         //
-        // GET: /Index/
+        // GET: /Home/
 
         public ActionResult Index()
         {

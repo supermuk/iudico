@@ -6,6 +6,6 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Index</h2>
+    <h3>Welcome to Butterfly - Web Editor for SCORM compatible courses.</h3>
 
 </asp:Content>
