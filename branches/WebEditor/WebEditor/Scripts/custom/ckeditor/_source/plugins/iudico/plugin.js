@@ -5,12 +5,13 @@
         var pluginName = 'iudico';
                 
         CKEDITOR.dialog.add(pluginName, this.path + 'dialogs/iudico.js'); 
+        
         var command = editor.addCommand(pluginName, new CKEDITOR.dialogCommand(pluginName));
         command.modes = { wysiwyg:1, source:1 };
 
-        editor.ui.addButton('Test1', 
+        editor.ui.addButton('iudico', 
         {
-            label: 'Test1',
+            label: 'IUDICO',
             command: pluginName,
         });
     }

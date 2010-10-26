@@ -18,12 +18,15 @@
 					    type: 'html',
 					    html:
                             '<div class="cke_iudico_container">' +
-								
+
                             '</div>'
 					}
-				]
+				],
+			    onOk: function () { },
+			    onCancel: function () { },
+			    onLoad: function (data) { },
 			}
 		],
-	    buttons: [CKEDITOR.dialog.okButton, CKEDITOR.dialog.cancelButton]
+        buttons: [CKEDITOR.dialog.okButton, CKEDITOR.dialog.cancelButton]
     };
 });
