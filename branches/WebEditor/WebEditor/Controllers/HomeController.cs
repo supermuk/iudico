@@ -16,5 +16,9 @@ namespace WebEditor.Controllers
             return View();
         }
 
+        public ActionResult Course()
+        {
+            return View();
+        }
     }
 }
