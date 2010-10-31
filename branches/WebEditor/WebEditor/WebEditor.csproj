@@ -628,8 +628,10 @@
     <Content Include="Scripts\custom\ckeditor\_source\skins\v2\templates.css" />
     <Content Include="Scripts\custom\ckeditor\_source\skins\v2\toolbar.css" />
     <Content Include="Scripts\custom\ckeditor\_source\themes\default\theme.js" />
+    <Content Include="Scripts\jquery\jquery.layout.js" />
     <Content Include="Views\Course\Create.aspx" />
     <Content Include="Views\Course\Index.aspx" />
+    <Content Include="Views\Home\Course.aspx" />
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -664,6 +666,7 @@
       <LastGenOutput>Butterfly.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Views\Shared\Course.Master" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

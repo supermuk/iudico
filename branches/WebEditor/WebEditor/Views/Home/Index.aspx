@@ -8,14 +8,6 @@
 
     <h3>Welcome to Butterfly - Web Editor for SCORM compatible courses.</h3>
 
-    <script type="text/javascript" src="/Scripts/custom/ckeditor/ckeditor_source.js"></script>
-    <script type="text/javascript" src="/Scripts/custom/ckeditor/adapters/jquery.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            $('textarea').ckeditor();
-        });
-    </script>
-
-    <textarea name="editor"></textarea>
+    
 
 </asp:Content>

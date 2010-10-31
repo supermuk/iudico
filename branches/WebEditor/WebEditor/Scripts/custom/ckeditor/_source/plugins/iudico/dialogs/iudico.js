@@ -18,7 +18,7 @@
 					    type: 'html',
 					    html:
                             '<div class="cke_iudico_container">' +
-
+                                
                             '</div>'
 					}
 				],
