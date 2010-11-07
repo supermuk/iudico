@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using WebEditor.Models;
 
 namespace WebEditor
 {
@@ -14,6 +15,30 @@ namespace WebEditor
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
+            routes.CustomMapRoute(
+                "Node",
+                "Course/{CourseID}/Node/{NodeID}/{action}",
+                new { controller = "Node", CourseID = 0 }
+            );
+
+            routes.CustomMapRoute(
+                "Nodes",
+                "Course/{CourseID}/Node/{action}",
+                new { controller = "Node", CourseID = 0 }
+            );
+
+            routes.CustomMapRoute(
+                "Course",
+                "Course/{CourseID}/{action}",
+                new { controller = "Course" }
+            );
+
+            routes.CustomMapRoute(
+                "Courses",
+                "Course/{action}",
+                new { controller = "Course" }
+            );
+
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(

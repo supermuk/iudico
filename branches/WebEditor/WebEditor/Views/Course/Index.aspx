@@ -47,9 +47,9 @@
                 <%: String.Format("{0:g}", item.Updated) %>
             </td>
             <td>
-                <%: Html.ActionLink("Edit", "Edit", new { id=item.Id }) %> |
-                <%: Html.ActionLink("Details", "Details", new { id=item.Id })%> |
-                <%: Html.ActionLink("Delete", "Delete", new { id=item.Id })%>
+                <%: Html.ActionLink("Edit", "Edit", new { CourseID = item.Id })%> |
+                <%: Html.ActionLink("Details", "Index", "Node", new { CourseID = item.Id}, null) %> |
+                <%: Html.ActionLink("Delete", "Delete", new { CourseID = item.Id })%>
             </td>
         </tr>
     

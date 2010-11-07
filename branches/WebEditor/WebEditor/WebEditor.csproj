@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ASTreeView">
+      <HintPath>App_Data\ASTreeView.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -69,6 +72,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NodeController.cs" />
     <Compile Include="Models\Butterfly.cs">
       <DependentUpon>Butterfly.dbml</DependentUpon>
     </Compile>
@@ -81,8 +85,17 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ButterflyDB.cs" />
+    <Compile Include="Models\Extensions.cs" />
+    <Compile Include="Models\JsTree.cs" />
     <Compile Include="Models\Metadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Node\Partial\TreeView.ascx.cs">
+      <DependentUpon>TreeView.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Node\Partial\TreeView.ascx.designer.cs">
+      <DependentUpon>TreeView.ascx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -628,11 +641,19 @@
     <Content Include="Scripts\custom\ckeditor\_source\skins\v2\templates.css" />
     <Content Include="Scripts\custom\ckeditor\_source\skins\v2\toolbar.css" />
     <Content Include="Scripts\custom\ckeditor\_source\themes\default\theme.js" />
+    <Content Include="Scripts\jquery\jquery-1.4.3.min.js" />
+    <Content Include="Scripts\jquery\jquery.cookie.js" />
+    <Content Include="Scripts\jquery\jquery.hotkeys.js" />
+    <Content Include="Scripts\jquery\jquery.jstree.js" />
     <Content Include="Scripts\jquery\jquery.layout.js" />
     <Content Include="Views\Course\Create.aspx" />
+    <Content Include="Views\Course\Edit.aspx" />
     <Content Include="Views\Course\Index.aspx" />
     <Content Include="Views\Home\Course.aspx" />
     <Content Include="Views\Home\Index.aspx" />
+    <Content Include="Views\Node\Create.aspx" />
+    <Content Include="Views\Node\Index.aspx" />
+    <Content Include="Views\Node\Partial\TreeView.ascx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
