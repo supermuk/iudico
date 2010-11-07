@@ -22,6 +22,7 @@ namespace WebEditor.Controllers
         public ActionResult Index()
         {
             var courses = db.Courses;
+
             return View(courses);
         }
 
@@ -30,12 +31,17 @@ namespace WebEditor.Controllers
             return View();
         }
 
+        public ActionResult Edit(int CourseID)
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult Create(Course course)
         {
             db.AddCourse(course);
+
             return RedirectToAction("Index");
         }
-
     }
 }

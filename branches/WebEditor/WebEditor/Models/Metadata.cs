@@ -14,7 +14,7 @@ namespace WebEditor.Models
     {
         private sealed class Metadata
         {
-            [DisplayName]
+            [ScaffoldColumn(false)]
             public int Id { get; set; }
 
             [DisplayName("Name")]
@@ -25,9 +25,11 @@ namespace WebEditor.Models
             public string Owner { get; set; }
 
             [DisplayName("Created Date")]
+            [ScaffoldColumn(false)]
             public DateTime Created { get; set; }
 
-            [DisplayName("Last Upadte")]
+            [DisplayName("Last Updated")]
+            [ScaffoldColumn(false)]
             public DateTime Updated { get; set; }
 
         }
@@ -39,7 +41,21 @@ namespace WebEditor.Models
     {
         private sealed class Metadata
         {
-            
+            [ScaffoldColumn(false)]
+            public int Id { get; set; }
+
+            [DisplayName("Name")]
+            [Required(ErrorMessage = "Name is required")]
+            public string Name { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int ParentId { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int CourseId { get; set; }
+
+            [DisplayName("Is Folder")]
+            public bool IsFolder { get; set; }
         }
     }
 }
