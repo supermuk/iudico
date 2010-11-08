@@ -35,10 +35,23 @@ namespace WebEditor.Models
             base.SubmitChanges();
             return course.Id;
         }
-
-        public Course GetCourse(int CourseID)
+        public Course GetCourse(int courseId)
         {
-            return Courses.SingleOrDefault(c => c.Id == CourseID);
+            return Courses.Single(c => c.Id == courseId);
+        }
+        public void UpdateCourse(int courseId, Course course)
+        {
+            Course course2 = base.Courses.Single(c => c.Id == courseId);
+            course2.Name = course.Name;
+            course2.Owner = course.Owner;
+            course2.Updated = DateTime.Now;
+            base.SubmitChanges();
+        }
+        public void RemoveCourse(int courseId)
+        {
+            Course course = base.Courses.Single(c => c.Id == courseId);
+            base.Courses.DeleteOnSubmit(course);
+            base.SubmitChanges();
         }
 
         public int AddNode(Node node)
