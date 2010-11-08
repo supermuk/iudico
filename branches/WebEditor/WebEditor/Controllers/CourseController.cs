@@ -16,9 +16,6 @@ namespace WebEditor.Controllers
             base.Initialize(requestContext);
         }
 
-        //
-        // GET: /Course/
-
         public ActionResult Index()
         {
             var courses = db.Courses;
@@ -31,17 +28,66 @@ namespace WebEditor.Controllers
             return View();
         }
 
-        public ActionResult Edit(int CourseID)
-        {
-            return View();
-        }
-
         [HttpPost]
         public ActionResult Create(Course course)
         {
             db.AddCourse(course);
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Edit(int courseId)
+        {
+            try
+            {
+                Course course = db.GetCourse(courseId);
+                return View(course);
+            }
+            catch
+            {
+                return View("Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Edit(int courseId, Course course)
+        {
+            try
+            {
+                db.UpdateCourse(courseId, course);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View("Error");
+            }
+        }
+        /*
+        public ActionResult Delete(int courseId)
+        {
+            try
+            {
+                Course course = db.GetCourse(courseId);
+                return View(course);
+            }
+            catch
+            {
+                return View("Error");
+            }
+        }
+        */
+       // [HttpDelete]
+        public ActionResult Delete(int courseId)
+        {
+            try
+            {
+                db.RemoveCourse(courseId);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View("Error");
+            }
         }
     }
 }

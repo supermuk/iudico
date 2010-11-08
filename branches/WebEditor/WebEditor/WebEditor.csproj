@@ -654,6 +654,12 @@
     <Content Include="Views\Node\Create.aspx" />
     <Content Include="Views\Node\Index.aspx" />
     <Content Include="Views\Node\Partial\TreeView.ascx" />
+    <Content Include="Views\Shared\DisplayTemplates\DateTime.ascx" />
+    <Content Include="Views\Shared\DisplayTemplates\Object.ascx" />
+    <Content Include="Views\Shared\DisplayTemplates\Password.ascx" />
+    <Content Include="Views\Shared\EditorTemplates\DateTime.ascx" />
+    <Content Include="Views\Shared\EditorTemplates\DropDownList.ascx" />
+    <Content Include="Views\Shared\EditorTemplates\EditableObject.ascx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -688,6 +694,8 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Views\Shared\Course.Master" />
+    <Content Include="Views\Shared\DisplayTemplates\Template.Master" />
+    <Content Include="Views\Shared\EditorTemplates\Template.Master" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

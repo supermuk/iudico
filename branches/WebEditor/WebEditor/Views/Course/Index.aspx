@@ -1,5 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<WebEditor.Models.Course>>" %>
 
+<asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
+    <script src="/Scripts/Microsoft/MicrosoftAjax.js" type="text/javascript"></script>
+    <script src="/Scripts/Microsoft/MicrosoftMvcAjax.js" type="text/javascript"></script>
+</asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Index
 </asp:Content>
@@ -49,7 +53,7 @@
             <td>
                 <%: Html.ActionLink("Edit", "Edit", new { CourseID = item.Id })%> |
                 <%: Html.ActionLink("Details", "Index", "Node", new { CourseID = item.Id}, null) %> |
-                <%: Html.ActionLink("Delete", "Delete", new { CourseID = item.Id })%>
+                <%: Ajax.ActionLink("Delete", "Delete", new { CourseID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete" })%>
             </td>
         </tr>
     
