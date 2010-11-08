@@ -62,21 +62,8 @@ namespace WebEditor.Controllers
                 return View("Error");
             }
         }
-        /*
-        public ActionResult Delete(int courseId)
-        {
-            try
-            {
-                Course course = db.GetCourse(courseId);
-                return View(course);
-            }
-            catch
-            {
-                return View("Error");
-            }
-        }
-        */
-       // [HttpDelete]
+
+        [HttpDelete]
         public ActionResult Delete(int courseId)
         {
             try
