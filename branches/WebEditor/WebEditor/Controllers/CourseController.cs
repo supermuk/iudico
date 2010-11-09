@@ -6,19 +6,25 @@ using System.Web.Mvc;
 using System.Web.Routing;
 
 using WebEditor.Models;
+using WebEditor.Models.Storage;
 
 namespace WebEditor.Controllers
 {
     public class CourseController : BaseController
     {
+        protected IStorageInterface Storage;
+
         protected override void Initialize(RequestContext requestContext)
         {
+            StorageFactory factory = new StorageFactory();
+            Storage = factory.CreateStorage(StorageType.Mixed);
+
             base.Initialize(requestContext);
         }
 
         public ActionResult Index()
         {
-            var courses = db.Courses;
+            var courses = Storage.GetCourses();
 
             return View(courses);
         }
@@ -31,7 +37,7 @@ namespace WebEditor.Controllers
         [HttpPost]
         public ActionResult Create(Course course)
         {
-            db.AddCourse(course);
+            Storage.AddCourse(course);
 
             return RedirectToAction("Index");
         }
@@ -40,7 +46,7 @@ namespace WebEditor.Controllers
         {
             try
             {
-                Course course = db.GetCourse(courseId);
+                Course course = Storage.GetCourse(courseId);
                 return View(course);
             }
             catch
@@ -54,7 +60,7 @@ namespace WebEditor.Controllers
         {
             try
             {
-                db.UpdateCourse(courseId, course);
+                Storage.UpdateCourse(courseId, course);
                 return RedirectToAction("Index");
             }
             catch
@@ -68,7 +74,7 @@ namespace WebEditor.Controllers
         {
             try
             {
-                db.RemoveCourse(courseId);
+                Storage.DeleteCourse(courseId);
                 return RedirectToAction("Index");
             }
             catch

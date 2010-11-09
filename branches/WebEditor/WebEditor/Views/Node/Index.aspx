@@ -12,7 +12,7 @@
     <script type="text/javascript">
         $(function () {
             $("#treeView").jstree({
-                "plugins": ["themes", "json_data", "ui", "crrm", "dnd", "types", "hotkeys", "contextmenu"],
+                "plugins": ["themes", "json_data", "ui", "crrm", "cookies", "dnd", "types", "hotkeys", "contextmenu"],
                 "json_data": {
                     "data": [
                         {"data" : "Root", "attr" : {"rel" : "root", "id": "node_0"}, "state" : "closed"} 
@@ -21,8 +21,9 @@
                         "type": "post",
 		                "url": "<%: Url.Action("List", "Node") %>",
 		                "data": function (n) {
-		                    return {
-		                        "id": n.attr ? n.attr("id").replace("node_", "") : 1
+		                    var id = n.attr("id").replace("node_", "");
+                            return {
+		                        "id": (id > 0 ? id : null)
 		                    };
 		                }
 		            }
@@ -126,11 +127,14 @@
 
 		    })
             .bind("create.jstree", function (e, data) {
+                var id = data.rslt.parent.attr("id").replace("node_", "");
+                var type = data.rslt.obj.attr("rel");
+
                 $.post("<%: Url.Action("Create", "Node") %>", {
-				    "parentId": data.rslt.parent.attr("id").replace("node_", ""),
+				    "name": data.rslt.name,
+                    "parentId": id > 0 ? id : null,
 				    "position": data.rslt.position,
-				    "data": data.rslt.name,
-				    "type": data.rslt.obj.attr("rel")
+				    "isFolder": (type != "default")
 				},
                 function (r) {
 				    if (r.status) {
@@ -169,7 +173,7 @@
 		            url: "<%: Url.Action("Rename", "Node") %>",
 					data: {
 						"id": data.rslt.obj.attr("id").replace("node_", ""),
-						"data": data.rslt.new_name
+						"name": data.rslt.new_name
 					},
 					success: function (r) {
 						if (!r.status) {
@@ -179,16 +183,18 @@
 				});
 			})
             .bind("move_node.jstree", function (e, data) {
-				data.rslt.o.each(function (i) {
-					$.ajax({
+				//"name": data.rslt.name,
+                var parentId = data.rslt.np.attr("id").replace("node_", "");
+
+                data.rslt.o.each(function (i) {
+                    $.ajax({
 						async: false,
 						type: 'post',
 						url: "<%: Url.Action("Move", "Node") %>",
 						data: {
 							"id": $(this).attr("id").replace("node_", ""),
-							"parentId": data.rslt.np.attr("id").replace("node_", ""),
+							"parentId": (parentId > 0 ? parentId : null),
 							"position": data.rslt.cp + i,
-							"data": data.rslt.name,
 							"copy": data.rslt.cy ? true : false
 						},
 						success: function (r) {

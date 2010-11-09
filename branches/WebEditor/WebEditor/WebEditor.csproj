@@ -88,14 +88,10 @@
     <Compile Include="Models\Extensions.cs" />
     <Compile Include="Models\JsTree.cs" />
     <Compile Include="Models\Metadata.cs" />
+    <Compile Include="Models\Storage\MixedStorage.cs" />
+    <Compile Include="Models\Storage\StorageFactory.cs" />
+    <Compile Include="Models\Storage\StorageInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\Node\Partial\TreeView.ascx.cs">
-      <DependentUpon>TreeView.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Views\Node\Partial\TreeView.ascx.designer.cs">
-      <DependentUpon>TreeView.ascx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\initial.sql" />
@@ -654,7 +650,6 @@
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\Node\Create.aspx" />
     <Content Include="Views\Node\Index.aspx" />
-    <Content Include="Views\Node\Partial\TreeView.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\DateTime.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\Object.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\Password.ascx" />
@@ -685,7 +680,9 @@
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Node\Partial\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Models\Butterfly.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>

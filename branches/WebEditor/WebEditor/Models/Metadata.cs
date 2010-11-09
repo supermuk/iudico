@@ -36,7 +36,7 @@ namespace WebEditor.Models
     }
 
     [MetadataType(typeof(Node.Metadata))]
-    [Bind(Exclude = "Id, ParentId, CourseId")]
+    [Bind(Exclude = "Id, CourseId")]
     public partial class Node
     {
         private sealed class Metadata
