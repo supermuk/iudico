@@ -5,16 +5,22 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using WebEditor.Models;
+using WebEditor.Models.Storage;
 
 namespace WebEditor.Controllers
 {
     public class NodeController : BaseController
     {
+        protected IStorageInterface Storage;
         protected Course CurrentCourse;
+
         protected override void Initialize(RequestContext requestContext)
         {
+            StorageFactory factory = new StorageFactory();
+            Storage = factory.CreateStorage(StorageType.Mixed);
+
             int courseId = Convert.ToInt32(requestContext.RouteData.Values["CourseID"]);
-            CurrentCourse = db.GetCourse(courseId);
+            CurrentCourse = Storage.GetCourse(courseId);
 
             if (CurrentCourse == null)
             {
@@ -30,40 +36,19 @@ namespace WebEditor.Controllers
         }
 
         [HttpPost]
-        public JsonResult List(int id)
+        public JsonResult List(int? id)
         {
-            db.ClearCache();
+            var nodes = Storage.GetNodes(CurrentCourse.Id, id).ToJsTreeList();
 
-            var nodes = CurrentCourse.Nodes.OrderBy(n => n.Position).ToList();
-
-            if (id == 0)
-            {
-                nodes = nodes.Where(n => n.ParentId == null).ToList();
-            }
-            else
-            {
-                nodes = nodes.Where(n => n.ParentId == id).ToList();
-            }
-
-            var result = (from n in nodes select new JsTreeNode(n.Id, n.Name, n.IsFolder)).ToArray();
-
-            return Json(result);
+            return Json(nodes);
         }
 
         [HttpPost]
-        public JsonResult Create(string data, int parentId, int position, string type)
+        public JsonResult Create(Node node)
         {
-            Node node = new Node
-                {
-                    CourseId = CurrentCourse.Id,
-                    Name = data,
-                    ParentId = (parentId == 0 ? null : (int?) parentId),
-                    IsFolder = (type != "default"),
-                    Position = position
-                };
+            node.CourseId = CurrentCourse.Id;
 
-            db.Nodes.InsertOnSubmit(node);
-            db.SubmitChanges();
+            int id = Storage.AddNode(node);
 
             return Json(new {status = true, id = node.Id});
         }
@@ -73,9 +58,7 @@ namespace WebEditor.Controllers
         {
             try
             {
-                var nodes = (from n in db.Nodes where ids.Contains(n.Id) select n);
-                db.Nodes.DeleteAllOnSubmit(nodes);
-                db.SubmitChanges();
+                Storage.DeleteNodes(ids);
 
                 return Json(new {status = true});
             }
@@ -86,12 +69,11 @@ namespace WebEditor.Controllers
         }
 
         [HttpPost]
-        public JsonResult Rename(int id, string data)
+        public JsonResult Rename(int id, string name)
         {
-            var node = db.Nodes.SingleOrDefault(n => n.Id == id);
-            node.Name = data;
-            
-            db.SubmitChanges();
+            Node node = Storage.GetNode(id);
+            node.Name = name;
+            Storage.UpdateNode(id, node);
 
             return Json(new { status = true });
         }
@@ -99,38 +81,22 @@ namespace WebEditor.Controllers
         [HttpPost]
         public JsonResult Move(int id, int? parentId, int position, bool copy)
         {
-            Node node = db.Nodes.SingleOrDefault(n => n.Id == id);
-
-            if (parentId == 0)
-            {
-                parentId = null;
-            }
+            Node node = Storage.GetNode(id);
 
             if (copy)
             {
-                Node newnode = new Node
-                {
-                    CourseId = node.CourseId,
-                    Name = node.Name,
-                    ParentId = parentId,
-                    IsFolder = node.IsFolder,
-                    Position = position
-                };
+                int newId = Storage.CreateCopy(node, parentId, position);
 
-                db.CopyNodes(node, newnode);
-                db.Nodes.InsertOnSubmit(newnode);
-                db.SubmitChanges();
-
-                return Json(new {status = true, id = newnode.Id});
+                return Json(new { status = true, id = newId });
             }
             else
             {
                 node.ParentId = parentId;
                 node.Position = position;
 
-                db.SubmitChanges();
+                Storage.UpdateNode(id, node);
 
-                return Json(new {status = true, id = node.Id});
+                return Json(new {status = true, id = id});
             }
         }
     }
