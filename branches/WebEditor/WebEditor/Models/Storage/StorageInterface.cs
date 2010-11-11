@@ -10,10 +10,10 @@ namespace WebEditor.Models.Storage
     {
         List<Course> GetCourses();
         Course GetCourse(int id);
-        int AddCourse(Course course);
-        void UpdateCourse(int id, Course course);
-        void DeleteCourse(int id);
-        void DeleteCourses(List<int> ids);
+        int? AddCourse(Course course);
+        bool UpdateCourse(int id, Course course);
+        bool DeleteCourse(int id);
+        bool DeleteCourses(List<int> ids);
 
         List<Node> GetNodes(int courseId);
         List<Node> GetNodes(int courseId, int? parentId);
