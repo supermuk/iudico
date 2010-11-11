@@ -11,59 +11,82 @@ namespace WebEditor.Models.Storage
 
         public List<Course> GetCourses()
         {
-            return db.Courses.ToList();
+            try
+            {
+                return db.Courses.ToList();
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public Course GetCourse(int id)
         {
-            return db.Courses.SingleOrDefault(c => c.Id == id);
+            try
+            {
+                return db.Courses.Single(c => c.Id == id);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
-        public int AddCourse(Course course)
-        {
-            course.Created = DateTime.Now;
-            course.Updated = DateTime.Now;
-            
-            db.Courses.InsertOnSubmit(course);
-            db.SubmitChanges();
-
-            return course.Id;
-        }
-
-        public void UpdateCourse(int id, Course course)
+        public int? AddCourse(Course course)
         {
             try
             {
-                Course oldCourse = db.Courses.SingleOrDefault(c => c.Id == id);
+                course.Created = DateTime.Now;
+                course.Updated = DateTime.Now;
+
+                db.Courses.InsertOnSubmit(course);
+                db.SubmitChanges();
+
+                return course.Id;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public bool UpdateCourse(int id, Course course)
+        {
+            try
+            {
+                Course oldCourse = db.Courses.Single(c => c.Id == id);
 
                 oldCourse.Name = course.Name;
                 oldCourse.Owner = course.Owner;
                 oldCourse.Updated = DateTime.Now;
 
                 db.SubmitChanges();
+                return true;
             }
-            catch (Exception ex)
+            catch
             {
-                
+                return false;
             }
         }
 
-        public void DeleteCourse(int id)
+        public bool DeleteCourse(int id)
         {
             try
             {
-                Course course = db.Courses.SingleOrDefault(c => c.Id == id);
+                Course course = db.Courses.Single(c => c.Id == id);
 
                 db.Courses.DeleteOnSubmit(course);
                 db.SubmitChanges();
+                return true;
             }
-            catch (Exception ex)
+            catch
             {
-                
+                return false;
             }
         }
 
-        public void DeleteCourses(List<int> ids)
+        public bool DeleteCourses(List<int> ids)
         {
             try
             {
@@ -71,10 +94,11 @@ namespace WebEditor.Models.Storage
 
                 db.Courses.DeleteAllOnSubmit(courses);
                 db.SubmitChanges();
+                return true;
             }
-            catch (Exception ex)
+            catch
             {
-                
+                return false;   
             }
         }
 

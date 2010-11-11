@@ -287,13 +287,13 @@ namespace WebEditor.Models
 		
 		private bool _IsFolder;
 		
-		private System.Nullable<int> _Position;
+		private int _Position;
 		
 		private EntitySet<Node> _Nodes;
 		
 		private EntityRef<Course> _Course;
 		
-		private EntityRef<Node> _ParentNode;
+		private EntityRef<Node> _Node1;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -309,7 +309,7 @@ namespace WebEditor.Models
     partial void OnParentIdChanged();
     partial void OnIsFolderChanging(bool value);
     partial void OnIsFolderChanged();
-    partial void OnPositionChanging(System.Nullable<int> value);
+    partial void OnPositionChanging(int value);
     partial void OnPositionChanged();
     #endregion
 		
@@ -317,7 +317,7 @@ namespace WebEditor.Models
 		{
 			this._Nodes = new EntitySet<Node>(new Action<Node>(this.attach_Nodes), new Action<Node>(this.detach_Nodes));
 			this._Course = default(EntityRef<Course>);
-			this._ParentNode = default(EntityRef<Node>);
+			this._Node1 = default(EntityRef<Node>);
 			OnCreated();
 		}
 		
@@ -396,7 +396,7 @@ namespace WebEditor.Models
 			{
 				if ((this._ParentId != value))
 				{
-					if (this._ParentNode.HasLoadedOrAssignedValue)
+					if (this._Node1.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -429,8 +429,8 @@ namespace WebEditor.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Position", DbType="Int")]
-		public System.Nullable<int> Position
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Position", DbType="Int NOT NULL")]
+		public int Position
 		{
 			get
 			{
@@ -496,26 +496,26 @@ namespace WebEditor.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Node_Node", Storage="_ParentNode", ThisKey="ParentId", OtherKey="Id", IsForeignKey=true)]
-		public Node ParentNode
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Node_Node", Storage="_Node1", ThisKey="ParentId", OtherKey="Id", IsForeignKey=true)]
+		public Node Node1
 		{
 			get
 			{
-				return this._ParentNode.Entity;
+				return this._Node1.Entity;
 			}
 			set
 			{
-				Node previousValue = this._ParentNode.Entity;
+				Node previousValue = this._Node1.Entity;
 				if (((previousValue != value) 
-							|| (this._ParentNode.HasLoadedOrAssignedValue == false)))
+							|| (this._Node1.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._ParentNode.Entity = null;
+						this._Node1.Entity = null;
 						previousValue.Nodes.Remove(this);
 					}
-					this._ParentNode.Entity = value;
+					this._Node1.Entity = value;
 					if ((value != null))
 					{
 						value.Nodes.Add(this);
@@ -525,7 +525,7 @@ namespace WebEditor.Models
 					{
 						this._ParentId = default(Nullable<int>);
 					}
-					this.SendPropertyChanged("ParentNode");
+					this.SendPropertyChanged("Node1");
 				}
 			}
 		}
@@ -553,13 +553,13 @@ namespace WebEditor.Models
 		private void attach_Nodes(Node entity)
 		{
 			this.SendPropertyChanging();
-			entity.ParentNode = this;
+			entity.Node1 = this;
 		}
 		
 		private void detach_Nodes(Node entity)
 		{
 			this.SendPropertyChanging();
-			entity.ParentNode = null;
+			entity.Node1 = null;
 		}
 	}
 }

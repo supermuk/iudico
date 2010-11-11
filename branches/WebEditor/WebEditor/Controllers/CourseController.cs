@@ -25,8 +25,14 @@ namespace WebEditor.Controllers
         public ActionResult Index()
         {
             var courses = Storage.GetCourses();
-
-            return View(courses);
+            if (courses != null)
+            {
+                return View(courses);
+            }
+            else
+            {
+                return View("Error");
+            }
         }
 
         public ActionResult Create()
@@ -37,19 +43,25 @@ namespace WebEditor.Controllers
         [HttpPost]
         public ActionResult Create(Course course)
         {
-            Storage.AddCourse(course);
-
-            return RedirectToAction("Index");
+            int? id = Storage.AddCourse(course);
+            if (id != null)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View("Error");
+            }
         }
 
         public ActionResult Edit(int courseId)
         {
-            try
+            Course course = Storage.GetCourse(courseId);
+            if (course != null)
             {
-                Course course = Storage.GetCourse(courseId);
                 return View(course);
             }
-            catch
+            else
             {
                 return View("Error");
             }
@@ -58,12 +70,12 @@ namespace WebEditor.Controllers
         [HttpPost]
         public ActionResult Edit(int courseId, Course course)
         {
-            try
+            bool result = Storage.UpdateCourse(courseId, course);
+            if(result)
             {
-                Storage.UpdateCourse(courseId, course);
                 return RedirectToAction("Index");
             }
-            catch
+            else
             {
                 return View("Error");
             }
@@ -72,15 +84,22 @@ namespace WebEditor.Controllers
         [HttpDelete]
         public ActionResult Delete(int courseId)
         {
-            try
+            bool result = Storage.DeleteCourse(courseId);
+            if(result)
             {
-                Storage.DeleteCourse(courseId);
                 return RedirectToAction("Index");
             }
-            catch
+            else
             {
                 return View("Error");
             }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteMany(int[] courseIds)
+        {
+            bool result = Storage.DeleteCourses(new List<int>(courseIds));
+            return Json(new { success = result });
         }
     }
 }
