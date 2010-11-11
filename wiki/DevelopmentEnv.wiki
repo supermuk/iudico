@@ -1,6 +1,7 @@
 #labels Featured
 = Development Environment =
 
+Required software:
   # TortoiseSVN: http://tortoisesvn.net/downloads
   # SQL Server 2005 Express: http://www.microsoft.com/Sqlserver/2005/en/us/express-down.aspx
   # Microsoft SQL Server Management Studio Express: http://www.microsoft.com/downloads/details.aspx?FamilyID=c243a5ae-4bd1-4e3d-94b8-5a0f62bf7796&DisplayLang=en
@@ -22,11 +23,11 @@ To start adding features to IUDICO you need to perform the following steps.
 
 == Getting Code ==
 
-  # Download the latest version of IUDICO: http://code.google.com/p/iudico/source/checkout
+  # Download the latest version of IUDICO:
       a. Create new folder <br>
       b. Right-click mouse <br>
       c. SVN Checkout <br>
-      d. URL of repository http://iudico.googlecode.com/svn/trunk/ or some branch as in the example (check where is the latest version) <br>
+      d. URL of repository https://iudico.googlecode.com/svn/trunk/ or some branch as in the example (check where is the latest version) <br>
       http://img341.imageshack.us/img341/5996/70008924.jpg
 
 = Setup Database ==
