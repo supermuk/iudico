@@ -269,6 +269,7 @@ CKEDITOR.config =
 		'htmldataprocessor,' +
 		'image,' +
 		'indent,' +
+        'iudico,' +
 		'justify,' +
 		'keystrokes,' +
 		'link,' +
