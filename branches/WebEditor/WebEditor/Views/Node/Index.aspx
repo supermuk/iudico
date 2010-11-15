@@ -40,6 +40,7 @@
 		                "url": "<%: Url.Action("List", "Node") %>",
 		                "data": function (n) {
 		                    var id = n.attr("id").replace("node_", "");
+                            
                             return {
 		                        "id": (id > 0 ? id : null)
 		                    };
@@ -172,16 +173,20 @@
 				});
 		    })
             .bind("remove.jstree", function (e, data) {
-		        var ids = [];
-                
-                data.rslt.obj.each(function () {
-                    ids.push($(this).attr('id').replace('node_', ''));
+                var ids = data.rslt.obj.map(function() {
+                    return $(this).attr('id').replace('node_', '');
                 });
+
+                var answer = confirm("Are you sure you want to delete " + ids.length + " selected nodes?");
+
+                if (answer == false) {
+                    return false;
+                }
                 
                 $.ajax({
                     type: 'post',
-		            url: "<%: Url.Action("Remove", "Node") %>",
-                    traditional: true,
+		            url: "<%: Url.Action("Delete", "Node") %>",
+                    /*traditional: true,*/
 		            data: {
 		                "ids": ids
 		            },

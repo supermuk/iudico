@@ -44,6 +44,9 @@ namespace WebEditor.Models.Storage
                 db.Courses.InsertOnSubmit(course);
                 db.SubmitChanges();
 
+                string path = GetCoursePath(course.Id);
+                @Directory.CreateDirectory(path);
+
                 return course.Id;
             }
             catch
@@ -63,6 +66,7 @@ namespace WebEditor.Models.Storage
                 oldCourse.Updated = DateTime.Now;
 
                 db.SubmitChanges();
+
                 return true;
             }
             catch
@@ -79,6 +83,9 @@ namespace WebEditor.Models.Storage
 
                 db.Courses.DeleteOnSubmit(course);
                 db.SubmitChanges();
+                
+                @Directory.Delete(GetCoursePath(id));
+
                 return true;
             }
             catch
@@ -95,6 +102,12 @@ namespace WebEditor.Models.Storage
 
                 db.Courses.DeleteAllOnSubmit(courses);
                 db.SubmitChanges();
+
+                foreach (var id in ids)
+                {
+                    @Directory.Delete(GetCoursePath(id));
+                }
+                
                 return true;
             }
             catch
@@ -139,15 +152,28 @@ namespace WebEditor.Models.Storage
             return db.Nodes.SingleOrDefault(n => n.Id == id);
         }
 
-        public int AddNode(Node node)
+        public int? AddNode(Node node)
         {
-            db.Nodes.InsertOnSubmit(node);
-            db.SubmitChanges();
+            try
+            {
+                db.Nodes.InsertOnSubmit(node);
+                db.SubmitChanges();
 
-            return node.Id;
+                if (node.IsFolder)
+                {
+                    string path = GetNodePath(node.Id);
+                    @Directory.CreateDirectory(path);
+                }
+
+                return node.Id;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
-        public void UpdateNode(int id, Node node)
+        public bool UpdateNode(int id, Node node)
         {
             try
             {
@@ -158,14 +184,16 @@ namespace WebEditor.Models.Storage
                 oldNode.Position = node.Position;
 
                 db.SubmitChanges();
+
+                return true;
             }
             catch (Exception)
             {
-
+                return false;
             }
         }
 
-        public void DeleteNode(int id)
+        public bool DeleteNode(int id)
         {
             try
             {
@@ -173,14 +201,18 @@ namespace WebEditor.Models.Storage
 
                 db.Nodes.DeleteOnSubmit(node);
                 db.SubmitChanges();
+
+                @Directory.Delete(GetNodePath(id));
+
+                return true;
             }
             catch (Exception)
             {
-                
+                return false;
             }
         }
 
-        public void DeleteNodes(List<int> ids)
+        public bool DeleteNodes(List<int> ids)
         {
             try
             {
@@ -188,30 +220,50 @@ namespace WebEditor.Models.Storage
 
                 db.Nodes.DeleteAllOnSubmit(nodes);
                 db.SubmitChanges();
+
+                foreach (var id in ids)
+                {
+                    @Directory.Delete(GetNodePath(id));
+                }
+
+                return true;
             }
             catch (Exception)
             {
-                
+                return false;
             }
         }
 
-        public int CreateCopy(Node node, int? parentId, int position)
+        public int? CreateCopy(Node node, int? parentId, int position)
         {
-            Node newnode = new Node
+            try
             {
-                CourseId = node.CourseId,
-                Name = node.Name,
-                ParentId = parentId,
-                IsFolder = node.IsFolder,
-                Position = position
-            };
+                Node newnode = new Node
+                {
+                    CourseId = node.CourseId,
+                    Name = node.Name,
+                    ParentId = parentId,
+                    IsFolder = node.IsFolder,
+                    Position = position
+                };
 
-            CopyNodes(node, newnode);
+                CopyNodes(node, newnode);
 
-            db.Nodes.InsertOnSubmit(newnode);
-            db.SubmitChanges();
+                db.Nodes.InsertOnSubmit(newnode);
+                db.SubmitChanges();
 
-            return newnode.Id;
+                if (newnode.IsFolder)
+                {
+                    string path = GetNodePath(newnode.Id);
+                    @Directory.CreateDirectory(path);
+                }
+
+                return newnode.Id;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public string GetNodeContents(int id)
@@ -224,8 +276,18 @@ namespace WebEditor.Models.Storage
         protected string GetNodePath(int nodeId)
         {
             Node node = db.Nodes.SingleOrDefault(n => n.Id == nodeId);
+            Node parent = node.Node1;
 
-            return Path.Combine(GetCoursePath(node.CourseId), nodeId.ToString() + ".html");
+            string path = node.Id.ToString() + (node.IsFolder ? ".html" : "");
+            
+            while(parent != null)
+            {
+                path = Path.Combine(parent.Id.ToString(), path);
+            }
+
+            path = Path.Combine(GetCoursePath(node.CourseId), path);
+
+            return path;
         }
 
         protected string GetCoursePath(int courseId)
@@ -260,6 +322,20 @@ namespace WebEditor.Models.Storage
                 if (child.Nodes.Count > 0)
                 {
                     CopyNodes(child, newchild);
+                }
+            }
+        }
+
+        protected void CreateFolders(Node newnode)
+        {
+            foreach (Node child in newnode.Nodes)
+            {
+                if (child.IsFolder)
+                {
+                    string path = GetNodePath(child.Id);
+                    Directory.CreateDirectory(path);
+
+                    CreateFolders(child);
                 }
             }
         }

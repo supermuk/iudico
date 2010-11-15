@@ -287,7 +287,7 @@ namespace WebEditor.Models
 		
 		private bool _IsFolder;
 		
-		private int _Position;
+		private System.Nullable<int> _Position;
 		
 		private EntitySet<Node> _Nodes;
 		
@@ -309,7 +309,7 @@ namespace WebEditor.Models
     partial void OnParentIdChanged();
     partial void OnIsFolderChanging(bool value);
     partial void OnIsFolderChanged();
-    partial void OnPositionChanging(int value);
+    partial void OnPositionChanging(System.Nullable<int> value);
     partial void OnPositionChanged();
     #endregion
 		
@@ -429,8 +429,8 @@ namespace WebEditor.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Position", DbType="Int NOT NULL")]
-		public int Position
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Position", DbType="Int")]
+		public System.Nullable<int> Position
 		{
 			get
 			{
