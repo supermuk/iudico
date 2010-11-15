@@ -33,8 +33,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotNetOpenAuth">
-      <HintPath>App_Data\DotNetOpenAuth.dll</HintPath>
+    <Reference Include="DotNetOpenAuth, Version=3.4.5.10202, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\DotNetOpenAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -74,6 +79,7 @@
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NodeController.cs" />
+    <Compile Include="Helpers\Zipper.cs" />
     <Compile Include="Models\Butterfly.cs">
       <DependentUpon>Butterfly.dbml</DependentUpon>
     </Compile>
@@ -112,6 +118,9 @@
     <Content Include="Content\ui-lightness\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\ui-lightness\jquery-ui-1.8.5.custom.css" />
     <Content Include="Global.asax" />
+    <Content Include="Lib\DotNetOpenAuth.dll" />
+    <Content Include="Lib\DotNetOpenAuth.xml" />
+    <Content Include="Lib\ICSharpCode.SharpZipLib.dll" />
     <Content Include="Scripts\custom\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\custom\ckeditor\ckeditor.js" />
     <Content Include="Scripts\custom\ckeditor\ckeditor_basic.js" />
@@ -700,7 +709,9 @@
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Downloads\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Models\Butterfly.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>

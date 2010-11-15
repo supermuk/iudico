@@ -14,6 +14,8 @@ namespace WebEditor.Models.Storage
         bool UpdateCourse(int id, Course course);
         bool DeleteCourse(int id);
         bool DeleteCourses(List<int> ids);
+        string Export(int id);
+        int? Import(string path);
 
         List<Node> GetNodes(int courseId);
         List<Node> GetNodes(int courseId, int? parentId);

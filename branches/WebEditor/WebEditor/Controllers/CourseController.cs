@@ -7,6 +7,7 @@ using System.Web.Routing;
 
 using WebEditor.Models;
 using WebEditor.Models.Storage;
+using System.IO;
 
 namespace WebEditor.Controllers
 {
@@ -111,6 +112,39 @@ namespace WebEditor.Controllers
             catch (Exception)
             {
                 return Json(new { success = false });
+            }
+        }
+
+        public FilePathResult Export(int courseId)
+        {
+            string path = Storage.Export(courseId);
+            return new FilePathResult(path, "application/octet-stream") { FileDownloadName = Storage.GetCourse(courseId).Name + ".zip" };
+        }
+
+        public ActionResult Import()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Import(HttpPostedFileBase FileUpload)
+        {
+            try
+            {
+                string path = HttpContext.Request.PhysicalApplicationPath;
+                path = Path.Combine(path, "Downloads");
+                path = Path.Combine(path, Guid.NewGuid().ToString());
+                Directory.CreateDirectory(path);
+                path = Path.Combine(path, FileUpload.FileName.Split('\\').Last());
+                FileUpload.SaveAs(path);
+
+                Storage.Import(path);
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View("Error");
             }
         }
     }

@@ -50,6 +50,7 @@
      <p>
         
         <%: Html.ActionLink("Create New", "Create") %> |
+        <%: Html.ActionLink("Import", "Import") %> |
         <a id="DeleteMany" href="#">Delete Selected</a>
     </p>
     <table>
@@ -97,6 +98,7 @@
             <td>
                 <%: Html.ActionLink("Edit", "Edit", new { CourseID = item.Id })%> |
                 <%: Html.ActionLink("Details", "Index", "Node", new { CourseID = item.Id}, null) %> |
+                <%: Html.ActionLink("Export", "Export", new { CourseID = item.Id }) %> |
                 <%: Ajax.ActionLink("Delete", "Delete", new { CourseID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete" })%>
             </td>
         </tr>
