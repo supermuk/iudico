@@ -38,27 +38,48 @@ namespace WebEditor.Controllers
         [HttpPost]
         public JsonResult List(int? id)
         {
-            var nodes = Storage.GetNodes(CurrentCourse.Id, id).ToJsTreeList();
+            try
+            {
+                var nodes = Storage.GetNodes(CurrentCourse.Id, id).ToJsTreeList();
 
-            return Json(nodes);
+                return Json(nodes);
+            }
+            catch (Exception)
+            {
+                return Json(new {});
+            }
         }
 
         [HttpPost]
         public JsonResult Create(Node node)
         {
-            node.CourseId = CurrentCourse.Id;
+            try
+            {
+                node.CourseId = CurrentCourse.Id;
 
-            int id = Storage.AddNode(node);
+                int? id = Storage.AddNode(node);
 
-            return Json(new {status = true, id = node.Id});
+                if (id != null)
+                {
+                    return Json(new { status = true, id = node.Id });
+                }
+                else
+                {
+                    return Json(new { status = false });
+                }
+            }
+            catch
+            {
+                return Json(new { status = false });
+            }
         }
 
         [HttpPost]
-        public JsonResult Remove(List<int> ids)
+        public JsonResult Delete(int[] ids)
         {
             try
             {
-                Storage.DeleteNodes(ids);
+                Storage.DeleteNodes(new List<int>(ids));
 
                 return Json(new {status = true});
             }
@@ -71,39 +92,67 @@ namespace WebEditor.Controllers
         [HttpPost]
         public JsonResult Rename(int id, string name)
         {
-            Node node = Storage.GetNode(id);
-            node.Name = name;
-            Storage.UpdateNode(id, node);
+            try
+            {
+                Node node = Storage.GetNode(id);
+                node.Name = name;
+                Storage.UpdateNode(id, node);
 
-            return Json(new { status = true });
+                return Json(new { status = true });
+            }
+            catch (Exception)
+            {
+                return Json(new { status = false });
+            }
         }
 
         [HttpPost]
         public JsonResult Move(int id, int? parentId, int position, bool copy)
         {
-            Node node = Storage.GetNode(id);
-
-            if (copy)
+            try
             {
-                int newId = Storage.CreateCopy(node, parentId, position);
+                Node node = Storage.GetNode(id);
 
-                return Json(new { status = true, id = newId });
+                if (copy)
+                {
+                    int? newId = Storage.CreateCopy(node, parentId, position);
+
+                    if (newId != null)
+                    {
+                        return Json(new {status = true, id = newId});
+                    }
+                    else
+                    {
+                        return Json(new {status = false});
+                    }
+                }
+                else
+                {
+                    node.ParentId = parentId;
+                    node.Position = position;
+
+                    Storage.UpdateNode(id, node);
+
+                    return Json(new {status = true, id = id});
+                }
             }
-            else
+            catch
             {
-                node.ParentId = parentId;
-                node.Position = position;
-
-                Storage.UpdateNode(id, node);
-
-                return Json(new {status = true, id = id});
+                return Json(new { status = false });
             }
         }
 
         [HttpPost]
         public JsonResult Data(int id)
         {
-            return Json(new {data = Storage.GetNodeContents(id)});
+            try
+            {
+                return Json(new { data = Storage.GetNodeContents(id), status = true });
+            }
+            catch (Exception)
+            {
+                return Json(new {status = false });
+            }
         }
     }
 }

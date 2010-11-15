@@ -25,6 +25,7 @@ namespace WebEditor.Controllers
         public ActionResult Index()
         {
             var courses = Storage.GetCourses();
+
             if (courses != null)
             {
                 return View(courses);
@@ -44,6 +45,7 @@ namespace WebEditor.Controllers
         public ActionResult Create(Course course)
         {
             int? id = Storage.AddCourse(course);
+            
             if (id != null)
             {
                 return RedirectToAction("Index");
@@ -57,6 +59,7 @@ namespace WebEditor.Controllers
         public ActionResult Edit(int courseId)
         {
             Course course = Storage.GetCourse(courseId);
+
             if (course != null)
             {
                 return View(course);
@@ -71,7 +74,8 @@ namespace WebEditor.Controllers
         public ActionResult Edit(int courseId, Course course)
         {
             bool result = Storage.UpdateCourse(courseId, course);
-            if(result)
+            
+            if (result)
             {
                 return RedirectToAction("Index");
             }
@@ -85,7 +89,8 @@ namespace WebEditor.Controllers
         public ActionResult Delete(int courseId)
         {
             bool result = Storage.DeleteCourse(courseId);
-            if(result)
+            
+            if (result)
             {
                 return RedirectToAction("Index");
             }
@@ -96,10 +101,17 @@ namespace WebEditor.Controllers
         }
 
         [HttpPost]
-        public JsonResult DeleteMany(int[] courseIds)
+        public JsonResult Delete(int[] courseIds)
         {
-            bool result = Storage.DeleteCourses(new List<int>(courseIds));
-            return Json(new { success = result });
+            try
+            {
+                bool result = Storage.DeleteCourses(new List<int>(courseIds));
+                return Json(new { success = result });
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false });
+            }
         }
     }
 }

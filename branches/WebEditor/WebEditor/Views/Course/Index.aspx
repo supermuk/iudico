@@ -7,28 +7,34 @@
         $(document).ready(function () {
             $("#DeleteMany").click(function () {
                 var ids = $("td input:checked").map(function () {
-                    return this.id
+                    return $(this).attr('id');
                 });
+
                 if (ids.length == 0) {
                     alert("Please select courses to delete");
+                    
                     return false;
                 }
+
                 var answer = confirm("Are you sure you want to delete " + ids.length + " selected courses?");
-                if (answer) {
-                    $.ajax({
-                        type: "post",
-                        url: "DeleteMany",
-                        data: { courseIds: ids },
-                        success: function (r) {
-                            if (r.success) {
-                                $("td input:checked").parents("tr").remove();
-                            }
-                            else {
-                                alert("Error occured during proccessing request");
-                            }
-                        }
-                    });
+
+                if (answer == false) {
+                    return false;
                 }
+
+                $.ajax({
+                    type: "post",
+                    url: "Delete",
+                    data: { courseIds: ids },
+                    success: function (r) {
+                        if (r.success) {
+                            $("td input:checked").parents("tr").remove();
+                        }
+                        else {
+                            alert("Error occured during proccessing request");
+                        }
+                    }
+                });
             });
 
         });
