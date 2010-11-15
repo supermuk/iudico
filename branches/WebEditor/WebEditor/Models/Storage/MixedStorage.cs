@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.IO;
+using System.Security.AccessControl;
 
 namespace WebEditor.Models.Storage
 {
@@ -113,6 +115,57 @@ namespace WebEditor.Models.Storage
             catch
             {
                 return false;   
+            }
+        }
+
+        public string Export(int id)
+        {
+            try
+            {
+                Course course = this.GetCourse(id);
+
+                string path = HttpContext.Current.Request.PhysicalApplicationPath;
+                path = Path.Combine(path, "Downloads");
+                path = Path.Combine(path, Guid.NewGuid().ToString());
+                path = Path.Combine(path, course.Name);
+                Directory.CreateDirectory(path);
+                List<Node> nodes = this.GetNodes(id);
+                for(int i = 0; i < nodes.Count; i++)
+                {
+                    if (nodes[i].IsFolder == false)
+                    {
+                        FileStream fs = File.Create(Path.Combine(path, nodes[i].Name + ".html"));
+                        fs.Close();
+                    }
+                    else
+                    {
+                        List<Node> subNodes = this.GetNodes(id, nodes[i].Id);
+                        nodes.AddRange(subNodes);
+                    }
+                }
+                WebEditor.Helpers.Zipper.CreateZip(path + ".zip", path);
+                return path + ".zip";
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public int? Import(string path)
+        {
+            try
+            {
+                Course course = new Course();
+                string folderPath = path.Substring(0, path.Length - 4);
+                WebEditor.Helpers.Zipper.ExtractZipFile(path, folderPath);
+                course.Name = folderPath.Split('\\').Last();
+                course.Owner = "Imported";
+                return this.AddCourse(course);
+            }
+            catch
+            {
+                return null;
             }
         }
 
