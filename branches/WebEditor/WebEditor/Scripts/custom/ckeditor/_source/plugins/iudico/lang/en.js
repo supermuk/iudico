@@ -2,8 +2,17 @@
 {
     iudico :
     {
-        title : 'IUDICO',
-        question : 'Question',
+        title: 'IUDICO',
+
+        simpleTab: 'Simple',
+        choiceTab: 'Choice',
+        compileTab: 'Compile',
+
+        correctAnswer: 'Correct Answer:',
+        question: 'Question:',
+
+
+
         type : 'Type',
         toolbar: 'IUDICO',
         simple: 'Simple',

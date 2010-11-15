@@ -1,98 +1,112 @@
 ﻿CKEDITOR.dialog.add('iudico', function (editor) {
     //var lang = editor.lang.about;
 
+    function addParam(element, name, value) {
+        documentObject = element.getDocument();
+        paramNode = documentObject.createElement("param");
+
+        paramNode.setAttribute(name, value);
+
+        element.append(paramNode);
+    }
+
     return {
         title: editor.lang.iudico.title,
         minWidth: 390,
         minHeight: 230,
-        onOk: function () { },
-		onCancel: function () { },
-		onLoad: function (data) { },
+        onOk: function () {
+            //if (isInsertMode)
+            objectNode = editor.document.createElement('object');
+            objectNode.setAttribute('iudico', 'true');
+
+            //param = editor.document.createElement("param");
+
+            //element.append(param);
+
+
+            // later
+            this.commitContent(objectNode);
+
+
+            //if (isInsertMode)
+            editor.insertElement(objectNode);
+        },
+        onCancel: function () { },
+        onLoad: function (data) { },
         contents: [
 			{
 			    id: 'simpleTab',
 			    label: editor.lang.iudico.simpleTab,
 			    title: editor.lang.iudico.simpleTab,
-			    expand: true,
-			    padding: 0,
+			    padding: 2,
 			    elements:
 				[
                     {
-						id : 'questionType',
-						type : 'select',
-						label : editor.lang.iudico.type,
-						'default' : 'simple',
-						items :
-						[
-                        /*
-							[ editor.lang.iudico.simple, 'simple' ],
-							[ editor.lang.iudico.choice, 'choice' ],
-							[ editor.lang.iudico.compile, 'compile' ]
-                        */
-						],
-						//onChange : linkTypeChanged,
-						setup : function( data )
-						{
-							if ( data.type )
-							    this.setValue( data.type );
-						},
-						commit : function( data )
-						{
-							data.type = this.getValue();
-						}
-					},
-					{
-					    type: 'html',
-					    html:
-                            '<div class="cke_iudico_container">' +
-                                
-                            '</div>'
-					}
-				],			    
+                        id: 'question',
+                        type: 'text',
+                        label: editor.lang.iudico.question,
+                        labelLayout: 'horizontal',
+                        commit: function (element) {
+                            addParam(element, 'question', this.getValue());
+                        }
+
+                    },
+                    {
+                        id: 'correctAnswer',
+                        type: 'text',
+                        label: editor.lang.iudico.correctAnswer,
+                        labelLayout: 'horizontal',
+                        commit: function (element) {
+                            addParam(element, 'correctAnswer', this.getValue());
+                        }
+                    }
+				]
 			},
             {
-			    id: 'choiceTab',
-			    label: editor.lang.iudico.simpleTab,
-			    title: editor.lang.iudico.simpleTab,
-			    expand: true,
-			    padding: 0,
-			    elements:
+                id: 'choiceTab',
+                label: editor.lang.iudico.choiceTab,
+                title: editor.lang.iudico.choiceTab,
+                expand: true,
+                padding: 0,
+                elements:
 				[
-                    {
-						id : 'questionType',
-						type : 'select',
-						label : editor.lang.iudico.type,
-						'default' : 'simple',
-						items :
-						[
-                        /*
-							[ editor.lang.iudico.simple, 'simple' ],
-							[ editor.lang.iudico.choice, 'choice' ],
-							[ editor.lang.iudico.compile, 'compile' ]
-                        */
-						],
-						//onChange : linkTypeChanged,
-						setup : function( data )
-						{
-							if ( data.type )
-							    this.setValue( data.type );
-						},
-						commit : function( data )
-						{
-							data.type = this.getValue();
-						}
-					},
-					{
-					    type: 'html',
-					    html:
-                            '<div class="cke_iudico_container">' +
-                                
-                            '</div>'
-					}
-				],			    
-			}
+
+				]
+            },
+            {
+                id: 'compileTab',
+                label: editor.lang.iudico.compileTab,
+                title: editor.lang.iudico.compileTab,
+                expand: true,
+                padding: 0,
+                elements:
+				[
+
+				]
+            }
 		],
-        
+
         buttons: [CKEDITOR.dialog.okButton, CKEDITOR.dialog.cancelButton]
     };
 });
+
+
+/* 'default' : 'simple',
+						items :
+						[
+
+							[ editor.lang.iudico.simple, 'simple' ],
+							[ editor.lang.iudico.choice, 'choice' ],
+							[ editor.lang.iudico.compile, 'compile' ]
+
+						],
+						//onChange : linkTypeChanged,
+						setup : function( data )
+						{
+							if ( data.type )
+							    this.setValue( data.type );
+						},
+						commit : function( data )
+						{
+							data.type = this.getValue();
+						}                        */
