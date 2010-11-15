@@ -62,7 +62,7 @@ namespace WebEditor.Controllers
 
                 return Json(new {status = true});
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Json(new {status = false});
             }
@@ -98,6 +98,12 @@ namespace WebEditor.Controllers
 
                 return Json(new {status = true, id = id});
             }
+        }
+
+        [HttpPost]
+        public JsonResult Data(int id)
+        {
+            return Json(new {data = Storage.GetNodeContents(id)});
         }
     }
 }

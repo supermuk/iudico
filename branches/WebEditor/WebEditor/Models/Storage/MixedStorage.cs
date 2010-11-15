@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -127,7 +128,7 @@ namespace WebEditor.Models.Storage
 
                 return nodes;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new List<Node>();
             }
@@ -158,7 +159,7 @@ namespace WebEditor.Models.Storage
 
                 db.SubmitChanges();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -173,7 +174,7 @@ namespace WebEditor.Models.Storage
                 db.Nodes.DeleteOnSubmit(node);
                 db.SubmitChanges();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 
             }
@@ -188,7 +189,7 @@ namespace WebEditor.Models.Storage
                 db.Nodes.DeleteAllOnSubmit(nodes);
                 db.SubmitChanges();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 
             }
@@ -213,7 +214,37 @@ namespace WebEditor.Models.Storage
             return newnode.Id;
         }
 
-        public void CopyNodes(Node node, Node newnode)
+        public string GetNodeContents(int id)
+        {
+            string nodePath = GetNodePath(id);
+
+            return File.ReadAllText(nodePath);
+        }
+
+        protected string GetNodePath(int nodeId)
+        {
+            Node node = db.Nodes.SingleOrDefault(n => n.Id == nodeId);
+
+            return Path.Combine(GetCoursePath(node.CourseId), nodeId.ToString() + ".html");
+        }
+
+        protected string GetCoursePath(int courseId)
+        {
+            string path;
+
+            if (HttpContext.Current == null)
+            {
+                path = Path.Combine(System.Environment.CurrentDirectory, "Site");
+            }
+            else
+            {
+                path = HttpContext.Current.Request.PhysicalApplicationPath;
+            }
+
+            return Path.Combine(path, "Data", courseId.ToString());
+        }
+
+        protected void CopyNodes(Node node, Node newnode)
         {
             foreach (Node child in node.Nodes)
             {

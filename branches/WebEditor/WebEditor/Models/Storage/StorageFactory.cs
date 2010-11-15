@@ -20,16 +20,12 @@ namespace WebEditor.Models.Storage
             {
                 case StorageType.Database:
                     throw new NotImplementedException();
-                    break;
                 case StorageType.FileSystem:
                     throw new NotImplementedException();
-                    break;
                 case StorageType.Mixed:
                     return new MixedStorage();
-                    break;
                 default:
                     throw new Exception("Can't create storage of such type");
-                    break;
             }
         }
     }
