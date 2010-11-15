@@ -33,8 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ASTreeView">
-      <HintPath>App_Data\ASTreeView.dll</HintPath>
+    <Reference Include="DotNetOpenAuth, Version=3.4.5.10202, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DotNetOpenAuth.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -69,6 +70,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -90,7 +92,7 @@
     <Compile Include="Models\Metadata.cs" />
     <Compile Include="Models\Storage\MixedStorage.cs" />
     <Compile Include="Models\Storage\StorageFactory.cs" />
-    <Compile Include="Models\Storage\StorageInterface.cs" />
+    <Compile Include="Models\Storage\IStorageInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -660,6 +662,8 @@
     <Content Include="Scripts\jquery\jquery.hotkeys.js" />
     <Content Include="Scripts\jquery\jquery.jstree.js" />
     <Content Include="Scripts\jquery\jquery.layout.js" />
+    <Content Include="Views\Account\Index.aspx" />
+    <Content Include="Views\Account\LogOn.aspx" />
     <Content Include="Views\Course\Create.aspx" />
     <Content Include="Views\Course\Edit.aspx" />
     <Content Include="Views\Course\Index.aspx" />
@@ -697,16 +701,14 @@
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Node\Partial\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Models\Butterfly.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>Butterfly.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Views\Shared\Course.Master" />
+    <Content Include="Views\Shared\Empty.Master" />
     <Content Include="Views\Shared\DisplayTemplates\Template.Master" />
     <Content Include="Views\Shared\EditorTemplates\Template.Master" />
   </ItemGroup>

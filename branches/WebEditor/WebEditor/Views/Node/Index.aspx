@@ -1,10 +1,28 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<WebEditor.Models.Course>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Empty.Master" Inherits="System.Web.Mvc.ViewPage<WebEditor.Models.Course>" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
+<asp:Content ID="TitleContent1" ContentPlaceHolderID="TitleContent" runat="server">
 	Index
 </asp:Content>
 
-<asp:Content ID="HeadContent" ContentPlaceHolderID="HeadContent" runat="server">
+<asp:Content ID="HeadContent2" ContentPlaceHolderID="HeadContent" runat="server">
+    <link href="/Content/ui-lightness/jquery-ui-1.8.5.custom.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="/Scripts/jquery/jquery.layout.js"></script>
+    <script type="text/javascript" src="/Scripts/custom/ckeditor/ckeditor_source.js"></script>
+    <script type="text/javascript" src="/Scripts/custom/ckeditor/adapters/jquery.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('body').layout({ applyDefaultStyles: true });
+
+            CKEDITOR.on('instanceReady',
+              function (evt) {
+                  var editor = evt.editor;
+                  //editor.execCommand('maximize');
+              }
+            );
+        });
+    </script>
+
     <script src="/Scripts/jquery/jquery.cookie.js" type="text/javascript"></script>
     <script src="/Scripts/jquery/jquery.hotkeys.js" type="text/javascript"></script>
     <script src="/Scripts/jquery/jquery.jstree.js" type="text/javascript"></script>
@@ -66,60 +84,68 @@
                         return {
                             "create": {
                                 "separator_before": false,
-                                "separator_after": true,
+                                "separator_after": false,
                                 "label": "Create Node",
                                 "action": function (obj) { this.create(obj); },
                                 "_disabled": node.attr("rel") == "default"
                             },
                             "create_folder": {
                                 "separator_before": false,
-                                "separator_after": true,
+                                "separator_after": false,
                                 "label": "Create Folder",
                                 "action": function (obj) { this.create(obj, "last", {"attr": {"rel": "folder"}}); },
                                 "_disabled": node.attr("rel") == "default"
                             },
-                            "rename": {
+                            "edit": {
+                                "separator_before": true,
+                                "separator_after": false,
+                                "label": "Edit",
+                                "action": function (obj) {
+                                    this.get_container().triggerHandler("edit_node.jstree", { "obj": obj });
+                                },
+                                "_disabled": node.attr("rel") != "default"
+                            },
+                            "preview": {
                                 "separator_before": false,
+                                "separator_after": false,
+                                "label": "Preview",
+                                "action": function (obj) {
+                                    this.get_container().triggerHandler("preview_node.jstree", { "obj": obj });
+                                },
+                                "_disabled": node.attr("rel") != "default"
+                            },
+                            "rename": {
+                                "separator_before": true,
                                 "separator_after": false,
                                 "label": "Rename",
                                 "action": function (obj) { this.rename(obj); }
                             },
-                            "remove": {
+                            "delete": {
                                 "separator_before": false,
-                                "icon": false,
                                 "separator_after": false,
                                 "label": "Delete",
                                 "action": function (obj) { if (this.is_selected(obj)) { this.remove(); } else { this.remove(obj); } }
                             },
-                            "ccp": {
+                            "cut": {
                                 "separator_before": true,
+                                "separator_after": false,
+                                "label": "Cut",
+                                "action": function (obj) { this.cut(obj); }
+                            },
+                            "copy": {
+                                "separator_before": false,
                                 "icon": false,
                                 "separator_after": false,
-                                "label": "Edit",
-                                "action": false,
-                                "submenu": {
-                                    "cut": {
-                                        "separator_before": false,
-                                        "separator_after": false,
-                                        "label": "Cut",
-                                        "action": function (obj) { this.cut(obj); }
-                                    },
-                                    "copy": {
-                                        "separator_before": false,
-                                        "icon": false,
-                                        "separator_after": false,
-                                        "label": "Copy",
-                                        "action": function (obj) { this.copy(obj); }
-                                    },
-                                    "paste": {
-                                        "separator_before": false,
-                                        "icon": false,
-                                        "separator_after": false,
-                                        "label": "Paste",
-                                        "action": function (obj) { this.paste(obj); },
-                                        "_disabled" : !(this.data.crrm.ct_nodes || this.data.crrm.cp_nodes) || node.attr("rel") == "default"
-                                    }
-                                }
+                                "label": "Copy",
+                                "action": function (obj) { this.copy(obj); }
+                            },
+                            "paste": {
+                                "separator_before": false,
+                                "icon": false,
+                                "separator_after": false,
+                                "label": "Paste",
+                                "action": function (obj) { this.paste(obj); },
+                                "_disabled" : !(this.data.crrm.ct_nodes || this.data.crrm.cp_nodes) || node.attr("rel") == "default"
                             }
                         }
                     }
@@ -211,12 +237,44 @@
 						}
 					});
 				});
-			});
+			})
+            .bind("preview_node.jstree", function(e, data) {
+                $.ajax({
+                    type: 'post',
+		            url: "<%: Url.Action("Data", "Node") %>",
+					data: {
+						"id": data.obj.attr("id").replace("node_", ""),
+					},
+					success: function (r) {
+					    $('.ui-layout-center').html(r.data);
+					}
+				});
+            })
+            .bind("edit_node.jstree", function(e, data) {
+                $.ajax({
+                    type: 'post',
+		            url: "<%: Url.Action("Data", "Node") %>",
+					data: {
+						"id": data.obj.attr("id").replace("node_", ""),
+					},
+					success: function (r) {
+                        var $txt = $('<textarea></textarea>').attr('name', 'editor').html(r.data);
+					    $('.ui-layout-center').html($txt);
+
+                        $txt.ckeditor();
+					}
+				});
+            });
         });
     </script>
 </asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <div id="treeView"></div>
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <div class="ui-layout-center"></div>
+    <div class="ui-layout-north"></div>
+    <div class="ui-layout-south ui-widget-header ui-corner-all"></div>
+    <div class="ui-layout-east"></div>
+    <div class="ui-layout-west"><div id="treeView"></div></div>
+
 </asp:Content>
 
