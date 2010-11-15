@@ -61,6 +61,7 @@ namespace WebEditor.Controllers
             if (!Identifier.IsValid(loginIdentifier))
             {
                 ModelState.AddModelError("loginIdentifier", "The specified login identifier is invalid");
+                
                 return View();
             }
             else
