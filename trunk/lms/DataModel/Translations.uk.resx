@@ -1,0 +1,660 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ServerModel_Initialize_Initializing_ServerModel___" xml:space="preserve">
+    <value>Ініціалізація ServerModel...</value>
+  </data>
+  <data name="ServerModel_TableRecordAttributeInitialize_Couldn_t_found_DB_value_for__0___1__marked_with__2_" xml:space="preserve">
+    <value>Couldn't found DB value for {0}.{1} marked with {2}</value>
+  </data>
+  <data name="FormsModel_BuildRedirectUrl_BackUrl_is_not_specified" xml:space="preserve">
+    <value>BackUrl is not specified</value>
+  </data>
+  <data name="ControlledPage_CheckBindingAllowed_Binding_is_not_allowed" xml:space="preserve">
+    <value>Binding is not allowed</value>
+  </data>
+  <data name="PermissionsManager_Grand_One_and_only_one_of_parameters__userID__groupID__must_be_specified" xml:space="preserve">
+    <value>Один і тільки один з параметрів (userID, groupID) мусить бути зазначеним</value>
+  </data>
+  <data name="PermissionsManager_Delegate_One_and_only_one_of_parameters__targetUserID__targetGroupID__must_be_specified" xml:space="preserve">
+    <value>Один і тільки один з параметрів (targetUserID, targetGroupID) мусить бути зазначеним</value>
+  </data>
+  <data name="PermissionsManager_Delegate_" xml:space="preserve">
+    <value>Користувач {0} не має доступу до {1} на {2} ID = {3}. Неможливо виконати дію</value>
+  </data>
+  <data name="PermissionsManager_Initialize_Initializing_Security" xml:space="preserve">
+    <value>Ініціалізація Security</value>
+  </data>
+  <data name="PermissionsManager_Initialize__0__is_already_initialized" xml:space="preserve">
+    <value>{0} вже ініціалізований</value>
+  </data>
+  <data name="PermissionsManager_CheckSupport_DataObject__0__must_support__1__interface_to_be_a_secured_object" xml:space="preserve">
+    <value>DataObject {0} must support {1} interface to be a secured object</value>
+  </data>
+  <data name="CustomUser_GetPassword_GetPassword_is_not_available" xml:space="preserve">
+    <value>GetPassword є недоступним</value>
+  </data>
+  <data name="CustomRoleProvider_CreateRole_CreateRole_is_not_allowed" xml:space="preserve">
+    <value>CreateRole не доволено</value>
+  </data>
+  <data name="CustomRoleProvider_DeleteRole_DeleteRole_is_not_allowed" xml:space="preserve">
+    <value>DeleteRole не дозволено</value>
+  </data>
+  <data name="CustomMembershipProvider_GetPassword_GetPassword_is_not_allowed" xml:space="preserve">
+    <value>GetPassword заборонено</value>
+  </data>
+  <data name="CustomMembershipProvider_ChangePassword_You_cann_t_change_password_of_another_user" xml:space="preserve">
+    <value>Ви не можете змінити пароль іншого користувача</value>
+  </data>
+  <data name="CustomMembershipProvider_ApplicationName_Changing_ApplicationName_is_not_allowed" xml:space="preserve">
+    <value>Зміна ApplicationName не є дозволеною</value>
+  </data>
+  <data name="ItemManager_Store_Cannot_get_rank_for_item" xml:space="preserve">
+    <value>Cannot get rank for item</value>
+  </data>
+  <data name="CourseManager_Import_No_imsmanifest_xml_file_found" xml:space="preserve">
+    <value>Не знайдено файлу imsmanifest.xml</value>
+  </data>
+  <data name="CourseManager_Import_No_answers_xml_file_found" xml:space="preserve">
+    <value>Не знайдено файлу answers.xml</value>
+  </data>
+  <data name="ObjectTypeHelper_GetObjectType_Could_not_figure_out_secured_index_of__0___All_SecuredDataObject_s_classes_should_be_added_to__1_" xml:space="preserve">
+    <value>Could not figure out secured index of {0}. All SecuredDataObject's classes should be added to {1}</value>
+  </data>
+  <data name="MultipleCondtion_MultipleCondtion_AndCondition_constructor_cannot_be_created_with_no_subcondition_or_with_only_one__You_must_provide_at_least_two_conditions" xml:space="preserve">
+    <value>AndCondition constructor cannot be created with no subcondition or with only one. You must provide at least two conditions</value>
+  </data>
+  <data name="ManyToManyRelationshipAttribute_CheckSupport_Class__0__is_not_support__1__so_it_cannot_take_participation_in_Many_To_Many_relationship" xml:space="preserve">
+    <value>Class {0} is not support {1} so it cannot take participation in Many-To-Many relationship</value>
+  </data>
+  <data name="FxDataObject_FxDataObject_Cannot_change_readonly_object__0_" xml:space="preserve">
+    <value>Неможливо змінити об'єкт, доступний лише для читання {0}</value>
+  </data>
+  <data name="RelTable_RelTable_Impossible_to_create_relation_dataobject__Please_use_methods_of_ServerModel_DB_instead" xml:space="preserve">
+    <value>Impossible to create relation dataobject. Please use methods of ServerModel.DB instead</value>
+  </data>
+  <data name="DataObjectSqlSerializer_AppendSoftDeleteSql_Collection_cannot_be_empty" xml:space="preserve">
+    <value>Колекція не може бути порожньою</value>
+  </data>
+  <data name="LookupHelper_RegisterMMLookup_Invalid_many_to_many_relationship_definition_for__0___1_" xml:space="preserve">
+    <value>Invalid many-to-many relationship definition for {0}-{1}</value>
+  </data>
+  <data name="LookupHelper_AppendLookupSql_Couldnt_found_relation_between__0__and__1_" xml:space="preserve">
+    <value>Couldnt found relation between {0} and {1}</value>
+  </data>
+  <data name="LookupHelper_AppendLookupSql_" xml:space="preserve">
+    <value>{0} має неправильний ID = {1}</value>
+  </data>
+  <data name="LookupHelper_AppendMMLookupSql_Couldnt_fond_many_to_many_relation_between__1__and__1_" xml:space="preserve">
+    <value>Couldnt fond many-to-many relation between {1} and {1}</value>
+  </data>
+  <data name="LookupHelper_AppendMMLinkSql_Couldnt_fond_many_to_many_relation_between__1__and__2_" xml:space="preserve">
+    <value>Couldnt fond many-to-many relation between {1} and {2}</value>
+  </data>
+  <data name="LookupHelper_CheckMMSupport_Cannot_register_many_to_many_relationship__Class__0__doesn_t_support__1_" xml:space="preserve">
+    <value>Cannot register many-to-many relationship. Class {0} doesn't support {1}</value>
+  </data>
+  <data name="LookupHelper_Put__WARNING__Ignored__0_____1__relationship_because_the_same_is_already_exists" xml:space="preserve">
+    <value>[WARNING] Ignored {0} - {1} relationship because the same is already exists</value>
+  </data>
+  <data name="DatabaseModel_DatabaseModel__Fx__method_is_not_initialized" xml:space="preserve">
+    <value>'Fx' метод не ініціалізований</value>
+  </data>
+  <data name="DatabaseModel_DatabaseModel__Load_List__method_is_not_initialized" xml:space="preserve">
+    <value>'Load List' метод не ініціалізований</value>
+  </data>
+  <data name="DatabaseModel_DatabaseModel_Unable_to_find__Query__method" xml:space="preserve">
+    <value>Неможливо знайти метод  'Query'</value>
+  </data>
+  <data name="DatabaseModel_DatabaseModel_Unable_to_find_Load_method" xml:space="preserve">
+    <value>Неможливо знайти метод Load</value>
+  </data>
+  <data name="DatabaseModel_DatabaseModel_Unable_to_find_Delete_method" xml:space="preserve">
+    <value>Неможливо знайти метод Delete</value>
+  </data>
+  <data name="DatabaseModel_Initialize_Initializing_Database_Model___" xml:space="preserve">
+    <value>Ініціалізація Database Model...</value>
+  </data>
+  <data name="DatabaseModel_Initialize_Class__0__cannot_take_participation_into_many_to_many_relationship_because_it_is_not_derived_from__1_" xml:space="preserve">
+    <value>Клас {0} не може братиучасті у відношенні багато-до-багатьох тому що він не є похідним {1}</value>
+  </data>
+  <data name="DatabaseModel_Initialize_Class__0__cannot_take_participation_into_many_to_many_relationship_because_it_is_not_marked_with__1_" xml:space="preserve">
+    <value>Клас {0} не може братиучасті у відношенні багато-до-багатьох тому що він не є позначеним {1}</value>
+  </data>
+  <data name="DatabaseModel_Insert_Inserting_" xml:space="preserve">
+    <value>Включеня</value>
+  </data>
+  <data name="DatabaseModel_Insert_Inserting_multiple_" xml:space="preserve">
+    <value>Включення кількох</value>
+  </data>
+  <data name="DatabaseModel_Insert_" xml:space="preserve">
+    <value>. Кількість = </value>
+  </data>
+  <data name="DatabaseModel_Insert_DataObject_has_been_already_inserted_" xml:space="preserve">
+    <value>DataObject вже був включеним.</value>
+  </data>
+  <data name="DatabaseModel_Insert_Invalid_Data_Reader" xml:space="preserve">
+    <value>Неправильний Data Reader</value>
+  </data>
+  <data name="DatabaseModel_Update_Updating_" xml:space="preserve">
+    <value>Оновлення</value>
+  </data>
+  <data name="DatabaseModel_Update_Updating_multiple_" xml:space="preserve">
+    <value>Оновлення багатьох</value>
+  </data>
+  <data name="DatabaseModel_Update_Executing_update_operation" xml:space="preserve">
+    <value>Виконання операції оновлення</value>
+  </data>
+  <data name="DatabaseModel_Load_Loading_" xml:space="preserve">
+    <value>Завантаження</value>
+  </data>
+  <data name="DatabaseModel_Load_Got_from_cache" xml:space="preserve">
+    <value>Отримане з кешу</value>
+  </data>
+  <data name="DatabaseModel_Load_Running_sql___" xml:space="preserve">
+    <value>Виконання sql...</value>
+  </data>
+  <data name="DatabaseModel_Load_Invalid_object_ID___0_" xml:space="preserve">
+    <value>Некоректний object ID: {0}</value>
+  </data>
+  <data name="DatabaseModel_Load_Loading_multiple_" xml:space="preserve">
+    <value>Завантаження кількох</value>
+  </data>
+  <data name="DatabaseModel_Load_Count_of_populated_objects___0___lower_than_requested_to_extract__1_" xml:space="preserve">
+    <value>Count of populated objects ({0}) lower than requested to extract {1}</value>
+  </data>
+  <data name="DatabaseModel_Delete_Removing_" xml:space="preserve">
+    <value>Видалення</value>
+  </data>
+  <data name="DatabaseModel_Delete_Removing_multiple_" xml:space="preserve">
+    <value>Видалення кількох</value>
+  </data>
+  <data name="DatabaseModel_LookupIds_Looking_up_ids_of_" xml:space="preserve">
+    <value>Пошук id для </value>
+  </data>
+  <data name="DatabaseModel_LookupIds__for_" xml:space="preserve">
+    <value>для</value>
+  </data>
+  <data name="DatabaseModel_Query_Custom_query_for_" xml:space="preserve">
+    <value>Custom query for </value>
+  </data>
+  <data name="DatabaseModel_QuerySingleOrDefault_Too_many_objects" xml:space="preserve">
+    <value>Занадто багато об'єктів</value>
+  </data>
+  <data name="DatabaseModel_LookupMany2ManyIds_Looking_up_many_2_many_ids_between_" xml:space="preserve">
+    <value>Looking up many-2-many ids between </value>
+  </data>
+  <data name="DatabaseModel_LookupMany2ManyIds__and_" xml:space="preserve">
+    <value>і</value>
+  </data>
+  <data name="DatabaseModel_UnLink_UnLinking_" xml:space="preserve">
+    <value>UnLinking </value>
+  </data>
+  <data name="DatabaseModel_RunInTransaction_Rolling_back_transaction___" xml:space="preserve">
+    <value>Відкат транзакції...</value>
+  </data>
+  <data name="UserInfoController_pageCaption" xml:space="preserve">
+    <value>Особиста інформація користувача</value>
+  </data>
+  <data name="UserInfoController_pageDescription_This_is_your_info_page__Here_you_can_change_your_name__email_and_password__Look_up_for_your_roles_and_groups_" xml:space="preserve">
+    <value>Це сторінка вашої особистої інформації. Тут ви можете змінити ім'я, email і пароль. Зверніть увагу на ваші ролі і групи.</value>
+  </data>
+  <data name="ControllerBase_RedirectToController_Already_redirected" xml:space="preserve">
+    <value>Вже перенаправлено</value>
+  </data>
+  <data name="ControllerParametersUtility_ControllerParametersUtility_Type__0__cannot_be_specified_for_controller_parameter" xml:space="preserve">
+    <value>Тип {0} не може бути визначеним для параметра контролера</value>
+  </data>
+  <data name="Admin_SearchPageSolrController_Button1_Click_No_data_found" xml:space="preserve">
+    <value>Даних не знайдено</value>
+  </data>
+  <data name="Admin_CreateSettingController_CreateSetting_Error_creating_setting___possibly_setting_with_such_name_already_exists" xml:space="preserve">
+    <value>Помилка при створенні налаштувань - можливо налаштування з таким ім'ям уже існує</value>
+  </data>
+  <data name="Admin_CreateBulkUserController_DoCreate_Group_name_is_empty" xml:space="preserve">
+    <value>Назва групи є порожньою</value>
+  </data>
+  <data name="Admin_CreateBulkUserController_DoCreate_Some_of_users_like_these_already_exist" xml:space="preserve">
+    <value>Деякі користувачі з такими іменами вже існують</value>
+  </data>
+  <data name="Admin_CreateBulkUserController_DoCreate_Password_is_not_specified" xml:space="preserve">
+    <value>Пароль не зазначено</value>
+  </data>
+  <data name="Admin_CreateBulkUserController_DoCreate__0__is_not_a_number" xml:space="preserve">
+    <value>{0} не є числом</value>
+  </data>
+  <data name="TeachersListController_pageCaption_Share_of__0____1__" xml:space="preserve">
+    <value>Поділитися {0}: {1}.</value>
+  </data>
+  <data name="TeachersListController_courseStr_course" xml:space="preserve">
+    <value>курс</value>
+  </data>
+  <data name="TeachersListController_curriculumStr_curriculum" xml:space="preserve">
+    <value>навчальний план</value>
+  </data>
+  <data name="TeachersListController_pageDescription_Here_you_can_share__0____1__to_another_teachers__or_edit_previously_done_share_" xml:space="preserve">
+    <value>Тут ви можете поділитися {0}: {1} з іншими викладачами, чи редагувати попередні зміни.</value>
+  </data>
+  <data name="TeachersListController_noTeachers_Nobody_" xml:space="preserve">
+    <value>Ніхто.</value>
+  </data>
+  <data name="TeachersListController_grantedObject__0__granted_you_permission_to__1__this__2_" xml:space="preserve">
+    <value>{0} надав вам права для  {1} цього {2}</value>
+  </data>
+  <data name="TeachersListController_ownObject_This__0__is_your_own_so_you_can__1__it_" xml:space="preserve">
+    <value>Цей {0} є вашим власним, тож ви можете {1} його.</value>
+  </data>
+  <data name="TeacherObjectsController_pageCaption_Teacher_objects_" xml:space="preserve">
+    <value>Об'єкти викладача.</value>
+  </data>
+  <data name="TeacherObjectsController_pageDescription_Here_are_listed_all_your_courses_and_curriculums__Select_object_to_proceed_" xml:space="preserve">
+    <value>Тут показані всі ваші курси і навчальні плани. Виберіть об'єкт, щоб продовжити.</value>
+  </data>
+  <data name="TeacherObjectsController_noCourses_None__Click_to_upload_some_" xml:space="preserve">
+    <value>Жодного (Натисніть, щоб завантажити нові)</value>
+  </data>
+  <data name="TeacherObjectsController_noCurriculums_None__Click_to_create_some_" xml:space="preserve">
+    <value>Жодного (Натисніть, щоб створити нові)</value>
+  </data>
+  <data name="StatisticShowCurriculumsController_pageCaption_Statistic_" xml:space="preserve">
+    <value>Статистика.</value>
+  </data>
+  <data name="StatisticShowCurriculumsController_pageDescription_This_is_statisic_for_group___0__based_on_curriculums___1__" xml:space="preserve">
+    <value>Статистика групи: {0} по навчальних планах: {1}.</value>
+  </data>
+  <data name="StatisticShowCurriculumsController_studentStr_Student" xml:space="preserve">
+    <value>Студент</value>
+  </data>
+  <data name="StatisticShowCurriculumsController_totalStr_Total" xml:space="preserve">
+    <value>Загально</value>
+  </data>
+  <data name="StatisticShowCurriculumsController_noStudents_Theare_are_no_students_in_this_group_" xml:space="preserve">
+    <value>В даній групі немає студентів.</value>
+  </data>
+  <data name="StatisticShowController_pageCaption_Statistic_" xml:space="preserve">
+    <value>Статистика.</value>
+  </data>
+  <data name="StatisticShowController_pageDescription_This_is_statisic_for_group___0__based_on_curriculum___1___This_statistaic_is_based_on_passed_pages_count_" xml:space="preserve">
+    <value>Статичтика групи: {0} по навчальному плану: {1}. Ця статистика базується на кількості сторінок.</value>
+  </data>
+  <data name="StatisticShowController_studentStr_Student" xml:space="preserve">
+    <value>Студент</value>
+  </data>
+  <data name="StatisticShowController_totalStr_Total" xml:space="preserve">
+    <value>Загально</value>
+  </data>
+  <data name="StatisticShowController_noStudents_Theare_are_no_students_in_this_group_" xml:space="preserve">
+    <value>В даній групі немає студентів.</value>
+  </data>
+  <data name="StatisticShowController_fillStatisticTable_Percent" xml:space="preserve">
+    <value>Відсотки</value>
+  </data>
+  <data name="StatisticSelectController_pageCaption_Statistic_selection_" xml:space="preserve">
+    <value>Вибір статистики.</value>
+  </data>
+  <data name="StatisticSelectController_pageDescription_Select_group_and_then_select_curriculum_to_view_statistic_" xml:space="preserve">
+    <value>Виберіть групу і навчальний план для для перегляду статистики.</value>
+  </data>
+  <data name="StatisticSelectController_noCurriculums_You_have_no_curriculums_assigned_for_this_group_" xml:space="preserve">
+    <value>Жодних навчальних планів не призначено до групи.</value>
+  </data>
+  <data name="StatisticSelectController_noGroups_You_have_no_groups_at_all__Create_some_first_" xml:space="preserve">
+    <value>У вас немає жодних груп. Створіть їх.</value>
+  </data>
+  <data name="ShareController_pageCaption_Share_of__0____1__to__2__" xml:space="preserve">
+    <value>Поділитися {0}: {1} з {2}.</value>
+  </data>
+  <data name="ShareController_pageDescription_Here_you_can_share__0____1__to__2___select_operations_to_be_shared_" xml:space="preserve">
+    <value>Тут ви можете поділитися {0}: {1} з {2}, виберіть операції, які ви хочете дозволити.</value>
+  </data>
+  <data name="ShareController_courseStr_course" xml:space="preserve">
+    <value>курс</value>
+  </data>
+  <data name="ShareController_curriculumStr_curriculum" xml:space="preserve">
+    <value>навчальний план</value>
+  </data>
+  <data name="ShareController_delegateStr_Allow_to_delegate_this_operation_" xml:space="preserve">
+    <value>Дозволити делегування цієї операції</value>
+  </data>
+  <data name="ReCompilePageController_PageLoad_Select_Group_and_Theme_that_your_want_to_recompile" xml:space="preserve">
+    <value>Виберіть групу і тему, яку ви хочете перекомпілювати.</value>
+  </data>
+  <data name="ReCompilePageController_ReCompileButtonClick_ReCompilation_is_started" xml:space="preserve">
+    <value>Перекомпілювання почалось.</value>
+  </data>
+  <data name="ReCompilePageController_ReCompileButtonClick_Theme_not_selected____" xml:space="preserve">
+    <value>Тема не вибрана !!!</value>
+  </data>
+  <data name="ReCompilePageController_CreateGroupList_No_groups_avalible" xml:space="preserve">
+    <value>Немає доступних груп</value>
+  </data>
+  <data name="ReCompilePageController_CreateUserList_All_Users_From_Group" xml:space="preserve">
+    <value>Всі користувачі з групи</value>
+  </data>
+  <data name="CurriculumTimelineController_pageCaption_Timeline_for_group___0__and_curriculum___1_" xml:space="preserve">
+    <value>Розклад для групи: {0} і плану: {1}</value>
+  </data>
+  <data name="CurriculumTimelineController_pageDescription_This_is_detailed_timeline_for_group___0__and_curriculum___1___You_can_manage_group_operations_here_" xml:space="preserve">
+    <value>Детальний розклад для групи: {0} і плану: {1}. Тут ви можете здійснювати операції з групами.</value>
+  </data>
+  <data name="CurriculumEditController_pageCaption_Curriculum_management_" xml:space="preserve">
+    <value>Керування навчальними планами.</value>
+  </data>
+  <data name="CurriculumEditController_noName_Please_enter_the_name_" xml:space="preserve">
+    <value>Будь - ласка, введіть ім'я.</value>
+  </data>
+  <data name="CurriculumEditController_pageDescription_This_is_curriculum_edit_page_page__Create_Edit_Delete_your_curriculum_here_" xml:space="preserve">
+    <value>Це сторінка редагування навчальних планів. Створюйте/Редагуйте/Стирайте навчальні плани тут.</value>
+  </data>
+  <data name="CurriculumEditController_noCourses_You_have_no_courses__upload_some_first_" xml:space="preserve">
+    <value>У вас немає курсів, завантажте їх спочатку.</value>
+  </data>
+  <data name="CurriculumEditController_noThemesSelected_Select_some_themes_to_add_" xml:space="preserve">
+    <value>Вибуріть теми, які потрібно додати.</value>
+  </data>
+  <data name="CurriculumEditController_alreadyHaveTheme_Stage___0__already_contains_theme_s___" xml:space="preserve">
+    <value>Стадія: {0} вже містить тему(и) :</value>
+  </data>
+  <data name="CurriculumEditController_noStageName_Please_enter_stage_name" xml:space="preserve">
+    <value>Будь - ласка, введіть ім'я кроку</value>
+  </data>
+  <data name="CurriculumDeleteConfirmationController_pageCaption_Deleting__0____1_" xml:space="preserve">
+    <value>Видалення {0}: {1}</value>
+  </data>
+  <data name="CurriculumDeleteConfirmationController_stageStr_stage" xml:space="preserve">
+    <value>стадія</value>
+  </data>
+  <data name="CurriculumDeleteConfirmationController_themeStr_theme" xml:space="preserve">
+    <value>тема</value>
+  </data>
+  <data name="CurriculumDeleteConfirmationController_curriculumStr_curriculum" xml:space="preserve">
+    <value>навчальний план</value>
+  </data>
+  <data name="CurriculumDeleteConfirmationController_pageDescription_You_want_to_delete__1____2__3___which_is_assigned_to_next_groups_" xml:space="preserve">
+    <value>Ви хочете видалити {1}: {2}{3}, який є призначеним до наступних груп:</value>
+  </data>
+  <data name="CurriculumDeleteConfirmationController_usedInCurriculum___It_is_used_in_curriculum__0_" xml:space="preserve">
+    <value>. Він викорстовується в навчальному плані {0}</value>
+  </data>
+  <data name="CurriculumDeleteConfirmationController_noneMessage_None_" xml:space="preserve">
+    <value>Жодного.</value>
+  </data>
+  <data name="CurriculumAssignmentController_pageCaption_Curriculum_assignment_" xml:space="preserve">
+    <value>Призначення навчальних планів.</value>
+  </data>
+  <data name="CurriculumAssignmentController_pageDescription_This_is_curriculum_assignment_page__Select_group_and_curriculum_to_assign_" xml:space="preserve">
+    <value>Це сторінка призначення навчальних планів. Виберіть групу і навчальний план, щоб їх пов'язати.</value>
+  </data>
+  <data name="CurriculumAssignmentController_noCurriculums_You_have_no_curriculums_to_assign__Create_some_first_" xml:space="preserve">
+    <value>У вас немає навчальних планів яких можна прив'язати. Створіть їх.</value>
+  </data>
+  <data name="CurriculumAssignmentController_noGroups_You_have_no_groups_to_assign__Create_some_first_" xml:space="preserve">
+    <value>У вас немає груп, яких можна прив'язати. Створіть їх.</value>
+  </data>
+  <data name="CurriculumAssignmentController_neitherCurriculumsNorGroup_You_have_neither_groups_nor_curriculums_to_assign__Create_some_first_" xml:space="preserve">
+    <value>У вас немає ні груп ні навчальних планів, яких можна прив'язати. Створіть їх.</value>
+  </data>
+  <data name="CourseEditController_pageCaption_Course_management_" xml:space="preserve">
+    <value>Управління курсами.</value>
+  </data>
+  <data name="CourseEditController_pageDescription_This_is_course_upload_page__Please_selected_course__specify_name_and_description_and_upload_it_" xml:space="preserve">
+    <value>Сторінка завантаження курсів. Виберіть курс, вкажіть назву і опис і завантажте його.</value>
+  </data>
+  <data name="CourseEditController_uploadSucces_Course_was_uploaded_successfully_" xml:space="preserve">
+    <value>Курс був завантажений успішно.</value>
+  </data>
+  <data name="CourseEditController_uploadError_Error_occurred_during_course_upload_" xml:space="preserve">
+    <value>Виникла помилка протягом завантаження курсу.</value>
+  </data>
+  <data name="CourseEditController_fileNotFound_Specify_course_path_" xml:space="preserve">
+    <value>Вкажіть шлях до курсу.</value>
+  </data>
+  <data name="CourseDeleteConfirmationController_pageCaption_Deleting_course___0__" xml:space="preserve">
+    <value>Видалення курсу: {0}.</value>
+  </data>
+  <data name="CourseDeleteConfirmationController_pageDescription_You_want_to_delete_course___0___This_course_is_used_in_next_objects_" xml:space="preserve">
+    <value>Ви хочете видалити курс: {0}. Він використовуєтьсяв наступних об'єктах:</value>
+  </data>
+  <data name="CourseDeleteConfirmationController_noneMessage_None_" xml:space="preserve">
+    <value>Жодного.</value>
+  </data>
+  <data name="CourseDeleteConfirmationController_GetDependencies_Theme" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="CourseDeleteConfirmationController_GetDependencies_is_used_in_Curriculum" xml:space="preserve">
+    <value>Використовується в навчальному плані</value>
+  </data>
+  <data name="CourseDeleteConfirmationController_GetDependencies_by" xml:space="preserve">
+    <value>by</value>
+  </data>
+  <data name="CourseBehaviorController_PageLoad_On_this_page_you_can_change_behavior_of_course_organizations" xml:space="preserve">
+    <value>На цій сторінці ви можете змінити поведінку курсів</value>
+  </data>
+  <data name="CourseBehaviorController_SaveButtonClick_You_Preferences_is_saved" xml:space="preserve">
+    <value>Ваші налаштування збережено</value>
+  </data>
+  <data name="TestDetailsController_GetPageTitleType_User_Answers" xml:space="preserve">
+    <value>Відповіді користувача</value>
+  </data>
+  <data name="TestDetailsController_GetPageTitleType_Correct_Answers" xml:space="preserve">
+    <value>Правильні відповіді</value>
+  </data>
+  <data name="StudentPageController_ModeButtonClick_Show__0__Dates" xml:space="preserve">
+    <value>Показати {0} Дати</value>
+  </data>
+  <data name="StudentPageController_ShowDescriptionForDataSelection_Display_themes_that_you_can__0__in_selected_date" xml:space="preserve">
+    <value>Показати теми, які ви можете {0} у вибраній даті</value>
+  </data>
+  <data name="StudentPageController_ShowCommonDescription_From_this_page_you_can_open_test_or_see_test_results__And_see_you_last__0__result" xml:space="preserve">
+    <value>З цієї сторінки ви можете відкрити тест і переглянути результати; Або переглянути останній {0} результат</value>
+  </data>
+  <data name="StudentPageController_ShowDescriptionForControl_You_have_control_now__Do_you_best" xml:space="preserve">
+    <value>Тепер ви маєте контроль. Покажіть кращі результати</value>
+  </data>
+  <data name="StudentPageController_ShowDescriptionForNodeSelection_In_calendar_your_see_dates_when_you_can__0__test" xml:space="preserve">
+    <value>В календарі ви бачите дати, коли ви можете  {0} тест</value>
+  </data>
+  <data name="OpenTestController_PageLoad_Wrong_request__LearnerAttempt_ID_not_specified_" xml:space="preserve">
+    <value>Некоректний запит (LearnerAttempt ID не вибраний)</value>
+  </data>
+  <data name="OpenTestController_ShowCurrent_You_opened__0___1___page" xml:space="preserve">
+    <value>Ви відкрили {0}({1}) сторінку</value>
+  </data>
+  <data name="PersistantValueInfo_PersistantValueInfo_Type__0__is_not_supposed_to_be_marked_with__2___Invalid_type__Only_ValueTypes__strings_and_classes_which_implement__1__or__5___Any_combination_with__3__T__and__4__T__by_this_types_also_supported_" xml:space="preserve">
+    <value>Type {0} is not supposed to be marked with {2}. Invalid type. Only ValueTypes, strings and classes which implement {1} or {5}. Any combination with {3}&lt;T&gt; and {4}&lt;T&gt; by this types also supported.</value>
+  </data>
+  <data name="PersistantValueInfo_SafeGetConstructor_Type__0__cannot_be_persisted_because_it_s_don_t_have_parameterless_constructor" xml:space="preserve">
+    <value>Type {0} cannot be persisted because it's don't have parameterless constructor</value>
+  </data>
+  <data name="PersistantStateMetaData_GetFieldsDataInternal__0__can_be_applied_to_instance_field_only_but_applied_to_static___1___2__" xml:space="preserve">
+    <value>{0} can be applied to instance field only but applied to static ({1}.{2})</value>
+  </data>
+  <data name="PersistantStateMetaData_LoadStateFor_Invalid_count_of_target_values_expected__0__but__1__found" xml:space="preserve">
+    <value>Invalid count of target values expected {0} but {1} found</value>
+  </data>
+  <data name="Utils_TryGetAtr_Too_many_attributes" xml:space="preserve">
+    <value>Занадто багато атрибутів</value>
+  </data>
+  <data name="TeacherHelper_Share_Only_user_based_permissions_can_be_shared" xml:space="preserve">
+    <value>Only user based permissions can be shared</value>
+  </data>
+  <data name="TeacherHelper_Sort_Student" xml:space="preserve">
+    <value>Студент</value>
+  </data>
+  <data name="TeacherHelper_Sort_Total" xml:space="preserve">
+    <value>Загально</value>
+  </data>
+  <data name="TeacherHelper_Sort_Percent" xml:space="preserve">
+    <value>Відсотки</value>
+  </data>
+  <data name="CacheUtility_Get_Object__0__with_ID__1__not_found_in_the_Cache" xml:space="preserve">
+    <value>Об'єкт  {0} з ID {1} не знайдений в кеші</value>
+  </data>
+  <data name="LnuDataModel_GetValue_Requested_variable_is_not_supported" xml:space="preserve">
+    <value>Дана змінна не підтримується</value>
+  </data>
+  <data name="Score_GetValue_Requested_variable_is_not_supported" xml:space="preserve">
+    <value>Дана змінна не підтримується</value>
+  </data>
+  <data name="Score_SetValue_Requested_variable_is_read_only" xml:space="preserve">
+    <value>Дана змінна доступна лише для читання</value>
+  </data>
+  <data name="Score_GetVariable_Requested_variable_is_write_only" xml:space="preserve">
+    <value>Дана змінна доступна лише для писання</value>
+  </data>
+  <data name="Interactions_GetValue_Requested_variable_is_not_supported" xml:space="preserve">
+    <value>Дана змінна не підтримується</value>
+  </data>
+  <data name="Interactions_SetValue_Requested_variable_is_read_only" xml:space="preserve">
+    <value>Дана змінна доступна лише для читання</value>
+  </data>
+  <data name="Interactions_GetVariable_Requested_variable_is_write_only" xml:space="preserve">
+    <value>Дана змінна доступна лише для писання</value>
+  </data>
+  <data name="InteractionObjectives_GetValue_Requested_variable_is_not_supported" xml:space="preserve">
+    <value>Дана змінна не підтримується</value>
+  </data>
+  <data name="InteractionObjectives_SetValue_Requested_variable_is_read_only" xml:space="preserve">
+    <value>Дана змінна доступна лише для читання</value>
+  </data>
+  <data name="InteractionObjectives_GetVariable_Requested_variable_is_write_only" xml:space="preserve">
+    <value>Дана змінна доступна лише для писання</value>
+  </data>
+  <data name="InteractionCorrectResponses_GetValue_Requested_variable_is_not_supported" xml:space="preserve">
+    <value>Дана змінна не підтримується</value>
+  </data>
+  <data name="InteractionCorrectResponses_SetValue_Requested_variable_is_read_only" xml:space="preserve">
+    <value>Дана змінна доступна лише для читання</value>
+  </data>
+  <data name="InteractionCorrectResponses_GetVariable_Requested_variable_is_write_only" xml:space="preserve">
+    <value>Дана змінна доступна лише для писання</value>
+  </data>
+  <data name="CmiDataModel_GetCollection_Requested_variable_is_not_supported" xml:space="preserve">
+    <value>Така змінна не підтримується</value>
+  </data>
+  <data name="CmiDataModel_SetValue_Requested_variable_is_read_only" xml:space="preserve">
+    <value>Така змінна доступна лише для читання</value>
+  </data>
+  <data name="CmiDataModel_GetVariable_Requested_variable_is_write_only" xml:space="preserve">
+    <value>Така змінна доступна лише для запису</value>
+  </data>
+  <data name="CustomRoleProvider_ApplicationName_Changing_ApplicationName_is_not_allowed" xml:space="preserve">
+    <value>Changing ApplicationName is not allowed</value>
+  </data>
+</root>

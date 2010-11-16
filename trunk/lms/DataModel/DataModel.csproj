@@ -1,0 +1,369 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F7A3C8E8-7545-4D92-8FF5-0927B4D845EF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IUDICO.DataModel</RootNamespace>
+    <AssemblyName>IUDICO.DataModel</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=3.0.30930.28736, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\AjaxControlToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="GMDatePicker, Version=0.9.2592.39607, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\GMDatePicker.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="LEX.CONTROLS, Version=1.1.1.17, Culture=neutral, PublicKeyToken=44ea94c3b070248a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\LEX.CONTROLS.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" />
+    <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Microsoft.Web.Administration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Microsoft.Web.Administration.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework.extensions, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\nunit.framework.extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.IO.Log">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Management.Instrumentation">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel.Web">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.DynamicData">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.DynamicData.Design">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Entity">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Entity.Design">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Extensions.Design">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.RegularExpressions" />
+    <Reference Include="System.Web.Routing">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ThoughtWorks.Selenium.Core, Version=0.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\ThoughtWorks.Selenium.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ThoughtWorks.Selenium.IntegrationTests, Version=0.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\ThoughtWorks.Selenium.IntegrationTests.dll</HintPath>
+    </Reference>
+    <Reference Include="ThoughtWorks.Selenium.UnitTests, Version=0.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\ThoughtWorks.Selenium.UnitTests.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\CacheUtility.cs" />
+    <Compile Include="Common\Cmi\Cmi.cs" />
+    <Compile Include="Common\Cmi\DataModelVerifiers.cs" />
+    <Compile Include="Common\Cmi\InteractionCorrectResponses.cs" />
+    <Compile Include="Common\Cmi\InteractionObjectives.cs" />
+    <Compile Include="Common\Cmi\Interactions.cs" />
+    <Compile Include="Common\Cmi\SchemaDataComponents.cs" />
+    <Compile Include="Common\Cmi\Score.cs" />
+    <Compile Include="Common\ComparableDictionary.cs" />
+    <Compile Include="Common\ComparableList.cs" />
+    <Compile Include="Common\DateTimeInterval.cs" />
+    <Compile Include="Common\DynamicClass.cs" />
+    <Compile Include="Common\DynamicClassView.cs" />
+    <Compile Include="Common\Extenders.cs" />
+    <Compile Include="Common\ImportUtils\FileExtentions.cs" />
+    <Compile Include="Common\HtmlStyleReader.cs" />
+    <Compile Include="Common\HttpUtility.cs" />
+    <Compile Include="Common\IdentityNode.cs" />
+    <Compile Include="Common\Lnu\Lnu.cs" />
+    <Compile Include="Common\Settings.cs" />
+    <Compile Include="Common\StatisticUtils\StatisticManager.cs" />
+    <Compile Include="Common\StatisticUtils\UserResultForItem.cs" />
+    <Compile Include="Common\StatisticUtils\UserResultForQuestion.cs" />
+    <Compile Include="Common\StudentUtils\ControlInfo.cs" />
+    <Compile Include="Common\StudentUtils\DatePeriod.cs" />
+    <Compile Include="Common\Logger.cs" />
+    <Compile Include="Common\DMError.cs" />
+    <Compile Include="Common\EnglishLanguage.cs" />
+    <Compile Include="Common\DataObjectDictionary.cs" />
+    <Compile Include="Common\MemberInfoAbstractionLayer.cs" />
+    <Compile Include="Common\ImportUtils\PageType.cs" />
+    <Compile Include="Common\ImportUtils\ProjectPaths.cs" />
+    <Compile Include="Common\SqlUtils.cs" />
+    <Compile Include="Common\Memorizer.cs" />
+    <Compile Include="Common\StudentUtils\LanguageHelper.cs" />
+    <Compile Include="Common\StudentUtils\StudentPermissionsHelper.cs" />
+    <Compile Include="Common\StudentUtils\StudentRecordFinder.cs" />
+    <Compile Include="Common\StudentUtils\UserSubmitCountChecker.cs" />
+    <Compile Include="Common\TeacherHelper.cs" />
+    <Compile Include="Common\TestingUtils\AnswerFiller.cs" />
+    <Compile Include="Common\TestingUtils\CompilationTestManager.cs" />
+    <Compile Include="Common\StatisticUtils\UserResultForPageForDate.cs" />
+    <Compile Include="Common\TestingUtils\ConditionChecker.cs" />
+    <Compile Include="Common\Utils.cs" />
+    <Compile Include="Common\ViewStateUtility.cs" />
+    <Compile Include="Common\ImportUtils\XmlAttributes.cs" />
+    <Compile Include="Common\ImportUtils\XmlUtility.cs" />
+    <Compile Include="Common\ImportUtils\Zipper.cs" />
+    <Compile Include="Controllers\Admin_CreateBulkUserController.cs" />
+    <Compile Include="Controllers\Admin_EditGroupController.cs" />
+    <Compile Include="Controllers\Admin_EditUserController.cs" />
+    <Compile Include="Controllers\Admin_GroupsController.cs" />
+    <Compile Include="Controllers\Admin_IncludeUserIntoGroupController.cs" />
+    <Compile Include="Controllers\Admin_RemoveGroupConfirmationController.cs" />
+    <Compile Include="Controllers\Admin_RemoveUserConfirmationController.cs" />
+    <Compile Include="Controllers\Admin_RemoveUserFromGroupController.cs" />
+    <Compile Include="Controllers\Admin_SelectGroupController.cs" />
+    <Compile Include="Controllers\Admin_SettingsController.cs" />
+    <Compile Include="Controllers\Admin_UsersController.cs" />
+    <Compile Include="Controllers\Admin_CreateUserController.cs" />
+    <Compile Include="Controllers\Admin_CreateSettingController.cs" />
+    <Compile Include="Controllers\Admin_EditSettingController.cs" />
+    <Compile Include="Controllers\Admin_RemoveSettingConfirmationController.cs" />
+    <Compile Include="Controllers\Admin_SearchPageSolrController.cs" />
+    <Compile Include="Controllers\Student\CompiledQuestionsResultController.cs" />
+    <Compile Include="Controllers\Student\CurriculumnResultController.cs" />
+    <Compile Include="Controllers\Student\StageResultController.cs" />
+    <Compile Include="Controllers\Teacher\BaseTeacherController.cs" />
+    <Compile Include="Controllers\Teacher\CourseBehaviorController.cs" />
+    <Compile Include="Controllers\Teacher\ReCompilePageController.cs" />
+    <Compile Include="Controllers\Teacher\StatisticShowCurriculumsController.cs" />
+    <Compile Include="Controllers\Teacher\StatisticShowGraphController.cs" />
+    <Compile Include="Controllers\Teacher\ThemePagesController.cs" />
+    <Compile Include="Controllers\Teacher\ShareController.cs" />
+    <Compile Include="Controllers\Teacher\CourseDeleteConfirmationController.cs" />
+    <Compile Include="Controllers\Teacher\CourseEditController.cs" />
+    <Compile Include="Controllers\Teacher\TeachersListController.cs" />
+    <Compile Include="Controllers\CreateGroupController.cs" />
+    <Compile Include="Controllers\Teacher\CurriculumAssignmentController.cs" />
+    <Compile Include="Controllers\Teacher\CurriculumDeleteConfirmationController.cs" />
+    <Compile Include="Controllers\Teacher\CurriculumEditController.cs" />
+    <Compile Include="Controllers\Teacher\CurriculumTimelineController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ControllerBase.cs" />
+    <Compile Include="Controllers\Student\OpenTestController.cs" />
+    <Compile Include="Controllers\Teacher\StatisticSelectController.cs" />
+    <Compile Include="Controllers\Teacher\StatisticShowController.cs" />
+    <Compile Include="Controllers\Student\StudentPageController.cs" />
+    <Compile Include="Controllers\Teacher\TeacherObjectsController.cs" />
+    <Compile Include="Controllers\Student\TestDetailController.cs" />
+    <Compile Include="Controllers\Student\ThemeResultController.cs">
+    </Compile>
+    <Compile Include="Controllers\UserInfoController.cs" />
+    <Compile Include="DataModelPresentationLevel.cs" />
+    <Compile Include="DB\Base\DBModelBase.cs" />
+    <Compile Include="DB\Base\DataObjectSqlSerializer.cs" />
+    <Compile Include="DB\Base\DataObjectLookupHelper.cs" />
+    <Compile Include="DB\Base\DatabaseModelBase.cs" />
+    <Compile Include="DB\Base\DBOps.cs" />
+    <Compile Include="DB\Base\DBOpInterfaces.cs" />
+    <Compile Include="DB\DataObjectCleaner.cs" />
+    <Compile Include="DB\DatabaseModel.cs" />
+    <Compile Include="DB\DatabaseModel.generated.cs" />
+    <Compile Include="ImportManagers\CourseManager.cs" />
+    <Compile Include="ImportManagers\ItemManager.cs" />
+    <Compile Include="ImportManagers\OrganizationManager.cs" />
+    <Compile Include="ImportManagers\RemoveManager\CourseCleaner.cs" />
+    <Compile Include="ImportManagers\ResourceManager.cs" />
+    <Compile Include="MasterPageBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ControlledPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="New Data Model\Activity.cs" />
+    <Compile Include="New Data Model\AIFormDataProcessor.cs" />
+    <Compile Include="New Data Model\AIRenderer.cs" />
+    <Compile Include="New Data Model\AssessmentItemManager.cs" />
+    <Compile Include="New Data Model\DataModel.cs" />
+    <Compile Include="New Data Model\DataModelVerifiers.cs" />
+    <Compile Include="New Data Model\GlobalSuppressions.cs" />
+    <Compile Include="New Data Model\LearningSession.cs" />
+    <Compile Include="New Data Model\Localization\ILocalizationProvider.cs" />
+    <Compile Include="New Data Model\Localization\LocalizationManager.cs" />
+    <Compile Include="New Data Model\Localization\LocalizationSettings.cs" />
+    <Compile Include="New Data Model\LrmRloHandler.cs" />
+    <Compile Include="New Data Model\ManifestConverter.cs" />
+    <Compile Include="New Data Model\ManifestReader.cs" />
+    <Compile Include="New Data Model\Navigator.cs" />
+    <Compile Include="New Data Model\PackageReader.cs" />
+    <Compile Include="New Data Model\Packages.cs" />
+    <Compile Include="New Data Model\Properties\AIResources.Designer.cs" />
+    <Compile Include="New Data Model\Properties\AssemblyInfo.cs" />
+    <Compile Include="New Data Model\Properties\Resources.Designer.cs" />
+    <Compile Include="New Data Model\Properties\ValidatorResources.Designer.cs" />
+    <Compile Include="New Data Model\RloHandler.cs" />
+    <Compile Include="New Data Model\SchemaDataComponents.cs" />
+    <Compile Include="New Data Model\Scorm12SeqNav.cs" />
+    <Compile Include="New Data Model\Scorm2004SeqNav.cs" />
+    <Compile Include="New Data Model\TableOfContentsElement.cs" />
+    <Compile Include="New Data Model\Utilities\Disposer.cs" />
+    <Compile Include="New Data Model\Utilities\Encoding.cs" />
+    <Compile Include="New Data Model\Utilities\HtmlTextReader.cs" />
+    <Compile Include="New Data Model\Utilities\ReadOnlyDictionary.cs" />
+    <Compile Include="New Data Model\Utilities\Utilities.cs" />
+    <Compile Include="New Data Model\Validator.cs" />
+    <Compile Include="PageParserFilter.cs" />
+    <Compile Include="DB\DBObjectType.cs" />
+    <Compile Include="Security\ActivityModule.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\CustomMembershipProvider.cs" />
+    <Compile Include="Security\CustomRoleProvider.cs" />
+    <Compile Include="Security\CustomUser.cs" />
+    <Compile Include="Security\PermissionsManager.cs" />
+    <Compile Include="ServerModel.cs" />
+    <Compile Include="Translations.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Translations.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Translations.uk.Designer.cs" />
+    <Compile Include="UserControlBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebControl\ITestControl.cs" />
+    <Compile Include="WebControl\TestControlBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebControl\WebButton.cs" />
+    <Compile Include="WebControl\WebCodeSnippet.cs" />
+    <Compile Include="WebControl\WebComboBox.cs" />
+    <Compile Include="WebControl\WebCompiledTest.cs" />
+    <Compile Include="WebControl\WebControlBase.cs" />
+    <Compile Include="WebControl\WebHighlightedCode.cs" />
+    <Compile Include="WebControl\WebLabel.cs" />
+    <Compile Include="WebControl\WebSimpleQuestion.cs" />
+    <Compile Include="WebControl\WebTestControlBase.cs" />
+    <Compile Include="WebControl\WebTextBox.cs" />
+    <Compile Include="Common\TestingUtils\TestManager.cs" />
+    <Compile Include="Common\TestingUtils\SettingFactory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TestingSystem\TestingSystem\TestingSystem.csproj">
+      <Project>{498A9F11-9290-46D8-AFAF-32CC14C7FDDE}</Project>
+      <Name>TestingSystem</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="New Data Model\Properties\AIResources.resx" />
+    <EmbeddedResource Include="New Data Model\Properties\Resources.resx" />
+    <EmbeddedResource Include="New Data Model\Properties\ValidatorResources.resx" />
+    <EmbeddedResource Include="Translations.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Translations.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Translations.uk.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="New Data Model\Resources\HeadExecuteViewScript" />
+    <None Include="New Data Model\Resources\HeadGradingViewScript" />
+    <None Include="New Data Model\Resources\ReviewViewScript" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="HttpHandlers\" />
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+</Project>
