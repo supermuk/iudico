@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5DA61E69-73DF-4E6C-A215-36F4166C54DD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LEX.NewsProject.Model</RootNamespace>
+    <AssemblyName>Model</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="LEX.CONTROLS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=44ea94c3b070248a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\DataModel\DB\Base\DBModelBase.cs">
+      <Link>IUDICO\DBModelBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DataModel\DB\Base\DatabaseModelBase.cs">
+      <Link>IUDICO\DatabaseModelBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DataModel\DB\Base\DataObjectLookupHelper.cs">
+      <Link>IUDICO\DataObjectLookupHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DataModel\DB\Base\DataObjectSqlSerializer.cs">
+      <Link>IUDICO\DataObjectSqlSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DataModel\Common\DMError.cs">
+      <Link>IUDICO\DMError.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DataModel\Common\Logger.cs">
+      <Link>IUDICO\Logger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DataModel\Common\Memorizer.cs">
+      <Link>IUDICO\Memorizer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DataModel\Common\SqlUtils.cs">
+      <Link>IUDICO\SqlUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DataModel\Common\Utils.cs">
+      <Link>IUDICO\Utils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DataModel\Common\ViewStateUtility.cs">
+      <Link>IUDICO\ViewStateUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DataModel\Common\CacheUtility.cs">
+      <Link>IUDICO\CacheUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DataModel\Common\DataObjectDictionary.cs">
+      <Link>IUDICO\DataObjectDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DataModel\Common\DynamicClass.cs">
+      <Link>IUDICO\DynamicClass.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DataModel\Common\DynamicClassView.cs">
+      <Link>IUDICO\DynamicClassView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DataModel\Common\EnglishLanguage.cs">
+      <Link>IUDICO\EnglishLanguage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DataModel\Controllers\ControllerBase.cs">
+      <Link>IUDICO\ControllerBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DataModel\ControlledPage.cs">
+      <Link>IUDICO\ControlledPage.cs</Link>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\..\DataModel\Controllers\LoginController.cs">
+      <Link>IUDICO\LoginController.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DataModel\DB\Base\QueryConditions.cs">
+      <Link>IUDICO\QueryConditions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DataModel\DB\Base\QueryCondtionsInterfaces.cs">
+      <Link>IUDICO\QueryCondtionsInterfaces.cs</Link>
+    </Compile>
+    <Compile Include="CustomMembershipProvider.cs" />
+    <Compile Include="DB\CachedBindingList.cs" />
+    <Compile Include="DB\DatabaseModel.cs" />
+    <Compile Include="DB\DatabaseModel.metadata.cs" />
+    <Compile Include="DB\DatabaseModel.generated.cs" />
+    <Compile Include="UI\NewsContent.cs" />
+    <Compile Include="ServerModel.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
