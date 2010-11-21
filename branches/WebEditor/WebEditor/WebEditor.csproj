@@ -99,7 +99,9 @@
     <Compile Include="Models\Extensions.cs" />
     <Compile Include="Models\JsTree.cs" />
     <Compile Include="Models\Metadata.cs" />
-    <Compile Include="Models\SearchResult.cs" />
+    <Compile Include="Models\SearchResult\CourseResult.cs" />
+    <Compile Include="Models\SearchResult\ISearchResult.cs" />
+    <Compile Include="Models\SearchResult\NodeResult.cs" />
     <Compile Include="Models\Storage\MixedStorage.cs" />
     <Compile Include="Models\Storage\StorageFactory.cs" />
     <Compile Include="Models\Storage\IStorageInterface.cs" />
