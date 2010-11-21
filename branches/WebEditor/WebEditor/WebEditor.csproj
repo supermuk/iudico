@@ -41,6 +41,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="Lucene.Net">
+      <HintPath>Lib\Lucene.Net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -79,6 +82,7 @@
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NodeController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Helpers\Zipper.cs" />
     <Compile Include="Models\Butterfly.cs">
       <DependentUpon>Butterfly.dbml</DependentUpon>
@@ -95,6 +99,7 @@
     <Compile Include="Models\Extensions.cs" />
     <Compile Include="Models\JsTree.cs" />
     <Compile Include="Models\Metadata.cs" />
+    <Compile Include="Models\SearchResult.cs" />
     <Compile Include="Models\Storage\MixedStorage.cs" />
     <Compile Include="Models\Storage\StorageFactory.cs" />
     <Compile Include="Models\Storage\IStorageInterface.cs" />
@@ -679,6 +684,8 @@
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\Node\Create.aspx" />
     <Content Include="Views\Node\Index.aspx" />
+    <Content Include="Views\Search\Index.aspx" />
+    <Content Include="Views\Search\Search.aspx" />
     <Content Include="Views\Shared\DisplayTemplates\DateTime.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\Object.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\Password.ascx" />
@@ -710,6 +717,8 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Data\Courses\4\" />
+    <Folder Include="Data\Index\" />
     <Folder Include="Downloads\" />
   </ItemGroup>
   <ItemGroup>

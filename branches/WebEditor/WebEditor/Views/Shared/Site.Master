@@ -28,6 +28,7 @@
                 <ul id="menu">              
                     <li><%: Html.ActionLink("Home", "Index", "Home")%></li>
                     <li><%: Html.ActionLink("Course", "Index", "Course")%></li>
+                    <li><%: Html.ActionLink("Search", "Index", "Search")%></li>
                 </ul>
             
             </div>
