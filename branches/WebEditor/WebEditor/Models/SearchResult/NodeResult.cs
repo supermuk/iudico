@@ -3,46 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace WebEditor.Models
+namespace WebEditor.Models.SearchResult
 {
-    public interface ISearchResult
-    {
-        int GetID();
-        String GetName();
-        String GetText();
-        String GetUrl();
-    }
-
-    public class CourseResult : ISearchResult
-    {
-        protected Course course;
-
-        public CourseResult(Course course)
-        {
-            this.course = course;
-        }
-
-        public int GetID()
-        {
-            return course.Id;
-        }
-
-        public String GetName()
-        {
-            return course.Name;
-        }
-
-        public String GetText()
-        {
-            return "";
-        }
-
-        public String GetUrl()
-        {
-            return "/Course/" + course.Id.ToString() + "/Node/Index";
-        }
-    }
-
     public class NodeResult : ISearchResult
     {
         protected Node node;
@@ -77,6 +39,4 @@ namespace WebEditor.Models
             return "/Course/" + node.CourseId.ToString() + "/Node/Index#" + node.Id;
         }
     }
-
-    
 }

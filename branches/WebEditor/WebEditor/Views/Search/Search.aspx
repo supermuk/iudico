@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<WebEditor.Models.ISearchResult>>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<WebEditor.Models.SearchResult.ISearchResult>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Search Results
@@ -17,7 +17,7 @@
     </form>
     
     <ul>
-    <% foreach (WebEditor.Models.ISearchResult result in Model) { %>   
+    <% foreach (var result in Model) { %>   
         <li>#<%= result.GetID() %> <a href="<%= result.GetUrl() %>"><%= result.GetName() %></a><br />
             <%= result.GetText() %>
         </li>
