@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using WebEditor.Models;
+using WebEditor.Models.Storage;
 
 namespace WebEditor
 {
@@ -54,6 +55,8 @@ namespace WebEditor
             AreaRegistration.RegisterAllAreas();
 
             RegisterRoutes(RouteTable.Routes);
+
+            Application["Storage"] = StorageFactory.CreateStorage(StorageType.Mixed);
         }
     }
 }

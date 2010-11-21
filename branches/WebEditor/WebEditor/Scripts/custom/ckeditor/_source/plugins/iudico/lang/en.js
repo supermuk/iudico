@@ -10,8 +10,8 @@
 
         correctAnswer: 'Correct Answer:',
         question: 'Question:',
-
-
+        choice: 'Choice:',
+        addChoice: 'Add Choice',
 
         type : 'Type',
         toolbar: 'IUDICO',
