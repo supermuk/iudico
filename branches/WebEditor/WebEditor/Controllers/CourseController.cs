@@ -117,7 +117,7 @@ namespace WebEditor.Controllers
         }
 
         [HttpPost]
-        public ActionResult Import(HttpPostedFileBase FileUpload)
+        public ActionResult Import(HttpPostedFileBase fileUpload)
         {
             try
             {
@@ -125,8 +125,8 @@ namespace WebEditor.Controllers
                 path = Path.Combine(path, "Downloads");
                 path = Path.Combine(path, Guid.NewGuid().ToString());
                 Directory.CreateDirectory(path);
-                path = Path.Combine(path, FileUpload.FileName.Split('\\').Last());
-                FileUpload.SaveAs(path);
+                path = Path.Combine(path, fileUpload.FileName.Split('\\').Last());
+                fileUpload.SaveAs(path);
 
                 Storage.Import(path);
 
@@ -135,6 +135,28 @@ namespace WebEditor.Controllers
             catch
             {
                 return View("Error");
+            }
+        }
+
+        [HttpPost]
+        public string Validate(HttpPostedFileBase fileUpload)
+        {
+            try
+            {
+                string path = HttpContext.Request.PhysicalApplicationPath;
+                path = Path.Combine(path, "Downloads");
+                path = Path.Combine(path, Guid.NewGuid().ToString());
+                Directory.CreateDirectory(path);
+                path = Path.Combine(path, fileUpload.FileName.Split('\\').Last());
+                fileUpload.SaveAs(path);
+                string result =  Helpers.PackageValidator.Validate(path);
+
+                return result;
+
+            }
+            catch
+            {
+                return "Error";
             }
         }
     }

@@ -45,6 +45,14 @@
       <HintPath>Lib\Lucene.Net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.LearningComponents, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Microsoft.LearningComponents.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.LearningComponents.Compression, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Microsoft.LearningComponents.Compression.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
@@ -83,6 +91,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NodeController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Helpers\PackageValidator.cs" />
     <Compile Include="Helpers\Zipper.cs" />
     <Compile Include="Models\Butterfly.cs">
       <DependentUpon>Butterfly.dbml</DependentUpon>
@@ -128,6 +137,9 @@
     <Content Include="Lib\DotNetOpenAuth.dll" />
     <Content Include="Lib\DotNetOpenAuth.xml" />
     <Content Include="Lib\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="Lib\Microsoft.LearningComponents.Compression.dll" />
+    <Content Include="Lib\Microsoft.LearningComponents.dll" />
+    <Content Include="Lib\Microsoft.LearningComponents.XML" />
     <Content Include="Scripts\custom\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\custom\ckeditor\ckeditor.js" />
     <Content Include="Scripts\custom\ckeditor\ckeditor_basic.js" />
@@ -681,6 +693,7 @@
     <Content Include="Views\Account\LogOn.aspx" />
     <Content Include="Views\Course\Create.aspx" />
     <Content Include="Views\Course\Edit.aspx" />
+    <Content Include="Views\Course\Import.aspx" />
     <Content Include="Views\Course\Index.aspx" />
     <Content Include="Views\Home\Course.aspx" />
     <Content Include="Views\Home\Index.aspx" />
