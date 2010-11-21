@@ -5,33 +5,54 @@
         documentObject = element.getDocument();
         paramNode = documentObject.createElement("param");
 
-        paramNode.setAttribute(name, value);
+        paramNode.setAttribute("name", name);
+        paramNode.setAttribute("value", value);
 
         element.append(paramNode);
+    }
+
+    function getObject(editor) {
+        var path = new CKEDITOR.dom.elementPath(editor.getSelection().getStartElement()),
+				blockLimit = path.blockLimit,
+				div = blockLimit && blockLimit.getAscendant('object', true) && blockLimit.getAttribute('iudico') == true;
+
+        return div;
     }
 
     return {
         title: editor.lang.iudico.title,
         minWidth: 390,
         minHeight: 230,
-        onOk: function () {
-            //if (isInsertMode)
-            objectNode = editor.document.createElement('object');
-            objectNode.setAttribute('iudico', 'true');
+        onShow: function () {
+            delete this.object;
 
-            //param = editor.document.createElement("param");
+            var element = this.getParentEditor().getSelection().getStartElement();
+            var object = element && element.getAscendant('object', true);
 
-            //element.append(param);
-
-
-            // later
-            this.commitContent(objectNode);
-
-
-            //if (isInsertMode)
-            editor.insertElement(objectNode);
+            if (object && object.getAttribute('iudico') == true) {
+                this.object = object;
+                this.setupContent(object);
+            }
         },
-        onCancel: function () { },
+        onOk: function () {
+            var editor,
+			element = this.object,
+			isInsertMode = !element;
+
+
+            if (isInsertMode) {
+                objectNode = editor.document.createElement('object');
+                objectNode.setAttribute('iudico', 'true');
+            }
+
+            // not needed here?
+            // this.commitContent(objectNode);
+
+            if (isInsertMode) {
+                editor.insertElement(objectNode);
+            }
+        },
+        //onCancel: function () { }, no cancel button
         onLoad: function (data) { },
         contents: [
 			{
@@ -66,12 +87,81 @@
                 id: 'choiceTab',
                 label: editor.lang.iudico.choiceTab,
                 title: editor.lang.iudico.choiceTab,
-                expand: true,
-                padding: 0,
+                padding: 2,
                 elements:
 				[
+                    {
+                        id: 'question',
+                        type: 'text',
+                        label: editor.lang.iudico.question,
+                        labelLayout: 'horizontal',
+                        commit: function (element) {
+                            addParam(element, 'question', this.getValue());
+                        }
 
+                    },
+                    {
+                        id: 'correctAnswer',
+                        type: 'select',
+                        label: editor.lang.iudico.correctAnswer,
+                        labelLayout: 'horizontal',
+                        items: [],
+                        setup: function (element) {
+
+                        },
+                        commit: function (element) {
+                            addParam(element, 'correctAnswer', this.getValue());
+                        }
+                    },
+                    {
+                        type: 'hbox',
+                        widths: ['100px', '200px'],
+                        children:
+                        [
+                            {
+                                id: 'addChoice',
+                                type: 'button',
+                                label: editor.lang.iudico.addChoice,
+                                onClick: function () {
+                                            
+                                }
+                            },
+                            {
+                                id: 'choice',
+                                type: 'text',
+                                label: editor.lang.iudico.choice,
+                                labelLayout: 'horizontal',
+                                items: [],
+                                setup: function (element) {
+
+                                },
+                                commit: function (element) {
+                                    //addParam(element, 'correctAnswer', this.getValue());
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        type: 'hbox',
+                        widths: ['50px', '200px'],
+                        children:
+                        [
+                            {
+                                id: 'addChoice',
+                                type: 'button',
+                                label: editor.lang.iudico.addChoice,
+                                onClick: function () {
+
+                                }
+                            },
+                            {
+                                id: 'choice',
+                                type: 'html',
+                            }
+                        ]
+                    },
 				]
+
             },
             {
                 id: 'compileTab',
@@ -86,7 +176,7 @@
             }
 		],
 
-        buttons: [CKEDITOR.dialog.okButton, CKEDITOR.dialog.cancelButton]
+        buttons: [CKEDITOR.dialog.okButton]
     };
 });
 

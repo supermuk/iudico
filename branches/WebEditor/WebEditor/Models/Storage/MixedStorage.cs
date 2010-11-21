@@ -76,6 +76,7 @@ namespace WebEditor.Models.Storage
             }
         }
 
+        [Obsolete("Directory.Delete gives exception when files are present: http://stackoverflow.com/questions/329355/cannot-delete-directory-with-directory-deletepath-true. Set CASCADE on DELETE & UPDATE action in foreign index CourseID")]
         public bool DeleteCourse(int id)
         {
             try
@@ -85,7 +86,7 @@ namespace WebEditor.Models.Storage
                 db.Courses.DeleteOnSubmit(course);
                 db.SubmitChanges();
                 
-                @Directory.Delete(GetCoursePath(id));
+                @Directory.Delete(GetCoursePath(id), true);
 
                 return true;
             }
@@ -330,11 +331,12 @@ namespace WebEditor.Models.Storage
             Node node = db.Nodes.SingleOrDefault(n => n.Id == nodeId);
             Node parent = node.Node1;
 
-            string path = node.Id.ToString() + (node.IsFolder ? ".html" : "");
+            string path = node.Id.ToString() + (!node.IsFolder ? ".html" : "");
             
             while(parent != null)
             {
                 path = Path.Combine(parent.Id.ToString(), path);
+                parent = parent.Node1;
             }
 
             path = Path.Combine(GetCoursePath(node.CourseId), path);
@@ -355,7 +357,7 @@ namespace WebEditor.Models.Storage
                 path = HttpContext.Current.Request.PhysicalApplicationPath;
             }
 
-            return Path.Combine(path, "Data", courseId.ToString());
+            return Path.Combine(path, @"Data\Courses", courseId.ToString());
         }
 
         protected void CopyNodes(Node node, Node newnode)

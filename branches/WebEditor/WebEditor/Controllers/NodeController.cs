@@ -11,13 +11,13 @@ namespace WebEditor.Controllers
 {
     public class NodeController : BaseController
     {
-        protected IStorageInterface Storage;
         protected Course CurrentCourse;
 
         protected override void Initialize(RequestContext requestContext)
         {
-            StorageFactory factory = new StorageFactory();
-            Storage = factory.CreateStorage(StorageType.Mixed);
+            base.Initialize(requestContext);
+            //StorageFactory factory = new StorageFactory();
+            //Storage = factory.CreateStorage(StorageType.Mixed);
 
             int courseId = Convert.ToInt32(requestContext.RouteData.Values["CourseID"]);
             CurrentCourse = Storage.GetCourse(courseId);
@@ -151,7 +151,7 @@ namespace WebEditor.Controllers
             }
             catch (Exception)
             {
-                return Json(new {status = false });
+                return Json(new {status = true, data = "test"});
             }
         }
     }
