@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebEditor.Models;
+using WebEditor.Models.SearchResult;
 using Lucene.Net.Store;
 using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
