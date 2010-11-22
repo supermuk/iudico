@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace WebEditor.Controllers
 {
-    public class StageController : Controller
+    public class StageController : BaseController
     {
         //public ActionResult Index()
         //{
@@ -15,7 +15,16 @@ namespace WebEditor.Controllers
 
         public ActionResult Index(int curriculumId)
         {
-            return View();
+            var courses = Storage.GetStages(curriculumId);
+
+            if (courses != null)
+            {
+                return View(courses);
+            }
+            else
+            {
+                return View("Error");
+            }
         }
     }
 }

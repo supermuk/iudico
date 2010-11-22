@@ -10,12 +10,22 @@ namespace WebEditor.Models.Storage
     {
         #region Curriculum methods
 
-        List<Curriculum> GetCurriculums();
+        IEnumerable<Curriculum> GetCurriculums();
         Curriculum GetCurriculum(int id);
         int? AddCurriculum(Curriculum curriculum);
         bool UpdateCurriculum(int id, Curriculum curriculum);
         bool DeleteCurriculum(int id);
         bool DeleteCurriculums(List<int> ids);
+
+        #endregion
+
+        #region Stage methods
+
+        IEnumerable<Stage> GetStages(int curriculumId);
+
+        #endregion
+
+        #region Theme methods
 
         #endregion
 

@@ -406,7 +406,7 @@ namespace WebEditor.Models.Storage
 
         #region Curriculum methods
 
-        public List<Curriculum> GetCurriculums()
+        public IEnumerable<Curriculum> GetCurriculums()
         {
             try
             {
@@ -502,6 +502,26 @@ namespace WebEditor.Models.Storage
         }
 
         #endregion
+
+        #endregion
+
+        #region Stage methods
+
+        public IEnumerable<Stage> GetStages(int curriculumId)
+        {
+            try
+            {
+                return db.Stages.ToList().Where(c => c.CurriculumRef == curriculumId);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region Theme methods
 
         #endregion
     }

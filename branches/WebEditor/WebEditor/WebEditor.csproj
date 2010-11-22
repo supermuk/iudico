@@ -730,6 +730,7 @@
     <Content Include="Views\Shared\EditorTemplates\DropDownList.ascx" />
     <Content Include="Views\Shared\EditorTemplates\EditableObject.ascx" />
     <Content Include="Views\Stage\Index.aspx" />
+    <Content Include="Views\Theme\Index.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -791,7 +792,7 @@
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
+          <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>36876</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
