@@ -19,7 +19,7 @@ namespace WebEditor.Models.Storage
         {
             try
             {
-                return db.Courses.ToList();
+                return db.Courses.Where(c => c.Deleted == false).ToList();
             }
             catch
             {
@@ -87,10 +87,9 @@ namespace WebEditor.Models.Storage
             {
                 Course course = db.Courses.Single(c => c.Id == id);
 
-                db.Courses.DeleteOnSubmit(course);
-                db.SubmitChanges();
+                course.Deleted = true;
 
-                @Directory.Delete(GetCoursePath(id), true);
+                db.SubmitChanges();
 
                 return true;
             }
@@ -106,13 +105,12 @@ namespace WebEditor.Models.Storage
             {
                 var courses = (from n in db.Courses where ids.Contains(n.Id) select n);
 
-                db.Courses.DeleteAllOnSubmit(courses);
-                db.SubmitChanges();
-
-                foreach (var id in ids)
+                foreach (Course course in courses)
                 {
-                    @Directory.Delete(GetCoursePath(id));
+                    course.Deleted = true;
                 }
+
+                db.SubmitChanges();
 
                 return true;
             }
@@ -129,7 +127,7 @@ namespace WebEditor.Models.Storage
                 Course course = this.GetCourse(id);
 
                 string path = HttpContext.Current.Request.PhysicalApplicationPath;
-                path = Path.Combine(path, "Downloads");
+                path = Path.Combine(path, @"Data\WorkFolder");
                 path = Path.Combine(path, Guid.NewGuid().ToString());
                 path = Path.Combine(path, course.Name);
                 Directory.CreateDirectory(path);

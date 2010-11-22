@@ -9,7 +9,7 @@ namespace WebEditor.Helpers
 {
     public static class PackageValidator
     {
-        public static string Validate(string path)
+        public static List<string> Validate(string path)
         {
 
             FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
@@ -22,31 +22,32 @@ namespace WebEditor.Helpers
                 ValidationBehavior.LogWarning
                 );
             ValidationResults results;
+            List<string> messages = new List<string>();
             try
             {
                 results = Microsoft.LearningComponents.PackageValidator.Validate(reader, settings);
             }
             catch (InvalidPackageException ex)
             {
-                return String.Format("Package is invalid.<br>{0}", ex.Message);
+                messages.Add(String.Format("Package is invalid.{0}", ex.Message));
+                return messages;
             }
-            string message = "";
             foreach (ValidationResult result in results.Results)
             {
                 if (result.IsError)
                 {
-                    message += String.Format("MLC Error: {0}<br>", result.Message);
+                    messages.Add(String.Format("MLC Error: {0}", result.Message));
                 }
                 else
                 {
-                    message += String.Format("SCORM Warning: {0}<br>", result.Message);
+                    messages.Add(String.Format("SCORM Warning: {0}", result.Message));
                 }
             }
-            if (message == "")
+            if (messages.Count == 0)
             {
-                message = "Package is valid.";
+                messages.Add("Package is valid.");
             }
-            return message;
+            return messages;
         }
     }
 }
