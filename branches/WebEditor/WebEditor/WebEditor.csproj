@@ -92,6 +92,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NodeController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Controllers\StageController.cs" />
+    <Compile Include="Controllers\ThemeController.cs" />
     <Compile Include="Helpers\PackageValidator.cs" />
     <Compile Include="Helpers\Zipper.cs" />
     <Compile Include="Models\Butterfly.cs">
@@ -727,6 +729,7 @@
     <Content Include="Views\Shared\EditorTemplates\DateTime.ascx" />
     <Content Include="Views\Shared\EditorTemplates\DropDownList.ascx" />
     <Content Include="Views\Shared\EditorTemplates\EditableObject.ascx" />
+    <Content Include="Views\Stage\Index.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
