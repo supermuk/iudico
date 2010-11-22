@@ -92,10 +92,11 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NodeController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
-    <Compile Include="Controllers\StageController.cs" />
-    <Compile Include="Controllers\ThemeController.cs" />
     <Compile Include="Helpers\PackageValidator.cs" />
     <Compile Include="Helpers\Zipper.cs" />
+    <Compile Include="Models\Attributes.cs" />
+    <Compile Include="Models\Auth\OpenIDMembershipUser.cs" />
+    <Compile Include="Models\Auth\Models.cs" />
     <Compile Include="Models\Butterfly.cs">
       <DependentUpon>Butterfly.dbml</DependentUpon>
     </Compile>
@@ -124,6 +125,7 @@
     <Compile Include="Models\Old\Course.cs" />
     <Compile Include="Models\Old\Exceptions.cs" />
     <Compile Include="Models\Old\Extenders.cs" />
+    <Compile Include="Models\Auth\OpenIDMembershipProvider.cs" />
     <Compile Include="Models\SearchResult\CourseResult.cs" />
     <Compile Include="Models\SearchResult\ISearchResult.cs" />
     <Compile Include="Models\SearchResult\NodeResult.cs" />
@@ -132,7 +134,7 @@
     <Compile Include="Models\Sequencing\SequencingPatterns.cs" />
     <Compile Include="Models\Storage\MixedStorage.cs" />
     <Compile Include="Models\Storage\StorageFactory.cs" />
-    <Compile Include="Models\Storage\IStorageInterface.cs" />
+    <Compile Include="Models\Storage\IStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -708,8 +710,11 @@
     <Content Include="Scripts\jquery\jquery.hotkeys.js" />
     <Content Include="Scripts\jquery\jquery.jstree.js" />
     <Content Include="Scripts\jquery\jquery.layout.js" />
+    <Content Include="Views\Account\Edit.aspx" />
     <Content Include="Views\Account\Index.aspx" />
-    <Content Include="Views\Account\LogOn.aspx" />
+    <Content Include="Views\Account\Login.aspx" />
+    <Content Include="Views\Account\Register.aspx" />
+    <Content Include="Views\Account\Registered.aspx" />
     <Content Include="Views\Course\Create.aspx" />
     <Content Include="Views\Course\Edit.aspx" />
     <Content Include="Views\Course\Import.aspx" />
@@ -729,7 +734,7 @@
     <Content Include="Views\Shared\EditorTemplates\DateTime.ascx" />
     <Content Include="Views\Shared\EditorTemplates\DropDownList.ascx" />
     <Content Include="Views\Shared\EditorTemplates\EditableObject.ascx" />
-    <Content Include="Views\Stage\Index.aspx" />
+    <Content Include="Views\Shared\UserBox.ascx" />
     <Content Include="Views\Theme\Index.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -756,7 +761,7 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data\Courses\4\" />
+    <Folder Include="Data\Courses\" />
     <Folder Include="Data\Index\" />
     <Folder Include="Downloads\" />
   </ItemGroup>

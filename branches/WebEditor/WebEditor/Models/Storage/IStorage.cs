@@ -6,7 +6,7 @@ using WebEditor.Models;
 
 namespace WebEditor.Models.Storage
 {
-    public interface IStorageInterface
+    public interface IStorage
     {
         #region Curriculum methods
 

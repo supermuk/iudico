@@ -7,7 +7,7 @@ using System.Security.AccessControl;
 
 namespace WebEditor.Models.Storage
 {
-    public class MixedStorage : IStorageInterface
+    public class MixedStorage : IStorage
     {
         protected ButterflyDB db = ButterflyDB.Instance;
 
