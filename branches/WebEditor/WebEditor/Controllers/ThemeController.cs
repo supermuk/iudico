@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace WebEditor.Controllers
 {
-    public class ThemeController : Controller
+    public class ThemeController : BaseController
     {
 
         //public ActionResult Index()
