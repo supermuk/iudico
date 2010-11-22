@@ -14,29 +14,32 @@
     <div class="page">
         <div id="header">
             <div id="title">
-                <h1>
-                    Butterfly</h1>
+                <h1>Butterfly</h1>
             </div>
+
             <div id="logindisplay">
-                Waiting for LiveId...
+                <% Html.RenderPartial("UserBox"); %>
             </div>
+
             <div id="menucontainer">
                 <ul id="menu">
                     <li>
                         <%: Html.ActionLink("Home", "Index", "Home")%></li>
                     <li>
+                        <%: Html.ActionLink("Account", "Index", "Account")%></li>
+                    <li>
                         <%: Html.ActionLink("Course", "Index", "Course")%></li>
                     <li>
-                        <%: Html.ActionLink("Cirriculum", "Index", "Curriculum")%></li>
+                        <%: Html.ActionLink("Curriculum", "Index", "Curriculum")%></li>
                     <li>
                         <%: Html.ActionLink("Search", "Index", "Search")%></li>
                 </ul>
             </div>
         </div>
+
         <div id="main">
             <asp:ContentPlaceHolder ID="MainContent" runat="server" />
-            <div id="footer">
-            </div>
+            <div id="footer"></div>
         </div>
     </div>
 </body>

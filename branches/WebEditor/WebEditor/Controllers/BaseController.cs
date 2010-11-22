@@ -11,11 +11,11 @@ namespace WebEditor.Controllers
     public class BaseController: Controller
     {
         private ButterflyDB db = ButterflyDB.Instance;
-        protected IStorageInterface Storage
+        protected IStorage Storage
         {
             get
             {
-                return HttpContext.Application["Storage"] as IStorageInterface;
+                return HttpContext.Application["Storage"] as IStorage;
             }
         }
 

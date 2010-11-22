@@ -14,7 +14,7 @@ namespace WebEditor.Models.Storage
 
     public class StorageFactory
     {
-        public static IStorageInterface CreateStorage(StorageType type)
+        public static IStorage CreateStorage(StorageType type)
         {
             switch (type)
             {
