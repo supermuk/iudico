@@ -35,6 +35,29 @@ namespace WebEditor.Models
         }
     }
 
+    [MetadataType(typeof(Curriculum.Metadata))]
+    [Bind(Exclude = "Id")]
+    public partial class Curriculum
+    {
+        private sealed class Metadata
+        {
+            [ScaffoldColumn(false)]
+            public int Id { get; set; }
+
+            [DisplayName("Name")]
+            [Required(ErrorMessage = "Name is required")]
+            public string Name { get; set; }
+
+            [DisplayName("Created Date")]
+            [ScaffoldColumn(false)]
+            public DateTime Created { get; set; }
+
+            [DisplayName("Last Updated")]
+            [ScaffoldColumn(false)]
+            public DateTime Updated { get; set; }
+        }
+    }
+
     [MetadataType(typeof(Node.Metadata))]
     [Bind(Exclude = "Id, CourseId")]
     public partial class Node

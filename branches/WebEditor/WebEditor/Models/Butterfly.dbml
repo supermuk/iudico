@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Butterfly" Class="ButterflyDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=.\SQLEXPRESS;Initial Catalog=Butterfly;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="ButterflyConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=.\;Initial Catalog=Butterfly;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="ButterflyConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Courses" Member="Courses">
     <Type Name="Course">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -21,6 +21,14 @@
       <Association Name="Node_Node" Member="Nodes" ThisKey="Id" OtherKey="ParentId" Type="Node" />
       <Association Name="Course_Node" Member="Course" ThisKey="CourseId" OtherKey="Id" Type="Course" IsForeignKey="true" />
       <Association Name="Node_Node" Member="Node1" ThisKey="ParentId" OtherKey="Id" Type="Node" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Curriculums" Member="Curriculums">
+    <Type Name="Curriculum">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

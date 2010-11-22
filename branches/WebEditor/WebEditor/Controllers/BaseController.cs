@@ -10,7 +10,7 @@ namespace WebEditor.Controllers
 {
     public class BaseController: Controller
     {
-        protected ButterflyDB db = ButterflyDB.Instance;
+        private ButterflyDB db = ButterflyDB.Instance;
         protected IStorageInterface Storage
         {
             get
