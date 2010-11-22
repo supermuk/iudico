@@ -40,6 +40,18 @@ namespace WebEditor
                 new { controller = "Course" }
             );
 
+            routes.CustomMapRoute(
+                "Curriculum",
+                "Curriculum/{CurriculumID}/{action}",
+                new { controller = "Curriculum" }
+            );
+
+            routes.CustomMapRoute(
+                "Curriculums",
+                "Curriculum/{action}",
+                new { controller = "Curriculum" }
+            );
+
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(

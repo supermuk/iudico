@@ -7,9 +7,13 @@ using System.Security.AccessControl;
 
 namespace WebEditor.Models.Storage
 {
-    public class MixedStorage: IStorageInterface
+    public class MixedStorage : IStorageInterface
     {
         protected ButterflyDB db = ButterflyDB.Instance;
+
+        #region IStorageInterface Members
+
+        #region Course methods
 
         public List<Course> GetCourses()
         {
@@ -85,7 +89,7 @@ namespace WebEditor.Models.Storage
 
                 db.Courses.DeleteOnSubmit(course);
                 db.SubmitChanges();
-                
+
                 @Directory.Delete(GetCoursePath(id), true);
 
                 return true;
@@ -109,12 +113,12 @@ namespace WebEditor.Models.Storage
                 {
                     @Directory.Delete(GetCoursePath(id));
                 }
-                
+
                 return true;
             }
             catch
             {
-                return false;   
+                return false;
             }
         }
 
@@ -130,7 +134,7 @@ namespace WebEditor.Models.Storage
                 path = Path.Combine(path, course.Name);
                 Directory.CreateDirectory(path);
                 List<Node> nodes = this.GetNodes(id);
-                for(int i = 0; i < nodes.Count; i++)
+                for (int i = 0; i < nodes.Count; i++)
                 {
                     if (nodes[i].IsFolder == false)
                     {
@@ -168,6 +172,10 @@ namespace WebEditor.Models.Storage
                 return null;
             }
         }
+
+        #endregion
+
+        #region Node methods
 
         public List<Node> GetNodes(int courseId)
         {
@@ -332,8 +340,8 @@ namespace WebEditor.Models.Storage
             Node parent = node.Node1;
 
             string path = node.Id.ToString() + (!node.IsFolder ? ".html" : "");
-            
-            while(parent != null)
+
+            while (parent != null)
             {
                 path = Path.Combine(parent.Id.ToString(), path);
                 parent = parent.Node1;
@@ -393,5 +401,108 @@ namespace WebEditor.Models.Storage
                 }
             }
         }
+
+        #endregion
+
+        #region Curriculum methods
+
+        public List<Curriculum> GetCurriculums()
+        {
+            try
+            {
+                return db.Curriculums.ToList();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public Curriculum GetCurriculum(int id)
+        {
+            try
+            {
+                return db.Curriculums.Single(c => c.Id == id);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public int? AddCurriculum(Curriculum curriculum)
+        {
+            try
+            {
+                curriculum.Created = DateTime.Now;
+                curriculum.Updated = DateTime.Now;
+
+                db.Curriculums.InsertOnSubmit(curriculum);
+                db.SubmitChanges();
+
+                return curriculum.Id;
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
+        }
+
+        public bool UpdateCurriculum(int id, Curriculum curriculum)
+        {
+            try
+            {
+                Curriculum oldCurriculum = db.Curriculums.Single(c => c.Id == id);
+
+                oldCurriculum.Name = curriculum.Name;
+                oldCurriculum.Updated = DateTime.Now;
+
+                db.SubmitChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteCurriculum(int id)
+        {
+            try
+            {
+                Curriculum curriculum = db.Curriculums.Single(c => c.Id == id);
+
+                db.Curriculums.DeleteOnSubmit(curriculum);
+                db.SubmitChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteCurriculums(List<int> ids)
+        {
+            try
+            {
+                var curriculums = (from n in db.Curriculums where ids.Contains(n.Id) select n);
+
+                db.Curriculums.DeleteAllOnSubmit(curriculums);
+                db.SubmitChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        #endregion
+
+        #endregion
     }
 }

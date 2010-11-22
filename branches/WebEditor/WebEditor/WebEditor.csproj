@@ -88,6 +88,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
+    <Compile Include="Controllers\CurriculumController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NodeController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
@@ -711,6 +712,9 @@
     <Content Include="Views\Course\Edit.aspx" />
     <Content Include="Views\Course\Import.aspx" />
     <Content Include="Views\Course\Index.aspx" />
+    <Content Include="Views\Curriculum\Create.aspx" />
+    <Content Include="Views\Curriculum\Edit.aspx" />
+    <Content Include="Views\Curriculum\Index.aspx" />
     <Content Include="Views\Home\Course.aspx" />
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\Node\Create.aspx" />
