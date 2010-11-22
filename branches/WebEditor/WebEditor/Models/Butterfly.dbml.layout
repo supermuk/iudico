@@ -2,32 +2,6 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Butterfly">
   <DataContextMoniker Name="/ButterflyDataContext" />
   <nestedChildShapes>
-    <classShape Id="9b41a1ae-16db-43bf-996c-a3228f259f3a" absoluteBounds="0.75, 1, 2, 1.7708968098958331">
-      <DataClassMoniker Name="/ButterflyDataContext/Course" />
-      <nestedChildShapes>
-        <elementListCompartment Id="53a9733f-d535-4328-9889-543443af1330" absoluteBounds="0.765, 1.46, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="3bb85e64-8684-4671-a4ef-b67fafe386f8" absoluteBounds="3.5, 0.875, 2, 1.9631982421875">
-      <DataClassMoniker Name="/ButterflyDataContext/Node" />
-      <nestedChildShapes>
-        <elementListCompartment Id="ca375396-a974-4e65-98db-73f38e2a9983" absoluteBounds="3.515, 1.335, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(2.75 : 1.88544840494792); (3.5 : 1.88544840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/ButterflyDataContext/Course/Course_Node" />
-      <nodes>
-        <classShapeMoniker Id="9b41a1ae-16db-43bf-996c-a3228f259f3a" />
-        <classShapeMoniker Id="3bb85e64-8684-4671-a4ef-b67fafe386f8" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(4.20863627929687 : 2.8381982421875); (4.20863627929687 : 3.0881982421875); (4.80523818359375 : 3.0881982421875); (4.80523818359375 : 2.8381982421875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/ButterflyDataContext/Node/Node_Node" />
-      <nodes>
-        <classShapeMoniker Id="3bb85e64-8684-4671-a4ef-b67fafe386f8" />
-        <classShapeMoniker Id="3bb85e64-8684-4671-a4ef-b67fafe386f8" />
-      </nodes>
-    </associationConnector>
     <classShape Id="4877c2ae-a029-4b16-87f3-77150a992268" absoluteBounds="0.5, 3.25, 2, 1.5785953776041666">
       <DataClassMoniker Name="/ButterflyDataContext/Curriculum" />
       <nestedChildShapes>
@@ -58,6 +32,32 @@
       <nodes>
         <classShapeMoniker Id="4877c2ae-a029-4b16-87f3-77150a992268" />
         <classShapeMoniker Id="a7526f76-5621-4386-9a60-50d34fefad9a" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="bf7c1676-3e72-4e69-af8c-32af64d399a4" absoluteBounds="0.875, 1, 2, 1.9631982421875005">
+      <DataClassMoniker Name="/ButterflyDataContext/Course" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4aafec20-a00b-4fce-87a0-2d010b272211" absoluteBounds="0.88999999999999968, 1.46, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="89c21908-d556-4850-ab4d-832d16c49186" absoluteBounds="3.875, 0.75, 2, 1.9631982421875">
+      <DataClassMoniker Name="/ButterflyDataContext/Node" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4b4200c3-1108-4d65-89b5-e2a7bb61ecf5" absoluteBounds="3.89, 1.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.875 : 1.85659912109375); (3.875 : 1.85659912109375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/ButterflyDataContext/Course/Course_Node" />
+      <nodes>
+        <classShapeMoniker Id="bf7c1676-3e72-4e69-af8c-32af64d399a4" />
+        <classShapeMoniker Id="89c21908-d556-4850-ab4d-832d16c49186" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(4.58363627929687 : 2.7131982421875); (4.58363627929687 : 2.9631982421875); (5.18023818359375 : 2.9631982421875); (5.18023818359375 : 2.7131982421875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ButterflyDataContext/Node/Node_Node" />
+      <nodes>
+        <classShapeMoniker Id="89c21908-d556-4850-ab4d-832d16c49186" />
+        <classShapeMoniker Id="89c21908-d556-4850-ab4d-832d16c49186" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

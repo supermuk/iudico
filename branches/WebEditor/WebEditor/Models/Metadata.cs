@@ -55,6 +55,9 @@ namespace WebEditor.Models
             [DisplayName("Last Updated")]
             [ScaffoldColumn(false)]
             public DateTime Updated { get; set; }
+
+            [ScaffoldColumn(false)]
+            public bool Deleted { get; set; }
         }
     }
 
@@ -72,13 +75,16 @@ namespace WebEditor.Models
             public string Name { get; set; }
 
             [ScaffoldColumn(false)]
-            public int ParentId { get; set; }
+            public int? ParentId { get; set; }
 
             [ScaffoldColumn(false)]
             public int CourseId { get; set; }
 
             [DisplayName("Is Folder")]
             public bool IsFolder { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int PositioN { get; set; }
         }
     }
 }

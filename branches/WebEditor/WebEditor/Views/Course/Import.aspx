@@ -15,7 +15,16 @@
             <p>
                 <input type="submit" value="Validate" id="Validate" />
             </p>
-            <div id="validateResult"><%: Html.Encode(Model) %></div>
+            <div id="validateResult">
+                <ul>
+                    <% foreach (string result in ViewData["validateResults"] as List<string>)
+                       { %>
+                        <li>
+                            <%: result %>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
         </fieldset>
     <%} %>
 
