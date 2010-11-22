@@ -92,7 +92,7 @@
             <td>
                 <%: Html.ActionLink("Edit", "Edit", new { CurriculumID = item.Id })%>
                 |
-                <%: Html.ActionLink("Edit Stages", "Index", "Node", new { CurriculumID = item.Id }, null)%>
+                <%: Html.ActionLink("Edit Stages", "Index", "Stage", new { CurriculumID = item.Id }, null)%>
                 |
                 <%: Ajax.ActionLink("Delete", "Delete", new { CurriculumID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete" })%>
             </td>
