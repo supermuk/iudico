@@ -38,6 +38,9 @@
             });
 
         });
+        function removeRow(data) {
+            window.location = window.location;
+        }
     </script>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
@@ -99,7 +102,7 @@
                 <%: Html.ActionLink("Edit", "Edit", new { CourseID = item.Id })%> |
                 <%: Html.ActionLink("Details", "Index", "Node", new { CourseID = item.Id}, null) %> |
                 <%: Html.ActionLink("Export", "Export", new { CourseID = item.Id }) %> |
-                <%: Ajax.ActionLink("Delete", "Delete", new { CourseID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete" })%>
+                <%: Ajax.ActionLink("Delete", "Delete", new { CourseID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess="removeRow" })%>
             </td>
         </tr>
     

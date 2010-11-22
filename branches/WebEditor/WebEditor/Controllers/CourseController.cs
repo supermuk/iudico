@@ -77,17 +77,17 @@ namespace WebEditor.Controllers
         }
 
         [HttpDelete]
-        public ActionResult Delete(int courseId)
+        public JsonResult Delete(int courseId)
         {
             bool result = Storage.DeleteCourse(courseId);
             
             if (result)
             {
-                return RedirectToAction("Index");
+                return Json(new { success = true, id = courseId });
             }
             else
             {
-                return View("Error");
+                return Json(new { success = false });
             }
         }
 
