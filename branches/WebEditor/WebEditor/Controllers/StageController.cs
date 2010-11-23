@@ -8,18 +8,13 @@ namespace WebEditor.Controllers
 {
     public class StageController : BaseController
     {
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
-
         public ActionResult Index(int curriculumId)
         {
-            var courses = Storage.GetStages(curriculumId);
+            var stages = Storage.GetStages(curriculumId);
 
-            if (courses != null)
+            if (stages != null)
             {
-                return View(courses);
+                return View(stages);
             }
             else
             {

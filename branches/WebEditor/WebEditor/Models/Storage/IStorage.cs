@@ -27,6 +27,13 @@ namespace WebEditor.Models.Storage
 
         #region Theme methods
 
+        IEnumerable<Theme> GetThemes(int stageId);
+        Theme GetTheme(int id);
+        int? AddTheme(Theme theme);
+        bool UpdateTheme(int id, Theme theme);
+        bool ThemeUp(int themeId);
+        bool ThemeDown(int themeId);
+
         #endregion
 
         #region Course methods
