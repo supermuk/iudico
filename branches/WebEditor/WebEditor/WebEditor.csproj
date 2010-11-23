@@ -738,6 +738,8 @@
     <Content Include="Views\Shared\EditorTemplates\DropDownList.ascx" />
     <Content Include="Views\Shared\EditorTemplates\EditableObject.ascx" />
     <Content Include="Views\Shared\UserBox.ascx" />
+    <Content Include="Views\Stage\Create.aspx" />
+    <Content Include="Views\Stage\Edit.aspx" />
     <Content Include="Views\Stage\Index.aspx" />
     <Content Include="Views\Theme\Create.aspx" />
     <Content Include="Views\Theme\Edit.aspx" />

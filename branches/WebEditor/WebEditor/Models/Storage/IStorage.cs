@@ -22,6 +22,11 @@ namespace WebEditor.Models.Storage
         #region Stage methods
 
         IEnumerable<Stage> GetStages(int curriculumId);
+        int? AddStage(Stage stage);
+        Stage GetStage(int id);
+        bool UpdateStage(int id, Stage stage);
+        bool DeleteStage(int id);
+        bool DeleteStages(IEnumerable<int> ids);
 
         #endregion
 

@@ -60,6 +60,34 @@ namespace WebEditor.Models
         }
     }
 
+    
+    [MetadataType(typeof(Stage.Metadata))]
+    [Bind(Exclude = "Id, CurriculumRef")]
+    public partial class Stage
+    {
+        private sealed class Metadata
+        {
+            [ScaffoldColumn(false)]
+            public int Id { get; set; }
+
+            [DisplayName("Name")]
+            [Required(ErrorMessage = "Name is required")]
+            [StringLength(50, ErrorMessage = "Name can not be longer than 50.")]
+            public string Name { get; set; }
+
+            [DisplayName("Created Date")]
+            [ScaffoldColumn(false)]
+            public DateTime Created { get; set; }
+
+            [DisplayName("Last Updated")]
+            [ScaffoldColumn(false)]
+            public DateTime Updated { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int CurriculumRef { get; set; }
+        }
+    }
+
     [MetadataType(typeof(Node.Metadata))]
     [Bind(Exclude = "Id, CourseId")]
     public partial class Node

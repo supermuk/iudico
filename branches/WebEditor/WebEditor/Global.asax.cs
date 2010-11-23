@@ -41,6 +41,18 @@ namespace WebEditor
             );
 
             routes.CustomMapRoute(
+                "Stage",
+                "Stage/{StageId}/{action}",
+                new { controller = "Stage" }
+            );
+
+            routes.CustomMapRoute(
+                "Stages",
+                "Curriculum/{CurriculumId}/Stage/{action}",
+                new { controller = "Stage", CurriculumId = 0 }
+            );
+
+            routes.CustomMapRoute(
                 "Curriculum",
                 "Curriculum/{CurriculumID}/{action}",
                 new { controller = "Curriculum" }
