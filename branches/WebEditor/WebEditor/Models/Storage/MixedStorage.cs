@@ -515,6 +515,92 @@ namespace WebEditor.Models.Storage
             }
         }
 
+        public int? AddStage(Stage stage)
+        {
+            try
+            {
+                stage.Created = DateTime.Now;
+                stage.Updated = DateTime.Now;
+
+                db.Stages.InsertOnSubmit(stage);
+                db.SubmitChanges();
+
+                return stage.Id;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public Stage GetStage(int id)
+        {
+            try
+            {
+                return db.Stages.Single(s => s.Id == id);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public bool UpdateStage(int id, Stage stage)
+        {
+            try
+            {
+                Stage oldStage = GetStage(id);
+
+                oldStage.Name = stage.Name;
+                oldStage.Updated = DateTime.Now;
+                stage.CurriculumRef = oldStage.CurriculumRef;
+
+                db.SubmitChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteStage(int id)
+        {
+            try
+            {
+                Stage stage = db.Stages.Single(s => s.Id == id);
+
+                db.Stages.DeleteOnSubmit(stage);
+
+                db.SubmitChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteStages(IEnumerable<int> ids)
+        {
+            try
+            {
+                var stages = from stage in db.Stages where ids.Contains(stage.Id) select stage;
+
+                db.Stages.DeleteAllOnSubmit(stages);
+
+                db.SubmitChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         #endregion
 
         #region Theme methods
