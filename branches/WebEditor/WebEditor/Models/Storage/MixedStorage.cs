@@ -440,7 +440,7 @@ namespace WebEditor.Models.Storage
 
                 return curriculum.Id;
             }
-            catch(Exception e)
+            catch
             {
                 return null;
             }
@@ -501,15 +501,13 @@ namespace WebEditor.Models.Storage
 
         #endregion
 
-        #endregion
-
         #region Stage methods
 
         public IEnumerable<Stage> GetStages(int curriculumId)
         {
             try
             {
-                return db.Stages.ToList().Where(c => c.CurriculumRef == curriculumId);
+                return db.Stages.Where(c => c.CurriculumRef == curriculumId);
             }
             catch
             {
@@ -520,6 +518,147 @@ namespace WebEditor.Models.Storage
         #endregion
 
         #region Theme methods
+
+        public IEnumerable<Theme> GetThemes(int stageId)
+        {
+            try
+            {
+                return db.Themes.Where(c => c.StageRef == stageId).OrderBy(c => c.SortOrder);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public Theme GetTheme(int id)
+        {
+            try
+            {
+                return db.Themes.Single(c => c.Id == id);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public int? AddTheme(Theme theme)
+        {
+            try
+            {
+                theme.Name = GetCourse(theme.CourseRef).Name;
+                theme.Created = DateTime.Now;
+                theme.Updated = DateTime.Now;
+
+                db.Themes.InsertOnSubmit(theme);
+                db.SubmitChanges();
+
+                theme.SortOrder = theme.Id;
+                UpdateTheme(theme.Id, theme);
+
+                return theme.Id;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public bool UpdateTheme(int id, Theme theme)
+        {
+            try
+            {
+                Theme oldTheme = db.Themes.Single(c => c.Id == id);
+
+                oldTheme.Name = GetCourse(theme.CourseRef).Name;
+                oldTheme.SortOrder = theme.SortOrder;
+                oldTheme.CourseRef = theme.CourseRef;
+                oldTheme.Updated = DateTime.Now;
+
+                db.SubmitChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool ThemeUp(int themeId)
+        {
+            try
+            {
+                Theme theme = db.Themes.Single(c => c.Id == themeId);
+                IList<Theme> themes = (from c in db.Themes
+                                       where c.StageRef == theme.StageRef
+                                       orderby c.SortOrder
+                                       select c).ToList();
+
+                int index = themes.IndexOf(theme);
+                if (index == -1)
+                {
+                    return false;
+                }
+                else if (index == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    int temp = themes[index - 1].SortOrder;
+                    themes[index - 1].SortOrder = theme.SortOrder;
+                    theme.SortOrder = temp;
+
+                    db.SubmitChanges();
+
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool ThemeDown(int themeId)
+        {
+            try
+            {
+                Theme theme = db.Themes.Single(c => c.Id == themeId);
+                IList<Theme> themes = (from c in db.Themes
+                                       where c.StageRef == theme.StageRef
+                                       orderby c.SortOrder
+                                       select c).ToList();
+
+                int index = themes.IndexOf(theme);
+                if (index == -1)
+                {
+                    return false;
+                }
+                else if (index == themes.Count - 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    int temp = themes[index + 1].SortOrder;
+                    themes[index + 1].SortOrder = theme.SortOrder;
+                    theme.SortOrder = temp;
+
+                    db.SubmitChanges();
+
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        #endregion
 
         #endregion
     }
