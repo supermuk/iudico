@@ -85,16 +85,12 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\NodeController.cs" />
     <Compile Include="CourseMgtRegistration.cs" />
     <Compile Include="Helpers\PackageValidator.cs" />
     <Compile Include="Helpers\Zipper.cs" />
-    <Compile Include="Models\Attributes.cs" />
-    <Compile Include="Models\Auth\OpenIDMembershipUser.cs" />
-    <Compile Include="Models\Auth\Models.cs" />
     <Compile Include="Models\Extensions.cs" />
     <Compile Include="Models\Handlers\GetCourseHandler.cs" />
     <Compile Include="Models\Handlers\GetCoursesHandler.cs" />
@@ -114,7 +110,6 @@
     <Compile Include="Models\Old\Course.cs" />
     <Compile Include="Models\Old\Exceptions.cs" />
     <Compile Include="Models\Old\Extenders.cs" />
-    <Compile Include="Models\Auth\OpenIDMembershipProvider.cs" />
     <Compile Include="Models\Sequencing\SequencingIntf.cs" />
     <Compile Include="Models\Sequencing\SequencingManager.cs" />
     <Compile Include="Models\Sequencing\SequencingPatterns.cs" />

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
-namespace IUDICO.CourseMgt.Models.Auth
+namespace IUDICO.UM.Models
 {
     public class RegisterModel
     {
