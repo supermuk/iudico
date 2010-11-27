@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
-
-using IUDICO.CourseMgt.Models;
-using IUDICO.CourseMgt.Models.Storage;
 using System.IO;
+using IUDICO.Common.Models;
 
 namespace IUDICO.CourseMgt.Controllers
 {
-    public class CourseController : BaseController
+    public class CourseController : CourseBaseController
     {
         public ActionResult Index()
         {

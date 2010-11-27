@@ -1,0 +1,7 @@
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.CurrMgt\bin\CurrMgt.dll
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.CurrMgt\bin\CurrMgt.pdb
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.CurrMgt\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.CurrMgt\obj\Debug\CurrMgt.dll
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.CurrMgt\obj\Debug\CurrMgt.pdb
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.CurrMgt\bin\IUDICO.Common.dll
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.CurrMgt\bin\IUDICO.Common.pdb
