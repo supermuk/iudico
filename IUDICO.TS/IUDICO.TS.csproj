@@ -102,7 +102,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\player.sql" />
-    <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Libraries\Microsoft.LearningComponents.Compression.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.Compression.pdb" />
@@ -111,15 +110,6 @@
     <Content Include="Libraries\Microsoft.LearningComponents.Storage.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.Storage.pdb" />
     <Content Include="Views\Package\Index.aspx" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />

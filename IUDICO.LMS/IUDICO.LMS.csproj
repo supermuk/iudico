@@ -96,6 +96,18 @@
     <Content Include="Global.asax" />
     <EmbeddedResource Include="Views\Home\Course.aspx" />
     <EmbeddedResource Include="Views\Home\Index.aspx" />
+    <Content Include="Scripts\jquery\jquery-1.4.1-vsdoc.js" />
+    <Content Include="Scripts\jquery\jquery-1.4.1.js" />
+    <Content Include="Scripts\jquery\jquery-1.4.1.min.js" />
+    <Content Include="Scripts\jquery\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery\jquery.validate.js" />
+    <Content Include="Scripts\jquery\jquery.validate.min.js" />
+    <Content Include="Scripts\Microsoft\MicrosoftAjax.debug.js" />
+    <Content Include="Scripts\Microsoft\MicrosoftAjax.js" />
+    <Content Include="Scripts\Microsoft\MicrosoftMvcAjax.debug.js" />
+    <Content Include="Scripts\Microsoft\MicrosoftMvcAjax.js" />
+    <Content Include="Scripts\Microsoft\MicrosoftMvcValidation.debug.js" />
+    <Content Include="Scripts\Microsoft\MicrosoftMvcValidation.js" />
     <Content Include="Views\Shared\DisplayTemplates\DateTime.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\Object.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\Password.ascx" />
@@ -104,25 +116,15 @@
     <Content Include="Views\Shared\EditorTemplates\EditableObject.ascx" />
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\UserBox.ascx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Scripts\jquery-1.4.1.js" />
-    <Content Include="Scripts\jquery-1.4.1.min.js" />
-    <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\MicrosoftAjax.js" />
-    <Content Include="Scripts\MicrosoftAjax.debug.js" />
-    <Content Include="Scripts\MicrosoftMvcAjax.js" />
-    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
-    <Content Include="Scripts\MicrosoftMvcValidation.js" />
-    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
