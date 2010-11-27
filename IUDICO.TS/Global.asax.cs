@@ -16,12 +16,17 @@ namespace IUDICO.TS
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+           routes.MapRoute(
+               "Packages", // Route name
+               "Package/{action}/{id}", // URL with parameters
+               new { controller = "Package", action = "Index", id = 1} // Parameter defaults
+           );
+
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
-
         }
 
         protected void Application_Start()
