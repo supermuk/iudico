@@ -29,9 +29,9 @@ namespace IUDICO.LMS
 
         protected void Application_Start()
         {
-            PortableAreaRegistration.RegisterEmbeddedViewEngine();
-
             AreaRegistration.RegisterAllAreas();
+            
+            PortableAreaRegistration.RegisterEmbeddedViewEngine();            
 
             RegisterRoutes(RouteTable.Routes);
 
