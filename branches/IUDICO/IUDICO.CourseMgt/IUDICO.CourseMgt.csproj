@@ -762,7 +762,7 @@
   <ItemGroup>
     <Folder Include="Data\Courses\" />
     <Folder Include="Data\Index\" />
-    <Folder Include="Downloads\" />
+    <Folder Include="Data\WorkFolder\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Models\Butterfly.dbml">
