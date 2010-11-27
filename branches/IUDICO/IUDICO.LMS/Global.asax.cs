@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using IUDICO.CourseMgt.Models.Storage;
+using MvcContrib.PortableAreas;
 using MvcContrib.UI.InputBuilder;
 
 namespace IUDICO.LMS
@@ -28,9 +29,12 @@ namespace IUDICO.LMS
 
         protected void Application_Start()
         {
+            PortableAreaRegistration.RegisterEmbeddedViewEngine();
+
             AreaRegistration.RegisterAllAreas();
 
             RegisterRoutes(RouteTable.Routes);
+
             InputBuilder.BootStrap();
         }
     }

@@ -673,27 +673,26 @@
     <Content Include="Scripts\custom\ckeditor\_source\skins\v2\templates.css" />
     <Content Include="Scripts\custom\ckeditor\_source\skins\v2\toolbar.css" />
     <Content Include="Scripts\custom\ckeditor\_source\themes\default\theme.js" />
-    <EmbeddedResource Include="Views\Account\Edit.aspx" />
-    <EmbeddedResource Include="Views\Account\Index.aspx" />
-    <EmbeddedResource Include="Views\Account\Login.aspx" />
-    <EmbeddedResource Include="Views\Account\Register.aspx" />
-    <EmbeddedResource Include="Views\Account\Registered.aspx" />
-    <EmbeddedResource Include="Views\Course\Create.aspx" />
-    <EmbeddedResource Include="Views\Course\Edit.aspx" />
-    <EmbeddedResource Include="Views\Course\Import.aspx" />
-    <EmbeddedResource Include="Views\Course\Index.aspx" />
-    <EmbeddedResource Include="Views\Curriculum\Create.aspx" />
-    <EmbeddedResource Include="Views\Curriculum\Edit.aspx" />
-    <EmbeddedResource Include="Views\Curriculum\Index.aspx" />
-    <EmbeddedResource Include="Views\Node\Create.aspx" />
-    <EmbeddedResource Include="Views\Node\Index.aspx" />
-    <EmbeddedResource Include="Views\Search\Index.aspx" />
-    <EmbeddedResource Include="Views\Search\Search.aspx" />
-    <EmbeddedResource Include="Views\Stage\Index.aspx" />
-    <EmbeddedResource Include="Views\Theme\Create.aspx" />
-    <EmbeddedResource Include="Views\Theme\Edit.aspx" />
-    <EmbeddedResource Include="Views\Theme\Index.aspx" />
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Account\Edit.aspx" />
+    <Content Include="Views\Account\Index.aspx" />
+    <Content Include="Views\Account\Login.aspx" />
+    <Content Include="Views\Account\Register.aspx" />
+    <Content Include="Views\Account\Registered.aspx" />
+    <Content Include="Views\Course\Create.aspx" />
+    <Content Include="Views\Course\Edit.aspx" />
+    <Content Include="Views\Course\Import.aspx" />
+    <Content Include="Views\Course\Index.aspx" />
+    <Content Include="Views\Curriculum\Create.aspx" />
+    <Content Include="Views\Curriculum\Edit.aspx" />
+    <Content Include="Views\Curriculum\Index.aspx" />
+    <Content Include="Views\Node\Create.aspx" />
+    <Content Include="Views\Node\Index.aspx" />
+    <Content Include="Views\Search\Index.aspx" />
+    <Content Include="Views\Search\Search.aspx" />
+    <Content Include="Views\Stage\Index.aspx" />
+    <Content Include="Views\Theme\Create.aspx" />
+    <Content Include="Views\Theme\Edit.aspx" />
+    <Content Include="Views\Theme\Index.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\Courses\" />
@@ -737,4 +736,9 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Target Name="BeforeBuild">
+    <ItemGroup>
+      <EmbeddedResource Include="**\*.aspx;**\*.ascx;**\*.gif;**\*.css;**\*.js;**\*.png;**\*.jpg" />
+    </ItemGroup>
+  </Target>
 </Project>

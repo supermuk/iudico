@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using IUDICO.CourseMgt.Models.Storage;
 using MvcContrib.PortableAreas;
+using MvcContrib.UI.InputBuilder.ViewEngine;
 
 namespace IUDICO.CourseMgt
 {
