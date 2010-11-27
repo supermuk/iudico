@@ -96,6 +96,10 @@
     <Compile Include="Models\Auth\OpenIDMembershipUser.cs" />
     <Compile Include="Models\Auth\Models.cs" />
     <Compile Include="Models\Extensions.cs" />
+    <Compile Include="Models\Handlers\GetCourseHandler.cs" />
+    <Compile Include="Models\Handlers\GetCoursesHandler.cs" />
+    <Compile Include="Models\Handlers\GetNodeContentsHandler.cs" />
+    <Compile Include="Models\Handlers\GetNodesHandler.cs" />
     <Compile Include="Models\JsTree.cs" />
     <Compile Include="Models\Manifest\AbstractManifestNode.cs" />
     <Compile Include="Models\Manifest\Item.cs" />

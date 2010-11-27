@@ -180,4 +180,9 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Target Name="BeforeBuild">
+    <ItemGroup>
+      <EmbeddedResource Include="**\*.aspx;**\*.ascx;**\*.gif;**\*.css;**\*.js;**\*.png;**\*.jpg" />
+    </ItemGroup>
+  </Target>
 </Project>

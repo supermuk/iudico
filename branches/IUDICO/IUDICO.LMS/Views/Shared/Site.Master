@@ -28,11 +28,11 @@
                     <li>
                         <%: Html.ActionLink("Account", "Index", "Account")%></li>
                     <li>
-                        <%: Html.ActionLink("Course", "Index", "Course")%></li>
+                        <%: Html.ActionLink("Course", "Index", "Course", new { area = "CourseMgt" }, null)%></li>
                     <li>
-                        <%: Html.ActionLink("Curriculum", "Index", "Curriculum")%></li>
+                        <%: Html.ActionLink("Curriculum", "Index", "Curriculum", new { area = "CurrMgt"}, null)%></li>
                     <li>
-                        <%: Html.ActionLink("Search", "Index", "Search")%></li>
+                        <%: Html.ActionLink("Search", "Index", "Search", new { area = "Search" }, null)%></li>
                 </ul>
             </div>
         </div>
