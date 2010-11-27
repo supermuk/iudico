@@ -5,20 +5,19 @@ using System.Web;
 using System.Web.Mvc;
 using IUDICO.CourseMgt.Models;
 using IUDICO.CourseMgt.Models.Storage;
+using IUDICO.Common.Models;
+using IUDICO.Common.Controllers;
 
 namespace IUDICO.CourseMgt.Controllers
 {
-    public class BaseController: Controller
+    public class CourseBaseController: Controller
     {
-        private ButterflyDB db = ButterflyDB.Instance;
-        protected IStorage Storage
+        protected ICourseStorage Storage
         {
             get
             {
-                return HttpContext.Application["Storage"] as IStorage;
+                return HttpContext.Application["CourseStorage"] as ICourseStorage;
             }
         }
-
-        
     }
 }

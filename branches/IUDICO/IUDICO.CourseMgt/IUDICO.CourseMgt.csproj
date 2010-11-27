@@ -35,23 +35,27 @@
   <ItemGroup>
     <Reference Include="DotNetOpenAuth, Version=3.4.5.10202, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\DotNetOpenAuth.dll</HintPath>
+      <HintPath>Libraries\DotNetOpenAuth.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>Libraries\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="Lucene.Net">
-      <HintPath>Lib\Lucene.Net.dll</HintPath>
+    <Reference Include="Lucene.Net, Version=2.9.2.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\Lucene.Net.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.LearningComponents, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\Microsoft.LearningComponents.dll</HintPath>
+      <HintPath>Libraries\Microsoft.LearningComponents.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.LearningComponents.Compression, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\Microsoft.LearningComponents.Compression.dll</HintPath>
+      <HintPath>Libraries\Microsoft.LearningComponents.Compression.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcContrib, Version=2.0.96.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\MvcContrib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -89,29 +93,14 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
-    <Compile Include="Controllers\CurriculumController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NodeController.cs" />
-    <Compile Include="Controllers\SearchController.cs" />
-    <Compile Include="Controllers\StageController.cs" />
-    <Compile Include="Controllers\ThemeController.cs" />
+    <Compile Include="CourseMgtRegistration.cs" />
     <Compile Include="Helpers\PackageValidator.cs" />
     <Compile Include="Helpers\Zipper.cs" />
     <Compile Include="Models\Attributes.cs" />
     <Compile Include="Models\Auth\OpenIDMembershipUser.cs" />
     <Compile Include="Models\Auth\Models.cs" />
-    <Compile Include="Models\Butterfly.cs">
-      <DependentUpon>Butterfly.dbml</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Butterfly.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Butterfly.dbml</DependentUpon>
-    </Compile>
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ButterflyDB.cs" />
     <Compile Include="Models\Extensions.cs" />
     <Compile Include="Models\JsTree.cs" />
     <Compile Include="Models\Manifest\AbstractManifestNode.cs" />
@@ -122,26 +111,21 @@
     <Compile Include="Models\Manifest\ManifestTypes.cs" />
     <Compile Include="Models\Manifest\Organization.cs" />
     <Compile Include="Models\Manifest\PosibilityManager.cs" />
-    <Compile Include="Models\Metadata.cs" />
     <Compile Include="Models\Old\Annotations.cs" />
     <Compile Include="Models\Old\Answers.cs" />
     <Compile Include="Models\Old\Course.cs" />
     <Compile Include="Models\Old\Exceptions.cs" />
     <Compile Include="Models\Old\Extenders.cs" />
     <Compile Include="Models\Auth\OpenIDMembershipProvider.cs" />
-    <Compile Include="Models\SearchResult\CourseResult.cs" />
-    <Compile Include="Models\SearchResult\ISearchResult.cs" />
-    <Compile Include="Models\SearchResult\NodeResult.cs" />
     <Compile Include="Models\Sequencing\SequencingIntf.cs" />
     <Compile Include="Models\Sequencing\SequencingManager.cs" />
     <Compile Include="Models\Sequencing\SequencingPatterns.cs" />
-    <Compile Include="Models\Storage\MixedStorage.cs" />
-    <Compile Include="Models\Storage\StorageFactory.cs" />
-    <Compile Include="Models\Storage\IStorage.cs" />
+    <Compile Include="Models\Storage\MixedCourseStorage.cs" />
+    <Compile Include="Models\Storage\CourseStorageFactory.cs" />
+    <Compile Include="Models\Storage\ICourseStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\initial.sql" />
     <Content Include="Content\ui-lightness\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
     <Content Include="Content\ui-lightness\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
     <Content Include="Content\ui-lightness\images\ui-bg_flat_10_000000_40x100.png" />
@@ -157,13 +141,13 @@
     <Content Include="Content\ui-lightness\images\ui-icons_ffd27a_256x240.png" />
     <Content Include="Content\ui-lightness\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\ui-lightness\jquery-ui-1.8.5.custom.css" />
-    <Content Include="Global.asax" />
-    <Content Include="Lib\DotNetOpenAuth.dll" />
-    <Content Include="Lib\DotNetOpenAuth.xml" />
-    <Content Include="Lib\ICSharpCode.SharpZipLib.dll" />
-    <Content Include="Lib\Microsoft.LearningComponents.Compression.dll" />
-    <Content Include="Lib\Microsoft.LearningComponents.dll" />
-    <Content Include="Lib\Microsoft.LearningComponents.XML" />
+    <Content Include="Libraries\DotNetOpenAuth.dll" />
+    <Content Include="Libraries\DotNetOpenAuth.xml" />
+    <Content Include="Libraries\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="Libraries\Microsoft.LearningComponents.Compression.dll" />
+    <Content Include="Libraries\Microsoft.LearningComponents.dll" />
+    <Content Include="Libraries\Microsoft.LearningComponents.XML" />
+    <Content Include="Libraries\MvcContrib.dll" />
     <Content Include="Scripts\custom\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\custom\ckeditor\ckeditor.js" />
     <Content Include="Scripts\custom\ckeditor\ckeditor_basic.js" />
@@ -713,35 +697,28 @@
     <Content Include="Scripts\jquery\jquery.hotkeys.js" />
     <Content Include="Scripts\jquery\jquery.jstree.js" />
     <Content Include="Scripts\jquery\jquery.layout.js" />
-    <Content Include="Views\Account\Edit.aspx" />
-    <Content Include="Views\Account\Index.aspx" />
-    <Content Include="Views\Account\Login.aspx" />
-    <Content Include="Views\Account\Register.aspx" />
-    <Content Include="Views\Account\Registered.aspx" />
-    <Content Include="Views\Course\Create.aspx" />
-    <Content Include="Views\Course\Edit.aspx" />
-    <Content Include="Views\Course\Import.aspx" />
-    <Content Include="Views\Course\Index.aspx" />
-    <Content Include="Views\Curriculum\Create.aspx" />
-    <Content Include="Views\Curriculum\Edit.aspx" />
-    <Content Include="Views\Curriculum\Index.aspx" />
-    <Content Include="Views\Home\Course.aspx" />
-    <Content Include="Views\Home\Index.aspx" />
-    <Content Include="Views\Node\Create.aspx" />
-    <Content Include="Views\Node\Index.aspx" />
-    <Content Include="Views\Search\Index.aspx" />
-    <Content Include="Views\Search\Search.aspx" />
-    <Content Include="Views\Shared\DisplayTemplates\DateTime.ascx" />
-    <Content Include="Views\Shared\DisplayTemplates\Object.ascx" />
-    <Content Include="Views\Shared\DisplayTemplates\Password.ascx" />
-    <Content Include="Views\Shared\EditorTemplates\DateTime.ascx" />
-    <Content Include="Views\Shared\EditorTemplates\DropDownList.ascx" />
-    <Content Include="Views\Shared\EditorTemplates\EditableObject.ascx" />
-    <Content Include="Views\Shared\UserBox.ascx" />
-    <Content Include="Views\Stage\Index.aspx" />
-    <Content Include="Views\Theme\Create.aspx" />
-    <Content Include="Views\Theme\Edit.aspx" />
-    <Content Include="Views\Theme\Index.aspx" />
+    <EmbeddedResource Include="Views\Account\Edit.aspx" />
+    <EmbeddedResource Include="Views\Account\Index.aspx" />
+    <EmbeddedResource Include="Views\Account\Login.aspx" />
+    <EmbeddedResource Include="Views\Account\Register.aspx" />
+    <EmbeddedResource Include="Views\Account\Registered.aspx" />
+    <EmbeddedResource Include="Views\Course\Create.aspx" />
+    <EmbeddedResource Include="Views\Course\Edit.aspx" />
+    <EmbeddedResource Include="Views\Course\Import.aspx" />
+    <EmbeddedResource Include="Views\Course\Index.aspx" />
+    <EmbeddedResource Include="Views\Curriculum\Create.aspx" />
+    <EmbeddedResource Include="Views\Curriculum\Edit.aspx" />
+    <EmbeddedResource Include="Views\Curriculum\Index.aspx" />
+    <EmbeddedResource Include="Views\Home\Course.aspx" />
+    <EmbeddedResource Include="Views\Home\Index.aspx" />
+    <EmbeddedResource Include="Views\Node\Create.aspx" />
+    <EmbeddedResource Include="Views\Node\Index.aspx" />
+    <EmbeddedResource Include="Views\Search\Index.aspx" />
+    <EmbeddedResource Include="Views\Search\Search.aspx" />
+    <EmbeddedResource Include="Views\Stage\Index.aspx" />
+    <EmbeddedResource Include="Views\Theme\Create.aspx" />
+    <EmbeddedResource Include="Views\Theme\Edit.aspx" />
+    <EmbeddedResource Include="Views\Theme\Index.aspx" />
     <Content Include="Content\Style.css" />
     <Content Include="Scripts\jquery\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery\jquery-1.4.1.min.js" />
@@ -755,33 +732,22 @@
     <Content Include="Scripts\Microsoft\MicrosoftMvcAjax.debug.js" />
     <Content Include="Scripts\Microsoft\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\Microsoft\MicrosoftMvcValidation.debug.js" />
-    <Content Include="Views\Shared\Error.aspx" />
-    <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\Tree\" />
     <Folder Include="Data\Courses\" />
     <Folder Include="Data\Index\" />
     <Folder Include="Data\WorkFolder\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Models\Butterfly.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>Butterfly.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <Content Include="Views\Shared\Empty.Master" />
-    <Content Include="Views\Shared\DisplayTemplates\Template.Master" />
-    <Content Include="Views\Shared\EditorTemplates\Template.Master" />
-    <Content Include="web.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Models\Butterfly.dbml.layout">
-      <DependentUpon>Butterfly.dbml</DependentUpon>
-    </None>
+    <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
+      <Project>{9DD6C943-6608-4351-A521-E4B1F2F75E9D}</Project>
+      <Name>IUDICO.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

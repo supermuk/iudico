@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Butterfly" EntityNamespace="IUDICO.Common.Models" ContextNamespace="IUDICO.Common.Models" Class="DBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;Initial Catalog=Butterfly;Integrated Security=True" SettingsObjectName="IUDICO.Common.Properties.Settings" SettingsPropertyName="ButterflyConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Courses" Member="Courses">
+    <Type Name="Course">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Owner" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Deleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Course_Node" Member="Nodes" ThisKey="Id" OtherKey="CourseId" Type="Node" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Themes" Member="Themes">
+    <Type Name="Theme">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="StageRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CourseRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SortOrder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Stage_Theme" Member="Stage" ThisKey="StageRef" OtherKey="Id" Type="Stage" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Curriculums" Member="Curriculums">
+    <Type Name="Curriculum">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Curriculum_Stage" Member="Stages" ThisKey="Id" OtherKey="CurriculumRef" Type="Stage" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Nodes" Member="Nodes">
+    <Type Name="Node">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CourseId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsFolder" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Position" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Node_Node" Member="Nodes" ThisKey="Id" OtherKey="ParentId" Type="Node" />
+      <Association Name="Course_Node" Member="Course" ThisKey="CourseId" OtherKey="Id" Type="Course" IsForeignKey="true" />
+      <Association Name="Node_Node" Member="Node1" ThisKey="ParentId" OtherKey="Id" Type="Node" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Stages" Member="Stages">
+    <Type Name="Stage">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="CurriculumRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Stage_Theme" Member="Themes" ThisKey="Id" OtherKey="StageRef" Type="Theme" />
+      <Association Name="Curriculum_Stage" Member="Curriculum" ThisKey="CurriculumRef" OtherKey="Id" Type="Curriculum" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
