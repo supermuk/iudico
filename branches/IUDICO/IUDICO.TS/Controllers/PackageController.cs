@@ -16,7 +16,6 @@ namespace IUDICO.TS.Controllers
         public ActionResult Index(long id)
         {
             IEnumerable<Package> packages = MlcDataProvider.Instance.GetPackages(id);
-            
 
             return View(packages);
         }

@@ -7,7 +7,7 @@ namespace IUDICO.Common.Messages.CourseMgt
 {
     public class GetNodesMessage : CourseMessage
     {
-        public new GetNodesInput Input { get; set; }
+        public GetNodesInput Input { get; set; }
     }
 
     public class GetNodesInput
