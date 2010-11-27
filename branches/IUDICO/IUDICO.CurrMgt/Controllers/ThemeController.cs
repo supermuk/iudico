@@ -101,7 +101,6 @@ namespace IUDICO.CurrMgt.Controllers
             {
                 return View("Error");
             }
-            return null;
         }
 
         public ActionResult ThemeUp(int themeId, int stageId)

@@ -41,10 +41,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="Lucene.Net, Version=2.9.2.2, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\Lucene.Net.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.LearningComponents, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Microsoft.LearningComponents.dll</HintPath>
@@ -55,7 +51,7 @@
     </Reference>
     <Reference Include="MvcContrib, Version=2.0.96.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\MvcContrib.dll</HintPath>
+      <HintPath>..\IUDICO.Common\Libraries\MvcContrib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -92,8 +88,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
-    <Compile Include="Controllers\CoursesController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NodeController.cs" />
     <Compile Include="CourseMgtRegistration.cs" />
     <Compile Include="Helpers\PackageValidator.cs" />
@@ -126,21 +120,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\ui-lightness\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
-    <Content Include="Content\ui-lightness\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
-    <Content Include="Content\ui-lightness\images\ui-bg_flat_10_000000_40x100.png" />
-    <Content Include="Content\ui-lightness\images\ui-bg_glass_100_f6f6f6_1x400.png" />
-    <Content Include="Content\ui-lightness\images\ui-bg_glass_100_fdf5ce_1x400.png" />
-    <Content Include="Content\ui-lightness\images\ui-bg_glass_65_ffffff_1x400.png" />
-    <Content Include="Content\ui-lightness\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
-    <Content Include="Content\ui-lightness\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
-    <Content Include="Content\ui-lightness\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
-    <Content Include="Content\ui-lightness\images\ui-icons_222222_256x240.png" />
-    <Content Include="Content\ui-lightness\images\ui-icons_228ef1_256x240.png" />
-    <Content Include="Content\ui-lightness\images\ui-icons_ef8c08_256x240.png" />
-    <Content Include="Content\ui-lightness\images\ui-icons_ffd27a_256x240.png" />
-    <Content Include="Content\ui-lightness\images\ui-icons_ffffff_256x240.png" />
-    <Content Include="Content\ui-lightness\jquery-ui-1.8.5.custom.css" />
+    <Content Include="Content\Tree\file.png" />
+    <Content Include="Content\Tree\folder.png" />
+    <Content Include="Content\Tree\root.png" />
     <Content Include="Libraries\DotNetOpenAuth.dll" />
     <Content Include="Libraries\DotNetOpenAuth.xml" />
     <Content Include="Libraries\ICSharpCode.SharpZipLib.dll" />
@@ -691,12 +673,6 @@
     <Content Include="Scripts\custom\ckeditor\_source\skins\v2\templates.css" />
     <Content Include="Scripts\custom\ckeditor\_source\skins\v2\toolbar.css" />
     <Content Include="Scripts\custom\ckeditor\_source\themes\default\theme.js" />
-    <Content Include="Scripts\jquery\jquery-ui-1.8.5.custom.min.js" />
-    <Content Include="Scripts\jquery\jquery-1.4.3.min.js" />
-    <Content Include="Scripts\jquery\jquery.cookie.js" />
-    <Content Include="Scripts\jquery\jquery.hotkeys.js" />
-    <Content Include="Scripts\jquery\jquery.jstree.js" />
-    <Content Include="Scripts\jquery\jquery.layout.js" />
     <EmbeddedResource Include="Views\Account\Edit.aspx" />
     <EmbeddedResource Include="Views\Account\Index.aspx" />
     <EmbeddedResource Include="Views\Account\Login.aspx" />
@@ -709,8 +685,6 @@
     <EmbeddedResource Include="Views\Curriculum\Create.aspx" />
     <EmbeddedResource Include="Views\Curriculum\Edit.aspx" />
     <EmbeddedResource Include="Views\Curriculum\Index.aspx" />
-    <EmbeddedResource Include="Views\Home\Course.aspx" />
-    <EmbeddedResource Include="Views\Home\Index.aspx" />
     <EmbeddedResource Include="Views\Node\Create.aspx" />
     <EmbeddedResource Include="Views\Node\Index.aspx" />
     <EmbeddedResource Include="Views\Search\Index.aspx" />
@@ -719,23 +693,9 @@
     <EmbeddedResource Include="Views\Theme\Create.aspx" />
     <EmbeddedResource Include="Views\Theme\Edit.aspx" />
     <EmbeddedResource Include="Views\Theme\Index.aspx" />
-    <Content Include="Content\Style.css" />
-    <Content Include="Scripts\jquery\jquery-1.4.1.js" />
-    <Content Include="Scripts\jquery\jquery-1.4.1.min.js" />
-    <Content Include="Scripts\jquery\jquery-1.4.1-vsdoc.js" />
-    <Content Include="Scripts\jquery\jquery.validate.js" />
-    <Content Include="Scripts\jquery\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\Microsoft\MicrosoftAjax.js" />
-    <Content Include="Scripts\Microsoft\MicrosoftAjax.debug.js" />
-    <Content Include="Scripts\Microsoft\MicrosoftMvcAjax.js" />
-    <Content Include="Scripts\Microsoft\MicrosoftMvcAjax.debug.js" />
-    <Content Include="Scripts\Microsoft\MicrosoftMvcValidation.js" />
-    <Content Include="Scripts\Microsoft\MicrosoftMvcValidation.debug.js" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\Tree\" />
     <Folder Include="Data\Courses\" />
     <Folder Include="Data\Index\" />
     <Folder Include="Data\WorkFolder\" />
