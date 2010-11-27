@@ -5,24 +5,24 @@ using System.Web;
 
 namespace IUDICO.CurrMgt.Models.Storage
 {
-    public enum StorageType
+    public enum CurrStorageType
     {
         Database = 1,
         FileSystem,
         Mixed
     }
 
-    public class StorageFactory
+    public class CurrStorageFactory
     {
-        public static ICurrStorage CreateStorage(StorageType type)
+        public static ICurrStorage CreateStorage(CurrStorageType type)
         {
             switch (type)
             {
-                case StorageType.Database:
+                case CurrStorageType.Database:
                     throw new NotImplementedException();
-                case StorageType.FileSystem:
+                case CurrStorageType.FileSystem:
                     throw new NotImplementedException();
-                case StorageType.Mixed:
+                case CurrStorageType.Mixed:
                     return new MixedCurrStorage();
                 default:
                     throw new Exception("Can't create storage of such type");

@@ -48,6 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Messages\CourseMgt\CourseMessage.cs" />
+    <Compile Include="Messages\CourseMgt\GetCourseMessage.cs" />
+    <Compile Include="Messages\CourseMgt\GetCoursesMessage.cs" />
+    <Compile Include="Messages\CourseMgt\GetNodeContentsMessage.cs" />
+    <Compile Include="Messages\CourseMgt\GetNodesMessage.cs" />
     <Compile Include="Models\DB.cs">
       <DependentUpon>DB.dbml</DependentUpon>
     </Compile>

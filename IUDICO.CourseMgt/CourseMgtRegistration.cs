@@ -39,7 +39,7 @@ namespace IUDICO.CourseMgt
             );
 
             RegisterAreaEmbeddedResources();
-
+            
             HttpContext.Current.Application["CourseStorage"] = CourseStorageFactory.CreateStorage(CourseStorageType.Mixed);
         }
 
