@@ -4,12 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using IUDICO.Common.Models;
 using IUDICO.CourseMgt.Models;
 using IUDICO.CourseMgt.Models.Storage;
 
 namespace IUDICO.CourseMgt.Controllers
 {
-    public class NodeController : BaseController
+    public class NodeController : CourseBaseController
     {
         protected Course CurrentCourse;
 

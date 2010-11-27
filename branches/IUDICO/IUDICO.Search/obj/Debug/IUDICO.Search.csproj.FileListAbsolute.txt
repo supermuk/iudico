@@ -1,0 +1,17 @@
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Search\bin\Search.dll
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Search\bin\Search.pdb
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Search\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Search\obj\Debug\Search.dll
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Search\obj\Debug\Search.pdb
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Search\bin\CourseMgt.dll
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Search\bin\IUDICO.Common.dll
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Search\bin\Lucene.Net.dll
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Search\bin\MvcContrib.dll
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Search\bin\DotNetOpenAuth.dll
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Search\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Search\bin\Microsoft.LearningComponents.dll
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Search\bin\Microsoft.LearningComponents.Compression.dll
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Search\bin\IUDICO.Common.pdb
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Search\bin\CourseMgt.pdb
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Search\bin\DotNetOpenAuth.xml
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Search\bin\Microsoft.LearningComponents.xml
