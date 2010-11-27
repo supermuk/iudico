@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using IUDICO.CurrMgt.Models.Storage;
 using MvcContrib.PortableAreas;
 
 namespace IUDICO.CurrMgt
@@ -34,6 +35,10 @@ namespace IUDICO.CurrMgt
                 "Curriculum/{action}",
                 new { controller = "Curriculum" }
             );
+
+            RegisterAreaEmbeddedResources();
+
+            HttpContext.Current.Application["CurrStorage"] = CurrStorageFactory.CreateStorage(CurrStorageType.Mixed);
         }
 
         public override string AreaName

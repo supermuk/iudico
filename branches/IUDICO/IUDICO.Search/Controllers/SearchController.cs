@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using IUDICO.Common.Controllers;
+using IUDICO.Common.Messages.CourseMgt;
 using IUDICO.Common.Models;
-using IUDICO.CourseMgt.Models.Storage;
-using IUDICO.Search.Models;
 using IUDICO.Search.Models.SearchResult;
 using Lucene.Net.Store;
 using Lucene.Net.Analysis;
@@ -16,20 +13,11 @@ using Lucene.Net.Index;
 using Lucene.Net.Documents;
 using Lucene.Net.Search;
 using Lucene.Net.QueryParsers;
-using System.Diagnostics;
 
 namespace IUDICO.Search.Controllers
 {
     public class SearchController : BaseController
     {
-        protected ICourseStorage Storage
-        {
-            get
-            {
-                return HttpContext.Application["CurrStorage"] as ICourseStorage;
-            }
-        }
-
         //
         // GET: /Search/
 
@@ -49,7 +37,10 @@ namespace IUDICO.Search.Controllers
 
             if (node.IsFolder)
             {
-                List<Node> nodes = Storage.GetNodes(node.CourseId, node.Id);
+                GetNodesMessage message = new GetNodesMessage { Input = new GetNodesInput {CourseId = node.CourseId, ParentId = node.Id} };
+                MvcContrib.Bus.Send(message);
+
+                List<Node> nodes = (message.Result.Data as List<Node>);
 
                 foreach (Node childNode in nodes)
                 {
@@ -58,7 +49,10 @@ namespace IUDICO.Search.Controllers
             }
             else
             {
-                document.Add(new Field("Content", Storage.GetNodeContents(node.Id), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
+                GetNodeContentsMessage message = new GetNodeContentsMessage { Input = node.Id };
+                MvcContrib.Bus.Send(message);
+
+                document.Add(new Field("Content", (message.Result.Data as string), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
             }
             
             writer.AddDocument(document);
@@ -67,7 +61,10 @@ namespace IUDICO.Search.Controllers
         [HttpPost]
         public ActionResult Process()
         {
-            List<Course> courses = Storage.GetCourses();
+            GetCoursesMessage message = new GetCoursesMessage();
+            MvcContrib.Bus.Send(message);
+
+            List<Course> courses = (message.Result.Data as List<Course>);
 
             if (courses == null)
                 return RedirectToAction("Index");
@@ -91,7 +88,10 @@ namespace IUDICO.Search.Controllers
 
                     writer.AddDocument(document);
 
-                    List<Node> nodes = Storage.GetNodes(course.Id);
+                    GetNodesMessage courseMessage = new GetNodesMessage { Input = new GetNodesInput { CourseId = course.Id } };
+                    MvcContrib.Bus.Send(courseMessage);
+
+                    List<Node> nodes = (courseMessage.Result.Data as List<Node>);
 
                     foreach (Node node in nodes)
                     {

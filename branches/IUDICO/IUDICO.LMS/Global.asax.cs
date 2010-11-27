@@ -33,6 +33,8 @@ namespace IUDICO.LMS
             
             PortableAreaRegistration.RegisterEmbeddedViewEngine();            
 
+            MvcContrib.Bus.AddAllMessageHandlers();
+
             RegisterRoutes(RouteTable.Routes);
 
             InputBuilder.BootStrap();

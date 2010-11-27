@@ -149,6 +149,22 @@
       <Project>{CB470DA7-0981-45B5-BEB9-6FD06586BA7E}</Project>
       <Name>IUDICO.CourseMgt</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IUDICO.CurrMgt\IUDICO.CurrMgt.csproj">
+      <Project>{E6F7266F-760A-4D43-B78C-378CA12DBE08}</Project>
+      <Name>IUDICO.CurrMgt</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IUDICO.Search\IUDICO.Search.csproj">
+      <Project>{2A5F6D52-4A98-44DC-896D-8FF2FD244E9F}</Project>
+      <Name>IUDICO.Search</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IUDICO.TS\IUDICO.TS.csproj">
+      <Project>{4F72321F-297C-4989-9A17-838CF23B4FB1}</Project>
+      <Name>IUDICO.TS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IUDICO.UM\IUDICO.UM.csproj">
+      <Project>{2D0C4A4E-D442-4BC5-879B-CB3990D57647}</Project>
+      <Name>IUDICO.UM</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Web.config" />

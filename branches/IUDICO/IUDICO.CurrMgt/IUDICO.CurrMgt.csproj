@@ -81,7 +81,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Site.css" />
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
@@ -130,4 +129,9 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Target Name="BeforeBuild">
+    <ItemGroup>
+      <EmbeddedResource Include="**\*.aspx;**\*.ascx;**\*.gif;**\*.css;**\*.js;**\*.png;**\*.jpg" />
+    </ItemGroup>
+  </Target>
 </Project>
