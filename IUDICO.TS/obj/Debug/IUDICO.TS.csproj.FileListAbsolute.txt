@@ -1,5 +1,0 @@
-C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.TS\bin\TS.dll
-C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.TS\bin\TS.pdb
-C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.TS\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.TS\obj\Debug\TS.dll
-C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.TS\obj\Debug\TS.pdb

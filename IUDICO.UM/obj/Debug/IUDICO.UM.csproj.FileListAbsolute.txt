@@ -1,5 +1,0 @@
-C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.UM\bin\UM.dll
-C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.UM\bin\UM.pdb
-C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.UM\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.UM\obj\Debug\UM.dll
-C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.UM\obj\Debug\UM.pdb
