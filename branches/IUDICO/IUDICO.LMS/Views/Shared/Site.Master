@@ -33,6 +33,8 @@
                         <%: Html.ActionLink("Curriculum", "Index", "Curriculum", new { area = "CurrMgt"}, null)%></li>
                     <li>
                         <%: Html.ActionLink("Search", "Index", "Search", new { area = "Search" }, null)%></li>
+                    <li>
+                        <%: Html.ActionLink("Packages", "Index", "Package", new { area = "TS", id = 1 }, null)%></li>
                 </ul>
             </div>
         </div>
