@@ -74,16 +74,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\UMBaseController.cs" />
+    <Compile Include="Controllers\GroupController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="UMRegistration.cs" />
     <Compile Include="Models\Attributes.cs" />
     <Compile Include="Models\Models.cs" />
     <Compile Include="Models\OpenIDMembershipProvider.cs" />
     <Compile Include="Models\OpenIDMembershipUser.cs" />
     <Compile Include="Models\OpenIDRoleProvider.cs" />
+    <Compile Include="Models\Storage\UMStorageFactory.cs" />
+    <Compile Include="Models\Storage\IUMStorage.cs" />
+    <Compile Include="Models\Storage\DatabaseUMStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Libraries\DotNetOpenAuth.dll" />
     <Content Include="Libraries\DotNetOpenAuth.xml" />
+    <Content Include="Views\Account\Edit.aspx" />
+    <Content Include="Views\Account\Index.aspx" />
+    <Content Include="Views\Account\Login.aspx" />
+    <Content Include="Views\Account\Register.aspx" />
+    <Content Include="Views\Account\Registered.aspx" />
+    <Content Include="Views\Role\Create.aspx" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -95,12 +108,20 @@
       <Name>IUDICO.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target> -->
+  <Target Name="BeforeBuild">
+    <ItemGroup>
+      <EmbeddedResource Include="**\*.aspx;**\*.ascx;**\*.gif;**\*.css;**\*.js;**\*.png;**\*.jpg" />
+    </ItemGroup>
+  </Target>
   <Target Name="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
     <AspNetCompiler VirtualPath="temp" PhysicalPath="$(ProjectDir)" />
   </Target>

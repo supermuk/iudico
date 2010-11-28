@@ -85,7 +85,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CourseBaseController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\NodeController.cs" />
     <Compile Include="CourseMgtRegistration.cs" />
@@ -122,13 +122,10 @@
     <Content Include="Content\Tree\file.png" />
     <Content Include="Content\Tree\folder.png" />
     <Content Include="Content\Tree\root.png" />
-    <Content Include="Libraries\DotNetOpenAuth.dll" />
-    <Content Include="Libraries\DotNetOpenAuth.xml" />
     <Content Include="Libraries\ICSharpCode.SharpZipLib.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.Compression.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.XML" />
-    <Content Include="Libraries\MvcContrib.dll" />
     <Content Include="Scripts\custom\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\custom\ckeditor\ckeditor.js" />
     <Content Include="Scripts\custom\ckeditor\ckeditor_basic.js" />
@@ -721,7 +718,7 @@
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
-          <AutoAssignPort>False</AutoAssignPort>
+          <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>14980</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
