@@ -70,14 +70,14 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\CurrBaseController.cs" />
+    <Compile Include="Controllers\CurriculumBaseController.cs" />
     <Compile Include="Controllers\CurriculumController.cs" />
     <Compile Include="Controllers\StageController.cs" />
     <Compile Include="Controllers\ThemeController.cs" />
     <Compile Include="CurrMgtRegistration.cs" />
-    <Compile Include="Models\Storage\ICurrStorage.cs" />
-    <Compile Include="Models\Storage\MixedCurrStorage.cs" />
-    <Compile Include="Models\Storage\CurrStorageFactory.cs" />
+    <Compile Include="Models\Storage\ICurriculumStorage.cs" />
+    <Compile Include="Models\Storage\MixedCurriculumStorage.cs" />
+    <Compile Include="Models\Storage\CurriculumStorageFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +93,13 @@
     <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
+    <Content Include="Views\Curriculum\Create.aspx" />
+    <Content Include="Views\Curriculum\Edit.aspx" />
+    <Content Include="Views\Curriculum\Index.aspx" />
+    <Content Include="Views\Stage\Index.aspx" />
+    <Content Include="Views\Theme\Create.aspx" />
+    <Content Include="Views\Theme\Edit.aspx" />
+    <Content Include="Views\Theme\Index.aspx" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>

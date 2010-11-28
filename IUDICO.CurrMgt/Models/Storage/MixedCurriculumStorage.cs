@@ -8,7 +8,7 @@ using IUDICO.Common.Models;
 
 namespace IUDICO.CurrMgt.Models.Storage
 {
-    public class MixedCurrStorage : ICurrStorage
+    public class MixedCurriculumStorage : ICurriculumStorage
     {
         protected DB db = DB.Instance;
 

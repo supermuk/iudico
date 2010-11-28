@@ -8,7 +8,7 @@ using IUDICO.CurrMgt.Controllers;
 
 namespace IUDICO.CourseMgt.Controllers
 {
-    public class CurriculumController : CurrBaseController
+    public class CurriculumController : CurriculumBaseController
     {
         public ActionResult Index()
         {
