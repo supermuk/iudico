@@ -97,6 +97,7 @@
     <Content Include="Views\Account\Register.aspx" />
     <Content Include="Views\Account\Registered.aspx" />
     <Content Include="Views\Role\Create.aspx" />
+    <Content Include="Views\Role\Index.aspx" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>

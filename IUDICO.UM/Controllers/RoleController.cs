@@ -32,7 +32,7 @@ namespace IUDICO.UM.Controllers
         [HttpPost]
         public ActionResult Create(Role role)
         {
-            if (Storage.CreateRole(role))
+            if (ModelState.IsValid && Storage.CreateRole(role))
             {
                 return RedirectToAction("Index");
             }
@@ -54,36 +54,25 @@ namespace IUDICO.UM.Controllers
         // POST: /Role/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Role role)
         {
-            try
+            if (ModelState.IsValid && Storage.EditRole(id, role))
             {
-                // TODO: Add update logic here
- 
                 return RedirectToAction("Index");
             }
-            catch
+            else
             {
-                return View();
+                return View(role);
             }
         }
 
         //
         // POST: /Role/Delete/5
 
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [HttpDelete]
+        public JsonResult Delete(int id)
         {
-            try
-            {
-                // TODO: Add delete logic here
- 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return Json(new { status = Storage.Delete(id) });
         }
     }
 }
