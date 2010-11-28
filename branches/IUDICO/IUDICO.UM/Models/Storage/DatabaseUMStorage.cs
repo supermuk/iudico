@@ -15,6 +15,11 @@ namespace IUDICO.UM.Models.Storage
 
         #region Role members
 
+        public Role GetRole(int id)
+        {
+            return db.Roles.First(role => role.ID == id);
+        }
+
         public IEnumerable<Role> GetRoles()
         {
             return db.Roles.AsEnumerable();
@@ -25,6 +30,35 @@ namespace IUDICO.UM.Models.Storage
             try
             {
                 db.Roles.InsertOnSubmit(role);
+                db.SubmitChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool EditRole(int id, Role role)
+        {
+            try
+            {
+                Role oldRole = GetRole(id);
+                oldRole.Name = role.Name;
+                db.SubmitChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool Delete(int id)
+        {
+            try
+            {
+                db.Roles.DeleteOnSubmit(GetRole(id));
                 db.SubmitChanges();
                 return true;
             }
