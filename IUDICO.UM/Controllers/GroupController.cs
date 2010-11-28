@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace IUDICO.UM.Controllers
 {
-    public class GroupController : Controller
+    public class GroupController : UMBaseController
     {
         //
         // GET: /Group/

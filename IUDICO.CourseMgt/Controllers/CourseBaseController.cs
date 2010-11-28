@@ -10,7 +10,7 @@ using IUDICO.Common.Controllers;
 
 namespace IUDICO.CourseMgt.Controllers
 {
-    public class CourseBaseController: Controller
+    public class CourseBaseController: BaseController
     {
         protected ICourseStorage Storage
         {

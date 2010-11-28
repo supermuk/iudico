@@ -26,7 +26,9 @@
                     <li>
                         <%: Html.ActionLink("Home", "Index", "Home")%></li>
                     <li>
-                        <%: Html.ActionLink("Account", "Index", "Account")%></li>
+                        <%: Html.ActionLink("Account", "Index", "Account", new { area = "UM" }, null)%></li>
+                    <li>
+                        <%: Html.ActionLink("Role", "Index", "Role", new { area = "UM" }, null)%></li>
                     <li>
                         <%: Html.ActionLink("Course", "Index", "Course", new { area = "CourseMgt" }, null)%></li>
                     <li>

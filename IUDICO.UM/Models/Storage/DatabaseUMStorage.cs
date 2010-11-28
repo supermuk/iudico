@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
+using IUDICO.Common.Models;
 
-namespace IUDICO.UM.Models
+namespace IUDICO.UM.Models.Storage
 {
-    public class DataStorage
+    public class DatabaseUMStorage : IUMStorage
     {
-        private ButterflyDB db = ButterflyDB.Instance;
+        protected DB db = DB.Instance;
+
+        #region Implementation of IUMStorage
+
+        #region Role members
 
         public IEnumerable<Role> GetRoles()
         {
@@ -27,5 +33,9 @@ namespace IUDICO.UM.Models
                 return false;
             }
         }
+
+        #endregion
+
+        #endregion
     }
 }
