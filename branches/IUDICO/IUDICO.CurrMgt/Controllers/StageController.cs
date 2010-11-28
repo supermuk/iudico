@@ -9,7 +9,7 @@ using IUDICO.CurrMgt.Controllers;
 
 namespace IUDICO.CourseMgt.Controllers
 {
-    public class StageController : CurrBaseController
+    public class StageController : CurriculumBaseController
     {
         public ActionResult Index(int curriculumId)
         {

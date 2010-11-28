@@ -678,17 +678,10 @@
     <Content Include="Views\Course\Edit.aspx" />
     <Content Include="Views\Course\Import.aspx" />
     <Content Include="Views\Course\Index.aspx" />
-    <Content Include="Views\Curriculum\Create.aspx" />
-    <Content Include="Views\Curriculum\Edit.aspx" />
-    <Content Include="Views\Curriculum\Index.aspx" />
     <Content Include="Views\Node\Create.aspx" />
     <Content Include="Views\Node\Index.aspx" />
     <Content Include="Views\Search\Index.aspx" />
     <Content Include="Views\Search\Search.aspx" />
-    <Content Include="Views\Stage\Index.aspx" />
-    <Content Include="Views\Theme\Create.aspx" />
-    <Content Include="Views\Theme\Edit.aspx" />
-    <Content Include="Views\Theme\Index.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\Courses\" />
