@@ -47,7 +47,15 @@ namespace IUDICO.UM.Controllers
  
         public ActionResult Edit(int id)
         {
-            return View();
+            Role role = Storage.GetRole(id);
+            if (role == null)
+            {
+                return RedirectToAction("Error");
+            }
+            else
+            {
+                return View(role);
+            }
         }
 
         //
@@ -72,7 +80,7 @@ namespace IUDICO.UM.Controllers
         [HttpDelete]
         public JsonResult Delete(int id)
         {
-            return Json(new { status = Storage.Delete(id) });
+            return Json(new { status = Storage.DeleteRole(id) });
         }
     }
 }

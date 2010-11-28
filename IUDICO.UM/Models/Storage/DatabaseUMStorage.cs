@@ -54,11 +54,68 @@ namespace IUDICO.UM.Models.Storage
             }
         }
 
-        public bool Delete(int id)
+        public bool DeleteRole(int id)
         {
             try
             {
                 db.Roles.DeleteOnSubmit(GetRole(id));
+                db.SubmitChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        #endregion
+
+        #region Group members
+
+        public Group GetGroup(int id)
+        {
+            return db.Groups.First(group => group.ID == id);
+        }
+
+        public IEnumerable<Group> GetGroups()
+        {
+            return db.Groups.AsEnumerable();
+        }
+
+        public bool CreateGroup(Group group)
+        {
+            try
+            {
+                db.Groups.InsertOnSubmit(group);
+                db.SubmitChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool EditGroup(int id, Group group)
+        {
+            try
+            {
+                Group oldGroup = GetGroup(id);
+                oldGroup.Name = group.Name;
+                db.SubmitChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteGroup(int id)
+        {
+            try
+            {
+                db.Groups.DeleteOnSubmit(GetGroup(id));
                 db.SubmitChanges();
                 return true;
             }

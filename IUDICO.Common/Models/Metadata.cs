@@ -198,4 +198,20 @@ namespace IUDICO.Common.Models
             public string Name { get; set; }
         }
     }
+
+    [MetadataType(typeof(Group.Metadata))]
+    [Bind(Exclude = "ID")]
+    public partial class Group
+    {
+        private sealed class Metadata
+        {
+            [ScaffoldColumn(false)]
+            public int ID { get; set; }
+
+            [DisplayName("Name")]
+            [Required(ErrorMessage = "Name is required")]
+            [StringLength(50, ErrorMessage = "Name can not be longer than 50")]
+            public string Name { get; set; }
+        }
+    }
 }
