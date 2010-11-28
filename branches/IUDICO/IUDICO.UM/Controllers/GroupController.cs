@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using IUDICO.Common.Models;
+using IUDICO.UM.Models;
 
 namespace IUDICO.UM.Controllers
 {
@@ -13,24 +15,72 @@ namespace IUDICO.UM.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            return View(Storage.GetGroups());
         }
 
-        [HttpGet]
+        //
+        // GET: /Group/Create
+
         public ActionResult Create()
         {
-
             return View();
         }
 
-        public ActionResult Edit()
+        //
+        // POST: /Group/Create
+
+        [HttpPost]
+        public ActionResult Create(Group group)
         {
-            return View();
+            if (ModelState.IsValid && Storage.CreateGroup(group))
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(group);
+            }
         }
 
-        public ActionResult Delete()
+        //
+        // GET: /Group/Edit/5
+
+        public ActionResult Edit(int id)
         {
-            return View();
+            Group group = Storage.GetGroup(id);
+            if (group == null)
+            {
+                return RedirectToAction("Error");
+            }
+            else
+            {
+                return View(group);
+            }
+        }
+
+        //
+        // POST: /Group/Edit/5
+
+        [HttpPost]
+        public ActionResult Edit(int id, Group group)
+        {
+            if (ModelState.IsValid && Storage.EditGroup(id, group))
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(group);
+            }
+        }
+
+        //
+        // POST: /Role/Delete/5
+
+        [HttpDelete]
+        public JsonResult Delete(int id)
+        {
+            return Json(new { status = Storage.DeleteGroup(id) });
         }
     }
 }
