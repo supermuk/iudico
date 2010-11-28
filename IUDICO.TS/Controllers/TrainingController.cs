@@ -13,13 +13,12 @@ namespace IUDICO.TS.Controllers
         //
         // GET: /Training/
 
-        public ActionResult Index(long id)
+        public ActionResult Index()
         {
-            IEnumerable<Training> trainings = MlcDataProvider.Instance.GetTrainings(id);
+            IEnumerable<Training> trainings = MlcDataProvider.Instance.GetTrainings(1);
             
             return View(trainings);
         }
-
 
         public ActionResult Play(long id)
         {
@@ -34,6 +33,24 @@ namespace IUDICO.TS.Controllers
 
             // TODO: redirect to frameset.
             return View("Index");
+        }
+
+        public ActionResult Add()
+        {
+            ZipPackage package = new ZipPackage("C:\\ZipPackages\\scorm1.zip", 1, DateTime.Now, "scorm1.zip");
+            Training training = MlcDataProvider.Instance.AddPackage(package);
+            
+            //Show success page with detailed info.
+            return View("Details", training);
+        }
+
+        public ActionResult Details(long id)
+        {
+            // TODO: provide user-based
+            IEnumerable<Training> trainings = MlcDataProvider.Instance.GetTrainings(1);
+            Training training = trainings.Single(tr => tr.PackageID == id);
+
+            return View("Details", training);
         }
     }
 }

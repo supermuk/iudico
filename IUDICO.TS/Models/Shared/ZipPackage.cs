@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel;
 using Microsoft.LearningComponents;
 
 namespace IUDICO.TS.Models.Shared
@@ -10,6 +11,7 @@ namespace IUDICO.TS.Models.Shared
     {
         #region Public Properties
 
+        [DisplayName("Zip File Path")]
         public string ZipPath { get; set; }
 
         #endregion
@@ -22,7 +24,7 @@ namespace IUDICO.TS.Models.Shared
             this.ZipPath = zipPath;
         }
 
-        public ZipPackage(string zipPath, long? ownerID, DateTime? uploadDateTime, string fileName)
+        public ZipPackage(string zipPath, long ownerID, DateTime? uploadDateTime, string fileName)
             : base(ownerID, uploadDateTime, fileName)
         {
             this.ZipPath = zipPath;

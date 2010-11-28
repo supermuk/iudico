@@ -328,6 +328,18 @@ div#title
     margin: 0.5em 0;
 }
 
+.display-label
+{
+	font-weight: bold;
+	display: inline;
+}
+
+.display-field
+{
+	margin-left: 10px;
+	display: inline;
+}
+
 .text-box
 {
     width: 30em;
