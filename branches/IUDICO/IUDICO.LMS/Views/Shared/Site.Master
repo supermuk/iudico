@@ -36,7 +36,7 @@
                     <li>
                         <%: Html.ActionLink("Search", "Index", "Search", new { area = "Search" }, null)%></li>
                     <li>
-                        <%: Html.ActionLink("Packages", "Index", "Package", new { area = "TS", id = 1 }, null)%></li>
+                        <%: Html.ActionLink("Trainings", "Index", "Training", new { area = "TS", id = 1 }, null)%></li>
                 </ul>
             </div>
         </div>

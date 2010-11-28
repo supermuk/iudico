@@ -4,9 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using Microsoft.LearningComponents.DataModel;
+using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
 using IUDICO.TS.Models.Shared;
 using IUDICO.TS.Models.Schema;
+using LearningComponentsHelper;
 
 
 namespace IUDICO.TS.Models
@@ -46,22 +48,80 @@ namespace IUDICO.TS.Models
 
         #region Public Methods
 
-        public IEnumerable<Package> GetPackages(long userID)
+        public IEnumerable<Training> GetTrainings(long userID)
         {
             this.UserKey = userID.ToString();
             LearningStoreJob job = LStore.CreateJob();
             RequestMyTraining(job, null);
             DataTable results = job.Execute<DataTable>();
-            List<Package> packages = new List<Package>();
-            foreach (DataRow row in results.AsEnumerable())
+            List<Training> packages = new List<Training>();
+            foreach (DataRow dataRow in results.AsEnumerable())
             {
-                LearningStoreItemIdentifier pid = row[Schema.MyAttemptsAndPackages.PackageId] as LearningStoreItemIdentifier;
-                long id = pid.GetKey();
-                string location = row[Schema.MyAttemptsAndPackages.PackageFileName].ToString();
-                string title = row[Schema.MyAttemptsAndPackages.OrganizationTitle].ToString();
-                string orgID = row[Schema.MyAttemptsAndPackages.OrganizationId].ToString();
-                Package package = new Package(id, location, title);
-                packages.Add(package);
+                // extract information from <dataRow> into local variables
+                PackageItemIdentifier packageId;
+                LStoreHelper.CastNonNull(dataRow[Schema.MyAttemptsAndPackages.PackageId],
+                    out packageId);
+                long? pID;
+                if (packageId == null)
+                {
+                    pID = null;
+                }
+                else
+                {
+                    pID = packageId.GetKey();
+                }
+                string packageFileName;
+                LStoreHelper.CastNonNull(dataRow[Schema.MyAttemptsAndPackages.PackageFileName],
+                    out packageFileName);
+                ActivityPackageItemIdentifier organizationId;
+                LStoreHelper.CastNonNull(dataRow[Schema.MyAttemptsAndPackages.OrganizationId],
+                    out organizationId);
+                long? orgID;
+                if (organizationId == null)
+                {
+                    orgID = null;
+                }
+                else
+                {
+                    orgID = organizationId.GetKey();
+                }
+                string organizationTitle;
+                LStoreHelper.CastNonNull(dataRow[Schema.MyAttemptsAndPackages.OrganizationTitle],
+                    out organizationTitle);
+                AttemptItemIdentifier attemptId;
+                LStoreHelper.Cast(dataRow[Schema.MyAttemptsAndPackages.AttemptId],
+                    out attemptId);
+                long? attID;
+                if (attemptId == null)
+                {
+                    attID = null;
+                }
+                else
+                {
+                    attID = attemptId.GetKey();
+                }
+                DateTime? uploadDateTime;
+                LStoreHelper.Cast(dataRow[Schema.MyAttemptsAndPackages.UploadDateTime],
+                    out uploadDateTime);
+                AttemptStatus? attemptStatus;
+                LStoreHelper.Cast(dataRow[Schema.MyAttemptsAndPackages.AttemptStatus],
+                    out attemptStatus);
+                float? score;
+                LStoreHelper.Cast(dataRow[Schema.MyAttemptsAndPackages.TotalPoints],
+                    out score);
+                                
+                // set <trainingName> to a name to use for this row (i.e. one
+                // organization of one package)
+                string trainingName;
+                if (organizationTitle.Length == 0)
+                    trainingName = packageFileName;
+                else
+                    trainingName = String.Format("{0} - {1}", packageFileName, organizationTitle); 
+                
+                
+                // Create Training object
+                Training training = new Training(pID, packageFileName, orgID, organizationTitle, attID, uploadDateTime, attemptStatus, score);
+                packages.Add(training);
             }
 
             return packages;
@@ -106,6 +166,30 @@ namespace IUDICO.TS.Models
                     LearningStoreConditionOperator.Equal, packageId);
             }
             job.PerformQuery(query);
+        }
+
+        /// <summary>
+        /// Creates attempt on given organization and returns attempt identifier.
+        /// </summary>
+        /// <param name="orgID">Long integer value represents organization identifier to create attempt on.</param>
+        /// <returns>Long integer value, representing attempt identifier of created attempt.</returns>
+        public long CreateAttempt(long orgID)
+        {
+            ActivityPackageItemIdentifier organizationID = new ActivityPackageItemIdentifier(orgID);
+            
+            StoredLearningSession session = StoredLearningSession.CreateAttempt(this.PStore, this.CurrentUserIdentifier, organizationID, LoggingOptions.LogAll);
+
+            long attemptID = session.AttemptId.GetKey();
+            return attemptID;
+        }
+
+        /// <summary>
+        /// Adds package to the database
+        /// </summary>
+        /// <param name="package">Package value represents package object with necessary information.</param>
+        public void AddPackage(Package package)
+        {
+
         }
 
 	    #endregion
