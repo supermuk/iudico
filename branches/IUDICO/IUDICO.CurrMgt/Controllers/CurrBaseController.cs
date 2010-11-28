@@ -9,7 +9,7 @@ using IUDICO.CurrMgt.Models.Storage;
 
 namespace IUDICO.CurrMgt.Controllers
 {
-    public class CurrBaseController: Controller
+    public class CurrBaseController: BaseController
     {
         protected ICurrStorage Storage
         {
