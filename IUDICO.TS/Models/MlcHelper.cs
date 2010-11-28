@@ -153,5 +153,18 @@ namespace IUDICO.TS.Models
         }
 
         #endregion
+
+        #region Protected methods
+
+        protected UserItemIdentifier CurrentUserIdentifier
+        {
+            get
+            {
+                UserItemIdentifier id = new UserItemIdentifier(Convert.ToInt64(this.UserKey));
+                return id;
+            }
+        }
+
+        #endregion
     }
 }
