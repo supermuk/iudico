@@ -24,7 +24,7 @@
 
                 $.ajax({
                     type: "post",
-                    url: "Delete",
+                    url: "Course/Delete",
                     data: { courseIds: ids },
                     success: function (r) {
                         if (r.success) {
@@ -52,9 +52,9 @@
     <h2>Index</h2>
      <p>
         
-        <%: Html.ActionLink("Create New", "Create") %> |
+        <%: Html.ActionLink("Create New", "Create", "Course")%> |
         <%: Html.ActionLink("Import", "Import") %> |
-        <a id="DeleteMany" href="#">Delete Selected</a>
+        <a id="DeleteMany" href="">Delete Selected</a>
     </p>
     <table>
         <tr>
@@ -99,8 +99,8 @@
                 <%: String.Format("{0:g}", item.Updated) %>
             </td>
             <td>
-                <%: Html.ActionLink("Edit", "Edit", new { CourseID = item.Id })%> |
-                <%: Html.ActionLink("Details", "Index", "Node", new { CourseID = item.Id}, null) %> |
+                <%: Html.ActionLink("Edit", "Edit", "Course", new { CourseID = item.Id }, null)%> |
+                <%: Html.ActionLink("Details", "Index", "Node", new { CourseID = item.Id }, null) %> |
                 <%: Html.ActionLink("Export", "Export", new { CourseID = item.Id }) %> |
                 <%: Ajax.ActionLink("Delete", "Delete", new { CourseID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess="removeRow" })%>
             </td>
