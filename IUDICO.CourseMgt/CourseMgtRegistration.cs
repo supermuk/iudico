@@ -23,7 +23,7 @@ namespace IUDICO.CourseMgt
             context.MapRoute(
                 "Nodes",
                 "Course/{CourseID}/Node/{action}",
-                new { controller = "Node", CourseID = 0 }
+                new { controller = "Node", action = "Index", CourseID = 0 }
             );
 
             context.MapRoute(
@@ -35,7 +35,7 @@ namespace IUDICO.CourseMgt
             context.MapRoute(
                 "Courses",
                 "Course/{action}",
-                new { controller = "Course" }
+                new { controller = "Course", action = "Index" }
             );
 
             RegisterAreaEmbeddedResources();
