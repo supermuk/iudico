@@ -17,7 +17,7 @@ namespace IUDICO.CurrMgt.Controllers
         public int ThemeId { get; set; }
     }
 
-    public class ThemeController : CurrBaseController
+    public class ThemeController : CurriculumBaseController
     {
         public ActionResult Index(int stageId)
         {

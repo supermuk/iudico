@@ -6,7 +6,7 @@ using IUDICO.Common.Models;
 
 namespace IUDICO.CurrMgt.Models.Storage
 {
-    public interface ICurrStorage
+    public interface ICurriculumStorage
     {
         #region Curriculum methods
 
