@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel;
 using Microsoft.LearningComponents;
 using System.IO;
 
@@ -11,6 +12,7 @@ namespace IUDICO.TS.Models.Shared
     {
         #region Properties
 
+        [DisplayName("Folder Path")]
         public string FolderPath { get; set; }
 
         #endregion
@@ -23,7 +25,7 @@ namespace IUDICO.TS.Models.Shared
             this.FolderPath = folderPath;
         }
 
-        public FileSystemPackage(string folderPath, long? ownerID, DateTime? uploadDateTime, string fileName)
+        public FileSystemPackage(string folderPath, long ownerID, DateTime? uploadDateTime, string fileName)
             : base(ownerID, uploadDateTime, fileName)
         {
             this.FolderPath = folderPath;

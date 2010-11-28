@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.LearningComponents;
 
 namespace IUDICO.TS.Models.Shared
@@ -10,10 +12,12 @@ namespace IUDICO.TS.Models.Shared
     {
         #region Public Properties
 
-        public long? Owner { get; set; }
+        public long Owner { get; set; }
 
+        [DisplayName("Upload Time")]
         public DateTime? UploadDateTime { get; set; }
 
+        [DisplayName("File Name")]
         public string FileName { get; set; }
 
         #endregion
@@ -25,7 +29,7 @@ namespace IUDICO.TS.Models.Shared
 
         }
 
-        public Package(long? ownerID, DateTime? uploadDateTime, string fileName)
+        public Package(long ownerID, DateTime? uploadDateTime, string fileName)
         {
             this.Owner = ownerID;
             this.UploadDateTime = uploadDateTime;

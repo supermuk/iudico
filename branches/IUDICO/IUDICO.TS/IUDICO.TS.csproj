@@ -109,6 +109,7 @@
     <Content Include="Libraries\Microsoft.LearningComponents.pdb" />
     <Content Include="Libraries\Microsoft.LearningComponents.Storage.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.Storage.pdb" />
+    <Content Include="Views\Training\Details.aspx" />
     <Content Include="Views\Training\Index.aspx" />
   </ItemGroup>
   <ItemGroup>
