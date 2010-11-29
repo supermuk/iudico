@@ -14,10 +14,17 @@ namespace IUDICO.TS
         public override void RegisterArea(AreaRegistrationContext context, IApplicationBus bus)
         {
             context.MapRoute(
-               "Trainings", // Route name
-               "Training/{action}/{id}", // URL with parameters
-               new { controller = "Training", action = "Index", id = UrlParameter.Optional } // Parameter defaults
-           );
+                "Training",
+                "Training/{packageID}/{attemptID}",
+                new { controller = "Training", action = "Details", attemptID = UrlParameter.Optional },
+                new { packageID = @"\d+" });
+
+            context.MapRoute(
+               "Trainings",
+               "Training/{action}/{id}",
+               new { controller = "Training", action = "Index", id = UrlParameter.Optional }
+            );
+           
             
             RegisterAreaEmbeddedResources();
         }

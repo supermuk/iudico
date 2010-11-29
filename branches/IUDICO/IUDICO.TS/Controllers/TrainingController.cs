@@ -71,13 +71,22 @@ namespace IUDICO.TS.Controllers
             }
         }
 
-        public ActionResult Details(long id)
+        public ActionResult Details(long packageID, long attemptID =-1)
         {
             try
             {
                 // TODO: provide user-based
                 IEnumerable<Training> trainings = MlcDataProvider.Instance.GetTrainings(1);
-                Training training = trainings.Single(tr => tr.PackageID == id);
+                IEnumerable<Training> trainingsByID = trainings.Where(tr => tr.PackageID == packageID);
+                Training training;
+                if (attemptID > 0 && trainingsByID.Count() > 1)
+                {
+                    training = trainingsByID.SingleOrDefault(tr => tr.AttemptID == attemptID);
+                }
+                else
+                {
+                    training = trainingsByID.First();
+                }
                 return View("Details", training);
             }
             catch (Exception exc)
