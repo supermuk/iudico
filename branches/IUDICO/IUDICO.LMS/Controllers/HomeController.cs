@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using IUDICO.Common.Controllers;
 
-namespace IUDICO.CourseMgt.Controllers
+namespace IUDICO.LMS.Controllers
 {
     public class HomeController : BaseController
     {
