@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.CurrMgt.Controllers;
 
-namespace IUDICO.CourseMgt.Controllers
+namespace IUDICO.CurrMgt.Controllers
 {
     public class CurriculumController : CurriculumBaseController
     {

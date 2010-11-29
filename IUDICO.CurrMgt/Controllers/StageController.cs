@@ -7,7 +7,7 @@ using System.Web.Routing;
 using IUDICO.Common.Models;
 using IUDICO.CurrMgt.Controllers;
 
-namespace IUDICO.CourseMgt.Controllers
+namespace IUDICO.CurrMgt.Controllers
 {
     public class StageController : CurriculumBaseController
     {
