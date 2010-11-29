@@ -5,8 +5,12 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using IUDICO.CourseMgt.Models.Storage;
-using MvcContrib.PortableAreas;
-using MvcContrib.UI.InputBuilder;
+//using MvcContrib.PortableAreas;
+//using MvcContrib.UI.InputBuilder;
+using System.Web.Hosting;
+using IUDICO.LMS.Libraries;
+using System.Reflection;
+using IUDICO.Common;
 
 namespace IUDICO.LMS
 {
@@ -29,15 +33,35 @@ namespace IUDICO.LMS
 
         protected void Application_Start()
         {
-            AreaRegistration.RegisterAllAreas();
+            RegisterAssemblies();
             
-            PortableAreaRegistration.RegisterEmbeddedViewEngine();            
-
-            MvcContrib.Bus.AddAllMessageHandlers();
-
+            
+            AreaRegistration.RegisterAllAreas();
             RegisterRoutes(RouteTable.Routes);
 
-            InputBuilder.BootStrap();
+            
+
+            //InputBuilder.BootStrap();
+        }
+
+        public void RegisterAssemblies()
+        {
+            List<String> ViewLocations = new List<string>();
+
+            IEnumerable<Assembly> pluginAssemblies =
+                        AppDomain.CurrentDomain.GetAssemblies().
+                        Where(a => a.GetCustomAttributes(typeof(PluginAttribute), false).Count() > 0).AsEnumerable();
+
+            // Register Assembly provider to load ~/Plugins/
+            HostingEnvironment.RegisterVirtualPathProvider(new AssemblyResourceProvider(pluginAssemblies));
+
+            foreach (Assembly a in pluginAssemblies)
+            {
+                ViewLocations.Add("~/Plugins/" + a.ManifestModule.ScopeName + "/Views.{1}.{0}.aspx");
+            }
+
+            ViewEngines.Engines.Clear();
+            ViewEngines.Engines.Add(new PluginViewEngine(ViewLocations.ToArray()));
         }
     }
 }
