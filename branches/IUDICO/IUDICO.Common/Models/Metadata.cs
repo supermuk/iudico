@@ -177,9 +177,6 @@ namespace IUDICO.Common.Models
             [Required(ErrorMessage = "Name is required")]
             [StringLength(200, ErrorMessage = "Name can not be longer than 200")]
             public string Name { get; set; }
-
-            [ScaffoldColumn(false)]
-            public int RoleID { get; set; }
         }
     }
 

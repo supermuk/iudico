@@ -96,6 +96,8 @@
     <Content Include="Views\Curriculum\Create.aspx" />
     <Content Include="Views\Curriculum\Edit.aspx" />
     <Content Include="Views\Curriculum\Index.aspx" />
+    <Content Include="Views\Stage\Create.aspx" />
+    <Content Include="Views\Stage\Edit.aspx" />
     <Content Include="Views\Stage\Index.aspx" />
     <Content Include="Views\Theme\Create.aspx" />
     <Content Include="Views\Theme\Edit.aspx" />
