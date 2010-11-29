@@ -16,10 +16,5 @@ namespace IUDICO.LMS.Controllers
         {
             return View();
         }
-
-        public ActionResult Course()
-        {
-            return View();
-        }
     }
 }

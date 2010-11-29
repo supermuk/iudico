@@ -94,7 +94,6 @@
     <Content Include="Content\ui-lightness\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\ui-lightness\jquery-ui-1.8.5.custom.css" />
     <Content Include="Global.asax" />
-    <EmbeddedResource Include="Views\Home\Course.aspx" />
     <EmbeddedResource Include="Views\Home\Index.aspx" />
     <Content Include="Scripts\jquery\jquery-1.4.1-vsdoc.js" />
     <Content Include="Scripts\jquery\jquery-1.4.1.js" />
