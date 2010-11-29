@@ -14,12 +14,7 @@
         <fieldset>
             <legend>Fields</legend>
             
-            <div class="editor-label">
-                <%: Html.LabelFor(model => model.Name) %>
-            </div>
-            <div class="editor-field">
-                <%: Html.TextBoxFor(model => model.Name) %>
-            </div>
+            <%: Html.EditorForModel() %>
             
             <p>
                 <input type="submit" value="Save" />

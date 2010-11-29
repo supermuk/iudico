@@ -29,26 +29,14 @@ namespace IUDICO.UM.Models
 
         public override bool IsUserInRole(string username, string roleName)
         {
-            User user = db.Users.SingleOrDefault(u => u.Username == username);
+            RoleUser role = db.RoleUsers.SingleOrDefault(r => r.Role.Name == roleName && r.User.Username == username);
 
-            if (user == null || user.Role.Name != roleName)
-            {
-                return false;
-            }
-
-            return true;
+            return role != null;
         }
 
         public override string[] GetRolesForUser(string username)
         {
-            User user = db.Users.SingleOrDefault(u => u.Username == username);
-
-            if (user == null)
-            {
-                return null;
-            }
-
-            return new string[] {user.Role.Name};
+            return db.RoleUsers.Where(r => r.User.Username == username).Select(r => r.Role.Name).ToArray();
         }
 
         public override void CreateRole(string roleName)
@@ -99,7 +87,7 @@ namespace IUDICO.UM.Models
 
         public override void AddUsersToRoles(string[] usernames, string[] roleNames)
         {
-            foreach (var username in usernames)
+            /*foreach (var username in usernames)
             {
                 try
                 {
@@ -112,7 +100,8 @@ namespace IUDICO.UM.Models
                 catch (Exception)
                 {
                 }
-            }
+            }*/
+            throw new NotImplementedException();
         }
 
         public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
@@ -122,11 +111,12 @@ namespace IUDICO.UM.Models
 
         public override string[] GetUsersInRole(string roleName)
         {
-            Role role = db.Roles.SingleOrDefault(r => r.Name == roleName);
+            /*Role role = db.Roles.SingleOrDefault(r => r.Name == roleName);
 
             return (from user in db.Users
                     where user.RoleID == role.ID
-                    select user.Username).ToArray();
+                    select user.Username).ToArray();*/
+            throw new NotImplementedException();
         }
 
         public override string[] GetAllRoles()
@@ -136,12 +126,13 @@ namespace IUDICO.UM.Models
 
         public override string[] FindUsersInRole(string roleName, string usernameToMatch)
         {
-            Role role = db.Roles.SingleOrDefault(r => r.Name == roleName);
+            /*Role role = db.Roles.SingleOrDefault(r => r.Name == roleName);
 
             return (from user in db.Users
                     where user.RoleID == role.ID
                     where user.Username.Contains(usernameToMatch)
-                    select user.Username).ToArray();
+                    select user.Username).ToArray();*/
+            throw new NotImplementedException();
         }
 
         public override string ApplicationName { get; set; }
