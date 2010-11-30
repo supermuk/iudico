@@ -15,7 +15,7 @@ namespace IUDICO.CurrMgt.Models.Storage
         int? AddCurriculum(Curriculum curriculum);
         bool UpdateCurriculum(int id, Curriculum curriculum);
         bool DeleteCurriculum(int id);
-        bool DeleteCurriculums(List<int> ids);
+        bool DeleteCurriculums(IEnumerable<int> ids);
 
         #endregion
 

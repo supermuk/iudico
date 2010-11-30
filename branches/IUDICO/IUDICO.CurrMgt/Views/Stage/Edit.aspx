@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<WebEditor.Models.Stage>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Stage>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Edit
@@ -6,26 +6,20 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Edit</h2>
+    <h2>Edit stage</h2>
 
     <% using (Html.BeginForm()) {%>
-        <%: Html.ValidationSummary("Please correct the errors and try again.")%>
+        <%: Html.ValidationSummary(true) %>
         
         <fieldset>
             <legend>Fields</legend>
             
-            <div class="editor-label">
-                <%: Html.LabelFor(model => model.Name) %>
-            </div>
-            <div class="editor-field">
-                <%: Html.TextBoxFor(model => model.Name) %>
-            </div>
+            <%= Html.EditorForModel() %>
             
             <p>
                 <input type="submit" value="Save" />
             </p>
         </fieldset>
-
     <% } %>
 
     <div>

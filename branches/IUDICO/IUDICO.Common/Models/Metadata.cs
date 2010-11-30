@@ -48,48 +48,19 @@ namespace IUDICO.Common.Models
 
             [DisplayName("Name")]
             [Required(ErrorMessage = "Name is required")]
+            [StringLength(50, ErrorMessage = "Name can not be longer than 50.")]
             public string Name { get; set; }
 
-            [DisplayName("Created Date")]
+            [DisplayName("Create Date")]
             [ScaffoldColumn(false)]
             public DateTime Created { get; set; }
 
-            [DisplayName("Last Updated")]
+            [DisplayName("Update Date")]
             [ScaffoldColumn(false)]
             public DateTime Updated { get; set; }
         }
     }
 
-    [MetadataType(typeof(Theme.Metadata))]
-    [Bind(Exclude = "Id")]
-    public partial class Theme
-    {
-        private sealed class Metadata
-        {
-            [ScaffoldColumn(false)]
-            public int Id { get; set; }
-
-            [DisplayName("Name")]
-            [Required(ErrorMessage = "Name is required")]
-            public string Name { get; set; }
-
-            [ScaffoldColumn(false)]
-            public DateTime Created { get; set; }
-
-            [ScaffoldColumn(false)]
-            public DateTime Updated { get; set; }
-
-            [ScaffoldColumn(false)]
-            public int StageRef { get; set; }
-
-            [ScaffoldColumn(false)]
-            public int CourseRef { get; set; }
-
-            [ScaffoldColumn(false)]
-            public int SortOrder { get; set; }
-        }
-    }
-    
     [MetadataType(typeof(Stage.Metadata))]
     [Bind(Exclude = "Id, CurriculumRef")]
     public partial class Stage
@@ -104,16 +75,48 @@ namespace IUDICO.Common.Models
             [StringLength(50, ErrorMessage = "Name can not be longer than 50.")]
             public string Name { get; set; }
 
-            [DisplayName("Created Date")]
+            [DisplayName("Create Date")]
             [ScaffoldColumn(false)]
             public DateTime Created { get; set; }
 
-            [DisplayName("Last Updated")]
+            [DisplayName("Update Date")]
             [ScaffoldColumn(false)]
             public DateTime Updated { get; set; }
 
             [ScaffoldColumn(false)]
             public int CurriculumRef { get; set; }
+        }
+    }
+
+    [MetadataType(typeof(Theme.Metadata))]
+    [Bind(Exclude = "Id, StageRef")]
+    public partial class Theme
+    {
+        private sealed class Metadata
+        {
+            [ScaffoldColumn(false)]
+            public int Id { get; set; }
+
+            [DisplayName("Name")]
+            [ScaffoldColumn(false)]
+            public string Name { get; set; }
+
+            [DisplayName("Create Date")]
+            [ScaffoldColumn(false)]
+            public DateTime Created { get; set; }
+
+            [DisplayName("Update Date")]
+            [ScaffoldColumn(false)]
+            public DateTime Updated { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int StageRef { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int CourseRef { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int SortOrder { get; set; }
         }
     }
 

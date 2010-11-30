@@ -10,83 +10,129 @@ namespace IUDICO.CurrMgt.Controllers
 {
     public class CurriculumController : CurriculumBaseController
     {
+        private ActionResult ErrorView(Exception e)
+        {
+            string currentControllerName = (string)RouteData.Values["controller"];
+            string currentActionName = (string)RouteData.Values["action"];
+            return View("Error", new HandleErrorInfo(e, currentControllerName, currentActionName));
+        }
+
         public ActionResult Index()
         {
-            var curriculums = Storage.GetCurriculums();
+            try
+            {
+                var curriculums = Storage.GetCurriculums();
 
-            if (curriculums != null)
-            {
-                return View(curriculums);
+                if (curriculums != null)
+                {
+                    return View(curriculums);
+                }
+                else
+                {
+                    throw new Exception("Cannot read records");
+                }
             }
-            else
+            catch (Exception e)
             {
-                return View("Error");
+                return ErrorView(e);
             }
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception e)
+            {
+                return ErrorView(e);
+            }
         }
 
         [HttpPost]
         public ActionResult Create(Curriculum curriculum)
         {
-            int? id = Storage.AddCurriculum(curriculum);
-
-            if (id != null)
+            try
             {
-                return RedirectToAction("Index");
+                if (Storage.AddCurriculum(curriculum) != null)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    throw new Exception("Cannot create record");
+                }
             }
-            else
+            catch (Exception e)
             {
-                return View("Error");
+                return ErrorView(e);
             }
         }
 
         [HttpGet]
         public ActionResult Edit(int curriculumId)
         {
-            Curriculum curriculum = Storage.GetCurriculum(curriculumId);
+            try
+            {
+                Curriculum curriculum = Storage.GetCurriculum(curriculumId);
 
-            if (curriculum != null)
-            {
-                return View(curriculum);
+                if (curriculum != null)
+                {
+                    return View(curriculum);
+                }
+                else
+                {
+                    throw new Exception("Cannot update record");
+                }
             }
-            else
+            catch (Exception e)
             {
-                return View("Error");
+                return ErrorView(e);
             }
         }
 
         [HttpPost]
         public ActionResult Edit(int curriculumId, Curriculum curriculum)
         {
-            bool result = Storage.UpdateCurriculum(curriculumId, curriculum);
-
-            if (result)
+            try
             {
-                return RedirectToAction("Index");
+                if (Storage.UpdateCurriculum(curriculumId, curriculum))
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    throw new Exception("Cannot update record");
+                }
             }
-            else
+            catch (Exception e)
             {
-                return View("Error");
+                return ErrorView(e);
             }
         }
 
         [HttpDelete]
-        public ActionResult Delete(int curriculumId)
+        public JsonResult Delete(int curriculumId)
         {
-            bool result = Storage.DeleteCurriculum(curriculumId);
-
-            if (result)
+            try
             {
-                return RedirectToAction("Index");
+                if (Storage.DeleteCurriculum(curriculumId))
+                {
+                    return Json(new { success = true, id = curriculumId });
+                    //return RedirectToAction("Index");
+                }
+                else
+                {
+                    return Json(new { success = false });
+                    //throw new Exception("Cannot delete record");
+                }
             }
-            else
+            catch (Exception e)
             {
-                return View("Error");
+                return Json(new { success = false });
+                //return ErrorView(e);
             }
         }
 
@@ -95,7 +141,8 @@ namespace IUDICO.CurrMgt.Controllers
         {
             try
             {
-                bool result = Storage.DeleteCurriculums(new List<int>(curriculumIds));
+                bool result = Storage.DeleteCurriculums(curriculumIds.AsEnumerable());
+
                 return Json(new { success = result });
             }
             catch (Exception)

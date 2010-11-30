@@ -27,7 +27,7 @@
                     url: "Curriculum/Delete",
                     data: { curriculumIds: ids },
                     success: function (r) {
-                        if (r.success) {
+                        if (r.success == true) {
                             $("td input:checked").parents("tr").remove();
                         }
                         else {
@@ -52,7 +52,7 @@
         Curriculums</h2>
     <p>
         <%: Html.ActionLink("Create New", "Create") %>
-        <a id="DeleteMany" href="#">Delete Selected</a>
+        <a id="DeleteMany" href="">Delete Selected</a>
     </p>
     <table>
         <tr>
