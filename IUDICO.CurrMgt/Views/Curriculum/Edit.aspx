@@ -13,7 +13,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Edit</h2>
+    <h2>Edit curriculum</h2>
 
     <% Html.EnableClientValidation(); %>
 
@@ -29,7 +29,6 @@
                 <input type="submit" value="Save" />
             </p>
         </fieldset>
-
     <% } %>
 
     <div>

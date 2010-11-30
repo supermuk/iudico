@@ -15,7 +15,7 @@ namespace IUDICO.CurrMgt
             context.MapRoute(
                 "Curriculum",
                 "Curriculum/{CurriculumID}/{action}",
-                new { controller = "Curriculum", action = "Index", CurriculumId = 0 }
+                new { controller = "Curriculum" }
             );
 
             context.MapRoute(
@@ -25,15 +25,27 @@ namespace IUDICO.CurrMgt
             );
 
             context.MapRoute(
-                "Stage",
-                "Stage/{StageId}/{action}",
-                new { controller = "Stage", action = "Index", StageId = 0 }
+               "Stage",
+               "Stage/{StageId}/{action}",
+               new { controller = "Stage" }
             );
 
             context.MapRoute(
                 "Stages",
                 "Curriculum/{CurriculumId}/Stage/{action}",
-                new { controller = "Stage", action = "Index", CurriculumId = 0 }
+                new { controller = "Stage" }
+            );
+
+            context.MapRoute(
+               "Theme",
+               "Theme/{ThemeId}/{action}",
+               new { controller = "Theme" }
+            );
+
+            context.MapRoute(
+                "Themes",
+                "Stage/{StageId}/Theme/{action}",
+                new { controller = "Theme" }
             );
 
             RegisterAreaEmbeddedResources();

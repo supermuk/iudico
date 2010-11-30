@@ -5,6 +5,9 @@ using System.Linq;
 using System.Web;
 using System.Security.AccessControl;
 using IUDICO.Common.Models;
+using System.Data.Common;
+using System.Data.Linq;
+using IUDICO.Common.Messages.CourseMgt;
 
 namespace IUDICO.CurrMgt.Models.Storage
 {
@@ -54,6 +57,7 @@ namespace IUDICO.CurrMgt.Models.Storage
             }
             catch
             {
+                db = new DB();
                 return null;
             }
         }
@@ -73,6 +77,7 @@ namespace IUDICO.CurrMgt.Models.Storage
             }
             catch
             {
+                db = new DB();
                 return false;
             }
         }
@@ -90,15 +95,18 @@ namespace IUDICO.CurrMgt.Models.Storage
             }
             catch
             {
+                db = new DB();
                 return false;
             }
         }
 
-        public bool DeleteCurriculums(List<int> ids)
+        public bool DeleteCurriculums(IEnumerable<int> ids)
         {
             try
             {
-                var curriculums = (from n in db.Curriculums where ids.Contains(n.Id) select n);
+                var curriculums = (from curriculum in db.Curriculums where ids.Contains(curriculum.Id) select curriculum);
+                //IEnumerable<Stage> stages=new List<Stage>();
+                //foreach curriculum in DeleteStages(
 
                 db.Curriculums.DeleteAllOnSubmit(curriculums);
                 db.SubmitChanges();
@@ -107,6 +115,7 @@ namespace IUDICO.CurrMgt.Models.Storage
             }
             catch
             {
+                db = new DB();
                 return false;
             }
         }
@@ -141,6 +150,7 @@ namespace IUDICO.CurrMgt.Models.Storage
             }
             catch
             {
+                db = new DB();
                 return null;
             }
         }
@@ -173,6 +183,7 @@ namespace IUDICO.CurrMgt.Models.Storage
             }
             catch
             {
+                db = new DB();
                 return false;
             }
         }
@@ -191,6 +202,7 @@ namespace IUDICO.CurrMgt.Models.Storage
             }
             catch
             {
+                db = new DB();
                 return false;
             }
         }
@@ -209,6 +221,7 @@ namespace IUDICO.CurrMgt.Models.Storage
             }
             catch
             {
+                db = new DB();
                 return false;
             }
         }
@@ -259,6 +272,7 @@ namespace IUDICO.CurrMgt.Models.Storage
             }
             catch
             {
+                db = new DB();
                 return null;
             }
         }
@@ -280,6 +294,7 @@ namespace IUDICO.CurrMgt.Models.Storage
             }
             catch
             {
+                db = new DB();
                 return false;
             }
         }
@@ -316,6 +331,7 @@ namespace IUDICO.CurrMgt.Models.Storage
             }
             catch
             {
+                db = new DB();
                 return false;
             }
         }
@@ -352,21 +368,28 @@ namespace IUDICO.CurrMgt.Models.Storage
             }
             catch
             {
+                db = new DB();
                 return false;
             }
         }
 
+        #endregion
+
         public Course GetCourse(int id)
         {
-            return new Course();
+            GetCourseMessage message = new GetCourseMessage { Input = id };
+            MvcContrib.Bus.Send(message);
+
+            return message.Result.Data as Course;
         }
 
         public List<Course> GetCourses()
         {
-            return new List<Course>();
-        }
+            GetCoursesMessage message = new GetCoursesMessage { };
+            MvcContrib.Bus.Send(message);
 
-        #endregion
+            return message.Result.Data as List<Course>;
+        }
 
         #endregion
     }
