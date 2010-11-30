@@ -68,6 +68,22 @@ namespace IUDICO.CurrMgt.Controllers
             }
         }
 
+        //[HttpPost]
+        //public ActionResult Create(int stageId, Theme theme)
+        //{
+        //    Theme theme = new Theme() { CourseRef = courseId, StageRef = stageId };
+        //    int? id = Storage.AddTheme(theme);
+
+        //    if (id != null)
+        //    {
+        //        return RedirectToAction("Index", new { StageId = stageId });
+        //    }
+        //    else
+        //    {
+        //        return View("Error");
+        //    }
+        //}
+
         [HttpGet]
         public ActionResult Edit(int themeId, int stageId)
         {

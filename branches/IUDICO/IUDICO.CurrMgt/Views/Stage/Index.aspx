@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<WebEditor.Models.Stage>>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Stage>>" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script src="/Scripts/Microsoft/MicrosoftAjax.js" type="text/javascript"></script>
@@ -24,8 +24,8 @@
 
                 $.ajax({
                     type: "post",
-                    url: "Delete",
-                    data: { curriculumIds: ids },
+                    url: "Stage/Delete",
+                    data: { stageIds: ids },
                     success: function (r) {
                         if (r.success) {
                             $("td input:checked").parents("tr").remove();
@@ -36,8 +36,10 @@
                     }
                 });
             });
-
         });
+        function removeRow(data) {
+            window.location = window.location;
+        }
     </script>
 </asp:Content>
 
@@ -47,10 +49,10 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Curriculums</h2>
+        Stages for <%: ViewData["CurriculumId"] %> curriculum.</h2>
     <p>
         <%: Html.ActionLink("Create New", "Create") %>
-        <a id="DeleteMany" href="#">Delete Selected</a>
+        <a id="DeleteMany" href="">Delete Selected</a>
     </p>
     <table>
         <tr>
@@ -94,9 +96,13 @@
                 |
                 <%: Html.ActionLink("Edit Themes", "Index", "Theme", new { StageID = item.Id }, null)%>
                 |
-                <%: Ajax.ActionLink("Delete", "Delete", new { StageID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete" })%>
+                <%: Ajax.ActionLink("Delete", "Delete", new { StageID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess="removeRow" })%>
             </td>
         </tr>
         <% } %>
     </table>
+
+    <div>
+        <%: Html.ActionLink("Back to curriculum.", "Index", "Curriculum") %>
+    </div>
 </asp:Content>
