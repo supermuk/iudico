@@ -119,13 +119,14 @@ namespace IUDICO.CurrMgt.Controllers
             }
         }
 
-        public ActionResult ThemeUp(int themeId, int stageId)
+        public ActionResult ThemeUp(int themeId)
         {
             bool result = Storage.ThemeUp(themeId);
+            Theme theme = Storage.GetTheme(themeId);
 
             if (result)
             {
-                return RedirectToAction("Index", new { StageId = stageId });
+                return RedirectToAction("Index", new { StageId = theme.StageRef });
             }
             else
             {
@@ -133,13 +134,14 @@ namespace IUDICO.CurrMgt.Controllers
             }
         }
 
-        public ActionResult ThemeDown(int themeId, int stageId)
+        public ActionResult ThemeDown(int themeId)
         {
             bool result = Storage.ThemeDown(themeId);
+            Theme theme = Storage.GetTheme(themeId);
 
             if (result)
             {
-                return RedirectToAction("Index", new { StageId = stageId });
+                return RedirectToAction("Index", new { StageId = theme.StageRef });
             }
             else
             {

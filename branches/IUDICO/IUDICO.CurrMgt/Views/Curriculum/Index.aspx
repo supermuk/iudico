@@ -24,7 +24,7 @@
 
                 $.ajax({
                     type: "post",
-                    url: "Curriculum/Delete",
+                    url: "/Curriculum/Delete",
                     data: { curriculumIds: ids },
                     success: function (r) {
                         if (r.success == true) {
@@ -52,7 +52,7 @@
         Curriculums</h2>
     <p>
         <%: Html.ActionLink("Create New", "Create") %>
-        <a id="DeleteMany" href="">Delete Selected</a>
+        <a id="DeleteMany" href="#">Delete Selected</a>
     </p>
     <table>
         <tr>

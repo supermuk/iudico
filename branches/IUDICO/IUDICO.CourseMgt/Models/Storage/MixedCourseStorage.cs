@@ -44,6 +44,7 @@ namespace IUDICO.CourseMgt.Models.Storage
         {
             try
             {
+                course.Name = null;//
                 course.Created = DateTime.Now;
                 course.Updated = DateTime.Now;
 
