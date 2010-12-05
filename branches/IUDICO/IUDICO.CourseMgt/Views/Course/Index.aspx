@@ -24,7 +24,7 @@
 
                 $.ajax({
                     type: "post",
-                    url: "Course/Delete",
+                    url: "/Course/Delete",
                     data: { courseIds: ids },
                     success: function (r) {
                         if (r.success) {
@@ -54,7 +54,7 @@
         
         <%: Html.ActionLink("Create New", "Create", "Course")%> |
         <%: Html.ActionLink("Import", "Import") %> |
-        <a id="DeleteMany" href="">Delete Selected</a>
+        <a id="DeleteMany" href="#">Delete Selected</a>
     </p>
     <table>
         <tr>
