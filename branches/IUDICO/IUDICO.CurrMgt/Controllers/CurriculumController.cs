@@ -4,9 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using IUDICO.Common.Models;
-using IUDICO.CurrMgt.Controllers;
+using IUDICO.CurriculumManagement.Controllers;
 
-namespace IUDICO.CurrMgt.Controllers
+namespace IUDICO.CurriculumManagement.Controllers
 {
     public class CurriculumController : CurriculumBaseController
     {

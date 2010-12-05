@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.Common.Controllers;
-using IUDICO.CurrMgt.Models.Storage;
+using IUDICO.CurriculumManagement.Models.Storage;
 
-namespace IUDICO.CurrMgt.Controllers
+namespace IUDICO.CurriculumManagement.Controllers
 {
     public class CurriculumBaseController: BaseController
     {
@@ -15,7 +15,7 @@ namespace IUDICO.CurrMgt.Controllers
         {
             get
             {
-                return HttpContext.Application["CurrStorage"] as ICurriculumStorage;
+                return HttpContext.Application["CurriculumStorage"] as ICurriculumStorage;
             }
         }
     }
