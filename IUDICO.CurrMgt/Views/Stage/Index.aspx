@@ -24,7 +24,7 @@
 
                 $.ajax({
                     type: "post",
-                    url: "Stage/Delete",
+                    url: "/Stage/Delete",
                     data: { stageIds: ids },
                     success: function (r) {
                         if (r.success) {
@@ -52,7 +52,7 @@
         Stages for <%: ViewData["CurriculumId"] %> curriculum.</h2>
     <p>
         <%: Html.ActionLink("Create New", "Create") %>
-        <a id="DeleteMany" href="">Delete Selected</a>
+        <a id="DeleteMany" href="#">Delete Selected</a>
     </p>
     <table>
         <tr>

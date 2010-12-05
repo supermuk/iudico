@@ -57,7 +57,7 @@ namespace IUDICO.CurrMgt.Models.Storage
             }
             catch
             {
-                db = new DB();
+                db = new DB(); 
                 return null;
             }
         }
@@ -95,6 +95,9 @@ namespace IUDICO.CurrMgt.Models.Storage
             }
             catch
             {
+                //db.Refresh(RefreshMode.OverwriteCurrentValues, db.Curriculums);
+                //db.Refresh(RefreshMode.OverwriteCurrentValues, db.Stages);
+                //db.SubmitChanges();
                 db = new DB();
                 return false;
             }
@@ -115,7 +118,7 @@ namespace IUDICO.CurrMgt.Models.Storage
             }
             catch
             {
-                db = new DB();
+                db = new DB(); 
                 return false;
             }
         }
