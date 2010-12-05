@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
 
-namespace IUDICO.CurrMgt.Controllers
+namespace IUDICO.CurriculumManagement.Controllers
 {
     public class ThemeModel
     {

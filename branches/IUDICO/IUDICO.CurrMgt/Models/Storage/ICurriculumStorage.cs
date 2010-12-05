@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using IUDICO.Common.Models;
 
-namespace IUDICO.CurrMgt.Models.Storage
+namespace IUDICO.CurriculumManagement.Models.Storage
 {
     public interface ICurriculumStorage
     {

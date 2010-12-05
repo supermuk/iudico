@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using IUDICO.CurrMgt.Models.Storage;
+using IUDICO.CurriculumManagement.Models.Storage;
 using MvcContrib.PortableAreas;
 
-namespace IUDICO.CurrMgt
+namespace IUDICO.CurriculumManagement
 {
-    public class CurrMgtRegistration : PortableAreaRegistration
+    public class CurriculumManagementRegistration : PortableAreaRegistration
     {
         public override void RegisterArea(AreaRegistrationContext context, IApplicationBus bus)
         {
@@ -50,12 +50,12 @@ namespace IUDICO.CurrMgt
 
             RegisterAreaEmbeddedResources();
 
-            HttpContext.Current.Application["CurrStorage"] = CurriculumStorageFactory.CreateStorage(CurriculumStorageType.Mixed);
+            HttpContext.Current.Application["CurriculumStorage"] = CurriculumStorageFactory.CreateStorage(CurriculumStorageType.Mixed);
         }
 
         public override string AreaName
         {
-            get { return "CurrMgt"; }
+            get { return "CurriculumManagement"; }
         }
     }
 }
