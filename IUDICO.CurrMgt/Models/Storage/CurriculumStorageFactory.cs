@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace IUDICO.CurrMgt.Models.Storage
+namespace IUDICO.CurriculumManagement.Models.Storage
 {
     public enum CurriculumStorageType
     {

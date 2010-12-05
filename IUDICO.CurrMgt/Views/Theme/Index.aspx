@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.CurrMgt.Controllers.ThemeModel>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Controllers.ThemeModel>" %>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
     <script src="/Scripts/Microsoft/MicrosoftAjax.js" type="text/javascript"></script>

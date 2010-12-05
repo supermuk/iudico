@@ -9,7 +9,7 @@ using System.Data.Common;
 using System.Data.Linq;
 using IUDICO.Common.Messages.CourseMgt;
 
-namespace IUDICO.CurrMgt.Models.Storage
+namespace IUDICO.CurriculumManagement.Models.Storage
 {
     public class MixedCurriculumStorage : ICurriculumStorage
     {
