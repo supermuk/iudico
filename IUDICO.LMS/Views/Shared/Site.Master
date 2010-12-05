@@ -32,7 +32,7 @@
                     <li>
                         <%: Html.ActionLink("Course", "Index", "Course", new { area = "CourseMgt" }, null)%></li>
                     <li>
-                        <%: Html.ActionLink("Curriculum", "Index", "Curriculum", new { area = "CurrMgt"}, null)%></li>
+                        <%: Html.ActionLink("Curriculum", "Index", "Curriculum", new { area = "CurriculumManagement"}, null)%></li>
                     <li>
                         <%: Html.ActionLink("Search", "Index", "Search", new { area = "Search" }, null)%></li>
                     <li>

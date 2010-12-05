@@ -152,9 +152,9 @@
       <Project>{CB470DA7-0981-45B5-BEB9-6FD06586BA7E}</Project>
       <Name>IUDICO.CourseMgt</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IUDICO.CurrMgt\IUDICO.CurrMgt.csproj">
+    <ProjectReference Include="..\IUDICO.CurrMgt\IUDICO.CurriculumManagement.csproj">
       <Project>{E6F7266F-760A-4D43-B78C-378CA12DBE08}</Project>
-      <Name>IUDICO.CurrMgt</Name>
+      <Name>IUDICO.CurriculumManagement</Name>
     </ProjectReference>
     <ProjectReference Include="..\IUDICO.Search\IUDICO.Search.csproj">
       <Project>{2A5F6D52-4A98-44DC-896D-8FF2FD244E9F}</Project>
@@ -187,7 +187,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>12487</DevelopmentServerPort>
+          <DevelopmentServerPort>14769</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
