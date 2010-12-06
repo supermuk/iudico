@@ -33,6 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\References\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\References\Castle.Windsor.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -71,11 +77,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AssemblyChecker.cs" />
-    <Compile Include="Models\AssemblyResourceProvider.cs" />
-    <Compile Include="Models\AssemblyResourceVirtualFile.cs" />
-    <Compile Include="Models\PluginAssembly.cs" />
-    <Compile Include="Models\AssemblyViewEngine.cs" />
+    <Compile Include="Installers\ControllerFactoryInstaller.cs" />
+    <Compile Include="Installers\ControllersInstaller.cs" />
+    <Compile Include="Installers\ServicesInstaller.cs" />
+    <Compile Include="IoC\AssemblyResourceProvider.cs" />
+    <Compile Include="IoC\IocControllerFactory.cs" />
+    <Compile Include="Models\LmsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -131,7 +138,6 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Libraries\" />
     <Folder Include="Plugins\" />
   </ItemGroup>
   <ItemGroup>
