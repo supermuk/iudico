@@ -26,7 +26,7 @@ namespace IUDICO.CurriculumManagement.Controllers
 
                 if (stages != null)
                 {
-                    ViewData["CurriculumId"] = Storage.GetCurriculum(curriculumId).Name;
+                    ViewData["CurriculumName"] = Storage.GetCurriculum(curriculumId).Name;
                     return View(stages);
                 }
                 else
@@ -53,7 +53,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                 }
                 else
                 {
-                    throw new Exception("Cannot create record");
+                    throw new Exception("Curriculum doesn't exist!");
                 }
             }
             catch (Exception e)
@@ -69,16 +69,9 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 stage.Curriculum = Storage.GetCurriculum(curriculumId);
 
-                int? id = Storage.AddStage(stage);
+                Storage.AddStage(stage);
 
-                if (id != null)
-                {
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    throw new Exception("Cannot create record");
-                }
+                return RedirectToAction("Index");
             }
             catch (Exception e)
             {
@@ -95,11 +88,12 @@ namespace IUDICO.CurriculumManagement.Controllers
 
                 if (stage != null)
                 {
+                    HttpContext.Application["CurriculumId"] = stage.CurriculumRef;
                     return View(stage);
                 }
                 else
                 {
-                    throw new Exception("Cannot edit record");
+                    throw new Exception("Stage doesn't exist!");
                 }
             }
             catch (Exception e)
@@ -113,14 +107,10 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                if (Storage.UpdateStage(stageId, stage))
-                {
-                    return RedirectToAction("Index", new { CurriculumId = stage.CurriculumRef });
-                }
-                else
-                {
-                    throw new Exception("Cannot update record");
-                }
+                stage.Id = stageId;
+                Storage.UpdateStage(stage);
+
+                return RedirectToRoute("Stages", new { action = "Index", CurriculumId = HttpContext.Application["CurriculumId"] });
             }
             catch (Exception e)
             {
@@ -128,46 +118,33 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
         }
 
-        [HttpDelete]
-        public JsonResult Delete(int stageId)
+        [HttpPost]
+        public JsonResult DeleteItem(int stageId)
         {
             try
             {
-                if (Storage.DeleteStage(stageId))
-                {
-                    //return RedirectToAction("Index", new { CurriculumId = Storage.GetStage(stageId).CurriculumRef });
-                    return Json(new { success = true });
-                }
-                else
-                {
-                    //throw new Exception("Cannot delete record");
-                    return Json(new { success = false });
-                }
+                Storage.DeleteStage(stageId);
+
+                return Json(new { success = true });
             }
             catch (Exception e)
             {
-                return Json(new { success = false });
-                //return ErrorView(e);
+                return Json(new { success = false, message = e.Message });
             }
         }
 
         [HttpPost]
-        public JsonResult Delete(int[] stageIds)
+        public JsonResult DeleteItems(int[] stageIds)
         {
             try
             {
-                if (Storage.DeleteStages(stageIds.AsEnumerable()))
-                {
-                    return Json(new { success = true });
-                }
-                else
-                {
-                    return Json(new { success = false });
-                }
+                Storage.DeleteStages(stageIds);
+
+                return Json(new { success = true });
             }
-            catch
+            catch (Exception e)
             {
-                return Json(new { success = false });
+                return Json(new { success = false, message = e.Message });
             }
         }
     }

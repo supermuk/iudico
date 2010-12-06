@@ -4,21 +4,15 @@
     Error
 </asp:Content>
 <asp:Content ID="errorContent" ContentPlaceHolderID="MainContent" runat="server">
-    <h2>
-        <% if (Model != null)
-           { %>
-                An exception of type
-                <%: Html.Label(Model.Exception.GetType().Name)%>
-                occured.<br />
-                Message: "<%: Html.Label(Model.Exception.Message)%>"<br />
-                Controler:
-                <%: Html.Label(Model.ControllerName)%><br />
-                Action:
-                <%: Html.Label(Model.ActionName)%><br />
-         <%} %>
-        <% else
-           { %>
+    <% if (Model != null)
+       { %>
+            <b>An exception of type </b><%: Model.Exception.GetType().Name %><b> occured.</b><br />
+            <b>Message: </b>"<%: Model.Exception.Message %>"<br />
+            <b>Controler: </b><%: Model.ControllerName %><br />
+            <b>Action: </b><%: Model.ActionName %><br />
+    <% } %>
+    <% else
+       { %>
             Sorry, an error occurred while processing your request.
-        <% } %>
-    </h2>
+    <% } %>
 </asp:Content>

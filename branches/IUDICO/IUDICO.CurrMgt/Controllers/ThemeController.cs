@@ -19,18 +19,33 @@ namespace IUDICO.CurriculumManagement.Controllers
 
     public class ThemeController : CurriculumBaseController
     {
+        private ActionResult ErrorView(Exception e)
+        {
+            string currentControllerName = (string)RouteData.Values["controller"];
+            string currentActionName = (string)RouteData.Values["action"];
+            return View("Error", new HandleErrorInfo(e, currentControllerName, currentActionName));
+        }
+
         public ActionResult Index(int stageId)
         {
-            var themes = Storage.GetThemes(stageId);
-            ThemeModel model = new ThemeModel() { Themes = themes, StageId = stageId };
-
-            if (themes != null)
+            try
             {
-                return View(model);
+                var themes = Storage.GetThemes(stageId);
+                Stage stage = Storage.GetStage(stageId);
+                if (themes != null && stage != null)
+                {
+                    ViewData["StageName"] = stage.Name;
+                    ViewData["CurriculumId"] = stage.CurriculumRef;
+                    return View(themes);
+                }
+                else
+                {
+                    throw new Exception("Stage or theme doesn't exist!");
+                }
             }
-            else
+            catch (Exception e)
             {
-                return View("Error");
+                return ErrorView(e);
             }
         }
 
@@ -39,113 +54,139 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                ThemeModel model = new ThemeModel();
-                model.StageId = stageId;
-                model.Courses = from course in Storage.GetCourses()
-                                select new SelectListItem { Text = course.Name, Value = course.Id.ToString(), Selected = false };
+                ThemeModel model = new ThemeModel()
+                {
+                    StageId = stageId,
+                    Courses = from course in Storage.GetCourses()
+                              select new SelectListItem { Text = course.Name, Value = course.Id.ToString(), Selected = false }
+                };
 
                 return View(model);
             }
-            catch
+            catch (Exception e)
             {
-                return View("Error");
+                return ErrorView(e);
             }
         }
 
         [HttpPost]
-        public ActionResult Create(int stageId, int courseId)
-        {
-            Theme theme = new Theme() { CourseRef = courseId, StageRef = stageId };
-            int? id = Storage.AddTheme(theme);
-
-            if (id != null)
-            {
-                return RedirectToAction("Index", new { StageId = stageId });
-            }
-            else
-            {
-                return View("Error");
-            }
-        }
-
-        //[HttpPost]
-        //public ActionResult Create(int stageId, Theme theme)
-        //{
-        //    Theme theme = new Theme() { CourseRef = courseId, StageRef = stageId };
-        //    int? id = Storage.AddTheme(theme);
-
-        //    if (id != null)
-        //    {
-        //        return RedirectToAction("Index", new { StageId = stageId });
-        //    }
-        //    else
-        //    {
-        //        return View("Error");
-        //    }
-        //}
-
-        [HttpGet]
-        public ActionResult Edit(int themeId, int stageId)
+        public ActionResult Create(ThemeModel model)
         {
             try
             {
-                ThemeModel model = new ThemeModel();
-                model.ThemeId = themeId;
-                model.StageId = stageId;
-                model.Courses = from course in Storage.GetCourses()
-                                select new SelectListItem { Text = course.Name, Value = course.Id.ToString(), Selected = false };
+                Theme theme = new Theme() { CourseRef = model.CourseId, StageRef = model.StageId };
+                Storage.AddTheme(theme);
 
-                return View(model);
+                return RedirectToAction("Index", new { StageId = model.StageId });
             }
-            catch
+            catch (Exception e)
             {
-                return View("Error");
+                return ErrorView(e);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int themeId)
+        {
+            try
+            {
+                Theme theme = Storage.GetTheme(themeId);
+                if (theme != null)
+                {
+                    ThemeModel model = new ThemeModel()
+                    {
+                        StageId = theme.StageRef,
+                        ThemeId = themeId,
+                        Courses = from course in Storage.GetCourses()
+                                  select new SelectListItem { Text = course.Name, Value = course.Id.ToString(), Selected = false }
+                    };
+
+                    return View(model);
+                }
+                else
+                {
+                    throw new Exception("Theme doesn't exist!");
+                }
+            }
+            catch (Exception e)
+            {
+                return ErrorView(e);
             }
         }
 
         [HttpPost]
-        public ActionResult Edit(int themeId, int stageId, int courseId)
+        public ActionResult Edit(ThemeModel model)
         {
-            Theme theme = new Theme() { CourseRef = courseId, StageRef = stageId };
-            bool result = Storage.UpdateTheme(themeId, theme);
+            try
+            {
+                Theme theme = Storage.GetTheme(model.ThemeId);
+                theme.CourseRef = model.CourseId;
 
-            if (result)
-            {
-                return RedirectToAction("Index", new { StageId = stageId });
+                Storage.UpdateTheme(theme);
+
+                return RedirectToRoute("Themes", new { action = "Index", StageId = theme.StageRef });
             }
-            else
+            catch (Exception e)
             {
-                return View("Error");
+                return ErrorView(e);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteItem(int themeId)
+        {
+            try
+            {
+                Storage.DeleteTheme(themeId);
+
+                return Json(new { success = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteItems(int[] themeIds)
+        {
+            try
+            {
+                Storage.DeleteThemes(themeIds);
+
+                return Json(new { success = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message });
             }
         }
 
         public ActionResult ThemeUp(int themeId)
         {
-            bool result = Storage.ThemeUp(themeId);
-            Theme theme = Storage.GetTheme(themeId);
-
-            if (result)
+            try
             {
+                Theme theme = Storage.ThemeUp(themeId);
+
                 return RedirectToAction("Index", new { StageId = theme.StageRef });
             }
-            else
+            catch (Exception e)
             {
-                return View("Error");
+                return ErrorView(e);
             }
         }
 
         public ActionResult ThemeDown(int themeId)
         {
-            bool result = Storage.ThemeDown(themeId);
-            Theme theme = Storage.GetTheme(themeId);
-
-            if (result)
+            try
             {
+                Theme theme = Storage.ThemeDown(themeId);
+
                 return RedirectToAction("Index", new { StageId = theme.StageRef });
             }
-            else
+            catch (Exception e)
             {
-                return View("Error");
+                return ErrorView(e);
             }
         }
     }

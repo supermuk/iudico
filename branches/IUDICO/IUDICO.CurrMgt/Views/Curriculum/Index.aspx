@@ -24,21 +24,42 @@
 
                 $.ajax({
                     type: "post",
-                    url: "/Curriculum/Delete",
+                    url: "/Curriculum/DeleteItems",
                     data: { curriculumIds: ids },
                     success: function (r) {
                         if (r.success == true) {
                             $("td input:checked").parents("tr").remove();
+                            alert("Items were successfully deleted.");
                         }
                         else {
-                            alert("Error occured during proccessing request");
+                            alert("Error occured during processing request.\nError message: " + r.message);
                         }
                     }
                 });
             });
         });
-        function removeRow(data) {
-            window.location = window.location;
+        function deleteItem(id) {
+            var answer = confirm("Are you sure you want to delete selected curriculum?");
+
+            if (answer == false) {
+                return;
+            }
+
+            $.ajax({
+                type: "post",
+                url: "/Curriculum/DeleteItem",
+                data: { curriculumId: id },
+                success: function (r) {
+                    if (r.success == true) {
+                        var item = "item" + id;
+                        $("tr[id="+item+"]").remove();
+                        alert("Item was successfully deleted.");
+                    }
+                    else {
+                        alert("Error occured during processing request.\nError message: " + r.message);
+                    }
+                }
+            });
         }
     </script>
 </asp:Content>
@@ -75,30 +96,30 @@
         </tr>
         <% foreach (var item in Model)
            { %>
-        <tr>
-            <td>
-                <input type="checkbox" id="<%= item.Id %>" />
-            </td>
-            <td>
-                <%: item.Id %>
-            </td>
-            <td>
-                <%: item.Name %>
-            </td>
-            <td>
-                <%: String.Format("{0:g}", item.Created) %>
-            </td>
-            <td>
-                <%: String.Format("{0:g}", item.Updated) %>
-            </td>
-            <td>
-                <%: Html.ActionLink("Edit", "Edit", new { CurriculumID = item.Id })%>
-                |
-                <%: Html.ActionLink("Edit Stages", "Index", "Stage", new { CurriculumID = item.Id }, null)%>
-                |
-                <%: Ajax.ActionLink("Delete", "Delete", new { CurriculumID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess="removeRow" })%>
-            </td>
-        </tr>
+            <tr id="item<%: item.Id %>">
+                <td>
+                    <input type="checkbox" id="<%= item.Id %>" />
+                </td>
+                <td>
+                    <%: item.Id %>
+                </td>
+                <td>
+                    <%: item.Name %>
+                </td>
+                <td>
+                    <%: String.Format("{0:g}", item.Created) %>
+                </td>
+                <td>
+                    <%: String.Format("{0:g}", item.Updated) %>
+                </td>
+                <td>
+                    <%: Html.ActionLink("Edit", "Edit", new { CurriculumID = item.Id })%>
+                    |
+                    <%: Html.ActionLink("Edit Stages", "Index", "Stage", new { CurriculumID = item.Id }, null)%>
+                    |
+                    <a href="javascript:deleteItem(<%: item.Id %>)">Delete</a>
+                </td>
+            </tr>
         <% } %>
     </table>
 </asp:Content>

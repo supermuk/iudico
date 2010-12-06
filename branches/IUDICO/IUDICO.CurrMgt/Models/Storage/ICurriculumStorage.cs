@@ -11,33 +11,38 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         #region Curriculum methods
 
         IEnumerable<Curriculum> GetCurriculums();
+        IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids);
         Curriculum GetCurriculum(int id);
-        int? AddCurriculum(Curriculum curriculum);
-        bool UpdateCurriculum(int id, Curriculum curriculum);
-        bool DeleteCurriculum(int id);
-        bool DeleteCurriculums(IEnumerable<int> ids);
+        int AddCurriculum(Curriculum curriculum);
+        void UpdateCurriculum(Curriculum curriculum);
+        void DeleteCurriculum(int id);
+        void DeleteCurriculums(IEnumerable<int> ids);
 
         #endregion
 
         #region Stage methods
 
         IEnumerable<Stage> GetStages(int curriculumId);
-        int? AddStage(Stage stage);
+        IEnumerable<Stage> GetStages(IEnumerable<int> ids);
+        int AddStage(Stage stage);
         Stage GetStage(int id);
-        bool UpdateStage(int id, Stage stage);
-        bool DeleteStage(int id);
-        bool DeleteStages(IEnumerable<int> ids);
+        void UpdateStage(Stage stage);
+        void DeleteStage(int id);
+        void DeleteStages(IEnumerable<int> ids);
 
         #endregion
 
         #region Theme methods
 
         IEnumerable<Theme> GetThemes(int stageId);
+        IEnumerable<Theme> GetThemes(IEnumerable<int> ids);
         Theme GetTheme(int id);
-        int? AddTheme(Theme theme);
-        bool UpdateTheme(int id, Theme theme);
-        bool ThemeUp(int themeId);
-        bool ThemeDown(int themeId);
+        int AddTheme(Theme theme);
+        void UpdateTheme(Theme theme);
+        void DeleteTheme(int id);
+        void DeleteThemes(IEnumerable<int> ids);
+        Theme ThemeUp(int themeId);
+        Theme ThemeDown(int themeId);
 
         #endregion
 

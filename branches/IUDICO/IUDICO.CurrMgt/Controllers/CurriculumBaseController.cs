@@ -11,11 +11,13 @@ namespace IUDICO.CurriculumManagement.Controllers
 {
     public class CurriculumBaseController: BaseController
     {
+        ICurriculumStorage storage = CurriculumStorageFactory.CreateStorage(CurriculumStorageType.Mixed);
+
         protected ICurriculumStorage Storage
         {
             get
             {
-                return HttpContext.Application["CurriculumStorage"] as ICurriculumStorage;
+                return storage;
             }
         }
     }

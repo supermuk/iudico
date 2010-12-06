@@ -50,7 +50,7 @@ namespace IUDICO.CurriculumManagement
 
             RegisterAreaEmbeddedResources();
 
-            HttpContext.Current.Application["CurriculumStorage"] = CurriculumStorageFactory.CreateStorage(CurriculumStorageType.Mixed);
+            //HttpContext.Current.Application["CurriculumStorage"] = CurriculumStorageFactory.CreateStorage(CurriculumStorageType.Mixed);
         }
 
         public override string AreaName
