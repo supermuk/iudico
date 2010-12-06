@@ -5,7 +5,7 @@ using System.Web;
 using System.IO;
 using Microsoft.LearningComponents;
 
-namespace IUDICO.CourseMgt.Helpers
+namespace IUDICO.CourseManagment.Helpers
 {
     public static class PackageValidator
     {

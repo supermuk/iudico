@@ -5,10 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using IUDICO.Common.Models;
-using IUDICO.CourseMgt.Models;
-using IUDICO.CourseMgt.Models.Storage;
+using IUDICO.CourseManagment.Models;
+using IUDICO.CourseManagment.Models.Storage;
 
-namespace IUDICO.CourseMgt.Controllers
+namespace IUDICO.CourseManagment.Controllers
 {
     public class NodeController : CourseBaseController
     {

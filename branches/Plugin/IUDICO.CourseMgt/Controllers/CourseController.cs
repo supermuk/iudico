@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.IO;
 using IUDICO.Common.Models;
 
-namespace IUDICO.CourseMgt.Controllers
+namespace IUDICO.CourseManagment.Controllers
 {
     public class CourseController : CourseBaseController
     {

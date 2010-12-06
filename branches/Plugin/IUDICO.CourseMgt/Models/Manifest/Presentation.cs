@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace IUDICO.CourseMgt.Models.Manifest
+namespace IUDICO.CourseManagment.Models.Manifest
 {
     [Serializable]
     public class Presentation

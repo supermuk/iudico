@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using IUDICO.CourseMgt.Models;
+using IUDICO.CourseManagment.Models;
 using IUDICO.Common.Models;
 
-namespace IUDICO.CourseMgt.Models.Storage
+namespace IUDICO.CourseManagment.Models.Storage
 {
     public interface ICourseStorage
     {

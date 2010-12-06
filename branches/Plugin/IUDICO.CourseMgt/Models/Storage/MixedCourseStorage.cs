@@ -6,7 +6,7 @@ using System.Web;
 using System.Security.AccessControl;
 using IUDICO.Common.Models;
 
-namespace IUDICO.CourseMgt.Models.Storage
+namespace IUDICO.CourseManagment.Models.Storage
 {
     public class MixedCourseStorage : ICourseStorage
     {
@@ -147,7 +147,7 @@ namespace IUDICO.CourseMgt.Models.Storage
                         nodes.AddRange(subNodes);
                     }
                 }
-                CourseMgt.Helpers.Zipper.CreateZip(path + ".zip", path);
+                CourseManagment.Helpers.Zipper.CreateZip(path + ".zip", path);
                 return path + ".zip";
             }
             catch
@@ -162,7 +162,7 @@ namespace IUDICO.CourseMgt.Models.Storage
             {
                 Course course = new Course();
                 string folderPath = path.Substring(0, path.Length - 4);
-                CourseMgt.Helpers.Zipper.ExtractZipFile(path, folderPath);
+                CourseManagment.Helpers.Zipper.ExtractZipFile(path, folderPath);
                 course.Name = folderPath.Split('\\').Last();
                 course.Owner = "Imported";
                 return this.AddCourse(course);

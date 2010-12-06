@@ -4,13 +4,17 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using IUDICO.CourseMgt.Models.Storage;
-//using MvcContrib.PortableAreas;
-//using MvcContrib.UI.InputBuilder;
 using System.Web.Hosting;
-using IUDICO.LMS.Libraries;
 using System.Reflection;
+using System.IO;
+using System.Security;
+using System.Security.Permissions;
+using IUDICO.LMS.Models;
 using IUDICO.Common;
+using IUDICO.Common.Models;
+using IUDICO.Common.Models.Plugin;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
 
 namespace IUDICO.LMS
 {
@@ -19,8 +23,89 @@ namespace IUDICO.LMS
 
     public class MvcApplication : HttpApplication
     {
-        public static void RegisterRoutes(RouteCollection routes)
+        protected void Application_Start()
         {
+            
+
+            /*
+             * TODO ControllerBuilder.Current.SetControllerFactory(
+             *  new ExtensionControllerFactory()
+             * );
+            */
+            /*
+            AppDomain pluginDomain = AppDomain.CreateDomain("pluginDomain");
+            try
+            {
+                pluginDomain.DoCallBack(AssemblyChecker.GetCorrectAssemblies);
+                //LoadPlugins();
+            }
+            finally
+            {
+                AppDomain.Unload(pluginDomain);
+            }
+            */
+            
+
+            Application["LMS"] = IUDICO.Common.Models.LMS.Instance;
+
+            IEnumerable<IIudicoPlugin> plugins = LoadPlugins();
+            RegisterViews(plugins);
+            
+            //AreaRegistration.RegisterAllAreas();
+            RegisterRoutes(RouteTable.Routes, plugins);
+        }
+
+        public IEnumerable<IIudicoPlugin> LoadPlugins()
+        {
+            IUDICO.Common.Models.LMS lms = Application["LMS"] as IUDICO.Common.Models.LMS;
+
+            List<IIudicoPlugin> plugins = new List<IIudicoPlugin>();
+            DirectoryInfo directory = new DirectoryInfo(Server.MapPath("/Plugins"));
+
+            //foreach (String file in AssemblyChecker.correctAssemblies)
+            foreach (FileInfo file in directory.GetFiles("*.dll"))
+            {
+                Assembly assembly = Assembly.LoadFrom(file.FullName);
+                Type type = assembly.GetTypes().Where(t => !t.IsAbstract && !t.IsInterface && typeof(IIudicoPlugin).IsAssignableFrom(t) /*t.GetInterface(typeof(IIudicoPlugin).FullName != null*/).SingleOrDefault();
+
+                if (type != null)
+                {
+                    IIudicoPlugin plugin = Activator.CreateInstance(type) as IIudicoPlugin;
+                    plugin.Initialize(lms);
+                    lms.RegisterService(plugin.GetService());
+
+                    plugins.Add(plugin);
+                }
+            }
+
+            return plugins;
+        }
+
+        public void RegisterViews(IEnumerable<IIudicoPlugin> plugins)
+        {
+            // Register provider to load plugin resources
+            HostingEnvironment.RegisterVirtualPathProvider(new AssemblyResourceProvider(plugins));
+
+            // Register view engine to load views for loaded plugins
+            List<String> ViewLocations = new List<string>();
+
+            foreach (var plugin in plugins)
+            {
+                ViewLocations.Add("~/Plugins/" + plugin.GetType().Assembly.ManifestModule.Name + "/Views.{1}.{0}.aspx");
+            }
+
+            ViewEngines.Engines.Clear();
+            ViewEngines.Engines.Add(new AssemblyViewEngine(ViewLocations.ToArray()));
+        }
+
+        public void RegisterRoutes(RouteCollection routes, IEnumerable<IIudicoPlugin> plugins)
+        {
+            // register routes from plugins
+            foreach (var plugin in plugins)
+            {
+                plugin.RegisterRoutes(routes);
+            }
+
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
@@ -28,40 +113,6 @@ namespace IUDICO.LMS
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
-
-        }
-
-        protected void Application_Start()
-        {
-            RegisterAssemblies();
-            
-            
-            AreaRegistration.RegisterAllAreas();
-            RegisterRoutes(RouteTable.Routes);
-
-            
-
-            //InputBuilder.BootStrap();
-        }
-
-        public void RegisterAssemblies()
-        {
-            List<String> ViewLocations = new List<string>();
-
-            IEnumerable<Assembly> pluginAssemblies =
-                        AppDomain.CurrentDomain.GetAssemblies().
-                        Where(a => a.GetCustomAttributes(typeof(PluginAttribute), false).Count() > 0).AsEnumerable();
-
-            // Register Assembly provider to load ~/Plugins/
-            HostingEnvironment.RegisterVirtualPathProvider(new AssemblyResourceProvider(pluginAssemblies));
-
-            foreach (Assembly a in pluginAssemblies)
-            {
-                ViewLocations.Add("~/Plugins/" + a.ManifestModule.ScopeName + "/Views.{1}.{0}.aspx");
-            }
-
-            ViewEngines.Engines.Clear();
-            ViewEngines.Engines.Add(new PluginViewEngine(ViewLocations.ToArray()));
         }
     }
 }
