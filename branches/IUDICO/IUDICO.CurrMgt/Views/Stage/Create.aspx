@@ -21,7 +21,7 @@
     <% } %>
 
     <div>
-        <%: Html.ActionLink("Back to List", "Index") %>
+        <%: Html.ActionLink("Back to list", "Index") %>
     </div>
 
 </asp:Content>

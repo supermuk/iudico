@@ -14,7 +14,7 @@
         <fieldset>
             <legend>Fields</legend>
             
-            <%= Html.EditorForModel() %>
+            <%= Html.EditorForModel()%>
             
             <p>
                 <input type="submit" value="Save" />
@@ -23,7 +23,8 @@
     <% } %>
 
     <div>
-        <%: Html.ActionLink("Back to List", "Index") %>
+        <br />
+        <%: Html.ActionLink("Back to list", "Index", new { CurriculumId = HttpContext.Current.Application["CurriculumId"] })%>
     </div>
 
 </asp:Content>

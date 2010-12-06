@@ -24,21 +24,42 @@
 
                 $.ajax({
                     type: "post",
-                    url: "/Stage/Delete",
+                    url: "/Stage/DeleteItems",
                     data: { stageIds: ids },
                     success: function (r) {
                         if (r.success) {
                             $("td input:checked").parents("tr").remove();
+                            alert("Items were successfully deleted.");
                         }
                         else {
-                            alert("Error occured during proccessing request");
+                            alert("Error occured during processing request.\nError message: " + r.message);
                         }
                     }
                 });
             });
         });
-        function removeRow(data) {
-            window.location = window.location;
+        function deleteItem(id) {
+            var answer = confirm("Are you sure you want to delete selected stage?");
+
+            if (answer == false) {
+                return;
+            }
+
+            $.ajax({
+                type: "post",
+                url: "/Stage/DeleteItem",
+                data: { stageId: id },
+                success: function (r) {
+                    if (r.success == true) {
+                        var item = "item" + id;
+                        $("tr[id=" + item + "]").remove();
+                        alert("Item was successfully deleted.");
+                    }
+                    else {
+                        alert("Error occured during processing request.\nError message: " + r.message);
+                    }
+                }
+            });
         }
     </script>
 </asp:Content>
@@ -49,7 +70,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Stages for <%: ViewData["CurriculumId"] %> curriculum.</h2>
+        Stages for <%: ViewData["CurriculumName"] %> curriculum.</h2>
     <p>
         <%: Html.ActionLink("Create New", "Create") %>
         <a id="DeleteMany" href="#">Delete Selected</a>
@@ -75,34 +96,35 @@
         </tr>
         <% foreach (var item in Model)
            { %>
-        <tr>
-            <td>
-                <input type="checkbox" id="<%= item.Id %>" />
-            </td>
-            <td>
-                <%: item.Id %>
-            </td>
-            <td>
-                <%: item.Name %>
-            </td>
-            <td>
-                <%: String.Format("{0:g}", item.Created) %>
-            </td>
-            <td>
-                <%: String.Format("{0:g}", item.Updated) %>
-            </td>
-            <td>
-                <%: Html.ActionLink("Edit", "Edit", new { StageID = item.Id })%>
-                |
-                <%: Html.ActionLink("Edit Themes", "Index", "Theme", new { StageID = item.Id }, null)%>
-                |
-                <%: Ajax.ActionLink("Delete", "Delete", new { StageID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess="removeRow" })%>
-            </td>
-        </tr>
+            <tr id="item<%: item.Id %>">
+                <td>
+                    <input type="checkbox" id="<%= item.Id %>" />
+                </td>
+                <td>
+                    <%: item.Id %>
+                </td>
+                <td>
+                    <%: item.Name %>
+                </td>
+                <td>
+                    <%: String.Format("{0:g}", item.Created) %>
+                </td>
+                <td>
+                    <%: String.Format("{0:g}", item.Updated) %>
+                </td>
+                <td>
+                    <%: Html.ActionLink("Edit", "Edit", new { StageID = item.Id })%>
+                    |
+                    <%: Html.ActionLink("Edit Themes", "Index", "Theme", new { StageID = item.Id }, null)%>
+                    |
+                    <a href="javascript:deleteItem(<%: item.Id %>)">Delete</a>
+                </td>
+            </tr>
         <% } %>
     </table>
 
     <div>
-        <%: Html.ActionLink("Back to curriculum.", "Index", "Curriculum") %>
+        <br/>
+        <%: Html.ActionLink("Back to curriculums.", "Index", "Curriculum") %>
     </div>
 </asp:Content>

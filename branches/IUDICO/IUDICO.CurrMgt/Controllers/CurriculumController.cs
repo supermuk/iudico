@@ -56,14 +56,9 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                if (Storage.AddCurriculum(curriculum) != null)
-                {
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    throw new Exception("Cannot create record");
-                }
+                Storage.AddCurriculum(curriculum);
+
+                return RedirectToAction("Index");
             }
             catch (Exception e)
             {
@@ -84,7 +79,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                 }
                 else
                 {
-                    throw new Exception("Cannot update record");
+                    throw new Exception("Curriculum is null.");
                 }
             }
             catch (Exception e)
@@ -98,14 +93,10 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                if (Storage.UpdateCurriculum(curriculumId, curriculum))
-                {
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    throw new Exception("Cannot update record");
-                }
+                curriculum.Id = curriculumId;
+                Storage.UpdateCurriculum(curriculum);
+
+                return RedirectToAction("Index");
             }
             catch (Exception e)
             {
@@ -113,41 +104,33 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
         }
 
-        [HttpDelete]
-        public JsonResult Delete(int curriculumId)
+        [HttpPost]
+        public JsonResult DeleteItem(int curriculumId)
         {
             try
             {
-                if (Storage.DeleteCurriculum(curriculumId))
-                {
-                    return Json(new { success = true, id = curriculumId });
-                    //return RedirectToAction("Index");
-                }
-                else
-                {
-                    return Json(new { success = false });
-                    //throw new Exception("Cannot delete record");
-                }
+                Storage.DeleteCurriculum(curriculumId);
+
+                return Json(new { success = true });
             }
             catch (Exception e)
             {
-                return Json(new { success = false });
-                //return ErrorView(e);
+                return Json(new { success = false, message = e.Message });
             }
         }
 
         [HttpPost]
-        public JsonResult Delete(int[] curriculumIds)
+        public JsonResult DeleteItems(int[] curriculumIds)
         {
             try
             {
-                bool result = Storage.DeleteCurriculums(curriculumIds.AsEnumerable());
+                Storage.DeleteCurriculums(curriculumIds);
 
-                return Json(new { success = result });
+                return Json(new { success = true });
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return Json(new { success = false });
+                return Json(new { success = false, message = e.Message });
             }
         }
     }
