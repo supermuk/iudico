@@ -10,7 +10,7 @@ using IUDICO.Common.Controllers;
 
 namespace IUDICO.CourseManagment.Controllers
 {
-    public class CourseBaseController: BaseController
+    public class CourseBaseController : PluginController
     {
         protected ICourseStorage Storage
         {

@@ -11,7 +11,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IUDICO.CourseManagment</RootNamespace>
-    <AssemblyName>CourseMgt</AssemblyName>
+    <AssemblyName>IUDICO.CourseManagment</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
   </PropertyGroup>
@@ -33,6 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\References\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\References\Castle.Windsor.dll</HintPath>
+    </Reference>
     <Reference Include="DotNetOpenAuth, Version=3.4.5.10202, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\DotNetOpenAuth.dll</HintPath>
@@ -736,6 +742,6 @@
     </ItemGroup>
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)*.* $(SolutionDir)IUDICO.LMS\Plugins\</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetPath) $(SolutionDir)IUDICO.LMS\Plugins\</PostBuildEvent>
   </PropertyGroup>
 </Project>
