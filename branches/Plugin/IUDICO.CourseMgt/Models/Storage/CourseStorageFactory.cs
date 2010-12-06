@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace IUDICO.CourseMgt.Models.Storage
+namespace IUDICO.CourseManagment.Models.Storage
 {
     public enum CourseStorageType
     {

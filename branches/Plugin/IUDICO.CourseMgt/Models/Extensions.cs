@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using IUDICO.Common.Models;
 
-namespace IUDICO.CourseMgt.Models
+namespace IUDICO.CourseManagment.Models
 {
     public static class RouteCollectionExtentions
     {

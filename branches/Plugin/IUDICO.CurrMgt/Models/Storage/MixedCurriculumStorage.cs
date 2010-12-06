@@ -7,7 +7,7 @@ using System.Security.AccessControl;
 using IUDICO.Common.Models;
 using System.Data.Common;
 using System.Data.Linq;
-using IUDICO.Common.Messages.CourseMgt;
+//using IUDICO.Common.Messages.CourseMgt;
 
 namespace IUDICO.CurriculumManagement.Models.Storage
 {
@@ -245,6 +245,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             MvcContrib.Bus.Send(message);
 
             return message.Result.Data as List<Course>;
+            //ICourseManagment m = LMS.GetService(typeof(ICourseManagment)) as ICourseManagment; 
+            //return m.getCources();
         }
 
         #endregion

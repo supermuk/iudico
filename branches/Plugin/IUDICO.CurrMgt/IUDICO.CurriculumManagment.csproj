@@ -6,12 +6,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2A5F6D52-4A98-44DC-896D-8FF2FD244E9F}</ProjectGuid>
+    <ProjectGuid>{E6F7266F-760A-4D43-B78C-378CA12DBE08}</ProjectGuid>
     <ProjectTypeGuids>{F85E285D-A4E0-4152-9332-AB1D724D3325};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IUDICO.Search</RootNamespace>
-    <AssemblyName>Search</AssemblyName>
+    <RootNamespace>IUDICO.CurrMgt</RootNamespace>
+    <AssemblyName>CurrMgt</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
   </PropertyGroup>
@@ -33,10 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Lucene.Net, Version=2.9.2.2, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\Lucene.Net.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MvcContrib, Version=2.0.96.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -44,6 +40,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -73,28 +70,44 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\SearchController.cs" />
-    <Compile Include="SearchRegistration.cs" />
-    <Compile Include="Models\SearchResult\CourseResult.cs" />
-    <Compile Include="Models\SearchResult\ISearchResult.cs" />
-    <Compile Include="Models\SearchResult\NodeResult.cs" />
+    <Compile Include="Controllers\CurriculumBaseController.cs" />
+    <Compile Include="Controllers\CurriculumController.cs" />
+    <Compile Include="Controllers\StageController.cs" />
+    <Compile Include="Controllers\ThemeController.cs" />
+    <Compile Include="CurrMgtRegistration.cs" />
+    <Compile Include="Models\Storage\ICurriculumStorage.cs" />
+    <Compile Include="Models\Storage\MixedCurriculumStorage.cs" />
+    <Compile Include="Models\Storage\CurriculumStorageFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Libraries\Lucene.Net.dll" />
+    <Content Include="Scripts\jquery-1.4.1.js" />
+    <Content Include="Scripts\jquery-1.4.1.min.js" />
+    <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\MicrosoftAjax.js" />
+    <Content Include="Scripts\MicrosoftAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
+    <Content Include="Views\Curriculum\Create.aspx" />
+    <Content Include="Views\Curriculum\Edit.aspx" />
+    <Content Include="Views\Curriculum\Index.aspx" />
+    <Content Include="Views\Stage\Create.aspx" />
+    <Content Include="Views\Stage\Edit.aspx" />
+    <Content Include="Views\Stage\Index.aspx" />
+    <Content Include="Views\Theme\Create.aspx" />
+    <Content Include="Views\Theme\Edit.aspx" />
+    <Content Include="Views\Theme\Index.aspx" />
     <Content Include="Views\Web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
       <Project>{9DD6C943-6608-4351-A521-E4B1F2F75E9D}</Project>
       <Name>IUDICO.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IUDICO.CourseMgt\IUDICO.CourseManagment.csproj">
-      <Project>{CB470DA7-0981-45B5-BEB9-6FD06586BA7E}</Project>
-      <Name>IUDICO.CourseManagment</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -112,7 +125,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>4367</DevelopmentServerPort>
+          <DevelopmentServerPort>4354</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
