@@ -13,7 +13,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 {
     public class MixedCurriculumStorage : ICurriculumStorage
     {
-        protected DB db = DB.Instance;
+        protected DBDataContext db = new DBDataContext();
 
         #region IStorageInterface Members
 
@@ -21,106 +21,54 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public IEnumerable<Curriculum> GetCurriculums()
         {
-            try
-            {
-                return db.Curriculums.ToList();
-            }
-            catch
-            {
-                return null;
-            }
+            return db.Curriculums;
+        }
+
+        public IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids)
+        {
+            return db.Curriculums.Where(item => ids.Contains(item.Id));
         }
 
         public Curriculum GetCurriculum(int id)
         {
-            try
-            {
-                return db.Curriculums.Single(c => c.Id == id);
-            }
-            catch
-            {
-                return null;
-            }
+            return db.Curriculums.Single(item => item.Id == id);
         }
 
-        public int? AddCurriculum(Curriculum curriculum)
+        public int AddCurriculum(Curriculum curriculum)
         {
-            try
-            {
-                curriculum.Created = DateTime.Now;
-                curriculum.Updated = DateTime.Now;
+            curriculum.Created = DateTime.Now;
+            curriculum.Updated = DateTime.Now;
 
-                db.Curriculums.InsertOnSubmit(curriculum);
-                db.SubmitChanges();
+            db.Curriculums.InsertOnSubmit(curriculum);
+            db.SubmitChanges();
 
-                return curriculum.Id;
-            }
-            catch
-            {
-                db = new DB(); 
-                return null;
-            }
+            return curriculum.Id;
         }
 
-        public bool UpdateCurriculum(int id, Curriculum curriculum)
+        public void UpdateCurriculum(Curriculum curriculum)
         {
-            try
-            {
-                Curriculum oldCurriculum = db.Curriculums.Single(c => c.Id == id);
+            Curriculum oldCurriculum = GetCurriculum(curriculum.Id);
 
-                oldCurriculum.Name = curriculum.Name;
-                oldCurriculum.Updated = DateTime.Now;
+            oldCurriculum.Name = curriculum.Name;
+            oldCurriculum.Updated = DateTime.Now;
 
-                db.SubmitChanges();
-
-                return true;
-            }
-            catch
-            {
-                db = new DB();
-                return false;
-            }
+            db.SubmitChanges();
         }
 
-        public bool DeleteCurriculum(int id)
+        public void DeleteCurriculum(int id)
         {
-            try
-            {
-                Curriculum curriculum = db.Curriculums.Single(c => c.Id == id);
+            Curriculum curriculum = GetCurriculum(id);
 
-                db.Curriculums.DeleteOnSubmit(curriculum);
-                db.SubmitChanges();
-
-                return true;
-            }
-            catch
-            {
-                //db.Refresh(RefreshMode.OverwriteCurrentValues, db.Curriculums);
-                //db.Refresh(RefreshMode.OverwriteCurrentValues, db.Stages);
-                //db.SubmitChanges();
-                db = new DB();
-                return false;
-            }
+            db.Curriculums.DeleteOnSubmit(curriculum);
+            db.SubmitChanges();
         }
 
-        public bool DeleteCurriculums(IEnumerable<int> ids)
+        public void DeleteCurriculums(IEnumerable<int> ids)
         {
-            try
-            {
-                var curriculums = (from curriculum in db.Curriculums where ids.Contains(curriculum.Id) select curriculum);
-                //IEnumerable<Stage> stages=new List<Stage>();
-                //foreach curriculum in DeleteStages(
+            var curriculums = GetCurriculums(ids);
 
-                db.Curriculums.DeleteAllOnSubmit(curriculums);
-                db.SubmitChanges();
-
-                return true;
-            }
-            catch
-            {
-                db = new DB(); 
-                return false;
-            }
+            db.Curriculums.DeleteAllOnSubmit(curriculums);
+            db.SubmitChanges();
         }
 
         #endregion
@@ -129,104 +77,54 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public IEnumerable<Stage> GetStages(int curriculumId)
         {
-            try
-            {
-                return db.Stages.Where(c => c.CurriculumRef == curriculumId);
-            }
-            catch
-            {
-                return null;
-            }
+            return db.Stages.Where(item => item.CurriculumRef == curriculumId);
         }
 
-        public int? AddStage(Stage stage)
+        public IEnumerable<Stage> GetStages(IEnumerable<int> ids)
         {
-            try
-            {
-                stage.Created = DateTime.Now;
-                stage.Updated = DateTime.Now;
-
-                db.Stages.InsertOnSubmit(stage);
-                db.SubmitChanges();
-
-                return stage.Id;
-            }
-            catch
-            {
-                db = new DB();
-                return null;
-            }
+            return db.Stages.Where(item => ids.Contains(item.Id));
         }
 
         public Stage GetStage(int id)
         {
-            try
-            {
-                return db.Stages.Single(s => s.Id == id);
-            }
-            catch
-            {
-                return null;
-            }
+            return db.Stages.Single(s => s.Id == id);
         }
 
-        public bool UpdateStage(int id, Stage stage)
+        public int AddStage(Stage stage)
         {
-            try
-            {
-                Stage oldStage = GetStage(id);
+            stage.Created = DateTime.Now;
+            stage.Updated = DateTime.Now;
 
-                oldStage.Name = stage.Name;
-                oldStage.Updated = DateTime.Now;
-                stage.CurriculumRef = oldStage.CurriculumRef;
+            db.Stages.InsertOnSubmit(stage);
+            db.SubmitChanges();
 
-                db.SubmitChanges();
-
-                return true;
-            }
-            catch
-            {
-                db = new DB();
-                return false;
-            }
+            return stage.Id;
         }
 
-        public bool DeleteStage(int id)
+        public void UpdateStage(Stage stage)
         {
-            try
-            {
-                Stage stage = db.Stages.Single(s => s.Id == id);
+            Stage oldStage = GetStage(stage.Id);
 
-                db.Stages.DeleteOnSubmit(stage);
+            oldStage.Name = stage.Name;
+            oldStage.Updated = DateTime.Now;
 
-                db.SubmitChanges();
-
-                return true;
-            }
-            catch
-            {
-                db = new DB();
-                return false;
-            }
+            db.SubmitChanges();
         }
 
-        public bool DeleteStages(IEnumerable<int> ids)
+        public void DeleteStage(int id)
         {
-            try
-            {
-                var stages = from stage in db.Stages where ids.Contains(stage.Id) select stage;
+            Stage stage = GetStage(id);
 
-                db.Stages.DeleteAllOnSubmit(stages);
+            db.Stages.DeleteOnSubmit(stage);
+            db.SubmitChanges();
+        }
 
-                db.SubmitChanges();
+        public void DeleteStages(IEnumerable<int> ids)
+        {
+            var stages = GetStages(ids);
 
-                return true;
-            }
-            catch
-            {
-                db = new DB();
-                return false;
-            }
+            db.Stages.DeleteAllOnSubmit(stages);
+            db.SubmitChanges();
         }
 
         #endregion
@@ -235,148 +133,103 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public IEnumerable<Theme> GetThemes(int stageId)
         {
-            try
-            {
-                return db.Themes.Where(c => c.StageRef == stageId).OrderBy(c => c.SortOrder);
-            }
-            catch
-            {
-                return null;
-            }
+            return db.Themes.Where(item => item.StageRef == stageId).OrderBy(item => item.SortOrder);
+        }
+
+        public IEnumerable<Theme> GetThemes(IEnumerable<int> ids)
+        {
+            return db.Themes.Where(item => ids.Contains(item.Id)).OrderBy(item => item.SortOrder);
         }
 
         public Theme GetTheme(int id)
         {
-            try
-            {
-                return db.Themes.Single(c => c.Id == id);
-            }
-            catch
-            {
-                return null;
-            }
+            return db.Themes.Single(item => item.Id == id);
         }
 
-        public int? AddTheme(Theme theme)
+        public int AddTheme(Theme theme)
         {
-            try
-            {
-                theme.Name = GetCourse(theme.CourseRef).Name;
-                theme.Created = DateTime.Now;
-                theme.Updated = DateTime.Now;
+            theme.Name = GetCourse(theme.CourseRef).Name;
+            theme.Created = DateTime.Now;
+            theme.Updated = DateTime.Now;
 
-                db.Themes.InsertOnSubmit(theme);
+            db.Themes.InsertOnSubmit(theme);
+            db.SubmitChanges();
+
+            theme.SortOrder = theme.Id;
+            UpdateTheme(theme);
+
+            return theme.Id;
+        }
+
+        public void UpdateTheme(Theme theme)
+        {
+            Theme oldTheme = GetTheme(theme.Id);
+
+            oldTheme.Name = GetCourse(theme.CourseRef).Name;
+            oldTheme.SortOrder = theme.SortOrder;
+            oldTheme.CourseRef = theme.CourseRef;
+            oldTheme.Updated = DateTime.Now;
+
+            db.SubmitChanges();
+        }
+
+        public void DeleteTheme(int id)
+        {
+            Theme theme = GetTheme(id);
+
+            db.Themes.DeleteOnSubmit(theme);
+            db.SubmitChanges();
+        }
+
+        public void DeleteThemes(IEnumerable<int> ids)
+        {
+            var themes = GetThemes(ids);
+
+            db.Themes.DeleteAllOnSubmit(themes);
+            db.SubmitChanges();
+        }
+
+        public Theme ThemeUp(int themeId)
+        {
+            Theme theme = GetTheme(themeId);
+            IList<Theme> themes = GetThemes(theme.StageRef).ToList();
+
+            int index = themes.IndexOf(theme);
+            if (index != -1 && index != 0)
+            {
+                int temp = themes[index - 1].SortOrder;
+                themes[index - 1].SortOrder = theme.SortOrder;
+                theme.SortOrder = temp;
+
                 db.SubmitChanges();
-
-                theme.SortOrder = theme.Id;
-                UpdateTheme(theme.Id, theme);
-
-                return theme.Id;
             }
-            catch
-            {
-                db = new DB();
-                return null;
-            }
+
+            return theme;
         }
 
-        public bool UpdateTheme(int id, Theme theme)
+        public Theme ThemeDown(int themeId)
         {
-            try
-            {
-                Theme oldTheme = db.Themes.Single(c => c.Id == id);
+            Theme theme = GetTheme(themeId);
+            IList<Theme> themes = GetThemes(theme.StageRef).ToList();
 
-                oldTheme.Name = GetCourse(theme.CourseRef).Name;
-                oldTheme.SortOrder = theme.SortOrder;
-                oldTheme.CourseRef = theme.CourseRef;
-                oldTheme.Updated = DateTime.Now;
+            int index = themes.IndexOf(theme);
+            if (index != -1 && index != themes.Count - 1)
+            {
+                int temp = themes[index + 1].SortOrder;
+                themes[index + 1].SortOrder = theme.SortOrder;
+                theme.SortOrder = temp;
 
                 db.SubmitChanges();
-
-                return true;
             }
-            catch
-            {
-                db = new DB();
-                return false;
-            }
-        }
 
-        public bool ThemeUp(int themeId)
-        {
-            try
-            {
-                Theme theme = db.Themes.Single(c => c.Id == themeId);
-                IList<Theme> themes = (from c in db.Themes
-                                       where c.StageRef == theme.StageRef
-                                       orderby c.SortOrder
-                                       select c).ToList();
-
-                int index = themes.IndexOf(theme);
-                if (index == -1)
-                {
-                    return false;
-                }
-                else if (index == 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    int temp = themes[index - 1].SortOrder;
-                    themes[index - 1].SortOrder = theme.SortOrder;
-                    theme.SortOrder = temp;
-
-                    db.SubmitChanges();
-
-                    return true;
-                }
-            }
-            catch
-            {
-                db = new DB();
-                return false;
-            }
-        }
-
-        public bool ThemeDown(int themeId)
-        {
-            try
-            {
-                Theme theme = db.Themes.Single(c => c.Id == themeId);
-                IList<Theme> themes = (from c in db.Themes
-                                       where c.StageRef == theme.StageRef
-                                       orderby c.SortOrder
-                                       select c).ToList();
-
-                int index = themes.IndexOf(theme);
-                if (index == -1)
-                {
-                    return false;
-                }
-                else if (index == themes.Count - 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    int temp = themes[index + 1].SortOrder;
-                    themes[index + 1].SortOrder = theme.SortOrder;
-                    theme.SortOrder = temp;
-
-                    db.SubmitChanges();
-
-                    return true;
-                }
-            }
-            catch
-            {
-                db = new DB();
-                return false;
-            }
+            return theme;
         }
 
         #endregion
+
+        #endregion
+
+        #region Call of external methods
 
         public Course GetCourse(int id)
         {
