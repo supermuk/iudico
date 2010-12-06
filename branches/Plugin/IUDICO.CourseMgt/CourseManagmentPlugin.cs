@@ -8,22 +8,18 @@ using System.Web.Routing;
 using IUDICO.CourseManagment.Models.Storage;
 using IUDICO.Common;
 using IUDICO.Common.Models;
-using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
+using Castle.MicroKernel.Registration;
+using Castle.Windsor;
+using Castle.MicroKernel.SubSystems.Configuration;
 
 namespace IUDICO.CourseManagment
 {
-    public class CourseManagmentPlugin : IIudicoPlugin, ICourseManagment
+    public class CourseManagmentService : ICourseManagment, IWindsorInstaller
     {
-        protected LMS lms;
+        protected IWindsorContainer container;
 
-        #region IIudicoPlugin Members
-        public void Initialize(LMS lms)
-        {
-            this.lms = lms;
-            HttpContext.Current.Application["CourseStorage"] = CourseStorageFactory.CreateStorage(CourseStorageType.Mixed);
-        }
-
+        #region IService Members
         public void RegisterRoutes(RouteCollection routes)
         {
             routes.MapRoute(
@@ -51,16 +47,26 @@ namespace IUDICO.CourseManagment
             );
         }
 
-        public IService GetService()
-        {
-            return this;
-        }
-        #endregion
-
-        #region IService members
         public void Update(string evt, params object[] data)
         {
             // handle appropriate events
+        }
+        #endregion
+
+        #region IWindsorInstaller Members
+        public void Install(IWindsorContainer container, IConfigurationStore store)
+        {
+            HttpContext.Current.Application["CourseStorage"] = CourseStorageFactory.CreateStorage(CourseStorageType.Mixed);
+
+            container.Register(
+                AllTypes
+                    .FromThisAssembly()
+                    .BasedOn<IController>()
+                    .Configure(c => c.LifeStyle.Transient
+                                        .Named(c.Implementation.Name))
+                );
+
+            this.container = container;
         }
         #endregion
     }
