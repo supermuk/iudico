@@ -7,12 +7,19 @@ using System.Web.Routing;
 using IUDICO.Common.Models;
 using IUDICO.CourseManagment.Models;
 using IUDICO.CourseManagment.Models.Storage;
+using IUDICO.Common.Models.Services;
 
 namespace IUDICO.CourseManagment.Controllers
 {
     public class NodeController : CourseBaseController
     {
         protected Course CurrentCourse;
+        protected ICourseManagment storage;
+
+        public NodeController(ICourseManagment storage)
+        {
+            this.storage = storage;
+        }
 
         protected override void Initialize(RequestContext requestContext)
         {
@@ -21,7 +28,7 @@ namespace IUDICO.CourseManagment.Controllers
             //Storage = factory.CreateStorage(StorageType.Mixed);
 
             int courseId = Convert.ToInt32(requestContext.RouteData.Values["CourseID"]);
-            CurrentCourse = Storage.GetCourse(courseId);
+            CurrentCourse = storage.GetCourse(courseId);
 
             if (CurrentCourse == null)
             {
@@ -41,7 +48,7 @@ namespace IUDICO.CourseManagment.Controllers
         {
             try
             {
-                var nodes = Storage.GetNodes(CurrentCourse.Id, id).ToJsTreeList();
+                var nodes = storage.GetNodes(CurrentCourse.Id, id).ToJsTreeList();
 
                 return Json(nodes);
             }
@@ -58,7 +65,7 @@ namespace IUDICO.CourseManagment.Controllers
             {
                 node.CourseId = CurrentCourse.Id;
 
-                int? id = Storage.AddNode(node);
+                int? id = storage.AddNode(node);
 
                 if (id != null)
                 {
@@ -80,7 +87,7 @@ namespace IUDICO.CourseManagment.Controllers
         {
             try
             {
-                Storage.DeleteNodes(new List<int>(ids));
+                storage.DeleteNodes(new List<int>(ids));
 
                 return Json(new {status = true});
             }
@@ -95,9 +102,9 @@ namespace IUDICO.CourseManagment.Controllers
         {
             try
             {
-                Node node = Storage.GetNode(id);
+                Node node = storage.GetNode(id);
                 node.Name = name;
-                Storage.UpdateNode(id, node);
+                storage.UpdateNode(id, node);
 
                 return Json(new { status = true });
             }
@@ -112,11 +119,11 @@ namespace IUDICO.CourseManagment.Controllers
         {
             try
             {
-                Node node = Storage.GetNode(id);
+                Node node = storage.GetNode(id);
 
                 if (copy)
                 {
-                    int? newId = Storage.CreateCopy(node, parentId, position);
+                    int? newId = storage.CreateCopy(node, parentId, position);
 
                     if (newId != null)
                     {
@@ -132,7 +139,7 @@ namespace IUDICO.CourseManagment.Controllers
                     node.ParentId = parentId;
                     node.Position = position;
 
-                    Storage.UpdateNode(id, node);
+                    storage.UpdateNode(id, node);
 
                     return Json(new {status = true, id = id});
                 }
@@ -148,7 +155,7 @@ namespace IUDICO.CourseManagment.Controllers
         {
             try
             {
-                return Json(new { data = Storage.GetNodeContents(id), status = true });
+                return Json(new { data = storage.GetNodeContents(id), status = true });
             }
             catch (Exception)
             {

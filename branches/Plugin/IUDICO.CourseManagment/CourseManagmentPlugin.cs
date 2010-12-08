@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
-using IUDICO.CourseManagment.Models.Storage;
-using IUDICO.Common;
-using IUDICO.Common.Models;
-using IUDICO.Common.Models.Services;
 using Castle.MicroKernel.Registration;
-using Castle.Windsor;
 using Castle.MicroKernel.SubSystems.Configuration;
+using Castle.Windsor;
+using IUDICO.Common.Models.Plugin;
+using IUDICO.Common.Models.Services;
+using IUDICO.CourseManagment.Models.Storage;
 
 namespace IUDICO.CourseManagment
 {
-    public class CourseManagmentService : ICourseManagment, IWindsorInstaller
+    public class CourseManagmentPlugin : IWindsorInstaller, IPlugin
     {
-        protected IWindsorContainer container;
-
         #region IService Members
         public void RegisterRoutes(RouteCollection routes)
         {
@@ -56,17 +48,15 @@ namespace IUDICO.CourseManagment
         #region IWindsorInstaller Members
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            HttpContext.Current.Application["CourseStorage"] = CourseStorageFactory.CreateStorage(CourseStorageType.Mixed);
-
             container.Register(
                 AllTypes
                     .FromThisAssembly()
                     .BasedOn<IController>()
                     .Configure(c => c.LifeStyle.Transient
-                                        .Named(c.Implementation.Name))
-                );
-
-            this.container = container;
+                                        .Named(c.Implementation.Name)),
+                Component.For<IPlugin>().ImplementedBy<CourseManagmentPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<ICourseManagment>().ImplementedBy<MixedCourseStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
+            );
         }
         #endregion
     }

@@ -8,6 +8,7 @@ using Castle.Windsor.Installer;
 using IUDICO.Common.Models.Services;
 using IUDICO.LMS.IoC;
 using IUDICO.LMS.Models;
+using IUDICO.Common.Models.Plugin;
 
 namespace IUDICO.LMS
 {
@@ -44,15 +45,15 @@ namespace IUDICO.LMS
 
         protected void RegisterRoutes(RouteCollection routes)
         {
-            IService[] services = Container.ResolveAll<IService>();
-            foreach (IService service in services)
+            IPlugin[] plugins = Container.ResolveAll<IPlugin>();
+            foreach (IPlugin plugin in plugins)
             {
-                service.RegisterRoutes(routes);
+                plugin.RegisterRoutes(routes);
             }
-            Container.Release(services);
+            Container.Release(plugins);
 
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            routes.IgnoreRoute("favicon.ico");
+            routes.IgnoreRoute("{resource}.ico/{*pathInfo}");
 
             routes.MapRoute(
                 "Default", // Route name
@@ -63,10 +64,18 @@ namespace IUDICO.LMS
 
         protected void InitializeWindsor()
         {
-            container = new WindsorContainer()
-                .Register(Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton.DependsOn())
+            container = new WindsorContainer();
+
+            container
+                .Register(
+                    Component.For<IWindsorContainer>().Instance(container))
+                .Register(
+                    Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton.DependsOn())
                 .Install(FromAssembly.This(),
-                         FromAssembly.InDirectory(new AssemblyFilter(Server.MapPath("/Plugins"), "IUDICO.*.dll")));
+                         FromAssembly.InDirectory(new AssemblyFilter(Server.MapPath("/Plugins"), "IUDICO.*.dll"))
+            );
+
+            
         }
     }
 }

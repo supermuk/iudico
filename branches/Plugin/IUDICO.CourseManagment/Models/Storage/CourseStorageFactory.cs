@@ -12,18 +12,20 @@ namespace IUDICO.CourseManagment.Models.Storage
         Mixed
     }
 
+    [Obsolete("Use Windsor instead")]
     public class CourseStorageFactory
     {
         public static ICourseStorage CreateStorage(CourseStorageType type)
         {
+            throw new NotSupportedException("This factory is obsolete");
             switch (type)
             {
                 case CourseStorageType.Database:
                     throw new NotImplementedException();
                 case CourseStorageType.FileSystem:
                     throw new NotImplementedException();
-                case CourseStorageType.Mixed:
-                    return new MixedCourseStorage();
+                //case CourseStorageType.Mixed:
+                    //return new MixedCourseStorage();
                 default:
                     throw new Exception("Can't create storage of such type");
             }

@@ -7,17 +7,18 @@ using IUDICO.CourseManagment.Models;
 using IUDICO.CourseManagment.Models.Storage;
 using IUDICO.Common.Models;
 using IUDICO.Common.Controllers;
+using IUDICO.Common.Models.Services;
 
 namespace IUDICO.CourseManagment.Controllers
 {
     public class CourseBaseController : PluginController
     {
-        protected ICourseStorage Storage
+        /*protected ICourseManagment storage
         {
             get
             {
-                return HttpContext.Application["CourseStorage"] as ICourseStorage;
+                return this.lmsService.FindService<ICourseManagment>();
             }
-        }
+        }*/
     }
 }

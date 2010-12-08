@@ -7,6 +7,9 @@ namespace IUDICO.Common.Models.Services
 {
     public interface ILmsService
     {
+        T FindService<T>() where T : IService;
+        string GetDBConnectionString();
+        DBDataContext GetDBDataContext();
         void Inform(string evt, params object[] data);
     }
 }

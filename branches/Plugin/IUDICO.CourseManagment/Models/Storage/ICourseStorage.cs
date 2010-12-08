@@ -7,6 +7,7 @@ using IUDICO.Common.Models;
 
 namespace IUDICO.CourseManagment.Models.Storage
 {
+    [Obsolete("Use ICourseManagment instead")]
     public interface ICourseStorage
     {
         #region Course methods

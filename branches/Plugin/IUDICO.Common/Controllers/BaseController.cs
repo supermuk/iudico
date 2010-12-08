@@ -10,6 +10,7 @@ namespace IUDICO.Common.Controllers
 {
     public class BaseController : Controller
     {
-        private DB db = DB.Instance;
+        //[Obsolete("Not correct usage")]
+        //private DB db = DB.Instance;
     }
 }

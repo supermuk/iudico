@@ -5,14 +5,22 @@ using System.Web;
 using System.Web.Mvc;
 using System.IO;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Services;
 
 namespace IUDICO.CourseManagment.Controllers
 {
     public class CourseController : CourseBaseController
     {
+        protected ICourseManagment storage;
+
+        public CourseController(ICourseManagment storage)
+        {
+            this.storage = storage;
+        }
+
         public ActionResult Index()
         {
-            var courses = Storage.GetCourses();
+            var courses = storage.GetCourses();
 
             if (courses != null)
             {
@@ -32,7 +40,7 @@ namespace IUDICO.CourseManagment.Controllers
         [HttpPost]
         public ActionResult Create(Course course)
         {
-            int? id = Storage.AddCourse(course);
+            int? id = storage.AddCourse(course);
             
             if (id != null)
             {
@@ -46,7 +54,7 @@ namespace IUDICO.CourseManagment.Controllers
 
         public ActionResult Edit(int courseId)
         {
-            Course course = Storage.GetCourse(courseId);
+            Course course = storage.GetCourse(courseId);
 
             if (course != null)
             {
@@ -61,7 +69,7 @@ namespace IUDICO.CourseManagment.Controllers
         [HttpPost]
         public ActionResult Edit(int courseId, Course course)
         {
-            bool result = Storage.UpdateCourse(courseId, course);
+            bool result = storage.UpdateCourse(courseId, course);
             
             if (result)
             {
@@ -76,7 +84,7 @@ namespace IUDICO.CourseManagment.Controllers
         [HttpDelete]
         public JsonResult Delete(int courseId)
         {
-            bool result = Storage.DeleteCourse(courseId);
+            bool result = storage.DeleteCourse(courseId);
             
             if (result)
             {
@@ -93,7 +101,7 @@ namespace IUDICO.CourseManagment.Controllers
         {
             try
             {
-                bool result = Storage.DeleteCourses(new List<int>(courseIds));
+                bool result = storage.DeleteCourses(new List<int>(courseIds));
                 return Json(new { success = result });
             }
             catch (Exception)
@@ -104,8 +112,8 @@ namespace IUDICO.CourseManagment.Controllers
 
         public FilePathResult Export(int courseId)
         {
-            string path = Storage.Export(courseId);
-            return new FilePathResult(path, "application/octet-stream") { FileDownloadName = Storage.GetCourse(courseId).Name + ".zip" };
+            string path = storage.Export(courseId);
+            return new FilePathResult(path, "application/octet-stream") { FileDownloadName = storage.GetCourse(courseId).Name + ".zip" };
         }
 
         public ActionResult Import()
@@ -126,7 +134,7 @@ namespace IUDICO.CourseManagment.Controllers
                 path = Path.Combine(path, fileUpload.FileName.Split('\\').Last());
                 fileUpload.SaveAs(path);
 
-                Storage.Import(path);
+                storage.Import(path);
 
                 return RedirectToAction("Index");
             }
