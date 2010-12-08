@@ -160,6 +160,10 @@
       <Project>{2A5F6D52-4A98-44DC-896D-8FF2FD244E9F}</Project>
       <Name>IUDICO.Search</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IUDICO.Statistics\IUDICO.Statistics.csproj">
+      <Project>{A3157C96-0DCC-4B6E-909D-948205118E74}</Project>
+      <Name>IUDICO.Statistics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IUDICO.TS\IUDICO.TS.csproj">
       <Project>{4F72321F-297C-4989-9A17-838CF23B4FB1}</Project>
       <Name>IUDICO.TS</Name>
