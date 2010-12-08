@@ -1,0 +1,8 @@
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Statistics\bin\IUDICO.Statistics.dll
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Statistics\bin\IUDICO.Statistics.pdb
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Statistics\bin\IUDICO.Common.dll
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Statistics\bin\MvcContrib.dll
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Statistics\bin\IUDICO.Common.pdb
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Statistics\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Statistics\obj\Debug\IUDICO.Statistics.dll
+C:\Users\panza\Documents\Visual Studio 2010\Projects\IUDICO\IUDICO.Statistics\obj\Debug\IUDICO.Statistics.pdb
