@@ -680,11 +680,6 @@
     <Content Include="Scripts\custom\ckeditor\_source\skins\v2\templates.css" />
     <Content Include="Scripts\custom\ckeditor\_source\skins\v2\toolbar.css" />
     <Content Include="Scripts\custom\ckeditor\_source\themes\default\theme.js" />
-    <Content Include="Views\Account\Edit.aspx" />
-    <Content Include="Views\Account\Index.aspx" />
-    <Content Include="Views\Account\Login.aspx" />
-    <Content Include="Views\Account\Register.aspx" />
-    <Content Include="Views\Account\Registered.aspx" />
     <Content Include="Views\Course\Create.aspx" />
     <Content Include="Views\Course\Edit.aspx" />
     <Content Include="Views\Course\Import.aspx" />

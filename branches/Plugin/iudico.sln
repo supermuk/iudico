@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.CourseManagment", "IUDICO.CourseMgt\IUDICO.CourseManagment.csproj", "{CB470DA7-0981-45B5-BEB9-6FD06586BA7E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.CourseManagment", "IUDICO.CourseManagment\IUDICO.CourseManagment.csproj", "{CB470DA7-0981-45B5-BEB9-6FD06586BA7E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.LMS", "IUDICO.LMS\IUDICO.LMS.csproj", "{A5DA80CE-796F-4C4D-BBCA-A23046C4574D}"
 EndProject
@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.UserManagment", "IUD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.Common", "IUDICO.Common\IUDICO.Common.csproj", "{9DD6C943-6608-4351-A521-E4B1F2F75E9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.CurriculumManagment", "IUDICO.CurrMgt\IUDICO.CurriculumManagment.csproj", "{E6F7266F-760A-4D43-B78C-378CA12DBE08}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.CurriculumManagment", "IUDICO.CurriculumManagment\IUDICO.CurriculumManagment.csproj", "{E6F7266F-760A-4D43-B78C-378CA12DBE08}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.Search", "IUDICO.Search\IUDICO.Search.csproj", "{2A5F6D52-4A98-44DC-896D-8FF2FD244E9F}"
 EndProject

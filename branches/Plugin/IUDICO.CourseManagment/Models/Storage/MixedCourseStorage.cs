@@ -5,17 +5,22 @@ using System.Linq;
 using System.Web;
 using System.Security.AccessControl;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Services;
 
 namespace IUDICO.CourseManagment.Models.Storage
 {
-    public class MixedCourseStorage : ICourseStorage
+    public class MixedCourseStorage : ICourseManagment
     {
-        protected DB db = DB.Instance;
+        protected DBDataContext db;
+
+        public MixedCourseStorage(ILmsService lmsService)
+        {
+            db = lmsService.GetDBDataContext();
+        }
 
         #region IStorage Members
 
         #region Course methods
-
         public List<Course> GetCourses()
         {
             try
@@ -44,7 +49,7 @@ namespace IUDICO.CourseManagment.Models.Storage
         {
             try
             {
-                course.Name = null;//
+                //course.Name = null;//
                 course.Created = DateTime.Now;
                 course.Updated = DateTime.Now;
 
@@ -172,11 +177,9 @@ namespace IUDICO.CourseManagment.Models.Storage
                 return null;
             }
         }
-
         #endregion
 
         #region Node methods
-
         public List<Node> GetNodes(int courseId)
         {
             return GetNodes(courseId, null);
@@ -401,7 +404,6 @@ namespace IUDICO.CourseManagment.Models.Storage
                 }
             }
         }
-
         #endregion
 
         #endregion

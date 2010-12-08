@@ -35,6 +35,7 @@
       <HintPath>Libraries\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
@@ -50,15 +51,17 @@
   <ItemGroup>
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\PluginController.cs" />
-    <Compile Include="Models\DB.cs">
-      <DependentUpon>DB.dbml</DependentUpon>
+    <Compile Include="Models\DBDataContext.cs">
+      <DependentUpon>DBDataContext.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Models\DB.designer.cs">
+    <Compile Include="Models\DBDataContext.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DB.dbml</DependentUpon>
+      <DependentUpon>DBDataContext.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Helpers.cs" />
     <Compile Include="Models\Metadata.cs" />
+    <Compile Include="Models\Plugin\IPlugin.cs" />
     <Compile Include="Models\Services\ILmsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -73,19 +76,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Libraries\" />
-    <Folder Include="Models\Plugin\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Models\DB.dbml">
+    <None Include="app.config" />
+    <None Include="Models\DBDataContext.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>DB.designer.cs</LastGenOutput>
+      <LastGenOutput>DBDataContext.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
@@ -93,8 +93,8 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Models\DB.dbml.layout">
-      <DependentUpon>DB.dbml</DependentUpon>
+    <None Include="Models\DBDataContext.dbml.layout">
+      <DependentUpon>DBDataContext.dbml</DependentUpon>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

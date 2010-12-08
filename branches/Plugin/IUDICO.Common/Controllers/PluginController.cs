@@ -4,11 +4,20 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using IUDICO.Common.Models.Services;
+using System.ComponentModel.Composition;
 
 namespace IUDICO.Common.Controllers
 {
     public class PluginController: BaseController
     {
+        public static ILmsService lmsService;
+
+        public PluginController()
+        {
+            
+        }
+
         protected override ViewResult View(string viewName, string masterName, object model)
         {
             viewName = viewName ?? RouteData.GetRequiredString("action");
