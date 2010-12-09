@@ -37,6 +37,7 @@ namespace IUDICO.Search.Controllers
 
             if (node.IsFolder)
             {
+                /*
                 GetNodesMessage message = new GetNodesMessage { Input = new GetNodesInput {CourseId = node.CourseId, ParentId = node.Id} };
                 MvcContrib.Bus.Send(message);
 
@@ -46,13 +47,16 @@ namespace IUDICO.Search.Controllers
                 {
                     ProcessNode(writer, childNode);
                 }
+                 */
             }
             else
             {
+                /*
                 GetNodeContentsMessage message = new GetNodeContentsMessage { Input = node.Id };
                 MvcContrib.Bus.Send(message);
 
                 document.Add(new Field("Content", (message.Result.Data as string), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
+                */
             }
             
             writer.AddDocument(document);
@@ -61,6 +65,7 @@ namespace IUDICO.Search.Controllers
         [HttpPost]
         public ActionResult Process()
         {
+            /*
             GetCoursesMessage message = new GetCoursesMessage();
             MvcContrib.Bus.Send(message);
 
@@ -109,7 +114,7 @@ namespace IUDICO.Search.Controllers
 
             writer.Optimize();
             writer.Close();
-
+                         * */
             return RedirectToAction("Index");
         }
 
