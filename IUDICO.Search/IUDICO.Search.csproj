@@ -92,9 +92,9 @@
       <Project>{9DD6C943-6608-4351-A521-E4B1F2F75E9D}</Project>
       <Name>IUDICO.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IUDICO.CourseMgt\IUDICO.CourseMgt.csproj">
+    <ProjectReference Include="..\IUDICO.CourseManagment\IUDICO.CourseManagment.csproj">
       <Project>{CB470DA7-0981-45B5-BEB9-6FD06586BA7E}</Project>
-      <Name>IUDICO.CourseMgt</Name>
+      <Name>IUDICO.CourseManagment</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -1,67 +1,81 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
-using IUDICO.CourseMgt.Models.Storage;
-//using MvcContrib.PortableAreas;
-//using MvcContrib.UI.InputBuilder;
-using System.Web.Hosting;
-using IUDICO.LMS.Libraries;
-using System.Reflection;
-using IUDICO.Common;
+using Castle.MicroKernel.Registration;
+using Castle.Windsor;
+using Castle.Windsor.Installer;
+using IUDICO.Common.Models.Services;
+using IUDICO.LMS.IoC;
+using IUDICO.LMS.Models;
+using IUDICO.Common.Models.Plugin;
 
 namespace IUDICO.LMS
 {
-    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
-    // visit http://go.microsoft.com/?LinkId=9394801
-
-    public class MvcApplication : HttpApplication
+    public class MvcApplication : HttpApplication, IContainerAccessor
     {
-        public static void RegisterRoutes(RouteCollection routes)
+        static IWindsorContainer container;
+
+        public IWindsorContainer Container
         {
+            get { return container; }
+        }
+
+        protected void Application_Start()
+        {
+            InitializeWindsor();
+
+            HostingEnvironment.RegisterVirtualPathProvider(new AssemblyResourceProvider());
+            AreaRegistration.RegisterAllAreas();
+
+            RegisterRoutes(RouteTable.Routes);
+
+            IControllerFactory controllerFactory = Container.Resolve<IControllerFactory>();
+            ControllerBuilder.Current.SetControllerFactory(controllerFactory);
+        }
+
+        protected void Application_End()
+        {
+            if (container != null)
+            {
+                container.Dispose();
+                container = null;
+            }
+        }
+
+        protected void RegisterRoutes(RouteCollection routes)
+        {
+            IPlugin[] plugins = Container.ResolveAll<IPlugin>();
+            foreach (IPlugin plugin in plugins)
+            {
+                plugin.RegisterRoutes(routes);
+            }
+            Container.Release(plugins);
+
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("{resource}.ico/{*pathInfo}");
 
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
-
         }
 
-        protected void Application_Start()
+        protected void InitializeWindsor()
         {
-            RegisterAssemblies();
-            
-            
-            AreaRegistration.RegisterAllAreas();
-            RegisterRoutes(RouteTable.Routes);
+            container = new WindsorContainer();
+
+            container
+                .Register(
+                    Component.For<IWindsorContainer>().Instance(container))
+                .Register(
+                    Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton.DependsOn())
+                .Install(FromAssembly.This(),
+                         FromAssembly.InDirectory(new AssemblyFilter(Server.MapPath("/Plugins"), "IUDICO.*.dll"))
+            );
 
             
-
-            //InputBuilder.BootStrap();
-        }
-
-        public void RegisterAssemblies()
-        {
-            List<String> ViewLocations = new List<string>();
-
-            IEnumerable<Assembly> pluginAssemblies =
-                        AppDomain.CurrentDomain.GetAssemblies().
-                        Where(a => a.GetCustomAttributes(typeof(PluginAttribute), false).Count() > 0).AsEnumerable();
-
-            // Register Assembly provider to load ~/Plugins/
-            HostingEnvironment.RegisterVirtualPathProvider(new AssemblyResourceProvider(pluginAssemblies));
-
-            foreach (Assembly a in pluginAssemblies)
-            {
-                ViewLocations.Add("~/Plugins/" + a.ManifestModule.ScopeName + "/Views.{1}.{0}.aspx");
-            }
-
-            ViewEngines.Engines.Clear();
-            ViewEngines.Engines.Add(new PluginViewEngine(ViewLocations.ToArray()));
         }
     }
 }
