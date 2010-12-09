@@ -31,15 +31,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MvcContrib, Version=2.0.96.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\MvcContrib.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,41 +47,42 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\ResourceController.cs" />
-    <Compile Include="Messages\CourseMgt\CourseMessage.cs" />
-    <Compile Include="Messages\CourseMgt\GetCourseMessage.cs" />
-    <Compile Include="Messages\CourseMgt\GetCoursesMessage.cs" />
-    <Compile Include="Messages\CourseMgt\GetNodeContentsMessage.cs" />
-    <Compile Include="Messages\CourseMgt\GetNodesMessage.cs" />
-    <Compile Include="Models\DB.cs">
-      <DependentUpon>DB.dbml</DependentUpon>
+    <Compile Include="Controllers\PluginController.cs" />
+    <Compile Include="Models\DBDataContext.cs">
+      <DependentUpon>DBDataContext.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Models\DB.designer.cs">
+    <Compile Include="Models\DBDataContext.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DB.dbml</DependentUpon>
+      <DependentUpon>DBDataContext.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Helpers.cs" />
     <Compile Include="Models\Metadata.cs" />
-    <Compile Include="PluginAttribute.cs" />
+    <Compile Include="Models\Plugin\IPlugin.cs" />
+    <Compile Include="Models\Services\ILmsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Models\Services\ICourseManagment.cs" />
+    <Compile Include="Models\Services\ICurriculumManagment.cs" />
+    <Compile Include="Models\Services\IService.cs" />
+    <Compile Include="Models\Services\ITestingSystem.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Models\DB.dbml">
+    <Folder Include="Libraries\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Models\DBDataContext.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>DB.designer.cs</LastGenOutput>
+      <LastGenOutput>DBDataContext.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
@@ -90,12 +90,9 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Models\DB.dbml.layout">
-      <DependentUpon>DB.dbml</DependentUpon>
+    <None Include="Models\DBDataContext.dbml.layout">
+      <DependentUpon>DBDataContext.dbml</DependentUpon>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Libraries\MvcContrib.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

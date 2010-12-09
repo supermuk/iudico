@@ -26,17 +26,17 @@
                     <li>
                         <%: Html.ActionLink("Home", "Index", "Home")%></li>
                     <li>
-                        <%: Html.ActionLink("Account", "Index", "Account", new { area = "UM" }, null)%></li>
+                        <%: Html.ActionLink("Account", "Index", "Account")%></li>
                     <li>
-                        <%: Html.ActionLink("Role", "Index", "Role", new { area = "UM" }, null)%></li>
+                        <%: Html.ActionLink("Role", "Index", "Role")%></li>
                     <li>
-                        <%: Html.ActionLink("Course", "Index", "Course", new { area = "CourseMgt" }, null)%></li>
+                        <%: Html.ActionLink("Course", "Index", "Course")%></li>
                     <li>
-                        <%: Html.ActionLink("Curriculum", "Index", "Curriculum", new { area = "CurriculumManagement"}, null)%></li>
+                        <%: Html.ActionLink("Curriculum", "Index", "Curriculum")%></li>
                     <li>
-                        <%: Html.ActionLink("Search", "Index", "Search", new { area = "Search" }, null)%></li>
+                        <%: Html.ActionLink("Search", "Index", "Search")%></li>
                     <li>
-                        <%: Html.ActionLink("Trainings", "Index", "Training", new { area = "TS" }, null)%></li>
+                        <%: Html.ActionLink("Trainings", "Index", "Training")%></li>
                 </ul>
             </div>
         </div>

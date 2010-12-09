@@ -33,9 +33,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\References\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\References\Castle.Windsor.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -70,44 +78,103 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Libraries\AssemblyResourceProvider.cs" />
-    <Compile Include="Libraries\AssemblyResourceVirtualFile.cs" />
-    <Compile Include="Libraries\PluginViewEngine.cs" />
+    <Compile Include="Installers\ControllerFactoryInstaller.cs" />
+    <Compile Include="Installers\ControllersInstaller.cs" />
+    <Compile Include="Installers\ServicesInstaller.cs" />
+    <Compile Include="IoC\AssemblyResourceProvider.cs" />
+    <Compile Include="IoC\IocControllerFactory.cs" />
+    <Compile Include="Models\LmsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\initial.sql" />
     <Content Include="App_Data\um.sql" />
-    <Content Include="Content\Style.css" />
-    <Content Include="Content\ui-lightness\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
-    <Content Include="Content\ui-lightness\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
-    <Content Include="Content\ui-lightness\images\ui-bg_flat_10_000000_40x100.png" />
-    <Content Include="Content\ui-lightness\images\ui-bg_glass_100_f6f6f6_1x400.png" />
-    <Content Include="Content\ui-lightness\images\ui-bg_glass_100_fdf5ce_1x400.png" />
-    <Content Include="Content\ui-lightness\images\ui-bg_glass_65_ffffff_1x400.png" />
-    <Content Include="Content\ui-lightness\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
-    <Content Include="Content\ui-lightness\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
-    <Content Include="Content\ui-lightness\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
-    <Content Include="Content\ui-lightness\images\ui-icons_222222_256x240.png" />
-    <Content Include="Content\ui-lightness\images\ui-icons_228ef1_256x240.png" />
-    <Content Include="Content\ui-lightness\images\ui-icons_ef8c08_256x240.png" />
-    <Content Include="Content\ui-lightness\images\ui-icons_ffd27a_256x240.png" />
-    <Content Include="Content\ui-lightness\images\ui-icons_ffffff_256x240.png" />
-    <Content Include="Content\ui-lightness\jquery-ui-1.8.5.custom.css" />
+    <Content Include="Content\Style.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\ui-lightness\images\ui-bg_diagonals-thick_18_b81900_40x40.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\ui-lightness\images\ui-bg_diagonals-thick_20_666666_40x40.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\ui-lightness\images\ui-bg_flat_10_000000_40x100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\ui-lightness\images\ui-bg_glass_100_f6f6f6_1x400.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\ui-lightness\images\ui-bg_glass_100_fdf5ce_1x400.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\ui-lightness\images\ui-bg_glass_65_ffffff_1x400.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\ui-lightness\images\ui-bg_gloss-wave_35_f6a828_500x100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\ui-lightness\images\ui-bg_highlight-soft_100_eeeeee_1x100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\ui-lightness\images\ui-bg_highlight-soft_75_ffe45c_1x100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\ui-lightness\images\ui-icons_222222_256x240.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\ui-lightness\images\ui-icons_228ef1_256x240.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\ui-lightness\images\ui-icons_ef8c08_256x240.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\ui-lightness\images\ui-icons_ffd27a_256x240.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\ui-lightness\images\ui-icons_ffffff_256x240.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\ui-lightness\jquery-ui-1.8.5.custom.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Global.asax" />
     <EmbeddedResource Include="Views\Home\Index.aspx" />
-    <Content Include="Scripts\jquery\jquery-1.4.1-vsdoc.js" />
-    <Content Include="Scripts\jquery\jquery-1.4.1.js" />
-    <Content Include="Scripts\jquery\jquery-1.4.1.min.js" />
-    <Content Include="Scripts\jquery\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery\jquery.validate.js" />
-    <Content Include="Scripts\jquery\jquery.validate.min.js" />
-    <Content Include="Scripts\Microsoft\MicrosoftAjax.debug.js" />
-    <Content Include="Scripts\Microsoft\MicrosoftAjax.js" />
-    <Content Include="Scripts\Microsoft\MicrosoftMvcAjax.debug.js" />
-    <Content Include="Scripts\Microsoft\MicrosoftMvcAjax.js" />
-    <Content Include="Scripts\Microsoft\MicrosoftMvcValidation.debug.js" />
-    <Content Include="Scripts\Microsoft\MicrosoftMvcValidation.js" />
+    <Content Include="Scripts\jquery\jquery-1.4.1-vsdoc.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\jquery\jquery-1.4.1.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\jquery\jquery-1.4.1.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\jquery\jquery.validate-vsdoc.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\jquery\jquery.validate.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\jquery\jquery.validate.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\Microsoft\MicrosoftAjax.debug.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\Microsoft\MicrosoftAjax.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\Microsoft\MicrosoftMvcAjax.debug.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\Microsoft\MicrosoftMvcAjax.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\Microsoft\MicrosoftMvcValidation.debug.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\Microsoft\MicrosoftMvcValidation.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Views\Shared\DisplayTemplates\DateTime.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\Object.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\Password.ascx" />
@@ -128,7 +195,6 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Plugins\" />
   </ItemGroup>
   <ItemGroup>
@@ -172,9 +238,6 @@
       <Project>{2D0C4A4E-D442-4BC5-879B-CB3990D57647}</Project>
       <Name>IUDICO.UM</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Web.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

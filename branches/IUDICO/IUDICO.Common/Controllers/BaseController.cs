@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
@@ -9,6 +10,7 @@ namespace IUDICO.Common.Controllers
 {
     public class BaseController : Controller
     {
-        private DB db = DB.Instance;
+        //[Obsolete("Not correct usage")]
+        //private DB db = DB.Instance;
     }
 }

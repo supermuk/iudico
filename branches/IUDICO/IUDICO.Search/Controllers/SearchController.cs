@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using IUDICO.Common.Controllers;
-using IUDICO.Common.Messages.CourseMgt;
+//using IUDICO.Common.Messages.CourseMgt;
 using IUDICO.Common.Models;
 using IUDICO.Search.Models.SearchResult;
 using Lucene.Net.Store;
