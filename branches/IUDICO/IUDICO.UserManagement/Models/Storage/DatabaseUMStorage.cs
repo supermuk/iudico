@@ -4,12 +4,18 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Services;
 
 namespace IUDICO.UserManagement.Models.Storage
 {
     public class DatabaseUMStorage : IUMStorage
     {
-        protected DB db = DB.Instance;
+        protected DBDataContext db;
+
+        public DatabaseUMStorage(ILmsService lmsService)
+        {
+            db = lmsService.GetDBDataContext();
+        }
 
         #region Implementation of IUMStorage
 

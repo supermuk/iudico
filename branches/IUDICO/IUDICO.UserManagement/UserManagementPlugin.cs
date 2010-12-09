@@ -22,7 +22,7 @@ namespace IUDICO.UserManagement
                 //Component.For<ICourseManagment>().ImplementedBy<MixedCourseStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
 
-            HttpContext.Current.Application["UMStorage"] = UMStorageFactory.CreateStorage(UMStorageType.Database);
+            HttpContext.Current.Application["UMStorage"] = container.Resolve<DatabaseUMStorage>();// UMStorageFactory.CreateStorage(UMStorageType.Database);
         }
 
         #endregion

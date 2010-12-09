@@ -59,6 +59,8 @@
     <Compile Include="Models\Helpers.cs" />
     <Compile Include="Models\Metadata.cs" />
     <Compile Include="Models\Plugin\IPlugin.cs" />
+    <Compile Include="Models\Services\ICourseManagement.cs" />
+    <Compile Include="Models\Services\ICurriculumManagement.cs" />
     <Compile Include="Models\Services\ILmsService.cs" />
     <Compile Include="Models\Services\ISearch.cs" />
     <Compile Include="Models\Services\IStatistics.cs" />
@@ -68,8 +70,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Models\Services\ICourseManagment.cs" />
-    <Compile Include="Models\Services\ICurriculumManagment.cs" />
     <Compile Include="Models\Services\IService.cs" />
     <Compile Include="Models\Services\ITestingSystem.cs" />
   </ItemGroup>
