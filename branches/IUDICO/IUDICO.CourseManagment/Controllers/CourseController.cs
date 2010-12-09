@@ -11,9 +11,9 @@ namespace IUDICO.CourseManagment.Controllers
 {
     public class CourseController : CourseBaseController
     {
-        protected ICourseManagment storage;
+        protected ICourseManagement storage;
 
-        public CourseController(ICourseManagment storage)
+        public CourseController(ICourseManagement storage)
         {
             this.storage = storage;
         }

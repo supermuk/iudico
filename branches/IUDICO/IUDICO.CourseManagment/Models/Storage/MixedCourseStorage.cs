@@ -9,7 +9,7 @@ using IUDICO.Common.Models.Services;
 
 namespace IUDICO.CourseManagment.Models.Storage
 {
-    public class MixedCourseStorage : ICourseManagment
+    public class MixedCourseStorage : ICourseManagement
     {
         protected DBDataContext db;
 

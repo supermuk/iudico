@@ -71,7 +71,9 @@ namespace IUDICO.LMS.IoC
 
             public override Stream Open()
             {
-                // ~/Plugins/WikiExtension.dll/WikiExtension/Presentation/Views/Wiki/Index.aspx
+                // ~/Plugins/IUDICO.CourseManagment.dll/IUDICO.CourseManagment/Presentation/Views/Wiki/Index.aspx
+                // ~/Plugins/IUDICO.CourseManagment.dll/IUDICO.CourseManagment/Scripts/Custom/jquery/jquery.js
+                //          /   DLL name               /    Assembly Name     /           Path
                 string[] parts = assemblyPath.Split(new[] { '/' }, 4);
 
                 // TODO: should assert and sanitize 'parts' first
