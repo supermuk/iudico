@@ -9,9 +9,9 @@ using IUDICO.CourseManagment.Models.Storage;
 
 namespace IUDICO.CourseManagment
 {
-    public class CourseManagmentPlugin : IWindsorInstaller, IPlugin
+    public class CourseManagementPlugin : IWindsorInstaller, IPlugin
     {
-        #region IService Members
+        #region IPlugin Members
         public void RegisterRoutes(RouteCollection routes)
         {
             routes.MapRoute(
@@ -54,8 +54,8 @@ namespace IUDICO.CourseManagment
                     .BasedOn<IController>()
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
-                Component.For<IPlugin>().ImplementedBy<CourseManagmentPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<ICourseManagment>().ImplementedBy<MixedCourseStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
+                Component.For<IPlugin>().ImplementedBy<CourseManagementPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<ICourseManagement>().ImplementedBy<MixedCourseStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
         }
         #endregion

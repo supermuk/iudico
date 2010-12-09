@@ -60,6 +60,8 @@
     <Compile Include="Models\Metadata.cs" />
     <Compile Include="Models\Plugin\IPlugin.cs" />
     <Compile Include="Models\Services\ILmsService.cs" />
+    <Compile Include="Models\Services\ISearch.cs" />
+    <Compile Include="Models\Services\IStatistics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

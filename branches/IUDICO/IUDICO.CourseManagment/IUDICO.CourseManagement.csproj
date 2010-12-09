@@ -10,8 +10,8 @@
     <ProjectTypeGuids>{F85E285D-A4E0-4152-9332-AB1D724D3325};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IUDICO.CourseManagment</RootNamespace>
-    <AssemblyName>IUDICO.CourseManagment</AssemblyName>
+    <RootNamespace>IUDICO.CourseManagement</RootNamespace>
+    <AssemblyName>IUDICO.CourseManagement</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
   </PropertyGroup>
@@ -86,7 +86,7 @@
     <Compile Include="Controllers\CourseBaseController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\NodeController.cs" />
-    <Compile Include="CourseManagmentPlugin.cs" />
+    <Compile Include="CourseManagementPlugin.cs" />
     <Compile Include="Helpers\PackageValidator.cs" />
     <Compile Include="Helpers\Zipper.cs" />
     <Compile Include="Models\Extensions.cs" />
