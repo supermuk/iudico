@@ -234,7 +234,7 @@
       <Project>{4F72321F-297C-4989-9A17-838CF23B4FB1}</Project>
       <Name>IUDICO.TestingSystem</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IUDICO.UM\IUDICO.UserManagment.csproj">
+    <ProjectReference Include="..\IUDICO.UserManagement\IUDICO.UserManagement.csproj">
       <Project>{2D0C4A4E-D442-4BC5-879B-CB3990D57647}</Project>
       <Name>IUDICO.UserManagment</Name>
     </ProjectReference>
