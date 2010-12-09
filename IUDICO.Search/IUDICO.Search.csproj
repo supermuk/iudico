@@ -33,15 +33,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\References\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\References\Castle.Windsor.dll</HintPath>
+    </Reference>
     <Reference Include="Lucene.Net, Version=2.9.2.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Lucene.Net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="MvcContrib, Version=2.0.96.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\IUDICO.Common\Libraries\MvcContrib.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -74,14 +76,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\SearchController.cs" />
-    <Compile Include="SearchRegistration.cs" />
+    <Compile Include="SearchPlugin.cs" />
     <Compile Include="Models\SearchResult\CourseResult.cs" />
     <Compile Include="Models\SearchResult\ISearchResult.cs" />
     <Compile Include="Models\SearchResult\NodeResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Libraries\Lucene.Net.dll" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -92,9 +93,9 @@
       <Project>{9DD6C943-6608-4351-A521-E4B1F2F75E9D}</Project>
       <Name>IUDICO.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IUDICO.CourseManagment\IUDICO.CourseManagment.csproj">
+    <ProjectReference Include="..\IUDICO.CourseManagment\IUDICO.CourseManagement.csproj">
       <Project>{CB470DA7-0981-45B5-BEB9-6FD06586BA7E}</Project>
-      <Name>IUDICO.CourseManagment</Name>
+      <Name>IUDICO.CourseManagement</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -130,4 +131,7 @@
       <EmbeddedResource Include="**\*.aspx;**\*.ascx;**\*.gif;**\*.css;**\*.js;**\*.png;**\*.jpg" />
     </ItemGroup>
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) $(SolutionDir)IUDICO.LMS\Plugins\</PostBuildEvent>
+  </PropertyGroup>
 </Project>

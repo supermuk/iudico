@@ -38,7 +38,6 @@ namespace IUDICO.Common.Controllers
             }
             var controllerShortenedName = controllerName.Substring(0, controllerName.Length - 10);
 
-            // ~/App_Resource/Mike.MefAreas.AddIn.dll/Mike.MefAreas.AddIn/Views/Customer/
             var viewPath = string.Format("~/Plugins/{0}/{1}/Views/{2}/", assemblyFileName, assmblyName, controllerShortenedName);
 
             return base.View(viewPath + viewName + ".aspx", masterName, model);

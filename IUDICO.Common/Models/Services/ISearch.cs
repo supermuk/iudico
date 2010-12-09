@@ -5,7 +5,7 @@ using System.Text;
 
 namespace IUDICO.Common.Models.Services
 {
-    public interface ICurriculumManagment : IService
+    public interface ISearch
     {
     }
 }

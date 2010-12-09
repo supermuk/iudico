@@ -5,7 +5,7 @@ using System.Text;
 
 namespace IUDICO.Common.Models.Services
 {
-    public interface ICourseManagment : IService
+    public interface ICourseManagement : IService
     {
         #region Course methods
         List<Course> GetCourses();
