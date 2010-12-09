@@ -4,29 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using System.Web;
+using IUDICO.Common.Controllers;
+using System.IO;
 
 namespace IUDICO.Common.Models
 {
     public static class Helpers
     {
-        public static string Content(this UrlHelper urlHelper, string contentPath)
-        {
-            if (string.IsNullOrEmpty(contentPath))
-            {
-                throw new ArgumentException("Null or Empty", "contentPath");
-            }
-            
-            if (contentPath[0] == '~')
-            {
-                return VirtualPathUtility.ToAbsolute(contentPath, urlHelper.RequestContext.HttpContext.Request.ApplicationPath);
-            }
-
-            return contentPath;
-        }
-
         public static MvcHtmlString ResolveUrl(this HtmlHelper htmlHelper, string url)
         {
             var urlHelper = new UrlHelper(htmlHelper.ViewContext.RequestContext);
+            var controller = htmlHelper.ViewContext.Controller;
+
+            
+            if (url.StartsWith("~/") && controller is PluginController)
+            {
+                var assembly = controller.GetType().Assembly;
+                var assemblyFileName = Path.GetFileName(assembly.Location);
+                var assemblyName = assembly.GetName().Name;
+
+                var pluginPath = string.Format("Plugins/{0}/{1}/", assemblyFileName, assemblyName);
+                
+                url = url.Insert(2, pluginPath);
+            }
 
             return MvcHtmlString.Create(urlHelper.Content(url));
         }
