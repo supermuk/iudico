@@ -5,12 +5,18 @@ using System.Web;
 using System.Web.Security;
 using IUDICO.Common.Models;
 using System.Collections.Specialized;
+using IUDICO.Common.Models.Services;
 
 namespace IUDICO.UserManagement.Models
 {
     public class OpenIDMembershipProvider : MembershipProvider
     {
-        protected DB db = DB.Instance;
+        protected DBDataContext db;
+
+        public OpenIDMembershipProvider(ILmsService lmsService)
+        {
+            db = lmsService.GetDBDataContext();
+        }
 
         public override void Initialize(string name, NameValueCollection config)
         {

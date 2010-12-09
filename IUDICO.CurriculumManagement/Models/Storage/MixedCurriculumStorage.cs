@@ -233,20 +233,22 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public Course GetCourse(int id)
         {
-            GetCourseMessage message = new GetCourseMessage { Input = id };
-            MvcContrib.Bus.Send(message);
+            //GetCourseMessage message = new GetCourseMessage { Input = id };
+            //MvcContrib.Bus.Send(message);
 
-            return message.Result.Data as Course;
+            //return message.Result.Data as Course;
+            throw new NotImplementedException();
         }
 
         public List<Course> GetCourses()
         {
-            GetCoursesMessage message = new GetCoursesMessage { };
-            MvcContrib.Bus.Send(message);
+            //GetCoursesMessage message = new GetCoursesMessage { };
+            //MvcContrib.Bus.Send(message);
 
-            return message.Result.Data as List<Course>;
+            //return message.Result.Data as List<Course>;
             //ICourseManagment m = LMS.GetService(typeof(ICourseManagment)) as ICourseManagment; 
             //return m.getCources();
+            throw new NotImplementedException();
         }
 
         #endregion

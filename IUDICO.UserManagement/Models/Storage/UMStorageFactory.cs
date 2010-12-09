@@ -13,10 +13,11 @@ namespace IUDICO.UserManagement.Models.Storage
     {
         public static IUMStorage CreateStorage(UMStorageType type)
         {
+            throw new NotSupportedException();
             switch (type)
             {
-                case UMStorageType.Database:
-                    return new DatabaseUMStorage();
+                //case UMStorageType.Database:
+                    //return new DatabaseUMStorage();
                 case UMStorageType.FileSystem:
                     throw new NotImplementedException();
                 case UMStorageType.Mixed:
