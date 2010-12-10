@@ -1,6 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Curriculum>>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Group>>" %>
 
-<asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
+<%--<asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script src="/Scripts/MicrosoftAjax.js" type="text/javascript"></script>
     <script src="/Scripts/MicrosoftMvcAjax.js" type="text/javascript"></script>
     <script type="text/javascript" language="javascript">
@@ -52,7 +52,7 @@
                 success: function (r) {
                     if (r.success == true) {
                         var item = "item" + id;
-                        $("tr[id="+item+"]").remove();
+                        $("tr[id=" + item + "]").remove();
                         alert("Item was successfully deleted.");
                     }
                     else {
@@ -62,18 +62,18 @@
             });
         }
     </script>
-</asp:Content>
+</asp:Content>--%>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    Curriculums
+    Groups
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Curriculums</h2>
+        Groups</h2>
     <p>
-        <%: Html.ActionLink("Create New", "Create") %>
-        <a id="DeleteMany" href="#">Delete Selected</a>
+        <%: Html.ActionLink("Add Group", "Add") %>
+        <%--<a id="DeleteMany" href="#">Delete Selected</a>--%>
     </p>
     <table>
         <tr>
@@ -86,40 +86,26 @@
                 Name
             </th>
             <th>
-                Created
-            </th>
-            <th>
-                Updated
-            </th>
-            <th>
             </th>
         </tr>
         <% foreach (var item in Model)
            { %>
-            <tr id="item<%: item.Id %>">
+            <tr id="item<%: item.ID %>">
                 <td>
-                    <input type="checkbox" id="<%= item.Id %>" />
+                    <input type="checkbox" id="<%= item.ID %>" />
                 </td>
                 <td>
-                    <%: item.Id %>
+                    <%: item.ID %>
                 </td>
                 <td>
                     <%: item.Name %>
                 </td>
                 <td>
-                    <%: String.Format("{0:g}", item.Created) %>
-                </td>
-                <td>
-                    <%: String.Format("{0:g}", item.Updated) %>
-                </td>
-                <td>
-                    <%: Html.ActionLink("Edit", "Edit", new { CurriculumID = item.Id })%>
+                    <%: Html.ActionLink("Edit Timeline", "EditTimeline", new { GroupID = item.ID })%>
                     |
-                    <%: Html.ActionLink("Edit Stages", "Index", "Stage", new { CurriculumID = item.Id }, null)%>
-                    |
-                    <a href="javascript:deleteItem(<%: item.Id %>)">Delete</a>
-                    |
-                    <%: Html.ActionLink("Assignment","Index","CurriculumAssignment", new { CurriculumID = item.Id }, null)%>
+                    <%: Html.ActionLink("Edit Timeline for Stages", "EditTimelineForStages", new { GroupID = item.ID }, null)%>
+<%--                    |
+                    <a href="javascript:deleteItem(<%: item.Id %>)">Delete</a>--%>
                 </td>
             </tr>
         <% } %>

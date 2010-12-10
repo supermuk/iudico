@@ -6,7 +6,6 @@ using IUDICO.Common.Models;
 
 namespace IUDICO.CurriculumManagement.Models.Storage
 {
-    [Obsolete("Use ICurriculumManagement")]
     public interface ICurriculumStorage
     {
         #region Curriculum methods
@@ -44,6 +43,23 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         void DeleteThemes(IEnumerable<int> ids);
         Theme ThemeUp(int themeId);
         Theme ThemeDown(int themeId);
+
+        #endregion
+
+        #region Temporary
+
+        Course GetCourse(int id);
+        List<Course> GetCourses();
+
+        #endregion
+
+        #region Assignment methods
+
+        IEnumerable<Group> GetGroups();
+        Group GetGroup(int curriculumId);
+
+        IEnumerable<Timeline> GetTimelines();
+
 
         #endregion
     }
