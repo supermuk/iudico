@@ -5,22 +5,17 @@ using System.Linq;
 using System.Web;
 using System.Security.AccessControl;
 using IUDICO.Common.Models;
-using IUDICO.Common.Models.Services;
 using System.Data.Common;
 using System.Data.Linq;
+using IUDICO.Common.Models.Services;
 
 namespace IUDICO.CurriculumManagement.Models.Storage
 {
     public class MixedCurriculumStorage : ICurriculumManagement
     {
-        protected DBDataContext db;
+        protected DBDataContext db = new DBDataContext();
 
-        public MixedCurriculumStorage(ILmsService lmsService)
-        {
-            db = lmsService.GetDBDataContext();
-        }
-
-        #region ICurriculumManagement Members
+        #region IStorageInterface Members
 
         #region Curriculum methods
 
@@ -151,9 +146,9 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return db.Themes.Single(item => item.Id == id);
         }
 
-        public int AddTheme(Theme theme, Course course)
+        public int AddTheme(Theme theme)
         {
-            theme.Name = course.Name;
+            theme.Name = GetCourse(theme.CourseRef).Name;
             theme.Created = DateTime.Now;
             theme.Updated = DateTime.Now;
 
@@ -161,16 +156,16 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             db.SubmitChanges();
 
             theme.SortOrder = theme.Id;
-            UpdateTheme(theme, course);
+            UpdateTheme(theme);
 
             return theme.Id;
         }
 
-        public void UpdateTheme(Theme theme, Course course)
+        public void UpdateTheme(Theme theme)
         {
             Theme oldTheme = GetTheme(theme.Id);
 
-            oldTheme.Name = course.Name;
+            oldTheme.Name = GetCourse(theme.CourseRef).Name;
             oldTheme.SortOrder = theme.SortOrder;
             oldTheme.CourseRef = theme.CourseRef;
             oldTheme.Updated = DateTime.Now;
@@ -231,6 +226,62 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         }
 
         #endregion
+
+        #region Assignment methods
+
+        public IEnumerable<Group> GetGroups()
+        {
+            return db.Groups;
+        }
+
+        public Group GetGroup(int curriculumId)
+        {
+            return null;
+        }
+
+        public IEnumerable<Timeline> GetTimelines()
+        {
+            return db.Timelines;
+        }
+        
+        #endregion
+
+        #endregion
+
+        #region Call of external methods
+
+        public Course GetCourse(int id)
+        {
+            //GetCourseMessage message = new GetCourseMessage { Input = id };
+            //MvcContrib.Bus.Send(message);
+
+            //return message.Result.Data as Course;
+            return null;
+        }
+
+        public List<Course> GetCourses()
+        {
+            //GetCoursesMessage message = new GetCoursesMessage { };
+            //MvcContrib.Bus.Send(message);
+
+            //return message.Result.Data as List<Course>;
+            return null;
+        }
+
+        #endregion
+
+        #region ICurriculumManagement Members
+
+
+        public int AddTheme(Theme theme, Course course)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateTheme(Theme theme, Course course)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
     }

@@ -75,6 +75,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\CurrBaseController.cs" />
     <Compile Include="Controllers\CurriculumBaseController.cs" />
     <Compile Include="Controllers\CurriculumController.cs" />
     <Compile Include="Controllers\StageController.cs" />
@@ -98,6 +99,9 @@
     <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
+    <Content Include="Views\CurriculumAssignment\Add.aspx" />
+    <Content Include="Views\CurriculumAssignment\EditTimeline.aspx" />
+    <Content Include="Views\CurriculumAssignment\Index.aspx" />
     <Content Include="Views\Curriculum\Create.aspx" />
     <Content Include="Views\Curriculum\Edit.aspx" />
     <Content Include="Views\Curriculum\Index.aspx" />
