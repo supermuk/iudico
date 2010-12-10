@@ -8,9 +8,9 @@ using System.Security.Principal;
 using System.Web.Configuration;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
-using Schema = IUDICO.TS.Models.Schema;
+using Schema = IUDICO.TestingSystem.Models.Schema;
 
-namespace IUDICO.TS.Models
+namespace IUDICO.TestingSystem.Models
 {
     public class MlcHelper
     {

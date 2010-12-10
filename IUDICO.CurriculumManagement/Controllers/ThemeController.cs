@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Services;
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
@@ -19,11 +20,11 @@ namespace IUDICO.CurriculumManagement.Controllers
 
     public class ThemeController : CurriculumBaseController
     {
-        private ActionResult ErrorView(Exception e)
+        ICourseManagement courseManagement;
+
+        public ThemeController(ICourseManagement courseManagement)
         {
-            string currentControllerName = (string)RouteData.Values["controller"];
-            string currentActionName = (string)RouteData.Values["action"];
-            return View("Error", new HandleErrorInfo(e, currentControllerName, currentActionName));
+            this.courseManagement = courseManagement;
         }
 
         public ActionResult Index(int stageId)
@@ -45,7 +46,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
             catch (Exception e)
             {
-                return ErrorView(e);
+                throw e;
             }
         }
 
@@ -57,7 +58,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                 ThemeModel model = new ThemeModel()
                 {
                     StageId = stageId,
-                    Courses = from course in Storage.GetCourses()
+                    Courses = from course in courseManagement.GetCourses()
                               select new SelectListItem { Text = course.Name, Value = course.Id.ToString(), Selected = false }
                 };
 
@@ -65,7 +66,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
             catch (Exception e)
             {
-                return ErrorView(e);
+                throw e;
             }
         }
 
@@ -75,13 +76,15 @@ namespace IUDICO.CurriculumManagement.Controllers
             try
             {
                 Theme theme = new Theme() { CourseRef = model.CourseId, StageRef = model.StageId };
-                Storage.AddTheme(theme);
+                Course course = courseManagement.GetCourse(theme.CourseRef);
+                
+                Storage.AddTheme(theme, course);
 
                 return RedirectToAction("Index", new { StageId = model.StageId });
             }
             catch (Exception e)
             {
-                return ErrorView(e);
+                throw e;
             }
         }
 
@@ -97,7 +100,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                     {
                         StageId = theme.StageRef,
                         ThemeId = themeId,
-                        Courses = from course in Storage.GetCourses()
+                        Courses = from course in courseManagement.GetCourses()
                                   select new SelectListItem { Text = course.Name, Value = course.Id.ToString(), Selected = false }
                     };
 
@@ -110,7 +113,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
             catch (Exception e)
             {
-                return ErrorView(e);
+                throw e;
             }
         }
 
@@ -121,14 +124,15 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 Theme theme = Storage.GetTheme(model.ThemeId);
                 theme.CourseRef = model.CourseId;
+                Course course = courseManagement.GetCourse(model.CourseId);
 
-                Storage.UpdateTheme(theme);
+                Storage.UpdateTheme(theme, course);
 
                 return RedirectToRoute("Themes", new { action = "Index", StageId = theme.StageRef });
             }
             catch (Exception e)
             {
-                return ErrorView(e);
+                throw e;
             }
         }
 
@@ -172,7 +176,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
             catch (Exception e)
             {
-                return ErrorView(e);
+                throw e;
             }
         }
 
@@ -186,7 +190,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
             catch (Exception e)
             {
-                return ErrorView(e);
+                throw e;
             }
         }
     }
