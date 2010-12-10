@@ -5,7 +5,7 @@ using System.Web;
 using System.ComponentModel;
 using Microsoft.LearningComponents;
 
-namespace IUDICO.TS.Models.Shared
+namespace IUDICO.TestingSystem.Models.Shared
 {
     public class ZipPackage : Package
     {

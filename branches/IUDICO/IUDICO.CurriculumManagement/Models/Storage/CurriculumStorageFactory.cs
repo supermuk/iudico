@@ -5,6 +5,7 @@ using System.Web;
 
 namespace IUDICO.CurriculumManagement.Models.Storage
 {
+    [Obsolete("Use ICurriculumManagement")]
     public enum CurriculumStorageType
     {
         Database = 1,
@@ -12,6 +13,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         Mixed
     }
 
+    [Obsolete("Use ICurriculumManagement")]
     public class CurriculumStorageFactory
     {
         public static ICurriculumStorage CreateStorage(CurriculumStorageType type)
@@ -23,7 +25,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 case CurriculumStorageType.FileSystem:
                     throw new NotImplementedException();
                 case CurriculumStorageType.Mixed:
-                    return new MixedCurriculumStorage();
+                    throw new NotImplementedException();
                 default:
                     throw new Exception("Can't create storage of such type");
             }

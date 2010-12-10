@@ -6,7 +6,7 @@ using System.ComponentModel;
 using Microsoft.LearningComponents;
 using System.IO;
 
-namespace IUDICO.TS.Models.Shared
+namespace IUDICO.TestingSystem.Models.Shared
 {
     public class FileSystemPackage : Package
     {

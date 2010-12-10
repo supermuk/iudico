@@ -17,9 +17,10 @@ namespace IUDICO.UserManagement
                     .FromThisAssembly()
                     .BasedOn<IController>()
                     .Configure(c => c.LifeStyle.Transient
-                                        .Named(c.Implementation.Name))//,
+                                        .Named(c.Implementation.Name)),
                 //Component.For<IPlugin>().ImplementedBy<CourseManagmentPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 //Component.For<ICourseManagment>().ImplementedBy<MixedCourseStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
+                Component.For<DatabaseUMStorage>().ImplementedBy<DatabaseUMStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
 
             HttpContext.Current.Application["UMStorage"] = container.Resolve<DatabaseUMStorage>();// UMStorageFactory.CreateStorage(UMStorageType.Database);

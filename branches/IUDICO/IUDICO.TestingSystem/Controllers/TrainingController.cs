@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using IUDICO.TS.Models.Shared;
-using IUDICO.TS.Models;
+using IUDICO.TestingSystem.Models.Shared;
+using IUDICO.TestingSystem.Models;
 
-namespace IUDICO.TS.Controllers
+namespace IUDICO.TestingSystem.Controllers
 {
     public class TrainingController : Controller
     {

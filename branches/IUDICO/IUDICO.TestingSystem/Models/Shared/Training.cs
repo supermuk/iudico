@@ -9,7 +9,7 @@ using System.Data;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace IUDICO.TS.Models.Shared
+namespace IUDICO.TestingSystem.Models.Shared
 {
     [DisplayName("Training")]
     public class Training

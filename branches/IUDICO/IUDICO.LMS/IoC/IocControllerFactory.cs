@@ -62,7 +62,10 @@ namespace IUDICO.LMS.IoC
             }
             catch (ComponentNotFoundException e)
             {
-                throw new ApplicationException(string.Format("No controller with name '{0}' found", controllerName), e);
+                // log not found
+                //throw new ApplicationException(string.Format("No controller with name '{0}' found", controllerName), e);
+
+                return null;
             }
         }
 

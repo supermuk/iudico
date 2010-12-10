@@ -54,6 +54,8 @@ namespace IUDICO.LMS
 
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("{resource}.ico/{*pathInfo}");
+            routes.IgnoreRoute("Scripts/");
+            routes.IgnoreRoute("Content/");
 
             routes.MapRoute(
                 "Default", // Route name

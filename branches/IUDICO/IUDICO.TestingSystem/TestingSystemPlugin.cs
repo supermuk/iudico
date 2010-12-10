@@ -2,7 +2,7 @@
 using Castle.MicroKernel.Registration;
 using IUDICO.Common.Models.Plugin;
 
-namespace IUDICO.TS
+namespace IUDICO.TestingSystem
 {
     public class TestingSystemPlugin : IWindsorInstaller, IPlugin
     {
