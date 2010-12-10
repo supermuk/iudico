@@ -1,6 +1,8 @@
 ﻿using System.Web.Mvc;
 using Castle.MicroKernel.Registration;
 using IUDICO.Common.Models.Plugin;
+using IUDICO.Common.Models.Services;
+using IUDICO.CurriculumManagement.Models.Storage;
 
 namespace IUDICO.CurriculumManagement
 {
@@ -15,9 +17,9 @@ namespace IUDICO.CurriculumManagement
                     .FromThisAssembly()
                     .BasedOn<IController>()
                     .Configure(c => c.LifeStyle.Transient
-                                        .Named(c.Implementation.Name))//,
-                //Component.For<IPlugin>().ImplementedBy<CourseManagmentPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                //Component.For<ICourseManagment>().ImplementedBy<MixedCourseStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
+                                        .Named(c.Implementation.Name)),
+                Component.For<IPlugin>().ImplementedBy<CurriculumManagementPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<ICurriculumManagement>().ImplementedBy<MixedCurriculumStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
         }
 

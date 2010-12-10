@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.LearningComponents;
 
-namespace IUDICO.TS.Models.Shared
+namespace IUDICO.TestingSystem.Models.Shared
 {
     public abstract class Package
     {

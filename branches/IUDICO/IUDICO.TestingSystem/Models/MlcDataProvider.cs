@@ -6,12 +6,12 @@ using System.Data;
 using Microsoft.LearningComponents.DataModel;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
-using IUDICO.TS.Models.Shared;
-using IUDICO.TS.Models.Schema;
+using IUDICO.TestingSystem.Models.Shared;
+using IUDICO.TestingSystem.Models.Schema;
 using LearningComponentsHelper;
 
 
-namespace IUDICO.TS.Models
+namespace IUDICO.TestingSystem.Models
 {
     /// <summary>
     /// Singleton

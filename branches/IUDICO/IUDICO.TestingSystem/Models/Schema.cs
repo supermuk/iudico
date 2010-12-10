@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IUDICO.TS.Models.Schema {
+namespace IUDICO.TestingSystem.Models.Schema {
     using System;
     using System.Diagnostics.CodeAnalysis;
     

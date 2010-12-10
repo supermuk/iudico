@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace IUDICO.TS.Views.Shared
+namespace IUDICO.TestingSystem.Views.Shared
 {
     public partial class Site : System.Web.UI.MasterPage
     {

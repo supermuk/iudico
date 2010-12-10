@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IUDICO.TS.Views.Shared {
+namespace IUDICO.TestingSystem.Views.Shared {
     
     
     public partial class Site {

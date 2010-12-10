@@ -5,17 +5,22 @@ using System.Linq;
 using System.Web;
 using System.Security.AccessControl;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Services;
 using System.Data.Common;
 using System.Data.Linq;
-//using IUDICO.Common.Messages.CourseMgt;
 
 namespace IUDICO.CurriculumManagement.Models.Storage
 {
-    public class MixedCurriculumStorage : ICurriculumStorage
+    public class MixedCurriculumStorage : ICurriculumManagement
     {
-        protected DBDataContext db = new DBDataContext();
+        protected DBDataContext db;
 
-        #region IStorageInterface Members
+        public MixedCurriculumStorage(ILmsService lmsService)
+        {
+            db = lmsService.GetDBDataContext();
+        }
+
+        #region ICurriculumManagement Members
 
         #region Curriculum methods
 
@@ -146,9 +151,9 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return db.Themes.Single(item => item.Id == id);
         }
 
-        public int AddTheme(Theme theme)
+        public int AddTheme(Theme theme, Course course)
         {
-            theme.Name = GetCourse(theme.CourseRef).Name;
+            theme.Name = course.Name;
             theme.Created = DateTime.Now;
             theme.Updated = DateTime.Now;
 
@@ -156,16 +161,16 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             db.SubmitChanges();
 
             theme.SortOrder = theme.Id;
-            UpdateTheme(theme);
+            UpdateTheme(theme, course);
 
             return theme.Id;
         }
 
-        public void UpdateTheme(Theme theme)
+        public void UpdateTheme(Theme theme, Course course)
         {
             Theme oldTheme = GetTheme(theme.Id);
 
-            oldTheme.Name = GetCourse(theme.CourseRef).Name;
+            oldTheme.Name = course.Name;
             oldTheme.SortOrder = theme.SortOrder;
             oldTheme.CourseRef = theme.CourseRef;
             oldTheme.Updated = DateTime.Now;
@@ -226,30 +231,6 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         }
 
         #endregion
-
-        #endregion
-
-        #region Call of external methods
-
-        public Course GetCourse(int id)
-        {
-            //GetCourseMessage message = new GetCourseMessage { Input = id };
-            //MvcContrib.Bus.Send(message);
-
-            //return message.Result.Data as Course;
-            throw new NotImplementedException();
-        }
-
-        public List<Course> GetCourses()
-        {
-            //GetCoursesMessage message = new GetCoursesMessage { };
-            //MvcContrib.Bus.Send(message);
-
-            //return message.Result.Data as List<Course>;
-            //ICourseManagment m = LMS.GetService(typeof(ICourseManagment)) as ICourseManagment; 
-            //return m.getCources();
-            throw new NotImplementedException();
-        }
 
         #endregion
     }
