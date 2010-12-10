@@ -10,16 +10,12 @@ namespace IUDICO.CurriculumManagement.Controllers
 {
     public class CurriculumController : CurriculumBaseController
     {
-        /*
         private ActionResult ErrorView(Exception e)
         {
             string currentControllerName = (string)RouteData.Values["controller"];
             string currentActionName = (string)RouteData.Values["action"];
-
-            throw new Exception("Error in " + currentControllerName + "/" + currentActionName);
-            //return View("Error", new HandleErrorInfo(e, currentControllerName, currentActionName));
+            return View("Error", new HandleErrorInfo(e, currentControllerName, currentActionName));
         }
-        */
 
         public ActionResult Index()
         {
@@ -38,7 +34,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
             catch (Exception e)
             {
-                throw e;
+                return ErrorView(e);
             }
         }
 
@@ -51,7 +47,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
             catch (Exception e)
             {
-                throw e;
+                return ErrorView(e);
             }
         }
 
@@ -66,7 +62,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
             catch (Exception e)
             {
-                throw e;
+                return ErrorView(e);
             }
         }
 
@@ -88,7 +84,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
             catch (Exception e)
             {
-                throw e;
+                return ErrorView(e);
             }
         }
 
@@ -104,7 +100,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
             catch (Exception e)
             {
-                throw e;
+                return ErrorView(e);
             }
         }
 

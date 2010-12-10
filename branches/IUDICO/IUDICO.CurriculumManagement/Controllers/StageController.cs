@@ -67,7 +67,8 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                stage.Curriculum = Storage.GetCurriculum(curriculumId);
+                throw new NotImplementedException();
+                //stage.Curriculum = Storage.GetCurriculum(curriculumId);
 
                 Storage.AddStage(stage);
 
