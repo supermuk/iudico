@@ -13,4 +13,9 @@ namespace IUDICO.CourseManagment.Models.Manifest
         ExitNoMessage = 2,
         ExitWithMessage = 3,
     }
+    public enum ScormType
+    {
+        SCO = 0,
+        Asset = 1,
+    }
 }
