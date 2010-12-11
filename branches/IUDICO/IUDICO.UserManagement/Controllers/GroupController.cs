@@ -8,7 +8,7 @@ using IUDICO.UserManagement.Models;
 
 namespace IUDICO.UserManagement.Controllers
 {
-    public class GroupController : UMBaseController
+    public class GroupController : UserManagementBaseController
     {
         //
         // GET: /Group/

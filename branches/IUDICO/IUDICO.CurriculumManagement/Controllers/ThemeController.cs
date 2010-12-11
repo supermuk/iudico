@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Services;
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
@@ -54,10 +55,12 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
+                ICourseManagement courseManager = lmsService.FindService<ICourseManagement>();
+
                 ThemeModel model = new ThemeModel()
                 {
                     StageId = stageId,
-                    Courses = from course in Storage.GetCourses()
+                    Courses = from course in courseManager.GetCourses()
                               select new SelectListItem { Text = course.Name, Value = course.Id.ToString(), Selected = false }
                 };
 
@@ -75,7 +78,9 @@ namespace IUDICO.CurriculumManagement.Controllers
             try
             {
                 Theme theme = new Theme() { CourseRef = model.CourseId, StageRef = model.StageId };
-                Storage.AddTheme(theme);
+                Course course = lmsService.FindService<ICourseManagement>().GetCourse(model.CourseId);
+                
+                Storage.AddTheme(theme, course);
 
                 return RedirectToAction("Index", new { StageId = model.StageId });
             }
@@ -91,13 +96,14 @@ namespace IUDICO.CurriculumManagement.Controllers
             try
             {
                 Theme theme = Storage.GetTheme(themeId);
+
                 if (theme != null)
                 {
                     ThemeModel model = new ThemeModel()
                     {
                         StageId = theme.StageRef,
                         ThemeId = themeId,
-                        Courses = from course in Storage.GetCourses()
+                        Courses = from course in lmsService.FindService<ICourseManagement>().GetCourses()
                                   select new SelectListItem { Text = course.Name, Value = course.Id.ToString(), Selected = false }
                     };
 
@@ -121,8 +127,9 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 Theme theme = Storage.GetTheme(model.ThemeId);
                 theme.CourseRef = model.CourseId;
+                Course course = lmsService.FindService<ICourseManagement>().GetCourse(model.CourseId);
 
-                Storage.UpdateTheme(theme);
+                Storage.UpdateTheme(theme, course);
 
                 return RedirectToRoute("Themes", new { action = "Index", StageId = theme.StageRef });
             }

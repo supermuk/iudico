@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using IUDICO.Common.Models;
+using System.Linq;
+using System.Text;
 
-namespace IUDICO.UserManagement.Models.Storage
+namespace IUDICO.Common.Models.Services
 {
-    public interface IUMStorage
+    public interface IUserManagement : IService
     {
         #region Role methods
 

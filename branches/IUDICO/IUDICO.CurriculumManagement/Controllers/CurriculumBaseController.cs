@@ -6,18 +6,17 @@ using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.Common.Controllers;
 using IUDICO.CurriculumManagement.Models.Storage;
+using IUDICO.Common.Models.Services;
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
-    public class CurriculumBaseController: BaseController
+    public class CurriculumBaseController: PluginController
     {
-        ICurriculumStorage storage = CurriculumStorageFactory.CreateStorage(CurriculumStorageType.Mixed);
-
-        protected ICurriculumStorage Storage
+        protected ICurriculumManagement Storage
         {
             get
             {
-                return storage;
+                return lmsService.FindService<ICurriculumManagement>();
             }
         }
     }

@@ -80,7 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\UMBaseController.cs" />
+    <Compile Include="Controllers\UserManagementBaseController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="UserManagementPlugin.cs" />
@@ -89,9 +89,7 @@
     <Compile Include="Models\OpenIDMembershipProvider.cs" />
     <Compile Include="Models\OpenIDMembershipUser.cs" />
     <Compile Include="Models\OpenIDRoleProvider.cs" />
-    <Compile Include="Models\Storage\UMStorageFactory.cs" />
-    <Compile Include="Models\Storage\IUMStorage.cs" />
-    <Compile Include="Models\Storage\DatabaseUMStorage.cs" />
+    <Compile Include="Models\Services\DatabaseUserManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -13,7 +13,7 @@ using IUDICO.UserManagement.Models;
 
 namespace IUDICO.UserManagement.Controllers
 {
-    public class AccountController : BaseController
+    public class AccountController : PluginController
     {
         private static OpenIdRelyingParty openid = new OpenIdRelyingParty();
 

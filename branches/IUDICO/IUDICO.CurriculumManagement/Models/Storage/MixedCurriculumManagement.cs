@@ -11,9 +11,21 @@ using IUDICO.Common.Models.Services;
 
 namespace IUDICO.CurriculumManagement.Models.Storage
 {
-    public class MixedCurriculumStorage : ICurriculumManagement
+    public class MixedCurriculumManagement : ICurriculumManagement
     {
-        protected DBDataContext db = new DBDataContext();
+        protected ILmsService lmsService;
+        protected DBDataContext db
+        {
+            get
+            {
+                return lmsService.GetDBDataContext();
+            }
+        }
+
+        public MixedCurriculumManagement(ILmsService lmsService)
+        {
+            this.lmsService = lmsService;
+        }
 
         #region IStorageInterface Members
 
@@ -21,7 +33,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public IEnumerable<Curriculum> GetCurriculums()
         {
-            return db.Curriculums;
+            return db.Curriculums.ToList();
         }
 
         public IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids)
@@ -146,9 +158,9 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return db.Themes.Single(item => item.Id == id);
         }
 
-        public int AddTheme(Theme theme)
+        public int AddTheme(Theme theme, Course course)
         {
-            theme.Name = GetCourse(theme.CourseRef).Name;
+            theme.Name = course.Name;
             theme.Created = DateTime.Now;
             theme.Updated = DateTime.Now;
 
@@ -156,16 +168,16 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             db.SubmitChanges();
 
             theme.SortOrder = theme.Id;
-            UpdateTheme(theme);
+            UpdateTheme(theme, course);
 
             return theme.Id;
         }
 
-        public void UpdateTheme(Theme theme)
+        public void UpdateTheme(Theme theme, Course course)
         {
             Theme oldTheme = GetTheme(theme.Id);
 
-            oldTheme.Name = GetCourse(theme.CourseRef).Name;
+            oldTheme.Name = course.Name;
             oldTheme.SortOrder = theme.SortOrder;
             oldTheme.CourseRef = theme.CourseRef;
             oldTheme.Updated = DateTime.Now;
@@ -245,43 +257,6 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         }
         
         #endregion
-
-        #endregion
-
-        #region Call of external methods
-
-        public Course GetCourse(int id)
-        {
-            //GetCourseMessage message = new GetCourseMessage { Input = id };
-            //MvcContrib.Bus.Send(message);
-
-            //return message.Result.Data as Course;
-            return null;
-        }
-
-        public List<Course> GetCourses()
-        {
-            //GetCoursesMessage message = new GetCoursesMessage { };
-            //MvcContrib.Bus.Send(message);
-
-            //return message.Result.Data as List<Course>;
-            return null;
-        }
-
-        #endregion
-
-        #region ICurriculumManagement Members
-
-
-        public int AddTheme(Theme theme, Course course)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateTheme(Theme theme, Course course)
-        {
-            throw new NotImplementedException();
-        }
 
         #endregion
     }
