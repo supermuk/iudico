@@ -8,7 +8,7 @@ namespace IUDICO.CourseManagment.Models.Manifest
     /// <summary>
     /// Class that returns string constants.
     /// </summary>
-    internal class Strings
+    internal class SCORM
     {
         internal const string Action = "action"; // <imsss:rollupAction>/action
         internal const string Adlcp = "adlcp";
@@ -116,6 +116,10 @@ namespace IUDICO.CourseManagment.Models.Manifest
         internal const string RuleCondition = "ruleCondition"; // <imsss:ruleCondition>
         internal const string RuleConditions = "ruleConditions"; // <imsss:ruleConditions>
         internal const string SharedDataGlobalToSystem = "sharedDataGlobalToSystem"; // adlcp:sharedDataGlobalToSystem
+        internal const string Schema = "schema"; //<imscp:shema>
+        internal const string SchemaName = "ADL SCORM";
+        internal const string SchemaVersion = "schemaversion"; //<imscp:shemaversion>
+        internal const string SchemaVersion2004 = "2004 4th Edition";
         internal const string SatisfiedByMeasure = "satisfiedByMeasure"; // <imsss:objective>/satisfiedByMeasure
         internal const string ScormTypeV1p2 = "scormtype"; // adlcp:scormtype (SCORM 1.2)
         internal const string ScormTypeV1p3 = "scormType"; // adlcp:scormType
