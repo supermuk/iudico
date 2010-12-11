@@ -17,6 +17,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.TestingSystem", "IUD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.Statistics", "IUDICO.Statistics\IUDICO.Statistics.csproj", "{A3157C96-0DCC-4B6E-909D-948205118E74}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{35B5DD87-D3CD-4B38-9CE9-E17C7F1D38E3}"
+	ProjectSection(SolutionItems) = preProject
+		Sql\initial.sql = Sql\initial.sql
+		Sql\player.sql = Sql\player.sql
+		Sql\um.sql = Sql\um.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

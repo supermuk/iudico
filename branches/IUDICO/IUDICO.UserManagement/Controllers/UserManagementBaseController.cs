@@ -5,17 +5,18 @@ using System.Web;
 using System.Web.Mvc;
 using IUDICO.Common.Controllers;
 using IUDICO.UserManagement.Models;
-using IUDICO.UserManagement.Models.Storage;
+using IUDICO.UserManagement.Models.Services;
+using IUDICO.Common.Models.Services;
 
 namespace IUDICO.UserManagement.Controllers
 {
-    public class UMBaseController : PluginController
+    public class UserManagementBaseController : PluginController
     {
-        protected IUMStorage Storage
+        protected IUserManagement Storage
         {
             get
             {
-                return HttpContext.Application["UMStorage"] as IUMStorage;
+                return lmsService.FindService<IUserManagement>();
             }
         }
     }

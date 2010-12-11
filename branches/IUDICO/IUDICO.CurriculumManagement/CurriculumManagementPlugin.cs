@@ -19,7 +19,7 @@ namespace IUDICO.CurriculumManagement
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<CurriculumManagementPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<ICurriculumManagement>().ImplementedBy<MixedCurriculumStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
+                Component.For<ICurriculumManagement>().ImplementedBy<MixedCurriculumManagement>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
         }
 
