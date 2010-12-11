@@ -239,7 +239,7 @@
     </ProjectReference>
     <ProjectReference Include="..\IUDICO.UserManagement\IUDICO.UserManagement.csproj">
       <Project>{2D0C4A4E-D442-4BC5-879B-CB3990D57647}</Project>
-      <Name>IUDICO.UserManagment</Name>
+      <Name>IUDICO.UserManagement</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

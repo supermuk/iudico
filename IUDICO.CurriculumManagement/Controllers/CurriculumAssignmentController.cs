@@ -21,7 +21,9 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var groups = Storage.GetGroups();
+                //var groups = Storage.GetGroups();
+                IEnumerable<Group> groups = null;
+
 
                 if (groups != null)
                 {

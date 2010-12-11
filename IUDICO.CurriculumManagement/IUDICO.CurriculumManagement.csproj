@@ -75,30 +75,16 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\CurrBaseController.cs" />
+    <Compile Include="Controllers\CurriculumAssignmentController.cs" />
     <Compile Include="Controllers\CurriculumBaseController.cs" />
     <Compile Include="Controllers\CurriculumController.cs" />
     <Compile Include="Controllers\StageController.cs" />
     <Compile Include="Controllers\ThemeController.cs" />
     <Compile Include="CurriculumManagementPlugin.cs" />
-    <Compile Include="Models\Storage\ICurriculumStorage.cs" />
-    <Compile Include="Models\Storage\MixedCurriculumStorage.cs" />
-    <Compile Include="Models\Storage\CurriculumStorageFactory.cs" />
+    <Compile Include="Models\Storage\MixedCurriculumManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\jquery-1.4.1.js" />
-    <Content Include="Scripts\jquery-1.4.1.min.js" />
-    <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\MicrosoftAjax.js" />
-    <Content Include="Scripts\MicrosoftAjax.debug.js" />
-    <Content Include="Scripts\MicrosoftMvcAjax.js" />
-    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
-    <Content Include="Scripts\MicrosoftMvcValidation.js" />
-    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Views\CurriculumAssignment\Add.aspx" />
     <Content Include="Views\CurriculumAssignment\EditTimeline.aspx" />
     <Content Include="Views\CurriculumAssignment\Index.aspx" />

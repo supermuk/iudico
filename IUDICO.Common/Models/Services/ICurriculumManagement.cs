@@ -44,5 +44,14 @@ namespace IUDICO.Common.Models.Services
         Theme ThemeDown(int themeId);
 
         #endregion
+
+
+        #region Assignment methods
+
+        IEnumerable<Group> GetGroups();
+        Group GetGroup(int curriculumId);
+        IEnumerable<Timeline> GetTimelines();
+
+        #endregion
     }
 }

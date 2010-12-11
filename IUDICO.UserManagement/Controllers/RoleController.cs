@@ -8,7 +8,7 @@ using IUDICO.UserManagement.Models;
 
 namespace IUDICO.UserManagement.Controllers
 {
-    public class RoleController : UMBaseController
+    public class RoleController : UserManagementBaseController
     {
         //
         // GET: /Role/
