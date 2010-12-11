@@ -9,7 +9,7 @@ using IUDICO.UserManagement.Models.Storage;
 
 namespace IUDICO.UserManagement.Controllers
 {
-    public class UMBaseController : BaseController
+    public class UMBaseController : PluginController
     {
         protected IUMStorage Storage
         {
