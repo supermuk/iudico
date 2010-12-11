@@ -33,6 +33,7 @@ namespace IUDICO.Statistics
                 "Statistics/{action}",
                 new { controller = "Statistics" }
             );
+
         }
 
         public void Update(string evt, params object[] data)
