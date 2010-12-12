@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
 
 namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
 {
@@ -10,6 +11,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         public Organization()
         {
             Items = new List<Item>();
+            ObjectivesGlobalToSystem = true;
+            SharedDataGlobalToSystem = true;
         }
 
         [XmlAttribute(SCORM.Identifier)]
@@ -19,10 +22,11 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         public string Structure;// = "hierarchical";
 
         [XmlAttribute(SCORM.ObjectivesGlobalToSystem)]
-        public string ObjectivesGlobalToSystem; // = "true";
+        public bool ObjectivesGlobalToSystem; // = true;
 
         [XmlAttribute(SCORM.SharedDataGlobalToSystem)]
-        public string SharedDataGlobalToSystem;// = "true";
+        public bool SharedDataGlobalToSystem;// = true;
+
 
 
 
@@ -39,7 +43,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         public CompletionThreshold CompletionThreshold;
         
         [XmlElement(SCORM.Sequencing, Namespace=SCORM.ImsssNamespace)]
-        public SequencingModels.Sequencing Sequencing;
+        public Sequencing Sequencing;
 
 
 

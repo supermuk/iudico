@@ -6,14 +6,14 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
     [Serializable]
     public class CompletionThreshold
     {
-        
-        [XmlAttribute("completedByMeasure")]
-        public bool CompletedByMeasure; //false
 
-        [XmlAttribute("minProgressMeasure")]
+        [XmlAttribute(SCORM.CompletedByMeasure)]
+        public bool CompletedByMeasure = false;
+
+        [XmlAttribute(SCORM.MinProgressMeasure)]
         public float MinProgressMeasure;
 
-        [XmlAttribute("progressWeight")]
+        [XmlAttribute(SCORM.ProgressWeight)]
         public float ProgressWeight;
     }
 }

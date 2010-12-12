@@ -172,6 +172,7 @@ namespace IUDICO.CourseManagement.Models.Storage
                 Item parentItem = new Item();
                 parentItem = AddSubItems(parentItem, null, id, ref manifest);
                 manifest.Organizations[0].Items = parentItem.Items;
+                manifest.Organizations[0].Title = course.Name;
                 manifest.Serialize(sw);
                 sw.Close();
 
@@ -199,7 +200,7 @@ namespace IUDICO.CourseManagement.Models.Storage
                 {
                     var files = new List<ManifestModels.ResourceModels.File>();
                     files.Add(new ManifestModels.ResourceModels.File(node.Name + ".html"));
-                    string resourceId = manifest.Resources.AddResource(new Resource(ScormType.Asset, files));
+                    string resourceId = manifest.Resources.AddResource(new Resource(ScormType.Asset, files) { Href = node.Name + ".html" });
                     parentItem.AddChildItem(new Item(resourceId) { Title = node.Name });
                 }
             }
