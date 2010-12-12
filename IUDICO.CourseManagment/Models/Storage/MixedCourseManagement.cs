@@ -5,6 +5,13 @@ using System.Linq;
 using System.Web;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
+using IUDICO.CourseManagement.Models;
+using IUDICO.CourseManagement.Models.ManifestModels;
+using IUDICO.CourseManagement.Models.ManifestModels.MetadataModels;
+using IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels;
+using IUDICO.CourseManagement.Models.ManifestModels.ResourceModels;
+using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
+using IUDICO.CourseManagement.Helpers;
 
 namespace IUDICO.CourseManagement.Models.Storage
 {
@@ -139,37 +146,64 @@ namespace IUDICO.CourseManagement.Models.Storage
             {
                 Course course = this.GetCourse(id);
 
-                string path = HttpContext.Current.Request.PhysicalApplicationPath;
-
+                string path = HttpContext.Current == null ? Path.Combine(System.Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
                 path = Path.Combine(path, @"Data\WorkFolder");
                 path = Path.Combine(path, Guid.NewGuid().ToString());
                 path = Path.Combine(path, course.Name);
-
                 Directory.CreateDirectory(path);
+
                 var nodes = GetNodes(id).ToList();
-                
                 for (var i = 0; i < nodes.Count; i++)
                 {
                     if (nodes[i].IsFolder == false)
                     {
-                        var fs = File.Create(Path.Combine(path, nodes[i].Name + ".html"));
+                        var fs = System.IO.File.Create(Path.Combine(path, nodes[i].Name + ".html"));
                         fs.Close();
                     }
                     else
                     {
-                        var subNodes = this.GetNodes(id, nodes[i].Id).ToList();
+                        var subNodes = GetNodes(id, nodes[i].Id);
                         nodes.AddRange(subNodes);
                     }
                 }
 
-                Helpers.Zipper.CreateZip(path + ".zip", path);
-                
+                Manifest manifest = new Manifest();
+                StreamWriter sw = new StreamWriter(Path.Combine(path, SCORM.ImsManifset));
+                Item parentItem = new Item();
+                parentItem = AddSubItems(parentItem, null, id, ref manifest);
+                manifest.Organizations[0].Items = parentItem.Items;
+                manifest.Serialize(sw);
+                sw.Close();
+
+                Zipper.CreateZip(path + ".zip", path);
                 return path + ".zip";
             }
             catch
             {
                 return null;
             }
+        }
+
+        private Item AddSubItems(Item parentItem, Node parentNode, int courseId, ref Manifest manifest)
+        {
+            var nodes = parentNode == null ? GetNodes(courseId) : GetNodes(courseId, parentNode.Id);
+            foreach (Node node in nodes)
+            {
+                if (node.IsFolder)
+                {
+                    Item item = new Item() { Title = node.Name };
+                    item = AddSubItems(item, node, courseId, ref manifest);
+                    parentItem.AddChildItem(item);
+                }
+                else
+                {
+                    var files = new List<ManifestModels.ResourceModels.File>();
+                    files.Add(new ManifestModels.ResourceModels.File(node.Name + ".html"));
+                    string resourceId = manifest.Resources.AddResource(new Resource(ScormType.Asset, files));
+                    parentItem.AddChildItem(new Item(resourceId) { Title = node.Name });
+                }
+            }
+            return parentItem;
         }
 
         public int? Import(string path)
@@ -358,7 +392,7 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             string nodePath = GetNodePath(id);
 
-            return File.ReadAllText(nodePath);
+            return System.IO.File.ReadAllText(nodePath);
         }
 
         protected string GetNodePath(int nodeId)
