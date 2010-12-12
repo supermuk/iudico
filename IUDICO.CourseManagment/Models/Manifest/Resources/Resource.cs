@@ -20,7 +20,7 @@ namespace IUDICO.CourseManagment.Models.Manifest
         {
             Files = files;
             Type = SCORM.Webcontent;
-            scormType = type;
+            ScormType = type;
         }
 
         public Resource(ScormType type, List<File> files, List<string> dependOnResourcesIds)
@@ -46,24 +46,9 @@ namespace IUDICO.CourseManagment.Models.Manifest
         [XmlAttribute(SCORM.Base, Namespace = SCORM.XmlNamespace)]
         public string Base;
 
-        private ScormType scormType;
-
         [XmlAttribute(SCORM.ScormTypeV1p3, Namespace = SCORM.AdlcpNamespaceV1p3)]
-        public string ScormType
-        {
-            get
-            {
-                switch (scormType)
-                {
-                    case IUDICO.CourseManagment.Models.Manifest.ScormType.SCO:
-                        return "sco";
-                    case IUDICO.CourseManagment.Models.Manifest.ScormType.Asset:
-                        return "asset";
-                    default:
-                        return null;
-                }
-            }
-        }
+        public ScormType ScormType;
+
 
 
         [XmlElement(SCORM.Metadata, Namespace = SCORM.ImscpNamespaceV1p3)]
