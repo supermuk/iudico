@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using IUDICO.Common.Models;
-using IUDICO.CurriculumManagement.Controllers;
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
@@ -12,8 +9,9 @@ namespace IUDICO.CurriculumManagement.Controllers
     {
         private ActionResult ErrorView(Exception e)
         {
-            string currentControllerName = (string)RouteData.Values["controller"];
-            string currentActionName = (string)RouteData.Values["action"];
+            var currentControllerName = (string)RouteData.Values["controller"];
+            var currentActionName = (string)RouteData.Values["action"];
+
             return View("Error", new HandleErrorInfo(e, currentControllerName, currentActionName));
         }
 

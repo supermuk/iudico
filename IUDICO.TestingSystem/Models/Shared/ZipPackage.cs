@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel;
 using Microsoft.LearningComponents;
 
@@ -21,22 +18,23 @@ namespace IUDICO.TestingSystem.Models.Shared
         public ZipPackage(string zipPath)
             : base()
         {
-            this.ZipPath = zipPath;
+            ZipPath = zipPath;
         }
 
-        public ZipPackage(string zipPath, long ownerID, DateTime? uploadDateTime, string fileName)
-            : base(ownerID, uploadDateTime, fileName)
+        public ZipPackage(string zipPath, long ownerId, DateTime? uploadDateTime, string fileName)
+            : base(ownerId, uploadDateTime, fileName)
         {
-            this.ZipPath = zipPath;
+            ZipPath = zipPath;
         }
 
         #endregion
 
         #region Methods
 
-        public override Microsoft.LearningComponents.PackageReader GetPackageReader()
+        public override PackageReader GetPackageReader()
         {
-            ZipPackageReader reader = new ZipPackageReader(this.ZipPath);
+            var reader = new ZipPackageReader(ZipPath);
+
             return reader;
         }
 

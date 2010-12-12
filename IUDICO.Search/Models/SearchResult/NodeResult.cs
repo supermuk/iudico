@@ -1,43 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using IUDICO.Common.Models;
+﻿using IUDICO.Common.Models;
 
 namespace IUDICO.Search.Models.SearchResult
 {
     public class NodeResult : ISearchResult
     {
-        protected Node node;
-        protected String text;
+        protected Node _Node;
+        protected string _Text;
 
-        public NodeResult(Node node, String text)
+        public NodeResult(Node node, string text)
         {
-            this.node = node;
-            this.text = text;
+            _Node = node;
+            _Text = text;
         }
 
-        public int GetID()
+        public int GetId()
         {
-            return node.Id;
+            return _Node.Id;
         }
 
-        public String GetName()
+        public string GetName()
         {
-            return node.Name;
+            return _Node.Name;
         }
 
-        public String GetText()
+        public string GetText()
         {
-            if (!node.IsFolder)
-                return text;
-            else
-                return "";
+            return !_Node.IsFolder ? _Text : "";
         }
 
-        public String GetUrl()
+        public string GetUrl()
         {
-            return "/Course/" + node.CourseId.ToString() + "/Node/Index#" + node.Id;
+            return "/Course/" + _Node.CourseId + "/Node/Index#" + _Node.Id;
         }
     }
 }

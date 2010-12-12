@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
 
-namespace IUDICO.CourseManagment.Models.Manifest
+namespace IUDICO.CourseManagement.Models.Manifest.Organization
 {
     [Serializable]
     public class Presentation

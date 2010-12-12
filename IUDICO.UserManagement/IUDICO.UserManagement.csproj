@@ -86,9 +86,9 @@
     <Compile Include="UserManagementPlugin.cs" />
     <Compile Include="Models\Attributes.cs" />
     <Compile Include="Models\Models.cs" />
-    <Compile Include="Models\OpenIDMembershipProvider.cs" />
-    <Compile Include="Models\OpenIDMembershipUser.cs" />
-    <Compile Include="Models\OpenIDRoleProvider.cs" />
+    <Compile Include="Models\OpenIdMembershipProvider.cs" />
+    <Compile Include="Models\OpenIdMembershipUser.cs" />
+    <Compile Include="Models\OpenIdRoleProvider.cs" />
     <Compile Include="Models\Services\DatabaseUserManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

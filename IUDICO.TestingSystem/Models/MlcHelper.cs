@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Data;
-using System.IO;
-using System.Security.Principal;
 using System.Web.Configuration;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
-using Schema = IUDICO.TestingSystem.Models.Schema;
 
 namespace IUDICO.TestingSystem.Models
 {

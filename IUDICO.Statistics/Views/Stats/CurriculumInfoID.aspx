@@ -35,7 +35,7 @@
                 <td>
                     <% foreach (IUDICO.Statistics.Models.StudentCurriculumResult stCurrRes in Model.studentCurriculumResult)
                        { %>
-                           <% if (stCurrRes.Stud == stud && stCurrRes.CurriculumID == i+1)
+                           <% if (stCurrRes.Stud == stud && stCurrRes.CurriculumId == i+1)
                            {%>
                                 <%: stCurrRes.StudentResult%> / <%: Model.curriculums[i].GetMaxPointsFromCurriculum()%>
                            <% } %>

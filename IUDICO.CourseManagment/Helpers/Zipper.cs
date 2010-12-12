@@ -1,7 +1,7 @@
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 
-namespace IUDICO.CourseManagment.Helpers
+namespace IUDICO.CourseManagement.Helpers
 {
     public static class Zipper
     {

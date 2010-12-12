@@ -1,45 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using IUDICO.Common.Models.Services;
+﻿using IUDICO.Common.Models.Services;
 using Castle.Windsor;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
-using System.ComponentModel.Composition;
 
 namespace IUDICO.LMS.Models
 {
     public class LmsService: ILmsService
     {
-        protected readonly IWindsorContainer container;
+        protected readonly IWindsorContainer _Container;
 
         public LmsService(IWindsorContainer container)
         {
-            this.container = container;
+            _Container = container;
         }
 
         #region ILmsService Members
         public T FindService<T>() where T : IService
         {
-            return container.Resolve<T>();
+            return _Container.Resolve<T>();
         }
 
-        public string GetDBConnectionString()
+        public string GetDbConnectionString()
         {
-            return IUDICO.Common.Properties.Settings.Default.ButterflyConnectionString;
+            return Common.Properties.Settings.Default.IUDICOConnectionString;
         }
 
-        public DBDataContext GetDBDataContext()
+        public DBDataContext GetDbDataContext()
         {
             return new DBDataContext();
         }
 
         public void Inform(string evt, params object[] data)
         {
-            IPlugin[] plugins = container.ResolveAll<IPlugin>();
+            var plugins = _Container.ResolveAll<IPlugin>();
 
-            foreach (IPlugin plugin in plugins)
+            foreach (var plugin in plugins)
             {
                 plugin.Update(evt, data);
             }

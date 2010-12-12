@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 
@@ -10,18 +7,16 @@ namespace IUDICO.UserManagement.Models.Services
 {
     public class DatabaseUserManagement : IUserManagement
     {
-        protected ILmsService lmsService;
-        protected DBDataContext db
-        {
-            get
-            {
-                return lmsService.GetDBDataContext();
-            }
-        }
+        protected ILmsService _LmsService;
 
         public DatabaseUserManagement(ILmsService lmsService)
         {
-            this.lmsService = lmsService;
+            _LmsService = lmsService;
+        }
+
+        protected DBDataContext GetDbContext()
+        {
+            return _LmsService.GetDbDataContext();
         }
 
         #region Implementation of IUMStorage
@@ -30,20 +25,23 @@ namespace IUDICO.UserManagement.Models.Services
 
         public Role GetRole(int id)
         {
-            return db.Roles.First(role => role.ID == id);
+            return GetDbContext().Roles.First(role => role.Id == id);
         }
 
         public IEnumerable<Role> GetRoles()
         {
-            return db.Roles.AsEnumerable();
+            return GetDbContext().Roles.AsEnumerable();
         }
 
         public bool CreateRole(Role role)
         {
             try
             {
+                var db = GetDbContext();
+
                 db.Roles.InsertOnSubmit(role);
                 db.SubmitChanges();
+
                 return true;
             }
             catch
@@ -56,9 +54,11 @@ namespace IUDICO.UserManagement.Models.Services
         {
             try
             {
-                Role oldRole = GetRole(id);
+                var oldRole = GetRole(id);
                 oldRole.Name = role.Name;
-                db.SubmitChanges();
+
+                GetDbContext().SubmitChanges();
+                
                 return true;
             }
             catch
@@ -71,8 +71,11 @@ namespace IUDICO.UserManagement.Models.Services
         {
             try
             {
+                var db = GetDbContext();
+
                 db.Roles.DeleteOnSubmit(GetRole(id));
                 db.SubmitChanges();
+
                 return true;
             }
             catch
@@ -87,20 +90,23 @@ namespace IUDICO.UserManagement.Models.Services
 
         public Group GetGroup(int id)
         {
-            return db.Groups.First(group => group.ID == id);
+            return GetDbContext().Groups.First(group => group.Id == id);
         }
 
         public IEnumerable<Group> GetGroups()
         {
-            return db.Groups.AsEnumerable();
+            return GetDbContext().Groups.AsEnumerable();
         }
 
         public bool CreateGroup(Group group)
         {
             try
             {
+                var db = GetDbContext();
+
                 db.Groups.InsertOnSubmit(group);
                 db.SubmitChanges();
+
                 return true;
             }
             catch
@@ -113,9 +119,11 @@ namespace IUDICO.UserManagement.Models.Services
         {
             try
             {
-                Group oldGroup = GetGroup(id);
+                var oldGroup = GetGroup(id);
                 oldGroup.Name = group.Name;
-                db.SubmitChanges();
+
+                GetDbContext().SubmitChanges();
+
                 return true;
             }
             catch
@@ -128,8 +136,11 @@ namespace IUDICO.UserManagement.Models.Services
         {
             try
             {
+                var db = GetDbContext();
+
                 db.Groups.DeleteOnSubmit(GetGroup(id));
                 db.SubmitChanges();
+
                 return true;
             }
             catch

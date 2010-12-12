@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId;
-using DotNetOpenAuth.OpenId.Extensions.SimpleRegistration;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using IUDICO.Common.Controllers;
 using IUDICO.UserManagement.Models;
@@ -15,7 +10,7 @@ namespace IUDICO.UserManagement.Controllers
 {
     public class AccountController : PluginController
     {
-        private static OpenIdRelyingParty openid = new OpenIdRelyingParty();
+        private static readonly OpenIdRelyingParty openid = new OpenIdRelyingParty();
 
         public ActionResult Index()
         {
@@ -44,11 +39,11 @@ namespace IUDICO.UserManagement.Controllers
                 {
                     case AuthenticationStatus.Authenticated:
 
-                        string OpenID = response.FriendlyIdentifierForDisplay;
-                        OpenIDMembershipProvider OpenIDProvider = (OpenIDMembershipProvider) Membership.Provider;
-                        MembershipUser User = OpenIDProvider.GetUser(OpenID, true);
+                        string openId = response.FriendlyIdentifierForDisplay;
+                        var openIdProvider = (OpenIdMembershipProvider) Membership.Provider;
+                        MembershipUser user = openIdProvider.GetUser(openId, true);
 
-                        if (User == null)
+                        if (user == null)
                         {
                             ModelState.AddModelError("loginIdentifier", "Login failed using the provided OpenID identifier");
 
@@ -57,11 +52,11 @@ namespace IUDICO.UserManagement.Controllers
 
                         if (Request.QueryString["ReturnUrl"] != null)
                         {
-                            FormsAuthentication.RedirectFromLoginPage(User.UserName, false);
+                            FormsAuthentication.RedirectFromLoginPage(user.UserName, false);
                         }
                         else
                         {
-                            FormsAuthentication.SetAuthCookie(User.UserName, false);
+                            FormsAuthentication.SetAuthCookie(user.UserName, false);
 
                             return Redirect("/Account/Index");
                         }
@@ -92,7 +87,7 @@ namespace IUDICO.UserManagement.Controllers
             }
             else
             {
-                IAuthenticationRequest request = openid.CreateRequest(Identifier.Parse(loginIdentifier));
+                var request = openid.CreateRequest(Identifier.Parse(loginIdentifier));
 
                 return request.RedirectingResponse.AsActionResult();
             }
@@ -130,8 +125,8 @@ namespace IUDICO.UserManagement.Controllers
         [HttpPost]
         public ActionResult Register(RegisterModel registerModel)
         {
-            OpenIDMembershipProvider provider = (OpenIDMembershipProvider) Membership.Provider;
-            MembershipCreateStatus status = MembershipCreateStatus.Success;
+            var provider = (OpenIdMembershipProvider) Membership.Provider;
+            var status = MembershipCreateStatus.Success;
 
             //provider.CreateUser(registerModel.Username, registerModel.Password, registerModel.Email, registerModel.OpenID, out status);
 
@@ -147,7 +142,7 @@ namespace IUDICO.UserManagement.Controllers
 
         public ActionResult Edit()
         {
-            EditModel editModel = new EditModel((OpenIDMembershipUser)Membership.GetUser());
+            var editModel = new EditModel((OpenIdMembershipUser)Membership.GetUser());
 
             return View();
         }
@@ -157,9 +152,9 @@ namespace IUDICO.UserManagement.Controllers
         {
             try
             {
-                OpenIDMembershipProvider provider = (OpenIDMembershipProvider)Membership.Provider;
+                var provider = (OpenIdMembershipProvider)Membership.Provider;
 
-                OpenIDMembershipUser user = (OpenIDMembershipUser)Membership.GetUser();
+                var user = (OpenIdMembershipUser)Membership.GetUser();
                 //user.Update(editModel);
 
                 provider.UpdateUser(user);

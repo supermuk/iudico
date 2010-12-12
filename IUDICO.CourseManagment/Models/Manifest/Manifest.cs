@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Xml.Serialization;
 using System.IO;
-namespace IUDICO.CourseManagment.Models.Manifest
+using IUDICO.CourseManagement.Models.Manifest.Metadata;
+using IUDICO.CourseManagement.Models.Manifest.Organization;
+
+namespace IUDICO.CourseManagement.Models.Manifest
 {
     [Serializable]
     [XmlRoot(SCORM.Manifest)]
@@ -13,7 +13,7 @@ namespace IUDICO.CourseManagment.Models.Manifest
         public Manifest()
         {
             Organizations = new Organizations();
-            Resources = new Resources();
+            Resources = new Resources.Resources();
             Metadata = new ManifestMetadata();
         }
 
@@ -24,13 +24,13 @@ namespace IUDICO.CourseManagment.Models.Manifest
         public Organizations Organizations;
 
         [XmlElement(SCORM.Resources, Namespace = SCORM.ImscpNamespaceV1p3)]
-        public Resources Resources;
+        public Resources.Resources Resources;
 
         public void Serialize(StreamWriter writer)
         {
-            XmlSerializer xs = new XmlSerializer(typeof(IUDICO.CourseManagment.Models.Manifest.Manifest));
+            var xs = new XmlSerializer(typeof(Manifest));
 
-            XmlSerializerNamespaces xsn = new XmlSerializerNamespaces();
+            var xsn = new XmlSerializerNamespaces();
             xsn.Add(SCORM.Adlcp, SCORM.AdlcpNamespaceV1p3);
             xsn.Add(SCORM.Imscp, SCORM.ImscpNamespaceV1p3);
             xsn.Add(SCORM.Imsss, SCORM.ImsssNamespace);

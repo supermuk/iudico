@@ -1,46 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-
-using IUDICO.Common.Models;
-using System.Diagnostics;
 
 namespace IUDICO.Statistics.Models
 {
     public class Curriculum
     {
         public string CurriculumName { get; set; }
-        public int CurriculumID { get; set; }
-        public int[] GroupsID { get; set; }
+        public int CurriculumId { get; set; }
+        public int[] GroupsId { get; set; }
         public Theme[] Themes { get; set; }
 
         public int GetMaxPointsFromCurriculum()
         {
-            int temp = 0;
-            foreach (Theme th in Themes)
-            {
-                temp += th.MaxPoint;
-            }
-            return temp;
+            return Themes.Sum(th => th.MaxPoint);
         }
     }
 
     public class Group
     {
-        public int GroupID { get; set; }
+        public int GroupId { get; set; }
         public Student[] Students { get; set; }
     }
 
     public class Student
     {
         public string Name { get; set; }
-        public int StudentID { get; set; }
+        public int StudentId { get; set; }
     }
 
     public class Theme
     {
-        public int ThemeID { get; set; }
+        public int ThemeId { get; set; }
         public string Name { get; set; }
         public int MaxPoint { get; set; }
     }
@@ -48,124 +39,111 @@ namespace IUDICO.Statistics.Models
     public class StudentThemeResult
     {
         public Student Stud { get; set; }
-        public int ThemeID { get; set; }
+        public int ThemeId { get; set; }
         public int StudentResult { get; set; }
     }
 
     public class StudentCurriculumResult
     {
         public Student Stud { get; set; }
-        public int CurriculumID { get; set; }
+        public int CurriculumId { get; set; }
         public int StudentResult { get; set; }
     }
 
     public class InfoOnFirstPage
     {
-        public Theme[] themes;
-        public List<Curriculum> curriculums;
-        public Curriculum firstCurriculum;
-        public Curriculum secondCurriculum;
-        public Group pmi11;
-        public StudentThemeResult[] studentThemeResult;
-        public List<StudentCurriculumResult> studentCurriculumResult;
-        public List<string> groupList;
+        public Theme[] Themes;
+        public List<Curriculum> Curriculums;
+        public Curriculum FirstCurriculum;
+        public Curriculum SecondCurriculum;
+        public Group Pmi11;
+        public StudentThemeResult[] StudentThemeResult;
+        public List<StudentCurriculumResult> StudentCurriculumResult;
+        public List<string> GroupList;
 
         public void SetFakeData()
         {
-            Student st1 = new Student() { StudentID = 1, Name = "Roman" };
-            Student st2 = new Student() { StudentID = 2, Name = "Ivan" };
-            Student st3 = new Student() { StudentID = 3, Name = "Bogdan" };
-            Student st4 = new Student() { StudentID = 4, Name = "Stepan" };
-            pmi11 = new Group() { GroupID = 1, Students = new Student[] { st1, st2, st3, st4 } };
+            var st1 = new Student { StudentId = 1, Name = "Roman" };
+            var st2 = new Student { StudentId = 2, Name = "Ivan" };
+            var st3 = new Student { StudentId = 3, Name = "Bogdan" };
+            var st4 = new Student { StudentId = 4, Name = "Stepan" };
+            Pmi11 = new Group { GroupId = 1, Students = new[] { st1, st2, st3, st4 } };
 
-            Theme th1 = new Theme() { ThemeID = 1, Name = "C++", MaxPoint = 75 };
-            Theme th2 = new Theme() { ThemeID = 2, Name = "C#", MaxPoint = 25 };
-            themes = new Theme[] { th1, th2 };
-            Theme[] themesForSecondCurriculum = new Theme[] { new Theme() { ThemeID = 1, Name = "Algebra", MaxPoint = 100 }, new Theme() { ThemeID = 2, Name = "Geometry", MaxPoint = 50 } };
+            var th1 = new Theme { ThemeId = 1, Name = "C++", MaxPoint = 75 };
+            var th2 = new Theme { ThemeId = 2, Name = "C#", MaxPoint = 25 };
+            Themes = new[] { th1, th2 };
+            var themesForSecondCurriculum = new[] { new Theme { ThemeId = 1, Name = "Algebra", MaxPoint = 100 }, new Theme { ThemeId = 2, Name = "Geometry", MaxPoint = 50 } };
 
 
             #region StudentsResult
 
-            StudentCurriculumResult st1C1 = new StudentCurriculumResult() { CurriculumID = 1, Stud = st1, StudentResult = 95 };
-            StudentCurriculumResult st2C1 = new StudentCurriculumResult() { CurriculumID = 1, Stud = st2, StudentResult = 80 };
-            StudentCurriculumResult st3C1 = new StudentCurriculumResult() { CurriculumID = 1, Stud = st3, StudentResult = 70 };
-            StudentCurriculumResult st4C1 = new StudentCurriculumResult() { CurriculumID = 1, Stud = st4, StudentResult = 95 };
+            var st1C1 = new StudentCurriculumResult() { CurriculumId = 1, Stud = st1, StudentResult = 95 };
+            var st2C1 = new StudentCurriculumResult() { CurriculumId = 1, Stud = st2, StudentResult = 80 };
+            var st3C1 = new StudentCurriculumResult() { CurriculumId = 1, Stud = st3, StudentResult = 70 };
+            var st4C1 = new StudentCurriculumResult() { CurriculumId = 1, Stud = st4, StudentResult = 95 };
 
-            StudentCurriculumResult st1C2 = new StudentCurriculumResult() { CurriculumID = 2, Stud = st1, StudentResult = 145 };
-            StudentCurriculumResult st2C2 = new StudentCurriculumResult() { CurriculumID = 2, Stud = st2, StudentResult = 81 };
-            StudentCurriculumResult st3C2 = new StudentCurriculumResult() { CurriculumID = 2, Stud = st3, StudentResult = 71 };
-            StudentCurriculumResult st4C2 = new StudentCurriculumResult() { CurriculumID = 2, Stud = st4, StudentResult = 125 };
+            var st1C2 = new StudentCurriculumResult() { CurriculumId = 2, Stud = st1, StudentResult = 145 };
+            var st2C2 = new StudentCurriculumResult() { CurriculumId = 2, Stud = st2, StudentResult = 81 };
+            var st3C2 = new StudentCurriculumResult() { CurriculumId = 2, Stud = st3, StudentResult = 71 };
+            var st4C2 = new StudentCurriculumResult() { CurriculumId = 2, Stud = st4, StudentResult = 125 };
 
-            studentCurriculumResult = new List<StudentCurriculumResult>();
-            studentCurriculumResult.Add(st1C1);
-            studentCurriculumResult.Add(st2C1);
-            studentCurriculumResult.Add(st3C1);
-            studentCurriculumResult.Add(st4C1);
-            studentCurriculumResult.Add(st1C2);
-            studentCurriculumResult.Add(st2C2);
-            studentCurriculumResult.Add(st3C2);
-            studentCurriculumResult.Add(st4C2);
+            StudentCurriculumResult = new List<StudentCurriculumResult>
+                                          {
+                                              st1C1,
+                                              st2C1,
+                                              st3C1,
+                                              st4C1,
+                                              st1C2,
+                                              st2C2,
+                                              st3C2,
+                                              st4C2
+                                          };
 
-            StudentThemeResult st1TR1 = new StudentThemeResult() { Stud = st1, StudentResult = 90, ThemeID = 1 };
-            StudentThemeResult st1TR2 = new StudentThemeResult() { Stud = st1, StudentResult = 90, ThemeID = 1 };
-            StudentThemeResult st2TR1 = new StudentThemeResult() { Stud = st2, StudentResult = 80, ThemeID = 2 };
-            StudentThemeResult st2TR2 = new StudentThemeResult() { Stud = st2, StudentResult = 80, ThemeID = 2 };
-            StudentThemeResult st3TR1 = new StudentThemeResult() { Stud = st3, StudentResult = 70, ThemeID = 3 };
-            StudentThemeResult st3TR2 = new StudentThemeResult() { Stud = st3, StudentResult = 70, ThemeID = 3 };
-            StudentThemeResult st4TR1 = new StudentThemeResult() { Stud = st4, StudentResult = 85, ThemeID = 4 };
-            StudentThemeResult st4TR2 = new StudentThemeResult() { Stud = st4, StudentResult = 85, ThemeID = 4 };
-            studentThemeResult = new StudentThemeResult[] { st1TR1, st1TR2, st2TR1, st2TR2, st3TR1, st3TR2, st4TR1, st4TR2 };
+            var st1Tr1 = new StudentThemeResult { Stud = st1, StudentResult = 90, ThemeId = 1 };
+            var st1Tr2 = new StudentThemeResult { Stud = st1, StudentResult = 90, ThemeId = 1 };
+            var st2Tr1 = new StudentThemeResult { Stud = st2, StudentResult = 80, ThemeId = 2 };
+            var st2Tr2 = new StudentThemeResult { Stud = st2, StudentResult = 80, ThemeId = 2 };
+            var st3Tr1 = new StudentThemeResult { Stud = st3, StudentResult = 70, ThemeId = 3 };
+            var st3Tr2 = new StudentThemeResult { Stud = st3, StudentResult = 70, ThemeId = 3 };
+            var st4Tr1 = new StudentThemeResult { Stud = st4, StudentResult = 85, ThemeId = 4 };
+            var st4Tr2 = new StudentThemeResult { Stud = st4, StudentResult = 85, ThemeId = 4 };
+            StudentThemeResult = new[] { st1Tr1, st1Tr2, st2Tr1, st2Tr2, st3Tr1, st3Tr2, st4Tr1, st4Tr2 };
 
             #endregion
 
 
-            firstCurriculum = new Curriculum() { CurriculumID = 1, CurriculumName = "Programing", GroupsID = new int[] { 1, 2}, Themes = themes };
-            secondCurriculum = new Curriculum() { CurriculumID = 2, CurriculumName = "Mathematic", GroupsID = new int[] { 1 }, Themes = themesForSecondCurriculum };
+            FirstCurriculum = new Curriculum { CurriculumId = 1, CurriculumName = "Programing", GroupsId = new int[] { 1, 2}, Themes = Themes };
+            SecondCurriculum = new Curriculum { CurriculumId = 2, CurriculumName = "Mathematic", GroupsId = new int[] { 1 }, Themes = themesForSecondCurriculum };
 
 
-            groupList = new List<string>();
-            groupList.Add("Group id: " + pmi11.GroupID);
+            GroupList = new List<string> {"Group id: " + Pmi11.GroupId};
 
-            curriculums = new List<Curriculum>();
-            curriculums.Add(firstCurriculum);
-            curriculums.Add(secondCurriculum);
+            Curriculums = new List<Curriculum> {FirstCurriculum, SecondCurriculum};
         }
 
         public Curriculum GetCurriculum(int id)
         {
-            return curriculums[id];
+            return Curriculums[id];
         }
 
-        public int GetMaxPointsFromAllCurriculums(Int32[] CurriculumIDs)
+        public int GetMaxPointsFromAllCurriculums(Int32[] curriculumIDs)
         {
-            int temp = 0;
-            foreach(int index in CurriculumIDs)
+            return curriculumIDs.SelectMany(index => Curriculums[index].Themes).Sum(th => th.MaxPoint);
+        }
+
+        public int GetCurrentPointsFromAllCurriculums(Student stud, Int32[] curriculumIDs)
+        {
+            var temp = 0;
+
+            foreach(var index in curriculumIDs)
             {
-                foreach (Theme th in curriculums[index].Themes)
-                {
-                    temp += th.MaxPoint;
-                }
+                temp = StudentCurriculumResult.Where(t => t.Stud == stud && t.CurriculumId == index + 1).Sum(t => t.StudentResult);
             }
+
             return temp;
         }
 
-        public int GetCurrentPointsFromAllCurriculums(Student stud, Int32[] CurriculumIDs)
-        {
-            int temp = 0;
-            foreach(int index in CurriculumIDs)
-            {
-                for (int i = 0; i < studentCurriculumResult.Count; i++)
-                {
-                    if (studentCurriculumResult[i].Stud == stud && studentCurriculumResult[i].CurriculumID == index+1)
-                    {
-                        temp += studentCurriculumResult[i].StudentResult;
-                    }
-                }
-            }
-            return temp;
-        }
-
-        public char ECTS(double percent)
+        public char Ects(double percent)
         {
             if (percent > 91.0)
             {

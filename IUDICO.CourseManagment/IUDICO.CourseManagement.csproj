@@ -111,16 +111,14 @@
     <Compile Include="Models\Manifest\Resources\Resources.cs" />
     <Compile Include="Models\Manifest\SCORMStrings.cs" />
     <Compile Include="Models\Manifest\Sequencing\Sequencing.cs" />
-    <Compile Include="Models\Storage\MixedCourseStorage.cs" />
-    <Compile Include="Models\Storage\CourseStorageFactory.cs" />
-    <Compile Include="Models\Storage\ICourseStorage.cs" />
+    <Compile Include="Models\Storage\MixedCourseManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\jquery\jquery.cookie.js" />
-    <Content Include="Scripts\jquery\jquery.hotkeys.js" />
-    <Content Include="Scripts\jquery\jquery.jstree.js" />
-    <Content Include="Scripts\jquery\jquery.layout.js" />
+    <Content Include="Scripts\custom\jquery\jquery.cookie.js" />
+    <Content Include="Scripts\custom\jquery\jquery.hotkeys.js" />
+    <Content Include="Scripts\custom\jquery\jquery.jstree.js" />
+    <Content Include="Scripts\custom\jquery\jquery.layout.js" />
     <None Include="Views\Course\Create.aspx" />
     <None Include="Views\Course\Edit.aspx" />
     <None Include="Views\Course\Import.aspx" />

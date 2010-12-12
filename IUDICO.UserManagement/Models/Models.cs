@@ -15,7 +15,7 @@ namespace IUDICO.UserManagement.Models
         public string Password { get; set; }
 
         [DisplayName("Open ID")]
-        public string OpenID { get; set; }
+        public string OpenId { get; set; }
 
         [Required]
         [DisplayName("Email")]
@@ -25,14 +25,14 @@ namespace IUDICO.UserManagement.Models
 
     public class EditModel
     {
-        public EditModel(OpenIDMembershipUser user)
+        public EditModel(OpenIdMembershipUser user)
         {
-            OpenID = user.OpenID;
+            OpenId = user.OpenId;
             Email = user.Email;
         }
 
         [DisplayName("Open ID")]
-        public string OpenID { get; set; }
+        public string OpenId { get; set; }
 
         [Required]
         [DisplayName("Email")]

@@ -5,31 +5,16 @@ using System.Web;
 using System.Web.Mvc;
 using System.IO;
 using IUDICO.Common.Models;
-using IUDICO.Common.Models.Services;
 
-namespace IUDICO.CourseManagment.Controllers
+namespace IUDICO.CourseManagement.Controllers
 {
     public class CourseController : CourseBaseController
     {
-        protected ICourseManagement storage;
-
-        public CourseController(ICourseManagement storage)
-        {
-            this.storage = storage;
-        }
-
         public ActionResult Index()
         {
-            var courses = storage.GetCourses();
-
-            if (courses != null)
-            {
-                return View(courses);
-            }
-            else
-            {
-                return View("Error");
-            }
+            var courses = Storage.GetCourses();
+            
+            return View(courses);
         }
 
         public ActionResult Create()
@@ -40,60 +25,52 @@ namespace IUDICO.CourseManagment.Controllers
         [HttpPost]
         public ActionResult Create(Course course)
         {
-            int? id = storage.AddCourse(course);
+            var id = Storage.AddCourse(course);
             
             if (id != null)
             {
                 return RedirectToAction("Index");
             }
-            else
-            {
-                return View("Error");
-            }
+
+            return View();
         }
 
         public ActionResult Edit(int courseId)
         {
-            Course course = storage.GetCourse(courseId);
+            var course = Storage.GetCourse(courseId);
 
             if (course != null)
             {
                 return View(course);
             }
-            else
-            {
-                return View("Error");
-            }
+
+            return View("Error");
         }
 
         [HttpPost]
         public ActionResult Edit(int courseId, Course course)
         {
-            bool result = storage.UpdateCourse(courseId, course);
+            var result = Storage.UpdateCourse(courseId, course);
             
             if (result)
             {
                 return RedirectToAction("Index");
             }
-            else
-            {
-                return View("Error");
-            }
+
+            return View("Error");
         }
 
         [HttpDelete]
         public JsonResult Delete(int courseId)
         {
-            bool result = storage.DeleteCourse(courseId);
+            var result = Storage.DeleteCourse(courseId);
             
             if (result)
             {
                 return Json(new { success = true, id = courseId });
             }
-            else
-            {
-                return Json(new { success = false });
-            }
+
+            return Json(new { success = false });
         }
 
         [HttpPost]
@@ -101,7 +78,8 @@ namespace IUDICO.CourseManagment.Controllers
         {
             try
             {
-                bool result = storage.DeleteCourses(new List<int>(courseIds));
+                var result = Storage.DeleteCourses(new List<int>(courseIds));
+
                 return Json(new { success = result });
             }
             catch (Exception)
@@ -112,13 +90,15 @@ namespace IUDICO.CourseManagment.Controllers
 
         public FilePathResult Export(int courseId)
         {
-            string path = storage.Export(courseId);
-            return new FilePathResult(path, "application/octet-stream") { FileDownloadName = storage.GetCourse(courseId).Name + ".zip" };
+            var path = Storage.Export(courseId);
+
+            return new FilePathResult(path, "application/octet-stream") { FileDownloadName = Storage.GetCourse(courseId).Name + ".zip" };
         }
 
         public ActionResult Import()
         {
             ViewData["validateResults"] = new List<string>();
+
             return View();
         }
 
@@ -127,14 +107,18 @@ namespace IUDICO.CourseManagment.Controllers
         {
             try
             {
-                string path = HttpContext.Request.PhysicalApplicationPath;
+                var path = HttpContext.Request.PhysicalApplicationPath;
+
                 path = Path.Combine(path, @"Data\WorkFolder");
                 path = Path.Combine(path, Guid.NewGuid().ToString());
+
                 Directory.CreateDirectory(path);
+
                 path = Path.Combine(path, fileUpload.FileName.Split('\\').Last());
+
                 fileUpload.SaveAs(path);
 
-                storage.Import(path);
+                Storage.Import(path);
 
                 return RedirectToAction("Index");
             }
@@ -149,13 +133,19 @@ namespace IUDICO.CourseManagment.Controllers
         {
             try
             {
-                string path = HttpContext.Request.PhysicalApplicationPath;
+                var path = HttpContext.Request.PhysicalApplicationPath;
+
                 path = Path.Combine(path, @"Data\WorkFolder");
                 path = Path.Combine(path, Guid.NewGuid().ToString());
+
                 Directory.CreateDirectory(path);
+
                 path = Path.Combine(path, fileUpload.FileName.Split('\\').Last());
+
                 fileUpload.SaveAs(path);
+
                 ViewData["validateResults"] = Helpers.PackageValidator.Validate(path);
+
                 return View("Import");
 
             }

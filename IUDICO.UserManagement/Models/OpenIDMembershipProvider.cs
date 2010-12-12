@@ -9,13 +9,18 @@ using IUDICO.Common.Models.Services;
 
 namespace IUDICO.UserManagement.Models
 {
-    public class OpenIDMembershipProvider : MembershipProvider
+    public class OpenIdMembershipProvider : MembershipProvider
     {
-        protected DBDataContext db;
+        protected ILmsService _LmsService;
 
-        public OpenIDMembershipProvider(ILmsService lmsService)
+        public OpenIdMembershipProvider(ILmsService lmsService)
         {
-            db = lmsService.GetDBDataContext();
+            _LmsService = lmsService;
+        }
+
+        protected DBDataContext GetDbContext()
+        {
+            return _LmsService.GetDbDataContext();
         }
 
         public override void Initialize(string name, NameValueCollection config)
@@ -27,10 +32,7 @@ namespace IUDICO.UserManagement.Models
 
         protected string GetConfigValue(string configValue, string defaultValue)
         {
-            if (String.IsNullOrEmpty(configValue))
-                return defaultValue;
-
-            return configValue;
+            return String.IsNullOrEmpty(configValue) ? defaultValue : configValue;
         }
 
 
@@ -38,7 +40,9 @@ namespace IUDICO.UserManagement.Models
         {
             try
             {
-                User currentUser = db.Users.SingleOrDefault(u => u.Username == username || u.Email == email);
+                var db = GetDbContext();
+
+                var currentUser = db.Users.SingleOrDefault(u => u.Username == username || u.Email == email);
 
                 if (currentUser != null)
                 {
@@ -56,7 +60,7 @@ namespace IUDICO.UserManagement.Models
                     }
                 }
 
-                User user = new User
+                var user = new User
                 {
                     Username = username,
                     Password = password,
@@ -79,12 +83,7 @@ namespace IUDICO.UserManagement.Models
         {
             status = CreateUser(username, password, email, null, isApproved);
 
-            if (status == MembershipCreateStatus.Success)
-            {
-                return GetUser(username, false);
-            }
-
-            return null;
+            return status == MembershipCreateStatus.Success ? GetUser(username, false) : null;
         }
 
         public override bool ChangePasswordQuestionAndAnswer(string username, string password, string newPasswordQuestion, string newPasswordAnswer)
@@ -94,21 +93,18 @@ namespace IUDICO.UserManagement.Models
 
         public override string GetPassword(string username, string answer)
         {
-            User user = db.Users.SingleOrDefault(u => u.Username == username);
+            var user = GetDbContext().Users.SingleOrDefault(u => u.Username == username);
 
-            if (user != null)
-            {
-                return user.Password;
-            }
-
-            return null;
+            return user != null ? user.Password : null;
         }
 
         public override bool ChangePassword(string username, string oldPassword, string newPassword)
         {
             try
             {
-                User user = db.Users.SingleOrDefault(u => u.Username == username && u.Password == oldPassword);
+                var db = GetDbContext();
+
+                var user = db.Users.SingleOrDefault(u => u.Username == username && u.Password == oldPassword);
 
                 if (user != null)
                 {
@@ -136,7 +132,9 @@ namespace IUDICO.UserManagement.Models
         {
             try
             {
-                User oldUser = db.Users.SingleOrDefault(u => u.Username == user.UserName);
+                var db = GetDbContext();
+
+                var oldUser = db.Users.SingleOrDefault(u => u.Username == user.UserName);
 
                 if (oldUser != null)
                 {
@@ -154,14 +152,9 @@ namespace IUDICO.UserManagement.Models
 
         public override bool ValidateUser(string username, string password)
         {
-            User user = db.Users.SingleOrDefault(u => u.Username == username && u.Password == password);
+            var user = GetDbContext().Users.SingleOrDefault(u => u.Username == username && u.Password == password);
 
-            if (user != null)
-            {
-                return true;
-            }
-
-            return false;
+            return user != null;
         }
 
         public override bool UnlockUser(string userName)
@@ -171,29 +164,31 @@ namespace IUDICO.UserManagement.Models
 
         public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
         {
-            return GetMembershipUser(db.Users.SingleOrDefault(u => u.ID == (Guid)providerUserKey));
+            return GetMembershipUser(GetDbContext().Users.SingleOrDefault(u => u.Id == (Guid)providerUserKey));
         }
 
         public override MembershipUser GetUser(string username, bool userIsOnline)
         {
-            return GetMembershipUser(db.Users.SingleOrDefault(u => u.Username == username));
+            return GetMembershipUser(GetDbContext().Users.SingleOrDefault(u => u.Username == username));
         }
 
         public MembershipUser GetMembershipUser(User user)
         {
-            return new OpenIDMembershipUser(Name, user.Name, user.ID, user.Email, user.OpenID, "", "", user.IsApproved,
+            return new OpenIdMembershipUser(Name, user.Name, user.Id, user.Email, user.OpenId, "", "", user.IsApproved,
                                             false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
         }
 
         public override string GetUserNameByEmail(string email)
         {
-            return db.Users.SingleOrDefault(u => u.Email == email).Username;
+            return GetDbContext().Users.SingleOrDefault(u => u.Email == email).Username;
         }
 
         public override bool DeleteUser(string username, bool deleteAllRelatedData)
         {
             try
             {
+                var db = GetDbContext();
+
                 User user = db.Users.SingleOrDefault(u => u.Username == username);
                 
                 db.Users.DeleteOnSubmit(user);
@@ -209,12 +204,13 @@ namespace IUDICO.UserManagement.Models
 
         public override MembershipUserCollection GetAllUsers(int pageIndex, int pageSize, out int totalRecords)
         {
-            MembershipUserCollection collection = new MembershipUserCollection();
+            var db = GetDbContext();
+            var collection = new MembershipUserCollection();
 
-            List<User> users = db.Users.Skip(pageIndex).Take(pageSize).ToList();
+            var users = db.Users.Skip(pageIndex).Take(pageSize).ToList();
             totalRecords = users.Count;
 
-            foreach(User user in users)
+            foreach (var user in users)
             {
                 collection.Add(GetMembershipUser(user));
             }
@@ -229,12 +225,12 @@ namespace IUDICO.UserManagement.Models
 
         public override MembershipUserCollection FindUsersByName(string usernameToMatch, int pageIndex, int pageSize, out int totalRecords)
         {
-            MembershipUserCollection collection = new MembershipUserCollection();
+            var collection = new MembershipUserCollection();
 
-            List<User> users = db.Users.Skip(pageIndex).Take(pageSize).Where(u => u.Username.Contains(usernameToMatch)).ToList();
+            var users = GetDbContext().Users.Skip(pageIndex).Take(pageSize).Where(u => u.Username.Contains(usernameToMatch)).ToList();
             totalRecords = users.Count;
 
-            foreach (User user in users)
+            foreach (var user in users)
             {
                 collection.Add(GetMembershipUser(user));
             }
@@ -244,12 +240,13 @@ namespace IUDICO.UserManagement.Models
 
         public override MembershipUserCollection FindUsersByEmail(string emailToMatch, int pageIndex, int pageSize, out int totalRecords)
         {
-            MembershipUserCollection collection = new MembershipUserCollection();
+            var collection = new MembershipUserCollection();
+            var db = GetDbContext();
 
-            List<User> users = db.Users.Skip(pageIndex).Take(pageSize).Where(u => u.Email.Contains(emailToMatch)).ToList();
+            var users = db.Users.Skip(pageIndex).Take(pageSize).Where(u => u.Email.Contains(emailToMatch)).ToList();
             totalRecords = users.Count;
 
-            foreach (User user in users)
+            foreach (var user in users)
             {
                 collection.Add(GetMembershipUser(user));
             }
