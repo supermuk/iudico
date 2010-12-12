@@ -1,23 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Castle.MicroKernel;
-using IUDICO.Common.Controllers;
-using IUDICO.Common.Models.Services;
-using System.Collections;
 
 namespace IUDICO.LMS.IoC
 {
     public class IocControllerFactory : IControllerFactory
     {
-        readonly IKernel _kernel;
+        readonly IKernel _Kernel;
 
         public IocControllerFactory(IKernel kernel)
         {
-            this._kernel = kernel;
+            _Kernel = kernel;
         }
 
         public IController CreateController(RequestContext requestContext, string controllerName)
@@ -34,7 +29,7 @@ namespace IUDICO.LMS.IoC
 
             try
             {
-                return _kernel.Resolve<IController>(controllerName + "Controller");
+                return _Kernel.Resolve<IController>(controllerName + "controller");
             }
             catch (ComponentNotFoundException e)
             {
@@ -50,7 +45,7 @@ namespace IUDICO.LMS.IoC
                 throw new ArgumentNullException("controller");
             }
 
-            _kernel.ReleaseComponent(controller);
+            _Kernel.ReleaseComponent(controller);
         }
     }
 }

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Xml.Serialization;
 
-namespace IUDICO.CourseManagment.Models.Manifest
+namespace IUDICO.CourseManagement.Models.Manifest.Organization
 {
     [Serializable]
     public class Organization
@@ -35,13 +33,13 @@ namespace IUDICO.CourseManagment.Models.Manifest
         public List<Item> Items;
 
         [XmlElement(SCORM.Metadata, Namespace = SCORM.ImscpNamespaceV1p3)]
-        public Metadata Metadata;
+        public Metadata.Metadata Metadata;
 
         [XmlElement(SCORM.CompletionThreshold, Namespace = SCORM.AdlcpNamespaceV1p3)]
         public CompletionThreshold CompletionThreshold;
         
         [XmlElement(SCORM.Sequencing, Namespace=SCORM.ImsssNamespace)]
-        public Sequencing Sequencing;
+        public Sequencing.Sequencing Sequencing;
 
 
 

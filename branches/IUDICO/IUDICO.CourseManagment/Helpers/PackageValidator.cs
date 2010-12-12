@@ -1,28 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.IO;
 using Microsoft.LearningComponents;
 
-namespace IUDICO.CourseManagment.Helpers
+namespace IUDICO.CourseManagement.Helpers
 {
     public static class PackageValidator
     {
         public static List<string> Validate(string path)
         {
+            var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var reader = PackageReader.Create(stream);
 
-            FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            PackageReader reader = PackageReader.Create(stream);
-
-            PackageValidatorSettings settings = new PackageValidatorSettings(
+            var settings = new PackageValidatorSettings(
                 ValidationBehavior.LogWarning,
                 ValidationBehavior.LogWarning,
                 ValidationBehavior.LogError,
                 ValidationBehavior.LogWarning
                 );
+            
             ValidationResults results;
-            List<string> messages = new List<string>();
+
+            var messages = new List<string>();
+
             try
             {
                 results = Microsoft.LearningComponents.PackageValidator.Validate(reader, settings);
@@ -30,9 +30,11 @@ namespace IUDICO.CourseManagment.Helpers
             catch (InvalidPackageException ex)
             {
                 messages.Add(String.Format("Package is invalid.{0}", ex.Message));
+
                 return messages;
             }
-            foreach (ValidationResult result in results.Results)
+
+            foreach (var result in results.Results)
             {
                 if (result.IsError)
                 {
@@ -43,10 +45,12 @@ namespace IUDICO.CourseManagment.Helpers
                     messages.Add(String.Format("SCORM Warning: {0}", result.Message));
                 }
             }
+
             if (messages.Count == 0)
             {
                 messages.Add("Package is valid.");
             }
+
             return messages;
         }
     }

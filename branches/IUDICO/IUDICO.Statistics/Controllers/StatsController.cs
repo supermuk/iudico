@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using IUDICO.Common.Controllers;
 
@@ -16,10 +13,11 @@ namespace IUDICO.Statistics.Controllers
 
         public ActionResult Index()
         {
-            InfoOnFirstPage info = new InfoOnFirstPage();
+            var info = new InfoOnFirstPage();
+
             info.SetFakeData();
 
-            ViewData["GroupsList"] = new SelectList(info.groupList);
+            ViewData["GroupsList"] = new SelectList(info.GroupList);
 
             return View(info);
         }
@@ -28,12 +26,16 @@ namespace IUDICO.Statistics.Controllers
         {
             try
             {
-                InfoOnFirstPage info = new InfoOnFirstPage();
+                var info = new InfoOnFirstPage();
+
                 info.SetFakeData();
-                if (id >= 0 && id < info.curriculums.Count)
+
+                if (id >= 0 && id < info.Curriculums.Count)
                 {
                     var curriculum = new Curriculum();
+
                     curriculum = info.GetCurriculum(id);
+
                     return View(curriculum);
                 }
                 else
@@ -48,7 +50,7 @@ namespace IUDICO.Statistics.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult CurriculumInfoID(Int32[] idList)
+        public ActionResult CurriculumInfoId(Int32[] idList)
         {
             try
             {
@@ -60,7 +62,7 @@ namespace IUDICO.Statistics.Controllers
                 {
                     ViewData["IDs"] = idList;
 
-                    InfoOnFirstPage info = new InfoOnFirstPage();
+                    var info = new InfoOnFirstPage();
                     info.SetFakeData();
                     return View(info);
                 }

@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
 namespace IUDICO.Common.Models
 {
-    [MetadataType(typeof(Course.Metadata))]
+    [MetadataType(typeof(Metadata))]
     [Bind(Exclude="Id")]
     public partial class Course
     {
@@ -37,7 +34,7 @@ namespace IUDICO.Common.Models
         }
     }
 
-    [MetadataType(typeof(Curriculum.Metadata))]
+    [MetadataType(typeof(Metadata))]
     [Bind(Exclude = "Id")]
     public partial class Curriculum
     {
@@ -61,7 +58,7 @@ namespace IUDICO.Common.Models
         }
     }
 
-    [MetadataType(typeof(Stage.Metadata))]
+    [MetadataType(typeof(Metadata))]
     [Bind(Exclude = "Id, CurriculumRef")]
     public partial class Stage
     {
@@ -88,7 +85,7 @@ namespace IUDICO.Common.Models
         }
     }
 
-    [MetadataType(typeof(Theme.Metadata))]
+    [MetadataType(typeof(Metadata))]
     [Bind(Exclude = "Id, StageRef")]
     public partial class Theme
     {
@@ -120,7 +117,7 @@ namespace IUDICO.Common.Models
         }
     }
 
-    [MetadataType(typeof(Node.Metadata))]
+    [MetadataType(typeof(Metadata))]
     [Bind(Exclude = "Id, CourseId")]
     public partial class Node
     {
@@ -147,7 +144,7 @@ namespace IUDICO.Common.Models
         }
     }
 
-    [MetadataType(typeof(User.Metadata))]
+    [MetadataType(typeof(Metadata))]
     [Bind(Exclude = "ID")]
     public partial class User
     {
@@ -183,7 +180,7 @@ namespace IUDICO.Common.Models
         }
     }
 
-    [MetadataType(typeof(Role.Metadata))]
+    [MetadataType(typeof(Metadata))]
     [Bind(Exclude = "ID")]
     public partial class Role
     {
@@ -199,7 +196,7 @@ namespace IUDICO.Common.Models
         }
     }
 
-    [MetadataType(typeof(Group.Metadata))]
+    [MetadataType(typeof(Metadata))]
     [Bind(Exclude = "ID")]
     public partial class Group
     {

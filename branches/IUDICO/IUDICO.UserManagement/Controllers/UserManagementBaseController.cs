@@ -16,7 +16,7 @@ namespace IUDICO.UserManagement.Controllers
         {
             get
             {
-                return lmsService.FindService<IUserManagement>();
+                return LmsService.FindService<IUserManagement>();
             }
         }
     }

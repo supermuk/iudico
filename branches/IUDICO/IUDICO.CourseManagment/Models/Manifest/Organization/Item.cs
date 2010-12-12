@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Xml.Serialization;
 
-namespace IUDICO.CourseManagment.Models.Manifest
+namespace IUDICO.CourseManagement.Models.Manifest.Organization
 {
     [Serializable]
     public class Item
@@ -22,8 +20,6 @@ namespace IUDICO.CourseManagment.Models.Manifest
         }
 
         private bool IsParent;
-
-        
         
         [XmlAttribute(SCORM.Identifier)]
         public string Identifier;
@@ -37,8 +33,6 @@ namespace IUDICO.CourseManagment.Models.Manifest
         [XmlAttribute(SCORM.Parameters)]
         public string Parameters;
 
-
-
         [XmlElement(SCORM.Title, Namespace=SCORM.ImscpNamespaceV1p3)]
         public string Title;
 
@@ -46,7 +40,7 @@ namespace IUDICO.CourseManagment.Models.Manifest
         public List<Item> Items;
 
         [XmlElement(SCORM.Metadata, Namespace=SCORM.ImscpNamespaceV1p3)]
-        public Metadata Metadata;
+        public Metadata.Metadata Metadata;
 
         [XmlElement(SCORM.TimeLimitActionV1p3, Namespace = SCORM.AdlcpNamespaceV1p3)]
         public TimeLimitAction TimeLimitAction;
@@ -58,7 +52,7 @@ namespace IUDICO.CourseManagment.Models.Manifest
         public CompletionThreshold CompletionThreshold;
 
         [XmlElement(SCORM.Sequencing)]
-        public Sequencing Sequencing;
+        public Sequencing.Sequencing Sequencing;
 
         [XmlElement(SCORM.Presentation)]
         public Presentation Presentation;

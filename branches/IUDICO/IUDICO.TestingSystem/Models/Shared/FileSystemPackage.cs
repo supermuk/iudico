@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel;
 using Microsoft.LearningComponents;
-using System.IO;
 
 namespace IUDICO.TestingSystem.Models.Shared
 {
@@ -22,13 +18,13 @@ namespace IUDICO.TestingSystem.Models.Shared
         public FileSystemPackage(string folderPath)
             : base()
         {
-            this.FolderPath = folderPath;
+            FolderPath = folderPath;
         }
 
-        public FileSystemPackage(string folderPath, long ownerID, DateTime? uploadDateTime, string fileName)
-            : base(ownerID, uploadDateTime, fileName)
+        public FileSystemPackage(string folderPath, long ownerId, DateTime? uploadDateTime, string fileName)
+            : base(ownerId, uploadDateTime, fileName)
         {
-            this.FolderPath = folderPath;
+            FolderPath = folderPath;
         }
 
         #endregion
@@ -37,7 +33,8 @@ namespace IUDICO.TestingSystem.Models.Shared
 
         public override PackageReader GetPackageReader()
         {
-            FileSystemPackageReader reader = new FileSystemPackageReader(this.FolderPath);
+            var reader = new FileSystemPackageReader(FolderPath);
+
             return reader;
         }
 

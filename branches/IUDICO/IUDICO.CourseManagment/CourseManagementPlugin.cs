@@ -5,9 +5,9 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
-using IUDICO.CourseManagment.Models.Storage;
+using IUDICO.CourseManagement.Models.Storage;
 
-namespace IUDICO.CourseManagment
+namespace IUDICO.CourseManagement
 {
     public class CourseManagementPlugin : IWindsorInstaller, IPlugin
     {
@@ -55,7 +55,7 @@ namespace IUDICO.CourseManagment
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<CourseManagementPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<ICourseManagement>().ImplementedBy<MixedCourseStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
+                Component.For<ICourseManagement>().ImplementedBy<MixedCourseManagement>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
         }
         #endregion

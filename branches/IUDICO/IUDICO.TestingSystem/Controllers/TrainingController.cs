@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using IUDICO.TestingSystem.Models.Shared;
 using IUDICO.TestingSystem.Models;
@@ -44,7 +43,7 @@ namespace IUDICO.TestingSystem.Controllers
         {
             try
             {
-                long attemptID = MlcDataProvider.Instance.CreateAttempt(id);
+                var attemptId = MlcDataProvider.Instance.CreateAttempt(id);
 
                 // TODO: redirect to frameset.
                 return RedirectToAction("Index");
@@ -59,8 +58,8 @@ namespace IUDICO.TestingSystem.Controllers
         {
             try
             {
-                ZipPackage package = new ZipPackage("C:\\ZipPackages\\scorm1.zip", 1, DateTime.Now, "scorm1.zip");
-                Training training = MlcDataProvider.Instance.AddPackage(package);
+                var package = new ZipPackage("C:\\ZipPackages\\scorm1.zip", 1, DateTime.Now, "scorm1.zip");
+                var training = MlcDataProvider.Instance.AddPackage(package);
 
                 //Show success page with detailed info.
                 return View("Details", training);
@@ -71,22 +70,25 @@ namespace IUDICO.TestingSystem.Controllers
             }
         }
 
-        public ActionResult Details(long packageID, long attemptID =-1)
+        public ActionResult Details(long packageId, long attemptId = -1)
         {
             try
             {
                 // TODO: provide user-based
-                IEnumerable<Training> trainings = MlcDataProvider.Instance.GetTrainings(1);
-                IEnumerable<Training> trainingsByID = trainings.Where(tr => tr.PackageID == packageID);
+                var trainings = MlcDataProvider.Instance.GetTrainings(1);
+                var trainingsById = trainings.Where(tr => tr.PackageId == packageId);
+
                 Training training;
-                if (attemptID > 0 && trainingsByID.Count() > 1)
+
+                if (attemptId > 0 && trainingsById.Count() > 1)
                 {
-                    training = trainingsByID.SingleOrDefault(tr => tr.AttemptID == attemptID);
+                    training = trainingsById.SingleOrDefault(tr => tr.AttemptId == attemptId);
                 }
                 else
                 {
-                    training = trainingsByID.First();
+                    training = trainingsById.First();
                 }
+
                 return View("Details", training);
             }
             catch (Exception exc)

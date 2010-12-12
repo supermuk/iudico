@@ -1,5 +1,226 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="IUDICO" EntityNamespace="IUDICO.Common.Models" ContextNamespace="IUDICO.Common.Models" Class="DBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;Initial Catalog=IUDICO;Integrated Security=True" SettingsObjectName="IUDICO.Common.Properties.Settings" SettingsPropertyName="ButterflyConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;Initial Catalog=IUDICO;Integrated Security=True" SettingsObjectName="IUDICO.Common.Properties.Settings" SettingsPropertyName="IUDICOConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.ActivityAttemptItem" Member="ActivityAttemptItems">
+    <Type Name="ActivityAttemptItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AttemptId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="ActivityPackageId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="CompletionStatus" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AttemptCount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DataModelCache" Type="System.Xml.Linq.XElement" DbType="Xml" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="EvaluationPoints" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="[Exit]" Member="Exit" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LessonStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Location" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="MinScore" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="MaxScore" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="ProgressMeasure" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="RandomPlacement" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RawScore" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="ScaledScore" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="SequencingDataCache" Type="System.Xml.Linq.XElement" DbType="Xml" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="SessionStartTimestamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="SessionTime" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="SuccessStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SuspendData" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="TotalTime" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Association Name="ActivityAttemptItem_AttemptObjectiveItem" Member="AttemptObjectiveItems" ThisKey="Id" OtherKey="ActivityAttemptId" Type="AttemptObjectiveItem" />
+      <Association Name="ActivityAttemptItem_CommentFromLearnerItem" Member="CommentFromLearnerItems" ThisKey="Id" OtherKey="ActivityAttemptId" Type="CommentFromLearnerItem" />
+      <Association Name="ActivityAttemptItem_ExtensionDataItem" Member="ExtensionDataItems" ThisKey="Id" OtherKey="ActivityAttemptId" Type="ExtensionDataItem" />
+      <Association Name="ActivityAttemptItem_InteractionItem" Member="InteractionItems" ThisKey="Id" OtherKey="ActivityAttemptId" Type="InteractionItem" />
+      <Association Name="ActivityAttemptItem_SequencingLogEntryItem" Member="SequencingLogEntryItems" ThisKey="Id" OtherKey="ActivityAttemptId" Type="SequencingLogEntryItem" />
+      <Association Name="ActivityPackageItem_ActivityAttemptItem" Member="ActivityPackageItem" ThisKey="ActivityPackageId" OtherKey="Id" Type="ActivityPackageItem" IsForeignKey="true" />
+      <Association Name="AttemptItem_ActivityAttemptItem" Member="AttemptItem" ThisKey="AttemptId" OtherKey="Id" Type="AttemptItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="CompletionStatus_ActivityAttemptItem" Member="CompletionStatus1" ThisKey="CompletionStatus" OtherKey="Id" Type="CompletionStatus" IsForeignKey="true" />
+      <Association Name="ExitMode_ActivityAttemptItem" Member="ExitMode" ThisKey="Exit" OtherKey="Id" Type="ExitMode" IsForeignKey="true" />
+      <Association Name="LessonStatus_ActivityAttemptItem" Member="LessonStatus1" ThisKey="LessonStatus" OtherKey="Id" Type="LessonStatus" IsForeignKey="true" />
+      <Association Name="SuccessStatus_ActivityAttemptItem" Member="SuccessStatus1" ThisKey="SuccessStatus" OtherKey="Id" Type="SuccessStatus" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserItem" Member="UserItems">
+    <Type Name="UserItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="[Key]" Member="Key" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="AudioCaptioning" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AudioLevel" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
+      <Column Name="DeliverySpeed" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
+      <Column Name="Language" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="UserItem_AttemptItem" Member="AttemptItems" ThisKey="Id" OtherKey="LearnerId" Type="AttemptItem" />
+      <Association Name="UserItem_LearnerGlobalObjectiveItem" Member="LearnerGlobalObjectiveItems" ThisKey="Id" OtherKey="LearnerId" Type="LearnerGlobalObjectiveItem" />
+      <Association Name="UserItem_PackageGlobalObjectiveItem" Member="PackageGlobalObjectiveItems" ThisKey="Id" OtherKey="LearnerId" Type="PackageGlobalObjectiveItem" />
+      <Association Name="UserItem_PackageItem" Member="PackageItems" ThisKey="Id" OtherKey="Owner" Type="PackageItem" />
+      <Association Name="AudioCaptioning_UserItem" Member="AudioCaptioning1" ThisKey="AudioCaptioning" OtherKey="Id" Type="AudioCaptioning" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ActivityObjectiveItem" Member="ActivityObjectiveItems">
+    <Type Name="ActivityObjectiveItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ActivityPackageId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="IsPrimaryObjective" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="[Key]" Member="Key" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="MinNormalizedMeasure" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
+      <Column Name="SatisfiedByMeasure" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="ActivityObjectiveItem_ActivityPackageItem" Member="ActivityPackageItems" ThisKey="Id" OtherKey="PrimaryObjectiveId" Type="ActivityPackageItem" />
+      <Association Name="ActivityObjectiveItem_AttemptObjectiveItem" Member="AttemptObjectiveItems" ThisKey="Id" OtherKey="ActivityObjectiveId" Type="AttemptObjectiveItem" />
+      <Association Name="ActivityObjectiveItem_MapActivityObjectiveToGlobalObjectiveItem" Member="MapActivityObjectiveToGlobalObjectiveItems" ThisKey="Id" OtherKey="ActivityObjectiveId" Type="MapActivityObjectiveToGlobalObjectiveItem" />
+      <Association Name="ActivityPackageItem_ActivityObjectiveItem" Member="ActivityPackageItem" ThisKey="ActivityPackageId" OtherKey="Id" Type="ActivityPackageItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ActivityPackageItem" Member="ActivityPackageItems">
+    <Type Name="ActivityPackageItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ActivityIdFromManifest" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="OriginalPlacement" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ParentActivityId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="PackageId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="PrimaryObjectiveId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="ResourceId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="PrimaryResourceFromManifest" Type="System.String" DbType="NVarChar(2000)" CanBeNull="true" />
+      <Column Name="DataModelCache" Type="System.Xml.Linq.XElement" DbType="Xml" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="CompletionThreshold" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="Credit" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="HideContinue" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="HidePrevious" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="HideExit" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="HideAbandon" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsVisibleInContents" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="LaunchData" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="MasteryScore" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="MaxAttempts" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MaxTimeAllowed" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ResourceParameters" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="ScaledPassingScore" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="TimeLimitAction" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="ObjectivesGlobalToSystem" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="ActivityPackageItem_ActivityAttemptItem" Member="ActivityAttemptItems" ThisKey="Id" OtherKey="ActivityPackageId" Type="ActivityAttemptItem" />
+      <Association Name="ActivityPackageItem_ActivityObjectiveItem" Member="ActivityObjectiveItems" ThisKey="Id" OtherKey="ActivityPackageId" Type="ActivityObjectiveItem" />
+      <Association Name="ActivityPackageItem_ActivityPackageItem" Member="ActivityPackageItems" ThisKey="Id" OtherKey="ParentActivityId" Type="ActivityPackageItem" />
+      <Association Name="ActivityPackageItem_AttemptItem" Member="AttemptItems" ThisKey="Id" OtherKey="CurrentActivityId" Type="AttemptItem" />
+      <Association Name="ActivityPackageItem_AttemptItem1" Member="AttemptItems1" ThisKey="Id" OtherKey="RootActivityId" Type="AttemptItem" />
+      <Association Name="ActivityPackageItem_AttemptItem2" Member="AttemptItems2" ThisKey="Id" OtherKey="SuspendedActivityId" Type="AttemptItem" />
+      <Association Name="ActivityPackageItem_CommentFromLmsItem" Member="CommentFromLmsItems" ThisKey="Id" OtherKey="ActivityPackageId" Type="CommentFromLmsItem" />
+      <Association Name="ActivityPackageItem_GlobalObjectiveItem" Member="GlobalObjectiveItems" ThisKey="Id" OtherKey="OrganizationId" Type="GlobalObjectiveItem" />
+      <Association Name="ActivityPackageItem_ActivityPackageItem" Member="ActivityPackageItem1" ThisKey="ParentActivityId" OtherKey="Id" Type="ActivityPackageItem" IsForeignKey="true" />
+      <Association Name="ActivityObjectiveItem_ActivityPackageItem" Member="ActivityObjectiveItem" ThisKey="PrimaryObjectiveId" OtherKey="Id" Type="ActivityObjectiveItem" IsForeignKey="true" />
+      <Association Name="PackageItem_ActivityPackageItem" Member="PackageItem" ThisKey="PackageId" OtherKey="Id" Type="PackageItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="ResourceItem_ActivityPackageItem" Member="ResourceItem" ThisKey="ResourceId" OtherKey="Id" Type="ResourceItem" IsForeignKey="true" />
+      <Association Name="TimeLimitAction_ActivityPackageItem" Member="TimeLimitAction1" ThisKey="TimeLimitAction" OtherKey="Id" Type="TimeLimitAction" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AttemptItem" Member="AttemptItems">
+    <Type Name="AttemptItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="LearnerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="RootActivityId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="CompletionStatus" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CurrentActivityId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="SuspendedActivityId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="PackageId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="AttemptStatus" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FinishedTimestamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LogDetailSequencing" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="LogFinalSequencing" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="LogRollup" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="StartedTimestamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="SuccessStatus" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TotalPoints" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Association Name="AttemptItem_ActivityAttemptItem" Member="ActivityAttemptItems" ThisKey="Id" OtherKey="AttemptId" Type="ActivityAttemptItem" />
+      <Association Name="AttemptItem_SequencingLogEntryItem" Member="SequencingLogEntryItems" ThisKey="Id" OtherKey="AttemptId" Type="SequencingLogEntryItem" />
+      <Association Name="ActivityPackageItem_AttemptItem" Member="ActivityPackageItem" ThisKey="CurrentActivityId" OtherKey="Id" Type="ActivityPackageItem" IsForeignKey="true" />
+      <Association Name="UserItem_AttemptItem" Member="UserItem" ThisKey="LearnerId" OtherKey="Id" Type="UserItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="ActivityPackageItem_AttemptItem1" Member="ActivityPackageItem1" ThisKey="RootActivityId" OtherKey="Id" Type="ActivityPackageItem" IsForeignKey="true" />
+      <Association Name="ActivityPackageItem_AttemptItem2" Member="ActivityPackageItem2" ThisKey="SuspendedActivityId" OtherKey="Id" Type="ActivityPackageItem" IsForeignKey="true" />
+      <Association Name="AttemptStatus_AttemptItem" Member="AttemptStatus1" ThisKey="AttemptStatus" OtherKey="Id" Type="AttemptStatus" IsForeignKey="true" />
+      <Association Name="CompletionStatus_AttemptItem" Member="CompletionStatus1" ThisKey="CompletionStatus" OtherKey="Id" Type="CompletionStatus" IsForeignKey="true" />
+      <Association Name="PackageItem_AttemptItem" Member="PackageItem" ThisKey="PackageId" OtherKey="Id" Type="PackageItem" IsForeignKey="true" />
+      <Association Name="SuccessStatus_AttemptItem" Member="SuccessStatus1" ThisKey="SuccessStatus" OtherKey="Id" Type="SuccessStatus" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AttemptObjectiveItem" Member="AttemptObjectiveItems">
+    <Type Name="AttemptObjectiveItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ActivityAttemptId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="ActivityObjectiveId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="CompletionStatus" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="IsPrimaryObjective" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="[Key]" Member="Key" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="LessonStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RawScore" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="MinScore" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="MaxScore" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="ProgressMeasure" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="ScaledScore" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="SuccessStatus" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="AttemptObjectiveItem_ExtensionDataItem" Member="ExtensionDataItems" ThisKey="Id" OtherKey="AttemptObjectiveId" Type="ExtensionDataItem" />
+      <Association Name="AttemptObjectiveItem_InteractionObjectiveItem" Member="InteractionObjectiveItems" ThisKey="Id" OtherKey="AttemptObjectiveId" Type="InteractionObjectiveItem" />
+      <Association Name="ActivityAttemptItem_AttemptObjectiveItem" Member="ActivityAttemptItem" ThisKey="ActivityAttemptId" OtherKey="Id" Type="ActivityAttemptItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="ActivityObjectiveItem_AttemptObjectiveItem" Member="ActivityObjectiveItem" ThisKey="ActivityObjectiveId" OtherKey="Id" Type="ActivityObjectiveItem" IsForeignKey="true" />
+      <Association Name="CompletionStatus_AttemptObjectiveItem" Member="CompletionStatus1" ThisKey="CompletionStatus" OtherKey="Id" Type="CompletionStatus" IsForeignKey="true" />
+      <Association Name="LessonStatus_AttemptObjectiveItem" Member="LessonStatus1" ThisKey="LessonStatus" OtherKey="Id" Type="LessonStatus" IsForeignKey="true" />
+      <Association Name="SuccessStatus_AttemptObjectiveItem" Member="SuccessStatus1" ThisKey="SuccessStatus" OtherKey="Id" Type="SuccessStatus" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AttemptStatus" Member="AttemptStatus">
+    <Type Name="AttemptStatus">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(63) NOT NULL" CanBeNull="false" />
+      <Association Name="AttemptStatus_AttemptItem" Member="AttemptItems" ThisKey="Id" OtherKey="AttemptStatus" Type="AttemptItem" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AudioCaptioning" Member="AudioCaptionings">
+    <Type Name="AudioCaptioning">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(63) NOT NULL" CanBeNull="false" />
+      <Association Name="AudioCaptioning_UserItem" Member="UserItems" ThisKey="Id" OtherKey="AudioCaptioning" Type="UserItem" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CommentFromLearnerItem" Member="CommentFromLearnerItems">
+    <Type Name="CommentFromLearnerItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ActivityAttemptId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Comment" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Location" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Ordinal" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Timestamp" Type="System.String" DbType="NVarChar(28)" CanBeNull="true" />
+      <Association Name="ActivityAttemptItem_CommentFromLearnerItem" Member="ActivityAttemptItem" ThisKey="ActivityAttemptId" OtherKey="Id" Type="ActivityAttemptItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CommentFromLmsItem" Member="CommentFromLmsItems">
+    <Type Name="CommentFromLmsItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ActivityPackageId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Comment" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Location" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Timestamp" Type="System.String" DbType="NVarChar(28)" CanBeNull="true" />
+      <Association Name="ActivityPackageItem_CommentFromLmsItem" Member="ActivityPackageItem" ThisKey="ActivityPackageId" OtherKey="Id" Type="ActivityPackageItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CompletionStatus" Member="CompletionStatus">
+    <Type Name="CompletionStatus">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(63) NOT NULL" CanBeNull="false" />
+      <Association Name="CompletionStatus_ActivityAttemptItem" Member="ActivityAttemptItems" ThisKey="Id" OtherKey="CompletionStatus" Type="ActivityAttemptItem" />
+      <Association Name="CompletionStatus_AttemptItem" Member="AttemptItems" ThisKey="Id" OtherKey="CompletionStatus" Type="AttemptItem" />
+      <Association Name="CompletionStatus_AttemptObjectiveItem" Member="AttemptObjectiveItems" ThisKey="Id" OtherKey="CompletionStatus" Type="AttemptObjectiveItem" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Configuration" Member="Configurations">
+    <Type Name="Configuration">
+      <Column Name="EngineVersion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SchemaDefinition" Type="System.Xml.Linq.XElement" DbType="Xml NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CorrectResponseItem" Member="CorrectResponseItems">
+    <Type Name="CorrectResponseItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="InteractionId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="ResponsePattern" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="InteractionItem_CorrectResponseItem" Member="InteractionItem" ThisKey="InteractionId" OtherKey="Id" Type="InteractionItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.Courses" Member="Courses">
     <Type Name="Course">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -9,19 +230,6 @@
       <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="Deleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="Course_Node" Member="Nodes" ThisKey="Id" OtherKey="CourseId" Type="Node" />
-    </Type>
-  </Table>
-  <Table Name="dbo.[User]" Member="Users">
-    <Type Name="User">
-      <Column Name="ID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Username" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="Password" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Email" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="OpenID" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
-      <Column Name="IsApproved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="User_GroupUser" Member="GroupUsers" ThisKey="ID" OtherKey="UserID" Type="GroupUser" />
-      <Association Name="User_RoleUser" Member="RoleUsers" ThisKey="ID" OtherKey="UserID" Type="RoleUser" />
     </Type>
   </Table>
   <Table Name="dbo.CurriculumAssignments" Member="CurriculumAssignments">
@@ -42,19 +250,167 @@
       <Association Name="Curriculum_CurriculumAssignment" Member="CurriculumAssignment" ThisKey="Id" OtherKey="Id" Type="CurriculumAssignment" Cardinality="One" />
     </Type>
   </Table>
+  <Table Name="dbo.DisplayMode" Member="DisplayModes">
+    <Type Name="DisplayMode">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(63) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.EvaluationCommentItem" Member="EvaluationCommentItems">
+    <Type Name="EvaluationCommentItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="InteractionId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Comment" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Location" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Ordinal" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Timestamp" Type="System.String" DbType="NVarChar(28)" CanBeNull="true" />
+      <Association Name="InteractionItem_EvaluationCommentItem" Member="InteractionItem" ThisKey="InteractionId" OtherKey="Id" Type="InteractionItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ExitMode" Member="ExitModes">
+    <Type Name="ExitMode">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(63) NOT NULL" CanBeNull="false" />
+      <Association Name="ExitMode_ActivityAttemptItem" Member="ActivityAttemptItems" ThisKey="Id" OtherKey="Exit" Type="ActivityAttemptItem" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ExtensionDataItem" Member="ExtensionDataItems">
+    <Type Name="ExtensionDataItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ActivityAttemptId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="InteractionId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="AttemptObjectiveId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="AttachmentGuid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="AttachmentValue" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="BoolValue" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="DateTimeValue" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="DoubleValue" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="IntValue" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="StringValue" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="ActivityAttemptItem_ExtensionDataItem" Member="ActivityAttemptItem" ThisKey="ActivityAttemptId" OtherKey="Id" Type="ActivityAttemptItem" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="AttemptObjectiveItem_ExtensionDataItem" Member="AttemptObjectiveItem" ThisKey="AttemptObjectiveId" OtherKey="Id" Type="AttemptObjectiveItem" IsForeignKey="true" />
+      <Association Name="InteractionItem_ExtensionDataItem" Member="InteractionItem" ThisKey="InteractionId" OtherKey="Id" Type="InteractionItem" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GlobalObjectiveItem" Member="GlobalObjectiveItems">
+    <Type Name="GlobalObjectiveItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="OrganizationId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="[Key]" Member="Key" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="GlobalObjectiveItem_LearnerGlobalObjectiveItem" Member="LearnerGlobalObjectiveItems" ThisKey="Id" OtherKey="GlobalObjectiveId" Type="LearnerGlobalObjectiveItem" />
+      <Association Name="GlobalObjectiveItem_MapActivityObjectiveToGlobalObjectiveItem" Member="MapActivityObjectiveToGlobalObjectiveItems" ThisKey="Id" OtherKey="GlobalObjectiveId" Type="MapActivityObjectiveToGlobalObjectiveItem" />
+      <Association Name="GlobalObjectiveItem_PackageGlobalObjectiveItem" Member="PackageGlobalObjectiveItems" ThisKey="Id" OtherKey="GlobalObjectiveId" Type="PackageGlobalObjectiveItem" />
+      <Association Name="ActivityPackageItem_GlobalObjectiveItem" Member="ActivityPackageItem" ThisKey="OrganizationId" OtherKey="Id" Type="ActivityPackageItem" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
   <Table Name="dbo.[Group]" Member="Groups">
     <Type Name="Group">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Group_GroupUser" Member="GroupUsers" ThisKey="ID" OtherKey="GroupID" Type="GroupUser" />
+      <Association Name="Group_GroupUser" Member="GroupUsers" ThisKey="Id" OtherKey="GroupRef" Type="GroupUser" />
     </Type>
   </Table>
   <Table Name="dbo.GroupUsers" Member="GroupUsers">
     <Type Name="GroupUser">
-      <Column Name="GroupID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="Group_GroupUser" Member="Group" ThisKey="GroupID" OtherKey="ID" Type="Group" IsForeignKey="true" />
-      <Association Name="User_GroupUser" Member="User" ThisKey="UserID" OtherKey="ID" Type="User" IsForeignKey="true" />
+      <Column Name="GroupRef" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserRef" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Group_GroupUser" Member="Group" ThisKey="GroupRef" OtherKey="Id" Type="Group" IsForeignKey="true" />
+      <Association Name="User_GroupUser" Member="User" ThisKey="UserRef" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.InteractionItem" Member="InteractionItems">
+    <Type Name="InteractionItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ActivityAttemptId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="InteractionIdFromCmi" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="InteractionType" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Timestamp" Type="System.String" DbType="NVarChar(28)" CanBeNull="true" />
+      <Column Name="Weighting" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="ResultState" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ResultNumeric" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="Latency" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="LearnerResponseBool" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="LearnerResponseString" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="LearnerResponseNumeric" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="ScaledScore" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="RawScore" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="MinScore" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="MaxScore" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="EvaluationPoints" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Association Name="InteractionItem_CorrectResponseItem" Member="CorrectResponseItems" ThisKey="Id" OtherKey="InteractionId" Type="CorrectResponseItem" />
+      <Association Name="InteractionItem_EvaluationCommentItem" Member="EvaluationCommentItems" ThisKey="Id" OtherKey="InteractionId" Type="EvaluationCommentItem" />
+      <Association Name="InteractionItem_ExtensionDataItem" Member="ExtensionDataItems" ThisKey="Id" OtherKey="InteractionId" Type="ExtensionDataItem" />
+      <Association Name="InteractionItem_InteractionObjectiveItem" Member="InteractionObjectiveItems" ThisKey="Id" OtherKey="InteractionId" Type="InteractionObjectiveItem" />
+      <Association Name="InteractionItem_RubricItem" Member="RubricItems" ThisKey="Id" OtherKey="InteractionId" Type="RubricItem" />
+      <Association Name="ActivityAttemptItem_InteractionItem" Member="ActivityAttemptItem" ThisKey="ActivityAttemptId" OtherKey="Id" Type="ActivityAttemptItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="InteractionResultState_InteractionItem" Member="InteractionResultState" ThisKey="ResultState" OtherKey="Id" Type="InteractionResultState" IsForeignKey="true" />
+      <Association Name="InteractionType_InteractionItem" Member="InteractionType1" ThisKey="InteractionType" OtherKey="Id" Type="InteractionType" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.InteractionObjectiveItem" Member="InteractionObjectiveItems">
+    <Type Name="InteractionObjectiveItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="InteractionId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="AttemptObjectiveId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="AttemptObjectiveItem_InteractionObjectiveItem" Member="AttemptObjectiveItem" ThisKey="AttemptObjectiveId" OtherKey="Id" Type="AttemptObjectiveItem" IsForeignKey="true" />
+      <Association Name="InteractionItem_InteractionObjectiveItem" Member="InteractionItem" ThisKey="InteractionId" OtherKey="Id" Type="InteractionItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.InteractionResultState" Member="InteractionResultStates">
+    <Type Name="InteractionResultState">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(63) NOT NULL" CanBeNull="false" />
+      <Association Name="InteractionResultState_InteractionItem" Member="InteractionItems" ThisKey="Id" OtherKey="ResultState" Type="InteractionItem" />
+    </Type>
+  </Table>
+  <Table Name="dbo.InteractionType" Member="InteractionTypes">
+    <Type Name="InteractionType">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(63) NOT NULL" CanBeNull="false" />
+      <Association Name="InteractionType_InteractionItem" Member="InteractionItems" ThisKey="Id" OtherKey="InteractionType" Type="InteractionItem" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LearnerGlobalObjectiveItem" Member="LearnerGlobalObjectiveItems">
+    <Type Name="LearnerGlobalObjectiveItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="LearnerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="GlobalObjectiveId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="ScaledScore" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="SuccessStatus" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="GlobalObjectiveItem_LearnerGlobalObjectiveItem" Member="GlobalObjectiveItem" ThisKey="GlobalObjectiveId" OtherKey="Id" Type="GlobalObjectiveItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="UserItem_LearnerGlobalObjectiveItem" Member="UserItem" ThisKey="LearnerId" OtherKey="Id" Type="UserItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="SuccessStatus_LearnerGlobalObjectiveItem" Member="SuccessStatus1" ThisKey="SuccessStatus" OtherKey="Id" Type="SuccessStatus" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LessonStatus" Member="LessonStatus">
+    <Type Name="LessonStatus">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(63) NOT NULL" CanBeNull="false" />
+      <Association Name="LessonStatus_ActivityAttemptItem" Member="ActivityAttemptItems" ThisKey="Id" OtherKey="LessonStatus" Type="ActivityAttemptItem" />
+      <Association Name="LessonStatus_AttemptObjectiveItem" Member="AttemptObjectiveItems" ThisKey="Id" OtherKey="LessonStatus" Type="AttemptObjectiveItem" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MapActivityObjectiveToGlobalObjectiveItem" Member="MapActivityObjectiveToGlobalObjectiveItems">
+    <Type Name="MapActivityObjectiveToGlobalObjectiveItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ActivityObjectiveId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="GlobalObjectiveId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="ReadSatisfiedStatus" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ReadNormalizedMeasure" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="WriteSatisfiedStatus" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="WriteNormalizedMeasure" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="ActivityObjectiveItem_MapActivityObjectiveToGlobalObjectiveItem" Member="ActivityObjectiveItem" ThisKey="ActivityObjectiveId" OtherKey="Id" Type="ActivityObjectiveItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="GlobalObjectiveItem_MapActivityObjectiveToGlobalObjectiveItem" Member="GlobalObjectiveItem" ThisKey="GlobalObjectiveId" OtherKey="Id" Type="GlobalObjectiveItem" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.NavigationCommand" Member="NavigationCommands">
+    <Type Name="NavigationCommand">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(63) NOT NULL" CanBeNull="false" />
+      <Association Name="NavigationCommand_SequencingLogEntryItem" Member="SequencingLogEntryItems" ThisKey="Id" OtherKey="NavigationCommand" Type="SequencingLogEntryItem" />
     </Type>
   </Table>
   <Table Name="dbo.Nodes" Member="Nodes">
@@ -77,19 +433,95 @@
       <Association Name="Timeline_Operation" Member="Timeline" ThisKey="Id" OtherKey="Id" Type="Timeline" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.PackageFormat" Member="PackageFormats">
+    <Type Name="PackageFormat">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(63) NOT NULL" CanBeNull="false" />
+      <Association Name="PackageFormat_PackageItem" Member="PackageItems" ThisKey="Id" OtherKey="PackageFormat" Type="PackageItem" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PackageGlobalObjectiveItem" Member="PackageGlobalObjectiveItems">
+    <Type Name="PackageGlobalObjectiveItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="LearnerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="GlobalObjectiveId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="ScaledScore" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="SuccessStatus" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="GlobalObjectiveItem_PackageGlobalObjectiveItem" Member="GlobalObjectiveItem" ThisKey="GlobalObjectiveId" OtherKey="Id" Type="GlobalObjectiveItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="UserItem_PackageGlobalObjectiveItem" Member="UserItem" ThisKey="LearnerId" OtherKey="Id" Type="UserItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="SuccessStatus_PackageGlobalObjectiveItem" Member="SuccessStatus1" ThisKey="SuccessStatus" OtherKey="Id" Type="SuccessStatus" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PackageItem" Member="PackageItems">
+    <Type Name="PackageItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PackageFormat" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Location" Type="System.String" DbType="NVarChar(260) NOT NULL" CanBeNull="false" />
+      <Column Name="Manifest" Type="System.Xml.Linq.XElement" DbType="Xml NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="Owner" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="FileName" Type="System.String" DbType="NVarChar(260) NOT NULL" CanBeNull="false" />
+      <Column Name="UploadDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="PackageItem_ActivityPackageItem" Member="ActivityPackageItems" ThisKey="Id" OtherKey="PackageId" Type="ActivityPackageItem" />
+      <Association Name="PackageItem_AttemptItem" Member="AttemptItems" ThisKey="Id" OtherKey="PackageId" Type="AttemptItem" />
+      <Association Name="PackageItem_ResourceItem" Member="ResourceItems" ThisKey="Id" OtherKey="PackageId" Type="ResourceItem" />
+      <Association Name="UserItem_PackageItem" Member="UserItem" ThisKey="Owner" OtherKey="Id" Type="UserItem" IsForeignKey="true" />
+      <Association Name="PackageFormat_PackageItem" Member="PackageFormat1" ThisKey="PackageFormat" OtherKey="Id" Type="PackageFormat" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ResourceItem" Member="ResourceItems">
+    <Type Name="ResourceItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PackageId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="ResourceXml" Type="System.Xml.Linq.XElement" DbType="Xml NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Association Name="ResourceItem_ActivityPackageItem" Member="ActivityPackageItems" ThisKey="Id" OtherKey="ResourceId" Type="ActivityPackageItem" />
+      <Association Name="PackageItem_ResourceItem" Member="PackageItem" ThisKey="PackageId" OtherKey="Id" Type="PackageItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.Role" Member="Roles">
     <Type Name="Role">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Role_RoleUser" Member="RoleUsers" ThisKey="ID" OtherKey="RoleID" Type="RoleUser" />
+      <Association Name="Role_RoleUser" Member="RoleUsers" ThisKey="Id" OtherKey="RoleRef" Type="RoleUser" />
     </Type>
   </Table>
   <Table Name="dbo.RoleUsers" Member="RoleUsers">
     <Type Name="RoleUser">
-      <Column Name="RoleID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="Role_RoleUser" Member="Role" ThisKey="RoleID" OtherKey="ID" Type="Role" IsForeignKey="true" />
-      <Association Name="User_RoleUser" Member="User" ThisKey="UserID" OtherKey="ID" Type="User" IsForeignKey="true" />
+      <Column Name="RoleRef" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserRef" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Role_RoleUser" Member="Role" ThisKey="RoleRef" OtherKey="Id" Type="Role" IsForeignKey="true" />
+      <Association Name="User_RoleUser" Member="User" ThisKey="UserRef" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RubricItem" Member="RubricItems">
+    <Type Name="RubricItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="InteractionId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Ordinal" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsSatisfied" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Points" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Association Name="InteractionItem_RubricItem" Member="InteractionItem" ThisKey="InteractionId" OtherKey="Id" Type="InteractionItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SequencingEventType" Member="SequencingEventTypes">
+    <Type Name="SequencingEventType">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(63) NOT NULL" CanBeNull="false" />
+      <Association Name="SequencingEventType_SequencingLogEntryItem" Member="SequencingLogEntryItems" ThisKey="Id" OtherKey="EventType" Type="SequencingLogEntryItem" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SequencingLogEntryItem" Member="SequencingLogEntryItems">
+    <Type Name="SequencingLogEntryItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AttemptId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="ActivityAttemptId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="EventType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Message" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="NavigationCommand" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Timestamp" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="ActivityAttemptItem_SequencingLogEntryItem" Member="ActivityAttemptItem" ThisKey="ActivityAttemptId" OtherKey="Id" Type="ActivityAttemptItem" IsForeignKey="true" />
+      <Association Name="AttemptItem_SequencingLogEntryItem" Member="AttemptItem" ThisKey="AttemptId" OtherKey="Id" Type="AttemptItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="SequencingEventType_SequencingLogEntryItem" Member="SequencingEventType" ThisKey="EventType" OtherKey="Id" Type="SequencingEventType" IsForeignKey="true" />
+      <Association Name="NavigationCommand_SequencingLogEntryItem" Member="NavigationCommand1" ThisKey="NavigationCommand" OtherKey="Id" Type="NavigationCommand" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Stages" Member="Stages">
@@ -100,6 +532,17 @@
       <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="CurriculumRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Stage_Theme" Member="Themes" ThisKey="Id" OtherKey="StageRef" Type="Theme" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SuccessStatus" Member="SuccessStatus">
+    <Type Name="SuccessStatus">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(63) NOT NULL" CanBeNull="false" />
+      <Association Name="SuccessStatus_ActivityAttemptItem" Member="ActivityAttemptItems" ThisKey="Id" OtherKey="SuccessStatus" Type="ActivityAttemptItem" />
+      <Association Name="SuccessStatus_AttemptItem" Member="AttemptItems" ThisKey="Id" OtherKey="SuccessStatus" Type="AttemptItem" />
+      <Association Name="SuccessStatus_AttemptObjectiveItem" Member="AttemptObjectiveItems" ThisKey="Id" OtherKey="SuccessStatus" Type="AttemptObjectiveItem" />
+      <Association Name="SuccessStatus_LearnerGlobalObjectiveItem" Member="LearnerGlobalObjectiveItems" ThisKey="Id" OtherKey="SuccessStatus" Type="LearnerGlobalObjectiveItem" />
+      <Association Name="SuccessStatus_PackageGlobalObjectiveItem" Member="PackageGlobalObjectiveItems" ThisKey="Id" OtherKey="SuccessStatus" Type="PackageGlobalObjectiveItem" />
     </Type>
   </Table>
   <Table Name="dbo.Themes" Member="Themes">
@@ -114,6 +557,13 @@
       <Association Name="Stage_Theme" Member="Stage" ThisKey="StageRef" OtherKey="Id" Type="Stage" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.TimeLimitAction" Member="TimeLimitActions">
+    <Type Name="TimeLimitAction">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(63) NOT NULL" CanBeNull="false" />
+      <Association Name="TimeLimitAction_ActivityPackageItem" Member="ActivityPackageItems" ThisKey="Id" OtherKey="TimeLimitAction" Type="ActivityPackageItem" />
+    </Type>
+  </Table>
   <Table Name="dbo.Timeline" Member="Timelines">
     <Type Name="Timeline">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -124,6 +574,19 @@
       <Column Name="StageRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Timeline_Operation" Member="Operation" ThisKey="Id" OtherKey="Id" Type="Operation" Cardinality="One" />
       <Association Name="CurriculumAssignment_Timeline" Member="CurriculumAssignment" ThisKey="Id" OtherKey="Id" Type="CurriculumAssignment" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[User]" Member="Users">
+    <Type Name="User">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Username" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="OpenId" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="IsApproved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="User_GroupUser" Member="GroupUsers" ThisKey="Id" OtherKey="UserRef" Type="GroupUser" />
+      <Association Name="User_RoleUser" Member="RoleUsers" ThisKey="Id" OtherKey="UserRef" Type="RoleUser" />
     </Type>
   </Table>
 </Database>

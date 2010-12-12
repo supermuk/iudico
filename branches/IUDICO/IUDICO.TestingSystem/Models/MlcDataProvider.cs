@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Data;
-using Microsoft.LearningComponents.DataModel;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
 using IUDICO.TestingSystem.Models.Shared;
-using IUDICO.TestingSystem.Models.Schema;
-using LearningComponentsHelper;
 
 
 namespace IUDICO.TestingSystem.Models

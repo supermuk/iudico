@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 
-namespace IUDICO.CourseManagment.Models.Manifest
+namespace IUDICO.CourseManagement.Models.Manifest.Resources
 {
     [Serializable]
     public class File
@@ -22,6 +19,6 @@ namespace IUDICO.CourseManagment.Models.Manifest
         public string Href;
 
         [XmlElement(SCORM.Metadata, Namespace = SCORM.ImscpNamespaceV1p3)]
-        public Metadata Metadata;
+        public Metadata.Metadata Metadata;
     }
 }

@@ -1,6 +1,7 @@
 ﻿<%@ Import Namespace="accunoteclone.Helpers"%>
 <%@ Import Namespace="accunoteclone.Helpers.TemplateMetadata"%>
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
+<%@ Import Namespace="IUDICO.Common.Models.TemplateMetadata" %>
 
 <script runat="server">
     DropDownListAttribute GetDropDownListAttribute()

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Xml.Serialization;
 
-namespace IUDICO.CourseManagment.Models.Manifest
+namespace IUDICO.CourseManagement.Models.Manifest.Resources
 {
     [Serializable]
     public class Resource
@@ -23,11 +21,12 @@ namespace IUDICO.CourseManagment.Models.Manifest
             ScormType = type;
         }
 
-        public Resource(ScormType type, List<File> files, List<string> dependOnResourcesIds)
+        public Resource(ScormType type, List<File> files, IEnumerable<string> dependOnResourcesIds)
             :this(type, files)
         {
             Dependencies = new List<Dependency>();
-            foreach (string resId in dependOnResourcesIds)
+
+            foreach (var resId in dependOnResourcesIds)
             {
                 Dependencies.Add(new Dependency(resId));
             }
@@ -52,7 +51,7 @@ namespace IUDICO.CourseManagment.Models.Manifest
 
 
         [XmlElement(SCORM.Metadata, Namespace = SCORM.ImscpNamespaceV1p3)]
-        public Metadata Metadata;
+        public Metadata.Metadata Metadata;
 
         [XmlElement(SCORM.File, Namespace = SCORM.ImscpNamespaceV1p3)]
         public List<File> Files;

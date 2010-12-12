@@ -11,7 +11,7 @@ namespace IUDICO.LMS.Installers
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            PluginController.lmsService = container.Resolve<ILmsService>();
+            PluginController.LmsService = container.Resolve<ILmsService>();
 
             container.Register(
                 AllTypes
