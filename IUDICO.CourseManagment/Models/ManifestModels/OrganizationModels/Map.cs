@@ -10,9 +10,9 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         public string TargetID;
 
         [XmlAttribute("readSharedData")]
-        public string readSharedData; // = "true";
+        public bool ReadSharedData = true;
 
         [XmlAttribute("writeSharedData")]
-        public string WriteSharedData; // = "true";
+        public bool WriteSharedData = true;
     }
 }

@@ -21,6 +21,7 @@
         internal const string ChildActivitySet = "childActivitySet"; // <imsss:rollupRule>/childActivitySet
         internal const string Choice = "choice"; // <imsss:controlMode>/choice
         internal const string ChoiceExit = "choiceExit"; // <imsss:controlMode>/choiceExit
+        internal const string CompletedByMeasure = "completedByMeasure";
         internal const string CompletionSetByContent = "completionSetByContent"; // <imsss:deliveryControls>/completionSetByContent
         internal const string CompletionThreshold = "completionThreshold"; // <adlcp:completionThreshold>
         internal const string Condition = "condition"; // <imsss:rollupCondition>/condition
@@ -75,6 +76,7 @@
         internal const string MinimumCount = "minimumCount"; // <imsss:rollupRule>/minimumCount
         internal const string MinimumPercent = "minimumPercent"; // <imsss:rollupRule>/minimumPercent
         internal const string MinNormalizedMeasure = "minNormalizedMeasure"; // <imsss:objective>/<imsss:minNormalizedMeasure>
+        internal const string MinProgressMeasure = "minProgressMeasure";
         internal const string MlcNamespace = "urn:schemas-microsoft-com:learning-components-manifest";
         internal const string NavigationInterface = "navigationInterface"; // <adlnav:navigationInterface>
         internal const string Objective = "objective"; // <imsss:objective>
@@ -93,6 +95,7 @@
         internal const string Presentation = "presentation"; // <adlnav:presentation>
         internal const string PreventActivation = "preventActivation"; // <adlseq:constrainedChoiceConsiderations>/preventActivation
         internal const string PrimaryObjective = "primaryObjective"; // <imsss:primaryObjective>
+        internal const string ProgressWeight = "progressWeight";
         internal const string RandomizationControls = "randomizationControls"; // <imsss:randomizationControls>
         internal const string RandomizationTiming = "randomizationTiming"; // <imsss:randomizationControls>/randomizationTiming
         internal const string ReadNormalizedMeasure = "readNormalizedMeasure"; // <imsss:mapInfo>/readNormalizedMeasure
