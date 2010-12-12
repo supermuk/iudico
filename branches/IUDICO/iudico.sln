@@ -18,6 +18,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.Statistics", "IUDICO.Statistics\IUDICO.Statistics.csproj", "{A3157C96-0DCC-4B6E-909D-948205118E74}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{35B5DD87-D3CD-4B38-9CE9-E17C7F1D38E3}"
+	ProjectSection(SolutionItems) = preProject
+		Sql\1.initial.sql = Sql\1.initial.sql
+		Sql\2.refactor_user_table.sql = Sql\2.refactor_user_table.sql
+		Sql\3.refactor_group_table.sql = Sql\3.refactor_group_table.sql
+		Sql\4.refactor_groupusers_table.sql = Sql\4.refactor_groupusers_table.sql
+		Sql\5.refactor_role_table.sql = Sql\5.refactor_role_table.sql
+		Sql\6.refactor_roleusers_table.sql = Sql\6.refactor_roleusers_table.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
