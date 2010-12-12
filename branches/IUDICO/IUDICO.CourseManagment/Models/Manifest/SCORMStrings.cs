@@ -18,6 +18,7 @@ namespace IUDICO.CourseManagment.Models.Manifest
         internal const string AdlcpNamespaceV1p3 = "http://www.adlnet.org/xsd/adlcp_v1p3";
         internal const string AdlnavNamespace = "http://www.adlnet.org/xsd/adlnav_v1p3";
         internal const string AdlseqNamespace = "http://www.adlnet.org/xsd/adlseq_v1p3";
+        internal const string Asset = "asset";
         internal const string AttemptAbsoluteDurationLimit = "attemptAbsoluteDurationLimit"; // <imsss:limitConditions>/attemptAbsoluteDurationLimit
         internal const string AttemptLimit = "attemptLimit"; // <imsss:limitConditions>/attemptLimit
         internal const string AuxiliaryResources = "auxiliaryResources"; // <imsss:auxiliaryResources>
@@ -31,6 +32,8 @@ namespace IUDICO.CourseManagment.Models.Manifest
         internal const string ConditionCombination = "conditionCombination"; // <imsss:rollupConditions>/conditionCombination
         internal const string ConstrainChoice = "constrainChoice"; // <adlseq:constrainedChoiceConsiderations>/constrainChoice
         internal const string ConstrainedChoiceConsiderations = "constrainedChoiceConsiderations"; // <adlseq:constrainedChoiceConsiderations>
+        internal const string ContinueNoMessage = "continue,no message";
+        internal const string ContinueWithMessage = "continue,message";
         internal const string ControlMode = "controlMode"; // <imsss:sequencing>/controlMode
         internal const string Data = "data"; // <adlcp:data>
         internal const string DataFromLmsV1p2 = "datafromlms"; // <adlcp:datafromlms> (SCORM 1.2)
@@ -40,6 +43,8 @@ namespace IUDICO.CourseManagment.Models.Manifest
         internal const string Dependency = "dependency"; // <imscp:dependency>
         internal const string Description = "description"; // <lom:description>
         internal const string ExitConditionRule = "exitConditionRule"; // <imsss:exitConditionRule>
+        internal const string ExitNoMessage = "exit,no message";
+        internal const string ExitWithMessage = "exit,message";
         internal const string File = "file"; // <imscp:file>
         internal const string Flow = "flow"; // <imsss:controlMode>/flow
         internal const string ForwardOnly = "forwardOnly"; // <imsss:controlMode>/forwardOnly
@@ -51,6 +56,7 @@ namespace IUDICO.CourseManagment.Models.Manifest
         internal const string Identifier = "identifier"; // <imscp:resource>/identifier
         internal const string IdentifierRef = "identifierref"; // e.g. <imscp:dependency>/identiferref
         internal const string Imscp = "imscp";
+        internal const string ImsManifset = "imsmanifest.xml";
         internal const string Imsss = "imsss";
         internal const string ImscpNamespaceV1p2 = "http://www.imsproject.org/xsd/imscp_rootv1p1p2";
         internal const string ImscpNamespaceV1p3 = "http://www.imsglobal.org/xsd/imscp_v1p1";
@@ -121,6 +127,7 @@ namespace IUDICO.CourseManagment.Models.Manifest
         internal const string SchemaVersion = "schemaversion"; //<imscp:shemaversion>
         internal const string SchemaVersion2004 = "2004 4th Edition";
         internal const string SatisfiedByMeasure = "satisfiedByMeasure"; // <imsss:objective>/satisfiedByMeasure
+        internal const string SCO = "sco";
         internal const string ScormTypeV1p2 = "scormtype"; // adlcp:scormtype (SCORM 1.2)
         internal const string ScormTypeV1p3 = "scormType"; // adlcp:scormType
         internal const string SelectCount = "selectCount"; // <imsss:randomizationControls>/selectCount 

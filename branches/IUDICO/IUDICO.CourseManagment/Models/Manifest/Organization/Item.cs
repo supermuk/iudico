@@ -48,28 +48,8 @@ namespace IUDICO.CourseManagment.Models.Manifest
         [XmlElement(SCORM.Metadata, Namespace=SCORM.ImscpNamespaceV1p3)]
         public Metadata Metadata;
 
-        private TimeLimitAction? timeLimitAction;
-
         [XmlElement(SCORM.TimeLimitActionV1p3, Namespace = SCORM.AdlcpNamespaceV1p3)]
-        public string TimeLimitAction
-        {
-            get
-            {
-                switch (timeLimitAction)
-                {
-                    case IUDICO.CourseManagment.Models.Manifest.TimeLimitAction.ContinueNoMessage:
-                        return "continue,no message";
-                    case IUDICO.CourseManagment.Models.Manifest.TimeLimitAction.ContinueWithMessage:
-                        return "continue,message";
-                    case IUDICO.CourseManagment.Models.Manifest.TimeLimitAction.ExitNoMessage:
-                        return "exit,no message";
-                    case IUDICO.CourseManagment.Models.Manifest.TimeLimitAction.ExitWithMessage:
-                        return "exit,message";
-                    default:
-                        return null;
-                }
-            }
-        }
+        public TimeLimitAction TimeLimitAction;
 
         [XmlElement(SCORM.DataFromLmsV1p3, Namespace=SCORM.AdlcpNamespaceV1p3)]
         public string DataFromLMS;
@@ -94,6 +74,7 @@ namespace IUDICO.CourseManagment.Models.Manifest
             {
                 throw new Exception("Can't add child item to leaf item");
             }
+            item.Identifier = ConstantStrings.ItemIdPrefix + Guid.NewGuid().ToString();
             Items.Add(item);
         }
     }

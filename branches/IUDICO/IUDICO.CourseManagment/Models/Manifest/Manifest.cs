@@ -7,6 +7,7 @@ using System.IO;
 namespace IUDICO.CourseManagment.Models.Manifest
 {
     [Serializable]
+    [XmlRoot(SCORM.Manifest)]
     public class Manifest
     {
         public Manifest()

@@ -155,24 +155,10 @@ namespace IUDICO.CourseManagment.Models.Storage
                 }
 
                 Manifest.Manifest manifest = new Manifest.Manifest();
-                StreamWriter sw = new StreamWriter(Path.Combine(path, "imsmanifest.xml"));
-                foreach (Node node in nodes)
-                {
-                    if (node.IsFolder == false)
-                    {
-                        List<Manifest.File> files = new List<Manifest.File>();
-                        files.Add(new Manifest.File(node.Name + ".html"));
-                        string resourceId = manifest.Resources.AddResource(new Manifest.Resource(Manifest.ScormType.Asset, files));
-                        manifest.Organizations[0].AddItem(new Manifest.Item(resourceId));
-                    }
-                    else
-                    {
-
-                        Manifest.Item parentItem = new Manifest.Item();
-                        parentItem = AddSubItem(parentItem, node, id, ref manifest);
-                        manifest.Organizations[0].AddItem(parentItem);
-                    }
-                }
+                StreamWriter sw = new StreamWriter(Path.Combine(path, Manifest.SCORM.ImsManifset));
+                Manifest.Item parentItem = new Manifest.Item();
+                parentItem = AddSubItems(parentItem, null, id, ref manifest);
+                manifest.Organizations[0].Items = parentItem.Items;
                 manifest.Serialize(sw);
                 sw.Close();
                 CourseManagment.Helpers.Zipper.CreateZip(path + ".zip", path);
@@ -184,22 +170,31 @@ namespace IUDICO.CourseManagment.Models.Storage
             }
         }
 
-        private Manifest.Item AddSubItem (Manifest.Item parentItem, Node parentNode, int courseId, ref Manifest.Manifest manifest)
+        private Manifest.Item AddSubItems(Manifest.Item parentItem, Node parentNode, int courseId, ref Manifest.Manifest manifest)
         {
-            List<Node> nodes = GetNodes(courseId, parentNode.Id);
+            List<Node> nodes;
+            if(parentNode == null)
+            {
+                nodes = GetNodes(courseId);
+            }
+            else
+            {
+                nodes = GetNodes(courseId, parentNode.Id);
+            }
             foreach (Node node in nodes)
             {
                 if (node.IsFolder)
-                {   
-                    parentItem.AddChildItem(new Manifest.Item());
-                    parentItem = AddSubItem(parentItem.Items.Last(), node, courseId, ref manifest);
+                {
+                    Manifest.Item item = new Manifest.Item() { Title = node.Name };
+                    item = AddSubItems(item, node, courseId, ref manifest);
+                    parentItem.AddChildItem(item);
                 }
                 else
                 {
                     List<Manifest.File> files = new List<Manifest.File>();
                     files.Add(new Manifest.File(node.Name + ".html"));
                     string resourceId = manifest.Resources.AddResource(new Manifest.Resource(Manifest.ScormType.Asset, files));
-                    parentItem.AddChildItem(new Manifest.Item(resourceId));
+                    parentItem.AddChildItem(new Manifest.Item(resourceId) { Title = node.Name });
                 }
             }
             return parentItem;
