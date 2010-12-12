@@ -117,6 +117,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\jquery\jquery.cookie.js" />
+    <Content Include="Scripts\jquery\jquery.hotkeys.js" />
+    <Content Include="Scripts\jquery\jquery.jstree.js" />
+    <Content Include="Scripts\jquery\jquery.layout.js" />
     <None Include="Views\Course\Create.aspx" />
     <None Include="Views\Course\Edit.aspx" />
     <None Include="Views\Course\Import.aspx" />
