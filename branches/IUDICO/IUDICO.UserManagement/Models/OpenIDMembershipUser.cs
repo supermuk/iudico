@@ -7,11 +7,11 @@ using IUDICO.Common.Models;
 
 namespace IUDICO.UserManagement.Models
 {
-    public class OpenIDMembershipUser : MembershipUser
+    public class OpenIdMembershipUser : MembershipUser
     {
-        public string OpenID { get; set; }
+        public string OpenId { get; set; }
 
-        public OpenIDMembershipUser(string providerName,
+        public OpenIdMembershipUser(string providerName,
             string name,
             object providerUserKey,
             string email,
@@ -40,7 +40,7 @@ namespace IUDICO.UserManagement.Models
             lastLockoutDate
             )
         {
-            OpenID = openId;
+            OpenId = openId;
         }
     }
 }

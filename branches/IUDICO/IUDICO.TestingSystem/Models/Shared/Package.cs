@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.LearningComponents;
 
 namespace IUDICO.TestingSystem.Models.Shared
@@ -29,11 +25,11 @@ namespace IUDICO.TestingSystem.Models.Shared
 
         }
 
-        public Package(long ownerID, DateTime? uploadDateTime, string fileName)
+        public Package(long ownerId, DateTime? uploadDateTime, string fileName)
         {
-            this.Owner = ownerID;
-            this.UploadDateTime = uploadDateTime;
-            this.FileName = fileName;
+            Owner = ownerId;
+            UploadDateTime = uploadDateTime;
+            FileName = fileName;
         }
 
         #endregion

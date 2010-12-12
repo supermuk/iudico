@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Hosting;
 using System.Reflection;
@@ -21,7 +20,7 @@ namespace IUDICO.LMS.IoC
 
         private static bool IsAppResourcePath(string virtualPath)
         {
-            string checkPath = VirtualPathUtility.ToAppRelative(virtualPath);
+            var checkPath = VirtualPathUtility.ToAppRelative(virtualPath);
 
             return checkPath.StartsWith("~/Plugins/",
                                         StringComparison.InvariantCultureIgnoreCase);
@@ -51,21 +50,21 @@ namespace IUDICO.LMS.IoC
 
         private class AssemblyResourceFile : VirtualFile
         {
-            private readonly IDictionary<string, Assembly> _nameAssemblyCache;
-            private readonly string _assemblyPath;
+            private readonly IDictionary<string, Assembly> _NameAssemblyCache;
+            private readonly string _AssemblyPath;
 
             public AssemblyResourceFile(IDictionary<string, Assembly> nameAssemblyCache, string virtualPath) :
                 base(virtualPath)
             {
-                this._nameAssemblyCache = nameAssemblyCache;
-                _assemblyPath = VirtualPathUtility.ToAppRelative(virtualPath);
+                this._NameAssemblyCache = nameAssemblyCache;
+                _AssemblyPath = VirtualPathUtility.ToAppRelative(virtualPath);
             }
 
             public override Stream Open()
             {
                 // ~/Plugins/IUDICO.CourseManagment.dll/IUDICO.CourseManagment/Scripts/Custom/jquery/jquery.js
                 //          /   DLL name               /    Assembly Name     /           Path
-                var parts = _assemblyPath.Split(new[] { '/' }, 4);
+                var parts = _AssemblyPath.Split(new[] { '/' }, 4);
 
                 // TODO: should assert and sanitize 'parts' first
                 var assemblyName = parts[2];
@@ -73,16 +72,16 @@ namespace IUDICO.LMS.IoC
 
                 Assembly assembly;
 
-                lock (_nameAssemblyCache)
+                lock (_NameAssemblyCache)
                 {
-                    if (!_nameAssemblyCache.TryGetValue(assemblyName, out assembly))
+                    if (!_NameAssemblyCache.TryGetValue(assemblyName, out assembly))
                     {
                         var path = Path.Combine(HttpContext.Current.Server.MapPath("/Plugins"), assemblyName);
                         assembly = Assembly.Load(AssemblyName.GetAssemblyName(path));
                         
 
                         // TODO: Assert is not null
-                        _nameAssemblyCache[assemblyName] = assembly;
+                        _NameAssemblyCache[assemblyName] = assembly;
                     }
                 }
 

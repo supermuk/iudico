@@ -7,7 +7,7 @@
 <asp:Content ID="HeadContent2" ContentPlaceHolderID="HeadContent" runat="server">
     <link href="/Content/ui-lightness/jquery-ui-1.8.5.custom.css" rel="stylesheet" type="text/css" />
 
-    <script type="text/javascript" src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.layout.js") %>"></script>
+    <script type="text/javascript" src="<%= Html.ResolveUrl("/Scripts/custom/jquery/jquery.layout.js") %>"></script>
     <script type="text/javascript" src="<%= Html.ResolveUrl("~/Scripts/custom/ckeditor/ckeditor_source.js") %>"></script>
     <script type="text/javascript" src="<%= Html.ResolveUrl("~/Scripts/custom/ckeditor/adapters/jquery.js") %>"></script>
     <script type="text/javascript">
@@ -23,9 +23,9 @@
         });
     </script>
 
-    <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.cookie.js") %>" type="text/javascript"></script>
-    <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.hotkeys.js") %>" type="text/javascript"></script>
-    <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.jstree.js") %>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("/Scripts/custom/jquery/jquery.cookie.js") %>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("/Scripts/custom/jquery/jquery.hotkeys.js") %>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("/Scripts/custom/jquery/jquery.jstree.js") %>" type="text/javascript"></script>
 
     <script type="text/javascript">
         $(function () {

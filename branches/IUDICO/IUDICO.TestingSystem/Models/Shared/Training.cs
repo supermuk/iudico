@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using Microsoft.LearningComponents.Storage;
 using Microsoft.LearningComponents;
 using LearningComponentsHelper;
@@ -17,19 +14,19 @@ namespace IUDICO.TestingSystem.Models.Shared
         #region Public Properties
 
         [DisplayName("Package ID")]
-        public long? PackageID { get; set; }
+        public long? PackageId { get; set; }
 
         [DisplayName("File Name")]
         public string PackageFileName { get; set; }
 
         [DisplayName("Organization ID")]
-        public long? OrganizationID { get; set; }
+        public long? OrganizationId { get; set; }
 
         [DisplayName("Organization Title")]
         public string OrganizationTitle { get; set; }
 
         [DisplayName("Attempt ID")]
-        public long? AttemptID { get; set; }
+        public long? AttemptId { get; set; }
         
         [DisplayName("Upload Time")]
         public DateTime? UploadDateTime { get; set; }
@@ -42,27 +39,25 @@ namespace IUDICO.TestingSystem.Models.Shared
         public float? TotalPoints { get; set; }
         
         
-        public long? PlayID
+        public long? PlayId
         {
             get
             {
-                if (this.AttemptStatusProp != null)
+                if (AttemptStatusProp == null)
                 {
-                    switch (this.AttemptStatusProp)
-                    {
-                        case AttemptStatus.Active:
-                            return this.AttemptID;
-                        case AttemptStatus.Suspended:
-                            return this.AttemptID;
-                        case AttemptStatus.Abandoned:
-                            return this.AttemptID;
-                        default:
-                            return this.OrganizationID;
-                    }
+                    return OrganizationId;
                 }
-                else
+
+                switch (AttemptStatusProp)
                 {
-                    return this.OrganizationID;
+                    case AttemptStatus.Active:
+                        return AttemptId;
+                    case AttemptStatus.Suspended:
+                        return AttemptId;
+                    case AttemptStatus.Abandoned:
+                        return AttemptId;
+                    default:
+                        return OrganizationId;
                 }
             }
         }
@@ -71,13 +66,13 @@ namespace IUDICO.TestingSystem.Models.Shared
 
         #region Constructors
 
-        public Training(long? pID, string packageFileName, long? orgID, string orgTitle, long? attemptID, DateTime? uploadDateTime, AttemptStatus? attemptStatus, float? totalPoints)
+        public Training(long? pId, string packageFileName, long? orgId, string orgTitle, long? attemptId, DateTime? uploadDateTime, AttemptStatus? attemptStatus, float? totalPoints)
         {
-            this.PackageID = pID;
+            this.PackageId = pId;
             this.PackageFileName = packageFileName;
-            this.OrganizationID = orgID;
+            this.OrganizationId = orgId;
             this.OrganizationTitle = orgTitle;
-            this.AttemptID = attemptID;
+            this.AttemptId = attemptId;
             this.UploadDateTime = uploadDateTime;
             this.AttemptStatusProp = attemptStatus;
             this.TotalPoints = totalPoints;
@@ -89,63 +84,82 @@ namespace IUDICO.TestingSystem.Models.Shared
             PackageItemIdentifier packageId;
             LStoreHelper.CastNonNull(dataRow[Schema.MyAttemptsAndPackages.PackageId],
                 out packageId);
-            long? pID;
+
+            long? pId;
+
             if (packageId == null)
             {
-                pID = null;
+                pId = null;
             }
             else
             {
-                pID = packageId.GetKey();
+                pId = packageId.GetKey();
             }
+
             string packageFileName;
+
             LStoreHelper.CastNonNull(dataRow[Schema.MyAttemptsAndPackages.PackageFileName],
                 out packageFileName);
+
             ActivityPackageItemIdentifier organizationId;
             LStoreHelper.CastNonNull(dataRow[Schema.MyAttemptsAndPackages.OrganizationId],
                 out organizationId);
-            long? orgID;
+
+            long? orgId;
+
             if (organizationId == null)
             {
-                orgID = null;
+                orgId = null;
             }
             else
             {
-                orgID = organizationId.GetKey();
+                orgId = organizationId.GetKey();
             }
+
             string organizationTitle;
+
             LStoreHelper.CastNonNull(dataRow[Schema.MyAttemptsAndPackages.OrganizationTitle],
                 out organizationTitle);
+
             AttemptItemIdentifier attemptId;
+
             LStoreHelper.Cast(dataRow[Schema.MyAttemptsAndPackages.AttemptId],
                 out attemptId);
-            long? attID;
+
+            long? attId;
+
             if (attemptId == null)
             {
-                attID = null;
+                attId = null;
             }
             else
             {
-                attID = attemptId.GetKey();
+                attId = attemptId.GetKey();
             }
+
             DateTime? uploadDateTime;
+
             LStoreHelper.Cast(dataRow[Schema.MyAttemptsAndPackages.UploadDateTime],
                 out uploadDateTime);
+
             AttemptStatus? attemptStatus;
+
             LStoreHelper.Cast(dataRow[Schema.MyAttemptsAndPackages.AttemptStatus],
                 out attemptStatus);
+
             float? score;
+
             LStoreHelper.Cast(dataRow[Schema.MyAttemptsAndPackages.TotalPoints],
                 out score);
 
-            this.PackageID = pID;
-            this.PackageFileName = packageFileName;
-            this.OrganizationID = orgID;
-            this.OrganizationTitle = organizationTitle;
-            this.AttemptID = attID;
-            this.UploadDateTime = uploadDateTime;
-            this.AttemptStatusProp = attemptStatus;
-            this.TotalPoints = score;
+            PackageId = pId;
+            PackageFileName = packageFileName;
+            OrganizationId = orgId;
+            OrganizationTitle = organizationTitle;
+            AttemptId = attId;
+            UploadDateTime = uploadDateTime;
+            AttemptStatusProp = attemptStatus;
+            TotalPoints = score;
         }
 
         #endregion

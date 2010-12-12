@@ -1,28 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using IUDICO.Common.Models;
 
 namespace IUDICO.Search.Models.SearchResult
 {
     public class CourseResult : ISearchResult
     {
-        protected Course course;
+        protected Course _Course;
 
         public CourseResult(Course course)
         {
-            this.course = course;
+            _Course = course;
         }
 
-        public int GetID()
+        public int GetId()
         {
-            return course.Id;
+            return _Course.Id;
         }
 
         public String GetName()
         {
-            return course.Name;
+            return _Course.Name;
         }
 
         public String GetText()
@@ -32,7 +29,7 @@ namespace IUDICO.Search.Models.SearchResult
 
         public String GetUrl()
         {
-            return "/Course/" + course.Id.ToString() + "/Node/Index";
+            return "/Course/" + _Course.Id + "/Node/Index";
         }
     }
 }

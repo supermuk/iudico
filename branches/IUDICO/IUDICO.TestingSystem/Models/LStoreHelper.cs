@@ -11,9 +11,7 @@
 //
 
 using System;
-using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
-using Schema = Microsoft.LearningComponents.Storage.BaseSchema;
 
 namespace LearningComponentsHelper
 {

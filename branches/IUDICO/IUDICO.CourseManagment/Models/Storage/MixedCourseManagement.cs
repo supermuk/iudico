@@ -3,41 +3,39 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
-using System.Security.AccessControl;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 
-namespace IUDICO.CourseManagment.Models.Storage
+namespace IUDICO.CourseManagement.Models.Storage
 {
-    public class MixedCourseStorage : ICourseManagement
+    public class MixedCourseManagement : ICourseManagement
     {
-        protected DBDataContext db;
+        protected ILmsService _LmsService;
 
-        public MixedCourseStorage(ILmsService lmsService)
+        public MixedCourseManagement(ILmsService lmsService)
         {
-            db = lmsService.GetDBDataContext();
+            _LmsService = lmsService;
+        }
+
+        protected DBDataContext GetDbContext()
+        {
+            return _LmsService.GetDbDataContext();
         }
 
         #region IStorage Members
 
         #region Course methods
-        public List<Course> GetCourses()
+
+        public IEnumerable<Course> GetCourses()
         {
-            try
-            {
-                return db.Courses.Where(c => c.Deleted == false).ToList();
-            }
-            catch
-            {
-                return null;
-            }
+            return GetDbContext().Courses.Where(c => c.Deleted == false).AsEnumerable();
         }
 
         public Course GetCourse(int id)
         {
             try
             {
-                return db.Courses.Single(c => c.Id == id);
+                return GetDbContext().Courses.Single(c => c.Id == id);
             }
             catch
             {
@@ -49,9 +47,10 @@ namespace IUDICO.CourseManagment.Models.Storage
         {
             try
             {
-                //course.Name = null;//
                 course.Created = DateTime.Now;
                 course.Updated = DateTime.Now;
+
+                var db = GetDbContext();
 
                 db.Courses.InsertOnSubmit(course);
                 db.SubmitChanges();
@@ -71,6 +70,8 @@ namespace IUDICO.CourseManagment.Models.Storage
         {
             try
             {
+                var db = GetDbContext();
+
                 Course oldCourse = db.Courses.Single(c => c.Id == id);
 
                 oldCourse.Name = course.Name;
@@ -92,6 +93,8 @@ namespace IUDICO.CourseManagment.Models.Storage
         {
             try
             {
+                var db = GetDbContext();
+
                 Course course = db.Courses.Single(c => c.Id == id);
 
                 course.Deleted = true;
@@ -110,6 +113,8 @@ namespace IUDICO.CourseManagment.Models.Storage
         {
             try
             {
+                var db = GetDbContext();
+
                 var courses = (from n in db.Courses where ids.Contains(n.Id) select n);
 
                 foreach (Course course in courses)
@@ -127,6 +132,7 @@ namespace IUDICO.CourseManagment.Models.Storage
             }
         }
 
+        [Obsolete("HttpContext.Current could be null sometimes. See MixedCourseManagement.GetCoursePath(int)")]
         public string Export(int id)
         {
             try
@@ -134,34 +140,30 @@ namespace IUDICO.CourseManagment.Models.Storage
                 Course course = this.GetCourse(id);
 
                 string path = HttpContext.Current.Request.PhysicalApplicationPath;
+
                 path = Path.Combine(path, @"Data\WorkFolder");
                 path = Path.Combine(path, Guid.NewGuid().ToString());
                 path = Path.Combine(path, course.Name);
-                Directory.CreateDirectory(path);
-                List<Node> nodes = this.GetNodes(id);
 
-                for (int i = 0; i < nodes.Count; i++)
+                Directory.CreateDirectory(path);
+                var nodes = GetNodes(id).ToList();
+                
+                for (var i = 0; i < nodes.Count; i++)
                 {
                     if (nodes[i].IsFolder == false)
                     {
-                        FileStream fs = File.Create(Path.Combine(path, nodes[i].Name + ".html"));
+                        var fs = File.Create(Path.Combine(path, nodes[i].Name + ".html"));
                         fs.Close();
                     }
                     else
                     {
-                        List<Node> subNodes = this.GetNodes(id, nodes[i].Id);
+                        var subNodes = this.GetNodes(id, nodes[i].Id).ToList();
                         nodes.AddRange(subNodes);
                     }
                 }
 
-                Manifest.Manifest manifest = new Manifest.Manifest();
-                StreamWriter sw = new StreamWriter(Path.Combine(path, Manifest.SCORM.ImsManifset));
-                Manifest.Item parentItem = new Manifest.Item();
-                parentItem = AddSubItems(parentItem, null, id, ref manifest);
-                manifest.Organizations[0].Items = parentItem.Items;
-                manifest.Serialize(sw);
-                sw.Close();
-                CourseManagment.Helpers.Zipper.CreateZip(path + ".zip", path);
+                Helpers.Zipper.CreateZip(path + ".zip", path);
+                
                 return path + ".zip";
             }
             catch
@@ -170,45 +172,19 @@ namespace IUDICO.CourseManagment.Models.Storage
             }
         }
 
-        private Manifest.Item AddSubItems(Manifest.Item parentItem, Node parentNode, int courseId, ref Manifest.Manifest manifest)
-        {
-            List<Node> nodes;
-            if(parentNode == null)
-            {
-                nodes = GetNodes(courseId);
-            }
-            else
-            {
-                nodes = GetNodes(courseId, parentNode.Id);
-            }
-            foreach (Node node in nodes)
-            {
-                if (node.IsFolder)
-                {
-                    Manifest.Item item = new Manifest.Item() { Title = node.Name };
-                    item = AddSubItems(item, node, courseId, ref manifest);
-                    parentItem.AddChildItem(item);
-                }
-                else
-                {
-                    List<Manifest.File> files = new List<Manifest.File>();
-                    files.Add(new Manifest.File(node.Name + ".html"));
-                    string resourceId = manifest.Resources.AddResource(new Manifest.Resource(Manifest.ScormType.Asset, files));
-                    parentItem.AddChildItem(new Manifest.Item(resourceId) { Title = node.Name });
-                }
-            }
-            return parentItem;
-        }
         public int? Import(string path)
         {
             try
             {
-                Course course = new Course();
-                string folderPath = path.Substring(0, path.Length - 4);
-                CourseManagment.Helpers.Zipper.ExtractZipFile(path, folderPath);
+                var course = new Course();
+                var  folderPath = path.Substring(0, path.Length - 4);
+
+                Helpers.Zipper.ExtractZipFile(path, folderPath);
+
                 course.Name = folderPath.Split('\\').Last();
                 course.Owner = "Imported";
-                return this.AddCourse(course);
+
+                return AddCourse(course);
             }
             catch
             {
@@ -218,19 +194,19 @@ namespace IUDICO.CourseManagment.Models.Storage
         #endregion
 
         #region Node methods
-        public List<Node> GetNodes(int courseId)
+        public IEnumerable<Node> GetNodes(int courseId)
         {
             return GetNodes(courseId, null);
         }
 
-        public List<Node> GetNodes(int courseId, int? parentId)
+        public IEnumerable<Node> GetNodes(int courseId, int? parentId)
         {
             try
             {
-                db.ClearCache();
+                var db = GetDbContext();
 
-                Course course = db.Courses.SingleOrDefault(c => c.Id == courseId);
-                List<Node> nodes = course.Nodes.OrderBy(n => n.Position).ToList();
+                var course = db.Courses.SingleOrDefault(c => c.Id == courseId);
+                var nodes = course.Nodes.OrderBy(n => n.Position).ToList();
 
                 if (parentId == null)
                 {
@@ -251,19 +227,21 @@ namespace IUDICO.CourseManagment.Models.Storage
 
         public Node GetNode(int id)
         {
-            return db.Nodes.SingleOrDefault(n => n.Id == id);
+            return GetDbContext().Nodes.SingleOrDefault(n => n.Id == id);
         }
 
         public int? AddNode(Node node)
         {
             try
             {
+                var db = GetDbContext();
+
                 db.Nodes.InsertOnSubmit(node);
                 db.SubmitChanges();
 
                 if (node.IsFolder)
                 {
-                    string path = GetNodePath(node.Id);
+                    var path = GetNodePath(node.Id);
                     @Directory.CreateDirectory(path);
                 }
 
@@ -279,7 +257,9 @@ namespace IUDICO.CourseManagment.Models.Storage
         {
             try
             {
-                Node oldNode = db.Nodes.SingleOrDefault(n => n.Id == id);
+                var db = GetDbContext();
+
+                var oldNode = db.Nodes.SingleOrDefault(n => n.Id == id);
 
                 oldNode.Name = node.Name;
                 oldNode.ParentId = node.ParentId;
@@ -299,7 +279,9 @@ namespace IUDICO.CourseManagment.Models.Storage
         {
             try
             {
-                Node node = db.Nodes.SingleOrDefault(n => n.Id == id);
+                var db = GetDbContext();
+
+                var node = db.Nodes.SingleOrDefault(n => n.Id == id);
 
                 db.Nodes.DeleteOnSubmit(node);
                 db.SubmitChanges();
@@ -318,6 +300,8 @@ namespace IUDICO.CourseManagment.Models.Storage
         {
             try
             {
+                var db = GetDbContext();
+
                 var nodes = (from n in db.Nodes where ids.Contains(n.Id) select n);
 
                 db.Nodes.DeleteAllOnSubmit(nodes);
@@ -340,7 +324,9 @@ namespace IUDICO.CourseManagment.Models.Storage
         {
             try
             {
-                Node newnode = new Node
+                var db = GetDbContext();
+
+                var newnode = new Node
                 {
                     CourseId = node.CourseId,
                     Name = node.Name,
@@ -377,8 +363,8 @@ namespace IUDICO.CourseManagment.Models.Storage
 
         protected string GetNodePath(int nodeId)
         {
-            Node node = db.Nodes.SingleOrDefault(n => n.Id == nodeId);
-            Node parent = node.Node1;
+            var node = GetDbContext().Nodes.SingleOrDefault(n => n.Id == nodeId);
+            var parent = node.Node1;
 
             string path = node.Id.ToString() + (!node.IsFolder ? ".html" : "");
 
@@ -395,25 +381,16 @@ namespace IUDICO.CourseManagment.Models.Storage
 
         protected string GetCoursePath(int courseId)
         {
-            string path;
-
-            if (HttpContext.Current == null)
-            {
-                path = Path.Combine(System.Environment.CurrentDirectory, "Site");
-            }
-            else
-            {
-                path = HttpContext.Current.Request.PhysicalApplicationPath;
-            }
+            var path = HttpContext.Current == null ? Path.Combine(System.Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
 
             return Path.Combine(path, @"Data\Courses", courseId.ToString());
         }
 
         protected void CopyNodes(Node node, Node newnode)
         {
-            foreach (Node child in node.Nodes)
+            foreach (var child in node.Nodes)
             {
-                Node newchild = new Node
+                var newchild = new Node
                 {
                     CourseId = child.CourseId,
                     Name = child.Name,
@@ -431,17 +408,20 @@ namespace IUDICO.CourseManagment.Models.Storage
 
         protected void CreateFolders(Node newnode)
         {
-            foreach (Node child in newnode.Nodes)
+            foreach (var child in newnode.Nodes)
             {
-                if (child.IsFolder)
+                if (!child.IsFolder)
                 {
-                    string path = GetNodePath(child.Id);
-                    Directory.CreateDirectory(path);
-
-                    CreateFolders(child);
+                    continue;
                 }
+
+                var path = GetNodePath(child.Id);
+                Directory.CreateDirectory(path);
+
+                CreateFolders(child);
             }
         }
+
         #endregion
 
         #endregion

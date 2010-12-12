@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using IUDICO.Common.Models;
-using IUDICO.Common.Controllers;
-using IUDICO.CurriculumManagement.Models.Storage;
+﻿using IUDICO.Common.Controllers;
 using IUDICO.Common.Models.Services;
 
 namespace IUDICO.CurriculumManagement.Controllers
@@ -16,7 +9,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             get
             {
-                return lmsService.FindService<ICurriculumManagement>();
+                return LmsService.FindService<ICurriculumManagement>();
             }
         }
     }

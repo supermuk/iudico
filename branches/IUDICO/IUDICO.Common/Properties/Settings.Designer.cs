@@ -27,9 +27,9 @@ namespace IUDICO.Common.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;Initial Catalog=IUDICO;Integrated Security=True")]
-        public string ButterflyConnectionString {
+        public string IUDICOConnectionString {
             get {
-                return ((string)(this["ButterflyConnectionString"]));
+                return ((string)(this["IUDICOConnectionString"]));
             }
         }
     }

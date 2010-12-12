@@ -1,52 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Xml.Serialization;
-namespace IUDICO.CourseManagment.Models.Manifest
+
+namespace IUDICO.CourseManagement.Models.Manifest.Organization
 {
     [Serializable]
     public class Organizations
     {
         public Organizations()
         {
-            Organizations_ = new List<Organization>();
+            _Organizations = new List<Organization>();
+
             AddOrganization(new Organization());
-            DefaultOrganizationIndex = 0;
+
+            _DefaultOrganizationIndex = 0;
         }
 
         [XmlIgnore]
-        private int DefaultOrganizationIndex;
+        private int _DefaultOrganizationIndex;
 
         [XmlAttribute(SCORM.Default)]
         public string Default
         {
             get
             {
-                return Organizations_[DefaultOrganizationIndex].Identifier;
+                return _Organizations[_DefaultOrganizationIndex].Identifier;
             }
             set
             {
-                for(int i = 0; i < Organizations_.Count; i++)
+                for(int i = 0; i < _Organizations.Count; i++)
                 {
-                    if(Organizations_[i].Identifier == value)
+                    if(_Organizations[i].Identifier == value)
                     {
-                        DefaultOrganizationIndex = i;
+                        _DefaultOrganizationIndex = i;
+                        
                         return;
                     }
                 }
-                DefaultOrganizationIndex = 0;
+
+                _DefaultOrganizationIndex = 0;
             }
         }
 
         [XmlElement(SCORM.Organization, Namespace = SCORM.ImscpNamespaceV1p3)]
-        public List<Organization> Organizations_;
+        public List<Organization> _Organizations;
 
         public Organization this[string identifier] 
         {
             get
             {
-                return Organizations_.Single(i => i.Identifier == identifier);
+                return _Organizations.Single(i => i.Identifier == identifier);
             }
         }
 
@@ -54,18 +58,18 @@ namespace IUDICO.CourseManagment.Models.Manifest
         {
             get
             {
-                return Organizations_[index];
+                return _Organizations[index];
             }
             set
             {
-                Organizations_[index] = value;
+                _Organizations[index] = value;
             }
         }
 
         public string AddOrganization(Organization organization)
         {
-            organization.Identifier = ConstantStrings.OrganizationIdPrefix + Organizations_.Count();
-            Organizations_.Add(organization);
+            organization.Identifier = ConstantStrings.OrganizationIdPrefix + _Organizations.Count();
+            _Organizations.Add(organization);
             return organization.Identifier;
         }
     }

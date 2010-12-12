@@ -25,9 +25,9 @@
 
            <% foreach (IUDICO.Statistics.Models.Curriculum curr in Model.curriculums)  { %>
         <div>
-        <input type="checkbox" name="IdList" value="<%: curr.CurriculumID - 1 %>" />
+        <input type="checkbox" name="IdList" value="<%: curr.CurriculumId - 1 %>" />
             <%: Html.Label(curr.CurriculumName)%>
-            <%= Html.ActionLink("detalis", "CurriculumInfo", new { id = curr.CurriculumID - 1 })%>
+            <%= Html.ActionLink("detalis", "CurriculumInfo", new { id = curr.CurriculumId - 1 })%>
         </div>
         <% } %>
 

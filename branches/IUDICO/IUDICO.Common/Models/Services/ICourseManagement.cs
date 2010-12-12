@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace IUDICO.Common.Models.Services
 {
     public interface ICourseManagement : IService
     {
         #region Course methods
-        List<Course> GetCourses();
+
+        IEnumerable<Course> GetCourses();
         Course GetCourse(int id);
         int? AddCourse(Course course);
         bool UpdateCourse(int id, Course course);
@@ -16,11 +15,13 @@ namespace IUDICO.Common.Models.Services
         bool DeleteCourses(List<int> ids);
         string Export(int id);
         int? Import(string path);
+
         #endregion
 
         #region Node methods
-        List<Node> GetNodes(int courseId);
-        List<Node> GetNodes(int courseId, int? parentId);
+
+        IEnumerable<Node> GetNodes(int courseId);
+        IEnumerable<Node> GetNodes(int courseId, int? parentId);
         Node GetNode(int id);
         int? AddNode(Node node);
         bool UpdateNode(int id, Node node);
@@ -28,6 +29,7 @@ namespace IUDICO.Common.Models.Services
         bool DeleteNodes(List<int> ids);
         int? CreateCopy(Node node, int? parentId, int position);
         String GetNodeContents(int id);
+
         #endregion
     }
 }
