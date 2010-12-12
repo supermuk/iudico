@@ -10,12 +10,14 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         public Item()
         {
             IsParent = true;
+            IsVisible = true;
             Items = new List<Item>();
         }
         
         public Item(string resourceId)
         {
             IsParent = false;
+            IsVisible = true;
             IdentifierRef = resourceId;
         }
 
@@ -28,7 +30,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         public string IdentifierRef;
 
         [XmlAttribute(SCORM.IsVisible)]
-        public string IsVisible; // = "true";
+        public bool IsVisible; // = true;
 
         [XmlAttribute(SCORM.Parameters)]
         public string Parameters;
@@ -43,7 +45,12 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         public MetadataModels.Metadata Metadata;
 
         [XmlElement(SCORM.TimeLimitActionV1p3, Namespace = SCORM.AdlcpNamespaceV1p3)]
-        public TimeLimitAction TimeLimitAction;
+        public TimeLimitAction? TimeLimitAction;
+
+        public bool ShouldSerializeTimeLimitAction()
+        {
+            return TimeLimitAction.HasValue;
+        }
 
         [XmlElement(SCORM.DataFromLmsV1p3, Namespace=SCORM.AdlcpNamespaceV1p3)]
         public string DataFromLMS;

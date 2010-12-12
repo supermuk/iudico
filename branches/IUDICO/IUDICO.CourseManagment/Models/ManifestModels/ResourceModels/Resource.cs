@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using IUDICO.CourseManagement.Models.ManifestModels.MetadataModels;
 
 namespace IUDICO.CourseManagement.Models.ManifestModels.ResourceModels
 {
@@ -51,7 +52,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.ResourceModels
 
 
         [XmlElement(SCORM.Metadata, Namespace = SCORM.ImscpNamespaceV1p3)]
-        public MetadataModels.Metadata Metadata;
+        public Metadata Metadata;
 
         [XmlElement(SCORM.File, Namespace = SCORM.ImscpNamespaceV1p3)]
         public List<File> Files;
