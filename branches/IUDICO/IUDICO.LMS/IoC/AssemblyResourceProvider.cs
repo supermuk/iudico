@@ -12,14 +12,14 @@ namespace IUDICO.LMS.IoC
 {
     public class AssemblyResourceProvider : VirtualPathProvider
     {
-        private readonly Dictionary<string, Assembly> nameAssemblyCache;
+        private readonly Dictionary<string, Assembly> _nameAssemblyCache;
 
         public AssemblyResourceProvider()
         {
-            nameAssemblyCache = new Dictionary<string, Assembly>(StringComparer.InvariantCultureIgnoreCase);
+            _nameAssemblyCache = new Dictionary<string, Assembly>(StringComparer.InvariantCultureIgnoreCase);
         }
 
-        private bool IsAppResourcePath(string virtualPath)
+        private static bool IsAppResourcePath(string virtualPath)
         {
             string checkPath = VirtualPathUtility.ToAppRelative(virtualPath);
 
@@ -29,18 +29,14 @@ namespace IUDICO.LMS.IoC
 
         public override bool FileExists(string virtualPath)
         {
-            return (IsAppResourcePath(virtualPath) ||
-                    base.FileExists(virtualPath));
+            return (IsAppResourcePath(virtualPath) || base.FileExists(virtualPath));
         }
 
         public override VirtualFile GetFile(string virtualPath)
         {
-            if (IsAppResourcePath(virtualPath))
-            {
-                return new AssemblyResourceFile(nameAssemblyCache, virtualPath);
-            }
-
-            return base.GetFile(virtualPath);
+            return IsAppResourcePath(virtualPath)
+                       ? new AssemblyResourceFile(_nameAssemblyCache, virtualPath)
+                       : base.GetFile(virtualPath);
         }
 
         public override CacheDependency GetCacheDependency(
@@ -48,50 +44,45 @@ namespace IUDICO.LMS.IoC
             IEnumerable virtualPathDependencies,
             DateTime utcStart)
         {
-            if (IsAppResourcePath(virtualPath))
-            {
-                return null;
-            }
-
-            return base.GetCacheDependency(virtualPath,
-                                           virtualPathDependencies, utcStart);
+            return IsAppResourcePath(virtualPath)
+                       ? null
+                       : base.GetCacheDependency(virtualPath, virtualPathDependencies, utcStart);
         }
 
         private class AssemblyResourceFile : VirtualFile
         {
-            private readonly IDictionary<string, Assembly> nameAssemblyCache;
-            private readonly string assemblyPath;
+            private readonly IDictionary<string, Assembly> _nameAssemblyCache;
+            private readonly string _assemblyPath;
 
             public AssemblyResourceFile(IDictionary<string, Assembly> nameAssemblyCache, string virtualPath) :
                 base(virtualPath)
             {
-                this.nameAssemblyCache = nameAssemblyCache;
-                assemblyPath = VirtualPathUtility.ToAppRelative(virtualPath);
+                this._nameAssemblyCache = nameAssemblyCache;
+                _assemblyPath = VirtualPathUtility.ToAppRelative(virtualPath);
             }
 
             public override Stream Open()
             {
-                // ~/Plugins/IUDICO.CourseManagment.dll/IUDICO.CourseManagment/Presentation/Views/Wiki/Index.aspx
                 // ~/Plugins/IUDICO.CourseManagment.dll/IUDICO.CourseManagment/Scripts/Custom/jquery/jquery.js
                 //          /   DLL name               /    Assembly Name     /           Path
-                string[] parts = assemblyPath.Split(new[] { '/' }, 4);
+                var parts = _assemblyPath.Split(new[] { '/' }, 4);
 
                 // TODO: should assert and sanitize 'parts' first
-                string assemblyName = parts[2];
-                string resourceName = parts[3].Replace('/', '.');
+                var assemblyName = parts[2];
+                var resourceName = parts[3].Replace('/', '.');
 
                 Assembly assembly;
 
-                lock (nameAssemblyCache)
+                lock (_nameAssemblyCache)
                 {
-                    if (!nameAssemblyCache.TryGetValue(assemblyName, out assembly))
+                    if (!_nameAssemblyCache.TryGetValue(assemblyName, out assembly))
                     {
                         var path = Path.Combine(HttpContext.Current.Server.MapPath("/Plugins"), assemblyName);
                         assembly = Assembly.Load(AssemblyName.GetAssemblyName(path));
                         
 
                         // TODO: Assert is not null
-                        nameAssemblyCache[assemblyName] = assembly;
+                        _nameAssemblyCache[assemblyName] = assembly;
                     }
                 }
 
@@ -101,6 +92,9 @@ namespace IUDICO.LMS.IoC
                 {
                     resourceStream = assembly.GetManifestResourceStream(resourceName);
                 }
+
+                if (resourceStream == null)
+                    throw new HttpException(404, "Resource " + resourceName + " not found.");
 
                 return resourceStream;
             }

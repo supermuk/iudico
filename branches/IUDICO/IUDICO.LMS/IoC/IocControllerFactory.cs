@@ -13,36 +13,20 @@ namespace IUDICO.LMS.IoC
 {
     public class IocControllerFactory : IControllerFactory
     {
-        readonly IKernel kernel;
+        readonly IKernel _kernel;
 
         public IocControllerFactory(IKernel kernel)
         {
-            this.kernel = kernel;
+            this._kernel = kernel;
         }
-        /*
-        protected override IController GetControllerInstance(RequestContext requestContext, Type controllerType)
-        {
-            if (controllerType == null)
-                return null;
 
-            if (typeof(PluginController).IsAssignableFrom(controllerType))
-            {
-                return (IController)kernel.Resolve(controllerType, new { lmsService = kernel.Resolve<ILmsService>() });
-                //return (IController)Activator.CreateInstance(controllerType, kernel.Resolve<ILmsService>());
-            }
-            else
-            {
-                return (IController)kernel.Resolve(controllerType);
-                //return (IController)Activator.CreateInstance(controllerType);
-            }
-        }
-        */
         public IController CreateController(RequestContext requestContext, string controllerName)
         {
             if (requestContext == null)
             {
                 throw new ArgumentNullException("requestContext");
             }
+
             if (controllerName == null)
             {
                 throw new ArgumentNullException("controllerName");
@@ -50,22 +34,12 @@ namespace IUDICO.LMS.IoC
 
             try
             {
-                return kernel.Resolve<IController>(controllerName + "controller");
-                /*
-                IController controller = kernel.Resolve<IController>(controllerName + "controller");
-                if (typeof(PluginController).IsAssignableFrom(controller.GetType()))
-                {
-//                    (controller as PluginController).
-                }
-                return controller;
-                */
+                return _kernel.Resolve<IController>(controllerName + "Controller");
             }
             catch (ComponentNotFoundException e)
             {
-                // log not found
-                //throw new ApplicationException(string.Format("No controller with name '{0}' found", controllerName), e);
-
-                return null;
+                // TODO: log not found
+                throw  new HttpException(404, string.Format("No controller with name '{0}' found", controllerName), e);
             }
         }
 
@@ -76,7 +50,7 @@ namespace IUDICO.LMS.IoC
                 throw new ArgumentNullException("controller");
             }
 
-            kernel.ReleaseComponent(controller);
+            _kernel.ReleaseComponent(controller);
         }
     }
 }
