@@ -4,10 +4,12 @@ using System.Linq;
 using System.Web.Mvc;
 using IUDICO.TestingSystem.Models.Shared;
 using IUDICO.TestingSystem.Models;
+using IUDICO.Common.Controllers;
+using IUDICO.Common.Models.Services;
 
 namespace IUDICO.TestingSystem.Controllers
 {
-    public class TrainingController : Controller
+    public class TrainingController : PluginController
     {
         //
         // GET: /Training/
@@ -17,6 +19,8 @@ namespace IUDICO.TestingSystem.Controllers
             try
             {
                 IEnumerable<Training> trainings = MlcDataProvider.Instance.GetTrainings(1);
+                
+
 
                 return View(trainings);
             }
