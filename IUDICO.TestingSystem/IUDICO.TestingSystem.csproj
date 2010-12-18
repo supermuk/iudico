@@ -115,11 +115,12 @@
     <Content Include="Libraries\Microsoft.LearningComponents.pdb" />
     <Content Include="Libraries\Microsoft.LearningComponents.Storage.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.Storage.pdb" />
+    <Content Include="Views\Training\Details.aspx" />
+    <Content Include="Views\Training\Index.aspx" />
     <None Include="Views\Package\Index.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
-    <Folder Include="Views\Training\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\Site.Master" />
