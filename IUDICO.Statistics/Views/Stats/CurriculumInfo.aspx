@@ -18,14 +18,14 @@
     <th>Max point</th>
     </tr>
     <tr>
-    <td><%: Model.CurriculumID %></td>
+    <td><%: Model.CurriculumId %></td>
     <td><%: Model.CurriculumName %></td>
     <td><% foreach (IUDICO.Statistics.Models.Theme theme in Model.Themes)
            {%>
     <%: theme.Name + " "%>
     <% } %>
     </td>
-    <td><% foreach (int id in Model.GroupsID)  { %>
+    <td><% foreach (int id in Model.GroupsId)  { %>
     <%: id + " " %>
     <% } %></td>
     <td> <%: Model.GetMaxPointsFromCurriculum()  %> </td>
