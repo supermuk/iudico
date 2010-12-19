@@ -16,7 +16,11 @@
         <th>Студент </th>
         <% foreach (int i in ViewData["IDs"] as Int32[])
            { %>
-        <th> <%: Model.curriculums[i].CurriculumName %> </th>
+        <th> 
+        <%: 
+            Html.ActionLink(Model.Curriculums[i].CurriculumName, "ThemesInfo", new { CurriculumID = i + 1, SelectedGroupID = 1 }) 
+            %>
+        </th>
         <% } %>
         <th> Загальні бали </th>
         <th> Відсотки </th>
@@ -27,17 +31,18 @@
         </tr>
 
         
-        <% foreach (IUDICO.Statistics.Models.Student stud in Model.pmi11.Students)  {  %>
+        <% foreach (IUDICO.Statistics.Models.Student stud in Model.Group[0].Students)
+           {  %>
 
             <tr> 
             <td><%: stud.Name%></td>
             <% foreach (int i in ViewData["IDs"] as Int32[])  { %>
                 <td>
-                    <% foreach (IUDICO.Statistics.Models.StudentCurriculumResult stCurrRes in Model.studentCurriculumResult)
+                    <% foreach (IUDICO.Statistics.Models.StudentCurriculumResult stCurrRes in Model.StudentCurriculumResult)
                        { %>
                            <% if (stCurrRes.Stud == stud && stCurrRes.CurriculumId == i+1)
                            {%>
-                                <%: stCurrRes.StudentResult%> / <%: Model.curriculums[i].GetMaxPointsFromCurriculum()%>
+                                <%: stCurrRes.StudentResult%> / <%: Model.Curriculums[i].GetMaxPointsFromCurriculum()%>
                            <% } %>
                     <% } %>
                 
@@ -45,7 +50,7 @@
             <% } %>
             <td> <%: Model.GetCurrentPointsFromAllCurriculums(stud, ViewData["IDs"] as Int32[])%> / <%: Model.GetMaxPointsFromAllCurriculums(ViewData["IDs"] as Int32[])%> </td>
             <td> <%: Math.Round(((Convert.ToDouble(Model.GetCurrentPointsFromAllCurriculums(stud, ViewData["IDs"] as Int32[])) / Convert.ToDouble(Model.GetMaxPointsFromAllCurriculums(ViewData["IDs"] as Int32[]))) * 100.0),2)%> % </td>
-            <td> <%: Model.ECTS(Math.Round(((Convert.ToDouble(Model.GetCurrentPointsFromAllCurriculums(stud, ViewData["IDs"] as Int32[])) / Convert.ToDouble(Model.GetMaxPointsFromAllCurriculums(ViewData["IDs"] as Int32[]))) * 100.0), 2))%> </td>
+            <td> <%: Model.Ects(Math.Round(((Convert.ToDouble(Model.GetCurrentPointsFromAllCurriculums(stud, ViewData["IDs"] as Int32[])) / Convert.ToDouble(Model.GetMaxPointsFromAllCurriculums(ViewData["IDs"] as Int32[]))) * 100.0), 2))%> </td>
             </tr>
 
         <% } %>

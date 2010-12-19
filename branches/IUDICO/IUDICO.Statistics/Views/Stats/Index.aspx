@@ -23,7 +23,7 @@
 
         <form action="/Stats/CurriculumInfoID/" method="post">
 
-           <% foreach (IUDICO.Statistics.Models.Curriculum curr in Model.curriculums)  { %>
+           <% foreach (IUDICO.Statistics.Models.Curriculum curr in Model.Curriculums)  { %>
         <div>
         <input type="checkbox" name="IdList" value="<%: curr.CurriculumId - 1 %>" />
             <%: Html.Label(curr.CurriculumName)%>

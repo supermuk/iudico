@@ -10,7 +10,7 @@ namespace IUDICO.Statistics.Controllers
     {
         //
         // GET: /Stats/
-
+        //Roma Pages
         public ActionResult Index()
         {
             var info = new InfoOnFirstPage();
@@ -72,6 +72,35 @@ namespace IUDICO.Statistics.Controllers
                 throw ex;
             }
         }
+        //Vitalik Pages
+        public ActionResult ThemesInfo(Int32 CurriculumID, Int32 SelectedGroupID)
+        {
+            try
+            {
+                ThemeInfoModel model = new ThemeInfoModel();
+                model.BuildFrom(CurriculumID, SelectedGroupID);
 
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public ActionResult ThemeTestResaults(Int32 StudentID, Int32 ThemeID)
+        {
+            try
+            {
+                ThemeTestResaultsModel model = new ThemeTestResaultsModel();
+                model.BuildFrom(StudentID, ThemeID);
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
