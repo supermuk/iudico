@@ -20,8 +20,6 @@ namespace IUDICO.TestingSystem.Controllers
             {
                 IEnumerable<Training> trainings = MlcDataProvider.Instance.GetTrainings(1);
                 
-
-
                 return View(trainings);
             }
             catch (Exception exc)
