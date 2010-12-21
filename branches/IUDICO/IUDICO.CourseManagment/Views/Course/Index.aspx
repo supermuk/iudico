@@ -3,7 +3,6 @@
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script src="<%= Html.ResolveUrl("/Scripts/Microsoft/MicrosoftAjax.js")%>" type="text/javascript"></script>
     <script src="<%= Html.ResolveUrl("/Scripts/Microsoft/MicrosoftMvcAjax.js")%>" type="text/javascript"></script>
-    <script type="text/javascript" src="<%= Html.ResolveUrl("~/Scripts/custom/ckeditor/adapters/jquery.js") %>"></script>
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {
             $("#DeleteMany").click(function () {
