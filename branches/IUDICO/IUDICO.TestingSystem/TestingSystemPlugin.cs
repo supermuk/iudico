@@ -18,8 +18,8 @@ namespace IUDICO.TestingSystem
                     .BasedOn<IController>()
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
-                Component.For<IPlugin>().ImplementedBy<TestingSystemPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<ITestingSystem>().ImplementedBy<FakeTestingSystem>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
+                Component.For<IPlugin>().ImplementedBy<TestingSystemPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
+                //Component.For<ITestingSystem>().ImplementedBy<FakeTestingSystem>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
         }
 
