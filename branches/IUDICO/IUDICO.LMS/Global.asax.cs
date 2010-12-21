@@ -81,8 +81,6 @@ namespace IUDICO.LMS
                 .Install(FromAssembly.This(),
                          FromAssembly.InDirectory(new AssemblyFilter(Server.MapPath("/Plugins"), "IUDICO.*.dll"))
             );
-
-            
         }
     }
 }
