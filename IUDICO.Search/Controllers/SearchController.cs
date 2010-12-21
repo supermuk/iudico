@@ -16,7 +16,7 @@ using Lucene.Net.QueryParsers;
 
 namespace IUDICO.Search.Controllers
 {
-    public class SearchController : BaseController
+    public class SearchController : PluginController
     {
         //
         // GET: /Search/

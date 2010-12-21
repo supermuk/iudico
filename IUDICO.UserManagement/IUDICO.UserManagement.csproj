@@ -83,13 +83,14 @@
     <Compile Include="Controllers\UserManagementBaseController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Models\Storage\IUserStorage.cs" />
     <Compile Include="UserManagementPlugin.cs" />
     <Compile Include="Models\Attributes.cs" />
     <Compile Include="Models\Models.cs" />
     <Compile Include="Models\OpenIdMembershipProvider.cs" />
     <Compile Include="Models\OpenIdMembershipUser.cs" />
     <Compile Include="Models\OpenIdRoleProvider.cs" />
-    <Compile Include="Models\Services\DatabaseUserManagement.cs" />
+    <Compile Include="Models\Storage\DatabaseUserStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

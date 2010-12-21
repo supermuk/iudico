@@ -1,9 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IUDICO.Common.Models.Services;
 
-namespace IUDICO.Statistics.Models
+namespace IUDICO.Statistics.Models.Storage
 {
+    public class StatisticsStorage : IStatisticsStorage, IStatisticsService
+    {
+
+    }
+
+
     //Vitalik
     public class ThemeInfoModel
     {
@@ -466,9 +473,6 @@ namespace IUDICO.Statistics.Models
         }
     }
 
-    public class StatsStorage
-    {
-        
-    }
+    
 
 }

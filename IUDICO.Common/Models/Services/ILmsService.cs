@@ -1,11 +1,14 @@
-﻿namespace IUDICO.Common.Models.Services
+﻿using System.Data.Common;
+
+namespace IUDICO.Common.Models.Services
 {
     public interface ILmsService
     {
         T FindService<T>() where T : IService;
 
-        string GetDbConnectionString();
+        //string GetDbConnectionString();
         DBDataContext GetDbDataContext();
+        //DbConnection GetDbConnection();
 
         void Inform(string evt, params object[] data);
     }

@@ -1,11 +1,19 @@
 ﻿using System;
 using System.Web.Mvc;
 using IUDICO.Common.Models;
+using IUDICO.CurriculumManagement.Models.Storage;
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
     public class StageController : CurriculumBaseController
     {
+        private readonly ICurriculumStorage _storage;
+
+        public StageController(ICurriculumStorage curriculumStorage)
+        {
+            _storage = curriculumStorage;
+        }
+
         private ActionResult ErrorView(Exception e)
         {
             var currentControllerName = (string)RouteData.Values["controller"];
@@ -18,11 +26,11 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var stages = Storage.GetStages(curriculumId);
+                var stages = _storage.GetStages(curriculumId);
 
                 if (stages != null)
                 {
-                    ViewData["CurriculumName"] = Storage.GetCurriculum(curriculumId).Name;
+                    ViewData["CurriculumName"] = _storage.GetCurriculum(curriculumId).Name;
                     return View(stages);
                 }
                 else
@@ -41,7 +49,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var curriculum = Storage.GetCurriculum(curriculumId);
+                var curriculum = _storage.GetCurriculum(curriculumId);
 
                 if (curriculum != null)
                 {
@@ -63,9 +71,9 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                stage.Curriculum = Storage.GetCurriculum(curriculumId);
+                stage.Curriculum = _storage.GetCurriculum(curriculumId);
 
-                Storage.AddStage(stage);
+                _storage.AddStage(stage);
 
                 return RedirectToAction("Index");
             }
@@ -80,7 +88,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var stage = Storage.GetStage(stageId);
+                var stage = _storage.GetStage(stageId);
 
                 if (stage != null)
                 {
@@ -104,7 +112,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             try
             {
                 stage.Id = stageId;
-                Storage.UpdateStage(stage);
+                _storage.UpdateStage(stage);
 
                 return RedirectToRoute("Stages", new { action = "Index", CurriculumId = HttpContext.Application["CurriculumId"] });
             }
@@ -119,7 +127,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                Storage.DeleteStage(stageId);
+                _storage.DeleteStage(stageId);
 
                 return Json(new { success = true });
             }
@@ -134,7 +142,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                Storage.DeleteStages(stageIds);
+                _storage.DeleteStages(stageIds);
 
                 return Json(new { success = true });
             }

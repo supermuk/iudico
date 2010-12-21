@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using IUDICO.Common.Models;
 
-namespace IUDICO.Common.Models.Services
+namespace IUDICO.CurriculumManagement.Models.Storage
 {
-    public interface ICurriculumManagement : IService
+    public interface ICurriculumStorage
     {
         #region Helper methods
 

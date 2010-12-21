@@ -5,12 +5,19 @@ using DotNetOpenAuth.OpenId;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using IUDICO.Common.Controllers;
 using IUDICO.UserManagement.Models;
+using IUDICO.UserManagement.Models.Storage;
 
 namespace IUDICO.UserManagement.Controllers
 {
     public class AccountController : PluginController
     {
         private static readonly OpenIdRelyingParty openid = new OpenIdRelyingParty();
+        private readonly IUserStorage _storage;
+
+        public AccountController(IUserStorage userStorage)
+        {
+            _storage = userStorage;
+        }
 
         public ActionResult Index()
         {
