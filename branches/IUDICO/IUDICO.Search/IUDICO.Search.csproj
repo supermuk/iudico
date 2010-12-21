@@ -96,10 +96,6 @@
       <Project>{9DD6C943-6608-4351-A521-E4B1F2F75E9D}</Project>
       <Name>IUDICO.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IUDICO.CourseManagment\IUDICO.CourseManagement.csproj">
-      <Project>{CB470DA7-0981-45B5-BEB9-6FD06586BA7E}</Project>
-      <Name>IUDICO.CourseManagement</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
@@ -135,6 +131,6 @@
     </ItemGroup>
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetPath) $(SolutionDir)IUDICO.LMS\Plugins\</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetDir)\ $(SolutionDir)IUDICO.LMS\Plugins\</PostBuildEvent>
   </PropertyGroup>
 </Project>
