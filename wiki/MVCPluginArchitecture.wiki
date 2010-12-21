@@ -3,3 +3,10 @@
 The following diagram describes how MVC plugin architecture is organised:
 
 http://img692.imageshack.us/img692/374/iudico.png
+
+How-to create own plugin:
+
+# Create a class, which inherits from IWindsorInstaller & IPlugin. Implement interfaces.
+# Controllers in Plugins must inherit from *PluginController* because it overrides *View()* method, which searches for view in plugin assembly. Also, *PluginController* has *lmsService* property, which allows using API by accessing services registered with LMS. 
+# Services has to be registered in *Install* method from *IWindsorInstaller* interface using the following syntax:
+Component.For`<`_ISpecificService_>().ImplementedBy`<`_ServiceClassName_>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
