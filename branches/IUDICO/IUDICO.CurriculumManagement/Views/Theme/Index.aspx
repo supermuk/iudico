@@ -128,6 +128,6 @@
 
     <div>
         <br />
-        <%: Html.ActionLink("Back to stages.", "Index", "Stage", new { CurriculumId = ViewData["CurriculumId"] }, null)%>
+       <%: Html.RouteLink("Back to stages.", "Stages", new { action = "Index", CurriculumId = ViewData["CurriculumId"] }, null)%>
     </div>
 </asp:Content>

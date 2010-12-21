@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="IUDICO" EntityNamespace="IUDICO.Common.Models" ContextNamespace="IUDICO.Common.Models" Class="DBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;Initial Catalog=IUDICO;Integrated Security=True" SettingsObjectName="IUDICO.Common.Properties.Settings" SettingsPropertyName="IUDICOConnectionString" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Butterfly-2" EntityNamespace="IUDICO.Common.Models" ContextNamespace="IUDICO.Common.Models" Class="DBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\;Initial Catalog=IUDICO;Integrated Security=True" SettingsObjectName="IUDICO.Common.Properties.Settings" SettingsPropertyName="IUDICOConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.ActivityAttemptItem" Member="ActivityAttemptItems">
     <Type Name="ActivityAttemptItem">
       <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -239,15 +239,6 @@
       <Column Name="CurriculumRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="CurriculumAssignment_Timeline" Member="Timeline" ThisKey="Id" OtherKey="Id" Type="Timeline" Cardinality="One" />
       <Association Name="Curriculum_CurriculumAssignment" Member="Curriculum" ThisKey="Id" OtherKey="Id" Type="Curriculum" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Curriculums" Member="Curriculums">
-    <Type Name="Curriculum">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="Curriculum_CurriculumAssignment" Member="CurriculumAssignment" ThisKey="Id" OtherKey="Id" Type="CurriculumAssignment" Cardinality="One" />
     </Type>
   </Table>
   <Table Name="dbo.DisplayMode" Member="DisplayModes">
@@ -524,16 +515,6 @@
       <Association Name="NavigationCommand_SequencingLogEntryItem" Member="NavigationCommand1" ThisKey="NavigationCommand" OtherKey="Id" Type="NavigationCommand" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Stages" Member="Stages">
-    <Type Name="Stage">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="CurriculumRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Stage_Theme" Member="Themes" ThisKey="Id" OtherKey="StageRef" Type="Theme" />
-    </Type>
-  </Table>
   <Table Name="dbo.SuccessStatus" Member="SuccessStatus">
     <Type Name="SuccessStatus">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -543,18 +524,6 @@
       <Association Name="SuccessStatus_AttemptObjectiveItem" Member="AttemptObjectiveItems" ThisKey="Id" OtherKey="SuccessStatus" Type="AttemptObjectiveItem" />
       <Association Name="SuccessStatus_LearnerGlobalObjectiveItem" Member="LearnerGlobalObjectiveItems" ThisKey="Id" OtherKey="SuccessStatus" Type="LearnerGlobalObjectiveItem" />
       <Association Name="SuccessStatus_PackageGlobalObjectiveItem" Member="PackageGlobalObjectiveItems" ThisKey="Id" OtherKey="SuccessStatus" Type="PackageGlobalObjectiveItem" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Themes" Member="Themes">
-    <Type Name="Theme">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="StageRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="CourseRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="SortOrder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Stage_Theme" Member="Stage" ThisKey="StageRef" OtherKey="Id" Type="Stage" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.TimeLimitAction" Member="TimeLimitActions">
@@ -587,6 +556,42 @@
       <Column Name="IsApproved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="User_GroupUser" Member="GroupUsers" ThisKey="Id" OtherKey="UserRef" Type="GroupUser" />
       <Association Name="User_RoleUser" Member="RoleUsers" ThisKey="Id" OtherKey="UserRef" Type="RoleUser" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Curriculums" Member="Curriculums">
+    <Type Name="Curriculum">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Curriculum_CurriculumAssignment" Member="CurriculumAssignment" ThisKey="Id" OtherKey="Id" Type="CurriculumAssignment" Cardinality="One" />
+      <Association Name="Curriculum_Stage" Member="Stages" ThisKey="Id" OtherKey="CurriculumRef" Type="Stage" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Stages" Member="Stages">
+    <Type Name="Stage">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="CurriculumRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Stage_Theme" Member="Themes" ThisKey="Id" OtherKey="StageRef" Type="Theme" />
+      <Association Name="Curriculum_Stage" Member="Curriculum" ThisKey="CurriculumRef" OtherKey="Id" Type="Curriculum" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Themes" Member="Themes">
+    <Type Name="Theme">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="StageRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CourseRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SortOrder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Stage_Theme" Member="Stage" ThisKey="StageRef" OtherKey="Id" Type="Stage" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>
