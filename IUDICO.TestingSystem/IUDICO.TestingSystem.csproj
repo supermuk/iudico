@@ -165,6 +165,6 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetPath) $(SolutionDir)IUDICO.LMS\Plugins\</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetDir)\ $(SolutionDir)IUDICO.LMS\Plugins\</PostBuildEvent>
   </PropertyGroup>
 </Project>

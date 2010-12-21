@@ -84,6 +84,7 @@
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Models\Storage\IUserStorage.cs" />
+    <Compile Include="Models\UserService.cs" />
     <Compile Include="UserManagementPlugin.cs" />
     <Compile Include="Models\Attributes.cs" />
     <Compile Include="Models\Models.cs" />
@@ -156,6 +157,6 @@
     </ItemGroup>
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetPath) $(SolutionDir)IUDICO.LMS\Plugins\</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetDir)\ $(SolutionDir)IUDICO.LMS\Plugins\</PostBuildEvent>
   </PropertyGroup>
 </Project>

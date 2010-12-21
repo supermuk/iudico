@@ -5,7 +5,7 @@ using IUDICO.Common.Models.Services;
 
 namespace IUDICO.UserManagement.Models.Storage
 {
-    public class DatabaseUserStorage : IUserStorage, IUserService
+    public class DatabaseUserStorage : IUserStorage
     {
         protected ILmsService _LmsService;
 
