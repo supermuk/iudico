@@ -10,13 +10,7 @@ namespace IUDICO.TestingSystem.Models
     public class FakeTestingSystem : ITestingService
     {
         #region ITestingSystem interface implementation
-
-        public AttemptResult PlayCourse(int courseID)
-        {
-            AttemptResult result = new AttemptResult(0, getUserID(), courseID, CompletionStatus.Unknown, AttemptStatus.Suspended, SuccessStatus.Unknown, 0.11f);
-            return result;
-        }
-
+        
         public IEnumerable<AttemptResult> GetResults(Guid userID, int courseID)
         {
             List<AttemptResult> results = new List<AttemptResult>();
