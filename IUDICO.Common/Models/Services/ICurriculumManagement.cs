@@ -6,7 +6,7 @@ namespace IUDICO.Common.Models.Services
     {
         #region Helper methods
 
-        //void RefreshState();
+        void RefreshState();
 
         #endregion
 
