@@ -11,7 +11,9 @@ namespace IUDICO.CurriculumManagement.Controllers
             var currentControllerName = (string)RouteData.Values["controller"];
             var currentActionName = (string)RouteData.Values["action"];
 
-            return View("Error", new HandleErrorInfo(e, currentControllerName, currentActionName));
+            Response.Write(e.Message);
+            return null;
+            //return View("Error", new HandleErrorInfo(e, currentControllerName, currentActionName));
         }
 
         public ActionResult Index()

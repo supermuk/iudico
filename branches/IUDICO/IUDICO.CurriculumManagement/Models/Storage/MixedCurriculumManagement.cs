@@ -8,43 +8,48 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 {
     public class MixedCurriculumManagement : ICurriculumManagement
     {
-        protected ILmsService _LmsService;
+        private ILmsService lmsService;
+        private DBDataContext db;
 
         public MixedCurriculumManagement(ILmsService lmsService)
         {
-            _LmsService = lmsService;
-        }
-
-        protected DBDataContext GetDbContext()
-        {
-            return _LmsService.GetDbDataContext();
+            this.lmsService = lmsService;
+            RefreshState();
         }
 
         #region IStorageInterface Members
+
+        #region Helper methods
+
+        public void RefreshState()
+        {
+            db = new DBDataContext(lmsService.GetDbConnectionString());
+        }
+
+        #endregion
 
         #region Curriculum methods
 
         public IEnumerable<Curriculum> GetCurriculums()
         {
-            return GetDbContext().Curriculums.ToList();
+            return db.Curriculums.Where(item => !item.IsDeleted);
         }
 
         public IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids)
         {
-            return GetDbContext().Curriculums.Where(item => ids.Contains(item.Id));
+            return db.Curriculums.Where(item => ids.Contains(item.Id) && !item.IsDeleted);
         }
 
         public Curriculum GetCurriculum(int id)
         {
-            return GetDbContext().Curriculums.Single(item => item.Id == id);
+            return db.Curriculums.Single(item => item.Id == id && !item.IsDeleted);
         }
 
         public int AddCurriculum(Curriculum curriculum)
         {
-            var db = GetDbContext();
-
             curriculum.Created = DateTime.Now;
             curriculum.Updated = DateTime.Now;
+            curriculum.IsDeleted = false;
 
             db.Curriculums.InsertOnSubmit(curriculum);
             db.SubmitChanges();
@@ -59,26 +64,37 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             oldCurriculum.Name = curriculum.Name;
             oldCurriculum.Updated = DateTime.Now;
 
-            GetDbContext().SubmitChanges();
+            db.SubmitChanges();
         }
 
         public void DeleteCurriculum(int id)
         {
-            var db = GetDbContext();
-
             var curriculum = GetCurriculum(id);
 
-            db.Curriculums.DeleteOnSubmit(curriculum);
+            //delete stages
+            var stageIds = GetStages(id).Select(item => item.Id);
+            DeleteStages(stageIds);
+
+            curriculum.IsDeleted = true;
+            //db.Curriculums.DeleteOnSubmit(curriculum);
             db.SubmitChanges();
         }
 
         public void DeleteCurriculums(IEnumerable<int> ids)
         {
-            var db = GetDbContext();
-
             var curriculums = GetCurriculums(ids);
 
-            db.Curriculums.DeleteAllOnSubmit(curriculums);
+            //delete stages
+            var stageIds = from id in ids
+                           from stage in GetStages(id)
+                           select stage.Id;
+            DeleteStages(stageIds);
+
+            foreach (Curriculum curriculum in curriculums)
+            {
+                curriculum.IsDeleted = true;
+            }
+            //db.Curriculums.DeleteAllOnSubmit(curriculums);
             db.SubmitChanges();
         }
 
@@ -88,25 +104,24 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public IEnumerable<Stage> GetStages(int curriculumId)
         {
-            return GetDbContext().Stages.Where(item => item.CurriculumRef == curriculumId);
+            return db.Stages.Where(item => item.CurriculumRef == curriculumId && !item.IsDeleted);
         }
 
         public IEnumerable<Stage> GetStages(IEnumerable<int> ids)
         {
-            return GetDbContext().Stages.Where(item => ids.Contains(item.Id));
+            return db.Stages.Where(item => ids.Contains(item.Id) && !item.IsDeleted);
         }
 
         public Stage GetStage(int id)
         {
-            return GetDbContext().Stages.Single(s => s.Id == id);
+            return db.Stages.Single(item => item.Id == id && !item.IsDeleted);
         }
 
         public int AddStage(Stage stage)
         {
-            var db = GetDbContext();
-
             stage.Created = DateTime.Now;
             stage.Updated = DateTime.Now;
+            stage.IsDeleted = false;
 
             db.Stages.InsertOnSubmit(stage);
             db.SubmitChanges();
@@ -121,26 +136,35 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             oldStage.Name = stage.Name;
             oldStage.Updated = DateTime.Now;
 
-            GetDbContext().SubmitChanges();
+            db.SubmitChanges();
         }
 
         public void DeleteStage(int id)
         {
-            var db = GetDbContext();
-
             var stage = GetStage(id);
 
-            db.Stages.DeleteOnSubmit(stage);
+            var themeIds = GetThemes(id).Select(item => item.Id);
+            DeleteThemes(themeIds);
+
+            stage.IsDeleted = true;
+            //db.Stages.DeleteOnSubmit(stage);
             db.SubmitChanges();
         }
 
         public void DeleteStages(IEnumerable<int> ids)
         {
-            var db = GetDbContext();
-
             var stages = GetStages(ids);
 
-            db.Stages.DeleteAllOnSubmit(stages);
+            var themeIds = from id in ids
+                           from theme in GetThemes(id)
+                           select theme.Id;
+            DeleteThemes(themeIds);
+
+            foreach (Stage stage in stages)
+            {
+                stage.IsDeleted = true;
+            }
+            //db.Stages.DeleteAllOnSubmit(stages);
             db.SubmitChanges();
         }
 
@@ -150,26 +174,25 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public IEnumerable<Theme> GetThemes(int stageId)
         {
-            return GetDbContext().Themes.Where(item => item.StageRef == stageId).OrderBy(item => item.SortOrder);
+            return db.Themes.Where(item => item.StageRef == stageId && !item.IsDeleted).OrderBy(item => item.SortOrder);
         }
 
         public IEnumerable<Theme> GetThemes(IEnumerable<int> ids)
         {
-            return GetDbContext().Themes.Where(item => ids.Contains(item.Id)).OrderBy(item => item.SortOrder);
+            return db.Themes.Where(item => ids.Contains(item.Id) && !item.IsDeleted).OrderBy(item => item.SortOrder);
         }
 
         public Theme GetTheme(int id)
         {
-            return GetDbContext().Themes.Single(item => item.Id == id);
+            return db.Themes.Single(item => item.Id == id && !item.IsDeleted);
         }
 
         public int AddTheme(Theme theme, Course course)
         {
-            var db = GetDbContext();
-
             theme.Name = course.Name;
             theme.Created = DateTime.Now;
             theme.Updated = DateTime.Now;
+            theme.IsDeleted = false;
 
             db.Themes.InsertOnSubmit(theme);
             db.SubmitChanges();
@@ -189,26 +212,27 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             oldTheme.CourseRef = theme.CourseRef;
             oldTheme.Updated = DateTime.Now;
 
-            GetDbContext().SubmitChanges();
+            db.SubmitChanges();
         }
 
         public void DeleteTheme(int id)
         {
-            var db = GetDbContext();
-
             var theme = GetTheme(id);
 
-            db.Themes.DeleteOnSubmit(theme);
+            theme.IsDeleted = true;
+            //db.Themes.DeleteOnSubmit(theme);
             db.SubmitChanges();
         }
 
         public void DeleteThemes(IEnumerable<int> ids)
         {
-            var db = GetDbContext();
-
             var themes = GetThemes(ids);
 
-            db.Themes.DeleteAllOnSubmit(themes);
+            foreach (Theme theme in themes)
+            {
+                theme.IsDeleted = true;
+            }
+            //db.Themes.DeleteAllOnSubmit(themes);
             db.SubmitChanges();
         }
 
@@ -224,7 +248,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 themes[index - 1].SortOrder = theme.SortOrder;
                 theme.SortOrder = temp;
 
-                GetDbContext().SubmitChanges();
+                db.SubmitChanges();
             }
 
             return theme;
@@ -242,7 +266,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 themes[index + 1].SortOrder = theme.SortOrder;
                 theme.SortOrder = temp;
 
-                GetDbContext().SubmitChanges();
+                db.SubmitChanges();
             }
 
             return theme;
@@ -254,7 +278,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public IEnumerable<Group> GetGroups()
         {
-            return GetDbContext().Groups;
+            return db.Groups;
         }
 
         public Group GetGroup(int curriculumId)
@@ -264,9 +288,9 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public IEnumerable<Timeline> GetTimelines()
         {
-            return GetDbContext().Timelines;
+            return db.Timelines;
         }
-        
+
         #endregion
 
         #endregion
