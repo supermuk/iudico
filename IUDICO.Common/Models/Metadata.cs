@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using IUDICO.Common.Models.Attributes;
 
 namespace IUDICO.Common.Models
 {
@@ -154,13 +156,13 @@ namespace IUDICO.Common.Models
     }
 
     [MetadataType(typeof(Metadata))]
-    [Bind(Exclude = "ID")]
+    [Bind(Exclude = "Id")]
     public partial class User
     {
         private sealed class Metadata
         {
             [ScaffoldColumn(false)]
-            public Guid ID { get; set; }
+            public Guid Id { get; set; }
 
             [DisplayName("Username")]
             [Required(ErrorMessage = "Username is required")]
@@ -180,7 +182,7 @@ namespace IUDICO.Common.Models
             [DisplayName("OpenID")]
             [Required(ErrorMessage = "OpenID is required")]
             [StringLength(200, ErrorMessage = "OpenID can not be longer than 200")]
-            public string OpenID { get; set; }
+            public string OpenId { get; set; }
 
             [DisplayName("Name")]
             [Required(ErrorMessage = "Name is required")]
@@ -190,13 +192,13 @@ namespace IUDICO.Common.Models
     }
 
     [MetadataType(typeof(Metadata))]
-    [Bind(Exclude = "ID")]
+    [Bind(Exclude = "Id")]
     public partial class Role
     {
         private sealed class Metadata
         {
             [ScaffoldColumn(false)]
-            public int ID { get; set; }
+            public int Id { get; set; }
 
             [DisplayName("Name")]
             [Required(ErrorMessage = "Name is required")]
@@ -206,18 +208,42 @@ namespace IUDICO.Common.Models
     }
 
     [MetadataType(typeof(Metadata))]
-    [Bind(Exclude = "ID")]
+    [Bind(Exclude = "Id")]
     public partial class Group
     {
         private sealed class Metadata
         {
             [ScaffoldColumn(false)]
-            public int ID { get; set; }
+            public int Id { get; set; }
 
             [DisplayName("Name")]
             [Required(ErrorMessage = "Name is required")]
             [StringLength(50, ErrorMessage = "Name can not be longer than 50")]
             public string Name { get; set; }
+        }
+    }
+
+    [MetadataType(typeof(Metadata))]
+    public partial class GroupUser
+    {
+        public IEnumerable<SelectListItem> GroupList { get; set; }
+        public IEnumerable<SelectListItem> UserList { get; set; }
+
+        private sealed class Metadata
+        {
+            [ScaffoldColumn(false)]
+            public int GroupRef { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int UserRef { get; set; }
+
+            [DropDownList(OptionLabel = "Select Group", TargetProperty = "GroupRef")]
+            [DisplayName("Group")]
+            public IEnumerable<SelectListItem> GroupList { get; set; }
+
+            [DropDownList(OptionLabel = "Select User", TargetProperty = "UserRef")]
+            [DisplayName("User")]
+            public IEnumerable<SelectListItem> UserList { get; set; }
         }
     }
 }

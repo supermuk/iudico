@@ -5,11 +5,15 @@
 </asp:Content>
 
 <asp:Content ID="HeadContent2" ContentPlaceHolderID="HeadContent" runat="server">
-    <link href="/Content/ui-lightness/jquery-ui-1.8.5.custom.css" rel="stylesheet" type="text/css" />
+    <link href="<%= Html.ResolveUrl("/Content/ui-lightness/jquery-ui-1.8.5.custom.css") %>" rel="stylesheet" type="text/css" />
 
-    <script type="text/javascript" src="<%= Html.ResolveUrl("/Scripts/custom/jquery/jquery.layout.js") %>"></script>
-    <script type="text/javascript" src="<%= Html.ResolveUrl("~/Scripts/custom/ckeditor/ckeditor_source.js") %>"></script>
-    <script type="text/javascript" src="<%= Html.ResolveUrl("~/Scripts/custom/ckeditor/adapters/jquery.js") %>"></script>
+    <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.layout.js") %>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("~/Scripts/ckeditor/ckeditor_source.js") %>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("~/Scripts/ckeditor/adapters/jquery.js") %>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.cookie.js") %>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.hotkeys.js") %>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.jstree.js") %>" type="text/javascript"></script>
+
     <script type="text/javascript">
         $(function () {
             $('body').layout({ applyDefaultStyles: true });
@@ -23,9 +27,7 @@
         });
     </script>
 
-    <script src="<%= Html.ResolveUrl("/Scripts/custom/jquery/jquery.cookie.js") %>" type="text/javascript"></script>
-    <script src="<%= Html.ResolveUrl("/Scripts/custom/jquery/jquery.hotkeys.js") %>" type="text/javascript"></script>
-    <script src="<%= Html.ResolveUrl("/Scripts/custom/jquery/jquery.jstree.js") %>" type="text/javascript"></script>
+    
 
     <script type="text/javascript">
         $(function () {
@@ -55,19 +57,19 @@
 		                "default": {
                             "valid_children": "none",
 		                    "icon": {
-                                "image": "/Content/Tree/file.png"
+                                "image": pluginPath + "/Content/Tree/file.png"
                             }
 		                },
                         "folder": {
 		                    "valid_children": ["default", "folder"],
 		                    "icon": {
-		                        "image": "/Content/Tree/folder.png"
+		                        "image": pluginPath + "/Content/Tree/folder.png"
 		                    }
 		                },
 		                "root": {
 		                    "valid_children": ["default", "folder"],
 		                    "icon": {
-		                        "image": "/Content/Tree/root.png"
+		                        "image": pluginPath + "/Content/Tree/root.png"
 		                    },
 		                    "start_drag": false,
 		                    "move_node": false,

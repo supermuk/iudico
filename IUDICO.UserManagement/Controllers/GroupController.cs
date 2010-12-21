@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
+using System.Web.Security;
 using IUDICO.Common.Models;
-using IUDICO.UserManagement.Models;
 using IUDICO.UserManagement.Models.Storage;
 
 namespace IUDICO.UserManagement.Controllers
 {
     public class GroupController : UserManagementBaseController
     {
-        private readonly IUserStorage _storage;
+        private readonly IUserStorage _Storage;
 
         public GroupController(IUserStorage userStorage)
         {
-            _storage = userStorage;
+            _Storage = userStorage;
         }
 
         //
@@ -23,7 +20,7 @@ namespace IUDICO.UserManagement.Controllers
 
         public ActionResult Index()
         {
-            return View(_storage.GetGroups());
+            return View(_Storage.GetGroups());
         }
 
         //
@@ -40,7 +37,7 @@ namespace IUDICO.UserManagement.Controllers
         [HttpPost]
         public ActionResult Create(Group group)
         {
-            if (ModelState.IsValid && _storage.CreateGroup(group))
+            if (ModelState.IsValid && _Storage.CreateGroup(group))
             {
                 return RedirectToAction("Index");
             }
@@ -55,7 +52,8 @@ namespace IUDICO.UserManagement.Controllers
 
         public ActionResult Edit(int id)
         {
-            Group group = _storage.GetGroup(id);
+            Group group = _Storage.GetGroup(id);
+            
             if (group == null)
             {
                 return RedirectToAction("Error");
@@ -72,7 +70,7 @@ namespace IUDICO.UserManagement.Controllers
         [HttpPost]
         public ActionResult Edit(int id, Group group)
         {
-            if (ModelState.IsValid && _storage.EditGroup(id, group))
+            if (ModelState.IsValid && _Storage.EditGroup(id, group))
             {
                 return RedirectToAction("Index");
             }
@@ -88,7 +86,23 @@ namespace IUDICO.UserManagement.Controllers
         [HttpDelete]
         public JsonResult Delete(int id)
         {
-            return Json(new { status = _storage.DeleteGroup(id) });
+            return Json(new { status = _Storage.DeleteGroup(id) });
+        }
+
+        public ActionResult AddUsers(int id)
+        {
+            var groupUser = new GroupUser();
+
+            groupUser.GroupList = _Storage.GetGroups().AsQueryable().Select(g => new SelectListItem { Text = g.Name, Value = g.Id.ToString(), Selected = false });
+            //groupUser.UserList = _Storage.GetUsers().AsQueryable().Select(u => new SelectListItem { Text = u.Username, Value = u.Id.ToString(), Selected = false });
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddUsers(int id, int userId)
+        {
+            return View(new GroupUser());
         }
     }
 }
