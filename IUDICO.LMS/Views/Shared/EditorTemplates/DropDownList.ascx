@@ -12,11 +12,13 @@
 </script>
 <% 
     var attribute = GetDropDownListAttribute();
+    
     MvcHtmlString rtrn;
 
-    if (attribute != null)
+    if (attribute != null && Model != null)
     {
-        rtrn = Html.DropDownList(string.Empty, new SelectList(ViewData.Model, "Value", "Text", ViewData.Model.SingleOrDefault(s => s.Selected)), attribute.OptionLabel, new { ID = attribute.TargetProperty, Name = attribute.TargetProperty });
+        ViewData.TemplateInfo.HtmlFieldPrefix = String.Empty;
+        rtrn = Html.DropDownList(attribute.TargetProperty, new SelectList(Model, "Value", "Text", Model.SingleOrDefault(s => s.Selected)), attribute.OptionLabel, new { @id = attribute.TargetProperty, @name = attribute.TargetProperty});
     }
     else
     {

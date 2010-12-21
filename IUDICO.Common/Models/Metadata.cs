@@ -226,24 +226,17 @@ namespace IUDICO.Common.Models
     [MetadataType(typeof(Metadata))]
     public partial class GroupUser
     {
-        public IEnumerable<SelectListItem> GroupList { get; set; }
-        public IEnumerable<SelectListItem> UserList { get; set; }
+        [DropDownList(OptionLabel = "Select Group", TargetProperty = "GroupRef")]
+        public IEnumerable<object> GroupList { get; set; }
+        [DropDownList(OptionLabel = "Select User", TargetProperty = "UserRef")]
+        public IEnumerable<object> UserList { get; set; }
 
         private sealed class Metadata
         {
             [ScaffoldColumn(false)]
             public int GroupRef { get; set; }
-
             [ScaffoldColumn(false)]
             public int UserRef { get; set; }
-
-            [DropDownList(OptionLabel = "Select Group", TargetProperty = "GroupRef")]
-            [DisplayName("Group")]
-            public IEnumerable<SelectListItem> GroupList { get; set; }
-
-            [DropDownList(OptionLabel = "Select User", TargetProperty = "UserRef")]
-            [DisplayName("User")]
-            public IEnumerable<SelectListItem> UserList { get; set; }
         }
     }
 }
