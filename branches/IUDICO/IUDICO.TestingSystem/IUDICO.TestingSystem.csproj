@@ -95,6 +95,7 @@
     <Compile Include="Models\Shared\Package.cs" />
     <Compile Include="Models\Shared\Training.cs" />
     <Compile Include="Models\Shared\ZipPackage.cs" />
+    <Compile Include="Models\TestingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestingSystemPlugin.cs">
       <SubType>Code</SubType>

@@ -5,17 +5,25 @@ using System.Web;
 using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.UserManagement.Models;
+using IUDICO.UserManagement.Models.Storage;
 
 namespace IUDICO.UserManagement.Controllers
 {
     public class RoleController : UserManagementBaseController
     {
+        private readonly IUserStorage _storage;
+
+        public RoleController(IUserStorage userStorage)
+        {
+            _storage = userStorage;
+        }
+
         //
         // GET: /Role/
 
         public ActionResult Index()
         {
-            return View(Storage.GetRoles());
+            return View(_storage.GetRoles());
         }
 
         //
@@ -32,7 +40,7 @@ namespace IUDICO.UserManagement.Controllers
         [HttpPost]
         public ActionResult Create(Role role)
         {
-            if (ModelState.IsValid && Storage.CreateRole(role))
+            if (ModelState.IsValid && _storage.CreateRole(role))
             {
                 return RedirectToAction("Index");
             }
@@ -47,7 +55,7 @@ namespace IUDICO.UserManagement.Controllers
  
         public ActionResult Edit(int id)
         {
-            Role role = Storage.GetRole(id);
+            Role role = _storage.GetRole(id);
             if (role == null)
             {
                 return RedirectToAction("Error");
@@ -64,7 +72,7 @@ namespace IUDICO.UserManagement.Controllers
         [HttpPost]
         public ActionResult Edit(int id, Role role)
         {
-            if (ModelState.IsValid && Storage.EditRole(id, role))
+            if (ModelState.IsValid && _storage.EditRole(id, role))
             {
                 return RedirectToAction("Index");
             }
@@ -80,7 +88,7 @@ namespace IUDICO.UserManagement.Controllers
         [HttpDelete]
         public JsonResult Delete(int id)
         {
-            return Json(new { status = Storage.DeleteRole(id) });
+            return Json(new { status = _storage.DeleteRole(id) });
         }
     }
 }

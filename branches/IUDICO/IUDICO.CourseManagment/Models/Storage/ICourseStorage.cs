@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using IUDICO.Common.Models;
 
-namespace IUDICO.Common.Models.Services
+namespace IUDICO.CourseManagement.Models.Storage
 {
-    public interface ICourseManagement : IService
+    public interface ICourseStorage
     {
         #region Course methods
 

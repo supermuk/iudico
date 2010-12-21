@@ -5,17 +5,25 @@ using System.Web;
 using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.UserManagement.Models;
+using IUDICO.UserManagement.Models.Storage;
 
 namespace IUDICO.UserManagement.Controllers
 {
     public class GroupController : UserManagementBaseController
     {
+        private readonly IUserStorage _storage;
+
+        public GroupController(IUserStorage userStorage)
+        {
+            _storage = userStorage;
+        }
+
         //
         // GET: /Group/
 
         public ActionResult Index()
         {
-            return View(Storage.GetGroups());
+            return View(_storage.GetGroups());
         }
 
         //
@@ -32,7 +40,7 @@ namespace IUDICO.UserManagement.Controllers
         [HttpPost]
         public ActionResult Create(Group group)
         {
-            if (ModelState.IsValid && Storage.CreateGroup(group))
+            if (ModelState.IsValid && _storage.CreateGroup(group))
             {
                 return RedirectToAction("Index");
             }
@@ -47,7 +55,7 @@ namespace IUDICO.UserManagement.Controllers
 
         public ActionResult Edit(int id)
         {
-            Group group = Storage.GetGroup(id);
+            Group group = _storage.GetGroup(id);
             if (group == null)
             {
                 return RedirectToAction("Error");
@@ -64,7 +72,7 @@ namespace IUDICO.UserManagement.Controllers
         [HttpPost]
         public ActionResult Edit(int id, Group group)
         {
-            if (ModelState.IsValid && Storage.EditGroup(id, group))
+            if (ModelState.IsValid && _storage.EditGroup(id, group))
             {
                 return RedirectToAction("Index");
             }
@@ -80,7 +88,7 @@ namespace IUDICO.UserManagement.Controllers
         [HttpDelete]
         public JsonResult Delete(int id)
         {
-            return Json(new { status = Storage.DeleteGroup(id) });
+            return Json(new { status = _storage.DeleteGroup(id) });
         }
     }
 }

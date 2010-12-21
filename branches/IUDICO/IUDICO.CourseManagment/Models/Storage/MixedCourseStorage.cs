@@ -5,28 +5,25 @@ using System.Linq;
 using System.Web;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
-using IUDICO.CourseManagement.Models;
+using IUDICO.CourseManagement.Helpers;
 using IUDICO.CourseManagement.Models.ManifestModels;
-using IUDICO.CourseManagement.Models.ManifestModels.MetadataModels;
 using IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels;
 using IUDICO.CourseManagement.Models.ManifestModels.ResourceModels;
-using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
-using IUDICO.CourseManagement.Helpers;
 
 namespace IUDICO.CourseManagement.Models.Storage
 {
-    public class MixedCourseManagement : ICourseManagement
+    internal class MixedCourseStorage : ICourseStorage
     {
-        protected ILmsService _LmsService;
+        private ILmsService _lmsService;
 
-        public MixedCourseManagement(ILmsService lmsService)
+        public MixedCourseStorage(ILmsService lmsService)
         {
-            _LmsService = lmsService;
+            _lmsService = lmsService;
         }
 
         protected DBDataContext GetDbContext()
         {
-            return _LmsService.GetDbDataContext();
+            return _lmsService.GetDbDataContext();
         }
 
         #region IStorage Members
