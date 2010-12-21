@@ -1,47 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Data.Linq;
 using System.Linq;
-using System.Reflection;
-using System.Web.Mvc;
-using System.Web.Routing;
 using IUDICO.Common.Models;
 
 namespace IUDICO.CourseManagement.Models
 {
-    public static class RouteCollectionExtentions
-    {
-        public static Route CustomMapRoute(this RouteCollection routes, string name, string url, object defaults, object constraints)
-        {
-            var route = new Route(url, new MvcRouteHandler())
-            {
-                Defaults = new RouteValueDictionary(defaults),
-                Constraints = new RouteValueDictionary(constraints),
-                DataTokens = new RouteValueDictionary()
-            };
-
-            routes.Add(name, route);
-
-            return route;
-        }
-
-        public static Route CustomMapRoute(this RouteCollection routes, string name, string url, object defaults)
-        {
-            return CustomMapRoute(routes, name, url, defaults, null);
-        }
-    }
-
-    public static class DataContextExtensions
-    {
-        public static void ClearCache(this DataContext context)
-        {
-            const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-
-            var method = context.GetType().GetMethod("ClearCache", flags);
-
-            method.Invoke(context, null);
-        }
-    }
-
     public static class EnumerableExtensions
     {
         public static IEnumerable<JsTreeNode> ToJsTrees(this IEnumerable<Node> list)

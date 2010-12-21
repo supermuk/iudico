@@ -12,15 +12,15 @@ namespace IUDICO.Common.Models
             var controller = htmlHelper.ViewContext.Controller;
 
             
-            if (url.StartsWith("~/") && controller is PluginController)
+            if (url[0] == '~' && controller is PluginController)
             {
                 var assembly = controller.GetType().Assembly;
                 var assemblyFileName = Path.GetFileName(assembly.Location);
                 var assemblyName = assembly.GetName().Name;
 
-                var pluginPath = string.Format("Plugins/{0}/{1}/", assemblyFileName, assemblyName);
+                var pluginPath = string.Format("/Plugins/{0}/{1}", assemblyFileName, assemblyName);
                 
-                url = url.Insert(2, pluginPath);
+                url = url.Insert(1, pluginPath);
             }
 
             return MvcHtmlString.Create(urlHelper.Content(url));

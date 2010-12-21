@@ -101,6 +101,7 @@
     <Content Include="Views\Account\Login.aspx" />
     <Content Include="Views\Account\Register.aspx" />
     <Content Include="Views\Account\Registered.aspx" />
+    <Content Include="Views\Group\AddUsers.aspx" />
     <Content Include="Views\Group\Create.aspx" />
     <Content Include="Views\Group\Edit.aspx" />
     <Content Include="Views\Group\Index.aspx" />

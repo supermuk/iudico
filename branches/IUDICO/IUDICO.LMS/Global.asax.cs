@@ -6,6 +6,7 @@ using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.TemplateMetadata;
 using IUDICO.LMS.IoC;
 using IUDICO.LMS.Models;
 using IUDICO.Common.Models.Plugin;
@@ -14,11 +15,11 @@ namespace IUDICO.LMS
 {
     public class MvcApplication : HttpApplication, IContainerAccessor
     {
-        static IWindsorContainer container;
+        static IWindsorContainer _Container;
 
         public IWindsorContainer Container
         {
-            get { return container; }
+            get { return _Container; }
         }
 
         protected void Application_Start()
@@ -30,26 +31,30 @@ namespace IUDICO.LMS
 
             RegisterRoutes(RouteTable.Routes);
 
-            IControllerFactory controllerFactory = Container.Resolve<IControllerFactory>();
+            var controllerFactory = Container.Resolve<IControllerFactory>();
             ControllerBuilder.Current.SetControllerFactory(controllerFactory);
+
+            ModelMetadataProviders.Current = new FieldTemplateMetadataProvider();
         }
 
         protected void Application_End()
         {
-            if (container != null)
+            if (_Container != null)
             {
-                container.Dispose();
-                container = null;
+                _Container.Dispose();
+                _Container = null;
             }
         }
 
         protected void RegisterRoutes(RouteCollection routes)
         {
-            IPlugin[] plugins = Container.ResolveAll<IPlugin>();
-            foreach (IPlugin plugin in plugins)
+            var plugins = Container.ResolveAll<IPlugin>();
+
+            foreach (var plugin in plugins)
             {
                 plugin.RegisterRoutes(routes);
             }
+
             Container.Release(plugins);
 
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
@@ -66,11 +71,11 @@ namespace IUDICO.LMS
 
         protected void InitializeWindsor()
         {
-            container = new WindsorContainer();
+            _Container = new WindsorContainer();
 
-            container
+            _Container
                 .Register(
-                    Component.For<IWindsorContainer>().Instance(container))
+                    Component.For<IWindsorContainer>().Instance(_Container))
                 .Register(
                     Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton.DependsOn())
                 .Install(FromAssembly.This(),
