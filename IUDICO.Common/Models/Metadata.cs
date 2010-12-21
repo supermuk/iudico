@@ -55,6 +55,9 @@ namespace IUDICO.Common.Models
             [DisplayName("Update Date")]
             [ScaffoldColumn(false)]
             public DateTime Updated { get; set; }
+
+            [ScaffoldColumn(false)]
+            public bool IsDeleted { get; set; }
         }
     }
 
@@ -82,6 +85,9 @@ namespace IUDICO.Common.Models
 
             [ScaffoldColumn(false)]
             public int CurriculumRef { get; set; }
+
+            [ScaffoldColumn(false)]
+            public bool IsDeleted { get; set; }
         }
     }
 
@@ -114,6 +120,9 @@ namespace IUDICO.Common.Models
 
             [ScaffoldColumn(false)]
             public int SortOrder { get; set; }
+
+            [ScaffoldColumn(false)]
+            public bool IsDeleted { get; set; }
         }
     }
 

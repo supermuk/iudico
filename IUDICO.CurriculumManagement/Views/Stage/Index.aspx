@@ -125,6 +125,6 @@
 
     <div>
         <br/>
-        <%: Html.ActionLink("Back to curriculums.", "Index", "Curriculum") %>
+        <%: Html.RouteLink("Back to curriculums.", "Curriculums", new { action = "Index" })%>
     </div>
 </asp:Content>

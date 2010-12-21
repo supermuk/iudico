@@ -18,7 +18,7 @@
         </fieldset>
     <% } %>
     <div>
-        <%: Html.ActionLink("Back to list", "Index", new { StageId = Model.StageId })%>
+        <%: Html.RouteLink("Back to list", "Themes", new { action = "Index", StageId = Model.StageId })%>
     </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">

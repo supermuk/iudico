@@ -4,6 +4,12 @@ namespace IUDICO.Common.Models.Services
 {
     public interface ICurriculumManagement : IService
     {
+        #region Helper methods
+
+        void RefreshState();
+
+        #endregion
+
         #region Curriculum methods
 
         IEnumerable<Curriculum> GetCurriculums();
@@ -41,7 +47,6 @@ namespace IUDICO.Common.Models.Services
         Theme ThemeDown(int themeId);
 
         #endregion
-
 
         #region Assignment methods
 
