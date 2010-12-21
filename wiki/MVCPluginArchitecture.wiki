@@ -1,0 +1,5 @@
+=MVCPluginArchitecture=
+
+The following diagram describes how MVC plugin architecture is organised:
+
+http://img692.imageshack.us/img692/374/iudico.png
