@@ -96,7 +96,7 @@ namespace IUDICO.UserManagement.Controllers
             groupUser.GroupList = _Storage.GetGroups().AsQueryable().Select(g => new SelectListItem { Text = g.Name, Value = g.Id.ToString(), Selected = false });
             //groupUser.UserList = _Storage.GetUsers().AsQueryable().Select(u => new SelectListItem { Text = u.Username, Value = u.Id.ToString(), Selected = false });
 
-            return View();
+            return View(groupUser);
         }
 
         [HttpPost]
