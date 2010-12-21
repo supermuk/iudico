@@ -4,7 +4,7 @@ using System;
 
 namespace IUDICO.Common.Models.Services
 {
-    public interface ITestingSystem : IService
+    public interface ITestingService : IService
     {
         //AttemptResult PlayCourse(int courseID);
         //IEnumerable<AttemptResult> GetResults(Guid userID, int courseID);

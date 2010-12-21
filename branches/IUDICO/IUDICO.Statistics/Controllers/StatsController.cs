@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using IUDICO.Common.Controllers;
 
 using IUDICO.Statistics.Models;
+using IUDICO.Statistics.Models.Storage;
 
 namespace IUDICO.Statistics.Controllers
 {

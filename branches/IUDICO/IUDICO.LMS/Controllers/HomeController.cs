@@ -1,5 +1,8 @@
 ﻿using System.Web.Mvc;
 using IUDICO.Common.Controllers;
+using System.Collections.Generic;
+using IUDICO.Common.Models;
+using System;
 
 namespace IUDICO.LMS.Controllers
 {
@@ -7,6 +10,11 @@ namespace IUDICO.LMS.Controllers
     {
         //
         // GET: /Home/
+
+        public HomeController()
+        {
+
+        }
 
         public ActionResult Index()
         {

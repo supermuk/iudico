@@ -92,6 +92,7 @@
     <Compile Include="CourseManagementPlugin.cs" />
     <Compile Include="Helpers\PackageValidator.cs" />
     <Compile Include="Helpers\Zipper.cs" />
+    <Compile Include="Models\CourseService.cs" />
     <Compile Include="Models\Extensions.cs" />
     <Compile Include="Models\JsTree.cs" />
     <Compile Include="Models\ManifestModels\ConstantStrings.cs" />
@@ -111,7 +112,8 @@
     <Compile Include="Models\ManifestModels\ResourceModels\Resources.cs" />
     <Compile Include="Models\ManifestModels\SCORMStrings.cs" />
     <Compile Include="Models\ManifestModels\SequencingModels\Sequencing.cs" />
-    <Compile Include="Models\Storage\MixedCourseManagement.cs" />
+    <Compile Include="Models\Storage\ICourseStorage.cs" />
+    <Compile Include="Models\Storage\MixedCourseStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

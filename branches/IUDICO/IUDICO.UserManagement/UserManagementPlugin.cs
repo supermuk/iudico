@@ -1,8 +1,8 @@
 ﻿using System.Web.Mvc;
 using Castle.MicroKernel.Registration;
 using IUDICO.Common.Models.Plugin;
-using IUDICO.UserManagement.Models.Services;
 using IUDICO.Common.Models.Services;
+using IUDICO.UserManagement.Models.Storage;
 
 namespace IUDICO.UserManagement
 {
@@ -19,7 +19,7 @@ namespace IUDICO.UserManagement
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<UserManagementPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<IUserManagement>().ImplementedBy<DatabaseUserManagement>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
+                Component.For<IUserService>().ImplementedBy<DatabaseUserStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
 
             //HttpContext.Current.Application["UMStorage"] = container.Resolve<DatabaseUserManagement>();// UMStorageFactory.CreateStorage(UMStorageType.Database);

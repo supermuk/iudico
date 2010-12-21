@@ -6,12 +6,12 @@ using IUDICO.Common.Models.Services;
 
 namespace IUDICO.CurriculumManagement.Models.Storage
 {
-    public class MixedCurriculumManagement : ICurriculumManagement
+    public class MixedCurriculumStorage : ICurriculumStorage, ICurriculumService
     {
         private ILmsService lmsService;
         private DBDataContext db;
 
-        public MixedCurriculumManagement(ILmsService lmsService)
+        public MixedCurriculumStorage(ILmsService lmsService)
         {
             this.lmsService = lmsService;
             RefreshState();
@@ -23,7 +23,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public void RefreshState()
         {
-            db = new DBDataContext(lmsService.GetDbConnectionString());
+            //db = new DBDataContext(lmsService.GetDbConnectionString());
+            db = lmsService.GetDbDataContext();
         }
 
         #endregion
