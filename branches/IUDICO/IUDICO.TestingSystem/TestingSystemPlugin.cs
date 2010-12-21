@@ -17,10 +17,10 @@ namespace IUDICO.TestingSystem
                     .FromThisAssembly()
                     .BasedOn<IController>()
                     .Configure(c => c.LifeStyle.Transient
-                                        .Named(c.Implementation.Name))//,
-                //Component.For<IPlugin>().ImplementedBy<TestingSystemPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
-                //Component.For<ITestingSystem>().ImplementedBy<FakeTestingSystem>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
-            );
+                                        .Named(c.Implementation.Name)),
+                Component.For<IPlugin>().ImplementedBy<TestingSystemPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<ITestingService>().ImplementedBy<FakeTestingSystem>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
+                );
         }
 
         #endregion
