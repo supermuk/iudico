@@ -4,7 +4,7 @@ The following diagram describes how MVC plugin architecture is organised:
 
 http://img692.imageshack.us/img692/374/iudico.png
 
-http://www.websequencediagrams.com/cgi-bin/cdraw?lz=VXNlci0-TE1TOiBSZXF1ZXN0CkxNUy0-SW9jQ29udHJvbGxlckZhY3Rvcnk6IEdldCAADQoKABEULT5QbHVnaW4ANAoAUAoAChAtPlN5c3RlbQBTBlZpZXcKAAsGLT5Bc3NlbWJseVJlc291cmNlUHJvdmlkZXIAIAsACxgAbhRWaWV3IGZyb20gYQBSBwB6E1VzACMICgCCCg0AfAYAghIGAHoeACMJAIECGgBfBgCBTwg&s=rose&.jpg
+http://www.websequencediagrams.com/cgi-bin/cdraw?lz=VXNlci0-TE1TOiBSZXF1ZXN0CkxNUy0-SW9jQ29udHJvbGxlckZhY3Rvcnk6IEdldCAADQoKABEULT5QbHVnaW4ANAoAUAoAChAtPkFzc2VtYmx5UmVzb3VyY2VQcm92aWRlcgBlBlZpZXcKAAsYAFUUVmlldyBmcm9tIGEAUgcAYRNVcwAjCAoAgXENAHwGAIF5BgB6HgAjCQCBAhoAXwYAgU8I&s=rose&.jpg
 
 How-to create own plugin:
 
