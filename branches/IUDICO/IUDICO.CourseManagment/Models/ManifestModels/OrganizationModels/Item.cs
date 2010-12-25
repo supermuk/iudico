@@ -21,7 +21,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
             IdentifierRef = resourceId;
         }
 
-        private bool IsParent;
+        private readonly bool IsParent;
         
         [XmlAttribute(SCORM.Identifier)]
         public string Identifier;
@@ -67,14 +67,13 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         [XmlElement(SCORM.Data, Namespace=SCORM.AdlcpNamespaceV1p3)]
         public List<Map> Data;
 
-
-
         public void AddChildItem(Item item)
         {
             if (!IsParent)
             {
                 throw new Exception("Can't add child item to leaf item");
             }
+
             item.Identifier = ConstantStrings.ItemIdPrefix + Guid.NewGuid().ToString();
             Items.Add(item);
         }

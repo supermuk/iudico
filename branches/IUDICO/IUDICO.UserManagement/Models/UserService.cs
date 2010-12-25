@@ -10,33 +10,33 @@ namespace IUDICO.UserManagement.Models
 {
     public class UserService : IUserService
     {
-        private IUserStorage _userStorage;
+        private readonly IUserStorage _UserStorage;
 
         public UserService(IUserStorage userStorage)
         {
-            _userStorage = userStorage;
+            _UserStorage = userStorage;
         }
 
         #region Implementation of IUserService
 
         public IEnumerable<Role> GetRoles()
         {
-            return _userStorage.GetRoles();
+            return _UserStorage.GetRoles();
         }
 
         public Role GetRole(int id)
         {
-            return _userStorage.GetRole(id);
+            return _UserStorage.GetRole(id);
         }
 
         public IEnumerable<Group> GetGroups()
         {
-            return _userStorage.GetGroups();
+            return _UserStorage.GetGroups();
         }
 
         public Group GetGroup(int id)
         {
-            return _userStorage.GetGroup(id);
+            return _UserStorage.GetGroup(id);
         }
 
         #endregion

@@ -7,11 +7,11 @@ namespace IUDICO.CurriculumManagement.Controllers
 {
     public class CurriculumController : CurriculumBaseController
     {
-        private readonly ICurriculumStorage _storage;
+        private readonly ICurriculumStorage _Storage;
 
         public CurriculumController(ICurriculumStorage curriculumStorage)
         {
-            _storage = curriculumStorage;
+            _Storage = curriculumStorage;
         }
 
         private ActionResult ErrorView(Exception e)
@@ -28,7 +28,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var curriculums = _storage.GetCurriculums();
+                var curriculums = _Storage.GetCurriculums();
 
                 if (curriculums != null)
                 {
@@ -63,7 +63,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                _storage.AddCurriculum(curriculum);
+                _Storage.AddCurriculum(curriculum);
 
                 return RedirectToAction("Index");
             }
@@ -78,7 +78,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var curriculum = _storage.GetCurriculum(curriculumId);
+                var curriculum = _Storage.GetCurriculum(curriculumId);
 
                 if (curriculum != null)
                 {
@@ -101,7 +101,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             try
             {
                 curriculum.Id = curriculumId;
-                _storage.UpdateCurriculum(curriculum);
+                _Storage.UpdateCurriculum(curriculum);
 
                 return RedirectToAction("Index");
             }
@@ -116,7 +116,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                _storage.DeleteCurriculum(curriculumId);
+                _Storage.DeleteCurriculum(curriculumId);
 
                 return Json(new { success = true });
             }
@@ -131,7 +131,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                _storage.DeleteCurriculums(curriculumIds);
+                _Storage.DeleteCurriculums(curriculumIds);
 
                 return Json(new { success = true });
             }

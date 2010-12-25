@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using IUDICO.TestingSystem.Models.Shared;
 using IUDICO.TestingSystem.Models;
 using IUDICO.Common.Controllers;
-using IUDICO.Common.Models.Services;
 
 namespace IUDICO.TestingSystem.Controllers
 {
@@ -16,7 +14,7 @@ namespace IUDICO.TestingSystem.Controllers
 
         public ActionResult Index()
         {
-            IEnumerable<Training> trainings = MlcDataProvider.Instance.GetTrainings(1);
+            var trainings = MlcDataProvider.Instance.GetTrainings(1);
                 
             return View(trainings);
         }

@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web.Mvc;
-using IUDICO.Common.Models;
 using IUDICO.CurriculumManagement.Models.Storage;
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
     public class CurriculumAssignmentController : CurriculumBaseController
     {
-        private readonly ICurriculumStorage _storage;
+        private readonly ICurriculumStorage _Storage;
 
         public CurriculumAssignmentController(ICurriculumStorage curriculumStorage)
         {
-            _storage = curriculumStorage;
+            _Storage = curriculumStorage;
         }
 
         private ActionResult ErrorView(Exception e)
@@ -27,7 +25,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var groups = _storage.GetGroups();
+                var groups = _Storage.GetGroups();
 
 
                 if (groups != null)
@@ -54,7 +52,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var timelines = _storage.GetTimelines();
+                var timelines = _Storage.GetTimelines();
 
                 if (timelines != null)
                 {
