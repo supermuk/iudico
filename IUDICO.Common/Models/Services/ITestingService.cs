@@ -6,6 +6,6 @@ namespace IUDICO.Common.Models.Services
 {
     public interface ITestingService : IService
     {
-        IEnumerable<AttemptResult> GetResults(Guid userID, int courseID);
+        IEnumerable<AttemptResult> GetResults(Guid userId, int courseId);
     }
 }

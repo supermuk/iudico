@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace IUDICO.Common.Models
 {
@@ -11,7 +8,7 @@ namespace IUDICO.Common.Models
 
         public Menu()
         {
-            this.Items = new List<MenuItem>();
+            Items = new List<MenuItem>();
         }
 
         public void Add(MenuItem item)

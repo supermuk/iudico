@@ -14,9 +14,10 @@ namespace IUDICO.Statistics.Models.Storage
     //Vitalik
     public class ThemeInfoModel
     {
-        private InfoOnFirstPage Info;
+        private readonly InfoOnFirstPage Info;
         public List<Student> SelectStudents;
         public List<Theme> SelectCurriculumThemes;
+        
         public ThemeInfoModel()
         {
             Info = new InfoOnFirstPage();
@@ -24,17 +25,19 @@ namespace IUDICO.Statistics.Models.Storage
             SelectStudents = new List<Student>();
             SelectCurriculumThemes = new List<Theme>();
         }
-        public void BuildFrom(Int32 CurriculumID, Int32 SelectedGroupID)
+
+        public void BuildFrom(Int32 curriculumId, Int32 selectedGroupId)
         {
-            foreach (Student student in GetGroupByID(Info, SelectedGroupID).Students)
+            foreach (Student student in GetGroupByID(Info, selectedGroupId).Students)
             {
                 SelectStudents.Add(student);
             }
-            foreach (Theme theme in GetCurriculumByID(Info, CurriculumID).Themes)
+            foreach (Theme theme in GetCurriculumByID(Info, curriculumId).Themes)
             {
                 SelectCurriculumThemes.Add(theme);
             }
         }
+
         public int GetStudentResautForTheme(Student SelectStudent, Theme SelectTheme)
         {
             foreach (StudentThemeResult themeResault in Info.StudentThemeResult)
@@ -44,6 +47,7 @@ namespace IUDICO.Statistics.Models.Storage
             }
             return 0;
         }
+
         public int GetStudentResautForAllThemesInSelectedCurriculum(Student SelectStudent)
         {
             int res = 0;
@@ -57,6 +61,7 @@ namespace IUDICO.Statistics.Models.Storage
             }
             return res;
         }
+
         public int GetAllThemesInSelectedCurriculumMaxMark()
         {
             int res = 0;
@@ -66,6 +71,7 @@ namespace IUDICO.Statistics.Models.Storage
             }
             return res;
         }
+
         private Curriculum GetCurriculumByID(InfoOnFirstPage findInfo, Int32 findCurriculumID)
         {
             foreach (Curriculum i in findInfo.Curriculums)
@@ -75,6 +81,7 @@ namespace IUDICO.Statistics.Models.Storage
             }
             return null;
         }
+
         private Group GetGroupByID(InfoOnFirstPage findInfo, Int32 SelectedGroupID)
         {
             foreach (Group i in findInfo.Group)
@@ -84,6 +91,7 @@ namespace IUDICO.Statistics.Models.Storage
             }
             return null;
         }
+
         public char Ects(double percent)
         {
             if (percent > 91.0)
@@ -112,12 +120,13 @@ namespace IUDICO.Statistics.Models.Storage
             }
         }
     }
+
     public class ThemeTestResaultsModel
     {
-        private InfoOnFirstPage Info;
+        private readonly InfoOnFirstPage Info;
         public Student SelectStudent;
         public Theme SelectTheme;
-        public StudentThemeResult themeResault;
+        public StudentThemeResult ThemeResult;
         public List<StudentQuestionResault> Answers;
 
         public ThemeTestResaultsModel()
@@ -127,14 +136,16 @@ namespace IUDICO.Statistics.Models.Storage
             Answers = new List<StudentQuestionResault>();
             SelectStudent = null;
             SelectTheme = null;
-            themeResault = null;
+            ThemeResult = null;
         }
-        public void BuildFrom(Int32 StudentID, Int32 ThemeID)
+
+        public void BuildFrom(Int32 studentId, Int32 themeId)
         {
-            SelectStudent = GetStudentByID(Info, StudentID);
-            SelectTheme = GetThemeByID(Info, ThemeID);
-            themeResault = GetThemeResaultByID(Info, SelectStudent, SelectTheme);
-            foreach (StudentQuestionResault questResault in Info.QuestionResault)
+            SelectStudent = GetStudentByID(Info, studentId);
+            SelectTheme = GetThemeByID(Info, themeId);
+            ThemeResult = GetThemeResaultByID(Info, SelectStudent, SelectTheme);
+            
+            foreach (var questResault in Info.QuestionResault)
             {
                 if (questResault.Stud == SelectStudent & questResault.ThemeID == SelectTheme.ThemeId)
                 {
@@ -142,6 +153,7 @@ namespace IUDICO.Statistics.Models.Storage
                 }
             }
         }
+
         private StudentThemeResult GetThemeResaultByID(InfoOnFirstPage findInfo, Student student, Theme theme)
         {
             foreach (StudentThemeResult res in findInfo.StudentThemeResult)
@@ -149,8 +161,10 @@ namespace IUDICO.Statistics.Models.Storage
                 if (res.Stud == student & res.ThemeId == theme.ThemeId)
                     return res;
             }
+
             return null;
         }
+
         private Student GetStudentByID(InfoOnFirstPage findInfo, Int32 StudentID)
         {
             foreach (Group Group in findInfo.Group)
@@ -163,6 +177,7 @@ namespace IUDICO.Statistics.Models.Storage
             }
             return null;
         }
+
         private Theme GetThemeByID(InfoOnFirstPage findInfo, Int32 ThemeID)
         {
             foreach (Theme theme in findInfo.Themes)
@@ -173,6 +188,7 @@ namespace IUDICO.Statistics.Models.Storage
             return null;
         }
     }
+
     public class StudentQuestionResault
     {
         public Student Stud { get; set; }
@@ -181,6 +197,7 @@ namespace IUDICO.Statistics.Models.Storage
         public string StudentAnswer { get; set; }
         public string RightAnswer { get; set; }
     }
+
     //Roma
     public class Curriculum
     {
@@ -243,7 +260,7 @@ namespace IUDICO.Statistics.Models.Storage
         public void SetFakeData()
         {
             //Students creation
-            Student st1 = new Student() { StudentId = 1, Name = "Roman (1)" };
+            var st1 = new Student() { StudentId = 1, Name = "Roman (1)" };
             Student st2 = new Student() { StudentId = 2, Name = "Ivan (1)" };
             Student st3 = new Student() { StudentId = 3, Name = "Bogdan (1)" };
             Student st4 = new Student() { StudentId = 4, Name = "Stepan (1)" };

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace IUDICO.Common.Models.Shared.Statistics
+﻿namespace IUDICO.Common.Models.Shared.Statistics
 {
     public enum CompletionStatus
     {

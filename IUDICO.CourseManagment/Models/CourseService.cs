@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using IUDICO.Common.Models;
 using IUDICO.CourseManagement.Models.Storage;
 using IUDICO.Common.Models.Services;
@@ -10,43 +7,43 @@ namespace IUDICO.CourseManagement.Models
 {
     public class CourseService: ICourseService
     {
-        private ICourseStorage _courseStorage;
+        private readonly ICourseStorage _CourseStorage;
 
         public CourseService(ICourseStorage courseStorage)
         {
-            _courseStorage = courseStorage;
+            _CourseStorage = courseStorage;
         }
 
         #region Implementation of ICourseService
 
         public IEnumerable<Course> GetCourses()
         {
-            return _courseStorage.GetCourses();
+            return _CourseStorage.GetCourses();
         }
 
         public Course GetCourse(int id)
         {
-            return _courseStorage.GetCourse(id);
+            return _CourseStorage.GetCourse(id);
         }
 
         public IEnumerable<Node> GetNodes(int courseId)
         {
-            return _courseStorage.GetNodes(courseId);
+            return _CourseStorage.GetNodes(courseId);
         }
 
         public IEnumerable<Node> GetNodes(int courseId, int? parentId)
         {
-            return _courseStorage.GetNodes(courseId, parentId);
+            return _CourseStorage.GetNodes(courseId, parentId);
         }
 
         public Node GetNode(int id)
         {
-            return _courseStorage.GetNode(id);
+            return _CourseStorage.GetNode(id);
         }
 
         public string GetNodeContents(int id)
         {
-            return _courseStorage.GetNodeContents(id);
+            return _CourseStorage.GetNodeContents(id);
         }
 
         #endregion

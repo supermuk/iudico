@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
 using IUDICO.Common.Controllers;
-
-using IUDICO.Statistics.Models;
 using IUDICO.Statistics.Models.Storage;
 
 namespace IUDICO.Statistics.Controllers
@@ -25,83 +23,56 @@ namespace IUDICO.Statistics.Controllers
 
         public ActionResult CurriculumInfo(int id)
         {
-            try
+            var info = new InfoOnFirstPage();
+
+            info.SetFakeData();
+
+            if (id >= 0 && id < info.Curriculums.Count)
             {
-                var info = new InfoOnFirstPage();
+                var curriculum = new Curriculum();
 
-                info.SetFakeData();
+                curriculum = info.GetCurriculum(id);
 
-                if (id >= 0 && id < info.Curriculums.Count)
-                {
-                    var curriculum = new Curriculum();
-
-                    curriculum = info.GetCurriculum(id);
-
-                    return View(curriculum);
-                }
-                else
-                {
-                    throw new Exception("Invalid id");
-                }
+                return View(curriculum);
             }
-            catch (Exception ex)
+            else
             {
-                throw ex;
+                throw new Exception("Invalid id");
             }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult CurriculumInfoId(Int32[] idList)
         {
-            try
+            if (idList == null)
             {
-                if (idList == null)
-                {
-                    throw new Exception("Please select one or more curriculums");
-                }
-                else
-                {
-                    ViewData["IDs"] = idList;
-
-                    var info = new InfoOnFirstPage();
-                    info.SetFakeData();
-                    return View(info);
-                }
+                throw new Exception("Please select one or more curriculums");
             }
-            catch(Exception ex)
+            else
             {
-                throw ex;
+                ViewData["IDs"] = idList;
+
+                var info = new InfoOnFirstPage();
+                info.SetFakeData();
+                return View(info);
             }
         }
+
         //Vitalik Pages
-        public ActionResult ThemesInfo(Int32 CurriculumID, Int32 SelectedGroupID)
+        public ActionResult ThemesInfo(Int32 curriculumId, Int32 selectedGroupId)
         {
-            try
-            {
-                ThemeInfoModel model = new ThemeInfoModel();
-                model.BuildFrom(CurriculumID, SelectedGroupID);
+            var model = new ThemeInfoModel();
+            model.BuildFrom(curriculumId, selectedGroupId);
 
-                return View(model);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return View(model);
         }
 
-        public ActionResult ThemeTestResaults(Int32 StudentID, Int32 ThemeID)
+        public ActionResult ThemeTestResaults(Int32 studentId, Int32 themeId)
         {
-            try
-            {
-                ThemeTestResaultsModel model = new ThemeTestResaultsModel();
-                model.BuildFrom(StudentID, ThemeID);
+            var model = new ThemeTestResaultsModel();
+            model.BuildFrom(studentId, themeId);
 
-                return View(model);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return View(model);
         }
     }
 }

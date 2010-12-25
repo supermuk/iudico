@@ -17,26 +17,30 @@ namespace IUDICO.CourseManagement.Helpers
                 f.BeginUpdate();
                 f.NameTransform = new ZipNameTransform(folder);
                 f.UseZip64 = UseZip64.Off;
-                foreach (string file in Directory.GetFiles(folder, "*", SearchOption.AllDirectories))
+
+                foreach (var file in Directory.GetFiles(folder, "*", SearchOption.AllDirectories))
                 {
                     f.Add(file);
                 }
+
                 f.CommitUpdate();
                 f.Close();
             }
         }
 
-        private const int readBufferSize = 2048;
+        private const int _ReadBufferSize = 2048;
 
         public static void ExtractZipFile(string zipFileName, string dirName)
         {
-            var data = new byte[readBufferSize];
+            var data = new byte[_ReadBufferSize];
+            
             using (var zipStream = new ZipInputStream(File.OpenRead(zipFileName)))
             {
                 ZipEntry entry;
                 while ((entry = zipStream.GetNextEntry()) != null)
                 {
                     var fullName = Path.Combine(dirName, entry.Name);
+
                     if (entry.IsDirectory && !Directory.Exists(fullName))
                     {
                         Directory.CreateDirectory(fullName);
@@ -44,14 +48,17 @@ namespace IUDICO.CourseManagement.Helpers
                     else if (entry.IsFile)
                     {
                         var dir = Path.GetDirectoryName(fullName);
+
                         if (!Directory.Exists(dir))
                         {
                             Directory.CreateDirectory(dir);
                         }
+
                         using (var fileStream = File.Create(fullName))
                         {
                             int readed;
-                            while ((readed = zipStream.Read(data, 0, readBufferSize)) > 0)
+
+                            while ((readed = zipStream.Read(data, 0, _ReadBufferSize)) > 0)
                             {
                                 fileStream.Write(data, 0, readed);
                             }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace IUDICO.Common.Models.Shared.Statistics
 {
@@ -15,7 +12,7 @@ namespace IUDICO.Common.Models.Shared.Statistics
         /// <summary>
         /// Value from -1 to 1 inclusive: [-1; 1].
         /// </summary>
-        private float? _scaledScore;
+        private float? _ScaledScore;
 
         #endregion
 
@@ -25,8 +22,9 @@ namespace IUDICO.Common.Models.Shared.Statistics
         { 
             get
             {
-                return _scaledScore;
+                return _ScaledScore;
             }
+
             protected set
             {
                 if (value != null)
@@ -35,7 +33,7 @@ namespace IUDICO.Common.Models.Shared.Statistics
                         throw new ArgumentOutOfRangeException("scaledScore", "Value of scaled score should be in range of [-1;1]");
                 }
 
-                _scaledScore = value;
+                _ScaledScore = value;
             }
         }
 
@@ -45,7 +43,7 @@ namespace IUDICO.Common.Models.Shared.Statistics
 
         public Score(float? scaledScore)
         {
-            this.ScaledScore = scaledScore;
+            ScaledScore = scaledScore;
         }
 
         #endregion
@@ -54,7 +52,7 @@ namespace IUDICO.Common.Models.Shared.Statistics
 
         public double? ToPercents()
         {
-            return this.ScaledScore * 100;
+            return ScaledScore * 100;
         }
 
         public int? ToInt()

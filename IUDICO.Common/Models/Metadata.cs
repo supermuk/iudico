@@ -159,14 +159,6 @@ namespace IUDICO.Common.Models
     [Bind(Exclude = "Id")]
     public partial class User
     {
-        public enum UserRole
-        {
-            Guest = 0,
-            Student = 1,
-            Teacher = 2,
-            Administrator = 3
-        }
-
         private sealed class Metadata
         {
             [ScaffoldColumn(false)]

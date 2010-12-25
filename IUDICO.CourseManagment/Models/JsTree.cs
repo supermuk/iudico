@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace IUDICO.CourseManagement.Models
+﻿namespace IUDICO.CourseManagement.Models
 {
     public class JsTreeNode
     {

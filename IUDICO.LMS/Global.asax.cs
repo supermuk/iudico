@@ -15,6 +15,8 @@ using IUDICO.Common.Models.Plugin;
 using System.Collections.Generic;
 using Action = IUDICO.Common.Models.Action;
 using System.Reflection;
+using IUDICO.LMS.Models.Providers;
+using System.Web.Security;
 
 namespace IUDICO.LMS
 {
@@ -47,20 +49,27 @@ namespace IUDICO.LMS
         protected void Application_Start()
         {
             AppDomain.CurrentDomain.AppendPrivatePath(Server.MapPath("/Plugins"));
-            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
-
-            InitializeWindsor();
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             HostingEnvironment.RegisterVirtualPathProvider(new AssemblyResourceProvider());
             AreaRegistration.RegisterAllAreas();
 
-            RegisterRoutes(RouteTable.Routes);
+            InitializeWindsor();
+
+            LoadProviders();
             LoadPluginData();
+            RegisterRoutes(RouteTable.Routes);
 
             var controllerFactory = Container.Resolve<IControllerFactory>();
             ControllerBuilder.Current.SetControllerFactory(controllerFactory);
 
             ModelMetadataProviders.Current = new FieldTemplateMetadataProvider();
+        }
+
+        private void LoadProviders()
+        {
+            ((IoCMembershipProvider) Membership.Provider).Initialize(Container.Resolve<MembershipProvider>());
+            ((IoCRoleProvider)Roles.Provider).Initialize(Container.Resolve<RoleProvider>());
         }
 
         Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)

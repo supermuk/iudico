@@ -11,11 +11,11 @@ namespace IUDICO.LMS.IoC
 {
     public class AssemblyResourceProvider : VirtualPathProvider
     {
-        private readonly Dictionary<string, Assembly> _nameAssemblyCache;
+        private readonly Dictionary<string, Assembly> _NameAssemblyCache;
 
         public AssemblyResourceProvider()
         {
-            _nameAssemblyCache = new Dictionary<string, Assembly>(StringComparer.InvariantCultureIgnoreCase);
+            _NameAssemblyCache = new Dictionary<string, Assembly>(StringComparer.InvariantCultureIgnoreCase);
         }
 
         private static bool IsAppResourcePath(string virtualPath)
@@ -34,7 +34,7 @@ namespace IUDICO.LMS.IoC
         public override VirtualFile GetFile(string virtualPath)
         {
             return IsAppResourcePath(virtualPath)
-                       ? new AssemblyResourceFile(_nameAssemblyCache, virtualPath)
+                       ? new AssemblyResourceFile(_NameAssemblyCache, virtualPath)
                        : base.GetFile(virtualPath);
         }
 
@@ -56,7 +56,7 @@ namespace IUDICO.LMS.IoC
             public AssemblyResourceFile(IDictionary<string, Assembly> nameAssemblyCache, string virtualPath) :
                 base(virtualPath)
             {
-                this._NameAssemblyCache = nameAssemblyCache;
+                _NameAssemblyCache = nameAssemblyCache;
                 _AssemblyPath = VirtualPathUtility.ToAppRelative(virtualPath);
             }
 

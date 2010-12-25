@@ -1,34 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using IUDICO.Common.Models;
-using IUDICO.UserManagement.Models;
+using IUDICO.Common.Models.Attributes;
 using IUDICO.UserManagement.Models.Storage;
 
 namespace IUDICO.UserManagement.Controllers
 {
-    public class RoleController : UserManagementBaseController
+    public class RoleController : UserBaseController
     {
-        private readonly IUserStorage _storage;
+        private readonly IUserStorage _Storage;
 
         public RoleController(IUserStorage userStorage)
         {
-            _storage = userStorage;
+            _Storage = userStorage;
         }
 
         //
         // GET: /Role/
 
+        [Allow(Roles = "Teacher")]
         public ActionResult Index()
         {
-            return View(_storage.GetRoles());
+            return View(_Storage.GetRoles());
         }
 
         //
         // GET: /Role/Create
 
+        [Allow(Roles = "Teacher")]
         public ActionResult Create()
         {
             return View();
@@ -38,11 +36,12 @@ namespace IUDICO.UserManagement.Controllers
         // POST: /Role/Create
 
         [HttpPost]
+        [Authorize(Roles = "Teacher")]
         public ActionResult Create(Role role)
         {
             if (ModelState.IsValid)
             {
-                Storage.CreateRole(role);
+                _Storage.CreateRole(role);
                 return RedirectToAction("Index");
             }
             else
@@ -53,10 +52,12 @@ namespace IUDICO.UserManagement.Controllers
         
         //
         // GET: /Role/Edit/5
- 
+
+        [Allow(Roles = "Teacher")]
         public ActionResult Edit(int id)
         {
-            Role role = _storage.GetRole(id);
+            var role = _Storage.GetRole(id);
+
             if (role == null)
             {
                 return RedirectToAction("Error");
@@ -71,11 +72,13 @@ namespace IUDICO.UserManagement.Controllers
         // POST: /Role/Edit/5
 
         [HttpPost]
+        [Allow(Roles = "Teacher")]
         public ActionResult Edit(int id, Role role)
         {
             if (ModelState.IsValid)
             {
-                Storage.EditRole(id, role);
+                _Storage.EditRole(id, role);
+
                 return RedirectToAction("Index");
             }
             else
@@ -88,11 +91,13 @@ namespace IUDICO.UserManagement.Controllers
         // POST: /Role/Delete/5
 
         [HttpDelete]
+        [Allow(Roles = "Teacher")]
         public JsonResult Delete(int id)
         {
             try
             {
-                Storage.DeleteRole(id);
+                _Storage.DeleteRole(id);
+
                 return Json(new { status = true });
             }
             catch

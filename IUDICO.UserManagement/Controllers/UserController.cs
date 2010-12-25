@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Attributes;
 using IUDICO.UserManagement.Models;
 using IUDICO.UserManagement.Models.Storage;
 
@@ -11,32 +9,35 @@ namespace IUDICO.UserManagement.Controllers
 {
     public class UserController : UserBaseController
     {
-        private readonly IUserStorage _storage;
+        private readonly IUserStorage _Storage;
 
         public UserController(IUserStorage userStorage)
         {
-            _storage = userStorage;
+            _Storage = userStorage;
         }
 
         //
         // GET: /User/
 
+        [Allow(Roles = "Teacher")]
         public ActionResult Index()
         {
-            return View(_storage.GetUsers());
+            return View(_Storage.GetUsers());
         }
 
         //
         // GET: /User/Details/5
 
+        [Allow(Roles = "Teacher")]
         public ActionResult Details(Guid id)
         {
-            return View(_storage.GetUser(id));
+            return View(_Storage.GetUser(id));
         }
 
         //
         // GET: /User/Create
 
+        [Allow(Roles = "Teacher")]
         public ActionResult Create()
         {
             return View();
@@ -46,11 +47,12 @@ namespace IUDICO.UserManagement.Controllers
         // POST: /User/Create
 
         [HttpPost]
+        [Allow(Roles = "Teacher")]
         public ActionResult Create(User user)
         {
             if (ModelState.IsValid)
             {
-                _storage.CreateUser(user);
+                _Storage.CreateUser(user);
 
                 return RedirectToAction("Index");
             }
@@ -62,21 +64,23 @@ namespace IUDICO.UserManagement.Controllers
         
         //
         // GET: /User/Edit/5
- 
+
+        [Allow(Roles = "Teacher")]
         public ActionResult Edit(Guid id)
         {
-            return View(new EditUserModel(_storage.GetUser(id)));
+            return View(new EditUserModel(_Storage.GetUser(id)));
         }
 
         //
         // POST: /User/Edit/5
 
         [HttpPost]
+        [Allow(Roles = "Teacher")]
         public ActionResult Edit(Guid id,  EditUserModel editor)
         {
             if (ModelState.IsValid)
             {
-                _storage.EditUser(id, editor);
+                _Storage.EditUser(id, editor);
  
                 return RedirectToAction("Index");
             }
@@ -88,21 +92,23 @@ namespace IUDICO.UserManagement.Controllers
 
         //
         // GET: /User/Delete/5
- 
+
+        [Allow(Roles = "Teacher")]
         public ActionResult Delete(Guid id)
         {
-            return View(_storage.GetUser(id));
+            return View(_Storage.GetUser(id));
         }
 
         //
         // POST: /User/Delete/5
 
         [HttpPost]
+        [Allow(Roles = "Teacher")]
         public ActionResult Delete(Guid id, FormContext context)
         {
             try
             {
-                _storage.DeleteUser(id);
+                _Storage.DeleteUser(id);
  
                 return RedirectToAction("Index");
             }
