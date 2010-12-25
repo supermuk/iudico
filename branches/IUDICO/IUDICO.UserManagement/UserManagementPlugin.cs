@@ -1,5 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using Castle.MicroKernel.Registration;
+using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
 using IUDICO.UserManagement.Models.Storage;
@@ -30,6 +32,16 @@ namespace IUDICO.UserManagement
         #endregion
 
         #region IPlugin Members
+
+        public IEnumerable<Action> BuildActions(Role role)
+        {
+            return new List<Action>();
+        }
+
+        public void BuildMenu(Menu menu)
+        {
+
+        }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)
         {
