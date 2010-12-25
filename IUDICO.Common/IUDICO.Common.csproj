@@ -66,6 +66,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DBDataContext.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Events\CourseEvents.cs" />
     <Compile Include="Models\Helpers.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\MenuItem.cs" />

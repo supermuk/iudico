@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared.Statistics;
+using IUDICO.Common.Models;
 
 namespace IUDICO.TestingSystem.Models
 {
@@ -9,7 +10,7 @@ namespace IUDICO.TestingSystem.Models
     {
         #region ITestingService interface implementation
 
-        public IEnumerable<AttemptResult> GetResults(Guid userId, int courseId)
+        public IEnumerable<AttemptResult> GetResults(User user, Theme theme)
         {
             throw new NotImplementedException();
         }
