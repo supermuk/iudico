@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\PluginController.cs" />
+    <Compile Include="Models\Action.cs" />
     <Compile Include="Models\Attributes\AllowAttribute.cs" />
     <Compile Include="Models\Attributes\DropDownListAttribute.cs" />
     <Compile Include="Models\Attributes\OrderAttribute.cs" />
@@ -63,6 +64,8 @@
       <DependentUpon>DBDataContext.dbml</DependentUpon>
     </Compile>
     <Compile Include="Models\Helpers.cs" />
+    <Compile Include="Models\Menu.cs" />
+    <Compile Include="Models\MenuItem.cs" />
     <Compile Include="Models\Metadata.cs" />
     <Compile Include="Models\Plugin\IPlugin.cs" />
     <Compile Include="Models\Services\ICourseService.cs" />

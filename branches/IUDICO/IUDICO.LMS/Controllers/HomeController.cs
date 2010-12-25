@@ -3,6 +3,7 @@ using IUDICO.Common.Controllers;
 using System.Collections.Generic;
 using IUDICO.Common.Models;
 using System;
+using IUDICO.Common.Models.Services;
 
 namespace IUDICO.LMS.Controllers
 {
@@ -10,15 +11,16 @@ namespace IUDICO.LMS.Controllers
     {
         //
         // GET: /Home/
+        /*private ILmsService _lmsService;
 
-        public HomeController()
+        public HomeController(ILmsService lmsService)
         {
-
-        }
+            _lmsService = lmsService;
+        }*/
 
         public ActionResult Index()
         {
-            return View();
+            return View(MvcApplication.Actions);
         }
     }
 }

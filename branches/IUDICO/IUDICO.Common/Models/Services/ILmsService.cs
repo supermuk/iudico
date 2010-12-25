@@ -1,4 +1,5 @@
-﻿using System.Data.Common;
+﻿using System;
+using System.Data.Common;
 
 namespace IUDICO.Common.Models.Services
 {
@@ -6,9 +7,9 @@ namespace IUDICO.Common.Models.Services
     {
         T FindService<T>() where T : IService;
 
-        //string GetDbConnectionString();
+        [Obsolete("Use GetDbConnection() instead.")]
         DBDataContext GetDbDataContext();
-        //DbConnection GetDbConnection();
+        DbConnection GetDbConnection();
 
         void Inform(string evt, params object[] data);
     }

@@ -1,6 +1,8 @@
 ﻿using System.Web.Mvc;
 using Castle.MicroKernel.Registration;
+using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
+using System.Collections.Generic;
 
 namespace IUDICO.Search
 {
@@ -24,6 +26,16 @@ namespace IUDICO.Search
         #endregion
 
         #region IPlugin Members
+
+        public IEnumerable<Action> BuildActions(Role role)
+        {
+            
+        }
+
+        public void BuildMenu(Menu menu)
+        {
+
+        }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)
         {

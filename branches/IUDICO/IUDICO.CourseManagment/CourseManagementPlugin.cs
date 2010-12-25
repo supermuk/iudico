@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using System.Web.Routing;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
@@ -7,12 +8,29 @@ using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
 using IUDICO.CourseManagement.Models.Storage;
 using IUDICO.CourseManagement.Models;
+using IUDICO.Common.Models;
+using System.Collections.Generic;
+using Action = IUDICO.Common.Models.Action;
 
 namespace IUDICO.CourseManagement
 {
     public class CourseManagementPlugin : IWindsorInstaller, IPlugin
     {
         #region IPlugin Members
+        public IEnumerable<Action> BuildActions(Role role)
+        {
+            var actions = new List<Action>();
+
+            actions.Add(new Action("Get Courses", "Course/Index"));
+
+            return actions;
+        }
+
+        public void BuildMenu(Menu menu)
+        {
+            menu.Add(new MenuItem("Course", "Course", "Index"));
+        }
+
         public void RegisterRoutes(RouteCollection routes)
         {
             routes.MapRoute(

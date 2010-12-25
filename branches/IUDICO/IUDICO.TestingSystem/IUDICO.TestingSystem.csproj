@@ -113,6 +113,7 @@
     <Content Include="Views\Training\Index.aspx" />
     <Content Include="Views\Training\Details.aspx" />
     <None Include="Views\Package\Index.aspx" />
+    <None Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\Content\" />
