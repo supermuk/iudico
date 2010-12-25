@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using System;
 using Castle.MicroKernel.Registration;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Events;
 using IUDICO.TestingSystem.Models;
+
 
 namespace IUDICO.TestingSystem
 {
@@ -29,14 +32,14 @@ namespace IUDICO.TestingSystem
 
         #region IPlugin Members
 
-        public IEnumerable<Action> BuildActions(Role role)
+        public IEnumerable<IUDICO.Common.Models.Action> BuildActions(Role role)
         {
-            return new List<Action>();
+            return new List<IUDICO.Common.Models.Action>();
         }
 
         public void BuildMenu(Menu menu)
         {
-
+            menu.Add(new MenuItem("Testing", "Training", "Index"));
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)
@@ -56,9 +59,17 @@ namespace IUDICO.TestingSystem
 
         public void Update(string evt, params object[] data)
         {
-            // handle events
+            switch (evt)
+            {
+                case CourseEvents.CoursePublished:
+                    throw new NotImplementedException();
+                    // TODO: call ITestingService.ImportCourse(Course course) method.
+                    
+            }
         }
 
         #endregion
+
+        
     }
 }

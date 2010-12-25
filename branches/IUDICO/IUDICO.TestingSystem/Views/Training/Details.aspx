@@ -1,4 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.TestingSystem.Models.Shared.Training>" %>
+<%@ Assembly Name="IUDICO.TestingSystem" %>
+<%@ Assembly Name="Microsoft.LearningComponents" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	ViewPage1
