@@ -2,8 +2,8 @@
 
 = Development FAQ =
 
-P. I get an when I use strongly-typed view.<br />
-A. Add this as first line of your view: `<%@ Assembly Name="IUDICO.CourseManagement" %>`
+P. I get an error when I use strongly-typed view.<br />
+A. Add this as first line of your view: `<%@ Assembly Name="IUDICO.PluginName" %>`
 
 ----
 
