@@ -1,8 +1,12 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
 using Castle.MicroKernel.Registration;
+using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
 using IUDICO.CurriculumManagement.Models.Storage;
+using Action = IUDICO.Common.Models.Action;
 
 namespace IUDICO.CurriculumManagement
 {
@@ -26,6 +30,16 @@ namespace IUDICO.CurriculumManagement
         #endregion
 
         #region IPlugin Members
+
+        public IEnumerable<Action> BuildActions(Role role)
+        {
+            
+        }
+
+        public void BuildMenu(Menu menu)
+        {
+            
+        }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)
         {

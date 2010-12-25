@@ -40,6 +40,10 @@
                         <%: Html.ActionLink("Search", "Index", "Search")%></li>
                     <li>
                         <%: Html.ActionLink("Trainings", "Index", "Training")%></li>
+
+                        <%  foreach (var item in ((IUDICO.Common.Models.Menu) IUDICO.LMS.MvcApplication.Menu).Items) { %>
+                            <li><%: Html.ActionLink(item.Text, item.Action, item.Controller) %></li>
+                        <% } %>
                 </ul>
             </div>
         </div>

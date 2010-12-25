@@ -1,4 +1,6 @@
-﻿using IUDICO.Common.Models.Services;
+﻿using System;
+using System.Data.Common;
+using IUDICO.Common.Models.Services;
 using Castle.Windsor;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
@@ -28,6 +30,16 @@ namespace IUDICO.LMS.Models
         public DBDataContext GetDbDataContext()
         {
             return new DBDataContext();
+        }
+
+        public DbConnection GetDbConnection()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Menu GetMenu()
+        {
+            throw new NotImplementedException();
         }
 
         public void Inform(string evt, params object[] data)

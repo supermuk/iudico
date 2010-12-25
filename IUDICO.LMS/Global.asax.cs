@@ -1,15 +1,20 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.TemplateMetadata;
 using IUDICO.LMS.IoC;
 using IUDICO.LMS.Models;
 using IUDICO.Common.Models.Plugin;
+using System.Collections.Generic;
+using Action = IUDICO.Common.Models.Action;
+using System.Reflection;
 
 namespace IUDICO.LMS
 {
@@ -17,24 +22,51 @@ namespace IUDICO.LMS
     {
         static IWindsorContainer _Container;
 
+        public static Menu Menu { get; protected set; }
+        public static IEnumerable<Action> Actions { get; protected set; }
+
         public IWindsorContainer Container
         {
             get { return _Container; }
         }
 
+        protected void Application_BeginRequest(object sender, EventArgs e)
+        {
+            var actions = new List<Action>();
+            var plugins = Container.ResolveAll<IPlugin>();
+
+            foreach (var plugin in plugins)
+            {
+                // TODO: add proper role
+                actions.AddRange(plugin.BuildActions(new Role()));
+            }
+
+            Actions = actions;
+        }
+
         protected void Application_Start()
         {
+            AppDomain.CurrentDomain.AppendPrivatePath(Server.MapPath("/Plugins"));
+            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
+
             InitializeWindsor();
 
             HostingEnvironment.RegisterVirtualPathProvider(new AssemblyResourceProvider());
             AreaRegistration.RegisterAllAreas();
 
             RegisterRoutes(RouteTable.Routes);
+            LoadPluginData();
 
             var controllerFactory = Container.Resolve<IControllerFactory>();
             ControllerBuilder.Current.SetControllerFactory(controllerFactory);
 
             ModelMetadataProviders.Current = new FieldTemplateMetadataProvider();
+        }
+
+        Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            /// log error
+            throw new NotImplementedException();
         }
 
         protected void Application_End()
@@ -43,6 +75,17 @@ namespace IUDICO.LMS
             {
                 _Container.Dispose();
                 _Container = null;
+            }
+        }
+
+        protected void LoadPluginData()
+        {
+            Menu = new Menu();
+            var plugins = Container.ResolveAll<IPlugin>();
+
+            foreach (var plugin in plugins)
+            {
+                plugin.BuildMenu(Menu);
             }
         }
 

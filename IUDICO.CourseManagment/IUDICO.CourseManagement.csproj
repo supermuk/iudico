@@ -678,6 +678,7 @@
     <None Include="Scripts\custom\ckeditor\_source\skins\v2\templates.css" />
     <None Include="Scripts\custom\ckeditor\_source\skins\v2\toolbar.css" />
     <None Include="Scripts\custom\ckeditor\_source\themes\default\theme.js" />
+    <None Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\Courses\" />
