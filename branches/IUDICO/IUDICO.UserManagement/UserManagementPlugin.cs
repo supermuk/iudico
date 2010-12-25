@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Web.Security;
 using Castle.MicroKernel.Registration;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
+using IUDICO.UserManagement.Models.Auth;
 using IUDICO.UserManagement.Models.Storage;
 using IUDICO.UserManagement.Models;
 
@@ -23,7 +25,10 @@ namespace IUDICO.UserManagement
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<UserManagementPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<IUserStorage>().ImplementedBy<DatabaseUserStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<IUserService>().ImplementedBy<UserService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
+                Component.For<IUserService>().ImplementedBy<UserService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<MembershipProvider>().ImplementedBy<OpenIdMembershipProvider>(),
+                Component.For<RoleProvider>().ImplementedBy<OpenIdRoleProvider>()
+
             );
 
             //HttpContext.Current.Application["UMStorage"] = container.Resolve<DatabaseUserManagement>();// UMStorageFactory.CreateStorage(UMStorageType.Database);

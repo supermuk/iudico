@@ -1,31 +1,33 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using System.Web.Security;
 using IUDICO.Common.Models;
 using IUDICO.UserManagement.Models.Storage;
+using IUDICO.Common.Models.Attributes;
 
 namespace IUDICO.UserManagement.Controllers
 {
     public class GroupController : UserBaseController
     {
-        private readonly IUserStorage _storage;
+        private readonly IUserStorage _Storage;
 
         public GroupController(IUserStorage userStorage)
         {
-            _storage = userStorage;
+            _Storage = userStorage;
         }
 
         //
         // GET: /Group/
 
+        [Allow(Roles="Teacher")]
         public ActionResult Index()
         {
-            return View(_storage.GetGroups());
+            return View(_Storage.GetGroups());
         }
 
         //
         // GET: /Group/Create
 
+        [Allow(Roles = "Teacher")]
         public ActionResult Create()
         {
             return View();
@@ -35,11 +37,12 @@ namespace IUDICO.UserManagement.Controllers
         // POST: /Group/Create
 
         [HttpPost]
+        [Allow(Roles = "Teacher")]
         public ActionResult Create(Group group)
         {
             if (ModelState.IsValid)
             {
-                _storage.CreateGroup(group);
+                _Storage.CreateGroup(group);
 
                 return RedirectToAction("Index");
             }
@@ -52,9 +55,10 @@ namespace IUDICO.UserManagement.Controllers
         //
         // GET: /Group/Edit/5
 
+        [Allow(Roles = "Teacher")]
         public ActionResult Edit(int id)
         {
-            Group group = _storage.GetGroup(id);
+            var group = _Storage.GetGroup(id);
             
             if (group == null)
             {
@@ -70,11 +74,12 @@ namespace IUDICO.UserManagement.Controllers
         // POST: /Group/Edit/5
 
         [HttpPost]
+        [Allow(Roles = "Teacher")]
         public ActionResult Edit(int id, Group group)
         {
             if (ModelState.IsValid)
             {
-                _storage.EditGroup(id, group);
+                _Storage.EditGroup(id, group);
 
                 return RedirectToAction("Index");
             }
@@ -88,11 +93,12 @@ namespace IUDICO.UserManagement.Controllers
         // POST: /Role/Delete/5
 
         [HttpDelete]
+        [Allow(Roles = "Teacher")]
         public JsonResult Delete(int id)
         {
             try
             {
-                _storage.DeleteGroup(id);
+                _Storage.DeleteGroup(id);
 
                 return Json(new { status = true });
             }
@@ -102,17 +108,19 @@ namespace IUDICO.UserManagement.Controllers
             }
         }
 
+        [Allow(Roles = "Teacher")]
         public ActionResult AddUsers(int id)
         {
             var groupUser = new GroupUser();
 
-            groupUser.GroupList = _storage.GetGroups().AsQueryable().Select(g => new SelectListItem { Text = g.Name, Value = g.Id.ToString(), Selected = false });
+            groupUser.GroupList = _Storage.GetGroups().AsQueryable().Select(g => new SelectListItem { Text = g.Name, Value = g.Id.ToString(), Selected = false });
             //groupUser.UserList = _Storage.GetUsers().AsQueryable().Select(u => new SelectListItem { Text = u.Username, Value = u.Id.ToString(), Selected = false });
 
             return View(groupUser);
         }
 
         [HttpPost]
+        [Allow(Roles = "Teacher")]
         public ActionResult AddUsers(int id, int userId)
         {
             return View(new GroupUser());

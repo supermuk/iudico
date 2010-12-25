@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using IUDICO.Common.Models;
 
 namespace IUDICO.UserManagement.Models.Storage
@@ -22,6 +20,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
         IEnumerable<User> GetUsers();
         User GetUser(Guid id);
+        User GetUser(string openId);
         void CreateUser(User user);
         void EditUser(Guid id, EditUserModel editor);
         void DeleteUser(Guid id);

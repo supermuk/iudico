@@ -14,16 +14,16 @@ namespace IUDICO.CourseManagement.Models.Storage
 {
     internal class MixedCourseStorage : ICourseStorage
     {
-        private ILmsService _lmsService;
+        private readonly ILmsService _LmsService;
 
         public MixedCourseStorage(ILmsService lmsService)
         {
-            _lmsService = lmsService;
+            _LmsService = lmsService;
         }
 
         protected DBDataContext GetDbContext()
         {
-            return _lmsService.GetDbDataContext();
+            return _LmsService.GetDbDataContext();
         }
 
         #region IStorage Members
@@ -60,7 +60,7 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             var db = GetDbContext();
 
-            Course oldCourse = db.Courses.Single(c => c.Id == id);
+            var oldCourse = db.Courses.Single(c => c.Id == id);
 
             oldCourse.Name = course.Name;
             oldCourse.Owner = course.Owner;
@@ -74,7 +74,7 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             var db = GetDbContext();
 
-            Course course = db.Courses.Single(c => c.Id == id);
+            var course = db.Courses.Single(c => c.Id == id);
 
             course.Deleted = true;
 
@@ -87,7 +87,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             var courses = (from n in db.Courses where ids.Contains(n.Id) select n);
 
-            foreach (Course course in courses)
+            foreach (var course in courses)
             {
                 course.Deleted = true;
             }
@@ -98,12 +98,14 @@ namespace IUDICO.CourseManagement.Models.Storage
         [Obsolete("HttpContext.Current could be null sometimes. See MixedCourseManagement.GetCoursePath(int)")]
         public string Export(int id)
         {
-            Course course = this.GetCourse(id);
+            var course = this.GetCourse(id);
 
-            string path = HttpContext.Current == null ? Path.Combine(System.Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
+            var path = HttpContext.Current == null ? Path.Combine(System.Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
+            
             path = Path.Combine(path, @"Data\WorkFolder");
             path = Path.Combine(path, Guid.NewGuid().ToString());
             path = Path.Combine(path, course.Name);
+
             Directory.CreateDirectory(path);
 
             var nodes = GetNodes(id).ToList();
@@ -121,9 +123,10 @@ namespace IUDICO.CourseManagement.Models.Storage
                 }
             }
 
-            Manifest manifest = new Manifest();
-            StreamWriter sw = new StreamWriter(Path.Combine(path, SCORM.ImsManifset));
-            Item parentItem = new Item();
+            var manifest = new Manifest();
+            var sw = new StreamWriter(Path.Combine(path, SCORM.ImsManifset));
+            var parentItem = new Item();
+
             parentItem = AddSubItems(parentItem, null, id, ref manifest);
             manifest.Organizations[0].Items = parentItem.Items;
             manifest.Organizations[0].Title = course.Name;
@@ -137,11 +140,12 @@ namespace IUDICO.CourseManagement.Models.Storage
         private Item AddSubItems(Item parentItem, Node parentNode, int courseId, ref Manifest manifest)
         {
             var nodes = parentNode == null ? GetNodes(courseId) : GetNodes(courseId, parentNode.Id);
-            foreach (Node node in nodes)
+            
+            foreach (var node in nodes)
             {
                 if (node.IsFolder)
                 {
-                    Item item = new Item() { Title = node.Name };
+                    var item = new Item() { Title = node.Name };
                     item = AddSubItems(item, node, courseId, ref manifest);
                     parentItem.AddChildItem(item);
                 }
@@ -149,7 +153,8 @@ namespace IUDICO.CourseManagement.Models.Storage
                 {
                     var files = new List<ManifestModels.ResourceModels.File>();
                     files.Add(new ManifestModels.ResourceModels.File(node.Name + ".html"));
-                    string resourceId = manifest.Resources.AddResource(new Resource(ScormType.Asset, files) { Href = node.Name + ".html" });
+
+                    var resourceId = manifest.Resources.AddResource(new Resource(ScormType.Asset, files) { Href = node.Name + ".html" });
                     parentItem.AddChildItem(new Item(resourceId) { Title = node.Name });
                 }
             }
@@ -159,9 +164,9 @@ namespace IUDICO.CourseManagement.Models.Storage
         public int Import(string path)
         {
             var course = new Course();
-            var  folderPath = path.Substring(0, path.Length - 4);
+            var folderPath = path.Substring(0, path.Length - 4);
 
-            Helpers.Zipper.ExtractZipFile(path, folderPath);
+            Zipper.ExtractZipFile(path, folderPath);
 
             course.Name = folderPath.Split('\\').Last();
             course.Owner = "Imported";
@@ -343,7 +348,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             var node = GetDbContext().Nodes.SingleOrDefault(n => n.Id == nodeId);
             var parent = node.Node1;
 
-            string path = node.Id.ToString() + (!node.IsFolder ? ".html" : "");
+            string path = node.Id + (!node.IsFolder ? ".html" : "");
 
             while (parent != null)
             {

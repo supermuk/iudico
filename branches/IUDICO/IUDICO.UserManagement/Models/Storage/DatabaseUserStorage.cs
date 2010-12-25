@@ -31,6 +31,13 @@ namespace IUDICO.UserManagement.Models.Storage
             return db.Users.Single(user => user.Id == id);
         }
 
+        public User GetUser(string openId)
+        {
+            var db = GetDbContext();
+
+            return db.Users.Single(user => user.OpenId == openId);
+        }
+
         public IEnumerable<User> GetUsers()
         {
             var db = GetDbContext();

@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
-using System.Web;
 using System.Web.Security;
 using IUDICO.Common.Models;
-using System.Collections.Specialized;
 using IUDICO.Common.Models.Services;
 
-namespace IUDICO.UserManagement.Models
+namespace IUDICO.UserManagement.Models.Auth
 {
     public class OpenIdMembershipProvider : MembershipProvider
     {
@@ -189,7 +187,7 @@ namespace IUDICO.UserManagement.Models
             {
                 var db = GetDbContext();
 
-                User user = db.Users.SingleOrDefault(u => u.Username == username);
+                var user = db.Users.SingleOrDefault(u => u.Username == username);
                 
                 db.Users.DeleteOnSubmit(user);
                 db.SubmitChanges();

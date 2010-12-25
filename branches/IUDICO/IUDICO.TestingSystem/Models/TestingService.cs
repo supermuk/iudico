@@ -9,7 +9,7 @@ namespace IUDICO.TestingSystem.Models
     {
         #region ITestingService interface implementation
 
-        public IEnumerable<AttemptResult> GetResults(Guid userID, int courseID)
+        public IEnumerable<AttemptResult> GetResults(Guid userId, int courseId)
         {
             throw new NotImplementedException();
         }

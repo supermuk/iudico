@@ -6,17 +6,19 @@ using DotNetOpenAuth.OpenId.RelyingParty;
 using IUDICO.Common.Controllers;
 using IUDICO.UserManagement.Models;
 using IUDICO.UserManagement.Models.Storage;
+using OpenIdMembershipProvider = IUDICO.UserManagement.Models.Auth.OpenIdMembershipProvider;
+using OpenIdMembershipUser = IUDICO.UserManagement.Models.Auth.OpenIdMembershipUser;
 
 namespace IUDICO.UserManagement.Controllers
 {
     public class AccountController : PluginController
     {
-        private static readonly OpenIdRelyingParty openid = new OpenIdRelyingParty();
-        private readonly IUserStorage _storage;
+        private readonly OpenIdRelyingParty _OpenId = new OpenIdRelyingParty();
+        private readonly IUserStorage _Storage;
 
         public AccountController(IUserStorage userStorage)
         {
-            _storage = userStorage;
+            _Storage = userStorage;
         }
 
         public ActionResult Index()
@@ -38,7 +40,7 @@ namespace IUDICO.UserManagement.Controllers
 
         public ActionResult Login()
         {
-            IAuthenticationResponse response = openid.GetResponse();
+            var response = _OpenId.GetResponse();
 
             if (response != null)
             {
@@ -46,9 +48,10 @@ namespace IUDICO.UserManagement.Controllers
                 {
                     case AuthenticationStatus.Authenticated:
 
-                        string openId = response.FriendlyIdentifierForDisplay;
-                        var openIdProvider = (OpenIdMembershipProvider) Membership.Provider;
-                        MembershipUser user = openIdProvider.GetUser(openId, true);
+                        var openId = response.FriendlyIdentifierForDisplay;
+                        var openIdProvider = Membership.Provider;
+
+                        var user = _Storage.GetUser(openId);
 
                         if (user == null)
                         {
@@ -57,13 +60,15 @@ namespace IUDICO.UserManagement.Controllers
                             break;
                         }
 
+                        //var user = openIdProvider.GetUser(storageUser.Id, true);
+
                         if (Request.QueryString["ReturnUrl"] != null)
                         {
-                            FormsAuthentication.RedirectFromLoginPage(user.UserName, false);
+                            FormsAuthentication.RedirectFromLoginPage(user.Username, false);
                         }
                         else
                         {
-                            FormsAuthentication.SetAuthCookie(user.UserName, false);
+                            FormsAuthentication.SetAuthCookie(user.Username, false);
 
                             return Redirect("/Account/Index");
                         }
@@ -94,7 +99,7 @@ namespace IUDICO.UserManagement.Controllers
             }
             else
             {
-                var request = openid.CreateRequest(Identifier.Parse(loginIdentifier));
+                var request = _OpenId.CreateRequest(Identifier.Parse(loginIdentifier));
 
                 return request.RedirectingResponse.AsActionResult();
             }
@@ -155,6 +160,7 @@ namespace IUDICO.UserManagement.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult Edit(EditModel editModel)
         {
             try

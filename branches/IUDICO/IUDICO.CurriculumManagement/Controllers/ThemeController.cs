@@ -19,11 +19,11 @@ namespace IUDICO.CurriculumManagement.Controllers
 
     public class ThemeController : CurriculumBaseController
     {
-        private readonly ICurriculumStorage _storage;
+        private readonly ICurriculumStorage _Storage;
 
         public ThemeController(ICurriculumStorage curriculumStorage)
         {
-            _storage = curriculumStorage;
+            _Storage = curriculumStorage;
         }
 
         private ActionResult ErrorView(Exception e)
@@ -38,8 +38,8 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var themes = _storage.GetThemes(stageId);
-                Stage stage = _storage.GetStage(stageId);
+                var themes = _Storage.GetThemes(stageId);
+                Stage stage = _Storage.GetStage(stageId);
                 if (themes != null && stage != null)
                 {
                     ViewData["StageName"] = stage.Name;
@@ -87,7 +87,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                 var theme = new Theme { CourseRef = model.CourseId, StageRef = model.StageId };
                 var course = LmsService.FindService<ICourseService>().GetCourse(model.CourseId);
                 
-                _storage.AddTheme(theme, course);
+                _Storage.AddTheme(theme, course);
 
                 return RedirectToAction("Index", new { StageId = model.StageId });
             }
@@ -102,7 +102,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var theme = _storage.GetTheme(themeId);
+                var theme = _Storage.GetTheme(themeId);
 
                 if (theme != null)
                 {
@@ -132,11 +132,11 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var theme = _storage.GetTheme(model.ThemeId);
+                var theme = _Storage.GetTheme(model.ThemeId);
                 theme.CourseRef = model.CourseId;
                 var course = LmsService.FindService<ICourseService>().GetCourse(model.CourseId);
 
-                _storage.UpdateTheme(theme, course);
+                _Storage.UpdateTheme(theme, course);
 
                 return RedirectToRoute("Themes", new { action = "Index", StageId = theme.StageRef });
             }
@@ -151,7 +151,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                _storage.DeleteTheme(themeId);
+                _Storage.DeleteTheme(themeId);
 
                 return Json(new { success = true });
             }
@@ -166,7 +166,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                _storage.DeleteThemes(themeIds);
+                _Storage.DeleteThemes(themeIds);
 
                 return Json(new { success = true });
             }
@@ -180,7 +180,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var theme = _storage.ThemeUp(themeId);
+                var theme = _Storage.ThemeUp(themeId);
 
                 return RedirectToAction("Index", new { StageId = theme.StageRef });
             }
@@ -194,7 +194,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var theme = _storage.ThemeDown(themeId);
+                var theme = _Storage.ThemeDown(themeId);
 
                 return RedirectToAction("Index", new { StageId = theme.StageRef });
             }

@@ -44,7 +44,7 @@
     </Reference>
     <Reference Include="DotNetOpenAuth, Version=3.4.5.10202, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\DotNetOpenAuth.dll</HintPath>
+      <HintPath>..\IUDICO.Common\Libraries\DotNetOpenAuth.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -80,23 +80,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserBaseController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
+    <Compile Include="Models\Auth\OpenIdMembershipProvider.cs" />
+    <Compile Include="Models\Auth\OpenIdMembershipUser.cs" />
+    <Compile Include="Models\Auth\OpenIdRoleProvider.cs" />
     <Compile Include="Models\Storage\IUserStorage.cs" />
     <Compile Include="Models\UserService.cs" />
     <Compile Include="UserManagementPlugin.cs" />
     <Compile Include="Models\Attributes.cs" />
     <Compile Include="Models\Models.cs" />
-    <Compile Include="Models\OpenIdMembershipProvider.cs" />
-    <Compile Include="Models\OpenIdMembershipUser.cs" />
-    <Compile Include="Models\OpenIdRoleProvider.cs" />
     <Compile Include="Models\Storage\DatabaseUserStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Libraries\DotNetOpenAuth.dll" />
-    <Content Include="Libraries\DotNetOpenAuth.xml" />
+    <Content Include="Libraries\DotNetOpenAuth.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Libraries\DotNetOpenAuth.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Views\Account\Edit.aspx" />
     <Content Include="Views\Account\Index.aspx" />
     <Content Include="Views\Account\Login.aspx" />
