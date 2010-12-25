@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using IUDICO.Common.Models.Attributes;
 
 namespace IUDICO.Common.Models
 {
@@ -179,9 +177,13 @@ namespace IUDICO.Common.Models
             [StringLength(100, ErrorMessage = "Email can not be longer than 100")]
             public string Email { get; set; }
 
-            [DisplayName("OpenID")]
-            [Required(ErrorMessage = "OpenID is required")]
-            [StringLength(200, ErrorMessage = "OpenID can not be longer than 200")]
+            [DisplayName("Role")]
+            [Required(ErrorMessage = "Role is required")]
+            public int RoleRef { get; set; }
+
+            [DisplayName("OpenId")]
+            [Required(ErrorMessage = "OpenId is required")]
+            [StringLength(200, ErrorMessage = "OpenId can not be longer than 200")]
             public string OpenId { get; set; }
 
             [DisplayName("Name")]
@@ -220,23 +222,6 @@ namespace IUDICO.Common.Models
             [Required(ErrorMessage = "Name is required")]
             [StringLength(50, ErrorMessage = "Name can not be longer than 50")]
             public string Name { get; set; }
-        }
-    }
-
-    [MetadataType(typeof(Metadata))]
-    public partial class GroupUser
-    {
-        [DropDownList(OptionLabel = "Select Group", TargetProperty = "GroupRef")]
-        public IEnumerable<object> GroupList { get; set; }
-        [DropDownList(OptionLabel = "Select User", TargetProperty = "UserRef")]
-        public IEnumerable<object> UserList { get; set; }
-
-        private sealed class Metadata
-        {
-            [ScaffoldColumn(false)]
-            public int GroupRef { get; set; }
-            [ScaffoldColumn(false)]
-            public int UserRef { get; set; }
         }
     }
 }

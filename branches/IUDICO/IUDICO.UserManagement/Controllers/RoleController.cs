@@ -40,8 +40,9 @@ namespace IUDICO.UserManagement.Controllers
         [HttpPost]
         public ActionResult Create(Role role)
         {
-            if (ModelState.IsValid && _storage.CreateRole(role))
+            if (ModelState.IsValid)
             {
+                Storage.CreateRole(role);
                 return RedirectToAction("Index");
             }
             else
@@ -72,8 +73,9 @@ namespace IUDICO.UserManagement.Controllers
         [HttpPost]
         public ActionResult Edit(int id, Role role)
         {
-            if (ModelState.IsValid && _storage.EditRole(id, role))
+            if (ModelState.IsValid)
             {
+                Storage.EditRole(id, role);
                 return RedirectToAction("Index");
             }
             else
@@ -88,7 +90,15 @@ namespace IUDICO.UserManagement.Controllers
         [HttpDelete]
         public JsonResult Delete(int id)
         {
-            return Json(new { status = _storage.DeleteRole(id) });
+            try
+            {
+                Storage.DeleteRole(id);
+                return Json(new { status = true });
+            }
+            catch
+            {
+                return Json(new { status = false }); // Don't know how to do this better.
+            }
         }
     }
 }
