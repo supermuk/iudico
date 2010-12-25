@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Provides developers with solutions to most common problems
 
 = Development FAQ =
 
