@@ -33,13 +33,7 @@
                     <li>
                         <%: Html.ActionLink("Role", "Index", "Role")%></li>
                     <li>
-                        <%: Html.ActionLink("Course", "Index", "Course")%></li>
-                    <li>
-                        <%: Html.ActionLink("Curriculum", "Index", "Curriculum")%></li>
-                    <li>
                         <%: Html.ActionLink("Search", "Index", "Search")%></li>
-                    <li>
-                        <%: Html.ActionLink("Trainings", "Index", "Training")%></li>
 
                         <%  foreach (var item in ((IUDICO.Common.Models.Menu) IUDICO.LMS.MvcApplication.Menu).Items) { %>
                             <li><%: Html.ActionLink(item.Text, item.Action, item.Controller) %></li>
