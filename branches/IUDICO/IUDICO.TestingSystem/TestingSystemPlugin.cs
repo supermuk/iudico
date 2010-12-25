@@ -31,8 +31,8 @@ namespace IUDICO.TestingSystem
         {
             routes.MapRoute(
                "Training",
-               "Training/{packageID}/{attemptID}",
-               new { controller = "Training", action = "Details", attemptID = UrlParameter.Optional },
+               "Training/{packageId}/{attemptId}",
+               new { controller = "Training", action = "Details", attemptId = UrlParameter.Optional },
                new { packageID = @"\d+" });
 
             routes.MapRoute(

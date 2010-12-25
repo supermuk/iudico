@@ -101,13 +101,6 @@
     <Compile Include="TestingSystemPlugin.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\Shared\Site.Master.cs">
-      <DependentUpon>Site.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Views\Shared\Site.Master.designer.cs">
-      <DependentUpon>Site.Master</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\player.sql" />
@@ -117,15 +110,13 @@
     <Content Include="Libraries\Microsoft.LearningComponents.pdb" />
     <Content Include="Libraries\Microsoft.LearningComponents.Storage.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.Storage.pdb" />
-    <Content Include="Views\Training\Details.aspx" />
     <Content Include="Views\Training\Index.aspx" />
+    <Content Include="Views\Training\Details.aspx" />
     <None Include="Views\Package\Index.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\Site.Master" />
+    <Folder Include="Controllers\Content\" />
+    <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
