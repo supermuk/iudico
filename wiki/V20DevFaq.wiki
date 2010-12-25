@@ -30,3 +30,29 @@ public class CourseManagementPlugin : IWindsorInstaller, IPlugin
 ...
 }
 }}}
+
+----
+
+Q. How can I allow only selected roles to access some action?<br />
+A. You can use `AllowAttribute`. e.g.:
+{{{
+...
+[Allow(Roles="Teacher")]
+public ActionResult Index1()
+{
+    ...
+}
+...
+[Allow(Roles="Student,Admin")]
+public ActionResult Index2()
+{
+    ...
+}
+...
+[Allow]
+public ActionResult Index3()
+{
+    ...
+}
+...
+}}}
