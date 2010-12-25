@@ -6,26 +6,17 @@ namespace IUDICO.CurriculumManagement.Controllers
 {
     public class CurriculumAssignmentController : CurriculumBaseController
     {
-        private readonly ICurriculumStorage _Storage;
-
         public CurriculumAssignmentController(ICurriculumStorage curriculumStorage)
+            : base(curriculumStorage)
         {
-            _Storage = curriculumStorage;
-        }
 
-        private ActionResult ErrorView(Exception e)
-        {
-            var currentControllerName = (string)RouteData.Values["controller"];
-            var currentActionName = (string)RouteData.Values["action"];
-
-            return View("Error", new HandleErrorInfo(e, currentControllerName, currentActionName));
         }
 
         public ActionResult Index(int curriculumId) //переписати щоб було по айдішці
         {
             try
             {
-                var groups = _Storage.GetGroups();
+                var groups = Storage.GetGroups();
 
 
                 if (groups != null)
@@ -39,7 +30,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
             catch (Exception e)
             {
-                return ErrorView(e);
+                throw e;
             }
         }
 
@@ -52,7 +43,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var timelines = _Storage.GetTimelines();
+                var timelines = Storage.GetTimelines();
 
                 if (timelines != null)
                 {
@@ -65,7 +56,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
             catch (Exception e)
             {
-                return ErrorView(e);
+                throw e;
             }
         }
 
