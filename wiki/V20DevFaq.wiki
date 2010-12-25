@@ -1,0 +1,32 @@
+#summary One-sentence summary of this page.
+
+= Development FAQ =
+
+P. I get an when I use strongly-typed view.<br />
+A. Add this as first line of your view: `<%@ Assembly Name="IUDICO.CourseManagement" %>`
+
+----
+
+P. I don't have a list of my models when I'm trying to create strongly-typed view.<br />
+A. Copy web.config from LMS\Views\web.config to your plugin's view folder.
+
+----
+
+P. I get an error during start.<br />
+A. Stop the webdev server. Delete all files from LMS\Plugins folder. Rebuild the solution. Start LMS.
+
+----
+
+Q. How do I add menu items?<br />
+A. You can use `void IPlugin.BuildMenu(Menu menu)` method. e.g.:
+{{{
+public class CourseManagementPlugin : IWindsorInstaller, IPlugin
+{
+....
+    public void BuildMenu(Menu menu)
+    {
+        menu.Add(new MenuItem("Course", "Course", "Index"));
+    }
+...
+}
+}}}
