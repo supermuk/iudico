@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using IUDICO.Common.Models.Attributes;
 
 namespace IUDICO.Common.Models
 {
@@ -157,6 +159,14 @@ namespace IUDICO.Common.Models
     [Bind(Exclude = "Id")]
     public partial class User
     {
+        public enum UserRole
+        {
+            Guest = 0,
+            Student = 1,
+            Teacher = 2,
+            Administrator = 3
+        }
+
         private sealed class Metadata
         {
             [ScaffoldColumn(false)]
@@ -222,6 +232,30 @@ namespace IUDICO.Common.Models
             [Required(ErrorMessage = "Name is required")]
             [StringLength(50, ErrorMessage = "Name can not be longer than 50")]
             public string Name { get; set; }
+        }
+    }
+    
+    [MetadataType(typeof(Metadata))]
+    public partial class GroupUser
+    {
+        public IEnumerable<SelectListItem> GroupList { get; set; }
+        public IEnumerable<SelectListItem> UserList { get; set; }
+
+        private sealed class Metadata
+        {
+            [ScaffoldColumn(false)]
+            public int GroupRef { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int UserRef { get; set; }
+            
+            [DropDownList(OptionLabel = "Select Group", TargetProperty = "GroupRef")]
+            [DisplayName("Group")]
+            public IEnumerable<SelectListItem> GroupList { get; set; }
+            
+            [DropDownList(OptionLabel = "Select User", TargetProperty = "UserRef")]
+            [DisplayName("User")]
+            public IEnumerable<SelectListItem> UserList { get; set; }
         }
     }
 }

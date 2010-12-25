@@ -43,12 +43,14 @@ namespace IUDICO.UserManagement.Models
         public override bool IsUserInRole(string username, string roleName)
         {
             var db = GetDbContext();
+
             return db.Users.Any(user => user.Username == username && user.Role.Name == roleName);
         }
 
         public override string[] GetRolesForUser(string username)
         {
             var db = GetDbContext();
+
             return db.Users.Where(user => user.Username == username).Select(user => user.Role.Name).ToArray();
         }
 
@@ -99,13 +101,19 @@ namespace IUDICO.UserManagement.Models
         public override void AddUsersToRoles(string[] usernames, string[] roleNames)
         {
             if (roleNames.Length != 1)
+            {
                 throw new ArgumentException();
+            }
 
             var db = GetDbContext();
-            Role role = db.Roles.SingleOrDefault(r => r.Name == roleNames[0]);
-            IEnumerable<User> users = db.Users.Where(user => usernames.Contains(user.Username));
-            foreach (User user in users)
+            var role = db.Roles.SingleOrDefault(r => r.Name == roleNames[0]);
+            var users = db.Users.Where(user => usernames.Contains(user.Username));
+
+            foreach (var user in users)
+            {
                 user.Role = role;
+            }
+
             db.SubmitChanges();
         }
 
@@ -117,6 +125,7 @@ namespace IUDICO.UserManagement.Models
         public override string[] GetUsersInRole(string roleName)
         {
             var db = GetDbContext();
+
             return db.Users.Where(user => user.Role.Name == roleName).Select(user => user.Name).ToArray();
         }
 
@@ -128,6 +137,7 @@ namespace IUDICO.UserManagement.Models
         public override string[] FindUsersInRole(string roleName, string usernameToMatch)
         {
             var db = GetDbContext();
+
             return db.Users.Where(user => user.Role.Name == roleName && user.Username.Contains(usernameToMatch)).Select(user => user.Username).ToArray();
         }
 

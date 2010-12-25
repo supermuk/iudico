@@ -6,13 +6,13 @@ using IUDICO.UserManagement.Models.Storage;
 
 namespace IUDICO.UserManagement.Controllers
 {
-    public class GroupController : UserManagementBaseController
+    public class GroupController : UserBaseController
     {
-        private readonly IUserStorage _Storage;
+        private readonly IUserStorage _storage;
 
         public GroupController(IUserStorage userStorage)
         {
-            _Storage = userStorage;
+            _storage = userStorage;
         }
 
         //
@@ -20,7 +20,7 @@ namespace IUDICO.UserManagement.Controllers
 
         public ActionResult Index()
         {
-            return View(_Storage.GetGroups());
+            return View(_storage.GetGroups());
         }
 
         //
@@ -39,7 +39,8 @@ namespace IUDICO.UserManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                Storage.CreateGroup(group);
+                _storage.CreateGroup(group);
+
                 return RedirectToAction("Index");
             }
             else
@@ -53,7 +54,7 @@ namespace IUDICO.UserManagement.Controllers
 
         public ActionResult Edit(int id)
         {
-            Group group = _Storage.GetGroup(id);
+            Group group = _storage.GetGroup(id);
             
             if (group == null)
             {
@@ -73,7 +74,8 @@ namespace IUDICO.UserManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                Storage.EditGroup(id, group);
+                _storage.EditGroup(id, group);
+
                 return RedirectToAction("Index");
             }
             else
@@ -90,7 +92,8 @@ namespace IUDICO.UserManagement.Controllers
         {
             try
             {
-                Storage.DeleteGroup(id);
+                _storage.DeleteGroup(id);
+
                 return Json(new { status = true });
             }
             catch
@@ -103,7 +106,7 @@ namespace IUDICO.UserManagement.Controllers
         {
             var groupUser = new GroupUser();
 
-            groupUser.GroupList = _Storage.GetGroups().AsQueryable().Select(g => new SelectListItem { Text = g.Name, Value = g.Id.ToString(), Selected = false });
+            groupUser.GroupList = _storage.GetGroups().AsQueryable().Select(g => new SelectListItem { Text = g.Name, Value = g.Id.ToString(), Selected = false });
             //groupUser.UserList = _Storage.GetUsers().AsQueryable().Select(u => new SelectListItem { Text = u.Username, Value = u.Id.ToString(), Selected = false });
 
             return View(groupUser);

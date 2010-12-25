@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
@@ -19,69 +20,97 @@ namespace IUDICO.UserManagement.Models.Storage
             return _LmsService.GetDbDataContext();
         }
 
-        #region Implementation of IUMStorage
+        #region Implementation of IUserStorage
+
+        #region User members
+
+        public User GetUser(Guid id)
+        {
+            var db = GetDbContext();
+
+            return db.Users.Single(user => user.Id == id);
+        }
+
+        public IEnumerable<User> GetUsers()
+        {
+            var db = GetDbContext();
+
+            return db.Users.AsEnumerable();
+        }
+
+        public void CreateUser(User user)
+        {
+            var db = GetDbContext();
+
+            db.Users.InsertOnSubmit(user);
+            db.SubmitChanges();
+        }
+
+        public void EditUser(Guid id, EditUserModel editor)
+        {
+            var db = GetDbContext();
+            var oldUser = db.Users.Single(u => u.Id == id);
+
+            oldUser.Name = editor.Name;
+            oldUser.Password = editor.Password;
+            oldUser.Email = editor.Email;
+            oldUser.OpenId = editor.OpenId;
+            oldUser.RoleRef = editor.RoleRef;
+            
+            db.SubmitChanges();
+        }
+
+        public void DeleteUser(Guid id)
+        {
+            var db = GetDbContext();
+            var user = db.Users.Single(u => u.Id == id);
+
+            db.Users.DeleteOnSubmit(user);
+            db.SubmitChanges();
+        }
+
+        #endregion
 
         #region Role members
 
         public Role GetRole(int id)
         {
-            return GetDbContext().Roles.First(role => role.Id == id);
+            var db = GetDbContext();
+
+            return db.Roles.Single(role => role.Id == id);
         }
 
         public IEnumerable<Role> GetRoles()
         {
-            return GetDbContext().Roles.AsEnumerable();
+            var db = GetDbContext();
+
+            return db.Roles.AsEnumerable();
         }
 
-        public bool CreateRole(Role role)
+        public void CreateRole(Role role)
         {
-            try
-            {
-                var db = GetDbContext();
+            var db = GetDbContext();
 
-                db.Roles.InsertOnSubmit(role);
-                db.SubmitChanges();
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            db.Roles.InsertOnSubmit(role);
+            db.SubmitChanges();
         }
 
-        public bool EditRole(int id, Role role)
+        public void EditRole(int id, Role role)
         {
-            try
-            {
-                var oldRole = GetRole(id);
-                oldRole.Name = role.Name;
+            var oldRole = GetRole(id);
+            var db = GetDbContext();
 
-                GetDbContext().SubmitChanges();
-                
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            oldRole.Name = role.Name;
+
+            db.SubmitChanges();
         }
 
-        public bool DeleteRole(int id)
+        public void DeleteRole(int id)
         {
-            try
-            {
-                var db = GetDbContext();
+            var db = GetDbContext();
 
-                db.Roles.DeleteOnSubmit(GetRole(id));
-                db.SubmitChanges();
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            db.Roles.DeleteOnSubmit(GetRole(id));
+            db.SubmitChanges();
         }
 
         #endregion
@@ -90,63 +119,41 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public Group GetGroup(int id)
         {
-            return GetDbContext().Groups.First(group => group.Id == id);
+            var db = GetDbContext();
+
+            return db.Groups.First(group => group.Id == id);
         }
 
         public IEnumerable<Group> GetGroups()
         {
-            return GetDbContext().Groups.AsEnumerable();
+            var db = GetDbContext();
+
+            return db.Groups.AsEnumerable();
         }
 
-        public bool CreateGroup(Group group)
+        public void CreateGroup(Group group)
         {
-            try
-            {
-                var db = GetDbContext();
+            var db = GetDbContext();
 
-                db.Groups.InsertOnSubmit(group);
-                db.SubmitChanges();
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            db.Groups.InsertOnSubmit(group);
+            db.SubmitChanges();
         }
 
-        public bool EditGroup(int id, Group group)
+        public void EditGroup(int id, Group group)
         {
-            try
-            {
-                var oldGroup = GetGroup(id);
-                oldGroup.Name = group.Name;
+            var oldGroup = GetGroup(id);
+            var db = GetDbContext();
 
-                GetDbContext().SubmitChanges();
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            oldGroup.Name = group.Name;
+            db.SubmitChanges();
         }
 
-        public bool DeleteGroup(int id)
+        public void DeleteGroup(int id)
         {
-            try
-            {
-                var db = GetDbContext();
+            var db = GetDbContext();
 
-                db.Groups.DeleteOnSubmit(GetGroup(id));
-                db.SubmitChanges();
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            db.Groups.DeleteOnSubmit(GetGroup(id));
+            db.SubmitChanges();
         }
 
         #endregion

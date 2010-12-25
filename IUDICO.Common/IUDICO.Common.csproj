@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\PluginController.cs" />
+    <Compile Include="Models\Attributes\AllowAttribute.cs" />
     <Compile Include="Models\Attributes\DropDownListAttribute.cs" />
     <Compile Include="Models\Attributes\OrderAttribute.cs" />
     <Compile Include="Models\DBDataContext.cs">
