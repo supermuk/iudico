@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Butterfly-2" EntityNamespace="IUDICO.Common.Models" ContextNamespace="IUDICO.Common.Models" Class="DBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=.\;Initial Catalog=IUDICO;Integrated Security=True" SettingsObjectName="IUDICO.Common.Properties.Settings" SettingsPropertyName="IUDICOConnectionString" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="IUDICO" EntityNamespace="IUDICO.Common.Models" ContextNamespace="IUDICO.Common.Models" Class="DBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;Initial Catalog=IUDICO;Integrated Security=True" SettingsObjectName="IUDICO.Common.Properties.Settings" SettingsPropertyName="IUDICOConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.ActivityAttemptItem" Member="ActivityAttemptItems">
     <Type Name="ActivityAttemptItem">
       <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -296,21 +296,6 @@
       <Association Name="ActivityPackageItem_GlobalObjectiveItem" Member="ActivityPackageItem" ThisKey="OrganizationId" OtherKey="Id" Type="ActivityPackageItem" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>
   </Table>
-  <Table Name="dbo.[Group]" Member="Groups">
-    <Type Name="Group">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Group_GroupUser" Member="GroupUsers" ThisKey="Id" OtherKey="GroupRef" Type="GroupUser" />
-    </Type>
-  </Table>
-  <Table Name="dbo.GroupUsers" Member="GroupUsers">
-    <Type Name="GroupUser">
-      <Column Name="GroupRef" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="UserRef" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="Group_GroupUser" Member="Group" ThisKey="GroupRef" OtherKey="Id" Type="Group" IsForeignKey="true" />
-      <Association Name="User_GroupUser" Member="User" ThisKey="UserRef" OtherKey="Id" Type="User" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.InteractionItem" Member="InteractionItems">
     <Type Name="InteractionItem">
       <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -468,21 +453,6 @@
       <Association Name="PackageItem_ResourceItem" Member="PackageItem" ThisKey="PackageId" OtherKey="Id" Type="PackageItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Role" Member="Roles">
-    <Type Name="Role">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Role_RoleUser" Member="RoleUsers" ThisKey="Id" OtherKey="RoleRef" Type="RoleUser" />
-    </Type>
-  </Table>
-  <Table Name="dbo.RoleUsers" Member="RoleUsers">
-    <Type Name="RoleUser">
-      <Column Name="RoleRef" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="UserRef" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="Role_RoleUser" Member="Role" ThisKey="RoleRef" OtherKey="Id" Type="Role" IsForeignKey="true" />
-      <Association Name="User_RoleUser" Member="User" ThisKey="UserRef" OtherKey="Id" Type="User" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.RubricItem" Member="RubricItems">
     <Type Name="RubricItem">
       <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -545,19 +515,6 @@
       <Association Name="CurriculumAssignment_Timeline" Member="CurriculumAssignment" ThisKey="Id" OtherKey="Id" Type="CurriculumAssignment" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.[User]" Member="Users">
-    <Type Name="User">
-      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Username" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="Password" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Email" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="OpenId" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
-      <Column Name="IsApproved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="User_GroupUser" Member="GroupUsers" ThisKey="Id" OtherKey="UserRef" Type="GroupUser" />
-      <Association Name="User_RoleUser" Member="RoleUsers" ThisKey="Id" OtherKey="UserRef" Type="RoleUser" />
-    </Type>
-  </Table>
   <Table Name="dbo.Curriculums" Member="Curriculums">
     <Type Name="Curriculum">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -592,6 +549,42 @@
       <Column Name="SortOrder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="Stage_Theme" Member="Stage" ThisKey="StageRef" OtherKey="Id" Type="Stage" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[Group]" Member="Groups">
+    <Type Name="Group">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Group_GroupUser" Member="GroupUsers" ThisKey="Id" OtherKey="GroupRef" Type="GroupUser" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[User]" Member="Users">
+    <Type Name="User">
+      <Column Name="Id" AutoSync="Never" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Username" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="OpenId" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="RoleRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsApproved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="User_GroupUser" Member="GroupUsers" ThisKey="Id" OtherKey="UserRef" Type="GroupUser" />
+      <Association Name="Role_User" Member="Role" ThisKey="RoleRef" OtherKey="Id" Type="Role" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GroupUsers" Member="GroupUsers">
+    <Type Name="GroupUser">
+      <Column Name="GroupRef" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserRef" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Group_GroupUser" Member="Group" ThisKey="GroupRef" OtherKey="Id" Type="Group" IsForeignKey="true" />
+      <Association Name="User_GroupUser" Member="User" ThisKey="UserRef" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Role" Member="Roles">
+    <Type Name="Role">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Role_User" Member="Users" ThisKey="Id" OtherKey="RoleRef" Type="User" />
     </Type>
   </Table>
 </Database>

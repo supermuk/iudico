@@ -42,14 +42,14 @@ namespace IUDICO.UserManagement.Models
 
         public override bool IsUserInRole(string username, string roleName)
         {
-            RoleUser role = GetDbContext().RoleUsers.SingleOrDefault(r => r.Role.Name == roleName && r.User.Username == username);
-
-            return role != null;
+            var db = GetDbContext();
+            return db.Users.Any(user => user.Username == username && user.Role.Name == roleName);
         }
 
         public override string[] GetRolesForUser(string username)
         {
-            return GetDbContext().RoleUsers.Where(r => r.User.Username == username).Select(r => r.Role.Name).ToArray();
+            var db = GetDbContext();
+            return db.Users.Where(user => user.Username == username).Select(user => user.Role.Name).ToArray();
         }
 
         public override void CreateRole(string roleName)
@@ -98,46 +98,26 @@ namespace IUDICO.UserManagement.Models
 
         public override void AddUsersToRoles(string[] usernames, string[] roleNames)
         {
+            if (roleNames.Length != 1)
+                throw new ArgumentException();
+
             var db = GetDbContext();
-
-            foreach (var username in usernames)
-            {
-                foreach (var role in roleNames.Where(role => !IsUserInRole(username, role)))
-                {
-                    try
-                    {
-                        var link = new RoleUser
-                                       {
-                                           Role = db.Roles.SingleOrDefault(r => r.Name == role),
-                                           User = db.Users.SingleOrDefault(u => u.Username == username)
-                                       };
-
-                        db.RoleUsers.InsertOnSubmit(link);
-                        db.SubmitChanges();
-                    }
-                    catch
-                    {
-                    }
-                }
-            }
+            Role role = db.Roles.SingleOrDefault(r => r.Name == roleNames[0]);
+            IEnumerable<User> users = db.Users.Where(user => usernames.Contains(user.Username));
+            foreach (User user in users)
+                user.Role = role;
+            db.SubmitChanges();
         }
 
         public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
         {
-            var db = GetDbContext();
-            var links = db.RoleUsers.Where(l => usernames.Contains(l.User.Username) && roleNames.Contains(l.Role.Name));
-            
-            foreach (var link in links)
-            {
-                db.RoleUsers.DeleteOnSubmit(link);
-            }
-
-            db.SubmitChanges();
+            throw new NotSupportedException();
         }
 
         public override string[] GetUsersInRole(string roleName)
         {
-            return GetDbContext().RoleUsers.Where(r => r.Role.Name == roleName).Select(r => r.User.Name).ToArray();
+            var db = GetDbContext();
+            return db.Users.Where(user => user.Role.Name == roleName).Select(user => user.Name).ToArray();
         }
 
         public override string[] GetAllRoles()
@@ -147,7 +127,8 @@ namespace IUDICO.UserManagement.Models
 
         public override string[] FindUsersInRole(string roleName, string usernameToMatch)
         {
-            return GetDbContext().RoleUsers.Where(r => r.Role.Name == roleName).Where(r => r.User.Username.Contains(usernameToMatch)).Select(r => r.User.Name).ToArray();
+            var db = GetDbContext();
+            return db.Users.Where(user => user.Role.Name == roleName && user.Username.Contains(usernameToMatch)).Select(user => user.Username).ToArray();
         }
 
         public override string ApplicationName { get; set; }

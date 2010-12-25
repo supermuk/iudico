@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserManagementBaseController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
@@ -109,6 +110,11 @@
     <Content Include="Views\Role\Create.aspx" />
     <Content Include="Views\Role\Edit.aspx" />
     <Content Include="Views\Role\Index.aspx" />
+    <Content Include="Views\User\Create.aspx" />
+    <Content Include="Views\User\Delete.aspx" />
+    <Content Include="Views\User\Details.aspx" />
+    <Content Include="Views\User\Edit.aspx" />
+    <Content Include="Views\User\Index.aspx" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>

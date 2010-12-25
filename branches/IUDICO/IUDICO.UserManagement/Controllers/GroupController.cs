@@ -37,8 +37,9 @@ namespace IUDICO.UserManagement.Controllers
         [HttpPost]
         public ActionResult Create(Group group)
         {
-            if (ModelState.IsValid && _Storage.CreateGroup(group))
+            if (ModelState.IsValid)
             {
+                Storage.CreateGroup(group);
                 return RedirectToAction("Index");
             }
             else
@@ -70,8 +71,9 @@ namespace IUDICO.UserManagement.Controllers
         [HttpPost]
         public ActionResult Edit(int id, Group group)
         {
-            if (ModelState.IsValid && _Storage.EditGroup(id, group))
+            if (ModelState.IsValid)
             {
+                Storage.EditGroup(id, group);
                 return RedirectToAction("Index");
             }
             else
@@ -86,7 +88,15 @@ namespace IUDICO.UserManagement.Controllers
         [HttpDelete]
         public JsonResult Delete(int id)
         {
-            return Json(new { status = _Storage.DeleteGroup(id) });
+            try
+            {
+                Storage.DeleteGroup(id);
+                return Json(new { status = true });
+            }
+            catch
+            {
+                return Json(new { status = false });
+            }
         }
 
         public ActionResult AddUsers(int id)
