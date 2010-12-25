@@ -4,12 +4,6 @@ namespace IUDICO.Common.Models.Services
 {
     public interface ICurriculumService : IService
     {
-        #region Helper methods
-
-        void RefreshState();
-
-        #endregion
-
         #region Curriculum methods
 
         IEnumerable<Curriculum> GetCurriculums();
@@ -36,8 +30,6 @@ namespace IUDICO.Common.Models.Services
 
         #region Assignment methods
 
-        IEnumerable<Group> GetGroups();
-        Group GetGroup(int curriculumId);
         IEnumerable<Timeline> GetTimelines();
 
         #endregion

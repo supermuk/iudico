@@ -6,7 +6,7 @@ using IUDICO.Common.Models.Services;
 
 namespace IUDICO.CurriculumManagement.Models.Storage
 {
-    public class MixedCurriculumStorage : ICurriculumStorage, ICurriculumService
+    public class MixedCurriculumStorage : ICurriculumStorage
     {
         private readonly ILmsService _LmsService;
         private DBDataContext _Db;
