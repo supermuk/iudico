@@ -116,7 +116,6 @@
     <None Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controllers\Content\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
