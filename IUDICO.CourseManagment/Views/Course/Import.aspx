@@ -6,14 +6,14 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Validate</h2>
-    <% using (Html.BeginForm("Validate", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    <% using (Html.BeginForm("Import", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
        {%>
         <fieldset>
-            <legend>Fields</legend>
+            <legend>Validate or Import Course</legend>
             <input type="file" id="fileToValidate" name="fileUpload"/>
             <p>
-                <input type="submit" value="Validate" id="Validate" />
+                <input type="submit" value="Validate" id="Validate" name="action"/>
+                <input type="submit" value="Import" id="Import" name="action"/>
             </p>
             <div id="validateResult">
                 <ul>
@@ -28,18 +28,6 @@
         </fieldset>
     <%} %>
 
-    <h2>Import</h2>
-    <% using (Html.BeginForm("Import", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
-       {%>
-        <fieldset>
-            <legend>Fields</legend>
-            <input type="file" id="fileToUpload" name="fileUpload"/>
-            <p>
-                <input type="submit" value="Import" id="Import" />
-            </p>
-        </fieldset>
-    <%} %>
-    
     <div>
         <%: Html.ActionLink("Back to List", "Index") %>
     </div>

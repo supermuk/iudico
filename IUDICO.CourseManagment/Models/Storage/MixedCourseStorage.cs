@@ -37,149 +37,101 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public Course GetCourse(int id)
         {
-            try
-            {
-                return GetDbContext().Courses.Single(c => c.Id == id);
-            }
-            catch
-            {
-                return null;
-            }
+            return GetDbContext().Courses.Single(c => c.Id == id);
         }
 
-        public int? AddCourse(Course course)
+        public int AddCourse(Course course)
         {
-            try
-            {
-                course.Created = DateTime.Now;
-                course.Updated = DateTime.Now;
+            course.Created = DateTime.Now;
+            course.Updated = DateTime.Now;
 
-                var db = GetDbContext();
+            var db = GetDbContext();
 
-                db.Courses.InsertOnSubmit(course);
-                db.SubmitChanges();
+            db.Courses.InsertOnSubmit(course);
+            db.SubmitChanges();
 
-                string path = GetCoursePath(course.Id);
-                @Directory.CreateDirectory(path);
+            string path = GetCoursePath(course.Id);
+            @Directory.CreateDirectory(path);
 
-                return course.Id;
-            }
-            catch
-            {
-                return null;
-            }
+            return course.Id;
         }
 
-        public bool UpdateCourse(int id, Course course)
+        public void UpdateCourse(int id, Course course)
         {
-            try
-            {
-                var db = GetDbContext();
+            var db = GetDbContext();
 
-                Course oldCourse = db.Courses.Single(c => c.Id == id);
+            Course oldCourse = db.Courses.Single(c => c.Id == id);
 
-                oldCourse.Name = course.Name;
-                oldCourse.Owner = course.Owner;
-                oldCourse.Updated = DateTime.Now;
+            oldCourse.Name = course.Name;
+            oldCourse.Owner = course.Owner;
+            oldCourse.Updated = DateTime.Now;
 
-                db.SubmitChanges();
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            db.SubmitChanges();
         }
 
         [Obsolete("Directory.Delete gives exception when files are present: http://stackoverflow.com/questions/329355/cannot-delete-directory-with-directory-deletepath-true. Set CASCADE on DELETE & UPDATE action in foreign index CourseID")]
-        public bool DeleteCourse(int id)
+        public void DeleteCourse(int id)
         {
-            try
-            {
-                var db = GetDbContext();
+            var db = GetDbContext();
 
-                Course course = db.Courses.Single(c => c.Id == id);
+            Course course = db.Courses.Single(c => c.Id == id);
 
-                course.Deleted = true;
+            course.Deleted = true;
 
-                db.SubmitChanges();
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            db.SubmitChanges();
         }
 
-        public bool DeleteCourses(List<int> ids)
+        public void DeleteCourses(List<int> ids)
         {
-            try
+            var db = GetDbContext();
+
+            var courses = (from n in db.Courses where ids.Contains(n.Id) select n);
+
+            foreach (Course course in courses)
             {
-                var db = GetDbContext();
-
-                var courses = (from n in db.Courses where ids.Contains(n.Id) select n);
-
-                foreach (Course course in courses)
-                {
-                    course.Deleted = true;
-                }
-
-                db.SubmitChanges();
-
-                return true;
+                course.Deleted = true;
             }
-            catch
-            {
-                return false;
-            }
+
+            db.SubmitChanges();
         }
 
         [Obsolete("HttpContext.Current could be null sometimes. See MixedCourseManagement.GetCoursePath(int)")]
         public string Export(int id)
         {
-            try
+            Course course = this.GetCourse(id);
+
+            string path = HttpContext.Current == null ? Path.Combine(System.Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
+            path = Path.Combine(path, @"Data\WorkFolder");
+            path = Path.Combine(path, Guid.NewGuid().ToString());
+            path = Path.Combine(path, course.Name);
+            Directory.CreateDirectory(path);
+
+            var nodes = GetNodes(id).ToList();
+            for (var i = 0; i < nodes.Count; i++)
             {
-                Course course = this.GetCourse(id);
-
-                string path = HttpContext.Current == null ? Path.Combine(System.Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
-                path = Path.Combine(path, @"Data\WorkFolder");
-                path = Path.Combine(path, Guid.NewGuid().ToString());
-                path = Path.Combine(path, course.Name);
-                Directory.CreateDirectory(path);
-
-                var nodes = GetNodes(id).ToList();
-                for (var i = 0; i < nodes.Count; i++)
+                if (nodes[i].IsFolder == false)
                 {
-                    if (nodes[i].IsFolder == false)
-                    {
-                        var fs = System.IO.File.Create(Path.Combine(path, nodes[i].Name + ".html"));
-                        fs.Close();
-                    }
-                    else
-                    {
-                        var subNodes = GetNodes(id, nodes[i].Id);
-                        nodes.AddRange(subNodes);
-                    }
+                    var fs = System.IO.File.Create(Path.Combine(path, nodes[i].Name + ".html"));
+                    fs.Close();
                 }
-
-                Manifest manifest = new Manifest();
-                StreamWriter sw = new StreamWriter(Path.Combine(path, SCORM.ImsManifset));
-                Item parentItem = new Item();
-                parentItem = AddSubItems(parentItem, null, id, ref manifest);
-                manifest.Organizations[0].Items = parentItem.Items;
-                manifest.Organizations[0].Title = course.Name;
-                manifest.Serialize(sw);
-                sw.Close();
-
-                Zipper.CreateZip(path + ".zip", path);
-                return path + ".zip";
+                else
+                {
+                    var subNodes = GetNodes(id, nodes[i].Id);
+                    nodes.AddRange(subNodes);
+                }
             }
-            catch
-            {
-                return null;
-            }
+
+            Manifest manifest = new Manifest();
+            StreamWriter sw = new StreamWriter(Path.Combine(path, SCORM.ImsManifset));
+            Item parentItem = new Item();
+            parentItem = AddSubItems(parentItem, null, id, ref manifest);
+            manifest.Organizations[0].Items = parentItem.Items;
+            manifest.Organizations[0].Title = course.Name;
+            manifest.Serialize(sw);
+            sw.Close();
+
+            Zipper.CreateZip(path + ".zip", path);
+            return path + ".zip";
         }
 
         private Item AddSubItems(Item parentItem, Node parentNode, int courseId, ref Manifest manifest)
@@ -204,24 +156,17 @@ namespace IUDICO.CourseManagement.Models.Storage
             return parentItem;
         }
 
-        public int? Import(string path)
+        public int Import(string path)
         {
-            try
-            {
-                var course = new Course();
-                var  folderPath = path.Substring(0, path.Length - 4);
+            var course = new Course();
+            var  folderPath = path.Substring(0, path.Length - 4);
 
-                Helpers.Zipper.ExtractZipFile(path, folderPath);
+            Helpers.Zipper.ExtractZipFile(path, folderPath);
 
-                course.Name = folderPath.Split('\\').Last();
-                course.Owner = "Imported";
+            course.Name = folderPath.Split('\\').Last();
+            course.Owner = "Imported";
 
-                return AddCourse(course);
-            }
-            catch
-            {
-                return null;
-            }
+            return AddCourse(course);
         }
         #endregion
 

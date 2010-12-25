@@ -12,12 +12,12 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         IEnumerable<Course> GetCourses();
         Course GetCourse(int id);
-        int? AddCourse(Course course);
-        bool UpdateCourse(int id, Course course);
-        bool DeleteCourse(int id);
-        bool DeleteCourses(List<int> ids);
+        int AddCourse(Course course);
+        void UpdateCourse(int id, Course course);
+        void DeleteCourse(int id);
+        void DeleteCourses(List<int> ids);
         string Export(int id);
-        int? Import(string path);
+        int Import(string path);
 
         #endregion
 
