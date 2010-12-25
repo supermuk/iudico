@@ -81,9 +81,8 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\UserManagementBaseController.cs" />
+    <Compile Include="Controllers\UserBaseController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
-    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Models\Storage\IUserStorage.cs" />
     <Compile Include="Models\UserService.cs" />
     <Compile Include="UserManagementPlugin.cs" />

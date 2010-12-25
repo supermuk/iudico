@@ -73,7 +73,7 @@ namespace IUDICO.UserManagement.Models
 
                 return MembershipCreateStatus.Success;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return MembershipCreateStatus.ProviderError;
             }

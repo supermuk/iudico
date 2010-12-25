@@ -8,29 +8,33 @@ namespace IUDICO.UserManagement.Models.Storage
 {
     public interface IUserStorage
     {
-        #region Role methods
+        #region Role members
 
         IEnumerable<Role> GetRoles();
-        bool CreateRole(Role role);
         Role GetRole(int id);
-        bool EditRole(int id, Role role);
-        bool DeleteRole(int id);
+        void CreateRole(Role role);
+        void EditRole(int id, Role role);
+        void DeleteRole(int id);
 
         #endregion
 
-        #region User methods
+        #region User members
 
-
+        IEnumerable<User> GetUsers();
+        User GetUser(Guid id);
+        void CreateUser(User user);
+        void EditUser(Guid id, EditUserModel editor);
+        void DeleteUser(Guid id);
 
         #endregion
 
-        #region Group Methods
+        #region Group members
 
         IEnumerable<Group> GetGroups();
-        bool CreateGroup(Group group);
         Group GetGroup(int id);
-        bool EditGroup(int id, Group group);
-        bool DeleteGroup(int id);
+        void CreateGroup(Group group);
+        void EditGroup(int id, Group group);
+        void DeleteGroup(int id);
 
         #endregion
     }

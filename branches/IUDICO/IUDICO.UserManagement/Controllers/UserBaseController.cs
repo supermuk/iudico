@@ -10,6 +10,6 @@ using IUDICO.UserManagement.Models.Storage;
 
 namespace IUDICO.UserManagement.Controllers
 {
-    public class UserManagementBaseController : PluginController
+    public class UserBaseController : PluginController
     {}
 }
