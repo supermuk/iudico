@@ -5,18 +5,25 @@ using System.Web;
 using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.UserManagement.Models;
-using IUDICO.UserManagement.Models.Services;
+using IUDICO.UserManagement.Models.Storage;
 
 namespace IUDICO.UserManagement.Controllers
 {
-    public class UserController : UserManagementBaseController
+    public class UserController : UserBaseController
     {
+        private readonly IUserStorage _storage;
+
+        public UserController(IUserStorage userStorage)
+        {
+            _storage = userStorage;
+        }
+
         //
         // GET: /User/
 
         public ActionResult Index()
         {
-            return View(Storage.GetUsers());
+            return View(_storage.GetUsers());
         }
 
         //
@@ -24,7 +31,7 @@ namespace IUDICO.UserManagement.Controllers
 
         public ActionResult Details(Guid id)
         {
-            return View(Storage.GetUser(id));
+            return View(_storage.GetUser(id));
         }
 
         //
@@ -43,7 +50,8 @@ namespace IUDICO.UserManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                Storage.CreateUser(user);
+                _storage.CreateUser(user);
+
                 return RedirectToAction("Index");
             }
             else
@@ -57,7 +65,7 @@ namespace IUDICO.UserManagement.Controllers
  
         public ActionResult Edit(Guid id)
         {
-            return View(new EditUserModel(Storage.GetUser(id)));
+            return View(new EditUserModel(_storage.GetUser(id)));
         }
 
         //
@@ -68,7 +76,7 @@ namespace IUDICO.UserManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                (Storage as DatabaseUserManagement).EditUser(id, editor);
+                _storage.EditUser(id, editor);
  
                 return RedirectToAction("Index");
             }
@@ -83,7 +91,7 @@ namespace IUDICO.UserManagement.Controllers
  
         public ActionResult Delete(Guid id)
         {
-            return View(Storage.GetUser(id));
+            return View(_storage.GetUser(id));
         }
 
         //
@@ -94,7 +102,7 @@ namespace IUDICO.UserManagement.Controllers
         {
             try
             {
-                Storage.DeleteUser(id);
+                _storage.DeleteUser(id);
  
                 return RedirectToAction("Index");
             }
