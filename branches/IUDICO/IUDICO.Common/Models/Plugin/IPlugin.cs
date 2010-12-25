@@ -9,6 +9,6 @@ namespace IUDICO.Common.Models.Plugin
         void BuildMenu(Menu menu);
         
         void RegisterRoutes(RouteCollection routes);
-        void Update(string evt, params object[] data);        
+        void Update(string evt, params object[] data);
     }
 }

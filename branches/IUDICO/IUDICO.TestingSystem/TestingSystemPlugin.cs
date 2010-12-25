@@ -31,7 +31,7 @@ namespace IUDICO.TestingSystem
 
         public IEnumerable<Action> BuildActions(Role role)
         {
-
+            return new List<Action>();
         }
 
         public void BuildMenu(Menu menu)
