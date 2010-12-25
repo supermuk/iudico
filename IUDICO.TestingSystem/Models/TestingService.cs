@@ -12,7 +12,6 @@ namespace IUDICO.TestingSystem.Models
         public IEnumerable<AttemptResult> GetResults(Guid userID, int courseID)
         {
             throw new NotImplementedException();
-            return new List<AttemptResult>();
         }
 
         #endregion

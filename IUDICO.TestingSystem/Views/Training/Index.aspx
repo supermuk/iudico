@@ -44,23 +44,23 @@
     
         <tr>
             <td>
-                <%: Html.ActionLink("Details", "Details", new { packageID = item.PackageID, attemptID = item.AttemptID })%> |
-                <%: item.AttemptStatusProp == null ? Html.ActionLink("Play", "Create", new { id = item.PlayID }) : Html.ActionLink("Play", "Play", new { id = item.PlayID }) %>
+                <%: Html.ActionLink("Details", "Details", new { packageId = item.PackageId, attemptId = item.AttemptId })%> |
+                <%: item.AttemptStatusProp == null ? Html.ActionLink("Play", "Create", new { id = item.PlayId }) : Html.ActionLink("Play", "Play", new { id = item.PlayId }) %>
             </td>
             <td>
-                <%: item.PackageID %>
+                <%: item.PackageId %>
             </td>
             <td>
                 <%: item.PackageFileName %>
             </td>
             <td>
-                <%: item.OrganizationID %>
+                <%: item.OrganizationId %>
             </td>
             <td>
                 <%: item.OrganizationTitle %>
             </td>
             <td>
-                <%: item.AttemptID %>
+                <%: item.AttemptId %>
             </td>
             <td>
                 <%: item.AttemptStatusProp %>
@@ -72,7 +72,7 @@
                 <%: String.Format("{0:0.#}", item.TotalPoints) %>
             </td>
             <td>
-                <%: item.PlayID %>
+                <%: item.PlayId %>
             </td>
         </tr>
     
