@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
 
 namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
 {
@@ -59,7 +60,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         public CompletionThreshold CompletionThreshold;
 
         [XmlElement(SCORM.Sequencing)]
-        public SequencingModels.Sequencing Sequencing;
+        public Sequencing Sequencing;
 
         [XmlElement(SCORM.Presentation)]
         public Presentation Presentation;

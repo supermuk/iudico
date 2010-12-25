@@ -13,6 +13,8 @@
         internal const string AdlcpNamespaceV1p3 = "http://www.adlnet.org/xsd/adlcp_v1p3";
         internal const string AdlnavNamespace = "http://www.adlnet.org/xsd/adlnav_v1p3";
         internal const string AdlseqNamespace = "http://www.adlnet.org/xsd/adlseq_v1p3";
+        internal const string All = "all";
+        internal const string Any = "any";
         internal const string Asset = "asset";
         internal const string AttemptAbsoluteDurationLimit = "attemptAbsoluteDurationLimit"; // <imsss:limitConditions>/attemptAbsoluteDurationLimit
         internal const string AttemptLimit = "attemptLimit"; // <imsss:limitConditions>/attemptLimit
@@ -79,6 +81,8 @@
         internal const string MinProgressMeasure = "minProgressMeasure";
         internal const string MlcNamespace = "urn:schemas-microsoft-com:learning-components-manifest";
         internal const string NavigationInterface = "navigationInterface"; // <adlnav:navigationInterface>
+        internal const string Not = "not";
+        internal const string NoOp = "NoOp";
         internal const string Objective = "objective"; // <imsss:objective>
         internal const string Objectives = "objectives"; // <imsss:objectives>
         internal const string ObjectiveId = "objectiveID"; // <imsss:objective>/objectiveID
