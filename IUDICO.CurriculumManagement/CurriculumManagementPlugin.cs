@@ -6,6 +6,7 @@ using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
 using IUDICO.CurriculumManagement.Models.Storage;
 using Action = IUDICO.Common.Models.Action;
+using IUDICO.CurriculumManagement.Models;
 
 namespace IUDICO.CurriculumManagement
 {
@@ -22,7 +23,8 @@ namespace IUDICO.CurriculumManagement
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<CurriculumManagementPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<ICurriculumService>().ImplementedBy<MixedCurriculumStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
+                Component.For<ICurriculumStorage>().ImplementedBy<MixedCurriculumStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<ICurriculumService>().ImplementedBy<CurriculumService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
         }
 
@@ -37,7 +39,7 @@ namespace IUDICO.CurriculumManagement
 
         public void BuildMenu(Menu menu)
         {
-            
+            menu.Add(new MenuItem("Curriculum", "Curriculum", "Index"));
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)
