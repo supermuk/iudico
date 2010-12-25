@@ -7,30 +7,21 @@ namespace IUDICO.CurriculumManagement.Controllers
 {
     public class StageController : CurriculumBaseController
     {
-        private readonly ICurriculumStorage _Storage;
-
         public StageController(ICurriculumStorage curriculumStorage)
+            : base(curriculumStorage)
         {
-            _Storage = curriculumStorage;
-        }
 
-        private ActionResult ErrorView(Exception e)
-        {
-            var currentControllerName = (string)RouteData.Values["controller"];
-            var currentActionName = (string)RouteData.Values["action"];
-
-            return View("Error", new HandleErrorInfo(e, currentControllerName, currentActionName));
         }
 
         public ActionResult Index(int curriculumId)
         {
             try
             {
-                var stages = _Storage.GetStages(curriculumId);
+                var stages = Storage.GetStages(curriculumId);
 
                 if (stages != null)
                 {
-                    ViewData["CurriculumName"] = _Storage.GetCurriculum(curriculumId).Name;
+                    ViewData["CurriculumName"] = Storage.GetCurriculum(curriculumId).Name;
                     return View(stages);
                 }
                 else
@@ -40,7 +31,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
             catch (Exception e)
             {
-                return ErrorView(e);
+                throw e;
             }
         }
 
@@ -49,7 +40,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var curriculum = _Storage.GetCurriculum(curriculumId);
+                var curriculum = Storage.GetCurriculum(curriculumId);
 
                 if (curriculum != null)
                 {
@@ -62,7 +53,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
             catch (Exception e)
             {
-                return ErrorView(e);
+                throw e;
             }
         }
 
@@ -71,15 +62,15 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                stage.Curriculum = _Storage.GetCurriculum(curriculumId);
+                stage.Curriculum = Storage.GetCurriculum(curriculumId);
 
-                _Storage.AddStage(stage);
+                Storage.AddStage(stage);
 
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-                return ErrorView(e);
+                throw e;
             }
         }
 
@@ -88,7 +79,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var stage = _Storage.GetStage(stageId);
+                var stage = Storage.GetStage(stageId);
 
                 if (stage != null)
                 {
@@ -102,7 +93,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
             catch (Exception e)
             {
-                return ErrorView(e);
+                throw e;
             }
         }
 
@@ -112,13 +103,13 @@ namespace IUDICO.CurriculumManagement.Controllers
             try
             {
                 stage.Id = stageId;
-                _Storage.UpdateStage(stage);
+                Storage.UpdateStage(stage);
 
                 return RedirectToRoute("Stages", new { action = "Index", CurriculumId = HttpContext.Application["CurriculumId"] });
             }
             catch (Exception e)
             {
-                return ErrorView(e);
+                throw e;
             }
         }
 
@@ -127,7 +118,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                _Storage.DeleteStage(stageId);
+                Storage.DeleteStage(stageId);
 
                 return Json(new { success = true });
             }
@@ -142,7 +133,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                _Storage.DeleteStages(stageIds);
+                Storage.DeleteStages(stageIds);
 
                 return Json(new { success = true });
             }

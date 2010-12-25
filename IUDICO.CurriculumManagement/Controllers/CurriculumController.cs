@@ -7,28 +7,17 @@ namespace IUDICO.CurriculumManagement.Controllers
 {
     public class CurriculumController : CurriculumBaseController
     {
-        private readonly ICurriculumStorage _Storage;
-
         public CurriculumController(ICurriculumStorage curriculumStorage)
+            : base(curriculumStorage)
         {
-            _Storage = curriculumStorage;
-        }
 
-        private ActionResult ErrorView(Exception e)
-        {
-            var currentControllerName = (string)RouteData.Values["controller"];
-            var currentActionName = (string)RouteData.Values["action"];
-
-            Response.Write(e.Message);
-            return null;
-            //return View("Error", new HandleErrorInfo(e, currentControllerName, currentActionName));
         }
 
         public ActionResult Index()
         {
             try
             {
-                var curriculums = _Storage.GetCurriculums();
+                var curriculums = Storage.GetCurriculums();
 
                 if (curriculums != null)
                 {
@@ -41,7 +30,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
             catch (Exception e)
             {
-                return ErrorView(e);
+                throw e;
             }
         }
 
@@ -54,7 +43,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
             catch (Exception e)
             {
-                return ErrorView(e);
+                throw e;
             }
         }
 
@@ -63,13 +52,13 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                _Storage.AddCurriculum(curriculum);
+                Storage.AddCurriculum(curriculum);
 
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-                return ErrorView(e);
+                throw e;
             }
         }
 
@@ -78,7 +67,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var curriculum = _Storage.GetCurriculum(curriculumId);
+                var curriculum = Storage.GetCurriculum(curriculumId);
 
                 if (curriculum != null)
                 {
@@ -91,7 +80,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
             catch (Exception e)
             {
-                return ErrorView(e);
+                throw e;
             }
         }
 
@@ -101,13 +90,13 @@ namespace IUDICO.CurriculumManagement.Controllers
             try
             {
                 curriculum.Id = curriculumId;
-                _Storage.UpdateCurriculum(curriculum);
+                Storage.UpdateCurriculum(curriculum);
 
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-                return ErrorView(e);
+                throw e;
             }
         }
 
@@ -116,7 +105,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                _Storage.DeleteCurriculum(curriculumId);
+                Storage.DeleteCurriculum(curriculumId);
 
                 return Json(new { success = true });
             }
@@ -131,7 +120,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                _Storage.DeleteCurriculums(curriculumIds);
+                Storage.DeleteCurriculums(curriculumIds);
 
                 return Json(new { success = true });
             }
