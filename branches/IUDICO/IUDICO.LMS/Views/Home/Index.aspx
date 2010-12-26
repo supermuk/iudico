@@ -9,7 +9,7 @@
     <h3>Welcome to Butterfly - Web Editor for SCORM compatible courses.</h3>
 
     <% foreach (var item in Model) { %>
-        <%= item.Link %>              
+        <a href="<%= item.Link %>"><%= item.Name %></a>
     <% } %>
 
 </asp:Content>

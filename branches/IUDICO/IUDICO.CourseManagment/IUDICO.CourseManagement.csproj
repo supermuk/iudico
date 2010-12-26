@@ -760,6 +760,6 @@
     </ItemGroup>
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)\ $(SolutionDir)IUDICO.LMS\Plugins\</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)\" "$(SolutionDir)IUDICO.LMS\Plugins\"</PostBuildEvent>
   </PropertyGroup>
 </Project>

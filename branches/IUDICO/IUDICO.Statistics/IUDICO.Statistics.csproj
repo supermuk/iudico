@@ -38,9 +38,11 @@
   <ItemGroup>
     <Reference Include="Castle.Core">
       <HintPath>..\References\Castle.Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Castle.Windsor">
       <HintPath>..\References\Castle.Windsor.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -92,6 +94,7 @@
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
       <Project>{9DD6C943-6608-4351-A521-E4B1F2F75E9D}</Project>
       <Name>IUDICO.Common</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -135,6 +138,6 @@
     </ItemGroup>
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)\ $(SolutionDir)IUDICO.LMS\Plugins\</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)\" "$(SolutionDir)IUDICO.LMS\Plugins\"</PostBuildEvent>
   </PropertyGroup>
 </Project>
