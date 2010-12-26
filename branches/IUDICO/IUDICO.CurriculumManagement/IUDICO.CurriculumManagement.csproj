@@ -87,7 +87,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\CurriculumAssignment\Add.aspx" />
+    <Content Include="Views\CurriculumAssignment\Create.aspx" />
+    <Content Include="Views\CurriculumAssignment\CreateTimeline.aspx" />
     <Content Include="Views\CurriculumAssignment\EditTimeline.aspx" />
     <Content Include="Views\CurriculumAssignment\Index.aspx" />
     <Content Include="Views\Curriculum\Create.aspx" />
