@@ -72,7 +72,7 @@
     <h2>
         Groups</h2>
     <p>
-        <%: Html.ActionLink("Add Group", "Add") %>
+        <%: Html.ActionLink("Add Group", "Create") %>
         <%--<a id="DeleteMany" href="#">Delete Selected</a>--%>
     </p>
     <table>
@@ -90,20 +90,20 @@
         </tr>
         <% foreach (var item in Model)
            { %>
-            <tr id="item<%: item.ID %>">
+            <tr id="item<%: item.Id %>">
                 <td>
-                    <input type="checkbox" id="<%= item.ID %>" />
+                    <input type="checkbox" id="<%= item.Id %>" />
                 </td>
                 <td>
-                    <%: item.ID %>
+                    <%: item.Id %>
                 </td>
                 <td>
                     <%: item.Name %>
                 </td>
                 <td>
-                    <%: Html.ActionLink("Edit Timeline", "EditTimeline", new { GroupID = item.ID })%>
+                    <%: Html.ActionLink("Edit Timeline", "EditTimeline", new { GroupID = item.Id })%>
                     |
-                    <%: Html.ActionLink("Edit Timeline for Stages", "EditTimelineForStages", new { GroupID = item.ID }, null)%>
+                    <%: Html.ActionLink("Edit Timeline for Stages", "EditTimelineForStages", new { GroupID = item.Id }, null)%>
 <%--                    |
                     <a href="javascript:deleteItem(<%: item.Id %>)">Delete</a>--%>
                 </td>

@@ -6,17 +6,15 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Timeline</h2>
+        Group : <%: ViewData["GroupName"] %>
+    </h2>
     <p>
-        <%: Html.ActionLink("Add Group", "Add") %>
+        <%: Html.ActionLink("Add Timeline", "CreateTimeline") %>
         <%--<a id="DeleteMany" href="#">Delete Selected</a>--%>
     </p>
     <table>
         <tr>
             <th>
-            </th>
-            <th>
-                Id
             </th>
             <th>
                 Start Date
@@ -25,26 +23,28 @@
                 End Date
             </th>
             <th>
+                Operation
+            </th>
+            <th>
             </th>
         </tr>
         <% foreach (var item in Model)
            { %>
-            <tr id="item<%: item.ID %>">
+            <tr id="item<%: item.Id %>">
                 <td>
-                    <input type="checkbox" id="<%= item.ID %>" />
+                    <input type="checkbox" id="<%= item.Id %>" />
                 </td>
                 <td>
-                    <%: item.ID %>
+                    <%: item.StartDate %>
                 </td>
                 <td>
-                    <%: item.Name %>
+                    <%: item.EndDate %>
                 </td>
                 <td>
-                    <%: Html.ActionLink("Edit Timeline", "EditTimeline", new { GroupID = item.ID })%>
-                    |
-                    <%: Html.ActionLink("Edit Timeline for Stages", "EditTimelineForStages", new { GroupID = item.ID }, null)%>
-<%--                    |
-                    <a href="javascript:deleteItem(<%: item.Id %>)">Delete</a>--%>
+                    <%: item.OperationRef %>
+                </td>
+                <td>
+                    <%--<a href="javascript:deleteItem(<%: item.Id %>)">Delete</a>--%>--%>
                 </td>
             </tr>
         <% } %>
