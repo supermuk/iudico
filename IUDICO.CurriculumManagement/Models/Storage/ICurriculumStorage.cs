@@ -51,9 +51,16 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #region Assignment methods
 
-        IEnumerable<Group> GetGroups();
-        Group GetGroup(int curriculumId);
+        IEnumerable<CurriculumAssignment> GetCurrAssignmnetsForCurriculum(int currId);
+        IEnumerable<CurriculumAssignment> GetCurrAssignmentsForGroup(int groupId);
+        CurriculumAssignment GetCurrAssignmentForCurriculumForGroup(int currId, int groupId);
+
+        IEnumerable<Group> GetAssignmentGroups(int curriculumId);
+        IEnumerable<Group> GetAllNotAssignmentGroups(int curriculumId);
+        int AddCurriculumAssignment(CurriculumAssignment currAssignment);
+        IEnumerable<Timeline> GetTimeline(int curriculumId, int groupId);
         IEnumerable<Timeline> GetTimelines();
+        int AddTimeline(Timeline timeline);
 
         #endregion
     }

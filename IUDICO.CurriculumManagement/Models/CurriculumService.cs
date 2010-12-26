@@ -68,7 +68,6 @@ namespace IUDICO.CurriculumManagement.Models
         {
             return curriculumStorage.GetTimelines();
         }
-
         #endregion
     }
 }

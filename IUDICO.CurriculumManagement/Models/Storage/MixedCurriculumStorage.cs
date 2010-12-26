@@ -292,6 +292,84 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return _Db.Timelines;
         }
 
+        //хз шо за методи вище
+
+        public IEnumerable<CurriculumAssignment> GetCurrAssignmnetsForCurriculum(int currId)
+        {
+            return _Db.CurriculumAssignments.Where(item => item.CurriculumRef == currId);
+        }
+
+        public IEnumerable<CurriculumAssignment> GetCurrAssignmentsForGroup(int groupId)
+        {
+            return _Db.CurriculumAssignments.Where(item => item.UserGroupRef == groupId);
+        }
+
+        public IEnumerable<Group> GetAssignmentGroups(int curriculumId)
+        {
+            //IUserManagement userManager = lmsService.FindService<IUserManagement>();
+            //Curriculum curriculum;
+            //curriculum.CurriculumAssignments
+
+            //return from item in userManager.GetGroups()
+            //       where GetCurriculumAssignment(curriculumId)
+            List<CurriculumAssignment> NeededGroupsIds = (_Db.CurriculumAssignments.Where(item => item.CurriculumRef == curriculumId)).ToList();
+            List<int?> indexes = new List<int?>();
+            foreach (CurriculumAssignment item in NeededGroupsIds)
+            {
+                indexes.Add(item.UserGroupRef);
+            }
+            return _Db.Groups.Where(item => indexes.Contains(item.Id)).ToList();
+        }
+
+        public IEnumerable<Group> GetAllNotAssignmentGroups(int curriculumId)
+        {
+            IEnumerable<Group> assignmentGroups = GetAssignmentGroups(curriculumId);
+            List<Group> notAssignmentGroups = new List<Group>();
+            bool isEqual = true;
+            foreach (Group item in _Db.Groups)
+            {
+                isEqual = true;
+                foreach (Group itemGroup in assignmentGroups)
+                    if (item.Id == itemGroup.Id)
+                        isEqual = false;
+                if (isEqual == true)
+                    notAssignmentGroups.Add(item);
+            }
+            return notAssignmentGroups;
+        }
+
+        public int AddCurriculumAssignment(CurriculumAssignment currAssignment)
+        {
+            _Db.CurriculumAssignments.InsertOnSubmit(currAssignment);
+            _Db.SubmitChanges();
+
+            return currAssignment.Id;
+        }
+
+        public IEnumerable<Timeline> GetTimeline(int curriculumId, int groupId)
+        {
+            IEnumerable<CurriculumAssignment> CurrAssignments = (GetCurrAssignmnetsForCurriculum(curriculumId).Where(item => item.UserGroupRef == groupId));
+            List<int?> CurrAssignmentIds = new List<int?>();
+
+            foreach (CurriculumAssignment item in CurrAssignments)
+                CurrAssignmentIds.Add(item.Id);
+
+            return _Db.Timelines.Where(item => CurrAssignmentIds.Contains(item.CurriculumAssignmentRef));
+        }
+
+        public CurriculumAssignment GetCurrAssignmentForCurriculumForGroup(int curriculumId, int groupId)
+        {
+            return (GetCurrAssignmnetsForCurriculum(curriculumId).Where(item => item.UserGroupRef == groupId)).ToList()[0];
+        }
+
+        public int AddTimeline(Timeline timeline)
+        {
+            _Db.Timelines.InsertOnSubmit(timeline);
+            _Db.SubmitChanges();
+
+            return timeline.Id;
+        }
+
         #endregion
 
         #endregion
