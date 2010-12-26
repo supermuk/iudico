@@ -2,18 +2,10 @@
 
 = Development FAQ =
 
-P. I get an error when I use strongly-typed view.<br />
-A. Add this as first line of your view: `<%@ Assembly Name="IUDICO.PluginName" %>`
+== Questions ==
 
-----
-
-P. I don't have a list of my models when I'm trying to create strongly-typed view.<br />
-A. Copy web.config from LMS\Views\web.config to your plugin's view folder.
-
-----
-
-P. I get an error during start.<br />
-A. Stop the webdev server. Delete all files from LMS\Plugins folder. Rebuild the solution. Start LMS.
+Q. What coding standard do we use?<br />
+A. Coding standard is located here: https://docs.google.com/document/d/11UuzPA4rUd1ot05WQPvrKin2ThpgNiiXprkWwLIOVJo/edit?hl=en
 
 ----
 
@@ -56,3 +48,18 @@ public ActionResult Index3()
 }
 ...
 }}}
+
+== Problems ==
+
+P. I get an error when I use strongly-typed view.<br />
+A. Add this as first line of your view: `<%@ Assembly Name="IUDICO.PluginName" %>`
+
+----
+
+P. I don't have a list of my models when I'm trying to create strongly-typed view.<br />
+A. Copy web.config from LMS\Views\web.config to your plugin's view folder.
+
+----
+
+P. I get an error during start.<br />
+A. Stop the webdev server. Delete all files from LMS\Plugins folder. Rebuild the solution. Start LMS.
