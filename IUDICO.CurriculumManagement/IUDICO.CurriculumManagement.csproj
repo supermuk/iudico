@@ -92,7 +92,9 @@
   <ItemGroup>
     <Content Include="Views\CurriculumAssignment\Create.aspx" />
     <Content Include="Views\CurriculumAssignment\CreateTimeline.aspx" />
+    <Content Include="Views\CurriculumAssignment\EditStageTimeline.aspx" />
     <Content Include="Views\CurriculumAssignment\EditTimeline.aspx" />
+    <Content Include="Views\CurriculumAssignment\EditTimelineForStages.aspx" />
     <Content Include="Views\CurriculumAssignment\Index.aspx" />
     <Content Include="Views\Curriculum\Create.aspx" />
     <Content Include="Views\Curriculum\Edit.aspx" />

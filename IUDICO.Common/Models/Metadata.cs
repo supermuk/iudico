@@ -250,4 +250,36 @@ namespace IUDICO.Common.Models
             public IEnumerable<SelectListItem> UserList { get; set; }
         }
     }
+
+    [MetadataType(typeof(Timeline.Metadata))]
+    [Bind(Exclude = "Id")]
+    public partial class Timeline
+    {
+        private sealed class Metadata
+        {
+            [ScaffoldColumn(false)]
+            public int Id { get; set; }
+
+            [DisplayName("Start Date")]
+            [Required(ErrorMessage = "Start Date is required")]
+            public DateTime StartDate { get; set; }
+
+            [DisplayName("End Date")]
+            [Required(ErrorMessage = "Start Date is required")]
+            public DateTime EndDate { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int CurriculumAssignmentRef { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int? StageRef { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int OperationRef { get; set; }
+
+            [ScaffoldColumn(false)]
+            public bool IsDeleted { get; set; }
+
+        }
+    }
 }
