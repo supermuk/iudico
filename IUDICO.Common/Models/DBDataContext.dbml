@@ -36,13 +36,6 @@
       <Association Name="Node_Node" Member="Node1" ThisKey="ParentId" OtherKey="Id" Type="Node" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Operation" Member="Operations">
-    <Type Name="Operation">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Operation_Timeline" Member="Timelines" ThisKey="Id" OtherKey="OperationRef" Type="Timeline" />
-    </Type>
-  </Table>
   <Table Name="dbo.Curriculums" Member="Curriculums">
     <Type Name="Curriculum">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -79,19 +72,12 @@
       <Association Name="Stage_Theme" Member="Stage" ThisKey="StageRef" OtherKey="Id" Type="Stage" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.[Group]" Member="Groups">
-    <Type Name="Group">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Group_GroupUser" Member="GroupUsers" ThisKey="Id" OtherKey="GroupRef" Type="GroupUser" />
-    </Type>
-  </Table>
   <Table Name="dbo.GroupUsers" Member="GroupUsers">
     <Type Name="GroupUser">
       <Column Name="GroupRef" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="UserRef" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="Group_GroupUser" Member="Group" ThisKey="GroupRef" OtherKey="Id" Type="Group" IsForeignKey="true" />
       <Association Name="User_GroupUser" Member="User" ThisKey="UserRef" OtherKey="Id" Type="User" IsForeignKey="true" />
+      <Association Name="Group_GroupUser" Member="Group" ThisKey="GroupRef" OtherKey="Id" Type="Group" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Roles" Member="Roles">
@@ -139,6 +125,20 @@
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="CurriculumAssignment_Timeline" Member="CurriculumAssignment" ThisKey="CurriculumAssignmentRef" OtherKey="Id" Type="CurriculumAssignment" IsForeignKey="true" />
       <Association Name="Operation_Timeline" Member="Operation" ThisKey="OperationRef" OtherKey="Id" Type="Operation" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Operation" Member="Operations">
+    <Type Name="Operation">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Operation_Timeline" Member="Timelines" ThisKey="Id" OtherKey="OperationRef" Type="Timeline" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[Group]" Member="Groups">
+    <Type Name="Group">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Group_GroupUser" Member="GroupUsers" ThisKey="Id" OtherKey="GroupRef" Type="GroupUser" />
     </Type>
   </Table>
 </Database>
