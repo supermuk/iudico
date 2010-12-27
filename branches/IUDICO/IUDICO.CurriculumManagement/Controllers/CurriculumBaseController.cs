@@ -10,6 +10,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         public CurriculumBaseController(ICurriculumStorage curriculumStorage)
         {
             Storage = curriculumStorage;
+            Storage.RefreshState();
         }
     }
 }

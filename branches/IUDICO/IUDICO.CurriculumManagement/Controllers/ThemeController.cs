@@ -5,18 +5,10 @@ using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.CurriculumManagement.Models.Storage;
+using IUDICO.CurriculumManagement.Models;
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
-    public class ThemeModel
-    {
-        public IEnumerable<SelectListItem> Courses { get; set; }
-        public IEnumerable<Theme> Themes { get; set; }
-        public int CourseId { get; set; }
-        public int StageId { get; set; }
-        public int ThemeId { get; set; }
-    }
-
     public class ThemeController : CurriculumBaseController
     {
         public ThemeController(ICurriculumStorage curriculumStorage)
@@ -53,12 +45,10 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var courseManager = LmsService.FindService<ICourseService>();
-
                 var model = new ThemeModel()
                 {
                     StageId = stageId,
-                    Courses = from course in courseManager.GetCourses()
+                    Courses = from course in Storage.GetCourses()
                               select new SelectListItem { Text = course.Name, Value = course.Id.ToString(), Selected = false }
                 };
 
@@ -76,7 +66,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             try
             {
                 var theme = new Theme { CourseRef = model.CourseId, StageRef = model.StageId };
-                var course = LmsService.FindService<ICourseService>().GetCourse(model.CourseId);
+                var course = Storage.GetCourse(model.CourseId);
 
                 Storage.AddTheme(theme, course);
 
@@ -101,7 +91,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                     {
                         StageId = theme.StageRef,
                         ThemeId = themeId,
-                        Courses = from course in LmsService.FindService<ICourseService>().GetCourses()
+                        Courses = from course in Storage.GetCourses()
                                   select new SelectListItem { Text = course.Name, Value = course.Id.ToString(), Selected = false }
                     };
 
@@ -125,7 +115,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 var theme = Storage.GetTheme(model.ThemeId);
                 theme.CourseRef = model.CourseId;
-                var course = LmsService.FindService<ICourseService>().GetCourse(model.CourseId);
+                var course = Storage.GetCourse(model.CourseId);
 
                 Storage.UpdateTheme(theme, course);
 
@@ -173,7 +163,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 var theme = Storage.ThemeUp(themeId);
 
-                return RedirectToAction("Index", new { StageId = theme.StageRef });
+                return RedirectToRoute("Themes", new { Action = "Index", StageId = theme.StageRef });
             }
             catch (Exception e)
             {
@@ -187,7 +177,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 var theme = Storage.ThemeDown(themeId);
 
-                return RedirectToAction("Index", new { StageId = theme.StageRef });
+                return RedirectToRoute("Themes", new { Action = "Index", StageId = theme.StageRef });
             }
             catch (Exception e)
             {

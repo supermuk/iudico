@@ -83,7 +83,7 @@ namespace IUDICO.CurriculumManagement.Controllers
 
                 if (stage != null)
                 {
-                    HttpContext.Application["CurriculumId"] = stage.CurriculumRef;
+                    HttpContext.Session["CurriculumId"] = stage.CurriculumRef;
                     return View(stage);
                 }
                 else
@@ -105,7 +105,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                 stage.Id = stageId;
                 Storage.UpdateStage(stage);
 
-                return RedirectToRoute("Stages", new { action = "Index", CurriculumId = HttpContext.Application["CurriculumId"] });
+                return RedirectToRoute("Stages", new { action = "Index", CurriculumId = HttpContext.Session["CurriculumId"] });
             }
             catch (Exception e)
             {

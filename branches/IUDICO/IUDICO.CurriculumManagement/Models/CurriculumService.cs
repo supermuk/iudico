@@ -66,7 +66,8 @@ namespace IUDICO.CurriculumManagement.Models
 
         public IEnumerable<Timeline> GetTimelines()
         {
-            return curriculumStorage.GetTimelines();
+            return null;
+            //return curriculumStorage.GetTimelines();
         }
         #endregion
     }

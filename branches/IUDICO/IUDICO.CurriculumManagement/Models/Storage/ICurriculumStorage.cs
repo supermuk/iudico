@@ -8,6 +8,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         #region Helper methods
 
         void RefreshState();
+        IEnumerable<Course> GetCourses();
+        Course GetCourse(int id);
 
         #endregion
 
@@ -59,7 +61,6 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         IEnumerable<Group> GetAllNotAssignmentGroups(int curriculumId);
         int AddCurriculumAssignment(CurriculumAssignment currAssignment);
         IEnumerable<Timeline> GetTimeline(int curriculumId, int groupId);
-        IEnumerable<Timeline> GetTimelines();
         int AddTimeline(Timeline timeline);
 
         #endregion
