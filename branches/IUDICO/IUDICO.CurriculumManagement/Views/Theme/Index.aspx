@@ -73,7 +73,7 @@
     <h2>Themes(Courses) for <%: ViewData["StageName"] %> stage.</h2>
 
     <p>
-        <%: Html.ActionLink("Add course", "Create"/*, new { StageID = Model.StageId}*/)%>
+        <%: Html.ActionLink("Add theme", "Create"/*, new { StageID = Model.StageId}*/)%>
         <a id="DeleteMany" href="#">Delete Selected</a>
     </p>
     <table>
@@ -91,6 +91,9 @@
             </th>
             <th>
                 Updated
+            </th>
+            <th>
+                Theme type
             </th>
             <th>
             </th>
@@ -112,6 +115,9 @@
                 </td>
                 <td>
                     <%: String.Format("{0:g}", item.Updated) %>
+                </td>
+                <td>
+                    <%: item.ThemeType.Name %>
                 </td>
                 <td>
                     <%: Html.ActionLink("Edit", "Edit", new { ThemeID = item.Id })%>

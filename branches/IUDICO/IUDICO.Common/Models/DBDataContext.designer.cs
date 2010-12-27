@@ -45,9 +45,6 @@ namespace IUDICO.Common.Models
     partial void InsertStage(Stage instance);
     partial void UpdateStage(Stage instance);
     partial void DeleteStage(Stage instance);
-    partial void InsertTheme(Theme instance);
-    partial void UpdateTheme(Theme instance);
-    partial void DeleteTheme(Theme instance);
     partial void InsertGroupUser(GroupUser instance);
     partial void UpdateGroupUser(GroupUser instance);
     partial void DeleteGroupUser(GroupUser instance);
@@ -69,6 +66,15 @@ namespace IUDICO.Common.Models
     partial void InsertGroup(Group instance);
     partial void UpdateGroup(Group instance);
     partial void DeleteGroup(Group instance);
+    partial void InsertTheme(Theme instance);
+    partial void UpdateTheme(Theme instance);
+    partial void DeleteTheme(Theme instance);
+    partial void InsertThemeType(ThemeType instance);
+    partial void UpdateThemeType(ThemeType instance);
+    partial void DeleteThemeType(ThemeType instance);
+    partial void InsertThemeAssignment(ThemeAssignment instance);
+    partial void UpdateThemeAssignment(ThemeAssignment instance);
+    partial void DeleteThemeAssignment(ThemeAssignment instance);
     #endregion
 		
 		public DBDataContext() : 
@@ -149,14 +155,6 @@ namespace IUDICO.Common.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<Theme> Themes
-		{
-			get
-			{
-				return this.GetTable<Theme>();
-			}
-		}
-		
 		public System.Data.Linq.Table<GroupUser> GroupUsers
 		{
 			get
@@ -210,6 +208,30 @@ namespace IUDICO.Common.Models
 			get
 			{
 				return this.GetTable<Group>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Theme> Themes
+		{
+			get
+			{
+				return this.GetTable<Theme>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ThemeType> ThemeTypes
+		{
+			get
+			{
+				return this.GetTable<ThemeType>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ThemeAssignment> ThemeAssignments
+		{
+			get
+			{
+				return this.GetTable<ThemeAssignment>();
 			}
 		}
 	}
@@ -1312,277 +1334,6 @@ namespace IUDICO.Common.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Themes")]
-	public partial class Theme : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _Name;
-		
-		private System.DateTime _Created;
-		
-		private System.DateTime _Updated;
-		
-		private int _StageRef;
-		
-		private int _CourseRef;
-		
-		private int _SortOrder;
-		
-		private bool _IsDeleted;
-		
-		private EntityRef<Stage> _Stage;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnCreatedChanging(System.DateTime value);
-    partial void OnCreatedChanged();
-    partial void OnUpdatedChanging(System.DateTime value);
-    partial void OnUpdatedChanged();
-    partial void OnStageRefChanging(int value);
-    partial void OnStageRefChanged();
-    partial void OnCourseRefChanging(int value);
-    partial void OnCourseRefChanged();
-    partial void OnSortOrderChanging(int value);
-    partial void OnSortOrderChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    #endregion
-		
-		public Theme()
-		{
-			this._Stage = default(EntityRef<Stage>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Created", DbType="DateTime NOT NULL")]
-		public System.DateTime Created
-		{
-			get
-			{
-				return this._Created;
-			}
-			set
-			{
-				if ((this._Created != value))
-				{
-					this.OnCreatedChanging(value);
-					this.SendPropertyChanging();
-					this._Created = value;
-					this.SendPropertyChanged("Created");
-					this.OnCreatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Updated", DbType="DateTime NOT NULL")]
-		public System.DateTime Updated
-		{
-			get
-			{
-				return this._Updated;
-			}
-			set
-			{
-				if ((this._Updated != value))
-				{
-					this.OnUpdatedChanging(value);
-					this.SendPropertyChanging();
-					this._Updated = value;
-					this.SendPropertyChanged("Updated");
-					this.OnUpdatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StageRef", DbType="Int NOT NULL")]
-		public int StageRef
-		{
-			get
-			{
-				return this._StageRef;
-			}
-			set
-			{
-				if ((this._StageRef != value))
-				{
-					if (this._Stage.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnStageRefChanging(value);
-					this.SendPropertyChanging();
-					this._StageRef = value;
-					this.SendPropertyChanged("StageRef");
-					this.OnStageRefChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CourseRef", DbType="Int NOT NULL")]
-		public int CourseRef
-		{
-			get
-			{
-				return this._CourseRef;
-			}
-			set
-			{
-				if ((this._CourseRef != value))
-				{
-					this.OnCourseRefChanging(value);
-					this.SendPropertyChanging();
-					this._CourseRef = value;
-					this.SendPropertyChanged("CourseRef");
-					this.OnCourseRefChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SortOrder", DbType="Int NOT NULL")]
-		public int SortOrder
-		{
-			get
-			{
-				return this._SortOrder;
-			}
-			set
-			{
-				if ((this._SortOrder != value))
-				{
-					this.OnSortOrderChanging(value);
-					this.SendPropertyChanging();
-					this._SortOrder = value;
-					this.SendPropertyChanged("SortOrder");
-					this.OnSortOrderChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Stage_Theme", Storage="_Stage", ThisKey="StageRef", OtherKey="Id", IsForeignKey=true)]
-		public Stage Stage
-		{
-			get
-			{
-				return this._Stage.Entity;
-			}
-			set
-			{
-				Stage previousValue = this._Stage.Entity;
-				if (((previousValue != value) 
-							|| (this._Stage.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Stage.Entity = null;
-						previousValue.Themes.Remove(this);
-					}
-					this._Stage.Entity = value;
-					if ((value != null))
-					{
-						value.Themes.Add(this);
-						this._StageRef = value.Id;
-					}
-					else
-					{
-						this._StageRef = default(int);
-					}
-					this.SendPropertyChanged("Stage");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.GroupUsers")]
 	public partial class GroupUser : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2273,6 +2024,8 @@ namespace IUDICO.Common.Models
 		
 		private EntitySet<Timeline> _Timelines;
 		
+		private EntitySet<ThemeAssignment> _ThemeAssignments;
+		
 		private EntityRef<Curriculum> _Curriculum;
 		
     #region Extensibility Method Definitions
@@ -2292,6 +2045,7 @@ namespace IUDICO.Common.Models
 		public CurriculumAssignment()
 		{
 			this._Timelines = new EntitySet<Timeline>(new Action<Timeline>(this.attach_Timelines), new Action<Timeline>(this.detach_Timelines));
+			this._ThemeAssignments = new EntitySet<ThemeAssignment>(new Action<ThemeAssignment>(this.attach_ThemeAssignments), new Action<ThemeAssignment>(this.detach_ThemeAssignments));
 			this._Curriculum = default(EntityRef<Curriculum>);
 			OnCreated();
 		}
@@ -2393,6 +2147,19 @@ namespace IUDICO.Common.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="CurriculumAssignment_ThemeAssignment", Storage="_ThemeAssignments", ThisKey="Id", OtherKey="CurriculumAssignmentRef")]
+		public EntitySet<ThemeAssignment> ThemeAssignments
+		{
+			get
+			{
+				return this._ThemeAssignments;
+			}
+			set
+			{
+				this._ThemeAssignments.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Curriculum_CurriculumAssignment", Storage="_Curriculum", ThisKey="CurriculumRef", OtherKey="Id", IsForeignKey=true)]
 		public Curriculum Curriculum
 		{
@@ -2454,6 +2221,18 @@ namespace IUDICO.Common.Models
 		}
 		
 		private void detach_Timelines(Timeline entity)
+		{
+			this.SendPropertyChanging();
+			entity.CurriculumAssignment = null;
+		}
+		
+		private void attach_ThemeAssignments(ThemeAssignment entity)
+		{
+			this.SendPropertyChanging();
+			entity.CurriculumAssignment = this;
+		}
+		
+		private void detach_ThemeAssignments(ThemeAssignment entity)
 		{
 			this.SendPropertyChanging();
 			entity.CurriculumAssignment = null;
@@ -2973,6 +2752,700 @@ namespace IUDICO.Common.Models
 		{
 			this.SendPropertyChanging();
 			entity.Group = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Themes")]
+	public partial class Theme : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private System.DateTime _Created;
+		
+		private System.DateTime _Updated;
+		
+		private int _StageRef;
+		
+		private int _CourseRef;
+		
+		private int _SortOrder;
+		
+		private int _ThemeTypeRef;
+		
+		private bool _IsDeleted;
+		
+		private EntitySet<ThemeAssignment> _ThemeAssignments;
+		
+		private EntityRef<Stage> _Stage;
+		
+		private EntityRef<ThemeType> _ThemeType;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnCreatedChanging(System.DateTime value);
+    partial void OnCreatedChanged();
+    partial void OnUpdatedChanging(System.DateTime value);
+    partial void OnUpdatedChanged();
+    partial void OnStageRefChanging(int value);
+    partial void OnStageRefChanged();
+    partial void OnCourseRefChanging(int value);
+    partial void OnCourseRefChanged();
+    partial void OnSortOrderChanging(int value);
+    partial void OnSortOrderChanged();
+    partial void OnThemeTypeRefChanging(int value);
+    partial void OnThemeTypeRefChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    #endregion
+		
+		public Theme()
+		{
+			this._ThemeAssignments = new EntitySet<ThemeAssignment>(new Action<ThemeAssignment>(this.attach_ThemeAssignments), new Action<ThemeAssignment>(this.detach_ThemeAssignments));
+			this._Stage = default(EntityRef<Stage>);
+			this._ThemeType = default(EntityRef<ThemeType>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Created", DbType="DateTime NOT NULL")]
+		public System.DateTime Created
+		{
+			get
+			{
+				return this._Created;
+			}
+			set
+			{
+				if ((this._Created != value))
+				{
+					this.OnCreatedChanging(value);
+					this.SendPropertyChanging();
+					this._Created = value;
+					this.SendPropertyChanged("Created");
+					this.OnCreatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Updated", DbType="DateTime NOT NULL")]
+		public System.DateTime Updated
+		{
+			get
+			{
+				return this._Updated;
+			}
+			set
+			{
+				if ((this._Updated != value))
+				{
+					this.OnUpdatedChanging(value);
+					this.SendPropertyChanging();
+					this._Updated = value;
+					this.SendPropertyChanged("Updated");
+					this.OnUpdatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StageRef", DbType="Int NOT NULL")]
+		public int StageRef
+		{
+			get
+			{
+				return this._StageRef;
+			}
+			set
+			{
+				if ((this._StageRef != value))
+				{
+					if (this._Stage.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnStageRefChanging(value);
+					this.SendPropertyChanging();
+					this._StageRef = value;
+					this.SendPropertyChanged("StageRef");
+					this.OnStageRefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CourseRef", DbType="Int NOT NULL")]
+		public int CourseRef
+		{
+			get
+			{
+				return this._CourseRef;
+			}
+			set
+			{
+				if ((this._CourseRef != value))
+				{
+					this.OnCourseRefChanging(value);
+					this.SendPropertyChanging();
+					this._CourseRef = value;
+					this.SendPropertyChanged("CourseRef");
+					this.OnCourseRefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SortOrder", DbType="Int NOT NULL")]
+		public int SortOrder
+		{
+			get
+			{
+				return this._SortOrder;
+			}
+			set
+			{
+				if ((this._SortOrder != value))
+				{
+					this.OnSortOrderChanging(value);
+					this.SendPropertyChanging();
+					this._SortOrder = value;
+					this.SendPropertyChanged("SortOrder");
+					this.OnSortOrderChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThemeTypeRef", DbType="Int NOT NULL")]
+		public int ThemeTypeRef
+		{
+			get
+			{
+				return this._ThemeTypeRef;
+			}
+			set
+			{
+				if ((this._ThemeTypeRef != value))
+				{
+					if (this._ThemeType.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnThemeTypeRefChanging(value);
+					this.SendPropertyChanging();
+					this._ThemeTypeRef = value;
+					this.SendPropertyChanged("ThemeTypeRef");
+					this.OnThemeTypeRefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
+		{
+			get
+			{
+				return this._IsDeleted;
+			}
+			set
+			{
+				if ((this._IsDeleted != value))
+				{
+					this.OnIsDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._IsDeleted = value;
+					this.SendPropertyChanged("IsDeleted");
+					this.OnIsDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Theme_ThemeAssignment", Storage="_ThemeAssignments", ThisKey="Id", OtherKey="ThemeRef")]
+		public EntitySet<ThemeAssignment> ThemeAssignments
+		{
+			get
+			{
+				return this._ThemeAssignments;
+			}
+			set
+			{
+				this._ThemeAssignments.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Stage_Theme", Storage="_Stage", ThisKey="StageRef", OtherKey="Id", IsForeignKey=true)]
+		public Stage Stage
+		{
+			get
+			{
+				return this._Stage.Entity;
+			}
+			set
+			{
+				Stage previousValue = this._Stage.Entity;
+				if (((previousValue != value) 
+							|| (this._Stage.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Stage.Entity = null;
+						previousValue.Themes.Remove(this);
+					}
+					this._Stage.Entity = value;
+					if ((value != null))
+					{
+						value.Themes.Add(this);
+						this._StageRef = value.Id;
+					}
+					else
+					{
+						this._StageRef = default(int);
+					}
+					this.SendPropertyChanged("Stage");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ThemeType_Theme", Storage="_ThemeType", ThisKey="ThemeTypeRef", OtherKey="Id", IsForeignKey=true)]
+		public ThemeType ThemeType
+		{
+			get
+			{
+				return this._ThemeType.Entity;
+			}
+			set
+			{
+				ThemeType previousValue = this._ThemeType.Entity;
+				if (((previousValue != value) 
+							|| (this._ThemeType.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ThemeType.Entity = null;
+						previousValue.Themes.Remove(this);
+					}
+					this._ThemeType.Entity = value;
+					if ((value != null))
+					{
+						value.Themes.Add(this);
+						this._ThemeTypeRef = value.Id;
+					}
+					else
+					{
+						this._ThemeTypeRef = default(int);
+					}
+					this.SendPropertyChanged("ThemeType");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ThemeAssignments(ThemeAssignment entity)
+		{
+			this.SendPropertyChanging();
+			entity.Theme = this;
+		}
+		
+		private void detach_ThemeAssignments(ThemeAssignment entity)
+		{
+			this.SendPropertyChanging();
+			entity.Theme = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ThemeType")]
+	public partial class ThemeType : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private EntitySet<Theme> _Themes;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    #endregion
+		
+		public ThemeType()
+		{
+			this._Themes = new EntitySet<Theme>(new Action<Theme>(this.attach_Themes), new Action<Theme>(this.detach_Themes));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ThemeType_Theme", Storage="_Themes", ThisKey="Id", OtherKey="ThemeTypeRef")]
+		public EntitySet<Theme> Themes
+		{
+			get
+			{
+				return this._Themes;
+			}
+			set
+			{
+				this._Themes.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Themes(Theme entity)
+		{
+			this.SendPropertyChanging();
+			entity.ThemeType = this;
+		}
+		
+		private void detach_Themes(Theme entity)
+		{
+			this.SendPropertyChanging();
+			entity.ThemeType = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ThemeAssignments")]
+	public partial class ThemeAssignment : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _ThemeRef;
+		
+		private int _CurriculumAssignmentRef;
+		
+		private int _MaxScore;
+		
+		private EntityRef<CurriculumAssignment> _CurriculumAssignment;
+		
+		private EntityRef<Theme> _Theme;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnThemeRefChanging(int value);
+    partial void OnThemeRefChanged();
+    partial void OnCurriculumAssignmentRefChanging(int value);
+    partial void OnCurriculumAssignmentRefChanged();
+    partial void OnMaxScoreChanging(int value);
+    partial void OnMaxScoreChanged();
+    #endregion
+		
+		public ThemeAssignment()
+		{
+			this._CurriculumAssignment = default(EntityRef<CurriculumAssignment>);
+			this._Theme = default(EntityRef<Theme>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThemeRef", DbType="Int NOT NULL")]
+		public int ThemeRef
+		{
+			get
+			{
+				return this._ThemeRef;
+			}
+			set
+			{
+				if ((this._ThemeRef != value))
+				{
+					if (this._Theme.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnThemeRefChanging(value);
+					this.SendPropertyChanging();
+					this._ThemeRef = value;
+					this.SendPropertyChanged("ThemeRef");
+					this.OnThemeRefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CurriculumAssignmentRef", DbType="Int NOT NULL")]
+		public int CurriculumAssignmentRef
+		{
+			get
+			{
+				return this._CurriculumAssignmentRef;
+			}
+			set
+			{
+				if ((this._CurriculumAssignmentRef != value))
+				{
+					if (this._CurriculumAssignment.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCurriculumAssignmentRefChanging(value);
+					this.SendPropertyChanging();
+					this._CurriculumAssignmentRef = value;
+					this.SendPropertyChanged("CurriculumAssignmentRef");
+					this.OnCurriculumAssignmentRefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaxScore", DbType="Int NOT NULL")]
+		public int MaxScore
+		{
+			get
+			{
+				return this._MaxScore;
+			}
+			set
+			{
+				if ((this._MaxScore != value))
+				{
+					this.OnMaxScoreChanging(value);
+					this.SendPropertyChanging();
+					this._MaxScore = value;
+					this.SendPropertyChanged("MaxScore");
+					this.OnMaxScoreChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="CurriculumAssignment_ThemeAssignment", Storage="_CurriculumAssignment", ThisKey="CurriculumAssignmentRef", OtherKey="Id", IsForeignKey=true)]
+		public CurriculumAssignment CurriculumAssignment
+		{
+			get
+			{
+				return this._CurriculumAssignment.Entity;
+			}
+			set
+			{
+				CurriculumAssignment previousValue = this._CurriculumAssignment.Entity;
+				if (((previousValue != value) 
+							|| (this._CurriculumAssignment.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._CurriculumAssignment.Entity = null;
+						previousValue.ThemeAssignments.Remove(this);
+					}
+					this._CurriculumAssignment.Entity = value;
+					if ((value != null))
+					{
+						value.ThemeAssignments.Add(this);
+						this._CurriculumAssignmentRef = value.Id;
+					}
+					else
+					{
+						this._CurriculumAssignmentRef = default(int);
+					}
+					this.SendPropertyChanged("CurriculumAssignment");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Theme_ThemeAssignment", Storage="_Theme", ThisKey="ThemeRef", OtherKey="Id", IsForeignKey=true)]
+		public Theme Theme
+		{
+			get
+			{
+				return this._Theme.Entity;
+			}
+			set
+			{
+				Theme previousValue = this._Theme.Entity;
+				if (((previousValue != value) 
+							|| (this._Theme.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Theme.Entity = null;
+						previousValue.ThemeAssignments.Remove(this);
+					}
+					this._Theme.Entity = value;
+					if ((value != null))
+					{
+						value.ThemeAssignments.Add(this);
+						this._ThemeRef = value.Id;
+					}
+					else
+					{
+						this._ThemeRef = default(int);
+					}
+					this.SendPropertyChanged("Theme");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

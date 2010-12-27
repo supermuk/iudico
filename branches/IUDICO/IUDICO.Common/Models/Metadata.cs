@@ -121,6 +121,9 @@ namespace IUDICO.Common.Models
             public int CourseRef { get; set; }
 
             [ScaffoldColumn(false)]
+            public int ThemeTypeRef { get; set; }
+
+            [ScaffoldColumn(false)]
             public int SortOrder { get; set; }
 
             [ScaffoldColumn(false)]
