@@ -17,7 +17,7 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         }
 
-        public class CreateModel
+        public class CreateModel //!!!
         {
             public IEnumerable<SelectListItem> Groups { get; set; }
             public int GroupId { get; set; }
@@ -27,7 +27,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                HttpContext.Application["CurriculumId"] = curriculumId;
+                HttpContext.Session["CurriculumId"] = curriculumId;
 
                 var assingmentsGroups = Storage.GetAssignmentGroups(curriculumId);
 
@@ -51,7 +51,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                IEnumerable<Group> groups = Storage.GetAllNotAssignmentGroups((int)HttpContext.Application["CurriculumId"]);
+                IEnumerable<Group> groups = Storage.GetAllNotAssignmentGroups((int)HttpContext.Session["CurriculumId"]);
 
                 CreateModel createModel = new CreateModel()
                 {
@@ -74,7 +74,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 CurriculumAssignment NewCurrAssignment = new CurriculumAssignment();
                 NewCurrAssignment.UserGroupRef = createModel.GroupId;
-                NewCurrAssignment.CurriculumRef = (int)HttpContext.Application["CurriculumId"];
+                NewCurrAssignment.CurriculumRef = (int)HttpContext.Session["CurriculumId"];
 
                 Storage.AddCurriculumAssignment(NewCurrAssignment);
 
@@ -91,11 +91,13 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                HttpContext.Application["GroupId"] = groupId;
+                HttpContext.Session["GroupId"] = groupId;
 
-                var timelines = Storage.GetTimeline((int)HttpContext.Application["CurriculumId"], groupId);
+                var timelines = Storage.GetTimeline((int)HttpContext.Session["CurriculumId"], groupId);
 
-                ViewData["GroupName"] = "PMI"; //Storage.get GetGroup(groupId).Name;
+                var courseManager = LmsService.FindService<IUDICO.Common.Models.Services.IUserService>();
+
+                ViewData["GroupName"] = courseManager.GetGroup(groupId).Name;
 
                 if (timelines != null)
                 {
@@ -126,12 +128,12 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateTimeline(Timeline timeline)
+        public ActionResult CreateTimeline(Timeline timeline)//!!!
         {
             try
             {
-                timeline.CurriculumAssignmentRef = (Storage.GetCurrAssignmentForCurriculumForGroup((int)HttpContext.Application["CurriculumId"],
-                                                                                                  (int)HttpContext.Application["GroupId"])).Id;
+                timeline.CurriculumAssignmentRef = (Storage.GetCurrAssignmentForCurriculumForGroup((int)HttpContext.Session["CurriculumId"],
+                                                                                                  ((int)HttpContext.Session["GroupId"]))).Id;
                 Storage.AddTimeline(timeline);
 
                 return RedirectToRoute("Timelines");
@@ -143,39 +145,74 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
         }
 
-        //public ActionResult EditTimelineForStages()
-        //{
-        //    return View();
-        //}
+        [HttpPost]
+        public JsonResult DeleteItem(int groupId)
+        {
+            try
+            {
+                int CurrAssingmentId = Storage.GetCurrAssignmentForCurriculumForGroup((int)HttpContext.Session["CurriculumId"], groupId).Id;
+                Storage.DeleteCurriculumAssignment(CurrAssingmentId);
 
-        //[HttpPost]
-        //public JsonResult DeleteItem(int groupId)
-        //{
-        //    try
-        //    {
-        //        Storage.DeleteCurriculum(groupId);
+                return Json(new { success = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message });
+            }
+        }
 
-        //        return Json(new { success = true });
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return Json(new { success = false, message = e.Message });
-        //    }
-        //}
+        [HttpPost]
+        public JsonResult DeleteItems(int[] groupIds)
+        {
+            try
+            {
+                int i = 0;
+                while (i != groupIds.Length)
+                {
+                    int CurrAssingmentId = Storage.GetCurrAssignmentForCurriculumForGroup((int)HttpContext.Session["CurriculumId"], groupIds[i]).Id;
+                    Storage.DeleteCurriculumAssignment(CurrAssingmentId);
+                    i++;
+                }
+                
+                return Json(new { success = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message });
+            }
+        }
 
-        //[HttpPost]
-        //public JsonResult DeleteItems(int[] groupIds)
-        //{
-        //    try
-        //    {
-        //        Storage.DeleteCurriculums(groupIds);
+        public ActionResult EditTimelineForStages()
+        {
+            try
+            {
+                var stages = Storage.GetStages((int)HttpContext.Session["CurriculumId"]);
+                
+                if (stages != null)
+                {
+                    return View(stages);
+                }
+                else
+                {
+                    throw new Exception("Cannot read records");
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
 
-        //        return Json(new { success = true });
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return Json(new { success = false, message = e.Message });
-        //    }
-        //}
+        public ActionResult EditStageTimeline(int StageId)
+        {
+            try
+            {
+                return View();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

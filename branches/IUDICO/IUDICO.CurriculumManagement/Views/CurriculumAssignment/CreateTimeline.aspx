@@ -33,7 +33,7 @@
     <% } %>
 
     <div>
-        <%: Html.ActionLink("Back to list", "EditTimeline", new { GroupId = (int)Context.Application["GroupId"] }, null)%>
+        <%: Html.ActionLink("Back to list", "EditTimeline", new { GroupId = HttpContext.Current.Application["GroupId"] }, null)%>
     </div>
 
 </asp:Content>

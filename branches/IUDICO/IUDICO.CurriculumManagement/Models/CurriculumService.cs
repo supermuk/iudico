@@ -72,12 +72,12 @@ namespace IUDICO.CurriculumManagement.Models
 
         public IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId)
         {
-            return new Curriculum[] { };
+            return curriculumStorage.GetCurriculumsByGroupId(groupId);
         }
 
         public IEnumerable<Theme> GetThemesByCurriculumId(int curriculumId)
         {
-            return new Theme[] { };
+            return curriculumStorage.GetThemesByCurriculumId(curriculumId);
         }
 
         #endregion
