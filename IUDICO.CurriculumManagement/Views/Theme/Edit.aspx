@@ -6,13 +6,15 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Choose a course for theme:</h2>
+        Edit theme:</h2>
     <% using (Html.BeginForm("Edit", "Theme"))
        {%>
         <%: Html.ValidationSummary(true)%>
         <fieldset>
-            <legend>Choose a course</legend>
+            <legend>Choose a course for theme: </legend>
             <%: Html.DropDownListFor(x => x.CourseId, Model.Courses)%>
+            <legend>Choose a theme type: </legend>
+            <%: Html.DropDownListFor(x => x.ThemeTypeId, Model.ThemeTypes)%>
             <p>
                 <input type="submit" value="Update" />
             </p>
