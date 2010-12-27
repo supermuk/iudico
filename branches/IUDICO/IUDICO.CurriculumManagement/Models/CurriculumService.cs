@@ -49,7 +49,7 @@ namespace IUDICO.CurriculumManagement.Models
             return curriculumStorage.GetStage(id);
         }
 
-        public IEnumerable<Theme> GetThemes(int stageId)
+        public IEnumerable<Theme> GetThemesByStageId(int stageId)
         {
             return curriculumStorage.GetThemes(stageId);
         }
@@ -69,6 +69,17 @@ namespace IUDICO.CurriculumManagement.Models
             return null;
             //return curriculumStorage.GetTimelines();
         }
+
+        public IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId)
+        {
+            return new Curriculum[] { };
+        }
+
+        public IEnumerable<Theme> GetThemesByCurriculumId(int curriculumId)
+        {
+            return new Theme[] { };
+        }
+
         #endregion
     }
 }

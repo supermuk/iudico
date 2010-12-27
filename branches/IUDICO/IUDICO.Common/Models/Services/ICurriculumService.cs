@@ -22,7 +22,8 @@ namespace IUDICO.Common.Models.Services
 
         #region Theme methods
 
-        IEnumerable<Theme> GetThemes(int stageId);
+        IEnumerable<Theme> GetThemesByStageId(int stageId);
+        IEnumerable<Theme> GetThemesByCurriculumId(int curriculumId);
         IEnumerable<Theme> GetThemes(IEnumerable<int> ids);
         Theme GetTheme(int id);
 
@@ -31,6 +32,7 @@ namespace IUDICO.Common.Models.Services
         #region Assignment methods
 
         IEnumerable<Timeline> GetTimelines();
+        IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId);
 
         #endregion
     }
