@@ -285,6 +285,15 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #endregion
 
+        #region ThemeType methods
+
+        public IEnumerable<ThemeType> GetThemeTypes()
+        {
+            return _Db.ThemeTypes;
+        }
+
+        #endregion
+
         #region Assignment methods
 
         public CurriculumAssignment GetCurriculumAssignment(int currAssignmentId)
