@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.CurriculumManagement.Controllers;
+using IUDICO.CurriculumManagement.Models;
+
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
@@ -17,19 +19,13 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         }
 
-        public class CreateModel //!!!
-        {
-            public IEnumerable<SelectListItem> Groups { get; set; }
-            public int GroupId { get; set; }
-        }
-
         public ActionResult Index(int curriculumId)
         {
             try
             {
                 HttpContext.Session["CurriculumId"] = curriculumId;
 
-                var assingmentsGroups = Storage.GetAssignmentGroups(curriculumId);
+                var assingmentsGroups = Storage.GetAssignmentedGroups(curriculumId);
 
                 if (assingmentsGroups != null)
                 {
@@ -51,15 +47,15 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                IEnumerable<Group> groups = Storage.GetAllNotAssignmentGroups((int)HttpContext.Session["CurriculumId"]);
+                IEnumerable<Group> groups = Storage.GetAllNotAssignmentedGroups((int)HttpContext.Session["CurriculumId"]);
 
-                CreateModel createModel = new CreateModel()
+                CreateAssignmentModel createAssignmentModel = new CreateAssignmentModel()
                 {
                     Groups = from item in groups
                              select new SelectListItem { Text = item.Name.ToString(), Value = item.Id.ToString(), Selected = false }
                 };
 
-                return View(createModel);
+                return View(createAssignmentModel);
             }
             catch (Exception e)
             {
@@ -68,12 +64,12 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(CreateModel createModel)
+        public ActionResult Create(CreateAssignmentModel createAssignmentModel)
         {
             try
             {
                 CurriculumAssignment NewCurrAssignment = new CurriculumAssignment();
-                NewCurrAssignment.UserGroupRef = createModel.GroupId;
+                NewCurrAssignment.UserGroupRef = createAssignmentModel.GroupId;
                 NewCurrAssignment.CurriculumRef = (int)HttpContext.Session["CurriculumId"];
 
                 Storage.AddCurriculumAssignment(NewCurrAssignment);
@@ -93,11 +89,14 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 HttpContext.Session["GroupId"] = groupId;
 
-                var timelines = Storage.GetTimeline((int)HttpContext.Session["CurriculumId"], groupId);
+                var timelines = Storage.GetTimelines((int)HttpContext.Session["CurriculumId"], groupId);
 
                 var courseManager = LmsService.FindService<IUDICO.Common.Models.Services.IUserService>();
 
                 ViewData["GroupName"] = courseManager.GetGroup(groupId).Name;
+                ViewData["1"] = "View";
+                ViewData["2"] = "Pass";
+
 
                 if (timelines != null)
                 {
@@ -119,7 +118,16 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                return View();
+                var operations = Storage.GetOperations();
+
+                CreateTimelineModel createTimelineModel = new CreateTimelineModel()
+                {
+                    Operations = from item in operations
+                                 select new SelectListItem { Text = item.Name.ToString(), Value = item.Id.ToString(), Selected = false },
+                    timeline = new Timeline()
+                };
+
+                return View(createTimelineModel);
             }
             catch (Exception e)
             {
@@ -128,12 +136,15 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateTimeline(Timeline timeline)//!!!
+        public ActionResult CreateTimeline(CreateTimelineModel createTimelineModel)
         {
             try
             {
-                timeline.CurriculumAssignmentRef = (Storage.GetCurrAssignmentForCurriculumForGroup((int)HttpContext.Session["CurriculumId"],
+                Timeline timeline = createTimelineModel.timeline;
+
+                timeline.CurriculumAssignmentRef = (Storage.GetCurriculumAssignmentByCurriculumIdByGroupId((int)HttpContext.Session["CurriculumId"],
                                                                                                   ((int)HttpContext.Session["GroupId"]))).Id;
+                timeline.OperationRef = createTimelineModel.OperationId;
                 Storage.AddTimeline(timeline);
 
                 return RedirectToRoute("Timelines");
@@ -146,11 +157,11 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
-        public JsonResult DeleteItem(int groupId)
+        public JsonResult DeleteAssignmentItem(int groupId)
         {
             try
             {
-                int CurrAssingmentId = Storage.GetCurrAssignmentForCurriculumForGroup((int)HttpContext.Session["CurriculumId"], groupId).Id;
+                int CurrAssingmentId = Storage.GetCurriculumAssignmentByCurriculumIdByGroupId((int)HttpContext.Session["CurriculumId"], groupId).Id;
                 Storage.DeleteCurriculumAssignment(CurrAssingmentId);
 
                 return Json(new { success = true });
@@ -162,14 +173,14 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
-        public JsonResult DeleteItems(int[] groupIds)
+        public JsonResult DeleteAssignmentItems(int[] groupIds)
         {
             try
             {
                 int i = 0;
                 while (i != groupIds.Length)
                 {
-                    int CurrAssingmentId = Storage.GetCurrAssignmentForCurriculumForGroup((int)HttpContext.Session["CurriculumId"], groupIds[i]).Id;
+                    int CurrAssingmentId = Storage.GetCurriculumAssignmentByCurriculumIdByGroupId((int)HttpContext.Session["CurriculumId"], groupIds[i]).Id;
                     Storage.DeleteCurriculumAssignment(CurrAssingmentId);
                     i++;
                 }
@@ -212,6 +223,36 @@ namespace IUDICO.CurriculumManagement.Controllers
             catch (Exception e)
             {
                 throw e;
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteTimelineItem(int timelineId)
+        {
+            try
+            {
+                Storage.DeleteTimeline(timelineId);
+
+                return Json(new { success = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteTimelineItems(int[] timelineIds)
+        {
+            try
+            {
+                Storage.DeleteTimelines(timelineIds);
+                
+                return Json(new { success = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message });
             }
         }
     }

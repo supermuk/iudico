@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Timeline>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.CreateTimelineModel>" %>
 <%@  Assembly Name="IUDICO.CurriculumManagement" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
@@ -23,9 +23,36 @@
 
         <fieldset>
             <legend>Fields</legend>
-            
-            <%= Html.EditorForModel() %>
-            
+            <div>
+            <%: Html.LabelFor(item => item.timeline.StartDate) %>
+            </div>
+            <div class="editor-field">
+                <%: Html.TextBoxFor(item => item.timeline.StartDate)%>
+                <%: Html.ValidationMessageFor(item => item.timeline.StartDate, "*")%>
+            </div>
+            <div class="editor-label">
+            <%: Html.LabelFor(item => item.timeline.EndDate)%>
+            </div>
+            <div class="editor-field">
+                <%: Html.TextBoxFor(item => item.timeline.EndDate)%>
+                <%: Html.ValidationMessageFor(item => item.timeline.EndDate, "*")%>
+            </div>
+            <div>
+            <%: Html.DropDownListFor(x => x.OperationId,Model.Operations)%>
+
+
+
+           <%--<%-- <%: Html.LabelFor(item => item.timeline.StartDate) %>
+            </div>
+            <div class="editor-field">
+                <%: Html.TextBoxFor(item => item.timeline.StartDate)%>
+                <%: Html.ValidationMessageFor(item => item.timeline.StartDate, "*")%>
+            </div>--%>
+
+
+             
+
+                         
             <p>
                 <input type="submit" value="Create" />
             </p>
