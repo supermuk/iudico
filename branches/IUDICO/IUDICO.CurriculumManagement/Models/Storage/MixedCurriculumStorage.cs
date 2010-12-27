@@ -27,6 +27,16 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             _Db = _LmsService.GetDbDataContext();
         }
 
+        public IEnumerable<Course> GetCourses()
+        {
+           return _LmsService.FindService<ICourseService>().GetCourses();
+        }
+
+        public Course GetCourse(int id)
+        {
+            return _LmsService.FindService<ICourseService>().GetCourse(id);
+        }
+
         #endregion
 
         #region Curriculum methods
@@ -276,23 +286,6 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         #endregion
 
         #region Assignment methods
-
-        public IEnumerable<Group> GetGroups()
-        {
-            return _Db.Groups;
-        }
-
-        public Group GetGroup(int curriculumId)
-        {
-            return null;
-        }
-
-        public IEnumerable<Timeline> GetTimelines()
-        {
-            return _Db.Timelines;
-        }
-
-        //хз шо за методи вище
 
         public IEnumerable<CurriculumAssignment> GetCurrAssignmnetsForCurriculum(int currId)
         {
