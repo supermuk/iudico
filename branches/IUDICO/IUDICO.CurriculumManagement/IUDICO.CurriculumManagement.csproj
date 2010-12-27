@@ -83,6 +83,8 @@
     <Compile Include="Controllers\StageController.cs" />
     <Compile Include="Controllers\ThemeController.cs" />
     <Compile Include="CurriculumManagementPlugin.cs" />
+    <Compile Include="Models\CreateAssignmentModel.cs" />
+    <Compile Include="Models\CreateTimelineModel.cs" />
     <Compile Include="Models\CurriculumService.cs" />
     <Compile Include="Models\Storage\ICurriculumStorage.cs" />
     <Compile Include="Models\Storage\MixedCurriculumStorage.cs" />

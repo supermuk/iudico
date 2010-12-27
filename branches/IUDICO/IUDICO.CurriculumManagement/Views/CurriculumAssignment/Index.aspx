@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Group>>" %>
 
-<%--<asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
+<asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script src="/Scripts/MicrosoftAjax.js" type="text/javascript"></script>
     <script src="/Scripts/MicrosoftMvcAjax.js" type="text/javascript"></script>
     <script type="text/javascript" language="javascript">
@@ -11,12 +11,12 @@
                 });
 
                 if (ids.length == 0) {
-                    alert("Please select curriculums to delete");
+                    alert("Please select assignment to delete");
 
                     return false;
                 }
 
-                var answer = confirm("Are you sure you want to delete " + ids.length + " selected curriculums?");
+                var answer = confirm("Are you sure you want to delete " + ids.length + " selected assignments?");
 
                 if (answer == false) {
                     return false;
@@ -24,8 +24,8 @@
 
                 $.ajax({
                     type: "post",
-                    url: "/Curriculum/DeleteItems",
-                    data: { curriculumIds: ids },
+                    url: "/CurriculumAssignment/DeleteAssignmentItems",
+                    data: { groupIds: ids },
                     success: function (r) {
                         if (r.success == true) {
                             $("td input:checked").parents("tr").remove();
@@ -39,7 +39,7 @@
             });
         });
         function deleteItem(id) {
-            var answer = confirm("Are you sure you want to delete selected curriculum?");
+            var answer = confirm("Are you sure you want to delete selected assignment?");
 
             if (answer == false) {
                 return;
@@ -47,8 +47,8 @@
 
             $.ajax({
                 type: "post",
-                url: "/Curriculum/DeleteItem",
-                data: { curriculumId: id },
+                url: "/CurriculumAssignment/DeleteAssignmentItem",
+                data: { groupId: id },
                 success: function (r) {
                     if (r.success == true) {
                         var item = "item" + id;
@@ -62,7 +62,7 @@
             });
         }
     </script>
-</asp:Content>--%>
+</asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     Groups
@@ -73,7 +73,7 @@
         Groups</h2>
     <p>
         <%: Html.ActionLink("Add Group", "Create") %>
-        <%--<a id="DeleteMany" href="#">Delete Selected</a>--%>
+        <a id="DeleteMany" href="#">Delete Selected</a>
     </p>
     <table>
         <tr>
@@ -104,10 +104,11 @@
                     <%: Html.ActionLink("Edit Timeline", "EditTimeline", new { GroupID = item.Id })%>
                     |
                     <%: Html.ActionLink("Edit Timeline for Stages", "EditTimelineForStages", new { GroupID = item.Id }, null)%>
-<%--                    |
-                    <a href="javascript:deleteItem(<%: item.Id %>)">Delete</a>--%>
+                    |
+                    <a href="javascript:deleteItem(<%: item.Id %>)">Delete</a>
                 </td>
             </tr>
         <% } %>
     </table>
 </asp:Content>
+

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace IUDICO.Common.Models.Services
 {
@@ -33,6 +34,7 @@ namespace IUDICO.Common.Models.Services
 
         IEnumerable<Timeline> GetTimelines();
         IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId);
+        IEnumerable<Theme> GetThemesByGroupId(int groupId);
 
         #endregion
     }
