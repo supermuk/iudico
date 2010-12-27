@@ -76,6 +76,13 @@ namespace IUDICO.UserManagement.Models.Storage
             db.SubmitChanges();
         }
 
+        public IEnumerable<User> GetUsersByGroup(Group group)
+        {
+            var db = GetDbContext();
+
+            return db.GroupUsers.Where(g => g.GroupRef == group.Id).Select(g => g.User);
+        }
+
         #endregion
 
         #region Role members
