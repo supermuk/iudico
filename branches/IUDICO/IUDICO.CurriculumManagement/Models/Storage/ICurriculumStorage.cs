@@ -11,6 +11,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         void RefreshState();
         IEnumerable<Course> GetCourses();
         Course GetCourse(int id);
+        Group GetGroup(int id);
 
         #endregion
 
@@ -60,29 +61,33 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #region Assignment methods
 
-        IEnumerable<CurriculumAssignment> GetCurriculumAssignments(IEnumerable<int> ids);
-        CurriculumAssignment GetCurriculumAssignment(int currAssignmentId);
-        IEnumerable<CurriculumAssignment> GetCurriculumAssignmnetsByCurriculumId(int currId);
-        IEnumerable<CurriculumAssignment> GetCurriculumAssignmentsByGroupId(int groupId);
-        CurriculumAssignment GetCurriculumAssignmentByCurriculumIdByGroupId(int currId, int groupId);
-        void DeleteCurriculumAssignment(int id);
-        IEnumerable<Group> GetAssignmentedGroups(int curriculumId);
-        IEnumerable<Group> GetAllNotAssignmentedGroups(int curriculumId);
-        int AddCurriculumAssignment(CurriculumAssignment currAssignment);
-        IEnumerable<Timeline> GetTimelines(int curriculumId, int groupId);
-        int AddTimeline(Timeline timeline);
-        IEnumerable<Timeline> GetTimelines(int curriculumAssignmentId);
-        Timeline GetTimeline(int TimelineId);
-        IEnumerable<Timeline> GetTimelines(IEnumerable<int> TimelineIds);        
+        IEnumerable<CurriculumAssignment>       GetCurriculumAssignments(IEnumerable<int> ids);
+        IEnumerable<CurriculumAssignment>       GetCurriculumAssignmnetsByCurriculumId(int currId);
+        IEnumerable<CurriculumAssignment>       GetCurriculumAssignmentsByGroupId(int groupId);
+        CurriculumAssignment                    GetCurriculumAssignment(int currAssignmentId);
+        CurriculumAssignment                    GetCurriculumAssignmentByCurriculumIdByGroupId(int currId, int groupId);
 
-        void DeleteTimeline(int Timelineid);
-        void DeleteTimelines(IEnumerable<int> Timelineids);
+        IEnumerable<Group>                      GetAssignmentedGroups(int curriculumId);
+        IEnumerable<Group>                      GetAllNotAssignmentedGroups(int curriculumId);
 
-        IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId);
-        IEnumerable<Theme> GetThemesByCurriculumId(int curriculumId);
-        IEnumerable<Theme> GetThemesByGroupId(int groupId);
+        IEnumerable<Timeline>                   GetTimelines(int curriculumId, int groupId);
+        IEnumerable<Timeline>                   GetTimelines(IEnumerable<int> TimelineIds);
+        IEnumerable<Timeline>                   GetTimelines(int curriculumAssignmentId);
+        IEnumerable<Timeline>                   GetTimelines(int stageId, int curriculumId, int groupId);
+        Timeline                                GetTimeline(int TimelineId);
 
-        IEnumerable<Operation> GetOperations();
+        IEnumerable<Operation>                  GetOperations();
+
+        void                                    DeleteCurriculumAssignment(int id);
+        void                                    DeleteTimeline(int Timelineid);
+        void                                    DeleteTimelines(IEnumerable<int> Timelineids);
+        
+        int                                     AddCurriculumAssignment(CurriculumAssignment currAssignment);
+        int                                     AddTimeline(Timeline timeline);
+       
+        IEnumerable<Curriculum>                 GetCurriculumsByGroupId(int groupId);
+        IEnumerable<Theme>                      GetThemesByCurriculumId(int curriculumId);
+        IEnumerable<Theme>                      GetThemesByGroupId(int groupId);
 
         #endregion
     }
