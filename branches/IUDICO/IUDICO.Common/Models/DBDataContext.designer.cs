@@ -75,9 +75,6 @@ namespace IUDICO.Common.Models
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
-    partial void InsertRoleUser(RoleUser instance);
-    partial void UpdateRoleUser(RoleUser instance);
-    partial void DeleteRoleUser(RoleUser instance);
     #endregion
 		
 		public DBDataContext() : 
@@ -235,14 +232,6 @@ namespace IUDICO.Common.Models
 			get
 			{
 				return this.GetTable<User>();
-			}
-		}
-		
-		public System.Data.Linq.Table<RoleUser> RoleUsers
-		{
-			get
-			{
-				return this.GetTable<RoleUser>();
 			}
 		}
 	}
@@ -2968,8 +2957,6 @@ namespace IUDICO.Common.Models
 		
 		private EntitySet<Role> _Roles;
 		
-		private EntitySet<RoleUser> _RoleUsers;
-		
 		private EntitySet<User> _Users;
 		
 		private EntityRef<Role> _Role1;
@@ -2989,7 +2976,6 @@ namespace IUDICO.Common.Models
 		public Role()
 		{
 			this._Roles = new EntitySet<Role>(new Action<Role>(this.attach_Roles), new Action<Role>(this.detach_Roles));
-			this._RoleUsers = new EntitySet<RoleUser>(new Action<RoleUser>(this.attach_RoleUsers), new Action<RoleUser>(this.detach_RoleUsers));
 			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
 			this._Role1 = default(EntityRef<Role>);
 			OnCreated();
@@ -3072,19 +3058,6 @@ namespace IUDICO.Common.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Role_RoleUser", Storage="_RoleUsers", ThisKey="Id", OtherKey="RoleRef")]
-		public EntitySet<RoleUser> RoleUsers
-		{
-			get
-			{
-				return this._RoleUsers;
-			}
-			set
-			{
-				this._RoleUsers.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Role_User", Storage="_Users", ThisKey="Id", OtherKey="RoleRef")]
 		public EntitySet<User> Users
 		{
@@ -3164,18 +3137,6 @@ namespace IUDICO.Common.Models
 			entity.Role1 = null;
 		}
 		
-		private void attach_RoleUsers(RoleUser entity)
-		{
-			this.SendPropertyChanging();
-			entity.Role = this;
-		}
-		
-		private void detach_RoleUsers(RoleUser entity)
-		{
-			this.SendPropertyChanging();
-			entity.Role = null;
-		}
-		
 		private void attach_Users(User entity)
 		{
 			this.SendPropertyChanging();
@@ -3215,8 +3176,6 @@ namespace IUDICO.Common.Models
 		
 		private EntitySet<GroupUser> _GroupUsers;
 		
-		private EntitySet<RoleUser> _RoleUsers;
-		
 		private EntityRef<Role> _Role;
 		
     #region Extensibility Method Definitions
@@ -3246,12 +3205,11 @@ namespace IUDICO.Common.Models
 		public User()
 		{
 			this._GroupUsers = new EntitySet<GroupUser>(new Action<GroupUser>(this.attach_GroupUsers), new Action<GroupUser>(this.detach_GroupUsers));
-			this._RoleUsers = new EntitySet<RoleUser>(new Action<RoleUser>(this.attach_RoleUsers), new Action<RoleUser>(this.detach_RoleUsers));
 			this._Role = default(EntityRef<Role>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
 		public System.Guid Id
 		{
 			get
@@ -3448,19 +3406,6 @@ namespace IUDICO.Common.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_RoleUser", Storage="_RoleUsers", ThisKey="Id", OtherKey="UserRef")]
-		public EntitySet<RoleUser> RoleUsers
-		{
-			get
-			{
-				return this._RoleUsers;
-			}
-			set
-			{
-				this._RoleUsers.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Role_User", Storage="_Role", ThisKey="RoleRef", OtherKey="Id", IsForeignKey=true)]
 		public Role Role
 		{
@@ -3525,186 +3470,6 @@ namespace IUDICO.Common.Models
 		{
 			this.SendPropertyChanging();
 			entity.User = null;
-		}
-		
-		private void attach_RoleUsers(RoleUser entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_RoleUsers(RoleUser entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.RoleUsers")]
-	public partial class RoleUser : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _RoleRef;
-		
-		private System.Guid _UserRef;
-		
-		private EntityRef<Role> _Role;
-		
-		private EntityRef<User> _User;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnRoleRefChanging(int value);
-    partial void OnRoleRefChanged();
-    partial void OnUserRefChanging(System.Guid value);
-    partial void OnUserRefChanged();
-    #endregion
-		
-		public RoleUser()
-		{
-			this._Role = default(EntityRef<Role>);
-			this._User = default(EntityRef<User>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleRef", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int RoleRef
-		{
-			get
-			{
-				return this._RoleRef;
-			}
-			set
-			{
-				if ((this._RoleRef != value))
-				{
-					if (this._Role.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnRoleRefChanging(value);
-					this.SendPropertyChanging();
-					this._RoleRef = value;
-					this.SendPropertyChanged("RoleRef");
-					this.OnRoleRefChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserRef", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid UserRef
-		{
-			get
-			{
-				return this._UserRef;
-			}
-			set
-			{
-				if ((this._UserRef != value))
-				{
-					if (this._User.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnUserRefChanging(value);
-					this.SendPropertyChanging();
-					this._UserRef = value;
-					this.SendPropertyChanged("UserRef");
-					this.OnUserRefChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Role_RoleUser", Storage="_Role", ThisKey="RoleRef", OtherKey="Id", IsForeignKey=true)]
-		public Role Role
-		{
-			get
-			{
-				return this._Role.Entity;
-			}
-			set
-			{
-				Role previousValue = this._Role.Entity;
-				if (((previousValue != value) 
-							|| (this._Role.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Role.Entity = null;
-						previousValue.RoleUsers.Remove(this);
-					}
-					this._Role.Entity = value;
-					if ((value != null))
-					{
-						value.RoleUsers.Add(this);
-						this._RoleRef = value.Id;
-					}
-					else
-					{
-						this._RoleRef = default(int);
-					}
-					this.SendPropertyChanged("Role");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_RoleUser", Storage="_User", ThisKey="UserRef", OtherKey="Id", IsForeignKey=true)]
-		public User User
-		{
-			get
-			{
-				return this._User.Entity;
-			}
-			set
-			{
-				User previousValue = this._User.Entity;
-				if (((previousValue != value) 
-							|| (this._User.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._User.Entity = null;
-						previousValue.RoleUsers.Remove(this);
-					}
-					this._User.Entity = value;
-					if ((value != null))
-					{
-						value.RoleUsers.Add(this);
-						this._UserRef = value.Id;
-					}
-					else
-					{
-						this._UserRef = default(System.Guid);
-					}
-					this.SendPropertyChanged("User");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 }
