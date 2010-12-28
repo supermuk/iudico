@@ -112,7 +112,12 @@
                     <%: item.EndDate %>
                 </td>
                 <td>
-                    <%: ViewData[Convert.ToString(item.OperationRef)] %>
+                    <% if (item.OperationRef == 1)  { %>
+                        View
+                    <% } %>
+                    <% else  { %>
+                        Pass
+                    <% } %>
                 </td>
                 <td>
                     <a href="javascript:deleteItem(<%: item.Id %>)">Delete</a>
@@ -120,4 +125,9 @@
             </tr>
         <% } %>
     </table>
+    <p>
+    <%: Html.ActionLink("Back to groups", "Index", new { CurriculumId = HttpContext.Current.Application["CurriculumId"] }, null)%>
+    </p>
+        
+    </div>
 </asp:Content>

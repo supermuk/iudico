@@ -71,7 +71,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Group : <%: ViewData["StageName"] %>
+        Stage : <%: ViewData["StageName"] %>
     </h2>
     <p>
         <%: Html.ActionLink("Add Timeline", "CreateStageTimeline") %>
@@ -112,7 +112,12 @@
                     <%: item.EndDate %>
                 </td>
                 <td>
-                    <%: ViewData[Convert.ToString(item.OperationRef)] %>
+                    <% if (item.OperationRef == 1)  { %>
+                        View
+                    <% } %>
+                    <% else  { %>
+                        Pass
+                    <% } %>
                 </td>
                 <td>
                     <a href="javascript:deleteItem(<%: item.Id %>)">Delete</a>
@@ -120,4 +125,9 @@
             </tr>
         <% } %>
     </table>
+    
+<%--    <p>
+    <%: Html.ActionLink("Back to stages", "EditTimelineForStages", new { GroupId = HttpContext.Current.Application["GroupId"] }, null)%>
+    </p>--%>
+
 </asp:Content>
