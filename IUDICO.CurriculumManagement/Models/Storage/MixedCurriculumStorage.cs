@@ -37,6 +37,11 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return _LmsService.FindService<ICourseService>().GetCourse(id);
         }
 
+        public Group GetGroup(int id)
+        {
+            return _LmsService.FindService<IUserService>().GetGroup(id);
+        }
+
         #endregion
 
         #region Curriculum methods
@@ -469,6 +474,13 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public IEnumerable<Operation> GetOperations()
         {
             return _Db.Operations;
+        }
+
+        public IEnumerable<Timeline> GetTimelines(int stageId, int curriculumId, int groupId)
+        {
+            CurriculumAssignment curriculumAssignment = _Db.CurriculumAssignments.Single(item => item.CurriculumRef == curriculumId &&
+                                                                                                 item.UserGroupRef == groupId && !item.IsDeleted);
+            return _Db.Timelines.Where(item => item.CurriculumAssignmentRef == curriculumAssignment.Id && item.StageRef == stageId && !item.IsDeleted);
         }
 
         #endregion

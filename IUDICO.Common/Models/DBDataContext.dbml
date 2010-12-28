@@ -97,22 +97,9 @@
       <Column Name="UserGroupRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="CurriculumRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="CurriculumAssignment_Timeline" Member="Timelines" ThisKey="Id" OtherKey="CurriculumAssignmentRef" Type="Timeline" />
       <Association Name="CurriculumAssignment_ThemeAssignment" Member="ThemeAssignments" ThisKey="Id" OtherKey="CurriculumAssignmentRef" Type="ThemeAssignment" />
+      <Association Name="CurriculumAssignment_Timeline" Member="Timelines" ThisKey="Id" OtherKey="CurriculumAssignmentRef" Type="Timeline" />
       <Association Name="Curriculum_CurriculumAssignment" Member="Curriculum" ThisKey="CurriculumRef" OtherKey="Id" Type="Curriculum" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Timeline" Member="Timelines">
-    <Type Name="Timeline">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="StartDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="EndDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="CurriculumAssignmentRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="OperationRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="StageRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="CurriculumAssignment_Timeline" Member="CurriculumAssignment" ThisKey="CurriculumAssignmentRef" OtherKey="Id" Type="CurriculumAssignment" IsForeignKey="true" />
-      <Association Name="Operation_Timeline" Member="Operation" ThisKey="OperationRef" OtherKey="Id" Type="Operation" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Operation" Member="Operations">
@@ -160,6 +147,19 @@
       <Column Name="MaxScore" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="CurriculumAssignment_ThemeAssignment" Member="CurriculumAssignment" ThisKey="CurriculumAssignmentRef" OtherKey="Id" Type="CurriculumAssignment" IsForeignKey="true" />
       <Association Name="Theme_ThemeAssignment" Member="Theme" ThisKey="ThemeRef" OtherKey="Id" Type="Theme" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Timeline" Member="Timelines">
+    <Type Name="Timeline">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="StartDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EndDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="CurriculumAssignmentRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="OperationRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StageRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="CurriculumAssignment_Timeline" Member="CurriculumAssignment" ThisKey="CurriculumAssignmentRef" OtherKey="Id" Type="CurriculumAssignment" IsForeignKey="true" />
+      <Association Name="Operation_Timeline" Member="Operation" ThisKey="OperationRef" OtherKey="Id" Type="Operation" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

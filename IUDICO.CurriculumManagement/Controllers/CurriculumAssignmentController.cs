@@ -91,9 +91,7 @@ namespace IUDICO.CurriculumManagement.Controllers
 
                 var timelines = Storage.GetTimelines((int)HttpContext.Session["CurriculumId"], groupId);
 
-                var courseManager = LmsService.FindService<IUDICO.Common.Models.Services.IUserService>();
-
-                ViewData["GroupName"] = courseManager.GetGroup(groupId).Name;
+                ViewData["GroupName"] = Storage.GetGroup(groupId).Name;
                 ViewData["1"] = "View";
                 ViewData["2"] = "Pass";
 
@@ -193,10 +191,12 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
         }
 
-        public ActionResult EditTimelineForStages()
+        public ActionResult EditTimelineForStages(int groupId)
         {
             try
             {
+                HttpContext.Session["GroupId"] = groupId;
+
                 var stages = Storage.GetStages((int)HttpContext.Session["CurriculumId"]);
                 
                 if (stages != null)
@@ -214,11 +214,26 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
         }
 
-        public ActionResult EditStageTimeline(int StageId)
+        public ActionResult EditStageTimeline(int stageId)
         {
             try
             {
-                return View();
+                HttpContext.Session["StageId"] = stageId;
+
+                var timelines = Storage.GetTimelines(stageId, (int)HttpContext.Session["CurriculumId"], (int)HttpContext.Session["GroupId"]);
+
+                ViewData["StageName"] = Storage.GetStage(stageId).Name;
+                ViewData["1"] = "View";
+                ViewData["2"] = "Pass";
+
+                if (timelines != null)
+                {
+                    return View(timelines);
+                }
+                else
+                {
+                    throw new Exception("Cannot read records");
+                }
             }
             catch (Exception e)
             {
@@ -253,6 +268,81 @@ namespace IUDICO.CurriculumManagement.Controllers
             catch (Exception e)
             {
                 return Json(new { success = false, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteStageTimelineItem(int timelineId)
+        {
+            try
+            {
+                Storage.DeleteTimeline(timelineId);
+
+                return Json(new { success = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteStageTimelineItems(int[] timelineIds)
+        {
+            try
+            {
+                Storage.DeleteTimelines(timelineIds);
+
+                return Json(new { success = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult CreateStageTimeline()
+        {
+            try
+            {
+                var operations = Storage.GetOperations();
+
+                CreateTimelineModel createTimelineModel = new CreateTimelineModel()
+                {
+                    Operations = from item in operations
+                                 select new SelectListItem { Text = item.Name.ToString(), Value = item.Id.ToString(), Selected = false },
+                    timeline = new Timeline()
+                };
+
+                return View(createTimelineModel);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult CreateStageTimeline(CreateTimelineModel createTimelineModel)
+        {
+            try
+            {
+                Timeline timeline = createTimelineModel.timeline;
+
+                timeline.CurriculumAssignmentRef = (Storage.GetCurriculumAssignmentByCurriculumIdByGroupId((int)HttpContext.Session["CurriculumId"],
+                                                                                                  ((int)HttpContext.Session["GroupId"]))).Id;
+                timeline.OperationRef = createTimelineModel.OperationId;
+                timeline.StageRef = (int)HttpContext.Session["StageId"];
+                
+                Storage.AddTimeline(timeline);
+
+                return RedirectToRoute("Timelines");
+
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
         }
     }
