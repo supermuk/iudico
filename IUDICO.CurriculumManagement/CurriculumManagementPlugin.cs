@@ -81,21 +81,15 @@ namespace IUDICO.CurriculumManagement
             );
 
             routes.MapRoute(
-                "CurriculumAssignments",
-                "Curriculum/{CurriculumId}/CurriculumAssignment/{action}",
-                new { controller = "CurriculumAssignment" }
-            );
-
-            routes.MapRoute(
                 "CurriculumAssignment",
                 "CurriculumAssignment/{CurriculumAssignmentId}/{action}",
                 new { controller = "CurriculumAssignment" }
             );
 
             routes.MapRoute(
-                "Timelines",
+                "CurriculumAssignments",
                 "Curriculum/{CurriculumId}/CurriculumAssignment/{action}",
-                new { action = "EditTimeline" }
+                new { controller = "CurriculumAssignment" }
             );
         }
 
