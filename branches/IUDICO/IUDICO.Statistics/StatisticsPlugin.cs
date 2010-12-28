@@ -3,7 +3,9 @@ using System.Web.Mvc;
 using Castle.MicroKernel.Registration;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
-
+using IUDICO.Common.Models.Services;
+using IUDICO.Statistics.Models.Storage;
+using IUDICO.Statistics.Models;
 namespace IUDICO.Statistics
 {
     public class StatisticsPlugin : IWindsorInstaller, IPlugin
@@ -17,9 +19,10 @@ namespace IUDICO.Statistics
                     .FromThisAssembly()
                     .BasedOn<IController>()
                     .Configure(c => c.LifeStyle.Transient
-                                        .Named(c.Implementation.Name))//,
-                //Component.For<IPlugin>().ImplementedBy<CourseManagmentPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                //Component.For<ICourseManagment>().ImplementedBy<MixedCourseStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
+                                        .Named(c.Implementation.Name)),
+                Component.For<IPlugin>().ImplementedBy<StatisticsPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<IStatisticsStorage>().ImplementedBy<StatisticsStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<IStatisticsService>().ImplementedBy<StatisticsService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
         }
 
