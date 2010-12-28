@@ -152,7 +152,7 @@ namespace IUDICO.UserManagement.Models.Auth
         {
             var user = GetDbContext().Users.SingleOrDefault(u => u.Username == username && u.Password == password);
 
-            return user != null;
+            return user != null && !user.Deleted;
         }
 
         public override bool UnlockUser(string userName)
@@ -188,8 +188,8 @@ namespace IUDICO.UserManagement.Models.Auth
                 var db = GetDbContext();
 
                 var user = db.Users.SingleOrDefault(u => u.Username == username);
-                
-                db.Users.DeleteOnSubmit(user);
+
+                user.Deleted = true;
                 db.SubmitChanges();
 
                 return true;
