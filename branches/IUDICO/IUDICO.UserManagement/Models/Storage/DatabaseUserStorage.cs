@@ -28,26 +28,28 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
 
-            return db.Users.Single(user => user.Id == id);
+            return db.Users.Single(user => user.Id == id && !user.Deleted);
         }
 
         public User GetUser(string openId)
         {
             var db = GetDbContext();
 
-            return db.Users.Single(user => user.OpenId == openId);
+            return db.Users.Single(user => user.OpenId == openId && !user.Deleted);
         }
 
         public IEnumerable<User> GetUsers()
         {
             var db = GetDbContext();
 
-            return db.Users.AsEnumerable();
+            return db.Users.Where(u => !u.Deleted);
         }
 
         public void CreateUser(User user)
         {
             var db = GetDbContext();
+
+            user.Deleted = false;
 
             db.Users.InsertOnSubmit(user);
             db.SubmitChanges();
@@ -72,7 +74,7 @@ namespace IUDICO.UserManagement.Models.Storage
             var db = GetDbContext();
             var user = db.Users.Single(u => u.Id == id);
 
-            db.Users.DeleteOnSubmit(user);
+            user.Deleted = true;
             db.SubmitChanges();
         }
 
@@ -80,7 +82,7 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
 
-            return db.GroupUsers.Where(g => g.GroupRef == group.Id).Select(g => g.User);
+            return db.GroupUsers.Where(g => g.GroupRef == group.Id && !g.User.Deleted).Select(g => g.User);
         }
 
         #endregion
