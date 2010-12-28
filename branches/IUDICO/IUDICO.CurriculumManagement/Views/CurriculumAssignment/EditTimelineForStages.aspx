@@ -48,6 +48,10 @@
     <% } %>
 
     </table>
+    
+    <p>
+    <%: Html.ActionLink("Back to groups", "Index", new { CurriculumId = HttpContext.Current.Application["CurriculumId"] }, null)%>
+    </p>
 
 </asp:Content>
 

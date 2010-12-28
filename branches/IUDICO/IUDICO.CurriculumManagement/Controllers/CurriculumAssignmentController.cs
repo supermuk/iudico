@@ -92,10 +92,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                 var timelines = Storage.GetTimelines((int)HttpContext.Session["CurriculumId"], groupId);
 
                 ViewData["GroupName"] = Storage.GetGroup(groupId).Name;
-                ViewData["1"] = "View";
-                ViewData["2"] = "Pass";
-
-
+                
                 if (timelines != null)
                 {
                     return View(timelines);
@@ -145,7 +142,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                 timeline.OperationRef = createTimelineModel.OperationId;
                 Storage.AddTimeline(timeline);
 
-                return RedirectToRoute("Timelines");
+                return RedirectToAction("EditTimeline", new { GroupId = (int)HttpContext.Session["GroupId"] });
 
             }
             catch (Exception e)
@@ -223,8 +220,6 @@ namespace IUDICO.CurriculumManagement.Controllers
                 var timelines = Storage.GetTimelines(stageId, (int)HttpContext.Session["CurriculumId"], (int)HttpContext.Session["GroupId"]);
 
                 ViewData["StageName"] = Storage.GetStage(stageId).Name;
-                ViewData["1"] = "View";
-                ViewData["2"] = "Pass";
 
                 if (timelines != null)
                 {
@@ -337,8 +332,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                 
                 Storage.AddTimeline(timeline);
 
-                return RedirectToRoute("Timelines");
-
+                return RedirectToAction("EditStageTimeline", new { StageId = (int)HttpContext.Session["StageId"] });
             }
             catch (Exception e)
             {
