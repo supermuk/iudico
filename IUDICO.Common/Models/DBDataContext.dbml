@@ -144,14 +144,13 @@
       <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="ParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Role_Role" Member="Roles" ThisKey="Id" OtherKey="ParentId" Type="Role" />
-      <Association Name="Role_RoleUser" Member="RoleUsers" ThisKey="Id" OtherKey="RoleRef" Type="RoleUser" />
       <Association Name="Role_User" Member="Users" ThisKey="Id" OtherKey="RoleRef" Type="User" />
       <Association Name="Role_Role" Member="Role1" ThisKey="ParentId" OtherKey="Id" Type="Role" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.[User]" Member="Users">
     <Type Name="User">
-      <Column Name="Id" AutoSync="Never" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Username" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
       <Column Name="Password" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Email" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
@@ -161,16 +160,7 @@
       <Column Name="RoleRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Deleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="User_GroupUser" Member="GroupUsers" ThisKey="Id" OtherKey="UserRef" Type="GroupUser" />
-      <Association Name="User_RoleUser" Member="RoleUsers" ThisKey="Id" OtherKey="UserRef" Type="RoleUser" />
       <Association Name="Role_User" Member="Role" ThisKey="RoleRef" OtherKey="Id" Type="Role" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.RoleUsers" Member="RoleUsers">
-    <Type Name="RoleUser">
-      <Column Name="RoleRef" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="UserRef" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="Role_RoleUser" Member="Role" ThisKey="RoleRef" OtherKey="Id" Type="Role" IsForeignKey="true" />
-      <Association Name="User_RoleUser" Member="User" ThisKey="UserRef" OtherKey="Id" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>
