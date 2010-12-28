@@ -53,6 +53,10 @@ namespace IUDICO.UserManagement.Models
             OpenId = user.OpenId;
         }
 
+        public EditUserModel()
+        {
+        }
+
         [DisplayName("Name")]
         [Required(ErrorMessage = "Name is required")]
         [StringLength(200, ErrorMessage = "Name can not be longer than 200")]
