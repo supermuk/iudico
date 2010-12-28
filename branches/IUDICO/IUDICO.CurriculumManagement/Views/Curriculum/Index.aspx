@@ -1,8 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Curriculum>>" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
-    <script src="/Scripts/MicrosoftAjax.js" type="text/javascript"></script>
-    <script src="/Scripts/MicrosoftMvcAjax.js" type="text/javascript"></script>
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {
             $("#DeleteMany").click(function () {

@@ -2,10 +2,6 @@
 <%@  Assembly Name="IUDICO.CurriculumManagement" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
-    <script src="/Scripts/jquery.validate.min.js" type="text/javascript"></script>
-    <script src="/Scripts/MicrosoftAjax.js" type="text/javascript"></script>
-    <script src="/Scripts/MicrosoftMvcAjax.js" type="text/javascript"></script>
-    <script src="/Scripts/MicrosoftMvcValidation.js" type="text/javascript"></script>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
