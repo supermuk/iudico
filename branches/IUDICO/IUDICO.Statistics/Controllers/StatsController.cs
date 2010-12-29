@@ -44,19 +44,23 @@ namespace IUDICO.Statistics.Controllers
         [HttpPost]
         public ActionResult ShowCurriculumStatistic(Int32[] selectCurriculumId)
         {
-            StatisticsStorage curriculumResult = new StatisticsStorage();
-            curriculumResult.Curriculums = _storage.GetSelectedCurriclums(selectCurriculumId);
-            curriculumResult.Students = _storage.GetUsersBySelectedGroup(LmsService.FindService<IUserService>().GetGroup((int)HttpContext.Session["SelectedGroupId"]));
-            curriculumResult.Themes = _storage.GetAllThemes((int)HttpContext.Session["SelectedGroupId"]);
+            #region Statistic information
+
+            ViewData["Curriculums"] = _storage.GetSelectedCurriclums(selectCurriculumId);
+            ViewData["Students"] = _storage.GetUsersBySelectedGroup(LmsService.FindService<IUserService>().GetGroup((int)HttpContext.Session["SelectedGroupId"]));
+            ViewData["Themes"] = _storage.GetAllThemes((int)HttpContext.Session["SelectedGroupId"]);
             ViewData["selectCurriculumId"] = selectCurriculumId;
+            ViewData["selectGroupName"] = LmsService.FindService<IUserService>().GetGroup((int)HttpContext.Session["SelectedGroupId"]).Name;
+
+            #endregion
 
             #region Students result by themes
             List<KeyValuePair<KeyValuePair<User, Theme>, double?>> results = new List<KeyValuePair<KeyValuePair<User, Theme>, double?>>();
-            foreach (User user in curriculumResult.Students)
+            foreach (User user in ViewData["Students"] as IEnumerable<User>)
             {
-                foreach (Curriculum curr in curriculumResult.Curriculums)
+                foreach (Curriculum curr in ViewData["Curriculums"] as IEnumerable<Curriculum>)
                 {
-                    foreach (KeyValuePair<List<Theme>, int> themeAndCurrId in curriculumResult.Themes)
+                    foreach (KeyValuePair<List<Theme>, int> themeAndCurrId in ViewData["Themes"] as List<KeyValuePair<List<Theme>, int>>)
                     {
                         if (themeAndCurrId.Value == curr.Id)
                         {
@@ -72,7 +76,7 @@ namespace IUDICO.Statistics.Controllers
             ViewData["points"] = results;
             #endregion
 
-            return View(curriculumResult);
+            return View();
         }
 
     }

@@ -12,11 +12,7 @@ namespace IUDICO.Statistics.Models.Storage
     {
         private readonly ILmsService _LmsService;
 
-        #region Results for ShowCurriculumStatistic.aspx
-        public IEnumerable<User> Students { get; set; }
-        public IEnumerable<Curriculum> Curriculums { get; set; }
-        public List<KeyValuePair<List<Theme>, int>> Themes { get; set; }
-        public IEnumerable<AttemptResult> Results { get; set; }
+        #region Methods to get and show results on ShowCurriculumStatistic.aspx
 
         public IEnumerable<Curriculum> GetSelectedCurriclums(System.Int32[] curriculumsId)
         {
