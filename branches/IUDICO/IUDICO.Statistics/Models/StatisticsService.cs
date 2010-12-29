@@ -2,7 +2,7 @@
 
 namespace IUDICO.Statistics.Models
 {
-    public class StatisticsService: IStatisticsService
+    public class StatisticsService : IStatisticsService
     {
     }
 }

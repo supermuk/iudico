@@ -6,13 +6,18 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <h2>Curriculums statistic for group
+    <%: (ViewData["selectGroupName"])%>
+    </h2>
+
+    <%: Html.ActionLink("<- back", "Index")%>
     <fieldset>
     <legend>Please, select one group : </legend>
 
     <table>
     <tr>
         <th>Student</th>
-        <% foreach (IUDICO.Common.Models.Curriculum curr in Model.Curriculums)
+        <% foreach (IUDICO.Common.Models.Curriculum curr in ViewData["Curriculums"] as IEnumerable<IUDICO.Common.Models.Curriculum>)
            {%>
            <th>
            <%: curr.Name %>
@@ -20,9 +25,10 @@
         <% } %>
         <th>Sum</th>
         <th>Percent</th>
+        <th>ECTS</th>
     </tr>
     
-    <% foreach (IUDICO.Common.Models.User user in Model.Students)
+    <% foreach (IUDICO.Common.Models.User user in ViewData["Students"] as IEnumerable<IUDICO.Common.Models.User>)
        { %>
        <tr>
            <td>
@@ -30,10 +36,10 @@
            </td>
            <% int i=0; %>
            <% double? sumPoint = 0.0; int sumMax = 0; %>
-           <% foreach (IUDICO.Common.Models.Curriculum c in Model.Curriculums)
+           <% foreach (IUDICO.Common.Models.Curriculum c in ViewData["Curriculums"] as IEnumerable<IUDICO.Common.Models.Curriculum>)
            {%>
            <td>  
-                <% foreach (KeyValuePair<List<IUDICO.Common.Models.Theme>, int> themeAndCurrId in Model.Themes)
+                <% foreach (KeyValuePair<List<IUDICO.Common.Models.Theme>, int> themeAndCurrId in ViewData["Themes"] as List<KeyValuePair<List<Theme>, int>>)
                 { %>
                 
                 <% if (themeAndCurrId.Value == c.Id)  { %>
@@ -66,6 +72,22 @@
                 </td>
                 <td>
                 <%: sumPoint/(double)sumMax*100.0 %> %
+                </td>
+                <td>
+                <% if((sumPoint/(double)sumMax*100.0) >= 91.0) {%>
+                A <%} %>
+                <% else if(sumPoint/(double)sumMax*100.0 >= 81.0) {%>
+                B <%} %>
+                <% else if(sumPoint/(double)sumMax*100.0 >= 71.0) {%>
+                C <%} %>
+                <% else if(sumPoint/(double)sumMax*100.0 >= 61.0) {%>
+                D <%} %>
+                <% else if(sumPoint/(double)sumMax*100.0 >= 51.0) {%>
+                E <%} %>
+                <% else if(sumPoint/(double)sumMax*100.0 >= 31.0) {%>
+                F <%} %>
+                <% else  {%>
+                FX <%} %>
                 </td>
        </tr>
     <% } %>

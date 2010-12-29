@@ -6,8 +6,9 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2></h2>
+    <h2>Curriculum list</h2>
 
+     <%: Html.ActionLink("<- back", "Index") %>
      <fieldset>
 
      <legend>Please, select one or more curriculum : </legend>
@@ -43,7 +44,9 @@
 
      </table>
 
+     <div class="style5">
      <input type="submit" value="Show" />
+     </div>
 
      </form>
 
@@ -52,4 +55,15 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
+    
+        <style type="text/css">
+        .style5
+        {
+        	cursor: inherit;
+        	text-align: center;
+            font-family: Century;
+        }
+        
+    </style>
+
 </asp:Content>
