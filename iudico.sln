@@ -4,6 +4,14 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.CourseManagement", "IUDICO.CourseManagment\IUDICO.CourseManagement.csproj", "{CB470DA7-0981-45B5-BEB9-6FD06586BA7E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.LMS", "IUDICO.LMS\IUDICO.LMS.csproj", "{A5DA80CE-796F-4C4D-BBCA-A23046C4574D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4F72321F-297C-4989-9A17-838CF23B4FB1} = {4F72321F-297C-4989-9A17-838CF23B4FB1}
+		{2D0C4A4E-D442-4BC5-879B-CB3990D57647} = {2D0C4A4E-D442-4BC5-879B-CB3990D57647}
+		{2A5F6D52-4A98-44DC-896D-8FF2FD244E9F} = {2A5F6D52-4A98-44DC-896D-8FF2FD244E9F}
+		{E6F7266F-760A-4D43-B78C-378CA12DBE08} = {E6F7266F-760A-4D43-B78C-378CA12DBE08}
+		{A3157C96-0DCC-4B6E-909D-948205118E74} = {A3157C96-0DCC-4B6E-909D-948205118E74}
+		{CB470DA7-0981-45B5-BEB9-6FD06586BA7E} = {CB470DA7-0981-45B5-BEB9-6FD06586BA7E}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.UserManagement", "IUDICO.UserManagement\IUDICO.UserManagement.csproj", "{2D0C4A4E-D442-4BC5-879B-CB3990D57647}"
 EndProject
@@ -32,6 +40,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{35B5DD87-D3C
 		Sql\8.adding_role_dependency_on_other_role_2.sql = Sql\8.adding_role_dependency_on_other_role_2.sql
 		Sql\9.create_roles.sql = Sql\9.create_roles.sql
 	EndProjectSection
+EndProject
+Project("{C8D11400-126E-41CD-887F-60BD40844F9E}") = "IUDICO.Database", "IUDICO.Database\IUDICO.Database.dbproj", "{67CBC824-A49E-4E9B-A947-360F3DFE65C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -104,6 +114,18 @@ Global
 		{A3157C96-0DCC-4B6E-909D-948205118E74}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A3157C96-0DCC-4B6E-909D-948205118E74}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A3157C96-0DCC-4B6E-909D-948205118E74}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Debug|Mixed Platforms.Deploy.0 = Debug|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
