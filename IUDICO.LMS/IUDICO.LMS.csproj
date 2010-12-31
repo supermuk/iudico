@@ -46,7 +46,7 @@
     </PublishDatabaseSettings>
     <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
     <ExcludeApp_Data>true</ExcludeApp_Data>
-    <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
+    <FilesToIncludeForPublish>AllFilesInTheProject</FilesToIncludeForPublish>
     <DeployIisAppPath>IUDICO/</DeployIisAppPath>
     <PublishDatabases>false</PublishDatabases>
   </PropertyGroup>
