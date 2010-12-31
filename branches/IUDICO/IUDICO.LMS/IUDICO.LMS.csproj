@@ -224,14 +224,14 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets. -->
+       Other similar extension points exist, see Microsoft.Common.targets. 
   <Target Name="AfterClean">
     <Message Text="Cleaning plugins directory ..." />
     <CreateItem Include="$(ProjectDir)Plugins\*.*">
       <Output TaskParameter="Include" ItemName="Clean_FilesToDelete" />
     </CreateItem>
     <Delete Files="@(Clean_FilesToDelete)" />
-  </Target>
+  </Target>-->
   <Target Name="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
     <AspNetCompiler VirtualPath="temp" PhysicalPath="$(ProjectDir)" />
   </Target>
