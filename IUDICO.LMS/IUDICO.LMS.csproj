@@ -47,7 +47,7 @@
     <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
     <ExcludeApp_Data>true</ExcludeApp_Data>
     <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
-    <DeployIisAppPath>IUDICO/IUDICO.LMS</DeployIisAppPath>
+    <DeployIisAppPath>IUDICO/</DeployIisAppPath>
     <PublishDatabases>false</PublishDatabases>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
