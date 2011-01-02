@@ -10,6 +10,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.MetadataModels
             SchemaVersion = SCORM.SchemaVersion2004;
         }
 
+        #region XmlElements
+
         [XmlElement(SCORM.Schema, Namespace = SCORM.ImscpNamespaceV1p3)]
         public string Schema;
 
@@ -18,5 +20,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.MetadataModels
 
         [XmlElement(SCORM.Manifest)]
         Metadata Metadata;
+
+        #endregion
     }
 }

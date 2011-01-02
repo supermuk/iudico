@@ -6,6 +6,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     [Serializable]
     public class ControlMode
     {
+        #region XmlAttributes
+
         /// <summary>
         /// Indicates that a choice sequencing 
         /// request is permitted (or not permitted if value = false) to target the children of 
@@ -54,5 +56,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         /// </summary>
         [XmlAttribute(SCORM.UseCurrentAttemptProgressInfo)]
         public bool UseCurrentAttemptProgressInfo;
+
+        #endregion
     }
 }

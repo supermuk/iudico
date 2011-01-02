@@ -11,6 +11,8 @@ namespace IUDICO.CourseManagement.Models.Storage
         IEnumerable<Course> GetCourses();
         Course GetCourse(int id);
         int AddCourse(Course course);
+        void UpdateCourseUsers(int courseId, IEnumerable<Guid> userIds);
+        IEnumerable<User> GetCourseUsers(int courseId);
         void UpdateCourse(int id, Course course);
         void DeleteCourse(int id);
         void DeleteCourses(List<int> ids);

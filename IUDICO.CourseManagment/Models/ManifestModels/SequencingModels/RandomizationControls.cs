@@ -6,6 +6,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     [Serializable]
     public class RandomizationControls
     {
+        #region XmlAttributes
+
         /// <summary>
         /// This attribute indicates 
         /// when the ordering of the children of the activity should occur.
@@ -29,5 +31,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
 
         [XmlAttribute(SCORM.SelectionTiming)]
         public Timing SelectionTiming; // = Timing.Never;
+
+        #endregion
     }
 }

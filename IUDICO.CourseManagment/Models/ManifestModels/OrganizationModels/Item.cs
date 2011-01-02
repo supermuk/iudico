@@ -8,22 +8,37 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
     [Serializable]
     public class Item
     {
+        /// <summary>
+        /// Folder item
+        /// </summary>
         public Item()
         {
             IsParent = true;
             IsVisible = true;
             Items = new List<Item>();
+            Identifier = ConstantStrings.ItemIdPrefix + Guid.NewGuid().ToString();
         }
         
+        /// <summary>
+        /// Leaf item
+        /// </summary>
+        /// <param name="resourceId"></param>
         public Item(string resourceId)
         {
             IsParent = false;
             IsVisible = true;
             IdentifierRef = resourceId;
+            Identifier = ConstantStrings.ItemIdPrefix + Guid.NewGuid().ToString();
         }
 
+        #region Members
+
         private readonly bool IsParent;
-        
+
+        #endregion
+
+        #region XmlAttributes
+
         [XmlAttribute(SCORM.Identifier)]
         public string Identifier;
 
@@ -35,6 +50,10 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
 
         [XmlAttribute(SCORM.Parameters)]
         public string Parameters;
+
+        #endregion
+
+        #region XmlElements
 
         [XmlElement(SCORM.Title, Namespace=SCORM.ImscpNamespaceV1p3)]
         public string Title;
@@ -68,15 +87,21 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         [XmlElement(SCORM.Data, Namespace=SCORM.AdlcpNamespaceV1p3)]
         public List<Map> Data;
 
+        #endregion
+
+        #region Methods
+
         public void AddChildItem(Item item)
         {
             if (!IsParent)
             {
                 throw new Exception("Can't add child item to leaf item");
             }
-
-            item.Identifier = ConstantStrings.ItemIdPrefix + Guid.NewGuid().ToString();
+            //var idPrefix = string.IsNullOrEmpty(Identifier) ? ConstantStrings.ItemIdPrefix : Identifier;
+            //item.Identifier = ConstantStrings.ItemIdPrefix + "_" + Guid.NewGuid().ToString();
             Items.Add(item);
         }
+
+        #endregion
     }
 }

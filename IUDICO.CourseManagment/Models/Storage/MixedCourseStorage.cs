@@ -40,6 +40,32 @@ namespace IUDICO.CourseManagement.Models.Storage
             return GetDbContext().Courses.Single(c => c.Id == id);
         }
 
+        public IEnumerable<User> GetCourseUsers(int courseId)
+        {
+            var db = GetDbContext();
+
+            var userIds = db.CourseUsers.Where(i => i.CourseRef == courseId);
+            var users = db.Users.Where(i => userIds.Any(j => j.UserRef == i.Id));
+
+            return users;
+        }
+
+        public void UpdateCourseUsers(int courseId, IEnumerable<Guid> userIds)
+        {
+            var db = GetDbContext();
+            
+            var oldUsers = db.CourseUsers.Where(i => i.CourseRef == courseId);
+            db.CourseUsers.DeleteAllOnSubmit(oldUsers);
+
+            if (userIds != null)
+            {
+                var newUsers = userIds.Select(i => new CourseUser { CourseRef = courseId, UserRef = i });
+                db.CourseUsers.InsertAllOnSubmit(newUsers);
+            }
+
+            db.SubmitChanges();
+        }
+
         public int AddCourse(Course course)
         {
             course.Created = DateTime.Now;
@@ -130,6 +156,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             parentItem = AddSubItems(parentItem, null, id, ref manifest);
             manifest.Organizations[0].Items = parentItem.Items;
             manifest.Organizations[0].Title = course.Name;
+            manifest.Organizations[0].ApplySequencingPattern(SequencingPattern.OrganizationDefaultSequencingPattern);
             manifest.Serialize(sw);
             sw.Close();
 
@@ -155,7 +182,7 @@ namespace IUDICO.CourseManagement.Models.Storage
                     files.Add(new ManifestModels.ResourceModels.File(node.Name + ".html"));
 
                     var resourceId = manifest.Resources.AddResource(new Resource(ScormType.Asset, files) { Href = node.Name + ".html" });
-                    parentItem.AddChildItem(new Item(resourceId) { Title = node.Name });
+                    parentItem.AddChildItem(new Item(resourceId) { Title = node.Name, Identifier = ConstantStrings.ItemIdPrefix + node.Id.ToString() });
                 }
             }
             return parentItem;

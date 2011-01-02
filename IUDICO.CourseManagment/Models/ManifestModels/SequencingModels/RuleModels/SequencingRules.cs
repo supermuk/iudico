@@ -6,6 +6,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RuleMod
     [Serializable]
     public class SequencingRules
     {
+        #region XmlElements
+
         [XmlElement(SCORM.PreConditionRule, Namespace = SCORM.ImsssNamespace)]
         public Rule PreConditionRule;
 
@@ -14,5 +16,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RuleMod
 
         [XmlElement(SCORM.PostConditionRule, Namespace = SCORM.ImsssNamespace)]
         public Rule PostConditionRule;
+
+        #endregion
     }
 }

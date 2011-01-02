@@ -1,11 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="IUDICO" EntityNamespace="IUDICO.Common.Models" ContextNamespace="IUDICO.Common.Models" Class="DBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;Initial Catalog=IUDICO;Integrated Security=True" SettingsObjectName="IUDICO.Common.Properties.Settings" SettingsPropertyName="IUDICOConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.Configuration" Member="Configurations">
-    <Type Name="Configuration">
-      <Column Name="EngineVersion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="SchemaDefinition" Type="System.Xml.Linq.XElement" DbType="Xml NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-    </Type>
-  </Table>
   <Table Name="dbo.Courses" Member="Courses">
     <Type Name="Course">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -14,13 +8,69 @@
       <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="Deleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Course_CourseUser" Member="CourseUsers" ThisKey="Id" OtherKey="CourseRef" Type="CourseUser" />
       <Association Name="Course_Node" Member="Nodes" ThisKey="Id" OtherKey="CourseId" Type="Node" />
     </Type>
   </Table>
-  <Table Name="dbo.DisplayMode" Member="DisplayModes">
-    <Type Name="DisplayMode">
+  <Table Name="dbo.[User]" Member="Users">
+    <Type Name="User">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Username" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="OpenId" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="IsApproved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="RoleRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Deleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="User_CourseUser" Member="CourseUsers" ThisKey="Id" OtherKey="UserRef" Type="CourseUser" />
+      <Association Name="User_GroupUser" Member="GroupUsers" ThisKey="Id" OtherKey="UserRef" Type="GroupUser" />
+      <Association Name="Role_User" Member="Role" ThisKey="RoleRef" OtherKey="Id" Type="Role" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CourseUsers" Member="CourseUsers">
+    <Type Name="CourseUser">
+      <Column Name="CourseRef" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserRef" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Course_CourseUser" Member="Course" ThisKey="CourseRef" OtherKey="Id" Type="Course" IsForeignKey="true" />
+      <Association Name="User_CourseUser" Member="User" ThisKey="UserRef" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CurriculumAssignments" Member="CurriculumAssignments">
+    <Type Name="CurriculumAssignment">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="VarChar(63) NOT NULL" CanBeNull="false" />
+      <Column Name="UserGroupRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CurriculumRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="CurriculumAssignment_ThemeAssignment" Member="ThemeAssignments" ThisKey="Id" OtherKey="CurriculumAssignmentRef" Type="ThemeAssignment" />
+      <Association Name="CurriculumAssignment_Timeline" Member="Timelines" ThisKey="Id" OtherKey="CurriculumAssignmentRef" Type="Timeline" />
+      <Association Name="Curriculum_CurriculumAssignment" Member="Curriculum" ThisKey="CurriculumRef" OtherKey="Id" Type="Curriculum" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Curriculums" Member="Curriculums">
+    <Type Name="Curriculum">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Curriculum_CurriculumAssignment" Member="CurriculumAssignments" ThisKey="Id" OtherKey="CurriculumRef" Type="CurriculumAssignment" />
+      <Association Name="Curriculum_Stage" Member="Stages" ThisKey="Id" OtherKey="CurriculumRef" Type="Stage" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[Group]" Member="Groups">
+    <Type Name="Group">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Group_GroupUser" Member="GroupUsers" ThisKey="Id" OtherKey="GroupRef" Type="GroupUser" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GroupUsers" Member="GroupUsers">
+    <Type Name="GroupUser">
+      <Column Name="GroupRef" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserRef" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Group_GroupUser" Member="Group" ThisKey="GroupRef" OtherKey="Id" Type="Group" IsForeignKey="true" />
+      <Association Name="User_GroupUser" Member="User" ThisKey="UserRef" OtherKey="Id" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Nodes" Member="Nodes">
@@ -36,15 +86,21 @@
       <Association Name="Node_Node" Member="Node1" ThisKey="ParentId" OtherKey="Id" Type="Node" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Curriculums" Member="Curriculums">
-    <Type Name="Curriculum">
+  <Table Name="dbo.Operation" Member="Operations">
+    <Type Name="Operation">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Operation_Timeline" Member="Timelines" ThisKey="Id" OtherKey="OperationRef" Type="Timeline" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Roles" Member="Roles">
+    <Type Name="Role">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="Curriculum_Stage" Member="Stages" ThisKey="Id" OtherKey="CurriculumRef" Type="Stage" />
-      <Association Name="Curriculum_CurriculumAssignment" Member="CurriculumAssignments" ThisKey="Id" OtherKey="CurriculumRef" Type="CurriculumAssignment" />
+      <Column Name="ParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Role_User" Member="Users" ThisKey="Id" OtherKey="RoleRef" Type="User" />
+      <Association Name="Role_Role" Member="Roles" ThisKey="Id" OtherKey="ParentId" Type="Role" />
+      <Association Name="Role_Role" Member="Role1" ThisKey="ParentId" OtherKey="Id" Type="Role" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Stages" Member="Stages">
@@ -59,37 +115,14 @@
       <Association Name="Curriculum_Stage" Member="Curriculum" ThisKey="CurriculumRef" OtherKey="Id" Type="Curriculum" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.GroupUsers" Member="GroupUsers">
-    <Type Name="GroupUser">
-      <Column Name="GroupRef" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="UserRef" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="Group_GroupUser" Member="Group" ThisKey="GroupRef" OtherKey="Id" Type="Group" IsForeignKey="true" />
-      <Association Name="User_GroupUser" Member="User" ThisKey="UserRef" OtherKey="Id" Type="User" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.CurriculumAssignments" Member="CurriculumAssignments">
-    <Type Name="CurriculumAssignment">
+  <Table Name="dbo.ThemeAssignments" Member="ThemeAssignments">
+    <Type Name="ThemeAssignment">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserGroupRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="CurriculumRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="CurriculumAssignment_ThemeAssignment" Member="ThemeAssignments" ThisKey="Id" OtherKey="CurriculumAssignmentRef" Type="ThemeAssignment" />
-      <Association Name="CurriculumAssignment_Timeline" Member="Timelines" ThisKey="Id" OtherKey="CurriculumAssignmentRef" Type="Timeline" />
-      <Association Name="Curriculum_CurriculumAssignment" Member="Curriculum" ThisKey="CurriculumRef" OtherKey="Id" Type="Curriculum" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Operation" Member="Operations">
-    <Type Name="Operation">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Operation_Timeline" Member="Timelines" ThisKey="Id" OtherKey="OperationRef" Type="Timeline" />
-    </Type>
-  </Table>
-  <Table Name="dbo.[Group]" Member="Groups">
-    <Type Name="Group">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Group_GroupUser" Member="GroupUsers" ThisKey="Id" OtherKey="GroupRef" Type="GroupUser" />
+      <Column Name="ThemeRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CurriculumAssignmentRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaxScore" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="CurriculumAssignment_ThemeAssignment" Member="CurriculumAssignment" ThisKey="CurriculumAssignmentRef" OtherKey="Id" Type="CurriculumAssignment" IsForeignKey="true" />
+      <Association Name="Theme_ThemeAssignment" Member="Theme" ThisKey="ThemeRef" OtherKey="Id" Type="Theme" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Themes" Member="Themes">
@@ -115,16 +148,6 @@
       <Association Name="ThemeType_Theme" Member="Themes" ThisKey="Id" OtherKey="ThemeTypeRef" Type="Theme" />
     </Type>
   </Table>
-  <Table Name="dbo.ThemeAssignments" Member="ThemeAssignments">
-    <Type Name="ThemeAssignment">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ThemeRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="CurriculumAssignmentRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="MaxScore" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="CurriculumAssignment_ThemeAssignment" Member="CurriculumAssignment" ThisKey="CurriculumAssignmentRef" OtherKey="Id" Type="CurriculumAssignment" IsForeignKey="true" />
-      <Association Name="Theme_ThemeAssignment" Member="Theme" ThisKey="ThemeRef" OtherKey="Id" Type="Theme" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Timeline" Member="Timelines">
     <Type Name="Timeline">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -136,31 +159,6 @@
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="CurriculumAssignment_Timeline" Member="CurriculumAssignment" ThisKey="CurriculumAssignmentRef" OtherKey="Id" Type="CurriculumAssignment" IsForeignKey="true" />
       <Association Name="Operation_Timeline" Member="Operation" ThisKey="OperationRef" OtherKey="Id" Type="Operation" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Roles" Member="Roles">
-    <Type Name="Role">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="ParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Role_Role" Member="Roles" ThisKey="Id" OtherKey="ParentId" Type="Role" />
-      <Association Name="Role_User" Member="Users" ThisKey="Id" OtherKey="RoleRef" Type="User" />
-      <Association Name="Role_Role" Member="Role1" ThisKey="ParentId" OtherKey="Id" Type="Role" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.[User]" Member="Users">
-    <Type Name="User">
-      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Username" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="Password" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Email" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="OpenId" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
-      <Column Name="IsApproved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="RoleRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Deleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="User_GroupUser" Member="GroupUsers" ThisKey="Id" OtherKey="UserRef" Type="GroupUser" />
-      <Association Name="Role_User" Member="Role" ThisKey="RoleRef" OtherKey="Id" Type="Role" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

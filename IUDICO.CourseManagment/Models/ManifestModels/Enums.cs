@@ -152,4 +152,9 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
         [XmlEnum("ifNotSuspended")]
         IfNotSuspended,
     }
+
+    public enum SequencingPattern
+    {
+        OrganizationDefaultSequencingPattern = 0,
+    }
 }

@@ -10,11 +10,16 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.ResourceModels
         public Resources()
         {
             _Resources = new List<Resource>();
-
         }
+
+        #region XmlElements
 
         [XmlElement(SCORM.Resource, Namespace = SCORM.ImscpNamespaceV1p3)]
         public List<Resource> _Resources;
+
+        #endregion
+
+        #region Methods
 
         public string AddResource(Resource resource)
         {
@@ -24,5 +29,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.ResourceModels
 
             return resource.Identifier;
         }
+
+        #endregion
     }
 }
