@@ -49,13 +49,61 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Index</h2>
      <p>
         
         <%: Html.ActionLink("Create New", "Create", "Course")%> |
         <%: Html.ActionLink("Import", "Import") %> |
         <a id="DeleteMany" href="#">Delete Selected</a>
     </p>
+    <h2>My courses:</h2>
+    <table>
+        <tr>
+            <th></th>
+            <th>
+                Id
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Created
+            </th>
+            <th>
+                Updated
+            </th>
+            <th></th>
+        </tr>
+
+    <% foreach (var item in Model.Where(i => i.Owner == HttpContext.Current.User.Identity.Name)) { %>
+    
+        <tr>
+            <td>
+                <input type="checkbox" id="Checkbox1" />
+            </td>
+            <td>
+                <%: item.Id %>
+            </td>
+            <td>
+                <%: item.Name %>
+            </td>
+            <td>
+                <%: String.Format("{0:g}", item.Created) %>
+            </td>
+            <td>
+                <%: String.Format("{0:g}", item.Updated) %>
+            </td>
+            <td>
+                <%: Html.ActionLink("Edit", "Edit", "Course", new { CourseID = item.Id }, null)%> |
+                <%: Html.ActionLink("Details", "Index", "Node", new { CourseID = item.Id }, null) %> |
+                <%: Html.ActionLink("Export", "Export", new { CourseID = item.Id }) %> |
+                <%: Ajax.ActionLink("Delete", "Delete", new { CourseID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess="removeRow" })%>
+            </td>
+        </tr>
+    
+    <% } %>
+    </table>
+
+    <h2>Courses shared with me:</h2>
     <table>
         <tr>
             <th></th>
@@ -77,7 +125,7 @@
             <th></th>
         </tr>
 
-    <% foreach (var item in Model) { %>
+    <% foreach (var item in Model.Where(i => i.Owner != HttpContext.Current.User.Identity.Name)) { %>
     
         <tr>
             <td>
