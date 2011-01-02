@@ -21,9 +21,11 @@ namespace IUDICO.CourseManagement.Controllers
 
         public ActionResult Index()
         {
-            var courses = _storage.GetCourses();
+            IUserService userService = LmsService.FindService<IUserService>();
+            Guid userId = userService.GetUsers().Single(i => i.Username == User.Identity.Name).Id;
+            var courses = _storage.GetCourses(userId);
             
-            return View(courses);
+            return View(courses.Union(_storage.GetCourses(User.Identity.Name)));
         }
 
         public ActionResult Create()

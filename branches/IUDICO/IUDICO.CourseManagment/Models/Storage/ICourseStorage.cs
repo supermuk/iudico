@@ -9,6 +9,8 @@ namespace IUDICO.CourseManagement.Models.Storage
         #region Course methods
 
         IEnumerable<Course> GetCourses();
+        IEnumerable<Course> GetCourses(Guid userId);
+        IEnumerable<Course> GetCourses(string owner);
         Course GetCourse(int id);
         int AddCourse(Course course);
         void UpdateCourseUsers(int courseId, IEnumerable<Guid> userIds);

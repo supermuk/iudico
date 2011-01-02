@@ -34,6 +34,20 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             return GetDbContext().Courses.Where(c => c.Deleted == false).AsEnumerable();
         }
+        public IEnumerable<Course> GetCourses(Guid userId)
+        {
+            var db = GetDbContext();
+            var courses = from c in db.Courses
+                          join u in db.CourseUsers on c.Id equals u.CourseRef
+                          where u.UserRef == userId && c.Deleted == false
+                          select c;
+            return courses;
+        }
+
+        public IEnumerable<Course> GetCourses(string owner)
+        {
+            return GetDbContext().Courses.Where(i => i.Owner == owner);
+        }
 
         public Course GetCourse(int id)
         {

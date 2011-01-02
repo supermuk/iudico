@@ -21,6 +21,7 @@ namespace IUDICO.Common.Models
             public string Name { get; set; }
 
             [DisplayName("Owner")]
+            [ScaffoldColumn(false)]
             public string Owner { get; set; }
 
             [DisplayName("Created Date")]
@@ -33,6 +34,12 @@ namespace IUDICO.Common.Models
 
             [ScaffoldColumn(false)]
             public bool Deleted { get; set; }
+
+            [ScaffoldColumn(false)]
+            public object CourseUsers { get; set; }
+
+            [ScaffoldColumn(false)]
+            public object Nodes { get; set; }
         }
     }
 
