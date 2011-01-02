@@ -136,6 +136,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\jquery.multiselect2side.css" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\CHANGES.html" />
     <Content Include="Scripts\ckeditor\ckeditor.asp" />
@@ -689,6 +690,7 @@
     <Content Include="Scripts\jquery\jquery.hotkeys.js" />
     <Content Include="Scripts\jquery\jquery.jstree.js" />
     <Content Include="Scripts\jquery\jquery.layout.js" />
+    <Content Include="Scripts\jquery\jquery.multiselect2side.js" />
     <None Include="Scripts\ckeditor\.htaccess" />
     <None Include="Scripts\ckeditor\ckeditor.pack" />
     <None Include="Scripts\ckeditor\ckeditor.php" />

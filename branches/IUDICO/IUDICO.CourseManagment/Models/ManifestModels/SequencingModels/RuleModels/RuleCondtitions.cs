@@ -7,10 +7,18 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RuleMod
     [Serializable]
     public class RuleConditions
     {
+        #region XmlAttributes
+
         [XmlAttribute(SCORM.ConditionCombination)]
         public ConditionCombination ConditionCombination;
+        
+        #endregion
+
+        #region XmlElements
 
         [XmlElement(SCORM.RuleCondition, Namespace = SCORM.ImsssNamespace)]
         public List<RuleCondition> _RuleConditions;
+
+        #endregion
     }
 }

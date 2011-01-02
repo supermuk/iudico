@@ -6,6 +6,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
     [Serializable]
     public class RollupCondition
     {
+        #region XmlAttributes
+
         /// <summary>
         /// The unary logical operator to be applied to the individual condition
         /// </summary>
@@ -17,5 +19,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
         /// </summary>
         [XmlAttribute(SCORM.Condition)]
         public Condition Condition;
+
+        #endregion
     }
 }

@@ -6,6 +6,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RuleMod
     [Serializable]
     public class RuleCondition
     {
+        #region XmlAttributes
+
         [XmlAttribute(SCORM.ReferencedObjective)]
         public string ReferencedObjective;
 
@@ -19,6 +21,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RuleMod
         public Operator Operator; // = Operator.NoOp;
 
         [XmlAttribute(SCORM.Condition)]
-        public Condition Condition; 
+        public Condition Condition;
+
+        #endregion
     }
 }

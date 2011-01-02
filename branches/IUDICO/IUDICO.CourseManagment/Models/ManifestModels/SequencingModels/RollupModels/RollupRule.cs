@@ -7,6 +7,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
     [Serializable]
     public class RollupRule
     {
+        #region XmlAttributes
+
         /// <summary>
         ///  This attribute indicates 
         /// whose data values are used to evaluate the rollup condition 
@@ -33,12 +35,16 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
         [XmlAttribute(SCORM.MinimumPercent)]
         public double MinimumPercent; // = 0.0000;
 
+        #endregion
 
+        #region XmlElements
 
         [XmlElement(SCORM.RollupConditions, Namespace = SCORM.ImsssNamespace)]
         public RollupConditions RollupConditions;
 
         [XmlElement(SCORM.RollupAction, Namespace = SCORM.ImsssNamespace)]
         public RollupAction RollupAction;
+
+        #endregion
     }
 }

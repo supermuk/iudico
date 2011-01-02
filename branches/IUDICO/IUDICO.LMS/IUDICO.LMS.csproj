@@ -200,7 +200,6 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Plugins\" />
     <Content Include="Plugins\*.*" />
   </ItemGroup>
   <ItemGroup>

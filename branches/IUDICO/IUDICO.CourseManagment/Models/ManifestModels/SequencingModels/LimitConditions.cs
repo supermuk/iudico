@@ -6,6 +6,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     [Serializable]
     public class LimitConditions
     {
+        #region XmlAttributes
+
         /// <summary>
         /// This value indicates the maximum number of attempts for the activity/
         /// </summary>
@@ -23,5 +25,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         /// </summary>
         [XmlAttribute(SCORM.AttemptAbsoluteDurationLimit)]
         public string AttemptAbsoluteDurationLimit;
+
+        #endregion
     }
 }

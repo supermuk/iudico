@@ -6,10 +6,14 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RuleMod
     [Serializable]
     public class Rule
     {
+        #region XmlElements
+
         [XmlElement(SCORM.RuleConditions, Namespace = SCORM.ImsssNamespace)]
         public RuleConditions RuleConditions;
 
         [XmlElement(SCORM.RuleAction, Namespace = SCORM.ImsssNamespace)]
         public RuleAction RuleAction;
+
+        #endregion
     }
 }
