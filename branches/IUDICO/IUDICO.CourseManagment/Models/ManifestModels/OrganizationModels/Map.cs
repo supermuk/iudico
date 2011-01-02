@@ -6,6 +6,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
     [Serializable]
     public class Map
     {
+        #region XmlAttributes
+
         [XmlAttribute("targetID")]
         public string TargetID;
 
@@ -14,5 +16,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
 
         [XmlAttribute("writeSharedData")]
         public bool WriteSharedData = true;
+
+        #endregion
     }
 }

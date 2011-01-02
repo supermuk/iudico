@@ -6,6 +6,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     [Serializable]
     public class DeliveryControls
     {
+        #region XmlAttributes
+
         /// <summary>
         ///  This attribute indicates that the 
         /// objective progress information and activity/attempt progress information for the 
@@ -30,5 +32,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         /// </summary>
         [XmlAttribute(SCORM.ObjectiveSetByContent)]
         public bool ObjectiveSetByContent; // = false
+
+        #endregion
     }
 }

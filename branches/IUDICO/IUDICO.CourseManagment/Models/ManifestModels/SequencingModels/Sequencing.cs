@@ -9,7 +9,25 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     [Serializable]
     public class Sequencing
     {
+        public Sequencing(SequencingPattern pattern)
+        {
+            if (pattern == SequencingPattern.OrganizationDefaultSequencingPattern)
+            {
+                ControlMode = new ControlMode()
+                {
+                    Choise = true,
+                    Flow = true
+                };
+            }
+        }
+
+        #region Members
+
         private bool InSequencingCollection;
+
+        #endregion
+
+        #region XmlAttributes
 
         [XmlAttribute(SCORM.Id)]
         public string Id;
@@ -17,7 +35,9 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         [XmlAttribute(SCORM.IdRef)]
         public string IdRef;
 
+        #endregion
 
+        #region XmlElements
 
         [XmlElement(SCORM.ControlMode, Namespace = SCORM.ImsssNamespace)]
         public ControlMode ControlMode;
@@ -51,5 +71,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
 
         [XmlElement(SCORM.Objectives, Namespace = SCORM.AdlseqNamespace)]
         public string AdlObjectives;
+
+        #endregion
     }
 }

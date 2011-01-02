@@ -15,6 +15,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
             SharedDataGlobalToSystem = true;
         }
 
+        #region XmlAttributes
+
         [XmlAttribute(SCORM.Identifier)]
         public string Identifier;
 
@@ -27,8 +29,9 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         [XmlAttribute(SCORM.SharedDataGlobalToSystem)]
         public bool SharedDataGlobalToSystem;// = true;
 
+        #endregion
 
-
+        #region XmlElements
 
         [XmlElement(SCORM.Title, Namespace=SCORM.ImscpNamespaceV1p3)]
         public string Title;
@@ -45,12 +48,21 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         [XmlElement(SCORM.Sequencing, Namespace=SCORM.ImsssNamespace)]
         public Sequencing Sequencing;
 
+        #endregion
 
+        #region Methods
 
         public void AddItem(Item item)
         {
             Items.Add(item);
         }
-    }
 
+        public void ApplySequencingPattern(SequencingPattern pattern)
+        {
+            Sequencing = new Sequencing(SequencingPattern.OrganizationDefaultSequencingPattern);
+        }
+
+
+        #endregion
+    }
 }

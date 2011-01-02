@@ -15,7 +15,11 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.ResourceModels
             IdentifierRef = identidierRef;
         }
 
+        #region XmlAttributes
+
         [XmlAttribute(SCORM.IdentifierRef)]
         public string IdentifierRef;
+
+        #endregion
     }
 }

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.IO;
 using IUDICO.Common.Models;
 using IUDICO.CourseManagement.Models.Storage;
+using IUDICO.Common.Models.Services;
 
 namespace IUDICO.CourseManagement.Controllers
 {
@@ -27,28 +28,41 @@ namespace IUDICO.CourseManagement.Controllers
 
         public ActionResult Create()
         {
+            IUserService userService = LmsService.FindService<IUserService>();
+            var allUsers = userService.GetUsers().Where(i => i.Username != User.Identity.Name);
+            ViewData["AllUsers"] = allUsers;
+
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create(Course course)
+        public ActionResult Create(Course course, IEnumerable<Guid> sharewith)
         {
+            course.Owner = User.Identity.Name;
             var id = _storage.AddCourse(course);
-            
+            _storage.UpdateCourseUsers(id, sharewith);
+
             return RedirectToAction("Index");
         }
 
         public ActionResult Edit(int courseId)
         {
+            IUserService userService = LmsService.FindService<IUserService>();
             var course = _storage.GetCourse(courseId);
-            
+
+            var allUsers = userService.GetUsers().Where(i => i.Username != course.Owner);
+            var courseUsers = allUsers.Where(i => _storage.GetCourseUsers(courseId).Any(j => j.Id == i.Id));
+
+            ViewData["AllUsers"] = allUsers.Except(courseUsers);
+            ViewData["SharedUsers"] = courseUsers;
             return View(course);
         }
 
         [HttpPost]
-        public ActionResult Edit(int courseId, Course course)
+        public ActionResult Edit(int courseId, Course course, IEnumerable<Guid> sharewith)
         {
             _storage.UpdateCourse(courseId, course);
+            _storage.UpdateCourseUsers(courseId, sharewith);
           
             return RedirectToAction("Index");
         }

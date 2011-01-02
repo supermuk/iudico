@@ -17,8 +17,14 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
             _DefaultOrganizationIndex = 0;
         }
 
+        #region Members
+
         [XmlIgnore]
         private int _DefaultOrganizationIndex;
+
+        #endregion
+
+        #region XmlAttributes
 
         [XmlAttribute(SCORM.Default)]
         public string Default
@@ -43,8 +49,16 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
             }
         }
 
+        #endregion
+
+        #region XmlElements
+
         [XmlElement(SCORM.Organization, Namespace = SCORM.ImscpNamespaceV1p3)]
         public List<Organization> _Organizations;
+
+        #endregion
+
+        #region Methods
 
         public Organization this[string identifier] 
         {
@@ -72,5 +86,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
             _Organizations.Add(organization);
             return organization.Identifier;
         }
+
+        #endregion
     }
 }

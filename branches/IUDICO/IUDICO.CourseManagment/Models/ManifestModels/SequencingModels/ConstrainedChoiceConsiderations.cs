@@ -6,6 +6,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     [Serializable]
     public class ConstrainedChoiceConsiderations
     {
+        #region XmlAttributes
+
         /// <summary>
         ///   This attribute indicates 
         /// that attempts on children activities should not begin unless the current activity is 
@@ -21,5 +23,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         /// </summary>
         [XmlAttribute(SCORM.ConstrainChoice)]
         public bool ConstrainChoice; // = false;
+
+        #endregion 
     }
 }

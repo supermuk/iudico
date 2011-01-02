@@ -7,6 +7,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
     [Serializable]
     public class RollupRules
     {
+        #region XmlAttributes
+
         /// <summary>
         /// This attribute 
         /// indicates that the objective’s satisfied status associated with the activity is 
@@ -31,9 +33,13 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
         [XmlAttribute(SCORM.ObjectiveMeasureWeight)]
         public float ObjectiveMeasureWeight;
 
+        #endregion
 
+        #region XmlElements
 
         [XmlElement(SCORM.RollupRule)]
         public List<RollupRule> _RollupRules;
+
+        #endregion
     }
 }
