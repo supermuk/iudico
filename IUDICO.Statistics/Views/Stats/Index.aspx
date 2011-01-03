@@ -20,9 +20,9 @@
        </div>
     <% } %>
 
-    <div class="style5">
+
     <input type="submit" value="Show" />
-    </div>
+
 
     </form>
     
@@ -31,15 +31,5 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
-    
-     <style type="text/css">
-        .style5
-        {
-        	cursor: inherit;
-        	text-align: center;
-            font-family: Century;       
-        }
-        
-    </style>
 
 </asp:Content>
