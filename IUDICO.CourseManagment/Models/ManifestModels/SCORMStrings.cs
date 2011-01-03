@@ -102,7 +102,12 @@
         internal const string ProgressWeight = "progressWeight";
         internal const string RandomizationControls = "randomizationControls"; // <imsss:randomizationControls>
         internal const string RandomizationTiming = "randomizationTiming"; // <imsss:randomizationControls>/randomizationTiming
+        internal const string ReadCompletionStatus = "readCompletionStatus";
+        internal const string ReadMinScore = "readMinScore";
+        internal const string ReadMaxScore = "readMaxScore";
         internal const string ReadNormalizedMeasure = "readNormalizedMeasure"; // <imsss:mapInfo>/readNormalizedMeasure
+        internal const string ReadProgressMeasure = "readProgressMeasure";
+        internal const string ReadRawScore = "readRawScore";
         internal const string ReadSatisfiedStatus = "readSatisfiedStatus"; // <imsss:mapInfo>/readSatisfiedStatus
         internal const string ReferencedObjective = "referencedObjective"; // <imsss:ruleCondition>/referencedObjective
         internal const string ReorderChildren = "reorderChildren"; // <imsss:randomizationControls>/reorderChildren
@@ -148,7 +153,12 @@
         internal const string UseCurrentAttemptProgressInfo = "useCurrentAttemptProgressInfo"; // <imsss:controlMode>/useCurrentAttemptProgressInfo
         internal const string Version = "version"; // <imsss:manifest>/version
         internal const string Webcontent = "webcontent";
+        internal const string WriteCompletionStatus = "writeCompletionStatus";
+        internal const string WriteMinScore = "writeMinScore";
+        internal const string WriteMaxScore = "writeMaxScore";
         internal const string WriteNormalizedMeasure = "writeNormalizedMeasure"; // <imsss:mapInfo>/writeNormalizedMeasure
+        internal const string WriteProgressMeasure = "writeProgressMeasure";
+        internal const string WriteRawScore = "writeRawScore";
         internal const string WriteSatisfiedStatus = "writeSatisfiedStatus"; // <imsss:mapInfo>/writeSatisfiedStatus
         internal const string XmlNamespace = "http://www.w3.org/XML/1998/namespace";
         internal const string XrloType = "xrloType"; // <imsss:resource>/mls:xrloType

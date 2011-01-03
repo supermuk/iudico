@@ -4,6 +4,7 @@ using System.IO;
 using IUDICO.CourseManagement.Models.ManifestModels.MetadataModels;
 using IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels;
 using IUDICO.CourseManagement.Models.ManifestModels.ResourceModels;
+using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
 
 namespace IUDICO.CourseManagement.Models.ManifestModels
 {
@@ -19,6 +20,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
             Metadata = new ManifestMetadata();
         }
 
+        #region XmlAttributes
+
         [XmlAttribute(SCORM.Identifier)]
         public string Identifier;
 
@@ -28,7 +31,9 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
         [XmlAttribute(SCORM.Base, Namespace = SCORM.XmlNamespace)]
         public string Base;
 
+        #endregion
 
+        #region XmlElements
 
         [XmlElement(SCORM.Metadata, Namespace = SCORM.ImscpNamespaceV1p3)]
         public ManifestMetadata Metadata;
@@ -38,6 +43,13 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
 
         [XmlElement(SCORM.Resources, Namespace = SCORM.ImscpNamespaceV1p3)]
         public Resources Resources;
+
+        [XmlElement(SCORM.SequencingCollection, Namespace = SCORM.ImsssNamespace)]
+        public SequencingCollection SequencingCollection;
+
+        #endregion
+
+        #region Methods
 
         public void Serialize(StreamWriter writer)
         {
@@ -52,5 +64,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
 
             xs.Serialize(writer, this, xsn);
         }
+
+        #endregion
     }
 }
