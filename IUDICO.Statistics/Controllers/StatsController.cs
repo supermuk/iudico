@@ -79,5 +79,19 @@ namespace IUDICO.Statistics.Controllers
             return View();
         }
 
+        // Vitalik
+        [HttpPost]
+        public ActionResult ThemesInfo(Int32 CurriculumID)
+        {
+            ThemeInfoModel model = new ThemeInfoModel((int)HttpContext.Session["SelectedGroupId"], CurriculumID, LmsService);
+            HttpContext.Session["Attempts"] = model.GetAllAttemts();
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult ThemeTestResaults(Int32 AttemptId)
+        {
+            ThemeTestResaultsModel model = new ThemeTestResaultsModel(AttemptId, (List<AttemptResult>)HttpContext.Session["Attempts"], LmsService);
+            return View(model);
+        }
     }
 }

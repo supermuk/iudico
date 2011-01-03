@@ -32,20 +32,24 @@ namespace IUDICO.Statistics
 
         public IEnumerable<Action> BuildActions(Role role)
         {
-            return new List<Action>();
+            var actions = new List<Action>();
+
+            actions.Add(new Action("Get Stats", "Stats/Index"));
+
+            return actions;
         }
 
         public void BuildMenu(Menu menu)
         {
-
+            menu.Add(new MenuItem("Statistic", "Stats", "Index"));
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)
         {
             routes.MapRoute(
                 "Statistics",
-                "Statistics/{action}",
-                new { controller = "Statistics" }
+                "Stats/{action}",
+                new { controller = "Stats", action = "Index" }
             );
 
         }

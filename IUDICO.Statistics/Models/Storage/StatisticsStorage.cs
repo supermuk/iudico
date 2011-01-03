@@ -109,4 +109,110 @@ namespace IUDICO.Statistics.Models.Storage
         #endregion
 
     }
+
+    //Vitalik
+    public class ThemeInfoModel
+    {
+        private ILmsService LmsService;
+        public int CurriculumId;
+        private List<AttemptResult> LastAttempts;
+        public IEnumerable<User> SelectStudents;
+        public IEnumerable<Theme> SelectCurriculumThemes;
+        public ThemeInfoModel(int groupId, int curriculumId, ILmsService lmsService)
+        {
+            LmsService = lmsService;
+            CurriculumId = curriculumId;
+            SelectStudents = LmsService.FindService<IUserService>().GetUsersByGroup
+                (
+                LmsService.FindService<IUserService>().GetGroup(groupId)
+                );
+            SelectCurriculumThemes = LmsService.FindService<ICurriculumService>().GetThemesByCurriculumId
+                (
+                CurriculumId
+                );
+            //LastAttempts = LmsService.FindService<ITestingService>().GetLastCompleteAttemptsForThemes
+            //    (
+            //    LmsService.FindService<IUserService>().GetGroup(groupId),
+            //    SelectCurriculumThemes
+            //    );
+            LastAttempts = new List<AttemptResult>();
+            foreach (User student in SelectStudents)
+            {
+                foreach (Theme theme in SelectCurriculumThemes)
+                {
+                    IEnumerable<AttemptResult> temp = LmsService.FindService<ITestingService>().GetResults(student, theme);
+                    if (temp != null)
+                        LastAttempts.Add(temp.First());
+                }
+            }
+        }
+        public double? GetStudentResautForTheme(User SelectStudent, Theme SelectTheme)
+        {
+            return LastAttempts.First(x => x.User == SelectStudent & x.Theme == SelectTheme).Score.ToPercents();
+        }
+        public double? GetStudentResautForAllThemesInSelectedCurriculum(User SelectStudent)
+        {
+            double? resault = 0;
+            foreach (Theme theme in SelectCurriculumThemes)
+            {
+                //resault += LastAttempts.First(x => x.User == SelectStudent & x.Theme == theme).Score.ToPercents();
+                resault += 10;
+            }
+            return resault;
+        }
+        public double? GetAllThemesInSelectedCurriculumMaxMark()
+        {
+            return 100; //* SelectCurriculumThemes.Count();
+        }
+        public double? GetMaxResautForTheme(Theme SelectTheme)
+        {
+            return 100;
+        }
+        public char Ects(double? percent)
+        {
+            if (percent > 91.0)
+            {
+                return 'A';
+            }
+            else if (percent > 81.0)
+            {
+                return 'B';
+            }
+            else if (percent > 71.0)
+            {
+                return 'C';
+            }
+            else if (percent > 61.0)
+            {
+                return 'D';
+            }
+            else if (percent > 51.0)
+            {
+                return 'E';
+            }
+            else
+            {
+                return 'F';
+            }
+        }
+        public AttemptResult GetStudentAttempt(User SelectStudent, Theme SelectTheme)
+        {
+            return LastAttempts.First();//(x => x.User == SelectStudent & x.Theme == SelectTheme);
+        }
+        public List<AttemptResult> GetAllAttemts()
+        {
+            return this.LastAttempts;
+        }
+    }
+    public class ThemeTestResaultsModel
+    {
+        private ILmsService LmsService;
+        public AttemptResult Attempt;
+
+        public ThemeTestResaultsModel(Int32 attemptId, List<AttemptResult> attList, ILmsService lmsService)
+        {
+            LmsService = lmsService;
+            Attempt = attList.First(c => c.AttemptID == attemptId);
+        }
+    }
 }
