@@ -102,6 +102,8 @@
     <Content Include="Views\Stats\Index.aspx" />
     <Content Include="Views\Stats\SelectCurriculums.aspx" />
     <Content Include="Views\Stats\ShowCurriculumStatistic.aspx" />
+    <Content Include="Views\Stats\ThemesInfo.aspx" />
+    <Content Include="Views\Stats\ThemeTestResaults.aspx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

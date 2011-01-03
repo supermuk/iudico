@@ -14,12 +14,14 @@
     <fieldset>
     <legend>Please, select one group : </legend>
 
+    <form action="/Stats/ThemesInfo/" method="post">
     <table>
     <tr>
         <th>Student</th>
         <% foreach (IUDICO.Common.Models.Curriculum curr in ViewData["Curriculums"] as IEnumerable<IUDICO.Common.Models.Curriculum>)
            {%>
            <th>
+           <input type="radio" name="CurriculumID" value="<%: curr.Id %>"/>
            <%: curr.Name %>
            </th>
         <% } %>
@@ -92,6 +94,9 @@
        </tr>
     <% } %>
     </table>
+    <input type="submit" value="Show" />
+
+    </form>
 
     </fieldset>
 
