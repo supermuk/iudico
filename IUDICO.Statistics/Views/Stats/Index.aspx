@@ -15,7 +15,7 @@
     <% foreach (IUDICO.Common.Models.Group item in Model)
        {%>
        <div>
-        <input type="checkbox" name="id" value="<%: item.Id %>" />
+        <input type="radio" name="id" value="<%: item.Id %>" />
             <%: Html.Label(item.Name)%>
        </div>
     <% } %>
