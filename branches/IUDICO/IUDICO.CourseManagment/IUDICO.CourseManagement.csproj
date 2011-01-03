@@ -113,6 +113,10 @@
     <Compile Include="Models\ManifestModels\ResourceModels\Resource.cs" />
     <Compile Include="Models\ManifestModels\ResourceModels\Resources.cs" />
     <Compile Include="Models\ManifestModels\SCORMStrings.cs" />
+    <Compile Include="Models\ManifestModels\SequencingModels\ObjectiveModels\AdlObjectives.cs" />
+    <Compile Include="Models\ManifestModels\SequencingModels\ObjectiveModels\MapInfo.cs" />
+    <Compile Include="Models\ManifestModels\SequencingModels\ObjectiveModels\AdlObjective.cs" />
+    <Compile Include="Models\ManifestModels\SequencingModels\ObjectiveModels\Objective.cs" />
     <Compile Include="Models\ManifestModels\SequencingModels\RuleModels\Rule.cs" />
     <Compile Include="Models\ManifestModels\SequencingModels\ConstrainedChoiceConsiderations.cs" />
     <Compile Include="Models\ManifestModels\SequencingModels\ControlMode.cs" />
@@ -131,6 +135,7 @@
     <Compile Include="Models\ManifestModels\SequencingModels\RuleModels\RuleCondtitions.cs" />
     <Compile Include="Models\ManifestModels\SequencingModels\Sequencing.cs" />
     <Compile Include="Models\ManifestModels\SequencingModels\RuleModels\SequencingRules.cs" />
+    <Compile Include="Models\ManifestModels\SequencingModels\SequencingCollection.cs" />
     <Compile Include="Models\Storage\ICourseStorage.cs" />
     <Compile Include="Models\Storage\MixedCourseStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
