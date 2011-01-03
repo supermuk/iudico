@@ -9,6 +9,10 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     [Serializable]
     public class Sequencing
     {
+        public Sequencing()
+            :this(SequencingPattern.OrganizationDefaultSequencingPattern)
+        {
+        }
         public Sequencing(SequencingPattern pattern)
         {
             if (pattern == SequencingPattern.OrganizationDefaultSequencingPattern)
@@ -70,7 +74,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         public RollupConsiderations RollupConsiderations;
 
         [XmlElement(SCORM.Objectives, Namespace = SCORM.AdlseqNamespace)]
-        public string AdlObjectives;
+        public AdlObjectives AdlObjectives;
 
         #endregion
     }
