@@ -1,0 +1,39 @@
+#summary Summarizes info about messages
+
+== Message ==
+
+Message is used to let all plugins know about changes that some plugin made.
+
+== Sending message ==
+
+To send a message you need to call:
+
+`void ILmsService.Inform(string evt, params object[] data);`
+
+`string evt` - string describing event that happened.
+
+`params object[] data` - arguments sent with message.
+e.g.:
+`ILmsService.Inform("course/delete", course);`
+
+== Handling message ==
+
+Each plugin has method to handle messages:
+
+`void IPlugin.Update(string evt, params object[] data);`
+
+Example of handling a message:
+{{{
+if (evt == "course/delete")
+{
+  var course = (Course)data[0]
+  var roles = Storage.GetRoles(course);
+  Storage.Remove(roles);
+}
+}}}
+
+== List of messages ==
+
+|| Events || Params || Sent by ||
+|| course/add || Course || CourseManagement ||
+|| course/delete || Course || CourseManagement ||
