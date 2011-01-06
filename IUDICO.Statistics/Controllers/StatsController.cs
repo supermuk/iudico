@@ -16,67 +16,39 @@ namespace IUDICO.Statistics.Controllers
 {
     public class StatsController : PluginController
     {
-        private readonly IStatisticsStorage _storage;
+        //Roma
+        private readonly IStatisticsProxy _proxy;
 
-        public StatsController(IStatisticsStorage statsStorage)
+        public StatsController(IStatisticsProxy statsStorage)
         {
-            _storage = statsStorage;
+            _proxy = statsStorage;
         }
 
-        //pages
+        
 
         public ActionResult Index()
         {
-            IEnumerable<Group> groups = _storage.GetAllGroups();
+            IEnumerable<Group> groups = _proxy.GetAllGroups();
 
             return View(groups);
         }
 
         [HttpPost]
-        public ActionResult SelectCurriculums(Int32 id)
+        public ActionResult SelectCurriculums(int id)
         {
-            IEnumerable<Curriculum> curriculums = _storage.GetCurrilulumsByGroupId(id);
+            IEnumerable<Curriculum> curriculums = _proxy.GetCurrilulumsByGroupId(id);
             HttpContext.Session["SelectedGroupId"] = id;
 
             return View(curriculums);
         }
 
         [HttpPost]
-        public ActionResult ShowCurriculumStatistic(Int32[] selectCurriculumId)
+        public ActionResult ShowCurriculumStatistic(int[] selectCurriculumId)
         {
-            #region Statistic information
+            IEnumerable<User> users = LmsService.FindService<IUserService>().GetUsersByGroup(LmsService.FindService<IUserService>().GetGroup((int)HttpContext.Session["SelectedGroupId"]));
+            AllSpecializedResults allSpecializedResults = new AllSpecializedResults(users, selectCurriculumId, LmsService);
 
-            ViewData["Curriculums"] = _storage.GetSelectedCurriclums(selectCurriculumId);
-            ViewData["Students"] = _storage.GetUsersBySelectedGroup(LmsService.FindService<IUserService>().GetGroup((int)HttpContext.Session["SelectedGroupId"]));
-            ViewData["Themes"] = _storage.GetAllThemes((int)HttpContext.Session["SelectedGroupId"]);
-            ViewData["selectCurriculumId"] = selectCurriculumId;
-            ViewData["selectGroupName"] = LmsService.FindService<IUserService>().GetGroup((int)HttpContext.Session["SelectedGroupId"]).Name;
-
-            #endregion
-
-            #region Students result by themes
-            List<KeyValuePair<KeyValuePair<User, Theme>, double?>> results = new List<KeyValuePair<KeyValuePair<User, Theme>, double?>>();
-            foreach (User user in ViewData["Students"] as IEnumerable<User>)
-            {
-                foreach (Curriculum curr in ViewData["Curriculums"] as IEnumerable<Curriculum>)
-                {
-                    foreach (KeyValuePair<List<Theme>, int> themeAndCurrId in ViewData["Themes"] as List<KeyValuePair<List<Theme>, int>>)
-                    {
-                        if (themeAndCurrId.Value == curr.Id)
-                        {
-                            foreach (Theme th in themeAndCurrId.Key)
-                            {
-                                double? res = _storage.GetResults(user, th).First(x => x.User == user & x.Theme == th).Score.ToPercents();
-                                results.Add(new KeyValuePair<KeyValuePair<User, Theme>, double?>(new KeyValuePair<User, Theme>(user, th), res));
-                            }
-                        }
-                    }
-                }
-            }
-            ViewData["points"] = results;
-            #endregion
-
-            return View();
+            return View(allSpecializedResults);
         }
 
         // Vitalik

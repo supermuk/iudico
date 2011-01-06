@@ -11,7 +11,7 @@
     <legend> Attempt statistic:</legend>
         <h2>Resaults</h2>
         <p>
-            Student:  <%: Model.Attempt.User.Name%>
+            Student:  <%: Model.Attempt.User.Username%>
         </p>
         <p>
             Theme:  <%: Model.Attempt.Theme.Name%>
