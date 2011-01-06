@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Statistics.Models.Storage.StatisticsStorage>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Statistics.Models.Storage.AllSpecializedResults>" %>
 <%@ Assembly Name="IUDICO.Statistics" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	ShowCurriculumStatistic
@@ -12,13 +12,13 @@
 
     <%: Html.ActionLink("<- back", "Index")%>
     <fieldset>
-    <legend>Please, select one group : </legend>
+    <legend>Please, select one curriculum : </legend>
 
     <form action="/Stats/ThemesInfo/" method="post">
     <table>
     <tr>
         <th>Student</th>
-        <% foreach (IUDICO.Common.Models.Curriculum curr in ViewData["Curriculums"] as IEnumerable<IUDICO.Common.Models.Curriculum>)
+        <% foreach (IUDICO.Common.Models.Curriculum curr in Model.Curriculums)
            {%>
            <th>
            <input type="radio" name="CurriculumID" value="<%: curr.Id %>"/>
@@ -30,67 +30,34 @@
         <th>ECTS</th>
     </tr>
     
-    <% foreach (IUDICO.Common.Models.User user in ViewData["Students"] as IEnumerable<IUDICO.Common.Models.User>)
+    <% foreach (IUDICO.Statistics.Models.Storage.SpecializedResult specializedResult in Model.SpecializedResultPar)
        { %>
        <tr>
-           <td>
-           <%: user.Username %>
-           </td>
-           <% int i=0; %>
-           <% double? sumPoint = 0.0; int sumMax = 0; %>
-           <% foreach (IUDICO.Common.Models.Curriculum c in ViewData["Curriculums"] as IEnumerable<IUDICO.Common.Models.Curriculum>)
-           {%>
-           <td>  
-                <% foreach (KeyValuePair<List<IUDICO.Common.Models.Theme>, int> themeAndCurrId in ViewData["Themes"] as List<KeyValuePair<List<Theme>, int>>)
-                { %>
-                
-                <% if (themeAndCurrId.Value == c.Id)  { %>
-                    
-                    <% double? point=0.0; int max=0; %>
-                    <% foreach (IUDICO.Common.Models.Theme th in themeAndCurrId.Key)
-                       { %>
-
-                       <% point += (double?)(ViewData["points"] as List<KeyValuePair<KeyValuePair<User, Theme>, double?>>).Where(x => x.Key.Key == user & x.Key.Value == th).Select(x => x.Value).First(); %>
-                       <% max += 100; %>
-                                
-                    <% } %>
-
-                    <% sumPoint += point; %>
-                    <% sumMax += max; %>
-
-                    <%: point %>
-                    /
-                    <%: max %>
-
-                <% } %>
-                <% } %>
-                <% i++; %>
-           </td>
-           <% } %>
+            <td>
+           <%: specializedResult.User.Username %>
+            </td>
+           
+            <% foreach (IUDICO.Statistics.Models.Storage.CurriculumResult currResult in specializedResult.CurriculumResult)
+            { %>
                 <td>
-                <%: sumPoint %>
+                <%: currResult.Sum  %>
                 /
-                <%: sumMax %>
-                </td>
-                <td>
-                <%: sumPoint/(double)sumMax*100.0 %> %
-                </td>
-                <td>
-                <% if((sumPoint/(double)sumMax*100.0) >= 91.0) {%>
-                A <%} %>
-                <% else if(sumPoint/(double)sumMax*100.0 >= 81.0) {%>
-                B <%} %>
-                <% else if(sumPoint/(double)sumMax*100.0 >= 71.0) {%>
-                C <%} %>
-                <% else if(sumPoint/(double)sumMax*100.0 >= 61.0) {%>
-                D <%} %>
-                <% else if(sumPoint/(double)sumMax*100.0 >= 51.0) {%>
-                E <%} %>
-                <% else if(sumPoint/(double)sumMax*100.0 >= 31.0) {%>
-                F <%} %>
-                <% else  {%>
-                FX <%} %>
-                </td>
+                <%: currResult.Max  %>
+                </td>     
+            <% } %>
+           
+            <td>
+                <%: specializedResult.Sum %>
+                /
+                <%: specializedResult.Max %>
+            </td>
+            <td>
+                <%: specializedResult.Percent %>
+                %
+            </td>
+            <td>
+                <%: specializedResult.ECTS %>
+            </td>
        </tr>
     <% } %>
     </table>

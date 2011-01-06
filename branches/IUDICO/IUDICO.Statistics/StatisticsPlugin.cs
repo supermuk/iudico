@@ -21,8 +21,8 @@ namespace IUDICO.Statistics
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<StatisticsPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<IStatisticsStorage>().ImplementedBy<StatisticsStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)//,
-                //Component.For<IStatisticsService>().ImplementedBy<StatisticsService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
+                Component.For<IStatisticsProxy>().ImplementedBy<StatisticsProxy>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<IStatisticsService>().ImplementedBy<StatisticsService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
         }
 

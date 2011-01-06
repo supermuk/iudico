@@ -27,7 +27,7 @@
            {  %>
 
             <tr> 
-                <td> <%: student.Name %></td>
+                <td> <%: student.Username%></td>
                 <% foreach (IUDICO.Common.Models.Theme selectTheme in Model.SelectCurriculumThemes) 
                     { %>
                         <td>
