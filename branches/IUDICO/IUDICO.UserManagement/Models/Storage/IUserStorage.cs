@@ -10,9 +10,6 @@ namespace IUDICO.UserManagement.Models.Storage
 
         IEnumerable<Role> GetRoles();
         Role GetRole(int id);
-        void CreateRole(Role role);
-        void EditRole(int id, Role role);
-        void DeleteRole(int id);
 
         #endregion
 

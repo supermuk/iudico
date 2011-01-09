@@ -208,20 +208,12 @@ namespace IUDICO.Common.Models
         }
     }
 
-    [MetadataType(typeof(Metadata))]
-    [Bind(Exclude = "Id")]
-    public partial class Role
+    public enum Role
     {
-        private sealed class Metadata
-        {
-            [ScaffoldColumn(false)]
-            public int Id { get; set; }
-
-            [DisplayName("Name")]
-            [Required(ErrorMessage = "Name is required")]
-            [StringLength(50, ErrorMessage = "Name can not be longer than 50")]
-            public string Name { get; set; }
-        }
+        None = 0,
+        Student = 1,
+        Teacher = 2,
+        Admin = 3
     }
 
     [MetadataType(typeof(Metadata))]

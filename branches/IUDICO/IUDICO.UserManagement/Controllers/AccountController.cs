@@ -49,7 +49,6 @@ namespace IUDICO.UserManagement.Controllers
                     case AuthenticationStatus.Authenticated:
 
                         var openId = response.FriendlyIdentifierForDisplay;
-                        var openIdProvider = Membership.Provider;
 
                         var user = _Storage.GetUser(openId);
 
@@ -59,8 +58,6 @@ namespace IUDICO.UserManagement.Controllers
 
                             break;
                         }
-
-                        //var user = openIdProvider.GetUser(storageUser.Id, true);
 
                         if (Request.QueryString["ReturnUrl"] != null)
                         {

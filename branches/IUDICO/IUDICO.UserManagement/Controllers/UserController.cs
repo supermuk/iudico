@@ -19,7 +19,7 @@ namespace IUDICO.UserManagement.Controllers
         //
         // GET: /User/
 
-        [Allow(Roles = "Teacher")]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Index()
         {
             return View(_Storage.GetUsers());
@@ -28,7 +28,7 @@ namespace IUDICO.UserManagement.Controllers
         //
         // GET: /User/Details/5
 
-        [Allow(Roles = "Teacher")]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Details(Guid id)
         {
             return View(_Storage.GetUser(id));
@@ -37,7 +37,7 @@ namespace IUDICO.UserManagement.Controllers
         //
         // GET: /User/Create
 
-        [Allow(Roles = "Teacher")]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Create()
         {
             return View();
@@ -47,7 +47,7 @@ namespace IUDICO.UserManagement.Controllers
         // POST: /User/Create
 
         [HttpPost]
-        [Allow(Roles = "Teacher")]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Create(User user)
         {
             if (ModelState.IsValid)
@@ -65,7 +65,7 @@ namespace IUDICO.UserManagement.Controllers
         //
         // GET: /User/Edit/5
 
-        [Allow(Roles = "Teacher")]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Edit(Guid id)
         {
             return View(new EditUserModel(_Storage.GetUser(id)));
@@ -75,7 +75,7 @@ namespace IUDICO.UserManagement.Controllers
         // POST: /User/Edit/5
 
         [HttpPost]
-        [Allow(Roles = "Teacher")]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Edit(Guid id,  EditUserModel editor)
         {
             if (ModelState.IsValid)
@@ -93,7 +93,7 @@ namespace IUDICO.UserManagement.Controllers
         //
         // GET: /User/Delete/5
 
-        [Allow(Roles = "Teacher")]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Delete(Guid id)
         {
             return View(_Storage.GetUser(id));
@@ -103,7 +103,7 @@ namespace IUDICO.UserManagement.Controllers
         // POST: /User/Delete/5
 
         [HttpPost]
-        [Allow(Roles = "Teacher")]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Delete(Guid id, FormContext context)
         {
             try

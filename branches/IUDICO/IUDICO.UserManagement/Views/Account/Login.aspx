@@ -8,6 +8,22 @@
 
     <h2>Login</h2>
 
+    <form action="<%: Url.Action("Login", "Account")  %>" method="post">
+	    <label for="loginIdentifier">OpenID: </label>
+	    <input type="text" id="loginIdentifier" name="loginIdentifier" size="40" />
+	    
+        <input type="submit" value="Login" />
+	</form>
+
+    <form action="<%: Url.Action("LoginDefault", "Account") %>" method="post">
+        <label for="loginUsername">Username: </label>
+        <input type="text" id="loginUsername" name="loginUsername" size="40" />
+        <label for="loginPassword">Password: </label>
+        <input type="password" id="loginPassword" name="loginPassword" size="40" />
+
+        <input type="submit" value="Login" />
+    </form>
+
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">

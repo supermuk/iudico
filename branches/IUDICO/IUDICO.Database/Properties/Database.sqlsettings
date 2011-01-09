@@ -42,6 +42,6 @@
     <TornPageDetection>False</TornPageDetection>
     <Trustworthy>False</Trustworthy>
     <UpdateOptions>READ_WRITE</UpdateOptions>
-    <VardecimalStorageFormatOn>False</VardecimalStorageFormatOn>
+    <VardecimalStorageFormatOn>True</VardecimalStorageFormatOn>
   </Properties>
 </CatalogProperties>
