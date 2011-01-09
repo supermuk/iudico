@@ -18,7 +18,7 @@ namespace IUDICO.UserManagement.Controllers
         //
         // GET: /Group/
 
-        [Allow(Roles="Teacher")]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Index()
         {
             return View(_Storage.GetGroups());
@@ -27,7 +27,7 @@ namespace IUDICO.UserManagement.Controllers
         //
         // GET: /Group/Create
 
-        [Allow(Roles = "Teacher")]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Create()
         {
             return View();
@@ -37,7 +37,7 @@ namespace IUDICO.UserManagement.Controllers
         // POST: /Group/Create
 
         [HttpPost]
-        [Allow(Roles = "Teacher")]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Create(Group group)
         {
             if (ModelState.IsValid)
@@ -55,7 +55,7 @@ namespace IUDICO.UserManagement.Controllers
         //
         // GET: /Group/Edit/5
 
-        [Allow(Roles = "Teacher")]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int id)
         {
             var group = _Storage.GetGroup(id);
@@ -74,7 +74,7 @@ namespace IUDICO.UserManagement.Controllers
         // POST: /Group/Edit/5
 
         [HttpPost]
-        [Allow(Roles = "Teacher")]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int id, Group group)
         {
             if (ModelState.IsValid)
@@ -93,7 +93,7 @@ namespace IUDICO.UserManagement.Controllers
         // POST: /Role/Delete/5
 
         [HttpDelete]
-        [Allow(Roles = "Teacher")]
+        [Allow(Role = Role.Teacher)]
         public JsonResult Delete(int id)
         {
             try
@@ -108,7 +108,7 @@ namespace IUDICO.UserManagement.Controllers
             }
         }
 
-        [Allow(Roles = "Teacher")]
+        [Allow(Role = Role.Teacher)]
         public ActionResult AddUsers(int id)
         {
             var groupUser = new GroupUser();
@@ -120,7 +120,7 @@ namespace IUDICO.UserManagement.Controllers
         }
 
         [HttpPost]
-        [Allow(Roles = "Teacher")]
+        [Allow(Role = Role.Teacher)]
         public ActionResult AddUsers(int id, int userId)
         {
             return View(new GroupUser());
