@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Web.Security;
 using IUDICO.Common.Models;
@@ -10,14 +9,11 @@ namespace IUDICO.UserManagement.Models.Auth
 {
     public class OpenIdRoleProvider : RoleProvider
     {
-        protected Dictionary<string, List<string>> _Roles;
         protected ILmsService _LmsService;
 
         public OpenIdRoleProvider(ILmsService lmsService)
         {
             _LmsService = lmsService;
-            
-            GetRoles();
         }
 
         protected DBDataContext GetDbContext()
@@ -28,65 +24,46 @@ namespace IUDICO.UserManagement.Models.Auth
         public override bool IsUserInRole(string username, string roleName)
         {
             var db = GetDbContext();
+            var user = db.Users.Where(u => u.Username == username).FirstOrDefault();
 
-            return db.Users.Any(user => user.Username == username && _Roles[user.Role.Name].Contains(roleName));
+            if (user == null)
+            {
+                return false;
+            }
+
+            var userRole = (Role) user.RoleId;
+            var minRole = GetRole(roleName);
+
+            if (minRole == Role.None)
+            {
+                return false;
+            }
+
+            return userRole >= minRole;
         }
 
         public override string[] GetRolesForUser(string username)
         {
             var db = GetDbContext();
 
-            var role = db.Users.Where(user => user.Username == username).Select(user => user.Role.Name).First();
+            var role = db.Users.Where(u => u.Username == username).Select(u => u.RoleId).First();
 
-            return _Roles[role].ToArray();
+            return new [] { ((Role)role).ToString() };
         }
 
         public override void CreateRole(string roleName)
         {
-            try
-            {
-                var db = GetDbContext();
-                var role = new Role { Name = roleName };
-
-                db.Roles.InsertOnSubmit(role);
-                db.SubmitChanges();
-
-                GetRoles();
-            }
-            catch (Exception)
-            {
-                
-            }
+            throw new NotSupportedException();
         }
 
         public override bool DeleteRole(string roleName, bool throwOnPopulatedRole)
         {
-            try
-            {
-                var db = GetDbContext();
-                var role = db.Roles.SingleOrDefault(r => r.Name == roleName);
-
-                db.Roles.InsertOnSubmit(role);
-                db.SubmitChanges();
-                
-                GetRoles();
-
-                return true;
-            }
-            catch (Exception)
-            {
-
-            }
-
-            return false;
+            throw new NotSupportedException();
         }
 
         public override bool RoleExists(string roleName)
         {
-            var db = GetDbContext();
-            var role = db.Roles.SingleOrDefault(r => r.Name == roleName);
-
-            return role != null;
+            return GetRole(roleName) != Role.None;
         }
 
         public override void AddUsersToRoles(string[] usernames, string[] roleNames)
@@ -97,12 +74,11 @@ namespace IUDICO.UserManagement.Models.Auth
             }
 
             var db = GetDbContext();
-            var role = db.Roles.SingleOrDefault(r => r.Name == roleNames[0]);
             var users = db.Users.Where(user => usernames.Contains(user.Username));
 
             foreach (var user in users)
             {
-                user.Role = role;
+                user.RoleId = (int)GetRole(roleNames[0]);
             }
 
             db.SubmitChanges();
@@ -116,42 +92,35 @@ namespace IUDICO.UserManagement.Models.Auth
         public override string[] GetUsersInRole(string roleName)
         {
             var db = GetDbContext();
+            var role = (int)GetRole(roleName);
 
-            return db.Users.Where(user => user.Role.Name == roleName).Select(user => user.Name).ToArray();
+            return db.Users.Where(user => user.RoleId == role).Select(user => user.Username).ToArray();
         }
 
         public override string[] GetAllRoles()
         {
-            return GetDbContext().Roles.Select(r => r.Name).ToArray();
+            return Enum.GetNames(typeof (Role)).Skip(1).ToArray();
         }
 
         public override string[] FindUsersInRole(string roleName, string usernameToMatch)
         {
             var db = GetDbContext();
+            var role = (int) GetRole(roleName);
 
-            return db.Users.Where(user => user.Role.Name == roleName && user.Username.Contains(usernameToMatch)).Select(user => user.Username).ToArray();
+            return db.Users.Where(u => u.RoleId == role && u.Username.Contains(usernameToMatch)).Select(u => u.Username).ToArray();
         }
 
-        protected void GetRoles()
+        protected Role GetRole(string roleName)
         {
-            _Roles = new Dictionary<string, List<string>>();
-
-            var db = GetDbContext();
-
-            var roles = db.Roles.OrderBy(r => r.ParentId);
-
-            foreach (var role in roles)
+            try
             {
-                _Roles.Add(role.Name, new List<string>{role.Name});
+                var role = (Role)Enum.Parse(typeof(Role), roleName);
 
-                var parent = role.Role1;
-                
-                while (parent != null)
-                {
-                    _Roles[role.Name].Add(parent.Name);
-                    
-                    parent = parent.Role1;
-                }
+                return role;
+            }
+            catch (Exception)
+            {
+                return Role.None;
             }
         }
 

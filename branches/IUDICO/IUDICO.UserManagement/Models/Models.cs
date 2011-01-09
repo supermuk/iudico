@@ -49,7 +49,7 @@ namespace IUDICO.UserManagement.Models
             Name = user.Name;
             Password = user.Password;
             Email = user.Email;
-            RoleRef = user.RoleRef;
+            RoleId = user.RoleId;
             OpenId = user.OpenId;
         }
 
@@ -75,7 +75,7 @@ namespace IUDICO.UserManagement.Models
 
         [DisplayName("Role")]
         [Required(ErrorMessage = "Role is required")]
-        public int RoleRef { get; set; }
+        public int RoleId { get; set; }
 
         [DisplayName("OpenId")]
         [Required(ErrorMessage = "OpenId is required")]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Security;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 
@@ -53,6 +54,8 @@ namespace IUDICO.UserManagement.Models.Storage
 
             db.Users.InsertOnSubmit(user);
             db.SubmitChanges();
+
+            _LmsService.Inform("user/create", new object[] { user });
         }
 
         public void EditUser(Guid id, EditUserModel editor)
@@ -64,9 +67,11 @@ namespace IUDICO.UserManagement.Models.Storage
             oldUser.Password = editor.Password;
             oldUser.Email = editor.Email;
             oldUser.OpenId = editor.OpenId;
-            oldUser.RoleRef = editor.RoleRef;
+            oldUser.RoleId = editor.RoleId;
             
             db.SubmitChanges();
+
+            _LmsService.Inform("user/edit", new object[] { oldUser });
         }
 
         public void DeleteUser(Guid id)
@@ -76,6 +81,8 @@ namespace IUDICO.UserManagement.Models.Storage
 
             user.Deleted = true;
             db.SubmitChanges();
+
+            _LmsService.Inform("user/delete", new object[] { user });
         }
 
         public IEnumerable<User> GetUsersByGroup(Group group)
@@ -91,42 +98,12 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public Role GetRole(int id)
         {
-            var db = GetDbContext();
-
-            return db.Roles.Single(role => role.Id == id);
+            return (Role) id;
         }
 
         public IEnumerable<Role> GetRoles()
         {
-            var db = GetDbContext();
-
-            return db.Roles.AsEnumerable();
-        }
-
-        public void CreateRole(Role role)
-        {
-            var db = GetDbContext();
-
-            db.Roles.InsertOnSubmit(role);
-            db.SubmitChanges();
-        }
-
-        public void EditRole(int id, Role role)
-        {
-            var oldRole = GetRole(id);
-            var db = GetDbContext();
-
-            oldRole.Name = role.Name;
-
-            db.SubmitChanges();
-        }
-
-        public void DeleteRole(int id)
-        {
-            var db = GetDbContext();
-
-            db.Roles.DeleteOnSubmit(GetRole(id));
-            db.SubmitChanges();
+            return Roles.GetAllRoles().Skip(1).Select(r => (Role) Enum.Parse(typeof (Role), r)).AsEnumerable();
         }
 
         #endregion
@@ -162,14 +139,19 @@ namespace IUDICO.UserManagement.Models.Storage
 
             oldGroup.Name = group.Name;
             db.SubmitChanges();
+
+            _LmsService.Inform("group/edit", new object[] { group });
         }
 
         public void DeleteGroup(int id)
         {
             var db = GetDbContext();
+            var group = GetGroup(id);
 
-            db.Groups.DeleteOnSubmit(GetGroup(id));
+            db.Groups.DeleteOnSubmit(group);
             db.SubmitChanges();
+
+            _LmsService.Inform("group/delete", new object[] { group });
         }
 
         #endregion
