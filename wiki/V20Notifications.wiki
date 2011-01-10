@@ -1,0 +1,39 @@
+#summary Summarizes info about notifications
+
+== Notification ==
+
+Notification is used to let all plugins know about changes that some plugin made.
+
+== Sending notification ==
+
+To send notification you need to call:
+
+`void ILmsService.Inform(string evt, params object[] data);`
+
+`string evt` - string describing event that happened.
+
+`params object[] data` - arguments sent with notification.
+e.g.:
+`ILmsService.Inform("course/delete", course);`
+
+== Handling message ==
+
+Each plugin has method to handle notifications:
+
+`void IPlugin.Update(string evt, params object[] data);`
+
+Example of handling a notification:
+{{{
+if (evt == "course/delete")
+{
+  var course = (Course)data[0]
+  var roles = Storage.GetRoles(course);
+  Storage.Remove(roles);
+}
+}}}
+
+== List of notifications ==
+
+|| Events || Params || Sent by ||
+|| course/add || Course || CourseManagement ||
+|| course/delete || Course || CourseManagement ||
