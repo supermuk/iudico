@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Timeline>>" %>
-<%@  Assembly Name="IUDICO.CurriculumManagement" %>
 
+<%@ Assembly Name="IUDICO.CurriculumManagement" %>
+<%@ Import Namespace="IUDICO.Common.Models" %>
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {
@@ -23,7 +24,7 @@
 
                 $.ajax({
                     type: "post",
-                    url: "/CurriculumAssignment/DeleteTimelineItems",
+                    url: "/CurriculumAssignmentTimeline/DeleteItems",
                     data: { timelineIds: ids },
                     success: function (r) {
                         if (r.success == true) {
@@ -38,7 +39,7 @@
             });
         });
         function deleteItem(id) {
-            var answer = confirm("Are you sure you want to delete selected assignment?");
+            var answer = confirm("Are you sure you want to delete selected timeline?");
 
             if (answer == false) {
                 return;
@@ -46,7 +47,7 @@
 
             $.ajax({
                 type: "post",
-                url: "/CurriculumAssignment/DeleteTimelineItem",
+                url: "/CurriculumAssignmentTimeline/DeleteItem",
                 data: { timelineId: id },
                 success: function (r) {
                     if (r.success == true) {
@@ -62,17 +63,19 @@
         }
     </script>
 </asp:Content>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     Timeline
 </asp:Content>
-
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Group : <%: ViewData["GroupName"] %>
+        Curriculum assignment timelines for
+        <%: (ViewData["CurriculumAssignment"] as CurriculumAssignment).Curriculum.Name%>
+        curriculum and
+        <%: (ViewData["Group"] as IUDICO.Common.Models.Group).Name %>
+        group
     </h2>
     <p>
-        <%: Html.ActionLink("Add Timeline", "CreateTimeline") %>
+        <%: Html.ActionLink("Add Timeline", "Create") %>
         <a id="DeleteMany" href="#">Delete Selected</a>
     </p>
     <table>
@@ -96,36 +99,30 @@
         </tr>
         <% foreach (var item in Model)
            { %>
-            <tr id="item<%: item.Id %>">
-                <td>
-                    <input type="checkbox" id="<%= item.Id %>" />
-                </td>
-                <td>
-                    <%: item.Id %>
-                </td>
-                <td>
-                    <%: item.StartDate %>
-                </td>
-                <td>
-                    <%: item.EndDate %>
-                </td>
-                <td>
-                    <% if (item.OperationRef == 1)  { %>
-                        View
-                    <% } %>
-                    <% else  { %>
-                        Pass
-                    <% } %>
-                </td>
-                <td>
-                    <a href="javascript:deleteItem(<%: item.Id %>)">Delete</a>
-                </td>
-            </tr>
+        <tr id="item<%: item.Id %>">
+            <td>
+                <input type="checkbox" id="<%= item.Id %>" />
+            </td>
+            <td>
+                <%: item.Id %>
+            </td>
+            <td>
+                <%: item.StartDate %>
+            </td>
+            <td>
+                <%: item.EndDate %>
+            </td>
+            <td>
+                <%: item.Operation.Name %>
+            </td>
+            <td>
+                <a href="#" onclick="deleteItem(<%: item.Id %>)">Delete</a>
+            </td>
+        </tr>
         <% } %>
     </table>
-    <p>
-    <%: Html.ActionLink("Back to groups", "Index", new { CurriculumId = HttpContext.Current.Application["CurriculumId"] }, null)%>
-    </p>
-        
+    <div>
+        <br />
+        <%: Html.RouteLink("Back to curriculum assignments.", "CurriculumAssignments", new { action = "Index", CurriculumId = (ViewData["CurriculumAssignment"] as CurriculumAssignment).CurriculumRef })%>
     </div>
 </asp:Content>

@@ -117,7 +117,7 @@
                     |
                     <%: Html.ActionLink("Edit Themes", "Index", "Theme", new { StageID = item.Id }, null)%>
                     |
-                    <a href="javascript:deleteItem(<%: item.Id %>)">Delete</a>
+                    <a href="#" onclick="deleteItem(<%: item.Id %>)">Delete</a>
                 </td>
             </tr>
         <% } %>

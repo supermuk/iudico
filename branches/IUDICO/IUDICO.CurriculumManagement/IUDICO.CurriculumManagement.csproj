@@ -78,26 +78,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\CurriculumAssignmentController.cs" />
+    <Compile Include="Controllers\CurriculumAssignmentTimelineController.cs" />
     <Compile Include="Controllers\CurriculumBaseController.cs" />
     <Compile Include="Controllers\CurriculumController.cs" />
     <Compile Include="Controllers\StageController.cs" />
+    <Compile Include="Controllers\StageTimelineController.cs" />
     <Compile Include="Controllers\ThemeController.cs" />
     <Compile Include="CurriculumManagementPlugin.cs" />
-    <Compile Include="Models\CreateAssignmentModel.cs" />
+    <Compile Include="Models\CreateCurriculumAssignmentModel.cs" />
     <Compile Include="Models\CreateTimelineModel.cs" />
     <Compile Include="Models\CurriculumService.cs" />
     <Compile Include="Models\Storage\ICurriculumStorage.cs" />
     <Compile Include="Models\Storage\MixedCurriculumStorage.cs" />
-    <Compile Include="Models\ThemeModel.cs" />
+    <Compile Include="Models\CreateThemeModel.cs" />
+    <Compile Include="Models\ViewCurriculumAssignmentModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\CurriculumAssignment\Create.aspx" />
-    <Content Include="Views\CurriculumAssignment\CreateStageTimeline.aspx" />
-    <Content Include="Views\CurriculumAssignment\CreateTimeline.aspx" />
-    <Content Include="Views\CurriculumAssignment\EditStageTimeline.aspx" />
-    <Content Include="Views\CurriculumAssignment\EditTimeline.aspx" />
-    <Content Include="Views\CurriculumAssignment\EditTimelineForStages.aspx" />
+    <Content Include="Views\StageTimeline\CreateStageTimeline.aspx" />
+    <Content Include="Views\CurriculumAssignmentTimeline\Create.aspx" />
+    <Content Include="Views\StageTimeline\EditStageTimeline.aspx" />
+    <Content Include="Views\CurriculumAssignmentTimeline\Index.aspx" />
+    <Content Include="Views\StageTimeline\EditTimelineForStages.aspx" />
     <Content Include="Views\CurriculumAssignment\Index.aspx" />
     <Content Include="Views\Curriculum\Create.aspx" />
     <Content Include="Views\Curriculum\Edit.aspx" />

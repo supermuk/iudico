@@ -126,7 +126,7 @@
                     |
                     <%: Html.ActionLink("Down", "ThemeDown", new { ThemeID = item.Id })%>
                     |
-                    <a href="javascript:deleteItem(<%: item.Id %>)">Delete</a>
+                    <a href="#" onclick="deleteItem(<%: item.Id %>)">Delete</a>
                 </td>
             </tr>
         <% } %>

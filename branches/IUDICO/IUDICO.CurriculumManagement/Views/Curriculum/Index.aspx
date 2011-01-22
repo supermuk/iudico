@@ -115,9 +115,9 @@
                     |
                     <%: Html.ActionLink("Edit Stages", "Index", "Stage", new { CurriculumID = item.Id }, null)%>
                     |
-                    <a href="javascript:deleteItem(<%: item.Id %>)">Delete</a>
+                    <%: Html.ActionLink("Edit Assignments","Index","CurriculumAssignment", new { CurriculumID = item.Id }, null)%>
                     |
-                    <%: Html.ActionLink("Assignment","Index","CurriculumAssignment", new { CurriculumID = item.Id }, null)%>
+                    <a href="#" onclick="deleteItem(<%: item.Id %>)">Delete</a>
                 </td>
             </tr>
         <% } %>

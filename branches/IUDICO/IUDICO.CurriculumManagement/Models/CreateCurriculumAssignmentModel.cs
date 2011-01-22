@@ -7,7 +7,7 @@ using IUDICO.Common.Models;
 
 namespace IUDICO.CurriculumManagement.Models
 {
-    public class CreateAssignmentModel
+    public class CreateCurriculumAssignmentModel
     {
         public IEnumerable<SelectListItem> Groups { get; set; }
         public int GroupId { get; set; }

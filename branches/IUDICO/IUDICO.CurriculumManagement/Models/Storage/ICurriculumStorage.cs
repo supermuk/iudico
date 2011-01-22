@@ -12,6 +12,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         IEnumerable<Course> GetCourses();
         Course GetCourse(int id);
         Group GetGroup(int id);
+        IEnumerable<Group> GetGroups();
 
         #endregion
 
@@ -62,13 +63,13 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         #region Assignment methods
 
         IEnumerable<CurriculumAssignment>       GetCurriculumAssignments(IEnumerable<int> ids);
-        IEnumerable<CurriculumAssignment>       GetCurriculumAssignmnetsByCurriculumId(int currId);
+        IEnumerable<CurriculumAssignment>       GetCurriculumAssignmnetsByCurriculumId(int curriculumId);
         IEnumerable<CurriculumAssignment>       GetCurriculumAssignmentsByGroupId(int groupId);
-        CurriculumAssignment                    GetCurriculumAssignment(int currAssignmentId);
-        CurriculumAssignment                    GetCurriculumAssignmentByCurriculumIdByGroupId(int currId, int groupId);
+        CurriculumAssignment                    GetCurriculumAssignment(int curriculumAssignmentId);
+        CurriculumAssignment                    GetCurriculumAssignmentByCurriculumIdByGroupId(int curriculumId, int groupId);
 
-        IEnumerable<Group>                      GetAssignmentedGroups(int curriculumId);
-        IEnumerable<Group>                      GetAllNotAssignmentedGroups(int curriculumId);
+        IEnumerable<Group>                      GetAssignedGroups(int curriculumId);
+        IEnumerable<Group>                      GetNotAssignedGroups(int curriculumId);
 
         IEnumerable<Timeline>                   GetTimelines(int curriculumId, int groupId);
         IEnumerable<Timeline>                   GetTimelines(IEnumerable<int> TimelineIds);
@@ -79,6 +80,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         IEnumerable<Operation>                  GetOperations();
 
         void                                    DeleteCurriculumAssignment(int id);
+        void                                    DeleteCurriculumAssignments(IEnumerable<int> curriculumAssignmentIds);
         void                                    DeleteTimeline(int Timelineid);
         void                                    DeleteTimelines(IEnumerable<int> Timelineids);
         

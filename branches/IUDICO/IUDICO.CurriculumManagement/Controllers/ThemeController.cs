@@ -45,7 +45,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var model = new ThemeModel()
+                var model = new CreateThemeModel()
                 {
                     StageId = stageId,
                     Courses = from course in Storage.GetCourses()
@@ -63,7 +63,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(ThemeModel model)
+        public ActionResult Create(CreateThemeModel model)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace IUDICO.CurriculumManagement.Controllers
 
                 if (theme != null)
                 {
-                    var model = new ThemeModel()
+                    var model = new CreateThemeModel()
                     {
                         StageId = theme.StageRef,
                         ThemeId = themeId,
@@ -122,7 +122,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(ThemeModel model)
+        public ActionResult Edit(CreateThemeModel model)
         {
             try
             {
