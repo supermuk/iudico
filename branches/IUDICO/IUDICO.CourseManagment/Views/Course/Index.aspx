@@ -78,7 +78,7 @@
     
         <tr>
             <td>
-                <input type="checkbox" id="Checkbox1" />
+                <input type="checkbox" id="<%= item.Id %>" />
             </td>
             <td>
                 <%: item.Id %>

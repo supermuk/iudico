@@ -46,7 +46,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public IEnumerable<Course> GetCourses(string owner)
         {
-            return GetDbContext().Courses.Where(i => i.Owner == owner);
+            return GetDbContext().Courses.Where(i => i.Owner == owner && i.Deleted == false);
         }
 
         public Course GetCourse(int id)
@@ -93,6 +93,8 @@ namespace IUDICO.CourseManagement.Models.Storage
             string path = GetCoursePath(course.Id);
             @Directory.CreateDirectory(path);
 
+            _LmsService.Inform("course/create", course);
+
             return course.Id;
         }
 
@@ -107,6 +109,8 @@ namespace IUDICO.CourseManagement.Models.Storage
             oldCourse.Updated = DateTime.Now;
 
             db.SubmitChanges();
+
+            _LmsService.Inform("course/edit", course);
         }
 
         [Obsolete("Directory.Delete gives exception when files are present: http://stackoverflow.com/questions/329355/cannot-delete-directory-with-directory-deletepath-true. Set CASCADE on DELETE & UPDATE action in foreign index CourseID")]
@@ -119,6 +123,8 @@ namespace IUDICO.CourseManagement.Models.Storage
             course.Deleted = true;
 
             db.SubmitChanges();
+
+            _LmsService.Inform("course/delete", course);
         }
 
         public void DeleteCourses(List<int> ids)
@@ -130,6 +136,8 @@ namespace IUDICO.CourseManagement.Models.Storage
             foreach (var course in courses)
             {
                 course.Deleted = true;
+
+                _LmsService.Inform("course/delete", course);
             }
 
             db.SubmitChanges();
