@@ -15,6 +15,8 @@ namespace IUDICO.CourseManagement
 {
     public class CourseManagementPlugin : IWindsorInstaller, IPlugin
     {
+        ICourseStorage courseStorage;
+
         #region IPlugin Members
         public IEnumerable<Action> BuildActions(Role role)
         {
@@ -60,6 +62,7 @@ namespace IUDICO.CourseManagement
         public void Update(string evt, params object[] data)
         {
             // handle appropriate events
+            //this.
         }
         #endregion
 
@@ -76,6 +79,8 @@ namespace IUDICO.CourseManagement
                 Component.For<ICourseStorage>().ImplementedBy<MixedCourseStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<ICourseService>().ImplementedBy<CourseService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
+            
+            courseStorage = container.Resolve<ICourseStorage>();
         }
         #endregion
     }
