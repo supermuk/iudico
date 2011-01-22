@@ -30,6 +30,7 @@ namespace IUDICO.CourseManagement.Controllers
             return View(courses.Union(_storage.GetCourses(User.Identity.Name)));
         }
 
+        [Allow(Role = Role.Student)]
         public ActionResult Create()
         {
             IUserService userService = LmsService.FindService<IUserService>();
@@ -40,6 +41,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Student)]
         public ActionResult Create(Course course, IEnumerable<Guid> sharewith)
         {
             course.Owner = User.Identity.Name;
@@ -49,6 +51,7 @@ namespace IUDICO.CourseManagement.Controllers
             return RedirectToAction("Index");
         }
 
+        [Allow(Role = Role.Student)]
         public ActionResult Edit(int courseId)
         {
             IUserService userService = LmsService.FindService<IUserService>();
@@ -63,6 +66,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Student)]
         public ActionResult Edit(int courseId, Course course, IEnumerable<Guid> sharewith)
         {
             _storage.UpdateCourse(courseId, course);
@@ -72,6 +76,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpDelete]
+        [Allow(Role = Role.Student)]
         public JsonResult Delete(int courseId)
         {
             try
@@ -87,6 +92,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Student)]
         public JsonResult Delete(int[] courseIds)
         {
             try
@@ -101,6 +107,7 @@ namespace IUDICO.CourseManagement.Controllers
             }
         }
 
+        [Allow(Role = Role.Student)]
         public FilePathResult Export(int courseId)
         {
             var path = _storage.Export(courseId);
@@ -108,6 +115,7 @@ namespace IUDICO.CourseManagement.Controllers
             return new FilePathResult(path, "application/octet-stream") { FileDownloadName = _storage.GetCourse(courseId).Name + ".zip" };
         }
 
+        [Allow(Role = Role.Student)]
         public ActionResult Import()
         {
             ViewData["validateResults"] = new List<string>();
@@ -116,7 +124,8 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult Import(string  action, HttpPostedFileBase fileUpload)
+        [Allow(Role = Role.Student)]
+        public ActionResult Import(string action, HttpPostedFileBase fileUpload)
         {
             if (action == "Validate")
             {
@@ -139,6 +148,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Student)]
         public ActionResult Validate(HttpPostedFileBase fileUpload)
         {
             var path = HttpContext.Request.PhysicalApplicationPath;

@@ -62,7 +62,17 @@ namespace IUDICO.CourseManagement
         public void Update(string evt, params object[] data)
         {
             // handle appropriate events
-            //this.
+            var codes = evt.Split('/');
+            if(codes[0] == "user")
+            {
+                switch (codes[1])
+                {
+                    case "delete":
+                        var user = (User)data[0];
+                        courseStorage.DeleteCourseUsers(user.Id);
+                        break;
+                }
+            }
         }
         #endregion
 
