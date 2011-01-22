@@ -24,7 +24,7 @@
 
     <div>
         <br />
-        <%: Html.RouteLink("Back to list", "Stages", new { action = "Index", CurriculumId = HttpContext.Current.Application["CurriculumId"] })%>
+        <%: Html.RouteLink("Back to list", "Stages", new { action = "Index", CurriculumId = HttpContext.Current.Session["CurriculumId"] })%>
     </div>
 
 </asp:Content>

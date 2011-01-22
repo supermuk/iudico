@@ -29,7 +29,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public IEnumerable<Course> GetCourses()
         {
-           return _LmsService.FindService<ICourseService>().GetCourses();
+            return _LmsService.FindService<ICourseService>().GetCourses();
         }
 
         public Course GetCourse(int id)
@@ -40,6 +40,11 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public Group GetGroup(int id)
         {
             return _LmsService.FindService<IUserService>().GetGroup(id);
+        }
+
+        public IEnumerable<Group> GetGroups()
+        {
+            return _LmsService.FindService<IUserService>().GetGroups();
         }
 
         #endregion
@@ -301,9 +306,9 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #region Assignment methods
 
-        public CurriculumAssignment GetCurriculumAssignment(int currAssignmentId)
+        public CurriculumAssignment GetCurriculumAssignment(int curriculumAssignmentId)
         {
-            return _Db.CurriculumAssignments.Single(item => item.Id == currAssignmentId && !item.IsDeleted);
+            return _Db.CurriculumAssignments.Single(item => item.Id == curriculumAssignmentId && !item.IsDeleted);
         }
 
         public IEnumerable<CurriculumAssignment> GetCurriculumAssignments(IEnumerable<int> ids)
@@ -311,9 +316,9 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return _Db.CurriculumAssignments.Where(item => ids.Contains(item.Id) && !item.IsDeleted);
         }
 
-        public IEnumerable<CurriculumAssignment> GetCurriculumAssignmnetsByCurriculumId(int currId)
+        public IEnumerable<CurriculumAssignment> GetCurriculumAssignmnetsByCurriculumId(int curriculumId)
         {
-            return _Db.CurriculumAssignments.Where(item => item.CurriculumRef == currId && !item.IsDeleted);
+            return _Db.CurriculumAssignments.Where(item => item.CurriculumRef == curriculumId && !item.IsDeleted);
         }
 
         public IEnumerable<CurriculumAssignment> GetCurriculumAssignmentsByGroupId(int groupId)
@@ -321,32 +326,35 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return _Db.CurriculumAssignments.Where(item => item.UserGroupRef == groupId && !item.IsDeleted);
         }
 
-        public IEnumerable<Group> GetAssignmentedGroups(int curriculumId)
+        public IEnumerable<Group> GetAssignedGroups(int curriculumId)
         {
-            List<CurriculumAssignment> NeededGroupsIds = (_Db.CurriculumAssignments.Where(item => item.CurriculumRef == curriculumId && !item.IsDeleted)).ToList();
-            List<int?> indexes = new List<int?>();
-            foreach (CurriculumAssignment item in NeededGroupsIds)
-            {
-                indexes.Add(item.UserGroupRef);
-            }
-            return _Db.Groups.Where(item => indexes.Contains(item.Id)).ToList();
+            return GetCurriculumAssignmnetsByCurriculumId(curriculumId).Select(item => GetGroup(item.UserGroupRef));
+            //List<CurriculumAssignment> NeededGroupsIds = (_Db.CurriculumAssignments.Where(item => item.CurriculumRef == curriculumId && !item.IsDeleted)).ToList();
+            //List<int?> indexes = new List<int?>();
+            //foreach (CurriculumAssignment item in NeededGroupsIds)
+            //{
+            //    indexes.Add(item.UserGroupRef);
+            //}
+            //return _Db.Groups.Where(item => indexes.Contains(item.Id)).ToList();
         }
 
-        public IEnumerable<Group> GetAllNotAssignmentedGroups(int curriculumId)
+        public IEnumerable<Group> GetNotAssignedGroups(int curriculumId)
         {
-            IEnumerable<Group> assignmentGroups = GetAssignmentedGroups(curriculumId);
-            List<Group> notAssignmentGroups = new List<Group>();
-            bool isEqual = true;
-            foreach (Group item in _Db.Groups)
-            {
-                isEqual = true;
-                foreach (Group itemGroup in assignmentGroups)
-                    if (item.Id == itemGroup.Id)
-                        isEqual = false;
-                if (isEqual == true)
-                    notAssignmentGroups.Add(item);
-            }
-            return notAssignmentGroups;
+            var assignedGroupIds = GetAssignedGroups(curriculumId).Select(item => item.Id);
+            return GetGroups().Where(item => !assignedGroupIds.Contains(item.Id)).Select(item => item);
+            //IEnumerable<Group> assignmentGroups = GetAssignedGroups(curriculumId);
+            //List<Group> notAssignmentGroups = new List<Group>();
+            //bool isEqual = true;
+            //foreach (Group item in _Db.Groups)
+            //{
+            //    isEqual = true;
+            //    foreach (Group itemGroup in assignmentGroups)
+            //        if (item.Id == itemGroup.Id)
+            //            isEqual = false;
+            //    if (isEqual == true)
+            //        notAssignmentGroups.Add(item);
+            //}
+            //return notAssignmentGroups;
         }
 
         public int AddCurriculumAssignment(CurriculumAssignment currAssignment)
@@ -378,7 +386,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public int AddTimeline(Timeline timeline)
         {
             timeline.IsDeleted = false;
-            
+
             _Db.Timelines.InsertOnSubmit(timeline);
             _Db.SubmitChanges();
 
@@ -411,7 +419,15 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             curriculumAssignment.IsDeleted = true;
             _Db.SubmitChanges();
         }
-        
+
+        public void DeleteCurriculumAssignments(IEnumerable<int> curriculumAssignmentIds)
+        {
+            foreach (int id in curriculumAssignmentIds)
+            {
+                DeleteCurriculumAssignment(id);
+            }
+        }
+
         public void DeleteTimeline(int Timelineid)
         {
 
@@ -445,11 +461,11 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return _Db.Curriculums.Where(item => curriculumIds.Contains(item.Id) && !item.IsDeleted);
         }
 
-        public IEnumerable<Theme> GetThemesByCurriculumId(int curriculumId) 
+        public IEnumerable<Theme> GetThemesByCurriculumId(int curriculumId)
         {
             var stages = _Db.Stages.Where(item => item.CurriculumRef == curriculumId && !item.IsDeleted);
             List<int> stageIds = new List<int>();
-            foreach(var item in stages)
+            foreach (var item in stages)
             {
                 stageIds.Add(item.Id);
             }

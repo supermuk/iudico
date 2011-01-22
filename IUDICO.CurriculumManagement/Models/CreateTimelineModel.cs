@@ -11,6 +11,6 @@ namespace IUDICO.CurriculumManagement.Models
     {
         public IEnumerable<SelectListItem> Operations { get; set; }
         public int OperationId { get; set; }
-        public Timeline timeline { get; set; }
+        public Timeline Timeline { get; set; }
     }
 }

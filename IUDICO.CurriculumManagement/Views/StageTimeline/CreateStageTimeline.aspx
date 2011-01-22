@@ -5,12 +5,12 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Create Timeline
+	Create Stage Timeline
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Create timeline</h2>
+    <h2>Create Stage timeline</h2>
 
     <% Html.EnableClientValidation(); %>
 
@@ -35,7 +35,7 @@
             </div>
             <div>
             <%: Html.DropDownListFor(x => x.OperationId,Model.Operations)%>
-
+     
             <p>
                 <input type="submit" value="Create" />
             </p>
@@ -43,7 +43,7 @@
     <% } %>
 
     <div>
-        <%: Html.ActionLink("Back to list", "EditTimeline", new { StageId = HttpContext.Current.Application["GroupId"] }, null)%>
+        <%: Html.ActionLink("Back to list", "EditStageTimeline", new { StageId = HttpContext.Session["StageId"] }, null)%>
     </div>
 
 </asp:Content>

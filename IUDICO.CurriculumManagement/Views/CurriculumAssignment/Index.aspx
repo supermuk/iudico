@@ -1,4 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Group>>" %>
+﻿<%@ Assembly Name="IUDICO.CurriculumManagement" %>
+
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models.ViewCurriculumAssignmentModel>>" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript" language="javascript">
@@ -22,8 +24,8 @@
 
                 $.ajax({
                     type: "post",
-                    url: "/CurriculumAssignment/DeleteAssignmentItems",
-                    data: { groupIds: ids },
+                    url: "/CurriculumAssignment/DeleteItems",
+                    data: { curriculumAssignmentIds: ids },
                     success: function (r) {
                         if (r.success == true) {
                             $("td input:checked").parents("tr").remove();
@@ -45,8 +47,8 @@
 
             $.ajax({
                 type: "post",
-                url: "/CurriculumAssignment/DeleteAssignmentItem",
-                data: { groupId: id },
+                url: "/CurriculumAssignment/DeleteItem",
+                data: { curriculumAssignmentId: id },
                 success: function (r) {
                     if (r.success == true) {
                         var item = "item" + id;
@@ -61,16 +63,17 @@
         }
     </script>
 </asp:Content>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     Groups
 </asp:Content>
-
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Groups</h2>
+        Assignments for
+        <%: ViewData["CurriculumName"]%>
+        curriculum
+    </h2>
     <p>
-        <%: Html.ActionLink("Add Group", "Create") %>
+        <%: Html.ActionLink("Add assignment", "Create") %>
         <a id="DeleteMany" href="#">Delete Selected</a>
     </p>
     <table>
@@ -81,32 +84,36 @@
                 Id
             </th>
             <th>
-                Name
+                Group
             </th>
             <th>
             </th>
         </tr>
         <% foreach (var item in Model)
            { %>
-            <tr id="item<%: item.Id %>">
-                <td>
-                    <input type="checkbox" id="<%= item.Id %>" />
-                </td>
-                <td>
-                    <%: item.Id %>
-                </td>
-                <td>
-                    <%: item.Name %>
-                </td>
-                <td>
-                    <%: Html.ActionLink("Edit Timeline", "EditTimeline", new { GroupID = item.Id })%>
-                    |
-                    <%: Html.ActionLink("Edit Timeline for Stages", "EditTimelineForStages", new { GroupID = item.Id }, null)%>
-                    |
-                    <a href="javascript:deleteItem(<%: item.Id %>)">Delete</a>
-                </td>
-            </tr>
+        <tr id="item<%: item.Id %>">
+            <td>
+                <input type="checkbox" id="<%= item.Id %>" />
+            </td>
+            <td>
+                <%: item.Id %>
+            </td>
+            <td>
+                <%: item.GroupName %>
+            </td>
+            <td>
+                <%: Html.ActionLink("Edit timelines", "Index", "CurriculumAssignmentTimeline", new { CurriculumAssignmentId = item.Id }, null)%>
+                |
+                <%: Html.ActionLink("Edit timelines for stages", "Index", "StageTimeline", new { CurriculumAssignmentId = item.Id }, null)%>
+                |
+                <a onclick="deleteItem(<%: item.Id %>)" href="#">Delete</a>
+            </td>
+        </tr>
         <% } %>
     </table>
-</asp:Content>
 
+    <div>
+        <br/>
+        <%: Html.RouteLink("Back to curriculums.", "Curriculums", new { action = "Index" })%>
+    </div>
+</asp:Content>
