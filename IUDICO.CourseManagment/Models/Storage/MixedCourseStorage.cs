@@ -80,6 +80,16 @@ namespace IUDICO.CourseManagement.Models.Storage
             db.SubmitChanges();
         }
 
+        public void DeleteCourseUsers(Guid userId)
+        {
+            var db = GetDbContext();
+            
+            var courseUsers = db.CourseUsers.Where(i => i.UserRef == userId);
+            
+            db.CourseUsers.DeleteAllOnSubmit(courseUsers);
+            db.SubmitChanges();
+        }
+
         public int AddCourse(Course course)
         {
             course.Created = DateTime.Now;
@@ -218,7 +228,6 @@ namespace IUDICO.CourseManagement.Models.Storage
             Zipper.ExtractZipFile(path, folderPath);
 
             course.Name = folderPath.Split('\\').Last();
-            course.Owner = "Imported";
 
             return AddCourse(course);
         }

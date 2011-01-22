@@ -46,6 +46,11 @@ namespace IUDICO.CourseManagement.Models
             return _CourseStorage.GetNodeContents(id);
         }
 
+        public string Export(int id)
+        {
+            return _CourseStorage.Export(id);
+        }
+
         #endregion
     }
 }

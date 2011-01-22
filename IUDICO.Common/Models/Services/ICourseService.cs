@@ -9,6 +9,7 @@ namespace IUDICO.Common.Models.Services
 
         IEnumerable<Course> GetCourses();
         Course GetCourse(int id);
+        string Export(int id);
 
         #endregion
 
