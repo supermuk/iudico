@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using IUDICO.Common.Models.Attributes;
+using System.Data.Linq;
 
 namespace IUDICO.Common.Models
 {
@@ -67,6 +68,12 @@ namespace IUDICO.Common.Models
 
             [ScaffoldColumn(false)]
             public bool IsDeleted { get; set; }
+
+            [ScaffoldColumn(false)]
+            public EntitySet<CurriculumAssignment> CurriculumAssignments { get; set; }
+
+            [ScaffoldColumn(false)]
+            public EntitySet<Stage> Stages { get; set; }
         }
     }
 
@@ -97,6 +104,12 @@ namespace IUDICO.Common.Models
 
             [ScaffoldColumn(false)]
             public bool IsDeleted { get; set; }
+
+            [ScaffoldColumn(false)]
+            public EntitySet<Theme> Themes { get; set; }
+
+            [ScaffoldColumn(false)]
+            public Curriculum Curriculum { get; set; }
         }
     }
 
@@ -270,7 +283,7 @@ namespace IUDICO.Common.Models
             public DateTime StartDate { get; set; }
 
             [DisplayName("End Date")]
-            [Required(ErrorMessage = "Start Date is required")]
+            [Required(ErrorMessage = "End Date is required")]
             public DateTime EndDate { get; set; }
 
             [ScaffoldColumn(false)]
@@ -285,6 +298,11 @@ namespace IUDICO.Common.Models
             [ScaffoldColumn(false)]
             public bool IsDeleted { get; set; }
 
+            [ScaffoldColumn(false)]
+            public CurriculumAssignment CurriculumAssignment { get; set; }
+
+            [ScaffoldColumn(false)]
+            public Operation Operation { get; set; }
         }
     }
 }

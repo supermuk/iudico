@@ -50,7 +50,7 @@
     </table>
     
     <p>
-    <%: Html.ActionLink("Back to groups", "Index", new { CurriculumId = HttpContext.Current.Application["CurriculumId"] }, null)%>
+    <%: Html.ActionLink("Back to groups", "Index", new { CurriculumId = HttpContext.Session["CurriculumId"] }, null)%>
     </p>
 
 </asp:Content>

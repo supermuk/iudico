@@ -62,7 +62,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                stage.Curriculum = Storage.GetCurriculum(curriculumId);
+                stage.CurriculumRef = curriculumId;
 
                 Storage.AddStage(stage);
 

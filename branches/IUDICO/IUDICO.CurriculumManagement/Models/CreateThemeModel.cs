@@ -7,7 +7,7 @@ using IUDICO.Common.Models;
 
 namespace IUDICO.CurriculumManagement.Models
 {
-    public class ThemeModel
+    public class CreateThemeModel
     {
         public IEnumerable<SelectListItem> Courses { get; set; }
         public IEnumerable<SelectListItem> ThemeTypes { get; set; }
