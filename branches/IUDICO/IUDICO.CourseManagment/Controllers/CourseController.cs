@@ -20,7 +20,7 @@ namespace IUDICO.CourseManagement.Controllers
             _storage = courseStorage;
         }
 
-        [Allow(Roles = "Student")]
+        [Allow(Role = Role.Student)]
         public ActionResult Index()
         {
             IUserService userService = LmsService.FindService<IUserService>();
