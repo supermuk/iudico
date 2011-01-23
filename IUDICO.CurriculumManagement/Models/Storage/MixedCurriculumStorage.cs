@@ -506,6 +506,23 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #endregion
 
+        #region ThemeAssignment methods
+
+        public IEnumerable<ThemeAssignment> GetThemeAssignmentsByCurriculumAssignmentId(int curriculumAssignmentId)
+        {
+            return _Db.ThemeAssignments.Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId);
+        }
+
+        public int AddThemeAssignment(ThemeAssignment themeAssignment)
+        {
+            _Db.ThemeAssignments.InsertOnSubmit(themeAssignment);
+            _Db.SubmitChanges();
+
+            return themeAssignment.Id;
+        }
+
+        #endregion
+
         #endregion
     }
 }

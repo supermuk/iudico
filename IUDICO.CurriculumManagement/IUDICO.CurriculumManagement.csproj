@@ -83,8 +83,10 @@
     <Compile Include="Controllers\CurriculumController.cs" />
     <Compile Include="Controllers\StageController.cs" />
     <Compile Include="Controllers\StageTimelineController.cs" />
+    <Compile Include="Controllers\ThemeAssignmentController.cs" />
     <Compile Include="Controllers\ThemeController.cs" />
     <Compile Include="CurriculumManagementPlugin.cs" />
+    <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\CreateCurriculumAssignmentModel.cs" />
     <Compile Include="Models\CreateTimelineModel.cs" />
     <Compile Include="Models\CurriculumService.cs" />
@@ -93,6 +95,7 @@
     <Compile Include="Models\CreateThemeModel.cs" />
     <Compile Include="Models\ViewCurriculumAssignmentModel.cs" />
     <Compile Include="Models\ViewStageTimelineModel.cs" />
+    <Compile Include="Models\ViewThemeAssignmentModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +115,7 @@
     <Content Include="Views\Stage\Create.aspx" />
     <Content Include="Views\Stage\Edit.aspx" />
     <Content Include="Views\Stage\Index.aspx" />
+    <Content Include="Views\ThemeAssignment\Index.aspx" />
     <Content Include="Views\Theme\Create.aspx" />
     <Content Include="Views\Theme\Edit.aspx" />
     <Content Include="Views\Theme\Index.aspx" />

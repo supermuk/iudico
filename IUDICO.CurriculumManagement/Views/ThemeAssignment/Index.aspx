@@ -1,6 +1,7 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models.ViewCurriculumAssignmentModel>>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models.ViewThemeAssignmentModel>>" %>
 
 <%@ Assembly Name="IUDICO.CurriculumManagement" %>
+<%@ Import Namespace="IUDICO.Common.Models" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript" language="javascript">
@@ -64,13 +65,15 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    Groups
+    Theme Assignments
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Assignments for
-        <%: ViewData["CurriculumName"]%>
-        curriculum
+        Theme assignments for
+        <%: (ViewData["Curriculum"] as Curriculum).Name%>
+        curriculum and
+        <%: ViewData["GroupName"]%>
+        group
     </h2>
     <p>
         <%: Html.ActionLink("Add assignment", "Create") %>
@@ -84,40 +87,46 @@
                 Id
             </th>
             <th>
-                Group
+                Theme name
+            </th>
+            <th>
+                Max score
             </th>
             <th>
             </th>
         </tr>
         <% foreach (var item in Model)
            { %>
-        <tr id="item<%: item.Id %>">
+        <tr id="item<%: item.ThemeAssignment.Id %>">
             <td>
-                <input type="checkbox" id="<%= item.Id %>" />
+                <input type="checkbox" id="<%= item.ThemeAssignment.Id %>" />
             </td>
             <td>
-                <%: item.Id %>
+                <%: item.ThemeAssignment.Id %>
             </td>
             <td>
-                <%: item.GroupName %>
+                <%: item.Theme.Name %>
             </td>
             <td>
-                <%: Html.ActionLink("Edit", "Edit", new { CurriculumAssignmentId = item.Id }, null)%>
-                |
+                <%: item.ThemeAssignment.MaxScore %>
+            </td>
+            <td>
+                <%: Html.ActionLink("Edit", "Edit", new { ThemeAssignmentId = item.Id }, null)%>
+                <%--|
                 <%: Html.ActionLink("Edit timelines", "Index", "CurriculumAssignmentTimeline", new { CurriculumAssignmentId = item.Id }, null)%>
                 |
                 <%: Html.ActionLink("Edit timelines for stages", "Index", "StageTimeline", new { CurriculumAssignmentId = item.Id }, null)%>
                 |
-                <%: Html.ActionLink("Edit theme assignments", "Index", "ThemeAssignment", new { CurriculumAssignmentId = item.Id }, null)%>
+                <%: Html.ActionLink("Edit theme assignments", "Index", "ThemeAssignments", new { CurriculumAssignmentId = item.Id }, null)%>
                 |
-                <a onclick="deleteItem(<%: item.Id %>)" href="#">Delete</a>
-            </td>
+                <a onclick="deleteItem(<%: item.Id %>)" href="#">Delete</a>--%>--%>
+           </td>
         </tr>
         <% } %>
     </table>
 
     <div>
         <br/>
-        <%: Html.RouteLink("Back to curriculums.", "Curriculums", new { action = "Index" })%>
+        <%: Html.RouteLink("Back to curriculum assignments.", "CurriculumAssignments", new { action = "Index", CurriculumId = (ViewData["Curriculum"] as Curriculum).Id })%>
     </div>
 </asp:Content>
