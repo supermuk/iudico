@@ -108,6 +108,8 @@
                 |
                 <%: Html.ActionLink("Edit timelines for stages", "Index", "StageTimeline", new { CurriculumAssignmentId = item.Id }, null)%>
                 |
+                <%: Html.ActionLink("Edit theme assignments", "Index", "ThemeAssignments", new { CurriculumAssignmentId = item.Id }, null)%>
+                |
                 <a onclick="deleteItem(<%: item.Id %>)" href="#">Delete</a>
             </td>
         </tr>
