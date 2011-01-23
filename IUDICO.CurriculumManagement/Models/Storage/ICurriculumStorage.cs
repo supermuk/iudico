@@ -68,6 +68,9 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         CurriculumAssignment                    GetCurriculumAssignment(int curriculumAssignmentId);
         CurriculumAssignment                    GetCurriculumAssignmentByCurriculumIdByGroupId(int curriculumId, int groupId);
 
+        void                                    UpdateCurriculumAssignment(CurriculumAssignment curriculumAssignment);
+        void                                    UpdateTimeline(Timeline timeline);
+
         IEnumerable<Group>                      GetAssignedGroups(int curriculumId);
         IEnumerable<Group>                      GetNotAssignedGroups(int curriculumId);
 

@@ -329,32 +329,12 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public IEnumerable<Group> GetAssignedGroups(int curriculumId)
         {
             return GetCurriculumAssignmnetsByCurriculumId(curriculumId).Select(item => GetGroup(item.UserGroupRef));
-            //List<CurriculumAssignment> NeededGroupsIds = (_Db.CurriculumAssignments.Where(item => item.CurriculumRef == curriculumId && !item.IsDeleted)).ToList();
-            //List<int?> indexes = new List<int?>();
-            //foreach (CurriculumAssignment item in NeededGroupsIds)
-            //{
-            //    indexes.Add(item.UserGroupRef);
-            //}
-            //return _Db.Groups.Where(item => indexes.Contains(item.Id)).ToList();
         }
 
         public IEnumerable<Group> GetNotAssignedGroups(int curriculumId)
         {
             var assignedGroupIds = GetAssignedGroups(curriculumId).Select(item => item.Id);
             return GetGroups().Where(item => !assignedGroupIds.Contains(item.Id)).Select(item => item);
-            //IEnumerable<Group> assignmentGroups = GetAssignedGroups(curriculumId);
-            //List<Group> notAssignmentGroups = new List<Group>();
-            //bool isEqual = true;
-            //foreach (Group item in _Db.Groups)
-            //{
-            //    isEqual = true;
-            //    foreach (Group itemGroup in assignmentGroups)
-            //        if (item.Id == itemGroup.Id)
-            //            isEqual = false;
-            //    if (isEqual == true)
-            //        notAssignmentGroups.Add(item);
-            //}
-            //return notAssignmentGroups;
         }
 
         public int AddCurriculumAssignment(CurriculumAssignment currAssignment)
@@ -497,6 +477,26 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             CurriculumAssignment curriculumAssignment = _Db.CurriculumAssignments.Single(item => item.CurriculumRef == curriculumId &&
                                                                                                  item.UserGroupRef == groupId && !item.IsDeleted);
             return _Db.Timelines.Where(item => item.CurriculumAssignmentRef == curriculumAssignment.Id && item.StageRef == stageId && !item.IsDeleted);
+        }
+
+        public void UpdateCurriculumAssignment(CurriculumAssignment curriculumAssignment)
+        {
+            var oldCurriculumAssignment = GetCurriculumAssignment(curriculumAssignment.Id);
+
+            oldCurriculumAssignment.UserGroupRef = curriculumAssignment.UserGroupRef;
+
+            _Db.SubmitChanges();
+        }
+
+        public void UpdateTimeline(Timeline timeline)
+        {
+            var oldTimeline = GetTimeline(timeline.Id);
+
+            oldTimeline.StartDate = timeline.StartDate;
+            oldTimeline.EndDate = timeline.EndDate;
+            oldTimeline.OperationRef = timeline.OperationRef;
+            
+            _Db.SubmitChanges();
         }
 
         #endregion

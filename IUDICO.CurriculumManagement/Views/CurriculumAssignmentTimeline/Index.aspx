@@ -116,6 +116,8 @@
                 <%: item.Operation.Name %>
             </td>
             <td>
+                <%: Html.ActionLink("Edit", "Edit", new { TimelineId = item.Id }, null)%>
+                |
                 <a href="#" onclick="deleteItem(<%: item.Id %>)">Delete</a>
             </td>
         </tr>

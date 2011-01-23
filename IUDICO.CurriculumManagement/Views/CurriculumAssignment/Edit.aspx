@@ -2,12 +2,12 @@
 <%@  Assembly Name="IUDICO.CurriculumManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    Add Assignment
+    Edit Assignment
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Add Assignment</h2>
+    <h2>Edit Assignment</h2>
 
     <% Html.EnableClientValidation(); %>
 
