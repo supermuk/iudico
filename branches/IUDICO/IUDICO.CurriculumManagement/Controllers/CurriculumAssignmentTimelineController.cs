@@ -23,12 +23,12 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 CurriculumAssignment curriculumAssignment = Storage.GetCurriculumAssignment(curriculumAssignmentId);
                 Group group = Storage.GetGroup(curriculumAssignment.UserGroupRef);
-                var timelines = Storage.GetTimelines(curriculumAssignmentId);
+                var timelines = Storage.GetCurriculumAssignmentTimelines(curriculumAssignmentId);
 
                 if (timelines != null && group != null && curriculumAssignment != null)
                 {
                     ViewData["Group"] = group;
-                    ViewData["CurriculumAssignment"] = curriculumAssignment;
+                    ViewData["Curriculum"] = curriculumAssignment.Curriculum;
                     return View(timelines);
                 }
                 else
@@ -89,15 +89,17 @@ namespace IUDICO.CurriculumManagement.Controllers
             try
             {
                 var operations = Storage.GetOperations();
+                Timeline timeline = Storage.GetTimeline(timelineId);
 
                 CreateTimelineModel editTimelineModel = new CreateTimelineModel()
                 {
                     Operations = from item in operations
                                  select new SelectListItem { Text = item.Name.ToString(), Value = item.Id.ToString(), Selected = false },
-                    Timeline = Storage.GetTimeline(timelineId),
-                    OperationId = Storage.GetTimeline(timelineId).OperationRef
+                    Timeline = timeline,
+                    OperationId = timeline.OperationRef
                 };
 
+                Session["CurriculumAssignmentId"] = timeline.CurriculumAssignmentRef;
                 return View(editTimelineModel);
             }
             catch (Exception e)
@@ -114,10 +116,9 @@ namespace IUDICO.CurriculumManagement.Controllers
                 Timeline timeline = editTimelineModel.Timeline;
                 timeline.Id = timelineId;
                 timeline.OperationRef = editTimelineModel.OperationId;
-
                 Storage.UpdateTimeline(timeline);
 
-                return RedirectToAction("Index");//чому
+                return RedirectToRoute("CurriculumAssignmentTimelines", new { action = "Index", CurriculumAssignmentId = Session["CurriculumAssignmentId"] });
             }
             catch (Exception e)
             {

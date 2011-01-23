@@ -76,9 +76,10 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         IEnumerable<Timeline>                   GetTimelines(int curriculumId, int groupId);
         IEnumerable<Timeline>                   GetTimelines(IEnumerable<int> TimelineIds);
-        IEnumerable<Timeline>                   GetTimelines(int curriculumAssignmentId);
+        IEnumerable<Timeline>                   GetCurriculumAssignmentTimelines(int curriculumAssignmentId); //!!
+        IEnumerable<Timeline>                   GetStageTimelines(int curriculumAssignmentId);//!!
         IEnumerable<Timeline>                   GetTimelines(int stageId, int curriculumId, int groupId);
-        Timeline                                GetTimeline(int TimelineId);
+        Timeline                                GetTimeline(int TimelineId);//!!
 
         IEnumerable<Operation>                  GetOperations();
 

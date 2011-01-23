@@ -20,14 +20,14 @@
             <%: Html.DropDownListFor(x => x.GroupId,Model.Groups)%>
             
             <p>
-                <input type="submit" value="Create" />
+                <input type="submit" value="Update" />
             </p>
         </fieldset>
     <% } %>
 
     <div>
-        <%: Html.ActionLink("Back to list", "Index") %>
+        <br />
+        <%: Html.RouteLink("Back to list", "CurriculumAssignments", new { action = "Index", CurriculumId = HttpContext.Current.Session["CurriculumId"] })%>
     </div>
-
 </asp:Content>
 

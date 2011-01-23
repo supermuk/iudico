@@ -92,15 +92,17 @@
     <Compile Include="Models\Storage\MixedCurriculumStorage.cs" />
     <Compile Include="Models\CreateThemeModel.cs" />
     <Compile Include="Models\ViewCurriculumAssignmentModel.cs" />
+    <Compile Include="Models\ViewStageTimelineModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\CurriculumAssignmentTimeline\Edit.aspx" />
     <Content Include="Views\CurriculumAssignment\Create.aspx" />
+    <Content Include="Views\StageTimeline\Create.aspx" />
     <Content Include="Views\CurriculumAssignment\Edit.aspx" />
     <Content Include="Views\StageTimeline\CreateStageTimeline.aspx" />
     <Content Include="Views\CurriculumAssignmentTimeline\Create.aspx" />
-    <Content Include="Views\StageTimeline\EditStageTimeline.aspx" />
+    <Content Include="Views\StageTimeline\Index.aspx" />
     <Content Include="Views\CurriculumAssignmentTimeline\Index.aspx" />
     <Content Include="Views\StageTimeline\EditTimelineForStages.aspx" />
     <Content Include="Views\CurriculumAssignment\Index.aspx" />
