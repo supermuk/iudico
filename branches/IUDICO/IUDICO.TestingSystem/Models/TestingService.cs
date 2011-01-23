@@ -15,6 +15,11 @@ namespace IUDICO.TestingSystem.Models
             throw new NotImplementedException();
         }
 
+        public IEnumerable<AttemptResult> GetAllAttempts()
+        {
+            throw new NotImplementedException();
+        }
+
 
         public IEnumerable<AnswerResult> GetAnswers(AttemptResult attempt)
         {
