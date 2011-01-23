@@ -23,6 +23,19 @@ namespace IUDICO.TestingSystem.Models
             return results;
         }
 
+        public IEnumerable<AnswerResult> GetAnswers(AttemptResult attempt)
+        {
+            List<AnswerResult> results = new List<AnswerResult>();
+            results.Add(new AnswerResult(0, 0, attempt, 0, "100", InteractionType.Numeric, null));
+            results.Add(new AnswerResult(0, 1, attempt, null, "0", InteractionType.TrueFalse, null));
+            results.Add(new AnswerResult(0, 2, attempt, 10, "5", InteractionType.Numeric, null));
+            results.Add(new AnswerResult(0, 3, attempt, 1, "1", InteractionType.TrueFalse, null));
+            results.Add(new AnswerResult(0, 4, attempt, null, "0", InteractionType.TrueFalse, 1));
+
+            return results;
+
+        }
+
         #endregion
     }
 }

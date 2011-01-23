@@ -717,6 +717,7 @@
     <Content Include="Libraries\Microsoft.LearningComponents.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.XML" />
     <None Include="Views\Web.config" />
+    <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\Courses\" />
