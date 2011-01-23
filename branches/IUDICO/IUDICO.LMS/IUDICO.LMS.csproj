@@ -254,6 +254,6 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>tskill webdev</PreBuildEvent>
+    <PreBuildEvent>TASKKILL /F /IM webdev /FI "STATUS eq RUNNING"</PreBuildEvent>
   </PropertyGroup>
 </Project>
