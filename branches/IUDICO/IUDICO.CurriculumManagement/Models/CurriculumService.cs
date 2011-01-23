@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models;
 using IUDICO.CurriculumManagement.Models.Storage;
@@ -10,58 +7,58 @@ namespace IUDICO.CurriculumManagement.Models
 {
     public class CurriculumService : ICurriculumService
     {
-        private ICurriculumStorage curriculumStorage;
+        private readonly ICurriculumStorage _CurriculumStorage;
 
         public CurriculumService(ICurriculumStorage curriculumStorage)
         {
-            this.curriculumStorage = curriculumStorage;
+            _CurriculumStorage = curriculumStorage;
         }
 
         #region ICurriculumService Members
 
         public IEnumerable<Curriculum> GetCurriculums()
         {
-            return curriculumStorage.GetCurriculums();
+            return _CurriculumStorage.GetCurriculums();
         }
 
         public IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids)
         {
-            return curriculumStorage.GetCurriculums(ids);
+            return _CurriculumStorage.GetCurriculums(ids);
         }
 
         public Curriculum GetCurriculum(int id)
         {
-            return curriculumStorage.GetCurriculum(id);
+            return _CurriculumStorage.GetCurriculum(id);
         }
 
         public IEnumerable<Stage> GetStages(int curriculumId)
         {
-            return curriculumStorage.GetStages(curriculumId);
+            return _CurriculumStorage.GetStages(curriculumId);
         }
 
         public IEnumerable<Stage> GetStages(IEnumerable<int> ids)
         {
-            return curriculumStorage.GetStages(ids);
+            return _CurriculumStorage.GetStages(ids);
         }
 
         public Stage GetStage(int id)
         {
-            return curriculumStorage.GetStage(id);
+            return _CurriculumStorage.GetStage(id);
         }
 
         public IEnumerable<Theme> GetThemesByStageId(int stageId)
         {
-            return curriculumStorage.GetThemes(stageId);
+            return _CurriculumStorage.GetThemes(stageId);
         }
 
         public IEnumerable<Theme> GetThemes(IEnumerable<int> ids)
         {
-            return curriculumStorage.GetThemes(ids);
+            return _CurriculumStorage.GetThemes(ids);
         }
 
         public Theme GetTheme(int id)
         {
-            return curriculumStorage.GetTheme(id);
+            return _CurriculumStorage.GetTheme(id);
         }
 
         public IEnumerable<Timeline> GetTimelines()
@@ -72,17 +69,17 @@ namespace IUDICO.CurriculumManagement.Models
 
         public IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId)
         {
-            return curriculumStorage.GetCurriculumsByGroupId(groupId);
+            return _CurriculumStorage.GetCurriculumsByGroupId(groupId);
         }
 
         public IEnumerable<Theme> GetThemesByCurriculumId(int curriculumId)
         {
-            return curriculumStorage.GetThemesByCurriculumId(curriculumId);
+            return _CurriculumStorage.GetThemesByCurriculumId(curriculumId);
         }
 
         public IEnumerable<Theme> GetThemesByGroupId(int groupId)
         {
-            return curriculumStorage.GetThemesByGroupId(groupId);
+            return _CurriculumStorage.GetThemesByGroupId(groupId);
         }
 
         #endregion

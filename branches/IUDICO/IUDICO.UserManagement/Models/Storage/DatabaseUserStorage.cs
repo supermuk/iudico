@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Security;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
@@ -24,6 +25,20 @@ namespace IUDICO.UserManagement.Models.Storage
         #region Implementation of IUserStorage
 
         #region User members
+
+        public User GetCurrentUser()
+        {
+            var identity = HttpContext.Current.User.Identity;
+
+            if (!identity.IsAuthenticated)
+            {
+                return null;
+            }
+
+            var db = GetDbContext();
+
+            return db.Users.Where(u => u.Username == identity.Name).FirstOrDefault();
+        }
 
         public User GetUser(Guid id)
         {

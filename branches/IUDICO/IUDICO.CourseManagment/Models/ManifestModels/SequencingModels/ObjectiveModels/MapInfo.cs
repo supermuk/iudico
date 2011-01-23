@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Xml.Serialization;
-using System.Collections.Generic;
 
 namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.ObjectiveModels
 {
@@ -18,8 +17,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.Objecti
         /// be an empty characterstring and cannot contain all whitespace characters (which 
         /// could be transcribed as an empty characterstring by an XML parser).
         /// </summary>
-        [XmlAttribute(SCORM.TargetObjectiveID)]
-        public string TargetObjectiveID;
+        [XmlAttribute(SCORM.TargetObjectiveId)]
+        public string TargetObjectiveId;
 
         /// <summary>
         /// This attribute indicates that the 

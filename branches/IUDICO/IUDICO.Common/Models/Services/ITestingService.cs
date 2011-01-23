@@ -1,6 +1,5 @@
 ﻿using IUDICO.Common.Models.Shared.Statistics;
 using System.Collections.Generic;
-using System;
 
 namespace IUDICO.Common.Models.Services
 {

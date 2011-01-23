@@ -9,14 +9,14 @@ using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
 namespace IUDICO.CourseManagement.Models.ManifestModels
 {
     [Serializable]
-    [XmlRoot(SCORM.Manifest, Namespace = SCORM.ImscpNamespaceV1p3)]
+    [XmlRoot(SCORM.Manifest, Namespace = SCORM.ImscpNamespaceV1P3)]
     public class Manifest
     {
         public Manifest()
         {
             Identifier = ConstantStrings.ManifestId;
             Organizations = new Organizations();
-            Resources = new ResourceModels.Resources();
+            Resources = new Resources();
             Metadata = new ManifestMetadata();
         }
 
@@ -35,13 +35,13 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
 
         #region XmlElements
 
-        [XmlElement(SCORM.Metadata, Namespace = SCORM.ImscpNamespaceV1p3)]
+        [XmlElement(SCORM.Metadata, Namespace = SCORM.ImscpNamespaceV1P3)]
         public ManifestMetadata Metadata;
 
-        [XmlElement(SCORM.Organizations, Namespace=SCORM.ImscpNamespaceV1p3)]
+        [XmlElement(SCORM.Organizations, Namespace=SCORM.ImscpNamespaceV1P3)]
         public Organizations Organizations;
 
-        [XmlElement(SCORM.Resources, Namespace = SCORM.ImscpNamespaceV1p3)]
+        [XmlElement(SCORM.Resources, Namespace = SCORM.ImscpNamespaceV1P3)]
         public Resources Resources;
 
         [XmlElement(SCORM.SequencingCollection, Namespace = SCORM.ImsssNamespace)]
@@ -56,7 +56,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
             var xs = new XmlSerializer(typeof(Manifest));
 
             var xsn = new XmlSerializerNamespaces();
-            xsn.Add(SCORM.Adlcp, SCORM.AdlcpNamespaceV1p3);
+            xsn.Add(SCORM.Adlcp, SCORM.AdlcpNamespaceV1P3);
             xsn.Add(SCORM.Imsss, SCORM.ImsssNamespace);
             xsn.Add(SCORM.Adlseq, SCORM.AdlseqNamespace);
             xsn.Add(SCORM.Adlnav, SCORM.AdlnavNamespace);

@@ -14,7 +14,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.ResourceModels
 
         #region XmlElements
 
-        [XmlElement(SCORM.Resource, Namespace = SCORM.ImscpNamespaceV1p3)]
+        [XmlElement(SCORM.Resource, Namespace = SCORM.ImscpNamespaceV1P3)]
         public List<Resource> _Resources;
 
         #endregion
