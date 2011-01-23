@@ -111,8 +111,8 @@
                 <%: item.ThemeAssignment.MaxScore %>
             </td>
             <td>
-                <%: Html.ActionLink("Edit", "Edit", new { ThemeAssignmentId = item.Id }, null)%>
-                <%--|
+                <%--<%: Html.ActionLink("Edit", "Edit", new { ThemeAssignmentId = item.Id }, null)%>
+                |
                 <%: Html.ActionLink("Edit timelines", "Index", "CurriculumAssignmentTimeline", new { CurriculumAssignmentId = item.Id }, null)%>
                 |
                 <%: Html.ActionLink("Edit timelines for stages", "Index", "StageTimeline", new { CurriculumAssignmentId = item.Id }, null)%>
