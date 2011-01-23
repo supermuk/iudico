@@ -96,7 +96,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                         {
                             CurriculumAssignmentRef = curriculumAssingnmentId,
                             ThemeRef = theme.Id,
-                            MaxScore = 100 // треба втикнути шо тут ставити
+                            MaxScore = Constants.DefaultThemeMaxScore // треба втикнути шо тут ставити
                         };
 
                         Storage.AddThemeAssignment(newThemeAssingment);

@@ -90,6 +90,8 @@
     <Compile Include="Models\CreateCurriculumAssignmentModel.cs" />
     <Compile Include="Models\CreateTimelineModel.cs" />
     <Compile Include="Models\CurriculumService.cs" />
+    <Compile Include="Models\Enums\Operation.cs" />
+    <Compile Include="Models\Enums\ThemeType.cs" />
     <Compile Include="Models\Storage\ICurriculumStorage.cs" />
     <Compile Include="Models\Storage\MixedCurriculumStorage.cs" />
     <Compile Include="Models\CreateThemeModel.cs" />
