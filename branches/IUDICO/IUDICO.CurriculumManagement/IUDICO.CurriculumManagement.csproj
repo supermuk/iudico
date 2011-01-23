@@ -95,7 +95,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Views\CurriculumAssignmentTimeline\Edit.aspx" />
     <Content Include="Views\CurriculumAssignment\Create.aspx" />
+    <Content Include="Views\CurriculumAssignment\Edit.aspx" />
     <Content Include="Views\StageTimeline\CreateStageTimeline.aspx" />
     <Content Include="Views\CurriculumAssignmentTimeline\Create.aspx" />
     <Content Include="Views\StageTimeline\EditStageTimeline.aspx" />

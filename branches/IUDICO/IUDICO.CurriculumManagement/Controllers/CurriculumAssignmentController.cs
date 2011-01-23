@@ -23,10 +23,8 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                //HttpContext.Session["CurriculumId"] = curriculumId;
                 Curriculum curriculum = Storage.GetCurriculum(curriculumId);
                 var curriculumAssignments = Storage.GetCurriculumAssignmnetsByCurriculumId(curriculumId);
-
 
                 if (curriculumAssignments != null && curriculum != null)
                 {
@@ -57,7 +55,6 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                //IEnumerable<Group> groups = Storage.GetAllNotAssignmentedGroups((int)HttpContext.Session["CurriculumId"]);
                 IEnumerable<Group> groups = Storage.GetNotAssignedGroups(curriculumId);
 
                 CreateCurriculumAssignmentModel createAssignmentModel = new CreateCurriculumAssignmentModel()
@@ -79,14 +76,69 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
+                if (createAssignmentModel.GroupId == 0)         //чи то правильно
+                    return RedirectToAction("Index");
+                
                 CurriculumAssignment newCurriculumAssignment = new CurriculumAssignment();
                 newCurriculumAssignment.UserGroupRef = createAssignmentModel.GroupId;
-                newCurriculumAssignment.CurriculumRef = curriculumId;//(int)HttpContext.Session["CurriculumId"];
+                newCurriculumAssignment.CurriculumRef = curriculumId;
 
                 Storage.AddCurriculumAssignment(newCurriculumAssignment);
 
                 return RedirectToAction("Index");
 
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int curriculumAssignmentId)
+        {
+            try
+            {
+                int curriculumId = Storage.GetCurriculumAssignment(curriculumAssignmentId).CurriculumRef;
+
+                IEnumerable<Group> groups = Storage.GetNotAssignedGroups(curriculumId);
+
+                int assignmentGroupId = Storage.GetCurriculumAssignment(curriculumAssignmentId).UserGroupRef;
+                List<Group> assignmentedGroup = new List<Group>();
+                assignmentedGroup.Add(Storage.GetGroup(assignmentGroupId));
+
+                groups = groups.Concat(assignmentedGroup as IEnumerable<Group>);
+ 
+                CreateCurriculumAssignmentModel editAssignmentModel = new CreateCurriculumAssignmentModel()
+                {
+                    Groups = from item in groups
+                             select new SelectListItem { Text = item.Name, Value = item.Id.ToString(), Selected = false },
+                    GroupId = assignmentGroupId
+                };
+                
+                return View(editAssignmentModel);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Edit(int curriculumAssignmentId, CreateCurriculumAssignmentModel editAssignmentModel)
+        {
+            try
+            {
+                if (editAssignmentModel.GroupId == 0)         // чи то правильно
+                    return RedirectToAction("Index");
+
+                CurriculumAssignment curriculumAssignment = new CurriculumAssignment();
+                curriculumAssignment.UserGroupRef = editAssignmentModel.GroupId;
+                curriculumAssignment.Id = curriculumAssignmentId;
+
+                Storage.UpdateCurriculumAssignment(curriculumAssignment);
+
+                return RedirectToAction("Index", new { curriculumId = Storage.GetCurriculumAssignment(curriculumAssignmentId).CurriculumRef });
             }
             catch (Exception e)
             {
@@ -125,7 +177,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
 
-
+//---------
 
 
         public ActionResult EditTimelineForStages(int groupId)

@@ -21,13 +21,9 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                //HttpContext.Session["GroupId"] = groupId;
-
                 CurriculumAssignment curriculumAssignment = Storage.GetCurriculumAssignment(curriculumAssignmentId);
                 Group group = Storage.GetGroup(curriculumAssignment.UserGroupRef);
-                var timelines = Storage.GetTimelines(curriculumAssignmentId); //GetTimelines((int)HttpContext.Session["CurriculumId"], groupId);
-
-                //ViewData["GroupName"] = Storage.GetGroup(groupId).Name;
+                var timelines = Storage.GetTimelines(curriculumAssignmentId);
 
                 if (timelines != null && group != null && curriculumAssignment != null)
                 {
@@ -75,12 +71,53 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 Timeline timeline = createTimelineModel.Timeline;
 
-                timeline.CurriculumAssignmentRef = curriculumAssignmentId;// (Storage.GetCurriculumAssignmentByCurriculumIdByGroupId((int)HttpContext.Session["CurriculumId"],
-                                                                                                   //((int)HttpContext.Session["GroupId"]))).Id;
+                timeline.CurriculumAssignmentRef = curriculumAssignmentId;
                 timeline.OperationRef = createTimelineModel.OperationId;
                 Storage.AddTimeline(timeline);
 
                 return RedirectToAction("Index", new { CurriculumAssignmentId = curriculumAssignmentId });
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int timelineId)
+        {
+            try
+            {
+                var operations = Storage.GetOperations();
+
+                CreateTimelineModel editTimelineModel = new CreateTimelineModel()
+                {
+                    Operations = from item in operations
+                                 select new SelectListItem { Text = item.Name.ToString(), Value = item.Id.ToString(), Selected = false },
+                    Timeline = Storage.GetTimeline(timelineId),
+                    OperationId = Storage.GetTimeline(timelineId).OperationRef
+                };
+
+                return View(editTimelineModel);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Edit(int timelineId, CreateTimelineModel editTimelineModel)
+        {
+            try
+            {
+                Timeline timeline = editTimelineModel.Timeline;
+                timeline.Id = timelineId;
+                timeline.OperationRef = editTimelineModel.OperationId;
+
+                Storage.UpdateTimeline(timeline);
+
+                return RedirectToAction("Index");//чому
             }
             catch (Exception e)
             {
