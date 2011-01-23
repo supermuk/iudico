@@ -32,4 +32,19 @@
         Incomplete = 4,
         Passed = 5,
     }
+    public enum InteractionType
+    {
+        Other = 0,
+        FillIn = 1,
+        Likert = 2,
+        LongFillIn = 3,
+        Matching = 4,
+        MultipleChoice = 5,
+        Numeric = 6,
+        Performance = 7,
+        Sequencing = 8,
+        TrueFalse = 9,
+        Essay = 10,
+        Attachment = 11
+    }
 }

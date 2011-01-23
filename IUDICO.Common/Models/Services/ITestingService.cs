@@ -15,5 +15,12 @@ namespace IUDICO.Common.Models.Services
         /// <param name="theme">Theme value, represents theme, for which attempt results are returned.</param>
         /// <returns>Collection of AttemptResults objects. Can return zero or more attempt results. Zero count means user has not attempted relative course(from theme) yet./returns>
         IEnumerable<AttemptResult> GetResults(User user, Theme theme);
+
+        /// <summary>
+        /// Gets answers for this attempt
+        /// </summary>
+        /// <param name="attempt">Attemp, for which answers are returned</param>
+        /// <returns>Collection of AnswerResults objects.</returns>
+        IEnumerable<AnswerResult> GetAnswers(AttemptResult attempt);
     }
 }

@@ -15,6 +15,13 @@ namespace IUDICO.TestingSystem.Models
             throw new NotImplementedException();
         }
 
+
+        public IEnumerable<AnswerResult> GetAnswers(AttemptResult attempt)
+        {
+            throw new NotImplementedException();
+
+        }
+
         #endregion
     }
 }
