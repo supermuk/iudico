@@ -23,6 +23,19 @@ namespace IUDICO.TestingSystem.Models
             return results;
         }
 
+        public IEnumerable<AttemptResult> GetAllAttempts()
+        {
+            List<AttemptResult> results = new List<AttemptResult>();
+            Theme a = new Theme();
+
+            results.Add(new AttemptResult(0, new User { Name = "name1", Id = new Guid("1") }, new Theme { Name = "theme1", Id = 1 }, CompletionStatus.Unknown, AttemptStatus.Suspended, SuccessStatus.Unknown, 0.21f));
+            results.Add(new AttemptResult(1, new User { Name = "name2", Id = new Guid("2") }, new Theme { Name = "theme2", Id = 2 }, CompletionStatus.NotAttempted, AttemptStatus.Active, SuccessStatus.Unknown, null));
+            results.Add(new AttemptResult(2, new User { Name = "name3", Id = new Guid("3") }, new Theme { Name = "theme3", Id = 3 }, CompletionStatus.Completed, AttemptStatus.Completed, SuccessStatus.Passed, 0.98f));
+            results.Add(new AttemptResult(3, new User { Name = "name4", Id = new Guid("4") }, new Theme { Name = "theme4", Id = 4}, CompletionStatus.Incomplete, AttemptStatus.Completed, SuccessStatus.Failed, 0.04f));
+
+            return results;
+        }
+
         public IEnumerable<AnswerResult> GetAnswers(AttemptResult attempt)
         {
             List<AnswerResult> results = new List<AnswerResult>();

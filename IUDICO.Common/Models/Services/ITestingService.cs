@@ -17,6 +17,12 @@ namespace IUDICO.Common.Models.Services
         IEnumerable<AttemptResult> GetResults(User user, Theme theme);
 
         /// <summary>
+        /// Gets results of all attempts
+        /// </summary>
+        /// <returns>>Collection of AttemptResults objects</returns>
+        IEnumerable<AttemptResult> GetAllAttempts();
+
+        /// <summary>
         /// Gets answers for this attempt
         /// </summary>
         /// <param name="attempt">Attemp, for which answers are returned</param>
