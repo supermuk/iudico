@@ -337,14 +337,31 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return GetGroups().Where(item => !assignedGroupIds.Contains(item.Id)).Select(item => item);
         }
 
-        public int AddCurriculumAssignment(CurriculumAssignment currAssignment)
+        public int AddCurriculumAssignment(CurriculumAssignment curriculumAssignment)
         {
-            currAssignment.IsDeleted = false;
+            curriculumAssignment.IsDeleted = false;
 
-            _Db.CurriculumAssignments.InsertOnSubmit(currAssignment);
+            var themesInCurrentCurriculum = GetThemesByCurriculumId(curriculumAssignment.CurriculumRef);
+
+            foreach (var theme in themesInCurrentCurriculum)
+            {
+                if (theme.ThemeTypeRef == 1)
+                {
+                    ThemeAssignment newThemeAssingment = new ThemeAssignment()
+                    {
+                        CurriculumAssignmentRef = curriculumAssignment.Id,
+                        ThemeRef = theme.Id,
+                        MaxScore = Constants.DefaultThemeMaxScore
+                    };
+
+                    AddThemeAssignment(newThemeAssingment);
+                }
+            }
+
+            _Db.CurriculumAssignments.InsertOnSubmit(curriculumAssignment);
             _Db.SubmitChanges();
 
-            return currAssignment.Id;
+            return curriculumAssignment.Id;
         }
 
         public IEnumerable<Timeline> GetTimelines(int curriculumId, int groupId)
@@ -519,6 +536,20 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             _Db.SubmitChanges();
 
             return themeAssignment.Id;
+        }
+
+        public ThemeAssignment GetThemeAssignment(int themeAssignmentId)
+        {
+            return _Db.ThemeAssignments.Single(item => item.Id == themeAssignmentId);
+        }
+
+        public void UpdateThemeAssignment(ThemeAssignment themeAssignment)
+        {
+            var oldThemeAssignment = GetThemeAssignment(themeAssignment.Id);
+
+            oldThemeAssignment.MaxScore = themeAssignment.MaxScore;
+
+            _Db.SubmitChanges();
         }
 
         #endregion

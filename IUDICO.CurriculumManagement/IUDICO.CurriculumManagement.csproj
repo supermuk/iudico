@@ -117,6 +117,7 @@
     <Content Include="Views\Stage\Create.aspx" />
     <Content Include="Views\Stage\Edit.aspx" />
     <Content Include="Views\Stage\Index.aspx" />
+    <Content Include="Views\ThemeAssignment\Edit.aspx" />
     <Content Include="Views\ThemeAssignment\Index.aspx" />
     <Content Include="Views\Theme\Create.aspx" />
     <Content Include="Views\Theme\Edit.aspx" />

@@ -315,4 +315,25 @@ namespace IUDICO.Common.Models
             public Operation Operation { get; set; }
         }
     }
+
+    [MetadataType(typeof(Metadata))]
+    [Bind(Exclude = "Id")]
+    public partial class ThemeAssignment
+    {
+        private sealed class Metadata
+        {
+            [ScaffoldColumn(false)]
+            public int Id { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int ThemeRef { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int CurriculumAssignmentRef { get; set; }
+
+            [DisplayName("Max Score")]
+            [Required(ErrorMessage = "Max score is required")]
+            public int MaxScore { get; set; }
+        }
+    }
 }
