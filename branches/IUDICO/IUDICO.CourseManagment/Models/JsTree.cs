@@ -2,21 +2,21 @@
 {
     public class JsTreeNode
     {
-        public string Data { get; set; }
-        public string State { get; set; }
-        public JsTreeAttributes Attr { get; set; }
+        public string data { get; set; }
+        public string state { get; set; }
+        public JsTreeAttributes attr { get; set; }
 
-        public JsTreeNode(int id, string data, bool folder)
+        public JsTreeNode(int _id, string _data, bool _folder)
         {
-            Data = data;
-            State = (folder ? "closed" : "");
-            Attr = new JsTreeAttributes { Id = id.ToString(), Rel = (folder ? "folder" : "default") };
+            data = _data;
+            state = (_folder ? "closed" : "");
+            attr = new JsTreeAttributes { id = _id.ToString(), rel = (_folder ? "folder" : "default") };
         }
     }
 
     public class JsTreeAttributes
     {
-        public string Id { get; set; }
-        public string Rel { get; set; }
+        public string id { get; set; }
+        public string rel { get; set; }
     }
 }

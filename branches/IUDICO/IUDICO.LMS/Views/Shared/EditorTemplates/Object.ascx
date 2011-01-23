@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 <% if (ViewData.TemplateInfo.TemplateDepth > 1) { %>
-    <%= ViewData.ModelMetadata.SimpleDisplayText%>
+    <%= Html.Editor(ViewData.ModelMetadata.PropertyName) %>
 <% }
    else { %>   
     <% foreach (var prop in ViewData.ModelMetadata.Properties.Where(pm => pm.ShowForEdit
