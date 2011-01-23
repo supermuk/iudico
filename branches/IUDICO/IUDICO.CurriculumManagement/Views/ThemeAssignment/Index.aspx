@@ -4,65 +4,6 @@
 <%@ Import Namespace="IUDICO.Common.Models" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
-    <script type="text/javascript" language="javascript">
-        $(document).ready(function () {
-            $("#DeleteMany").click(function () {
-                var ids = $("td input:checked").map(function () {
-                    return $(this).attr('id');
-                });
-
-                if (ids.length == 0) {
-                    alert("Please select assignment to delete");
-
-                    return false;
-                }
-
-                var answer = confirm("Are you sure you want to delete " + ids.length + " selected assignments?");
-
-                if (answer == false) {
-                    return false;
-                }
-
-                $.ajax({
-                    type: "post",
-                    url: "/CurriculumAssignment/DeleteItems",
-                    data: { curriculumAssignmentIds: ids },
-                    success: function (r) {
-                        if (r.success == true) {
-                            $("td input:checked").parents("tr").remove();
-                            alert("Items were successfully deleted.");
-                        }
-                        else {
-                            alert("Error occured during processing request.\nError message: " + r.message);
-                        }
-                    }
-                });
-            });
-        });
-        function deleteItem(id) {
-            var answer = confirm("Are you sure you want to delete selected assignment?");
-
-            if (answer == false) {
-                return;
-            }
-
-            $.ajax({
-                type: "post",
-                url: "/CurriculumAssignment/DeleteItem",
-                data: { curriculumAssignmentId: id },
-                success: function (r) {
-                    if (r.success == true) {
-                        var item = "item" + id;
-                        $("tr[id=" + item + "]").remove();
-                        alert("Item was successfully deleted.");
-                    }
-                    else {
-                        alert("Error occured during processing request.\nError message: " + r.message);
-                    }
-                }
-            });
-        }
-    </script>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     Theme Assignments
@@ -75,10 +16,6 @@
         <%: ViewData["GroupName"]%>
         group
     </h2>
-    <p>
-        <%: Html.ActionLink("Add assignment", "Create") %>
-        <a id="DeleteMany" href="#">Delete Selected</a>
-    </p>
     <table>
         <tr>
             <th>
@@ -111,15 +48,7 @@
                 <%: item.ThemeAssignment.MaxScore %>
             </td>
             <td>
-                <%--<%: Html.ActionLink("Edit", "Edit", new { ThemeAssignmentId = item.Id }, null)%>
-                |
-                <%: Html.ActionLink("Edit timelines", "Index", "CurriculumAssignmentTimeline", new { CurriculumAssignmentId = item.Id }, null)%>
-                |
-                <%: Html.ActionLink("Edit timelines for stages", "Index", "StageTimeline", new { CurriculumAssignmentId = item.Id }, null)%>
-                |
-                <%: Html.ActionLink("Edit theme assignments", "Index", "ThemeAssignments", new { CurriculumAssignmentId = item.Id }, null)%>
-                |
-                <a onclick="deleteItem(<%: item.Id %>)" href="#">Delete</a>--%>--%>
+                <%: Html.ActionLink("Edit", "Edit", new { ThemeAssignmentId = item.ThemeAssignment.Id }, null)%>
            </td>
         </tr>
         <% } %>

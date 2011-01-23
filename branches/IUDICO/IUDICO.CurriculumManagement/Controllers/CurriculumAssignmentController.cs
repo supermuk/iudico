@@ -84,24 +84,6 @@ namespace IUDICO.CurriculumManagement.Controllers
                 newCurriculumAssignment.CurriculumRef = curriculumId;
 
                 int curriculumAssingnmentId = Storage.AddCurriculumAssignment(newCurriculumAssignment);
-
-                //add themeAssignments
-                var themesInCurrentCurriculum = Storage.GetThemesByCurriculumId(curriculumId);
-
-                foreach (var theme in themesInCurrentCurriculum)
-                {
-                    if (theme.ThemeTypeRef == 1)
-                    {
-                        ThemeAssignment newThemeAssingment = new ThemeAssignment()
-                        {
-                            CurriculumAssignmentRef = curriculumAssingnmentId,
-                            ThemeRef = theme.Id,
-                            MaxScore = Constants.DefaultThemeMaxScore // треба втикнути шо тут ставити
-                        };
-
-                        Storage.AddThemeAssignment(newThemeAssingment);
-                    }
-                }
                 
                 return RedirectToAction("Index");
             }

@@ -49,5 +49,35 @@ namespace IUDICO.CurriculumManagement.Controllers
                 throw e;
             }
         }
+
+        [HttpGet]
+        public ActionResult Edit(int themeAssignmentId)
+        {
+            try
+            {
+                ThemeAssignment themeAssignment = Storage.GetThemeAssignment(themeAssignmentId);
+                return View(themeAssignment);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Edit(int themeAssignmentId, ThemeAssignment themeAssignment)
+        {
+            try
+            {
+                themeAssignment.Id = themeAssignmentId;
+                Storage.UpdateThemeAssignment(themeAssignment);
+
+                    return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

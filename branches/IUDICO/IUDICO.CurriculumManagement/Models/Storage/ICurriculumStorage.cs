@@ -99,7 +99,11 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         #region ThemeAssignment methods
 
         IEnumerable<ThemeAssignment>            GetThemeAssignmentsByCurriculumAssignmentId(int curriculumAssignmentId);
+        ThemeAssignment                         GetThemeAssignment(int themeAssignmentId);
+
         int                                     AddThemeAssignment(ThemeAssignment themeAssignment);
+
+        void                                    UpdateThemeAssignment(ThemeAssignment themeAssignment);
 
         #endregion
     }
