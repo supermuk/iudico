@@ -69,7 +69,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
         Curriculum assignment timelines for
-        <%: (ViewData["CurriculumAssignment"] as CurriculumAssignment).Curriculum.Name%>
+        <%: (ViewData["Curriculum"] as Curriculum).Name%>
         curriculum and
         <%: (ViewData["Group"] as IUDICO.Common.Models.Group).Name %>
         group
@@ -125,6 +125,6 @@
     </table>
     <div>
         <br />
-        <%: Html.RouteLink("Back to curriculum assignments.", "CurriculumAssignments", new { action = "Index", CurriculumId = (ViewData["CurriculumAssignment"] as CurriculumAssignment).CurriculumRef })%>
+        <%: Html.RouteLink("Back to curriculum assignments.", "CurriculumAssignments", new { action = "Index", CurriculumId = (ViewData["Curriculum"] as Curriculum).Id })%>
     </div>
 </asp:Content>

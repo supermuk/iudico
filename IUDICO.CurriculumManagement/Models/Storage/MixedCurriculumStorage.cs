@@ -373,9 +373,14 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return timeline.Id;
         }
 
-        public IEnumerable<Timeline> GetTimelines(int curriculumAssignmentId)
+        public IEnumerable<Timeline> GetCurriculumAssignmentTimelines(int curriculumAssignmentId)
         {
-            return _Db.Timelines.Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && !item.IsDeleted);
+            return _Db.Timelines.Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && item.StageRef == null && !item.IsDeleted);
+        }
+
+        public IEnumerable<Timeline> GetStageTimelines(int curriculumAssignmentId)
+        {
+            return _Db.Timelines.Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && item.StageRef != null && !item.IsDeleted);
         }
 
         public IEnumerable<Timeline> GetTimelines(IEnumerable<int> TimelineIds)
@@ -393,7 +398,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             var curriculumAssignment = GetCurriculumAssignment(curriculumAssignmentId);
 
             //delete timelines
-            var timelineIds = GetTimelines(curriculumAssignmentId).Select(item => item.Id);
+            var timelineIds = GetCurriculumAssignmentTimelines(curriculumAssignmentId).Select(item => item.Id);
             DeleteTimelines(timelineIds);
 
             curriculumAssignment.IsDeleted = true;

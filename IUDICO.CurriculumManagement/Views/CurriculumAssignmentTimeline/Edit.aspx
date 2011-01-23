@@ -20,12 +20,13 @@
             <%: Html.DropDownListFor(x => x.OperationId,Model.Operations)%>
         </div>
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="Update" />
         </p>
     </fieldset>
     <% } %>
 
     <div>
-        <%: Html.ActionLink("Back to list", "Index") %>
+        <br />
+        <%: Html.RouteLink("Back to list", "CurriculumAssignmentTimelines", new { action = "Index", CurriculumAssignmentId = HttpContext.Current.Session["CurriculumAssignmentId"] })%>
     </div>
 </asp:Content>

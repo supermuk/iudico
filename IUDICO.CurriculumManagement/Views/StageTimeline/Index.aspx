@@ -1,6 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models.ViewCurriculumAssignmentModel>>" %>
-
-<%@ Assembly Name="IUDICO.CurriculumManagement" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models.ViewStageTimelineModel>>" %>
+<%@  Assembly Name="IUDICO.CurriculumManagement" %>
+<%@ Import Namespace="IUDICO.Common.Models" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript" language="javascript">
@@ -11,12 +11,12 @@
                 });
 
                 if (ids.length == 0) {
-                    alert("Please select assignment to delete");
+                    alert("Please select timeline to delete");
 
                     return false;
                 }
 
-                var answer = confirm("Are you sure you want to delete " + ids.length + " selected assignments?");
+                var answer = confirm("Are you sure you want to delete " + ids.length + " selected timelines?");
 
                 if (answer == false) {
                     return false;
@@ -24,8 +24,8 @@
 
                 $.ajax({
                     type: "post",
-                    url: "/CurriculumAssignment/DeleteItems",
-                    data: { curriculumAssignmentIds: ids },
+                    url: "/StageTimeline/DeleteItems",
+                    data: { timelineIds: ids },
                     success: function (r) {
                         if (r.success == true) {
                             $("td input:checked").parents("tr").remove();
@@ -39,7 +39,7 @@
             });
         });
         function deleteItem(id) {
-            var answer = confirm("Are you sure you want to delete selected assignment?");
+            var answer = confirm("Are you sure you want to delete selected timeline?");
 
             if (answer == false) {
                 return;
@@ -47,8 +47,8 @@
 
             $.ajax({
                 type: "post",
-                url: "/CurriculumAssignment/DeleteItem",
-                data: { curriculumAssignmentId: id },
+                url: "/StageTimeline/DeleteItem",
+                data: { timelineId: id },
                 success: function (r) {
                     if (r.success == true) {
                         var item = "item" + id;
@@ -63,17 +63,21 @@
         }
     </script>
 </asp:Content>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    Groups
+    Timeline
 </asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Assignments for
-        <%: ViewData["CurriculumName"]%>
-        curriculum
+        Curriculum assignment timelines for
+        <%: (ViewData["Curriculum"] as Curriculum).Name%>
+        curriculum and
+        <%: (ViewData["Group"] as IUDICO.Common.Models.Group).Name %>
+        group
     </h2>
     <p>
-        <%: Html.ActionLink("Add assignment", "Create") %>
+        <%: Html.ActionLink("Add Timeline", "Create") %>
         <a id="DeleteMany" href="#">Delete Selected</a>
     </p>
     <table>
@@ -84,38 +88,50 @@
                 Id
             </th>
             <th>
-                Group
+                Stage name
+            </th>
+            <th>
+                Start date
+            </th>
+            <th>
+                End date
+            </th>
+            <th>
+                Operation
             </th>
             <th>
             </th>
         </tr>
         <% foreach (var item in Model)
            { %>
-        <tr id="item<%: item.Id %>">
-            <td>
-                <input type="checkbox" id="<%= item.Id %>" />
-            </td>
-            <td>
-                <%: item.Id %>
-            </td>
-            <td>
-                <%: item.GroupName %>
-            </td>
-            <td>
-                <%: Html.ActionLink("Edit", "Edit", new { CurriculumAssignmentId = item.Id }, null)%>
-                |
-                <%: Html.ActionLink("Edit timelines", "Index", "CurriculumAssignmentTimeline", new { CurriculumAssignmentId = item.Id }, null)%>
-                |
-                <%: Html.ActionLink("Edit timelines for stages", "Index", "StageTimeline", new { CurriculumAssignmentId = item.Id }, null)%>
-                |
-                <a onclick="deleteItem(<%: item.Id %>)" href="#">Delete</a>
-            </td>
-        </tr>
+            <tr id="item<%: item.Id %>">
+                <td>
+                    <input type="checkbox" id="<%= item.Id %>" />
+                </td>
+                <td>
+                    <%: item.Id %>
+                </td>
+                <td>
+                    <%: item.StageName %>
+                </td>
+                <td>
+                    <%: item.StartDate %>
+                </td>
+                <td>
+                    <%: item.EndDate %>
+                </td>
+                <td>
+                    <%: item.OperationName %>
+                </td>
+                <td>
+                    <a href="#" onclick="deleteItem(<%: item.Id %>)">Delete</a>
+                </td>
+            </tr>
         <% } %>
     </table>
 
     <div>
-        <br/>
-        <%: Html.RouteLink("Back to curriculums.", "Curriculums", new { action = "Index" })%>
+        <br />
+        <%: Html.RouteLink("Back to curriculum assignments.", "CurriculumAssignments", new { action = "Index", CurriculumId = (ViewData["Curriculum"] as Curriculum).Id })%>
     </div>
 </asp:Content>
