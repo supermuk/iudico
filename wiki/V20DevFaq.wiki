@@ -49,7 +49,7 @@ public ActionResult Index3()
 ...
 }}}
 
-Q. How do you synchronise database?
+Q. How do you synchronise database?<br />
 A. See: http://www.gotdotnet.ru/blogs/k0stya/8342/#cut1
 
 == Problems ==
