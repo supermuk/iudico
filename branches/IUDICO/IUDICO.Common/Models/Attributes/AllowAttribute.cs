@@ -1,7 +1,5 @@
-﻿using System;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 
 namespace IUDICO.Common.Models.Attributes
 {
@@ -12,12 +10,12 @@ namespace IUDICO.Common.Models.Attributes
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            if (System.Web.Security.Roles.Provider.IsUserInRole(httpContext.User.Identity.Name, Role.ToString()))
+            if (!httpContext.User.Identity.IsAuthenticated)
             {
-                return true;
+                return false;
             }
 
-            return false;
+            return System.Web.Security.Roles.Provider.IsUserInRole(httpContext.User.Identity.Name, Role.ToString());
         }
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)

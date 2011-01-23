@@ -13,10 +13,10 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         /// </summary>
         public Item()
         {
-            IsParent = true;
+            _IsParent = true;
             IsVisible = true;
             Items = new List<Item>();
-            Identifier = ConstantStrings.ItemIdPrefix + Guid.NewGuid().ToString();
+            Identifier = ConstantStrings.ItemIdPrefix + Guid.NewGuid();
         }
         
         /// <summary>
@@ -25,15 +25,15 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         /// <param name="resourceId"></param>
         public Item(string resourceId)
         {
-            IsParent = false;
+            _IsParent = false;
             IsVisible = true;
             IdentifierRef = resourceId;
-            Identifier = ConstantStrings.ItemIdPrefix + Guid.NewGuid().ToString();
+            Identifier = ConstantStrings.ItemIdPrefix + Guid.NewGuid();
         }
 
         #region Members
 
-        private readonly bool IsParent;
+        private readonly bool _IsParent;
 
         #endregion
 
@@ -55,16 +55,16 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
 
         #region XmlElements
 
-        [XmlElement(SCORM.Title, Namespace=SCORM.ImscpNamespaceV1p3)]
+        [XmlElement(SCORM.Title, Namespace=SCORM.ImscpNamespaceV1P3)]
         public string Title;
 
-        [XmlElement(SCORM.Item, Namespace=SCORM.ImscpNamespaceV1p3)]
+        [XmlElement(SCORM.Item, Namespace=SCORM.ImscpNamespaceV1P3)]
         public List<Item> Items;
 
-        [XmlElement(SCORM.Metadata, Namespace=SCORM.ImscpNamespaceV1p3)]
+        [XmlElement(SCORM.Metadata, Namespace=SCORM.ImscpNamespaceV1P3)]
         public MetadataModels.Metadata Metadata;
 
-        [XmlElement(SCORM.TimeLimitActionV1p3, Namespace = SCORM.AdlcpNamespaceV1p3)]
+        [XmlElement(SCORM.TimeLimitActionV1P3, Namespace = SCORM.AdlcpNamespaceV1P3)]
         public TimeLimitAction? TimeLimitAction;
 
         public bool ShouldSerializeTimeLimitAction()
@@ -72,10 +72,10 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
             return TimeLimitAction.HasValue;
         }
 
-        [XmlElement(SCORM.DataFromLmsV1p3, Namespace=SCORM.AdlcpNamespaceV1p3)]
+        [XmlElement(SCORM.DataFromLmsV1P3, Namespace=SCORM.AdlcpNamespaceV1P3)]
         public string DataFromLMS;
 
-        [XmlElement(SCORM.CompletionThreshold, Namespace=SCORM.AdlcpNamespaceV1p3)]
+        [XmlElement(SCORM.CompletionThreshold, Namespace=SCORM.AdlcpNamespaceV1P3)]
         public CompletionThreshold CompletionThreshold;
 
         [XmlElement(SCORM.Sequencing)]
@@ -84,7 +84,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         [XmlElement(SCORM.Presentation)]
         public Presentation Presentation;
         
-        [XmlElement(SCORM.Data, Namespace=SCORM.AdlcpNamespaceV1p3)]
+        [XmlElement(SCORM.Data, Namespace=SCORM.AdlcpNamespaceV1P3)]
         public List<Map> Data;
 
         #endregion
@@ -93,7 +93,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
 
         public void AddChildItem(Item item)
         {
-            if (!IsParent)
+            if (!_IsParent)
             {
                 throw new Exception("Can't add child item to leaf item");
             }

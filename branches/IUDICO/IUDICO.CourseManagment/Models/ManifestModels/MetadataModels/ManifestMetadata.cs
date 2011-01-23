@@ -12,14 +12,14 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.MetadataModels
 
         #region XmlElements
 
-        [XmlElement(SCORM.Schema, Namespace = SCORM.ImscpNamespaceV1p3)]
+        [XmlElement(SCORM.Schema, Namespace = SCORM.ImscpNamespaceV1P3)]
         public string Schema;
 
-        [XmlElement(SCORM.SchemaVersion, Namespace = SCORM.ImscpNamespaceV1p3)]
+        [XmlElement(SCORM.SchemaVersion, Namespace = SCORM.ImscpNamespaceV1P3)]
         public string SchemaVersion;
 
         [XmlElement(SCORM.Manifest)]
-        Metadata Metadata;
+        Metadata _Metadata;
 
         #endregion
     }

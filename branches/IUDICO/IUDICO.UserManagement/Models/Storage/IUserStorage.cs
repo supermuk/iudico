@@ -15,6 +15,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
         #region User members
 
+        User GetCurrentUser();
         IEnumerable<User> GetUsers();
         User GetUser(Guid id);
         User GetUser(string openId);

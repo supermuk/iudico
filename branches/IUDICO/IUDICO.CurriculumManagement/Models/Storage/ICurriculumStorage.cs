@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using IUDICO.Common.Models;
-using System;
 
 namespace IUDICO.CurriculumManagement.Models.Storage
 {
@@ -75,7 +74,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         IEnumerable<Group>                      GetNotAssignedGroups(int curriculumId);
 
         IEnumerable<Timeline>                   GetTimelines(int curriculumId, int groupId);
-        IEnumerable<Timeline>                   GetTimelines(IEnumerable<int> TimelineIds);
+        IEnumerable<Timeline>                   GetTimelines(IEnumerable<int> timelineIds);
         IEnumerable<Timeline>                   GetCurriculumAssignmentTimelines(int curriculumAssignmentId); //!!
         IEnumerable<Timeline>                   GetStageTimelines(int curriculumAssignmentId);//!!
         IEnumerable<Timeline>                   GetTimelines(int stageId, int curriculumId, int groupId);

@@ -33,16 +33,16 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
 
         #region XmlElements
 
-        [XmlElement(SCORM.Title, Namespace=SCORM.ImscpNamespaceV1p3)]
+        [XmlElement(SCORM.Title, Namespace=SCORM.ImscpNamespaceV1P3)]
         public string Title;
 
-        [XmlElement(SCORM.Item, Namespace=SCORM.ImscpNamespaceV1p3)]
+        [XmlElement(SCORM.Item, Namespace=SCORM.ImscpNamespaceV1P3)]
         public List<Item> Items;
 
-        [XmlElement(SCORM.Metadata, Namespace = SCORM.ImscpNamespaceV1p3)]
+        [XmlElement(SCORM.Metadata, Namespace = SCORM.ImscpNamespaceV1P3)]
         public MetadataModels.Metadata Metadata;
 
-        [XmlElement(SCORM.CompletionThreshold, Namespace = SCORM.AdlcpNamespaceV1p3)]
+        [XmlElement(SCORM.CompletionThreshold, Namespace = SCORM.AdlcpNamespaceV1P3)]
         public CompletionThreshold CompletionThreshold;
         
         [XmlElement(SCORM.Sequencing, Namespace=SCORM.ImsssNamespace)]
