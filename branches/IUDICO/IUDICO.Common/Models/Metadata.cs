@@ -204,7 +204,7 @@ namespace IUDICO.Common.Models
 
             [DisplayName("Role")]
             [Required(ErrorMessage = "Role is required")]
-            public int RoleRef { get; set; }
+            public int RoleId { get; set; }
 
             [DisplayName("OpenId")]
             [Required(ErrorMessage = "OpenId is required")]
@@ -238,6 +238,9 @@ namespace IUDICO.Common.Models
             [ScaffoldColumn(false)]
             public int Id { get; set; }
 
+            [ScaffoldColumn(false)]
+            private EntitySet<GroupUser> GroupUsers { get; set; }
+
             [DisplayName("Name")]
             [Required(ErrorMessage = "Name is required")]
             [StringLength(50, ErrorMessage = "Name can not be longer than 50")]
@@ -248,7 +251,10 @@ namespace IUDICO.Common.Models
     [MetadataType(typeof(Metadata))]
     public partial class GroupUser
     {
-        public IEnumerable<SelectListItem> GroupList { get; set; }
+        //public IEnumerable<SelectListItem> GroupList { get; set; }
+        
+        [DropDownList(OptionLabel = "Select User", TargetProperty = "UserRef")]
+        [DisplayName("User")]
         public IEnumerable<SelectListItem> UserList { get; set; }
 
         private sealed class Metadata
@@ -258,14 +264,18 @@ namespace IUDICO.Common.Models
 
             [ScaffoldColumn(false)]
             public int UserRef { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int Group { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int User { get; set; }
             
-            [DropDownList(OptionLabel = "Select Group", TargetProperty = "GroupRef")]
-            [DisplayName("Group")]
-            public IEnumerable<SelectListItem> GroupList { get; set; }
+//            [DropDownList(OptionLabel = "Select Group", TargetProperty = "GroupRef")]
+//            [DisplayName("Group")]
+//            public IEnumerable<SelectListItem> GroupList { get; set; }
             
-            [DropDownList(OptionLabel = "Select User", TargetProperty = "UserRef")]
-            [DisplayName("User")]
-            public IEnumerable<SelectListItem> UserList { get; set; }
+//            public IEnumerable<SelectListItem> UserList { get; set; }
         }
     }
 

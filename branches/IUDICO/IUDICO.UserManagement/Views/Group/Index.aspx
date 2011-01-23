@@ -24,6 +24,7 @@
             </td>
             <td>
                 <%: Html.ActionLink("Edit", "Edit", new { id=item.Id }) %> |
+                <%: Html.ActionLink("Add Users to Group", "AddUsers", new { id = item.Id })%> |
                 <%: Ajax.ActionLink("Delete", "Delete", new { id = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
             </td>
         </tr>
