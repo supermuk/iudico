@@ -1,10 +1,5 @@
-﻿//Roma
-
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 
@@ -14,10 +9,10 @@ namespace IUDICO.Statistics.Models.Storage
     {
         private readonly ILmsService _LmsService;
 
-        private List<SpecializedResult> _SpecializedResult;
+        private readonly List<SpecializedResult> _SpecializedResult;
 
-        private IEnumerable<User> _Users;
-        private int[] _SelectCurriculumIds;
+        private readonly IEnumerable<User> _Users;
+        private readonly int[] _SelectCurriculumIds;
 
         public AllSpecializedResults(IEnumerable<User> users, int[] selectCurriculumIds, ILmsService ilmsService)
         {
@@ -26,27 +21,29 @@ namespace IUDICO.Statistics.Models.Storage
             _SelectCurriculumIds = selectCurriculumIds;
             _SpecializedResult = new List<SpecializedResult>();
             
-            foreach (User user in users)
+            foreach (var user in users)
             {
                 _SpecializedResult.Add(new SpecializedResult(user, selectCurriculumIds, _LmsService));
             }
-
         }
 
         public IEnumerable<Curriculum> Curriculums
         {
             get { return _LmsService.FindService<ICurriculumService>().GetCurriculums(_SelectCurriculumIds); }
         }
+
         public IEnumerable<User> Users
         {
             get { return _Users; }
             //set { _Users = value; }
         }
+
         public int[] SelectCurriculumIds
         {
             get { return _SelectCurriculumIds; }
             //set { _SelectCurriculumIds = value; }
         }
+
         public List<SpecializedResult> SpecializedResultPar
         {
             get { return _SpecializedResult; }
@@ -58,13 +55,13 @@ namespace IUDICO.Statistics.Models.Storage
     {
         private readonly ILmsService _LmsService;
 
-        private User _User;
-        private List<CurriculumResult> _CurriculumResult;
+        private readonly User _User;
+        private readonly List<CurriculumResult> _CurriculumResult;
         private int[] _Ids;
-        private double? _Sum;
-        private double? _Max;
-        private double? _Percent;
-        private char _ECTS;
+        private readonly double? _Sum;
+        private readonly double? _Max;
+        private readonly double? _Percent;
+        private readonly char _ECTS;
 
         public SpecializedResult(User user, int[] ids, ILmsService ilmsService)
         {
@@ -79,14 +76,15 @@ namespace IUDICO.Statistics.Models.Storage
             
             CurriculumResult curriculumRes;
             IEnumerable<int> ieIds = ids;
-            IEnumerable<Curriculum> curriculums = _LmsService.FindService<ICurriculumService>().GetCurriculums(ieIds);
+            var curriculums = _LmsService.FindService<ICurriculumService>().GetCurriculums(ieIds);
 
-            foreach (Curriculum curr in curriculums)
+            foreach (var curr in curriculums)
             {
                 _CurriculumResult.Add(curriculumRes = new CurriculumResult(_User, curr, _LmsService));
                 _Sum += curriculumRes.Sum;
                 _Max += curriculumRes.Max;
             }
+
             _Percent = _Sum / _Max * 100.0;
             _ECTS = Ects(_Percent);
         }
@@ -119,43 +117,46 @@ namespace IUDICO.Statistics.Models.Storage
             }
         }
 
-
         public User User
         {
             get { return _User; }
         }
+
         public List<CurriculumResult> CurriculumResult
         {
             get { return _CurriculumResult; }
         }
+
         public double? Sum
         {
             get { return _Sum; }
         }
+
         public double? Max
         {
             get { return _Max; }
         }
+
         public double? Percent
         {
             get { return _Percent; }
         }
+
         public char? ECTS
         {
             get { return _ECTS; }
         }
-
     }
 
     public class CurriculumResult 
     {
         private readonly ILmsService _LmsService;
 
-        private User _User;
-        private Curriculum _Curriculum;
-        private List<ThemeResult> _ThemeResult;
-        private double? _Sum;
-        private double? _Max;
+        private readonly User _User;
+        private readonly Curriculum _Curriculum;
+        private readonly List<ThemeResult> _ThemeResult;
+        private readonly double? _Sum;
+        private readonly double? _Max;
 
         public CurriculumResult (User user, Curriculum curriculum, ILmsService ilmsService)
         {
@@ -171,16 +172,15 @@ namespace IUDICO.Statistics.Models.Storage
 
             _ThemeResult = new List<ThemeResult>();
 
-            IEnumerable<Theme> themes = _LmsService.FindService<ICurriculumService>().GetThemesByCurriculumId(_Curriculum.Id);
-            ThemeResult themeResult = new ThemeResult();
+            var themes = _LmsService.FindService<ICurriculumService>().GetThemesByCurriculumId(_Curriculum.Id);
+            var themeResult = new ThemeResult();
             
-            foreach (Theme theme in themes)
+            foreach (var theme in themes)
             {
                 _ThemeResult.Add(themeResult.GetThemeResult(_User, theme, _LmsService));
                 _Sum += themeResult.GetThemeResultScore(_User, theme);
                 _Max += 100;
             }
-
         }
 
         public double? Sum

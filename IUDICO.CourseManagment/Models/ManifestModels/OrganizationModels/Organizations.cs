@@ -35,14 +35,16 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
             }
             set
             {
-                for(int i = 0; i < _Organizations.Count; i++)
+                for (var i = 0; i < _Organizations.Count; i++)
                 {
-                    if(_Organizations[i].Identifier == value)
+                    if (_Organizations[i].Identifier != value)
                     {
-                        _DefaultOrganizationIndex = i;
-                        
-                        return;
+                        continue;
                     }
+
+                    _DefaultOrganizationIndex = i;
+                        
+                    return;
                 }
 
                 _DefaultOrganizationIndex = 0;
@@ -53,7 +55,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
 
         #region XmlElements
 
-        [XmlElement(SCORM.Organization, Namespace = SCORM.ImscpNamespaceV1p3)]
+        [XmlElement(SCORM.Organization, Namespace = SCORM.ImscpNamespaceV1P3)]
         public List<Organization> _Organizations;
 
         #endregion

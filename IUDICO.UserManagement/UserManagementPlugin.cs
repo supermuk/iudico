@@ -45,7 +45,8 @@ namespace IUDICO.UserManagement
 
         public void BuildMenu(Menu menu)
         {
-
+            menu.Add(new MenuItem("Users", "User", "Index"));
+            menu.Add(new MenuItem("Groups", "Group", "Index"));
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)

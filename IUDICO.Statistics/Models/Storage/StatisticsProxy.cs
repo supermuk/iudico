@@ -5,10 +5,8 @@ using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared.Statistics;
 
-
 namespace IUDICO.Statistics.Models.Storage
 {
-    //Roma
     public class StatisticsProxy : IStatisticsProxy, IStatisticsService
     {
         private readonly ILmsService _LmsService;
@@ -80,60 +78,62 @@ namespace IUDICO.Statistics.Models.Storage
 
     }
 
-    //Vitalik
     public class ThemeInfoModel
     {
-        private ILmsService LmsService;
+        private readonly ILmsService _LmsService;
         public int CurriculumId;
-        private List<AttemptResult> LastAttempts;
+        private readonly List<AttemptResult> _LastAttempts;
         public IEnumerable<User> SelectStudents;
         public IEnumerable<Theme> SelectCurriculumThemes;
 
         public ThemeInfoModel(int groupId, int curriculumId, ILmsService lmsService)
         {
-            LmsService = lmsService;
+            _LmsService = lmsService;
+            _LastAttempts = new List<AttemptResult>();
+
             CurriculumId = curriculumId;
-            SelectStudents = LmsService.FindService<IUserService>().GetUsersByGroup
-                (
-                LmsService.FindService<IUserService>().GetGroup(groupId)
-                );
-            SelectCurriculumThemes = LmsService.FindService<ICurriculumService>().GetThemesByCurriculumId
-                (
-                CurriculumId
-                );
-            LastAttempts = new List<AttemptResult>();
-            foreach (User student in SelectStudents)
+            
+            SelectStudents = _LmsService.FindService<IUserService>().GetUsersByGroup(_LmsService.FindService<IUserService>().GetGroup(groupId));
+            
+            SelectCurriculumThemes = _LmsService.FindService<ICurriculumService>().GetThemesByCurriculumId(CurriculumId);
+            
+            foreach (var temp in from student in SelectStudents
+                                 from theme in SelectCurriculumThemes
+                                 select _LmsService.FindService<ITestingService>().GetResults(student, theme)
+                                 into temp where temp != null select temp)
             {
-                foreach (Theme theme in SelectCurriculumThemes)
-                {
-                    IEnumerable<AttemptResult> temp = LmsService.FindService<ITestingService>().GetResults(student, theme);
-                    if (temp != null)
-                        LastAttempts.Add(temp.First());
-                }
+                _LastAttempts.Add(temp.First());
             }
         }
-        public double? GetStudentResautForTheme(User SelectStudent, Theme SelectTheme)
+
+        public double? GetStudentResultForTheme(User selectStudent, Theme selectTheme)
         {
-            return LastAttempts.First(x => x.User == SelectStudent & x.Theme == SelectTheme).Score.ToPercents();
+            return _LastAttempts.First(x => x.User == selectStudent & x.Theme == selectTheme).Score.ToPercents();
         }
-        public double? GetStudentResautForAllThemesInSelectedCurriculum(User SelectStudent)
+
+        public double? GetStudentResultForAllThemesInSelectedCurriculum(User selectStudent)
         {
-            double? resault = 0;
+            double? result = 0;
+
             foreach (Theme theme in SelectCurriculumThemes)
             {
                 //resault += LastAttempts.First(x => x.User == SelectStudent & x.Theme == theme).Score.ToPercents();
-                resault += 10;
+                result += 10;
             }
-            return resault;
+
+            return result;
         }
+
         public double? GetAllThemesInSelectedCurriculumMaxMark()
         {
             return 100; //* SelectCurriculumThemes.Count();
         }
-        public double? GetMaxResautForTheme(Theme SelectTheme)
+
+        public double? GetMaxResautForTheme(Theme selectTheme)
         {
             return 100;
         }
+
         public char Ects(double? percent)
         {
             if (percent > 91.0)
@@ -161,24 +161,27 @@ namespace IUDICO.Statistics.Models.Storage
                 return 'F';
             }
         }
-        public AttemptResult GetStudentAttempt(User SelectStudent, Theme SelectTheme)
+
+        public AttemptResult GetStudentAttempt(User selectStudent, Theme selectTheme)
         {
-            return LastAttempts.First();//(x => x.User == SelectStudent & x.Theme == SelectTheme);
+            return _LastAttempts.First();//(x => x.User == SelectStudent & x.Theme == SelectTheme);
         }
+
         public List<AttemptResult> GetAllAttemts()
         {
-            return this.LastAttempts;
+            return this._LastAttempts;
         }
     }
+
     public class ThemeTestResaultsModel
     {
-        private ILmsService LmsService;
+        private ILmsService _LmsService;
         public AttemptResult Attempt;
 
-        public ThemeTestResaultsModel(Int32 attemptId, List<AttemptResult> attList, ILmsService lmsService)
+        public ThemeTestResaultsModel(Int32 attemptId, IEnumerable<AttemptResult> attList, ILmsService lmsService)
         {
-            LmsService = lmsService;
-            Attempt = attList.First(c => c.AttemptID == attemptId);
+            _LmsService = lmsService;
+            Attempt = attList.First(c => c.AttemptId == attemptId);
         }
     }
 }

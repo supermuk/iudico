@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Security;
 using IUDICO.Common.Models;
@@ -33,11 +32,6 @@ namespace IUDICO.UserManagement.Models.Auth
 
             var userRole = (Role) user.RoleId;
             var minRole = GetRole(roleName);
-
-            if (minRole == Role.None)
-            {
-                return false;
-            }
 
             return userRole >= minRole;
         }

@@ -48,20 +48,20 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.ResourceModels
         [XmlAttribute(SCORM.Base, Namespace = SCORM.XmlNamespace)]
         public string Base;
 
-        [XmlAttribute(SCORM.ScormTypeV1p3, Namespace = SCORM.AdlcpNamespaceV1p3)]
+        [XmlAttribute(SCORM.ScormTypeV1P3, Namespace = SCORM.AdlcpNamespaceV1P3)]
         public ScormType ScormType;
 
         #endregion
 
         #region XmlElements
 
-        [XmlElement(SCORM.Metadata, Namespace = SCORM.ImscpNamespaceV1p3)]
+        [XmlElement(SCORM.Metadata, Namespace = SCORM.ImscpNamespaceV1P3)]
         public Metadata Metadata;
 
-        [XmlElement(SCORM.File, Namespace = SCORM.ImscpNamespaceV1p3)]
+        [XmlElement(SCORM.File, Namespace = SCORM.ImscpNamespaceV1P3)]
         public List<File> Files;
 
-        [XmlElement(SCORM.Dependency, Namespace = SCORM.ImscpNamespaceV1p3)]
+        [XmlElement(SCORM.Dependency, Namespace = SCORM.ImscpNamespaceV1P3)]
         public List<Dependency> Dependencies;
 
         #endregion

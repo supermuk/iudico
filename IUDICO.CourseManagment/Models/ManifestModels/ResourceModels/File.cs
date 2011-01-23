@@ -24,7 +24,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.ResourceModels
 
         #region XmlElement
 
-        [XmlElement(SCORM.Metadata, Namespace = SCORM.ImscpNamespaceV1p3)]
+        [XmlElement(SCORM.Metadata, Namespace = SCORM.ImscpNamespaceV1P3)]
         public MetadataModels.Metadata Metadata;
 
         #endregion
