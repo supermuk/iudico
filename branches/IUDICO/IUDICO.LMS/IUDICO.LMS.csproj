@@ -254,7 +254,6 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <PreBuildEvent>tskill webdev</PreBuildEvent>
   </PropertyGroup>
 </Project>
