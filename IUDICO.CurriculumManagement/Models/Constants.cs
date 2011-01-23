@@ -7,8 +7,8 @@ using IUDICO.Common.Models;
 
 namespace IUDICO.CurriculumManagement.Models
 {
-    public class Constants
+    public static class Constants
     {
-        public int DefaultThemeMaxScore { get; set; }
+        public const int DefaultThemeMaxScore = 1;
     }
 }
