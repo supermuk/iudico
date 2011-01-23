@@ -96,5 +96,12 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         IEnumerable<Theme>                      GetThemesByGroupId(int groupId);
 
         #endregion
+
+        #region ThemeAssignment methods
+
+        IEnumerable<ThemeAssignment>            GetThemeAssignmentsByCurriculumAssignmentId(int curriculumAssignmentId);
+        int                                     AddThemeAssignment(ThemeAssignment themeAssignment);
+
+        #endregion
     }
 }

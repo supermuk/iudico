@@ -76,17 +76,34 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                if (createAssignmentModel.GroupId == 0)         //чи то правильно
+                if (createAssignmentModel.GroupId == 0)
                     return RedirectToAction("Index");
                 
                 CurriculumAssignment newCurriculumAssignment = new CurriculumAssignment();
                 newCurriculumAssignment.UserGroupRef = createAssignmentModel.GroupId;
                 newCurriculumAssignment.CurriculumRef = curriculumId;
 
-                Storage.AddCurriculumAssignment(newCurriculumAssignment);
+                int curriculumAssingnmentId = Storage.AddCurriculumAssignment(newCurriculumAssignment);
 
+                //add themeAssignments
+                var themesInCurrentCurriculum = Storage.GetThemesByCurriculumId(curriculumId);
+
+                foreach (var theme in themesInCurrentCurriculum)
+                {
+                    if (theme.ThemeTypeRef == 1)
+                    {
+                        ThemeAssignment newThemeAssingment = new ThemeAssignment()
+                        {
+                            CurriculumAssignmentRef = curriculumAssingnmentId,
+                            ThemeRef = theme.Id,
+                            MaxScore = 100 // треба втикнути шо тут ставити
+                        };
+
+                        Storage.AddThemeAssignment(newThemeAssingment);
+                    }
+                }
+                
                 return RedirectToAction("Index");
-
             }
             catch (Exception e)
             {
@@ -131,7 +148,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                if (editAssignmentModel.GroupId == 0)         // чи то правильно
+                if (editAssignmentModel.GroupId == 0)
                     return RedirectToAction("Index");
 
                 CurriculumAssignment curriculumAssignment = new CurriculumAssignment();

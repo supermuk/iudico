@@ -115,6 +115,18 @@ namespace IUDICO.CurriculumManagement
                 "CurriculumAssignment/{CurriculumAssignmentId}/StageTimeline/{action}",
                 new { controller = "StageTimeline" }
             );
+
+            routes.MapRoute(
+                "ThemeAssignment",
+                "ThemeAssignment/{CurriculumAssignmentId}/{action}",
+                new { controller = "ThemeAssignment" }
+            );
+
+            routes.MapRoute(
+                "ThemeAssignments",
+                "CurriculumAssignment/{CurriculumAssignmentId}/ThemeAssignment/{action}",
+                new { controller = "ThemeAssignment" }
+            );
         }
 
         public void Update(string evt, params object[] data)
