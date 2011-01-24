@@ -22,7 +22,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var themes = Storage.GetThemes(stageId);
+                var themes = Storage.GetThemesByStageId(stageId);
                 Stage stage = Storage.GetStage(stageId);
 
                 ViewData["StageName"] = stage.Name;
@@ -62,9 +62,16 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var theme = new Theme { CourseRef = model.CourseId, StageRef = model.StageId, ThemeTypeRef = model.ThemeTypeId };
-                var course = Storage.GetCourse(model.CourseId);
-                Storage.AddTheme(theme, course);
+                Course course = Storage.GetCourse(model.CourseId);
+                Theme theme = new Theme
+                {
+                    CourseRef = model.CourseId,
+                    StageRef = model.StageId,
+                    ThemeTypeRef = model.ThemeTypeId,
+                    Name = course.Name
+                };
+
+                Storage.AddTheme(theme);
 
                 return RedirectToAction("Index", new { StageId = model.StageId });
             }
@@ -86,19 +93,21 @@ namespace IUDICO.CurriculumManagement.Controllers
                     StageId = theme.StageRef,
                     ThemeId = themeId,
                     Courses = Storage.GetCourses()
-                                .Select(item => new SelectListItem
-                                {
-                                    Text = item.Name,
-                                    Value = item.Id.ToString(),
-                                    Selected = item.Id == theme.CourseRef ? true : false
-                                }),
+                              .Select(item => new SelectListItem
+                              {
+                                  Text = item.Name,
+                                  Value = item.Id.ToString(),
+                                  Selected = item.Id == theme.CourseRef ? true : false
+                              }),
                     ThemeTypes = Storage.GetThemeTypes()
-                                    .Select(item => new SelectListItem
-                                    {
-                                        Text = item.Name,
-                                        Value = item.Id.ToString(),
-                                        Selected = item.Id == theme.ThemeTypeRef ? true : false
-                                    })
+                                 .Select(item => new SelectListItem
+                                 {
+                                     Text = item.Name,
+                                     Value = item.Id.ToString(),
+                                     Selected = item.Id == theme.ThemeTypeRef ? true : false
+                                 }),
+                    CourseId=theme.CourseRef,
+                    ThemeTypeId=theme.ThemeTypeRef
                 };
                 return View(model);
             }
@@ -113,11 +122,13 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var theme = Storage.GetTheme(model.ThemeId);
+                Course course = Storage.GetCourse(model.CourseId);
+                Theme theme = Storage.GetTheme(model.ThemeId);
                 theme.CourseRef = model.CourseId;
+                theme.Name = course.Name;
                 theme.ThemeTypeRef = model.ThemeTypeId;
-                var course = Storage.GetCourse(model.CourseId);
-                Storage.UpdateTheme(theme, course);
+
+                Storage.UpdateTheme(theme);
 
                 return RedirectToRoute("Themes", new { action = "Index", StageId = theme.StageRef });
             }

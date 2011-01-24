@@ -24,7 +24,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 CurriculumAssignment curriculumAssignment = Storage.GetCurriculumAssignment(curriculumAssignmentId);
                 Group group = Storage.GetGroup(curriculumAssignment.UserGroupRef);
-                var timelines = Storage.GetStageTimelines(curriculumAssignmentId)
+                var timelines = Storage.GetStageTimelinesByCurriculumAssignmentId(curriculumAssignmentId)
                                 .Select(item => new ViewStageTimelineModel
                                 {
                                     Id = item.Id,
@@ -67,7 +67,9 @@ namespace IUDICO.CurriculumManagement.Controllers
                                 Value = item.Id.ToString(),
                                 Selected = false
                             }),
-                    Timeline = timeline
+                    Timeline = timeline,
+                    OperationId = timeline.OperationRef,
+                    StageId = (int)timeline.StageRef
                 };
 
                 Session["CurriculumAssignmentId"] = timeline.CurriculumAssignmentRef;

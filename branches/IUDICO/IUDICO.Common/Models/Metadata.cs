@@ -365,7 +365,6 @@ namespace IUDICO.Common.Models
 
             [DisplayName("Max Score")]
             [Required(ErrorMessage = "Max score is required")]
-            [StringLength(50, ErrorMessage = "Max score can not be longer than 50.")]
             public int MaxScore { get; set; }
 
             [ScaffoldColumn(false)]
@@ -373,6 +372,9 @@ namespace IUDICO.Common.Models
 
             [ScaffoldColumn(false)]
             public Theme Theme { get; set; }
+
+            [ScaffoldColumn(false)]
+            public bool IsDeleted { get; set; }
         }
     }
 }
