@@ -63,16 +63,20 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                if (createTimelineModel.Timeline.StartDate > createTimelineModel.Timeline.EndDate)
-                    return RedirectToAction("Index");
+                if (ModelState.IsValid && Validator.ValidateTimeline(createTimelineModel.Timeline).IsValid)
+                {
+                    Timeline timeline = createTimelineModel.Timeline;
+                    timeline.CurriculumAssignmentRef = curriculumAssignmentId;
+                    timeline.OperationRef = createTimelineModel.OperationId;
+                    timeline.StageRef = null;
+                    Storage.AddTimeline(timeline);
 
-                Timeline timeline = createTimelineModel.Timeline;
-                timeline.CurriculumAssignmentRef = curriculumAssignmentId;
-                timeline.OperationRef = createTimelineModel.OperationId;
-                timeline.StageRef = null;
-                Storage.AddTimeline(timeline);
-
-                return RedirectToAction("Index", new { CurriculumAssignmentId = curriculumAssignmentId });
+                    return RedirectToAction("Index", new { CurriculumAssignmentId = curriculumAssignmentId });
+                }
+                else
+                {
+                    return RedirectToAction("Create");
+                }
             }
             catch (Exception e)
             {
@@ -110,15 +114,19 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                if (editTimelineModel.Timeline.StartDate > editTimelineModel.Timeline.EndDate)
+                if (ModelState.IsValid && Validator.ValidateTimeline(editTimelineModel.Timeline).IsValid)
+                {
+                    Timeline timeline = editTimelineModel.Timeline;
+                    timeline.Id = timelineId;
+                    timeline.OperationRef = editTimelineModel.OperationId;
+                    Storage.UpdateTimeline(timeline);
+
                     return RedirectToRoute("CurriculumAssignmentTimelines", new { action = "Index", CurriculumAssignmentId = Session["CurriculumAssignmentId"] });
-
-                Timeline timeline = editTimelineModel.Timeline;
-                timeline.Id = timelineId;
-                timeline.OperationRef = editTimelineModel.OperationId;
-                Storage.UpdateTimeline(timeline);
-
-                return RedirectToRoute("CurriculumAssignmentTimelines", new { action = "Index", CurriculumAssignmentId = Session["CurriculumAssignmentId"] });
+                }
+                else
+                {
+                    return RedirectToAction("Edit");
+                }
             }
             catch (Exception e)
             {

@@ -70,17 +70,20 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                //refactor this using validation class Validator... return redirect to EDIT view!
-                if (createAssignmentModel.GroupId == 0)
-                    return RedirectToAction("Index");
-                
-                CurriculumAssignment newCurriculumAssignment = new CurriculumAssignment();
-                newCurriculumAssignment.UserGroupRef = createAssignmentModel.GroupId;
-                newCurriculumAssignment.CurriculumRef = curriculumId;
+                if (ModelState.IsValid && Validator.ValidateCurriculumAssignment(createAssignmentModel.GroupId).IsValid)
+                {
+                    CurriculumAssignment newCurriculumAssignment = new CurriculumAssignment();
+                    newCurriculumAssignment.UserGroupRef = createAssignmentModel.GroupId;
+                    newCurriculumAssignment.CurriculumRef = curriculumId;
 
-                int curriculumAssingnmentId = Storage.AddCurriculumAssignment(newCurriculumAssignment);
-                
-                return RedirectToAction("Index");
+                    int curriculumAssingnmentId = Storage.AddCurriculumAssignment(newCurriculumAssignment);
+
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return RedirectToAction("Create");
+                }
             }
             catch (Exception e)
             {
@@ -125,16 +128,19 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                //refactor this using validation class Validator... return redirect to EDIT view!
-                if (editAssignmentModel.GroupId == 0)
-                    return RedirectToAction("Index");
+                if (ModelState.IsValid && Validator.ValidateCurriculumAssignment(editAssignmentModel.GroupId).IsValid)
+                {
+                    CurriculumAssignment curriculumAssignment = new CurriculumAssignment();
+                    curriculumAssignment.UserGroupRef = editAssignmentModel.GroupId;
+                    curriculumAssignment.Id = curriculumAssignmentId;
+                    Storage.UpdateCurriculumAssignment(curriculumAssignment);
 
-                CurriculumAssignment curriculumAssignment = new CurriculumAssignment();
-                curriculumAssignment.UserGroupRef = editAssignmentModel.GroupId;
-                curriculumAssignment.Id = curriculumAssignmentId;
-                Storage.UpdateCurriculumAssignment(curriculumAssignment);
-
-                return RedirectToRoute("CurriculumAssignments", new { action="Index", CurriculumId = Session["CurriculumId"] });
+                    return RedirectToRoute("CurriculumAssignments", new { action = "Index", CurriculumId = Session["CurriculumId"] });
+                }
+                else
+                {
+                    return RedirectToAction("Edit");
+                }
             }
             catch (Exception e)
             {

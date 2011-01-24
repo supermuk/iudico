@@ -311,7 +311,7 @@ namespace IUDICO.Common.Models
         }
     }
 
-    [MetadataType(typeof(Timeline.Metadata))]
+    [MetadataType(typeof(Metadata))]
     [Bind(Exclude = "Id")]
     public partial class Timeline
     {
@@ -348,7 +348,7 @@ namespace IUDICO.Common.Models
         }
     }
 
-    [MetadataType(typeof(ThemeAssignment.Metadata))]
+    [MetadataType(typeof(Metadata))]
     [Bind(Exclude = "Id")]
     public partial class ThemeAssignment
     {
@@ -365,6 +365,7 @@ namespace IUDICO.Common.Models
 
             [DisplayName("Max Score")]
             [Required(ErrorMessage = "Max score is required")]
+            [StringLength(50, ErrorMessage = "Max score can not be longer than 50.")]
             public int MaxScore { get; set; }
 
             [ScaffoldColumn(false)]
