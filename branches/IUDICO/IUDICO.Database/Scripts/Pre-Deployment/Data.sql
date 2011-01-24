@@ -19,5 +19,5 @@ GO
 /*Pointer used for text / image updates. This might not be needed, but is declared here just in case*/
 DECLARE @pv binary(16)
 BEGIN TRANSACTION
-INSERT INTO [dbo].[User] ([Id], [Username], [Password], [Email], [OpenId], [Name], [IsApproved], [RoleId], [Deleted]) VALUES (N'd47e8c09-2827-e011-840f-93b2f3060fee', N'lex', N'lex', N'lex@iudico', N'lex', N'Administrator', 1, 3, 0)
+DELETE FROM [dbo].[User] WHERE [dbo].[User].[Id] = N'd47e8c09-2827-e011-840f-93b2f3060fee' AND [dbo].[User].[Username] = N'lex'
 COMMIT TRANSACTION
