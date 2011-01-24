@@ -49,7 +49,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 var operations = Storage.GetOperations();
 
-                CreateTimelineModel createTimelineModel = new CreateTimelineModel()
+                CreateCurriculumAssignmentTimelineModel createTimelineModel = new CreateCurriculumAssignmentTimelineModel()
                 {
                     Operations = from item in operations
                                  select new SelectListItem { Text = item.Name.ToString(), Value = item.Id.ToString(), Selected = false },
@@ -65,14 +65,14 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(int curriculumAssignmentId, CreateTimelineModel createTimelineModel)
+        public ActionResult Create(int curriculumAssignmentId, CreateCurriculumAssignmentTimelineModel createTimelineModel)
         {
             try
             {
                 Timeline timeline = createTimelineModel.Timeline;
-
                 timeline.CurriculumAssignmentRef = curriculumAssignmentId;
                 timeline.OperationRef = createTimelineModel.OperationId;
+                timeline.StageRef = null;
                 Storage.AddTimeline(timeline);
 
                 return RedirectToAction("Index", new { CurriculumAssignmentId = curriculumAssignmentId });
@@ -91,7 +91,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                 var operations = Storage.GetOperations();
                 Timeline timeline = Storage.GetTimeline(timelineId);
 
-                CreateTimelineModel editTimelineModel = new CreateTimelineModel()
+                CreateCurriculumAssignmentTimelineModel editTimelineModel = new CreateCurriculumAssignmentTimelineModel()
                 {
                     Operations = from item in operations
                                  select new SelectListItem { Text = item.Name.ToString(), Value = item.Id.ToString(), Selected = false },
@@ -109,7 +109,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(int timelineId, CreateTimelineModel editTimelineModel)
+        public ActionResult Edit(int timelineId, CreateCurriculumAssignmentTimelineModel editTimelineModel)
         {
             try
             {

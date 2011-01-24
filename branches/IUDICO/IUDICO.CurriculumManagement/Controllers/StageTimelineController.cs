@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.CurriculumManagement.Models;
+using IUDICO.Common.Models;
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
@@ -20,6 +21,8 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
+                CurriculumAssignment curriculumAssignment = Storage.GetCurriculumAssignment(curriculumAssignmentId);
+                Group group = Storage.GetGroup(curriculumAssignment.UserGroupRef);
                 var timelines = Storage.GetStageTimelines(curriculumAssignmentId)
                                 .Select(item => new ViewStageTimelineModel
                                 {
@@ -27,11 +30,13 @@ namespace IUDICO.CurriculumManagement.Controllers
                                     StartDate = item.StartDate,
                                     EndDate = item.EndDate,
                                     OperationName = item.Operation.Name,
-                                    StageName = Storage.GetStage((int)item.StageRef).Name ?? "[Stage not exist]"
+                                    StageName = Storage.GetStage((int)item.StageRef).Name
                                 });
 
-                if (timelines != null)
+                if (timelines != null && group != null && curriculumAssignment != null)
                 {
+                    ViewData["Group"] = group;
+                    ViewData["Curriculum"] = curriculumAssignment.Curriculum;
                     return View(timelines);
                 }
                 else
@@ -102,48 +107,57 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
         }
 
-        //[HttpGet]
-        //public ActionResult Create(int curriculumAssignmentId)
-        //{
-        //    try
-        //    {
-        //        var operations = Storage.GetOperations();
+        [HttpGet]
+        public ActionResult Create(int curriculumAssignmentId)
+        {
+            try
+            {
+                CurriculumAssignment curriculumAssignment = Storage.GetCurriculumAssignment(curriculumAssignmentId);
 
-        //        CreateTimelineModel createTimelineModel = new CreateTimelineModel()
-        //        {
-        //            Operations = from item in operations
-        //                         select new SelectListItem { Text = item.Name.ToString(), Value = item.Id.ToString(), Selected = false },
-        //            Timeline = new Timeline()
-        //        };
+                CreateStageTimelineModel createTimelineModel = new CreateStageTimelineModel()
+                {
+                    Operations = Storage.GetOperations()
+                                .Select(item => new SelectListItem
+                                {
+                                    Text = item.Name,
+                                    Value = item.Id.ToString(),
+                                    Selected = false
+                                }),
+                    Stages = Storage.GetStages(curriculumAssignment.CurriculumRef)
+                            .Select(item => new SelectListItem
+                            {
+                                Text = item.Name,
+                                Value = item.Id.ToString(),
+                                Selected = false
+                            }),
+                    Timeline = new Timeline()
+                };
 
-        //        return View(createTimelineModel);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw e;
-        //    }
-        //}
+                return View(createTimelineModel);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
 
-        //[HttpPost]
-        //public ActionResult Create(CreateTimelineModel createTimelineModel)
-        //{
-        //    try
-        //    {
-        //        Timeline timeline = createTimelineModel.Timeline;
+        [HttpPost]
+        public ActionResult Create(int curriculumAssignmentId, CreateStageTimelineModel createTimelineModel)
+        {
+            try
+            {
+                Timeline timeline = createTimelineModel.Timeline;
+                timeline.CurriculumAssignmentRef = curriculumAssignmentId;
+                timeline.OperationRef = createTimelineModel.OperationId;
+                timeline.StageRef = createTimelineModel.StageId;
+                Storage.AddTimeline(timeline);
 
-        //        timeline.CurriculumAssignmentRef = (Storage.GetCurriculumAssignmentByCurriculumIdByGroupId((int)HttpContext.Session["CurriculumId"],
-        //                                                                                          ((int)HttpContext.Session["GroupId"]))).Id;
-        //        timeline.OperationRef = createTimelineModel.OperationId;
-        //        timeline.StageRef = (int)HttpContext.Session["StageId"];
-
-        //        Storage.AddTimeline(timeline);
-
-        //        return RedirectToAction("EditStageTimeline", new { StageId = (int)HttpContext.Session["StageId"] });
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw e;
-        //    }
-        //}
+                return RedirectToAction("Index", new { CurriculumAssignmentId = curriculumAssignmentId });
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }
