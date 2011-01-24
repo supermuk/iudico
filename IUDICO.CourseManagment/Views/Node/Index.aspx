@@ -152,8 +152,10 @@
                             }
                         }
                     }
+                },
+                "themes" : {
+                    "url" : "Content/Tree"
                 }
-
 		    })
             .bind("create.jstree", function (e, data) {
                 var id = data.rslt.parent.attr("id").replace("node_", "");
@@ -266,7 +268,20 @@
 					},
 					success: function (r) {
                         var $txt = $('<textarea></textarea>').attr('name', 'editor').html(r.data);
-					    $('.ui-layout-center').html($txt);
+					    $('.ui-layout-center').html("<form method='post'>" + $txt + "</form>");
+
+                        $('.ui-layout-center form').submit(function(e) {
+                            e.preventDefault();
+
+                            instance = CKEDITOR.instances['editor'];
+                            if (instance) {
+                                instance.updateElement();
+                                data = instance.getData();
+
+                                $.post("<%: Url.Action("Edit", "Node") %>", { id: data.obj.attr("id").replace("node_", ""), data: data } );
+                            }
+                            
+                        });
 
                         $txt.ckeditor();
 					}
