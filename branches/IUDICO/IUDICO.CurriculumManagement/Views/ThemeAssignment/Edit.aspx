@@ -27,7 +27,6 @@
     <% } %>
 
     <div>
-        <br />
-        <%: Html.ActionLink("Back to theme assignment list", "ThemeAssignment")%>
+            <%: Html.RouteLink("Back to theme assignment list", "ThemeAssignment", new { action = "Index", CurriculumAssignmentId = HttpContext.Current.Session["CurriculumAssignmentId"] })%>
     </div>
 </asp:Content>
