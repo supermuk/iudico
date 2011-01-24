@@ -93,20 +93,20 @@ namespace IUDICO.CurriculumManagement.Controllers
                     {
                         StageId = theme.StageRef,
                         ThemeId = themeId,
-                        Courses = from course in Storage.GetCourses()
-                                  select new SelectListItem
+                        Courses = Storage.GetCourses()
+                                  .Select(item => new SelectListItem
                                   {
-                                      Text = course.Name,
-                                      Value = course.Id.ToString(),
-                                      Selected = course.Id == theme.CourseRef ? true : false
-                                  },
-                        ThemeTypes = from themeType in Storage.GetThemeTypes()
-                                     select new SelectListItem
+                                      Text = item.Name,
+                                      Value = item.Id.ToString(),
+                                      Selected = item.Id == theme.CourseRef ? true : false
+                                  }),
+                        ThemeTypes = Storage.GetThemeTypes()
+                                     .Select(item => new SelectListItem
                                      {
-                                         Text = themeType.Name,
-                                         Value = themeType.Id.ToString(),
-                                         Selected = themeType.Id == theme.ThemeTypeRef ? true : false
-                                     }
+                                         Text = item.Name,
+                                         Value = item.Id.ToString(),
+                                         Selected = item.Id == theme.ThemeTypeRef ? true : false
+                                     })
                     };
                     return View(model);
                 }

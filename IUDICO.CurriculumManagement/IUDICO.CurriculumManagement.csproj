@@ -88,7 +88,8 @@
     <Compile Include="CurriculumManagementPlugin.cs" />
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\CreateCurriculumAssignmentModel.cs" />
-    <Compile Include="Models\CreateTimelineModel.cs" />
+    <Compile Include="Models\CreateCurriculumAssignmentTimelineModel.cs" />
+    <Compile Include="Models\CreateStageTimelineModel.cs" />
     <Compile Include="Models\CurriculumService.cs" />
     <Compile Include="Models\Enums\Operation.cs" />
     <Compile Include="Models\Enums\ThemeType.cs" />

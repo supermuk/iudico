@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.CreateTimelineModel>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.CreateCurriculumAssignmentTimelineModel>" %>
 
 <%@ Assembly Name="IUDICO.CurriculumManagement" %>
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
@@ -8,7 +8,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Edit timeline</h2>
+        Create curriculum assignment timeline</h2>
     <% Html.EnableClientValidation(); %>
     <% using (Html.BeginForm())
        {%>
@@ -16,15 +16,17 @@
     <fieldset>
         <legend>Fields</legend>
         <%= Html.EditorFor(item=>item.Timeline) %>
+        <div class="editor-label">
+            <%: Html.Label("Choose an operation for timeline:") %>
+        </div>
         <div>
-            <%: Html.DropDownListFor(x => x.OperationId,Model.Operations)%>
+            <%: Html.DropDownListFor(x => x.OperationId, Model.Operations)%>
         </div>
         <p>
             <input type="submit" value="Update" />
         </p>
     </fieldset>
     <% } %>
-
     <div>
         <br />
         <%: Html.RouteLink("Back to list", "CurriculumAssignmentTimelines", new { action = "Index", CurriculumAssignmentId = HttpContext.Current.Session["CurriculumAssignmentId"] })%>
