@@ -190,34 +190,63 @@ namespace IUDICO.Common.Models
             [DisplayName("Username")]
             [Required(ErrorMessage = "Username is required")]
             [StringLength(100, ErrorMessage = "Username can not be longer than 100")]
+            [Order(1)]
             public string Username { get; set; }
 
             [DisplayName("Password")]
             [Required(ErrorMessage = "Password is required")]
             [StringLength(50, ErrorMessage = "Password can not be longer than 50")]
+            [Order(2)]
             public string Password { get; set; }
 
             [DisplayName("Email")]
             [Required(ErrorMessage = "Email is required")]
             [StringLength(100, ErrorMessage = "Email can not be longer than 100")]
+            [Order(3)]
             public string Email { get; set; }
 
-            [DisplayName("Role")]
-            [Required(ErrorMessage = "Role is required")]
+            [ScaffoldColumn(false)]
             public int RoleId { get; set; }
 
             [DisplayName("OpenId")]
             [Required(ErrorMessage = "OpenId is required")]
             [StringLength(200, ErrorMessage = "OpenId can not be longer than 200")]
+            [Order(4)]
             public string OpenId { get; set; }
 
             [DisplayName("Name")]
             [Required(ErrorMessage = "Name is required")]
             [StringLength(200, ErrorMessage = "Name can not be longer than 200")]
+            [Order(5)]
             public string Name { get; set; }
 
             [ScaffoldColumn(false)]
             public bool Deleted { get; set; }
+
+            [ScaffoldColumn(false)]
+            public bool IsApproved { get; set; }
+
+            [DropDownList(OptionLabel = "Select Role", TargetProperty = "RoleId")]
+            [DisplayName("Role")]
+            [Order(6)]
+            public IEnumerable<SelectListItem> RolesList { get; set; }
+
+            [ScaffoldColumn(false)]
+            public Role Role { get; set; }
+        }
+
+        public IEnumerable<SelectListItem> RolesList { get; set; }
+
+        public Role Role
+        {
+            get
+            {
+                return (Role)RoleId;
+            }
+            set
+            {
+                RoleId = (int)value;
+            }
         }
     }
 
