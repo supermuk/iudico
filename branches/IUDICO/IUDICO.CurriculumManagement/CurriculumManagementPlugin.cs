@@ -7,12 +7,16 @@ using IUDICO.Common.Models.Services;
 using IUDICO.CurriculumManagement.Models.Storage;
 using Action = IUDICO.Common.Models.Action;
 using IUDICO.CurriculumManagement.Models;
+
+using System.Linq;
 using Castle.Windsor;
 
 namespace IUDICO.CurriculumManagement
 {
     public class CurriculumManagementPlugin : IWindsorInstaller, IPlugin
     {
+        static ICurriculumStorage curriculumStorage { get; set; }
+
         #region IWindsorInstaller Members
 
         public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
@@ -27,6 +31,8 @@ namespace IUDICO.CurriculumManagement
                 Component.For<ICurriculumStorage>().ImplementedBy<MixedCurriculumStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<ICurriculumService>().ImplementedBy<CurriculumService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
+
+            curriculumStorage = container.Resolve<ICurriculumStorage>();
         }
 
         #endregion
@@ -35,7 +41,9 @@ namespace IUDICO.CurriculumManagement
 
         public IEnumerable<Action> BuildActions(Role role)
         {
-            return new List<Action>();
+            List<Action> actions = new List<Action>();
+            actions.Add(new Action("Curriculum management", "Curriculum/Index"));
+            return actions;
         }
 
         public void BuildMenu(Menu menu)
@@ -132,7 +140,20 @@ namespace IUDICO.CurriculumManagement
 
         public void Update(string evt, params object[] data)
         {
-            // handle events
+            if (evt == "course/delete")
+            {
+                //delete connected Themes
+                int courseId = ((Course)data[0]).Id;
+                var themeIds = curriculumStorage.GetThemesByCourseId(courseId).Select(item => item.Id);
+                curriculumStorage.DeleteThemes(themeIds);
+            }
+            else if (evt == "group/delete")
+            {
+                //delete connected CurriculumAssignments
+                int groupId = ((Group)data[0]).Id;
+                var curriculumAssignmentIds = curriculumStorage.GetCurriculumAssignmentsByGroupId(groupId).Select(item => item.Id);
+                curriculumStorage.DeleteCurriculumAssignments(curriculumAssignmentIds);
+            }
         }
 
         public void Setup(IWindsorContainer container)

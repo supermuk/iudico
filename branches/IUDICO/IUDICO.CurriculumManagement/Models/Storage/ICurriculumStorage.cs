@@ -43,12 +43,13 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         #region Theme methods
 
         Theme GetTheme(int id);
-        IEnumerable<Theme> GetThemes(int stageId);
         IEnumerable<Theme> GetThemes(IEnumerable<int> ids);
+        IEnumerable<Theme> GetThemesByStageId(int stageId);
         IEnumerable<Theme> GetThemesByCurriculumId(int curriculumId);
         IEnumerable<Theme> GetThemesByGroupId(int groupId);
-        int AddTheme(Theme theme, Course course);
-        void UpdateTheme(Theme theme, Course course);
+        IEnumerable<Theme> GetThemesByCourseId(int courseId);
+        int AddTheme(Theme theme);
+        void UpdateTheme(Theme theme);
         void DeleteTheme(int id);
         void DeleteThemes(IEnumerable<int> ids);
         Theme ThemeUp(int themeId);
@@ -72,18 +73,19 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         int AddCurriculumAssignment(CurriculumAssignment curriculumAssignment);
         void UpdateCurriculumAssignment(CurriculumAssignment curriculumAssignment);
         void DeleteCurriculumAssignment(int id);
-        void DeleteCurriculumAssignments(IEnumerable<int> curriculumAssignmentIds);
+        void DeleteCurriculumAssignments(IEnumerable<int> ids);
 
         #endregion
 
         #region ThemeAssignment methods
 
-        IEnumerable<ThemeAssignment> GetThemeAssignmentsByCurriculumAssignmentId(int curriculumAssignmentId);
         ThemeAssignment GetThemeAssignment(int themeAssignmentId);
-
+        IEnumerable<ThemeAssignment> GetThemeAssignmentsByCurriculumAssignmentId(int curriculumAssignmentId);
+        IEnumerable<ThemeAssignment> GetThemeAssignmentsByThemeId(int themeId);
+        IEnumerable<ThemeAssignment> GetThemeAssignments(IEnumerable<int> ids);
         int AddThemeAssignment(ThemeAssignment themeAssignment);
-
         void UpdateThemeAssignment(ThemeAssignment themeAssignment);
+        void DeleteThemeAssignments(IEnumerable<int> ids);
 
         #endregion
 
@@ -92,7 +94,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         Timeline GetTimeline(int TimelineId);
         IEnumerable<Timeline> GetTimelines(IEnumerable<int> timelineIds);
         IEnumerable<Timeline> GetCurriculumAssignmentTimelines(int curriculumAssignmentId);
-        IEnumerable<Timeline> GetStageTimelines(int curriculumAssignmentId);
+        IEnumerable<Timeline> GetStageTimelinesByCurriculumAssignmentId(int curriculumAssignmentId);
+        IEnumerable<Timeline> GetStageTimelinesByStageId(int stageId);
         int AddTimeline(Timeline timeline);
         void UpdateTimeline(Timeline timeline);
         void DeleteTimeline(int timelineId);
