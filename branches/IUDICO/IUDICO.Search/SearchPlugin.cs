@@ -3,6 +3,7 @@ using Castle.MicroKernel.Registration;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
 using System.Collections.Generic;
+using Castle.Windsor;
 
 namespace IUDICO.Search
 {
@@ -49,6 +50,11 @@ namespace IUDICO.Search
         public void Update(string evt, params object[] data)
         {
             // handle events
+        }
+
+        public void Setup(IWindsorContainer container)
+        {
+
         }
 
         #endregion

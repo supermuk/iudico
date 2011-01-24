@@ -32,6 +32,8 @@ namespace IUDICO.CourseManagement.Controllers
                 requestContext.HttpContext.Response.Redirect("/Course/Index");
             }
 
+            LmsService.Inform("yo/andrij", "test1", "test2");
+
             base.Initialize(requestContext);
         }
 
@@ -159,6 +161,14 @@ namespace IUDICO.CourseManagement.Controllers
             {
                 return Json(new {status = true, data = "test"});
             }
+        }
+
+        [HttpPost]
+        public void Edit(int id, string data)
+        {
+            _Storage.UpdateNodeContents(id, data);
+
+            //return Json(new { result = true });
         }
     }
 }
