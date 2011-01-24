@@ -23,6 +23,9 @@ namespace IUDICO.UserManagement.Models.Storage
         void EditUser(Guid id, User editor);
         void DeleteUser(Guid id);
         IEnumerable<User> GetUsersByGroup(Group group);
+        bool UsernameExists(string username);
+        void ActivateUser(Guid id);
+        void DeactivateUser(Guid id);
 
         #endregion
 
