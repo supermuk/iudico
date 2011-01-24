@@ -70,7 +70,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Curriculum assignment timelines for
+        Stage timelines for
         <%: (ViewData["Curriculum"] as Curriculum).Name%>
         curriculum and
         <%: (ViewData["Group"] as IUDICO.Common.Models.Group).Name %>
@@ -88,7 +88,7 @@
                 Id
             </th>
             <th>
-                Stage name
+                Stage
             </th>
             <th>
                 Start date

@@ -15,9 +15,14 @@
         <%: Html.ValidationSummary(true) %>
 
         <fieldset>
-            <legend>Choose a group</legend>
-            
-            <%: Html.DropDownListFor(x => x.GroupId,Model.Groups)%>
+            <legend>Fields</legend>
+
+            <div class="editor-label">
+                <%: Html.Label("Choose a group:") %>
+            </div>
+            <div>
+                <%: Html.DropDownListFor(x => x.GroupId,Model.Groups)%>
+            </div>
             
             <p>
                 <input type="submit" value="Update" />

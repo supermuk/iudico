@@ -8,14 +8,25 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
         Create theme:</h2>
+    <% Html.EnableClientValidation(); %>
     <% using (Html.BeginForm("Create", "Theme"))
        {%>
     <%: Html.ValidationSummary(true)%>
     <fieldset>
-        <legend>Choose a course for theme</legend>
-        <%: Html.DropDownListFor(x => x.CourseId, Model.Courses)%>
-        <legend>Choose a theme type: </legend>
-        <%: Html.DropDownListFor(x => x.ThemeTypeId, Model.ThemeTypes)%>
+        <legend>Fields</legend>
+
+        <div class="editor-label">
+            <%: Html.Label("Choose a course for theme:") %>
+        </div>
+        <div>
+            <%: Html.DropDownListFor(x => x.CourseId, Model.Courses)%>
+        </div>
+        <div class="editor-label">
+            <%: Html.Label("Choose a theme type:")%>
+        </div>
+        <div>
+            <%: Html.DropDownListFor(x => x.ThemeTypeId, Model.ThemeTypes)%>
+        </div>
         <p>
             <input type="submit" value="Create" />
         </p>
