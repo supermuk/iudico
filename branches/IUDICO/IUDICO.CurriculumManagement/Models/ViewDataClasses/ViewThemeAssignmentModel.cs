@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using IUDICO.Common.Models;
 
-namespace IUDICO.CurriculumManagement.Models
+namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
 {
     public class ViewThemeAssignmentModel
     {

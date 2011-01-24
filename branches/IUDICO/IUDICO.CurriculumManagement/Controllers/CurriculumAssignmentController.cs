@@ -7,6 +7,7 @@ using IUDICO.Common.Models;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.CurriculumManagement.Controllers;
 using IUDICO.CurriculumManagement.Models;
+using IUDICO.CurriculumManagement.Models.ViewDataClasses;
 
 
 namespace IUDICO.CurriculumManagement.Controllers
@@ -26,23 +27,16 @@ namespace IUDICO.CurriculumManagement.Controllers
                 Curriculum curriculum = Storage.GetCurriculum(curriculumId);
                 var curriculumAssignments = Storage.GetCurriculumAssignmnetsByCurriculumId(curriculumId);
 
-                if (curriculumAssignments != null && curriculum != null)
-                {
-                    ViewData["CurriculumName"] = curriculum.Name;
-                    return View
-                    (
-                        from curriculumAssignment in curriculumAssignments
-                        select new ViewCurriculumAssignmentModel
-                        {
-                            Id = curriculumAssignment.Id,
-                            GroupName = Storage.GetGroup(curriculumAssignment.UserGroupRef).Name
-                        }
-                    );
-                }
-                else
-                {
-                    throw new Exception("Cannot read records");
-                }
+                ViewData["CurriculumName"] = curriculum.Name;
+                return View
+                (
+                    from curriculumAssignment in curriculumAssignments
+                    select new ViewCurriculumAssignmentModel
+                    {
+                        Id = curriculumAssignment.Id,
+                        GroupName = Storage.GetGroup(curriculumAssignment.UserGroupRef).Name
+                    }
+                );
             }
             catch (Exception e)
             {
@@ -76,6 +70,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
+                //refactor this using validation class Validator... return redirect to EDIT view!
                 if (createAssignmentModel.GroupId == 0)
                     return RedirectToAction("Index");
                 
@@ -130,6 +125,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
+                //refactor this using validation class Validator... return redirect to EDIT view!
                 if (editAssignmentModel.GroupId == 0)
                     return RedirectToAction("Index");
 

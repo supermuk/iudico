@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.CurriculumManagement.Models;
 using IUDICO.CurriculumManagement.Models.Storage;
+using IUDICO.CurriculumManagement.Models.ViewDataClasses;
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
@@ -25,16 +26,9 @@ namespace IUDICO.CurriculumManagement.Controllers
                 Group group = Storage.GetGroup(curriculumAssignment.UserGroupRef);
                 var timelines = Storage.GetCurriculumAssignmentTimelines(curriculumAssignmentId);
 
-                if (timelines != null && group != null && curriculumAssignment != null)
-                {
-                    ViewData["Group"] = group;
-                    ViewData["Curriculum"] = curriculumAssignment.Curriculum;
-                    return View(timelines);
-                }
-                else
-                {
-                    throw new Exception("Cannot read records");
-                }
+                ViewData["Group"] = group;
+                ViewData["Curriculum"] = curriculumAssignment.Curriculum;
+                return View(timelines);
             }
             catch (Exception e)
             {
