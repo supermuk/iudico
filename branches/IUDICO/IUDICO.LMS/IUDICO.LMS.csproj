@@ -185,6 +185,7 @@
     <Content Include="Views\Shared\DisplayTemplates\Password.ascx" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.ascx" />
     <Content Include="Views\Shared\EditorTemplates\DropDownList.ascx" />
+    <Content Include="Views\Shared\EditorTemplates\Object.ascx" />
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\UserBox.ascx" />
     <Content Include="Web.config">

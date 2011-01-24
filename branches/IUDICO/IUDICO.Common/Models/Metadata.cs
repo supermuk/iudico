@@ -229,9 +229,10 @@ namespace IUDICO.Common.Models
             [DropDownList(OptionLabel = "Select Role", TargetProperty = "RoleId")]
             [DisplayName("Role")]
             [Order(6)]
+            [RenderMode(RenderMode.EditModeOnly)]
             public IEnumerable<SelectListItem> RolesList { get; set; }
 
-            [ScaffoldColumn(false)]
+            [RenderMode(RenderMode.DisplayModeOnly)]
             public Role Role { get; set; }
 
             [ScaffoldColumn(false)]

@@ -120,7 +120,7 @@ namespace IUDICO.UserManagement.Controllers
             }
             else
             {
-                Response.Write("Invalid UserID and Password");
+                ModelState.AddModelError(string.Empty, "Invalid Username and/or password");
             }
 
             return View("Login");
