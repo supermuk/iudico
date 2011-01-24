@@ -14,7 +14,7 @@ namespace IUDICO.TestingSystem.Models
     {
         #region Singleton Implementation
         
-        private static MlcDataProvider instance = null;
+        private static MlcDataProvider _Instance = null;
 
         private MlcDataProvider()
         {
@@ -25,11 +25,11 @@ namespace IUDICO.TestingSystem.Models
         {
             get
             {
-                if (instance == null)
+                if (_Instance == null)
                 {
-                    instance = new MlcDataProvider();
+                    _Instance = new MlcDataProvider();
                 }
-                return instance;
+                return _Instance;
             }
         }
 

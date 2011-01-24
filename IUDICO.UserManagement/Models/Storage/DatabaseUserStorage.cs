@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Security;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Notifications;
 
 namespace IUDICO.UserManagement.Models.Storage
 {
@@ -70,7 +71,7 @@ namespace IUDICO.UserManagement.Models.Storage
             db.Users.InsertOnSubmit(user);
             db.SubmitChanges();
 
-            _LmsService.Inform("user/create", new object[] { user });
+            _LmsService.Inform(UserNotifications.UserCreate, user);
         }
 
         public void EditUser(Guid id, EditUserModel editor)
@@ -86,7 +87,7 @@ namespace IUDICO.UserManagement.Models.Storage
             
             db.SubmitChanges();
 
-            _LmsService.Inform("user/edit", new object[] { oldUser });
+            _LmsService.Inform(UserNotifications.UserEdit, oldUser);
         }
 
         public void DeleteUser(Guid id)
@@ -97,7 +98,7 @@ namespace IUDICO.UserManagement.Models.Storage
             user.Deleted = true;
             db.SubmitChanges();
 
-            _LmsService.Inform("user/delete", new object[] { user });
+            _LmsService.Inform(UserNotifications.UserDelete, user);
         }
 
         public IEnumerable<User> GetUsersByGroup(Group group)
@@ -155,7 +156,7 @@ namespace IUDICO.UserManagement.Models.Storage
             oldGroup.Name = group.Name;
             db.SubmitChanges();
 
-            _LmsService.Inform("group/edit", new object[] { group });
+            _LmsService.Inform(UserNotifications.GroupEdit, group);
         }
 
         public void DeleteGroup(int id)
@@ -166,7 +167,7 @@ namespace IUDICO.UserManagement.Models.Storage
             db.Groups.DeleteOnSubmit(group);
             db.SubmitChanges();
 
-            _LmsService.Inform("group/delete", new object[] { group });
+            _LmsService.Inform(UserNotifications.GroupDelete, group);
         }
 
         public void AddUserToGroup(Group group, User user)

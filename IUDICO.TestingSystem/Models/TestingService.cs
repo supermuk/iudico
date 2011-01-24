@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared.Statistics;
 using IUDICO.Common.Models;
+using System.Web;
 
 namespace IUDICO.TestingSystem.Models
 {
@@ -13,6 +14,8 @@ namespace IUDICO.TestingSystem.Models
         public IEnumerable<AttemptResult> GetResults(User user, Theme theme)
         {
             throw new NotImplementedException();
+            System.Web.Security.Membership.GetUser(System.Web.HttpContext.Current.User.Identity.Name);
+
         }
 
         public IEnumerable<AttemptResult> GetAllAttempts()
