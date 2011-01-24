@@ -164,6 +164,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public void Edit(int id, string data)
         {
             _Storage.UpdateNodeContents(id, data);
