@@ -57,6 +57,12 @@ namespace IUDICO.UserManagement.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (_Storage.UsernameExists(user.Username))
+                {
+                    ModelState.AddModelError("Username", "User with such username already exists.");
+                    return View();
+                }
+
                 _Storage.CreateUser(user);
 
                 return RedirectToAction("Index");
@@ -75,7 +81,7 @@ namespace IUDICO.UserManagement.Controllers
         {
             User user = _Storage.GetUser(id);
 
-            user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = r.ToString(), Value = ((int)r).ToString(), Selected = ((Role)user.RoleId == r) });
+            user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = r.ToString(), Value = ((int)r).ToString(), Selected = (user.Role == r) });
 
             return View(user);
         }
@@ -125,6 +131,22 @@ namespace IUDICO.UserManagement.Controllers
             {
                 return View();
             }
+        }
+
+        [Allow(Role = Role.Admin)]
+        public ActionResult Activate(Guid id)
+        {
+            _Storage.ActivateUser(id);
+
+            return RedirectToAction("Index");
+        }
+
+        [Allow(Role = Role.Admin)]
+        public ActionResult Deactivate(Guid id)
+        {
+            _Storage.DeactivateUser(id);
+
+            return RedirectToAction("Index");
         }
     }
 }
