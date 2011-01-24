@@ -16,6 +16,11 @@ namespace IUDICO.UserManagement.Models
 
         #region Implementation of IUserService
 
+        public User GetCurrentUser()
+        {
+            return _UserStorage.GetCurrentUser();
+        }
+
         public IEnumerable<Role> GetRoles()
         {
             return _UserStorage.GetRoles();

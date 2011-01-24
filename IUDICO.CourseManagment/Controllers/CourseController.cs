@@ -13,11 +13,13 @@ namespace IUDICO.CourseManagement.Controllers
 {
     public class CourseController : CourseBaseController
     {
-        private readonly ICourseStorage _storage;
+        private readonly ICourseStorage _Storage;
+        private IUserService _UserService;
 
         public CourseController(ICourseStorage courseStorage)
         {
-            _storage = courseStorage;
+            _Storage = courseStorage;
+            _UserService = LmsService.FindService<IUserService>();
         }
 
         [Allow(Role = Role.Student)]
@@ -25,16 +27,15 @@ namespace IUDICO.CourseManagement.Controllers
         {
             IUserService userService = LmsService.FindService<IUserService>();
             Guid userId = userService.GetUsers().Single(i => i.Username == User.Identity.Name).Id;
-            var courses = _storage.GetCourses(userId);
+            var courses = _Storage.GetCourses(userId);
             
-            return View(courses.Union(_storage.GetCourses(User.Identity.Name)));
+            return View(courses.Union(_Storage.GetCourses(User.Identity.Name)));
         }
 
         [Allow(Role = Role.Student)]
         public ActionResult Create()
         {
-            IUserService userService = LmsService.FindService<IUserService>();
-            var allUsers = userService.GetUsers().Where(i => i.Username != User.Identity.Name);
+            var allUsers = _UserService.GetUsers().Where(i => i.Username != _UserService.GetCurrentUser().Username);
             ViewData["AllUsers"] = allUsers;
 
             return View();
@@ -44,9 +45,10 @@ namespace IUDICO.CourseManagement.Controllers
         [Allow(Role = Role.Student)]
         public ActionResult Create(Course course, IEnumerable<Guid> sharewith)
         {
-            course.Owner = User.Identity.Name;
-            var id = _storage.AddCourse(course);
-            _storage.UpdateCourseUsers(id, sharewith);
+            
+            course.Owner = _UserService.GetCurrentUser().Username;
+            var id = _Storage.AddCourse(course);
+            _Storage.UpdateCourseUsers(id, sharewith);
 
             return RedirectToAction("Index");
         }
@@ -54,11 +56,10 @@ namespace IUDICO.CourseManagement.Controllers
         [Allow(Role = Role.Student)]
         public ActionResult Edit(int courseId)
         {
-            IUserService userService = LmsService.FindService<IUserService>();
-            var course = _storage.GetCourse(courseId);
+            var course = _Storage.GetCourse(courseId);
 
-            var allUsers = userService.GetUsers().Where(i => i.Username != course.Owner);
-            var courseUsers = allUsers.Where(i => _storage.GetCourseUsers(courseId).Any(j => j.Id == i.Id));
+            var allUsers = _UserService.GetUsers().Where(i => i.Username != course.Owner);
+            var courseUsers = allUsers.Where(i => _Storage.GetCourseUsers(courseId).Any(j => j.Id == i.Id));
 
             ViewData["AllUsers"] = allUsers.Except(courseUsers);
             ViewData["SharedUsers"] = courseUsers;
@@ -69,8 +70,8 @@ namespace IUDICO.CourseManagement.Controllers
         [Allow(Role = Role.Student)]
         public ActionResult Edit(int courseId, Course course, IEnumerable<Guid> sharewith)
         {
-            _storage.UpdateCourse(courseId, course);
-            _storage.UpdateCourseUsers(courseId, sharewith);
+            _Storage.UpdateCourse(courseId, course);
+            _Storage.UpdateCourseUsers(courseId, sharewith);
           
             return RedirectToAction("Index");
         }
@@ -81,7 +82,7 @@ namespace IUDICO.CourseManagement.Controllers
         {
             try
             {
-                _storage.DeleteCourse(courseId);
+                _Storage.DeleteCourse(courseId);
                 
                 return Json(new { success = true, id = courseId });
             }
@@ -97,7 +98,7 @@ namespace IUDICO.CourseManagement.Controllers
         {
             try
             {
-                _storage.DeleteCourses(new List<int>(courseIds));
+                _Storage.DeleteCourses(new List<int>(courseIds));
                 
                 return Json(new { success = true });
             }
@@ -110,9 +111,9 @@ namespace IUDICO.CourseManagement.Controllers
         [Allow(Role = Role.Student)]
         public FilePathResult Export(int courseId)
         {
-            var path = _storage.Export(courseId);
+            var path = _Storage.Export(courseId);
             
-            return new FilePathResult(path, "application/octet-stream") { FileDownloadName = _storage.GetCourse(courseId).Name + ".zip" };
+            return new FilePathResult(path, "application/octet-stream") { FileDownloadName = _Storage.GetCourse(courseId).Name + ".zip" };
         }
 
         [Allow(Role = Role.Student)]
@@ -142,7 +143,7 @@ namespace IUDICO.CourseManagement.Controllers
 
             fileUpload.SaveAs(path);
 
-            _storage.Import(path);
+            _Storage.Import(path, _UserService.GetCurrentUser().Username);
 
             return RedirectToAction("Index");
         }
