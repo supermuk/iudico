@@ -31,24 +31,24 @@
                 <% foreach (IUDICO.Common.Models.Theme selectTheme in Model.SelectCurriculumThemes) 
                     { %>
                         <td>
-                        <input type="radio" name="AttemptId" value="<%: Model.GetStudentAttempt(student,selectTheme).AttemptID %>"/>
+                        <input type="radio" name="attemptUsernameAndTheme" value="<%: student.Username+selectTheme.Name %>"/>
                             <%:
-                                    Model.GetStudentResautForTheme(student, selectTheme).ToString() + 
+                                    Model.GetStudentResultForTheme(student, selectTheme).ToString() +
                                     "/" + Model.GetMaxResautForTheme(selectTheme).ToString()
                                 %>
                         </td>
                     <% } %>  
             
                 <td>
-                 <%:Model.GetStudentResautForAllThemesInSelectedCurriculum(student) %>
+                 <%:Model.GetStudentResultForAllThemesInSelectedCurriculum(student)%>
                   / 
                  <%: Model.GetAllThemesInSelectedCurriculumMaxMark()%> 
                 </td>
-                <td> <%:Model.GetStudentResautForAllThemesInSelectedCurriculum(student)/Model.GetAllThemesInSelectedCurriculumMaxMark() * 100%> %
+                <td> <%:Model.GetStudentResultForAllThemesInSelectedCurriculum(student) / Model.GetAllThemesInSelectedCurriculumMaxMark() * 100%> %
                 </td>
                 <td> <%:Model.Ects
                          (
-                            (Model.GetStudentResautForAllThemesInSelectedCurriculum(student))/(Model.GetAllThemesInSelectedCurriculumMaxMark())
+                            (Model.GetStudentResultForAllThemesInSelectedCurriculum(student)) / (Model.GetAllThemesInSelectedCurriculumMaxMark())
                           )%>
                 </td>
             </tr>
