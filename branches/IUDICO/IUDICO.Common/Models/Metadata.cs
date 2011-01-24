@@ -239,7 +239,7 @@ namespace IUDICO.Common.Models
             public int Id { get; set; }
 
             [ScaffoldColumn(false)]
-            private EntitySet<GroupUser> GroupUsers { get; set; }
+            public EntitySet<GroupUser> GroupUsers { get; set; }
 
             [DisplayName("Name")]
             [Required(ErrorMessage = "Name is required")]

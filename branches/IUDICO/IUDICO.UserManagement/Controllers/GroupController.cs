@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.UserManagement.Models.Storage;
 using IUDICO.Common.Models.Attributes;
+using System;
 
 namespace IUDICO.UserManagement.Controllers
 {
@@ -119,11 +120,29 @@ namespace IUDICO.UserManagement.Controllers
             return View(groupUser);
         }
 
+        [Allow(Role = Role.Teacher)]
+        public ActionResult Details(int id)
+        {
+            return View(_Storage.GetGroup(id));
+        }
+
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult AddUsers(int id, int userId)
+        public ActionResult AddUsers(int id, Guid userRef)
         {
-            return View(new GroupUser());
+            Group group = _Storage.GetGroup(id);
+            User user = _Storage.GetUser(userRef);
+            _Storage.AddUserToGroup(group, user);
+            return RedirectToAction("Details", new { Id = id });
+        }
+
+        [Allow(Role = Role.Teacher)]
+        public ActionResult RemoveUser(int id, Guid userRef)
+        {
+            Group group = _Storage.GetGroup(id);
+            User user = _Storage.GetUser(userRef);
+            _Storage.RemoveUserFromGroup(group, user);
+            return RedirectToAction("Details", new { Id = id });
         }
     }
 }
