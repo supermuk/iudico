@@ -106,5 +106,11 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         void                                    UpdateThemeAssignment(ThemeAssignment themeAssignment);
 
         #endregion
+
+        #region Timeline methods
+
+        Timeline                                GetStageTimeline(int stageTimelineId);
+
+        #endregion
     }
 }
