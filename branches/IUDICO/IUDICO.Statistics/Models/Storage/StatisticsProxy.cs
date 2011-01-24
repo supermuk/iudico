@@ -117,8 +117,8 @@ namespace IUDICO.Statistics.Models.Storage
 
             foreach (Theme theme in SelectCurriculumThemes)
             {
-                //resault += LastAttempts.First(x => x.User == SelectStudent & x.Theme == theme).Score.ToPercents();
-                result += 10;
+                result += _LastAttempts.First(x => x.User == selectStudent & x.Theme == theme).Score.ToPercents();
+                //result += 10;
             }
 
             return result;
@@ -126,7 +126,7 @@ namespace IUDICO.Statistics.Models.Storage
 
         public double? GetAllThemesInSelectedCurriculumMaxMark()
         {
-            return 100; //* SelectCurriculumThemes.Count();
+            return 100 * SelectCurriculumThemes.Count();
         }
 
         public double? GetMaxResautForTheme(Theme selectTheme)
@@ -164,7 +164,7 @@ namespace IUDICO.Statistics.Models.Storage
 
         public AttemptResult GetStudentAttempt(User selectStudent, Theme selectTheme)
         {
-            return _LastAttempts.First();//(x => x.User == SelectStudent & x.Theme == SelectTheme);
+            return _LastAttempts.First(x => x.User == selectStudent & x.Theme == selectTheme);
         }
 
         public List<AttemptResult> GetAllAttemts()
@@ -177,11 +177,26 @@ namespace IUDICO.Statistics.Models.Storage
     {
         private ILmsService _LmsService;
         public AttemptResult Attempt;
-
-        public ThemeTestResaultsModel(Int32 attemptId, IEnumerable<AttemptResult> attList, ILmsService lmsService)
+        public IEnumerable<AnswerResult> UserAnswers;
+        public ThemeTestResaultsModel(String attemptUsernameAndTheme, IEnumerable<AttemptResult> attList, ILmsService lmsService)
         {
             _LmsService = lmsService;
-            Attempt = attList.First(c => c.AttemptId == attemptId);
+            Attempt = attList.First(c => c.User.Username + c.Theme.Name == attemptUsernameAndTheme);
+            UserAnswers = _LmsService.FindService<ITestingService>().GetAnswers(Attempt);
+        }
+        public String GetUserAnswer(AnswerResult answerResult)
+        {
+            if (answerResult.LearnerResponse != null)
+                return answerResult.LearnerResponse.ToString();
+            else
+                return "";
+        }
+        public String GetUserScoreForAnswer(AnswerResult answerResult)
+        {
+            if (answerResult.ScaledScore != null)
+                return answerResult.ScaledScore.ToString();
+            else
+                return "";
         }
     }
 }

@@ -54,9 +54,9 @@ namespace IUDICO.Statistics.Controllers
         }
 
         [HttpPost]
-        public ActionResult ThemeTestResaults(Int32 attemptId)
+        public ActionResult ThemeTestResaults(String attemptUsernameAndTheme)
         {
-            var model = new ThemeTestResaultsModel(attemptId, (List<AttemptResult>)HttpContext.Session["Attempts"], LmsService);
+            var model = new ThemeTestResaultsModel(attemptUsernameAndTheme, (List<AttemptResult>)HttpContext.Session["Attempts"], LmsService);
             return View(model);
         }
     }

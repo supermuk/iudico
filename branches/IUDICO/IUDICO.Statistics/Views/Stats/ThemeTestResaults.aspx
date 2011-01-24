@@ -22,6 +22,42 @@
         <p>
             Score:  <%: Model.Attempt.Score.ToPercents()%>
         </p>
+
+        <table border="4" cellpadding="4" cellspacing="4">
+        
+        <tr>
+        <th> Number of question </th>
+        <th> Student Answer </th>
+        <th> Corect Answer </th>
+        <th> Comparison</th>
+        <th> Score </th>
+        </tr>
+        <%int i = 1; %>
+        <% foreach (IUDICO.Common.Models.Shared.Statistics.AnswerResult answer in Model.UserAnswers)
+           {  %>
+           <tr>
+                <td><%:i++ %></td>
+                <td><%: Model.GetUserAnswer(answer)%></td>
+                <td><%: answer.CorrectResponse%></td>
+                <td><%if (Model.GetUserAnswer(answer) == answer.CorrectResponse)
+                      {%>
+                      true
+                      <%}
+                      else if (Model.GetUserAnswer(answer) == "")
+                      { %>
+                       
+                      <% 
+                      }
+                      else
+                      { %>
+                      false
+                      <%} %>
+                </td>
+                <td><%: Model.GetUserScoreForAnswer(answer)%></td>
+           </tr>
+
+        <% } %>
+        </table>
     </fieldset>
 
 </asp:Content>
