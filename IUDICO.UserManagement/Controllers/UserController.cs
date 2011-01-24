@@ -4,6 +4,7 @@ using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
 using IUDICO.UserManagement.Models;
 using IUDICO.UserManagement.Models.Storage;
+using System.Linq;
 
 namespace IUDICO.UserManagement.Controllers
 {
@@ -40,7 +41,11 @@ namespace IUDICO.UserManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Create()
         {
-            return View();
+            var user = new User();
+
+            user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = r.ToString(), Value = ((int)r).ToString(), Selected = false });
+
+            return View(user);
         } 
 
         //
@@ -68,7 +73,11 @@ namespace IUDICO.UserManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Edit(Guid id)
         {
-            return View(new EditUserModel(_Storage.GetUser(id)));
+            User user = _Storage.GetUser(id);
+
+            user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = r.ToString(), Value = ((int)r).ToString(), Selected = ((Role)user.RoleId == r) });
+
+            return View(user);
         }
 
         //
@@ -76,11 +85,11 @@ namespace IUDICO.UserManagement.Controllers
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Edit(Guid id,  EditUserModel editor)
+        public ActionResult Edit(Guid id,  User user)
         {
             if (ModelState.IsValid)
             {
-                _Storage.EditUser(id, editor);
+                _Storage.EditUser(id, user);
  
                 return RedirectToAction("Index");
             }

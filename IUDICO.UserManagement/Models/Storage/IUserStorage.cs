@@ -20,7 +20,7 @@ namespace IUDICO.UserManagement.Models.Storage
         User GetUser(Guid id);
         User GetUser(string openId);
         void CreateUser(User user);
-        void EditUser(Guid id, EditUserModel editor);
+        void EditUser(Guid id, User editor);
         void DeleteUser(Guid id);
         IEnumerable<User> GetUsersByGroup(Group group);
 
