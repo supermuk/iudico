@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.CurriculumManagement.Models;
 using IUDICO.Common.Models;
+using IUDICO.CurriculumManagement.Models.ViewDataClasses;
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
@@ -33,16 +34,9 @@ namespace IUDICO.CurriculumManagement.Controllers
                                     StageName = Storage.GetStage((int)item.StageRef).Name
                                 });
 
-                if (timelines != null && group != null && curriculumAssignment != null)
-                {
-                    ViewData["Group"] = group;
-                    ViewData["Curriculum"] = curriculumAssignment.Curriculum;
-                    return View(timelines);
-                }
-                else
-                {
-                    throw new Exception("Cannot read records");
-                }
+                ViewData["Group"] = group;
+                ViewData["Curriculum"] = curriculumAssignment.Curriculum;
+                return View(timelines);
             }
             catch (Exception e)
             {
@@ -76,15 +70,8 @@ namespace IUDICO.CurriculumManagement.Controllers
                     Timeline = timeline
                 };
 
-                if (timeline != null)
-                {
-                    Session["CurriculumAssignmentId"] = timeline.CurriculumAssignmentRef;
-                    return View(editStageTimelineModel);
-                }
-                else
-                {
-                    throw new Exception("Cannot read records");
-                }
+                Session["CurriculumAssignmentId"] = timeline.CurriculumAssignmentRef;
+                return View(editStageTimelineModel);
             }
             catch (Exception e)
             {
@@ -97,6 +84,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
+                //refactor this using validation class Validator.ValidateTimeline... return redirect to EDIT view!
                 if(editStageTimelineModel.Timeline.StartDate > editStageTimelineModel.Timeline.EndDate)
                     return RedirectToRoute("StageTimelines", new { action = "Index", CurriculumAssignmentId = Session["CurriculumAssignmentId"] });
 
@@ -186,6 +174,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
+                //refactor this using validation class Validator.ValidateTimeline... return redirect to EDIT view!
                 if(createTimelineModel.Timeline.StartDate > createTimelineModel.Timeline.EndDate)
                     return RedirectToAction("Index", new { CurriculumAssignmentId = curriculumAssignmentId });
 

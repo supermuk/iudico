@@ -19,14 +19,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 var curriculums = Storage.GetCurriculums();
 
-                if (curriculums != null)
-                {
-                    return View(curriculums);
-                }
-                else
-                {
-                    throw new Exception("Cannot read records");
-                }
+                return View(curriculums);
             }
             catch (Exception e)
             {
@@ -69,14 +62,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 var curriculum = Storage.GetCurriculum(curriculumId);
 
-                if (curriculum != null)
-                {
-                    return View(curriculum);
-                }
-                else
-                {
-                    throw new Exception("Curriculum is null.");
-                }
+                return View(curriculum);
             }
             catch (Exception e)
             {

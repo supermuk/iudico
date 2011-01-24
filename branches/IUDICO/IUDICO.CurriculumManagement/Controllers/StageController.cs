@@ -19,15 +19,8 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 var stages = Storage.GetStages(curriculumId);
 
-                if (stages != null)
-                {
-                    ViewData["CurriculumName"] = Storage.GetCurriculum(curriculumId).Name;
-                    return View(stages);
-                }
-                else
-                {
-                    throw new Exception("Cannot read records");
-                }
+                ViewData["CurriculumName"] = Storage.GetCurriculum(curriculumId).Name;
+                return View(stages);
             }
             catch (Exception e)
             {
@@ -42,14 +35,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 var curriculum = Storage.GetCurriculum(curriculumId);
 
-                if (curriculum != null)
-                {
-                    return View();
-                }
-                else
-                {
-                    throw new Exception("Curriculum doesn't exist!");
-                }
+                return View();
             }
             catch (Exception e)
             {
@@ -63,7 +49,6 @@ namespace IUDICO.CurriculumManagement.Controllers
             try
             {
                 stage.CurriculumRef = curriculumId;
-
                 Storage.AddStage(stage);
 
                 return RedirectToAction("Index");
@@ -81,15 +66,8 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 var stage = Storage.GetStage(stageId);
 
-                if (stage != null)
-                {
-                    HttpContext.Session["CurriculumId"] = stage.CurriculumRef;
-                    return View(stage);
-                }
-                else
-                {
-                    throw new Exception("Stage doesn't exist!");
-                }
+                HttpContext.Session["CurriculumId"] = stage.CurriculumRef;
+                return View(stage);
             }
             catch (Exception e)
             {

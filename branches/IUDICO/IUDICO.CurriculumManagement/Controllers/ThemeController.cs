@@ -6,6 +6,7 @@ using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.CurriculumManagement.Models;
+using IUDICO.CurriculumManagement.Models.ViewDataClasses;
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
@@ -23,16 +24,10 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 var themes = Storage.GetThemes(stageId);
                 Stage stage = Storage.GetStage(stageId);
-                if (themes != null && stage != null)
-                {
-                    ViewData["StageName"] = stage.Name;
-                    ViewData["CurriculumId"] = stage.CurriculumRef;
-                    return View(themes);
-                }
-                else
-                {
-                    throw new Exception("Stage or theme doesn't exist!");
-                }
+
+                ViewData["StageName"] = stage.Name;
+                ViewData["CurriculumId"] = stage.CurriculumRef;
+                return View(themes);
             }
             catch (Exception e)
             {
@@ -69,7 +64,6 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 var theme = new Theme { CourseRef = model.CourseId, StageRef = model.StageId, ThemeTypeRef = model.ThemeTypeId };
                 var course = Storage.GetCourse(model.CourseId);
-
                 Storage.AddTheme(theme, course);
 
                 return RedirectToAction("Index", new { StageId = model.StageId });
@@ -87,33 +81,26 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 var theme = Storage.GetTheme(themeId);
 
-                if (theme != null)
+                var model = new CreateThemeModel()
                 {
-                    var model = new CreateThemeModel()
-                    {
-                        StageId = theme.StageRef,
-                        ThemeId = themeId,
-                        Courses = Storage.GetCourses()
-                                  .Select(item => new SelectListItem
-                                  {
-                                      Text = item.Name,
-                                      Value = item.Id.ToString(),
-                                      Selected = item.Id == theme.CourseRef ? true : false
-                                  }),
-                        ThemeTypes = Storage.GetThemeTypes()
-                                     .Select(item => new SelectListItem
-                                     {
-                                         Text = item.Name,
-                                         Value = item.Id.ToString(),
-                                         Selected = item.Id == theme.ThemeTypeRef ? true : false
-                                     })
-                    };
-                    return View(model);
-                }
-                else
-                {
-                    throw new Exception("Theme doesn't exist!");
-                }
+                    StageId = theme.StageRef,
+                    ThemeId = themeId,
+                    Courses = Storage.GetCourses()
+                                .Select(item => new SelectListItem
+                                {
+                                    Text = item.Name,
+                                    Value = item.Id.ToString(),
+                                    Selected = item.Id == theme.CourseRef ? true : false
+                                }),
+                    ThemeTypes = Storage.GetThemeTypes()
+                                    .Select(item => new SelectListItem
+                                    {
+                                        Text = item.Name,
+                                        Value = item.Id.ToString(),
+                                        Selected = item.Id == theme.ThemeTypeRef ? true : false
+                                    })
+                };
+                return View(model);
             }
             catch (Exception e)
             {
@@ -130,7 +117,6 @@ namespace IUDICO.CurriculumManagement.Controllers
                 theme.CourseRef = model.CourseId;
                 theme.ThemeTypeRef = model.ThemeTypeId;
                 var course = Storage.GetCourse(model.CourseId);
-
                 Storage.UpdateTheme(theme, course);
 
                 return RedirectToRoute("Themes", new { action = "Index", StageId = theme.StageRef });
