@@ -36,21 +36,31 @@ namespace IUDICO.Common.Models.TemplateMetadata
             
             var metadataForProperties = base.GetMetadataForProperties(container, containerType);
 
-            foreach (var metadataForProperty in metadataForProperties)
+            foreach (FieldTemplateMetadata metadataForProperty in metadataForProperties)
             {
-                var property = metadataForProperty.ContainerType.GetProperty(metadataForProperty.PropertyName);
+                var renderModeAttribute = metadataForProperty.Attributes.OfType<RenderModeAttribute>();
 
-                var propertyAttributes = property.GetCustomAttributes(typeof(OrderAttribute), true);
+                if (renderModeAttribute.Any())
+                {
+                    var renderMode = renderModeAttribute.First().RenderMode;
+                    
+                    switch (renderMode)
+                    {
+                        case RenderMode.DisplayModeOnly:
+                            metadataForProperty.ShowForDisplay = true;
+                            metadataForProperty.ShowForEdit = false;
+                            break;
+                        case RenderMode.EditModeOnly:
+                            metadataForProperty.ShowForDisplay = false;
+                            metadataForProperty.ShowForEdit = true;
+                            break;
+                    }
 
-                if (propertyAttributes.Length > 0)
-                {
-                    var orderAttribute = propertyAttributes[0] as OrderAttribute;
-                    returnValue.Add(orderAttribute.Order, metadataForProperty);
                 }
-                else
-                {
-                    returnValue.Add(key++, metadataForProperty);
-                }
+
+                var orderAttribute = metadataForProperty.Attributes.OfType<OrderAttribute>();
+
+                returnValue.Add(orderAttribute.Any() ? orderAttribute.First().Order : key++, metadataForProperty);
             }
 
             return returnValue.Values.AsEnumerable();
