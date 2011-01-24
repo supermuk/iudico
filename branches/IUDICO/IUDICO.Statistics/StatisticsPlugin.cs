@@ -6,6 +6,7 @@ using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
 using IUDICO.Statistics.Models.Storage;
 using IUDICO.Statistics.Models;
+using Castle.Windsor;
 namespace IUDICO.Statistics
 {
     public class StatisticsPlugin : IWindsorInstaller, IPlugin
@@ -57,6 +58,11 @@ namespace IUDICO.Statistics
         public void Update(string evt, params object[] data)
         {
             // handle events
+        }
+
+        public void Setup(IWindsorContainer container)
+        {
+
         }
 
         #endregion

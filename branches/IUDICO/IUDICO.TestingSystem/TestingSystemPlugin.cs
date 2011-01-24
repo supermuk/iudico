@@ -7,6 +7,7 @@ using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Notifications;
 using IUDICO.TestingSystem.Models;
+using Castle.Windsor;
 
 
 namespace IUDICO.TestingSystem
@@ -63,6 +64,11 @@ namespace IUDICO.TestingSystem
             //{
                           
             //}
+        }
+
+        public void Setup(IWindsorContainer container)
+        {
+
         }
 
         #endregion
