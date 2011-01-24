@@ -2,7 +2,6 @@
 
 <%@ Assembly Name="IUDICO.CurriculumManagement" %>
 <%@ Import Namespace="IUDICO.Common.Models" %>
-
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
@@ -19,8 +18,6 @@
     <table>
         <tr>
             <th>
-            </th>
-            <th>
                 Id
             </th>
             <th>
@@ -36,9 +33,6 @@
            { %>
         <tr id="item<%: item.ThemeAssignment.Id %>">
             <td>
-                <input type="checkbox" id="<%= item.ThemeAssignment.Id %>" />
-            </td>
-            <td>
                 <%: item.ThemeAssignment.Id %>
             </td>
             <td>
@@ -49,13 +43,12 @@
             </td>
             <td>
                 <%: Html.ActionLink("Edit", "Edit", new { ThemeAssignmentId = item.ThemeAssignment.Id }, null)%>
-           </td>
+            </td>
         </tr>
         <% } %>
     </table>
-
     <div>
-        <br/>
+        <br />
         <%: Html.RouteLink("Back to curriculum assignments.", "CurriculumAssignments", new { action = "Index", CurriculumId = (ViewData["Curriculum"] as Curriculum).Id })%>
     </div>
 </asp:Content>

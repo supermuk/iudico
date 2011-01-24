@@ -75,7 +75,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                 themeAssignment.Id = themeAssignmentId;
                 Storage.UpdateThemeAssignment(themeAssignment);
 
-                    return RedirectToAction("Index");
+                return RedirectToRoute("ThemeAssignments", new { action = "Index", CurriculumAssignmentId = Session["CurriculumAssignmentId"] });
             }
             catch (Exception e)
             {

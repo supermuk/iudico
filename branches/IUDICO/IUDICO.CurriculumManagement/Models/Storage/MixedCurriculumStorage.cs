@@ -19,7 +19,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #region IStorageInterface Members
 
-        #region Helper methods
+        #region External methods
 
         public void RefreshState()
         {
@@ -51,6 +51,11 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #region Curriculum methods
 
+        public Curriculum GetCurriculum(int id)
+        {
+            return _Db.Curriculums.Single(item => item.Id == id && !item.IsDeleted);
+        }
+
         public IEnumerable<Curriculum> GetCurriculums()
         {
             return _Db.Curriculums.Where(item => !item.IsDeleted);
@@ -61,9 +66,9 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return _Db.Curriculums.Where(item => ids.Contains(item.Id) && !item.IsDeleted);
         }
 
-        public Curriculum GetCurriculum(int id)
+        public IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId)
         {
-            return _Db.Curriculums.Single(item => item.Id == id && !item.IsDeleted);
+            return GetCurriculumAssignmentsByGroupId(groupId).Select(item => item.Curriculum);
         }
 
         public int AddCurriculum(Curriculum curriculum)
@@ -193,6 +198,11 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #region Theme methods
 
+        public Theme GetTheme(int id)
+        {
+            return _Db.Themes.Single(item => item.Id == id && !item.IsDeleted);
+        }
+
         public IEnumerable<Theme> GetThemes(int stageId)
         {
             return _Db.Themes.Where(item => item.StageRef == stageId && !item.IsDeleted).OrderBy(item => item.SortOrder);
@@ -203,11 +213,17 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return _Db.Themes.Where(item => ids.Contains(item.Id) && !item.IsDeleted).OrderBy(item => item.SortOrder);
         }
 
-        public Theme GetTheme(int id)
+        public IEnumerable<Theme> GetThemesByCurriculumId(int curriculumId)
         {
-            return _Db.Themes.Single(item => item.Id == id && !item.IsDeleted);
+            return GetStages(GetCurriculum(curriculumId).Id).SelectMany(item => GetThemes(item.Id));
         }
 
+        public IEnumerable<Theme> GetThemesByGroupId(int groupId)
+        {
+            return GetCurriculumsByGroupId(groupId).SelectMany(item => GetThemesByCurriculumId(item.Id));
+        }
+
+        //TODO:what the fuck??
         public int AddTheme(Theme theme, Course course)
         {
             theme.Name = course.Name;
@@ -304,11 +320,16 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #endregion
 
-        #region Assignment methods
+        #region CurriculumAssignment methods
 
         public CurriculumAssignment GetCurriculumAssignment(int curriculumAssignmentId)
         {
             return _Db.CurriculumAssignments.Single(item => item.Id == curriculumAssignmentId && !item.IsDeleted);
+        }
+
+        public IEnumerable<CurriculumAssignment> GetCurriculumAssignmnets()
+        {
+            return _Db.CurriculumAssignments.Where(item => !item.IsDeleted);
         }
 
         public IEnumerable<CurriculumAssignment> GetCurriculumAssignments(IEnumerable<int> ids)
@@ -324,17 +345,6 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public IEnumerable<CurriculumAssignment> GetCurriculumAssignmentsByGroupId(int groupId)
         {
             return _Db.CurriculumAssignments.Where(item => item.UserGroupRef == groupId && !item.IsDeleted);
-        }
-
-        public IEnumerable<Group> GetAssignedGroups(int curriculumId)
-        {
-            return GetCurriculumAssignmnetsByCurriculumId(curriculumId).Select(item => GetGroup(item.UserGroupRef));
-        }
-
-        public IEnumerable<Group> GetNotAssignedGroups(int curriculumId)
-        {
-            var assignedGroupIds = GetAssignedGroups(curriculumId).Select(item => item.Id);
-            return GetGroups().Where(item => !assignedGroupIds.Contains(item.Id)).Select(item => item);
         }
 
         public int AddCurriculumAssignment(CurriculumAssignment curriculumAssignment)
@@ -364,50 +374,13 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return curriculumAssignment.Id;
         }
 
-        public IEnumerable<Timeline> GetTimelines(int curriculumId, int groupId)
+        public void UpdateCurriculumAssignment(CurriculumAssignment curriculumAssignment)
         {
-            IEnumerable<CurriculumAssignment> CurrAssignments = (GetCurriculumAssignmnetsByCurriculumId(curriculumId).Where(item => item.UserGroupRef == groupId && !item.IsDeleted));
-            List<int?> CurrAssignmentIds = new List<int?>();
+            var oldCurriculumAssignment = GetCurriculumAssignment(curriculumAssignment.Id);
 
-            foreach (CurriculumAssignment item in CurrAssignments)
-                CurrAssignmentIds.Add(item.Id);
+            oldCurriculumAssignment.UserGroupRef = curriculumAssignment.UserGroupRef;
 
-            return _Db.Timelines.Where(item => CurrAssignmentIds.Contains(item.CurriculumAssignmentRef) && !item.IsDeleted);
-        }
-
-        public CurriculumAssignment GetCurriculumAssignmentByCurriculumIdByGroupId(int curriculumId, int groupId)
-        {
-            return (GetCurriculumAssignmnetsByCurriculumId(curriculumId).Where(item => item.UserGroupRef == groupId && !item.IsDeleted)).ToList()[0];
-        }
-
-        public int AddTimeline(Timeline timeline)
-        {
-            timeline.IsDeleted = false;
-
-            _Db.Timelines.InsertOnSubmit(timeline);
             _Db.SubmitChanges();
-
-            return timeline.Id;
-        }
-
-        public IEnumerable<Timeline> GetCurriculumAssignmentTimelines(int curriculumAssignmentId)
-        {
-            return _Db.Timelines.Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && item.StageRef == null && !item.IsDeleted);
-        }
-
-        public IEnumerable<Timeline> GetStageTimelines(int curriculumAssignmentId)
-        {
-            return _Db.Timelines.Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && item.StageRef != null && !item.IsDeleted);
-        }
-
-        public IEnumerable<Timeline> GetTimelines(IEnumerable<int> TimelineIds)
-        {
-            return _Db.Timelines.Where(item => TimelineIds.Contains(item.Id) && !item.IsDeleted);
-        }
-
-        public Timeline GetTimeline(int TimelineId)
-        {
-            return _Db.Timelines.Single(item => item.Id == TimelineId && !item.IsDeleted);
         }
 
         public void DeleteCurriculumAssignment(int curriculumAssignmentId)
@@ -428,97 +401,6 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             {
                 DeleteCurriculumAssignment(id);
             }
-        }
-
-        public void DeleteTimeline(int Timelineid)
-        {
-
-            var timeline = GetTimeline(Timelineid);
-
-            timeline.IsDeleted = true;
-
-            _Db.SubmitChanges();
-        }
-
-        public void DeleteTimelines(IEnumerable<int> TimelineIds)
-        {
-            var timelines = GetTimelines(TimelineIds);
-
-            foreach (Timeline timeline in timelines)
-            {
-                timeline.IsDeleted = true;
-            }
-
-            _Db.SubmitChanges();
-        }
-
-        public IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId)
-        {
-            var curriculumAssignments = _Db.CurriculumAssignments.Where(item => item.UserGroupRef == groupId && !item.IsDeleted);
-            List<int> curriculumIds = new List<int>();
-            foreach (var item in curriculumAssignments)
-            {
-                curriculumIds.Add(item.CurriculumRef);
-            }
-            return _Db.Curriculums.Where(item => curriculumIds.Contains(item.Id) && !item.IsDeleted);
-        }
-
-        public IEnumerable<Theme> GetThemesByCurriculumId(int curriculumId)
-        {
-            var stages = _Db.Stages.Where(item => item.CurriculumRef == curriculumId && !item.IsDeleted);
-            List<int> stageIds = new List<int>();
-            foreach (var item in stages)
-            {
-                stageIds.Add(item.Id);
-            }
-            return _Db.Themes.Where(item => stageIds.Contains(item.StageRef) && !item.IsDeleted);
-        }
-
-        public IEnumerable<Theme> GetThemesByGroupId(int groupId)
-        {
-            var currAssignments = _Db.CurriculumAssignments.Where(item => item.UserGroupRef == groupId && !item.IsDeleted);
-            List<int> currIds = new List<int>();
-            foreach (var item in currAssignments)
-                currIds.Add(item.CurriculumRef);
-            var stages = _Db.Stages.Where(item => currIds.Contains(item.CurriculumRef) && !item.IsDeleted);
-            List<int> stageIds = new List<int>();
-            foreach (var item in stages)
-            {
-                stageIds.Add(item.Id);
-            }
-            return _Db.Themes.Where(item => stageIds.Contains(item.StageRef) && !item.IsDeleted);
-        }
-
-        public IEnumerable<Operation> GetOperations()
-        {
-            return _Db.Operations;
-        }
-
-        public IEnumerable<Timeline> GetTimelines(int stageId, int curriculumId, int groupId)
-        {
-            CurriculumAssignment curriculumAssignment = _Db.CurriculumAssignments.Single(item => item.CurriculumRef == curriculumId &&
-                                                                                                 item.UserGroupRef == groupId && !item.IsDeleted);
-            return _Db.Timelines.Where(item => item.CurriculumAssignmentRef == curriculumAssignment.Id && item.StageRef == stageId && !item.IsDeleted);
-        }
-
-        public void UpdateCurriculumAssignment(CurriculumAssignment curriculumAssignment)
-        {
-            var oldCurriculumAssignment = GetCurriculumAssignment(curriculumAssignment.Id);
-
-            oldCurriculumAssignment.UserGroupRef = curriculumAssignment.UserGroupRef;
-
-            _Db.SubmitChanges();
-        }
-
-        public void UpdateTimeline(Timeline timeline)
-        {
-            var oldTimeline = GetTimeline(timeline.Id);
-
-            oldTimeline.StartDate = timeline.StartDate;
-            oldTimeline.EndDate = timeline.EndDate;
-            oldTimeline.OperationRef = timeline.OperationRef;
-            
-            _Db.SubmitChanges();
         }
 
         #endregion
@@ -556,9 +438,91 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #region Timeline methods
 
-        public Timeline GetStageTimeline(int stageTimelineId)
+        public Timeline GetTimeline(int timelineId)
         {
-            return _Db.Timelines.Single(item => item.Id == stageTimelineId);
+            return _Db.Timelines.Single(item => item.Id == timelineId && !item.IsDeleted);
+        }
+
+        public IEnumerable<Timeline> GetCurriculumAssignmentTimelines(int curriculumAssignmentId)
+        {
+            return _Db.Timelines.Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && item.StageRef == null && !item.IsDeleted);
+        }
+
+        public IEnumerable<Timeline> GetStageTimelines(int curriculumAssignmentId)
+        {
+            return _Db.Timelines.Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && item.StageRef != null && !item.IsDeleted);
+        }
+
+        public IEnumerable<Timeline> GetTimelines(IEnumerable<int> timelineIds)
+        {
+            return _Db.Timelines.Where(item => timelineIds.Contains(item.Id) && !item.IsDeleted);
+        }
+
+        public int AddTimeline(Timeline timeline)
+        {
+            timeline.IsDeleted = false;
+
+            _Db.Timelines.InsertOnSubmit(timeline);
+            _Db.SubmitChanges();
+
+            return timeline.Id;
+        }
+
+        public void UpdateTimeline(Timeline timeline)
+        {
+            var oldTimeline = GetTimeline(timeline.Id);
+
+            oldTimeline.StartDate = timeline.StartDate;
+            oldTimeline.EndDate = timeline.EndDate;
+            oldTimeline.OperationRef = timeline.OperationRef;
+
+            _Db.SubmitChanges();
+        }
+
+        public void DeleteTimeline(int timelineId)
+        {
+
+            var timeline = GetTimeline(timelineId);
+
+            timeline.IsDeleted = true;
+
+            _Db.SubmitChanges();
+        }
+
+        public void DeleteTimelines(IEnumerable<int> timelineIds)
+        {
+            var timelines = GetTimelines(timelineIds);
+
+            foreach (Timeline timeline in timelines)
+            {
+                timeline.IsDeleted = true;
+            }
+
+            _Db.SubmitChanges();
+        }
+
+        #endregion
+
+        #region Operation methods
+
+        public IEnumerable<Operation> GetOperations()
+        {
+            return _Db.Operations;
+        }
+
+        #endregion
+
+        #region Group methods
+
+        public IEnumerable<Group> GetAssignedGroups(int curriculumId)
+        {
+            return GetCurriculumAssignmnetsByCurriculumId(curriculumId).Select(item => GetGroup(item.UserGroupRef));
+        }
+
+        public IEnumerable<Group> GetNotAssignedGroups(int curriculumId)
+        {
+            var assignedGroupIds = GetAssignedGroups(curriculumId).Select(item => item.Id);
+            return GetGroups().Where(item => !assignedGroupIds.Contains(item.Id)).Select(item => item);
         }
 
         #endregion

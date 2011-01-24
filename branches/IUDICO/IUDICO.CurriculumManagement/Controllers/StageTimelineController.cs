@@ -51,11 +51,11 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit(int stageTimelineId)
+        public ActionResult Edit(int timelineId)
         {
             try
             {
-                Timeline stageTimeline = Storage.GetStageTimeline(stageTimelineId);
+                Timeline timeline = Storage.GetTimeline(timelineId);
 
                 EditStageTimelineModel editStageTimelineModel = new EditStageTimelineModel()
                 {
@@ -66,24 +66,19 @@ namespace IUDICO.CurriculumManagement.Controllers
                                     Value = item.Id.ToString(),
                                     Selected = false
                                 }),
-                    Stages = Storage.GetStages(Storage.GetCurriculumAssignment(stageTimeline.CurriculumAssignmentRef).CurriculumRef)
+                    Stages = Storage.GetStages(Storage.GetCurriculumAssignment(timeline.CurriculumAssignmentRef).CurriculumRef)
                             .Select(item => new SelectListItem
                             {
                                 Text = item.Name,
                                 Value = item.Id.ToString(),
                                 Selected = false
                             }),
-                    Timeline = new Timeline()
-                    {
-                        StartDate = stageTimeline.StartDate,
-                        EndDate = stageTimeline.EndDate,
-                        Id = stageTimeline.Id
-                    }
+                    Timeline = timeline
                 };
 
-                if (stageTimeline != null)
+                if (timeline != null)
                 {
-                    Session["CurriculumAssignmentId"] = stageTimeline.CurriculumAssignmentRef;
+                    Session["CurriculumAssignmentId"] = timeline.CurriculumAssignmentRef;
                     return View(editStageTimelineModel);
                 }
                 else
@@ -98,16 +93,16 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(int stageTimelineId, EditStageTimelineModel editStageTimelineModel)
+        public ActionResult Edit(int timelineId, EditStageTimelineModel editStageTimelineModel)
         {
             try
             {
                 Timeline stageTimeline = editStageTimelineModel.Timeline;
 
-                stageTimeline.CurriculumAssignmentRef = Storage.GetCurriculumAssignment(Storage.GetStageTimeline(stageTimelineId).CurriculumAssignmentRef).CurriculumRef;
+                stageTimeline.CurriculumAssignmentRef = Storage.GetCurriculumAssignment(Storage.GetTimeline(timelineId).CurriculumAssignmentRef).CurriculumRef;
                 stageTimeline.OperationRef = editStageTimelineModel.OperationId;
                 stageTimeline.StageRef = editStageTimelineModel.StageId;
-                stageTimeline.Id = stageTimelineId;
+                stageTimeline.Id = timelineId;
                 
                 Storage.UpdateTimeline(stageTimeline);
 
@@ -118,7 +113,6 @@ namespace IUDICO.CurriculumManagement.Controllers
                 throw e;
             }
         }
-        
 
         [HttpPost]
         public JsonResult DeleteItem(int timelineId)
