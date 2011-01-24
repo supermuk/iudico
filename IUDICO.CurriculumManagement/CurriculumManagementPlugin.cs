@@ -7,6 +7,7 @@ using IUDICO.Common.Models.Services;
 using IUDICO.CurriculumManagement.Models.Storage;
 using Action = IUDICO.Common.Models.Action;
 using IUDICO.CurriculumManagement.Models;
+using Castle.Windsor;
 
 namespace IUDICO.CurriculumManagement
 {
@@ -132,6 +133,11 @@ namespace IUDICO.CurriculumManagement
         public void Update(string evt, params object[] data)
         {
             // handle events
+        }
+
+        public void Setup(IWindsorContainer container)
+        {
+
         }
 
         #endregion

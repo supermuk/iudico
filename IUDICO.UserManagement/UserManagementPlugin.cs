@@ -8,6 +8,7 @@ using IUDICO.Common.Models.Services;
 using IUDICO.UserManagement.Models.Auth;
 using IUDICO.UserManagement.Models.Storage;
 using IUDICO.UserManagement.Models;
+using Castle.Windsor;
 
 namespace IUDICO.UserManagement
 {
@@ -74,6 +75,11 @@ namespace IUDICO.UserManagement
         public void Update(string evt, params object[] data)
         {
             // handle events
+        }
+
+        public void Setup(IWindsorContainer container)
+        {
+
         }
 
         #endregion
