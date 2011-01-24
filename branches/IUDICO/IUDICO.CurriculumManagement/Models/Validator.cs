@@ -40,5 +40,22 @@ namespace IUDICO.CurriculumManagement.Models
                 return new ValidationStatus(true, "");
             }
         }
+
+        /// <summary>
+        /// Validates the group index in CurriculumAssignment
+        /// </summary>
+        /// <param name="groupId">The group index</param>
+        /// <returns></returns>
+        public ValidationStatus ValidateCurriculumAssignment(int groupId)
+        {
+            if(groupId <= 0)
+            {
+                return new ValidationStatus(false,String.Format("Index must be bigger than 0"));
+            }
+            else
+            {
+                return new ValidationStatus(true, "");
+            }
+        }
     }
 }

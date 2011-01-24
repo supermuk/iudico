@@ -84,20 +84,23 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                //refactor this using validation class Validator.ValidateTimeline... return redirect to EDIT view!
-                if(editStageTimelineModel.Timeline.StartDate > editStageTimelineModel.Timeline.EndDate)
+                if (ModelState.IsValid && Validator.ValidateTimeline(editStageTimelineModel.Timeline).IsValid)
+                {
+                    Timeline stageTimeline = editStageTimelineModel.Timeline;
+
+                    stageTimeline.CurriculumAssignmentRef = Storage.GetCurriculumAssignment(Storage.GetTimeline(timelineId).CurriculumAssignmentRef).CurriculumRef;
+                    stageTimeline.OperationRef = editStageTimelineModel.OperationId;
+                    stageTimeline.StageRef = editStageTimelineModel.StageId;
+                    stageTimeline.Id = timelineId;
+
+                    Storage.UpdateTimeline(stageTimeline);
+
                     return RedirectToRoute("StageTimelines", new { action = "Index", CurriculumAssignmentId = Session["CurriculumAssignmentId"] });
-
-                Timeline stageTimeline = editStageTimelineModel.Timeline;
-
-                stageTimeline.CurriculumAssignmentRef = Storage.GetCurriculumAssignment(Storage.GetTimeline(timelineId).CurriculumAssignmentRef).CurriculumRef;
-                stageTimeline.OperationRef = editStageTimelineModel.OperationId;
-                stageTimeline.StageRef = editStageTimelineModel.StageId;
-                stageTimeline.Id = timelineId;
-                
-                Storage.UpdateTimeline(stageTimeline);
-
-                return RedirectToRoute("StageTimelines", new { action = "Index", CurriculumAssignmentId = Session["CurriculumAssignmentId"] });
+                }
+                else
+                {
+                    return RedirectToAction("Edit");
+                }
             }
             catch (Exception e)
             {
@@ -174,17 +177,20 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                //refactor this using validation class Validator.ValidateTimeline... return redirect to EDIT view!
-                if(createTimelineModel.Timeline.StartDate > createTimelineModel.Timeline.EndDate)
+                if (ModelState.IsValid && Validator.ValidateTimeline(createTimelineModel.Timeline).IsValid)
+                {
+                    Timeline timeline = createTimelineModel.Timeline;
+                    timeline.CurriculumAssignmentRef = curriculumAssignmentId;
+                    timeline.OperationRef = createTimelineModel.OperationId;
+                    timeline.StageRef = createTimelineModel.StageId;
+                    Storage.AddTimeline(timeline);
+
                     return RedirectToAction("Index", new { CurriculumAssignmentId = curriculumAssignmentId });
-
-                Timeline timeline = createTimelineModel.Timeline;
-                timeline.CurriculumAssignmentRef = curriculumAssignmentId;
-                timeline.OperationRef = createTimelineModel.OperationId;
-                timeline.StageRef = createTimelineModel.StageId;
-                Storage.AddTimeline(timeline);
-
-                return RedirectToAction("Index", new { CurriculumAssignmentId = curriculumAssignmentId });
+                }
+                else
+                {
+                    return RedirectToAction("Create");
+                }
             }
             catch (Exception e)
             {
