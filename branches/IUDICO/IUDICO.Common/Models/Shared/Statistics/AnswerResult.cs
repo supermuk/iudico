@@ -5,46 +5,62 @@ using System.Text;
 
 namespace IUDICO.Common.Models.Shared.Statistics
 {
+    /// <summary>
+    /// Represents answer (correct and user's) per one attempt over the activity.
+    /// </summary>
     public class AnswerResult
     {
         #region Public Properties
+        
         /// <summary>
-        /// Identifier activity attemp
+        /// Identifier of Attempt performed over Activity (Item in manifest).
         /// </summary>
-        public int ActivityAttempId { get; protected set; }
+        public int ActivityAttemptId { get; protected set; }
+        
         /// <summary>
-        /// Identifier of interaction
+        /// Identifier of Interaction.
         /// </summary>
         public int InteractionId { get; protected set; }
+        
         /// <summary>
         /// Represents result of one user's attempt on one theme(course).
         /// </summary>
-        public AttemptResult _AttempResult { get; protected set; }
+        public AttemptResult AttemptResult { get; protected set; }
+        
         /// <summary>
-        /// Response user's
+        /// Represents response (string/decimal/boolean) 
+        /// user(SCO in fact) specified while performing attempt over activity.
         /// </summary>
         public object LearnerResponse { get; protected set; }
+        
         /// <summary>
-        /// Correct response
+        /// String value, represents correct response, which SCO specified
+        /// while user was attempting activity.
         /// </summary>
         public string CorrectResponse { get; protected set; }
+        
         /// <summary>
-        /// type of response
+        /// Type of learner response.
+        /// Consider using this while casting LearnerResponse and comparing it with CorrectResponse.
+        /// May be Null. In that case string representation for Learner Response should match best.
         /// </summary>
         public InteractionType? LearnerResponseType { get; protected set; }
+        
         /// <summary>
-        /// Score user got in result for attempt.
+        /// Float Nullable value represents scaled score, calculated while attempting activity.
+        /// In most cases null.
         /// </summary>
         public float? ScaledScore { get; protected set; }
+        
         #endregion
 
         #region Constructors
-        public AnswerResult(int activityAttempId, int interactionId, AttemptResult _attempResult,
+        public AnswerResult(int activityAttempId, int interactionId, AttemptResult attempResult,
             object learnerResponse, string correctResponse, InteractionType? learnerResponseType, float? scaledScore)
         {
-            this.ActivityAttempId = activityAttempId;
+            this.ActivityAttemptId = activityAttempId;
             this.InteractionId = interactionId;
-            this._AttempResult = _attempResult;
+            this.AttemptResult = attempResult;
             this.LearnerResponse = learnerResponse;
             this.CorrectResponse = correctResponse;
             this.LearnerResponseType = learnerResponseType;

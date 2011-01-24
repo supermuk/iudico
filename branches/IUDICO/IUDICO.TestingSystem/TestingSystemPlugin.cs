@@ -5,7 +5,7 @@ using Castle.MicroKernel.Registration;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
-using IUDICO.Common.Models.Events;
+using IUDICO.Common.Models.Notifications;
 using IUDICO.TestingSystem.Models;
 
 
@@ -57,15 +57,12 @@ namespace IUDICO.TestingSystem
             );
         }
 
-        public void Update(string evt, params object[] data)
+        public void Update(string name, params object[] data)
         {
-            switch (evt)
-            {
-                case CourseEvents.CoursePublished:
-                    throw new NotImplementedException();
-                    // TODO: call ITestingService.ImportCourse(Course course) method.
-                    
-            }
+            //switch (name)
+            //{
+                          
+            //}
         }
 
         #endregion

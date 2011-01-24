@@ -16,10 +16,12 @@ namespace IUDICO.Common.Models.Shared.Statistics
         /// Identifier of attempt, this result is related to.
         /// </summary>
         public int AttemptId { get; protected set; }
+        
         /// <summary>
         /// User, attempt result is for.
         /// </summary>
         public User User { get; protected set; }
+        
         /// <summary>
         /// Theme, attempt result is for.
         /// </summary>
@@ -30,15 +32,18 @@ namespace IUDICO.Common.Models.Shared.Statistics
         /// Indicates whether attempt is completed or incompleted.
         /// </summary>
         public CompletionStatus CompletionStatus { get; protected set; }
+       
         /// <summary>
         /// Attempt status - represents in general what is status of attempt.
         /// </summary>
         public AttemptStatus AttemptStatus { get; protected set; }
+        
         /// <summary>
         /// Success status - SCORM related.
         /// Indicates whether attempt was passed or failed.
         /// </summary>
         public SuccessStatus SuccessStatus { get; protected set; }
+       
         /// <summary>
         /// Score user got in result of one(this) attempt.
         /// </summary>
