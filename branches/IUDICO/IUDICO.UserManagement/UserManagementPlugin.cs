@@ -41,7 +41,15 @@ namespace IUDICO.UserManagement
 
         public IEnumerable<Action> BuildActions(Role role)
         {
-            return new List<Action>();
+            var actions = new List<Action>
+                              {
+                                  new Action("Get Users", "User/Index"),
+                                  new Action("Get Groups", "Group/Index"),
+                                  new Action("Register", "Account/Register"),
+                                  new Action("Login", "Account/Login")
+                              };
+
+            return actions;
         }
 
         public void BuildMenu(Menu menu)

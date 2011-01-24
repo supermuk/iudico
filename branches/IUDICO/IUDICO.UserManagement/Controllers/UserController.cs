@@ -57,22 +57,22 @@ namespace IUDICO.UserManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_Storage.UsernameExists(user.Username))
+                if (!_Storage.UsernameExists(user.Username))
                 {
-                    ModelState.AddModelError("Username", "User with such username already exists.");
-                    return View();
+                    _Storage.CreateUser(user);
+
+                    return RedirectToAction("Index");
                 }
-
-                _Storage.CreateUser(user);
-
-                return RedirectToAction("Index");
+                
+                ModelState.AddModelError("Username", "User with such username already exists.");
             }
-            else
-            {
-                return View();
-            }
+
+            user.Password = null;
+            user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = r.ToString(), Value = ((int)r).ToString(), Selected = false });
+
+            return View(user);
         }
-        
+
         //
         // GET: /User/Edit/5
 
