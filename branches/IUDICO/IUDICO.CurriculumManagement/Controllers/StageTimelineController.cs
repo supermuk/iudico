@@ -97,6 +97,9 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
+                if(editStageTimelineModel.Timeline.StartDate > editStageTimelineModel.Timeline.EndDate)
+                    return RedirectToRoute("StageTimelines", new { action = "Index", CurriculumAssignmentId = Session["CurriculumAssignmentId"] });
+
                 Timeline stageTimeline = editStageTimelineModel.Timeline;
 
                 stageTimeline.CurriculumAssignmentRef = Storage.GetCurriculumAssignment(Storage.GetTimeline(timelineId).CurriculumAssignmentRef).CurriculumRef;
@@ -183,6 +186,9 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
+                if(createTimelineModel.Timeline.StartDate > createTimelineModel.Timeline.EndDate)
+                    return RedirectToAction("Index", new { CurriculumAssignmentId = curriculumAssignmentId });
+
                 Timeline timeline = createTimelineModel.Timeline;
                 timeline.CurriculumAssignmentRef = curriculumAssignmentId;
                 timeline.OperationRef = createTimelineModel.OperationId;
