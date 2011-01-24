@@ -40,6 +40,7 @@ namespace IUDICO.LMS
             foreach (var plugin in plugins)
             {
                 // TODO: add proper role
+                plugin.Setup(Container);
                 actions.AddRange(plugin.BuildActions(new Role()));
             }
 

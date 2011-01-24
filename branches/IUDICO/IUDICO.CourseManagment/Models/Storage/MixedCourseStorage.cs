@@ -403,6 +403,15 @@ namespace IUDICO.CourseManagement.Models.Storage
             return System.IO.File.ReadAllText(nodePath);
         }
 
+        public void UpdateNodeContents(int id, string data)
+        {
+            string nodePath = GetNodePath(id);
+
+            System.IO.File.WriteAllText(nodePath, data);
+
+            //return System.IO.File.ReadAllText(nodePath);
+        }
+
         protected string GetNodePath(int nodeId)
         {
             var node = GetDbContext().Nodes.SingleOrDefault(n => n.Id == nodeId);
