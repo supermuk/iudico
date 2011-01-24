@@ -29,10 +29,6 @@
                     <li>
                         <%: Html.ActionLink("Home", "Index", "Home")%></li>
                     <li>
-                        <%: Html.ActionLink("Account", "Index", "Account")%></li>
-                    <li>
-                        <%: Html.ActionLink("Role", "Index", "Role")%></li>
-                    <li>
                         <%: Html.ActionLink("Search", "Index", "Search")%></li>
 
                         <%  foreach (var item in ((IUDICO.Common.Models.Menu) IUDICO.LMS.MvcApplication.Menu).Items) { %>
