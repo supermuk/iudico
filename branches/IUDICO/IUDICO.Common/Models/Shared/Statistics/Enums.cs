@@ -32,6 +32,7 @@
         Incomplete = 4,
         Passed = 5,
     }
+
     public enum InteractionType
     {
         Other = 0,

@@ -22,10 +22,10 @@ namespace IUDICO.Common.Models.Services
         IEnumerable<AttemptResult> GetAllAttempts();
 
         /// <summary>
-        /// Gets answers for this attempt
+        /// Gets answers for specified attempt.
         /// </summary>
-        /// <param name="attempt">Attemp, for which answers are returned</param>
-        /// <returns>Collection of AnswerResults objects.</returns>
+        /// <param name="attempt">Attempt, for which answers are returned.</param>
+        /// <returns>Collection of AnswerResult objects.</returns>
         IEnumerable<AnswerResult> GetAnswers(AttemptResult attempt);
     }
 }

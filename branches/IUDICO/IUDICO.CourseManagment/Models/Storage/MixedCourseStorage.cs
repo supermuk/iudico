@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Notifications;
 using IUDICO.CourseManagement.Helpers;
 using IUDICO.CourseManagement.Models.ManifestModels;
 using IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels;
@@ -103,7 +104,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             string path = GetCoursePath(course.Id);
             @Directory.CreateDirectory(path);
 
-            _LmsService.Inform("course/create", course);
+            _LmsService.Inform(CourseNotifications.CourseCreate, course);
 
             return course.Id;
         }
@@ -120,7 +121,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             db.SubmitChanges();
 
-            _LmsService.Inform("course/edit", course);
+            _LmsService.Inform(CourseNotifications.CourseEdit, course);
         }
 
         [Obsolete("Directory.Delete gives exception when files are present: http://stackoverflow.com/questions/329355/cannot-delete-directory-with-directory-deletepath-true. Set CASCADE on DELETE & UPDATE action in foreign index CourseID")]
@@ -134,7 +135,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             db.SubmitChanges();
 
-            _LmsService.Inform("course/delete", course);
+            _LmsService.Inform(CourseNotifications.CourseDelete, course);
         }
 
         public void DeleteCourses(List<int> ids)
@@ -147,7 +148,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             {
                 course.Deleted = true;
 
-                _LmsService.Inform("course/delete", course);
+                _LmsService.Inform(CourseNotifications.CourseDelete, course);
             }
 
             db.SubmitChanges();
