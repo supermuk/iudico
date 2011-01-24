@@ -50,32 +50,75 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
         }
 
-        //public ActionResult EditStageTimeline(int stageId)
-        //{
-        //    try
-        //    {
-        //        HttpContext.Session["StageId"] = stageId;
+        [HttpGet]
+        public ActionResult Edit(int stageTimelineId)
+        {
+            try
+            {
+                Timeline stageTimeline = Storage.GetStageTimeline(stageTimelineId);
 
-        //        var timelines = Storage.GetTimelines(stageId, (int)HttpContext.Session["CurriculumId"], (int)HttpContext.Session["GroupId"]);
+                EditStageTimelineModel editStageTimelineModel = new EditStageTimelineModel()
+                {
+                    Operations = Storage.GetOperations()
+                                .Select(item => new SelectListItem
+                                {
+                                    Text = item.Name,
+                                    Value = item.Id.ToString(),
+                                    Selected = false
+                                }),
+                    Stages = Storage.GetStages(Storage.GetCurriculumAssignment(stageTimeline.CurriculumAssignmentRef).CurriculumRef)
+                            .Select(item => new SelectListItem
+                            {
+                                Text = item.Name,
+                                Value = item.Id.ToString(),
+                                Selected = false
+                            }),
+                    Timeline = new Timeline()
+                    {
+                        StartDate = stageTimeline.StartDate,
+                        EndDate = stageTimeline.EndDate,
+                        Id = stageTimeline.Id
+                    }
+                };
 
-        //        ViewData["StageName"] = Storage.GetStage(stageId).Name;
+                if (stageTimeline != null)
+                {
+                    Session["CurriculumAssignmentId"] = stageTimeline.CurriculumAssignmentRef;
+                    return View(editStageTimelineModel);
+                }
+                else
+                {
+                    throw new Exception("Cannot read records");
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
 
-        //        if (timelines != null)
-        //        {
-        //            return View(timelines);
-        //        }
-        //        else
-        //        {
-        //            throw new Exception("Cannot read records");
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw e;
-        //    }
-        //}
+        [HttpPost]
+        public ActionResult Edit(int stageTimelineId, EditStageTimelineModel editStageTimelineModel)
+        {
+            try
+            {
+                Timeline stageTimeline = editStageTimelineModel.Timeline;
 
+                stageTimeline.CurriculumAssignmentRef = Storage.GetCurriculumAssignment(Storage.GetStageTimeline(stageTimelineId).CurriculumAssignmentRef).CurriculumRef;
+                stageTimeline.OperationRef = editStageTimelineModel.OperationId;
+                stageTimeline.StageRef = editStageTimelineModel.StageId;
+                stageTimeline.Id = stageTimelineId;
+                
+                Storage.UpdateTimeline(stageTimeline);
 
+                return RedirectToRoute("StageTimelines", new { action = "Index", CurriculumAssignmentId = Session["CurriculumAssignmentId"] });
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        
 
         [HttpPost]
         public JsonResult DeleteItem(int timelineId)

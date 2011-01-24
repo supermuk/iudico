@@ -554,6 +554,15 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #endregion
 
+        #region Timeline methods
+
+        public Timeline GetStageTimeline(int stageTimelineId)
+        {
+            return _Db.Timelines.Single(item => item.Id == stageTimelineId);
+        }
+
+        #endregion
+
         #endregion
     }
 }
