@@ -36,12 +36,13 @@ namespace IUDICO.LMS
         {
             var actions = new List<Action>();
             var plugins = Container.ResolveAll<IPlugin>();
+            Role currentRole = (Role)Container.Resolve<IUserService>().GetCurrentUser().RoleId;
 
             foreach (var plugin in plugins)
             {
                 // TODO: add proper role
                 plugin.Setup(Container);
-                actions.AddRange(plugin.BuildActions(new Role()));
+                actions.AddRange(plugin.BuildActions(currentRole));
             }
 
             Actions = actions;

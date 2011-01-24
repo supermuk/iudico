@@ -30,6 +30,16 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public User GetCurrentUser()
         {
+
+            if (HttpContext.Current.User == null)
+            {
+                var user = new User();
+                user.RoleId = (int)Role.None;
+
+                return user;
+            }
+
+
             var identity = HttpContext.Current.User.Identity;
 
             if (!identity.IsAuthenticated)

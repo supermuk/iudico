@@ -267,21 +267,23 @@
 						"id": data.obj.attr("id").replace("node_", ""),
 					},
 					success: function (r) {
+                        
+
                         var $txt = $('<textarea></textarea>').attr('name', 'editor').html(r.data);
-					    $('.ui-layout-center').html("<form method='post'>" + $txt + "</form>");
-
-                        $('.ui-layout-center form').submit(function(e) {
+                        var $form = $('<form></form>').attr('method', 'post').html($txt).bind("save", {id: data.obj.attr("id").replace("node_", "")}, function(e) {
                             e.preventDefault();
-
+                            
                             instance = CKEDITOR.instances['editor'];
                             if (instance) {
                                 instance.updateElement();
                                 data = instance.getData();
 
-                                $.post("<%: Url.Action("Edit", "Node") %>", { id: data.obj.attr("id").replace("node_", ""), data: data } );
+                                $.post("<%: Url.Action("Edit", "Node") %>", { id: e.data.id, data: data } );
                             }
                             
                         });
+
+                        $('.ui-layout-center').html($form);
 
                         $txt.ckeditor();
 					}
@@ -299,4 +301,3 @@
     <div class="ui-layout-west"><div id="treeView"></div></div>
 
 </asp:Content>
-
