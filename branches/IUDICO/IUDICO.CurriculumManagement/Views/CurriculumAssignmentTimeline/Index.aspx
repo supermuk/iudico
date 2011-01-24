@@ -1,7 +1,9 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Timeline>>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" 
+Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Timeline>>" %>
 
 <%@ Assembly Name="IUDICO.CurriculumManagement" %>
 <%@ Import Namespace="IUDICO.Common.Models" %>
+
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {
