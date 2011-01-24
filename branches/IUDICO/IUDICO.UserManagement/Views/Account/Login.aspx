@@ -8,6 +8,8 @@
 
     <h2>Login</h2>
 
+    <div><%= Html.ValidationSummary(true) %></div>
+
     <form action="<%: Url.Action("Login", "Account")  %>" method="post">
 	    <label for="loginIdentifier">OpenID: </label>
 	    <input type="text" id="loginIdentifier" name="loginIdentifier" size="40" />

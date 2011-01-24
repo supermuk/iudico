@@ -34,7 +34,6 @@
                     <%: Html.ActionLink("Remove User", "RemoveUser", new { id = Model.Id, userRef = groupUser.User.Id })%>
                 </td>
             </tr>
-            <%: groupUser.User.Username %>
         <% } %>
 
         </table>
