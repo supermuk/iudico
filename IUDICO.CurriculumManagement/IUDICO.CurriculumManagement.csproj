@@ -91,6 +91,8 @@
     <Compile Include="Models\CreateCurriculumAssignmentTimelineModel.cs" />
     <Compile Include="Models\CreateStageTimelineModel.cs" />
     <Compile Include="Models\CurriculumService.cs" />
+    <Compile Include="Models\EditCurriculumAssignmentTimelineModel.cs" />
+    <Compile Include="Models\EditStageTimelineModel.cs" />
     <Compile Include="Models\Enums\Operation.cs" />
     <Compile Include="Models\Enums\ThemeType.cs" />
     <Compile Include="Models\Storage\ICurriculumStorage.cs" />
@@ -107,6 +109,7 @@
     <Content Include="Views\StageTimeline\Create.aspx" />
     <Content Include="Views\CurriculumAssignment\Edit.aspx" />
     <Content Include="Views\CurriculumAssignmentTimeline\Create.aspx" />
+    <Content Include="Views\StageTimeline\Edit.aspx" />
     <Content Include="Views\StageTimeline\Index.aspx" />
     <Content Include="Views\CurriculumAssignmentTimeline\Index.aspx" />
     <Content Include="Views\CurriculumAssignment\Index.aspx" />

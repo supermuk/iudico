@@ -91,7 +91,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                 var operations = Storage.GetOperations();
                 Timeline timeline = Storage.GetTimeline(timelineId);
 
-                CreateCurriculumAssignmentTimelineModel editTimelineModel = new CreateCurriculumAssignmentTimelineModel()
+                EditCurriculumAssignmentTimelineModel editTimelineModel = new EditCurriculumAssignmentTimelineModel()
                 {
                     Operations = from item in operations
                                  select new SelectListItem { Text = item.Name.ToString(), Value = item.Id.ToString(), Selected = false },
@@ -109,7 +109,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(int timelineId, CreateCurriculumAssignmentTimelineModel editTimelineModel)
+        public ActionResult Edit(int timelineId, EditCurriculumAssignmentTimelineModel editTimelineModel)
         {
             try
             {
