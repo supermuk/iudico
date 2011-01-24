@@ -169,6 +169,27 @@ namespace IUDICO.UserManagement.Models.Storage
             _LmsService.Inform("group/delete", new object[] { group });
         }
 
+        public void AddUserToGroup(Group group, User user)
+        {
+            var db = GetDbContext();
+
+            GroupUser groupUser = new GroupUser();
+            groupUser.GroupRef = group.Id;
+            groupUser.UserRef = user.Id;
+
+            db.GroupUsers.InsertOnSubmit(groupUser);
+            db.SubmitChanges();
+        }
+
+        public void RemoveUserFromGroup(Group group, User user)
+        {
+            var db = GetDbContext();
+
+            GroupUser groupUser = db.GroupUsers.Single(g => g.GroupRef == group.Id && g.UserRef == user.Id);
+            db.GroupUsers.DeleteOnSubmit(groupUser);
+            db.SubmitChanges();
+        }
+
         #endregion
 
         #endregion

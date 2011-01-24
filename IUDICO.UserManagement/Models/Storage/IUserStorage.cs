@@ -33,6 +33,8 @@ namespace IUDICO.UserManagement.Models.Storage
         void CreateGroup(Group group);
         void EditGroup(int id, Group group);
         void DeleteGroup(int id);
+        void AddUserToGroup(Group group, User user);
+        void RemoveUserFromGroup(Group group, User user);
 
         #endregion
     }
