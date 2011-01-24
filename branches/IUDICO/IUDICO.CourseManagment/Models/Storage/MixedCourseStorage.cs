@@ -221,7 +221,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             return parentItem;
         }
 
-        public int Import(string path)
+        public int Import(string path, string owner)
         {
             var course = new Course();
             var folderPath = path.Substring(0, path.Length - 4);
@@ -229,6 +229,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             Zipper.ExtractZipFile(path, folderPath);
 
             course.Name = folderPath.Split('\\').Last();
+            course.Owner = owner;
 
             return AddCourse(course);
         }

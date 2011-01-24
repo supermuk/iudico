@@ -20,7 +20,7 @@ namespace IUDICO.CourseManagement.Models.Storage
         void DeleteCourse(int id);
         void DeleteCourses(List<int> ids);
         string Export(int id);
-        int Import(string path);
+        int Import(string path, string owner);
 
         #endregion
 

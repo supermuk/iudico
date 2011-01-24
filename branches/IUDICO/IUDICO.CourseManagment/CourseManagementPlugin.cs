@@ -10,12 +10,21 @@ using IUDICO.CourseManagement.Models;
 using IUDICO.Common.Models;
 using System.Collections.Generic;
 using Action = IUDICO.Common.Models.Action;
+using IUDICO.Common.Models.Notifications;
 
 namespace IUDICO.CourseManagement
 {
     public class CourseManagementPlugin : IWindsorInstaller, IPlugin
     {
-        ICourseStorage courseStorage;
+        IWindsorContainer container;
+
+        ICourseStorage courseStorage
+        {
+            get
+            {
+                return container.Resolve<ICourseStorage>();
+            }
+        }
 
         #region IPlugin Members
         public IEnumerable<Action> BuildActions(Role role)
@@ -62,16 +71,12 @@ namespace IUDICO.CourseManagement
         public void Update(string evt, params object[] data)
         {
             // handle appropriate events
-            var codes = evt.Split('/');
-            if(codes[0] == "user")
+            switch(evt)
             {
-                switch (codes[1])
-                {
-                    case "delete":
-                        var user = (User)data[0];
-                        courseStorage.DeleteCourseUsers(user.Id);
-                        break;
-                }
+                case UserNotifications.UserDelete:
+                var user = (User)data[0];
+                //courseStorage.DeleteCourseUsers(user.Id);
+                break;
             }
         }
         #endregion
@@ -90,7 +95,8 @@ namespace IUDICO.CourseManagement
                 Component.For<ICourseService>().ImplementedBy<CourseService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
             
-            courseStorage = container.Resolve<ICourseStorage>();
+            //courseStorage = container.Resolve<ICourseStorage>();
+            this.container = container;
         }
         #endregion
     }

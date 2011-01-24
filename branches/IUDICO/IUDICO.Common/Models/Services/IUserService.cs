@@ -15,6 +15,7 @@ namespace IUDICO.Common.Models.Services
 
         IEnumerable<User> GetUsersByGroup(Group group);
         IEnumerable<User> GetUsers();
+        User GetCurrentUser();
 
         #endregion
 
