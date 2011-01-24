@@ -29,6 +29,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                 {
                     ViewData["Curriculum"] = Storage.GetCurriculum(curriculumAssignment.CurriculumRef);
                     ViewData["GroupName"] = Storage.GetGroup(curriculumAssignment.UserGroupRef).Name;
+                    
                     return View
                     (
                         from themeAssignment in themeAssignments
@@ -56,6 +57,8 @@ namespace IUDICO.CurriculumManagement.Controllers
             try
             {
                 ThemeAssignment themeAssignment = Storage.GetThemeAssignment(themeAssignmentId);
+                Session["CurriculumAssignmentId"] = themeAssignment.CurriculumAssignmentRef;
+                
                 return View(themeAssignment);
             }
             catch (Exception e)
