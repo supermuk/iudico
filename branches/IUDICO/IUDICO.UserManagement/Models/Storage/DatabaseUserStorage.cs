@@ -63,6 +63,33 @@ namespace IUDICO.UserManagement.Models.Storage
             return db.Users.Where(u => !u.Deleted);
         }
 
+        public bool UsernameExists(string username)
+        {
+            var db = GetDbContext();
+
+            return db.Users.Count(u => u.Username == username) > 0;
+        }
+
+        public void ActivateUser(Guid id)
+        {
+            var db = GetDbContext();
+
+            User user = db.Users.Single(u => u.Id == id);
+            user.IsApproved = true;
+
+            db.SubmitChanges();
+        }
+
+        public void DeactivateUser(Guid id)
+        {
+            var db = GetDbContext();
+
+            User user = db.Users.Single(u => u.Id == id);
+            user.IsApproved = false;
+
+            db.SubmitChanges();
+        }
+
         public void CreateUser(User user)
         {
             var db = GetDbContext();
