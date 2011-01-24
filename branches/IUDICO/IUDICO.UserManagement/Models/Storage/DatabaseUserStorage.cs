@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
+using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Notifications;
@@ -67,6 +68,7 @@ namespace IUDICO.UserManagement.Models.Storage
             var db = GetDbContext();
 
             user.Deleted = false;
+            user.IsApproved = true;
 
             db.Users.InsertOnSubmit(user);
             db.SubmitChanges();
@@ -74,16 +76,18 @@ namespace IUDICO.UserManagement.Models.Storage
             _LmsService.Inform(UserNotifications.UserCreate, user);
         }
 
-        public void EditUser(Guid id, EditUserModel editor)
+        public void EditUser(Guid id, User user)
         {
             var db = GetDbContext();
             var oldUser = db.Users.Single(u => u.Id == id);
 
-            oldUser.Name = editor.Name;
-            oldUser.Password = editor.Password;
-            oldUser.Email = editor.Email;
-            oldUser.OpenId = editor.OpenId;
-            oldUser.RoleId = editor.RoleId;
+            oldUser.Name = user.Name;
+            oldUser.Password = user.Password;
+            oldUser.Email = user.Email;
+            oldUser.OpenId = user.OpenId;
+            oldUser.RoleId = user.RoleId;
+            oldUser.Username = user.Username;
+            oldUser.IsApproved = user.IsApproved;
             
             db.SubmitChanges();
 
@@ -119,7 +123,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public IEnumerable<Role> GetRoles()
         {
-            return Roles.GetAllRoles().Skip(1).Select(r => (Role) Enum.Parse(typeof (Role), r)).AsEnumerable();
+            return Roles.GetAllRoles()/*.Skip(1)*/.Select(r => (Role) Enum.Parse(typeof (Role), r)).AsEnumerable();
         }
 
         #endregion
