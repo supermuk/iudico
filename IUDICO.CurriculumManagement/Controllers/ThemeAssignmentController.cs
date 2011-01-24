@@ -7,6 +7,7 @@ using IUDICO.Common.Models;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.CurriculumManagement.Controllers;
 using IUDICO.CurriculumManagement.Models;
+using IUDICO.CurriculumManagement.Models.ViewDataClasses;
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
@@ -25,25 +26,17 @@ namespace IUDICO.CurriculumManagement.Controllers
                 CurriculumAssignment curriculumAssignment = Storage.GetCurriculumAssignment(curriculumAssignmentId);
                 var themeAssignments = Storage.GetThemeAssignmentsByCurriculumAssignmentId(curriculumAssignmentId);
 
-                if (curriculumAssignment != null && themeAssignments != null)
-                {
-                    ViewData["Curriculum"] = Storage.GetCurriculum(curriculumAssignment.CurriculumRef);
-                    ViewData["GroupName"] = Storage.GetGroup(curriculumAssignment.UserGroupRef).Name;
-                    
-                    return View
-                    (
-                        from themeAssignment in themeAssignments
-                        select new ViewThemeAssignmentModel
-                        {
-                            ThemeAssignment = themeAssignment,
-                            Theme = Storage.GetTheme(themeAssignment.ThemeRef)
-                        }
-                    );
-                }
-                else
-                {
-                    throw new Exception("Cannot read records");
-                }
+                ViewData["Curriculum"] = Storage.GetCurriculum(curriculumAssignment.CurriculumRef);
+                ViewData["GroupName"] = Storage.GetGroup(curriculumAssignment.UserGroupRef).Name;
+                return View
+                (
+                    from themeAssignment in themeAssignments
+                    select new ViewThemeAssignmentModel
+                    {
+                        ThemeAssignment = themeAssignment,
+                        Theme = Storage.GetTheme(themeAssignment.ThemeRef)
+                    }
+                );
             }
             catch (Exception e)
             {

@@ -2,9 +2,9 @@
 using System.Web.Mvc;
 using IUDICO.Common.Models;
 
-namespace IUDICO.CurriculumManagement.Models
+namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
 {
-    public class EditCurriculumAssignmentTimelineModel
+    public class CreateCurriculumAssignmentTimelineModel
     {
         public IEnumerable<SelectListItem> Operations { get; set; }
         public int OperationId { get; set; }
