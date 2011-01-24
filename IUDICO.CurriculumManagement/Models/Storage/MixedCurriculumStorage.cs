@@ -353,6 +353,9 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
             var themesInCurrentCurriculum = GetThemesByCurriculumId(curriculumAssignment.CurriculumRef);
 
+            _Db.CurriculumAssignments.InsertOnSubmit(curriculumAssignment);
+            _Db.SubmitChanges();
+
             foreach (var theme in themesInCurrentCurriculum)
             {
                 if (theme.ThemeTypeRef == 1)
@@ -367,9 +370,6 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                     AddThemeAssignment(newThemeAssingment);
                 }
             }
-
-            _Db.CurriculumAssignments.InsertOnSubmit(curriculumAssignment);
-            _Db.SubmitChanges();
 
             return curriculumAssignment.Id;
         }
