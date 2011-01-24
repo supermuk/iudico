@@ -14,7 +14,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <h2>Create stage</h2>
-    <%: Html.ValidationSummary(true)%>
+    <% Html.EnableClientValidation(); %>
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary(true)%>
         <fieldset>
@@ -33,7 +33,3 @@
     </div>
 
 </asp:Content>
-
-<asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
-</asp:Content>
-

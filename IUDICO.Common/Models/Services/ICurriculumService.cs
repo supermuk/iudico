@@ -31,7 +31,6 @@ namespace IUDICO.Common.Models.Services
 
         #region Assignment methods
 
-        IEnumerable<Timeline> GetTimelines();
         IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId);
         IEnumerable<Theme> GetThemesByGroupId(int groupId);
 
