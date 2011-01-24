@@ -117,14 +117,8 @@ namespace IUDICO.CurriculumManagement
             );
 
             routes.MapRoute(
-                "EditThemeAssignment",
-                "ThemeAssignment/{CurriculumAssignmentId}/{action}/{ThemeAssignmentId}",
-                new { controller = "ThemeAssignment" }
-                    );
-
-            routes.MapRoute(
                 "ThemeAssignment",
-                "ThemeAssignment/{CurriculumAssignmentId}/{action}",
+                "ThemeAssignment/{ThemeAssignmentId}/{action}",
                 new { controller = "ThemeAssignment" }
             );
 

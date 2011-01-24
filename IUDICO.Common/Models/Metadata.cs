@@ -316,7 +316,7 @@ namespace IUDICO.Common.Models
         }
     }
 
-    [MetadataType(typeof(Metadata))]
+    [MetadataType(typeof(ThemeAssignment.Metadata))]
     [Bind(Exclude = "Id")]
     public partial class ThemeAssignment
     {
@@ -334,6 +334,12 @@ namespace IUDICO.Common.Models
             [DisplayName("Max Score")]
             [Required(ErrorMessage = "Max score is required")]
             public int MaxScore { get; set; }
+
+            [ScaffoldColumn(false)]
+            public CurriculumAssignment CurriculumAssignment { get; set; }
+
+            [ScaffoldColumn(false)]
+            public Theme Theme { get; set; }
         }
     }
 }
