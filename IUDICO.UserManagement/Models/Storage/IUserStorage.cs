@@ -38,6 +38,7 @@ namespace IUDICO.UserManagement.Models.Storage
         void DeleteGroup(int id);
         void AddUserToGroup(Group group, User user);
         void RemoveUserFromGroup(Group group, User user);
+        IEnumerable<Group> GetGroupsByUser(User user);
 
         #endregion
     }
