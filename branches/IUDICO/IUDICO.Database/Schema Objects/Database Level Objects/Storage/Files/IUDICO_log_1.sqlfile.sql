@@ -1,3 +1,0 @@
-﻿ALTER DATABASE [$(DatabaseName)]
-    ADD LOG FILE (NAME = [IUDICO_log], FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL10.SQLEXPRESS\MSSQL\DATA\IUDICO_log.ldf', SIZE = 1024 KB, MAXSIZE = 2097152 MB, FILEGROWTH = 10 %);
-
