@@ -278,6 +278,9 @@ namespace IUDICO.Common.Models
             [Required(ErrorMessage = "Name is required")]
             [StringLength(50, ErrorMessage = "Name can not be longer than 50")]
             public string Name { get; set; }
+
+            [ScaffoldColumn(false)]
+            public bool Deleted { get; set; }
         }
     }
     
