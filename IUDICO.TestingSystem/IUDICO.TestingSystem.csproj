@@ -122,7 +122,6 @@
     <None Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Course\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
