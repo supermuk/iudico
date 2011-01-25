@@ -150,7 +150,7 @@ namespace IUDICO.UserManagement.Models.Auth
 
         public override bool ValidateUser(string username, string password)
         {
-            var user = GetDbContext().Users.SingleOrDefault(u => u.Username == username && u.Password == password);
+            var user = GetDbContext().Users.SingleOrDefault(u => u.Username == username && u.Password == password && !u.Deleted && u.IsApproved);
 
             return user != null && !user.Deleted;
         }

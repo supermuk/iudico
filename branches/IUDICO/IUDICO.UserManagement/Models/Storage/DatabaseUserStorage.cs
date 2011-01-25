@@ -152,6 +152,52 @@ namespace IUDICO.UserManagement.Models.Storage
             return db.GroupUsers.Where(g => g.GroupRef == group.Id && !g.User.Deleted).Select(g => g.User);
         }
 
+        public void RegisterUser(RegisterModel registerModel)
+        {
+            var db = GetDbContext();
+
+            User user = new User();
+            user.Username = registerModel.Username;
+            user.Password = registerModel.Password;
+            user.OpenId = registerModel.OpenId ?? string.Empty;
+            user.Email = registerModel.Email;
+            user.Name = registerModel.Name;
+            user.Role = Role.Student;
+            user.IsApproved = false;
+            user.Deleted = false;
+
+            db.Users.InsertOnSubmit(user);
+            db.SubmitChanges();
+        }
+
+        public void EditAccount(EditModel editModel)
+        {
+            var identity = HttpContext.Current.User.Identity;
+
+            var db = GetDbContext();
+
+            User user = db.Users.Single(u => u.Username == identity.Name);
+
+            user.Name = editModel.Name;
+            user.OpenId = editModel.OpenId ?? string.Empty;
+            user.Email = editModel.Email;
+
+            db.SubmitChanges();
+        }
+
+        public void ChangePassword(ChangePasswordModel changePasswordModel)
+        {
+            var identity = HttpContext.Current.User.Identity;
+
+            var db = GetDbContext();
+
+            User user = db.Users.Single(u => u.Username == identity.Name);
+
+            user.Password = changePasswordModel.NewPassword;
+
+            db.SubmitChanges();
+        }
+
         #endregion
 
         #region Role members

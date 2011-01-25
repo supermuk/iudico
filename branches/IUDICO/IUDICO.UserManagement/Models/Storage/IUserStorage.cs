@@ -21,11 +21,14 @@ namespace IUDICO.UserManagement.Models.Storage
         User GetUser(string openId);
         void CreateUser(User user);
         void EditUser(Guid id, User editor);
+        void EditAccount(EditModel editModel);
+        void ChangePassword(ChangePasswordModel changePasswordModel);
         void DeleteUser(Guid id);
         IEnumerable<User> GetUsersByGroup(Group group);
         bool UsernameExists(string username);
         void ActivateUser(Guid id);
         void DeactivateUser(Guid id);
+        void RegisterUser(RegisterModel registerModel);
 
         #endregion
 
