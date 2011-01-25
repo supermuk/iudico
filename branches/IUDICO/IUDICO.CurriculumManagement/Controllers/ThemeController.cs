@@ -7,6 +7,7 @@ using IUDICO.Common.Models.Services;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.CurriculumManagement.Models;
 using IUDICO.CurriculumManagement.Models.ViewDataClasses;
+using IUDICO.Common.Models.Attributes;
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
@@ -18,6 +19,7 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         }
 
+        [Allow(Role = Role.Teacher)]
         public ActionResult Index(int stageId)
         {
             try
@@ -36,6 +38,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpGet]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Create(int stageId)
         {
             try
@@ -58,6 +61,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Create(CreateThemeModel model)
         {
             try
@@ -82,6 +86,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpGet]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int themeId)
         {
             try
@@ -118,6 +123,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Edit(CreateThemeModel model)
         {
             try
@@ -139,6 +145,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher)]
         public JsonResult DeleteItem(int themeId)
         {
             try
@@ -154,6 +161,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher)]
         public JsonResult DeleteItems(int[] themeIds)
         {
             try
@@ -168,6 +176,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
         }
 
+        [Allow(Role = Role.Teacher)]
         public ActionResult ThemeUp(int themeId)
         {
             try
@@ -182,6 +191,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             }
         }
 
+        [Allow(Role = Role.Teacher)]
         public ActionResult ThemeDown(int themeId)
         {
             try

@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.CurriculumManagement.Models.Storage;
+using IUDICO.Common.Models.Attributes;
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
@@ -13,6 +14,7 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         }
 
+        [Allow(Role = Role.Teacher)]
         public ActionResult Index(int curriculumId)
         {
             try
@@ -29,6 +31,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpGet]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Create(int curriculumId)
         {
             try
@@ -44,6 +47,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Create(int curriculumId, Stage stage)
         {
             try
@@ -60,6 +64,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpGet]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int stageId)
         {
             try
@@ -76,6 +81,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int stageId, Stage stage)
         {
             try
@@ -92,6 +98,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher)]
         public JsonResult DeleteItem(int stageId)
         {
             try
@@ -107,6 +114,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher)]
         public JsonResult DeleteItems(int[] stageIds)
         {
             try
