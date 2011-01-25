@@ -111,6 +111,13 @@
       <Association Name="User_GroupUser" Member="GroupUsers" ThisKey="Id" OtherKey="UserRef" Type="GroupUser" />
     </Type>
   </Table>
+  <Table Name="dbo.ThemeTypes" Member="ThemeTypes">
+    <Type Name="ThemeType">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="ThemeType_Theme" Member="Themes" ThisKey="Id" OtherKey="ThemeTypeRef" Type="Theme" />
+    </Type>
+  </Table>
   <Table Name="dbo.ThemeAssignments" Member="ThemeAssignments">
     <Type Name="ThemeAssignment">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -120,20 +127,6 @@
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="CurriculumAssignment_ThemeAssignment" Member="CurriculumAssignment" ThisKey="CurriculumAssignmentRef" OtherKey="Id" Type="CurriculumAssignment" IsForeignKey="true" />
       <Association Name="Theme_ThemeAssignment" Member="Theme" ThisKey="ThemeRef" OtherKey="Id" Type="Theme" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.ThemeTypes" Member="ThemeTypes">
-    <Type Name="ThemeType">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="ThemeType_Theme" Member="Themes" ThisKey="Id" OtherKey="ThemeTypeRef" Type="Theme" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Operations" Member="Operations">
-    <Type Name="Operation">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Operation_Timeline" Member="Timelines" ThisKey="Id" OtherKey="OperationRef" Type="Timeline" />
     </Type>
   </Table>
   <Table Name="dbo.Timelines" Member="Timelines">
@@ -147,6 +140,13 @@
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="CurriculumAssignment_Timeline" Member="CurriculumAssignment" ThisKey="CurriculumAssignmentRef" OtherKey="Id" Type="CurriculumAssignment" IsForeignKey="true" />
       <Association Name="Operation_Timeline" Member="Operation" ThisKey="OperationRef" OtherKey="Id" Type="Operation" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Operations" Member="Operations">
+    <Type Name="Operation">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Operation_Timeline" Member="Timelines" ThisKey="Id" OtherKey="OperationRef" Type="Timeline" />
     </Type>
   </Table>
 </Database>
