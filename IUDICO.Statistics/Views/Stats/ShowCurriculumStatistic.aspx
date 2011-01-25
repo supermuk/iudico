@@ -21,7 +21,7 @@
         <% foreach (IUDICO.Common.Models.Curriculum curr in Model.Curriculums)
            {%>
            <th>
-           <input type="radio" name="CurriculumID" value="<%: curr.Id %>"/>
+           <input type="radio" name="CurriculumID" value="<%: curr.Id %>" checked="checked" />
            <%: curr.Name %>
            </th>
         <% } %>
