@@ -14,8 +14,6 @@ namespace IUDICO.TestingSystem.Models
         public IEnumerable<AttemptResult> GetResults(User user, Theme theme)
         {
             throw new NotImplementedException();
-            System.Web.Security.Membership.GetUser(System.Web.HttpContext.Current.User.Identity.Name);
-
         }
 
         public IEnumerable<AttemptResult> GetAllAttempts()
@@ -27,7 +25,6 @@ namespace IUDICO.TestingSystem.Models
         public IEnumerable<AnswerResult> GetAnswers(AttemptResult attempt)
         {
             throw new NotImplementedException();
-
         }
 
         #endregion

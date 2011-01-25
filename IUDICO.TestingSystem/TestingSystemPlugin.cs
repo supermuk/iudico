@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using System;
 using Castle.MicroKernel.Registration;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
@@ -25,7 +24,8 @@ namespace IUDICO.TestingSystem
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<TestingSystemPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<ITestingService>().ImplementedBy<FakeTestingSystem>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
+                Component.For<ITestingService>().ImplementedBy<FakeTestingSystem>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<IMlcProxy>().ImplementedBy<MlcProxy>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
                 );
         }
 
@@ -35,7 +35,12 @@ namespace IUDICO.TestingSystem
 
         public IEnumerable<IUDICO.Common.Models.Action> BuildActions(Role role)
         {
-            return new List<IUDICO.Common.Models.Action>();
+            var actions = new List<Action>();
+
+            actions.Add(new Action("Import Testings", "Package/Index"));
+            actions.Add(new Action("Available Testings", "Training/Index"));
+
+            return actions;
         }
 
         public void BuildMenu(Menu menu)
@@ -62,13 +67,13 @@ namespace IUDICO.TestingSystem
         {
             //switch (name)
             //{
-                          
+               
             //}
         }
 
         public void Setup(IWindsorContainer container)
         {
-
+            
         }
 
         #endregion

@@ -1,26 +1,27 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.TestingSystem.Models.Shared.Package>>" %>
-<%@ Assembly Name="IUDICO.TestingSystem" %>
-<%@ Assembly Name="Microsoft.LearningComponents" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Course>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Index
+	Import Courses
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Index</h2>
+    <h2>Import available Courses</h2>
 
     <table>
         <tr>
             <th></th>
             <th>
-                GID
+                Name
             </th>
             <th>
-                Location
+                Owner
             </th>
             <th>
-                Title
+                Created
+            </th>
+            <th>
+                Updated
             </th>
         </tr>
 
@@ -28,31 +29,30 @@
     
         <tr>
             <td>
-                <%: Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) %> |
-                <%: Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })%> |
-                <%: Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })%>
+                <%: Html.ActionLink("Import", "Add", new { id=item.Id }) %>
             </td>
             <td>
-                <%: item.GID %>
+                <%: item.Name %>
             </td>
             <td>
-                <%: item.Location %>
+                <%: item.Owner %>
             </td>
             <td>
-                <%: item.Title %>
+                <%: String.Format("{0:g}", item.Created) %>
+            </td>
+            <td>
+                <%: String.Format("{0:g}", item.Updated) %>
             </td>
         </tr>
     
     <% } %>
 
     </table>
-
     <p>
-        <%: Html.ActionLink("Create New", "Create") %>
+        <%: Html.ActionLink("Upload course", "Import") %>
     </p>
-
 </asp:Content>
 
-<asp:Content ID="Content3" ContentPlaceHolderID="head" runat="server">
+<asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
 

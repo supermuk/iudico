@@ -2,22 +2,51 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using IUDICO.TestingSystem.Models.Shared;
+using IUDICO.TestingSystem.Models.VO;
 using IUDICO.TestingSystem.Models;
 using IUDICO.Common.Controllers;
+using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Attributes;
 
 namespace IUDICO.TestingSystem.Controllers
 {
     public class TrainingController : PluginController
     {
+
+        protected readonly IMlcProxy MlcProxy;
+
+        protected IUserService UserService
+        {
+            get
+            {
+                IUserService result = LmsService.FindService<IUserService>();
+                return result;
+            }
+        }
+
+        public TrainingController(IMlcProxy mlcProxy)
+        {
+            MlcProxy = mlcProxy;
+        }
+
+        protected IUDICO.Common.Models.User CurrentUser
+        {
+            get
+            {
+                var result = UserService.GetCurrentUser();
+                return result;
+            }
+        }
+
+
         //
         // GET: /Training/
 
         public ActionResult Index()
         {
-            IEnumerable<Training> trainings = MlcDataProvider.Instance.GetTrainings(1);
-            LmsService.FindService<IUserService>().GetGroups();
+            // TODO: provide user-based
+            IEnumerable<Training> trainings = MlcProxy.GetTrainings(1);
             return View(trainings);
         }
 
@@ -29,25 +58,17 @@ namespace IUDICO.TestingSystem.Controllers
 
         public ActionResult Create(long id)
         {
-            var attemptId = MlcDataProvider.Instance.CreateAttempt(id);
+            var attemptId = MlcProxy.CreateAttempt(id);
 
             // TODO: redirect to frameset.
-            return RedirectToAction("Index");
-        }
-
-        public ActionResult Add()
-        {
-            var package = new ZipPackage("C:\\ZipPackages\\scorm1.zip", 1, DateTime.Now, "scorm1.zip");
-            var training = MlcDataProvider.Instance.AddPackage(package);
-
-            //Show success page with detailed info.
-            return View("Details", training);
+            return RedirectToAction("Play", new { id = attemptId });
         }
 
         public ActionResult Details(long packageId, long attemptId = -1)
         {
             // TODO: provide user-based
-            var trainings = MlcDataProvider.Instance.GetTrainings(1);
+
+            var trainings = MlcProxy.GetTrainings(1);
             var trainingsById = trainings.Where(tr => tr.PackageId == packageId);
 
             Training training;
@@ -62,6 +83,13 @@ namespace IUDICO.TestingSystem.Controllers
             }
 
             return View("Details", training);
+        }
+
+        public ActionResult Delete(long id)
+        {
+            MlcProxy.DeletePackage(id);
+
+            return RedirectToAction("Index");
         }
     }
 }
