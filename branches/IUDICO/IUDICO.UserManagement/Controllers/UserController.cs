@@ -32,7 +32,10 @@ namespace IUDICO.UserManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Details(Guid id)
         {
-            return View(_Storage.GetUser(id));
+            var user = _Storage.GetUser(id);
+            var group = _Storage.GetGroupsByUser(user);
+
+            return View(new AdminDetailsModel(user, group));
         }
 
         //
@@ -147,6 +150,17 @@ namespace IUDICO.UserManagement.Controllers
             _Storage.DeactivateUser(id);
 
             return RedirectToAction("Index");
+        }
+
+        [Allow(Role = Role.Admin)]
+        public ActionResult RemoveFromGroup(Guid id, int groupRef)
+        {
+            var user = _Storage.GetUser(id);
+            var group = _Storage.GetGroup(groupRef);
+
+            _Storage.RemoveUserFromGroup(group, user);
+
+            return RedirectToAction("Details", new { id = id });
         }
     }
 }
