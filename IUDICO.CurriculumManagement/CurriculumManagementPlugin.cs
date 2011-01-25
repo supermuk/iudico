@@ -10,6 +10,7 @@ using IUDICO.CurriculumManagement.Models;
 
 using System.Linq;
 using Castle.Windsor;
+using IUDICO.Common.Models.Notifications;
 
 namespace IUDICO.CurriculumManagement
 {
@@ -140,14 +141,14 @@ namespace IUDICO.CurriculumManagement
 
         public void Update(string evt, params object[] data)
         {
-            if (evt == "course/delete")
+            if (evt == UserNotifications.CourseDelete)
             {
                 //delete connected Themes
                 int courseId = ((Course)data[0]).Id;
                 var themeIds = curriculumStorage.GetThemesByCourseId(courseId).Select(item => item.Id);
                 curriculumStorage.DeleteThemes(themeIds);
             }
-            else if (evt == "group/delete")
+            else if (evt == UserNotifications.GroupDelete)
             {
                 //delete connected CurriculumAssignments
                 int groupId = ((Group)data[0]).Id;
