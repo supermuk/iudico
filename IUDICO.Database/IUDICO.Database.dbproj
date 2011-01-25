@@ -334,12 +334,6 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\User.UK_User.ukey.sql">
       <SubType>Code</SubType>
     </Build>
-    <Build Include="Schema Objects\Database Level Objects\Storage\Files\IUDICO_log_1.sqlfile.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Database Level Objects\Storage\Files\IUDICO_1.sqlfile.sql">
-      <SubType>Code</SubType>
-    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_ThemeAssignments_IsDeleted_1.defconst.sql">
       <SubType>Code</SubType>
     </Build>
