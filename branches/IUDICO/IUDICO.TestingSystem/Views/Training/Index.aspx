@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.TestingSystem.Models.Shared.Training>>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.TestingSystem.Models.VO.Training>>" %>
 <%@ Assembly Name="IUDICO.TestingSystem" %>
 <%@ Assembly Name="Microsoft.LearningComponents" %>
 
@@ -14,19 +14,10 @@
         <tr>
             <th></th>
             <th>
-                Package ID
-            </th>
-            <th>
                 Package FileName
             </th>
             <th>
-                Organization ID
-            </th>
-            <th>
                 Organization Title
-            </th>
-            <th>
-                Attempt ID
             </th>
             <th>
                 Status
@@ -37,32 +28,21 @@
             <th>
                 Total Points
             </th>
-            <th>
-                Play ID
-            </th>
         </tr>
 
     <% foreach (var item in Model) { %>
     
         <tr>
             <td>
+                <%: Html.ActionLink("Delete", "Delete", new { id = item.PackageId })%> |
                 <%: Html.ActionLink("Details", "Details", new { packageId = item.PackageId, attemptId = item.AttemptId })%> |
                 <%: item.AttemptStatusProp == null ? Html.ActionLink("Play", "Create", new { id = item.PlayId }) : Html.ActionLink("Play", "Play", new { id = item.PlayId }) %>
-            </td>
-            <td>
-                <%: item.PackageId %>
             </td>
             <td>
                 <%: item.PackageFileName %>
             </td>
             <td>
-                <%: item.OrganizationId %>
-            </td>
-            <td>
                 <%: item.OrganizationTitle %>
-            </td>
-            <td>
-                <%: item.AttemptId %>
             </td>
             <td>
                 <%: item.AttemptStatusProp %>
@@ -73,9 +53,6 @@
             <td>
                 <%: String.Format("{0:0.#}", item.TotalPoints) %>
             </td>
-            <td>
-                <%: item.PlayId %>
-            </td>
         </tr>
     
     <% } %>
@@ -83,11 +60,12 @@
     </table>
 
     <p>
-        <%: Html.ActionLink("Upload new", "Add") %>
+        <%: Html.ActionLink("Upload new", "Import","Package") %>
     </p>
 
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
+
 </asp:Content>
 

@@ -1,45 +1,53 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.TestingSystem.Models.Shared.Training>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.TestingSystem.Models.VO.Training>" %>
 <%@ Assembly Name="IUDICO.TestingSystem" %>
 <%@ Assembly Name="Microsoft.LearningComponents" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	ViewPage1
+	Training Details
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>ViewPage1</h2>
+    <h2>Training Details</h2>
 
     <fieldset>
-        <legend>Fields</legend>
-        
-        <div class="display-label">PackageId</div>
-        <div class="display-field"><%: Model.PackageId %></div>
-        
-        <div class="display-label">PackageFileName</div>
-        <div class="display-field"><%: Model.PackageFileName %></div>
-        
-        <div class="display-label">OrganizationId</div>
-        <div class="display-field"><%: Model.OrganizationId %></div>
-        
-        <div class="display-label">OrganizationTitle</div>
-        <div class="display-field"><%: Model.OrganizationTitle %></div>
-        
-        <div class="display-label">AttemptId</div>
-        <div class="display-field"><%: Model.AttemptId %></div>
-        
-        <div class="display-label">UploadDateTime</div>
-        <div class="display-field"><%: String.Format("{0:g}", Model.UploadDateTime) %></div>
-        
-        <div class="display-label">TotalPoints</div>
-        <div class="display-field"><%: Model.TotalPoints %></div>
-        
-        <div class="display-label">PlayId</div>
-        <div class="display-field"><%: Model.PlayId %></div>
-        
+        <legend>Properties</legend>
+        <table>
+        <tr>
+        <td>PackageId</td>
+        <td><%: Model.PackageId %></td>
+        </tr>
+        <tr>
+        <td>PackageFileName</td>
+        <td><%: Model.PackageFileName %></td>
+        </tr>
+        <tr>
+        <td>OrganizationId</td>
+        <td><%: Model.OrganizationId %></td>
+        </tr>
+        <tr>
+        <td>OrganizationTitle</td>
+        <td><%: Model.OrganizationTitle %></td>
+        </tr>
+        <tr>
+        <td>AttemptId</td>
+        <td><%: Model.AttemptId %></td>
+        </tr>
+        <tr>
+        <td>UploadDateTime</td>
+        <td><%: String.Format("{0:g}", Model.UploadDateTime) %></td>
+        </tr>
+        <tr>
+        <td>TotalPoints</td>
+        <td><%: Model.TotalPoints %></td>
+        </tr>
+        <tr>
+        <td>PlayId</td>
+        <td><%: Model.PlayId %></td>
+        </tr>
+        </table>
     </fieldset>
     <p>
-        <%: Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) %> |
         <%: Html.ActionLink("Back to List", "Index") %>
     </p>
 
