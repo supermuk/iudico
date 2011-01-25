@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Web.Mvc;
 using System.Collections.Generic;
+using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared.Statistics;
 using IUDICO.Common.Controllers;
 using IUDICO.Statistics.Models.Storage;
+using IUDICO.Common.Models.Attributes;
 
 namespace IUDICO.Statistics.Controllers
 {
@@ -17,6 +19,7 @@ namespace IUDICO.Statistics.Controllers
             _Proxy = statsStorage;
         }
 
+        [Allow(Role = Role.Teacher)]
         public ActionResult Index()
         {
             var groups = _Proxy.GetAllGroups();
@@ -24,25 +27,31 @@ namespace IUDICO.Statistics.Controllers
             return View(groups);
         }
 
+        [Allow(Role = Role.Teacher)]
         [HttpPost]
         public ActionResult SelectCurriculums(int id)
         {
-            var curriculums = _Proxy.GetCurrilulumsByGroupId(id);
+            
+                var curriculums = _Proxy.GetCurrilulumsByGroupId(id);
 
-            HttpContext.Session["SelectedGroupId"] = id;
+                HttpContext.Session["SelectedGroupId"] = id;
 
-            return View(curriculums);
+                return View(curriculums);
+            
+            
         }
 
+        [Allow(Role = Role.Teacher)]
         [HttpPost]
         public ActionResult ShowCurriculumStatistic(int[] selectCurriculumId)
         {
-            var users = LmsService.FindService<IUserService>().GetUsersByGroup(LmsService.FindService<IUserService>().GetGroup((int)HttpContext.Session["SelectedGroupId"]));
-            var allSpecializedResults = new AllSpecializedResults(users, selectCurriculumId, LmsService);
-
-            return View(allSpecializedResults);
+             var users = LmsService.FindService<IUserService>().GetUsersByGroup(LmsService.FindService<IUserService>().GetGroup((int)HttpContext.Session["SelectedGroupId"]));
+             var allSpecializedResults = new AllSpecializedResults(users, selectCurriculumId, LmsService);
+            
+            return View(allSpecializedResults);            
         }
 
+        [Allow(Role = Role.Teacher)]
         [HttpPost]
         public ActionResult ThemesInfo(Int32 curriculumId)
         {
@@ -53,6 +62,7 @@ namespace IUDICO.Statistics.Controllers
             return View(model);
         }
 
+        [Allow(Role = Role.Teacher)]
         [HttpPost]
         public ActionResult ThemeTestResaults(String attemptUsernameAndTheme)
         {
