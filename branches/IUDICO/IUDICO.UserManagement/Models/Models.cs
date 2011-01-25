@@ -2,7 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using IUDICO.Common.Models;
 using System.Collections.Generic;
+using IUDICO.Common.Models.Attributes;
 using OpenIdMembershipUser = IUDICO.UserManagement.Models.Auth.OpenIdMembershipUser;
+using Guid = System.Guid;
 
 namespace IUDICO.UserManagement.Models
 {
@@ -15,37 +17,64 @@ namespace IUDICO.UserManagement.Models
             OpenId = user.OpenId;
             Email = user.Email;
             Groups = groups;
+            Role = user.Role;
         }
 
         [DisplayName("Username")]
+        [Order(1)]
         public string Username { get; set; }
 
         [DisplayName("Name")]
+        [Order(2)]
         public string Name { get; set; }
 
         [DisplayName("Open ID")]
+        [Order(3)]
         public string OpenId { get; set; }
 
         [DisplayName("Email")]
         [EmailAddress]
+        [Order(4)]
         public string Email { get; set; }
+
+        [DisplayName("Role")]
+        [Order(5)]
+        public Role Role { get; set; }
 
         [ScaffoldColumn(false)]
         public IEnumerable<Group> Groups { get; set; }
     }
 
+    public class AdminDetailsModel : DetailsModel
+    {
+        public AdminDetailsModel(User user, IEnumerable<Group> groups)
+            : base(user, groups)
+        {
+            Id = user.Id;
+            IsApproved = user.IsApproved;
+        }
+
+        [ScaffoldColumn(false)]
+        public Guid Id { get; set; }
+
+        [DisplayName("Activated")]
+        [DataType(DataType.Text)]
+        [Order(6)]
+        public bool IsApproved { get; set; }
+    }
+
     public class RegisterModel
     {
-        [Required]
+        [Required(ErrorMessage = "Username is required")]
         [DisplayName("Username")]
         public string Username { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
         [DisplayName("Password")]
         public string Password { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Confirm Password is required")]
         [DataType(DataType.Password)]
         [DisplayName("Confirm Password")]
         public string ConfirmPassword { get; set; }
@@ -53,12 +82,12 @@ namespace IUDICO.UserManagement.Models
         [DisplayName("Open ID")]
         public string OpenId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Email is required")]
         [DisplayName("Email")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Name is required")]
         [DisplayName("Name")]
         public string Name { get; set; }
     }
@@ -76,14 +105,14 @@ namespace IUDICO.UserManagement.Models
         {
         }
 
-        [Required]
+        [Required(ErrorMessage = "Name is required")]
         [DisplayName("Name")]
         public string Name { get; set; }
 
         [DisplayName("Open ID")]
         public string OpenId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Email is required")]
         [DisplayName("Email")]
         [EmailAddress]
         public string Email { get; set; }
@@ -91,17 +120,17 @@ namespace IUDICO.UserManagement.Models
 
     public class ChangePasswordModel
     {
-        [Required]
+        [Required(ErrorMessage = "Old Password is required")]
         [DataType(DataType.Password)]
         [DisplayName("Old Password")]
         public string OldPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "New Password is required")]
         [DataType(DataType.Password)]
         [DisplayName("New Password")]
         public string NewPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Confirm password is required")]
         [DataType(DataType.Password)]
         [DisplayName("Confrim Password")]
         public string ConfirmPassword { get; set; }

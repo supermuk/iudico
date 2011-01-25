@@ -190,13 +190,13 @@ namespace IUDICO.Common.Models
             [DisplayName("Username")]
             [Required(ErrorMessage = "Username is required")]
             [StringLength(100, ErrorMessage = "Username can not be longer than 100")]
-            [Order(2)]
+            [Order(1)]
             public string Username { get; set; }
 
             [DisplayName("Password")]
             [Required(ErrorMessage = "Password is required")]
             [StringLength(50, ErrorMessage = "Password can not be longer than 50")]
-            [Order(1)]
+            [Order(2)]
             public string Password { get; set; }
 
             [DisplayName("Email")]
@@ -209,7 +209,6 @@ namespace IUDICO.Common.Models
             public int RoleId { get; set; }
 
             [DisplayName("OpenId")]
-            [Required(ErrorMessage = "OpenId is required")]
             [StringLength(200, ErrorMessage = "OpenId can not be longer than 200")]
             [Order(4)]
             public string OpenId { get; set; }

@@ -104,6 +104,7 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
 
+            user.OpenId = user.OpenId ?? string.Empty;
             user.Deleted = false;
             user.IsApproved = true;
 
@@ -121,7 +122,7 @@ namespace IUDICO.UserManagement.Models.Storage
             oldUser.Name = user.Name;
             oldUser.Password = user.Password;
             oldUser.Email = user.Email;
-            oldUser.OpenId = user.OpenId;
+            oldUser.OpenId = user.OpenId ?? string.Empty;
             oldUser.RoleId = user.RoleId;
             oldUser.Username = user.Username;
             oldUser.IsApproved = user.IsApproved;
