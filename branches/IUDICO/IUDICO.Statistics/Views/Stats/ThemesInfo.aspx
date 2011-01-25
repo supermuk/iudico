@@ -31,7 +31,7 @@
                 <% foreach (IUDICO.Common.Models.Theme selectTheme in Model.SelectCurriculumThemes) 
                     { %>
                         <td>
-                        <input type="radio" name="attemptUsernameAndTheme" value="<%: student.Username+selectTheme.Name %>"/>
+                        <input type="radio" name="attemptUsernameAndTheme" value="<%: student.Username+selectTheme.Name %>" checked="checked" />
                             <%:
                                     Model.GetStudentResultForTheme(student, selectTheme).ToString() +
                                     "/" + Model.GetMaxResautForTheme(selectTheme).ToString()
