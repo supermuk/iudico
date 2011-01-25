@@ -53,7 +53,8 @@ namespace IUDICO.TestingSystem.Controllers
         public ActionResult Play(long id)
         {
             // TODO: redirect to frameset.
-            return new RedirectResult("http://localhost:1339/BasicWebPlayer/Frameset/Frameset.aspx?View=0&AttemptId=" + id.ToString());
+            //return new RedirectResult("http://localhost:1339/BasicWebPlayer/Frameset/Frameset.aspx?View=0&AttemptId=" + id.ToString());
+            return View("Play", id);
         }
 
         public ActionResult Create(long id)
