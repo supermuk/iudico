@@ -2,9 +2,22 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	SelectCurriculums
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+
+    <script type="text/javascript" language="javascript">
+        $(function () {
+            var $curform = $('curform');
+            $curform.submit(function () {
+                if ($curform.find('input:checked').length > 0) {
+                    return true;
+                }
+                return false;
+            });
+        });
+    </script>
 
     <h2>Curriculum list</h2>
 
@@ -13,8 +26,8 @@
 
      <legend>Please, select one or more curriculum : </legend>
 
-     <form action="/Stats/ShowCurriculumStatistic/" method="post">
 
+    <form id="curform" action="/Stats/ShowCurriculumStatistic/" method="post">
      <table>
      
      <tr>
@@ -28,7 +41,7 @@
         { %>
         <tr>
             <td>
-            <input type="checkbox" name="selectCurriculumId" value="<%: curr.Id %>" />
+            <input type="checkbox" name="selectCurriculumId" value="<%: curr.Id %>" id="<%: curr.Id %>" />
             </td>
             <td>
             <%: curr.Id %>
@@ -46,9 +59,13 @@
 
      <input type="submit" value="Show" />
 
-     </form>
+</form>
 
+<!--
+<a href="#" onclick="isChecked();">Show</a>
+-->
      </fieldset>
+
 
 </asp:Content>
 
