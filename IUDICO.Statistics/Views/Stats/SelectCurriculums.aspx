@@ -8,15 +8,14 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <script type="text/javascript" language="javascript">
-        $(function () {
-            var $curform = $('curform');
-            $curform.submit(function () {
-                if ($curform.find('input:checked').length > 0) {
-                    return true;
-                }
-                return false;
-            });
-        });
+        function checkBox() {
+            if ($('input:checkbox:checked').length == 0) {
+                alert('Please, select one or more curriculum')
+            }
+            else {
+                $('#curform').submit();
+            }
+        }
     </script>
 
     <h2>Curriculum list</h2>
@@ -57,7 +56,7 @@
 
      </table>
 
-     <input type="submit" value="Show" />
+     <input type="button" value="Show" onclick="checkBox();" />
 
 </form>
 
