@@ -2,27 +2,77 @@
 using System.Web.Configuration;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
+using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models;
 
 namespace IUDICO.TestingSystem.Models
 {
     public class MlcHelper
     {
+        #region Service Properties
+
+        protected ILmsService LmsSevice { get; set; }
+
+        protected IUserService UserService
+        {
+            get
+            {
+                IUserService service = LmsSevice.FindService<IUserService>();
+                return service;
+            }
+        }
+
+        protected ICourseService CourseService
+        {
+            get
+            {
+                ICourseService service = LmsSevice.FindService<ICourseService>();
+                return service;
+            }
+        }
+       
+        protected ICurriculumService CurriculumService
+        {
+            get
+            {
+                ICurriculumService service = LmsSevice.FindService<ICurriculumService>();
+                return service;
+            }
+        }
+        
+        #endregion
+
+        #region Constructor
+
+        public MlcHelper(ILmsService lmsService)
+        {
+            LmsSevice = lmsService;
+        }
+
+        #endregion
+
+        #region Protected Methods
+        
+        protected string GetConnectionString()
+        {
+            string result = LmsSevice.GetDbConnection().ConnectionString;
+            return result;
+        }
+
+        protected User GetCurrentUser()
+        {
+            var result = UserService.GetCurrentUser();
+            return result;
+        }
+
+        #endregion
+
         #region Private fields
 
         /// <summary>
-        /// Holds the value of the <c>UserKey</c> property.
+        /// Holds the value of the <c>CurrentUserKey</c> property.
         /// </summary>
-        string m_userKey;
-
-        /// <summary>
-        /// Holds the value of the <c>UserName</c> property.
-        /// </summary>
-        string m_userName;
-
-        /// <summary>
-        /// Holds the value of the <c>LStoreConnectionString</c> property.
-        /// </summary>
-        string m_lstoreConnectionString;
+        long _CurrentUserKey;
 
         /// <summary>
         /// Holds the value of the <c>LStore</c> property.
@@ -40,7 +90,7 @@ namespace IUDICO.TestingSystem.Models
         FileSystemPackageStore m_pstore;
 
         #endregion
-
+        
         #region Properties
 
         /// <summary>
@@ -56,8 +106,7 @@ namespace IUDICO.TestingSystem.Models
                 {
                     // set <m_pstoreDirectoryPath> to the full path to the
                     // directory
-                    m_pstoreDirectoryPath = WebConfigurationManager.AppSettings
-                        ["packageStoreDirectoryPath"];
+                    m_pstoreDirectoryPath = "c:\\BasicWebPlayerPackages";
                 }
                 return m_pstoreDirectoryPath;
             }
@@ -72,22 +121,22 @@ namespace IUDICO.TestingSystem.Models
         }
 
         /// <summary>
-        /// Gets the string provided by the operating environment which uniquely
-        /// identifies this user.
+        /// Retrieves the Guid of current user in context of which work is done.
         /// </summary>
-        public String UserKey
+        public long CurrentUserKey
         {
             get
             {
-                return this.m_userKey;
+                if (_CurrentUserKey == null)
+                {
+                    _CurrentUserKey = 1;//GetCurrentUser().Id;
+                }
+                // TODO: change to current user key
+                return 1;
             }
             set
             {
-                if (value.ToString().Length == 0)
-                {
-                    throw new ArgumentException("User Key should be a valid guid!");
-                }
-                this.m_userKey = value;
+                _CurrentUserKey = value;
             }
         }
 
@@ -100,12 +149,9 @@ namespace IUDICO.TestingSystem.Models
         {
             get
             {
-                if (m_lstoreConnectionString == null)
-                {
-                    m_lstoreConnectionString = WebConfigurationManager.AppSettings
-                        ["learningComponentsConnnectionString"];
-                }
-                return m_lstoreConnectionString;
+                string result = "Server=.\\SQLEXPRESS;Database=Training;Integrated Security=true";
+                // TODO: GetConnectionString();
+                return result;
             }
         }
 
@@ -120,7 +166,7 @@ namespace IUDICO.TestingSystem.Models
                 if (m_lstore == null)
                 {
                     m_lstore = new LearningStore(
-                        LStoreConnectionString, UserKey.ToString(), ImpersonationBehavior.UseOriginalIdentity);
+                        LStoreConnectionString, CurrentUserKey.ToString(), ImpersonationBehavior.UseOriginalIdentity);
                 }
                 return m_lstore;
             }
@@ -153,7 +199,7 @@ namespace IUDICO.TestingSystem.Models
         {
             get
             {
-                UserItemIdentifier id = new UserItemIdentifier(Convert.ToInt64(this.UserKey));
+                UserItemIdentifier id = new UserItemIdentifier(Convert.ToInt64(this.CurrentUserKey));
                 return id;
             }
         }
