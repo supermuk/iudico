@@ -7,6 +7,7 @@ using IUDICO.Common.Models;
 using IUDICO.CurriculumManagement.Models;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.CurriculumManagement.Models.ViewDataClasses;
+using IUDICO.Common.Models.Attributes;
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
@@ -18,6 +19,7 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         }
 
+        [Allow(Role = Role.Teacher)]
         public ActionResult Index(int curriculumAssignmentId)
         {
             try
@@ -37,6 +39,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpGet]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Create(int curriculumAssignmentId)
         {
             try
@@ -59,6 +62,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Create(int curriculumAssignmentId, CreateCurriculumAssignmentTimelineModel createTimelineModel)
         {
             try
@@ -85,6 +89,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpGet]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int timelineId)
         {
             try
@@ -110,6 +115,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int timelineId, EditCurriculumAssignmentTimelineModel editTimelineModel)
         {
             try
@@ -135,6 +141,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher)]
         public JsonResult DeleteItem(int timelineId)
         {
             try
@@ -150,6 +157,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher)]
         public JsonResult DeleteItems(int[] timelineIds)
         {
             try

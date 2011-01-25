@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.CurriculumManagement.Models.Storage;
+using IUDICO.Common.Models.Attributes;
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
@@ -13,6 +14,7 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         }
 
+        [Allow(Role = Role.Teacher)]
         public ActionResult Index()
         {
             try
@@ -28,6 +30,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpGet]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Create()
         {
             try
@@ -41,6 +44,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Create(Curriculum curriculum)
         {
             try
@@ -56,6 +60,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpGet]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int curriculumId)
         {
             try
@@ -71,6 +76,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int curriculumId, Curriculum curriculum)
         {
             try
@@ -87,6 +93,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher)]
         public JsonResult DeleteItem(int curriculumId)
         {
             try
@@ -102,6 +109,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher)]
         public JsonResult DeleteItems(int[] curriculumIds)
         {
             try

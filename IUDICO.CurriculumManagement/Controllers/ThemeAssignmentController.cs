@@ -8,6 +8,7 @@ using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.CurriculumManagement.Controllers;
 using IUDICO.CurriculumManagement.Models;
 using IUDICO.CurriculumManagement.Models.ViewDataClasses;
+using IUDICO.Common.Models.Attributes;
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
@@ -19,6 +20,7 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         }
 
+        [Allow(Role = Role.Teacher)]
         public ActionResult Index(int curriculumAssignmentId)
         {
             try
@@ -45,6 +47,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpGet]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int themeAssignmentId)
         {
             try
@@ -61,6 +64,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int themeAssignmentId, ThemeAssignment themeAssignment)
         {
             try
