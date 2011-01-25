@@ -45,5 +45,11 @@ namespace IUDICO.Common.Models.Notifications
         /// <param name="group">Group value represents deleted group object.</param>
         /// </summary>
         public const string GroupDelete = "group/delete";
+
+        /// <summary>
+        /// Course Delete notification is sent when course has been deleted.
+        /// <param name="course">Group value represents deleted group object.</param>
+        /// </summary>
+        public const string CourseDelete = "course/delete";
     }
 }
