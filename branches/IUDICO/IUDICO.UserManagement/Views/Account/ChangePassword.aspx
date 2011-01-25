@@ -1,13 +1,13 @@
 ﻿<%@ Assembly Name="IUDICO.UserManagement" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.UserManagement.Models.RegisterModel>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.UserManagement.Models.ChangePasswordModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Register
+	ChangePassword
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Register</h2>
+    <h2>ChangePassword</h2>
 
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary(true) %>
@@ -18,13 +18,18 @@
             <%: Html.EditorForModel() %>
             
             <p>
-                <input type="submit" value="Register" />
+                <input type="submit" value="Change Password" />
             </p>
         </fieldset>
 
     <% } %>
 
+    <div>
+        <%: Html.ActionLink("Back to Account", "Index") %>
+    </div>
+
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
+

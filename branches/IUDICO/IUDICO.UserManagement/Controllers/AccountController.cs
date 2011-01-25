@@ -8,6 +8,7 @@ using IUDICO.UserManagement.Models;
 using IUDICO.UserManagement.Models.Storage;
 using OpenIdMembershipProvider = IUDICO.UserManagement.Models.Auth.OpenIdMembershipProvider;
 using OpenIdMembershipUser = IUDICO.UserManagement.Models.Auth.OpenIdMembershipUser;
+using IUDICO.Common.Models.Attributes;
 
 namespace IUDICO.UserManagement.Controllers
 {
@@ -21,14 +22,18 @@ namespace IUDICO.UserManagement.Controllers
             _Storage = userStorage;
         }
 
+        [Allow]
         public ActionResult Index()
         {
-            if (!User.Identity.IsAuthenticated)
+            /*if (!User.Identity.IsAuthenticated)
             {
                 return Redirect("/Account/Login");
-            }
+            }*/
 
-            return View();
+            var user = _Storage.GetCurrentUser();
+            var groups = _Storage.GetGroupsByUser(user);
+
+            return View(new DetailsModel(user, groups));
         }
 
         public ActionResult Logout()
@@ -134,33 +139,54 @@ namespace IUDICO.UserManagement.Controllers
         [HttpPost]
         public ActionResult Register(RegisterModel registerModel)
         {
-            var provider = (OpenIdMembershipProvider) Membership.Provider;
-            var status = MembershipCreateStatus.Success;
+            //var provider = (OpenIdMembershipProvider) Membership.Provider;
+            //var status = MembershipCreateStatus.Success;
 
             //provider.CreateUser(registerModel.Username, registerModel.Password, registerModel.Email, registerModel.OpenID, out status);
 
-            if (status == MembershipCreateStatus.Success)
+            if (_Storage.UsernameExists(registerModel.Username))
+            {
+                ModelState.AddModelError("Username", "User with such username already exists");
+                return View();
+            }
+            else if (registerModel.Password != registerModel.ConfirmPassword)
+            {
+                ModelState.AddModelError("ConfirmPassword", "Passwords don't match");
+                return View();
+            }
+            else if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            else
+            {
+                _Storage.RegisterUser(registerModel);
+                return View("Registered");
+            }
+
+            /*if (status == MembershipCreateStatus.Success)
             {
                 return View("Registered");
             }
             else
             {
                 return View();
-            }
+            }*/
         }
 
+        [Allow]
         public ActionResult Edit()
         {
-            var editModel = new EditModel((OpenIdMembershipUser)Membership.GetUser());
+            var editModel = new EditModel(_Storage.GetCurrentUser());
 
-            return View();
+            return View(editModel);
         }
 
         [HttpPost]
-        [Authorize]
+        [Allow]
         public ActionResult Edit(EditModel editModel)
         {
-            try
+            /*try
             {
                 var provider = (OpenIdMembershipProvider)Membership.Provider;
 
@@ -172,6 +198,50 @@ namespace IUDICO.UserManagement.Controllers
                 return Redirect("/Account/Index");
             }
             catch
+            {
+                return View();
+            }*/
+
+            if (ModelState.IsValid)
+            {
+                _Storage.EditAccount(editModel);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        [Allow]
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [Allow]
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordModel changePasswordModel)
+        {
+            if (ModelState.IsValid)
+            {
+                if (changePasswordModel.OldPassword != _Storage.GetCurrentUser().Password)
+                {
+                    ModelState.AddModelError("OldPassword", "Pasword is not correct");
+                    return View();
+                }
+                else if (changePasswordModel.NewPassword != changePasswordModel.ConfirmPassword)
+                {
+                    ModelState.AddModelError("ConfirmPassword", "Paswords don't match");
+                    return View();
+                }
+                else
+                {
+                    _Storage.ChangePassword(changePasswordModel);
+                    return RedirectToAction("Index");
+                }
+            }
+            else
             {
                 return View();
             }

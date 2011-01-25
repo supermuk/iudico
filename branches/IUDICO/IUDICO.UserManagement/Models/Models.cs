@@ -1,10 +1,39 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using IUDICO.Common.Models;
+using System.Collections.Generic;
 using OpenIdMembershipUser = IUDICO.UserManagement.Models.Auth.OpenIdMembershipUser;
 
 namespace IUDICO.UserManagement.Models
 {
+    public class DetailsModel
+    {
+        public DetailsModel(User user, IEnumerable<Group> groups)
+        {
+            Username = user.Username;
+            Name = user.Name;
+            OpenId = user.OpenId;
+            Email = user.Email;
+            Groups = groups;
+        }
+
+        [DisplayName("Username")]
+        public string Username { get; set; }
+
+        [DisplayName("Name")]
+        public string Name { get; set; }
+
+        [DisplayName("Open ID")]
+        public string OpenId { get; set; }
+
+        [DisplayName("Email")]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [ScaffoldColumn(false)]
+        public IEnumerable<Group> Groups { get; set; }
+    }
+
     public class RegisterModel
     {
         [Required]
@@ -16,6 +45,41 @@ namespace IUDICO.UserManagement.Models
         [DisplayName("Password")]
         public string Password { get; set; }
 
+        [Required]
+        [DataType(DataType.Password)]
+        [DisplayName("Confirm Password")]
+        public string ConfirmPassword { get; set; }
+
+        [DisplayName("Open ID")]
+        public string OpenId { get; set; }
+
+        [Required]
+        [DisplayName("Email")]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        [DisplayName("Name")]
+        public string Name { get; set; }
+    }
+
+    public class EditModel
+    {
+        public EditModel(User user)
+        {
+            OpenId = user.OpenId;
+            Email = user.Email;
+            Name = user.Name;
+        }
+
+        public EditModel()
+        {
+        }
+
+        [Required]
+        [DisplayName("Name")]
+        public string Name { get; set; }
+
         [DisplayName("Open ID")]
         public string OpenId { get; set; }
 
@@ -25,21 +89,22 @@ namespace IUDICO.UserManagement.Models
         public string Email { get; set; }
     }
 
-    public class EditModel
+    public class ChangePasswordModel
     {
-        public EditModel(OpenIdMembershipUser user)
-        {
-            OpenId = user.OpenId;
-            Email = user.Email;
-        }
-
-        [DisplayName("Open ID")]
-        public string OpenId { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        [DisplayName("Old Password")]
+        public string OldPassword { get; set; }
 
         [Required]
-        [DisplayName("Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [DataType(DataType.Password)]
+        [DisplayName("New Password")]
+        public string NewPassword { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [DisplayName("Confrim Password")]
+        public string ConfirmPassword { get; set; }
     }
 
     public class EditUserModel
