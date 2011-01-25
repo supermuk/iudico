@@ -134,8 +134,11 @@ namespace IUDICO.UserManagement.Models.Storage
         public void DeleteUser(Guid id)
         {
             var db = GetDbContext();
-            var user = db.Users.Single(u => u.Id == id);
 
+            var user = db.Users.Single(u => u.Id == id);
+            IEnumerable<GroupUser> links = db.GroupUsers.Where(g => g.UserRef == user.Id);
+
+            db.GroupUsers.DeleteAllOnSubmit(links);
             user.Deleted = true;
             db.SubmitChanges();
 
@@ -171,19 +174,21 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
 
-            return db.Groups.First(group => group.Id == id);
+            return db.Groups.First(group => group.Id == id && !group.Deleted);
         }
 
         public IEnumerable<Group> GetGroups()
         {
             var db = GetDbContext();
 
-            return db.Groups.AsEnumerable();
+            return db.Groups.Where(g => !g.Deleted);
         }
 
         public void CreateGroup(Group group)
         {
             var db = GetDbContext();
+
+            group.Deleted = false;
 
             db.Groups.InsertOnSubmit(group);
             db.SubmitChanges();
@@ -203,12 +208,23 @@ namespace IUDICO.UserManagement.Models.Storage
         public void DeleteGroup(int id)
         {
             var db = GetDbContext();
-            var group = GetGroup(id);
+            var group = db.Groups.Single(g => g.Id == id && !g.Deleted);
 
-            db.Groups.DeleteOnSubmit(group);
+            IEnumerable<GroupUser> links = db.GroupUsers.Where(g => g.GroupRef == group.Id);
+
+            db.GroupUsers.DeleteAllOnSubmit(links);
+
+            group.Deleted = true;
             db.SubmitChanges();
 
             _LmsService.Inform(UserNotifications.GroupDelete, group);
+        }
+
+        public IEnumerable<Group> GetGroupsByUser(User user)
+        {
+            var db = GetDbContext();
+
+            return db.GroupUsers.Where(g => g.UserRef == user.Id).Select(g => g.Group);
         }
 
         public void AddUserToGroup(Group group, User user)

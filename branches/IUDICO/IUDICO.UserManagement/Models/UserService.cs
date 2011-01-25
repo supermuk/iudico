@@ -51,6 +51,11 @@ namespace IUDICO.UserManagement.Models
             return _UserStorage.GetUsers();
         }
 
+        public IEnumerable<Group> GetGroupsByUser(User user)
+        {
+            return _UserStorage.GetGroupsByUser(user);
+        }
+
         #endregion
     }
 }
