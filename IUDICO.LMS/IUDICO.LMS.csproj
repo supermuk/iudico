@@ -181,11 +181,11 @@
     </None>
     <Content Include="Views\Shared\AccessDenied.aspx" />
     <Content Include="Views\Shared\DisplayTemplates\DateTime.ascx" />
+    <Content Include="Views\Shared\DisplayTemplates\DropDownList.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\Object.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\Password.ascx" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.ascx" />
     <Content Include="Views\Shared\EditorTemplates\DropDownList.ascx" />
-    <Content Include="Views\Shared\EditorTemplates\Object.ascx" />
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\UserBox.ascx" />
     <Content Include="Web.config">
@@ -254,6 +254,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>TASKKILL /F /IM webdev /FI "STATUS eq RUNNING"</PreBuildEvent>
+    <PreBuildEvent>TASKKILL /F /IM WebDev /FI "STATUS eq RUNNING"
+TASKKILL /F /IM WebDev.WebServer40.exe /FI "STATUS eq RUNNING"</PreBuildEvent>
   </PropertyGroup>
 </Project>

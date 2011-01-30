@@ -66,7 +66,6 @@
     <Compile Include="Models\Attributes\AllowAttribute.cs" />
     <Compile Include="Models\Attributes\DropDownListAttribute.cs" />
     <Compile Include="Models\Attributes\OrderAttribute.cs" />
-    <Compile Include="Models\Attributes\RenderModeAttribute.cs" />
     <Compile Include="Models\DBDataContext.cs">
       <DependentUpon>DBDataContext.dbml</DependentUpon>
     </Compile>

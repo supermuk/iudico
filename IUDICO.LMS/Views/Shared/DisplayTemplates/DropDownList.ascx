@@ -12,19 +12,7 @@
 </script>
 <% 
     var attribute = GetDropDownListAttribute();
+    var text = attribute.List.Where(s => s.Value == Model.ToString()).Select(s => s.Text).FirstOrDefault();
     
-    MvcHtmlString rtrn;
-
-    if (attribute != null && Model != null)
-    {
-        ViewData.TemplateInfo.HtmlFieldPrefix = String.Empty;
-
-        rtrn = Html.DropDownList(ViewData.ModelMetadata.PropertyName, attribute.List, attribute.OptionLabel);
-    }
-    else
-    {
-        rtrn = Html.EditorForModel();
-    }
-    
-    Response.Write(rtrn);
+    Response.Write(text);
 %>

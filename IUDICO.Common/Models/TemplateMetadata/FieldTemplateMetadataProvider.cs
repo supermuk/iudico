@@ -10,6 +10,8 @@ namespace IUDICO.Common.Models.TemplateMetadata
 {
     public class FieldTemplateMetadataProvider : DataAnnotationsModelMetadataProvider
     {
+        protected static int _StartOrder = 20000;
+
         protected override ModelMetadata CreateMetadata(IEnumerable<Attribute> attributes, Type containerType, Func<object> modelAccessor, Type modelType, string propertyName)
         {
             var result = (DataAnnotationsModelMetadata)base.CreateMetadata(attributes, containerType, modelAccessor, modelType, propertyName);
@@ -32,49 +34,39 @@ namespace IUDICO.Common.Models.TemplateMetadata
 
         public override IEnumerable<ModelMetadata> GetMetadataForProperties(object container, Type containerType)
         {
-            var key = 20000;
             var returnValue = new SortedDictionary<int, ModelMetadata>();
             
             var metadataForProperties = base.GetMetadataForProperties(container, containerType);
 
             foreach (FieldTemplateMetadata metadataForProperty in metadataForProperties)
             {
-                var renderModeAttribute = metadataForProperty.Attributes.OfType<RenderModeAttribute>();
-
-                if (renderModeAttribute.Any())
-                {
-                    var renderMode = renderModeAttribute.First().RenderMode;
-                    
-                    switch (renderMode)
-                    {
-                        case RenderMode.DisplayModeOnly:
-                            metadataForProperty.ShowForDisplay = true;
-                            metadataForProperty.ShowForEdit = false;
-                            break;
-                        case RenderMode.EditModeOnly:
-                            metadataForProperty.ShowForDisplay = false;
-                            metadataForProperty.ShowForEdit = true;
-                            break;
-                    }
-
-                }
-
-                var dropdownAttribute = metadataForProperty.Attributes.OfType<DropDownListAttribute>();
-
-                if (dropdownAttribute.Any())
-                {
-                    var targetProperty = dropdownAttribute.First().TargetProperty;
-                    var targetValue = containerType.InvokeMember(targetProperty, BindingFlags.GetProperty, null, container, null);
-                    ((IEnumerable<SelectListItem>) metadataForProperty.Model).Where(s => s.Value == targetValue.ToString()).First()
-                        .Selected = true;
-                }
-
-                var orderAttribute = metadataForProperty.Attributes.OfType<OrderAttribute>();
-
-                returnValue.Add(orderAttribute.Any() ? orderAttribute.First().Order : key++, metadataForProperty);
+                ProcessDropDownAttribute(metadataForProperty, container, containerType);
+                returnValue.Add(GetOrder(metadataForProperty), metadataForProperty);
             }
 
             return returnValue.Values.AsEnumerable();
-        } 
+        }
+
+        protected void ProcessDropDownAttribute(FieldTemplateMetadata metadataForProperty, object container, Type containerType)
+        {
+            var dropdownAttribute = metadataForProperty.Attributes.OfType<DropDownListAttribute>();
+
+            if (!dropdownAttribute.Any())
+            {
+                return;
+            }
+
+            var sourceProperty = dropdownAttribute.First().SourceProperty;
+            var sourceList = (IEnumerable<SelectListItem>)containerType.InvokeMember(sourceProperty, BindingFlags.GetProperty, null, container, null);
+
+            dropdownAttribute.First().List = sourceList;
+        }
+
+        protected int GetOrder(FieldTemplateMetadata metadataForProperty)
+        {
+            var orderAttribute = metadataForProperty.Attributes.OfType<OrderAttribute>();
+
+            return orderAttribute.Any() ? orderAttribute.First().Order : _StartOrder++;
+        }
     }
 }

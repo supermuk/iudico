@@ -205,7 +205,9 @@ namespace IUDICO.Common.Models
             [Order(3)]
             public string Email { get; set; }
 
-            [ScaffoldColumn(false)]
+            [DropDownList(OptionLabel = "Select Role", SourceProperty = "RolesList")]
+            [DisplayName("Role")]
+            [Order(6)]
             public int RoleId { get; set; }
 
             [DisplayName("OpenId")]
@@ -224,22 +226,11 @@ namespace IUDICO.Common.Models
 
             [ScaffoldColumn(false)]
             public bool IsApproved { get; set; }
-
-            [DropDownList(OptionLabel = "Select Role", TargetProperty = "RoleId")]
-            [DisplayName("Role")]
-            [Order(6)]
-            [RenderMode(RenderMode.EditModeOnly)]
-            public IEnumerable<SelectListItem> RolesList { get; set; }
-
-            [RenderMode(RenderMode.DisplayModeOnly)]
-            public Role Role { get; set; }
-
-            [ScaffoldColumn(false)]
-            public EntitySet<GroupUser> GroupUsers { get; set; }
         }
 
         public IEnumerable<SelectListItem> RolesList { get; set; }
 
+        [ScaffoldColumn(false)]
         public Role Role
         {
             get
@@ -251,7 +242,6 @@ namespace IUDICO.Common.Models
                 RoleId = (int)value;
             }
         }
-
 
         public bool Equals(User other)
         {
@@ -297,10 +287,6 @@ namespace IUDICO.Common.Models
     [MetadataType(typeof(Metadata))]
     public partial class GroupUser
     {
-        //public IEnumerable<SelectListItem> GroupList { get; set; }
-        
-        [DropDownList(OptionLabel = "Select User", TargetProperty = "UserRef")]
-        [DisplayName("User")]
         public IEnumerable<SelectListItem> UserList { get; set; }
 
         private sealed class Metadata
@@ -308,20 +294,9 @@ namespace IUDICO.Common.Models
             [ScaffoldColumn(false)]
             public int GroupRef { get; set; }
 
-            [ScaffoldColumn(false)]
+            [DropDownList(OptionLabel = "Select User", SourceProperty = "UserList")]
+            [DisplayName("User")]
             public int UserRef { get; set; }
-
-            [ScaffoldColumn(false)]
-            public int Group { get; set; }
-
-            [ScaffoldColumn(false)]
-            public int User { get; set; }
-            
-//            [DropDownList(OptionLabel = "Select Group", TargetProperty = "GroupRef")]
-//            [DisplayName("Group")]
-//            public IEnumerable<SelectListItem> GroupList { get; set; }
-            
-//            public IEnumerable<SelectListItem> UserList { get; set; }
         }
     }
 

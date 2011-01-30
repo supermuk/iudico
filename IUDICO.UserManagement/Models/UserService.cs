@@ -43,7 +43,7 @@ namespace IUDICO.UserManagement.Models
 
         public IEnumerable<User> GetUsersByGroup(Group group)
         {
-            return _UserStorage.GetUsersByGroup(group);
+            return _UserStorage.GetUsersInGroup(group);
         }
 
         public IEnumerable<User> GetUsers()

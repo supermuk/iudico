@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace IUDICO.Common.Models.Attributes
 {
@@ -11,7 +13,8 @@ namespace IUDICO.Common.Models.Attributes
         {
         }
 
-        public string TargetProperty { get; set; }
+        public string SourceProperty { get; set; }
         public string OptionLabel { get; set; }
+        public IEnumerable<SelectListItem> List { get; set; }
     }
 }

@@ -54,9 +54,6 @@ namespace IUDICO.Common.Models
     partial void InsertTheme(Theme instance);
     partial void UpdateTheme(Theme instance);
     partial void DeleteTheme(Theme instance);
-    partial void InsertUser(User instance);
-    partial void UpdateUser(User instance);
-    partial void DeleteUser(User instance);
     partial void InsertThemeType(ThemeType instance);
     partial void UpdateThemeType(ThemeType instance);
     partial void DeleteThemeType(ThemeType instance);
@@ -72,6 +69,9 @@ namespace IUDICO.Common.Models
     partial void InsertGroup(Group instance);
     partial void UpdateGroup(Group instance);
     partial void DeleteGroup(Group instance);
+    partial void InsertUser(User instance);
+    partial void UpdateUser(User instance);
+    partial void DeleteUser(User instance);
     #endregion
 		
 		public DBDataContext() : 
@@ -168,14 +168,6 @@ namespace IUDICO.Common.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<User> Users
-		{
-			get
-			{
-				return this.GetTable<User>();
-			}
-		}
-		
 		public System.Data.Linq.Table<ThemeType> ThemeTypes
 		{
 			get
@@ -213,6 +205,14 @@ namespace IUDICO.Common.Models
 			get
 			{
 				return this.GetTable<Group>();
+			}
+		}
+		
+		public System.Data.Linq.Table<User> Users
+		{
+			get
+			{
+				return this.GetTable<User>();
 			}
 		}
 	}
@@ -1037,9 +1037,9 @@ namespace IUDICO.Common.Models
 		
 		private System.Guid _UserRef;
 		
-		private EntityRef<User> _User;
-		
 		private EntityRef<Group> _Group;
+		
+		private EntityRef<User> _User;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1053,8 +1053,8 @@ namespace IUDICO.Common.Models
 		
 		public GroupUser()
 		{
-			this._User = default(EntityRef<User>);
 			this._Group = default(EntityRef<Group>);
+			this._User = default(EntityRef<User>);
 			OnCreated();
 		}
 		
@@ -1106,40 +1106,6 @@ namespace IUDICO.Common.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_GroupUser", Storage="_User", ThisKey="UserRef", OtherKey="Id", IsForeignKey=true)]
-		public User User
-		{
-			get
-			{
-				return this._User.Entity;
-			}
-			set
-			{
-				User previousValue = this._User.Entity;
-				if (((previousValue != value) 
-							|| (this._User.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._User.Entity = null;
-						previousValue.GroupUsers.Remove(this);
-					}
-					this._User.Entity = value;
-					if ((value != null))
-					{
-						value.GroupUsers.Add(this);
-						this._UserRef = value.Id;
-					}
-					else
-					{
-						this._UserRef = default(System.Guid);
-					}
-					this.SendPropertyChanged("User");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Group_GroupUser", Storage="_Group", ThisKey="GroupRef", OtherKey="Id", IsForeignKey=true)]
 		public Group Group
 		{
@@ -1170,6 +1136,40 @@ namespace IUDICO.Common.Models
 						this._GroupRef = default(int);
 					}
 					this.SendPropertyChanged("Group");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_GroupUser", Storage="_User", ThisKey="UserRef", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.GroupUsers.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.GroupUsers.Add(this);
+						this._UserRef = value.Id;
+					}
+					else
+					{
+						this._UserRef = default(System.Guid);
+					}
+					this.SendPropertyChanged("User");
 				}
 			}
 		}
@@ -2102,288 +2102,6 @@ namespace IUDICO.Common.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
-	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _Id;
-		
-		private string _Username;
-		
-		private string _Password;
-		
-		private string _Email;
-		
-		private string _OpenId;
-		
-		private string _Name;
-		
-		private bool _IsApproved;
-		
-		private int _RoleId;
-		
-		private bool _Deleted;
-		
-		private EntitySet<GroupUser> _GroupUsers;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(System.Guid value);
-    partial void OnIdChanged();
-    partial void OnUsernameChanging(string value);
-    partial void OnUsernameChanged();
-    partial void OnPasswordChanging(string value);
-    partial void OnPasswordChanged();
-    partial void OnEmailChanging(string value);
-    partial void OnEmailChanged();
-    partial void OnOpenIdChanging(string value);
-    partial void OnOpenIdChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnIsApprovedChanging(bool value);
-    partial void OnIsApprovedChanged();
-    partial void OnRoleIdChanging(int value);
-    partial void OnRoleIdChanged();
-    partial void OnDeletedChanging(bool value);
-    partial void OnDeletedChanged();
-    #endregion
-		
-		public User()
-		{
-			this._GroupUsers = new EntitySet<GroupUser>(new Action<GroupUser>(this.attach_GroupUsers), new Action<GroupUser>(this.detach_GroupUsers));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
-		public System.Guid Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Username", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string Username
-		{
-			get
-			{
-				return this._Username;
-			}
-			set
-			{
-				if ((this._Username != value))
-				{
-					this.OnUsernameChanging(value);
-					this.SendPropertyChanging();
-					this._Username = value;
-					this.SendPropertyChanged("Username");
-					this.OnUsernameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Password
-		{
-			get
-			{
-				return this._Password;
-			}
-			set
-			{
-				if ((this._Password != value))
-				{
-					this.OnPasswordChanging(value);
-					this.SendPropertyChanging();
-					this._Password = value;
-					this.SendPropertyChanged("Password");
-					this.OnPasswordChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string Email
-		{
-			get
-			{
-				return this._Email;
-			}
-			set
-			{
-				if ((this._Email != value))
-				{
-					this.OnEmailChanging(value);
-					this.SendPropertyChanging();
-					this._Email = value;
-					this.SendPropertyChanged("Email");
-					this.OnEmailChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OpenId", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
-		public string OpenId
-		{
-			get
-			{
-				return this._OpenId;
-			}
-			set
-			{
-				if ((this._OpenId != value))
-				{
-					this.OnOpenIdChanging(value);
-					this.SendPropertyChanging();
-					this._OpenId = value;
-					this.SendPropertyChanged("OpenId");
-					this.OnOpenIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsApproved", DbType="Bit NOT NULL")]
-		public bool IsApproved
-		{
-			get
-			{
-				return this._IsApproved;
-			}
-			set
-			{
-				if ((this._IsApproved != value))
-				{
-					this.OnIsApprovedChanging(value);
-					this.SendPropertyChanging();
-					this._IsApproved = value;
-					this.SendPropertyChanged("IsApproved");
-					this.OnIsApprovedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleId", DbType="Int NOT NULL")]
-		public int RoleId
-		{
-			get
-			{
-				return this._RoleId;
-			}
-			set
-			{
-				if ((this._RoleId != value))
-				{
-					this.OnRoleIdChanging(value);
-					this.SendPropertyChanging();
-					this._RoleId = value;
-					this.SendPropertyChanged("RoleId");
-					this.OnRoleIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Deleted", DbType="Bit NOT NULL")]
-		public bool Deleted
-		{
-			get
-			{
-				return this._Deleted;
-			}
-			set
-			{
-				if ((this._Deleted != value))
-				{
-					this.OnDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._Deleted = value;
-					this.SendPropertyChanged("Deleted");
-					this.OnDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_GroupUser", Storage="_GroupUsers", ThisKey="Id", OtherKey="UserRef")]
-		public EntitySet<GroupUser> GroupUsers
-		{
-			get
-			{
-				return this._GroupUsers;
-			}
-			set
-			{
-				this._GroupUsers.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_GroupUsers(GroupUser entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_GroupUsers(GroupUser entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ThemeTypes")]
 	public partial class ThemeType : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -3275,6 +2993,405 @@ namespace IUDICO.Common.Models
 		{
 			this.SendPropertyChanging();
 			entity.Group = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
+	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _Id;
+		
+		private string _Username;
+		
+		private string _Password;
+		
+		private string _Email;
+		
+		private string _OpenId;
+		
+		private string _Name;
+		
+		private bool _IsApproved;
+		
+		private int _RoleId;
+		
+		private bool _Deleted;
+		
+		private System.DateTime _CreationDate;
+		
+		private System.Nullable<System.Guid> _ApprovedBy;
+		
+		private EntitySet<GroupUser> _GroupUsers;
+		
+		private EntitySet<User> _Users;
+		
+		private EntityRef<User> _User1;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(System.Guid value);
+    partial void OnIdChanged();
+    partial void OnUsernameChanging(string value);
+    partial void OnUsernameChanged();
+    partial void OnPasswordChanging(string value);
+    partial void OnPasswordChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    partial void OnOpenIdChanging(string value);
+    partial void OnOpenIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnIsApprovedChanging(bool value);
+    partial void OnIsApprovedChanged();
+    partial void OnRoleIdChanging(int value);
+    partial void OnRoleIdChanged();
+    partial void OnDeletedChanging(bool value);
+    partial void OnDeletedChanged();
+    partial void OnCreationDateChanging(System.DateTime value);
+    partial void OnCreationDateChanged();
+    partial void OnApprovedByChanging(System.Nullable<System.Guid> value);
+    partial void OnApprovedByChanged();
+    #endregion
+		
+		public User()
+		{
+			this._GroupUsers = new EntitySet<GroupUser>(new Action<GroupUser>(this.attach_GroupUsers), new Action<GroupUser>(this.detach_GroupUsers));
+			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
+			this._User1 = default(EntityRef<User>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Username", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Username
+		{
+			get
+			{
+				return this._Username;
+			}
+			set
+			{
+				if ((this._Username != value))
+				{
+					this.OnUsernameChanging(value);
+					this.SendPropertyChanging();
+					this._Username = value;
+					this.SendPropertyChanged("Username");
+					this.OnUsernameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Password
+		{
+			get
+			{
+				return this._Password;
+			}
+			set
+			{
+				if ((this._Password != value))
+				{
+					this.OnPasswordChanging(value);
+					this.SendPropertyChanging();
+					this._Password = value;
+					this.SendPropertyChanged("Password");
+					this.OnPasswordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OpenId", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
+		public string OpenId
+		{
+			get
+			{
+				return this._OpenId;
+			}
+			set
+			{
+				if ((this._OpenId != value))
+				{
+					this.OnOpenIdChanging(value);
+					this.SendPropertyChanging();
+					this._OpenId = value;
+					this.SendPropertyChanged("OpenId");
+					this.OnOpenIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsApproved", DbType="Bit NOT NULL")]
+		public bool IsApproved
+		{
+			get
+			{
+				return this._IsApproved;
+			}
+			set
+			{
+				if ((this._IsApproved != value))
+				{
+					this.OnIsApprovedChanging(value);
+					this.SendPropertyChanging();
+					this._IsApproved = value;
+					this.SendPropertyChanged("IsApproved");
+					this.OnIsApprovedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleId", DbType="Int NOT NULL")]
+		public int RoleId
+		{
+			get
+			{
+				return this._RoleId;
+			}
+			set
+			{
+				if ((this._RoleId != value))
+				{
+					this.OnRoleIdChanging(value);
+					this.SendPropertyChanging();
+					this._RoleId = value;
+					this.SendPropertyChanged("RoleId");
+					this.OnRoleIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Deleted", DbType="Bit NOT NULL")]
+		public bool Deleted
+		{
+			get
+			{
+				return this._Deleted;
+			}
+			set
+			{
+				if ((this._Deleted != value))
+				{
+					this.OnDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._Deleted = value;
+					this.SendPropertyChanged("Deleted");
+					this.OnDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreationDate", DbType="DateTime NOT NULL")]
+		public System.DateTime CreationDate
+		{
+			get
+			{
+				return this._CreationDate;
+			}
+			set
+			{
+				if ((this._CreationDate != value))
+				{
+					this.OnCreationDateChanging(value);
+					this.SendPropertyChanging();
+					this._CreationDate = value;
+					this.SendPropertyChanged("CreationDate");
+					this.OnCreationDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApprovedBy", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> ApprovedBy
+		{
+			get
+			{
+				return this._ApprovedBy;
+			}
+			set
+			{
+				if ((this._ApprovedBy != value))
+				{
+					if (this._User1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnApprovedByChanging(value);
+					this.SendPropertyChanging();
+					this._ApprovedBy = value;
+					this.SendPropertyChanged("ApprovedBy");
+					this.OnApprovedByChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_GroupUser", Storage="_GroupUsers", ThisKey="Id", OtherKey="UserRef")]
+		public EntitySet<GroupUser> GroupUsers
+		{
+			get
+			{
+				return this._GroupUsers;
+			}
+			set
+			{
+				this._GroupUsers.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_User", Storage="_Users", ThisKey="Id", OtherKey="ApprovedBy")]
+		public EntitySet<User> Users
+		{
+			get
+			{
+				return this._Users;
+			}
+			set
+			{
+				this._Users.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_User", Storage="_User1", ThisKey="ApprovedBy", OtherKey="Id", IsForeignKey=true)]
+		public User User1
+		{
+			get
+			{
+				return this._User1.Entity;
+			}
+			set
+			{
+				User previousValue = this._User1.Entity;
+				if (((previousValue != value) 
+							|| (this._User1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User1.Entity = null;
+						previousValue.Users.Remove(this);
+					}
+					this._User1.Entity = value;
+					if ((value != null))
+					{
+						value.Users.Add(this);
+						this._ApprovedBy = value.Id;
+					}
+					else
+					{
+						this._ApprovedBy = default(Nullable<System.Guid>);
+					}
+					this.SendPropertyChanged("User1");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_GroupUsers(GroupUser entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_GroupUsers(GroupUser entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.User1 = this;
+		}
+		
+		private void detach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.User1 = null;
 		}
 	}
 }
