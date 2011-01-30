@@ -9,6 +9,7 @@ using IUDICO.UserManagement.Models.Auth;
 using IUDICO.UserManagement.Models.Storage;
 using IUDICO.UserManagement.Models;
 using Castle.Windsor;
+using Castle.MicroKernel.SubSystems.Configuration;
 
 namespace IUDICO.UserManagement
 {
@@ -16,7 +17,7 @@ namespace IUDICO.UserManagement
     {
         #region IWindsorInstaller Members
 
-        public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
+        public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
                 AllTypes

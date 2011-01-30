@@ -16,13 +16,13 @@ namespace IUDICO.CourseManagement
 {
     public class CourseManagementPlugin : IWindsorInstaller, IPlugin
     {
-        IWindsorContainer container;
+        IWindsorContainer _Container;
 
-        ICourseStorage courseStorage
+        ICourseStorage CourseStorage
         {
             get
             {
-                return container.Resolve<ICourseStorage>();
+                return _Container.Resolve<ICourseStorage>();
             }
         }
 
@@ -101,7 +101,7 @@ namespace IUDICO.CourseManagement
             );
             
             //courseStorage = container.Resolve<ICourseStorage>();
-            this.container = container;
+            this._Container = container;
         }
         #endregion
     }

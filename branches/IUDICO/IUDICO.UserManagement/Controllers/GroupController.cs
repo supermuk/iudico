@@ -113,10 +113,9 @@ namespace IUDICO.UserManagement.Controllers
         public ActionResult AddUsers(int id)
         {
             var group = _Storage.GetGroup(id);
-            var usersInGroup = _Storage.GetUsersByGroup(group);
 
             var userList =
-                _Storage.GetUsers().Except(usersInGroup).AsQueryable().Select(
+                _Storage.GetUsersNotInGroup(group).Select(
                     u => new SelectListItem {Text = u.Username, Value = u.Id.ToString(), Selected = false});
 
             var groupUser = new GroupUser
@@ -137,13 +136,25 @@ namespace IUDICO.UserManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult AddUsers(int id, Guid? userRef)
         {
+            var group = _Storage.GetGroup(id);
+
             if (userRef == null)
             {
-                return RedirectToAction("AddUsers", new { Id = id, Message = "Please select a user to add to group" });
+                var userList =
+                _Storage.GetUsersNotInGroup(group).Select(
+                    u => new SelectListItem { Text = u.Username, Value = u.Id.ToString(), Selected = false });
+
+                var groupUser = new GroupUser
+                {
+                    UserList = userList
+                };
+
+                ModelState.AddModelError("UserRef", "Please select user from list");
+
+                return View(groupUser);
             }
 
-            var group = _Storage.GetGroup(id);
-            var user = _Storage.GetUser(userRef.Value);
+            var user = _Storage.GetUser(u => u.Id == userRef.Value);
             
             _Storage.AddUserToGroup(group, user);
 
@@ -154,7 +165,7 @@ namespace IUDICO.UserManagement.Controllers
         public ActionResult RemoveUser(int id, Guid userRef)
         {
             var group = _Storage.GetGroup(id);
-            var user = _Storage.GetUser(userRef);
+            var user = _Storage.GetUser(u => u.Id == userRef);
             
             _Storage.RemoveUserFromGroup(group, user);
 
