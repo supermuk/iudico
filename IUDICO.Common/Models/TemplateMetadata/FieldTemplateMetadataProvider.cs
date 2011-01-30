@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations;
 using IUDICO.Common.Models.Attributes;
@@ -56,6 +57,16 @@ namespace IUDICO.Common.Models.TemplateMetadata
                             break;
                     }
 
+                }
+
+                var dropdownAttribute = metadataForProperty.Attributes.OfType<DropDownListAttribute>();
+
+                if (dropdownAttribute.Any())
+                {
+                    var targetProperty = dropdownAttribute.First().TargetProperty;
+                    var targetValue = containerType.InvokeMember(targetProperty, BindingFlags.GetProperty, null, container, null);
+                    ((IEnumerable<SelectListItem>) metadataForProperty.Model).Where(s => s.Value == targetValue.ToString()).First()
+                        .Selected = true;
                 }
 
                 var orderAttribute = metadataForProperty.Attributes.OfType<OrderAttribute>();

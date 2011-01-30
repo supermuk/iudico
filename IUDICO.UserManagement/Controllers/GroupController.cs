@@ -112,13 +112,16 @@ namespace IUDICO.UserManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult AddUsers(int id)
         {
+            var group = _Storage.GetGroup(id);
+            var usersInGroup = _Storage.GetUsersByGroup(group);
+
+            var userList =
+                _Storage.GetUsers().Except(usersInGroup).AsQueryable().Select(
+                    u => new SelectListItem {Text = u.Username, Value = u.Id.ToString(), Selected = false});
+
             var groupUser = new GroupUser
                                 {
-                                    UserList =
-                                        _Storage.GetUsers().AsQueryable().Select(
-                                            u =>
-                                            new SelectListItem
-                                                {Text = u.Username, Value = u.Id.ToString(), Selected = false})
+                                    UserList = userList
                                 };
 
             return View(groupUser);
@@ -132,20 +135,29 @@ namespace IUDICO.UserManagement.Controllers
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult AddUsers(int id, Guid userRef)
+        public ActionResult AddUsers(int id, Guid? userRef)
         {
-            Group group = _Storage.GetGroup(id);
-            User user = _Storage.GetUser(userRef);
+            if (userRef == null)
+            {
+                return RedirectToAction("AddUsers", new { Id = id, Message = "Please select a user to add to group" });
+            }
+
+            var group = _Storage.GetGroup(id);
+            var user = _Storage.GetUser(userRef.Value);
+            
             _Storage.AddUserToGroup(group, user);
+
             return RedirectToAction("Details", new { Id = id });
         }
 
         [Allow(Role = Role.Teacher)]
         public ActionResult RemoveUser(int id, Guid userRef)
         {
-            Group group = _Storage.GetGroup(id);
-            User user = _Storage.GetUser(userRef);
+            var group = _Storage.GetGroup(id);
+            var user = _Storage.GetUser(userRef);
+            
             _Storage.RemoveUserFromGroup(group, user);
+
             return RedirectToAction("Details", new { Id = id });
         }
     }

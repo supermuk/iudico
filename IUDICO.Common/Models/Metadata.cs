@@ -180,7 +180,7 @@ namespace IUDICO.Common.Models
 
     [MetadataType(typeof(Metadata))]
     [Bind(Exclude = "Id")]
-    public partial class User
+    public partial class User : IEquatable<User>
     {
         private sealed class Metadata
         {
@@ -250,6 +250,17 @@ namespace IUDICO.Common.Models
             {
                 RoleId = (int)value;
             }
+        }
+
+
+        public bool Equals(User other)
+        {
+            return Id == other.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
         }
     }
 

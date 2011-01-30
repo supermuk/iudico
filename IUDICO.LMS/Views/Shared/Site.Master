@@ -39,6 +39,12 @@
         </div>
 
         <div id="main">
+        <%
+        if (ViewData["Message"] != null)
+        {
+             Response.Write("<div class='message'>" + ViewData["Message"] + "</div>");  
+        }
+        %>
             <asp:ContentPlaceHolder ID="MainContent" runat="server" />
             <div id="footer"></div>
         </div>
