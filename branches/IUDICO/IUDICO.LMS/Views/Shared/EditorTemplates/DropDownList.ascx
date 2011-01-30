@@ -18,7 +18,8 @@
     if (attribute != null && Model != null)
     {
         ViewData.TemplateInfo.HtmlFieldPrefix = String.Empty;
-        rtrn = Html.DropDownList(attribute.TargetProperty, new SelectList(Model, "Value", "Text", Model.SingleOrDefault(s => s.Selected)), attribute.OptionLabel, new { @id = attribute.TargetProperty, @name = attribute.TargetProperty});
+        
+        rtrn = Html.DropDownList(attribute.TargetProperty, new SelectList(Model, "Value", "Text", Model.SingleOrDefault(s => s.Selected).Value), attribute.OptionLabel, new { @id = attribute.TargetProperty, @name = attribute.TargetProperty});
     }
     else
     {
