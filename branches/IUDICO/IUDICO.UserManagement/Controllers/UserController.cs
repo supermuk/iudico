@@ -32,7 +32,7 @@ namespace IUDICO.UserManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Details(Guid id)
         {
-            var user = _Storage.GetUser(id);
+            var user = _Storage.GetUser(u => u.Id == id);
             var group = _Storage.GetGroupsByUser(user);
 
             return View(new AdminDetailsModel(user, group));
@@ -44,9 +44,14 @@ namespace IUDICO.UserManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Create()
         {
-            var user = new User();
-
-            user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = r.ToString(), Value = ((int)r).ToString(), Selected = false });
+            var user = new User
+                           {
+                               RolesList =
+                                   _Storage.GetRoles().AsQueryable().Select(
+                                       r =>
+                                       new SelectListItem
+                                           {Text = r.ToString(), Value = ((int) r).ToString(), Selected = false})
+                           };
 
             return View(user);
         } 
@@ -82,7 +87,7 @@ namespace IUDICO.UserManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Edit(Guid id)
         {
-            User user = _Storage.GetUser(id);
+            var user = _Storage.GetUser(u => u.Id == id);
 
             user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = r.ToString(), Value = ((int)r).ToString(), Selected = (user.Role == r) });
 
@@ -96,16 +101,14 @@ namespace IUDICO.UserManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Edit(Guid id,  User user)
         {
-            if (ModelState.IsValid)
-            {
-                _Storage.EditUser(id, user);
- 
-                return RedirectToAction("Index");
-            }
-            else
+            if (!ModelState.IsValid)
             {
                 return View();
             }
+
+            _Storage.EditUser(id, user);
+ 
+            return RedirectToAction("Index");
         }
 
         //
@@ -114,7 +117,7 @@ namespace IUDICO.UserManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Delete(Guid id)
         {
-            return View(_Storage.GetUser(id));
+            return View(_Storage.GetUser(u => u.Id == id));
         }
 
         //
@@ -126,7 +129,7 @@ namespace IUDICO.UserManagement.Controllers
         {
             try
             {
-                _Storage.DeleteUser(id);
+                _Storage.DeleteUser(u => u.Id == id);
  
                 return RedirectToAction("Index");
             }
@@ -155,7 +158,7 @@ namespace IUDICO.UserManagement.Controllers
         [Allow(Role = Role.Admin)]
         public ActionResult RemoveFromGroup(Guid id, int groupRef)
         {
-            var user = _Storage.GetUser(id);
+            var user = _Storage.GetUser(u => u.Id == id);
             var group = _Storage.GetGroup(groupRef);
 
             _Storage.RemoveUserFromGroup(group, user);

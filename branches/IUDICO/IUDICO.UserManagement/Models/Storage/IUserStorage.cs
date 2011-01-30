@@ -17,14 +17,18 @@ namespace IUDICO.UserManagement.Models.Storage
 
         User GetCurrentUser();
         IEnumerable<User> GetUsers();
-        User GetUser(Guid id);
-        User GetUser(string openId);
+        IEnumerable<User> GetUsers(Func<User, bool> predicate);
+        IEnumerable<User> GetUsers(int pageIndex, int pageSize);
+        //User GetUser(Guid id);
+        //User GetUser(string openId);
+        User GetUser(Func<User, bool> predicate);
         void CreateUser(User user);
         void EditUser(Guid id, User editor);
         void EditAccount(EditModel editModel);
         void ChangePassword(ChangePasswordModel changePasswordModel);
-        void DeleteUser(Guid id);
-        IEnumerable<User> GetUsersByGroup(Group group);
+        void DeleteUser(Func<User, bool> predicate);
+        IEnumerable<User> GetUsersInGroup(Group group);
+        IEnumerable<User> GetUsersNotInGroup(Group group);
         bool UsernameExists(string username);
         void ActivateUser(Guid id);
         void DeactivateUser(Guid id);
