@@ -28,11 +28,6 @@ namespace IUDICO.Common.Models.Services
         /// <returns>Collection of AnswerResult objects.</returns>
         IEnumerable<AnswerResult> GetAnswers(AttemptResult attempt);
 
-        /// <summary>
-        /// Links that may take the user
-        /// </summary>
-        /// <param name="themeId">themes are available</param>
-        /// <returns></returns>
-        IEnumerable<ActionLink> BuildLink(int themeId);
+        
     }
 }

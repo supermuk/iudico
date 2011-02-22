@@ -27,10 +27,7 @@ namespace IUDICO.TestingSystem.Models
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ActionLink> BuildLink(int themeId)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         #endregion
     }
