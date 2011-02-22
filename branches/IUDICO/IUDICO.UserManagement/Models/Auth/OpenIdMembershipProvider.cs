@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Web.Security;
 using IUDICO.Common.Models;
@@ -94,7 +93,7 @@ namespace IUDICO.UserManagement.Models.Auth
 
         public override bool ValidateUser(string username, string password)
         {
-            var user = _UserStorage.GetUser(u => u.Username == username && u.Password == password);
+            var user = _UserStorage.GetUser(u => u.Username == username && u.Password == _UserStorage.EncryptPassword(password));
 
             return user != null && !user.Deleted;
         }
