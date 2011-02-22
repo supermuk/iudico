@@ -33,6 +33,7 @@ namespace IUDICO.UserManagement.Models.Storage
         void ActivateUser(Guid id);
         void DeactivateUser(Guid id);
         void RegisterUser(RegisterModel registerModel);
+        string EncryptPassword(string password);
 
         #endregion
 

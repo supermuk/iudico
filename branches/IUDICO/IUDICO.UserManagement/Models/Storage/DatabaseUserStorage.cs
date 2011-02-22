@@ -25,7 +25,7 @@ namespace IUDICO.UserManagement.Models.Storage
             return _LmsService.GetDbDataContext();
         }
 
-        public static string EncryptPassword(string password)
+        public string EncryptPassword(string password)
         {
             var provider = new SHA1CryptoServiceProvider();
             var bytes = Encoding.UTF8.GetBytes(password);
