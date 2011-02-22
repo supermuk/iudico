@@ -53,16 +53,7 @@ namespace IUDICO.TestingSystem.Models
 
         }
 
-        public IEnumerable<ActionLink> BuildLink(int themeId)
-        {
-            List<ActionLink> results = new List<ActionLink>();
-            results.Add(new ActionLink("thema1",1));
-            results.Add(new ActionLink("thema1",2));
-            results.Add(new ActionLink("thema1",3));
-            results.Add(new ActionLink("thema2",1));
-            results.Add(new ActionLink("thema2",2));
-            return results;
-        }
+       
 
         #endregion
     }
