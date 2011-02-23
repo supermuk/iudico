@@ -31,7 +31,7 @@
      
      <tr>
         <th> </th>
-        <th>Curriculum id</th>
+        <%--<th>Curriculum id</th>--%>
         <th>Curriculum name</th>
         <th>Created</th>
      </tr>
@@ -42,9 +42,9 @@
             <td>
             <input type="checkbox" name="selectCurriculumId" value="<%: curr.Id %>" id="<%: curr.Id %>" />
             </td>
-            <td>
+            <%--<td>
             <%: curr.Id %>
-            </td>
+            </td>--%>
             <td>
             <%: curr.Name %>
             </td>
