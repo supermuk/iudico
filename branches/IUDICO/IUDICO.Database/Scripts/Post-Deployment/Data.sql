@@ -22,7 +22,7 @@ BEGIN TRANSACTION
 DELETE FROM [dbo].[User] WHERE [dbo].[User].[Id] = N'd47e8c09-2827-e011-840f-93b2f3060fee' AND [dbo].[User].[Username] = N'lex'
 COMMIT TRANSACTION
 BEGIN TRANSACTION
-INSERT INTO [dbo].[User] ([Id], [Username], [Password], [Email], [OpenId], [Name], [IsApproved], [RoleId], [Deleted]) VALUES (N'd47e8c09-2827-e011-840f-93b2f3060fee', N'lex', N'lex', N'lex@iudico', N'panzarulz.livejournal.com', N'Administrator', 1, 3, 0)
+INSERT INTO [dbo].[User] ([Id], [Username], [Password], [Email], [OpenId], [Name], [IsApproved], [RoleId], [Deleted]) VALUES (N'd47e8c09-2827-e011-840f-93b2f3060fee', N'lex', N'D1F3732A9A6A6D5AE438388E1DF2164BDB35D371', N'lex@iudico', N'panzarulz.livejournal.com', N'Administrator', 1, 3, 0)
 COMMIT TRANSACTION
 
 /****** Object:  Table [dbo].[Operations]    Script Date: 01/25/2011 01:34:49 ******/

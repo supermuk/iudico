@@ -19,8 +19,6 @@ namespace IUDICO.UserManagement.Models.Storage
         IEnumerable<User> GetUsers();
         IEnumerable<User> GetUsers(Func<User, bool> predicate);
         IEnumerable<User> GetUsers(int pageIndex, int pageSize);
-        //User GetUser(Guid id);
-        //User GetUser(string openId);
         User GetUser(Func<User, bool> predicate);
         void CreateUser(User user);
         void EditUser(Guid id, User editor);
