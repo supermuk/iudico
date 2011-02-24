@@ -6,8 +6,15 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
 {
     public class CreateCurriculumAssignmentTimelineModel
     {
-        public IEnumerable<SelectListItem> Operations { get; set; }
-        public int OperationId { get; set; }
         public Timeline Timeline { get; set; }
+
+        public CreateCurriculumAssignmentTimelineModel()
+        {
+        }
+
+        public CreateCurriculumAssignmentTimelineModel(Timeline timeline)
+        {
+            Timeline = timeline;
+        }
     }
 }

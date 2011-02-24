@@ -3,6 +3,9 @@ using IUDICO.Common.Models;
 
 namespace IUDICO.CurriculumManagement.Models.Storage
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface ICurriculumStorage
     {
         #region External methods
@@ -113,6 +116,14 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         IEnumerable<Group> GetAssignedGroups(int curriculumId);
         IEnumerable<Group> GetNotAssignedGroups(int curriculumId);
+
+        /// <summary>
+        /// Gets not assigned groups for curriculum including current group.
+        /// </summary>
+        /// <param name="curriculumId">The curriculum id.</param>
+        /// <param name="currentGroupId">The current group id.</param>
+        /// <returns></returns>
+        IEnumerable<Group> GetNotAssignedGroupsWithCurrentGroup(int curriculumId, int currentGroupId);
 
         #endregion
     }

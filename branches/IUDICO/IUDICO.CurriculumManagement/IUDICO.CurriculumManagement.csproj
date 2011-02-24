@@ -87,14 +87,13 @@
     <Compile Include="Controllers\ThemeController.cs" />
     <Compile Include="CurriculumManagementPlugin.cs" />
     <Compile Include="Models\Constants.cs" />
+    <Compile Include="Models\Utility.cs" />
     <Compile Include="Models\ValidationStatus.cs" />
     <Compile Include="Models\Validator.cs" />
     <Compile Include="Models\ViewDataClasses\CreateCurriculumAssignmentModel.cs" />
     <Compile Include="Models\ViewDataClasses\CreateCurriculumAssignmentTimelineModel.cs" />
     <Compile Include="Models\ViewDataClasses\CreateStageTimelineModel.cs" />
     <Compile Include="Models\CurriculumService.cs" />
-    <Compile Include="Models\ViewDataClasses\EditCurriculumAssignmentTimelineModel.cs" />
-    <Compile Include="Models\ViewDataClasses\EditStageTimelineModel.cs" />
     <Compile Include="Models\Enums\Operation.cs" />
     <Compile Include="Models\Enums\ThemeType.cs" />
     <Compile Include="Models\Storage\ICurriculumStorage.cs" />

@@ -52,28 +52,12 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
+                LoadValidationErrors();
+
                 Timeline timeline = Storage.GetTimeline(timelineId);
 
-                EditStageTimelineModel editStageTimelineModel = new EditStageTimelineModel()
-                {
-                    Operations = Storage.GetOperations()
-                                .Select(item => new SelectListItem
-                                {
-                                    Text = item.Name,
-                                    Value = item.Id.ToString(),
-                                    Selected = false
-                                }),
-                    Stages = Storage.GetStages(Storage.GetCurriculumAssignment(timeline.CurriculumAssignmentRef).CurriculumRef)
-                            .Select(item => new SelectListItem
-                            {
-                                Text = item.Name,
-                                Value = item.Id.ToString(),
-                                Selected = false
-                            }),
-                    Timeline = timeline,
-                    OperationId = timeline.OperationRef,
-                    StageId = (int)timeline.StageRef
-                };
+                CreateStageTimelineModel editStageTimelineModel = new CreateStageTimelineModel(timeline,
+                    Storage.GetStages(Storage.GetCurriculumAssignment(timeline.CurriculumAssignmentRef).CurriculumRef), (int)timeline.StageRef);
 
                 Session["CurriculumAssignmentId"] = timeline.CurriculumAssignmentRef;
                 return View(editStageTimelineModel);
@@ -86,25 +70,28 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Edit(int timelineId, EditStageTimelineModel editStageTimelineModel)
+        public ActionResult Edit(int timelineId, CreateStageTimelineModel editStageTimelineModel)
         {
             try
             {
-                if (ModelState.IsValid && Validator.ValidateTimeline(editStageTimelineModel.Timeline).IsValid)
+                Timeline timeline = editStageTimelineModel.Timeline;
+
+                timeline.CurriculumAssignmentRef = Storage.GetCurriculumAssignment(Storage.GetTimeline(timelineId).CurriculumAssignmentRef).CurriculumRef;
+                timeline.StageRef = editStageTimelineModel.StageId;
+                timeline.Id = timelineId;
+
+                AddValidationErrorsToModelState(Validator.ValidateStageTimeline(timeline).Errors);
+
+                if (ModelState.IsValid)
                 {
-                    Timeline stageTimeline = editStageTimelineModel.Timeline;
-
-                    stageTimeline.CurriculumAssignmentRef = Storage.GetCurriculumAssignment(Storage.GetTimeline(timelineId).CurriculumAssignmentRef).CurriculumRef;
-                    stageTimeline.OperationRef = editStageTimelineModel.OperationId;
-                    stageTimeline.StageRef = editStageTimelineModel.StageId;
-                    stageTimeline.Id = timelineId;
-
-                    Storage.UpdateTimeline(stageTimeline);
+                    Storage.UpdateTimeline(timeline);
 
                     return RedirectToRoute("StageTimelines", new { action = "Index", CurriculumAssignmentId = Session["CurriculumAssignmentId"] });
                 }
                 else
                 {
+                    SaveValidationErrors();
+
                     return RedirectToAction("Edit");
                 }
             }
@@ -152,26 +139,12 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
+                LoadValidationErrors();
+
                 CurriculumAssignment curriculumAssignment = Storage.GetCurriculumAssignment(curriculumAssignmentId);
 
-                CreateStageTimelineModel createTimelineModel = new CreateStageTimelineModel()
-                {
-                    Operations = Storage.GetOperations()
-                                .Select(item => new SelectListItem
-                                {
-                                    Text = item.Name,
-                                    Value = item.Id.ToString(),
-                                    Selected = false
-                                }),
-                    Stages = Storage.GetStages(curriculumAssignment.CurriculumRef)
-                            .Select(item => new SelectListItem
-                            {
-                                Text = item.Name,
-                                Value = item.Id.ToString(),
-                                Selected = false
-                            }),
-                    Timeline = new Timeline()
-                };
+                CreateStageTimelineModel createTimelineModel = new CreateStageTimelineModel(new Timeline(),
+                    Storage.GetStages(curriculumAssignment.CurriculumRef), 0);
 
                 return View(createTimelineModel);
             }
@@ -187,18 +160,22 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                if (ModelState.IsValid && Validator.ValidateTimeline(createTimelineModel.Timeline).IsValid)
+                Timeline timeline = createTimelineModel.Timeline;
+                timeline.CurriculumAssignmentRef = curriculumAssignmentId;
+                timeline.StageRef = createTimelineModel.StageId;
+
+                AddValidationErrorsToModelState(Validator.ValidateStageTimeline(timeline).Errors);
+
+                if (ModelState.IsValid)
                 {
-                    Timeline timeline = createTimelineModel.Timeline;
-                    timeline.CurriculumAssignmentRef = curriculumAssignmentId;
-                    timeline.OperationRef = createTimelineModel.OperationId;
-                    timeline.StageRef = createTimelineModel.StageId;
                     Storage.AddTimeline(timeline);
 
                     return RedirectToAction("Index", new { CurriculumAssignmentId = curriculumAssignmentId });
                 }
                 else
                 {
+                    SaveValidationErrors();
+
                     return RedirectToAction("Create");
                 }
             }

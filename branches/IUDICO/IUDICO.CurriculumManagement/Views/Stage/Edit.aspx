@@ -15,8 +15,9 @@
 
     <h2>Edit stage</h2>
     <% Html.EnableClientValidation(); %>
+
     <% using (Html.BeginForm()) {%>
-        <%: Html.ValidationSummary(true) %>
+        <%: Html.ValidationSummary(true, "Please correct the following error(s) and try again:")%>
         
         <fieldset>
             <legend>Fields</legend>
