@@ -47,6 +47,7 @@
             <%: Html.ActionLink("Activate", "Activate", new { id = Model.Id })%> |
         <% } %>
         <%: Html.ActionLink("Edit", "Edit", new { id=Model.Id }) %> |
+        <%: Html.ActionLink("Add To Group", "AddToGroup", new { id = Model.Id })%> |
         <%: Html.ActionLink("Delete", "Delete", new { id=Model.Id }) %> |
         <%: Html.ActionLink("Back to List", "Index") %>
     </p>
