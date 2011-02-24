@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" 
-Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataClasses.EditCurriculumAssignmentTimelineModel>" %>
+Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataClasses.CreateCurriculumAssignmentTimelineModel>" %>
 
 <%@ Assembly Name="IUDICO.CurriculumManagement" %>
 
@@ -19,16 +19,10 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
     <% Html.EnableClientValidation(); %>
     <% using (Html.BeginForm())
        {%>
-    <%: Html.ValidationSummary(true) %>
+    <%: Html.ValidationSummary(true, "Please correct the following error(s) and try again:")%>
     <fieldset>
         <legend>Fields</legend>
-        <%= Html.EditorFor(item=>item.Timeline) %>
-        <div class="editor-label">
-            <%: Html.Label("Choose an operation for timeline:") %>
-        </div>
-        <div>
-            <%: Html.DropDownListFor(x => x.OperationId, Model.Operations)%>
-        </div>
+        <%: Html.EditorFor(item => item.Timeline) %>
         <p>
             <input type="submit" value="Update" />
         </p>

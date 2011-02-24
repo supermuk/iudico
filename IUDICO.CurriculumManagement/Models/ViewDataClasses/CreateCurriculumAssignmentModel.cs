@@ -11,5 +11,21 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
     {
         public IEnumerable<SelectListItem> Groups { get; set; }
         public int GroupId { get; set; }
+
+        public CreateCurriculumAssignmentModel()
+        {
+        }
+
+        public CreateCurriculumAssignmentModel(IEnumerable<Group> groups, int groupId)
+        {
+            Groups = groups
+                     .Select(item => new SelectListItem
+                     {
+                         Text = item.Name,
+                         Value = item.Id.ToString(),
+                         Selected = false
+                     });
+            GroupId = groupId;
+        }
     }
 }

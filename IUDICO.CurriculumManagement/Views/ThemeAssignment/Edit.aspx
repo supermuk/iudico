@@ -20,7 +20,7 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.ThemeAssignment>" %>
     <% Html.EnableClientValidation(); %>
     <% using (Html.BeginForm())
        {%>
-    <%: Html.ValidationSummary(true) %>
+    <%: Html.ValidationSummary(true, "Please correct the following error(s) and try again:")%>
     <fieldset>
         <legend>Fields</legend>
         <%= Html.EditorForModel() %>

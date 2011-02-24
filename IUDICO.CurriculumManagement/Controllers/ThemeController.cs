@@ -43,14 +43,16 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var model = new CreateThemeModel()
-                {
-                    StageId = stageId,
-                    Courses = from course in Storage.GetCourses()
-                              select new SelectListItem { Text = course.Name, Value = course.Id.ToString(), Selected = false },
-                    ThemeTypes = from themeType in Storage.GetThemeTypes()
-                                 select new SelectListItem { Text = themeType.Name, Value = themeType.Id.ToString(), Selected = false }
-                };
+                LoadValidationErrors();
+
+                var model = new CreateThemeModel(stageId, Storage.GetCourses(), 0, Storage.GetThemeTypes(), 0);
+                //{
+                //    StageId = stageId,
+                //    Courses = from course in Storage.GetCourses()
+                //              select new SelectListItem { Text = course.Name, Value = course.Id.ToString(), Selected = false },
+                //    ThemeTypes = from themeType in Storage.GetThemeTypes()
+                //                 select new SelectListItem { Text = themeType.Name, Value = themeType.Id.ToString(), Selected = false }
+                //};
 
                 return View(model);
             }
@@ -62,22 +64,33 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Create(CreateThemeModel model)
+        public ActionResult Create(int stageId, CreateThemeModel model)
         {
             try
             {
-                Course course = Storage.GetCourse(model.CourseId);
                 Theme theme = new Theme
                 {
                     CourseRef = model.CourseId,
                     StageRef = model.StageId,
                     ThemeTypeRef = model.ThemeTypeId,
-                    Name = course.Name
                 };
 
-                Storage.AddTheme(theme);
+                AddValidationErrorsToModelState(Validator.ValidateTheme(theme).Errors);
 
-                return RedirectToAction("Index", new { StageId = model.StageId });
+                if (ModelState.IsValid)
+                {
+                    Course course = Storage.GetCourse(model.CourseId);
+                    theme.Name = course.Name;
+                    Storage.AddTheme(theme);
+
+                    return RedirectToAction("Index", new { StageId = model.StageId });
+                }
+                else
+                {
+                    SaveValidationErrors();
+
+                    return RedirectToAction("Create");
+                }
             }
             catch (Exception e)
             {
@@ -91,29 +104,31 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var theme = Storage.GetTheme(themeId);
+                LoadValidationErrors();
 
-                var model = new CreateThemeModel()
-                {
-                    StageId = theme.StageRef,
-                    ThemeId = themeId,
-                    Courses = Storage.GetCourses()
-                              .Select(item => new SelectListItem
-                              {
-                                  Text = item.Name,
-                                  Value = item.Id.ToString(),
-                                  Selected = item.Id == theme.CourseRef ? true : false
-                              }),
-                    ThemeTypes = Storage.GetThemeTypes()
-                                 .Select(item => new SelectListItem
-                                 {
-                                     Text = item.Name,
-                                     Value = item.Id.ToString(),
-                                     Selected = item.Id == theme.ThemeTypeRef ? true : false
-                                 }),
-                    CourseId=theme.CourseRef,
-                    ThemeTypeId=theme.ThemeTypeRef
-                };
+                var theme = Storage.GetTheme(themeId);
+                var model = new CreateThemeModel(theme.StageRef, Storage.GetCourses(), theme.CourseRef, Storage.GetThemeTypes(), theme.ThemeTypeRef);
+                //{
+                //    StageId = theme.StageRef,
+                //    //ThemeId = themeId,
+                //    Courses = Storage.GetCourses()
+                //              .Select(item => new SelectListItem
+                //              {
+                //                  Text = item.Name,
+                //                  Value = item.Id.ToString(),
+                //                  Selected = item.Id == theme.CourseRef ? true : false
+                //              }),
+                //    ThemeTypes = Storage.GetThemeTypes()
+                //                 .Select(item => new SelectListItem
+                //                 {
+                //                     Text = item.Name,
+                //                     Value = item.Id.ToString(),
+                //                     Selected = item.Id == theme.ThemeTypeRef ? true : false
+                //                 }),
+                //    CourseId=theme.CourseRef,
+                //    ThemeTypeId=theme.ThemeTypeRef
+                //};
+
                 return View(model);
             }
             catch (Exception e)
@@ -124,19 +139,31 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Edit(CreateThemeModel model)
+        public ActionResult Edit(int themeId, CreateThemeModel model)
         {
             try
             {
-                Course course = Storage.GetCourse(model.CourseId);
-                Theme theme = Storage.GetTheme(model.ThemeId);
+                //TODO:rewrite this
+                Theme theme = Storage.GetTheme(themeId);
                 theme.CourseRef = model.CourseId;
-                theme.Name = course.Name;
                 theme.ThemeTypeRef = model.ThemeTypeId;
 
-                Storage.UpdateTheme(theme);
+                AddValidationErrorsToModelState(Validator.ValidateTheme(theme).Errors);
 
-                return RedirectToRoute("Themes", new { action = "Index", StageId = theme.StageRef });
+                if(ModelState.IsValid)
+                {
+                    Course course = Storage.GetCourse(model.CourseId);
+                    theme.Name = course.Name;
+                    Storage.UpdateTheme(theme);
+
+                    return RedirectToRoute("Themes", new { action = "Index", StageId = theme.StageRef });
+                }
+                else
+                {
+                    SaveValidationErrors();
+
+                    return RedirectToAction("Edit");
+                }
             }
             catch (Exception e)
             {
