@@ -52,13 +52,10 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                IEnumerable<Group> groups = Storage.GetNotAssignedGroups(curriculumId);
+                LoadValidationErrors();
 
-                CreateCurriculumAssignmentModel createAssignmentModel = new CreateCurriculumAssignmentModel()
-                {
-                    Groups = from item in groups
-                             select new SelectListItem { Text = item.Name, Value = item.Id.ToString(), Selected = false }
-                };
+                IEnumerable<Group> groups = Storage.GetNotAssignedGroups(curriculumId);
+                CreateCurriculumAssignmentModel createAssignmentModel = new CreateCurriculumAssignmentModel(groups, 0);
 
                 return View(createAssignmentModel);
             }
@@ -74,18 +71,22 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                if (ModelState.IsValid && Validator.ValidateCurriculumAssignment(createAssignmentModel.GroupId).IsValid)
-                {
-                    CurriculumAssignment newCurriculumAssignment = new CurriculumAssignment();
-                    newCurriculumAssignment.UserGroupRef = createAssignmentModel.GroupId;
-                    newCurriculumAssignment.CurriculumRef = curriculumId;
+                CurriculumAssignment curriculumAssignment = new CurriculumAssignment();
+                curriculumAssignment.UserGroupRef = createAssignmentModel.GroupId;
+                curriculumAssignment.CurriculumRef = curriculumId;
 
-                    int curriculumAssingnmentId = Storage.AddCurriculumAssignment(newCurriculumAssignment);
+                AddValidationErrorsToModelState(Validator.ValidateCurriculumAssignment(curriculumAssignment).Errors);
+
+                if (ModelState.IsValid)
+                {
+                    Storage.AddCurriculumAssignment(curriculumAssignment);
 
                     return RedirectToAction("Index");
                 }
                 else
                 {
+                    SaveValidationErrors();
+
                     return RedirectToAction("Create");
                 }
             }
@@ -101,25 +102,15 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
+                LoadValidationErrors();
+
                 int curriculumId = Storage.GetCurriculumAssignment(curriculumAssignmentId).CurriculumRef;
-
-                IEnumerable<Group> groups = Storage.GetNotAssignedGroups(curriculumId);
-
-                //add current group
                 int assignmentGroupId = Storage.GetCurriculumAssignment(curriculumAssignmentId).UserGroupRef;
-                List<Group> assignmentedGroup = new List<Group>();
-                assignmentedGroup.Add(Storage.GetGroup(assignmentGroupId));
-
-                groups = groups.Concat(assignmentedGroup as IEnumerable<Group>);
- 
-                CreateCurriculumAssignmentModel editAssignmentModel = new CreateCurriculumAssignmentModel()
-                {
-                    Groups = from item in groups
-                             select new SelectListItem { Text = item.Name, Value = item.Id.ToString(), Selected = false },
-                    GroupId = assignmentGroupId
-                };
+                IEnumerable<Group> groups = Storage.GetNotAssignedGroupsWithCurrentGroup(curriculumId, assignmentGroupId);
+                CreateCurriculumAssignmentModel editAssignmentModel = new CreateCurriculumAssignmentModel(groups, assignmentGroupId);
 
                 Session["CurriculumId"] = curriculumId;
+
                 return View(editAssignmentModel);
             }
             catch (Exception e)
@@ -134,18 +125,23 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                if (ModelState.IsValid && Validator.ValidateCurriculumAssignment(editAssignmentModel.GroupId).IsValid)
+                CurriculumAssignment curriculumAssignment = new CurriculumAssignment();
+                curriculumAssignment.UserGroupRef = editAssignmentModel.GroupId;
+                curriculumAssignment.Id = curriculumAssignmentId;
+
+                AddValidationErrorsToModelState(Validator.ValidateCurriculumAssignment(curriculumAssignment).Errors);
+
+                if (ModelState.IsValid)
                 {
-                    CurriculumAssignment curriculumAssignment = new CurriculumAssignment();
-                    curriculumAssignment.UserGroupRef = editAssignmentModel.GroupId;
-                    curriculumAssignment.Id = curriculumAssignmentId;
                     Storage.UpdateCurriculumAssignment(curriculumAssignment);
 
                     return RedirectToRoute("CurriculumAssignments", new { action = "Index", CurriculumId = Session["CurriculumId"] });
                 }
                 else
                 {
-                    return RedirectToAction("Edit");
+                    SaveValidationErrors();
+
+                    return RedirectToAction("Create");
                 }
             }
             catch (Exception e)

@@ -52,10 +52,17 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                stage.CurriculumRef = curriculumId;
-                Storage.AddStage(stage);
+                if (ModelState.IsValid)
+                {
+                    stage.CurriculumRef = curriculumId;
+                    Storage.AddStage(stage);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View(stage);
+                }
             }
             catch (Exception e)
             {
@@ -86,10 +93,17 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                stage.Id = stageId;
-                Storage.UpdateStage(stage);
+                if (ModelState.IsValid)
+                {
+                    stage.Id = stageId;
+                    Storage.UpdateStage(stage);
 
-                return RedirectToRoute("Stages", new { action = "Index", CurriculumId = HttpContext.Session["CurriculumId"] });
+                    return RedirectToRoute("Stages", new { action = "Index", CurriculumId = HttpContext.Session["CurriculumId"] });
+                }
+                else
+                {
+                    return View(stage);
+                }
             }
             catch (Exception e)
             {

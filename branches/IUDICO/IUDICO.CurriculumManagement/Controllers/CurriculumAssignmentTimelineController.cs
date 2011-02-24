@@ -44,14 +44,9 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var operations = Storage.GetOperations();
+                LoadValidationErrors();
 
-                CreateCurriculumAssignmentTimelineModel createTimelineModel = new CreateCurriculumAssignmentTimelineModel()
-                {
-                    Operations = from item in operations
-                                 select new SelectListItem { Text = item.Name.ToString(), Value = item.Id.ToString(), Selected = false },
-                    Timeline = new Timeline()
-                };
+                CreateCurriculumAssignmentTimelineModel createTimelineModel = new CreateCurriculumAssignmentTimelineModel(new Timeline());
 
                 return View(createTimelineModel);
             }
@@ -67,18 +62,22 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                if (ModelState.IsValid && Validator.ValidateTimeline(createTimelineModel.Timeline).IsValid)
+                Timeline timeline = createTimelineModel.Timeline;
+                timeline.CurriculumAssignmentRef = curriculumAssignmentId;
+                timeline.StageRef = null;
+
+                AddValidationErrorsToModelState(Validator.ValidateCurriculumAssignmentTimeline(timeline).Errors);
+
+                if (ModelState.IsValid)
                 {
-                    Timeline timeline = createTimelineModel.Timeline;
-                    timeline.CurriculumAssignmentRef = curriculumAssignmentId;
-                    timeline.OperationRef = createTimelineModel.OperationId;
-                    timeline.StageRef = null;
                     Storage.AddTimeline(timeline);
 
                     return RedirectToAction("Index", new { CurriculumAssignmentId = curriculumAssignmentId });
                 }
                 else
                 {
+                    SaveValidationErrors();
+
                     return RedirectToAction("Create");
                 }
             }
@@ -94,16 +93,9 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var operations = Storage.GetOperations();
                 Timeline timeline = Storage.GetTimeline(timelineId);
 
-                EditCurriculumAssignmentTimelineModel editTimelineModel = new EditCurriculumAssignmentTimelineModel()
-                {
-                    Operations = from item in operations
-                                 select new SelectListItem { Text = item.Name.ToString(), Value = item.Id.ToString(), Selected = false },
-                    Timeline = timeline,
-                    OperationId = timeline.OperationRef
-                };
+                CreateCurriculumAssignmentTimelineModel editTimelineModel = new CreateCurriculumAssignmentTimelineModel(timeline);
 
                 Session["CurriculumAssignmentId"] = timeline.CurriculumAssignmentRef;
                 return View(editTimelineModel);
@@ -116,21 +108,25 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Edit(int timelineId, EditCurriculumAssignmentTimelineModel editTimelineModel)
+        public ActionResult Edit(int timelineId, CreateCurriculumAssignmentTimelineModel editTimelineModel)
         {
             try
             {
-                if (ModelState.IsValid && Validator.ValidateTimeline(editTimelineModel.Timeline).IsValid)
+                Timeline timeline = editTimelineModel.Timeline;
+                timeline.Id = timelineId;
+
+                AddValidationErrorsToModelState(Validator.ValidateCurriculumAssignmentTimeline(timeline).Errors);
+
+                if (ModelState.IsValid)
                 {
-                    Timeline timeline = editTimelineModel.Timeline;
-                    timeline.Id = timelineId;
-                    timeline.OperationRef = editTimelineModel.OperationId;
                     Storage.UpdateTimeline(timeline);
 
                     return RedirectToRoute("CurriculumAssignmentTimelines", new { action = "Index", CurriculumAssignmentId = Session["CurriculumAssignmentId"] });
                 }
                 else
                 {
+                    SaveValidationErrors();
+
                     return RedirectToAction("Edit");
                 }
             }

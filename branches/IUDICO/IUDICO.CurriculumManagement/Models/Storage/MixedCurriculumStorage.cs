@@ -571,6 +571,18 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return GetGroups().Where(item => !assignedGroupIds.Contains(item.Id)).Select(item => item);
         }
 
+        public IEnumerable<Group> GetNotAssignedGroupsWithCurrentGroup(int curriculumId, int currentGroupId)
+        {
+            IEnumerable<Group> groups = GetNotAssignedGroups(curriculumId);
+
+            //add current group
+            List<Group> assignedGroup = new List<Group>();
+            assignedGroup.Add(GetGroup(currentGroupId));
+            groups = groups.Concat(assignedGroup);
+
+            return groups;
+        }
+
         #endregion
 
         #endregion
