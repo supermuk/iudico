@@ -26,6 +26,9 @@
                 Creation Date
             </th>
             <th>
+                Groups
+            </th>
+            <th>
             </th>
         </tr>
 
@@ -48,6 +51,9 @@
                 <%: item.CreationDate.ToString() %>
             </td>
             <td>
+                <%: item.GroupsLine %>
+            </td>
+            <td>
                 <% if (item.IsApproved)
                    { %>
                     <%: Html.ActionLink("Deactivate", "Deactivate", new { id = item.Id })%> |
@@ -58,7 +64,8 @@
                 <% } %>
                 <%: Html.ActionLink("Edit", "Edit", new { id = item.Id }) %> |
                 <%: Html.ActionLink("Details", "Details", new { id = item.Id })%> |
-                <%: Html.ActionLink("Delete", "Delete", new { id = item.Id })%>
+                <%: Html.ActionLink("Add To Group", "AddToGroup", new { id = item.Id })%> |
+                <%: Ajax.ActionLink("Delete", "Delete", new { id = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Username + "\"?", HttpMethod = "Delete", OnSuccess="removeRow" })%>
             </td>
         </tr>
     
@@ -73,5 +80,12 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
+    <script src="<%= Html.ResolveUrl("/Scripts/Microsoft/MicrosoftAjax.js")%>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("/Scripts/Microsoft/MicrosoftMvcAjax.js")%>" type="text/javascript"></script>
+    <script type="text/javascript" language="javascript">
+        function removeRow(data) {
+            window.location = window.location;
+        }
+    </script>
 </asp:Content>
 
