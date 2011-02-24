@@ -74,7 +74,6 @@ namespace IUDICO.UserManagement.Controllers
                 
                 ModelState.AddModelError("Username", "User with such username already exists.");
             }
-
             user.Password = null;
             user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = r.ToString(), Value = ((int)r).ToString(), Selected = false });
 
@@ -164,6 +163,42 @@ namespace IUDICO.UserManagement.Controllers
             _Storage.RemoveUserFromGroup(group, user);
 
             return RedirectToAction("Details", new { id = id });
+        }
+
+        [Allow(Role = Role.Admin)]
+        public ActionResult AddToGroup(Guid id)
+        {
+            var user = _Storage.GetUser(u => u.Id == id);
+
+            var groupList = _Storage.GetGroupsAvaliableForUser(user).Select(g => new SelectListItem { Text = g.Name, Value = g.Id.ToString(), Selected = false });
+
+            var userGroup = new UserGroupModel { GroupList = groupList };
+
+            return View(userGroup);
+        }
+
+        [HttpPost]
+        [Allow(Role = Role.Admin)]
+        public ActionResult AddToGroup(Guid id, int? groupRef)
+        {
+            var user = _Storage.GetUser(u => u.Id == id);
+
+            if (groupRef == null)
+            {
+                var groupList = _Storage.GetGroupsAvaliableForUser(user).Select(g => new SelectListItem { Text = g.Name, Value = g.Id.ToString(), Selected = false });
+
+                var userGroup = new UserGroupModel { GroupList = groupList };
+
+                ModelState.AddModelError("GroupRef", "Please select group from list");
+
+                return View(userGroup);
+            }
+
+            var group = _Storage.GetGroup(groupRef.Value);
+
+            _Storage.AddUserToGroup(group, user);
+
+            return RedirectToAction("Details", new { Id = id });
         }
     }
 }

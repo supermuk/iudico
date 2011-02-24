@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using IUDICO.Common.Models.Attributes;
 using OpenIdMembershipUser = IUDICO.UserManagement.Models.Auth.OpenIdMembershipUser;
 using Guid = System.Guid;
+using System.Web.Mvc;
 
 namespace IUDICO.UserManagement.Models
 {
@@ -175,5 +176,14 @@ namespace IUDICO.UserManagement.Models
         [Required(ErrorMessage = "OpenId is required")]
         [StringLength(200, ErrorMessage = "OpenId can not be longer than 200")]
         public string OpenId { get; set; }
+    }
+
+    public class UserGroupModel
+    {
+        public IEnumerable<SelectListItem> GroupList { get; set; }
+
+        [DropDownList(OptionLabel = "Select Group", SourceProperty = "GroupList")]
+        [DisplayName("Group")]
+        public int GroupRef { get; set; }
     }
 }

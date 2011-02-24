@@ -20,6 +20,12 @@
                 Active
             </th>
             <th>
+                Approved By
+            </th>
+            <th>
+                Creation Date
+            </th>
+            <th>
             </th>
         </tr>
 
@@ -34,6 +40,12 @@
             </td>
             <td>
                 <%: item.IsApproved.ToString() %>
+            </td>
+            <td>
+                <%: item.User1 != null ? item.User1.Username : string.Empty %>
+            </td>
+            <td>
+                <%: item.CreationDate.ToString() %>
             </td>
             <td>
                 <% if (item.IsApproved)
