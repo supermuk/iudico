@@ -45,6 +45,7 @@ namespace IUDICO.UserManagement.Models.Storage
         void AddUserToGroup(Group group, User user);
         void RemoveUserFromGroup(Group group, User user);
         IEnumerable<Group> GetGroupsByUser(User user);
+        IEnumerable<Group> GetGroupsAvaliableForUser(User user);
 
         #endregion
     }

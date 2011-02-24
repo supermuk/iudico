@@ -125,6 +125,7 @@
     <Content Include="Views\Role\Create.aspx" />
     <Content Include="Views\Role\Edit.aspx" />
     <Content Include="Views\Role\Index.aspx" />
+    <Content Include="Views\User\AddToGroup.aspx" />
     <Content Include="Views\User\Create.aspx" />
     <Content Include="Views\User\Delete.aspx" />
     <Content Include="Views\User\Details.aspx" />

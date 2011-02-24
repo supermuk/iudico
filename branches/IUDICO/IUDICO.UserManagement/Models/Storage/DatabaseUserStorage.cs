@@ -122,6 +122,8 @@ namespace IUDICO.UserManagement.Models.Storage
             user.OpenId = user.OpenId ?? string.Empty;
             user.Deleted = false;
             user.IsApproved = true;
+            user.CreationDate = DateTime.Now;
+            user.ApprovedBy = GetCurrentUser().Id;
 
             db.Users.InsertOnSubmit(user);
             db.SubmitChanges();
@@ -189,7 +191,9 @@ namespace IUDICO.UserManagement.Models.Storage
                                 Name = registerModel.Name,
                                 Role = Role.Student,
                                 IsApproved = false,
-                                Deleted = false
+                                Deleted = false,
+                                CreationDate = DateTime.Now,
+                                ApprovedBy = null
                             };
 
             db.Users.InsertOnSubmit(user);
@@ -294,6 +298,15 @@ namespace IUDICO.UserManagement.Models.Storage
             var db = GetDbContext();
 
             return db.GroupUsers.Where(g => g.UserRef == user.Id).Select(g => g.Group);
+        }
+
+        public IEnumerable<Group> GetGroupsAvaliableForUser(User user)
+        {
+            var db = GetDbContext();
+
+            var groupRefsByUser = GetGroupsByUser(user).Select(g => g.Id);
+
+            return db.Groups.Where(g => !groupRefsByUser.Contains(g.Id));
         }
 
         public void AddUserToGroup(Group group, User user)
