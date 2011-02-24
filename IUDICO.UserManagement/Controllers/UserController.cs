@@ -111,30 +111,21 @@ namespace IUDICO.UserManagement.Controllers
         }
 
         //
-        // GET: /User/Delete/5
+        // Delete: /User/Delete/5
 
+        [HttpDelete]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Delete(Guid id)
-        {
-            return View(_Storage.GetUser(u => u.Id == id));
-        }
-
-        //
-        // POST: /User/Delete/5
-
-        [HttpPost]
-        [Allow(Role = Role.Teacher)]
-        public ActionResult Delete(Guid id, FormContext context)
+        public JsonResult Delete(Guid id)
         {
             try
             {
                 _Storage.DeleteUser(u => u.Id == id);
- 
-                return RedirectToAction("Index");
+
+                return Json(new { success = true, Id = id }); ;
             }
             catch
             {
-                return View();
+                return Json(new { success = false });
             }
         }
 

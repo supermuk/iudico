@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using IUDICO.Common.Models.Attributes;
 using System.Data.Linq;
+using System.Linq;
 
 namespace IUDICO.Common.Models
 {
@@ -226,9 +227,29 @@ namespace IUDICO.Common.Models
 
             [ScaffoldColumn(false)]
             public bool IsApproved { get; set; }
+
+            [ScaffoldColumn(false)]
+            public DateTime CreationDate { get; set; }
+
+            [ScaffoldColumn(false)]
+            public Guid? ApprovedBy { get; set; }
         }
 
         public IEnumerable<SelectListItem> RolesList { get; set; }
+
+        [ScaffoldColumn(false)]
+        public string GroupsLine
+        {
+            get
+            {
+                if (GroupUsers.Count > 1)
+                    return GroupUsers.Select(g => g.Group.Name).Aggregate((prev, next) => prev + ", " + next);
+                else if (GroupUsers.Count == 1)
+                    return GroupUsers.Select(g => g.Group.Name).First();
+                else
+                    return string.Empty;
+            }
+        }
 
         [ScaffoldColumn(false)]
         public Role Role
