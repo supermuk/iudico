@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
@@ -6,7 +7,9 @@ using System.Web.Routing;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Attributes;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.TemplateMetadata;
 using IUDICO.LMS.IoC;
@@ -36,16 +39,15 @@ namespace IUDICO.LMS
         {
             var actions = new List<Action>();
             var plugins = Container.ResolveAll<IPlugin>();
-            Role currentRole = (Role)Container.Resolve<IUserService>().GetCurrentUser().RoleId;
+            var currentRole = Container.Resolve<IUserService>().GetCurrentUser().Role;
 
             foreach (var plugin in plugins)
             {
-                // TODO: add proper role
                 plugin.Setup(Container);
                 actions.AddRange(plugin.BuildActions(currentRole));
             }
 
-            Actions = actions;
+            Actions = actions.Where(a => IsAllowed(a, currentRole));
         }
 
         protected void Application_Start()
@@ -92,6 +94,7 @@ namespace IUDICO.LMS
         protected void LoadPluginData()
         {
             Menu = new Menu();
+            
             var plugins = Container.ResolveAll<IPlugin>();
 
             foreach (var plugin in plugins)
@@ -135,6 +138,18 @@ namespace IUDICO.LMS
                 .Install(FromAssembly.This(),
                          FromAssembly.InDirectory(new AssemblyFilter(Server.MapPath("/Plugins"), "IUDICO.*.dll"))
             );
+        }
+
+        protected bool IsAllowed(Action fullAction, Role role)
+        {
+            var parts = fullAction.Link.Split('/');
+
+            var controller = _Container.Resolve<IController>(parts[0] + "controller");
+            var action = controller.GetType().GetMethod(parts[1]);
+
+            var attribute = Attribute.GetCustomAttribute(action, typeof (AllowAttribute), false) as AllowAttribute;
+
+            return attribute == null || Roles.Provider.IsUserInRole(HttpContext.Current.User.Identity.Name, attribute.Role.ToString());
         }
     }
 }
