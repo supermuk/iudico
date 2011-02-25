@@ -145,11 +145,16 @@ namespace IUDICO.LMS
             var parts = fullAction.Link.Split('/');
 
             var controller = _Container.Resolve<IController>(parts[0] + "controller");
-            var action = controller.GetType().GetMethod(parts[1]);
+            var action = controller.GetType().GetMethods().Where(m => m.Name == parts[1] && !IsPost(m) && m.GetParameters().Length == 0).FirstOrDefault();
 
             var attribute = Attribute.GetCustomAttribute(action, typeof (AllowAttribute), false) as AllowAttribute;
 
             return attribute == null || Roles.Provider.IsUserInRole(HttpContext.Current.User.Identity.Name, attribute.Role.ToString());
+        }
+
+        protected bool IsPost(MethodInfo action)
+        {
+            return Attribute.GetCustomAttribute(action, typeof (HttpPostAttribute), false) != null;
         }
     }
 }
