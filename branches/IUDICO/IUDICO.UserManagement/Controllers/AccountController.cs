@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId;
@@ -38,7 +39,7 @@ namespace IUDICO.UserManagement.Controllers
         {
             FormsAuthentication.SignOut();
 
-            return Redirect("/Account/Index");
+            return Redirect("/");
         }
 
         public ActionResult Login()
@@ -57,7 +58,7 @@ namespace IUDICO.UserManagement.Controllers
 
                         if (user == null)
                         {
-                            ModelState.AddModelError("loginIdentifier", "Login failed using the provided OpenID identifier");
+                            ModelState.AddModelError(string.Empty, "Login failed using the provided OpenID identifier");
 
                             break;
                         }
@@ -70,16 +71,16 @@ namespace IUDICO.UserManagement.Controllers
                         {
                             FormsAuthentication.SetAuthCookie(user.Username, false);
 
-                            return Redirect("/Account/Index");
+                            return Redirect("/");
                         }
                         
                         break;
                     case AuthenticationStatus.Canceled:
-                        ModelState.AddModelError("loginIdentifier", "Login was cancelled at the provider");
+                        ModelState.AddModelError(string.Empty, "Login was cancelled at the provider");
                         
                         break;
                     case AuthenticationStatus.Failed:
-                        ModelState.AddModelError("loginIdentifier", "Login failed using the provided OpenID identifier");
+                        ModelState.AddModelError(string.Empty, "Login failed using the provided OpenID identifier");
                         
                         break;
                 }
@@ -93,15 +94,24 @@ namespace IUDICO.UserManagement.Controllers
         {
             if (!Identifier.IsValid(loginIdentifier))
             {
-                ModelState.AddModelError("loginIdentifier", "Invalid OpenID");
+                ModelState.AddModelError(string.Empty, "Invalid OpenID");
                 
                 return View("Login");
             }
             else
             {
-                var request = _OpenId.CreateRequest(Identifier.Parse(loginIdentifier));
+                try
+                {
+                    var request = _OpenId.CreateRequest(Identifier.Parse(loginIdentifier));
 
-                return request.RedirectingResponse.AsActionResult();
+                    return request.RedirectingResponse.AsActionResult();
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError(string.Empty, "Login failed using the provided OpenID identifier");
+
+                    return View("Login");
+                }
             }
         }
 
@@ -118,7 +128,7 @@ namespace IUDICO.UserManagement.Controllers
                 {
                     FormsAuthentication.SetAuthCookie(loginUsername, false);
 
-                    return Redirect("/Account/Index");
+                    return Redirect("/");
                 }
             }
             else
