@@ -6,8 +6,6 @@ using DotNetOpenAuth.OpenId.RelyingParty;
 using IUDICO.Common.Controllers;
 using IUDICO.UserManagement.Models;
 using IUDICO.UserManagement.Models.Storage;
-using OpenIdMembershipProvider = IUDICO.UserManagement.Models.Auth.OpenIdMembershipProvider;
-using OpenIdMembershipUser = IUDICO.UserManagement.Models.Auth.OpenIdMembershipUser;
 using IUDICO.Common.Models.Attributes;
 
 namespace IUDICO.UserManagement.Controllers
