@@ -1,17 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="IUDICO" EntityNamespace="IUDICO.Common.Models" ContextNamespace="IUDICO.Common.Models" Class="DBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;Initial Catalog=IUDICO;Integrated Security=True" SettingsObjectName="IUDICO.Common.Properties.Settings" SettingsPropertyName="IUDICOConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.Courses" Member="Courses">
-    <Type Name="Course">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Owner" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Deleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="Course_CourseUser" Member="CourseUsers" ThisKey="Id" OtherKey="CourseRef" Type="CourseUser" />
-      <Association Name="Course_Node" Member="Nodes" ThisKey="Id" OtherKey="CourseId" Type="Node" />
-    </Type>
-  </Table>
   <Table Name="dbo.CourseUsers" Member="CourseUsers">
     <Type Name="CourseUser">
       <Column Name="CourseRef" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -47,19 +35,6 @@
       <Column Name="UserRef" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Association Name="Group_GroupUser" Member="Group" ThisKey="GroupRef" OtherKey="Id" Type="Group" IsForeignKey="true" />
       <Association Name="User_GroupUser" Member="User" ThisKey="UserRef" OtherKey="Id" Type="User" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Nodes" Member="Nodes">
-    <Type Name="Node">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="CourseId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IsFolder" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="Position" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Node_Node" Member="Nodes" ThisKey="Id" OtherKey="ParentId" Type="Node" />
-      <Association Name="Course_Node" Member="Course" ThisKey="CourseId" OtherKey="Id" Type="Course" IsForeignKey="true" />
-      <Association Name="Node_Node" Member="Node1" ThisKey="ParentId" OtherKey="Id" Type="Node" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Stages" Member="Stages">
@@ -152,6 +127,34 @@
       <Association Name="User_GroupUser" Member="GroupUsers" ThisKey="Id" OtherKey="UserRef" Type="GroupUser" />
       <Association Name="User_User" Member="Users" ThisKey="Id" OtherKey="ApprovedBy" Type="User" />
       <Association Name="User_User" Member="User1" ThisKey="ApprovedBy" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Courses" Member="Courses">
+    <Type Name="Course">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Owner" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Deleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="SequencingPattern" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Locked" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Course_CourseUser" Member="CourseUsers" ThisKey="Id" OtherKey="CourseRef" Type="CourseUser" />
+      <Association Name="Course_Node" Member="Nodes" ThisKey="Id" OtherKey="CourseId" Type="Node" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Nodes" Member="Nodes">
+    <Type Name="Node">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CourseId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsFolder" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Position" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SequencingPattern" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Node_Node" Member="Nodes" ThisKey="Id" OtherKey="ParentId" Type="Node" />
+      <Association Name="Course_Node" Member="Course" ThisKey="CourseId" OtherKey="Id" Type="Course" IsForeignKey="true" />
+      <Association Name="Node_Node" Member="Node1" ThisKey="ParentId" OtherKey="Id" Type="Node" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>
