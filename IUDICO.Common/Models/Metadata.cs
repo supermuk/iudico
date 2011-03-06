@@ -38,6 +38,12 @@ namespace IUDICO.Common.Models
             public bool Deleted { get; set; }
 
             [ScaffoldColumn(false)]
+            public bool Locked { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int SequencingPattern { get; set; }
+
+            [ScaffoldColumn(false)]
             public object CourseUsers { get; set; }
 
             [ScaffoldColumn(false)]

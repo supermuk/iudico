@@ -116,7 +116,6 @@ namespace IUDICO.CourseManagement.Models.Storage
             var oldCourse = db.Courses.Single(c => c.Id == id);
 
             oldCourse.Name = course.Name;
-            oldCourse.Owner = course.Owner;
             oldCourse.Updated = DateTime.Now;
 
             db.SubmitChanges();
@@ -124,7 +123,6 @@ namespace IUDICO.CourseManagement.Models.Storage
             _LmsService.Inform(CourseNotifications.CourseEdit, course);
         }
 
-        [Obsolete("Directory.Delete gives exception when files are present: http://stackoverflow.com/questions/329355/cannot-delete-directory-with-directory-deletepath-true. Set CASCADE on DELETE & UPDATE action in foreign index CourseID")]
         public void DeleteCourse(int id)
         {
             var db = GetDbContext();
@@ -154,14 +152,17 @@ namespace IUDICO.CourseManagement.Models.Storage
             db.SubmitChanges();
         }
 
-        [Obsolete("HttpContext.Current could be null sometimes. See MixedCourseManagement.GetCoursePath(int)")]
         public string Export(int id)
         {
-            var course = this.GetCourse(id);
+            var course = GetCourse(id);
 
-            var path = HttpContext.Current == null ? Path.Combine(System.Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
-            
-            path = Path.Combine(path, @"Data\WorkFolder");
+            var path = GetCoursePath(id);
+
+            if (course.Locked != null && course.Locked.Value)
+            {
+                return path + ".zip";
+            }
+
             path = Path.Combine(path, Guid.NewGuid().ToString());
             path = Path.Combine(path, course.Name);
 
@@ -224,14 +225,19 @@ namespace IUDICO.CourseManagement.Models.Storage
         public int Import(string path, string owner)
         {
             var course = new Course();
-            var folderPath = path.Substring(0, path.Length - 4);
 
-            Zipper.ExtractZipFile(path, folderPath);
+            var zipName = path.Split('\\').Last();
+            course.Name = zipName.Substring(0, zipName.LastIndexOf('.'));
 
-            course.Name = folderPath.Split('\\').Last();
             course.Owner = owner;
+            course.Locked = true;
 
-            return AddCourse(course);
+            var courseId = AddCourse(course);
+
+            System.IO.File.Copy(path, GetCoursePath(courseId) + ".zip");
+            //Zipper.ExtractZipFile(path,  GetCoursePath(courseId)););)
+
+            return courseId;
         }
         #endregion
 
@@ -432,9 +438,14 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         protected string GetCoursePath(int courseId)
         {
-            var path = HttpContext.Current == null ? Path.Combine(System.Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
+            var path = GetCoursesPath();
 
             return Path.Combine(path, @"Data\Courses", courseId.ToString());
+        }
+
+        protected string GetCoursesPath()
+        {
+            return HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
         }
 
         protected void CopyNodes(Node node, Node newnode)
