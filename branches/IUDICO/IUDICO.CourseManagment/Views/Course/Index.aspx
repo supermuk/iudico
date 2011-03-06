@@ -94,7 +94,9 @@
             </td>
             <td>
                 <%: Html.ActionLink("Edit", "Edit", "Course", new { CourseID = item.Id }, null)%> |
-                <%: Html.ActionLink("Details", "Index", "Node", new { CourseID = item.Id }, null) %> |
+                <% if (item.Locked == null || item.Locked.Value == false) { %>
+                <%:Html.ActionLink("Details", "Index", "Node", new {CourseID = item.Id}, null)%> |
+                <% }%>
                 <%: Html.ActionLink("Export", "Export", new { CourseID = item.Id }) %> |
                 <%: Ajax.ActionLink("Delete", "Delete", new { CourseID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess="removeRow" })%>
             </td>
