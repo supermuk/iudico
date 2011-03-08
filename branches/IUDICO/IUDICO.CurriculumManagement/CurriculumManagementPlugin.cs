@@ -39,6 +39,10 @@ namespace IUDICO.CurriculumManagement
         #endregion
 
         #region IPlugin Members
+        public string GetName()
+        {
+            return "Curriculum Management";
+        }
 
         public IEnumerable<Action> BuildActions(Role role)
         {

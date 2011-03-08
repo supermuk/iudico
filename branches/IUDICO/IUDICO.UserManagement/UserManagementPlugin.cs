@@ -39,6 +39,10 @@ namespace IUDICO.UserManagement
         #endregion
 
         #region IPlugin Members
+        public string GetName()
+        {
+            return "User Management";
+        }
 
         public IEnumerable<Action> BuildActions(Role role)
         {

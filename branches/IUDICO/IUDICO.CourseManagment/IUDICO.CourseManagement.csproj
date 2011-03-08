@@ -142,6 +142,24 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\jquery.multiselect2side.css" />
+    <None Include="Content\Tree\themes\apple\bg.jpg" />
+    <None Include="Content\Tree\themes\apple\d.png" />
+    <None Include="Content\Tree\themes\apple\dot_for_ie.gif" />
+    <None Include="Content\Tree\themes\apple\style.css" />
+    <None Include="Content\Tree\themes\apple\throbber.gif" />
+    <None Include="Content\Tree\themes\classic\d.png" />
+    <None Include="Content\Tree\themes\classic\dot_for_ie.gif" />
+    <None Include="Content\Tree\themes\classic\style.css" />
+    <None Include="Content\Tree\themes\classic\throbber.gif" />
+    <None Include="Content\Tree\themes\default-rtl\d.gif" />
+    <None Include="Content\Tree\themes\default-rtl\d.png" />
+    <None Include="Content\Tree\themes\default-rtl\dots.gif" />
+    <None Include="Content\Tree\themes\default-rtl\style.css" />
+    <None Include="Content\Tree\themes\default-rtl\throbber.gif" />
+    <None Include="Content\Tree\themes\default\d.gif" />
+    <None Include="Content\Tree\themes\default\d.png" />
+    <None Include="Content\Tree\themes\default\style.css" />
+    <None Include="Content\Tree\themes\default\throbber.gif" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\CHANGES.html" />
     <Content Include="Scripts\ckeditor\ckeditor.asp" />
@@ -516,6 +534,7 @@
     <Content Include="Scripts\ckeditor\_source\plugins\indent\plugin.js" />
     <Content Include="Scripts\ckeditor\_source\plugins\iudico\dialogs\iudico.js" />
     <Content Include="Scripts\ckeditor\_source\plugins\iudico\lang\en.js" />
+    <Content Include="Scripts\ckeditor\_source\plugins\iudico\logo_iudico.png" />
     <Content Include="Scripts\ckeditor\_source\plugins\iudico\plugin.js" />
     <Content Include="Scripts\ckeditor\_source\plugins\justify\plugin.js" />
     <Content Include="Scripts\ckeditor\_source\plugins\keystrokes\plugin.js" />

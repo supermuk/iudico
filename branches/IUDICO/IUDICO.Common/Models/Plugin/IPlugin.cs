@@ -6,6 +6,8 @@ namespace IUDICO.Common.Models.Plugin
 {
     public interface IPlugin
     {
+        string GetName();
+
         IEnumerable<Action> BuildActions(Role role);
         void BuildMenu(Menu menu);
 
