@@ -171,5 +171,15 @@ namespace IUDICO.CourseManagement.Controllers
 
             //return Json(new { result = true });
         }
+
+        [HttpPost]
+        public JsonResult ApplyPattern(int id, int pattern)
+        {
+            var node = _Storage.GetNode(id);
+            node.SequencingPattern = pattern;
+            _Storage.UpdateNode(id, node);
+
+            return Json(new {status = true});
+        }
     }
 }

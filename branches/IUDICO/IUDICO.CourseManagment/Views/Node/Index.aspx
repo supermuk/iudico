@@ -157,6 +157,32 @@
                                 "label": "Paste",
                                 "action": function (obj) { this.paste(obj); },
                                 "_disabled" : !(this.data.crrm.ct_nodes || this.data.crrm.cp_nodes) || node.attr("rel") == "default"
+                            },
+                            "pattern": {
+                                "separator_before": true,
+                                "icon": false,
+                                "separator_after": false,
+                                "label": "Apply Pattern",
+                                "submenu": {
+                                		"default" : {
+			                                "label" : "Pattern 1",
+			                                "action" : function (obj) { 
+                                                this.get_container().triggerHandler("pattern.jstree", { "obj": obj, "pattern": 1 });
+                                            }
+		                                },
+		                                "another" : {
+			                                "label" : "Pattern 2",
+			                                "action" : function (obj) { 
+                                                this.get_container().triggerHandler("pattern.jstree", { "obj": obj, "pattern": 2 });
+                                            }
+		                                },
+		                                "yetanother" : {
+			                                "label" : "Pattern 3",
+			                                "action" : function (obj) {
+                                                this.get_container().triggerHandler("pattern.jstree", { "obj": obj, "pattern": 3 });
+                                            }
+		                                }
+                                }
                             }
                         }
                     }
@@ -278,6 +304,19 @@
                         
                         $editor.val(r.data);
                         $editor.show();
+					}
+				});
+            })
+            .bind("pattern.jstree", function(e, data) {
+                $.ajax({
+                    type: 'post',
+		            url: "<%: Url.Action("ApplyPattern", "Node") %>",
+					data: {
+						"id": data.obj.attr("id").replace("node_", ""),
+                        "pattern": data.pattern
+					},
+					success: function (r) {
+                        alert(r.status);
 					}
 				});
             });

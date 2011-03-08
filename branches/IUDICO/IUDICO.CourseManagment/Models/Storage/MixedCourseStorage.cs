@@ -312,6 +312,7 @@ namespace IUDICO.CourseManagement.Models.Storage
                 oldNode.Name = node.Name;
                 oldNode.ParentId = node.ParentId;
                 oldNode.Position = node.Position;
+                oldNode.SequencingPattern = node.SequencingPattern;
 
                 db.SubmitChanges();
 
