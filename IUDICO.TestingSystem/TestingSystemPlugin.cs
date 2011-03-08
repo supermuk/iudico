@@ -32,6 +32,10 @@ namespace IUDICO.TestingSystem
         #endregion
 
         #region IPlugin Members
+        public string GetName()
+        {
+            return "Testing System";
+        }
 
         public IEnumerable<IUDICO.Common.Models.Action> BuildActions(Role role)
         {

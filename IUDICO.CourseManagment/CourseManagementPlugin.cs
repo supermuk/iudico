@@ -27,6 +27,11 @@ namespace IUDICO.CourseManagement
         }
 
         #region IPlugin Members
+        public string GetName()
+        {
+            return "Course Management";
+        }
+
         public IEnumerable<Action> BuildActions(Role role)
         {
             var actions = new List<Action>();

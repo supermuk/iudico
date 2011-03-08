@@ -30,6 +30,10 @@ namespace IUDICO.Statistics
         #endregion
 
         #region IPlugin Members
+        public string GetName()
+        {
+            return "Statistics";
+        }
 
         public IEnumerable<Action> BuildActions(Role role)
         {
