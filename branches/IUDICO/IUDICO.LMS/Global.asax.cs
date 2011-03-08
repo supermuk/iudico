@@ -28,7 +28,9 @@ namespace IUDICO.LMS
         static IWindsorContainer _Container;
 
         public static Menu Menu { get; protected set; }
-        public static IEnumerable<Action> Actions { get; protected set; }
+        //public static IEnumerable<Action> Actions { get; protected set; }
+        public static Dictionary<IPlugin, IEnumerable<Action>> Actions { get; protected set; }
+
 
         public IWindsorContainer Container
         {
@@ -37,21 +39,32 @@ namespace IUDICO.LMS
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-            var actions = new List<Action>();
             var plugins = Container.ResolveAll<IPlugin>();
             var currentRole = Container.Resolve<IUserService>().GetCurrentUser().Role;
+
+            Actions.Clear();
 
             foreach (var plugin in plugins)
             {
                 plugin.Setup(Container);
-                actions.AddRange(plugin.BuildActions(currentRole));
-            }
 
-            Actions = actions.Where(a => IsAllowed(a, currentRole));
+                var actions = plugin.BuildActions(currentRole).Where(a => IsAllowed(a, currentRole));
+
+                if (Actions.ContainsKey(plugin))
+                {
+                    Actions[plugin] = actions;
+                }
+                else
+                {
+                    Actions.Add(plugin, actions);
+                }
+            }
         }
 
         protected void Application_Start()
         {
+            Actions = new Dictionary<IPlugin, IEnumerable<Action>>();
+
             AppDomain.CurrentDomain.AppendPrivatePath(Server.MapPath("/Plugins"));
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 

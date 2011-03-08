@@ -15,15 +15,23 @@
     <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.jstree.js") %>" type="text/javascript"></script>
 
     <script type="text/javascript">
+        var $editor;
+
         $(function () {
             $('body').layout({ applyDefaultStyles: true });
 
-            CKEDITOR.on('instanceReady',
-              function (evt) {
-                  var editor = evt.editor;
-                  //editor.execCommand('maximize');
-              }
-            );
+            $editor = $('#editor');
+            $editor.ckeditor();
+            $editor.parent('form').bind('save', function () {
+                //e.preventDefault();
+
+                $editor.updateElement();
+                data = $editor.getData();
+
+                $.post("<%: Url.Action("Edit", "Node") %>", { id: e.data.id, data: data } );
+            }).hide();
+
+            $.jstree._themes = pluginPath + "/Content/Tree/themes/";
         });
     </script>
 
@@ -154,7 +162,7 @@
                     }
                 },
                 "themes" : {
-                    "url" : "Content/Tree"
+                    //"url" : "Content/Tree"
                 }
 		    })
             .bind("create.jstree", function (e, data) {
@@ -268,24 +276,8 @@
 					},
 					success: function (r) {
                         
-
-                        var $txt = $('<textarea></textarea>').attr('name', 'editor').html(r.data);
-                        var $form = $('<form></form>').attr('method', 'post').html($txt).bind("save", {id: data.obj.attr("id").replace("node_", "")}, function(e) {
-                            e.preventDefault();
-                            
-                            instance = CKEDITOR.instances['editor'];
-                            if (instance) {
-                                instance.updateElement();
-                                data = instance.getData();
-
-                                $.post("<%: Url.Action("Edit", "Node") %>", { id: e.data.id, data: data } );
-                            }
-                            
-                        });
-
-                        $('.ui-layout-center').html($form);
-
-                        $txt.ckeditor();
+                        $editor.val(r.data);
+                        $editor.show();
 					}
 				});
             });
@@ -294,7 +286,11 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <div class="ui-layout-center"></div>
+    <div class="ui-layout-center">
+        <form action="" method="post">
+            <textarea name="editor" id="editor" rows="5" cols="5"></textarea>
+        </form>
+    </div>
     <div class="ui-layout-north"></div>
     <div class="ui-layout-south ui-widget-header ui-corner-all"></div>
     <div class="ui-layout-east"></div>

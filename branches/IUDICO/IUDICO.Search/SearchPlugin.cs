@@ -27,6 +27,10 @@ namespace IUDICO.Search
         #endregion
 
         #region IPlugin Members
+        public string GetName()
+        {
+            return "Search";
+        }
 
         public IEnumerable<Action> BuildActions(Role role)
         {
