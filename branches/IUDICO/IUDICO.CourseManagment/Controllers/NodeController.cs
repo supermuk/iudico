@@ -32,7 +32,7 @@ namespace IUDICO.CourseManagement.Controllers
                 requestContext.HttpContext.Response.Redirect("/Course/Index");
             }
 
-            LmsService.Inform("yo/andrij", "test1", "test2");
+            //LmsService.Inform("yo/andrij", "test1", "test2");
 
             base.Initialize(requestContext);
         }
@@ -159,7 +159,7 @@ namespace IUDICO.CourseManagement.Controllers
             }
             catch (Exception)
             {
-                return Json(new {status = true, data = "test"});
+                return Json(new {status = true, data = ""});
             }
         }
 
