@@ -1,5 +1,8 @@
 ﻿using System.Web.Mvc;
 using IUDICO.Common.Controllers;
+using System.Collections.Generic;
+using IUDICO.Common.Models.Plugin;
+using IUDICO.Common.Models;
 
 namespace IUDICO.LMS.Controllers
 {
@@ -16,7 +19,7 @@ namespace IUDICO.LMS.Controllers
 
         public ActionResult Index()
         {
-            return View(MvcApplication.Actions);
+            return View(new Dictionary<IPlugin, IEnumerable<Action>>(MvcApplication.Actions));
         }
     }
 }

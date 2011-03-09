@@ -407,6 +407,11 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             string nodePath = GetNodePath(id);
 
+            if (!System.IO.File.Exists(nodePath))
+            {
+                return string.Empty;
+            }
+
             return System.IO.File.ReadAllText(nodePath);
         }
 

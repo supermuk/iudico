@@ -21,18 +21,18 @@
             $('body').layout({ applyDefaultStyles: true });
 
             $editor = $('#editor');
-            $editor.hide().ckeditor();
+            $editor.ckeditor().hide();
             $editor.parent('form').bind('save', function (e) {
                 //e.preventDefault();
 
-                id = $.data($editor, 'node-id')
+                id = $.data($editor, 'node-id');
 
                 $ckEditor = $editor.ckeditorGet();
 
                 $ckEditor.updateElement();
                 data = $ckEditor.getData();
 
-                $.post("<%: Url.Action("Edit", "Node") %>", { id: id, data: data } );
+                $.post("<%: Url.Action("Edit", "Node") %>", { id: id, data: data });
             }).hide();
 
             $.jstree._themes = pluginPath + "/Content/Tree/themes/";
@@ -269,7 +269,7 @@
 						},
 						success: function (r) {
 							if (!r.status) {
-								$.jstree.rollback(data.rlbk);
+								$.jstree.rollback(data.rlbk);   
 							}
 							else {
 								$(data.rslt.oc).attr("id", "node_" + r.id);
@@ -295,7 +295,10 @@
 				});
             })
             .bind("edit_node.jstree", function (e, data) {
-                $.data($editor, 'node-id', data.obj.attr("id").replace("node_", "");
+                $('#node_' + $.data($editor, 'node-id')).children('a').removeClass('jstree-selected');
+                data.obj.children('a').addClass('jstree-selected');
+
+                $.data($editor, 'node-id', data.obj.attr("id").replace("node_", ""));
 
                 $.ajax({
                     type: 'post',
@@ -304,11 +307,8 @@
 						"id": $.data($editor, 'node-id'),
 					},
 					success: function (r) {
-                        
-                        $editor.parent('form').show();
-
                         $editor.val(r.data);
-                        $editor.show();
+                        $editor.parent('form').show();
 					}
 				});
             })
@@ -322,7 +322,7 @@
 					},
 					success: function (r) {
                         alert(r.status);
-					}
+                    }
 				});
             });
         });
@@ -332,12 +332,11 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="ui-layout-center">
         <form action="" method="post">
-            <textarea name="editor" id="editor" rows="5" cols="5"></textarea>
+            <textarea name="editor" id="editor" rows="0" cols="0"></textarea>
         </form>
     </div>
     <div class="ui-layout-north"></div>
     <div class="ui-layout-south ui-widget-header ui-corner-all"></div>
     <div class="ui-layout-east"></div>
     <div class="ui-layout-west"><div id="treeView"></div></div>
-
 </asp:Content>
