@@ -42,21 +42,24 @@ namespace IUDICO.LMS
             var plugins = Container.ResolveAll<IPlugin>();
             var currentRole = Container.Resolve<IUserService>().GetCurrentUser().Role;
 
-            Actions.Clear();
-
-            foreach (var plugin in plugins)
+            lock (Actions)
             {
-                plugin.Setup(Container);
+                Actions.Clear();
 
-                var actions = plugin.BuildActions(currentRole).Where(a => IsAllowed(a, currentRole));
+                foreach (var plugin in plugins)
+                {
+                    plugin.Setup(Container);
 
-                if (Actions.ContainsKey(plugin))
-                {
-                    Actions[plugin] = actions;
-                }
-                else
-                {
-                    Actions.Add(plugin, actions);
+                    var actions = plugin.BuildActions(currentRole).Where(a => IsAllowed(a, currentRole));
+
+                    if (Actions.ContainsKey(plugin))
+                    {
+                        Actions[plugin] = actions;
+                    }
+                    else
+                    {
+                        Actions.Add(plugin, actions);
+                    }
                 }
             }
         }

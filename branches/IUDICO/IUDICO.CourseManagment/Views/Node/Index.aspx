@@ -21,14 +21,18 @@
             $('body').layout({ applyDefaultStyles: true });
 
             $editor = $('#editor');
-            $editor.ckeditor();
-            $editor.parent('form').bind('save', function () {
+            $editor.hide().ckeditor();
+            $editor.parent('form').bind('save', function (e) {
                 //e.preventDefault();
 
-                $editor.updateElement();
-                data = $editor.getData();
+                id = $.data($editor, 'node-id')
 
-                $.post("<%: Url.Action("Edit", "Node") %>", { id: e.data.id, data: data } );
+                $ckEditor = $editor.ckeditorGet();
+
+                $ckEditor.updateElement();
+                data = $ckEditor.getData();
+
+                $.post("<%: Url.Action("Edit", "Node") %>", { id: id, data: data } );
             }).hide();
 
             $.jstree._themes = pluginPath + "/Content/Tree/themes/";
@@ -186,9 +190,6 @@
                             }
                         }
                     }
-                },
-                "themes" : {
-                    //"url" : "Content/Tree"
                 }
 		    })
             .bind("create.jstree", function (e, data) {
@@ -293,15 +294,19 @@
 					}
 				});
             })
-            .bind("edit_node.jstree", function(e, data) {
+            .bind("edit_node.jstree", function (e, data) {
+                $.data($editor, 'node-id', data.obj.attr("id").replace("node_", "");
+
                 $.ajax({
                     type: 'post',
 		            url: "<%: Url.Action("Data", "Node") %>",
 					data: {
-						"id": data.obj.attr("id").replace("node_", ""),
+						"id": $.data($editor, 'node-id'),
 					},
 					success: function (r) {
                         
+                        $editor.parent('form').show();
+
                         $editor.val(r.data);
                         $editor.show();
 					}
