@@ -12,6 +12,7 @@
     </p>
     <h3><%: Html.ActionLink("Play course", "Play", Model, new { onclick = "javascript:OpenFrameset(" + Model + ");" })%>
     </h3>
+    <iframe width="100%" height="100%" frameborder="0" src="<%: "http://localhost:1339/BasicWebPlayer/Frameset/Frameset.aspx?View=0&AttemptId=" + Model %>" id="content" name="content" style="display: block; overflow-x: hidden;"></iframe>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
