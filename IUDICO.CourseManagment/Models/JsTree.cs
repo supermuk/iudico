@@ -10,7 +10,7 @@
         {
             data = _data;
             state = (_folder ? "closed" : "");
-            attr = new JsTreeAttributes { id = _id.ToString(), rel = (_folder ? "folder" : "default") };
+            attr = new JsTreeAttributes { id = "node_" + _id.ToString(), rel = (_folder ? "folder" : "default") };
         }
     }
 
