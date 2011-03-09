@@ -105,6 +105,13 @@
     <Compile Include="TestingSystemPlugin.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TSTestFrom.aspx.cs">
+      <DependentUpon>TSTestFrom.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TSTestFrom.aspx.designer.cs">
+      <DependentUpon>TSTestFrom.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\player.sql" />
@@ -114,6 +121,7 @@
     <Content Include="Libraries\Microsoft.LearningComponents.pdb" />
     <Content Include="Libraries\Microsoft.LearningComponents.Storage.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.Storage.pdb" />
+    <Content Include="TSTestFrom.aspx" />
     <Content Include="Views\Training\Play.aspx" />
     <None Include="Views\Package\Import.aspx" />
     <Content Include="Views\Package\Index.aspx" />

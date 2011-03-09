@@ -54,6 +54,8 @@ namespace IUDICO.TestingSystem
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)
         {
+            routes.IgnoreRoute("TestForm.aspx");
+            routes.IgnoreRoute("TSTestForm.aspx");
             routes.MapRoute(
                "Training",
                "Training/{packageId}/{attemptId}",
