@@ -46,6 +46,23 @@ namespace IUDICO.CurriculumManagement.Models
                 validationStatus.Errors.Add(String.Format("End date must be between {0} and {1}.",
                     minAllowedDate.ToString(), maxAllowedDate.ToString()));
             }
+            
+            var timelines = storage.GetCurriculumAssignmentTimelines(timeline.CurriculumAssignmentRef).Where(item => item.Id != timeline.Id);
+
+            bool errorCheck = false;
+            foreach (var item in timelines)
+            {
+                if (item.StageRef == null)
+                {
+                    if (timeline.StartDate >= item.StartDate && timeline.EndDate <= item.EndDate)
+                    {
+                        errorCheck = true;
+                        break;
+                    }
+                }
+            }
+            if (errorCheck == false)
+                validationStatus.Errors.Add("Stage timeline is bigger than curriculum timeline");
 
             return validationStatus;
         }
@@ -116,5 +133,5 @@ namespace IUDICO.CurriculumManagement.Models
 
             return validationStatus;
         }
-    }
+   }
 }
