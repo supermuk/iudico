@@ -8,6 +8,7 @@ using System.Web.Security;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Notifications;
+using System.Net.Mail;
 
 namespace IUDICO.UserManagement.Models.Storage
 {
@@ -30,6 +31,19 @@ namespace IUDICO.UserManagement.Models.Storage
             var provider = new SHA1CryptoServiceProvider();
             var bytes = Encoding.UTF8.GetBytes(password);
             return BitConverter.ToString(provider.ComputeHash(bytes)).Replace("-", "");
+        }
+
+        public static void SendEmail(string fromAddress, string toAddress, string subject, string body)
+        {
+            try
+            {
+                var message = new MailMessage(new MailAddress(fromAddress), new MailAddress(toAddress)) { Subject = subject, Body = body };
+                var client = new SmtpClient("krez.lviv.ua");
+                client.Send(message);
+            }
+            catch
+            {
+            }
         }
 
         #region Implementation of IUserStorage
@@ -89,7 +103,7 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
 
-            return db.Users.Count(u => u.Username == username) > 0;
+            return false;//db.Users.Count(u => u.Username == username) > 0;
         }
 
         public void ActivateUser(Guid id)
@@ -213,6 +227,8 @@ namespace IUDICO.UserManagement.Models.Storage
             user.Email = editModel.Email;
 
             db.SubmitChanges();
+
+            SendEmail("admin@iudico", user.Email, "Iudico Notification", "Your details have been changed.");
         }
 
         public void ChangePassword(ChangePasswordModel changePasswordModel)
@@ -223,6 +239,8 @@ namespace IUDICO.UserManagement.Models.Storage
             user.Password = EncryptPassword(changePasswordModel.NewPassword);
 
             db.SubmitChanges();
+
+            SendEmail("admin@iudico", user.Email, "Iudico Notification", "Your passord has been changed.");
         }
 
         #endregion
