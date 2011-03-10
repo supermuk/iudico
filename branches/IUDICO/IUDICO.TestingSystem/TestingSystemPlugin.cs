@@ -54,14 +54,15 @@ namespace IUDICO.TestingSystem
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)
         {
-            routes.IgnoreRoute("TestForm.aspx");
-            routes.IgnoreRoute("TSTestForm.aspx");
+            routes.MapPageRoute(
+                "TSTestForm",
+                "TestForm",
+                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem.TSTestFrom.aspx");
             routes.MapRoute(
                "Training",
                "Training/{packageId}/{attemptId}",
                new { controller = "Training", action = "Details", attemptId = UrlParameter.Optional },
                new { packageID = @"\d+" });
-
             routes.MapRoute(
                "Trainings",
                "Training/{action}/{id}",
