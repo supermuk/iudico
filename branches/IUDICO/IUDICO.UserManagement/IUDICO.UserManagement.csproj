@@ -95,7 +95,6 @@
     <Compile Include="Models\Storage\IUserStorage.cs" />
     <Compile Include="Models\UserService.cs" />
     <Compile Include="UserManagementPlugin.cs" />
-    <Compile Include="Models\Attributes.cs" />
     <Compile Include="Models\Models.cs" />
     <Compile Include="Models\Storage\DatabaseUserStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

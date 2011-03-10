@@ -65,6 +65,7 @@
     <Compile Include="Models\Action.cs" />
     <Compile Include="Models\Attributes\AllowAttribute.cs" />
     <Compile Include="Models\Attributes\DropDownListAttribute.cs" />
+    <Compile Include="Models\Attributes\EmailAddressAttribute.cs" />
     <Compile Include="Models\Attributes\OrderAttribute.cs" />
     <Compile Include="Models\DBDataContext.cs">
       <DependentUpon>DBDataContext.dbml</DependentUpon>
