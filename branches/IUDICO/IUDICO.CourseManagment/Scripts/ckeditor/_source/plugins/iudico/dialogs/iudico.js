@@ -12,9 +12,9 @@
     }
 
     function getObject(editor) {
-        var path = new CKEDITOR.dom.elementPath(editor.getSelection().getStartElement()),
-				blockLimit = path.blockLimit,
-				div = blockLimit && blockLimit.getAscendant('object', true) && blockLimit.getAttribute('iudico') == true;
+        path = new CKEDITOR.dom.elementPath(editor.getSelection().getStartElement());
+        blockLimit = path.blockLimit;
+        div = blockLimit && blockLimit.getAscendant('object', true) && blockLimit.getAttribute('iudico') == true;
 
         return div;
     }
@@ -35,9 +35,9 @@
             }
         },
         onOk: function () {
-            var editor,
-			element = this.object,
-			isInsertMode = !element;
+            //editor =this.editor;
+            element = this.object;
+            isInsertMode = !element;
 
 
             if (isInsertMode) {
@@ -123,7 +123,7 @@
                                 type: 'button',
                                 label: editor.lang.iudico.addChoice,
                                 onClick: function () {
-                                    
+
                                 }
                             },
                             {
@@ -153,11 +153,11 @@
                                 onClick: function () {
 
                                 }
-                            },
+                            }/*,
                             {
                                 id: 'choices',
-                                type: 'html',
-                            }
+                                type: 'html'
+                            }*/
                         ]
                     }
 				]
@@ -176,7 +176,7 @@
             }
 		],
 
-        buttons: [CKEDITOR.dialog.okButton]
+        buttons: [CKEDITOR.dialog.okButton, CKEDITOR.dialog.cancelButton]
     };
 });
 
