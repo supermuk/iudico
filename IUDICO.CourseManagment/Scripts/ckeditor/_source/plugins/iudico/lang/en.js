@@ -12,6 +12,7 @@
         question: 'Question:',
         choice: 'Choice:',
         addChoice: 'Add Choice',
+        deleteChoice: 'Delete Choice',
 
         type : 'Type',
         toolbar: 'IUDICO',

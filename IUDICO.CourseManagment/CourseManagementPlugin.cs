@@ -37,6 +37,8 @@ namespace IUDICO.CourseManagement
             var actions = new List<Action>();
 
             actions.Add(new Action("Get Courses", "Course/Index"));
+            actions.Add(new Action("Create Course", "Course/Create"));
+            actions.Add(new Action("Edit Course", "Course/Index"));
 
             return actions;
         }
