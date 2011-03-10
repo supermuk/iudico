@@ -20,9 +20,6 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
     <table>
         <tr>
             <th>
-                Id
-            </th>
-            <th>
                 Theme name
             </th>
             <th>
@@ -34,9 +31,6 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
         <% foreach (var item in Model)
            { %>
         <tr id="item<%: item.ThemeAssignment.Id %>">
-            <td>
-                <%: item.ThemeAssignment.Id %>
-            </td>
             <td>
                 <%: item.Theme.Name %>
             </td>

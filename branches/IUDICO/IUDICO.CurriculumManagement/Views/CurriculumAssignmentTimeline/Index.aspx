@@ -31,7 +31,6 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Timeline>>" %
                     success: function (r) {
                         if (r.success == true) {
                             $("td input:checked").parents("tr").remove();
-                            alert("Items were successfully deleted.");
                         }
                         else {
                             alert("Error occured during processing request.\nError message: " + r.message);
@@ -55,7 +54,6 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Timeline>>" %
                     if (r.success == true) {
                         var item = "item" + id;
                         $("tr[id=" + item + "]").remove();
-                        alert("Item was successfully deleted.");
                     }
                     else {
                         alert("Error occured during processing request.\nError message: " + r.message);
@@ -85,9 +83,6 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Timeline>>" %
             <th>
             </th>
             <th>
-                Id
-            </th>
-            <th>
                 Start Date
             </th>
             <th>
@@ -104,9 +99,6 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Timeline>>" %
         <tr id="item<%: item.Id %>">
             <td>
                 <input type="checkbox" id="<%= item.Id %>" />
-            </td>
-            <td>
-                <%: item.Id %>
             </td>
             <td>
                 <%: item.StartDate %>
