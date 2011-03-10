@@ -103,7 +103,7 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
 
-            return false;//db.Users.Count(u => u.Username == username) > 0;
+            return db.Users.Count(u => u.Username == username && u.Deleted == false) > 0;
         }
 
         public void ActivateUser(Guid id)
