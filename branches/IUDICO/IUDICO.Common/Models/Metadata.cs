@@ -209,6 +209,7 @@ namespace IUDICO.Common.Models
             [DisplayName("Email")]
             [Required(ErrorMessage = "Email is required")]
             [StringLength(100, ErrorMessage = "Email can not be longer than 100")]
+            [EmailAddress(ErrorMessage = "Not a valid email")]
             [Order(3)]
             public string Email { get; set; }
 
