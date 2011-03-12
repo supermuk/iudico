@@ -54,12 +54,6 @@ namespace IUDICO.Common.Models
     partial void InsertThemeAssignment(ThemeAssignment instance);
     partial void UpdateThemeAssignment(ThemeAssignment instance);
     partial void DeleteThemeAssignment(ThemeAssignment instance);
-    partial void InsertTimeline(Timeline instance);
-    partial void UpdateTimeline(Timeline instance);
-    partial void DeleteTimeline(Timeline instance);
-    partial void InsertOperation(Operation instance);
-    partial void UpdateOperation(Operation instance);
-    partial void DeleteOperation(Operation instance);
     partial void InsertGroup(Group instance);
     partial void UpdateGroup(Group instance);
     partial void DeleteGroup(Group instance);
@@ -72,6 +66,9 @@ namespace IUDICO.Common.Models
     partial void InsertNode(Node instance);
     partial void UpdateNode(Node instance);
     partial void DeleteNode(Node instance);
+    partial void InsertTimeline(Timeline instance);
+    partial void UpdateTimeline(Timeline instance);
+    partial void DeleteTimeline(Timeline instance);
     #endregion
 		
 		public DBDataContext() : 
@@ -168,22 +165,6 @@ namespace IUDICO.Common.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<Timeline> Timelines
-		{
-			get
-			{
-				return this.GetTable<Timeline>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Operation> Operations
-		{
-			get
-			{
-				return this.GetTable<Operation>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Group> Groups
 		{
 			get
@@ -213,6 +194,14 @@ namespace IUDICO.Common.Models
 			get
 			{
 				return this.GetTable<Node>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Timeline> Timelines
+		{
+			get
+			{
+				return this.GetTable<Timeline>();
 			}
 		}
 	}
@@ -1926,408 +1915,6 @@ namespace IUDICO.Common.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Timelines")]
-	public partial class Timeline : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private System.DateTime _StartDate;
-		
-		private System.DateTime _EndDate;
-		
-		private int _CurriculumAssignmentRef;
-		
-		private int _OperationRef;
-		
-		private System.Nullable<int> _StageRef;
-		
-		private bool _IsDeleted;
-		
-		private EntityRef<CurriculumAssignment> _CurriculumAssignment;
-		
-		private EntityRef<Operation> _Operation;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnStartDateChanging(System.DateTime value);
-    partial void OnStartDateChanged();
-    partial void OnEndDateChanging(System.DateTime value);
-    partial void OnEndDateChanged();
-    partial void OnCurriculumAssignmentRefChanging(int value);
-    partial void OnCurriculumAssignmentRefChanged();
-    partial void OnOperationRefChanging(int value);
-    partial void OnOperationRefChanged();
-    partial void OnStageRefChanging(System.Nullable<int> value);
-    partial void OnStageRefChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    #endregion
-		
-		public Timeline()
-		{
-			this._CurriculumAssignment = default(EntityRef<CurriculumAssignment>);
-			this._Operation = default(EntityRef<Operation>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartDate", DbType="DateTime NOT NULL")]
-		public System.DateTime StartDate
-		{
-			get
-			{
-				return this._StartDate;
-			}
-			set
-			{
-				if ((this._StartDate != value))
-				{
-					this.OnStartDateChanging(value);
-					this.SendPropertyChanging();
-					this._StartDate = value;
-					this.SendPropertyChanged("StartDate");
-					this.OnStartDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndDate", DbType="DateTime NOT NULL")]
-		public System.DateTime EndDate
-		{
-			get
-			{
-				return this._EndDate;
-			}
-			set
-			{
-				if ((this._EndDate != value))
-				{
-					this.OnEndDateChanging(value);
-					this.SendPropertyChanging();
-					this._EndDate = value;
-					this.SendPropertyChanged("EndDate");
-					this.OnEndDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CurriculumAssignmentRef", DbType="Int NOT NULL")]
-		public int CurriculumAssignmentRef
-		{
-			get
-			{
-				return this._CurriculumAssignmentRef;
-			}
-			set
-			{
-				if ((this._CurriculumAssignmentRef != value))
-				{
-					if (this._CurriculumAssignment.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnCurriculumAssignmentRefChanging(value);
-					this.SendPropertyChanging();
-					this._CurriculumAssignmentRef = value;
-					this.SendPropertyChanged("CurriculumAssignmentRef");
-					this.OnCurriculumAssignmentRefChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OperationRef", DbType="Int NOT NULL")]
-		public int OperationRef
-		{
-			get
-			{
-				return this._OperationRef;
-			}
-			set
-			{
-				if ((this._OperationRef != value))
-				{
-					if (this._Operation.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnOperationRefChanging(value);
-					this.SendPropertyChanging();
-					this._OperationRef = value;
-					this.SendPropertyChanged("OperationRef");
-					this.OnOperationRefChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StageRef", DbType="Int")]
-		public System.Nullable<int> StageRef
-		{
-			get
-			{
-				return this._StageRef;
-			}
-			set
-			{
-				if ((this._StageRef != value))
-				{
-					this.OnStageRefChanging(value);
-					this.SendPropertyChanging();
-					this._StageRef = value;
-					this.SendPropertyChanged("StageRef");
-					this.OnStageRefChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="CurriculumAssignment_Timeline", Storage="_CurriculumAssignment", ThisKey="CurriculumAssignmentRef", OtherKey="Id", IsForeignKey=true)]
-		public CurriculumAssignment CurriculumAssignment
-		{
-			get
-			{
-				return this._CurriculumAssignment.Entity;
-			}
-			set
-			{
-				CurriculumAssignment previousValue = this._CurriculumAssignment.Entity;
-				if (((previousValue != value) 
-							|| (this._CurriculumAssignment.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._CurriculumAssignment.Entity = null;
-						previousValue.Timelines.Remove(this);
-					}
-					this._CurriculumAssignment.Entity = value;
-					if ((value != null))
-					{
-						value.Timelines.Add(this);
-						this._CurriculumAssignmentRef = value.Id;
-					}
-					else
-					{
-						this._CurriculumAssignmentRef = default(int);
-					}
-					this.SendPropertyChanged("CurriculumAssignment");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Operation_Timeline", Storage="_Operation", ThisKey="OperationRef", OtherKey="Id", IsForeignKey=true)]
-		public Operation Operation
-		{
-			get
-			{
-				return this._Operation.Entity;
-			}
-			set
-			{
-				Operation previousValue = this._Operation.Entity;
-				if (((previousValue != value) 
-							|| (this._Operation.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Operation.Entity = null;
-						previousValue.Timelines.Remove(this);
-					}
-					this._Operation.Entity = value;
-					if ((value != null))
-					{
-						value.Timelines.Add(this);
-						this._OperationRef = value.Id;
-					}
-					else
-					{
-						this._OperationRef = default(int);
-					}
-					this.SendPropertyChanged("Operation");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Operations")]
-	public partial class Operation : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _Name;
-		
-		private EntitySet<Timeline> _Timelines;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    #endregion
-		
-		public Operation()
-		{
-			this._Timelines = new EntitySet<Timeline>(new Action<Timeline>(this.attach_Timelines), new Action<Timeline>(this.detach_Timelines));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Operation_Timeline", Storage="_Timelines", ThisKey="Id", OtherKey="OperationRef")]
-		public EntitySet<Timeline> Timelines
-		{
-			get
-			{
-				return this._Timelines;
-			}
-			set
-			{
-				this._Timelines.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Timelines(Timeline entity)
-		{
-			this.SendPropertyChanging();
-			entity.Operation = this;
-		}
-		
-		private void detach_Timelines(Timeline entity)
-		{
-			this.SendPropertyChanging();
-			entity.Operation = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[Group]")]
 	public partial class Group : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -3464,6 +3051,229 @@ namespace IUDICO.Common.Models
 		{
 			this.SendPropertyChanging();
 			entity.Node1 = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Timelines")]
+	public partial class Timeline : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private System.DateTime _StartDate;
+		
+		private System.DateTime _EndDate;
+		
+		private int _CurriculumAssignmentRef;
+		
+		private System.Nullable<int> _StageRef;
+		
+		private bool _IsDeleted;
+		
+		private EntityRef<CurriculumAssignment> _CurriculumAssignment;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnStartDateChanging(System.DateTime value);
+    partial void OnStartDateChanged();
+    partial void OnEndDateChanging(System.DateTime value);
+    partial void OnEndDateChanged();
+    partial void OnCurriculumAssignmentRefChanging(int value);
+    partial void OnCurriculumAssignmentRefChanged();
+    partial void OnStageRefChanging(System.Nullable<int> value);
+    partial void OnStageRefChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    #endregion
+		
+		public Timeline()
+		{
+			this._CurriculumAssignment = default(EntityRef<CurriculumAssignment>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartDate", DbType="DateTime NOT NULL")]
+		public System.DateTime StartDate
+		{
+			get
+			{
+				return this._StartDate;
+			}
+			set
+			{
+				if ((this._StartDate != value))
+				{
+					this.OnStartDateChanging(value);
+					this.SendPropertyChanging();
+					this._StartDate = value;
+					this.SendPropertyChanged("StartDate");
+					this.OnStartDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndDate", DbType="DateTime NOT NULL")]
+		public System.DateTime EndDate
+		{
+			get
+			{
+				return this._EndDate;
+			}
+			set
+			{
+				if ((this._EndDate != value))
+				{
+					this.OnEndDateChanging(value);
+					this.SendPropertyChanging();
+					this._EndDate = value;
+					this.SendPropertyChanged("EndDate");
+					this.OnEndDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CurriculumAssignmentRef", DbType="Int NOT NULL")]
+		public int CurriculumAssignmentRef
+		{
+			get
+			{
+				return this._CurriculumAssignmentRef;
+			}
+			set
+			{
+				if ((this._CurriculumAssignmentRef != value))
+				{
+					if (this._CurriculumAssignment.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCurriculumAssignmentRefChanging(value);
+					this.SendPropertyChanging();
+					this._CurriculumAssignmentRef = value;
+					this.SendPropertyChanged("CurriculumAssignmentRef");
+					this.OnCurriculumAssignmentRefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StageRef", DbType="Int")]
+		public System.Nullable<int> StageRef
+		{
+			get
+			{
+				return this._StageRef;
+			}
+			set
+			{
+				if ((this._StageRef != value))
+				{
+					this.OnStageRefChanging(value);
+					this.SendPropertyChanging();
+					this._StageRef = value;
+					this.SendPropertyChanged("StageRef");
+					this.OnStageRefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
+		{
+			get
+			{
+				return this._IsDeleted;
+			}
+			set
+			{
+				if ((this._IsDeleted != value))
+				{
+					this.OnIsDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._IsDeleted = value;
+					this.SendPropertyChanged("IsDeleted");
+					this.OnIsDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="CurriculumAssignment_Timeline", Storage="_CurriculumAssignment", ThisKey="CurriculumAssignmentRef", OtherKey="Id", IsForeignKey=true)]
+		public CurriculumAssignment CurriculumAssignment
+		{
+			get
+			{
+				return this._CurriculumAssignment.Entity;
+			}
+			set
+			{
+				CurriculumAssignment previousValue = this._CurriculumAssignment.Entity;
+				if (((previousValue != value) 
+							|| (this._CurriculumAssignment.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._CurriculumAssignment.Entity = null;
+						previousValue.Timelines.Remove(this);
+					}
+					this._CurriculumAssignment.Entity = value;
+					if ((value != null))
+					{
+						value.Timelines.Add(this);
+						this._CurriculumAssignmentRef = value.Id;
+					}
+					else
+					{
+						this._CurriculumAssignmentRef = default(int);
+					}
+					this.SendPropertyChanged("CurriculumAssignment");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

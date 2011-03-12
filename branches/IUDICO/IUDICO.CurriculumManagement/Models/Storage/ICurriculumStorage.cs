@@ -106,12 +106,6 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #endregion
 
-        #region Operation methods
-
-        IEnumerable<Operation> GetOperations();
-
-        #endregion
-
         #region Group methods
 
         IEnumerable<Group> GetAssignedGroups(int curriculumId);
