@@ -89,9 +89,6 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Timeline>>" %
                 End Date
             </th>
             <th>
-                Operation
-            </th>
-            <th>
             </th>
         </tr>
         <% foreach (var item in Model)
@@ -105,9 +102,6 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Timeline>>" %
             </td>
             <td>
                 <%: item.EndDate %>
-            </td>
-            <td>
-                <%: item.Operation.Name %>
             </td>
             <td>
                 <%: Html.ActionLink("Edit", "Edit", new { TimelineId = item.Id }, null)%>
