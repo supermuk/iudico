@@ -352,16 +352,10 @@ namespace IUDICO.Common.Models
             public int? StageRef { get; set; }
 
             [ScaffoldColumn(false)]
-            public int OperationRef { get; set; }
-
-            [ScaffoldColumn(false)]
             public bool IsDeleted { get; set; }
 
             [ScaffoldColumn(false)]
             public CurriculumAssignment CurriculumAssignment { get; set; }
-
-            [ScaffoldColumn(false)]
-            public Operation Operation { get; set; }
         }
     }
 

@@ -521,7 +521,6 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
             oldTimeline.StartDate = timeline.StartDate;
             oldTimeline.EndDate = timeline.EndDate;
-            oldTimeline.OperationRef = timeline.OperationRef;
 
             _Db.SubmitChanges();
         }
@@ -545,15 +544,6 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             }
 
             _Db.SubmitChanges();
-        }
-
-        #endregion
-
-        #region Operation methods
-
-        public IEnumerable<Operation> GetOperations()
-        {
-            return _Db.Operations;
         }
 
         #endregion

@@ -32,7 +32,6 @@ namespace IUDICO.CurriculumManagement.Controllers
                                     Id = item.Id,
                                     StartDate = item.StartDate,
                                     EndDate = item.EndDate,
-                                    OperationName = item.Operation.Name,
                                     StageName = Storage.GetStage((int)item.StageRef).Name
                                 });
 

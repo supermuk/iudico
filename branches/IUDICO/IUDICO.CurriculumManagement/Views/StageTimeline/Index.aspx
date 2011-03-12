@@ -94,9 +94,6 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                 End date
             </th>
             <th>
-                Operation
-            </th>
-            <th>
             </th>
         </tr>
         <% foreach (var item in Model)
@@ -113,9 +110,6 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                 </td>
                 <td>
                     <%: item.EndDate %>
-                </td>
-                <td>
-                    <%: item.OperationName %>
                 </td>
                 <td>
                     <%: Html.ActionLink("Edit", "Edit", new { TimelineId = item.Id }, null)%>
