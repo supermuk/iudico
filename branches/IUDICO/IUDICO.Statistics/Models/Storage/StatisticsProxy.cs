@@ -86,6 +86,49 @@ namespace IUDICO.Statistics.Models.Storage
         public IEnumerable<User> SelectStudents;
         public IEnumerable<Theme> SelectCurriculumThemes;
 
+        private ThemeInfoModel() 
+        {
+            List<AttemptResult> testAttemptList = new List<AttemptResult>();
+            List<User> testUserList = new List<User>();
+            List<Theme> testThemeList = new List<Theme>();
+            float? attemptScore;
+            AttemptResult testAttempt;
+
+            User testUser1 = new User();
+            testUser1.Name = "user1";
+            Theme testTheme1 = new Theme();
+            testTheme1.Name = "theme1";
+            User testUser2 = new User();
+            testUser2.Name = "user2";
+            Theme testTheme2 = new Theme();
+            testTheme2.Name = "theme2";
+
+            attemptScore = (float?)0.55;
+            testAttempt = new AttemptResult(1, testUser1, testTheme1, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), attemptScore);
+            testAttemptList.Add(testAttempt);
+            
+            attemptScore = (float?)0.65;
+            testAttempt = new AttemptResult(1, testUser1, testTheme2, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), attemptScore);
+            testAttemptList.Add(testAttempt);
+
+            attemptScore = (float?)0.85;
+            testAttempt = new AttemptResult(1, testUser2, testTheme1, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), attemptScore);
+            testAttemptList.Add(testAttempt);
+
+            attemptScore = (float?)0.95;
+            testAttempt = new AttemptResult(1, testUser2, testTheme2, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), attemptScore);
+            testAttemptList.Add(testAttempt);
+
+            testUserList.Add(testUser1);
+            testThemeList.Add(testTheme1);
+            testUserList.Add(testUser2);
+            testThemeList.Add(testTheme2);
+
+            this._LastAttempts = testAttemptList;
+            this.SelectStudents = testUserList;
+            this.SelectCurriculumThemes = testThemeList;
+        }
+
         public ThemeInfoModel(int groupId, int curriculumId, ILmsService lmsService)
         {
             _LmsService = lmsService;
@@ -106,6 +149,11 @@ namespace IUDICO.Statistics.Models.Storage
             }
         }
 
+        public static ThemeInfoModel ThemeInfoModelTestObject()
+        {
+            return new ThemeInfoModel();
+        }
+
         public double? GetStudentResultForTheme(User selectStudent, Theme selectTheme)
         {
             return _LastAttempts.First(x => x.User == selectStudent & x.Theme == selectTheme).Score.ToPercents();
@@ -118,7 +166,6 @@ namespace IUDICO.Statistics.Models.Storage
             foreach (Theme theme in SelectCurriculumThemes)
             {
                 result += _LastAttempts.First(x => x.User == selectStudent & x.Theme == theme).Score.ToPercents();
-                //result += 10;
             }
 
             return result;
@@ -136,23 +183,23 @@ namespace IUDICO.Statistics.Models.Storage
 
         public char Ects(double? percent)
         {
-            if (percent > 91.0)
+            if (percent >= 90.0)
             {
                 return 'A';
             }
-            else if (percent > 81.0)
+            else if (percent >= 81.0)
             {
                 return 'B';
             }
-            else if (percent > 71.0)
+            else if (percent >= 71.0)
             {
                 return 'C';
             }
-            else if (percent > 61.0)
+            else if (percent >= 61.0)
             {
                 return 'D';
             }
-            else if (percent > 51.0)
+            else if (percent >= 51.0)
             {
                 return 'E';
             }
