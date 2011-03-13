@@ -155,6 +155,13 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
 
     public enum SequencingPattern
     {
-        OrganizationDefaultSequencingPattern = 0,
+        OrganizationDefaultSequencingPattern,
+        ControlChapterSequencingPattern,
+        ForcedSequentialOrderSequencingPattern,
+        ForcedForwardOnlySequencingPattern,
+        PostTestSequencingPattern,
+        RandomSetSequencingPattern,
+        PrePostTestSequencingPattern,
+        RandomPostTestSequencingPattern
     }
 }

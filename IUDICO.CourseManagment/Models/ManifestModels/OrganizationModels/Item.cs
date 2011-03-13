@@ -8,34 +8,10 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
     [Serializable]
     public class Item
     {
-        /// <summary>
-        /// Folder item
-        /// </summary>
         public Item()
         {
-            _IsParent = true;
             IsVisible = true;
-            Items = new List<Item>();
-            Identifier = ConstantStrings.ItemIdPrefix + Guid.NewGuid();
         }
-        
-        /// <summary>
-        /// Leaf item
-        /// </summary>
-        /// <param name="resourceId"></param>
-        public Item(string resourceId)
-        {
-            _IsParent = false;
-            IsVisible = true;
-            IdentifierRef = resourceId;
-            Identifier = ConstantStrings.ItemIdPrefix + Guid.NewGuid();
-        }
-
-        #region Members
-
-        private readonly bool _IsParent;
-
-        #endregion
 
         #region XmlAttributes
 
@@ -89,19 +65,5 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
 
         #endregion
 
-        #region Methods
-
-        public void AddChildItem(Item item)
-        {
-            if (!_IsParent)
-            {
-                throw new Exception("Can't add child item to leaf item");
-            }
-            //var idPrefix = string.IsNullOrEmpty(Identifier) ? ConstantStrings.ItemIdPrefix : Identifier;
-            //item.Identifier = ConstantStrings.ItemIdPrefix + "_" + Guid.NewGuid().ToString();
-            Items.Add(item);
-        }
-
-        #endregion
     }
 }

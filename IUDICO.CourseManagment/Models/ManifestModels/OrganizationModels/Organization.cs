@@ -49,20 +49,5 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         public Sequencing Sequencing;
 
         #endregion
-
-        #region Methods
-
-        public void AddItem(Item item)
-        {
-            Items.Add(item);
-        }
-
-        public void ApplySequencingPattern(SequencingPattern pattern)
-        {
-            Sequencing = new Sequencing(SequencingPattern.OrganizationDefaultSequencingPattern);
-        }
-
-
-        #endregion
     }
 }

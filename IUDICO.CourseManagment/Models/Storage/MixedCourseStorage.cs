@@ -183,22 +183,26 @@ namespace IUDICO.CourseManagement.Models.Storage
                 }
             }
 
+            var helper = new ManifestManager();
+
             var manifest = new Manifest();
             var sw = new StreamWriter(Path.Combine(path, SCORM.ImsManifset));
             var parentItem = new Item();
 
-            parentItem = AddSubItems(parentItem, null, id, ref manifest);
+            parentItem = AddSubItems(parentItem, null, id, helper, ref manifest);
             manifest.Organizations[0].Items = parentItem.Items;
             manifest.Organizations[0].Title = course.Name;
-            manifest.Organizations[0].ApplySequencingPattern(SequencingPattern.OrganizationDefaultSequencingPattern);
-            manifest.Serialize(sw);
+            manifest.Organizations[0] = SequencingPatternManager.ApplyPattern(manifest, manifest.Organizations[0],
+                                                                             SequencingPattern.
+                                                                                 OrganizationDefaultSequencingPattern);
+            ManifestManager.Serialize(manifest, sw);
             sw.Close();
 
             Zipper.CreateZip(path + ".zip", path);
             return path + ".zip";
         }
 
-        private Item AddSubItems(Item parentItem, Node parentNode, int courseId, ref Manifest manifest)
+        private Item AddSubItems(Item parentItem, Node parentNode, int courseId, ManifestManager helper, ref Manifest manifest)
         {
             var nodes = parentNode == null ? GetNodes(courseId) : GetNodes(courseId, parentNode.Id);
             
@@ -206,17 +210,24 @@ namespace IUDICO.CourseManagement.Models.Storage
             {
                 if (node.IsFolder)
                 {
-                    var item = new Item() { Title = node.Name };
-                    item = AddSubItems(item, node, courseId, ref manifest);
-                    parentItem.AddChildItem(item);
+                    var item = helper.CreateItem();
+                    item.Title = node.Name;
+                    item = AddSubItems(item, node, courseId, helper, ref manifest);
+
+                    parentItem = ManifestManager.AddItem(parentItem, item);
                 }
                 else
                 {
                     var files = new List<ManifestModels.ResourceModels.File>();
                     files.Add(new ManifestModels.ResourceModels.File(node.Name + ".html"));
 
-                    var resourceId = manifest.Resources.AddResource(new Resource(ScormType.Asset, files) { Href = node.Name + ".html" });
-                    parentItem.AddChildItem(new Item(resourceId) { Title = node.Name, Identifier = ConstantStrings.ItemIdPrefix + node.Id.ToString() });
+                    var resource = helper.CreateResource(ScormType.Asset, files);
+                    resource.Href = node.Name + ".html";
+                 
+                    var item = helper.CreateItem(resource.Identifier);
+                    item.Title = node.Name;
+
+                    parentItem = ManifestManager.AddItem(parentItem, item);
                 }
             }
             return parentItem;

@@ -48,23 +48,5 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
         public SequencingCollection SequencingCollection;
 
         #endregion
-
-        #region Methods
-
-        public void Serialize(StreamWriter writer)
-        {
-            var xs = new XmlSerializer(typeof(Manifest));
-
-            var xsn = new XmlSerializerNamespaces();
-            xsn.Add(SCORM.Adlcp, SCORM.AdlcpNamespaceV1P3);
-            xsn.Add(SCORM.Imsss, SCORM.ImsssNamespace);
-            xsn.Add(SCORM.Adlseq, SCORM.AdlseqNamespace);
-            xsn.Add(SCORM.Adlnav, SCORM.AdlnavNamespace);
-            xsn.Add(SCORM.Imsss, SCORM.ImsssNamespace);
-
-            xs.Serialize(writer, this, xsn);
-        }
-
-        #endregion
     }
 }
