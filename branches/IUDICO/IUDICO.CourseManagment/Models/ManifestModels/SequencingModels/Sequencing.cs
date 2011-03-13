@@ -9,22 +9,6 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     [Serializable]
     public class Sequencing
     {
-        public Sequencing()
-            :this(SequencingPattern.OrganizationDefaultSequencingPattern)
-        {
-        }
-        public Sequencing(SequencingPattern pattern)
-        {
-            if (pattern == SequencingPattern.OrganizationDefaultSequencingPattern)
-            {
-                ControlMode = new ControlMode()
-                {
-                    Choise = true,
-                    Flow = true
-                };
-            }
-        }
-
         #region Members
 
         private bool InSequencingCollection;
