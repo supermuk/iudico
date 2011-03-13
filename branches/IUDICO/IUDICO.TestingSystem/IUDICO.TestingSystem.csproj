@@ -59,7 +59,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -88,10 +90,42 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Code\Frameset\ChangeActivityHelper.cs" />
+    <Compile Include="App_Code\Frameset\ContentHelper.cs" />
+    <Compile Include="App_Code\Frameset\Encoding.cs" />
+    <Compile Include="App_Code\Frameset\FramesetHelper.cs" />
+    <Compile Include="App_Code\Frameset\FramesetPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App_Code\Frameset\FramesetQueryParam.cs" />
+    <Compile Include="App_Code\Frameset\FrmPageHelper.cs" />
+    <Compile Include="App_Code\Frameset\HiddenHelper.cs" />
+    <Compile Include="App_Code\Frameset\Log.cs" />
+    <Compile Include="App_Code\Frameset\PostableFrameHelper.cs" />
+    <Compile Include="App_Code\Frameset\Rte1p2DataModelConverter.cs" />
+    <Compile Include="App_Code\Frameset\Rte2004DataModelConverter.cs" />
+    <Compile Include="App_Code\Frameset\RteDataModelConverter.cs" />
+    <Compile Include="App_Code\Frameset\TocHelper.cs" />
+    <Compile Include="App_Code\BasicWebPlayerBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App_Code\HttpModule.cs" />
+    <Compile Include="App_Code\LStoreHelper.cs" />
+    <Compile Include="App_Code\PageHelper.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App_Code\Schema.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="App_GlobalResources\FramesetResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FramesetResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\PackageController.cs" />
     <Compile Include="Controllers\TrainingController.cs" />
     <Compile Include="Models\FakeTestingSystem.cs" />
-    <Compile Include="Models\Helpers\LStoreHelper.cs" />
+    <Content Include="Models\Helpers\LStoreHelper.cs" />
     <Compile Include="Models\IMlcProxy.cs" />
     <Compile Include="Models\MlcHelper.cs" />
     <Compile Include="Models\MlcProxy.cs" />
@@ -101,16 +135,52 @@
     <Compile Include="Models\VOs\Package.cs" />
     <Compile Include="Models\VOs\Training.cs" />
     <Compile Include="Models\VOs\ZipPackage.cs" />
+    <Compile Include="Player\ChangeActivity.aspx.cs">
+      <DependentUpon>ChangeActivity.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Player\ClearContent.aspx.cs">
+      <DependentUpon>ClearContent.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Player\Content.aspx.cs">
+      <DependentUpon>Content.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Player\Frameset.aspx.cs">
+      <DependentUpon>Frameset.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Player\Hidden.aspx.cs">
+      <DependentUpon>Hidden.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Player\MainFrames.aspx.cs">
+      <DependentUpon>MainFrames.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Player\NavClosed.aspx.cs">
+      <DependentUpon>NavClosed.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Player\NavOpen.aspx.cs">
+      <DependentUpon>NavOpen.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Player\TestResource.aspx.cs">
+      <DependentUpon>TestResource.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Player\TestResource.aspx.designer.cs">
+      <DependentUpon>TestResource.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Player\TOC.aspx.cs">
+      <DependentUpon>TOC.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestingSystemPlugin.cs">
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TSTestFrom.aspx.cs">
-      <DependentUpon>TSTestFrom.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TSTestFrom.aspx.designer.cs">
-      <DependentUpon>TSTestFrom.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -121,7 +191,64 @@
     <Content Include="Libraries\Microsoft.LearningComponents.pdb" />
     <Content Include="Libraries\Microsoft.LearningComponents.Storage.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.Storage.pdb" />
-    <Content Include="TSTestFrom.aspx" />
+    <Content Include="Player\Bottom.htm" />
+    <Content Include="Player\ChangeActivity.aspx" />
+    <Content Include="Player\ClearContent.aspx" />
+    <Content Include="Player\Content.aspx" />
+    <Content Include="Player\Frameset.aspx" />
+    <Content Include="Player\Hidden.aspx" />
+    <Content Include="Player\Images\BoxOff.gif" />
+    <Content Include="Player\Images\BoxOffCorrect.gif" />
+    <Content Include="Player\Images\BoxOn.gif" />
+    <Content Include="Player\Images\BoxOnCorrect.gif" />
+    <Content Include="Player\Images\BoxOnWrong.gif" />
+    <Content Include="Player\Images\ButtonOff.gif" />
+    <Content Include="Player\Images\ButtonOffCorrect.gif" />
+    <Content Include="Player\Images\ButtonOnCorrect.gif" />
+    <Content Include="Player\Images\ButtonOnWrong.gif" />
+    <Content Include="Player\Images\Correct.gif" />
+    <Content Include="Player\Images\Incorrect.gif" />
+    <Content Include="Player\Images\SaveAndClose.gif" />
+    <Content Include="Player\Include\FramesetMgr.js" />
+    <Content Include="Player\Include\Nav.js" />
+    <Content Include="Player\Include\parser.js" />
+    <Content Include="Player\Include\Parser1p2.js" />
+    <Content Include="Player\Include\Rte1p2Api.js" />
+    <Content Include="Player\Include\Rte2004Api.js" />
+    <Content Include="Player\Include\RteApiSite.js" />
+    <Content Include="Player\Include\Toc.js" />
+    <Content Include="Player\Include\typevalidators.js" />
+    <Content Include="Player\Include\typevalidators1p2.js" />
+    <Content Include="Player\Include\vernum.js" />
+    <Content Include="Player\MainFrames.aspx" />
+    <Content Include="Player\NavClosed.aspx" />
+    <Content Include="Player\NavOpen.aspx" />
+    <Content Include="Player\NoScroll.htm" />
+    <Content Include="Player\TestResource.aspx" />
+    <Content Include="Player\Theme\1px.gif" />
+    <Content Include="Player\Theme\Error.gif" />
+    <Content Include="Player\Theme\HeadCornerRt.gif" />
+    <Content Include="Player\Theme\HeadShadow.gif" />
+    <Content Include="Player\Theme\Info.gif" />
+    <Content Include="Player\Theme\Leaf.gif" />
+    <Content Include="Player\Theme\MinusBtn.gif" />
+    <Content Include="Player\Theme\nav_bg.gif" />
+    <Content Include="Player\Theme\Next.gif" />
+    <Content Include="Player\Theme\NextHover.gif" />
+    <Content Include="Player\Theme\PlusBtn.gif" />
+    <Content Include="Player\Theme\Prev.gif" />
+    <Content Include="Player\Theme\PrevHover.gif" />
+    <Content Include="Player\Theme\Save.gif" />
+    <Content Include="Player\Theme\SaveHover.gif" />
+    <Content Include="Player\Theme\Styles.css" />
+    <Content Include="Player\Theme\TocClose.gif" />
+    <Content Include="Player\Theme\TocClosedTab.gif" />
+    <Content Include="Player\Theme\TocCloseHover.gif" />
+    <Content Include="Player\Theme\TocOpen.gif" />
+    <Content Include="Player\Theme\TocOpenHover.gif" />
+    <Content Include="Player\Theme\TopShadow.gif" />
+    <Content Include="Player\Title.htm" />
+    <Content Include="Player\TOC.aspx" />
     <Content Include="Views\Training\Play.aspx" />
     <None Include="Views\Package\Import.aspx" />
     <Content Include="Views\Package\Index.aspx" />
@@ -138,6 +265,12 @@
       <Name>IUDICO.Common</Name>
       <Private>False</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\FramesetResources.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>FramesetResources.Designer.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

@@ -56,8 +56,8 @@ namespace IUDICO.TestingSystem
         {
             routes.MapPageRoute(
                 "TSTestForm",
-                "TestForm",
-                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem.TSTestFrom.aspx");
+                "Player/{route}",
+                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/{route}");
             routes.MapRoute(
                "Training",
                "Training/{packageId}/{attemptId}",
