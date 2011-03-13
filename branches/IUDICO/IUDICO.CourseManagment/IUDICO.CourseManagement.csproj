@@ -92,6 +92,7 @@
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\NodeController.cs" />
     <Compile Include="CourseManagementPlugin.cs" />
+    <Compile Include="Models\ManifestModels\ManifestManager.cs" />
     <Compile Include="Helpers\PackageValidator.cs" />
     <Compile Include="Helpers\Zipper.cs" />
     <Compile Include="Models\CourseService.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="Models\ManifestModels\SequencingModels\Sequencing.cs" />
     <Compile Include="Models\ManifestModels\SequencingModels\RuleModels\SequencingRules.cs" />
     <Compile Include="Models\ManifestModels\SequencingModels\SequencingCollection.cs" />
+    <Compile Include="Models\ManifestModels\SequencingPatternManager.cs" />
     <Compile Include="Models\Storage\ICourseStorage.cs" />
     <Compile Include="Models\Storage\MixedCourseStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -18,18 +18,5 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.ResourceModels
         public List<Resource> _Resources;
 
         #endregion
-
-        #region Methods
-
-        public string AddResource(Resource resource)
-        {
-            resource.Identifier = ConstantStrings.ResourceIdPrefix + _Resources.Count;
-
-            _Resources.Add(resource);
-
-            return resource.Identifier;
-        }
-
-        #endregion
     }
 }

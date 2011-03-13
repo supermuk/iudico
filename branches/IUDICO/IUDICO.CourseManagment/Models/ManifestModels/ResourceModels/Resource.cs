@@ -15,25 +15,6 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.ResourceModels
             Type = SCORM.Webcontent;
         }
 
-        public Resource(ScormType type, List<File> files)
-        {
-            Files = files;
-            Type = SCORM.Webcontent;
-            ScormType = type;
-        }
-
-        public Resource(ScormType type, List<File> files, IEnumerable<string> dependOnResourcesIds)
-            :this(type, files)
-        {
-            Dependencies = new List<Dependency>();
-
-            foreach (var resId in dependOnResourcesIds)
-            {
-                Dependencies.Add(new Dependency(resId));
-            }
-
-        }
-
         #region XmlAttributes
 
         [XmlAttribute(SCORM.Identifier)]

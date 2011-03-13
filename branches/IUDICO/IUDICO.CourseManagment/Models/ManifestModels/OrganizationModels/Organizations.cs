@@ -11,9 +11,6 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         public Organizations()
         {
             _Organizations = new List<Organization>();
-
-            AddOrganization(new Organization());
-
             _DefaultOrganizationIndex = 0;
         }
 
@@ -82,12 +79,6 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
             }
         }
 
-        public string AddOrganization(Organization organization)
-        {
-            organization.Identifier = ConstantStrings.OrganizationIdPrefix + _Organizations.Count();
-            _Organizations.Add(organization);
-            return organization.Identifier;
-        }
 
         #endregion
     }
