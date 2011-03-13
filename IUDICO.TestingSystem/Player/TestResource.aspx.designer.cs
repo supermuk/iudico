@@ -7,11 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IUDICO.LMS
+namespace IUDICO.TestingSystem.Player
 {
 
 
-    public partial class TestForm
+    public partial class TestResource
     {
 
         /// <summary>
