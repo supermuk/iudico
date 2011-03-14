@@ -1,4 +1,4 @@
-﻿CKEDITOR.dialog.add('iudico', function (editor) {
+﻿CKEDITOR.dialog.add('iudico-choice', function (editor) {
     //var lang = editor.lang.about;
 
     function addParam(element, name, value) {
@@ -14,9 +14,9 @@
     function getObject(editor) {
         path = new CKEDITOR.dom.elementPath(editor.getSelection().getStartElement());
         blockLimit = path.blockLimit;
-        div = blockLimit && blockLimit.getAscendant('object', true) && blockLimit.getAttribute('iudico') == true;
+        obj = blockLimit && blockLimit.getAscendant('object', true) && blockLimit.getAttribute('iudico') == true && blockLimit.getAttribute('type') == 'simple';
 
-        return div;
+        return obj;
     }
 
     return {
@@ -29,7 +29,7 @@
             var element = this.getParentEditor().getSelection().getStartElement();
             var object = element && element.getAscendant('object', true);
 
-            if (object && object.getAttribute('iudico') == true) {
+            if (object && object.getAttribute('iudico') == true && object.getAttribute('type') == 'simple') {
                 this.object = object;
                 this.setupContent(object);
             }
@@ -39,50 +39,23 @@
             element = this.object;
             isInsertMode = !element;
 
-
             if (isInsertMode) {
-                objectNode = editor.document.createElement('object');
-                objectNode.setAttribute('iudico', 'true');
+                element = editor.document.createElement('object');
+                element.setAttribute('iudico', 'true');
+                element.setAttribute('type', 'simple');
+                element.setAttribute('class', 'iudico');
             }
 
-            // not needed here?
-            // this.commitContent(objectNode);
+            this.commitContent(objectNode);
+
 
             if (isInsertMode) {
-                editor.insertElement(objectNode);
+                editor.insertElement(element);
             }
         },
-        //onCancel: function () { }, no cancel button
+        onCancel: function () { },
         onLoad: function (data) { },
         contents: [
-			{
-			    id: 'simpleTab',
-			    label: editor.lang.iudico.simpleTab,
-			    title: editor.lang.iudico.simpleTab,
-			    padding: 2,
-			    elements:
-				[
-                    {
-                        id: 'question',
-                        type: 'text',
-                        label: editor.lang.iudico.question,
-                        labelLayout: 'horizontal',
-                        commit: function (element) {
-                            addParam(element, 'question', this.getValue());
-                        }
-
-                    },
-                    {
-                        id: 'correctAnswer',
-                        type: 'text',
-                        label: editor.lang.iudico.correctAnswer,
-                        labelLayout: 'horizontal',
-                        commit: function (element) {
-                            addParam(element, 'correctAnswer', this.getValue());
-                        }
-                    }
-				]
-			},
             {
                 id: 'choiceTab',
                 label: editor.lang.iudico.choiceTab,
@@ -162,41 +135,10 @@
                     }
 				]
 
-            },
-            {
-                id: 'compileTab',
-                label: editor.lang.iudico.compileTab,
-                title: editor.lang.iudico.compileTab,
-                expand: true,
-                padding: 0,
-                elements:
-				[
-
-				]
             }
+
 		],
 
         buttons: [CKEDITOR.dialog.okButton, CKEDITOR.dialog.cancelButton]
     };
 });
-
-
-/* 'default' : 'simple',
-						items :
-						[
-
-							[ editor.lang.iudico.simple, 'simple' ],
-							[ editor.lang.iudico.choice, 'choice' ],
-							[ editor.lang.iudico.compile, 'compile' ]
-
-						],
-						//onChange : linkTypeChanged,
-						setup : function( data )
-						{
-							if ( data.type )
-							    this.setValue( data.type );
-						},
-						commit : function( data )
-						{
-							data.type = this.getValue();
-						}                        */
