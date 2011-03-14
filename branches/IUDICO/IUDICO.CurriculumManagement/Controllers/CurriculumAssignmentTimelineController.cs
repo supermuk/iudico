@@ -93,6 +93,8 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
+                LoadValidationErrors();
+
                 Timeline timeline = Storage.GetTimeline(timelineId);
 
                 CreateCurriculumAssignmentTimelineModel editTimelineModel = new CreateCurriculumAssignmentTimelineModel(timeline);
