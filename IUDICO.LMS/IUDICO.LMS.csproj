@@ -179,12 +179,17 @@
     </None>
     <None Include="Scripts\Microsoft\MicrosoftMvcValidation.js">
     </None>
+    <Content Include="Content\TimePicker.css" />
+    <Content Include="Scripts\jquery\jquery-1.3.2.min.js" />
+    <Content Include="Scripts\jquery\jquery-ui-1.8.5.js" />
+    <Content Include="Scripts\jquery\jquery-ui-timepicker-addon.js" />
     <Content Include="Views\Shared\AccessDenied.aspx" />
     <Content Include="Views\Shared\DisplayTemplates\DateTime.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\DropDownList.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\Object.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\Password.ascx" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.ascx" />
+    <Content Include="Views\Shared\EditorTemplates\DateTimeWithPicker.ascx" />
     <Content Include="Views\Shared\EditorTemplates\DropDownList.ascx" />
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\UserBox.ascx" />
@@ -240,7 +245,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>10363</DevelopmentServerPort>
+          <DevelopmentServerPort>4105</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

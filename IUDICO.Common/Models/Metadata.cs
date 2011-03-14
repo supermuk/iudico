@@ -339,10 +339,12 @@ namespace IUDICO.Common.Models
 
             [DisplayName("Start Date")]
             [Required(ErrorMessage = "Start Date is required")]
+            [UIHint("DateTimeWithPicker")]
             public DateTime StartDate { get; set; }
 
             [DisplayName("End Date")]
             [Required(ErrorMessage = "End Date is required")]
+            [UIHint("DateTimeWithPicker")]
             public DateTime EndDate { get; set; }
 
             [ScaffoldColumn(false)]
