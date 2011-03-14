@@ -12,7 +12,7 @@ using System.Web.UI.HtmlControls;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
 using System.Text;
-using Resources;
+using IUDICO.TestingSystem;//using Resources;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Globalization;

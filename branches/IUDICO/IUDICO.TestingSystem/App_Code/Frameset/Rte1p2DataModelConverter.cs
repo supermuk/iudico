@@ -10,7 +10,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using System.Xml;
-using Resources;
+using IUDICO.TestingSystem;//using Resources;
 using Microsoft.LearningComponents.DataModel;
 using System.Text;
 using System.Text.RegularExpressions;

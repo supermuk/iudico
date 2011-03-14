@@ -9,7 +9,7 @@ using System.Globalization;
 using System.Text;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
-using Resources;
+using IUDICO.TestingSystem;//using Resources;
 using System.IO;
 
 namespace Microsoft.LearningComponents.Frameset

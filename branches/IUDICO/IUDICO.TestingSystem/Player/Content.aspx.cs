@@ -14,7 +14,7 @@ using System.IO;
 using System.Web;
 using System.Web.UI;
 using System.Collections.Generic;
-using Resources;
+using IUDICO.TestingSystem;//using Resources;
 using System.Web.Caching;
 using System.Web.Hosting;
 using System.Text;

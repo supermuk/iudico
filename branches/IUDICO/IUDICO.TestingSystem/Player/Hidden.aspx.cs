@@ -14,7 +14,7 @@ using System.Xml;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.DataModel;
 using Microsoft.LearningComponents.Storage;
-using Resources;
+using IUDICO.TestingSystem;//using Resources;
 using System.Web;
 
 // This file contains the BWP-specific hidden frame rendering code. Most of the actual work is done in the code shared

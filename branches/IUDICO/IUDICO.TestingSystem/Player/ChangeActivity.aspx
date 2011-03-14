@@ -1,6 +1,6 @@
 <%-- Copyright (c) Microsoft Corporation. All rights reserved. --%>
-
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ChangeActivity.aspx.cs" Inherits="Microsoft.LearningComponents.Frameset.Frameset_ChangeActivity" %>
+<%@ Assembly Name="IUDICO.TestingSystem" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ChangeActivity.aspx.cs" Inherits="Microsoft.LearningComponents.Frameset.Frameset_ChangeActivity" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 

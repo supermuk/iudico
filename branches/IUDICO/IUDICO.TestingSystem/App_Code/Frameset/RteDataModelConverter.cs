@@ -15,7 +15,7 @@ using System.Globalization;
 using System.Text;
 using System.Xml;
 using System.Text.RegularExpressions;
-using Resources;
+using IUDICO.TestingSystem;//using Resources;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;    
 

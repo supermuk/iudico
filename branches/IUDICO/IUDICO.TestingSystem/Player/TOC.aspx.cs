@@ -13,7 +13,7 @@ using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
 using System.IO;
 using System.Web.UI;
-using Resources;
+using IUDICO.TestingSystem;//using Resources;
 
 
 

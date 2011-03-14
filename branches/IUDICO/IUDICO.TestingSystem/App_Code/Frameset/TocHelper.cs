@@ -13,7 +13,7 @@ using Microsoft.LearningComponents.Storage;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Globalization;
-using Resources;
+using IUDICO.TestingSystem;//using Resources;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Microsoft.LearningComponents.Frameset
