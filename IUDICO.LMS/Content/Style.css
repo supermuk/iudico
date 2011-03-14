@@ -354,3 +354,12 @@ div#title
 {
     width: 6em;
 }
+
+/** IUDICO plugin **/
+object.iudico
+{
+    background: #f00;
+    display: block;
+    height: 100px;
+    width: 100%;
+}
