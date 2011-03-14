@@ -28,6 +28,6 @@ namespace IUDICO.Common.Models.Services
         /// <returns>Collection of AnswerResult objects.</returns>
         IEnumerable<AnswerResult> GetAnswers(AttemptResult attempt);
 
-        
+        int GetAttempt(Course course);
     }
 }

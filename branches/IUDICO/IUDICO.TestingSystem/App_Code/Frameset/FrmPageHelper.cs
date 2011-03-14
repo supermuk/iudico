@@ -12,7 +12,7 @@ using System.Web.UI.HtmlControls;
 using Microsoft.LearningComponents;
 using System.Globalization;
 using Microsoft.LearningComponents.Storage;
-using Resources;
+using IUDICO.TestingSystem;//using Resources;
 using System.Diagnostics.CodeAnalysis;
 
 // This file includes code that is shared across multiple pages within both BasicWebPlayer and SLK framesets.

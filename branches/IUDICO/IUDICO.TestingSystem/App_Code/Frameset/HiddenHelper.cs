@@ -11,7 +11,7 @@ using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.DataModel;
 using Microsoft.LearningComponents.Storage;
 using System.Web;
-using Resources;
+using IUDICO.TestingSystem;//using Resources;
 using System.Transactions;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;

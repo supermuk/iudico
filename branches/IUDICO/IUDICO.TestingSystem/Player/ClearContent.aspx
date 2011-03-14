@@ -1,6 +1,6 @@
 <%-- Copyright (c) Microsoft Corporation. All rights reserved. --%>
-
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ClearContent.aspx.cs" Inherits="Microsoft.LearningComponents.Frameset.Frameset_ClearContent" %>
+<%@ Assembly Name="IUDICO.TestingSystem" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ClearContent.aspx.cs" Inherits="Microsoft.LearningComponents.Frameset.Frameset_ClearContent" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!-- MICROSOFT PROVIDES SAMPLE CODE "AS IS" AND WITH ALL FAULTS, AND WITHOUT ANY WARRANTY WHATSOEVER.  

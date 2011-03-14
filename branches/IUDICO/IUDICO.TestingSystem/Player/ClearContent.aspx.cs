@@ -14,7 +14,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
-using Resources;
+using IUDICO.TestingSystem;//using Resources;
 
 namespace Microsoft.LearningComponents.Frameset
 {

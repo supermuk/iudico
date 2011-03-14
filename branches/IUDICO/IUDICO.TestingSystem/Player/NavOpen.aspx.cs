@@ -5,7 +5,8 @@
 // NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE.
 
 using System;
-using Resources;
+using IUDICO.TestingSystem;//using Resources;
+using IUDICO.TestingSystem;
 
 namespace Microsoft.LearningComponents.Frameset
 {

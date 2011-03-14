@@ -53,7 +53,10 @@ namespace IUDICO.TestingSystem.Models
 
         }
 
-       
+        public int GetAttempt(Course course)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
     }
