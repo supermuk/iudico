@@ -18,7 +18,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using System.Xml;
 using System.Xml.XPath;
-using Resources;
+using IUDICO.TestingSystem;//using Resources;
 using Microsoft.LearningComponents.Storage;
 using Microsoft.LearningComponents;
 using System.Text;

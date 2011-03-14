@@ -24,7 +24,7 @@ namespace IUDICO.TestingSystem
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<TestingSystemPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<ITestingService>().ImplementedBy<FakeTestingSystem>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<ITestingService>().ImplementedBy<TestingService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<IMlcProxy>().ImplementedBy<MlcProxy>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
                 );
         }
@@ -54,11 +54,24 @@ namespace IUDICO.TestingSystem
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)
         {
+            /*routes.MapPageRoute(
+                "Player",
+                "Player/{file}",
+                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/{file}");
             routes.MapPageRoute(
-                "TSTestForm",
-                "Player/{route}",
-                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/{route}");
-            routes.MapRoute(
+                "PlayerImages",
+                "Player/Images/{file}",
+                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Images/{file}");
+            routes.MapPageRoute(
+                "PlayerInclude",
+                "Player/Include/{file}",
+                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Include/{file}");
+            routes.MapPageRoute(
+                "PlayerTheme",
+                "Player/Theme/{file}",
+                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Theme/{file}");
+            */
+            /*routes.MapRoute(
                "Training",
                "Training/{packageId}/{attemptId}",
                new { controller = "Training", action = "Details", attemptId = UrlParameter.Optional },
@@ -67,7 +80,12 @@ namespace IUDICO.TestingSystem
                "Trainings",
                "Training/{action}/{id}",
                new { controller = "Training", action = "Index", id = UrlParameter.Optional }
-            );
+            );*/
+            //routes.IgnoreRoute("Content/TimePicker.css");
+            routes.MapRoute(
+                "Training",
+                "Training/{action}",
+                new { controller = "Training" });
         }
 
         public void Update(string name, params object[] data)

@@ -25,6 +25,14 @@ namespace IUDICO.TestingSystem.Controllers
             }
         }
 
+        protected ITestingService TestingService
+        {
+            get
+            {
+                return LmsService.FindService<ITestingService>();
+            }
+        }
+
         public TrainingController(IMlcProxy mlcProxy)
         {
             MlcProxy = mlcProxy;
@@ -54,6 +62,8 @@ namespace IUDICO.TestingSystem.Controllers
         {
             // TODO: redirect to frameset.
             //return new RedirectResult("http://localhost:1339/BasicWebPlayer/Frameset/Frameset.aspx?View=0&AttemptId=" + id.ToString());
+            TestingService.GetAttempt(LmsService.FindService<ICourseService>().GetCourse((int)id));
+
             return View("Play", id);
         }
 

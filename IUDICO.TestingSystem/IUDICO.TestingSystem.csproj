@@ -114,16 +114,14 @@
     <Compile Include="App_Code\PageHelper.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="App_Code\Schema.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="App_GlobalResources\FramesetResources.Designer.cs">
+    <Compile Include="App_Code\Schema.cs" />
+    <Compile Include="Controllers\PackageController.cs" />
+    <Compile Include="Controllers\TrainingController.cs" />
+    <Compile Include="FramesetResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>FramesetResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\PackageController.cs" />
-    <Compile Include="Controllers\TrainingController.cs" />
     <Compile Include="Models\FakeTestingSystem.cs" />
     <Content Include="Models\Helpers\LStoreHelper.cs" />
     <Compile Include="Models\IMlcProxy.cs" />
@@ -166,13 +164,6 @@
     <Compile Include="Player\NavOpen.aspx.cs">
       <DependentUpon>NavOpen.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Player\TestResource.aspx.cs">
-      <DependentUpon>TestResource.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Player\TestResource.aspx.designer.cs">
-      <DependentUpon>TestResource.aspx</DependentUpon>
     </Compile>
     <Compile Include="Player\TOC.aspx.cs">
       <DependentUpon>TOC.aspx</DependentUpon>
@@ -224,7 +215,6 @@
     <Content Include="Player\NavClosed.aspx" />
     <Content Include="Player\NavOpen.aspx" />
     <Content Include="Player\NoScroll.htm" />
-    <Content Include="Player\TestResource.aspx" />
     <Content Include="Player\Theme\1px.gif" />
     <Content Include="Player\Theme\Error.gif" />
     <Content Include="Player\Theme\HeadCornerRt.gif" />
@@ -267,10 +257,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\FramesetResources.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
+    <EmbeddedResource Include="FramesetResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>FramesetResources.Designer.cs</LastGenOutput>
-    </Content>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
