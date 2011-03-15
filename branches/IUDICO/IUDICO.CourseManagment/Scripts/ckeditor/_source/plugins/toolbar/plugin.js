@@ -440,8 +440,7 @@ CKEDITOR.config.toolbar_Full =
 	'/',
 	['Styles','Format','Font','FontSize'],
 	['TextColor','BGColor'],
-	['Maximize', 'ShowBlocks', '-', 'About'],
-    ['iudico']
+	['Maximize', 'ShowBlocks', '-', 'About']
 ];
 
 /**
