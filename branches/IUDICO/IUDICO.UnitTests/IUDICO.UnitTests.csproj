@@ -71,8 +71,11 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CurriculumResultTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpecializedResultTest.cs" />
     <Compile Include="ThemeInfoModelTest.cs" />
+    <Compile Include="ThemeResultTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
