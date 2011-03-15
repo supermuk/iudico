@@ -265,6 +265,7 @@
     <Content Include="Scripts\ckeditor\plugins\pagebreak\images\pagebreak.gif" />
     <Content Include="Scripts\ckeditor\plugins\pastefromword\filter\default.js" />
     <Content Include="Scripts\ckeditor\plugins\pastetext\dialogs\pastetext.js" />
+    <Content Include="Scripts\ckeditor\plugins\save\plugin.js" />
     <Content Include="Scripts\ckeditor\plugins\scayt\dialogs\options.js" />
     <Content Include="Scripts\ckeditor\plugins\scayt\dialogs\toolbar.css" />
     <Content Include="Scripts\ckeditor\plugins\showblocks\images\block_address.png" />
@@ -534,12 +535,12 @@
     <Content Include="Scripts\ckeditor\_source\plugins\image\dialogs\image.js" />
     <Content Include="Scripts\ckeditor\_source\plugins\image\plugin.js" />
     <Content Include="Scripts\ckeditor\_source\plugins\indent\plugin.js" />
-    <Content Include="Scripts\ckeditor\_source\plugins\iudico\dialogs\iudico-compile.js" />
-    <Content Include="Scripts\ckeditor\_source\plugins\iudico\dialogs\iudico-choice.js" />
-    <Content Include="Scripts\ckeditor\_source\plugins\iudico\dialogs\iudico-simple.js" />
-    <Content Include="Scripts\ckeditor\_source\plugins\iudico\lang\en.js" />
-    <Content Include="Scripts\ckeditor\_source\plugins\iudico\logo_iudico.png" />
-    <Content Include="Scripts\ckeditor\_source\plugins\iudico\plugin.js" />
+    <Content Include="Scripts\ckeditor\plugins\iudico\dialogs\iudico-compile.js" />
+    <Content Include="Scripts\ckeditor\plugins\iudico\dialogs\iudico-choice.js" />
+    <Content Include="Scripts\ckeditor\plugins\iudico\dialogs\iudico-simple.js" />
+    <Content Include="Scripts\ckeditor\plugins\iudico\lang\en.js" />
+    <Content Include="Scripts\ckeditor\plugins\iudico\logo_iudico.png" />
+    <Content Include="Scripts\ckeditor\plugins\iudico\plugin.js" />
     <Content Include="Scripts\ckeditor\_source\plugins\justify\plugin.js" />
     <Content Include="Scripts\ckeditor\_source\plugins\keystrokes\plugin.js" />
     <Content Include="Scripts\ckeditor\_source\plugins\link\dialogs\anchor.js" />
