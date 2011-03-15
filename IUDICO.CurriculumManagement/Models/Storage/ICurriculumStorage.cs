@@ -51,6 +51,12 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         IEnumerable<Theme> GetThemesByCurriculumId(int curriculumId);
         IEnumerable<Theme> GetThemesByGroupId(int groupId);
         IEnumerable<Theme> GetThemesByCourseId(int courseId);
+        /// <summary>
+        /// Gets the themes available for user for current date.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns></returns>
+        IEnumerable<Theme> GetThemesAvailableForUser(User user);
         int AddTheme(Theme theme);
         void UpdateTheme(Theme theme);
         void DeleteTheme(int id);

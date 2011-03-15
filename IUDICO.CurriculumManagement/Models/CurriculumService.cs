@@ -76,6 +76,11 @@ namespace IUDICO.CurriculumManagement.Models
             return _CurriculumStorage.GetThemesByGroupId(groupId);
         }
 
+        public IEnumerable<Theme> GetThemesAvailableForUser(User user)
+        {
+            return _CurriculumStorage.GetThemesAvailableForUser(user);
+        }
+
         #endregion
     }
 }

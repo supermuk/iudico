@@ -11,7 +11,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         public StageController(ICurriculumStorage curriculumStorage)
             : base(curriculumStorage)
         {
-
+            
         }
 
         [Allow(Role = Role.Teacher)]
