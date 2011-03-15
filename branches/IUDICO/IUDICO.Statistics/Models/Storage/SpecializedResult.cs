@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using IUDICO.Common.Models.Shared.Statistics;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 
@@ -7,88 +8,86 @@ namespace IUDICO.Statistics.Models.Storage
 {
     public class AllSpecializedResults
     {
-        private readonly ILmsService _LmsService;
+        private List<SpecializedResult> _SpecializedResult; 
+        private List<User> _Users;                         
+        private int[] _SelectCurriculumIds;            
+        private IEnumerable<Curriculum> _Curriculums;    
 
-        private readonly List<SpecializedResult> _SpecializedResult;
-
-        private readonly IEnumerable<User> _Users;
-        private readonly int[] _SelectCurriculumIds;
-
-        public AllSpecializedResults(IEnumerable<User> users, int[] selectCurriculumIds, ILmsService ilmsService)
+        public AllSpecializedResults()
         {
-            _LmsService = ilmsService;
-            _Users = users;
-            _SelectCurriculumIds = selectCurriculumIds;
             _SpecializedResult = new List<SpecializedResult>();
-            
-            foreach (var user in users)
-            {
-                _SpecializedResult.Add(new SpecializedResult(user, selectCurriculumIds, _LmsService));
-            }
+            _Users = new List<User>();
         }
 
-        public IEnumerable<Curriculum> Curriculums
-        {
-            get { return _LmsService.FindService<ICurriculumService>().GetCurriculums(_SelectCurriculumIds); }
-        }
-
-        public IEnumerable<User> Users
+        public List<User> Users
         {
             get { return _Users; }
-            //set { _Users = value; }
+            set { _Users = value; }
         }
-
         public int[] SelectCurriculumIds
         {
             get { return _SelectCurriculumIds; }
-            //set { _SelectCurriculumIds = value; }
+            set { _SelectCurriculumIds = value; }
         }
-
-        public List<SpecializedResult> SpecializedResultPar
+        public List<SpecializedResult> SpecializedResult
         {
             get { return _SpecializedResult; }
+            set { _SpecializedResult = value; }
         }
-
+        public IEnumerable<Curriculum> Curriculums
+        {
+            get { return _Curriculums; }
+            set { _Curriculums = value; }
+        }
     }
 
     public class SpecializedResult
     {
-        private readonly ILmsService _LmsService;
+        private User _User;
+        private IEnumerable<Curriculum> _Curriculums;    
+        private List<CurriculumResult> _CurriculumResult; 
+        private double? _Sum;
+        private double? _Max;
+        private double? _Percent;
+        private char _ECTS;
 
-        private readonly User _User;
-        private readonly List<CurriculumResult> _CurriculumResult;
-        private int[] _Ids;
-        private readonly double? _Sum;
-        private readonly double? _Max;
-        private readonly double? _Percent;
-        private readonly char _ECTS;
-
-        public SpecializedResult(User user, int[] ids, ILmsService ilmsService)
+        public SpecializedResult()
         {
-            _LmsService = ilmsService;
+            _User = new User();
+            _CurriculumResult = new List<CurriculumResult>();
+        }
+
+        public void CalculateSpecializedResult(User user)
+        {
             _Sum = 0.0;
             _Max = 0.0;
             _Percent = 0.0;
-            _User = new User();
             _User = user;
-            _Ids = ids;
-            _CurriculumResult = new List<CurriculumResult>();
-            
-            CurriculumResult curriculumRes;
-            IEnumerable<int> ieIds = ids;
-            var curriculums = _LmsService.FindService<ICurriculumService>().GetCurriculums(ieIds);
 
-            foreach (var curr in curriculums)
+            foreach (CurriculumResult curr in _CurriculumResult)
             {
-                _CurriculumResult.Add(curriculumRes = new CurriculumResult(_User, curr, _LmsService));
-                _Sum += curriculumRes.Sum;
-                _Max += curriculumRes.Max;
+                _Sum += curr.Sum;
+                _Max += curr.Max;
             }
 
             _Percent = _Sum / _Max * 100.0;
             _ECTS = Ects(_Percent);
         }
 
+        public IEnumerable<Curriculum> Curriculums
+        {
+            get { return _Curriculums; }
+            set { _Curriculums = value; }
+        }
+        public User User
+        {
+            get { return _User; }
+        }
+        public List<CurriculumResult> CurriculumResult
+        {
+            get { return _CurriculumResult; }
+            set { CurriculumResult = value; }
+        }
         public char Ects(double? percent)
         {
             if (percent > 91.0)
@@ -116,69 +115,51 @@ namespace IUDICO.Statistics.Models.Storage
                 return 'F';
             }
         }
-
-        public User User
-        {
-            get { return _User; }
-        }
-
-        public List<CurriculumResult> CurriculumResult
-        {
-            get { return _CurriculumResult; }
-        }
-
         public double? Sum
         {
             get { return _Sum; }
         }
-
         public double? Max
         {
             get { return _Max; }
         }
-
         public double? Percent
         {
             get { return _Percent; }
         }
-
         public char? ECTS
         {
             get { return _ECTS; }
         }
+
     }
 
     public class CurriculumResult 
     {
-        private readonly ILmsService _LmsService;
+        private User _User;
+        private Curriculum _Curriculum;
+        private IEnumerable<Theme> _Themes;           
+        private List<ThemeResult> _ThemeResult;    
+        private double? _Sum;
+        private double? _Max;
 
-        private readonly User _User;
-        private readonly Curriculum _Curriculum;
-        private readonly List<ThemeResult> _ThemeResult;
-        private readonly double? _Sum;
-        private readonly double? _Max;
 
-        public CurriculumResult (User user, Curriculum curriculum, ILmsService ilmsService)
+        public CurriculumResult()
         {
-            _LmsService = ilmsService;
-            _Sum = 0.0;
-            _Max = 0.0;
-
             _User = new User();
-            _User = user;
-
             _Curriculum = new Curriculum();
-            _Curriculum = curriculum;
-
             _ThemeResult = new List<ThemeResult>();
+        }
 
-            var themes = _LmsService.FindService<ICurriculumService>().GetThemesByCurriculumId(_Curriculum.Id);
-            var themeResult = new ThemeResult();
-            
-            foreach (var theme in themes)
+        public void CalculateSumAndMax(User user, Curriculum curr)
+        {
+            _Max = 0.0;
+            _Sum = 0.0;
+            _User = user;
+            _Curriculum = curr;
+            foreach (ThemeResult theme in _ThemeResult)
             {
-                _ThemeResult.Add(themeResult.GetThemeResult(_User, theme, _LmsService));
-                _Sum += themeResult.GetThemeResultScore(_User, theme);
+                _Sum += theme.Res;
                 _Max += 100;
             }
         }
@@ -198,35 +179,49 @@ namespace IUDICO.Statistics.Models.Storage
         public List<ThemeResult> ThemeResult
         {
             get { return _ThemeResult; }
+            set { _ThemeResult = value; }
+        }
+        public IEnumerable<Theme> Themes
+        {
+            set { _Themes = value; }
+            get { return _Themes; }
         }
     }
 
     public class ThemeResult
     {
-        private ILmsService _LmsService;
-
         private User _User;
         private Theme _Theme;
+        private IEnumerable<AttemptResult> _AttemptResults;
         private double? _Res;
 
-        public ThemeResult GetThemeResult(User user, Theme theme, ILmsService ilmsService)
+        public ThemeResult()
         {
-            _LmsService = ilmsService;
+            _User = new User();
+            _Theme = new Theme();
+        }
+        public ThemeResult(User user, Theme theme)
+        {
             _User = user;
             _Theme = theme;
-            _Res = _LmsService.FindService<ITestingService>().GetResults(_User, _Theme).First(x => x.User == _User & x.Theme == _Theme).Score.ToPercents();
-
-            return this;
         }
 
-        public double? GetThemeResultScore(User user, Theme theme)
+        public double? GetThemeResultScore()
         {
-            _User = user;
-            _Theme = theme;
-            _Res = _LmsService.FindService<ITestingService>().GetResults(_User, _Theme).First(x => x.User == _User & x.Theme == _Theme).Score.ToPercents();
-
+            _Res = _AttemptResults.First(x => x.User == _User & x.Theme == _Theme).Score.ToPercents();
             return _Res;
         }
 
+        public IEnumerable<AttemptResult> AttemptResults
+        {
+            get { return _AttemptResults; }
+            set { _AttemptResults = value; }
+
+        }
+        public double? Res
+        {
+            get { return _Res; }
+            set { _Res = value; }
+        }
     }
 }
