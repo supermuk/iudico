@@ -25,6 +25,7 @@ namespace IUDICO.Common.Models.Services
         IEnumerable<Theme> GetThemesByStageId(int stageId);
         IEnumerable<Theme> GetThemesByCurriculumId(int curriculumId);
         IEnumerable<Theme> GetThemes(IEnumerable<int> ids);
+        IEnumerable<Theme> GetThemesAvailableForUser(User user);
         Theme GetTheme(int id);
 
         #endregion

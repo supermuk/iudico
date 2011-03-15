@@ -31,8 +31,12 @@ namespace IUDICO.LMS
         //public static IEnumerable<Action> Actions { get; protected set; }
         public static Dictionary<IPlugin, IEnumerable<Action>> Actions { get; protected set; }
 
-
         public IWindsorContainer Container
+        {
+            get { return _Container; }
+        }
+
+        public static IWindsorContainer StaticContainer
         {
             get { return _Container; }
         }
