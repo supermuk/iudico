@@ -30,7 +30,7 @@
         <th>ECTS</th>
     </tr>
     
-    <% foreach (IUDICO.Statistics.Models.Storage.SpecializedResult specializedResult in Model.SpecializedResultPar)
+    <% foreach (IUDICO.Statistics.Models.Storage.SpecializedResult specializedResult in Model.SpecializedResult)
        { %>
        <tr>
             <td>

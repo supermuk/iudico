@@ -46,10 +46,12 @@ namespace IUDICO.Statistics.Controllers
         public ActionResult ShowCurriculumStatistic(int[] selectCurriculumId)
         {
             ViewData["selectGroupName"] = LmsService.FindService<IUserService>().GetGroup((int)HttpContext.Session["SelectedGroupId"]).Name;
-            var users = LmsService.FindService<IUserService>().GetUsersByGroup(LmsService.FindService<IUserService>().GetGroup((int)HttpContext.Session["SelectedGroupId"]));
-            var allSpecializedResults = new AllSpecializedResults(users, selectCurriculumId, LmsService);
-            
-            return View(allSpecializedResults);            
+            IEnumerable<User> users = LmsService.FindService<IUserService>().GetUsersByGroup(LmsService.FindService<IUserService>().GetGroup((int)HttpContext.Session["SelectedGroupId"]));
+            AllSpecializedResults allSpecRes = new AllSpecializedResults();
+            SpecializedResultProxy srp = new SpecializedResultProxy();
+            allSpecRes = srp.GetResults(users, selectCurriculumId, LmsService);
+
+            return View(allSpecRes);            
         }
 
         [Allow(Role = Role.Teacher)]
