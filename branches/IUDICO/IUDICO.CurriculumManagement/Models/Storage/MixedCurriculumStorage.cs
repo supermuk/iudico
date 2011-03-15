@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
+using System.Data.Linq;
 
 namespace IUDICO.CurriculumManagement.Models.Storage
 {
@@ -10,6 +11,11 @@ namespace IUDICO.CurriculumManagement.Models.Storage
     {
         private readonly ILmsService _LmsService;
         private DBDataContext _Db;
+
+        protected DBDataContext GetDbDataContext()
+        {
+            return _LmsService.GetDbDataContext();
+        }
 
         public MixedCurriculumStorage(ILmsService lmsService)
         {
@@ -45,6 +51,11 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public IEnumerable<Group> GetGroups()
         {
             return _LmsService.FindService<IUserService>().GetGroups();
+        }
+
+        public IEnumerable<Group> GetGroupsByUser(User user)
+        {
+            return _LmsService.FindService<IUserService>().GetGroupsByUser(user);
         }
 
         #endregion
@@ -102,7 +113,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             DeleteStages(stageIds);
 
             //delete corresponding CurriculumAssignments
-            var curriculumAssignmentIds = GetCurriculumAssignmnetsByCurriculumId(id).Select(item=>item.Id);
+            var curriculumAssignmentIds = GetCurriculumAssignmnetsByCurriculumId(id).Select(item => item.Id);
             DeleteCurriculumAssignments(curriculumAssignmentIds);
 
             curriculum.IsDeleted = true;
@@ -189,6 +200,11 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #region Theme methods
 
+        private Theme GetTheme(int id, DBDataContext db)
+        {
+            return db.Themes.Single(item => item.Id == id && !item.IsDeleted);
+        }
+
         public Theme GetTheme(int id)
         {
             return _Db.Themes.Single(item => item.Id == id && !item.IsDeleted);
@@ -219,14 +235,39 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return _Db.Themes.Where(item => item.CourseRef == courseId && !item.IsDeleted);
         }
 
+        public IEnumerable<Theme> GetThemesAvailableForUser(User user)
+        {
+            IEnumerable<Group> groups = GetGroupsByUser(user).ToList(); //get groups for user
+            DateTime dateTime = DateTime.Now;
+
+            var stages = groups.SelectMany(group => GetCurriculumAssignmentsByGroupId(group.Id)) //get curriculum assignments
+                   .Where(curriculumAssignment => GetCurriculumAssignmentTimelines(curriculumAssignment.Id) //select those curriculum assignments,
+                          .Any(timeline => dateTime.IsIn(timeline))) //for which specified date is in any of the curriculum assignment timelines
+                   .SelectMany(curriculumAssignment => GetStages(curriculumAssignment.CurriculumRef)); //get stages
+            var result=new List<Theme>();
+            foreach(Stage stage in stages)
+            {
+                var stageTimelines=GetStageTimelinesByStageId(stage.Id).ToList(); 
+                //select those stages, which doesn't have stage timelines or for which specified date is in any of the stage timelines
+                if(stageTimelines.Count()==0 || stageTimelines.Any(stageTimeline => dateTime.IsIn(stageTimeline))) 
+                {
+                    //get themes
+                    result.AddRange(GetThemesByStageId(stage.Id));
+                }
+            };
+            return result;
+        }
+
         public int AddTheme(Theme theme)
         {
+            DBDataContext db = GetDbDataContext();
+
             theme.Created = DateTime.Now;
             theme.Updated = DateTime.Now;
             theme.IsDeleted = false;
 
-            _Db.Themes.InsertOnSubmit(theme);
-            _Db.SubmitChanges();
+            db.Themes.InsertOnSubmit(theme);
+            db.SubmitChanges();
 
             theme.SortOrder = theme.Id;
             UpdateTheme(theme);
@@ -234,18 +275,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             //if it is "Test" then add corresponding ThemeAssignments.
             if (theme.ThemeType.Id == (int)IUDICO.CurriculumManagement.Models.Enums.ThemeType.Test)
             {
-                var curriculumAssignments = GetCurriculumAssignmnetsByCurriculumId(theme.Stage.CurriculumRef);
-                foreach (CurriculumAssignment curriculumAssignment in curriculumAssignments)
-                {
-                    ThemeAssignment newThemeAssignment = new ThemeAssignment()
-                    {
-                        CurriculumAssignmentRef = curriculumAssignment.Id,
-                        ThemeRef = theme.Id,
-                        MaxScore = Constants.DefaultThemeMaxScore
-                    };
-
-                    AddThemeAssignment(newThemeAssignment);
-                }
+                AddThemeAssignments(theme);
             }
 
             return theme.Id;
@@ -253,30 +283,54 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public void UpdateTheme(Theme theme)
         {
-            var oldTheme = GetTheme(theme.Id);
+            DBDataContext db = GetDbDataContext();
 
-            oldTheme.Name = theme.Name;
-            oldTheme.SortOrder = theme.SortOrder;
-            oldTheme.CourseRef = theme.CourseRef;
-            oldTheme.Updated = DateTime.Now;
+            try
+            {
+                var oldTheme = GetTheme(theme.Id, db);
+                oldTheme.Name = theme.Name;
+                oldTheme.SortOrder = theme.SortOrder;
+                oldTheme.CourseRef = theme.CourseRef;
+                oldTheme.Updated = DateTime.Now;
 
-            _Db.SubmitChanges();
+                //if ThemeType has changed then add or remove corresponding ThemeAssignments.
+                if (oldTheme.ThemeTypeRef != theme.ThemeTypeRef)
+                {
+                    oldTheme.ThemeTypeRef = theme.ThemeTypeRef;
+                    if (theme.ThemeType.Id == (int)IUDICO.CurriculumManagement.Models.Enums.ThemeType.Test)
+                    {
+                        AddThemeAssignments(theme);
+                    }
+                    else
+                    {
+                        DeleteThemeAssignments(theme);
+                    }
+                }
+                db.SubmitChanges(ConflictMode.ContinueOnConflict);
+            }
+            catch(ChangeConflictException)
+            {
+                foreach(ObjectChangeConflict conflict in db.ChangeConflicts)
+                {
+                    conflict.Resolve(RefreshMode.KeepChanges);
+                }
+            }
         }
 
         public void DeleteTheme(int id)
         {
-            var theme = GetTheme(id);
+            DBDataContext db = GetDbDataContext();
+
+            var theme = GetTheme(id, db);
 
             //if it is "Test" then delete corresponding ThemeAssignments.
             if (theme.ThemeType.Id == (int)IUDICO.CurriculumManagement.Models.Enums.ThemeType.Test)
             {
-                var themeAssignmentIds = GetThemeAssignmentsByThemeId(id)
-                    .Select(item => item.Id);
-                DeleteThemeAssignments(themeAssignmentIds);
+                DeleteThemeAssignments(theme);
             }
 
             theme.IsDeleted = true;
-            _Db.SubmitChanges();
+            db.SubmitChanges();
         }
 
         public void DeleteThemes(IEnumerable<int> ids)
@@ -321,6 +375,37 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             }
 
             return theme;
+        }
+
+        /// <summary>
+        /// Adds theme assignments for theme.
+        /// </summary>
+        /// <param name="theme">The theme.</param>
+        private void AddThemeAssignments(Theme theme)
+        {
+            var curriculumAssignments = GetCurriculumAssignmnetsByCurriculumId(theme.Stage.CurriculumRef);
+            foreach (CurriculumAssignment curriculumAssignment in curriculumAssignments)
+            {
+                ThemeAssignment newThemeAssignment = new ThemeAssignment()
+                {
+                    CurriculumAssignmentRef = curriculumAssignment.Id,
+                    ThemeRef = theme.Id,
+                    MaxScore = Constants.DefaultThemeMaxScore
+                };
+
+                AddThemeAssignment(newThemeAssignment);
+            }
+        }
+
+        /// <summary>
+        /// Deletes theme assignments for theme.
+        /// </summary>
+        /// <param name="theme">The theme.</param>
+        private void DeleteThemeAssignments(Theme theme)
+        {
+            var themeAssignmentIds = GetThemeAssignmentsByThemeId(theme.Id)
+                .Select(item => item.Id);
+            DeleteThemeAssignments(themeAssignmentIds);
         }
 
         #endregion

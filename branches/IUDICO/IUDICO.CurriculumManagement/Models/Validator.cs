@@ -32,6 +32,10 @@ namespace IUDICO.CurriculumManagement.Models
 
             DateTime minAllowedDate = Constants.MinAllowedDateTime;
             DateTime maxAllowedDate = Constants.MaxAllowedDateTime;
+            if (timeline.StageRef <= 0)
+            {
+                validationStatus.Errors.Add(String.Format("Choose a stage."));
+            }
             if (timeline.StartDate > timeline.EndDate)
             {
                 validationStatus.Errors.Add("Start date must be less than end date.");

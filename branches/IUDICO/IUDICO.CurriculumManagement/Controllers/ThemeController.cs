@@ -107,27 +107,8 @@ namespace IUDICO.CurriculumManagement.Controllers
                 LoadValidationErrors();
 
                 var theme = Storage.GetTheme(themeId);
-                var model = new CreateThemeModel(theme.StageRef, Storage.GetCourses(), theme.CourseRef, Storage.GetThemeTypes(), theme.ThemeTypeRef);
-                //{
-                //    StageId = theme.StageRef,
-                //    //ThemeId = themeId,
-                //    Courses = Storage.GetCourses()
-                //              .Select(item => new SelectListItem
-                //              {
-                //                  Text = item.Name,
-                //                  Value = item.Id.ToString(),
-                //                  Selected = item.Id == theme.CourseRef ? true : false
-                //              }),
-                //    ThemeTypes = Storage.GetThemeTypes()
-                //                 .Select(item => new SelectListItem
-                //                 {
-                //                     Text = item.Name,
-                //                     Value = item.Id.ToString(),
-                //                     Selected = item.Id == theme.ThemeTypeRef ? true : false
-                //                 }),
-                //    CourseId=theme.CourseRef,
-                //    ThemeTypeId=theme.ThemeTypeRef
-                //};
+                var model = new CreateThemeModel(theme.StageRef, Storage.GetCourses(), theme.CourseRef, 
+                    Storage.GetThemeTypes(), theme.ThemeTypeRef);
 
                 return View(model);
             }
@@ -143,16 +124,15 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                //TODO:rewrite this
                 Theme theme = Storage.GetTheme(themeId);
                 theme.CourseRef = model.CourseId;
                 theme.ThemeTypeRef = model.ThemeTypeId;
 
                 AddValidationErrorsToModelState(Validator.ValidateTheme(theme).Errors);
 
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
-                    Course course = Storage.GetCourse(model.CourseId);
+                    Course course = Storage.GetCourse(theme.CourseRef);
                     theme.Name = course.Name;
                     Storage.UpdateTheme(theme);
 
