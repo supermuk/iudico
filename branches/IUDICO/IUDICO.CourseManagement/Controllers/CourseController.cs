@@ -4,7 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 using IUDICO.Common.Models;
+using IUDICO.CourseManagement.Models.ManifestModels;
 using IUDICO.CourseManagement.Models.Storage;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Attributes;
@@ -14,7 +17,7 @@ namespace IUDICO.CourseManagement.Controllers
     public class CourseController : CourseBaseController
     {
         private readonly ICourseStorage _Storage;
-        private IUserService _UserService;
+        private readonly IUserService _UserService;
 
         public CourseController(ICourseStorage courseStorage)
         {
@@ -25,8 +28,8 @@ namespace IUDICO.CourseManagement.Controllers
         [Allow(Role = Role.Student)]
         public ActionResult Index()
         {
-            IUserService userService = LmsService.FindService<IUserService>();
-            Guid userId = userService.GetUsers().Single(i => i.Username == User.Identity.Name).Id;
+            var userService = LmsService.FindService<IUserService>();
+            var userId = userService.GetUsers().Single(i => i.Username == User.Identity.Name).Id;
             var courses = _Storage.GetCourses(userId);
             
             return View(courses.Union(_Storage.GetCourses(User.Identity.Name)));
@@ -36,6 +39,7 @@ namespace IUDICO.CourseManagement.Controllers
         public ActionResult Create()
         {
             var allUsers = _UserService.GetUsers().Where(i => i.Username != _UserService.GetCurrentUser().Username);
+            
             ViewData["AllUsers"] = allUsers;
 
             return View();
@@ -63,6 +67,7 @@ namespace IUDICO.CourseManagement.Controllers
 
             ViewData["AllUsers"] = allUsers.Except(courseUsers);
             ViewData["SharedUsers"] = courseUsers;
+
             return View(course);
         }
 
@@ -124,6 +129,13 @@ namespace IUDICO.CourseManagement.Controllers
             return View();
         }
 
+        public ActionResult Parse(int courseId)
+        {
+            _Storage.Parse(courseId);
+
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
         [Allow(Role = Role.Student)]
         public ActionResult Import(string action, HttpPostedFileBase fileUpload)
@@ -132,6 +144,7 @@ namespace IUDICO.CourseManagement.Controllers
             {
                 return Validate(fileUpload);
             }
+
             var path = HttpContext.Request.PhysicalApplicationPath;
 
             path = Path.Combine(path, @"Data\WorkFolder");

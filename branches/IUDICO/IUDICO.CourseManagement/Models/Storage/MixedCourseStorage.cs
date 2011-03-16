@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Xml;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Notifications;
 using IUDICO.CourseManagement.Helpers;
 using IUDICO.CourseManagement.Models.ManifestModels;
 using IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels;
-using IUDICO.CourseManagement.Models.ManifestModels.ResourceModels;
 
 namespace IUDICO.CourseManagement.Models.Storage
 {
@@ -35,6 +35,7 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             return GetDbContext().Courses.Where(c => c.Deleted == false).AsEnumerable();
         }
+
         public IEnumerable<Course> GetCourses(Guid userId)
         {
             var db = GetDbContext();
@@ -101,7 +102,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             db.Courses.InsertOnSubmit(course);
             db.SubmitChanges();
 
-            string path = GetCoursePath(course.Id);
+            var path = GetCoursePath(course.Id);
             @Directory.CreateDirectory(path);
 
             _LmsService.Inform(CourseNotifications.CourseCreate, course);
@@ -169,6 +170,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             Directory.CreateDirectory(path);
 
             var nodes = GetNodes(id).ToList();
+
             for (var i = 0; i < nodes.Count; i++)
             {
                 if (nodes[i].IsFolder == false)
@@ -199,6 +201,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             sw.Close();
 
             Zipper.CreateZip(path + ".zip", path);
+
             return path + ".zip";
         }
 
@@ -233,26 +236,52 @@ namespace IUDICO.CourseManagement.Models.Storage
             return parentItem;
         }
 
-        public int Import(string path, string owner)
+        public void Import(string path, string owner)
         {
-            var course = new Course();
+            var zipName = Path.GetFileNameWithoutExtension(path);
 
-            var zipName = path.Split('\\').Last();
-            course.Name = zipName.Substring(0, zipName.LastIndexOf('.'));
+            var course = new Course
+                             {
+                                 Name = zipName,
+                                 Owner = owner,
+                                 Locked = true
+                             };
 
-            course.Owner = owner;
-            course.Locked = true;
-
-            var courseId = AddCourse(course);
-
-            System.IO.File.Copy(path, GetCoursePath(courseId) + ".zip");
-            //Zipper.ExtractZipFile(path,  GetCoursePath(courseId)););)
-
-            return courseId;
+            AddCourse(course);
+            
+            File.Copy(path, GetCoursePath(course.Id) + ".zip");
         }
+
+        public void Parse(int courseId)
+        {
+            var db = GetDbContext();
+            var course = db.Courses.Single(c => c.Id == courseId);
+
+            if (!course.Locked.Value)
+            {
+                return;
+            }
+
+            var coursePath = GetCoursePath(course.Id);
+            var manifestPath = Path.Combine(coursePath, SCORM.ImsManifset);
+
+            Zipper.ExtractZipFile(coursePath + ".zip", coursePath);
+
+            var reader = new XmlTextReader(new FileStream(manifestPath, FileMode.Open));
+            var manifest = Manifest.Deserialize(reader);
+            var importer = new Importer(manifest, course, this);
+
+            importer.Import();
+
+            course.Locked = false;
+
+            db.SubmitChanges();
+        }
+
         #endregion
 
         #region Node methods
+
         public IEnumerable<Node> GetNodes(int courseId)
         {
             return GetNodes(courseId, null);
@@ -416,31 +445,31 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public string GetNodeContents(int id)
         {
-            string nodePath = GetNodePath(id);
+            string nodePath = GetNodePath(id) + ".html";
 
-            if (!System.IO.File.Exists(nodePath))
+            if (!File.Exists(nodePath))
             {
                 return string.Empty;
             }
 
-            return System.IO.File.ReadAllText(nodePath);
+            return File.ReadAllText(nodePath);
         }
 
         public void UpdateNodeContents(int id, string data)
         {
-            string nodePath = GetNodePath(id);
+            string nodePath = GetNodePath(id) + ".html";
 
-            System.IO.File.WriteAllText(nodePath, data);
+            File.WriteAllText(nodePath, data);
 
             //return System.IO.File.ReadAllText(nodePath);
         }
 
-        protected string GetNodePath(int nodeId)
+        public string GetNodePath(int nodeId)
         {
             var node = GetDbContext().Nodes.SingleOrDefault(n => n.Id == nodeId);
             var parent = node.Node1;
 
-            string path = node.Id + (!node.IsFolder ? ".html" : "");
+            string path = node.Id.ToString();
 
             while (parent != null)
             {
@@ -453,16 +482,25 @@ namespace IUDICO.CourseManagement.Models.Storage
             return path;
         }
 
-        protected string GetCoursePath(int courseId)
+        public string GetCoursePath(int courseId)
         {
             var path = GetCoursesPath();
 
-            return Path.Combine(path, @"Data\Courses", courseId.ToString());
+            return Path.Combine(path, courseId.ToString());
+        }
+
+        public string GetCourseTempPath(int courseId)
+        {
+            var path = HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
+
+            return Path.Combine(path, @"Data\WorkFolder");
         }
 
         protected string GetCoursesPath()
         {
-            return HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
+            var path = HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
+
+            return Path.Combine(path, @"Data\Courses");
         }
 
         protected void CopyNodes(Node node, Node newnode)

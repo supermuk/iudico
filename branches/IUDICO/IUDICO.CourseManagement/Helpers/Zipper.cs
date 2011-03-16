@@ -24,6 +24,7 @@ namespace IUDICO.CourseManagement.Helpers
                 }
 
                 f.CommitUpdate();
+                f.IsStreamOwner = true;
                 f.Close();
             }
         }

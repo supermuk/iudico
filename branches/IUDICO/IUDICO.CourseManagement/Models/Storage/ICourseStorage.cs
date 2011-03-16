@@ -20,7 +20,10 @@ namespace IUDICO.CourseManagement.Models.Storage
         void DeleteCourse(int id);
         void DeleteCourses(List<int> ids);
         string Export(int id);
-        int Import(string path, string owner);
+        void Import(string path, string owner);
+        void Parse(int id);
+        string GetCoursePath(int id);
+        string GetCourseTempPath(int id);
 
         #endregion
 
@@ -34,7 +37,8 @@ namespace IUDICO.CourseManagement.Models.Storage
         bool DeleteNode(int id);
         bool DeleteNodes(List<int> ids);
         int? CreateCopy(Node node, int? parentId, int position);
-        String GetNodeContents(int id);
+        string GetNodePath(int id);
+        string GetNodeContents(int id);
         void UpdateNodeContents(int id, string data);
 
         #endregion
