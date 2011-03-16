@@ -263,9 +263,10 @@ namespace IUDICO.CourseManagement.Models.Storage
             }
 
             var coursePath = GetCoursePath(course.Id);
-            var manifestPath = Path.Combine(coursePath, SCORM.ImsManifset);
+            var courseTempPath = GetCourseTempPath(course.Id);
+            var manifestPath = Path.Combine(courseTempPath, SCORM.ImsManifset);
 
-            Zipper.ExtractZipFile(coursePath + ".zip", coursePath);
+            Zipper.ExtractZipFile(coursePath + ".zip", courseTempPath);
 
             var reader = new XmlTextReader(new FileStream(manifestPath, FileMode.Open));
             var manifest = Manifest.Deserialize(reader);
@@ -493,7 +494,7 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             var path = HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
 
-            return Path.Combine(path, @"Data\WorkFolder");
+            return Path.Combine(path, @"Data\WorkFolder", courseId.ToString());
         }
 
         protected string GetCoursesPath()
