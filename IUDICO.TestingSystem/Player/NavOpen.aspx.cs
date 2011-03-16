@@ -6,7 +6,6 @@
 
 using System;
 using IUDICO.TestingSystem;//using Resources;
-using IUDICO.TestingSystem;
 
 namespace Microsoft.LearningComponents.Frameset
 {
