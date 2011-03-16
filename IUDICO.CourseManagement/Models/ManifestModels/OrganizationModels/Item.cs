@@ -12,6 +12,30 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         {
             IsVisible = true;
         }
+        
+        /// <summary>
+        /// Leaf item
+        /// </summary>
+        /// <param name="resourceId"></param>
+        public Item(string resourceId)
+        {
+            IsVisible = true;
+            IdentifierRef = resourceId;
+            Identifier = ConstantStrings.ItemIdPrefix + Guid.NewGuid();
+        }
+
+        #region Members
+
+        [XmlIgnore]
+        public bool IsParent
+        {
+            get
+            {
+                return IdentifierRef == null;
+            }
+        }
+
+        #endregion
 
         #region XmlAttributes
 
