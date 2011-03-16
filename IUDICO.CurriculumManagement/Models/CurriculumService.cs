@@ -2,6 +2,7 @@
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models;
 using IUDICO.CurriculumManagement.Models.Storage;
+using IUDICO.Common.Models.Shared.CurriculumManagement;
 
 namespace IUDICO.CurriculumManagement.Models
 {
@@ -76,7 +77,7 @@ namespace IUDICO.CurriculumManagement.Models
             return _CurriculumStorage.GetThemesByGroupId(groupId);
         }
 
-        public IEnumerable<Theme> GetThemesAvailableForUser(User user)
+        public IEnumerable<ThemeDescription> GetThemesAvailableForUser(User user)
         {
             return _CurriculumStorage.GetThemesAvailableForUser(user);
         }

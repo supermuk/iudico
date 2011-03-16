@@ -92,6 +92,7 @@
     <Compile Include="Models\Services\ISearchService.cs" />
     <Compile Include="Models\Services\IStatisticsService.cs" />
     <Compile Include="Models\Services\IUserService.cs" />
+    <Compile Include="Models\Shared\CurriculumManagement\ThemeInfo.cs" />
     <Compile Include="Models\Shared\Statistics\AnswerResult.cs" />
     <Compile Include="Models\Shared\Statistics\AttemptResult.cs" />
     <Compile Include="Models\Shared\Statistics\Enums.cs" />
