@@ -58,13 +58,11 @@ namespace IUDICO.TestingSystem.Controllers
             return View(trainings);
         }
 
-        public ActionResult Play(long id)
+        public ActionResult Play(int id)
         {
-            // TODO: redirect to frameset.
-            //return new RedirectResult("http://localhost:1339/BasicWebPlayer/Frameset/Frameset.aspx?View=0&AttemptId=" + id.ToString());
-            TestingService.GetAttempt(LmsService.FindService<ICourseService>().GetCourse((int)id));
+            var attempt = TestingService.GetAttempt(LmsService.FindService<ICourseService>().GetCourse((int)id));
 
-            return View("Play", id);
+            return View("Play", attempt);
         }
 
         public ActionResult Create(long id)
