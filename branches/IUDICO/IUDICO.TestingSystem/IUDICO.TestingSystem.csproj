@@ -239,7 +239,10 @@
     <Content Include="Player\Theme\TopShadow.gif" />
     <Content Include="Player\Title.htm" />
     <Content Include="Player\TOC.aspx" />
+    <Content Include="Shema\Schema.sql" />
+    <Content Include="Shema\Schema.xml" />
     <Content Include="Views\Training\Play.aspx" />
+    <None Include="Shema\CompileSchema.bat" />
     <None Include="Views\Package\Import.aspx" />
     <Content Include="Views\Package\Index.aspx" />
     <Content Include="Views\Training\Index.aspx" />
