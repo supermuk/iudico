@@ -8,6 +8,8 @@ using System.Web;
 using Microsoft.LearningComponents.Storage;
 using Microsoft.LearningComponents;
 using System.IO;
+using BasicWebPlayer.Schema;
+using System.Data;
 
 namespace IUDICO.TestingSystem.Models
 {
@@ -60,18 +62,45 @@ namespace IUDICO.TestingSystem.Models
 
             LearningStoreJob job = PageHelper.LStore.CreateJob();
             Dictionary<string, object> properties = new Dictionary<string, object>();
-            properties[Schema.PackageItem.Owner] = currentUser.Id;
-            properties[Schema.PackageItem.FileName] = CourseService.Export(course.Id);
-            properties[Schema.PackageItem.UploadDateTime] = DateTime.Now;
+            properties[PackageItem.Owner] = currentUser.Id;
+            properties[PackageItem.FileName] = course.Name;
+            properties[PackageItem.UploadDateTime] = DateTime.Now;
+            properties[PackageItem.IudicoCourseRef] = course.Id;
             job.UpdateItem(packageId, properties);
             job.Execute();
 
             return packageId;
         }
 
+        public PackageItemIdentifier GetPackage(Course course)
+        {
+            LStoreUserInfo currentUser = PageHelper.GetCurrentUserInfo();
+
+            LearningStoreJob job = PageHelper.LStore.CreateJob();
+
+            LearningStoreQuery query = PageHelper.LStore.CreateQuery(PackageIdByCourse.ViewName);
+
+            query.AddColumn(PackageIdByCourse.PackageId);
+            query.SetParameter(PackageIdByCourse.IudicoCourseRef, course.Id);
+
+            job.PerformQuery(query);
+
+            var resultList = job.Execute();
+
+            DataTable result = (DataTable)resultList[0];
+
+            if (result.Rows.Count > 0)
+                return new PackageItemIdentifier((LearningStoreItemIdentifier)result.Rows[0][PackageIdByCourse.PackageId]);
+
+            return null;
+        }
+
         public int GetAttempt(Course course)
         {
-            UploadPackage(course);
+            PackageItemIdentifier packageId = GetPackage(course);
+
+            if (packageId == null)
+                packageId = UploadPackage(course);
 
             return 0;
         }
