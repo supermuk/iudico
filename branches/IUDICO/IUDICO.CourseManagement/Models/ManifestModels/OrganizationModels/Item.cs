@@ -11,6 +11,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         public Item()
         {
             IsVisible = true;
+            Items = new List<Item>();
         }
         
         /// <summary>
@@ -22,6 +23,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
             IsVisible = true;
             IdentifierRef = resourceId;
             Identifier = ConstantStrings.ItemIdPrefix + Guid.NewGuid();
+            Items = new List<Item>();
         }
 
         #region Members
