@@ -11,25 +11,25 @@
      NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE. -->
 <head runat="server">
     <title><%=PageTitleHtml%></title>
-    <LINK rel="stylesheet" type="text/css" href="Theme/Styles.css" />
+    <link rel="stylesheet" type="text/css" href="Theme/Styles.css" />
 
 <% if (!ShowError)  // don't write script if there is an error on the page
 { 
        // if this package does not require the RTE, then don't write the links?
        %>
     
-    <script src="./Include/Rte1p2Api.js"></script>
-    <script src="./Include/parser1p2.js"> </script>
-    <script src="./Include/typevalidators1p2.js"> </script>
+    <script type="text/javascript" src="./Include/Rte1p2Api.js"></script>
+    <script type="text/javascript" src="./Include/parser1p2.js"> </script>
+    <script type="text/javascript" src="./Include/typevalidators1p2.js"> </script>
     
-    <script src="./Include/Rte2004Api.js" ></script> 
-    <script src="./Include/parser.js"> </script>
-    <script src="./Include/typevalidators.js"> </script>
+    <script type="text/javascript" src="./Include/Rte2004Api.js" ></script> 
+    <script type="text/javascript" src="./Include/parser.js"> </script>
+    <script type="text/javascript" src="./Include/typevalidators.js"> </script>
     
-    <script src="./Include/RteApiSite.js"> </script>
-    <script src="./Include/FramesetMgr.js"> </script>
+    <script type="text/javascript" src="./Include/RteApiSite.js"> </script>
+    <script type="text/javascript" src="./Include/FramesetMgr.js"> </script>
     
-    <script>
+    <script type="text/javascript">
 // debugger;
 
     // Constants

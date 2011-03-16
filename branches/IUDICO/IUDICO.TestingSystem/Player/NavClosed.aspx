@@ -12,11 +12,11 @@
      NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE. -->
      
 <head runat="server">
-    <LINK rel="stylesheet" type="text/css" href="Theme/Styles.css" />
-    <SCRIPT src="./Include/FramesetMgr.js"></SCRIPT>
-    <SCRIPT src="./Include/Nav.js"></SCRIPT>
+    <link rel="stylesheet" type="text/css" href="Theme/Styles.css" />
+    <script type="text/javascript" src="./Include/FramesetMgr.js"></script>
+    <script type="text/javascript" src="./Include/Nav.js"></script>
 </head>
-<BODY  tabindex=1 onload="OnLoad( NAVCLOSED_FRAME );">
+<body  tabindex=1 onload="OnLoad( NAVCLOSED_FRAME );">
 <DIV id=TOCFrameVisibleDiv>
 	<TABLE height=12 cellSpacing=0 cellPadding=0 width="100%" border=0>
 		<TBODY>
@@ -52,7 +52,7 @@
 		<IMG id=imgOpenToc title="<%=MaximizeTitleHtml%>" height=14 src="Theme/TocOpen.gif" width=14 border=0 tabindex=1>
     </DIV>
 </DIV>
-</BODY>
+</body>
 
 <%
 // <body>

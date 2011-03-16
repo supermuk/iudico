@@ -41,15 +41,17 @@ namespace IUDICO.TestingSystem
         {
             var actions = new List<Action>();
 
-            actions.Add(new Action("Import Testings", "Package/Index"));
-            actions.Add(new Action("Available Testings", "Training/Index"));
+            // do not add actions for testing service
+            //actions.Add(new Action("Import Testings", "Package/Index"));
+            //actions.Add(new Action("Available Testings", "Training/Index"));
 
             return actions;
         }
 
         public void BuildMenu(Menu menu)
         {
-            menu.Add(new MenuItem("Testing", "Training", "Index"));
+            // do not add menu item for testing service
+            //menu.Add(new MenuItem("Testing", "Training", "Index"));
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)

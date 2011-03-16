@@ -118,7 +118,7 @@ function SetCurrentElement( strActivityIdNew )
     
     var elNewActivity = FindVisibleActivity( strActivityIdNew );
     elNewActivity.style.fontWeight = "bold";
-    elNewActivity.focus();
+    //elNewActivity.focus();
     
     var elOldActivity = FindVisibleActivity( g_currentActivityId );
     if ((elOldActivity != null)
