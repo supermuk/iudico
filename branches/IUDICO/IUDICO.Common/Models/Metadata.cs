@@ -177,11 +177,33 @@ namespace IUDICO.Common.Models
             [ScaffoldColumn(false)]
             public int CourseId { get; set; }
 
+            [ScaffoldColumn(false)]
             [DisplayName("Is Folder")]
             public bool IsFolder { get; set; }
 
             [ScaffoldColumn(false)]
             public int Position { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int SequencingPattern { get; set; } 
+
+            [DisplayName("Allow Choise")]
+            public bool Choise { get; set; }
+
+            [DisplayName("Allow Exit")]
+            public bool ChoiseExit { get; set; }
+
+            [DisplayName("Flow")]
+            public bool Flow { get; set; }
+
+            [DisplayName("Forwar Only")]
+            public bool ForwardOnly { get; set; }
+
+            [DisplayName("Attempt Limit")]
+            public int AttemptLimit { get; set; }
+
+            [DisplayName("Time Limit")]
+            public string AttemptAbsoluteDurationLimit { get; set; }
         }
     }
 

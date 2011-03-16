@@ -53,7 +53,7 @@ namespace IUDICO.CourseManagement.Controllers
             }
             catch (Exception)
             {
-                return Json(new {});
+                return Json(new { });
             }
         }
 
@@ -88,11 +88,11 @@ namespace IUDICO.CourseManagement.Controllers
             {
                 _Storage.DeleteNodes(new List<int>(ids));
 
-                return Json(new {status = true});
+                return Json(new { status = true });
             }
             catch (Exception)
             {
-                return Json(new {status = false});
+                return Json(new { status = false });
             }
         }
 
@@ -127,11 +127,11 @@ namespace IUDICO.CourseManagement.Controllers
 
                     if (newId != null)
                     {
-                        return Json(new {status = true, id = newId});
+                        return Json(new { status = true, id = newId });
                     }
                     else
                     {
-                        return Json(new {status = false});
+                        return Json(new { status = false });
                     }
                 }
                 else
@@ -141,7 +141,7 @@ namespace IUDICO.CourseManagement.Controllers
 
                     _Storage.UpdateNode(id, node);
 
-                    return Json(new {status = true, id = id});
+                    return Json(new { status = true, id = id });
                 }
             }
             catch
@@ -159,7 +159,7 @@ namespace IUDICO.CourseManagement.Controllers
             }
             catch (Exception)
             {
-                return Json(new {status = true, data = ""});
+                return Json(new { status = true, data = "" });
             }
         }
 
@@ -179,7 +179,21 @@ namespace IUDICO.CourseManagement.Controllers
             node.SequencingPattern = pattern;
             _Storage.UpdateNode(id, node);
 
-            return Json(new {status = true});
+            return Json(new { status = true });
+        }
+
+        [HttpPost]
+        public JsonResult Properties(int id)
+        {
+            var node = _Storage.GetNode(id);
+            return Json(new { status = true, data = PartialViewHtml("Properties", node, ViewData) });
+        }
+
+        [HttpPost]
+        public JsonResult SaveProperties(int nodeId, Node node)
+        {
+            _Storage.UpdateNodeProperties(nodeId, node);
+            return Json(new { status = true });
         }
     }
-}
+}    

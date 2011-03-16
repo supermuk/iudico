@@ -60,7 +60,7 @@
         <tr>
             <th></th>
             <th>
-                Id
+                №
             </th>
             <th>
                 Name
@@ -73,7 +73,7 @@
             </th>
             <th></th>
         </tr>
-
+    <% var index = 1; %>
     <% foreach (var item in Model.Where(i => i.Owner == HttpContext.Current.User.Identity.Name)) { %>
     
         <tr>
@@ -81,7 +81,7 @@
                 <input type="checkbox" id="<%= item.Id %>" />
             </td>
             <td>
-                <%: item.Id %>
+                <%: index++ %>
             </td>
             <td>
                 <%: item.Name %>
@@ -112,7 +112,7 @@
         <tr>
             <th></th>
             <th>
-                Id
+                №
             </th>
             <th>
                 Name
@@ -136,7 +136,7 @@
                 <input type="checkbox" id="<%= item.Id %>" />
             </td>
             <td>
-                <%: item.Id %>
+                <%: index++ %>
             </td>
             <td>
                 <%: item.Name %>

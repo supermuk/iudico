@@ -373,7 +373,7 @@ $.fn.layout = function (opts) {
 		}
 	,	east: {
 			paneSelector:			".ui-layout-east"
-		,	size:					200
+		,	size:					300
 		,	resizerCursor:			"e-resize"
 		,	customHotkey:			""
 		}
