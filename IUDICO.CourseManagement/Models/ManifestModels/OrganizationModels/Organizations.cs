@@ -7,50 +7,17 @@ using System.Xml.Serialization;
 namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
 {
     [Serializable]
-    public class Organizations : IEnumerable<Organization>, IEnumerator<Organization>
+    public class Organizations
     {
         public Organizations()
         {
             _Organizations = new List<Organization>();
-            _DefaultOrganizationIndex = 0;
         }
-
-        #region Members
-
-        [XmlIgnore]
-        private int _DefaultOrganizationIndex;
-
-        [XmlIgnore]
-        private int _Position;
-
-        #endregion
 
         #region XmlAttributes
 
         [XmlAttribute(SCORM.Default)]
-        public string Default
-        {
-            get
-            {
-                return _Organizations[_DefaultOrganizationIndex].Identifier;
-            }
-            set
-            {
-                for (var i = 0; i < _Organizations.Count; i++)
-                {
-                    if (_Organizations[i].Identifier != value)
-                    {
-                        continue;
-                    }
-
-                    _DefaultOrganizationIndex = i;
-                        
-                    return;
-                }
-
-                _DefaultOrganizationIndex = 0;
-            }
-        }
+        public string Default;
 
         #endregion
 
@@ -90,65 +57,6 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
             _Organizations.Add(organization);
             
             return organization.Identifier;
-        }
-
-        #endregion
-
-        #region Implementation of IEnumerable
-
-        public IEnumerator<Organization> GetEnumerator()
-        {
-            return this;
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        #endregion
-
-        #region Implementation of IDisposable
-
-        public void Dispose()
-        {
-        }
-
-        #endregion
-
-        #region Implementation of IEnumerator
-
-        public bool MoveNext()
-        {
-            if (_Position < _Organizations.Count - 1)
-            {
-                _Position++;
-                
-                return true;
-            }
-
-            return false;
-        }
-
-        public void Reset()
-        {
-            _Position = -1;
-        }
-
-        public Organization Current
-        {
-            get
-            {
-                return _Organizations[_Position];
-            }
-        }
-
-        object IEnumerator.Current
-        {
-            get
-            {
-                return Current;
-            }
         }
 
         #endregion
