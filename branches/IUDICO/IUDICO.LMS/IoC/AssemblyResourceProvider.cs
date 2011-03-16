@@ -70,6 +70,23 @@ namespace IUDICO.LMS.IoC
                 var assemblyName = parts[2];
                 var resourceName = parts[3].Replace('/', '.');
 
+#if DEBUG
+                var realPath = Path.Combine(
+                        Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\')),
+                        parts[3].Replace('/', '\\')
+                    );
+
+                if (File.Exists(realPath))
+                {
+                    return File.Open(realPath, FileMode.Open);
+                }
+                else
+                {
+                    Console.WriteLine(parts[3]);
+                    System.Diagnostics.Debugger.Break();
+                }
+#endif
+
                 Assembly assembly;
 
                 lock (_NameAssemblyCache)

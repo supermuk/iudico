@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.CourseManagement", "IUDICO.CourseManagment\IUDICO.CourseManagement.csproj", "{CB470DA7-0981-45B5-BEB9-6FD06586BA7E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.CourseManagement", "IUDICO.CourseManagement\IUDICO.CourseManagement.csproj", "{CB470DA7-0981-45B5-BEB9-6FD06586BA7E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.LMS", "IUDICO.LMS\IUDICO.LMS.csproj", "{A5DA80CE-796F-4C4D-BBCA-A23046C4574D}"
 	ProjectSection(ProjectDependencies) = postProject
