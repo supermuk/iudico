@@ -85,6 +85,23 @@
             <Expression>1</Expression>
         </GrantQueryRight>
     </View>
+  <View Name="RootActivityByPackage">
+    <Parameters>
+      <Parameter Name="PackageId" Type="ItemIdentifier" ReferencedItemTypeName="PackageItem"/>
+    </Parameters>
+    <Columns>
+      <Column Name="RootActivity" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem"/>
+    </Columns>
+    <Implementation>
+      SELECT Id As RootActivity
+      FROM ActivityPackageItem
+      WHERE PackageId=@PackageId
+      AND ParentActivityId IS NULL
+    </Implementation>
+    <GrantQueryRight>
+      <Expression>1</Expression>
+    </GrantQueryRight>
+  </View>
     <View Name="MyAttemptsAndPackages">
         <Columns>
             <Column Name="PackageId" Type="ItemIdentifier" ReferencedItemTypeName="PackageItem"/>

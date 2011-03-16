@@ -6122,6 +6122,52 @@ namespace BasicWebPlayer.Schema {
     }
     
     /// <summary>
+    /// Contains constants related to the RootActivityByPackage view.
+    /// </summary>
+    /// <remarks>
+    /// Columns in the view:
+    /// <ul>
+    /// <li><Fld>RootActivity</Fld></li>
+    /// </ul>
+    /// Parameters in the view:
+    /// <ul>
+    /// <li><Fld>PackageId</Fld></li>
+    /// </ul>
+    /// </remarks>
+    [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+    [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+    [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+    public abstract class RootActivityByPackage {
+        
+        /// <summary>
+        /// Name of the <Typ>RootActivityByPackage</Typ> view.
+        /// </summary>
+        public const string ViewName = "RootActivityByPackage";
+        
+        /// <summary>
+        /// Name of the RootActivity column on the <Typ>RootActivityByPackage</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: Reference to a <Typ>ActivityPackageItem</Typ> item type.
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string RootActivity = "RootActivity";
+        
+        /// <summary>
+        /// Name of the PackageId parameter on the <Typ>RootActivityByPackage</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Parameter type: Reference to a <Typ>PackageItem</Typ> item type.
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string PackageId = "PackageId";
+    }
+    
+    /// <summary>
     /// Contains constants related to the MyAttemptsAndPackages view.
     /// </summary>
     /// <remarks>

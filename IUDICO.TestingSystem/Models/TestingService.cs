@@ -95,14 +95,50 @@ namespace IUDICO.TestingSystem.Models
             return null;
         }
 
-        public int GetAttempt(Course course)
+        public ActivityPackageItemIdentifier GetRootActivity(PackageItemIdentifier packageId)
         {
-            PackageItemIdentifier packageId = GetPackage(course);
+            LStoreUserInfo currentUser = PageHelper.GetCurrentUserInfo();
+
+            LearningStoreJob job = PageHelper.LStore.CreateJob();
+
+            LearningStoreQuery query = PageHelper.LStore.CreateQuery(RootActivityByPackage.ViewName);
+
+            query.AddColumn(RootActivityByPackage.RootActivity);
+            query.SetParameter(RootActivityByPackage.PackageId, packageId);
+
+            job.PerformQuery(query);
+
+            var resultList = job.Execute();
+
+            DataTable result = (DataTable)resultList[0];
+
+            if (result.Rows.Count > 0)
+                return new ActivityPackageItemIdentifier((LearningStoreItemIdentifier)result.Rows[0][RootActivityByPackage.RootActivity]);
+
+            return null;
+        }
+
+        public AttemptItemIdentifier CreateAttempt(ActivityPackageItemIdentifier rootActivity)
+        {
+            LStoreUserInfo currentUser = PageHelper.GetCurrentUserInfo();
+
+            StoredLearningSession session = StoredLearningSession.CreateAttempt(PageHelper.PStore, currentUser.Id, rootActivity, LoggingOptions.LogAll);
+
+            return session.AttemptId;
+        }
+
+        public long GetAttempt(Course course)
+        {
+            var packageId = GetPackage(course);
 
             if (packageId == null)
                 packageId = UploadPackage(course);
 
-            return 0;
+            var rootActivity = GetRootActivity(packageId);
+
+            var attempt = CreateAttempt(rootActivity);
+
+            return attempt.GetKey();
         }
 
         #endregion
