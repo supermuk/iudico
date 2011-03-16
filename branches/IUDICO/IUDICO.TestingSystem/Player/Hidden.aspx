@@ -11,9 +11,10 @@
      NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE. -->
      
 <head runat="server">
-    <script src="./Include/FramesetMgr.js"></script>
+    <script type="text/javascript" src="./Include/FramesetMgr.js"></script>
 	
-<script>
+<script type="text/javascript">
+
 function OnLoad()
 {
     // Get frameset manager

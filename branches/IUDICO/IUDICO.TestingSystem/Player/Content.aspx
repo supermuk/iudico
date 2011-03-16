@@ -16,9 +16,9 @@
              the content frame is currently the postable frame. In most normal processing, the entire page is replaced with 
              the content rendered from the package. */ %>
 
-        <LINK rel="stylesheet" type="text/css" href="<%=FramesetPath %>Theme/Styles.css"/>
-        <script src="<%=FramesetPath %>Include/FramesetMgr.js"></script>
-        <script>
+        <link rel="stylesheet" type="text/css" href="<%=FramesetPath %>Theme/Styles.css"/>
+        <script type="text/javascript" src="<%=FramesetPath %>Include/FramesetMgr.js"></script>
+        <script type="text/javascript">
         function OnLoad()
         {        
             // Get frameset manager
