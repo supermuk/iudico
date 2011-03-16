@@ -39,8 +39,6 @@
         });
     </script>
 
-    
-
     <script type="text/javascript">
         $(function () {
             $("#treeView").jstree({
@@ -187,6 +185,15 @@
                                             }
 		                                }
                                 }
+                            },
+                            "properties": {
+                                "separator_before": false,
+                                "icon": false,
+                                "separator_after": false,
+                                "label": "Properties",
+                                "action": function (obj) {
+                                    this.get_container().triggerHandler("properties.jstree", { "obj": obj });
+                                }
                             }
                         }
                     }
@@ -324,8 +331,31 @@
                         alert(r.status);
                     }
 				});
+            })
+            .bind("properties.jstree", function(e, data) {
+                $.ajax({
+                    type: 'post',
+                    url: "<%: Url.Action("Properties", "Node") %>",
+                    data: {
+                        "id":  data.obj.attr("id").replace("node_", "")
+                    },
+                    success: function(r) {
+                        if(r.status) {
+                            $("#properties")[0].innerHTML = r.data;
+                        }
+                    }
+                })
             });
         });
+    </script>
+
+    <script type="text/javascript">
+        function onSavePropertiesSuccess() {
+            alert("Properties saved successfully");
+        }
+        function onSavePropertiesFailure() {
+            alert("Properties saved successfully");
+        }
     </script>
 </asp:Content>
 
@@ -337,6 +367,6 @@
     </div>
     <div class="ui-layout-north"></div>
     <div class="ui-layout-south ui-widget-header ui-corner-all"></div>
-    <div class="ui-layout-east"></div>
+    <div class="ui-layout-east"><div id="properties"></div></div>
     <div class="ui-layout-west"><div id="treeView"></div></div>
 </asp:Content>

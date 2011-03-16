@@ -123,20 +123,6 @@
       <Association Name="Course_Node" Member="Nodes" ThisKey="Id" OtherKey="CourseId" Type="Node" />
     </Type>
   </Table>
-  <Table Name="dbo.Nodes" Member="Nodes">
-    <Type Name="Node">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="CourseId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IsFolder" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="Position" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="SequencingPattern" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Node_Node" Member="Nodes" ThisKey="Id" OtherKey="ParentId" Type="Node" />
-      <Association Name="Course_Node" Member="Course" ThisKey="CourseId" OtherKey="Id" Type="Course" IsForeignKey="true" />
-      <Association Name="Node_Node" Member="Node1" ThisKey="ParentId" OtherKey="Id" Type="Node" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Timelines" Member="Timelines">
     <Type Name="Timeline">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -146,6 +132,26 @@
       <Column Name="StageRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="CurriculumAssignment_Timeline" Member="CurriculumAssignment" ThisKey="CurriculumAssignmentRef" OtherKey="Id" Type="CurriculumAssignment" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Nodes" Member="Nodes">
+    <Type Name="Node">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CourseId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsFolder" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Position" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SequencingPattern" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Choise" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ChoiseExit" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Flow" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ForwardOnly" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="AttemptLimit" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AttemptAbsoluteDurationLimit" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="Node_Node" Member="Nodes" ThisKey="Id" OtherKey="ParentId" Type="Node" />
+      <Association Name="Course_Node" Member="Course" ThisKey="CourseId" OtherKey="Id" Type="Course" IsForeignKey="true" />
+      <Association Name="Node_Node" Member="Node1" ThisKey="ParentId" OtherKey="Id" Type="Node" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

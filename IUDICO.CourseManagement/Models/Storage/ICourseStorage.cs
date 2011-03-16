@@ -33,10 +33,11 @@ namespace IUDICO.CourseManagement.Models.Storage
         IEnumerable<Node> GetNodes(int courseId, int? parentId);
         Node GetNode(int id);
         int? AddNode(Node node);
-        bool UpdateNode(int id, Node node);
-        bool DeleteNode(int id);
-        bool DeleteNodes(List<int> ids);
-        int? CreateCopy(Node node, int? parentId, int position);
+        void UpdateNode(int id, Node node);
+        void UpdateNodeProperties(int id, Node node);
+        void DeleteNode(int id);
+        void DeleteNodes(List<int> ids);
+        int CreateCopy(Node node, int? parentId, int position);
         string GetNodePath(int id);
         string GetNodeContents(int id);
         void UpdateNodeContents(int id, string data);

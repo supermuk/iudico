@@ -10,6 +10,7 @@ using IUDICO.Common.Models.Notifications;
 using IUDICO.CourseManagement.Helpers;
 using IUDICO.CourseManagement.Models.ManifestModels;
 using IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels;
+using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
 
 namespace IUDICO.CourseManagement.Models.Storage
 {
@@ -192,11 +193,12 @@ namespace IUDICO.CourseManagement.Models.Storage
             var parentItem = new Item();
 
             parentItem = AddSubItems(parentItem, null, id, helper, ref manifest);
+            manifest.Organizations = ManifestManager.AddOrganization(manifest.Organizations, helper.CreateOrganization());
+            manifest.Organizations.Default = manifest.Organizations[0].Identifier;
             manifest.Organizations[0].Items = parentItem.Items;
             manifest.Organizations[0].Title = course.Name;
-            manifest.Organizations[0] = SequencingPatternManager.ApplyPattern(manifest, manifest.Organizations[0],
-                                                                             SequencingPattern.
-                                                                                 OrganizationDefaultSequencingPattern);
+            //manifest.Organizations[0] = SequencingPatternManager.ApplyPattern(manifest, manifest.Organizations[0], SequencingPattern.OrganizationDefaultSequencingPattern);
+
             ManifestManager.Serialize(manifest, sw);
             sw.Close();
 
@@ -215,6 +217,25 @@ namespace IUDICO.CourseManagement.Models.Storage
                 {
                     var item = helper.CreateItem();
                     item.Title = node.Name;
+                    item.Sequencing = new Sequencing();
+                    item.Sequencing.ControlMode = new ControlMode();
+                    if (node.ChoiseExit.HasValue)
+                    {
+                        item.Sequencing.ControlMode.ChoiceExit = node.ChoiseExit.Value;
+                    }
+                    if (node.Choise.HasValue)
+                    {
+                        item.Sequencing.ControlMode.Choise = node.Choise.Value;
+                    }
+                    if (node.Flow.HasValue)
+                    {
+                        item.Sequencing.ControlMode.Flow = node.Flow.Value;
+                    }
+                    if (node.ForwardOnly.HasValue)
+                    {
+                        item.Sequencing.ControlMode.ForwardOnly = node.ForwardOnly.Value;
+                    }
+
                     item = AddSubItems(item, node, courseId, helper, ref manifest);
 
                     parentItem = ManifestManager.AddItem(parentItem, item);
@@ -226,9 +247,29 @@ namespace IUDICO.CourseManagement.Models.Storage
 
                     var resource = helper.CreateResource(ScormType.Asset, files);
                     resource.Href = node.Name + ".html";
+
+                    manifest.Resources = ManifestManager.AddResource(manifest.Resources, resource);
                  
                     var item = helper.CreateItem(resource.Identifier);
                     item.Title = node.Name;
+                    item.Sequencing = new Sequencing();
+                    item.Sequencing.ControlMode = new ControlMode();
+                    if (node.ChoiseExit.HasValue)
+                    {
+                        item.Sequencing.ControlMode.ChoiceExit = node.ChoiseExit.Value;
+                    }
+                    if (node.Choise.HasValue)
+                    {
+                        item.Sequencing.ControlMode.Choise = node.Choise.Value;
+                    }
+                    if (node.Flow.HasValue)
+                    {
+                        item.Sequencing.ControlMode.Flow = node.Flow.Value;
+                    }
+                    if (node.ForwardOnly.HasValue)
+                    {
+                        item.Sequencing.ControlMode.ForwardOnly = node.ForwardOnly.Value;
+                    }
 
                     parentItem = ManifestManager.AddItem(parentItem, item);
                 }
@@ -290,28 +331,21 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public IEnumerable<Node> GetNodes(int courseId, int? parentId)
         {
-            try
+            var db = GetDbContext();
+
+            var course = db.Courses.SingleOrDefault(c => c.Id == courseId);
+            var nodes = course.Nodes.OrderBy(n => n.Position).ToList();
+
+            if (parentId == null)
             {
-                var db = GetDbContext();
-
-                var course = db.Courses.SingleOrDefault(c => c.Id == courseId);
-                var nodes = course.Nodes.OrderBy(n => n.Position).ToList();
-
-                if (parentId == null)
-                {
-                    nodes = nodes.Where(n => n.ParentId == null).ToList();
-                }
-                else
-                {
-                    nodes = nodes.Where(n => n.ParentId == parentId).ToList();
-                }
-
-                return nodes;
+                nodes = nodes.Where(n => n.ParentId == null).ToList();
             }
-            catch (Exception)
+            else
             {
-                return new List<Node>();
+                nodes = nodes.Where(n => n.ParentId == parentId).ToList();
             }
+
+            return nodes;
         }
 
         public Node GetNode(int id)
@@ -321,127 +355,103 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public int? AddNode(Node node)
         {
-            try
+            var db = GetDbContext();
+
+            db.Nodes.InsertOnSubmit(node);
+            db.SubmitChanges();
+
+            if (node.IsFolder)
             {
-                var db = GetDbContext();
-
-                db.Nodes.InsertOnSubmit(node);
-                db.SubmitChanges();
-
-                if (node.IsFolder)
-                {
-                    var path = GetNodePath(node.Id);
-                    @Directory.CreateDirectory(path);
-                }
-
-                return node.Id;
+                var path = GetNodePath(node.Id);
+                @Directory.CreateDirectory(path);
             }
-            catch
-            {
-                return null;
-            }
+
+            return node.Id;
         }
 
-        public bool UpdateNode(int id, Node node)
+        public void UpdateNode(int id, Node node)
         {
-            try
-            {
-                var db = GetDbContext();
+            var db = GetDbContext();
 
-                var oldNode = db.Nodes.SingleOrDefault(n => n.Id == id);
+            var oldNode = db.Nodes.SingleOrDefault(n => n.Id == id);
 
-                oldNode.Name = node.Name;
-                oldNode.ParentId = node.ParentId;
-                oldNode.Position = node.Position;
-                oldNode.SequencingPattern = node.SequencingPattern;
+            oldNode.Name = node.Name;
+            oldNode.ParentId = node.ParentId;
+            oldNode.Position = node.Position;
+            oldNode.SequencingPattern = node.SequencingPattern;
 
-                db.SubmitChanges();
-
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            db.SubmitChanges();
         }
 
-        public bool DeleteNode(int id)
+        public void UpdateNodeProperties(int id, Node node)
         {
-            try
+            var db = GetDbContext();
+
+            var oldNode = db.Nodes.SingleOrDefault(n => n.Id == id);
+
+            oldNode.Name = node.Name;
+            oldNode.Choise = node.Choise;
+            oldNode.ChoiseExit = node.ChoiseExit;
+            oldNode.Flow = node.Flow;
+            oldNode.ForwardOnly = node.ForwardOnly;
+            oldNode.AttemptAbsoluteDurationLimit = node.AttemptAbsoluteDurationLimit;
+            oldNode.AttemptLimit = node.AttemptLimit;
+
+            db.SubmitChanges();
+        }
+
+        public void DeleteNode(int id)
+        {
+            var db = GetDbContext();
+
+            var node = db.Nodes.SingleOrDefault(n => n.Id == id);
+
+            db.Nodes.DeleteOnSubmit(node);
+            db.SubmitChanges();
+
+            @Directory.Delete(GetNodePath(id));
+        }
+
+        public void DeleteNodes(List<int> ids)
+        {
+            var db = GetDbContext();
+
+            var nodes = (from n in db.Nodes where ids.Contains(n.Id) select n);
+
+            db.Nodes.DeleteAllOnSubmit(nodes);
+            db.SubmitChanges();
+
+            foreach (var id in ids)
             {
-                var db = GetDbContext();
-
-                var node = db.Nodes.SingleOrDefault(n => n.Id == id);
-
-                db.Nodes.DeleteOnSubmit(node);
-                db.SubmitChanges();
-
                 @Directory.Delete(GetNodePath(id));
-
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
             }
         }
 
-        public bool DeleteNodes(List<int> ids)
+        public int CreateCopy(Node node, int? parentId, int position)
         {
-            try
+            var db = GetDbContext();
+
+            var newnode = new Node
+                              {
+                                  CourseId = node.CourseId,
+                                  Name = node.Name,
+                                  ParentId = parentId,
+                                  IsFolder = node.IsFolder,
+                                  Position = position
+                              };
+
+            CopyNodes(node, newnode);
+
+            db.Nodes.InsertOnSubmit(newnode);
+            db.SubmitChanges();
+
+            if (newnode.IsFolder)
             {
-                var db = GetDbContext();
-
-                var nodes = (from n in db.Nodes where ids.Contains(n.Id) select n);
-
-                db.Nodes.DeleteAllOnSubmit(nodes);
-                db.SubmitChanges();
-
-                foreach (var id in ids)
-                {
-                    @Directory.Delete(GetNodePath(id));
-                }
-
-                return true;
+                string path = GetNodePath(newnode.Id);
+                @Directory.CreateDirectory(path);
             }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
 
-        public int? CreateCopy(Node node, int? parentId, int position)
-        {
-            try
-            {
-                var db = GetDbContext();
-
-                var newnode = new Node
-                {
-                    CourseId = node.CourseId,
-                    Name = node.Name,
-                    ParentId = parentId,
-                    IsFolder = node.IsFolder,
-                    Position = position
-                };
-
-                CopyNodes(node, newnode);
-
-                db.Nodes.InsertOnSubmit(newnode);
-                db.SubmitChanges();
-
-                if (newnode.IsFolder)
-                {
-                    string path = GetNodePath(newnode.Id);
-                    @Directory.CreateDirectory(path);
-                }
-
-                return newnode.Id;
-            }
-            catch
-            {
-                return null;
-            }
+            return newnode.Id;
         }
 
         public string GetNodeContents(int id)
