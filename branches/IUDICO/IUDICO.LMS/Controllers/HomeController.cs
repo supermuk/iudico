@@ -5,6 +5,7 @@ using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.LMS.Models;
+using IUDICO.Common.Models.Shared.CurriculumManagement;
 
 namespace IUDICO.LMS.Controllers
 {
@@ -19,7 +20,11 @@ namespace IUDICO.LMS.Controllers
             _lmsService = lmsService;
         }*/
 
-        public IEnumerable<Theme> GetAvailableThemes()
+        /// <summary>
+        /// Gets descriptions of themes available for playing.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<ThemeDescription> GetThemesDescriptions()
         {
             User user = MvcApplication.StaticContainer.GetService<IUserService>().GetCurrentUser();
             if (user != null)
@@ -28,7 +33,7 @@ namespace IUDICO.LMS.Controllers
             }
             else
             {
-                return new List<Theme>();
+                return new List<ThemeDescription>();
             }
         }
 
@@ -37,7 +42,7 @@ namespace IUDICO.LMS.Controllers
             return View(new HomeModel()
             {
                 Actions = new Dictionary<IPlugin, IEnumerable<Action>>(MvcApplication.Actions),
-                AvailableThemes = GetAvailableThemes()
+                ThemesDescriptions = GetThemesDescriptions()
             });
 
             //return View(new Dictionary<IPlugin, IEnumerable<Action>>(MvcApplication.Actions));

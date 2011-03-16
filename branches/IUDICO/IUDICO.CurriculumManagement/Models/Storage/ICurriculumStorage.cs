@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Shared.CurriculumManagement;
 
 namespace IUDICO.CurriculumManagement.Models.Storage
 {
@@ -56,7 +57,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns></returns>
-        IEnumerable<Theme> GetThemesAvailableForUser(User user);
+        IEnumerable<ThemeDescription> GetThemesAvailableForUser(User user);
         int AddTheme(Theme theme);
         void UpdateTheme(Theme theme);
         void DeleteTheme(int id);
