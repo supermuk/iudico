@@ -12,11 +12,11 @@
      NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE. -->
      
 <head runat="server">
-<LINK rel="stylesheet" type="text/css" href="Theme/Styles.css"/>
-<SCRIPT src="./Include/FramesetMgr.js"></SCRIPT>
-<SCRIPT src="./Include/Nav.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="Theme/Styles.css"/>
+<script type="text/javascript" src="./Include/FramesetMgr.js"></script>
+<script type="text/javascript" src="./Include/Nav.js"></script>
 
-<script>
+<script type="text/javascript">
     
 </script>
 </head>

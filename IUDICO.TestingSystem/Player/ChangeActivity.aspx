@@ -12,9 +12,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
 <LINK rel="stylesheet" type="text/css" href="./Theme/Styles.css"/>
-	<script src="./Include/FramesetMgr.js"></script>
+	<script type="text/javascript" src="./Include/FramesetMgr.js"></script>
 	
-	<script language="jscript">
+	<script type="text/javascript">
 	
 	function onLoad()
 	{ 
@@ -22,7 +22,7 @@
 	    	    
 	    <% if (HasError) { %>
 	        frameMgr.SetPostFrame(HIDDEN_FRAME);
-            frameMgr.SetPostableForm(window.top.frames[MAIN_FRAME].document.all[HIDDEN_FRAME].contentWindow.document.forms[0]);
+            frameMgr.SetPostableForm(window.top.frames[MAIN_FRAME].document.getElementByID(HIDDEN_FRAME).contentWindow.document.forms[0]);
 
 	        frameMgr.ShowErrorMessage("<%=ErrorTitleHtml %>", "<%=ErrorMsgHtml %>");	        
 	    <% }

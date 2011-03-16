@@ -12,7 +12,7 @@
      NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE. -->
      
 <head runat="server">
-    <LINK rel="stylesheet" type="text/css" href="Theme/Styles.css" />
+    <link rel="stylesheet" type="text/css" href="Theme/Styles.css" />
 </head>
 <FRAMESET id=framesetParentMain border=0 frameSpacing=0 rows=*,14,1 frameBorder=0>
 	<FRAMESET id=framesetParentUI cols=180,*>

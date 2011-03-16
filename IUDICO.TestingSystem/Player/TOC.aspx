@@ -10,12 +10,12 @@
      LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THERE IS 
      NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE. -->
 <head>
-<LINK rel="stylesheet" type="text/css" href="Theme/Styles.css" />
-<SCRIPT src="./Include/FramesetMgr.js"></SCRIPT>
-<SCRIPT src="./Include/Toc.js"></SCRIPT>
-<SCRIPT src="./Include/vernum.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="Theme/Styles.css" />
+<script type="text/javascript" src="./Include/FramesetMgr.js"></script>
+<script type="text/javascript" src="./Include/Toc.js"></script>
+<script type="text/javascript" src="./Include/vernum.js"></script>
 
-<SCRIPT language="jscript">
+<script type="text/javascript">
     g_currentActivityId = null;
     g_previousActivityId = null;
     g_frameMgr = API_GetFramesetManager();
@@ -32,23 +32,23 @@
         // Register with framemanager that loading is complete
 	    g_frameMgr.RegisterFrameLoad(TOC_FRAME); 
     }
-</SCRIPT>
+</script>
 </head>
-<body class=NavBody onclick="body_onclick();" onload="body_onload()">
-<DIV id=divMain style="visibility:hidden;MARGIN: 5px">
+<body class="NavBody" onload="body_onload()">
+<DIV id="divMain" style="visibility:hidden;MARGIN: 5px">
 	<DIV noWrap >
 		<!-- <p class="NavClosedPreviousBtnGrphic">&nbsp;</p> -->
 		<% WriteToc(); %>		
     </DIV>
 </DIV>
-<script type="text/javascript" defer="true">
+<script type="text/javascript">
         
   // If the version of the page differs from the version of the script, don't render
-  if ("<%=TocVersion %>" != JsVersion())
-  {
-    document.writeln("<%=InvalidVersionHtml %>");
-  }
+  //if ("<%=TocVersion %>" != JsVersion())
+  //{
+ //   document.writeln("<%=InvalidVersionHtml %>");
+ // }
         
 </script>
-</BODY>
+</body>
 </html>

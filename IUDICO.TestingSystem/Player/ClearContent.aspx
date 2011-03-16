@@ -9,16 +9,16 @@
      NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE. -->
 <html>
 <head>
-	<LINK rel="stylesheet" type="text/css" href="./Theme/Styles.css"/>
-	<script src="./Include/FramesetMgr.js"></script>
+	<link rel="stylesheet" type="text/css" href="./Theme/Styles.css"/>
+	<script type="text/javascript" src="./Include/FramesetMgr.js"></script>
 	
-	<script language="jscript">
+	<script type="text/javascript">
 	
 	function onLoad()
 	{ 
 	    frameMgr = API_GetFramesetManager();
 	    frameMgr.SetPostFrame(HIDDEN_FRAME);
-        frameMgr.SetPostableForm(window.top.frames[MAIN_FRAME].document.all[HIDDEN_FRAME].contentWindow.document.forms[0]);
+        frameMgr.SetPostableForm(window.top.frames[MAIN_FRAME].document.getElementById(HIDDEN_FRAME).contentWindow.document.forms[0]);
         
         contentIsCleared = frameMgr.ContentIsCleared();
         
@@ -48,7 +48,7 @@
 	
 	</script>
 </head>
-<BODY onload='onLoad()' class="ErrorBody">
+<body onload='onLoad()' class="ErrorBody">
 &nbsp;
-</BODY>
+</body>
 </html>
