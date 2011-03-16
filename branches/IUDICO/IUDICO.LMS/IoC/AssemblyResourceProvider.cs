@@ -80,6 +80,10 @@ namespace IUDICO.LMS.IoC
                 {
                     return File.Open(realPath, FileMode.Open);
                 }
+                else if (realPath.Contains("Content.aspx"))
+                {
+                    return File.Open(realPath.Remove(realPath.IndexOf("Content.aspx") + 12), FileMode.Open);
+                }
                 else
                 {
                     Console.WriteLine(parts[3]);

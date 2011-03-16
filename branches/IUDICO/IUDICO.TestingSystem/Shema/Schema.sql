@@ -596,6 +596,11 @@ SET @schema = @schema +
         '<Parameter Name="IudicoCourseRef" TypeCode="9" Nullable="true"/>' +
     '</View>'
 SET @schema = @schema +
+    '<View Name="RootActivityByPackage" Function="RootActivityByPackage" SecurityFunction="RootActivityByPackage$Security">' + 
+        '<Column Name="RootActivity" TypeCode="1" Nullable="true" ReferencedItemTypeName="ActivityPackageItem"/>' +
+        '<Parameter Name="PackageId" TypeCode="1" Nullable="true" ReferencedItemTypeName="PackageItem"/>' +
+    '</View>'
+SET @schema = @schema +
     '<View Name="MyAttemptsAndPackages" Function="MyAttemptsAndPackages" SecurityFunction="MyAttemptsAndPackages$Security">' + 
         '<Column Name="PackageId" TypeCode="1" Nullable="true" ReferencedItemTypeName="PackageItem"/>' +
         '<Column Name="PackageFileName" TypeCode="2" Nullable="true"/>' +
@@ -2168,6 +2173,31 @@ BEGIN
 END
 GO
 GRANT EXECUTE ON [PackageIdByCourse$Security] TO LearningStore
+GO
+
+-- Create a function that implements the RootActivityByPackage view
+CREATE FUNCTION [RootActivityByPackage](@UserKey nvarchar(250),@PackageId bigint=NULL)
+RETURNS TABLE
+AS
+RETURN (
+    SELECT Id As RootActivity
+    FROM ActivityPackageItem
+    WHERE PackageId=@PackageId
+    AND ParentActivityId IS NULL
+)
+GO
+GRANT SELECT ON [RootActivityByPackage] TO LearningStore
+GO
+
+-- Create function for the security on the RootActivityByPackage view
+CREATE FUNCTION [RootActivityByPackage$Security](@UserKey nvarchar(250),@PackageId bigint=NULL)
+RETURNS bit
+AS
+BEGIN
+    RETURN (1)
+END
+GO
+GRANT EXECUTE ON [RootActivityByPackage$Security] TO LearningStore
 GO
 
 -- Create a function that implements the MyAttemptsAndPackages view

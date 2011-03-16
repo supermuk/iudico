@@ -53,7 +53,7 @@ namespace IUDICO.TestingSystem.Models
 
         }
 
-        public int GetAttempt(Course course)
+        public long GetAttempt(Course course)
         {
             throw new NotImplementedException();
         }
