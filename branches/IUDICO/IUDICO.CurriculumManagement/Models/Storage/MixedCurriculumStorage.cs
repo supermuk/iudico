@@ -4,6 +4,7 @@ using System.Linq;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using System.Data.Linq;
+using IUDICO.Common.Models.Shared.CurriculumManagement;
 
 namespace IUDICO.CurriculumManagement.Models.Storage
 {
@@ -235,26 +236,45 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return _Db.Themes.Where(item => item.CourseRef == courseId && !item.IsDeleted);
         }
 
-        public IEnumerable<Theme> GetThemesAvailableForUser(User user)
+        public IEnumerable<ThemeDescription> GetThemesAvailableForUser(User user)
         {
             IEnumerable<Group> groups = GetGroupsByUser(user).ToList(); //get groups for user
             DateTime dateTime = DateTime.Now;
+            List<ThemeDescription> result = new List<ThemeDescription>();
 
-            var stages = groups.SelectMany(group => GetCurriculumAssignmentsByGroupId(group.Id)) //get curriculum assignments
+            var curriculumAssignments = groups.SelectMany(group => GetCurriculumAssignmentsByGroupId(group.Id)) //get curriculum assignments
                    .Where(curriculumAssignment => GetCurriculumAssignmentTimelines(curriculumAssignment.Id) //select those curriculum assignments,
-                          .Any(timeline => dateTime.IsIn(timeline))) //for which specified date is in any of the curriculum assignment timelines
-                   .SelectMany(curriculumAssignment => GetStages(curriculumAssignment.CurriculumRef)); //get stages
-            var result=new List<Theme>();
-            foreach(Stage stage in stages)
+                          .Any(timeline => dateTime.IsIn(timeline))); //for which specified date is in any of the curriculum assignment timelines
+
+            foreach (CurriculumAssignment curriculumAssignment in curriculumAssignments)
             {
-                var stageTimelines=GetStageTimelinesByStageId(stage.Id).ToList(); 
-                //select those stages, which doesn't have stage timelines or for which specified date is in any of the stage timelines
-                if(stageTimelines.Count()==0 || stageTimelines.Any(stageTimeline => dateTime.IsIn(stageTimeline))) 
+                //get stages
+                foreach (Stage stage in GetStages(curriculumAssignment.CurriculumRef))
                 {
-                    //get themes
-                    result.AddRange(GetThemesByStageId(stage.Id));
-                }
-            };
+                    var stageTimelines = GetStageTimelinesByStageId(stage.Id).ToList();
+                    //select those stages, which doesn't have stage timelines or for which specified date is in any of the stage timelines
+                    if (stageTimelines.Count() == 0 || stageTimelines.Any(timeline => dateTime.IsIn(timeline)))
+                    {
+                        //get themes
+                        //result.AddRange(GetThemesByStageId(stage.Id));
+                        foreach (Theme theme in GetThemesByStageId(stage.Id))
+                        {
+                            result.Add(new ThemeDescription()
+                            {
+                                Theme = theme,
+                                Stage = stage,
+                                Curriculum = stage.Curriculum,
+                                Timelines = stageTimelines.Count() == 0 ?
+                                    GetCurriculumAssignmentTimelines(curriculumAssignment.Curriculum.Id)
+                                        .Where(timeline => dateTime.IsIn(timeline)).ToList() :
+                                    stageTimelines
+                                        .Where(timeline => dateTime.IsIn(timeline)).ToList()
+                            });
+                        }
+                    }
+                };
+            }
+
             return result;
         }
 
@@ -308,9 +328,9 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 }
                 db.SubmitChanges(ConflictMode.ContinueOnConflict);
             }
-            catch(ChangeConflictException)
+            catch (ChangeConflictException)
             {
-                foreach(ObjectChangeConflict conflict in db.ChangeConflicts)
+                foreach (ObjectChangeConflict conflict in db.ChangeConflicts)
                 {
                     conflict.Resolve(RefreshMode.KeepChanges);
                 }

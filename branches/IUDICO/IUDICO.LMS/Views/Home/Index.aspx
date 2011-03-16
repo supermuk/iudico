@@ -21,8 +21,9 @@
 
     <h4>Available themes:</h4>
     <ul>
-    <% foreach (var theme in Model.AvailableThemes) { %>
-        <li><%: Html.ActionLink(theme.Name, "Play", "Training", new { Id = theme.Id}, null) %></li>
+    <% foreach (var themeDescription in Model.ThemesDescriptions)
+       { %>
+        <li><%: Html.ActionLink(themeDescription.ToString(), "Play", "Training", new { Id = themeDescription.Theme.Id }, null)%></li>
     <% } %>
     </ul>
 </asp:Content>
