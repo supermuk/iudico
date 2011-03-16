@@ -24,11 +24,6 @@ namespace IUDICO.UserManagement.Controllers
         [Allow]
         public ActionResult Index()
         {
-            /*if (!User.Identity.IsAuthenticated)
-            {
-                return Redirect("/Account/Login");
-            }*/
-
             var user = _Storage.GetCurrentUser();
             var groups = _Storage.GetGroupsByUser(user);
 
@@ -92,7 +87,7 @@ namespace IUDICO.UserManagement.Controllers
         [HttpPost]
         public ActionResult Login(string loginIdentifier)
         {
-            if (!Identifier.IsValid(loginIdentifier))
+            if (string.IsNullOrEmpty(loginIdentifier) || !Identifier.IsValid(loginIdentifier))
             {
                 ModelState.AddModelError(string.Empty, "Invalid OpenID");
                 
