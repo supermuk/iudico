@@ -100,6 +100,7 @@
     <Compile Include="Models\JsTree.cs" />
     <Compile Include="Models\ManifestModels\ConstantStrings.cs" />
     <Compile Include="Models\ManifestModels\Enums.cs" />
+    <Compile Include="Models\ManifestModels\Importer.cs" />
     <Compile Include="Models\ManifestModels\Manifest.cs" />
     <Compile Include="Models\ManifestModels\MetadataModels\ManifestMetadata.cs" />
     <Compile Include="Models\ManifestModels\MetadataModels\Metadata.cs" />
