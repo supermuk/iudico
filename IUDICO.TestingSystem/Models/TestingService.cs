@@ -8,6 +8,9 @@ using System.Web;
 using Microsoft.LearningComponents.Storage;
 using Microsoft.LearningComponents;
 using System.IO;
+using System.Linq;
+using System.Web.Mvc;
+using System.Web.Routing;
 using BasicWebPlayer.Schema;
 using System.Data;
 
@@ -46,6 +49,14 @@ namespace IUDICO.TestingSystem.Models
         public IEnumerable<AnswerResult> GetAnswers(AttemptResult attempt)
         {
             throw new NotImplementedException();
+        }
+        public ActionLink BuildLink(Theme theme)
+        {
+            var c= CourseService.GetCourse(theme.CourseRef);
+            RouteValueDictionary routeValueDictionary = new RouteValueDictionary();
+            routeValueDictionary.Add("id", c.Id);
+            ActionLink actionLink = new ActionLink("Training", "Play", new RouteValueDictionary(routeValueDictionary));
+            return actionLink;
         }
 
         public PackageItemIdentifier UploadPackage(Course course)

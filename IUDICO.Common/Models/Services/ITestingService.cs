@@ -29,5 +29,12 @@ namespace IUDICO.Common.Models.Services
         IEnumerable<AnswerResult> GetAnswers(AttemptResult attempt);
 
         long GetAttempt(Course course);
+
+        /// <summary>
+        /// Get course for theme and build link at the course
+        /// </summary>
+        /// <param name="theme">Theme</param>
+        /// <returns>Link</returns>
+        ActionLink BuildLink(Theme theme);
     }
 }
