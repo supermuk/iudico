@@ -70,9 +70,29 @@ namespace IUDICO.TestingSystem
                 "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Include/{file}");
             */
             routes.MapPageRoute(
-                "PlayerTheme",
-                "Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Content.aspx/{View}/{Attemptid}/{filePath}",
+                "PlayerFrameset",
+                "Player/Frameset/{page}.aspx",
+                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/{page}.aspx");
+            routes.MapPageRoute(
+                "PlayerContent",
+                "Player/Frameset/Content.aspx/{one}/{two}/{three}",
                 "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Content.aspx");
+            routes.MapPageRoute(
+                "PlayerContentExtended",
+                "Player/Frameset/Content.aspx/{one}/{two}/{three}/{four}",
+                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Content.aspx");
+           /* routes.MapPageRoute(
+                "PlayerImages",
+                "Player/Frameset/Images/{page}",
+                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Images/{page}");
+            routes.MapPageRoute(
+                "PlayerInclude",
+                "Player/Frameset/Include/{page}",
+                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Include/{page}");
+            routes.MapPageRoute(
+                "PlayerTheme",
+                "Player/Frameset/Theme/{page}",
+                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Theme/{page}");*/
             
             /*routes.MapRoute(
                "Training",

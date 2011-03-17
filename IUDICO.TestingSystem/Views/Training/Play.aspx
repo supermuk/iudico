@@ -5,7 +5,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <iframe width="100%" height="800px" frameborder="0" src="<%: "/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Frameset.aspx?View=0&AttemptId=" + Model.ToString() %>" id="content" name="content" style="display: inline; overflow-x: hidden;"></iframe>
+    <iframe width="100%" height="800px" frameborder="0" src="<%: "/Player/Frameset/Frameset.aspx?View=0&AttemptId=" + Model.ToString() %>" id="content" name="content" style="display: inline; overflow-x: hidden;"></iframe>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
