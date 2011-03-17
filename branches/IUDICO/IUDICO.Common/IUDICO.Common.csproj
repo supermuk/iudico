@@ -63,6 +63,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\PluginController.cs" />
     <Compile Include="Models\Action.cs" />
+    <Compile Include="Models\ActionLink.cs" />
     <Compile Include="Models\Attributes\AllowAttribute.cs" />
     <Compile Include="Models\Attributes\DropDownListAttribute.cs" />
     <Compile Include="Models\Attributes\EmailAddressAttribute.cs" />
