@@ -270,7 +270,7 @@ function FM_IsTrainingComplete() {
 
 // Hides the UI controls frameset. 
 function HideUIControls() {
-    window.top.frames[MAIN_FRAME].document.getElementById("framesetParentUI").cols = "0px,*";
+    frames[MAIN_FRAME].document.getElementById("framesetParentUI").cols = "0px,*";
 
     var titleDoc = window.top.frames[TITLE_FRAME].document;
     titleDoc.getElementById("imgSaveAndCloseTd").innerHTML = "&nbsp;";
@@ -292,20 +292,20 @@ function GetTitleDoc() {
 }
 
 function GetTocDoc() {
-    return window.top.frames[MAIN_FRAME].document.getElementById(TOC_FRAME).contentWindow.document;
+    return frames[MAIN_FRAME].document.getElementById(TOC_FRAME).contentWindow.document;
 }
 
 function GetContentFrame() {
-    return window.top.frames[MAIN_FRAME].document.getElementById(CONTENT_FRAME);
+    return frames[MAIN_FRAME].document.getElementById(CONTENT_FRAME);
 }
 
 function GetNavFrame(navFrameName) {
-    return window.top.frames[MAIN_FRAME].document.getElementById(navFrameName);
+    return frames[MAIN_FRAME].document.getElementById(navFrameName);
 }
 
 
 function GetHiddenFrame() {
-    return window.top.frames[MAIN_FRAME].document.getElementById(HIDDEN_FRAME);
+    return frames[MAIN_FRAME].document.getElementById(HIDDEN_FRAME);
 }
 
 
@@ -618,7 +618,7 @@ function FM_DoPost(bIsRetry) {
 
     if (form == undefined) {
         try {
-            form = window.top.frames[MAIN_FRAME].document.getElementById(this.m_postFrameName).contentWindow.document.forms[0];
+            form = frames[MAIN_FRAME].document.getElementById(this.m_postFrameName).contentWindow.document.forms[0];
         }
         catch (e) {
             // do nothing
