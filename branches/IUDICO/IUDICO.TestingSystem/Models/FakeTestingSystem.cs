@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared.Statistics;
 using IUDICO.Common.Models;
+using IUDICO.Common.Controllers;
+using System.Web.Routing;
 
 namespace IUDICO.TestingSystem.Models
 {
@@ -51,6 +53,14 @@ namespace IUDICO.TestingSystem.Models
 
             return results;
 
+        }
+        public ActionLink BuildLink(Theme theme)
+        {
+            var c = PluginController.LmsService.FindService<ICourseService>().GetCourse(theme.CourseRef);
+            RouteValueDictionary routeValueDictionary = new RouteValueDictionary();
+            routeValueDictionary.Add("id", c.Id);
+            ActionLink actionLink = new ActionLink("Training", "Play", new RouteValueDictionary(routeValueDictionary));
+            return actionLink;
         }
 
         public long GetAttempt(Course course)
