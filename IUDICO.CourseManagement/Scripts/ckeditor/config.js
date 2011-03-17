@@ -27,7 +27,7 @@ CKEDITOR.editorConfig = function (config) {
 	    ['Styles','Format','Font','FontSize'],
 	    ['TextColor','BGColor'],
 	    ['Maximize', 'ShowBlocks', '-', 'About'],
-        ['iudico-simple', 'iudico-choice', 'iudico-compile'],
+        ['iudico'],
     ];
 
     config.toolbar = 'IUDICO';
