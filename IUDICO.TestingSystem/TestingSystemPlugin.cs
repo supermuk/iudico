@@ -69,11 +69,11 @@ namespace IUDICO.TestingSystem
                 "Player/Include/{file}",
                 "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Include/{file}");
             */
-            /*routes.MapPageRoute(
+            routes.MapPageRoute(
                 "PlayerTheme",
-                "Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Content.aspx{data}",
+                "Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Content.aspx/{View}/{Attemptid}/{filePath}",
                 "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Content.aspx");
-            */
+            
             /*routes.MapRoute(
                "Training",
                "Training/{packageId}/{attemptId}",
