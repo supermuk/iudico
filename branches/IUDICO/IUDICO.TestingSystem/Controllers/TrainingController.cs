@@ -51,54 +51,19 @@ namespace IUDICO.TestingSystem.Controllers
         //
         // GET: /Training/
 
-        public ActionResult Index()
-        {
-            // TODO: provide user-based
-            IEnumerable<Training> trainings = MlcProxy.GetTrainings(1);
-            return View(trainings);
-        }
-
+        [Allow(Role=Role.Student)]
         public ActionResult Play(int id)
         {
-            var attempt = TestingService.GetAttempt(LmsService.FindService<ICourseService>().GetCourse((int)id));
+            var curriculumService = LmsService.FindService<ICurriculumService>();
+
+            var theme = curriculumService.GetTheme(id);
+
+            if (!curriculumService.GetThemesAvailableForUser(UserService.GetCurrentUser()).Select(t => t.Theme).Contains(theme))
+                return View("Error", "You are not allowed to pass this theme."); //throw new ArgumentException("Not allowed to pass this theme");
+
+            var attempt = TestingService.GetAttempt(LmsService.FindService<ICourseService>().GetCourse(theme.CourseRef));
 
             return View("Play", attempt);
-        }
-
-        public ActionResult Create(long id)
-        {
-            var attemptId = MlcProxy.CreateAttempt(id);
-
-            // TODO: redirect to frameset.
-            return RedirectToAction("Play", new { id = attemptId });
-        }
-
-        public ActionResult Details(long packageId, long attemptId = -1)
-        {
-            // TODO: provide user-based
-
-            var trainings = MlcProxy.GetTrainings(1);
-            var trainingsById = trainings.Where(tr => tr.PackageId == packageId);
-
-            Training training;
-
-            if (attemptId > 0 && trainingsById.Count() > 1)
-            {
-                training = trainingsById.SingleOrDefault(tr => tr.AttemptId == attemptId);
-            }
-            else
-            {
-                training = trainingsById.First();
-            }
-
-            return View("Details", training);
-        }
-
-        public ActionResult Delete(long id)
-        {
-            MlcProxy.DeletePackage(id);
-
-            return RedirectToAction("Index");
         }
     }
 }
