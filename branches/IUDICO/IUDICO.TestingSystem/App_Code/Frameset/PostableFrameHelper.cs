@@ -254,6 +254,7 @@ namespace Microsoft.LearningComponents.Frameset
                 // The URL for attempt-based content frames in BWP is:
                 // http://<...basicWebApp>/Content.aspx/<view>/<attemptId>/otherdata/
                 // the otherdata depends on the view
+                //sb.Append("?PF=\"");
                 sb.Append("Content.aspx");
                 AppendContentFrameDetails(Session, sb);
                 sb.Append("/");
@@ -269,6 +270,7 @@ namespace Microsoft.LearningComponents.Frameset
                         sb.Append("?");
                     sb.Append(parameters);
                 }
+                //sb.Append("\"");
             }
 
             return sb.ToString();

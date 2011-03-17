@@ -417,7 +417,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             // Write frame to post. When displaying an error (which is the case, since we are here) the hidden frame is posted next
             Response.Write("frameMgr.SetPostFrame('frameHidden');\r\n");
-            Response.Write("frameMgr.SetPostableForm(window.top.frames[MAIN_FRAME].document.getElementById(HIDDEN_FRAME).contentWindow.document.forms[0]);\r\n");
+            Response.Write("frameMgr.SetPostableForm(parent.parent.frames[MAIN_FRAME].document.getElementById(HIDDEN_FRAME).contentWindow.document.forms[0]);\r\n");
 
             if (HasError || SubmitPageDisplayed)
             {
