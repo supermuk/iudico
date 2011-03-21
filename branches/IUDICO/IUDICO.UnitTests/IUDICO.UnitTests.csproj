@@ -51,6 +51,7 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Web" />
@@ -72,6 +73,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CurriculumResultTest.cs" />
+    <Compile Include="CurriculumStorageTest.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="FakeLmsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecializedResultTest.cs" />
     <Compile Include="ThemeInfoModelTest.cs" />
@@ -81,6 +85,10 @@
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
       <Project>{9DD6C943-6608-4351-A521-E4B1F2F75E9D}</Project>
       <Name>IUDICO.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IUDICO.CurriculumManagement\IUDICO.CurriculumManagement.csproj">
+      <Project>{E6F7266F-760A-4D43-B78C-378CA12DBE08}</Project>
+      <Name>IUDICO.CurriculumManagement</Name>
     </ProjectReference>
     <ProjectReference Include="..\IUDICO.Statistics\IUDICO.Statistics.csproj">
       <Project>{A3157C96-0DCC-4B6E-909D-948205118E74}</Project>
