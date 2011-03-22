@@ -20,7 +20,7 @@ namespace IUDICO.UnitTests
 
         public DBDataContext GetDbDataContext()
         {
-            return new DBDataContext("This must be path to fake repository");
+            return new DBDataContext();//"This must be path to fake repository");
         }
 
         public DbConnection GetDbConnection()
