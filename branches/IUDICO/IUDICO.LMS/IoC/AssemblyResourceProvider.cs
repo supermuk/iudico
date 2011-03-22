@@ -72,9 +72,9 @@ namespace IUDICO.LMS.IoC
 
 #if DEBUG
                 var realPath = Path.Combine(
-                        Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\')),
-                        parts[3].Replace('/', '\\')
-                    );
+                    Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\')),
+                    parts[3].Replace('/', '\\')
+                );
 
                 if (File.Exists(realPath))
                 {
