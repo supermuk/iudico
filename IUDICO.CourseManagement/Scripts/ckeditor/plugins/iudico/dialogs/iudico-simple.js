@@ -34,25 +34,6 @@
             }
         },
         onOk: function () {
-            /*
-            //editor =this.editor;
-            element = this.object;
-            isInsertMode = !element;
-
-            if (isInsertMode) {
-            element = editor.document.createElement('object');
-            element.setAttribute('iudico', 'true');
-            element.setAttribute('type', 'simple');
-            element.setAttribute('class', 'iudico');
-            }
-
-            this.commitContent(objectNode);
-
-
-            if (isInsertMode) {
-            editor.insertElement(element);
-            }
-            */
             // If there's no selected object or embed, create one. Otherwise, reuse the
             // selected object and embed nodes.
             var objectNode = null,
@@ -84,15 +65,14 @@
 
             // Refresh the fake image.
             var newFakeDiv = editor.createFakeElement(objectNode, 'cke_iudico', 'div', true);
-console.log(newFakeDiv);
             newFakeDiv.setAttributes(extraAttributes);
             newFakeDiv.setStyles(extraStyles);
             if (this.fakeDiv) {
                 newFakeDiv.replace(this.fakeDiv);
                 editor.getSelection().selectElement(newFakeDiv);
-            }
-            else
+            } else {
                 editor.insertElement(newFakeDiv);
+            }
         },
         onCancel: function () { },
         onLoad: function (data) { },
@@ -110,7 +90,7 @@ console.log(newFakeDiv);
                         label: editor.lang.iudico.question,
                         labelLayout: 'horizontal',
                         commit: function (element) {
-                            addParam(element, 'question', this.getValue());
+                            this.getDialog().addParam(element, 'question', this.getValue());
                         }
 
                     },
@@ -120,7 +100,7 @@ console.log(newFakeDiv);
                         label: editor.lang.iudico.correctAnswer,
                         labelLayout: 'horizontal',
                         commit: function (element) {
-                            addParam(element, 'correctAnswer', this.getValue());
+                            this.getDialog().addParam(element, 'correctAnswer', this.getValue());
                         }
                     }
 				]
