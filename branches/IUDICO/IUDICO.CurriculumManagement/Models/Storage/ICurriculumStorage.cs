@@ -79,7 +79,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         IEnumerable<CurriculumAssignment> GetCurriculumAssignments(IEnumerable<int> ids);
         IEnumerable<CurriculumAssignment> GetCurriculumAssignmnetsByCurriculumId(int curriculumId);
         IEnumerable<CurriculumAssignment> GetCurriculumAssignmentsByGroupId(int groupId);
-        IEnumerable<CurriculumAssignment> GetCurriculumAssignmnets();
+        IEnumerable<CurriculumAssignment> GetCurriculumAssignments();
         int AddCurriculumAssignment(CurriculumAssignment curriculumAssignment);
         void UpdateCurriculumAssignment(CurriculumAssignment curriculumAssignment);
         void DeleteCurriculumAssignment(int id);
