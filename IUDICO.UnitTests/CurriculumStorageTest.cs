@@ -14,12 +14,13 @@ namespace IUDICO.UnitTests
     {
         MixedCurriculumStorage storage { get; set; }
         static ILmsService fakeLmsService { get; set; }
+        static DBDataContext context { get;set; } //??? чи так треба , чи мож є якийсь інший спосіб добавляти групи
 
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext)
         {
             fakeLmsService = new FakeLmsService();
-            DBDataContext context = fakeLmsService.GetDbDataContext();
+            context = fakeLmsService.GetDbDataContext(); //???
             //clear all tables before test runs!
             context.Curriculums.DeleteAllOnSubmit(context.Curriculums);
             context.SubmitChanges();
@@ -159,10 +160,149 @@ namespace IUDICO.UnitTests
         [TestMethod]
         public void TestMethod10()
         {
+            Curriculum curriculum = new Curriculum(){ Name = "Curriculum"};
+            int curriculumId = storage.AddCurriculum(curriculum);
 
+            Stage stageOne = new Stage() { Name = "StageOne", CurriculumRef = curriculumId };
+            int stageOneId = storage.AddStage(stageOne);
+            Stage stageTwo = new Stage(){ Name = "StageTwo",CurriculumRef = curriculumId };
+            int stageTwoId = storage.AddStage(stageTwo);
 
+            Theme theme1 = new Theme() { Name = "Theme1", StageRef = stageOneId, ThemeTypeRef = 1};
+            Theme theme2 = new Theme() { Name = "Theme2", StageRef = stageTwoId, ThemeTypeRef = 2};
+            int theme1Id = storage.AddTheme(theme1);
+            int theme2Id = storage.AddTheme(theme2);
+
+            List<Theme> themes = new List<Theme>();
+            themes.Add(theme1);
+
+            AdvAssert.AreEqual(themes,storage.GetThemesByStageId(stageOneId).ToList());
+
+            themes.Add(theme2);
+            AdvAssert.AreEqual(themes, storage.GetThemesByCurriculumId(curriculumId).ToList());
         }
 
+        [TestMethod]
+        public void TestMethod11()
+        {
+            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
+            int curriculumId = storage.AddCurriculum(curriculum);
+
+            Stage stageOne = new Stage() { Name = "StageOne", CurriculumRef = curriculumId };
+            int stageOneId = storage.AddStage(stageOne);
+
+            Theme theme = new Theme() { Name = "Theme", StageRef = stageOneId, ThemeTypeRef = 1 };
+            int themeId = storage.AddTheme(theme);
+
+            AdvAssert.AreEqual(theme, storage.GetTheme(themeId));
+
+            theme.Name = "NewName";
+            storage.UpdateTheme(theme);
+            AdvAssert.AreEqual(theme, storage.GetTheme(themeId));
+
+            storage.DeleteTheme(themeId);
+            try
+            {
+                AdvAssert.AreEqual(theme, storage.GetTheme(themeId));
+                Assert.AreEqual(true, false);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+
+        #endregion
+
+        #region CurriculumAssignmentMethods
+
+        [TestMethod]
+        public void TestMethod12()
+        {
+            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
+            int curriculumId = storage.AddCurriculum(curriculum);
+
+            Group group = new Group() { Name = "Group" };
+            context.Groups.InsertOnSubmit(group);
+            context.SubmitChanges();
+            int groupId = group.Id;
+
+            CurriculumAssignment curriculumAssignment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groupId };
+            int curriculumAssignmentId = storage.AddCurriculumAssignment(curriculumAssignment);
+            AdvAssert.AreEqual(curriculumAssignment,storage.GetCurriculumAssignment(curriculumAssignmentId));
+
+            List<CurriculumAssignment> curriculumAssignments = new List<CurriculumAssignment>();
+            curriculumAssignments.Add(curriculumAssignment);
+
+            AdvAssert.AreEqual(curriculumAssignments,storage.GetCurriculumAssignmnetsByCurriculumId(curriculumId).ToList());
+
+            Curriculum curriculumTwo = new Curriculum() { Name = "CurriculumTwo" };
+            int curriculumTwoId = storage.AddCurriculum(curriculumTwo);
+            CurriculumAssignment curriculumAssignmentTwo = new CurriculumAssignment() { CurriculumRef = curriculumTwoId, UserGroupRef = groupId };
+            int curriculumAssignmentTwoId = storage.AddCurriculumAssignment(curriculumAssignmentTwo);
+            curriculumAssignments.Add(curriculumAssignmentTwo);
+
+            AdvAssert.AreEqual(curriculumAssignments,storage.GetCurriculumAssignments().ToList());
+        }
+
+        [TestMethod]
+        public void TestMethod13()
+        {
+            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
+            int curriculumId = storage.AddCurriculum(curriculum);
+
+            Group group = new Group() { Name = "Group" };
+            context.Groups.InsertOnSubmit(group);
+            context.SubmitChanges();
+
+            int groupId = group.Id;
+
+            CurriculumAssignment curriculumAssignment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groupId };
+            int curriculumAssignmentId = storage.AddCurriculumAssignment(curriculumAssignment);
+            AdvAssert.AreEqual(curriculumAssignment, storage.GetCurriculumAssignment(curriculumAssignmentId));
+
+            Group groupTwo = new Group() { Name = "GroupTwo" };
+            context.Groups.InsertOnSubmit(groupTwo);
+            context.SubmitChanges();
+
+            curriculumAssignment.UserGroupRef = groupId;
+            storage.UpdateCurriculumAssignment(curriculumAssignment);
+            AdvAssert.AreEqual(curriculumAssignment, storage.GetCurriculumAssignment(curriculumAssignmentId));
+        }
+
+        [TestMethod]
+        public void TestMethod14()
+        {
+            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
+            int curriculumId = storage.AddCurriculum(curriculum);
+
+            Group group = new Group() { Name = "Group" };
+            context.Groups.InsertOnSubmit(group);
+            context.SubmitChanges();
+
+            int groupId = group.Id;
+
+            CurriculumAssignment curriculumAssignment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groupId };
+            int curriculumAssignmentId = storage.AddCurriculumAssignment(curriculumAssignment);
+            AdvAssert.AreEqual(curriculumAssignment, storage.GetCurriculumAssignment(curriculumAssignmentId));
+            
+            List<CurriculumAssignment> curriculumAssignments = new List<CurriculumAssignment>();
+            curriculumAssignments.Add(curriculumAssignment);
+
+            AdvAssert.AreEqual(curriculumAssignments,storage.GetCurriculumAssignmentsByGroupId(groupId).ToList());
+
+            storage.DeleteCurriculumAssignment(curriculumAssignmentId);
+            
+            try
+            {
+                AdvAssert.AreEqual(curriculumAssignment, storage.GetCurriculumAssignment(curriculumAssignmentId));
+                Assert.AreEqual(true,false);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true,true);
+            }
+        }
 
         #endregion
     }

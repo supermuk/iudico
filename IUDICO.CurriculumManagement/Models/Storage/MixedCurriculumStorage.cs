@@ -446,7 +446,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return _Db.CurriculumAssignments.Single(item => item.Id == curriculumAssignmentId && !item.IsDeleted);
         }
 
-        public IEnumerable<CurriculumAssignment> GetCurriculumAssignmnets()
+        public IEnumerable<CurriculumAssignment> GetCurriculumAssignments()
         {
             return _Db.CurriculumAssignments.Where(item => !item.IsDeleted);
         }
