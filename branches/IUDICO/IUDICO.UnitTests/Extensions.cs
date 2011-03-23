@@ -14,6 +14,8 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(expected.Name, actual.Name);
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
             Assert.AreEqual(expected.Id, actual.Id);
+            Assert.AreEqual(expected.Created, actual.Created);
+            Assert.AreEqual(expected.Updated, actual.Updated);
         }
 
         public static void AreEqual(Stage expected, Stage actual)
@@ -22,6 +24,8 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
             Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreEqual(expected.CurriculumRef, actual.CurriculumRef);
+            Assert.AreEqual(expected.Created, actual.Created);
+            Assert.AreEqual(expected.Updated, actual.Updated);
         }
 
         public static void AreEqual(List<Stage> expected,List<Stage> actual)
@@ -35,6 +39,8 @@ namespace IUDICO.UnitTests
                 Assert.AreEqual(item.IsDeleted, actual[i].IsDeleted);
                 Assert.AreEqual(item.Id, actual[i].Id);
                 Assert.AreEqual(item.CurriculumRef, actual[i].CurriculumRef);
+                Assert.AreEqual(item.Created, actual[i].Created);
+                Assert.AreEqual(item.Updated, actual[i].Updated);
                 i++;
             }
         }
@@ -44,9 +50,9 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(expected.Name, actual.Name);
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
             Assert.AreEqual(expected.Id, actual.Id);
-            Assert.AreEqual(expected.CourseRef,expected.CourseRef);
-            Assert.AreEqual(expected.ThemeTypeRef, expected.ThemeTypeRef);
-            Assert.AreEqual(expected.StageRef, expected.StageRef);
+            Assert.AreEqual(expected.CourseRef,actual.CourseRef);
+            Assert.AreEqual(expected.ThemeTypeRef, actual.ThemeTypeRef);
+            Assert.AreEqual(expected.StageRef, actual.StageRef);
         }
 
         public static void AreEqual(List<Theme> expected, List<Theme> actual)
@@ -60,8 +66,8 @@ namespace IUDICO.UnitTests
                 Assert.AreEqual(item.IsDeleted, actual[i].IsDeleted);
                 Assert.AreEqual(item.Id, actual[i].Id);
                 Assert.AreEqual(item.StageRef, actual[i].StageRef);
-                Assert.AreEqual(item.CourseRef, expected[i].CourseRef);
-                Assert.AreEqual(item.ThemeTypeRef, expected[i].ThemeTypeRef);
+                Assert.AreEqual(item.CourseRef, actual[i].CourseRef);
+                Assert.AreEqual(item.ThemeTypeRef, actual[i].ThemeTypeRef);
                 i++;
             }
         }
@@ -129,8 +135,31 @@ namespace IUDICO.UnitTests
                 i++;
             }
         }
-    }
-    
+
+        public static void AreEqual(ThemeAssignment actual, ThemeAssignment expected)
+        {
+            Assert.AreEqual(expected.ThemeRef, actual.ThemeRef);
+            Assert.AreEqual(expected.Id, actual.Id);
+            Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
+            Assert.AreEqual(expected.CurriculumAssignmentRef, actual.CurriculumAssignmentRef);
+            Assert.AreEqual(expected.MaxScore, actual.MaxScore);
+        }
+        public static void AreEqual(List<ThemeAssignment> expected, List<ThemeAssignment> actual)
+        {
+            Assert.AreEqual(expected.Count, actual.Count);
+
+            int i = 0;
+            foreach (ThemeAssignment item in expected)
+            {
+                Assert.AreEqual(item.Id, actual[i].Id);
+                Assert.AreEqual(item.MaxScore, actual[i].MaxScore);
+                Assert.AreEqual(item.IsDeleted, actual[i].IsDeleted);
+                Assert.AreEqual(item.ThemeRef, actual[i].ThemeRef);
+                Assert.AreEqual(item.CurriculumAssignmentRef, actual[i].CurriculumAssignmentRef);
+                i++;
+            }
+        }
+    }    
     
     public static class Extensions
     {
