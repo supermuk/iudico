@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BasicWebPlayer.Schema {
+namespace IUDICO.TestingSystem.Schema {
     using System;
     using System.Diagnostics.CodeAnalysis;
     
@@ -1064,6 +1064,7 @@ namespace BasicWebPlayer.Schema {
     /// <li><Fld>CompletionStatus</Fld></li>
     /// <li><Fld>CurrentActivityId</Fld></li>
     /// <li><Fld>FinishedTimestamp</Fld></li>
+    /// <li><Fld>IudicoThemeRef</Fld></li>
     /// <li><Fld>LearnerId</Fld></li>
     /// <li><Fld>LogDetailSequencing</Fld></li>
     /// <li><Fld>LogFinalSequencing</Fld></li>
@@ -1293,6 +1294,19 @@ namespace BasicWebPlayer.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string TotalPoints = Microsoft.LearningComponents.Storage.BaseSchema.AttemptItem.TotalPoints;
+        
+        /// <summary>
+        /// Name of the IudicoThemeRef property on the <Typ>AttemptItem</Typ> item type.
+        /// </summary>
+        /// <remarks>
+        /// Property type: Int32<p/>
+        /// Property can contain null.<p/>
+        /// Default value: null<p/>
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string IudicoThemeRef = "IudicoThemeRef";
     }
     
     /// <summary>
@@ -2997,13 +3011,10 @@ namespace BasicWebPlayer.Schema {
     /// Properties on the item type:
     /// <ul>
     /// <li><Fld>Id</Fld></li>
-    /// <li><Fld>FileName</Fld></li>
     /// <li><Fld>IudicoCourseRef</Fld></li>
     /// <li><Fld>Location</Fld></li>
     /// <li><Fld>Manifest</Fld></li>
-    /// <li><Fld>Owner</Fld></li>
     /// <li><Fld>PackageFormat</Fld></li>
-    /// <li><Fld>UploadDateTime</Fld></li>
     /// </ul>
     /// </remarks>
     [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
@@ -3076,53 +3087,6 @@ namespace BasicWebPlayer.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string Manifest = Microsoft.LearningComponents.Storage.BaseSchema.PackageItem.Manifest;
-        
-        /// <summary>
-        /// Name of the Owner property on the <Typ>PackageItem</Typ> item type.
-        /// </summary>
-        /// <remarks>
-        /// Property type: Reference to a <Typ>UserItem</Typ> item type.<p/>
-        /// Property can contain null.<p/>
-        /// Default value: null<p/>
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string Owner = "Owner";
-        
-        /// <summary>
-        /// Name of the FileName property on the <Typ>PackageItem</Typ> item type.
-        /// </summary>
-        /// <remarks>
-        /// Property type: String[260]<p/>
-        /// Property can not contain null.<p/>
-        /// Default value: ""<p/>
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string FileName = "FileName";
-        
-        /// <summary>
-        /// Maximum length of the <Fld>FileName</Fld> property in characters.
-        /// </summary>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const int MaxFileNameLength = 260;
-        
-        /// <summary>
-        /// Name of the UploadDateTime property on the <Typ>PackageItem</Typ> item type.
-        /// </summary>
-        /// <remarks>
-        /// Property type: DateTime<p/>
-        /// Property can contain null.<p/>
-        /// Default value: null<p/>
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string UploadDateTime = "UploadDateTime";
         
         /// <summary>
         /// Name of the IudicoCourseRef property on the <Typ>PackageItem</Typ> item type.
@@ -6168,7 +6132,7 @@ namespace BasicWebPlayer.Schema {
     }
     
     /// <summary>
-    /// Contains constants related to the MyAttemptsAndPackages view.
+    /// Contains constants related to the MyAttempts view.
     /// </summary>
     /// <remarks>
     /// Columns in the view:
@@ -6176,11 +6140,9 @@ namespace BasicWebPlayer.Schema {
     /// <li><Fld>AttemptId</Fld></li>
     /// <li><Fld>AttemptStatus</Fld></li>
     /// <li><Fld>OrganizationId</Fld></li>
-    /// <li><Fld>OrganizationTitle</Fld></li>
-    /// <li><Fld>PackageFileName</Fld></li>
     /// <li><Fld>PackageId</Fld></li>
+    /// <li><Fld>ThemeId</Fld></li>
     /// <li><Fld>TotalPoints</Fld></li>
-    /// <li><Fld>UploadDateTime</Fld></li>
     /// </ul>
     /// Parameters in the view:
     /// None
@@ -6188,15 +6150,15 @@ namespace BasicWebPlayer.Schema {
     [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
     [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
     [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-    public abstract class MyAttemptsAndPackages {
+    public abstract class MyAttempts {
         
         /// <summary>
-        /// Name of the <Typ>MyAttemptsAndPackages</Typ> view.
+        /// Name of the <Typ>MyAttempts</Typ> view.
         /// </summary>
-        public const string ViewName = "MyAttemptsAndPackages";
+        public const string ViewName = "MyAttempts";
         
         /// <summary>
-        /// Name of the PackageId column on the <Typ>MyAttemptsAndPackages</Typ> view.
+        /// Name of the PackageId column on the <Typ>MyAttempts</Typ> view.
         /// </summary>
         /// <remarks>
         /// Column type: Reference to a <Typ>PackageItem</Typ> item type.
@@ -6207,18 +6169,7 @@ namespace BasicWebPlayer.Schema {
         public const string PackageId = "PackageId";
         
         /// <summary>
-        /// Name of the PackageFileName column on the <Typ>MyAttemptsAndPackages</Typ> view.
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string PackageFileName = "PackageFileName";
-        
-        /// <summary>
-        /// Name of the OrganizationId column on the <Typ>MyAttemptsAndPackages</Typ> view.
+        /// Name of the OrganizationId column on the <Typ>MyAttempts</Typ> view.
         /// </summary>
         /// <remarks>
         /// Column type: Reference to a <Typ>ActivityPackageItem</Typ> item type.
@@ -6229,18 +6180,18 @@ namespace BasicWebPlayer.Schema {
         public const string OrganizationId = "OrganizationId";
         
         /// <summary>
-        /// Name of the OrganizationTitle column on the <Typ>MyAttemptsAndPackages</Typ> view.
+        /// Name of the ThemeId column on the <Typ>MyAttempts</Typ> view.
         /// </summary>
         /// <remarks>
-        /// Column type: String[]
+        /// Column type: Int32
         /// </remarks>
         [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string OrganizationTitle = "OrganizationTitle";
+        public const string ThemeId = "ThemeId";
         
         /// <summary>
-        /// Name of the AttemptId column on the <Typ>MyAttemptsAndPackages</Typ> view.
+        /// Name of the AttemptId column on the <Typ>MyAttempts</Typ> view.
         /// </summary>
         /// <remarks>
         /// Column type: Reference to a <Typ>AttemptItem</Typ> item type.
@@ -6251,18 +6202,7 @@ namespace BasicWebPlayer.Schema {
         public const string AttemptId = "AttemptId";
         
         /// <summary>
-        /// Name of the UploadDateTime column on the <Typ>MyAttemptsAndPackages</Typ> view.
-        /// </summary>
-        /// <remarks>
-        /// Column type: DateTime
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string UploadDateTime = "UploadDateTime";
-        
-        /// <summary>
-        /// Name of the AttemptStatus column on the <Typ>MyAttemptsAndPackages</Typ> view.
+        /// Name of the AttemptStatus column on the <Typ>MyAttempts</Typ> view.
         /// </summary>
         /// <remarks>
         /// Column type: <Typ>/Microsoft.LearningComponents.AttemptStatus</Typ>
@@ -6273,7 +6213,7 @@ namespace BasicWebPlayer.Schema {
         public const string AttemptStatus = "AttemptStatus";
         
         /// <summary>
-        /// Name of the TotalPoints column on the <Typ>MyAttemptsAndPackages</Typ> view.
+        /// Name of the TotalPoints column on the <Typ>MyAttempts</Typ> view.
         /// </summary>
         /// <remarks>
         /// Column type: Single
@@ -6625,7 +6565,7 @@ namespace BasicWebPlayer.Schema {
         public const string AttemptId = Microsoft.LearningComponents.Storage.BaseSchema.RandomAccessSessionRight.AttemptId;
     }
 }
-namespace BasicWebPlayer {
+namespace IUDICO.TestingSystem {
     using System;
     using System.Diagnostics.CodeAnalysis;
     using Microsoft.LearningComponents.Storage;

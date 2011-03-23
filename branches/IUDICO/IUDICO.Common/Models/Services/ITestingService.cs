@@ -27,14 +27,12 @@ namespace IUDICO.Common.Models.Services
         /// <param name="attempt">Attempt, for which answers are returned.</param>
         /// <returns>Collection of AnswerResult objects.</returns>
         IEnumerable<AnswerResult> GetAnswers(AttemptResult attempt);
-
-        long GetAttempt(Course course);
-
+        
         /// <summary>
-        /// Get course for theme and build link at the course
+        /// Builds "play theme" link.
         /// </summary>
-        /// <param name="theme">Theme</param>
-        /// <returns>Link</returns>
+        /// <param name="theme">Theme value represents theme, link is build for.</param>
+        /// <returns>ActionLink object containing data for building ActionLink using Html helpers.</returns>
         ActionLink BuildLink(Theme theme);
     }
 }
