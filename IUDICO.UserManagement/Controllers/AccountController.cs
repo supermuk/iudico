@@ -8,6 +8,7 @@ using IUDICO.Common.Controllers;
 using IUDICO.UserManagement.Models;
 using IUDICO.UserManagement.Models.Storage;
 using IUDICO.Common.Models.Attributes;
+using System.Globalization;
 
 namespace IUDICO.UserManagement.Controllers
 {
@@ -210,6 +211,11 @@ namespace IUDICO.UserManagement.Controllers
             _Storage.ChangePassword(changePasswordModel);
             
             return RedirectToAction("Index");
+        }
+        public ActionResult ChangeCulture(string lang, string returnUrl)
+        {
+            Session["Culture"] = new CultureInfo(lang);
+            return Redirect(returnUrl);
         }
     }
 }

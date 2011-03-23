@@ -20,6 +20,8 @@ using Action = IUDICO.Common.Models.Action;
 using System.Reflection;
 using IUDICO.LMS.Models.Providers;
 using System.Web.Security;
+using System.Globalization;
+using System.Threading;
 
 namespace IUDICO.LMS
 {
@@ -175,6 +177,34 @@ namespace IUDICO.LMS
         protected bool IsPost(MethodInfo action)
         {
             return Attribute.GetCustomAttribute(action, typeof (HttpPostAttribute), false) != null;
+        }
+        protected void Application_AcquireRequestState(object sender, EventArgs e)
+        {
+
+            if (HttpContext.Current.Session != null)
+            {
+                CultureInfo ci = (CultureInfo)this.Session["Culture"];
+                //спочатку перевіряємо, що в сесії нема значення
+                //і встановлюємо значення за замовчуванням
+                //це виконується про першому запиті користувача
+                if (ci == null)
+                {
+                    //встановлюємо значення за замовчуванням "en"
+                    string langName = "en";
+                    //пробуємо получити значення з HTTP заголовка
+                    if (HttpContext.Current.Request.UserLanguages != null &&
+                        HttpContext.Current.Request.UserLanguages.Length != 0)
+                    {
+
+                        langName = HttpContext.Current.Request.UserLanguages[0].Substring(0, 2);
+                    }
+                    ci = new CultureInfo(langName);
+                    this.Session["Culture"] = ci;
+                }
+                //встановлюємо культуру для кожного запиту
+                Thread.CurrentThread.CurrentUICulture = ci;
+                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
+            }
         }
     }
 }
