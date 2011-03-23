@@ -8,7 +8,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h3>Welcome to Butterfly - Web Editor for SCORM compatible courses.</h3>
+    <h3><%=ViewRes.LMS.WelcomeButterfly %></h3>
 
     <% foreach (var plugin in Model.Actions) { %>
         <h4><%= plugin.Key.GetName() %></h4>
@@ -19,7 +19,7 @@
         </ul>
     <% } %>
 
-    <h4>Available themes:</h4>
+    <h4><%=ViewRes.LMS.AvailableThemes %></h4>
     <ul>
     <% foreach (var themeDescription in Model.ThemesDescriptions)
        { %>

@@ -114,6 +114,16 @@
     <Compile Include="Installers\ServicesInstaller.cs" />
     <Compile Include="IoC\AssemblyResourceProvider.cs" />
     <Compile Include="IoC\IocControllerFactory.cs" />
+    <Compile Include="LMS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LMS.resx</DependentUpon>
+    </Compile>
+    <Compile Include="LMS.uk.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LMS.uk.resx</DependentUpon>
+    </Compile>
     <Compile Include="Models\HomeModel.cs" />
     <Compile Include="Models\LmsService.cs" />
     <Compile Include="Models\Providers\IoCMembershipProvider.cs" />
@@ -156,6 +166,16 @@
     <None Include="Content\ui-lightness\jquery-ui-1.8.5.custom.css">
     </None>
     <None Include="Global.asax" />
+    <EmbeddedResource Include="LMS.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LMS.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>ViewRes</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LMS.uk.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LMS.uk.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>ViewRes</CustomToolNamespace>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Home\Index.aspx" />
     <None Include="Scripts\jquery\jquery-1.4.1-vsdoc.js">
     </None>
@@ -186,6 +206,7 @@
     <Content Include="Scripts\jquery\jquery-ui-1.8.5.js" />
     <Content Include="Scripts\jquery\jquery-ui-timepicker-addon.js" />
     <Content Include="Views\Shared\AccessDenied.aspx" />
+    <Content Include="Views\Shared\CultureChooserUserControl.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\DateTime.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\DropDownList.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\Object.ascx" />
