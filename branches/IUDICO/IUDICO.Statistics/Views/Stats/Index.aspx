@@ -6,7 +6,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Group list</h2>
+    <h2><%=StatisRes.Statistics.GroupList %></h2>
 
     <fieldset>
     <legend>Please, select one group : </legend>
