@@ -107,6 +107,7 @@ SET @schema = @schema +
         '<Property Name="StartedTimestamp" TypeCode="4" Nullable="true" HasDefault="false"/>' +
         '<Property Name="SuccessStatus" TypeCode="8" Nullable="false" HasDefault="true" EnumName="SuccessStatus"/>' +
         '<Property Name="TotalPoints" TypeCode="5" Nullable="true" HasDefault="true"/>' +
+        '<Property Name="IudicoThemeRef" TypeCode="9" Nullable="true" HasDefault="true"/>' +
     '</ItemType>'
 SET @schema = @schema +
     '<ItemType Name="AttemptObjectiveItem" ViewFunction="AttemptObjectiveItem$DefaultView">' + 
@@ -218,9 +219,6 @@ SET @schema = @schema +
         '<Property Name="PackageFormat" TypeCode="8" Nullable="false" HasDefault="false" EnumName="PackageFormat"/>' +
         '<Property Name="Location" TypeCode="2" Nullable="false" HasDefault="false"/>' +
         '<Property Name="Manifest" TypeCode="7" Nullable="false" HasDefault="false"/>' +
-        '<Property Name="Owner" TypeCode="1" Nullable="true" HasDefault="true" ReferencedItemTypeName="UserItem"/>' +
-        '<Property Name="FileName" TypeCode="2" Nullable="false" HasDefault="true"/>' +
-        '<Property Name="UploadDateTime" TypeCode="4" Nullable="true" HasDefault="true"/>' +
         '<Property Name="IudicoCourseRef" TypeCode="9" Nullable="true" HasDefault="true"/>' +
     '</ItemType>'
 SET @schema = @schema +
@@ -601,13 +599,11 @@ SET @schema = @schema +
         '<Parameter Name="PackageId" TypeCode="1" Nullable="true" ReferencedItemTypeName="PackageItem"/>' +
     '</View>'
 SET @schema = @schema +
-    '<View Name="MyAttemptsAndPackages" Function="MyAttemptsAndPackages" SecurityFunction="MyAttemptsAndPackages$Security">' + 
+    '<View Name="MyAttempts" Function="MyAttempts" SecurityFunction="MyAttempts$Security">' + 
         '<Column Name="PackageId" TypeCode="1" Nullable="true" ReferencedItemTypeName="PackageItem"/>' +
-        '<Column Name="PackageFileName" TypeCode="2" Nullable="true"/>' +
         '<Column Name="OrganizationId" TypeCode="1" Nullable="true" ReferencedItemTypeName="ActivityPackageItem"/>' +
-        '<Column Name="OrganizationTitle" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="ThemeId" TypeCode="9" Nullable="true"/>' +
         '<Column Name="AttemptId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AttemptItem"/>' +
-        '<Column Name="UploadDateTime" TypeCode="4" Nullable="true"/>' +
         '<Column Name="AttemptStatus" TypeCode="8" Nullable="true" EnumName="AttemptStatus"/>' +
         '<Column Name="TotalPoints" TypeCode="5" Nullable="true"/>' +
     '</View>'
@@ -624,7 +620,7 @@ SET @schema = @schema +
     '<Right Name="AddPackageReferenceRight" SecurityFunction="AddPackageReferenceRight">' + 
     '</Right>'
 SET @schema = @schema +
-    '<Right Name="RemovePackageReferenceRight" SecurityFunction="RemovePackageReferenceRight">' + 
+    '<Right Name="RemovePackageReferenceRight">' + 
         '<Parameter Name="PackageId" TypeCode="1" Nullable="true" ReferencedItemTypeName="PackageItem"/>' +
     '</Right>'
 SET @schema = @schema +
@@ -1351,7 +1347,8 @@ CREATE TABLE [AttemptItem](
     [LogRollup] bit NOT NULL DEFAULT 0,
     [StartedTimestamp] datetime,
     [SuccessStatus] int NOT NULL DEFAULT 0,
-    [TotalPoints] float(24) DEFAULT NULL
+    [TotalPoints] float(24) DEFAULT NULL,
+    [IudicoThemeRef] int DEFAULT NULL
 )
 GRANT SELECT, INSERT, DELETE, UPDATE ON [AttemptItem] TO LearningStore
 
@@ -1499,9 +1496,6 @@ CREATE TABLE [PackageItem](
     [PackageFormat] int NOT NULL,
     [Location] nvarchar(260) NOT NULL,
     [Manifest] xml NOT NULL,
-    [Owner] bigint DEFAULT NULL,
-    [FileName] nvarchar(260) NOT NULL DEFAULT '',
-    [UploadDateTime] datetime DEFAULT NULL,
     [IudicoCourseRef] int DEFAULT NULL
 )
 GRANT SELECT, INSERT, DELETE, UPDATE ON [PackageItem] TO LearningStore
@@ -1793,10 +1787,6 @@ ALTER TABLE [PackageItem]
 ADD CONSTRAINT FK_PackageItem_PackageFormat FOREIGN KEY ([PackageFormat])
 REFERENCES [PackageFormat] (Id)
 
-ALTER TABLE [PackageItem]
-ADD CONSTRAINT FK_PackageItem_Owner FOREIGN KEY ([Owner])
-REFERENCES [UserItem] (Id)
-
 ALTER TABLE [RubricItem]
 ADD CONSTRAINT FK_RubricItem_InteractionId FOREIGN KEY ([InteractionId])
 REFERENCES [InteractionItem] (Id) ON DELETE CASCADE
@@ -1834,13 +1824,13 @@ ON UserItem([Key])
 GO
 
 -- Create function for the update security on the PackageItem item type
-CREATE FUNCTION [PackageItem$UpdateSecurity](@UserKey nvarchar(250),@Id bigint,@PackageFormat$Changed bit,@PackageFormat int,@Location$Changed bit,@Location nvarchar(260),@Manifest$Changed bit,@Manifest xml,@Owner$Changed bit,@Owner bigint,@FileName$Changed bit,@FileName nvarchar(260),@UploadDateTime$Changed bit,@UploadDateTime datetime,@IudicoCourseRef$Changed bit,@IudicoCourseRef int)
+CREATE FUNCTION [PackageItem$UpdateSecurity](@UserKey nvarchar(250),@Id bigint,@PackageFormat$Changed bit,@PackageFormat int,@Location$Changed bit,@Location nvarchar(260),@Manifest$Changed bit,@Manifest xml,@IudicoCourseRef$Changed bit,@IudicoCourseRef int)
 RETURNS bit
 AS
 BEGIN
     RETURN (CASE WHEN @PackageFormat$Changed=0 AND @Location$Changed=0 AND @Manifest$Changed=0 AND
-    EXISTS(SELECT * FROM PackageItem WHERE Id=@Id AND Owner IS NULL) AND @Owner$Changed=1 AND
-    EXISTS(SELECT * FROM UserItem WHERE Id=@Owner AND [Key]=@UserKey) THEN 1 ELSE 0 END)
+    EXISTS(SELECT * FROM PackageItem WHERE Id=@Id) AND
+    EXISTS(SELECT * FROM UserItem WHERE [Key]=@UserKey) THEN 1 ELSE 0 END)
 END
 GO
 GRANT EXECUTE ON [PackageItem$UpdateSecurity] TO LearningStore
@@ -2200,40 +2190,37 @@ GO
 GRANT EXECUTE ON [RootActivityByPackage$Security] TO LearningStore
 GO
 
--- Create a function that implements the MyAttemptsAndPackages view
-CREATE FUNCTION [MyAttemptsAndPackages](@UserKey nvarchar(250))
+-- Create a function that implements the MyAttempts view
+CREATE FUNCTION [MyAttempts](@UserKey nvarchar(250))
 RETURNS TABLE
 AS
 RETURN (
     SELECT PackageItem.Id AS PackageId,
-    PackageItem.FileName AS PackageFileName,
     ActivityPackageItem.Id AS OrganizationId,
-    ActivityPackageItem.Title AS OrganizationTitle,
+    AttemptItem.IudicoThemeRef AS ThemeId,
     AttemptItem.Id AS AttemptId,
-    PackageItem.UploadDateTime,
     AttemptItem.AttemptStatus,
     AttemptItem.TotalPoints
     FROM ActivityPackageItem
     INNER JOIN PackageItem ON ActivityPackageItem.PackageId = PackageItem.Id
     LEFT OUTER JOIN ActivityAttemptItem ON ActivityPackageItem.Id = ActivityAttemptItem.ActivityPackageId
     LEFT OUTER JOIN AttemptItem ON ActivityAttemptItem.AttemptId = AttemptItem.Id
-    INNER JOIN UserItem ON PackageItem.Owner = UserItem.Id
     WHERE (ActivityPackageItem.ParentActivityId IS NULL)
     AND (UserItem.[Key] = @UserKey)
 )
 GO
-GRANT SELECT ON [MyAttemptsAndPackages] TO LearningStore
+GRANT SELECT ON [MyAttempts] TO LearningStore
 GO
 
--- Create function for the security on the MyAttemptsAndPackages view
-CREATE FUNCTION [MyAttemptsAndPackages$Security](@UserKey nvarchar(250))
+-- Create function for the security on the MyAttempts view
+CREATE FUNCTION [MyAttempts$Security](@UserKey nvarchar(250))
 RETURNS bit
 AS
 BEGIN
     RETURN (1)
 END
 GO
-GRANT EXECUTE ON [MyAttemptsAndPackages$Security] TO LearningStore
+GRANT EXECUTE ON [MyAttempts$Security] TO LearningStore
 GO
 
 -- Create a function that implements the SequencingLog view
@@ -2275,25 +2262,12 @@ GO
 GRANT EXECUTE ON [AddPackageReferenceRight] TO LearningStore
 GO
 
--- Create function for the security on the RemovePackageReferenceRight right
-CREATE FUNCTION [RemovePackageReferenceRight](@UserKey nvarchar(250),@PackageId bigint=NULL)
-RETURNS bit
-AS
-BEGIN
-    RETURN (CASE WHEN EXISTS(SELECT * FROM PackageItem INNER JOIN UserItem ON PackageItem.Owner=UserItem.Id WHERE PackageItem.Id=@PackageId AND UserItem.[Key]=@UserKey) THEN 1 ELSE 0 END)
-END
-GO
-GRANT EXECUTE ON [RemovePackageReferenceRight] TO LearningStore
-GO
-
 -- Create function for the security on the CreateAttemptRight right
 CREATE FUNCTION [CreateAttemptRight](@UserKey nvarchar(250),@RootActivityId bigint=NULL,@LearnerId bigint=NULL)
 RETURNS bit
 AS
 BEGIN
-    RETURN (CASE WHEN
-    (EXISTS(SELECT * FROM ActivityPackageItem INNER JOIN PackageItem ON ActivityPackageItem.PackageId=PackageItem.Id INNER JOIN UserItem ON PackageItem.Owner=UserItem.Id WHERE ActivityPackageItem.Id=@RootActivityId AND UserItem.[Key]=@UserKey)) AND
-    (EXISTS(SELECT * FROM UserItem WHERE UserItem.[Key]=@UserKey AND Id=@LearnerId)) THEN 1 ELSE 0 END)
+    RETURN (1)
 END
 GO
 GRANT EXECUTE ON [CreateAttemptRight] TO LearningStore
@@ -2374,7 +2348,7 @@ CREATE FUNCTION [AttemptItem$DefaultView](@UserKey nvarchar(250))
 RETURNS TABLE
 AS
 RETURN (
-    SELECT Id, [LearnerId], [RootActivityId], [CompletionStatus], [CurrentActivityId], [SuspendedActivityId], [PackageId], [AttemptStatus], [FinishedTimestamp], [LogDetailSequencing], [LogFinalSequencing], [LogRollup], [StartedTimestamp], [SuccessStatus], [TotalPoints]
+    SELECT Id, [LearnerId], [RootActivityId], [CompletionStatus], [CurrentActivityId], [SuspendedActivityId], [PackageId], [AttemptStatus], [FinishedTimestamp], [LogDetailSequencing], [LogFinalSequencing], [LogRollup], [StartedTimestamp], [SuccessStatus], [TotalPoints], [IudicoThemeRef]
     FROM [AttemptItem]
 )
 GO
@@ -2518,7 +2492,7 @@ CREATE FUNCTION [PackageItem$DefaultView](@UserKey nvarchar(250))
 RETURNS TABLE
 AS
 RETURN (
-    SELECT Id, [PackageFormat], [Location], [Manifest], [Owner], [FileName], [UploadDateTime], [IudicoCourseRef]
+    SELECT Id, [PackageFormat], [Location], [Manifest], [IudicoCourseRef]
     FROM [PackageItem]
 )
 GO

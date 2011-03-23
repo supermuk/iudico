@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System;
 using Microsoft.LearningComponents;
@@ -11,7 +12,9 @@ using LearningComponentsHelper;
 namespace IUDICO.TestingSystem.Models
 {
     /// <summary>
-    /// Singleton
+    /// Singleton class representing proxy between Microsoft Learning Components
+    /// Learning&Package Store on the one side and IUDICO Testing Service on the other.
+    /// Mostly used by Controller of TestingService plugin and by according service.
     /// </summary>
     public class MlcProxy : MlcHelper, IMlcProxy
     {
@@ -19,26 +22,19 @@ namespace IUDICO.TestingSystem.Models
         
         public MlcProxy(ILmsService lmsService)
             : base(lmsService)
-        {            
+        {
         }
         
         #endregion
-       
-        #region Protected Properties
-		
- 
-	    #endregion
 
         #region Public Methods
 
         /// <summary>
-        /// Retrieves collection of trainings for given user.
+        /// Retrieves collection of trainings for current user.
         /// </summary>
-        /// <param name="userID">Long integer value representing user id.</param>
         /// <returns>IEnumerable collection of Training objects.</returns>
-        public IEnumerable<Training> GetTrainings(long userKey)
+        public IEnumerable<Training> GetTrainings()
         {
-            this.CurrentUserKey = userKey;
             LearningStoreJob job = LStore.CreateJob();
             RequestMyTraining(job, null);
             DataTable results = job.Execute<DataTable>();
@@ -52,6 +48,51 @@ namespace IUDICO.TestingSystem.Models
 
             return packages;
         }
+
+        /// <summary>
+        /// Checks if related to theme package has been already uploaded.
+        /// In case it was not uploaded - upload package.
+        /// Check attempt has been created and get attempt id.
+        /// </summary>
+        /// <param name="theme">Theme object represents specified theme.</param>
+        /// <returns>Long integer value representing attempt id.</returns>
+        public long GetAttemptId(Theme theme)
+        {
+            AttemptItemIdentifier attemptId = null;
+            ActivityPackageItemIdentifier organizationId;
+            var packageId = GetPackageIdentifier(theme.CourseRef);
+
+            // in case package has not been uploaded yet.
+            if (packageId == null)
+            {
+                string zipPath = CourseService.Export(theme.CourseRef);
+                Package package = new ZipPackage(zipPath);
+                packageId = AddPackage(package);
+                organizationId = GetOrganizationIdentifier(packageId);
+                attemptId = CreateAttempt(organizationId.GetKey());
+            }
+            // otherwise check if attempt was created
+            else
+            {
+                organizationId = GetOrganizationIdentifier(packageId);
+
+                AttemptItemIdentifier attId = GetAttemptIdentifier(organizationId, theme.Id);
+                if (attId != null)
+                {
+                    attemptId = attId;
+                }
+                else
+                {
+                    attemptId = CreateAttempt(organizationId.GetKey());
+                }
+            }
+
+            return attemptId.GetKey();
+        }
+
+        #endregion
+
+        #region Protected Methods
 
         /// <summary>
         /// Requests that the list of training for the current user be retrieved from the LearningStore
@@ -73,22 +114,15 @@ namespace IUDICO.TestingSystem.Models
         protected void RequestMyTraining(LearningStoreJob job,
             PackageItemIdentifier packageId)
         {
-            LearningStoreQuery query = LStore.CreateQuery(Schema.MyAttemptsAndPackages.ViewName);
-            query.AddColumn(Schema.MyAttemptsAndPackages.PackageId);
-            query.AddColumn(Schema.MyAttemptsAndPackages.PackageFileName);
-            query.AddColumn(Schema.MyAttemptsAndPackages.OrganizationId);
-            query.AddColumn(Schema.MyAttemptsAndPackages.OrganizationTitle);
-            query.AddColumn(Schema.MyAttemptsAndPackages.AttemptId);
-            query.AddColumn(Schema.MyAttemptsAndPackages.UploadDateTime);
-            query.AddColumn(Schema.MyAttemptsAndPackages.AttemptStatus);
-            query.AddColumn(Schema.MyAttemptsAndPackages.TotalPoints);
-            query.AddSort(Schema.MyAttemptsAndPackages.UploadDateTime,
-                LearningStoreSortDirection.Ascending);
-            query.AddSort(Schema.MyAttemptsAndPackages.OrganizationId,
-                LearningStoreSortDirection.Ascending);
+            LearningStoreQuery query = LStore.CreateQuery(Schema.MyAttempts.ViewName);
+            query.AddColumn(Schema.MyAttempts.PackageId);
+            query.AddColumn(Schema.MyAttempts.OrganizationId);
+            query.AddColumn(Schema.MyAttempts.AttemptId);
+            query.AddColumn(Schema.MyAttempts.AttemptStatus);
+            query.AddColumn(Schema.MyAttempts.TotalPoints);
             if (packageId != null)
             {
-                query.AddCondition(Schema.MyAttemptsAndPackages.PackageId,
+                query.AddCondition(Schema.MyAttempts.PackageId,
                     LearningStoreConditionOperator.Equal, packageId);
             }
             job.PerformQuery(query);
@@ -99,25 +133,24 @@ namespace IUDICO.TestingSystem.Models
         /// </summary>
         /// <param name="orgID">Long integer value represents organization identifier to create attempt on.</param>
         /// <returns>Long integer value, representing attempt identifier of created attempt.</returns>
-        public long CreateAttempt(long orgID)
+        protected AttemptItemIdentifier CreateAttempt(long orgID)
         {
             ActivityPackageItemIdentifier organizationID = new ActivityPackageItemIdentifier(orgID);
             
-            StoredLearningSession session = StoredLearningSession.CreateAttempt(this.PStore, this.CurrentUserIdentifier, organizationID, LoggingOptions.LogAll);
+            StoredLearningSession session = StoredLearningSession.CreateAttempt(this.PStore, this.GetCurrentUserIdentifier(), organizationID, LoggingOptions.LogAll);
 
-            long attemptID = session.AttemptId.GetKey();
-            return attemptID;
+            return session.AttemptId;
         }
-
+        
         /// <summary>
-        /// Adds package to the database
+        /// Adds package to the database.
         /// </summary>
         /// <param name="package">Package value represents package object with necessary information.</param>
-        public Training AddPackage(Package package)
+        protected PackageItemIdentifier AddPackage(Package package)
         {
-            PackageItemIdentifier packageId;
+            PackageItemIdentifier packageId = null;
             ValidationResults importLog;
-           
+
             using (PackageReader packageReader = package.GetPackageReader())
             {
                 AddPackageResult result = PStore.AddPackage(packageReader, new PackageEnforcement(false, false, false));
@@ -125,30 +158,14 @@ namespace IUDICO.TestingSystem.Models
                 importLog = result.Log;
             }
 
-            // fill in the application-specific columns of the PackageItem table
-            LearningStoreJob job = LStore.CreateJob();
-            Dictionary<string, object> properties = new Dictionary<string, object>();
-            properties[Schema.PackageItem.Owner] = new UserItemIdentifier(package.Owner);
-            properties[Schema.PackageItem.FileName] = package.FileName;
-            properties[Schema.PackageItem.UploadDateTime] = package.UploadDateTime;
-            job.UpdateItem(packageId, properties);
-            job.Execute();
-
-            // retrieve information about the package
-            job = LStore.CreateJob();
-            RequestMyTraining(job, packageId);
-
-            DataTable dataTableResults = job.Execute<DataTable>();
-            Training training = new Training(dataTableResults.Rows[0]);
-
-            return training;
+            return packageId;
         }
 
         /// <summary>
         /// Deletes pacakge and related attempts from database.
         /// </summary>
         /// <param name="packId">Long integer value represents package identifier.</param>
-        public void DeletePackage(long packId)
+        protected void DeletePackage(long packId)
         {
             // set <packageId> to the ID of this package
             PackageItemIdentifier packageId = new PackageItemIdentifier(packId);
@@ -157,13 +174,13 @@ namespace IUDICO.TestingSystem.Models
             // the following query looks for those attempts
             LearningStoreJob job = LStore.CreateJob();
             LearningStoreQuery query = LStore.CreateQuery(
-                Schema.MyAttemptsAndPackages.ViewName);
-            query.AddCondition(Schema.MyAttemptsAndPackages.PackageId,
+                Schema.MyAttempts.ViewName);
+            query.AddCondition(Schema.MyAttempts.PackageId,
                 LearningStoreConditionOperator.Equal, packageId);
-            query.AddCondition(Schema.MyAttemptsAndPackages.AttemptId,
+            query.AddCondition(Schema.MyAttempts.AttemptId,
                 LearningStoreConditionOperator.NotEqual, null);
-            query.AddColumn(Schema.MyAttemptsAndPackages.AttemptId);
-            query.AddSort(Schema.MyAttemptsAndPackages.AttemptId,
+            query.AddColumn(Schema.MyAttempts.AttemptId);
+            query.AddSort(Schema.MyAttempts.AttemptId,
                 LearningStoreSortDirection.Ascending);
             job.PerformQuery(query);
             DataTable dataTable = job.Execute<DataTable>();
@@ -191,6 +208,89 @@ namespace IUDICO.TestingSystem.Models
 
             // delete the package
             PStore.DeletePackage(packageId);
+        }
+
+        /// <summary>
+        /// Retrieves package id by specified IUDICO course.
+        /// </summary>
+        /// <param name="course">Course object represents iudico course entity.</param>
+        /// <returns>PackageItemIdentifier value representing corresponding MLC Package ID.</returns>
+        protected PackageItemIdentifier GetPackageIdentifier(int courseId)
+        {
+            PackageItemIdentifier result = null;
+            LearningStoreJob job = LStore.CreateJob();
+
+            LearningStoreQuery query = LStore.CreateQuery(Schema.PackageIdByCourse.ViewName);
+            query.AddColumn(Schema.PackageIdByCourse.PackageId);
+            query.SetParameter(Schema.PackageIdByCourse.IudicoCourseRef, courseId);
+
+            job.PerformQuery(query);
+
+            ReadOnlyCollection<object> resultList = job.Execute();
+
+            DataTable dataTable = (DataTable)resultList[0];
+
+            if (dataTable.Rows.Count > 0)
+            {
+                LStoreHelper.Cast(dataTable.Rows[0][Schema.PackageIdByCourse.PackageId], out result);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Retrieves Organization Id by specified package oidentifier.
+        /// </summary>
+        /// <param name="packageId"><c>PackageItemIdentifier</c> value representing package id, organization is being searched by.</param>
+        /// <returns><c>ActivityPackageItemIdentifier</c> value, which represents organization identifier of specified package.</returns>
+        protected ActivityPackageItemIdentifier GetOrganizationIdentifier(PackageItemIdentifier packageId)
+        {
+            ActivityPackageItemIdentifier result = null;
+            LearningStoreJob job = LStore.CreateJob();
+
+            LearningStoreQuery query = LStore.CreateQuery(Schema.RootActivityByPackage.ViewName);
+            query.AddColumn(Schema.RootActivityByPackage.RootActivity);
+            query.SetParameter(Schema.RootActivityByPackage.PackageId, packageId);
+
+            job.PerformQuery(query);
+
+            var resultList = job.Execute();
+
+            DataTable dataTable = (DataTable)resultList[0];
+
+            if (dataTable.Rows.Count > 0)
+                LStoreHelper.Cast(dataTable.Rows[0][Schema.RootActivityByPackage.RootActivity], out result);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="orgId"></param>
+        /// <param name="themeId"></param>
+        /// <returns></returns>
+        protected AttemptItemIdentifier GetAttemptIdentifier(ActivityPackageItemIdentifier orgId, int themeId)
+        {
+            AttemptItemIdentifier result = null;
+            LearningStoreJob job = LStore.CreateJob();
+
+            LearningStoreQuery query = LStore.CreateQuery(Schema.MyAttempts.ViewName);
+            query.AddColumn(Schema.MyAttempts.AttemptId);
+            query.AddCondition(Schema.MyAttempts.OrganizationId, LearningStoreConditionOperator.Equal, orgId);
+            query.AddCondition(Schema.MyAttempts.ThemeId, LearningStoreConditionOperator.Equal, themeId);
+
+            job.PerformQuery(query);
+
+            ReadOnlyCollection<object> resultList = job.Execute();
+
+            DataTable dataTable = (DataTable)resultList[0];
+
+            if (dataTable.Rows.Count > 0)
+            {
+                // get last result
+                LStoreHelper.Cast(dataTable.Rows[dataTable.Rows.Count-1][Schema.MyAttempts.AttemptId], out result);
+            }
+            return result;
         }
 
 	    #endregion

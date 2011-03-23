@@ -106,28 +106,28 @@
     <Compile Include="App_Code\Frameset\Rte2004DataModelConverter.cs" />
     <Compile Include="App_Code\Frameset\RteDataModelConverter.cs" />
     <Compile Include="App_Code\Frameset\TocHelper.cs" />
-    <Compile Include="App_Code\BasicWebPlayerBase.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="App_Code\HttpModule.cs" />
     <Compile Include="App_Code\LStoreHelper.cs" />
     <Compile Include="App_Code\PageHelper.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="App_Code\Schema.cs" />
-    <Compile Include="Controllers\PackageController.cs" />
+    <Compile Include="App_GlobalResources\FramesetResources.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FramesetResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\TrainingController.cs" />
     <Compile Include="FramesetResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>FramesetResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Models\FakeTestingSystem.cs" />
+    <Compile Include="Models\FakeTestingService.cs" />
     <Content Include="Models\Helpers\LStoreHelper.cs" />
     <Compile Include="Models\IMlcProxy.cs" />
     <Compile Include="Models\MlcHelper.cs" />
     <Compile Include="Models\MlcProxy.cs" />
-    <Compile Include="Models\Schema.cs" />
     <Compile Include="Models\TestingService.cs" />
     <Compile Include="Models\VOs\FileSystemPackage.cs" />
     <Compile Include="Models\VOs\Package.cs" />
@@ -243,13 +243,29 @@
     <Content Include="Shema\Schema.xml" />
     <Content Include="Views\Training\Error.aspx" />
     <Content Include="Views\Training\Play.aspx" />
+    <None Include="App_GlobalResources\.svn\all-wcprops" />
+    <None Include="App_GlobalResources\.svn\entries" />
+    <None Include="App_GlobalResources\.svn\text-base\FramesetResources.Designer.cs.svn-base" />
+    <None Include="App_GlobalResources\.svn\text-base\FramesetResources.resx.svn-base" />
     <None Include="Shema\CompileSchema.bat" />
-    <None Include="Views\Package\Import.aspx" />
-    <Content Include="Views\Package\Index.aspx" />
     <None Include="Views\Web.config" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.RemovePlugins.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Shared\" />
+    <Folder Include="App_GlobalResources\.svn\prop-base\" />
+    <Folder Include="App_GlobalResources\.svn\props\" />
+    <Folder Include="App_GlobalResources\.svn\tmp\prop-base\" />
+    <Folder Include="App_GlobalResources\.svn\tmp\props\" />
+    <Folder Include="App_GlobalResources\.svn\tmp\text-base\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
@@ -259,6 +275,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_GlobalResources\FramesetResources.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>FramesetResources.designer.cs</LastGenOutput>
+    </Content>
     <EmbeddedResource Include="FramesetResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>FramesetResources.Designer.cs</LastGenOutput>
