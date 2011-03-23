@@ -25,6 +25,13 @@ CKEDITOR.dialog.prototype.getObject = function (editor) {
     return obj;
 }
 */
+var numberRegex = /^\d+(?:\.\d+)?$/;
+
+function cssifyLength(length) {
+    if (numberRegex.test(length))
+        return length + 'px';
+    return length;
+}
 
 function addQuestionCommand(editor, command, path) {
     var dialogFile = path + 'dialogs/' + command + '.js';
@@ -49,15 +56,17 @@ function addQuestionCommand(editor, command, path) {
 function isIudicoObject(element) {
     var attributes = element.attributes;
 
-    return (attributes.type == 'iudico');
+    return (attributes['iudico-type']);
 }
 
 function createFakeElement(editor, realElement) {
-    var fakeElement = editor.createFakeParserElement(realElement, 'cke_iudico', 'div', true),
+    var fakeElement = editor.createFakeParserElement(realElement, 'cke_iudico', 'iudico', true),
 		fakeStyle = fakeElement.attributes.style || '';
 
     var width = realElement.attributes.width,
 		height = realElement.attributes.height;
+
+    console.log(width);
 
     if (typeof width != 'undefined')
         fakeStyle = fakeElement.attributes.style = fakeStyle + 'width:' + cssifyLength(width) + ';';
@@ -79,7 +88,7 @@ CKEDITOR.plugins.add('iudico', {
         var commands = ['iudico-simple', 'iudico-choice', 'iudico-compile'];
 
         editor.addCss(
-		'.iudico-question' +
+		'.cke_iudico' +
 		'{' +
 			'background-image: url(' + CKEDITOR.getUrl(this.path + 'logo_iudico.png') + ');' +
 			'background-position: center center;' +
@@ -103,6 +112,8 @@ CKEDITOR.plugins.add('iudico', {
             dataFilter.addRules({
                 elements: {
                     'cke:object': function (element) {
+                        console.log(element);
+
                         if (!isIudicoObject(element))
                             return null;
 
