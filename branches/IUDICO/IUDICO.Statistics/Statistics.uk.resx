@@ -120,8 +120,20 @@
   <data name="Back" xml:space="preserve">
     <value>&lt;- назад</value>
   </data>
+  <data name="Created" xml:space="preserve">
+    <value>Створено</value>
+  </data>
+  <data name="CurriculumList" xml:space="preserve">
+    <value>Навчальні плани:</value>
+  </data>
+  <data name="CurriculumName" xml:space="preserve">
+    <value>Навчальний план</value>
+  </data>
   <data name="GroupList" xml:space="preserve">
     <value>Список груп</value>
+  </data>
+  <data name="SelectCurriculum" xml:space="preserve">
+    <value>Будь ласка, виберіть один або декілька навчальних планів:</value>
   </data>
   <data name="SelectOneGroup" xml:space="preserve">
     <value>Будь ласка, виберіть одну групу:</value>

@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Group>>" %>
+﻿<%@ Assembly Name="IUDICO.Statistics" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Group>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Index
@@ -9,7 +10,7 @@
     <h2><%=StatisRes.Statistics.GroupList %></h2>
 
     <fieldset>
-    <legend>Please, select one group : </legend>
+    <legend><%=StatisRes.Statistics.SelectOneGroup %></legend>
     <form action="/Stats/SelectCurriculums/" method="post">
 
     <% foreach (IUDICO.Common.Models.Group item in Model)
@@ -21,7 +22,7 @@
     <% } %>
 
 
-    <input type="submit" value="Show" />
+    <input type="submit" value=<%=StatisRes.Statistics.Show %> />
 
 
     </form>

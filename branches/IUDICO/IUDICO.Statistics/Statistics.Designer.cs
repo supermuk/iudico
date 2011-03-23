@@ -70,11 +70,47 @@ namespace StatisRes {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Group list1.
+        ///   Looks up a localized string similar to Created.
+        /// </summary>
+        public static string Created {
+            get {
+                return ResourceManager.GetString("Created", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Curriculum list.
+        /// </summary>
+        public static string CurriculumList {
+            get {
+                return ResourceManager.GetString("CurriculumList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Curriculum name.
+        /// </summary>
+        public static string CurriculumName {
+            get {
+                return ResourceManager.GetString("CurriculumName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Group list.
         /// </summary>
         public static string GroupList {
             get {
                 return ResourceManager.GetString("GroupList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please, select one or more curriculum :.
+        /// </summary>
+        public static string SelectCurriculum {
+            get {
+                return ResourceManager.GetString("SelectCurriculum", resourceCulture);
             }
         }
         
