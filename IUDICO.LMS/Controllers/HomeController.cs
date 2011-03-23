@@ -24,6 +24,7 @@ namespace IUDICO.LMS.Controllers
         /// Gets descriptions of themes available for playing.
         /// </summary>
         /// <returns></returns>
+        [OutputCache(Duration = 3600, VaryByParam = "none", VaryByCustom = "lang")]
         public IEnumerable<ThemeDescription> GetThemesDescriptions()
         {
             User user = MvcApplication.StaticContainer.GetService<IUserService>().GetCurrentUser();
