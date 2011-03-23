@@ -58,14 +58,14 @@ namespace IUDICO.CurriculumManagement.Models
             {
                 if (item.StageRef == null)
                 {
-                    if (timeline.StartDate >= item.StartDate && timeline.EndDate <= item.EndDate)
+                    if (timeline.StartDate < item.StartDate || timeline.EndDate > item.EndDate)
                     {
                         errorCheck = true;
                         break;
                     }
                 }
             }
-            if (errorCheck == false)
+            if (errorCheck == true)
                 validationStatus.Errors.Add("Stage timeline is bigger than curriculum timeline");
 
             return validationStatus;
