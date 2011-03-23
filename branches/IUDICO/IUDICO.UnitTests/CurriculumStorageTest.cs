@@ -305,5 +305,137 @@ namespace IUDICO.UnitTests
         }
 
         #endregion
+
+        #region TimelineMethods
+
+        [TestMethod]
+        public void TestMethod15()
+        {
+            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
+            int curriculumId = storage.AddCurriculum(curriculum);
+
+            Group group = new Group() { Name = "Group" };
+            context.Groups.InsertOnSubmit(group);
+            context.SubmitChanges();
+
+            CurriculumAssignment curriculumAssingment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = group.Id };
+            int curriculumAssignmentId = storage.AddCurriculumAssignment(curriculumAssingment);
+
+            Timeline timelineOne = new Timeline() { StartDate = DateTime.Now, EndDate = DateTime.Now, CurriculumAssignmentRef = curriculumAssignmentId };
+            int timelineOneId = storage.AddTimeline(timelineOne);
+            AdvAssert.AreEqual(timelineOne, storage.GetTimeline(timelineOneId));
+
+            Timeline timelineTwo = new Timeline() { StartDate = DateTime.Now, EndDate = DateTime.Now, CurriculumAssignmentRef = curriculumAssignmentId };
+            int timelineTwoId = storage.AddTimeline(timelineTwo);
+            List<Timeline> timelines = new List<Timeline>();
+            timelines.Add(timelineOne);
+            timelines.Add(timelineTwo);
+
+            AdvAssert.AreEqual(timelines,storage.GetTimelines(curriculumAssignmentId).ToList());
+        }
+
+        [TestMethod]
+        public void TetsMethod16()
+        {
+            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
+            int curriculumId = storage.AddCurriculum(curriculum);
+
+            Group group = new Group() { Name = "Group" };
+            context.Groups.InsertOnSubmit(group);
+            context.SubmitChanges();
+
+            CurriculumAssignment curriculumAssingment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = group.Id };
+            int curriculumAssignmentId = storage.AddCurriculumAssignment(curriculumAssingment);
+
+            Stage stage = new Stage() { Name = "Stage", CurriculumRef = curriculumId };
+            int stageId = storage.AddStage(stage);
+
+            Timeline timeline = new Timeline() { StartDate = DateTime.Now, EndDate = DateTime.Now, CurriculumAssignmentRef = curriculumAssignmentId ,StageRef = stageId };
+            int timelineId = storage.AddTimeline(timeline);
+            
+            List<Timeline> stageTimelines = new List<Timeline>();
+            stageTimelines.Add(timeline);
+
+            AdvAssert.AreEqual(stageTimelines, storage.GetStageTimelinesByStageId(stageId).ToList());
+            AdvAssert.AreEqual(stageTimelines, storage.GetStageTimelinesByCurriculumAssignmentId(curriculumAssignmentId).ToList());
+        }
+
+        [TestMethod]
+        public void TestMethod17()
+        {
+            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
+            int curriculumId = storage.AddCurriculum(curriculum);
+
+            Group group = new Group() { Name = "Group" };
+            context.Groups.InsertOnSubmit(group);
+            context.SubmitChanges();
+
+            CurriculumAssignment curriculumAssingment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = group.Id };
+            int curriculumAssignmentId = storage.AddCurriculumAssignment(curriculumAssingment);
+
+            Timeline timeline = new Timeline() { StartDate = DateTime.Now, EndDate = DateTime.Now, CurriculumAssignmentRef = curriculumAssignmentId};
+            int timelineId = storage.AddTimeline(timeline);
+
+            AdvAssert.AreEqual(timeline,storage.GetTimeline(timelineId));
+            timeline.StartDate = DateTime.Now;
+            timeline.EndDate = DateTime.Now;
+
+            storage.UpdateTimeline(timeline);
+            AdvAssert.AreEqual(timeline,storage.GetTimeline(timelineId));
+
+            storage.DeleteTimeline(timelineId);
+            
+            try
+            {
+                storage.GetTimeline(timelineId);
+                Assert.AreEqual(true,false);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true,true);
+            }
+        }
+
+        #endregion
+
+        #region GroupMethods
+
+        [TestMethod]
+        public void TestMethod18()
+        {
+            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
+            int curriculumId = storage.AddCurriculum(curriculum);
+
+            Group groupOne = new Group() { Name = "GroupOne" };
+            Group groupTwo = new Group() { Name = "GroupTwo" };
+            Group groupThree = new Group() { Name = "GroupThree" };
+
+            context.Groups.InsertOnSubmit(groupOne);
+            context.Groups.InsertOnSubmit(groupTwo);
+            context.Groups.InsertOnSubmit(groupThree);
+            context.SubmitChanges();
+
+            int groupOneId = groupOne.Id;
+            int groupTwoId = groupTwo.Id;
+            int groupThreeId = groupThree.Id;
+
+            CurriculumAssignment curriculumAssingnment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groupOneId };
+            int curriculumAssingmentId = storage.AddCurriculumAssignment(curriculumAssingnment);
+
+            List<Group> groups = new List<Group>();
+            groups.Add(groupOne);
+
+            AdvAssert.AreEqual(groups, storage.GetAssignedGroups(curriculumId).ToList());
+
+            groups.Clear();
+            groups.Add(groupTwo);
+            groups.Add(groupThree);
+            AdvAssert.AreEqual(groups, storage.GetNotAssignedGroups(curriculumId).ToList());
+
+            groups.Add(groupOne);
+            AdvAssert.AreEqual(groups, storage.GetNotAssignedGroups(curriculumId).ToList());
+        }
+
+        #endregion
     }
 }

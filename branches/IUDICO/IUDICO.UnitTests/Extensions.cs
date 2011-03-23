@@ -88,6 +88,47 @@ namespace IUDICO.UnitTests
                 i++;
             }
         }
+
+        public static void AreEqual(Timeline actual, Timeline expected)
+        {
+            Assert.AreEqual(expected.EndDate, actual.EndDate);
+            Assert.AreEqual(expected.Id, actual.Id);
+            Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
+            Assert.AreEqual(expected.CurriculumAssignmentRef, actual.CurriculumAssignmentRef);
+            Assert.AreEqual(expected.StageRef, actual.StageRef);
+            Assert.AreEqual(expected.StartDate, actual.StartDate);
+        }
+
+        public static void AreEqual(List<Timeline> expected, List<Timeline> actual)
+        {
+            Assert.AreEqual(expected.Count, actual.Count);
+
+            int i = 0;
+            foreach (Timeline item in expected)
+            {
+                Assert.AreEqual(item.Id, actual[i].Id);
+                Assert.AreEqual(item.IsDeleted, actual[i].IsDeleted);
+                Assert.AreEqual(item.CurriculumAssignmentRef, actual[i].CurriculumAssignmentRef);
+                Assert.AreEqual(item.EndDate, actual[i].EndDate);
+                Assert.AreEqual(item.StartDate, actual[i].StartDate);
+                i++;
+            }
+        }
+
+        public static void AreEqual(List<Group> expected, List<Group> actual)
+        {
+            Assert.AreEqual(expected.Count, actual.Count);
+
+            int i = 0;
+            foreach (Group item in expected)
+            {
+                Assert.AreEqual(item.Id, actual[i].Id);
+                Assert.AreEqual(item.Name, actual[i].Name);
+                Assert.AreEqual(item.Deleted, actual[i].Deleted);
+                Assert.AreEqual(item.GroupUsers, actual[i].GroupUsers);
+                i++;
+            }
+        }
     }
     
     

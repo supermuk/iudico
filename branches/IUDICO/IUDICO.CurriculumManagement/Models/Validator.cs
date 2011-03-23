@@ -51,7 +51,7 @@ namespace IUDICO.CurriculumManagement.Models
                     minAllowedDate.ToString(), maxAllowedDate.ToString()));
             }
             
-            var timelines = storage.GetCurriculumAssignmentTimelines(timeline.CurriculumAssignmentRef).Where(item => item.Id != timeline.Id);
+            var timelines = storage.GetTimelines(timeline.CurriculumAssignmentRef).Where(item => item.Id != timeline.Id);
 
             bool errorCheck = false;
             foreach (var item in timelines)
