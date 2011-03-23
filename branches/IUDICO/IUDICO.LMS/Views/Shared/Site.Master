@@ -24,6 +24,7 @@
             </div>
 
             <div id="logindisplay">
+                <% Html.RenderPartial("CultureChooserUserControl"); %>
                 <% Html.RenderPartial("UserBox"); %>
             </div>
 
