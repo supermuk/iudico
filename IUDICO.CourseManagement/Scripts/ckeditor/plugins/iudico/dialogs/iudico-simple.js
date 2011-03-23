@@ -60,11 +60,11 @@
             // A subset of the specified attributes/styles
             // should also be applied on the fake element to
             // have better visual effect. (#5240)
-            var extraStyles = {}, extraAttributes = {};
+            var extraStyles = {width: '100px', height: '100px'}, extraAttributes = {};
             this.commitContent(objectNode, paramMap, extraStyles, extraAttributes);
 
             // Refresh the fake image.
-            var newFakeDiv = editor.createFakeElement(objectNode, 'cke_iudico', 'div', true);
+            var newFakeDiv = editor.createFakeElement(objectNode, 'cke_iudico', 'iudico', true);
             newFakeDiv.setAttributes(extraAttributes);
             newFakeDiv.setStyles(extraStyles);
             if (this.fakeDiv) {
