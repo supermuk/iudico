@@ -21,7 +21,7 @@ using System.Security.Principal;
 using System.Web.Configuration;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
-using Schema = BasicWebPlayer.Schema;
+using Schema = IUDICO.TestingSystem.Schema;
 
 // <summary>
 // Helps implement this MLC web-based application.  ASP.NET web pages can be
@@ -92,10 +92,8 @@ public class PageHelper : System.Web.UI.Page
 		{
 		    if (m_userKey == null)
 		    {
-		        using(WindowsIdentity userIdentity = WindowsIdentity.GetCurrent())
-		        {
-		            m_userKey = userIdentity.User.ToString();
-		        }
+		        // TODO: get current user from IUserService
+                throw new NotImplementedException("get user key from IUserService");
 		    }
 
 			return m_userKey;

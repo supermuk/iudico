@@ -11,26 +11,17 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
-using BasicWebPlayer.Schema;
 using System.Data;
 
 namespace IUDICO.TestingSystem.Models
 {
     public class TestingService : ITestingService
     {
-        protected PageHelper PageHelper { get; set; }
+        protected readonly IMlcProxy MlcProxy;
 
-        public TestingService()
+        public TestingService(IMlcProxy proxy)
         {
-            PageHelper = new PageHelper();
-        }
-
-        public ICourseService CourseService
-        {
-            get
-            {
-                return PluginController.LmsService.FindService<ICourseService>();
-            }
+            this.MlcProxy = proxy;
         }
 
         #region ITestingService interface implementation
@@ -45,111 +36,17 @@ namespace IUDICO.TestingSystem.Models
             throw new NotImplementedException();
         }
 
-
         public IEnumerable<AnswerResult> GetAnswers(AttemptResult attempt)
         {
             throw new NotImplementedException();
         }
+
         public ActionLink BuildLink(Theme theme)
         {
-            var c= CourseService.GetCourse(theme.CourseRef);
             RouteValueDictionary routeValueDictionary = new RouteValueDictionary();
-            routeValueDictionary.Add("id", c.Id);
-            ActionLink actionLink = new ActionLink("Training", "Play", new RouteValueDictionary(routeValueDictionary));
+            routeValueDictionary.Add("id", theme.Id);
+            ActionLink actionLink = new ActionLink("Play", "Training", routeValueDictionary);
             return actionLink;
-        }
-
-        public PackageItemIdentifier UploadPackage(Course course)
-        {
-            LStoreUserInfo currentUser = PageHelper.GetCurrentUserInfo();
-
-            PackageItemIdentifier packageId;
-            
-            using (PackageReader packageReader = PackageReader.Create(File.OpenRead(CourseService.Export(course.Id))))
-            {
-                AddPackageResult result = PageHelper.PStore.AddPackage(packageReader, new PackageEnforcement(false, false, false));
-                packageId = result.PackageId;
-            }
-
-            LearningStoreJob job = PageHelper.LStore.CreateJob();
-            Dictionary<string, object> properties = new Dictionary<string, object>();
-            properties[PackageItem.Owner] = currentUser.Id;
-            properties[PackageItem.FileName] = course.Name;
-            properties[PackageItem.UploadDateTime] = DateTime.Now;
-            properties[PackageItem.IudicoCourseRef] = course.Id;
-            job.UpdateItem(packageId, properties);
-            job.Execute();
-
-            return packageId;
-        }
-
-        public PackageItemIdentifier GetPackage(Course course)
-        {
-            LStoreUserInfo currentUser = PageHelper.GetCurrentUserInfo();
-
-            LearningStoreJob job = PageHelper.LStore.CreateJob();
-
-            LearningStoreQuery query = PageHelper.LStore.CreateQuery(PackageIdByCourse.ViewName);
-
-            query.AddColumn(PackageIdByCourse.PackageId);
-            query.SetParameter(PackageIdByCourse.IudicoCourseRef, course.Id);
-
-            job.PerformQuery(query);
-
-            var resultList = job.Execute();
-
-            DataTable result = (DataTable)resultList[0];
-
-            if (result.Rows.Count > 0)
-                return new PackageItemIdentifier((LearningStoreItemIdentifier)result.Rows[0][PackageIdByCourse.PackageId]);
-
-            return null;
-        }
-
-        public ActivityPackageItemIdentifier GetRootActivity(PackageItemIdentifier packageId)
-        {
-            LStoreUserInfo currentUser = PageHelper.GetCurrentUserInfo();
-
-            LearningStoreJob job = PageHelper.LStore.CreateJob();
-
-            LearningStoreQuery query = PageHelper.LStore.CreateQuery(RootActivityByPackage.ViewName);
-
-            query.AddColumn(RootActivityByPackage.RootActivity);
-            query.SetParameter(RootActivityByPackage.PackageId, packageId);
-
-            job.PerformQuery(query);
-
-            var resultList = job.Execute();
-
-            DataTable result = (DataTable)resultList[0];
-
-            if (result.Rows.Count > 0)
-                return new ActivityPackageItemIdentifier((LearningStoreItemIdentifier)result.Rows[0][RootActivityByPackage.RootActivity]);
-
-            return null;
-        }
-
-        public AttemptItemIdentifier CreateAttempt(ActivityPackageItemIdentifier rootActivity)
-        {
-            LStoreUserInfo currentUser = PageHelper.GetCurrentUserInfo();
-
-            StoredLearningSession session = StoredLearningSession.CreateAttempt(PageHelper.PStore, currentUser.Id, rootActivity, LoggingOptions.LogAll);
-
-            return session.AttemptId;
-        }
-
-        public long GetAttempt(Course course)
-        {
-            var packageId = GetPackage(course);
-
-            if (packageId == null)
-                packageId = UploadPackage(course);
-
-            var rootActivity = GetRootActivity(packageId);
-
-            var attempt = CreateAttempt(rootActivity);
-
-            return attempt.GetKey();
         }
 
         #endregion
