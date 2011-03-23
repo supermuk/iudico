@@ -83,6 +83,16 @@
     <Compile Include="Models\Storage\SpecializedResultProxy.cs" />
     <Compile Include="Models\Storage\StatisticsProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Statistics.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Statistics.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Statistics.uk.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Statistics.uk.resx</DependentUpon>
+    </Compile>
     <Compile Include="StatisticsPlugin.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +116,18 @@
     <Content Include="Views\Stats\ShowCurriculumStatistic.aspx" />
     <Content Include="Views\Stats\ThemesInfo.aspx" />
     <Content Include="Views\Stats\ThemeTestResaults.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Statistics.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Statistics.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>StatisRes</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Statistics.uk.resx">
+      <CustomToolNamespace>StatisRes</CustomToolNamespace>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Statistics.uk.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
