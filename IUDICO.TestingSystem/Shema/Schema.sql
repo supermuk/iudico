@@ -92,7 +92,7 @@ SET @schema = @schema +
         '<Property Name="SuccessStatus" TypeCode="8" Nullable="false" HasDefault="true" EnumName="SuccessStatus"/>' +
     '</ItemType>'
 SET @schema = @schema +
-    '<ItemType Name="AttemptItem" ViewFunction="AttemptItem$DefaultView">' + 
+    '<ItemType Name="AttemptItem" ViewFunction="AttemptItem$DefaultView" UpdateSecurityFunction="AttemptItem$UpdateSecurity">' + 
         '<Property Name="LearnerId" TypeCode="1" Nullable="false" HasDefault="false" ReferencedItemTypeName="UserItem"/>' +
         '<Property Name="RootActivityId" TypeCode="1" Nullable="false" HasDefault="false" ReferencedItemTypeName="ActivityPackageItem"/>' +
         '<Property Name="CompletionStatus" TypeCode="8" Nullable="false" HasDefault="true" EnumName="CompletionStatus"/>' +
@@ -606,6 +606,26 @@ SET @schema = @schema +
         '<Column Name="AttemptId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AttemptItem"/>' +
         '<Column Name="AttemptStatus" TypeCode="8" Nullable="true" EnumName="AttemptStatus"/>' +
         '<Column Name="TotalPoints" TypeCode="5" Nullable="true"/>' +
+    '</View>'
+SET @schema = @schema +
+    '<View Name="AllAttemptsResults" Function="AllAttemptsResults" SecurityFunction="AllAttemptsResults$Security">' + 
+        '<Column Name="AttemptId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AttemptItem"/>' +
+        '<Column Name="UserItemKey" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="ThemeId" TypeCode="9" Nullable="true"/>' +
+        '<Column Name="CompletionStatus" TypeCode="8" Nullable="true" EnumName="CompletionStatus"/>' +
+        '<Column Name="AttemptStatus" TypeCode="8" Nullable="true" EnumName="AttemptStatus"/>' +
+        '<Column Name="SuccessStatus" TypeCode="8" Nullable="true" EnumName="SuccessStatus"/>' +
+        '<Column Name="Score" TypeCode="5" Nullable="true"/>' +
+    '</View>'
+SET @schema = @schema +
+    '<View Name="AttemptsResultsByThemeAndUser" Function="AttemptsResultsByThemeAndUser" SecurityFunction="AttemptsResultsByThemeAndUser$Security">' + 
+        '<Column Name="AttemptId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AttemptItem"/>' +
+        '<Column Name="CompletionStatus" TypeCode="8" Nullable="true" EnumName="CompletionStatus"/>' +
+        '<Column Name="AttemptStatus" TypeCode="8" Nullable="true" EnumName="AttemptStatus"/>' +
+        '<Column Name="SuccessStatus" TypeCode="8" Nullable="true" EnumName="SuccessStatus"/>' +
+        '<Column Name="Score" TypeCode="5" Nullable="true"/>' +
+        '<Parameter Name="ThemeIdParam" TypeCode="9" Nullable="true"/>' +
+        '<Parameter Name="UserKeyParam" TypeCode="2" Nullable="true"/>' +
     '</View>'
 SET @schema = @schema +
     '<View Name="SequencingLog" Function="SequencingLog" SecurityFunction="SequencingLog$Security">' + 
@@ -1823,6 +1843,17 @@ ON UserItem([Key])
 
 GO
 
+-- Create function for the update security on the AttemptItem item type
+CREATE FUNCTION [AttemptItem$UpdateSecurity](@UserKey nvarchar(250),@Id bigint,@LearnerId$Changed bit,@LearnerId bigint,@RootActivityId$Changed bit,@RootActivityId bigint,@CompletionStatus$Changed bit,@CompletionStatus int,@CurrentActivityId$Changed bit,@CurrentActivityId bigint,@SuspendedActivityId$Changed bit,@SuspendedActivityId bigint,@PackageId$Changed bit,@PackageId bigint,@AttemptStatus$Changed bit,@AttemptStatus int,@FinishedTimestamp$Changed bit,@FinishedTimestamp datetime,@LogDetailSequencing$Changed bit,@LogDetailSequencing bit,@LogFinalSequencing$Changed bit,@LogFinalSequencing bit,@LogRollup$Changed bit,@LogRollup bit,@StartedTimestamp$Changed bit,@StartedTimestamp datetime,@SuccessStatus$Changed bit,@SuccessStatus int,@TotalPoints$Changed bit,@TotalPoints float(24),@IudicoThemeRef$Changed bit,@IudicoThemeRef int)
+RETURNS bit
+AS
+BEGIN
+    RETURN (1)
+END
+GO
+GRANT EXECUTE ON [AttemptItem$UpdateSecurity] TO LearningStore
+GO
+
 -- Create function for the update security on the PackageItem item type
 CREATE FUNCTION [PackageItem$UpdateSecurity](@UserKey nvarchar(250),@Id bigint,@PackageFormat$Changed bit,@PackageFormat int,@Location$Changed bit,@Location nvarchar(260),@Manifest$Changed bit,@Manifest xml,@IudicoCourseRef$Changed bit,@IudicoCourseRef int)
 RETURNS bit
@@ -2205,6 +2236,7 @@ RETURN (
     INNER JOIN PackageItem ON ActivityPackageItem.PackageId = PackageItem.Id
     LEFT OUTER JOIN ActivityAttemptItem ON ActivityPackageItem.Id = ActivityAttemptItem.ActivityPackageId
     LEFT OUTER JOIN AttemptItem ON ActivityAttemptItem.AttemptId = AttemptItem.Id
+    INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
     WHERE (ActivityPackageItem.ParentActivityId IS NULL)
     AND (UserItem.[Key] = @UserKey)
 )
@@ -2221,6 +2253,65 @@ BEGIN
 END
 GO
 GRANT EXECUTE ON [MyAttempts$Security] TO LearningStore
+GO
+
+-- Create a function that implements the AllAttemptsResults view
+CREATE FUNCTION [AllAttemptsResults](@UserKey nvarchar(250))
+RETURNS TABLE
+AS
+RETURN (
+    SELECT  AttemptItem.Id AS AttemptId,
+    UserItem.[Key] AS UserItemKey,
+    AttemptItem.IudicoThemeRef as ThemeId,
+    AttemptItem.CompletionStatus AS CompletionStatus,
+    AttemptItem.AttemptStatus AS AttemptStatus,
+    AttemptItem.SuccessStatus AS SuccessStatus,
+    AttemptItem.TotalPoints AS Score
+    FROM AttemptItem
+    INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
+)
+GO
+GRANT SELECT ON [AllAttemptsResults] TO LearningStore
+GO
+
+-- Create function for the security on the AllAttemptsResults view
+CREATE FUNCTION [AllAttemptsResults$Security](@UserKey nvarchar(250))
+RETURNS bit
+AS
+BEGIN
+    RETURN (1)
+END
+GO
+GRANT EXECUTE ON [AllAttemptsResults$Security] TO LearningStore
+GO
+
+-- Create a function that implements the AttemptsResultsByThemeAndUser view
+CREATE FUNCTION [AttemptsResultsByThemeAndUser](@UserKey nvarchar(250),@ThemeIdParam int=NULL,@UserKeyParam nvarchar(max)=NULL)
+RETURNS TABLE
+AS
+RETURN (
+    SELECT  AttemptItem.Id AS AttemptId,
+    AttemptItem.CompletionStatus AS CompletionStatus,
+    AttemptItem.AttemptStatus AS AttemptStatus,
+    AttemptItem.SuccessStatus AS SuccessStatus,
+    AttemptItem.TotalPoints AS Score
+    FROM AttemptItem
+    INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
+    WHERE ((AttemptItem.IudicoThemeRef = @ThemeIdParam) AND (UserItem.[Key] = @UserKeyParam))
+)
+GO
+GRANT SELECT ON [AttemptsResultsByThemeAndUser] TO LearningStore
+GO
+
+-- Create function for the security on the AttemptsResultsByThemeAndUser view
+CREATE FUNCTION [AttemptsResultsByThemeAndUser$Security](@UserKey nvarchar(250),@ThemeIdParam int=NULL,@UserKeyParam nvarchar(max)=NULL)
+RETURNS bit
+AS
+BEGIN
+    RETURN (1)
+END
+GO
+GRANT EXECUTE ON [AttemptsResultsByThemeAndUser$Security] TO LearningStore
 GO
 
 -- Create a function that implements the SequencingLog view

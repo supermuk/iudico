@@ -6225,6 +6225,217 @@ namespace IUDICO.TestingSystem.Schema {
     }
     
     /// <summary>
+    /// Contains constants related to the AllAttemptsResults view.
+    /// </summary>
+    /// <remarks>
+    /// Columns in the view:
+    /// <ul>
+    /// <li><Fld>AttemptId</Fld></li>
+    /// <li><Fld>AttemptStatus</Fld></li>
+    /// <li><Fld>CompletionStatus</Fld></li>
+    /// <li><Fld>Score</Fld></li>
+    /// <li><Fld>SuccessStatus</Fld></li>
+    /// <li><Fld>ThemeId</Fld></li>
+    /// <li><Fld>UserItemKey</Fld></li>
+    /// </ul>
+    /// Parameters in the view:
+    /// None
+    /// </remarks>
+    [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+    [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+    [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+    public abstract class AllAttemptsResults {
+        
+        /// <summary>
+        /// Name of the <Typ>AllAttemptsResults</Typ> view.
+        /// </summary>
+        public const string ViewName = "AllAttemptsResults";
+        
+        /// <summary>
+        /// Name of the AttemptId column on the <Typ>AllAttemptsResults</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: Reference to a <Typ>AttemptItem</Typ> item type.
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string AttemptId = "AttemptId";
+        
+        /// <summary>
+        /// Name of the UserItemKey column on the <Typ>AllAttemptsResults</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: String[]
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string UserItemKey = "UserItemKey";
+        
+        /// <summary>
+        /// Name of the ThemeId column on the <Typ>AllAttemptsResults</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: Int32
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string ThemeId = "ThemeId";
+        
+        /// <summary>
+        /// Name of the CompletionStatus column on the <Typ>AllAttemptsResults</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: <Typ>/Microsoft.LearningComponents.CompletionStatus</Typ>
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string CompletionStatus = "CompletionStatus";
+        
+        /// <summary>
+        /// Name of the AttemptStatus column on the <Typ>AllAttemptsResults</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: <Typ>/Microsoft.LearningComponents.AttemptStatus</Typ>
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string AttemptStatus = "AttemptStatus";
+        
+        /// <summary>
+        /// Name of the SuccessStatus column on the <Typ>AllAttemptsResults</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: <Typ>/Microsoft.LearningComponents.SuccessStatus</Typ>
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string SuccessStatus = "SuccessStatus";
+        
+        /// <summary>
+        /// Name of the Score column on the <Typ>AllAttemptsResults</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: Single
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string Score = "Score";
+    }
+    
+    /// <summary>
+    /// Contains constants related to the AttemptsResultsByThemeAndUser view.
+    /// </summary>
+    /// <remarks>
+    /// Columns in the view:
+    /// <ul>
+    /// <li><Fld>AttemptId</Fld></li>
+    /// <li><Fld>AttemptStatus</Fld></li>
+    /// <li><Fld>CompletionStatus</Fld></li>
+    /// <li><Fld>Score</Fld></li>
+    /// <li><Fld>SuccessStatus</Fld></li>
+    /// </ul>
+    /// Parameters in the view:
+    /// <ul>
+    /// <li><Fld>ThemeIdParam</Fld></li>
+    /// <li><Fld>UserKeyParam</Fld></li>
+    /// </ul>
+    /// </remarks>
+    [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+    [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+    [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+    public abstract class AttemptsResultsByThemeAndUser {
+        
+        /// <summary>
+        /// Name of the <Typ>AttemptsResultsByThemeAndUser</Typ> view.
+        /// </summary>
+        public const string ViewName = "AttemptsResultsByThemeAndUser";
+        
+        /// <summary>
+        /// Name of the AttemptId column on the <Typ>AttemptsResultsByThemeAndUser</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: Reference to a <Typ>AttemptItem</Typ> item type.
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string AttemptId = "AttemptId";
+        
+        /// <summary>
+        /// Name of the CompletionStatus column on the <Typ>AttemptsResultsByThemeAndUser</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: <Typ>/Microsoft.LearningComponents.CompletionStatus</Typ>
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string CompletionStatus = "CompletionStatus";
+        
+        /// <summary>
+        /// Name of the AttemptStatus column on the <Typ>AttemptsResultsByThemeAndUser</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: <Typ>/Microsoft.LearningComponents.AttemptStatus</Typ>
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string AttemptStatus = "AttemptStatus";
+        
+        /// <summary>
+        /// Name of the SuccessStatus column on the <Typ>AttemptsResultsByThemeAndUser</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: <Typ>/Microsoft.LearningComponents.SuccessStatus</Typ>
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string SuccessStatus = "SuccessStatus";
+        
+        /// <summary>
+        /// Name of the Score column on the <Typ>AttemptsResultsByThemeAndUser</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: Single
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string Score = "Score";
+        
+        /// <summary>
+        /// Name of the ThemeIdParam parameter on the <Typ>AttemptsResultsByThemeAndUser</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Parameter type: Int32
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string ThemeIdParam = "ThemeIdParam";
+        
+        /// <summary>
+        /// Name of the UserKeyParam parameter on the <Typ>AttemptsResultsByThemeAndUser</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Parameter type: String[]
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string UserKeyParam = "UserKeyParam";
+    }
+    
+    /// <summary>
     /// Contains constants related to the SequencingLog view.
     /// </summary>
     /// <remarks>

@@ -240,7 +240,9 @@
     <Content Include="Player\Title.htm" />
     <Content Include="Player\TOC.aspx" />
     <Content Include="Shema\Schema.sql" />
-    <Content Include="Shema\Schema.xml" />
+    <Content Include="Shema\Schema.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Training\Error.aspx" />
     <Content Include="Views\Training\Play.aspx" />
     <None Include="App_GlobalResources\.svn\all-wcprops" />
@@ -248,17 +250,6 @@
     <None Include="App_GlobalResources\.svn\text-base\FramesetResources.Designer.cs.svn-base" />
     <None Include="App_GlobalResources\.svn\text-base\FramesetResources.resx.svn-base" />
     <None Include="Shema\CompileSchema.bat" />
-    <None Include="Views\Web.config" />
-    <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.RemovePlugins.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_GlobalResources\.svn\prop-base\" />
