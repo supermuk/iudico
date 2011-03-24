@@ -28,12 +28,14 @@ namespace IUDICO.TestingSystem.Models
 
         public IEnumerable<AttemptResult> GetResults(User user, Theme theme)
         {
-            throw new NotImplementedException();
+            IEnumerable<AttemptResult> result = MlcProxy.GetResults(user, theme);
+            return result;
         }
 
         public IEnumerable<AttemptResult> GetAllAttempts()
         {
-            throw new NotImplementedException();
+            IEnumerable<AttemptResult> result = MlcProxy.GetAllAttempts();
+            return result;
         }
 
         public IEnumerable<AnswerResult> GetAnswers(AttemptResult attempt)

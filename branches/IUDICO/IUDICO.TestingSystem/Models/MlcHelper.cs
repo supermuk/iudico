@@ -62,7 +62,7 @@ namespace IUDICO.TestingSystem.Models
         /// Uses ILmsService <c>GetDbConnection()</c> method.
         /// </summary>
         /// <returns>String value representing Connection String.</returns>
-        protected string GetConnectionString()
+        private string GetConnectionString()
         {
             string result = LmsSevice.GetDbConnection().ConnectionString;
             return result;
@@ -73,7 +73,7 @@ namespace IUDICO.TestingSystem.Models
         /// Uses <c>UserService</c> <c>GetCurrentUser()</c> method.
         /// </summary>
         /// <returns>User object representing currently loggined iudico user.</returns>
-        protected User GetCurrentIudicoUser()
+        private User GetCurrentIudicoUser()
         {
             var result = UserService.GetCurrentUser();
             return result;
@@ -107,7 +107,7 @@ namespace IUDICO.TestingSystem.Models
         /// files stored in PackageStore.
         /// </summary>
         ///
-        public string PStoreDirectoryPath
+        private string PStoreDirectoryPath
         {
             get
             {
@@ -132,7 +132,7 @@ namespace IUDICO.TestingSystem.Models
         /// <summary>
         /// Retrieves the Guid of current iudico-user in context of which work is done.
         /// </summary>
-        public Guid CurrentIudicoUserKey
+        private Guid CurrentIudicoUserKey
         {
             get
             {
@@ -146,7 +146,7 @@ namespace IUDICO.TestingSystem.Models
         /// access this application's database.  The string is stored in
         /// "appSettings" section of Web.config.
         /// </summary>
-        public string LStoreConnectionString
+        private string LStoreConnectionString
         {
             get
             {
@@ -224,7 +224,7 @@ namespace IUDICO.TestingSystem.Models
         /// <param name="dataTable">A <c>DataTable</c> returned from
         ///     <c>Job.Execute</c>.</param>
         ///
-        protected UserItemIdentifier CheckCurrentUserIdentifier(DataTable dataTable)
+        private UserItemIdentifier CheckCurrentUserIdentifier(DataTable dataTable)
         {
             DataRowCollection results = dataTable.Rows;
             LearningStoreJob job = LStore.CreateJob();
@@ -244,7 +244,7 @@ namespace IUDICO.TestingSystem.Models
                 job = LStore.CreateJob();
                 Dictionary<string, object> uniqueValues =
                     new Dictionary<string, object>();
-                uniqueValues[Schema.UserItem.Key] = CurrentIudicoUserKey;
+                uniqueValues[Schema.UserItem.Key] = CurrentIudicoUserKey.ToString();
                 Dictionary<string, object> addValues =
                     new Dictionary<string, object>();
                 addValues[Schema.UserItem.Name] = userName;
@@ -277,7 +277,7 @@ namespace IUDICO.TestingSystem.Models
         /// returned by <c>Job.Execute</c> into an <c>LStoreUserInfo</c> object.
         /// </remarks>
         ///
-        protected void RequestCurrentUserInfo(LearningStoreJob job)
+        private void RequestCurrentUserInfo(LearningStoreJob job)
         {
             // look up the user in the UserItem table in the database using their
             // user key, and set <userId> to the LearningStore numeric identifier

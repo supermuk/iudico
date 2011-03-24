@@ -21,8 +21,8 @@ namespace IUDICO.TestingSystem.Models.VO
             FolderPath = folderPath;
         }
 
-        public FileSystemPackage(string folderPath, long ownerId, DateTime? uploadDateTime, string fileName)
-            : base(ownerId, uploadDateTime, fileName)
+        public FileSystemPackage(string folderPath, long ownerId, DateTime? uploadDateTime, string fileName, int courseId)
+            : base(ownerId, uploadDateTime, fileName, courseId)
         {
             FolderPath = folderPath;
         }
