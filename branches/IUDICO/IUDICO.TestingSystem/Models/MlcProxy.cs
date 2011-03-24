@@ -2,11 +2,13 @@
 using System.Collections.ObjectModel;
 using System.Data;
 using System;
+using System.Linq;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
 using IUDICO.TestingSystem.Models.VO;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Shared.Statistics;
 using LearningComponentsHelper;
 
 namespace IUDICO.TestingSystem.Models
@@ -58,6 +60,7 @@ namespace IUDICO.TestingSystem.Models
         /// <returns>Long integer value representing attempt id.</returns>
         public long GetAttemptId(Theme theme)
         {
+            GetCurrentUserIdentifier();
             AttemptItemIdentifier attemptId = null;
             ActivityPackageItemIdentifier organizationId;
             var packageId = GetPackageIdentifier(theme.CourseRef);
@@ -67,9 +70,10 @@ namespace IUDICO.TestingSystem.Models
             {
                 string zipPath = CourseService.Export(theme.CourseRef);
                 Package package = new ZipPackage(zipPath);
+                package.CourseID = theme.CourseRef;
                 packageId = AddPackage(package);
                 organizationId = GetOrganizationIdentifier(packageId);
-                attemptId = CreateAttempt(organizationId.GetKey());
+                attemptId = CreateAttempt(organizationId.GetKey(), theme.Id);
             }
             // otherwise check if attempt was created
             else
@@ -83,11 +87,95 @@ namespace IUDICO.TestingSystem.Models
                 }
                 else
                 {
-                    attemptId = CreateAttempt(organizationId.GetKey());
+                    attemptId = CreateAttempt(organizationId.GetKey(), theme.Id);
                 }
             }
 
             return attemptId.GetKey();
+        }
+
+
+        public IEnumerable<AttemptResult> GetAllAttempts()
+        {
+            List<AttemptResult> result = new List<AttemptResult>();
+            LearningStoreJob job = LStore.CreateJob();
+            RequestAllAttempts(job);
+            DataTable dataTable = job.Execute<DataTable>();
+            foreach (DataRow dataRow in dataTable.AsEnumerable())
+            {
+                int attemptId;
+                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.AttemptId], out attemptId);
+
+                String userKey;
+                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.UserItemKey], out userKey);
+                User user = UserService.GetUsers().Single(curr => curr.Id.ToString() == userKey);
+                if (user == null)
+                {
+                    throw new NoNullAllowedException("Error while getting user with id = " + userKey);
+                }
+
+                Int32 themeId;
+                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.ThemeId], out themeId);
+                Theme theme = CurriculumService.GetTheme(themeId);
+                if (theme == null)
+                {
+                    throw new NoNullAllowedException("Error while getting theme with id = " + themeId);
+                }
+
+                Microsoft.LearningComponents.CompletionStatus completionStatus;
+                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.CompletionStatus], out completionStatus);
+                IUDICO.Common.Models.Shared.Statistics.CompletionStatus iudicoCompletionStatus = (IUDICO.Common.Models.Shared.Statistics.CompletionStatus)completionStatus;
+
+                Microsoft.LearningComponents.AttemptStatus attemptStatus;
+                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.AttemptStatus], out attemptStatus);
+                IUDICO.Common.Models.Shared.Statistics.AttemptStatus iudicoAttemptStatus = (IUDICO.Common.Models.Shared.Statistics.AttemptStatus)attemptStatus;
+
+                Microsoft.LearningComponents.SuccessStatus successStatus;
+                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.SuccessStatus], out successStatus);
+                IUDICO.Common.Models.Shared.Statistics.SuccessStatus iudicoSuccessStatus = (IUDICO.Common.Models.Shared.Statistics.SuccessStatus)successStatus;
+
+                float? scaledScore;
+                LStoreHelper.Cast<float>(dataRow[Schema.AllAttemptsResults.Score], out scaledScore);
+
+                // Create AttemptResult object
+                AttemptResult attemptResult = new AttemptResult(attemptId, user, theme, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, scaledScore);
+                result.Add(attemptResult);
+            }
+            return result;
+        }
+
+        public IEnumerable<AttemptResult> GetResults(User user, Theme theme)
+        {
+            List<AttemptResult> result = new List<AttemptResult>();
+            LearningStoreJob job = LStore.CreateJob();
+            RequestAttemptsByThemeAndUser(job, user.Id.ToString(), theme.Id);
+            DataTable dataTable = job.Execute<DataTable>();
+            foreach (DataRow dataRow in dataTable.AsEnumerable())
+            {
+                int attemptId;
+                LStoreHelper.CastNonNull(dataRow[Schema.AttemptsResultsByThemeAndUser.AttemptId], out attemptId);
+                
+                Microsoft.LearningComponents.CompletionStatus completionStatus;
+                LStoreHelper.CastNonNull(dataRow[Schema.AttemptsResultsByThemeAndUser.CompletionStatus], out completionStatus);
+                IUDICO.Common.Models.Shared.Statistics.CompletionStatus iudicoCompletionStatus = (IUDICO.Common.Models.Shared.Statistics.CompletionStatus)completionStatus;
+
+                Microsoft.LearningComponents.AttemptStatus attemptStatus;
+                LStoreHelper.CastNonNull(dataRow[Schema.AttemptsResultsByThemeAndUser.AttemptStatus], out attemptStatus);
+                IUDICO.Common.Models.Shared.Statistics.AttemptStatus iudicoAttemptStatus = (IUDICO.Common.Models.Shared.Statistics.AttemptStatus)attemptStatus;
+
+                Microsoft.LearningComponents.SuccessStatus successStatus;
+                LStoreHelper.CastNonNull(dataRow[Schema.AttemptsResultsByThemeAndUser.SuccessStatus], out successStatus);
+                IUDICO.Common.Models.Shared.Statistics.SuccessStatus iudicoSuccessStatus = (IUDICO.Common.Models.Shared.Statistics.SuccessStatus)successStatus;
+
+                float? scaledScore;
+                LStoreHelper.Cast<float>(dataRow[Schema.AttemptsResultsByThemeAndUser.Score], out scaledScore);
+
+                // Create AttemptResult object
+                AttemptResult attemptResult = new AttemptResult(attemptId, user, theme, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, scaledScore);
+                result.Add(attemptResult);
+            }
+
+            return result;
         }
 
         #endregion
@@ -95,22 +183,56 @@ namespace IUDICO.TestingSystem.Models
         #region Protected Methods
 
         /// <summary>
+        /// Requests that the list of all attempts all users have performed on all organizaions.
+        /// Adds the request to a given <c>LearningStoreJob</c> for later execution.
+        /// </summary>
+        /// <param name="job">A <c>LearningStoreJob</c> to add the new query to.</param>
+        protected void RequestAllAttempts(LearningStoreJob job)
+        {
+            LearningStoreQuery query = LStore.CreateQuery(Schema.AllAttemptsResults.ViewName);
+            
+            query.AddColumn(Schema.AllAttemptsResults.AttemptId);
+            query.AddColumn(Schema.AllAttemptsResults.UserItemKey);
+            query.AddColumn(Schema.AllAttemptsResults.ThemeId);
+            query.AddColumn(Schema.AllAttemptsResults.CompletionStatus);
+            query.AddColumn(Schema.AllAttemptsResults.AttemptStatus);
+            query.AddColumn(Schema.AllAttemptsResults.SuccessStatus);
+            query.AddColumn(Schema.AllAttemptsResults.Score);
+            
+            job.PerformQuery(query);
+        }
+        
+        /// <summary>
+        /// Requests that the list of all attempts specified user performed on specified theme.
+        /// Adds the request to a given <c>LearningStoreJob</c> for later execution.
+        /// </summary>
+        /// <param name="job">A <c>LearningStoreJob</c> to add the new query to.</param>
+        /// <param name="themeId">Int32 value represents theme id.</param>
+        /// <param name="userKey">String value represents user key.</param>
+        protected void RequestAttemptsByThemeAndUser(LearningStoreJob job, String userKey, Int32 themeId)
+        {
+            LearningStoreQuery query = LStore.CreateQuery(Schema.AttemptsResultsByThemeAndUser.ViewName);
+            
+            query.AddColumn(Schema.AttemptsResultsByThemeAndUser.AttemptId);
+            query.AddColumn(Schema.AttemptsResultsByThemeAndUser.CompletionStatus);
+            query.AddColumn(Schema.AttemptsResultsByThemeAndUser.AttemptStatus);
+            query.AddColumn(Schema.AttemptsResultsByThemeAndUser.SuccessStatus);
+            query.AddColumn(Schema.AttemptsResultsByThemeAndUser.Score);
+            
+            query.SetParameter(Schema.AttemptsResultsByThemeAndUser.ThemeIdParam, themeId);
+            query.SetParameter(Schema.AttemptsResultsByThemeAndUser.UserKeyParam, userKey);
+
+            job.PerformQuery(query);
+        }
+
+        /// <summary>
         /// Requests that the list of training for the current user be retrieved from the LearningStore
         /// database.  Adds the request to a given <c>LearningStoreJob</c> for later execution.
         /// </summary>
-        /// 
         /// <param name="job">A <c>LearningStoreJob</c> to add the new query to.</param>
-        /// 
         /// <param name="packageId">To request information related to a single pass the
         /// 	<c>PackageItemIdentifier</c> of the package as this parameter.  Otherwise, leave this
         /// 	parameter <c>null</c>.</param>
-        /// 
-        /// <remarks>
-        /// After executing this method, and later calling <c>Job.Execute</c>, call
-        /// <c>GetMyTrainingResultsToHtml</c> to convert the <c>DataTable</c> returned by
-        /// <c>Job.Execute</c> into HTML.
-        /// </remarks>
-        ///
         protected void RequestMyTraining(LearningStoreJob job,
             PackageItemIdentifier packageId)
         {
@@ -133,11 +255,17 @@ namespace IUDICO.TestingSystem.Models
         /// </summary>
         /// <param name="orgID">Long integer value represents organization identifier to create attempt on.</param>
         /// <returns>Long integer value, representing attempt identifier of created attempt.</returns>
-        protected AttemptItemIdentifier CreateAttempt(long orgID)
+        protected AttemptItemIdentifier CreateAttempt(long orgID, int themeId)
         {
             ActivityPackageItemIdentifier organizationID = new ActivityPackageItemIdentifier(orgID);
             
             StoredLearningSession session = StoredLearningSession.CreateAttempt(this.PStore, this.GetCurrentUserIdentifier(), organizationID, LoggingOptions.LogAll);
+            // TODO: add IudicoThemeRef
+            LearningStoreJob job = LStore.CreateJob();
+            Dictionary<string, object> dic = new Dictionary<string, object>();
+            dic.Add(Schema.AttemptItem.IudicoThemeRef, themeId);
+            job.UpdateItem(session.AttemptId, dic);
+            job.Execute();
 
             return session.AttemptId;
         }
@@ -157,6 +285,12 @@ namespace IUDICO.TestingSystem.Models
                 packageId = result.PackageId;
                 importLog = result.Log;
             }
+
+            LearningStoreJob job = LStore.CreateJob();
+            Dictionary<string, object> dic = new Dictionary<string, object>();
+            dic.Add(Schema.PackageItem.IudicoCourseRef, package.CourseID);
+            job.UpdateItem(packageId, dic);
+            job.Execute();
 
             return packageId;
         }

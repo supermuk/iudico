@@ -14,6 +14,8 @@ namespace IUDICO.TestingSystem.Models.VO
 
         public string FileName { get; set; }
 
+        public int CourseID { get; set; }
+
         #endregion
 
         #region Constructors
@@ -23,11 +25,12 @@ namespace IUDICO.TestingSystem.Models.VO
 
         }
 
-        public Package(long ownerId, DateTime? uploadDateTime, string fileName)
+        public Package(long ownerId, DateTime? uploadDateTime, string fileName, int courseId)
         {
             Owner = ownerId;
             UploadDateTime = uploadDateTime;
             FileName = fileName;
+            CourseID = courseId;
         }
 
         #endregion

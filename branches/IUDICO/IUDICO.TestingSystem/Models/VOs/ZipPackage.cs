@@ -21,8 +21,8 @@ namespace IUDICO.TestingSystem.Models.VO
             ZipPath = zipPath;
         }
 
-        public ZipPackage(string zipPath, long ownerId, DateTime? uploadDateTime, string fileName)
-            : base(ownerId, uploadDateTime, fileName)
+        public ZipPackage(string zipPath, long ownerId, DateTime? uploadDateTime, string fileName, int courseId)
+            : base(ownerId, uploadDateTime, fileName, courseId)
         {
             ZipPath = zipPath;
         }
