@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+﻿<%@ Assembly Name="IUDICO.UserManagement" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Login
@@ -6,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Login</h2>
+    <h2><%=UsManagAcRes.UserManagementAccount.Login %></h2>
 
     <div><%= Html.ValidationSummary(true) %></div>
 
@@ -14,16 +15,16 @@
 	    <label for="loginIdentifier">OpenID: </label>
 	    <input type="text" id="loginIdentifier" name="loginIdentifier" size="40" />
 	    
-        <input type="submit" value="Login" />
+        <input type="submit" value=<%=UsManagAcRes.UserManagementAccount.Login %> />
 	</form>
 
     <form action="<%: Url.Action("LoginDefault", "Account") %>" method="post">
-        <label for="loginUsername">Username: </label>
+        <label for="loginUsername"><%=UsManagAcRes.UserManagementAccount.Username %>: </label>
         <input type="text" id="loginUsername" name="loginUsername" size="40" />
-        <label for="loginPassword">Password: </label>
+        <label for="loginPassword"><%=UsManagAcRes.UserManagementAccount.Password %>: </label>
         <input type="password" id="loginPassword" name="loginPassword" size="40" />
 
-        <input type="submit" value="Login" />
+        <input type="submit" value=<%=UsManagAcRes.UserManagementAccount.Login %> />
     </form>
 
 </asp:Content>

@@ -6,7 +6,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Registered</h2>
+    <h2><%=UsManagAcRes.UserManagementAccount.Registered %></h2>
 
 </asp:Content>
 
