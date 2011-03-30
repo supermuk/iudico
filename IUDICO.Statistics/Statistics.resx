@@ -129,16 +129,40 @@
   <data name="CurriculumName" xml:space="preserve">
     <value>Curriculum name</value>
   </data>
+  <data name="CurriculumsStatisticForGroup" xml:space="preserve">
+    <value>Curriculums statistic for group</value>
+  </data>
   <data name="GroupList" xml:space="preserve">
     <value>Group list</value>
   </data>
+  <data name="Percent" xml:space="preserve">
+    <value>Percent</value>
+  </data>
+  <data name="Score" xml:space="preserve">
+    <value>Score</value>
+  </data>
   <data name="SelectCurriculum" xml:space="preserve">
     <value>Please, select one or more curriculum :</value>
+  </data>
+  <data name="SelectOneCurriculum" xml:space="preserve">
+    <value>Please, select one curriculum :</value>
   </data>
   <data name="SelectOneGroup" xml:space="preserve">
     <value>Please, select one group :</value>
   </data>
   <data name="Show" xml:space="preserve">
     <value>Show</value>
+  </data>
+  <data name="Student" xml:space="preserve">
+    <value>Student</value>
+  </data>
+  <data name="StudentAnswer" xml:space="preserve">
+    <value>Student Answer</value>
+  </data>
+  <data name="Sum" xml:space="preserve">
+    <value>Sum</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Theme</value>
   </data>
 </root>
