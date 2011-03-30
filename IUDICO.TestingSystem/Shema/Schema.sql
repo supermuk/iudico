@@ -628,6 +628,18 @@ SET @schema = @schema +
         '<Parameter Name="UserKeyParam" TypeCode="2" Nullable="true"/>' +
     '</View>'
 SET @schema = @schema +
+    '<View Name="InteractionResultsByAttempt" Function="InteractionResultsByAttempt" SecurityFunction="InteractionResultsByAttempt$Security">' + 
+        '<Column Name="ActivityAttemptId" TypeCode="1" Nullable="true" ReferencedItemTypeName="ActivityAttemptItem"/>' +
+        '<Column Name="InteractionId" TypeCode="1" Nullable="true" ReferencedItemTypeName="InteractionItem"/>' +
+        '<Column Name="LearnerResponseBool" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="LearnerResponseString" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="LearnerResponseNumeric" TypeCode="6" Nullable="true"/>' +
+        '<Column Name="CorrectResponse" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="InteractionType" TypeCode="8" Nullable="true" EnumName="InteractionType"/>' +
+        '<Column Name="ScaledScore" TypeCode="6" Nullable="true"/>' +
+        '<Parameter Name="AttemptIdParam" TypeCode="1" Nullable="true" ReferencedItemTypeName="AttemptItem"/>' +
+    '</View>'
+SET @schema = @schema +
     '<View Name="SequencingLog" Function="SequencingLog" SecurityFunction="SequencingLog$Security">' + 
         '<Column Name="Id" TypeCode="1" Nullable="true" ReferencedItemTypeName="SequencingLogEntryItem"/>' +
         '<Column Name="Timestamp" TypeCode="4" Nullable="true"/>' +
@@ -2312,6 +2324,39 @@ BEGIN
 END
 GO
 GRANT EXECUTE ON [AttemptsResultsByThemeAndUser$Security] TO LearningStore
+GO
+
+-- Create a function that implements the InteractionResultsByAttempt view
+CREATE FUNCTION [InteractionResultsByAttempt](@UserKey nvarchar(250),@AttemptIdParam bigint=NULL)
+RETURNS TABLE
+AS
+RETURN (
+    SELECT  ActivityAttemptItem.Id AS ActivityAttemptId,
+    InteractionItem.Id AS InteractionId,
+    InteractionItem.LearnerResponseBool AS LearnerResponseBool,
+    InteractionItem.LearnerResponseString AS LearnerResponseString,
+    InteractionItem.LearnerResponseNumeric AS LearnerResponseNumeric,
+    CorrectResponseItem.ResponsePattern AS CorrectResponse,
+    InteractionItem.InteractionType AS InteractionType,
+    ActivityAttemptItem.ScaledScore AS ScaledScore
+    FROM  ActivityAttemptItem
+    LEFT JOIN InteractionItem ON InteractionItem.ActivityAttemptId = ActivityAttemptItem.Id
+    LEFT JOIN CorrectResponseItem ON CorrectResponseItem.InteractionId = InteractionItem.Id
+    WHERE ActivityAttemptItem.AttemptId = @AttemptIdParam
+)
+GO
+GRANT SELECT ON [InteractionResultsByAttempt] TO LearningStore
+GO
+
+-- Create function for the security on the InteractionResultsByAttempt view
+CREATE FUNCTION [InteractionResultsByAttempt$Security](@UserKey nvarchar(250),@AttemptIdParam bigint=NULL)
+RETURNS bit
+AS
+BEGIN
+    RETURN (1)
+END
+GO
+GRANT EXECUTE ON [InteractionResultsByAttempt$Security] TO LearningStore
 GO
 
 -- Create a function that implements the SequencingLog view

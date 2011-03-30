@@ -40,7 +40,8 @@ namespace IUDICO.TestingSystem.Models
 
         public IEnumerable<AnswerResult> GetAnswers(AttemptResult attempt)
         {
-            throw new NotImplementedException();
+            IEnumerable<AnswerResult> result = MlcProxy.GetAnswers(attempt);
+            return result;
         }
 
         public ActionLink BuildLink(Theme theme)
