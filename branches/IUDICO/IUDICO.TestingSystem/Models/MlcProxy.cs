@@ -168,8 +168,13 @@ namespace IUDICO.TestingSystem.Models
                 LStoreHelper.CastNonNull(dataRow[Schema.AttemptsResultsByThemeAndUser.SuccessStatus], out successStatus);
                 IUDICO.Common.Models.Shared.Statistics.SuccessStatus iudicoSuccessStatus = (IUDICO.Common.Models.Shared.Statistics.SuccessStatus)successStatus;
 
-                float? scaledScore;
-                LStoreHelper.Cast<float>(dataRow[Schema.AttemptsResultsByThemeAndUser.Score], out scaledScore);
+                float? score;
+                LStoreHelper.Cast<float>(dataRow[Schema.AttemptsResultsByThemeAndUser.Score], out score);
+                float? scaledScore = null;
+                if (score != null)
+                {
+                    scaledScore = score / 100;
+                }
 
                 // Create AttemptResult object
                 AttemptResult attemptResult = new AttemptResult(attemptId, user, theme, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, scaledScore);
