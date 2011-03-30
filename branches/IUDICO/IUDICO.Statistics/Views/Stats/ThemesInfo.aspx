@@ -6,20 +6,20 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
-    <%: Html.ActionLink("<- back", "Index") %>
+    <%: Html.ActionLink(StatisRes.Statistics.Back, "Index")%>
     <fieldset>
-    <legend> Please, select attempt to show:</legend>
+    <legend> <%=StatisRes.Statistics.SelectAttempt%></legend>
     <form action="/Stats/ThemeTestResaults/" method="post">
         <table border="4" cellpadding="4" cellspacing="4">
         
         <tr>
-        <th> Student </th>
+        <th> <%=StatisRes.Statistics.Student%> </th>
         <% foreach (IUDICO.Common.Models.Theme i in Model.SelectCurriculumThemes)
            { %>
         <th> <%: i.Name %> </th>
         <% } %>
-        <th> Sum </th>
-        <th> Percent </th>
+        <th> <%=StatisRes.Statistics.Sum%> </th>
+        <th> <%=StatisRes.Statistics.Percent%> </th>
         <th> ECTS </th>
         </tr>
 
@@ -57,7 +57,7 @@
 
         </table>
 
-        <input type="submit" value="Show" />
+        <input type="submit" value=<%=StatisRes.Statistics.Show %> />
 
 
         </form>

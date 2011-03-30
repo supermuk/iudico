@@ -61,11 +61,38 @@ namespace StatisRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attempt statistic:.
+        /// </summary>
+        public static string AttemptStatistic {
+            get {
+                return ResourceManager.GetString("AttemptStatistic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;- back.
         /// </summary>
         public static string Back {
             get {
                 return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comparison.
+        /// </summary>
+        public static string Comparison {
+            get {
+                return ResourceManager.GetString("Comparison", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Corect Answer.
+        /// </summary>
+        public static string CorectAnswer {
+            get {
+                return ResourceManager.GetString("CorectAnswer", resourceCulture);
             }
         }
         
@@ -115,6 +142,15 @@ namespace StatisRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number of question.
+        /// </summary>
+        public static string NumberOfQuestion {
+            get {
+                return ResourceManager.GetString("NumberOfQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Percent.
         /// </summary>
         public static string Percent {
@@ -124,11 +160,29 @@ namespace StatisRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resaults.
+        /// </summary>
+        public static string Resaults {
+            get {
+                return ResourceManager.GetString("Resaults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Score.
         /// </summary>
         public static string Score {
             get {
                 return ResourceManager.GetString("Score", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please, select attempt to show:.
+        /// </summary>
+        public static string SelectAttempt {
+            get {
+                return ResourceManager.GetString("SelectAttempt", resourceCulture);
             }
         }
         
@@ -183,6 +237,15 @@ namespace StatisRes {
         public static string StudentAnswer {
             get {
                 return ResourceManager.GetString("StudentAnswer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Success.
+        /// </summary>
+        public static string Success {
+            get {
+                return ResourceManager.GetString("Success", resourceCulture);
             }
         }
         

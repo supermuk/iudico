@@ -184,14 +184,14 @@ namespace IUDICO.LMS
             if (HttpContext.Current.Session != null)
             {
                 CultureInfo ci = (CultureInfo)this.Session["Culture"];
-                //спочатку перевіряємо, що в сесії нема значення
-                //і встановлюємо значення за замовчуванням
-                //це виконується про першому запиті користувача
+                //Checking first if there is no value in session
+                //and set default language
+                //this can happen for first user's request
                 if (ci == null)
                 {
-                    //встановлюємо значення за замовчуванням "en"
+                    //Sets default culture to english invariant
                     string langName = "en";
-                    //пробуємо получити значення з HTTP заголовка
+                    //Try to get values from Accept lang HTTP header
                     if (HttpContext.Current.Request.UserLanguages != null &&
                         HttpContext.Current.Request.UserLanguages.Length != 0)
                     {
@@ -201,7 +201,7 @@ namespace IUDICO.LMS
                     ci = new CultureInfo(langName);
                     this.Session["Culture"] = ci;
                 }
-                //встановлюємо культуру для кожного запиту
+                //Finally setting culture for each request
                 Thread.CurrentThread.CurrentUICulture = ci;
                 Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
             }

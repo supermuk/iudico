@@ -117,8 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AttemptStatistic" xml:space="preserve">
+    <value>Attempt statistic:</value>
+  </data>
   <data name="Back" xml:space="preserve">
     <value>&lt;- back</value>
+  </data>
+  <data name="Comparison" xml:space="preserve">
+    <value>Comparison</value>
+  </data>
+  <data name="CorectAnswer" xml:space="preserve">
+    <value>Corect Answer</value>
   </data>
   <data name="Created" xml:space="preserve">
     <value>Created</value>
@@ -135,11 +144,20 @@
   <data name="GroupList" xml:space="preserve">
     <value>Group list</value>
   </data>
+  <data name="NumberOfQuestion" xml:space="preserve">
+    <value>Number of question</value>
+  </data>
   <data name="Percent" xml:space="preserve">
     <value>Percent</value>
   </data>
+  <data name="Resaults" xml:space="preserve">
+    <value>Resaults</value>
+  </data>
   <data name="Score" xml:space="preserve">
     <value>Score</value>
+  </data>
+  <data name="SelectAttempt" xml:space="preserve">
+    <value>Please, select attempt to show:</value>
   </data>
   <data name="SelectCurriculum" xml:space="preserve">
     <value>Please, select one or more curriculum :</value>
@@ -158,6 +176,9 @@
   </data>
   <data name="StudentAnswer" xml:space="preserve">
     <value>Student Answer</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Success</value>
   </data>
   <data name="Sum" xml:space="preserve">
     <value>Sum</value>
