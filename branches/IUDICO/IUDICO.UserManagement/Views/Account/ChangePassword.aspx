@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>ChangePassword</h2>
+    <h2><%=UsManagAcRes.UserManagementAccount.ChangePassword %></h2>
 
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary(true) %>
@@ -18,7 +18,7 @@
             <%: Html.EditorForModel() %>
             
             <p>
-                <input type="submit" value="Change Password" />
+                <input type="submit" value=<%=UsManagAcRes.UserManagementAccount.ChangePassword %> />
             </p>
         </fieldset>
 
