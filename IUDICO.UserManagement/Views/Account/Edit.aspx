@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Edit</h2>
+    <h2><%=UsManagAcRes.UserManagementAccount.Edit %></h2>
 
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary("Correct the following error(s) and try again:") %>
@@ -18,7 +18,7 @@
             <%: Html.EditorForModel() %>
             
             <p>
-                <input type="submit" value="Save" />
+                <input type="submit" value=<%=UsManagAcRes.UserManagementAccount.Save %> />
             </p>
         </fieldset>
 
