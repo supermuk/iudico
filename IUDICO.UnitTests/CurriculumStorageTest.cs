@@ -103,7 +103,6 @@ namespace IUDICO.UnitTests
             int id = storage.AddStage(stage);
             AdvAssert.AreEqual(storage.GetStage(id), stage);
 
-            storage.DeleteStage(id);
             storage.DeleteCurriculum(curriculumId);
         }
 
@@ -118,7 +117,6 @@ namespace IUDICO.UnitTests
             listWithStagesForTest.Add(stage);
             AdvAssert.AreEqual(listWithStagesForTest, storage.GetStages(curriculumId).ToList());
 
-            storage.DeleteStage(stageId);
             storage.DeleteCurriculum(curriculumId);
         }
 
@@ -135,7 +133,6 @@ namespace IUDICO.UnitTests
 
             AdvAssert.AreEqual(stage, storage.GetStage(id));
 
-            storage.DeleteStage(id);
             storage.DeleteCurriculum(curriculumId);
         }
 
@@ -182,8 +179,6 @@ namespace IUDICO.UnitTests
             int id = storage.AddTheme(theme);
             AdvAssert.AreEqual(theme, storage.GetTheme(id));
 
-            storage.DeleteTheme(id);
-            storage.DeleteStage(stageId);
             storage.DeleteCurriculum(curriculumId);
         }
 
@@ -211,10 +206,6 @@ namespace IUDICO.UnitTests
             themes.Add(theme2);
             AdvAssert.AreEqual(themes, storage.GetThemesByCurriculumId(curriculumId).ToList());
 
-            storage.DeleteTheme(theme1Id);
-            storage.DeleteTheme(theme2Id);
-            storage.DeleteStage(stageOneId);
-            storage.DeleteStage(stageTwoId);
             storage.DeleteCurriculum(curriculumId);
         }
 
@@ -253,7 +244,6 @@ namespace IUDICO.UnitTests
 
             context.Courses.DeleteOnSubmit(course);
             context.SubmitChanges();
-            storage.DeleteStage(stageOneId);
             storage.DeleteCurriculum(curriculumId);
         }
 
@@ -289,9 +279,7 @@ namespace IUDICO.UnitTests
 
             AdvAssert.AreEqual(curriculumAssignments,storage.GetCurriculumAssignments().ToList());// вертає всі КуррАсс,а їх багато,хоча має бути 2
 
-            storage.DeleteCurriculumAssignment(curriculumAssignmentTwoId);
             storage.DeleteCurriculum(curriculumTwoId);
-            storage.DeleteCurriculumAssignment(curriculumAssignmentId);
             storage.DeleteCurriculum(curriculumId);
             context.Groups.DeleteOnSubmit(group);
             context.SubmitChanges();
@@ -317,16 +305,15 @@ namespace IUDICO.UnitTests
             context.Groups.InsertOnSubmit(groupTwo);
             context.SubmitChanges();
 
-            curriculumAssignment.UserGroupRef = groupId;
+            curriculumAssignment.UserGroupRef = groupTwo.Id;
             storage.UpdateCurriculumAssignment(curriculumAssignment);
             AdvAssert.AreEqual(curriculumAssignment, storage.GetCurriculumAssignment(curriculumAssignmentId));
 
+            storage.DeleteCurriculum(curriculumId);
             context.Groups.DeleteOnSubmit(groupTwo);
             context.SubmitChanges();
-            storage.DeleteCurriculumAssignment(curriculumAssignmentId);
             context.Groups.DeleteOnSubmit(group);
             context.SubmitChanges();
-            storage.DeleteCurriculum(curriculumId);
         }
 
         [TestMethod]
@@ -397,12 +384,9 @@ namespace IUDICO.UnitTests
 
             AdvAssert.AreEqual(timelines,storage.GetTimelines(curriculumAssignmentId).ToList());
 
-            storage.DeleteTimeline(timelineTwoId);
-            storage.DeleteTimeline(timelineOneId);
-            storage.DeleteCurriculumAssignment(curriculumAssignmentId);
+            storage.DeleteCurriculum(curriculumId);
             context.Groups.DeleteOnSubmit(group);
             context.SubmitChanges();
-            storage.DeleteCurriculum(curriculumId);
         }
 
         [TestMethod]
@@ -430,12 +414,9 @@ namespace IUDICO.UnitTests
             AdvAssert.AreEqual(stageTimelines, storage.GetStageTimelinesByStageId(stageId).ToList());
             AdvAssert.AreEqual(stageTimelines, storage.GetStageTimelinesByCurriculumAssignmentId(curriculumAssignmentId).ToList());
 
-            storage.DeleteTimeline(timelineId);
-            storage.DeleteCurriculumAssignment(curriculumAssignmentId);
-            storage.DeleteStage(stageId);
+            storage.DeleteCurriculum(curriculumId);
             context.Groups.DeleteOnSubmit(group);
             context.SubmitChanges();
-            storage.DeleteCurriculum(curriculumId);
         }
 
         [TestMethod]
@@ -473,10 +454,9 @@ namespace IUDICO.UnitTests
                 Assert.AreEqual(true,true);
             }
 
-            storage.DeleteCurriculumAssignment(curriculumAssignmentId);
+            storage.DeleteCurriculum(curriculumId);
             context.Groups.DeleteOnSubmit(group);
             context.SubmitChanges();
-            storage.DeleteCurriculum(curriculumId);
         }
 
         #endregion
@@ -522,14 +502,13 @@ namespace IUDICO.UnitTests
             //groups.Add(groupOne);
             //AdvAssert.AreEqual(groups, storage.GetNotAssignedGroupsWithCurrentGroup(curriculumId,groupOneId).ToList());
 
-            storage.DeleteCurriculumAssignment(curriculumAssingmentId);
+            storage.DeleteCurriculum(curriculumId);
             context.Groups.DeleteOnSubmit(groupOne);
             context.SubmitChanges();
             context.Groups.DeleteOnSubmit(groupTwo);
             context.SubmitChanges();
             context.Groups.DeleteOnSubmit(groupThree);
             context.SubmitChanges();
-            storage.DeleteCurriculum(curriculumId);
         }
 
         #endregion
@@ -579,16 +558,10 @@ namespace IUDICO.UnitTests
             themeAssignments.Add(themeAssignment);
             AdvAssert.AreEqual(themeAssignments, storage.GetThemeAssignmentsByCurriculumAssignmentId(curriculumAssignmentId).ToList());
 
-            context.ThemeAssignments.DeleteOnSubmit(themeAssignment);
-            context.SubmitChanges();
-            storage.DeleteTheme(themeId);
-            storage.DeleteStage(stageId);
-            storage.DeleteCurriculumAssignment(curriculumAssignmentId);
+            storage.DeleteCurriculum(curriculumId);
             context.Groups.DeleteOnSubmit(group);
             context.SubmitChanges();
-            storage.DeleteCurriculum(curriculumId);
         }
-        
         #endregion
     }
 }
