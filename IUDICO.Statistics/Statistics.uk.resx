@@ -117,8 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AttemptStatistic" xml:space="preserve">
+    <value>Результати спроби:</value>
+  </data>
   <data name="Back" xml:space="preserve">
     <value>&lt;- назад</value>
+  </data>
+  <data name="Comparison" xml:space="preserve">
+    <value>Порівняння</value>
+  </data>
+  <data name="CorectAnswer" xml:space="preserve">
+    <value>Правильна відповідь</value>
   </data>
   <data name="Created" xml:space="preserve">
     <value>Створено</value>
@@ -135,11 +144,20 @@
   <data name="GroupList" xml:space="preserve">
     <value>Список груп</value>
   </data>
+  <data name="NumberOfQuestion" xml:space="preserve">
+    <value>Номер питання</value>
+  </data>
   <data name="Percent" xml:space="preserve">
     <value>Відсотки</value>
   </data>
+  <data name="Resaults" xml:space="preserve">
+    <value>Результати</value>
+  </data>
   <data name="Score" xml:space="preserve">
     <value>Оцінка</value>
+  </data>
+  <data name="SelectAttempt" xml:space="preserve">
+    <value>Будь ласка, виберіть спробу для перегляду:</value>
   </data>
   <data name="SelectCurriculum" xml:space="preserve">
     <value>Будь ласка, виберіть один або декілька навчальних планів:</value>
@@ -158,6 +176,9 @@
   </data>
   <data name="StudentAnswer" xml:space="preserve">
     <value>Відповідь студента</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Успіх</value>
   </data>
   <data name="Sum" xml:space="preserve">
     <value>Сума</value>

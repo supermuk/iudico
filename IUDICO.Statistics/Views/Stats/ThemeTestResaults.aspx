@@ -6,31 +6,31 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <%: Html.ActionLink("<- back", "Index") %>
+    <%: Html.ActionLink(StatisRes.Statistics.Back, "Index")%>
     <fieldset>
-    <legend> Attempt statistic:</legend>
-        <h2>Resaults</h2>
+    <legend> <%=StatisRes.Statistics.AttemptStatistic%></legend>
+        <h2><%=StatisRes.Statistics.Resaults%></h2>
         <p>
-            Student:  <%: Model.Attempt.User.Username%>
+            <%=StatisRes.Statistics.Student%>:  <%: Model.Attempt.User.Username%>
         </p>
         <p>
-            Theme:  <%: Model.Attempt.Theme.Name%>
+            <%=StatisRes.Statistics.Theme%>:  <%: Model.Attempt.Theme.Name%>
         </p>
         <p>
-            Success:  <%: Model.Attempt.SuccessStatus%>
+            <%=StatisRes.Statistics.Success%>:  <%: Model.Attempt.SuccessStatus%>
         </p>
         <p>
-            Score:  <%: Model.Attempt.Score.ToPercents()%>
+            <%=StatisRes.Statistics.Score%>:  <%: Model.Attempt.Score.ToPercents()%>
         </p>
 
         <table border="4" cellpadding="4" cellspacing="4">
         
         <tr>
-        <th> Number of question </th>
-        <th> Student Answer </th>
-        <th> Corect Answer </th>
-        <th> Comparison</th>
-        <th> Score </th>
+        <th><%=StatisRes.Statistics.NumberOfQuestion%> </th>
+        <th> <%=StatisRes.Statistics.StudentAnswer%> </th>
+        <th> <%=StatisRes.Statistics.CorectAnswer%> </th>
+        <th> <%=StatisRes.Statistics.Comparison%></th>
+        <th> <%=StatisRes.Statistics.Score%> </th>
         </tr>
         <%int i = 1; %>
         <% foreach (IUDICO.Common.Models.Shared.Statistics.AnswerResult answer in Model.UserAnswers)
