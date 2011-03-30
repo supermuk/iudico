@@ -120,6 +120,9 @@
   <data name="AvailableThemes" xml:space="preserve">
     <value>Доступні теми:</value>
   </data>
+  <data name="Home" xml:space="preserve">
+    <value>Головна</value>
+  </data>
   <data name="LoggedInAs" xml:space="preserve">
     <value>Ви увійшли як</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="OpenID" xml:space="preserve">
     <value>OpenID:</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Пошук</value>
   </data>
   <data name="Username" xml:space="preserve">
     <value>Ім'я користувача:</value>
