@@ -120,6 +120,9 @@
   <data name="AvailableThemes" xml:space="preserve">
     <value>Available themes:</value>
   </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
   <data name="LoggedInAs" xml:space="preserve">
     <value>Logged in as</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="OpenID" xml:space="preserve">
     <value>OpenID:</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
   </data>
   <data name="Username" xml:space="preserve">
     <value>Username:</value>

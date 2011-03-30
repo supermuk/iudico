@@ -31,12 +31,12 @@
             <div id="menucontainer">
                 <ul id="menu">
                     <li>
-                        <%: Html.ActionLink("Home", "Index", "Home")%></li>
+                        <%: Html.ActionLink(ViewRes.LMS.Home, "Index", "Home")%></li>
                     <li>
-                        <%: Html.ActionLink("Search", "Index", "Search")%></li>
+                        <%: Html.ActionLink(ViewRes.LMS.Search, "Index", "Search")%></li>
 
                         <%  foreach (var item in ((IUDICO.Common.Models.Menu) IUDICO.LMS.MvcApplication.Menu).Items) { %>
-                            <li><%: Html.ActionLink(item.Text, item.Action, item.Controller) %></li>
+                            <li><%: Html.ActionLink(item.Text, item.Action, item.Controller)%></li>
                         <% } %>
                 </ul>
             </div>
