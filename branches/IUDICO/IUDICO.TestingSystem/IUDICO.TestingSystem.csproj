@@ -126,6 +126,7 @@
     <Compile Include="Models\FakeTestingService.cs" />
     <Content Include="Models\Helpers\LStoreHelper.cs" />
     <Compile Include="Models\IMlcProxy.cs" />
+    <Compile Include="Models\ServicesProxy.cs" />
     <Compile Include="Models\MlcHelper.cs" />
     <Compile Include="Models\MlcProxy.cs" />
     <Compile Include="Models\TestingService.cs" />
