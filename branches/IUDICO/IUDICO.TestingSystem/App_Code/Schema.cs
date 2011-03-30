@@ -6436,6 +6436,136 @@ namespace IUDICO.TestingSystem.Schema {
     }
     
     /// <summary>
+    /// Contains constants related to the InteractionResultsByAttempt view.
+    /// </summary>
+    /// <remarks>
+    /// Columns in the view:
+    /// <ul>
+    /// <li><Fld>ActivityAttemptId</Fld></li>
+    /// <li><Fld>CorrectResponse</Fld></li>
+    /// <li><Fld>InteractionId</Fld></li>
+    /// <li><Fld>InteractionType</Fld></li>
+    /// <li><Fld>LearnerResponseBool</Fld></li>
+    /// <li><Fld>LearnerResponseNumeric</Fld></li>
+    /// <li><Fld>LearnerResponseString</Fld></li>
+    /// <li><Fld>ScaledScore</Fld></li>
+    /// </ul>
+    /// Parameters in the view:
+    /// <ul>
+    /// <li><Fld>AttemptIdParam</Fld></li>
+    /// </ul>
+    /// </remarks>
+    [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+    [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+    [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+    public abstract class InteractionResultsByAttempt {
+        
+        /// <summary>
+        /// Name of the <Typ>InteractionResultsByAttempt</Typ> view.
+        /// </summary>
+        public const string ViewName = "InteractionResultsByAttempt";
+        
+        /// <summary>
+        /// Name of the ActivityAttemptId column on the <Typ>InteractionResultsByAttempt</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: Reference to a <Typ>ActivityAttemptItem</Typ> item type.
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string ActivityAttemptId = "ActivityAttemptId";
+        
+        /// <summary>
+        /// Name of the InteractionId column on the <Typ>InteractionResultsByAttempt</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: Reference to a <Typ>InteractionItem</Typ> item type.
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string InteractionId = "InteractionId";
+        
+        /// <summary>
+        /// Name of the LearnerResponseBool column on the <Typ>InteractionResultsByAttempt</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: Boolean
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string LearnerResponseBool = "LearnerResponseBool";
+        
+        /// <summary>
+        /// Name of the LearnerResponseString column on the <Typ>InteractionResultsByAttempt</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: String[]
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string LearnerResponseString = "LearnerResponseString";
+        
+        /// <summary>
+        /// Name of the LearnerResponseNumeric column on the <Typ>InteractionResultsByAttempt</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: Double
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string LearnerResponseNumeric = "LearnerResponseNumeric";
+        
+        /// <summary>
+        /// Name of the CorrectResponse column on the <Typ>InteractionResultsByAttempt</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: String[]
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string CorrectResponse = "CorrectResponse";
+        
+        /// <summary>
+        /// Name of the InteractionType column on the <Typ>InteractionResultsByAttempt</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: <Typ>/Microsoft.LearningComponents.InteractionType</Typ>
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string InteractionType = "InteractionType";
+        
+        /// <summary>
+        /// Name of the ScaledScore column on the <Typ>InteractionResultsByAttempt</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: Double
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string ScaledScore = "ScaledScore";
+        
+        /// <summary>
+        /// Name of the AttemptIdParam parameter on the <Typ>InteractionResultsByAttempt</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Parameter type: Reference to a <Typ>AttemptItem</Typ> item type.
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string AttemptIdParam = "AttemptIdParam";
+    }
+    
+    /// <summary>
     /// Contains constants related to the SequencingLog view.
     /// </summary>
     /// <remarks>
