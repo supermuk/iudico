@@ -1,6 +1,6 @@
 ﻿namespace IUDICO.Common.Models.Services
 {
-    public interface ISearchService
+    public interface ISearchService : IService
     {
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace IUDICO.Common.Models.Services
 {
-    public interface IStatisticsService
+    public interface IStatisticsService : IService
     {
     }
 }

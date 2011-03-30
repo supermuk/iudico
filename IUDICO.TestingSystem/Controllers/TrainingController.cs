@@ -61,6 +61,8 @@ namespace IUDICO.TestingSystem.Controllers
 
             long attemptId = MlcProxy.GetAttemptId(theme);
 
+            ServicesProxy.Instance.Initialize(LmsService);
+
             return View("Play", attemptId);
         }
     }
