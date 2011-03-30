@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Curriculum>>" %>
+﻿<%@ Assembly Name="IUDICO.Statistics" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Curriculum>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	SelectCurriculums
@@ -18,12 +19,12 @@
         }
     </script>
 
-    <h2>Curriculum list</h2>
+    <h2><%=StatisRes.Statistics.CurriculumList%></h2>
 
-     <%: Html.ActionLink("<- back", "Index") %>
+     <%: Html.ActionLink(StatisRes.Statistics.Back, "Index")%>
      <fieldset>
 
-     <legend>Please, select one or more curriculum : </legend>
+     <legend><%=StatisRes.Statistics.SelectCurriculum%> </legend>
 
 
     <form id="curform" action="/Stats/ShowCurriculumStatistic/" method="post">
@@ -32,8 +33,8 @@
      <tr>
         <th> </th>
         <%--<th>Curriculum id</th>--%>
-        <th>Curriculum name</th>
-        <th>Created</th>
+        <th><%=StatisRes.Statistics.CurriculumName%></th>
+        <th><%=StatisRes.Statistics.Created%></th>
      </tr>
 
      <% foreach (IUDICO.Common.Models.Curriculum curr in Model)
@@ -56,7 +57,7 @@
 
      </table>
 
-     <input type="button" value="Show" onclick="checkBox();" />
+     <input type="button" value=<%=StatisRes.Statistics.Show %> onclick="checkBox();" />
 
 </form>
 
