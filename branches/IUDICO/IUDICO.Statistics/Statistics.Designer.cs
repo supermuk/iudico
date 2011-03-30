@@ -97,6 +97,15 @@ namespace StatisRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Curriculums statistic for group.
+        /// </summary>
+        public static string CurriculumsStatisticForGroup {
+            get {
+                return ResourceManager.GetString("CurriculumsStatisticForGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Group list.
         /// </summary>
         public static string GroupList {
@@ -106,11 +115,38 @@ namespace StatisRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Percent.
+        /// </summary>
+        public static string Percent {
+            get {
+                return ResourceManager.GetString("Percent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Score.
+        /// </summary>
+        public static string Score {
+            get {
+                return ResourceManager.GetString("Score", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please, select one or more curriculum :.
         /// </summary>
         public static string SelectCurriculum {
             get {
                 return ResourceManager.GetString("SelectCurriculum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please, select one curriculum :.
+        /// </summary>
+        public static string SelectOneCurriculum {
+            get {
+                return ResourceManager.GetString("SelectOneCurriculum", resourceCulture);
             }
         }
         
@@ -129,6 +165,42 @@ namespace StatisRes {
         public static string Show {
             get {
                 return ResourceManager.GetString("Show", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Student.
+        /// </summary>
+        public static string Student {
+            get {
+                return ResourceManager.GetString("Student", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Student Answer.
+        /// </summary>
+        public static string StudentAnswer {
+            get {
+                return ResourceManager.GetString("StudentAnswer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sum.
+        /// </summary>
+        public static string Sum {
+            get {
+                return ResourceManager.GetString("Sum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Theme.
+        /// </summary>
+        public static string Theme {
+            get {
+                return ResourceManager.GetString("Theme", resourceCulture);
             }
         }
     }

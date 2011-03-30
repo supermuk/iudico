@@ -6,18 +6,18 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Curriculums statistic for group
+    <h2><%=StatisRes.Statistics.CurriculumsStatisticForGroup %>
     <%: (ViewData["selectGroupName"])%>
     </h2>
 
-    <%: Html.ActionLink("<- back", "Index")%>
+    <%: Html.ActionLink(StatisRes.Statistics.Back, "Index")%>
     <fieldset>
-    <legend>Please, select one curriculum : </legend>
+    <legend><%=StatisRes.Statistics.SelectOneCurriculum%> </legend>
 
     <form action="/Stats/ThemesInfo/" method="post">
     <table>
     <tr>
-        <th>Student</th>
+        <th><%=StatisRes.Statistics.Student%></th>
         <% foreach (IUDICO.Common.Models.Curriculum curr in Model.Curriculums)
            {%>
            <th>
@@ -25,8 +25,8 @@
            <%: curr.Name %>
            </th>
         <% } %>
-        <th>Sum</th>
-        <th>Percent</th>
+        <th><%=StatisRes.Statistics.Sum%></th>
+        <th><%=StatisRes.Statistics.Percent%></th>
         <th>ECTS</th>
     </tr>
     
@@ -61,7 +61,7 @@
        </tr>
     <% } %>
     </table>
-    <input type="submit" value="Show" />
+    <input type="submit" value=<%=StatisRes.Statistics.Show %> />
 
     </form>
 

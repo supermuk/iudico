@@ -129,16 +129,40 @@
   <data name="CurriculumName" xml:space="preserve">
     <value>Навчальний план</value>
   </data>
+  <data name="CurriculumsStatisticForGroup" xml:space="preserve">
+    <value>Навчальні курси для групи</value>
+  </data>
   <data name="GroupList" xml:space="preserve">
     <value>Список груп</value>
   </data>
+  <data name="Percent" xml:space="preserve">
+    <value>Відсотки</value>
+  </data>
+  <data name="Score" xml:space="preserve">
+    <value>Оцінка</value>
+  </data>
   <data name="SelectCurriculum" xml:space="preserve">
     <value>Будь ласка, виберіть один або декілька навчальних планів:</value>
+  </data>
+  <data name="SelectOneCurriculum" xml:space="preserve">
+    <value>Виберіть один навчальний план:</value>
   </data>
   <data name="SelectOneGroup" xml:space="preserve">
     <value>Будь ласка, виберіть одну групу:</value>
   </data>
   <data name="Show" xml:space="preserve">
     <value>Показати</value>
+  </data>
+  <data name="Student" xml:space="preserve">
+    <value>Студент</value>
+  </data>
+  <data name="StudentAnswer" xml:space="preserve">
+    <value>Відповідь студента</value>
+  </data>
+  <data name="Sum" xml:space="preserve">
+    <value>Сума</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Тема</value>
   </data>
 </root>
