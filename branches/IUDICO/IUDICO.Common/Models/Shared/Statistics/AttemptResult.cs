@@ -15,7 +15,7 @@ namespace IUDICO.Common.Models.Shared.Statistics
         /// <summary>
         /// Identifier of attempt, this result is related to.
         /// </summary>
-        public int AttemptId { get; protected set; }
+        public long AttemptId { get; protected set; }
         
         /// <summary>
         /// User, attempt result is for.
@@ -53,7 +53,7 @@ namespace IUDICO.Common.Models.Shared.Statistics
 
         #region Constructors
 
-        public AttemptResult(int attemptId, User user, Theme theme, 
+        public AttemptResult(long attemptId, User user, Theme theme, 
             CompletionStatus completionStatus, AttemptStatus attemptStatus, 
             SuccessStatus successStatus, float? scaledScore)
         {

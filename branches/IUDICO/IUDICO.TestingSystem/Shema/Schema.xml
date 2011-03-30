@@ -175,6 +175,38 @@
             <Expression>1</Expression>
         </GrantQueryRight>
 	</View>
+  <View Name="InteractionResultsByAttempt">
+    <Parameters>
+        <Parameter Name="AttemptIdParam" Type="ItemIdentifier" ReferencedItemTypeName="AttemptItem"/>
+    </Parameters>
+    <Columns>
+      <Column Name="ActivityAttemptId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityAttemptItem"/>
+      <Column Name="InteractionId" Type="ItemIdentifier" ReferencedItemTypeName="InteractionItem"/>
+      <Column Name="LearnerResponseBool" Type="Boolean"/>
+      <Column Name="LearnerResponseString" Type="String"/>
+      <Column Name="LearnerResponseNumeric" Type="Double"/>
+      <Column Name="CorrectResponse" Type="String"/>
+      <Column Name="InteractionType" Type="Enum" EnumName="InteractionType"/>
+      <Column Name="ScaledScore" Type="Double"/>
+    </Columns>
+    <Implementation>
+      SELECT  ActivityAttemptItem.Id AS ActivityAttemptId,
+              InteractionItem.Id AS InteractionId,
+              InteractionItem.LearnerResponseBool AS LearnerResponseBool,
+              InteractionItem.LearnerResponseString AS LearnerResponseString,
+              InteractionItem.LearnerResponseNumeric AS LearnerResponseNumeric,
+              CorrectResponseItem.ResponsePattern AS CorrectResponse,
+              InteractionItem.InteractionType AS InteractionType,
+              ActivityAttemptItem.ScaledScore AS ScaledScore
+      FROM  ActivityAttemptItem
+            LEFT JOIN InteractionItem ON InteractionItem.ActivityAttemptId = ActivityAttemptItem.Id
+            LEFT JOIN CorrectResponseItem ON CorrectResponseItem.InteractionId = InteractionItem.Id
+      WHERE ActivityAttemptItem.AttemptId = @AttemptIdParam
+    </Implementation>
+    <GrantQueryRight>
+      <Expression>1</Expression>
+    </GrantQueryRight>
+  </View>
 	<View Name="SequencingLog">
 	    <Parameters>
 	        <Parameter Name="AttemptId" Type="ItemIdentifier" ReferencedItemTypeName="AttemptItem"/>

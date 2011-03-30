@@ -12,6 +12,7 @@ namespace IUDICO.TestingSystem.Models
         long GetAttemptId(Theme theme);
         IEnumerable<AttemptResult> GetAllAttempts();
         IEnumerable<AttemptResult> GetResults(User user, Theme theme);
+        IEnumerable<AnswerResult> GetAnswers(AttemptResult attemptResult);
         //Training AddPackage(Package package);
         //void DeletePackage(long packId);
     }

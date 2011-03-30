@@ -15,12 +15,12 @@ namespace IUDICO.Common.Models.Shared.Statistics
         /// <summary>
         /// Identifier of Attempt performed over Activity (Item in manifest).
         /// </summary>
-        public int ActivityAttemptId { get; protected set; }
+        public long ActivityAttemptId { get; protected set; }
         
         /// <summary>
         /// Identifier of Interaction.
         /// </summary>
-        public int InteractionId { get; protected set; }
+        public long? InteractionId { get; protected set; }
         
         /// <summary>
         /// Represents result of one user's attempt on one theme(course).
@@ -55,7 +55,7 @@ namespace IUDICO.Common.Models.Shared.Statistics
         #endregion
 
         #region Constructors
-        public AnswerResult(int activityAttempId, int interactionId, AttemptResult attempResult,
+        public AnswerResult(long activityAttempId, long? interactionId, AttemptResult attempResult,
             object learnerResponse, string correctResponse, InteractionType? learnerResponseType, float? scaledScore)
         {
             this.ActivityAttemptId = activityAttempId;
