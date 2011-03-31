@@ -66,6 +66,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public Curriculum GetCurriculum(int id)
         {
             return _Db.Curriculums.Single(item => item.Id == id && !item.IsDeleted);
+            //return GetDbDataContext().Curriculums.Single(item => item.Id == id && !item.IsDeleted);
         }
 
         public IEnumerable<Curriculum> GetCurriculums()
@@ -243,7 +244,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             List<ThemeDescription> result = new List<ThemeDescription>();
 
             var curriculumAssignments = groups.SelectMany(group => GetCurriculumAssignmentsByGroupId(group.Id)) //get curriculum assignments
-                   .Where(curriculumAssignment => GetTimelines(curriculumAssignment.Id) //select those curriculum assignments,
+                   .Where(curriculumAssignment => GetCurriculumAssignmentTimelines(curriculumAssignment.Id) //select those curriculum assignments,
                           .Any(timeline => dateTime.IsIn(timeline))); //for which specified date is in any of the curriculum assignment timelines
 
             foreach (CurriculumAssignment curriculumAssignment in curriculumAssignments)
@@ -265,7 +266,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                                 Stage = stage,
                                 Curriculum = stage.Curriculum,
                                 Timelines = stageTimelines.Count() == 0 ?
-                                    GetTimelines(curriculumAssignment.Curriculum.Id)
+                                    GetCurriculumAssignmentTimelines(curriculumAssignment.Curriculum.Id)
                                         .Where(timeline => dateTime.IsIn(timeline)).ToList() :
                                     stageTimelines
                                         .Where(timeline => dateTime.IsIn(timeline)).ToList()
@@ -505,7 +506,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             var curriculumAssignment = GetCurriculumAssignment(curriculumAssignmentId);
 
             //delete corresponding CurriculumAssignmentTimelines
-            var curriculumAssignmentTimelineIds = GetTimelines(curriculumAssignmentId).Select(item => item.Id);
+            var curriculumAssignmentTimelineIds = GetCurriculumAssignmentTimelines(curriculumAssignmentId).Select(item => item.Id);
             DeleteTimelines(curriculumAssignmentTimelineIds);
 
             //delete corresponding StageTimelines
@@ -590,7 +591,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return _Db.Timelines.Single(item => item.Id == timelineId && !item.IsDeleted);
         }
 
-        public IEnumerable<Timeline> GetTimelines(int curriculumAssignmentId)
+        public IEnumerable<Timeline> GetCurriculumAssignmentTimelines(int curriculumAssignmentId)
         {
             return _Db.Timelines.Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && item.StageRef == null && !item.IsDeleted);
         }

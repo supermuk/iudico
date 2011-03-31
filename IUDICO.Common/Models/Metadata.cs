@@ -130,7 +130,8 @@ namespace IUDICO.Common.Models
             public int Id { get; set; }
 
             [DisplayName("Name")]
-            [ScaffoldColumn(false)]
+            [Required(ErrorMessage = "Name is required")]
+            [StringLength(50, ErrorMessage = "Name can not be longer than 50.")]
             public string Name { get; set; }
 
             [DisplayName("Create Date")]
@@ -362,11 +363,13 @@ namespace IUDICO.Common.Models
             [DisplayName("Start Date")]
             [Required(ErrorMessage = "Start Date is required")]
             [UIHint("DateTimeWithPicker")]
+            [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
             public DateTime StartDate { get; set; }
 
             [DisplayName("End Date")]
             [Required(ErrorMessage = "End Date is required")]
             [UIHint("DateTimeWithPicker")]
+            [DisplayFormat(DataFormatString = /*"dd.MM.yy HH:mm:ss"*/"{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
             public DateTime EndDate { get; set; }
 
             [ScaffoldColumn(false)]

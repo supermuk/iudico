@@ -79,7 +79,7 @@
             <th>
             </th>
             <th>
-                Course name
+                Theme name
             </th>
             <th>
                 Created

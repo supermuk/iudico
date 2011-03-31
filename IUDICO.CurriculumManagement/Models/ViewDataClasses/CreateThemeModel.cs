@@ -13,13 +13,14 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
         public IEnumerable<SelectListItem> ThemeTypes { get; set; }
         public int CourseId { get; set; }
         public int StageId { get; set; }
-        public int ThemeTypeId{get;set;}
+        public int ThemeTypeId { get; set; }
+        public string ThemeName { get; set; }
 
         public CreateThemeModel()
         {
         }
 
-        public CreateThemeModel(int stageId, IEnumerable<Course> courses, int courseId, IEnumerable<ThemeType> themeTypes, int themeTypeId)
+        public CreateThemeModel(int stageId, IEnumerable<Course> courses, int courseId, IEnumerable<ThemeType> themeTypes, int themeTypeId, string themeName)
         {
             StageId = stageId;
             Courses = courses
@@ -38,6 +39,7 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
                         });
             CourseId = courseId;
             ThemeTypeId = themeTypeId;
+            ThemeName = themeName;
         }
     }
 }

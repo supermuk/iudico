@@ -26,6 +26,8 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
         <fieldset>
             <legend>Fields</legend>
 
+            <%= Html.EditorFor(item => item.ThemeName) %>
+
             <div class="editor-label">
                 <%: Html.Label("Choose a course for theme:") %>
             </div>

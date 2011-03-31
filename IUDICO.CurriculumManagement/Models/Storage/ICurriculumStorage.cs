@@ -103,7 +103,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         Timeline GetTimeline(int TimelineId);
         IEnumerable<Timeline> GetTimelines(IEnumerable<int> timelineIds);
-        IEnumerable<Timeline> GetTimelines(int curriculumAssignmentId);
+        IEnumerable<Timeline> GetCurriculumAssignmentTimelines(int curriculumAssignmentId);
         IEnumerable<Timeline> GetStageTimelinesByCurriculumAssignmentId(int curriculumAssignmentId);
         IEnumerable<Timeline> GetStageTimelinesByStageId(int stageId);
         int AddTimeline(Timeline timeline);
