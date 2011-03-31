@@ -208,7 +208,14 @@ namespace IUDICO.Statistics.Models.Storage
 
         public double? GetThemeResultScore()
         {
-            _Res = _AttemptResults.First(x => x.User == _User & x.Theme == _Theme).Score.ToPercents();
+            if (_AttemptResults.Count() == 0)
+            {
+                _Res = 0.0;
+            }
+            else
+            {
+                _Res = _AttemptResults.First(x => x.User == _User & x.Theme == _Theme).Score.ToPercents();
+            }
             return _Res;
         }
 
