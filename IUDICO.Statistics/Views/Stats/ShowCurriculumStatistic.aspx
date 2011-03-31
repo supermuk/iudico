@@ -40,14 +40,14 @@
             <% foreach (IUDICO.Statistics.Models.Storage.CurriculumResult currResult in specializedResult.CurriculumResult)
             { %>
                 <td>
-                <%: currResult.Sum  %>
+                <%: Math.Round(Double.Parse(currResult.Sum.ToString()),2)  %>
                 /
                 <%: currResult.Max  %>
                 </td>     
             <% } %>
            
             <td>
-                <%: specializedResult.Sum %>
+                <%:Math.Round(Double.Parse(specializedResult.Sum.ToString()),2) %>
                 /
                 <%: specializedResult.Max %>
             </td>
