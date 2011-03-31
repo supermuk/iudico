@@ -94,6 +94,13 @@
       <Project>{A3157C96-0DCC-4B6E-909D-948205118E74}</Project>
       <Name>IUDICO.Statistics</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IUDICO.UserManagement\IUDICO.UserManagement.csproj">
+      <Project>{2D0C4A4E-D442-4BC5-879B-CB3990D57647}</Project>
+      <Name>IUDICO.UserManagement</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

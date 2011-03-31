@@ -7,7 +7,7 @@
     $(function () {
         $(".datePicker").datetimepicker({
             timeFormat: 'hh:mm:ss',
-            dateFormat: 'dd.mm.yy'
+            dateFormat: 'm/dd/yy'
         });
     });
 </script>

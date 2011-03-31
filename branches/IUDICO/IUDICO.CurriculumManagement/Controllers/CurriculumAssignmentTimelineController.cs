@@ -26,7 +26,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 CurriculumAssignment curriculumAssignment = Storage.GetCurriculumAssignment(curriculumAssignmentId);
                 Group group = Storage.GetGroup(curriculumAssignment.UserGroupRef);
-                var timelines = Storage.GetTimelines(curriculumAssignmentId);
+                var timelines = Storage.GetCurriculumAssignmentTimelines(curriculumAssignmentId);
 
                 ViewData["Group"] = group;
                 ViewData["Curriculum"] = curriculumAssignment.Curriculum;
