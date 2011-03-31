@@ -6,31 +6,76 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
+using IUDICO.UserManagement.Models.Storage;
 
 namespace IUDICO.UnitTests
 {
     [TestClass]
     public class CurriculumStorageTest
     {
-        MixedCurriculumStorage storage { get; set; }
-        static ILmsService fakeLmsService { get; set; }
-        static DBDataContext context { get; set; } //??? чи так треба , чи мож є якийсь інший спосіб добавляти групи
+        ICurriculumStorage storage { get; set; }
+        ILmsService lmsService { get; set; }
+        DBDataContext context { get; set; } //забудь про нього в тестах!
+
+        //1)забери всюди делете.
+        //2)не називай об*єкти curriculumThirtyFour:))
+
+        private void ClearDb()
+        {
+            context = lmsService.GetDbDataContext();
+            context.CurriculumAssignments.DeleteAllOnSubmit(context.CurriculumAssignments);
+            context.Themes.DeleteAllOnSubmit(context.Themes);
+            context.Stages.DeleteAllOnSubmit(context.Stages);
+            context.Curriculums.DeleteAllOnSubmit(context.Curriculums);
+            context.SubmitChanges();
+        }
+
+        private void InitializeDb()
+        {
+            IUserStorage userService = new DatabaseUserStorage(lmsService);
+
+            userService.CreateGroup(new Group() { Name = "TestGroup1" });
+            userService.CreateGroup(new Group() { Name = "TestGroup2" });
+            userService.CreateGroup(new Group() { Name = "TestGroup3" });
+            context.SubmitChanges();
+        }
+
+        public CurriculumStorageTest()
+        {
+            lmsService = new FakeLmsService();
+            using (context = lmsService.GetDbDataContext())
+            {
+                if (context.DatabaseExists())
+                {
+                    context.DeleteDatabase();
+                }
+                context.CreateDatabase();
+                InitializeDb();
+            }
+        }
 
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext)
         {
-            fakeLmsService = new FakeLmsService();
-            context = fakeLmsService.GetDbDataContext(); //???
-            //clear all tables before test runs!
-            //context.Curriculums.DeleteAllOnSubmit(context.Curriculums);
-            //context.SubmitChanges();
-            //...
+
         }
 
         [TestInitialize()]
         public void InitializeTest()
         {
-            storage = new MixedCurriculumStorage(fakeLmsService);
+            storage = new MixedCurriculumStorage(lmsService);
+            using (context = lmsService.GetDbDataContext())
+            {
+                ClearDb();
+            }
+        }
+
+        ~CurriculumStorageTest()
+        {
+            using (context = lmsService.GetDbDataContext())
+            {
+                context.DeleteDatabase();
+            }
         }
 
         #region CurriculumTestMethods
@@ -41,23 +86,21 @@ namespace IUDICO.UnitTests
             Curriculum curriculum = new Curriculum() { Name = "Test1Curriculum" };
             int id = storage.AddCurriculum(curriculum);
             AdvAssert.AreEqual(curriculum, storage.GetCurriculum(id));
-
-            storage.DeleteCurriculum(id);
         }
 
         [TestMethod]
         public void TestMethod2()
         {
-            Curriculum curriculumOne = new Curriculum { Name = "Test2FirstTestCurr" };
-            Curriculum curriculumTwo = new Curriculum { Name = "Test2SecondTestCurr" };
-            int curriculumOneId = storage.AddCurriculum(curriculumOne);
-            int curriculumTwoId = storage.AddCurriculum(curriculumTwo);
-            //int expected = 2;         тут треба щось придумати
-            //int actual = storage.GetCurriculums().ToList().Count;
-            //Assert.AreEqual(expected,actual);
+            Curriculum curriculum1 = new Curriculum { Name = "Test2FirstTestCurr" };
+            Curriculum curriculum2 = new Curriculum { Name = "Test2SecondTestCurr" };
+            int curriculum1Id = storage.AddCurriculum(curriculum1);
+            int curriculum2Id = storage.AddCurriculum(curriculum2);
 
-            storage.DeleteCurriculum(curriculumOneId);
-            storage.DeleteCurriculum(curriculumTwoId);
+            //ось що треба придумати:
+            IEnumerable<Curriculum> curriculums = storage.GetCurriculums();
+            Assert.AreEqual(2, curriculums.ToList().Count);
+            AdvAssert.AreEqual(curriculum1, storage.GetCurriculum(curriculum1Id));
+            AdvAssert.AreEqual(curriculum2, storage.GetCurriculum(curriculum2Id));
         }
         
         [TestMethod]
@@ -66,27 +109,21 @@ namespace IUDICO.UnitTests
             Curriculum curriculum = new Curriculum { Name = "Test3CurriculumToUpdate" };
             int id = storage.AddCurriculum(curriculum);
             curriculum.Name = "Test3UpdatedCurriculum";
-            AdvAssert.AreEqual(curriculum, storage.GetCurriculum(id));
 
-            storage.DeleteCurriculum(id);
+            //тут має бути NotEqual, бо ти змінив ім8я тільки в локальній копії, а на бд це не мало б відобразитись-але фіг там
+            //відображається!
+            AdvAssert.AreEqual(curriculum, storage.GetCurriculum(id));
         }
 
         [TestMethod]
+        [ExpectedException(typeof (InvalidOperationException))]
         public void TestMethod4()
         {
             Curriculum curriculum = new Curriculum { Name = "Test4CurriculumToDelete" };
             int id = storage.AddCurriculum(curriculum);
             storage.DeleteCurriculum(id);
-            //якщо шо - поправити
-            try
-            {
-                storage.GetCurriculum(id);
-                Assert.AreEqual(true, false);
-            }
-            catch (Exception ex)
-            {
-                Assert.AreEqual(true, true);
-            }
+            storage.GetCurriculum(id);
+            Assert.AreEqual(true, false);
         }
 
         #endregion
@@ -257,32 +294,23 @@ namespace IUDICO.UnitTests
             Curriculum curriculum = new Curriculum() { Name = "Test12Curriculum" };
             int curriculumId = storage.AddCurriculum(curriculum);
 
-            Group group = new Group() { Name = "Test12Group" };
-            context.Groups.InsertOnSubmit(group);
-            context.SubmitChanges();
-            int groupId = group.Id;
+            IUserService userService = lmsService.FindService<IUserService>();
+            List<Group> groups = userService.GetGroups().ToList();
 
-            CurriculumAssignment curriculumAssignment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groupId };
+            CurriculumAssignment curriculumAssignment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groups[0].Id};
             int curriculumAssignmentId = storage.AddCurriculumAssignment(curriculumAssignment);
             AdvAssert.AreEqual(curriculumAssignment,storage.GetCurriculumAssignment(curriculumAssignmentId));
 
             List<CurriculumAssignment> curriculumAssignments = new List<CurriculumAssignment>();
             curriculumAssignments.Add(curriculumAssignment);
+            AdvAssert.AreEqual(curriculumAssignments, storage.GetCurriculumAssignmnetsByCurriculumId(curriculumId).ToList());
 
-            AdvAssert.AreEqual(curriculumAssignments,storage.GetCurriculumAssignmnetsByCurriculumId(curriculumId).ToList());
-
-            Curriculum curriculumTwo = new Curriculum() { Name = "Test12CurriculumTwo" };
-            int curriculumTwoId = storage.AddCurriculum(curriculumTwo);
-            CurriculumAssignment curriculumAssignmentTwo = new CurriculumAssignment() { CurriculumRef = curriculumTwoId, UserGroupRef = groupId };
-            int curriculumAssignmentTwoId = storage.AddCurriculumAssignment(curriculumAssignmentTwo);
-            curriculumAssignments.Add(curriculumAssignmentTwo);
-
-            AdvAssert.AreEqual(curriculumAssignments,storage.GetCurriculumAssignments().ToList());// вертає всі КуррАсс,а їх багато,хоча має бути 2
-
-            storage.DeleteCurriculum(curriculumTwoId);
-            storage.DeleteCurriculum(curriculumId);
-            context.Groups.DeleteOnSubmit(group);
-            context.SubmitChanges();
+            Curriculum curriculum2 = new Curriculum() { Name = "Test12CurriculumTwo" };
+            int curriculum2Id = storage.AddCurriculum(curriculum2);
+            CurriculumAssignment curriculumAssignment2 = new CurriculumAssignment() { CurriculumRef = curriculum2Id, UserGroupRef = groups[0].Id };
+            storage.AddCurriculumAssignment(curriculumAssignment2);
+            curriculumAssignments.Add(curriculumAssignment2);
+            AdvAssert.AreEqual(curriculumAssignments, storage.GetCurriculumAssignments().ToList());
         }
 
         [TestMethod]
@@ -382,7 +410,7 @@ namespace IUDICO.UnitTests
             timelines.Add(timelineOne);
             timelines.Add(timelineTwo);
 
-            AdvAssert.AreEqual(timelines,storage.GetTimelines(curriculumAssignmentId).ToList());
+            AdvAssert.AreEqual(timelines,storage.GetCurriculumAssignmentTimelines(curriculumAssignmentId).ToList());
 
             storage.DeleteCurriculum(curriculumId);
             context.Groups.DeleteOnSubmit(group);

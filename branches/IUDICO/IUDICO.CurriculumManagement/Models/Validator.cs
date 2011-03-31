@@ -51,7 +51,7 @@ namespace IUDICO.CurriculumManagement.Models
                     minAllowedDate.ToString(), maxAllowedDate.ToString()));
             }
             
-            var timelines = storage.GetTimelines(timeline.CurriculumAssignmentRef).Where(item => item.Id != timeline.Id);
+            var timelines = storage.GetCurriculumAssignmentTimelines(timeline.CurriculumAssignmentRef).Where(item => item.Id != timeline.Id);
 
             bool errorCheck = false;
             foreach (var item in timelines)
@@ -133,6 +133,14 @@ namespace IUDICO.CurriculumManagement.Models
             if (theme.ThemeTypeRef <= 0)
             {
                 validationStatus.Errors.Add(String.Format("Choose a theme type."));
+            }
+            if (theme.Name == null || theme.Name == "")
+            {
+                validationStatus.Errors.Add(String.Format("Name is reqiured."));
+            }
+            if (theme.Name != null && theme.Name.Length > Constants.MaxStringFieldLength)
+            {
+                validationStatus.Errors.Add(String.Format("Name can not be longer than {0}.", Constants.MaxStringFieldLength));
             }
 
             return validationStatus;
