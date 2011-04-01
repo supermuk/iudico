@@ -6442,6 +6442,7 @@ namespace IUDICO.TestingSystem.Schema {
     /// Columns in the view:
     /// <ul>
     /// <li><Fld>ActivityAttemptId</Fld></li>
+    /// <li><Fld>ActivityTitle</Fld></li>
     /// <li><Fld>CorrectResponse</Fld></li>
     /// <li><Fld>InteractionId</Fld></li>
     /// <li><Fld>InteractionType</Fld></li>
@@ -6475,6 +6476,17 @@ namespace IUDICO.TestingSystem.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string ActivityAttemptId = "ActivityAttemptId";
+        
+        /// <summary>
+        /// Name of the ActivityTitle column on the <Typ>InteractionResultsByAttempt</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: String[]
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string ActivityTitle = "ActivityTitle";
         
         /// <summary>
         /// Name of the InteractionId column on the <Typ>InteractionResultsByAttempt</Typ> view.

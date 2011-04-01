@@ -630,6 +630,7 @@ SET @schema = @schema +
 SET @schema = @schema +
     '<View Name="InteractionResultsByAttempt" Function="InteractionResultsByAttempt" SecurityFunction="InteractionResultsByAttempt$Security">' + 
         '<Column Name="ActivityAttemptId" TypeCode="1" Nullable="true" ReferencedItemTypeName="ActivityAttemptItem"/>' +
+        '<Column Name="ActivityTitle" TypeCode="2" Nullable="true"/>' +
         '<Column Name="InteractionId" TypeCode="1" Nullable="true" ReferencedItemTypeName="InteractionItem"/>' +
         '<Column Name="LearnerResponseBool" TypeCode="3" Nullable="true"/>' +
         '<Column Name="LearnerResponseString" TypeCode="2" Nullable="true"/>' +
@@ -2332,6 +2333,7 @@ RETURNS TABLE
 AS
 RETURN (
     SELECT  ActivityAttemptItem.Id AS ActivityAttemptId,
+    ActivityPackageItem.Title AS ActivityTitle,
     InteractionItem.Id AS InteractionId,
     InteractionItem.LearnerResponseBool AS LearnerResponseBool,
     InteractionItem.LearnerResponseString AS LearnerResponseString,
@@ -2342,7 +2344,8 @@ RETURN (
     FROM  ActivityAttemptItem
     LEFT JOIN InteractionItem ON InteractionItem.ActivityAttemptId = ActivityAttemptItem.Id
     LEFT JOIN CorrectResponseItem ON CorrectResponseItem.InteractionId = InteractionItem.Id
-    WHERE ActivityAttemptItem.AttemptId = @AttemptIdParam
+    INNER JOIN ActivityPackageItem ON ActivityPackageItem.Id = ActivityAttemptItem.ActivityPackageId
+    WHERE ((ActivityAttemptItem.AttemptId = @AttemptIdParam) AND (ActivityPackageItem.ResourceId IS NOT NULL))
 )
 GO
 GRANT SELECT ON [InteractionResultsByAttempt] TO LearningStore
