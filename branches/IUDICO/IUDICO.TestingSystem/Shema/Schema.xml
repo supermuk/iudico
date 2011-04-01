@@ -181,6 +181,7 @@
     </Parameters>
     <Columns>
       <Column Name="ActivityAttemptId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityAttemptItem"/>
+      <Column Name="ActivityTitle" Type="String"/>
       <Column Name="InteractionId" Type="ItemIdentifier" ReferencedItemTypeName="InteractionItem"/>
       <Column Name="LearnerResponseBool" Type="Boolean"/>
       <Column Name="LearnerResponseString" Type="String"/>
@@ -191,6 +192,7 @@
     </Columns>
     <Implementation>
       SELECT  ActivityAttemptItem.Id AS ActivityAttemptId,
+              ActivityPackageItem.Title AS ActivityTitle,
               InteractionItem.Id AS InteractionId,
               InteractionItem.LearnerResponseBool AS LearnerResponseBool,
               InteractionItem.LearnerResponseString AS LearnerResponseString,
@@ -201,7 +203,8 @@
       FROM  ActivityAttemptItem
             LEFT JOIN InteractionItem ON InteractionItem.ActivityAttemptId = ActivityAttemptItem.Id
             LEFT JOIN CorrectResponseItem ON CorrectResponseItem.InteractionId = InteractionItem.Id
-      WHERE ActivityAttemptItem.AttemptId = @AttemptIdParam
+            INNER JOIN ActivityPackageItem ON ActivityPackageItem.Id = ActivityAttemptItem.ActivityPackageId
+      WHERE ((ActivityAttemptItem.AttemptId = @AttemptIdParam) AND (ActivityPackageItem.ResourceId IS NOT NULL))
     </Implementation>
     <GrantQueryRight>
       <Expression>1</Expression>

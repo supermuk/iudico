@@ -16,7 +16,12 @@ namespace IUDICO.Common.Models.Shared.Statistics
         /// Identifier of Attempt performed over Activity (Item in manifest).
         /// </summary>
         public long ActivityAttemptId { get; protected set; }
-        
+
+        /// <summary>
+        /// Title of activity. Represents "title" attribute from manifest's item node.
+        /// </summary>
+        public string ActivityTitle { get; protected set; }
+
         /// <summary>
         /// Identifier of Interaction.
         /// </summary>
@@ -55,10 +60,12 @@ namespace IUDICO.Common.Models.Shared.Statistics
         #endregion
 
         #region Constructors
-        public AnswerResult(long activityAttempId, long? interactionId, AttemptResult attempResult,
+
+        public AnswerResult(long activityAttempId, string activityTitle, long? interactionId, AttemptResult attempResult,
             object learnerResponse, string correctResponse, InteractionType? learnerResponseType, float? scaledScore)
         {
             this.ActivityAttemptId = activityAttempId;
+            this.ActivityTitle = activityTitle;
             this.InteractionId = interactionId;
             this.AttemptResult = attempResult;
             this.LearnerResponse = learnerResponse;
@@ -66,6 +73,7 @@ namespace IUDICO.Common.Models.Shared.Statistics
             this.LearnerResponseType = learnerResponseType;
             this.ScaledScore = scaledScore;
         }
+
         #endregion
     }
 }
