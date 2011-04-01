@@ -164,7 +164,7 @@ namespace IUDICO.TestingSystem.Models
         {
             get
             {
-                if (m_lstore == null)
+                if (m_lstore == null || m_lstore.UserKey != CurrentIudicoUserKey.ToString())
                 {
                     m_lstore = new LearningStore(
                         LStoreConnectionString, CurrentIudicoUserKey.ToString(), ImpersonationBehavior.UseOriginalIdentity);
@@ -183,7 +183,7 @@ namespace IUDICO.TestingSystem.Models
         {
             get
             {
-                if (m_pstore == null)
+                if (m_pstore == null || m_pstore.LearningStore != LStore)
                 {
                     m_pstore = new FileSystemPackageStore(LStore,
                         PStoreDirectoryPath, ImpersonationBehavior.UseOriginalIdentity);

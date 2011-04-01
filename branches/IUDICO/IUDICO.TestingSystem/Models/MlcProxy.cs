@@ -197,6 +197,9 @@ namespace IUDICO.TestingSystem.Models
                 LStoreHelper.CastNonNull(dataRow[Schema.InteractionResultsByAttempt.ActivityAttemptId], out activityAttemptItemId);
                 long activityAttemptId = activityAttemptItemId.GetKey();
 
+                String activityTitle;
+                LStoreHelper.CastNonNull(dataRow[Schema.InteractionResultsByAttempt.ActivityTitle], out activityTitle);
+
                 InteractionItemIdentifier interactionItemId;
                 LStoreHelper.Cast(dataRow[Schema.InteractionResultsByAttempt.InteractionId], out interactionItemId);
                 long? interactionId = null;
@@ -243,7 +246,7 @@ namespace IUDICO.TestingSystem.Models
                 LStoreHelper.Cast<float>(dataRow[Schema.InteractionResultsByAttempt.ScaledScore], out scaledScore);
 
                 // Create AnswerResult object
-                AnswerResult answerResult = new AnswerResult(activityAttemptId, interactionId, attemptResult, learnerResponse, correctResponse, learnerResponseType, scaledScore);
+                AnswerResult answerResult = new AnswerResult(activityAttemptId, activityTitle, interactionId, attemptResult, learnerResponse, correctResponse, learnerResponseType, scaledScore);
                 result.Add(answerResult);
             }
 
@@ -308,6 +311,7 @@ namespace IUDICO.TestingSystem.Models
             LearningStoreQuery query = LStore.CreateQuery(Schema.InteractionResultsByAttempt.ViewName);
 
             query.AddColumn(Schema.InteractionResultsByAttempt.ActivityAttemptId);
+            query.AddColumn(Schema.InteractionResultsByAttempt.ActivityTitle);
             query.AddColumn(Schema.InteractionResultsByAttempt.InteractionId);
             query.AddColumn(Schema.InteractionResultsByAttempt.LearnerResponseBool);
             query.AddColumn(Schema.InteractionResultsByAttempt.LearnerResponseString);

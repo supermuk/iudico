@@ -45,11 +45,11 @@ namespace IUDICO.TestingSystem.Models
         public IEnumerable<AnswerResult> GetAnswers(AttemptResult attempt)
         {
             List<AnswerResult> results = new List<AnswerResult>();
-            results.Add(new AnswerResult(0, 0, attempt, 0, "100", InteractionType.Numeric, null));
-            results.Add(new AnswerResult(0, 1, attempt, null, "0", InteractionType.TrueFalse, null));
-            results.Add(new AnswerResult(0, 2, attempt, 10, "5", InteractionType.Numeric, null));
-            results.Add(new AnswerResult(0, 3, attempt, 1, "1", InteractionType.TrueFalse, null));
-            results.Add(new AnswerResult(0, 4, attempt, null, "0", InteractionType.TrueFalse, 1));
+            results.Add(new AnswerResult(0, "Test 1", 0, attempt, 0, "100", InteractionType.Numeric, null));
+            results.Add(new AnswerResult(0, "Test 2", 1, attempt, null, "0", InteractionType.TrueFalse, null));
+            results.Add(new AnswerResult(0, "Test 3", 2, attempt, 10, "5", InteractionType.Numeric, null));
+            results.Add(new AnswerResult(0, "Test 4", 3, attempt, 1, "1", InteractionType.TrueFalse, null));
+            results.Add(new AnswerResult(0, "Test 5", 4, attempt, null, "0", InteractionType.TrueFalse, 1));
 
             return results;
 
