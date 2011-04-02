@@ -126,8 +126,8 @@
   <data name="Comparison" xml:space="preserve">
     <value>Comparison</value>
   </data>
-  <data name="CorectAnswer" xml:space="preserve">
-    <value>Corect Answer</value>
+  <data name="CorrectAnswer" xml:space="preserve">
+    <value>Correct Answer</value>
   </data>
   <data name="Created" xml:space="preserve">
     <value>Created</value>
@@ -150,8 +150,8 @@
   <data name="Percent" xml:space="preserve">
     <value>Percent</value>
   </data>
-  <data name="Resaults" xml:space="preserve">
-    <value>Resaults</value>
+  <data name="Resalts" xml:space="preserve">
+    <value>Resalts</value>
   </data>
   <data name="Score" xml:space="preserve">
     <value>Score</value>
