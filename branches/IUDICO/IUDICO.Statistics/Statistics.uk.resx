@@ -126,7 +126,7 @@
   <data name="Comparison" xml:space="preserve">
     <value>Порівняння</value>
   </data>
-  <data name="CorectAnswer" xml:space="preserve">
+  <data name="CorrectAnswer" xml:space="preserve">
     <value>Правильна відповідь</value>
   </data>
   <data name="Created" xml:space="preserve">
@@ -150,7 +150,7 @@
   <data name="Percent" xml:space="preserve">
     <value>Відсотки</value>
   </data>
-  <data name="Resaults" xml:space="preserve">
+  <data name="Resalts" xml:space="preserve">
     <value>Результати</value>
   </data>
   <data name="Score" xml:space="preserve">
