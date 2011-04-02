@@ -5,11 +5,9 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    
-    <%: Html.ActionLink(StatisRes.Statistics.Back, "Index")%>
+
     <fieldset>
     <legend> <%=StatisRes.Statistics.SelectAttempt%></legend>
-    <form action="/Stats/ThemeTestResaults/" method="post">
         <table border="4" cellpadding="4" cellspacing="4">
         
         <tr>
@@ -28,14 +26,22 @@
 
             <tr> 
                 <td> <%: student.Username%></td>
-                <% foreach (IUDICO.Common.Models.Theme selectTheme in Model.SelectCurriculumThemes) 
-                    { %>
+                <% 
+                    int i = 0;
+                    foreach (IUDICO.Common.Models.Theme selectTheme in Model.SelectCurriculumThemes) 
+                    {
+                        i++;
+                       %>
                         <td>
-                        <input type="radio" name="attemptUsernameAndTheme" value="<%: student.Username+selectTheme.Name %>" checked="checked" />
+                        <form name="linkform<%:i%>" action="/Stats/ThemeTestResaults/" method="post">
+                        <input type="hidden" name="attemptId" value="<%: Model.GetStudentAttemptId(student,selectTheme) %>"/>
+                        </form>
+                        <a href="javascript:document.forms['linkform<%:i%>'].submit();">                     
                             <%:
                                     Model.GetStudentResultForTheme(student, selectTheme).ToString() +
                                     "/" + Model.GetMaxResautForTheme(selectTheme).ToString()
                                 %>
+                        </a> 
                         </td>
                     <% } %>  
             
@@ -56,11 +62,6 @@
         <% } %>
 
         </table>
-
-        <input type="submit" value=<%=StatisRes.Statistics.Show %> />
-
-
-        </form>
     </fieldset>
 
 </asp:Content>

@@ -85,7 +85,9 @@ namespace IUDICO.Statistics.Models.Storage
         private readonly List<AttemptResult> _LastAttempts;
         public IEnumerable<User> SelectStudents;
         public IEnumerable<Theme> SelectCurriculumThemes;
-
+        //
+        static int i=0;
+        //
         private ThemeInfoModel() 
         {
             List<AttemptResult> testAttemptList = new List<AttemptResult>();
@@ -139,13 +141,14 @@ namespace IUDICO.Statistics.Models.Storage
             SelectStudents = _LmsService.FindService<IUserService>().GetUsersByGroup(_LmsService.FindService<IUserService>().GetGroup(groupId));
             
             SelectCurriculumThemes = _LmsService.FindService<ICurriculumService>().GetThemesByCurriculumId(CurriculumId);
-            
+
             foreach (var temp in from student in SelectStudents
                                  from theme in SelectCurriculumThemes
                                  select _LmsService.FindService<ITestingService>().GetResults(student, theme)
                                  into temp where temp != null select temp)
             {
-                _LastAttempts.Add(temp.First());
+                if (temp.Count() != 0)
+                    _LastAttempts.Add(temp.Where(c => c.Score.ScaledScore == temp.Min(x => x.Score.ScaledScore)).First());
             }
         }
 
@@ -156,16 +159,22 @@ namespace IUDICO.Statistics.Models.Storage
 
         public double? GetStudentResultForTheme(User selectStudent, Theme selectTheme)
         {
-            return _LastAttempts.First(x => x.User == selectStudent & x.Theme == selectTheme).Score.ToPercents();
+            if (_LastAttempts.Count != 0)
+                return _LastAttempts.Single(x => x.User == selectStudent & x.Theme == selectTheme).Score.ToPercents();
+            else
+                return 0;
         }
 
         public double? GetStudentResultForAllThemesInSelectedCurriculum(User selectStudent)
         {
             double? result = 0;
 
-            foreach (Theme theme in SelectCurriculumThemes)
+            if (_LastAttempts.Count != 0)
             {
-                result += _LastAttempts.First(x => x.User == selectStudent & x.Theme == theme).Score.ToPercents();
+                foreach (Theme theme in SelectCurriculumThemes)
+                {
+                    result += _LastAttempts.First(x => x.User == selectStudent & x.Theme == theme).Score.ToPercents();
+                }
             }
 
             return result;
@@ -209,9 +218,12 @@ namespace IUDICO.Statistics.Models.Storage
             }
         }
 
-        public AttemptResult GetStudentAttempt(User selectStudent, Theme selectTheme)
+        public long GetStudentAttemptId(User selectStudent, Theme selectTheme)
         {
-            return _LastAttempts.First(x => x.User == selectStudent & x.Theme == selectTheme);
+            AttemptResult res = _LastAttempts.Find(x => x.User == selectStudent & x.Theme == selectTheme);
+            if (res != null)
+                return res.AttemptId;
+            return -1;
         }
 
         public List<AttemptResult> GetAllAttemts()
@@ -223,13 +235,53 @@ namespace IUDICO.Statistics.Models.Storage
     public class ThemeTestResaultsModel
     {
         private ILmsService _LmsService;
-        public AttemptResult Attempt;
-        public IEnumerable<AnswerResult> UserAnswers;
-        public ThemeTestResaultsModel(String attemptUsernameAndTheme, IEnumerable<AttemptResult> attList, ILmsService lmsService)
+        private AttemptResult Attempt;
+        private IEnumerable<AnswerResult> UserAnswers;
+        private bool _NoData;
+        public ThemeTestResaultsModel(long attemptId, IEnumerable<AttemptResult> attList, ILmsService lmsService)
         {
-            _LmsService = lmsService;
-            Attempt = attList.First(c => c.User.Username + c.Theme.Name == attemptUsernameAndTheme);
-            UserAnswers = _LmsService.FindService<ITestingService>().GetAnswers(Attempt);
+            if (attemptId != -1)
+            {
+                _LmsService = lmsService;
+                Attempt = attList.First(c => c.AttemptId == attemptId);
+                UserAnswers = _LmsService.FindService<ITestingService>().GetAnswers(Attempt);
+                _NoData = false;
+            }
+            else
+                _NoData = true;
+        }
+        public IEnumerable<AnswerResult> GetUserAnswers()
+        {
+            return this.UserAnswers;
+        }
+        public String GetUserName()
+        {
+            if (this.Attempt != null)
+                return this.Attempt.User.Username;
+            else
+                return "";
+        }
+        public String GetThemeName()
+        {
+            if (this.Attempt != null)
+                return this.Attempt.Theme.Name;
+            else
+                return "";
+        }
+
+        public String GetSuccessStatus()
+        {
+            if (this.Attempt != null)
+                return this.Attempt.SuccessStatus.ToString();
+            else
+                return "";
+        }
+        public String GetScore()
+        {
+            if (this.Attempt != null)
+                return this.Attempt.Score.ToPercents().ToString();
+            else
+                return "";
         }
         public String GetUserAnswer(AnswerResult answerResult)
         {
@@ -244,6 +296,10 @@ namespace IUDICO.Statistics.Models.Storage
                 return answerResult.ScaledScore.ToString();
             else
                 return "";
+        }
+        public bool NoData()
+        {
+            return this._NoData;
         }
     }
 }
