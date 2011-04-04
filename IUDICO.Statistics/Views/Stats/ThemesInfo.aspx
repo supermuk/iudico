@@ -33,15 +33,23 @@
                         i++;
                        %>
                         <td>
+                        <% long attemptId = Model.GetStudentAttemptId(student,selectTheme);
+                        if (attemptId !=-1)
+                        { %>
                         <form name="linkform<%:i%>" action="/Stats/ThemeTestResaults/" method="post">
-                        <input type="hidden" name="attemptId" value="<%: Model.GetStudentAttemptId(student,selectTheme) %>"/>
+                        <input type="hidden" name="attemptId" value="<%: attemptId%>"/>
                         </form>
                         <a href="javascript:document.forms['linkform<%:i%>'].submit();">                     
                             <%:
                                     Model.GetStudentResultForTheme(student, selectTheme).ToString() +
                                     "/" + Model.GetMaxResautForTheme(selectTheme).ToString()
                                 %>
-                        </a> 
+                        </a>
+                        <%}
+                        else
+                        {%>
+                            No data
+                        <%} %> 
                         </td>
                     <% } %>  
             
