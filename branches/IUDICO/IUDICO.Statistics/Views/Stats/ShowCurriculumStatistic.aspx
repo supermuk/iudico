@@ -14,16 +14,21 @@
     <fieldset>
     <legend><%=StatisRes.Statistics.SelectOneCurriculum%> </legend>
 
-    <form action="/Stats/ThemesInfo/" method="post">
     <table>
     <tr>
         <th><%=StatisRes.Statistics.Student%></th>
-        <% foreach (IUDICO.Common.Models.Curriculum curr in Model.Curriculums)
-           {%>
-           <th>
-           <input type="radio" name="CurriculumID" value="<%: curr.Id %>" checked="checked" />
-           <%: curr.Name %>
-           </th>
+        <% int i = 0;
+           foreach (IUDICO.Common.Models.Curriculum curr in Model.Curriculums)
+           {
+               i++;%>
+                <th>
+                <form name="linkform<%:i%>" action="/Stats/ThemesInfo/" method="post">
+                <input type="hidden" name="CurriculumID" value="<%: curr.Id%>"/>
+                </form>
+                <a href="javascript:document.forms['linkform<%:i%>'].submit();">                     
+                    <%:curr.Name%>
+                </a>
+                </th>
         <% } %>
         <th><%=StatisRes.Statistics.Sum%></th>
         <th><%=StatisRes.Statistics.Percent%></th>
@@ -61,10 +66,6 @@
        </tr>
     <% } %>
     </table>
-    <input type="submit" value=<%=StatisRes.Statistics.Show %> />
-
-    </form>
-
     </fieldset>
 
 </asp:Content>
