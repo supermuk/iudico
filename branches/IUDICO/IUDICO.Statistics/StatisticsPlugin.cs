@@ -40,7 +40,7 @@ namespace IUDICO.Statistics
             var actions = new List<Action>();
 
             actions.Add(new Action("Get Stats", "Stats/Index"));
-
+            actions.Add(new Action("Quality Test", "QualityTest/Index"));
             return actions;
         }
 
