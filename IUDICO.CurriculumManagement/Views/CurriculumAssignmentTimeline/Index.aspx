@@ -98,10 +98,10 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Timeline>>" %
                 <input type="checkbox" id="<%= item.Id %>" />
             </td>
             <td>
-                <%: item.StartDate %>
+                <%: String.Format("{0:g}", item.StartDate)%>
             </td>
             <td>
-                <%: item.EndDate %>
+                <%: String.Format("{0:g}", item.EndDate)%>
             </td>
             <td>
                 <%: Html.ActionLink("Edit", "Edit", new { TimelineId = item.Id }, null)%>
