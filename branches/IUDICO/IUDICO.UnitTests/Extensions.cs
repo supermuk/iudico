@@ -18,6 +18,16 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(expected.Updated, actual.Updated);
         }
 
+        public static void AreEqual(List<Curriculum> expected, List<Curriculum> actual)
+        {
+            Assert.AreEqual(expected.Count, actual.Count);
+
+            for (int i = 0; i < expected.Count; i++)
+            {
+                AreEqual(expected[i], actual[i]);
+            }
+        }
+
         public static void AreEqual(Stage expected, Stage actual)
         {
             Assert.AreEqual(expected.Name, actual.Name);
