@@ -245,14 +245,15 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
             var curriculumAssignments = groups.SelectMany(group => GetCurriculumAssignmentsByGroupId(group.Id)) //get curriculum assignments
                    .Where(curriculumAssignment => GetCurriculumAssignmentTimelines(curriculumAssignment.Id) //select those curriculum assignments,
-                          .Any(timeline => dateTime.IsIn(timeline))); //for which specified date is in any of the curriculum assignment timelines
+                   .Any(timeline => dateTime.IsIn(timeline))); //for which specified date is in any of the curriculum assignment timelines
 
             foreach (CurriculumAssignment curriculumAssignment in curriculumAssignments)
             {
                 //get stages
                 foreach (Stage stage in GetStages(curriculumAssignment.CurriculumRef))
                 {
-                    var stageTimelines = GetStageTimelinesByStageId(stage.Id).ToList();
+                    var stageTimelines = GetStageTimelines(stage.Id, curriculumAssignment.Id)
+                                        .ToList();
                     //select those stages, which doesn't have stage timelines or for which specified date is in any of the stage timelines
                     if (stageTimelines.Count() == 0 || stageTimelines.Any(timeline => dateTime.IsIn(timeline)))
                     {
@@ -586,29 +587,40 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #region Timeline methods
 
+        private IEnumerable<Timeline> GetTimelines()
+        {
+            return _Db.Timelines.Where(item => !item.IsDeleted);
+        }
+
         public Timeline GetTimeline(int timelineId)
         {
-            return _Db.Timelines.Single(item => item.Id == timelineId && !item.IsDeleted);
+            return GetTimelines().Single(item => item.Id == timelineId);
         }
 
         public IEnumerable<Timeline> GetCurriculumAssignmentTimelines(int curriculumAssignmentId)
         {
-            return _Db.Timelines.Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && item.StageRef == null && !item.IsDeleted);
+            return GetTimelines().Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && item.StageRef == null);
         }
 
         public IEnumerable<Timeline> GetStageTimelinesByCurriculumAssignmentId(int curriculumAssignmentId)
         {
-            return _Db.Timelines.Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && item.StageRef != null && !item.IsDeleted);
+            return GetTimelines().Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && item.StageRef != null);
         }
 
         public IEnumerable<Timeline> GetStageTimelinesByStageId(int stageId)
         {
-            return _Db.Timelines.Where(item => item.StageRef == stageId && item.StageRef != null && !item.IsDeleted);
+            return GetTimelines().Where(item => item.StageRef == stageId && item.StageRef != null);
+        }
+
+        public IEnumerable<Timeline> GetStageTimelines(int stageId, int curriculumAssignmentId)
+        {
+            return GetTimelines().Where(item => item.StageRef == stageId && item.CurriculumAssignmentRef == curriculumAssignmentId
+                && item.StageRef != null);
         }
 
         public IEnumerable<Timeline> GetTimelines(IEnumerable<int> timelineIds)
         {
-            return _Db.Timelines.Where(item => timelineIds.Contains(item.Id) && !item.IsDeleted);
+            return GetTimelines().Where(item => timelineIds.Contains(item.Id));
         }
 
         public int AddTimeline(Timeline timeline)
