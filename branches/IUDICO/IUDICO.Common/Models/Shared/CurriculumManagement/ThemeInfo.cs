@@ -16,7 +16,7 @@ namespace IUDICO.Common.Models.Shared.CurriculumManagement
         {
             string result = String.Format("{0}/{1}/{2}", Curriculum.Name, Stage.Name, Theme.Name);
             result = result + string.Concat(Timelines.Select(timeline => String.Format("({0} - {1}),",
-                timeline.StartDate.ToString("dd.MM.yyyy HH:mm"), timeline.EndDate.ToString("dd.MM.yyyy HH:mm"))));
+                String.Format("{0:g}", timeline.StartDate), String.Format("{0:g}", timeline.EndDate))));
             return result.Remove(result.Length - 1);
         }
     }
