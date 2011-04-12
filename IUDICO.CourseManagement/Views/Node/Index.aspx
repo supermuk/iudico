@@ -203,7 +203,7 @@
                 }
 		    })
             .bind("load_node.jstree", function (e, data) {
-                console.log('load');
+
             })
             .bind("create.jstree", function (e, data) {
                 var id = data.rslt.parent.attr("id").replace("node_", "");

@@ -11,12 +11,12 @@
 
             // Try to detect any embed or object tag that has Flash parameters.
             var fakeDiv = this.getSelectedElement();
-            console.log(fakeDiv && fakeDiv.getAttribute('_cke_real_element_type'));
-            if (fakeDiv && fakeDiv.getAttribute('_cke_real_element_type') && fakeDiv.getAttribute('_cke_real_element_type') == 'iudico-simple') {
+
+            if (fakeDiv && fakeDiv.getAttribute('_cke_real_element_type') && fakeDiv.getAttribute('_cke_real_element_type') == 'iudico') {
                 var realElement = editor.restoreRealElement(fakeDiv),
                     paramMap = {};
 
-                if (realElement.getName() == 'cke:object') {
+                if (realElement.getName() == 'cke:object' && realElement.getAttribute('iudico-type') && realElement.getAttribute('iudico-type') == 'simple') {
                     this.fakeDiv = fakeDiv;
                     this.objectNode = realElement;
 
@@ -60,11 +60,18 @@
             // A subset of the specified attributes/styles
             // should also be applied on the fake element to
             // have better visual effect. (#5240)
-            var extraStyles = {width: '100px', height: '100px'}, extraAttributes = {};
+            var extraStyles = { width: '100px', height: '100px' }, extraAttributes = {};
             this.commitContent(objectNode, paramMap, extraStyles, extraAttributes);
+
+            //for (var name in paramMap) {
+                //this.getDialog().addParam(objectNode, name, paramMap[name]);
+            //}
+
+            console.log(paramMap);
 
             // Refresh the fake image.
             var newFakeDiv = editor.createFakeElement(objectNode, 'cke_iudico', 'iudico', true);
+
             newFakeDiv.setAttributes(extraAttributes);
             newFakeDiv.setStyles(extraStyles);
             if (this.fakeDiv) {
@@ -89,18 +96,26 @@
                         type: 'text',
                         label: editor.lang.iudico.question,
                         labelLayout: 'horizontal',
-                        commit: function (element) {
-                            this.getDialog().addParam(element, 'question', this.getValue());
+                        commit: function (objectNode, paramMap, extraStyles, extraAttributes) {
+                            //paramMap['question'] = this.getValue();
+                            paramMap['question'].setAttribute("value", value);
+                            //this.getDialog().addParam(element, 'question', this.getValue());
+                        },
+                        setup: function (objectNode, embedNode, paramMap) {
+                            this.setValue(paramMap['question']);
                         }
-
                     },
                     {
                         id: 'correctAnswer',
                         type: 'text',
                         label: editor.lang.iudico.correctAnswer,
                         labelLayout: 'horizontal',
-                        commit: function (element) {
-                            this.getDialog().addParam(element, 'correctAnswer', this.getValue());
+                        commit: function (objectNode, paramMap, extraStyles, extraAttributes) {
+                            paramMap['question'].setAttribute("value", value);
+                            //this.getDialog().addParam(element, 'correctAnswer', this.getValue());
+                        },
+                        setup: function (objectNode, embedNode, paramMap) {
+                            this.setValue(paramMap['correctAnswer']);
                         }
                     }
 				]
