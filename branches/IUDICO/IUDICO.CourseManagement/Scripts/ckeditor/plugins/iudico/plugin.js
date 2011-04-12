@@ -66,8 +66,6 @@ function createFakeElement(editor, realElement) {
     var width = realElement.attributes.width,
 		height = realElement.attributes.height;
 
-    console.log(width);
-
     if (typeof width != 'undefined')
         fakeStyle = fakeElement.attributes.style = fakeStyle + 'width:' + cssifyLength(width) + ';';
 
@@ -112,8 +110,6 @@ CKEDITOR.plugins.add('iudico', {
             dataFilter.addRules({
                 elements: {
                     'cke:object': function (element) {
-                        console.log(element);
-
                         if (!isIudicoObject(element))
                             return null;
 
