@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+﻿<%@ Assembly Name="IUDICO.CourseManagement" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Import
@@ -9,11 +10,11 @@
     <% using (Html.BeginForm("Import", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
        {%>
         <fieldset>
-            <legend>Validate or Import Course</legend>
+            <legend><%=CourseManagRes.CourseManagement.ValidateOrImportCourse%></legend>
             <input type="file" id="fileToValidate" name="fileUpload"/>
             <p>
-                <input type="submit" value="Validate" id="Validate" name="action"/>
-                <input type="submit" value="Import" id="Import" name="action"/>
+                <input type="submit" value=<%=CourseManagRes.CourseManagement.Validate%> id="Validate" name="action"/>
+                <input type="submit" value=<%=CourseManagRes.CourseManagement.Import%> id="Import" name="action"/>
             </p>
             <div id="validateResult">
                 <ul>
@@ -29,7 +30,7 @@
     <%} %>
 
     <div>
-        <%: Html.ActionLink("Back to List", "Index") %>
+        <%: Html.ActionLink(CourseManagRes.CourseManagement.BackToList, "Index")%>
     </div>
 
 </asp:Content>

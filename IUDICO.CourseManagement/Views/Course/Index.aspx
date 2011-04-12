@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Course>>" %>
+﻿<%@ Assembly Name="IUDICO.CourseManagement" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Course>>" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script src="<%= Html.ResolveUrl("/Scripts/Microsoft/MicrosoftAjax.js")%>" type="text/javascript"></script>
@@ -51,11 +52,11 @@
 
      <p>
         
-        <%: Html.ActionLink("Create New", "Create", "Course")%> |
-        <%: Html.ActionLink("Import", "Import") %> |
-        <a id="DeleteMany" href="#">Delete Selected</a>
+        <%: Html.ActionLink(CourseManagRes.CourseManagement.CreateNew, "Create", "Course")%> |
+        <%: Html.ActionLink(CourseManagRes.CourseManagement.Import, "Import")%> |
+        <a id="DeleteMany" href="#"><%=CourseManagRes.CourseManagement.DeleteSelected%></a>
     </p>
-    <h2>My courses:</h2>
+    <h2><%=CourseManagRes.CourseManagement.Mycourses%>:</h2>
     <table>
         <tr>
             <th></th>
@@ -63,13 +64,13 @@
                 №
             </th>
             <th>
-                Name
+                <%=CourseManagRes.CourseManagement.Name%>
             </th>
             <th>
-                Created
+                <%=CourseManagRes.CourseManagement.Created%>
             </th>
             <th>
-                Updated
+                <%=CourseManagRes.CourseManagement.Updated%>
             </th>
             <th></th>
         </tr>
@@ -93,14 +94,14 @@
                 <%: String.Format("{0:g}", item.Updated) %>
             </td>
             <td>
-                <%: Html.ActionLink("Edit", "Edit", "Course", new { CourseID = item.Id }, null)%> |
+                <%: Html.ActionLink(CourseManagRes.CourseManagement.Edit, "Edit", "Course", new { CourseID = item.Id }, null)%> |
                 <% if (item.Locked == null || item.Locked.Value == false) { %>
-                <%:Html.ActionLink("Details", "Index", "Node", new {CourseID = item.Id}, null)%> |
+                <%:Html.ActionLink(CourseManagRes.CourseManagement.Details, "Index", "Node", new { CourseID = item.Id }, null)%> |
                 <% } else {%>
                 <%:Html.ActionLink("Unlock", "Parse", "Course", new {CourseID = item.Id}, null) %> |
                 <%}%>
-                <%: Html.ActionLink("Export", "Export", new { CourseID = item.Id }) %> |
-                <%: Ajax.ActionLink("Delete", "Delete", new { CourseID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess="removeRow" })%>
+                <%: Html.ActionLink(CourseManagRes.CourseManagement.Export, "Export", new { CourseID = item.Id })%> |
+                <%: Ajax.ActionLink(CourseManagRes.CourseManagement.Delete, "Delete", new { CourseID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
             </td>
         </tr>
     
@@ -115,16 +116,16 @@
                 №
             </th>
             <th>
-                Name
+                <%=CourseManagRes.CourseManagement.Name%>
             </th>
             <th>
-                Owner
+                <%=CourseManagRes.CourseManagement.Owner%>
             </th>
             <th>
-                Created
+                <%=CourseManagRes.CourseManagement.Created%>
             </th>
             <th>
-                Updated
+                <%=CourseManagRes.CourseManagement.Updated%>
             </th>
             <th></th>
         </tr>
@@ -151,10 +152,10 @@
                 <%: String.Format("{0:g}", item.Updated) %>
             </td>
             <td>
-                <%: Html.ActionLink("Edit", "Edit", "Course", new { CourseID = item.Id }, null)%> |
-                <%: Html.ActionLink("Details", "Index", "Node", new { CourseID = item.Id }, null) %> |
-                <%: Html.ActionLink("Export", "Export", new { CourseID = item.Id }) %> |
-                <%: Ajax.ActionLink("Delete", "Delete", new { CourseID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess="removeRow" })%>
+                <%: Html.ActionLink(CourseManagRes.CourseManagement.Edit, "Edit", "Course", new { CourseID = item.Id }, null)%> |
+                <%: Html.ActionLink(CourseManagRes.CourseManagement.Details, "Index", "Node", new { CourseID = item.Id }, null)%> |
+                <%: Html.ActionLink(CourseManagRes.CourseManagement.Export, "Export", new { CourseID = item.Id })%> |
+                <%: Ajax.ActionLink(CourseManagRes.CourseManagement.Delete, "Delete", new { CourseID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
             </td>
         </tr>
     
