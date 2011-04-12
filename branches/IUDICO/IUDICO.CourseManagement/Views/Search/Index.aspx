@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+﻿<%@ Assembly Name="IUDICO.CourseManagement" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Search
@@ -6,13 +7,13 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Search</h2>
+    <h2><%=CourseManagRes.CourseManagement.Search %></h2>
     
     <form action="/Search/Search" method="post">
 
         Search:
         <%= Html.TextBox("query") %>
-         <input type="submit" value="Search" />
+         <input type="submit" value=<%=CourseManagRes.CourseManagement.Search %> />
 
     </form>
 

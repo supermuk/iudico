@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Course>" %>
+﻿<%@ Assembly Name="IUDICO.CourseManagement" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Course>" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <link href="<%= Html.ResolveUrl("~/Content/jquery.multiselect2side.css") %>" rel="Stylesheet" type="text/css" />
@@ -25,7 +26,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Create</h2>
+    <h2><%=CourseManagRes.CourseManagement.Create %></h2>
 
     <% Html.EnableClientValidation(); %>
 
@@ -45,7 +46,7 @@
             </select>
 
             <p>
-                <input type="submit" value="Create" />
+                <input type="submit" value=<%=CourseManagRes.CourseManagement.Create %> />
             </p>
         </fieldset>
 
@@ -53,7 +54,7 @@
     
 
     <div>
-        <%: Html.ActionLink("Back to List", "Index") %>
+        <%: Html.ActionLink(CourseManagRes.CourseManagement.BackToList, "Index")%>
     </div>
 
 </asp:Content>
