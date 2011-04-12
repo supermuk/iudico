@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Details</h2>
+    <h2><%=UsManagRes.UserManagement.Details%></h2>
 
     <fieldset>
         <legend>Fields</legend>
@@ -17,12 +17,12 @@
     </fieldset>
 
     <fieldset>
-        <legend>Groups</legend>
+        <legend><%=UsManagRes.UserManagement.Groups%></legend>
 
         <table>
         <tr>
             <th>
-                Name
+                <%=UsManagRes.UserManagement.Name%>
             </th>
             <th></th>
         </tr>
@@ -30,7 +30,7 @@
         <% foreach(var group in Model.Groups) { %>
         <tr>
             <td><%: group.Name %></td>
-            <td><%: Html.ActionLink("Remove", "RemoveFromGroup", new { id = Model.Id, groupRef = group.Id })%></td>
+            <td><%: Html.ActionLink(UsManagRes.UserManagement.Remove, "RemoveFromGroup", new { id = Model.Id, groupRef = group.Id })%></td>
         </tr>
         <% } %>
 
@@ -40,16 +40,16 @@
     <p>
         <% if (Model.IsApproved)
             { %>
-            <%: Html.ActionLink("Deactivate", "Deactivate", new { id = Model.Id })%> |
+            <%: Html.ActionLink(UsManagRes.UserManagement.Deactivate, "Deactivate", new { id = Model.Id })%> |
         <% }
             else
             { %>
-            <%: Html.ActionLink("Activate", "Activate", new { id = Model.Id })%> |
+            <%: Html.ActionLink(UsManagRes.UserManagement.Activate, "Activate", new { id = Model.Id })%> |
         <% } %>
-        <%: Html.ActionLink("Edit", "Edit", new { id=Model.Id }) %> |
-        <%: Html.ActionLink("Add To Group", "AddToGroup", new { id = Model.Id })%> |
-        <%: Html.ActionLink("Delete", "Delete", new { id=Model.Id }) %> |
-        <%: Html.ActionLink("Back to List", "Index") %>
+        <%: Html.ActionLink(UsManagRes.UserManagement.Edit, "Edit", new { id = Model.Id })%> |
+        <%: Html.ActionLink(UsManagRes.UserManagement.AddToGroup, "AddToGroup", new { id = Model.Id })%> |
+        <%: Html.ActionLink(UsManagRes.UserManagement.Delete, "Delete", new { id = Model.Id })%> |
+        <%: Html.ActionLink(UsManagRes.UserManagement.BackToList, "Index")%>
     </p>
 
 </asp:Content>

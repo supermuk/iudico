@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Role>>" %>
+﻿<%@ Assembly Name="IUDICO.UserManagement" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Role>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Index
@@ -11,7 +12,7 @@
     <table>
         <tr>
             <th>
-                Name
+                <%=UsManagRes.UserManagement.Name%>
             </th>
             <th></th>
         </tr>
@@ -23,8 +24,8 @@
                 <%: item.Name %>
             </td>
             <td>
-                <%: Html.ActionLink("Edit", "Edit", new { id=item.Id }) %> |
-                <%: Ajax.ActionLink("Delete", "Delete", new { id = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
+                <%: Html.ActionLink(UsManagRes.UserManagement.Edit, "Edit", new { id = item.Id })%> |
+                <%: Ajax.ActionLink(UsManagRes.UserManagement.Delete, "Delete", new { id = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
             </td>
         </tr>
     
@@ -33,7 +34,7 @@
     </table>
 
     <p>
-        <%: Html.ActionLink("Create New", "Create") %>
+        <%: Html.ActionLink(UsManagRes.UserManagement.CreateNew, "Create")%>
     </p>
 
 </asp:Content>
