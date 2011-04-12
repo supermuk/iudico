@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=UsManagAcRes.UserManagementAccount.Details %></h2>
+    <h2><%=UsManagRes.UserManagement.Details %></h2>
 
     <fieldset>
         <legend>Fields</legend>
@@ -17,7 +17,7 @@
     </fieldset>
 
     <fieldset>
-        <legend><%=UsManagAcRes.UserManagementAccount.Groups %></legend>
+        <legend><%=UsManagRes.UserManagement.Groups %></legend>
 
         <ul>
         
@@ -29,11 +29,11 @@
     </fieldset>
 
     <div>
-        <%: Html.ActionLink(UsManagAcRes.UserManagementAccount.Edit, "Edit") %>
+        <%: Html.ActionLink(UsManagRes.UserManagement.Edit, "Edit") %>
     </div>
 
     <div>
-        <%: Html.ActionLink(UsManagAcRes.UserManagementAccount.ChangePassword, "ChangePassword")%>
+        <%: Html.ActionLink(UsManagRes.UserManagement.ChangePassword, "ChangePassword")%>
     </div>
 
 </asp:Content>

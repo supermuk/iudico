@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.User>>" %>
+﻿<%@ Assembly Name="IUDICO.UserManagement" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.User>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Index
@@ -11,22 +12,22 @@
     <table>
         <tr>
             <th>
-                Name
+                <%=UsManagRes.UserManagement.Name%>
             </th>
             <th>
-                Username
+                <%=UsManagRes.UserManagement.Username%>
             </th>
             <th>
-                Active
+                <%=UsManagRes.UserManagement.Active%>
             </th>
             <th>
-                Approved By
+                <%=UsManagRes.UserManagement.ApprovedBy%>
             </th>
             <th>
-                Creation Date
+                <%=UsManagRes.UserManagement.CreationDate%>
             </th>
             <th>
-                Groups
+                <%=UsManagRes.UserManagement.Groups%>
             </th>
             <th>
             </th>
@@ -56,16 +57,16 @@
             <td>
                 <% if (item.IsApproved)
                    { %>
-                    <%: Html.ActionLink("Deactivate", "Deactivate", new { id = item.Id })%> |
+                    <%: Html.ActionLink(UsManagRes.UserManagement.Deactivate, "Deactivate", new { id = item.Id })%> |
                 <% }
                    else
                    { %>
-                    <%: Html.ActionLink("Activate", "Activate", new { id = item.Id })%> |
+                    <%: Html.ActionLink(UsManagRes.UserManagement.Activate, "Activate", new { id = item.Id })%> |
                 <% } %>
-                <%: Html.ActionLink("Edit", "Edit", new { id = item.Id }) %> |
-                <%: Html.ActionLink("Details", "Details", new { id = item.Id })%> |
-                <%: Html.ActionLink("Add To Group", "AddToGroup", new { id = item.Id })%> |
-                <%: Ajax.ActionLink("Delete", "Delete", new { id = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Username + "\"?", HttpMethod = "Delete", OnSuccess="removeRow" })%>
+                <%: Html.ActionLink(UsManagRes.UserManagement.Edit, "Edit", new { id = item.Id })%> |
+                <%: Html.ActionLink(UsManagRes.UserManagement.Details, "Details", new { id = item.Id })%> |
+                <%: Html.ActionLink(UsManagRes.UserManagement.AddToGroup, "AddToGroup", new { id = item.Id })%> |
+                <%: Ajax.ActionLink(UsManagRes.UserManagement.Delete, "Delete", new { id = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Username + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
             </td>
         </tr>
     
@@ -74,7 +75,7 @@
     </table>
 
     <p>
-        <%: Html.ActionLink("Create New", "Create") %>
+        <%: Html.ActionLink(UsManagRes.UserManagement.CreateNew, "Create")%>
     </p>
 
 </asp:Content>
