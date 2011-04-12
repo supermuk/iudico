@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Curriculum>>" %>
+﻿<%@ Assembly Name="IUDICO.CurriculumManagement" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Curriculum>>" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript" language="javascript">
@@ -66,7 +67,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Curriculums</h2>
+        <%=CurriculumManagRes.CurriculumManagement.Curriculums%></h2>
     <p>
         <%: Html.ActionLink("Create New", "Create") %>
         <a id="DeleteMany" href="#">Delete Selected</a>
@@ -76,13 +77,13 @@
             <th>
             </th>
             <th>
-                Name
+                <%=CurriculumManagRes.CurriculumManagement.Name %>
             </th>
             <th>
-                Created
+                <%=CurriculumManagRes.CurriculumManagement.Created%>
             </th>
             <th>
-                Updated
+                <%=CurriculumManagRes.CurriculumManagement.Updated%>
             </th>
             <th>
             </th>
@@ -103,7 +104,7 @@
                     <%: String.Format("{0:g}", item.Updated) %>
                 </td>
                 <td>
-                    <%: Html.ActionLink("Edit", "Edit", new { CurriculumID = item.Id })%>
+                    <%: Html.ActionLink(CurriculumManagRes.CurriculumManagement.Edit, "Edit", new { CurriculumID = item.Id })%>
                     |
                     <%: Html.ActionLink("Edit Stages", "Index", "Stage", new { CurriculumID = item.Id }, null)%>
                     |

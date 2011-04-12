@@ -85,6 +85,16 @@
     <Compile Include="Controllers\StageTimelineController.cs" />
     <Compile Include="Controllers\ThemeAssignmentController.cs" />
     <Compile Include="Controllers\ThemeController.cs" />
+    <Compile Include="CurriculumManagement.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CurriculumManagement.resx</DependentUpon>
+    </Compile>
+    <Compile Include="CurriculumManagement.uk.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CurriculumManagement.uk.resx</DependentUpon>
+    </Compile>
     <Compile Include="CurriculumManagementPlugin.cs" />
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\Utility.cs" />
@@ -150,6 +160,18 @@
     <Content Include="Views\Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CurriculumManagement.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CurriculumManagement.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>CurriculumManagRes</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CurriculumManagement.uk.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CurriculumManagement.uk.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>CurriculumManagRes</CustomToolNamespace>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
