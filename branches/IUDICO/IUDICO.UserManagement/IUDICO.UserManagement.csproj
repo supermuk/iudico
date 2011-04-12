@@ -94,15 +94,15 @@
     <Compile Include="Models\Auth\OpenIdRoleProvider.cs" />
     <Compile Include="Models\Storage\IUserStorage.cs" />
     <Compile Include="Models\UserService.cs" />
-    <Compile Include="UserManagementAccount.Designer.cs">
+    <Compile Include="UserManagement.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UserManagementAccount.resx</DependentUpon>
+      <DependentUpon>UserManagement.resx</DependentUpon>
     </Compile>
-    <Compile Include="UserManagementAccount.uk.Designer.cs">
+    <Compile Include="UserManagement.uk.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UserManagementAccount.uk.resx</DependentUpon>
+      <DependentUpon>UserManagement.uk.resx</DependentUpon>
     </Compile>
     <Compile Include="UserManagementPlugin.cs" />
     <Compile Include="Models\Models.cs" />
@@ -166,15 +166,15 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UserManagementAccount.resx">
+    <EmbeddedResource Include="UserManagement.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>UserManagementAccount.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>UsManagAcRes</CustomToolNamespace>
+      <LastGenOutput>UserManagement.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>UsManagRes</CustomToolNamespace>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserManagementAccount.uk.resx">
+    <EmbeddedResource Include="UserManagement.uk.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>UserManagementAccount.uk.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>UsManagAcRes</CustomToolNamespace>
+      <LastGenOutput>UserManagement.uk.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>UsManagRes</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

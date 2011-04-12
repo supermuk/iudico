@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=UsManagAcRes.UserManagementAccount.Login %></h2>
+    <h2><%=UsManagRes.UserManagement.Login %></h2>
 
     <div><%= Html.ValidationSummary(true) %></div>
 
@@ -15,16 +15,16 @@
 	    <label for="loginIdentifier">OpenID: </label>
 	    <input type="text" id="loginIdentifier" name="loginIdentifier" size="40" />
 	    
-        <input type="submit" value=<%=UsManagAcRes.UserManagementAccount.Login %> />
+        <input type="submit" value=<%=UsManagRes.UserManagement.Login %> />
 	</form>
 
     <form action="<%: Url.Action("LoginDefault", "Account") %>" method="post">
-        <label for="loginUsername"><%=UsManagAcRes.UserManagementAccount.Username %>: </label>
+        <label for="loginUsername"><%=UsManagRes.UserManagement.Username %>: </label>
         <input type="text" id="loginUsername" name="loginUsername" size="40" />
-        <label for="loginPassword"><%=UsManagAcRes.UserManagementAccount.Password %>: </label>
+        <label for="loginPassword"><%=UsManagRes.UserManagement.Password %>: </label>
         <input type="password" id="loginPassword" name="loginPassword" size="40" />
 
-        <input type="submit" value=<%=UsManagAcRes.UserManagementAccount.Login %> />
+        <input type="submit" value=<%=UsManagRes.UserManagement.Login %> />
     </form>
 
 </asp:Content>

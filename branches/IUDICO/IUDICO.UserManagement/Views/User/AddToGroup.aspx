@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>AddToGroup</h2>
+    <h2><%=UsManagRes.UserManagement.AddToGroup%></h2>
 
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary(true) %>
@@ -18,14 +18,14 @@
             <%= Html.EditorForModel() %>
             
             <p>
-                <input type="submit" value="Save" />
+                <input type="submit" value=<%=UsManagRes.UserManagement.Save%> />
             </p>
         </fieldset>
 
     <% } %>
 
     <div>
-        <%: Html.ActionLink("Back to List", "Index") %>
+        <%: Html.ActionLink(UsManagRes.UserManagement.BackToList, "Index")%>
     </div>
 
 </asp:Content>

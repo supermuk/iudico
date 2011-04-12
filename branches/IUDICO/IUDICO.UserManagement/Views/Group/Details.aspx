@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Group>" %>
+﻿<%@ Assembly Name="IUDICO.UserManagement" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Group>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Details
@@ -6,18 +7,18 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Details of <%: Model.Name %></h2>
+    <h2><%=UsManagRes.UserManagement.DetailsOf%> <%: Model.Name %></h2>
 
     <fieldset>
-        <legend>Users</legend>
+        <legend><%=UsManagRes.UserManagement.Users%></legend>
 
         <table>
         <tr>
             <th>
-                Username
+                <%=UsManagRes.UserManagement.Username%>
             </th>
             <th>
-                Name
+                <%=UsManagRes.UserManagement.Name%>
             </th>
             <th></th>
         </tr>
@@ -31,7 +32,7 @@
                     <%: groupUser.User.Name %>
                 </td>
                 <td>
-                    <%: Html.ActionLink("Remove User", "RemoveUser", new { id = Model.Id, userRef = groupUser.User.Id })%>
+                    <%: Html.ActionLink(UsManagRes.UserManagement.RemoveUser, "RemoveUser", new { id = Model.Id, userRef = groupUser.User.Id })%>
                 </td>
             </tr>
         <% } %>
@@ -41,9 +42,9 @@
     </fieldset>
     <p>
 
-        <%: Html.ActionLink("Edit", "Edit", new { id=Model.Id }) %> |
-        <%: Html.ActionLink("Add Users", "AddUsers", new { id=Model.Id }) %> |
-        <%: Html.ActionLink("Back to List", "Index") %>
+        <%: Html.ActionLink(UsManagRes.UserManagement.Edit, "Edit", new { id = Model.Id })%> |
+        <%: Html.ActionLink(UsManagRes.UserManagement.AddUser, "AddUsers", new { id = Model.Id })%> |
+        <%: Html.ActionLink(UsManagRes.UserManagement.BackToList, "Index")%>
     </p>
 
 </asp:Content>
