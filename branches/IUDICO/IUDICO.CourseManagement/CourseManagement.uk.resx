@@ -174,4 +174,10 @@
   <data name="ValidateOrImportCourse" xml:space="preserve">
     <value>Перевірка або імпорт курсу</value>
   </data>
+  <data name="CoursesSharedWithMe" xml:space="preserve">
+    <value>Курси зі спільним доступом</value>
+  </data>
+  <data name="NoCourses" xml:space="preserve">
+    <value>Немає доступних курсів</value>
+  </data>
 </root>

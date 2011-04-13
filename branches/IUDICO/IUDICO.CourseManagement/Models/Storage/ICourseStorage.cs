@@ -34,7 +34,6 @@ namespace IUDICO.CourseManagement.Models.Storage
         Node GetNode(int id);
         int? AddNode(Node node);
         void UpdateNode(int id, Node node);
-        void UpdateNodeProperties(int id, Node node);
         void DeleteNode(int id);
         void DeleteNodes(List<int> ids);
         int CreateCopy(Node node, int? parentId, int position);

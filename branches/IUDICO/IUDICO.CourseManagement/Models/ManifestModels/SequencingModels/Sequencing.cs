@@ -28,7 +28,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         #region XmlElements
 
         [XmlElement(SCORM.ControlMode, Namespace = SCORM.ImsssNamespace)]
-        public ControlMode ControlMode;
+        public ControlMode ControlMode = new ControlMode();
 
         [XmlElement(SCORM.SequencingRules, Namespace = SCORM.ImsssNamespace)]
         public SequencingRules SequencingRules;
