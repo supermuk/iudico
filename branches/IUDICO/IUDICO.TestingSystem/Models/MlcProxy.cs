@@ -134,11 +134,14 @@ namespace IUDICO.TestingSystem.Models
                 LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.SuccessStatus], out successStatus);
                 IUDICO.Common.Models.Shared.Statistics.SuccessStatus iudicoSuccessStatus = (IUDICO.Common.Models.Shared.Statistics.SuccessStatus)successStatus;
 
+                DateTime? startTime;
+                LStoreHelper.Cast(dataRow[Schema.AllAttemptsResults.StartedTimestamp], out startTime);
+
                 float? scaledScore;
                 LStoreHelper.Cast<float>(dataRow[Schema.AllAttemptsResults.Score], out scaledScore);
 
                 // Create AttemptResult object
-                AttemptResult attemptResult = new AttemptResult(attemptId, user, theme, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, scaledScore);
+                AttemptResult attemptResult = new AttemptResult(attemptId, user, theme, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, scaledScore);
                 result.Add(attemptResult);
             }
             return result;
@@ -168,6 +171,9 @@ namespace IUDICO.TestingSystem.Models
                 LStoreHelper.CastNonNull(dataRow[Schema.AttemptsResultsByThemeAndUser.SuccessStatus], out successStatus);
                 IUDICO.Common.Models.Shared.Statistics.SuccessStatus iudicoSuccessStatus = (IUDICO.Common.Models.Shared.Statistics.SuccessStatus)successStatus;
 
+                DateTime? startTime;
+                LStoreHelper.Cast(dataRow[Schema.AttemptsResultsByThemeAndUser.StartedTimestamp], out startTime);
+
                 float? score;
                 LStoreHelper.Cast<float>(dataRow[Schema.AttemptsResultsByThemeAndUser.Score], out score);
                 float? scaledScore = null;
@@ -177,7 +183,7 @@ namespace IUDICO.TestingSystem.Models
                 }
 
                 // Create AttemptResult object
-                AttemptResult attemptResult = new AttemptResult(attemptId, user, theme, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, scaledScore);
+                AttemptResult attemptResult = new AttemptResult(attemptId, user, theme, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, scaledScore);
                 result.Add(attemptResult);
             }
 
@@ -197,6 +203,10 @@ namespace IUDICO.TestingSystem.Models
                 LStoreHelper.CastNonNull(dataRow[Schema.InteractionResultsByAttempt.ActivityAttemptId], out activityAttemptItemId);
                 long activityAttemptId = activityAttemptItemId.GetKey();
 
+                ActivityPackageItemIdentifier activityPackageItemId;
+                LStoreHelper.CastNonNull(dataRow[Schema.InteractionResultsByAttempt.ActivityPackageId], out activityPackageItemId);
+                long activityPackageId = activityPackageItemId.GetKey();
+
                 String activityTitle;
                 LStoreHelper.CastNonNull(dataRow[Schema.InteractionResultsByAttempt.ActivityTitle], out activityTitle);
 
@@ -207,6 +217,14 @@ namespace IUDICO.TestingSystem.Models
                 {
                     interactionId = interactionItemId.GetKey();
                 }
+
+                Microsoft.LearningComponents.CompletionStatus completionStatus;
+                LStoreHelper.CastNonNull(dataRow[Schema.InteractionResultsByAttempt.CompletionStatus], out completionStatus);
+                IUDICO.Common.Models.Shared.Statistics.CompletionStatus iudicoCompletionStatus = (IUDICO.Common.Models.Shared.Statistics.CompletionStatus)completionStatus;
+
+                Microsoft.LearningComponents.SuccessStatus successStatus;
+                LStoreHelper.CastNonNull(dataRow[Schema.InteractionResultsByAttempt.SuccessStatus], out successStatus);
+                IUDICO.Common.Models.Shared.Statistics.SuccessStatus iudicoSuccessStatus = (IUDICO.Common.Models.Shared.Statistics.SuccessStatus)successStatus;
 
                 bool? learnerResponseBool = null;
                 LStoreHelper.Cast(dataRow[Schema.InteractionResultsByAttempt.LearnerResponseBool], out learnerResponseBool);
@@ -225,7 +243,7 @@ namespace IUDICO.TestingSystem.Models
                 if (learnerResponseString != null)
                 {
                     learnerResponse = learnerResponseString;
-                }                
+                }
                 if (learnerResponseNumeric != null)
                 {
                     learnerResponse = learnerResponseNumeric;
@@ -246,7 +264,7 @@ namespace IUDICO.TestingSystem.Models
                 LStoreHelper.Cast<float>(dataRow[Schema.InteractionResultsByAttempt.ScaledScore], out scaledScore);
 
                 // Create AnswerResult object
-                AnswerResult answerResult = new AnswerResult(activityAttemptId, activityTitle, interactionId, attemptResult, learnerResponse, correctResponse, learnerResponseType, scaledScore);
+                AnswerResult answerResult = new AnswerResult(activityAttemptId, activityPackageId, activityTitle, interactionId, iudicoCompletionStatus, iudicoSuccessStatus, attemptResult, learnerResponse, correctResponse, learnerResponseType, scaledScore);
                 result.Add(answerResult);
             }
 
@@ -272,6 +290,7 @@ namespace IUDICO.TestingSystem.Models
             query.AddColumn(Schema.AllAttemptsResults.CompletionStatus);
             query.AddColumn(Schema.AllAttemptsResults.AttemptStatus);
             query.AddColumn(Schema.AllAttemptsResults.SuccessStatus);
+            query.AddColumn(Schema.AllAttemptsResults.StartedTimestamp);
             query.AddColumn(Schema.AllAttemptsResults.Score);
             
             job.PerformQuery(query);
@@ -292,6 +311,7 @@ namespace IUDICO.TestingSystem.Models
             query.AddColumn(Schema.AttemptsResultsByThemeAndUser.CompletionStatus);
             query.AddColumn(Schema.AttemptsResultsByThemeAndUser.AttemptStatus);
             query.AddColumn(Schema.AttemptsResultsByThemeAndUser.SuccessStatus);
+            query.AddColumn(Schema.AttemptsResultsByThemeAndUser.StartedTimestamp);
             query.AddColumn(Schema.AttemptsResultsByThemeAndUser.Score);
             
             query.SetParameter(Schema.AttemptsResultsByThemeAndUser.ThemeIdParam, themeId);
@@ -311,8 +331,11 @@ namespace IUDICO.TestingSystem.Models
             LearningStoreQuery query = LStore.CreateQuery(Schema.InteractionResultsByAttempt.ViewName);
 
             query.AddColumn(Schema.InteractionResultsByAttempt.ActivityAttemptId);
+            query.AddColumn(Schema.InteractionResultsByAttempt.ActivityPackageId);
             query.AddColumn(Schema.InteractionResultsByAttempt.ActivityTitle);
             query.AddColumn(Schema.InteractionResultsByAttempt.InteractionId);
+            query.AddColumn(Schema.InteractionResultsByAttempt.CompletionStatus);
+            query.AddColumn(Schema.InteractionResultsByAttempt.SuccessStatus);
             query.AddColumn(Schema.InteractionResultsByAttempt.LearnerResponseBool);
             query.AddColumn(Schema.InteractionResultsByAttempt.LearnerResponseString);
             query.AddColumn(Schema.InteractionResultsByAttempt.LearnerResponseNumeric);
@@ -499,11 +522,11 @@ namespace IUDICO.TestingSystem.Models
         }
 
         /// <summary>
-        /// 
+        /// Retrieves attempt identifier for specified organization id and Iudico theme id.
         /// </summary>
-        /// <param name="orgId"></param>
-        /// <param name="themeId"></param>
-        /// <returns></returns>
+        /// <param name="orgId"><c>ActivityPackageItemIdentifier</c> value representing Organization ID.</param>
+        /// <param name="themeId">Integer value - IUDICO theme id.</param>
+        /// <returns><c>AttemptItemIdentifier</c> value representing Attempt Identifier.</returns>
         protected AttemptItemIdentifier GetAttemptIdentifier(ActivityPackageItemIdentifier orgId, int themeId)
         {
             AttemptItemIdentifier result = null;

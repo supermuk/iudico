@@ -615,6 +615,7 @@ SET @schema = @schema +
         '<Column Name="CompletionStatus" TypeCode="8" Nullable="true" EnumName="CompletionStatus"/>' +
         '<Column Name="AttemptStatus" TypeCode="8" Nullable="true" EnumName="AttemptStatus"/>' +
         '<Column Name="SuccessStatus" TypeCode="8" Nullable="true" EnumName="SuccessStatus"/>' +
+        '<Column Name="StartedTimestamp" TypeCode="4" Nullable="true"/>' +
         '<Column Name="Score" TypeCode="5" Nullable="true"/>' +
     '</View>'
 SET @schema = @schema +
@@ -623,6 +624,7 @@ SET @schema = @schema +
         '<Column Name="CompletionStatus" TypeCode="8" Nullable="true" EnumName="CompletionStatus"/>' +
         '<Column Name="AttemptStatus" TypeCode="8" Nullable="true" EnumName="AttemptStatus"/>' +
         '<Column Name="SuccessStatus" TypeCode="8" Nullable="true" EnumName="SuccessStatus"/>' +
+        '<Column Name="StartedTimestamp" TypeCode="4" Nullable="true"/>' +
         '<Column Name="Score" TypeCode="5" Nullable="true"/>' +
         '<Parameter Name="ThemeIdParam" TypeCode="9" Nullable="true"/>' +
         '<Parameter Name="UserKeyParam" TypeCode="2" Nullable="true"/>' +
@@ -630,8 +632,11 @@ SET @schema = @schema +
 SET @schema = @schema +
     '<View Name="InteractionResultsByAttempt" Function="InteractionResultsByAttempt" SecurityFunction="InteractionResultsByAttempt$Security">' + 
         '<Column Name="ActivityAttemptId" TypeCode="1" Nullable="true" ReferencedItemTypeName="ActivityAttemptItem"/>' +
+        '<Column Name="ActivityPackageId" TypeCode="1" Nullable="true" ReferencedItemTypeName="ActivityPackageItem"/>' +
         '<Column Name="ActivityTitle" TypeCode="2" Nullable="true"/>' +
         '<Column Name="InteractionId" TypeCode="1" Nullable="true" ReferencedItemTypeName="InteractionItem"/>' +
+        '<Column Name="CompletionStatus" TypeCode="8" Nullable="true" EnumName="CompletionStatus"/>' +
+        '<Column Name="SuccessStatus" TypeCode="8" Nullable="true" EnumName="SuccessStatus"/>' +
         '<Column Name="LearnerResponseBool" TypeCode="3" Nullable="true"/>' +
         '<Column Name="LearnerResponseString" TypeCode="2" Nullable="true"/>' +
         '<Column Name="LearnerResponseNumeric" TypeCode="6" Nullable="true"/>' +
@@ -2279,6 +2284,7 @@ RETURN (
     AttemptItem.CompletionStatus AS CompletionStatus,
     AttemptItem.AttemptStatus AS AttemptStatus,
     AttemptItem.SuccessStatus AS SuccessStatus,
+    AttemptItem.StartedTimestamp AS StartedTimestamp,
     AttemptItem.TotalPoints AS Score
     FROM AttemptItem
     INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
@@ -2307,6 +2313,7 @@ RETURN (
     AttemptItem.CompletionStatus AS CompletionStatus,
     AttemptItem.AttemptStatus AS AttemptStatus,
     AttemptItem.SuccessStatus AS SuccessStatus,
+    AttemptItem.StartedTimestamp AS StartedTimestamp,
     AttemptItem.TotalPoints AS Score
     FROM AttemptItem
     INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
@@ -2333,8 +2340,11 @@ RETURNS TABLE
 AS
 RETURN (
     SELECT  ActivityAttemptItem.Id AS ActivityAttemptId,
+    ActivityAttemptItem.ActivityPackageId as ActivityPackageId,
     ActivityPackageItem.Title AS ActivityTitle,
     InteractionItem.Id AS InteractionId,
+    ActivityAttemptItem.CompletionStatus AS CompletionStatus,
+    ActivityAttemptItem.SuccessStatus AS SuccessStatus,
     InteractionItem.LearnerResponseBool AS LearnerResponseBool,
     InteractionItem.LearnerResponseString AS LearnerResponseString,
     InteractionItem.LearnerResponseNumeric AS LearnerResponseNumeric,
