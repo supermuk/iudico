@@ -31,14 +31,10 @@ namespace IUDICO.Statistics.Controllers
         [HttpPost]
         public ActionResult SelectCurriculums(int id)
         {
-            
-                var curriculums = _Proxy.GetCurrilulumsByGroupId(id);
-
-                HttpContext.Session["SelectedGroupId"] = id;
-
-                return View(curriculums);
-            
-            
+            ViewData["Group"] = LmsService.FindService<IUserService>().GetGroup(id).Name;
+            var curriculums = _Proxy.GetCurrilulumsByGroupId(id);
+            HttpContext.Session["SelectedGroupId"] = id;
+            return View(curriculums);            
         }
 
         [Allow(Role = Role.Teacher)]

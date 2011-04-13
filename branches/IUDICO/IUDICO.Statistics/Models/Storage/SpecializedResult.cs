@@ -208,7 +208,7 @@ namespace IUDICO.Statistics.Models.Storage
 
         public double? GetThemeResultScore()
         {
-            if (_AttemptResults.Count() == 0)
+            if (_AttemptResults.Count() == 0 || _AttemptResults.First().Score.ScaledScore == null)
             {
                 _Res = 0.0;
             }

@@ -21,8 +21,10 @@
        </div>
     <% } %>
 
-
-    <input type="submit" value=<%=StatisRes.Statistics.Show %> />
+    <p>
+        <input type="submit" value=<%=StatisRes.Statistics.Show %> />
+    </p>
+    
 
 
     </form>
