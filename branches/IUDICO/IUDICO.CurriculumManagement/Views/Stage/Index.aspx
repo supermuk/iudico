@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Stage>>" %>
-
+<%@ Assembly Name="IUDICO.CurriculumManagement" %>
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script src="/Scripts/Microsoft/MicrosoftAjax.js" type="text/javascript"></script>
     <script src="/Scripts/Microsoft/MicrosoftMvcAjax.js" type="text/javascript"></script>
@@ -68,23 +68,23 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Stages for <%: ViewData["CurriculumName"] %> curriculum.</h2>
+        <%=CurriculumManagRes.CurriculumManagement.StagesFor%> <%: ViewData["CurriculumName"] %> curriculum.</h2>
     <p>
-        <%: Html.ActionLink("Create New", "Create") %>
-        <a id="DeleteMany" href="#">Delete Selected</a>
+        <%: Html.ActionLink(CurriculumManagRes.CurriculumManagement.CreateNew, "Create")%>
+        <a id="DeleteMany" href="#"><%=CurriculumManagRes.CurriculumManagement.DeleteSelected%></a>
     </p>
     <table>
         <tr>
             <th>
             </th>
             <th>
-                Name
+                <%=CurriculumManagRes.CurriculumManagement.Name %>
             </th>
             <th>
-                Created
+                <%=CurriculumManagRes.CurriculumManagement.Created %>
             </th>
             <th>
-                Updated
+                <%=CurriculumManagRes.CurriculumManagement.Updated %>
             </th>
             <th>
             </th>
@@ -105,9 +105,9 @@
                     <%: String.Format("{0:g}", item.Updated) %>
                 </td>
                 <td>
-                    <%: Html.ActionLink("Edit", "Edit", new { StageID = item.Id })%>
+                    <%: Html.ActionLink(CurriculumManagRes.CurriculumManagement.Edit, "Edit", new { StageID = item.Id })%>
                     |
-                    <%: Html.ActionLink("Edit Themes", "Index", "Theme", new { StageID = item.Id }, null)%>
+                    <%: Html.ActionLink(CurriculumManagRes.CurriculumManagement.EditThemes, "Index", "Theme", new { StageID = item.Id }, null)%>
                     |
                     <a href="#" onclick="deleteItem(<%: item.Id %>)">Delete</a>
                 </td>

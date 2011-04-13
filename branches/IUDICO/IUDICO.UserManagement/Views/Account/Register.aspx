@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=UsManagRes.UserManagement.Register %></h2>
+    <h2><%=UsManagRes.UserManagem.Register %></h2>
 
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary(true) %>
@@ -18,7 +18,7 @@
             <%: Html.EditorForModel() %>
             
             <p>
-                <input type="submit" value=<%=UsManagRes.UserManagement.Register %> />
+                <input type="submit" value=<%=UsManagRes.UserManagem.Register %> />
             </p>
         </fieldset>
 

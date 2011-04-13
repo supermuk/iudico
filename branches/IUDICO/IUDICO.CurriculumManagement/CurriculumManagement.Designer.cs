@@ -61,6 +61,15 @@ namespace CurriculumManagRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add theme.
+        /// </summary>
+        public static string AddTheme {
+            get {
+                return ResourceManager.GetString("AddTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back to list.
         /// </summary>
         public static string BackToList {
@@ -88,6 +97,33 @@ namespace CurriculumManagRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create New.
+        /// </summary>
+        public static string CreateNew {
+            get {
+                return ResourceManager.GetString("CreateNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create stage.
+        /// </summary>
+        public static string CreateStage {
+            get {
+                return ResourceManager.GetString("CreateStage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create theme.
+        /// </summary>
+        public static string CreateTheme {
+            get {
+                return ResourceManager.GetString("CreateTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create curriculum.
         /// </summary>
         public static string CreateСurriculum {
@@ -102,6 +138,24 @@ namespace CurriculumManagRes {
         public static string Curriculums {
             get {
                 return ResourceManager.GetString("Curriculums", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Selected.
+        /// </summary>
+        public static string DeleteSelected {
+            get {
+                return ResourceManager.GetString("DeleteSelected", resourceCulture);
             }
         }
         
@@ -124,11 +178,65 @@ namespace CurriculumManagRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit stage.
+        /// </summary>
+        public static string EditStage {
+            get {
+                return ResourceManager.GetString("EditStage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit theme.
+        /// </summary>
+        public static string EditTheme {
+            get {
+                return ResourceManager.GetString("EditTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Themes.
+        /// </summary>
+        public static string EditThemes {
+            get {
+                return ResourceManager.GetString("EditThemes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stage.
+        /// </summary>
+        public static string Stage {
+            get {
+                return ResourceManager.GetString("Stage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stages for.
+        /// </summary>
+        public static string StagesFor {
+            get {
+                return ResourceManager.GetString("StagesFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Themes(Courses) for.
+        /// </summary>
+        public static string ThemesCoursesFor {
+            get {
+                return ResourceManager.GetString("ThemesCoursesFor", resourceCulture);
             }
         }
         

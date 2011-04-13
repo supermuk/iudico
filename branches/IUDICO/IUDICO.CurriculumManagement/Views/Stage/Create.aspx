@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Stage>" %>
-
+<%@ Assembly Name="IUDICO.CurriculumManagement" %>
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script src="/Scripts/jquery/jquery.validate.min.js" type="text/javascript"></script>
     <script src="/Scripts/Microsoft/MicrosoftAjax.js" type="text/javascript"></script>
@@ -13,7 +13,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Create stage</h2>
+    <h2><%=CurriculumManagRes.CurriculumManagement.CreateStage%></h2>
     <% Html.EnableClientValidation(); %>
 
     <% using (Html.BeginForm()) {%>
@@ -24,13 +24,13 @@
             <%= Html.EditorForModel() %>
             
             <p>
-                <input type="submit" value="Create" />
+                <input type="submit" value=<%=CurriculumManagRes.CurriculumManagement.Create%> />
             </p>
         </fieldset>
     <% } %>
 
     <div>
-        <%: Html.ActionLink("Back to list", "Index") %>
+        <%: Html.ActionLink(CurriculumManagRes.CurriculumManagement.BackToList, "Index")%>
     </div>
 
 </asp:Content>

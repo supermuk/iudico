@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=UsManagRes.UserManagement.Create%></h2>
+    <h2><%=UsManagRes.UserManagem.Create%></h2>
 
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary("Correct the following error(s) and try again:")%>
@@ -18,14 +18,14 @@
             <%: Html.EditorForModel() %>
             
             <p>
-                <input type="submit" value=<%=UsManagRes.UserManagement.Create%> />
+                <input type="submit" value=<%=UsManagRes.UserManagem.Create%> />
             </p>
         </fieldset>
 
     <% } %>
 
     <div>
-        <%: Html.ActionLink(UsManagRes.UserManagement.BackToList, "Index")%>
+        <%: Html.ActionLink(UsManagRes.UserManagem.BackToList, "Index")%>
     </div>
 
 </asp:Content>

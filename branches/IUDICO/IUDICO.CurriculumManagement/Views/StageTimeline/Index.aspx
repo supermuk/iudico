@@ -78,14 +78,14 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
     </h2>
     <p>
         <%: Html.ActionLink("Add Timeline", "Create") %>
-        <a id="DeleteMany" href="#">Delete Selected</a>
+        <a id="DeleteMany" href="#"><%=CurriculumManagRes.CurriculumManagement.DeleteSelected%></a>
     </p>
     <table>
         <tr>
             <th>
             </th>
             <th>
-                Stage
+                <%=CurriculumManagRes.CurriculumManagement.Stage%>
             </th>
             <th>
                 Start date
@@ -114,7 +114,7 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                 <td>
                     <%: Html.ActionLink("Edit", "Edit", new { TimelineId = item.Id }, null)%>
                     |
-                    <a href="#" onclick="deleteItem(<%: item.Id %>)">Delete</a>
+                    <a href="#" onclick="deleteItem(<%: item.Id %>)"><%=CurriculumManagRes.CurriculumManagement.Delete%></a>
                 </td>
             </tr>
         <% } %>

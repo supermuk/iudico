@@ -94,15 +94,15 @@
     <Compile Include="Models\Auth\OpenIdRoleProvider.cs" />
     <Compile Include="Models\Storage\IUserStorage.cs" />
     <Compile Include="Models\UserService.cs" />
-    <Compile Include="UserManagement.Designer.cs">
+    <Compile Include="UserManagem.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UserManagement.resx</DependentUpon>
+      <DependentUpon>UserManagem.resx</DependentUpon>
     </Compile>
-    <Compile Include="UserManagement.uk.Designer.cs">
+    <Compile Include="UserManagem.uk.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UserManagement.uk.resx</DependentUpon>
+      <DependentUpon>UserManagem.uk.resx</DependentUpon>
     </Compile>
     <Compile Include="UserManagementPlugin.cs" />
     <Compile Include="Models\Models.cs" />
@@ -166,14 +166,14 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UserManagement.resx">
+    <EmbeddedResource Include="UserManagem.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>UserManagement.Designer.cs</LastGenOutput>
+      <LastGenOutput>UserManagem.Designer.cs</LastGenOutput>
       <CustomToolNamespace>UsManagRes</CustomToolNamespace>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserManagement.uk.resx">
+    <EmbeddedResource Include="UserManagem.uk.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>UserManagement.uk.Designer.cs</LastGenOutput>
+      <LastGenOutput>UserManagem.uk.Designer.cs</LastGenOutput>
       <CustomToolNamespace>UsManagRes</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>

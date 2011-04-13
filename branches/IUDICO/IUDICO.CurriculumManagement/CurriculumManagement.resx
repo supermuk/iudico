@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddTheme" xml:space="preserve">
+    <value>Add theme</value>
+  </data>
   <data name="BackToList" xml:space="preserve">
     <value>Back to list</value>
   </data>
@@ -126,11 +129,26 @@
   <data name="Created" xml:space="preserve">
     <value>Created</value>
   </data>
+  <data name="CreateNew" xml:space="preserve">
+    <value>Create New</value>
+  </data>
+  <data name="CreateStage" xml:space="preserve">
+    <value>Create stage</value>
+  </data>
+  <data name="CreateTheme" xml:space="preserve">
+    <value>Create theme</value>
+  </data>
   <data name="CreateСurriculum" xml:space="preserve">
     <value>Create curriculum</value>
   </data>
   <data name="Curriculums" xml:space="preserve">
     <value>Curriculums</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteSelected" xml:space="preserve">
+    <value>Delete Selected</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
@@ -138,8 +156,26 @@
   <data name="EditCurriculum" xml:space="preserve">
     <value>Edit curriculum</value>
   </data>
+  <data name="EditStage" xml:space="preserve">
+    <value>Edit stage</value>
+  </data>
+  <data name="EditTheme" xml:space="preserve">
+    <value>Edit theme</value>
+  </data>
+  <data name="EditThemes" xml:space="preserve">
+    <value>Edit Themes</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="Stage" xml:space="preserve">
+    <value>Stage</value>
+  </data>
+  <data name="StagesFor" xml:space="preserve">
+    <value>Stages for</value>
+  </data>
+  <data name="ThemesCoursesFor" xml:space="preserve">
+    <value>Themes(Courses) for</value>
   </data>
   <data name="Update" xml:space="preserve">
     <value>Update</value>
