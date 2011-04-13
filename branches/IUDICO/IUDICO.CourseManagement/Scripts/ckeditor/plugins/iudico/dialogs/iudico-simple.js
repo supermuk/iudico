@@ -6,80 +6,10 @@
         minWidth: 390,
         minHeight: 230,
         onShow: function () {
-            // Clear previously saved elements.
-            this.fakeDiv = this.objectNode = null;
-
-            // Try to detect any embed or object tag that has Flash parameters.
-            var fakeDiv = this.getSelectedElement();
-
-            if (fakeDiv && fakeDiv.getAttribute('_cke_real_element_type') && fakeDiv.getAttribute('_cke_real_element_type') == 'iudico') {
-                var realElement = editor.restoreRealElement(fakeDiv),
-                    paramMap = {};
-
-                if (realElement.getName() == 'cke:object' && realElement.getAttribute('iudico-type') && realElement.getAttribute('iudico-type') == 'simple') {
-                    this.fakeDiv = fakeDiv;
-                    this.objectNode = realElement;
-
-                    var paramList = this.objectNode.getElementsByTag('param', 'cke');
-                    for (var i = 0, length = paramList.count(); i < length; i++) {
-                        var item = paramList.getItem(i),
-							name = item.getAttribute('name'),
-							value = item.getAttribute('value');
-
-                        paramMap[name] = value;
-                    }
-                }
-
-                this.setupContent(this.objectNode, this.fakeDiv, paramMap);
-            }
+            this.getIudicoObject(editor);
         },
         onOk: function () {
-            // If there's no selected object or embed, create one. Otherwise, reuse the
-            // selected object and embed nodes.
-            var objectNode = null,
-				paramMap = null;
-
-            if (!this.fakeDiv) {
-                objectNode = CKEDITOR.dom.element.createFromHtml('<cke:object></cke:object>', editor.document);
-                var attributes = {
-                    'iudico-question': 'true',
-                    'iudico-type': 'simple'
-                };
-                objectNode.setAttributes(attributes);
-            } else {
-                objectNode = this.objectNode;
-                embedNode = this.embedNode;
-            }
-
-            // Produce the paramMap if there's an object tag.
-            paramMap = {};
-            var paramList = objectNode.getElementsByTag('param', 'cke');
-            for (var i = 0, length = paramList.count(); i < length; i++)
-                paramMap[paramList.getItem(i).getAttribute('name')] = paramList.getItem(i);
-
-            // A subset of the specified attributes/styles
-            // should also be applied on the fake element to
-            // have better visual effect. (#5240)
-            var extraStyles = { width: '100px', height: '100px' }, extraAttributes = {};
-            this.commitContent(objectNode, paramMap, extraStyles, extraAttributes);
-
-            //for (var name in paramMap) {
-                //this.getDialog().addParam(objectNode, name, paramMap[name]);
-            //}
-
-            console.log(paramMap);
-
-            // Refresh the fake image.
-            var newFakeDiv = editor.createFakeElement(objectNode, 'cke_iudico', 'iudico', true);
-
-            newFakeDiv.setAttributes(extraAttributes);
-            newFakeDiv.setStyles(extraStyles);
-            if (this.fakeDiv) {
-                newFakeDiv.replace(this.fakeDiv);
-                editor.getSelection().selectElement(newFakeDiv);
-            } else {
-                editor.insertElement(newFakeDiv);
-            }
+            this.saveIudicoObject(editor);
         },
         onCancel: function () { },
         onLoad: function (data) { },
@@ -97,9 +27,11 @@
                         label: editor.lang.iudico.question,
                         labelLayout: 'horizontal',
                         commit: function (objectNode, paramMap, extraStyles, extraAttributes) {
-                            //paramMap['question'] = this.getValue();
-                            paramMap['question'].setAttribute("value", value);
-                            //this.getDialog().addParam(element, 'question', this.getValue());
+                            if (paramMap['question']) {
+                                paramMap['question'].setAttribute("value", this.getValue());
+                            } else {
+                                paramMap['question'] = this.getDialog().addParam(objectNode, 'question', this.getValue());
+                            }
                         },
                         setup: function (objectNode, embedNode, paramMap) {
                             this.setValue(paramMap['question']);
@@ -111,8 +43,11 @@
                         label: editor.lang.iudico.correctAnswer,
                         labelLayout: 'horizontal',
                         commit: function (objectNode, paramMap, extraStyles, extraAttributes) {
-                            paramMap['question'].setAttribute("value", value);
-                            //this.getDialog().addParam(element, 'correctAnswer', this.getValue());
+                            if (paramMap['correctAnswer']) {
+                                paramMap['correctAnswer'].setAttribute("value", this.getValue());
+                            } else {
+                                paramMap['correctAnswer'] = this.getDialog().addParam(objectNode, 'correctAnswer', this.getValue());
+                            }
                         },
                         setup: function (objectNode, embedNode, paramMap) {
                             this.setValue(paramMap['correctAnswer']);

@@ -8,23 +8,89 @@ Copyright (c) 2010, IUDICO. All rights reserved.
 
 
 CKEDITOR.dialog.prototype.addParam = function (element, name, value) {
-    var documentObject = element.getDocument(),
-        paramNode = documentObject.createElement("param");
+    var paramNode = CKEDITOR.dom.element.createFromHtml('<cke:param></cke:param>', element.getDocument());
 
     paramNode.setAttribute("name", name);
     paramNode.setAttribute("value", value);
 
     element.append(paramNode);
-};
-/*
-CKEDITOR.dialog.prototype.getObject = function (editor) {
-    var path = new CKEDITOR.dom.elementPath(editor.getSelection().getStartElement()),
-        blockLimit = path.blockLimit,
-        obj = blockLimit && blockLimit.getAscendant('object', true) && blockLimit.getAttribute('iudico') == true && blockLimit.getAttribute('type') == 'simple';
 
-    return obj;
+    return paramNode;
+};
+
+CKEDITOR.dialog.prototype.getIudicoObject = function (editor) {
+    // Clear previously saved elements.
+    this.fakeDiv = this.objectNode = null;
+
+    // Try to detect any embed or object tag that has Flash parameters.
+    var fakeDiv = this.getSelectedElement();
+
+    if (fakeDiv && fakeDiv.getAttribute('_cke_real_element_type') && fakeDiv.getAttribute('_cke_real_element_type') == 'iudico') {
+        var realElement = editor.restoreRealElement(fakeDiv),
+        paramMap = {};
+
+        if (realElement.getName() == 'cke:object' && realElement.getAttribute('iudico-type') && realElement.getAttribute('iudico-type') == this.getName()) {
+            this.fakeDiv = fakeDiv;
+            this.objectNode = realElement;
+
+            var paramList = this.objectNode.getElementsByTag('param', 'cke');
+            for (var i = 0, length = paramList.count(); i < length; i++) {
+                var item = paramList.getItem(i),
+							name = item.getAttribute('name'),
+							value = item.getAttribute('value');
+
+                paramMap[name] = value;
+            }
+
+            this.setupContent(this.objectNode, this.fakeDiv, paramMap);
+
+            return true;
+        }
+    }
+
+    return false;
 }
-*/
+
+CKEDITOR.dialog.prototype.saveIudicoObject = function (editor) {
+    // If there's no selected object or embed, create one. Otherwise, reuse the
+    // selected object and embed nodes.
+    var objectNode = null,
+		paramMap = {};
+
+    if (!this.fakeDiv) {
+        objectNode = CKEDITOR.dom.element.createFromHtml('<cke:object></cke:object>', editor.document);
+        var attributes = {
+            'iudico-question': 'true',
+            'iudico-type': this.getName()
+        };
+        objectNode.setAttributes(attributes);
+    } else {
+        objectNode = this.objectNode;
+    }
+
+    // Produce the paramMap if there's an object tag.
+    var paramList = objectNode.getElementsByTag('param', 'cke');
+    for (var i = 0, length = paramList.count(); i < length; i++)
+        paramMap[paramList.getItem(i).getAttribute('name')] = paramList.getItem(i);
+
+    var extraStyles = { width: '100px', height: '100px' },
+        extraAttributes = {};
+    
+    this.commitContent(objectNode, paramMap, extraStyles, extraAttributes);
+
+    // Refresh the fake image.
+    var newFakeDiv = editor.createFakeElement(objectNode, 'cke_iudico', 'iudico', true);
+
+    newFakeDiv.setAttributes(extraAttributes);
+    newFakeDiv.setStyles(extraStyles);
+    if (this.fakeDiv) {
+        newFakeDiv.replace(this.fakeDiv);
+        editor.getSelection().selectElement(newFakeDiv);
+    } else {
+        editor.insertElement(newFakeDiv);
+    }
+}
+
 var numberRegex = /^\d+(?:\.\d+)?$/;
 
 function cssifyLength(length) {
@@ -53,12 +119,6 @@ function addQuestionCommand(editor, command, path) {
     CKEDITOR.dialog.add(command, dialogFile);
 };
 
-function isIudicoObject(element) {
-    var attributes = element.attributes;
-
-    return (attributes['iudico-type']);
-}
-
 function createFakeElement(editor, realElement) {
     var fakeElement = editor.createFakeParserElement(realElement, 'cke_iudico', 'iudico', true),
 		fakeStyle = fakeElement.attributes.style || '';
@@ -73,6 +133,12 @@ function createFakeElement(editor, realElement) {
         fakeStyle = fakeElement.attributes.style = fakeStyle + 'height:' + cssifyLength(height) + ';';
 
     return fakeElement;
+}
+
+function isIudicoObject(element) {
+    var attributes = element.attributes;
+
+    return (attributes['iudico-type']);
 }
 
 CKEDITOR.plugins.add('iudico', {
