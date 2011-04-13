@@ -17,13 +17,13 @@ namespace IUDICO.TestingSystem.Models
             var results = new List<AttemptResult>
                               {
                                   new AttemptResult(0, user, theme, CompletionStatus.Unknown, AttemptStatus.Suspended,
-                                                    SuccessStatus.Unknown, 0.21f),
+                                                    SuccessStatus.Unknown, DateTime.Now, 0.21f),
                                   new AttemptResult(1, user, theme, CompletionStatus.NotAttempted, AttemptStatus.Active,
-                                                    SuccessStatus.Unknown, null),
+                                                    SuccessStatus.Unknown, DateTime.Now, null),
                                   new AttemptResult(2, user, theme, CompletionStatus.Completed, AttemptStatus.Completed,
-                                                    SuccessStatus.Passed, 0.98f),
+                                                    SuccessStatus.Passed, DateTime.Now, 0.98f),
                                   new AttemptResult(3, user, theme, CompletionStatus.Incomplete, AttemptStatus.Completed,
-                                                    SuccessStatus.Failed, 0.04f)
+                                                    SuccessStatus.Failed, DateTime.Now, 0.04f)
                               };
 
             return results;
@@ -34,10 +34,10 @@ namespace IUDICO.TestingSystem.Models
             List<AttemptResult> results = new List<AttemptResult>();
             Theme a = new Theme();
 
-            results.Add(new AttemptResult(0, new User { Name = "name1", Id = new Guid("1") }, new Theme { Name = "theme1", Id = 1 }, CompletionStatus.Unknown, AttemptStatus.Suspended, SuccessStatus.Unknown, 0.21f));
-            results.Add(new AttemptResult(1, new User { Name = "name2", Id = new Guid("2") }, new Theme { Name = "theme2", Id = 2 }, CompletionStatus.NotAttempted, AttemptStatus.Active, SuccessStatus.Unknown, null));
-            results.Add(new AttemptResult(2, new User { Name = "name3", Id = new Guid("3") }, new Theme { Name = "theme3", Id = 3 }, CompletionStatus.Completed, AttemptStatus.Completed, SuccessStatus.Passed, 0.98f));
-            results.Add(new AttemptResult(3, new User { Name = "name4", Id = new Guid("4") }, new Theme { Name = "theme4", Id = 4}, CompletionStatus.Incomplete, AttemptStatus.Completed, SuccessStatus.Failed, 0.04f));
+            results.Add(new AttemptResult(0, new User { Name = "name1", Id = new Guid("1") }, new Theme { Name = "theme1", Id = 1 }, CompletionStatus.Unknown, AttemptStatus.Suspended, SuccessStatus.Unknown, DateTime.Now, 0.21f));
+            results.Add(new AttemptResult(1, new User { Name = "name2", Id = new Guid("2") }, new Theme { Name = "theme2", Id = 2 }, CompletionStatus.NotAttempted, AttemptStatus.Active, SuccessStatus.Unknown, DateTime.Now, null));
+            results.Add(new AttemptResult(2, new User { Name = "name3", Id = new Guid("3") }, new Theme { Name = "theme3", Id = 3 }, CompletionStatus.Completed, AttemptStatus.Completed, SuccessStatus.Passed, DateTime.Now, 0.98f));
+            results.Add(new AttemptResult(3, new User { Name = "name4", Id = new Guid("4") }, new Theme { Name = "theme4", Id = 4 }, CompletionStatus.Incomplete, AttemptStatus.Completed, SuccessStatus.Failed, DateTime.Now, 0.04f));
 
             return results;
         }

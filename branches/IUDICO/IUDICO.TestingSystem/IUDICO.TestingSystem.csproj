@@ -176,7 +176,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\player.sql" />
     <Content Include="Libraries\Microsoft.LearningComponents.Compression.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.Compression.pdb" />
     <Content Include="Libraries\Microsoft.LearningComponents.dll" />

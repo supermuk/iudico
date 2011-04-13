@@ -132,18 +132,20 @@
 			<Column Name="CompletionStatus" Type="Enum" EnumName="CompletionStatus"/>
 			<Column Name="AttemptStatus" Type="Enum" EnumName="AttemptStatus"/>
 			<Column Name="SuccessStatus" Type="Enum" EnumName="SuccessStatus"/>
+      <Column Name="StartedTimestamp" Type="DateTime"/>
 			<Column Name="Score" Type="Single"/>
 		</Columns>
 		<Implementation>
       SELECT  AttemptItem.Id AS AttemptId,
-        UserItem.[Key] AS UserItemKey,
-        AttemptItem.IudicoThemeRef as ThemeId,
-        AttemptItem.CompletionStatus AS CompletionStatus,
-        AttemptItem.AttemptStatus AS AttemptStatus,
-        AttemptItem.SuccessStatus AS SuccessStatus,
-        AttemptItem.TotalPoints AS Score
+              UserItem.[Key] AS UserItemKey,
+              AttemptItem.IudicoThemeRef as ThemeId,
+              AttemptItem.CompletionStatus AS CompletionStatus,
+              AttemptItem.AttemptStatus AS AttemptStatus,
+              AttemptItem.SuccessStatus AS SuccessStatus,
+              AttemptItem.StartedTimestamp AS StartedTimestamp,
+              AttemptItem.TotalPoints AS Score
       FROM AttemptItem
-        INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
+           INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
     </Implementation>
 		<GrantQueryRight>
             <Expression>1</Expression>
@@ -159,6 +161,7 @@
 			<Column Name="CompletionStatus" Type="Enum" EnumName="CompletionStatus"/>
 			<Column Name="AttemptStatus" Type="Enum" EnumName="AttemptStatus"/>
 			<Column Name="SuccessStatus" Type="Enum" EnumName="SuccessStatus"/>
+      <Column Name="StartedTimestamp" Type="DateTime"/>
 			<Column Name="Score" Type="Single"/>
 		</Columns>
 		<Implementation>
@@ -166,6 +169,7 @@
       AttemptItem.CompletionStatus AS CompletionStatus,
       AttemptItem.AttemptStatus AS AttemptStatus,
       AttemptItem.SuccessStatus AS SuccessStatus,
+      AttemptItem.StartedTimestamp AS StartedTimestamp,
       AttemptItem.TotalPoints AS Score
       FROM AttemptItem
       INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
@@ -181,8 +185,11 @@
     </Parameters>
     <Columns>
       <Column Name="ActivityAttemptId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityAttemptItem"/>
+      <Column Name="ActivityPackageId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem"/>
       <Column Name="ActivityTitle" Type="String"/>
       <Column Name="InteractionId" Type="ItemIdentifier" ReferencedItemTypeName="InteractionItem"/>
+      <Column Name="CompletionStatus" Type="Enum" EnumName="CompletionStatus"/>
+      <Column Name="SuccessStatus" Type="Enum" EnumName="SuccessStatus"/>
       <Column Name="LearnerResponseBool" Type="Boolean"/>
       <Column Name="LearnerResponseString" Type="String"/>
       <Column Name="LearnerResponseNumeric" Type="Double"/>
@@ -192,8 +199,11 @@
     </Columns>
     <Implementation>
       SELECT  ActivityAttemptItem.Id AS ActivityAttemptId,
+              ActivityAttemptItem.ActivityPackageId as ActivityPackageId,
               ActivityPackageItem.Title AS ActivityTitle,
               InteractionItem.Id AS InteractionId,
+              ActivityAttemptItem.CompletionStatus AS CompletionStatus,
+              ActivityAttemptItem.SuccessStatus AS SuccessStatus,
               InteractionItem.LearnerResponseBool AS LearnerResponseBool,
               InteractionItem.LearnerResponseString AS LearnerResponseString,
               InteractionItem.LearnerResponseNumeric AS LearnerResponseNumeric,
