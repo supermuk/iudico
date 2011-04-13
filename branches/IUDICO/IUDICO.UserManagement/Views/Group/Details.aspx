@@ -7,18 +7,18 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=UsManagRes.UserManagement.DetailsOf%> <%: Model.Name %></h2>
+    <h2><%=UsManagRes.UserManagem.DetailsOf%> <%: Model.Name %></h2>
 
     <fieldset>
-        <legend><%=UsManagRes.UserManagement.Users%></legend>
+        <legend><%=UsManagRes.UserManagem.Users%></legend>
 
         <table>
         <tr>
             <th>
-                <%=UsManagRes.UserManagement.Username%>
+                <%=UsManagRes.UserManagem.Username%>
             </th>
             <th>
-                <%=UsManagRes.UserManagement.Name%>
+                <%=UsManagRes.UserManagem.Name%>
             </th>
             <th></th>
         </tr>
@@ -32,7 +32,7 @@
                     <%: groupUser.User.Name %>
                 </td>
                 <td>
-                    <%: Html.ActionLink(UsManagRes.UserManagement.RemoveUser, "RemoveUser", new { id = Model.Id, userRef = groupUser.User.Id })%>
+                    <%: Html.ActionLink(UsManagRes.UserManagem.RemoveUser, "RemoveUser", new { id = Model.Id, userRef = groupUser.User.Id })%>
                 </td>
             </tr>
         <% } %>
@@ -42,9 +42,9 @@
     </fieldset>
     <p>
 
-        <%: Html.ActionLink(UsManagRes.UserManagement.Edit, "Edit", new { id = Model.Id })%> |
-        <%: Html.ActionLink(UsManagRes.UserManagement.AddUser, "AddUsers", new { id = Model.Id })%> |
-        <%: Html.ActionLink(UsManagRes.UserManagement.BackToList, "Index")%>
+        <%: Html.ActionLink(UsManagRes.UserManagem.Edit, "Edit", new { id = Model.Id })%> |
+        <%: Html.ActionLink(UsManagRes.UserManagem.AddUser, "AddUsers", new { id = Model.Id })%> |
+        <%: Html.ActionLink(UsManagRes.UserManagem.BackToList, "Index")%>
     </p>
 
 </asp:Content>

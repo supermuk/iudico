@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Theme>>" %>
-
+<%@ Assembly Name="IUDICO.CurriculumManagement" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
     <script src="/Scripts/Microsoft/MicrosoftAjax.js" type="text/javascript"></script>
     <script src="/Scripts/Microsoft/MicrosoftMvcAjax.js" type="text/javascript"></script>
@@ -68,11 +68,11 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Themes(Courses) for <%: ViewData["StageName"] %> stage.</h2>
+    <h2><%=CurriculumManagRes.CurriculumManagement.ThemesCoursesFor%> <%: ViewData["StageName"] %> stage.</h2>
 
     <p>
-        <%: Html.ActionLink("Add theme", "Create"/*, new { StageID = Model.StageId}*/)%>
-        <a id="DeleteMany" href="#">Delete Selected</a>
+        <%: Html.ActionLink(CurriculumManagRes.CurriculumManagement.AddTheme, "Create"/*, new { StageID = Model.StageId}*/)%>
+        <a id="DeleteMany" href="#"><%=CurriculumManagRes.CurriculumManagement.DeleteSelected%></a>
     </p>
     <table>
         <tr>
@@ -82,10 +82,10 @@
                 Theme name
             </th>
             <th>
-                Created
+                <%=CurriculumManagRes.CurriculumManagement.Created%>
             </th>
             <th>
-                Updated
+                <%=CurriculumManagRes.CurriculumManagement.Updated%>
             </th>
             <th>
                 Theme type
@@ -112,7 +112,7 @@
                     <%: item.ThemeType.Name %>
                 </td>
                 <td>
-                    <%: Html.ActionLink("Edit", "Edit", new { ThemeID = item.Id })%>
+                    <%: Html.ActionLink(CurriculumManagRes.CurriculumManagement.Edit, "Edit", new { ThemeID = item.Id })%>
                     |
                     <%: Html.ActionLink("Up", "ThemeUp", new { ThemeID = item.Id })%>
                     |
