@@ -18,6 +18,11 @@ namespace IUDICO.Common.Models.Shared.Statistics
         public long ActivityAttemptId { get; protected set; }
 
         /// <summary>
+        /// Identifier of related Activity(Item in manifest).
+        /// </summary>
+        public long ActivityPackageId { get; protected set; }
+
+        /// <summary>
         /// Title of activity. Represents "title" attribute from manifest's item node.
         /// </summary>
         public string ActivityTitle { get; protected set; }
@@ -50,7 +55,19 @@ namespace IUDICO.Common.Models.Shared.Statistics
         /// May be Null. In that case string representation for Learner Response should match best.
         /// </summary>
         public InteractionType? LearnerResponseType { get; protected set; }
-        
+
+        /// <summary>
+        /// Completion status - SCORM related.
+        /// Indicates whether activity is completed or incompleted.
+        /// </summary>
+        public CompletionStatus CompletionStatus { get; protected set; }
+
+        /// <summary>
+        /// Success status - SCORM related.
+        /// Indicates whether activity was passed or failed.
+        /// </summary>
+        public SuccessStatus SuccessStatus { get; protected set; }
+
         /// <summary>
         /// Float Nullable value represents scaled score, calculated while attempting activity.
         /// In most cases null.
@@ -61,12 +78,32 @@ namespace IUDICO.Common.Models.Shared.Statistics
 
         #region Constructors
 
-        public AnswerResult(long activityAttempId, string activityTitle, long? interactionId, AttemptResult attempResult,
-            object learnerResponse, string correctResponse, InteractionType? learnerResponseType, float? scaledScore)
+        public AnswerResult(long activityAttempId, long activityPackageId, string activityTitle, long? interactionId, CompletionStatus completionStatus, SuccessStatus successStatus, 
+            AttemptResult attempResult, object learnerResponse, string correctResponse, InteractionType? learnerResponseType, float? scaledScore)
         {
             this.ActivityAttemptId = activityAttempId;
+            this.ActivityPackageId = activityPackageId;
             this.ActivityTitle = activityTitle;
             this.InteractionId = interactionId;
+            this.CompletionStatus = completionStatus;
+            this.SuccessStatus = successStatus;
+            this.AttemptResult = attempResult;
+            this.LearnerResponse = learnerResponse;
+            this.CorrectResponse = correctResponse;
+            this.LearnerResponseType = learnerResponseType;
+            this.ScaledScore = scaledScore;
+        }
+
+        // TODO: this constructor was added to support some fake data instanсiation, so remove in near future!
+        public AnswerResult(long activityAttempId, string activityTitle, long? interactionId,
+            AttemptResult attempResult, object learnerResponse, string correctResponse, InteractionType? learnerResponseType, float? scaledScore)
+        {
+            this.ActivityAttemptId = activityAttempId;
+            //this.ActivityPackageId = activityPackageId;
+            this.ActivityTitle = activityTitle;
+            this.InteractionId = interactionId;
+            //this.CompletionStatus = completionStatus;
+            //this.SuccessStatus = successStatus;
             this.AttemptResult = attempResult;
             this.LearnerResponse = learnerResponse;
             this.CorrectResponse = correctResponse;

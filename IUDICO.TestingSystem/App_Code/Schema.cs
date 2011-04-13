@@ -6234,6 +6234,7 @@ namespace IUDICO.TestingSystem.Schema {
     /// <li><Fld>AttemptStatus</Fld></li>
     /// <li><Fld>CompletionStatus</Fld></li>
     /// <li><Fld>Score</Fld></li>
+    /// <li><Fld>StartedTimestamp</Fld></li>
     /// <li><Fld>SuccessStatus</Fld></li>
     /// <li><Fld>ThemeId</Fld></li>
     /// <li><Fld>UserItemKey</Fld></li>
@@ -6318,6 +6319,17 @@ namespace IUDICO.TestingSystem.Schema {
         public const string SuccessStatus = "SuccessStatus";
         
         /// <summary>
+        /// Name of the StartedTimestamp column on the <Typ>AllAttemptsResults</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: DateTime
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string StartedTimestamp = "StartedTimestamp";
+        
+        /// <summary>
         /// Name of the Score column on the <Typ>AllAttemptsResults</Typ> view.
         /// </summary>
         /// <remarks>
@@ -6339,6 +6351,7 @@ namespace IUDICO.TestingSystem.Schema {
     /// <li><Fld>AttemptStatus</Fld></li>
     /// <li><Fld>CompletionStatus</Fld></li>
     /// <li><Fld>Score</Fld></li>
+    /// <li><Fld>StartedTimestamp</Fld></li>
     /// <li><Fld>SuccessStatus</Fld></li>
     /// </ul>
     /// Parameters in the view:
@@ -6402,6 +6415,17 @@ namespace IUDICO.TestingSystem.Schema {
         public const string SuccessStatus = "SuccessStatus";
         
         /// <summary>
+        /// Name of the StartedTimestamp column on the <Typ>AttemptsResultsByThemeAndUser</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: DateTime
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string StartedTimestamp = "StartedTimestamp";
+        
+        /// <summary>
         /// Name of the Score column on the <Typ>AttemptsResultsByThemeAndUser</Typ> view.
         /// </summary>
         /// <remarks>
@@ -6442,7 +6466,9 @@ namespace IUDICO.TestingSystem.Schema {
     /// Columns in the view:
     /// <ul>
     /// <li><Fld>ActivityAttemptId</Fld></li>
+    /// <li><Fld>ActivityPackageId</Fld></li>
     /// <li><Fld>ActivityTitle</Fld></li>
+    /// <li><Fld>CompletionStatus</Fld></li>
     /// <li><Fld>CorrectResponse</Fld></li>
     /// <li><Fld>InteractionId</Fld></li>
     /// <li><Fld>InteractionType</Fld></li>
@@ -6450,6 +6476,7 @@ namespace IUDICO.TestingSystem.Schema {
     /// <li><Fld>LearnerResponseNumeric</Fld></li>
     /// <li><Fld>LearnerResponseString</Fld></li>
     /// <li><Fld>ScaledScore</Fld></li>
+    /// <li><Fld>SuccessStatus</Fld></li>
     /// </ul>
     /// Parameters in the view:
     /// <ul>
@@ -6478,6 +6505,17 @@ namespace IUDICO.TestingSystem.Schema {
         public const string ActivityAttemptId = "ActivityAttemptId";
         
         /// <summary>
+        /// Name of the ActivityPackageId column on the <Typ>InteractionResultsByAttempt</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: Reference to a <Typ>ActivityPackageItem</Typ> item type.
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string ActivityPackageId = "ActivityPackageId";
+        
+        /// <summary>
         /// Name of the ActivityTitle column on the <Typ>InteractionResultsByAttempt</Typ> view.
         /// </summary>
         /// <remarks>
@@ -6498,6 +6536,28 @@ namespace IUDICO.TestingSystem.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string InteractionId = "InteractionId";
+        
+        /// <summary>
+        /// Name of the CompletionStatus column on the <Typ>InteractionResultsByAttempt</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: <Typ>/Microsoft.LearningComponents.CompletionStatus</Typ>
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string CompletionStatus = "CompletionStatus";
+        
+        /// <summary>
+        /// Name of the SuccessStatus column on the <Typ>InteractionResultsByAttempt</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: <Typ>/Microsoft.LearningComponents.SuccessStatus</Typ>
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string SuccessStatus = "SuccessStatus";
         
         /// <summary>
         /// Name of the LearnerResponseBool column on the <Typ>InteractionResultsByAttempt</Typ> view.

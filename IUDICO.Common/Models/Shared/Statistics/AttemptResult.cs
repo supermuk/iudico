@@ -43,7 +43,13 @@ namespace IUDICO.Common.Models.Shared.Statistics
         /// Indicates whether attempt was passed or failed.
         /// </summary>
         public SuccessStatus SuccessStatus { get; protected set; }
-       
+
+        /// <summary>
+        /// Receives attempt beginning start timestamp.
+        /// May be null.
+        /// </summary>
+        public DateTime? StartTime { get; protected set; }
+
         /// <summary>
         /// Score user got in result of one(this) attempt.
         /// </summary>
@@ -55,16 +61,17 @@ namespace IUDICO.Common.Models.Shared.Statistics
 
         public AttemptResult(long attemptId, User user, Theme theme, 
             CompletionStatus completionStatus, AttemptStatus attemptStatus, 
-            SuccessStatus successStatus, float? scaledScore)
+            SuccessStatus successStatus, DateTime? startTime, float? scaledScore)
         {
-            AttemptId = attemptId;
-            User = user;
-            Theme = theme;
+            this.AttemptId = attemptId;
+            this.User = user;
+            this.Theme = theme;
             
-            CompletionStatus = completionStatus;
-            AttemptStatus = attemptStatus;
-            SuccessStatus = successStatus;
-            Score = new Score(scaledScore);
+            this.CompletionStatus = completionStatus;
+            this.AttemptStatus = attemptStatus;
+            this.SuccessStatus = successStatus;
+            this.StartTime = startTime;
+            this.Score = new Score(scaledScore);
         }
 
         #endregion
