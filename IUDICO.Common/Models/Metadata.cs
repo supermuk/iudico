@@ -159,6 +159,8 @@ namespace IUDICO.Common.Models
         }
     }
 
+
+
     [MetadataType(typeof(Metadata))]
     [Bind(Exclude = "Id, CourseId")]
     public partial class Node

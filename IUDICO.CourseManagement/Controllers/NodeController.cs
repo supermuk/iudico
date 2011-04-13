@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Xml.Serialization;
 using IUDICO.Common.Models;
 using IUDICO.CourseManagement.Models;
+using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
 using IUDICO.CourseManagement.Models.Storage;
 
 namespace IUDICO.CourseManagement.Controllers
@@ -183,16 +185,83 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
-        public JsonResult Properties(int id)
+        public JsonResult Properties(int id, string type)
         {
             var node = _Storage.GetNode(id);
-            return Json(new { status = true, data = PartialViewHtml("Properties", node, ViewData) });
+
+            var xml = new XmlSerializer(typeof(Sequencing));
+            var sequencing = (Sequencing)xml.DeserializeXElement(node.Sequencing);
+            
+            NodeProperty model;
+            if (type == "ControlMode")
+            {
+                model = sequencing.ControlMode ?? new ControlMode();
+            }
+            else if (type == "LimitConditions")
+            {
+                model = sequencing.LimitConditions ?? new LimitConditions();
+            }
+            else if (type == "ConstrainedChoiceConsiderations")
+            {
+                model = sequencing.ConstrainedChoiceConsiderations ?? new ConstrainedChoiceConsiderations();
+            }
+            else if (type == "RandomizationControls")
+            {
+                model = sequencing.RandomizationControls ?? new RandomizationControls();
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+
+            model.CourseId = node.CourseId;
+            model.NodeId = node.Id;
+            model.Type = type;
+
+            return Json(new { status = true, data = PartialViewHtml("Properties", model, ViewData) });
         }
 
         [HttpPost]
-        public JsonResult SaveProperties(int nodeId, Node node)
+        public JsonResult SaveProperties(int nodeId, string type)
         {
-            _Storage.UpdateNodeProperties(nodeId, node);
+            var node = _Storage.GetNode(nodeId);
+            var xml = new XmlSerializer(typeof(Sequencing));
+            var sequencing = (Sequencing)xml.DeserializeXElement(node.Sequencing);
+            
+            object model;
+
+            if (type == "ControlMode")
+            {
+                model = new ControlMode();
+                TryUpdateModel(model as ControlMode);
+                sequencing.ControlMode = model as ControlMode;
+            }
+            else if (type == "LimitConditions")
+            {
+                model = new LimitConditions();
+                TryUpdateModel(model as LimitConditions);
+                sequencing.LimitConditions = model as LimitConditions;
+            }
+            else if (type == "ConstrainedChoiceConsiderations")
+            {
+                model = new ConstrainedChoiceConsiderations();
+                TryUpdateModel(model as ConstrainedChoiceConsiderations);
+                sequencing.ConstrainedChoiceConsiderations = model as ConstrainedChoiceConsiderations;
+            }
+            else if (type == "RandomizationControls")
+            {
+                model = new RandomizationControls();
+                TryUpdateModel(model as RandomizationControls);
+                sequencing.RandomizationControls = model as RandomizationControls;
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+            node.Sequencing = xml.SerializeToXElemet(sequencing);
+
+            _Storage.UpdateNode(nodeId, node);
+
             return Json(new { status = true });
         }
     }

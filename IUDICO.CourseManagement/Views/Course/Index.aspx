@@ -57,6 +57,9 @@
         <a id="DeleteMany" href="#"><%=CourseManagRes.CourseManagement.DeleteSelected%></a>
     </p>
     <h2><%=CourseManagRes.CourseManagement.Mycourses%>:</h2>
+    <% var index = 1; %>
+    <% if (Model.Where(i => i.Owner == HttpContext.Current.User.Identity.Name).Count() > 0)
+       { %>
     <table>
         <tr>
             <th></th>
@@ -74,31 +77,35 @@
             </th>
             <th></th>
         </tr>
-    <% var index = 1; %>
-    <% foreach (var item in Model.Where(i => i.Owner == HttpContext.Current.User.Identity.Name)) { %>
+
+    <% foreach (var item in Model.Where(i => i.Owner == HttpContext.Current.User.Identity.Name))
+       { %>
     
         <tr>
             <td>
                 <input type="checkbox" id="<%= item.Id %>" />
             </td>
             <td>
-                <%: index++ %>
+                <%: index++%>
             </td>
             <td>
-                <%: item.Name %>
+                <%: item.Name%>
             </td>
             <td>
-                <%: String.Format("{0:g}", item.Created) %>
+                <%: String.Format("{0:g}", item.Created)%>
             </td>
             <td>
-                <%: String.Format("{0:g}", item.Updated) %>
+                <%: String.Format("{0:g}", item.Updated)%>
             </td>
             <td>
                 <%: Html.ActionLink(CourseManagRes.CourseManagement.Edit, "Edit", "Course", new { CourseID = item.Id }, null)%> |
-                <% if (item.Locked == null || item.Locked.Value == false) { %>
+                <% if (item.Locked == null || item.Locked.Value == false)
+                   { %>
                 <%:Html.ActionLink(CourseManagRes.CourseManagement.Details, "Index", "Node", new { CourseID = item.Id }, null)%> |
-                <% } else {%>
-                <%:Html.ActionLink("Unlock", "Parse", "Course", new {CourseID = item.Id}, null) %> |
+                <% }
+                   else
+                   {%>
+                <%:Html.ActionLink("Unlock", "Parse", "Course", new { CourseID = item.Id }, null)%> |
                 <%}%>
                 <%: Html.ActionLink(CourseManagRes.CourseManagement.Export, "Export", new { CourseID = item.Id })%> |
                 <%: Ajax.ActionLink(CourseManagRes.CourseManagement.Delete, "Delete", new { CourseID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
@@ -107,8 +114,13 @@
     
     <% } %>
     </table>
+    <% } else {%>
+         <%=CourseManagRes.CourseManagement.NoCourses%>
+    <% } %>
 
-    <h2>Courses shared with me:</h2>
+    <h2><%=CourseManagRes.CourseManagement.CoursesSharedWithMe%>:</h2>
+    <% if (Model.Where(i => i.Owner != HttpContext.Current.User.Identity.Name).Count() > 0)
+       { %>
     <table>
         <tr>
             <th></th>
@@ -162,7 +174,9 @@
     <% } %>
 
     </table>
-
+    <% } else {%>
+         <%=CourseManagRes.CourseManagement.NoCourses%>
+    <% } %>
 
 
 </asp:Content>

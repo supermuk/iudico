@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
 {
     [Serializable]
-    public class DeliveryControls
+    public partial class DeliveryControls
     {
         #region XmlAttributes
 
@@ -15,7 +15,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         /// for its parent activity.
         /// </summary>
         [XmlAttribute(SCORM.Tracked)]
-        public bool Tracked; // = true;
+        public bool Tracked { get; set; } // = true;
 
         /// <summary>
         /// This attribute 
@@ -23,7 +23,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         /// (true or false).
         /// </summary>
         [XmlAttribute(SCORM.CompletionSetByContent)]
-        public bool CompletionSetByContent; // = false;
+        public bool CompletionSetByContent { get; set; } // = false;
 
         /// <summary>
         ///  This attribute 
@@ -31,7 +31,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         /// that contributes to rollup will be set by the SCO.
         /// </summary>
         [XmlAttribute(SCORM.ObjectiveSetByContent)]
-        public bool ObjectiveSetByContent; // = false
+        public bool ObjectiveSetByContent { get; set; } // = false
 
         #endregion
     }

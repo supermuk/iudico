@@ -1,7 +1,7 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IUDICO.Common.Models.Node>" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IUDICO.Common.Models.NodeProperty>" %>
 
     <% Html.EnableClientValidation(); %>
-    <% using (Ajax.BeginForm("SaveProperties", "Node", new { NodeId = Model.Id, CourseId = Model.CourseId }, new AjaxOptions() { OnFailure = "onSavePropertiesFailure", OnSuccess = "onSavePropertiesSuccess" }))
+    <% using (Ajax.BeginForm("SaveProperties", "Node", new { NodeId = Model.NodeId, type = Model.Type, CourseId = Model.CourseId }, new AjaxOptions() { OnFailure = "onSavePropertiesFailure", OnSuccess = "onSavePropertiesSuccess" }))
        {%>
         <%: Html.ValidationSummary(true) %>
         

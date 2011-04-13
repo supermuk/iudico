@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Notifications;
@@ -97,7 +100,6 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             course.Created = DateTime.Now;
             course.Updated = DateTime.Now;
-
             var db = GetDbContext();
 
             db.Courses.InsertOnSubmit(course);
@@ -357,6 +359,12 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             var db = GetDbContext();
 
+            if (node.IsFolder)
+            {
+                var xs = new XmlSerializer(typeof (Sequencing));
+                node.Sequencing = xs.SerializeToXElemet(new Sequencing());
+            }
+
             db.Nodes.InsertOnSubmit(node);
             db.SubmitChanges();
 
@@ -379,23 +387,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             oldNode.ParentId = node.ParentId;
             oldNode.Position = node.Position;
             oldNode.SequencingPattern = node.SequencingPattern;
-
-            db.SubmitChanges();
-        }
-
-        public void UpdateNodeProperties(int id, Node node)
-        {
-            var db = GetDbContext();
-
-            var oldNode = db.Nodes.SingleOrDefault(n => n.Id == id);
-
-            oldNode.Name = node.Name;
-            oldNode.Choise = node.Choise;
-            oldNode.ChoiseExit = node.ChoiseExit;
-            oldNode.Flow = node.Flow;
-            oldNode.ForwardOnly = node.ForwardOnly;
-            oldNode.AttemptAbsoluteDurationLimit = node.AttemptAbsoluteDurationLimit;
-            oldNode.AttemptLimit = node.AttemptLimit;
+            oldNode.Sequencing = node.Sequencing;
 
             db.SubmitChanges();
         }

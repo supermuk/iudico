@@ -174,4 +174,10 @@
   <data name="ValidateOrImportCourse" xml:space="preserve">
     <value>Validate or Import Course</value>
   </data>
+  <data name="CoursesSharedWithMe" xml:space="preserve">
+    <value>Courses shared with me</value>
+  </data>
+  <data name="NoCourses" xml:space="preserve">
+    <value>No courses available</value>
+  </data>
 </root>

@@ -126,6 +126,7 @@
     <Compile Include="Models\ManifestModels\ResourceModels\Resource.cs" />
     <Compile Include="Models\ManifestModels\ResourceModels\Resources.cs" />
     <Compile Include="Models\ManifestModels\SCORMStrings.cs" />
+    <Compile Include="Models\ManifestModels\SequencingModels\Metadata.cs" />
     <Compile Include="Models\ManifestModels\SequencingModels\ObjectiveModels\AdlObjectives.cs" />
     <Compile Include="Models\ManifestModels\SequencingModels\ObjectiveModels\MapInfo.cs" />
     <Compile Include="Models\ManifestModels\SequencingModels\ObjectiveModels\AdlObjective.cs" />
