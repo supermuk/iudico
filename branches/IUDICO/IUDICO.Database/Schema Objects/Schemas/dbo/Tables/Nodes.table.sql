@@ -11,8 +11,11 @@
     [Flow]                         BIT           NULL,
     [ForwardOnly]                  BIT           NULL,
     [AttemptLimit]                 INT           NULL,
-    [AttemptAbsoluteDurationLimit] NVARCHAR (50) NULL
+    [AttemptAbsoluteDurationLimit] NVARCHAR (50) NULL,
+    [Sequencing]                   XML           NULL
 );
+
+
 
 
 

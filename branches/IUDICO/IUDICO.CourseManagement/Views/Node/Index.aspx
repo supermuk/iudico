@@ -191,9 +191,32 @@
                                 "separator_before": false,
                                 "icon": false,
                                 "separator_after": false,
-                                "label": "Properties",
-                                "action": function (obj) {
-                                    this.get_container().triggerHandler("properties.jstree", { "obj": obj });
+                                "label": "Sequencing",
+                                "submenu": {
+                                    "ControlMode" : {
+                                        "label" : "Control Mode",
+                                        "action": function (obj) {
+                                            this.get_container().triggerHandler("properties.jstree", { "obj": obj, "type": "ControlMode"});
+                                        }
+                                    },
+                                    "LimitConditions" : {
+                                        "label" : "Limit Conditions",
+                                        "action": function (obj) {
+                                            this.get_container().triggerHandler("properties.jstree", { "obj": obj, "type": "LimitConditions"});
+                                        }
+                                    },
+                                    "RandomizationControls" : {
+                                        "label" : "Randomization Controls",
+                                        "action": function (obj) {
+                                            this.get_container().triggerHandler("properties.jstree", { "obj": obj, "type": "RandomizationControls"});
+                                        }
+                                    },
+                                    "ConstrainedChoiceConsiderations" : {
+                                        "label" : "Constrained Choice Considerations",
+                                        "action": function (obj) {
+                                            this.get_container().triggerHandler("properties.jstree", { "obj": obj, "type": "ConstrainedChoiceConsiderations"});
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -343,7 +366,8 @@
                     type: 'post',
                     url: "<%: Url.Action("Properties", "Node") %>",
                     data: {
-                        "id":  data.obj.attr("id").replace("node_", "")
+                        "id":  data.obj.attr("id").replace("node_", ""),
+                        "type": data.type
                     },
                     success: function(r) {
                         if(r.status) {

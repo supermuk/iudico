@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
 {
     [Serializable]
-    public class LimitConditions
+    public partial class LimitConditions
     {
         #region XmlAttributes
 
@@ -12,7 +12,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         /// This value indicates the maximum number of attempts for the activity/
         /// </summary>
         [XmlAttribute(SCORM.AttemptLimit)]
-        public int AttemptLimit;
+        public int AttemptLimit { get; set; } 
 
         /// <summary>
         /// This value indicates the maximum 
@@ -24,7 +24,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         /// and behaviors due to timing violations.
         /// </summary>
         [XmlAttribute(SCORM.AttemptAbsoluteDurationLimit)]
-        public string AttemptAbsoluteDurationLimit;
+        public string AttemptAbsoluteDurationLimit { get; set; } 
 
         #endregion
     }

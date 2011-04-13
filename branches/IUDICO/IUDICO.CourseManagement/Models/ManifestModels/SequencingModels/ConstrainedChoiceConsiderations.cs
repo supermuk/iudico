@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
 {
     [Serializable]
-    public class ConstrainedChoiceConsiderations
+    public partial class ConstrainedChoiceConsiderations
     {
         #region XmlAttributes
 
@@ -14,7 +14,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         /// the parent.
         /// </summary>
         [XmlAttribute(SCORM.PreventActivation)]
-        public bool PreventActivation; // = false;
+        public bool PreventActivation { get; set; } // = false;
 
         /// <summary>
         /// This attribute indicates that 
@@ -22,7 +22,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         /// targets of a choice navigation request. 
         /// </summary>
         [XmlAttribute(SCORM.ConstrainChoice)]
-        public bool ConstrainChoice; // = false;
+        public bool ConstrainChoice { get; set; } // = false;
 
         #endregion 
     }

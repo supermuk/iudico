@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
 {
     [Serializable]
-    public class ControlMode
+    public partial class ControlMode
     {
         #region XmlAttributes
 
@@ -14,7 +14,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         /// the activity.
         /// </summary>
         [XmlAttribute(SCORM.Choice)]
-        public bool Choise; // = true
+        public bool Choise { get; set; }//= true;
 
         /// <summary>
         /// Indicates that an active child of 
@@ -22,14 +22,14 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         /// choice sequencing request is processed.
         /// </summary>
         [XmlAttribute(SCORM.ChoiceExit)]
-        public bool ChoiceExit; // = true
+        public bool ChoiceExit { get; set; }//= true;
 
         /// <summary>
         /// Indicates the flow sequencing requests is 
         /// permitted (or not permitted if value = false) to the children of this activity/
         /// </summary>
-        [XmlAttribute(SCORM.Flow)]
-        public bool Flow; // = false
+        [XmlAttribute(SCORM.Flow)] 
+        public bool Flow { get; set; }//= false;
 
         /// <summary>
         ///  Indicates that backward targets 
@@ -37,7 +37,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         /// false) for the children of this activity.
         /// </summary>
         [XmlAttribute(SCORM.ForwardOnly)]
-        public bool ForwardOnly;
+        public bool ForwardOnly { get; set; }
 
         /// <summary>
         /// Indicates 
@@ -46,7 +46,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         /// information was recorded during the current attempt on the activity.
         /// </summary>
         [XmlAttribute(SCORM.UseCurrentAttemptObjectiveInfo)]
-        public bool UseCurrentAttemptObjectiveInfo;
+        public bool UseCurrentAttemptObjectiveInfo { get; set; }
 
         /// <summary>
         /// Indicates 
@@ -55,8 +55,9 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         /// information was recorded during the current attempt on the activity.
         /// </summary>
         [XmlAttribute(SCORM.UseCurrentAttemptProgressInfo)]
-        public bool UseCurrentAttemptProgressInfo;
+        public bool UseCurrentAttemptProgressInfo { get; set; }
 
         #endregion
     }
+
 }
