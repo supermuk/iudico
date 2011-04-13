@@ -19,7 +19,8 @@
         }
     </script>
 
-    <h2><%=StatisRes.Statistics.CurriculumList%></h2>
+    <h2><%=StatisRes.Statistics.CurriculumList %> for <%: ViewData["Group"] %> </h2>
+
 
      <%: Html.ActionLink(StatisRes.Statistics.Back, "Index")%>
      <fieldset>
