@@ -16,7 +16,7 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Edit theme:</h2>
+        <%=CurriculumManagRes.CurriculumManagement.EditTheme %>:</h2>
     <% Html.EnableClientValidation(); %>
 
     <% using (Html.BeginForm("Edit", "Theme"))
@@ -41,11 +41,11 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
                 <%: Html.DropDownListFor(x => x.ThemeTypeId, Model.ThemeTypes)%>
             </div>
             <p>
-                <input type="submit" value="Update" />
+                <input type="submit" value=<%=CurriculumManagRes.CurriculumManagement.Update %> />
             </p>
         </fieldset>
     <% } %>
     <div>
-        <%: Html.RouteLink("Back to list", "Themes", new { action = "Index", StageId = Model.StageId })%>
+        <%: Html.RouteLink(CurriculumManagRes.CurriculumManagement.BackToList, "Themes", new { action = "Index", StageId = Model.StageId })%>
     </div>
 </asp:Content>

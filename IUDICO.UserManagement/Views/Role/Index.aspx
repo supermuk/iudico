@@ -12,7 +12,7 @@
     <table>
         <tr>
             <th>
-                <%=UsManagRes.UserManagement.Name%>
+                <%=UsManagRes.UserManagem.Name%>
             </th>
             <th></th>
         </tr>
@@ -24,8 +24,8 @@
                 <%: item.Name %>
             </td>
             <td>
-                <%: Html.ActionLink(UsManagRes.UserManagement.Edit, "Edit", new { id = item.Id })%> |
-                <%: Ajax.ActionLink(UsManagRes.UserManagement.Delete, "Delete", new { id = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
+                <%: Html.ActionLink(UsManagRes.UserManagem.Edit, "Edit", new { id = item.Id })%> |
+                <%: Ajax.ActionLink(UsManagRes.UserManagem.Delete, "Delete", new { id = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
             </td>
         </tr>
     
@@ -34,7 +34,7 @@
     </table>
 
     <p>
-        <%: Html.ActionLink(UsManagRes.UserManagement.CreateNew, "Create")%>
+        <%: Html.ActionLink(UsManagRes.UserManagem.CreateNew, "Create")%>
     </p>
 
 </asp:Content>

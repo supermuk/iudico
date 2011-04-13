@@ -7,22 +7,22 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=UsManagRes.UserManagement.Delete%></h2>
+    <h2><%=UsManagRes.UserManagem.Delete%></h2>
 
-    <h3><%=UsManagRes.UserManagement.YouWantDeleteThis%>?</h3>
+    <h3><%=UsManagRes.UserManagem.YouWantDeleteThis%>?</h3>
     <fieldset>
         <legend>Fields</legend>
         
-        <div class="display-label"><%=UsManagRes.UserManagement.Username %></div>
+        <div class="display-label"><%=UsManagRes.UserManagem.Username %></div>
         <div class="display-field"><%: Model.Username %></div>
         
-        <div class="display-label"><%=UsManagRes.UserManagement.Name %></div>
+        <div class="display-label"><%=UsManagRes.UserManagem.Name %></div>
         <div class="display-field"><%: Model.Name %></div>
     </fieldset>
     <% using (Html.BeginForm()) { %>
         <p>
 		    <input type="submit" value="Delete" /> |
-		    <%: Html.ActionLink(UsManagRes.UserManagement.BackToList, "Index")%>
+		    <%: Html.ActionLink(UsManagRes.UserManagem.BackToList, "Index")%>
         </p>
     <% } %>
 
