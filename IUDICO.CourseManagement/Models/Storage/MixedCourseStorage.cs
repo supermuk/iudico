@@ -313,6 +313,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             var reader = new XmlTextReader(new FileStream(manifestPath, FileMode.Open));
             var manifest = Manifest.Deserialize(reader);
+            
             var importer = new Importer(manifest, course, this);
 
             importer.Import();

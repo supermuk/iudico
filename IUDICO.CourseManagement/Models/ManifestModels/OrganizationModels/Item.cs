@@ -80,7 +80,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         [XmlElement(SCORM.CompletionThreshold, Namespace=SCORM.AdlcpNamespaceV1P3)]
         public CompletionThreshold CompletionThreshold;
 
-        [XmlElement(SCORM.Sequencing)]
+        [XmlElement(SCORM.Sequencing, Namespace = SCORM.ImsssNamespace)]
         public Sequencing Sequencing;
 
         [XmlElement(SCORM.Presentation)]
