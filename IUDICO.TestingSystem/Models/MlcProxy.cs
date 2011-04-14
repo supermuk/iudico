@@ -222,9 +222,9 @@ namespace IUDICO.TestingSystem.Models
                 LStoreHelper.CastNonNull(dataRow[Schema.InteractionResultsByAttempt.CompletionStatus], out completionStatus);
                 IUDICO.Common.Models.Shared.Statistics.CompletionStatus iudicoCompletionStatus = (IUDICO.Common.Models.Shared.Statistics.CompletionStatus)completionStatus;
 
-                Microsoft.LearningComponents.SuccessStatus successStatus;
-                LStoreHelper.CastNonNull(dataRow[Schema.InteractionResultsByAttempt.SuccessStatus], out successStatus);
-                IUDICO.Common.Models.Shared.Statistics.SuccessStatus iudicoSuccessStatus = (IUDICO.Common.Models.Shared.Statistics.SuccessStatus)successStatus;
+                Microsoft.LearningComponents.SuccessStatus? successStatus;
+                LStoreHelper.Cast(dataRow[Schema.InteractionResultsByAttempt.SuccessStatus], out successStatus);
+                IUDICO.Common.Models.Shared.Statistics.SuccessStatus? iudicoSuccessStatus = (IUDICO.Common.Models.Shared.Statistics.SuccessStatus?)successStatus;
 
                 bool? learnerResponseBool = null;
                 LStoreHelper.Cast(dataRow[Schema.InteractionResultsByAttempt.LearnerResponseBool], out learnerResponseBool);

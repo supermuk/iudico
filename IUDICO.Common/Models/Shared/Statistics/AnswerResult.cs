@@ -65,12 +65,12 @@ namespace IUDICO.Common.Models.Shared.Statistics
         /// <summary>
         /// Success status - SCORM related.
         /// Indicates whether activity was passed or failed.
+        /// May be Null.
         /// </summary>
-        public SuccessStatus SuccessStatus { get; protected set; }
+        public SuccessStatus? SuccessStatus { get; protected set; }
 
         /// <summary>
         /// Float Nullable value represents scaled score, calculated while attempting activity.
-        /// In most cases null.
         /// </summary>
         public float? ScaledScore { get; protected set; }
         
@@ -78,7 +78,7 @@ namespace IUDICO.Common.Models.Shared.Statistics
 
         #region Constructors
 
-        public AnswerResult(long activityAttempId, long activityPackageId, string activityTitle, long? interactionId, CompletionStatus completionStatus, SuccessStatus successStatus, 
+        public AnswerResult(long activityAttempId, long activityPackageId, string activityTitle, long? interactionId, CompletionStatus completionStatus, SuccessStatus? successStatus, 
             AttemptResult attempResult, object learnerResponse, string correctResponse, InteractionType? learnerResponseType, float? scaledScore)
         {
             this.ActivityAttemptId = activityAttempId;
