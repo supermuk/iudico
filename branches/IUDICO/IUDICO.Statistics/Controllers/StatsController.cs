@@ -68,5 +68,13 @@ namespace IUDICO.Statistics.Controllers
             var model = new ThemeTestResaultsModel(attemptId, (List<AttemptResult>)HttpContext.Session["Attempts"], LmsService);
             return View(model);
         }
+
+        [Allow(Role = Role.Student)]
+        [HttpGet]
+        public ActionResult CurrentThemeTestResaults(Int32 themeId)
+        {
+            var model = new CurrentThemeTestResaultsModel(themeId, LmsService);           
+            return View(model);
+        }
     }
 }

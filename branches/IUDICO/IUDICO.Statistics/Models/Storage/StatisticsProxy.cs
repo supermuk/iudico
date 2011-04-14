@@ -302,4 +302,74 @@ namespace IUDICO.Statistics.Models.Storage
             return this._NoData;
         }
     }
+
+    public class CurrentThemeTestResaultsModel
+    {
+        private ILmsService _LmsService;
+        private AttemptResult _Attempt;
+        private IEnumerable<AnswerResult> _UserAnswers;
+        private bool _NoData;
+        public CurrentThemeTestResaultsModel(int themeId, ILmsService lmsService)
+        {
+            User currenUser = _LmsService.FindService<IUserService>().GetCurrentUser();
+            Theme theme = _LmsService.FindService<ICurriculumService>().GetTheme(themeId);
+            IEnumerable<AttemptResult> attemptResults = _LmsService.FindService<ITestingService>().GetResults(currenUser, theme);
+            //
+            _NoData = false;
+            _Attempt = attemptResults.Last();
+            //
+            _UserAnswers = _LmsService.FindService<ITestingService>().GetAnswers(_Attempt);
+        }
+        public IEnumerable<AnswerResult> GetUserAnswers()
+        {
+            return this._UserAnswers;
+        }
+        public String GetUserName()
+        {
+            if (this._Attempt != null)
+                return this._Attempt.User.Username;
+            else
+                return "";
+        }
+        public String GetThemeName()
+        {
+            if (this._Attempt != null)
+                return this._Attempt.Theme.Name;
+            else
+                return "";
+        }
+
+        public String GetSuccessStatus()
+        {
+            if (this._Attempt != null)
+                return this._Attempt.SuccessStatus.ToString();
+            else
+                return "";
+        }
+        public String GetScore()
+        {
+            if (this._Attempt != null)
+                return this._Attempt.Score.ToPercents().ToString();
+            else
+                return "";
+        }
+        public String GetUserAnswer(AnswerResult answerResult)
+        {
+            if (answerResult.LearnerResponse != null)
+                return answerResult.LearnerResponse.ToString();
+            else
+                return "";
+        }
+        public String GetUserScoreForAnswer(AnswerResult answerResult)
+        {
+            if (answerResult.ScaledScore != null)
+                return answerResult.ScaledScore.ToString();
+            else
+                return "";
+        }
+        public bool NoData()
+        {
+            return this._NoData;
+        }
+    }
 }
