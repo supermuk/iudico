@@ -11,19 +11,23 @@
     <h3><%=ViewRes.LMS.WelcomeButterfly %></h3>
 
     <% foreach (var plugin in Model.Actions) { %>
+        <% if (plugin.Value.Count() > 0) { %>
         <h4><%= plugin.Key.GetName() %></h4>
         <ul>
         <% foreach (var item in plugin.Value) { %>
             <li><a href="<%= item.Link %>"><%= item.Name %></a></li>
         <% } %>
         </ul>
+        <% } %>
     <% } %>
 
-    <h4><%=ViewRes.LMS.AvailableThemes %></h4>
+    <% if (Model.ThemesDescriptions.Count() > 0) { %>
+    <h3><%=ViewRes.LMS.AvailableThemes %></h3>
     <ul>
     <% foreach (var themeDescription in Model.ThemesDescriptions)
        { %>
         <li><%: Html.ActionLink(themeDescription.ToString(), "Play", "Training", new { Id = themeDescription.Theme.Id }, null)%></li>
     <% } %>
     </ul>
+    <% } %>
 </asp:Content>
