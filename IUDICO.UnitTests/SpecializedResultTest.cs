@@ -8,7 +8,6 @@ using IUDICO.Common.Models.Shared.Statistics;
 
 namespace TestProject1
 {
-    /* TODO:FIX IT!!!!
     
     /// <summary>
     ///This is a test class for SpecializedResultTest and is intended
@@ -76,7 +75,7 @@ namespace TestProject1
         {
             IUDICO.Common.Models.User usr = new IUDICO.Common.Models.User() { Username = "Bob" };
             IUDICO.Common.Models.Theme thm = new IUDICO.Common.Models.Theme() { Name = "Theme One" };
-            IUDICO.Common.Models.Shared.Statistics.AttemptResult AR = new IUDICO.Common.Models.Shared.Statistics.AttemptResult(1, usr, thm, IUDICO.Common.Models.Shared.Statistics.CompletionStatus.Completed, IUDICO.Common.Models.Shared.Statistics.AttemptStatus.Completed, IUDICO.Common.Models.Shared.Statistics.SuccessStatus.Passed, 0.5f);
+            IUDICO.Common.Models.Shared.Statistics.AttemptResult AR = new IUDICO.Common.Models.Shared.Statistics.AttemptResult(1, usr, thm, IUDICO.Common.Models.Shared.Statistics.CompletionStatus.Completed, IUDICO.Common.Models.Shared.Statistics.AttemptStatus.Completed, IUDICO.Common.Models.Shared.Statistics.SuccessStatus.Passed, DateTime.Now, 0.5f);
 
             ThemeResult themeRes = new ThemeResult(usr, thm);
             List<AttemptResult> ARL = new List<AttemptResult>();
@@ -104,5 +103,5 @@ namespace TestProject1
             Assert.AreEqual(ExpextedECTS, target.ECTS);
         }
     }
-    */
+
 }
