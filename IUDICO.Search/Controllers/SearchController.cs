@@ -15,6 +15,7 @@ using Lucene.Net.Documents;
 using Lucene.Net.Search;
 using Lucene.Net.QueryParsers;
 using IUDICO.Common.Models.Services;
+using System.Diagnostics;
 
 namespace IUDICO.Search.Controllers
 {
@@ -26,6 +27,7 @@ namespace IUDICO.Search.Controllers
         public SearchController()
         {
             _CourseService = LmsService.FindService<ICourseService>();
+
         }
 
         //
@@ -33,6 +35,7 @@ namespace IUDICO.Search.Controllers
 
         public ActionResult Index()
         {
+            Process();
             return View();
         }
 
@@ -72,7 +75,7 @@ namespace IUDICO.Search.Controllers
 
             if (courses == null)
                 return RedirectToAction("Index");
-            
+
             Directory directory = FSDirectory.Open(new System.IO.DirectoryInfo(Server.MapPath("~/Data/Index")));
             Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_29);
             IndexWriter writer = new IndexWriter(directory, analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED);
@@ -117,6 +120,11 @@ namespace IUDICO.Search.Controllers
         [HttpPost]
         public ActionResult Search(String query)
         {
+            if (query == "")
+            {
+                query = "net";
+            }
+            DateTime datastart = DateTime.Now;
             Directory directory = FSDirectory.Open(new System.IO.DirectoryInfo(Server.MapPath("~/Data/Index")));
             IndexSearcher searcher = new IndexSearcher(directory, true);
             Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_29);
@@ -128,10 +136,18 @@ namespace IUDICO.Search.Controllers
                 );
 
             ScoreDoc[] scoreDocs = searcher.Search(queryParser.Parse(query), 10).scoreDocs;
-            List<ISearchResult> results = new List<ISearchResult>();
 
+            Hits hit = searcher.Search(queryParser.Parse(query));
+            int total = hit.Length();
+         
+            
+            
+            List<ISearchResult> results = new List<ISearchResult>();
+            Stopwatch sw = new Stopwatch();
+            
+            sw.Start();
             foreach (ScoreDoc doc in scoreDocs)
-            {
+            {  
                 ISearchResult result;
                 Document document = searcher.Doc(doc.doc);
                 String type = document.Get("Type").ToLower();
@@ -164,13 +180,17 @@ namespace IUDICO.Search.Controllers
                 }
 
                 results.Add(result);
-            }
+            }            
+            sw.Stop();
 
+            DateTime dataend = DateTime.Now;
             analyzer.Close();
             searcher.Close();
             directory.Close();
 
             ViewData["SearchString"] = query;
+            ViewData["score"] = dataend.Millisecond - datastart.Millisecond; //sw.ElapsedMilliseconds.ToString();
+            ViewData["total"] = total;
 
             return View(results);
         }
