@@ -126,6 +126,7 @@
     <Content Include="Views\Stats\ShowCurriculumStatistic.aspx" />
     <Content Include="Views\Stats\ThemesInfo.aspx" />
     <Content Include="Views\Stats\ThemeTestResaults.aspx" />
+    <Content Include="Views\Stats\CurrentThemeTestResaults.aspx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Statistics.resx">
