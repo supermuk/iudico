@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
+
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Search
 </asp:Content>
@@ -13,12 +14,6 @@
         Search:
         <%= Html.TextBox("query") %>
          <input type="submit" value="Search" />
-
-    </form>
-
-    <form action="/Search/Process" method="post">
-
-         <input type="submit" value="Index" />
 
     </form>
 
