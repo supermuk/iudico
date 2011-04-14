@@ -7,7 +7,8 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Search results for "<%= ViewData["SearchString"] %>"</h2>
+    <h2>Search results for "<%= ViewData["SearchString"] %>".</h2> 
+    <p style="">Кількість результатів: <%= ViewData["total"] %>. Час пошуку: <%= ViewData["score"] %>ms. </p>
 
     <form action="/Search/Search" method="post">
 
@@ -17,10 +18,10 @@
 
     </form>
     
-    <ul>
+    <ul style="margin-bottom:0em;">
     <% foreach (var result in Model) { %>   
-        <li>#<%= result.GetId() %> <a href="<%= result.GetUrl() %>"><%= result.GetName() %></a><br />
-            <%= result.GetText() %>
+        <li style="background-color: #efefef;"><h3><a href="<%= result.GetUrl() %>"><%= result.GetName() %></a></h3>
+            <p><%= result.GetText() %><p>
         </li>
     <% } %>
     </ul>
