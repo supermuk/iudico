@@ -1,8 +1,10 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Xml.Serialization;
 using IUDICO.Common.Models;
 using IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels;
 using IUDICO.CourseManagement.Models.ManifestModels.ResourceModels;
+using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
 using IUDICO.CourseManagement.Models.Storage;
 using File = System.IO.File;
 
@@ -35,12 +37,15 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
 
         protected void ProcessItem(Item item, Node parent)
         {
+            var xml = new XmlSerializer(typeof(Sequencing));
+
             var node = new Node
             {
                 CourseId = _Course.Id,
                 Name = item.Title,
                 IsFolder = item.IsParent,
-                ParentId = (parent != null ? (int?)parent.Id : null)
+                ParentId = (parent != null ? (int?)parent.Id : null),
+                Sequencing = xml.SerializeToXElemet(item.Sequencing)
             };
 
             _CourseStorage.AddNode(node);
@@ -75,7 +80,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
         protected void ProcessResource(Node node, Resource resource)
         {
             var nodePath = _CourseStorage.GetNodePath(node.Id);
-            var nodeParentPath = _CourseStorage.GetNodePath(node.ParentId.Value);
+            var nodeParentPath = node.ParentId != null ? _CourseStorage.GetNodePath(node.ParentId.Value) : _CourseStorage.GetCoursePath(node.CourseId);
 
             File.Copy(Path.Combine(_CourseTempPath, resource.Href), _CourseStorage.GetNodePath(node.Id) + ".html");
 
