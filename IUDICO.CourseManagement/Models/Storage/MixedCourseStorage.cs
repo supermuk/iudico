@@ -108,6 +108,15 @@ namespace IUDICO.CourseManagement.Models.Storage
             var path = GetCoursePath(course.Id);
             @Directory.CreateDirectory(path);
 
+            var templatePath = GetTemplatesPath();
+
+            File.Copy(Path.Combine(templatePath, "jquery-1.5.2.min.js"), Path.Combine(path, "jquery-1.5.2.min.js"));
+            File.Copy(Path.Combine(templatePath, "api.js"), Path.Combine(path, "iudico.js"));
+            File.Copy(Path.Combine(templatePath, "questions.js"), Path.Combine(path, "iudico.js"));
+            File.Copy(Path.Combine(templatePath, "sco.js"), Path.Combine(path, "iudico.js"));
+            File.Copy(Path.Combine(templatePath, "iudico.js"), Path.Combine(path, "iudico.js"));
+            File.Copy(Path.Combine(templatePath, "iudico.css"), Path.Combine(path, "iudico.css"));
+
             _LmsService.Inform(CourseNotifications.CourseCreate, course);
 
             return course.Id;
@@ -369,10 +378,11 @@ namespace IUDICO.CourseManagement.Models.Storage
             db.Nodes.InsertOnSubmit(node);
             db.SubmitChanges();
 
-            if (node.IsFolder)
+            if (!node.IsFolder)
             {
-                var path = GetNodePath(node.Id);
-                @Directory.CreateDirectory(path);
+                var template = Path.Combine(GetTemplatesPath(), "iudico.html");
+
+                File.Copy(template, GetNodePath(node.Id) + ".html");
             }
 
             return node.Id;
@@ -399,10 +409,13 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             var node = db.Nodes.SingleOrDefault(n => n.Id == id);
 
+            if (!node.IsFolder)
+            {
+                @File.Delete(GetNodePath(id));
+            }
+
             db.Nodes.DeleteOnSubmit(node);
             db.SubmitChanges();
-
-            @Directory.Delete(GetNodePath(id));
         }
 
         public void DeleteNodes(List<int> ids)
@@ -411,13 +424,16 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             var nodes = (from n in db.Nodes where ids.Contains(n.Id) select n);
 
+            foreach (var node in nodes)
+            {
+                if (!node.IsFolder)
+                {
+                    @File.Delete(GetNodePath(node.Id));
+                }
+            }
+
             db.Nodes.DeleteAllOnSubmit(nodes);
             db.SubmitChanges();
-
-            foreach (var id in ids)
-            {
-                @Directory.Delete(GetNodePath(id));
-            }
         }
 
         public int CreateCopy(Node node, int? parentId, int position)
@@ -437,12 +453,6 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             db.Nodes.InsertOnSubmit(newnode);
             db.SubmitChanges();
-
-            if (newnode.IsFolder)
-            {
-                string path = GetNodePath(newnode.Id);
-                @Directory.CreateDirectory(path);
-            }
 
             return newnode.Id;
         }
@@ -471,17 +481,7 @@ namespace IUDICO.CourseManagement.Models.Storage
         public string GetNodePath(int nodeId)
         {
             var node = GetDbContext().Nodes.SingleOrDefault(n => n.Id == nodeId);
-            var parent = node.Node1;
-
-            string path = node.Id.ToString();
-
-            while (parent != null)
-            {
-                path = Path.Combine(parent.Id.ToString(), path);
-                parent = parent.Node1;
-            }
-
-            path = Path.Combine(GetCoursePath(node.CourseId), path);
+            var path = Path.Combine(GetCoursePath(node.CourseId), node.Id.ToString());
 
             return path;
         }
@@ -498,6 +498,13 @@ namespace IUDICO.CourseManagement.Models.Storage
             var path = HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
 
             return Path.Combine(path, @"Data\WorkFolder", courseId.ToString());
+        }
+
+        public string GetTemplatesPath()
+        {
+            var path = HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
+
+            return Path.Combine(path, @"Data\CourseTemplate");
         }
 
         protected string GetCoursesPath()

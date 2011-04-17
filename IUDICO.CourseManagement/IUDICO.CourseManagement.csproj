@@ -755,11 +755,7 @@
     <Content Include="Libraries\Microsoft.LearningComponents.XML" />
     <None Include="Views\Web.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\Courses\" />
-    <Folder Include="Data\Index\" />
-    <Folder Include="Data\WorkFolder\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
