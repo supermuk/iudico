@@ -9,7 +9,7 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Edit Assignment</h2>
+    <h2><%=IUDICO.CurriculumManagement.Localization.getMessage("EditAssignment")%></h2>
 
     <% Html.EnableClientValidation(); %>
 
@@ -20,21 +20,21 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
             <legend>Fields</legend>
 
             <div class="editor-label">
-                <%: Html.Label("Choose a group:") %>
+                <%: Html.Label(IUDICO.CurriculumManagement.Localization.getMessage("ChooseGroup")+":") %>
             </div>
             <div>
                 <%: Html.DropDownListFor(x => x.GroupId,Model.Groups)%>
             </div>
             
             <p>
-                <input type="submit" value="Update" />
+                <input type="submit" value=<%=IUDICO.CurriculumManagement.Localization.getMessage("Update") %> />
             </p>
         </fieldset>
     <% } %>
 
     <div>
         <br />
-        <%: Html.RouteLink("Back to list", "CurriculumAssignments", new { action = "Index", CurriculumId = HttpContext.Current.Session["CurriculumId"] })%>
+        <%: Html.RouteLink(IUDICO.CurriculumManagement.Localization.getMessage("BackToList"), "CurriculumAssignments", new { action = "Index", CurriculumId = HttpContext.Current.Session["CurriculumId"] })%>
     </div>
 </asp:Content>
 

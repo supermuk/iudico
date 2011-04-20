@@ -70,28 +70,28 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Stage timelines for
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("StageTimelinesFor")%>
         <%: (ViewData["Curriculum"] as Curriculum).Name%>
-        curriculum and
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("curriculumAnd")%>
         <%: (ViewData["Group"] as IUDICO.Common.Models.Group).Name %>
-        group
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("groupu")%>
     </h2>
     <p>
-        <%: Html.ActionLink("Add Timeline", "Create") %>
-        <a id="DeleteMany" href="#"><%=CurriculumManagRes.CurriculumManagement.DeleteSelected%></a>
+        <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("AddTimeline"), "Create") %>
+        <a id="DeleteMany" href="#"><%=IUDICO.CurriculumManagement.Localization.getMessage("DeleteSelected")%></a>
     </p>
     <table>
         <tr>
             <th>
             </th>
             <th>
-                <%=CurriculumManagRes.CurriculumManagement.Stage%>
+                <%=IUDICO.CurriculumManagement.Localization.getMessage("Stage")%>
             </th>
             <th>
-                Start date
+                <%=IUDICO.CurriculumManagement.Localization.getMessage("StartDate")%>
             </th>
             <th>
-                End date
+                <%=IUDICO.CurriculumManagement.Localization.getMessage("EndDate")%>
             </th>
             <th>
             </th>
@@ -112,9 +112,9 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                     <%: String.Format("{0:g}", item.EndDate)%>
                 </td>
                 <td>
-                    <%: Html.ActionLink("Edit", "Edit", new { TimelineId = item.Id }, null)%>
+                    <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Edit"), "Edit", new { TimelineId = item.Id }, null)%>
                     |
-                    <a href="#" onclick="deleteItem(<%: item.Id %>)"><%=CurriculumManagRes.CurriculumManagement.Delete%></a>
+                    <a href="#" onclick="deleteItem(<%: item.Id %>)">IUDICO.CurriculumManagement.Localization.getMessage("Delete")%></a>
                 </td>
             </tr>
         <% } %>
@@ -122,6 +122,6 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
 
     <div>
         <br />
-        <%: Html.RouteLink("Back to curriculum assignments.", "CurriculumAssignments", new { action = "Index", CurriculumId = (ViewData["Curriculum"] as Curriculum).Id })%>
+        <%: Html.RouteLink(IUDICO.CurriculumManagement.Localization.getMessage("BackCurriculumAssignments"), "CurriculumAssignments", new { action = "Index", CurriculumId = (ViewData["Curriculum"] as Curriculum).Id })%>
     </div>
 </asp:Content>

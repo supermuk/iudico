@@ -15,7 +15,7 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Add Assignment</h2>
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("AddAssignment")%></h2>
     <% Html.EnableClientValidation(); %>
 
     <% using (Html.BeginForm())
@@ -30,11 +30,11 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
                 <%: Html.DropDownListFor(x => x.GroupId, Model.Groups)%>
             </div>
             <p>
-                <input type="submit" value="Create" />
+                <input type="submit" value=<%=IUDICO.CurriculumManagement.Localization.getMessage("Create") %> />
             </p>
         </fieldset>
     <% } %>
     <div>
-        <%: Html.ActionLink("Back to list", "Index") %>
+        <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("BackToList"), "Index")%>
     </div>
 </asp:Content>

@@ -67,20 +67,20 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Assignments for
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("AssignmentsFor")%>
         <%: ViewData["CurriculumName"]%>
-        curriculum
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("curriculuma")%>
     </h2>
     <p>
-        <%: Html.ActionLink("Add assignment", "Create") %>
-        <a id="DeleteMany" href="#">Delete Selected</a>
+        <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("AddAssignment"), "Create") %>
+        <a id="DeleteMany" href="#"><%=IUDICO.CurriculumManagement.Localization.getMessage("DeleteSelected")%></a>
     </p>
     <table>
         <tr>
             <th>
             </th>
             <th>
-                Group
+                <%=IUDICO.CurriculumManagement.Localization.getMessage("Group")%>
             </th>
             <th>
             </th>
@@ -95,15 +95,15 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                 <%: item.GroupName %>
             </td>
             <td>
-                <%: Html.ActionLink("Edit", "Edit", new { CurriculumAssignmentId = item.Id }, null)%>
+                <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Edit"), "Edit", new { CurriculumAssignmentId = item.Id }, null)%>
                 |
-                <%: Html.ActionLink("Edit timelines", "Index", "CurriculumAssignmentTimeline", new { CurriculumAssignmentId = item.Id }, null)%>
+                <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("EditTimelines"), "Index", "CurriculumAssignmentTimeline", new { CurriculumAssignmentId = item.Id }, null)%>
                 |
-                <%: Html.ActionLink("Edit timelines for stages", "Index", "StageTimeline", new { CurriculumAssignmentId = item.Id }, null)%>
+                <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("EditTimelinesForStages"), "Index", "StageTimeline", new { CurriculumAssignmentId = item.Id }, null)%>
                 |
-                <%: Html.ActionLink("Edit theme assignments", "Index", "ThemeAssignment", new { CurriculumAssignmentId = item.Id }, null)%>
+                <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("EditThemeAssignments"), "Index", "ThemeAssignment", new { CurriculumAssignmentId = item.Id }, null)%>
                 |
-                <a onclick="deleteItem(<%: item.Id %>)" href="#">Delete</a>
+                <a onclick="deleteItem(<%: item.Id %>)" href="#"><%=IUDICO.CurriculumManagement.Localization.getMessage("Delete")%></a>
             </td>
         </tr>
         <% } %>
@@ -111,6 +111,6 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
 
     <div>
         <br/>
-        <%: Html.RouteLink("Back to curriculums.", "Curriculums", new { action = "Index" })%>
+        <%: Html.RouteLink(IUDICO.CurriculumManagement.Localization.getMessage("BackToCurriculums"), "Curriculums", new { action = "Index" })%>
     </div>
 </asp:Content>
