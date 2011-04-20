@@ -55,6 +55,11 @@ namespace IUDICO.CourseManagement.Models.Storage
             return GetDbContext().Courses.Where(i => i.Owner == owner && i.Deleted == false);
         }
 
+        public IEnumerable<Course> GetCourses(User owner)
+        {
+            return GetDbContext().Courses.Where(i => i.Owner == owner.Username && i.Deleted == false);
+        }
+
         public Course GetCourse(int id)
         {
             return GetDbContext().Courses.Single(c => c.Id == id);

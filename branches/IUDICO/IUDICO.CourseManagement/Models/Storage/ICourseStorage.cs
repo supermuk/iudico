@@ -11,6 +11,7 @@ namespace IUDICO.CourseManagement.Models.Storage
         IEnumerable<Course> GetCourses();
         IEnumerable<Course> GetCourses(Guid userId);
         IEnumerable<Course> GetCourses(string owner);
+        IEnumerable<Course> GetCourses(User owner);
         Course GetCourse(int id);
         int AddCourse(Course course);
         void UpdateCourseUsers(int courseId, IEnumerable<Guid> userIds);
