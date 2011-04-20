@@ -21,6 +21,11 @@ namespace IUDICO.CourseManagement.Models
             return _CourseStorage.GetCourses();
         }
 
+        public IEnumerable<Course> GetCourses(User owner)
+        {
+            return _CourseStorage.GetCourses(owner);
+        }
+
         public Course GetCourse(int id)
         {
             return _CourseStorage.GetCourse(id);
