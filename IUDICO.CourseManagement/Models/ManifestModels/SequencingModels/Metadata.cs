@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Serialization;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
 
@@ -15,8 +16,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     {
         private sealed class Metadata
         {
-            [DisplayName("Choise")]
-            public bool Choise { get; set; } // = true
+            [DisplayName("Choice")]
+            public bool Choice { get; set; } // = true
             [DisplayName("Choice Exit")]
             public bool ChoiceExit { get; set; } // = true
             [DisplayName("Flow")]
@@ -29,10 +30,13 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
             public bool UseCurrentAttemptProgressInfo { get; set; }
 
             [ScaffoldColumn(false)]
+            [XmlIgnore]
             public int NodeId { get; set; }
             [ScaffoldColumn(false)]
+            [XmlIgnore]
             public int CourseId { get; set; }
             [ScaffoldColumn(false)]
+            [XmlIgnore]
             public string Type { get; set; }
         }
     }
@@ -48,10 +52,13 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
             public string AttemptAbsoluteDurationLimit { get; set; }
 
             [ScaffoldColumn(false)]
+            [XmlIgnore]
             public int NodeId { get; set; }
             [ScaffoldColumn(false)]
+            [XmlIgnore]
             public int CourseId { get; set; }
             [ScaffoldColumn(false)]
+            [XmlIgnore]
             public string Type { get; set; }
 
         }
@@ -68,10 +75,13 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
             public bool ConstrainChoice { get; set; }
 
             [ScaffoldColumn(false)]
+            [XmlIgnore]
             public int NodeId { get; set; }
             [ScaffoldColumn(false)]
+            [XmlIgnore]
             public int CourseId { get; set; }
             [ScaffoldColumn(false)]
+            [XmlIgnore]
             public string Type { get; set; }
         }
     }
@@ -83,10 +93,25 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         {
             get
             {
-                var list = new List<SelectListItem>();
-                list.Add(new SelectListItem { Text = Enum.GetName(typeof(Timing), Timing.Never), Value = Timing.Never.ToString() });
-                list.Add(new SelectListItem { Text = Enum.GetName(typeof(Timing), Timing.Once), Value = Timing.Once.ToString() });
-                list.Add(new SelectListItem { Text = Enum.GetName(typeof(Timing), Timing.OnEachNewAttempt), Value = Timing.OnEachNewAttempt.ToString() });
+                var list = new List<SelectListItem>
+                               {
+                                   new SelectListItem
+                                       {
+                                           Text = Enum.GetName(typeof (Timing), Timing.Never),
+                                           Value = Timing.Never.ToString()
+                                       },
+                                   new SelectListItem
+                                       {
+                                           Text = Enum.GetName(typeof (Timing), Timing.Once),
+                                           Value = Timing.Once.ToString()
+                                       },
+                                   new SelectListItem
+                                       {
+                                           Text = Enum.GetName(typeof (Timing), Timing.OnEachNewAttempt),
+                                           Value = Timing.OnEachNewAttempt.ToString()
+                                       }
+                               };
+                
                 return list.AsEnumerable();
             }
         }
@@ -102,10 +127,13 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
             public Timing SelectionTiming { get; set; }// = Timing.Never;
 
             [ScaffoldColumn(false)]
+            [XmlIgnore]
             public int NodeId { get; set; }
             [ScaffoldColumn(false)]
+            [XmlIgnore]
             public int CourseId { get; set; }
             [ScaffoldColumn(false)]
+            [XmlIgnore]
             public string Type { get; set; }
         }
     }

@@ -43,7 +43,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
             var seq = new Sequencing();
             seq.ControlMode = new ControlMode()
                                   {
-                                      Choise = true,
+                                      Choice = true,
                                       Flow = true
                                   };
             return seq;
@@ -54,7 +54,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
             var seq = new Sequencing();
             seq.ControlMode = new ControlMode()
                                   {
-                                      Choise = false,
+                                      Choice = false,
                                       Flow = true,
                                       ForwardOnly = true,
                                       ChoiceExit = false

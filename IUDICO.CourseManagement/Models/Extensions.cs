@@ -20,12 +20,16 @@ namespace IUDICO.CourseManagement.Models
         public static XElement SerializeToXElemet(this XmlSerializer xs, object  o)
         {
             var d = new XDocument();
+            
             using (var w = d.CreateWriter())
             {
                 xs.Serialize(w, o);
             }
+
             var e = d.Root;
+            
             e.Remove();
+
             return e;
         }
         public static object DeserializeXElement(this XmlSerializer xs, XElement xe)
