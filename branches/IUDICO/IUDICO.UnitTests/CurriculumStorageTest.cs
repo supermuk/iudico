@@ -18,7 +18,7 @@ namespace IUDICO.UnitTests
     {
         ICurriculumStorage storage { get; set; }
         ILmsService lmsService { get; set; }
-        DBDataContext context { get; set; } //забудь про нього в тестах!
+        DBDataContext context { get; set; } 
 
         private void ClearDb()
         {
@@ -40,6 +40,8 @@ namespace IUDICO.UnitTests
 
             context.ThemeTypes.InsertOnSubmit(new ThemeType { Id = 1, Name = "Test" });
             context.ThemeTypes.InsertOnSubmit(new ThemeType { Id = 2, Name = "Theory" });
+
+            context.Courses.InsertOnSubmit(new Course { Name = "Course", Created = DateTime.Now, Deleted = false, Updated = DateTime.Now });
             context.SubmitChanges();
         }
 
@@ -228,8 +230,6 @@ namespace IUDICO.UnitTests
 
         #region ThemeMethods
 
-        //як розуміти метод private Theme GetTheme(int id, DBDataContext db)???
-
         [TestMethod]
         public void AddThemeTest()
         {
@@ -305,11 +305,9 @@ namespace IUDICO.UnitTests
             Stage stageOne = new Stage() { Name = "Stage", CurriculumRef = curriculumId };
             int stageOneId = storage.AddStage(stageOne);
 
-            Course course = new Course() { Name = "Course", Created = DateTime.Now, Deleted = false, Updated = DateTime.Now };
-            context.Courses.InsertOnSubmit(course);
-            context.SubmitChanges();
+            List<Course> courses = storage.GetCourses().ToList();
 
-            Theme theme = new Theme() { Name = "Theme", StageRef = stageOneId, ThemeTypeRef = 1, CourseRef = course.Id, IsDeleted = false, Updated = DateTime.Now, Created = DateTime.Now };
+            Theme theme = new Theme() { Name = "Theme", StageRef = stageOneId, ThemeTypeRef = 1, CourseRef = courses[0].Id, IsDeleted = false, Updated = DateTime.Now, Created = DateTime.Now };
             int themeId = storage.AddTheme(theme);
 
             AdvAssert.AreEqual(theme, storage.GetTheme(themeId));
@@ -321,6 +319,54 @@ namespace IUDICO.UnitTests
             storage.DeleteTheme(themeId);
             storage.GetTheme(themeId);
             Assert.AreEqual(true, false);
+        }
+
+        [TestMethod]
+        public void ThemeUpTest()
+        {
+            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
+            int curriculumId = storage.AddCurriculum(curriculum);
+
+            Stage stageOne = new Stage() { Name = "Stage", CurriculumRef = curriculumId };
+            int stageOneId = storage.AddStage(stageOne);
+
+            List<Course> courses = storage.GetCourses().ToList();
+
+            Theme themeOne = new Theme() { Name = "Theme", StageRef = stageOneId, ThemeTypeRef = 1, CourseRef = courses[0].Id, IsDeleted = false, Updated = DateTime.Now, Created = DateTime.Now };
+            int themeOneId = storage.AddTheme(themeOne);
+
+            Theme themeTwo = new Theme() { Name = "Theme", StageRef = stageOneId, ThemeTypeRef = 1, CourseRef = courses[0].Id, IsDeleted = false, Updated = DateTime.Now, Created = DateTime.Now };
+            int themeTwoId = storage.AddTheme(themeTwo);
+
+            Assert.AreEqual(themeTwoId,storage.GetTheme(themeTwoId).SortOrder);
+            int oldSortOrder = storage.GetTheme(themeOneId).SortOrder;
+
+            storage.ThemeUp(themeTwoId);
+            Assert.AreEqual(oldSortOrder,storage.GetTheme(themeTwoId).SortOrder);
+        }
+
+        [TestMethod]
+        public void ThemeDownTest()
+        {
+            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
+            int curriculumId = storage.AddCurriculum(curriculum);
+
+            Stage stageOne = new Stage() { Name = "Stage", CurriculumRef = curriculumId };
+            int stageOneId = storage.AddStage(stageOne);
+
+            List<Course> courses = storage.GetCourses().ToList();
+
+            Theme themeOne = new Theme() { Name = "Theme", StageRef = stageOneId, ThemeTypeRef = 1, CourseRef = courses[0].Id, IsDeleted = false, Updated = DateTime.Now, Created = DateTime.Now };
+            int themeOneId = storage.AddTheme(themeOne);
+
+            Theme themeTwo = new Theme() { Name = "Theme", StageRef = stageOneId, ThemeTypeRef = 1, CourseRef = courses[0].Id, IsDeleted = false, Updated = DateTime.Now, Created = DateTime.Now };
+            int themeTwoId = storage.AddTheme(themeTwo);
+
+            Assert.AreEqual(themeOneId, storage.GetTheme(themeOneId).SortOrder);
+            int oldSortOrder = storage.GetTheme(themeTwoId).SortOrder;
+
+            storage.ThemeDown(themeOneId);
+            Assert.AreEqual(oldSortOrder, storage.GetTheme(themeOneId).SortOrder);
         }
 
         #endregion
@@ -543,17 +589,15 @@ namespace IUDICO.UnitTests
             List<Group> groupList = new List<Group>();
             groupList.Add(groups[0]);
 
-            //Не проходять через то шо в цих методах використовується методи ,які юзають інші сервіси
+            AdvAssert.AreEqual(groups, storage.GetAssignedGroups(curriculumId).ToList());
 
-            //AdvAssert.AreEqual(groups, storage.GetAssignedGroups(curriculumId).ToList());
+            groups.Clear();
+            groups.Add(groups[1]);
+            groups.Add(groups[2]);
+            AdvAssert.AreEqual(groups, storage.GetNotAssignedGroups(curriculumId).ToList());
 
-            //groups.Clear();
-            //groups.Add(groupTwo);
-            //groups.Add(groupThree);
-            //AdvAssert.AreEqual(groups, storage.GetNotAssignedGroups(curriculumId).ToList());
-
-            //groups.Add(groupOne);
-            //AdvAssert.AreEqual(groups, storage.GetNotAssignedGroupsWithCurrentGroup(curriculumId,groupOneId).ToList());
+            groups.Add(groups[0]);
+            AdvAssert.AreEqual(groups, storage.GetNotAssignedGroupsWithCurrentGroup(curriculumId, groupOneId).ToList());
         }
 
         #endregion
