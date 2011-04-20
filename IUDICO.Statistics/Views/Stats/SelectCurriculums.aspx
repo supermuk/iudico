@@ -19,13 +19,13 @@
         }
     </script>
 
-    <h2><%=StatisRes.Statistics.CurriculumList %> for <%: ViewData["Group"] %> </h2>
+    <h2><%=IUDICO.Statistics.Localization.getMessage("CurriculumList") %> <%: ViewData["Group"] %> </h2>
 
 
-     <%: Html.ActionLink(StatisRes.Statistics.Back, "Index")%>
+     <%: Html.ActionLink(IUDICO.Statistics.Localization.getMessage("Back"), "Index")%>
      <fieldset>
 
-     <legend><%=StatisRes.Statistics.SelectCurriculum%> </legend>
+     <legend><%=IUDICO.Statistics.Localization.getMessage("SelectCurriculum")%> </legend>
 
 
     <form id="curform" action="/Stats/ShowCurriculumStatistic/" method="post">
@@ -34,8 +34,8 @@
      <tr>
         <th> </th>
         <%--<th>Curriculum id</th>--%>
-        <th><%=StatisRes.Statistics.CurriculumName%></th>
-        <th><%=StatisRes.Statistics.Created%></th>
+        <th><%=IUDICO.Statistics.Localization.getMessage("CurriculumName")%></th>
+        <th><%=IUDICO.Statistics.Localization.getMessage("Created")%></th>
      </tr>
 
      <% foreach (IUDICO.Common.Models.Curriculum curr in Model)
@@ -58,7 +58,7 @@
 
      </table>
 
-     <input type="button" value=<%=StatisRes.Statistics.Show %> onclick="checkBox();" />
+     <input type="button" value=<%=IUDICO.Statistics.Localization.getMessage("Show") %> onclick="checkBox();" />
 
 </form>
 

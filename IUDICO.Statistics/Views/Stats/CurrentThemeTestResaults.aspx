@@ -14,29 +14,29 @@
         }
       else
       {%>
-        <legend> <%=StatisRes.Statistics.AttemptStatistic%></legend>
-        <h2><%=StatisRes.Statistics.Resalts%></h2>
+        <legend> <%=IUDICO.Statistics.Localization.getMessage("AttemptStatistic")%></legend>
+        <h2><%=IUDICO.Statistics.Localization.getMessage("Resalts")%></h2>
         <p>
-            <%=StatisRes.Statistics.Student%>:  <%: Model.GetUserName()%>
+            <%=IUDICO.Statistics.Localization.getMessage("Student")%>:  <%: Model.GetUserName()%>
         </p>
         <p>
-            <%=StatisRes.Statistics.Theme%>:  <%: Model.GetThemeName()%>
+            <%=IUDICO.Statistics.Localization.getMessage("Theme")%>:  <%: Model.GetThemeName()%>
         </p>
         <p>
-            <%=StatisRes.Statistics.Success%>:  <%: Model.GetSuccessStatus()%>
+            <%=IUDICO.Statistics.Localization.getMessage("Success")%>:  <%: Model.GetSuccessStatus()%>
         </p>
         <p>
-            <%=StatisRes.Statistics.Score%>:  <%: Model.GetScore()%>
+            <%=IUDICO.Statistics.Localization.getMessage("Score")%>:  <%: Model.GetScore()%>
         </p>
 
         <table border="4" cellpadding="4" cellspacing="4">
         
         <tr>
-        <th><%=StatisRes.Statistics.NumberOfQuestion%> </th>
-        <th> <%=StatisRes.Statistics.StudentAnswer%> </th>
-        <th> <%=StatisRes.Statistics.CorrectAnswer%> </th>
-        <th> <%=StatisRes.Statistics.Comparison%></th>
-        <th> <%=StatisRes.Statistics.Score%> </th>
+        <th><%=IUDICO.Statistics.Localization.getMessage("NumberOfQuestion")%> </th>
+        <th> <%=IUDICO.Statistics.Localization.getMessage("StudentAnswer")%> </th>
+        <th> <%=IUDICO.Statistics.Localization.getMessage("CorrectAnswer")%> </th>
+        <th> <%=IUDICO.Statistics.Localization.getMessage("Comparison")%></th>
+        <th> <%=IUDICO.Statistics.Localization.getMessage("Score")%> </th>
         </tr>
         <%int i = 1; %>
         <% foreach (IUDICO.Common.Models.Shared.Statistics.AnswerResult answer in Model.GetUserAnswers())

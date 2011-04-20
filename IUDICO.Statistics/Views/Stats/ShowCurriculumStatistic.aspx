@@ -6,17 +6,17 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=StatisRes.Statistics.CurriculumsStatisticForGroup %>
+    <h2><%=IUDICO.Statistics.Localization.getMessage("CurriculumsStatisticForGroup") %>
     <%: (ViewData["selectGroupName"])%>
     </h2>
 
-    <%: Html.ActionLink(StatisRes.Statistics.Back, "Index")%>
+    <%: Html.ActionLink(IUDICO.Statistics.Localization.getMessage("Back"), "Index")%>
     <fieldset>
-    <legend><%=StatisRes.Statistics.SelectOneCurriculum%> </legend>
+    <legend><%=IUDICO.Statistics.Localization.getMessage("SelectOneCurriculum")%> </legend>
 
     <table>
     <tr>
-        <th><%=StatisRes.Statistics.Student%></th>
+        <th><%=IUDICO.Statistics.Localization.getMessage("Student")%></th>
         <% int i = 0;
            foreach (IUDICO.Common.Models.Curriculum curr in Model.Curriculums)
            {
@@ -30,8 +30,8 @@
                 </a>
                 </th>
         <% } %>
-        <th><%=StatisRes.Statistics.Sum%></th>
-        <th><%=StatisRes.Statistics.Percent%></th>
+        <th><%=IUDICO.Statistics.Localization.getMessage("Sum")%></th>
+        <th><%=IUDICO.Statistics.Localization.getMessage("Percent")%></th>
         <th>ECTS</th>
     </tr>
     

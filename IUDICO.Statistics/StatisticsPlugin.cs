@@ -15,6 +15,7 @@ namespace IUDICO.Statistics
 
         public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
         {
+            IUDICO.Statistics.Localization.Initialize();
             container.Register(
                 AllTypes
                     .FromThisAssembly()
@@ -32,21 +33,21 @@ namespace IUDICO.Statistics
         #region IPlugin Members
         public string GetName()
         {
-            return "Statistics";
+            return IUDICO.Statistics.Localization.getMessage("Statistics");
         }
 
         public IEnumerable<Action> BuildActions(Role role)
         {
             var actions = new List<Action>();
 
-            actions.Add(new Action("Get Stats", "Stats/Index"));
+            actions.Add(new Action(IUDICO.Statistics.Localization.getMessage("GetStats"), "Stats/Index"));
             actions.Add(new Action("Quality Test", "QualityTest/Index"));
             return actions;
         }
 
         public void BuildMenu(Menu menu)
         {
-            menu.Add(new MenuItem("Statistic", "Stats", "Index"));
+            menu.Add(new MenuItem(IUDICO.Statistics.Localization.getMessage("Statistics"), "Stats", "Index"));
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)

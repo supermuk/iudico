@@ -12,7 +12,7 @@
     <table>
         <tr>
             <th>
-                <%=UsManagRes.UserManagem.Name%>
+                <%=IUDICO.UserManagement.Localization.getMessage("Name")%>
             </th>
             <th></th>
         </tr>
@@ -24,8 +24,8 @@
                 <%: item.Name %>
             </td>
             <td>
-                <%: Html.ActionLink(UsManagRes.UserManagem.Edit, "Edit", new { id = item.Id })%> |
-                <%: Ajax.ActionLink(UsManagRes.UserManagem.Delete, "Delete", new { id = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
+                <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Edit"), "Edit", new { id = item.Id })%> |
+                <%: Ajax.ActionLink(IUDICO.UserManagement.Localization.getMessage("Delete"), "Delete", new { id = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
             </td>
         </tr>
     
@@ -34,7 +34,7 @@
     </table>
 
     <p>
-        <%: Html.ActionLink(UsManagRes.UserManagem.CreateNew, "Create")%>
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("CreateNew"), "Create")%>
     </p>
 
 </asp:Content>

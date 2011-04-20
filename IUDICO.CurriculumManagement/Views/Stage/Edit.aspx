@@ -13,7 +13,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=CurriculumManagRes.CurriculumManagement.EditStage%></h2>
+    <h2><%=IUDICO.CurriculumManagement.Localization.getMessage("EditStage")%></h2>
     <% Html.EnableClientValidation(); %>
 
     <% using (Html.BeginForm()) {%>
@@ -25,14 +25,14 @@
             <%= Html.EditorForModel()%>
             
             <p>
-                <input type="submit" value=<%=CurriculumManagRes.CurriculumManagement.Update%> />
+                <input type="submit" value=<%=IUDICO.CurriculumManagement.Localization.getMessage("Update")%> />
             </p>
         </fieldset>
     <% } %>
 
     <div>
         <br />
-        <%: Html.RouteLink(CurriculumManagRes.CurriculumManagement.BackToList, "Stages", new { action = "Index", CurriculumId = HttpContext.Current.Session["CurriculumId"] })%>
+        <%: Html.RouteLink(IUDICO.CurriculumManagement.Localization.getMessage("BackToList"), "Stages", new { action = "Index", CurriculumId = HttpContext.Current.Session["CurriculumId"] })%>
     </div>
 
 </asp:Content>

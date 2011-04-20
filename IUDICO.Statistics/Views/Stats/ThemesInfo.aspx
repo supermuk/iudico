@@ -7,17 +7,17 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <fieldset>
-    <legend> <%=StatisRes.Statistics.SelectAttempt%></legend>
+    <legend> <%=IUDICO.Statistics.Localization.getMessage("SelectAttempt")%></legend>
         <table border="4" cellpadding="4" cellspacing="4">
         
         <tr>
-        <th> <%=StatisRes.Statistics.Student%> </th>
+        <th> <%=IUDICO.Statistics.Localization.getMessage("Student")%> </th>
         <% foreach (IUDICO.Common.Models.Theme i in Model.SelectCurriculumThemes)
            { %>
         <th> <%: i.Name %> </th>
         <% } %>
-        <th> <%=StatisRes.Statistics.Sum%> </th>
-        <th> <%=StatisRes.Statistics.Percent%> </th>
+        <th> <%=IUDICO.Statistics.Localization.getMessage("Sum")%> </th>
+        <th> <%=IUDICO.Statistics.Localization.getMessage("Percent")%> </th>
         <th> ECTS </th>
         </tr>
 

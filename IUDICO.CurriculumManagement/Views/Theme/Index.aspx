@@ -68,27 +68,27 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=CurriculumManagRes.CurriculumManagement.ThemesCoursesFor%> <%: ViewData["StageName"] %> stage.</h2>
+    <h2><%=IUDICO.CurriculumManagement.Localization.getMessage("ThemesCoursesFor")%> <%: ViewData["StageName"] %> stage.</h2>
 
     <p>
-        <%: Html.ActionLink(CurriculumManagRes.CurriculumManagement.AddTheme, "Create"/*, new { StageID = Model.StageId}*/)%>
-        <a id="DeleteMany" href="#"><%=CurriculumManagRes.CurriculumManagement.DeleteSelected%></a>
+        <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("AddTheme"), "Create"/*, new { StageID = Model.StageId}*/)%>
+        <a id="DeleteMany" href="#"><%=IUDICO.CurriculumManagement.Localization.getMessage("DeleteSelected")%></a>
     </p>
     <table>
         <tr>
             <th>
             </th>
             <th>
-                Theme name
+                <%=IUDICO.CurriculumManagement.Localization.getMessage("ThemeName")%>
             </th>
             <th>
-                <%=CurriculumManagRes.CurriculumManagement.Created%>
+                <%=IUDICO.CurriculumManagement.Localization.getMessage("Created")%>
             </th>
             <th>
-                <%=CurriculumManagRes.CurriculumManagement.Updated%>
+                <%=IUDICO.CurriculumManagement.Localization.getMessage("Updated")%>
             </th>
             <th>
-                Theme type
+                <%=IUDICO.CurriculumManagement.Localization.getMessage("ThemeType")%>
             </th>
             <th>
             </th>
@@ -112,13 +112,13 @@
                     <%: item.ThemeType.Name %>
                 </td>
                 <td>
-                    <%: Html.ActionLink(CurriculumManagRes.CurriculumManagement.Edit, "Edit", new { ThemeID = item.Id })%>
+                    <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Edit"), "Edit", new { ThemeID = item.Id })%>
                     |
                     <%: Html.ActionLink("Up", "ThemeUp", new { ThemeID = item.Id })%>
                     |
-                    <%: Html.ActionLink("Down", "ThemeDown", new { ThemeID = item.Id })%>
+                    <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Down"), "ThemeDown", new { ThemeID = item.Id })%>
                     |
-                    <a href="#" onclick="deleteItem(<%: item.Id %>)">Delete</a>
+                    <a href="#" onclick="deleteItem(<%: item.Id %>)"><%=IUDICO.CurriculumManagement.Localization.getMessage("Delete")%></a>
                 </td>
             </tr>
         <% } %>

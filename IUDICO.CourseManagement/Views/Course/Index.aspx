@@ -52,11 +52,11 @@
 
      <p>
         
-        <%: Html.ActionLink(CourseManagRes.CourseManagement.CreateNew, "Create", "Course")%> |
-        <%: Html.ActionLink(CourseManagRes.CourseManagement.Import, "Import")%> |
-        <a id="DeleteMany" href="#"><%=CourseManagRes.CourseManagement.DeleteSelected%></a>
+        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("CreateNew"), "Create", "Course")%> |
+        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Import"), "Import")%> |
+        <a id="DeleteMany" href="#"><%=IUDICO.CourseManagement.Localization.getMessage("DeleteSelected")%></a>
     </p>
-    <h2><%=CourseManagRes.CourseManagement.Mycourses%>:</h2>
+    <h2><%=IUDICO.CourseManagement.Localization.getMessage("Mycourses")%>:</h2>
     <% var index = 1; %>
     <% if (Model.Where(i => i.Owner == HttpContext.Current.User.Identity.Name).Count() > 0)
        { %>
@@ -67,13 +67,13 @@
                 №
             </th>
             <th>
-                <%=CourseManagRes.CourseManagement.Name%>
+                <%=IUDICO.CourseManagement.Localization.getMessage("Name")%>
             </th>
             <th>
-                <%=CourseManagRes.CourseManagement.Created%>
+                <%=IUDICO.CourseManagement.Localization.getMessage("Created")%>
             </th>
             <th>
-                <%=CourseManagRes.CourseManagement.Updated%>
+                <%=IUDICO.CourseManagement.Localization.getMessage("Updated")%>
             </th>
             <th></th>
         </tr>
@@ -98,27 +98,27 @@
                 <%: String.Format("{0:g}", item.Updated)%>
             </td>
             <td>
-                <%: Html.ActionLink(CourseManagRes.CourseManagement.Edit, "Edit", "Course", new { CourseID = item.Id }, null)%> |
+                <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Edit"), "Edit", "Course", new { CourseID = item.Id }, null)%> |
                 <% if (item.Locked == null || item.Locked.Value == false)
                    { %>
-                <%:Html.ActionLink(CourseManagRes.CourseManagement.Details, "Index", "Node", new { CourseID = item.Id }, null)%> |
+                <%:Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Details"), "Index", "Node", new { CourseID = item.Id }, null)%> |
                 <% }
                    else
                    {%>
-                <%:Html.ActionLink("Unlock", "Parse", "Course", new { CourseID = item.Id }, null)%> |
+                <%:Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Unlock"), "Parse", "Course", new { CourseID = item.Id }, null)%> |
                 <%}%>
-                <%: Html.ActionLink(CourseManagRes.CourseManagement.Export, "Export", new { CourseID = item.Id })%> |
-                <%: Ajax.ActionLink(CourseManagRes.CourseManagement.Delete, "Delete", new { CourseID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
+                <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Export"), "Export", new { CourseID = item.Id })%> |
+                <%: Ajax.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Delete"), "Delete", new { CourseID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
             </td>
         </tr>
     
     <% } %>
     </table>
     <% } else {%>
-         <%=CourseManagRes.CourseManagement.NoCourses%>
+         <%=IUDICO.CourseManagement.Localization.getMessage("NoCourses")%>
     <% } %>
 
-    <h2><%=CourseManagRes.CourseManagement.CoursesSharedWithMe%>:</h2>
+    <h2><%=IUDICO.CourseManagement.Localization.getMessage("CoursesSharedWithMe")%>:</h2>
     <% if (Model.Where(i => i.Owner != HttpContext.Current.User.Identity.Name).Count() > 0)
        { %>
     <table>
@@ -128,16 +128,16 @@
                 №
             </th>
             <th>
-                <%=CourseManagRes.CourseManagement.Name%>
+                <%=IUDICO.CourseManagement.Localization.getMessage("Name")%>
             </th>
             <th>
-                <%=CourseManagRes.CourseManagement.Owner%>
+                <%=IUDICO.CourseManagement.Localization.getMessage("Owner")%>
             </th>
             <th>
-                <%=CourseManagRes.CourseManagement.Created%>
+                <%=IUDICO.CourseManagement.Localization.getMessage("Created")%>
             </th>
             <th>
-                <%=CourseManagRes.CourseManagement.Updated%>
+                <%=IUDICO.CourseManagement.Localization.getMessage("Updated")%>
             </th>
             <th></th>
         </tr>
@@ -164,10 +164,10 @@
                 <%: String.Format("{0:g}", item.Updated) %>
             </td>
             <td>
-                <%: Html.ActionLink(CourseManagRes.CourseManagement.Edit, "Edit", "Course", new { CourseID = item.Id }, null)%> |
-                <%: Html.ActionLink(CourseManagRes.CourseManagement.Details, "Index", "Node", new { CourseID = item.Id }, null)%> |
-                <%: Html.ActionLink(CourseManagRes.CourseManagement.Export, "Export", new { CourseID = item.Id })%> |
-                <%: Ajax.ActionLink(CourseManagRes.CourseManagement.Delete, "Delete", new { CourseID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
+                <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Edit"), "Edit", "Course", new { CourseID = item.Id }, null)%> |
+                <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Details"), "Index", "Node", new { CourseID = item.Id }, null)%> |
+                <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Export"), "Export", new { CourseID = item.Id })%> |
+                <%: Ajax.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Delete"), "Delete", new { CourseID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
             </td>
         </tr>
     
@@ -175,7 +175,7 @@
 
     </table>
     <% } else {%>
-         <%=CourseManagRes.CourseManagement.NoCourses%>
+         <%=IUDICO.CourseManagement.Localization.getMessage("NoCourses")%>
     <% } %>
 
 
