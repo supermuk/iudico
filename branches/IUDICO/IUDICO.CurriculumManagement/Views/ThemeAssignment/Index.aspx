@@ -11,19 +11,19 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Theme assignments for
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("ThemeAssignmentsFor")%>
         <%: (ViewData["Curriculum"] as Curriculum).Name%>
-        curriculum and
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("curriculumAnd")%>
         <%: ViewData["GroupName"]%>
-        group
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("groupu")%>
     </h2>
     <table>
         <tr>
             <th>
-                Theme name
+                <%=IUDICO.CurriculumManagement.Localization.getMessage("ThemeName")%>
             </th>
             <th>
-                Max score
+                <%=IUDICO.CurriculumManagement.Localization.getMessage("MaxScore")%>
             </th>
             <th>
             </th>
@@ -38,13 +38,13 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                 <%: item.ThemeAssignment.MaxScore %>
             </td>
             <td>
-                <%: Html.ActionLink("Edit", "Edit", new { ThemeAssignmentId = item.ThemeAssignment.Id }, null)%>
+                <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Edit"), "Edit", new { ThemeAssignmentId = item.ThemeAssignment.Id }, null)%>
             </td>
         </tr>
         <% } %>
     </table>
     <div>
         <br />
-        <%: Html.RouteLink("Back to curriculum assignments.", "CurriculumAssignments", new { action = "Index", CurriculumId = (ViewData["Curriculum"] as Curriculum).Id })%>
+        <%: Html.RouteLink(IUDICO.CurriculumManagement.Localization.getMessage("BackCurriculumAssignments"), "CurriculumAssignments", new { action = "Index", CurriculumId = (ViewData["Curriculum"] as Curriculum).Id })%>
     </div>
 </asp:Content>

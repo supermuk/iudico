@@ -15,7 +15,7 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Create curriculum assignment timeline</h2>
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("CreateCurriculumAssignmentTimeline")%></h2>
     <% Html.EnableClientValidation(); %>
     <% using (Html.BeginForm())
        {%>
@@ -24,12 +24,12 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
         <legend>Fields</legend>
         <%: Html.EditorFor(item => item.Timeline) %>
         <p>
-            <input type="submit" value="Update" />
+            <input type="submit" value=<%=IUDICO.CurriculumManagement.Localization.getMessage("Update")%> />
         </p>
     </fieldset>
     <% } %>
     <div>
         <br />
-        <%: Html.RouteLink("Back to list", "CurriculumAssignmentTimelines", new { action = "Index", CurriculumAssignmentId = HttpContext.Current.Session["CurriculumAssignmentId"] })%>
+        <%: Html.RouteLink(IUDICO.CurriculumManagement.Localization.getMessage("BackToList"), "CurriculumAssignmentTimelines", new { action = "Index", CurriculumAssignmentId = HttpContext.Current.Session["CurriculumAssignmentId"] })%>
     </div>
 </asp:Content>

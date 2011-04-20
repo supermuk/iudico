@@ -29,19 +29,19 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
             <%= Html.EditorFor(item => item.ThemeName) %>
 
             <div class="editor-label">
-                <%: Html.Label("Choose a course for theme:") %>
+                <%: Html.Label(IUDICO.CurriculumManagement.Localization.getMessage("ChooseCourseForTheme")+":") %>
             </div>
             <div>
                 <%: Html.DropDownListFor(x => x.CourseId, Model.Courses)%>
             </div>
             <div class="editor-label">
-                <%: Html.Label("Choose a theme type:")%>
+                <%: Html.Label(IUDICO.CurriculumManagement.Localization.getMessage("ChooseThemeType")+":")%>
             </div>
             <div>
                 <%: Html.DropDownListFor(x => x.ThemeTypeId, Model.ThemeTypes)%>
             </div>
             <p>
-                <input type="submit" value=<%=CurriculumManagRes.CurriculumManagement.Update %> />
+                <input type="submit" value=<%=IUDICO.CurriculumManagement.Localization.getMessage("Update") %> />
             </p>
         </fieldset>
     <% } %>

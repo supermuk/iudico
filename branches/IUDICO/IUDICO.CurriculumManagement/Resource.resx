@@ -201,4 +201,79 @@
   <data name="Updated" xml:space="preserve">
     <value>Updated</value>
   </data>
+  <data name="AddAssignment" xml:space="preserve">
+    <value>Add assignment</value>
+  </data>
+  <data name="AddTimeline" xml:space="preserve">
+    <value>Add Timeline</value>
+  </data>
+  <data name="AssignmentsFor" xml:space="preserve">
+    <value>Assignments for</value>
+  </data>
+  <data name="BackToCurriculums" xml:space="preserve">
+    <value>Back to curriculums</value>
+  </data>
+  <data name="curriculuma" xml:space="preserve">
+    <value>curriculum</value>
+  </data>
+  <data name="curriculumAnd" xml:space="preserve">
+    <value>curriculum and</value>
+  </data>
+  <data name="EditAssignment" xml:space="preserve">
+    <value>Edit Assignment</value>
+  </data>
+  <data name="EditThemeAssignments" xml:space="preserve">
+    <value>Edit theme assignments</value>
+  </data>
+  <data name="EditTimelines" xml:space="preserve">
+    <value>Edit timelines</value>
+  </data>
+  <data name="EditTimelinesForStages" xml:space="preserve">
+    <value>Edit timelines for stages</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>End date</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="groupu" xml:space="preserve">
+    <value>group</value>
+  </data>
+  <data name="MaxScore" xml:space="preserve">
+    <value>Max score</value>
+  </data>
+  <data name="StageTimelinesFor" xml:space="preserve">
+    <value>Stage timelines for</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start date</value>
+  </data>
+  <data name="ThemeAssignmentsFor" xml:space="preserve">
+    <value>Theme assignments for</value>
+  </data>
+  <data name="BackCurriculumAssignments" xml:space="preserve">
+    <value>Back to curriculum assignments</value>
+  </data>
+  <data name="ChooseGroup" xml:space="preserve">
+    <value>Choose a group</value>
+  </data>
+  <data name="ChooseThemeType" xml:space="preserve">
+    <value>Choose a theme type</value>
+  </data>
+  <data name="ChooseСourseForTheme" xml:space="preserve">
+    <value>Choose a course for theme</value>
+  </data>
+  <data name="CreateCurriculumAssignmentTimeline" xml:space="preserve">
+    <value>Create curriculum assignment timeline</value>
+  </data>
+  <data name="CurriculumAssignmentTimelinesFor" xml:space="preserve">
+    <value>Curriculum assignment timelines for</value>
+  </data>
+  <data name="EditAssignments" xml:space="preserve">
+    <value>Edit Assignments</value>
+  </data>
+  <data name="PleaseSelectCurriculumsToDelete" xml:space="preserve">
+    <value>Please select curriculums to delete</value>
+  </data>
 </root>
