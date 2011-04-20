@@ -106,9 +106,9 @@
                 <td>
                     <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Edit"), "Edit", new { CurriculumID = item.Id })%>
                     |
-                    <%: Html.ActionLink("Edit Stages", "Index", "Stage", new { CurriculumID = item.Id }, null)%>
+                    <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("EditStages"), "Index", "Stage", new { CurriculumID = item.Id }, null)%>
                     |
-                    <%: Html.ActionLink("Edit Assignments","Index","CurriculumAssignment", new { CurriculumID = item.Id }, null)%>
+                    <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("EditAssignments"),"Index","CurriculumAssignment", new { CurriculumID = item.Id }, null)%>
                     |
                     <a href="#" onclick="deleteItem(<%: item.Id %>)"><%=IUDICO.CurriculumManagement.Localization.getMessage("Delete")%></a>
                 </td>

@@ -35,6 +35,6 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
     </fieldset>
     <% } %>
     <div>
-        <%: Html.ActionLink("Back to list", "Index") %>
+        <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("BackToList"), "Index") %>
     </div>
 </asp:Content>

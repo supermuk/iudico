@@ -15,7 +15,7 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.ThemeAssignment>" %>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Edit theme assignment
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("EditThemeAssignment")%>
     </h2>
     <% Html.EnableClientValidation(); %>
     <% using (Html.BeginForm())
@@ -26,7 +26,7 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.ThemeAssignment>" %>
         <%= Html.EditorForModel() %>
         
         <p>
-            <input type="submit" value="Update" />
+            <input type="submit" value=<%=IUDICO.CurriculumManagement.Localization.getMessage("Update")%> />
         </p>
     </fieldset>
     <% } %>

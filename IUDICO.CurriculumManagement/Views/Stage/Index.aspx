@@ -68,7 +68,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        <%=IUDICO.CurriculumManagement.Localization.getMessage("StagesFor")%> <%: ViewData["CurriculumName"] %> curriculum.</h2>
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("StagesFor")%> <%: ViewData["CurriculumName"] %> <%=IUDICO.CurriculumManagement.Localization.getMessage("curriculuma")%></h2>
     <p>
         <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("CreateNew"), "Create")%>
         <a id="DeleteMany" href="#"><%=IUDICO.CurriculumManagement.Localization.getMessage("DeleteSelected")%></a>
@@ -117,6 +117,6 @@
 
     <div>
         <br/>
-        <%: Html.RouteLink("Back to curriculums.", "Curriculums", new { action = "Index" })%>
+        <%: Html.RouteLink(IUDICO.CurriculumManagement.Localization.getMessage("BackToCurriculums"), "Curriculums", new { action = "Index" })%>
     </div>
 </asp:Content>
