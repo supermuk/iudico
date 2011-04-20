@@ -70,25 +70,21 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
                         return;
                     }
                 }
-
-                var path = _CourseStorage.GetNodePath(node.Id) + ".html";
-
-                File.Create(path);
             }
         }
         
         protected void ProcessResource(Node node, Resource resource)
         {
             var nodePath = _CourseStorage.GetNodePath(node.Id);
-            var nodeParentPath = node.ParentId != null ? _CourseStorage.GetNodePath(node.ParentId.Value) : _CourseStorage.GetCoursePath(node.CourseId);
+            var coursePath = _CourseStorage.GetCoursePath(node.CourseId);
 
-            File.Copy(Path.Combine(_CourseTempPath, resource.Href), _CourseStorage.GetNodePath(node.Id) + ".html");
+            File.Copy(Path.Combine(_CourseTempPath, resource.Href), nodePath + ".html", true);
 
             foreach (var file in resource.Files)
             {
                 if (file.Href != resource.Href)
                 {
-                    File.Copy(Path.Combine(_CourseTempPath, file.Href), Path.Combine(nodeParentPath, file.Href));
+                    File.Copy(Path.Combine(_CourseTempPath, file.Href), Path.Combine(coursePath, file.Href));
                 }
             }
 
