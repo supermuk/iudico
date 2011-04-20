@@ -8,6 +8,7 @@ namespace IUDICO.Common.Models.Services
         #region Course methods
 
         IEnumerable<Course> GetCourses();
+        IEnumerable<Course> GetCourses(User owner);
         Course GetCourse(int id);
         string Export(int id);
 
