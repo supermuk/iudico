@@ -59,6 +59,11 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return _LmsService.FindService<IUserService>().GetGroupsByUser(user);
         }
 
+        public IEnumerable<Course> GetCoursesOwnedByUser(User user)
+        {
+            return _LmsService.FindService<ICourseService>().GetCourses(user);
+        }
+
         #endregion
 
         #region Curriculum methods
@@ -82,6 +87,15 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId)
         {
             return GetCurriculumAssignmentsByGroupId(groupId).Select(item => item.Curriculum);
+        }
+
+        public IEnumerable<Curriculum> GetCurriculumsWithThemesOwnedByUser(User user)
+        {
+            IEnumerable<int> courseIds = GetCoursesOwnedByUser(user)
+                .Select(item => item.Id);
+            return GetCurriculums()
+                .Where(item => GetThemesByCurriculumId(item.Id)
+                             .Any(theme => courseIds.Contains(theme.CourseRef)));
         }
 
         public int AddCurriculum(Curriculum curriculum)
@@ -278,6 +292,15 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             }
 
             return result;
+        }
+
+        public IEnumerable<Group> GetGroupsAssignedToTheme(int themeId)
+        {
+            return GetTheme(themeId)
+                .Stage
+                .Curriculum
+                .CurriculumAssignments
+                .Select(item => GetGroup(item.UserGroupRef));
         }
 
         public int AddTheme(Theme theme)

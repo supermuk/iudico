@@ -16,6 +16,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         Course GetCourse(int id);
         Group GetGroup(int id);
         IEnumerable<Group> GetGroups();
+        IEnumerable<Group> GetGroupsByUser(User user);
+        IEnumerable<Course> GetCoursesOwnedByUser(User user);
 
         #endregion
 
@@ -25,6 +27,12 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids);
         Curriculum GetCurriculum(int id);
         IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId);
+        /// <summary>
+        /// Gets curriculums which have themes owned by user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns></returns>
+        IEnumerable<Curriculum> GetCurriculumsWithThemesOwnedByUser(User user);
         int AddCurriculum(Curriculum curriculum);
         void UpdateCurriculum(Curriculum curriculum);
         void DeleteCurriculum(int id);
@@ -58,6 +66,12 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         /// <param name="user">The user.</param>
         /// <returns></returns>
         IEnumerable<ThemeDescription> GetThemesAvailableForUser(User user);
+        /// <summary>
+        /// Gets groups assigned through curriculum assignments to theme.
+        /// </summary>
+        /// <param name="themeId">The theme id.</param>
+        /// <returns></returns>
+        IEnumerable<Group> GetGroupsAssignedToTheme(int themeId);
         int AddTheme(Theme theme);
         void UpdateTheme(Theme theme);
         void DeleteTheme(int id);
@@ -118,7 +132,6 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         IEnumerable<Group> GetAssignedGroups(int curriculumId);
         IEnumerable<Group> GetNotAssignedGroups(int curriculumId);
-
         /// <summary>
         /// Gets not assigned groups for curriculum including current group.
         /// </summary>
