@@ -116,9 +116,9 @@ namespace IUDICO.CourseManagement.Models.Storage
             var templatePath = GetTemplatesPath();
 
             File.Copy(Path.Combine(templatePath, "jquery-1.5.2.min.js"), Path.Combine(path, "jquery-1.5.2.min.js"));
-            File.Copy(Path.Combine(templatePath, "api.js"), Path.Combine(path, "iudico.js"));
-            File.Copy(Path.Combine(templatePath, "questions.js"), Path.Combine(path, "iudico.js"));
-            File.Copy(Path.Combine(templatePath, "sco.js"), Path.Combine(path, "iudico.js"));
+            File.Copy(Path.Combine(templatePath, "api.js"), Path.Combine(path, "api.js"));
+            File.Copy(Path.Combine(templatePath, "questions.js"), Path.Combine(path, "questions.js"));
+            File.Copy(Path.Combine(templatePath, "sco.js"), Path.Combine(path, "sco.js"));
             File.Copy(Path.Combine(templatePath, "iudico.js"), Path.Combine(path, "iudico.js"));
             File.Copy(Path.Combine(templatePath, "iudico.css"), Path.Combine(path, "iudico.css"));
 
@@ -241,7 +241,7 @@ namespace IUDICO.CourseManagement.Models.Storage
                     }
                     if (node.Choise.HasValue)
                     {
-                        item.Sequencing.ControlMode.Choise = node.Choise.Value;
+                        item.Sequencing.ControlMode.Choice = node.Choise.Value;
                     }
                     if (node.Flow.HasValue)
                     {
@@ -276,7 +276,7 @@ namespace IUDICO.CourseManagement.Models.Storage
                     }
                     if (node.Choise.HasValue)
                     {
-                        item.Sequencing.ControlMode.Choise = node.Choise.Value;
+                        item.Sequencing.ControlMode.Choice = node.Choise.Value;
                     }
                     if (node.Flow.HasValue)
                     {
@@ -374,11 +374,11 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             var db = GetDbContext();
 
-            if (node.IsFolder)
-            {
-                var xs = new XmlSerializer(typeof (Sequencing));
-                node.Sequencing = xs.SerializeToXElemet(new Sequencing());
-            }
+//            if (node.IsFolder)
+//            {
+//                var xs = new XmlSerializer(typeof (Sequencing));
+//                node.Sequencing = xs.SerializeToXElemet(new Sequencing());
+//            }
 
             db.Nodes.InsertOnSubmit(node);
             db.SubmitChanges();

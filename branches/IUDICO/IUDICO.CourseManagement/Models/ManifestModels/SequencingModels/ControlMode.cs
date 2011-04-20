@@ -14,7 +14,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         /// the activity.
         /// </summary>
         [XmlAttribute(SCORM.Choice)]
-        public bool Choise { get; set; }//= true;
+        public bool Choice { get; set; }//= true;
 
         /// <summary>
         /// Indicates that an active child of 
