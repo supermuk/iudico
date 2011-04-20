@@ -8,7 +8,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h3><%=ViewRes.LMS.WelcomeButterfly %></h3>
+    <h3><%=IUDICO.LMS.Localization.getMessage("WelcomeButterfly")%></h3>
 
     <% foreach (var plugin in Model.Actions) { %>
         <% if (plugin.Value.Count() > 0) { %>
@@ -22,7 +22,7 @@
     <% } %>
 
     <% if (Model.ThemesDescriptions.Count() > 0) { %>
-    <h3><%=ViewRes.LMS.AvailableThemes %></h3>
+    <h3><%=IUDICO.LMS.Localization.getMessage("AvailableThemes") %></h3>
     <ul>
     <% foreach (var themeDescription in Model.ThemesDescriptions)
        { %>

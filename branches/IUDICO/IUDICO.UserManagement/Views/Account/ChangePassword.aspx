@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=UsManagRes.UserManagem.ChangePassword %></h2>
+    <h2><%=IUDICO.UserManagement.Localization.getMessage("ChangePassword") %></h2>
 
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary(true) %>
@@ -18,7 +18,7 @@
             <%: Html.EditorForModel() %>
             
             <p>
-                <input type="submit" value=<%=UsManagRes.UserManagem.ChangePassword %> />
+                <input type="submit" value=<%=IUDICO.UserManagement.Localization.getMessage("ChangePassword") %> />
             </p>
         </fieldset>
 

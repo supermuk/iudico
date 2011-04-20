@@ -29,23 +29,23 @@ namespace IUDICO.CourseManagement
         #region IPlugin Members
         public string GetName()
         {
-            return "Course Management";
+            return IUDICO.CourseManagement.Localization.getMessage("CourseManagement");
         }
 
         public IEnumerable<Action> BuildActions(Role role)
         {
             var actions = new List<Action>();
 
-            actions.Add(new Action("Get Courses", "Course/Index"));
-            actions.Add(new Action("Create Course", "Course/Create"));
-            actions.Add(new Action("Edit Course", "Course/Index"));
+            actions.Add(new Action(IUDICO.CourseManagement.Localization.getMessage("GetCourses"), "Course/Index"));
+            actions.Add(new Action(IUDICO.CourseManagement.Localization.getMessage("CreateCourse"), "Course/Create"));
+            actions.Add(new Action(IUDICO.CourseManagement.Localization.getMessage("EditCourse"), "Course/Index"));
 
             return actions;
         }
 
         public void BuildMenu(Menu menu)
         {
-            menu.Add(new MenuItem("Course", "Course", "Index"));
+            menu.Add(new MenuItem(IUDICO.CourseManagement.Localization.getMessage("Course"), "Course", "Index"));
         }
 
         public void RegisterRoutes(RouteCollection routes)
@@ -100,6 +100,7 @@ namespace IUDICO.CourseManagement
         #region IWindsorInstaller Members
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
+            IUDICO.CourseManagement.Localization.Initialize();
             container.Register(
                 AllTypes
                     .FromThisAssembly()

@@ -12,22 +12,22 @@
     <table>
         <tr>
             <th>
-                <%=UsManagRes.UserManagem.Name%>
+                <%=IUDICO.UserManagement.Localization.getMessage("Name")%>
             </th>
             <th>
-                <%=UsManagRes.UserManagem.Username%>
+                <%=IUDICO.UserManagement.Localization.getMessage("Username")%>
             </th>
             <th>
-                <%=UsManagRes.UserManagem.Active%>
+                <%=IUDICO.UserManagement.Localization.getMessage("Active")%>
             </th>
             <th>
-                <%=UsManagRes.UserManagem.ApprovedBy%>
+                <%=IUDICO.UserManagement.Localization.getMessage("ApprovedBy")%>
             </th>
             <th>
-                <%=UsManagRes.UserManagem.CreationDate%>
+                <%=IUDICO.UserManagement.Localization.getMessage("CreationDate")%>
             </th>
             <th>
-                <%=UsManagRes.UserManagem.Groups%>
+                <%=IUDICO.UserManagement.Localization.getMessage("Groups")%>
             </th>
             <th>
             </th>
@@ -57,16 +57,16 @@
             <td>
                 <% if (item.IsApproved)
                    { %>
-                    <%: Html.ActionLink(UsManagRes.UserManagem.Deactivate, "Deactivate", new { id = item.Id })%> |
+                    <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Deactivate"), "Deactivate", new { id = item.Id })%> |
                 <% }
                    else
                    { %>
-                    <%: Html.ActionLink(UsManagRes.UserManagem.Activate, "Activate", new { id = item.Id })%> |
+                    <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Activate"), "Activate", new { id = item.Id })%> |
                 <% } %>
-                <%: Html.ActionLink(UsManagRes.UserManagem.Edit, "Edit", new { id = item.Id })%> |
-                <%: Html.ActionLink(UsManagRes.UserManagem.Details, "Details", new { id = item.Id })%> |
-                <%: Html.ActionLink(UsManagRes.UserManagem.AddToGroup, "AddToGroup", new { id = item.Id })%> |
-                <%: Ajax.ActionLink(UsManagRes.UserManagem.Delete, "Delete", new { id = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Username + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
+                <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Edit"), "Edit", new { id = item.Id })%> |
+                <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Details"), "Details", new { id = item.Id })%> |
+                <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("AddToGroup"), "AddToGroup", new { id = item.Id })%> |
+                <%: Ajax.ActionLink(IUDICO.UserManagement.Localization.getMessage("Delete"), "Delete", new { id = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Username + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
             </td>
         </tr>
     
@@ -75,7 +75,7 @@
     </table>
 
     <p>
-        <%: Html.ActionLink(UsManagRes.UserManagem.CreateNew, "Create")%>
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("CreateNew"), "Create")%>
     </p>
 
 </asp:Content>

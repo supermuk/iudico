@@ -205,6 +205,13 @@ namespace IUDICO.LMS
                 Thread.CurrentThread.CurrentUICulture = ci;
                 Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
             }
+            //LoadPluginData();
+            Menu = new Menu();
+            var plugins = Container.ResolveAll<IPlugin>();
+            foreach (var plugin in plugins)
+            {
+                plugin.BuildMenu(Menu);
+            }
         }
     }
 }

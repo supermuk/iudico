@@ -92,17 +92,10 @@
     <Compile Include="Controllers\CourseBaseController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\NodeController.cs" />
-    <Compile Include="CourseManagement.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CourseManagement.resx</DependentUpon>
-    </Compile>
-    <Compile Include="CourseManagement.uk.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CourseManagement.uk.resx</DependentUpon>
-    </Compile>
     <Compile Include="CourseManagementPlugin.cs" />
+    <Compile Include="Localization .cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Models\ManifestModels\ManifestManager.cs" />
     <Compile Include="Helpers\PackageValidator.cs" />
     <Compile Include="Helpers\Zipper.cs" />
@@ -767,16 +760,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CourseManagement.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>CourseManagement.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>CourseManagRes</CustomToolNamespace>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CourseManagement.uk.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>CourseManagement.uk.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>CourseManagRes</CustomToolNamespace>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Resource.resx" />
+    <EmbeddedResource Include="Resourceuk.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

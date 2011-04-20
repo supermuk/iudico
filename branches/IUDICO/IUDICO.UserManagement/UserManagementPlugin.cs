@@ -19,6 +19,7 @@ namespace IUDICO.UserManagement
 
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
+            IUDICO.UserManagement.Localization.Initialize();
             container.Register(
                 AllTypes
                     .FromThisAssembly()
@@ -41,17 +42,17 @@ namespace IUDICO.UserManagement
         #region IPlugin Members
         public string GetName()
         {
-            return "User Management";
+            return IUDICO.UserManagement.Localization.getMessage("UserManagement");
         }
 
         public IEnumerable<Action> BuildActions(Role role)
         {
             var actions = new List<Action>
                               {
-                                  new Action("Get Users", "User/Index"),
-                                  new Action("Get Groups", "Group/Index"),
-                                  new Action("Register", "Account/Register"),
-                                  new Action("Login", "Account/Login")
+                                  new Action(IUDICO.UserManagement.Localization.getMessage("GetUsers"), "User/Index"),
+                                  new Action(IUDICO.UserManagement.Localization.getMessage("GetGroups"), "Group/Index"),
+                                  new Action(IUDICO.UserManagement.Localization.getMessage("Register"), "Account/Register"),
+                                  new Action(IUDICO.UserManagement.Localization.getMessage("Login"), "Account/Login")
                               };
 
             return actions;
@@ -59,9 +60,9 @@ namespace IUDICO.UserManagement
 
         public void BuildMenu(Menu menu)
         {
-            menu.Add(new MenuItem("Account", "Account", "Index"));
-            menu.Add(new MenuItem("User", "User", "Index"));
-            menu.Add(new MenuItem("Group", "Group", "Index"));
+            menu.Add(new MenuItem(IUDICO.UserManagement.Localization.getMessage("Account"), "Account", "Index"));
+            menu.Add(new MenuItem(IUDICO.UserManagement.Localization.getMessage("User"), "User", "Index"));
+            menu.Add(new MenuItem(IUDICO.UserManagement.Localization.getMessage("Group"), "Group", "Index"));
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)

@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=UsManagRes.UserManagem.Create%></h2>
+    <h2><%=IUDICO.UserManagement.Localization.getMessage("Create")%></h2>
 
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary("Correct the following error(s) and try again:") %>
@@ -18,14 +18,14 @@
             <%: Html.EditorForModel() %>
             
             <p>
-                <input type="submit" value=<%=UsManagRes.UserManagem.Create%> />
+                <input type="submit" value=<%=IUDICO.UserManagement.Localization.getMessage("Create")%> />
             </p>
         </fieldset>
 
     <% } %>
 
     <div>
-        <%: Html.ActionLink(UsManagRes.UserManagem.BackToList, "Index")%>
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("BackToList"), "Index")%>
     </div>
 
 </asp:Content>

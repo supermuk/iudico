@@ -10,11 +10,11 @@
     <% using (Html.BeginForm("Import", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
        {%>
         <fieldset>
-            <legend><%=CourseManagRes.CourseManagement.ValidateOrImportCourse%></legend>
+            <legend><%=IUDICO.CourseManagement.Localization.getMessage("ValidateOrImportCourse")%></legend>
             <input type="file" id="fileToValidate" name="fileUpload"/>
             <p>
-                <input type="submit" value=<%=CourseManagRes.CourseManagement.Validate%> id="Validate" name="action"/>
-                <input type="submit" value=<%=CourseManagRes.CourseManagement.Import%> id="Import" name="action"/>
+                <input type="submit" value=<%=IUDICO.CourseManagement.Localization.getMessage("Validate")%> id="Validate" name="action"/>
+                <input type="submit" value=<%=IUDICO.CourseManagement.Localization.getMessage("Import")%> id="Import" name="action"/>
             </p>
             <div id="validateResult">
                 <ul>
@@ -30,7 +30,7 @@
     <%} %>
 
     <div>
-        <%: Html.ActionLink(CourseManagRes.CourseManagement.BackToList, "Index")%>
+        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("BackToList"), "Index")%>
     </div>
 
 </asp:Content>
