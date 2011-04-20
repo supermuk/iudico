@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=UsManagRes.UserManagem.Register %></h2>
+    <h2><%=IUDICO.UserManagement.Localization.getMessage("Register") %></h2>
 
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary(true) %>
@@ -18,7 +18,7 @@
             <%: Html.EditorForModel() %>
             
             <p>
-                <input type="submit" value=<%=UsManagRes.UserManagem.Register %> />
+                <input type="submit" value=<%=IUDICO.UserManagement.Localization.getMessage("Register") %> />
             </p>
         </fieldset>
 

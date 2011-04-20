@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=UsManagRes.UserManagem.AddToGroup%></h2>
+    <h2><%=IUDICO.UserManagement.Localization.getMessage("AddToGroup")%></h2>
 
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary(true) %>
@@ -18,14 +18,14 @@
             <%= Html.EditorForModel() %>
             
             <p>
-                <input type="submit" value=<%=UsManagRes.UserManagem.Save%> />
+                <input type="submit" value=<%=IUDICO.UserManagement.Localization.getMessage("Save")%> />
             </p>
         </fieldset>
 
     <% } %>
 
     <div>
-        <%: Html.ActionLink(UsManagRes.UserManagem.BackToList, "Index")%>
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("BackToList"), "Index")%>
     </div>
 
 </asp:Content>

@@ -7,18 +7,18 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=UsManagRes.UserManagem.DetailsOf%> <%: Model.Name %></h2>
+    <h2><%=IUDICO.UserManagement.Localization.getMessage("DetailsOf")%> <%: Model.Name %></h2>
 
     <fieldset>
-        <legend><%=UsManagRes.UserManagem.Users%></legend>
+        <legend><%=IUDICO.UserManagement.Localization.getMessage("Users")%></legend>
 
         <table>
         <tr>
             <th>
-                <%=UsManagRes.UserManagem.Username%>
+                <%=IUDICO.UserManagement.Localization.getMessage("Username")%>
             </th>
             <th>
-                <%=UsManagRes.UserManagem.Name%>
+                <%=IUDICO.UserManagement.Localization.getMessage("Name")%>
             </th>
             <th></th>
         </tr>
@@ -32,7 +32,7 @@
                     <%: groupUser.User.Name %>
                 </td>
                 <td>
-                    <%: Html.ActionLink(UsManagRes.UserManagem.RemoveUser, "RemoveUser", new { id = Model.Id, userRef = groupUser.User.Id })%>
+                    <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("RemoveUser"), "RemoveUser", new { id = Model.Id, userRef = groupUser.User.Id })%>
                 </td>
             </tr>
         <% } %>
@@ -42,9 +42,9 @@
     </fieldset>
     <p>
 
-        <%: Html.ActionLink(UsManagRes.UserManagem.Edit, "Edit", new { id = Model.Id })%> |
-        <%: Html.ActionLink(UsManagRes.UserManagem.AddUser, "AddUsers", new { id = Model.Id })%> |
-        <%: Html.ActionLink(UsManagRes.UserManagem.BackToList, "Index")%>
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Edit"), "Edit", new { id = Model.Id })%> |
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("AddUser"), "AddUsers", new { id = Model.Id })%> |
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("BackToList"), "Index")%>
     </p>
 
 </asp:Content>

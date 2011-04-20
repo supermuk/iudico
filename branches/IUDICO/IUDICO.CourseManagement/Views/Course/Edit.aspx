@@ -26,7 +26,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=CourseManagRes.CourseManagement.Edit%></h2>
+    <h2><%=IUDICO.CourseManagement.Localization.getMessage("Edit")%></h2>
 
     <% Html.EnableClientValidation(); %>
 
@@ -50,14 +50,14 @@
             </select>
 
             <p>
-                <input type="submit" value=<%=CourseManagRes.CourseManagement.Save%> />
+                <input type="submit" value=<%=IUDICO.CourseManagement.Localization.getMessage("Save")%> />
             </p>
         </fieldset>
 
     <% } %>
 
     <div>
-        <%: Html.ActionLink(CourseManagRes.CourseManagement.BackToList, "Index")%>
+        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("BackToList"), "Index")%>
     </div>
 
 </asp:Content>

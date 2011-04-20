@@ -22,6 +22,7 @@ namespace IUDICO.CurriculumManagement
 
         public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
         {
+            IUDICO.CurriculumManagement.Localization.Initialize();
             container.Register(
                 AllTypes
                     .FromThisAssembly()
@@ -41,19 +42,19 @@ namespace IUDICO.CurriculumManagement
         #region IPlugin Members
         public string GetName()
         {
-            return "Curriculum Management";
+            return IUDICO.CurriculumManagement.Localization.getMessage("CurriculumManagement");
         }
 
         public IEnumerable<Action> BuildActions(Role role)
         {
             List<Action> actions = new List<Action>();
-            actions.Add(new Action("Curriculum management", "Curriculum/Index"));
+            actions.Add(new Action(IUDICO.CurriculumManagement.Localization.getMessage("CurriculumManagement"), "Curriculum/Index"));
             return actions;
         }
 
         public void BuildMenu(Menu menu)
         {
-            menu.Add(new MenuItem("Curriculum", "Curriculum", "Index"));
+            menu.Add(new MenuItem(IUDICO.CurriculumManagement.Localization.getMessage("Curriculum"), "Curriculum", "Index"));
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)

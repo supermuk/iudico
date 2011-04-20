@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=UsManagRes.UserManagem.Login %></h2>
+    <h2><%=IUDICO.UserManagement.Localization.getMessage("Login") %></h2>
 
     <div><%= Html.ValidationSummary(true) %></div>
 
@@ -15,16 +15,16 @@
 	    <label for="loginIdentifier">OpenID: </label>
 	    <input type="text" id="loginIdentifier" name="loginIdentifier" size="40" />
 	    
-        <input type="submit" value=<%=UsManagRes.UserManagem.Login %> />
+        <input type="submit" value=<%=IUDICO.UserManagement.Localization.getMessage("Login") %> />
 	</form>
 
     <form action="<%: Url.Action("LoginDefault", "Account") %>" method="post">
-        <label for="loginUsername"><%=UsManagRes.UserManagem.Username %>: </label>
+        <label for="loginUsername"><%=IUDICO.UserManagement.Localization.getMessage("Username") %>: </label>
         <input type="text" id="loginUsername" name="loginUsername" size="40" />
-        <label for="loginPassword"><%=UsManagRes.UserManagem.Password %>: </label>
+        <label for="loginPassword"><%=IUDICO.UserManagement.Localization.getMessage("Password") %>: </label>
         <input type="password" id="loginPassword" name="loginPassword" size="40" />
 
-        <input type="submit" value=<%=UsManagRes.UserManagem.Login %> />
+        <input type="submit" value=<%=IUDICO.UserManagement.Localization.getMessage("Login") %> />
     </form>
 
 </asp:Content>

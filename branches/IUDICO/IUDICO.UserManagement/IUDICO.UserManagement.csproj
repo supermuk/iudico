@@ -89,20 +89,23 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserBaseController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
+    <Compile Include="Localization .cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Models\Auth\OpenIdMembershipProvider.cs" />
     <Compile Include="Models\Auth\OpenIdMembershipUser.cs" />
     <Compile Include="Models\Auth\OpenIdRoleProvider.cs" />
     <Compile Include="Models\Storage\IUserStorage.cs" />
     <Compile Include="Models\UserService.cs" />
-    <Compile Include="UserManagem.Designer.cs">
+    <Compile Include="UserManagem1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UserManagem.resx</DependentUpon>
+      <DependentUpon>UserManagem1.resx</DependentUpon>
     </Compile>
-    <Compile Include="UserManagem.uk.Designer.cs">
+    <Compile Include="UserManagem1.uk.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UserManagem.uk.resx</DependentUpon>
+      <DependentUpon>UserManagem1.uk.resx</DependentUpon>
     </Compile>
     <Compile Include="UserManagementPlugin.cs" />
     <Compile Include="Models\Models.cs" />
@@ -166,14 +169,16 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UserManagem.resx">
+    <EmbeddedResource Include="Resource.resx" />
+    <EmbeddedResource Include="Resourceuk.resx" />
+    <EmbeddedResource Include="UserManagem1.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>UserManagem.Designer.cs</LastGenOutput>
+      <LastGenOutput>UserManagem1.Designer.cs</LastGenOutput>
       <CustomToolNamespace>UsManagRes</CustomToolNamespace>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserManagem.uk.resx">
+    <EmbeddedResource Include="UserManagem1.uk.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>UserManagem.uk.Designer.cs</LastGenOutput>
+      <LastGenOutput>UserManagem1.uk.Designer.cs</LastGenOutput>
       <CustomToolNamespace>UsManagRes</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>

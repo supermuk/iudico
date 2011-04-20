@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=UsManagRes.UserManagem.Details%></h2>
+    <h2><%=IUDICO.UserManagement.Localization.getMessage("Details")%></h2>
 
     <fieldset>
         <legend>Fields</legend>
@@ -17,12 +17,12 @@
     </fieldset>
 
     <fieldset>
-        <legend><%=UsManagRes.UserManagem.Groups%></legend>
+        <legend><%=IUDICO.UserManagement.Localization.getMessage("Groups")%></legend>
 
         <table>
         <tr>
             <th>
-                <%=UsManagRes.UserManagem.Name%>
+                <%=IUDICO.UserManagement.Localization.getMessage("Name")%>
             </th>
             <th></th>
         </tr>
@@ -30,7 +30,7 @@
         <% foreach(var group in Model.Groups) { %>
         <tr>
             <td><%: group.Name %></td>
-            <td><%: Html.ActionLink(UsManagRes.UserManagem.Remove, "RemoveFromGroup", new { id = Model.Id, groupRef = group.Id })%></td>
+            <td><%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Remove"), "RemoveFromGroup", new { id = Model.Id, groupRef = group.Id })%></td>
         </tr>
         <% } %>
 
@@ -40,16 +40,16 @@
     <p>
         <% if (Model.IsApproved)
             { %>
-            <%: Html.ActionLink(UsManagRes.UserManagem.Deactivate, "Deactivate", new { id = Model.Id })%> |
+            <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Deactivate"), "Deactivate", new { id = Model.Id })%> |
         <% }
             else
             { %>
-            <%: Html.ActionLink(UsManagRes.UserManagem.Activate, "Activate", new { id = Model.Id })%> |
+            <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Activate"), "Activate", new { id = Model.Id })%> |
         <% } %>
-        <%: Html.ActionLink(UsManagRes.UserManagem.Edit, "Edit", new { id = Model.Id })%> |
-        <%: Html.ActionLink(UsManagRes.UserManagem.AddToGroup, "AddToGroup", new { id = Model.Id })%> |
-        <%: Html.ActionLink(UsManagRes.UserManagem.Delete, "Delete", new { id = Model.Id })%> |
-        <%: Html.ActionLink(UsManagRes.UserManagem.BackToList, "Index")%>
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Edit"), "Edit", new { id = Model.Id })%> |
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("AddToGroup"), "AddToGroup", new { id = Model.Id })%> |
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Delete"), "Delete", new { id = Model.Id })%> |
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("BackToList"), "Index")%>
     </p>
 
 </asp:Content>

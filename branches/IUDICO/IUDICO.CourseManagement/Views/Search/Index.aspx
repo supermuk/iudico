@@ -7,13 +7,13 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=CourseManagRes.CourseManagement.Search %></h2>
+    <h2><%=IUDICO.CourseManagement.Localization.getMessage("Search") %></h2>
     
     <form action="/Search/Search" method="post">
 
         Search:
         <%= Html.TextBox("query") %>
-         <input type="submit" value=<%=CourseManagRes.CourseManagement.Search %> />
+         <input type="submit" value=<%=IUDICO.CourseManagement.Localization.getMessage("Search") %> />
 
     </form>
 

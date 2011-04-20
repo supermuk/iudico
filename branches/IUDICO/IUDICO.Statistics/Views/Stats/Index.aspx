@@ -7,10 +7,10 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=StatisRes.Statistics.GroupList %></h2>
+    <h2><%=IUDICO.Statistics.Localization.getMessage("GroupList")%></h2>
 
     <fieldset>
-    <legend><%=StatisRes.Statistics.SelectOneGroup %></legend>
+    <legend><%=IUDICO.Statistics.Localization.getMessage("SelectOneGroup") %></legend>
     <form action="/Stats/SelectCurriculums/" method="post">
 
     <% foreach (IUDICO.Common.Models.Group item in Model)
@@ -22,7 +22,7 @@
     <% } %>
 
     <p>
-        <input type="submit" value=<%=StatisRes.Statistics.Show %> />
+        <input type="submit" value=<%=IUDICO.Statistics.Localization.getMessage("Show") %> />
     </p>
     
 

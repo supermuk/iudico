@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=UsManagRes.UserManagem.Details %></h2>
+    <h2><%=IUDICO.UserManagement.Localization.getMessage("Details")%></h2>
 
     <fieldset>
         <legend>Fields</legend>
@@ -17,7 +17,7 @@
     </fieldset>
 
     <fieldset>
-        <legend><%=UsManagRes.UserManagem.Groups %></legend>
+        <legend><%=IUDICO.UserManagement.Localization.getMessage("Groups")%></legend>
 
         <ul>
         
@@ -29,11 +29,11 @@
     </fieldset>
 
     <div>
-        <%: Html.ActionLink(UsManagRes.UserManagem.Edit, "Edit") %>
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Edit"), "Edit")%>
     </div>
 
     <div>
-        <%: Html.ActionLink(UsManagRes.UserManagem.ChangePassword, "ChangePassword")%>
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("ChangePassword"), "ChangePassword")%>
     </div>
 
 </asp:Content>

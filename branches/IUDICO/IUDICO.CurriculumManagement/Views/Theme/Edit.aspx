@@ -16,7 +16,7 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        <%=CurriculumManagRes.CurriculumManagement.EditTheme %>:</h2>
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("EditTheme") %>:</h2>
     <% Html.EnableClientValidation(); %>
 
     <% using (Html.BeginForm("Edit", "Theme"))
@@ -46,6 +46,6 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
         </fieldset>
     <% } %>
     <div>
-        <%: Html.RouteLink(CurriculumManagRes.CurriculumManagement.BackToList, "Themes", new { action = "Index", StageId = Model.StageId })%>
+        <%: Html.RouteLink(IUDICO.CurriculumManagement.Localization.getMessage("BackToList"), "Themes", new { action = "Index", StageId = Model.StageId })%>
     </div>
 </asp:Content>

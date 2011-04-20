@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=UsManagRes.UserManagem.Registered %></h2>
+    <h2><%=IUDICO.UserManagement.Localization.getMessage("Registered") %></h2>
 
 </asp:Content>
 
