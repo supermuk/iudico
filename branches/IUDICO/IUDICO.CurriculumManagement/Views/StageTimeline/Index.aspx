@@ -114,7 +114,7 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                 <td>
                     <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Edit"), "Edit", new { TimelineId = item.Id }, null)%>
                     |
-                    <a href="#" onclick="deleteItem(<%: item.Id %>)">IUDICO.CurriculumManagement.Localization.getMessage("Delete")%></a>
+                    <a href="#" onclick="deleteItem(<%: item.Id %>)"><%=IUDICO.CurriculumManagement.Localization.getMessage("Delete")%></a>
                 </td>
             </tr>
         <% } %>

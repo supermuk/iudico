@@ -279,4 +279,13 @@
   <data name="Up" xml:space="preserve">
     <value>Up</value>
   </data>
+  <data name="BackThemeAssignmentList" xml:space="preserve">
+    <value>Back to theme assignment list</value>
+  </data>
+  <data name="ChooseStageForTimeline" xml:space="preserve">
+    <value>Choose a stage for timeline</value>
+  </data>
+  <data name="EditStageTimeline" xml:space="preserve">
+    <value>Edit stage timeline</value>
+  </data>
 </root>
