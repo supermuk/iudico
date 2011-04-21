@@ -102,6 +102,21 @@ namespace TestProject1
             Assert.AreEqual(ExpectedPercent, target.Percent);
             Assert.AreEqual(ExpextedECTS, target.ECTS);
         }
+
+         /// <summary>
+        ///A test for Ects
+        ///</summary>
+        [TestMethod()]
+        public void EctsTest()
+        {
+            SpecializedResult sp = new SpecializedResult();
+            Assert.AreEqual('A',sp.Ects(99));
+            Assert.AreEqual('B', sp.Ects(88));
+            Assert.AreEqual('C', sp.Ects(71));
+            Assert.AreEqual('D', sp.Ects(69));
+            Assert.AreEqual('E', sp.Ects(51));
+            Assert.AreEqual('F', sp.Ects(46));
+        }
     }
 
 }
