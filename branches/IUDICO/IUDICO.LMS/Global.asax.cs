@@ -212,6 +212,28 @@ namespace IUDICO.LMS
             {
                 plugin.BuildMenu(Menu);
             }
+            var currentRole = IUDICO.Common.Models.Role.None;
+
+            lock (Actions)
+            {
+                Actions.Clear();
+
+                foreach (var plugin in plugins)
+                {
+                    plugin.Setup(Container);
+
+                    var actions = plugin.BuildActions(currentRole).Where(a => IsAllowed(a, currentRole));
+
+                    if (Actions.ContainsKey(plugin))
+                    {
+                        Actions[plugin] = actions;
+                    }
+                    else
+                    {
+                        Actions.Add(plugin, actions);
+                    }
+                }
+            }
         }
     }
 }
