@@ -207,53 +207,82 @@ namespace IUDICO.UnitTests
         [TestMethod]
         public void AddStageTest()
         {
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
 
-            Stage stage = new Stage { Name = "Stage", CurriculumRef = curriculumId };
-            int id = storage.AddStage(stage);
-            AdvAssert.AreEqual(storage.GetStage(id), stage);
+            List<Stage> stages = new List<Stage>();
+            stages.Add(new Stage() { Name = "Stage1", CurriculumRef = curriculumId });
+            stages.Add(new Stage() { Name = "Stage2", CurriculumRef = curriculumId });
+            stages.Add(new Stage() { Name = "Stage3", CurriculumRef = curriculumId });
+            stages.Add(new Stage() { Name = "Stage4", CurriculumRef = curriculumId });
+
+            //Test AddStage() and GetStage()
+            List<int> ids = new List<int>();
+            stages.ForEach(item => ids.Add(storage.AddStage(item)));
+
+            stages.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(stages[i], storage.GetStage(ids[i])));
         }
 
         [TestMethod]
         public void GetStageTest()
         {
-            Curriculum curriculum = new Curriculum { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
-            Stage stage = new Stage { Name = "Stage", CurriculumRef = curriculumId };
-            int stageId = storage.AddStage(stage);
-            List<Stage> listWithStagesForTest = new List<Stage>();
-            listWithStagesForTest.Add(stage);
-            AdvAssert.AreEqual(listWithStagesForTest, storage.GetStages(curriculumId).ToList());
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
+
+            List<Stage> stages = new List<Stage>();
+            stages.Add(new Stage() { Name = "Stage1", CurriculumRef = curriculumId });
+            stages.Add(new Stage() { Name = "Stage2", CurriculumRef = curriculumId });
+            stages.Add(new Stage() { Name = "Stage3", CurriculumRef = curriculumId });
+            stages.Add(new Stage() { Name = "Stage4", CurriculumRef = curriculumId });
+            stages.Add(new Stage() { Name = "Stage5", CurriculumRef = curriculumId });
+            List<int> ids = new List<int>();
+            stages.ForEach(item => ids.Add(storage.AddStage(item)));
+
+            //Test GetStages()
+            AdvAssert.AreEqual(stages, storage.GetStages(curriculumId).ToList());
+
+            //Test GetStage()
+            stages.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(stages[i], storage.GetStage(ids[i])));
         }
 
         [TestMethod]
         public void UpdateStageTest()
         {
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
+            //Test UpdateStage()
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
 
-            Stage stage = new Stage() { Name = "Stage", CurriculumRef = curriculumId };
-            int id = storage.AddStage(stage);
+            Stage stage = new Stage { Name = "Stage", CurriculumRef = curriculumId };
+            int stageId = storage.AddStage(stage);
             stage.Name = "UpdatedStage";
             storage.UpdateStage(stage);
 
-            AdvAssert.AreEqual(stage, storage.GetStage(id));
+            AdvAssert.AreEqual(stage, storage.GetStage(stageId));
+
+            stage.Name = "SecondlyUpdatedStage";
+            Assert.AreNotEqual(stage.Name, storage.GetStage(stageId).Name);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void DeleteStageTest()
         {
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
+            //Test DeleteStage()
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
+            int stageId = storage.AddStage(Utils.GetDefaultStage(curriculumId));
+            storage.DeleteStage(stageId);
+            Assert.AreEqual(null, storage.GetStage(stageId));
 
-            Stage stage = new Stage() { Name = "Stage", CurriculumRef = curriculumId };
-            int id = storage.AddStage(stage);
-            AdvAssert.AreEqual(storage.GetStage(id), stage);
-            storage.DeleteStage(id);
-            storage.GetStage(id);
-            Assert.AreEqual(true, false);
+            //Test DeleteStages(), delete not all items
+            List<int> ids = new List<int>();
+            ids.Add(storage.AddStage(Utils.GetDefaultStage(curriculumId)));
+            ids.Add(storage.AddStage(Utils.GetDefaultStage(curriculumId)));
+            ids.Add(storage.AddStage(Utils.GetDefaultStage(curriculumId)));
+            storage.DeleteStages(ids.GetSpecificItems(0, 2));
+
+            Assert.AreEqual(null, storage.GetStage(ids[0]));
+            Assert.AreNotEqual(null, storage.GetStage(ids[1]));
+            Assert.AreEqual(null, storage.GetStage(ids[2]));
         }
 
         #endregion
@@ -263,140 +292,139 @@ namespace IUDICO.UnitTests
         [TestMethod]
         public void AddThemeTest()
         {
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
+            ICourseService courseService = lmsService.FindService<ICourseService>();
+            List<Course> courses = courseService.GetCourses().ToList();
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
+            int stageId = storage.AddStage(Utils.GetDefaultStage(curriculumId));
 
-            Stage stage = new Stage() { Name = "Stage", CurriculumRef = curriculumId };
-            int stageId = storage.AddStage(stage);
+            List<Theme> themes = new List<Theme>();
+            themes.Add(Utils.GetDefaultTheme(stageId,courses[0].Id));
+            themes.Add(Utils.GetDefaultTheme(stageId, courses[1].Id));
+            themes.Add(Utils.GetDefaultTheme(stageId, courses[2].Id));
 
-            Theme theme = new Theme() { Name = "Theme", ThemeTypeRef = 1, StageRef = stageId };
-            int id = storage.AddTheme(theme);
-            AdvAssert.AreEqual(theme, storage.GetTheme(id));
+            //Test AddTheme() and GetTheme()
+            List<int> ids = new List<int>();
+            themes.ForEach(item => ids.Add(storage.AddTheme(item)));
+
+            themes.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(themes[i], storage.GetTheme(ids[i])));
         }
 
         [TestMethod]
         public void GetThemeTests()
         {
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
-
-            Stage stageOne = new Stage() { Name = "FirstStage", CurriculumRef = curriculumId };
-            int stageOneId = storage.AddStage(stageOne);
-            Stage stageTwo = new Stage() { Name = "SecondStage", CurriculumRef = curriculumId };
-            int stageTwoId = storage.AddStage(stageTwo);
-
-            Theme theme1 = new Theme() { Name = "FirstTheme", StageRef = stageOneId, ThemeTypeRef = 1 };
-            Theme theme2 = new Theme() { Name = "SecondTheme", StageRef = stageTwoId, ThemeTypeRef = 2 };
-            int theme1Id = storage.AddTheme(theme1);
-            int theme2Id = storage.AddTheme(theme2);
-
-            List<Theme> themes = new List<Theme>();
-            themes.Add(theme1);
-
-            AdvAssert.AreEqual(themes, storage.GetThemesByStageId(stageOneId).ToList());
-
-            themes.Add(theme2);
-            AdvAssert.AreEqual(themes, storage.GetThemesByCurriculumId(curriculumId).ToList());
-
+            ICourseService courseService = lmsService.FindService<ICourseService>();
             IUserService userService = lmsService.FindService<IUserService>();
             List<Group> groups = userService.GetGroups().ToList();
+            List<Course> courses = courseService.GetCourses().ToList();
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
+            int stageOneId = storage.AddStage(Utils.GetDefaultStage(curriculumId));
+            int stageTwoId = storage.AddStage(Utils.GetDefaultStage(curriculumId));
 
-            CurriculumAssignment curriculumAssignment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groups[0].Id };
-            int curriculumAssignmentId = storage.AddCurriculumAssignment(curriculumAssignment);
+            List<Theme> themes = new List<Theme>();
+            themes.Add(Utils.GetDefaultTheme(stageOneId, courses[0].Id));
+            themes.Add(Utils.GetDefaultTheme(stageOneId, courses[1].Id));
+            themes.Add(Utils.GetDefaultTheme(stageTwoId, courses[2].Id));
 
+            List<int> ids = new List<int>();
+            themes.ForEach(item => ids.Add(storage.AddTheme(item)));
+            
+            //Test GetThemesByStageId()
+            AdvAssert.AreEqual(themes.GetSpecificItems(0,1), storage.GetThemesByStageId(stageOneId).ToList());
+
+            //Test GetThemesByCourseId()
+            AdvAssert.AreEqual(themes.GetSpecificItems(2), storage.GetThemesByCourseId(courses[2].Id).ToList());
+
+            //Test GetThemesByCurriculumId()
+            AdvAssert.AreEqual(themes, storage.GetThemesByCurriculumId(curriculumId).ToList());
+
+            //Test GetThemesByGroupId()
+            int curriculumAssignmentId = storage.AddCurriculumAssignment(Utils.GetDefaultCurriculumAssignment(curriculumId, groups[0].Id));
             AdvAssert.AreEqual(themes, storage.GetThemesByGroupId(groups[0].Id).ToList());
         }
 
         [TestMethod]
         public void UpdateThemeTests()
         {
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
-
-            Stage stage = new Stage() { Name = "Stage", CurriculumRef = curriculumId };
-            int stageId = storage.AddStage(stage);
-
-            Theme theme = new Theme() { Name = "Theme", StageRef = stageId, ThemeTypeRef = 1 };
-            int themeId = storage.AddTheme(theme);
-
-            theme.Name = "NewName";
+            //Test UpdateTheme()
+            ICourseService courseService = lmsService.FindService<ICourseService>();
+            List<Course> courses = courseService.GetCourses().ToList();
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
+            int stageId = storage.AddStage(Utils.GetDefaultStage(curriculumId));
+            Theme theme = new Theme() { Name = "Theme", StageRef = stageId, CourseRef = courses[0].Id, ThemeTypeRef = 1 };
+            int id = storage.AddTheme(theme);
+            theme.Name = "UpdatedTheme";
             storage.UpdateTheme(theme);
 
-            AdvAssert.AreEqual(theme, storage.GetTheme(themeId));
+            AdvAssert.AreEqual(theme, storage.GetTheme(id));
+
+            theme.Name = "SecondlyUpdatedTheme";
+            Assert.AreNotEqual(theme.Name, storage.GetTheme(id).Name);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void DeleteThemeTest()
         {
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
+            //Test DeleteTheme()
+            ICourseService courseService = lmsService.FindService<ICourseService>();
+            List<Course> courses = courseService.GetCourses().ToList();
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
+            int stageId = storage.AddStage(Utils.GetDefaultStage(curriculumId));
+            int id = storage.AddTheme(Utils.GetDefaultTheme(stageId, courses[0].Id));
+            storage.DeleteTheme(id);
+            Assert.AreEqual(null, storage.GetTheme(id));
 
-            Stage stageOne = new Stage() { Name = "Stage", CurriculumRef = curriculumId };
-            int stageOneId = storage.AddStage(stageOne);
+            //Test DeleteThemes(), delete not all items
+            List<int> ids = new List<int>();
+            ids.Add(storage.AddTheme(Utils.GetDefaultTheme(stageId,courses[0].Id)));
+            ids.Add(storage.AddTheme(Utils.GetDefaultTheme(stageId, courses[1].Id)));
+            ids.Add(storage.AddTheme(Utils.GetDefaultTheme(stageId, courses[2].Id)));
+            storage.DeleteThemes(ids.GetSpecificItems(0, 2));
 
-            List<Course> courses = storage.GetCourses().ToList();
-
-            Theme theme = new Theme() { Name = "Theme", StageRef = stageOneId, ThemeTypeRef = 1, CourseRef = courses[0].Id, IsDeleted = false, Updated = DateTime.Now, Created = DateTime.Now };
-            int themeId = storage.AddTheme(theme);
-
-            AdvAssert.AreEqual(theme, storage.GetTheme(themeId));
-
-            theme.Name = "UpdatedTheme";
-            storage.UpdateTheme(theme); //апдейтить,але не показує. через це не проходить тест і відповідно видалення нижче 
-            AdvAssert.AreEqual(theme, storage.GetTheme(themeId));
-
-            storage.DeleteTheme(themeId);
-            storage.GetTheme(themeId);
-            Assert.AreEqual(true, false);
+            Assert.AreEqual(null, storage.GetTheme(ids[0]));
+            Assert.AreNotEqual(null, storage.GetTheme(ids[1]));
+            Assert.AreEqual(null, storage.GetTheme(ids[2]));
         }
 
         [TestMethod]
         public void ThemeUpTest()
         {
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
+            ICourseService courseService = lmsService.FindService<ICourseService>();
+            List<Course> courses = courseService.GetCourses().ToList();
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
+            int stageId = storage.AddStage(Utils.GetDefaultStage(curriculumId));
 
-            Stage stageOne = new Stage() { Name = "Stage", CurriculumRef = curriculumId };
-            int stageOneId = storage.AddStage(stageOne);
+            List<Theme> themes = new List<Theme>();
+            Theme themeOne = new Theme() { Name = "ThemeOne", ThemeTypeRef = 1, CourseRef = courses[0].Id, StageRef = stageId };
+            Theme themeTwo = new Theme() { Name = "ThemeTwo", ThemeTypeRef = 1, CourseRef = courses[0].Id, StageRef = stageId };
 
-            List<Course> courses = storage.GetCourses().ToList();
+            List<int> ids = new List<int>();
+            themes.ForEach(item => ids.Add(storage.AddTheme(item)));
 
-            Theme themeOne = new Theme() { Name = "Theme", StageRef = stageOneId, ThemeTypeRef = 1, CourseRef = courses[0].Id, IsDeleted = false, Updated = DateTime.Now, Created = DateTime.Now };
-            int themeOneId = storage.AddTheme(themeOne);
-
-            Theme themeTwo = new Theme() { Name = "Theme", StageRef = stageOneId, ThemeTypeRef = 1, CourseRef = courses[0].Id, IsDeleted = false, Updated = DateTime.Now, Created = DateTime.Now };
-            int themeTwoId = storage.AddTheme(themeTwo);
-
-            Assert.AreEqual(themeTwoId,storage.GetTheme(themeTwoId).SortOrder);
-            int oldSortOrder = storage.GetTheme(themeOneId).SortOrder;
-
-            storage.ThemeUp(themeTwoId);
-            Assert.AreEqual(oldSortOrder,storage.GetTheme(themeTwoId).SortOrder);
+            Assert.AreEqual(ids[1], storage.GetTheme(ids[1]).SortOrder);
+            storage.ThemeUp(ids[1]);
+            Assert.AreEqual(ids[0], storage.GetTheme(ids[1]).SortOrder);
         }
 
         [TestMethod]
         public void ThemeDownTest()
         {
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
+            ICourseService courseService = lmsService.FindService<ICourseService>();
+            List<Course> courses = courseService.GetCourses().ToList();
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
+            int stageId = storage.AddStage(Utils.GetDefaultStage(curriculumId));
 
-            Stage stageOne = new Stage() { Name = "Stage", CurriculumRef = curriculumId };
-            int stageOneId = storage.AddStage(stageOne);
+            List<Theme> themes = new List<Theme>();
+            Theme themeOne = new Theme() { Name = "ThemeOne", ThemeTypeRef = 1, CourseRef = courses[0].Id, StageRef = stageId };
+            Theme themeTwo = new Theme() { Name = "ThemeTwo", ThemeTypeRef = 1, CourseRef = courses[0].Id, StageRef = stageId };
 
-            List<Course> courses = storage.GetCourses().ToList();
+            List<int> ids = new List<int>();
+            themes.ForEach(item => ids.Add(storage.AddTheme(item)));
 
-            Theme themeOne = new Theme() { Name = "Theme", StageRef = stageOneId, ThemeTypeRef = 1, CourseRef = courses[0].Id, IsDeleted = false, Updated = DateTime.Now, Created = DateTime.Now };
-            int themeOneId = storage.AddTheme(themeOne);
-
-            Theme themeTwo = new Theme() { Name = "Theme", StageRef = stageOneId, ThemeTypeRef = 1, CourseRef = courses[0].Id, IsDeleted = false, Updated = DateTime.Now, Created = DateTime.Now };
-            int themeTwoId = storage.AddTheme(themeTwo);
-
-            Assert.AreEqual(themeOneId, storage.GetTheme(themeOneId).SortOrder);
-            int oldSortOrder = storage.GetTheme(themeTwoId).SortOrder;
-
-            storage.ThemeDown(themeOneId);
-            Assert.AreEqual(oldSortOrder, storage.GetTheme(themeOneId).SortOrder);
+            Assert.AreEqual(ids[0], storage.GetTheme(ids[0]).SortOrder);
+            storage.ThemeDown(ids[0]);
+            Assert.AreEqual(ids[1], storage.GetTheme(ids[0]).SortOrder);
         }
 
         #endregion
@@ -406,88 +434,96 @@ namespace IUDICO.UnitTests
         [TestMethod]
         public void AddCurriculumAssignmentTest()
         {
-            Curriculum curriculum = new Curriculum() { Name = "FirstCurriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
-
             IUserService userService = lmsService.FindService<IUserService>();
             List<Group> groups = userService.GetGroups().ToList();
-
-            CurriculumAssignment curriculumAssignment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groups[0].Id };
-            int curriculumAssignmentId = storage.AddCurriculumAssignment(curriculumAssignment);
-            AdvAssert.AreEqual(curriculumAssignment, storage.GetCurriculumAssignment(curriculumAssignmentId));
-
             List<CurriculumAssignment> curriculumAssignments = new List<CurriculumAssignment>();
-            curriculumAssignments.Add(curriculumAssignment);
-            AdvAssert.AreEqual(curriculumAssignments, storage.GetCurriculumAssignmnetsByCurriculumId(curriculumId).ToList());
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
+            curriculumAssignments.Add(new CurriculumAssignment() { CurriculumRef = curriculumId , UserGroupRef = groups[0].Id});
+            curriculumAssignments.Add(new CurriculumAssignment() { CurriculumRef = curriculumId , UserGroupRef = groups[0].Id });
+            curriculumAssignments.Add(new CurriculumAssignment() { CurriculumRef = curriculumId , UserGroupRef = groups[0].Id });
+            curriculumAssignments.Add(new CurriculumAssignment() { CurriculumRef = curriculumId , UserGroupRef = groups[0].Id });
 
-            Curriculum curriculum2 = new Curriculum() { Name = "SecondCurriculum" };
-            int curriculum2Id = storage.AddCurriculum(curriculum2);
-            CurriculumAssignment curriculumAssignment2 = new CurriculumAssignment() { CurriculumRef = curriculum2Id, UserGroupRef = groups[0].Id };
-            storage.AddCurriculumAssignment(curriculumAssignment2);
-            curriculumAssignments.Add(curriculumAssignment2);
-            AdvAssert.AreEqual(curriculumAssignments, storage.GetCurriculumAssignments().ToList());
+            //Test AddCurriculumAssignment() and GetCurriculumAssingment()
+            List<int> ids = new List<int>();
+            curriculumAssignments.ForEach(item => ids.Add(storage.AddCurriculumAssignment(item)));
+
+            curriculumAssignments.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(curriculumAssignments[i], storage.GetCurriculumAssignment(ids[i])));
         }
 
         [TestMethod]
         public void GetCurriculumAssignmentTests()
         {
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
-
             IUserService userService = lmsService.FindService<IUserService>();
             List<Group> groups = userService.GetGroups().ToList();
+            int curriculumOneId = storage.AddCurriculum(new Curriculum { Name = "Curriculum1" });
+            int curriculumTwoId = storage.AddCurriculum(new Curriculum { Name = "Curriculum2" });
+            List<CurriculumAssignment> curriculumAssingmnets = new List<CurriculumAssignment>();
+            List<int> ids = new List<int>();
 
-            CurriculumAssignment curriculumAssignment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groups[0].Id };
-            int curriculumAssignmentId = storage.AddCurriculumAssignment(curriculumAssignment);
-            AdvAssert.AreEqual(curriculumAssignment, storage.GetCurriculumAssignment(curriculumAssignmentId));
+            curriculumAssingmnets.Add(new CurriculumAssignment() { CurriculumRef = curriculumOneId, UserGroupRef = groups[0].Id });
+            curriculumAssingmnets.Add(new CurriculumAssignment() { CurriculumRef = curriculumTwoId, UserGroupRef = groups[1].Id });
+            curriculumAssingmnets.ForEach(item => ids.Add(storage.AddCurriculumAssignment(item)));
 
-            List<CurriculumAssignment> curriculumAssignments = new List<CurriculumAssignment>();
-            curriculumAssignments.Add(curriculumAssignment);
+            //Test GetCurriculumAssingnments()
+            AdvAssert.AreEqual(curriculumAssingmnets, storage.GetCurriculumAssignments().ToList());
 
-            AdvAssert.AreEqual(curriculumAssignments, storage.GetCurriculumAssignmnetsByCurriculumId(curriculumId).ToList());
-            AdvAssert.AreEqual(curriculumAssignments, storage.GetCurriculumAssignmentsByGroupId(groups[0].Id).ToList());
-            AdvAssert.AreEqual(curriculumAssignments, storage.GetCurriculumAssignments().ToList());
+            //Test GetCurriculumAssignment()
+            curriculumAssingmnets.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(curriculumAssingmnets[i], storage.GetCurriculumAssignment(ids[i])));
+
+            //Test GetCurriculumAssignmnetsByCurriculumId()
+            AdvAssert.AreEqual(curriculumAssingmnets.GetSpecificItems(0), storage.GetCurriculumAssignmnetsByCurriculumId(curriculumOneId).ToList());
+
+            //Test GetCurriculumAssignmentByGroupId()
+            AdvAssert.AreEqual(curriculumAssingmnets.GetSpecificItems(1), storage.GetCurriculumAssignmentsByGroupId(groups[1].Id).ToList());
         }
 
         [TestMethod]
         public void UpdateCurriculumAssignmentTests()
         {
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
-
+            //Test UpdateCurriculumAssignment()
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
             IUserService userService = lmsService.FindService<IUserService>();
             List<Group> groups = userService.GetGroups().ToList();
 
-            CurriculumAssignment curriculumAssignment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groups[0].Id };
+            CurriculumAssignment curriculumAssignment = new CurriculumAssignment(){ CurriculumRef = curriculumId, UserGroupRef = groups[0].Id };
             int curriculumAssignmentId = storage.AddCurriculumAssignment(curriculumAssignment);
+            AdvAssert.AreEqual(curriculumAssignment, storage.GetCurriculumAssignment(curriculumAssignmentId));
 
             curriculumAssignment.UserGroupRef = groups[1].Id;
             storage.UpdateCurriculumAssignment(curriculumAssignment);
             AdvAssert.AreEqual(curriculumAssignment, storage.GetCurriculumAssignment(curriculumAssignmentId));
+
+            //Secondary update
+            curriculumAssignment.UserGroupRef = groups[2].Id;
+            Assert.AreNotEqual(curriculumAssignment.UserGroupRef, storage.GetCurriculumAssignment(curriculumAssignmentId).UserGroupRef);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void DeleteCurriculumAssignmentTest()
         {
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
-
+            //Test DeleteCurriculumAssignment()
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
             IUserService userService = lmsService.FindService<IUserService>();
             List<Group> groups = userService.GetGroups().ToList();
-
-            CurriculumAssignment curriculumAssignment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groups[0].Id };
-            int curriculumAssignmentId = storage.AddCurriculumAssignment(curriculumAssignment);
-            AdvAssert.AreEqual(curriculumAssignment, storage.GetCurriculumAssignment(curriculumAssignmentId));
-
-            List<CurriculumAssignment> curriculumAssignments = new List<CurriculumAssignment>();
-            curriculumAssignments.Add(curriculumAssignment);
-
-            AdvAssert.AreEqual(curriculumAssignments, storage.GetCurriculumAssignmentsByGroupId(groups[0].Id).ToList());
-
+            
+            int curriculumAssignmentId = storage.AddCurriculumAssignment(Utils.GetDefaultCurriculumAssignment(curriculumId,groups[0].Id));
             storage.DeleteCurriculumAssignment(curriculumAssignmentId);
-            storage.GetCurriculumAssignment(curriculumAssignmentId);
-            Assert.AreEqual(true, false);
+            Assert.AreEqual(null, storage.GetCurriculumAssignment(curriculumAssignmentId));
+
+            //Test DeleteCurriculumAssignments(), delete not all items
+            List<int> ids = new List<int>();
+            ids.Add(storage.AddCurriculumAssignment(new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groups[0].Id }));
+            ids.Add(storage.AddCurriculumAssignment(new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groups[0].Id }));
+            ids.Add(storage.AddCurriculumAssignment(new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groups[0].Id }));
+            storage.DeleteCurriculums(ids.GetSpecificItems(0, 2));
+
+            Assert.AreEqual(null, storage.GetCurriculumAssignment(ids[0]));
+            Assert.AreNotEqual(null, storage.GetCurriculumAssignment(ids[1]));
+            Assert.AreEqual(null, storage.GetCurriculumAssignment(ids[2]));
         }
 
         #endregion
@@ -497,103 +533,97 @@ namespace IUDICO.UnitTests
         [TestMethod]
         public void AddTimelineTest()
         {
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
-
+            //Test AddTimeline() and GetTimeline()
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
             IUserService userService = lmsService.FindService<IUserService>();
             List<Group> groups = userService.GetGroups().ToList();
+            int curriculumAssignmentId = storage.AddCurriculumAssignment(Utils.GetDefaultCurriculumAssignment(curriculumId, groups[0].Id));
 
-            CurriculumAssignment curriculumAssingment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groups[0].Id };
-            int curriculumAssignmentId = storage.AddCurriculumAssignment(curriculumAssingment);
-
-            Timeline timelineOne = new Timeline() { StartDate = DateTime.Now, EndDate = DateTime.Now, CurriculumAssignmentRef = curriculumAssignmentId };
-            int timelineOneId = storage.AddTimeline(timelineOne);
-            AdvAssert.AreEqual(timelineOne, storage.GetTimeline(timelineOneId));
-
-            Timeline timelineTwo = new Timeline() { StartDate = DateTime.Now, EndDate = DateTime.Now, CurriculumAssignmentRef = curriculumAssignmentId };
-            int timelineTwoId = storage.AddTimeline(timelineTwo);
             List<Timeline> timelines = new List<Timeline>();
-            timelines.Add(timelineOne);
-            timelines.Add(timelineTwo);
+            timelines.Add(new Timeline() { CurriculumAssignmentRef = curriculumAssignmentId, StartDate = DateTime.Now, EndDate = DateTime.Now });
+            timelines.Add(new Timeline() { CurriculumAssignmentRef = curriculumAssignmentId, StartDate = DateTime.Now, EndDate = DateTime.Now });
+            timelines.Add(new Timeline() { CurriculumAssignmentRef = curriculumAssignmentId, StartDate = DateTime.Now, EndDate = DateTime.Now });
+            timelines.Add(new Timeline() { CurriculumAssignmentRef = curriculumAssignmentId, StartDate = DateTime.Now, EndDate = DateTime.Now });
 
-            AdvAssert.AreEqual(timelines, storage.GetCurriculumAssignmentTimelines(curriculumAssignmentId).ToList());
+            List<int> ids = new List<int>();
+            timelines.ForEach(item => ids.Add(storage.AddTimeline(item)));
+
+            timelines.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(timelines[i], storage.GetTimeline(ids[i])));
         }
 
         [TestMethod]
         public void GetTimelineTests()
         {
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
-
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
+            int stageId = storage.AddStage(Utils.GetDefaultStage(curriculumId));
             IUserService userService = lmsService.FindService<IUserService>();
             List<Group> groups = userService.GetGroups().ToList();
+            int curriculumAssignmentId = storage.AddCurriculumAssignment(Utils.GetDefaultCurriculumAssignment(curriculumId, groups[0].Id));
 
-            CurriculumAssignment curriculumAssingment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groups[0].Id };
-            int curriculumAssignmentId = storage.AddCurriculumAssignment(curriculumAssingment);
+            List<Timeline> timelines = new List<Timeline>();
+            timelines.Add(new Timeline() { CurriculumAssignmentRef = curriculumAssignmentId, StartDate = DateTime.Now, EndDate = DateTime.Now, StageRef = stageId});
+            timelines.Add(new Timeline() { CurriculumAssignmentRef = curriculumAssignmentId, StartDate = DateTime.Now, EndDate = DateTime.Now});
+            timelines.Add(new Timeline() { CurriculumAssignmentRef = curriculumAssignmentId, StartDate = DateTime.Now, EndDate = DateTime.Now, StageRef = stageId});
+            List<int> ids = new List<int>();
+            timelines.ForEach(item => ids.Add(storage.AddTimeline(item)));
 
-            Stage stage = new Stage() { Name = "Stage", CurriculumRef = curriculumId };
-            int stageId = storage.AddStage(stage);
+            //Test GetCurriculumAssignmentTimelines()
+            AdvAssert.AreEqual(timelines.GetSpecificItems(0, 2), storage.GetCurriculumAssignmentTimelines(curriculumAssignmentId).ToList());
 
-            Timeline timeline = new Timeline() { StartDate = DateTime.Now, EndDate = DateTime.Now, CurriculumAssignmentRef = curriculumAssignmentId, StageRef = stageId };
-            int timelineId = storage.AddTimeline(timeline);
+            //Test GetStageTimelinesByStageId()
+            AdvAssert.AreEqual(timelines.GetSpecificItems(1), storage.GetStageTimelinesByStageId(stageId).ToList());
 
-            List<Timeline> stageTimelines = new List<Timeline>();
-            stageTimelines.Add(timeline);
-
-            AdvAssert.AreEqual(stageTimelines, storage.GetStageTimelinesByStageId(stageId).ToList());
-            AdvAssert.AreEqual(stageTimelines, storage.GetStageTimelinesByCurriculumAssignmentId(curriculumAssignmentId).ToList());
-            AdvAssert.AreEqual(stageTimelines, storage.GetStageTimelines(stageId, curriculumAssignmentId).ToList());
+            //Test GetStageTimelines()
+            AdvAssert.AreEqual(timelines.GetSpecificItems(1), storage.GetStageTimelines(stageId,curriculumAssignmentId).ToList());
         }
 
         [TestMethod]
         public void UpdateTimelineTest()
         {
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
-
+            //Test UpdateTimeline()
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
             IUserService userService = lmsService.FindService<IUserService>();
             List<Group> groups = userService.GetGroups().ToList();
+            int curriculumAssignmentId = storage.AddCurriculumAssignment(Utils.GetDefaultCurriculumAssignment(curriculumId, groups[0].Id));
 
-            CurriculumAssignment curriculumAssingment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groups[0].Id };
-            int curriculumAssignmentId = storage.AddCurriculumAssignment(curriculumAssingment);
-
-            Stage stage = new Stage() { Name = "Stage", CurriculumRef = curriculumId };
-            int stageId = storage.AddStage(stage);
-
-            Timeline timeline = new Timeline() { StartDate = DateTime.Now, EndDate = DateTime.Now, CurriculumAssignmentRef = curriculumAssignmentId, StageRef = stageId };
+            Timeline timeline = new Timeline { CurriculumAssignmentRef = curriculumAssignmentId, StartDate = DateTime.Now, EndDate = DateTime.Now };
             int timelineId = storage.AddTimeline(timeline);
-
-            timeline.EndDate = DateTime.Now;
+            timeline.StartDate = DateTime.Now;
             storage.UpdateTimeline(timeline);
+
             AdvAssert.AreEqual(timeline, storage.GetTimeline(timelineId));
+
+            //Secondary update
+            timeline.StartDate = DateTime.Now;
+            Assert.AreNotEqual(timeline.StartDate, storage.GetTimeline(timelineId).StartDate);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void DeleteTimelineTest()
         {
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
-
+            //Test DeleteTimeline()
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
             IUserService userService = lmsService.FindService<IUserService>();
             List<Group> groups = userService.GetGroups().ToList();
+            int curriculumAssignmentId = storage.AddCurriculumAssignment(Utils.GetDefaultCurriculumAssignment(curriculumId, groups[0].Id));
 
-            CurriculumAssignment curriculumAssingment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groups[0].Id };
-            int curriculumAssignmentId = storage.AddCurriculumAssignment(curriculumAssingment);
-
-            Timeline timeline = new Timeline() { StartDate = DateTime.Now, EndDate = DateTime.Now, CurriculumAssignmentRef = curriculumAssignmentId, StageRef = null };
+            Timeline timeline = new Timeline { CurriculumAssignmentRef = curriculumAssignmentId, StartDate = DateTime.Now, EndDate = DateTime.Now };
             int timelineId = storage.AddTimeline(timeline);
-
-            AdvAssert.AreEqual(timeline, storage.GetTimeline(timelineId));
-            timeline.StartDate = DateTime.Now;
-            timeline.EndDate = DateTime.Now;
-
-            storage.UpdateTimeline(timeline);
-            AdvAssert.AreEqual(timeline, storage.GetTimeline(timelineId));
-
             storage.DeleteTimeline(timelineId);
-            storage.GetTimeline(timelineId);
-            Assert.AreEqual(true, false);
+            Assert.AreEqual(null, storage.GetTimeline(timelineId));
+
+            //Test DeleteTimelines(), delete not all items
+            List<int> ids = new List<int>();
+            ids.Add(storage.AddTimeline(new Timeline() { CurriculumAssignmentRef = curriculumAssignmentId, StartDate = DateTime.Now, EndDate = DateTime.Now }));
+            ids.Add(storage.AddTimeline(new Timeline() { CurriculumAssignmentRef = curriculumAssignmentId, StartDate = DateTime.Now, EndDate = DateTime.Now }));
+            ids.Add(storage.AddTimeline(new Timeline() { CurriculumAssignmentRef = curriculumAssignmentId, StartDate = DateTime.Now, EndDate = DateTime.Now }));
+            storage.DeleteTimelines(ids.GetSpecificItems(0, 2));
+
+            Assert.AreEqual(null, storage.GetTimeline(ids[0]));
+            Assert.AreNotEqual(null, storage.GetTimeline(ids[1]));
+            Assert.AreEqual(null, storage.GetTimeline(ids[2]));
         }
 
         #endregion
@@ -603,31 +633,22 @@ namespace IUDICO.UnitTests
         [TestMethod]
         public void GetGroupTests()
         {
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
-
             IUserService userService = lmsService.FindService<IUserService>();
             List<Group> groups = userService.GetGroups().ToList();
+            List<CurriculumAssignment> curriculumAssignments = new List<CurriculumAssignment>();
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
+            curriculumAssignments.Add(Utils.GetDefaultCurriculumAssignment(curriculumId, groups[0].Id));
+            curriculumAssignments.Add(Utils.GetDefaultCurriculumAssignment(curriculumId, groups[1].Id));
+            curriculumAssignments.Add(Utils.GetDefaultCurriculumAssignment(curriculumId, groups[0].Id));
 
-            int groupOneId = groups[0].Id;
-            int groupTwoId = groups[1].Id;
-            int groupThreeId = groups[2].Id;
+            //Test GetAssignedGroups()
+            AdvAssert.AreEqual(groups.GetSpecificItems(0, 1), storage.GetAssignedGroups(curriculumId).ToList());
 
-            CurriculumAssignment curriculumAssingnment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groupOneId };
-            int curriculumAssingmentId = storage.AddCurriculumAssignment(curriculumAssingnment);
+            //Test GetNotAssignedGroups()
+            AdvAssert.AreEqual(groups.GetSpecificItems(2), storage.GetNotAssignedGroups(curriculumId).ToList());
 
-            List<Group> groupList = new List<Group>();
-            groupList.Add(groups[0]);
-
-            AdvAssert.AreEqual(groups, storage.GetAssignedGroups(curriculumId).ToList());
-
-            groups.Clear();
-            groups.Add(groups[1]);
-            groups.Add(groups[2]);
-            AdvAssert.AreEqual(groups, storage.GetNotAssignedGroups(curriculumId).ToList());
-
-            groups.Add(groups[0]);
-            AdvAssert.AreEqual(groups, storage.GetNotAssignedGroupsWithCurrentGroup(curriculumId, groupOneId).ToList());
+            //Test GetNotAssignedGroupsWithCurrentGroup()
+            AdvAssert.AreEqual(groups.GetSpecificItems(1,2), storage.GetNotAssignedGroupsWithCurrentGroup(curriculumId,groups[1].Id).ToList());
         }
 
         #endregion
@@ -637,132 +658,107 @@ namespace IUDICO.UnitTests
         [TestMethod]
         public void AddThemeAssignmentTest()
         {
-            //Update створює новий ТемАсс замість заміни старого,тому виходить два однакових темАсс,просто з різними Ід
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
-
+            //Test AddThemeAssignment and GetThemeAssignment()
+            ICourseService courseService = lmsService.FindService<ICourseService>();
             IUserService userService = lmsService.FindService<IUserService>();
             List<Group> groups = userService.GetGroups().ToList();
-            int groupId = groups[0].Id;
+            List<Course> courses = courseService.GetCourses().ToList();
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
+            int stageId = storage.AddStage(Utils.GetDefaultStage(curriculumId));
+            int themeId = storage.AddTheme(new Theme() { Name = "Theme", CourseRef = courses[0].Id, StageRef = stageId, ThemeTypeRef = 1 });
+            int curriculumAssignmentId = storage.AddCurriculumAssignment(Utils.GetDefaultCurriculumAssignment(curriculumId, groups[0].Id));
 
-            CurriculumAssignment curriculumAssignment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groupId };
-            int curriculumAssignmentId = storage.AddCurriculumAssignment(curriculumAssignment);
+            List<ThemeAssignment> themeAssignments = new List<ThemeAssignment>();
+            themeAssignments.Add(new ThemeAssignment() { CurriculumAssignmentRef = curriculumAssignmentId, MaxScore = 1, IsDeleted = false, ThemeRef = themeId});
+            themeAssignments.Add(new ThemeAssignment() { CurriculumAssignmentRef = curriculumAssignmentId, MaxScore = 1, IsDeleted = false, ThemeRef = themeId });
+            themeAssignments.Add(new ThemeAssignment() { CurriculumAssignmentRef = curriculumAssignmentId, MaxScore = 1, IsDeleted = false, ThemeRef = themeId });
+            themeAssignments.Add(new ThemeAssignment() { CurriculumAssignmentRef = curriculumAssignmentId, MaxScore = 1, IsDeleted = false, ThemeRef = themeId });
 
-            Stage stage = new Stage() { Name = "Stage", CurriculumRef = curriculumId };
-            int stageId = storage.AddStage(stage);
+            List<int> ids = new List<int>();
+            themeAssignments.ForEach(item => ids.Add(storage.AddThemeAssignment(item)));
 
-            Theme theme = new Theme() { Name = "Theme", ThemeTypeRef = 1, StageRef = stageId };
-            int themeId = storage.AddTheme(theme);
-
-            ThemeAssignment themeAssignment = new ThemeAssignment()
-            {
-                CurriculumAssignmentRef = curriculumAssignmentId,
-                MaxScore = 1,
-                ThemeRef = themeId
-            };
-
-            int themeAssignmentId = storage.AddThemeAssignment(themeAssignment);
-            AdvAssert.AreEqual(themeAssignment, storage.GetThemeAssignment(themeAssignmentId));
+            themeAssignments.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(themeAssignments[i], storage.GetThemeAssignment(ids[i])));
         }
 
         [TestMethod]
         public void GetThemeAssignmentTest()
         {
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
-
+            ICourseService courseService = lmsService.FindService<ICourseService>();
             IUserService userService = lmsService.FindService<IUserService>();
             List<Group> groups = userService.GetGroups().ToList();
-            int groupId = groups[0].Id;
+            List<Course> courses = courseService.GetCourses().ToList();
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
+            int stageId = storage.AddStage(Utils.GetDefaultStage(curriculumId));
 
-            CurriculumAssignment curriculumAssignment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groupId };
-            int curriculumAssignmentId = storage.AddCurriculumAssignment(curriculumAssignment);
+            int themeOneId = storage.AddTheme(new Theme() { Name = "Theme", CourseRef = courses[0].Id, StageRef = stageId, ThemeTypeRef = 1 });
+            int themeTwoId = storage.AddTheme(new Theme() { Name = "Theme", CourseRef = courses[1].Id, StageRef = stageId, ThemeTypeRef = 1 });
 
-            Stage stage = new Stage() { Name = "Stage", CurriculumRef = curriculumId };
-            int stageId = storage.AddStage(stage);
-
-            Theme theme = new Theme() { Name = "Theme", ThemeTypeRef = 1, StageRef = stageId };
-            int themeId = storage.AddTheme(theme);
-
-            ThemeAssignment themeAssignment = new ThemeAssignment()
-            {
-                CurriculumAssignmentRef = curriculumAssignmentId,
-                MaxScore = 1,
-                ThemeRef = themeId
-            };
-            int themeAssignmentId = storage.AddThemeAssignment(themeAssignment);
+            int curriculumAssignmentOneId = storage.AddCurriculumAssignment(Utils.GetDefaultCurriculumAssignment(curriculumId, groups[0].Id));
+            int curriculumAssignmentTwoId = storage.AddCurriculumAssignment(Utils.GetDefaultCurriculumAssignment(curriculumId, groups[1].Id));
 
             List<ThemeAssignment> themeAssignments = new List<ThemeAssignment>();
-            themeAssignments.Add(themeAssignment);
-            AdvAssert.AreEqual(themeAssignments, storage.GetThemeAssignmentsByThemeId(themeId).ToList());
+            themeAssignments.Add(new ThemeAssignment() { CurriculumAssignmentRef = curriculumAssignmentOneId, MaxScore = 1, IsDeleted = false, ThemeRef = themeTwoId });
+            themeAssignments.Add(new ThemeAssignment() { CurriculumAssignmentRef = curriculumAssignmentOneId, MaxScore = 1, IsDeleted = false, ThemeRef = themeTwoId });
+            themeAssignments.Add(new ThemeAssignment() { CurriculumAssignmentRef = curriculumAssignmentTwoId, MaxScore = 1, IsDeleted = false, ThemeRef = themeOneId });
+            themeAssignments.Add(new ThemeAssignment() { CurriculumAssignmentRef = curriculumAssignmentTwoId, MaxScore = 1, IsDeleted = false, ThemeRef = themeOneId });
+            themeAssignments.ForEach(item => storage.AddThemeAssignment(item));
 
-            themeAssignments.Clear();
-            themeAssignments.Add(themeAssignment);
-            AdvAssert.AreEqual(themeAssignments, storage.GetThemeAssignmentsByCurriculumAssignmentId(curriculumAssignmentId).ToList());
+            //Test GetThemeAssignmentsByCurriculumAssignmentId()
+            AdvAssert.AreEqual(themeAssignments.GetSpecificItems(2, 3), storage.GetThemeAssignmentsByCurriculumAssignmentId(curriculumAssignmentTwoId).ToList());
+
+            //Test GetThemeAssignmentsByThemeId()
+            AdvAssert.AreEqual(themeAssignments.GetSpecificItems(0, 1), storage.GetThemeAssignmentsByThemeId(themeTwoId).ToList());
         }
 
         [TestMethod]
         public void UpdateThemeAssignmentTest()
         {
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
-
+            //Test UpdateThemeAssignment()
+            ICourseService courseService = lmsService.FindService<ICourseService>();
             IUserService userService = lmsService.FindService<IUserService>();
             List<Group> groups = userService.GetGroups().ToList();
+            List<Course> courses = courseService.GetCourses().ToList();
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
+            int stageId = storage.AddStage(Utils.GetDefaultStage(curriculumId));
+            int themeId = storage.AddTheme(new Theme() { Name = "Theme", CourseRef = courses[0].Id, StageRef = stageId, ThemeTypeRef = 1 });
+            int curriculumAssignmentId = storage.AddCurriculumAssignment(Utils.GetDefaultCurriculumAssignment(curriculumId, groups[0].Id));
 
-            CurriculumAssignment curriculumAssignment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groups[0].Id };
-            int curriculumAssignmentId = storage.AddCurriculumAssignment(curriculumAssignment);
-
-            Stage stage = new Stage() { Name = "Stage", CurriculumRef = curriculumId };
-            int stageId = storage.AddStage(stage);
-
-            Theme theme = new Theme() { Name = "Theme", ThemeTypeRef = 1, StageRef = stageId };
-            int themeId = storage.AddTheme(theme);
-
-            ThemeAssignment themeAssignment = new ThemeAssignment()
-            {
-                CurriculumAssignmentRef = curriculumAssignmentId,
-                MaxScore = 1,
-                ThemeRef = themeId
-            };
+            ThemeAssignment themeAssignment = new ThemeAssignment() { ThemeRef = themeId, MaxScore = 100, IsDeleted = false, CurriculumAssignmentRef = curriculumAssignmentId };
             int themeAssignmentId = storage.AddThemeAssignment(themeAssignment);
-
-            themeAssignment.MaxScore = 3;
+            themeAssignment.MaxScore = 1;
             storage.UpdateThemeAssignment(themeAssignment);
+
             AdvAssert.AreEqual(themeAssignment, storage.GetThemeAssignment(themeAssignmentId));
+
+            //Secondary update
+            themeAssignment.MaxScore = 50;
+            Assert.AreNotEqual(themeAssignment.MaxScore, storage.GetThemeAssignment(themeAssignmentId).MaxScore);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void DeleteThemeAssignmentTest()
         {
-            Curriculum curriculum = new Curriculum() { Name = "Curriculum" };
-            int curriculumId = storage.AddCurriculum(curriculum);
-
+            //Test DeleteThemeAssignments(), delete not all items
+            ICourseService courseService = lmsService.FindService<ICourseService>();
             IUserService userService = lmsService.FindService<IUserService>();
             List<Group> groups = userService.GetGroups().ToList();
+            List<Course> courses = courseService.GetCourses().ToList();
+            int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
+            int stageId = storage.AddStage(Utils.GetDefaultStage(curriculumId));
+            int themeId = storage.AddTheme(new Theme() { Name = "Theme", CourseRef = courses[0].Id, StageRef = stageId, ThemeTypeRef = 1 });
+            int curriculumAssignmentId = storage.AddCurriculumAssignment(Utils.GetDefaultCurriculumAssignment(curriculumId, groups[0].Id));
 
-            CurriculumAssignment curriculumAssignment = new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groups[0].Id };
-            int curriculumAssignmentId = storage.AddCurriculumAssignment(curriculumAssignment);
+            List<int> ids = new List<int>();
+            ids.Add(storage.AddThemeAssignment(new ThemeAssignment() { CurriculumAssignmentRef = curriculumAssignmentId, IsDeleted = false, MaxScore = 100, ThemeRef = themeId }));
+            ids.Add(storage.AddThemeAssignment(new ThemeAssignment() { CurriculumAssignmentRef = curriculumAssignmentId, IsDeleted = false, MaxScore = 100, ThemeRef = themeId }));
+            ids.Add(storage.AddThemeAssignment(new ThemeAssignment() { CurriculumAssignmentRef = curriculumAssignmentId, IsDeleted = false, MaxScore = 100, ThemeRef = themeId }));
+            storage.DeleteThemeAssignments(ids.GetSpecificItems(0, 2));
 
-            Stage stage = new Stage() { Name = "Stage", CurriculumRef = curriculumId };
-            int stageId = storage.AddStage(stage);
-
-            Theme theme = new Theme() { Name = "Theme", ThemeTypeRef = 1, StageRef = stageId };
-            int themeId = storage.AddTheme(theme);
-
-            ThemeAssignment themeAssignment = new ThemeAssignment()
-            {
-                CurriculumAssignmentRef = curriculumAssignmentId,
-                MaxScore = 1,
-                ThemeRef = themeId
-            };
-            int themeAssignmentId = storage.AddThemeAssignment(themeAssignment);
-
-            var themeAssignmentIds = storage.GetThemeAssignmentsByCurriculumAssignmentId(curriculumAssignmentId).Select(item => item.Id);
-            storage.DeleteThemeAssignments(themeAssignmentIds);
-            storage.GetThemeAssignments(themeAssignmentIds);
-            Assert.AreEqual(true, false);
+            Assert.AreEqual(null, storage.GetThemeAssignment(ids[0]));
+            Assert.AreNotEqual(null, storage.GetThemeAssignment(ids[1]));
+            Assert.AreEqual(null, storage.GetThemeAssignment(ids[2]));
         }
 
         #endregion

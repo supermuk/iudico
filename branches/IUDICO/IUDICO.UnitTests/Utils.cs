@@ -22,5 +22,10 @@ namespace IUDICO.UnitTests
         {
             return new Theme() { StageRef = stageId, CourseRef = courseId, Name = "Theme", ThemeTypeRef = 1 };
         }
+
+        public static CurriculumAssignment GetDefaultCurriculumAssignment(int curriculumId, int groupId)
+        {
+            return new CurriculumAssignment() { UserGroupRef = groupId, CurriculumRef = curriculumId };
+        }
     }
 }
