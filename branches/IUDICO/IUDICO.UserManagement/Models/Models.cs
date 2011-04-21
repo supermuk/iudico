@@ -147,11 +147,12 @@ namespace IUDICO.UserManagement.Models
     {
         public EditUserModel(User user)
         {
+            Username = user.Username;
             Name = user.Name;
-            Password = user.Password;
             Email = user.Email;
             RoleId = user.RoleId;
             OpenId = user.OpenId;
+            RolesList = user.RolesList;
         }
 
         public EditUserModel()
@@ -164,8 +165,8 @@ namespace IUDICO.UserManagement.Models
         public string Name { get; set; }
 
         [LocalizedDisplayName("Password", NameResourceType = "IUDICO.UserManagement.Resource")]
-        [Required(ErrorMessage = "Password is required")]
         [StringLength(50, ErrorMessage = "Password can not be longer than 50")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [LocalizedDisplayName("Email", NameResourceType = "IUDICO.UserManagement.Resource")]
@@ -175,6 +176,7 @@ namespace IUDICO.UserManagement.Models
         public string Email { get; set; }
 
         [LocalizedDisplayName("Role", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [DropDownList(OptionLabel = "Select Role", SourceProperty = "RolesList")]
         [Required(ErrorMessage = "Role is required")]
         public int RoleId { get; set; }
 
@@ -182,6 +184,24 @@ namespace IUDICO.UserManagement.Models
         [Required(ErrorMessage = "OpenId is required")]
         [StringLength(200, ErrorMessage = "OpenId can not be longer than 200")]
         public string OpenId { get; set; }
+
+        [ScaffoldColumn(false)]
+        public Role Role
+        {
+            get
+            {
+                return (Role)RoleId;
+            }
+            set
+            {
+                RoleId = (int)value;
+            }
+        }
+
+        [ScaffoldColumn(false)]
+        public string Username { get; set; }
+
+        public IEnumerable<SelectListItem> RolesList { get; set; }
     }
 
     public class UserGroupModel

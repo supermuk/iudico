@@ -151,13 +151,30 @@ namespace IUDICO.UserManagement.Models.Storage
             var oldUser = db.Users.Single(u => u.Id == id);
 
             oldUser.Name = user.Name;
-            oldUser.Password = EncryptPassword(user.Password);
+            if (user.Password != null && user.Password != string.Empty)
+                oldUser.Password = EncryptPassword(user.Password);
             oldUser.Email = user.Email;
             oldUser.OpenId = user.OpenId ?? string.Empty;
             oldUser.RoleId = user.RoleId;
             oldUser.Username = user.Username;
             oldUser.IsApproved = user.IsApproved;
             
+            db.SubmitChanges();
+
+            _LmsService.Inform(UserNotifications.UserEdit, oldUser);
+        }
+        public void EditUser(Guid id, EditUserModel user)
+        {
+            var db = GetDbContext();
+            var oldUser = db.Users.Single(u => u.Id == id);
+
+            oldUser.Name = user.Name;
+            if (user.Password != null && user.Password != string.Empty)
+                oldUser.Password = EncryptPassword(user.Password);
+            oldUser.Email = user.Email;
+            oldUser.OpenId = user.OpenId ?? string.Empty;
+            oldUser.RoleId = user.RoleId;
+
             db.SubmitChanges();
 
             _LmsService.Inform(UserNotifications.UserEdit, oldUser);
