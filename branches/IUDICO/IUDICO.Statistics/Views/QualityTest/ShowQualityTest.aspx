@@ -9,6 +9,8 @@
 
     <h2>ShowQualityTest</h2>
     <fieldset>
+    <%if (Model.NoData() == false)
+      { %>
         <div>
         Teacher: <%: Model.GetTeacherUserName()%>
         </div>
@@ -24,23 +26,28 @@
                 <th>Diagram</th>
                 <th>Coefficient</th>
             </tr>
-            <%foreach (KeyValuePair<int, double> question in Model.GetListOfCoefficient())
+            <%foreach (KeyValuePair<long, double> question in Model.GetListOfCoefficient())
               {%>
               <tr>
-              <td><%: question.Key %></td>
+              <td><%: question.Key%></td>
                 <% string diagram = "*";
-                foreach (IUDICO.Statistics.Models.QualityTest.UserAnswers userAnswer in Model.GetListOfUserAnswers())
-                {
-                    if (userAnswer.GetUserScoreForTest(question.Key) > 0)
-                        diagram += '|';
-                    else
-                        diagram += ' ';
-                } %>
+                   foreach (IUDICO.Statistics.Models.QualityTest.UserAnswers userAnswer in Model.GetListOfUserAnswers())
+                   {
+                       if (userAnswer.GetUserScoreForTest(question.Key) > 0)
+                           diagram += '|';
+                       else
+                           diagram += '_';
+                   } %>
                 <td><%:diagram%></td>
-                <td><%: question.Value %></td>
+                <td><%: question.Value%></td>
               </tr>
               <%} %>
         </table>
+        <%}
+      else
+      { %>
+      No data to show
+      <%} %>
     </fieldset>
 </asp:Content>
 

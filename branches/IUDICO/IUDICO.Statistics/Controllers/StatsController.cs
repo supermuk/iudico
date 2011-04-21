@@ -63,17 +63,17 @@ namespace IUDICO.Statistics.Controllers
 
         [Allow(Role = Role.Teacher)]
         [HttpPost]
-        public ActionResult ThemeTestResaults(long attemptId)
+        public ActionResult ThemeTestResults(long attemptId)
         {
-            var model = new ThemeTestResaultsModel(attemptId, (List<AttemptResult>)HttpContext.Session["Attempts"], LmsService);
+            var model = new ThemeTestResultsModel(attemptId, (List<AttemptResult>)HttpContext.Session["Attempts"], LmsService);
             return View(model);
         }
 
         [Allow(Role = Role.Student)]
         [HttpGet]
-        public ActionResult CurrentThemeTestResaults(Int32 themeId)
+        public ActionResult CurrentThemeTestResults(Int32 themeId)
         {
-            var model = new CurrentThemeTestResaultsModel(themeId, LmsService);           
+            var model = new CurrentThemeTestResultsModel(themeId, LmsService);           
             return View(model);
         }
     }

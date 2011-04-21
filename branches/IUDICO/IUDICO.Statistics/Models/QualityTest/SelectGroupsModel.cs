@@ -10,25 +10,25 @@ namespace IUDICO.Statistics.Models.QualityTest
 {
     public class SelectGroupsModel
     {
-        private List<Group> _AllowedGroups;
+        private IEnumerable<Group> _AllowedGroups;
         private String _TeacheUserName;
         private String _CurriculumName;
         private String _ThemeName;
 
         public SelectGroupsModel(ILmsService iLmsService, int selectThemeId, String teacherUserName, String curriculumName)
         {
-            List<Group> allowedGroups;
-            //List<Theme> allowedThemes = iLmsService.FindService<???>().GetThemesByCurriculumId(selectCurriculumId);
-            allowedGroups = FakeDataQualityTest.FakeGroupsByThemeIdOrCurriculumId(selectThemeId);
-            //
-            if (allowedGroups != null & allowedGroups.Count != 0)
-                _AllowedGroups = allowedGroups;
-            else
-                _AllowedGroups = null;
+            IEnumerable<Group> allowedGroups;
+            Theme selectTheme;
+            selectTheme = iLmsService.FindService<ICurriculumService>().GetTheme(selectThemeId);
+            _ThemeName = selectTheme.Name;
             _TeacheUserName = teacherUserName;
             _CurriculumName = curriculumName;
-            //_ThemeName = iLmsService.FindService<???>().GetThemeNameByThemeId(selectThemeId);
-            _ThemeName = FakeDataQualityTest.FakeThemeName(selectThemeId);
+            allowedGroups = iLmsService.FindService<ICurriculumService>().GetGroupsAssignedToTheme(selectThemeId);
+            //
+            if (allowedGroups != null & allowedGroups.Count() != 0)
+                _AllowedGroups = allowedGroups;
+            else
+                _AllowedGroups = null;            
         }
         public String GetCurriculumName()
         {
@@ -46,7 +46,7 @@ namespace IUDICO.Statistics.Models.QualityTest
         {
             return _AllowedGroups == null;
         }
-        public List<Group> GetAllowedGroups()
+        public IEnumerable<Group> GetAllowedGroups()
         {
             return this._AllowedGroups;
         }
