@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using IUDICO.Common.Models.Attributes;
 using System.Data.Linq;
 using System.Linq;
+using System.Globalization;
+using System.Threading;
+using System.Reflection;
 
 namespace IUDICO.Common.Models
 {
@@ -18,19 +21,19 @@ namespace IUDICO.Common.Models
             [ScaffoldColumn(false)]
             public int Id { get; set; }
 
-            [DisplayName("Name")]
+            [LocalizedDisplayName("Name", NameResourceType = "IUDICO.Common.Resource")]
             [Required(ErrorMessage = "Name is required")]
             public string Name { get; set; }
 
-            [DisplayName("Owner")]
+            [LocalizedDisplayName("Owner", NameResourceType = "IUDICO.Common.Resource")]
             [ScaffoldColumn(false)]
             public string Owner { get; set; }
 
-            [DisplayName("Created Date")]
+            [LocalizedDisplayName("CreatedDate", NameResourceType = "IUDICO.Common.Resource")]
             [ScaffoldColumn(false)]
             public DateTime Created { get; set; }
 
-            [DisplayName("Last Updated")]
+            [LocalizedDisplayName("LastUpdated", NameResourceType = "IUDICO.Common.Resource")]
             [ScaffoldColumn(false)]
             public DateTime Updated { get; set; }
 
@@ -60,16 +63,16 @@ namespace IUDICO.Common.Models
             [ScaffoldColumn(false)]
             public int Id { get; set; }
 
-            [DisplayName("Name")]
+            [LocalizedDisplayName("Name", NameResourceType = "IUDICO.Common.Resource")]
             [Required(ErrorMessage = "Name is required")]
             [StringLength(50, ErrorMessage = "Name can not be longer than 50.")]
             public string Name { get; set; }
 
-            [DisplayName("Create Date")]
+            [LocalizedDisplayName("CreateDate", NameResourceType = "IUDICO.Common.Resource")]
             [ScaffoldColumn(false)]
             public DateTime Created { get; set; }
 
-            [DisplayName("Update Date")]
+            [LocalizedDisplayName("UpdateDate", NameResourceType = "IUDICO.Common.Resource")]
             [ScaffoldColumn(false)]
             public DateTime Updated { get; set; }
 
@@ -93,16 +96,16 @@ namespace IUDICO.Common.Models
             [ScaffoldColumn(false)]
             public int Id { get; set; }
 
-            [DisplayName("Name")]
+            [LocalizedDisplayName("Name", NameResourceType = "IUDICO.Common.Resource")]
             [Required(ErrorMessage = "Name is required")]
             [StringLength(50, ErrorMessage = "Name can not be longer than 50.")]
             public string Name { get; set; }
 
-            [DisplayName("Create Date")]
+            [LocalizedDisplayName("CreateDate", NameResourceType = "IUDICO.Common.Resource")]
             [ScaffoldColumn(false)]
             public DateTime Created { get; set; }
 
-            [DisplayName("Update Date")]
+            [LocalizedDisplayName("UpdateDate", NameResourceType = "IUDICO.Common.Resource")]
             [ScaffoldColumn(false)]
             public DateTime Updated { get; set; }
 
@@ -129,16 +132,16 @@ namespace IUDICO.Common.Models
             [ScaffoldColumn(false)]
             public int Id { get; set; }
 
-            [DisplayName("Name")]
+            [LocalizedDisplayName("Name", NameResourceType = "IUDICO.Common.Resource")]
             [Required(ErrorMessage = "Name is required")]
             [StringLength(50, ErrorMessage = "Name can not be longer than 50.")]
             public string Name { get; set; }
 
-            [DisplayName("Create Date")]
+            [LocalizedDisplayName("CreateDate", NameResourceType = "IUDICO.Common.Resource")]
             [ScaffoldColumn(false)]
             public DateTime Created { get; set; }
 
-            [DisplayName("Update Date")]
+            [LocalizedDisplayName("UpdateDate", NameResourceType = "IUDICO.Common.Resource")]
             [ScaffoldColumn(false)]
             public DateTime Updated { get; set; }
 
@@ -170,7 +173,7 @@ namespace IUDICO.Common.Models
             [ScaffoldColumn(false)]
             public int Id { get; set; }
 
-            [DisplayName("Name")]
+            [LocalizedDisplayName("Name", NameResourceType = "IUDICO.Common.Resource")]
             [Required(ErrorMessage = "Name is required")]
             public string Name { get; set; }
 
@@ -181,7 +184,7 @@ namespace IUDICO.Common.Models
             public int CourseId { get; set; }
 
             [ScaffoldColumn(false)]
-            [DisplayName("Is Folder")]
+            [LocalizedDisplayName("IsFolder", NameResourceType = "IUDICO.Common.Resource")]
             public bool IsFolder { get; set; }
 
             [ScaffoldColumn(false)]
@@ -190,22 +193,22 @@ namespace IUDICO.Common.Models
             [ScaffoldColumn(false)]
             public int SequencingPattern { get; set; } 
 
-            [DisplayName("Allow Choise")]
+            [LocalizedDisplayName("AllowChoise", NameResourceType = "IUDICO.Common.Resource")]
             public bool Choise { get; set; }
 
-            [DisplayName("Allow Exit")]
+            [LocalizedDisplayName("AllowExit", NameResourceType = "IUDICO.Common.Resource")]
             public bool ChoiseExit { get; set; }
 
-            [DisplayName("Flow")]
+            [LocalizedDisplayName("Flow", NameResourceType = "IUDICO.Common.Resource")]
             public bool Flow { get; set; }
 
-            [DisplayName("Forwar Only")]
+            [LocalizedDisplayName("ForwarOnly", NameResourceType = "IUDICO.Common.Resource")]
             public bool ForwardOnly { get; set; }
 
-            [DisplayName("Attempt Limit")]
+            [LocalizedDisplayName("AttemptLimit", NameResourceType = "IUDICO.Common.Resource")]
             public int AttemptLimit { get; set; }
 
-            [DisplayName("Time Limit")]
+            [LocalizedDisplayName("TimeLimit", NameResourceType = "IUDICO.Common.Resource")]
             public string AttemptAbsoluteDurationLimit { get; set; }
         }
     }
@@ -219,19 +222,19 @@ namespace IUDICO.Common.Models
             [ScaffoldColumn(false)]
             public Guid Id { get; set; }
 
-            [DisplayName("Username")]
+            [LocalizedDisplayName("Username", NameResourceType = "IUDICO.Common.Resource")]
             [Required(ErrorMessage = "Username is required")]
             [StringLength(100, ErrorMessage = "Username can not be longer than 100")]
             [Order(1)]
             public string Username { get; set; }
 
-            [DisplayName("Password")]
+            [LocalizedDisplayName("Password", NameResourceType = "IUDICO.Common.Resource")]
             [Required(ErrorMessage = "Password is required")]
             [StringLength(50, ErrorMessage = "Password can not be longer than 50")]
             [Order(2)]
             public string Password { get; set; }
 
-            [DisplayName("Email")]
+            [LocalizedDisplayName("Email", NameResourceType = "IUDICO.Common.Resource")]
             [Required(ErrorMessage = "Email is required")]
             [StringLength(100, ErrorMessage = "Email can not be longer than 100")]
             [EmailAddress(ErrorMessage = "Not a valid email")]
@@ -239,7 +242,7 @@ namespace IUDICO.Common.Models
             public string Email { get; set; }
 
             [DropDownList(OptionLabel = "Select Role", SourceProperty = "RolesList")]
-            [DisplayName("Role")]
+            [LocalizedDisplayName("Role", NameResourceType = "IUDICO.Common.Resource")]
             [Order(6)]
             public int RoleId { get; set; }
 
@@ -248,7 +251,7 @@ namespace IUDICO.Common.Models
             [Order(4)]
             public string OpenId { get; set; }
 
-            [DisplayName("Name")]
+            [LocalizedDisplayName("Name", NameResourceType = "IUDICO.Common.Resource")]
             [Required(ErrorMessage = "Name is required")]
             [StringLength(200, ErrorMessage = "Name can not be longer than 200")]
             [Order(5)]
@@ -327,7 +330,7 @@ namespace IUDICO.Common.Models
             [ScaffoldColumn(false)]
             public EntitySet<GroupUser> GroupUsers { get; set; }
 
-            [DisplayName("Name")]
+            [LocalizedDisplayName("Name", NameResourceType = "IUDICO.Common.Resource")]
             [Required(ErrorMessage = "Name is required")]
             [StringLength(50, ErrorMessage = "Name can not be longer than 50")]
             public string Name { get; set; }
@@ -362,13 +365,13 @@ namespace IUDICO.Common.Models
             [ScaffoldColumn(false)]
             public int Id { get; set; }
 
-            [DisplayName("Start Date")]
+            [LocalizedDisplayName("StartDate", NameResourceType = "IUDICO.Common.Resource")]
             [Required(ErrorMessage = "Start Date is required")]
             [UIHint("DateTimeWithPicker")]
             [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
             public DateTime StartDate { get; set; }
 
-            [DisplayName("End Date")]
+            [LocalizedDisplayName("EndDate", NameResourceType = "IUDICO.Common.Resource")]
             [Required(ErrorMessage = "End Date is required")]
             [UIHint("DateTimeWithPicker")]
             [DisplayFormat(DataFormatString = /*"dd.MM.yy HH:mm:ss"*/"{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
@@ -403,7 +406,7 @@ namespace IUDICO.Common.Models
             [ScaffoldColumn(false)]
             public int CurriculumAssignmentRef { get; set; }
 
-            [DisplayName("Max Score")]
+            [LocalizedDisplayName("MaxScore", NameResourceType = "IUDICO.Common.Resource")]
             [Required(ErrorMessage = "Max score is required")]
             public int MaxScore { get; set; }
 
@@ -415,6 +418,64 @@ namespace IUDICO.Common.Models
 
             [ScaffoldColumn(false)]
             public bool IsDeleted { get; set; }
+        }
+    }
+    public class LocalizedDisplayNameAttribute : DisplayNameAttribute
+    {
+        private PropertyInfo _nameProperty;
+        private string _resource;
+
+        private static System.Resources.ResourceManager ManagerEN;
+        private static System.Resources.ResourceManager ManagerUK;
+
+        public LocalizedDisplayNameAttribute(string displayNameKey)
+            : base(displayNameKey)
+        {
+            ManagerEN = new System.Resources.ResourceManager("IUDICO.Common.Resource", Assembly.GetExecutingAssembly());
+            ManagerUK = new System.Resources.ResourceManager("IUDICO.Common.Resourceuk", Assembly.GetExecutingAssembly());
+        }
+
+        public string NameResourceType
+        {
+            get
+            {
+                return _resource;
+            }
+            set
+            {
+                _resource = value;
+
+                //_nameProperty = _resourceType.GetProperty(base.DisplayName, BindingFlags.Static | BindingFlags.Public);
+                /*if (Thread.CurrentThread.CurrentUICulture.Name == "en")
+                {
+                    _nameProperty = _resourceType.GetProperty("Resource", BindingFlags.Static | BindingFlags.Public);
+                }
+                else
+                {
+                    _nameProperty = _resourceType.GetProperty("Resourceuk", BindingFlags.Static | BindingFlags.Public);
+                }*/
+            }
+        }
+
+        public override string DisplayName
+        {
+            get
+            {
+                if (Thread.CurrentThread.CurrentUICulture.Name == "en")
+                {
+                    return ManagerEN.GetString(base.DisplayName, Thread.CurrentThread.CurrentUICulture);
+                }
+                else
+                {
+                    return ManagerUK.GetString(base.DisplayName, Thread.CurrentThread.CurrentUICulture);
+                }
+                if (_nameProperty == null)
+                {
+                    return base.DisplayName;
+                }
+
+                //return (string)_nameProperty.GetValue(_nameProperty.DeclaringType, null);
+            }
         }
     }
 }
