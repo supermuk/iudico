@@ -120,6 +120,7 @@ namespace IUDICO.UserManagement.Controllers
 
             var groupUser = new GroupUser
                                 {
+                                    Group = group,
                                     UserList = userList
                                 };
 
@@ -146,6 +147,7 @@ namespace IUDICO.UserManagement.Controllers
 
                 var groupUser = new GroupUser
                 {
+                    Group = group,
                     UserList = userList
                 };
 

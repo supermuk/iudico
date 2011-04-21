@@ -90,7 +90,7 @@ namespace IUDICO.UserManagement.Controllers
 
             user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = r.ToString(), Value = ((int)r).ToString(), Selected = (user.Role == r) });
 
-            return View(user);
+            return View(new EditUserModel(user));
         }
 
         //
@@ -98,11 +98,13 @@ namespace IUDICO.UserManagement.Controllers
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Edit(Guid id,  User user)
+        public ActionResult Edit(Guid id,  EditUserModel user)
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                user.Password = null;
+                user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = r.ToString(), Value = ((int)r).ToString(), Selected = (user.Role == r) });
+                return View(user);
             }
 
             _Storage.EditUser(id, user);

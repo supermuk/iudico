@@ -17,11 +17,14 @@
             <th></th>
         </tr>
 
-    <% foreach (var item in Model) { %>
+    <% if (Model.GetEnumerator().MoveNext())
+       {
+           foreach (var item in Model)
+           { %>
     
         <tr>
             <td>
-                <%: item.Name %>
+                <%: item.Name%>
             </td>
             <td>
                 <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Edit"), "Edit", new { id = item.Id })%> |
@@ -30,8 +33,19 @@
             </td>
         </tr>
     
+    <% }
+       }
+       else
+       {%>
+        <tr>
+            <td>
+                No data
+            </td>
+            <td>
+                No actions
+            </td>
+        </tr>
     <% } %>
-
     </table>
 
     <p>
