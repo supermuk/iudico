@@ -15,7 +15,7 @@
 	
 <script type="text/javascript">
 
-function OnLoad()
+function OnLoad(e)
 {
     // Get frameset manager
     frameMgr = API_GetFramesetManager();
@@ -29,7 +29,7 @@ function OnLoad()
 
 </script>
 </head>
-<body onload="OnLoad();">
+<body onload="OnLoad(event)">
     <form id="form1" runat="server">
     <div>
     <% WriteHiddenControls(); %>

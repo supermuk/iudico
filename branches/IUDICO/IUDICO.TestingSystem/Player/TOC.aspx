@@ -20,7 +20,7 @@
     g_previousActivityId = null;
     g_frameMgr = API_GetFramesetManager();
     
-    function body_onload()
+    function body_onload(e)
     {
         // Tell frameMgr to call back when current activity changes
         g_frameMgr.ShowActivityId = SetCurrentElement;
@@ -34,7 +34,7 @@
     }
 </script>
 </head>
-<body class="NavBody" onload="body_onload()" onmousedown="body_onclick(event)">
+<body class="NavBody" onload="body_onload(event)" onmousedown="body_onclick(event)">
 <DIV id="divMain" style="visibility:hidden;MARGIN: 5px">
 	<DIV noWrap >
 		<!-- <p class="NavClosedPreviousBtnGrphic">&nbsp;</p> -->

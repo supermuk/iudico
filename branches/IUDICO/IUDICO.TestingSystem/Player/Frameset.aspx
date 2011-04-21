@@ -72,6 +72,15 @@
     }
     	
     </script>
+<% }
+   else if (Completed)
+   { %>
+    <script type="text/javascript">
+    function OnRedirectLoad()
+    {
+        parent.SubmitTraining()
+    }
+    </script>
 <% } %>
     <style type="text/css">
         body {
@@ -83,6 +92,13 @@
 </head>
 <% if (ShowError)
    {  %>
+    <% if (Completed)
+       { %>
+        <body onload="OnRedirectLoad()">
+        </body>
+    <% }
+       else
+       { %>
    <body class="ErrorBody">
 
         <table border="0" width="100%" id="table1" style="border-collapse: collapse">
@@ -90,7 +106,7 @@
 		    <td width="60">
 		    <p align="center">
 		    <img border="0" src="./Theme/Error.gif" width="49" height="49"></td>
-		    <td class="ErrorTitle"><% =ErrorTitle %></td>
+		    <td class="ErrorTitle"><% =ErrorTitle%></td>
 	    </tr>
 	    <tr>
 		    <td width="61">&nbsp;</td>
@@ -98,11 +114,12 @@
 	    </tr>
 	    <tr>
 		    <td width="61">&nbsp;</td>
-		    <td class="ErrorMessage"><% =ErrorMsg %></td>
+		    <td class="ErrorMessage"><% =ErrorMsg%></td>
 	    </tr>
         </table>
 
     </body>
+    <% } %>
    <%} else   // no error, so show frameset	
    { %>
 <body  onload="OnIFrameContentLoad()">

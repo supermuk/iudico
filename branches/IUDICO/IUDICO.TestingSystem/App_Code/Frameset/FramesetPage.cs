@@ -83,6 +83,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         public bool ProcessViewRequest(SessionView view, LearningSession session)
         {
+            Completed = false;
             switch (view)
             {
                 case SessionView.Execute:
@@ -94,6 +95,7 @@ namespace Microsoft.LearningComponents.Frameset
                             {
                                 RegisterError(ResHelper.GetMessage(FramesetResources.FRM_InvalidAttemptStatusForViewTitle),
                                          ResHelper.GetMessage(FramesetResources.FRM_ExecuteViewCompletedSessionMsg), false);
+                                Completed = true;
                                 return false;
                             }
                             else if (slsSession.AttemptStatus == AttemptStatus.Abandoned)
@@ -227,6 +229,11 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get { return FramesetHelper.ShowError; }
         }
+
+        /// <summary>
+        /// Stores Completion Status
+        /// </summary>
+        public bool Completed { get; set; }
 
         /// <summary>
         /// Return the short title of the error.

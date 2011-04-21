@@ -245,19 +245,9 @@
     </Content>
     <Content Include="Views\Training\Error.aspx" />
     <Content Include="Views\Training\Play.aspx" />
-    <None Include="App_GlobalResources\.svn\all-wcprops" />
-    <None Include="App_GlobalResources\.svn\entries" />
-    <None Include="App_GlobalResources\.svn\text-base\FramesetResources.Designer.cs.svn-base" />
-    <None Include="App_GlobalResources\.svn\text-base\FramesetResources.resx.svn-base" />
     <None Include="Shema\CompileSchema.bat" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_GlobalResources\.svn\prop-base\" />
-    <Folder Include="App_GlobalResources\.svn\props\" />
-    <Folder Include="App_GlobalResources\.svn\tmp\prop-base\" />
-    <Folder Include="App_GlobalResources\.svn\tmp\props\" />
-    <Folder Include="App_GlobalResources\.svn\tmp\text-base\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
       <Project>{9DD6C943-6608-4351-A521-E4B1F2F75E9D}</Project>
@@ -269,10 +259,12 @@
     <Content Include="App_GlobalResources\FramesetResources.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>FramesetResources.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <EmbeddedResource Include="FramesetResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>FramesetResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

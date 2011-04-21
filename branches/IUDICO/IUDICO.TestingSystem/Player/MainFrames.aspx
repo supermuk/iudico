@@ -20,7 +20,7 @@
             <td style="height: 100%">
                 <table cellpadding="0" cellspacing="0" border="0" style="height: 100%; width: 100%">
                     <tr>
-                        <td style="width: 180px">
+                        <td id="navigationColumn" style="width: 180px">
                             <table cellpadding="0" cellspacing="0" border="0" style="height: 100%; width: 100%">
                                 <tr>
                                     <td style="height: 22px">

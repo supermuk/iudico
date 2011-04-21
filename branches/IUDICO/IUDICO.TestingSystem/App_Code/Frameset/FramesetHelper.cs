@@ -108,7 +108,13 @@ namespace Microsoft.LearningComponents.Frameset
                         StoredLearningSession slsSession = m_session as StoredLearningSession;
 
                         if (!ProcessViewRequest(SessionView.Execute, slsSession))
+                        {
+                            if (slsSession.AttemptStatus == AttemptStatus.Completed)
+                            {
+
+                            }
                             return;
+                        }
 
                         // If the attempt id appeared valid (that is, it was numeric), but does not represent a valid 
                         // attempt, the call to access AttemptStatus on the session will trigger an InvalidOperationException
