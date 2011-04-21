@@ -120,8 +120,14 @@
   <data name="AvailableThemes" xml:space="preserve">
     <value>Доступні теми:</value>
   </data>
+  <data name="ChangeCulture" xml:space="preserve">
+    <value>en</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Головна</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>EN</value>
   </data>
   <data name="LoggedInAs" xml:space="preserve">
     <value>Ви увійшли як</value>

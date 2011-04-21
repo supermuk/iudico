@@ -276,4 +276,7 @@
   <data name="PleaseSelectCurriculumsToDelete" xml:space="preserve">
     <value>Будь ласка, виберіть курікулум для видалення</value>
   </data>
+  <data name="Up" xml:space="preserve">
+    <value>Вгору</value>
+  </data>
 </root>
