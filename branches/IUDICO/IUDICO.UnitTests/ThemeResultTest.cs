@@ -86,6 +86,27 @@ namespace TestProject1
             actual = target.GetThemeResultScore();
             Assert.AreEqual(expected, actual);
         }
+
+        /// <summary>
+        ///A test for GetThemeResultScore
+        ///</summary>
+        [TestMethod()] 
+        public void GetThemeResultScoreTest1()
+        {
+            IUDICO.Common.Models.User usr = new IUDICO.Common.Models.User() { Username = "Bob" };
+            IUDICO.Common.Models.Theme thm = new IUDICO.Common.Models.Theme() { Name = "Theme One" };
+            IUDICO.Common.Models.Shared.Statistics.AttemptResult AR = new IUDICO.Common.Models.Shared.Statistics.AttemptResult(1, usr, thm, IUDICO.Common.Models.Shared.Statistics.CompletionStatus.Completed, IUDICO.Common.Models.Shared.Statistics.AttemptStatus.Completed, IUDICO.Common.Models.Shared.Statistics.SuccessStatus.Passed, DateTime.Now, null);
+
+            ThemeResult target = new ThemeResult(usr, thm);
+            List<IUDICO.Common.Models.Shared.Statistics.AttemptResult> ARL = new List<IUDICO.Common.Models.Shared.Statistics.AttemptResult>();
+            ARL.Add(AR);
+            target.AttemptResults = ARL;
+
+            double? expected = 0.0;
+            double? actual;
+            actual = target.GetThemeResultScore();
+            Assert.AreEqual(expected, actual);
+        }
     }
 
 }
