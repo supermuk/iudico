@@ -629,9 +629,16 @@ namespace Microsoft.LearningComponents.Frameset
                 hiddenCtrlInfo.Id = null;    // no data to save
                 hiddenCtrlInfo.Value = null;
                 hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("frameMgr.TrainingComplete({0}, {1});",
-                        JScriptString.QuoteString(m_sessionEndedMsgTitle, false),
-                        JScriptString.QuoteString(m_sessionEndedMsg, false)));
+                            JScriptString.QuoteString(m_sessionEndedMsgTitle, false),
+                            JScriptString.QuoteString(m_sessionEndedMsg, false)));
                 hiddenControlInfos.Add(hiddenCtrlInfo);
+
+                hiddenCtrlInfo = new HiddenControlInfo();
+                hiddenCtrlInfo.Id = null;    // no data to save
+                hiddenCtrlInfo.Value = null;
+                hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("frameMgr.ShowStatisticResults();"));
+                hiddenControlInfos.Add(hiddenCtrlInfo);
+
                 return;
             }
 

@@ -394,7 +394,7 @@ namespace Microsoft.LearningComponents.Frameset
             // If there is a current activity to return to, allow the user to do that.
             if (hasCurrentActivity)
             {
-                sb.AppendLine("function onCancel()");
+                sb.AppendLine("function onCancel(event)");
                 sb.AppendLine("{");
                 sb.AppendLine(" var frameMgr = API_GetFramesetManager();");
                 sb.AppendLine(" if (frameMgr.ReadyForNavigation())");
@@ -406,7 +406,7 @@ namespace Microsoft.LearningComponents.Frameset
                 sb.AppendLine("}");
             }
 
-            sb.AppendLine("function onSubmit()");
+            sb.AppendLine("function onSubmit(event)");
             sb.AppendLine("{");
             sb.AppendLine(" var frameMgr = API_GetFramesetManager();");
             sb.AppendLine(" if (frameMgr.ReadyForNavigation())");
@@ -417,11 +417,11 @@ namespace Microsoft.LearningComponents.Frameset
             sb.AppendLine(" event.returnValue = false;");
             sb.AppendLine("}");
             sb.AppendLine("</script>");
-            sb.AppendLine(ResHelper.Format("{0}<br><br><input type='button' value='{1}' id='submitBtn' onClick='onSubmit()'/>", messageHtml, saveButtonHtml));
+            sb.AppendLine(ResHelper.Format("{0}<br><br><input type='button' value='{1}' id='submitBtn' onClick='onSubmit(event)'/>", messageHtml, saveButtonHtml));
 
             if (hasCurrentActivity)
             {
-                sb.AppendLine(ResHelper.Format("&nbsp;&nbsp;<input type='button' value='{0}' id='cancelBtn' onClick='onCancel()'/>", FramesetResources.POST_ContinueHtml));
+                sb.AppendLine(ResHelper.Format("&nbsp;&nbsp;<input type='button' value='{0}' id='cancelBtn' onClick='onCancel(event)'/>", FramesetResources.POST_ContinueHtml));
             }
 
             msgToDisplay = sb.ToString();

@@ -334,6 +334,7 @@ namespace IUDICO.Statistics.Models.Storage
         private bool _NoData;
         public CurrentThemeTestResultsModel(int themeId, ILmsService lmsService)
         {
+            _LmsService = lmsService;
             User currenUser = _LmsService.FindService<IUserService>().GetCurrentUser();
             Theme theme = _LmsService.FindService<ICurriculumService>().GetTheme(themeId);
             IEnumerable<AttemptResult> attemptResults = _LmsService.FindService<ITestingService>().GetResults(currenUser, theme);
