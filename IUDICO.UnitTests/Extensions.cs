@@ -14,17 +14,26 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(expected.Name, actual.Name);
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
             Assert.AreEqual(expected.Id, actual.Id);
-            Assert.AreEqual(expected.Created, actual.Created);
-            Assert.AreEqual(expected.Updated, actual.Updated);
+            Assert.AreEqual(expected.Created.ToString(), actual.Created.ToString());
+            Assert.AreEqual(expected.Updated.ToString(), actual.Updated.ToString());
         }
 
-        public static void AreEqual(List<Curriculum> expected, List<Curriculum> actual)
+        public static void AreEqual(IList<Curriculum> expected, IList<Curriculum> actual)
         {
             Assert.AreEqual(expected.Count, actual.Count);
 
-            for (int i = 0; i < expected.Count; i++)
+            foreach (Curriculum expectedItem in expected)
             {
-                AreEqual(expected[i], actual[i]);
+                Curriculum actualItem = actual.SingleOrDefault(item => item.Id == expectedItem.Id);
+                if (actualItem != null)
+                {
+                    AreEqual(expectedItem, actualItem);
+                }
+                else
+                {
+                    Assert.Fail(String.Format("Item with id={0} doesn't exist in actual collection, but expected in expected collection", 
+                        expectedItem.Id));
+                }
             }
         }
 
@@ -38,7 +47,7 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(expected.Updated, actual.Updated);
         }
 
-        public static void AreEqual(List<Stage> expected,List<Stage> actual)
+        public static void AreEqual(List<Stage> expected, List<Stage> actual)
         {
             Assert.AreEqual(expected.Count, actual.Count);
 
@@ -53,7 +62,7 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(expected.Name, actual.Name);
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
             Assert.AreEqual(expected.Id, actual.Id);
-            Assert.AreEqual(expected.CourseRef,actual.CourseRef);
+            Assert.AreEqual(expected.CourseRef, actual.CourseRef);
             Assert.AreEqual(expected.ThemeTypeRef, actual.ThemeTypeRef);
             Assert.AreEqual(expected.StageRef, actual.StageRef);
         }
@@ -88,7 +97,7 @@ namespace IUDICO.UnitTests
 
         public static void AreEqual(Timeline actual, Timeline expected)
         {
-            Assert.AreEqual(expected.EndDate, actual.EndDate);
+            Assert.AreEqual(expected.EndDate.ToString(), actual.EndDate.ToString());
             Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
             Assert.AreEqual(expected.CurriculumAssignmentRef, actual.CurriculumAssignmentRef);
@@ -139,10 +148,24 @@ namespace IUDICO.UnitTests
                 AreEqual(expected[i], actual[i]);
             }
         }
-    }    
-    
+    }
+
     public static class Extensions
     {
-
+        /// <summary>
+        /// Gets elements specified by itemNumbers from items collection.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items">The items.</param>
+        /// <param name="itemNumbers">The item numbers.</param>
+        /// <returns></returns>
+        public static List<T> GetSpecificItems<T>(this List<T> items, params int[] itemNumbers)
+        {
+            List<T> result = new List<T>();
+            itemNumbers
+                .ToList()
+                .ForEach(number => result.Add(items[number]));
+            return result;
+        }
     }
 }

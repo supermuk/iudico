@@ -9,7 +9,7 @@ using System.Configuration;
 using IUDICO.UserManagement.Models;
 using IUDICO.UserManagement.Models.Storage;
 
-namespace IUDICO.UnitTests
+namespace IUDICO.UnitTests.Fakes
 {
     class FakeLmsService : ILmsService
     {
@@ -19,8 +19,11 @@ namespace IUDICO.UnitTests
         {
             if (typeof(T) == typeof(IUserService))
             {
-                IUserStorage storage=new DatabaseUserStorage(this);
-                return (T) (new UserService(storage) as IService);
+                return (T)(new FakeUserService() as IService);
+            }
+            else if (typeof(T) == typeof(ICourseService))
+            {
+                return (T)(new FakeCourseService() as IService);
             }
 
             //must return pathes to fake or real services
