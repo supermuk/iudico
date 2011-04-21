@@ -18,7 +18,7 @@
 	{ 
 	    frameMgr = API_GetFramesetManager();
 	    frameMgr.SetPostFrame(HIDDEN_FRAME);
-	    frameMgr.SetPostableForm(content.frames[content.MAIN_FRAME].document.getElementById(HIDDEN_FRAME).contentWindow.document.forms[0]);
+	    frameMgr.SetPostableForm(parent.parent.frames[MAIN_FRAME].document.getElementById(HIDDEN_FRAME).contentWindow.document.forms[0]);
         
         contentIsCleared = frameMgr.ContentIsCleared();
         

@@ -32,6 +32,20 @@
     <script type="text/javascript">
 // debugger;
 
+    function SetContentHeight(height)
+    {
+        parent.document.getElementById("player").height = height;
+        frames["frameLearnTask"].document.getElementById("framesetParentMain").style.height = (height -53) + "px";
+        document.getElementById("frameLearnTask").height = height - 53;
+    }
+
+    function OnIFrameContentLoad()
+    {
+        /*var taskHeight = frames["frameLearnTask"].document.body.offsetHeight;
+        frames["frameLearnTask"].document.body.offsetHeight;*/
+        SetContentHeight(parent.viewPortHeight - parent.viewPortOffsetTop - parent.viewPortOffsetBottom);
+    }
+
     // Constants
     SCORM_2004 = "V1p3";
     SCORM_12 = "V1p2";
@@ -59,6 +73,12 @@
     	
     </script>
 <% } %>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 
 </head>
 <% if (ShowError)
@@ -85,14 +105,11 @@
     </body>
    <%} else   // no error, so show frameset	
    { %>
-<FRAMESET id="framesetOuter" name="framesetOuter" rows="53,*" framespacing="0" frameborder="0" border="0">
+<body  onload="OnIFrameContentLoad()">
+    <iframe name="frameTitle" id="frameTitle"  class="frameTitle" src="Title.htm" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" height="53" width="100%"></iframe>
 
-   <FRAME class="frameTitle" name="frameTitle" src="Title.htm" id="frameTitle" 
-                    marginwidth="0" marginheight="0" framespacing="0" noresize="noresize" scrolling="no" frameborder="0" />
+    <iframe name="frameLearnTask" id="frameLearnTask" class="ShellFrame" src="<%= MainFramesUrl %>" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" height="600px" width="100%"></iframe>
 
-   <FRAME class="ShellFrame" id="frameLearnTask" name="frameLearnTask" src="<% =MainFramesUrl %>" 
-                scrolling="no" marginwidth="0" marginheight="0" framespacing="0" frameborder="0" />
-
-</FRAMESET>
+</body>
 <%} %>
 </html>

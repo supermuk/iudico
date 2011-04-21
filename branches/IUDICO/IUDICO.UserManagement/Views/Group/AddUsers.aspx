@@ -3,7 +3,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=IUDICO.UserManagement.Localization.getMessage("AddUser")%></h2>
+    <h2><%=IUDICO.UserManagement.Localization.getMessage("AddUser") + " " + Model.Group.Name%></h2>
 
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary(true) %>

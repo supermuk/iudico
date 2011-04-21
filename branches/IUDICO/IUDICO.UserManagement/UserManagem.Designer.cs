@@ -97,7 +97,7 @@ namespace UsManagRes {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add User.
+        ///   Looks up a localized string similar to Add User To.
         /// </summary>
         public static string AddUser {
             get {

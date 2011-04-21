@@ -37,4 +37,3 @@ GO
 /****** Object:  Table [dbo].[ThemeTypes]    Script Date: 01/25/2011 01:34:49 ******/
 INSERT [dbo].[ThemeTypes] ([Id], [Name]) VALUES (1, N'Test')
 INSERT [dbo].[ThemeTypes] ([Id], [Name]) VALUES (2, N'Theory')
-

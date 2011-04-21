@@ -231,6 +231,7 @@ namespace IUDICO.Common.Models
             [LocalizedDisplayName("Password", NameResourceType = "IUDICO.Common.Resource")]
             [Required(ErrorMessage = "Password is required")]
             [StringLength(50, ErrorMessage = "Password can not be longer than 50")]
+            [DataType(DataType.Password)]
             [Order(2)]
             public string Password { get; set; }
 
