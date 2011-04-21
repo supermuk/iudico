@@ -32,6 +32,6 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.ThemeAssignment>" %>
     <% } %>
 
     <div>
-        <%: Html.RouteLink("Back to theme assignment list", "ThemeAssignments", new { action = "Index", CurriculumAssignmentId = HttpContext.Current.Session["CurriculumAssignmentId"] })%>
+        <%: Html.RouteLink(IUDICO.CurriculumManagement.Localization.getMessage("BackThemeAssignmentList"), "ThemeAssignments", new { action = "Index", CurriculumAssignmentId = HttpContext.Current.Session["CurriculumAssignmentId"] })%>
     </div>
 </asp:Content>
