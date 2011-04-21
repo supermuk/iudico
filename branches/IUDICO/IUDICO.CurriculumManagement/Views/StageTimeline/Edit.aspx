@@ -15,7 +15,7 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Edit stage timeline</h2>
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("EditStageTimeline")%></h2>
     <% Html.EnableClientValidation(); %>
     <% using (Html.BeginForm())
        {%>
@@ -24,19 +24,19 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
         <legend>Fields</legend>
         <%: Html.EditorFor(item => item.Timeline) %>
         <div class="editor-label">
-            <%: Html.Label("Choose a stage for timeline:")%>
+            <%: Html.Label(IUDICO.CurriculumManagement.Localization.getMessage("ChooseStageForTimeline")+":")%>
         </div>
         <div>
             <%: Html.DropDownListFor(x => x.StageId, Model.Stages)%>
         </div>
         <p>
-            <input type="submit" value="Update" />
+            <input type="submit" value=<%=IUDICO.CurriculumManagement.Localization.getMessage("Update")%> />
         </p>
     </fieldset>
     <% } %>
     <div>
         <br />
-        <%: Html.RouteLink("Back to list", "StageTimelines", new { action = "Index", CurriculumAssignmentId = HttpContext.Current.Session["CurriculumAssignmentId"] })%>
+        <%: Html.RouteLink(IUDICO.CurriculumManagement.Localization.getMessage("BackToList"), "StageTimelines", new { action = "Index", CurriculumAssignmentId = HttpContext.Current.Session["CurriculumAssignmentId"] })%>
     </div>
 </asp:Content>
 

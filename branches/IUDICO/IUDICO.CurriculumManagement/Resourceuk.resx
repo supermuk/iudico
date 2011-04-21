@@ -279,4 +279,13 @@
   <data name="Up" xml:space="preserve">
     <value>Вгору</value>
   </data>
+  <data name="BackThemeAssignmentList" xml:space="preserve">
+    <value>Повернутися до списку тем навчального плану</value>
+  </data>
+  <data name="ChooseStageForTimeline" xml:space="preserve">
+    <value>Choose a stage for timeline</value>
+  </data>
+  <data name="EditStageTimeline" xml:space="preserve">
+    <value>Редагувати часові межі етапа</value>
+  </data>
 </root>
