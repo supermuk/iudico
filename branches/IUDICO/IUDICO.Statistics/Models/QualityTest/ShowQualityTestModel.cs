@@ -30,6 +30,10 @@ namespace IUDICO.Statistics.Models.QualityTest
             else
                 return 0.0;
         }
+        public bool HaveUserThisQuestion(long activityPackageId)
+        {
+            return this._ListOfAnswers.Count(answer => answer.ActivityPackageId == activityPackageId) != 0;
+        }
         public IEnumerable<long> GetActivityPackageIds()
         {
             List<long> resultList = new List<long>();
@@ -161,14 +165,26 @@ namespace IUDICO.Statistics.Models.QualityTest
             }
             return resultList;
         }
-
+        private int CountAnswers(long activityPackageId)
+        {
+            int i = 0;
+            foreach (UserAnswers userAnswer in this._ListOfUserAnswers)
+            {
+                if (userAnswer.HaveUserThisQuestion(activityPackageId) == true)
+                    i++;
+            }
+            return i;
+        }
         private void Calculations()
         {
             foreach (long activityPackageId in _GetActivityPackageIds())
             {
-                double y_mean = _Calc_y_mean();
-                double S_y = _Calc_S_y(y_mean);
-                _ListOfCoefficient.Add(new KeyValuePair<long, double>(activityPackageId, _Calc_R_i(y_mean, S_y, activityPackageId)));
+                if (CountAnswers(activityPackageId) > 2)
+                {
+                    double y_mean = _Calc_y_mean();
+                    double S_y = _Calc_S_y(y_mean);
+                    _ListOfCoefficient.Add(new KeyValuePair<long, double>(activityPackageId, _Calc_R_i(y_mean, S_y, activityPackageId)));
+                }
             }
         }
         private double _Calc_R_i(double y_mean, double S_y, long activityPackageID)
