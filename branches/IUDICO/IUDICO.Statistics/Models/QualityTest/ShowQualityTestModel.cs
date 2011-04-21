@@ -18,23 +18,29 @@ namespace IUDICO.Statistics.Models.QualityTest
         {
             _User = user;
             _Score = score.Score.ToPercents();
-            //_ListOfAnswers = iLmsService.FindService<ITestingService>().GetAnswers(score);
-            _ListOfAnswers = FakeDataQualityTest.GetFakeAnswers(score);
+            _ListOfAnswers = iLmsService.FindService<ITestingService>().GetAnswers(score);
         }
-        public double GetUserScoreForTest(int numberOfTest)
+        public double GetUserScoreForTest(long activityPackageID)
         {
-            //temp
-            if (_ListOfAnswers.Count(c => c.ActivityTitle == numberOfTest.ToString()) == 0)
+            if (_ListOfAnswers.Count(c => c.ActivityPackageId == activityPackageID) == 0)
                 return 0.0;
-            AnswerResult temp = _ListOfAnswers.Single(c => c.ActivityTitle == numberOfTest.ToString());
+            AnswerResult temp = _ListOfAnswers.Single(c => c.ActivityPackageId == activityPackageID);
             if (temp.ScaledScore.HasValue == true & temp != null)
-                return _ListOfAnswers.Single(c => c.ActivityTitle == numberOfTest.ToString()).ScaledScore.Value;
+                return _ListOfAnswers.Single(c => c.ActivityPackageId == activityPackageID).ScaledScore.Value;
             else
                 return 0.0;
         }
+        public IEnumerable<long> GetActivityPackageIds()
+        {
+            List<long> resultList = new List<long>();
+            foreach (AnswerResult answerResult in this._ListOfAnswers)
+            {
+                resultList.Add(answerResult.ActivityPackageId);
+            }
+            return resultList;
+        }
         public double GetUserScore()
         {
-            //temp???
             if (this._Score.HasValue == true)
                 return this._Score.Value;
             else
@@ -75,40 +81,53 @@ namespace IUDICO.Statistics.Models.QualityTest
         private String _TeacheUserName;
         private String _CurriculumName;
         private String _ThemeName;
-        private List<KeyValuePair<int, double>> _ListOfCoefficient;
+        private List<KeyValuePair<long, double>> _ListOfCoefficient;
         private List<UserAnswers> _ListOfUserAnswers;
-        public ShowQualityTestModel(ILmsService iLmsService, int[] selectGroupIds, String teacherUserName, String curriculumName, String themeName, int selectThemeId)
+        public ShowQualityTestModel(ILmsService iLmsService, int[] selectGroupIds, String teacherUserName, String curriculumName, int selectThemeId)
         {
-            _ListOfCoefficient = new List<KeyValuePair<int, double>>();
+            //Inialization
+            _ListOfCoefficient = new List<KeyValuePair<long, double>>();
             _TeacheUserName = teacherUserName;
             _CurriculumName = curriculumName;
-            _ThemeName = themeName;
-            
+
+            //Creation of list of students in selected groups
             List<User> studentsFromSelectedGroups = new List<User>();
             foreach (var groupId in selectGroupIds)
-            {
-                //studentsFromSelectedGroups = studentsFromSelectedGroups.Union(iLmsService.FindService<IUserService>().GetUsersByGroup(iLmsService.FindService<IUserService>().GetGroup(groupId)));
-                studentsFromSelectedGroups.AddRange(FakeDataQualityTest.FakeUsersByGroupId(groupId));
+            {                
+                Group temp = iLmsService.FindService<IUserService>().GetGroup(groupId);                
+                studentsFromSelectedGroups.AddRange(iLmsService.FindService<IUserService>().GetUsersByGroup(temp));
             }
 
-            Theme selectTheme;
-            //selectTheme = iLmsService.FindService<ICurriculumService>().GetTheme(selectThemeId);
-            Theme fakeTheme = new Theme();
-            fakeTheme.Id = 1;
-            fakeTheme.Name = "Тема1";
             //
-            selectTheme = fakeTheme;
+            Theme selectTheme;
+            selectTheme = iLmsService.FindService<ICurriculumService>().GetTheme(selectThemeId);
+            _ThemeName = selectTheme.Name;
 
+            //Creation of list of students answers
             _ListOfUserAnswers = new List<UserAnswers>();
             foreach (User student in studentsFromSelectedGroups)
             {
-                _ListOfUserAnswers.Add(new UserAnswers(student,FakeDataQualityTest.GetFakeAttempt(student,selectTheme),iLmsService));
+                IEnumerable< AttemptResult> temp = iLmsService.FindService<ITestingService>().GetResults(student, selectTheme);
+                if (temp != null & temp.Count() != 0)
+                {
+                    temp = temp//.Where(attempt => attempt.CompletionStatus == CompletionStatus.Completed)
+                        .OrderBy(attempt => attempt.StartTime);
+                    if (temp.Count() != 0)
+                    {
+                        _ListOfUserAnswers.Add(new UserAnswers(student, temp.First(), iLmsService));
+                    }
+                }
             }
-            
-            UserAnswerComparer comparer = new UserAnswerComparer();
-            _ListOfUserAnswers.Sort(comparer);
-            
+
+            //_ListOfUserAnswers.OrderBy(userAnswer => userAnswer.GetUserScore());
+            _ListOfUserAnswers.Sort(new UserAnswerComparer());
             this.Calculations();
+        }
+
+        #region Get methods
+        public bool NoData()
+        {
+            return this._ListOfCoefficient.Count == 0;
         }
         public String GetCurriculumName()
         {
@@ -126,37 +145,50 @@ namespace IUDICO.Statistics.Models.QualityTest
         {
             return this._ListOfUserAnswers;
         }
-        public IEnumerable<KeyValuePair<int, double>> GetListOfCoefficient()
+        public IEnumerable<KeyValuePair<long, double>> GetListOfCoefficient()
         {
             return this._ListOfCoefficient;
         }
+        #endregion
+
+        #region Calculation methods
+        private IEnumerable<long> _GetActivityPackageIds()
+        {
+            IEnumerable<long> resultList = new List<long>();
+            foreach (UserAnswers userAnswers in this._ListOfUserAnswers)
+            {
+                resultList = resultList.Union(userAnswers.GetActivityPackageIds());
+            }
+            return resultList;
+        }
+
         private void Calculations()
         {
-            for (int i = 1; i < 11; i++)
+            foreach (long activityPackageId in _GetActivityPackageIds())
             {
                 double y_mean = _Calc_y_mean();
                 double S_y = _Calc_S_y(y_mean);
-                _ListOfCoefficient.Add(new KeyValuePair<int,double>(i,_Calc_R_i(y_mean,S_y,i)));
+                _ListOfCoefficient.Add(new KeyValuePair<long, double>(activityPackageId, _Calc_R_i(y_mean, S_y, activityPackageId)));
             }
         }
-        private double _Calc_R_i(double y_mean, double S_y, int i)
+        private double _Calc_R_i(double y_mean, double S_y, long activityPackageID)
         {
             double res = 0;
             foreach (UserAnswers userAnswer in _ListOfUserAnswers)
             {
-                res += userAnswer.GetUserScore() * userAnswer.GetUserScoreForTest(i);
+                res += userAnswer.GetUserScore() * userAnswer.GetUserScoreForTest(activityPackageID);
             }
-            double x_mean_i = _Calc_x_mean_i(i);
+            double x_mean_i = _Calc_x_mean_i(activityPackageID);
             res -= y_mean * _ListOfUserAnswers.Count * x_mean_i;
-            res /= S_y * _Calc_S_x_i(x_mean_i, i);
+            res /= S_y * _Calc_S_x_i(x_mean_i, activityPackageID);
             return res;
         }
-        private double _Calc_x_mean_i(int i)
+        private double _Calc_x_mean_i(long activityPackageID)
         {
             double sum = 0;
             foreach (UserAnswers userAnswer in _ListOfUserAnswers)
             {
-                sum += userAnswer.GetUserScoreForTest(i);
+                sum += userAnswer.GetUserScoreForTest(activityPackageID);
             }
             return sum / _ListOfUserAnswers.Count;
         }
@@ -180,14 +212,15 @@ namespace IUDICO.Statistics.Models.QualityTest
             }
             return Math.Sqrt(sum);
         }
-        private double _Calc_S_x_i(double x_i_mean,int i)
+        private double _Calc_S_x_i(double x_i_mean, long activityPackageID)
         {
             double sum = 0;
             foreach (UserAnswers userAnswer in _ListOfUserAnswers)
             {
-                sum += Math.Pow(userAnswer.GetUserScoreForTest(i) - x_i_mean, 2);
+                sum += Math.Pow(userAnswer.GetUserScoreForTest(activityPackageID) - x_i_mean, 2);
             }
             return Math.Sqrt(sum);
         }
+        #endregion
     }
 }

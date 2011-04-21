@@ -48,7 +48,7 @@ namespace IUDICO.Statistics.Controllers
         public ActionResult ShowQualityTest(int[] selectGroupIds)
         {
             ShowQualityTestModel model = new ShowQualityTestModel(LmsService, selectGroupIds, (String)HttpContext.Session["TeacherUserName"],
-                (String)HttpContext.Session["CurriculumName"], (String)HttpContext.Session["ThemeName"], (int)HttpContext.Session["ThemeId"]);
+                (String)HttpContext.Session["CurriculumName"], (int)HttpContext.Session["ThemeId"]);
             return View(model);
         }
     }
