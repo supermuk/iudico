@@ -114,7 +114,7 @@
                 <td>
                     <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Edit"), "Edit", new { ThemeID = item.Id })%>
                     |
-                    <%: Html.ActionLink("Up", "ThemeUp", new { ThemeID = item.Id })%>
+                    <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Up"), "ThemeUp", new { ThemeID = item.Id })%>
                     |
                     <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Down"), "ThemeDown", new { ThemeID = item.Id })%>
                     |
