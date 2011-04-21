@@ -195,7 +195,7 @@ namespace IUDICO.UserManagement.Models
     public class LocalizedDisplayNameAttribute : DisplayNameAttribute
     {
         private PropertyInfo _nameProperty;
-        private string _resourceType;
+        private string _resource;
 
         private static System.Resources.ResourceManager ManagerEN;
         private static System.Resources.ResourceManager ManagerUK;
@@ -211,11 +211,11 @@ namespace IUDICO.UserManagement.Models
         {
             get
             {
-                return _resourceType;
+                return _resource;
             }
             set
             {
-                _resourceType = value;
+                _resource = value;
 
                 //_nameProperty = _resourceType.GetProperty(base.DisplayName, BindingFlags.Static | BindingFlags.Public);
                 /*if (Thread.CurrentThread.CurrentUICulture.Name == "en")
