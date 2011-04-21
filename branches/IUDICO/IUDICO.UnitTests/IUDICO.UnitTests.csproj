@@ -75,11 +75,14 @@
     <Compile Include="CurriculumResultTest.cs" />
     <Compile Include="CurriculumStorageTest.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="FakeLmsService.cs" />
+    <Compile Include="Fakes\FakeCourseService.cs" />
+    <Compile Include="Fakes\FakeLmsService.cs" />
+    <Compile Include="Fakes\FakeUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecializedResultTest.cs" />
     <Compile Include="ThemeInfoModelTest.cs" />
     <Compile Include="ThemeResultTest.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
