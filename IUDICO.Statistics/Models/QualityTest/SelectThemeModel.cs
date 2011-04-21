@@ -10,23 +10,25 @@ namespace IUDICO.Statistics.Models.QualityTest
 {
     public class SelectThemeModel
     {
-        private List<Theme> _AllowedThemes;
+        private IEnumerable<Theme> _AllowedThemes;
         private String _TeacheUserName;
         private String _CurriculumName;
 
         public SelectThemeModel(ILmsService iLmsService,long selectCurriculumId, String teacherUserName)
         {
-            List<Theme> allowedThemes;
-            //List<Theme> allowedThemes = iLmsService.FindService<???>().GetThemesByCurriculumId(selectCurriculumId);
-            allowedThemes = FakeDataQualityTest.FakeThemesByCurriculumId();
+            IEnumerable<Theme> allowedThemes;
+            User teacherUser = iLmsService.FindService<IUserService>().GetCurrentUser();
+            IEnumerable<Course> availableCourses = iLmsService.FindService<ICourseService>().GetCourses(teacherUser);
             //
-            if (allowedThemes != null & allowedThemes.Count != 0)
+            allowedThemes = iLmsService.FindService<ICurriculumService>().GetThemesByCurriculumId((int)selectCurriculumId)
+                .Where(theme => availableCourses.Count(course => course.Id == theme.CourseRef) != 0);
+            //
+            if (allowedThemes != null & allowedThemes.Count() != 0)
                 _AllowedThemes = allowedThemes;
             else
                 _AllowedThemes = null;
             _TeacheUserName = teacherUserName;
-            //_CurriculumName = iLmsService.FindService<???>().GetCurriculumNameByCurriculumId(selectCurriculumId);
-            _CurriculumName = FakeDataQualityTest.FakeCurriculumName(selectCurriculumId);
+            _CurriculumName = iLmsService.FindService<ICurriculumService>().GetCurriculum((int)selectCurriculumId).Name;
         }
         public String GetCurriculumName()
         {
@@ -40,7 +42,7 @@ namespace IUDICO.Statistics.Models.QualityTest
         {
             return _AllowedThemes == null;
         }
-        public List<Theme> GetAllowedThemes()
+        public IEnumerable<Theme> GetAllowedThemes()
         {
             return this._AllowedThemes;
         }

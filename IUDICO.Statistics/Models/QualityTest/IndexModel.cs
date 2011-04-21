@@ -10,18 +10,16 @@ namespace IUDICO.Statistics.Models.QualityTest
 {
     public class IndexModel
     {
-        private List<Curriculum> _AllowedCurriculums;
+        private IEnumerable<Curriculum> _AllowedCurriculums;
         private User _TeacherUser;
         public IndexModel(ILmsService iLmsService)
         {
-            List<Curriculum> allowedCurriculums;
+            IEnumerable<Curriculum> allowedCurriculums;
             User teacherUser;
-            //teacherUser = iLmsService.FindService<IUserService>().GetTeacherId(???);
-            //List<Curriculum> allowedCurriculums = iLmsService.FindService<???>().GetAlowedCurriculums();
-            allowedCurriculums = FakeDataQualityTest.FakeAllowedCurriculums();
-            teacherUser = FakeDataQualityTest.FakeTeacherUser();
+            teacherUser = iLmsService.FindService<IUserService>().GetCurrentUser();
+            allowedCurriculums = iLmsService.FindService<ICurriculumService>().GetCurriculumsWithThemesOwnedByUser(teacherUser);
             //
-            if (allowedCurriculums != null & allowedCurriculums.Count != 0)
+            if (allowedCurriculums != null & allowedCurriculums.Count() != 0)
                 _AllowedCurriculums = allowedCurriculums;
             else
                 _AllowedCurriculums = null;
@@ -35,7 +33,7 @@ namespace IUDICO.Statistics.Models.QualityTest
         {
             return this._TeacherUser.Username;
         }
-        public List<Curriculum> GetAllowedCurriculums()
+        public IEnumerable<Curriculum> GetAllowedCurriculums()
         {
             return this._AllowedCurriculums;
         }

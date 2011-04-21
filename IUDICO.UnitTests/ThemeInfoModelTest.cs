@@ -85,14 +85,14 @@ namespace IUDICO.UnitTests
         ///Test for GetMaxResautForTheme
         ///</summary>
         [TestMethod()]
-        public void GetMaxResautForThemeTest()
+        public void GetMaxResutForThemeTest()
         {
             ThemeInfoModel target = ThemeInfoModel.ThemeInfoModelTestObject();
             Theme selectTheme = null;
             Nullable<double> expected = new Nullable<double>();
             expected = 100;
             Nullable<double> actual;
-            actual = target.GetMaxResautForTheme(selectTheme);
+            actual = target.GetMaxResutForTheme(selectTheme);
             Assert.AreEqual(expected, actual);
         }
 
