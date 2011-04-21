@@ -90,23 +90,23 @@ namespace IUDICO.Statistics.Models.Storage
         }
         public char Ects(double? percent)
         {
-            if (percent > 91.0)
+            if (percent >= 90.0)
             {
                 return 'A';
             }
-            else if (percent > 81.0)
+            else if (percent >= 81.0)
             {
                 return 'B';
             }
-            else if (percent > 71.0)
+            else if (percent >= 71.0)
             {
                 return 'C';
             }
-            else if (percent > 61.0)
+            else if (percent >= 61.0)
             {
                 return 'D';
             }
-            else if (percent > 51.0)
+            else if (percent >= 51.0)
             {
                 return 'E';
             }

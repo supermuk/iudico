@@ -57,7 +57,7 @@
                 <%: specializedResult.Max %>
             </td>
             <td>
-                <%: specializedResult.Percent %>
+                <%: Math.Round(Double.Parse(specializedResult.Percent.ToString()), 2)%>
                 %
             </td>
             <td>
