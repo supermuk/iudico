@@ -90,6 +90,7 @@ function FramesetManager() {
     this.IsClosing = FM_IsClosing;  // returns true if the frameset is closing.
     this.getContentFrame = GetContentFrame;
     this.getHiddenFrame = GetHiddenFrame;
+    this.ShowStatisticResults = FM_ShowStatisticResults;
 
     // Frames that have registered as being loaded
     this.m_framesRegistered = new Array();
@@ -263,6 +264,10 @@ function FM_TrainingComplete(strTitle, strMessage) {
     this.m_isTrainingComplete = true;
 }
 
+function FM_ShowStatisticResults() {
+    parent.parent.SubmitTraining();
+}
+
 // Returns true if the training has been completed.
 function FM_IsTrainingComplete() {
     return this.m_isTrainingComplete;
@@ -270,17 +275,11 @@ function FM_IsTrainingComplete() {
 
 // Hides the UI controls frameset. 
 function HideUIControls() {
-    /*frames[MAIN_FRAME].document.getElementById("framesetParentUI").cols = "0px,*";
+    frames[MAIN_FRAME].document.getElementById("navigationColumn").style.width = "0";
 
-    var titleDoc = window.top.frames[TITLE_FRAME].document;
+    var titleDoc =frames[TITLE_FRAME].document;
     titleDoc.getElementById("imgSaveAndCloseTd").innerHTML = "&nbsp;";
-    titleDoc.getElementById("aSaveAndClose").innerHTML = "&nbsp;";*/
-    alert("Works!");
-    var topParent = this;
-    while (topParent.parent) {
-        topParent = topParent.parent;
-    }
-    parent.SubmitTraining();
+    titleDoc.getElementById("aSaveAndClose").innerHTML = "&nbsp;";
 }
 
 // Returns true if all frames have been registered as loaded.

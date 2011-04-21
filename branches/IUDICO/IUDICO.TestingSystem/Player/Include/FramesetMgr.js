@@ -270,16 +270,11 @@ function FM_IsTrainingComplete() {
 
 // Hides the UI controls frameset. 
 function HideUIControls() {
-    /*frames[MAIN_FRAME].document.getElementById("framesetParentUI").cols = "0px,*";
+    frames[MAIN_FRAME].document.getElementById("navigationColumn").style.width = "0";
 
     var titleDoc = window.top.frames[TITLE_FRAME].document;
     titleDoc.getElementById("imgSaveAndCloseTd").innerHTML = "&nbsp;";
-    titleDoc.getElementById("aSaveAndClose").innerHTML = "&nbsp;";*/
-    var topParent = this;
-    while (topParent.parent) {
-        topParent = topParent.parent;
-    }
-    parent.SubmitTraining();
+    titleDoc.getElementById("aSaveAndClose").innerHTML = "&nbsp;";
 }
 
 // Returns true if all frames have been registered as loaded.

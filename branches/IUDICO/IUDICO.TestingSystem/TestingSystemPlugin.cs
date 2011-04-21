@@ -81,6 +81,26 @@ namespace IUDICO.TestingSystem
                 "PlayerContentExtended",
                 "Player/Frameset/Content.aspx/{one}/{two}/{three}/{four}",
                 "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Content.aspx");
+            routes.MapPageRoute(
+                "PlayerContentFive",
+                "Player/Frameset/Content.aspx/{one}/{two}/{three}/{four}/{five}",
+                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Content.aspx");
+            routes.MapPageRoute(
+                "PlayerContentSix",
+                "Player/Frameset/Content.aspx/{one}/{two}/{three}/{four}/{five}/{six}",
+                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Content.aspx");
+            routes.MapPageRoute(
+                "PlayerContentSeven",
+                "Player/Frameset/Content.aspx/{one}/{two}/{three}/{four}/{five}/{six}/{seven}",
+                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Content.aspx");
+            routes.MapPageRoute(
+                "PlayerContentEight",
+                "Player/Frameset/Content.aspx/{one}/{two}/{three}/{four}/{five}/{six}/{seven}/{eight}",
+                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Content.aspx");
+            routes.MapPageRoute(
+                "PlayerContentNine",
+                "Player/Frameset/Content.aspx/{one}/{two}/{three}/{four}/{five}/{six}/{seven}/{eight}/{nine}",
+                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Content.aspx");
            /* routes.MapPageRoute(
                 "PlayerImages",
                 "Player/Frameset/Images/{page}",
