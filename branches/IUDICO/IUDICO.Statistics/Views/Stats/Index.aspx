@@ -7,10 +7,13 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <% if (Model.Count() != 0)
+       { %>
+    
     <h2><%=IUDICO.Statistics.Localization.getMessage("GroupList")%></h2>
 
     <fieldset>
-    <legend><%=IUDICO.Statistics.Localization.getMessage("SelectOneGroup") %></legend>
+    <legend><%=IUDICO.Statistics.Localization.getMessage("SelectOneGroup")%></legend>
     <form action="/Stats/SelectCurriculums/" method="post">
 
     <% foreach (IUDICO.Common.Models.Group item in Model)
@@ -30,6 +33,11 @@
     </form>
     
     </fieldset>
+
+    <% } %>
+    <% else {%>
+    <h2> No group has been created. <%: Html.ActionLink("Create group", "Create", "Group")%>. </h2>
+    <% } %>
 
 </asp:Content>
 
