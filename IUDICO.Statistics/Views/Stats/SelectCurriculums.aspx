@@ -19,7 +19,10 @@
         }
     </script>
 
-    <h2><%=IUDICO.Statistics.Localization.getMessage("CurriculumList") %> <%: ViewData["Group"] %> </h2>
+    <% if (Model.Count() != 0)
+       { %>
+
+    <h2><%=IUDICO.Statistics.Localization.getMessage("CurriculumList")%> <%: ViewData["Group"]%> </h2>
 
 
      <%: Html.ActionLink(IUDICO.Statistics.Localization.getMessage("Back"), "Index")%>
@@ -48,10 +51,10 @@
             <%: curr.Id %>
             </td>--%>
             <td>
-            <%: curr.Name %>
+            <%: curr.Name%>
             </td>
             <td>
-            <%: curr.Created %>
+            <%: curr.Created%>
             </td>
         </tr>
      <% } %>
@@ -60,14 +63,16 @@
 
      <input type="button" value=<%=IUDICO.Statistics.Localization.getMessage("Show") %> onclick="checkBox();" />
 
-</form>
+     </form>
 
-<!--
-<a href="#" onclick="isChecked();">Show</a>
--->
      </fieldset>
 
+     <% } %>
+     <% else { %>
 
+     <h2> No curricuulm has been created for <%: ViewData["Group"]%>. </h2>
+
+     <%} %>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">

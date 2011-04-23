@@ -6,6 +6,8 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <% if(Model.Users.Count() != 0) { %>
+
     <h2><%=IUDICO.Statistics.Localization.getMessage("CurriculumsStatisticForGroup") %>
     <%: (ViewData["selectGroupName"])%>
     </h2>
@@ -67,6 +69,11 @@
     <% } %>
     </table>
     </fieldset>
+
+    <% } %>
+    <% else { %>
+        <h2> No student has been added for <%: ViewData["selectGroupName"]%>. </h2>
+    <% } %>
 
 </asp:Content>
 

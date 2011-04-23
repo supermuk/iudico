@@ -50,7 +50,8 @@ namespace IUDICO.Statistics.Models.Storage
         /// <returns>IEnumerable<Curriculum> Curriculums by group id .</returns>
         public IEnumerable<Curriculum> GetCurrilulumsByGroupId(int groupId)
         {
-            return _LmsService.FindService<ICurriculumService>().GetCurriculumsByGroupId(groupId);
+            IEnumerable<Curriculum> curriculums = _LmsService.FindService<ICurriculumService>().GetCurriculumsByGroupId(groupId);
+            return curriculums;
         }
 
         /// <summary>
