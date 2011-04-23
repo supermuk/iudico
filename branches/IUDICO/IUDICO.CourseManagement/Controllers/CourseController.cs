@@ -35,7 +35,7 @@ namespace IUDICO.CourseManagement.Controllers
             return View(courses.Union(_Storage.GetCourses(User.Identity.Name)));
         }
 
-        [Allow(Role = Role.Student)]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Create()
         {
             var allUsers = _UserService.GetUsers().Where(i => i.Username != _UserService.GetCurrentUser().Username);
@@ -46,7 +46,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
-        [Allow(Role = Role.Student)]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Create(Course course, IEnumerable<Guid> sharewith)
         {
             
@@ -57,10 +57,15 @@ namespace IUDICO.CourseManagement.Controllers
             return RedirectToAction("Index");
         }
 
-        [Allow(Role = Role.Student)]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int courseId)
         {
             var course = _Storage.GetCourse(courseId);
+
+            if (_UserService.GetCurrentUser().Username != course.Owner)
+            {
+                return RedirectToAction("Index");
+            }
 
             var allUsers = _UserService.GetUsers().Where(i => i.Username != course.Owner);
             var courseUsers = allUsers.Where(i => _Storage.GetCourseUsers(courseId).Any(j => j.Id == i.Id));
@@ -72,9 +77,14 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
-        [Allow(Role = Role.Student)]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int courseId, Course course, IEnumerable<Guid> sharewith)
         {
+            if (_UserService.GetCurrentUser().Username != course.Owner)
+            {
+                return RedirectToAction("Index");
+            }
+
             _Storage.UpdateCourse(courseId, course);
             _Storage.UpdateCourseUsers(courseId, sharewith);
           
@@ -82,11 +92,18 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpDelete]
-        [Allow(Role = Role.Student)]
+        [Allow(Role = Role.Teacher)]
         public JsonResult Delete(int courseId)
         {
             try
             {
+                var course = _Storage.GetCourse(courseId);
+
+                if (_UserService.GetCurrentUser().Username != course.Owner)
+                {
+                    return Json(new { success = false });
+                }
+
                 _Storage.DeleteCourse(courseId);
                 
                 return Json(new { success = true, id = courseId });
@@ -98,7 +115,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
-        [Allow(Role = Role.Student)]
+        [Allow(Role = Role.Teacher)]
         public JsonResult Delete(int[] courseIds)
         {
             try
@@ -113,7 +130,7 @@ namespace IUDICO.CourseManagement.Controllers
             }
         }
 
-        [Allow(Role = Role.Student)]
+        [Allow(Role = Role.Teacher)]
         public FilePathResult Export(int courseId)
         {
             var path = _Storage.Export(courseId);
@@ -121,7 +138,7 @@ namespace IUDICO.CourseManagement.Controllers
             return new FilePathResult(path, "application/octet-stream") { FileDownloadName = _Storage.GetCourse(courseId).Name + ".zip" };
         }
 
-        [Allow(Role = Role.Student)]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Import()
         {
             ViewData["validateResults"] = new List<string>();
@@ -137,7 +154,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
-        [Allow(Role = Role.Student)]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Import(string action, HttpPostedFileBase fileUpload)
         {
             if (action == "Validate")
@@ -162,7 +179,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
-        [Allow(Role = Role.Student)]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Validate(HttpPostedFileBase fileUpload)
         {
             var path = HttpContext.Request.PhysicalApplicationPath;

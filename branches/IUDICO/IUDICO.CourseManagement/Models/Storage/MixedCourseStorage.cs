@@ -144,8 +144,12 @@ namespace IUDICO.CourseManagement.Models.Storage
         public void DeleteCourse(int id)
         {
             var db = GetDbContext();
-
             var course = db.Courses.Single(c => c.Id == id);
+
+            if (course.Owner != _LmsService.FindService<IUserService>().GetCurrentUser().Username)
+            {
+                return;
+            }
 
             course.Deleted = true;
 
@@ -162,6 +166,11 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             foreach (var course in courses)
             {
+                if (course.Owner != _LmsService.FindService<IUserService>().GetCurrentUser().Username)
+                {
+                    continue;
+                }
+
                 course.Deleted = true;
 
                 _LmsService.Inform(CourseNotifications.CourseDelete, course);
