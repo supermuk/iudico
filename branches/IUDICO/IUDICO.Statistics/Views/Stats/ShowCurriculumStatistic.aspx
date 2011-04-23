@@ -39,7 +39,7 @@
        { %>
        <tr>
             <td>
-           <%: specializedResult.User.Username %>
+           [<%: specializedResult.User.Username %>] <%: specializedResult.User.Name %>
             </td>
            
             <% foreach (IUDICO.Statistics.Models.Storage.CurriculumResult currResult in specializedResult.CurriculumResult)
