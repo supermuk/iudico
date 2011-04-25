@@ -124,7 +124,6 @@
       <DependentUpon>FramesetResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Models\FakeTestingService.cs" />
-    <Content Include="Models\Helpers\LStoreHelper.cs" />
     <Compile Include="Models\IMlcProxy.cs" />
     <Compile Include="Models\ServicesProxy.cs" />
     <Compile Include="Models\MlcHelper.cs" />

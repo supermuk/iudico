@@ -11,6 +11,7 @@
 //
 
 using System;
+using System.ComponentModel;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
 using Schema = Microsoft.LearningComponents.Storage.BaseSchema;
@@ -53,10 +54,21 @@ public static partial class LStoreHelper
 	///
 	public static void Cast<T>(object value, out T? result) where T : struct
 	{
-		if (value is DBNull)
-			result = null;
-		else
-			result = (T) value;
+        if (value is DBNull)
+            result = null;
+        else
+        {
+            // Provide culture invariant casting
+            if (typeof(T) == typeof(Single))
+            {
+                Single single = Single.Parse(value.ToString());
+                result = (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(single.ToString());
+            }
+            else
+            {
+                result = (T)value;
+            }
+        }
 	}
 
 	/// <summary>
