@@ -62,7 +62,7 @@ public static partial class LStoreHelper
             if (typeof(T) == typeof(Single))
             {
                 Single single = Single.Parse(value.ToString());
-                result = (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(single.ToString());
+                result = (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(single.ToString());
             }
             else
             {
