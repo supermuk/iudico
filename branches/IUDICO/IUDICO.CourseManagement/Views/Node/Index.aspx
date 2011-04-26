@@ -18,23 +18,47 @@
     <script type="text/javascript">
         var $editor;
 
+        function removeEditor() {
+            if ($('#editor').length != 0) {
+                $editor.ckeditorGet().destroy();
+                $('.ui-layout-center').empty();
+
+                $editor = null;
+            }
+        }
+
+        function getEditor() {
+            if ($('#editor').length == 0) {
+                $('.ui-layout-center').empty().append(
+                    $('<form/>').attr('method', 'post').attr('action', '').append(
+                        $('<textarea/>').attr('name', 'editor').attr('id', 'editor').attr('rows', '0').attr('cols', '0')
+                    )
+                );
+
+                $editor = $('#editor');
+                $editor.ckeditor();
+
+                $editor.parent('form').bind('save', function (e) {
+                    //e.preventDefault();
+
+                    id = $.data($editor, 'node-id');
+
+                    var $ckEditor = getEditor().ckeditorGet();
+
+                    $ckEditor.updateElement();
+                    data = $ckEditor.getData();
+
+                    $.post("<%: Url.Action("Edit", "Node") %>", { id: id, data: data });
+                });
+            }
+
+            return $editor;
+        }
+
         $(function () {
             $('body').layout({ applyDefaultStyles: true });
 
-            $editor = $('#editor');
-            $editor.ckeditor().hide();
-            $editor.parent('form').bind('save', function (e) {
-                //e.preventDefault();
-
-                id = $.data($editor, 'node-id');
-
-                $ckEditor = $editor.ckeditorGet();
-
-                $ckEditor.updateElement();
-                data = $ckEditor.getData();
-
-                $.post("<%: Url.Action("Edit", "Node") %>", { id: id, data: data });
-            }).hide();
+            //getEditor();
 
             $.jstree._themes = pluginPath + "/Content/Tree/themes/";
         });
@@ -221,12 +245,10 @@
                             }
                         }
                     }
-                }, callback: {
-                    onselect    : function() { console.log("Select"); }
                 }
 		    })
-            .bind("load_node.jstree", function (e, data) {
-
+            .bind("select_node.jstree", function (e, data) {
+                data.inst.get_container().triggerHandler("preview_node.jstree", { "obj": data.rslt.obj });
             })
             .bind("create.jstree", function (e, data) {
                 var id = data.rslt.parent.attr("id").replace("node_", "");
@@ -319,6 +341,11 @@
 				});
 			})
             .bind("preview_node.jstree", function(e, data) {
+                if ($editor != null)                
+                    $('#node_' + $.data($editor, 'node-id')).children('a').removeClass('jstree-selected');
+
+                removeEditor();
+
                 $.ajax({
                     type: 'post',
 		            url: "<%: Url.Action("Data", "Node") %>",
@@ -331,20 +358,23 @@
 				});
             })
             .bind("edit_node.jstree", function (e, data) {
-                $('#node_' + $.data($editor, 'node-id')).children('a').removeClass('jstree-selected');
+                var editor = getEditor();
+
+                $('#node_' + $.data(editor, 'node-id')).children('a').removeClass('jstree-selected');
                 data.obj.children('a').addClass('jstree-selected');
 
-                $.data($editor, 'node-id', data.obj.attr("id").replace("node_", ""));
+                $.data(editor, 'node-id', data.obj.attr("id").replace("node_", ""));
 
                 $.ajax({
                     type: 'post',
 		            url: "<%: Url.Action("Data", "Node") %>",
 					data: {
-						"id": $.data($editor, 'node-id'),
+						"id": $.data(editor, 'node-id')
 					},
 					success: function (r) {
-                        $editor.val(r.data);
-                        $editor.parent('form').show();
+                        var editor = getEditor();
+                        editor.val(r.data);
+                        editor.parent('form').show();
 					}
 				});
             })
@@ -391,11 +421,14 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="ui-layout-center">
-        <form action="" method="post">
+        <!--<form action="" method="post">
             <textarea name="editor" id="editor" rows="0" cols="0"></textarea>
-        </form>
+        </form>-->
     </div>
-    <div class="ui-layout-north"></div>
+    <div class="ui-layout-north">
+        <h1>Editing "<%= Model.Name %>"</h1>
+        <%= Html.ActionLink("Go back", "Index", "Course") %>
+    </div>
     <div class="ui-layout-south ui-widget-header ui-corner-all"></div>
     <div class="ui-layout-east"><div id="properties"></div></div>
     <div class="ui-layout-west"><div id="treeView"></div></div>
