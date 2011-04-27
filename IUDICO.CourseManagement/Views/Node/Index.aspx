@@ -14,9 +14,11 @@
     <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.cookie.js") %>" type="text/javascript"></script>
     <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.hotkeys.js") %>" type="text/javascript"></script>
     <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.jstree.js") %>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("/Scripts/jquery/jquery-ui-1.8.5.js") %>" type="text/javascript"></script>
 
     <script type="text/javascript">
         var $editor;
+        var currentNodeId;
 
         function removeEditor() {
             if ($('#editor').length != 0) {
@@ -141,7 +143,7 @@
                                 "action": function (obj) {
                                     this.get_container().triggerHandler("edit_node.jstree", { "obj": obj });
                                 },
-                                "_disabled": node.attr("rel") != "default"
+                                "_disabled": node.attr("rel") == "root"
                             },
                             "preview": {
                                 "separator_before": false,
@@ -209,38 +211,6 @@
                                                 this.get_container().triggerHandler("pattern.jstree", { "obj": obj, "pattern": 3 });
                                             }
 		                                }
-                                }
-                            },
-                            "properties": {
-                                "separator_before": false,
-                                "icon": false,
-                                "separator_after": false,
-                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("Sequencing") %>",
-                                "submenu": {
-                                    "ControlMode" : {
-                                        "label" : "<%=IUDICO.CourseManagement.Localization.getMessage("ControlMode") %>",
-                                        "action": function (obj) {
-                                            this.get_container().triggerHandler("properties.jstree", { "obj": obj, "type": "ControlMode"});
-                                        }
-                                    },
-                                    "LimitConditions" : {
-                                        "label" : "<%=IUDICO.CourseManagement.Localization.getMessage("LimitConditions") %>",
-                                        "action": function (obj) {
-                                            this.get_container().triggerHandler("properties.jstree", { "obj": obj, "type": "LimitConditions"});
-                                        }
-                                    },
-                                    "RandomizationControls" : {
-                                        "label" : "<%=IUDICO.CourseManagement.Localization.getMessage("RandomizationControls") %>",
-                                        "action": function (obj) {
-                                            this.get_container().triggerHandler("properties.jstree", { "obj": obj, "type": "RandomizationControls"});
-                                        }
-                                    },
-                                    "ConstrainedChoiceConsiderations" : {
-                                        "label" : "<%=IUDICO.CourseManagement.Localization.getMessage("ConstrainedChoiceConsiderations") %>",
-                                        "action": function (obj) {
-                                            this.get_container().triggerHandler("properties.jstree", { "obj": obj, "type": "ConstrainedChoiceConsiderations"});
-                                        }
-                                    }
                                 }
                             }
                         }
@@ -358,6 +328,14 @@
 				});
             })
             .bind("edit_node.jstree", function (e, data) {
+
+                $( "#accordion" ).accordion( "option", "active", -1 );
+                currentNodeId = data.obj.attr("id").replace("node_", "");
+                
+                if($(data.obj[0]).attr("rel") == "folder") {
+                    return;
+                }
+
                 var editor = getEditor();
 
                 $('#node_' + $.data(editor, 'node-id')).children('a').removeClass('jstree-selected');
@@ -390,21 +368,6 @@
                         alert(r.status);
                     }
 				});
-            })
-            .bind("properties.jstree", function(e, data) {
-                $.ajax({
-                    type: 'post',
-                    url: "<%: Url.Action("Properties", "Node") %>",
-                    data: {
-                        "id":  data.obj.attr("id").replace("node_", ""),
-                        "type": data.type
-                    },
-                    success: function(r) {
-                        if(r.status) {
-                            $("#properties")[0].innerHTML = r.data;
-                        }
-                    }
-                })
             });
         });
     </script>
@@ -417,6 +380,32 @@
             alert("Properties saved successfully");
         }
     </script>
+    
+    <script type="text/javascript">
+        $(function () {
+            $("#accordion").accordion({
+                collapsible: true,
+                autoHeight: false,
+                active: -1
+            });
+            $("#accordion a").click(function () {
+                $.ajax({
+                    type: 'post',
+                    url: "<%: Url.Action("Properties", "Node") %>",
+                    data: {
+                        "id":  currentNodeId,
+                        "type": this.id
+                    },
+                    success: function(r) {
+                        if(r.status) {
+                            $("#" + r.type + "Properties")[0].innerHTML = r.data;
+                        }
+                    }
+                })
+            });
+        });
+    </script>
+
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -430,6 +419,18 @@
         <%= Html.ActionLink("Go back", "Index", "Course") %>
     </div>
     <div class="ui-layout-south ui-widget-header ui-corner-all"></div>
-    <div class="ui-layout-east"><div id="properties"></div></div>
+    <div class="ui-layout-east">
+        <div id="accordion">
+            <h3><a href="#" id="ControlMode"><%=IUDICO.CourseManagement.Localization.getMessage("ControlMode") %></a></h3>
+            <div id="ControlModeProperties">Please wait...</div>
+            <h3><a href="#" id="LimitConditions"><%=IUDICO.CourseManagement.Localization.getMessage("LimitConditions") %></a></h3>
+            <div id="LimitConditionsProperties">Please wait...</div>
+            <h3><a href="#" id="RandomizationControls"><%=IUDICO.CourseManagement.Localization.getMessage("RandomizationControls")%></a></h3>
+            <div id="RandomizationControlsProperties">Please wait...</div>
+            <h3><a href="#" id="ConstrainedChoiceConsiderations"><%=IUDICO.CourseManagement.Localization.getMessage("ConstrainedChoiceConsiderations")%></a></h3>
+            <div id="ConstrainedChoiceConsiderationsProperties">Please wait...</div>
+        </div>
+        <div id="properties"></div>
+    </div>
     <div class="ui-layout-west"><div id="treeView"></div></div>
 </asp:Content>

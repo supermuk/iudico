@@ -383,11 +383,11 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             var db = GetDbContext();
 
-//            if (node.IsFolder)
-//            {
-//                var xs = new XmlSerializer(typeof (Sequencing));
-//                node.Sequencing = xs.SerializeToXElemet(new Sequencing());
-//            }
+            if (node.Sequencing == null)
+            {
+                var xs = new XmlSerializer(typeof (Sequencing));
+                node.Sequencing = xs.SerializeToXElemet(new Sequencing());
+            }
 
             db.Nodes.InsertOnSubmit(node);
             db.SubmitChanges();
