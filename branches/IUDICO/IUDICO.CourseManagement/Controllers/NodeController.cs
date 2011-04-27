@@ -218,7 +218,7 @@ namespace IUDICO.CourseManagement.Controllers
             model.NodeId = node.Id;
             model.Type = type;
 
-            return Json(new { status = true, data = PartialViewHtml("Properties", model, ViewData) });
+            return Json(new { status = true, type = type, data = PartialViewHtml("Properties", model, ViewData) });
         }
 
         [HttpPost]
