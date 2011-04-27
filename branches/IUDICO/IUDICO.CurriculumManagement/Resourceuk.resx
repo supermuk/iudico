@@ -247,7 +247,7 @@
     <value>Часові межі етапа для</value>
   </data>
   <data name="StartDate" xml:space="preserve">
-    <value>З</value>
+    <value>Від</value>
   </data>
   <data name="ThemeAssignmentsFor" xml:space="preserve">
     <value>Теми навчальних планів для</value>
@@ -283,9 +283,12 @@
     <value>Повернутися до списку тем навчального плану</value>
   </data>
   <data name="ChooseStageForTimeline" xml:space="preserve">
-    <value>Choose a stage for timeline</value>
+    <value>Виберіть етап для часової межі</value>
   </data>
   <data name="EditStageTimeline" xml:space="preserve">
     <value>Редагувати часові межі етапа</value>
+  </data>
+  <data name="Fields" xml:space="preserve">
+    <value>Поля</value>
   </data>
 </root>

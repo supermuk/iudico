@@ -132,6 +132,9 @@
   <data name="Created" xml:space="preserve">
     <value>Створено</value>
   </data>
+  <data name="CreateGroup" xml:space="preserve">
+    <value>Створити групу</value>
+  </data>
   <data name="CurriculumList" xml:space="preserve">
     <value>Навчальні плани для</value>
   </data>
@@ -146,6 +149,9 @@
   </data>
   <data name="GroupList" xml:space="preserve">
     <value>Список груп</value>
+  </data>
+  <data name="NoGroupHasBeenCreated" xml:space="preserve">
+    <value>Не було створено груп.</value>
   </data>
   <data name="NumberOfQuestion" xml:space="preserve">
     <value>Номер питання</value>

@@ -132,6 +132,9 @@
   <data name="Created" xml:space="preserve">
     <value>Created</value>
   </data>
+  <data name="CreateGroup" xml:space="preserve">
+    <value>Create group</value>
+  </data>
   <data name="CurriculumList" xml:space="preserve">
     <value>Curriculum list for</value>
   </data>
@@ -146,6 +149,9 @@
   </data>
   <data name="GroupList" xml:space="preserve">
     <value>Group list</value>
+  </data>
+  <data name="NoGroupHasBeenCreated" xml:space="preserve">
+    <value>No group has been created.</value>
   </data>
   <data name="NumberOfQuestion" xml:space="preserve">
     <value>Number of question</value>
@@ -163,7 +169,7 @@
     <value>Please, select attempt to show:</value>
   </data>
   <data name="SelectCurriculum" xml:space="preserve">
-    <value>Please, select one or more curriculum :</value>
+    <value>Please, select one or more curriculum </value>
   </data>
   <data name="SelectOneCurriculum" xml:space="preserve">
     <value>Please, select one curriculum :</value>

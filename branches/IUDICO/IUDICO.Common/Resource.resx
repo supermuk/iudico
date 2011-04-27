@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AllowChoise" xml:space="preserve">
-    <value>Allow Choise</value>
+    <value>Allow Choice</value>
   </data>
   <data name="AllowExit" xml:space="preserve">
     <value>Allow Exit</value>
@@ -142,7 +142,7 @@
     <value>Flow</value>
   </data>
   <data name="ForwarOnly" xml:space="preserve">
-    <value>Forwar Only</value>
+    <value>Forward Only</value>
   </data>
   <data name="IsFolder" xml:space="preserve">
     <value>Is Folder</value>

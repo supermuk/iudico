@@ -36,7 +36,7 @@
 
     <% } %>
     <% else {%>
-    <h2> No group has been created. <%: Html.ActionLink("Create group", "Create", "Group")%>. </h2>
+    <h2> <%=IUDICO.Statistics.Localization.getMessage("NoGroupHasBeenCreated")%> <%: Html.ActionLink(IUDICO.Statistics.Localization.getMessage("CreateGroup"), "Create", "Group")%>. </h2>
     <% } %>
 
 </asp:Content>

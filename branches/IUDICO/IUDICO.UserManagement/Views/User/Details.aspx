@@ -10,7 +10,7 @@
     <h2><%=IUDICO.UserManagement.Localization.getMessage("Details")%></h2>
 
     <fieldset>
-        <legend>Fields</legend>
+        <legend><%=IUDICO.UserManagement.Localization.getMessage("Fields")%></legend>
         
         <%: Html.DisplayForModel() %>
         

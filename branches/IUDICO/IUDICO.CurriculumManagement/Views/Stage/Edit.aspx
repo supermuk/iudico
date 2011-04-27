@@ -20,7 +20,7 @@
         <%: Html.ValidationSummary(true, "Please correct the following error(s) and try again:")%>
         
         <fieldset>
-            <legend>Fields</legend>
+            <legend><%=IUDICO.CurriculumManagement.Localization.getMessage("Fields")%></legend>
             
             <%= Html.EditorForModel()%>
             
