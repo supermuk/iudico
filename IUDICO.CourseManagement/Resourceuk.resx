@@ -198,4 +198,55 @@
   <data name="Unlock" xml:space="preserve">
     <value>Розблокувати</value>
   </data>
+  <data name="AllUsers" xml:space="preserve">
+    <value>Всі користувачі</value>
+  </data>
+  <data name="ApplyPattern" xml:space="preserve">
+    <value>Застосувати шаблон</value>
+  </data>
+  <data name="ConstrainedChoiceConsiderations" xml:space="preserve">
+    <value>Обмежений вибір</value>
+  </data>
+  <data name="ControlMode" xml:space="preserve">
+    <value>Режим управління</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Копіювати</value>
+  </data>
+  <data name="CreateFolder" xml:space="preserve">
+    <value>Створити папку</value>
+  </data>
+  <data name="CreateNode" xml:space="preserve">
+    <value>Створити вузол</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Вирізати</value>
+  </data>
+  <data name="Fields" xml:space="preserve">
+    <value>Поля</value>
+  </data>
+  <data name="LimitConditions" xml:space="preserve">
+    <value>Limit Conditions???</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Вставити</value>
+  </data>
+  <data name="Pattern" xml:space="preserve">
+    <value>Шаблон</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Попередній</value>
+  </data>
+  <data name="RandomizationControls" xml:space="preserve">
+    <value>Рандомізований контроль</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Перейменувати</value>
+  </data>
+  <data name="Sequencing" xml:space="preserve">
+    <value>Впорядкування</value>
+  </data>
+  <data name="SharedWith" xml:space="preserve">
+    <value>Спільне користування</value>
+  </data>
 </root>
