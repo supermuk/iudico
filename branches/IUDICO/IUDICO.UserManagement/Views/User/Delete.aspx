@@ -11,7 +11,7 @@
 
     <h3><%=IUDICO.UserManagement.Localization.getMessage("YouWantDeleteThis")%>?</h3>
     <fieldset>
-        <legend>Fields</legend>
+        <legend><%=IUDICO.UserManagement.Localization.getMessage("Fields")%></legend>
         
         <div class="display-label"><%=IUDICO.UserManagement.Localization.getMessage("Username") %></div>
         <div class="display-field"><%: Model.Username %></div>

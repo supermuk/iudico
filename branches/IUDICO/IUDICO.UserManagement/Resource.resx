@@ -138,6 +138,9 @@
   <data name="ApprovedBy" xml:space="preserve">
     <value>Approved By</value>
   </data>
+  <data name="BackToAccount" xml:space="preserve">
+    <value>Back to Account</value>
+  </data>
   <data name="BackToList" xml:space="preserve">
     <value>Back to List</value>
   </data>
@@ -174,6 +177,9 @@
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="Fields" xml:space="preserve">
+    <value>Fields</value>
+  </data>
   <data name="GetGroups" xml:space="preserve">
     <value>Get Groups</value>
   </data>
@@ -194,6 +200,12 @@
   </data>
   <data name="NewPassword" xml:space="preserve">
     <value>New Password</value>
+  </data>
+  <data name="NoActions" xml:space="preserve">
+    <value>No actions</value>
+  </data>
+  <data name="NoData" xml:space="preserve">
+    <value>No data</value>
   </data>
   <data name="OldPassword" xml:space="preserve">
     <value>Old Password</value>
@@ -218,6 +230,9 @@
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="SelectGroup" xml:space="preserve">
+    <value>Select Group</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>User</value>
