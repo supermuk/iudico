@@ -9,7 +9,7 @@
         <%: Html.ValidationSummary(true) %>
         
         <fieldset>
-            <legend>Fields</legend>
+            <legend><%=IUDICO.UserManagement.Localization.getMessage("Fields")%></legend>
             
             <%= Html.EditorForModel() %>
             

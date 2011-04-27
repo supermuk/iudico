@@ -138,6 +138,9 @@
   <data name="ApprovedBy" xml:space="preserve">
     <value>Підтверджено</value>
   </data>
+  <data name="BackToAccount" xml:space="preserve">
+    <value>Повернутися до облікового запису</value>
+  </data>
   <data name="BackToList" xml:space="preserve">
     <value>Повернутися до списку</value>
   </data>
@@ -174,6 +177,9 @@
   <data name="Email" xml:space="preserve">
     <value>Емейл</value>
   </data>
+  <data name="Fields" xml:space="preserve">
+    <value>Поля</value>
+  </data>
   <data name="GetGroups" xml:space="preserve">
     <value>Переглянути групи</value>
   </data>
@@ -194,6 +200,12 @@
   </data>
   <data name="NewPassword" xml:space="preserve">
     <value>Новий пароль</value>
+  </data>
+  <data name="NoActions" xml:space="preserve">
+    <value>Немає дій</value>
+  </data>
+  <data name="NoData" xml:space="preserve">
+    <value>Немає даних</value>
   </data>
   <data name="OldPassword" xml:space="preserve">
     <value>Старий пароль</value>
@@ -218,6 +230,9 @@
   </data>
   <data name="Save" xml:space="preserve">
     <value>Зберегти</value>
+  </data>
+  <data name="SelectGroup" xml:space="preserve">
+    <value>Виберіть групу</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>Користувач</value>

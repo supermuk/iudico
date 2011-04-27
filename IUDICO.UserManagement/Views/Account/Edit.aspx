@@ -13,7 +13,7 @@
         <%: Html.ValidationSummary("Correct the following error(s) and try again:") %>
         
         <fieldset>
-            <legend>Fields</legend>
+            <legend><%=IUDICO.UserManagement.Localization.getMessage("Fields")%></legend>
             
             <%: Html.EditorForModel() %>
             
@@ -25,7 +25,7 @@
     <% } %>
 
     <div>
-        <%: Html.ActionLink("Back to Account", "Index") %>
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("BackToAccount"), "Index") %>
     </div>
 
 </asp:Content>

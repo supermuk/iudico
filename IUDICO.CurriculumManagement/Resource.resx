@@ -288,4 +288,7 @@
   <data name="EditStageTimeline" xml:space="preserve">
     <value>Edit stage timeline</value>
   </data>
+  <data name="Fields" xml:space="preserve">
+    <value>Fields</value>
+  </data>
 </root>

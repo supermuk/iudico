@@ -11,7 +11,7 @@
     <script type="text/javascript" language="javascript">
         function checkBox() {
             if ($('input:checkbox:checked').length == 0) {
-                alert('Please, select one or more curriculum')
+                alert('<%=IUDICO.Statistics.Localization.getMessage("SelectCurriculum")%>')
             }
             else {
                 $('#curform').submit();
@@ -28,7 +28,7 @@
      <%: Html.ActionLink(IUDICO.Statistics.Localization.getMessage("Back"), "Index")%>
      <fieldset>
 
-     <legend><%=IUDICO.Statistics.Localization.getMessage("SelectCurriculum")%> </legend>
+     <legend><%=IUDICO.Statistics.Localization.getMessage("SelectCurriculum")%>: </legend>
 
 
     <form id="curform" action="/Stats/ShowCurriculumStatistic/" method="post">

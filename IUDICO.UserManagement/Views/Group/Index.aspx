@@ -39,10 +39,10 @@
        {%>
         <tr>
             <td>
-                No data
+                <%=IUDICO.UserManagement.Localization.getMessage("NoDate")%>
             </td>
             <td>
-                No actions
+                <%=IUDICO.UserManagement.Localization.getMessage("NoActions")%>
             </td>
         </tr>
     <% } %>
