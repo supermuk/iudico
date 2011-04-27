@@ -123,21 +123,21 @@
                             "create": {
                                 "separator_before": false,
                                 "separator_after": false,
-                                "label": "Create Node",
+                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("CreateNode") %>",
                                 "action": function (obj) { this.create(obj); },
                                 "_disabled": node.attr("rel") == "default"
                             },
                             "create_folder": {
                                 "separator_before": false,
                                 "separator_after": false,
-                                "label": "Create Folder",
+                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("CreateFolder") %>",
                                 "action": function (obj) { this.create(obj, "last", {"attr": {"rel": "folder"}}); },
                                 "_disabled": node.attr("rel") == "default"
                             },
                             "edit": {
                                 "separator_before": true,
                                 "separator_after": false,
-                                "label": "Edit",
+                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("Edit") %>",
                                 "action": function (obj) {
                                     this.get_container().triggerHandler("edit_node.jstree", { "obj": obj });
                                 },
@@ -146,7 +146,7 @@
                             "preview": {
                                 "separator_before": false,
                                 "separator_after": false,
-                                "label": "Preview",
+                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("Preview") %>",
                                 "action": function (obj) {
                                     this.get_container().triggerHandler("preview_node.jstree", { "obj": obj });
                                 },
@@ -155,33 +155,33 @@
                             "rename": {
                                 "separator_before": true,
                                 "separator_after": false,
-                                "label": "Rename",
+                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("Rename") %>",
                                 "action": function (obj) { this.rename(obj); }
                             },
                             "delete": {
                                 "separator_before": false,
                                 "separator_after": false,
-                                "label": "Delete",
+                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("Delete") %>",
                                 "action": function (obj) { if (this.is_selected(obj)) { this.remove(); } else { this.remove(obj); } }
                             },
                             "cut": {
                                 "separator_before": true,
                                 "separator_after": false,
-                                "label": "Cut",
+                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("Cut") %>",
                                 "action": function (obj) { this.cut(obj); }
                             },
                             "copy": {
                                 "separator_before": false,
                                 "icon": false,
                                 "separator_after": false,
-                                "label": "Copy",
+                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("Copy") %>",
                                 "action": function (obj) { this.copy(obj); }
                             },
                             "paste": {
                                 "separator_before": false,
                                 "icon": false,
                                 "separator_after": false,
-                                "label": "Paste",
+                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("Paste") %>",
                                 "action": function (obj) { this.paste(obj); },
                                 "_disabled" : !(this.data.crrm.ct_nodes || this.data.crrm.cp_nodes) || node.attr("rel") == "default"
                             },
@@ -189,22 +189,22 @@
                                 "separator_before": true,
                                 "icon": false,
                                 "separator_after": false,
-                                "label": "Apply Pattern",
+                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("ApplyPattern") %>",
                                 "submenu": {
                                 		"default" : {
-			                                "label" : "Pattern 1",
+			                                "label" : "<%=IUDICO.CourseManagement.Localization.getMessage("Pattern") %>"+" 1",
 			                                "action" : function (obj) { 
                                                 this.get_container().triggerHandler("pattern.jstree", { "obj": obj, "pattern": 1 });
                                             }
 		                                },
 		                                "another" : {
-			                                "label" : "Pattern 2",
+			                                "label" : "<%=IUDICO.CourseManagement.Localization.getMessage("Pattern") %>"+" 2",
 			                                "action" : function (obj) { 
                                                 this.get_container().triggerHandler("pattern.jstree", { "obj": obj, "pattern": 2 });
                                             }
 		                                },
 		                                "yetanother" : {
-			                                "label" : "Pattern 3",
+			                                "label" : "<%=IUDICO.CourseManagement.Localization.getMessage("Pattern") %>"+" 3",
 			                                "action" : function (obj) {
                                                 this.get_container().triggerHandler("pattern.jstree", { "obj": obj, "pattern": 3 });
                                             }
@@ -215,28 +215,28 @@
                                 "separator_before": false,
                                 "icon": false,
                                 "separator_after": false,
-                                "label": "Sequencing",
+                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("Sequencing") %>",
                                 "submenu": {
                                     "ControlMode" : {
-                                        "label" : "Control Mode",
+                                        "label" : "<%=IUDICO.CourseManagement.Localization.getMessage("ControlMode") %>",
                                         "action": function (obj) {
                                             this.get_container().triggerHandler("properties.jstree", { "obj": obj, "type": "ControlMode"});
                                         }
                                     },
                                     "LimitConditions" : {
-                                        "label" : "Limit Conditions",
+                                        "label" : "<%=IUDICO.CourseManagement.Localization.getMessage("LimitConditions") %>",
                                         "action": function (obj) {
                                             this.get_container().triggerHandler("properties.jstree", { "obj": obj, "type": "LimitConditions"});
                                         }
                                     },
                                     "RandomizationControls" : {
-                                        "label" : "Randomization Controls",
+                                        "label" : "<%=IUDICO.CourseManagement.Localization.getMessage("RandomizationControls") %>",
                                         "action": function (obj) {
                                             this.get_container().triggerHandler("properties.jstree", { "obj": obj, "type": "RandomizationControls"});
                                         }
                                     },
                                     "ConstrainedChoiceConsiderations" : {
-                                        "label" : "Constrained Choice Considerations",
+                                        "label" : "<%=IUDICO.CourseManagement.Localization.getMessage("ConstrainedChoiceConsiderations") %>",
                                         "action": function (obj) {
                                             this.get_container().triggerHandler("properties.jstree", { "obj": obj, "type": "ConstrainedChoiceConsiderations"});
                                         }
