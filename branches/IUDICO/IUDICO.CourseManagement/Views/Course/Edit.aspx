@@ -13,8 +13,8 @@
             $('#sharewith').multiselect2side({
                 selectedPosition: 'right',
                 moveOptions: false,
-                labelsx: 'All Users',
-                labeldx: 'Shared With'
+                labelsx: '<%=IUDICO.CourseManagement.Localization.getMessage("AllUsers") %>',
+                labeldx: '<%=IUDICO.CourseManagement.Localization.getMessage("SharedWith") %>'
             });
         });
     </script>
@@ -34,7 +34,7 @@
         <%: Html.ValidationSummary(true) %>
         
         <fieldset>
-            <legend>Fields</legend>
+            <legend><%=IUDICO.CourseManagement.Localization.getMessage("Fields") %></legend>
             
             <%= Html.EditorForModel() %>
             
