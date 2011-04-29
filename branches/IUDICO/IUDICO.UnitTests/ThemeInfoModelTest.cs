@@ -1,4 +1,4 @@
-﻿using IUDICO.Statistics.Models.Storage;
+﻿using IUDICO.Statistics.Models.StatisticsModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
@@ -32,7 +32,7 @@ namespace IUDICO.UnitTests
         public void EctsTest()
         {
             ThemeInfoModel target = ThemeInfoModel.ThemeInfoModelTestObject();
-            Nullable<double> percent = new Nullable<double>();
+            double percent;
             char expected;
             char actual;
 
@@ -74,9 +74,9 @@ namespace IUDICO.UnitTests
         public void GetAllThemesInSelectedCurriculumMaxMarkTest()
         {
             ThemeInfoModel target = ThemeInfoModel.ThemeInfoModelTestObject();
-            Nullable<double> expected = new Nullable<double>();
+            double expected;
             expected = 200;
-            Nullable<double> actual;
+            double actual;
             actual = target.GetAllThemesInSelectedCurriculumMaxMark();
             Assert.AreEqual(expected, actual);
         }
@@ -103,9 +103,9 @@ namespace IUDICO.UnitTests
         public void GetStudentResultForAllThemesInSelectedCurriculumTest()
         {
             ThemeInfoModel target = ThemeInfoModel.ThemeInfoModelTestObject();
-            Nullable<double> expected = new Nullable<double>();
-            Nullable<double> actual;
-            foreach (var student in target.SelectStudents)
+            double expected;
+            double actual;
+            foreach (var student in target.GetSelectStudents())
             {
                 if (student.Name == "user1")
                 {

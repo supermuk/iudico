@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Statistics.Models.Storage.ThemeInfoModel>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Statistics.Models.StatisticsModels.ThemeInfoModel>" %>
 <%@ Assembly Name="IUDICO.Statistics" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	ThemesInfo
@@ -12,26 +12,25 @@
         
         <tr>
         <th> <%=IUDICO.Statistics.Localization.getMessage("Student")%> </th>
-        <% foreach (IUDICO.Common.Models.Theme i in Model.SelectCurriculumThemes)
+        <% foreach (IUDICO.Common.Models.Theme theme in Model.GetSelectCurriculumThemes())
            { %>
-        <th> <%: i.Name %> </th>
+        <th> <%: theme.Name%> </th>
         <% } %>
         <th> <%=IUDICO.Statistics.Localization.getMessage("Sum")%> </th>
         <th> <%=IUDICO.Statistics.Localization.getMessage("Percent")%> </th>
         <th> ECTS </th>
         </tr>
 
-        <% foreach (IUDICO.Common.Models.User student in Model.SelectStudents)
+        <% int i = 0;
+           foreach (IUDICO.Common.Models.User student in Model.GetSelectStudents())
            {  %>
 
             <tr> 
-                <td> <%: student.Username%></td>
-                <% 
-                    int i = 0;
-                    foreach (IUDICO.Common.Models.Theme selectTheme in Model.SelectCurriculumThemes) 
+                <td> <%: student.Name%></td>
+                <%  foreach (IUDICO.Common.Models.Theme selectTheme in Model.GetSelectCurriculumThemes()) 
                     {
                         i++;
-                       %>
+                        %>                          
                         <td>
                         <%if (Model.NoData(student, selectTheme) == false)
                         { %>
@@ -53,7 +52,7 @@
                     <% } %>  
             
                 <td>
-                 <%:Model.GetStudentResultForAllThemesInSelectedCurriculum(student)%>
+                 <%: Model.GetStudentResultForAllThemesInSelectedCurriculum(student)%>
                   / 
                  <%: Model.GetAllThemesInSelectedCurriculumMaxMark()%> 
                 </td>

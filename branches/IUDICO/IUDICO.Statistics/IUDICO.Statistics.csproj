@@ -81,11 +81,14 @@
     <Compile Include="Localization .cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Models\QualityTest\FakeDataQualityTest.cs" />
-    <Compile Include="Models\QualityTest\IndexModel.cs" />
-    <Compile Include="Models\QualityTest\SelectGroupsModel.cs" />
-    <Compile Include="Models\QualityTest\SelectThemeModel.cs" />
-    <Compile Include="Models\QualityTest\ShowQualityTestModel.cs" />
+    <Compile Include="Models\QualityTestModels\FakeDataQualityTest.cs" />
+    <Compile Include="Models\QualityTestModels\IndexModel.cs" />
+    <Compile Include="Models\QualityTestModels\SelectGroupsModel.cs" />
+    <Compile Include="Models\QualityTestModels\SelectThemeModel.cs" />
+    <Compile Include="Models\QualityTestModels\ShowQualityTestModel.cs" />
+    <Compile Include="Models\StatisticsModels\CurrentThemeTestResultsModel.cs" />
+    <Compile Include="Models\StatisticsModels\ThemeInfoModel.cs" />
+    <Compile Include="Models\StatisticsModels\ThemeTestResultsModel.cs" />
     <Compile Include="Models\StatisticsService.cs" />
     <Compile Include="Models\Storage\IStatisticsProxy.cs" />
     <Compile Include="Models\Storage\SpecializedResult.cs" />
@@ -110,7 +113,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\QualityTest\Index.aspx" />
+    <Content Include="Views\QualityTest\SelectCurriculum.aspx" />
     <Content Include="Views\QualityTest\SelectGroups.aspx" />
     <Content Include="Views\QualityTest\SelectTheme.aspx" />
     <Content Include="Views\QualityTest\ShowQualityTest.aspx" />

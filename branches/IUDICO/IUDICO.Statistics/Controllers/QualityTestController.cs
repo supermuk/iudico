@@ -16,7 +16,7 @@ namespace IUDICO.Statistics.Controllers
     {
 
         [Allow(Role = Role.Teacher)]
-        public ActionResult Index()
+        public ActionResult SelectCurriculum()
         {
             IndexModel model = new IndexModel(LmsService);
             HttpContext.Session["TeacherUserName"] = model.GetTeacherUserName();
@@ -47,7 +47,7 @@ namespace IUDICO.Statistics.Controllers
         [HttpPost]
         public ActionResult ShowQualityTest(int[] selectGroupIds)
         {
-            ShowQualityTestModel model = new ShowQualityTestModel(LmsService, selectGroupIds, (String)HttpContext.Session["TeacherUserName"],
+            ShowQualityTestModel model = new ShowQualityTestModel(LmsService, selectGroupIds,
                 (String)HttpContext.Session["CurriculumName"], (int)HttpContext.Session["ThemeId"]);
             return View(model);
         }
