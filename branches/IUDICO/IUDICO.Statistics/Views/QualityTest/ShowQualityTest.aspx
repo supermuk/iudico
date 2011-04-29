@@ -12,9 +12,6 @@
     <%if (Model.NoData() == false)
       { %>
         <div>
-        Teacher: <%: Model.GetTeacherUserName()%>
-        </div>
-        <div>
         Curriculum: <%: Model.GetCurriculumName()%>
         </div>
         <div>
@@ -23,23 +20,15 @@
         <table>
             <tr>
                 <th>Number of question</th>
-                <th>Diagram</th>
+                <th>Number of students</th>
                 <th>Coefficient</th>
             </tr>
-            <%foreach (KeyValuePair<long, double> question in Model.GetListOfCoefficient())
+            <%foreach (IUDICO.Statistics.Models.QualityTest.ShowQualityTestModel.QuestionModel question in Model.GetListOfQuestionModels())
               {%>
               <tr>
-              <td><%: question.Key%></td>
-                <% string diagram = "*";
-                   foreach (IUDICO.Statistics.Models.QualityTest.UserAnswers userAnswer in Model.GetListOfUserAnswers())
-                   {
-                       if (userAnswer.GetUserScoreForTest(question.Key) > 0)
-                           diagram += '|';
-                       else
-                           diagram += '_';
-                   } %>
-                <td><%:diagram%></td>
-                <td><%: question.Value%></td>
+              <td><%: question.GetQuestionNumber()%></td>
+                <td><%:question.GetNumberOfStudents()%></td>
+                <td><%: question.GetCoefficient()%></td>
               </tr>
               <%} %>
         </table>

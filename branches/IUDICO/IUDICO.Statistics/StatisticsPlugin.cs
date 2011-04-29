@@ -41,7 +41,7 @@ namespace IUDICO.Statistics
             var actions = new List<Action>();
 
             actions.Add(new Action(IUDICO.Statistics.Localization.getMessage("GetStats"), "Stats/Index"));
-            actions.Add(new Action("Quality Test", "QualityTest/Index"));
+            actions.Add(new Action("Quality Test", "QualityTest/SelectCurriculum"));
             return actions;
         }
 
