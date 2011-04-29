@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Statistics.Models.Storage.ThemeTestResultsModel>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Statistics.Models.StatisticsModels.ThemeTestResultsModel>" %>
 <%@ Assembly Name="IUDICO.Statistics" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	ThemeTestResults
