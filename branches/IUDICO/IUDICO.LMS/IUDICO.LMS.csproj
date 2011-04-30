@@ -71,6 +71,10 @@
       <HintPath>..\References\Castle.Windsor.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -195,6 +199,9 @@
     <Content Include="Data\CourseTemplate\jquery-1.5.2.min.js" />
     <Content Include="Data\CourseTemplate\questions.js" />
     <Content Include="Data\CourseTemplate\sco.js" />
+    <Content Include="log.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Player\Frameset\Bottom.htm" />
     <Content Include="Player\Frameset\Images\BoxOff.gif" />
     <Content Include="Player\Frameset\Images\BoxOffCorrect.gif" />
