@@ -181,9 +181,9 @@ namespace IUDICO.LMS
         {
             return Attribute.GetCustomAttribute(action, typeof (HttpPostAttribute), false) != null;
         }
+
         protected void Application_AcquireRequestState(object sender, EventArgs e)
         {
-
             if (HttpContext.Current.Session != null)
             {
                 CultureInfo ci = (CultureInfo)this.Session["Culture"];

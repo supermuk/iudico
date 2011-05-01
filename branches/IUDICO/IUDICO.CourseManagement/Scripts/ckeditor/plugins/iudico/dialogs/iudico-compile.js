@@ -1,8 +1,20 @@
 ﻿CKEDITOR.dialog.add('iudico-compile', function (editor) {
 
+    function addTest(element, name, value) {
+        var paramNode = CKEDITOR.dom.element.createFromHtml('<cke:param></cke:param>', element.getDocument());
+
+        paramNode.setAttribute("name", name);
+        paramNode.setAttribute("value", value);
+
+        element.append(paramNode);
+
+        return paramNode;
+    }
+
     // Add a new option to a SELECT object (combo or list).
     function addOption(combo, optionText, optionValue, documentObject, index) {
         combo = getSelect(combo);
+
         var oOption;
         if (documentObject)
             oOption = documentObject.createElement("OPTION");
@@ -41,11 +53,26 @@
         combo.getChild(index).remove();
     }
 
+    function removeAllOptions(combo) {
+        combo = getSelect(combo);
+        while (combo.getChild(0) && combo.getChild(0).remove())
+        { /*jsl:pass*/ }
+    }
+
+    function getSelect(obj) {
+        if (obj && obj.domId && obj.getInputElement().$)				// Dialog element.
+            return obj.getInputElement();
+        else if (obj && obj.$)
+            return obj;
+        return false;
+    }
+
     return {
         title: editor.lang.iudico.title,
         minWidth: 390,
         minHeight: 230,
         onShow: function () {
+            this.options = [];
             this.getIudicoObject(editor);
         },
         onOk: function () {
@@ -65,7 +92,7 @@
                         id: 'language',
                         type: 'select',
                         label: editor.lang.iudico.language,
-                        items: [ ['C#'], ['C++'], ['Java'] ],
+                        items: [['C#'], ['C++'], ['Java']],
                         labelLayout: 'horizontal',
                         commit: function (objectNode, paramMap, extraStyles, extraAttributes) {
                             if (paramMap[this.id]) {
@@ -218,16 +245,18 @@
                                 onClick: function () {
                                     var dialog = this.getDialog(),
 										tests = dialog.getContentElement('testsTab', 'cmbTests'),
-                                        test = dialog.getContentElement('testsTab', 'test');
+                                        testInput = dialog.getContentElement('testsTab', 'testInput'),
+                                        testOutput = dialog.getContentElement('testsTab', 'testOutput');
 
-                                    addOption(tests, test.getValue(), test.getValue(), dialog.getParentEditor().document);
+                                    dialog.options.push([testInput, testOutput]);
+                                    addOption(tests, testInput.getValue() + " -> " + testOutput.getValue(), testInput.getValue() + " -> " + testOutput.getValue(), dialog.getParentEditor().document);
 
-                                    test.setValue('');
+                                    testInput.setValue('');
+                                    testOutput.setValue('');
                                 }
                             }
                         ]
                     },
-
                     {
                         type: 'select',
                         id: 'cmbTests',
@@ -237,41 +266,35 @@
                         style: 'width: 100%; height: 200px',
                         items: [],
                         commit: function (objectNode, paramMap, extraStyles, extraAttributes) {
-                            for (var i = 0; paramMap['option' + i]; ++i) {
-                                paramMap['option' + i].remove();
-                                delete paramMap['option' + i];
+                            var dialog = this.getDialog(),
+								tests = dialog.getContentElement('testsTab', 'cmbTests'),
+                                tests = getSelect(tests);
+
+
+                            for (var i = 0; paramMap['testInput' + i]; ++i) {
+                                paramMap['testInput' + i].remove();
+                                paramMap['testOutput' + i].remove();
+
+                                delete paramMap['testInput' + i];
+                                delete paramMap['testOutput' + i];
                             }
 
-                            var dialog = this.getDialog(),
-										choices = dialog.getContentElement('choiceTab', 'cmbChoices'),
-                                        choice = dialog.getContentElement('choiceTab', 'choice'),
-                                        correctAnswer = dialog.getContentElement('choiceTab', 'correctAnswer');
-
-                            choices = getSelect(choices);
-                            correctAnswer = getSelect(correctAnswer);
-
-                            for (var i = 0; i < choices.getChildCount(); ++i) {
-                                paramMap['option' + i] = this.getDialog().addParam(objectNode, 'option' + i, choices.getChild(i).getText());
+                            for (var i = 0; i < dialog.options.length; ++i) {
+                                paramMap['testInput' + i] = this.getDialog().addParam(objectNode, 'testInput' + i, dialog.options[i][0]);
+                                paramMap['testOutput' + i] = this.getDialog().addParam(objectNode, 'testOutput' + i, dialog.options[i][1]);
                             }
                         },
                         setup: function (objectNode, embedNode, paramMap) {
-                            /*var dialog = this.getDialog(),
-                            choices = dialog.getContentElement('choiceTab', 'cmbChoices'),
-                            choice = dialog.getContentElement('choiceTab', 'choice'),
-                            correctAnswer = dialog.getContentElement('choiceTab', 'correctAnswer');
+                            var dialog = this.getDialog(),
+								tests = dialog.getContentElement('testsTab', 'cmbTests'),
+                                tests = getSelect(tests);
 
-                            removeAllOptions(choices);
-                            removeAllOptions(correctAnswer);
+                            removeAllOptions(tests);
 
-                            for (var i = 0; paramMap['option' + i]; ++i) {
-                            addOption(choices, paramMap['option' + i], paramMap['option' + i], dialog.getParentEditor().document);
-                            var oOption = addOption(correctAnswer, paramMap['option' + i], paramMap['option' + i], dialog.getParentEditor().document);
-
-                            if (paramMap['option' + i] == paramMap['correct']) {
-                            oOption.setAttribute('selected', 'selected');
-                            oOption.selected = true;
+                            for (var i = 0; paramMap['testInput' + i]; ++i) {
+                                dialog.options.push([paramMap['testInput' + i], paramMap['testOutput' + i]]);
+                                addOption(tests, paramMap['testInput' + i] + " -> " + paramMap['testOutput' + i], paramMap['testInput' + i] + " -> " + paramMap['testOutput' + i], dialog.getParentEditor().document);
                             }
-                            }*/
                         }
                     }
 				]
