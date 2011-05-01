@@ -22,7 +22,7 @@
     <% } %>
 
     <% if (Model.ThemesDescriptions.Count() > 0) { %>
-    <h3><%=IUDICO.LMS.Localization.getMessage("AvailableThemes") %></h3>
+    <h4><%=IUDICO.LMS.Localization.getMessage("AvailableThemes") %></h4>
     <ul>
     <% foreach (var themeDescription in Model.ThemesDescriptions)
        { %>
