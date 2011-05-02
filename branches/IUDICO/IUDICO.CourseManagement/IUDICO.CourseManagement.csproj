@@ -168,6 +168,7 @@
     <None Include="Content\Tree\themes\default\d.png" />
     <None Include="Content\Tree\themes\default\style.css" />
     <None Include="Content\Tree\themes\default\throbber.gif" />
+    <Content Include="Content\Tree\ajax-loader.gif" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\CHANGES.html" />
     <Content Include="Scripts\ckeditor\ckeditor.asp" />

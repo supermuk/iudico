@@ -157,13 +157,20 @@ namespace IUDICO.CourseManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Import(string action, HttpPostedFileBase fileUpload)
         {
-            if (action == "Validate")
+            if(fileUpload == null)
+            {
+                ViewData["validateResults"] = new List<string>();
+
+                return View();
+            }
+
+            if (action == Localization.getMessage("Import"))
             {
                 return Validate(fileUpload);
             }
 
             var path = HttpContext.Request.PhysicalApplicationPath;
-
+            
             path = Path.Combine(path, @"Data\WorkFolder");
             path = Path.Combine(path, Guid.NewGuid().ToString());
 
