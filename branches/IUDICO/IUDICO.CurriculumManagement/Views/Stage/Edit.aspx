@@ -15,7 +15,7 @@
 
     <h2><%=IUDICO.CurriculumManagement.Localization.getMessage("EditStage")%></h2>
     <% Html.EnableClientValidation(); %>
-
+    <h4><%=ViewData["CurriculumName"]%><%=IUDICO.CurriculumManagement.Localization.getMessage("Next")%><%=Model.Name%></h4>
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary(true, "Please correct the following error(s) and try again:")%>
         
@@ -23,11 +23,10 @@
             <legend><%=IUDICO.CurriculumManagement.Localization.getMessage("Fields")%></legend>
             
             <%= Html.EditorForModel()%>
-            
-            <p>
-                <input type="submit" value=<%=IUDICO.CurriculumManagement.Localization.getMessage("Update")%> />
-            </p>
         </fieldset>
+        <p>
+            <input type="submit" value="<%=IUDICO.CurriculumManagement.Localization.getMessage("Update")%>" />
+        </p>
     <% } %>
 
     <div>

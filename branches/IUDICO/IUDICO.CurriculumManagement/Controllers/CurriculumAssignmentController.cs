@@ -55,8 +55,10 @@ namespace IUDICO.CurriculumManagement.Controllers
                 LoadValidationErrors();
 
                 IEnumerable<Group> groups = Storage.GetNotAssignedGroups(curriculumId);
+                Curriculum curriculum = Storage.GetCurriculum(curriculumId);
                 CreateCurriculumAssignmentModel createAssignmentModel = new CreateCurriculumAssignmentModel(groups, 0);
 
+                ViewData["CurriculumName"] = curriculum.Name;
                 return View(createAssignmentModel);
             }
             catch (Exception e)
@@ -104,13 +106,15 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 LoadValidationErrors();
 
-                int curriculumId = Storage.GetCurriculumAssignment(curriculumAssignmentId).CurriculumRef;
-                int assignmentGroupId = Storage.GetCurriculumAssignment(curriculumAssignmentId).UserGroupRef;
+                CurriculumAssignment curriculumAssignment = Storage.GetCurriculumAssignment(curriculumAssignmentId);
+                int curriculumId = curriculumAssignment.CurriculumRef;
+                Curriculum curriculum = Storage.GetCurriculum(curriculumId);
+                int assignmentGroupId = curriculumAssignment.UserGroupRef;
                 IEnumerable<Group> groups = Storage.GetNotAssignedGroupsWithCurrentGroup(curriculumId, assignmentGroupId);
                 CreateCurriculumAssignmentModel editAssignmentModel = new CreateCurriculumAssignmentModel(groups, assignmentGroupId);
 
                 Session["CurriculumId"] = curriculumId;
-
+                ViewData["CurriculumName"] = curriculum.Name;
                 return View(editAssignmentModel);
             }
             catch (Exception e)

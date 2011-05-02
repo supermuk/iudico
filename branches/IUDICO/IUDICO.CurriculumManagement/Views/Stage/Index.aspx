@@ -67,8 +67,8 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <h2>
-        <%=IUDICO.CurriculumManagement.Localization.getMessage("StagesFor")%> <%: ViewData["CurriculumName"] %> <%=IUDICO.CurriculumManagement.Localization.getMessage("curriculuma")%></h2>
+    <h2><%=IUDICO.CurriculumManagement.Localization.getMessage("StagesFor")%></h2>
+    <h4><%: ViewData["CurriculumName"] %></h4>
     <p>
         <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("CreateNew"), "Create")%>
         <a id="DeleteMany" href="#"><%=IUDICO.CurriculumManagement.Localization.getMessage("DeleteSelected")%></a>

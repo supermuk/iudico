@@ -69,11 +69,12 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Timeline>>" %
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
         <%=IUDICO.CurriculumManagement.Localization.getMessage("CurriculumAssignmentTimelinesFor")%>
-        <%: (ViewData["Curriculum"] as Curriculum).Name%>
-        <%=IUDICO.CurriculumManagement.Localization.getMessage("curriculumAnd")%>
-        <%: (ViewData["Group"] as IUDICO.Common.Models.Group).Name %>
-        <%=IUDICO.CurriculumManagement.Localization.getMessage("groupu")%>
     </h2>
+    <h4>
+        <%: (ViewData["Curriculum"] as Curriculum).Name%>
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("PrevNext")%>
+        <%: (ViewData["Group"] as IUDICO.Common.Models.Group).Name %>
+    </h4>
     <p>
         <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("AddTimeline"), "Create") %>
         <a id="DeleteMany" href="#"><%=IUDICO.CurriculumManagement.Localization.getMessage("DeleteSelected")%></a>

@@ -135,11 +135,11 @@
   <data name="CreateNew" xml:space="preserve">
     <value>Створити новий</value>
   </data>
-  <data name="CreateStage" xml:space="preserve">
-    <value>Створити етап</value>
+  <data name="CreateStageFor" xml:space="preserve">
+    <value>Створити етап для</value>
   </data>
-  <data name="CreateTheme" xml:space="preserve">
-    <value>Створити тему</value>
+  <data name="CreateThemeFor" xml:space="preserve">
+    <value>Створити тему для</value>
   </data>
   <data name="Curriculum" xml:space="preserve">
     <value>Курікулум</value>
@@ -189,8 +189,8 @@
   <data name="ThemeName" xml:space="preserve">
     <value>Ім'я теми</value>
   </data>
-  <data name="ThemesCoursesFor" xml:space="preserve">
-    <value>Теми(курси) для</value>
+  <data name="ThemesFor" xml:space="preserve">
+    <value>Теми для</value>
   </data>
   <data name="ThemeType" xml:space="preserve">
     <value>Тип теми</value>
@@ -202,28 +202,22 @@
     <value>Оновлено</value>
   </data>
   <data name="AddAssignment" xml:space="preserve">
-    <value>Додати навчальний план</value>
+    <value>Додати прив'язку</value>
   </data>
   <data name="AddTimeline" xml:space="preserve">
     <value>Додати часові межі</value>
   </data>
   <data name="AssignmentsFor" xml:space="preserve">
-    <value>Навчальний план для</value>
+    <value>Прив'язки для</value>
   </data>
   <data name="BackToCurriculums" xml:space="preserve">
     <value>Повернутися до курікулумів</value>
   </data>
-  <data name="curriculuma" xml:space="preserve">
-    <value>курікулума</value>
-  </data>
-  <data name="curriculumAnd" xml:space="preserve">
-    <value>курікулума і</value>
-  </data>
-  <data name="EditAssignment" xml:space="preserve">
-    <value>Редагувати навчальний план</value>
+  <data name="EditAssignmentFor" xml:space="preserve">
+    <value>Редагувати прив'язку для</value>
   </data>
   <data name="EditThemeAssignments" xml:space="preserve">
-    <value>Редагувати тему навчального плана</value>
+    <value>Редагувати привязки до тем</value>
   </data>
   <data name="EditTimelines" xml:space="preserve">
     <value>Редагувати часові межі</value>
@@ -232,13 +226,10 @@
     <value>Редагувати часові межі для етапів</value>
   </data>
   <data name="EndDate" xml:space="preserve">
-    <value>До</value>
+    <value>Дата кінця</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>Група</value>
-  </data>
-  <data name="groupu" xml:space="preserve">
-    <value>групи</value>
   </data>
   <data name="MaxScore" xml:space="preserve">
     <value>Максимальна оцінка</value>
@@ -247,10 +238,10 @@
     <value>Часові межі етапа для</value>
   </data>
   <data name="StartDate" xml:space="preserve">
-    <value>Від</value>
+    <value>Дата початку</value>
   </data>
   <data name="ThemeAssignmentsFor" xml:space="preserve">
-    <value>Теми навчальних планів для</value>
+    <value>Прив'язки до тем для</value>
   </data>
   <data name="BackCurriculumAssignments" xml:space="preserve">
     <value>Повернутися до прив'язаних навчальних планів</value>
@@ -264,14 +255,14 @@
   <data name="ChooseThemeType" xml:space="preserve">
     <value>Виберіть тип теми</value>
   </data>
-  <data name="CreateCurriculumAssignmentTimeline" xml:space="preserve">
-    <value>Cтворити(додати) часову межу для прив'язаного навчального плану</value>
+  <data name="CreateCurriculumAssignmentTimelineFor" xml:space="preserve">
+    <value>Cтворити часову межу для прив'язки до навчального плану:</value>
   </data>
   <data name="CurriculumAssignmentTimelinesFor" xml:space="preserve">
     <value>Часові межі для прив'язаного навчального плану</value>
   </data>
   <data name="EditAssignments" xml:space="preserve">
-    <value>Редагувати навчальні плани</value>
+    <value>Редагувати прив'язки для навчальних планів</value>
   </data>
   <data name="PleaseSelectCurriculumsToDelete" xml:space="preserve">
     <value>Будь ласка, виберіть курікулум для видалення</value>
@@ -280,15 +271,30 @@
     <value>Вгору</value>
   </data>
   <data name="BackThemeAssignmentList" xml:space="preserve">
-    <value>Повернутися до списку тем навчального плану</value>
+    <value>Повернутися до списку прив'язок для тем навчального плану</value>
   </data>
   <data name="ChooseStageForTimeline" xml:space="preserve">
-    <value>Виберіть етап для часової межі</value>
+    <value>Виберіть тему для часової межі</value>
   </data>
-  <data name="EditStageTimeline" xml:space="preserve">
-    <value>Редагувати часові межі етапа</value>
+  <data name="EditStageTimelineFor" xml:space="preserve">
+    <value>Редагувати часові межі етапу для</value>
   </data>
-  <data name="Fields" xml:space="preserve">
-    <value>Поля</value>
+  <data name="Next" xml:space="preserve">
+    <value>=&gt;</value>
+  </data>
+  <data name="CreateAssignmentFor" xml:space="preserve">
+    <value>Створити прив'язку для</value>
+  </data>
+  <data name="CreateStageTimelineFor" xml:space="preserve">
+    <value>Створити часові межі етапу для</value>
+  </data>
+  <data name="EditCurriculumAssignmentTimelineFor" xml:space="preserve">
+    <value>Редагувати часову межу для прив'язки до навчального плану:</value>
+  </data>
+  <data name="EditThemeAssignmentFor" xml:space="preserve">
+    <value>Редагувати привязку до теми для</value>
+  </data>
+  <data name="PrevNext" xml:space="preserve">
+    <value>&lt;=&gt;</value>
   </data>
 </root>

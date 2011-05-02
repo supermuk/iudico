@@ -38,6 +38,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 var curriculum = Storage.GetCurriculum(curriculumId);
 
+                ViewData["CurriculumName"] = curriculum.Name;
                 return View();
             }
             catch (Exception e)
@@ -78,6 +79,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 var stage = Storage.GetStage(stageId);
 
+                ViewData["CurriculumName"] = stage.Curriculum.Name;
                 HttpContext.Session["CurriculumId"] = stage.CurriculumRef;
                 return View(stage);
             }

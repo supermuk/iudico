@@ -25,11 +25,12 @@ namespace IUDICO.CurriculumManagement.Controllers
             try
             {
                 CurriculumAssignment curriculumAssignment = Storage.GetCurriculumAssignment(curriculumAssignmentId);
+                Curriculum curriculum = Storage.GetCurriculum(curriculumAssignment.CurriculumRef);
                 Group group = Storage.GetGroup(curriculumAssignment.UserGroupRef);
                 var timelines = Storage.GetCurriculumAssignmentTimelines(curriculumAssignmentId);
 
                 ViewData["Group"] = group;
-                ViewData["Curriculum"] = curriculumAssignment.Curriculum;
+                ViewData["Curriculum"] = curriculum;
                 return View(timelines);
             }
             catch (Exception e)
@@ -46,8 +47,13 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 LoadValidationErrors();
 
+                CurriculumAssignment curriculumAssignment = Storage.GetCurriculumAssignment(curriculumAssignmentId);
+                Curriculum curriculum = Storage.GetCurriculum(curriculumAssignment.CurriculumRef);
+                Group group = Storage.GetGroup(curriculumAssignment.UserGroupRef);
                 CreateCurriculumAssignmentTimelineModel createTimelineModel = new CreateCurriculumAssignmentTimelineModel(new Timeline());
 
+                ViewData["GroupName"] = group.Name;
+                ViewData["CurriculumName"] = curriculum.Name;
                 return View(createTimelineModel);
             }
             catch (Exception e)
@@ -96,9 +102,13 @@ namespace IUDICO.CurriculumManagement.Controllers
                 LoadValidationErrors();
 
                 Timeline timeline = Storage.GetTimeline(timelineId);
-
+                CurriculumAssignment curriculumAssignment = Storage.GetCurriculumAssignment(timeline.CurriculumAssignmentRef);
+                Curriculum curriculum = Storage.GetCurriculum(curriculumAssignment.CurriculumRef);
+                Group group = Storage.GetGroup(curriculumAssignment.UserGroupRef);
                 CreateCurriculumAssignmentTimelineModel editTimelineModel = new CreateCurriculumAssignmentTimelineModel(timeline);
 
+                ViewData["GroupName"] = group.Name;
+                ViewData["CurriculumName"] = curriculum.Name;
                 Session["CurriculumAssignmentId"] = timeline.CurriculumAssignmentRef;
                 return View(editTimelineModel);
             }

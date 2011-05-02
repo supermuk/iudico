@@ -68,9 +68,10 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
         <%=IUDICO.CurriculumManagement.Localization.getMessage("AssignmentsFor")%>
-        <%: ViewData["CurriculumName"]%>
-        <%=IUDICO.CurriculumManagement.Localization.getMessage("curriculuma")%>
     </h2>
+    <h4>
+        <%: ViewData["CurriculumName"]%>
+    </h4>
     <p>
         <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("AddAssignment"), "Create") %>
         <a id="DeleteMany" href="#"><%=IUDICO.CurriculumManagement.Localization.getMessage("DeleteSelected")%></a>

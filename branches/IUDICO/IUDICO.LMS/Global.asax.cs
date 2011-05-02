@@ -95,9 +95,24 @@ namespace IUDICO.LMS
             ModelMetadataProviders.Current = new FieldTemplateMetadataProvider();
         }
 
+        //protected void Application_Error(object sender, EventArgs e)
+        //{
+        //    var context = HttpContext.Current;
+        //    var exception = context.Server.GetLastError();
+
+        //    context.Response.Clear();
+
+        //    if (exception != null)
+        //    {
+        //        Server.ClearError();
+        //        //тут можна залогати ерор.
+        //        //context.Response.RedirectToRoute("Default", new { controller = "Home", action = "Error" });
+        //    }
+        //}
+
         private void LoadProviders()
         {
-            ((IoCMembershipProvider) Membership.Provider).Initialize(Container.Resolve<MembershipProvider>());
+            ((IoCMembershipProvider)Membership.Provider).Initialize(Container.Resolve<MembershipProvider>());
             ((IoCRoleProvider)Roles.Provider).Initialize(Container.Resolve<RoleProvider>());
         }
 
@@ -119,7 +134,7 @@ namespace IUDICO.LMS
         protected void LoadPluginData()
         {
             Menu = new Menu();
-            
+
             var plugins = Container.ResolveAll<IPlugin>();
 
             foreach (var plugin in plugins)
@@ -172,14 +187,14 @@ namespace IUDICO.LMS
             var controller = _Container.Resolve<IController>(parts[0] + "controller");
             var action = controller.GetType().GetMethods().Where(m => m.Name == parts[1] && !IsPost(m) && m.GetParameters().Length == 0).FirstOrDefault();
 
-            var attribute = Attribute.GetCustomAttribute(action, typeof (AllowAttribute), false) as AllowAttribute;
+            var attribute = Attribute.GetCustomAttribute(action, typeof(AllowAttribute), false) as AllowAttribute;
 
             return attribute == null || Roles.Provider.IsUserInRole(HttpContext.Current.User.Identity.Name, attribute.Role.ToString());
         }
 
         protected bool IsPost(MethodInfo action)
         {
-            return Attribute.GetCustomAttribute(action, typeof (HttpPostAttribute), false) != null;
+            return Attribute.GetCustomAttribute(action, typeof(HttpPostAttribute), false) != null;
         }
 
         protected void Application_AcquireRequestState(object sender, EventArgs e)
