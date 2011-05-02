@@ -43,17 +43,26 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
             Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreEqual(expected.CurriculumRef, actual.CurriculumRef);
-            Assert.AreEqual(expected.Created, actual.Created);
-            Assert.AreEqual(expected.Updated, actual.Updated);
+            Assert.AreEqual(expected.Created.ToString(), actual.Created.ToString());
+            Assert.AreEqual(expected.Updated.ToString(), actual.Updated.ToString());
         }
 
-        public static void AreEqual(List<Stage> expected, List<Stage> actual)
+        public static void AreEqual(IList<Stage> expected, IList<Stage> actual)
         {
             Assert.AreEqual(expected.Count, actual.Count);
 
-            for (int i = 0; i < expected.Count; i++)
+            foreach (Stage expectedItem in expected)
             {
-                AreEqual(expected[i], actual[i]);
+                Stage actualItem = actual.SingleOrDefault(item => item.Id == expectedItem.Id);
+                if (actualItem != null)
+                {
+                    AreEqual(expectedItem, actualItem);
+                }
+                else
+                {
+                    Assert.Fail(String.Format("Item with id={0} doesn't exist in actual collection, but expected in expected collection",
+                        expectedItem.Id));
+                }
             }
         }
 
@@ -67,13 +76,22 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(expected.StageRef, actual.StageRef);
         }
 
-        public static void AreEqual(List<Theme> expected, List<Theme> actual)
+        public static void AreEqual(IList<Theme> expected, IList<Theme> actual)
         {
             Assert.AreEqual(expected.Count, actual.Count);
 
-            for (int i = 0; i < expected.Count; i++)
+            foreach (Theme expectedItem in expected)
             {
-                AreEqual(expected[i], actual[i]);
+                Theme actualItem = actual.SingleOrDefault(item => item.Id == expectedItem.Id);
+                if (actualItem != null)
+                {
+                    AreEqual(expectedItem, actualItem);
+                }
+                else
+                {
+                    Assert.Fail(String.Format("Item with id={0} doesn't exist in actual collection, but expected in expected collection",
+                        expectedItem.Id));
+                }
             }
         }
 
@@ -85,13 +103,22 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(expected.CurriculumRef, actual.CurriculumRef);
         }
 
-        public static void AreEqual(List<CurriculumAssignment> expected, List<CurriculumAssignment> actual)
+        public static void AreEqual(IList<CurriculumAssignment> expected, IList<CurriculumAssignment> actual)
         {
             Assert.AreEqual(expected.Count, actual.Count);
 
-            for (int i = 0; i < expected.Count; i++)
+            foreach (CurriculumAssignment expectedItem in expected)
             {
-                AreEqual(expected[i], actual[i]);
+                CurriculumAssignment actualItem = actual.SingleOrDefault(item => item.Id == expectedItem.Id);
+                if (actualItem != null)
+                {
+                    AreEqual(expectedItem, actualItem);
+                }
+                else
+                {
+                    Assert.Fail(String.Format("Item with id={0} doesn't exist in actual collection, but expected in expected collection",
+                        expectedItem.Id));
+                }
             }
         }
 
@@ -102,31 +129,47 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
             Assert.AreEqual(expected.CurriculumAssignmentRef, actual.CurriculumAssignmentRef);
             Assert.AreEqual(expected.StageRef, actual.StageRef);
-            Assert.AreEqual(expected.StartDate, actual.StartDate);
+            Assert.AreEqual(expected.StartDate.ToString(), actual.StartDate.ToString());
         }
 
-        public static void AreEqual(List<Timeline> expected, List<Timeline> actual)
+        public static void AreEqual(IList<Timeline> expected, IList<Timeline> actual)
         {
             Assert.AreEqual(expected.Count, actual.Count);
 
-            for (int i = 0; i < expected.Count; i++)
+            foreach (Timeline expectedItem in expected)
             {
-                AreEqual(expected[i], actual[i]);
+                Timeline actualItem = actual.SingleOrDefault(item => item.Id == expectedItem.Id);
+                if (actualItem != null)
+                {
+                    AreEqual(expectedItem, actualItem);
+                }
+                else
+                {
+                    Assert.Fail(String.Format("Item with id={0} doesn't exist in actual collection, but expected in expected collection",
+                        expectedItem.Id));
+                }
             }
         }
 
-        public static void AreEqual(List<Group> expected, List<Group> actual)
+        public static void AreEqual(IList<Group> expected, IList<Group> actual)
         {
             Assert.AreEqual(expected.Count, actual.Count);
 
-            int i = 0;
-            foreach (Group item in expected)
+            foreach (Group expectedItem in expected)
             {
-                Assert.AreEqual(item.Id, actual[i].Id);
-                Assert.AreEqual(item.Name, actual[i].Name);
-                Assert.AreEqual(item.Deleted, actual[i].Deleted);
-                Assert.AreEqual(item.GroupUsers, actual[i].GroupUsers);
-                i++;
+                Group actualItem = actual.SingleOrDefault(item => item.Id == expectedItem.Id);
+                if (actualItem != null)
+                {
+                    Assert.AreEqual(expectedItem.Id, actualItem.Id);
+                    Assert.AreEqual(expectedItem.Name, actualItem.Name);
+                    Assert.AreEqual(expectedItem.Deleted, actualItem.Deleted);
+                    Assert.AreEqual(expectedItem.GroupUsers, actualItem.GroupUsers);
+                }
+                else
+                {
+                    Assert.Fail(String.Format("Item with id={0} doesn't exist in actual collection, but expected in expected collection",
+                        expectedItem.Id));
+                }
             }
         }
 
@@ -139,13 +182,22 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(expected.MaxScore, actual.MaxScore);
         }
 
-        public static void AreEqual(List<ThemeAssignment> expected, List<ThemeAssignment> actual)
+        public static void AreEqual(IList<ThemeAssignment> expected, IList<ThemeAssignment> actual)
         {
             Assert.AreEqual(expected.Count, actual.Count);
 
-            for (int i = 0; i < expected.Count; i++)
+            foreach (ThemeAssignment expectedItem in expected)
             {
-                AreEqual(expected[i], actual[i]);
+                ThemeAssignment actualItem = actual.SingleOrDefault(item => item.Id == expectedItem.Id);
+                if (actualItem != null)
+                {
+                    AreEqual(expectedItem, actualItem);
+                }
+                else
+                {
+                    Assert.Fail(String.Format("Item with id={0} doesn't exist in actual collection, but expected in expected collection",
+                        expectedItem.Id));
+                }
             }
         }
     }
