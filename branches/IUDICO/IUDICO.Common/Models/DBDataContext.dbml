@@ -86,20 +86,6 @@
       <Association Name="User_User" Member="User1" ThisKey="ApprovedBy" OtherKey="Id" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Courses" Member="Courses">
-    <Type Name="Course">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Owner" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Deleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="SequencingPattern" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Locked" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Association Name="Course_CourseUser" Member="CourseUsers" ThisKey="Id" OtherKey="CourseRef" Type="CourseUser" />
-      <Association Name="Course_Node" Member="Nodes" ThisKey="Id" OtherKey="CourseId" Type="Node" />
-    </Type>
-  </Table>
   <Table Name="dbo.Timelines" Member="Timelines">
     <Type Name="Timeline">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -134,6 +120,19 @@
       <Association Name="Curriculum_Stage" Member="Curriculum" ThisKey="CurriculumRef" OtherKey="Id" Type="Curriculum" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.Courses" Member="Courses">
+    <Type Name="Course">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Owner" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Deleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Locked" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Course_CourseUser" Member="CourseUsers" ThisKey="Id" OtherKey="CourseRef" Type="CourseUser" />
+      <Association Name="Course_Node" Member="Nodes" ThisKey="Id" OtherKey="CourseId" Type="Node" />
+    </Type>
+  </Table>
   <Table Name="dbo.Nodes" Member="Nodes">
     <Type Name="Node">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -142,13 +141,6 @@
       <Column Name="ParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="IsFolder" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="Position" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="SequencingPattern" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Choise" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="ChoiseExit" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="Flow" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="ForwardOnly" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="AttemptLimit" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="AttemptAbsoluteDurationLimit" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Sequencing" Type="System.Xml.Linq.XElement" DbType="Xml" CanBeNull="true" UpdateCheck="Never" />
       <Association Name="Node_Node" Member="Nodes" ThisKey="Id" OtherKey="ParentId" Type="Node" />
       <Association Name="Course_Node" Member="Course" ThisKey="CourseId" OtherKey="Id" Type="Course" IsForeignKey="true" />

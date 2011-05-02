@@ -18,7 +18,6 @@
 
     <script type="text/javascript">
         var $editor;
-        var currentNodeId;
 
         function removeEditor() {
             if ($('#editor').length != 0) {
@@ -27,8 +26,18 @@
 
                 $editor = null;
             }
+            if($("#accordion")[0].style.display != 'none')
+            {
+                $('#accordion').hide( "blind", {}, 1000);
+                clearProperties();
+            }
         }
 
+        function clearProperties() {
+            $("#accordion>div").each(function() {
+                this.innerHTML = '<img src="' + pluginPath + '/Content/Tree/ajax-loader.gif" />';
+            });
+        }
         function getEditor() {
             if ($('#editor').length == 0) {
                 $('.ui-layout-center').empty().append(
@@ -329,17 +338,16 @@
             })
             .bind("edit_node.jstree", function (e, data) {
 
-                $( "#accordion" ).accordion( "option", "active", -1 );
-                currentNodeId = data.obj.attr("id").replace("node_", "");
-                
+                $("#accordion").accordion( "option", "active", -1 ).show("blind", {}, 1000);
+
+                $('[id^="node_"]').children('a').removeClass('jstree-clicked jstree-selected');
+                data.obj.children('a').addClass('jstree-selected');
+
                 if($(data.obj[0]).attr("rel") == "folder") {
                     return;
                 }
 
                 var editor = getEditor();
-
-                $('#node_' + $.data(editor, 'node-id')).children('a').removeClass('jstree-selected');
-                data.obj.children('a').addClass('jstree-selected');
 
                 $.data(editor, 'node-id', data.obj.attr("id").replace("node_", ""));
 
@@ -383,17 +391,22 @@
     
     <script type="text/javascript">
         $(function () {
+
+            clearProperties();
+
             $("#accordion").accordion({
                 collapsible: true,
                 autoHeight: false,
                 active: -1
             });
             $("#accordion a").click(function () {
+                clearProperties();
+
                 $.ajax({
                     type: 'post',
                     url: "<%: Url.Action("Properties", "Node") %>",
                     data: {
-                        "id":  currentNodeId,
+                        "id":  $.data($editor, 'node-id'),
                         "type": this.id
                     },
                     success: function(r) {
@@ -422,13 +435,14 @@
     <div class="ui-layout-east">
         <div id="accordion">
             <h3><a href="#" id="ControlMode"><%=IUDICO.CourseManagement.Localization.getMessage("ControlMode") %></a></h3>
-            <div id="ControlModeProperties">Please wait...</div>
+            <div id="ControlModeProperties"></div>
             <h3><a href="#" id="LimitConditions"><%=IUDICO.CourseManagement.Localization.getMessage("LimitConditions") %></a></h3>
-            <div id="LimitConditionsProperties">Please wait...</div>
+            <div id="LimitConditionsProperties"></div>
             <h3><a href="#" id="RandomizationControls"><%=IUDICO.CourseManagement.Localization.getMessage("RandomizationControls")%></a></h3>
-            <div id="RandomizationControlsProperties">Please wait...</div>
+            <div id="RandomizationControlsProperties"></div>
             <h3><a href="#" id="ConstrainedChoiceConsiderations"><%=IUDICO.CourseManagement.Localization.getMessage("ConstrainedChoiceConsiderations")%></a></h3>
-            <div id="ConstrainedChoiceConsiderationsProperties">Please wait...</div>
+            <div id="ConstrainedChoiceConsiderationsProperties">
+               </div>
         </div>
         <div id="properties"></div>
     </div>

@@ -13,7 +13,9 @@ using IUDICO.Common.Models.Notifications;
 using IUDICO.CourseManagement.Helpers;
 using IUDICO.CourseManagement.Models.ManifestModels;
 using IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels;
+using IUDICO.CourseManagement.Models.ManifestModels.ResourceModels;
 using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
+using File = System.IO.File;
 
 namespace IUDICO.CourseManagement.Models.Storage
 {
@@ -100,6 +102,10 @@ namespace IUDICO.CourseManagement.Models.Storage
             db.CourseUsers.DeleteAllOnSubmit(courseUsers);
             db.SubmitChanges();
         }
+
+        private string[] _TemplateFiles = { "jquery-1.5.2.min.js", "api.js", "questions.js", "sco.js", "iudico.js", "iudico.css" };
+
+        private const string _ResourceIdForTemplateFiles = "TemplateFiles";
 
         public int AddCourse(Course course)
         {
@@ -201,14 +207,19 @@ namespace IUDICO.CourseManagement.Models.Storage
             {
                 if (nodes[i].IsFolder == false)
                 {
-                    var fs = System.IO.File.Create(Path.Combine(path, nodes[i].Name + ".html"));
-                    fs.Close();
+                    File.Copy(GetNodePath(nodes[i].Id) + ".html", Path.Combine(path, nodes[i].Id + ".html"));
                 }
                 else
                 {
                     var subNodes = GetNodes(id, nodes[i].Id);
                     nodes.AddRange(subNodes);
                 }
+            }
+
+            var coursePath = GetCoursePath(id);
+            foreach (var file in _TemplateFiles)
+            {
+                File.Copy(Path.Combine(coursePath, file), Path.Combine(path, file));
             }
 
             var helper = new ManifestManager();
@@ -223,6 +234,15 @@ namespace IUDICO.CourseManagement.Models.Storage
             manifest.Organizations[0].Items = parentItem.Items;
             manifest.Organizations[0].Title = course.Name;
             //manifest.Organizations[0] = SequencingPatternManager.ApplyPattern(manifest, manifest.Organizations[0], SequencingPattern.OrganizationDefaultSequencingPattern);
+
+            var resource = new Resource
+                               {
+                                   Identifier = _ResourceIdForTemplateFiles,
+                                   Files = _TemplateFiles.Select(file => new ManifestModels.ResourceModels.File(file)).ToList(),
+                                   ScormType = ScormType.Asset
+                               };
+
+            manifest.Resources = ManifestManager.AddResource(manifest.Resources, resource);
 
             ManifestManager.Serialize(manifest, sw);
             sw.Close();
@@ -242,23 +262,11 @@ namespace IUDICO.CourseManagement.Models.Storage
                 {
                     var item = helper.CreateItem();
                     item.Title = node.Name;
-                    item.Sequencing = new Sequencing();
-                    item.Sequencing.ControlMode = new ControlMode();
-                    if (node.ChoiseExit.HasValue)
+
+                    if (node.Sequencing != null)
                     {
-                        item.Sequencing.ControlMode.ChoiceExit = node.ChoiseExit.Value;
-                    }
-                    if (node.Choise.HasValue)
-                    {
-                        item.Sequencing.ControlMode.Choice = node.Choise.Value;
-                    }
-                    if (node.Flow.HasValue)
-                    {
-                        item.Sequencing.ControlMode.Flow = node.Flow.Value;
-                    }
-                    if (node.ForwardOnly.HasValue)
-                    {
-                        item.Sequencing.ControlMode.ForwardOnly = node.ForwardOnly.Value;
+                        var xml = new XmlSerializer(typeof (Sequencing));
+                        item.Sequencing = (Sequencing) xml.DeserializeXElement(node.Sequencing);
                     }
 
                     item = AddSubItems(item, node, courseId, helper, ref manifest);
@@ -268,32 +276,20 @@ namespace IUDICO.CourseManagement.Models.Storage
                 else
                 {
                     var files = new List<ManifestModels.ResourceModels.File>();
-                    files.Add(new ManifestModels.ResourceModels.File(node.Name + ".html"));
+                    files.Add(new ManifestModels.ResourceModels.File(node.Id + ".html"));
 
-                    var resource = helper.CreateResource(ScormType.Asset, files);
-                    resource.Href = node.Name + ".html";
+                    var resource = helper.CreateResource(ScormType.Asset, files, new[] { _ResourceIdForTemplateFiles });
+                    resource.Href = node.Id + ".html";
 
                     manifest.Resources = ManifestManager.AddResource(manifest.Resources, resource);
                  
                     var item = helper.CreateItem(resource.Identifier);
                     item.Title = node.Name;
-                    item.Sequencing = new Sequencing();
-                    item.Sequencing.ControlMode = new ControlMode();
-                    if (node.ChoiseExit.HasValue)
+
+                    if (node.Sequencing != null)
                     {
-                        item.Sequencing.ControlMode.ChoiceExit = node.ChoiseExit.Value;
-                    }
-                    if (node.Choise.HasValue)
-                    {
-                        item.Sequencing.ControlMode.Choice = node.Choise.Value;
-                    }
-                    if (node.Flow.HasValue)
-                    {
-                        item.Sequencing.ControlMode.Flow = node.Flow.Value;
-                    }
-                    if (node.ForwardOnly.HasValue)
-                    {
-                        item.Sequencing.ControlMode.ForwardOnly = node.ForwardOnly.Value;
+                        var xml = new XmlSerializer(typeof(Sequencing));
+                        item.Sequencing = (Sequencing)xml.DeserializeXElement(node.Sequencing);
                     }
 
                     parentItem = ManifestManager.AddItem(parentItem, item);
@@ -411,7 +407,6 @@ namespace IUDICO.CourseManagement.Models.Storage
             oldNode.Name = node.Name;
             oldNode.ParentId = node.ParentId;
             oldNode.Position = node.Position;
-            oldNode.SequencingPattern = node.SequencingPattern;
             oldNode.Sequencing = node.Sequencing;
 
             db.SubmitChanges();
