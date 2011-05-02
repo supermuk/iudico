@@ -15,8 +15,15 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.ThemeAssignment>" %>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        <%=IUDICO.CurriculumManagement.Localization.getMessage("EditThemeAssignment")%>
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("EditThemeAssignmentFor")%>
     </h2>
+    <h4>
+        <%: ViewData["CurriculumName"]%>
+        <%= IUDICO.CurriculumManagement.Localization.getMessage("PrevNext")%>
+        <%: ViewData["GroupName"] %>
+        <%= IUDICO.CurriculumManagement.Localization.getMessage("Next")%>
+        <%: ViewData["StageName"] %>
+    </h4>
     <% Html.EnableClientValidation(); %>
     <% using (Html.BeginForm())
        {%>
@@ -24,11 +31,10 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.ThemeAssignment>" %>
     <fieldset>
         <legend><%=IUDICO.CurriculumManagement.Localization.getMessage("Fields")%></legend>
         <%= Html.EditorForModel() %>
-        
-        <p>
-            <input type="submit" value=<%=IUDICO.CurriculumManagement.Localization.getMessage("Update")%> />
-        </p>
     </fieldset>
+    <p>
+        <input type="submit" value="<%=IUDICO.CurriculumManagement.Localization.getMessage("Update")%>" />
+    </p>
     <% } %>
 
     <div>

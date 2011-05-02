@@ -70,13 +70,14 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public Curriculum GetCurriculum(int id)
         {
-            return _Db.Curriculums.Single(item => item.Id == id && !item.IsDeleted);
+            return _Db.Curriculums.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
             //return GetDbDataContext().Curriculums.Single(item => item.Id == id && !item.IsDeleted);
         }
 
         public IEnumerable<Curriculum> GetCurriculums()
         {
             return _Db.Curriculums.Where(item => !item.IsDeleted);
+            //return GetDbDataContext().Curriculums.Where(item => !item.IsDeleted);
         }
 
         public IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids)
@@ -92,7 +93,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public IEnumerable<Curriculum> GetCurriculumsWithThemesOwnedByUser(User user)
         {
             IEnumerable<int> courseIds = GetCoursesOwnedByUser(user)
-                .Select(item => item.Id);
+                .Select(item => item.Id)
+                .ToList();
             return GetCurriculums()
                 .Where(item => GetThemesByCurriculumId(item.Id)
                              .Any(theme => courseIds.Contains(theme.CourseRef)));

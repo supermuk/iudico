@@ -48,5 +48,10 @@ namespace IUDICO.LMS.Controllers
 
             //return View(new Dictionary<IPlugin, IEnumerable<Action>>(MvcApplication.Actions));
         }
+
+        public ActionResult Error()
+        {
+            return View();
+        }
     }
 }

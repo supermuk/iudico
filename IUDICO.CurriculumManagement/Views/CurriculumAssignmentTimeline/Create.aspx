@@ -16,19 +16,25 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        <%=IUDICO.CurriculumManagement.Localization.getMessage("CreateCurriculumAssignmentTimeline")%></h2>
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("CreateCurriculumAssignmentTimelineFor")%>
+    </h2>
+    <h4>
+        <%: ViewData["CurriculumName"]%>
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("PrevNext")%>
+        <%: ViewData["GroupName"] %>
+    </h4>
     <% Html.EnableClientValidation(); %>
     <% using (Html.BeginForm())
        {%>
     <%: Html.ValidationSummary(true, "Please correct the following error(s) and try again:")%>
     <fieldset>
-        <legend><%=IUDICO.CurriculumManagement.Localization.getMessage("Fields")%></legend>
+        <legend>Fields</legend>
 
         <%: Html.EditorFor(item => item.Timeline) %>
-        <p>
-            <input type="submit" value=<%=IUDICO.CurriculumManagement.Localization.getMessage("Create")%> />
-        </p>
     </fieldset>
+    <p>
+        <input type="submit" value="<%=IUDICO.CurriculumManagement.Localization.getMessage("Create")%>"/>
+    </p>
     <% } %>
     <div>
         <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("BackToList"), "Index")%>

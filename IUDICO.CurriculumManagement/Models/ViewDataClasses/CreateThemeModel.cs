@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using IUDICO.Common.Models;
+using System.Reflection;
 
 namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
 {

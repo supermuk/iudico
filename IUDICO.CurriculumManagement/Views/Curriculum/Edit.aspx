@@ -15,7 +15,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <h2><%=IUDICO.CurriculumManagement.Localization.getMessage("EditCurriculum")%></h2>
-
+    <h4><%=Model.Name%></h4>
     <% Html.EnableClientValidation(); %>
 
     <% using (Html.BeginForm()) {%>
@@ -25,11 +25,10 @@
             <legend><%=IUDICO.CurriculumManagement.Localization.getMessage("Fields")%></legend>
             
             <%= Html.EditorForModel() %>
-            
-            <p>
-                <input type="submit" value=<%=IUDICO.CurriculumManagement.Localization.getMessage("Update")%> />
-            </p>
         </fieldset>
+        <p>
+            <input type="submit" value="<%=IUDICO.CurriculumManagement.Localization.getMessage("Update")%>" />
+        </p>
     <% } %>
 
     <div>

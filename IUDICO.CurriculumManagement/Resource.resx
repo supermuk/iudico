@@ -130,13 +130,13 @@
     <value>Created</value>
   </data>
   <data name="CreateNew" xml:space="preserve">
-    <value>Create New</value>
+    <value>Create new</value>
   </data>
-  <data name="CreateStage" xml:space="preserve">
-    <value>Create stage</value>
+  <data name="CreateStageFor" xml:space="preserve">
+    <value>Create stage for</value>
   </data>
-  <data name="CreateTheme" xml:space="preserve">
-    <value>Create theme</value>
+  <data name="CreateThemeFor" xml:space="preserve">
+    <value>Create theme for</value>
   </data>
   <data name="CreateСurriculum" xml:space="preserve">
     <value>Create curriculum</value>
@@ -145,7 +145,7 @@
     <value>Curriculum</value>
   </data>
   <data name="CurriculumManagement" xml:space="preserve">
-    <value>Curriculum Management</value>
+    <value>Curriculum management</value>
   </data>
   <data name="Curriculums" xml:space="preserve">
     <value>Curriculums</value>
@@ -154,7 +154,7 @@
     <value>Delete</value>
   </data>
   <data name="DeleteSelected" xml:space="preserve">
-    <value>Delete Selected</value>
+    <value>Delete selected</value>
   </data>
   <data name="Down" xml:space="preserve">
     <value>Down</value>
@@ -169,13 +169,13 @@
     <value>Edit stage</value>
   </data>
   <data name="EditStages" xml:space="preserve">
-    <value>Edit Stages</value>
+    <value>Edit stages</value>
   </data>
   <data name="EditTheme" xml:space="preserve">
     <value>Edit theme</value>
   </data>
   <data name="EditThemes" xml:space="preserve">
-    <value>Edit Themes</value>
+    <value>Edit themes</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
@@ -189,8 +189,8 @@
   <data name="ThemeName" xml:space="preserve">
     <value>Theme name</value>
   </data>
-  <data name="ThemesCoursesFor" xml:space="preserve">
-    <value>Themes(Courses) for</value>
+  <data name="ThemesFor" xml:space="preserve">
+    <value>Themes for</value>
   </data>
   <data name="ThemeType" xml:space="preserve">
     <value>Theme type</value>
@@ -205,7 +205,7 @@
     <value>Add assignment</value>
   </data>
   <data name="AddTimeline" xml:space="preserve">
-    <value>Add Timeline</value>
+    <value>Add timeline</value>
   </data>
   <data name="AssignmentsFor" xml:space="preserve">
     <value>Assignments for</value>
@@ -213,14 +213,8 @@
   <data name="BackToCurriculums" xml:space="preserve">
     <value>Back to curriculums</value>
   </data>
-  <data name="curriculuma" xml:space="preserve">
-    <value>curriculum</value>
-  </data>
-  <data name="curriculumAnd" xml:space="preserve">
-    <value>curriculum and</value>
-  </data>
-  <data name="EditAssignment" xml:space="preserve">
-    <value>Edit Assignment</value>
+  <data name="EditAssignmentFor" xml:space="preserve">
+    <value>Edit assignment for</value>
   </data>
   <data name="EditThemeAssignments" xml:space="preserve">
     <value>Edit theme assignments</value>
@@ -236,9 +230,6 @@
   </data>
   <data name="Group" xml:space="preserve">
     <value>Group</value>
-  </data>
-  <data name="groupu" xml:space="preserve">
-    <value>group</value>
   </data>
   <data name="MaxScore" xml:space="preserve">
     <value>Max score</value>
@@ -261,17 +252,17 @@
   <data name="ChooseThemeType" xml:space="preserve">
     <value>Choose a theme type</value>
   </data>
-  <data name="ChooseСourseForTheme" xml:space="preserve">
+  <data name="ChooseCourseForTheme" xml:space="preserve">
     <value>Choose a course for theme</value>
   </data>
-  <data name="CreateCurriculumAssignmentTimeline" xml:space="preserve">
-    <value>Create curriculum assignment timeline</value>
+  <data name="CreateCurriculumAssignmentTimelineFor" xml:space="preserve">
+    <value>Create curriculum assignment timeline for</value>
   </data>
   <data name="CurriculumAssignmentTimelinesFor" xml:space="preserve">
     <value>Curriculum assignment timelines for</value>
   </data>
   <data name="EditAssignments" xml:space="preserve">
-    <value>Edit Assignments</value>
+    <value>Edit assignments</value>
   </data>
   <data name="PleaseSelectCurriculumsToDelete" xml:space="preserve">
     <value>Please select curriculums to delete</value>
@@ -285,10 +276,25 @@
   <data name="ChooseStageForTimeline" xml:space="preserve">
     <value>Choose a stage for timeline</value>
   </data>
-  <data name="EditStageTimeline" xml:space="preserve">
-    <value>Edit stage timeline</value>
+  <data name="EditStageTimelineFor" xml:space="preserve">
+    <value>Edit stage timeline for</value>
   </data>
-  <data name="Fields" xml:space="preserve">
-    <value>Fields</value>
+  <data name="Next" xml:space="preserve">
+    <value> =&gt; </value>
+  </data>
+  <data name="CreateAssignmentFor" xml:space="preserve">
+    <value>Add assignment for</value>
+  </data>
+  <data name="CreateStageTimelineFor" xml:space="preserve">
+    <value>Create stage timeline for</value>
+  </data>
+  <data name="EditCurriculumAssignmentTimelineFor" xml:space="preserve">
+    <value>Edit curriculum assignment timeline for</value>
+  </data>
+  <data name="EditThemeAssignmentFor" xml:space="preserve">
+    <value>Edit theme assignment for</value>
+  </data>
+  <data name="PrevNext" xml:space="preserve">
+    <value>&lt;=&gt;</value>
   </data>
 </root>
