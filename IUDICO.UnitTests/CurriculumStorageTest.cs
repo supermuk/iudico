@@ -125,6 +125,13 @@ namespace IUDICO.UnitTests
             curriculums.Select((item, i) => i)
                 .ToList()
                 .ForEach(i => AdvAssert.AreEqual(curriculums[i], storage.GetCurriculum(ids[i])));
+
+            //Test AddCurriculumAssignment() with null and bad curriculum
+            int curriculumId = storage.AddCurriculum(null);
+            Assert.AreEqual(-1, curriculumId);
+
+            curriculumId = storage.AddCurriculum(new Curriculum() { });
+            Assert.AreEqual(-1, curriculumId);
         }
 
         [TestMethod]
@@ -163,6 +170,11 @@ namespace IUDICO.UnitTests
 
             AdvAssert.AreEqual(curriculums.GetSpecificItems(2, 3), storage.GetCurriculumsWithThemesOwnedByUser(users[0]).ToList());
             AdvAssert.AreEqual(curriculums.GetSpecificItems(2, 4), storage.GetCurriculumsWithThemesOwnedByUser(users[1]).ToList());
+
+            //Test GetUnrealCurriculum()
+            int curriculumId = 0;
+            Curriculum resultCurriculum = storage.GetCurriculum(curriculumId);
+            Assert.AreEqual(null, resultCurriculum);
         }
 
         [TestMethod]
@@ -178,6 +190,10 @@ namespace IUDICO.UnitTests
 
             curriculum.Name = "SecondlyUpdatedCurriculum";
             Assert.AreNotEqual(curriculum.Name, storage.GetCurriculum(id).Name);
+
+            //Test UpdateCurriculum() with null
+            bool operationSuccess = storage.UpdateCurriculum(null);
+            Assert.IsFalse(operationSuccess);
         }
 
         [TestMethod]
@@ -198,6 +214,10 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(null, storage.GetCurriculum(ids[0]));
             Assert.AreNotEqual(null, storage.GetCurriculum(ids[1]));
             Assert.AreEqual(null, storage.GetCurriculum(ids[2]));
+
+            //Test DeleteCurriculum() curriuclum with unreal id
+            bool operationSuccess = storage.DeleteCurriculum(0);
+            Assert.IsFalse(operationSuccess);
         }
 
         #endregion
@@ -222,6 +242,13 @@ namespace IUDICO.UnitTests
             stages.Select((item, i) => i)
                 .ToList()
                 .ForEach(i => AdvAssert.AreEqual(stages[i], storage.GetStage(ids[i])));
+
+            //Test AddStage() with null and bad stage
+            int stageId = storage.AddStage(null);
+            Assert.AreEqual(-1, stageId);
+
+            stageId = storage.AddStage(new Stage() { });
+            Assert.AreEqual(-1, stageId);
         }
 
         [TestMethod]
@@ -245,6 +272,11 @@ namespace IUDICO.UnitTests
             stages.Select((item, i) => i)
                 .ToList()
                 .ForEach(i => AdvAssert.AreEqual(stages[i], storage.GetStage(ids[i])));
+
+            //Test GetUnrealStage()
+            int stageId = 0;
+            Stage resultStage = storage.GetStage(stageId);
+            Assert.AreEqual(null, resultStage);
         }
 
         [TestMethod]
@@ -262,6 +294,10 @@ namespace IUDICO.UnitTests
 
             stage.Name = "SecondlyUpdatedStage";
             Assert.AreNotEqual(stage.Name, storage.GetStage(stageId).Name);
+
+            //Test UpdateStage() with null
+            bool operationSuccess = storage.UpdateStage(null);
+            Assert.IsFalse(operationSuccess);
         }
 
         [TestMethod]
@@ -283,6 +319,10 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(null, storage.GetStage(ids[0]));
             Assert.AreNotEqual(null, storage.GetStage(ids[1]));
             Assert.AreEqual(null, storage.GetStage(ids[2]));
+
+            //Test DeleteStage() stage with unreal id
+            bool operationSuccess = storage.DeleteStage(0);
+            Assert.IsFalse(operationSuccess);
         }
 
         #endregion
@@ -309,6 +349,13 @@ namespace IUDICO.UnitTests
             themes.Select((item, i) => i)
                 .ToList()
                 .ForEach(i => AdvAssert.AreEqual(themes[i], storage.GetTheme(ids[i])));
+
+            //Test AddTheme() with null and bad theme
+            int themeId = storage.AddTheme(null);
+            Assert.AreEqual(-1, themeId);
+
+            themeId = storage.AddTheme(new Theme() { });
+            Assert.AreEqual(-1, themeId);
         }
 
         [TestMethod]
@@ -342,6 +389,11 @@ namespace IUDICO.UnitTests
             //Test GetThemesByGroupId()
             int curriculumAssignmentId = storage.AddCurriculumAssignment(Utils.GetDefaultCurriculumAssignment(curriculumId, groups[0].Id));
             AdvAssert.AreEqual(themes, storage.GetThemesByGroupId(groups[0].Id).ToList());
+
+            //Test GetUnrealTheme()
+            int themeId = 0;
+            Theme resultTheme = storage.GetTheme(themeId);
+            Assert.AreEqual(null, resultTheme);
         }
 
         [TestMethod]
@@ -361,6 +413,10 @@ namespace IUDICO.UnitTests
 
             theme.Name = "SecondlyUpdatedTheme";
             Assert.AreNotEqual(theme.Name, storage.GetTheme(id).Name);
+
+            //Test UpdateTheme() with null
+            bool operationSuccess = storage.UpdateTheme(null);
+            Assert.IsFalse(operationSuccess);
         }
 
         [TestMethod]
@@ -385,6 +441,10 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(null, storage.GetTheme(ids[0]));
             Assert.AreNotEqual(null, storage.GetTheme(ids[1]));
             Assert.AreEqual(null, storage.GetTheme(ids[2]));
+
+            //Test DeleteTheme() theme with unreal id
+            bool operationSuccess = storage.DeleteTheme(0);
+            Assert.IsFalse(operationSuccess);
         }
 
         [TestMethod]
@@ -396,8 +456,8 @@ namespace IUDICO.UnitTests
             int stageId = storage.AddStage(Utils.GetDefaultStage(curriculumId));
 
             List<Theme> themes = new List<Theme>();
-            Theme themeOne = new Theme() { Name = "ThemeOne", ThemeTypeRef = 1, CourseRef = courses[0].Id, StageRef = stageId };
-            Theme themeTwo = new Theme() { Name = "ThemeTwo", ThemeTypeRef = 1, CourseRef = courses[0].Id, StageRef = stageId };
+            themes.Add(new Theme(){ Name = "ThemeOne", ThemeTypeRef = 1, CourseRef = courses[0].Id, StageRef = stageId });
+            themes.Add(new Theme(){ Name = "ThemeTwo", ThemeTypeRef = 1, CourseRef = courses[0].Id, StageRef = stageId });
 
             List<int> ids = new List<int>();
             themes.ForEach(item => ids.Add(storage.AddTheme(item)));
@@ -416,8 +476,8 @@ namespace IUDICO.UnitTests
             int stageId = storage.AddStage(Utils.GetDefaultStage(curriculumId));
 
             List<Theme> themes = new List<Theme>();
-            Theme themeOne = new Theme() { Name = "ThemeOne", ThemeTypeRef = 1, CourseRef = courses[0].Id, StageRef = stageId };
-            Theme themeTwo = new Theme() { Name = "ThemeTwo", ThemeTypeRef = 1, CourseRef = courses[0].Id, StageRef = stageId };
+            themes.Add(new Theme(){ Name = "ThemeOne", ThemeTypeRef = 1, CourseRef = courses[0].Id, StageRef = stageId });
+            themes.Add(new Theme(){ Name = "ThemeTwo", ThemeTypeRef = 1, CourseRef = courses[0].Id, StageRef = stageId });
 
             List<int> ids = new List<int>();
             themes.ForEach(item => ids.Add(storage.AddTheme(item)));
@@ -450,6 +510,13 @@ namespace IUDICO.UnitTests
             curriculumAssignments.Select((item, i) => i)
                 .ToList()
                 .ForEach(i => AdvAssert.AreEqual(curriculumAssignments[i], storage.GetCurriculumAssignment(ids[i])));
+
+            //Test AddCurriculumAssignment() with null and bad curriculumAssignment
+            int curriculumAssignmentId = storage.AddCurriculumAssignment(null);
+            Assert.AreEqual(-1, curriculumAssignmentId);
+
+            curriculumAssignmentId = storage.AddCurriculumAssignment(new CurriculumAssignment() { });
+            Assert.AreEqual(-1, curriculumAssignmentId);
         }
 
         [TestMethod]
@@ -479,6 +546,11 @@ namespace IUDICO.UnitTests
 
             //Test GetCurriculumAssignmentByGroupId()
             AdvAssert.AreEqual(curriculumAssingmnets.GetSpecificItems(1), storage.GetCurriculumAssignmentsByGroupId(groups[1].Id).ToList());
+
+            //Test GetUnrealCurriculumAssignment
+            int curriculumAssignmentId = 0;
+            CurriculumAssignment resultCurriculumAssignment = storage.GetCurriculumAssignment(curriculumAssignmentId);
+            Assert.AreEqual(null, resultCurriculumAssignment);
         }
 
         [TestMethod]
@@ -500,6 +572,10 @@ namespace IUDICO.UnitTests
             //Secondary update
             curriculumAssignment.UserGroupRef = groups[2].Id;
             Assert.AreNotEqual(curriculumAssignment.UserGroupRef, storage.GetCurriculumAssignment(curriculumAssignmentId).UserGroupRef);
+
+            //Test UpdateCurriculumAssignment() with null
+            bool operationSuccess = storage.UpdateCurriculumAssignment(null);
+            Assert.IsFalse(operationSuccess);
         }
 
         [TestMethod]
@@ -519,11 +595,15 @@ namespace IUDICO.UnitTests
             ids.Add(storage.AddCurriculumAssignment(new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groups[0].Id }));
             ids.Add(storage.AddCurriculumAssignment(new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groups[0].Id }));
             ids.Add(storage.AddCurriculumAssignment(new CurriculumAssignment() { CurriculumRef = curriculumId, UserGroupRef = groups[0].Id }));
-            storage.DeleteCurriculums(ids.GetSpecificItems(0, 2));
+            storage.DeleteCurriculumAssignments(ids.GetSpecificItems(0, 2));
 
             Assert.AreEqual(null, storage.GetCurriculumAssignment(ids[0]));
             Assert.AreNotEqual(null, storage.GetCurriculumAssignment(ids[1]));
             Assert.AreEqual(null, storage.GetCurriculumAssignment(ids[2]));
+
+            //Test DeleteCurriculumAssignment() curriculumAssignment with unreal id
+            bool operationSuccess = storage.DeleteCurriculumAssignment(0);
+            Assert.IsFalse(operationSuccess);
         }
 
         #endregion
@@ -551,6 +631,13 @@ namespace IUDICO.UnitTests
             timelines.Select((item, i) => i)
                 .ToList()
                 .ForEach(i => AdvAssert.AreEqual(timelines[i], storage.GetTimeline(ids[i])));
+
+            //Test AddTimeline() with null and bad timeline
+            int timelineId = storage.AddTimeline(null);
+            Assert.AreEqual(-1, timelineId);
+
+            timelineId = storage.AddTimeline(new Timeline() { });
+            Assert.AreEqual(-1, timelineId);
         }
 
         [TestMethod]
@@ -563,20 +650,26 @@ namespace IUDICO.UnitTests
             int curriculumAssignmentId = storage.AddCurriculumAssignment(Utils.GetDefaultCurriculumAssignment(curriculumId, groups[0].Id));
 
             List<Timeline> timelines = new List<Timeline>();
-            timelines.Add(new Timeline() { CurriculumAssignmentRef = curriculumAssignmentId, StartDate = DateTime.Now, EndDate = DateTime.Now, StageRef = stageId});
             timelines.Add(new Timeline() { CurriculumAssignmentRef = curriculumAssignmentId, StartDate = DateTime.Now, EndDate = DateTime.Now});
             timelines.Add(new Timeline() { CurriculumAssignmentRef = curriculumAssignmentId, StartDate = DateTime.Now, EndDate = DateTime.Now, StageRef = stageId});
+            timelines.Add(new Timeline() { CurriculumAssignmentRef = curriculumAssignmentId, StartDate = DateTime.Now, EndDate = DateTime.Now});
             List<int> ids = new List<int>();
             timelines.ForEach(item => ids.Add(storage.AddTimeline(item)));
 
             //Test GetCurriculumAssignmentTimelines()
+            List<Timeline> l = new List<Timeline>();
             AdvAssert.AreEqual(timelines.GetSpecificItems(0, 2), storage.GetCurriculumAssignmentTimelines(curriculumAssignmentId).ToList());
 
             //Test GetStageTimelinesByStageId()
             AdvAssert.AreEqual(timelines.GetSpecificItems(1), storage.GetStageTimelinesByStageId(stageId).ToList());
 
             //Test GetStageTimelines()
-            AdvAssert.AreEqual(timelines.GetSpecificItems(1), storage.GetStageTimelines(stageId,curriculumAssignmentId).ToList());
+            AdvAssert.AreEqual(timelines.GetSpecificItems(1), storage.GetStageTimelines(stageId, curriculumAssignmentId).ToList());
+
+            //Test GetUnrealTimeline()
+            int timelineId = 0;
+            Timeline resultTimeline = storage.GetTimeline(timelineId);
+            Assert.AreEqual(null, resultTimeline);
         }
 
         [TestMethod]
@@ -598,6 +691,10 @@ namespace IUDICO.UnitTests
             //Secondary update
             timeline.StartDate = DateTime.Now;
             Assert.AreNotEqual(timeline.StartDate, storage.GetTimeline(timelineId).StartDate);
+
+            //Test UpdateTimeline() with null
+            bool operationSuccess = storage.UpdateTimeline(null);
+            Assert.IsFalse(operationSuccess);
         }
 
         [TestMethod]
@@ -624,6 +721,10 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(null, storage.GetTimeline(ids[0]));
             Assert.AreNotEqual(null, storage.GetTimeline(ids[1]));
             Assert.AreEqual(null, storage.GetTimeline(ids[2]));
+
+            //Test DeleteTimeline() timeline with unreal id
+            bool operationSuccess = storage.DeleteTimeline(0);
+            Assert.IsFalse(operationSuccess);
         }
 
         #endregion
@@ -639,7 +740,6 @@ namespace IUDICO.UnitTests
             int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
             curriculumAssignments.Add(Utils.GetDefaultCurriculumAssignment(curriculumId, groups[0].Id));
             curriculumAssignments.Add(Utils.GetDefaultCurriculumAssignment(curriculumId, groups[1].Id));
-            curriculumAssignments.Add(Utils.GetDefaultCurriculumAssignment(curriculumId, groups[0].Id));
 
             //Test GetAssignedGroups()
             AdvAssert.AreEqual(groups.GetSpecificItems(0, 1), storage.GetAssignedGroups(curriculumId).ToList());
@@ -658,7 +758,7 @@ namespace IUDICO.UnitTests
         [TestMethod]
         public void AddThemeAssignmentTest()
         {
-            //Test AddThemeAssignment and GetThemeAssignment()
+            //Test AddThemeAssignment() and GetThemeAssignment()
             ICourseService courseService = lmsService.FindService<ICourseService>();
             IUserService userService = lmsService.FindService<IUserService>();
             List<Group> groups = userService.GetGroups().ToList();
@@ -680,6 +780,13 @@ namespace IUDICO.UnitTests
             themeAssignments.Select((item, i) => i)
                 .ToList()
                 .ForEach(i => AdvAssert.AreEqual(themeAssignments[i], storage.GetThemeAssignment(ids[i])));
+
+            //Test AddThemeAssignment() with null and bad themeAssignment
+            int themeAssignmentId = storage.AddThemeAssignment(null);
+            Assert.AreEqual(-1, themeAssignmentId);
+
+            themeAssignmentId = storage.AddThemeAssignment(new ThemeAssignment() { });
+            Assert.AreEqual(-1, themeAssignmentId);
         }
 
         [TestMethod]
@@ -706,10 +813,16 @@ namespace IUDICO.UnitTests
             themeAssignments.ForEach(item => storage.AddThemeAssignment(item));
 
             //Test GetThemeAssignmentsByCurriculumAssignmentId()
+            List<ThemeAssignment> l = storage.GetThemeAssignmentsByCurriculumAssignmentId(curriculumAssignmentTwoId).ToList();
             AdvAssert.AreEqual(themeAssignments.GetSpecificItems(2, 3), storage.GetThemeAssignmentsByCurriculumAssignmentId(curriculumAssignmentTwoId).ToList());
 
             //Test GetThemeAssignmentsByThemeId()
             AdvAssert.AreEqual(themeAssignments.GetSpecificItems(0, 1), storage.GetThemeAssignmentsByThemeId(themeTwoId).ToList());
+
+            //Test GetUnrealThemeAssignment()
+            int themeAssignmentId = 0;
+            ThemeAssignment resultThemeAssignment = storage.GetThemeAssignment(themeAssignmentId);
+            Assert.AreEqual(null, resultThemeAssignment);
         }
 
         [TestMethod]
@@ -727,6 +840,8 @@ namespace IUDICO.UnitTests
 
             ThemeAssignment themeAssignment = new ThemeAssignment() { ThemeRef = themeId, MaxScore = 100, IsDeleted = false, CurriculumAssignmentRef = curriculumAssignmentId };
             int themeAssignmentId = storage.AddThemeAssignment(themeAssignment);
+            AdvAssert.AreEqual(themeAssignment, storage.GetThemeAssignment(themeAssignmentId));
+            
             themeAssignment.MaxScore = 1;
             storage.UpdateThemeAssignment(themeAssignment);
 
@@ -735,6 +850,10 @@ namespace IUDICO.UnitTests
             //Secondary update
             themeAssignment.MaxScore = 50;
             Assert.AreNotEqual(themeAssignment.MaxScore, storage.GetThemeAssignment(themeAssignmentId).MaxScore);
+
+            //Test UpdateThemeAssignment() with null
+            bool operationSuccess = storage.UpdateThemeAssignment(null);
+            Assert.IsFalse(operationSuccess);
         }
 
         [TestMethod]
