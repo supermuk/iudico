@@ -10,8 +10,6 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
         public int Id { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        //TODO:remove this
-        public string OperationName { get; set; }
         public string StageName { get; set; }
     }
 }

@@ -25,11 +25,10 @@
             <legend><%=IUDICO.CurriculumManagement.Localization.getMessage("Fields")%></legend>
             
             <%= Html.EditorForModel() %>
-            
-            <p>
-                <input type="submit" value=<%=IUDICO.CurriculumManagement.Localization.getMessage("Create")%> />
-            </p>
         </fieldset>
+        <p>
+            <input type="submit" value="<%=IUDICO.CurriculumManagement.Localization.getMessage("Create")%>" />
+        </p>
     <% } %>
 
     <div>

@@ -27,6 +27,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                 var themes = Storage.GetThemesByStageId(stageId);
                 Stage stage = Storage.GetStage(stageId);
 
+                ViewData["CurriculumName"] = stage.Curriculum.Name;
                 ViewData["StageName"] = stage.Name;
                 ViewData["CurriculumId"] = stage.CurriculumRef;
                 return View(themes);
@@ -45,8 +46,11 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 LoadValidationErrors();
 
+                Stage stage = Storage.GetStage(stageId);
                 var model = new CreateThemeModel(stageId, Storage.GetCourses(), 0, Storage.GetThemeTypes(), 0, "");
 
+                ViewData["CurriculumName"] = stage.Curriculum.Name;
+                ViewData["StageName"] = stage.Name;
                 return View(model);
             }
             catch (Exception e)
@@ -102,6 +106,9 @@ namespace IUDICO.CurriculumManagement.Controllers
                 var model = new CreateThemeModel(theme.StageRef, Storage.GetCourses(), theme.CourseRef,
                     Storage.GetThemeTypes(), theme.ThemeTypeRef, theme.Name);
 
+                ViewData["CurriculumName"] = theme.Stage.Curriculum.Name;
+                ViewData["StageName"] = theme.Stage.Name;
+                ViewData["ThemeName"] = theme.Name;
                 return View(model);
             }
             catch (Exception e)

@@ -26,6 +26,11 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         IEnumerable<Curriculum> GetCurriculums();
         IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids);
         Curriculum GetCurriculum(int id);
+        /// <summary>
+        /// Gets the curriculums which have curriculum assignments binded to group
+        /// </summary>
+        /// <param name="groupId">The group id.</param>
+        /// <returns></returns>
         IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId);
         /// <summary>
         /// Gets curriculums which have themes owned by user.

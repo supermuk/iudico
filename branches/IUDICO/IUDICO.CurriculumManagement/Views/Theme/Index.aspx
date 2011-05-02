@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Theme>>" %>
+
 <%@ Assembly Name="IUDICO.CurriculumManagement" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
     <script src="/Scripts/Microsoft/MicrosoftAjax.js" type="text/javascript"></script>
@@ -61,18 +62,19 @@
         }
     </script>
 </asp:Content>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Index
+    Index
 </asp:Content>
-
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
-    <h2><%=IUDICO.CurriculumManagement.Localization.getMessage("ThemesCoursesFor")%> <%: ViewData["StageName"] %> stage.</h2>
-
+    <h2>
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("ThemesFor")%>
+    </h2>
+    <h4>
+        <%=ViewData["CurriculumName"]%><%=IUDICO.CurriculumManagement.Localization.getMessage("Next")%><%=ViewData["StageName"]%></h4>
     <p>
-        <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("AddTheme"), "Create"/*, new { StageID = Model.StageId}*/)%>
-        <a id="DeleteMany" href="#"><%=IUDICO.CurriculumManagement.Localization.getMessage("DeleteSelected")%></a>
+        <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("AddTheme"), "Create")%>
+        <a id="DeleteMany" href="#">
+            <%=IUDICO.CurriculumManagement.Localization.getMessage("DeleteSelected")%></a>
     </p>
     <table>
         <tr>
@@ -95,37 +97,36 @@
         </tr>
         <% foreach (var item in Model)
            { %>
-            <tr id="item<%: item.Id %>">
-                <td>
-                    <input type="checkbox" id="<%= item.Id %>" />
-                </td>
-                <td>
-                    <%: item.Name %>
-                </td>
-                <td>
-                    <%: String.Format("{0:g}", item.Created) %>
-                </td>
-                <td>
-                    <%: String.Format("{0:g}", item.Updated) %>
-                </td>
-                <td>
-                    <%: item.ThemeType.Name %>
-                </td>
-                <td>
-                    <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Edit"), "Edit", new { ThemeID = item.Id })%>
-                    |
-                    <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Up"), "ThemeUp", new { ThemeID = item.Id })%>
-                    |
-                    <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Down"), "ThemeDown", new { ThemeID = item.Id })%>
-                    |
-                    <a href="#" onclick="deleteItem(<%: item.Id %>)"><%=IUDICO.CurriculumManagement.Localization.getMessage("Delete")%></a>
-                </td>
-            </tr>
+        <tr id="item<%: item.Id %>">
+            <td>
+                <input type="checkbox" id="<%= item.Id %>" />
+            </td>
+            <td>
+                <%: item.Name %>
+            </td>
+            <td>
+                <%: String.Format("{0:g}", item.Created) %>
+            </td>
+            <td>
+                <%: String.Format("{0:g}", item.Updated) %>
+            </td>
+            <td>
+                <%: item.ThemeType.Name %>
+            </td>
+            <td>
+                <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Edit"), "Edit", new { ThemeID = item.Id })%>
+                |
+                <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Up"), "ThemeUp", new { ThemeID = item.Id })%>
+                |
+                <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Down"), "ThemeDown", new { ThemeID = item.Id })%>
+                | <a href="#" onclick="deleteItem(<%: item.Id %>)">
+                    <%=IUDICO.CurriculumManagement.Localization.getMessage("Delete")%></a>
+            </td>
+        </tr>
         <% } %>
     </table>
-
     <div>
         <br />
-       <%: Html.RouteLink("Back to stages.", "Stages", new { action = "Index", CurriculumId = ViewData["CurriculumId"] }, null)%>
+        <%: Html.RouteLink("Back to stages.", "Stages", new { action = "Index", CurriculumId = ViewData["CurriculumId"] }, null)%>
     </div>
 </asp:Content>

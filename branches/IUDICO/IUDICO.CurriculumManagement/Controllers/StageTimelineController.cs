@@ -25,6 +25,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             try
             {
                 CurriculumAssignment curriculumAssignment = Storage.GetCurriculumAssignment(curriculumAssignmentId);
+                Curriculum curriculum = Storage.GetCurriculum(curriculumAssignment.CurriculumRef);
                 Group group = Storage.GetGroup(curriculumAssignment.UserGroupRef);
                 var timelines = Storage.GetStageTimelinesByCurriculumAssignmentId(curriculumAssignmentId)
                                 .Select(item => new ViewStageTimelineModel
@@ -36,7 +37,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                                 });
 
                 ViewData["Group"] = group;
-                ViewData["Curriculum"] = curriculumAssignment.Curriculum;
+                ViewData["Curriculum"] = curriculum;
                 return View(timelines);
             }
             catch (Exception e)
@@ -54,11 +55,15 @@ namespace IUDICO.CurriculumManagement.Controllers
                 LoadValidationErrors();
 
                 Timeline timeline = Storage.GetTimeline(timelineId);
-
+                CurriculumAssignment curriculumAssignment = Storage.GetCurriculumAssignment(timeline.CurriculumAssignmentRef);
+                Curriculum curriculum = Storage.GetCurriculum(curriculumAssignment.CurriculumRef);
+                Group group = Storage.GetGroup(curriculumAssignment.UserGroupRef);
                 CreateStageTimelineModel editStageTimelineModel = new CreateStageTimelineModel(timeline,
                     Storage.GetStages(Storage.GetCurriculumAssignment(timeline.CurriculumAssignmentRef).CurriculumRef), (int)timeline.StageRef);
 
                 Session["CurriculumAssignmentId"] = timeline.CurriculumAssignmentRef;
+                ViewData["GroupName"] = group.Name;
+                ViewData["CurriculumName"] = curriculum.Name;
                 return View(editStageTimelineModel);
             }
             catch (Exception e)
@@ -141,10 +146,13 @@ namespace IUDICO.CurriculumManagement.Controllers
                 LoadValidationErrors();
 
                 CurriculumAssignment curriculumAssignment = Storage.GetCurriculumAssignment(curriculumAssignmentId);
-
+                Curriculum curriculum = Storage.GetCurriculum(curriculumAssignment.CurriculumRef);
+                Group group = Storage.GetGroup(curriculumAssignment.UserGroupRef);
                 CreateStageTimelineModel createTimelineModel = new CreateStageTimelineModel(new Timeline(),
                     Storage.GetStages(curriculumAssignment.CurriculumRef), 0);
 
+                ViewData["GroupName"] = group.Name;
+                ViewData["CurriculumName"] = curriculum.Name;
                 return View(createTimelineModel);
             }
             catch (Exception e)

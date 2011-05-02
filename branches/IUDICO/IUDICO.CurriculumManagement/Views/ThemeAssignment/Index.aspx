@@ -12,11 +12,12 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
         <%=IUDICO.CurriculumManagement.Localization.getMessage("ThemeAssignmentsFor")%>
-        <%: (ViewData["Curriculum"] as Curriculum).Name%>
-        <%=IUDICO.CurriculumManagement.Localization.getMessage("curriculumAnd")%>
-        <%: ViewData["GroupName"]%>
-        <%=IUDICO.CurriculumManagement.Localization.getMessage("groupu")%>
     </h2>
+    <h4>
+        <%: (ViewData["Curriculum"] as Curriculum).Name%>
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("PrevNext")%>
+        <%: (ViewData["Group"] as IUDICO.Common.Models.Group).Name %>
+    </h4>
     <table>
         <tr>
             <th>

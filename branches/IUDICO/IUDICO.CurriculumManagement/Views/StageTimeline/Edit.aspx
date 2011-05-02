@@ -15,7 +15,13 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        <%=IUDICO.CurriculumManagement.Localization.getMessage("EditStageTimeline")%></h2>
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("EditStageTimelineFor")%>
+    </h2>
+    <h4>
+        <%: ViewData["CurriculumName"]%>
+        <%= IUDICO.CurriculumManagement.Localization.getMessage("PrevNext")%>
+        <%: ViewData["GroupName"] %>
+    </h4>
     <% Html.EnableClientValidation(); %>
     <% using (Html.BeginForm())
        {%>
@@ -24,15 +30,15 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
         <legend><%=IUDICO.CurriculumManagement.Localization.getMessage("Fields")%></legend>
         <%: Html.EditorFor(item => item.Timeline) %>
         <div class="editor-label">
-            <%: Html.Label(IUDICO.CurriculumManagement.Localization.getMessage("ChooseStageForTimeline")+":")%>
+            <%: Html.Label(IUDICO.CurriculumManagement.Localization.getMessage("ChooseStageForTimeline"))%>
         </div>
         <div>
             <%: Html.DropDownListFor(x => x.StageId, Model.Stages)%>
         </div>
-        <p>
-            <input type="submit" value=<%=IUDICO.CurriculumManagement.Localization.getMessage("Update")%> />
-        </p>
     </fieldset>
+    <p>
+        <input type="submit" value="<%=IUDICO.CurriculumManagement.Localization.getMessage("Update")%>" />
+    </p>
     <% } %>
     <div>
         <br />

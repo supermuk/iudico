@@ -6,6 +6,7 @@ using IUDICO.Common.Models.Attributes;
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
+    [HandleError]
     public class CurriculumController : CurriculumBaseController
     {
         public CurriculumController(ICurriculumStorage curriculumStorage)
@@ -21,6 +22,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 var curriculums = Storage.GetCurriculums();
 
+                //throw new Exception();
                 return View(curriculums);
             }
             catch (Exception e)
