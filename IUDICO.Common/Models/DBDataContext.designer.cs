@@ -54,9 +54,6 @@ namespace IUDICO.Common.Models
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
-    partial void InsertCourse(Course instance);
-    partial void UpdateCourse(Course instance);
-    partial void DeleteCourse(Course instance);
     partial void InsertTimeline(Timeline instance);
     partial void UpdateTimeline(Timeline instance);
     partial void DeleteTimeline(Timeline instance);
@@ -66,6 +63,9 @@ namespace IUDICO.Common.Models
     partial void InsertStage(Stage instance);
     partial void UpdateStage(Stage instance);
     partial void DeleteStage(Stage instance);
+    partial void InsertCourse(Course instance);
+    partial void UpdateCourse(Course instance);
+    partial void DeleteCourse(Course instance);
     partial void InsertNode(Node instance);
     partial void UpdateNode(Node instance);
     partial void DeleteNode(Node instance);
@@ -165,14 +165,6 @@ namespace IUDICO.Common.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<Course> Courses
-		{
-			get
-			{
-				return this.GetTable<Course>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Timeline> Timelines
 		{
 			get
@@ -194,6 +186,14 @@ namespace IUDICO.Common.Models
 			get
 			{
 				return this.GetTable<Stage>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Course> Courses
+		{
+			get
+			{
+				return this.GetTable<Course>();
 			}
 		}
 		
@@ -1987,292 +1987,6 @@ namespace IUDICO.Common.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Courses")]
-	public partial class Course : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _Name;
-		
-		private string _Owner;
-		
-		private System.DateTime _Created;
-		
-		private System.DateTime _Updated;
-		
-		private bool _Deleted;
-		
-		private System.Nullable<int> _SequencingPattern;
-		
-		private System.Nullable<bool> _Locked;
-		
-		private EntitySet<CourseUser> _CourseUsers;
-		
-		private EntitySet<Node> _Nodes;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnOwnerChanging(string value);
-    partial void OnOwnerChanged();
-    partial void OnCreatedChanging(System.DateTime value);
-    partial void OnCreatedChanged();
-    partial void OnUpdatedChanging(System.DateTime value);
-    partial void OnUpdatedChanged();
-    partial void OnDeletedChanging(bool value);
-    partial void OnDeletedChanged();
-    partial void OnSequencingPatternChanging(System.Nullable<int> value);
-    partial void OnSequencingPatternChanged();
-    partial void OnLockedChanging(System.Nullable<bool> value);
-    partial void OnLockedChanged();
-    #endregion
-		
-		public Course()
-		{
-			this._CourseUsers = new EntitySet<CourseUser>(new Action<CourseUser>(this.attach_CourseUsers), new Action<CourseUser>(this.detach_CourseUsers));
-			this._Nodes = new EntitySet<Node>(new Action<Node>(this.attach_Nodes), new Action<Node>(this.detach_Nodes));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Owner", DbType="NVarChar(50)")]
-		public string Owner
-		{
-			get
-			{
-				return this._Owner;
-			}
-			set
-			{
-				if ((this._Owner != value))
-				{
-					this.OnOwnerChanging(value);
-					this.SendPropertyChanging();
-					this._Owner = value;
-					this.SendPropertyChanged("Owner");
-					this.OnOwnerChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Created", DbType="DateTime NOT NULL")]
-		public System.DateTime Created
-		{
-			get
-			{
-				return this._Created;
-			}
-			set
-			{
-				if ((this._Created != value))
-				{
-					this.OnCreatedChanging(value);
-					this.SendPropertyChanging();
-					this._Created = value;
-					this.SendPropertyChanged("Created");
-					this.OnCreatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Updated", DbType="DateTime NOT NULL")]
-		public System.DateTime Updated
-		{
-			get
-			{
-				return this._Updated;
-			}
-			set
-			{
-				if ((this._Updated != value))
-				{
-					this.OnUpdatedChanging(value);
-					this.SendPropertyChanging();
-					this._Updated = value;
-					this.SendPropertyChanged("Updated");
-					this.OnUpdatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Deleted", DbType="Bit NOT NULL")]
-		public bool Deleted
-		{
-			get
-			{
-				return this._Deleted;
-			}
-			set
-			{
-				if ((this._Deleted != value))
-				{
-					this.OnDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._Deleted = value;
-					this.SendPropertyChanged("Deleted");
-					this.OnDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SequencingPattern", DbType="Int")]
-		public System.Nullable<int> SequencingPattern
-		{
-			get
-			{
-				return this._SequencingPattern;
-			}
-			set
-			{
-				if ((this._SequencingPattern != value))
-				{
-					this.OnSequencingPatternChanging(value);
-					this.SendPropertyChanging();
-					this._SequencingPattern = value;
-					this.SendPropertyChanged("SequencingPattern");
-					this.OnSequencingPatternChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Locked", DbType="Bit")]
-		public System.Nullable<bool> Locked
-		{
-			get
-			{
-				return this._Locked;
-			}
-			set
-			{
-				if ((this._Locked != value))
-				{
-					this.OnLockedChanging(value);
-					this.SendPropertyChanging();
-					this._Locked = value;
-					this.SendPropertyChanged("Locked");
-					this.OnLockedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_CourseUser", Storage="_CourseUsers", ThisKey="Id", OtherKey="CourseRef")]
-		public EntitySet<CourseUser> CourseUsers
-		{
-			get
-			{
-				return this._CourseUsers;
-			}
-			set
-			{
-				this._CourseUsers.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_Node", Storage="_Nodes", ThisKey="Id", OtherKey="CourseId")]
-		public EntitySet<Node> Nodes
-		{
-			get
-			{
-				return this._Nodes;
-			}
-			set
-			{
-				this._Nodes.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_CourseUsers(CourseUser entity)
-		{
-			this.SendPropertyChanging();
-			entity.Course = this;
-		}
-		
-		private void detach_CourseUsers(CourseUser entity)
-		{
-			this.SendPropertyChanging();
-			entity.Course = null;
-		}
-		
-		private void attach_Nodes(Node entity)
-		{
-			this.SendPropertyChanging();
-			entity.Course = this;
-		}
-		
-		private void detach_Nodes(Node entity)
-		{
-			this.SendPropertyChanging();
-			entity.Course = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Timelines")]
 	public partial class Timeline : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2961,6 +2675,268 @@ namespace IUDICO.Common.Models
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Courses")]
+	public partial class Course : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private string _Owner;
+		
+		private System.DateTime _Created;
+		
+		private System.DateTime _Updated;
+		
+		private bool _Deleted;
+		
+		private System.Nullable<bool> _Locked;
+		
+		private EntitySet<CourseUser> _CourseUsers;
+		
+		private EntitySet<Node> _Nodes;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnOwnerChanging(string value);
+    partial void OnOwnerChanged();
+    partial void OnCreatedChanging(System.DateTime value);
+    partial void OnCreatedChanged();
+    partial void OnUpdatedChanging(System.DateTime value);
+    partial void OnUpdatedChanged();
+    partial void OnDeletedChanging(bool value);
+    partial void OnDeletedChanged();
+    partial void OnLockedChanging(System.Nullable<bool> value);
+    partial void OnLockedChanged();
+    #endregion
+		
+		public Course()
+		{
+			this._CourseUsers = new EntitySet<CourseUser>(new Action<CourseUser>(this.attach_CourseUsers), new Action<CourseUser>(this.detach_CourseUsers));
+			this._Nodes = new EntitySet<Node>(new Action<Node>(this.attach_Nodes), new Action<Node>(this.detach_Nodes));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Owner", DbType="NVarChar(50)")]
+		public string Owner
+		{
+			get
+			{
+				return this._Owner;
+			}
+			set
+			{
+				if ((this._Owner != value))
+				{
+					this.OnOwnerChanging(value);
+					this.SendPropertyChanging();
+					this._Owner = value;
+					this.SendPropertyChanged("Owner");
+					this.OnOwnerChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Created", DbType="DateTime NOT NULL")]
+		public System.DateTime Created
+		{
+			get
+			{
+				return this._Created;
+			}
+			set
+			{
+				if ((this._Created != value))
+				{
+					this.OnCreatedChanging(value);
+					this.SendPropertyChanging();
+					this._Created = value;
+					this.SendPropertyChanged("Created");
+					this.OnCreatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Updated", DbType="DateTime NOT NULL")]
+		public System.DateTime Updated
+		{
+			get
+			{
+				return this._Updated;
+			}
+			set
+			{
+				if ((this._Updated != value))
+				{
+					this.OnUpdatedChanging(value);
+					this.SendPropertyChanging();
+					this._Updated = value;
+					this.SendPropertyChanged("Updated");
+					this.OnUpdatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Deleted", DbType="Bit NOT NULL")]
+		public bool Deleted
+		{
+			get
+			{
+				return this._Deleted;
+			}
+			set
+			{
+				if ((this._Deleted != value))
+				{
+					this.OnDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._Deleted = value;
+					this.SendPropertyChanged("Deleted");
+					this.OnDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Locked", DbType="Bit")]
+		public System.Nullable<bool> Locked
+		{
+			get
+			{
+				return this._Locked;
+			}
+			set
+			{
+				if ((this._Locked != value))
+				{
+					this.OnLockedChanging(value);
+					this.SendPropertyChanging();
+					this._Locked = value;
+					this.SendPropertyChanged("Locked");
+					this.OnLockedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_CourseUser", Storage="_CourseUsers", ThisKey="Id", OtherKey="CourseRef")]
+		public EntitySet<CourseUser> CourseUsers
+		{
+			get
+			{
+				return this._CourseUsers;
+			}
+			set
+			{
+				this._CourseUsers.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_Node", Storage="_Nodes", ThisKey="Id", OtherKey="CourseId")]
+		public EntitySet<Node> Nodes
+		{
+			get
+			{
+				return this._Nodes;
+			}
+			set
+			{
+				this._Nodes.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_CourseUsers(CourseUser entity)
+		{
+			this.SendPropertyChanging();
+			entity.Course = this;
+		}
+		
+		private void detach_CourseUsers(CourseUser entity)
+		{
+			this.SendPropertyChanging();
+			entity.Course = null;
+		}
+		
+		private void attach_Nodes(Node entity)
+		{
+			this.SendPropertyChanging();
+			entity.Course = this;
+		}
+		
+		private void detach_Nodes(Node entity)
+		{
+			this.SendPropertyChanging();
+			entity.Course = null;
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Nodes")]
 	public partial class Node : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2978,20 +2954,6 @@ namespace IUDICO.Common.Models
 		private bool _IsFolder;
 		
 		private int _Position;
-		
-		private System.Nullable<int> _SequencingPattern;
-		
-		private System.Nullable<bool> _Choise;
-		
-		private System.Nullable<bool> _ChoiseExit;
-		
-		private System.Nullable<bool> _Flow;
-		
-		private System.Nullable<bool> _ForwardOnly;
-		
-		private System.Nullable<int> _AttemptLimit;
-		
-		private string _AttemptAbsoluteDurationLimit;
 		
 		private System.Xml.Linq.XElement _Sequencing;
 		
@@ -3017,20 +2979,6 @@ namespace IUDICO.Common.Models
     partial void OnIsFolderChanged();
     partial void OnPositionChanging(int value);
     partial void OnPositionChanged();
-    partial void OnSequencingPatternChanging(System.Nullable<int> value);
-    partial void OnSequencingPatternChanged();
-    partial void OnChoiseChanging(System.Nullable<bool> value);
-    partial void OnChoiseChanged();
-    partial void OnChoiseExitChanging(System.Nullable<bool> value);
-    partial void OnChoiseExitChanged();
-    partial void OnFlowChanging(System.Nullable<bool> value);
-    partial void OnFlowChanged();
-    partial void OnForwardOnlyChanging(System.Nullable<bool> value);
-    partial void OnForwardOnlyChanged();
-    partial void OnAttemptLimitChanging(System.Nullable<int> value);
-    partial void OnAttemptLimitChanged();
-    partial void OnAttemptAbsoluteDurationLimitChanging(string value);
-    partial void OnAttemptAbsoluteDurationLimitChanged();
     partial void OnSequencingChanging(System.Xml.Linq.XElement value);
     partial void OnSequencingChanged();
     #endregion
@@ -3171,147 +3119,7 @@ namespace IUDICO.Common.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SequencingPattern", DbType="Int")]
-		public System.Nullable<int> SequencingPattern
-		{
-			get
-			{
-				return this._SequencingPattern;
-			}
-			set
-			{
-				if ((this._SequencingPattern != value))
-				{
-					this.OnSequencingPatternChanging(value);
-					this.SendPropertyChanging();
-					this._SequencingPattern = value;
-					this.SendPropertyChanged("SequencingPattern");
-					this.OnSequencingPatternChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Choise", DbType="Bit")]
-		public System.Nullable<bool> Choise
-		{
-			get
-			{
-				return this._Choise;
-			}
-			set
-			{
-				if ((this._Choise != value))
-				{
-					this.OnChoiseChanging(value);
-					this.SendPropertyChanging();
-					this._Choise = value;
-					this.SendPropertyChanged("Choise");
-					this.OnChoiseChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ChoiseExit", DbType="Bit")]
-		public System.Nullable<bool> ChoiseExit
-		{
-			get
-			{
-				return this._ChoiseExit;
-			}
-			set
-			{
-				if ((this._ChoiseExit != value))
-				{
-					this.OnChoiseExitChanging(value);
-					this.SendPropertyChanging();
-					this._ChoiseExit = value;
-					this.SendPropertyChanged("ChoiseExit");
-					this.OnChoiseExitChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Flow", DbType="Bit")]
-		public System.Nullable<bool> Flow
-		{
-			get
-			{
-				return this._Flow;
-			}
-			set
-			{
-				if ((this._Flow != value))
-				{
-					this.OnFlowChanging(value);
-					this.SendPropertyChanging();
-					this._Flow = value;
-					this.SendPropertyChanged("Flow");
-					this.OnFlowChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ForwardOnly", DbType="Bit")]
-		public System.Nullable<bool> ForwardOnly
-		{
-			get
-			{
-				return this._ForwardOnly;
-			}
-			set
-			{
-				if ((this._ForwardOnly != value))
-				{
-					this.OnForwardOnlyChanging(value);
-					this.SendPropertyChanging();
-					this._ForwardOnly = value;
-					this.SendPropertyChanged("ForwardOnly");
-					this.OnForwardOnlyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttemptLimit", DbType="Int")]
-		public System.Nullable<int> AttemptLimit
-		{
-			get
-			{
-				return this._AttemptLimit;
-			}
-			set
-			{
-				if ((this._AttemptLimit != value))
-				{
-					this.OnAttemptLimitChanging(value);
-					this.SendPropertyChanging();
-					this._AttemptLimit = value;
-					this.SendPropertyChanged("AttemptLimit");
-					this.OnAttemptLimitChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttemptAbsoluteDurationLimit", DbType="NVarChar(50)")]
-		public string AttemptAbsoluteDurationLimit
-		{
-			get
-			{
-				return this._AttemptAbsoluteDurationLimit;
-			}
-			set
-			{
-				if ((this._AttemptAbsoluteDurationLimit != value))
-				{
-					this.OnAttemptAbsoluteDurationLimitChanging(value);
-					this.SendPropertyChanging();
-					this._AttemptAbsoluteDurationLimit = value;
-					this.SendPropertyChanged("AttemptAbsoluteDurationLimit");
-					this.OnAttemptAbsoluteDurationLimitChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sequencing", DbType="Xml", UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sequencing", DbType="Xml", CanBeNull=true, UpdateCheck=UpdateCheck.Never)]
 		public System.Xml.Linq.XElement Sequencing
 		{
 			get

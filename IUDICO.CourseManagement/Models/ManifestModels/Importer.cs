@@ -105,7 +105,10 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
         {
             foreach (var file in resource.Files)
             {
-                File.Copy(Path.Combine(_CourseTempPath, file.Href), Path.Combine(_CoursePath, file.Href));
+                if (!File.Exists(Path.Combine(_CoursePath, file.Href)))
+                {
+                    File.Copy(Path.Combine(_CourseTempPath, file.Href), Path.Combine(_CoursePath, file.Href));
+                }
             }
 
             foreach (var dependency in resource.Dependencies)
