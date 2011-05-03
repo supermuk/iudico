@@ -523,11 +523,19 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         /// Deletes theme assignments for theme.
         /// </summary>
         /// <param name="theme">The theme.</param>
-        private void DeleteThemeAssignments(Theme theme)
+        private bool DeleteThemeAssignments(Theme theme)
         {
-            var themeAssignmentIds = GetThemeAssignmentsByThemeId(theme.Id)
-                .Select(item => item.Id);
-            DeleteThemeAssignments(themeAssignmentIds);
+            try
+            {
+                var themeAssignmentIds = GetThemeAssignmentsByThemeId(theme.Id)
+                    .Select(item => item.Id);
+                DeleteThemeAssignments(themeAssignmentIds);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         #endregion
@@ -709,24 +717,16 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             }
         }
 
-        public bool DeleteThemeAssignments(IEnumerable<int> ids)
+        public void DeleteThemeAssignments(IEnumerable<int> ids)
         {
-            try
-            {
-                var themeAssignments = GetThemeAssignments(ids);
+            var themeAssignments = GetThemeAssignments(ids);
 
-                foreach (ThemeAssignment item in themeAssignments)
-                {
-                    item.IsDeleted = true;
-                }
-
-                _Db.SubmitChanges();
-                return true;
-            }
-            catch (Exception ex)
+            foreach (ThemeAssignment item in themeAssignments)
             {
-                return false;
+                item.IsDeleted = true;
             }
+
+            _Db.SubmitChanges();
         }
 
         #endregion

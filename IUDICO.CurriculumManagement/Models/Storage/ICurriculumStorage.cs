@@ -114,7 +114,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         IEnumerable<ThemeAssignment> GetThemeAssignments(IEnumerable<int> ids);
         int AddThemeAssignment(ThemeAssignment themeAssignment);
         bool UpdateThemeAssignment(ThemeAssignment themeAssignment);
-        bool DeleteThemeAssignments(IEnumerable<int> ids);
+        void DeleteThemeAssignments(IEnumerable<int> ids);
 
         #endregion
 
