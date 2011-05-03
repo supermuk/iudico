@@ -22,7 +22,7 @@ namespace IUDICO.Common.Models
             public int Id { get; set; }
 
             [LocalizedDisplayName("Name", NameResourceType = "IUDICO.Common.Resource")]
-            [Required(ErrorMessage = "Name is required")]
+            [LocalizedRequired(ErrorMessage = "NameRequired")]
             public string Name { get; set; }
 
             [LocalizedDisplayName("Owner", NameResourceType = "IUDICO.Common.Resource")]
@@ -64,7 +64,7 @@ namespace IUDICO.Common.Models
             public int Id { get; set; }
 
             [LocalizedDisplayName("Name", NameResourceType = "IUDICO.Common.Resource")]
-            [Required(ErrorMessage = "Name is required")]
+            [LocalizedRequired(ErrorMessage = "NameRequired")]
             [StringLength(50, ErrorMessage = "Name can not be longer than 50.")]
             public string Name { get; set; }
 
@@ -97,7 +97,7 @@ namespace IUDICO.Common.Models
             public int Id { get; set; }
 
             [LocalizedDisplayName("Name", NameResourceType = "IUDICO.Common.Resource")]
-            [Required(ErrorMessage = "Name is required")]
+            [LocalizedRequired(ErrorMessage = "NameRequired")]
             [StringLength(50, ErrorMessage = "Name can not be longer than 50.")]
             public string Name { get; set; }
 
@@ -133,7 +133,7 @@ namespace IUDICO.Common.Models
             public int Id { get; set; }
 
             [LocalizedDisplayName("Name", NameResourceType = "IUDICO.Common.Resource")]
-            [Required(ErrorMessage = "Name is required")]
+            [LocalizedRequired(ErrorMessage = "NameRequired")]
             [StringLength(50, ErrorMessage = "Name can not be longer than 50.")]
             public string Name { get; set; }
 
@@ -174,7 +174,7 @@ namespace IUDICO.Common.Models
             public int Id { get; set; }
 
             [LocalizedDisplayName("Name", NameResourceType = "IUDICO.Common.Resource")]
-            [Required(ErrorMessage = "Name is required")]
+            [LocalizedRequired(ErrorMessage = "NameRequired")]
             public string Name { get; set; }
 
             [ScaffoldColumn(false)]
@@ -223,20 +223,20 @@ namespace IUDICO.Common.Models
             public Guid Id { get; set; }
 
             [LocalizedDisplayName("Username", NameResourceType = "IUDICO.Common.Resource")]
-            [Required(ErrorMessage = "Username is required")]
+            [LocalizedRequired(ErrorMessage = "UsernameRequired")]
             [StringLength(100, ErrorMessage = "Username can not be longer than 100")]
             [Order(1)]
             public string Username { get; set; }
 
             [LocalizedDisplayName("Password", NameResourceType = "IUDICO.Common.Resource")]
-            [Required(ErrorMessage = "Password is required")]
+            [LocalizedRequired(ErrorMessage = "PasswordRequired")]
             [StringLength(50, ErrorMessage = "Password can not be longer than 50")]
             [DataType(DataType.Password)]
             [Order(2)]
             public string Password { get; set; }
 
             [LocalizedDisplayName("Email", NameResourceType = "IUDICO.Common.Resource")]
-            [Required(ErrorMessage = "Email is required")]
+            [LocalizedRequired(ErrorMessage = "EmailRequired")]
             [StringLength(100, ErrorMessage = "Email can not be longer than 100")]
             [EmailAddress(ErrorMessage = "Not a valid email")]
             [Order(3)]
@@ -253,7 +253,7 @@ namespace IUDICO.Common.Models
             public string OpenId { get; set; }
 
             [LocalizedDisplayName("Name", NameResourceType = "IUDICO.Common.Resource")]
-            [Required(ErrorMessage = "Name is required")]
+            [LocalizedRequired(ErrorMessage = "NameRequired")]
             [StringLength(200, ErrorMessage = "Name can not be longer than 200")]
             [Order(5)]
             public string Name { get; set; }
@@ -332,7 +332,7 @@ namespace IUDICO.Common.Models
             public EntitySet<GroupUser> GroupUsers { get; set; }
 
             [LocalizedDisplayName("Name", NameResourceType = "IUDICO.Common.Resource")]
-            [Required(ErrorMessage = "Name is required")]
+            [LocalizedRequired(ErrorMessage = "NameRequired")]
             [StringLength(50, ErrorMessage = "Name can not be longer than 50")]
             public string Name { get; set; }
 
@@ -367,13 +367,13 @@ namespace IUDICO.Common.Models
             public int Id { get; set; }
 
             [LocalizedDisplayName("StartDate", NameResourceType = "IUDICO.Common.Resource")]
-            [Required(ErrorMessage = "Start Date is required")]
+            [LocalizedRequired(ErrorMessage = "StartDateRequired")]
             [UIHint("DateTimeWithPicker")]
             [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
             public DateTime StartDate { get; set; }
 
             [LocalizedDisplayName("EndDate", NameResourceType = "IUDICO.Common.Resource")]
-            [Required(ErrorMessage = "End Date is required")]
+            [LocalizedRequired(ErrorMessage = "EndDateRequired")]
             [UIHint("DateTimeWithPicker")]
             [DisplayFormat(DataFormatString = /*"dd.MM.yy HH:mm:ss"*/"{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
             public DateTime EndDate { get; set; }
@@ -408,7 +408,7 @@ namespace IUDICO.Common.Models
             public int CurriculumAssignmentRef { get; set; }
 
             [LocalizedDisplayName("MaxScore", NameResourceType = "IUDICO.Common.Resource")]
-            [Required(ErrorMessage = "Max score is required")]
+            [LocalizedRequired(ErrorMessage = "MaxScoreRequired")]
             public int MaxScore { get; set; }
 
             [ScaffoldColumn(false)]
@@ -477,6 +477,66 @@ namespace IUDICO.Common.Models
 
                 //return (string)_nameProperty.GetValue(_nameProperty.DeclaringType, null);
             }
+        }
+    }
+    public class LocalizedRequiredAttribute : RequiredAttribute
+    {
+        private PropertyInfo _nameProperty;
+        private string _resource;
+
+        private static System.Resources.ResourceManager ManagerEN;
+        private static System.Resources.ResourceManager ManagerUK;
+
+        public LocalizedRequiredAttribute()
+            : base()
+        {
+
+            ManagerEN = new System.Resources.ResourceManager("IUDICO.Common.Resource", Assembly.GetExecutingAssembly());
+            ManagerUK = new System.Resources.ResourceManager("IUDICO.Common.Resourceuk", Assembly.GetExecutingAssembly());
+            //base.ErrorMessage = ManagerUK.GetString(base.ErrorMessage, Thread.CurrentThread.CurrentUICulture);
+        }
+
+        public string NameResourceType
+        {
+            get
+            {
+                return _resource;
+            }
+            set
+            {
+                _resource = value;
+
+                //_nameProperty = _resourceType.GetProperty(base.DisplayName, BindingFlags.Static | BindingFlags.Public);
+                /*if (Thread.CurrentThread.CurrentUICulture.Name == "en")
+                {
+                    _nameProperty = _resourceType.GetProperty("Resource", BindingFlags.Static | BindingFlags.Public);
+                }
+                else
+                {
+                    _nameProperty = _resourceType.GetProperty("Resourceuk", BindingFlags.Static | BindingFlags.Public);
+                }*/
+            }
+        }
+
+        public override string FormatErrorMessage(string name)
+        {
+            //get
+            //{
+            if (Thread.CurrentThread.CurrentUICulture.Name == "en")
+            {
+                return ManagerEN.GetString(base.ErrorMessage, Thread.CurrentThread.CurrentUICulture);
+            }
+            else
+            {
+                return ManagerUK.GetString(base.ErrorMessage, Thread.CurrentThread.CurrentUICulture);
+            }
+            if (_nameProperty == null)
+            {
+                return base.ErrorMessage;
+            }
+
+            //return (string)_nameProperty.GetValue(_nameProperty.DeclaringType, null);
+            //}
         }
     }
 }

@@ -34,20 +34,20 @@ namespace IUDICO.CurriculumManagement.Models
             DateTime maxAllowedDate = Constants.MaxAllowedDateTime;
             if (timeline.StageRef <= 0)
             {
-                validationStatus.Errors.Add(String.Format("Choose a stage."));
+                validationStatus.Errors.Add(String.Format(IUDICO.CurriculumManagement.Localization.getMessage("ChooseStage")));
             }
             if (timeline.StartDate > timeline.EndDate)
             {
-                validationStatus.Errors.Add("Start date must be less than end date.");
+                validationStatus.Errors.Add(IUDICO.CurriculumManagement.Localization.getMessage("StartDateMustLessThanEndDate"));
             }
             if (timeline.StartDate < minAllowedDate || timeline.StartDate > maxAllowedDate)
             {
-                validationStatus.Errors.Add(String.Format("Start date must be between {0} and {1}.",
+                validationStatus.Errors.Add(String.Format(IUDICO.CurriculumManagement.Localization.getMessage("StartDateMustBeBetween"),
                     minAllowedDate.ToString(), maxAllowedDate.ToString()));
             }
             if (timeline.EndDate < minAllowedDate || timeline.EndDate > maxAllowedDate)
             {
-                validationStatus.Errors.Add(String.Format("End date must be between {0} and {1}.",
+                validationStatus.Errors.Add(String.Format(IUDICO.CurriculumManagement.Localization.getMessage("EndDateMustBeBetween"),
                     minAllowedDate.ToString(), maxAllowedDate.ToString()));
             }
             
@@ -66,7 +66,7 @@ namespace IUDICO.CurriculumManagement.Models
                 }
             }
             if (errorCheck == true)
-                validationStatus.Errors.Add("Stage timeline is bigger than curriculum timeline");
+                validationStatus.Errors.Add(IUDICO.CurriculumManagement.Localization.getMessage("StageTimelineBiggerThanCurriculumTimeline"));
 
             return validationStatus;
         }
@@ -84,16 +84,16 @@ namespace IUDICO.CurriculumManagement.Models
             DateTime maxAllowedDate = Constants.MaxAllowedDateTime;
             if (timeline.StartDate > timeline.EndDate)
             {
-                validationStatus.Errors.Add("Start date must be less than end date.");
+                validationStatus.Errors.Add(IUDICO.CurriculumManagement.Localization.getMessage("StartDateMustLessThanEndDate"));
             }
             if (timeline.StartDate < minAllowedDate || timeline.StartDate >maxAllowedDate)
             {
-                validationStatus.Errors.Add(String.Format("Start date must be between {0} and {1}.",
+                validationStatus.Errors.Add(String.Format(IUDICO.CurriculumManagement.Localization.getMessage("StartDateMustBeBetween"),
                     minAllowedDate.ToString(), maxAllowedDate.ToString()));
             }
             if (timeline.EndDate < minAllowedDate || timeline.EndDate > maxAllowedDate)
             {
-                validationStatus.Errors.Add(String.Format("End date must be between {0} and {1}.",
+                validationStatus.Errors.Add(String.Format(IUDICO.CurriculumManagement.Localization.getMessage("EndDateMustBeBetween"),
                     minAllowedDate.ToString(), maxAllowedDate.ToString()));
             }
 
@@ -111,7 +111,7 @@ namespace IUDICO.CurriculumManagement.Models
 
             if(curriculumAssignment.UserGroupRef <= 0)
             {
-                validationStatus.Errors.Add(String.Format("Choose a group."));
+                validationStatus.Errors.Add(String.Format(IUDICO.CurriculumManagement.Localization.getMessage("ChooseStage")));
             }
 
             return validationStatus;
@@ -128,19 +128,19 @@ namespace IUDICO.CurriculumManagement.Models
 
             if (theme.CourseRef <= 0)
             {
-                validationStatus.Errors.Add(String.Format("Choose a course."));
+                validationStatus.Errors.Add(String.Format(IUDICO.CurriculumManagement.Localization.getMessage("ChooseCourse")));
             }
             if (theme.ThemeTypeRef <= 0)
             {
-                validationStatus.Errors.Add(String.Format("Choose a theme type."));
+                validationStatus.Errors.Add(String.Format(IUDICO.CurriculumManagement.Localization.getMessage("ChooseThemeType")));
             }
             if (theme.Name == null || theme.Name == "")
             {
-                validationStatus.Errors.Add(String.Format("Name is reqiured."));
+                validationStatus.Errors.Add(String.Format(IUDICO.CurriculumManagement.Localization.getMessage("NameReqiured")));
             }
             if (theme.Name != null && theme.Name.Length > Constants.MaxStringFieldLength)
             {
-                validationStatus.Errors.Add(String.Format("Name can not be longer than {0}.", Constants.MaxStringFieldLength));
+                validationStatus.Errors.Add(String.Format(IUDICO.CurriculumManagement.Localization.getMessage("NameCanNotBeLongerThan"), Constants.MaxStringFieldLength));
             }
 
             return validationStatus;

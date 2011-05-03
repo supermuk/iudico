@@ -249,4 +249,16 @@
   <data name="SharedWith" xml:space="preserve">
     <value>Спільне користування</value>
   </data>
+  <data name="AreYouSureYouWantDelete" xml:space="preserve">
+    <value>Ви впевнені, що хочете видалити </value>
+  </data>
+  <data name="ErrorOccuredDuringProccessingRequest" xml:space="preserve">
+    <value>Сталася помилка під час обробки запиту</value>
+  </data>
+  <data name="PleaseSelectCoursesDelete" xml:space="preserve">
+    <value>Будь ласка, виберіть курси для видалення</value>
+  </data>
+  <data name="selectedCourses" xml:space="preserve">
+    <value> вибрані курси?</value>
+  </data>
 </root>
