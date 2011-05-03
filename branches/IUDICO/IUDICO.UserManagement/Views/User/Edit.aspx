@@ -10,7 +10,7 @@
     <h2><%=IUDICO.UserManagement.Localization.getMessage("Edit") + " " + Model.Username%></h2>
 
     <% using (Html.BeginForm()) {%>
-        <%: Html.ValidationSummary("Correct the following error(s) and try again:") %>
+        <%: Html.ValidationSummary(IUDICO.UserManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
         
         <fieldset>
             <legend><%=IUDICO.UserManagement.Localization.getMessage("Fields")%></legend>

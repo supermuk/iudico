@@ -12,12 +12,12 @@
                 });
 
                 if (ids.length == 0) {
-                    alert("Please select courses to delete");
+                    alert("<%=IUDICO.CourseManagement.Localization.getMessage("PleaseSelectCoursesDelete") %>");
                     
                     return false;
                 }
 
-                var answer = confirm("Are you sure you want to delete " + ids.length + " selected courses?");
+                var answer = confirm("<%=IUDICO.CourseManagement.Localization.getMessage("AreYouSureYouWantDelete") %>" + ids.length + "<%=IUDICO.CourseManagement.Localization.getMessage("selectedCourses") %>");
 
                 if (answer == false) {
                     return false;
@@ -32,7 +32,7 @@
                             $("td input:checked").parents("tr").remove();
                         }
                         else {
-                            alert("Error occured during proccessing request");
+                            alert("<%=IUDICO.CourseManagement.Localization.getMessage("ErrorOccuredDuringProccessingRequest") %>");
                         }
                     }
                 });

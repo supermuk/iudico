@@ -135,8 +135,14 @@
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="EmailRequired" xml:space="preserve">
+    <value>Email is required</value>
+  </data>
   <data name="EndDate" xml:space="preserve">
     <value>End Date</value>
+  </data>
+  <data name="EndDateRequired" xml:space="preserve">
+    <value>End Date is required</value>
   </data>
   <data name="Flow" xml:space="preserve">
     <value>Flow</value>
@@ -153,8 +159,14 @@
   <data name="MaxScore" xml:space="preserve">
     <value>Max Score</value>
   </data>
+  <data name="MaxScoreRequired" xml:space="preserve">
+    <value>Max score is required</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="NameRequired" xml:space="preserve">
+    <value>Name is required</value>
   </data>
   <data name="Owner" xml:space="preserve">
     <value>Owner</value>
@@ -162,11 +174,17 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Password is required</value>
+  </data>
   <data name="Role" xml:space="preserve">
     <value>Role</value>
   </data>
   <data name="StartDate" xml:space="preserve">
     <value>Start Date</value>
+  </data>
+  <data name="StartDateRequired" xml:space="preserve">
+    <value>Start Date is required</value>
   </data>
   <data name="TimeLimit" xml:space="preserve">
     <value>Time Limit</value>
@@ -176,5 +194,8 @@
   </data>
   <data name="Username" xml:space="preserve">
     <value>Username</value>
+  </data>
+  <data name="UsernameRequired" xml:space="preserve">
+    <value>Username is required</value>
   </data>
 </root>

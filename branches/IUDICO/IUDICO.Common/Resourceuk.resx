@@ -135,8 +135,14 @@
   <data name="Email" xml:space="preserve">
     <value>Емейл</value>
   </data>
+  <data name="EmailRequired" xml:space="preserve">
+    <value>Емейл є обов'язковий</value>
+  </data>
   <data name="EndDate" xml:space="preserve">
     <value>До</value>
+  </data>
+  <data name="EndDateRequired" xml:space="preserve">
+    <value>Кінцева дата є обов'язкова</value>
   </data>
   <data name="Flow" xml:space="preserve">
     <value>Flow</value>
@@ -153,8 +159,14 @@
   <data name="MaxScore" xml:space="preserve">
     <value>Максимальна оцінка</value>
   </data>
+  <data name="MaxScoreRequired" xml:space="preserve">
+    <value>Поле максимальна оцінка є обов'язкове</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Ім'я</value>
+  </data>
+  <data name="NameRequired" xml:space="preserve">
+    <value>Ім'я є обов'язкове</value>
   </data>
   <data name="Owner" xml:space="preserve">
     <value>Власник</value>
@@ -162,11 +174,17 @@
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
   </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Пароль є обов'язковий</value>
+  </data>
   <data name="Role" xml:space="preserve">
     <value>Роль</value>
   </data>
   <data name="StartDate" xml:space="preserve">
     <value>З</value>
+  </data>
+  <data name="StartDateRequired" xml:space="preserve">
+    <value>Початкова дата є обов'язкова</value>
   </data>
   <data name="TimeLimit" xml:space="preserve">
     <value>Часовий ліміт</value>
@@ -176,5 +194,8 @@
   </data>
   <data name="Username" xml:space="preserve">
     <value>Ім'я користувача</value>
+  </data>
+  <data name="UsernameRequired" xml:space="preserve">
+    <value>Ім'я користувача є обов'язкове</value>
   </data>
 </root>

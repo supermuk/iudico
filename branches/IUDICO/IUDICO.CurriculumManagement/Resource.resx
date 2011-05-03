@@ -282,6 +282,87 @@
   <data name="Next" xml:space="preserve">
     <value> =&gt; </value>
   </data>
+  <data name="AreYouSureYouWantDelete" xml:space="preserve">
+    <value>Are you sure you want to delete </value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedAssignment" xml:space="preserve">
+    <value>Are you sure you want to delete selected assignment?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedCurriculum" xml:space="preserve">
+    <value>Are you sure you want to delete selected curriculum?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedStage" xml:space="preserve">
+    <value>Are you sure you want to delete selected stage?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedTheme" xml:space="preserve">
+    <value>Are you sure you want to delete selected theme?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedTimeline" xml:space="preserve">
+    <value>Are you sure you want to delete selected timeline?</value>
+  </data>
+  <data name="BackToStages" xml:space="preserve">
+    <value>Back to stages</value>
+  </data>
+  <data name="ChooseCourse" xml:space="preserve">
+    <value>Choose a course.</value>
+  </data>
+  <data name="ChooseStage" xml:space="preserve">
+    <value>Choose a stage</value>
+  </data>
+  <data name="CorrectFollowingErrorAndTryAgain" xml:space="preserve">
+    <value>Correct the following error(s) and try again</value>
+  </data>
+  <data name="EndDateMustBeBetween" xml:space="preserve">
+    <value>End date must be between {0} and {1}</value>
+  </data>
+  <data name="ErrorOccuredDuringProcessingRequestErrorMessage" xml:space="preserve">
+    <value>Error occured during processing request.\nError message:</value>
+  </data>
+  <data name="NameCanNotBeLongerThan" xml:space="preserve">
+    <value>Name can not be longer than {0}</value>
+  </data>
+  <data name="NameReqiured" xml:space="preserve">
+    <value>Name is reqiured</value>
+  </data>
+  <data name="PleaseSelectAssignmentDelete" xml:space="preserve">
+    <value>Please select assignment to delete</value>
+  </data>
+  <data name="PleaseSelectCurriculumsDelete" xml:space="preserve">
+    <value>Please select curriculums to delete</value>
+  </data>
+  <data name="PleaseSelectStagesDelete" xml:space="preserve">
+    <value>Please select stages to delete</value>
+  </data>
+  <data name="PleaseSelectThemesDelete" xml:space="preserve">
+    <value>Please select themes to delete</value>
+  </data>
+  <data name="PleaseSelectTimelineDelete" xml:space="preserve">
+    <value>Please select timeline to delete</value>
+  </data>
+  <data name="selectedAssignments" xml:space="preserve">
+    <value>selected assignments?</value>
+  </data>
+  <data name="SelectedCurriculums" xml:space="preserve">
+    <value> selected curriculums?</value>
+  </data>
+  <data name="selectedStages" xml:space="preserve">
+    <value> selected stages?</value>
+  </data>
+  <data name="selectedThemes" xml:space="preserve">
+    <value>selected themes?</value>
+  </data>
+  <data name="selectedTimelines" xml:space="preserve">
+    <value> selected timelines?</value>
+  </data>
+  <data name="StageTimelineBiggerThanCurriculumTimeline" xml:space="preserve">
+    <value>Stage timeline is bigger than curriculum timeline</value>
+  </data>
+  <data name="StartDateMustBeBetween" xml:space="preserve">
+    <value>Start date must be between {0} and {1}</value>
+  </data>
+  <data name="StartDateMustLessThanEndDate" xml:space="preserve">
+    <value>Start date must be less than end date</value>
+  </data>
   <data name="CreateAssignmentFor" xml:space="preserve">
     <value>Add assignment for</value>
   </data>
