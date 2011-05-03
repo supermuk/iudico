@@ -72,16 +72,18 @@ namespace IUDICO.UserManagement.Models
 
     public class RegisterModel
     {
-        [Required(ErrorMessage = "Username is required")]
+        [LocalizedRequired(ErrorMessage = "UsernameRequired")]
         [LocalizedDisplayName("Username", NameResourceType = "IUDICO.UserManagement.Resource")]
         public string Username { get; set; }
 
-        [Required(ErrorMessage = "Password is required")]
+        //[Required(ErrorMessage = "Password is required")]
+        [LocalizedRequired(ErrorMessage = "PasswordRequired")]
         [DataType(DataType.Password)]
         [LocalizedDisplayName("Password", NameResourceType = "IUDICO.UserManagement.Resource")]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "Confirm Password is required")]
+        //[Required(ErrorMessage = "Confirm Password is required")]
+        [LocalizedRequired(ErrorMessage = "ConfirmPasswordRequired")]
         [DataType(DataType.Password)]
         [LocalizedDisplayName("ConfirmPassword", NameResourceType = "IUDICO.UserManagement.Resource")]
         public string ConfirmPassword { get; set; }
@@ -89,12 +91,14 @@ namespace IUDICO.UserManagement.Models
         [DisplayName("Open ID")]
         public string OpenId { get; set; }
 
-        [Required(ErrorMessage = "Email is required")]
+        //[Required(ErrorMessage = "Email is required")]
+        [LocalizedRequired(ErrorMessage = "EmailRequired")]
         [LocalizedDisplayName("Email", NameResourceType = "IUDICO.UserManagement.Resource")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Name is required")]
+        //[Required(ErrorMessage = "Name is required")]
+        [LocalizedRequired(ErrorMessage = "NameRequired")]
         [LocalizedDisplayName("Name", NameResourceType = "IUDICO.UserManagement.Resource")]
         public string Name { get; set; }
     }
@@ -112,14 +116,14 @@ namespace IUDICO.UserManagement.Models
         {
         }
 
-        [Required(ErrorMessage = "Name is required")]
+        [LocalizedRequired(ErrorMessage = "NameRequired")]
         [LocalizedDisplayName("Name", NameResourceType = "IUDICO.UserManagement.Resource")]
         public string Name { get; set; }
 
         [DisplayName("Open ID")]
         public string OpenId { get; set; }
 
-        [Required(ErrorMessage = "Email is required")]
+        [LocalizedRequired(ErrorMessage = "EmailRequired")]
         [LocalizedDisplayName("Email", NameResourceType = "IUDICO.UserManagement.Resource")]
         [EmailAddress]
         public string Email { get; set; }
@@ -127,17 +131,19 @@ namespace IUDICO.UserManagement.Models
 
     public class ChangePasswordModel
     {
-        [Required(ErrorMessage = "Old Password is required")]
+        //[Required(ErrorMessage = "Old Password is required")]
+        [LocalizedRequired(ErrorMessage = "OldPasswordRequired")]
         [DataType(DataType.Password)]
         [LocalizedDisplayName("OldPassword", NameResourceType = "IUDICO.UserManagement.Resource")]
         public string OldPassword { get; set; }
 
-        [Required(ErrorMessage = "New Password is required")]
+        //[Required(ErrorMessage = "New Password is required")]
+        [LocalizedRequired(ErrorMessage = "NewPasswordRequired")]
         [DataType(DataType.Password)]
         [LocalizedDisplayName("NewPassword", NameResourceType = "IUDICO.UserManagement.Resource")]
         public string NewPassword { get; set; }
 
-        [Required(ErrorMessage = "Confirm password is required")]
+        [LocalizedRequired(ErrorMessage = "ConfirmPasswordRequired")]
         [DataType(DataType.Password)]
         [LocalizedDisplayName("ConfirmPassword", NameResourceType = "IUDICO.UserManagement.Resource")]
         public string ConfirmPassword { get; set; }
@@ -160,7 +166,7 @@ namespace IUDICO.UserManagement.Models
         }
 
         [LocalizedDisplayName("Name", NameResourceType = "IUDICO.UserManagement.Resource")]
-        [Required(ErrorMessage = "Name is required")]
+        [LocalizedRequired(ErrorMessage = "NameRequired")]
         [StringLength(200, ErrorMessage = "Name can not be longer than 200")]
         public string Name { get; set; }
 
@@ -170,18 +176,18 @@ namespace IUDICO.UserManagement.Models
         public string Password { get; set; }
 
         [LocalizedDisplayName("Email", NameResourceType = "IUDICO.UserManagement.Resource")]
-        [Required(ErrorMessage = "Email is required")]
+        [LocalizedRequired(ErrorMessage = "EmailRequired")]
         [StringLength(100, ErrorMessage = "Email can not be longer than 100")]
         [EmailAddress]
         public string Email { get; set; }
 
         [LocalizedDisplayName("Role", NameResourceType = "IUDICO.UserManagement.Resource")]
         [DropDownList(OptionLabel = "Select Role", SourceProperty = "RolesList")]
-        [Required(ErrorMessage = "Role is required")]
+        [LocalizedRequired(ErrorMessage = "RoleRequired")]
         public int RoleId { get; set; }
 
         [DisplayName("OpenId")]
-        [Required(ErrorMessage = "OpenId is required")]
+        [LocalizedRequired(ErrorMessage = "OpenIdRequired")]
         [StringLength(200, ErrorMessage = "OpenId can not be longer than 200")]
         public string OpenId { get; set; }
 
@@ -268,6 +274,66 @@ namespace IUDICO.UserManagement.Models
 
                 //return (string)_nameProperty.GetValue(_nameProperty.DeclaringType, null);
             }
+        }
+    }
+    public class LocalizedRequiredAttribute : RequiredAttribute
+    {
+        private PropertyInfo _nameProperty;
+        private string _resource;
+
+        private static System.Resources.ResourceManager ManagerEN;
+        private static System.Resources.ResourceManager ManagerUK;
+
+        public LocalizedRequiredAttribute()
+            : base()
+        {
+            
+            ManagerEN = new System.Resources.ResourceManager("IUDICO.UserManagement.Resource", Assembly.GetExecutingAssembly());
+            ManagerUK = new System.Resources.ResourceManager("IUDICO.UserManagement.Resourceuk", Assembly.GetExecutingAssembly());
+            //base.ErrorMessage = ManagerUK.GetString(base.ErrorMessage, Thread.CurrentThread.CurrentUICulture);
+        }
+
+        public string NameResourceType
+        {
+            get
+            {
+                return _resource;
+            }
+            set
+            {
+                _resource = value;
+
+                //_nameProperty = _resourceType.GetProperty(base.DisplayName, BindingFlags.Static | BindingFlags.Public);
+                /*if (Thread.CurrentThread.CurrentUICulture.Name == "en")
+                {
+                    _nameProperty = _resourceType.GetProperty("Resource", BindingFlags.Static | BindingFlags.Public);
+                }
+                else
+                {
+                    _nameProperty = _resourceType.GetProperty("Resourceuk", BindingFlags.Static | BindingFlags.Public);
+                }*/
+            }
+        }
+
+        public override string FormatErrorMessage(string name)
+        {
+            //get
+            //{
+                if (Thread.CurrentThread.CurrentUICulture.Name == "en")
+                {
+                    return ManagerEN.GetString(base.ErrorMessage, Thread.CurrentThread.CurrentUICulture);
+                }
+                else
+                {
+                    return ManagerUK.GetString(base.ErrorMessage, Thread.CurrentThread.CurrentUICulture);
+                }
+                if (_nameProperty == null)
+                {
+                    return base.ErrorMessage;
+                }
+
+                //return (string)_nameProperty.GetValue(_nameProperty.DeclaringType, null);
+            //}
         }
     }
 }

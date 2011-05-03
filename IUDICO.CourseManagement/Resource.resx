@@ -249,4 +249,16 @@
   <data name="SharedWith" xml:space="preserve">
     <value>Shared With</value>
   </data>
+  <data name="AreYouSureYouWantDelete" xml:space="preserve">
+    <value>Are you sure you want to delete </value>
+  </data>
+  <data name="ErrorOccuredDuringProccessingRequest" xml:space="preserve">
+    <value>Error occured during proccessing request</value>
+  </data>
+  <data name="PleaseSelectCoursesDelete" xml:space="preserve">
+    <value>Please select courses to delete</value>
+  </data>
+  <data name="selectedCourses" xml:space="preserve">
+    <value>selected courses?</value>
+  </data>
 </root>
