@@ -352,7 +352,7 @@ namespace IUDICO.Common.Models
             public int GroupRef { get; set; }
 
             [DropDownList(OptionLabel = "Select User", SourceProperty = "UserList")]
-            [DisplayName("User")]
+            [LocalizedDisplayName("User", NameResourceType = "IUDICO.Common.Resource")]
             public int UserRef { get; set; }
         }
     }
