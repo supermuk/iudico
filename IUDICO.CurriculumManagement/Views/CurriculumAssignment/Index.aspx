@@ -12,12 +12,12 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                 });
 
                 if (ids.length == 0) {
-                    alert("Please select assignment to delete");
+                    alert("<%=IUDICO.CurriculumManagement.Localization.getMessage("PleaseSelectAssignmentDelete") %>");
 
                     return false;
                 }
 
-                var answer = confirm("Are you sure you want to delete " + ids.length + " selected assignments?");
+                var answer = confirm("<%=IUDICO.CurriculumManagement.Localization.getMessage("AreYouSureYouWantDelete") %>" + ids.length + "<%=IUDICO.CurriculumManagement.Localization.getMessage("selectedAssignments") %>");
 
                 if (answer == false) {
                     return false;
@@ -32,14 +32,14 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                             $("td input:checked").parents("tr").remove();
                         }
                         else {
-                            alert("Error occured during processing request.\nError message: " + r.message);
+                            alert("<%=IUDICO.CurriculumManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
                         }
                     }
                 });
             });
         });
         function deleteItem(id) {
-            var answer = confirm("Are you sure you want to delete selected assignment?");
+            var answer = confirm("<%=IUDICO.CurriculumManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedAssignment") %> ");
 
             if (answer == false) {
                 return;
@@ -55,7 +55,7 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                         $("tr[id=" + item + "]").remove();
                     }
                     else {
-                        alert("Error occured during processing request.\nError message: " + r.message);
+                        alert("<%=IUDICO.CurriculumManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
                     }
                 }
             });
