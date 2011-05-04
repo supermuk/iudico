@@ -13,6 +13,6 @@
     <% } %>
     <% else
        { %>
-            Sorry, an error occurred while processing your request.
+            <%=IUDICO.LMS.Localization.getMessage("SorryErrorOccurredWhileProcessingYourRequest") %>
     <% } %>
 </asp:Content>
