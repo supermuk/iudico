@@ -29,7 +29,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                return ResHelper.GetMessage(FramesetResources.CON_PleaseWait);
+                return ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CON_PleaseWait"));
             }
         }
 
@@ -37,7 +37,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                return HttpUtility.HtmlEncode(ResHelper.GetMessage(FramesetResources.FRM_UnknownExceptionTitle));
+                return HttpUtility.HtmlEncode(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_UnknownExceptionTitle")));
             }
         }
 
@@ -45,7 +45,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                return HttpUtility.HtmlEncode(ResHelper.GetMessage(FramesetResources.FRM_UnexpectedErrorNoException));
+                return HttpUtility.HtmlEncode(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_UnexpectedErrorNoException")));
             }
         }
     }

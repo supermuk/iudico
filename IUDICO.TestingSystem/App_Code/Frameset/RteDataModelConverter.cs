@@ -157,7 +157,7 @@ namespace Microsoft.LearningComponents.Frameset
             FramesetUtil.ValidateNonNullParameter("nameTokens", nameTokens);
 
             if (nameTokens.Length < numberRequired)
-                throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidName, m_currentElementName));
+                throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), m_currentElementName));
         }
 
         // Complete the process of setting values. Allows processing SetValue calls that required multiple, dependent 
@@ -175,7 +175,7 @@ namespace Microsoft.LearningComponents.Frameset
                 }
                 catch (Exception e)
                 {
-                    errors.Add(ResHelper.GetMessage(FramesetResources.CONV_SetValueObjective, e.Message));
+                    errors.Add(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueObjective"), e.Message));
                 }
             }
 
@@ -187,7 +187,7 @@ namespace Microsoft.LearningComponents.Frameset
                 }
                 catch (Exception e)
                 {
-                    errors.Add(ResHelper.GetMessage(FramesetResources.CONV_SetValueInteraction, e.Message));
+                    errors.Add(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInteraction"), e.Message));
                 }
             }
 
@@ -197,7 +197,7 @@ namespace Microsoft.LearningComponents.Frameset
         // SetValue called on any read-only element. subElementName is ignored.
         protected void SetReadOnlyValue()
         {
-            throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueReadOnly, m_currentElementName));
+            throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueReadOnly"), m_currentElementName));
         }      
 
 

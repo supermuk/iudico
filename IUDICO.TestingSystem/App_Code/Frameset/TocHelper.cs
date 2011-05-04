@@ -142,7 +142,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                return ResHelper.GetMessage(FramesetResources.TOC_InvalidJsVersion);
+                return ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("TOC_InvalidJsVersion"));
             }
         }
 
