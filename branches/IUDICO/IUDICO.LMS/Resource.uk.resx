@@ -144,6 +144,9 @@
   <data name="Search" xml:space="preserve">
     <value>Пошук</value>
   </data>
+  <data name="SorryErrorOccurredWhileProcessingYourRequest" xml:space="preserve">
+    <value>Вибачте, сталася помилка при обробці запиту.</value>
+  </data>
   <data name="Username" xml:space="preserve">
     <value>Ім'я користувача:</value>
   </data>
