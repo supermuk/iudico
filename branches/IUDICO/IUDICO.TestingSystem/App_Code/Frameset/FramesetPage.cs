@@ -31,31 +31,31 @@ namespace Microsoft.LearningComponents.Frameset
             switch (stringId)
             {
                 case FramesetStringId.MoveToNextFailedHtml:
-                    return FramesetResources.HID_MoveNextFailedHtml;
+                    return IUDICO.TestingSystem.Localization.getMessage("HID_MoveNextFailedHtml");
                 case FramesetStringId.MoveToPreviousFailedHtml:
-                    return FramesetResources.HID_MovePreviousFailedHtml;
+                    return IUDICO.TestingSystem.Localization.getMessage("HID_MovePreviousFailedHtml");
                 case FramesetStringId.MoveToActivityFailedHtml:
-                    return FramesetResources.HID_MoveToActivityFailedHtml;
+                    return IUDICO.TestingSystem.Localization.getMessage("HID_MoveToActivityFailedHtml");
                 case FramesetStringId.SubmitPageTitleHtml:
-                    return FramesetResources.HID_SubmitPageTitleHtml;
+                    return IUDICO.TestingSystem.Localization.getMessage("HID_SubmitPageTitleHtml");
                 case FramesetStringId.SubmitPageMessageHtml:
-                    return FramesetResources.HID_SubmitPageMessageHtml;
+                    return IUDICO.TestingSystem.Localization.getMessage("HID_SubmitPageMessageHtml");
                 case FramesetStringId.SubmitPageMessageNoCurrentActivityHtml:
-                    return FramesetResources.HID_SubmitPageMessageNoCurrentActivityHtml;
+                    return IUDICO.TestingSystem.Localization.getMessage("HID_SubmitPageMessageNoCurrentActivityHtml");
                 case FramesetStringId.SubmitPageSaveButtonHtml:
-                    return FramesetResources.POST_SubmitHtml;
+                    return IUDICO.TestingSystem.Localization.getMessage("POST_SubmitHtml");
                 case FramesetStringId.CannotDisplayContentTitle:
-                    return FramesetResources.FRM_CannotDisplayContentTitle;
+                    return IUDICO.TestingSystem.Localization.getMessage("FRM_CannotDisplayContentTitle");
                 case FramesetStringId.SessionIsNotActiveMsg:
-                    return FramesetResources.FRM_SessionIsNotActiveMsg;
+                    return IUDICO.TestingSystem.Localization.getMessage("FRM_SessionIsNotActiveMsg");
                 case FramesetStringId.ActivityIsNotActiveMsg:
-                    return FramesetResources.FRM_ActivityIsNotActiveMsg;
+                    return IUDICO.TestingSystem.Localization.getMessage("FRM_ActivityIsNotActiveMsg");
                 case FramesetStringId.SelectActivityTitleHtml:
-                    return FramesetResources.HID_SelectActivityTitleHtml;
+                    return IUDICO.TestingSystem.Localization.getMessage("HID_SelectActivityTitleHtml");
                 case FramesetStringId.SelectActivityMessageHtml:
-                    return FramesetResources.HID_SelectActivityMsgHtml;
+                    return IUDICO.TestingSystem.Localization.getMessage("HID_SelectActivityMsgHtml");
                 default:
-                    throw new InvalidOperationException(FramesetResources.FRM_ResourceNotFound);
+                    throw new InvalidOperationException(IUDICO.TestingSystem.Localization.getMessage("FRM_ResourceNotFound"));
             }
         }
 
@@ -93,15 +93,15 @@ namespace Microsoft.LearningComponents.Frameset
                         {
                             if (slsSession.AttemptStatus == AttemptStatus.Completed)
                             {
-                                RegisterError(ResHelper.GetMessage(FramesetResources.FRM_InvalidAttemptStatusForViewTitle),
-                                         ResHelper.GetMessage(FramesetResources.FRM_ExecuteViewCompletedSessionMsg), false);
+                                RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidAttemptStatusForViewTitle")),
+                                         ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_ExecuteViewCompletedSessionMsg")), false);
                                 Completed = true;
                                 return false;
                             }
                             else if (slsSession.AttemptStatus == AttemptStatus.Abandoned)
                             {
-                                RegisterError(ResHelper.GetMessage(FramesetResources.FRM_InvalidAttemptStatusForViewTitle),
-                                    ResHelper.GetMessage(FramesetResources.FRM_ExecuteViewAbandonedSessionMsg), false);
+                                RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidAttemptStatusForViewTitle")),
+                                    ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_ExecuteViewAbandonedSessionMsg")), false);
                                 return false;
                             }
                         }
@@ -110,13 +110,13 @@ namespace Microsoft.LearningComponents.Frameset
 
                 case SessionView.Review:
                     // BWP does not provide review view
-                    RegisterError(ResHelper.GetMessage(FramesetResources.FRM_ViewNotSupportedTitle),
-                                         ResHelper.GetMessage(FramesetResources.FRM_ReviewViewNotSupportedMsg), false);
+                    RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_ViewNotSupportedTitle")),
+                                         ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_ReviewViewNotSupportedMsg")), false);
                     break;
 
                 case SessionView.RandomAccess:
-                    RegisterError(ResHelper.GetMessage(FramesetResources.FRM_ViewNotSupportedTitle),
-                                        ResHelper.GetMessage(FramesetResources.FRM_RAViewNotSupportedMsg), false);
+                    RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_ViewNotSupportedTitle")),
+                                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_RAViewNotSupportedMsg")), false);
                     break;
             }
             return true;
@@ -189,8 +189,8 @@ namespace Microsoft.LearningComponents.Frameset
 
             if (!isValid && showErrorPage)
             {
-                RegisterError(ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterTitle, FramesetQueryParameter.AttemptId),
-                        ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterMsg, FramesetQueryParameter.AttemptId, attemptParam), false);
+                RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterTitle"), FramesetQueryParameter.AttemptId),
+                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterMsg"), FramesetQueryParameter.AttemptId, attemptParam), false);
             }
 
             return isValid;

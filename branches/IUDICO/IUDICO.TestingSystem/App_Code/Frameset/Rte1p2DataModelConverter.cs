@@ -52,7 +52,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             // It's not valid to call in Review mode
             if (View == SessionView.Review)
-                throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_InvalidViewOnSetValue));
+                throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_InvalidViewOnSetValue")));
 
             CurrentElementName = inName.ToString();
             string[] nameParts = CurrentElementName.Split('.');
@@ -62,7 +62,7 @@ namespace Microsoft.LearningComponents.Frameset
             if (nameParts[0] == "cmi")
             {
                 if (nameParts.Length < 2)
-                    throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidName, CurrentElementName));
+                    throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
 
                 switch (nameParts[1])
                 {
@@ -202,11 +202,11 @@ namespace Microsoft.LearningComponents.Frameset
             MatchCollection matches = Regex.Matches(rteTimeSpan, @"^(\d{2,4}):(\d\d):(\d\d)(?:\.(\d{1,2}))?$");
 
             if (matches.Count != 1)
-                throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidValue, rteTimeSpan, CurrentElementName));
+                throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), rteTimeSpan, CurrentElementName));
 
             GroupCollection groups = matches[0].Groups;
             if (groups.Count != 5)
-                throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidValue, rteTimeSpan, CurrentElementName));
+                throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), rteTimeSpan, CurrentElementName));
 
             TimeSpan retVal;
             try
@@ -229,7 +229,7 @@ namespace Microsoft.LearningComponents.Frameset
             }
             catch (FormatException)
             {
-                throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidValue, rteTimeSpan, CurrentElementName));
+                throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), rteTimeSpan, CurrentElementName));
             }
         }
 
@@ -295,7 +295,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             string[] elementParts = subElementName.Split('.');
             if (elementParts.Length < 2)
-                throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidName, CurrentElementName));
+                throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
 
             int index;
             if (!int.TryParse(elementParts[0], out index))
@@ -333,12 +333,12 @@ namespace Microsoft.LearningComponents.Frameset
                     {
                         // First find 'x' in the element name interactions.n.objectives.x.id.
                         if (elementParts.Length < 4)
-                            throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidName, CurrentElementName));
+                            throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
 
                         int objIndex;
                         if (!int.TryParse(elementParts[2], out objIndex))
                         {
-                            throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidName, CurrentElementName));
+                            throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
                         }
 
                         InteractionObjective objective;
@@ -374,12 +374,12 @@ namespace Microsoft.LearningComponents.Frameset
 
                         // First find 'x' in the element name interactions.n.correct_responses.x.y.
                         if (elementParts.Length < 4)
-                            throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidName, CurrentElementName));
+                            throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
 
                         int responseIndex;
                         if (!int.TryParse(elementParts[2], out responseIndex))
                         {
-                            throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidName, CurrentElementName));
+                            throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
                         }
 
                         CorrectResponse response;
@@ -398,7 +398,7 @@ namespace Microsoft.LearningComponents.Frameset
                         }
 
                         if (elementParts[3] != "pattern")
-                            throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidName, CurrentElementName));
+                            throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
 
                         response.Pattern = value;
 
@@ -413,7 +413,7 @@ namespace Microsoft.LearningComponents.Frameset
                         float weighting;
                         if (!float.TryParse(value, NumberStyles.Float, NumberFormatInfo.InvariantInfo, out weighting))
                         {
-                            throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidValue, value, CurrentElementName));
+                            throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), value, CurrentElementName));
                         }
                         interaction.Weighting = weighting;
                     }
@@ -432,7 +432,7 @@ namespace Microsoft.LearningComponents.Frameset
                                     else if (((value == "f") || (value == "false") || (value == "0")))
                                         interaction.LearnerResponse = false;
                                     else
-                                        throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidValue, value, CurrentElementName));
+                                        throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), value, CurrentElementName));
                                 }
                                 break;
                             case InteractionType.Numeric:
@@ -473,7 +473,7 @@ namespace Microsoft.LearningComponents.Frameset
                                     }
                                     catch (FormatException)
                                     {
-                                        throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidValue, value, CurrentElementName));
+                                        throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), value, CurrentElementName));
                                     }
                                     interaction.Result.NumericResult = resultNumeric;
                                     interaction.Result.State = InteractionResultState.Numeric;
@@ -488,7 +488,7 @@ namespace Microsoft.LearningComponents.Frameset
                     }
                     break;
                 default:
-                    throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidName, CurrentElementName));
+                    throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
             }
 
         }
@@ -499,7 +499,7 @@ namespace Microsoft.LearningComponents.Frameset
 
             float scoreValue;
             if (!float.TryParse(value, NumberStyles.Float, NumberFormatInfo.InvariantInfo, out scoreValue))
-                throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidValue, value, CurrentElementName));
+                throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), value, CurrentElementName));
 
             switch (scoreField)
             {
@@ -519,7 +519,7 @@ namespace Microsoft.LearningComponents.Frameset
                     }
                     break;
                 default:
-                    throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidName, CurrentElementName));
+                    throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
             }
         }
 
@@ -536,7 +536,7 @@ namespace Microsoft.LearningComponents.Frameset
                             return;
                         }
                         // couldn't parse it...
-                        throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidValue, value, CurrentElementName));
+                        throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), value, CurrentElementName));
                     }
                 case "language":
                     {
@@ -552,7 +552,7 @@ namespace Microsoft.LearningComponents.Frameset
                             return;
                         }
                         // couldn't parse it
-                        throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidValue, value, CurrentElementName));
+                        throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), value, CurrentElementName));
                     }
                 case "text":
                     {
@@ -565,14 +565,14 @@ namespace Microsoft.LearningComponents.Frameset
                         }
                         catch
                         {
-                            throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidValue, value, CurrentElementName));
+                            throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), value, CurrentElementName));
                         }
                     }
 
             }
 
             // If we got here, the element name wasn't valid
-            throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidName, CurrentElementName));
+            throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
         }
 
         
@@ -598,11 +598,11 @@ namespace Microsoft.LearningComponents.Frameset
             string[] elementParts = subElementName.Split('.');            
 
             if (elementParts.Length < 2)
-                throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidName, CurrentElementName));
+                throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
             
             int index;
             if (!int.TryParse(elementParts[0], out index))
-                throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidName, CurrentElementName));
+                throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
             
             Objective objective;
             
@@ -631,7 +631,7 @@ namespace Microsoft.LearningComponents.Frameset
                     objective.Status = GetLessonStatus(value);
                     break;
                 default:
-                    throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidName, CurrentElementName));
+                    throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
 
             }
         }
@@ -654,7 +654,7 @@ namespace Microsoft.LearningComponents.Frameset
                 case "not attempted":
                     return LessonStatus.NotAttempted;
                 default:
-                    throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidValue, value, CurrentElementName));
+                    throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), value, CurrentElementName));
             }
         }
 

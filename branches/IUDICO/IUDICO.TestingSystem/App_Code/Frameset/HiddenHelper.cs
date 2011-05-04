@@ -117,7 +117,7 @@ namespace Microsoft.LearningComponents.Frameset
                 
                 if (!TryGetViewInfo(false, out view))
                 {
-                    WriteError(ResHelper.GetMessage(FramesetResources.FRM_ViewNotSupportedMsg));
+                    WriteError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_ViewNotSupportedMsg")));
                     return;
                 }
 
@@ -166,7 +166,7 @@ namespace Microsoft.LearningComponents.Frameset
                         }
                         break;
                     default:
-                        WriteError(ResHelper.GetMessage(FramesetResources.FRM_ViewNotSupportedMsg));
+                        WriteError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_ViewNotSupportedMsg")));
                         return;
                 }
 
@@ -191,7 +191,7 @@ namespace Microsoft.LearningComponents.Frameset
                         if (String.IsNullOrEmpty(strActivityId)
                                 || !long.TryParse(strActivityId, out activityId))
                         {
-                            WriteError(ResHelper.GetMessage(FramesetResources.HID_InvalidActivityId, strActivityId));
+                            WriteError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("HID_InvalidActivityId"), strActivityId));
                         }
                         else
                         {
@@ -494,7 +494,7 @@ namespace Microsoft.LearningComponents.Frameset
                                     }
                                     catch (SequencingException ex)
                                     {
-                                        WriteError(ResHelper.GetMessage(FramesetResources.HID_TerminateFailed, HttpUtility.HtmlEncode(ex.Message)));
+                                        WriteError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("HID_TerminateFailed"), HttpUtility.HtmlEncode(ex.Message)));
                                     }
                                     m_saveOnly = false;
                                 }
@@ -978,7 +978,7 @@ namespace Microsoft.LearningComponents.Frameset
                 }
                 catch (Exception e)
                 {
-                    LogDataModelError(errors, FramesetResources.CONV_SetValueException, elements[0], TruncateMessage(elements[1]), e.Message);
+                    LogDataModelError(errors, IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueException"), elements[0], TruncateMessage(elements[1]), e.Message);
                 }
             }
 
@@ -1030,7 +1030,7 @@ namespace Microsoft.LearningComponents.Frameset
             // If this is the first error, add a header to the message.
             if (errorLog.Length == 0)
             {
-                errorLog.AppendLine(ResHelper.GetMessage(FramesetResources.HID_SetValueMappingFailedHtml));
+                errorLog.AppendLine(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("HID_SetValueMappingFailedHtml")));
                 errorLog.AppendLine("<br><br><ul> ");
             }
             string messageHtml;
@@ -1079,7 +1079,7 @@ namespace Microsoft.LearningComponents.Frameset
                 string[] elements = nvPair.Split(new string[] { "@E" }, StringSplitOptions.None);
                 if (elements.Length != 2)
                 {
-                    LogDataModelError(errorLog, FramesetResources.HID_SetValuePostedDataInvalid);
+                    LogDataModelError(errorLog, IUDICO.TestingSystem.Localization.getMessage("HID_SetValuePostedDataInvalid"));
                     continue;
                 }
 

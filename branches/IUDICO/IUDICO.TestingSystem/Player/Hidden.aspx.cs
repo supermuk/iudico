@@ -48,8 +48,8 @@ namespace Microsoft.LearningComponents.Frameset
             catch (Exception ex)
             {
                 ClearError();
-                RegisterError(ResHelper.GetMessage(FramesetResources.FRM_UnknownExceptionTitle),
-                                ResHelper.GetMessage(FramesetResources.FRM_UnknownExceptionMsg, HttpUtility.HtmlEncode(ex.Message.Replace("\r\n", " "))), false);
+                RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_UnknownExceptionTitle")),
+                                ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_UnknownExceptionMsg"), HttpUtility.HtmlEncode(ex.Message.Replace("\r\n", " "))), false);
             }
         
         }
@@ -94,16 +94,16 @@ namespace Microsoft.LearningComponents.Frameset
                     switch (slsSession.AttemptStatus)
                     {
                         case AttemptStatus.Abandoned:
-                            messageTitle = FramesetResources.HID_SessionAbandonedTitle;
-                            message = FramesetResources.FRM_ExecuteViewAbandonedSessionMsg;
+                            messageTitle = IUDICO.TestingSystem.Localization.getMessage("HID_SessionAbandonedTitle");
+                            message = IUDICO.TestingSystem.Localization.getMessage("FRM_ExecuteViewAbandonedSessionMsg");
                             break;
                         case AttemptStatus.Completed:
-                            messageTitle = FramesetResources.HID_SessionCompletedTitle;
-                            message = FramesetResources.FRM_ExecuteViewCompletedSessionMsg;
+                            messageTitle = IUDICO.TestingSystem.Localization.getMessage("HID_SessionCompletedTitle");
+                            message = IUDICO.TestingSystem.Localization.getMessage("FRM_ExecuteViewCompletedSessionMsg");
                             break;
                         case AttemptStatus.Suspended:
-                            messageTitle = FramesetResources.HID_SessionSuspendedTitle;
-                            message = FramesetResources.FRM_ExecuteViewSuspendedSessionMsg;
+                            messageTitle = IUDICO.TestingSystem.Localization.getMessage("HID_SessionSuspendedTitle");
+                            message = IUDICO.TestingSystem.Localization.getMessage("FRM_ExecuteViewSuspendedSessionMsg");
                             break;
                     }
                 }

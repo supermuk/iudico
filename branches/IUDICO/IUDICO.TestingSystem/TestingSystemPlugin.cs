@@ -17,6 +17,7 @@ namespace IUDICO.TestingSystem
 
         public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
         {
+            IUDICO.TestingSystem.Localization.Initialize();
             container.Register(
                 AllTypes
                     .FromThisAssembly()

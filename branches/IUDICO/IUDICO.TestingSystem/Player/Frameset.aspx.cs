@@ -48,14 +48,14 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 // Something wrong with the http connection, so in this case do not set the response
                 // headers.
-                RegisterError(FramesetResources.FRM_NotAvailableTitleHtml, FramesetResources.FRM_NotAvailableHtml, false);
+                RegisterError(IUDICO.TestingSystem.Localization.getMessage("FRM_NotAvailableTitleHtml"), IUDICO.TestingSystem.Localization.getMessage("FRM_NotAvailableHtml"), false);
             }
             catch (Exception)
             {
                 // Doesn't matter why.
                 Response.StatusCode = 500;
                 Response.StatusDescription = "Internal Server Error";
-                RegisterError(FramesetResources.FRM_NotAvailableTitleHtml, FramesetResources.FRM_NotAvailableHtml, false);
+                RegisterError(IUDICO.TestingSystem.Localization.getMessage("FRM_NotAvailableTitleHtml"), IUDICO.TestingSystem.Localization.getMessage("FRM_NotAvailableHtml"), false);
             }
         }
 
@@ -87,7 +87,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                PlainTextString text = new PlainTextString(ResHelper.GetMessage(FramesetResources.FRM_Title));
+                PlainTextString text = new PlainTextString(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_Title")));
                 HtmlString html = new HtmlString(text);
                 return html.ToString();
             }

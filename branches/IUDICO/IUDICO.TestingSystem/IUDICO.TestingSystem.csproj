@@ -123,6 +123,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FramesetResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Localization .cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Models\FakeTestingService.cs" />
     <Compile Include="Models\IMlcProxy.cs" />
     <Compile Include="Models\ServicesProxy.cs" />
@@ -265,6 +268,7 @@
       <LastGenOutput>FramesetResources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="FramesetResourcesuk.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

@@ -681,8 +681,8 @@ namespace Microsoft.LearningComponents.Frameset
                 // because there's no resource. 
                 if (Session.CurrentActivityResourceType == ResourceType.None)
                 {
-                    RegisterError(ResHelper.GetMessage(FramesetResources.CON_ResourceNotFoundTitle),
-                                       ResHelper.GetMessage(FramesetResources.CON_ResourceNotFoundMsg), false);
+                    RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CON_ResourceNotFoundTitle")),
+                                       ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CON_ResourceNotFoundMsg")), false);
                     return;
                 }
 
@@ -690,8 +690,8 @@ namespace Microsoft.LearningComponents.Frameset
                 // hidden frame should have loaded the absolute Uri into the content frame).
                 if (Session.CurrentActivityEntryPoint.IsAbsoluteUri)
                 {
-                    RegisterError(ResHelper.GetMessage(FramesetResources.CON_ResourceNotFoundTitle),
-                                       ResHelper.GetMessage(FramesetResources.CON_ResourceNotFoundMsg), false);
+                    RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CON_ResourceNotFoundTitle")),
+                                       ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CON_ResourceNotFoundMsg")), false);
                     return;
                 }
 
@@ -735,8 +735,8 @@ namespace Microsoft.LearningComponents.Frameset
                 if (fileNotFound)
                 {
                     // The entry point defined in the package was a relative Uri but does not map to a file in the package.
-                    RegisterError(ResHelper.GetMessage(FramesetResources.CON_ResourceNotFoundTitle),
-                                       ResHelper.GetMessage(FramesetResources.CON_ResourceNotFoundMsg), false);
+                    RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CON_ResourceNotFoundTitle")),
+                                       ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CON_ResourceNotFoundMsg")), false);
                     return;
                 }
             }
@@ -984,7 +984,7 @@ namespace Microsoft.LearningComponents.Frameset
             response.Write("<table border=\"0\" width=\"100%\" id=\"table1\" style=\"border-collapse: collapse\">");
             response.Write("<tr><td class=\"ErrorTitle\">&nbsp;</td></tr>");
             response.Write("<tr><td align=\"center\">");
-            response.Write(ResHelper.GetMessage(FramesetResources.CON_PleaseWait));
+            response.Write(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CON_PleaseWait")));
             response.Write("</td></tr>");
             response.Write("<tr><td class=\"ErrorMessage\">&nbsp;</td></tr>");
             response.Write("</table>");
