@@ -11,12 +11,12 @@
                 });
 
                 if (ids.length == 0) {
-                    alert("Please select stages to delete");
+                    alert("<%=IUDICO.CurriculumManagement.Localization.getMessage("PleaseSelectStagesDelete") %>");
 
                     return false;
                 }
 
-                var answer = confirm("Are you sure you want to delete " + ids.length + " selected stages?");
+                var answer = confirm("<%=IUDICO.CurriculumManagement.Localization.getMessage("AreYouSureYouWantDelete") %>" + ids.length + "<%=IUDICO.CurriculumManagement.Localization.getMessage("selectedStages") %>");
 
                 if (answer == false) {
                     return false;
@@ -31,14 +31,14 @@
                             $("td input:checked").parents("tr").remove();
                         }
                         else {
-                            alert("Error occured during processing request.\nError message: " + r.message);
+                            alert("<%=IUDICO.CurriculumManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
                         }
                     }
                 });
             });
         });
         function deleteItem(id) {
-            var answer = confirm("Are you sure you want to delete selected stage?");
+            var answer = confirm("<%=IUDICO.CurriculumManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedStage") %>");
 
             if (answer == false) {
                 return;
@@ -54,7 +54,7 @@
                         $("tr[id=" + item + "]").remove();
                     }
                     else {
-                        alert("Error occured during processing request.\nError message: " + r.message);
+                        alert("<%=IUDICO.CurriculumManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
                     }
                 }
             });

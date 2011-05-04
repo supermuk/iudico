@@ -10,12 +10,12 @@
                 });
 
                 if (ids.length == 0) {
-                    alert("Please select curriculums to delete");
+                    alert("<%=IUDICO.CurriculumManagement.Localization.getMessage("PleaseSelectCurriculumsDelete") %>");
 
                     return false;
                 }
 
-                var answer = confirm("Are you sure you want to delete " + ids.length + " selected curriculums?");
+                var answer = confirm("<%=IUDICO.CurriculumManagement.Localization.getMessage("AreYouSureYouWantDelete") %>" + ids.length + "<%=IUDICO.CurriculumManagement.Localization.getMessage("SelectedCurriculums") %>");
 
                 if (answer == false) {
                     return false;
@@ -30,14 +30,14 @@
                             $("td input:checked").parents("tr").remove();
                         }
                         else {
-                            alert("Error occured during processing request.\nError message: " + r.message);
+                            alert("<%=IUDICO.CurriculumManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
                         }
                     }
                 });
             });
         });
         function deleteItem(id) {
-            var answer = confirm("Are you sure you want to delete selected curriculum?");
+            var answer = confirm("<%=IUDICO.CurriculumManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedCurriculum") %>");
 
             if (answer == false) {
                 return;
@@ -53,7 +53,7 @@
                         $("tr[id="+item+"]").remove();
                     }
                     else {
-                        alert("Error occured during processing request.\nError message: " + r.message);
+                        alert("<%=IUDICO.CurriculumManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
                     }
                 }
             });

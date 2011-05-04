@@ -13,12 +13,12 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Timeline>>" %
                 });
 
                 if (ids.length == 0) {
-                    alert("Please select timeline to delete");
+                    alert("<%=IUDICO.CurriculumManagement.Localization.getMessage("PleaseSelectTimelineDelete") %>");
 
                     return false;
                 }
 
-                var answer = confirm("Are you sure you want to delete " + ids.length + " selected timelines?");
+                var answer = confirm("<%=IUDICO.CurriculumManagement.Localization.getMessage("AreYouSureYouWantDelete") %>" + ids.length + "<%=IUDICO.CurriculumManagement.Localization.getMessage("selectedTimelines") %>");
 
                 if (answer == false) {
                     return false;
@@ -33,14 +33,14 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Timeline>>" %
                             $("td input:checked").parents("tr").remove();
                         }
                         else {
-                            alert("Error occured during processing request.\nError message: " + r.message);
+                            alert("<%=IUDICO.CurriculumManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
                         }
                     }
                 });
             });
         });
         function deleteItem(id) {
-            var answer = confirm("Are you sure you want to delete selected timeline?");
+            var answer = confirm("<%=IUDICO.CurriculumManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedTimeline") %>");
 
             if (answer == false) {
                 return;
@@ -56,7 +56,7 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Timeline>>" %
                         $("tr[id=" + item + "]").remove();
                     }
                     else {
-                        alert("Error occured during processing request.\nError message: " + r.message);
+                        alert("<%=IUDICO.CurriculumManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
                     }
                 }
             });

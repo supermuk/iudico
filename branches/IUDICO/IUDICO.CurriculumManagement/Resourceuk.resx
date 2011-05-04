@@ -127,7 +127,7 @@
     <value>Створити</value>
   </data>
   <data name="CreateCurriculum" xml:space="preserve">
-    <value>Створити курікулум</value>
+    <value>Створити навчальний план</value>
   </data>
   <data name="Created" xml:space="preserve">
     <value>Створено</value>
@@ -142,13 +142,13 @@
     <value>Створити тему для</value>
   </data>
   <data name="Curriculum" xml:space="preserve">
-    <value>Курікулум</value>
+    <value>Навчальний план</value>
   </data>
   <data name="CurriculumManagement" xml:space="preserve">
-    <value>Управління курікулами</value>
+    <value>Управління навчальними планами</value>
   </data>
   <data name="Curriculums" xml:space="preserve">
-    <value>Курікулуми</value>
+    <value>Навчальні плани</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Видалити</value>
@@ -211,7 +211,7 @@
     <value>Прив'язки для</value>
   </data>
   <data name="BackToCurriculums" xml:space="preserve">
-    <value>Повернутися до курікулумів</value>
+    <value>Повернутися до навчальних планів</value>
   </data>
   <data name="EditAssignmentFor" xml:space="preserve">
     <value>Редагувати прив'язку для</value>
@@ -361,7 +361,7 @@
     <value>Дата початку повинна бути між {0} та {1}</value>
   </data>
   <data name="StartDateMustLessThanEndDate" xml:space="preserve">
-    <value>Дата початку повинна бути менше, ніж дата кінця</value>
+    <value>Дата початку повинна бути менша, ніж дата кінця</value>
   </data>
   <data name="CreateAssignmentFor" xml:space="preserve">
     <value>Створити прив'язку для</value>
