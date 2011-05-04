@@ -362,7 +362,7 @@ namespace Microsoft.LearningComponents.Frameset
                                     FramesetUtil.GetStringInvariant(m_session.CurrentActivityId)));
                 string origMessage = message.ToString();
                 StringBuilder sb = new StringBuilder(origMessage.Length * 2);
-                sb.Append(ResHelper.Format("{0}<br><br><a href='{1}' >{2}</a>",origMessage, js.ToJavascriptProtocol(), FramesetResources.HID_ReloadCurrentContent));
+                sb.Append(ResHelper.Format("{0}<br><br><a href='{1}' >{2}</a>",origMessage, js.ToJavascriptProtocol(), IUDICO.TestingSystem.Localization.getMessage("HID_ReloadCurrentContent")));
 
                 msgToDisplay = sb.ToString();
             }
@@ -370,7 +370,7 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 msgToDisplay = message.ToString();
             }
-            RegisterError(FramesetResources.HID_ServerErrorTitle, msgToDisplay, false);
+            RegisterError(IUDICO.TestingSystem.Localization.getMessage("HID_ServerErrorTitle"), msgToDisplay, false);
         }
 
         /// <summary>
@@ -421,7 +421,7 @@ namespace Microsoft.LearningComponents.Frameset
 
             if (hasCurrentActivity)
             {
-                sb.AppendLine(ResHelper.Format("&nbsp;&nbsp;<input type='button' value='{0}' id='cancelBtn' onClick='onCancel(event)'/>", FramesetResources.POST_ContinueHtml));
+                sb.AppendLine(ResHelper.Format("&nbsp;&nbsp;<input type='button' value='{0}' id='cancelBtn' onClick='onCancel(event)'/>", IUDICO.TestingSystem.Localization.getMessage("POST_ContinueHtml")));
             }
 
             msgToDisplay = sb.ToString();

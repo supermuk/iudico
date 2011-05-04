@@ -30,12 +30,12 @@ namespace Microsoft.LearningComponents.Frameset
                 m_tocHelper = new TocHelper();
                 m_tocHelper.ProcessPageLoad(Response, PStore, ProcessViewParameter, 
                                     ProcessAttemptIdParameter, ProcessViewRequest, RegisterError, 
-                                    FramesetResources.TOC_SubmitAttempt);
+                                    IUDICO.TestingSystem.Localization.getMessage("TOC_SubmitAttempt"));
             }
             catch (Exception ex)
             {
-                RegisterError(ResHelper.GetMessage(FramesetResources.FRM_UnexpectedErrorTitle),
-                                ResHelper.GetMessage(FramesetResources.FRM_UnexpectedError, HttpUtility.HtmlEncode(ex.Message)), false);
+                RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_UnexpectedErrorTitle")),
+                                ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_UnexpectedError"), HttpUtility.HtmlEncode(ex.Message)), false);
             }
         }
 

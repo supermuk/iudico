@@ -93,8 +93,8 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 if (showErrorPage)
                 {
-                    RegisterError(ResHelper.GetMessage(FramesetResources.FRM_ParameterRequiredTitle, name),
-                        ResHelper.GetMessage(FramesetResources.FRM_ParameterRequiredMsg, name), false);
+                    RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_ParameterRequiredTitle"), name),
+                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_ParameterRequiredMsg"), name), false);
                 }
                 return false;
             }
@@ -126,8 +126,8 @@ namespace Microsoft.LearningComponents.Frameset
                 {
                     if (showErrorPage)
                     {
-                        RegisterError(ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterTitle, FramesetQueryParameter.View),
-                                        ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterMsg, FramesetQueryParameter.View, viewParam), false);
+                        RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterTitle"), FramesetQueryParameter.View),
+                                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterMsg"), FramesetQueryParameter.View, viewParam), false);
                     }
                     return false;
                 }
@@ -136,8 +136,8 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 if (showErrorPage)
                 {
-                    RegisterError(ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterTitle, FramesetQueryParameter.View),
-                        ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterMsg, FramesetQueryParameter.View, viewParam), false);
+                    RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterTitle"), FramesetQueryParameter.View),
+                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterMsg"), FramesetQueryParameter.View, viewParam), false);
                 }
                 return false;
             }
@@ -180,8 +180,8 @@ namespace Microsoft.LearningComponents.Frameset
 
             if (!isValid && showErrorPage)
             {
-                RegisterError(ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterTitle, FramesetQueryParameter.AttemptId),
-                        ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterMsg, FramesetQueryParameter.AttemptId, attemptParam), false);
+                RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterTitle"), FramesetQueryParameter.AttemptId),
+                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterMsg"), FramesetQueryParameter.AttemptId, attemptParam), false);
             }
 
             return isValid;

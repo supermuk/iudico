@@ -21,7 +21,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                PlainTextString titleTxt = new PlainTextString(ResHelper.GetMessage(FramesetResources.NAV_NextTitle));
+                PlainTextString titleTxt = new PlainTextString(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("NAV_NextTitle")));
                 return new HtmlString(titleTxt).ToString();
             }
         }
@@ -29,7 +29,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                PlainTextString titleTxt = new PlainTextString(ResHelper.GetMessage(FramesetResources.NAV_PrevTitle));
+                PlainTextString titleTxt = new PlainTextString(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("NAV_PrevTitle")));
                 return new HtmlString(titleTxt).ToString();
             }
         }
@@ -37,7 +37,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                PlainTextString titleTxt = new PlainTextString(ResHelper.GetMessage(FramesetResources.NAV_SaveTitle));
+                PlainTextString titleTxt = new PlainTextString(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("NAV_SaveTitle")));
                 return new HtmlString(titleTxt).ToString();
             }
         }
@@ -46,7 +46,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                PlainTextString titleTxt = new PlainTextString(ResHelper.GetMessage(FramesetResources.NAV_MinimizeTitle));
+                PlainTextString titleTxt = new PlainTextString(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("NAV_MinimizeTitle")));
                 return new HtmlString(titleTxt).ToString();
             }
         }

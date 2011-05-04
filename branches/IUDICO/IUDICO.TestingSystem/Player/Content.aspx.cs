@@ -89,8 +89,8 @@ namespace Microsoft.LearningComponents.Frameset
             catch (Exception e2)
             {
                 ClearError();
-                RegisterError(ResHelper.GetMessage(FramesetResources.FRM_UnknownExceptionTitle),
-                   ResHelper.GetMessage(FramesetResources.FRM_UnknownExceptionMsg, HttpUtility.HtmlEncode(e2.Message.Replace("\r\n", " "))), false);
+                RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_UnknownExceptionTitle")),
+                   ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_UnknownExceptionMsg"), HttpUtility.HtmlEncode(e2.Message.Replace("\r\n", " "))), false);
                 
                 // Clear any existing response information so that the error gets rendered correctly.
                 Response.Clear();   
@@ -112,8 +112,8 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 if (showErrorPage)
                 {
-                    RegisterError(ResHelper.GetMessage(FramesetResources.FRM_ParameterRequiredTitle, FramesetQueryParameter.View),
-                    ResHelper.GetMessage(FramesetResources.FRM_ParameterRequiredMsg, FramesetQueryParameter.View), false);
+                    RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_ParameterRequiredTitle"), FramesetQueryParameter.View),
+                    ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_ParameterRequiredMsg"), FramesetQueryParameter.View), false);
                 }
                 return false;
             }
@@ -125,8 +125,8 @@ namespace Microsoft.LearningComponents.Frameset
                 {
                     if (showErrorPage)
                     {
-                        RegisterError(ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterTitle, FramesetQueryParameter.View),
-                                        ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterMsg, FramesetQueryParameter.View, strView), false);
+                        RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterTitle"), FramesetQueryParameter.View),
+                                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterMsg"), FramesetQueryParameter.View, strView), false);
                     }
                     return false;
                 }
@@ -135,8 +135,8 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 if (showErrorPage)
                 {
-                    RegisterError(ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterTitle, FramesetQueryParameter.View),
-                        ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterMsg, FramesetQueryParameter.View, strView), false);
+                    RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterTitle"), FramesetQueryParameter.View),
+                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterMsg"), FramesetQueryParameter.View, strView), false);
                 }
                 return false;
             }
@@ -168,8 +168,8 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 if (showErrorPage)
                 {
-                    RegisterError(ResHelper.GetMessage(FramesetResources.CON_ContentCannotBeDisplayedTitle),
-                            ResHelper.GetMessage(FramesetResources.CON_ContentCannotBeDisplayedMsg), false);
+                    RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CON_ContentCannotBeDisplayedTitle")),
+                            ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CON_ContentCannotBeDisplayedMsg")), false);
                 }
                 return false;
             }
@@ -198,8 +198,8 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 if (showErrorPage)
                 {
-                    RegisterError(ResHelper.GetMessage(FramesetResources.CON_ContentCannotBeDisplayedTitle),
-                            ResHelper.GetMessage(FramesetResources.CON_ContentCannotBeDisplayedMsg), false);
+                    RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CON_ContentCannotBeDisplayedTitle")),
+                            ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CON_ContentCannotBeDisplayedMsg")), false);
                 }
                 return false;
             }
@@ -308,7 +308,7 @@ namespace Microsoft.LearningComponents.Frameset
                     // This is not a valid file.
                     if (firstError)
                     {
-                        messageBuffer.Append(FramesetResources.CON_AttachedFileDoesNotExistHtml);
+                        messageBuffer.Append(IUDICO.TestingSystem.Localization.getMessage("CON_AttachedFileDoesNotExistHtml"));
                         messageBuffer.Append("\r\n<br><br><ul>\r\n");
                         firstError = false;
                     }
@@ -319,15 +319,15 @@ namespace Microsoft.LearningComponents.Frameset
             if (!firstError)
             {
                 messageBuffer.Append("</ul><br>");
-                messageBuffer.Append(FramesetResources.CON_FileAttachmentErrorEndHtml);
+                messageBuffer.Append(IUDICO.TestingSystem.Localization.getMessage("CON_FileAttachmentErrorEndHtml"));
                 
                 // Add information for the 'Continue' link
                 JScriptString js = new JScriptString(ResHelper.FormatInvariant("API_GetFramesetManager().DoChoice(\"{0}\");",
                                     FramesetUtil.GetStringInvariant(session.CurrentActivityId)));
                 messageBuffer.AppendFormat(CultureInfo.CurrentCulture, "<br><br><a href='{0}' >{1}</a>",
-                                js.ToJavascriptProtocol(), HttpUtility.HtmlEncode(FramesetResources.HID_ReloadCurrentContent));
+                                js.ToJavascriptProtocol(), HttpUtility.HtmlEncode(IUDICO.TestingSystem.Localization.getMessage("HID_ReloadCurrentContent")));
 
-                RegisterError(FramesetResources.CON_FileAttachmentErrorTitleHtml, messageBuffer.ToString(), false);
+                RegisterError(IUDICO.TestingSystem.Localization.getMessage("CON_FileAttachmentErrorTitleHtml"), messageBuffer.ToString(), false);
             }
 
             return true;

@@ -46,8 +46,8 @@ namespace Microsoft.LearningComponents.Frameset
             }
             catch (Exception e2)
             {
-                RegisterError(ResHelper.GetMessage(FramesetResources.FRM_UnknownExceptionTitle),
-                   ResHelper.GetMessage(FramesetResources.FRM_UnknownExceptionMsg, HttpUtility.HtmlEncode(e2.Message)), false);
+                RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_UnknownExceptionTitle")),
+                   ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_UnknownExceptionMsg"), HttpUtility.HtmlEncode(e2.Message)), false);
                 m_pageLoadSuccessful = false;
 
                 // Clear any existing response information so that the error gets rendered correctly.
@@ -119,8 +119,8 @@ namespace Microsoft.LearningComponents.Frameset
 
             if (!isValid && showErrorPage)
             {
-                RegisterError(ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterTitle, FramesetQueryParameter.ActivityId),
-                        ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterMsg, FramesetQueryParameter.ActivityId, activityIdParam), false);
+                RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterTitle"), FramesetQueryParameter.ActivityId),
+                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterMsg"), FramesetQueryParameter.ActivityId, activityIdParam), false);
             }
 
             return isValid;
@@ -173,7 +173,7 @@ namespace Microsoft.LearningComponents.Frameset
 
         public static string PleaseWaitHtml {
             get { 
-                return ResHelper.GetMessage(FramesetResources.CON_PleaseWait); }
+                return ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CON_PleaseWait")); }
         }
 
         public void WriteFrameMgrInit()
