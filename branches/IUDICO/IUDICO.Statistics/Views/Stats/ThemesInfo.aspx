@@ -46,7 +46,7 @@
                         <%}
                         else
                         {%>
-                            No data
+                            <%=IUDICO.Statistics.Localization.getMessage("NoData")%> 
                         <%} %> 
                         </td>
                     <% } %>  
