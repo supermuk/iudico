@@ -21,7 +21,7 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
 
     <% using (Html.BeginForm())
        {%>
-        <%: Html.ValidationSummary(true, "Please correct the following error(s) and try again:")%>
+        <%: Html.ValidationSummary(true, IUDICO.CurriculumManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
         <fieldset>
             <legend><%=IUDICO.CurriculumManagement.Localization.getMessage("Fields")%></legend>
             <div class="editor-label">

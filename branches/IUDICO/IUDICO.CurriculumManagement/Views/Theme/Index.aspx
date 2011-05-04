@@ -12,12 +12,12 @@
                 });
 
                 if (ids.length == 0) {
-                    alert("Please select themes to delete");
+                    alert("<%=IUDICO.CurriculumManagement.Localization.getMessage("PleaseSelectThemesDelete") %>");
 
                     return false;
                 }
 
-                var answer = confirm("Are you sure you want to delete " + ids.length + " selected themes?");
+                var answer = confirm("<%=IUDICO.CurriculumManagement.Localization.getMessage("AreYouSureYouWantDelete") %>" + ids.length + "<%=IUDICO.CurriculumManagement.Localization.getMessage("selectedThemes") %>");
 
                 if (answer == false) {
                     return false;
@@ -32,14 +32,14 @@
                             $("td input:checked").parents("tr").remove();
                         }
                         else {
-                            alert("Error occured during proccessing request");
+                            alert("<%=IUDICO.CurriculumManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> ");
                         }
                     }
                 });
             });
         });
         function deleteItem(id) {
-            var answer = confirm("Are you sure you want to delete selected theme?");
+            var answer = confirm("<%=IUDICO.CurriculumManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedTheme") %>");
 
             if (answer == false) {
                 return;
@@ -55,7 +55,7 @@
                         $("tr[id=" + item + "]").remove();
                     }
                     else {
-                        alert("Error occured during processing request.\nError message: " + r.message);
+                        alert("<%=IUDICO.CurriculumManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
                     }
                 }
             });
@@ -127,6 +127,7 @@
     </table>
     <div>
         <br />
-        <%: Html.RouteLink("Back to stages.", "Stages", new { action = "Index", CurriculumId = ViewData["CurriculumId"] }, null)%>
+       <%: Html.RouteLink(IUDICO.CurriculumManagement.Localization.getMessage("BackToStages"), "Stages", new { action = "Index", CurriculumId = ViewData["CurriculumId"] }, null)%>
+
     </div>
 </asp:Content>

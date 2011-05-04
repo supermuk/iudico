@@ -17,7 +17,7 @@
     <% Html.EnableClientValidation(); %>
     <h4><%=ViewData["CurriculumName"]%><%=IUDICO.CurriculumManagement.Localization.getMessage("Next")%><%=Model.Name%></h4>
     <% using (Html.BeginForm()) {%>
-        <%: Html.ValidationSummary(true, "Please correct the following error(s) and try again:")%>
+        <%: Html.ValidationSummary(true, IUDICO.CurriculumManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
         
         <fieldset>
             <legend><%=IUDICO.CurriculumManagement.Localization.getMessage("Fields")%></legend>

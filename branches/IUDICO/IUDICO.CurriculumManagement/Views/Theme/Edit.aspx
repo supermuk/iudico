@@ -21,9 +21,14 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
     <% Html.EnableClientValidation(); %>
     <% using (Html.BeginForm("Edit", "Theme"))
        {%>
-    <%: Html.ValidationSummary(true, "Please correct the following error(s) and try again:")%>
-    <fieldset>
-        <legend>Fields</legend>
+
+        <%: Html.ValidationSummary(true, IUDICO.CurriculumManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
+
+        <fieldset>
+            <legend><%=IUDICO.CurriculumManagement.Localization.getMessage("Fields")%></legend>
+
+
+   
         <div class="editor-label">
             <%--<%= Html.LabelFor(item => item.ThemeName) %>--%>
             <%= Html.Label(IUDICO.CurriculumManagement.Localization.getMessage("Name")) %>
