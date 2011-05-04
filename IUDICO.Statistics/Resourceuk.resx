@@ -198,4 +198,7 @@
   <data name="Theme" xml:space="preserve">
     <value>Тема</value>
   </data>
+  <data name="NoData" xml:space="preserve">
+    <value>Немає даних</value>
+  </data>
 </root>
