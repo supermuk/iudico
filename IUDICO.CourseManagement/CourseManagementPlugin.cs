@@ -61,11 +61,7 @@ namespace IUDICO.CourseManagement
                 "Course/{CourseID}/Node/{action}",
                 new { controller = "Node", action = "Index", CourseID = 0 }
             );
-            routes.MapRoute(
-                "Nodes2",
-                "Course/{CourseID}/Node/{NodeId}/{action}",
-                new {controller = "Node", action = "Index", CourseID = 0, NodeId = 0}
-                );
+
             routes.MapRoute(
                 "Course",
                 "Course/{CourseID}/{action}",
