@@ -159,8 +159,6 @@ namespace IUDICO.Common.Models
         }
     }
 
-
-
     [MetadataType(typeof(Metadata))]
     [Bind(Exclude = "Id, CourseId")]
     public partial class Node
@@ -186,27 +184,6 @@ namespace IUDICO.Common.Models
 
             [ScaffoldColumn(false)]
             public int Position { get; set; }
-
-            [ScaffoldColumn(false)]
-            public int SequencingPattern { get; set; } 
-
-            [LocalizedDisplayName("AllowChoise", NameResourceType = "IUDICO.Common.Resource")]
-            public bool Choise { get; set; }
-
-            [LocalizedDisplayName("AllowExit", NameResourceType = "IUDICO.Common.Resource")]
-            public bool ChoiseExit { get; set; }
-
-            [LocalizedDisplayName("Flow", NameResourceType = "IUDICO.Common.Resource")]
-            public bool Flow { get; set; }
-
-            [LocalizedDisplayName("ForwarOnly", NameResourceType = "IUDICO.Common.Resource")]
-            public bool ForwardOnly { get; set; }
-
-            [LocalizedDisplayName("AttemptLimit", NameResourceType = "IUDICO.Common.Resource")]
-            public int AttemptLimit { get; set; }
-
-            [LocalizedDisplayName("TimeLimit", NameResourceType = "IUDICO.Common.Resource")]
-            public string AttemptAbsoluteDurationLimit { get; set; }
         }
     }
 

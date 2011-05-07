@@ -124,6 +124,7 @@
     <Compile Include="Models\ManifestModels\SequencingModels\ObjectiveModels\MapInfo.cs" />
     <Compile Include="Models\ManifestModels\SequencingModels\ObjectiveModels\AdlObjective.cs" />
     <Compile Include="Models\ManifestModels\SequencingModels\ObjectiveModels\Objective.cs" />
+    <Compile Include="Models\ManifestModels\SequencingModels\RollupModels\Metadata.cs" />
     <Compile Include="Models\ManifestModels\SequencingModels\RuleModels\Rule.cs" />
     <Compile Include="Models\ManifestModels\SequencingModels\ConstrainedChoiceConsiderations.cs" />
     <Compile Include="Models\ManifestModels\SequencingModels\ControlMode.cs" />

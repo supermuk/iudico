@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Xml.Serialization;
 using IUDICO.Common.Models;
@@ -14,6 +13,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     [MetadataType(typeof(Metadata))]
     public partial class ControlMode : NodeProperty
     {
+
         private sealed class Metadata
         {
             [DisplayName("Choice")]
@@ -125,6 +125,31 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
             public bool ReorderChildren { get; set; } // = false;
             [DropDownList(OptionLabel = "Selection Timing", SourceProperty = "TimingList")]
             public Timing SelectionTiming { get; set; }// = Timing.Never;
+
+            [ScaffoldColumn(false)]
+            [XmlIgnore]
+            public int NodeId { get; set; }
+            [ScaffoldColumn(false)]
+            [XmlIgnore]
+            public int CourseId { get; set; }
+            [ScaffoldColumn(false)]
+            [XmlIgnore]
+            public string Type { get; set; }
+        }
+    }
+
+
+    [MetadataType(typeof(Metadata))]
+    public partial class DeliveryControls : NodeProperty
+    {
+        private sealed class Metadata
+        {
+            [DisplayName("Tracked")]
+            public bool Tracked { get; set; } // = true;
+            [DisplayName("Completion Set By Content")]
+            public bool CompletionSetByContent { get; set; } // = false;
+            [DisplayName("Objective Set By Content")]
+            public bool ObjectiveSetByContent { get; set; } // = false
 
             [ScaffoldColumn(false)]
             [XmlIgnore]
