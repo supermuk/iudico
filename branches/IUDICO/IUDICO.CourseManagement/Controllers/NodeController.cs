@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using IUDICO.Common.Models;
 using IUDICO.CourseManagement.Models;
 using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
+using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupModels;
 using IUDICO.CourseManagement.Models.Storage;
 
 namespace IUDICO.CourseManagement.Controllers
@@ -207,6 +208,20 @@ namespace IUDICO.CourseManagement.Controllers
             else if (type == "RandomizationControls")
             {
                 model = sequencing.RandomizationControls ?? new RandomizationControls();
+            }
+            else if (type == "DeliveryControls")
+            {
+                model = sequencing.DeliveryControls ?? new DeliveryControls();
+            }
+            else if (type == "RollupRules")
+            {
+                model = sequencing.RollupRules ??
+                        new RollupRules()
+                            {
+                                _RollupRules = new List<RollupRule> { new RollupRule() { MinimumCount = 100500 } },
+                                ObjectiveMeasureWeight = 15
+                            };
+
             }
             else
             {

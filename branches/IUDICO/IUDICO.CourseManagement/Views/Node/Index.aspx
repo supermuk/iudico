@@ -441,8 +441,11 @@
             <h3><a href="#" id="RandomizationControls"><%=IUDICO.CourseManagement.Localization.getMessage("RandomizationControls")%></a></h3>
             <div id="RandomizationControlsProperties"></div>
             <h3><a href="#" id="ConstrainedChoiceConsiderations"><%=IUDICO.CourseManagement.Localization.getMessage("ConstrainedChoiceConsiderations")%></a></h3>
-            <div id="ConstrainedChoiceConsiderationsProperties">
-               </div>
+            <div id="ConstrainedChoiceConsiderationsProperties"></div>
+            <h3><a href="#" id="DeliveryControls">DeliveryControls</a></h3>
+            <div id="DeliveryControlsProperties"></div>
+            <h3><a href="#" id="RollupRules">RollupRules</a></h3>
+            <div id="RollupRulesProperties"></div>
         </div>
         <div id="properties"></div>
     </div>
