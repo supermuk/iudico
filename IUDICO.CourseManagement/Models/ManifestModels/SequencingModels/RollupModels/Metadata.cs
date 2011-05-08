@@ -22,9 +22,6 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
             public bool RollupProgressCompletion { get; set; } // = true;
             [DisplayName("Objective Measure Weight")]
             public float ObjectiveMeasureWeight { get; set; }
-            [DisplayName("Rollup rules")]
-            [UIHint("PropertiesList")]
-            public IEnumerable<NodeProperty> _RollupRules { get; set; }
 
             [ScaffoldColumn(false)]
             [XmlIgnore]

@@ -75,6 +75,8 @@ namespace IUDICO.LMS
             Common.Log4NetLoggerService.InitLogger();
             log4net.Config.XmlConfigurator.Configure(new System.IO.FileInfo(Server.MapPath("log.xml")));
 
+            ViewEngines.Engines.Add(new PluginViewEngine());
+
             Actions = new Dictionary<IPlugin, IEnumerable<Action>>();
 
             AppDomain.CurrentDomain.AppendPrivatePath(Server.MapPath("/Plugins"));
