@@ -66,5 +66,25 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
             return seq;
         }
 
+        public static Sequencing ApplyControlChapterSequncing(Sequencing sequencing)
+        {
+            if(sequencing.ControlMode == null)
+            {
+                sequencing.ControlMode = new ControlMode();
+            }
+            sequencing.ControlMode.Choice = false;
+            sequencing.ControlMode.Flow = true;
+            sequencing.ControlMode.ForwardOnly = true;
+            sequencing.ControlMode.ChoiceExit = false;
+
+
+            if(sequencing.LimitConditions == null)
+            {
+                sequencing.LimitConditions = new LimitConditions();
+            }
+            sequencing.LimitConditions.AttemptLimit = 1;
+
+            return sequencing;
+        }
     }
 }
