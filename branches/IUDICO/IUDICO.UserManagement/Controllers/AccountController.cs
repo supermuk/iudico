@@ -124,6 +124,10 @@ namespace IUDICO.UserManagement.Controllers
                 {
                     FormsAuthentication.SetAuthCookie(loginUsername, false);
 
+                    
+                    log4net.ILog log = log4net.LogManager.GetLogger(typeof(AccountController));
+                    log.Info(loginUsername+" logged in." );
+
                     return Redirect("/");
                 }
             }
