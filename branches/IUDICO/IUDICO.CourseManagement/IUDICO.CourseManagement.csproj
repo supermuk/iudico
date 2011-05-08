@@ -151,6 +151,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\jquery.multiselect2side.css" />
+    <Content Include="Views\Shared\EditorTemplates\RollupRules.ascx" />
+    <Content Include="Views\Shared\Properties.ascx" />
     <None Include="Content\Tree\themes\apple\bg.jpg" />
     <None Include="Content\Tree\themes\apple\d.png" />
     <None Include="Content\Tree\themes\apple\dot_for_ie.gif" />

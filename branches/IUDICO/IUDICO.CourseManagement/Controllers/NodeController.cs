@@ -5,6 +5,7 @@ using System.Web.Routing;
 using System.Xml.Serialization;
 using IUDICO.Common.Models;
 using IUDICO.CourseManagement.Models;
+using IUDICO.CourseManagement.Models.ManifestModels;
 using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
 using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupModels;
 using IUDICO.CourseManagement.Models.Storage;
@@ -176,11 +177,18 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
-        public JsonResult ApplyPattern(int id, int pattern)
+        public JsonResult ApplyPattern(int id, SequencingPattern pattern)
         {
             var node = _Storage.GetNode(id);
-            _Storage.UpdateNode(id, node);
 
+            var xml = new XmlSerializer(typeof(Sequencing));
+            var sequencing = (Sequencing)xml.DeserializeXElement(node.Sequencing);
+
+            sequencing = SequencingPatternManager.ApplyControlChapterSequncing(sequencing);
+            
+            node.Sequencing = xml.SerializeToXElemet(sequencing);
+
+            _Storage.UpdateNode(id, node);
             return Json(new { status = true });
         }
 

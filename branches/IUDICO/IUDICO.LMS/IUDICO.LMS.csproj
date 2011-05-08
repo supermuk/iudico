@@ -125,6 +125,7 @@
     <Compile Include="Models\LmsService.cs" />
     <Compile Include="Models\Providers\IoCMembershipProvider.cs" />
     <Compile Include="Models\Providers\IoCRoleProvider.cs" />
+    <Compile Include="PluginViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -265,7 +266,6 @@
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\Properties.ascx" />
     <Content Include="Views\Shared\UserBox.ascx" />
-    <Content Include="Views\Shared\EditorTemplates\PropertiesList.ascx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
