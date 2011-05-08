@@ -14,7 +14,7 @@ namespace IUDICO.LMS
 
             if (result == null || result.View == null)
             {
-                result = base.FindPartialView(controllerContext, "~/Plugins/IUDICO.CourseManagment.dll/IUDICO.CourseManagment/Views/Shared/" + partialViewName + ".ascx", useCache);
+                //result = base.FindPartialView(controllerContext, "~/Plugins/IUDICO.CourseManagment.dll/IUDICO.CourseManagment/Views/Shared/" + partialViewName + ".ascx", useCache);
             }
 
             return result;
