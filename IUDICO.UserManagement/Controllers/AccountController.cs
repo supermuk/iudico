@@ -66,7 +66,8 @@ namespace IUDICO.UserManagement.Controllers
                         else
                         {
                             FormsAuthentication.SetAuthCookie(user.Username, false);
-
+                            log4net.ILog log = log4net.LogManager.GetLogger(typeof(AccountController));
+                            log.Info("OpenID user " + user.Username + " logged in.");
                             return Redirect("/");
                         }
                         
@@ -123,11 +124,8 @@ namespace IUDICO.UserManagement.Controllers
                 else
                 {
                     FormsAuthentication.SetAuthCookie(loginUsername, false);
-
-                    
                     log4net.ILog log = log4net.LogManager.GetLogger(typeof(AccountController));
-                    log.Info(loginUsername+" logged in." );
-
+                    log.Info(loginUsername + " logged in.");
                     return Redirect("/");
                 }
             }
