@@ -1,36 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Web;
 using System.Reflection;
 using System.Threading;
+using System.IO;
+using System.Resources;
 
 namespace IUDICO.Statistics
 {
     public class Localization : System.Web.Mvc.ViewPage
     {
-        private static System.Resources.ResourceManager ManagerEN;
-        private static System.Resources.ResourceManager ManagerUK;
-        //private static System.Resources.ResourceManager Manager;
+        private static Dictionary<string, Dictionary<string, string>> resource;
 
         public static void Initialize()
         {
-            string a = Assembly.GetExecutingAssembly().FullName;
-            //Manager = new System.Resources.ResourceManager(typeof(IUDICO.Statistics.R));
-            ManagerEN = new System.Resources.ResourceManager("IUDICO.Statistics.Resource", Assembly.GetExecutingAssembly());
-            ManagerUK = new System.Resources.ResourceManager("IUDICO.Statistics.Resourceuk", Assembly.GetExecutingAssembly());
+            string path = HttpContext.Current.Server.MapPath("/").Replace("IUDICO.LMS", "IUDICO.Statistics");
+            ResXResourceReader rsxr = new ResXResourceReader(path + "Resource" + ".resx");
+
+            Dictionary<string, string> temp = new Dictionary<string, string>();
+            foreach (DictionaryEntry d in rsxr)
+            {
+                temp.Add(d.Key.ToString(), d.Value.ToString());
+            }
+            resource = new Dictionary<string, Dictionary<string, string>>();
+            resource.Add("en", temp);
+            rsxr = new ResXResourceReader(path + "Resource" + ".uk" + ".resx");
+            temp = new Dictionary<string, string>();
+            foreach (DictionaryEntry d in rsxr)
+            {
+                temp.Add(d.Key.ToString(), d.Value.ToString());
+            }
+            resource.Add("uk-UA", temp);
         }
         public static string getMessage(string search)
         {
-            //return Manager.GetString(search, Thread.CurrentThread.CurrentUICulture);
-            if (Thread.CurrentThread.CurrentUICulture.Name == "en")
-            {
-                return ManagerEN.GetString(search, Thread.CurrentThread.CurrentUICulture);
-            }
-            else
-            {
-                return ManagerUK.GetString(search, Thread.CurrentThread.CurrentUICulture);
-            }
+            return resource[Thread.CurrentThread.CurrentUICulture.Name][search];
         }
     }
 }
