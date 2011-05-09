@@ -261,6 +261,9 @@
   <data name="SelectGroup" xml:space="preserve">
     <value>Select Group</value>
   </data>
+  <data name="SelectRole" xml:space="preserve">
+    <value>Select Role</value>
+  </data>
   <data name="User" xml:space="preserve">
     <value>User</value>
   </data>

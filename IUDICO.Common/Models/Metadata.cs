@@ -216,7 +216,7 @@ namespace IUDICO.Common.Models
             [Order(3)]
             public string Email { get; set; }
 
-            [DropDownList(OptionLabel = "Select Role", SourceProperty = "RolesList")]
+            [LocalizedDropDownList("SelectRole", SourceProperty = "RolesList")]
             [LocalizedDisplayName("Role", NameResourceType = "IUDICO.Common.Resource")]
             [Order(6)]
             public int RoleId { get; set; }
@@ -528,4 +528,29 @@ namespace IUDICO.Common.Models
             OptionLabel = ManagerUK.GetString(DropDownListKey, Thread.CurrentThread.CurrentUICulture);
         }
     }
+    /*public class LocalizedStringLengthAttribute : StringLengthAttribute
+    {
+
+        private static System.Resources.ResourceManager ManagerEN;
+        private static System.Resources.ResourceManager ManagerUK;
+
+        public LocalizedStringLengthAttribute(int maximumLength)
+            : base(maximumLength)
+        {
+
+            ManagerEN = new System.Resources.ResourceManager("IUDICO.Common.Resource", Assembly.GetExecutingAssembly());
+            ManagerUK = new System.Resources.ResourceManager("IUDICO.Common.Resourceuk", Assembly.GetExecutingAssembly());
+        }
+        public override string FormatErrorMessage(string name)
+        {
+            if (Thread.CurrentThread.CurrentUICulture.Name == "en")
+            {
+                return ManagerEN.GetString(base.ErrorMessage, Thread.CurrentThread.CurrentUICulture);
+            }
+            else
+            {
+                return ManagerUK.GetString(base.ErrorMessage, Thread.CurrentThread.CurrentUICulture);
+            }
+        }
+    }*/
 }

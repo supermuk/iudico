@@ -11,7 +11,7 @@
 
     <form action="/Search/Search" method="post">
 
-        Search:
+        <%=IUDICO.CourseManagement.Localization.getMessage("Search") %>:
         <%= Html.TextBox("query", ViewData["SearchString"])%>
         <input type="submit" value=<%=IUDICO.CourseManagement.Localization.getMessage("Search") %> />
 

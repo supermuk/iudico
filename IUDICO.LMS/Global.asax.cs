@@ -217,7 +217,7 @@ namespace IUDICO.LMS
                         HttpContext.Current.Request.UserLanguages.Length != 0)
                     {
 
-                        langName = HttpContext.Current.Request.UserLanguages[0].Substring(0, 2);
+                        langName = HttpContext.Current.Request.UserLanguages[0].Substring(0, 5);
                     }
                     ci = new CultureInfo(langName);
                     this.Session["Culture"] = ci;

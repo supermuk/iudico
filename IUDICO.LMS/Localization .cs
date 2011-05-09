@@ -13,7 +13,6 @@ namespace IUDICO.LMS
 
         public static void Initialize()
         {
-            string a = Assembly.GetExecutingAssembly().FullName;
             Manager = new System.Resources.ResourceManager("IUDICO.LMS.Resource", Assembly.GetExecutingAssembly());
         }
         public static string getMessage(string search)

@@ -174,11 +174,17 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="PasswordCanNotBeLongerThan50" xml:space="preserve">
+    <value>Password can not be longer than 50</value>
+  </data>
   <data name="PasswordRequired" xml:space="preserve">
     <value>Password is required</value>
   </data>
   <data name="Role" xml:space="preserve">
     <value>Role</value>
+  </data>
+  <data name="SelectRole" xml:space="preserve">
+    <value>Select Role</value>
   </data>
   <data name="SelectUser" xml:space="preserve">
     <value>Select User</value>
