@@ -150,7 +150,7 @@
   <data name="Username" xml:space="preserve">
     <value>Ім'я користувача:</value>
   </data>
-  <data name="WelcomeButterfly" xml:space="preserve">
-    <value>Ласкаво просимо до Butterfly - веб-редактора SCORM сумісних курсів.</value>
+  <data name="WelcomeIudico" xml:space="preserve">
+    <value>Ласкаво просимо до онлайнової навчальної системи IUDICO</value>
   </data>
 </root>
