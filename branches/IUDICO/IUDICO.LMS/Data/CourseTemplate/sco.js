@@ -25,9 +25,7 @@ function SCO(element, passrank, _questions) {
     this.ScoreMax = 0;
     this.PassRank = passrank;
 
-    init(_questions);
-
-    var init = function (_questions) {
+    this.init = function (_questions) {
         var obj = this;
 
         $.rteInitialize();
@@ -65,7 +63,7 @@ function SCO(element, passrank, _questions) {
         this.Element.find('#ScoSubmit').click(this.submit);
     };
 
-    var count = function () {
+    this.count = function () {
         return this.Questions.length;
     };
 
@@ -123,4 +121,6 @@ function SCO(element, passrank, _questions) {
             $.rteTerminate();
         }
     };
+	
+	this.init(_questions);
 };

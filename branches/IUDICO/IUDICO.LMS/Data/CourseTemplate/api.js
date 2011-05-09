@@ -7,9 +7,8 @@ var exitPageStatus = false;
 var inited = false;
 
 (function ($) {
-    
     $.extend({
-        _findAPI: function () {
+        _findAPI: function (win) {
             while ((win.API_1484_11 == null) && (win.parent != null) && (win.parent != win)) {
                 findAPITries++;
                 
@@ -25,12 +24,13 @@ var inited = false;
         },
 
         _getAPI : function() {
-            var result = $.findAPI( window );    
+            var result = $._findAPI(window);
 
             if ( (result == null) && (window.opener != null) && (typeof(window.opener) != "undefined") )
             {
-                result = $.findAPI(window.opener);
-            }    
+                result = $._findAPI(window.opener);
+            }
+			
             if (result == null)
             {
                 alert("Unable to locate the LMS's API Implementation.\n" + "Communication with the LMS will not occur.");    
