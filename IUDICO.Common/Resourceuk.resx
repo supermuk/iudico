@@ -180,6 +180,9 @@
   <data name="Role" xml:space="preserve">
     <value>Роль</value>
   </data>
+  <data name="SelectUser" xml:space="preserve">
+    <value>Виберіть користувача</value>
+  </data>
   <data name="StartDate" xml:space="preserve">
     <value>З</value>
   </data>

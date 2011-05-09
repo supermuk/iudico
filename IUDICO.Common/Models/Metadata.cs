@@ -325,7 +325,7 @@ namespace IUDICO.Common.Models
             [ScaffoldColumn(false)]
             public int GroupRef { get; set; }
 
-            [DropDownList(OptionLabel = "Select User", SourceProperty = "UserList")]
+            [LocalizedDropDownList("SelectUser", SourceProperty = "UserList")]
             [LocalizedDisplayName("User", NameResourceType = "IUDICO.Common.Resource")]
             public int UserRef { get; set; }
         }
@@ -511,6 +511,21 @@ namespace IUDICO.Common.Models
 
             //return (string)_nameProperty.GetValue(_nameProperty.DeclaringType, null);
             //}
+        }
+    }
+    public class LocalizedDropDownListAttribute : DropDownListAttribute
+    {
+
+        private static System.Resources.ResourceManager ManagerEN;
+        private static System.Resources.ResourceManager ManagerUK;
+
+        public LocalizedDropDownListAttribute(string DropDownListKey)
+            : base()
+        {
+            
+            ManagerEN = new System.Resources.ResourceManager("IUDICO.Common.Resource", Assembly.GetExecutingAssembly());
+            ManagerUK = new System.Resources.ResourceManager("IUDICO.Common.Resourceuk", Assembly.GetExecutingAssembly());
+            OptionLabel = ManagerUK.GetString(DropDownListKey, Thread.CurrentThread.CurrentUICulture);
         }
     }
 }

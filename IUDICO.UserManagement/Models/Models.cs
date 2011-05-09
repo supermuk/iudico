@@ -10,7 +10,7 @@ using System;
 using System.Globalization;
 using System.Reflection;
 using System.Threading;
-using UsManagRes;
+
 
 namespace IUDICO.UserManagement.Models
 {
@@ -214,7 +214,7 @@ namespace IUDICO.UserManagement.Models
     {
         public IEnumerable<SelectListItem> GroupList { get; set; }
 
-        [DropDownList(OptionLabel = "Select Group", SourceProperty = "GroupList")]
+        [LocalizedDropDownList("SelectGroup", SourceProperty = "GroupList")]
         [LocalizedDisplayName("Group", NameResourceType = "IUDICO.UserManagement.Resource")]
         public int GroupRef { get; set; }
     }
@@ -334,6 +334,21 @@ namespace IUDICO.UserManagement.Models
 
                 //return (string)_nameProperty.GetValue(_nameProperty.DeclaringType, null);
             //}
+        }
+    }
+    public class LocalizedDropDownListAttribute : DropDownListAttribute
+    {
+
+        private static System.Resources.ResourceManager ManagerEN;
+        private static System.Resources.ResourceManager ManagerUK;
+
+        public LocalizedDropDownListAttribute(string DropDownListKey)
+            : base()
+        {
+
+            ManagerEN = new System.Resources.ResourceManager("IUDICO.UserManagement.Resource", Assembly.GetExecutingAssembly());
+            ManagerUK = new System.Resources.ResourceManager("IUDICO.UserManagement.Resourceuk", Assembly.GetExecutingAssembly());
+            OptionLabel = ManagerUK.GetString(DropDownListKey, Thread.CurrentThread.CurrentUICulture);
         }
     }
 }
