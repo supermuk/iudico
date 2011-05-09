@@ -11,6 +11,7 @@
 
         correctAnswer: 'Correct Answer:',
         question: 'Question:',
+        rank: 'Rank:',
         
         choice: 'Choice:',
         addChoice: 'Add Choice',

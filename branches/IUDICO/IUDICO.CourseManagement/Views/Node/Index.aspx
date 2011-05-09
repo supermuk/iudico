@@ -43,6 +43,10 @@
                 this.innerHTML = '<img src="' + pluginPath + '/Content/Tree/ajax-loader.gif" />';
             });
         }
+        function isEditorInited() {
+            return $('#editor').length != 0;
+        }
+
         function getEditor() {
             if ($('#editor').length == 0) {
                 $('.ui-layout-center').empty().append(
@@ -366,7 +370,15 @@
                 autoHeight: false,
                 active: -1
             });
-            $("#accordion a").click(function () {
+            $("#accordion a").click(function (e) {
+                //e.preventDefault();
+
+                if (!isEditorInited() || !$.data($editor, 'node-id')) {
+                    return;
+                }
+
+                var currentNodeId = $.data($editor, 'node-id');
+
 
                 if($("#" + this.id + "Properties")[0].style.display != 'none') {
                     clearProperties();

@@ -10,14 +10,21 @@ namespace IUDICO.LMS
     {
         public override ViewEngineResult FindPartialView(ControllerContext controllerContext, string partialViewName, bool useCache)
         {
-            var result = base.FindPartialView(controllerContext, partialViewName, useCache);
-
+            return base.FindPartialView(controllerContext, partialViewName, useCache);
+            /*
             if (result == null || result.View == null)
             {
-                //result = base.FindPartialView(controllerContext, "~/Plugins/IUDICO.CourseManagment.dll/IUDICO.CourseManagment/Views/Shared/" + partialViewName + ".ascx", useCache);
+                try
+                {
+                    result = base.FindPartialView(controllerContext, "~/Plugins/IUDICO.CourseManagement.dll/IUDICO.CourseManagement/Views/Shared/" + partialViewName + ".ascx", useCache);
+                }
+                catch
+                {
+                    result = null;
+                }
             }
 
-            return result;
+            return result;*/
         }
     }
 }
