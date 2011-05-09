@@ -51,7 +51,7 @@ namespace IUDICO.Search.Controllers
             if (node.IsFolder)
             {
 
-                List<Node> nodes = _CourseService.GetNodes(node.Id).ToList();
+                List<Node> nodes = _CourseService.GetNodes(node.CourseId, node.Id).ToList();
 
                 foreach (Node childNode in nodes)
                 {
