@@ -35,6 +35,7 @@ namespace IUDICO.CourseManagement.Controllers
 
         public static string RenderPartialToString(ControllerContext context, string partialViewName, ViewDataDictionary viewData, TempDataDictionary tempData)
         {
+            //var result = ViewEngines.Engines.FindPartialView(context, "~/Plugins/IUDICO.CourseManagment.dll/IUDICO.CourseManagment/Views/Shared/" + partialViewName +".ascx");
             var result = ViewEngines.Engines.FindPartialView(context, partialViewName);
 
             if (result.View != null)
