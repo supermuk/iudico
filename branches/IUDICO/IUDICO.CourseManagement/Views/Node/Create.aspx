@@ -13,7 +13,7 @@
         <%: Html.ValidationSummary(true) %>
 
         <fieldset>
-            <legend>Fields</legend>
+            <legend><%=IUDICO.CourseManagement.Localization.getMessage("Fields") %></legend>
             
             <%= Html.EditorForModel() %>
             

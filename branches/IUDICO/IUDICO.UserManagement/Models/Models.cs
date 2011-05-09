@@ -182,7 +182,7 @@ namespace IUDICO.UserManagement.Models
         public string Email { get; set; }
 
         [LocalizedDisplayName("Role", NameResourceType = "IUDICO.UserManagement.Resource")]
-        [DropDownList(OptionLabel = "Select Role", SourceProperty = "RolesList")]
+        [LocalizedDropDownList("SelectRole", SourceProperty = "RolesList")]
         [LocalizedRequired(ErrorMessage = "RoleRequired")]
         public int RoleId { get; set; }
 

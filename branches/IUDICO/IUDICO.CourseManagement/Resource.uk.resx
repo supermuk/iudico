@@ -120,6 +120,9 @@
   <data name="BackToList" xml:space="preserve">
     <value>Повернутися до списку</value>
   </data>
+  <data name="CoursesSharedWithMe" xml:space="preserve">
+    <value>Курси зі спільним доступом</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Створити</value>
   </data>
@@ -153,6 +156,9 @@
   <data name="Name" xml:space="preserve">
     <value>Ім'я</value>
   </data>
+  <data name="NoCourses" xml:space="preserve">
+    <value>Немає доступних курсів</value>
+  </data>
   <data name="Owner" xml:space="preserve">
     <value>Власник</value>
   </data>
@@ -174,10 +180,106 @@
   <data name="ValidateOrImportCourse" xml:space="preserve">
     <value>Перевірка або імпорт курсу</value>
   </data>
-  <data name="CoursesSharedWithMe" xml:space="preserve">
-    <value>Курси зі спільним доступом</value>
+  <data name="Course" xml:space="preserve">
+    <value>Курс</value>
   </data>
-  <data name="NoCourses" xml:space="preserve">
-    <value>Немає доступних курсів</value>
+  <data name="CourseManagement" xml:space="preserve">
+    <value>Управління курсами</value>
+  </data>
+  <data name="CreateCourse" xml:space="preserve">
+    <value>Створити курс</value>
+  </data>
+  <data name="EditCourse" xml:space="preserve">
+    <value>Редагувати курс</value>
+  </data>
+  <data name="GetCourses" xml:space="preserve">
+    <value>Переглянути курси</value>
+  </data>
+  <data name="Unlock" xml:space="preserve">
+    <value>Розблокувати</value>
+  </data>
+  <data name="AllUsers" xml:space="preserve">
+    <value>Всі користувачі</value>
+  </data>
+  <data name="ApplyPattern" xml:space="preserve">
+    <value>Застосувати шаблон</value>
+  </data>
+  <data name="ConstrainedChoiceConsiderations" xml:space="preserve">
+    <value>Обмежений вибір</value>
+  </data>
+  <data name="ControlMode" xml:space="preserve">
+    <value>Режим управління</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Копіювати</value>
+  </data>
+  <data name="CreateFolder" xml:space="preserve">
+    <value>Створити папку</value>
+  </data>
+  <data name="CreateNode" xml:space="preserve">
+    <value>Створити вузол</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Вирізати</value>
+  </data>
+  <data name="Fields" xml:space="preserve">
+    <value>Поля</value>
+  </data>
+  <data name="LimitConditions" xml:space="preserve">
+    <value>Обмеження</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Вставити</value>
+  </data>
+  <data name="Pattern" xml:space="preserve">
+    <value>Шаблон</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Попередній</value>
+  </data>
+  <data name="RandomizationControls" xml:space="preserve">
+    <value>Випадкова вибірка</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Перейменувати</value>
+  </data>
+  <data name="Sequencing" xml:space="preserve">
+    <value>Впорядкування</value>
+  </data>
+  <data name="SharedWith" xml:space="preserve">
+    <value>Спільне користування</value>
+  </data>
+  <data name="AreYouSureYouWantDelete" xml:space="preserve">
+    <value>Ви впевнені, що хочете видалити </value>
+  </data>
+  <data name="ErrorOccuredDuringProccessingRequest" xml:space="preserve">
+    <value>Сталася помилка під час обробки запиту</value>
+  </data>
+  <data name="PleaseSelectCoursesDelete" xml:space="preserve">
+    <value>Будь ласка, виберіть курси для видалення</value>
+  </data>
+  <data name="selectedCourses" xml:space="preserve">
+    <value> вибрані курси?</value>
+  </data>
+  <data name="DeliveryControls" xml:space="preserve">
+    <value>DeliveryControls</value>
+  </data>
+  <data name="RollupConsiderations" xml:space="preserve">
+    <value>Rollup Considerations</value>
+  </data>
+  <data name="RollupRules" xml:space="preserve">
+    <value>Rollup Rules</value>
+  </data>
+  <data name="add" xml:space="preserve">
+    <value>додати</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Застосувати</value>
+  </data>
+  <data name="Editing" xml:space="preserve">
+    <value>Редагування</value>
+  </data>
+  <data name="SelectPattern" xml:space="preserve">
+    <value>Вибрати шаблон</value>
   </data>
 </root>

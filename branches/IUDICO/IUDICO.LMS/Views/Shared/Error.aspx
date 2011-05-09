@@ -6,10 +6,10 @@
 <asp:Content ID="errorContent" ContentPlaceHolderID="MainContent" runat="server">
     <% if (Model != null)
        { %>
-            <b>An exception of type </b><%: Model.Exception.GetType().Name %><b> occured.</b><br />
-            <b>Message: </b>"<%: Model.Exception.Message %>"<br />
-            <b>Controler: </b><%: Model.ControllerName %><br />
-            <b>Action: </b><%: Model.ActionName %><br />
+            <b><%=IUDICO.LMS.Localization.getMessage("ExceptionOfType")%>: </b><%: Model.ActionName %> </b><%: Model.Exception.GetType().Name %><b> <%=IUDICO.LMS.Localization.getMessage("occurred")%>.</b><br />
+            <b><%=IUDICO.LMS.Localization.getMessage("Message")%>: </b><%: Model.ActionName %>: </b>"<%: Model.Exception.Message %>"<br />
+            <b><%=IUDICO.LMS.Localization.getMessage("Controller")%>: </b><%: Model.ActionName %>: </b><%: Model.ControllerName %><br />
+            <b><%=IUDICO.LMS.Localization.getMessage("Action")%>: </b><%: Model.ActionName %><br />
     <% } %>
     <% else
        { %>
