@@ -1,6 +1,7 @@
 ﻿<%@ Assembly Name="IUDICO.CourseManagement" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Empty.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Course>" %>
 <%@ Import Namespace="System.Collections.Generic" %>
+<%@ Import Namespace="IUDICO.CourseManagement.Models.ManifestModels" %>
 
 <asp:Content ID="TitleContent1" ContentPlaceHolderID="TitleContent" runat="server">
 	Index
@@ -408,7 +409,8 @@
 	                url: "<%: Url.Action("ApplyPattern", "Node") %>",
 	                data: {
 		                "id":  $.data($editor, 'node-id'),
-                        "pattern": $("#SequencingPatterns")[0].value
+                        "pattern": $("#SequencingPatterns")[0].value,
+                        "data": $("#sequencingPatternData")[0].value
 	                },
 	                success: function (r) {
                         if(r.status) {
@@ -419,6 +421,16 @@
                         }
                     }
                 });
+            });
+            $("#SequencingPatterns").change(function() {
+                if(this.value == "<%= SequencingPattern.RandomSetSequencingPattern %>") {
+                    $("#sequencingPatternDataHolder").show("drop", {}, 1000);
+                }
+                else {
+                    if($("#sequencingPatternDataHolder")[0].style.display != "none") {
+                        $("#sequencingPatternDataHolder").hide("drop", {}, 1000);
+                    }
+                }
             });
         });
     </script>
@@ -440,7 +452,13 @@
 
         <div id="patterns" style="display:none;">
             <div>Select Pattern:</div>
-            <div><%=  Html.DropDownList("SequencingPatterns", ViewData["SequencingPatternsList"] as List<SelectListItem>)%></div>
+            <div>
+                <%=  Html.DropDownList("SequencingPatterns", ViewData["SequencingPatternsList"] as List<SelectListItem>)%>
+            </div>
+            <div id="sequencingPatternDataHolder">
+                Count of tests:
+                <input type="text" id="sequencingPatternData" value="" style="display:none; width: 50px;" />
+            </div>
             <div><input type="button" id="ApplyPattern" value="Apply" /></div>
         </div>
 

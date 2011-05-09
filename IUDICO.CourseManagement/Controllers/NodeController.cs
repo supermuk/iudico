@@ -196,14 +196,25 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
-        public JsonResult ApplyPattern(int id, SequencingPattern pattern)
+        public JsonResult ApplyPattern(int id, SequencingPattern pattern, int data)
         {
             var node = _Storage.GetNode(id);
 
             var xml = new XmlSerializer(typeof(Sequencing));
             var sequencing = (Sequencing)xml.DeserializeXElement(node.Sequencing);
 
-            sequencing = SequencingPatternManager.ApplyControlChapterSequncing(sequencing);
+            switch (pattern)
+            {
+                case SequencingPattern.ControlChapterSequencingPattern:
+                    sequencing = SequencingPatternManager.ApplyControlChapterSequencing(sequencing);
+                    break;
+                case SequencingPattern.RandomSetSequencingPattern:
+                    sequencing = SequencingPatternManager.ApplyRandomSetSequencingPattern(sequencing, data);
+                    break;
+                case SequencingPattern.OrganizationDefaultSequencingPattern:
+                    sequencing = SequencingPatternManager.ApplyDefaultChapterSequencing(sequencing);
+                    break;
+            }
             
             node.Sequencing = xml.SerializeToXElemet(sequencing);
 
