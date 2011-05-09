@@ -11,4 +11,4 @@
   </div>
 <% } %>
 
-<input type="button" value="add" />
+<input type="button" value=<%=IUDICO.CourseManagement.Localization.getMessage("add")%> />

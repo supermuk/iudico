@@ -444,14 +444,14 @@
         </form>-->
     </div>
     <div class="ui-layout-north">
-        <h1>Editing "<%= Model.Name %>"</h1>
-        <%= Html.ActionLink("Go back", "Index", "Course") %>
+        <h1><%=IUDICO.CourseManagement.Localization.getMessage("Editing")%> "<%= Model.Name %>"</h1>
+        <%= Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("BackToList"), "Index", "Course")%>
     </div>
     <div class="ui-layout-south ui-widget-header ui-corner-all"></div>
     <div class="ui-layout-east">
 
         <div id="patterns" style="display:none;">
-            <div>Select Pattern:</div>
+            <div><%=IUDICO.CourseManagement.Localization.getMessage("SelectPattern")%>:</div>
             <div>
                 <%=  Html.DropDownList("SequencingPatterns", ViewData["SequencingPatternsList"] as List<SelectListItem>)%>
             </div>
@@ -459,7 +459,7 @@
                 Count of tests:
                 <input type="text" id="sequencingPatternData" value="" style="display:none; width: 50px;" />
             </div>
-            <div><input type="button" id="ApplyPattern" value="Apply" /></div>
+            <div><input type="button" id="ApplyPattern" value=<%=IUDICO.CourseManagement.Localization.getMessage("Apply")%> /></div>
         </div>
 
         <div id="accordion" style="display:none;">

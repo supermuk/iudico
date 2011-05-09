@@ -270,4 +270,16 @@
   <data name="RollupRules" xml:space="preserve">
     <value>Rollup Rules</value>
   </data>
+  <data name="add" xml:space="preserve">
+    <value>add</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="Editing" xml:space="preserve">
+    <value>Editing</value>
+  </data>
+  <data name="SelectPattern" xml:space="preserve">
+    <value>Select Pattern</value>
+  </data>
 </root>

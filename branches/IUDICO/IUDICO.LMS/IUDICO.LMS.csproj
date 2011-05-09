@@ -165,7 +165,7 @@
     </None>
     <None Include="Global.asax" />
     <EmbeddedResource Include="Resource.en.resx" />
-    <EmbeddedResource Include="Resource.uk.resx" />
+    <EmbeddedResource Include="Resource.uk-UA.resx" />
     <EmbeddedResource Include="Views\Home\Index.aspx" />
     <None Include="Scripts\jquery\jquery-1.4.1-vsdoc.js">
     </None>
