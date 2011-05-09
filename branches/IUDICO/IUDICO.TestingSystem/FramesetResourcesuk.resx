@@ -121,7 +121,7 @@
     <value>Дані на цій сторінці не може бути оновлений при розгляді курсу.</value>
   </data>
   <data name="CONV_MappingRequired" xml:space="preserve">
-    <value>Interaction and objective information has not been properly initialized.</value>
+    <value>Взаємодія та інформація, не були правильно ініціалівані.</value>
   </data>
   <data name="CONV_SetValueComment" xml:space="preserve">
     <value>Існувають проблеми при додаванні або оновленні коментарів, пов'язаних з цієї сторінкою.
@@ -133,11 +133,11 @@
     <comment>0 = element name, 1 = attempted element value, 2 = exception message</comment>
   </data>
   <data name="CONV_SetValueInteraction" xml:space="preserve">
-    <value>There was a problem adding or updating interaction data associated with this page.
-    More information: {0}</value>
+    <value>Існувають проблеми при додаванні або оновленні даних, пов'язаних з цієї сторінкою.
+     Додаткова інформація: {0}</value>
   </data>
   <data name="CONV_SetValueInvalidName" xml:space="preserve">
-    <value>Елемент з ім'ям '{0} "не може бути визначений. Дані не були оновлені.</value>
+    <value>Елемент з ім'ям "{0} "не може бути визначений. Дані не були оновлені.</value>
     <comment>0=the invalid name.</comment>
   </data>
   <data name="CONV_SetValueInvalidValue" xml:space="preserve">
@@ -154,12 +154,12 @@
     <comment>0=name of the element</comment>
   </data>
   <data name="CON_AttachedFileDoesNotExistHtml" xml:space="preserve">
-    <value>The attached files listed below are empty or do not exist: 
+    <value>Додані файли, перераховані нижче, порожні або не існують:
         &lt;br&gt;&lt;br&gt; 
-        Invalid files:</value>
+        Невірні файли:</value>
   </data>
   <data name="CON_ContentCannotBeDisplayedMsg" xml:space="preserve">
-    <value>There is a problem accessing the content. It cannot be displayed.</value>
+    <value>Існує проблема доступу до контенту. Контент не може бути відображений.</value>
     <comment>This is a generic error message that happens when the content URL is not valid. It should not contain much information because it 
       basically means either there is a bug in the frameset or this is a hack attempt.</comment>
   </data>
@@ -188,19 +188,19 @@
     <value>Сторінка не може бути відображеною. Виберіть іншу сторінку.</value>
   </data>
   <data name="FRM_CannotDisplayContentTitle" xml:space="preserve">
-    <value>Training Not Available</value>
+    <value>Курс недоступний</value>
   </data>
   <data name="FRM_ExecuteViewAbandonedSessionMsg" xml:space="preserve">
-    <value>This training has been abandoned. You cannot make any further changes.</value>
+    <value>Цей курс був відхилений. Ви не можете вносити будь-які інші зміни.</value>
   </data>
   <data name="FRM_ExecuteViewCompletedSessionMsg" xml:space="preserve">
     <value>Курс пройдений. Ви не можете вносити будь-які інші зміни.</value>
   </data>
   <data name="FRM_ExecuteViewSuspendedSessionMsg" xml:space="preserve">
-    <value>This training has been suspended. You can return later to resume the training.</value>
+    <value>Проходження цього курсу було призупинено. Ви можете повернутися пізніше, щоб відновити проходження курсу.</value>
   </data>
   <data name="FRM_InvalidAttemptStatusForViewTitle" xml:space="preserve">
-    <value>Training Not Available</value>
+    <value>Курс недоступний</value>
   </data>
   <data name="FRM_InvalidParameterMsg" xml:space="preserve">
     <value>The value ({1}) is not valid for the {0} parameter.</value>
@@ -215,11 +215,11 @@
     <comment>BWP only</comment>
   </data>
   <data name="FRM_NotAvailableTitleHtml" xml:space="preserve">
-    <value>Training Not Available</value>
+    <value>Курс недоступний</value>
     <comment>BWP only</comment>
   </data>
   <data name="FRM_ParameterRequiredMsg" xml:space="preserve">
-    <value>The {0} parameter is required in order to display the training.</value>
+    <value>{0} параметр необхідний для відображення курсу.</value>
     <comment>0=name of parameter (not localized)</comment>
   </data>
   <data name="FRM_ParameterRequiredTitle" xml:space="preserve">
@@ -293,13 +293,13 @@
     <value>Помилка обробки</value>
   </data>
   <data name="HID_SessionAbandonedTitle" xml:space="preserve">
-    <value>Training Abandoned</value>
+    <value>Курс відмінений</value>
   </data>
   <data name="HID_SessionCompletedTitle" xml:space="preserve">
     <value>Курс пройдений</value>
   </data>
   <data name="HID_SessionSuspendedTitle" xml:space="preserve">
-    <value>Training Suspended</value>
+    <value>Курс тимчасово припинений</value>
   </data>
   <data name="HID_SetValueMappingFailedHtml" xml:space="preserve">
     <value>Не вдалося встановити одне або декілька значень, які були запитані. &lt;br&gt;&lt;br&gt;
@@ -323,9 +323,9 @@
     <value>Підтвердити</value>
   </data>
   <data name="HID_SubmitPageMessageHtml" xml:space="preserve">
-    <value>You cannot make any further changes after you submit this training.&lt;br&gt;&lt;br&gt;
-        If you have completed the training, click &lt;b&gt;Submit&lt;/b&gt;.&lt;br&gt;&lt;br&gt;
-        If you are not ready to submit the training, click &lt;b&gt;Cancel&lt;/b&gt; to return to the previous page.
+    <value>Ви не можете зробити будь-які подальші зміни після підтвердження цього курсу.&lt;br&gt;&lt;br&gt;
+        Якщо Ви закінчили пройшли курс, натисніть&lt;b&gt;Підтвердити&lt;/b&gt;.&lt;br&gt;&lt;br&gt;
+        Якщо ви не готові закінчити проходження курсу, натисніть &lt;b&gt;Скасувати&lt;/b&gt; щоб повернутися на попередню сторінку.
         </value>
   </data>
   <data name="HID_SubmitPageMessageNoCurrentActivityHtml" xml:space="preserve">
