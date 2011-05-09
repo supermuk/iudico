@@ -106,6 +106,22 @@
                         }
                     },
                     {
+                        id: 'rank',
+                        type: 'text',
+                        label: editor.lang.iudico.rank,
+                        labelLayout: 'horizontal',
+                        commit: function (objectNode, paramMap, extraStyles, extraAttributes) {
+                            if (paramMap['rank']) {
+                                paramMap['rank'].setAttribute("value", this.getValue());
+                            } else {
+                                paramMap['rank'] = this.getDialog().addParam(objectNode, 'rank', this.getValue());
+                            }
+                        },
+                        setup: function (objectNode, embedNode, paramMap) {
+                            this.setValue(paramMap['rank']);
+                        }
+                    },
+                    {
                         id: 'correctAnswer',
                         type: 'select',
                         label: editor.lang.iudico.correctAnswer,
@@ -201,6 +217,18 @@
 
                                     for (var i = 0; i < choices.getChildCount(); ++i) {
                                         paramMap['option' + i] = this.getDialog().addParam(objectNode, 'option' + i, choices.getChild(i).getText());
+                                    }
+
+                                    if (paramMap['count']) {
+                                        paramMap['count'].setAttribute("value", i);
+                                    } else {
+                                        paramMap['count'] = this.getDialog().addParam(objectNode, "count", i);
+                                    }
+
+                                    if (paramMap['multichoice']) {
+                                        paramMap['multichoice'].setAttribute("value", "0");
+                                    } else {
+                                        paramMap['multichoice'] = this.getDialog().addParam(objectNode, "multichoice", "0");
                                     }
                                 },
                                 setup: function (objectNode, embedNode, paramMap) {
