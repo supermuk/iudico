@@ -2,6 +2,7 @@
 
 namespace IUDICO.Common.Controllers
 {
+    [HandleError]
     public class BaseController : Controller
     {
         //[Obsolete("Not correct usage")]
