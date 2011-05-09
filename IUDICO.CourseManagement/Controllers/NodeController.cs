@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.UI.WebControls;
 using System.Xml.Serialization;
 using IUDICO.Common.Models;
 using IUDICO.CourseManagement.Models;
@@ -43,6 +44,24 @@ namespace IUDICO.CourseManagement.Controllers
 
         public ActionResult Index()
         {
+            ViewData["SequencingPatternsList"] = new List<SelectListItem>
+                                                     {
+                                                         new SelectListItem
+                                                             {
+                                                                 Text = "Default",
+                                                                 Value = SequencingPattern.OrganizationDefaultSequencingPattern.ToString()
+                                                             },
+                                                         new SelectListItem
+                                                             {
+                                                                 Text = "Control Chapter",
+                                                                 Value = SequencingPattern.ControlChapterSequencingPattern.ToString()
+                                                             },
+                                                         new SelectListItem
+                                                             {
+                                                                 Text = "Random Set",
+                                                                 Value = SequencingPattern.RandomSetSequencingPattern.ToString()
+                                                             }
+                                                     };
             return View(_CurrentCourse);
         }
 
@@ -201,6 +220,9 @@ namespace IUDICO.CourseManagement.Controllers
             var sequencing = (Sequencing)xml.DeserializeXElement(node.Sequencing);
             
             NodeProperty model;
+
+            var partialView = "Properties";
+
             if (type == "ControlMode")
             {
                 model = sequencing.ControlMode ?? new ControlMode();
@@ -223,13 +245,11 @@ namespace IUDICO.CourseManagement.Controllers
             }
             else if (type == "RollupRules")
             {
-                model = sequencing.RollupRules ??
-                        new RollupRules()
-                            {
-                                _RollupRules = new List<RollupRule> { new RollupRule() { MinimumCount = 100500 } },
-                                ObjectiveMeasureWeight = 15
-                            };
-
+                model = sequencing.RollupRules ?? new RollupRules();
+            }
+            else if (type == "RollupConsiderations")
+            {
+                model = sequencing.RollupConsiderations ?? new RollupConsiderations();
             }
             else
             {
@@ -240,7 +260,7 @@ namespace IUDICO.CourseManagement.Controllers
             model.NodeId = node.Id;
             model.Type = type;
 
-            return Json(new { status = true, type = type, data = PartialViewHtml("Properties", model, ViewData) });
+            return Json(new { status = true, type = type, data = PartialViewHtml(partialView, model, ViewData) });
         }
 
         [HttpPost]
@@ -276,10 +296,29 @@ namespace IUDICO.CourseManagement.Controllers
                 TryUpdateModel(model as RandomizationControls);
                 sequencing.RandomizationControls = model as RandomizationControls;
             }
+            else if (type == "DeliveryControls")
+            {
+                model = new DeliveryControls();
+                TryUpdateModel(model as DeliveryControls);
+                sequencing.DeliveryControls = model as DeliveryControls;
+            }
+            else if (type == "RollupRules")
+            {
+                model = new RollupRules();
+                TryUpdateModel(model as RollupRules);
+                sequencing.RollupRules = model as RollupRules;
+            }
+            else if (type == "RollupConsiderations")
+            {
+                model = new RollupConsiderations();
+                TryUpdateModel(model as RollupConsiderations);
+                sequencing.RollupConsiderations = model as RollupConsiderations;
+            }
             else
             {
                 throw new NotImplementedException();
             }
+
             node.Sequencing = xml.SerializeToXElemet(sequencing);
 
             _Storage.UpdateNode(nodeId, node);

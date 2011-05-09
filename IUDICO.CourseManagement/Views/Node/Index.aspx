@@ -1,5 +1,6 @@
 ﻿<%@ Assembly Name="IUDICO.CourseManagement" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Empty.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Course>" %>
+<%@ Import Namespace="System.Collections.Generic" %>
 
 <asp:Content ID="TitleContent1" ContentPlaceHolderID="TitleContent" runat="server">
 	Index
@@ -30,6 +31,10 @@
             {
                 $('#accordion').hide( "blind", {}, 1000);
                 clearProperties();
+            }
+            if($("#patterns")[0].style.display != 'none')
+            {
+                $('#patterns').hide( "drop", {}, 1000);
             }
         }
 
@@ -195,32 +200,6 @@
                                 "label": "<%=IUDICO.CourseManagement.Localization.getMessage("Paste") %>",
                                 "action": function (obj) { this.paste(obj); },
                                 "_disabled" : !(this.data.crrm.ct_nodes || this.data.crrm.cp_nodes) || node.attr("rel") == "default"
-                            },
-                            "pattern": {
-                                "separator_before": true,
-                                "icon": false,
-                                "separator_after": false,
-                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("ApplyPattern") %>",
-                                "submenu": {
-                                		"default" : {
-			                                "label" : "<%=IUDICO.CourseManagement.Localization.getMessage("Pattern") %>"+" 1",
-			                                "action" : function (obj) { 
-                                                this.get_container().triggerHandler("pattern.jstree", { "obj": obj, "pattern": 1 });
-                                            }
-		                                },
-		                                "another" : {
-			                                "label" : "<%=IUDICO.CourseManagement.Localization.getMessage("Pattern") %>"+" 2",
-			                                "action" : function (obj) { 
-                                                this.get_container().triggerHandler("pattern.jstree", { "obj": obj, "pattern": 2 });
-                                            }
-		                                },
-		                                "yetanother" : {
-			                                "label" : "<%=IUDICO.CourseManagement.Localization.getMessage("Pattern") %>"+" 3",
-			                                "action" : function (obj) {
-                                                this.get_container().triggerHandler("pattern.jstree", { "obj": obj, "pattern": 3 });
-                                            }
-		                                }
-                                }
                             }
                         }
                     }
@@ -339,6 +318,7 @@
             .bind("edit_node.jstree", function (e, data) {
 
                 $("#accordion").accordion( "option", "active", -1 ).show("blind", {}, 1000);
+                $("#patterns").show("drop", {}, 1000);
 
                 $('[id^="node_"]').children('a').removeClass('jstree-clicked jstree-selected');
                 data.obj.children('a').addClass('jstree-selected');
@@ -362,19 +342,6 @@
                         editor.val(r.data);
                         editor.parent('form').show();
 					}
-				});
-            })
-            .bind("pattern.jstree", function(e, data) {
-                $.ajax({
-                    type: 'post',
-		            url: "<%: Url.Action("ApplyPattern", "Node") %>",
-					data: {
-						"id": data.obj.attr("id").replace("node_", ""),
-                        "pattern": data.pattern
-					},
-					success: function (r) {
-                        alert(r.status);
-                    }
 				});
             });
         });
@@ -400,6 +367,12 @@
                 active: -1
             });
             $("#accordion a").click(function () {
+
+                if($("#" + this.id + "Properties")[0].style.display != 'none') {
+                    clearProperties();
+                    return;
+                }
+
                 clearProperties();
 
                 $.ajax({
@@ -415,6 +388,25 @@
                         }
                     }
                 })
+            });
+            $("#ApplyPattern").click(function () {
+                $("#accordion").accordion( "option", "active", -1 );
+                $.ajax({
+                    type: 'post',
+	                url: "<%: Url.Action("ApplyPattern", "Node") %>",
+	                data: {
+		                "id":  $.data($editor, 'node-id'),
+                        "pattern": $("#SequencingPatterns")[0].value
+	                },
+	                success: function (r) {
+                        if(r.status) {
+                            alert("Pattern successfully  applied");
+                        }
+                        else {
+                            alert("Error! Please try again later");
+                        }
+                    }
+                });
             });
         });
     </script>
@@ -433,7 +425,14 @@
     </div>
     <div class="ui-layout-south ui-widget-header ui-corner-all"></div>
     <div class="ui-layout-east">
-        <div id="accordion">
+
+        <div id="patterns" style="display:none;">
+            <div>Select Pattern:</div>
+            <div><%=  Html.DropDownList("SequencingPatterns", ViewData["SequencingPatternsList"] as List<SelectListItem>)%></div>
+            <div><input type="button" id="ApplyPattern" value="Apply" /></div>
+        </div>
+
+        <div id="accordion" style="display:none;">
             <h3><a href="#" id="ControlMode"><%=IUDICO.CourseManagement.Localization.getMessage("ControlMode") %></a></h3>
             <div id="ControlModeProperties"></div>
             <h3><a href="#" id="LimitConditions"><%=IUDICO.CourseManagement.Localization.getMessage("LimitConditions") %></a></h3>
@@ -442,10 +441,12 @@
             <div id="RandomizationControlsProperties"></div>
             <h3><a href="#" id="ConstrainedChoiceConsiderations"><%=IUDICO.CourseManagement.Localization.getMessage("ConstrainedChoiceConsiderations")%></a></h3>
             <div id="ConstrainedChoiceConsiderationsProperties"></div>
-            <h3><a href="#" id="DeliveryControls">DeliveryControls</a></h3>
+            <h3><a href="#" id="DeliveryControls"><%=IUDICO.CourseManagement.Localization.getMessage("DeliveryControls")%></a></h3>
             <div id="DeliveryControlsProperties"></div>
-            <h3><a href="#" id="RollupRules">RollupRules</a></h3>
+            <h3><a href="#" id="RollupRules"><%=IUDICO.CourseManagement.Localization.getMessage("RollupRules")%></a></h3>
             <div id="RollupRulesProperties"></div>
+            <h3><a href="#" id="RollupConsiderations"><%=IUDICO.CourseManagement.Localization.getMessage("RollupConsiderations")%></a></h3>
+            <div id="RollupConsiderationsProperties"></div>
         </div>
         <div id="properties"></div>
     </div>

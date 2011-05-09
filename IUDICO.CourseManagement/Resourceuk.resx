@@ -226,7 +226,7 @@
     <value>Поля</value>
   </data>
   <data name="LimitConditions" xml:space="preserve">
-    <value>Limit Conditions???</value>
+    <value>Обмеження</value>
   </data>
   <data name="Paste" xml:space="preserve">
     <value>Вставити</value>
@@ -238,7 +238,7 @@
     <value>Попередній</value>
   </data>
   <data name="RandomizationControls" xml:space="preserve">
-    <value>Рандомізований контроль</value>
+    <value>Випадкова вибірка</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>Перейменувати</value>
@@ -260,5 +260,14 @@
   </data>
   <data name="selectedCourses" xml:space="preserve">
     <value> вибрані курси?</value>
+  </data>
+  <data name="DeliveryControls" xml:space="preserve">
+    <value>DeliveryControls</value>
+  </data>
+  <data name="RollupConsiderations" xml:space="preserve">
+    <value>Rollup Considerations</value>
+  </data>
+  <data name="RollupRules" xml:space="preserve">
+    <value>Rollup Rules</value>
   </data>
 </root>
