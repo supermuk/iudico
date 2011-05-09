@@ -278,7 +278,7 @@ namespace IUDICO.CourseManagement.Models.Storage
                     var files = new List<ManifestModels.ResourceModels.File>();
                     files.Add(new ManifestModels.ResourceModels.File(node.Id + ".html"));
 
-                    var resource = helper.CreateResource(ScormType.Asset, files, new[] { _ResourceIdForTemplateFiles });
+                    var resource = helper.CreateResource(ScormType.SCO, files, new[] { _ResourceIdForTemplateFiles });
                     resource.Href = node.Id + ".html";
 
                     manifest.Resources = ManifestManager.AddResource(manifest.Resources, resource);

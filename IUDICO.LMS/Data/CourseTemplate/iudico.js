@@ -1,7 +1,7 @@
 /// <reference path="sco.js" />
 
 $(function () {
-    $('body').sco($('object[iudico-type]'));
+    $('body').sco(1, $('object[iudico-type]'));
 });
 
 

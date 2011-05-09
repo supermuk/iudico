@@ -150,7 +150,7 @@
   <data name="Username" xml:space="preserve">
     <value>Username:</value>
   </data>
-  <data name="WelcomeButterfly" xml:space="preserve">
-    <value>Welcome to Butterfly - Web Editor for SCORM compatible courses.</value>
+  <data name="WelcomeIudico" xml:space="preserve">
+    <value>Welcome to online education system IUDICO</value>
   </data>
 </root>

@@ -28,7 +28,7 @@
     $.fn.params = function () {
         var params = {};
 
-        $obj.find('param').each(function () {
+        $(this).find('param').each(function () {
             params[$(this).attr('name')] = $(this).attr('value');
         });
 
@@ -41,9 +41,7 @@ function simpleTest($object) {
     this.CorrectAnswer = null;
     this.Rank = null;
 
-    parse($object);
-
-    var parse = function ($object) {
+    this.parse = function ($object) {
         var params = $object.params();
 
         this.Id = params['id'];
@@ -53,13 +51,8 @@ function simpleTest($object) {
         var $question = $('<div id="' + params['id'] + '"></div>');
         $question.append('<b>' + params['question'] + '</b>');
         $question.append('<input type="text" name="' + params['id'] + 'Answer" id="' + params['id'] + 'Answer" />');
-        //$question.append('<input type="button" name="submit" id="' + params['id'] + 'Submit" value="Submit" />');
 
         $object.replaceWith($question);
-
-        /*$question.find('button[id=Submit' + params['id'] + ']').click(function () {
-
-        });*/
     }
 
     this.getAnswer = function () {
@@ -93,6 +86,8 @@ function simpleTest($object) {
     this.getScoreMax = function () {
         return this.Rank;
     }
+	
+	this.parse($object);
 }
 
 function complexTest($object) {
@@ -101,13 +96,11 @@ function complexTest($object) {
     this.Rank = null;
     this.MultiChoice = null;
 
-    parse($object);
-
-    var parse = function ($object) {
+    this.parse = function ($object) {
         var params = $object.params();
 
         this.Id = params['id'];
-        this.CorrectAnswer = params['correctAnswer'];
+        this.CorrectAnswer = params['correct'];
         this.Rank = params['rank'];
         this.MultiChoice = params['multichoice'];
 
@@ -117,7 +110,7 @@ function complexTest($object) {
         var answersCount = parseInt(params['count']);
 
         for (var i = 0; i < answersCount; i++) {
-            $question.append('<input type="' + (params['multichoice'] == '1' ? 'check' : 'radio') + '" name="' + params['id'] + 'Answer[]" id="' + params['id'] + 'Answer' + i + '" /> ' + params['choice' + i]);
+            $question.append('<input type="' + (params['multichoice'] == '1' ? 'check' : 'radio') + '" name="' + params['id'] + 'Answer[]" id="' + params['id'] + 'Answer' + i + '" /> ' + params['option' + i]);
         }
 
         $obj.replaceWith($question);
@@ -175,6 +168,8 @@ function complexTest($object) {
     this.getScoreMax = function () {
         return this.Rank;
     }
+	
+	this.parse($object);
 }
 
 function compiledTest($object) {
@@ -192,34 +187,44 @@ function compiledTest($object) {
     this.Output = null;
     this.Url = null;
 
-    var parse = function ($object) {
+    this.parse = function ($object) {
         var params = $object.params();
 
         this.Id = params['id'];
         this.IdBefore = params['id'] + 'Before';
         this.IdAfter = params['id'] + 'After';
+		this.PreCode = params['preCode'];
+		this.PostCode = params['postCode'];
         this.Rank = params['rank'];
         this.Answer = null;
         this.CompiledTest = true;
 
         this.Language = params['language'];
-        this.Timelimit = params['timelimit'];
-        this.Memorylimit = params['memorylimit'];
-        this.Input = params['input'];
-        this.Output = params['output'];
+        this.Timelimit = params['timeLimit'];
+        this.Memorylimit = params['memoryLimit'];
         this.Url = params['url'];
+		
+		this.Input = [];
+        this.Output = [];
+		
+		var testsCount = parseInt(params['count']);
+
+        for (var i = 0; i < testsCount; i++) {
+			this.Input.push(params['testInput' + i]);
+			this.Output.push(params['testOutput' + i]);
+		}
 
         var $question = $('<div id="' + params['id'] + '"></div>');
         $question.append('<b>' + params['question'] + '</b>');
 
         if (params['before'].length > 0) {
-            $question.append('<div id="' + params['id'] + 'Before"><pre>' + params['before'] + '</pre></div>');
+            $question.append('<div id="' + params['id'] + 'Before"><pre>' + params['preCode'] + '</pre></div>');
         }
         
         $question.append('<input type="text" name="' + params['id'] + 'Answer" id="' + params['id'] + 'Answer" />');
 
         if (params['after'].length > 0) {
-            $question.append('<div id="' + params['id'] + 'After"><pre>' + params['after'] + '</pre></div>');
+            $question.append('<div id="' + params['id'] + 'After"><pre>' + params['postCode'] + '</pre></div>');
         }
 
         $obj.replaceWith($question);
@@ -227,7 +232,7 @@ function compiledTest($object) {
 
     this.processAnswer = function (SCOObj, i) {
         var obj = this;
-        var sourceCode = $('#' + this.IdBefore + ' pre').text() + $('#' + this.ID).val() + $('#' + this.IdAfter + ' pre').text();
+        var sourceCode = this.PreCode + $('#' + this.ID).val() + this.PostCode;
         var sourceCodeData = { 'source': sourceCode, 'language': this.Language, 'input': this.Input, 'output': this.Output, 'timelimit': this.Timelimit, 'memorylimit': this.Memorylimit };
 
         jQuery.flXHRproxy.registerOptions(url, { xmlResponseText: false });
@@ -277,4 +282,6 @@ function compiledTest($object) {
     this.getScoreMax = function () {
         return this.Rank;
     }
-}
+	
+	this.parser($object);
+};

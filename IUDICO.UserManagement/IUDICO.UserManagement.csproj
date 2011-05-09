@@ -144,16 +144,6 @@
     <Content Include="Views\User\Edit.aspx" />
     <Content Include="Views\User\Index.aspx" />
     <None Include="Views\Web.config" />
-    <Content Include="web.config" />
-    <Content Include="web.Debug.config">
-      <DependentUpon>web.config</DependentUpon>
-    </Content>
-    <Content Include="web.Release.config">
-      <DependentUpon>web.config</DependentUpon>
-    </Content>
-    <Content Include="web.RemovePlugins.config">
-      <DependentUpon>web.config</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\" />
