@@ -4,21 +4,21 @@ using System.Xml.Serialization;
 namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupModels
 {
     [Serializable]
-    public class RollupConsiderations
+    public partial class RollupConsiderations
     {
         #region XmlAttributes
 
         [XmlAttribute(SCORM.RequiredForSatisfied)]
-        public Required RequiredForSatisfied; // = Required.Always;
+        public Required RequiredForSatisfied { get; set; } // = Required.Always;
 
         [XmlAttribute(SCORM.RequiredForNotSatisfied)]
-        public Required RequiredForNotSatisfied; // = Required.Always;
+        public Required RequiredForNotSatisfied { get; set; } // = Required.Always;
 
         [XmlAttribute(SCORM.RequiredForCompleted)]
-        public Required RequiredForCompleted; // = Required.Always;
+        public Required RequiredForCompleted { get; set; }// = Required.Always;
 
         [XmlAttribute(SCORM.RequiredForIncomplete)]
-        public Required RequiredForIncomplete; // = Required.Always;
+        public Required RequiredForIncomplete { get; set; } // = Required.Always;
 
         /// <summary>
         ///  This 
@@ -26,7 +26,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
         /// during rollup when the activity is active.
         /// </summary>
         [XmlAttribute(SCORM.MeasureSatisfactionIfActive)]
-        public bool MeasureSatisfactionIfActive; // = true;
+        public bool MeasureSatisfactionIfActive { get; set; } // = true;
 
         #endregion
     }

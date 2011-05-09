@@ -164,7 +164,7 @@ namespace IUDICO.CourseManagement.Controllers
                 return View();
             }
 
-            if (action == Localization.getMessage("Import"))
+            if (action == Localization.getMessage("Validate"))
             {
                 return Validate(fileUpload);
             }

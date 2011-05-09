@@ -97,4 +97,68 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
             public string Type { get; set; }
         }
     }
+
+    [MetadataType(typeof(Metadata))]
+    public partial class RollupConsiderations : NodeProperty
+    {
+        public IEnumerable<SelectListItem> RequiredList
+        {
+            get
+            {
+                var list = new List<SelectListItem>
+                               {
+                                   new SelectListItem
+                                       {
+                                           Text = Enum.GetName(typeof (Required), Required.Always),
+                                           Value = Required.Always.ToString()
+                                       },
+                                   new SelectListItem
+                                       {
+                                           Text = Enum.GetName(typeof (Required), Required.IfAttempted),
+                                           Value = Required.IfAttempted.ToString()
+                                       },
+                                   new SelectListItem
+                                       {
+                                           Text = Enum.GetName(typeof (Required), Required.IfNotSkipped),
+                                           Value = Required.IfNotSkipped.ToString()
+                                       },
+                                   new SelectListItem
+                                       {
+                                           Text = Enum.GetName(typeof (Required), Required.IfNotSuspended),
+                                           Value = Required.IfNotSuspended.ToString()
+                                       }
+                               };
+
+                return list.AsEnumerable();
+            }
+        }
+
+        private sealed class Metadata
+        {
+            [DisplayName("Required For Satisfied")]
+            [DropDownList(SourceProperty = "RequiredList")]
+            public Required RequiredForSatisfied { get; set; } // = Required.Always;
+            [DisplayName("Required For Not Satisfied")]
+            [DropDownList(SourceProperty = "RequiredList")]
+            public Required RequiredForNotSatisfied { get; set; } // = Required.Always;
+            [DisplayName("Required For Completed")]
+            [DropDownList(SourceProperty = "RequiredList")]
+            public Required RequiredForCompleted { get; set; }// = Required.Always;
+            [DisplayName("Required For Incomplete")]
+            [DropDownList(SourceProperty = "RequiredList")]
+            public Required RequiredForIncomplete { get; set; } // = Required.Always;
+            [DisplayName("Measure Satisfaction If Active")]
+            public bool MeasureSatisfactionIfActive { get; set; } // = true;
+
+            [ScaffoldColumn(false)]
+            [XmlIgnore]
+            public int NodeId { get; set; }
+            [ScaffoldColumn(false)]
+            [XmlIgnore]
+            public int CourseId { get; set; }
+            [ScaffoldColumn(false)]
+            [XmlIgnore]
+            public string Type { get; set; }
+        }
+    }
 }

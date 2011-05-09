@@ -261,4 +261,13 @@
   <data name="selectedCourses" xml:space="preserve">
     <value>selected courses?</value>
   </data>
+  <data name="DeliveryControls" xml:space="preserve">
+    <value>Delivery Controls</value>
+  </data>
+  <data name="RollupConsiderations" xml:space="preserve">
+    <value>Rollup Considerations</value>
+  </data>
+  <data name="RollupRules" xml:space="preserve">
+    <value>Rollup Rules</value>
+  </data>
 </root>

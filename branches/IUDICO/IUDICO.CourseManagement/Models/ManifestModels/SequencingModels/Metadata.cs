@@ -162,4 +162,6 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
             public string Type { get; set; }
         }
     }
+
+    
 }
