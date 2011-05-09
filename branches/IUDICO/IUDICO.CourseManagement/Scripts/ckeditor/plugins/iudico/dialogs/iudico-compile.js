@@ -89,10 +89,26 @@
                 elements:
 				[
                     {
+                        id: 'rank',
+                        type: 'text',
+                        label: editor.lang.iudico.rank,
+                        labelLayout: 'horizontal',
+                        commit: function (objectNode, paramMap, extraStyles, extraAttributes) {
+                            if (paramMap['rank']) {
+                                paramMap['rank'].setAttribute("value", this.getValue());
+                            } else {
+                                paramMap['rank'] = this.getDialog().addParam(objectNode, 'rank', this.getValue());
+                            }
+                        },
+                        setup: function (objectNode, embedNode, paramMap) {
+                            this.setValue(paramMap['rank']);
+                        }
+                    },
+                    {
                         id: 'language',
                         type: 'select',
                         label: editor.lang.iudico.language,
-                        items: [['C#'], ['C++'], ['Java']],
+                        items: [['C#', 'CS'], ['C++'], ['Java']],
                         labelLayout: 'horizontal',
                         commit: function (objectNode, paramMap, extraStyles, extraAttributes) {
                             if (paramMap[this.id]) {
@@ -282,6 +298,12 @@
                             for (var i = 0; i < dialog.options.length; ++i) {
                                 paramMap['testInput' + i] = this.getDialog().addParam(objectNode, 'testInput' + i, dialog.options[i][0]);
                                 paramMap['testOutput' + i] = this.getDialog().addParam(objectNode, 'testOutput' + i, dialog.options[i][1]);
+                            }
+
+                            if (paramMap['count']) {
+                                paramMap['count'].setAttribute("value", dialog.options.length);
+                            } else {
+                                paramMap['count'] = this.getDialog().addParam(objectNode, "count", dialog.options.length);
                             }
                         },
                         setup: function (objectNode, embedNode, paramMap) {

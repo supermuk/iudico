@@ -52,7 +52,24 @@
                         setup: function (objectNode, embedNode, paramMap) {
                             this.setValue(paramMap['correctAnswer']);
                         }
+                    },
+                    {
+                        id: 'rank',
+                        type: 'text',
+                        label: editor.lang.iudico.rank,
+                        labelLayout: 'horizontal',
+                        commit: function (objectNode, paramMap, extraStyles, extraAttributes) {
+                            if (paramMap['rank']) {
+                                paramMap['rank'].setAttribute("value", this.getValue());
+                            } else {
+                                paramMap['rank'] = this.getDialog().addParam(objectNode, 'rank', this.getValue());
+                            }
+                        },
+                        setup: function (objectNode, embedNode, paramMap) {
+                            this.setValue(paramMap['rank']);
+                        }
                     }
+
 				]
 			}
 		],
