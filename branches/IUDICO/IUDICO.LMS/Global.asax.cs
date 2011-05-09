@@ -46,7 +46,8 @@ namespace IUDICO.LMS
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
             var plugins = Container.ResolveAll<IPlugin>();
-            var currentRole = Container.Resolve<IUserService>().GetCurrentUser().Role;
+            //var currentRole = Container.Resolve<IUserService>().GetCurrentUser().Role;
+            var currentRole = IUDICO.Common.Models.Role.None;
 
             lock (Actions)
             {
@@ -225,6 +226,8 @@ namespace IUDICO.LMS
                 Thread.CurrentThread.CurrentUICulture = ci;
                 Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
             }
+            LoadPluginData();
+            Application_BeginRequest(sender, e);
         }
     }
 }

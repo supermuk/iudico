@@ -6,7 +6,7 @@ using System.Web.Mvc;
 namespace IUDICO.Common.Models.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public sealed class DropDownListAttribute : UIHintAttribute
+    public class DropDownListAttribute : UIHintAttribute
     {
         public DropDownListAttribute()
             : base("DropDownList")
