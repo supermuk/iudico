@@ -164,7 +164,7 @@
     <None Include="Content\ui-lightness\jquery-ui-1.8.5.custom.css">
     </None>
     <None Include="Global.asax" />
-    <EmbeddedResource Include="Resource.en.resx" />
+    <EmbeddedResource Include="Resource.en-US.resx" />
     <EmbeddedResource Include="Resource.uk-UA.resx" />
     <EmbeddedResource Include="Views\Home\Index.aspx" />
     <None Include="Scripts\jquery\jquery-1.4.1-vsdoc.js">
