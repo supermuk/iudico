@@ -44,6 +44,9 @@ namespace IUDICO.LMS.Models
 
         public void Inform(string evt, params object[] data)
         {
+            log4net.ILog log = log4net.LogManager.GetLogger(typeof(LmsService));
+            log.Info("Notification:"+evt);
+
             var plugins = _Container.ResolveAll<IPlugin>();
 
             foreach (var plugin in plugins)
