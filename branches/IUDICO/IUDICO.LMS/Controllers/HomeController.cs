@@ -51,6 +51,8 @@ namespace IUDICO.LMS.Controllers
 
         public ActionResult Error()
         {
+            log4net.ILog log = log4net.LogManager.GetLogger(typeof(HomeController));
+            log.Error(HttpContext.Server.GetLastError().Message);
             return View();
         }
     }
