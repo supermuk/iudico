@@ -163,7 +163,7 @@
     <value>Поле максимальна оцінка є обов'язкове</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Ім'я</value>
+    <value>Назва</value>
   </data>
   <data name="NameRequired" xml:space="preserve">
     <value>Ім'я є обов'язкове</value>

@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Add User To Group <%= Model.Group.Name %></h2>
+    <h2><%=IUDICO.UserManagement.Localization.getMessage("AddUserToGroup")%> <%= Model.Group.Name %></h2>
 
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary(true) %>
@@ -18,7 +18,7 @@
             <%= Html.EditorForModel() %>
             
             <p>
-                <input type="submit" value="Add" />
+                <input type="submit" value=<%=IUDICO.UserManagement.Localization.getMessage("Add") %> />
             </p>
         </fieldset>
 

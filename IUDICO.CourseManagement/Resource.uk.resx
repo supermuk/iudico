@@ -154,7 +154,7 @@
     <value>Мої курси</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Ім'я</value>
+    <value>Назва</value>
   </data>
   <data name="NoCourses" xml:space="preserve">
     <value>Немає доступних курсів</value>

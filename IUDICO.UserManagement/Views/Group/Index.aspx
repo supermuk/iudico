@@ -7,12 +7,12 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Groups</h2>
+    <h2><%=IUDICO.UserManagement.Localization.getMessage("Groups")%></h2>
 
     <table>
         <tr>
             <th>
-                <%=IUDICO.UserManagement.Localization.getMessage("Name")%>
+                <%=IUDICO.UserManagement.Localization.getMessage("Name1")%>
             </th>
             <th></th>
         </tr>
@@ -49,7 +49,7 @@
     </table>
 
     <p>
-        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("CreateNew"), "Create")%>
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("CreateNewGroup"), "Create")%>
     </p>
 
 </asp:Content>
