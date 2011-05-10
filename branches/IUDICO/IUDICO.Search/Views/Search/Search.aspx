@@ -7,21 +7,22 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Search results for "<%= ViewData["SearchString"] %>".</h2> 
-    <p style="">Кількість результатів: <%= ViewData["total"] %>. Час пошуку: <%= ViewData["score"] %>ms. </p>
+    
+    
 
     <form action="/Search/Search" method="post">
 
-        Search:
+        
         <%= Html.TextBox("query", ViewData["SearchString"])%>
         <input type="submit" value="Search" />
 
     </form>
-    
+    <div style="">Кількість результатів: <%= ViewData["total"] %>. Час пошуку: <%= ViewData["score"] %>ms. </div>
+    </br>
     <ul style="margin-bottom:0em;">
     <% foreach (var result in Model) { %>   
-        <li style="background-color: #efefef;"><h3><a href="<%= result.GetUrl() %>"><%= result.GetName() %></a></h3>
-            <p><%= result.GetText() %><p>
+        <li ><h3><a href="<%= result.GetUrl() %>"><%= result.GetName() %></a></h3>
+            <div><%= result.GetText() %></div>
         </li>
     <% } %>
     </ul>

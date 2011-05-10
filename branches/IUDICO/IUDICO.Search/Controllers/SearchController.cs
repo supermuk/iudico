@@ -19,14 +19,19 @@ using System.Diagnostics;
 
 namespace IUDICO.Search.Controllers
 {
+    [Authorize]
     public class SearchController : PluginController
     {
 
         private ICourseService _CourseService;
+        private ICurriculumService _CurriculmService;
+        private IUserService _UserService;
 
         public SearchController()
         {
             _CourseService = LmsService.FindService<ICourseService>();
+            _CurriculmService = LmsService.FindService<ICurriculumService>();
+            _UserService = LmsService.FindService<IUserService>();
 
         }
 
@@ -60,9 +65,9 @@ namespace IUDICO.Search.Controllers
             }
             else
             {
-                //var content = _CourseService.GetNodeContent(node.Id);
+                var content = _CourseService.GetNodeContents(node.Id);
 
-                document.Add(new Field("Content", node.Name, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
+                document.Add(new Field("Content", content, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
             }
             
             writer.AddDocument(document);
@@ -71,7 +76,12 @@ namespace IUDICO.Search.Controllers
         [HttpPost]
         public ActionResult Process()
         {
-            List<Course> courses = _CourseService.GetCourses().ToList();
+            List<Course> courses = _CourseService.GetCourses(_UserService.GetCurrentUser()).ToList();
+            List<Curriculum> curriculums = _CurriculmService.GetCurriculumsWithThemesOwnedByUser(_UserService.GetCurrentUser()).ToList();//GetCurriculums().ToList();
+            List<User> users = _UserService.GetUsers().ToList();
+            List<Group> groups = _UserService.GetGroupsByUser(_UserService.GetCurrentUser()).ToList();//GetGroups(_UserService.GetCurrentUser()).ToList();
+            
+            int RoleId = _UserService.GetCurrentUser().RoleId;
 
             if (courses == null)
                 return RedirectToAction("Index");
@@ -86,6 +96,7 @@ namespace IUDICO.Search.Controllers
 
                 foreach (Course course in courses)
                 {
+                   
                     document = new Document();
 
                     document.Add(new Field("Type", "Course", Field.Store.YES, Field.Index.NO));
@@ -99,8 +110,48 @@ namespace IUDICO.Search.Controllers
 
                     foreach (Node node in nodes)
                     {
+
                         ProcessNode(writer, node);
                     }
+                }
+
+                foreach (Curriculum curriculum in curriculums)
+                {
+                    document = new Document();
+                    document.Add(new Field("Type", "Curriculum", Field.Store.YES, Field.Index.NO));
+                    document.Add(new Field("ID", curriculum.Id.ToString(), Field.Store.YES, Field.Index.NO));
+                    document.Add(new Field("Curriculum", curriculum.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
+                    writer.AddDocument(document);
+
+                    List<Theme> themes = _CurriculmService.GetThemesByCurriculumId(curriculum.Id).ToList();
+
+                    foreach (Theme theme in themes)
+                    {
+                        document = new Document();
+                        document.Add(new Field("Type", "Theme", Field.Store.YES, Field.Index.NO));
+                        document.Add(new Field("ID", theme.Id.ToString(), Field.Store.YES, Field.Index.NO));
+                        document.Add(new Field("Theme", theme.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
+                        writer.AddDocument(document);
+                    }
+                }
+                if (RoleId == 3 || RoleId == 2)
+                {
+                    foreach (User user in users)
+                    {
+                        document = new Document();
+                        document.Add(new Field("Type", "User", Field.Store.YES, Field.Index.NO));
+                        document.Add(new Field("ID", user.Id.ToString(), Field.Store.YES, Field.Index.NO));
+                        document.Add(new Field("User", user.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
+                        writer.AddDocument(document);
+                    }
+                }
+                foreach (Group group in groups)
+                {
+                    document = new Document();
+                    document.Add(new Field("Type", "Group", Field.Store.YES, Field.Index.NO));
+                    document.Add(new Field("ID", group.Id.ToString(), Field.Store.YES, Field.Index.NO));
+                    document.Add(new Field("Group", group.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
+                    writer.AddDocument(document);
                 }
             }
             catch (Exception e)
@@ -121,9 +172,10 @@ namespace IUDICO.Search.Controllers
         public ActionResult Search(String query)
         {
             if (query == "")
-            {
-                query = "net";
-            }
+                return RedirectToAction("Index");
+
+            query = query + "~";
+
             DateTime datastart = DateTime.Now;
             Directory directory = FSDirectory.Open(new System.IO.DirectoryInfo(Server.MapPath("~/Data/Index")));
             IndexSearcher searcher = new IndexSearcher(directory, true);
@@ -131,23 +183,24 @@ namespace IUDICO.Search.Controllers
 
             MultiFieldQueryParser queryParser = new MultiFieldQueryParser(
                     Version.LUCENE_29,
-                    new String[] { "Name", "Content" },
+                    new String[] { "Name", "Content", "Curriculum", "User", "Group", "Theme" },
                     analyzer
                 );
+
 
             ScoreDoc[] scoreDocs = searcher.Search(queryParser.Parse(query), 10).scoreDocs;
 
             Hits hit = searcher.Search(queryParser.Parse(query));
             int total = hit.Length();
-         
-            
-            
+
+
+
             List<ISearchResult> results = new List<ISearchResult>();
             Stopwatch sw = new Stopwatch();
-            
+
             sw.Start();
             foreach (ScoreDoc doc in scoreDocs)
-            {  
+            {
                 ISearchResult result;
                 Document document = searcher.Doc(doc.doc);
                 String type = document.Get("Type").ToLower();
@@ -162,9 +215,9 @@ namespace IUDICO.Search.Controllers
                         node.IsFolder = Convert.ToBoolean(document.Get("isFolder"));
 
                         result = new NodeResult(node, document.Get("Content"));
-                        
+
                         break;
-                    
+
                     case "course":
 
                         Course course = new Course();
@@ -174,13 +227,52 @@ namespace IUDICO.Search.Controllers
                         result = new CourseResult(course);
 
                         break;
-                    
+                    case "curriculum":
+
+                        Curriculum curriculum = new Curriculum();
+                        curriculum.Id = Convert.ToInt32(document.Get("ID"));
+                        curriculum.Name = document.Get("Curriculum");
+
+                        result = new CurriculumResult(curriculum);
+
+                        break;
+
+                    case "user":
+
+                        User user = new User();
+                        user.Id = Guid.Parse(document.Get("ID"));
+                        user.Name = document.Get("User");
+
+                        result = new UserResult(user);
+
+                        break;
+
+                    case "group":
+
+                        Group group = new Group();
+                        group.Id = int.Parse(document.Get("ID"));
+                        group.Name = document.Get("Group");
+
+                        result = new GroupResult(group);
+
+                        break;
+
+                    case "theme":
+
+                        Theme theme = new Theme();
+                        theme.Id = Convert.ToInt32(document.Get("ID"));
+                        theme.Name = document.Get("Theme");
+
+                        result = new ThemeResult(theme);
+
+                        break;
+
                     default:
                         throw new Exception("Unknown result type");
                 }
 
                 results.Add(result);
-            }            
+            }
             sw.Stop();
 
             DateTime dataend = DateTime.Now;

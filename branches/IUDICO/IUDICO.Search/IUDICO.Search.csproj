@@ -82,6 +82,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Models\SearchResult\CurriculumResult.cs" />
+    <Compile Include="Models\SearchResult\GroupResult.cs" />
+    <Compile Include="Models\SearchResult\ThemeResult.cs" />
+    <Compile Include="Models\SearchResult\UserResult.cs" />
     <Compile Include="SearchPlugin.cs" />
     <Compile Include="Models\SearchResult\CourseResult.cs" />
     <Compile Include="Models\SearchResult\ISearchResult.cs" />

@@ -1,36 +1,36 @@
 ﻿using System;
 using IUDICO.Common.Models;
 
+
 namespace IUDICO.Search.Models.SearchResult
 {
-    public class CourseResult : ISearchResult
+    public class UserResult : ISearchResult
     {
-        protected Course _Course;
-        
-        public CourseResult(Course course)
+        protected User _User;
+
+        public UserResult(User user)
         {
-            _Course = course;
+            _User = user;
         }
 
         public int GetId()
         {
-            return _Course.Id;
+            return Convert.ToInt32(_User.Id);
         }
 
         public String GetName()
         {
-            return _Course.Name;
+            return _User.Name;
         }
 
         public String GetText()
         {
-            return  "course";
+            return "user";
         }
 
         public String GetUrl()
         {
-            
-            return "/Course/" + _Course.Id + "/Node/Index";
+            return "/User/Details?id=" + _User.Id.ToString();
         }
     }
 }
