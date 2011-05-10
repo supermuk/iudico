@@ -121,6 +121,7 @@ namespace IUDICO.UserManagement.Models
         public string Name { get; set; }
 
         [DisplayName("Open ID")]
+        [StringLength(200, ErrorMessage = "OpenId can not be longer than 200")]
         public string OpenId { get; set; }
 
         [LocalizedRequired(ErrorMessage = "EmailRequired")]
@@ -187,7 +188,6 @@ namespace IUDICO.UserManagement.Models
         public int RoleId { get; set; }
 
         [DisplayName("OpenId")]
-        [LocalizedRequired(ErrorMessage = "OpenIdRequired")]
         [StringLength(200, ErrorMessage = "OpenId can not be longer than 200")]
         public string OpenId { get; set; }
 
