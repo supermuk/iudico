@@ -39,7 +39,7 @@
        {%>
         <tr>
             <td>
-                <%=IUDICO.UserManagement.Localization.getMessage("NoDate")%>
+                <%=IUDICO.UserManagement.Localization.getMessage("NoData")%>
             </td>
             <td>
                 <%=IUDICO.UserManagement.Localization.getMessage("NoActions")%>
