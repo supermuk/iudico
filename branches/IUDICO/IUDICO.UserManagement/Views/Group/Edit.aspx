@@ -2,12 +2,12 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Group>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Edit
+	Edit Group <%= Model.Name %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=IUDICO.UserManagement.Localization.getMessage("Edit")%></h2>
+    <h2>Edit Group <%= Model.Name %></h2>
 
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary(IUDICO.UserManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>

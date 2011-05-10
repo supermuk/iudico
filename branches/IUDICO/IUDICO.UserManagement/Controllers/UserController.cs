@@ -63,6 +63,8 @@ namespace IUDICO.UserManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Create(User user)
         {
+            if (user.OpenId == null)
+                user.OpenId = string.Empty;
             if (ModelState.IsValid)
             {
                 if (!_Storage.UsernameExists(user.Username))
@@ -100,6 +102,8 @@ namespace IUDICO.UserManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Edit(Guid id,  EditUserModel user)
         {
+            if (user.OpenId == null)
+                user.OpenId = string.Empty;
             if (!ModelState.IsValid)
             {
                 user.Password = null;
