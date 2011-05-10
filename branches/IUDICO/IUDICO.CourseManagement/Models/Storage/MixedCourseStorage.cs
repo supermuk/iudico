@@ -129,6 +129,8 @@ namespace IUDICO.CourseManagement.Models.Storage
             File.Copy(Path.Combine(templatePath, "iudico.css"), Path.Combine(path, "iudico.css"));
 
             _LmsService.Inform(CourseNotifications.CourseCreate, course);
+            log4net.ILog log = log4net.LogManager.GetLogger(typeof(MixedCourseStorage));
+            log.Info("Course:" + course.Name + " created " + "by user:" + course.Owner);
 
             return course.Id;
         }
@@ -145,6 +147,8 @@ namespace IUDICO.CourseManagement.Models.Storage
             db.SubmitChanges();
 
             _LmsService.Inform(CourseNotifications.CourseEdit, course);
+            log4net.ILog log = log4net.LogManager.GetLogger(typeof(MixedCourseStorage));
+            log.Info("Course:" + course.Name + " updated " + "by user:" + course.Owner);
         }
 
         public void DeleteCourse(int id)
@@ -162,6 +166,8 @@ namespace IUDICO.CourseManagement.Models.Storage
             db.SubmitChanges();
 
             _LmsService.Inform(CourseNotifications.CourseDelete, course);
+            log4net.ILog log = log4net.LogManager.GetLogger(typeof(MixedCourseStorage));
+            log.Info("Course:" + course.Name + " deleted " + "by user:" + course.Owner);
         }
 
         public void DeleteCourses(List<int> ids)
@@ -180,6 +186,8 @@ namespace IUDICO.CourseManagement.Models.Storage
                 course.Deleted = true;
 
                 _LmsService.Inform(CourseNotifications.CourseDelete, course);
+                log4net.ILog log = log4net.LogManager.GetLogger(typeof(MixedCourseStorage));
+                log.Info("Course:" + course.Name + " deleted " + "by user:" + course.Owner);
             }
 
             db.SubmitChanges();
