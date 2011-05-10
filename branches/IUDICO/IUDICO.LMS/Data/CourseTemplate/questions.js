@@ -2,19 +2,19 @@
 
 (function ($) {
 
-    $.fn.iudicoQuestion = function () {
+    $.fn.iudicoQuestion = function (id) {
         var $this = $(this);
 
         if ($this.data('scoq') == null) {
             var scoq;
             switch ($this.attr('iudico-type')) {
                 case 'iudico-simple':
-                    scoq = new simpleTest($this);
+                    scoq = new simpleTest($this, id);
                     break;
                 case 'iudico-compex':
-                    scoq = new complexTest($this);
+                    scoq = new complexTest($this, id);
                 case 'iudico-compiled':
-                    scoq = new compiledTest($this);
+                    scoq = new compiledTest($this, id);
                 default:
                     scoq = null;
             }
@@ -36,21 +36,20 @@
     }
 })(jQuery);
 
-function simpleTest($object) {
-    this.Id = null;
+function simpleTest($object, id) {
+    this.Id = id;
     this.CorrectAnswer = null;
     this.Rank = null;
 
     this.parse = function ($object) {
         var params = $object.params();
 
-        this.Id = params['id'];
         this.CorrectAnswer = params['correctAnswer'];
         this.Rank = params['rank'];
 
-        var $question = $('<div id="' + params['id'] + '"></div>');
+        var $question = $('<div id="' + this.Id + '"></div>');
         $question.append('<b>' + params['question'] + '</b>');
-        $question.append('<input type="text" name="' + params['id'] + 'Answer" id="' + params['id'] + 'Answer" />');
+        $question.append('<p><input type="text" name="' + this.Id + 'Answer" id="' + this.Id + 'Answer" /></p>');
 
         $object.replaceWith($question);
     }
@@ -90,8 +89,8 @@ function simpleTest($object) {
 	this.parse($object);
 }
 
-function complexTest($object) {
-    this.Id = null;
+function complexTest($object, id) {
+    this.Id = id;
     this.CorrectAnswer = null;
     this.Rank = null;
     this.MultiChoice = null;
@@ -99,40 +98,47 @@ function complexTest($object) {
     this.parse = function ($object) {
         var params = $object.params();
 
-        this.Id = params['id'];
         this.CorrectAnswer = params['correct'];
         this.Rank = params['rank'];
         this.MultiChoice = params['multichoice'];
 
-        var $question = $('<div id="' + params['id'] + '"></div>');
+        var $question = $('<div id="' + this.Id + '"></div>');
         $question.append('<b>' + params['question'] + '</b>');
 
         var answersCount = parseInt(params['count']);
 
         for (var i = 0; i < answersCount; i++) {
-            $question.append('<input type="' + (params['multichoice'] == '1' ? 'check' : 'radio') + '" name="' + params['id'] + 'Answer[]" id="' + params['id'] + 'Answer' + i + '" /> ' + params['option' + i]);
+            $question.append('<p><input type="' + (params['multichoice'] == '1' ? 'check' : 'radio') + '" name="' + this.Id + 'Answer[]" id="' + this.Id + 'Answer' + i + '" value="' + params['option' + i] + '" /> ' + params['option' + i] + '</p>');
         }
 
         $obj.replaceWith($question);
     }
 
     this.getAnswer = function () {
-        var result = [];
+        /*var result = [];
 
         $('input[@name="' + this.Id + 'Answer[]"').each(function () {
             result.push($(this).is(':checked') ? '1' : '0');
         });
 
-        return result.join('');
+        return result.join('');*/
+
+        $('input[@name="' + this.Id + 'Answer[]"').each(function () {
+            if ($(this).is(':checked')) {
+                return $(this).val();
+            }
+        });
     }
 
     this.setAnswer = function (answer) {
-        var result = answer.split('');
-        var inputArray = $('#' + this.ID + ' input');
+        /*var result = answer.split('');
+        var inputArray = $('#' + this.Id + ' input');
 
         $('input[@name="' + this.Id + 'Answer[]"').each(function (i) {
             $(this).attr('checked', (result[i] == '1'));
-        });
+        });*/
+
+        $('input[@name="' + this.Id + 'Answer[]"][@value="' + answer + '"]').attr('checked', 'checked');
     }
 
     this.getCorrectAnswer = function () {
@@ -172,8 +178,8 @@ function complexTest($object) {
 	this.parse($object);
 }
 
-function compiledTest($object) {
-    this.Id = null;
+function compiledTest($object, id) {
+    this.Id = id;
     this.IdBefore = null;
     this.IdAfter = null;
     this.Rank = null;
@@ -190,9 +196,8 @@ function compiledTest($object) {
     this.parse = function ($object) {
         var params = $object.params();
 
-        this.Id = params['id'];
-        this.IdBefore = params['id'] + 'Before';
-        this.IdAfter = params['id'] + 'After';
+        this.IdBefore = this.Id + 'Before';
+        this.IdAfter = this.Id + 'After';
 		this.PreCode = params['preCode'];
 		this.PostCode = params['postCode'];
         this.Rank = params['rank'];
@@ -214,17 +219,17 @@ function compiledTest($object) {
 			this.Output.push(params['testOutput' + i]);
 		}
 
-        var $question = $('<div id="' + params['id'] + '"></div>');
+        var $question = $('<div id="' + this.Id + '"></div>');
         $question.append('<b>' + params['question'] + '</b>');
 
         if (params['before'].length > 0) {
-            $question.append('<div id="' + params['id'] + 'Before"><pre>' + params['preCode'] + '</pre></div>');
+            $question.append('<div id="' + this.Id + 'Before"><pre>' + params['preCode'] + '</pre></div>');
         }
-        
-        $question.append('<input type="text" name="' + params['id'] + 'Answer" id="' + params['id'] + 'Answer" />');
+
+        $question.append('<input type="text" name="' + this.Id + 'Answer" id="' + this.Id + 'Answer" />');
 
         if (params['after'].length > 0) {
-            $question.append('<div id="' + params['id'] + 'After"><pre>' + params['postCode'] + '</pre></div>');
+            $question.append('<div id="' + this.Id + 'After"><pre>' + params['postCode'] + '</pre></div>');
         }
 
         $obj.replaceWith($question);
@@ -232,7 +237,7 @@ function compiledTest($object) {
 
     this.processAnswer = function (SCOObj, i) {
         var obj = this;
-        var sourceCode = this.PreCode + $('#' + this.ID).val() + this.PostCode;
+        var sourceCode = this.PreCode + $('#' + this.Id).val() + this.PostCode;
         var sourceCodeData = { 'source': sourceCode, 'language': this.Language, 'input': this.Input, 'output': this.Output, 'timelimit': this.Timelimit, 'memorylimit': this.Memorylimit };
 
         jQuery.flXHRproxy.registerOptions(url, { xmlResponseText: false });
