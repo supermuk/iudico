@@ -259,7 +259,7 @@ namespace IUDICO.UserManagement.Models
         {
             get
             {
-                if (Thread.CurrentThread.CurrentUICulture.Name == "en")
+                if (Thread.CurrentThread.CurrentUICulture.Name == "en-US")
                 {
                     return ManagerEN.GetString(base.DisplayName, Thread.CurrentThread.CurrentUICulture);
                 }
@@ -319,7 +319,7 @@ namespace IUDICO.UserManagement.Models
         {
             //get
             //{
-                if (Thread.CurrentThread.CurrentUICulture.Name == "en")
+                if (Thread.CurrentThread.CurrentUICulture.Name == "en-US")
                 {
                     return ManagerEN.GetString(base.ErrorMessage, Thread.CurrentThread.CurrentUICulture);
                 }
@@ -348,7 +348,14 @@ namespace IUDICO.UserManagement.Models
 
             ManagerEN = new System.Resources.ResourceManager("IUDICO.UserManagement.Resource", Assembly.GetExecutingAssembly());
             ManagerUK = new System.Resources.ResourceManager("IUDICO.UserManagement.Resourceuk", Assembly.GetExecutingAssembly());
-            OptionLabel = ManagerUK.GetString(DropDownListKey, Thread.CurrentThread.CurrentUICulture);
+            if (Thread.CurrentThread.CurrentUICulture.Name == "en-US")
+            {
+                OptionLabel = ManagerEN.GetString(DropDownListKey, Thread.CurrentThread.CurrentUICulture);
+            }
+            else
+            {
+                OptionLabel = ManagerUK.GetString(DropDownListKey, Thread.CurrentThread.CurrentUICulture);
+            }
         }
     }
 }
