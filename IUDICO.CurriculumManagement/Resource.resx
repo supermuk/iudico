@@ -340,7 +340,7 @@
     <value>Please select timeline to delete</value>
   </data>
   <data name="selectedAssignments" xml:space="preserve">
-    <value>selected assignments?</value>
+    <value> selected assignments?</value>
   </data>
   <data name="SelectedCurriculums" xml:space="preserve">
     <value> selected curriculums?</value>
@@ -349,7 +349,7 @@
     <value> selected stages?</value>
   </data>
   <data name="selectedThemes" xml:space="preserve">
-    <value>selected themes?</value>
+    <value> selected themes?</value>
   </data>
   <data name="selectedTimelines" xml:space="preserve">
     <value> selected timelines?</value>
@@ -376,6 +376,9 @@
     <value>Edit theme assignment for</value>
   </data>
   <data name="PrevNext" xml:space="preserve">
-    <value>&lt;=&gt;</value>
+    <value> &lt;=&gt; </value>
+  </data>
+  <data name="Fields" xml:space="preserve">
+    <value>Fields</value>
   </data>
 </root>
