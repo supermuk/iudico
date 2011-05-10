@@ -59,6 +59,12 @@ namespace IUDICO.Common.Models.TemplateMetadata
             var sourceProperty = dropdownAttribute.First().SourceProperty;
             var sourceList = (IEnumerable<SelectListItem>)containerType.InvokeMember(sourceProperty, BindingFlags.GetProperty, null, container, null);
 
+            var selectedItem = sourceList.FirstOrDefault(i => i.Value == metadataForProperty.Model.ToString());
+            if (selectedItem != null)
+            {
+                selectedItem.Selected = true;
+            }
+
             dropdownAttribute.First().List = sourceList;
         }
 
