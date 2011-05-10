@@ -18,14 +18,14 @@ namespace IUDICO.LMS
         public static string getMessage(string search)
         {
             Initialize();
-            var text = Manager.GetString(search, Thread.CurrentThread.CurrentUICulture);
-
-            if (text == null)
-                return "null";
-            else if (text == string.Empty)
-                return "empty";
-            else
-                return text;
+            try
+            {
+                return Manager.GetString(search, Thread.CurrentThread.CurrentUICulture);
+            }
+            catch (Exception)
+            {
+                return search;
+            }
         }
     }
 }

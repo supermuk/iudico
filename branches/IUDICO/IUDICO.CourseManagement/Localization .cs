@@ -35,7 +35,14 @@ namespace IUDICO.CourseManagement
         }
         public static string getMessage(string search)
         {
-            return resource[Thread.CurrentThread.CurrentUICulture.Name][search];
+            try
+            {
+                return resource[Thread.CurrentThread.CurrentUICulture.Name][search];
+            }
+            catch (Exception)
+            {
+                return search;
+            }
         }
     }
 }
