@@ -381,4 +381,7 @@
   <data name="Fields" xml:space="preserve">
     <value>Поля</value>
   </data>
+  <data name="CreateСurriculum" xml:space="preserve">
+    <value>Створити навчальний план</value>
+  </data>
 </root>
