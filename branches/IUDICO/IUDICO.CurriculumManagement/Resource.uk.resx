@@ -343,7 +343,7 @@
     <value> вибрані  прив'язки до навчального плану?</value>
   </data>
   <data name="SelectedCurriculums" xml:space="preserve">
-    <value> вибраних навчальних етапів</value>
+    <value> вибраних навчальних планів</value>
   </data>
   <data name="selectedStages" xml:space="preserve">
     <value> вибрані етапи?</value>
