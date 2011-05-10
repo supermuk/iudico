@@ -6,6 +6,14 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
     [Serializable]
     public partial class RollupConsiderations
     {
+        public RollupConsiderations()
+        {
+            RequiredForSatisfied = Required.Always;
+            RequiredForNotSatisfied = Required.Always;
+            RequiredForCompleted = Required.Always;
+            RequiredForIncomplete = Required.Always;
+            MeasureSatisfactionIfActive = true;
+        }
         #region XmlAttributes
 
         [XmlAttribute(SCORM.RequiredForSatisfied)]

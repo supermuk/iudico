@@ -141,6 +141,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             oldCourse.Name = course.Name;
             oldCourse.Updated = DateTime.Now;
+            oldCourse.Sequencing = course.Sequencing;
 
             db.SubmitChanges();
 
@@ -233,8 +234,12 @@ namespace IUDICO.CourseManagement.Models.Storage
             manifest.Organizations.Default = manifest.Organizations[0].Identifier;
             manifest.Organizations[0].Items = parentItem.Items;
             manifest.Organizations[0].Title = course.Name;
-            //manifest.Organizations[0] = SequencingPatternManager.ApplyPattern(manifest, manifest.Organizations[0], SequencingPattern.OrganizationDefaultSequencingPattern);
 
+            if (course.Sequencing != null)
+            {
+                var xml = new XmlSerializer(typeof(Sequencing));
+                manifest.Organizations[0].Sequencing = (Sequencing)xml.DeserializeXElement(course.Sequencing);
+            }
             var resource = new Resource
                                {
                                    Identifier = _ResourceIdForTemplateFiles,

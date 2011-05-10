@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.UI.WebControls;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using IUDICO.Common.Models;
 using IUDICO.CourseManagement.Models;
@@ -199,9 +200,11 @@ namespace IUDICO.CourseManagement.Controllers
         public JsonResult ApplyPattern(int id, SequencingPattern pattern, int data)
         {
             var node = _Storage.GetNode(id);
-
             var xml = new XmlSerializer(typeof(Sequencing));
-            var sequencing = (Sequencing)xml.DeserializeXElement(node.Sequencing);
+
+            var xelement = id == 0 ? _CurrentCourse.Sequencing : node.Sequencing;
+
+            var sequencing = xelement == null ? new Sequencing() : (Sequencing)xml.DeserializeXElement(xelement);
 
             switch (pattern)
             {
@@ -215,20 +218,29 @@ namespace IUDICO.CourseManagement.Controllers
                     sequencing = SequencingPatternManager.ApplyDefaultChapterSequencing(sequencing);
                     break;
             }
-            
-            node.Sequencing = xml.SerializeToXElemet(sequencing);
 
-            _Storage.UpdateNode(id, node);
+            if (id == 0)
+            {
+                _CurrentCourse.Sequencing = xml.SerializeToXElemet(sequencing);
+                _Storage.UpdateCourse(_CurrentCourse.Id, _CurrentCourse);
+            }
+            else
+            {
+                node.Sequencing = xml.SerializeToXElemet(sequencing);
+                _Storage.UpdateNode(id, node);
+            }
+
             return Json(new { status = true });
         }
 
         [HttpPost]
         public JsonResult Properties(int id, string type)
         {
-            var node = _Storage.GetNode(id);
-
             var xml = new XmlSerializer(typeof(Sequencing));
-            var sequencing = (Sequencing)xml.DeserializeXElement(node.Sequencing);
+
+            var xelement = id == 0 ? _CurrentCourse.Sequencing : _Storage.GetNode(id).Sequencing;
+
+            var sequencing = xelement == null ? new Sequencing() : (Sequencing) xml.DeserializeXElement(xelement);
             
             NodeProperty model;
 
@@ -267,8 +279,8 @@ namespace IUDICO.CourseManagement.Controllers
                 throw new NotImplementedException();
             }
 
-            model.CourseId = node.CourseId;
-            model.NodeId = node.Id;
+            model.CourseId = _CurrentCourse.Id;
+            model.NodeId = id;
             model.Type = type;
 
             return Json(new { status = true, type = type, data = PartialViewHtml(partialView, model, ViewData) });
@@ -279,7 +291,10 @@ namespace IUDICO.CourseManagement.Controllers
         {
             var node = _Storage.GetNode(nodeId);
             var xml = new XmlSerializer(typeof(Sequencing));
-            var sequencing = (Sequencing)xml.DeserializeXElement(node.Sequencing);
+
+            var xelement = nodeId == 0 ? _CurrentCourse.Sequencing : node.Sequencing;
+
+            var sequencing = xelement == null ? new Sequencing() : (Sequencing)xml.DeserializeXElement(xelement);
             
             object model;
 
@@ -330,9 +345,17 @@ namespace IUDICO.CourseManagement.Controllers
                 throw new NotImplementedException();
             }
 
-            node.Sequencing = xml.SerializeToXElemet(sequencing);
-
-            _Storage.UpdateNode(nodeId, node);
+            if(nodeId == 0)
+            {
+                _CurrentCourse.Sequencing = xml.SerializeToXElemet(sequencing);
+                _Storage.UpdateCourse(_CurrentCourse.Id, _CurrentCourse);
+            }
+            else
+            {
+                node.Sequencing = xml.SerializeToXElemet(sequencing);
+                _Storage.UpdateNode(nodeId, node);
+            }
+            
 
             return Json(new { status = true });
         }

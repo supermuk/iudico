@@ -63,12 +63,12 @@ namespace IUDICO.Common.Models
     partial void InsertStage(Stage instance);
     partial void UpdateStage(Stage instance);
     partial void DeleteStage(Stage instance);
-    partial void InsertCourse(Course instance);
-    partial void UpdateCourse(Course instance);
-    partial void DeleteCourse(Course instance);
     partial void InsertNode(Node instance);
     partial void UpdateNode(Node instance);
     partial void DeleteNode(Node instance);
+    partial void InsertCourse(Course instance);
+    partial void UpdateCourse(Course instance);
+    partial void DeleteCourse(Course instance);
     #endregion
 		
 		public DBDataContext() : 
@@ -189,19 +189,19 @@ namespace IUDICO.Common.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<Course> Courses
-		{
-			get
-			{
-				return this.GetTable<Course>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Node> Nodes
 		{
 			get
 			{
 				return this.GetTable<Node>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Course> Courses
+		{
+			get
+			{
+				return this.GetTable<Course>();
 			}
 		}
 	}
@@ -2675,6 +2675,322 @@ namespace IUDICO.Common.Models
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Nodes")]
+	public partial class Node : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private int _CourseId;
+		
+		private System.Nullable<int> _ParentId;
+		
+		private bool _IsFolder;
+		
+		private int _Position;
+		
+		private System.Xml.Linq.XElement _Sequencing;
+		
+		private EntitySet<Node> _Nodes;
+		
+		private EntityRef<Node> _Node1;
+		
+		private EntityRef<Course> _Course;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnCourseIdChanging(int value);
+    partial void OnCourseIdChanged();
+    partial void OnParentIdChanging(System.Nullable<int> value);
+    partial void OnParentIdChanged();
+    partial void OnIsFolderChanging(bool value);
+    partial void OnIsFolderChanged();
+    partial void OnPositionChanging(int value);
+    partial void OnPositionChanged();
+    partial void OnSequencingChanging(System.Xml.Linq.XElement value);
+    partial void OnSequencingChanged();
+    #endregion
+		
+		public Node()
+		{
+			this._Nodes = new EntitySet<Node>(new Action<Node>(this.attach_Nodes), new Action<Node>(this.detach_Nodes));
+			this._Node1 = default(EntityRef<Node>);
+			this._Course = default(EntityRef<Course>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CourseId", DbType="Int NOT NULL")]
+		public int CourseId
+		{
+			get
+			{
+				return this._CourseId;
+			}
+			set
+			{
+				if ((this._CourseId != value))
+				{
+					if (this._Course.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCourseIdChanging(value);
+					this.SendPropertyChanging();
+					this._CourseId = value;
+					this.SendPropertyChanged("CourseId");
+					this.OnCourseIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentId", DbType="Int")]
+		public System.Nullable<int> ParentId
+		{
+			get
+			{
+				return this._ParentId;
+			}
+			set
+			{
+				if ((this._ParentId != value))
+				{
+					if (this._Node1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParentIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParentId = value;
+					this.SendPropertyChanged("ParentId");
+					this.OnParentIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsFolder", DbType="Bit NOT NULL")]
+		public bool IsFolder
+		{
+			get
+			{
+				return this._IsFolder;
+			}
+			set
+			{
+				if ((this._IsFolder != value))
+				{
+					this.OnIsFolderChanging(value);
+					this.SendPropertyChanging();
+					this._IsFolder = value;
+					this.SendPropertyChanged("IsFolder");
+					this.OnIsFolderChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Position", DbType="Int NOT NULL")]
+		public int Position
+		{
+			get
+			{
+				return this._Position;
+			}
+			set
+			{
+				if ((this._Position != value))
+				{
+					this.OnPositionChanging(value);
+					this.SendPropertyChanging();
+					this._Position = value;
+					this.SendPropertyChanged("Position");
+					this.OnPositionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sequencing", DbType="Xml", UpdateCheck=UpdateCheck.Never)]
+		public System.Xml.Linq.XElement Sequencing
+		{
+			get
+			{
+				return this._Sequencing;
+			}
+			set
+			{
+				if ((this._Sequencing != value))
+				{
+					this.OnSequencingChanging(value);
+					this.SendPropertyChanging();
+					this._Sequencing = value;
+					this.SendPropertyChanged("Sequencing");
+					this.OnSequencingChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Node_Node", Storage="_Nodes", ThisKey="Id", OtherKey="ParentId")]
+		public EntitySet<Node> Nodes
+		{
+			get
+			{
+				return this._Nodes;
+			}
+			set
+			{
+				this._Nodes.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Node_Node", Storage="_Node1", ThisKey="ParentId", OtherKey="Id", IsForeignKey=true)]
+		public Node Node1
+		{
+			get
+			{
+				return this._Node1.Entity;
+			}
+			set
+			{
+				Node previousValue = this._Node1.Entity;
+				if (((previousValue != value) 
+							|| (this._Node1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Node1.Entity = null;
+						previousValue.Nodes.Remove(this);
+					}
+					this._Node1.Entity = value;
+					if ((value != null))
+					{
+						value.Nodes.Add(this);
+						this._ParentId = value.Id;
+					}
+					else
+					{
+						this._ParentId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Node1");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_Node", Storage="_Course", ThisKey="CourseId", OtherKey="Id", IsForeignKey=true)]
+		public Course Course
+		{
+			get
+			{
+				return this._Course.Entity;
+			}
+			set
+			{
+				Course previousValue = this._Course.Entity;
+				if (((previousValue != value) 
+							|| (this._Course.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Course.Entity = null;
+						previousValue.Nodes.Remove(this);
+					}
+					this._Course.Entity = value;
+					if ((value != null))
+					{
+						value.Nodes.Add(this);
+						this._CourseId = value.Id;
+					}
+					else
+					{
+						this._CourseId = default(int);
+					}
+					this.SendPropertyChanged("Course");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Nodes(Node entity)
+		{
+			this.SendPropertyChanging();
+			entity.Node1 = this;
+		}
+		
+		private void detach_Nodes(Node entity)
+		{
+			this.SendPropertyChanging();
+			entity.Node1 = null;
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Courses")]
 	public partial class Course : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2694,6 +3010,8 @@ namespace IUDICO.Common.Models
 		private bool _Deleted;
 		
 		private System.Nullable<bool> _Locked;
+		
+		private System.Xml.Linq.XElement _Sequencing;
 		
 		private EntitySet<CourseUser> _CourseUsers;
 		
@@ -2717,6 +3035,8 @@ namespace IUDICO.Common.Models
     partial void OnDeletedChanged();
     partial void OnLockedChanging(System.Nullable<bool> value);
     partial void OnLockedChanged();
+    partial void OnSequencingChanging(System.Xml.Linq.XElement value);
+    partial void OnSequencingChanged();
     #endregion
 		
 		public Course()
@@ -2866,6 +3186,26 @@ namespace IUDICO.Common.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sequencing", DbType="Xml", UpdateCheck=UpdateCheck.Never)]
+		public System.Xml.Linq.XElement Sequencing
+		{
+			get
+			{
+				return this._Sequencing;
+			}
+			set
+			{
+				if ((this._Sequencing != value))
+				{
+					this.OnSequencingChanging(value);
+					this.SendPropertyChanging();
+					this._Sequencing = value;
+					this.SendPropertyChanged("Sequencing");
+					this.OnSequencingChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_CourseUser", Storage="_CourseUsers", ThisKey="Id", OtherKey="CourseRef")]
 		public EntitySet<CourseUser> CourseUsers
 		{
@@ -2934,322 +3274,6 @@ namespace IUDICO.Common.Models
 		{
 			this.SendPropertyChanging();
 			entity.Course = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Nodes")]
-	public partial class Node : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _Name;
-		
-		private int _CourseId;
-		
-		private System.Nullable<int> _ParentId;
-		
-		private bool _IsFolder;
-		
-		private int _Position;
-		
-		private System.Xml.Linq.XElement _Sequencing;
-		
-		private EntitySet<Node> _Nodes;
-		
-		private EntityRef<Course> _Course;
-		
-		private EntityRef<Node> _Node1;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnCourseIdChanging(int value);
-    partial void OnCourseIdChanged();
-    partial void OnParentIdChanging(System.Nullable<int> value);
-    partial void OnParentIdChanged();
-    partial void OnIsFolderChanging(bool value);
-    partial void OnIsFolderChanged();
-    partial void OnPositionChanging(int value);
-    partial void OnPositionChanged();
-    partial void OnSequencingChanging(System.Xml.Linq.XElement value);
-    partial void OnSequencingChanged();
-    #endregion
-		
-		public Node()
-		{
-			this._Nodes = new EntitySet<Node>(new Action<Node>(this.attach_Nodes), new Action<Node>(this.detach_Nodes));
-			this._Course = default(EntityRef<Course>);
-			this._Node1 = default(EntityRef<Node>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CourseId", DbType="Int NOT NULL")]
-		public int CourseId
-		{
-			get
-			{
-				return this._CourseId;
-			}
-			set
-			{
-				if ((this._CourseId != value))
-				{
-					if (this._Course.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnCourseIdChanging(value);
-					this.SendPropertyChanging();
-					this._CourseId = value;
-					this.SendPropertyChanged("CourseId");
-					this.OnCourseIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentId", DbType="Int")]
-		public System.Nullable<int> ParentId
-		{
-			get
-			{
-				return this._ParentId;
-			}
-			set
-			{
-				if ((this._ParentId != value))
-				{
-					if (this._Node1.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnParentIdChanging(value);
-					this.SendPropertyChanging();
-					this._ParentId = value;
-					this.SendPropertyChanged("ParentId");
-					this.OnParentIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsFolder", DbType="Bit NOT NULL")]
-		public bool IsFolder
-		{
-			get
-			{
-				return this._IsFolder;
-			}
-			set
-			{
-				if ((this._IsFolder != value))
-				{
-					this.OnIsFolderChanging(value);
-					this.SendPropertyChanging();
-					this._IsFolder = value;
-					this.SendPropertyChanged("IsFolder");
-					this.OnIsFolderChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Position", DbType="Int NOT NULL")]
-		public int Position
-		{
-			get
-			{
-				return this._Position;
-			}
-			set
-			{
-				if ((this._Position != value))
-				{
-					this.OnPositionChanging(value);
-					this.SendPropertyChanging();
-					this._Position = value;
-					this.SendPropertyChanged("Position");
-					this.OnPositionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sequencing", DbType="Xml", CanBeNull=true, UpdateCheck=UpdateCheck.Never)]
-		public System.Xml.Linq.XElement Sequencing
-		{
-			get
-			{
-				return this._Sequencing;
-			}
-			set
-			{
-				if ((this._Sequencing != value))
-				{
-					this.OnSequencingChanging(value);
-					this.SendPropertyChanging();
-					this._Sequencing = value;
-					this.SendPropertyChanged("Sequencing");
-					this.OnSequencingChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Node_Node", Storage="_Nodes", ThisKey="Id", OtherKey="ParentId")]
-		public EntitySet<Node> Nodes
-		{
-			get
-			{
-				return this._Nodes;
-			}
-			set
-			{
-				this._Nodes.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_Node", Storage="_Course", ThisKey="CourseId", OtherKey="Id", IsForeignKey=true)]
-		public Course Course
-		{
-			get
-			{
-				return this._Course.Entity;
-			}
-			set
-			{
-				Course previousValue = this._Course.Entity;
-				if (((previousValue != value) 
-							|| (this._Course.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Course.Entity = null;
-						previousValue.Nodes.Remove(this);
-					}
-					this._Course.Entity = value;
-					if ((value != null))
-					{
-						value.Nodes.Add(this);
-						this._CourseId = value.Id;
-					}
-					else
-					{
-						this._CourseId = default(int);
-					}
-					this.SendPropertyChanged("Course");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Node_Node", Storage="_Node1", ThisKey="ParentId", OtherKey="Id", IsForeignKey=true)]
-		public Node Node1
-		{
-			get
-			{
-				return this._Node1.Entity;
-			}
-			set
-			{
-				Node previousValue = this._Node1.Entity;
-				if (((previousValue != value) 
-							|| (this._Node1.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Node1.Entity = null;
-						previousValue.Nodes.Remove(this);
-					}
-					this._Node1.Entity = value;
-					if ((value != null))
-					{
-						value.Nodes.Add(this);
-						this._ParentId = value.Id;
-					}
-					else
-					{
-						this._ParentId = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Node1");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Nodes(Node entity)
-		{
-			this.SendPropertyChanging();
-			entity.Node1 = this;
-		}
-		
-		private void detach_Nodes(Node entity)
-		{
-			this.SendPropertyChanging();
-			entity.Node1 = null;
 		}
 	}
 }
