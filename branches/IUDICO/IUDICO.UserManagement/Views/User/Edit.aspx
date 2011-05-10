@@ -2,12 +2,12 @@
 <%@ Assembly Name="IUDICO.UserManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Edit
+	Edit User <%= Model.Username %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=IUDICO.UserManagement.Localization.getMessage("Edit") + " " + Model.Username%></h2>
+    <h2>Edit User <%= Model.Username %></h2>
 
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary(IUDICO.UserManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>

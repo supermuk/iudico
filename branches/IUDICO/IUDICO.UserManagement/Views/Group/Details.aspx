@@ -2,12 +2,12 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Group>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Details
+	Details of Group <%: Model.Name %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=IUDICO.UserManagement.Localization.getMessage("DetailsOf")%> <%: Model.Name %></h2>
+    <h2>Details of Group <%: Model.Name %></h2>
 
     <fieldset>
         <legend><%=IUDICO.UserManagement.Localization.getMessage("Users")%></legend>
@@ -23,17 +23,29 @@
             <th></th>
         </tr>
 
-        <% foreach(var groupUser in Model.GroupUsers) { %>
+        <% if (Model.GroupUsers.GetEnumerator().MoveNext())
+           {
+               foreach (var groupUser in Model.GroupUsers)
+               { %>
             <tr>
                 <td>
-                    <%: groupUser.User.Username %>
+                    <%: groupUser.User.Username%>
                 </td>
                 <td>
-                    <%: groupUser.User.Name %>
+                    <%: groupUser.User.Name%>
                 </td>
                 <td>
                     <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("RemoveUser"), "RemoveUser", new { id = Model.Id, userRef = groupUser.User.Id })%>
                 </td>
+            </tr>
+        <% }
+           }
+           else
+           { %>
+            <tr>
+                <td><%=IUDICO.UserManagement.Localization.getMessage("NoData")%></td>
+                <td><%=IUDICO.UserManagement.Localization.getMessage("NoData")%></td>
+                <td><%=IUDICO.UserManagement.Localization.getMessage("NoActions")%></td>
             </tr>
         <% } %>
 
