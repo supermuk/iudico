@@ -80,7 +80,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 Timeline timeline = editStageTimelineModel.Timeline;
 
-                timeline.CurriculumAssignmentRef = Storage.GetCurriculumAssignment(Storage.GetTimeline(timelineId).CurriculumAssignmentRef).CurriculumRef;
+                timeline.CurriculumAssignmentRef = Storage.GetTimeline(timelineId).CurriculumAssignmentRef;
                 timeline.StageRef = editStageTimelineModel.StageId;
                 timeline.Id = timelineId;
 
