@@ -378,4 +378,7 @@
   <data name="PrevNext" xml:space="preserve">
     <value>&lt;=&gt;</value>
   </data>
+  <data name="Fields" xml:space="preserve">
+    <value>Поля</value>
+  </data>
 </root>
