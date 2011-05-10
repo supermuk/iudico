@@ -219,6 +219,10 @@ namespace IUDICO.LMS
 
                         langName = HttpContext.Current.Request.UserLanguages[0].Substring(0, 5);
                     }
+                    if (langName != "en-US" && langName != "uk-UA")
+                    {
+                        langName = "en-US";
+                    }
                     ci = new CultureInfo(langName);
                     this.Session["Culture"] = ci;
                 }
