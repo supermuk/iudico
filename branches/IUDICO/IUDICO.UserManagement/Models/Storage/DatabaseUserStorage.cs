@@ -206,7 +206,7 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
 
-            return db.Users.Except(db.GroupUsers.Where(g => g.GroupRef == group.Id).Select(g => g.User));
+            return db.Users.Where(u => !u.Deleted).Except(db.GroupUsers.Where(g => g.GroupRef == group.Id).Select(g => g.User));
         }
 
         public void RegisterUser(RegisterModel registerModel)
