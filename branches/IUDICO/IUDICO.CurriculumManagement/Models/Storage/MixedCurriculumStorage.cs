@@ -329,7 +329,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                                 Stage = stage,
                                 Curriculum = stage.Curriculum,
                                 Timelines = stageTimelines.Count() == 0 ?
-                                    GetCurriculumAssignmentTimelines(curriculumAssignment.Curriculum.Id)
+                                    GetCurriculumAssignmentTimelines(curriculumAssignment.Id)
                                         .Where(timeline => dateTime.IsIn(timeline)).ToList() :
                                     stageTimelines
                                         .Where(timeline => dateTime.IsIn(timeline)).ToList()
