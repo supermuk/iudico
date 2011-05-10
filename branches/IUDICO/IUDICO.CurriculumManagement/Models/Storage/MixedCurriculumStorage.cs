@@ -102,63 +102,40 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public int AddCurriculum(Curriculum curriculum)
         {
-            try
-            {
-                curriculum.Created = DateTime.Now;
-                curriculum.Updated = DateTime.Now;
-                curriculum.IsDeleted = false;
+            curriculum.Created = DateTime.Now;
+            curriculum.Updated = DateTime.Now;
+            curriculum.IsDeleted = false;
 
-                _Db.Curriculums.InsertOnSubmit(curriculum);
-                _Db.SubmitChanges();
+            _Db.Curriculums.InsertOnSubmit(curriculum);
+            _Db.SubmitChanges();
 
-                return curriculum.Id;
-            }
-            catch (Exception ex)
-            {
-                return -1;
-            }
+            return curriculum.Id;
         }
 
-        public bool UpdateCurriculum(Curriculum curriculum)
+        public void UpdateCurriculum(Curriculum curriculum)
         {
-            try
-            {
-                var oldCurriculum = GetCurriculum(curriculum.Id);
+            var oldCurriculum = GetCurriculum(curriculum.Id);
 
-                oldCurriculum.Name = curriculum.Name;
-                oldCurriculum.Updated = DateTime.Now;
+            oldCurriculum.Name = curriculum.Name;
+            oldCurriculum.Updated = DateTime.Now;
 
-                _Db.SubmitChanges();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            _Db.SubmitChanges();
         }
 
-        public bool DeleteCurriculum(int id)
+        public void DeleteCurriculum(int id)
         {
-            try
-            {
-                var curriculum = GetCurriculum(id);
+            var curriculum = GetCurriculum(id);
 
-                //delete stages
-                var stageIds = GetStages(id).Select(item => item.Id);
-                DeleteStages(stageIds);
+            //delete stages
+            var stageIds = GetStages(id).Select(item => item.Id);
+            DeleteStages(stageIds);
 
-                //delete corresponding CurriculumAssignments
-                var curriculumAssignmentIds = GetCurriculumAssignmnetsByCurriculumId(id).Select(item => item.Id);
-                DeleteCurriculumAssignments(curriculumAssignmentIds);
+            //delete corresponding CurriculumAssignments
+            var curriculumAssignmentIds = GetCurriculumAssignmnetsByCurriculumId(id).Select(item => item.Id);
+            DeleteCurriculumAssignments(curriculumAssignmentIds);
 
-                curriculum.IsDeleted = true;
-                _Db.SubmitChanges();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            curriculum.IsDeleted = true;
+            _Db.SubmitChanges();
         }
 
         public void DeleteCurriculums(IEnumerable<int> ids)
@@ -190,66 +167,43 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public int AddStage(Stage stage)
         {
-            try
-            {
-                stage.Created = DateTime.Now;
-                stage.Updated = DateTime.Now;
-                stage.IsDeleted = false;
+            stage.Created = DateTime.Now;
+            stage.Updated = DateTime.Now;
+            stage.IsDeleted = false;
 
-                _Db.Stages.InsertOnSubmit(stage);
-                _Db.SubmitChanges();
+            _Db.Stages.InsertOnSubmit(stage);
+            _Db.SubmitChanges();
 
-                return stage.Id;
-            }
-            catch (Exception ex)
-            {
-                return -1;
-            }
+            return stage.Id;
         }
 
-        public bool UpdateStage(Stage stage)
+        public void UpdateStage(Stage stage)
         {
-            try
-            {
-                Stage oldStage = GetStage(stage.Id);
+            Stage oldStage = GetStage(stage.Id);
 
-                oldStage.Name = stage.Name;
-                oldStage.Updated = DateTime.Now;
+            oldStage.Name = stage.Name;
+            oldStage.Updated = DateTime.Now;
 
-                _Db.SubmitChanges();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            _Db.SubmitChanges();
         }
 
-        public bool DeleteStage(int id)
+        public void DeleteStage(int id)
         {
-            try
+            var stage = GetStage(id);
+
+            //delete themes
+            var themeIds = GetThemesByStageId(id).Select(item => item.Id);
+            DeleteThemes(themeIds);
+
+            //delete corresponding StageTimelines
+            var stageTimelines = GetStageTimelinesByStageId(id);
+            foreach (Timeline timeline in stageTimelines)
             {
-                var stage = GetStage(id);
-
-                //delete themes
-                var themeIds = GetThemesByStageId(id).Select(item => item.Id);
-                DeleteThemes(themeIds);
-
-                //delete corresponding StageTimelines
-                var stageTimelines = GetStageTimelinesByStageId(id);
-                foreach (Timeline timeline in stageTimelines)
-                {
-                    DeleteTimeline(timeline.Id);
-                }
-
-                stage.IsDeleted = true;
-                _Db.SubmitChanges();
-                return true;
+                DeleteTimeline(timeline.Id);
             }
-            catch (Exception ex)
-            {
-                return false;
-            }
+
+            stage.IsDeleted = true;
+            _Db.SubmitChanges();
         }
 
         public void DeleteStages(IEnumerable<int> ids)
@@ -353,35 +307,28 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public int AddTheme(Theme theme)
         {
-            try
+            DBDataContext db = GetDbDataContext();
+
+            theme.Created = DateTime.Now;
+            theme.Updated = DateTime.Now;
+            theme.IsDeleted = false;
+
+            db.Themes.InsertOnSubmit(theme);
+            db.SubmitChanges();
+
+            theme.SortOrder = theme.Id;
+            UpdateTheme(theme);
+
+            //if it is "Test" then add corresponding ThemeAssignments.
+            if (theme.ThemeType.Id == (int)IUDICO.CurriculumManagement.Models.Enums.ThemeType.Test)
             {
-                DBDataContext db = GetDbDataContext();
-
-                theme.Created = DateTime.Now;
-                theme.Updated = DateTime.Now;
-                theme.IsDeleted = false;
-
-                db.Themes.InsertOnSubmit(theme);
-                db.SubmitChanges();
-
-                theme.SortOrder = theme.Id;
-                UpdateTheme(theme);
-
-                //if it is "Test" then add corresponding ThemeAssignments.
-                if (theme.ThemeType.Id == (int)IUDICO.CurriculumManagement.Models.Enums.ThemeType.Test)
-                {
-                    AddThemeAssignments(theme);
-                }
-
-                return theme.Id;
+                AddThemeAssignments(theme);
             }
-            catch (Exception ex)
-            {
-                return -1;
-            }
+
+            return theme.Id;
         }
 
-        public bool UpdateTheme(Theme theme)
+        public void UpdateTheme(Theme theme)
         {
             DBDataContext db = GetDbDataContext();
             try
@@ -406,11 +353,6 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                     }
                 }
                 db.SubmitChanges(ConflictMode.ContinueOnConflict);
-                return true;
-            }
-            catch (NullReferenceException nullRefException)
-            {
-                return false;
             }
             catch (ChangeConflictException)
             {
@@ -418,33 +360,24 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 {
                     conflict.Resolve(RefreshMode.KeepChanges);
                 }
-                return false;
             }
         }
 
-        public bool DeleteTheme(int id)
+        public void DeleteTheme(int id)
         {
-            try
+            DBDataContext db = GetDbDataContext();
+
+            var theme = GetTheme(id, db);
+
+            //if it is "Test" then delete corresponding ThemeAssignments.
+            if (theme.ThemeType.Id == (int)IUDICO.CurriculumManagement.Models.Enums.ThemeType.Test)
             {
-                DBDataContext db = GetDbDataContext();
-
-                var theme = GetTheme(id, db);
-
-                //if it is "Test" then delete corresponding ThemeAssignments.
-                if (theme.ThemeType.Id == (int)IUDICO.CurriculumManagement.Models.Enums.ThemeType.Test)
-                {
-                    DeleteThemeAssignments(theme);
-                }
-
-                theme.IsDeleted = true;
-
-                db.SubmitChanges();
-                return true;
+                DeleteThemeAssignments(theme);
             }
-            catch (Exception ex)
-            {
-                return false;
-            }
+
+            theme.IsDeleted = true;
+
+            db.SubmitChanges();
         }
 
         public void DeleteThemes(IEnumerable<int> ids)
@@ -495,27 +428,19 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         /// Adds theme assignments for theme.
         /// </summary>
         /// <param name="theme">The theme.</param>
-        private bool AddThemeAssignments(Theme theme) // тут переробляти на bool?
+        private void AddThemeAssignments(Theme theme)
         {
-            try
+            var curriculumAssignments = GetCurriculumAssignmnetsByCurriculumId(theme.Stage.CurriculumRef);
+            foreach (CurriculumAssignment curriculumAssignment in curriculumAssignments)
             {
-                var curriculumAssignments = GetCurriculumAssignmnetsByCurriculumId(theme.Stage.CurriculumRef);
-                foreach (CurriculumAssignment curriculumAssignment in curriculumAssignments)
+                ThemeAssignment newThemeAssignment = new ThemeAssignment()
                 {
-                    ThemeAssignment newThemeAssignment = new ThemeAssignment()
-                    {
-                        CurriculumAssignmentRef = curriculumAssignment.Id,
-                        ThemeRef = theme.Id,
-                        MaxScore = Constants.DefaultThemeMaxScore
-                    };
+                    CurriculumAssignmentRef = curriculumAssignment.Id,
+                    ThemeRef = theme.Id,
+                    MaxScore = Constants.DefaultThemeMaxScore
+                };
 
-                    AddThemeAssignment(newThemeAssignment);
-                }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
+                AddThemeAssignment(newThemeAssignment);
             }
         }
 
@@ -523,19 +448,11 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         /// Deletes theme assignments for theme.
         /// </summary>
         /// <param name="theme">The theme.</param>
-        private bool DeleteThemeAssignments(Theme theme)
+        private void DeleteThemeAssignments(Theme theme)
         {
-            try
-            {
-                var themeAssignmentIds = GetThemeAssignmentsByThemeId(theme.Id)
-                    .Select(item => item.Id);
-                DeleteThemeAssignments(themeAssignmentIds);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            var themeAssignmentIds = GetThemeAssignmentsByThemeId(theme.Id)
+                .Select(item => item.Id);
+            DeleteThemeAssignments(themeAssignmentIds);
         }
 
         #endregion
@@ -578,79 +495,56 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public int AddCurriculumAssignment(CurriculumAssignment curriculumAssignment)
         {
-            try
+            curriculumAssignment.IsDeleted = false;
+
+            _Db.CurriculumAssignments.InsertOnSubmit(curriculumAssignment);
+            _Db.SubmitChanges();
+
+            //add corresponding ThemeAssignments
+            var themesInCurrentCurriculum = GetThemesByCurriculumId(curriculumAssignment.CurriculumRef)
+                .Where(item => item.ThemeTypeRef == (int)IUDICO.CurriculumManagement.Models.Enums.ThemeType.Test);
+            foreach (var theme in themesInCurrentCurriculum)
             {
-                curriculumAssignment.IsDeleted = false;
-
-                _Db.CurriculumAssignments.InsertOnSubmit(curriculumAssignment);
-                _Db.SubmitChanges();
-
-                //add corresponding ThemeAssignments
-                var themesInCurrentCurriculum = GetThemesByCurriculumId(curriculumAssignment.CurriculumRef)
-                    .Where(item => item.ThemeTypeRef == (int)IUDICO.CurriculumManagement.Models.Enums.ThemeType.Test);
-                foreach (var theme in themesInCurrentCurriculum)
+                ThemeAssignment newThemeAssingment = new ThemeAssignment()
                 {
-                    ThemeAssignment newThemeAssingment = new ThemeAssignment()
-                    {
-                        CurriculumAssignmentRef = curriculumAssignment.Id,
-                        ThemeRef = theme.Id,
-                        MaxScore = Constants.DefaultThemeMaxScore
-                    };
+                    CurriculumAssignmentRef = curriculumAssignment.Id,
+                    ThemeRef = theme.Id,
+                    MaxScore = Constants.DefaultThemeMaxScore
+                };
 
-                    AddThemeAssignment(newThemeAssingment);
-                }
+                AddThemeAssignment(newThemeAssingment);
+            }
 
-                return curriculumAssignment.Id;
-            }
-            catch (Exception ex)
-            {
-                return -1;
-            }
+            return curriculumAssignment.Id;
         }
 
-        public bool UpdateCurriculumAssignment(CurriculumAssignment curriculumAssignment)
+        public void UpdateCurriculumAssignment(CurriculumAssignment curriculumAssignment)
         {
-            try
-            {
-                var oldCurriculumAssignment = GetCurriculumAssignment(curriculumAssignment.Id);
+            var oldCurriculumAssignment = GetCurriculumAssignment(curriculumAssignment.Id);
 
-                oldCurriculumAssignment.UserGroupRef = curriculumAssignment.UserGroupRef;
+            oldCurriculumAssignment.UserGroupRef = curriculumAssignment.UserGroupRef;
 
-                _Db.SubmitChanges();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            _Db.SubmitChanges();
         }
 
-        public bool DeleteCurriculumAssignment(int curriculumAssignmentId)
+        public void DeleteCurriculumAssignment(int curriculumAssignmentId)
         {
-            try
-            {
-                var curriculumAssignment = GetCurriculumAssignment(curriculumAssignmentId);
+            var curriculumAssignment = GetCurriculumAssignment(curriculumAssignmentId);
 
-                //delete corresponding CurriculumAssignmentTimelines
-                var curriculumAssignmentTimelineIds = GetCurriculumAssignmentTimelines(curriculumAssignmentId).Select(item => item.Id);
-                DeleteTimelines(curriculumAssignmentTimelineIds);
+            //delete corresponding CurriculumAssignmentTimelines
+            var curriculumAssignmentTimelineIds = GetCurriculumAssignmentTimelines(curriculumAssignmentId).Select(item => item.Id);
+            DeleteTimelines(curriculumAssignmentTimelineIds);
 
-                //delete corresponding StageTimelines
-                var stageTimelineIds = GetStageTimelinesByCurriculumAssignmentId(curriculumAssignmentId).Select(item => item.Id);
-                DeleteTimelines(stageTimelineIds);
+            //delete corresponding StageTimelines
+            var stageTimelineIds = GetStageTimelinesByCurriculumAssignmentId(curriculumAssignmentId).Select(item => item.Id);
+            DeleteTimelines(stageTimelineIds);
 
-                //delete corresponding ThemeAssignments
-                var themeAssignmentIds = GetThemeAssignmentsByCurriculumAssignmentId(curriculumAssignmentId).Select(item => item.Id);
-                DeleteThemeAssignments(themeAssignmentIds);
+            //delete corresponding ThemeAssignments
+            var themeAssignmentIds = GetThemeAssignmentsByCurriculumAssignmentId(curriculumAssignmentId).Select(item => item.Id);
+            DeleteThemeAssignments(themeAssignmentIds);
 
-                curriculumAssignment.IsDeleted = true;
-                _Db.SubmitChanges();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            curriculumAssignment.IsDeleted = true;
+            _Db.SubmitChanges();
         }
 
         public void DeleteCurriculumAssignments(IEnumerable<int> ids)
@@ -687,34 +581,19 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public int AddThemeAssignment(ThemeAssignment themeAssignment)
         {
-            try
-            {
-                _Db.ThemeAssignments.InsertOnSubmit(themeAssignment);
-                _Db.SubmitChanges();
+            _Db.ThemeAssignments.InsertOnSubmit(themeAssignment);
+            _Db.SubmitChanges();
 
-                return themeAssignment.Id;
-            }
-            catch (Exception ex)
-            {
-                return -1;
-            }
+            return themeAssignment.Id;
         }
 
-        public bool UpdateThemeAssignment(ThemeAssignment themeAssignment)
+        public void UpdateThemeAssignment(ThemeAssignment themeAssignment)
         {
-            try
-            {
-                var oldThemeAssignment = GetThemeAssignment(themeAssignment.Id);
+            var oldThemeAssignment = GetThemeAssignment(themeAssignment.Id);
 
-                oldThemeAssignment.MaxScore = themeAssignment.MaxScore;
+            oldThemeAssignment.MaxScore = themeAssignment.MaxScore;
 
-                _Db.SubmitChanges();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            _Db.SubmitChanges();
         }
 
         public void DeleteThemeAssignments(IEnumerable<int> ids)
@@ -771,54 +650,31 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public int AddTimeline(Timeline timeline)
         {
-            try
-            {
-                timeline.IsDeleted = false;
+            timeline.IsDeleted = false;
 
-                _Db.Timelines.InsertOnSubmit(timeline);
-                _Db.SubmitChanges();
+            _Db.Timelines.InsertOnSubmit(timeline);
+            _Db.SubmitChanges();
 
-                return timeline.Id;
-            }
-            catch (Exception ex)
-            {
-                return -1;
-            }
+            return timeline.Id;
         }
 
-        public bool UpdateTimeline(Timeline timeline)
+        public void UpdateTimeline(Timeline timeline)
         {
-            try
-            {
-                var oldTimeline = GetTimeline(timeline.Id);
+            var oldTimeline = GetTimeline(timeline.Id);
 
-                oldTimeline.StartDate = timeline.StartDate;
-                oldTimeline.EndDate = timeline.EndDate;
+            oldTimeline.StartDate = timeline.StartDate;
+            oldTimeline.EndDate = timeline.EndDate;
 
-                _Db.SubmitChanges();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            _Db.SubmitChanges();
         }
 
-        public bool DeleteTimeline(int timelineId)
+        public void DeleteTimeline(int timelineId)
         {
-            try
-            {
-                var timeline = GetTimeline(timelineId);
+            var timeline = GetTimeline(timelineId);
 
-                timeline.IsDeleted = true;
+            timeline.IsDeleted = true;
 
-                _Db.SubmitChanges();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            _Db.SubmitChanges();
         }
 
         public void DeleteTimelines(IEnumerable<int> timelineIds)
