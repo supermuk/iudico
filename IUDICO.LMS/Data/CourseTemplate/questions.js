@@ -45,7 +45,7 @@ function simpleTest($object, id) {
         var params = $object.params();
 
         this.CorrectAnswer = params['correctAnswer'];
-        this.Rank = params['rank'];
+        this.Rank = parseInt(params['rank']);
 
         var $question = $('<div id="' + this.Id + '"></div>');
         $question.append('<b>' + params['question'] + '</b>');
@@ -55,7 +55,7 @@ function simpleTest($object, id) {
     }
 
     this.getAnswer = function () {
-        return $('#' + this.Id + 'Answer')[0].val();
+        return $('#' + this.Id + 'Answer').val();
     }
 
     this.setAnswer = function (answer) {
@@ -99,7 +99,7 @@ function complexTest($object, id) {
         var params = $object.params();
 
         this.CorrectAnswer = params['correct'];
-        this.Rank = params['rank'];
+        this.Rank = parseInt(params['rank']);
         this.MultiChoice = params['multichoice'];
 
         var $question = $('<div id="' + this.Id + '"></div>');
@@ -200,7 +200,7 @@ function compiledTest($object, id) {
         this.IdAfter = this.Id + 'After';
 		this.PreCode = params['preCode'];
 		this.PostCode = params['postCode'];
-        this.Rank = params['rank'];
+		this.Rank = parseInt(params['rank']);
         this.Answer = null;
         this.CompiledTest = true;
 
