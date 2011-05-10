@@ -3,34 +3,34 @@ using IUDICO.Common.Models;
 
 namespace IUDICO.Search.Models.SearchResult
 {
-    public class CourseResult : ISearchResult
+    public class GroupResult : ISearchResult
     {
-        protected Course _Course;
-        
-        public CourseResult(Course course)
+        protected Group _Group;
+
+        public GroupResult(Group group)
         {
-            _Course = course;
+            _Group = group;
         }
 
         public int GetId()
         {
-            return _Course.Id;
+            return _Group.Id;
         }
 
         public String GetName()
         {
-            return _Course.Name;
+            return _Group.Name;
         }
 
         public String GetText()
         {
-            return  "course";
+            return "group";
         }
 
         public String GetUrl()
         {
-            
-            return "/Course/" + _Course.Id + "/Node/Index";
+
+            return "/Group/Edit?id=" + _Group.Id;
         }
     }
 }
