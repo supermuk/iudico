@@ -282,4 +282,7 @@
   <data name="SelectPattern" xml:space="preserve">
     <value>Select Pattern</value>
   </data>
+  <data name="CountOfTests" xml:space="preserve">
+    <value>Count of tests</value>
+  </data>
 </root>

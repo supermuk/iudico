@@ -282,4 +282,7 @@
   <data name="SelectPattern" xml:space="preserve">
     <value>Вибрати шаблон</value>
   </data>
+  <data name="CountOfTests" xml:space="preserve">
+    <value>Кількість питань</value>
+  </data>
 </root>

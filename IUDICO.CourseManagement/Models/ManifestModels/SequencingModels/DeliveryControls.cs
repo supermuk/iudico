@@ -6,6 +6,12 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     [Serializable]
     public partial class DeliveryControls
     {
+        public DeliveryControls()
+        {
+            Tracked = true;
+            CompletionSetByContent = false;
+            ObjectiveSetByContent = false;
+        }
         #region XmlAttributes
 
         /// <summary>
