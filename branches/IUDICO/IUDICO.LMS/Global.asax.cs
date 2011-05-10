@@ -216,8 +216,7 @@ namespace IUDICO.LMS
                     if (HttpContext.Current.Request.UserLanguages != null &&
                         HttpContext.Current.Request.UserLanguages.Length != 0)
                     {
-
-                        langName = HttpContext.Current.Request.UserLanguages[0].Substring(0, 5);
+                        langName = HttpContext.Current.Request.UserLanguages[0].Split(';')[0];
                     }
                     if (langName != "en-US" && langName != "uk-UA")
                     {
