@@ -283,10 +283,10 @@
     <value>=&gt;</value>
   </data>
   <data name="AreYouSureYouWantDelete" xml:space="preserve">
-    <value>Ви впевнені, що хочете видалити</value>
+    <value>Ви впевнені, що хочете видалити </value>
   </data>
   <data name="AreYouSureYouWantDeleteSelectedAssignment" xml:space="preserve">
-    <value>Ви впевнені, що хочете видалити вибраний прив'язаний навчальний план?</value>
+    <value>Ви впевнені, що хочете видалити вибрану привязку до навчального плану?</value>
   </data>
   <data name="AreYouSureYouWantDeleteSelectedCurriculum" xml:space="preserve">
     <value>Ви впевнені, що хочете видалити вибраний навчальний план?</value>
@@ -340,10 +340,10 @@
     <value>Будь ласка, виберіть часові межі для видалення</value>
   </data>
   <data name="selectedAssignments" xml:space="preserve">
-    <value>вибрані прив'язані навчальні плани?</value>
+    <value> вибрані  прив'язки до навчального плану?</value>
   </data>
   <data name="SelectedCurriculums" xml:space="preserve">
-    <value>вибрані навчальні плани</value>
+    <value> вибраних навчальних етапів</value>
   </data>
   <data name="selectedStages" xml:space="preserve">
     <value> вибрані етапи?</value>
