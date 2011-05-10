@@ -6,6 +6,14 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     [Serializable]
     public partial class ControlMode
     {
+        public ControlMode()
+        {
+            Choice = true;
+            ChoiceExit = true;
+            Flow = false;
+
+        }
+
         #region XmlAttributes
 
         /// <summary>

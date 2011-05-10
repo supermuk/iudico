@@ -20,8 +20,12 @@
 
     <script type="text/javascript">
         var $editor;
+        var currentNodeId;
 
         function removeEditor() {
+            
+            currentNodeId = null;
+
             if ($('#editor').length != 0) {
                 $editor.ckeditorGet().destroy();
                 $('.ui-layout-center').empty();
@@ -161,8 +165,7 @@
                                 "label": "<%=IUDICO.CourseManagement.Localization.getMessage("Edit") %>",
                                 "action": function (obj) {
                                     this.get_container().triggerHandler("edit_node.jstree", { "obj": obj });
-                                },
-                                "_disabled": node.attr("rel") == "root"
+                                }                                
                             },
                             "preview": {
                                 "separator_before": false,
@@ -328,14 +331,15 @@
                 $('[id^="node_"]').children('a').removeClass('jstree-clicked jstree-selected');
                 data.obj.children('a').addClass('jstree-selected');
 
-                if($(data.obj[0]).attr("rel") == "folder") {
+                currentNodeId = data.obj.attr("id").replace("node_", "");
+
+                if($(data.obj[0]).attr("rel") != "default") {
                     return;
                 }
 
                 var editor = getEditor();
-
                 $.data(editor, 'node-id', data.obj.attr("id").replace("node_", ""));
-
+              
                 $.ajax({
                     type: 'post',
 		            url: "<%: Url.Action("Data", "Node") %>",
@@ -374,13 +378,6 @@
             $("#accordion a").click(function (e) {
                 //e.preventDefault();
 
-                if (!isEditorInited() || !$.data($editor, 'node-id')) {
-                    return;
-                }
-
-                var currentNodeId = $.data($editor, 'node-id');
-
-
                 if($("#" + this.id + "Properties")[0].style.display != 'none') {
                     clearProperties();
                     return;
@@ -392,7 +389,7 @@
                     type: 'post',
                     url: "<%: Url.Action("Properties", "Node") %>",
                     data: {
-                        "id":  $.data($editor, 'node-id'),
+                        "id":  currentNodeId,
                         "type": this.id
                     },
                     success: function(r) {
@@ -408,7 +405,7 @@
                     type: 'post',
 	                url: "<%: Url.Action("ApplyPattern", "Node") %>",
 	                data: {
-		                "id":  $.data($editor, 'node-id'),
+		                "id":  currentNodeId,
                         "pattern": $("#SequencingPatterns")[0].value,
                         "data": $("#sequencingPatternData")[0].value
 	                },
@@ -455,11 +452,11 @@
             <div>
                 <%=  Html.DropDownList("SequencingPatterns", ViewData["SequencingPatternsList"] as List<SelectListItem>)%>
             </div>
-            <div id="sequencingPatternDataHolder">
-                Count of tests:
-                <input type="text" id="sequencingPatternData" value="" style="display:none; width: 50px;" />
+            <div id="sequencingPatternDataHolder" style="display:none;">
+                <%=IUDICO.CourseManagement.Localization.getMessage("Count of tests")%>:
+                <input type="text" id="sequencingPatternData" value="0" style="width: 50px;" />
             </div>
-            <div><input type="button" id="ApplyPattern" value=<%=IUDICO.CourseManagement.Localization.getMessage("Apply")%> /></div>
+            <div><input type="button" id="ApplyPattern" value="<%=IUDICO.CourseManagement.Localization.getMessage("Apply")%>" /></div>
         </div>
 
         <div id="accordion" style="display:none;">

@@ -6,6 +6,12 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     [Serializable]
     public partial class RandomizationControls
     {
+        public RandomizationControls()
+        {
+            RandomizationTiming = Timing.Never;
+            SelectionTiming = Timing.Never;
+            ReorderChildren = false;
+        }
         #region XmlAttributes
 
         /// <summary>
