@@ -35,9 +35,9 @@ function SCO(element, passrank, _questions) {
         _questions.each(function (i) {
             obj.Questions.push($(this).iudicoQuestion('q' + i));
 
-            $.rteSetValue("cmi.interactions." + (i + 1) + ".id", obj.Questions[i].Id);
-            $.rteSetValue("cmi.interactions." + (i + 1) + ".type", obj.Questions[i].getType());
-            $.rteSetValue("cmi.interactions." + (i + 1) + ".correct_responses.0.pattern", obj.Questions[i].getCorrectAnswer());
+            $.rteSetValue("cmi.interactions." + i + ".id", obj.Questions[i].Id);
+            $.rteSetValue("cmi.interactions." + i + ".type", obj.Questions[i].getType());
+            $.rteSetValue("cmi.interactions." + i + ".correct_responses.0.pattern", obj.Questions[i].getCorrectAnswer());
 
             /*if (i >= interactions) {
                 
@@ -71,35 +71,35 @@ function SCO(element, passrank, _questions) {
 
     this.submit = function () {
         for (var i = 0; i < this.count(); i++) {
-            if (this.tests[i].CompiledTest == true) {
-                this.tests[i].processAnswer(this, i);
+            if (this.Questions[i].CompiledTest == true) {
+                this.Questions[i].processAnswer(this, i);
 
-                this.compiled++;
+                this.Compiled++;
             }
             else {
-                $.rteSetValue("cmi.interactions." + (i+1) + ".learner_response", this.tests[i].getAnswer());
-                $.rteSetValue("cmi.interactions." + (i+1) + ".result", this.tests[i].getResult());
+                $.rteSetValue("cmi.interactions." + i + ".learner_response", this.Questions[i].getAnswer());
+                $.rteSetValue("cmi.interactions." + i + ".result", this.Questions[i].getResult());
 
-                this.ScoreRaw += this.tests[i].getScoreRaw();
+                this.ScoreRaw += this.Questions[i].getScoreRaw();
             }
 
-            this.ScoreMin += this.tests[i].getScoreMin();
-            this.ScoreMax += this.tests[i].getScoreMax();
+            this.ScoreMin += this.Questions[i].getScoreMin();
+            this.ScoreMax += this.Questions[i].getScoreMax();
         }
 
         $('#ScoSubmit').attr('disabled', true);
 
-        if (this.compiled == 0) {
+        if (this.Compiled == 0) {
             this.finish();
         }
     };
 
     this.finish = function () {
-        this.compiled--;
+        this.Compiled--;
 
-        if (this.compiled <= 0) {
+        if (this.Compiled <= 0) {
             var scoreScaled = (this.ScoreRaw - this.ScoreMin) / (this.ScoreMax - this.ScoreMin);
-            var status = (this.ScoreRaw >= this.Passrank ? "passed" : "failed");
+            var status = (this.ScoreRaw >= this.PassRank ? "passed" : "failed");
 
             if ($.rteGetValue("cmi.objectives._count") > 0) {
                 $.rteSetValue("cmi.objectives.0.score.min", this.ScoreMin);
@@ -116,7 +116,7 @@ function SCO(element, passrank, _questions) {
             $.rteSetValue("cmi.completion_status", "completed");
             $.rteSetValue("cmi.success_status", status);
 
-            $.rteSetValue("cmi.exit", "suspend");
+            $.rteSetValue("cmi.exit", "normal");
             $.rteSetValue("adl.nav.request", "continue");
 
             $.rteCommit();
