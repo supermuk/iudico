@@ -33,22 +33,24 @@ function SCO(element, passrank, _questions) {
         var interactions = $.rteGetValue("cmi.interactions._count");
 
         _questions.each(function (i) {
-            obj.Questions.push($(this).iudicoQuestion());
+            obj.Questions.push($(this).iudicoQuestion('q' + i));
 
-            if (i >= interactions) {
-                $.rteSetValue("cmi.interactions." + i + ".id", obj.Questions[i].ID);
-                $.rteSetValue("cmi.interactions." + i + ".type", obj.Questions[i].getType());
-                $.rteSetValue("cmi.interactions." + i + ".correct_responses.0.pattern", obj.Questions[i].getCorrectAnswer());
+            $.rteSetValue("cmi.interactions." + (i + 1) + ".id", obj.Questions[i].Id);
+            $.rteSetValue("cmi.interactions." + (i + 1) + ".type", obj.Questions[i].getType());
+            $.rteSetValue("cmi.interactions." + (i + 1) + ".correct_responses.0.pattern", obj.Questions[i].getCorrectAnswer());
+
+            /*if (i >= interactions) {
+                
             }
             else {
-                var response = $.rteGetValue("cmi.interactions." + (i - 1) + ".learner_response");
+            var response = $.rteGetValue("cmi.interactions." + i + ".learner_response");
 
-                if (learnerResponse) {
-                    $('#ScoSubmit').attr('disabled', true);
+            if (learnerResponse) {
+            $('#ScoSubmit').attr('disabled', true);
 
-                    obj.Questions[i].setAnswer(learnerResponse);
-                }
+            obj.Questions[i].setAnswer(learnerResponse);
             }
+            }*/
         });
 
         if ($.rteGetValue("cmi.completion_status") == "unknown") {
@@ -60,7 +62,7 @@ function SCO(element, passrank, _questions) {
         var $button = $('<input type="submit" name="submit" value="Submit" id="ScoSubmit" />');
 
         this.Element.append($button);
-        this.Element.find('#ScoSubmit').click(this.submit);
+        this.Element.find('#ScoSubmit').click(function () { obj.submit(); });
     };
 
     this.count = function () {
@@ -75,8 +77,8 @@ function SCO(element, passrank, _questions) {
                 this.compiled++;
             }
             else {
-                $.rteSetValue("cmi.interactions." + i + ".learner_response", this.tests[i].getAnswer());
-                $.rteSetValue("cmi.interactions." + i + ".result", this.tests[i].getResult());
+                $.rteSetValue("cmi.interactions." + (i+1) + ".learner_response", this.tests[i].getAnswer());
+                $.rteSetValue("cmi.interactions." + (i+1) + ".result", this.tests[i].getResult());
 
                 this.ScoreRaw += this.tests[i].getScoreRaw();
             }
