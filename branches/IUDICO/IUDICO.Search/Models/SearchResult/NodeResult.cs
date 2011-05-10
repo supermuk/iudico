@@ -25,7 +25,7 @@ namespace IUDICO.Search.Models.SearchResult
 
         public string GetText()
         {
-            return !_Node.IsFolder ? _Text : "";
+            return !_Node.IsFolder ? "node" : "folder";
         }
 
         public string GetUrl()
