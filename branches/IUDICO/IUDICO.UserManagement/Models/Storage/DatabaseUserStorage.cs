@@ -304,8 +304,8 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public void EditGroup(int id, Group group)
         {
-            var oldGroup = GetGroup(id);
             var db = GetDbContext();
+            var oldGroup = db.Groups.Single(g => g.Id == id && !g.Deleted);
 
             oldGroup.Name = group.Name;
             db.SubmitChanges();
