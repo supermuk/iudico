@@ -282,9 +282,6 @@
   <data name="Next" xml:space="preserve">
     <value> =&gt; </value>
   </data>
-  <data name="AreYouSureYouWantDelete" xml:space="preserve">
-    <value>Are you sure you want to delete </value>
-  </data>
   <data name="AreYouSureYouWantDeleteSelectedAssignment" xml:space="preserve">
     <value>Are you sure you want to delete selected assignment?</value>
   </data>
@@ -322,10 +319,10 @@
     <value>Name can not be longer than {0}</value>
   </data>
   <data name="NameReqiured" xml:space="preserve">
-    <value>Name is reqiured</value>
+    <value>Name is required</value>
   </data>
   <data name="PleaseSelectAssignmentDelete" xml:space="preserve">
-    <value>Please select assignment to delete</value>
+    <value>Please select assignments to delete</value>
   </data>
   <data name="PleaseSelectCurriculumsDelete" xml:space="preserve">
     <value>Please select curriculums to delete</value>
@@ -337,25 +334,10 @@
     <value>Please select themes to delete</value>
   </data>
   <data name="PleaseSelectTimelineDelete" xml:space="preserve">
-    <value>Please select timeline to delete</value>
-  </data>
-  <data name="selectedAssignments" xml:space="preserve">
-    <value> selected assignments?</value>
-  </data>
-  <data name="SelectedCurriculums" xml:space="preserve">
-    <value> selected curriculums?</value>
-  </data>
-  <data name="selectedStages" xml:space="preserve">
-    <value> selected stages?</value>
-  </data>
-  <data name="selectedThemes" xml:space="preserve">
-    <value> selected themes?</value>
-  </data>
-  <data name="selectedTimelines" xml:space="preserve">
-    <value> selected timelines?</value>
+    <value>Please select timelines to delete</value>
   </data>
   <data name="StageTimelineBiggerThanCurriculumTimeline" xml:space="preserve">
-    <value>Stage timeline is bigger than curriculum timeline</value>
+    <value>Stage timeline should be based in one of these intervals:</value>
   </data>
   <data name="StartDateMustBeBetween" xml:space="preserve">
     <value>Start date must be between {0} and {1}</value>
@@ -380,5 +362,20 @@
   </data>
   <data name="Fields" xml:space="preserve">
     <value>Fields</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedAssignments" xml:space="preserve">
+    <value>Are you sure you want to delete selected assignments?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedCurriculums" xml:space="preserve">
+    <value>Are you sure you want to delete selected curriculums?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedStages" xml:space="preserve">
+    <value>Are you sure you want to delete selected stages?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedThemes" xml:space="preserve">
+    <value>Are you sure you want to delete selected themes?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedTimelines" xml:space="preserve">
+    <value>Are you sure you want to delete selected timelines?</value>
   </data>
 </root>

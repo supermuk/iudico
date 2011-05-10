@@ -15,7 +15,7 @@
                     return false;
                 }
 
-                var answer = confirm("<%=IUDICO.CurriculumManagement.Localization.getMessage("AreYouSureYouWantDelete") %>" + ids.length + "<%=IUDICO.CurriculumManagement.Localization.getMessage("SelectedCurriculums") %>");
+                var answer = confirm("<%=IUDICO.CurriculumManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedCurriculums") %>");
 
                 if (answer == false) {
                     return false;

@@ -17,7 +17,7 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                     return false;
                 }
 
-                var answer = confirm("<%=IUDICO.CurriculumManagement.Localization.getMessage("AreYouSureYouWantDelete") %>" + ids.length + "<%=IUDICO.CurriculumManagement.Localization.getMessage("selectedAssignments") %>");
+                var answer = confirm("<%=IUDICO.CurriculumManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedAssignments") %>");
 
                 if (answer == false) {
                     return false;
