@@ -211,7 +211,7 @@ namespace IUDICO.LMS
                 if (ci == null)
                 {
                     //Sets default culture to english invariant
-                    string langName = "en";
+                    string langName = "en-US";
                     //Try to get values from Accept lang HTTP header
                     if (HttpContext.Current.Request.UserLanguages != null &&
                         HttpContext.Current.Request.UserLanguages.Length != 0)

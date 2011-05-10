@@ -25,7 +25,7 @@ namespace IUDICO.Statistics
                 temp.Add(d.Key.ToString(), d.Value.ToString());
             }
             resource = new Dictionary<string, Dictionary<string, string>>();
-            resource.Add("en", temp);
+            resource.Add("en-US", temp);
             rsxr = new ResXResourceReader(path + "Resource" + ".uk" + ".resx");
             temp = new Dictionary<string, string>();
             foreach (DictionaryEntry d in rsxr)

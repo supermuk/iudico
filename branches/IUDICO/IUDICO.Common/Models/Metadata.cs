@@ -436,7 +436,7 @@ namespace IUDICO.Common.Models
         {
             get
             {
-                if (Thread.CurrentThread.CurrentUICulture.Name == "en")
+                if (Thread.CurrentThread.CurrentUICulture.Name == "en-US")
                 {
                     return ManagerEN.GetString(base.DisplayName, Thread.CurrentThread.CurrentUICulture);
                 }
@@ -496,7 +496,7 @@ namespace IUDICO.Common.Models
         {
             //get
             //{
-            if (Thread.CurrentThread.CurrentUICulture.Name == "en")
+            if (Thread.CurrentThread.CurrentUICulture.Name == "en-US")
             {
                 return ManagerEN.GetString(base.ErrorMessage, Thread.CurrentThread.CurrentUICulture);
             }
@@ -525,7 +525,14 @@ namespace IUDICO.Common.Models
             
             ManagerEN = new System.Resources.ResourceManager("IUDICO.Common.Resource", Assembly.GetExecutingAssembly());
             ManagerUK = new System.Resources.ResourceManager("IUDICO.Common.Resourceuk", Assembly.GetExecutingAssembly());
-            OptionLabel = ManagerUK.GetString(DropDownListKey, Thread.CurrentThread.CurrentUICulture);
+            if (Thread.CurrentThread.CurrentUICulture.Name == "en-US")
+            {
+                OptionLabel = ManagerEN.GetString(DropDownListKey, Thread.CurrentThread.CurrentUICulture);
+            }
+            else
+            {
+                OptionLabel = ManagerUK.GetString(DropDownListKey, Thread.CurrentThread.CurrentUICulture);
+            }
         }
     }
     /*public class LocalizedStringLengthAttribute : StringLengthAttribute
@@ -543,7 +550,7 @@ namespace IUDICO.Common.Models
         }
         public override string FormatErrorMessage(string name)
         {
-            if (Thread.CurrentThread.CurrentUICulture.Name == "en")
+            if (Thread.CurrentThread.CurrentUICulture.Name == "en-US")
             {
                 return ManagerEN.GetString(base.ErrorMessage, Thread.CurrentThread.CurrentUICulture);
             }
