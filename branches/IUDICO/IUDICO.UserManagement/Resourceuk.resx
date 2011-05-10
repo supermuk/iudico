@@ -129,11 +129,17 @@
   <data name="Active" xml:space="preserve">
     <value>Активний</value>
   </data>
+  <data name="Add" xml:space="preserve">
+    <value>Додати</value>
+  </data>
   <data name="AddToGroup" xml:space="preserve">
     <value>Додати до групи</value>
   </data>
   <data name="AddUser" xml:space="preserve">
     <value>Додати користувача</value>
+  </data>
+  <data name="AddUserToGroup" xml:space="preserve">
+    <value>Додати користувача до групи</value>
   </data>
   <data name="ApprovedBy" xml:space="preserve">
     <value>Підтверджено</value>
@@ -162,6 +168,12 @@
   <data name="CreateNew" xml:space="preserve">
     <value>Створити новий</value>
   </data>
+  <data name="CreateNewGroup" xml:space="preserve">
+    <value>Створити нову групу</value>
+  </data>
+  <data name="CreateNewUser" xml:space="preserve">
+    <value>Створити нового користувача</value>
+  </data>
   <data name="CreationDate" xml:space="preserve">
     <value>Дата створення</value>
   </data>
@@ -177,8 +189,14 @@
   <data name="DetailsOf" xml:space="preserve">
     <value>Детальна інформація про</value>
   </data>
+  <data name="DetailsOfGroup" xml:space="preserve">
+    <value>Детальна інформація про групу</value>
+  </data>
   <data name="Edit" xml:space="preserve">
     <value>Редагувати</value>
+  </data>
+  <data name="EditGroup" xml:space="preserve">
+    <value>Редагувати групу</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Емейл</value>
@@ -207,8 +225,14 @@
   <data name="Name" xml:space="preserve">
     <value>Ім'я</value>
   </data>
+  <data name="Name1" xml:space="preserve">
+    <value>Назва</value>
+  </data>
   <data name="NameRequired" xml:space="preserve">
     <value>Ім'я є обов'язкове</value>
+  </data>
+  <data name="NewGroup" xml:space="preserve">
+    <value>Нова група</value>
   </data>
   <data name="NewPassword" xml:space="preserve">
     <value>Новий пароль</value>

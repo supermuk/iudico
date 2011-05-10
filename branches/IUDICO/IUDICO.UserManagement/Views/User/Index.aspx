@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Users</h2>
+    <h2><%=IUDICO.UserManagement.Localization.getMessage("Users")%></h2>
 
     <table>
         <tr>
@@ -75,7 +75,7 @@
     </table>
 
     <p>
-        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("CreateNew"), "Create")%>
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("CreateNewUser"), "Create")%>
     </p>
 
 </asp:Content>

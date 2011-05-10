@@ -129,11 +129,17 @@
   <data name="Active" xml:space="preserve">
     <value>Active</value>
   </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
   <data name="AddToGroup" xml:space="preserve">
     <value>Add To Group</value>
   </data>
   <data name="AddUser" xml:space="preserve">
     <value>Add User</value>
+  </data>
+  <data name="AddUserToGroup" xml:space="preserve">
+    <value>Add User To Group</value>
   </data>
   <data name="ApprovedBy" xml:space="preserve">
     <value>Approved By</value>
@@ -162,6 +168,12 @@
   <data name="CreateNew" xml:space="preserve">
     <value>Create New</value>
   </data>
+  <data name="CreateNewGroup" xml:space="preserve">
+    <value>Create New Group</value>
+  </data>
+  <data name="CreateNewUser" xml:space="preserve">
+    <value>Create New User</value>
+  </data>
   <data name="CreationDate" xml:space="preserve">
     <value>Creation Date</value>
   </data>
@@ -177,8 +189,14 @@
   <data name="DetailsOf" xml:space="preserve">
     <value>Details of</value>
   </data>
+  <data name="DetailsOfGroup" xml:space="preserve">
+    <value>Details of Group</value>
+  </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
+  </data>
+  <data name="EditGroup" xml:space="preserve">
+    <value>Edit Group</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
@@ -207,8 +225,14 @@
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="Name1" xml:space="preserve">
+    <value>Name</value>
+  </data>
   <data name="NameRequired" xml:space="preserve">
     <value>Name is required</value>
+  </data>
+  <data name="NewGroup" xml:space="preserve">
+    <value>New Group</value>
   </data>
   <data name="NewPassword" xml:space="preserve">
     <value>New Password</value>
