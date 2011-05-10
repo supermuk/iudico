@@ -201,4 +201,7 @@
   <data name="NoData" xml:space="preserve">
     <value>No data</value>
   </data>
+  <data name="NoDataShow" xml:space="preserve">
+    <value>No data to show</value>
+  </data>
 </root>

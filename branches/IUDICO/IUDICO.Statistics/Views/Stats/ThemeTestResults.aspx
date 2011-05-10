@@ -9,7 +9,7 @@
     <fieldset>
     <%if (Model.NoData() == true)
       {%>
-        No data to show
+        <%=IUDICO.Statistics.Localization.getMessage("NoDataShow")%>
         <%
         }
       else
