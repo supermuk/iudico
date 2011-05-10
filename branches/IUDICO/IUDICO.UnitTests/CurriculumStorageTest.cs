@@ -109,6 +109,7 @@ namespace IUDICO.UnitTests
 
         #region CurriculumTestMethods
 
+       // [ExpectedException(typeof(Exception))]
         [TestMethod]
         public void AddCurriculumTest()
         {
@@ -127,11 +128,24 @@ namespace IUDICO.UnitTests
                 .ForEach(i => AdvAssert.AreEqual(curriculums[i], storage.GetCurriculum(ids[i])));
 
             //Test AddCurriculumAssignment() with null and bad curriculum
-            int curriculumId = storage.AddCurriculum(null);
-            Assert.AreEqual(-1, curriculumId);
-
-            curriculumId = storage.AddCurriculum(new Curriculum() { });
-            Assert.AreEqual(-1, curriculumId);
+            try
+            {
+                int curriculumId = storage.AddCurriculum(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+            try
+            {
+                int curriculumId = storage.AddCurriculum(new Curriculum() { });
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
         }
 
         [TestMethod]
@@ -183,8 +197,15 @@ namespace IUDICO.UnitTests
         public void UpdateCurriculumTest()
         {
             //Test UpdateCurriculum() with null
-            bool operationSuccess = storage.UpdateCurriculum(null);
-            Assert.IsFalse(operationSuccess);
+            try
+            {
+                storage.UpdateCurriculum(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
 
             //Test UpdateCurriculum()
             Curriculum curriculum = new Curriculum { Name = "Curriculum" };
@@ -218,8 +239,15 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(null, storage.GetCurriculum(ids[2]));
 
             //Test DeleteCurriculum() curriuclum with unreal id
-            bool operationSuccess = storage.DeleteCurriculum(0);
-            Assert.IsFalse(operationSuccess);
+            try
+            {
+                storage.DeleteCurriculum(0);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
         }
 
         #endregion
@@ -246,11 +274,24 @@ namespace IUDICO.UnitTests
                 .ForEach(i => AdvAssert.AreEqual(stages[i], storage.GetStage(ids[i])));
 
             //Test AddStage() with null and bad stage
-            int stageId = storage.AddStage(null);
-            Assert.AreEqual(-1, stageId);
-
-            stageId = storage.AddStage(new Stage() { });
-            Assert.AreEqual(-1, stageId);
+            try
+            {
+                int stageId = storage.AddStage(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+            try
+            {
+                int stageId = storage.AddStage(new Stage() { });
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
         }
 
         [TestMethod]
@@ -286,8 +327,15 @@ namespace IUDICO.UnitTests
         public void UpdateStageTest()
         {
             //Test UpdateStage() with null
-            bool operationSuccess = storage.UpdateStage(null);
-            Assert.IsFalse(operationSuccess);
+            try
+            {
+                storage.UpdateStage(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
 
             //Test UpdateStage()
             int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
@@ -324,8 +372,15 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(null, storage.GetStage(ids[2]));
 
             //Test DeleteStage() stage with unreal id
-            bool operationSuccess = storage.DeleteStage(0);
-            Assert.IsFalse(operationSuccess);
+            try
+            {
+                storage.DeleteStage(0);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
         }
 
         #endregion
@@ -354,11 +409,24 @@ namespace IUDICO.UnitTests
                 .ForEach(i => AdvAssert.AreEqual(themes[i], storage.GetTheme(ids[i])));
 
             //Test AddTheme() with null and bad theme
-            int themeId = storage.AddTheme(null);
-            Assert.AreEqual(-1, themeId);
-
-            themeId = storage.AddTheme(new Theme() { });
-            Assert.AreEqual(-1, themeId);
+            try
+            {
+                int themeId = storage.AddTheme(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+            try
+            {
+                int themeId = storage.AddTheme(new Theme() { });
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
         }
 
         [TestMethod]
@@ -406,8 +474,15 @@ namespace IUDICO.UnitTests
         public void UpdateThemeTests()
         {
             //Test UpdateTheme() with null
-            bool operationSuccess = storage.UpdateTheme(null);
-            Assert.IsFalse(operationSuccess);
+            try
+            {
+                storage.UpdateTheme(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
 
             //Test UpdateTheme()
             ICourseService courseService = lmsService.FindService<ICourseService>();
@@ -449,8 +524,15 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(null, storage.GetTheme(ids[2]));
 
             //Test DeleteTheme() theme with unreal id
-            bool operationSuccess = storage.DeleteTheme(0);
-            Assert.IsFalse(operationSuccess);
+            try
+            {
+                storage.DeleteTheme(0);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
         }
 
         [TestMethod]
@@ -519,11 +601,24 @@ namespace IUDICO.UnitTests
                 .ForEach(i => AdvAssert.AreEqual(curriculumAssignments[i], storage.GetCurriculumAssignment(ids[i])));
 
             //Test AddCurriculumAssignment() with null and bad curriculumAssignment
-            int curriculumAssignmentId = storage.AddCurriculumAssignment(null);
-            Assert.AreEqual(-1, curriculumAssignmentId);
-
-            curriculumAssignmentId = storage.AddCurriculumAssignment(new CurriculumAssignment() { });
-            Assert.AreEqual(-1, curriculumAssignmentId);
+            try
+            {
+                int curriculumAssignmentId = storage.AddCurriculumAssignment(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+            try
+            {
+                int curriculumAssignmentId = storage.AddCurriculumAssignment(new CurriculumAssignment() { });
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
         }
 
         [TestMethod]
@@ -565,8 +660,15 @@ namespace IUDICO.UnitTests
         public void UpdateCurriculumAssignmentTests()
         {
             //Test UpdateCurriculumAssignment() with null
-            bool operationSuccess = storage.UpdateCurriculumAssignment(null);
-            Assert.IsFalse(operationSuccess);
+            try
+            {
+                storage.UpdateCurriculumAssignment(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
 
             //Test UpdateCurriculumAssignment()
             int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
@@ -610,8 +712,15 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(null, storage.GetCurriculumAssignment(ids[2]));
 
             //Test DeleteCurriculumAssignment() curriculumAssignment with unreal id
-            bool operationSuccess = storage.DeleteCurriculumAssignment(0);
-            Assert.IsFalse(operationSuccess);
+            try
+            {
+                storage.DeleteCurriculumAssignment(0);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
         }
 
         #endregion
@@ -641,11 +750,24 @@ namespace IUDICO.UnitTests
                 .ForEach(i => AdvAssert.AreEqual(timelines[i], storage.GetTimeline(ids[i])));
 
             //Test AddTimeline() with null and bad timeline
-            int timelineId = storage.AddTimeline(null);
-            Assert.AreEqual(-1, timelineId);
-
-            timelineId = storage.AddTimeline(new Timeline() { });
-            Assert.AreEqual(-1, timelineId);
+            try
+            {
+                int timelineId = storage.AddTimeline(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+            try
+            {
+                int timelineId = storage.AddTimeline(new Timeline() { });
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
         }
 
         [TestMethod]
@@ -687,8 +809,15 @@ namespace IUDICO.UnitTests
         public void UpdateTimelineTest()
         {
             //Test UpdateTimeline() with null
-            bool operationSuccess = storage.UpdateTimeline(null);
-            Assert.IsFalse(operationSuccess);
+            try
+            {
+                storage.UpdateTimeline(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
 
             //Test UpdateTimeline()
             int curriculumId = storage.AddCurriculum(Utils.GetDefaultCurriculum());
@@ -734,8 +863,15 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(null, storage.GetTimeline(ids[2]));
 
             //Test DeleteTimeline() timeline with unreal id
-            bool operationSuccess = storage.DeleteTimeline(0);
-            Assert.IsFalse(operationSuccess);
+            try
+            {
+                storage.DeleteTimeline(0);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
         }
 
         #endregion
@@ -802,11 +938,24 @@ namespace IUDICO.UnitTests
                 .ForEach(i => AdvAssert.AreEqual(themeAssignments[i], storage.GetThemeAssignment(ids[i])));
 
             //Test AddThemeAssignment() with null and bad themeAssignment
-            int themeAssignmentId = storage.AddThemeAssignment(null);
-            Assert.AreEqual(-1, themeAssignmentId);
-
-            themeAssignmentId = storage.AddThemeAssignment(new ThemeAssignment() { });
-            Assert.AreEqual(-1, themeAssignmentId);
+            try
+            {
+                int themeAssignmentId = storage.AddThemeAssignment(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+            try
+            {
+                int themeAssignmentId = storage.AddThemeAssignment(new ThemeAssignment() { });
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
         }
 
         [TestMethod]
@@ -849,8 +998,15 @@ namespace IUDICO.UnitTests
         public void UpdateThemeAssignmentTest()
         {
             //Test UpdateThemeAssignment() with null
-            bool operationSuccess = storage.UpdateThemeAssignment(null);
-            Assert.IsFalse(operationSuccess);
+            try
+            {
+                storage.UpdateThemeAssignment(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
 
             //Test UpdateThemeAssignment()
             ICourseService courseService = lmsService.FindService<ICourseService>();

@@ -39,8 +39,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         /// <returns></returns>
         IEnumerable<Curriculum> GetCurriculumsWithThemesOwnedByUser(User user);
         int AddCurriculum(Curriculum curriculum);
-        bool UpdateCurriculum(Curriculum curriculum);
-        bool DeleteCurriculum(int id);
+        void UpdateCurriculum(Curriculum curriculum);
+        void DeleteCurriculum(int id);
         void DeleteCurriculums(IEnumerable<int> ids);
 
         #endregion
@@ -51,8 +51,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         IEnumerable<Stage> GetStages(IEnumerable<int> ids);
         int AddStage(Stage stage);
         Stage GetStage(int id);
-        bool UpdateStage(Stage stage);
-        bool DeleteStage(int id);
+        void UpdateStage(Stage stage);
+        void DeleteStage(int id);
         void DeleteStages(IEnumerable<int> ids);
 
         #endregion
@@ -78,8 +78,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         /// <returns></returns>
         IEnumerable<Group> GetGroupsAssignedToTheme(int themeId);
         int AddTheme(Theme theme);
-        bool UpdateTheme(Theme theme);
-        bool DeleteTheme(int id);
+        void UpdateTheme(Theme theme);
+        void DeleteTheme(int id);
         void DeleteThemes(IEnumerable<int> ids);
         Theme ThemeUp(int themeId);
         Theme ThemeDown(int themeId);
@@ -100,8 +100,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         IEnumerable<CurriculumAssignment> GetCurriculumAssignmentsByGroupId(int groupId);
         IEnumerable<CurriculumAssignment> GetCurriculumAssignments();
         int AddCurriculumAssignment(CurriculumAssignment curriculumAssignment);
-        bool UpdateCurriculumAssignment(CurriculumAssignment curriculumAssignment);
-        bool DeleteCurriculumAssignment(int id);
+        void UpdateCurriculumAssignment(CurriculumAssignment curriculumAssignment);
+        void DeleteCurriculumAssignment(int id);
         void DeleteCurriculumAssignments(IEnumerable<int> ids);
 
         #endregion
@@ -113,7 +113,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         IEnumerable<ThemeAssignment> GetThemeAssignmentsByThemeId(int themeId);
         IEnumerable<ThemeAssignment> GetThemeAssignments(IEnumerable<int> ids);
         int AddThemeAssignment(ThemeAssignment themeAssignment);
-        bool UpdateThemeAssignment(ThemeAssignment themeAssignment);
+        void UpdateThemeAssignment(ThemeAssignment themeAssignment);
         void DeleteThemeAssignments(IEnumerable<int> ids);
 
         #endregion
@@ -127,8 +127,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         IEnumerable<Timeline> GetStageTimelinesByStageId(int stageId);
         IEnumerable<Timeline> GetStageTimelines(int stageId, int curriculumAssignmentId);
         int AddTimeline(Timeline timeline);
-        bool UpdateTimeline(Timeline timeline);
-        bool DeleteTimeline(int timelineId);
+        void UpdateTimeline(Timeline timeline);
+        void DeleteTimeline(int timelineId);
         void DeleteTimelines(IEnumerable<int> timelineIds);
 
         #endregion
