@@ -15,7 +15,7 @@
       else
       {%>
         <legend> <%=IUDICO.Statistics.Localization.getMessage("AttemptStatistic")%></legend>
-        <h2><%=IUDICO.Statistics.Localization.getMessage("Resalts")%></h2>
+        <h2><%=IUDICO.Statistics.Localization.getMessage("Results")%></h2>
         <p>
             <%=IUDICO.Statistics.Localization.getMessage("Student")%>:  <%: Model.GetUserName()%>
         </p>
@@ -51,7 +51,7 @@
                       <%}
                       else if (Model.GetUserAnswer(answer) == "")
                       { %>
-                            No data
+                            <%=IUDICO.Statistics.Localization.getMessage("NoData")%>
                       <% 
                       }
                       else
