@@ -178,7 +178,7 @@
     <value>Редагувати теми</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Ім'я</value>
+    <value>Назва</value>
   </data>
   <data name="Stage" xml:space="preserve">
     <value>Етап</value>
@@ -187,7 +187,7 @@
     <value>Етапи для</value>
   </data>
   <data name="ThemeName" xml:space="preserve">
-    <value>Ім'я теми</value>
+    <value>Назва теми</value>
   </data>
   <data name="ThemesFor" xml:space="preserve">
     <value>Теми для</value>
@@ -319,10 +319,10 @@
     <value>Сталася помилка під час обробки запиту \ n Повідомлення про помилку:</value>
   </data>
   <data name="NameCanNotBeLongerThan" xml:space="preserve">
-    <value>Ім'я не може бути більше, ніж {0} символів</value>
+    <value>Назва не може бути більше, ніж {0} символів</value>
   </data>
   <data name="NameReqiured" xml:space="preserve">
-    <value>Ім'я є обов'язкове</value>
+    <value>Назва є обов'язкова</value>
   </data>
   <data name="PleaseSelectAssignmentDelete" xml:space="preserve">
     <value>Будь ласка, виберіть прив'язаний навчальний план для видалення</value>

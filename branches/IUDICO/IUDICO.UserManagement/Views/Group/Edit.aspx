@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Edit Group <%= Model.Name %></h2>
+    <h2><%=IUDICO.UserManagement.Localization.getMessage("EditGroup")%> <%= Model.Name %></h2>
 
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary(IUDICO.UserManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
