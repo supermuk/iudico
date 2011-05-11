@@ -150,11 +150,23 @@
   <data name="ForwarOnly" xml:space="preserve">
     <value>Forward Only</value>
   </data>
+  <data name="FullName" xml:space="preserve">
+    <value>Full name</value>
+  </data>
+  <data name="FullNameRequired" xml:space="preserve">
+    <value>Full name is required</value>
+  </data>
   <data name="IsFolder" xml:space="preserve">
     <value>Is Folder</value>
   </data>
   <data name="LastUpdated" xml:space="preserve">
     <value>Last Updated</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginRequired" xml:space="preserve">
+    <value>Login is required</value>
   </data>
   <data name="MaxScore" xml:space="preserve">
     <value>Max Score</value>

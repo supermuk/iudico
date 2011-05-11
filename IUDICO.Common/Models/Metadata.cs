@@ -196,9 +196,9 @@ namespace IUDICO.Common.Models
             [ScaffoldColumn(false)]
             public Guid Id { get; set; }
 
-            [LocalizedDisplayName("Username", NameResourceType = "IUDICO.Common.Resource")]
-            [LocalizedRequired(ErrorMessage = "UsernameRequired")]
-            [StringLength(100, ErrorMessage = "Username can not be longer than 100")]
+            [LocalizedDisplayName("Login", NameResourceType = "IUDICO.Common.Resource")]
+            [LocalizedRequired(ErrorMessage = "LoginRequired")]
+            [StringLength(100, ErrorMessage = "Login can not be longer than 100")]
             [Order(1)]
             public string Username { get; set; }
 
@@ -226,9 +226,9 @@ namespace IUDICO.Common.Models
             [Order(4)]
             public string OpenId { get; set; }
 
-            [LocalizedDisplayName("Name", NameResourceType = "IUDICO.Common.Resource")]
-            [LocalizedRequired(ErrorMessage = "NameRequired")]
-            [StringLength(200, ErrorMessage = "Name can not be longer than 200")]
+            [LocalizedDisplayName("FullName", NameResourceType = "IUDICO.Common.Resource")]
+            [LocalizedRequired(ErrorMessage = "FullNameRequired")]
+            [StringLength(200, ErrorMessage = "FullName can not be longer than 200")]
             [Order(5)]
             public string Name { get; set; }
 

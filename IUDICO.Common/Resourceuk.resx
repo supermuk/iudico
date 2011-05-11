@@ -150,11 +150,23 @@
   <data name="ForwarOnly" xml:space="preserve">
     <value>Forwar Only</value>
   </data>
+  <data name="FullName" xml:space="preserve">
+    <value>Прізвище, ім'я</value>
+  </data>
+  <data name="FullNameRequired" xml:space="preserve">
+    <value>Прізвище, ім'я є обов'язкове</value>
+  </data>
   <data name="IsFolder" xml:space="preserve">
     <value>Is Folder</value>
   </data>
   <data name="Last Updated" xml:space="preserve">
     <value>Останнє оновлення</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Логін</value>
+  </data>
+  <data name="LoginRequired" xml:space="preserve">
+    <value>Логін є обо'язковий</value>
   </data>
   <data name="MaxScore" xml:space="preserve">
     <value>Максимальна оцінка</value>

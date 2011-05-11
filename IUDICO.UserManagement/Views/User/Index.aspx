@@ -12,10 +12,10 @@
     <table>
         <tr>
             <th>
-                <%=IUDICO.UserManagement.Localization.getMessage("Name")%>
+                <%=IUDICO.UserManagement.Localization.getMessage("FullName")%>
             </th>
             <th>
-                <%=IUDICO.UserManagement.Localization.getMessage("Username")%>
+                <%=IUDICO.UserManagement.Localization.getMessage("Login")%>
             </th>
             <th>
                 <%=IUDICO.UserManagement.Localization.getMessage("Active")%>
