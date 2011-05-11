@@ -207,6 +207,9 @@
   <data name="Fields" xml:space="preserve">
     <value>Поля</value>
   </data>
+  <data name="FullName" xml:space="preserve">
+    <value>Прізвище, ім'я</value>
+  </data>
   <data name="GetGroups" xml:space="preserve">
     <value>Переглянути групи</value>
   </data>
@@ -239,6 +242,9 @@
   </data>
   <data name="NewPasswordRequired" xml:space="preserve">
     <value>Новий пароль є обов'язковий</value>
+  </data>
+  <data name="NewUser" xml:space="preserve">
+    <value>Новий користувач</value>
   </data>
   <data name="NoActions" xml:space="preserve">
     <value>Немає дій</value>
