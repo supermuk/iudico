@@ -8,6 +8,7 @@ using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Attributes;
+using IUDICO.TestingSystem.Models.VOs;
 
 namespace IUDICO.TestingSystem.Controllers
 {
@@ -63,7 +64,7 @@ namespace IUDICO.TestingSystem.Controllers
 
             ServicesProxy.Instance.Initialize(LmsService);
 
-            return View("Play", attemptId);
+            return View("Play", new PlayModel { AttemptId = attemptId, ThemeId = theme.Id });
         }
     }
 }

@@ -1,12 +1,12 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Int64>" %>
-
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.TestingSystem.Models.VOs.PlayModel>" %>
+<%@ Assembly Name="IUDICO.TestingSystem" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Play course
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <div id="ShowResults" style="display:none;"><%: Html.RouteLink("Show Results", new { controller = "Stats", action = "CurrentThemeTestResults", themeId = Model })%></div>
-    <iframe width="100%" height="600px" frameborder="0" src="<%: "/Player/Frameset/Frameset.aspx?View=0&AttemptId=" + Model.ToString() %>" id="player" name="player" style="display: block;"></iframe>
+    <div id="ShowResults" style="display:none;"><%: Html.RouteLink("Show Results", new { controller = "Stats", action = "CurrentThemeTestResults", themeId = Model.ThemeId })%></div>
+    <iframe width="100%" height="600px" frameborder="0" src="<%: "/Player/Frameset/Frameset.aspx?View=0&AttemptId=" + Model.AttemptId.ToString() %>" id="player" name="player" style="display: block;"></iframe>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
