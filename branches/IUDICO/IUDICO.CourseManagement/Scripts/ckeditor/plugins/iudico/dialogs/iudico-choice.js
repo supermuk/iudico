@@ -153,6 +153,10 @@
                                         choice = dialog.getContentElement('choiceTab', 'choice'),
                                         correctAnswer = dialog.getContentElement('choiceTab', 'correctAnswer');
 
+                                    if (choice.getValue() == '') {
+                                        alert('Empty field!');
+                                        return;
+                                    }
 
                                     addOption(choices, choice.getValue(), choice.getValue(), dialog.getParentEditor().document);
                                     addOption(correctAnswer, choice.getValue(), choice.getValue(), dialog.getParentEditor().document);
