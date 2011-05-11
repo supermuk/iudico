@@ -198,6 +198,9 @@
   <data name="EditGroup" xml:space="preserve">
     <value>Редагувати групу</value>
   </data>
+  <data name="EditUser" xml:space="preserve">
+    <value>Редагування користувача</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Емейл</value>
   </data>
