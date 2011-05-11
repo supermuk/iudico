@@ -59,6 +59,11 @@
         { /*jsl:pass*/ }
     }
 
+    function getSelectedIndex(combo) {
+        combo = getSelect(combo);
+        return combo ? combo.$.selectedIndex : -1;
+    }
+
     function getSelect(obj) {
         if (obj && obj.domId && obj.getInputElement().$)				// Dialog element.
             return obj.getInputElement();
@@ -280,11 +285,30 @@
                                         testInput = dialog.getContentElement('testsTab', 'testInput'),
                                         testOutput = dialog.getContentElement('testsTab', 'testOutput');
 
+                                    if (testInput.getValue() == '' || testOutput.getValue() == '') {
+                                        alert('Empty fields!');
+                                        return;
+                                    }
+
                                     dialog.options.push([testInput.getValue(), testOutput.getValue()]);
                                     addOption(tests, testInput.getValue() + " -> " + testOutput.getValue(), testInput.getValue() + " -> " + testOutput.getValue(), dialog.getParentEditor().document);
 
                                     testInput.setValue('');
                                     testOutput.setValue('');
+                                }
+                            },
+                            {
+                                id: 'deleteTest',
+                                type: 'button',
+                                label: editor.lang.iudico.deleteTest,
+                                onClick: function () {
+                                    var dialog = this.getDialog(),
+										tests = dialog.getContentElement('testsTab', 'cmbTests');
+
+                                    index = getSelectedIndex(tests);
+
+                                    dialog.options.splice(index, 1);
+                                    removeOption(tests, index);
                                 }
                             }
                         ]
@@ -311,9 +335,14 @@
                                 delete paramMap['testOutput' + i];
                             }
 
+                            var count = 0;
                             for (var i = 0; i < dialog.options.length; ++i) {
+                                //if (!dialog.options[i])
+                                    //continue;
+
                                 paramMap['testInput' + i] = this.getDialog().addParam(objectNode, 'testInput' + i, dialog.options[i][0]);
                                 paramMap['testOutput' + i] = this.getDialog().addParam(objectNode, 'testOutput' + i, dialog.options[i][1]);
+                                ++count;
                             }
 
                             if (paramMap['count']) {

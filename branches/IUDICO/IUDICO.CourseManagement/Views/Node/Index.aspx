@@ -318,13 +318,13 @@
 
                 $.ajax({
                     type: 'post',
-		            url: "<%: Url.Action("Preview", "Node") %>",
+		            url: "<%: Url.Action("Preview", "Node") %>?time=" + new Date().getTime(),
 					data: {
 						"id": data.obj.attr("id").replace("node_", ""),
 					},
 					success: function (r) {
                         $iframe = $('<iframe width="100%" height="100%"></iframe>');
-                        $iframe.attr('src', r.path);
+                        $iframe.attr('src', r.path + "?time="  + new Date().getTime());
 
 					    $('.ui-layout-center').empty();
                         $('.ui-layout-center').append($iframe);
