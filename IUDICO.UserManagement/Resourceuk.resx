@@ -213,6 +213,9 @@
   <data name="FullName" xml:space="preserve">
     <value>Прізвище, ім'я</value>
   </data>
+  <data name="FullNameRequiered" xml:space="preserve">
+    <value>Прізвище, ім'я є обов'язкове</value>
+  </data>
   <data name="GetGroups" xml:space="preserve">
     <value>Переглянути групи</value>
   </data>
@@ -230,6 +233,9 @@
   </data>
   <data name="Loginn" xml:space="preserve">
     <value>Логін</value>
+  </data>
+  <data name="LoginRequired" xml:space="preserve">
+    <value>Логін є обов'язковий</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Ім'я</value>
