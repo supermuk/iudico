@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.UI.WebControls;
@@ -184,6 +185,21 @@ namespace IUDICO.CourseManagement.Controllers
             catch (Exception)
             {
                 return Json(new { status = true, data = "" });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult Preview(int id)
+        {
+            try
+            {
+                var path = Path.Combine(HttpContext.Request.Url.AbsolutePath, _Storage.GetPreviewNodePath(id)).Replace('\\', '/');
+
+                return Json(new { status = true, path = path });
+            }
+            catch (Exception)
+            {
+                return Json(new { status = true, path = "" });
             }
         }
 

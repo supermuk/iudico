@@ -22,6 +22,8 @@ namespace IUDICO.CourseManagement.Models.Storage
     internal class MixedCourseStorage : ICourseStorage
     {
         private readonly ILmsService _LmsService;
+        private readonly string[] _TemplateFiles = { "api.js", "checkplayer.js", "flensed.js", "flXHR.js", "flXHR.swf", "iudico.css", "iudico.js", "jquery-1.5.2.min.js", "jquery.flXHRproxy.js", "questions.js", "sco.js", "swfobject.js", "updateplayer.swf" };
+        private readonly string _ResourceIdForTemplateFiles = "TemplateFiles";
 
         public MixedCourseStorage(ILmsService lmsService)
         {
@@ -103,10 +105,6 @@ namespace IUDICO.CourseManagement.Models.Storage
             db.SubmitChanges();
         }
 
-        private string[] _TemplateFiles = { "jquery-1.5.2.min.js", "api.js", "questions.js", "sco.js", "iudico.js", "iudico.css" };
-
-        private const string _ResourceIdForTemplateFiles = "TemplateFiles";
-
         public int AddCourse(Course course)
         {
             course.Created = DateTime.Now;
@@ -121,12 +119,10 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             var templatePath = GetTemplatesPath();
 
-            File.Copy(Path.Combine(templatePath, "jquery-1.5.2.min.js"), Path.Combine(path, "jquery-1.5.2.min.js"));
-            File.Copy(Path.Combine(templatePath, "api.js"), Path.Combine(path, "api.js"));
-            File.Copy(Path.Combine(templatePath, "questions.js"), Path.Combine(path, "questions.js"));
-            File.Copy(Path.Combine(templatePath, "sco.js"), Path.Combine(path, "sco.js"));
-            File.Copy(Path.Combine(templatePath, "iudico.js"), Path.Combine(path, "iudico.js"));
-            File.Copy(Path.Combine(templatePath, "iudico.css"), Path.Combine(path, "iudico.css"));
+            foreach (var templateFile in _TemplateFiles)
+            {
+                File.Copy(Path.Combine(templatePath, templateFile), Path.Combine(path, templateFile));
+            }
 
             _LmsService.Inform(CourseNotifications.CourseCreate, course);
 
@@ -469,6 +465,13 @@ namespace IUDICO.CourseManagement.Models.Storage
             db.SubmitChanges();
 
             return newnode.Id;
+        }
+
+        public string GetPreviewNodePath(int id)
+        {
+            var node = GetNode(id);
+
+            return Path.Combine(@"Data\Courses", node.CourseId.ToString(), node.Id.ToString()) + ".html";
         }
 
         public string GetNodeContents(int id)
