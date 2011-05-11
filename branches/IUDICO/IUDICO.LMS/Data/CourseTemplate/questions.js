@@ -11,10 +11,12 @@
                 case 'iudico-simple':
                     scoq = new simpleTest($this, id);
                     break;
-                case 'iudico-compex':
+                case 'iudico-choice':
                     scoq = new complexTest($this, id);
-                case 'iudico-compiled':
+                    break;
+                case 'iudico-compile':
                     scoq = new compiledTest($this, id);
+                    break;
                 default:
                     scoq = null;
             }
@@ -111,23 +113,29 @@ function complexTest($object, id) {
             $question.append('<p><input type="' + (params['multichoice'] == '1' ? 'check' : 'radio') + '" name="' + this.Id + 'Answer[]" id="' + this.Id + 'Answer' + i + '" value="' + params['option' + i] + '" /> ' + params['option' + i] + '</p>');
         }
 
-        $obj.replaceWith($question);
+        $object.replaceWith($question);
     }
 
     this.getAnswer = function () {
         /*var result = [];
 
         $('input[@name="' + this.Id + 'Answer[]"').each(function () {
-            result.push($(this).is(':checked') ? '1' : '0');
+        result.push($(this).is(':checked') ? '1' : '0');
         });
 
         return result.join('');*/
 
-        $('input[@name="' + this.Id + 'Answer[]"').each(function () {
+        var result = null;
+
+        $('input[name="' + this.Id + 'Answer[]"]').each(function () {
             if ($(this).is(':checked')) {
-                return $(this).val();
+                result = $(this).val();
+
+                return false;
             }
         });
+
+        return result;
     }
 
     this.setAnswer = function (answer) {
@@ -138,7 +146,7 @@ function complexTest($object, id) {
             $(this).attr('checked', (result[i] == '1'));
         });*/
 
-        $('input[@name="' + this.Id + 'Answer[]"][@value="' + answer + '"]').attr('checked', 'checked');
+        $('input[name="' + this.Id + 'Answer[]"][value="' + answer + '"]').attr('checked', 'checked');
     }
 
     this.getCorrectAnswer = function () {
@@ -222,17 +230,17 @@ function compiledTest($object, id) {
         var $question = $('<div id="' + this.Id + '"></div>');
         $question.append('<b>' + params['question'] + '</b>');
 
-        if (params['before'].length > 0) {
+        if (params['preCode'].length > 0) {
             $question.append('<div id="' + this.Id + 'Before"><pre>' + params['preCode'] + '</pre></div>');
         }
 
-        $question.append('<input type="text" name="' + this.Id + 'Answer" id="' + this.Id + 'Answer" />');
+        $question.append('<p><textarea name="' + this.Id + 'Answer" id="' + this.Id + 'Answer"></textarea></p>');
 
-        if (params['after'].length > 0) {
+        if (params['postCode'].length > 0) {
             $question.append('<div id="' + this.Id + 'After"><pre>' + params['postCode'] + '</pre></div>');
         }
 
-        $obj.replaceWith($question);
+        $object.replaceWith($question);
     }
 
     this.processAnswer = function (SCOObj, i) {
@@ -240,7 +248,7 @@ function compiledTest($object, id) {
         var sourceCode = this.PreCode + $('#' + this.Id).val() + this.PostCode;
         var sourceCodeData = { 'source': sourceCode, 'language': this.Language, 'input': this.Input, 'output': this.Output, 'timelimit': this.Timelimit, 'memorylimit': this.Memorylimit };
 
-        jQuery.flXHRproxy.registerOptions(url, { xmlResponseText: false });
+        $.flXHRproxy.registerOptions(url, { xmlResponseText: false });
 
         $.ajax({
             type: "POST",
@@ -288,5 +296,5 @@ function compiledTest($object, id) {
         return this.Rank;
     }
 	
-	this.parser($object);
+	this.parse($object);
 };
