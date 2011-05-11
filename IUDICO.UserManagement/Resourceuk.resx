@@ -225,6 +225,9 @@
   <data name="Login" xml:space="preserve">
     <value>Увійти</value>
   </data>
+  <data name="Loginn" xml:space="preserve">
+    <value>Логін</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Ім'я</value>
   </data>
