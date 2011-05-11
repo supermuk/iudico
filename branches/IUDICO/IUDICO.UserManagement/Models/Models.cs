@@ -31,7 +31,7 @@ namespace IUDICO.UserManagement.Models
         [Order(1)]
         public string Username { get; set; }
 
-        [LocalizedDisplayName("Name", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("FullName", NameResourceType = "IUDICO.UserManagement.Resource")]
         [Order(2)]
         public string Name { get; set; }
 
