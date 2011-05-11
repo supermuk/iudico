@@ -120,9 +120,11 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         public String GetScore()
         {
             if (this.Attempt != null)
-                return this.Attempt.Score.ToPercents().ToString();
-            else
-                return "";
+            {
+                if (this.Attempt.Score.ToPercents().HasValue ==true)
+                    return Math.Round((double)this.Attempt.Score.ToPercents(), 2).ToString();
+            }
+            return "";
         }
 
         /// <summary>
@@ -146,9 +148,11 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         public String GetUserScoreForAnswer(AnswerResult answerResult)
         {
             if (answerResult.ScaledScore != null)
-                return answerResult.ScaledScore.ToString();
-            else
-                return "";
+                {
+                    if (answerResult.ScaledScore.HasValue == true)
+                    return Math.Round((double)answerResult.ScaledScore, 2).ToString();
+            }
+            return "";
         }
 
         /// <summary>

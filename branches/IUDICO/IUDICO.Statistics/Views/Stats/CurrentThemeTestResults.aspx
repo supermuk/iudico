@@ -9,7 +9,7 @@
     <fieldset>
     <%if (Model.NoData() == true)
       {%>
-        No data to show
+        <%=IUDICO.Statistics.Localization.getMessage("NoDataShow")%>
         <%
         }
       else
@@ -34,32 +34,13 @@
         <tr>
         <th><%=IUDICO.Statistics.Localization.getMessage("NumberOfQuestion")%> </th>
         <th> <%=IUDICO.Statistics.Localization.getMessage("StudentAnswer")%> </th>
-        <th> <%=IUDICO.Statistics.Localization.getMessage("CorrectAnswer")%> </th>
-        <th> <%=IUDICO.Statistics.Localization.getMessage("Comparison")%></th>
-        <th> <%=IUDICO.Statistics.Localization.getMessage("Score")%> </th>
         </tr>
         <%int i = 1; %>
         <% foreach (IUDICO.Common.Models.Shared.Statistics.AnswerResult answer in Model.GetUserAnswers())
            {  %>
            <tr>
                 <td><%:i++%></td>
-                <td><%: Model.GetUserAnswer(answer)%></td>
-                <td><%: answer.CorrectResponse%></td>
-                <td><%if (Model.GetUserAnswer(answer) == answer.CorrectResponse)
-                      {%>
-                            true
-                      <%}
-                      else if (Model.GetUserAnswer(answer) == "")
-                      { %>
-                            No data
-                      <% 
-                      }
-                      else
-                      { %>
-                            false
-                      <%} %>
-                </td>
-                <td><%: Model.GetUserScoreForAnswer(answer)%></td>
+                <td><%: Model.GetUserAnswer(answer)%></td>                
            </tr>
 
         <% }

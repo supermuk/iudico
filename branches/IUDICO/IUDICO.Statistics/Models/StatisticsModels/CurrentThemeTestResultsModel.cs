@@ -17,22 +17,27 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         {
             User currenUser = lmsService.FindService<IUserService>().GetCurrentUser();
             Theme theme = lmsService.FindService<ICurriculumService>().GetTheme(themeId);
-            IEnumerable<AttemptResult> attemptResults = lmsService.FindService<ITestingService>().GetResults(currenUser, theme);
-            if (attemptResults != null & attemptResults.Count() >= 1)
+            if (currenUser != null & theme != null)
             {
-                
-                _Attempt = attemptResults.Last();
-                if (_Attempt != null)
+                IEnumerable<AttemptResult> attemptResults = lmsService.FindService<ITestingService>().GetResults(currenUser, theme);
+                if (attemptResults != null & attemptResults.Count() >= 1)
                 {
-                    _UserAnswers = lmsService.FindService<ITestingService>().GetAnswers(_Attempt);
-                    if (_UserAnswers != null)
-                        _NoData = false;
-                    else
-                        _NoData = true;
+
+                    _Attempt = attemptResults.Last();
+                    if (_Attempt != null)
+                    {
+                        _UserAnswers = lmsService.FindService<ITestingService>().GetAnswers(_Attempt);
+                        if (_UserAnswers != null)
+                            _NoData = false;
+                        else
+                            _NoData = true;
+                    }
                 }
+                else
+                    _NoData = true;
             }
             else
-                _NoData = true;      
+                _NoData = true;
         }
         public IEnumerable<AnswerResult> GetUserAnswers()
         {
@@ -52,7 +57,6 @@ namespace IUDICO.Statistics.Models.StatisticsModels
             else
                 return "";
         }
-
         public String GetSuccessStatus()
         {
             if (this._Attempt != null)
@@ -63,21 +67,16 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         public String GetScore()
         {
             if (this._Attempt != null)
-                return this._Attempt.Score.ToPercents().ToString();
-            else
-                return "";
+            {
+                if (this._Attempt.Score.ToPercents().HasValue == true)
+                    return Math.Round((double)this._Attempt.Score.ToPercents(), 2).ToString();
+            }
+            return "";
         }
         public String GetUserAnswer(AnswerResult answerResult)
         {
             if (answerResult.LearnerResponse != null)
                 return answerResult.LearnerResponse.ToString();
-            else
-                return "";
-        }
-        public String GetUserScoreForAnswer(AnswerResult answerResult)
-        {
-            if (answerResult.ScaledScore != null)
-                return answerResult.ScaledScore.ToString();
             else
                 return "";
         }
