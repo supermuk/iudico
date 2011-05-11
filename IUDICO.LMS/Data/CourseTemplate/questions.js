@@ -248,7 +248,7 @@ function compiledTest($object, id) {
         var sourceCode = this.PreCode + $('#' + this.Id).val() + this.PostCode;
         var sourceCodeData = { 'source': sourceCode, 'language': this.Language, 'input': this.Input, 'output': this.Output, 'timelimit': this.Timelimit, 'memorylimit': this.Memorylimit };
 
-        $.flXHRproxy.registerOptions(url, { xmlResponseText: false });
+        $.flXHRproxy.registerOptions(this.Url, { xmlResponseText: false });
 
         $.ajax({
             type: "POST",
@@ -259,10 +259,10 @@ function compiledTest($object, id) {
             complete: function (transport) {
                 obj.Answer = ($(transport.responseText).text());
 
-                doSetValue("cmi.interactions." + i + ".learner_response", obj.Answer);
-                doSetValue("cmi.interactions." + i + ".result", (obj.Answer == "Accepted" ? "correct" : "incorrect"));
+                $.rteSetValue("cmi.interactions." + i + ".learner_response", obj.Answer);
+                $.rteSetValue("cmi.interactions." + i + ".result", (obj.Answer == "Accepted" ? "correct" : "incorrect"));
 
-                SCOObj.ScoreRaw += this.getScoreRaw();
+                SCOObj.ScoreRaw += obj.getScoreRaw();
                 SCOObj.finish(i);
             }
         });
