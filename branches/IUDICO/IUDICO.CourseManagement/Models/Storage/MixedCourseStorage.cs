@@ -393,7 +393,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             {
                 var template = Path.Combine(GetTemplatesPath(), "iudico.html");
 
-                File.Copy(template, GetNodePath(node.Id) + ".html");
+                File.Copy(template, GetNodePath(node.Id) + ".html", true);
             }
 
             return node.Id;

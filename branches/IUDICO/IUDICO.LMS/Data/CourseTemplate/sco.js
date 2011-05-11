@@ -117,7 +117,7 @@ function SCO(element, passrank, _questions) {
             $.rteSetValue("cmi.success_status", status);
 
             $.rteSetValue("cmi.exit", "normal");
-            $.rteSetValue("adl.nav.request", "continue");
+            //$.rteSetValue("adl.nav.request", "continue");
 
             $.rteCommit();
             $.rteTerminate();
