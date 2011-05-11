@@ -25,6 +25,7 @@
         postCode: 'Code after:',
         test: 'Test:',
         addTest: 'Add Test',
+        deleteTest: 'Delete Test',
         input: 'Input:',
         output: 'Output:',
         compileUrl: 'Compile URL:',
