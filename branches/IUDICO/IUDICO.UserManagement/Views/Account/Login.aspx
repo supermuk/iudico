@@ -19,7 +19,7 @@
 	</form>
 
     <form action="<%: Url.Action("LoginDefault", "Account") %>" method="post">
-        <label for="loginUsername"><%=IUDICO.UserManagement.Localization.getMessage("Username") %>: </label>
+        <label for="loginUsername"><%=IUDICO.UserManagement.Localization.getMessage("Loginn") %>: </label>
         <input type="text" id="loginUsername" name="loginUsername" size="40" />
         <label for="loginPassword"><%=IUDICO.UserManagement.Localization.getMessage("Password") %>: </label>
         <input type="password" id="loginPassword" name="loginPassword" size="40" />

@@ -177,6 +177,9 @@
   <data name="AccessDenied" xml:space="preserve">
     <value>Доступ заборонений</value>
   </data>
+  <data name="Loginn" xml:space="preserve">
+    <value>Логін</value>
+  </data>
   <data name="YouDontHavePermissionAccessThatPage" xml:space="preserve">
     <value>Ви не маєте доступу до цієї сторінки</value>
   </data>

@@ -213,6 +213,9 @@
   <data name="FullName" xml:space="preserve">
     <value>Full name</value>
   </data>
+  <data name="FullNameRequiered" xml:space="preserve">
+    <value>Full name is requiered</value>
+  </data>
   <data name="GetGroups" xml:space="preserve">
     <value>Get Groups</value>
   </data>
@@ -230,6 +233,9 @@
   </data>
   <data name="Loginn" xml:space="preserve">
     <value>Login</value>
+  </data>
+  <data name="LoginRequired" xml:space="preserve">
+    <value>Login is required</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
