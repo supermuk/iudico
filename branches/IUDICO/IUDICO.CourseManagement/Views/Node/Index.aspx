@@ -307,19 +307,23 @@
 				});
 			})
             .bind("preview_node.jstree", function(e, data) {
-                if ($editor != null)                
+                if ($editor != null)
+                {
                     $('#node_' + $.data($editor, 'node-id')).children('a').removeClass('jstree-selected');
+                }
 
                 removeEditor();
 
                 $.ajax({
                     type: 'post',
-		            url: "<%: Url.Action("Data", "Node") %>",
+		            url: "<%: Url.Action("Preview", "Node") %>",
 					data: {
 						"id": data.obj.attr("id").replace("node_", ""),
 					},
 					success: function (r) {
-					    $('.ui-layout-center').html(r.data);
+                        $iframe = $('<iframe width="100%" height="100%"></iframe>');
+                        $iframe.attr('src', r.path);
+					    $('.ui-layout-center').append($iframe);
 					}
 				});
             })

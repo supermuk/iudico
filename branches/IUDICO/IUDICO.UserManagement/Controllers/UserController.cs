@@ -135,7 +135,7 @@ namespace IUDICO.UserManagement.Controllers
             }
         }
 
-        [Allow(Role = Role.Admin)]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Activate(Guid id)
         {
             _Storage.ActivateUser(id);
@@ -143,7 +143,7 @@ namespace IUDICO.UserManagement.Controllers
             return RedirectToAction("Index");
         }
 
-        [Allow(Role = Role.Admin)]
+        [Allow(Role = Role.Teacher)]
         public ActionResult Deactivate(Guid id)
         {
             _Storage.DeactivateUser(id);
@@ -151,7 +151,7 @@ namespace IUDICO.UserManagement.Controllers
             return RedirectToAction("Index");
         }
 
-        [Allow(Role = Role.Admin)]
+        [Allow(Role = Role.Teacher)]
         public ActionResult RemoveFromGroup(Guid id, int groupRef)
         {
             var user = _Storage.GetUser(u => u.Id == id);
@@ -162,7 +162,7 @@ namespace IUDICO.UserManagement.Controllers
             return RedirectToAction("Details", new { id = id });
         }
 
-        [Allow(Role = Role.Admin)]
+        [Allow(Role = Role.Teacher)]
         public ActionResult AddToGroup(Guid id)
         {
             var user = _Storage.GetUser(u => u.Id == id);
@@ -175,7 +175,7 @@ namespace IUDICO.UserManagement.Controllers
         }
 
         [HttpPost]
-        [Allow(Role = Role.Admin)]
+        [Allow(Role = Role.Teacher)]
         public ActionResult AddToGroup(Guid id, int? groupRef)
         {
             var user = _Storage.GetUser(u => u.Id == id);
