@@ -225,6 +225,9 @@
   <data name="Login" xml:space="preserve">
     <value>Login</value>
   </data>
+  <data name="Loginn" xml:space="preserve">
+    <value>Login</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>

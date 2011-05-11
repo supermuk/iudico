@@ -15,7 +15,7 @@
                 <%=IUDICO.UserManagement.Localization.getMessage("FullName")%>
             </th>
             <th>
-                <%=IUDICO.UserManagement.Localization.getMessage("Login")%>
+                <%=IUDICO.UserManagement.Localization.getMessage("Loginn")%>
             </th>
             <th>
                 <%=IUDICO.UserManagement.Localization.getMessage("Active")%>
