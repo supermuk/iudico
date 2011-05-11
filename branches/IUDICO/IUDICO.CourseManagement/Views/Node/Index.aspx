@@ -2,6 +2,7 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Empty.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Course>" %>
 <%@ Import Namespace="System.Collections.Generic" %>
 <%@ Import Namespace="IUDICO.CourseManagement.Models.ManifestModels" %>
+<%@ Import Namespace="System.Security.Policy" %>
 
 <asp:Content ID="TitleContent1" ContentPlaceHolderID="TitleContent" runat="server">
 	Index
@@ -10,6 +11,7 @@
 <asp:Content ID="HeadContent2" ContentPlaceHolderID="HeadContent" runat="server">
     <link href="<%= Html.ResolveUrl("/Content/ui-lightness/jquery-ui-1.8.5.custom.css") %>" rel="stylesheet" type="text/css" />
 
+    <script src="<%= Html.ResolveUrl("~/Scripts/lms.js") %>" type="text/javascript"></script>
     <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.layout.js") %>" type="text/javascript"></script>
     <script src="<%= Html.ResolveUrl("~/Scripts/ckeditor/ckeditor.js") %>" type="text/javascript"></script>
     <script src="<%= Html.ResolveUrl("~/Scripts/ckeditor/adapters/jquery.js") %>" type="text/javascript"></script>
@@ -323,7 +325,12 @@
 					success: function (r) {
                         $iframe = $('<iframe width="100%" height="100%"></iframe>');
                         $iframe.attr('src', r.path);
-					    $('.ui-layout-center').append($iframe);
+
+					    $('.ui-layout-center').empty();
+                        $('.ui-layout-center').append($iframe);
+
+                        //$('.ui-layout-center iframe')[0].contentWindow.API_1484_11 = LMSDebugger;
+                        window.API_1484_11 = new LMSDebugger();
 					}
 				});
             })
