@@ -258,7 +258,7 @@ function compiledTest($object, id) {
             transport: 'flXHRproxy',
             traditional: true,
             complete: function (transport) {
-                obj.Answer = ($(transport.responseText).text());
+                obj.Answer = $.trim($(transport.responseText).text());
 
                 $.rteSetValue("cmi.interactions." + i + ".learner_response", obj.Answer);
                 $.rteSetValue("cmi.interactions." + i + ".result", (obj.Answer == "Accepted" ? "correct" : "incorrect"));
