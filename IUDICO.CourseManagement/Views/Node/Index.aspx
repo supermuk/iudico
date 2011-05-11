@@ -457,7 +457,7 @@
                 <%=  Html.DropDownList("SequencingPatterns", ViewData["SequencingPatternsList"] as List<SelectListItem>)%>
             </div>
             <div id="sequencingPatternDataHolder" style="display:none;">
-                <%=IUDICO.CourseManagement.Localization.getMessage("Count of tests")%>:
+                <%=IUDICO.CourseManagement.Localization.getMessage("CountOfTests")%>:
                 <input type="text" id="sequencingPatternData" value="0" style="width: 50px;" />
             </div>
             <div><input type="button" id="ApplyPattern" value="<%=IUDICO.CourseManagement.Localization.getMessage("Apply")%>" /></div>
