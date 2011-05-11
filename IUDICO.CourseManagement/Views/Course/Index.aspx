@@ -98,10 +98,10 @@
                 <%: String.Format("{0:g}", item.Updated)%>
             </td>
             <td>
-                <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Edit"), "Edit", "Course", new { CourseID = item.Id }, null)%> |
+                <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("EditCourse"), "Edit", "Course", new { CourseID = item.Id }, null)%> |
                 <% if (item.Locked == null || item.Locked.Value == false)
                    { %>
-                <%:Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Details"), "Index", "Node", new { CourseID = item.Id }, null)%> |
+                <%:Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("EditContentCourse"), "Index", "Node", new { CourseID = item.Id }, null)%> |
                 <% }
                    else
                    {%>

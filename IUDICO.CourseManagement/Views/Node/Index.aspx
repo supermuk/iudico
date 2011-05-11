@@ -445,7 +445,7 @@
         </form>-->
     </div>
     <div class="ui-layout-north">
-        <h1><%=IUDICO.CourseManagement.Localization.getMessage("Editing")%> "<%= Model.Name %>"</h1>
+        <h1><%=IUDICO.CourseManagement.Localization.getMessage("EditingCourse")%> "<%= Model.Name %>"</h1>
         <%= Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("BackToList"), "Index", "Course")%>
     </div>
     <div class="ui-layout-south ui-widget-header ui-corner-all"></div>
