@@ -108,7 +108,6 @@ namespace IUDICO.CourseManagement
                 Component.For<ICourseService>().ImplementedBy<CourseService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
             
-            //courseStorage = container.Resolve<ICourseStorage>();
             this._Container = container;
         }
         #endregion

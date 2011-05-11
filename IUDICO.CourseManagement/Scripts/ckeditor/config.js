@@ -31,4 +31,5 @@ CKEDITOR.editorConfig = function (config) {
     ];
 
     config.toolbar = 'IUDICO';
+    config.fullPage = true;
 };
