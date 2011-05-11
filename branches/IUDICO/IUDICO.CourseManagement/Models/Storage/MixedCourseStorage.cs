@@ -22,7 +22,7 @@ namespace IUDICO.CourseManagement.Models.Storage
     internal class MixedCourseStorage : ICourseStorage
     {
         private readonly ILmsService _LmsService;
-        private readonly string[] _TemplateFiles = { "api.js", "checkplayer.js", "flensed.js", "flXHR.js", "flXHR.swf", "iudico.css", "iudico.js", "jquery-1.5.2.min.js", "jquery.flXHRproxy.js", "questions.js", "sco.js", "swfobject.js", "updateplayer.swf" };
+        private readonly string[] _TemplateFiles = { "api.js", "checkplayer.js", "flensed.js", "flXHR.js", "flXHR.swf", "iudico.css", "iudico.js", "jquery-1.5.2.min.js", "jquery.flXHRproxy.js", "jquery.xhr.js", "questions.js", "sco.js", "swfobject.js", "updateplayer.swf" };
         private readonly string _ResourceIdForTemplateFiles = "TemplateFiles";
 
         public MixedCourseStorage(ILmsService lmsService)
@@ -121,7 +121,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             foreach (var templateFile in _TemplateFiles)
             {
-                File.Copy(Path.Combine(templatePath, templateFile), Path.Combine(path, templateFile));
+                File.Copy(Path.Combine(templatePath, templateFile), Path.Combine(path, templateFile), true);
             }
 
             _LmsService.Inform(CourseNotifications.CourseCreate, course);

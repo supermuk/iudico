@@ -215,7 +215,7 @@ function compiledTest($object, id) {
         this.Language = params['language'];
         this.Timelimit = params['timeLimit'];
         this.Memorylimit = params['memoryLimit'];
-        this.Url = params['url'];
+        this.Url = params['compileUrl'];
 		
 		this.Input = [];
         this.Output = [];
@@ -256,6 +256,7 @@ function compiledTest($object, id) {
             data: sourceCodeData,
             dataType: 'xml',
             transport: 'flXHRproxy',
+            traditional: true,
             complete: function (transport) {
                 obj.Answer = ($(transport.responseText).text());
 
