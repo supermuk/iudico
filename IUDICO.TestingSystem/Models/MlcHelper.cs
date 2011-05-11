@@ -115,7 +115,8 @@ namespace IUDICO.TestingSystem.Models
                 {
                     // set <m_pstoreDirectoryPath> to the full path to the
                     // directory
-                    m_pstoreDirectoryPath = "c:\\BasicWebPlayerPackages";
+                    m_pstoreDirectoryPath = WebConfigurationManager.AppSettings
+                    ["packageStoreDirectoryPath"];
                 }
                 return m_pstoreDirectoryPath;
             }
