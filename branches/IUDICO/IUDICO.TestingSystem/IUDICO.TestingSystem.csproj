@@ -135,6 +135,7 @@
     <Compile Include="Models\TestingService.cs" />
     <Compile Include="Models\VOs\FileSystemPackage.cs" />
     <Compile Include="Models\VOs\Package.cs" />
+    <Compile Include="Models\VOs\PlayModel.cs" />
     <Compile Include="Models\VOs\Training.cs" />
     <Compile Include="Models\VOs\ZipPackage.cs" />
     <Compile Include="Player\ChangeActivity.aspx.cs">
