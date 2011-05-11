@@ -11,7 +11,6 @@ var inited = false;
         _findAPI: function (win) {
             while ((win.API_1484_11 == null) && (win.parent != null) && (win.parent != win)) {
                 findAPITries++;
-                
                 if (findAPITries > 500) {
                     alert("Error finding API -- too deeply nested.");
                     return null;

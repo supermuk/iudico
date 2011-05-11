@@ -204,6 +204,7 @@
     <Content Include="Data\CourseTemplate\jquery-1.5.2.min.js" />
     <Content Include="Data\CourseTemplate\jquery.flXHRproxy.js" />
     <Content Include="Data\CourseTemplate\jquery.xhr.js" />
+    <Content Include="Data\CourseTemplate\lms.js" />
     <Content Include="Data\CourseTemplate\questions.js" />
     <Content Include="Data\CourseTemplate\sco.js" />
     <Content Include="Data\CourseTemplate\swfobject.js" />

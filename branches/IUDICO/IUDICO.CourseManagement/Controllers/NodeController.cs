@@ -193,7 +193,7 @@ namespace IUDICO.CourseManagement.Controllers
         {
             try
             {
-                var path = Path.Combine(HttpContext.Request.Url.AbsolutePath, _Storage.GetPreviewNodePath(id)).Replace('\\', '/');
+                var path = Path.Combine(HttpContext.Request.ApplicationPath, _Storage.GetPreviewNodePath(id)).Replace('\\', '/');
 
                 return Json(new { status = true, path = path });
             }
