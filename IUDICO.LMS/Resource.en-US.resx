@@ -174,4 +174,10 @@
   <data name="Save_Close" xml:space="preserve">
     <value>Save&amp;nbsp;&amp;amp; Close</value>
   </data>
+  <data name="AccessDenied" xml:space="preserve">
+    <value>AccessDenied</value>
+  </data>
+  <data name="YouDontHavePermissionAccessThatPage" xml:space="preserve">
+    <value>You don't have permission to access that page</value>
+  </data>
 </root>
