@@ -22,6 +22,7 @@ using IUDICO.LMS.Models.Providers;
 using System.Web.Security;
 using System.Globalization;
 using System.Threading;
+using System.Text;
 
 namespace IUDICO.LMS
 {
@@ -231,6 +232,26 @@ namespace IUDICO.LMS
             }
             LoadPluginData();
             Application_BeginRequest(sender, e);
+        }
+
+        void Application_EndRequest(Object Sender, EventArgs e)
+        {
+                log4net.ILog log = log4net.LogManager.GetLogger(typeof(MvcApplication));
+                if ("POST" == Request.HttpMethod)
+                {
+                    byte[] bytes = Request.BinaryRead(Request.TotalBytes);
+                    string s = Encoding.UTF8.GetString(bytes);
+
+                    log.Info(Request.HttpMethod + ": " + s);
+                }
+                if ("GET" == Request.HttpMethod)
+                {
+                    log.Info(Request.HttpMethod + ": " + Request.Path);
+                }
+                else 
+                {
+                    log.Info("Request: Esle type of request.");
+                }
         }
     }
 }
