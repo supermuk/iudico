@@ -27,7 +27,7 @@ namespace IUDICO.UserManagement.Models
         }
 
         
-        [LocalizedDisplayName("Username", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("Loginn", NameResourceType = "IUDICO.UserManagement.Resource")]
         [Order(1)]
         public string Username { get; set; }
 
@@ -72,8 +72,8 @@ namespace IUDICO.UserManagement.Models
 
     public class RegisterModel
     {
-        [LocalizedRequired(ErrorMessage = "UsernameRequired")]
-        [LocalizedDisplayName("Username", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedRequired(ErrorMessage = "LoginRequired")]
+        [LocalizedDisplayName("Loginn", NameResourceType = "IUDICO.UserManagement.Resource")]
         public string Username { get; set; }
 
         //[Required(ErrorMessage = "Password is required")]
@@ -98,8 +98,8 @@ namespace IUDICO.UserManagement.Models
         public string Email { get; set; }
 
         //[Required(ErrorMessage = "Name is required")]
-        [LocalizedRequired(ErrorMessage = "NameRequired")]
-        [LocalizedDisplayName("Name", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedRequired(ErrorMessage = "FullNameRequiered")]
+        [LocalizedDisplayName("FullName", NameResourceType = "IUDICO.UserManagement.Resource")]
         public string Name { get; set; }
     }
 
@@ -116,8 +116,8 @@ namespace IUDICO.UserManagement.Models
         {
         }
 
-        [LocalizedRequired(ErrorMessage = "NameRequired")]
-        [LocalizedDisplayName("Name", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedRequired(ErrorMessage = "FullNameRequiered")]
+        [LocalizedDisplayName("FullName", NameResourceType = "IUDICO.UserManagement.Resource")]
         public string Name { get; set; }
 
         [DisplayName("Open ID")]
@@ -166,8 +166,8 @@ namespace IUDICO.UserManagement.Models
         {
         }
 
-        [LocalizedDisplayName("Name", NameResourceType = "IUDICO.UserManagement.Resource")]
-        [LocalizedRequired(ErrorMessage = "NameRequired")]
+        [LocalizedDisplayName("FullName", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedRequired(ErrorMessage = "FullNameRequiered")]
         [StringLength(200, ErrorMessage = "Name can not be longer than 200")]
         public string Name { get; set; }
 
