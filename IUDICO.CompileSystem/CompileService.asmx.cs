@@ -65,7 +65,7 @@ namespace CompileSystem
                     Output = compileResult.StandartOutput
                 };
 
-                return Enum.GetName(typeof(Status), testResult.ProgramStatus);
+                return Enum.GetName(typeof(Status), testResult.ProgramStatus).Trim();
             }
 
             for (var i = 0; i < input.Length; i++)
@@ -77,7 +77,7 @@ namespace CompileSystem
 
                 if (result.ProgramStatus != Status.Accepted)
                 {
-                    return Enum.GetName(typeof(Status), result.ProgramStatus) + " Test: " + i;
+                    return (Enum.GetName(typeof(Status), result.ProgramStatus) + " Test: " + i).Trim();
                 }
             }
 
