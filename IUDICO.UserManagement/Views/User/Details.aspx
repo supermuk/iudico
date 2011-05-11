@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Details of User <%= Model.Username %></h2>
+    <h2><%=IUDICO.UserManagement.Localization.getMessage("DetailsOfUser")%> <%= Model.Username %></h2>
 
     <fieldset>
         <legend><%=IUDICO.UserManagement.Localization.getMessage("Fields")%></legend>
