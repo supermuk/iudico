@@ -48,6 +48,8 @@ CKEDITOR.dialog.prototype.getIudicoObject = function (editor) {
         }
     }
 
+    this.setupContent(null, null, {});
+
     return false;
 }
 

@@ -27,6 +27,7 @@
         addTest: 'Add Test',
         input: 'Input:',
         output: 'Output:',
+        compileUrl: 'Compile URL:',
 
         type : 'Type',
         toolbar: 'IUDICO',

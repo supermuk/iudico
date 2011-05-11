@@ -89,6 +89,22 @@
                 elements:
 				[
                     {
+                        id: 'compileUrl',
+                        type: 'text',
+                        label: editor.lang.iudico.compileUrl,
+                        labelLayout: 'horizontal',
+                        commit: function (objectNode, paramMap, extraStyles, extraAttributes) {
+                            if (paramMap['compileUrl']) {
+                                paramMap['compileUrl'].setAttribute("value", this.getValue());
+                            } else {
+                                paramMap['compileUrl'] = this.getDialog().addParam(objectNode, 'compileUrl', this.getValue());
+                            }
+                        },
+                        setup: function (objectNode, embedNode, paramMap) {
+                            this.setValue(paramMap['compileUrl']);
+                        }
+                    },
+                    {
                         id: 'rank',
                         type: 'text',
                         label: editor.lang.iudico.rank,
@@ -264,7 +280,7 @@
                                         testInput = dialog.getContentElement('testsTab', 'testInput'),
                                         testOutput = dialog.getContentElement('testsTab', 'testOutput');
 
-                                    dialog.options.push([testInput, testOutput]);
+                                    dialog.options.push([testInput.getValue(), testOutput.getValue()]);
                                     addOption(tests, testInput.getValue() + " -> " + testOutput.getValue(), testInput.getValue() + " -> " + testOutput.getValue(), dialog.getParentEditor().document);
 
                                     testInput.setValue('');
