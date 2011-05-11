@@ -80,10 +80,6 @@ namespace IUDICO.CourseManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int courseId, Course course, IEnumerable<Guid> sharewith)
         {
-            if (_UserService.GetCurrentUser().Username != course.Owner)
-            {
-                return RedirectToAction("Index");
-            }
 
             _Storage.UpdateCourse(courseId, course);
             _Storage.UpdateCourseUsers(courseId, sharewith);
