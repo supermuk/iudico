@@ -7,10 +7,12 @@ namespace IUDICO.Search.Models.SearchResult
     public class UserResult : ISearchResult
     {
         protected User _User;
+        protected string _Role;
 
-        public UserResult(User user)
+        public UserResult(User user, string role)
         {
             _User = user;
+            _Role = role;
         }
 
         public int GetId()
@@ -25,7 +27,7 @@ namespace IUDICO.Search.Models.SearchResult
 
         public String GetText()
         {
-            return "user";
+            return "User: " + GetName() + "</br>Role: " + _Role;
         }
 
         public String GetUrl()

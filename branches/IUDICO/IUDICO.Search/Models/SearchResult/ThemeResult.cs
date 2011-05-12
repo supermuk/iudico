@@ -6,10 +6,11 @@ namespace IUDICO.Search.Models.SearchResult
     public class ThemeResult : ISearchResult
     {
         protected Theme _Theme;
-
-        public ThemeResult(Theme theme)
+        protected string _Course;
+        public ThemeResult(Theme theme, string course)
         {
             _Theme = theme;
+            _Course = course;
         }
 
         public int GetId()
@@ -24,7 +25,7 @@ namespace IUDICO.Search.Models.SearchResult
 
         public String GetText()
         {
-            return "theme";
+            return "Theme name: " + GetName() + "</br>Course: " + _Course + "</br>" + GetUrl();
         }
 
         public String GetUrl()

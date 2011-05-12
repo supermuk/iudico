@@ -6,10 +6,14 @@ namespace IUDICO.Search.Models.SearchResult
     public class CourseResult : ISearchResult
     {
         protected Course _Course;
+        protected string _Update;
+        protected string _Owner;
         
-        public CourseResult(Course course)
+        public CourseResult(Course course, string update, string owner)
         {
             _Course = course;
+            _Update = update;
+            _Owner = owner;
         }
 
         public int GetId()
@@ -24,7 +28,7 @@ namespace IUDICO.Search.Models.SearchResult
 
         public String GetText()
         {
-            return  "course";
+            return  "Course name: " + GetName() + "</br>Owner: " + _Owner + "</br>Updated: " + _Update + "</br>" + GetUrl();
         }
 
         public String GetUrl()

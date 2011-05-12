@@ -11,6 +11,7 @@ using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
 using Version = Lucene.Net.Util.Version;
 using Lucene.Net.Index;
+using Lucene.Net;
 using Lucene.Net.Documents;
 using Lucene.Net.Search;
 using Lucene.Net.QueryParsers;
@@ -131,6 +132,7 @@ namespace IUDICO.Search.Controllers
                         document.Add(new Field("Type", "Theme", Field.Store.YES, Field.Index.NO));
                         document.Add(new Field("ID", theme.Id.ToString(), Field.Store.YES, Field.Index.NO));
                         document.Add(new Field("Theme", theme.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
+                        document.Add(new Field("CourseRef", theme.CourseRef.ToString(), Field.Store.YES, Field.Index.NO));
                         writer.AddDocument(document);
                     }
                 }
@@ -140,6 +142,7 @@ namespace IUDICO.Search.Controllers
                     {
                         document = new Document();
                         document.Add(new Field("Type", "User", Field.Store.YES, Field.Index.NO));
+                        document.Add(new Field("RoleId", user.RoleId.ToString(), Field.Store.YES, Field.Index.NO));
                         document.Add(new Field("ID", user.Id.ToString(), Field.Store.YES, Field.Index.NO));
                         document.Add(new Field("User", user.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
                         writer.AddDocument(document);
@@ -188,7 +191,7 @@ namespace IUDICO.Search.Controllers
                 );
 
 
-            ScoreDoc[] scoreDocs = searcher.Search(queryParser.Parse(query), 10).scoreDocs;
+            ScoreDoc[] scoreDocs = searcher.Search(queryParser.Parse(query), 100).scoreDocs;
 
             Hits hit = searcher.Search(queryParser.Parse(query));
             int total = hit.Length();
@@ -214,7 +217,7 @@ namespace IUDICO.Search.Controllers
                         node.CourseId = Convert.ToInt32(document.Get("CourseID"));
                         node.IsFolder = Convert.ToBoolean(document.Get("isFolder"));
 
-                        result = new NodeResult(node, document.Get("Content"));
+                        result = new NodeResult(node, _CourseService.GetCourse(node.CourseId).Name, document.Get("Content"), _CourseService.GetCourse(node.CourseId).Updated.ToString());
 
                         break;
 
@@ -224,7 +227,7 @@ namespace IUDICO.Search.Controllers
                         course.Id = Convert.ToInt32(document.Get("ID"));
                         course.Name = document.Get("Name");
 
-                        result = new CourseResult(course);
+                        result = new CourseResult(course,_CourseService.GetCourse(course.Id).Updated.ToString(), _CourseService.GetCourse(course.Id).Owner);
 
                         break;
                     case "curriculum":
@@ -233,7 +236,7 @@ namespace IUDICO.Search.Controllers
                         curriculum.Id = Convert.ToInt32(document.Get("ID"));
                         curriculum.Name = document.Get("Curriculum");
 
-                        result = new CurriculumResult(curriculum);
+                        result = new CurriculumResult(curriculum, _CurriculmService.GetCurriculum(curriculum.Id).Updated.ToString());
 
                         break;
 
@@ -242,8 +245,9 @@ namespace IUDICO.Search.Controllers
                         User user = new User();
                         user.Id = Guid.Parse(document.Get("ID"));
                         user.Name = document.Get("User");
+                        user.RoleId = Convert.ToInt32(document.Get("RoleId"));
 
-                        result = new UserResult(user);
+                        result = new UserResult(user, _UserService.GetRole(user.RoleId).ToString());
 
                         break;
 
@@ -262,8 +266,9 @@ namespace IUDICO.Search.Controllers
                         Theme theme = new Theme();
                         theme.Id = Convert.ToInt32(document.Get("ID"));
                         theme.Name = document.Get("Theme");
+                        theme.CourseRef = Convert.ToInt32(document.Get("CourseRef"));
 
-                        result = new ThemeResult(theme);
+                        result = new ThemeResult(theme, _CourseService.GetCourse(theme.CourseRef).Name);
 
                         break;
 
@@ -281,7 +286,7 @@ namespace IUDICO.Search.Controllers
             directory.Close();
 
             ViewData["SearchString"] = query;
-            ViewData["score"] = dataend.Millisecond - datastart.Millisecond; //sw.ElapsedMilliseconds.ToString();
+            ViewData["score"] = Math.Abs(dataend.Millisecond - datastart.Millisecond); //sw.ElapsedMilliseconds.ToString();
             ViewData["total"] = total;
 
             return View(results);
