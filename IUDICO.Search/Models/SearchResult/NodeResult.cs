@@ -6,11 +6,15 @@ namespace IUDICO.Search.Models.SearchResult
     {
         protected Node _Node;
         protected string _Text;
+        protected string _Course;
+        protected string _DateTime;
 
-        public NodeResult(Node node, string text)
+        public NodeResult(Node node, string course, string text, string datetime)
         {
             _Node = node;
             _Text = text;
+            _Course = course;
+            _DateTime = datetime;
         }
 
         public int GetId()
@@ -25,7 +29,7 @@ namespace IUDICO.Search.Models.SearchResult
 
         public string GetText()
         {
-            return !_Node.IsFolder ? "node" : "folder";
+            return !_Node.IsFolder ? _Text + "Node name: " + GetName() + "</br>Parent course: " + _Course + "</br> Updated: " + _DateTime + "</br>" + GetUrl() : "Node name: " + GetName() + "</br>Parent course: " + _Course + "</br> Updated: " + _DateTime + "</br>" + GetUrl();
         }
 
         public string GetUrl()
