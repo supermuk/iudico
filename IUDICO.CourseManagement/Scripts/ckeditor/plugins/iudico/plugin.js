@@ -114,7 +114,7 @@ function addQuestionCommand(editor, command, path) {
 
     editor.ui.addButton(command, {
         label: editor.lang.iudico[command],
-        icon: path + 'logo_iudico.png',
+        icon: path + command + '.png',
         command: command
     });
 
