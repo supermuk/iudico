@@ -6,10 +6,12 @@ namespace IUDICO.Search.Models.SearchResult
     public class CurriculumResult : ISearchResult
     {
         protected Curriculum _Curriculum;
+        protected string _Update;
 
-        public CurriculumResult(Curriculum curriculum)
+        public CurriculumResult(Curriculum curriculum, string update)
         {
             _Curriculum = curriculum;
+            _Update = update;
         }
 
         public int GetId()
@@ -24,7 +26,7 @@ namespace IUDICO.Search.Models.SearchResult
 
         public String GetText()
         {
-            return "curriculum";
+            return "Curriculum name: " + GetName() + "</br>Updated: " + _Update + "</br>" + GetUrl(); //"curriculum";
         }
 
         public String GetUrl()
