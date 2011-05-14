@@ -237,14 +237,7 @@ namespace IUDICO.LMS
         void Application_EndRequest(Object Sender, EventArgs e)
         {
                 log4net.ILog log = log4net.LogManager.GetLogger(typeof(MvcApplication));
-                if ("POST" == Request.HttpMethod || "GET" == Request.HttpMethod)
-                {
-                    log.Info(Request.HttpMethod + ": " + Request.Path);
-                }
-                else 
-                {
-                    log.Info("Request: Esle type of request.");
-                }
+                log.Info(Request.HttpMethod + ": " + Request.Path);
         }
     }
 }
