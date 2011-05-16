@@ -63,7 +63,7 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
     </script>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    Groups
+    <%=IUDICO.CurriculumManagement.Localization.getMessage("AssignmentsFor")%> <%: ViewData["CurriculumName"]%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>

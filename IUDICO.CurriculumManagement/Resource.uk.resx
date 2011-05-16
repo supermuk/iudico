@@ -378,4 +378,28 @@
   <data name="AreYouSureYouWantDeleteSelectedTimelines" xml:space="preserve">
     <value>Ви впевнені, що хочете видалити вибрані часові межі?</value>
   </data>
+  <data name="CreateTheme" xml:space="preserve">
+    <value>Створити тему</value>
+  </data>
+  <data name="EditStageTimeline" xml:space="preserve">
+    <value>Редагувати часові межі етапу</value>
+  </data>
+  <data name="EditThemeAssignment" xml:space="preserve">
+    <value>Редагувати привязку до теми</value>
+  </data>
+  <data name="Stages" xml:space="preserve">
+    <value>Етапи</value>
+  </data>
+  <data name="StageTimelines" xml:space="preserve">
+    <value>Часові межі етапа</value>
+  </data>
+  <data name="ThemeAssignments" xml:space="preserve">
+    <value>Прив'язки до тем</value>
+  </data>
+  <data name="Themes" xml:space="preserve">
+    <value>Теми</value>
+  </data>
+  <data name="Timeline" xml:space="preserve">
+    <value>Часові межі</value>
+  </data>
 </root>

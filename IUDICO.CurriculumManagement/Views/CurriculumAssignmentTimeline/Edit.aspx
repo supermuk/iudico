@@ -11,7 +11,7 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    Edit Timeline
+    <%=IUDICO.CurriculumManagement.Localization.getMessage("EditTimelines")%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>

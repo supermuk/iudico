@@ -4,7 +4,7 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
 <%@  Assembly Name="IUDICO.CurriculumManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    Edit Assignment
+    <%=IUDICO.CurriculumManagement.Localization.getMessage("EditAssignmentFor")%> <%: ViewData["CurriculumName"]%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
