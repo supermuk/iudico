@@ -2,7 +2,7 @@
 <%@ Assembly Name="IUDICO.UserManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Edit User <%= Model.Username %>
+	<%=IUDICO.UserManagement.Localization.getMessage("EditUser")%> <%= Model.Username %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
