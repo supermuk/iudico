@@ -11,11 +11,11 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    Edit stage timeline
+    <%=IUDICO.CurriculumManagement.Localization.getMessage("EditStageTimelineFor")%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        <%=IUDICO.CurriculumManagement.Localization.getMessage("EditStageTimelineFor")%>
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("EditStageTimeline")%>
     </h2>
     <h4>
         <%: ViewData["CurriculumName"]%>

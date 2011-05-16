@@ -178,7 +178,7 @@
     <value>Назва</value>
   </data>
   <data name="NameRequired" xml:space="preserve">
-    <value>Ім'я є обов'язкове</value>
+    <value>Назва є обов'язкова</value>
   </data>
   <data name="Owner" xml:space="preserve">
     <value>Власник</value>
