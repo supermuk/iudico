@@ -378,4 +378,28 @@
   <data name="AreYouSureYouWantDeleteSelectedTimelines" xml:space="preserve">
     <value>Are you sure you want to delete selected timelines?</value>
   </data>
+  <data name="CreateTheme" xml:space="preserve">
+    <value>Create Theme</value>
+  </data>
+  <data name="EditStageTimeline" xml:space="preserve">
+    <value>Edit Stage Timeline</value>
+  </data>
+  <data name="EditThemeAssignment" xml:space="preserve">
+    <value>Edit Theme Assignment</value>
+  </data>
+  <data name="Stages" xml:space="preserve">
+    <value>Stages</value>
+  </data>
+  <data name="StageTimelines" xml:space="preserve">
+    <value>Stage Timelines</value>
+  </data>
+  <data name="ThemeAssignments" xml:space="preserve">
+    <value>Theme Assignments</value>
+  </data>
+  <data name="Themes" xml:space="preserve">
+    <value>Themes</value>
+  </data>
+  <data name="Timeline" xml:space="preserve">
+    <value>Timeline</value>
+  </data>
 </root>

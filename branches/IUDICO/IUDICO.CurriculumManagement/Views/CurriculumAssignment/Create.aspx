@@ -11,7 +11,7 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    Add Assignment
+    <%=IUDICO.CurriculumManagement.Localization.getMessage("CreateAssignmentFor")%> <%: ViewData["CurriculumName"]%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
