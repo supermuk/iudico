@@ -61,7 +61,7 @@ namespace IUDICO.UserManagement
         public void BuildMenu(Menu menu)
         {
             menu.Add(new MenuItem(IUDICO.UserManagement.Localization.getMessage("Account"), "Account", "Index"));
-            menu.Add(new MenuItem(IUDICO.UserManagement.Localization.getMessage("User"), "User", "Index"));
+            menu.Add(new MenuItem(IUDICO.UserManagement.Localization.getMessage("Users"), "User", "Index"));
             menu.Add(new MenuItem(IUDICO.UserManagement.Localization.getMessage("Group"), "Group", "Index"));
         }
 
