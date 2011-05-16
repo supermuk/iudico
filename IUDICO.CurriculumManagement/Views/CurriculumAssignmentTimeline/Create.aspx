@@ -28,7 +28,7 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
        {%>
     <%: Html.ValidationSummary(true, IUDICO.CurriculumManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
     <fieldset>
-        <legend>Fields</legend>
+        <legend><%=IUDICO.CurriculumManagement.Localization.getMessage("Fields")%></legend>
 
         <%: Html.EditorFor(item => item.Timeline) %>
     </fieldset>
