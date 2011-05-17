@@ -156,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\jquery.multiselect2side.css" />
+    <Content Include="Scripts\ckeditor\plugins\iudico\lang\uk.js" />
     <Content Include="Scripts\lms.js" />
     <Content Include="Views\Shared\EditorTemplates\RollupRules.ascx" />
     <Content Include="Views\Shared\Properties.ascx" />
