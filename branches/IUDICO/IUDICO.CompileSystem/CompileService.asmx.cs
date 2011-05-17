@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
 using System.ComponentModel;
@@ -31,6 +32,8 @@ namespace CompileSystem
         [WebMethod]
         public string Compile(string source, string language, string[] input, string[] output, int timelimit, int memorylimit)
         {
+            source = HttpUtility.UrlDecode(source);
+
             var settings = new Settings
             {
                 TestingDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()),
