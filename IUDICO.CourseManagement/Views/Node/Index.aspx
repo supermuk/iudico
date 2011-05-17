@@ -309,6 +309,10 @@
 				});
 			})
             .bind("preview_node.jstree", function(e, data) {
+                if (data.obj.attr("id") == "node_0") {
+                    return;
+                }
+
                 if ($editor != null)
                 {
                     $('#node_' + $.data($editor, 'node-id')).children('a').removeClass('jstree-selected');
