@@ -242,16 +242,6 @@ namespace IUDICO.UserManagement.Models
             set
             {
                 _resource = value;
-
-                //_nameProperty = _resourceType.GetProperty(base.DisplayName, BindingFlags.Static | BindingFlags.Public);
-                /*if (Thread.CurrentThread.CurrentUICulture.Name == "en")
-                {
-                    _nameProperty = _resourceType.GetProperty("Resource", BindingFlags.Static | BindingFlags.Public);
-                }
-                else
-                {
-                    _nameProperty = _resourceType.GetProperty("Resourceuk", BindingFlags.Static | BindingFlags.Public);
-                }*/
             }
         }
 
@@ -259,20 +249,7 @@ namespace IUDICO.UserManagement.Models
         {
             get
             {
-                if (Thread.CurrentThread.CurrentUICulture.Name == "en-US")
-                {
-                    return ManagerEN.GetString(base.DisplayName, Thread.CurrentThread.CurrentUICulture);
-                }
-                else
-                {
-                    return ManagerUK.GetString(base.DisplayName, Thread.CurrentThread.CurrentUICulture);
-                }
-                if (_nameProperty == null)
-                {
-                    return base.DisplayName;
-                }
-
-                //return (string)_nameProperty.GetValue(_nameProperty.DeclaringType, null);
+                return Localization.getMessage(base.DisplayName);
             }
         }
     }
