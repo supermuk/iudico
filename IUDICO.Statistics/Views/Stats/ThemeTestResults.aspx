@@ -35,7 +35,6 @@
         <th><%=IUDICO.Statistics.Localization.getMessage("NumberOfQuestion")%> </th>
         <th> <%=IUDICO.Statistics.Localization.getMessage("StudentAnswer")%> </th>
         <th> <%=IUDICO.Statistics.Localization.getMessage("CorrectAnswer")%> </th>
-        <th> <%=IUDICO.Statistics.Localization.getMessage("Comparison")%></th>
         <th> <%=IUDICO.Statistics.Localization.getMessage("Score")%> </th>
         </tr>
         <%int i = 1; %>
@@ -43,22 +42,17 @@
            {  %>
            <tr>
                 <td><%:i++%></td>
-                <td><%: Model.GetUserAnswer(answer)%></td>
-                <td><%: answer.CorrectResponse%></td>
-                <td><%if (Model.GetUserAnswer(answer) == answer.CorrectResponse)
-                      {%>
-                            true
-                      <%}
-                      else if (Model.GetUserAnswer(answer) == "")
+                <td><%if (Model.GetUserAnswer(answer) == "")
                       { %>
                             <%=IUDICO.Statistics.Localization.getMessage("NoData")%>
                       <% 
                       }
                       else
                       { %>
-                            false
+                            <%: Model.GetUserAnswer(answer) %>
                       <%} %>
                 </td>
+                <td><%: answer.CorrectResponse%></td>
                 <td><%: Model.GetUserScoreForAnswer(answer)%></td>
            </tr>
 

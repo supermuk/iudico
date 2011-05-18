@@ -60,7 +60,7 @@
                 </td>
                 <td> <%:Model.Ects
                          (
-                            (Model.GetStudentResultForAllThemesInSelectedCurriculum(student)) / (Model.GetAllThemesInSelectedCurriculumMaxMark())
+                         Model.GetStudentResultForAllThemesInSelectedCurriculum(student) / Model.GetAllThemesInSelectedCurriculumMaxMark() * 100
                           )%>
                 </td>
             </tr>

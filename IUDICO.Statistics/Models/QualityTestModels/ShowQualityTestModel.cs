@@ -204,7 +204,7 @@ namespace IUDICO.Statistics.Models.QualityTest
                 }
                 else
                 {
-                    this._NumberOfStudents =0;
+                    this._NumberOfStudents = answeredStudents.Count();
                     this._NoData = true;
                     return 0;
                 }
@@ -230,6 +230,10 @@ namespace IUDICO.Statistics.Models.QualityTest
             public int GetNumberOfStudents()
             {
                 return this._NumberOfStudents;
+            }
+            public bool NoData()
+            {
+                return this._NoData;
             }
             #endregion
         }

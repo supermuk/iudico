@@ -7,16 +7,17 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>ShowQualityTest</h2>
+    <h2>ShowQualityTest page</h2>
     <fieldset>
+    <legend> Results of quality test algorithm</legend>
     <%if (Model.NoData() == false)
       { %>
-        <div>
+        <p>
         Curriculum: <%: Model.GetCurriculumName()%>
-        </div>
-        <div>
+        </p>
+        <p>
         Theme: <%: Model.GetThemeName()%>
-        </div>
+        </p>
         <table>
             <tr>
                 <th>Number of question</th>
@@ -26,9 +27,18 @@
             <%foreach (IUDICO.Statistics.Models.QualityTest.ShowQualityTestModel.QuestionModel question in Model.GetListOfQuestionModels())
               {%>
               <tr>
-              <td><%: question.GetQuestionNumber()%></td>
-                <td><%:question.GetNumberOfStudents()%></td>
-                <td><%: question.GetCoefficient()%></td>
+                <td><%: question.GetQuestionNumber()%></td>
+                <td><%: question.GetNumberOfStudents()%></td>
+                <td>
+                <% if (question.NoData() != true)
+                   {%>
+                    <%: Math.Round(question.GetCoefficient(), 2)%>
+                <%}
+                   else
+                   { %>
+                   NoData
+                   <%} %>
+                </td>
               </tr>
               <%} %>
         </table>
