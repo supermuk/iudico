@@ -146,7 +146,7 @@ function isIudicoObject(element) {
 CKEDITOR.plugins.add('iudico', {
     availableLangs: { en: 1 },
     requires: ['dialog', 'fakeobjects'],
-    lang: ['en'],
+    lang: ['en', 'uk'],
 
     init: function (editor) {
         var pluginName = 'iudico';
