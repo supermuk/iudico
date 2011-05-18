@@ -1,4 +1,4 @@
-﻿CKEDITOR.plugins.setLang('iudico', 'uk-UA',
+﻿CKEDITOR.plugins.setLang('iudico', 'uk',
 {
     iudico:
     {
