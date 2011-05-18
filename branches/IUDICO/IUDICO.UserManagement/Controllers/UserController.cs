@@ -50,7 +50,7 @@ namespace IUDICO.UserManagement.Controllers
                                    _Storage.GetRoles().AsQueryable().Select(
                                        r =>
                                        new SelectListItem
-                                           {Text = r.ToString(), Value = ((int) r).ToString(), Selected = false})
+                                           {Text =IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int) r).ToString(), Selected = false})
                            };
 
             return View(user);
@@ -77,7 +77,7 @@ namespace IUDICO.UserManagement.Controllers
                 ModelState.AddModelError("Username", "User with such username already exists.");
             }
             user.Password = null;
-            user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = r.ToString(), Value = ((int)r).ToString(), Selected = false });
+            user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = false });
 
             return View(user);
         }
@@ -90,7 +90,7 @@ namespace IUDICO.UserManagement.Controllers
         {
             var user = _Storage.GetUser(u => u.Id == id);
 
-            user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = r.ToString(), Value = ((int)r).ToString(), Selected = (user.Role == r) });
+            user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = (user.Role == r) });
 
             return View(new EditUserModel(user));
         }
@@ -107,7 +107,7 @@ namespace IUDICO.UserManagement.Controllers
             if (!ModelState.IsValid)
             {
                 user.Password = null;
-                user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = r.ToString(), Value = ((int)r).ToString(), Selected = (user.Role == r) });
+                user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = (user.Role == r) });
                 return View(user);
             }
 

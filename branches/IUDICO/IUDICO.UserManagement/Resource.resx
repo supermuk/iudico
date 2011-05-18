@@ -327,4 +327,13 @@
   <data name="YouWantDeleteThis" xml:space="preserve">
     <value>Are you sure you want to delete this</value>
   </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Student" xml:space="preserve">
+    <value>Student</value>
+  </data>
+  <data name="Teacher" xml:space="preserve">
+    <value>Teacher</value>
+  </data>
 </root>
