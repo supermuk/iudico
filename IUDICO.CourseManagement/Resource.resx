@@ -291,4 +291,7 @@
   <data name="EditingCourse" xml:space="preserve">
     <value>Editing Course</value>
   </data>
+  <data name="Courses" xml:space="preserve">
+    <value>Courses</value>
+  </data>
 </root>
