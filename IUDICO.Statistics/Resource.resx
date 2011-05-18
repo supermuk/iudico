@@ -204,4 +204,19 @@
   <data name="NoDataShow" xml:space="preserve">
     <value>No data to show</value>
   </data>
+  <data name="CurriculumsStatistic" xml:space="preserve">
+    <value>Curriculums Statistic</value>
+  </data>
+  <data name="Failed" xml:space="preserve">
+    <value>Failed</value>
+  </data>
+  <data name="Passed" xml:space="preserve">
+    <value>Passed</value>
+  </data>
+  <data name="ThemesInfo" xml:space="preserve">
+    <value>Themes Info</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
 </root>
