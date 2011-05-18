@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Statistics.Models.Storage.AllSpecializedResults>" %>
 <%@ Assembly Name="IUDICO.Statistics" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	ShowCurriculumStatistic
+	<%=IUDICO.Statistics.Localization.getMessage("CurriculumsStatistic")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">

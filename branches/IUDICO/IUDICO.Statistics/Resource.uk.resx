@@ -204,4 +204,19 @@
   <data name="NoDataShow" xml:space="preserve">
     <value>Немає даних для відображення</value>
   </data>
+  <data name="CurriculumsStatistic" xml:space="preserve">
+    <value>Статистика: навчальні курси</value>
+  </data>
+  <data name="Failed" xml:space="preserve">
+    <value>Failed</value>
+  </data>
+  <data name="Passed" xml:space="preserve">
+    <value>Пройдений</value>
+  </data>
+  <data name="ThemesInfo" xml:space="preserve">
+    <value>Статистика по темах</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Невідомий</value>
+  </data>
 </root>
