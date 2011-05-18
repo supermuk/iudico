@@ -109,22 +109,22 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
                                {
                                    new SelectListItem
                                        {
-                                           Text = Enum.GetName(typeof (Required), Required.Always),
+                                           Text =Localization.getMessage(Enum.GetName(typeof (Required), Required.Always)),
                                            Value = Required.Always.ToString()
                                        },
                                    new SelectListItem
                                        {
-                                           Text = Enum.GetName(typeof (Required), Required.IfAttempted),
+                                           Text =Localization.getMessage(Enum.GetName(typeof (Required), Required.IfAttempted)),
                                            Value = Required.IfAttempted.ToString()
                                        },
                                    new SelectListItem
                                        {
-                                           Text = Enum.GetName(typeof (Required), Required.IfNotSkipped),
+                                           Text = Localization.getMessage(Enum.GetName(typeof (Required), Required.IfNotSkipped)),
                                            Value = Required.IfNotSkipped.ToString()
                                        },
                                    new SelectListItem
                                        {
-                                           Text = Enum.GetName(typeof (Required), Required.IfNotSuspended),
+                                           Text = Localization.getMessage(Enum.GetName(typeof (Required), Required.IfNotSuspended)),
                                            Value = Required.IfNotSuspended.ToString()
                                        }
                                };

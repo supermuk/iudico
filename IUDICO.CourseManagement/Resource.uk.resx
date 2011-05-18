@@ -291,6 +291,60 @@
   <data name="EditingCourse" xml:space="preserve">
     <value>Редагування курсу</value>
   </data>
+  <data name="Always" xml:space="preserve">
+    <value>Завжди</value>
+  </data>
+  <data name="AttemptLimit" xml:space="preserve">
+    <value>Ліміт спроби</value>
+  </data>
+  <data name="Choice" xml:space="preserve">
+    <value>Вибір</value>
+  </data>
+  <data name="ChoiceAttemptAbsoluteDurationLimit" xml:space="preserve">
+    <value>Вибіріть абсолютну тривалість спроби</value>
+  </data>
+  <data name="ConstrainChoice" xml:space="preserve">
+    <value>Обмежений вибір</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>За замовчуванням</value>
+  </data>
+  <data name="ForwardOnly" xml:space="preserve">
+    <value>Тільки вперед</value>
+  </data>
+  <data name="IfAttempted" xml:space="preserve">
+    <value />
+  </data>
+  <data name="IfNotSkipped" xml:space="preserve">
+    <value>Якщо не пропускається</value>
+  </data>
+  <data name="IfNotSuspended" xml:space="preserve">
+    <value>Якщо не призупиняється</value>
+  </data>
+  <data name="Never" xml:space="preserve">
+    <value>Ніколи</value>
+  </data>
+  <data name="Once" xml:space="preserve">
+    <value>Один раз</value>
+  </data>
+  <data name="OnEachNewAttempt" xml:space="preserve">
+    <value>При кожній новій спробі</value>
+  </data>
+  <data name="PreventActivation" xml:space="preserve">
+    <value>Попередження активації</value>
+  </data>
+  <data name="PropertiesSavedSuccessfully" xml:space="preserve">
+    <value>Властивості успішно збережені</value>
+  </data>
+  <data name="SelectCount" xml:space="preserve">
+    <value>Виберіть кількість</value>
+  </data>
+  <data name="UseCurrentAttemptObjectiveInfo" xml:space="preserve">
+    <value>Використовувати поточну інформацію спроби</value>
+  </data>
+  <data name="UseCurrentAttemptProgressInfo" xml:space="preserve">
+    <value>Використовувати поточну інформацію прогресу спроби</value>
+  </data>
   <data name="Courses" xml:space="preserve">
     <value>Курси</value>
   </data>

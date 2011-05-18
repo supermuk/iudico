@@ -16,17 +16,17 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
 
         private sealed class Metadata
         {
-            [DisplayName("Choice")]
+            [LocalizedDisplayName("Choice")]
             public bool Choice { get; set; } // = true
             [DisplayName("Choice Exit")]
             public bool ChoiceExit { get; set; } // = true
             [DisplayName("Flow")]
             public bool Flow { get; set; } // = false
-            [DisplayName("Forward Only")]
+            [LocalizedDisplayName("ForwardOnly")]
             public bool ForwardOnly { get; set; }
-            [DisplayName("Use Current Attempt Objective Info")]
+            [LocalizedDisplayName("UseCurrentAttemptObjectiveInfo")]
             public bool UseCurrentAttemptObjectiveInfo { get; set; }
-            [DisplayName("Use Current Attempt Progress Info")]
+            [LocalizedDisplayName("UseCurrentAttemptProgressInfo")]
             public bool UseCurrentAttemptProgressInfo { get; set; }
 
             [ScaffoldColumn(false)]
@@ -46,9 +46,9 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     {
         private sealed class Metadata
         {
-            [DisplayName("Attempt Limit")]
+            [LocalizedDisplayName("AttemptLimit")]
             public int AttemptLimit { get; set; } // = true
-            [DisplayName("Choice Attempt Absolute Duration Limit")]
+            [LocalizedDisplayName("Choice Attempt Absolute Duration Limit")]
             public string AttemptAbsoluteDurationLimit { get; set; }
 
             [ScaffoldColumn(false)]
@@ -69,9 +69,9 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     {
         private sealed class Metadata
         {
-            [DisplayName("Prevent Activation")]
+            [LocalizedDisplayName("PreventActivation")]
             public bool PreventActivation { get; set; }
-            [DisplayName("Constrain Choice")]
+            [LocalizedDisplayName("ConstrainChoice")]
             public bool ConstrainChoice { get; set; }
 
             [ScaffoldColumn(false)]
@@ -97,17 +97,17 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
                                {
                                    new SelectListItem
                                        {
-                                           Text = Enum.GetName(typeof (Timing), Timing.Never),
+                                           Text =IUDICO.CourseManagement.Localization.getMessage(Enum.GetName(typeof (Timing), Timing.Never)),
                                            Value = Timing.Never.ToString()
                                        },
                                    new SelectListItem
                                        {
-                                           Text = Enum.GetName(typeof (Timing), Timing.Once),
+                                           Text = IUDICO.CourseManagement.Localization.getMessage(Enum.GetName(typeof (Timing), Timing.Once)),
                                            Value = Timing.Once.ToString()
                                        },
                                    new SelectListItem
                                        {
-                                           Text = Enum.GetName(typeof (Timing), Timing.OnEachNewAttempt),
+                                           Text = IUDICO.CourseManagement.Localization.getMessage(Enum.GetName(typeof (Timing), Timing.OnEachNewAttempt)),
                                            Value = Timing.OnEachNewAttempt.ToString()
                                        }
                                };
@@ -119,7 +119,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         {
             [DropDownList(OptionLabel = "Randomization Timing", SourceProperty = "TimingList")]
             public Timing RandomizationTiming { get; set; } // = Timing.Never;
-            [DisplayName("Select Count")]
+            [LocalizedDisplayName("SelectCount")]
             public int SelectCount { get; set; }
             [DisplayName("Reorder Children")]
             public bool ReorderChildren { get; set; } // = false;
@@ -162,6 +162,44 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
             public string Type { get; set; }
         }
     }
+    public class LocalizedDisplayNameAttribute : DisplayNameAttribute
+    {
+        
+        private string _resource;
 
+        private static System.Resources.ResourceManager ManagerEN;
+        private static System.Resources.ResourceManager ManagerUK;
+
+        public LocalizedDisplayNameAttribute(string displayNameKey)
+            : base(displayNameKey)
+        {
+            /*ManagerEN = new System.Resources.ResourceManager("IUDICO.Common.Resource", Assembly.GetExecutingAssembly());
+            ManagerUK = new System.Resources.ResourceManager("IUDICO.Common.Resourceuk", Assembly.GetExecutingAssembly());*/
+        }
+
+        public string NameResourceType
+        {
+            get
+            {
+                return _resource;
+            }
+            set
+            {
+                _resource = value;
+
+                
+            }
+        }
+
+        public override string DisplayName
+        {
+            get
+            {
+                return IUDICO.CourseManagement.Localization.getMessage(base.DisplayName);
+
+                //return (string)_nameProperty.GetValue(_nameProperty.DeclaringType, null);
+            }
+        }
+    }
     
 }
