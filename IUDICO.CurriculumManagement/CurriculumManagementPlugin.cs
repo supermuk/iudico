@@ -54,7 +54,7 @@ namespace IUDICO.CurriculumManagement
 
         public void BuildMenu(Menu menu)
         {
-            menu.Add(new MenuItem(IUDICO.CurriculumManagement.Localization.getMessage("Curriculum"), "Curriculum", "Index"));
+            menu.Add(new MenuItem(IUDICO.CurriculumManagement.Localization.getMessage("Curriculums"), "Curriculum", "Index"));
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)

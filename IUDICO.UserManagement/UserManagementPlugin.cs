@@ -62,7 +62,7 @@ namespace IUDICO.UserManagement
         {
             menu.Add(new MenuItem(IUDICO.UserManagement.Localization.getMessage("Account"), "Account", "Index"));
             menu.Add(new MenuItem(IUDICO.UserManagement.Localization.getMessage("Users"), "User", "Index"));
-            menu.Add(new MenuItem(IUDICO.UserManagement.Localization.getMessage("Group"), "Group", "Index"));
+            menu.Add(new MenuItem(IUDICO.UserManagement.Localization.getMessage("Groups"), "Group", "Index"));
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)
