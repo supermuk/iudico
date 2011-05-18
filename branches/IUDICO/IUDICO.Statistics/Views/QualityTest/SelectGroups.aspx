@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>SelectGroups</h2>
+    <h2>SelectGroups page</h2>
 
     <script type="text/javascript" language="javascript">
         function checkBox() {
@@ -21,17 +21,18 @@
     </script>
 
      <fieldset>
+     <legend> Select one or more groups</legend>
     <%if (Model.NoData() == false)
       { %>
-        <div>
+        <p>
         Teacher: <%: Model.GetTeacherUserName()%>
-        </div>
-        <div>
+        </p>
+        <p>
         Curriculum: <%: Model.GetCurriculumName()%>
-        </div>
-        <div>
+        </p>
+        <p>
         Theme: <%: Model.GetThemeName()%>
-        </div>
+        </p>
         <form id = "selectGroupsForm" action="/QualityTest/ShowQualityTest/" method="post">
         <% foreach (IUDICO.Common.Models.Group group in Model.GetAllowedGroups())
            {%>

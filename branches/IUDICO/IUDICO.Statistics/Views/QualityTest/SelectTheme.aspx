@@ -7,16 +7,17 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>SelectTheme</h2>
+    <h2>SelectTheme page</h2>
     <fieldset>
+    <legend> Select theme</legend>
     <%if (Model.NoData() == false)
       { %>
-        <div>
+        <p>
         Teacher: <%: Model.GetTeacherUserName()%>
-        </div>
-        <div>
+        </p>
+        <p>
         Curriculum: <%: Model.GetCurriculumName()%>
-        </div>
+        </p>
         <form action="/QualityTest/SelectGroups/" method="post">
         <% foreach (IUDICO.Common.Models.Theme theme in Model.GetAllowedThemes())
            {%>
