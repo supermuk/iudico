@@ -63,7 +63,7 @@
                 );
 
                 $editor = $('#editor');
-                $editor.ckeditor();
+                $editor.ckeditor({language: language});
 
                 $editor.parent('form').bind('save', function (e) {
                     //e.preventDefault();
