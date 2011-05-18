@@ -50,7 +50,7 @@ namespace IUDICO.CourseManagement.Controllers
                                                      {
                                                          new SelectListItem
                                                              {
-                                                                 Text = "Default",
+                                                                 Text = IUDICO.CourseManagement.Localization.getMessage("Default"),
                                                                  Value = SequencingPattern.OrganizationDefaultSequencingPattern.ToString()
                                                              },
                                                          new SelectListItem
