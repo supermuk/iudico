@@ -291,6 +291,60 @@
   <data name="EditingCourse" xml:space="preserve">
     <value>Editing Course</value>
   </data>
+  <data name="Always" xml:space="preserve">
+    <value>Always</value>
+  </data>
+  <data name="AttemptLimit" xml:space="preserve">
+    <value>Attempt Limit</value>
+  </data>
+  <data name="Choice" xml:space="preserve">
+    <value>Choice</value>
+  </data>
+  <data name="ChoiceAttemptAbsoluteDurationLimit" xml:space="preserve">
+    <value>Choice Attempt Absolute Duration Limit</value>
+  </data>
+  <data name="ConstrainChoice" xml:space="preserve">
+    <value>Constrain Choice</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="ForwardOnly" xml:space="preserve">
+    <value>Forward Only</value>
+  </data>
+  <data name="IfAttempted" xml:space="preserve">
+    <value>If Attempted</value>
+  </data>
+  <data name="IfNotSkipped" xml:space="preserve">
+    <value>If Not Skipped</value>
+  </data>
+  <data name="IfNotSuspended" xml:space="preserve">
+    <value>If Not Suspended</value>
+  </data>
+  <data name="Never" xml:space="preserve">
+    <value>Never</value>
+  </data>
+  <data name="Once" xml:space="preserve">
+    <value>Once</value>
+  </data>
+  <data name="OnEachNewAttempt" xml:space="preserve">
+    <value>On Each New Attempt</value>
+  </data>
+  <data name="PreventActivation" xml:space="preserve">
+    <value>Prevent Activation</value>
+  </data>
+  <data name="PropertiesSavedSuccessfully" xml:space="preserve">
+    <value>Properties saved successfully</value>
+  </data>
+  <data name="SelectCount" xml:space="preserve">
+    <value>Select Count</value>
+  </data>
+  <data name="UseCurrentAttemptObjectiveInfo" xml:space="preserve">
+    <value>Use Current Attempt Objective Info</value>
+  </data>
+  <data name="UseCurrentAttemptProgressInfo" xml:space="preserve">
+    <value>Use Current Attempt Progress Info</value>
+  </data>
   <data name="Courses" xml:space="preserve">
     <value>Courses</value>
   </data>
