@@ -2,7 +2,7 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Search.Models.SearchResult.ISearchResult>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Search Results
+	<%=IUDICO.Search.Localization.getMessage("SearchResults")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -14,7 +14,7 @@
 
         
         <%= Html.TextBox("query", ViewData["SearchString"])%>
-        <input type="submit" value="Search" />
+        <input type="submit" value=<%=IUDICO.Search.Localization.getMessage("Search")%> />
 
     </form>
     <div style="">Кількість результатів: <%= ViewData["total"] %>. Час пошуку: <%= ViewData["score"] %>ms. </div>

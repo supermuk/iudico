@@ -1,8 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
-
+<%@ Assembly Name="IUDICO.Search" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-
+<%=IUDICO.Search.Localization.getMessage("Search")%> 
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -13,7 +13,7 @@
 
         
         <%= Html.TextBox("query") %>
-         <input type="submit" value="Search" />
+         <input type="submit" value=<%=IUDICO.Search.Localization.getMessage("Search")%> />
 
     </form>
 
