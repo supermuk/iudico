@@ -2,7 +2,7 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Curriculum>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	SelectCurriculums
+	<%=IUDICO.Statistics.Localization.getMessage("Statistics")%>: <%=IUDICO.Statistics.Localization.getMessage("CurriculumList")%> <%: ViewData["Group"]%>
 
 </asp:Content>
 

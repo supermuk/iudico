@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Statistics.Models.StatisticsModels.ThemeTestResultsModel>" %>
 <%@ Assembly Name="IUDICO.Statistics" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	ThemeTestResults
+	<%=IUDICO.Statistics.Localization.getMessage("Results")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -23,7 +23,7 @@
             <%=IUDICO.Statistics.Localization.getMessage("Theme")%>:  <%: Model.GetThemeName()%>
         </p>
         <p>
-            <%=IUDICO.Statistics.Localization.getMessage("Success")%>:  <%: Model.GetSuccessStatus()%>
+            <%=IUDICO.Statistics.Localization.getMessage("Success")%>:  <%=IUDICO.Statistics.Localization.getMessage(Model.GetSuccessStatus())%>
         </p>
         <p>
             <%=IUDICO.Statistics.Localization.getMessage("Score")%>:  <%: Model.GetScore()%>
