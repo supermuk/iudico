@@ -7,13 +7,14 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Quality Test</h2>
+    <h2>SelectCurriculums page</h2>
     <fieldset>
+    <legend> Select one curiculum</legend>
     <%if (Model.NoData() == false)
       { %>
-        <div>
+        <p>
         Teacher: <%: Model.GetTeacherUserName()%>
-        </div>
+        </p>
         <form action="/QualityTest/SelectTheme/" method="post">
         <% foreach (IUDICO.Common.Models.Curriculum curriculum in Model.GetAllowedCurriculums())
            {%>
