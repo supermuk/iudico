@@ -27,11 +27,11 @@ namespace IUDICO.UserManagement.Models
         }
 
         
-        [LocalizedDisplayName("Loginn", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("Loginn")]
         [Order(1)]
         public string Username { get; set; }
 
-        [LocalizedDisplayName("FullName", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("FullName")]
         [Order(2)]
         public string Name { get; set; }
 
@@ -39,12 +39,12 @@ namespace IUDICO.UserManagement.Models
         [Order(3)]
         public string OpenId { get; set; }
 
-        [LocalizedDisplayName("Email", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("Email")]
         [EmailAddress]
         [Order(4)]
         public string Email { get; set; }
 
-        [LocalizedDisplayName("Role", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("Role")]
         [Order(5)]
         public Role Role { get; set; }
 
@@ -64,7 +64,7 @@ namespace IUDICO.UserManagement.Models
         [ScaffoldColumn(false)]
         public Guid Id { get; set; }
 
-        [LocalizedDisplayName("Activated", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("Activated")]
         [DataType(DataType.Text)]
         [Order(6)]
         public bool IsApproved { get; set; }
@@ -73,19 +73,19 @@ namespace IUDICO.UserManagement.Models
     public class RegisterModel
     {
         [LocalizedRequired(ErrorMessage = "LoginRequired")]
-        [LocalizedDisplayName("Loginn", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("Loginn")]
         public string Username { get; set; }
 
         //[Required(ErrorMessage = "Password is required")]
         [LocalizedRequired(ErrorMessage = "PasswordRequired")]
         [DataType(DataType.Password)]
-        [LocalizedDisplayName("Password", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("Password")]
         public string Password { get; set; }
 
         //[Required(ErrorMessage = "Confirm Password is required")]
         [LocalizedRequired(ErrorMessage = "ConfirmPasswordRequired")]
         [DataType(DataType.Password)]
-        [LocalizedDisplayName("ConfirmPassword", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("ConfirmPassword")]
         public string ConfirmPassword { get; set; }
 
         [DisplayName("Open ID")]
@@ -93,13 +93,13 @@ namespace IUDICO.UserManagement.Models
 
         //[Required(ErrorMessage = "Email is required")]
         [LocalizedRequired(ErrorMessage = "EmailRequired")]
-        [LocalizedDisplayName("Email", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("Email")]
         [EmailAddress]
         public string Email { get; set; }
 
         //[Required(ErrorMessage = "Name is required")]
         [LocalizedRequired(ErrorMessage = "FullNameRequiered")]
-        [LocalizedDisplayName("FullName", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("FullName")]
         public string Name { get; set; }
     }
 
@@ -117,7 +117,7 @@ namespace IUDICO.UserManagement.Models
         }
 
         [LocalizedRequired(ErrorMessage = "FullNameRequiered")]
-        [LocalizedDisplayName("FullName", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("FullName")]
         public string Name { get; set; }
 
         [DisplayName("Open ID")]
@@ -125,7 +125,7 @@ namespace IUDICO.UserManagement.Models
         public string OpenId { get; set; }
 
         [LocalizedRequired(ErrorMessage = "EmailRequired")]
-        [LocalizedDisplayName("Email", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("Email")]
         [EmailAddress]
         public string Email { get; set; }
     }
@@ -135,18 +135,18 @@ namespace IUDICO.UserManagement.Models
         //[Required(ErrorMessage = "Old Password is required")]
         [LocalizedRequired(ErrorMessage = "OldPasswordRequired")]
         [DataType(DataType.Password)]
-        [LocalizedDisplayName("OldPassword", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("OldPassword")]
         public string OldPassword { get; set; }
 
         //[Required(ErrorMessage = "New Password is required")]
         [LocalizedRequired(ErrorMessage = "NewPasswordRequired")]
         [DataType(DataType.Password)]
-        [LocalizedDisplayName("NewPassword", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("NewPassword" )]
         public string NewPassword { get; set; }
 
         [LocalizedRequired(ErrorMessage = "ConfirmPasswordRequired")]
         [DataType(DataType.Password)]
-        [LocalizedDisplayName("ConfirmPassword", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("ConfirmPassword")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -166,23 +166,23 @@ namespace IUDICO.UserManagement.Models
         {
         }
 
-        [LocalizedDisplayName("FullName", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("FullName")]
         [LocalizedRequired(ErrorMessage = "FullNameRequiered")]
         [StringLength(200, ErrorMessage = "Name can not be longer than 200")]
         public string Name { get; set; }
 
-        [LocalizedDisplayName("Password", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("Password")]
         [StringLength(50, ErrorMessage = "Password can not be longer than 50")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [LocalizedDisplayName("Email", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("Email")]
         [LocalizedRequired(ErrorMessage = "EmailRequired")]
         [StringLength(100, ErrorMessage = "Email can not be longer than 100")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [LocalizedDisplayName("Role", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("Role")]
         [LocalizedDropDownList("SelectRole", SourceProperty = "RolesList")]
         [LocalizedRequired(ErrorMessage = "RoleRequired")]
         public int RoleId { get; set; }
@@ -215,34 +215,15 @@ namespace IUDICO.UserManagement.Models
         public IEnumerable<SelectListItem> GroupList { get; set; }
 
         [LocalizedDropDownList("SelectGroup", SourceProperty = "GroupList")]
-        [LocalizedDisplayName("Group", NameResourceType = "IUDICO.UserManagement.Resource")]
+        [LocalizedDisplayName("Group")]
         public int GroupRef { get; set; }
     }
     public class LocalizedDisplayNameAttribute : DisplayNameAttribute
     {
-        private PropertyInfo _nameProperty;
-        private string _resource;
-
-        private static System.Resources.ResourceManager ManagerEN;
-        private static System.Resources.ResourceManager ManagerUK;
 
         public LocalizedDisplayNameAttribute(string displayNameKey)
             : base(displayNameKey)
         {
-            ManagerEN = new System.Resources.ResourceManager("IUDICO.UserManagement.Resource", Assembly.GetExecutingAssembly());
-            ManagerUK = new System.Resources.ResourceManager("IUDICO.UserManagement.Resourceuk", Assembly.GetExecutingAssembly());
-        }
-
-        public string NameResourceType
-        {
-            get
-            {
-                return _resource;
-            }
-            set
-            {
-                _resource = value;
-            }
         }
 
         public override string DisplayName
