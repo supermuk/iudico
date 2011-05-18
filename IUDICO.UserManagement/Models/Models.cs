@@ -23,7 +23,7 @@ namespace IUDICO.UserManagement.Models
             OpenId = user.OpenId;
             Email = user.Email;
             Groups = groups;
-            Role = user.Role;
+            Role = Localization.getMessage(Convert.ToString(user.Role));
         }
 
         
@@ -46,7 +46,7 @@ namespace IUDICO.UserManagement.Models
 
         [LocalizedDisplayName("Role")]
         [Order(5)]
-        public Role Role { get; set; }
+        public string Role { get; set; }
 
         [ScaffoldColumn(false)]
         public IEnumerable<Group> Groups { get; set; }
@@ -236,62 +236,16 @@ namespace IUDICO.UserManagement.Models
     }
     public class LocalizedRequiredAttribute : RequiredAttribute
     {
-        private PropertyInfo _nameProperty;
-        private string _resource;
-
-        private static System.Resources.ResourceManager ManagerEN;
-        private static System.Resources.ResourceManager ManagerUK;
 
         public LocalizedRequiredAttribute()
             : base()
         {
             
-            ManagerEN = new System.Resources.ResourceManager("IUDICO.UserManagement.Resource", Assembly.GetExecutingAssembly());
-            ManagerUK = new System.Resources.ResourceManager("IUDICO.UserManagement.Resourceuk", Assembly.GetExecutingAssembly());
-            //base.ErrorMessage = ManagerUK.GetString(base.ErrorMessage, Thread.CurrentThread.CurrentUICulture);
-        }
-
-        public string NameResourceType
-        {
-            get
-            {
-                return _resource;
-            }
-            set
-            {
-                _resource = value;
-
-                //_nameProperty = _resourceType.GetProperty(base.DisplayName, BindingFlags.Static | BindingFlags.Public);
-                /*if (Thread.CurrentThread.CurrentUICulture.Name == "en")
-                {
-                    _nameProperty = _resourceType.GetProperty("Resource", BindingFlags.Static | BindingFlags.Public);
-                }
-                else
-                {
-                    _nameProperty = _resourceType.GetProperty("Resourceuk", BindingFlags.Static | BindingFlags.Public);
-                }*/
-            }
         }
 
         public override string FormatErrorMessage(string name)
         {
-            //get
-            //{
-                if (Thread.CurrentThread.CurrentUICulture.Name == "en-US")
-                {
-                    return ManagerEN.GetString(base.ErrorMessage, Thread.CurrentThread.CurrentUICulture);
-                }
-                else
-                {
-                    return ManagerUK.GetString(base.ErrorMessage, Thread.CurrentThread.CurrentUICulture);
-                }
-                if (_nameProperty == null)
-                {
-                    return base.ErrorMessage;
-                }
-
-                //return (string)_nameProperty.GetValue(_nameProperty.DeclaringType, null);
-            //}
+            return Localization.getMessage(base.ErrorMessage);
         }
     }
     public class LocalizedDropDownListAttribute : DropDownListAttribute
