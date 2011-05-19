@@ -675,6 +675,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Play course.
+        /// </summary>
+        internal static string PlayCourse {
+            get {
+                return ResourceManager.GetString("PlayCourse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string POST_ContinueHtml {
