@@ -29,7 +29,7 @@ namespace IUDICO.Search.Models.SearchResult
 
         public string GetText()
         {
-            return !_Node.IsFolder ? _Text + "Node name: " + GetName() + "</br>Parent course: " + _Course + "</br> Updated: " + _DateTime + "</br>" + GetUrl() : "Node name: " + GetName() + "</br>Parent course: " + _Course + "</br> Updated: " + _DateTime + "</br>" + GetUrl();
+            return !_Node.IsFolder ? _Text + Localization.getMessage("NodeName") + ": " + GetName() + "</br>" + Localization.getMessage("ParentCourse") + ": " + _Course + "</br>" + Localization.getMessage("Updated") + ": " + _DateTime + "</br>" + GetUrl() : Localization.getMessage("NodeName") + ": " + GetName() + "</br>" + Localization.getMessage("ParentCourse") + ": " + _Course + "</br>" + Localization.getMessage("Updated") + ": " + _DateTime + "</br>" + GetUrl();
         }
 
         public string GetUrl()

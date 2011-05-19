@@ -15,6 +15,7 @@ namespace IUDICO.Statistics
 
         public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
         {
+            IUDICO.Common.Localization.Initialize();
             IUDICO.Statistics.Localization.Initialize();
             container.Register(
                 AllTypes
@@ -41,7 +42,7 @@ namespace IUDICO.Statistics
             var actions = new List<Action>();
 
             actions.Add(new Action(IUDICO.Statistics.Localization.getMessage("GetStats"), "Stats/Index"));
-            actions.Add(new Action("Quality Test", "QualityTest/SelectCurriculum"));
+            actions.Add(new Action(IUDICO.Statistics.Localization.getMessage("QualityTest"), "QualityTest/SelectCurriculum"));
             return actions;
         }
 

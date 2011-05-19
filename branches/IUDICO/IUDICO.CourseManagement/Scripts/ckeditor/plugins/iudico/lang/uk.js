@@ -5,17 +5,17 @@
         title: 'IUDICO',
 
         simpleTab: 'Simple',
-        choiceTab: 'Choice',
+        choiceTab: 'Варіант відповіді:',
         compileTab: 'Компільоване',
         testsTab: 'Тести',
 
         correctAnswer: 'Правильна відповідь:',
         question: 'Питання:',
-        rank: 'Rank:',
+        rank: 'Кількість балів:',
 
-        choice: 'Choice:',
-        addChoice: 'Add Choice',
-        deleteChoice: 'Delete Choice',
+        choice: 'Варіант відповіді:',
+        addChoice: 'Додати варіант відповіді',
+        deleteChoice: 'Видалити варіант відповіді',
 
         language: 'Мова програмування:',
         memoryLimit: 'Обмеження памяті:',
@@ -33,7 +33,7 @@
         type: 'Type',
         toolbar: 'IUDICO',
         simple: 'Simple',
-        choice: 'Choice',
+        choice: 'Варіант відповіді:',
         compile: 'Compile'
     }
 });

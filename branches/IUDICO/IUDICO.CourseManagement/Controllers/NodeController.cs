@@ -55,12 +55,12 @@ namespace IUDICO.CourseManagement.Controllers
                                                              },
                                                          new SelectListItem
                                                              {
-                                                                 Text = "Control Chapter",
+                                                                 Text = IUDICO.CourseManagement.Localization.getMessage("ControlChapter"),
                                                                  Value = SequencingPattern.ControlChapterSequencingPattern.ToString()
                                                              },
                                                          new SelectListItem
                                                              {
-                                                                 Text = "Random Set",
+                                                                 Text = IUDICO.CourseManagement.Localization.getMessage("RandomSet"),
                                                                  Value = SequencingPattern.RandomSetSequencingPattern.ToString()
                                                              }
                                                      };
