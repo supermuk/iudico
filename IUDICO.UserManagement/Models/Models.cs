@@ -251,23 +251,10 @@ namespace IUDICO.UserManagement.Models
     public class LocalizedDropDownListAttribute : DropDownListAttribute
     {
 
-        private static System.Resources.ResourceManager ManagerEN;
-        private static System.Resources.ResourceManager ManagerUK;
-
         public LocalizedDropDownListAttribute(string DropDownListKey)
             : base()
         {
-
-            ManagerEN = new System.Resources.ResourceManager("IUDICO.UserManagement.Resource", Assembly.GetExecutingAssembly());
-            ManagerUK = new System.Resources.ResourceManager("IUDICO.UserManagement.Resourceuk", Assembly.GetExecutingAssembly());
-            if (Thread.CurrentThread.CurrentUICulture.Name == "en-US")
-            {
-                OptionLabel = ManagerEN.GetString(DropDownListKey, Thread.CurrentThread.CurrentUICulture);
-            }
-            else
-            {
-                OptionLabel = ManagerUK.GetString(DropDownListKey, Thread.CurrentThread.CurrentUICulture);
-            }
+            OptionLabel = Localization.getMessage(DropDownListKey);
         }
     }
 }

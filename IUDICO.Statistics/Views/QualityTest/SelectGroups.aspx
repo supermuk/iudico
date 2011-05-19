@@ -2,17 +2,17 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Statistics.Models.QualityTest.SelectGroupsModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	SelectGroups
+	<%=IUDICO.Statistics.Localization.getMessage("SelectGroups")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>SelectGroups page</h2>
+    <h2><%=IUDICO.Statistics.Localization.getMessage("SelectGroups")%></h2>
 
     <script type="text/javascript" language="javascript">
         function checkBox() {
             if ($('input:checkbox:checked').length == 0) {
-                alert('Please, select one or more group')
+                alert('<%=IUDICO.Statistics.Localization.getMessage("SelectOneOrMoreGroups")%>')
             }
             else {
                 $('#selectGroupsForm').submit();
@@ -21,17 +21,17 @@
     </script>
 
      <fieldset>
-     <legend> Select one or more groups</legend>
+     <legend> <%=IUDICO.Statistics.Localization.getMessage("SelectOneOrMoreGroups")%></legend>
     <%if (Model.NoData() == false)
       { %>
         <p>
-        Teacher: <%: Model.GetTeacherUserName()%>
+         <%=IUDICO.Statistics.Localization.getMessage("Teacher")%>: <%: Model.GetTeacherUserName()%>
         </p>
         <p>
-        Curriculum: <%: Model.GetCurriculumName()%>
+       <%=IUDICO.Statistics.Localization.getMessage("Curriculum")%>: <%: Model.GetCurriculumName()%>
         </p>
         <p>
-        Theme: <%: Model.GetThemeName()%>
+        <%=IUDICO.Statistics.Localization.getMessage("Theme")%>: <%: Model.GetThemeName()%>
         </p>
         <form id = "selectGroupsForm" action="/QualityTest/ShowQualityTest/" method="post">
         <% foreach (IUDICO.Common.Models.Group group in Model.GetAllowedGroups())
@@ -41,7 +41,7 @@
                 <%: group.Name%>
                 </div>
             <%} %>
-            <input type="button" value="Next" onclick="checkBox();"/> 
+            <input type="button" value=<%=IUDICO.Statistics.Localization.getMessage("Next")%> onclick="checkBox();"/> 
         </form>
         <%}
       else

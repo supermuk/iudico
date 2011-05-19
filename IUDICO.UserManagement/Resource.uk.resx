@@ -336,4 +336,13 @@
   <data name="Teacher" xml:space="preserve">
     <value>Вчитель</value>
   </data>
+  <data name="InvalidOpenID" xml:space="preserve">
+    <value>Неправильний OpenID</value>
+  </data>
+  <data name="InvalidUsernameAndPassword" xml:space="preserve">
+    <value>Неправильний логін і / або пароль</value>
+  </data>
+  <data name="PleaseSelectUserFromList" xml:space="preserve">
+    <value>Будь ласка виберіть користувача з списку</value>
+  </data>
 </root>

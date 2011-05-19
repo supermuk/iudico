@@ -10,7 +10,7 @@ using System.Resources;
 
 namespace IUDICO.Search
 {
-    public class Localization : System.Web.Mvc.ViewPage
+    public class Localization
     {
         private static Dictionary<string, Dictionary<string, string>> resource;
 

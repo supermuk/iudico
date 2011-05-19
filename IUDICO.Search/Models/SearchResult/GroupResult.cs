@@ -24,7 +24,7 @@ namespace IUDICO.Search.Models.SearchResult
 
         public String GetText()
         {
-            return "group";
+            return Localization.getMessage("Group");
         }
 
         public String GetUrl()

@@ -219,4 +219,40 @@
   <data name="Unknown" xml:space="preserve">
     <value>Unknown</value>
   </data>
+  <data name="Coefficient" xml:space="preserve">
+    <value>Coefficient</value>
+  </data>
+  <data name="Curriculum" xml:space="preserve">
+    <value>Curriculum</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="NumberOfStudents" xml:space="preserve">
+    <value>Number of students</value>
+  </data>
+  <data name="QualityTest" xml:space="preserve">
+    <value>Quality Test</value>
+  </data>
+  <data name="SelectCurriculums" xml:space="preserve">
+    <value>Select Curriculums</value>
+  </data>
+  <data name="SelectGroups" xml:space="preserve">
+    <value>Select Groups</value>
+  </data>
+  <data name="SelectOneOrMoreGroups" xml:space="preserve">
+    <value>Select one or more groups</value>
+  </data>
+  <data name="SelectOneTheme" xml:space="preserve">
+    <value>Select OneTheme</value>
+  </data>
+  <data name="SelectTheme" xml:space="preserve">
+    <value>Select Theme</value>
+  </data>
+  <data name="ShowQualityTest" xml:space="preserve">
+    <value>ShowQualityTest</value>
+  </data>
+  <data name="Teacher" xml:space="preserve">
+    <value>Teacher</value>
+  </data>
 </root>

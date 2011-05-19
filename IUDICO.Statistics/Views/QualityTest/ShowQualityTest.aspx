@@ -2,27 +2,27 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Statistics.Models.QualityTest.ShowQualityTestModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	ShowQualityTest
+	<%=IUDICO.Statistics.Localization.getMessage("QualityTest")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>ShowQualityTest page</h2>
+    <h2><%=IUDICO.Statistics.Localization.getMessage("QualityTest")%></h2>
     <fieldset>
-    <legend> Results of quality test algorithm</legend>
+    <legend><%=IUDICO.Statistics.Localization.getMessage("Results")%></legend>
     <%if (Model.NoData() == false)
       { %>
         <p>
-        Curriculum: <%: Model.GetCurriculumName()%>
+        <%=IUDICO.Statistics.Localization.getMessage("Curriculum")%>: <%: Model.GetCurriculumName()%>
         </p>
         <p>
-        Theme: <%: Model.GetThemeName()%>
+        <%=IUDICO.Statistics.Localization.getMessage("Theme")%>: <%: Model.GetThemeName()%>
         </p>
         <table>
             <tr>
-                <th>Number of question</th>
-                <th>Number of students</th>
-                <th>Coefficient</th>
+                <th><%=IUDICO.Statistics.Localization.getMessage("NumberOfQuestion")%></th>
+                <th><%=IUDICO.Statistics.Localization.getMessage("NumberOfStudents")%></th>
+                <th><%=IUDICO.Statistics.Localization.getMessage("Coefficient")%></th>
             </tr>
             <%foreach (IUDICO.Statistics.Models.QualityTest.ShowQualityTestModel.QuestionModel question in Model.GetListOfQuestionModels())
               {%>
@@ -36,7 +36,7 @@
                 <%}
                    else
                    { %>
-                   NoData
+                   <%=IUDICO.Statistics.Localization.getMessage("NoData")%>
                    <%} %>
                 </td>
               </tr>
@@ -45,7 +45,7 @@
         <%}
       else
       { %>
-      No data to show
+      <%=IUDICO.Statistics.Localization.getMessage("NoDataShow")%>
       <%} %>
     </fieldset>
 </asp:Content>
