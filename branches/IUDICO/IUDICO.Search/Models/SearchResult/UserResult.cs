@@ -27,7 +27,7 @@ namespace IUDICO.Search.Models.SearchResult
 
         public String GetText()
         {
-            return "User: " + GetName() + "</br>Role: " + _Role;
+            return  Localization.getMessage("User") + ": " + GetName() + "</br>" + Localization.getMessage("Role") + ": " + _Role;
         }
 
         public String GetUrl()

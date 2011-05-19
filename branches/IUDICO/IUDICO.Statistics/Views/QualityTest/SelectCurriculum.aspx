@@ -2,18 +2,18 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Statistics.Models.QualityTest.IndexModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Index
+	<%=IUDICO.Statistics.Localization.getMessage("SelectCurriculums")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>SelectCurriculums page</h2>
+    <h2><%=IUDICO.Statistics.Localization.getMessage("SelectCurriculums")%></h2>
     <fieldset>
-    <legend> Select one curiculum</legend>
+    <legend><%=IUDICO.Statistics.Localization.getMessage("SelectOneCurriculum")%></legend>
     <%if (Model.NoData() == false)
       { %>
         <p>
-        Teacher: <%: Model.GetTeacherUserName()%>
+        <%=IUDICO.Statistics.Localization.getMessage("Teacher")%>: <%: Model.GetTeacherUserName()%>
         </p>
         <form action="/QualityTest/SelectTheme/" method="post">
         <% foreach (IUDICO.Common.Models.Curriculum curriculum in Model.GetAllowedCurriculums())
@@ -23,7 +23,7 @@
                 <%: curriculum.Name%>
                 </div>
             <%} %>
-            <input type="submit" value="Next" /> 
+            <input type="submit" value=<%=IUDICO.Statistics.Localization.getMessage("Next")%> /> 
         </form>
         <%}
       else

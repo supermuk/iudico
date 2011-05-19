@@ -164,40 +164,18 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     }
     public class LocalizedDisplayNameAttribute : DisplayNameAttribute
     {
-        
-        private string _resource;
-
-        private static System.Resources.ResourceManager ManagerEN;
-        private static System.Resources.ResourceManager ManagerUK;
 
         public LocalizedDisplayNameAttribute(string displayNameKey)
             : base(displayNameKey)
         {
-            /*ManagerEN = new System.Resources.ResourceManager("IUDICO.Common.Resource", Assembly.GetExecutingAssembly());
-            ManagerUK = new System.Resources.ResourceManager("IUDICO.Common.Resourceuk", Assembly.GetExecutingAssembly());*/
+           
         }
-
-        public string NameResourceType
-        {
-            get
-            {
-                return _resource;
-            }
-            set
-            {
-                _resource = value;
-
-                
-            }
-        }
-
+     
         public override string DisplayName
         {
             get
             {
                 return IUDICO.CourseManagement.Localization.getMessage(base.DisplayName);
-
-                //return (string)_nameProperty.GetValue(_nameProperty.DeclaringType, null);
             }
         }
     }

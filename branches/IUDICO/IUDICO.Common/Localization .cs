@@ -1,30 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections;
+using System.Linq;
 using System.Web;
 using System.Threading;
 using System.IO;
 using System.Resources;
 
-namespace IUDICO.UserManagement
+namespace IUDICO.Common
 {
-    public class Localization
+    public class Localization : System.Web.Mvc.ViewPage
     {
         private static Dictionary<string, Dictionary<string, string>> resource;
 
         public static void Initialize()
         {
-            string path = HttpContext.Current.Server.MapPath("/").Replace("IUDICO.LMS", "IUDICO.UserManagement");
+            string path = HttpContext.Current.Server.MapPath("/").Replace("IUDICO.LMS", "IUDICO.Common");
             ResXResourceReader rsxr = new ResXResourceReader(path + "Resource" + ".resx");
-            
-            Dictionary<string,string> temp = new Dictionary<string, string>();
+
+            Dictionary<string, string> temp = new Dictionary<string, string>();
             foreach (DictionaryEntry d in rsxr)
             {
                 temp.Add(d.Key.ToString(), d.Value.ToString());
             }
             resource = new Dictionary<string, Dictionary<string, string>>();
             resource.Add("en-US", temp);
-            rsxr = new ResXResourceReader(path+"Resource" +".uk"+".resx");
+            rsxr = new ResXResourceReader(path + "Resource" + ".uk" + ".resx");
             temp = new Dictionary<string, string>();
             foreach (DictionaryEntry d in rsxr)
             {

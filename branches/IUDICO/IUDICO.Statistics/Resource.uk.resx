@@ -219,4 +219,40 @@
   <data name="Unknown" xml:space="preserve">
     <value>Невідомий</value>
   </data>
+  <data name="Coefficient" xml:space="preserve">
+    <value>Коефіцієнт</value>
+  </data>
+  <data name="Curriculum" xml:space="preserve">
+    <value>Навчальний план</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Далі</value>
+  </data>
+  <data name="NumberOfStudents" xml:space="preserve">
+    <value>Номер студента</value>
+  </data>
+  <data name="QualityTest" xml:space="preserve">
+    <value>Контроль якості тестових завдань</value>
+  </data>
+  <data name="SelectCurriculums" xml:space="preserve">
+    <value>Вибір навчального плану</value>
+  </data>
+  <data name="SelectGroups" xml:space="preserve">
+    <value>Вибір груп</value>
+  </data>
+  <data name="SelectOneOrMoreGroups" xml:space="preserve">
+    <value>Будь ласка, виберіть один або декілька груп:</value>
+  </data>
+  <data name="SelectOneTheme" xml:space="preserve">
+    <value>Виберіть одну тему</value>
+  </data>
+  <data name="SelectTheme" xml:space="preserve">
+    <value>Вибір теми</value>
+  </data>
+  <data name="ShowQualityTest" xml:space="preserve">
+    <value>ShowQualityTest</value>
+  </data>
+  <data name="Teacher" xml:space="preserve">
+    <value>Викладач</value>
+  </data>
 </root>

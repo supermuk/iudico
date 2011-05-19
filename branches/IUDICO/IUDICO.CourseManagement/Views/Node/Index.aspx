@@ -5,7 +5,7 @@
 <%@ Import Namespace="System.Security.Policy" %>
 
 <asp:Content ID="TitleContent1" ContentPlaceHolderID="TitleContent" runat="server">
-	Index
+	<%=IUDICO.CourseManagement.Localization.getMessage("EditingCourse")%>
 </asp:Content>
 
 <asp:Content ID="HeadContent2" ContentPlaceHolderID="HeadContent" runat="server">

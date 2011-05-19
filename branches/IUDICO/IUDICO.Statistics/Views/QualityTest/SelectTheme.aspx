@@ -2,21 +2,21 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Statistics.Models.QualityTest.SelectThemeModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	SelectTheme
+	<%=IUDICO.Statistics.Localization.getMessage("SelectTheme")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>SelectTheme page</h2>
+    <h2><%=IUDICO.Statistics.Localization.getMessage("SelectTheme")%></h2>
     <fieldset>
-    <legend> Select theme</legend>
+    <legend><%=IUDICO.Statistics.Localization.getMessage("SelectOneTheme")%></legend>
     <%if (Model.NoData() == false)
       { %>
         <p>
-        Teacher: <%: Model.GetTeacherUserName()%>
+        <%=IUDICO.Statistics.Localization.getMessage("Teacher")%>: <%: Model.GetTeacherUserName()%>
         </p>
         <p>
-        Curriculum: <%: Model.GetCurriculumName()%>
+        <%=IUDICO.Statistics.Localization.getMessage("Curriculum")%>: <%: Model.GetCurriculumName()%>
         </p>
         <form action="/QualityTest/SelectGroups/" method="post">
         <% foreach (IUDICO.Common.Models.Theme theme in Model.GetAllowedThemes())
@@ -26,7 +26,7 @@
                 <%: theme.Name%>
                 </div>
             <%} %>
-            <input type="submit" value="Next" /> 
+            <input type="submit" value=<%=IUDICO.Statistics.Localization.getMessage("Next")%> /> 
         </form>
         <%}
       else

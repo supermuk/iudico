@@ -336,4 +336,13 @@
   <data name="Teacher" xml:space="preserve">
     <value>Teacher</value>
   </data>
+  <data name="InvalidOpenID" xml:space="preserve">
+    <value>Invalid OpenID</value>
+  </data>
+  <data name="InvalidUsernameAndPassword" xml:space="preserve">
+    <value>Invalid Username and/or password</value>
+  </data>
+  <data name="PleaseSelectUserFromList" xml:space="preserve">
+    <value>Please select user from list</value>
+  </data>
 </root>

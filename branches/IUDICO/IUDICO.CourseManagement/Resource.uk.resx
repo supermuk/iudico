@@ -348,4 +348,10 @@
   <data name="Courses" xml:space="preserve">
     <value>Курси</value>
   </data>
+  <data name="ControlChapter" xml:space="preserve">
+    <value>Контрольований порядок</value>
+  </data>
+  <data name="RandomSet" xml:space="preserve">
+    <value>Випадковий вибір</value>
+  </data>
 </root>

@@ -91,7 +91,7 @@ namespace IUDICO.UserManagement.Controllers
         {
             if (string.IsNullOrEmpty(loginIdentifier) || !Identifier.IsValid(loginIdentifier))
             {
-                ModelState.AddModelError(string.Empty, "Invalid OpenID");
+                ModelState.AddModelError(string.Empty, Localization.getMessage("InvalidOpenID"));
                 
                 return View("Login");
             }
@@ -131,7 +131,7 @@ namespace IUDICO.UserManagement.Controllers
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Invalid Username and/or password");
+                ModelState.AddModelError(string.Empty, Localization.getMessage("InvalidUsernameAndPassword"));
             }
 
             return View("Login");

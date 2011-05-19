@@ -151,7 +151,7 @@ namespace IUDICO.UserManagement.Controllers
                     UserList = userList
                 };
 
-                ModelState.AddModelError("UserRef", "Please select user from list");
+                ModelState.AddModelError("UserRef", Localization.getMessage("PleaseSelectUserFromList"));
 
                 return View(groupUser);
             }
