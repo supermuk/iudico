@@ -354,4 +354,10 @@
   <data name="RandomSet" xml:space="preserve">
     <value>Random Set</value>
   </data>
+  <data name="ReorderChildren" xml:space="preserve">
+    <value>Reorder Children</value>
+  </data>
+  <data name="SelectionTiming" xml:space="preserve">
+    <value>Selection Timing</value>
+  </data>
 </root>

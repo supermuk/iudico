@@ -354,4 +354,10 @@
   <data name="RandomSet" xml:space="preserve">
     <value>Випадковий вибір</value>
   </data>
+  <data name="ReorderChildren" xml:space="preserve">
+    <value>ReorderChildren</value>
+  </data>
+  <data name="SelectionTiming" xml:space="preserve">
+    <value>Вибір часу</value>
+  </data>
 </root>

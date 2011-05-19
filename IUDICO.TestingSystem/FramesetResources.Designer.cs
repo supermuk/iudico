@@ -8,8 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IUDICO.TestingSystem
-{
+namespace IUDICO.TestingSystem {
     using System;
     
     
@@ -672,6 +671,15 @@ namespace IUDICO.TestingSystem
         internal static string NAV_SaveTitle {
             get {
                 return ResourceManager.GetString("NAV_SaveTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Play course.
+        /// </summary>
+        internal static string PlayCourse {
+            get {
+                return ResourceManager.GetString("PlayCourse", resourceCulture);
             }
         }
         
