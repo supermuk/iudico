@@ -79,9 +79,7 @@
   <ItemGroup>
     <Compile Include="Controllers\QualityTestController.cs" />
     <Compile Include="Controllers\StatsController.cs" />
-    <Compile Include="Localization .cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
+    <Compile Include="Localization .cs" />
     <Compile Include="Models\QualityTestModels\FakeDataQualityTest.cs" />
     <Compile Include="Models\QualityTestModels\IndexModel.cs" />
     <Compile Include="Models\QualityTestModels\SelectGroupsModel.cs" />

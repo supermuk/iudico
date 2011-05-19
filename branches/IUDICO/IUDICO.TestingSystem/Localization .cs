@@ -26,7 +26,7 @@ namespace IUDICO.TestingSystem
             }
             resource = new Dictionary<string, Dictionary<string, string>>();
             resource.Add("en-US", temp);
-            rsxr = new ResXResourceReader(path + "FramesetResources" + "uk" + ".resx");
+            rsxr = new ResXResourceReader(path + "FramesetResources" + ".uk" + ".resx");
             temp = new Dictionary<string, string>();
             foreach (DictionaryEntry d in rsxr)
             {
