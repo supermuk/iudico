@@ -90,7 +90,7 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserBaseController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
-    <Compile Include="Localization .cs" />
+    <Compile Include="Localization.cs" />
     <Compile Include="Models\Auth\OpenIdMembershipProvider.cs" />
     <Compile Include="Models\Auth\OpenIdMembershipUser.cs" />
     <Compile Include="Models\Auth\OpenIdRoleProvider.cs" />

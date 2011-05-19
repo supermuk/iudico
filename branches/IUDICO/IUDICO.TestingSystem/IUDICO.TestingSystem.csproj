@@ -124,7 +124,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FramesetResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Localization .cs">
+    <Compile Include="Localization.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Models\FakeTestingService.cs" />

@@ -373,10 +373,10 @@
 
     <script type="text/javascript">
         function onSavePropertiesSuccess() {
-            alert("Properties saved successfully");
+            alert("<%=IUDICO.CourseManagement.Localization.getMessage("PropertiesSavedSuccessfully")%>");
         }
         function onSavePropertiesFailure() {
-            alert("Properties saved successfully");
+            alert("<%=IUDICO.CourseManagement.Localization.getMessage("PropertiesSavedSuccessfully")%>");
         }
     </script>
     
