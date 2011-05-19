@@ -98,7 +98,7 @@
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\NodeController.cs" />
     <Compile Include="CourseManagementPlugin.cs" />
-    <Compile Include="Localization .cs">
+    <Compile Include="Localization.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Models\ManifestModels\ManifestManager.cs" />
