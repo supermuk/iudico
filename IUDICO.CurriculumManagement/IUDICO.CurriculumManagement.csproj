@@ -87,7 +87,7 @@
     <Compile Include="Controllers\ThemeAssignmentController.cs" />
     <Compile Include="Controllers\ThemeController.cs" />
     <Compile Include="CurriculumManagementPlugin.cs" />
-    <Compile Include="Localization .cs">
+    <Compile Include="Localization.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Models\Constants.cs" />

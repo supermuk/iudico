@@ -118,7 +118,7 @@
     <Compile Include="Installers\ServicesInstaller.cs" />
     <Compile Include="IoC\AssemblyResourceProvider.cs" />
     <Compile Include="IoC\IocControllerFactory.cs" />
-    <Compile Include="Localization .cs">
+    <Compile Include="Localization.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Models\HomeModel.cs" />
