@@ -56,6 +56,7 @@ namespace CompileSystem
                 case "CS": p.Language = Language.CSharp3; break;
                 case "Delphi": p.Language = Language.Delphi7; break;
                 case "Java": p.Language = Language.Java6; break;
+                default: return "Unsupported language";
             }
 
             var compileResult = tester.Compile(p.Source, p.Language);
