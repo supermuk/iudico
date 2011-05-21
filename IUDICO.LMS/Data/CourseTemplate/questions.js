@@ -245,7 +245,7 @@ function compiledTest($object, id) {
 
     this.processAnswer = function (SCOObj, i) {
         var obj = this;
-        var sourceCode = this.PreCode + $('#' + this.Id).val() + this.PostCode;
+        var sourceCode = encodeURIComponent(this.PreCode + $('#' + this.Id).val() + this.PostCode);
         var sourceCodeData = { 'source': sourceCode, 'language': this.Language, 'input': this.Input, 'output': this.Output, 'timelimit': this.Timelimit, 'memorylimit': this.Memorylimit };
 
         $.flXHRproxy.registerOptions(this.Url, { xmlResponseText: false });

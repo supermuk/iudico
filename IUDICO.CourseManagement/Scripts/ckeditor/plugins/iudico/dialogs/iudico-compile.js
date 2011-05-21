@@ -129,7 +129,7 @@
                         id: 'language',
                         type: 'select',
                         label: editor.lang.iudico.language,
-                        items: [['C#', 'CS'], ['C++'], ['Java']],
+                        items: [['C#', 'CS'], ['C++', 'CPP'], ['Java']],
                         labelLayout: 'horizontal',
                         commit: function (objectNode, paramMap, extraStyles, extraAttributes) {
                             if (paramMap[this.id]) {
