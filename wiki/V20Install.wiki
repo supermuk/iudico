@@ -1,0 +1,17 @@
+#summary Installation of Development Version
+
+=Installation=
+
+==Development==
+
+ # Install Visual Studio 2010 (without SQL Express)
+ # Install Microsoft Web Platform Installer [http://www.microsoft.com/web/downloads/platform.aspx Download]
+# Using Microsoft Web Platform Installer select following items to install:
+  # SQL Server Express 2008 R2
+  # SQL Server 2008 Management Studio Express 
+  # IIS 7.5
+  # Default recommended settings for IIS 7.5
+  # ASP.NET MVC 2
+ # Install Tortoise SVN
+ # Check out from https://iudico.googlecode.com/svn/branches/IUDICO
+ # Create directory BasicWebPlayerPackages
