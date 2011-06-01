@@ -1,3 +1,5 @@
+#summary User Management Plugin.
+
 =Підсистема керування користувачами=
 
 [http://iudico.googlecode.com/files/um_usecase.png]
