@@ -1,4 +1,13 @@
-#User Management architecture
+*Підсистема керування користувачами*
 
-Підсистема керування користувачами
 [http://iudico.googlecode.com/files/um_usecase.png]
+
+*Реєстрація*
+
+[http://iudico.googlecode.com/files/um_sequence.png]
+
+*Автентифікація*
+
+[http://iudico.googlecode.com/files/um_activity_login.png]
+
+[http://iudico.googlecode.com/files/um_sequence_login.png]
