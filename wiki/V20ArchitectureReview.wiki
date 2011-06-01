@@ -6,12 +6,6 @@
 
 http://img703.imageshack.us/img703/9698/arch1j.png
 
-= Як працює архітектура =
-
-LMS вміє завантажувати ресурси з плагінів, тому ми включаєм всі ресурси (controllers, views, скрипти, малюнки і т.д.) прямо в бібліотеку плагіну. Загальний виклик, який виконується системою виглядає так:
-
-http://www.websequencediagrams.com/cgi-bin/cdraw?lz=VXNlci0-TE1TOiBSZXF1ZXN0CkxNUy0-SW9jQ29udHJvbGxlckZhY3Rvcnk6IEdldCAADQoKABEULT5QbHVnaW4ANAoAUAoAChAtPkFzc2VtYmx5UmVzb3VyY2VQcm92aWRlcgBlBlZpZXcKAAsYAFUUVmlldyBmcm9tIGEAUgcAYRNVcwAjCAoAgXENAHwGAIF5BgB6HgAjCQCBAhoAXwYAgU8I&s=rose&.jpg
-
 = Структура плагіну =
 
 http://img853.imageshack.us/img853/34/plugin2.png
