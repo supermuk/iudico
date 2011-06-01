@@ -18,3 +18,13 @@ http://www.websequencediagrams.com/cgi-bin/cdraw?lz=VXNlci0-TE1TOiBSZXF1ZXN0CkxN
   # Контролери в плагінах маю походити від *PluginController* тому, що в ньому перевизначений метод *View()*, який шукає за "view" в бібліотеці плагіну.
   # Сервіси, які є в плагіні мають бути зареєстровані в методі *Install* з інтерфейсу *IWindsorInstaller* таким чином:
 Component.For`<`_ISpecificService_>().ImplementedBy`<`_ServiceClassName_>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
+
+
+= Інтерфейси сервісів =
+
+Існують такі інтерфейси:
+•	ILmsService – цей інтерфейс реалізує LMS. Він використовується плагінами, щоб передавати та приймати нотифікації, а також він дає можливість плагіну дістати реалізацію інтерфейса сервісу.
+•	ICurriculumService – дає можливість діставати інформацію про Curriculum, Stage, Theme з певними фільтрами.
+•	ITestingService – дає можливість діставати інформацію про результати проходження курсів
+•	ICourseService – дає можливість діставати інформацію про курси.
+•	IUserService – дає можливість діставати інформацію про користувачів, ролі та групи.
