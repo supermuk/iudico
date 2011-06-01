@@ -1,12 +1,16 @@
 = MVC Плагін Архітектура =
 
-http://www.websequencediagrams.com/cgi-bin/cdraw?lz=VXNlci0-TE1TOiBSZXF1ZXN0CkxNUy0-SW9jQ29udHJvbGxlckZhY3Rvcnk6IEdldCAADQoKABEULT5QbHVnaW4ANAoAUAoAChAtPkFzc2VtYmx5UmVzb3VyY2VQcm92aWRlcgBlBlZpZXcKAAsYAFUUVmlldyBmcm9tIGEAUgcAYRNVcwAjCAoAgXENAHwGAIF5BgB6HgAjCQCBAhoAXwYAgU8I&s=rose&.jpg
-
 = Взаємодія між LMS і плагніми =
 
 Архітектура IUDICO є плагін базованою архітектурою. Це означає, що існує основна система – LMS та загальна бібліотека (Common), та набір плагінів – підсистеми IUDICO, які з’єднюються між собою та з LMS, за допомогою АРІ. Щоб зробити систему максимально гнучкою, жодна з підситем та LMS не знають один про одного, а спілкуються виключно за допомогою інтерфейсів – цей метод називають Dependency Injection. Він дозволяє легко та зручно добавляти нову функціональність, а також додавати альтирнативу вже існуючій. Загальна бібліотека містить інтерфейси сервісів, які плагіни можуть використовувати, щоб додавати функціональність до системи. Коли LMS система запускається – вона інітціалізує всі плагіни і дає їм змогу зареєструвати функціональність для інтерфейсів. Коли плагіну потрібно дістати доступ до якогось сервісу, він використовує LMS сервіс, щоб дістати потрібний сервіс, як інтерфейс. Нижче наведено архітектуру IUDICO та інтерфейси сервісів, які використовуються: 
 
 http://img703.imageshack.us/img703/9698/arch1j.png
+
+= Як працює архітектура =
+
+LMS вміє завантажувати ресурси з плагінів, тому ми включаєм всі ресурси (controllers, views, скрипти, малюнки і т.д.) прямо в бібліотеку плагіну. Загальний виклик, який виконується системою виглядає так:
+
+http://www.websequencediagrams.com/cgi-bin/cdraw?lz=VXNlci0-TE1TOiBSZXF1ZXN0CkxNUy0-SW9jQ29udHJvbGxlckZhY3Rvcnk6IEdldCAADQoKABEULT5QbHVnaW4ANAoAUAoAChAtPkFzc2VtYmx5UmVzb3VyY2VQcm92aWRlcgBlBlZpZXcKAAsYAFUUVmlldyBmcm9tIGEAUgcAYRNVcwAjCAoAgXENAHwGAIF5BgB6HgAjCQCBAhoAXwYAgU8I&s=rose&.jpg
 
 = Новий плагін =
 
