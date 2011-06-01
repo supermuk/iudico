@@ -23,3 +23,7 @@ http://img853.imageshack.us/img853/34/plugin2.png
   * ITestingService – дає можливість діставати інформацію про результати проходження курсів
   * ICourseService – дає можливість діставати інформацію про курси.
   * IUserService – дає можливість діставати інформацію про користувачів, ролі та групи.
+
+= Приклад плагіну CourseManagement =
+
+http://img215.imageshack.us/img215/9862/pluginj.png
