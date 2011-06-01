@@ -12,13 +12,14 @@ LMS вміє завантажувати ресурси з плагінів, то
 
 http://www.websequencediagrams.com/cgi-bin/cdraw?lz=VXNlci0-TE1TOiBSZXF1ZXN0CkxNUy0-SW9jQ29udHJvbGxlckZhY3Rvcnk6IEdldCAADQoKABEULT5QbHVnaW4ANAoAUAoAChAtPkFzc2VtYmx5UmVzb3VyY2VQcm92aWRlcgBlBlZpZXcKAAsYAFUUVmlldyBmcm9tIGEAUgcAYRNVcwAjCAoAgXENAHwGAIF5BgB6HgAjCQCBAhoAXwYAgU8I&s=rose&.jpg
 
-= Новий плагін =
+= Структура плагіну =
 
-  # Створити новий клас, який походить від IWindsorInstaller та IPlugin.
-  # Контролери в плагінах маю походити від *PluginController* тому, що в ньому перевизначений метод *View()*, який шукає за "view" в бібліотеці плагіну.
-  # Сервіси, які є в плагіні мають бути зареєстровані в методі *Install* з інтерфейсу *IWindsorInstaller* таким чином:
-Component.For`<`_ISpecificService_>().ImplementedBy`<`_ServiceClassName_>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
+http://img853.imageshack.us/img853/34/plugin2.png
 
+Потреби до плагіна:
+  * Клас, який реалізує інтерфейси IWindsorInstaller та IPlugin.
+  * Контролери повинні походити від класу *PluginController*. Це потрібно тому, що *PluginController* перевизначає метод *View()*, в якому шукається шлях до View.
+  * Реалізації сервісів мають бути зареєстровані в методі *Install* з інтерфейсу *IWindsorInstaller* таким чином: Component.For`<`_ISpecificService_>().ImplementedBy`<`_ServiceClassName_>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
 
 = Інтерфейси сервісів =
 
