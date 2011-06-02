@@ -19,7 +19,10 @@
  # Change line `<add key="packageStoreDirectoryPath" value="c:\BasicWebPlayerPackages" />` in IUDICO/IUDICO.LMS/web.config to point to correct path to folder BasicWebPlayerPackages.
  # Create database Training using SQL Management Studio
  # Open and run file IUDICO/IUDICO.TestingSystem/Shema/Schema.sql in context of Training database
- # Open IUDICO in Visual Studio and Deploy Database Project
+ # Open IUDICO in Visual Studio
+  # Deploy IUDICO.Database Project
+  # Set as StartUp Project IUDICO.LMS
+  # Сompile solution
  # Configure IIS 7.5:
   # Create website "IUDICO" with path IUDICO/IUDICO.LMS/
-  # Change application pool of website "IUDICO" to .NET 4.0 
+  # Change application pool of website "IUDICO" to .NET 4.0 and identity: LocalSystem
