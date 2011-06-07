@@ -7,9 +7,38 @@
 
 Індексування даних
 
-Індексування даних – це процес, який запускається і триває поки запущений сайт. А саме коли викликається при переході на сторінку пошуку контролер пошуку і його метод Process().Коли це відбувається, старий індекс стирається і дані індексуються заново. Такий спосіб переіндексування вибраний для оптимізації спостережень за діями над базою даних, адже крім додавання може здійснюватись і видалення даних. Іншими словами, пошукова система орієнтована на перспективу, коли навчальний сайт IUDICO буде перебувати у постійному русі, коли він буде зберігати великі об’єми інформації.
+Індексування даних – це процес, який запускається і триває поки запущений сайт. А саме коли викликається при переході на сторінку пошуку контролер пошуку і його метод Process().Коли це відбувається, старий індекс стирається і дані індексуються заново. Такий спосіб переіндексування вибраний для оптимізації спостережень за діями над базою даних, адже крім додавання може здійснюватись і видалення даних. Іншими словами, пошукова система орієнтована на перспективу, коли навчальний сайт Iudico буде перебувати у постійному русі, коли він буде зберігати великі об’єми інформації.
 
- 
+ {{{
+ Directory directory = FSDirectory.Open(new System.IO.DirectoryInfo(Server.MapPath("~/Data/Index")));
+            Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_29);
+            IndexWriter writer = new IndexWriter(directory, analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED);
+            Document document;
+
+            try
+            {
+
+                foreach (Course course in courses)
+                {
+                   
+                    document = new Document();
+
+                    document.Add(new Field("Type", "Course", Field.Store.YES, Field.Index.NO));
+                    document.Add(new Field("ID", course.Id.ToString(), Field.Store.YES, Field.Index.NO));
+                    document.Add(new Field("Name", course.Name, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
+                    document.Add(new Field("Owner", course.Owner, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
+
+                    writer.AddDocument(document);
+
+                    List<Node> nodes = _CourseService.GetNodes(course.Id).ToList();
+
+                    foreach (Node node in nodes)
+                    {
+
+                        ProcessNode(writer, node);
+                    }
+                }
+ }}}
 Рисунок 7. Створення індексу
 
 На рисунку 7 показано фрагмент коду із методу Process(), додавання нового документу до індексу. Як можна  побачити робиться це дуже важко, використовуючи відповідні стандартні методи та класи бібліотеки Lucene.NET. В даному випадку створюється документ індексу в який заноситься інформація про назву курсу, його id та інформація про власника курсу. Дальше цей документ додається до самого індексу.
