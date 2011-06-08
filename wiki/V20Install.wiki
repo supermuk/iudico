@@ -17,8 +17,10 @@
  # Check out from https://iudico.googlecode.com/svn/branches/IUDICO
  # Create folder BasicWebPlayerPackages
  # Change line `<add key="packageStoreDirectoryPath" value="c:\BasicWebPlayerPackages" />` in IUDICO/IUDICO.LMS/web.config to point to correct path to folder BasicWebPlayerPackages.
- # Create database Training using SQL Management Studio
- # Open and run file IUDICO/IUDICO.TestingSystem/Shema/Schema.sql in context of Training database
+ # Open SQL Management Studio
+  # connect to .\sqlexpress
+  # Create database Training
+  # Open and run file IUDICO/IUDICO.TestingSystem?/Shema/Schema.sql in context of Training database 
  # Open IUDICO in Visual Studio
   # Deploy IUDICO.Database Project
   # Set as StartUp Project IUDICO.LMS
