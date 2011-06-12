@@ -17,7 +17,7 @@
 
 Один курс може бути доступний для декількох користувачів системи. Додати чи видалити певних користувачів, для яких даний курс буде доступний можна при створенні курсу або на сторінці редагування курсу. 
 
-[http://www.websequencediagrams.com/cgi-bin/cdraw?lz=Q291cnNlL0VkaXQtPgAHBkNvbnRyb2xsZXI6Y3JlYXRlCmFjdGl2YXRlIAAREAoAIhAtPkkATAZTdG9yYWdlOiBzZXQgYwBgBQA9CgAWDgoAJQ4tAHUTIGcAPApkZQAwGAB8EQCBSggvSW5kZXg6cmVkaXJlY3Q&s=default.png]
+[http://iudico.googlecode.com/files/CMSD_Edit_Share.png]
 
 Для транспортування курсів між різними системами використовується функціональність експортування та імпортування.
 При імпорті курс потрапляє у систему у вигляді zip-архіву. Він може бути використаний без змін для проходження тестування, або ж користувач може його розблокувати для подальшого редагування. При цьому дістається уся необхідна інформація про структуру курсу, його ресурси та правила впорядкування (sequencing елементи) з файлу imsmanifest.xml.  Інформація про структуру курсу та sequencing заноситься у базу даних, ресурси (html сторінки, js-файли, флеш об’єкти та інше) зберігаються у файловій системі сервера.
@@ -31,7 +31,7 @@
 
 Валідація курсу – це перевірка на SCORM-сумісність. Для цього використовуємо бібліотеку Microsoft.LearningComponents, яка дає змогу визначити наявні помилки у навчальному пакеті. На сторінці валідації курсу (Рис. 9) доступна інформація про помилки та попередження, що пакет має певну невідповідність із стандартом SCORM можна побачити
 
-[http://www.websequencediagrams.com/cgi-bin/cdraw?lz=Q291cnNlL0ltcG9ydC0-AAkGQ29udHJvbGxlcjp2YWxpZGF0ZQphY3RpdmF0ZSAAExAKACQQLT5QYWNrYWdlVgA2Bm9yOiAANRIAFBAKACUQLQB7EyByZXN1bHQKZGUALhoAfhEAgU4IAIFeBzp2aWV3AEIH&s=default.png]
+[http://iudico.googlecode.com/files/CMSD_Validate_Import.png]
 
 Сіквенс діаграма валідації курсів
 
