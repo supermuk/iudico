@@ -58,7 +58,7 @@
             if ($('#editor').length == 0) {
                 $('.ui-layout-center').empty().append(
                     $('<form/>').attr('method', 'post').attr('action', '').append(
-                        $('<textarea/>').attr('name', 'editor').attr('id', 'editor').attr('rows', '0').attr('cols', '0')
+                        $('<textarea/>').attr('name', 'editor').attr('id', 'editor').attr('rows', '1').attr('cols', '1')
                     )
                 );
 
