@@ -135,7 +135,7 @@ function complexTest($object, id) {
             }
         });
 
-        return result;
+        return encodeURIComponent(result);
     }
 
     this.setAnswer = function (answer) {
@@ -150,7 +150,7 @@ function complexTest($object, id) {
     }
 
     this.getCorrectAnswer = function () {
-        return this.CorrectAnswer;
+        return encodeURIComponent(this.CorrectAnswer);
     }
 
     this.getType = function () {
