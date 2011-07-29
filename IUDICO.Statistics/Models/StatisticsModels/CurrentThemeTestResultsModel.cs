@@ -76,7 +76,7 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         public String GetUserAnswer(AnswerResult answerResult)
         {
             if (answerResult.LearnerResponse != null)
-                return answerResult.LearnerResponse.ToString();
+                return Uri.UnescapeDataString(answerResult.LearnerResponse.ToString());
             else
                 return "";
         }
