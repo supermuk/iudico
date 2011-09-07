@@ -810,6 +810,9 @@
       <EmbeddedResource Include="**\*.aspx;**\*.ascx;**\*.gif;**\*.css;**\*.js;**\*.png;**\*.jpg" />
     </ItemGroup>
   </Target>
+  <PropertyGroup Condition="'$(SolutionDir)' == '*Undefined*'">
+      <SolutionDir>..\..\</SolutionDir>
+  </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)\" "$(SolutionDir)IUDICO.LMS\Plugins\"</PostBuildEvent>
   </PropertyGroup>

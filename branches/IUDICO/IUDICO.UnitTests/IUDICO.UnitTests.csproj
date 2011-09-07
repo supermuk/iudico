@@ -43,6 +43,10 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
+    <Reference Include="Selenium.WebDriverBackedSelenium">
+      <HintPath>Libs\Selenium.WebDriverBackedSelenium.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -65,6 +69,9 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="ThoughtWorks.Selenium.Core">
+      <HintPath>Libs\ThoughtWorks.Selenium.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -72,22 +79,30 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CurriculumResultTest.cs" />
-    <Compile Include="CurriculumStorageTest.cs" />
-    <Compile Include="Extensions.cs" />
+    <Compile Include="CourseManagement\NUnit\SequencingPatternManagerTests.cs" />
+    <Compile Include="CourseManagement\Selenium\StudentRole.cs" />
+    <Compile Include="CurriculumManagement\CurriculumResultTest.cs" />
+    <Compile Include="CurriculumManagement\CurriculumStorageTest.cs" />
+    <Compile Include="CurriculumManagement\Extensions.cs" />
     <Compile Include="Fakes\FakeCourseService.cs" />
     <Compile Include="Fakes\FakeLmsService.cs" />
     <Compile Include="Fakes\FakeUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpecializedResultTest.cs" />
-    <Compile Include="ThemeInfoModelTest.cs" />
-    <Compile Include="ThemeResultTest.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="CurriculumManagement\SpecializedResultTest.cs" />
+    <Compile Include="CurriculumManagement\ThemeInfoModelTest.cs" />
+    <Compile Include="CurriculumManagement\ThemeResultTest.cs" />
+    <Compile Include="CurriculumManagement\Utils.cs" />
+    <Compile Include="Base\TestFixture.cs" />
+    <Compile Include="Base\TestFixtureWeb.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
       <Project>{9DD6C943-6608-4351-A521-E4B1F2F75E9D}</Project>
       <Name>IUDICO.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IUDICO.CourseManagement\IUDICO.CourseManagement.csproj">
+      <Project>{CB470DA7-0981-45B5-BEB9-6FD06586BA7E}</Project>
+      <Name>IUDICO.CourseManagement</Name>
     </ProjectReference>
     <ProjectReference Include="..\IUDICO.CurriculumManagement\IUDICO.CurriculumManagement.csproj">
       <Project>{E6F7266F-760A-4D43-B78C-378CA12DBE08}</Project>
@@ -106,6 +121,9 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Libs\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
