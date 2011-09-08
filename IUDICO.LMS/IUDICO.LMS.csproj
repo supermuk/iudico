@@ -62,6 +62,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RemovePlugins|AnyCPU'">
     <OutputPath>bin\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core">
       <HintPath>..\References\Castle.Core.dll</HintPath>
@@ -347,7 +350,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>TASKKILL /F /IM WebDev /FI "STATUS eq RUNNING"
-TASKKILL /F /IM WebDev.WebServer40.exe /FI "STATUS eq RUNNING"</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>
