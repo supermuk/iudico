@@ -23,7 +23,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             var seq = new Sequencing();
             SequencingPatternManager.ApplyControlChapterSequencing(seq);
 
-            Assert.AreEqual(seq.ControlMode.Choice, true);
+            Assert.AreEqual(seq.ControlMode.Choice, false);
             Assert.AreEqual(seq.ControlMode.Flow, true);
             Assert.AreEqual(seq.ControlMode.ForwardOnly, true);
             Assert.AreEqual(seq.ControlMode.ChoiceExit, false);
