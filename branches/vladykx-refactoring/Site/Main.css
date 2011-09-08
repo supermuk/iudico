@@ -1,0 +1,226 @@
+﻿.modalBackground
+{
+	background-color:#000;
+	/*filter:alpha(opacity=80);
+	opacity:0.8;*/
+}
+
+.menu-static
+{
+    border-width: 1px;
+    border-color: Green;
+    border-style: dotted;
+    text-align: left;
+}
+
+.menu-hover
+{
+    border-width: 1px;
+    border-color: Gray;
+    border-style: solid;
+    background-color: Green;
+    text-align: left;
+    color: Black;
+}
+
+.staticmenuitem, .dynamicmenuitem
+{
+	font-weight: bold;
+	background-color: #CCFF99;
+}
+
+.staticmenuitem, .staticmenuitemhover
+{
+	margin-left: 20px;
+}
+
+.staticmenuitemhover, .dynamicmenuhover
+{
+    background-color: Red;
+	cursor: pointer
+}
+
+.ajax-progress
+{
+	width: 200px;
+	height: 20px;
+	background-color: #BBBB55;
+	color: Black;
+	position: fixed;
+	display:block;
+	top: 0px;
+	left: 45%;
+	font-family: Tahoma;
+	font-size: small;
+	font-weight: bold;
+	z-index: 5;
+}
+
+.login-placeholder
+{
+}
+
+.logo
+{
+    border-bottom-color: Green;
+    border-bottom-width: 1px;
+    border-bottom-style: dashed;
+    margin-bottom: 5px;
+}
+
+.logo span
+{ 
+    height: 15px;
+    position: relative;
+    top: 5px;
+    left: -200px;
+    font-size: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: Green;
+    text-align: left;  
+    border-width: 1px;
+}
+
+.logo img
+{
+    position: relative;
+    top: -15px;
+}
+
+.login
+{
+}
+
+.login td
+{
+    text-align: left;
+    margin: 5px;
+    padding: 5px;
+}
+
+.login table
+{
+    border-color: Green;
+    border-width: 2px;
+}
+
+.login input[type="text"],
+.login input[type="password"]
+{
+    width: 150px;
+}
+
+.glb-container
+{
+    max-width: 1024px;
+    text-align: left;
+    border-color: Green;
+    border-width: 1px;
+    border-style: solid;
+    padding: 5px;
+}
+
+.content
+{
+    --background-image: url('/Images/logo-back.png');
+    --background-repeat: repeat-x;
+}
+
+.menu-holder
+{
+    background-color: #DDDDDD;
+}
+
+.descriptions
+{
+    text-align: left;
+    font-style: italic;
+    font-size: small;
+}
+
+input[type="button"], input[type="submit"]
+{
+    border-style: solid;
+    border-color: Green;
+    background-color: #DDDDDD;
+    border-width: 2px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+td input[type="button"], 
+td input[type="submit"],
+td select
+{
+   margin-top: 0;
+   margin-bottom: 0; 
+}
+
+input[type="checkbox"]
+{   
+    cursor: pointer;
+}
+
+input[type="text"], input[type="password"], select
+{
+    border-width: 1px;
+    border-style: dashed;
+    border-color: Green;
+}
+
+body
+{
+    font-family: Tahoma, Arial, Times New Roman;
+}
+
+h1
+{
+    background-color: #E0ECFF;
+    display: block;
+}
+
+table
+{
+    background-color: #EAEEE7;
+}
+
+td
+{
+    padding-left: 5px;
+}
+
+th
+{
+    border-color: Green;
+    border-width: 1px;
+    border-style: solid;
+    border-bottom-width: 4px;
+    border-bottom-style: double;
+    background-image: url('/Images/logo-back.png');
+    background-repeat: repeat-x;
+    background-attachment: scroll;
+}
+
+th:hover, h1:hover
+{
+    color: Green;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, select:focus
+{
+    background-color: #FFFF66;
+    border-style: solid;
+}
+
+input[type="text"]:hover, input[type="password"]:hover, select:hover
+{
+    border-style: solid;
+}
+
+input[type="button"]:hover, input[type="submit"]:hover
+{
+    border-color: Gray;
+    background-color: Green;
+    color: Black;
+}
