@@ -9,7 +9,7 @@ using IUDICO.CourseManagement.Models.Storage;
 using IUDICO.CourseManagement.Models;
 using IUDICO.Common.Models;
 using System.Collections.Generic;
-using Action = IUDICO.Common.Models.Action;
+using Action = IUDICO.Common.Models.ActionReal;
 using IUDICO.Common.Models.Notifications;
 
 namespace IUDICO.CourseManagement
@@ -32,13 +32,17 @@ namespace IUDICO.CourseManagement
             return IUDICO.CourseManagement.Localization.getMessage("CourseManagement");
         }
 
-        public IEnumerable<Action> BuildActions(Role role)
+        public IEnumerable<IAction> BuildActions()
         {
-            var actions = new List<Action>();
+            var actions = new List<IAction>();
 
-            actions.Add(new Action(IUDICO.CourseManagement.Localization.getMessage("GetCourses"), "Course/Index"));
-            actions.Add(new Action(IUDICO.CourseManagement.Localization.getMessage("CreateCourse"), "Course/Create"));
-            actions.Add(new Action(IUDICO.CourseManagement.Localization.getMessage("EditCourse"), "Course/Index"));
+            actions.Add(new ActionURL(IUDICO.CourseManagement.Localization.getMessage("GetCourses"), "Course/Index", Role.Teacher | Role.Admin));
+            actions.Add(new ActionURL(IUDICO.CourseManagement.Localization.getMessage("CreateCourse"), "Course/Create", Role.Teacher | Role.Admin));
+            
+            //actions.Add(new ActionURL(IUDICO.CourseManagement.Localization.getMessage("EditCourse"), "Course/Index", Role.Teacher | Role.Admin));
+            //actions.Add(new Action(IUDICO.CourseManagement.Localization.getMessage("GetCourses"), "Course/Index"));
+            //actions.Add(new Action(IUDICO.CourseManagement.Localization.getMessage("CreateCourse"), "Course/Create"));
+            //actions.Add(new Action(IUDICO.CourseManagement.Localization.getMessage("EditCourse"), "Course/Index"));
 
             return actions;
         }
