@@ -38,9 +38,9 @@ namespace IUDICO.TestingSystem
             return "Testing System";
         }
 
-        public IEnumerable<IUDICO.Common.Models.Action> BuildActions(Role role)
+        public IEnumerable<IAction> BuildActions()
         {
-            var actions = new List<Action>();
+            var actions = new List<IAction>();
 
             // do not add actions for testing service
             //actions.Add(new Action("Import Testings", "Package/Index"));

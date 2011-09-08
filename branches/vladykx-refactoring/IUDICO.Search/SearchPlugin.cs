@@ -7,7 +7,7 @@ using Castle.Windsor;
 
 namespace IUDICO.Search
 {
-    public class SearchPluginn : IWindsorInstaller, IPlugin
+    public class SearchPlugin : IWindsorInstaller, IPlugin
     {
         #region IWindsorInstaller Members
 
@@ -33,9 +33,9 @@ namespace IUDICO.Search
             return "Search";
         }
 
-        public IEnumerable<Action> BuildActions(Role role)
+        public IEnumerable<IAction> BuildActions()
         {
-            return new List<Action>();
+            return new List<IAction>();
         }
 
         public void BuildMenu(Menu menu)

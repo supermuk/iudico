@@ -42,7 +42,7 @@ namespace IUDICO.LMS.Controllers
         {
             return View(new HomeModel()
             {
-                Actions = new Dictionary<IPlugin, IEnumerable<Action>>(MvcApplication.Actions),
+                Actions = new Dictionary<IPlugin, IEnumerable<IAction>>(MvcApplication.Actions),
                 ThemesDescriptions = GetThemesDescriptions()
             });
 
