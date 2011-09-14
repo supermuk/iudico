@@ -1,0 +1,405 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddTheme" xml:space="preserve">
+    <value>Add theme</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>Back to list</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="CreateNew" xml:space="preserve">
+    <value>Create new</value>
+  </data>
+  <data name="CreateStageFor" xml:space="preserve">
+    <value>Create stage for</value>
+  </data>
+  <data name="CreateThemeFor" xml:space="preserve">
+    <value>Create theme for</value>
+  </data>
+  <data name="CreateСurriculum" xml:space="preserve">
+    <value>Create curriculum</value>
+  </data>
+  <data name="Curriculum" xml:space="preserve">
+    <value>Curriculum</value>
+  </data>
+  <data name="CurriculumManagement" xml:space="preserve">
+    <value>Curriculum management</value>
+  </data>
+  <data name="Curriculums" xml:space="preserve">
+    <value>Curriculums</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteSelected" xml:space="preserve">
+    <value>Delete selected</value>
+  </data>
+  <data name="Down" xml:space="preserve">
+    <value>Down</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditCurriculum" xml:space="preserve">
+    <value>Edit curriculum</value>
+  </data>
+  <data name="EditStage" xml:space="preserve">
+    <value>Edit stage</value>
+  </data>
+  <data name="EditStages" xml:space="preserve">
+    <value>Edit stages</value>
+  </data>
+  <data name="EditTheme" xml:space="preserve">
+    <value>Edit theme</value>
+  </data>
+  <data name="EditThemes" xml:space="preserve">
+    <value>Edit themes</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Stage" xml:space="preserve">
+    <value>Stage</value>
+  </data>
+  <data name="StagesFor" xml:space="preserve">
+    <value>Stages for</value>
+  </data>
+  <data name="ThemeName" xml:space="preserve">
+    <value>Theme name</value>
+  </data>
+  <data name="ThemesFor" xml:space="preserve">
+    <value>Themes for</value>
+  </data>
+  <data name="ThemeType" xml:space="preserve">
+    <value>Theme type</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Updated" xml:space="preserve">
+    <value>Updated</value>
+  </data>
+  <data name="AddAssignment" xml:space="preserve">
+    <value>Add assignment</value>
+  </data>
+  <data name="AddTimeline" xml:space="preserve">
+    <value>Add timeline</value>
+  </data>
+  <data name="AssignmentsFor" xml:space="preserve">
+    <value>Assignments for</value>
+  </data>
+  <data name="BackToCurriculums" xml:space="preserve">
+    <value>Back to curriculums</value>
+  </data>
+  <data name="EditAssignmentFor" xml:space="preserve">
+    <value>Edit assignment for</value>
+  </data>
+  <data name="EditThemeAssignments" xml:space="preserve">
+    <value>Edit theme assignments</value>
+  </data>
+  <data name="EditTimelines" xml:space="preserve">
+    <value>Edit timelines</value>
+  </data>
+  <data name="EditTimelinesForStages" xml:space="preserve">
+    <value>Edit timelines for stages</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>End date</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="MaxScore" xml:space="preserve">
+    <value>Max score</value>
+  </data>
+  <data name="StageTimelinesFor" xml:space="preserve">
+    <value>Stage timelines for</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start date</value>
+  </data>
+  <data name="ThemeAssignmentsFor" xml:space="preserve">
+    <value>Theme assignments for</value>
+  </data>
+  <data name="BackCurriculumAssignments" xml:space="preserve">
+    <value>Back to curriculum assignments</value>
+  </data>
+  <data name="ChooseGroup" xml:space="preserve">
+    <value>Choose a group</value>
+  </data>
+  <data name="ChooseThemeType" xml:space="preserve">
+    <value>Choose a theme type</value>
+  </data>
+  <data name="ChooseCourseForTheme" xml:space="preserve">
+    <value>Choose a course for theme</value>
+  </data>
+  <data name="CreateCurriculumAssignmentTimelineFor" xml:space="preserve">
+    <value>Create curriculum assignment timeline for</value>
+  </data>
+  <data name="CurriculumAssignmentTimelinesFor" xml:space="preserve">
+    <value>Curriculum assignment timelines for</value>
+  </data>
+  <data name="EditAssignments" xml:space="preserve">
+    <value>Edit assignments</value>
+  </data>
+  <data name="PleaseSelectCurriculumsToDelete" xml:space="preserve">
+    <value>Please select curriculums to delete</value>
+  </data>
+  <data name="Up" xml:space="preserve">
+    <value>Up</value>
+  </data>
+  <data name="BackThemeAssignmentList" xml:space="preserve">
+    <value>Back to theme assignment list</value>
+  </data>
+  <data name="ChooseStageForTimeline" xml:space="preserve">
+    <value>Choose a stage for timeline</value>
+  </data>
+  <data name="EditStageTimelineFor" xml:space="preserve">
+    <value>Edit stage timeline for</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value> =&gt; </value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedAssignment" xml:space="preserve">
+    <value>Are you sure you want to delete selected assignment?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedCurriculum" xml:space="preserve">
+    <value>Are you sure you want to delete selected curriculum?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedStage" xml:space="preserve">
+    <value>Are you sure you want to delete selected stage?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedTheme" xml:space="preserve">
+    <value>Are you sure you want to delete selected theme?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedTimeline" xml:space="preserve">
+    <value>Are you sure you want to delete selected timeline?</value>
+  </data>
+  <data name="BackToStages" xml:space="preserve">
+    <value>Back to stages</value>
+  </data>
+  <data name="ChooseCourse" xml:space="preserve">
+    <value>Choose a course.</value>
+  </data>
+  <data name="ChooseStage" xml:space="preserve">
+    <value>Choose a stage</value>
+  </data>
+  <data name="CorrectFollowingErrorAndTryAgain" xml:space="preserve">
+    <value>Correct the following error(s) and try again</value>
+  </data>
+  <data name="EndDateMustBeBetween" xml:space="preserve">
+    <value>End date must be between {0} and {1}</value>
+  </data>
+  <data name="ErrorOccuredDuringProcessingRequestErrorMessage" xml:space="preserve">
+    <value>Error occured during processing request.\nError message:</value>
+  </data>
+  <data name="NameCanNotBeLongerThan" xml:space="preserve">
+    <value>Name can not be longer than {0}</value>
+  </data>
+  <data name="NameReqiured" xml:space="preserve">
+    <value>Name is required</value>
+  </data>
+  <data name="PleaseSelectAssignmentDelete" xml:space="preserve">
+    <value>Please select assignments to delete</value>
+  </data>
+  <data name="PleaseSelectCurriculumsDelete" xml:space="preserve">
+    <value>Please select curriculums to delete</value>
+  </data>
+  <data name="PleaseSelectStagesDelete" xml:space="preserve">
+    <value>Please select stages to delete</value>
+  </data>
+  <data name="PleaseSelectThemesDelete" xml:space="preserve">
+    <value>Please select themes to delete</value>
+  </data>
+  <data name="PleaseSelectTimelineDelete" xml:space="preserve">
+    <value>Please select timelines to delete</value>
+  </data>
+  <data name="StageTimelineBiggerThanCurriculumTimeline" xml:space="preserve">
+    <value>Stage timeline should be based in one of these intervals:</value>
+  </data>
+  <data name="StartDateMustBeBetween" xml:space="preserve">
+    <value>Start date must be between {0} and {1}</value>
+  </data>
+  <data name="StartDateMustLessThanEndDate" xml:space="preserve">
+    <value>Start date must be less than end date</value>
+  </data>
+  <data name="CreateAssignmentFor" xml:space="preserve">
+    <value>Add assignment for</value>
+  </data>
+  <data name="CreateStageTimelineFor" xml:space="preserve">
+    <value>Create stage timeline for</value>
+  </data>
+  <data name="EditCurriculumAssignmentTimelineFor" xml:space="preserve">
+    <value>Edit curriculum assignment timeline for</value>
+  </data>
+  <data name="EditThemeAssignmentFor" xml:space="preserve">
+    <value>Edit theme assignment for</value>
+  </data>
+  <data name="PrevNext" xml:space="preserve">
+    <value> &lt;=&gt; </value>
+  </data>
+  <data name="Fields" xml:space="preserve">
+    <value>Fields</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedAssignments" xml:space="preserve">
+    <value>Are you sure you want to delete selected assignments?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedCurriculums" xml:space="preserve">
+    <value>Are you sure you want to delete selected curriculums?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedStages" xml:space="preserve">
+    <value>Are you sure you want to delete selected stages?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedThemes" xml:space="preserve">
+    <value>Are you sure you want to delete selected themes?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedTimelines" xml:space="preserve">
+    <value>Are you sure you want to delete selected timelines?</value>
+  </data>
+  <data name="CreateTheme" xml:space="preserve">
+    <value>Create Theme</value>
+  </data>
+  <data name="EditStageTimeline" xml:space="preserve">
+    <value>Edit Stage Timeline</value>
+  </data>
+  <data name="EditThemeAssignment" xml:space="preserve">
+    <value>Edit Theme Assignment</value>
+  </data>
+  <data name="Stages" xml:space="preserve">
+    <value>Stages</value>
+  </data>
+  <data name="StageTimelines" xml:space="preserve">
+    <value>Stage Timelines</value>
+  </data>
+  <data name="ThemeAssignments" xml:space="preserve">
+    <value>Theme Assignments</value>
+  </data>
+  <data name="Themes" xml:space="preserve">
+    <value>Themes</value>
+  </data>
+  <data name="Timeline" xml:space="preserve">
+    <value>Timeline</value>
+  </data>
+</root>
