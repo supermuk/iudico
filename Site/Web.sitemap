@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="" title=""  description="">
+    <siteMapNode url="Home.aspx" title="Home" />
+    <siteMapNode title="User">
+      <siteMapNode title="My Personal Info" url="~/User/MyInfo.aspx"/>
+      <siteMapNode url="~/User/MyPermissions.aspx" title="My permissions" />
+    </siteMapNode>
+    <siteMapNode title="Student" roles="STUDENT" url="~/Student/StudentPage.aspx">
+    </siteMapNode>
+    <siteMapNode title="Lector" roles="LECTOR">
+      <siteMapNode title="Groups" url="~/Admin/Groups.aspx?Lector" />
+      <siteMapNode title="Courses" url="~/Teacher/CourseEdit.aspx" />
+      <siteMapNode title="Curriculums" url="~/Teacher/CurriculumEdit.aspx" />
+      <siteMapNode title="Assignment" url="~/Teacher/CurriculumAssignment.aspx" />
+      <siteMapNode title="Statistic" url="~/Teacher/StatisticSelect.aspx" />
+      <siteMapNode title="My objects" url="~/Teacher/TeacherObjects.aspx" />
+      <siteMapNode title="ReCompilation" url="~/Teacher/ReCompilationPage.aspx" />
+    </siteMapNode>
+    <siteMapNode title="Admin" roles="ADMIN">
+      <siteMapNode title="Users" url="~/Admin/Users.aspx" />
+      <siteMapNode title="Groups" url="~/Admin/Groups.aspx" />
+      <siteMapNode title="" />
+      <siteMapNode title="Create User" url="~/Admin/CreateUser.aspx" />
+      <siteMapNode title="Create Group" url="~/Admin/CreateGroup.aspx?Admin" />
+    </siteMapNode>
+    <!--<siteMapNode title="Logout" url="Logout.ashx"></siteMapNode>-->
+  </siteMapNode>
+</siteMap>
