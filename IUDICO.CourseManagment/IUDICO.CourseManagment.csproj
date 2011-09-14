@@ -1,0 +1,737 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CB470DA7-0981-45B5-BEB9-6FD06586BA7E}</ProjectGuid>
+    <ProjectTypeGuids>{F85E285D-A4E0-4152-9332-AB1D724D3325};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IUDICO.CourseManagment</RootNamespace>
+    <AssemblyName>IUDICO.CourseManagment</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\References\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\References\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.LearningComponents, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\Microsoft.LearningComponents.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.LearningComponents.Compression, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\Microsoft.LearningComponents.Compression.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\CourseBaseController.cs" />
+    <Compile Include="Controllers\CourseController.cs" />
+    <Compile Include="Controllers\NodeController.cs" />
+    <Compile Include="CourseManagmentPlugin.cs" />
+    <Compile Include="Helpers\PackageValidator.cs" />
+    <Compile Include="Helpers\Zipper.cs" />
+    <Compile Include="Models\Extensions.cs" />
+    <Compile Include="Models\JsTree.cs" />
+    <Compile Include="Models\Manifest\CompletionThreshold.cs" />
+    <Compile Include="Models\Manifest\Enums.cs" />
+    <Compile Include="Models\Manifest\Item.cs" />
+    <Compile Include="Models\Manifest\Manifest.cs" />
+    <Compile Include="Models\Manifest\Map.cs" />
+    <Compile Include="Models\Manifest\Metadata.cs" />
+    <Compile Include="Models\Manifest\Organization.cs" />
+    <Compile Include="Models\Manifest\Organizations.cs" />
+    <Compile Include="Models\Manifest\Presentation.cs" />
+    <Compile Include="Models\Manifest\Recources.cs" />
+    <Compile Include="Models\Manifest\Resource.cs" />
+    <Compile Include="Models\Manifest\Sequencing.cs" />
+    <Compile Include="Models\Manifest\Strings.cs" />
+    <Compile Include="Models\Old\Manifest\AbstractManifestNode.cs" />
+    <Compile Include="Models\Old\Manifest\Item.cs" />
+    <Compile Include="Models\Old\Manifest\ManifestIntf.cs" />
+    <Compile Include="Models\Old\Manifest\ManifestNodeList.cs" />
+    <Compile Include="Models\Old\Manifest\ManifestStringConverter.cs" />
+    <Compile Include="Models\Old\Manifest\ManifestTypes.cs" />
+    <Compile Include="Models\Old\Manifest\Organization.cs" />
+    <Compile Include="Models\Old\Manifest\PosibilityManager.cs" />
+    <Compile Include="Models\Old\Annotations.cs" />
+    <Compile Include="Models\Old\Answers.cs" />
+    <Compile Include="Models\Old\Course.cs" />
+    <Compile Include="Models\Old\Exceptions.cs" />
+    <Compile Include="Models\Old\Extenders.cs" />
+    <Compile Include="Models\Old\Sequencing\SequencingIntf.cs" />
+    <Compile Include="Models\Old\Sequencing\SequencingManager.cs" />
+    <Compile Include="Models\Old\Sequencing\SequencingPatterns.cs" />
+    <Compile Include="Models\Storage\MixedCourseStorage.cs" />
+    <Compile Include="Models\Storage\CourseStorageFactory.cs" />
+    <Compile Include="Models\Storage\ICourseStorage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Views\Course\Create.aspx" />
+    <None Include="Views\Course\Edit.aspx" />
+    <None Include="Views\Course\Import.aspx" />
+    <None Include="Views\Course\Index.aspx" />
+    <None Include="Views\Node\Create.aspx" />
+    <None Include="Views\Node\Index.aspx" />
+    <None Include="Views\Search\Index.aspx" />
+    <None Include="Views\Search\Search.aspx" />
+    <None Include="Content\Tree\file.png" />
+    <None Include="Content\Tree\folder.png" />
+    <None Include="Content\Tree\root.png" />
+    <Content Include="Libraries\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="Libraries\Microsoft.LearningComponents.Compression.dll" />
+    <Content Include="Libraries\Microsoft.LearningComponents.dll" />
+    <Content Include="Libraries\Microsoft.LearningComponents.XML" />
+    <None Include="Scripts\custom\ckeditor\adapters\jquery.js" />
+    <None Include="Scripts\custom\ckeditor\ckeditor.js" />
+    <None Include="Scripts\custom\ckeditor\ckeditor_basic.js" />
+    <None Include="Scripts\custom\ckeditor\config.js" />
+    <None Include="Scripts\custom\ckeditor\images\spacer.gif" />
+    <None Include="Scripts\custom\ckeditor\lang\af.js" />
+    <None Include="Scripts\custom\ckeditor\lang\ar.js" />
+    <None Include="Scripts\custom\ckeditor\lang\bg.js" />
+    <None Include="Scripts\custom\ckeditor\lang\bn.js" />
+    <None Include="Scripts\custom\ckeditor\lang\bs.js" />
+    <None Include="Scripts\custom\ckeditor\lang\ca.js" />
+    <None Include="Scripts\custom\ckeditor\lang\cs.js" />
+    <None Include="Scripts\custom\ckeditor\lang\cy.js" />
+    <None Include="Scripts\custom\ckeditor\lang\da.js" />
+    <None Include="Scripts\custom\ckeditor\lang\de.js" />
+    <None Include="Scripts\custom\ckeditor\lang\el.js" />
+    <None Include="Scripts\custom\ckeditor\lang\en-au.js" />
+    <None Include="Scripts\custom\ckeditor\lang\en-ca.js" />
+    <None Include="Scripts\custom\ckeditor\lang\en-gb.js" />
+    <None Include="Scripts\custom\ckeditor\lang\en.js" />
+    <None Include="Scripts\custom\ckeditor\lang\eo.js" />
+    <None Include="Scripts\custom\ckeditor\lang\es.js" />
+    <None Include="Scripts\custom\ckeditor\lang\et.js" />
+    <None Include="Scripts\custom\ckeditor\lang\eu.js" />
+    <None Include="Scripts\custom\ckeditor\lang\fa.js" />
+    <None Include="Scripts\custom\ckeditor\lang\fi.js" />
+    <None Include="Scripts\custom\ckeditor\lang\fo.js" />
+    <None Include="Scripts\custom\ckeditor\lang\fr-ca.js" />
+    <None Include="Scripts\custom\ckeditor\lang\fr.js" />
+    <None Include="Scripts\custom\ckeditor\lang\gl.js" />
+    <None Include="Scripts\custom\ckeditor\lang\gu.js" />
+    <None Include="Scripts\custom\ckeditor\lang\he.js" />
+    <None Include="Scripts\custom\ckeditor\lang\hi.js" />
+    <None Include="Scripts\custom\ckeditor\lang\hr.js" />
+    <None Include="Scripts\custom\ckeditor\lang\hu.js" />
+    <None Include="Scripts\custom\ckeditor\lang\is.js" />
+    <None Include="Scripts\custom\ckeditor\lang\it.js" />
+    <None Include="Scripts\custom\ckeditor\lang\ja.js" />
+    <None Include="Scripts\custom\ckeditor\lang\km.js" />
+    <None Include="Scripts\custom\ckeditor\lang\ko.js" />
+    <None Include="Scripts\custom\ckeditor\lang\lt.js" />
+    <None Include="Scripts\custom\ckeditor\lang\lv.js" />
+    <None Include="Scripts\custom\ckeditor\lang\mn.js" />
+    <None Include="Scripts\custom\ckeditor\lang\ms.js" />
+    <None Include="Scripts\custom\ckeditor\lang\nb.js" />
+    <None Include="Scripts\custom\ckeditor\lang\nl.js" />
+    <None Include="Scripts\custom\ckeditor\lang\no.js" />
+    <None Include="Scripts\custom\ckeditor\lang\pl.js" />
+    <None Include="Scripts\custom\ckeditor\lang\pt-br.js" />
+    <None Include="Scripts\custom\ckeditor\lang\pt.js" />
+    <None Include="Scripts\custom\ckeditor\lang\ro.js" />
+    <None Include="Scripts\custom\ckeditor\lang\ru.js" />
+    <None Include="Scripts\custom\ckeditor\lang\sk.js" />
+    <None Include="Scripts\custom\ckeditor\lang\sl.js" />
+    <None Include="Scripts\custom\ckeditor\lang\sr-latn.js" />
+    <None Include="Scripts\custom\ckeditor\lang\sr.js" />
+    <None Include="Scripts\custom\ckeditor\lang\sv.js" />
+    <None Include="Scripts\custom\ckeditor\lang\th.js" />
+    <None Include="Scripts\custom\ckeditor\lang\tr.js" />
+    <None Include="Scripts\custom\ckeditor\lang\uk.js" />
+    <None Include="Scripts\custom\ckeditor\lang\vi.js" />
+    <None Include="Scripts\custom\ckeditor\lang\zh-cn.js" />
+    <None Include="Scripts\custom\ckeditor\lang\zh.js" />
+    <None Include="Scripts\custom\ckeditor\lang\_languages.js" />
+    <None Include="Scripts\custom\ckeditor\lang\_translationstatus.txt" />
+    <None Include="Scripts\custom\ckeditor\plugins\a11yhelp\dialogs\a11yhelp.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\a11yhelp\lang\en.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\a11yhelp\lang\he.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\about\dialogs\about.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\about\dialogs\logo_ckeditor.png" />
+    <None Include="Scripts\custom\ckeditor\plugins\autogrow\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\clipboard\dialogs\paste.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\colordialog\dialogs\colordialog.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\dialog\dialogDefinition.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\div\dialogs\div.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\find\dialogs\find.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\flash\dialogs\flash.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\flash\images\placeholder.png" />
+    <None Include="Scripts\custom\ckeditor\plugins\forms\dialogs\button.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\forms\dialogs\checkbox.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\forms\dialogs\form.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\forms\dialogs\hiddenfield.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\forms\dialogs\radio.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\forms\dialogs\select.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\forms\dialogs\textarea.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\forms\dialogs\textfield.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\forms\images\hiddenfield.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\iframedialog\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\image\dialogs\image.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\link\dialogs\anchor.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\link\dialogs\link.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\link\images\anchor.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\liststyle\dialogs\liststyle.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\pagebreak\images\pagebreak.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\pastefromword\filter\default.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\pastetext\dialogs\pastetext.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\scayt\dialogs\options.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\scayt\dialogs\toolbar.css" />
+    <None Include="Scripts\custom\ckeditor\plugins\showblocks\images\block_address.png" />
+    <None Include="Scripts\custom\ckeditor\plugins\showblocks\images\block_blockquote.png" />
+    <None Include="Scripts\custom\ckeditor\plugins\showblocks\images\block_div.png" />
+    <None Include="Scripts\custom\ckeditor\plugins\showblocks\images\block_h1.png" />
+    <None Include="Scripts\custom\ckeditor\plugins\showblocks\images\block_h2.png" />
+    <None Include="Scripts\custom\ckeditor\plugins\showblocks\images\block_h3.png" />
+    <None Include="Scripts\custom\ckeditor\plugins\showblocks\images\block_h4.png" />
+    <None Include="Scripts\custom\ckeditor\plugins\showblocks\images\block_h5.png" />
+    <None Include="Scripts\custom\ckeditor\plugins\showblocks\images\block_h6.png" />
+    <None Include="Scripts\custom\ckeditor\plugins\showblocks\images\block_p.png" />
+    <None Include="Scripts\custom\ckeditor\plugins\showblocks\images\block_pre.png" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\dialogs\smiley.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\angel_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\angry_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\broken_heart.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\confused_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\cry_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\devil_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\embaressed_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\envelope.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\heart.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\kiss.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\lightbulb.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\omg_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\regular_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\sad_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\shades_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\teeth_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\thumbs_down.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\thumbs_up.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\tounge_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\whatchutalkingabout_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\smiley\images\wink_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\specialchar\dialogs\specialchar.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\styles\styles\default.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\tableresize\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\tabletools\dialogs\tableCell.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\table\dialogs\table.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\templates\dialogs\templates.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\templates\templates\default.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\templates\templates\images\template1.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\templates\templates\images\template2.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\templates\templates\images\template3.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\uicolor\dialogs\uicolor.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\uicolor\lang\en.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\uicolor\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\uicolor\uicolor.gif" />
+    <None Include="Scripts\custom\ckeditor\plugins\uicolor\yui\assets\hue_bg.png" />
+    <None Include="Scripts\custom\ckeditor\plugins\uicolor\yui\assets\hue_thumb.png" />
+    <None Include="Scripts\custom\ckeditor\plugins\uicolor\yui\assets\picker_mask.png" />
+    <None Include="Scripts\custom\ckeditor\plugins\uicolor\yui\assets\picker_thumb.png" />
+    <None Include="Scripts\custom\ckeditor\plugins\uicolor\yui\assets\yui.css" />
+    <None Include="Scripts\custom\ckeditor\plugins\uicolor\yui\yui.js" />
+    <None Include="Scripts\custom\ckeditor\plugins\wsc\dialogs\ciframe.html" />
+    <None Include="Scripts\custom\ckeditor\plugins\wsc\dialogs\tmpFrameset.html" />
+    <None Include="Scripts\custom\ckeditor\plugins\wsc\dialogs\wsc.css" />
+    <None Include="Scripts\custom\ckeditor\plugins\wsc\dialogs\wsc.js" />
+    <None Include="Scripts\custom\ckeditor\skins\kama\dialog.css" />
+    <None Include="Scripts\custom\ckeditor\skins\kama\editor.css" />
+    <None Include="Scripts\custom\ckeditor\skins\kama\icons.png" />
+    <None Include="Scripts\custom\ckeditor\skins\kama\icons_rtl.png" />
+    <None Include="Scripts\custom\ckeditor\skins\kama\images\dialog_sides.gif" />
+    <None Include="Scripts\custom\ckeditor\skins\kama\images\dialog_sides.png" />
+    <None Include="Scripts\custom\ckeditor\skins\kama\images\dialog_sides_rtl.png" />
+    <None Include="Scripts\custom\ckeditor\skins\kama\images\mini.gif" />
+    <None Include="Scripts\custom\ckeditor\skins\kama\images\noimage.png" />
+    <None Include="Scripts\custom\ckeditor\skins\kama\images\sprites.png" />
+    <None Include="Scripts\custom\ckeditor\skins\kama\images\sprites_ie6.png" />
+    <None Include="Scripts\custom\ckeditor\skins\kama\images\toolbar_start.gif" />
+    <None Include="Scripts\custom\ckeditor\skins\kama\skin.js" />
+    <None Include="Scripts\custom\ckeditor\skins\kama\templates.css" />
+    <None Include="Scripts\custom\ckeditor\skins\office2003\dialog.css" />
+    <None Include="Scripts\custom\ckeditor\skins\office2003\editor.css" />
+    <None Include="Scripts\custom\ckeditor\skins\office2003\icons.png" />
+    <None Include="Scripts\custom\ckeditor\skins\office2003\icons_rtl.png" />
+    <None Include="Scripts\custom\ckeditor\skins\office2003\images\dialog_sides.gif" />
+    <None Include="Scripts\custom\ckeditor\skins\office2003\images\dialog_sides.png" />
+    <None Include="Scripts\custom\ckeditor\skins\office2003\images\dialog_sides_rtl.png" />
+    <None Include="Scripts\custom\ckeditor\skins\office2003\images\mini.gif" />
+    <None Include="Scripts\custom\ckeditor\skins\office2003\images\noimage.png" />
+    <None Include="Scripts\custom\ckeditor\skins\office2003\images\sprites.png" />
+    <None Include="Scripts\custom\ckeditor\skins\office2003\images\sprites_ie6.png" />
+    <None Include="Scripts\custom\ckeditor\skins\office2003\skin.js" />
+    <None Include="Scripts\custom\ckeditor\skins\office2003\templates.css" />
+    <None Include="Scripts\custom\ckeditor\skins\v2\dialog.css" />
+    <None Include="Scripts\custom\ckeditor\skins\v2\editor.css" />
+    <None Include="Scripts\custom\ckeditor\skins\v2\icons.png" />
+    <None Include="Scripts\custom\ckeditor\skins\v2\icons_rtl.png" />
+    <None Include="Scripts\custom\ckeditor\skins\v2\images\dialog_sides.gif" />
+    <None Include="Scripts\custom\ckeditor\skins\v2\images\dialog_sides.png" />
+    <None Include="Scripts\custom\ckeditor\skins\v2\images\dialog_sides_rtl.png" />
+    <None Include="Scripts\custom\ckeditor\skins\v2\images\mini.gif" />
+    <None Include="Scripts\custom\ckeditor\skins\v2\images\noimage.png" />
+    <None Include="Scripts\custom\ckeditor\skins\v2\images\sprites.png" />
+    <None Include="Scripts\custom\ckeditor\skins\v2\images\sprites_ie6.png" />
+    <None Include="Scripts\custom\ckeditor\skins\v2\images\toolbar_start.gif" />
+    <None Include="Scripts\custom\ckeditor\skins\v2\skin.js" />
+    <None Include="Scripts\custom\ckeditor\skins\v2\templates.css" />
+    <None Include="Scripts\custom\ckeditor\themes\default\theme.js" />
+    <None Include="Scripts\custom\ckeditor\_source\adapters\jquery.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\ajax.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\ckeditor.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\ckeditor_base.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\ckeditor_basic.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\command.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\commanddefinition.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\config.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\dataprocessor.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\dom.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\dom\comment.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\dom\document.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\dom\documentfragment.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\dom\domobject.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\dom\element.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\dom\elementpath.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\dom\event.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\dom\node.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\dom\nodelist.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\dom\range.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\dom\rangelist.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\dom\text.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\dom\walker.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\dom\window.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\dtd.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\editor.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\editor_basic.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\env.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\event.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\eventInfo.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\focusmanager.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\htmlparser.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\htmlparser\basicwriter.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\htmlparser\cdata.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\htmlparser\comment.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\htmlparser\element.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\htmlparser\filter.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\htmlparser\fragment.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\htmlparser\text.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\imagecacher.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\lang.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\loader.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\plugindefinition.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\plugins.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\resourcemanager.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\scriptloader.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\skins.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\themes.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\tools.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\ui.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\xml.js" />
+    <None Include="Scripts\custom\ckeditor\_source\core\_bootstrap.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\af.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\ar.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\bg.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\bn.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\bs.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\ca.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\cs.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\cy.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\da.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\de.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\el.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\en-au.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\en-ca.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\en-gb.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\en.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\eo.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\es.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\et.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\eu.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\fa.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\fi.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\fo.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\fr-ca.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\fr.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\gl.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\gu.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\he.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\hi.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\hr.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\hu.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\is.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\it.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\ja.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\km.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\ko.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\lt.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\lv.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\mn.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\ms.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\nb.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\nl.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\no.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\pl.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\pt-br.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\pt.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\ro.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\ru.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\sk.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\sl.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\sr-latn.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\sr.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\sv.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\th.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\tr.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\uk.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\vi.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\zh-cn.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\zh.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\_languages.js" />
+    <None Include="Scripts\custom\ckeditor\_source\lang\_translationstatus.txt" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\a11yhelp\dialogs\a11yhelp.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\a11yhelp\lang\en.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\a11yhelp\lang\he.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\a11yhelp\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\about\dialogs\about.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\about\dialogs\logo_ckeditor.png" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\about\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\autogrow\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\basicstyles\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\bidi\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\blockquote\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\button\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\clipboard\dialogs\paste.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\clipboard\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\colorbutton\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\colordialog\dialogs\colordialog.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\colordialog\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\contextmenu\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\dialogadvtab\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\dialogui\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\dialog\dialogDefinition.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\dialog\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\div\dialogs\div.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\div\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\domiterator\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\editingblock\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\elementspath\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\enterkey\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\entities\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\fakeobjects\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\filebrowser\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\find\dialogs\find.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\find\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\flash\dialogs\flash.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\flash\images\placeholder.png" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\flash\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\floatpanel\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\font\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\format\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\forms\dialogs\button.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\forms\dialogs\checkbox.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\forms\dialogs\form.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\forms\dialogs\hiddenfield.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\forms\dialogs\radio.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\forms\dialogs\select.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\forms\dialogs\textarea.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\forms\dialogs\textfield.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\forms\images\hiddenfield.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\forms\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\horizontalrule\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\htmldataprocessor\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\htmlwriter\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\iframedialog\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\image\dialogs\image.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\image\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\indent\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\iudico\dialogs\iudico.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\iudico\lang\en.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\iudico\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\justify\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\keystrokes\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\link\dialogs\anchor.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\link\dialogs\link.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\link\images\anchor.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\link\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\listblock\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\liststyle\dialogs\liststyle.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\liststyle\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\list\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\maximize\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\menubutton\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\menu\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\newpage\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\pagebreak\images\pagebreak.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\pagebreak\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\panelbutton\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\panel\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\pastefromword\filter\default.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\pastefromword\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\pastetext\dialogs\pastetext.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\pastetext\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\popup\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\preview\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\print\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\removeformat\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\resize\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\richcombo\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\save\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\scayt\dialogs\options.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\scayt\dialogs\toolbar.css" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\scayt\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\selection\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\showblocks\images\block_address.png" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\showblocks\images\block_blockquote.png" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\showblocks\images\block_div.png" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\showblocks\images\block_h1.png" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\showblocks\images\block_h2.png" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\showblocks\images\block_h3.png" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\showblocks\images\block_h4.png" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\showblocks\images\block_h5.png" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\showblocks\images\block_h6.png" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\showblocks\images\block_p.png" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\showblocks\images\block_pre.png" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\showblocks\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\showborders\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\dialogs\smiley.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\angel_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\angry_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\broken_heart.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\confused_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\cry_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\devil_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\embaressed_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\envelope.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\heart.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\kiss.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\lightbulb.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\omg_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\regular_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\sad_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\shades_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\teeth_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\thumbs_down.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\thumbs_up.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\tounge_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\whatchutalkingabout_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\images\wink_smile.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\smiley\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\sourcearea\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\specialchar\dialogs\specialchar.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\specialchar\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\stylescombo\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\styles\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\styles\styles\default.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\tableresize\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\tabletools\dialogs\tableCell.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\tabletools\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\table\dialogs\table.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\table\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\tab\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\templates\dialogs\templates.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\templates\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\templates\templates\default.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\templates\templates\images\template1.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\templates\templates\images\template2.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\templates\templates\images\template3.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\toolbar\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\uicolor\dialogs\uicolor.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\uicolor\lang\en.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\uicolor\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\uicolor\uicolor.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\uicolor\yui\assets\hue_bg.png" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\uicolor\yui\assets\hue_thumb.png" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\uicolor\yui\assets\picker_mask.png" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\uicolor\yui\assets\picker_thumb.png" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\uicolor\yui\assets\yui.css" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\uicolor\yui\yui.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\undo\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\wsc\dialogs\ciframe.html" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\wsc\dialogs\tmpFrameset.html" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\wsc\dialogs\wsc.css" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\wsc\dialogs\wsc.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\wsc\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\plugins\wysiwygarea\plugin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\dialog.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\editor.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\elementspath.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\icons.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\icons.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\icons_rtl.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\images\dialog_sides.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\images\dialog_sides.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\images\dialog_sides_rtl.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\images\mini.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\images\noimage.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\images\sprites.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\images\sprites_ie6.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\images\toolbar_start.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\mainui.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\menu.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\panel.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\presets.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\reset.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\richcombo.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\skin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\templates.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\kama\toolbar.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\dialog.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\editor.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\elementspath.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\icons.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\icons.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\icons_rtl.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\images\dialog_sides.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\images\dialog_sides.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\images\dialog_sides_rtl.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\images\mini.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\images\noimage.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\images\sprites.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\images\sprites_ie6.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\mainui.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\menu.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\panel.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\presets.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\reset.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\richcombo.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\skin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\templates.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\office2003\toolbar.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\dialog.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\editor.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\elementspath.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\icons.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\icons.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\icons_rtl.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\images\dialog_sides.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\images\dialog_sides.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\images\dialog_sides_rtl.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\images\mini.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\images\noimage.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\images\sprites.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\images\sprites_ie6.png" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\images\toolbar_start.gif" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\mainui.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\menu.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\panel.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\presets.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\reset.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\richcombo.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\skin.js" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\templates.css" />
+    <None Include="Scripts\custom\ckeditor\_source\skins\v2\toolbar.css" />
+    <None Include="Scripts\custom\ckeditor\_source\themes\default\theme.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\Courses\" />
+    <Folder Include="Data\Index\" />
+    <Folder Include="Data\WorkFolder\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
+      <Project>{9DD6C943-6608-4351-A521-E4B1F2F75E9D}</Project>
+      <Name>IUDICO.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target> -->
+  <Target Name="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(ProjectDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>14980</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="BeforeBuild">
+    <ItemGroup>
+      <EmbeddedResource Include="**\*.aspx;**\*.ascx;**\*.gif;**\*.css;**\*.js;**\*.png;**\*.jpg" />
+    </ItemGroup>
+  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) $(SolutionDir)IUDICO.LMS\Plugins\</PostBuildEvent>
+  </PropertyGroup>
+</Project>
