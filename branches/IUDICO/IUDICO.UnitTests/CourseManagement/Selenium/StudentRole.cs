@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 namespace IUDICO.UnitTests.CourseManagement.Selenium
 {
+    /*
     [TestFixture]
     class StudentRole: TestFixtureWeb
     {
@@ -43,4 +44,5 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
 
         }
     }
+     */
 }
