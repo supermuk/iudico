@@ -1,1 +1,23 @@
-[http://code.google.com/p/iudico/downloads/detail?name=security_usecase1.png]
+#summary Security subsystem
+
+=Підсистема керування безпекою=
+
+Перший юз-кейс:
+
+[http://iudico.googlecode.com/files/security_usecase1.png]
+
+
+*Actor:* Admin
+|| Ban IP || Забанити айпішку ||
+|| Unban IP || Розбанити айпішку ||
+ 
+||Get user activity stats ||Відслідковувати активність юзера на сайті||
+||Limit user activity ||Обмеження на обєм даних і трафік для різних ролей||
+||Get user's requests ||Отримати всі запити юзера||
+||Find 'similar' user requests ||Відслідковування похожих перевантажуючих запитів||
+|| Customize blocking || Налаштування параметрів безпеки ||
+
+*Actor:* Bot
+
+||Get user's requests ||Сканування запитів до системи||
+||Find 'similar' user requests ||Обробка даних про схожі запити користувачів та реагування||
