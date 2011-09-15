@@ -68,3 +68,12 @@
  * підтримка 3 видів вузлів - початкового, папок та кінцевих
  * drag\&drop функціональність вузлів
  * контекстне меню для вузлів, за допомогою якого можна здійснювати усі можливі дії. В тому числі: редагування та перегляду вмісту вузла, зміни правил навігації, створення вузлів типу папка та кінцевих, перейменування, виділення, копіювання, вирізання.
+
+Класи для сералізації (структура маніфесту)
+
+*Resources:*
+[http://iudico.googlecode.com/files/cm_resource_class.png]
+*Organizations:*
+[http://iudico.googlecode.com/files/cm_organization_class.png]
+*Sequencing:*
+[http://iudico.googlecode.com/files/cm_sequencing_class.png]
