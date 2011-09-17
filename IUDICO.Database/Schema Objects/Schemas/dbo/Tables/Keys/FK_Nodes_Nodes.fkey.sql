@@ -1,0 +1,3 @@
+﻿ALTER TABLE [dbo].[Nodes]
+    ADD CONSTRAINT [FK_Nodes_Nodes] FOREIGN KEY ([ParentId]) REFERENCES [dbo].[Nodes] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
