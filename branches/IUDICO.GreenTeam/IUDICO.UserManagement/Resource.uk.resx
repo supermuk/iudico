@@ -345,4 +345,7 @@
   <data name="PleaseSelectUserFromList" xml:space="preserve">
     <value>Будь ласка виберіть користувача з списку</value>
   </data>
+  <data name="CreateMultiple" xml:space="preserve">
+    <value>Створити багато</value>
+  </data>
 </root>

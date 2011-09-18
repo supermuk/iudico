@@ -9,6 +9,7 @@ using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Notifications;
 using System.Net.Mail;
+using Kent.Boogaart.KBCsv;
 
 namespace IUDICO.UserManagement.Models.Storage
 {
@@ -143,6 +144,29 @@ namespace IUDICO.UserManagement.Models.Storage
             db.SubmitChanges();
 
             _LmsService.Inform(UserNotifications.UserCreate, user);
+        }
+
+        public void CreateUsersFromCSV(string csvPath)
+        {
+            using (var reader = new CsvReader(csvPath))
+            {
+                reader.ReadHeaderRecord();
+
+                foreach (var record in reader.DataRecords)
+                {
+                    var user = new User
+                                   {
+                                       Username = record.GetValueOrNull("Username"),
+                                       Password = record.GetValueOrNull("Password"),
+                                       Email = record.GetValueOrNull("Email"),
+                                       RoleId = (int) Enum.Parse(typeof (Role), record.GetValueOrNull("Role")),
+                                       Name = record.GetValueOrNull("Name"),
+                                       IsApproved = true,
+                                       ApprovedBy = GetCurrentUser().Id,
+                                       CreationDate = DateTime.Now
+                                   };
+                }
+            }
         }
 
         public void EditUser(Guid id, User user)

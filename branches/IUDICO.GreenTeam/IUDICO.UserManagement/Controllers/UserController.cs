@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Web;
 using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
@@ -20,7 +22,7 @@ namespace IUDICO.UserManagement.Controllers
         //
         // GET: /User/
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult Index()
         {
             return View(_Storage.GetUsers());
@@ -29,7 +31,7 @@ namespace IUDICO.UserManagement.Controllers
         //
         // GET: /User/Details/5
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult Details(Guid id)
         {
             var user = _Storage.GetUser(u => u.Id == id);
@@ -41,7 +43,7 @@ namespace IUDICO.UserManagement.Controllers
         //
         // GET: /User/Create
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult Create()
         {
             var user = new User
@@ -50,21 +52,25 @@ namespace IUDICO.UserManagement.Controllers
                                    _Storage.GetRoles().AsQueryable().Select(
                                        r =>
                                        new SelectListItem
-                                           {Text =IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int) r).ToString(), Selected = false})
+                                           {Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int) r).ToString(), Selected = false}
+                                    )
                            };
 
             return View(user);
-        } 
+        }
 
         //
         // POST: /User/Create
 
         [HttpPost]
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult Create(User user)
         {
             if (user.OpenId == null)
+            {
                 user.OpenId = string.Empty;
+            }
+            
             if (ModelState.IsValid)
             {
                 if (!_Storage.UsernameExists(user.Username))
@@ -76,6 +82,7 @@ namespace IUDICO.UserManagement.Controllers
                 
                 ModelState.AddModelError("Username", "User with such username already exists.");
             }
+
             user.Password = null;
             user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = false });
 
@@ -83,9 +90,40 @@ namespace IUDICO.UserManagement.Controllers
         }
 
         //
+        // GET: /User/CreateMultiple
+
+        [Allow(Role = Role.Admin)]
+        public ActionResult CreateMultiple()
+        {
+            return View();
+        }
+
+        //
+        // POST: /User/CreateMultiple
+
+        [Allow(Role = Role.Admin)]
+        public ActionResult CreateMultiple(HttpPostedFileBase fileUpload)
+        {
+            var path = HttpContext.Request.PhysicalApplicationPath;
+
+            path = Path.Combine(path, @"Data\CSV");
+            path = Path.Combine(path, Guid.NewGuid().ToString());
+
+            Directory.CreateDirectory(path);
+
+            path = Path.Combine(path, fileUpload.FileName.Split('\\').Last());
+
+            fileUpload.SaveAs(path);
+
+            _Storage.CreateUsersFromCSV(path);
+
+            return RedirectToAction("CreateMultiple");
+        }
+
+        //
         // GET: /User/Edit/5
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult Edit(Guid id)
         {
             var user = _Storage.GetUser(u => u.Id == id);
@@ -99,7 +137,7 @@ namespace IUDICO.UserManagement.Controllers
         // POST: /User/Edit/5
 
         [HttpPost]
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult Edit(Guid id,  EditUserModel user)
         {
             if (user.OpenId == null)
@@ -120,7 +158,7 @@ namespace IUDICO.UserManagement.Controllers
         // Delete: /User/Delete/5
 
         [HttpDelete]
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public JsonResult Delete(Guid id)
         {
             try
@@ -135,7 +173,7 @@ namespace IUDICO.UserManagement.Controllers
             }
         }
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult Activate(Guid id)
         {
             _Storage.ActivateUser(id);
@@ -143,7 +181,7 @@ namespace IUDICO.UserManagement.Controllers
             return RedirectToAction("Index");
         }
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult Deactivate(Guid id)
         {
             _Storage.DeactivateUser(id);
@@ -162,7 +200,7 @@ namespace IUDICO.UserManagement.Controllers
             return RedirectToAction("Details", new { id = id });
         }
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult AddToGroup(Guid id)
         {
             var user = _Storage.GetUser(u => u.Id == id);
@@ -175,7 +213,7 @@ namespace IUDICO.UserManagement.Controllers
         }
 
         [HttpPost]
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult AddToGroup(Guid id, int? groupRef)
         {
             var user = _Storage.GetUser(u => u.Id == id);
