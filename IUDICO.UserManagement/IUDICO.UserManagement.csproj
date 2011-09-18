@@ -48,6 +48,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\IUDICO.Common\Libraries\DotNetOpenAuth.dll</HintPath>
     </Reference>
+    <Reference Include="Kent.Boogaart.KBCsv">
+      <HintPath>Libraries\Kent.Boogaart.KBCsv.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\log4net.dll</HintPath>
@@ -128,6 +131,7 @@
     <Content Include="Views\Role\Index.aspx" />
     <Content Include="Views\User\AddToGroup.aspx" />
     <Content Include="Views\User\Create.aspx" />
+    <Content Include="Views\User\CreateMultiple.aspx" />
     <Content Include="Views\User\Delete.aspx" />
     <Content Include="Views\User\Details.aspx" />
     <Content Include="Views\User\Edit.aspx" />

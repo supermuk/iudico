@@ -21,6 +21,7 @@ namespace IUDICO.UserManagement.Models.Storage
         IEnumerable<User> GetUsers(int pageIndex, int pageSize);
         User GetUser(Func<User, bool> predicate);
         void CreateUser(User user);
+        void CreateUsersFromCSV(string csvPath);
         void EditUser(Guid id, EditUserModel editor);
         void EditUser(Guid id, User editor);
         void EditAccount(EditModel editModel);
