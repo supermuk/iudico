@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
@@ -16,7 +17,12 @@ namespace IUDICO.UserManagement.Models.Storage
     public class DatabaseUserStorage : IUserStorage
     {
         protected ILmsService _LmsService;
-
+        protected const string _AllowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789";
+        protected const string EmailHost = "smtp.gmail.com";
+        protected const int EmailPort = 587;
+        protected const string EmailUser = "iudico.report@gmail.com";
+        protected const string EmailPassword = "iudico2011";
+        
         public DatabaseUserStorage(ILmsService lmsService)
         {
             _LmsService = lmsService;
@@ -27,24 +33,38 @@ namespace IUDICO.UserManagement.Models.Storage
             return _LmsService.GetDbDataContext();
         }
 
-        public string EncryptPassword(string password)
-        {
-            var provider = new SHA1CryptoServiceProvider();
-            var bytes = Encoding.UTF8.GetBytes(password);
-            return BitConverter.ToString(provider.ComputeHash(bytes)).Replace("-", "");
-        }
-
         public static void SendEmail(string fromAddress, string toAddress, string subject, string body)
         {
             try
             {
-                var message = new MailMessage(new MailAddress(fromAddress), new MailAddress(toAddress)) { Subject = subject, Body = body };
-                var client = new SmtpClient("krez.lviv.ua");
+                var message = new MailMessage(new MailAddress(EmailUser), new MailAddress(toAddress)) { Subject = subject, Body = body };
+                
+                var client = new SmtpClient(EmailHost, EmailPort)
+                                 {
+                                     EnableSsl = true,
+                                     DeliveryMethod = SmtpDeliveryMethod.Network,
+                                     UseDefaultCredentials = false,
+                                     Credentials = new NetworkCredential(EmailUser, EmailPassword)
+                                 };
+
                 client.Send(message);
             }
             catch
             {
             }
+        }
+
+        protected string RandomPassword()
+        {
+            var builder = new StringBuilder();
+            var random = new Random();
+
+            for (var i = 0; i < 6; i++)
+            {
+                builder.Append(_AllowedChars[random.Next(_AllowedChars.Length)]);
+            }
+
+            return builder.ToString();
         }
 
         #region Implementation of IUserStorage
@@ -129,6 +149,28 @@ namespace IUDICO.UserManagement.Models.Storage
             db.SubmitChanges();
         }
 
+        public string EncryptPassword(string password)
+        {
+            var provider = new SHA1CryptoServiceProvider();
+            var bytes = Encoding.UTF8.GetBytes(password);
+
+            return BitConverter.ToString(provider.ComputeHash(bytes)).Replace("-", "");
+        }
+
+        public void RestorePassword(RestorePasswordModel restorePasswordModel)
+        {
+            var db = GetDbContext();
+
+            var user = db.Users.Single(u => u.Email == restorePasswordModel.Email);
+            var password = RandomPassword();
+
+            user.Password = EncryptPassword(password);
+
+            db.SubmitChanges();
+
+            SendEmail("admin@iudico", user.Email, "Iudico Notification", "Your password has been changed:" + password);
+        }
+
         public void CreateUser(User user)
         {
             var db = GetDbContext();
@@ -146,27 +188,50 @@ namespace IUDICO.UserManagement.Models.Storage
             _LmsService.Inform(UserNotifications.UserCreate, user);
         }
 
-        public void CreateUsersFromCSV(string csvPath)
+        public Dictionary<string, string> CreateUsersFromCSV(string csvPath)
         {
+            var users = new List<User>();
+            var passwords = new Dictionary<string, string>();
+            var db = GetDbContext();
+
             using (var reader = new CsvReader(csvPath))
             {
                 reader.ReadHeaderRecord();
 
                 foreach (var record in reader.DataRecords)
                 {
+                    var password = record.GetValueOrNull("Password") ?? RandomPassword();
+
                     var user = new User
                                    {
                                        Username = record.GetValueOrNull("Username"),
-                                       Password = record.GetValueOrNull("Password"),
+                                       Password = EncryptPassword(password),
                                        Email = record.GetValueOrNull("Email"),
-                                       RoleId = (int) Enum.Parse(typeof (Role), record.GetValueOrNull("Role")),
-                                       Name = record.GetValueOrNull("Name"),
+                                       RoleId = (int) Enum.Parse(typeof (Role), record.GetValueOrNull("Role") ?? "Student"),
+                                       Name = record.GetValueOrNull("Name") ?? string.Empty,
+                                       OpenId = record.GetValueOrNull("OpenId") ?? string.Empty,
+                                       Deleted = false,
                                        IsApproved = true,
                                        ApprovedBy = GetCurrentUser().Id,
                                        CreationDate = DateTime.Now
                                    };
+
+                    users.Add(user);
+                    passwords.Add(user.Username, password);
                 }
             }
+
+            db.Users.InsertAllOnSubmit(users);
+            db.SubmitChanges();
+
+            foreach (var user in users)
+            {
+                SendEmail("admin@iudico", user.Email, "Iudico Notification", "Your account has been created:\nUsername: " + user.Username + "\nPassword: " + passwords[user.Username]);
+            }
+
+            _LmsService.Inform(UserNotifications.UserCreateMultiple, users);
+
+            return passwords;
         }
 
         public void EditUser(Guid id, User user)
@@ -175,8 +240,12 @@ namespace IUDICO.UserManagement.Models.Storage
             var oldUser = db.Users.Single(u => u.Id == id);
 
             oldUser.Name = user.Name;
-            if (user.Password != null && user.Password != string.Empty)
+
+            if (!string.IsNullOrEmpty(user.Password))
+            {
                 oldUser.Password = EncryptPassword(user.Password);
+            }
+                
             oldUser.Email = user.Email;
             oldUser.OpenId = user.OpenId ?? string.Empty;
             oldUser.RoleId = user.RoleId;
@@ -187,14 +256,19 @@ namespace IUDICO.UserManagement.Models.Storage
 
             _LmsService.Inform(UserNotifications.UserEdit, oldUser);
         }
+
         public void EditUser(Guid id, EditUserModel user)
         {
             var db = GetDbContext();
             var oldUser = db.Users.Single(u => u.Id == id);
 
             oldUser.Name = user.Name;
-            if (user.Password != null && user.Password != string.Empty)
+            
+            if (!string.IsNullOrEmpty(user.Password))
+            {
                 oldUser.Password = EncryptPassword(user.Password);
+            }
+                
             oldUser.Email = user.Email;
             oldUser.OpenId = user.OpenId ?? string.Empty;
             oldUser.RoleId = user.RoleId;
@@ -253,6 +327,8 @@ namespace IUDICO.UserManagement.Models.Storage
 
             db.Users.InsertOnSubmit(user);
             db.SubmitChanges();
+
+            SendEmail("admin@iudico", user.Email, "Iudico Notification", "Your account has been created:\nUsername: " + registerModel.Username + "\nPassword: " + registerModel.Password);
         }
 
         public void EditAccount(EditModel editModel)
@@ -281,7 +357,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
             db.SubmitChanges();
 
-            SendEmail("admin@iudico", user.Email, "Iudico Notification", "Your passord has been changed.");
+            SendEmail("admin@iudico", user.Email, "Iudico Notification", "Your password has been changed.");
         }
 
         #endregion

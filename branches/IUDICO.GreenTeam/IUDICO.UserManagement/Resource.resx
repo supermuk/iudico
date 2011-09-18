@@ -348,4 +348,7 @@
   <data name="CreateMultiple" xml:space="preserve">
     <value>Create Multiple users</value>
   </data>
+  <data name="RestorePassword" xml:space="preserve">
+    <value>Restore Password</value>
+  </data>
 </root>

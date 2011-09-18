@@ -348,4 +348,7 @@
   <data name="CreateMultiple" xml:space="preserve">
     <value>Створити багато</value>
   </data>
+  <data name="RestorePassword" xml:space="preserve">
+    <value>Отримати пароль</value>
+  </data>
 </root>
