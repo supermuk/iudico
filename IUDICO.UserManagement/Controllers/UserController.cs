@@ -102,6 +102,7 @@ namespace IUDICO.UserManagement.Controllers
         // POST: /User/CreateMultiple
 
         [Allow(Role = Role.Admin)]
+        [HttpPost]
         public ActionResult CreateMultiple(HttpPostedFileBase fileUpload)
         {
             var path = HttpContext.Request.PhysicalApplicationPath;
@@ -115,9 +116,9 @@ namespace IUDICO.UserManagement.Controllers
 
             fileUpload.SaveAs(path);
 
-            _Storage.CreateUsersFromCSV(path);
+            var users = _Storage.CreateUsersFromCSV(path);
 
-            return RedirectToAction("CreateMultiple");
+            return View("CreatedMultiple", users);
         }
 
         //
