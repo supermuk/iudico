@@ -117,6 +117,8 @@
     <Content Include="Libraries\log4net.xml" />
     <Content Include="Views\Account\ChangePassword.aspx" />
     <Content Include="Views\Account\Edit.aspx" />
+    <Content Include="Views\Account\Forgot.aspx" />
+    <Content Include="Views\Account\ForgotSent.aspx" />
     <Content Include="Views\Account\Index.aspx" />
     <Content Include="Views\Account\Login.aspx" />
     <Content Include="Views\Account\Register.aspx" />
@@ -131,6 +133,7 @@
     <Content Include="Views\Role\Index.aspx" />
     <Content Include="Views\User\AddToGroup.aspx" />
     <Content Include="Views\User\Create.aspx" />
+    <Content Include="Views\User\CreatedMultiple.aspx" />
     <Content Include="Views\User\CreateMultiple.aspx" />
     <Content Include="Views\User\Delete.aspx" />
     <Content Include="Views\User\Details.aspx" />

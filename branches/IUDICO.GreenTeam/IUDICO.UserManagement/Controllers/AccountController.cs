@@ -164,6 +164,31 @@ namespace IUDICO.UserManagement.Controllers
             return View("Registered");
         }
 
+        public ActionResult Forgot()
+        {
+            return View(new RestorePasswordModel());
+        }
+
+        [HttpPost]
+        public ActionResult Forgot(RestorePasswordModel restorePasswordModel)
+        {
+            var user = _Storage.GetUser(u => u.Email == restorePasswordModel.Email);
+
+            if (user == null)
+            {
+                ModelState.AddModelError("Email", "No user with such email");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(restorePasswordModel);
+            }
+
+            _Storage.RestorePassword(restorePasswordModel);
+
+            return View("ForgotSent");
+        }
+
         [Allow]
         public ActionResult Edit()
         {
@@ -214,6 +239,7 @@ namespace IUDICO.UserManagement.Controllers
             
             return RedirectToAction("Index");
         }
+
         public ActionResult ChangeCulture(string lang, string returnUrl)
         {
             Session["Culture"] = new CultureInfo(lang);

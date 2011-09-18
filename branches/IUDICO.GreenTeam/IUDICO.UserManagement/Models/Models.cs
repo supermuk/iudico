@@ -3,13 +3,9 @@ using System.ComponentModel.DataAnnotations;
 using IUDICO.Common.Models;
 using System.Collections.Generic;
 using IUDICO.Common.Models.Attributes;
-using OpenIdMembershipUser = IUDICO.UserManagement.Models.Auth.OpenIdMembershipUser;
 using Guid = System.Guid;
 using System.Web.Mvc;
 using System;
-using System.Globalization;
-using System.Reflection;
-using System.Threading;
 
 
 namespace IUDICO.UserManagement.Models
@@ -150,6 +146,14 @@ namespace IUDICO.UserManagement.Models
         public string ConfirmPassword { get; set; }
     }
 
+    public class RestorePasswordModel
+    {
+        [LocalizedRequired(ErrorMessage = "EmailRequired")]
+        [LocalizedDisplayName("Email")]
+        [EmailAddress]
+        public string Email { get; set; }
+    }
+
     public class EditUserModel
     {
         public EditUserModel(User user)
@@ -218,6 +222,7 @@ namespace IUDICO.UserManagement.Models
         [LocalizedDisplayName("Group")]
         public int GroupRef { get; set; }
     }
+
     public class LocalizedDisplayNameAttribute : DisplayNameAttribute
     {
 
