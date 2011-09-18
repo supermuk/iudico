@@ -345,4 +345,7 @@
   <data name="PleaseSelectUserFromList" xml:space="preserve">
     <value>Please select user from list</value>
   </data>
+  <data name="CreateMultiple" xml:space="preserve">
+    <value>Create Multiple users</value>
+  </data>
 </root>
