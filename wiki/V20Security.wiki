@@ -22,3 +22,10 @@
 ||Get user's requests ||Сканування запитів до системи||
 ||Find 'similar' user requests ||Обробка даних про схожі запити користувачів та реагування||
 ||Obfuscate executable data|| Обфускація виконуваних скриптів (JS)||
+
+
+Взаємодія IUDICO, Security та користувачів:
+
+[http://iudico.googlecode.com/files/security_activity1.png]
+
+[http://iudico.googlecode.com/files/security_activity2.png]
