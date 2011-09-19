@@ -2,6 +2,8 @@
 
 == Use Cases ==
 
+[http://iudico.googlecode.com/files/ce-usercase.png]
+
 Головний актор: Teacher
 
 || Use-Case || Опис ||
@@ -14,6 +16,4 @@
 || Apply Patterns || Застосувати шаблони послідовності до вузла ||
 || Show Properties || Показати властивості вузла ||
 || Save Properties || Записати властивості вузла ||
-
-
 
