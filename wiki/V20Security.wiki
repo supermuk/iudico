@@ -4,7 +4,7 @@
 
 Перший юз-кейс:
 
-[http://iudico.googlecode.com/files/security_usecase2.png]
+[http://iudico.googlecode.com/files/security_usecase1.png]
 
 
 *Actor:* Admin
