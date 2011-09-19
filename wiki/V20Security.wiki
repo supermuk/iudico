@@ -22,6 +22,7 @@
 ||Get user's requests ||Сканування запитів до системи||
 ||Find 'similar' user requests ||Обробка даних про схожі запити користувачів та реагування||
 ||Obfuscate executable data|| Обфускація виконуваних скриптів (JS)||
+||Encrypt critical info|| Зашифрувати дані, важливі для системи||
 
 
 Взаємодія IUDICO, Security та користувачів:
