@@ -44,12 +44,11 @@
 
 ·         *ThemeTypes* - тип теми. Поля: назва типу теми(Name). Можливі тільки два значення назви -Theory(теорія), Test(тест) .
 
-[http://img842.imageshack.us/img842/1857/image002dx.jpg]
+[http://img819.imageshack.us/img819/6175/modelss.jpg]
 
 Рис. 1: Classes діаграма даних ПКНП:
 
-[http://img819.imageshack.us/img819/6175/modelss.jpg]
-[http://img703.imageshack.us/img703/6351/usecases.png]
+[http://img841.imageshack.us/img841/8453/usecasemodelcurriculums.jpg]
 
 Рис. 2. Usecase діаграма
 
@@ -62,3 +61,11 @@
 [http://img268.imageshack.us/img268/1982/sequecurriculumass.jpg]
 
 Рис. 4. Сіквенс діаграма створення сутностей
+
+[http://img51.imageshack.us/img51/9862/currmanage.jpg]
+
+Рис. 5. Activity діаграма Curriculum management-у
+
+[http://img856.imageshack.us/img856/7254/common.jpg]
+
+Рис. 6. Загальна Activity діаграма
