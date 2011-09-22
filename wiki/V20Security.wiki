@@ -27,6 +27,4 @@
 
 Взаємодія IUDICO, Security та користувачів:
 
-[http://iudico.googlecode.com/files/security_activity1.png]
-
-[http://iudico.googlecode.com/files/security_activity2.png]
+[http://iudico.googlecode.com/files/security_activity_overall.png]
