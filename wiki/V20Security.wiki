@@ -28,3 +28,6 @@
 Взаємодія IUDICO, Security та користувачів:
 
 [http://iudico.googlecode.com/files/security_activity_overall.png]
+
+принцип роботи перевірки запиту:
+[http://iudico.googlecode.com/files/sequence_diagram.png]
