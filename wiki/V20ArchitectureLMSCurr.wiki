@@ -46,18 +46,19 @@
 
 [http://img842.imageshack.us/img842/1857/image002dx.jpg]
 
-Рис. 1: Схема даних ПКНП
+Рис. 1: Classes діаграма даних ПКНП:
 
+[http://img819.imageshack.us/img819/6175/modelss.jpg]
 [http://img703.imageshack.us/img703/6351/usecases.png]
 
 Рис. 2. Usecase діаграма
 
-На рис. 3 і рис. 4 показано сіквенс діаграми роботи 7-ми контроллерів по створенню і редагуванню сутностей, за які кожен з них відповідає. Замість *<Entity>* необхідно підставити назву сутності, наприклад Curriclum, Stage тощо.
+На рис. 3 і рис. 4 показано сіквенс діаграми роботи підсистем менеджменту Curriculum-ів i CurriculumAssignment-ів відповідно
 
-[http://img805.imageshack.us/img805/971/diagram1.png]
+[http://img233.imageshack.us/img233/4984/sequecurriculum.jpg]
 
 Рис. 3. Сіквенс діаграма створення сутностей
 
-[http://img687.imageshack.us/img687/7733/diagram2j.png]
+[http://img268.imageshack.us/img268/1982/sequecurriculumass.jpg]
 
-Рис. 4. Сіквенс діаграма редагування сутностей
+Рис. 4. Сіквенс діаграма створення сутностей
