@@ -62,3 +62,11 @@ http://img15.imageshack.us/img15/8716/usecasesearch.jpg
 Activity діаграма для підсистеми пошуку:
 
 http://img821.imageshack.us/img821/2259/searchow.jpg
+
+sequence діаграма для підсистеми пошуку:
+
+http://img835.imageshack.us/img835/6995/searchc.png
+
+class діаграма для підсистеми пошуку:
+
+http://img819.imageshack.us/img819/6397/classsearch.jpg
