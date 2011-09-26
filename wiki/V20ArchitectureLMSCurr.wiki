@@ -54,11 +54,11 @@
 
 На рис. 3 і рис. 4 показано сіквенс діаграми роботи підсистем менеджменту Curriculum-ів i CurriculumAssignment-ів відповідно
 
-[http://img233.imageshack.us/img233/4984/sequecurriculum.jpg]
+[http://img716.imageshack.us/img716/8901/curriculums.png]
 
 Рис. 3. Сіквенс діаграма створення сутностей
 
-[http://img268.imageshack.us/img268/1982/sequecurriculumass.jpg]
+[http://img215.imageshack.us/img215/4513/curriculumz.png]
 
 Рис. 4. Сіквенс діаграма створення сутностей
 
