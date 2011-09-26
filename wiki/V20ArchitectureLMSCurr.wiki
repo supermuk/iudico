@@ -72,4 +72,8 @@
 
 [http://img820.imageshack.us/img820/2060/component.jpg]
 
-Рис. 7: Component діаграма:
+Рис. 7: Component діаграма
+
+[http://img594.imageshack.us/img594/2769/getthemes.png]
+
+Рис. 8: sequence діаграма для getAvaibleThemes
