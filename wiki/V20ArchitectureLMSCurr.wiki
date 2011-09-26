@@ -69,3 +69,7 @@
 [http://img856.imageshack.us/img856/7254/common.jpg]
 
 Рис. 6. Загальна Activity діаграма
+
+[http://img820.imageshack.us/img820/2060/component.jpg]
+
+Рис. 7: Component діаграма:
