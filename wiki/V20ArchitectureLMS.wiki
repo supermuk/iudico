@@ -4,6 +4,14 @@
 
 ==Use-Cases==
 
+|| Use-Case || Опис ||
+|| Startup || Здійснювати запуск системи. Ініціалізувати Windsor. Ініціалізувати LmsService для роботи з плагінами ||
+|| Shutdown || Видалити з пам'яті WindsorContainer ||
+|| Error handling || Обробляти помилки ||
+|| Logging || Записувати лог ||
+|| Loading plugins || Шукати і загружати плагіни ||
+|| Changing language || Змінювати мову ||
+|| Resolving routes || Переадресовувати запити у відповідний плагін на відповідну дію відповідного контролера ||
 
 
 http://img98.imageshack.us/img98/7161/plugin3.png
