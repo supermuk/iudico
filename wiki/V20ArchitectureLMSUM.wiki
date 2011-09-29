@@ -2,6 +2,8 @@
 
 =Підсистема керування користувачами=
 
+[http://iudico.googlecode.com/files/um_component.png]
+
 [http://iudico.googlecode.com/files/um_usecase.png]
 
 ==Use-Cases==
