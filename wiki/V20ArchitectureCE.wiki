@@ -2,7 +2,7 @@
 
 == Use Cases ==
 
-[http://iudico.googlecode.com/files/ce-usecase.png]
+[http://iudico.googlecode.com/files/ce-usecases.png]
 
 Головний актор: Teacher
 
