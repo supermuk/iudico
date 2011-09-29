@@ -1,5 +1,11 @@
 = LMS =
 
+[http://iudico.googlecode.com/files/lms_usecase.png]
+
+==Use-Cases==
+
+
+
 http://img98.imageshack.us/img98/7161/plugin3.png
 
 == Діаграма класів ==
