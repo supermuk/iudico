@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.UI.WebControls;
@@ -374,6 +376,26 @@ namespace IUDICO.CourseManagement.Controllers
             
 
             return Json(new { status = true });
+        }
+
+        [HttpPost]
+        public string FileUploader(HttpPostedFileBase datafile)
+        {
+
+            var path = HttpContext.Request.PhysicalApplicationPath;
+
+            path = Path.Combine(path, @"Data\WorkFolder");
+            path = Path.Combine(path, Guid.NewGuid().ToString());
+
+            Directory.CreateDirectory(path);
+
+            path = Path.Combine(path, datafile.FileName.Split('\\').Last());
+
+            datafile.SaveAs(path);
+
+            //_Storage.Import(path, _UserService.GetCurrentUser().Username);
+
+            return path;
         }
     }
 }    
