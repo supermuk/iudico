@@ -44,5 +44,19 @@ namespace IUDICO.CourseManagement.Models.Storage
         void UpdateNodeContents(int id, string data);
 
         #endregion
+
+        #region ImageResources methods
+
+        IEnumerable<ImageResource> GetImages(int courseId);
+        ImageResource GetImage(int id);
+        int AddImage(ImageResource image, string PathFromTempFolder);
+        string GetImagePath(int id);
+        void UpdateImage(int id, ImageResource image);
+        void DeleteImage(int id);
+        void DeleteImages(List<int> ids);
+
+
+
+        #endregion
     }
 }

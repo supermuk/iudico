@@ -569,6 +569,79 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         #endregion
 
+        #region ImageResource methods
+
+        public IEnumerable<ImageResource> GetImages(int courseId)
+        {
+            var db = GetDbContext();
+
+            var course = db.Courses.SingleOrDefault(c => c.Id == courseId);
+            var images = course.ImageResources.OrderBy(n => n.Id).ToList();
+
+            return images;
+        }
+
+        public ImageResource GetImage(int id)
+        {
+            return GetDbContext().ImageResources.Single(n => n.Id == id);
+        }
+        public int AddImage(ImageResource image, string PathFromTempFolder)
+        {
+            var db = GetDbContext();
+
+            db.ImageResources.InsertOnSubmit(image);
+            db.SubmitChanges();
+
+            File.Copy(PathFromTempFolder, GetImagePath(image.Id), true);
+
+            return image.Id;
+        }
+        public string GetImagePath(int imageId)
+        {
+            var img = GetDbContext().ImageResources.Single(n => n.Id == imageId);
+            var path = img.FileName;//Path.Combine(GetCoursePath(img.CourseId), img.Id.ToString());
+
+            return path;
+        }
+        public void UpdateImage(int id, ImageResource image)
+        {
+            var db = GetDbContext();
+
+            var oldImg = db.ImageResources.Single(n => n.Id == id);
+
+            oldImg.Name = image.Name;
+            oldImg.FileName = image.FileName;
+
+            db.SubmitChanges();
+        }
+        public void DeleteImage(int id)
+        {
+            var db = GetDbContext();
+
+            var img = db.ImageResources.Single(n => n.Id == id);
+
+            @File.Delete(GetImagePath(id));
+
+            db.ImageResources.DeleteOnSubmit(img);
+            db.SubmitChanges();
+        }
+        public void DeleteImages(List<int> ids)
+        {
+            var db = GetDbContext();
+
+            var images = (from n in db.ImageResources where ids.Contains(n.Id) select n);
+
+            foreach (var img in images)
+            {
+                   @File.Delete(GetImagePath(img.Id));
+            }
+
+            db.ImageResources.DeleteAllOnSubmit(images);
+            db.SubmitChanges();
+        }
+
+        #endregion
+
         #endregion
     }
 }
