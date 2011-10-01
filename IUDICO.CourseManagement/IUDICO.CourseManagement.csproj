@@ -776,6 +776,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resource.resx" />
     <EmbeddedResource Include="Resource.uk.resx" />
+    <Content Include="Views\Node\App_LocalResources\Index.aspx.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
@@ -811,7 +812,7 @@
     </ItemGroup>
   </Target>
   <PropertyGroup Condition="'$(SolutionDir)' == '*Undefined*'">
-      <SolutionDir>..\..\</SolutionDir>
+    <SolutionDir>..\..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)\" "$(SolutionDir)IUDICO.LMS\Plugins\"</PostBuildEvent>
