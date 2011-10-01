@@ -31,7 +31,7 @@ namespace IUDICO.CourseManagement.Controllers
             var userService = LmsService.FindService<IUserService>();
             var userId = userService.GetUsers().Single(i => i.Username == User.Identity.Name).Id;
             var courses = _Storage.GetCourses(userId);
-            
+
             return View(courses.Union(_Storage.GetCourses(User.Identity.Name)));
         }
 
@@ -124,6 +124,15 @@ namespace IUDICO.CourseManagement.Controllers
             {
                 return Json(new { success = false });
             }
+        }
+
+        [Allow(Role = Role.Teacher)]
+        public ActionResult Publish(int courseId)
+        {
+            var path = _Storage.Export(courseId);
+            _Storage.Import(path, _UserService.GetCurrentUser().Username);
+
+            return RedirectToAction("Index");
         }
 
         [Allow(Role = Role.Teacher)]
