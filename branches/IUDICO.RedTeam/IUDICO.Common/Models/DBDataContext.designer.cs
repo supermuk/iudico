@@ -69,9 +69,9 @@ namespace IUDICO.Common.Models
     partial void InsertCourse(Course instance);
     partial void UpdateCourse(Course instance);
     partial void DeleteCourse(Course instance);
-    partial void InsertImageResource(ImageResource instance);
-    partial void UpdateImageResource(ImageResource instance);
-    partial void DeleteImageResource(ImageResource instance);
+    partial void InsertNodeResource(NodeResource instance);
+    partial void UpdateNodeResource(NodeResource instance);
+    partial void DeleteNodeResource(NodeResource instance);
     #endregion
 		
 		public DBDataContext() : 
@@ -208,11 +208,11 @@ namespace IUDICO.Common.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<ImageResource> ImageResources
+		public System.Data.Linq.Table<NodeResource> NodeResources
 		{
 			get
 			{
-				return this.GetTable<ImageResource>();
+				return this.GetTable<NodeResource>();
 			}
 		}
 	}
@@ -2708,6 +2708,8 @@ namespace IUDICO.Common.Models
 		
 		private EntitySet<Node> _Nodes;
 		
+		private EntitySet<NodeResource> _NodeResources;
+		
 		private EntityRef<Node> _Node1;
 		
 		private EntityRef<Course> _Course;
@@ -2735,6 +2737,7 @@ namespace IUDICO.Common.Models
 		public Node()
 		{
 			this._Nodes = new EntitySet<Node>(new Action<Node>(this.attach_Nodes), new Action<Node>(this.detach_Nodes));
+			this._NodeResources = new EntitySet<NodeResource>(new Action<NodeResource>(this.attach_NodeResources), new Action<NodeResource>(this.detach_NodeResources));
 			this._Node1 = default(EntityRef<Node>);
 			this._Course = default(EntityRef<Course>);
 			OnCreated();
@@ -2901,6 +2904,19 @@ namespace IUDICO.Common.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Node_NodeResource", Storage="_NodeResources", ThisKey="Id", OtherKey="NodeId")]
+		public EntitySet<NodeResource> NodeResources
+		{
+			get
+			{
+				return this._NodeResources;
+			}
+			set
+			{
+				this._NodeResources.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Node_Node", Storage="_Node1", ThisKey="ParentId", OtherKey="Id", IsForeignKey=true)]
 		public Node Node1
 		{
@@ -3000,6 +3016,18 @@ namespace IUDICO.Common.Models
 			this.SendPropertyChanging();
 			entity.Node1 = null;
 		}
+		
+		private void attach_NodeResources(NodeResource entity)
+		{
+			this.SendPropertyChanging();
+			entity.Node = this;
+		}
+		
+		private void detach_NodeResources(NodeResource entity)
+		{
+			this.SendPropertyChanging();
+			entity.Node = null;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Courses")]
@@ -3028,8 +3056,6 @@ namespace IUDICO.Common.Models
 		
 		private EntitySet<Node> _Nodes;
 		
-		private EntitySet<ImageResource> _ImageResources;
-		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -3056,7 +3082,6 @@ namespace IUDICO.Common.Models
 		{
 			this._CourseUsers = new EntitySet<CourseUser>(new Action<CourseUser>(this.attach_CourseUsers), new Action<CourseUser>(this.detach_CourseUsers));
 			this._Nodes = new EntitySet<Node>(new Action<Node>(this.attach_Nodes), new Action<Node>(this.detach_Nodes));
-			this._ImageResources = new EntitySet<ImageResource>(new Action<ImageResource>(this.attach_ImageResources), new Action<ImageResource>(this.detach_ImageResources));
 			OnCreated();
 		}
 		
@@ -3246,19 +3271,6 @@ namespace IUDICO.Common.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_ImageResource", Storage="_ImageResources", ThisKey="Id", OtherKey="CourseId")]
-		public EntitySet<ImageResource> ImageResources
-		{
-			get
-			{
-				return this._ImageResources;
-			}
-			set
-			{
-				this._ImageResources.Assign(value);
-			}
-		}
-		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -3302,35 +3314,25 @@ namespace IUDICO.Common.Models
 			this.SendPropertyChanging();
 			entity.Course = null;
 		}
-		
-		private void attach_ImageResources(ImageResource entity)
-		{
-			this.SendPropertyChanging();
-			entity.Course = this;
-		}
-		
-		private void detach_ImageResources(ImageResource entity)
-		{
-			this.SendPropertyChanging();
-			entity.Course = null;
-		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ImageResources")]
-	public partial class ImageResource : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.NodeResources")]
+	public partial class NodeResource : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private int _Id;
 		
-		private int _CourseId;
+		private int _NodeId;
+		
+		private string _Type;
 		
 		private string _Name;
 		
-		private string _FileName;
+		private string _Path;
 		
-		private EntityRef<Course> _Course;
+		private EntityRef<Node> _Node;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -3338,21 +3340,23 @@ namespace IUDICO.Common.Models
     partial void OnCreated();
     partial void OnIdChanging(int value);
     partial void OnIdChanged();
-    partial void OnCourseIdChanging(int value);
-    partial void OnCourseIdChanged();
+    partial void OnNodeIdChanging(int value);
+    partial void OnNodeIdChanged();
+    partial void OnTypeChanging(string value);
+    partial void OnTypeChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
-    partial void OnFileNameChanging(string value);
-    partial void OnFileNameChanged();
+    partial void OnPathChanging(string value);
+    partial void OnPathChanged();
     #endregion
 		
-		public ImageResource()
+		public NodeResource()
 		{
-			this._Course = default(EntityRef<Course>);
+			this._Node = default(EntityRef<Node>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
 		public int Id
 		{
 			get
@@ -3372,26 +3376,46 @@ namespace IUDICO.Common.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CourseId", DbType="Int NOT NULL")]
-		public int CourseId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NodeId", DbType="Int NOT NULL")]
+		public int NodeId
 		{
 			get
 			{
-				return this._CourseId;
+				return this._NodeId;
 			}
 			set
 			{
-				if ((this._CourseId != value))
+				if ((this._NodeId != value))
 				{
-					if (this._Course.HasLoadedOrAssignedValue)
+					if (this._Node.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnCourseIdChanging(value);
+					this.OnNodeIdChanging(value);
 					this.SendPropertyChanging();
-					this._CourseId = value;
-					this.SendPropertyChanged("CourseId");
-					this.OnCourseIdChanged();
+					this._NodeId = value;
+					this.SendPropertyChanged("NodeId");
+					this.OnNodeIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Type
+		{
+			get
+			{
+				return this._Type;
+			}
+			set
+			{
+				if ((this._Type != value))
+				{
+					this.OnTypeChanging(value);
+					this.SendPropertyChanging();
+					this._Type = value;
+					this.SendPropertyChanged("Type");
+					this.OnTypeChanged();
 				}
 			}
 		}
@@ -3416,56 +3440,56 @@ namespace IUDICO.Common.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FileName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string FileName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Path", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Path
 		{
 			get
 			{
-				return this._FileName;
+				return this._Path;
 			}
 			set
 			{
-				if ((this._FileName != value))
+				if ((this._Path != value))
 				{
-					this.OnFileNameChanging(value);
+					this.OnPathChanging(value);
 					this.SendPropertyChanging();
-					this._FileName = value;
-					this.SendPropertyChanged("FileName");
-					this.OnFileNameChanged();
+					this._Path = value;
+					this.SendPropertyChanged("Path");
+					this.OnPathChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_ImageResource", Storage="_Course", ThisKey="CourseId", OtherKey="Id", IsForeignKey=true)]
-		public Course Course
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Node_NodeResource", Storage="_Node", ThisKey="NodeId", OtherKey="Id", IsForeignKey=true)]
+		public Node Node
 		{
 			get
 			{
-				return this._Course.Entity;
+				return this._Node.Entity;
 			}
 			set
 			{
-				Course previousValue = this._Course.Entity;
+				Node previousValue = this._Node.Entity;
 				if (((previousValue != value) 
-							|| (this._Course.HasLoadedOrAssignedValue == false)))
+							|| (this._Node.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Course.Entity = null;
-						previousValue.ImageResources.Remove(this);
+						this._Node.Entity = null;
+						previousValue.NodeResources.Remove(this);
 					}
-					this._Course.Entity = value;
+					this._Node.Entity = value;
 					if ((value != null))
 					{
-						value.ImageResources.Add(this);
-						this._CourseId = value.Id;
+						value.NodeResources.Add(this);
+						this._NodeId = value.Id;
 					}
 					else
 					{
-						this._CourseId = default(int);
+						this._NodeId = default(int);
 					}
-					this.SendPropertyChanged("Course");
+					this.SendPropertyChanged("Node");
 				}
 			}
 		}

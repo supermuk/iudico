@@ -569,74 +569,75 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         #endregion
 
-        #region ImageResource methods
+        #region NodeResource methods
 
-        public IEnumerable<ImageResource> GetImages(int courseId)
+        public IEnumerable<NodeResource> GetResources(int nodeId)
         {
             var db = GetDbContext();
 
-            var course = db.Courses.SingleOrDefault(c => c.Id == courseId);
-            var images = course.ImageResources.OrderBy(n => n.Id).ToList();
+            var node = db.Nodes.SingleOrDefault(c => c.Id == nodeId);
+            var images = node.NodeResources.OrderBy(n => n.Id).ToList();
 
             return images;
         }
 
-        public ImageResource GetImage(int id)
+        public NodeResource GetResource(int id)
         {
-            return GetDbContext().ImageResources.Single(n => n.Id == id);
+            return GetDbContext().NodeResources.Single(n => n.Id == id);
         }
-        public int AddImage(ImageResource image, string PathFromTempFolder)
+        public int AddResource(NodeResource resource, string pathFromTempFolder)
         {
             var db = GetDbContext();
 
-            db.ImageResources.InsertOnSubmit(image);
+            db.NodeResources.InsertOnSubmit(resource);
             db.SubmitChanges();
 
-            File.Copy(PathFromTempFolder, GetImagePath(image.Id), true);
+            File.Copy(pathFromTempFolder, GetResourcePath(resource.Id), true);
 
-            return image.Id;
+            return resource.Id;
         }
-        public string GetImagePath(int imageId)
+        public string GetResourcePath(int resId)
         {
-            var img = GetDbContext().ImageResources.Single(n => n.Id == imageId);
-            var path = img.FileName;//Path.Combine(GetCoursePath(img.CourseId), img.Id.ToString());
+            var res = GetDbContext().NodeResources.Single(n => n.Id == resId);
+            var path = Path.Combine(GetNodePath(res.NodeId), res.Path);
 
             return path;
         }
-        public void UpdateImage(int id, ImageResource image)
+        public void UpdateResource(int id, NodeResource resource)
         {
             var db = GetDbContext();
 
-            var oldImg = db.ImageResources.Single(n => n.Id == id);
+            var oldRes = db.NodeResources.Single(n => n.Id == id);
 
-            oldImg.Name = image.Name;
-            oldImg.FileName = image.FileName;
+            oldRes.Name = resource.Name;
+            oldRes.Type = resource.Type;
+            oldRes.Path = resource.Path;
 
             db.SubmitChanges();
         }
-        public void DeleteImage(int id)
+        public void DeleteResource(int id)
         {
             var db = GetDbContext();
 
-            var img = db.ImageResources.Single(n => n.Id == id);
+            var res = db.NodeResources.Single(n => n.Id == id);
 
-            @File.Delete(GetImagePath(id));
+            @File.Delete(GetResourcePath(id));
 
-            db.ImageResources.DeleteOnSubmit(img);
+            db.NodeResources.DeleteOnSubmit(res);
             db.SubmitChanges();
         }
-        public void DeleteImages(List<int> ids)
+        public void DeleteResources(List<int> ids)
         {
             var db = GetDbContext();
 
-            var images = (from n in db.ImageResources where ids.Contains(n.Id) select n);
+            var resources = (from n in db.NodeResources where ids.Contains(n.Id) select n);
 
-            foreach (var img in images)
+            foreach (var res in resources)
             {
-                   @File.Delete(GetImagePath(img.Id));
+                @File.Delete(GetResourcePath(res.Id));
             }
 
-            db.ImageResources.DeleteAllOnSubmit(images);
+            db.NodeResources.DeleteAllOnSubmit(resources);
             db.SubmitChanges();
         }
 
