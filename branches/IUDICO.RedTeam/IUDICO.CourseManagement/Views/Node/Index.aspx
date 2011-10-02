@@ -666,12 +666,12 @@
         </div>
 
        
-        <script src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
-        <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.iframe-transport.js") %>"></script>
-        <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.fileupload.js") %>"></script>
-        <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.fileupload-ui.js") %>"></script>
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js" type="text/javascript"></script>
+        <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.iframe-transport.js") %>" type="text/javascript"></script>
+        <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.fileupload.js") %>" type="text/javascript"></script>
+        <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.fileupload-ui.js") %>"type="text/javascript"></script>
         <%--<script src="<%= Html.ResolveUrl("~/Scripts/fileUpload.js") %>"></script>--%>
-        <script>
+        <script type="text/javascript">
             /*global $ */
             $(function () {
                 $('#fileupload').fileupload({
