@@ -13,9 +13,6 @@
 || Changing language || Змінювати мову ||
 || Resolving routes || Переадресовувати запити у відповідний плагін на відповідну дію відповідного контролера ||
 
-
-http://img98.imageshack.us/img98/7161/plugin3.png
-
 == Діаграма компонентів ==
 
 http://iudico.googlecode.com/files/lms-component.png
