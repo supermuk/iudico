@@ -380,14 +380,14 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
-        public void FileUploader(HttpContext context)
+        public void FileUploader()
         {
-            context.Response.ContentType = "text/plain";//"application/json";
+            HttpContext.Response.ContentType = "text/plain";//"application/json";
             var r = new System.Collections.Generic.List<ViewDataUploadFilesResult>();
             JavaScriptSerializer js = new JavaScriptSerializer();
-            foreach (string file in context.Request.Files)
+            foreach (string file in HttpContext.Request.Files)
             {
-                HttpPostedFile hpf = context.Request.Files[file] as HttpPostedFile;
+                HttpPostedFileBase hpf = HttpContext.Request.Files[file] as HttpPostedFileBase;
                 string FileName = string.Empty;
                 if (HttpContext.Request.Browser.Browser.ToUpper() == "IE")
                 {
@@ -417,7 +417,7 @@ namespace IUDICO.CourseManagement.Controllers
                 var jsonObj = js.Serialize(uploadedFiles);
                 //jsonObj.ContentEncoding = System.Text.Encoding.UTF8;
                 //jsonObj.ContentType = "application/json;";
-                context.Response.Write(jsonObj.ToString());
+                HttpContext.Response.Write(jsonObj.ToString());
             }
         }
     }
