@@ -11,7 +11,12 @@
 
 <asp:Content ID="HeadContent2" ContentPlaceHolderID="HeadContent" runat="server">
     <link href="<%= Html.ResolveUrl("/Content/ui-lightness/jquery-ui-1.8.5.custom.css") %>" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/base/jquery-ui.css" id="theme" />
+    <link rel="stylesheet" href="<%= Html.ResolveUrl("~/Content/jquery.fileupload-ui.css") %>" />
 
+    <script type="text/javascript">
+        debugger;
+    </script>
     <script src="<%= Html.ResolveUrl("~/Scripts/lms.js") %>" type="text/javascript"></script>
     <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.layout.js") %>" type="text/javascript"></script>
     <script src="<%= Html.ResolveUrl("~/Scripts/ckeditor/ckeditor.js") %>" type="text/javascript"></script>
@@ -19,7 +24,7 @@
     <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.cookie.js") %>" type="text/javascript"></script>
     <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.hotkeys.js") %>" type="text/javascript"></script>
     <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.jstree.js") %>" type="text/javascript"></script>
-    <script src="<%= Html.ResolveUrl("/Scripts/jquery/jquery-ui-1.8.5.js") %>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("/Scripts/jquery/jquery-ui-1.8.5.js") %>"></script>
 
     <script type="text/javascript">
         var $editor;
@@ -448,7 +453,7 @@
         });
     </script>
 
-    <script type="text/javascript">
+    <%--<script type="text/javascript">
 
         $(document).ready(function () {
             (function () {
@@ -525,6 +530,67 @@
             uploadStatus.innerHTML = "Uploading ...";
         }
 
+    </script>--%>
+    <script id="template-upload" type="text/x-jquery-tmpl">
+        <tr class="template-upload{{if error}} ui-state-error{{/if}}">
+            <td class="preview"></td>
+            <td class="name">${name}</td>
+            <td class="size">${sizef}</td>
+            {{if error}}
+                <td class="error" colspan="2">Error:
+                    {{if error === 'maxFileSize'}}File is too big
+                    {{else error === 'minFileSize'}}File is too small
+                    {{else error === 'acceptFileTypes'}}Filetype not allowed
+                    {{else error === 'maxNumberOfFiles'}}Max number of files exceeded
+                    {{else}}${error}
+                    {{/if}}
+                </td>
+            {{else}}
+                <td class="progress"><div></div></td>
+                <td class="start"><button>Start</button></td>
+            {{/if}}
+            <td class="cancel"><button>Cancel</button></td>
+        </tr>
+    </script>
+    <script id="template-download" type="text/x-jquery-tmpl">
+        <tr class="template-download{{if error}} ui-state-error{{/if}}">
+            {{if error}}
+                <td></td>
+                <td class="name">${namefdsa}</td>
+                <td class="size">${sizef}</td>
+                <td class="error" colspan="2">Error:
+                    {{if error === 1}}File exceeds upload_max_filesize (php.ini directive)
+                    {{else error === 2}}File exceeds MAX_FILE_SIZE (HTML form directive)
+                    {{else error === 3}}File was only partially uploaded
+                    {{else error === 4}}No File was uploaded
+                    {{else error === 5}}Missing a temporary folder
+                    {{else error === 6}}Failed to write file to disk
+                    {{else error === 7}}File upload stopped by extension
+                    {{else error === 'maxFileSize'}}File is too big
+                    {{else error === 'minFileSize'}}File is too small
+                    {{else error === 'acceptFileTypes'}}Filetype not allowed
+                    {{else error === 'maxNumberOfFiles'}}Max number of files exceeded
+                    {{else error === 'uploadedBytes'}}Uploaded bytes exceed file size
+                    {{else error === 'emptyResult'}}Empty file upload result
+                    {{else}}${error}
+                    {{/if}}
+                </td>
+            {{else}}
+                <td class="preview">
+                    {{if Thumbnail_url}}
+                        <a href="${url}" target="_blank"><img src="${Thumbnail_url}"></a>
+                    {{/if}}
+                </td>
+                <td class="name">
+                    <a href="${url}"{{if thumbnail_url}} target="_blank"{{/if}}>${Name}</a>
+                </td>
+                <td class="size">${Length}</td>
+                <td colspan="2"></td>
+            {{/if}}
+            <td class="delete">
+                <button data-type="${delete_type}" data-url="${delete_url}">Delete</button>
+            </td>
+        </tr>
     </script>
 
 </asp:Content>
@@ -575,11 +641,61 @@
 
     <div class="ui-layout-west">
         <div id="treeView"></div>
-        <form id="imageUploadForm" name="imageUploader">
+        <%--<form id="imageUploadForm" name="imageUploader">
             <input id="fileInput" type="file" name="datafile" style="opacity: 0.0; position: absolute; width: 60px; z-index: 1; cursor: pointer; height: 25px;"/><br />
             <div style="position: absolute; width: 60px; cursor: pointer; z-index: -1; height: 25px;" ><b>Upload</b></div>
             <div id="uploadStatus" style="margin-top: 20px;"></div>
             <div id="uploadFiles" style="margin-top: 10px;"></div>
-        </form>
+        </form>--%>
+        <div id="fileupload" style="width: 185px; margin-top: 20px;">
+            <form action="<%: Url.Action("FileUploader", "Node") %>" method="POST" enctype="multipart/form-data">
+                <div class="fileupload-buttonbar">
+                    <label class="fileinput-button">
+                        <span>Add files...</span>
+                        <input id="file" type="file" name="files[]" multiple>
+                    </label>
+                    <button type="submit" class="start" >Start upload</button>
+                    <button type="reset" class="cancel" >Cancel upload</button>
+                    <button type="button" class="delete">Delete files</button>
+                </div>
+            </form>
+            <div class="fileupload-content">
+                <table id="files" class="files"></table>
+                <div class="fileupload-progressbar"></div>
+            </div>
+        </div>
+
+       
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+        <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.iframe-transport.js") %>"></script>
+        <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.fileupload.js") %>"></script>
+        <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.fileupload-ui.js") %>"></script>
+        <%--<script src="<%= Html.ResolveUrl("~/Scripts/fileUpload.js") %>"></script>--%>
+        <script>
+            /*global $ */
+            $(function () {
+                $('#fileupload').fileupload({
+                    url: '<%: Url.Action("FileUploader", "Node") %>',
+                    method: 'POST',
+                    uploadTable: $('#files'),
+                    downloadTable: $('#files'),
+                    buildUploadRow: function (files, index) {
+                        return $('<tr><td>' + files[index].name + '<\/td>' +
+                            '<td class="file_upload_progress"><div><\/div><\/td>' +
+                            '<td class="file_upload_cancel">' +
+                            '<button class="ui-state-default ui-corner-all" title="Cancel">' +
+                            '<span class="ui-icon ui-icon-cancel">Cancel<\/span>' +
+                            '<\/button><\/td><\/tr>');
+                    },
+                    buildDownloadRow: function (file) {
+                        return $('<tr><td>' + file.name + '<\/td><\/tr>');
+                    }
+                });
+            });
+        </script> 
+    
     </div>
+
+    
+
 </asp:Content>
