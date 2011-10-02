@@ -155,11 +155,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\jquery.fileupload-ui.css" />
     <Content Include="Content\jquery.multiselect2side.css" />
+    <Content Include="Scripts\fileUpload.js" />
     <Content Include="Scripts\ckeditor\plugins\iudico\iudico-choice.png" />
     <Content Include="Scripts\ckeditor\plugins\iudico\iudico-compile.png" />
     <Content Include="Scripts\ckeditor\plugins\iudico\iudico-simple.png" />
     <Content Include="Scripts\ckeditor\plugins\iudico\lang\uk.js" />
+    <Content Include="Scripts\jquery\jquery.fileupload-ui.js" />
+    <Content Include="Scripts\jquery\jquery.fileupload.js" />
+    <Content Include="Scripts\jquery\jquery.iframe-transport.js" />
     <Content Include="Scripts\lms.js" />
     <Content Include="Views\Shared\EditorTemplates\RollupRules.ascx" />
     <Content Include="Views\Shared\Properties.ascx" />
