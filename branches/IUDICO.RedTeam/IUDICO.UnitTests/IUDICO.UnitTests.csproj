@@ -43,6 +43,10 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Moq, Version=4.0.10827.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Libs\nunit.framework.dll</HintPath>
     </Reference>
@@ -96,6 +100,7 @@
     <Compile Include="CurriculumManagement\Utils.cs" />
     <Compile Include="Base\TestFixture.cs" />
     <Compile Include="Base\TestFixtureWeb.cs" />
+    <Compile Include="Security\SecurityServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
@@ -109,6 +114,10 @@
     <ProjectReference Include="..\IUDICO.CurriculumManagement\IUDICO.CurriculumManagement.csproj">
       <Project>{E6F7266F-760A-4D43-B78C-378CA12DBE08}</Project>
       <Name>IUDICO.CurriculumManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IUDICO.Security\IUDICO.Security.csproj">
+      <Project>{E300A08B-FEB4-40A6-B2DA-55CF7DC94097}</Project>
+      <Name>IUDICO.Security</Name>
     </ProjectReference>
     <ProjectReference Include="..\IUDICO.Statistics\IUDICO.Statistics.csproj">
       <Project>{A3157C96-0DCC-4B6E-909D-948205118E74}</Project>
