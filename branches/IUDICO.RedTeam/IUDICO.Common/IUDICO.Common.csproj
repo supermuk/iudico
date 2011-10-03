@@ -100,6 +100,7 @@
     <Compile Include="Models\Services\ICurriculumService.cs" />
     <Compile Include="Models\Services\ILmsService.cs" />
     <Compile Include="Models\Services\ISearchService.cs" />
+    <Compile Include="Models\Services\ISecurityService.cs" />
     <Compile Include="Models\Services\IStatisticsService.cs" />
     <Compile Include="Models\Services\IUserService.cs" />
     <Compile Include="Models\Shared\CurriculumManagement\ThemeInfo.cs" />
