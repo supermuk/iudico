@@ -2,6 +2,7 @@
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
+using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
 using IUDICO.UserManagement.Models;
@@ -10,7 +11,7 @@ using System.Linq;
 
 namespace IUDICO.UserManagement.Controllers
 {
-    public class UserController : UserBaseController
+    public class UserController : PluginController
     {
         private readonly IUserStorage _Storage;
 
@@ -142,11 +143,15 @@ namespace IUDICO.UserManagement.Controllers
         public ActionResult Edit(Guid id,  EditUserModel user)
         {
             if (user.OpenId == null)
+            {
                 user.OpenId = string.Empty;
+            }
+
             if (!ModelState.IsValid)
             {
                 user.Password = null;
                 user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = (user.Role == r) });
+
                 return View(user);
             }
 

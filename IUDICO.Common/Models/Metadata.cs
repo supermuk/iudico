@@ -6,9 +6,6 @@ using System.Web.Mvc;
 using IUDICO.Common.Models.Attributes;
 using System.Data.Linq;
 using System.Linq;
-using System.Globalization;
-using System.Threading;
-using System.Reflection;
 
 namespace IUDICO.Common.Models
 {
@@ -188,6 +185,23 @@ namespace IUDICO.Common.Models
     }
 
     [MetadataType(typeof(Metadata))]
+    public partial class UserRole
+    {
+        private sealed class Metadata
+        {
+            [LocalizedDropDownList("SelectUser", SourceProperty = "UsersList")]
+            public Guid UserId { get; set; }
+
+            [LocalizedDropDownList("SelectRole", SourceProperty = "RolesList")]
+            public int RoleId { get; set; }
+
+            public IEnumerable<SelectListItem> RolesList { get; set; }
+
+            public IEnumerable<SelectListItem> UsersList { get; set; }
+        }
+    }
+
+    [MetadataType(typeof(Metadata))]
     [Bind(Exclude = "Id")]
     public partial class User : IEquatable<User>
     {
@@ -253,24 +267,35 @@ namespace IUDICO.Common.Models
             get
             {
                 if (GroupUsers.Count > 1)
+                {
                     return GroupUsers.Select(g => g.Group.Name).Aggregate((prev, next) => prev + ", " + next);
-                else if (GroupUsers.Count == 1)
+                }
+                
+                if (GroupUsers.Count == 1)
+                {
                     return GroupUsers.Select(g => g.Group.Name).First();
-                else
-                    return string.Empty;
+                }
+                
+                return string.Empty;
             }
         }
 
         [ScaffoldColumn(false)]
-        public Role Role
+        public string RolesLine
         {
             get
             {
-                return (Role)RoleId;
-            }
-            set
-            {
-                RoleId = (int)value;
+                if (UserRoles.Count > 1)
+                {
+                    return UserRoles.Select(g => Localization.getMessage(((Role)g.RoleRef).ToString())).Aggregate((prev, next) => prev + ", " + next);
+                }
+                
+                if (UserRoles.Count == 1)
+                {
+                    return UserRoles.Select(g => Localization.getMessage(((Role)g.RoleRef).ToString())).Single();
+                }
+                
+                return string.Empty;
             }
         }
 
@@ -283,14 +308,6 @@ namespace IUDICO.Common.Models
         {
             return Id.GetHashCode();
         }
-    }
-
-    public enum Role
-    {
-        None = 0,
-        Student = 1,
-        Teacher = 2,
-        Admin = 3
     }
 
     [MetadataType(typeof(Metadata))]
@@ -395,6 +412,7 @@ namespace IUDICO.Common.Models
             public bool IsDeleted { get; set; }
         }
     }
+
     public class LocalizedDisplayNameAttribute : DisplayNameAttribute
     {
 
