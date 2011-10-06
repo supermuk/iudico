@@ -17,6 +17,38 @@
     </fieldset>
 
     <fieldset>
+        <legend><%=IUDICO.UserManagement.Localization.getMessage("Roles")%></legend>
+
+        <table>
+        <tr>
+            <th>
+                <%=IUDICO.UserManagement.Localization.getMessage("Name")%>
+            </th>
+            <th></th>
+        </tr>
+        
+        <% if (Model.Roles.Count() > 0)
+           {
+               foreach (var role in Model.Roles)
+               { %>
+        <tr>
+            <td><%: role.ToString() %></td>
+            <td><%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Remove"), "RemoveFromRole", new { id = Model.Id, roleRef = (int)role })%></td>
+        </tr>
+        <% }
+           }
+           else
+           { %>
+           <tr>
+            <td><%=IUDICO.UserManagement.Localization.getMessage("NoData")%></td>
+            <td><%=IUDICO.UserManagement.Localization.getMessage("NoActions")%></td>
+           </tr>
+           <% } %>
+
+        </table>
+    </fieldset>
+
+    <fieldset>
         <legend><%=IUDICO.UserManagement.Localization.getMessage("Groups")%></legend>
 
         <table>
@@ -27,7 +59,7 @@
             <th></th>
         </tr>
         
-        <% if (Model.Groups.GetEnumerator().MoveNext())
+        <% if (Model.Groups.Count() > 0)
            {
                foreach (var group in Model.Groups)
                { %>
@@ -59,6 +91,7 @@
         <% } %>
         <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Edit"), "Edit", new { id = Model.Id })%> |
         <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("AddToGroup"), "AddToGroup", new { id = Model.Id })%> |
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("AddToRole"), "AddToRole", new { id = Model.Id })%> |
         <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Delete"), "Delete", new { id = Model.Id })%> |
         <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("BackToList"), "Index")%>
     </p>

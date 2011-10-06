@@ -132,10 +132,8 @@
     <Content Include="Views\Group\Details.aspx" />
     <Content Include="Views\Group\Edit.aspx" />
     <Content Include="Views\Group\Index.aspx" />
-    <Content Include="Views\Role\Create.aspx" />
-    <Content Include="Views\Role\Edit.aspx" />
-    <Content Include="Views\Role\Index.aspx" />
     <Content Include="Views\User\AddToGroup.aspx" />
+    <Content Include="Views\User\AddToRole.aspx" />
     <Content Include="Views\User\Create.aspx" />
     <Content Include="Views\User\CreatedMultiple.aspx" />
     <Content Include="Views\User\CreateMultiple.aspx" />
