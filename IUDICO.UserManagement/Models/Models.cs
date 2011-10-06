@@ -5,21 +5,20 @@ using System.Collections.Generic;
 using IUDICO.Common.Models.Attributes;
 using Guid = System.Guid;
 using System.Web.Mvc;
-using System;
 
 
 namespace IUDICO.UserManagement.Models
 {
     public class DetailsModel
     {
-        public DetailsModel(User user, IEnumerable<Group> groups)
+        public DetailsModel(User user)
         {
             Username = user.Username;
             Name = user.Name;
             OpenId = user.OpenId;
             Email = user.Email;
-            Groups = groups;
-            Role = Localization.getMessage(Convert.ToString(user.Role));
+            Groups = user.Groups;
+            Roles = user.Roles;
         }
 
         
@@ -40,9 +39,8 @@ namespace IUDICO.UserManagement.Models
         [Order(4)]
         public string Email { get; set; }
 
-        [LocalizedDisplayName("Role")]
-        [Order(5)]
-        public string Role { get; set; }
+        [ScaffoldColumn(false)]
+        public IEnumerable<Role> Roles { get; set; }
 
         [ScaffoldColumn(false)]
         public IEnumerable<Group> Groups { get; set; }
@@ -50,8 +48,8 @@ namespace IUDICO.UserManagement.Models
 
     public class AdminDetailsModel : DetailsModel
     {
-        public AdminDetailsModel(User user, IEnumerable<Group> groups)
-            : base(user, groups)
+        public AdminDetailsModel(User user)
+            : base(user)
         {
             Id = user.Id;
             IsApproved = user.IsApproved;
@@ -161,9 +159,7 @@ namespace IUDICO.UserManagement.Models
             Username = user.Username;
             Name = user.Name;
             Email = user.Email;
-            RoleId = user.RoleId;
             OpenId = user.OpenId;
-            RolesList = user.RolesList;
         }
 
         public EditUserModel()
@@ -186,32 +182,12 @@ namespace IUDICO.UserManagement.Models
         [EmailAddress]
         public string Email { get; set; }
 
-        [LocalizedDisplayName("Role")]
-        [LocalizedDropDownList("SelectRole", SourceProperty = "RolesList")]
-        [LocalizedRequired(ErrorMessage = "RoleRequired")]
-        public int RoleId { get; set; }
-
         [DisplayName("OpenId")]
         [StringLength(200, ErrorMessage = "OpenId can not be longer than 200")]
         public string OpenId { get; set; }
 
         [ScaffoldColumn(false)]
-        public Role Role
-        {
-            get
-            {
-                return (Role)RoleId;
-            }
-            set
-            {
-                RoleId = (int)value;
-            }
-        }
-
-        [ScaffoldColumn(false)]
         public string Username { get; set; }
-
-        public IEnumerable<SelectListItem> RolesList { get; set; }
     }
 
     public class UserGroupModel
@@ -221,6 +197,15 @@ namespace IUDICO.UserManagement.Models
         [LocalizedDropDownList("SelectGroup", SourceProperty = "GroupList")]
         [LocalizedDisplayName("Group")]
         public int GroupRef { get; set; }
+    }
+
+    public class UserRoleModel
+    {
+        public IEnumerable<SelectListItem> RoleList { get; set; }
+
+        [LocalizedDropDownList("SelectRole", SourceProperty = "RoleList")]
+        [LocalizedDisplayName("Role")]
+        public int RoleRef { get; set; }
     }
 
     public class LocalizedDisplayNameAttribute : DisplayNameAttribute

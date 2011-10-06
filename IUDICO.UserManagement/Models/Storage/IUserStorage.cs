@@ -27,10 +27,6 @@ namespace IUDICO.UserManagement.Models.Storage
         void EditAccount(EditModel editModel);
         void ChangePassword(ChangePasswordModel changePasswordModel);
         void DeleteUser(Func<User, bool> predicate);
-        void AddUsersToRoles(IEnumerable<string> usernames, IEnumerable<Role> roles);
-        void RemoveUsersFromRoles(IEnumerable<string> usernames, IEnumerable<Role> roles);
-        IEnumerable<User> GetUsersInRole(Role role);
-        IEnumerable<Role> GetUserRoles(string username);
         IEnumerable<User> GetUsersInGroup(Group group);
         IEnumerable<User> GetUsersNotInGroup(Group group);
         bool UsernameExists(string username);
@@ -39,6 +35,18 @@ namespace IUDICO.UserManagement.Models.Storage
         void RegisterUser(RegisterModel registerModel);
         string EncryptPassword(string password);
         void RestorePassword(RestorePasswordModel restorePasswordModel);
+
+        #endregion
+
+        #region Role members
+
+        IEnumerable<User> GetUsersInRole(Role role);
+        void AddUsersToRoles(IEnumerable<string> usernames, IEnumerable<Role> roles);
+        void RemoveUsersFromRoles(IEnumerable<string> usernames, IEnumerable<Role> roles);
+        IEnumerable<Role> GetUserRoles(string username);
+        void RemoveUserFromRole(Role role, User user);
+        void AddUserToRole(Role role, User user);
+        IEnumerable<Role> GetRolesAvailableToUser(User user);
 
         #endregion
 
@@ -52,7 +60,7 @@ namespace IUDICO.UserManagement.Models.Storage
         void AddUserToGroup(Group group, User user);
         void RemoveUserFromGroup(Group group, User user);
         IEnumerable<Group> GetGroupsByUser(User user);
-        IEnumerable<Group> GetGroupsAvaliableForUser(User user);
+        IEnumerable<Group> GetGroupsAvailableToUser(User user);
 
         #endregion
     }

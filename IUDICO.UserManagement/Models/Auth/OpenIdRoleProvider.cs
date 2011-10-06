@@ -24,6 +24,11 @@ namespace IUDICO.UserManagement.Models.Auth
 
         public override string[] GetRolesForUser(string username)
         {
+            if (string.IsNullOrEmpty(username))
+            {
+                return new[] { "None" };
+            }
+
             return _UserStorage.GetUser(u => u.Username == username).UserRoles.Select(ur => ((Role)ur.RoleRef).ToString()).ToArray();
         }
 

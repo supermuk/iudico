@@ -259,8 +259,6 @@ namespace IUDICO.Common.Models
             public Guid? ApprovedBy { get; set; }
         }
 
-        public IEnumerable<SelectListItem> RolesList { get; set; }
-
         [ScaffoldColumn(false)]
         public string GroupsLine
         {
@@ -287,16 +285,28 @@ namespace IUDICO.Common.Models
             {
                 if (UserRoles.Count > 1)
                 {
-                    return UserRoles.Select(g => Localization.getMessage(((Role)g.RoleRef).ToString())).Aggregate((prev, next) => prev + ", " + next);
+                    return Roles.Select(r => Localization.getMessage(r.ToString())).Aggregate((prev, next) => prev + ", " + next);
                 }
                 
                 if (UserRoles.Count == 1)
                 {
-                    return UserRoles.Select(g => Localization.getMessage(((Role)g.RoleRef).ToString())).Single();
+                    return Roles.Select(r => Localization.getMessage(r.ToString())).Single();
                 }
                 
                 return string.Empty;
             }
+        }
+
+        [ScaffoldColumn(false)]
+        public IEnumerable<Role> Roles
+        {
+            get { return UserRoles.Select(r => (Role) r.RoleRef); }
+        }
+
+        [ScaffoldColumn(false)]
+        public IEnumerable<Group> Groups
+        {
+            get { return GroupUsers.Select(g => g.Group); }
         }
 
         public bool Equals(User other)

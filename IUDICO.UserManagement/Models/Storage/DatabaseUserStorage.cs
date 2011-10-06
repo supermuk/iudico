@@ -76,7 +76,10 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             if (HttpContext.Current.User == null)
             {
-                var user = new User {RoleId = (int) Role.None};
+                var userrole = new UserRole {RoleRef = (int)Role.None};
+                var user = new User();
+
+                user.UserRoles.Add(userrole);
 
                 return user;
             }
@@ -201,6 +204,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
                 foreach (var record in reader.DataRecords)
                 {
+                    var role = (int) Enum.Parse(typeof (Role), record.GetValueOrNull("Role") ?? "Student");
                     var password = record.GetValueOrNull("Password") ?? RandomPassword();
 
                     var user = new User
@@ -208,14 +212,15 @@ namespace IUDICO.UserManagement.Models.Storage
                                        Username = record.GetValueOrNull("Username"),
                                        Password = EncryptPassword(password),
                                        Email = record.GetValueOrNull("Email"),
-                                       /*RoleId = (int) Enum.Parse(typeof (Role), record.GetValueOrNull("Role") ?? "Student"),*/
                                        Name = record.GetValueOrNull("Name") ?? string.Empty,
                                        OpenId = record.GetValueOrNull("OpenId") ?? string.Empty,
                                        Deleted = false,
                                        IsApproved = true,
                                        ApprovedBy = GetCurrentUser().Id,
-                                       CreationDate = DateTime.Now
+                                       CreationDate = DateTime.Now,
                                    };
+
+                    user.UserRoles.Add(new UserRole {RoleRef = role});
 
                     users.Add(user);
                     passwords.Add(user.Username, password);
@@ -338,6 +343,33 @@ namespace IUDICO.UserManagement.Models.Storage
             return db.UserRoles.Where(ur => ur.User.Username == username).Select(ur => (Role) ur.RoleRef);
         }
 
+        public void RemoveUserFromRole(Role role, User user)
+        {
+            var db = GetDbContext();
+
+            var userRole = db.UserRoles.Single(g => g.RoleRef == (int)role && g.UserRef == user.Id);
+
+            db.UserRoles.DeleteOnSubmit(userRole);
+            db.SubmitChanges();
+        }
+
+        public void AddUserToRole(Role role, User user)
+        {
+            var db = GetDbContext();
+
+            var userRole = new UserRole { RoleRef = (int)role, UserRef = user.Id };
+
+            db.UserRoles.InsertOnSubmit(userRole);
+            db.SubmitChanges();
+        }
+
+        public IEnumerable<Role> GetRolesAvailableToUser(User user)
+        {
+            var roles = GetUserRoles(user.Username);
+
+            return GetRoles().Where(r => !roles.Contains(r));
+        }
+
         public IEnumerable<User> GetUsersInGroup(Group group)
         {
             var db = GetDbContext();
@@ -422,7 +454,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public IEnumerable<Role> GetRoles()
         {
-            return Enum.GetValues(typeof (Role)).Cast<Role>();
+            return Enum.GetValues(typeof (Role)).Cast<Role>().Skip(1);
         }
 
         #endregion
@@ -486,7 +518,7 @@ namespace IUDICO.UserManagement.Models.Storage
             return db.GroupUsers.Where(g => g.UserRef == user.Id).Select(g => g.Group);
         }
 
-        public IEnumerable<Group> GetGroupsAvaliableForUser(User user)
+        public IEnumerable<Group> GetGroupsAvailableToUser(User user)
         {
             var db = GetDbContext();
 
