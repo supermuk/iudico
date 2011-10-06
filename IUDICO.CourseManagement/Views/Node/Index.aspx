@@ -11,7 +11,7 @@
 
 <asp:Content ID="HeadContent2" ContentPlaceHolderID="HeadContent" runat="server">
     <link href="<%= Html.ResolveUrl("/Content/ui-lightness/jquery-ui-1.8.5.custom.css") %>" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/base/jquery-ui.css" id="theme" />
+    <link rel="stylesheet" href="<%= Html.ResolveUrl("~/Content/jquery-ui.css") %>" id="theme" />
     <link rel="stylesheet" href="<%= Html.ResolveUrl("~/Content/jquery.fileupload-ui.css") %>" />
 
     <script type="text/javascript">
@@ -29,6 +29,7 @@
     <script type="text/javascript">
         var $editor;
         var currentNodeId;
+        var fillResources;
 
         function removeEditor() {
             
@@ -315,6 +316,16 @@
 				});
 			})
             .bind("preview_node.jstree", function(e, data) {
+                currentNodeId = data.obj.attr("id").replace("node_", "");
+                var parentsObjectList = $(data.obj).parents('li');
+                var parents = currentNodeId;
+                for (var i = 0; i < parentsObjectList.length; ++i)
+                    parents = parents + "_" + $(parentsObjectList[i]).attr("id").replace("node_", "");
+
+                $("#fileUploadNodeId").val(currentNodeId);
+                fillResources(parents);
+                
+                
                 if (data.obj.attr("id") == "node_0") {
                     return;
                 }
@@ -345,6 +356,15 @@
 				});
             })
             .bind("edit_node.jstree", function (e, data) {
+                currentNodeId = data.obj.attr("id").replace("node_", "");
+                var parentsObjectList = $(data.obj).parents('li');
+                var parents = currentNodeId;
+                for (var i = 0; i < parentsObjectList.length; ++i)
+                    parents = parents + "_" + $(parentsObjectList[i]).attr("id").replace("node_", "");
+
+                $("#fileUploadNodeId").val(currentNodeId);
+                fillResources(parents);
+                                
 
                 $("#accordion").accordion( "option", "active", -1 ).show("blind", {}, 1000);
                 $("#patterns").show("drop", {}, 1000);
@@ -352,7 +372,6 @@
                 $('[id^="node_"]').children('a').removeClass('jstree-clicked jstree-selected');
                 data.obj.children('a').addClass('jstree-selected');
 
-                currentNodeId = data.obj.attr("id").replace("node_", "");
 
                 if($(data.obj[0]).attr("rel") != "default") {
                     return;
@@ -375,6 +394,7 @@
 				});
             });
         });
+        
     </script>
 
     <script type="text/javascript">
@@ -453,84 +473,6 @@
         });
     </script>
 
-    <%--<script type="text/javascript">
-
-        $(document).ready(function () {
-            (function () {
-                //TODO: test server response
-            })();
-            
-            $("#fileInput").change(function () {
-                fileUpload($("#imageUploadForm")[0],
-                           $("#uploadStatus")[0],
-                           $("#uploadFiles")[0],
-                           '<%: Url.Action("FileUploader", "Node") %>');
-                
-                //this.value
-            });
-        });
-
-        function fileUpload(form, uploadStatus, uploadFiles, action_url) 
-        {
-            // Create the iframe...
-            var iframe = document.createElement("iframe");
-            iframe.setAttribute("id", "upload_iframe");
-            iframe.setAttribute("name", "upload_iframe");
-            iframe.setAttribute("width", "0");
-            iframe.setAttribute("height", "0");
-            iframe.setAttribute("border", "0");
-            iframe.setAttribute("style", "display: none;");
-
-            // Add to document...
-            form.parentNode.appendChild(iframe);
-            window.frames['upload_iframe'].name = "upload_iframe";
-
-            iframeId = document.getElementById("upload_iframe");
-
-            // Add event...
-            var eventHandler = function () {
-
-                if (iframeId.detachEvent)
-                    iframeId.detachEvent("onload", eventHandler);
-                else
-                    iframeId.removeEventListener("load", eventHandler, false);
-
-                // Message from server...
-                if (iframeId.contentDocument) {
-                    content = iframeId.contentDocument.body.innerHTML;
-                } else if (iframeId.contentWindow) {
-                    content = iframeId.contentWindow.document.body.innerHTML;
-                } else if (iframeId.document) {
-                    content = iframeId.document.body.innerHTML;
-                }
-
-                uploadStatus.innerHTML = "Uploaded successfully";
-                setTimeout('uploadStatus.innerHTML = ""', 2000);
-                uploadFiles.innerHTML += content + "</ br>";
-
-                // Del the iframe...
-                setTimeout('iframeId.parentNode.removeChild(iframeId)', 250);
-            };
-
-            if (iframeId.addEventListener)
-                iframeId.addEventListener("load", eventHandler, true);
-            if (iframeId.attachEvent)
-                iframeId.attachEvent("onload", eventHandler);
-
-            // Set properties of form...
-            form.setAttribute("target", "upload_iframe");
-            form.setAttribute("action", action_url);
-            form.setAttribute("method", "post");
-            form.setAttribute("enctype", "multipart/form-data");
-            form.setAttribute("encoding", "multipart/form-data");
-
-            // Submit the form...
-            form.submit();
-
-            uploadStatus.innerHTML = "Uploading ...";
-        }
-
-    </script>--%>
     <script id="template-upload" type="text/x-jquery-tmpl">
         <tr class="template-upload{{if error}} ui-state-error{{/if}}">
             <td class="preview"></td>
@@ -641,12 +583,7 @@
 
     <div class="ui-layout-west">
         <div id="treeView"></div>
-        <%--<form id="imageUploadForm" name="imageUploader">
-            <input id="fileInput" type="file" name="datafile" style="opacity: 0.0; position: absolute; width: 60px; z-index: 1; cursor: pointer; height: 25px;"/><br />
-            <div style="position: absolute; width: 60px; cursor: pointer; z-index: -1; height: 25px;" ><b>Upload</b></div>
-            <div id="uploadStatus" style="margin-top: 20px;"></div>
-            <div id="uploadFiles" style="margin-top: 10px;"></div>
-        </form>--%>
+
         <div id="fileupload" style="width: 185px; margin-top: 20px;">
             <form action="<%: Url.Action("FileUploader", "Node") %>" method="POST" enctype="multipart/form-data">
                 <div class="fileupload-buttonbar">
@@ -657,6 +594,7 @@
                     <button type="submit" class="start" >Start upload</button>
                     <button type="reset" class="cancel" >Cancel upload</button>
                     <button type="button" class="delete">Delete files</button>
+                    <input id="fileUploadNodeId" type="hidden" name="nodeId" value="0"/>
                 </div>
             </form>
             <div class="fileupload-content">
@@ -666,33 +604,11 @@
         </div>
 
        
-        <script src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js" type="text/javascript"></script>
+        <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.tmpl.min.js") %>" type="text/javascript"></script>
         <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.iframe-transport.js") %>" type="text/javascript"></script>
         <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.fileupload.js") %>" type="text/javascript"></script>
-        <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.fileupload-ui.js") %>"type="text/javascript"></script>
-        <%--<script src="<%= Html.ResolveUrl("~/Scripts/fileUpload.js") %>"></script>--%>
-        <script type="text/javascript">
-            /*global $ */
-            $(function () {
-                $('#fileupload').fileupload({
-                    url: '<%: Url.Action("FileUploader", "Node") %>',
-                    method: 'POST',
-                    uploadTable: $('#files'),
-                    downloadTable: $('#files'),
-                    buildUploadRow: function (files, index) {
-                        return $('<tr><td>' + files[index].name + '<\/td>' +
-                            '<td class="file_upload_progress"><div><\/div><\/td>' +
-                            '<td class="file_upload_cancel">' +
-                            '<button class="ui-state-default ui-corner-all" title="Cancel">' +
-                            '<span class="ui-icon ui-icon-cancel">Cancel<\/span>' +
-                            '<\/button><\/td><\/tr>');
-                    },
-                    buildDownloadRow: function (file) {
-                        return $('<tr><td>' + file.name + '<\/td><\/tr>');
-                    }
-                });
-            });
-        </script> 
+        <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.fileupload-ui.js") %>" type="text/javascript"></script>
+        <script src="<%= Html.ResolveUrl("~/Scripts/fileUpload.js") %>" type="text/javascript"></script>
     
     </div>
 
