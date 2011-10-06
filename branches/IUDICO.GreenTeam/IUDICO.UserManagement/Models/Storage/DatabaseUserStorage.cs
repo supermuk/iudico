@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
@@ -207,7 +208,7 @@ namespace IUDICO.UserManagement.Models.Storage
                                        Username = record.GetValueOrNull("Username"),
                                        Password = EncryptPassword(password),
                                        Email = record.GetValueOrNull("Email"),
-                                       RoleId = (int) Enum.Parse(typeof (Role), record.GetValueOrNull("Role") ?? "Student"),
+                                       /*RoleId = (int) Enum.Parse(typeof (Role), record.GetValueOrNull("Role") ?? "Student"),*/
                                        Name = record.GetValueOrNull("Name") ?? string.Empty,
                                        OpenId = record.GetValueOrNull("OpenId") ?? string.Empty,
                                        Deleted = false,
@@ -248,7 +249,6 @@ namespace IUDICO.UserManagement.Models.Storage
                 
             oldUser.Email = user.Email;
             oldUser.OpenId = user.OpenId ?? string.Empty;
-            oldUser.RoleId = user.RoleId;
             oldUser.Username = user.Username;
             oldUser.IsApproved = user.IsApproved;
             
@@ -271,7 +271,6 @@ namespace IUDICO.UserManagement.Models.Storage
                 
             oldUser.Email = user.Email;
             oldUser.OpenId = user.OpenId ?? string.Empty;
-            oldUser.RoleId = user.RoleId;
 
             db.SubmitChanges();
 
@@ -293,6 +292,52 @@ namespace IUDICO.UserManagement.Models.Storage
             _LmsService.Inform(UserNotifications.UserDelete, user);
         }
 
+        public void AddUsersToRoles(IEnumerable<string> usernames, IEnumerable<Role> roles)
+        {
+            var db = GetDbContext();
+            var users = db.Users.Where(u => usernames.Contains(u.Username));
+
+            foreach (var user in users)
+            {
+                foreach (var role in roles)
+                {
+                    user.UserRoles.Add(new UserRole
+                    {
+                        UserRef = user.Id,
+                        RoleRef = (int)role
+                    });
+                }
+            }
+
+            db.SubmitChanges();
+        }
+
+        public void RemoveUsersFromRoles(IEnumerable<string> usernames, IEnumerable<Role> roles)
+        {
+            var db = GetDbContext();
+            var users = db.Users.Where(u => usernames.Contains(u.Username)).Select(u => u.Id);
+            var intRoles = roles.Select(r => (int) r);
+
+            var userRoles = db.UserRoles.Where(ur => users.Contains(ur.UserRef) && intRoles.Contains(ur.RoleRef));
+
+            db.UserRoles.DeleteAllOnSubmit(userRoles);
+            db.SubmitChanges();
+        }
+
+        public IEnumerable<User> GetUsersInRole(Role role)
+        {
+            var db = GetDbContext();
+
+            return db.UserRoles.Where(ur => ur.RoleRef == (int) role).Select(ur => ur.User);
+        }
+
+        public IEnumerable<Role> GetUserRoles(string username)
+        {
+            var db = GetDbContext();
+
+            return db.UserRoles.Where(ur => ur.User.Username == username).Select(ur => (Role) ur.RoleRef);
+        }
+
         public IEnumerable<User> GetUsersInGroup(Group group)
         {
             var db = GetDbContext();
@@ -311,6 +356,11 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
 
+            var userrole = new UserRole
+                               {
+                                   RoleRef = (int) Role.Student
+                               };
+
             var user = new User
                             {
                                 Username = registerModel.Username,
@@ -318,12 +368,13 @@ namespace IUDICO.UserManagement.Models.Storage
                                 OpenId = registerModel.OpenId ?? string.Empty,
                                 Email = registerModel.Email,
                                 Name = registerModel.Name,
-                                Role = Role.Student,
                                 IsApproved = false,
                                 Deleted = false,
                                 CreationDate = DateTime.Now,
                                 ApprovedBy = null
                             };
+
+            user.UserRoles.Add(userrole);
 
             db.Users.InsertOnSubmit(user);
             db.SubmitChanges();
@@ -371,7 +422,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public IEnumerable<Role> GetRoles()
         {
-            return Roles.GetAllRoles()/*.Skip(1)*/.Select(r => (Role) Enum.Parse(typeof (Role), r)).AsEnumerable();
+            return Enum.GetValues(typeof (Role)).Cast<Role>();
         }
 
         #endregion

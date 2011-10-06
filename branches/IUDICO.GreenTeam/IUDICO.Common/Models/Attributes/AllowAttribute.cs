@@ -5,7 +5,7 @@ namespace IUDICO.Common.Models.Attributes
 {
     public class AllowAttribute : AuthorizeAttribute
     {
-        protected string Roles { get; set; }
+        protected new string Roles { get; set; }
         public Role Role { get; set; }
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)

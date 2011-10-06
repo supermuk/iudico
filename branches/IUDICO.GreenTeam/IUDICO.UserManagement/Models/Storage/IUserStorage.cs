@@ -27,6 +27,10 @@ namespace IUDICO.UserManagement.Models.Storage
         void EditAccount(EditModel editModel);
         void ChangePassword(ChangePasswordModel changePasswordModel);
         void DeleteUser(Func<User, bool> predicate);
+        void AddUsersToRoles(IEnumerable<string> usernames, IEnumerable<Role> roles);
+        void RemoveUsersFromRoles(IEnumerable<string> usernames, IEnumerable<Role> roles);
+        IEnumerable<User> GetUsersInRole(Role role);
+        IEnumerable<Role> GetUserRoles(string username);
         IEnumerable<User> GetUsersInGroup(Group group);
         IEnumerable<User> GetUsersNotInGroup(Group group);
         bool UsernameExists(string username);
