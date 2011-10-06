@@ -585,24 +585,36 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             return GetDbContext().NodeResources.Single(n => n.Id == id);
         }
-        public int AddResource(NodeResource resource, string pathFromTempFolder)
+        public int AddResource(NodeResource resource, HttpPostedFileBase file)
         {
+            var nodePath = GetNodePath(resource.NodeId ?? -1);
+            
+            resource.Path = file.FileName;
+
+            if(!Directory.Exists(nodePath))
+            {
+                Directory.CreateDirectory(nodePath);
+            }
+
+            file.SaveAs(Path.Combine(nodePath, resource.Path));
+            
             var db = GetDbContext();
 
             db.NodeResources.InsertOnSubmit(resource);
             db.SubmitChanges();
 
-            File.Copy(pathFromTempFolder, GetResourcePath(resource.Id), true);
 
             return resource.Id;
         }
+
         public string GetResourcePath(int resId)
         {
             var res = GetDbContext().NodeResources.Single(n => n.Id == resId);
-            var path = Path.Combine(GetNodePath(res.NodeId), res.Path);
+            var path = Path.Combine(GetNodePath(res.NodeId ?? -1), res.Path);
 
             return path;
         }
+
         public void UpdateResource(int id, NodeResource resource)
         {
             var db = GetDbContext();

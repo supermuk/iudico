@@ -120,21 +120,6 @@
       <Association Name="Curriculum_Stage" Member="Curriculum" ThisKey="CurriculumRef" OtherKey="Id" Type="Curriculum" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Nodes" Member="Nodes">
-    <Type Name="Node">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="CourseId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IsFolder" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="Position" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Sequencing" Type="System.Xml.Linq.XElement" DbType="Xml" CanBeNull="true" UpdateCheck="Never" />
-      <Association Name="Node_Node" Member="Nodes" ThisKey="Id" OtherKey="ParentId" Type="Node" />
-      <Association Name="Node_NodeResource" Member="NodeResources" ThisKey="Id" OtherKey="NodeId" Type="NodeResource" />
-      <Association Name="Node_Node" Member="Node1" ThisKey="ParentId" OtherKey="Id" Type="Node" IsForeignKey="true" />
-      <Association Name="Course_Node" Member="Course" ThisKey="CourseId" OtherKey="Id" Type="Course" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Courses" Member="Courses">
     <Type Name="Course">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -151,12 +136,27 @@
   </Table>
   <Table Name="dbo.NodeResources" Member="NodeResources">
     <Type Name="NodeResource">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="NodeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Type" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="NodeId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Type" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Path" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
       <Association Name="Node_NodeResource" Member="Node" ThisKey="NodeId" OtherKey="Id" Type="Node" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Nodes" Member="Nodes">
+    <Type Name="Node">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CourseId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsFolder" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Position" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Sequencing" Type="System.Xml.Linq.XElement" DbType="Xml" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Node_NodeResource" Member="NodeResources" ThisKey="Id" OtherKey="NodeId" Type="NodeResource" />
+      <Association Name="Node_Node" Member="Nodes" ThisKey="Id" OtherKey="ParentId" Type="Node" />
+      <Association Name="Course_Node" Member="Course" ThisKey="CourseId" OtherKey="Id" Type="Course" IsForeignKey="true" />
+      <Association Name="Node_Node" Member="Node1" ThisKey="ParentId" OtherKey="Id" Type="Node" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>
