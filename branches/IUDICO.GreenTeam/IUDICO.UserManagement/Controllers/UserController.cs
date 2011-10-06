@@ -36,9 +36,8 @@ namespace IUDICO.UserManagement.Controllers
         public ActionResult Details(Guid id)
         {
             var user = _Storage.GetUser(u => u.Id == id);
-            var group = _Storage.GetGroupsByUser(user);
 
-            return View(new AdminDetailsModel(user, group));
+            return View(new AdminDetailsModel(user));
         }
 
         //
@@ -49,12 +48,12 @@ namespace IUDICO.UserManagement.Controllers
         {
             var user = new User
                            {
-                               RolesList =
+                               /*RolesList =
                                    _Storage.GetRoles().AsQueryable().Select(
                                        r =>
                                        new SelectListItem
                                            {Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int) r).ToString(), Selected = false}
-                                    )
+                                    )*/
                            };
 
             return View(user);
@@ -85,7 +84,7 @@ namespace IUDICO.UserManagement.Controllers
             }
 
             user.Password = null;
-            user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = false });
+            //user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = false });
 
             return View(user);
         }
@@ -130,7 +129,7 @@ namespace IUDICO.UserManagement.Controllers
         {
             var user = _Storage.GetUser(u => u.Id == id);
 
-            user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = (user.Role == r) });
+            //user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = (user.Role == r) });
 
             return View(new EditUserModel(user));
         }
@@ -150,7 +149,7 @@ namespace IUDICO.UserManagement.Controllers
             if (!ModelState.IsValid)
             {
                 user.Password = null;
-                user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = (user.Role == r) });
+                //user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = (user.Role == r) });
 
                 return View(user);
             }
@@ -195,7 +194,7 @@ namespace IUDICO.UserManagement.Controllers
             return RedirectToAction("Index");
         }
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult RemoveFromGroup(Guid id, int groupRef)
         {
             var user = _Storage.GetUser(u => u.Id == id);
@@ -211,7 +210,7 @@ namespace IUDICO.UserManagement.Controllers
         {
             var user = _Storage.GetUser(u => u.Id == id);
 
-            var groupList = _Storage.GetGroupsAvaliableForUser(user).Select(g => new SelectListItem { Text = g.Name, Value = g.Id.ToString(), Selected = false });
+            var groupList = _Storage.GetGroupsAvailableToUser(user).Select(g => new SelectListItem { Text = g.Name, Value = g.Id.ToString(), Selected = false });
 
             var userGroup = new UserGroupModel { GroupList = groupList };
 
@@ -226,7 +225,7 @@ namespace IUDICO.UserManagement.Controllers
 
             if (groupRef == null)
             {
-                var groupList = _Storage.GetGroupsAvaliableForUser(user).Select(g => new SelectListItem { Text = g.Name, Value = g.Id.ToString(), Selected = false });
+                var groupList = _Storage.GetGroupsAvailableToUser(user).Select(g => new SelectListItem { Text = g.Name, Value = g.Id.ToString(), Selected = false });
 
                 var userGroup = new UserGroupModel { GroupList = groupList };
 
@@ -238,6 +237,53 @@ namespace IUDICO.UserManagement.Controllers
             var group = _Storage.GetGroup(groupRef.Value);
 
             _Storage.AddUserToGroup(group, user);
+
+            return RedirectToAction("Details", new { Id = id });
+        }
+
+        [Allow(Role = Role.Admin)]
+        public ActionResult RemoveFromRole(Guid id, int roleRef)
+        {
+            var user = _Storage.GetUser(u => u.Id == id);
+            var role = _Storage.GetRole(roleRef);
+
+            _Storage.RemoveUserFromRole(role, user);
+
+            return RedirectToAction("Details", new { id = id });
+        }
+
+        [Allow(Role = Role.Admin)]
+        public ActionResult AddToRole(Guid id)
+        {
+            var user = _Storage.GetUser(u => u.Id == id);
+
+            var roleList = _Storage.GetRolesAvailableToUser(user).Select(r => new SelectListItem { Text = Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = false });
+
+            var userRole = new UserRoleModel { RoleList = roleList };
+
+            return View(userRole);
+        }
+
+        [HttpPost]
+        [Allow(Role = Role.Admin)]
+        public ActionResult AddToRole(Guid id, int? roleRef)
+        {
+            var user = _Storage.GetUser(u => u.Id == id);
+
+            if (roleRef == null)
+            {
+                var userList = _Storage.GetRolesAvailableToUser(user).Select(r => new SelectListItem { Text = Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = false });
+
+                var userRole = new UserRoleModel { RoleList = userList };
+
+                ModelState.AddModelError("RoleRef", "Please select role from list");
+
+                return View(userRole);
+            }
+
+            var role = _Storage.GetRole(roleRef.Value);
+
+            _Storage.AddUserToRole(role, user);
 
             return RedirectToAction("Details", new { Id = id });
         }

@@ -26,9 +26,8 @@ namespace IUDICO.UserManagement.Controllers
         public ActionResult Index()
         {
             var user = _Storage.GetCurrentUser();
-            var groups = _Storage.GetGroupsByUser(user);
 
-            return View(new DetailsModel(user, groups));
+            return View(new DetailsModel(user));
         }
 
         public ActionResult Logout()

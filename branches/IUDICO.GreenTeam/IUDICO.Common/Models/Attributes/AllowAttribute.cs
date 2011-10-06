@@ -15,6 +15,11 @@ namespace IUDICO.Common.Models.Attributes
                 return false;
             }
 
+            if (Role == Role.None)
+            {
+                return true;
+            }
+
             return System.Web.Security.Roles.Provider.IsUserInRole(httpContext.User.Identity.Name, Role.ToString());
         }
 

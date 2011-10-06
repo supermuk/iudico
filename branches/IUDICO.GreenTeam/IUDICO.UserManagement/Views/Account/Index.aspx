@@ -17,6 +17,18 @@
     </fieldset>
 
     <fieldset>
+        <legend><%=IUDICO.UserManagement.Localization.getMessage("Roles")%></legend>
+
+        <ul>
+        
+        <% foreach(var role in Model.Roles) { %>
+            <li><%: IUDICO.UserManagement.Localization.getMessage(role.ToString()) %></li>
+        <% } %>
+
+        </ul>
+    </fieldset>
+
+    <fieldset>
         <legend><%=IUDICO.UserManagement.Localization.getMessage("Groups")%></legend>
 
         <ul>
