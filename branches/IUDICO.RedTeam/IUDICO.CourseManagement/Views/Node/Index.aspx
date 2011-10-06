@@ -379,7 +379,10 @@
 
                 var editor = getEditor();
                 $.data(editor, 'node-id', data.obj.attr("id").replace("node_", ""));
-              
+                
+                //File Upload
+                $("#fileUploadNodeId").value = $.data(editor, 'node-id');
+
                 $.ajax({
                     type: 'post',
 		            url: "<%: Url.Action("Data", "Node") %>",
@@ -588,7 +591,7 @@
             <form action="<%: Url.Action("FileUploader", "Node") %>" method="POST" enctype="multipart/form-data">
                 <div class="fileupload-buttonbar">
                     <label class="fileinput-button">
-                        <span>Add files...</span>
+                        <span onclick="$('#file').click();">Add files...</span>
                         <input id="file" type="file" name="files[]" multiple>
                     </label>
                     <button type="submit" class="start" >Start upload</button>

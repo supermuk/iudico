@@ -413,8 +413,7 @@ namespace IUDICO.CourseManagement.Controllers
 
                 path = Path.Combine(path, fileUpload.FileName.Split('\\').Last());
 
-                fileUpload.SaveAs(path);
-
+                //fileUpload.SaveAs(path);
 
                 fileList.Add(new
                                 {
@@ -424,14 +423,15 @@ namespace IUDICO.CourseManagement.Controllers
                                     Type = fileUpload.ContentType
                                 });
 
-                NodeResource newResource = new NodeResource
+                var newResource = new NodeResource
                                      {
                                          Name = fileUpload.FileName,
                                          NodeId = int.Parse(nodeId),
-                                         Path = path,
-                                         Type = "image"
+                                         //Path = path,
+                                         Type = (int)ResourceTypes.Image
                                      };
-                //_Storage.AddResource(newResource, path);
+
+                _Storage.AddResource(newResource, fileUpload);
             }
 
             HttpContext.Response.Write(serializer.Serialize(new
