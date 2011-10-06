@@ -16,21 +16,25 @@ $(function () {
     'use strict';
 
     // Initialize the jQuery File Upload widget:
-    $('#fileupload').fileupload({
+    $('#fileupload').fileupload({});
 
-    });
+    //Load existing files:
+    fillResources = function(nodeIds) {
+        $.getJSON($('#fileupload form').prop('action') + "/FileUploaderGetResources?NodeIds=" + nodeIds, function(files) {
+            var fu = $('#fileupload').data('fileupload');
+            $("#files").html("");
+            fu._adjustMaxNumberOfFiles(-files.length);
+            fu._renderDownload(files)
+                .appendTo($('#fileupload .files'))
+                .fadeIn(function() {
+                    // Fix for IE7 and lower:
+                    $(this).show();
+                });
+        });
+    };
 
-    // Load existing files:
-    //    $.getJSON($('#fileupload form').prop('action'), function (files) {
-    //        var fu = $('#fileupload').data('fileupload');
-    //        fu._adjustMaxNumberOfFiles(-files.length);
-    //        fu._renderDownload(files)
-    //            .appendTo($('#fileupload .files'))
-    //            .fadeIn(function () {
-    //                // Fix for IE7 and lower:
-    //                $(this).show();
-    //            });
-    //    });
+    fillResources(0);
+
     $('#fileupload').bind('fileuploaddone', function (e, data) {
         if (data.jqXHR.responseText || data.result) {
             var fu = $('#fileupload').data('fileupload');
@@ -38,11 +42,11 @@ $(function () {
             fu._adjustMaxNumberOfFiles(JSONjQueryObject.files.length);
             //                debugger;
             fu._renderDownload(JSONjQueryObject.files)
-                .appendTo($('#fileupload .files'))
-                .fadeIn(function () {
-                    // Fix for IE7 and lower:
-                    $(this).show();
-                });
+                    .appendTo($('#fileupload .files'))
+                    .fadeIn(function () {
+                        // Fix for IE7 and lower:
+                        $(this).show();
+                    });
         }
     });
 
@@ -51,8 +55,8 @@ $(function () {
     $('#fileupload .files a:not([target^=_blank])').live('click', function (e) {
         e.preventDefault();
         $('<iframe style="display:none;"></iframe>')
-            .prop('src', this.href)
-            .appendTo('body');
+                .prop('src', this.href)
+                .appendTo('body');
     });
 
 });

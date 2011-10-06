@@ -382,51 +382,88 @@ namespace IUDICO.CourseManagement.Controllers
         [HttpPost]
         public void FileUploader()
         {
+            var fileList = new[]
+                               {
+                                   new
+                                       {
+                                           Thumbnail_url = "",
+                                           Name = "",
+                                           Length = 0,
+                                           Type = ""
+                                       }
+                               }.ToList();
+            fileList.RemoveAt(0);
+
+
             HttpContext.Response.ContentType = "text/plain";//"application/json";
-            var r = new System.Collections.Generic.List<ViewDataUploadFilesResult>();
-            JavaScriptSerializer js = new JavaScriptSerializer();
+            var serializer = new JavaScriptSerializer();
+
+            var nodeId = HttpContext.Request.Params["nodeId"];
+
             foreach (string file in HttpContext.Request.Files)
             {
-                HttpPostedFileBase hpf = HttpContext.Request.Files[file] as HttpPostedFileBase;
-                string FileName = string.Empty;
-                if (HttpContext.Request.Browser.Browser.ToUpper() == "IE")
-                {
-                    string[] files = hpf.FileName.Split(new char[] { '\\' });
-                    FileName = files[files.Length - 1];
-                }
-                else
-                {
-                    FileName = hpf.FileName;
-                }
-                if (hpf.ContentLength == 0)
-                    continue;
-                string savedFileName = "c:\\tmp\\" + FileName;
-                hpf.SaveAs(savedFileName);
+                var fileUpload = HttpContext.Request.Files[file] as HttpPostedFileBase;
 
-                r.Add(new ViewDataUploadFilesResult()
-                {
-                    //Thumbnail_url = savedFileName,
-                    Name = FileName,
-                    Length = hpf.ContentLength,
-                    Type = hpf.ContentType
-                });
-                var uploadedFiles = new
-                {
-                    files = r.ToArray()
-                };
-                var jsonObj = js.Serialize(uploadedFiles);
-                //jsonObj.ContentEncoding = System.Text.Encoding.UTF8;
-                //jsonObj.ContentType = "application/json;";
-                HttpContext.Response.Write(jsonObj.ToString());
+                var path = HttpContext.Request.PhysicalApplicationPath;
+
+                path = Path.Combine(path, @"Data\WorkFolder");
+                path = Path.Combine(path, Guid.NewGuid().ToString());
+
+                Directory.CreateDirectory(path);
+
+                path = Path.Combine(path, fileUpload.FileName.Split('\\').Last());
+
+                fileUpload.SaveAs(path);
+
+
+                fileList.Add(new
+                                {
+                                    Thumbnail_url = path,
+                                    Name = fileUpload.FileName,
+                                    Length = fileUpload.ContentLength,
+                                    Type = fileUpload.ContentType
+                                });
+
+                NodeResource newResource = new NodeResource
+                                     {
+                                         Name = fileUpload.FileName,
+                                         NodeId = int.Parse(nodeId),
+                                         Path = path,
+                                         Type = "image"
+                                     };
+                //_Storage.AddResource(newResource, path);
             }
-        }
-    }
 
-    public class ViewDataUploadFilesResult
-    {
-        public string Thumbnail_url { get; set; }
-        public string Name { get; set; }
-        public int Length { get; set; }
-        public string Type { get; set; }
+            HttpContext.Response.Write(serializer.Serialize(new
+                                                        {
+                                                            files = fileList.ToArray()
+                                                        }));
+        }
+
+        [HttpGet]
+        public void FileUploaderGetResources()
+        {
+            var parents = HttpContext.Request.Params["NodeIds"] as string;
+
+            //var fileList = new[]
+            //                   {
+            //                       new
+            //                           {
+            //                               Thumbnail_url = "",
+            //                               Name = "",
+            //                               Length = 0,
+            //                               Type = ""
+            //                           }
+            //                   }.ToList();
+            //fileList.RemoveAt(0);
+
+            //string[] nodeIds = parents.Split(new char[] {'_'});
+
+            //foreach (var nodeId in nodeIds)
+            //{
+                
+            //}
+            //_Storage.GetResources()
+        }
     }
 }    
