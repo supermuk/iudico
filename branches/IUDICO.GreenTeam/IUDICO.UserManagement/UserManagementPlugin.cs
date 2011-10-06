@@ -94,7 +94,7 @@ namespace IUDICO.UserManagement
 
         public void Setup(IWindsorContainer container)
         {
-
+            
         }
 
         #endregion

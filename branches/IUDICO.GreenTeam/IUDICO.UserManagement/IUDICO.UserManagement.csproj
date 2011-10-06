@@ -91,7 +91,6 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\UserBaseController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Localization.cs" />
     <Compile Include="Models\Auth\OpenIdMembershipProvider.cs" />
@@ -99,6 +98,11 @@
     <Compile Include="Models\Auth\OpenIdRoleProvider.cs" />
     <Compile Include="Models\Storage\IUserStorage.cs" />
     <Compile Include="Models\UserService.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="UserManagementPlugin.cs" />
     <Compile Include="Models\Models.cs" />
     <Compile Include="Models\Storage\DatabaseUserStorage.cs" />
@@ -139,6 +143,10 @@
     <Content Include="Views\User\Details.aspx" />
     <Content Include="Views\User\Edit.aspx" />
     <Content Include="Views\User\Index.aspx" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>

@@ -17,21 +17,14 @@ namespace IUDICO.UserManagement.Models.Auth
 
         public override bool IsUserInRole(string username, string roleName)
         {
-            var user = _UserStorage.GetUser(u => u.Username == username);
+            var roles = GetRolesForUser(username);
 
-            if (user == null)
-            {
-                return false;
-            }
-
-            var minRole = GetRole(roleName);
-
-            return user.Role >= minRole;
+            return roles.Contains(roleName);
         }
 
         public override string[] GetRolesForUser(string username)
         {
-            return new[] { _UserStorage.GetUser(u => u.Username == username).Role.ToString() };
+            return _UserStorage.GetUser(u => u.Username == username).UserRoles.Select(ur => ((Role)ur.RoleRef).ToString()).ToArray();
         }
 
         public override void CreateRole(string roleName)
@@ -51,43 +44,36 @@ namespace IUDICO.UserManagement.Models.Auth
 
         public override void AddUsersToRoles(string[] usernames, string[] roleNames)
         {
-            if (roleNames.Length != 1)
-            {
-                throw new NotSupportedException();
-            }
+            var roles = roleNames.Select(GetRole).Where(r => r != Role.None);
 
-            var users = _UserStorage.GetUsers(u => usernames.Contains(u.Username));
-
-            foreach (var user in users)
-            {
-                user.RoleId = (int)GetRole(roleNames[0]);
-
-                _UserStorage.EditUser(user.Id, user);
-            }
+            _UserStorage.AddUsersToRoles(usernames, roles);
         }
 
         public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
         {
-            throw new NotSupportedException();
+            var roles = roleNames.Select(GetRole).Where(r => r != Role.None);
+
+            _UserStorage.RemoveUsersFromRoles(usernames, roles);
         }
 
         public override string[] GetUsersInRole(string roleName)
         {
             var role = GetRole(roleName);
 
-            return _UserStorage.GetUsers(u => u.Role == role).Select(u => u.Username).ToArray();
+            return _UserStorage.GetUsersInRole(role).Select(u => u.Username).ToArray();
         }
 
         public override string[] GetAllRoles()
         {
-            return Enum.GetNames(typeof (Role)).Skip(1).ToArray();
+            return _UserStorage.GetRoles().Select(r => r.ToString()).ToArray();
         }
 
         public override string[] FindUsersInRole(string roleName, string usernameToMatch)
         {
-            var role = GetRole(roleName);
+            /*var role = GetRole(roleName);
 
-            return _UserStorage.GetUsers(u => u.Role == role && u.Username.Contains(usernameToMatch)).Select(u => u.Username).ToArray();
+            return _UserStorage.GetUsers(u => u.Role == role && u.Username.Contains(usernameToMatch)).Select(u => u.Username).ToArray();*/
+            throw new NotImplementedException();
         }
 
         protected Role GetRole(string roleName)
