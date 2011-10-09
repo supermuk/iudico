@@ -5,12 +5,12 @@ using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
 using IUDICO.CurriculumManagement.Models.Storage;
-using Action = IUDICO.Common.Models.Action;
 using IUDICO.CurriculumManagement.Models;
 
 using System.Linq;
 using Castle.Windsor;
 using IUDICO.Common.Models.Notifications;
+using IUDICO.Common.Models.Action;
 
 namespace IUDICO.CurriculumManagement
 {
@@ -45,10 +45,10 @@ namespace IUDICO.CurriculumManagement
             return IUDICO.CurriculumManagement.Localization.getMessage("CurriculumManagement");
         }
 
-        public IEnumerable<Action> BuildActions(Role role)
+        public IEnumerable<IAction> BuildActions()
         {
-            List<Action> actions = new List<Action>();
-            actions.Add(new Action(IUDICO.CurriculumManagement.Localization.getMessage("CurriculumManagement"), "Curriculum/Index"));
+            List<IAction> actions = new List<IAction>();
+//            actions.Add(new Action(IUDICO.CurriculumManagement.Localization.getMessage("CurriculumManagement"), "Curriculum/Index"));
             return actions;
         }
 

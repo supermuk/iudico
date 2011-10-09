@@ -4,10 +4,11 @@ using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
 using System.Collections.Generic;
 using Castle.Windsor;
+using IUDICO.Common.Models.Action;
 
 namespace IUDICO.Search
 {
-    public class SearchPluginn : IWindsorInstaller, IPlugin
+    public class SearchPlugin : IWindsorInstaller, IPlugin
     {
         #region IWindsorInstaller Members
 
@@ -33,9 +34,9 @@ namespace IUDICO.Search
             return "Search";
         }
 
-        public IEnumerable<Action> BuildActions(Role role)
+        public IEnumerable<IAction> BuildActions()
         {
-            return new List<Action>();
+            return new List<IAction>();
         }
 
         public void BuildMenu(Menu menu)

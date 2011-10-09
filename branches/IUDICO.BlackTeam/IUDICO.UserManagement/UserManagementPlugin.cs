@@ -10,6 +10,7 @@ using IUDICO.UserManagement.Models.Storage;
 using IUDICO.UserManagement.Models;
 using Castle.Windsor;
 using Castle.MicroKernel.SubSystems.Configuration;
+using IUDICO.Common.Models.Action;
 
 namespace IUDICO.UserManagement
 {
@@ -45,14 +46,14 @@ namespace IUDICO.UserManagement
             return IUDICO.UserManagement.Localization.getMessage("UserManagement");
         }
 
-        public IEnumerable<Action> BuildActions(Role role)
+        public IEnumerable<IAction> BuildActions()
         {
-            var actions = new List<Action>
+            var actions = new List<IAction>
                               {
-                                  new Action(IUDICO.UserManagement.Localization.getMessage("GetUsers"), "User/Index"),
-                                  new Action(IUDICO.UserManagement.Localization.getMessage("GetGroups"), "Group/Index"),
-                                  new Action(IUDICO.UserManagement.Localization.getMessage("Register"), "Account/Register"),
-                                  new Action(IUDICO.UserManagement.Localization.getMessage("Login"), "Account/Login")
+//                                  new ActionReal(IUDICO.UserManagement.Localization.getMessage("GetUsers"), "User/Index"),
+//                                  new ActionReal(IUDICO.UserManagement.Localization.getMessage("GetGroups"), "Group/Index"),
+//                                  new ActionReal(IUDICO.UserManagement.Localization.getMessage("Register"), "Account/Register"),
+//                                  new ActionReal(IUDICO.UserManagement.Localization.getMessage("Login"), "Account/Login")
                               };
 
             return actions;
