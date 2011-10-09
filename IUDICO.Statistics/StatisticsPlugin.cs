@@ -7,6 +7,7 @@ using IUDICO.Common.Models.Services;
 using IUDICO.Statistics.Models.Storage;
 using IUDICO.Statistics.Models;
 using Castle.Windsor;
+using IUDICO.Common.Models.Action;
 namespace IUDICO.Statistics
 {
     public class StatisticsPlugin : IWindsorInstaller, IPlugin
@@ -37,12 +38,12 @@ namespace IUDICO.Statistics
             return IUDICO.Statistics.Localization.getMessage("Statistics");
         }
 
-        public IEnumerable<Action> BuildActions(Role role)
+        public IEnumerable<IAction> BuildActions()
         {
-            var actions = new List<Action>();
+            var actions = new List<IAction>();
 
-            actions.Add(new Action(IUDICO.Statistics.Localization.getMessage("GetStats"), "Stats/Index"));
-            actions.Add(new Action(IUDICO.Statistics.Localization.getMessage("QualityTest"), "QualityTest/SelectCurriculum"));
+            //actions.Add(new ActionReal(IUDICO.Statistics.Localization.getMessage("GetStats"), "Stats/Index"));
+            //actions.Add(new ActionReal(IUDICO.Statistics.Localization.getMessage("QualityTest"), "QualityTest/SelectCurriculum"));
             return actions;
         }
 

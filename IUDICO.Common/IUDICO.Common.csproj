@@ -70,8 +70,8 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Log4NetLogger.cs" />
-    <Compile Include="Models\Action.cs" />
     <Compile Include="Models\ActionLink.cs" />
+    <Compile Include="Models\Action\ActionURL.cs" />
     <Compile Include="Models\Attributes\AllowAttribute.cs" />
     <Compile Include="Models\Attributes\DropDownListAttribute.cs" />
     <Compile Include="Models\Attributes\EmailAddressAttribute.cs" />
@@ -84,6 +84,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DBDataContext.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Action\IAction.cs" />
     <Compile Include="Models\NodeProperty.cs" />
     <Compile Include="Models\Notifications\CourseNotifications.cs" />
     <Compile Include="Models\Helpers.cs" />
@@ -124,7 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="Models\DBDataContext.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>DBDataContext.designer.cs</LastGenOutput>

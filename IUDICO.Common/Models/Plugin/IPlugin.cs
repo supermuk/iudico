@@ -1,14 +1,16 @@
 ﻿using System.Web.Routing;
 using System.Collections.Generic;
 using Castle.Windsor;
+using Castle.MicroKernel.Registration;
+using IUDICO.Common.Models.Action;
 
 namespace IUDICO.Common.Models.Plugin
 {
-    public interface IPlugin
+    public interface IPlugin : IWindsorInstaller
     {
         string GetName();
 
-        IEnumerable<Action> BuildActions(Role role);
+        IEnumerable<IAction> BuildActions();
         void BuildMenu(Menu menu);
 
         void Setup(IWindsorContainer container);
