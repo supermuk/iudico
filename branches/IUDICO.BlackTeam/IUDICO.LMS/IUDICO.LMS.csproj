@@ -129,7 +129,6 @@
     <Compile Include="Models\LmsService.cs" />
     <Compile Include="Models\Providers\IoCMembershipProvider.cs" />
     <Compile Include="Models\Providers\IoCRoleProvider.cs" />
-    <Compile Include="PluginViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

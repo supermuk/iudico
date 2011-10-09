@@ -16,23 +16,39 @@ using IUDICO.LMS.IoC;
 using IUDICO.LMS.Models;
 using IUDICO.Common.Models.Plugin;
 using System.Collections.Generic;
-using Action = IUDICO.Common.Models.Action;
 using System.Reflection;
 using IUDICO.LMS.Models.Providers;
 using System.Web.Security;
 using System.Globalization;
 using System.Threading;
 using System.Text;
+using IUDICO.Common.Models.Action;
 
 namespace IUDICO.LMS
 {
     public class MvcApplication : HttpApplication, IContainerAccessor
     {
         static IWindsorContainer _Container;
-
+        static Dictionary<IPlugin, IEnumerable<IAction>> _AllActions;
+        
         public static Menu Menu { get; protected set; }
-        //public static IEnumerable<Action> Actions { get; protected set; }
-        public static Dictionary<IPlugin, IEnumerable<Action>> Actions { get; protected set; }
+        
+        public static Dictionary<IPlugin, IEnumerable<IAction>> Actions
+        {
+            get {
+                var result = new Dictionary<IPlugin, IEnumerable<IAction>>();
+                    
+                var currentUser = _Container.Resolve<IUserService>().GetCurrentUser();
+                var currentRole = currentUser == null ? Role.None : currentUser.Role;
+
+                foreach (var actions in _AllActions)
+                {
+                    result[actions.Key] = actions.Value.Where(a => a.GetRole() == currentRole);
+                }
+
+                return result;
+            }
+        }
 
         public IWindsorContainer Container
         {
@@ -46,30 +62,18 @@ namespace IUDICO.LMS
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
+            // var currentRole = IUDICO.Common.Models.Role.None;
             var plugins = Container.ResolveAll<IPlugin>();
+            //var currentUser = Container.Resolve<IUserService>().GetCurrentUser();
             //var currentRole = Container.Resolve<IUserService>().GetCurrentUser().Role;
-            var currentRole = IUDICO.Common.Models.Role.None;
+            //var actions = new Dictionary<IPlugin, IEnumerable<Action>>();
 
-            lock (Actions)
+            foreach (var plugin in plugins)
             {
-                Actions.Clear();
-
-                foreach (var plugin in plugins)
-                {
-                    plugin.Setup(Container);
-
-                    var actions = plugin.BuildActions(currentRole).Where(a => IsAllowed(a, currentRole));
-
-                    if (Actions.ContainsKey(plugin))
-                    {
-                        Actions[plugin] = actions;
-                    }
-                    else
-                    {
-                        Actions.Add(plugin, actions);
-                    }
-                }
+                plugin.Setup(Container);
             }
+
+            //Session["Actions"] = actions;
         }
 
         protected void Application_Start()
@@ -77,11 +81,11 @@ namespace IUDICO.LMS
             Common.Log4NetLoggerService.InitLogger();
             log4net.Config.XmlConfigurator.Configure(new System.IO.FileInfo(Server.MapPath("log.xml")));
 
-            ViewEngines.Engines.Add(new PluginViewEngine());
+            //ViewEngines.Engines.Add(new PluginViewEngine());
 
-            Actions = new Dictionary<IPlugin, IEnumerable<Action>>();
+            //Session["Actions"] = new Dictionary<IPlugin, IEnumerable<Action>>();
 
-            AppDomain.CurrentDomain.AppendPrivatePath(Server.MapPath("/Plugins"));
+            //AppDomain.CurrentDomain.AppendPrivatePath(Server.MapPath("/Plugins"));
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             HostingEnvironment.RegisterVirtualPathProvider(new AssemblyResourceProvider());
@@ -138,12 +142,16 @@ namespace IUDICO.LMS
         protected void LoadPluginData()
         {
             Menu = new Menu();
+            _AllActions = new Dictionary<IPlugin, IEnumerable<IAction>>();
 
             var plugins = Container.ResolveAll<IPlugin>();
 
             foreach (var plugin in plugins)
             {
                 plugin.BuildMenu(Menu);
+
+                _AllActions.Add(plugin,
+                        plugin.BuildActions());
             }
         }
 
@@ -183,7 +191,7 @@ namespace IUDICO.LMS
                          FromAssembly.InDirectory(new AssemblyFilter(Server.MapPath("/Plugins"), "IUDICO.*.dll"))
             );
         }
-
+        /*
         protected bool IsAllowed(Action fullAction, Role role)
         {
             var parts = fullAction.Link.Split('/');
@@ -200,7 +208,7 @@ namespace IUDICO.LMS
         {
             return Attribute.GetCustomAttribute(action, typeof(HttpPostAttribute), false) != null;
         }
-
+        */
         protected void Application_AcquireRequestState(object sender, EventArgs e)
         {
             if (HttpContext.Current.Session != null)
@@ -219,10 +227,12 @@ namespace IUDICO.LMS
                     {
                         langName = HttpContext.Current.Request.UserLanguages[0].Split(';')[0];
                     }
+
                     if (langName != "en-US" && langName != "uk-UA")
                     {
                         langName = "en-US";
                     }
+
                     ci = new CultureInfo(langName);
                     this.Session["Culture"] = ci;
                 }
@@ -230,7 +240,8 @@ namespace IUDICO.LMS
                 Thread.CurrentThread.CurrentUICulture = ci;
                 Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
             }
-            LoadPluginData();
+
+            //LoadPluginData();
             Application_BeginRequest(sender, e);
         }
 
