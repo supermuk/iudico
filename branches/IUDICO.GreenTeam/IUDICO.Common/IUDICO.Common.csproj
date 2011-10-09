@@ -96,7 +96,7 @@
     <Compile Include="Models\Notifications\TestingNotifications.cs" />
     <Compile Include="Models\Notifications\UserNotifications.cs" />
     <Compile Include="Models\Plugin\IPlugin.cs" />
-    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\Roles.cs" />
     <Compile Include="Models\Services\ICourseService.cs" />
     <Compile Include="Models\Services\ICurriculumService.cs" />
     <Compile Include="Models\Services\ILmsService.cs" />

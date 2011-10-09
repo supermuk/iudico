@@ -44,26 +44,26 @@ namespace IUDICO.UserManagement.Models.Auth
 
         public override bool RoleExists(string roleName)
         {
-            return GetRole(roleName) != Role.None;
+            return UserRoles.GetRole(roleName) != Role.None;
         }
 
         public override void AddUsersToRoles(string[] usernames, string[] roleNames)
         {
-            var roles = roleNames.Select(GetRole).Where(r => r != Role.None);
+            var roles = roleNames.Select(UserRoles.GetRole).Where(r => r != Role.None);
 
             _UserStorage.AddUsersToRoles(usernames, roles);
         }
 
         public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
         {
-            var roles = roleNames.Select(GetRole).Where(r => r != Role.None);
+            var roles = roleNames.Select(UserRoles.GetRole).Where(r => r != Role.None);
 
             _UserStorage.RemoveUsersFromRoles(usernames, roles);
         }
 
         public override string[] GetUsersInRole(string roleName)
         {
-            var role = GetRole(roleName);
+            var role = UserRoles.GetRole(roleName);
 
             return _UserStorage.GetUsersInRole(role).Select(u => u.Username).ToArray();
         }
@@ -79,20 +79,6 @@ namespace IUDICO.UserManagement.Models.Auth
 
             return _UserStorage.GetUsers(u => u.Role == role && u.Username.Contains(usernameToMatch)).Select(u => u.Username).ToArray();*/
             throw new NotImplementedException();
-        }
-
-        protected Role GetRole(string roleName)
-        {
-            try
-            {
-                var role = (Role)Enum.Parse(typeof(Role), roleName);
-
-                return role;
-            }
-            catch (Exception)
-            {
-                return Role.None;
-            }
         }
 
         public override string ApplicationName { get; set; }
