@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 namespace IUDICO.Common.Models.Attributes
@@ -20,7 +21,9 @@ namespace IUDICO.Common.Models.Attributes
                 return true;
             }
 
-            return System.Web.Security.Roles.Provider.IsUserInRole(httpContext.User.Identity.Name, Role.ToString());
+            var userRoles = System.Web.Security.Roles.Provider.GetRolesForUser(httpContext.User.Identity.Name).Select(UserRoles.GetRole);
+
+            return userRoles.Any(r => (r & Role) != 0);
         }
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)

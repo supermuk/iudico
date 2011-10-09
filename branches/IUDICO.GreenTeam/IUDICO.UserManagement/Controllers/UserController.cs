@@ -118,7 +118,7 @@ namespace IUDICO.UserManagement.Controllers
 
             var users = _Storage.CreateUsersFromCSV(path);
 
-            return View("CreatedMultiple", users);
+            return View(users);
         }
 
         //
