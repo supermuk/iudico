@@ -105,7 +105,7 @@ namespace IUDICO.UnitTests.UserManagement
         {
             var mockUserData = new[]
                                    {
-                                       new User {Id = Guid.NewGuid(), Username = "panza", Password = Storage.EncryptPassword("somepassword"), },
+                                       new User {Id = Guid.NewGuid(), Username = "panza", Email = "ipetrovych@gmail.com", Password = Storage.EncryptPassword("somepassword"), },
                                    };
 
             var mockGroupData = new[]

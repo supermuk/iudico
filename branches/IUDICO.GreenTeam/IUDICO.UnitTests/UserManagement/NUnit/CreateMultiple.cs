@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Notifications;
+using IUDICO.UserManagement.Models;
 using Moq;
 using NUnit.Framework;
 
@@ -51,6 +52,22 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             _Tests.MockStorage.Verify(u => u.SendEmail(It.IsAny<string>(), It.Is<string>(s => s == "vladykx@gmail.com"), It.IsAny<string>(), It.IsAny<string>()), Times.Once());
             _Tests.MockLmsService.Verify(s => s.Inform(UserNotifications.UserCreateMultiple, It.Is<IEnumerable<User>>(ie => TestUsers(ie, users))));
             Assert.IsTrue(users.Count == results.Count);
+        }
+
+        [Test]
+        public void RestorePassword()
+        {
+            var model = new RestorePasswordModel {Email = "ipetrovych@gmail.com"};
+            var password = _Tests.DataContext.Users.Where(u => u.Username == "panza").Single().Password;
+
+            _Tests.Storage.RestorePassword(model);
+
+            _Tests.MockDataContext.Verify(d => d.SubmitChanges());
+            _Tests.MockStorage.Verify(u => u.SendEmail(It.IsAny<string>(), It.Is<string>(s => s == "ipetrovych@gmail.com"), It.IsAny<string>(), It.IsAny<string>()), Times.Once());
+            var newpassword = _Tests.DataContext.Users.Where(u => u.Username == "panza").Single().Password;
+
+            Assert.IsTrue(newpassword != password);
+
         }
 
         protected bool TestUsers(IEnumerable<User> inserted, IEnumerable<User> expected)
