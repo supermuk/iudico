@@ -9,6 +9,7 @@ using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Notifications;
 using System.Net.Mail;
+using IUDICO.UserManagement.Models.Database;
 
 namespace IUDICO.UserManagement.Models.Storage
 {
@@ -19,11 +20,6 @@ namespace IUDICO.UserManagement.Models.Storage
         public DatabaseUserStorage(ILmsService lmsService)
         {
             _LmsService = lmsService;
-        }
-
-        protected DBDataContext GetDbContext()
-        {
-            return _LmsService.GetDbDataContext();
         }
 
         public string EncryptPassword(string password)
@@ -66,196 +62,220 @@ namespace IUDICO.UserManagement.Models.Storage
                 return null;
             }
 
-            var db = GetDbContext();
-
-            return db.Users.Where(u => u.Username == identity.Name).FirstOrDefault();
+            using (var db = new UserManagementDBContext())
+            {
+                return db.Users.Where(u => u.Username == identity.Name).FirstOrDefault();
+            }
         }
 
         public User GetUser(Func<User, bool> predicate)
         {
-            var db = GetDbContext();
-
-            return db.Users.Where(user => !user.Deleted).SingleOrDefault(predicate);
+            using (var db = new UserManagementDBContext())
+            {
+                return db.Users.Where(user => !user.Deleted).SingleOrDefault(predicate);
+            }
         }
 
         public IEnumerable<User> GetUsers()
         {
-            var db = GetDbContext();
-
-            return db.Users.Where(u => !u.Deleted);
+            using (var db = new UserManagementDBContext())
+            {
+                return db.Users.Where(u => !u.Deleted);
+            }
         }
 
         public IEnumerable<User> GetUsers(Func<User, bool> predicate)
         {
-            var db = GetDbContext();
-
-            return db.Users.Where(u => !u.Deleted).Where(predicate);
+            using (var db = new UserManagementDBContext())
+            {
+                return db.Users.Where(u => !u.Deleted).Where(predicate);
+            }
         }
 
         public IEnumerable<User> GetUsers(int pageIndex, int pageSize)
         {
-            var db = GetDbContext();
-
-            return db.Users.Skip(pageIndex).Take(pageSize);
+            using (var db = new UserManagementDBContext())
+            {
+                return db.Users.Skip(pageIndex).Take(pageSize);
+            }
         }
 
         public bool UsernameExists(string username)
         {
-            var db = GetDbContext();
-
-            return db.Users.Count(u => u.Username == username && u.Deleted == false) > 0;
+            using (var db = new UserManagementDBContext())
+            {
+                return db.Users.Count(u => u.Username == username && u.Deleted == false) > 0;
+            }
         }
 
         public void ActivateUser(Guid id)
         {
-            var db = GetDbContext();
+            using (var db = new UserManagementDBContext())
+            {
+                var user = db.Users.Single(u => u.Id == id);
+                user.IsApproved = true;
+                user.ApprovedBy = GetCurrentUser().Id;
 
-            var user = db.Users.Single(u => u.Id == id);
-            user.IsApproved = true;
-            user.ApprovedBy = GetCurrentUser().Id;
-
-            db.SubmitChanges();
+                db.SaveChanges();
+            }
         }
 
         public void DeactivateUser(Guid id)
         {
-            var db = GetDbContext();
+            using (var db = new UserManagementDBContext())
+            {
+                var user = db.Users.Single(u => u.Id == id);
+                user.IsApproved = false;
+                user.ApprovedBy = null;
 
-            var user = db.Users.Single(u => u.Id == id);
-            user.IsApproved = false;
-            user.ApprovedBy = null;
-
-            db.SubmitChanges();
+                db.SubmitChanges();
+            }
         }
 
         public void CreateUser(User user)
         {
-            var db = GetDbContext();
+            using (var db = new UserManagementDBContext())
+            {
+                user.Password = EncryptPassword(user.Password);
+                user.OpenId = user.OpenId ?? string.Empty;
+                user.Deleted = false;
+                user.IsApproved = true;
+                user.CreationDate = DateTime.Now;
+                user.ApprovedBy = GetCurrentUser().Id;
 
-            user.Password = EncryptPassword(user.Password);
-            user.OpenId = user.OpenId ?? string.Empty;
-            user.Deleted = false;
-            user.IsApproved = true;
-            user.CreationDate = DateTime.Now;
-            user.ApprovedBy = GetCurrentUser().Id;
-
-            db.Users.InsertOnSubmit(user);
-            db.SubmitChanges();
-
+                db.Users.Add(user);
+                db.SaveChanges();
+            }
+            
             _LmsService.Inform(UserNotifications.UserCreate, user);
         }
 
         public void EditUser(Guid id, User user)
         {
-            var db = GetDbContext();
-            var oldUser = db.Users.Single(u => u.Id == id);
+            using (var db = new UserManagementDBContext())
+            {
+                var oldUser = db.Users.Single(u => u.Id == id);
 
-            oldUser.Name = user.Name;
-            if (user.Password != null && user.Password != string.Empty)
-                oldUser.Password = EncryptPassword(user.Password);
-            oldUser.Email = user.Email;
-            oldUser.OpenId = user.OpenId ?? string.Empty;
-            oldUser.RoleId = user.RoleId;
-            oldUser.Username = user.Username;
-            oldUser.IsApproved = user.IsApproved;
-            
-            db.SubmitChanges();
+                oldUser.Name = user.Name;
+                if (user.Password != null && user.Password != string.Empty)
+                    oldUser.Password = EncryptPassword(user.Password);
+                oldUser.Email = user.Email;
+                oldUser.OpenId = user.OpenId ?? string.Empty;
+                oldUser.RoleId = user.RoleId;
+                oldUser.Username = user.Username;
+                oldUser.IsApproved = user.IsApproved;
 
-            _LmsService.Inform(UserNotifications.UserEdit, oldUser);
+                db.SaveChanges();
+
+                _LmsService.Inform(UserNotifications.UserEdit, oldUser);
+            }
         }
+
         public void EditUser(Guid id, EditUserModel user)
         {
-            var db = GetDbContext();
-            var oldUser = db.Users.Single(u => u.Id == id);
+            using (var db = new UserManagementDBContext())
+            {
+                var oldUser = db.Users.Single(u => u.Id == id);
 
-            oldUser.Name = user.Name;
-            if (user.Password != null && user.Password != string.Empty)
-                oldUser.Password = EncryptPassword(user.Password);
-            oldUser.Email = user.Email;
-            oldUser.OpenId = user.OpenId ?? string.Empty;
-            oldUser.RoleId = user.RoleId;
+                oldUser.Name = user.Name;
+                if (user.Password != null && user.Password != string.Empty)
+                    oldUser.Password = EncryptPassword(user.Password);
+                oldUser.Email = user.Email;
+                oldUser.OpenId = user.OpenId ?? string.Empty;
+                oldUser.RoleId = user.RoleId;
 
-            db.SubmitChanges();
+                db.SaveChanges();
 
-            _LmsService.Inform(UserNotifications.UserEdit, oldUser);
+                _LmsService.Inform(UserNotifications.UserEdit, oldUser);
+            }
         }
 
         public void DeleteUser(Func<User, bool> predicate)
         {
-            var db = GetDbContext();
+            using (var db = new UserManagementDBContext())
+            {
+                var user = db.Users.Where(u => !u.Deleted).Single(predicate);
+                var links = db.GroupUsers.Where(g => g.UserRef == user.Id);
 
-            var user = db.Users.Where(u => !u.Deleted).Single(predicate);
-            var links = db.GroupUsers.Where(g => g.UserRef == user.Id);
+                user.Deleted = true;
 
-            user.Deleted = true;
+                foreach (var link in links)
+                {
+                    db.GroupUsers.Remove(link);
+                }
+                db.SaveChanges();
 
-            db.GroupUsers.DeleteAllOnSubmit(links);
-            db.SubmitChanges();
-
-            _LmsService.Inform(UserNotifications.UserDelete, user);
+                _LmsService.Inform(UserNotifications.UserDelete, user);
+            }
         }
 
         public IEnumerable<User> GetUsersInGroup(Group group)
         {
-            var db = GetDbContext();
-
-            return db.GroupUsers.Where(g => g.GroupRef == group.Id && !g.User.Deleted).Select(g => g.User);
+            using (var db = new UserManagementDBContext())
+            {
+                return db.GroupUsers.Where(g => g.GroupRef == group.Id && !g.User.Deleted).Select(g => g.User);
+            }
         }
 
         public IEnumerable<User> GetUsersNotInGroup(Group group)
         {
-            var db = GetDbContext();
-
-            return db.Users.Where(u => !u.Deleted).Except(db.GroupUsers.Where(g => g.GroupRef == group.Id).Select(g => g.User));
+            using (var db = new UserManagementDBContext())
+            {
+                return db.Users.Where(u => !u.Deleted).Except(db.GroupUsers.Where(g => g.GroupRef == group.Id).Select(g => g.User));
+            }
         }
 
         public void RegisterUser(RegisterModel registerModel)
         {
-            var db = GetDbContext();
+            using (var db = new UserManagementDBContext())
+            {
+                var user = new User
+                                {
+                                    Username = registerModel.Username,
+                                    Password = EncryptPassword(registerModel.Password),
+                                    OpenId = registerModel.OpenId ?? string.Empty,
+                                    Email = registerModel.Email,
+                                    Name = registerModel.Name,
+                                    Role = Role.Student,
+                                    IsApproved = false,
+                                    Deleted = false,
+                                    CreationDate = DateTime.Now,
+                                    ApprovedBy = null
+                                };
 
-            var user = new User
-                            {
-                                Username = registerModel.Username,
-                                Password = EncryptPassword(registerModel.Password),
-                                OpenId = registerModel.OpenId ?? string.Empty,
-                                Email = registerModel.Email,
-                                Name = registerModel.Name,
-                                Role = Role.Student,
-                                IsApproved = false,
-                                Deleted = false,
-                                CreationDate = DateTime.Now,
-                                ApprovedBy = null
-                            };
-
-            db.Users.InsertOnSubmit(user);
-            db.SubmitChanges();
+                db.Users.Add(user);
+                db.SaveChanges();
+            }
         }
 
         public void EditAccount(EditModel editModel)
         {
             var identity = HttpContext.Current.User.Identity;
 
-            var db = GetDbContext();
+            using (var db = new UserManagementDBContext())
+            {
+                var user = db.Users.Single(u => u.Username == identity.Name);
 
-            var user = db.Users.Single(u => u.Username == identity.Name);
+                user.Name = editModel.Name;
+                user.OpenId = editModel.OpenId ?? string.Empty;
+                user.Email = editModel.Email;
 
-            user.Name = editModel.Name;
-            user.OpenId = editModel.OpenId ?? string.Empty;
-            user.Email = editModel.Email;
+                db.SaveChanges();
 
-            db.SubmitChanges();
-
-            SendEmail("admin@iudico", user.Email, "Iudico Notification", "Your details have been changed.");
+                SendEmail("admin@iudico", user.Email, "Iudico Notification", "Your details have been changed.");
+            }
         }
 
         public void ChangePassword(ChangePasswordModel changePasswordModel)
         {
-            var db = GetDbContext();
-
             var user = GetCurrentUser();
-            user.Password = EncryptPassword(changePasswordModel.NewPassword);
 
-            db.SubmitChanges();
+            using (var db = new UserManagementDBContext())
+            {
+                user.Password = EncryptPassword(changePasswordModel.NewPassword);
+
+                db.SaveChanges();
+            }
 
             SendEmail("admin@iudico", user.Email, "Iudico Notification", "Your passord has been changed.");
         }
@@ -280,88 +300,102 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public Group GetGroup(int id)
         {
-            var db = GetDbContext();
-
-            return db.Groups.First(group => group.Id == id && !group.Deleted);
+            using (var db = new UserManagementDBContext())
+            {
+                return db.Groups.First(group => group.Id == id && !group.Deleted);
+            }
         }
 
         public IEnumerable<Group> GetGroups()
         {
-            var db = GetDbContext();
-
-            return db.Groups.Where(g => !g.Deleted);
+            using (var db = new UserManagementDBContext())
+            {
+                return db.Groups.Where(g => !g.Deleted);
+            }
         }
 
         public void CreateGroup(Group group)
         {
-            var db = GetDbContext();
+            using (var db = new UserManagementDBContext())
+            {
+                group.Deleted = false;
 
-            group.Deleted = false;
-
-            db.Groups.InsertOnSubmit(group);
-            db.SubmitChanges();
+                db.Groups.Add(group);
+                db.SaveChanges();
+            }
         }
 
         public void EditGroup(int id, Group group)
         {
-            var db = GetDbContext();
-            var oldGroup = db.Groups.Single(g => g.Id == id && !g.Deleted);
+            using (var db = new UserManagementDBContext())
+            {
+                var oldGroup = db.Groups.Single(g => g.Id == id && !g.Deleted);
 
-            oldGroup.Name = group.Name;
-            db.SubmitChanges();
+                oldGroup.Name = group.Name;
+                db.SaveChanges();
+            }
 
             _LmsService.Inform(UserNotifications.GroupEdit, group);
         }
 
         public void DeleteGroup(int id)
         {
-            var db = GetDbContext();
-            var group = db.Groups.Single(g => g.Id == id && !g.Deleted);
+            using (var db = new UserManagementDBContext())
+            {
+                var group = db.Groups.Single(g => g.Id == id && !g.Deleted);
 
-            var links = db.GroupUsers.Where(g => g.GroupRef == group.Id);
+                var links = db.GroupUsers.Where(g => g.GroupRef == group.Id);
 
-            db.GroupUsers.DeleteAllOnSubmit(links);
+                foreach (var link in links)
+                {
+                    db.GroupUsers.Remove(link);
+                }
 
-            group.Deleted = true;
-            db.SubmitChanges();
+                group.Deleted = true;
+                db.SaveChanges();
 
-            _LmsService.Inform(UserNotifications.GroupDelete, group);
+                _LmsService.Inform(UserNotifications.GroupDelete, group);
+            }
         }
 
         public IEnumerable<Group> GetGroupsByUser(User user)
         {
-            var db = GetDbContext();
-
-            return db.GroupUsers.Where(g => g.UserRef == user.Id).Select(g => g.Group);
+            using (var db = new UserManagementDBContext())
+            {
+                return db.GroupUsers.Where(g => g.UserRef == user.Id).Select(g => g.Group);
+            }
         }
 
         public IEnumerable<Group> GetGroupsAvaliableForUser(User user)
         {
-            var db = GetDbContext();
+            using (var db = new UserManagementDBContext())
+            {
+                var groupRefsByUser = GetGroupsByUser(user).Select(g => g.Id);
 
-            var groupRefsByUser = GetGroupsByUser(user).Select(g => g.Id);
-
-            return db.Groups.Where(g => !groupRefsByUser.Contains(g.Id));
+                return db.Groups.Where(g => !groupRefsByUser.Contains(g.Id));
+            }
         }
 
         public void AddUserToGroup(Group group, User user)
         {
-            var db = GetDbContext();
+            using (var db = new UserManagementDBContext())
+            {
+                var groupUser = new GroupUser { GroupRef = group.Id, UserRef = user.Id };
 
-            var groupUser = new GroupUser {GroupRef = group.Id, UserRef = user.Id};
-
-            db.GroupUsers.InsertOnSubmit(groupUser);
-            db.SubmitChanges();
+                db.GroupUsers.Add(groupUser);
+                db.SaveChanges();
+            }
         }
 
         public void RemoveUserFromGroup(Group group, User user)
         {
-            var db = GetDbContext();
+            using (var db = new UserManagementDBContext())
+            {
+                var groupUser = db.GroupUsers.Single(g => g.GroupRef == group.Id && g.UserRef == user.Id);
 
-            var groupUser = db.GroupUsers.Single(g => g.GroupRef == group.Id && g.UserRef == user.Id);
-
-            db.GroupUsers.DeleteOnSubmit(groupUser);
-            db.SubmitChanges();
+                db.GroupUsers.Remove(groupUser);
+                db.SaveChanges();
+            }
         }
 
         #endregion

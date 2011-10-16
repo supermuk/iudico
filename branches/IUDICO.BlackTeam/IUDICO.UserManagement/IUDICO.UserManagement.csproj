@@ -48,6 +48,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\IUDICO.Common\Libraries\DotNetOpenAuth.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\log4net.dll</HintPath>
@@ -55,7 +56,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -94,8 +95,14 @@
     <Compile Include="Models\Auth\OpenIdMembershipProvider.cs" />
     <Compile Include="Models\Auth\OpenIdMembershipUser.cs" />
     <Compile Include="Models\Auth\OpenIdRoleProvider.cs" />
+    <Compile Include="Models\Database\UserManagementDBContext.cs" />
     <Compile Include="Models\Storage\IUserStorage.cs" />
     <Compile Include="Models\UserService.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="UserManagementPlugin.cs" />
     <Compile Include="Models\Models.cs" />
     <Compile Include="Models\Storage\DatabaseUserStorage.cs" />
@@ -132,7 +139,21 @@
     <Content Include="Views\User\Details.aspx" />
     <Content Include="Views\User\Edit.aspx" />
     <Content Include="Views\User\Index.aspx" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Views\Web.config" />
+    <Content Include="web.config" />
+    <Content Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </Content>
+    <Content Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </Content>
+    <Content Include="web.RemovePlugins.config">
+      <DependentUpon>web.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\" />
