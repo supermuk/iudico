@@ -380,90 +380,42 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
-        public void FileUploader()
+        public ActionResult Upload(int nodeId, int CKEditorFuncNum)
         {
-            var fileList = new[]
-                               {
-                                   new
-                                       {
-                                           Thumbnail_url = "",
-                                           Name = "",
-                                           Length = 0,
-                                           Type = ""
-                                       }
-                               }.ToList();
-            fileList.RemoveAt(0);
-
-
-            HttpContext.Response.ContentType = "text/plain";//"application/json";
-            var serializer = new JavaScriptSerializer();
-
-            var nodeId = HttpContext.Request.Params["nodeId"];
-
-            foreach (string file in HttpContext.Request.Files)
+            var message = "File uploaded successfully.";
+            var path = "";
+            if( HttpContext.Request.Files.Count != 1 )
             {
-                var fileUpload = HttpContext.Request.Files[file] as HttpPostedFileBase;
-
-                var path = HttpContext.Request.PhysicalApplicationPath;
-
-                path = Path.Combine(path, @"Data\WorkFolder");
-                path = Path.Combine(path, Guid.NewGuid().ToString());
-
-                Directory.CreateDirectory(path);
-
-                path = Path.Combine(path, fileUpload.FileName.Split('\\').Last());
-
-                //fileUpload.SaveAs(path);
-
-                fileList.Add(new
-                                {
-                                    Thumbnail_url = path,
-                                    Name = fileUpload.FileName,
-                                    Length = fileUpload.ContentLength,
-                                    Type = fileUpload.ContentType
-                                });
+                message = "Error";
+            }
+            else
+            {
+                var file = HttpContext.Request.Files[HttpContext.Request.Files.AllKeys[0]];
 
                 var newResource = new NodeResource
-                                     {
-                                         Name = fileUpload.FileName,
-                                         NodeId = int.Parse(nodeId),
-                                         //Path = path,
-                                         Type = (int)ResourceTypes.Image
-                                     };
+                {
+                    Name = file.FileName,
+                    NodeId = nodeId,
+                    Type = (int)ResourceTypes.Image
+                };
 
-                _Storage.AddResource(newResource, fileUpload);
+                _Storage.AddResource(newResource, file);
+
+                path = newResource.Path;
             }
 
-            HttpContext.Response.Write(serializer.Serialize(new
-                                                        {
-                                                            files = fileList.ToArray()
-                                                        }));
+            return
+                Content("<html><body><script type=\"text/javascript\">window.parent.CKEDITOR.tools.callFunction('" 
+                        + CKEditorFuncNum + "', '" 
+                        + path + "','" 
+                        + message + "');</script></body></html>");
         }
-
+        
         [HttpGet]
-        public void FileUploaderGetResources()
+        public ActionResult Images(int nodeId, string FileName)
         {
-            var parents = HttpContext.Request.Params["NodeIds"] as string;
-
-            //var fileList = new[]
-            //                   {
-            //                       new
-            //                           {
-            //                               Thumbnail_url = "",
-            //                               Name = "",
-            //                               Length = 0,
-            //                               Type = ""
-            //                           }
-            //                   }.ToList();
-            //fileList.RemoveAt(0);
-
-            //string[] nodeIds = parents.Split(new char[] {'_'});
-
-            //foreach (var nodeId in nodeIds)
-            //{
-                
-            //}
-            //_Storage.GetResources()
+            var path = _Storage.GetResourcePath(nodeId, FileName);
+            return File(path, "image/png");
         }
     }
 }    
