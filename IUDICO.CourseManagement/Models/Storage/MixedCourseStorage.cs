@@ -16,6 +16,7 @@ using IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels;
 using IUDICO.CourseManagement.Models.ManifestModels.ResourceModels;
 using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
 using File = System.IO.File;
+using System.Data.Entity;
 
 namespace IUDICO.CourseManagement.Models.Storage
 {
@@ -30,162 +31,189 @@ namespace IUDICO.CourseManagement.Models.Storage
             _LmsService = lmsService;
         }
 
-        protected DBDataContext GetDbContext()
-        {
-            return _LmsService.GetDbDataContext();
-        }
-
         #region IStorage Members
 
         #region Course methods
 
         public IEnumerable<Course> GetCourses()
         {
-            return GetDbContext().Courses.Where(c => c.Deleted == false).AsEnumerable();
+            using (var db = new CourseManagementDbConext())
+            {
+                return db.Courses.Where(c => c.Deleted == false).AsEnumerable();
+            }
         }
 
         public IEnumerable<Course> GetCourses(Guid userId)
         {
-            var db = GetDbContext();
-            var courses = from c in db.Courses
-                          join u in db.CourseUsers on c.Id equals u.CourseRef
-                          where u.UserRef == userId && c.Deleted == false
-                          select c;
-            return courses;
+            using (var db = new CourseManagementDbConext())
+            {
+                return (from c in db.Courses
+                            join u in db.CourseUsers on c.Id equals u.CourseRef
+                            where u.UserRef == userId && c.Deleted == false
+                            select c);
+            }
         }
 
         public IEnumerable<Course> GetCourses(string owner)
         {
-            return GetDbContext().Courses.Where(i => i.Owner == owner && i.Deleted == false);
+            using (var db = new CourseManagementDbConext())
+            {
+                return db.Courses.Where(i => i.Owner == owner && i.Deleted == false);
+            }
         }
 
         public IEnumerable<Course> GetCourses(User owner)
         {
-            return GetDbContext().Courses.Where(i => i.Owner == owner.Username && i.Deleted == false);
+            using (var db = new CourseManagementDbConext())
+            {
+                return db.Courses.Where(i => i.Owner == owner.Username && i.Deleted == false);
+            }
         }
 
         public Course GetCourse(int id)
         {
-            return GetDbContext().Courses.Single(c => c.Id == id);
+            using (var db = new CourseManagementDbConext())
+            {
+                return db.Courses.Single(c => c.Id == id);
+            }
         }
 
         public IEnumerable<User> GetCourseUsers(int courseId)
         {
-            var db = GetDbContext();
+            using (var db = new CourseManagementDbConext())
+            {
+                var userIds = db.CourseUsers.Where(i => i.CourseRef == courseId);
+                var users = _LmsService.FindService<IUserService>().GetUsersByExpression(i => userIds.Any(j => j.UserRef == i.Id));
 
-            var userIds = db.CourseUsers.Where(i => i.CourseRef == courseId);
-            var users = db.Users.Where(i => userIds.Any(j => j.UserRef == i.Id));
-
-            return users;
+                return users;
+            }
         }
 
         public void UpdateCourseUsers(int courseId, IEnumerable<Guid> userIds)
         {
-            var db = GetDbContext();
-            
-            var oldUsers = db.CourseUsers.Where(i => i.CourseRef == courseId);
-            db.CourseUsers.DeleteAllOnSubmit(oldUsers);
-
-            if (userIds != null)
+            using (var db = new CourseManagementDbConext())
             {
-                var newUsers = userIds.Select(i => new CourseUser { CourseRef = courseId, UserRef = i });
-                db.CourseUsers.InsertAllOnSubmit(newUsers);
-            }
+                var oldUsers = db.CourseUsers.Where(i => i.CourseRef == courseId);
 
-            db.SubmitChanges();
+                foreach (var oldUser in oldUsers)
+                {
+                    db.CourseUsers.Remove(oldUser);
+                }
+
+                if (userIds != null)
+                {
+                    var newUsers = userIds.Select(i => new CourseUser { CourseRef = courseId, UserRef = i });
+                    foreach (var newUser in newUsers)
+                    {
+                        db.CourseUsers.Add(newUser);
+                    }
+                }
+
+                db.SaveChanges();
+            }
         }
 
         public void DeleteCourseUsers(Guid userId)
         {
-            var db = GetDbContext();
-            
-            var courseUsers = db.CourseUsers.Where(i => i.UserRef == userId);
-            
-            db.CourseUsers.DeleteAllOnSubmit(courseUsers);
-            db.SubmitChanges();
+            using (var db = new CourseManagementDbConext())
+            {
+                var courseUsers = db.CourseUsers.Where(i => i.UserRef == userId);
+
+                foreach (var courseUser in courseUsers)
+                {
+                    db.CourseUsers.Remove(courseUser);
+                }
+                db.SaveChanges();
+            }
         }
 
         public int AddCourse(Course course)
         {
             course.Created = DateTime.Now;
             course.Updated = DateTime.Now;
-            var db = GetDbContext();
 
-            db.Courses.InsertOnSubmit(course);
-            db.SubmitChanges();
-
-            var path = GetCoursePath(course.Id);
-            @Directory.CreateDirectory(path);
-
-            var templatePath = GetTemplatesPath();
-
-            foreach (var templateFile in _TemplateFiles)
+            using (var db = new CourseManagementDbConext())
             {
-                File.Copy(Path.Combine(templatePath, templateFile), Path.Combine(path, templateFile), true);
+
+                db.Courses.Add(course);
+                db.SaveChanges();
+
+                var path = GetCoursePath(course.Id);
+                @Directory.CreateDirectory(path);
+
+                var templatePath = GetTemplatesPath();
+
+                foreach (var templateFile in _TemplateFiles)
+                {
+                    File.Copy(Path.Combine(templatePath, templateFile), Path.Combine(path, templateFile), true);
+                }
+
+                _LmsService.Inform(CourseNotifications.CourseCreate, course);
+
+                return course.Id;
             }
-
-            _LmsService.Inform(CourseNotifications.CourseCreate, course);
-
-            return course.Id;
         }
 
         public void UpdateCourse(int id, Course course)
         {
-            var db = GetDbContext();
+            using (var db = new CourseManagementDbConext())
+            {
+                var oldCourse = db.Courses.Single(c => c.Id == id);
 
-            var oldCourse = db.Courses.Single(c => c.Id == id);
+                oldCourse.Name = course.Name;
+                oldCourse.Updated = DateTime.Now;
+                oldCourse.Sequencing = course.Sequencing;
 
-            oldCourse.Name = course.Name;
-            oldCourse.Updated = DateTime.Now;
-            oldCourse.Sequencing = course.Sequencing;
+                db.SaveChanges();
 
-            db.SubmitChanges();
-
-            _LmsService.Inform(CourseNotifications.CourseEdit, course);
+                _LmsService.Inform(CourseNotifications.CourseEdit, course);
+            }
         }
 
         public void DeleteCourse(int id)
         {
-            var db = GetDbContext();
-            var course = db.Courses.Single(c => c.Id == id);
-
-            if (course.Owner != _LmsService.FindService<IUserService>().GetCurrentUser().Username)
+            using (var db = new CourseManagementDbConext())
             {
-                return;
-            }
+                var course = db.Courses.Single(c => c.Id == id);
 
-            course.Deleted = true;
-
-            db.SubmitChanges();
-
-            _LmsService.Inform(CourseNotifications.CourseDelete, course);
-        }
-
-        public void DeleteCourses(List<int> ids)
-        {
-            var db = GetDbContext();
-
-            var courses = (from n in db.Courses where ids.Contains(n.Id) select n);
-
-            foreach (var course in courses)
-            {
                 if (course.Owner != _LmsService.FindService<IUserService>().GetCurrentUser().Username)
                 {
-                    continue;
+                    return;
                 }
 
                 course.Deleted = true;
 
+                db.SaveChanges();
+
                 _LmsService.Inform(CourseNotifications.CourseDelete, course);
             }
+        }
 
-            db.SubmitChanges();
+        public void DeleteCourses(List<int> ids)
+        {
+            using (var db = new CourseManagementDbConext())
+            {
+                var courses = (from n in db.Courses where ids.Contains(n.Id) select n);
+
+                foreach (var course in courses)
+                {
+                    if (course.Owner != _LmsService.FindService<IUserService>().GetCurrentUser().Username)
+                    {
+                        continue;
+                    }
+
+                    course.Deleted = true;
+
+                    _LmsService.Inform(CourseNotifications.CourseDelete, course);
+                }
+
+                db.SaveChanges();
+            }
         }
 
         public string Export(int id)
         {
             var course = GetCourse(id);
-
             var path = GetCoursePath(id);
 
             if (course.Locked != null && course.Locked.Value)
@@ -317,30 +345,32 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public void Parse(int courseId)
         {
-            var db = GetDbContext();
-            var course = db.Courses.Single(c => c.Id == courseId);
-
-            if (!course.Locked.Value)
+            using (var db = new CourseManagementDbConext())
             {
-                return;
+                var course = db.Courses.Single(c => c.Id == courseId);
+
+                if (!course.Locked.Value)
+                {
+                    return;
+                }
+
+                var coursePath = GetCoursePath(course.Id);
+                var courseTempPath = GetCourseTempPath(course.Id);
+                var manifestPath = Path.Combine(courseTempPath, SCORM.ImsManifset);
+
+                Zipper.ExtractZipFile(coursePath + ".zip", courseTempPath);
+
+                var reader = new XmlTextReader(new FileStream(manifestPath, FileMode.Open));
+                var manifest = Manifest.Deserialize(reader);
+
+                var importer = new Importer(manifest, course, this);
+
+                importer.Import();
+
+                course.Locked = false;
+
+                db.SaveChanges();
             }
-
-            var coursePath = GetCoursePath(course.Id);
-            var courseTempPath = GetCourseTempPath(course.Id);
-            var manifestPath = Path.Combine(courseTempPath, SCORM.ImsManifset);
-
-            Zipper.ExtractZipFile(coursePath + ".zip", courseTempPath);
-
-            var reader = new XmlTextReader(new FileStream(manifestPath, FileMode.Open));
-            var manifest = Manifest.Deserialize(reader);
-            
-            var importer = new Importer(manifest, course, this);
-
-            importer.Import();
-
-            course.Locked = false;
-
-            db.SubmitChanges();
         }
 
         #endregion
@@ -354,117 +384,130 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public IEnumerable<Node> GetNodes(int courseId, int? parentId)
         {
-            var db = GetDbContext();
-
-            var course = db.Courses.SingleOrDefault(c => c.Id == courseId);
-            var nodes = course.Nodes.OrderBy(n => n.Position).ToList();
-
-            if (parentId == null)
+            using (var db = new CourseManagementDbConext())
             {
-                nodes = nodes.Where(n => n.ParentId == null).ToList();
-            }
-            else
-            {
-                nodes = nodes.Where(n => n.ParentId == parentId).ToList();
-            }
+                var course = db.Courses.SingleOrDefault(c => c.Id == courseId);
+                var nodes = course.Nodes.OrderBy(n => n.Position).ToList();
 
-            return nodes;
+                if (parentId == null)
+                {
+                    nodes = nodes.Where(n => n.ParentId == null).ToList();
+                }
+                else
+                {
+                    nodes = nodes.Where(n => n.ParentId == parentId).ToList();
+                }
+
+                return nodes;
+            }
         }
 
         public Node GetNode(int id)
         {
-            return GetDbContext().Nodes.SingleOrDefault(n => n.Id == id);
+            using (var db = new CourseManagementDbConext())
+            {
+                return db.Nodes.SingleOrDefault(n => n.Id == id);
+            }
         }
 
         public int? AddNode(Node node)
         {
-            var db = GetDbContext();
-
-            if (node.Sequencing == null)
+            using (var db = new CourseManagementDbConext())
             {
-                var xs = new XmlSerializer(typeof (Sequencing));
-                node.Sequencing = xs.SerializeToXElemet(new Sequencing());
+                if (node.Sequencing == null)
+                {
+                    var xs = new XmlSerializer(typeof(Sequencing));
+                    node.Sequencing = xs.SerializeToXElemet(new Sequencing());
+                }
+
+                db.Nodes.Add(node);
+                db.SaveChanges();
+
+                if (!node.IsFolder)
+                {
+                    var template = Path.Combine(GetTemplatesPath(), "iudico.html");
+
+                    File.Copy(template, GetNodePath(node.Id) + ".html", true);
+                }
+
+                return node.Id;
             }
-
-            db.Nodes.InsertOnSubmit(node);
-            db.SubmitChanges();
-
-            if (!node.IsFolder)
-            {
-                var template = Path.Combine(GetTemplatesPath(), "iudico.html");
-
-                File.Copy(template, GetNodePath(node.Id) + ".html", true);
-            }
-
-            return node.Id;
         }
 
         public void UpdateNode(int id, Node node)
         {
-            var db = GetDbContext();
+            using (var db = new CourseManagementDbConext())
+            {
+                var oldNode = db.Nodes.SingleOrDefault(n => n.Id == id);
 
-            var oldNode = db.Nodes.SingleOrDefault(n => n.Id == id);
+                oldNode.Name = node.Name;
+                oldNode.ParentId = node.ParentId;
+                oldNode.Position = node.Position;
+                oldNode.Sequencing = node.Sequencing;
 
-            oldNode.Name = node.Name;
-            oldNode.ParentId = node.ParentId;
-            oldNode.Position = node.Position;
-            oldNode.Sequencing = node.Sequencing;
-
-            db.SubmitChanges();
+                db.SaveChanges();
+            }
         }
 
         public void DeleteNode(int id)
         {
-            var db = GetDbContext();
-
-            var node = db.Nodes.SingleOrDefault(n => n.Id == id);
-
-            if (!node.IsFolder)
+            using (var db = new CourseManagementDbConext())
             {
-                @File.Delete(GetNodePath(id));
-            }
+                var node = db.Nodes.SingleOrDefault(n => n.Id == id);
 
-            db.Nodes.DeleteOnSubmit(node);
-            db.SubmitChanges();
+                if (!node.IsFolder)
+                {
+                    @File.Delete(GetNodePath(id));
+                }
+
+                db.Nodes.Remove(node);
+                db.SaveChanges();
+            }
         }
 
         public void DeleteNodes(List<int> ids)
         {
-            var db = GetDbContext();
-
-            var nodes = (from n in db.Nodes where ids.Contains(n.Id) select n);
-
-            foreach (var node in nodes)
+            using (var db = new CourseManagementDbConext())
             {
-                if (!node.IsFolder)
-                {
-                    @File.Delete(GetNodePath(node.Id));
-                }
-            }
+                var nodes = (from n in db.Nodes where ids.Contains(n.Id) select n);
 
-            db.Nodes.DeleteAllOnSubmit(nodes);
-            db.SubmitChanges();
+                foreach (var node in nodes)
+                {
+                    if (!node.IsFolder)
+                    {
+                        @File.Delete(GetNodePath(node.Id));
+                    }
+                }
+
+                foreach (var node in nodes)
+                {
+                    db.Nodes.Remove(node);
+                }
+                
+                db.SaveChanges();
+            }
         }
 
         public int CreateCopy(Node node, int? parentId, int position)
         {
-            var db = GetDbContext();
+            using (var db = new CourseManagementDbConext())
+            {
+                var newnode = new Node
+                                  {
+                                      CourseId = node.CourseId,
+                                      Name = node.Name,
+                                      ParentId = parentId,
+                                      IsFolder = node.IsFolder,
+                                      Position = position
+                                  };
 
-            var newnode = new Node
-                              {
-                                  CourseId = node.CourseId,
-                                  Name = node.Name,
-                                  ParentId = parentId,
-                                  IsFolder = node.IsFolder,
-                                  Position = position
-                              };
+                CopyNodes(node, newnode);
 
-            CopyNodes(node, newnode);
+                db.Nodes.Add(newnode);
+                db.SaveChanges();
 
-            db.Nodes.InsertOnSubmit(newnode);
-            db.SubmitChanges();
-
-            return newnode.Id;
+                return newnode.Id;
+            }
         }
 
         public string GetPreviewNodePath(int id)
