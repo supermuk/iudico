@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Linq;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
-using System.Web.Security;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Notifications;
 using System.Net.Mail;
 using Kent.Boogaart.KBCsv;
+using IUDICO.Common.Models.Interfaces;
 
 namespace IUDICO.UserManagement.Models.Storage
 {
@@ -29,12 +28,12 @@ namespace IUDICO.UserManagement.Models.Storage
             _LmsService = lmsService;
         }
 
-        protected DBDataContext GetDbContext()
+        protected virtual IDataContext GetDbContext()
         {
-            return _LmsService.GetDbDataContext();
+            return _LmsService.GetIDataContext();
         }
 
-        public static void SendEmail(string fromAddress, string toAddress, string subject, string body)
+        public virtual bool SendEmail(string fromAddress, string toAddress, string subject, string body)
         {
             try
             {
@@ -49,9 +48,12 @@ namespace IUDICO.UserManagement.Models.Storage
                                  };
 
                 client.Send(message);
+
+                return true;
             }
             catch
             {
+                return false;
             }
         }
 
@@ -74,7 +76,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public User GetCurrentUser()
         {
-            if (HttpContext.Current.User == null)
+            if (HttpContext.Current == null || HttpContext.Current.User == null)
             {
                 var userrole = new UserRole {RoleRef = (int)Role.None};
                 var user = new User();

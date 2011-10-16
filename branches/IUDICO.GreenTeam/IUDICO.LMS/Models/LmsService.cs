@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Common;
+using IUDICO.Common.Models.Interfaces;
 using IUDICO.Common.Models.Services;
 using Castle.Windsor;
 using IUDICO.Common.Models;
@@ -35,6 +36,11 @@ namespace IUDICO.LMS.Models
         public DbConnection GetDbConnection()
         {
             throw new NotImplementedException();
+        }
+
+        public IDataContext GetIDataContext()
+        {
+            return GetDbDataContext();
         }
 
         public Menu GetMenu()

@@ -242,10 +242,16 @@ namespace IUDICO.UserManagement.Controllers
         }
 
         [Allow(Role = Role.Admin)]
-        public ActionResult RemoveFromRole(Guid id, int roleRef)
+        public ActionResult RemoveFromRole(Guid id, int? roleRef)
         {
             var user = _Storage.GetUser(u => u.Id == id);
-            var role = _Storage.GetRole(roleRef);
+
+            if (roleRef == null)
+            {
+                return RedirectToAction("Details", new { id = id });
+            }
+
+            var role = _Storage.GetRole(roleRef.Value);
 
             _Storage.RemoveUserFromRole(role, user);
 
