@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq.Expressions;
+using System;
 
 namespace IUDICO.Common.Models.Services
 {
@@ -14,6 +16,7 @@ namespace IUDICO.Common.Models.Services
         #region User methods
 
         IEnumerable<User> GetUsersByGroup(Group group);
+        IEnumerable<User> GetUsersByExpression(Func<User, bool> predicate);
         IEnumerable<User> GetUsers();
         User GetCurrentUser();
         IEnumerable<Group> GetGroupsByUser(User user);
