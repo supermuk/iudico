@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using IUDICO.Common.Models;
@@ -34,7 +33,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void CreateMultipleSuccess()
         {
-            var path = @"C:\Temp\users.csv";
+            var path = Path.Combine(Path.GetTempPath(), "users.csv");
             var text = "Username,Email\nipe,ip@interlogic.com.ua\nvladykx,vladykx@gmail.com";
 
             File.WriteAllText(path, text);
