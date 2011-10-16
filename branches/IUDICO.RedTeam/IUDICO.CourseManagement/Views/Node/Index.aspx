@@ -1,22 +1,20 @@
 ﻿<%@ Assembly Name="IUDICO.CourseManagement" %>
+
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Empty.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Course>" %>
+
 <%@ Import Namespace="System.Collections.Generic" %>
 <%@ Import Namespace="System.Web.Mvc" %>
 <%@ Import Namespace="IUDICO.CourseManagement.Models.ManifestModels" %>
 <%@ Import Namespace="System.Security.Policy" %>
-
 <asp:Content ID="TitleContent1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=IUDICO.CourseManagement.Localization.getMessage("EditingCourse")%>
+    <%=IUDICO.CourseManagement.Localization.getMessage("EditingCourse")%>
 </asp:Content>
-
 <asp:Content ID="HeadContent2" ContentPlaceHolderID="HeadContent" runat="server">
-    <link href="<%= Html.ResolveUrl("/Content/ui-lightness/jquery-ui-1.8.5.custom.css") %>" rel="stylesheet" type="text/css" />
+    <link href="<%= Html.ResolveUrl("/Content/ui-lightness/jquery-ui-1.8.5.custom.css") %>"
+        rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="<%= Html.ResolveUrl("~/Content/jquery-ui.css") %>" id="theme" />
     <link rel="stylesheet" href="<%= Html.ResolveUrl("~/Content/jquery.fileupload-ui.css") %>" />
 
-    <script type="text/javascript">
-        debugger;
-    </script>
     <script src="<%= Html.ResolveUrl("~/Scripts/lms.js") %>" type="text/javascript"></script>
     <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.layout.js") %>" type="text/javascript"></script>
     <script src="<%= Html.ResolveUrl("~/Scripts/ckeditor/ckeditor.js") %>" type="text/javascript"></script>
@@ -61,7 +59,7 @@
             return $('#editor').length != 0;
         }
 
-        function getEditor() {
+        function getEditor(nodeId) {
             if ($('#editor').length == 0) {
                 $('.ui-layout-center').empty().append(
                     $('<form/>').attr('method', 'post').attr('action', '').append(
@@ -70,14 +68,27 @@
                 );
 
                 $editor = $('#editor');
-                $editor.ckeditor({language: language});
+                $editor.ckeditor({
+                    language: language,
+                    filebrowserUploadUrl: "Node/Upload?nodeId=" + nodeId
+                    /*
+                    filebrowserBrowseUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/ckfinder.html") %>',
+                    filebrowserImageBrowseUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/ckfinder.html?Type=Images") %>',
+                    filebrowserFlashBrowseUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/ckfinder.html?Type=Flash") %>',
+                    filebrowserUploadUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Files") %>',
+                    filebrowserImageUploadUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Images") %>',
+                    filebrowserFlashUploadUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Flash") %>'
+                    */
+                });
+                $.data($editor, 'node-id', nodeId);
+
 
                 $editor.parent('form').bind('save', function (e) {
                     //e.preventDefault();
 
                     id = $.data($editor, 'node-id');
 
-                    var $ckEditor = getEditor().ckeditorGet();
+                    var $ckEditor = getEditor(id).ckeditorGet();
 
                     $ckEditor.updateElement();
                     data = $ckEditor.getData();
@@ -97,7 +108,6 @@
             $.jstree._themes = pluginPath + "/Content/Tree/themes/";
         });
     </script>
-
     <script type="text/javascript">
         $(function () {
             $("#treeView").jstree({
@@ -322,10 +332,6 @@
                 for (var i = 0; i < parentsObjectList.length; ++i)
                     parents = parents + "_" + $(parentsObjectList[i]).attr("id").replace("node_", "");
 
-                $("#fileUploadNodeId").val(currentNodeId);
-                fillResources(parents);
-                
-                
                 if (data.obj.attr("id") == "node_0") {
                     return;
                 }
@@ -362,10 +368,6 @@
                 for (var i = 0; i < parentsObjectList.length; ++i)
                     parents = parents + "_" + $(parentsObjectList[i]).attr("id").replace("node_", "");
 
-                $("#fileUploadNodeId").val(currentNodeId);
-                fillResources(parents);
-                                
-
                 $("#accordion").accordion( "option", "active", -1 ).show("blind", {}, 1000);
                 $("#patterns").show("drop", {}, 1000);
 
@@ -377,12 +379,8 @@
                     return;
                 }
 
-                var editor = getEditor();
-                $.data(editor, 'node-id', data.obj.attr("id").replace("node_", ""));
+                var editor = getEditor(data.obj.attr("id").replace("node_", ""));
                 
-                //File Upload
-                $("#fileUploadNodeId").value = $.data(editor, 'node-id');
-
                 $.ajax({
                     type: 'post',
 		            url: "<%: Url.Action("Data", "Node") %>",
@@ -390,7 +388,7 @@
 						"id": $.data(editor, 'node-id')
 					},
 					success: function (r) {
-                        var editor = getEditor();
+                        var editor = getEditor($.data(editor, 'node-id'));
                         editor.val(r.data);
                         editor.parent('form').show();
 					}
@@ -399,7 +397,6 @@
         });
         
     </script>
-
     <script type="text/javascript">
         function onSavePropertiesSuccess() {
             alert("<%=IUDICO.CourseManagement.Localization.getMessage("PropertiesSavedSuccessfully")%>");
@@ -408,7 +405,6 @@
             alert("<%=IUDICO.CourseManagement.Localization.getMessage("PropertiesSavedSuccessfully")%>");
         }
     </script>
-    
     <script type="text/javascript">
         $(function () {
 
@@ -475,71 +471,7 @@
             });
         });
     </script>
-
-    <script id="template-upload" type="text/x-jquery-tmpl">
-        <tr class="template-upload{{if error}} ui-state-error{{/if}}">
-            <td class="preview"></td>
-            <td class="name">${name}</td>
-            <td class="size">${sizef}</td>
-            {{if error}}
-                <td class="error" colspan="2">Error:
-                    {{if error === 'maxFileSize'}}File is too big
-                    {{else error === 'minFileSize'}}File is too small
-                    {{else error === 'acceptFileTypes'}}Filetype not allowed
-                    {{else error === 'maxNumberOfFiles'}}Max number of files exceeded
-                    {{else}}${error}
-                    {{/if}}
-                </td>
-            {{else}}
-                <td class="progress"><div></div></td>
-                <td class="start"><button>Start</button></td>
-            {{/if}}
-            <td class="cancel"><button>Cancel</button></td>
-        </tr>
-    </script>
-    <script id="template-download" type="text/x-jquery-tmpl">
-        <tr class="template-download{{if error}} ui-state-error{{/if}}">
-            {{if error}}
-                <td></td>
-                <td class="name">${namefdsa}</td>
-                <td class="size">${sizef}</td>
-                <td class="error" colspan="2">Error:
-                    {{if error === 1}}File exceeds upload_max_filesize (php.ini directive)
-                    {{else error === 2}}File exceeds MAX_FILE_SIZE (HTML form directive)
-                    {{else error === 3}}File was only partially uploaded
-                    {{else error === 4}}No File was uploaded
-                    {{else error === 5}}Missing a temporary folder
-                    {{else error === 6}}Failed to write file to disk
-                    {{else error === 7}}File upload stopped by extension
-                    {{else error === 'maxFileSize'}}File is too big
-                    {{else error === 'minFileSize'}}File is too small
-                    {{else error === 'acceptFileTypes'}}Filetype not allowed
-                    {{else error === 'maxNumberOfFiles'}}Max number of files exceeded
-                    {{else error === 'uploadedBytes'}}Uploaded bytes exceed file size
-                    {{else error === 'emptyResult'}}Empty file upload result
-                    {{else}}${error}
-                    {{/if}}
-                </td>
-            {{else}}
-                <td class="preview">
-                    {{if Thumbnail_url}}
-                        <a href="${url}" target="_blank"><img src="${Thumbnail_url}"></a>
-                    {{/if}}
-                </td>
-                <td class="name">
-                    <a href="${url}"{{if thumbnail_url}} target="_blank"{{/if}}>${Name}</a>
-                </td>
-                <td class="size">${Length}</td>
-                <td colspan="2"></td>
-            {{/if}}
-            <td class="delete">
-                <button data-type="${delete_type}" data-url="${delete_url}">Delete</button>
-            </td>
-        </tr>
-    </script>
-
 </asp:Content>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="ui-layout-center">
         <!--<form action="" method="post">
@@ -547,74 +479,69 @@
         </form>-->
     </div>
     <div class="ui-layout-north">
-        <h1><%=IUDICO.CourseManagement.Localization.getMessage("EditingCourse")%> "<%= Model.Name %>"</h1>
+        <h1>
+            <%=IUDICO.CourseManagement.Localization.getMessage("EditingCourse")%>
+            "<%= Model.Name %>"</h1>
         <%= Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("BackToList"), "Index", "Course")%>
     </div>
-    <div class="ui-layout-south ui-widget-header ui-corner-all"></div>
+    <div class="ui-layout-south ui-widget-header ui-corner-all">
+    </div>
     <div class="ui-layout-east">
-
-        <div id="patterns" style="display:none;">
-            <div><%=IUDICO.CourseManagement.Localization.getMessage("SelectPattern")%>:</div>
+        <div id="patterns" style="display: none;">
+            <div>
+                <%=IUDICO.CourseManagement.Localization.getMessage("SelectPattern")%>:</div>
             <div>
                 <%=  Html.DropDownList("SequencingPatterns", ViewData["SequencingPatternsList"] as List<SelectListItem>)%>
             </div>
-            <div id="sequencingPatternDataHolder" style="display:none;">
+            <div id="sequencingPatternDataHolder" style="display: none;">
                 <%=IUDICO.CourseManagement.Localization.getMessage("CountOfTests")%>:
                 <input type="text" id="sequencingPatternData" value="0" style="width: 50px;" />
             </div>
-            <div><input type="button" id="ApplyPattern" value="<%=IUDICO.CourseManagement.Localization.getMessage("Apply")%>" /></div>
+            <div>
+                <input type="button" id="ApplyPattern" value="<%=IUDICO.CourseManagement.Localization.getMessage("Apply")%>" /></div>
         </div>
-
-        <div id="accordion" style="display:none;">
-            <h3><a href="#" id="ControlMode"><%=IUDICO.CourseManagement.Localization.getMessage("ControlMode") %></a></h3>
-            <div id="ControlModeProperties"></div>
-            <h3><a href="#" id="LimitConditions"><%=IUDICO.CourseManagement.Localization.getMessage("LimitConditions") %></a></h3>
-            <div id="LimitConditionsProperties"></div>
-            <h3><a href="#" id="RandomizationControls"><%=IUDICO.CourseManagement.Localization.getMessage("RandomizationControls")%></a></h3>
-            <div id="RandomizationControlsProperties"></div>
-            <h3><a href="#" id="ConstrainedChoiceConsiderations"><%=IUDICO.CourseManagement.Localization.getMessage("ConstrainedChoiceConsiderations")%></a></h3>
-            <div id="ConstrainedChoiceConsiderationsProperties"></div>
-            <h3><a href="#" id="DeliveryControls"><%=IUDICO.CourseManagement.Localization.getMessage("DeliveryControls")%></a></h3>
-            <div id="DeliveryControlsProperties"></div>
-            <h3><a href="#" id="RollupRules"><%=IUDICO.CourseManagement.Localization.getMessage("RollupRules")%></a></h3>
-            <div id="RollupRulesProperties"></div>
-            <h3><a href="#" id="RollupConsiderations"><%=IUDICO.CourseManagement.Localization.getMessage("RollupConsiderations")%></a></h3>
-            <div id="RollupConsiderationsProperties"></div>
-        </div>
-        <div id="properties"></div>
-    </div>
-
-    <div class="ui-layout-west">
-        <div id="treeView"></div>
-
-        <div id="fileupload" style="width: 185px; margin-top: 20px;">
-            <form action="<%: Url.Action("FileUploader", "Node") %>" method="POST" enctype="multipart/form-data">
-                <div class="fileupload-buttonbar">
-                    <label class="fileinput-button">
-                        <span onclick="$('#file').click();">Add files...</span>
-                        <input id="file" type="file" name="files[]" multiple>
-                    </label>
-                    <button type="submit" class="start" >Start upload</button>
-                    <button type="reset" class="cancel" >Cancel upload</button>
-                    <button type="button" class="delete">Delete files</button>
-                    <input id="fileUploadNodeId" type="hidden" name="nodeId" value="0"/>
-                </div>
-            </form>
-            <div class="fileupload-content">
-                <table id="files" class="files"></table>
-                <div class="fileupload-progressbar"></div>
+        <div id="accordion" style="display: none;">
+            <h3>
+                <a href="#" id="ControlMode">
+                    <%=IUDICO.CourseManagement.Localization.getMessage("ControlMode") %></a></h3>
+            <div id="ControlModeProperties">
+            </div>
+            <h3>
+                <a href="#" id="LimitConditions">
+                    <%=IUDICO.CourseManagement.Localization.getMessage("LimitConditions") %></a></h3>
+            <div id="LimitConditionsProperties">
+            </div>
+            <h3>
+                <a href="#" id="RandomizationControls">
+                    <%=IUDICO.CourseManagement.Localization.getMessage("RandomizationControls")%></a></h3>
+            <div id="RandomizationControlsProperties">
+            </div>
+            <h3>
+                <a href="#" id="ConstrainedChoiceConsiderations">
+                    <%=IUDICO.CourseManagement.Localization.getMessage("ConstrainedChoiceConsiderations")%></a></h3>
+            <div id="ConstrainedChoiceConsiderationsProperties">
+            </div>
+            <h3>
+                <a href="#" id="DeliveryControls">
+                    <%=IUDICO.CourseManagement.Localization.getMessage("DeliveryControls")%></a></h3>
+            <div id="DeliveryControlsProperties">
+            </div>
+            <h3>
+                <a href="#" id="RollupRules">
+                    <%=IUDICO.CourseManagement.Localization.getMessage("RollupRules")%></a></h3>
+            <div id="RollupRulesProperties">
+            </div>
+            <h3>
+                <a href="#" id="RollupConsiderations">
+                    <%=IUDICO.CourseManagement.Localization.getMessage("RollupConsiderations")%></a></h3>
+            <div id="RollupConsiderationsProperties">
             </div>
         </div>
-
-       
-        <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.tmpl.min.js") %>" type="text/javascript"></script>
-        <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.iframe-transport.js") %>" type="text/javascript"></script>
-        <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.fileupload.js") %>" type="text/javascript"></script>
-        <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.fileupload-ui.js") %>" type="text/javascript"></script>
-        <script src="<%= Html.ResolveUrl("~/Scripts/fileUpload.js") %>" type="text/javascript"></script>
-    
+        <div id="properties">
+        </div>
     </div>
-
-    
-
+    <div class="ui-layout-west">
+        <div id="treeView">
+        </div>
+    </div>
 </asp:Content>
