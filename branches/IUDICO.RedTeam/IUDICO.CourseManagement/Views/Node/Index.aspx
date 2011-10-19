@@ -70,15 +70,15 @@
                 $editor = $('#editor');
                 $editor.ckeditor({
                     language: language,
-                    filebrowserUploadUrl: "Node/Upload?nodeId=" + nodeId
-                    /*
+                    filebrowserUploadUrl: "Node/Upload?nodeId=" + nodeId,
+                   
                     filebrowserBrowseUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/ckfinder.html") %>',
                     filebrowserImageBrowseUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/ckfinder.html?Type=Images") %>',
                     filebrowserFlashBrowseUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/ckfinder.html?Type=Flash") %>',
                     filebrowserUploadUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Files") %>',
                     filebrowserImageUploadUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Images") %>',
                     filebrowserFlashUploadUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Flash") %>'
-                    */
+                    
                 });
                 $.data($editor, 'node-id', nodeId);
 
