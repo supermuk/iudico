@@ -28,7 +28,8 @@
         var $editor;
         var currentNodeId;
         var fillResources;
-
+        var currentCourseId = <%= Model.Id %> ;
+        
         function removeEditor() {
             
             currentNodeId = null;
@@ -70,14 +71,13 @@
                 $editor = $('#editor');
                 $editor.ckeditor({
                     language: language,
-                    filebrowserUploadUrl: "Node/Upload?nodeId=" + nodeId,
-                   
-                    filebrowserBrowseUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/ckfinder.html") %>',
-                    filebrowserImageBrowseUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/ckfinder.html?Type=Images") %>',
-                    filebrowserFlashBrowseUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/ckfinder.html?Type=Flash") %>',
-                    filebrowserUploadUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Files") %>',
-                    filebrowserImageUploadUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Images") %>',
-                    filebrowserFlashUploadUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Flash") %>'
+                        
+                    filebrowserBrowseUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/ckfinder.html") %>'+ '?courseId=' + currentCourseId + '&nodeId=' + nodeId,
+                    filebrowserImageBrowseUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/ckfinder.html?Type=Images") %>'+ '&courseId=' + currentCourseId + '&nodeId=' + nodeId,
+                    filebrowserFlashBrowseUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/ckfinder.html?Type=Flash") %>'+ '&courseId=' + currentCourseId + '&nodeId=' + nodeId,
+                    filebrowserUploadUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Files") %>'+ '&courseId=' + currentCourseId + '&nodeId=' + nodeId,
+                    filebrowserImageUploadUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Images") %>'+ '&courseId=' + currentCourseId + '&nodeId=' + nodeId,
+                    filebrowserFlashUploadUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Flash") %>' + '&courseId=' + currentCourseId + '&nodeId=' + nodeId
                     
                 });
                 $.data($editor, 'node-id', nodeId);

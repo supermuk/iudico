@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 	<title>CKFinder 2</title>
@@ -34,13 +34,21 @@
 			return t == '0' ? false : true;
 		};
 
-		var tmp;
-		if ( tmp = get( 'basePath' ) )
-			CKFINDER.basePath = tmp;
+        config.additionalParams = {};
+        var tmp;
+    
+        if ( tmp = get('courseId') )
+            config.additionalParams.courseId = tmp;
+
+        if (tmp = get('nodeId'))
+            config.additionalParams.nodeId = tmp;
+
+        if ( tmp = get( 'basePath' ) )
+			CKFinder.basePath = tmp;
 
 		if ( tmp = get( 'startupPath' ) )
 			config.startupPath = decodeURIComponent( tmp );
-
+    
 		config.id = get( 'id' ) || '';
 
 		if ( ( tmp = getBool( 'rlf' ) ) !== null )
