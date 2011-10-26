@@ -31,7 +31,7 @@
 		LicenseKey = "";
 
 		// The base URL used to reach files in CKFinder through the browser.
-		BaseUrl = "/ckfinder/userfiles/";
+        BaseUrl = "/Data/Courses/" + Session["courseId"] + "/Node/" + Session["nodeId"] + "/";
 
 		// The phisical directory in the server where the file will end up. If
 		// blank, CKFinder attempts to resolve BaseUrl.
@@ -153,8 +153,8 @@
 		type.DeniedExtensions = new string[] { };
 
 		type = ResourceType.Add( "Images" );
-		type.Url = BaseUrl + "images/";
-		type.Dir = BaseDir == "" ? "" : BaseDir + "images/";
+		type.Url = BaseUrl + "Images/";
+		type.Dir = BaseDir == "" ? "" : BaseDir + "Images/";
 		type.MaxSize = 0;
 		type.AllowedExtensions = new string[] { "bmp", "gif", "jpeg", "jpg", "png" };
 		type.DeniedExtensions = new string[] { };
