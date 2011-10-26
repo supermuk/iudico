@@ -22,7 +22,10 @@ namespace IUDICO.Analytics.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Index()
         {
-            return View();
+            IAnalyticsStorage Storage;
+            Storage = new MixedAnalyticsStorage(LmsService);
+            IEnumerable<ForecastingTree> query = Storage.GetAllForecastingTrees();
+            return View(query);
         }
 
     }
