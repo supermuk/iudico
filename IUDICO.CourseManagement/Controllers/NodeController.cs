@@ -378,43 +378,15 @@ namespace IUDICO.CourseManagement.Controllers
 
             return Json(new { status = true });
         }
-
-        [HttpPost]
-        public ActionResult Upload(int nodeId, int CKEditorFuncNum)
-        {
-            var message = "File uploaded successfully.";
-            var path = "";
-            if( HttpContext.Request.Files.Count != 1 )
-            {
-                message = "Error";
-            }
-            else
-            {
-                var file = HttpContext.Request.Files[HttpContext.Request.Files.AllKeys[0]];
-
-                var newResource = new NodeResource
-                {
-                    Name = file.FileName,
-                    NodeId = nodeId,
-                    Type = (int)ResourceTypes.Image
-                };
-
-                _Storage.AddResource(newResource, file);
-
-                path = newResource.Path;
-            }
-
-            return
-                Content("<html><body><script type=\"text/javascript\">window.parent.CKEDITOR.tools.callFunction('" 
-                        + CKEditorFuncNum + "', '" 
-                        + path + "','" 
-                        + message + "');</script></body></html>");
-        }
         
         [HttpGet]
         public ActionResult Images(int nodeId, string FileName)
         {
-            var path = _Storage.GetResourcePath(nodeId, FileName);
+            var path = Path.Combine(@"\Data\Courses\", _CurrentCourse.Id.ToString());
+            path = Path.Combine(path, "Node");
+            path = Path.Combine(path, nodeId.ToString());
+            path = Path.Combine(path, "Images");
+            path = Path.Combine(path, FileName);
             return File(path, "image/png");
         }
     }
