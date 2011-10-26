@@ -31,11 +31,11 @@
 		LicenseKey = "";
 
 		// The base URL used to reach files in CKFinder through the browser.
-        BaseUrl = "/Data/Courses/" + Session["courseId"] + "/Node/" + Session["nodeId"] + "/";
-
+        BaseUrl = "Node/" + Session["nodeId"] + "/";
+        
 		// The phisical directory in the server where the file will end up. If
 		// blank, CKFinder attempts to resolve BaseUrl.
-		BaseDir = "";
+        BaseDir = System.IO.Path.Combine(Server.MapPath("/"), @"Data\Courses\" + Session["courseId"] + @"\Node\" + Session["nodeId"] + @"\");
 
 		// Optional: enable extra plugins (remember to copy .dll files first).
 		Plugins = new string[] {
