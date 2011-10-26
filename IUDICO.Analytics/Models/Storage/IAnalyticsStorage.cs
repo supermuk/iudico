@@ -7,6 +7,10 @@ namespace IUDICO.Analytics.Models.Storage
     {
         #region Analytics methods
 
+        void RefreshState();
+
+        IEnumerable<ForecastingTree> GetAllForecastingTrees();
+        IEnumerable<ForecastingTree> GetForecastingTrees(System.Guid UserRef);
 
         #endregion
     }
