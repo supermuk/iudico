@@ -6,13 +6,6 @@ namespace IUDICO.UserManagement.Models.Storage
 {
     public interface IUserStorage
     {
-        #region Role members
-
-        IEnumerable<Role> GetRoles();
-        Role GetRole(int id);
-
-        #endregion
-
         #region User members
 
         User GetCurrentUser();
