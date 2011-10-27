@@ -313,7 +313,9 @@
     <Content Include="Plugins\*.*" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Data\Avatars\" />
     <Folder Include="Data\Courses\" />
+    <Folder Include="Data\CSV\" />
     <Folder Include="Data\Index\" />
     <Folder Include="Data\WorkFolder\" />
   </ItemGroup>

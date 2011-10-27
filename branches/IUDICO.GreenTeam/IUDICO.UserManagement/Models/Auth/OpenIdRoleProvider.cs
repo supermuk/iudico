@@ -70,7 +70,7 @@ namespace IUDICO.UserManagement.Models.Auth
 
         public override string[] GetAllRoles()
         {
-            return _UserStorage.GetRoles().Select(r => r.ToString()).ToArray();
+            return UserRoles.GetRoles().Select(r => r.ToString()).ToArray();
         }
 
         public override string[] FindUsersInRole(string roleName, string usernameToMatch)
