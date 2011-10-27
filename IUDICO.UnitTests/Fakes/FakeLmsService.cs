@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using IUDICO.Common.Models.Interfaces;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models;
 using System.Data.Common;
@@ -33,6 +34,11 @@ namespace IUDICO.UnitTests.Fakes
         public DBDataContext GetDbDataContext()
         {
             return new DBDataContext(ConfigurationManager.ConnectionStrings["IUDICO-TEST"].ConnectionString);
+        }
+
+        public IDataContext GetIDataContext()
+        {
+            return GetDbDataContext();
         }
 
         public DbConnection GetDbConnection()
