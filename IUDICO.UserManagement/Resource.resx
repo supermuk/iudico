@@ -351,4 +351,13 @@
   <data name="RestorePassword" xml:space="preserve">
     <value>Restore Password</value>
   </data>
+  <data name="DisplayAvatar" xml:space="preserve">
+    <value>Avatar</value>
+  </data>
+  <data name="UpgradeToAdmin" xml:space="preserve">
+    <value>Upgrade to Admin</value>
+  </data>
+  <data name="UploadAvatar" xml:space="preserve">
+    <value>Upload Avatar</value>
+  </data>
 </root>

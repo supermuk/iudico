@@ -164,7 +164,7 @@ namespace IUDICO.LMS
             routes.IgnoreRoute("Content/");
 
             routes.MapRoute(
-                "Default", // Route name
+                "Default", // Route name,
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );

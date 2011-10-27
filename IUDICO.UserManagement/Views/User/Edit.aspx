@@ -9,12 +9,28 @@
 
     <h2><%=IUDICO.UserManagement.Localization.getMessage("EditUser")%> <%= Model.Username %></h2>
 
+    <form action="../User/UploadAvatar/<%= Model.Id %>/" method="post" enctype="multipart/form-data">
+        <table>
+                <tr>
+                    <th>Avatar</th>
+                    <th>Upload new Avatar</th>
+                </tr>
+                <tr>
+                    <td><%= Html.Image("avatar", Model.Id, new {width = 100, height = 150}) %></td>
+                    <td>
+                        <input type="file" name="file" id="file" />
+                        <input type="submit" value="Upload" />
+                    </td>
+                </tr>
+            </table>
+    </form>
+
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary(IUDICO.UserManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
         
         <fieldset>
             <legend><%=IUDICO.UserManagement.Localization.getMessage("Fields")%></legend>
-            
+
             <%: Html.EditorForModel() %>
             
             <p>
