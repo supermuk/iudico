@@ -39,9 +39,9 @@
 
 		// Optional: enable extra plugins (remember to copy .dll files first).
 		Plugins = new string[] {
-			// "CKFinder.Plugins.FileEditor, CKFinder_FileEditor",
-			// "CKFinder.Plugins.ImageResize, CKFinder_ImageResize",
-			// "CKFinder.Plugins.Watermark, CKFinder_Watermark"
+			 "CKFinder.Plugins.FileEditor, CKFinder_FileEditor",
+			 "CKFinder.Plugins.ImageResize, CKFinder_ImageResize",
+			 "CKFinder.Plugins.Watermark, CKFinder_Watermark"
 		};
 		// Settings for extra plugins.
 		PluginSettings = new Hashtable();
