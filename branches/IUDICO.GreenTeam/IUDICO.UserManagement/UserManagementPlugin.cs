@@ -53,7 +53,7 @@ namespace IUDICO.UserManagement
                                   new Action(IUDICO.UserManagement.Localization.getMessage("GetGroups"), "Group/Index"),
                                   new Action(IUDICO.UserManagement.Localization.getMessage("Register"), "Account/Register"),
                                   new Action(IUDICO.UserManagement.Localization.getMessage("Forgot Password"), "Account/Forgot"),
-                                  new Action(IUDICO.UserManagement.Localization.getMessage("Login"), "Account/Login")
+                                  new Action(IUDICO.UserManagement.Localization.getMessage("Login"), "Account/Login"),
                               };
 
             return actions;

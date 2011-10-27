@@ -240,6 +240,12 @@ namespace IUDICO.UserManagement.Controllers
 
             return RedirectToAction("Details", new { Id = id });
         }
+		[HttpPost]
+        public ActionResult UploadAvatar(Guid id, HttpPostedFileBase file)
+        {
+            FileUploader.UploadAvatar(id, file, Server);
+            return RedirectToAction("Edit", new { id = id });
+        }
 
         [Allow(Role = Role.Admin)]
         public ActionResult RemoveFromRole(Guid id, int? roleRef)

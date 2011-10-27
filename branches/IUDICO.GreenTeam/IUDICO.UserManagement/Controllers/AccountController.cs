@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using System.Web.Security;
+using System.IO;
+using System.Collections.Generic;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using IUDICO.Common.Controllers;
 using IUDICO.UserManagement.Models;
 using IUDICO.UserManagement.Models.Storage;
+using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
 using System.Globalization;
 
@@ -32,6 +37,13 @@ namespace IUDICO.UserManagement.Controllers
 
         public ActionResult Logout()
         {
+            var user = _Storage.GetCurrentUser();
+
+            if (Roles.IsUserInRole(Role.Teacher.ToString()) && Roles.IsUserInRole(Role.Admin.ToString()))
+            {
+                _Storage.RemoveUserFromRole(Role.Admin, user);
+            }
+
             FormsAuthentication.SignOut();
 
             return Redirect("/");
@@ -236,6 +248,26 @@ namespace IUDICO.UserManagement.Controllers
             
             _Storage.ChangePassword(changePasswordModel);
             
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult UploadAvatar(Guid id, HttpPostedFileBase file)
+        {
+            FileUploader.UploadAvatar(id, file, Server);
+            return RedirectToAction("Edit");
+        }
+
+        [Allow(Role = Role.Teacher)]
+        public ActionResult TeacherToAdminUpgrade(Guid id)
+        {
+            var user = _Storage.GetCurrentUser();
+
+            if (!Roles.IsUserInRole(Role.Admin.ToString()))
+            {
+                _Storage.AddUserToRole(Role.Admin, user);
+            }
+
             return RedirectToAction("Index");
         }
 
