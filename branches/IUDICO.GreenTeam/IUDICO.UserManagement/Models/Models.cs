@@ -13,6 +13,7 @@ namespace IUDICO.UserManagement.Models
     {
         public DetailsModel(User user)
         {
+            Id = user.Id;
             Username = user.Username;
             Name = user.Name;
             OpenId = user.OpenId;
@@ -21,7 +22,9 @@ namespace IUDICO.UserManagement.Models
             Roles = user.Roles;
         }
 
-        
+        [ScaffoldColumn(false)]
+        public Guid Id { get; set; }
+
         [LocalizedDisplayName("Loginn")]
         [Order(1)]
         public string Username { get; set; }
@@ -51,12 +54,12 @@ namespace IUDICO.UserManagement.Models
         public AdminDetailsModel(User user)
             : base(user)
         {
-            Id = user.Id;
+            //Id = user.Id;
             IsApproved = user.IsApproved;
         }
 
-        [ScaffoldColumn(false)]
-        public Guid Id { get; set; }
+        //[ScaffoldColumn(false)]
+        //public Guid Id { get; set; }
 
         [LocalizedDisplayName("Activated")]
         [DataType(DataType.Text)]
@@ -101,6 +104,7 @@ namespace IUDICO.UserManagement.Models
     {
         public EditModel(User user)
         {
+            Id = user.Id;
             OpenId = user.OpenId;
             Email = user.Email;
             Name = user.Name;
@@ -109,6 +113,9 @@ namespace IUDICO.UserManagement.Models
         public EditModel()
         {
         }
+
+        [ScaffoldColumn(false)]
+        public Guid Id { get; set; }
 
         [LocalizedRequired(ErrorMessage = "FullNameRequiered")]
         [LocalizedDisplayName("FullName")]
@@ -156,6 +163,7 @@ namespace IUDICO.UserManagement.Models
     {
         public EditUserModel(User user)
         {
+            Id = user.Id;
             Username = user.Username;
             Name = user.Name;
             Email = user.Email;
@@ -165,6 +173,9 @@ namespace IUDICO.UserManagement.Models
         public EditUserModel()
         {
         }
+
+        [ScaffoldColumn(false)]
+        public Guid Id { get; set; }
 
         [LocalizedDisplayName("FullName")]
         [LocalizedRequired(ErrorMessage = "FullNameRequiered")]

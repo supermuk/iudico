@@ -1,4 +1,5 @@
 ﻿<%@ Assembly Name="IUDICO.UserManagement" %>
+<%@ Import Namespace="IUDICO.Common.Models" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.UserManagement.Models.DetailsModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
@@ -11,7 +12,7 @@
 
     <fieldset>
         <legend><%=IUDICO.UserManagement.Localization.getMessage("Fields")%></legend>
-        
+        <%= Html.Image("avatar", Model.Id, new {width = 100, height = 150}) %>
         <%: Html.DisplayForModel() %>
         
     </fieldset>
@@ -41,11 +42,12 @@
     </fieldset>
 
     <div>
-        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Edit"), "Edit")%>
-    </div>
-
-    <div>
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Edit"), "Edit")%>|
         <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("ChangePassword"), "ChangePassword")%>
+        <% if (Roles.IsUserInRole(Role.Teacher.ToString()) && !Roles.IsUserInRole(Role.Admin.ToString())) { %>
+        |
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("UpgradeToAdmin"), "TeacherToAdminUpgrade", new { id = Model.Id }) %>
+        <% } %>
     </div>
 
 </asp:Content>

@@ -11,7 +11,7 @@
 
     <fieldset>
         <legend><%=IUDICO.UserManagement.Localization.getMessage("Fields")%></legend>
-        
+        <%= Html.Image("avatar", Model.Id, new {width = 100, height = 150}) %>
         <%: Html.DisplayForModel() %>
         
     </fieldset>

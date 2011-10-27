@@ -351,4 +351,13 @@
   <data name="RestorePassword" xml:space="preserve">
     <value>Отримати пароль</value>
   </data>
+  <data name="DisplayAvatar" xml:space="preserve">
+    <value>Фотографія</value>
+  </data>
+  <data name="UpgradeToAdmin" xml:space="preserve">
+    <value>Стати адміністратором</value>
+  </data>
+  <data name="UploadAvatar" xml:space="preserve">
+    <value>Завантажити фотографію</value>
+  </data>
 </root>
