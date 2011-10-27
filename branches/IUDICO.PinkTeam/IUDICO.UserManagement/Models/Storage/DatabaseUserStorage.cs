@@ -33,16 +33,19 @@ namespace IUDICO.UserManagement.Models.Storage
             return BitConverter.ToString(provider.ComputeHash(bytes)).Replace("-", "");
         }
 
-        public static void SendEmail(string fromAddress, string toAddress, string subject, string body)
+        public bool SendEmail(string fromAddress, string toAddress, string subject, string body)
         {
             try
             {
                 var message = new MailMessage(new MailAddress(fromAddress), new MailAddress(toAddress)) { Subject = subject, Body = body };
                 var client = new SmtpClient("krez.lviv.ua");
                 client.Send(message);
+
+                return true;
             }
             catch
             {
+                return false;
             }
         }
 
