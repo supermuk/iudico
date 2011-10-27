@@ -299,79 +299,6 @@ namespace IUDICO.UserManagement.Models.Storage
             _LmsService.Inform(UserNotifications.UserDelete, user);
         }
 
-        public void AddUsersToRoles(IEnumerable<string> usernames, IEnumerable<Role> roles)
-        {
-            var db = GetDbContext();
-            var users = db.Users.Where(u => usernames.Contains(u.Username));
-
-            foreach (var user in users)
-            {
-                foreach (var role in roles)
-                {
-                    user.UserRoles.Add(new UserRole
-                    {
-                        UserRef = user.Id,
-                        RoleRef = (int)role
-                    });
-                }
-            }
-
-            db.SubmitChanges();
-        }
-
-        public void RemoveUsersFromRoles(IEnumerable<string> usernames, IEnumerable<Role> roles)
-        {
-            var db = GetDbContext();
-            var users = db.Users.Where(u => usernames.Contains(u.Username)).Select(u => u.Id);
-            var intRoles = roles.Select(r => (int) r);
-
-            var userRoles = db.UserRoles.Where(ur => users.Contains(ur.UserRef) && intRoles.Contains(ur.RoleRef));
-
-            db.UserRoles.DeleteAllOnSubmit(userRoles);
-            db.SubmitChanges();
-        }
-
-        public IEnumerable<User> GetUsersInRole(Role role)
-        {
-            var db = GetDbContext();
-
-            return db.UserRoles.Where(ur => ur.RoleRef == (int) role).Select(ur => ur.User);
-        }
-
-        public IEnumerable<Role> GetUserRoles(string username)
-        {
-            var db = GetDbContext();
-
-            return db.UserRoles.Where(ur => ur.User.Username == username).Select(ur => (Role) ur.RoleRef);
-        }
-
-        public void RemoveUserFromRole(Role role, User user)
-        {
-            var db = GetDbContext();
-
-            var userRole = db.UserRoles.Single(g => g.RoleRef == (int)role && g.UserRef == user.Id);
-
-            db.UserRoles.DeleteOnSubmit(userRole);
-            db.SubmitChanges();
-        }
-
-        public void AddUserToRole(Role role, User user)
-        {
-            var db = GetDbContext();
-
-            var userRole = new UserRole { RoleRef = (int)role, UserRef = user.Id };
-
-            db.UserRoles.InsertOnSubmit(userRole);
-            db.SubmitChanges();
-        }
-
-        public IEnumerable<Role> GetRolesAvailableToUser(User user)
-        {
-            var roles = GetUserRoles(user.Username);
-
-            return GetRoles().Where(r => !roles.Contains(r));
-        }
-
         public IEnumerable<User> GetUsersInGroup(Group group)
         {
             var db = GetDbContext();
@@ -447,16 +374,79 @@ namespace IUDICO.UserManagement.Models.Storage
 
         #endregion
 
-        #region Role members
+        #region Roles members
 
-        public Role GetRole(int id)
+        public void AddUsersToRoles(IEnumerable<string> usernames, IEnumerable<Role> roles)
         {
-            return (Role) id;
+            var db = GetDbContext();
+            var users = db.Users.Where(u => usernames.Contains(u.Username));
+
+            foreach (var user in users)
+            {
+                foreach (var role in roles)
+                {
+                    user.UserRoles.Add(new UserRole
+                    {
+                        UserRef = user.Id,
+                        RoleRef = (int)role
+                    });
+                }
+            }
+
+            db.SubmitChanges();
         }
 
-        public IEnumerable<Role> GetRoles()
+        public void RemoveUsersFromRoles(IEnumerable<string> usernames, IEnumerable<Role> roles)
         {
-            return Enum.GetValues(typeof (Role)).Cast<Role>().Skip(1);
+            var db = GetDbContext();
+            var users = db.Users.Where(u => usernames.Contains(u.Username)).Select(u => u.Id);
+            var intRoles = roles.Select(r => (int)r);
+
+            var userRoles = db.UserRoles.Where(ur => users.Contains(ur.UserRef) && intRoles.Contains(ur.RoleRef));
+
+            db.UserRoles.DeleteAllOnSubmit(userRoles);
+            db.SubmitChanges();
+        }
+
+        public IEnumerable<User> GetUsersInRole(Role role)
+        {
+            var db = GetDbContext();
+
+            return db.UserRoles.Where(ur => ur.RoleRef == (int)role).Select(ur => ur.User);
+        }
+
+        public IEnumerable<Role> GetUserRoles(string username)
+        {
+            var db = GetDbContext();
+
+            return db.UserRoles.Where(ur => ur.User.Username == username).Select(ur => (Role)ur.RoleRef);
+        }
+
+        public void RemoveUserFromRole(Role role, User user)
+        {
+            var db = GetDbContext();
+
+            var userRole = db.UserRoles.Single(g => g.RoleRef == (int)role && g.UserRef == user.Id);
+
+            db.UserRoles.DeleteOnSubmit(userRole);
+            db.SubmitChanges();
+        }
+
+        public void AddUserToRole(Role role, User user)
+        {
+            var db = GetDbContext();
+
+            var userRole = new UserRole { RoleRef = (int)role, UserRef = user.Id };
+
+            db.UserRoles.InsertOnSubmit(userRole);
+            db.SubmitChanges();
+        }
+
+        public IEnumerable<Role> GetRolesAvailableToUser(User user)
+        {
+            var roles = GetUserRoles(user.Username);
+
+            return UserRoles.GetRoles().Where(r => !roles.Contains(r));
         }
 
         #endregion

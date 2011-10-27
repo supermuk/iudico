@@ -251,7 +251,7 @@ namespace IUDICO.UserManagement.Controllers
                 return RedirectToAction("Details", new { id = id });
             }
 
-            var role = _Storage.GetRole(roleRef.Value);
+            var role = UserRoles.GetRole(roleRef.Value);
 
             _Storage.RemoveUserFromRole(role, user);
 
@@ -287,7 +287,7 @@ namespace IUDICO.UserManagement.Controllers
                 return View(userRole);
             }
 
-            var role = _Storage.GetRole(roleRef.Value);
+            var role = UserRoles.GetRole(roleRef.Value);
 
             _Storage.AddUserToRole(role, user);
 
