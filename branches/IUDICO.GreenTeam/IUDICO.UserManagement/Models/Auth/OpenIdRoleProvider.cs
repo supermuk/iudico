@@ -29,7 +29,7 @@ namespace IUDICO.UserManagement.Models.Auth
                 return new[] { "None" };
             }
 
-            return _UserStorage.GetUser(u => u.Username == username).UserRoles.Select(ur => ((Role)ur.RoleRef).ToString()).ToArray();
+            return _UserStorage.GetUserRoles(username).Select(ur => ur.ToString()).ToArray();
         }
 
         public override void CreateRole(string roleName)
