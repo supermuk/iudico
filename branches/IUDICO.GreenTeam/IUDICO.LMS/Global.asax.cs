@@ -7,7 +7,6 @@ using System.Web.Routing;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
-using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
 using IUDICO.Common.Models.Services;
@@ -22,7 +21,6 @@ using IUDICO.LMS.Models.Providers;
 using System.Web.Security;
 using System.Globalization;
 using System.Threading;
-using System.Text;
 
 namespace IUDICO.LMS
 {
@@ -47,8 +45,10 @@ namespace IUDICO.LMS
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
             var plugins = Container.ResolveAll<IPlugin>();
-            //var currentRole = Container.Resolve<IUserService>().GetCurrentUser().Role;
-            var currentRole = IUDICO.Common.Models.Role.None;
+            var currentRole = Role.None;
+            var userRoles = HttpContext.Current.User != null
+                                ? Roles.GetRolesForUser(HttpContext.Current.User.Identity.Name)
+                                : new[] {Role.None.ToString()};
 
             lock (Actions)
             {
@@ -58,7 +58,7 @@ namespace IUDICO.LMS
                 {
                     plugin.Setup(Container);
 
-                    var actions = plugin.BuildActions(currentRole).Where(a => IsAllowed(a, currentRole));
+                    var actions = plugin.BuildActions(currentRole).Where(a => IsAllowed(a, userRoles));
 
                     if (Actions.ContainsKey(plugin))
                     {
@@ -184,7 +184,7 @@ namespace IUDICO.LMS
             );
         }
 
-        protected bool IsAllowed(Action fullAction, Role role)
+        protected bool IsAllowed(Action fullAction, IEnumerable<string> roles)
         {
             var parts = fullAction.Link.Split('/');
 
@@ -193,7 +193,7 @@ namespace IUDICO.LMS
 
             var attribute = Attribute.GetCustomAttribute(action, typeof(AllowAttribute), false) as AllowAttribute;
 
-            return attribute == null || Roles.Provider.IsUserInRole(HttpContext.Current.User.Identity.Name, attribute.Role.ToString());
+            return attribute == null || roles.Contains(attribute.Role.ToString());
         }
 
         protected bool IsPost(MethodInfo action)
