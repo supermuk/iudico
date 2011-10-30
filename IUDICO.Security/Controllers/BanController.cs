@@ -34,7 +34,15 @@ namespace IUDICO.Security.Controllers
         [HttpPost]
         public ActionResult AddRoom(AddRoomViewModel viewModel)
         {
-            return View(viewModel);
+            if (ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+            else
+            {
+                ModelState.AddModelError("Error", "Error");
+                return View(viewModel);
+            }
         }
 
         public ActionResult EditComputer()
