@@ -43,6 +43,9 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Moq">
+      <HintPath>Libs\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Libs\nunit.framework.dll</HintPath>
     </Reference>
@@ -96,6 +99,8 @@
     <Compile Include="CurriculumManagement\Utils.cs" />
     <Compile Include="Base\TestFixture.cs" />
     <Compile Include="Base\TestFixtureWeb.cs" />
+    <Compile Include="UserManagement\NUnit\CreateMultiple.cs" />
+    <Compile Include="UserManagement\UserManagementTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
@@ -126,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Libs\" />
+    <Folder Include="UserManagement\Selenium\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -540,10 +540,13 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public string GetNodePath(int nodeId)
         {
-            var node = GetDbContext().Nodes.SingleOrDefault(n => n.Id == nodeId);
-            var path = Path.Combine(GetCoursePath(node.CourseId), node.Id.ToString());
+            using (var db = new CourseManagementDbConext())
+            {
+                var node = db.Nodes.SingleOrDefault(n => n.Id == nodeId);
+                var path = Path.Combine(GetCoursePath(node.CourseId), node.Id.ToString());
 
-            return path;
+                return path;
+            }
         }
 
         public string GetCoursePath(int courseId)
