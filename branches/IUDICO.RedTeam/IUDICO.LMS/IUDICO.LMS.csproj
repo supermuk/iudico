@@ -74,15 +74,6 @@
       <HintPath>..\References\Castle.Windsor.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="CKFinder_FileEditor">
-      <HintPath>..\IUDICO.CourseManagement\Scripts\ckfinder\plugins\fileeditor\bin\Release\CKFinder_FileEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="CKFinder_ImageResize">
-      <HintPath>..\IUDICO.CourseManagement\Scripts\ckfinder\plugins\imageresize\bin\Release\CKFinder_ImageResize.dll</HintPath>
-    </Reference>
-    <Reference Include="CKFinder_Watermark">
-      <HintPath>..\IUDICO.CourseManagement\Scripts\ckfinder\plugins\watermark\bin\Release\CKFinder_Watermark.dll</HintPath>
-    </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\log4net.dll</HintPath>
@@ -315,10 +306,6 @@
     <Content Include="Views\Shared\Site.Master" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CKFinder\CKFinder.Net.csproj">
-      <Project>{C5376ADF-309A-48DE-904C-B1FE1965C370}</Project>
-      <Name>CKFinder.Net</Name>
-    </ProjectReference>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
       <Project>{9DD6C943-6608-4351-A521-E4B1F2F75E9D}</Project>
       <Name>IUDICO.Common</Name>

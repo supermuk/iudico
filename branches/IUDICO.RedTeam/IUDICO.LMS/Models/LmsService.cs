@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Common;
+using IUDICO.Common.Models.Interfaces;
 using IUDICO.Common.Models.Services;
 using Castle.Windsor;
 using IUDICO.Common.Models;
@@ -7,7 +8,7 @@ using IUDICO.Common.Models.Plugin;
 
 namespace IUDICO.LMS.Models
 {
-    public class LmsService: ILmsService
+    public class LmsService : ILmsService
     {
         protected readonly IWindsorContainer _Container;
 
@@ -32,6 +33,11 @@ namespace IUDICO.LMS.Models
             return new DBDataContext();
         }
 
+        public IDataContext GetIDataContext()
+        {
+            return GetDbDataContext();
+        }
+
         public DbConnection GetDbConnection()
         {
             throw new NotImplementedException();
@@ -45,7 +51,7 @@ namespace IUDICO.LMS.Models
         public void Inform(string evt, params object[] data)
         {
             log4net.ILog log = log4net.LogManager.GetLogger(typeof(LmsService));
-            log.Info("Notification:"+evt);
+            log.Info("Notification:" + evt);
 
             var plugins = _Container.ResolveAll<IPlugin>();
 
@@ -55,5 +61,6 @@ namespace IUDICO.LMS.Models
             }
         }
         #endregion
+
     }
 }
