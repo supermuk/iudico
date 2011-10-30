@@ -12,6 +12,7 @@ using IUDICO.CourseManagement.Models.ManifestModels;
 using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
 using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupModels;
 using IUDICO.CourseManagement.Models.Storage;
+using System.Xml;
 
 namespace IUDICO.CourseManagement.Controllers
 {
@@ -220,8 +221,8 @@ namespace IUDICO.CourseManagement.Controllers
 
             var xelement = id == 0 ? _CurrentCourse.Sequencing : node.Sequencing;
 
-            var sequencing = xelement == null ? new Sequencing() : (Sequencing)xml.DeserializeXElement(xelement);
-
+            var sequencing = xelement == null ? new Sequencing() : (Sequencing)xml.Deserialize(new StringReader(xelement));
+            
             switch (pattern)
             {
                 case SequencingPattern.ControlChapterSequencingPattern:
@@ -235,14 +236,17 @@ namespace IUDICO.CourseManagement.Controllers
                     break;
             }
 
+            var sw = new StringWriter();
             if (id == 0)
             {
-                _CurrentCourse.Sequencing = xml.SerializeToXElemet(sequencing);
+                xml.Serialize(sw, sequencing);
+                _CurrentCourse.Sequencing = sw.ToString();
                 _Storage.UpdateCourse(_CurrentCourse.Id, _CurrentCourse);
             }
             else
             {
-                node.Sequencing = xml.SerializeToXElemet(sequencing);
+                xml.Serialize(sw, sequencing);
+                node.Sequencing = sw.ToString();
                 _Storage.UpdateNode(id, node);
             }
 
@@ -256,7 +260,7 @@ namespace IUDICO.CourseManagement.Controllers
 
             var xelement = id == 0 ? _CurrentCourse.Sequencing : _Storage.GetNode(id).Sequencing;
 
-            var sequencing = xelement == null ? new Sequencing() : (Sequencing) xml.DeserializeXElement(xelement);
+            var sequencing = xelement == null ? new Sequencing() : (Sequencing) xml.Deserialize(new StringReader(xelement));
             
             NodeProperty model;
 
@@ -310,7 +314,7 @@ namespace IUDICO.CourseManagement.Controllers
 
             var xelement = nodeId == 0 ? _CurrentCourse.Sequencing : node.Sequencing;
 
-            var sequencing = xelement == null ? new Sequencing() : (Sequencing)xml.DeserializeXElement(xelement);
+            var sequencing = xelement == null ? new Sequencing() : (Sequencing)xml.Deserialize(new StringReader(xelement));
             
             object model;
 
@@ -361,14 +365,17 @@ namespace IUDICO.CourseManagement.Controllers
                 throw new NotImplementedException();
             }
 
+            var sw = new StringWriter();
             if(nodeId == 0)
             {
-                _CurrentCourse.Sequencing = xml.SerializeToXElemet(sequencing);
+                xml.Serialize(sw, sequencing);
+                _CurrentCourse.Sequencing = sw.ToString();
                 _Storage.UpdateCourse(_CurrentCourse.Id, _CurrentCourse);
             }
             else
             {
-                node.Sequencing = xml.SerializeToXElemet(sequencing);
+                xml.Serialize(sw, sequencing);
+                node.Sequencing = sw.ToString();
                 _Storage.UpdateNode(nodeId, node);
             }
             

@@ -4,6 +4,6 @@
     {
         IMockableTable<User> Users { get; }
         IMockableTable<Group> Groups { get; }
-        IMockableTable<GroupUser> GroupUsers { get; }
+        //IMockableTable<GroupUser> GroupUsers { get; }
     }
 }

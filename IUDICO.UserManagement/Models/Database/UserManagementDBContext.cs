@@ -12,7 +12,7 @@ namespace IUDICO.UserManagement.Models.Database
         public UserManagementDBContext() : base(IUDICO.UserManagement.Properties.Settings.Default.ConnectionString) { }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<GroupUser> GroupUsers { get; set; }
+        //public DbSet<GroupUser> GroupUsers { get; set; }
         public DbSet<Group> Groups { get; set; }
     }
 }
