@@ -378,92 +378,16 @@ namespace IUDICO.CourseManagement.Controllers
 
             return Json(new { status = true });
         }
-
-        [HttpPost]
-        public void FileUploader()
-        {
-            var fileList = new[]
-                               {
-                                   new
-                                       {
-                                           Thumbnail_url = "",
-                                           Name = "",
-                                           Length = 0,
-                                           Type = ""
-                                       }
-                               }.ToList();
-            fileList.RemoveAt(0);
-
-
-            HttpContext.Response.ContentType = "text/plain";//"application/json";
-            var serializer = new JavaScriptSerializer();
-
-            var nodeId = HttpContext.Request.Params["nodeId"];
-
-            foreach (string file in HttpContext.Request.Files)
-            {
-                var fileUpload = HttpContext.Request.Files[file] as HttpPostedFileBase;
-
-                var path = HttpContext.Request.PhysicalApplicationPath;
-
-                path = Path.Combine(path, @"Data\WorkFolder");
-                path = Path.Combine(path, Guid.NewGuid().ToString());
-
-                Directory.CreateDirectory(path);
-
-                path = Path.Combine(path, fileUpload.FileName.Split('\\').Last());
-
-                //fileUpload.SaveAs(path);
-
-                fileList.Add(new
-                                {
-                                    Thumbnail_url = path,
-                                    Name = fileUpload.FileName,
-                                    Length = fileUpload.ContentLength,
-                                    Type = fileUpload.ContentType
-                                });
-
-                var newResource = new NodeResource
-                                     {
-                                         Name = fileUpload.FileName,
-                                         NodeId = int.Parse(nodeId),
-                                         //Path = path,
-                                         Type = (int)ResourceTypes.Image
-                                     };
-
-                _Storage.AddResource(newResource, fileUpload);
-            }
-
-            HttpContext.Response.Write(serializer.Serialize(new
-                                                        {
-                                                            files = fileList.ToArray()
-                                                        }));
-        }
-
+        
         [HttpGet]
-        public void FileUploaderGetResources()
+        public ActionResult Images(int nodeId, string FileName)
         {
-            var parents = HttpContext.Request.Params["NodeIds"] as string;
-
-            //var fileList = new[]
-            //                   {
-            //                       new
-            //                           {
-            //                               Thumbnail_url = "",
-            //                               Name = "",
-            //                               Length = 0,
-            //                               Type = ""
-            //                           }
-            //                   }.ToList();
-            //fileList.RemoveAt(0);
-
-            //string[] nodeIds = parents.Split(new char[] {'_'});
-
-            //foreach (var nodeId in nodeIds)
-            //{
-                
-            //}
-            //_Storage.GetResources()
+            var path = Path.Combine(@"\Data\Courses\", _CurrentCourse.Id.ToString());
+            path = Path.Combine(path, "Node");
+            path = Path.Combine(path, nodeId.ToString());
+            path = Path.Combine(path, "Images");
+            path = Path.Combine(path, FileName);
+            return File(path, "image/png");
         }
     }
 }    

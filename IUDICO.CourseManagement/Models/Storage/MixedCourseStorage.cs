@@ -8,7 +8,6 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using IUDICO.Common.Models;
-using IUDICO.Common.Models.Interfaces;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Notifications;
 using IUDICO.CourseManagement.Helpers;
@@ -20,9 +19,9 @@ using File = System.IO.File;
 
 namespace IUDICO.CourseManagement.Models.Storage
 {
-    public class MixedCourseStorage : ICourseStorage
+    internal class MixedCourseStorage : ICourseStorage
     {
-        protected readonly ILmsService _LmsService;
+        private readonly ILmsService _LmsService;
         private readonly string[] _TemplateFiles = { "api.js", "checkplayer.js", "flensed.js", "flXHR.js", "flXHR.swf", "iudico.css", "iudico.js", "jquery-1.5.2.min.js", "jquery.flXHRproxy.js", "jquery.xhr.js", "questions.js", "sco.js", "swfobject.js", "updateplayer.swf" };
         private readonly string _ResourceIdForTemplateFiles = "TemplateFiles";
 
@@ -31,9 +30,9 @@ namespace IUDICO.CourseManagement.Models.Storage
             _LmsService = lmsService;
         }
 
-        protected IDataContext GetDbContext()
+        protected DBDataContext GetDbContext()
         {
-            return _LmsService.GetIDataContext();
+            return _LmsService.GetDbDataContext();
         }
 
         #region IStorage Members
@@ -588,16 +587,19 @@ namespace IUDICO.CourseManagement.Models.Storage
         }
         public int AddResource(NodeResource resource, HttpPostedFileBase file)
         {
-            var nodePath = GetNodePath(resource.NodeId ?? -1);
+            var node = GetDbContext().Nodes.SingleOrDefault(n => n.Id == resource.NodeId);
+            var path = Path.Combine(GetCoursePath(node.CourseId), "Node");
+            path = Path.Combine(path, resource.NodeId.Value.ToString());
+            path = Path.Combine(path, "Images");
             
-            resource.Path = file.FileName;
+            resource.Path = "Node/" + resource.NodeId + "/Images/" + file.FileName;
 
-            if(!Directory.Exists(nodePath))
+            if(!Directory.Exists(path))
             {
-                Directory.CreateDirectory(nodePath);
+                Directory.CreateDirectory(path);
             }
 
-            file.SaveAs(Path.Combine(nodePath, resource.Path));
+            file.SaveAs(Path.Combine(path, file.FileName));
             
             var db = GetDbContext();
 
@@ -612,6 +614,17 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             var res = GetDbContext().NodeResources.Single(n => n.Id == resId);
             var path = Path.Combine(GetNodePath(res.NodeId ?? -1), res.Path);
+
+            return path;
+        }
+
+        public string GetResourcePath(int nodeId, string fileName)
+        {
+            var node = GetDbContext().Nodes.SingleOrDefault(n => n.Id == nodeId);
+            var path = Path.Combine(GetCoursePath(node.CourseId), "Node");
+            path = Path.Combine(path, nodeId.ToString());
+            path = Path.Combine(path, "Images");
+            path = Path.Combine(path, fileName);
 
             return path;
         }

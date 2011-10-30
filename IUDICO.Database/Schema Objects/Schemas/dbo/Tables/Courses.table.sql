@@ -8,10 +8,3 @@
     [Locked]     BIT           NULL,
     [Sequencing] XML           NULL
 );
-
-
-
-
-
-
-
