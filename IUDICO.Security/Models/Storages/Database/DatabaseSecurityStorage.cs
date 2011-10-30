@@ -5,7 +5,7 @@ using System.Web;
 
 namespace IUDICO.Security.Models.Storages.Database
 {
-    public class DatabaseSecurityStorage : ISecurityStorage
+    class DatabaseSecurityStorage : ISecurityStorage
     {
     }
 }
