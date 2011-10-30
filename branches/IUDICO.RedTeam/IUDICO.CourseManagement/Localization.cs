@@ -33,7 +33,6 @@ namespace IUDICO.CourseManagement
             }
             resource.Add("uk-UA", temp);
         }
-
         public static string getMessage(string search)
         {
             try
