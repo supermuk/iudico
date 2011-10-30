@@ -67,7 +67,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             {
                 Theme theme = new Theme
                 {
-                    CourseRef = model.CourseId,
+                    CourseRef = model.CourseId == Constants.NoCourseId ? (int?)null : model.CourseId,
                     StageRef = model.StageId,
                     ThemeTypeRef = model.ThemeTypeId,
                     Name = model.ThemeName

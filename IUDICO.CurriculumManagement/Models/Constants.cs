@@ -13,5 +13,6 @@ namespace IUDICO.CurriculumManagement.Models
         public static readonly DateTime MinAllowedDateTime = new DateTime(1900, 1, 1);
         public static readonly DateTime MaxAllowedDateTime = new DateTime(2200, 1, 1);
         public const int MaxStringFieldLength = 50;
+        public const int NoCourseId = -1;
     }
 }
