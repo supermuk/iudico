@@ -8,6 +8,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Interfaces;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Notifications;
 using IUDICO.CourseManagement.Helpers;
@@ -19,7 +20,7 @@ using File = System.IO.File;
 
 namespace IUDICO.CourseManagement.Models.Storage
 {
-    internal class MixedCourseStorage : ICourseStorage
+    public class MixedCourseStorage : ICourseStorage
     {
         private readonly ILmsService _LmsService;
         private readonly string[] _TemplateFiles = { "api.js", "checkplayer.js", "flensed.js", "flXHR.js", "flXHR.swf", "iudico.css", "iudico.js", "jquery-1.5.2.min.js", "jquery.flXHRproxy.js", "jquery.xhr.js", "questions.js", "sco.js", "swfobject.js", "updateplayer.swf" };
@@ -30,9 +31,9 @@ namespace IUDICO.CourseManagement.Models.Storage
             _LmsService = lmsService;
         }
 
-        protected DBDataContext GetDbContext()
+        protected IDataContext GetDbContext()
         {
-            return _LmsService.GetDbDataContext();
+            return _LmsService.GetIDataContext();
         }
 
         #region IStorage Members

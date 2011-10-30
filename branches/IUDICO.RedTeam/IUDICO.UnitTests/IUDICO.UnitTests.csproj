@@ -85,19 +85,11 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CourseManagement\NUnit\CourseManagmentTest.cs" />
+    <Compile Include="CourseManagement\NUnit\MixedCourseStorageTest.cs" />
     <Compile Include="CourseManagement\NUnit\SequencingPatternManagerTests.cs" />
     <Compile Include="CourseManagement\Selenium\StudentRole.cs" />
-    <Compile Include="CurriculumManagement\CurriculumResultTest.cs" />
-    <Compile Include="CurriculumManagement\CurriculumStorageTest.cs" />
-    <Compile Include="CurriculumManagement\Extensions.cs" />
-    <Compile Include="Fakes\FakeCourseService.cs" />
-    <Compile Include="Fakes\FakeLmsService.cs" />
-    <Compile Include="Fakes\FakeUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CurriculumManagement\SpecializedResultTest.cs" />
-    <Compile Include="CurriculumManagement\ThemeInfoModelTest.cs" />
-    <Compile Include="CurriculumManagement\ThemeResultTest.cs" />
-    <Compile Include="CurriculumManagement\Utils.cs" />
     <Compile Include="Base\TestFixture.cs" />
     <Compile Include="Base\TestFixtureWeb.cs" />
     <Compile Include="Security\SecurityServiceTest.cs" />
@@ -134,6 +126,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="CurriculumManagement\" />
     <Folder Include="Libs\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
