@@ -457,6 +457,9 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #endregion
 
+        public void SaveDummyResults()
+        { }
+
         #region ThemeType methods
 
         public IEnumerable<ThemeType> GetThemeTypes()
