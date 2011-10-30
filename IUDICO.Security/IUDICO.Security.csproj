@@ -78,8 +78,6 @@
     <Content Include="Views\Ban\EditComputer.aspx" />
     <Content Include="Views\Ban\EditRoom.aspx" />
     <Content Include="Views\Ban\Index.aspx" />
-    <Content Include="Views\Ban\Partial\Computers.ascx" />
-    <Content Include="Views\Ban\Partial\Rooms.ascx" />
     <Content Include="Views\Security\Index.aspx" />
     <Content Include="Views\Web.config">
       <SubType>Designer</SubType>
@@ -94,7 +92,6 @@
   <ItemGroup>
     <Compile Include="Controllers\BanController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
-    <Compile Include="Helpers\Path.cs" />
     <Compile Include="Models\SecurityService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecurityPlugin.cs" />
