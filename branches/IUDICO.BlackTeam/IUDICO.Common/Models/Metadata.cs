@@ -395,6 +395,39 @@ namespace IUDICO.Common.Models
             public bool IsDeleted { get; set; }
         }
     }
+
+    [MetadataType(typeof(Metadata))]
+    [Bind(Exclude = "Id")]
+    public partial class ForecastingTree
+    {
+        private sealed class Metadata
+        {
+            [ScaffoldColumn(false)]
+            public int Id { get; set; }
+
+            [LocalizedDisplayName("Name")]
+            [LocalizedRequired(ErrorMessage = "NameRequired")]
+            [StringLength(50, ErrorMessage = "Name can not be longer than 50.")]
+            public string Name { get; set; }
+
+            [LocalizedDisplayName("UserRef")]
+            [ScaffoldColumn(false)]
+            public Guid UserRef { get; set; }
+
+            [LocalizedDisplayName("CreateDate")]
+            [ScaffoldColumn(false)]
+            public DateTime Created { get; set; }
+
+            [LocalizedDisplayName("UpdateDate")]
+            [ScaffoldColumn(false)]
+            public DateTime Updated { get; set; }
+
+            [ScaffoldColumn(false)]
+            public bool IsDeleted { get; set; }
+        }
+    }
+
+
     public class LocalizedDisplayNameAttribute : DisplayNameAttribute
     {
 
