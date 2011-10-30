@@ -4,9 +4,9 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 
-namespace IUDICO.Security.ViewModels
+namespace IUDICO.Security.ViewModels.Ban
 {
-    public class BanAddRoomViewModel
+    public class AddRoomViewModel
     {
         [Required(ErrorMessage = "Name is required")]
         [StringLength(11, ErrorMessage = "Must be less than 11 characters")]
