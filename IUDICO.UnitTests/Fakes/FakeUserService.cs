@@ -45,6 +45,11 @@ namespace IUDICO.UnitTests.Fakes
             return users;
         }
 
+        public IEnumerable<User> GetUsersByExpression(Func<User, bool> predicate)
+        {
+            return users.Where(predicate);
+        }
+
         public User GetCurrentUser()
         {
             throw new NotImplementedException();
