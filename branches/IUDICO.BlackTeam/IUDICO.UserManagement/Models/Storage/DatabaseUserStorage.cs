@@ -198,14 +198,10 @@ namespace IUDICO.UserManagement.Models.Storage
             using (var db = new UserManagementDBContext())
             {
                 var user = db.Users.Where(u => !u.Deleted).Single(predicate);
-                var links = db.GroupUsers.Where(g => g.UserRef == user.Id);
 
                 user.Deleted = true;
+                user.Groups.Clear();
 
-                foreach (var link in links)
-                {
-                    db.GroupUsers.Remove(link);
-                }
                 db.SaveChanges();
 
                 _LmsService.Inform(UserNotifications.UserDelete, user);
@@ -216,7 +212,8 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             using (var db = new UserManagementDBContext())
             {
-                return db.GroupUsers.Where(g => g.GroupRef == group.Id && !g.User.Deleted).Select(g => g.User);
+                return db.Users.Where(u => u.Groups.Contains(group));
+                //return db.GroupUsers.Where(g => g.GroupRef == group.Id && !g.User.Deleted).Select(g => g.User);
             }
         }
 
@@ -224,7 +221,8 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             using (var db = new UserManagementDBContext())
             {
-                return db.Users.Where(u => !u.Deleted).Except(db.GroupUsers.Where(g => g.GroupRef == group.Id).Select(g => g.User));
+                return db.Users.Where(u => !u.Deleted).Except(db.Users.Where(m => m.Groups.Contains(group)));
+                //return db.Users.Where(u => !u.Deleted).Except(db.GroupUsers.Where(g => g.GroupRef == group.Id).Select(g => g.User));
             }
         }
 
@@ -347,14 +345,9 @@ namespace IUDICO.UserManagement.Models.Storage
             {
                 var group = db.Groups.Single(g => g.Id == id && !g.Deleted);
 
-                var links = db.GroupUsers.Where(g => g.GroupRef == group.Id);
-
-                foreach (var link in links)
-                {
-                    db.GroupUsers.Remove(link);
-                }
-
+                group.Users.Clear();
                 group.Deleted = true;
+                
                 db.SaveChanges();
 
                 _LmsService.Inform(UserNotifications.GroupDelete, group);
@@ -365,7 +358,9 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             using (var db = new UserManagementDBContext())
             {
-                return db.GroupUsers.Where(g => g.UserRef == user.Id).Select(g => g.Group);
+                db.Users.Attach(user);
+
+                return user.Groups;
             }
         }
 
@@ -383,9 +378,11 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             using (var db = new UserManagementDBContext())
             {
-                var groupUser = new GroupUser { GroupRef = group.Id, UserRef = user.Id };
+                db.Users.Attach(user);
+                db.Groups.Attach(group);
+                
+                group.Users.Add(user);
 
-                db.GroupUsers.Add(groupUser);
                 db.SaveChanges();
             }
         }
@@ -394,9 +391,11 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             using (var db = new UserManagementDBContext())
             {
-                var groupUser = db.GroupUsers.Single(g => g.GroupRef == group.Id && g.UserRef == user.Id);
+                db.Users.Attach(user);
+                db.Groups.Attach(group);
+                
+                db.Users.Remove(user);
 
-                db.GroupUsers.Remove(groupUser);
                 db.SaveChanges();
             }
         }

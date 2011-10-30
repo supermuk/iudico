@@ -262,7 +262,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             if (course.Sequencing != null)
             {
                 var xml = new XmlSerializer(typeof(Sequencing));
-                manifest.Organizations[0].Sequencing = (Sequencing)xml.DeserializeXElement(course.Sequencing);
+                manifest.Organizations[0].Sequencing = (Sequencing)xml.Deserialize(new StringReader(course.Sequencing));
             }
             var resource = new Resource
                                {
@@ -295,7 +295,7 @@ namespace IUDICO.CourseManagement.Models.Storage
                     if (node.Sequencing != null)
                     {
                         var xml = new XmlSerializer(typeof (Sequencing));
-                        item.Sequencing = (Sequencing) xml.DeserializeXElement(node.Sequencing);
+                        item.Sequencing = (Sequencing) xml.Deserialize(new StringReader(node.Sequencing));
                     }
 
                     item = AddSubItems(item, node, courseId, helper, ref manifest);
@@ -318,7 +318,7 @@ namespace IUDICO.CourseManagement.Models.Storage
                     if (node.Sequencing != null)
                     {
                         var xml = new XmlSerializer(typeof(Sequencing));
-                        item.Sequencing = (Sequencing)xml.DeserializeXElement(node.Sequencing);
+                        item.Sequencing = (Sequencing)xml.Deserialize(new StringReader(node.Sequencing));
                     }
 
                     parentItem = ManifestManager.AddItem(parentItem, item);
@@ -416,8 +416,10 @@ namespace IUDICO.CourseManagement.Models.Storage
             {
                 if (node.Sequencing == null)
                 {
+                    var sw = new StringWriter();
                     var xs = new XmlSerializer(typeof(Sequencing));
-                    node.Sequencing = xs.SerializeToXElemet(new Sequencing());
+                    xs.Serialize(sw, new Sequencing());
+                    node.Sequencing = sw.ToString();
                 }
 
                 db.Nodes.Add(node);
@@ -579,7 +581,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         protected void CopyNodes(Node node, Node newnode)
         {
-            foreach (var child in node.Nodes)
+            foreach (var child in node.ChildNodes)
             {
                 var newchild = new Node
                 {
@@ -588,9 +590,9 @@ namespace IUDICO.CourseManagement.Models.Storage
                     IsFolder = child.IsFolder,
                 };
 
-                newnode.Nodes.Add(newchild);
+                newnode.ChildNodes.Add(newchild);
 
-                if (child.Nodes.Count > 0)
+                if (child.ChildNodes.Count > 0)
                 {
                     CopyNodes(child, newchild);
                 }
@@ -599,7 +601,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         protected void CreateFolders(Node newnode)
         {
-            foreach (var child in newnode.Nodes)
+            foreach (var child in newnode.ChildNodes)
             {
                 if (!child.IsFolder)
                 {

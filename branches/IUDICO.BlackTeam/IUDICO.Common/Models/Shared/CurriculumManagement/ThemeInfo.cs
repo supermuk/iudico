@@ -14,6 +14,8 @@ namespace IUDICO.Common.Models.Shared.CurriculumManagement
 
         public override string ToString()
         {
+            //Curriculum.
+
             string result = String.Format("{0}/{1}/{2}", Curriculum.Name, Stage.Name, Theme.Name);
             result = result + string.Concat(Timelines.Select(timeline => String.Format("({0} - {1}),",
                 String.Format("{0:g}", timeline.StartDate), String.Format("{0:g}", timeline.EndDate))));

@@ -64,8 +64,9 @@ namespace IUDICO.TestingSystem.Models
         /// <returns>String value representing Connection String.</returns>
         private string GetConnectionString()
         {
-            string result = LmsSevice.GetDbConnection().ConnectionString;
-            return result;
+            throw new NotImplementedException();
+            //string result = LmsSevice.GetDbConnection().ConnectionString;
+            //return result;
         }
 
         /// <summary>
