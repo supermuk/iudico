@@ -88,6 +88,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #region ThemeType methods
 
+        ThemeType GetThemeType(int id);
         IEnumerable<ThemeType> GetThemeTypes();
 
         #endregion

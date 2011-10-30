@@ -301,7 +301,7 @@
     <value>Back to stages</value>
   </data>
   <data name="ChooseCourse" xml:space="preserve">
-    <value>Choose a course.</value>
+    <value>Choose a course for this theme type.</value>
   </data>
   <data name="ChooseStage" xml:space="preserve">
     <value>Choose a stage</value>
@@ -401,5 +401,20 @@
   </data>
   <data name="Timeline" xml:space="preserve">
     <value>Timeline</value>
+  </data>
+  <data name="No course" xml:space="preserve">
+    <value>-- no course --</value>
+  </data>
+  <data name="ThemeType.Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="ThemeType.TestWithoutCourse" xml:space="preserve">
+    <value>Test without course</value>
+  </data>
+  <data name="ThemeType.Theory" xml:space="preserve">
+    <value>Theory</value>
+  </data>
+  <data name="TestWithoutCourse" xml:space="preserve">
+    <value>You can't choose a course for this theme type</value>
   </data>
 </root>

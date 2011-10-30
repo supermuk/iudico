@@ -5,17 +5,19 @@ using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using System.Data.Linq;
 using IUDICO.Common.Models.Shared.CurriculumManagement;
+using IUDICO.Common.Models.Interfaces;
 
 namespace IUDICO.CurriculumManagement.Models.Storage
 {
     public class MixedCurriculumStorage : ICurriculumStorage
     {
         private readonly ILmsService _LmsService;
-        private DBDataContext _Db;
+        private IDataContext _Db;
 
-        protected DBDataContext GetDbDataContext()
+        protected IDataContext GetDbDataContext()
         {
-            return _LmsService.GetDbDataContext();
+            //return _LmsService.GetDbDataContext();
+            return _LmsService.GetIDataContext();
         }
 
         public MixedCurriculumStorage(ILmsService lmsService)
@@ -31,7 +33,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public void RefreshState()
         {
             //db = new DBDataContext(lmsService.GetDbConnectionString());
-            _Db = _LmsService.GetDbDataContext();
+            //_Db = _LmsService.GetDbDataContext();
+            _Db = _LmsService.GetIDataContext();
         }
 
         public IEnumerable<Course> GetCourses()
@@ -97,7 +100,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 .ToList();
             return GetCurriculums()
                 .Where(item => GetThemesByCurriculumId(item.Id)
-                             .Any(theme => courseIds.Contains(theme.CourseRef)));
+                             .Any(theme => courseIds.Contains(theme.CourseRef ?? Constants.NoCourseId)));
         }
 
         public int AddCurriculum(Curriculum curriculum)
@@ -218,7 +221,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #region Theme methods
 
-        private Theme GetTheme(int id, DBDataContext db)
+        private Theme GetTheme(int id, IDataContext db)
         {
             return db.Themes.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
         }
@@ -307,7 +310,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public int AddTheme(Theme theme)
         {
-            DBDataContext db = GetDbDataContext();
+            IDataContext db = GetDbDataContext();
 
             theme.Created = DateTime.Now;
             theme.Updated = DateTime.Now;
@@ -320,7 +323,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             UpdateTheme(theme);
 
             //if it is "Test" then add corresponding ThemeAssignments.
-            if (theme.ThemeType.Id == (int)IUDICO.CurriculumManagement.Models.Enums.ThemeType.Test)
+            if (Converters.ConvertToThemeType(theme.ThemeType) == Enums.ThemeType.Test)
             {
                 AddThemeAssignments(theme);
             }
@@ -330,7 +333,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public void UpdateTheme(Theme theme)
         {
-            DBDataContext db = GetDbDataContext();
+            IDataContext db = GetDbDataContext();
             try
             {
                 var oldTheme = GetTheme(theme.Id, db);
@@ -343,7 +346,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 if (oldTheme.ThemeTypeRef != theme.ThemeTypeRef)
                 {
                     oldTheme.ThemeTypeRef = theme.ThemeTypeRef;
-                    if (theme.ThemeType.Id == (int)IUDICO.CurriculumManagement.Models.Enums.ThemeType.Test)
+                    if (Converters.ConvertToThemeType(theme.ThemeType) == Enums.ThemeType.Test)
                     {
                         AddThemeAssignments(theme);
                     }
@@ -365,12 +368,12 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public void DeleteTheme(int id)
         {
-            DBDataContext db = GetDbDataContext();
+            IDataContext db = GetDbDataContext();
 
             var theme = GetTheme(id, db);
 
             //if it is "Test" then delete corresponding ThemeAssignments.
-            if (theme.ThemeType.Id == (int)IUDICO.CurriculumManagement.Models.Enums.ThemeType.Test)
+            if (Converters.ConvertToThemeType(theme.ThemeType) == Enums.ThemeType.Test)
             {
                 DeleteThemeAssignments(theme);
             }
@@ -459,6 +462,11 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #region ThemeType methods
 
+        public ThemeType GetThemeType(int id)
+        {
+            return _Db.ThemeTypes.SingleOrDefault(item => item.Id == id);
+        }
+
         public IEnumerable<ThemeType> GetThemeTypes()
         {
             return _Db.ThemeTypes;
@@ -502,7 +510,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
             //add corresponding ThemeAssignments
             var themesInCurrentCurriculum = GetThemesByCurriculumId(curriculumAssignment.CurriculumRef)
-                .Where(item => item.ThemeTypeRef == (int)IUDICO.CurriculumManagement.Models.Enums.ThemeType.Test);
+                .Where(item => item.ThemeTypeRef == (int)Enums.ThemeType.Test);
             foreach (var theme in themesInCurrentCurriculum)
             {
                 ThemeAssignment newThemeAssingment = new ThemeAssignment()

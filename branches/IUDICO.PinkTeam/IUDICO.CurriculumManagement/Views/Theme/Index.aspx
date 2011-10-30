@@ -111,7 +111,7 @@
                 <%: String.Format("{0:g}", item.Updated) %>
             </td>
             <td>
-                <%: item.ThemeType.Name %>
+                <%: IUDICO.CurriculumManagement.Converters.ConvertToString(item.ThemeType) %>
             </td>
             <td>
                 <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Edit"), "Edit", new { ThemeID = item.Id })%>
