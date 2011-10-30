@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using IUDICO.Common.Controllers;
+using IUDICO.Security.ViewModels;
 
 namespace IUDICO.Security.Controllers
 {
@@ -16,6 +17,5 @@ namespace IUDICO.Security.Controllers
         {
             return View();
         }
-
     }
 }
