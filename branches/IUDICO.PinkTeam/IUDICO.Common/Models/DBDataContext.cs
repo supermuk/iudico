@@ -6,10 +6,7 @@ namespace IUDICO.Common.Models
     {
         IMockableTable<User> IDataContext.Users
         {
-            get
-            {
-                return new MockableTable<User>(Users);
-            }
+            get { return new MockableTable<User>(Users); }
         }
 
         IMockableTable<Group> IDataContext.Groups
@@ -20,6 +17,41 @@ namespace IUDICO.Common.Models
         IMockableTable<GroupUser> IDataContext.GroupUsers
         {
             get { return new MockableTable<GroupUser>(GroupUsers); }
+        }
+
+        IMockableTable<Curriculum> IDataContext.Curriculums
+        {
+            get { return new MockableTable<Curriculum>(Curriculums); }
+        }
+
+        IMockableTable<Stage> IDataContext.Stages
+        {
+            get { return new MockableTable<Stage>(Stages); }
+        }
+
+        IMockableTable<Theme> IDataContext.Themes
+        {
+            get { return new MockableTable<Theme>(Themes); }
+        }
+
+        IMockableTable<CurriculumAssignment> IDataContext.CurriculumAssignments
+        {
+            get { return new MockableTable<CurriculumAssignment>(CurriculumAssignments); }
+        }
+
+        IMockableTable<Timeline> IDataContext.Timelines
+        {
+            get { return new MockableTable<Timeline>(Timelines); }
+        }
+
+        IMockableTable<ThemeAssignment> IDataContext.ThemeAssignments
+        {
+            get { return new MockableTable<ThemeAssignment>(ThemeAssignments); }
+        }
+
+        IMockableTable<ThemeType> IDataContext.ThemeTypes
+        {
+            get { return new MockableTable<ThemeType>(ThemeTypes); }
         }
     }
 }

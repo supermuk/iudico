@@ -301,7 +301,7 @@
     <value>Повернутися до етапів</value>
   </data>
   <data name="ChooseCourse" xml:space="preserve">
-    <value>Виберіть курс</value>
+    <value>Виберіть курс для цього типу теми</value>
   </data>
   <data name="ChooseStage" xml:space="preserve">
     <value>Виберіть етап</value>
@@ -401,5 +401,20 @@
   </data>
   <data name="Timeline" xml:space="preserve">
     <value>Часові межі</value>
+  </data>
+  <data name="No course" xml:space="preserve">
+    <value>-- без курсу --</value>
+  </data>
+  <data name="ThemeType.Test" xml:space="preserve">
+    <value>Тест</value>
+  </data>
+  <data name="ThemeType.TestWithoutCourse" xml:space="preserve">
+    <value>Тест без курсу</value>
+  </data>
+  <data name="ThemeType.Theory" xml:space="preserve">
+    <value>Теорія</value>
+  </data>
+  <data name="TestWithoutCourse" xml:space="preserve">
+    <value>Ви не можете обрати курс на цей тип теми</value>
   </data>
 </root>
