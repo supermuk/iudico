@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using IUDICO.Common.Controllers;
 using System.Web.Mvc;
-using IUDICO.Security.ViewModels;
+using IUDICO.Security.ViewModels.Ban;
 
 namespace IUDICO.Security.Controllers
 {
@@ -17,24 +17,34 @@ namespace IUDICO.Security.Controllers
 
         public ActionResult AddComputers()
         {
-            return View(new BanAddComputerViewModel());
+            return View(new AddComputerViewModel());
         }
 
         [HttpPost]
-        public ActionResult AddComputers(BanAddComputerViewModel viewModel)
+        public ActionResult AddComputers(AddComputerViewModel viewModel)
         {
             return View(viewModel);
         }
 
         public ActionResult AddRoom()
         {
-            return View(new BanAddRoomViewModel());
+            return View(new AddRoomViewModel());
         }
 
         [HttpPost]
-        public ActionResult AddRoom(BanAddRoomViewModel viewModel)
+        public ActionResult AddRoom(AddRoomViewModel viewModel)
         {
             return View(viewModel);
+        }
+
+        public ActionResult EditComputer()
+        {
+            return View();
+        }
+
+        public ActionResult EditRoom()
+        {   
+            return View(new RoomsViewModel());
         }
     }
 }

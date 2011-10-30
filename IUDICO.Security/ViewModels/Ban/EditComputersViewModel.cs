@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace IUDICO.Security.ViewModels
+namespace IUDICO.Security.ViewModels.Ban
 {
-    public class BanEditComputersViewModel
+    public class EditComputersViewModel
     {
         public string ComputerIP { get; set; }
         public string ComputerIP2 { get; set; }

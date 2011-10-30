@@ -8,9 +8,9 @@
     <p>Ban / Unban</p>
     <ul title=" Ban / Unban">        
 		<li> <%= Html.ActionLink("Add Computer", "AddComputers", "Ban") %></li>
-        <li> <%= Html.ActionLink("Edit Computer", "Index", "Ban") %></li>
+        <li> <%= Html.ActionLink("Edit Computer", "EditComputer", "Ban") %></li>
         <li> <%= Html.ActionLink("Add Room", "AddRoom", "Ban") %></li>
-        <li> <%= Html.ActionLink("Edit Computer", "Index", "Ban") %></li>        
+        <li> <%= Html.ActionLink("Edit Room", "EditRoom", "Ban") %></li>        
 	</ul>
 </asp:Content>
 
