@@ -18,7 +18,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
         protected string _CoursePath;
         protected string _CourseTempPath;
 
-        public 2Importer(Manifest manifest, Course course, ICourseStorage courseStorage)
+        public Importer(Manifest manifest, Course course, ICourseStorage courseStorage)
         {
             _Manifest = manifest;
             _Course = course;
