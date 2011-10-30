@@ -5,11 +5,19 @@ using System.Web;
 using IUDICO.Common.Controllers;
 using System.Web.Mvc;
 using IUDICO.Security.ViewModels.Ban;
+using IUDICO.Security.Models.Storages;
 
 namespace IUDICO.Security.Controllers
 {
     public class BanController : PluginController
     {
+        private readonly IBanStorage _BanStorage;
+
+        public BanController(IBanStorage banStorage)
+        {
+            _BanStorage = banStorage;
+        }
+
         public ActionResult Index()
         {
             return View();

@@ -93,6 +93,10 @@
     <Compile Include="Controllers\BanController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Models\SecurityService.cs" />
+    <Compile Include="Models\Storages\Database\DatabaseBanStorage.cs" />
+    <Compile Include="Models\Storages\Database\DatabaseSecurityStorage.cs" />
+    <Compile Include="Models\Storages\IBanStorage.cs" />
+    <Compile Include="Models\Storages\ISecurityStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecurityPlugin.cs" />
     <Compile Include="SecurityService.cs" />
