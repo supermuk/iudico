@@ -279,6 +279,7 @@
     <Content Include="Scripts\jquery\jquery-ui-1.8.5.js" />
     <Content Include="Scripts\jquery\jquery-ui-timepicker-addon.js" />
     <Content Include="Views\Shared\AccessDenied.aspx" />
+    <Content Include="Views\Shared\Computers.ascx" />
     <Content Include="Views\Shared\CultureChooserUserControl.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\DateTime.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\DropDownList.ascx" />
@@ -290,6 +291,7 @@
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\Properties.ascx" />
     <Content Include="Views\Shared\RollupRules.ascx" />
+    <Content Include="Views\Shared\Rooms.ascx" />
     <Content Include="Views\Shared\UserBox.ascx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 
-namespace IUDICO.Security.ViewModels
+namespace IUDICO.Security.ViewModels.Ban
 {
-    public class BanAddComputerViewModel
+    public class AddComputerViewModel
     {
         [Required(ErrorMessage = "ComputerID is required")]
         [StringLength(11, ErrorMessage = "Must be less than 11 characters")]
