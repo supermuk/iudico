@@ -21,7 +21,7 @@ namespace IUDICO.UserManagement.Models.Storage
             _LmsService = lmsService;
         }
 
-        protected DBDataContext GetDbContext()
+        protected virtual DBDataContext GetDbContext()
         {
             return _LmsService.GetDbDataContext();
         }

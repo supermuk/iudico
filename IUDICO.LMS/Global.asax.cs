@@ -46,7 +46,6 @@ namespace IUDICO.LMS
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-            var securityService = Container.Resolve<ISecurityService>();
             var plugins = Container.ResolveAll<IPlugin>();
             //var currentRole = Container.Resolve<IUserService>().GetCurrentUser().Role;
             var currentRole = IUDICO.Common.Models.Role.None;

@@ -85,14 +85,11 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CourseManagement\NUnit\CourseManagementTest.cs" />
+    <Compile Include="CourseManagement\NUnit\MixedCourseStorageTest.cs" />
     <Compile Include="CourseManagement\NUnit\SequencingPatternManagerTests.cs" />
     <Compile Include="CourseManagement\Selenium\StudentRole.cs" />
-    <Compile Include="CurriculumManagement\CurriculumResultTest.cs" />
-    <Compile Include="CurriculumManagement\CurriculumStorageTest.cs" />
     <Compile Include="CurriculumManagement\Extensions.cs" />
-    <Compile Include="Fakes\FakeCourseService.cs" />
-    <Compile Include="Fakes\FakeLmsService.cs" />
-    <Compile Include="Fakes\FakeUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CurriculumManagement\SpecializedResultTest.cs" />
     <Compile Include="CurriculumManagement\ThemeInfoModelTest.cs" />
@@ -135,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Libs\" />
+    <Folder Include="Test References\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

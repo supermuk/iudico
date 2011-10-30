@@ -52,8 +52,6 @@ namespace IUDICO.CourseManagement.Models.Storage
         NodeResource GetResource(int id);
         int AddResource(NodeResource resource, HttpPostedFileBase file);
         string GetResourcePath(int resId);
-        string GetResourcePath(int nodeId, string fileName);
-        
         void UpdateResource(int id, NodeResource resource);
         void DeleteResource(int id);
         void DeleteResources(List<int> ids);
