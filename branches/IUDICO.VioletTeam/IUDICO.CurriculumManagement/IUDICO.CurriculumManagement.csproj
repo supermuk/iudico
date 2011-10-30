@@ -82,6 +82,7 @@
     <Compile Include="Controllers\CurriculumAssignmentTimelineController.cs" />
     <Compile Include="Controllers\CurriculumBaseController.cs" />
     <Compile Include="Controllers\CurriculumController.cs" />
+    <Compile Include="Controllers\ManualInputController.cs" />
     <Compile Include="Controllers\StageController.cs" />
     <Compile Include="Controllers\StageTimelineController.cs" />
     <Compile Include="Controllers\ThemeAssignmentController.cs" />
@@ -111,6 +112,7 @@
   <ItemGroup>
     <Content Include="Views\CurriculumAssignmentTimeline\Edit.aspx" />
     <Content Include="Views\CurriculumAssignment\Create.aspx" />
+    <Content Include="Views\ManualInput\Index.aspx" />
     <Content Include="Views\StageTimeline\Create.aspx" />
     <Content Include="Views\CurriculumAssignment\Edit.aspx" />
     <Content Include="Views\CurriculumAssignmentTimeline\Create.aspx" />
