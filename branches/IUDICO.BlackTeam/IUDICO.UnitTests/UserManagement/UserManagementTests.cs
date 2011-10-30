@@ -94,7 +94,7 @@ namespace IUDICO.UnitTests.UserManagement
 
         public void Setup()
         {
-            MockLmsService.Setup(l => l.GetIDataContext()).Returns(MockDataContext.Object);
+            //MockLmsService.Setup(l => l.GetIDataContext()).Returns(MockDataContext.Object);
             MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(MockDataContext.Object);
             MockStorage.Setup(s => s.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(true);
         }
@@ -111,18 +111,18 @@ namespace IUDICO.UnitTests.UserManagement
                                         new Group {Id = 1, Name = "PMI51", Deleted = false}
                                     };
 
-            var mockGroupUserData = new[]
+            /*var mockGroupUserData = new[]
                                         {
                                             new GroupUser {GroupRef = 1, UserRef = mockUserData[0].Id}
                                         };
-
+            */
             var mockUsers = new MockableTable<User>(Users.Object, mockUserData.AsQueryable());
             var mockGroups = new MockableTable<Group>(Groups.Object, mockGroupData.AsQueryable());
-            var mockGroupUsers = new MockableTable<GroupUser>(GroupUsers.Object, mockGroupUserData.AsQueryable());
+            //var mockGroupUsers = new MockableTable<GroupUser>(GroupUsers.Object, mockGroupUserData.AsQueryable());
 
             MockDataContext.SetupGet(c => c.Users).Returns(mockUsers);
             MockDataContext.SetupGet(c => c.Groups).Returns(mockGroups);
-            MockDataContext.SetupGet(c => c.GroupUsers).Returns(mockGroupUsers);
+            //MockDataContext.SetupGet(c => c.GroupUsers).Returns(mockGroupUsers);
         }
     }
 }

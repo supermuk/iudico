@@ -114,17 +114,23 @@ namespace IUDICO.UserManagement.Controllers
         {
             var group = _Storage.GetGroup(id);
 
-            var userList =
-                _Storage.GetUsersNotInGroup(group).Select(
-                    u => new SelectListItem {Text = u.Username, Value = u.Id.ToString(), Selected = false});
+            var users =
+                _Storage.GetUsersNotInGroup(group);
+                /*.Select(
+                    u => new SelectListItem {Text = u.Username, Value = u.Id.ToString(), Selected = false});*/
 
-            var groupUser = new GroupUser
+            foreach (var u in users)
+            {
+                group.Users.Add(u);
+            }
+            
+            /*var groupUser = new GroupUser
                                 {
                                     Group = group,
                                     UserList = userList
-                                };
+                                };*/
 
-            return View(groupUser);
+            return View();
         }
 
         [Allow(Role = Role.Teacher)]
@@ -145,15 +151,15 @@ namespace IUDICO.UserManagement.Controllers
                 _Storage.GetUsersNotInGroup(group).Select(
                     u => new SelectListItem { Text = u.Username, Value = u.Id.ToString(), Selected = false });
 
-                var groupUser = new GroupUser
+                /*var groupUser = new GroupUser
                 {
                     Group = group,
                     UserList = userList
-                };
+                };*/
 
                 ModelState.AddModelError("UserRef", Localization.getMessage("PleaseSelectUserFromList"));
 
-                return View(groupUser);
+                return View();
             }
 
             var user = _Storage.GetUser(u => u.Id == userRef.Value);

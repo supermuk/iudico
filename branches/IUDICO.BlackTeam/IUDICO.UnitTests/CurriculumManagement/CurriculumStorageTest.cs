@@ -9,6 +9,7 @@ using IUDICO.CurriculumManagement.Controllers;
 using System.Web.Mvc;
 using System.Web.Routing;
 using IUDICO.UnitTests.Fakes;
+using IUDICO.CurriculumManagement.Models.Database;
 
 namespace IUDICO.UnitTests.CurriculumManagement
 {
@@ -17,17 +18,19 @@ namespace IUDICO.UnitTests.CurriculumManagement
     {
         ICurriculumStorage storage { get; set; }
         ILmsService lmsService { get; set; }
-        DBDataContext context { get; set; } 
+        //DBDataContext context { get; set; } 
+        CurriculumManagementDBContext context { get; set; }
+        
 
         private void ClearDb()
         {
-            context = lmsService.GetDbDataContext();
+            //context = lmsService.GetDbDataContext();
             context.CurriculumAssignments.DeleteAllOnSubmit(context.CurriculumAssignments);
             context.Themes.DeleteAllOnSubmit(context.Themes);
             context.Stages.DeleteAllOnSubmit(context.Stages);
             context.Curriculums.DeleteAllOnSubmit(context.Curriculums);
             context.CurriculumAssignments.DeleteAllOnSubmit(context.CurriculumAssignments);
-            context.SubmitChanges();
+            //context.SubmitChanges();
         }
 
         private void InitializeDb()
@@ -35,8 +38,8 @@ namespace IUDICO.UnitTests.CurriculumManagement
             context.ThemeTypes.InsertOnSubmit(new ThemeType { Id = 1, Name = "Test" });
             context.ThemeTypes.InsertOnSubmit(new ThemeType { Id = 2, Name = "Theory" });
 
-            context.Courses.InsertOnSubmit(new Course { Name = "Course", Created = DateTime.Now, Deleted = false, Updated = DateTime.Now });
-            context.SubmitChanges();
+            //context.Courses.InsertOnSubmit(new Course { Name = "Course", Created = DateTime.Now, Deleted = false, Updated = DateTime.Now });
+            //context.SubmitChanges();
         }
 
         public CurriculumStorageTest()

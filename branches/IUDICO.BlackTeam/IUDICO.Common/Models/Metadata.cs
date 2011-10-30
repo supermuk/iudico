@@ -77,10 +77,10 @@ namespace IUDICO.Common.Models
             public bool IsDeleted { get; set; }
 
             [ScaffoldColumn(false)]
-            public EntitySet<CurriculumAssignment> CurriculumAssignments { get; set; }
+            public ICollection<CurriculumAssignment> CurriculumAssignments { get; set; }
 
             [ScaffoldColumn(false)]
-            public EntitySet<Stage> Stages { get; set; }
+            public ICollection<Stage> Stages { get; set; }
         }
     }
 
@@ -113,7 +113,7 @@ namespace IUDICO.Common.Models
             public bool IsDeleted { get; set; }
 
             [ScaffoldColumn(false)]
-            public EntitySet<Theme> Themes { get; set; }
+            public ICollection<Theme> Themes { get; set; }
 
             [ScaffoldColumn(false)]
             public Curriculum Curriculum { get; set; }
@@ -252,10 +252,10 @@ namespace IUDICO.Common.Models
         {
             get
             {
-                if (GroupUsers.Count > 1)
-                    return GroupUsers.Select(g => g.Group.Name).Aggregate((prev, next) => prev + ", " + next);
-                else if (GroupUsers.Count == 1)
-                    return GroupUsers.Select(g => g.Group.Name).First();
+                if (Groups.Count > 1)
+                    return Groups.Select(g => g.Name).Aggregate((prev, next) => prev + ", " + next);
+                else if (Groups.Count == 1)
+                    return Groups.Select(g => g.Name).First();
                 else
                     return string.Empty;
             }
@@ -302,8 +302,8 @@ namespace IUDICO.Common.Models
             [ScaffoldColumn(false)]
             public int Id { get; set; }
 
-            [ScaffoldColumn(false)]
-            public EntitySet<GroupUser> GroupUsers { get; set; }
+            //[ScaffoldColumn(false)]
+            //public EntitySet<GroupUser> GroupUsers { get; set; }
 
             [LocalizedDisplayName("Name")]
             [LocalizedRequired(ErrorMessage = "NameRequired")]
@@ -315,7 +315,7 @@ namespace IUDICO.Common.Models
         }
     }
     
-    [MetadataType(typeof(Metadata))]
+    /*[MetadataType(typeof(Metadata))]
     public partial class GroupUser
     {
         public IEnumerable<SelectListItem> UserList { get; set; }
@@ -329,7 +329,7 @@ namespace IUDICO.Common.Models
             [LocalizedDisplayName("User")]
             public int UserRef { get; set; }
         }
-    }
+    }*/
 
     [MetadataType(typeof(Metadata))]
     [Bind(Exclude = "Id")]

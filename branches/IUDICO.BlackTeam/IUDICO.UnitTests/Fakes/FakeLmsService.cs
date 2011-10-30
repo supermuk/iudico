@@ -31,7 +31,7 @@ namespace IUDICO.UnitTests.Fakes
             throw new NotImplementedException();
         }
 
-        public DBDataContext GetDbDataContext()
+        /*public DBDataContext GetDbDataContext()
         {
             return new DBDataContext(ConfigurationManager.ConnectionStrings["IUDICO-TEST"].ConnectionString);
         }
@@ -40,12 +40,14 @@ namespace IUDICO.UnitTests.Fakes
         {
             return GetDbDataContext();
         }
-
+        
         public DbConnection GetDbConnection()
         {
             throw new NotImplementedException();
         }
 
+        */
+        
         public void Inform(string evt, params object[] data)
         {
             throw new NotImplementedException();

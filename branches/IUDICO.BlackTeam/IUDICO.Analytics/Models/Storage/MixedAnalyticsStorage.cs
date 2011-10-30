@@ -10,12 +10,12 @@ namespace IUDICO.Analytics.Models.Storage
     public class MixedAnalyticsStorage : IAnalyticsStorage
     {
         private readonly ILmsService _LmsService;
-        private DBDataContext _Db;
+        /*private DBDataContext _Db;
         
         protected DBDataContext GetDbDataContext()
         {
             return _LmsService.GetDbDataContext();
-        }
+        }*/
 
         public MixedAnalyticsStorage(ILmsService lmsService)
         {
@@ -25,7 +25,7 @@ namespace IUDICO.Analytics.Models.Storage
 
         public void RefreshState()
         {
-            _Db = _LmsService.GetDbDataContext();
+            //_Db = _LmsService.GetDbDataContext();
         }
 
 
@@ -33,16 +33,18 @@ namespace IUDICO.Analytics.Models.Storage
 
         public IEnumerable<ForecastingTree> GetAllForecastingTrees()
         {
-            IEnumerable<ForecastingTree> query;
+            /*IEnumerable<ForecastingTree> query;
             query = _Db.ForecastingTrees.Where(x => x.IsDeleted == false);
-            return query;
+            return query;*/
+            throw new NotImplementedException();
         }
 
         public IEnumerable<ForecastingTree> GetForecastingTrees(System.Guid UserRef)
         {
-            IEnumerable<ForecastingTree> query;
+            /*IEnumerable<ForecastingTree> query;
             query = _Db.ForecastingTrees.Where(x => x.UserRef == UserRef && x.IsDeleted == false);
-            return query;
+            return query;*/
+            throw new NotImplementedException();
         }
 
         #endregion

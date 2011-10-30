@@ -42,6 +42,7 @@
       <HintPath>..\References\Castle.Windsor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
     <Reference Include="log4net">
       <HintPath>..\References\log4net.dll</HintPath>
     </Reference>
@@ -50,7 +51,10 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -76,15 +80,19 @@
     <Compile Include="Models\Attributes\DropDownListAttribute.cs" />
     <Compile Include="Models\Attributes\EmailAddressAttribute.cs" />
     <Compile Include="Models\Attributes\OrderAttribute.cs" />
-    <Compile Include="Models\DBDataContext.cs">
-      <DependentUpon>DBDataContext.dbml</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBDataContext.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DBDataContext.dbml</DependentUpon>
-    </Compile>
-	<Compile Include="Models\Action\IAction.cs" />
+    <Compile Include="Models\Action\IAction.cs" />
+    <Compile Include="Models\Database\Course.cs" />
+    <Compile Include="Models\Database\CourseUser.cs" />
+    <Compile Include="Models\Database\Curriculum.cs" />
+    <Compile Include="Models\Database\CurriculumAssignment.cs" />
+    <Compile Include="Models\Database\Group.cs" />
+    <Compile Include="Models\Database\Node.cs" />
+    <Compile Include="Models\Database\Stage.cs" />
+    <Compile Include="Models\Database\Theme.cs" />
+    <Compile Include="Models\Database\ThemeAssignment.cs" />
+    <Compile Include="Models\Database\ThemeType.cs" />
+    <Compile Include="Models\Database\Timeline.cs" />
+    <Compile Include="Models\Database\User.cs" />
     <Compile Include="Models\Interfaces\IDataContext.cs" />
     <Compile Include="Models\Interfaces\IMockableDataContext.cs" />
     <Compile Include="Models\Interfaces\IMockableTable.cs" />
@@ -131,9 +139,12 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Models\DBDataContext.dbml">
+      <SubType>Designer</SubType>
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>DBDataContext.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
+    </None>
+    <None Include="Models\DBDataContext.dbml.layout">
+      <DependentUpon>DBDataContext.dbml</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
@@ -142,11 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Models\DBDataContext.dbml.layout">
-      <DependentUpon>DBDataContext.dbml</DependentUpon>
-    </None>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resource.resx" />

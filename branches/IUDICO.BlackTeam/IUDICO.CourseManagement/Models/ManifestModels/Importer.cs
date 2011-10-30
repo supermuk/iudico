@@ -45,7 +45,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
                 Name = item.Title,
                 IsFolder = item.IsParent,
                 ParentId = (parent != null ? (int?)parent.Id : null),
-                Sequencing = xml.SerializeToXElemet(item.Sequencing)
+                Sequencing = item.Sequencing.ToString() // TODO: check if correct
             };
 
             _CourseStorage.AddNode(node);
