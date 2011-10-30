@@ -99,6 +99,7 @@
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\NodeController.cs" />
     <Compile Include="CourseManagementPlugin.cs" />
+    <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Localization.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
