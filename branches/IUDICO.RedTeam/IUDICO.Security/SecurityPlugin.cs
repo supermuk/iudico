@@ -10,6 +10,7 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models;
 using System.Web.Routing;
+using IUDICO.Security.Models.Storages;
 
 namespace IUDICO.Security
 {
@@ -28,7 +29,8 @@ namespace IUDICO.Security
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<SecurityPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<ISecurityService>().ImplementedBy<SecurityService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
+                Component.For<ISecurityService>().ImplementedBy<SecurityService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<IBanStorage>().ImplementedBy<DatabaseBanStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
         }
         #endregion
