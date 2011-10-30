@@ -84,10 +84,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DBDataContext.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Models\Interfaces\IDataContext.cs" />
-    <Compile Include="Models\Interfaces\IMockableDataContext.cs" />
-    <Compile Include="Models\Interfaces\IMockableTable.cs" />
-    <Compile Include="Models\MockableTable.cs" />
     <Compile Include="Models\NodeProperty.cs" />
     <Compile Include="Models\Notifications\CourseNotifications.cs" />
     <Compile Include="Models\Helpers.cs" />

@@ -7,6 +7,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using IUDICO.Common.Models;
+using IUDICO.CourseManagement.Models;
 using IUDICO.CourseManagement.Models.ManifestModels;
 using IUDICO.CourseManagement.Models.Storage;
 using IUDICO.Common.Models.Services;
@@ -39,7 +40,7 @@ namespace IUDICO.CourseManagement.Controllers
         public ActionResult Create()
         {
             var allUsers = _UserService.GetUsers().Where(i => i.Username != _UserService.GetCurrentUser().Username);
-            
+
             ViewData["AllUsers"] = allUsers;
 
             return View();
@@ -49,7 +50,7 @@ namespace IUDICO.CourseManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Create(Course course, IEnumerable<Guid> sharewith)
         {
-            
+
             course.Owner = _UserService.GetCurrentUser().Username;
             var id = _Storage.AddCourse(course);
             _Storage.UpdateCourseUsers(id, sharewith);
@@ -83,7 +84,7 @@ namespace IUDICO.CourseManagement.Controllers
 
             _Storage.UpdateCourse(courseId, course);
             _Storage.UpdateCourseUsers(courseId, sharewith);
-          
+
             return RedirectToAction("Index");
         }
 
@@ -101,7 +102,7 @@ namespace IUDICO.CourseManagement.Controllers
                 }
 
                 _Storage.DeleteCourse(courseId);
-                
+
                 return Json(new { success = true, id = courseId });
             }
             catch
@@ -117,7 +118,7 @@ namespace IUDICO.CourseManagement.Controllers
             try
             {
                 _Storage.DeleteCourses(new List<int>(courseIds));
-                
+
                 return Json(new { success = true });
             }
             catch
@@ -139,7 +140,7 @@ namespace IUDICO.CourseManagement.Controllers
         public FilePathResult Export(int courseId)
         {
             var path = _Storage.Export(courseId);
-            
+
             return new FilePathResult(path, "application/octet-stream") { FileDownloadName = _Storage.GetCourse(courseId).Name + ".zip" };
         }
 
@@ -147,7 +148,7 @@ namespace IUDICO.CourseManagement.Controllers
         public ActionResult Import()
         {
             ViewData["validateResults"] = new List<string>();
-            
+
             return View();
         }
 
@@ -162,7 +163,7 @@ namespace IUDICO.CourseManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Import(string action, HttpPostedFileBase fileUpload)
         {
-            if(fileUpload == null)
+            if (fileUpload == null)
             {
                 ViewData["validateResults"] = new List<string>();
 
@@ -175,7 +176,7 @@ namespace IUDICO.CourseManagement.Controllers
             }
 
             var path = HttpContext.Request.PhysicalApplicationPath;
-            
+
             path = Path.Combine(path, @"Data\WorkFolder");
             path = Path.Combine(path, Guid.NewGuid().ToString());
 
@@ -208,6 +209,60 @@ namespace IUDICO.CourseManagement.Controllers
             ViewData["validateResults"] = Helpers.PackageValidator.Validate(path);
 
             return View("Import");
+        }
+
+        // To implement ResourceList
+
+        //[HttpPost]
+        //[Allow(Role = Role.Teacher)]
+        //public JsonResult ResourceList(int nodeId)
+        //{
+        //    try
+        //    {
+        //        var resources = _Storage.GetResources(nodeId).ToJsTrees();
+
+        //        return Json(resources);
+        //    }
+        //    catch(Exception)
+        //    {
+
+        //        return Json(new { });
+        //    }
+        //}
+
+        [HttpPost]
+        [Allow(Role = Role.Teacher)]
+        public JsonResult DeleteResource(int id)
+        {
+            try
+            {
+                _Storage.DeleteResource(id);
+
+                return Json(new { status = true });
+            }
+            catch (Exception)
+            {
+                return Json(new { status = false });
+            }
+        }
+
+        [HttpPost]
+        [Allow(Role = Role.Teacher)]
+        public JsonResult RenameResource(int id, string name)
+        {
+            try
+            {
+                var node = _Storage.GetResource(id);
+                node.Name = name;
+
+                _Storage.UpdateResource(id, node);
+
+                return Json(new { status = true });
+            }
+            catch (Exception)
+            {
+                return Json(new { status = false });
+            }
         }
     }
 }
