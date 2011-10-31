@@ -37,9 +37,14 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             _Db = _LmsService.GetIDataContext();
         }
 
+        public User GetCurrentUser()
+        {
+            return _LmsService.FindService<IUserService>().GetCurrentUser();
+        }
+
         public IEnumerable<Course> GetCourses()
         {
-            return _LmsService.FindService<ICourseService>().GetCourses();
+            return _LmsService.FindService<ICourseService>().GetCourses(GetCurrentUser());
         }
 
         public Course GetCourse(int id)
@@ -79,13 +84,19 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public IEnumerable<Curriculum> GetCurriculums()
         {
-            return _Db.Curriculums.Where(item => !item.IsDeleted);
+            return _Db.Curriculums.Where(item => !item.IsDeleted).ToList();
+            //return GetDbDataContext().Curriculums.Where(item => !item.IsDeleted);
+        }
+
+        public IEnumerable<Curriculum> GetCurriculums(User owner)
+        {
+            return _Db.Curriculums.Where(item => !item.IsDeleted && item.Owner == owner.Username).ToList();
             //return GetDbDataContext().Curriculums.Where(item => !item.IsDeleted);
         }
 
         public IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids)
         {
-            return _Db.Curriculums.Where(item => ids.Contains(item.Id) && !item.IsDeleted);
+            return _Db.Curriculums.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
         }
 
         public IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId)
@@ -93,12 +104,13 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return GetCurriculumAssignmentsByGroupId(groupId).Select(item => item.Curriculum);
         }
 
+        //TODO:what the fuckin method?
         public IEnumerable<Curriculum> GetCurriculumsWithThemesOwnedByUser(User user)
         {
             IEnumerable<int> courseIds = GetCoursesOwnedByUser(user)
                 .Select(item => item.Id)
                 .ToList();
-            return GetCurriculums()
+            return GetCurriculums(user) //?
                 .Where(item => GetThemesByCurriculumId(item.Id)
                              .Any(theme => courseIds.Contains(theme.CourseRef ?? Constants.NoCourseId)));
         }
@@ -108,6 +120,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             curriculum.Created = DateTime.Now;
             curriculum.Updated = DateTime.Now;
             curriculum.IsDeleted = false;
+            curriculum.Owner = GetCurrentUser().Username;
 
             _Db.Curriculums.InsertOnSubmit(curriculum);
             _Db.SubmitChanges();

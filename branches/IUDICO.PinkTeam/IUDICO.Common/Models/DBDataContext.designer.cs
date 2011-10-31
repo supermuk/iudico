@@ -54,9 +54,6 @@ namespace IUDICO.Common.Models
     partial void InsertTimeline(Timeline instance);
     partial void UpdateTimeline(Timeline instance);
     partial void DeleteTimeline(Timeline instance);
-    partial void InsertCurriculum(Curriculum instance);
-    partial void UpdateCurriculum(Curriculum instance);
-    partial void DeleteCurriculum(Curriculum instance);
     partial void InsertStage(Stage instance);
     partial void UpdateStage(Stage instance);
     partial void DeleteStage(Stage instance);
@@ -69,6 +66,9 @@ namespace IUDICO.Common.Models
     partial void InsertTheme(Theme instance);
     partial void UpdateTheme(Theme instance);
     partial void DeleteTheme(Theme instance);
+    partial void InsertCurriculum(Curriculum instance);
+    partial void UpdateCurriculum(Curriculum instance);
+    partial void DeleteCurriculum(Curriculum instance);
     #endregion
 		
 		public DBDataContext() : 
@@ -165,14 +165,6 @@ namespace IUDICO.Common.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<Curriculum> Curriculums
-		{
-			get
-			{
-				return this.GetTable<Curriculum>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Stage> Stages
 		{
 			get
@@ -202,6 +194,14 @@ namespace IUDICO.Common.Models
 			get
 			{
 				return this.GetTable<Theme>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Curriculum> Curriculums
+		{
+			get
+			{
+				return this.GetTable<Curriculum>();
 			}
 		}
 	}
@@ -1846,220 +1846,6 @@ namespace IUDICO.Common.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Curriculums")]
-	public partial class Curriculum : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _Name;
-		
-		private System.DateTime _Created;
-		
-		private System.DateTime _Updated;
-		
-		private bool _IsDeleted;
-		
-		private EntitySet<CurriculumAssignment> _CurriculumAssignments;
-		
-		private EntitySet<Stage> _Stages;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnCreatedChanging(System.DateTime value);
-    partial void OnCreatedChanged();
-    partial void OnUpdatedChanging(System.DateTime value);
-    partial void OnUpdatedChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    #endregion
-		
-		public Curriculum()
-		{
-			this._CurriculumAssignments = new EntitySet<CurriculumAssignment>(new Action<CurriculumAssignment>(this.attach_CurriculumAssignments), new Action<CurriculumAssignment>(this.detach_CurriculumAssignments));
-			this._Stages = new EntitySet<Stage>(new Action<Stage>(this.attach_Stages), new Action<Stage>(this.detach_Stages));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Created", DbType="DateTime NOT NULL")]
-		public System.DateTime Created
-		{
-			get
-			{
-				return this._Created;
-			}
-			set
-			{
-				if ((this._Created != value))
-				{
-					this.OnCreatedChanging(value);
-					this.SendPropertyChanging();
-					this._Created = value;
-					this.SendPropertyChanged("Created");
-					this.OnCreatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Updated", DbType="DateTime NOT NULL")]
-		public System.DateTime Updated
-		{
-			get
-			{
-				return this._Updated;
-			}
-			set
-			{
-				if ((this._Updated != value))
-				{
-					this.OnUpdatedChanging(value);
-					this.SendPropertyChanging();
-					this._Updated = value;
-					this.SendPropertyChanged("Updated");
-					this.OnUpdatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Curriculum_CurriculumAssignment", Storage="_CurriculumAssignments", ThisKey="Id", OtherKey="CurriculumRef")]
-		public EntitySet<CurriculumAssignment> CurriculumAssignments
-		{
-			get
-			{
-				return this._CurriculumAssignments;
-			}
-			set
-			{
-				this._CurriculumAssignments.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Curriculum_Stage", Storage="_Stages", ThisKey="Id", OtherKey="CurriculumRef")]
-		public EntitySet<Stage> Stages
-		{
-			get
-			{
-				return this._Stages;
-			}
-			set
-			{
-				this._Stages.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_CurriculumAssignments(CurriculumAssignment entity)
-		{
-			this.SendPropertyChanging();
-			entity.Curriculum = this;
-		}
-		
-		private void detach_CurriculumAssignments(CurriculumAssignment entity)
-		{
-			this.SendPropertyChanging();
-			entity.Curriculum = null;
-		}
-		
-		private void attach_Stages(Stage entity)
-		{
-			this.SendPropertyChanging();
-			entity.Curriculum = this;
-		}
-		
-		private void detach_Stages(Stage entity)
-		{
-			this.SendPropertyChanging();
-			entity.Curriculum = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Stages")]
 	public partial class Stage : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -3274,6 +3060,244 @@ namespace IUDICO.Common.Models
 		{
 			this.SendPropertyChanging();
 			entity.Theme = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Curriculums")]
+	public partial class Curriculum : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private System.DateTime _Created;
+		
+		private System.DateTime _Updated;
+		
+		private string _Owner;
+		
+		private bool _IsDeleted;
+		
+		private EntitySet<CurriculumAssignment> _CurriculumAssignments;
+		
+		private EntitySet<Stage> _Stages;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnCreatedChanging(System.DateTime value);
+    partial void OnCreatedChanged();
+    partial void OnUpdatedChanging(System.DateTime value);
+    partial void OnUpdatedChanged();
+    partial void OnOwnerChanging(string value);
+    partial void OnOwnerChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    #endregion
+		
+		public Curriculum()
+		{
+			this._CurriculumAssignments = new EntitySet<CurriculumAssignment>(new Action<CurriculumAssignment>(this.attach_CurriculumAssignments), new Action<CurriculumAssignment>(this.detach_CurriculumAssignments));
+			this._Stages = new EntitySet<Stage>(new Action<Stage>(this.attach_Stages), new Action<Stage>(this.detach_Stages));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Created", DbType="DateTime NOT NULL")]
+		public System.DateTime Created
+		{
+			get
+			{
+				return this._Created;
+			}
+			set
+			{
+				if ((this._Created != value))
+				{
+					this.OnCreatedChanging(value);
+					this.SendPropertyChanging();
+					this._Created = value;
+					this.SendPropertyChanged("Created");
+					this.OnCreatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Updated", DbType="DateTime NOT NULL")]
+		public System.DateTime Updated
+		{
+			get
+			{
+				return this._Updated;
+			}
+			set
+			{
+				if ((this._Updated != value))
+				{
+					this.OnUpdatedChanging(value);
+					this.SendPropertyChanging();
+					this._Updated = value;
+					this.SendPropertyChanged("Updated");
+					this.OnUpdatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Owner", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Owner
+		{
+			get
+			{
+				return this._Owner;
+			}
+			set
+			{
+				if ((this._Owner != value))
+				{
+					this.OnOwnerChanging(value);
+					this.SendPropertyChanging();
+					this._Owner = value;
+					this.SendPropertyChanged("Owner");
+					this.OnOwnerChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
+		{
+			get
+			{
+				return this._IsDeleted;
+			}
+			set
+			{
+				if ((this._IsDeleted != value))
+				{
+					this.OnIsDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._IsDeleted = value;
+					this.SendPropertyChanged("IsDeleted");
+					this.OnIsDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Curriculum_CurriculumAssignment", Storage="_CurriculumAssignments", ThisKey="Id", OtherKey="CurriculumRef")]
+		public EntitySet<CurriculumAssignment> CurriculumAssignments
+		{
+			get
+			{
+				return this._CurriculumAssignments;
+			}
+			set
+			{
+				this._CurriculumAssignments.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Curriculum_Stage", Storage="_Stages", ThisKey="Id", OtherKey="CurriculumRef")]
+		public EntitySet<Stage> Stages
+		{
+			get
+			{
+				return this._Stages;
+			}
+			set
+			{
+				this._Stages.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_CurriculumAssignments(CurriculumAssignment entity)
+		{
+			this.SendPropertyChanging();
+			entity.Curriculum = this;
+		}
+		
+		private void detach_CurriculumAssignments(CurriculumAssignment entity)
+		{
+			this.SendPropertyChanging();
+			entity.Curriculum = null;
+		}
+		
+		private void attach_Stages(Stage entity)
+		{
+			this.SendPropertyChanging();
+			entity.Curriculum = this;
+		}
+		
+		private void detach_Stages(Stage entity)
+		{
+			this.SendPropertyChanging();
+			entity.Curriculum = null;
 		}
 	}
 }
