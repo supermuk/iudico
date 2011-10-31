@@ -244,7 +244,7 @@ namespace IUDICO.UserManagement.Controllers
 		[HttpPost]
         public ActionResult UploadAvatar(Guid id, HttpPostedFileBase file)
         {
-            FileUploader.UploadAvatar(id, file, Server);
+            _Storage.UploadAvatar(id, file);
             return RedirectToAction("Edit", new { id = id });
         }
 

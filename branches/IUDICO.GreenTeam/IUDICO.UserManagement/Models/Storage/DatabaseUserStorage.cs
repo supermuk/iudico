@@ -11,6 +11,7 @@ using IUDICO.Common.Models.Notifications;
 using System.Net.Mail;
 using Kent.Boogaart.KBCsv;
 using IUDICO.Common.Models.Interfaces;
+using System.IO;
 
 namespace IUDICO.UserManagement.Models.Storage
 {
@@ -325,6 +326,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
             var user = new User
                             {
+                                Id = Guid.NewGuid(),
                                 Username = registerModel.Username,
                                 Password = EncryptPassword(registerModel.Password),
                                 OpenId = registerModel.OpenId ?? string.Empty,
@@ -559,6 +561,40 @@ namespace IUDICO.UserManagement.Models.Storage
         }
 
         #endregion
+
+        public int UploadAvatar(Guid id, HttpPostedFileBase file)
+        {
+            int resultCode = -1; // if no file had been passed
+            if (file != null)
+            {
+                string fileName = Path.GetFileName(id.ToString() + ".png");
+                string fullPath = Path.Combine(HttpContext.Current.Server.MapPath("~/Data/Avatars"), fileName);
+                FileInfo fileInfo = new FileInfo(fullPath);
+
+                resultCode = 1; // if some file had been passed
+
+                if (fileInfo.Exists)
+                {
+                    fileInfo.Delete();
+                    resultCode = 2; // if the file with the same name already exists
+                }
+
+                file.SaveAs(fullPath);
+            }
+            return resultCode;
+        }
+        public int DeleteAvatar(Guid id)
+        {
+            string fileName = Path.GetFileName(id.ToString() + ".png");
+            string fullPath = Path.Combine(HttpContext.Current.Server.MapPath("~/Data/Avatars"), fileName);
+            FileInfo fileInfo = new FileInfo(fullPath);
+            if (fileInfo.Exists)
+            {
+                fileInfo.Delete();
+                return 1; // if the file had been removed successfully
+            }
+            return -1; // if there was no file with such name in directory
+        }
 
         #endregion
     }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using IUDICO.Common.Models;
+using System.IO;
+using System.Web;
 
 namespace IUDICO.UserManagement.Models.Storage
 {
@@ -28,6 +30,9 @@ namespace IUDICO.UserManagement.Models.Storage
         void RegisterUser(RegisterModel registerModel);
         string EncryptPassword(string password);
         void RestorePassword(RestorePasswordModel restorePasswordModel);
+
+        int UploadAvatar(Guid id, HttpPostedFileBase file);
+        int DeleteAvatar(Guid id);
 
         #endregion
 
