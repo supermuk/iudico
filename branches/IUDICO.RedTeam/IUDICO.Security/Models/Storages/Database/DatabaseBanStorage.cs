@@ -22,36 +22,95 @@ namespace IUDICO.Security.Models.Storages.Database
 
         public void AttachComputerToRoom(Computer computer, Room room)
         {
-            throw new NotImplementedException();
+            using (var context = NewContext())
+            {
+                computer.Room = room;
+                context.Computers.Attach(computer, true);
+
+                context.SubmitChanges();
+            }
         }
+
         public void DetachComputer(Computer computer)
         {
-            throw new NotImplementedException();
+            using (var context = NewContext())
+            {
+                computer.Room = null;
+                context.Computers.Attach(computer, true);
+
+                context.SubmitChanges();
+            }
         }
+
         public void BanComputer(Computer computer)
         {
-            throw new NotImplementedException();
+            using (var context = NewContext())
+            {
+                var r = context.Computers.SingleOrDefault(x => x.IpAddress == computer.IpAddress);
+                r.Banned = true;
+                context.SubmitChanges();
+            }
         }
+
         public void UnbanComputer(Computer computer)
         {
-            throw new NotImplementedException();
+            using (var context = NewContext())
+            {
+                var r = context.Computers.SingleOrDefault(x => x.IpAddress == computer.IpAddress);
+                r.Banned = false;
+                context.SubmitChanges();
+            }
+        }
+
+        public void BanRoom(Room room)
+        {
+            using (var context = NewContext())
+            {
+                var r = context.Rooms.SingleOrDefault(x => x.Id == room.Id);
+                r.Allowed = false;
+
+                foreach (Computer comp in r.Computers)
+                    comp.Banned = true;
+                    
+                context.SubmitChanges();
+            }
+        }
+
+        public void UnbanRoom(Room room)
+        {
+            using (var context = NewContext())
+            {
+                var r = context.Rooms.SingleOrDefault(x => x.Id == room.Id);
+                r.Allowed = true;
+
+                context.SubmitChanges();
+            }
         }
 
         public Computer GetComputer(string ipAddress)
         {
-            throw new NotImplementedException();
+            using (var context = NewContext())
+            {
+                return context.Computers.FirstOrDefault(i => i.IpAddress == ipAddress);
+            }
         }
+
         public Room GetRoom(string name)
         {
-            throw new NotImplementedException();
+            using (var context = NewContext())
+            {
+                return context.Rooms.FirstOrDefault(room => room.Name == name);
+            }
         }
-        public IEnumerable<Computer> GetComputers()
-        {
-           return NewContext().Computers;
-        }
+
         public IEnumerable<Room> GetRooms()
         {
-            return NewContext().Rooms;
+               return NewContext().Rooms;
+        }
+
+        public IEnumerable<Computer> GetComputers()
+        {
+            return NewContext().Computers;
         }
 
         public void CreateComputer(Computer computer)
@@ -62,6 +121,7 @@ namespace IUDICO.Security.Models.Storages.Database
                 context.SubmitChanges();
             }
         }
+
         public void CreateRoom(Room room)
         {
             using (var context = NewContext())
@@ -70,14 +130,29 @@ namespace IUDICO.Security.Models.Storages.Database
                 context.SubmitChanges();
             }
         }
+
         public void DeleteComputer(Computer computer)
         {
-            throw new NotImplementedException();
+            using (var context = NewContext())
+            {
+                context.Computers.Attach(computer, true);
+                context.Computers.DeleteOnSubmit(computer);
+
+                context.SubmitChanges();
+            }
         }
+
         public void DeleteRoom(Room room)
         {
-            throw new NotImplementedException();
+            using (var context = NewContext())
+            {
+                context.Computers.Attach(room, true);
+                context.Computers.DeleteOnSubmit(room);
+
+                context.SubmitChanges();
+            }
         }
+
         #endregion
 
         protected IDataContext NewContext()

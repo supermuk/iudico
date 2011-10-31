@@ -16,10 +16,10 @@ namespace IUDICO.Security.ViewModels.Ban
 
         public RoomsViewModel() 
         {
-            Rooms = new List<String> { "Room1", "Room2", "Room3", "Room4", "Room5" };
-            CurrentRoom = "Room1";
-            Computers = new List<String> { "Comp1", "Comp2", "Comp3", "Comp4", "Comp5" };
-            UnchoosenComputers = new List<String> { "Comp6", "Comp7", "Comp8", "Comp9", "Comp10" };
+            Rooms = new List<String>();
+            CurrentRoom = null;
+            Computers = new List<String>();
+            UnchoosenComputers = new List<String>();
         }
     }
 }
