@@ -103,7 +103,10 @@
     <Compile Include="Base\TestFixture.cs" />
     <Compile Include="Base\TestFixtureWeb.cs" />
     <Compile Include="UserManagement\NUnit\CreateMultiple.cs" />
-    <Compile Include="UserManagement\NUnit\RestorePassword.cs" />
+	<Compile Include="UserManagement\NUnit\RestorePassword.cs" />
+    <Compile Include="UserManagement\NUnit\UploadAvatarTester.cs" />
+    <Compile Include="UserManagement\Selenium\AvatarSeleniumTester.cs" />
+    <Compile Include="UserManagement\Selenium\UpgradeSeleniumTester.cs" />
     <Compile Include="UserManagement\UserManagementTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -137,7 +140,6 @@
   <ItemGroup>
     <Folder Include="CurriculumManagement\" />
     <Folder Include="Libs\" />
-    <Folder Include="UserManagement\Selenium\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
