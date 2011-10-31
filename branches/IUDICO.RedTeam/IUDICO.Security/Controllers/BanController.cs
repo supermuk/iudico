@@ -6,6 +6,7 @@ using IUDICO.Common.Controllers;
 using System.Web.Mvc;
 using IUDICO.Security.ViewModels.Ban;
 using IUDICO.Security.Models.Storages;
+using IUDICO.Common.Models;
 
 namespace IUDICO.Security.Controllers
 {
@@ -31,6 +32,16 @@ namespace IUDICO.Security.Controllers
         [HttpPost]
         public ActionResult AddComputers(AddComputerViewModel viewModel)
         {
+            if (!String.IsNullOrEmpty(viewModel.ComputerIP))
+            {
+                var newComputer = new Computer
+                {
+                    Banned = false,
+                    IpAddress = viewModel.ComputerIP
+                };
+
+                _BanStorage.CreateComputer(newComputer);
+            }
             return View(viewModel);
         }
 
