@@ -1,5 +1,6 @@
 ﻿namespace IUDICO.CourseManagement
 {
+    [System.Obsolete("Use Common istead")]
     public class Localization : IUDICO.Common.Localization { }
 }
 //using System;
