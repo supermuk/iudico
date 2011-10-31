@@ -98,7 +98,6 @@
     <Compile Include="Models\Auth\OpenIdMembershipProvider.cs" />
     <Compile Include="Models\Auth\OpenIdMembershipUser.cs" />
     <Compile Include="Models\Auth\OpenIdRoleProvider.cs" />
-    <Compile Include="Models\FileUploader.cs" />
     <Compile Include="Models\Storage\IUserStorage.cs" />
     <Compile Include="Models\UserService.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
