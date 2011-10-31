@@ -10,7 +10,7 @@
         <tr>
             <th> Computer <//th>
             <th> <%= Html.ActionLink("Add", "AddComputers", "Ban") %> <//th>
-            <th> <%= Html.ActionLink("Edit", "EditComputer", "Ban") %> <//th>
+            <th> <%= Html.ActionLink("Edit", "BanComputer", "Ban") %> <//th>
             <th> <%= Html.ActionLink("Ban", "BanComputer", "Ban") %> <//th>
         </tr>
         <tr>
