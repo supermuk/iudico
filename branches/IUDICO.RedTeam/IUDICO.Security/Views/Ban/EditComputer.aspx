@@ -1,5 +1,5 @@
 ﻿<%@ Assembly Name="IUDICO.Security" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Security.ViewModels.Ban.EditComputerViewModel>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Security.ViewModels.Ban.EditComputersViewModel>" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="TitleContent" runat="server">
 	EditComputer
