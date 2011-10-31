@@ -45,6 +45,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
                                 new User {Username = "vladykx", Email = "vladykx@gmail.com"},
                             };
 
+            _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
+
             var results = _Tests.Storage.CreateUsersFromCSV(path);
 
             _Tests.Users.Verify(u => u.InsertAllOnSubmit(It.Is<IEnumerable<User>>(ie => TestUsers(ie, users))));
