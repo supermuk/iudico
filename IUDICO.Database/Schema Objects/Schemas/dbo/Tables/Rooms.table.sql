@@ -1,6 +1,8 @@
 ﻿CREATE TABLE [dbo].[Rooms] (
-    [Id]      INT           NOT NULL,
+    [Id]      INT           IDENTITY (1, 1) NOT NULL,
     [Name]    NVARCHAR (50) NOT NULL,
     [Allowed] BIT           NOT NULL
 );
+
+
 

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="IUDICO" EntityNamespace="IUDICO.Common.Models" ContextNamespace="IUDICO.Common.Models" Class="DBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=SUPER;Initial Catalog=IUDICO;Integrated Security=True" SettingsObjectName="IUDICO.Common.Properties.Settings" SettingsPropertyName="IUDICOConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;Initial Catalog=IUDICO;Integrated Security=True" SettingsObjectName="IUDICO.Common.Properties.Settings" SettingsPropertyName="IUDICOConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.CourseUsers" Member="CourseUsers">
     <Type Name="CourseUser">
       <Column Name="CourseRef" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -161,8 +161,7 @@
   </Table>
   <Table Name="dbo.Computers" Member="Computers">
     <Type Name="Computer">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="IpAddress" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="IpAddress" Type="System.String" DbType="NVarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Banned" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="CurrentUser" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="RoomRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
