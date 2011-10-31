@@ -103,6 +103,7 @@
     <Compile Include="Base\TestFixture.cs" />
     <Compile Include="Base\TestFixtureWeb.cs" />
     <Compile Include="UserManagement\NUnit\CreateMultiple.cs" />
+    <Compile Include="UserManagement\NUnit\RestorePassword.cs" />
     <Compile Include="UserManagement\UserManagementTests.cs" />
   </ItemGroup>
   <ItemGroup>
