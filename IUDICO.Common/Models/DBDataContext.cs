@@ -24,6 +24,14 @@ namespace IUDICO.Common.Models
         {
             get { return new MockableTable<NodeResource>(NodeResources); }
         }
+        IMockableTable<Computer> IDataContext.Computers
+        {
+            get { return new MockableTable<Computer>(Computers); }
+        }
+        IMockableTable<Room> IDataContext.Rooms
+        {
+            get { return new MockableTable<Room>(Rooms); }
+        }
     }
 }
 
