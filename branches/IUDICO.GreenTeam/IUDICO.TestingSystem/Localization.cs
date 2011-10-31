@@ -1,6 +1,7 @@
 ﻿namespace IUDICO.TestingSystem
 {
-    public class Localization : IUDICO.Common.Localization { }
+     [System.Obsolete("Use Common istead")]
+   public class Localization : IUDICO.Common.Localization { }
 }
 //using System;
 //using System.Collections.Generic;
