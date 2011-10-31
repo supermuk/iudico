@@ -230,10 +230,10 @@ namespace IUDICO.Common.Models
             [Order(3)]
             public string Email { get; set; }
 
-            [LocalizedDropDownList("SelectRole", SourceProperty = "RolesList")]
+            /*[LocalizedDropDownList("SelectRole", SourceProperty = "RolesList")]
             [LocalizedDisplayName("Role")]
             [Order(6)]
-            public int RoleId { get; set; }
+            public int RoleId { get; set; }*/
 
             [DisplayName("OpenId")]
             [StringLength(200, ErrorMessage = "OpenId can not be longer than 200")]
