@@ -13,6 +13,8 @@ namespace IUDICO.Security.Models.Storages
         void DetachComputer(Computer computer);
         void BanComputer(Computer computer);
         void UnbanComputer(Computer computer);
+        void BanRoom(Room room);
+        void UnbanRoom(Room room);
         
         Computer GetComputer(string ipAddress);
         Room GetRoom(string name);

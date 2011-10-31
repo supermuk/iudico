@@ -76,6 +76,8 @@
     <Content Include="Scripts\jquery\jquery.tmpl.min.js" />
     <Content Include="Views\Ban\AddRoom.aspx" />
     <Content Include="Views\Ban\AddComputers.aspx" />
+    <Content Include="Views\Ban\BanComputer.aspx" />
+    <Content Include="Views\Ban\BanRoom.aspx" />
     <Content Include="Views\Ban\EditComputer.aspx" />
     <Content Include="Views\Ban\EditRoom.aspx" />
     <Content Include="Views\Ban\Index.aspx" />
@@ -103,6 +105,8 @@
     <Compile Include="SecurityService.cs" />
     <Compile Include="ViewModels\Ban\AddComputerViewModel.cs" />
     <Compile Include="ViewModels\Ban\AddRoomViewModel.cs" />
+    <Compile Include="ViewModels\Ban\BanComputerViewModel.cs" />
+    <Compile Include="ViewModels\Ban\BanRoomViewModel.cs" />
     <Compile Include="ViewModels\Ban\EditComputersViewModel.cs" />
     <Compile Include="ViewModels\Ban\RoomsViewModel.cs" />
   </ItemGroup>
