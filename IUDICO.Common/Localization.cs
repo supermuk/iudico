@@ -6,38 +6,23 @@ using System.Web;
 using System.Threading;
 using System.IO;
 using System.Resources;
+using System.Reflection;
 
 namespace IUDICO.Common
 {
     public class Localization : System.Web.Mvc.ViewPage
     {
-        private static Dictionary<string, Dictionary<string, string>> resource;
+        private static System.Resources.ResourceManager Manager;
 
-        public static void Initialize()
+        public static void Initialize(System.Resources.ResourceManager recourceManager)
         {
-            string path = HttpContext.Current.Server.MapPath("/").Replace("IUDICO.LMS", "IUDICO.Common");
-            ResXResourceReader rsxr = new ResXResourceReader(path + "Resource" + ".resx");
-
-            Dictionary<string, string> temp = new Dictionary<string, string>();
-            foreach (DictionaryEntry d in rsxr)
-            {
-                temp.Add(d.Key.ToString(), d.Value.ToString());
-            }
-            resource = new Dictionary<string, Dictionary<string, string>>();
-            resource.Add("en-US", temp);
-            rsxr = new ResXResourceReader(path + "Resource" + ".uk" + ".resx");
-            temp = new Dictionary<string, string>();
-            foreach (DictionaryEntry d in rsxr)
-            {
-                temp.Add(d.Key.ToString(), d.Value.ToString());
-            }
-            resource.Add("uk-UA", temp);
+            Manager = recourceManager;
         }
         public static string getMessage(string search)
         {
             try
             {
-                return resource[Thread.CurrentThread.CurrentUICulture.Name][search];
+                return Manager.GetString(search, Thread.CurrentThread.CurrentUICulture);
             }
             catch (Exception)
             {

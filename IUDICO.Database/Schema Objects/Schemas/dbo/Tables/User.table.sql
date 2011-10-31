@@ -5,6 +5,7 @@
     [Email]        NVARCHAR (100)   COLLATE Ukrainian_CI_AS NOT NULL,
     [OpenId]       NVARCHAR (200)   COLLATE Ukrainian_CI_AS NOT NULL,
     [Name]         NVARCHAR (200)   COLLATE Ukrainian_CI_AS NOT NULL,
+    [UserID]       NVARCHAR (100)   COLLATE Ukrainian_CI_AS NOT NULL UNIQUE,
     [IsApproved]   BIT              NOT NULL,
     [Deleted]      BIT              NOT NULL,
     [CreationDate] DATETIME         NOT NULL,

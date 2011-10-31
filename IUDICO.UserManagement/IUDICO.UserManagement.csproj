@@ -92,7 +92,9 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
-    <Compile Include="Localization.cs" />
+    <Compile Include="Localization.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Models\Auth\OpenIdMembershipProvider.cs" />
     <Compile Include="Models\Auth\OpenIdMembershipUser.cs" />
     <Compile Include="Models\Auth\OpenIdRoleProvider.cs" />
@@ -160,10 +162,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resource.resx" />
-    <EmbeddedResource Include="Resource.uk.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

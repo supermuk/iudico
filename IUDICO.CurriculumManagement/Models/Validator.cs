@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using IUDICO.Common.Models;
 using IUDICO.CurriculumManagement.Models.Storage;
+using IUDICO.Common;
 
 namespace IUDICO.CurriculumManagement.Models
 {
@@ -34,20 +35,20 @@ namespace IUDICO.CurriculumManagement.Models
 			DateTime maxAllowedDate = Constants.MaxAllowedDateTime;
 			if (timeline.StageRef <= 0)
 			{
-				validationStatus.Errors.Add(String.Format(IUDICO.CurriculumManagement.Localization.getMessage("ChooseStage")));
+				validationStatus.Errors.Add(String.Format(Localization.getMessage("ChooseStage")));
 			}
 			if (timeline.StartDate > timeline.EndDate)
 			{
-				validationStatus.Errors.Add(IUDICO.CurriculumManagement.Localization.getMessage("StartDateMustLessThanEndDate"));
+				validationStatus.Errors.Add(Localization.getMessage("StartDateMustLessThanEndDate"));
 			}
 			if (timeline.StartDate < minAllowedDate || timeline.StartDate > maxAllowedDate)
 			{
-				validationStatus.Errors.Add(String.Format(IUDICO.CurriculumManagement.Localization.getMessage("StartDateMustBeBetween"),
+				validationStatus.Errors.Add(String.Format(Localization.getMessage("StartDateMustBeBetween"),
 					 minAllowedDate.ToString(), maxAllowedDate.ToString()));
 			}
 			if (timeline.EndDate < minAllowedDate || timeline.EndDate > maxAllowedDate)
 			{
-				validationStatus.Errors.Add(String.Format(IUDICO.CurriculumManagement.Localization.getMessage("EndDateMustBeBetween"),
+				validationStatus.Errors.Add(String.Format(Localization.getMessage("EndDateMustBeBetween"),
 					 minAllowedDate.ToString(), maxAllowedDate.ToString()));
 			}
 
@@ -89,16 +90,16 @@ namespace IUDICO.CurriculumManagement.Models
 			DateTime maxAllowedDate = Constants.MaxAllowedDateTime;
 			if (timeline.StartDate > timeline.EndDate)
 			{
-				validationStatus.Errors.Add(IUDICO.CurriculumManagement.Localization.getMessage("StartDateMustLessThanEndDate"));
+				validationStatus.Errors.Add(Localization.getMessage("StartDateMustLessThanEndDate"));
 			}
 			if (timeline.StartDate < minAllowedDate || timeline.StartDate > maxAllowedDate)
 			{
-				validationStatus.Errors.Add(String.Format(IUDICO.CurriculumManagement.Localization.getMessage("StartDateMustBeBetween"),
+				validationStatus.Errors.Add(String.Format(Localization.getMessage("StartDateMustBeBetween"),
 					 minAllowedDate.ToString(), maxAllowedDate.ToString()));
 			}
 			if (timeline.EndDate < minAllowedDate || timeline.EndDate > maxAllowedDate)
 			{
-				validationStatus.Errors.Add(String.Format(IUDICO.CurriculumManagement.Localization.getMessage("EndDateMustBeBetween"),
+				validationStatus.Errors.Add(String.Format(Localization.getMessage("EndDateMustBeBetween"),
 					 minAllowedDate.ToString(), maxAllowedDate.ToString()));
 			}
 
@@ -116,7 +117,7 @@ namespace IUDICO.CurriculumManagement.Models
 
 			if (curriculumAssignment.UserGroupRef <= 0)
 			{
-				validationStatus.Errors.Add(String.Format(IUDICO.CurriculumManagement.Localization.getMessage("ChooseStage")));
+				validationStatus.Errors.Add(String.Format(Localization.getMessage("ChooseStage")));
 			}
 
 			return validationStatus;
@@ -133,19 +134,19 @@ namespace IUDICO.CurriculumManagement.Models
 
 			if (theme.CourseRef <= 0)
 			{
-				validationStatus.Errors.Add(String.Format(IUDICO.CurriculumManagement.Localization.getMessage("ChooseCourse")));
+				validationStatus.Errors.Add(String.Format(Localization.getMessage("ChooseCourse")));
 			}
 			if (theme.ThemeTypeRef <= 0)
 			{
-				validationStatus.Errors.Add(String.Format(IUDICO.CurriculumManagement.Localization.getMessage("ChooseThemeType")));
+				validationStatus.Errors.Add(String.Format(Localization.getMessage("ChooseThemeType")));
 			}
 			if (theme.Name == null || theme.Name == "")
 			{
-				validationStatus.Errors.Add(String.Format(IUDICO.CurriculumManagement.Localization.getMessage("NameReqiured")));
+				validationStatus.Errors.Add(String.Format(Localization.getMessage("NameReqiured")));
 			}
 			if (theme.Name != null && theme.Name.Length > Constants.MaxStringFieldLength)
 			{
-				validationStatus.Errors.Add(String.Format(IUDICO.CurriculumManagement.Localization.getMessage("NameCanNotBeLongerThan"), Constants.MaxStringFieldLength));
+				validationStatus.Errors.Add(String.Format(Localization.getMessage("NameCanNotBeLongerThan"), Constants.MaxStringFieldLength));
 			}
 
 			return validationStatus;
