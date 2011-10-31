@@ -246,6 +246,12 @@ namespace IUDICO.Common.Models
             [Order(5)]
             public string Name { get; set; }
 
+            [LocalizedDisplayName("UserID")]
+            [LocalizedRequired(ErrorMessage = "UserIDRequired")]
+            [StringLength(100, ErrorMessage = "ID can not be longer than 100")]
+            [Order(7)]
+            public string UserID { get; set; }
+
             [ScaffoldColumn(false)]
             public bool Deleted { get; set; }
 

@@ -175,7 +175,7 @@
     <value>Save&amp;nbsp;&amp;amp; Close</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
-    <value>AccessDenied</value>
+    <value>Access Denied</value>
   </data>
   <data name="Loginn" xml:space="preserve">
     <value>Login</value>
@@ -185,5 +185,1322 @@
   </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
+  </data>
+  <data name="AllowChoise" xml:space="preserve">
+    <value>Allow Choice</value>
+  </data>
+  <data name="AllowExit" xml:space="preserve">
+    <value>Allow Exit</value>
+  </data>
+  <data name="AttemptLimit" xml:space="preserve">
+    <value>Attempt Limit</value>
+  </data>
+  <data name="CreateDate" xml:space="preserve">
+    <value>Create Date</value>
+  </data>
+  <data name="CreatedDate" xml:space="preserve">
+    <value>Created Date</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="EmailRequired" xml:space="preserve">
+    <value>Email is required</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>End Date</value>
+  </data>
+  <data name="EndDateRequired" xml:space="preserve">
+    <value>End Date is required</value>
+  </data>
+  <data name="Flow" xml:space="preserve">
+    <value>Flow</value>
+  </data>
+  <data name="ForwarOnly" xml:space="preserve">
+    <value>Forward Only</value>
+  </data>
+  <data name="FullName" xml:space="preserve">
+    <value>Full name</value>
+  </data>
+  <data name="FullNameRequired" xml:space="preserve">
+    <value>Full name is required</value>
+  </data>
+  <data name="IsFolder" xml:space="preserve">
+    <value>Is Folder</value>
+  </data>
+  <data name="LastUpdated" xml:space="preserve">
+    <value>Last Updated</value>
+  </data>
+  <data name="Login1" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginRequired" xml:space="preserve">
+    <value>Login is required</value>
+  </data>
+  <data name="MaxScore" xml:space="preserve">
+    <value>Max Score</value>
+  </data>
+  <data name="MaxScoreRequired" xml:space="preserve">
+    <value>Max score is required</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NameRequired" xml:space="preserve">
+    <value>Name is required</value>
+  </data>
+  <data name="Owner" xml:space="preserve">
+    <value>Owner</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PasswordCanNotBeLongerThan50" xml:space="preserve">
+    <value>Password can not be longer than 50</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Password is required</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="SelectRole" xml:space="preserve">
+    <value>Select Role</value>
+  </data>
+  <data name="SelectUser" xml:space="preserve">
+    <value>Select User</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start Date</value>
+  </data>
+  <data name="StartDateRequired" xml:space="preserve">
+    <value>Start Date is required</value>
+  </data>
+  <data name="TimeLimit" xml:space="preserve">
+    <value>Time Limit</value>
+  </data>
+  <data name="UpdateDate" xml:space="preserve">
+    <value>Update Date</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>User ID</value>
+  </data>
+  <data name="UserIDRequired" xml:space="preserve">
+    <value>User ID is required</value>
+  </data>
+  <data name="Username1" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="UsernameRequired" xml:space="preserve">
+    <value>Username is required</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="Activate" xml:space="preserve">
+    <value>Activate</value>
+  </data>
+  <data name="Activated" xml:space="preserve">
+    <value>Activated</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="add" xml:space="preserve">
+    <value>add</value>
+  </data>
+  <data name="Add1" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddAssignment" xml:space="preserve">
+    <value>Add assignment</value>
+  </data>
+  <data name="AddTheme" xml:space="preserve">
+    <value>Add theme</value>
+  </data>
+  <data name="AddTimeline" xml:space="preserve">
+    <value>Add timeline</value>
+  </data>
+  <data name="AddToGroup" xml:space="preserve">
+    <value>Add To Group</value>
+  </data>
+  <data name="AddUser" xml:space="preserve">
+    <value>Add User</value>
+  </data>
+  <data name="AddUserToGroup" xml:space="preserve">
+    <value>Add User To Group</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="AllUsers" xml:space="preserve">
+    <value>All Users</value>
+  </data>
+  <data name="Always" xml:space="preserve">
+    <value>Always</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="ApplyPattern" xml:space="preserve">
+    <value>Apply Pattern</value>
+  </data>
+  <data name="ApprovedBy" xml:space="preserve">
+    <value>Approved By</value>
+  </data>
+  <data name="AreYouSureYouWantDelete" xml:space="preserve">
+    <value>Are you sure you want to delete </value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedAssignment" xml:space="preserve">
+    <value>Are you sure you want to delete selected assignment?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedAssignments" xml:space="preserve">
+    <value>Are you sure you want to delete selected assignments?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedCurriculum" xml:space="preserve">
+    <value>Are you sure you want to delete selected curriculum?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedCurriculums" xml:space="preserve">
+    <value>Are you sure you want to delete selected curriculums?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedStage" xml:space="preserve">
+    <value>Are you sure you want to delete selected stage?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedStages" xml:space="preserve">
+    <value>Are you sure you want to delete selected stages?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedTheme" xml:space="preserve">
+    <value>Are you sure you want to delete selected theme?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedThemes" xml:space="preserve">
+    <value>Are you sure you want to delete selected themes?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedTimeline" xml:space="preserve">
+    <value>Are you sure you want to delete selected timeline?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedTimelines" xml:space="preserve">
+    <value>Are you sure you want to delete selected timelines?</value>
+  </data>
+  <data name="AssignmentsFor" xml:space="preserve">
+    <value>Assignments for</value>
+  </data>
+  <data name="AttemptLimit1" xml:space="preserve">
+    <value>Attempt Limit</value>
+  </data>
+  <data name="AttemptStatistic" xml:space="preserve">
+    <value>Attempt statistic:</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>&lt;- back</value>
+  </data>
+  <data name="BackCurriculumAssignments" xml:space="preserve">
+    <value>Back to curriculum assignments</value>
+  </data>
+  <data name="BackThemeAssignmentList" xml:space="preserve">
+    <value>Back to theme assignment list</value>
+  </data>
+  <data name="BackToAccount" xml:space="preserve">
+    <value>Back to Account</value>
+  </data>
+  <data name="BackToCurriculums" xml:space="preserve">
+    <value>Back to curriculums</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>Back to List</value>
+  </data>
+  <data name="BackToList1" xml:space="preserve">
+    <value>Back to list</value>
+  </data>
+  <data name="BackToList2" xml:space="preserve">
+    <value>Back to List</value>
+  </data>
+  <data name="BackToStages" xml:space="preserve">
+    <value>Back to stages</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="Choice" xml:space="preserve">
+    <value>Choice</value>
+  </data>
+  <data name="ChoiceAttemptAbsoluteDurationLimit" xml:space="preserve">
+    <value>Choice Attempt Absolute Duration Limit</value>
+  </data>
+  <data name="ChooseCourse" xml:space="preserve">
+    <value>Choose a course.</value>
+  </data>
+  <data name="ChooseCourseForTheme" xml:space="preserve">
+    <value>Choose a course for theme</value>
+  </data>
+  <data name="ChooseGroup" xml:space="preserve">
+    <value>Choose a group</value>
+  </data>
+  <data name="ChooseStage" xml:space="preserve">
+    <value>Choose a stage</value>
+  </data>
+  <data name="ChooseStageForTimeline" xml:space="preserve">
+    <value>Choose a stage for timeline</value>
+  </data>
+  <data name="ChooseThemeType" xml:space="preserve">
+    <value>Choose a theme type</value>
+  </data>
+  <data name="Coefficient" xml:space="preserve">
+    <value>Coefficient</value>
+  </data>
+  <data name="Comparison" xml:space="preserve">
+    <value>Comparison</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="ConfirmPasswordRequired" xml:space="preserve">
+    <value>Confirm Password is required</value>
+  </data>
+  <data name="ConstrainChoice" xml:space="preserve">
+    <value>Constrain Choice</value>
+  </data>
+  <data name="ConstrainedChoiceConsiderations" xml:space="preserve">
+    <value>Constrained Choice Considerations</value>
+  </data>
+  <data name="ControlChapter" xml:space="preserve">
+    <value>Control Chapter</value>
+  </data>
+  <data name="ControlMode" xml:space="preserve">
+    <value>Control Mode</value>
+  </data>
+  <data name="CONV_InvalidViewOnSetValue" xml:space="preserve">
+    <value>The data on this page cannot be updated while reviewing the training.</value>
+  </data>
+  <data name="CONV_MappingRequired" xml:space="preserve">
+    <value>Interaction and objective information has not been properly initialized.</value>
+  </data>
+  <data name="CONV_SetValueComment" xml:space="preserve">
+    <value>There was a problem adding or updating comment data associated with this page.
+    More information: {0}</value>
+    <comment>0=information from exception</comment>
+  </data>
+  <data name="CONV_SetValueException" xml:space="preserve">
+    <value>The value ({1}) is not a valid value for the {0} element. The data was not updated. More information: {2}</value>
+    <comment>0 = element name, 1 = attempted element value, 2 = exception message</comment>
+  </data>
+  <data name="CONV_SetValueInteraction" xml:space="preserve">
+    <value>There was a problem adding or updating interaction data associated with this page.
+    More information: {0}</value>
+  </data>
+  <data name="CONV_SetValueInvalidName" xml:space="preserve">
+    <value>The element named '{0}' could not be recognized. The data was not updated.
+    </value>
+    <comment>0=the invalid name.</comment>
+  </data>
+  <data name="CONV_SetValueInvalidValue" xml:space="preserve">
+    <value>The value ({0}) is not a valid value for the {1} element. The data was not updated.</value>
+    <comment>0=value, 1=element name (eg, cmi.score.raw)</comment>
+  </data>
+  <data name="CONV_SetValueObjective" xml:space="preserve">
+    <value>There was a problem adding or updating objective data associated with this page.
+    More information: {0}</value>
+    <comment>0=information from exception</comment>
+  </data>
+  <data name="CONV_SetValueReadOnly" xml:space="preserve">
+    <value>The {0} element cannot be modified. The data was not updated.</value>
+    <comment>0=name of the element</comment>
+  </data>
+  <data name="CON_AttachedFileDoesNotExistHtml" xml:space="preserve">
+    <value>The attached files listed below are empty or do not exist: 
+        &lt;br&gt;&lt;br&gt; 
+        Invalid files:</value>
+  </data>
+  <data name="CON_ContentCannotBeDisplayedMsg" xml:space="preserve">
+    <value>There is a problem accessing the content. It cannot be displayed.</value>
+    <comment>This is a generic error message that happens when the content URL is not valid. It should not contain much information because it 
+      basically means either there is a bug in the frameset or this is a hack attempt.</comment>
+  </data>
+  <data name="CON_ContentCannotBeDisplayedTitle" xml:space="preserve">
+    <value>Cannot Access Content</value>
+    <comment>Title for CON_ContentCannotBeDisplayedMsg.</comment>
+  </data>
+  <data name="CON_FileAttachmentErrorEndHtml" xml:space="preserve">
+    <value>Click Continue to return to the current page.</value>
+  </data>
+  <data name="CON_FileAttachmentErrorTitleHtml" xml:space="preserve">
+    <value>File Attachment Error</value>
+  </data>
+  <data name="CON_PleaseWait" xml:space="preserve">
+    <value>Please wait...</value>
+    <comment>Message to wait for other frames to load.</comment>
+  </data>
+  <data name="CON_ResourceNotFoundMsg" xml:space="preserve">
+    <value>The page you requested cannot be found. Please select or move to a different page.</value>
+  </data>
+  <data name="CON_ResourceNotFoundTitle" xml:space="preserve">
+    <value>File Not Found</value>
+    <comment>Title for ResourceNotFoundMsg.</comment>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="CorrectAnswer" xml:space="preserve">
+    <value>Correct Answer</value>
+  </data>
+  <data name="CorrectFollowingErrorAndTryAgain" xml:space="preserve">
+    <value>Correct the following error(s) and try again</value>
+  </data>
+  <data name="CorrectFollowingErrorAndTryAgain1" xml:space="preserve">
+    <value>Correct the following error(s) and try again</value>
+  </data>
+  <data name="CountOfTests" xml:space="preserve">
+    <value>Count of tests</value>
+  </data>
+  <data name="Course" xml:space="preserve">
+    <value>Course</value>
+  </data>
+  <data name="Course1" xml:space="preserve">
+    <value>Course</value>
+  </data>
+  <data name="CourseManagement" xml:space="preserve">
+    <value>Course Management</value>
+  </data>
+  <data name="CourseName" xml:space="preserve">
+    <value>Course name</value>
+  </data>
+  <data name="Courses" xml:space="preserve">
+    <value>Courses</value>
+  </data>
+  <data name="CoursesSharedWithMe" xml:space="preserve">
+    <value>Courses shared with me</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Create1" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Create2" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CreateAssignmentFor" xml:space="preserve">
+    <value>Add assignment for</value>
+  </data>
+  <data name="CreateCourse" xml:space="preserve">
+    <value>Create Course</value>
+  </data>
+  <data name="CreateCurriculumAssignmentTimelineFor" xml:space="preserve">
+    <value>Create curriculum assignment timeline for</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="Created1" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="Created2" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="CreateFolder" xml:space="preserve">
+    <value>Create Folder</value>
+  </data>
+  <data name="CreateGroup" xml:space="preserve">
+    <value>Create group</value>
+  </data>
+  <data name="CreateMultiple" xml:space="preserve">
+    <value>Create Multiple users</value>
+  </data>
+  <data name="CreateNew" xml:space="preserve">
+    <value>Create New</value>
+  </data>
+  <data name="CreateNew1" xml:space="preserve">
+    <value>Create new</value>
+  </data>
+  <data name="CreateNew2" xml:space="preserve">
+    <value>Create New</value>
+  </data>
+  <data name="CreateNewGroup" xml:space="preserve">
+    <value>Create New Group</value>
+  </data>
+  <data name="CreateNewUser" xml:space="preserve">
+    <value>Create New User</value>
+  </data>
+  <data name="CreateNode" xml:space="preserve">
+    <value>Create Node</value>
+  </data>
+  <data name="CreateStageFor" xml:space="preserve">
+    <value>Create stage for</value>
+  </data>
+  <data name="CreateStageTimelineFor" xml:space="preserve">
+    <value>Create stage timeline for</value>
+  </data>
+  <data name="CreateTheme" xml:space="preserve">
+    <value>Create Theme</value>
+  </data>
+  <data name="CreateThemeFor" xml:space="preserve">
+    <value>Create theme for</value>
+  </data>
+  <data name="CreateСurriculum" xml:space="preserve">
+    <value>Create curriculum</value>
+  </data>
+  <data name="CreationDate" xml:space="preserve">
+    <value>Creation Date</value>
+  </data>
+  <data name="Curriculum" xml:space="preserve">
+    <value>Curriculum</value>
+  </data>
+  <data name="Curriculum1" xml:space="preserve">
+    <value>Curriculum</value>
+  </data>
+  <data name="CurriculumAssignmentTimelinesFor" xml:space="preserve">
+    <value>Curriculum assignment timelines for</value>
+  </data>
+  <data name="CurriculumList" xml:space="preserve">
+    <value>Curriculum list for</value>
+  </data>
+  <data name="CurriculumManagement" xml:space="preserve">
+    <value>Curriculum management</value>
+  </data>
+  <data name="CurriculumName" xml:space="preserve">
+    <value>Curriculum name</value>
+  </data>
+  <data name="CurriculumName1" xml:space="preserve">
+    <value>Curriculum name</value>
+  </data>
+  <data name="Curriculums" xml:space="preserve">
+    <value>Curriculums</value>
+  </data>
+  <data name="CurriculumsStatistic" xml:space="preserve">
+    <value>Curriculums Statistic</value>
+  </data>
+  <data name="CurriculumsStatisticForGroup" xml:space="preserve">
+    <value>Curriculums statistic for group</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Cut</value>
+  </data>
+  <data name="Deactivate" xml:space="preserve">
+    <value>Deactivate</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Delete1" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Delete2" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteSelected" xml:space="preserve">
+    <value>Delete Selected</value>
+  </data>
+  <data name="DeleteSelected1" xml:space="preserve">
+    <value>Delete selected</value>
+  </data>
+  <data name="DeliveryControls" xml:space="preserve">
+    <value>Delivery Controls</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Details1" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="DetailsOf" xml:space="preserve">
+    <value>Details of</value>
+  </data>
+  <data name="DetailsOfGroup" xml:space="preserve">
+    <value>Details of Group</value>
+  </data>
+  <data name="DetailsOfUser" xml:space="preserve">
+    <value>Details of User</value>
+  </data>
+  <data name="DisplayAvatar" xml:space="preserve">
+    <value>Avatar</value>
+  </data>
+  <data name="Down" xml:space="preserve">
+    <value>Down</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Edit1" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Edit2" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditAssignmentFor" xml:space="preserve">
+    <value>Edit assignment for</value>
+  </data>
+  <data name="EditAssignments" xml:space="preserve">
+    <value>Edit assignments</value>
+  </data>
+  <data name="EditContentCourse" xml:space="preserve">
+    <value>Edit content course</value>
+  </data>
+  <data name="EditCourse" xml:space="preserve">
+    <value>Edit Course</value>
+  </data>
+  <data name="EditCurriculum" xml:space="preserve">
+    <value>Edit curriculum</value>
+  </data>
+  <data name="EditCurriculumAssignmentTimelineFor" xml:space="preserve">
+    <value>Edit curriculum assignment timeline for</value>
+  </data>
+  <data name="EditGroup" xml:space="preserve">
+    <value>Edit Group</value>
+  </data>
+  <data name="Editing" xml:space="preserve">
+    <value>Editing</value>
+  </data>
+  <data name="EditingCourse" xml:space="preserve">
+    <value>Editing Course</value>
+  </data>
+  <data name="EditStage" xml:space="preserve">
+    <value>Edit stage</value>
+  </data>
+  <data name="EditStages" xml:space="preserve">
+    <value>Edit stages</value>
+  </data>
+  <data name="EditStageTimeline" xml:space="preserve">
+    <value>Edit Stage Timeline</value>
+  </data>
+  <data name="EditStageTimelineFor" xml:space="preserve">
+    <value>Edit stage timeline for</value>
+  </data>
+  <data name="EditTheme" xml:space="preserve">
+    <value>Edit theme</value>
+  </data>
+  <data name="EditThemeAssignment" xml:space="preserve">
+    <value>Edit Theme Assignment</value>
+  </data>
+  <data name="EditThemeAssignmentFor" xml:space="preserve">
+    <value>Edit theme assignment for</value>
+  </data>
+  <data name="EditThemeAssignments" xml:space="preserve">
+    <value>Edit theme assignments</value>
+  </data>
+  <data name="EditThemes" xml:space="preserve">
+    <value>Edit themes</value>
+  </data>
+  <data name="EditTimelines" xml:space="preserve">
+    <value>Edit timelines</value>
+  </data>
+  <data name="EditTimelinesForStages" xml:space="preserve">
+    <value>Edit timelines for stages</value>
+  </data>
+  <data name="EditUser" xml:space="preserve">
+    <value>Edit User</value>
+  </data>
+  <data name="Email1" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="EmailRequired1" xml:space="preserve">
+    <value>Email is required</value>
+  </data>
+  <data name="EndDate1" xml:space="preserve">
+    <value>End date</value>
+  </data>
+  <data name="EndDateMustBeBetween" xml:space="preserve">
+    <value>End date must be between {0} and {1}</value>
+  </data>
+  <data name="ErrorOccuredDuringProccessingRequest" xml:space="preserve">
+    <value>Error occured during proccessing request</value>
+  </data>
+  <data name="ErrorOccuredDuringProcessingRequestErrorMessage" xml:space="preserve">
+    <value>Error occured during processing request.\nError message:</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="Failed" xml:space="preserve">
+    <value>Failed</value>
+  </data>
+  <data name="Fields" xml:space="preserve">
+    <value>Fields</value>
+  </data>
+  <data name="Fields1" xml:space="preserve">
+    <value>Fields</value>
+  </data>
+  <data name="Fields2" xml:space="preserve">
+    <value>Fields</value>
+  </data>
+  <data name="ForwardOnly" xml:space="preserve">
+    <value>Forward Only</value>
+  </data>
+  <data name="FRM_ActivityIsNotActiveMsg" xml:space="preserve">
+    <value>The page cannot be displayed. Select a different page.</value>
+  </data>
+  <data name="FRM_CannotDisplayContentTitle" xml:space="preserve">
+    <value>Training Not Available</value>
+  </data>
+  <data name="FRM_ExecuteViewAbandonedSessionMsg" xml:space="preserve">
+    <value>This training has been abandoned. You cannot make any further changes.</value>
+  </data>
+  <data name="FRM_ExecuteViewCompletedSessionMsg" xml:space="preserve">
+    <value>This training has been completed. You cannot make any further changes.</value>
+  </data>
+  <data name="FRM_ExecuteViewSuspendedSessionMsg" xml:space="preserve">
+    <value>This training has been suspended. You can return later to resume the training.</value>
+  </data>
+  <data name="FRM_InvalidAttemptStatusForViewTitle" xml:space="preserve">
+    <value>Training Not Available</value>
+  </data>
+  <data name="FRM_InvalidParameterMsg" xml:space="preserve">
+    <value>The value ({1}) is not valid for the {0} parameter.</value>
+    <comment>0 = name of parameter (not localized); 1 = the value provided for the parameter</comment>
+  </data>
+  <data name="FRM_InvalidParameterTitle" xml:space="preserve">
+    <value>Invalid Parameter Value</value>
+  </data>
+  <data name="FRM_NotAvailableHtml" xml:space="preserve">
+    <value>This training is not available. This may be because the training does not exist, or 
+        you do not have permission to view it. 
+    </value>
+    <comment>BWP only</comment>
+  </data>
+  <data name="FRM_NotAvailableTitleHtml" xml:space="preserve">
+    <value>Training Not Available</value>
+    <comment>BWP only</comment>
+  </data>
+  <data name="FRM_ParameterRequiredMsg" xml:space="preserve">
+    <value>The {0} parameter is required in order to display the training.</value>
+    <comment>0=name of parameter (not localized)</comment>
+  </data>
+  <data name="FRM_ParameterRequiredTitle" xml:space="preserve">
+    <value>{0} Parameter is Required</value>
+    <comment>0=name of parameter (not localized)</comment>
+  </data>
+  <data name="FRM_RAViewNotSupportedMsg" xml:space="preserve">
+    <value>Random access view is not supported in this application.</value>
+  </data>
+  <data name="FRM_ResourceNotFound" xml:space="preserve">
+    <value>The requested resource could not be loaded.</value>
+    <comment>An internal error happened: could not load the requested resource.</comment>
+  </data>
+  <data name="FRM_ReviewViewNotSupportedMsg" xml:space="preserve">
+    <value>Review view is not supported in this application.</value>
+  </data>
+  <data name="FRM_SessionIsNotActiveMsg" xml:space="preserve">
+    <value>This training has been completed. You cannot make any further changes.</value>
+  </data>
+  <data name="FRM_Title" xml:space="preserve">
+    <value>Basic Web Player Training</value>
+    <comment>BWP only</comment>
+  </data>
+  <data name="FRM_UnexpectedError" xml:space="preserve">
+    <value>An error occurred. More information: {0}</value>
+    <comment>0= exception message. BWP only. SLK filters errors so that unknown exceptions are not displayed.</comment>
+  </data>
+  <data name="FRM_UnexpectedErrorNoException" xml:space="preserve">
+    <value>The training cannot be displayed. Try refreshing your browser.</value>
+  </data>
+  <data name="FRM_UnexpectedErrorTitle" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="FRM_UnknownExceptionMsg" xml:space="preserve">
+    <value>An error occurred. More information: {0}</value>
+    <comment>0=message from exception</comment>
+  </data>
+  <data name="FRM_UnknownExceptionTitle" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="FRM_ViewNotSupportedMsg" xml:space="preserve">
+    <value>The requested view is not supported in this application.</value>
+    <comment>This message only occurs if the view parameter on one of the interior frames is invalid.</comment>
+  </data>
+  <data name="FRM_ViewNotSupportedTitle" xml:space="preserve">
+    <value>View Not Supported</value>
+  </data>
+  <data name="FullName1" xml:space="preserve">
+    <value>Full name</value>
+  </data>
+  <data name="FullNameRequiered" xml:space="preserve">
+    <value>Full name is requiered</value>
+  </data>
+  <data name="GetCourses" xml:space="preserve">
+    <value>Get Courses</value>
+  </data>
+  <data name="GetGroups" xml:space="preserve">
+    <value>Get Groups</value>
+  </data>
+  <data name="GetStats" xml:space="preserve">
+    <value>Get Stats</value>
+  </data>
+  <data name="GetUsers" xml:space="preserve">
+    <value>Get Users</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="Group1" xml:space="preserve">
+    <value>group</value>
+  </data>
+  <data name="Group2" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="GroupList" xml:space="preserve">
+    <value>Group list</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Groups</value>
+  </data>
+  <data name="HID_InvalidActivityId" xml:space="preserve">
+    <value>The activity id {0} is not valid.</value>
+    <comment>0=activity id sent to request as the target activity</comment>
+  </data>
+  <data name="HID_MoveNextFailedHtml" xml:space="preserve">
+    <value>You cannot navigate to the next page at this time. Click Continue to return to the current page.</value>
+  </data>
+  <data name="HID_MovePreviousFailedHtml" xml:space="preserve">
+    <value>You cannot navigate to the previous page at this time. Click Continue to return to the current page.</value>
+  </data>
+  <data name="HID_MoveToActivityFailedHtml" xml:space="preserve">
+    <value>You cannot navigate to the selected page at this time. Click Continue to return to the current page.</value>
+  </data>
+  <data name="HID_ReloadCurrentContent" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="HID_SelectActivityMsgHtml" xml:space="preserve">
+    <value>Please select an activity to continue with the training.</value>
+  </data>
+  <data name="HID_SelectActivityTitleHtml" xml:space="preserve">
+    <value>Select an activity</value>
+  </data>
+  <data name="HID_ServerErrorTitle" xml:space="preserve">
+    <value>Processing Error</value>
+  </data>
+  <data name="HID_SessionAbandonedTitle" xml:space="preserve">
+    <value>Training Abandoned</value>
+  </data>
+  <data name="HID_SessionCompletedTitle" xml:space="preserve">
+    <value>Training Completed</value>
+  </data>
+  <data name="HID_SessionSuspendedTitle" xml:space="preserve">
+    <value>Training Suspended</value>
+  </data>
+  <data name="HID_SetValueMappingFailedHtml" xml:space="preserve">
+    <value>Could not set one or more values as requested. &lt;br&gt;&lt;br&gt;
+    More information: </value>
+    <comment>Following this message, one or more messages from exceptions are displayed.</comment>
+  </data>
+  <data name="HID_SetValuePostedDataInvalid" xml:space="preserve">
+    <value>Data posted about the data model was invalid.</value>
+    <comment>This message is displayed as the "More information" part of HID_SetValueFailed or HID_SetValueMappingFailed</comment>
+  </data>
+  <data name="HID_SubmitAttemptMessageHtml" xml:space="preserve">
+    <value>After you submit this assignment, you will not be able to make any further changes.&lt;br&gt;&lt;br&gt;
+        If you have completed the assignment, click &lt;b&gt;Submit&lt;/b&gt;.&lt;br&gt;&lt;br&gt;
+        If you are not ready to submit the assignment, you can finish the assignment or close this window. Your work is already saved.
+        </value>
+  </data>
+  <data name="HID_SubmitAttemptTitleHtml" xml:space="preserve">
+    <value>Submit this Assignment?
+        </value>
+  </data>
+  <data name="HID_SubmitLink" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="HID_SubmitPageMessageHtml" xml:space="preserve">
+    <value>You cannot make any further changes after you submit this training.&lt;br&gt;&lt;br&gt;
+        If you have completed the training, click &lt;b&gt;Submit&lt;/b&gt;.&lt;br&gt;&lt;br&gt;
+        If you are not ready to submit the training, click &lt;b&gt;Cancel&lt;/b&gt; to return to the previous page.
+        </value>
+  </data>
+  <data name="HID_SubmitPageMessageNoCurrentActivityHtml" xml:space="preserve">
+    <value>You cannot make any further changes after you submit this training.&lt;br&gt;&lt;br&gt;
+        If you have completed the training, click &lt;b&gt;Submit&lt;/b&gt;.&lt;br&gt;&lt;br&gt;
+        If you are not ready to submit the training, select an activity to continue the training.
+        </value>
+  </data>
+  <data name="HID_SubmitPageTitleHtml" xml:space="preserve">
+    <value>Submit this Training?</value>
+  </data>
+  <data name="HID_TerminateFailed" xml:space="preserve">
+    <value>There was a problem processing a request from this page. Try selecting a different page.
+    More information: {0}</value>
+    <comment>0=message from exception</comment>
+  </data>
+  <data name="IfAttempted" xml:space="preserve">
+    <value>If Attempted</value>
+  </data>
+  <data name="IfNotSkipped" xml:space="preserve">
+    <value>If Not Skipped</value>
+  </data>
+  <data name="IfNotSuspended" xml:space="preserve">
+    <value>If Not Suspended</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="InvalidOpenID" xml:space="preserve">
+    <value>Invalid OpenID</value>
+  </data>
+  <data name="InvalidUsernameAndPassword" xml:space="preserve">
+    <value>Invalid Username and/or password</value>
+  </data>
+  <data name="LimitConditions" xml:space="preserve">
+    <value>Limit Conditions</value>
+  </data>
+  <data name="Login2" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Loginn1" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginRequired1" xml:space="preserve">
+    <value>Login is required</value>
+  </data>
+  <data name="MaxScore1" xml:space="preserve">
+    <value>Max score</value>
+  </data>
+  <data name="Mycourses" xml:space="preserve">
+    <value>My courses</value>
+  </data>
+  <data name="Name1" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Name11" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Name2" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Name3" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NameCanNotBeLongerThan" xml:space="preserve">
+    <value>Name can not be longer than {0}</value>
+  </data>
+  <data name="NameReqiured" xml:space="preserve">
+    <value>Name is required</value>
+  </data>
+  <data name="NameRequired1" xml:space="preserve">
+    <value>Name is required</value>
+  </data>
+  <data name="NAV_MaximizeTitle" xml:space="preserve">
+    <value>Show Contents</value>
+  </data>
+  <data name="NAV_MinimizeTitle" xml:space="preserve">
+    <value>Hide Contents</value>
+  </data>
+  <data name="NAV_NextTitle" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="NAV_PrevTitle" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="NAV_SaveTitle" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Never" xml:space="preserve">
+    <value>Never</value>
+  </data>
+  <data name="NewGroup" xml:space="preserve">
+    <value>New Group</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="NewPasswordRequired" xml:space="preserve">
+    <value>New Password is required</value>
+  </data>
+  <data name="NewUser" xml:space="preserve">
+    <value>New User</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value> =&gt; </value>
+  </data>
+  <data name="Next1" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="NoActions" xml:space="preserve">
+    <value>No actions</value>
+  </data>
+  <data name="NoCourses" xml:space="preserve">
+    <value>No courses available</value>
+  </data>
+  <data name="NoData" xml:space="preserve">
+    <value>No data</value>
+  </data>
+  <data name="NoData1" xml:space="preserve">
+    <value>No data</value>
+  </data>
+  <data name="NoDataShow" xml:space="preserve">
+    <value>No data to show</value>
+  </data>
+  <data name="NodeName" xml:space="preserve">
+    <value>Node name</value>
+  </data>
+  <data name="NoGroupHasBeenCreated" xml:space="preserve">
+    <value>No group has been created.</value>
+  </data>
+  <data name="NumberOfQuestion" xml:space="preserve">
+    <value>Number of question</value>
+  </data>
+  <data name="NumberOfStudents" xml:space="preserve">
+    <value>Number of students</value>
+  </data>
+  <data name="OldPassword" xml:space="preserve">
+    <value>Old Password</value>
+  </data>
+  <data name="OldPasswordRequired" xml:space="preserve">
+    <value>Old Password is required</value>
+  </data>
+  <data name="Once" xml:space="preserve">
+    <value>Once</value>
+  </data>
+  <data name="OnEachNewAttempt" xml:space="preserve">
+    <value>On Each New Attempt</value>
+  </data>
+  <data name="OpenIdRequired" xml:space="preserve">
+    <value>OpenId is required</value>
+  </data>
+  <data name="Owner1" xml:space="preserve">
+    <value>Owner</value>
+  </data>
+  <data name="Owner2" xml:space="preserve">
+    <value>Owner</value>
+  </data>
+  <data name="ParentCourse" xml:space="preserve">
+    <value>Parent course</value>
+  </data>
+  <data name="Passed" xml:space="preserve">
+    <value>Passed</value>
+  </data>
+  <data name="Password1" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PasswordRequired1" xml:space="preserve">
+    <value>Password is required</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="Pattern" xml:space="preserve">
+    <value>Pattern</value>
+  </data>
+  <data name="Percent" xml:space="preserve">
+    <value>Percent</value>
+  </data>
+  <data name="PlayCourse" xml:space="preserve">
+    <value>Play course</value>
+  </data>
+  <data name="PleaseSelectAssignmentDelete" xml:space="preserve">
+    <value>Please select assignments to delete</value>
+  </data>
+  <data name="PleaseSelectCoursesDelete" xml:space="preserve">
+    <value>Please select courses to delete</value>
+  </data>
+  <data name="PleaseSelectCurriculumsDelete" xml:space="preserve">
+    <value>Please select curriculums to delete</value>
+  </data>
+  <data name="PleaseSelectCurriculumsToDelete" xml:space="preserve">
+    <value>Please select curriculums to delete</value>
+  </data>
+  <data name="PleaseSelectStagesDelete" xml:space="preserve">
+    <value>Please select stages to delete</value>
+  </data>
+  <data name="PleaseSelectThemesDelete" xml:space="preserve">
+    <value>Please select themes to delete</value>
+  </data>
+  <data name="PleaseSelectTimelineDelete" xml:space="preserve">
+    <value>Please select timelines to delete</value>
+  </data>
+  <data name="PleaseSelectUserFromList" xml:space="preserve">
+    <value>Please select user from list</value>
+  </data>
+  <data name="POST_ContinueHtml" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="POST_SubmitHtml" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="PreventActivation" xml:space="preserve">
+    <value>Prevent Activation</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="PrevNext" xml:space="preserve">
+    <value> &lt;=&gt; </value>
+  </data>
+  <data name="PropertiesSavedSuccessfully" xml:space="preserve">
+    <value>Properties saved successfully</value>
+  </data>
+  <data name="QualityTest" xml:space="preserve">
+    <value>Quality Test</value>
+  </data>
+  <data name="RandomizationControls" xml:space="preserve">
+    <value>Randomization Controls</value>
+  </data>
+  <data name="RandomSet" xml:space="preserve">
+    <value>Random Set</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="Registered" xml:space="preserve">
+    <value>Registered</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="RemoveUser" xml:space="preserve">
+    <value>Remove User</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="ReorderChildren" xml:space="preserve">
+    <value>Reorder Children</value>
+  </data>
+  <data name="RestorePassword" xml:space="preserve">
+    <value>Restore Password</value>
+  </data>
+  <data name="Results" xml:space="preserve">
+    <value>Results</value>
+  </data>
+  <data name="Role1" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="Role2" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="RoleRequired" xml:space="preserve">
+    <value>Role is required</value>
+  </data>
+  <data name="RollupConsiderations" xml:space="preserve">
+    <value>Rollup Considerations</value>
+  </data>
+  <data name="RollupRules" xml:space="preserve">
+    <value>Rollup Rules</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Save1" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Score" xml:space="preserve">
+    <value>Score</value>
+  </data>
+  <data name="Search1" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Search2" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchResults" xml:space="preserve">
+    <value>Search Results</value>
+  </data>
+  <data name="SearchResultsFor" xml:space="preserve">
+    <value>Search results for</value>
+  </data>
+  <data name="SelectAttempt" xml:space="preserve">
+    <value>Please, select attempt to show:</value>
+  </data>
+  <data name="SelectCount" xml:space="preserve">
+    <value>Select Count</value>
+  </data>
+  <data name="SelectCurriculum" xml:space="preserve">
+    <value>Please, select one or more curriculum </value>
+  </data>
+  <data name="SelectCurriculums" xml:space="preserve">
+    <value>Select Curriculums</value>
+  </data>
+  <data name="selectedCourses" xml:space="preserve">
+    <value>selected courses?</value>
+  </data>
+  <data name="SelectGroup" xml:space="preserve">
+    <value>Select Group</value>
+  </data>
+  <data name="SelectGroups" xml:space="preserve">
+    <value>Select Groups</value>
+  </data>
+  <data name="SelectionTiming" xml:space="preserve">
+    <value>Selection Timing</value>
+  </data>
+  <data name="SelectOneCurriculum" xml:space="preserve">
+    <value>Please, select one curriculum :</value>
+  </data>
+  <data name="SelectOneGroup" xml:space="preserve">
+    <value>Please, select one group :</value>
+  </data>
+  <data name="SelectOneOrMoreGroups" xml:space="preserve">
+    <value>Select one or more groups</value>
+  </data>
+  <data name="SelectOneTheme" xml:space="preserve">
+    <value>Select OneTheme</value>
+  </data>
+  <data name="SelectPattern" xml:space="preserve">
+    <value>Select Pattern</value>
+  </data>
+  <data name="SelectRole1" xml:space="preserve">
+    <value>Select Role</value>
+  </data>
+  <data name="SelectTheme" xml:space="preserve">
+    <value>Select Theme</value>
+  </data>
+  <data name="Sequencing" xml:space="preserve">
+    <value>Sequencing</value>
+  </data>
+  <data name="SharedWith" xml:space="preserve">
+    <value>Shared With</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="ShowQualityTest" xml:space="preserve">
+    <value>ShowQualityTest</value>
+  </data>
+  <data name="Stage" xml:space="preserve">
+    <value>Stage</value>
+  </data>
+  <data name="Stages" xml:space="preserve">
+    <value>Stages</value>
+  </data>
+  <data name="StagesFor" xml:space="preserve">
+    <value>Stages for</value>
+  </data>
+  <data name="StageTimelineBiggerThanCurriculumTimeline" xml:space="preserve">
+    <value>Stage timeline should be based in one of these intervals:</value>
+  </data>
+  <data name="StageTimelines" xml:space="preserve">
+    <value>Stage Timelines</value>
+  </data>
+  <data name="StageTimelinesFor" xml:space="preserve">
+    <value>Stage timelines for</value>
+  </data>
+  <data name="StartDate1" xml:space="preserve">
+    <value>Start date</value>
+  </data>
+  <data name="StartDateMustBeBetween" xml:space="preserve">
+    <value>Start date must be between {0} and {1}</value>
+  </data>
+  <data name="StartDateMustLessThanEndDate" xml:space="preserve">
+    <value>Start date must be less than end date</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>Statistics</value>
+  </data>
+  <data name="Student" xml:space="preserve">
+    <value>Student</value>
+  </data>
+  <data name="Student1" xml:space="preserve">
+    <value>Student</value>
+  </data>
+  <data name="StudentAnswer" xml:space="preserve">
+    <value>Student Answer</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="Sum" xml:space="preserve">
+    <value>Sum</value>
+  </data>
+  <data name="Teacher" xml:space="preserve">
+    <value>Teacher</value>
+  </data>
+  <data name="Teacher1" xml:space="preserve">
+    <value>Teacher</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="ThemeAssignments" xml:space="preserve">
+    <value>Theme Assignments</value>
+  </data>
+  <data name="ThemeAssignmentsFor" xml:space="preserve">
+    <value>Theme assignments for</value>
+  </data>
+  <data name="ThemeName" xml:space="preserve">
+    <value>Theme name</value>
+  </data>
+  <data name="ThemeName1" xml:space="preserve">
+    <value>Theme name</value>
+  </data>
+  <data name="Themes" xml:space="preserve">
+    <value>Themes</value>
+  </data>
+  <data name="ThemesFor" xml:space="preserve">
+    <value>Themes for</value>
+  </data>
+  <data name="ThemesInfo" xml:space="preserve">
+    <value>Themes Info</value>
+  </data>
+  <data name="ThemeType" xml:space="preserve">
+    <value>Theme type</value>
+  </data>
+  <data name="Timeline" xml:space="preserve">
+    <value>Timeline</value>
+  </data>
+  <data name="TOC_InvalidJsVersion" xml:space="preserve">
+    <value>The browser has cached an old version of files required for this page. Please refresh your browser.</value>
+  </data>
+  <data name="TOC_SubmitAttempt" xml:space="preserve">
+    <value>Submit Training</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="Unlock" xml:space="preserve">
+    <value>Unlock</value>
+  </data>
+  <data name="Up" xml:space="preserve">
+    <value>Up</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Updated" xml:space="preserve">
+    <value>Updated</value>
+  </data>
+  <data name="Updated1" xml:space="preserve">
+    <value>Updated</value>
+  </data>
+  <data name="Updated2" xml:space="preserve">
+    <value>Updated</value>
+  </data>
+  <data name="UpgradeToAdmin" xml:space="preserve">
+    <value>Upgrade to Admin</value>
+  </data>
+  <data name="UploadAvatar" xml:space="preserve">
+    <value>Upload Avatar</value>
+  </data>
+  <data name="UseCurrentAttemptObjectiveInfo" xml:space="preserve">
+    <value>Use Current Attempt Objective Info</value>
+  </data>
+  <data name="UseCurrentAttemptProgressInfo" xml:space="preserve">
+    <value>Use Current Attempt Progress Info</value>
+  </data>
+  <data name="User1" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="User2" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="UserManagement" xml:space="preserve">
+    <value>User Management</value>
+  </data>
+  <data name="Username2" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="UsernameRequired1" xml:space="preserve">
+    <value>Username is required</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="Validate" xml:space="preserve">
+    <value>Validate</value>
+  </data>
+  <data name="ValidateOrImportCourse" xml:space="preserve">
+    <value>Validate or Import Course</value>
+  </data>
+  <data name="YouWantDeleteThis" xml:space="preserve">
+    <value>Are you sure you want to delete this</value>
   </data>
 </root>
