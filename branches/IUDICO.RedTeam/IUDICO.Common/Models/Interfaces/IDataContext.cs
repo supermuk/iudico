@@ -12,5 +12,7 @@ namespace IUDICO.Common.Models.Interfaces
         IMockableTable<CourseUser> CourseUsers { get; }
         IMockableTable<Node> Nodes { get; }
         IMockableTable<NodeResource> NodeResources { get; }
+        IMockableTable<Computer> Computers { get; }
+        IMockableTable<Room> Rooms { get; }
     }
 }
