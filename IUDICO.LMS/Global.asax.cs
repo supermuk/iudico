@@ -163,6 +163,7 @@ namespace IUDICO.LMS
             routes.IgnoreRoute("{resource}.ico/{*pathInfo}");
             routes.IgnoreRoute("Scripts/");
             routes.IgnoreRoute("Content/");
+            routes.IgnoreRoute("Data/");
 
             routes.MapRoute(
                 "Default", // Route name,

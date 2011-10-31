@@ -71,6 +71,12 @@ namespace IUDICO.UnitTests.UserManagement
             protected set;
         }
 
+        public Mock<ITable> UserRoles
+        {
+            get;
+            protected set;
+        }
+
         #endregion
 
         private UserManagementTests()
@@ -84,6 +90,7 @@ namespace IUDICO.UnitTests.UserManagement
             Users = new Mock<ITable>();
             Groups = new Mock<ITable>();
             GroupUsers = new Mock<ITable>();
+            UserRoles = new Mock<ITable>();
 
             Setup();
             SetupTables();
@@ -118,13 +125,20 @@ namespace IUDICO.UnitTests.UserManagement
                                             new GroupUser {GroupRef = 1, UserRef = mockUserData[0].Id}
                                         };
 
+            var mockUserRoleData = new[]
+                                       {
+                                           new UserRole {UserRef = mockUserData[0].Id, RoleRef = (int)Role.Teacher}
+                                       };
+
             var mockUsers = new MockableTable<User>(Users.Object, mockUserData.AsQueryable());
             var mockGroups = new MockableTable<Group>(Groups.Object, mockGroupData.AsQueryable());
             var mockGroupUsers = new MockableTable<GroupUser>(GroupUsers.Object, mockGroupUserData.AsQueryable());
+            var mockUserRoles = new MockableTable<UserRole>(GroupUsers.Object, mockUserRoleData.AsQueryable());
 
             MockDataContext.SetupGet(c => c.Users).Returns(mockUsers);
             MockDataContext.SetupGet(c => c.Groups).Returns(mockGroups);
             MockDataContext.SetupGet(c => c.GroupUsers).Returns(mockGroupUsers);
+            MockDataContext.SetupGet(c => c.UserRoles).Returns(mockUserRoles);
         }
     }
 }
