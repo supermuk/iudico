@@ -71,9 +71,11 @@ namespace IUDICO.Security.Controllers
             return View(new EditComputersViewModel());
         }
 
-        public ActionResult EditComputer(Computer computer)
+        public ActionResult EditComputer(String computer)
         {
-            return View(computer);
+            var comp = _BanStorage.GetComputer(computer);
+            var ViewModel = new EditComputersViewModel(comp.IpAddress, comp.Room.Name, comp.Banned, comp.CurrentUser);
+            return View(ViewModel);
         }
 
         public ActionResult EditRoom()
