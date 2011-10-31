@@ -40,12 +40,8 @@ namespace IUDICO.UserManagement.Controllers
         {
             var user = _Storage.GetCurrentUser();
 
-            if (Roles.IsUserInRole(Role.Teacher.ToString()) && Roles.IsUserInRole(Role.Admin.ToString()))
-            {
-                _Storage.RemoveUserFromRole(Role.Admin, user);
-            }
-
             FormsAuthentication.SignOut();
+            Session.Clear();
 
             return Redirect("/");
         }
@@ -136,6 +132,7 @@ namespace IUDICO.UserManagement.Controllers
                 else
                 {
                     FormsAuthentication.SetAuthCookie(loginUsername, false);
+
                     log4net.ILog log = log4net.LogManager.GetLogger(typeof(AccountController));
                     log.Info(loginUsername + " logged in.");
                     return Redirect("/");
@@ -256,17 +253,16 @@ namespace IUDICO.UserManagement.Controllers
         public ActionResult UploadAvatar(Guid id, HttpPostedFileBase file)
         {
             FileUploader.UploadAvatar(id, file, Server);
+            
             return RedirectToAction("Edit");
         }
 
         [Allow(Role = Role.Teacher)]
-        public ActionResult TeacherToAdminUpgrade(Guid id)
+        public ActionResult TeacherToAdminUpgrade()
         {
-            var user = _Storage.GetCurrentUser();
-
-            if (!Roles.IsUserInRole(Role.Admin.ToString()))
+            if (!(bool)Session["AllowAdmin"] && !Roles.IsUserInRole(Role.Admin.ToString()))
             {
-                _Storage.AddUserToRole(Role.Admin, user);
+                Session["AllowAdmin"] = true;
             }
 
             return RedirectToAction("Index");
@@ -275,6 +271,7 @@ namespace IUDICO.UserManagement.Controllers
         public ActionResult ChangeCulture(string lang, string returnUrl)
         {
             Session["Culture"] = new CultureInfo(lang);
+            
             return Redirect(returnUrl);
         }
     }

@@ -56,5 +56,7 @@ namespace IUDICO.UserManagement.Models.Storage
         IEnumerable<Group> GetGroupsAvailableToUser(User user);
 
         #endregion
+
+        bool IsPromotedToAdmin();
     }
 }

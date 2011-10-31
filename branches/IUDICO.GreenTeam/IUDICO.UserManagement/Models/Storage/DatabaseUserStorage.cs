@@ -74,7 +74,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
         #region User members
 
-        public User GetCurrentUser()
+        public virtual User GetCurrentUser()
         {
             if (HttpContext.Current == null || HttpContext.Current.User == null)
             {
@@ -181,6 +181,7 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
 
+            user.Id = Guid.NewGuid();
             user.Password = EncryptPassword(user.Password);
             user.OpenId = user.OpenId ?? string.Empty;
             user.Deleted = false;
@@ -299,7 +300,6 @@ namespace IUDICO.UserManagement.Models.Storage
             _LmsService.Inform(UserNotifications.UserDelete, user);
         }
 
-
         public IEnumerable<User> GetUsersInGroup(Group group)
         {
             var db = GetDbContext();
@@ -412,15 +412,21 @@ namespace IUDICO.UserManagement.Models.Storage
         public IEnumerable<User> GetUsersInRole(Role role)
         {
             var db = GetDbContext();
-
-            return db.UserRoles.Where(ur => ur.RoleRef == (int)role).Select(ur => ur.User);
+            
+            return db.UserRoles.Where(ur => ur.RoleRef == (int) role).Select(ur => ur.User);
         }
 
         public IEnumerable<Role> GetUserRoles(string username)
         {
             var db = GetDbContext();
+            var roles = db.UserRoles.Where(ur => ur.User.Username == username).Select(ur => (Role)ur.RoleRef).ToList();
+            
+            if (IsPromotedToAdmin() && !roles.Contains(Role.Admin))
+            {
+                roles.Add(Role.Admin);
+            }
 
-            return db.UserRoles.Where(ur => ur.User.Username == username).Select(ur => (Role)ur.RoleRef);
+            return roles;
         }
 
         public void RemoveUserFromRole(Role role, User user)
@@ -448,6 +454,18 @@ namespace IUDICO.UserManagement.Models.Storage
             var roles = GetUserRoles(user.Username);
 
             return UserRoles.GetRoles().Where(r => !roles.Contains(r));
+        }
+
+        public virtual bool IsPromotedToAdmin()
+        {
+            try
+            {
+                return (bool)HttpContext.Current.Session["AllowAdmin"];
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         #endregion
