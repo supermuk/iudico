@@ -268,7 +268,7 @@ namespace IUDICO.Search.Controllers
                         theme.Name = document.Get("Theme");
                         theme.CourseRef = Convert.ToInt32(document.Get("CourseRef"));
 
-                        result = new ThemeResult(theme, _CourseService.GetCourse(theme.CourseRef).Name);
+                        result = new ThemeResult(theme, _CourseService.GetCourse(theme.CourseRef.Value).Name);
 
                         break;
 

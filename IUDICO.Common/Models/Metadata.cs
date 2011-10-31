@@ -74,6 +74,9 @@ namespace IUDICO.Common.Models
             public DateTime Updated { get; set; }
 
             [ScaffoldColumn(false)]
+            public string Owner { get; set; }
+
+            [ScaffoldColumn(false)]
             public bool IsDeleted { get; set; }
 
             [ScaffoldColumn(false)]
