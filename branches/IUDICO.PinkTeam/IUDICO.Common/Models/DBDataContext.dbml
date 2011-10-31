@@ -81,17 +81,6 @@
       <Association Name="CurriculumAssignment_Timeline" Member="CurriculumAssignment" ThisKey="CurriculumAssignmentRef" OtherKey="Id" Type="CurriculumAssignment" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Curriculums" Member="Curriculums">
-    <Type Name="Curriculum">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="Curriculum_CurriculumAssignment" Member="CurriculumAssignments" ThisKey="Id" OtherKey="CurriculumRef" Type="CurriculumAssignment" />
-      <Association Name="Curriculum_Stage" Member="Stages" ThisKey="Id" OtherKey="CurriculumRef" Type="Stage" />
-    </Type>
-  </Table>
   <Table Name="dbo.Stages" Member="Stages">
     <Type Name="Stage">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -146,6 +135,18 @@
       <Association Name="Theme_ThemeAssignment" Member="ThemeAssignments" ThisKey="Id" OtherKey="ThemeRef" Type="ThemeAssignment" />
       <Association Name="Stage_Theme" Member="Stage" ThisKey="StageRef" OtherKey="Id" Type="Stage" IsForeignKey="true" />
       <Association Name="ThemeType_Theme" Member="ThemeType" ThisKey="ThemeTypeRef" OtherKey="Id" Type="ThemeType" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Curriculums" Member="Curriculums">
+    <Type Name="Curriculum">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Updated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Owner" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Curriculum_CurriculumAssignment" Member="CurriculumAssignments" ThisKey="Id" OtherKey="CurriculumRef" Type="CurriculumAssignment" />
+      <Association Name="Curriculum_Stage" Member="Stages" ThisKey="Id" OtherKey="CurriculumRef" Type="Stage" />
     </Type>
   </Table>
 </Database>

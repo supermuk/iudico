@@ -56,7 +56,7 @@ namespace IUDICO.TestingSystem.Models
         }
         public ActionLink BuildLink(Theme theme)
         {
-            var c = PluginController.LmsService.FindService<ICourseService>().GetCourse(theme.CourseRef);
+            var c = PluginController.LmsService.FindService<ICourseService>().GetCourse(theme.CourseRef.Value);
             RouteValueDictionary routeValueDictionary = new RouteValueDictionary();
             routeValueDictionary.Add("id", c.Id);
             ActionLink actionLink = new ActionLink("Training", "Play", new RouteValueDictionary(routeValueDictionary));
