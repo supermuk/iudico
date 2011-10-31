@@ -10,6 +10,7 @@ using IUDICO.UserManagement.Models.Storage;
 using IUDICO.UserManagement.Models;
 using Castle.Windsor;
 using Castle.MicroKernel.SubSystems.Configuration;
+using IUDICO.Common;
 
 namespace IUDICO.UserManagement
 {
@@ -19,7 +20,6 @@ namespace IUDICO.UserManagement
 
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            IUDICO.UserManagement.Localization.Initialize();
             container.Register(
                 AllTypes
                     .FromThisAssembly()
@@ -42,18 +42,18 @@ namespace IUDICO.UserManagement
         #region IPlugin Members
         public string GetName()
         {
-            return IUDICO.UserManagement.Localization.getMessage("UserManagement");
+            return Localization.getMessage("UserManagement");
         }
 
         public IEnumerable<Action> BuildActions(Role role)
         {
             var actions = new List<Action>
                               {
-                                  new Action(IUDICO.UserManagement.Localization.getMessage("GetUsers"), "User/Index"),
-                                  new Action(IUDICO.UserManagement.Localization.getMessage("GetGroups"), "Group/Index"),
-                                  new Action(IUDICO.UserManagement.Localization.getMessage("Register"), "Account/Register"),
-                                  new Action(IUDICO.UserManagement.Localization.getMessage("Forgot Password"), "Account/Forgot"),
-                                  new Action(IUDICO.UserManagement.Localization.getMessage("Login"), "Account/Login"),
+                                  new Action(Localization.getMessage("GetUsers"), "User/Index"),
+                                  new Action(Localization.getMessage("GetGroups"), "Group/Index"),
+                                  new Action(Localization.getMessage("Register"), "Account/Register"),
+                                  new Action(Localization.getMessage("Forgot Password"), "Account/Forgot"),
+                                  new Action(Localization.getMessage("Login"), "Account/Login"),
                               };
 
             return actions;
@@ -61,9 +61,9 @@ namespace IUDICO.UserManagement
 
         public void BuildMenu(Menu menu)
         {
-            menu.Add(new MenuItem(IUDICO.UserManagement.Localization.getMessage("Account"), "Account", "Index"));
-            menu.Add(new MenuItem(IUDICO.UserManagement.Localization.getMessage("Users"), "User", "Index"));
-            menu.Add(new MenuItem(IUDICO.UserManagement.Localization.getMessage("Groups"), "Group", "Index"));
+            menu.Add(new MenuItem(Localization.getMessage("Account"), "Account", "Index"));
+            menu.Add(new MenuItem(Localization.getMessage("Users"), "User", "Index"));
+            menu.Add(new MenuItem(Localization.getMessage("Groups"), "Group", "Index"));
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)

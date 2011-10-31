@@ -119,11 +119,6 @@
       <DependentUpon>FramesetResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\TrainingController.cs" />
-    <Compile Include="FramesetResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FramesetResources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Localization.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -265,12 +260,6 @@
       <LastGenOutput>FramesetResources.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
-    <EmbeddedResource Include="FramesetResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>FramesetResources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FramesetResources.uk.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

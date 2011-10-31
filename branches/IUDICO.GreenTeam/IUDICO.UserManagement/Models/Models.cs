@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using IUDICO.Common.Models.Attributes;
 using Guid = System.Guid;
 using System.Web.Mvc;
+using IUDICO.Common;
 
 
 namespace IUDICO.UserManagement.Models
@@ -20,6 +21,7 @@ namespace IUDICO.UserManagement.Models
             Email = user.Email;
             Groups = user.Groups;
             Roles = user.Roles;
+            UserID = user.UserID;
         }
 
         [ScaffoldColumn(false)]
@@ -41,6 +43,10 @@ namespace IUDICO.UserManagement.Models
         [EmailAddress]
         [Order(4)]
         public string Email { get; set; }
+
+        [LocalizedDisplayName("UserID")]
+        [Order(5)]
+        public string UserID { get; set; }
 
         [ScaffoldColumn(false)]
         public IEnumerable<Role> Roles { get; set; }
@@ -108,6 +114,7 @@ namespace IUDICO.UserManagement.Models
             OpenId = user.OpenId;
             Email = user.Email;
             Name = user.Name;
+            UserID = user.UserID;
         }
 
         public EditModel()
@@ -129,6 +136,11 @@ namespace IUDICO.UserManagement.Models
         [LocalizedDisplayName("Email")]
         [EmailAddress]
         public string Email { get; set; }
+
+        [LocalizedRequired(ErrorMessage = "UserID")]
+        [LocalizedDisplayName("UserID")]
+        [StringLength(100, ErrorMessage = "ID can not be longer than 100")]
+        public string UserID { get; set; }
     }
 
     public class ChangePasswordModel
@@ -241,7 +253,7 @@ namespace IUDICO.UserManagement.Models
         public LocalizedRequiredAttribute()
             : base()
         {
-            
+
         }
 
         public override string FormatErrorMessage(string name)
