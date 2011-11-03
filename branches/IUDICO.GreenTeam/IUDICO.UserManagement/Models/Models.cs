@@ -180,6 +180,7 @@ namespace IUDICO.UserManagement.Models
             Name = user.Name;
             Email = user.Email;
             OpenId = user.OpenId;
+            UserID = user.UserID;
         }
 
         public EditUserModel()
@@ -211,6 +212,11 @@ namespace IUDICO.UserManagement.Models
 
         [ScaffoldColumn(false)]
         public string Username { get; set; }
+ 
+        [LocalizedRequired(ErrorMessage = "UserID")]
+        [LocalizedDisplayName("UserID")]
+        [StringLength(100, ErrorMessage = "ID can not be longer than 100")]
+        public string UserID { get; set; }
     }
 
     public class UserGroupModel

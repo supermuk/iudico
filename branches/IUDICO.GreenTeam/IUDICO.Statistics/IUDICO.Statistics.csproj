@@ -79,9 +79,7 @@
   <ItemGroup>
     <Compile Include="Controllers\QualityTestController.cs" />
     <Compile Include="Controllers\StatsController.cs" />
-    <Compile Include="Localization.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
+    <Compile Include="Localization.cs" />
     <Compile Include="Models\QualityTestModels\FakeDataQualityTest.cs" />
     <Compile Include="Models\QualityTestModels\IndexModel.cs" />
     <Compile Include="Models\QualityTestModels\SelectGroupsModel.cs" />
@@ -124,6 +122,10 @@
     <Content Include="Views\Stats\ThemesInfo.aspx" />
     <Content Include="Views\Stats\ThemeTestResults.aspx" />
     <Content Include="Views\Stats\CurrentThemeTestResults.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resource.en-US.resx" />
+    <EmbeddedResource Include="Resource.uk-UA.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

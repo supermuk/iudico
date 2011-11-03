@@ -52,7 +52,7 @@ namespace IUDICO.UserManagement
                                   new Action(Localization.getMessage("GetUsers"), "User/Index"),
                                   new Action(Localization.getMessage("GetGroups"), "Group/Index"),
                                   new Action(Localization.getMessage("Register"), "Account/Register"),
-                                  new Action(Localization.getMessage("Forgot Password"), "Account/Forgot"),
+                                  new Action(Localization.getMessage("ForgotPassword"), "Account/Forgot"),
                                   new Action(Localization.getMessage("Login"), "Account/Login"),
                               };
 
