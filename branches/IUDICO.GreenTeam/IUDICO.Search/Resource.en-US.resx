@@ -117,73 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Action" xml:space="preserve">
-    <value>Action</value>
+  <data name="Course" xml:space="preserve">
+    <value>Course</value>
   </data>
-  <data name="AvailableThemes" xml:space="preserve">
-    <value>Available themes:</value>
+  <data name="CourseName" xml:space="preserve">
+    <value>Course name</value>
   </data>
-  <data name="ChangeCulture" xml:space="preserve">
-    <value>uk-UA</value>
+  <data name="CurriculumName" xml:space="preserve">
+    <value>Curriculum name</value>
   </data>
-  <data name="Controller" xml:space="preserve">
-    <value>Controller</value>
+  <data name="Group" xml:space="preserve">
+    <value>group</value>
   </data>
-  <data name="ExceptionOfType" xml:space="preserve">
-    <value>An exception of type</value>
+  <data name="NodeName" xml:space="preserve">
+    <value>Node name</value>
   </data>
-  <data name="Home" xml:space="preserve">
-    <value>Home</value>
+  <data name="Owner" xml:space="preserve">
+    <value>Owner</value>
   </data>
-  <data name="Language" xml:space="preserve">
-    <value>UK</value>
+  <data name="ParentCourse" xml:space="preserve">
+    <value>Parent course</value>
   </data>
-  <data name="LoggedInAs" xml:space="preserve">
-    <value>Logged in as</value>
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value>Login</value>
-  </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
-  </data>
-  <data name="Message" xml:space="preserve">
-    <value>Message</value>
-  </data>
-  <data name="occurred" xml:space="preserve">
-    <value>occurred</value>
-  </data>
-  <data name="OpenID" xml:space="preserve">
-    <value>OpenID:</value>
+  <data name="Role" xml:space="preserve">
+    <value>Role</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
-  <data name="SorryErrorOccurredWhileProcessingYourRequest" xml:space="preserve">
-    <value>Sorry, an error occurred while processing your request.</value>
+  <data name="SearchResults" xml:space="preserve">
+    <value>Search Results</value>
   </data>
-  <data name="Username" xml:space="preserve">
-    <value>Username:</value>
+  <data name="ThemeName" xml:space="preserve">
+    <value>Theme name</value>
   </data>
-  <data name="WelcomeIudico" xml:space="preserve">
-    <value>Welcome to online education system IUDICO</value>
+  <data name="Updated" xml:space="preserve">
+    <value>Updated</value>
   </data>
-  <data name="SaveClose" xml:space="preserve">
-    <value>Save &amp; Close</value>
-  </data>
-  <data name="Save_Close" xml:space="preserve">
-    <value>Save&amp;nbsp;&amp;amp; Close</value>
-  </data>
-  <data name="AccessDenied" xml:space="preserve">
-    <value>AccessDenied</value>
-  </data>
-  <data name="Loginn" xml:space="preserve">
-    <value>Login</value>
-  </data>
-  <data name="YouDontHavePermissionAccessThatPage" xml:space="preserve">
-    <value>You don't have permission to access that page</value>
-  </data>
-  <data name="Error" xml:space="preserve">
-    <value>Error</value>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
   </data>
 </root>

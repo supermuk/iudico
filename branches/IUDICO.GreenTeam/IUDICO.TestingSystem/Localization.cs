@@ -1,54 +1,13 @@
-﻿namespace IUDICO.TestingSystem
+﻿using IUDICO.Common;
+namespace IUDICO.TestingSystem
 {
-     [System.Obsolete("Use Common istead")]
-   public class Localization : IUDICO.Common.Localization { }
+    public class Localization
+    {
+        private static LocalizationMessageProvider provider = new LocalizationMessageProvider("TestingSystem");
+
+        public static string getMessage(string search)
+        {
+            return provider.getMessage(search);
+        }
+    }
 }
-//using System;
-//using System.Collections.Generic;
-//using System.Collections;
-//using System.Linq;
-//using System.Web;
-//using System.Reflection;
-//using System.Threading;
-//using System.IO;
-//using System.Resources;
-
-//namespace IUDICO.TestingSystem
-//{
-//    public class Localization : System.Web.Mvc.ViewPage
-//    {
-//        private static Dictionary<string, Dictionary<string, string>> resource;
-
-//        public static void Initialize()
-//        {
-//            string path = HttpContext.Current.Server.MapPath("/").Replace("IUDICO.LMS", "IUDICO.TestingSystem");
-//            ResXResourceReader rsxr = new ResXResourceReader(path + "FramesetResources" + ".resx");
-
-//            Dictionary<string, string> temp = new Dictionary<string, string>();
-//            foreach (DictionaryEntry d in rsxr)
-//            {
-//                temp.Add(d.Key.ToString(), d.Value.ToString());
-//            }
-//            resource = new Dictionary<string, Dictionary<string, string>>();
-//            resource.Add("en-US", temp);
-//            rsxr = new ResXResourceReader(path + "FramesetResources" + ".uk" + ".resx");
-//            temp = new Dictionary<string, string>();
-//            foreach (DictionaryEntry d in rsxr)
-//            {
-//                temp.Add(d.Key.ToString(), d.Value.ToString());
-//            }
-//            resource.Add("uk-UA", temp);
-//        }
-//        public static string getMessage(string search)
-//        {
-//            try
-//            {
-//                return resource[Thread.CurrentThread.CurrentUICulture.Name][search];
-//            }
-//            catch (Exception)
-//            {
-//                return search;
-//            }
-//        }
-//    }
-//}

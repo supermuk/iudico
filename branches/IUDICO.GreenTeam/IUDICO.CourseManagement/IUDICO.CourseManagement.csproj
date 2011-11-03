@@ -98,9 +98,7 @@
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\NodeController.cs" />
     <Compile Include="CourseManagementPlugin.cs" />
-    <Compile Include="Localization.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
+    <Compile Include="Localization.cs" />
     <Compile Include="Models\ManifestModels\ManifestManager.cs" />
     <Compile Include="Helpers\PackageValidator.cs" />
     <Compile Include="Helpers\Zipper.cs" />
@@ -762,7 +760,10 @@
     <Content Include="Libraries\Microsoft.LearningComponents.XML" />
     <None Include="Views\Web.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resource.en-US.resx" />
+    <EmbeddedResource Include="Resource.uk-UA.resx" />
+  </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>

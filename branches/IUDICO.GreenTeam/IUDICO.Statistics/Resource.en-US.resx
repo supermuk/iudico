@@ -117,73 +117,142 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Action" xml:space="preserve">
-    <value>Action</value>
+  <data name="AttemptStatistic" xml:space="preserve">
+    <value>Attempt statistic:</value>
   </data>
-  <data name="AvailableThemes" xml:space="preserve">
-    <value>Available themes:</value>
+  <data name="Back" xml:space="preserve">
+    <value>&lt;- back</value>
   </data>
-  <data name="ChangeCulture" xml:space="preserve">
-    <value>uk-UA</value>
+  <data name="Comparison" xml:space="preserve">
+    <value>Comparison</value>
   </data>
-  <data name="Controller" xml:space="preserve">
-    <value>Controller</value>
+  <data name="CorrectAnswer" xml:space="preserve">
+    <value>Correct Answer</value>
   </data>
-  <data name="ExceptionOfType" xml:space="preserve">
-    <value>An exception of type</value>
+  <data name="Created" xml:space="preserve">
+    <value>Created</value>
   </data>
-  <data name="Home" xml:space="preserve">
-    <value>Home</value>
+  <data name="CreateGroup" xml:space="preserve">
+    <value>Create group</value>
   </data>
-  <data name="Language" xml:space="preserve">
-    <value>UK</value>
+  <data name="CurriculumList" xml:space="preserve">
+    <value>Curriculum list for</value>
   </data>
-  <data name="LoggedInAs" xml:space="preserve">
-    <value>Logged in as</value>
+  <data name="CurriculumName" xml:space="preserve">
+    <value>Curriculum name</value>
   </data>
-  <data name="Login" xml:space="preserve">
-    <value>Login</value>
+  <data name="CurriculumsStatisticForGroup" xml:space="preserve">
+    <value>Curriculums statistic for group</value>
   </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
+  <data name="GetStats" xml:space="preserve">
+    <value>Get Stats</value>
   </data>
-  <data name="Message" xml:space="preserve">
-    <value>Message</value>
+  <data name="GroupList" xml:space="preserve">
+    <value>Group list</value>
   </data>
-  <data name="occurred" xml:space="preserve">
-    <value>occurred</value>
+  <data name="NoGroupHasBeenCreated" xml:space="preserve">
+    <value>No group has been created.</value>
   </data>
-  <data name="OpenID" xml:space="preserve">
-    <value>OpenID:</value>
+  <data name="NumberOfQuestion" xml:space="preserve">
+    <value>Number of question</value>
   </data>
-  <data name="Search" xml:space="preserve">
-    <value>Search</value>
+  <data name="Percent" xml:space="preserve">
+    <value>Percent</value>
   </data>
-  <data name="SorryErrorOccurredWhileProcessingYourRequest" xml:space="preserve">
-    <value>Sorry, an error occurred while processing your request.</value>
+  <data name="Results" xml:space="preserve">
+    <value>Results</value>
   </data>
-  <data name="Username" xml:space="preserve">
-    <value>Username:</value>
+  <data name="Score" xml:space="preserve">
+    <value>Score</value>
   </data>
-  <data name="WelcomeIudico" xml:space="preserve">
-    <value>Welcome to online education system IUDICO</value>
+  <data name="SelectAttempt" xml:space="preserve">
+    <value>Please, select attempt to show:</value>
   </data>
-  <data name="SaveClose" xml:space="preserve">
-    <value>Save &amp; Close</value>
+  <data name="SelectCurriculum" xml:space="preserve">
+    <value>Please, select one or more curriculum </value>
   </data>
-  <data name="Save_Close" xml:space="preserve">
-    <value>Save&amp;nbsp;&amp;amp; Close</value>
+  <data name="SelectOneCurriculum" xml:space="preserve">
+    <value>Please, select one curriculum :</value>
   </data>
-  <data name="AccessDenied" xml:space="preserve">
-    <value>AccessDenied</value>
+  <data name="SelectOneGroup" xml:space="preserve">
+    <value>Please, select one group :</value>
   </data>
-  <data name="Loginn" xml:space="preserve">
-    <value>Login</value>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
   </data>
-  <data name="YouDontHavePermissionAccessThatPage" xml:space="preserve">
-    <value>You don't have permission to access that page</value>
+  <data name="Statistics" xml:space="preserve">
+    <value>Statistics</value>
   </data>
-  <data name="Error" xml:space="preserve">
-    <value>Error</value>
+  <data name="Student" xml:space="preserve">
+    <value>Student</value>
+  </data>
+  <data name="StudentAnswer" xml:space="preserve">
+    <value>Student Answer</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="Sum" xml:space="preserve">
+    <value>Sum</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="NoData" xml:space="preserve">
+    <value>No data</value>
+  </data>
+  <data name="NoDataShow" xml:space="preserve">
+    <value>No data to show</value>
+  </data>
+  <data name="CurriculumsStatistic" xml:space="preserve">
+    <value>Curriculums Statistic</value>
+  </data>
+  <data name="Failed" xml:space="preserve">
+    <value>Failed</value>
+  </data>
+  <data name="Passed" xml:space="preserve">
+    <value>Passed</value>
+  </data>
+  <data name="ThemesInfo" xml:space="preserve">
+    <value>Themes Info</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="Coefficient" xml:space="preserve">
+    <value>Coefficient</value>
+  </data>
+  <data name="Curriculum" xml:space="preserve">
+    <value>Curriculum</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="NumberOfStudents" xml:space="preserve">
+    <value>Number of students</value>
+  </data>
+  <data name="QualityTest" xml:space="preserve">
+    <value>Quality Test</value>
+  </data>
+  <data name="SelectCurriculums" xml:space="preserve">
+    <value>Select Curriculums</value>
+  </data>
+  <data name="SelectGroups" xml:space="preserve">
+    <value>Select Groups</value>
+  </data>
+  <data name="SelectOneOrMoreGroups" xml:space="preserve">
+    <value>Select one or more groups</value>
+  </data>
+  <data name="SelectOneTheme" xml:space="preserve">
+    <value>Select OneTheme</value>
+  </data>
+  <data name="SelectTheme" xml:space="preserve">
+    <value>Select Theme</value>
+  </data>
+  <data name="ShowQualityTest" xml:space="preserve">
+    <value>ShowQualityTest</value>
+  </data>
+  <data name="Teacher" xml:space="preserve">
+    <value>Teacher</value>
   </data>
 </root>

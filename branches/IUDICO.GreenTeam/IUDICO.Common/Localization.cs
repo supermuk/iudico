@@ -10,24 +10,48 @@ using System.Reflection;
 
 namespace IUDICO.Common
 {
-    public class Localization : System.Web.Mvc.ViewPage
+    public class LocalizationMessageProvider : System.Web.Mvc.ViewPage
     {
-        private static System.Resources.ResourceManager Manager;
+        private static string[] cultures = new[] { "en-US", "uk-UA" };
+        private Dictionary<string, Dictionary<string, string>> resource = new Dictionary<string, Dictionary<string, string>>();
 
-        public static void Initialize(System.Resources.ResourceManager recourceManager)
+        public LocalizationMessageProvider(string pluginName)
         {
-            Manager = recourceManager;
+            string path = HttpContext.Current.Server.MapPath("/").Replace("IUDICO.LMS", "IUDICO." + pluginName);
+
+            foreach (var culture in cultures)
+            {
+                var rsxr = new ResXResourceReader(path + "Resource." + culture + ".resx");
+
+                Dictionary<string, string> temp = new Dictionary<string, string>();
+                foreach (DictionaryEntry d in rsxr)
+                {
+                    temp.Add(d.Key.ToString(), d.Value.ToString());
+                }
+
+                resource.Add(culture, temp);
+            }
         }
-        public static string getMessage(string search)
+        public string getMessage(string search)
         {
             try
             {
-                return Manager.GetString(search, Thread.CurrentThread.CurrentUICulture);
+                return resource[Thread.CurrentThread.CurrentUICulture.Name][search];
             }
             catch (Exception)
             {
-                return search;
+                return "#" + search;
             }
+        }
+    }
+
+    public class Localization
+    {
+        private static LocalizationMessageProvider provider = new LocalizationMessageProvider("Common");
+
+        public static string getMessage(string search)
+        {
+            return provider.getMessage(search);
         }
     }
 }
