@@ -119,9 +119,7 @@
       <DependentUpon>FramesetResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\TrainingController.cs" />
-    <Compile Include="Localization.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
+    <Compile Include="Localization.cs" />
     <Compile Include="Models\FakeTestingService.cs" />
     <Compile Include="Models\IMlcProxy.cs" />
     <Compile Include="Models\ServicesProxy.cs" />
@@ -246,7 +244,10 @@
     <Content Include="Views\Training\Play.aspx" />
     <None Include="Shema\CompileSchema.bat" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resource.en-US.resx" />
+    <EmbeddedResource Include="Resource.uk-UA.resx" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
       <Project>{9DD6C943-6608-4351-A521-E4B1F2F75E9D}</Project>
