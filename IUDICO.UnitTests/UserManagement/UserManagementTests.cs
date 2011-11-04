@@ -130,10 +130,10 @@ namespace IUDICO.UnitTests.UserManagement
                                            new UserRole {UserRef = mockUserData[0].Id, RoleRef = (int)Role.Teacher}
                                        };
 
-            var mockUsers = new MockableTable<User>(Users.Object, mockUserData.AsQueryable());
-            var mockGroups = new MockableTable<Group>(Groups.Object, mockGroupData.AsQueryable());
-            var mockGroupUsers = new MockableTable<GroupUser>(GroupUsers.Object, mockGroupUserData.AsQueryable());
-            var mockUserRoles = new MockableTable<UserRole>(GroupUsers.Object, mockUserRoleData.AsQueryable());
+            var mockUsers = new MemoryTable<User>(mockUserData);
+            var mockGroups = new MemoryTable<Group>(mockGroupData);
+            var mockGroupUsers = new MemoryTable<GroupUser>(mockGroupUserData);
+            var mockUserRoles = new MemoryTable<UserRole>(mockUserRoleData);
 
             MockDataContext.SetupGet(c => c.Users).Returns(mockUsers);
             MockDataContext.SetupGet(c => c.Groups).Returns(mockGroups);
