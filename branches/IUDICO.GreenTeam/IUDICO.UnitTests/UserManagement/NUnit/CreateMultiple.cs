@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Notifications;
-using IUDICO.UserManagement.Models;
 using Moq;
 using NUnit.Framework;
 
@@ -49,21 +48,18 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             var results = _Tests.Storage.CreateUsersFromCSV(path);
 
-            _Tests.Users.Verify(u => u.InsertAllOnSubmit(It.Is<IEnumerable<User>>(ie => TestUsers(ie, users))));
+            Assert.IsTrue(TestUsers(_Tests.Storage.GetUsers(), users));
+            Assert.IsTrue(_Tests.Storage.GetUser(u => u.Username == "ipe").Username == "ipe");
+
+            /*_Tests.Users.Verify(u => u.InsertAllOnSubmit(It.Is<IEnumerable<User>>(ie => TestUsers(ie, users))));*/
             _Tests.MockStorage.Verify(u => u.SendEmail(It.IsAny<string>(), It.Is<string>(s => s == "ip@interlogic.com.ua"), It.IsAny<string>(), It.IsAny<string>()), Times.Once());
             _Tests.MockStorage.Verify(u => u.SendEmail(It.IsAny<string>(), It.Is<string>(s => s == "vladykx@gmail.com"), It.IsAny<string>(), It.IsAny<string>()), Times.Once());
             _Tests.MockLmsService.Verify(s => s.Inform(UserNotifications.UserCreateMultiple, It.Is<IEnumerable<User>>(ie => TestUsers(ie, users))));
-            Assert.IsTrue(users.Count == results.Count);
         }
 
-        protected bool TestUsers(IEnumerable<User> inserted, IEnumerable<User> expected)
+        protected bool TestUsers(IEnumerable<User> users, IEnumerable<User> inserted)
         {
-            if (inserted.Count() != expected.Count())
-            {
-                return false;
-            }
-
-            return inserted.Except(expected, new UserComparer()).Count() == 0;
+            return inserted.Except(users, new UserComparer()).Count() == 0;
         }
     }
 }
