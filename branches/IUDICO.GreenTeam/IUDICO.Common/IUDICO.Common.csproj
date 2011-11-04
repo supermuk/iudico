@@ -87,6 +87,7 @@
     <Compile Include="Models\Interfaces\IDataContext.cs" />
     <Compile Include="Models\Interfaces\IMockableDataContext.cs" />
     <Compile Include="Models\Interfaces\IMockableTable.cs" />
+    <Compile Include="Models\MemoryTable.cs" />
     <Compile Include="Models\MockableTable.cs" />
     <Compile Include="Models\NodeProperty.cs" />
     <Compile Include="Models\Notifications\CourseNotifications.cs" />
