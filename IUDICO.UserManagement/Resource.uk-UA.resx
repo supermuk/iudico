@@ -372,4 +372,7 @@
   <data name="Roles" xml:space="preserve">
     <value>Ролі</value>
   </data>
+  <data name="CreateNewUsers" xml:space="preserve">
+    <value>Створити групу користувачів</value>
+  </data>
 </root>

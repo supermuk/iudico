@@ -209,13 +209,19 @@ namespace IUDICO.UserManagement.Models.Storage
                 foreach (var record in reader.DataRecords)
                 {
                     var role = (int) Enum.Parse(typeof (Role), record.GetValueOrNull("Role") ?? "Student");
-                    var password = record.GetValueOrNull("Password") ?? RandomPassword();
+                    var password = record.GetValueOrNull("Password");
+
+                    if (string.IsNullOrEmpty(password))
+                    {
+                         password = RandomPassword();
+                    }
 
                     var user = new User
                                    {
+                                       Id = Guid.NewGuid(),
                                        Username = record.GetValueOrNull("Username"),
                                        Password = EncryptPassword(password),
-                                       Email = record.GetValueOrNull("Email"),
+                                       Email = record.GetValueOrNull("Email") ?? string.Empty,
                                        Name = record.GetValueOrNull("Name") ?? string.Empty,
                                        OpenId = record.GetValueOrNull("OpenId") ?? string.Empty,
                                        Deleted = false,
@@ -224,7 +230,7 @@ namespace IUDICO.UserManagement.Models.Storage
                                        CreationDate = DateTime.Now,
                                    };
 
-                    user.UserRoles.Add(new UserRole {RoleRef = role});
+                    user.UserRoles.Add(new UserRole {RoleRef = role, UserRef = user.Id});
 
                     users.Add(user);
                     passwords.Add(user.Username, password);
