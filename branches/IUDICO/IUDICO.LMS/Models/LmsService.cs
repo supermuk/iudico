@@ -43,11 +43,6 @@ namespace IUDICO.LMS.Models
             throw new NotImplementedException();
         }
 
-        public IDataContext GetIDataContext()
-        {
-            return GetDbDataContext();
-        }
-
         public Menu GetMenu()
         {
             throw new NotImplementedException();

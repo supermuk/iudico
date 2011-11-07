@@ -1,16 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Castle.MicroKernel.Registration;
+using IUDICO.Common;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
 using IUDICO.Analytics.Models;
 using Action = IUDICO.Common.Models.Action;
-
-
-using System.Linq;
 using Castle.Windsor;
-using IUDICO.Common.Models.Notifications;
 
 namespace IUDICO.Analytics
 {
@@ -21,7 +18,6 @@ namespace IUDICO.Analytics
 
         public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
         {
-            IUDICO.Common.Localization.Initialize();
             container.Register(
                 AllTypes
                     .FromThisAssembly()
