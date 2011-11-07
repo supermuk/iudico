@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Xml.Serialization;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
+using IUDICO.Common;
 
 namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupModels
 {

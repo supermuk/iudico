@@ -3,30 +3,30 @@ using System.ComponentModel.DataAnnotations;
 using IUDICO.Common.Models;
 using System.Collections.Generic;
 using IUDICO.Common.Models.Attributes;
-using OpenIdMembershipUser = IUDICO.UserManagement.Models.Auth.OpenIdMembershipUser;
 using Guid = System.Guid;
 using System.Web.Mvc;
-using System;
-using System.Globalization;
-using System.Reflection;
-using System.Threading;
+using IUDICO.Common;
 
 
 namespace IUDICO.UserManagement.Models
 {
     public class DetailsModel
     {
-        public DetailsModel(User user, IEnumerable<Group> groups)
+        public DetailsModel(User user)
         {
+            Id = user.Id;
             Username = user.Username;
             Name = user.Name;
             OpenId = user.OpenId;
             Email = user.Email;
-            Groups = groups;
-            Role = Localization.getMessage(Convert.ToString(user.Role));
+            Groups = user.Groups;
+            Roles = user.Roles;
+            UserID = user.UserID;
         }
 
-        
+        [ScaffoldColumn(false)]
+        public Guid Id { get; set; }
+
         [LocalizedDisplayName("Loginn")]
         [Order(1)]
         public string Username { get; set; }
@@ -44,9 +44,12 @@ namespace IUDICO.UserManagement.Models
         [Order(4)]
         public string Email { get; set; }
 
-        [LocalizedDisplayName("Role")]
+        [LocalizedDisplayName("UserID")]
         [Order(5)]
-        public string Role { get; set; }
+        public string UserID { get; set; }
+
+        [ScaffoldColumn(false)]
+        public IEnumerable<Role> Roles { get; set; }
 
         [ScaffoldColumn(false)]
         public IEnumerable<Group> Groups { get; set; }
@@ -54,15 +57,15 @@ namespace IUDICO.UserManagement.Models
 
     public class AdminDetailsModel : DetailsModel
     {
-        public AdminDetailsModel(User user, IEnumerable<Group> groups)
-            : base(user, groups)
+        public AdminDetailsModel(User user)
+            : base(user)
         {
-            Id = user.Id;
+            //Id = user.Id;
             IsApproved = user.IsApproved;
         }
 
-        [ScaffoldColumn(false)]
-        public Guid Id { get; set; }
+        //[ScaffoldColumn(false)]
+        //public Guid Id { get; set; }
 
         [LocalizedDisplayName("Activated")]
         [DataType(DataType.Text)]
@@ -107,14 +110,19 @@ namespace IUDICO.UserManagement.Models
     {
         public EditModel(User user)
         {
+            Id = user.Id;
             OpenId = user.OpenId;
             Email = user.Email;
             Name = user.Name;
+            UserID = user.UserID;
         }
 
         public EditModel()
         {
         }
+
+        [ScaffoldColumn(false)]
+        public Guid Id { get; set; }
 
         [LocalizedRequired(ErrorMessage = "FullNameRequiered")]
         [LocalizedDisplayName("FullName")]
@@ -128,6 +136,11 @@ namespace IUDICO.UserManagement.Models
         [LocalizedDisplayName("Email")]
         [EmailAddress]
         public string Email { get; set; }
+
+        [LocalizedRequired(ErrorMessage = "UserID")]
+        [LocalizedDisplayName("UserID")]
+        [StringLength(100, ErrorMessage = "ID can not be longer than 100")]
+        public string UserID { get; set; }
     }
 
     public class ChangePasswordModel
@@ -150,21 +163,32 @@ namespace IUDICO.UserManagement.Models
         public string ConfirmPassword { get; set; }
     }
 
+    public class RestorePasswordModel
+    {
+        [LocalizedRequired(ErrorMessage = "EmailRequired")]
+        [LocalizedDisplayName("Email")]
+        [EmailAddress]
+        public string Email { get; set; }
+    }
+
     public class EditUserModel
     {
         public EditUserModel(User user)
         {
+            Id = user.Id;
             Username = user.Username;
             Name = user.Name;
             Email = user.Email;
-            RoleId = user.RoleId;
             OpenId = user.OpenId;
-            RolesList = user.RolesList;
+            UserID = user.UserID;
         }
 
         public EditUserModel()
         {
         }
+
+        [ScaffoldColumn(false)]
+        public Guid Id { get; set; }
 
         [LocalizedDisplayName("FullName")]
         [LocalizedRequired(ErrorMessage = "FullNameRequiered")]
@@ -182,32 +206,17 @@ namespace IUDICO.UserManagement.Models
         [EmailAddress]
         public string Email { get; set; }
 
-        [LocalizedDisplayName("Role")]
-        [LocalizedDropDownList("SelectRole", SourceProperty = "RolesList")]
-        [LocalizedRequired(ErrorMessage = "RoleRequired")]
-        public int RoleId { get; set; }
-
         [DisplayName("OpenId")]
         [StringLength(200, ErrorMessage = "OpenId can not be longer than 200")]
         public string OpenId { get; set; }
 
         [ScaffoldColumn(false)]
-        public Role Role
-        {
-            get
-            {
-                return (Role)RoleId;
-            }
-            set
-            {
-                RoleId = (int)value;
-            }
-        }
-
-        [ScaffoldColumn(false)]
         public string Username { get; set; }
-
-        public IEnumerable<SelectListItem> RolesList { get; set; }
+ 
+        [LocalizedRequired(ErrorMessage = "UserID")]
+        [LocalizedDisplayName("UserID")]
+        [StringLength(100, ErrorMessage = "ID can not be longer than 100")]
+        public string UserID { get; set; }
     }
 
     public class UserGroupModel
@@ -218,6 +227,16 @@ namespace IUDICO.UserManagement.Models
         [LocalizedDisplayName("Group")]
         public int GroupRef { get; set; }
     }
+
+    public class UserRoleModel
+    {
+        public IEnumerable<SelectListItem> RoleList { get; set; }
+
+        [LocalizedDropDownList("SelectRole", SourceProperty = "RoleList")]
+        [LocalizedDisplayName("Role")]
+        public int RoleRef { get; set; }
+    }
+
     public class LocalizedDisplayNameAttribute : DisplayNameAttribute
     {
 
@@ -240,7 +259,7 @@ namespace IUDICO.UserManagement.Models
         public LocalizedRequiredAttribute()
             : base()
         {
-            
+
         }
 
         public override string FormatErrorMessage(string name)

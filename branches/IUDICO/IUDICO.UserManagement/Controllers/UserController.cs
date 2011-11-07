@@ -1,14 +1,18 @@
 ﻿using System;
+using System.IO;
+using System.Web;
 using System.Web.Mvc;
+using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
 using IUDICO.UserManagement.Models;
 using IUDICO.UserManagement.Models.Storage;
 using System.Linq;
+using IUDICO.Common;
 
 namespace IUDICO.UserManagement.Controllers
 {
-    public class UserController : UserBaseController
+    public class UserController : PluginController
     {
         private readonly IUserStorage _Storage;
 
@@ -20,7 +24,7 @@ namespace IUDICO.UserManagement.Controllers
         //
         // GET: /User/
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult Index()
         {
             return View(_Storage.GetUsers());
@@ -29,42 +33,45 @@ namespace IUDICO.UserManagement.Controllers
         //
         // GET: /User/Details/5
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult Details(Guid id)
         {
             var user = _Storage.GetUser(u => u.Id == id);
-            var group = _Storage.GetGroupsByUser(user);
 
-            return View(new AdminDetailsModel(user, group));
+            return View(new AdminDetailsModel(user));
         }
 
         //
         // GET: /User/Create
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult Create()
         {
             var user = new User
                            {
-                               RolesList =
+                               /*RolesList =
                                    _Storage.GetRoles().AsQueryable().Select(
                                        r =>
                                        new SelectListItem
-                                           {Text =IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int) r).ToString(), Selected = false})
+                                           {Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int) r).ToString(), Selected = false}
+                                    )*/
                            };
 
             return View(user);
-        } 
+        }
 
         //
         // POST: /User/Create
 
         [HttpPost]
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult Create(User user)
         {
             if (user.OpenId == null)
+            {
                 user.OpenId = string.Empty;
+            }
+            
             if (ModelState.IsValid)
             {
                 if (!_Storage.UsernameExists(user.Username))
@@ -76,21 +83,54 @@ namespace IUDICO.UserManagement.Controllers
                 
                 ModelState.AddModelError("Username", "User with such username already exists.");
             }
+
             user.Password = null;
-            user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = false });
+            //user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = false });
 
             return View(user);
         }
 
         //
+        // GET: /User/CreateMultiple
+
+        [Allow(Role = Role.Admin)]
+        public ActionResult CreateMultiple()
+        {
+            return View();
+        }
+
+        //
+        // POST: /User/CreateMultiple
+
+        [Allow(Role = Role.Admin)]
+        [HttpPost]
+        public ActionResult CreateMultiple(HttpPostedFileBase fileUpload)
+        {
+            var path = HttpContext.Request.PhysicalApplicationPath;
+
+            path = Path.Combine(path, @"Data\CSV");
+            path = Path.Combine(path, Guid.NewGuid().ToString());
+
+            Directory.CreateDirectory(path);
+
+            path = Path.Combine(path, fileUpload.FileName.Split('\\').Last());
+
+            fileUpload.SaveAs(path);
+
+            var users = _Storage.CreateUsersFromCSV(path);
+
+            return View(users);
+        }
+
+        //
         // GET: /User/Edit/5
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult Edit(Guid id)
         {
             var user = _Storage.GetUser(u => u.Id == id);
 
-            user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = (user.Role == r) });
+            //user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = (user.Role == r) });
 
             return View(new EditUserModel(user));
         }
@@ -99,15 +139,19 @@ namespace IUDICO.UserManagement.Controllers
         // POST: /User/Edit/5
 
         [HttpPost]
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult Edit(Guid id,  EditUserModel user)
         {
             if (user.OpenId == null)
+            {
                 user.OpenId = string.Empty;
+            }
+
             if (!ModelState.IsValid)
             {
                 user.Password = null;
-                user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = (user.Role == r) });
+                //user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = (user.Role == r) });
+
                 return View(user);
             }
 
@@ -120,7 +164,7 @@ namespace IUDICO.UserManagement.Controllers
         // Delete: /User/Delete/5
 
         [HttpDelete]
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public JsonResult Delete(Guid id)
         {
             try
@@ -135,7 +179,7 @@ namespace IUDICO.UserManagement.Controllers
             }
         }
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult Activate(Guid id)
         {
             _Storage.ActivateUser(id);
@@ -143,7 +187,7 @@ namespace IUDICO.UserManagement.Controllers
             return RedirectToAction("Index");
         }
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult Deactivate(Guid id)
         {
             _Storage.DeactivateUser(id);
@@ -151,7 +195,7 @@ namespace IUDICO.UserManagement.Controllers
             return RedirectToAction("Index");
         }
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult RemoveFromGroup(Guid id, int groupRef)
         {
             var user = _Storage.GetUser(u => u.Id == id);
@@ -162,12 +206,12 @@ namespace IUDICO.UserManagement.Controllers
             return RedirectToAction("Details", new { id = id });
         }
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult AddToGroup(Guid id)
         {
             var user = _Storage.GetUser(u => u.Id == id);
 
-            var groupList = _Storage.GetGroupsAvaliableForUser(user).Select(g => new SelectListItem { Text = g.Name, Value = g.Id.ToString(), Selected = false });
+            var groupList = _Storage.GetGroupsAvailableToUser(user).Select(g => new SelectListItem { Text = g.Name, Value = g.Id.ToString(), Selected = false });
 
             var userGroup = new UserGroupModel { GroupList = groupList };
 
@@ -175,14 +219,14 @@ namespace IUDICO.UserManagement.Controllers
         }
 
         [HttpPost]
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult AddToGroup(Guid id, int? groupRef)
         {
             var user = _Storage.GetUser(u => u.Id == id);
 
             if (groupRef == null)
             {
-                var groupList = _Storage.GetGroupsAvaliableForUser(user).Select(g => new SelectListItem { Text = g.Name, Value = g.Id.ToString(), Selected = false });
+                var groupList = _Storage.GetGroupsAvailableToUser(user).Select(g => new SelectListItem { Text = g.Name, Value = g.Id.ToString(), Selected = false });
 
                 var userGroup = new UserGroupModel { GroupList = groupList };
 
@@ -194,6 +238,65 @@ namespace IUDICO.UserManagement.Controllers
             var group = _Storage.GetGroup(groupRef.Value);
 
             _Storage.AddUserToGroup(group, user);
+
+            return RedirectToAction("Details", new { Id = id });
+        }
+		[HttpPost]
+        public ActionResult UploadAvatar(Guid id, HttpPostedFileBase file)
+        {
+            _Storage.UploadAvatar(id, file);
+            return RedirectToAction("Edit", new { id = id });
+        }
+
+        [Allow(Role = Role.Admin)]
+        public ActionResult RemoveFromRole(Guid id, int? roleRef)
+        {
+            var user = _Storage.GetUser(u => u.Id == id);
+
+            if (roleRef == null)
+            {
+                return RedirectToAction("Details", new { id = id });
+            }
+
+            var role = UserRoles.GetRole(roleRef.Value);
+
+            _Storage.RemoveUserFromRole(role, user);
+
+            return RedirectToAction("Details", new { id = id });
+        }
+
+        [Allow(Role = Role.Admin)]
+        public ActionResult AddToRole(Guid id)
+        {
+            var user = _Storage.GetUser(u => u.Id == id);
+
+            var roleList = _Storage.GetRolesAvailableToUser(user).Select(r => new SelectListItem { Text = Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = false });
+
+            var userRole = new UserRoleModel { RoleList = roleList };
+
+            return View(userRole);
+        }
+
+        [HttpPost]
+        [Allow(Role = Role.Admin)]
+        public ActionResult AddToRole(Guid id, int? roleRef)
+        {
+            var user = _Storage.GetUser(u => u.Id == id);
+
+            if (roleRef == null)
+            {
+                var userList = _Storage.GetRolesAvailableToUser(user).Select(r => new SelectListItem { Text = Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = false });
+
+                var userRole = new UserRoleModel { RoleList = userList };
+
+                ModelState.AddModelError("RoleRef", "Please select role from list");
+
+                return View(userRole);
+            }
+
+            var role = UserRoles.GetRole(roleRef.Value);
+
+            _Storage.AddUserToRole(role, user);
 
             return RedirectToAction("Details", new { Id = id });
         }

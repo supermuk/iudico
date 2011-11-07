@@ -13,6 +13,7 @@ namespace IUDICO.Common.Models.Services
         IDataContext GetIDataContext();
 
         DbConnection GetDbConnection();
+        IDataContext GetIDataContext();
 
         void Inform(string evt, params object[] data);
     }
