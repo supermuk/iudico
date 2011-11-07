@@ -65,6 +65,7 @@
                 <% } %>
                 <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Edit"), "Edit", new { id = item.Id })%> |
                 <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Details"), "Details", new { id = item.Id })%> |
+                <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("AddToRole"), "AddToRole", new { id = item.Id })%> |
                 <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("AddToGroup"), "AddToGroup", new { id = item.Id })%> |
                 <%: Ajax.ActionLink(IUDICO.UserManagement.Localization.getMessage("Delete"), "Delete", new { id = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Username + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
             </td>

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Xml.Serialization;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
+using IUDICO.Common;
 
 namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
 {
@@ -97,17 +98,17 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
                                {
                                    new SelectListItem
                                        {
-                                           Text =IUDICO.CourseManagement.Localization.getMessage(Enum.GetName(typeof (Timing), Timing.Never)),
+                                           Text =Localization.getMessage(Enum.GetName(typeof (Timing), Timing.Never)),
                                            Value = Timing.Never.ToString()
                                        },
                                    new SelectListItem
                                        {
-                                           Text = IUDICO.CourseManagement.Localization.getMessage(Enum.GetName(typeof (Timing), Timing.Once)),
+                                           Text = Localization.getMessage(Enum.GetName(typeof (Timing), Timing.Once)),
                                            Value = Timing.Once.ToString()
                                        },
                                    new SelectListItem
                                        {
-                                           Text = IUDICO.CourseManagement.Localization.getMessage(Enum.GetName(typeof (Timing), Timing.OnEachNewAttempt)),
+                                           Text = Localization.getMessage(Enum.GetName(typeof (Timing), Timing.OnEachNewAttempt)),
                                            Value = Timing.OnEachNewAttempt.ToString()
                                        }
                                };
@@ -175,7 +176,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         {
             get
             {
-                return IUDICO.CourseManagement.Localization.getMessage(base.DisplayName);
+                return Localization.getMessage(base.DisplayName);
             }
         }
     }
