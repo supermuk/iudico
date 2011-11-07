@@ -250,7 +250,7 @@ namespace IUDICO.Common.Models
             [LocalizedRequired(ErrorMessage = "UserIDRequired")]
             [StringLength(100, ErrorMessage = "ID can not be longer than 100")]
             [Order(7)]
-            public string UserID { get; set; }
+            public string UserId { get; set; }
 
             [ScaffoldColumn(false)]
             public bool Deleted { get; set; }

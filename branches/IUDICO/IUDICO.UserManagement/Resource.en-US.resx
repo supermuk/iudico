@@ -372,4 +372,7 @@
   <data name="Roles" xml:space="preserve">
     <value>Roles</value>
   </data>
+  <data name="CreateNewUsers" xml:space="preserve">
+    <value>Create multiple users</value>
+  </data>
 </root>

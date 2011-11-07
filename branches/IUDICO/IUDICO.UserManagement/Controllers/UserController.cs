@@ -117,9 +117,18 @@ namespace IUDICO.UserManagement.Controllers
 
             fileUpload.SaveAs(path);
 
-            var users = _Storage.CreateUsersFromCSV(path);
+            try
+            {
+                var users = _Storage.CreateUsersFromCSV(path);
 
-            return View(users);
+                return View("CreatedMultiple", users);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex);
+                
+                return View();
+            }
         }
 
         //
