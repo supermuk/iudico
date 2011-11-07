@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using IUDICO.Common.Models;
+using System.IO;
+using System.Web;
 
 namespace IUDICO.UserManagement.Models.Storage
 {
     public interface IUserStorage
     {
-        #region Role members
-
-        IEnumerable<Role> GetRoles();
-        Role GetRole(int id);
-
-        #endregion
-
         #region User members
 
         User GetCurrentUser();
@@ -21,6 +16,7 @@ namespace IUDICO.UserManagement.Models.Storage
         IEnumerable<User> GetUsers(int pageIndex, int pageSize);
         User GetUser(Func<User, bool> predicate);
         void CreateUser(User user);
+        Dictionary<string, string> CreateUsersFromCSV(string csvPath);
         void EditUser(Guid id, EditUserModel editor);
         void EditUser(Guid id, User editor);
         void EditAccount(EditModel editModel);
@@ -33,6 +29,22 @@ namespace IUDICO.UserManagement.Models.Storage
         void DeactivateUser(Guid id);
         void RegisterUser(RegisterModel registerModel);
         string EncryptPassword(string password);
+        void RestorePassword(RestorePasswordModel restorePasswordModel);
+
+        int UploadAvatar(Guid id, HttpPostedFileBase file);
+        int DeleteAvatar(Guid id);
+
+        #endregion
+
+        #region Role members
+
+        IEnumerable<User> GetUsersInRole(Role role);
+        void AddUsersToRoles(IEnumerable<string> usernames, IEnumerable<Role> roles);
+        void RemoveUsersFromRoles(IEnumerable<string> usernames, IEnumerable<Role> roles);
+        IEnumerable<Role> GetUserRoles(string username);
+        void RemoveUserFromRole(Role role, User user);
+        void AddUserToRole(Role role, User user);
+        IEnumerable<Role> GetRolesAvailableToUser(User user);
 
         #endregion
 
@@ -46,8 +58,10 @@ namespace IUDICO.UserManagement.Models.Storage
         void AddUserToGroup(Group group, User user);
         void RemoveUserFromGroup(Group group, User user);
         IEnumerable<Group> GetGroupsByUser(User user);
-        IEnumerable<Group> GetGroupsAvaliableForUser(User user);
+        IEnumerable<Group> GetGroupsAvailableToUser(User user);
 
         #endregion
+
+        bool IsPromotedToAdmin();
     }
 }

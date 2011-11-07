@@ -21,5 +21,10 @@ namespace IUDICO.Common.Models
         {
             get { return new MockableTable<GroupUser>(GroupUsers); }
         }
+
+        IMockableTable<UserRole> IDataContext.UserRoles
+        {
+            get { return new MockableTable<UserRole>(UserRoles); }
+        }
     }
 }
