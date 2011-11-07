@@ -210,7 +210,9 @@ namespace IUDICO.UserManagement.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                editModel.Id = _Storage.GetCurrentUser().Id;
+
+                return View(editModel);
             }
 
             _Storage.EditAccount(editModel);
