@@ -76,7 +76,8 @@
     </table>
 
     <p>
-        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("CreateNewUser"), "Create")%>
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("CreateNewUser"), "Create")%> | 
+        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("CreateNewUsers"), "CreateMultiple")%>
     </p>
 
 </asp:Content>

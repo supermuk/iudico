@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using IUDICO.Common.Models.Attributes;
 using Guid = System.Guid;
 using System.Web.Mvc;
-using IUDICO.Common;
-
 
 namespace IUDICO.UserManagement.Models
 {
@@ -21,7 +19,7 @@ namespace IUDICO.UserManagement.Models
             Email = user.Email;
             Groups = user.Groups;
             Roles = user.Roles;
-            UserID = user.UserID;
+            UserId = user.UserId;
         }
 
         [ScaffoldColumn(false)]
@@ -46,7 +44,7 @@ namespace IUDICO.UserManagement.Models
 
         [LocalizedDisplayName("UserID")]
         [Order(5)]
-        public string UserID { get; set; }
+        public string UserId { get; set; }
 
         [ScaffoldColumn(false)]
         public IEnumerable<Role> Roles { get; set; }
@@ -114,7 +112,7 @@ namespace IUDICO.UserManagement.Models
             OpenId = user.OpenId;
             Email = user.Email;
             Name = user.Name;
-            UserID = user.UserID;
+            UserId = user.UserId;
         }
 
         public EditModel()
@@ -140,7 +138,7 @@ namespace IUDICO.UserManagement.Models
         [LocalizedRequired(ErrorMessage = "UserID")]
         [LocalizedDisplayName("UserID")]
         [StringLength(100, ErrorMessage = "ID can not be longer than 100")]
-        public string UserID { get; set; }
+        public string UserId { get; set; }
     }
 
     public class ChangePasswordModel
@@ -180,7 +178,7 @@ namespace IUDICO.UserManagement.Models
             Name = user.Name;
             Email = user.Email;
             OpenId = user.OpenId;
-            UserID = user.UserID;
+            UserId = user.UserId;
         }
 
         public EditUserModel()
@@ -216,7 +214,7 @@ namespace IUDICO.UserManagement.Models
         [LocalizedRequired(ErrorMessage = "UserID")]
         [LocalizedDisplayName("UserID")]
         [StringLength(100, ErrorMessage = "ID can not be longer than 100")]
-        public string UserID { get; set; }
+        public string UserId { get; set; }
     }
 
     public class UserGroupModel
