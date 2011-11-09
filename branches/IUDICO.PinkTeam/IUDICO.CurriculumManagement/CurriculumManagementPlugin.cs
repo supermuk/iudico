@@ -160,6 +160,12 @@ namespace IUDICO.CurriculumManagement
                 var curriculumAssignmentIds = curriculumStorage.GetCurriculumAssignmentsByGroupId(groupId).Select(item => item.Id);
                 curriculumStorage.DeleteCurriculumAssignments(curriculumAssignmentIds);
             }
+            else if (evt == UserNotifications.UserDelete)
+            {
+                //delete connected Curriculums(CurriculumAssignments)
+                var curriculumIds = curriculumStorage.GetCurriculums((User)data[0]).Select(item => item.Id);
+                curriculumStorage.DeleteCurriculums(curriculumIds);
+            }
         }
 
         public void Setup(IWindsorContainer container)
