@@ -84,6 +84,9 @@ namespace IUDICO.Common.Models
 
             [ScaffoldColumn(false)]
             public EntitySet<Stage> Stages { get; set; }
+
+            [ScaffoldColumn(false)]
+            public bool IsValid { get; set; }
         }
     }
 

@@ -388,6 +388,12 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\UQ__User__536C85E4182C9B23.ukey.sql">
       <SubType>Code</SubType>
     </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Timelines_CurriculumAssignments.fkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_CurriculumAssignments.pkey.sql">
+      <SubType>Code</SubType>
+    </Build>
   </ItemGroup>
   <ItemGroup>
     <NotInBuild Include="Scripts\Post-Deployment\Data.sql">

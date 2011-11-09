@@ -44,6 +44,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         void UpdateCurriculum(Curriculum curriculum);
         void DeleteCurriculum(int id);
         void DeleteCurriculums(IEnumerable<int> ids);
+        void MakeCurriculumInvalid(int courseId);
 
         #endregion
 
@@ -106,6 +107,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         void UpdateCurriculumAssignment(CurriculumAssignment curriculumAssignment);
         void DeleteCurriculumAssignment(int id);
         void DeleteCurriculumAssignments(IEnumerable<int> ids);
+        void MakeCurriculumAssignmentsInvalid(int groupId);
 
         #endregion
 
