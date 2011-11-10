@@ -4,6 +4,11 @@ namespace IUDICO.Common.Models
 {
     public partial class DBDataContext : IDataContext
     {
+        IMockableTable<Course> IDataContext.Courses
+        {
+            get { return new MockableTable<Course>(Courses); }
+        }
+
         IMockableTable<User> IDataContext.Users
         {
             get { return new MockableTable<User>(Users); }
@@ -17,6 +22,11 @@ namespace IUDICO.Common.Models
         IMockableTable<GroupUser> IDataContext.GroupUsers
         {
             get { return new MockableTable<GroupUser>(GroupUsers); }
+        }
+
+        IMockableTable<UserRole> IDataContext.UserRoles
+        {
+            get { return new MockableTable<UserRole>(UserRoles); }
         }
 
         IMockableTable<Curriculum> IDataContext.Curriculums
