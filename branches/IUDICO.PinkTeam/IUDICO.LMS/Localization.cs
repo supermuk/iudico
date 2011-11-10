@@ -1,31 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Reflection;
-using System.Threading;
-
+﻿using IUDICO.Common;
 namespace IUDICO.LMS
 {
-    public class Localization : System.Web.Mvc.ViewPage
+    public class Localization
     {
-        private static System.Resources.ResourceManager Manager;
+        private static LocalizationMessageProvider provider = new LocalizationMessageProvider("LMS");
 
-        public static void Initialize()
-        {
-            Manager = new System.Resources.ResourceManager("IUDICO.LMS.Resource", Assembly.GetExecutingAssembly());
-        }
         public static string getMessage(string search)
         {
-            Initialize();
-            try
-            {
-                return Manager.GetString(search, Thread.CurrentThread.CurrentUICulture);
-            }
-            catch (Exception)
-            {
-                return search;
-            }
+            return provider.getMessage(search);
         }
     }
 }

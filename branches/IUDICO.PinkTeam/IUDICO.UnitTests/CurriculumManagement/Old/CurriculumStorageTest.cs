@@ -8,7 +8,7 @@ using IUDICO.Common.Models.Services;
 using IUDICO.CurriculumManagement.Controllers;
 using System.Web.Mvc;
 using System.Web.Routing;
-using IUDICO.UnitTests.Fakes;
+//using IUDICO.UnitTests.Fakes;
 
 namespace IUDICO.UnitTests.CurriculumManagement
 {
@@ -41,7 +41,7 @@ namespace IUDICO.UnitTests.CurriculumManagement
 
         public CurriculumStorageTest()
         {
-            lmsService = new FakeLmsService();
+            lmsService = null;// new FakeLmsService();
             using (context = lmsService.GetDbDataContext())
             {
                 if (context.DatabaseExists())

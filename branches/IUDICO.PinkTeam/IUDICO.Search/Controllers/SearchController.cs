@@ -81,8 +81,8 @@ namespace IUDICO.Search.Controllers
             List<Curriculum> curriculums = _CurriculmService.GetCurriculumsWithThemesOwnedByUser(_UserService.GetCurrentUser()).ToList();//GetCurriculums().ToList();
             List<User> users = _UserService.GetUsers().ToList();
             List<Group> groups = _UserService.GetGroupsByUser(_UserService.GetCurrentUser()).ToList();//GetGroups(_UserService.GetCurrentUser()).ToList();
-            
-            int RoleId = _UserService.GetCurrentUser().RoleId;
+
+            var roles = _UserService.GetCurrentUser().Roles;
 
             if (courses == null)
                 return RedirectToAction("Index");
@@ -121,7 +121,7 @@ namespace IUDICO.Search.Controllers
                     document = new Document();
                     document.Add(new Field("Type", "Curriculum", Field.Store.YES, Field.Index.NO));
                     document.Add(new Field("ID", curriculum.Id.ToString(), Field.Store.YES, Field.Index.NO));
-                    document.Add(new Field("Curriculum", curriculum.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
+                    document.Add(new Field("Curriculum", curriculum.Name, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
                     writer.AddDocument(document);
 
                     List<Theme> themes = _CurriculmService.GetThemesByCurriculumId(curriculum.Id).ToList();
@@ -131,23 +131,25 @@ namespace IUDICO.Search.Controllers
                         document = new Document();
                         document.Add(new Field("Type", "Theme", Field.Store.YES, Field.Index.NO));
                         document.Add(new Field("ID", theme.Id.ToString(), Field.Store.YES, Field.Index.NO));
-                        document.Add(new Field("Theme", theme.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
+                        document.Add(new Field("Theme", theme.Name, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
                         document.Add(new Field("CourseRef", theme.CourseRef.ToString(), Field.Store.YES, Field.Index.NO));
                         writer.AddDocument(document);
                     }
                 }
-                if (RoleId == 3 || RoleId == 2)
+
+                if (roles.Contains(Role.Admin) || roles.Contains(Role.Teacher))
                 {
                     foreach (User user in users)
                     {
                         document = new Document();
                         document.Add(new Field("Type", "User", Field.Store.YES, Field.Index.NO));
-                        document.Add(new Field("RoleId", user.RoleId.ToString(), Field.Store.YES, Field.Index.NO));
+                        document.Add(new Field("RoleId", user.RolesLine, Field.Store.YES, Field.Index.NO));
                         document.Add(new Field("ID", user.Id.ToString(), Field.Store.YES, Field.Index.NO));
-                        document.Add(new Field("User", user.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
+                        document.Add(new Field("User", user.Name, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
                         writer.AddDocument(document);
                     }
                 }
+
                 foreach (Group group in groups)
                 {
                     document = new Document();
@@ -245,9 +247,9 @@ namespace IUDICO.Search.Controllers
                         User user = new User();
                         user.Id = Guid.Parse(document.Get("ID"));
                         user.Name = document.Get("User");
-                        user.RoleId = Convert.ToInt32(document.Get("RoleId"));
+                        /*user.RoleId = Convert.ToInt32(document.Get("RoleId"));*/
 
-                        result = new UserResult(user, _UserService.GetRole(user.RoleId).ToString());
+                        result = new UserResult(user, user.RolesLine);
 
                         break;
 
