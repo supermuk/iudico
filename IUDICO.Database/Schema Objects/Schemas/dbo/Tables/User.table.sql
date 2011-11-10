@@ -6,11 +6,15 @@
     [OpenId]       NVARCHAR (200)   COLLATE Ukrainian_CI_AS NOT NULL,
     [Name]         NVARCHAR (200)   COLLATE Ukrainian_CI_AS NOT NULL,
     [IsApproved]   BIT              NOT NULL,
-    [RoleId]       INT              NOT NULL,
     [Deleted]      BIT              NOT NULL,
     [CreationDate] DATETIME         NOT NULL,
-    [ApprovedBy]   UNIQUEIDENTIFIER NULL
+    [ApprovedBy]   UNIQUEIDENTIFIER NULL,
+    [UserId]       NVARCHAR (100)   NULL
 );
+
+
+
+
 
 
 

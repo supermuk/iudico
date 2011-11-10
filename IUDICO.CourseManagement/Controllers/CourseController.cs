@@ -11,6 +11,7 @@ using IUDICO.CourseManagement.Models.ManifestModels;
 using IUDICO.CourseManagement.Models.Storage;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Attributes;
+using IUDICO.Common;
 
 namespace IUDICO.CourseManagement.Controllers
 {
