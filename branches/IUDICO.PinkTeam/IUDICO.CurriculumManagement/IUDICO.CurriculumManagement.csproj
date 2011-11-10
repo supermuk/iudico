@@ -88,9 +88,7 @@
     <Compile Include="Controllers\ThemeController.cs" />
     <Compile Include="Converters.cs" />
     <Compile Include="CurriculumManagementPlugin.cs" />
-    <Compile Include="Localization.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
+    <Compile Include="Localization.cs" />
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\Utility.cs" />
     <Compile Include="Models\ValidationStatus.cs" />
@@ -138,12 +136,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resource.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resource.uk.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Resource.en-US.resx" />
+    <EmbeddedResource Include="Resource.uk-UA.resx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\IUDICO.LMS\Web.config">

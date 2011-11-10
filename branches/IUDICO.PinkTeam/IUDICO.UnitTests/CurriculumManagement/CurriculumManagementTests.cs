@@ -8,6 +8,7 @@ using IUDICO.UserManagement.Models.Storage;
 using Moq;
 using Moq.Protected;
 using IUDICO.CurriculumManagement.Models.Storage;
+using IUDICO.UserManagement.Models;
 
 namespace IUDICO.UnitTests.CurriculumManagement
 {
@@ -21,78 +22,77 @@ namespace IUDICO.UnitTests.CurriculumManagement
 
         #region Public properties
 
-        public Mock<IDataContext> MockDataContext
+        private Mock<IDataContext> _MockDataContext
         {
             get;
-            protected set;
+            set;
         }
 
-        public Mock<ILmsService> MockLmsService
+        private Mock<ILmsService> _MockLmsService
         {
             get;
-            protected set;
+            set;
         }
 
-        public Mock<MixedCurriculumStorage> MockStorage
+        private Mock<MixedCurriculumStorage> _MockStorage
         {
             get;
-            protected set;
+            set;
         }
 
         public IDataContext DataContext
         {
-            get { return MockDataContext.Object; }
+            get { return _MockDataContext.Object; }
         }
 
         public ILmsService LmsService
         {
-            get { return MockLmsService.Object; }
+            get { return _MockLmsService.Object; }
         }
 
         public ICurriculumStorage Storage
         {
-            get { return MockStorage.Object; }
+            get { return _MockStorage.Object; }
         }
 
-        public Mock<ITable> Users
-        {
-            get;
-            protected set;
-        }
+        //public Mock<ITable> Users
+        //{
+        //    get;
+        //    protected set;
+        //}
 
-        public Mock<ITable> Groups
-        {
-            get;
-            protected set;
-        }
+        //public Mock<ITable> Groups
+        //{
+        //    get;
+        //    protected set;
+        //}
 
-        public Mock<ITable> GroupUsers
-        {
-            get;
-            protected set;
-        }
+        //public Mock<ITable> GroupUsers
+        //{
+        //    get;
+        //    protected set;
+        //}
 
-        public Mock<ITable> Curriculums
-        {
-            get;
-            protected set;
-        }
+        //public Mock<ITable> Curriculums
+        //{
+        //    get;
+        //    protected set;
+        //}
 
         #endregion
 
         private CurriculumManagementTests()
         {
-            MockDataContext = new Mock<IDataContext>();
-            MockLmsService = new Mock<ILmsService>();
-            MockStorage = new Mock<MixedCurriculumStorage>(MockLmsService.Object);
+            _MockDataContext = new Mock<IDataContext>();
+            _MockLmsService = new Mock<ILmsService>();
+            _MockStorage = new Mock<MixedCurriculumStorage>(_MockLmsService.Object);
 
-            Users = new Mock<ITable>();
-            Groups = new Mock<ITable>();
-            GroupUsers = new Mock<ITable>();
-            Curriculums = new Mock<ITable>();
+            //Users = new Mock<ITable>();
+            //Groups = new Mock<ITable>();
+            //GroupUsers = new Mock<ITable>();
+            //Curriculums = new Mock<ITable>();
 
             Setup();
-            SetupTables();
         }
 
         public static CurriculumManagementTests GetInstance()
@@ -100,17 +100,12 @@ namespace IUDICO.UnitTests.CurriculumManagement
             return _Instance ?? (_Instance = new CurriculumManagementTests());
         }
 
-        public void Setup()
+        private void Setup()
         {
-            MockLmsService.Setup(l => l.GetIDataContext()).Returns(MockDataContext.Object);
-            //MockDataContext.Setup(l=>l.SubmitChanges()).Re
-            //MockLmsService.Setup(l => l.GetDbDataContext()).Returns(MockDataContext.Object);
-            //MockStorage.Protected().Setup<IDataContext>("GetDbDataContext").Returns(MockDataContext.Object);
-            //MockStorage.Setup(s => s.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(true);
-        }
+            var mockCourseData = new[]{
+                new Course{Id=1, Name="Course", Owner="panza" }
+            };
 
-        public void SetupTables()
-        {
             var mockUserData = new[] {
                 new User {Id = Guid.NewGuid(), Username = "panza", Email = "ipetrovych@gmail.com", Password = "", },
             };
@@ -123,23 +118,38 @@ namespace IUDICO.UnitTests.CurriculumManagement
                 new GroupUser {GroupRef = 1, UserRef = mockUserData[0].Id}
             };
 
-            var mockCurriculumData = new[] { 
-                new Curriculum { Id = 1, Name = "Curriculum1" } 
+            _MockDataContext.SetupGet(c => c.Courses).Returns(new MemoryTable<Course>(mockCourseData));
+            _MockDataContext.SetupGet(c => c.Users).Returns(new MemoryTable<User>(mockUserData));
+            _MockDataContext.SetupGet(c => c.Groups).Returns(new MemoryTable<Group>(mockGroupData));
+            _MockDataContext.SetupGet(c => c.GroupUsers).Returns(new MemoryTable<GroupUser>(mockGroupUserData));
+
+            _MockLmsService.Setup(l => l.GetIDataContext()).Returns(_MockDataContext.Object);
+            Mock<IUserService> userService = new Mock<IUserService>();
+            Mock<ICourseService> courseService = new Mock<ICourseService>();
+            _MockLmsService.Setup(l => l.FindService<IUserService>()).Returns(userService.Object);
+            _MockLmsService.Setup(l => l.FindService<ICourseService>()).Returns(courseService.Object);
+
+            //тут можна засетапити ті зовнішні методи які викликаються в курікулум стораджі
+            userService.Setup(s => s.GetCurrentUser()).Returns(mockUserData[0]);
+
+            ClearTables();
+        }
+
+        public void ClearTables()
+        {
+            var mockThemeTypes = new[] {
+                new ThemeType {Id=1, Name="Test"},
+                new ThemeType {Id=2, Name="Theory"},
+                new ThemeType {Id=3, Name="TestWithoutCourse"}
             };
 
-            var mockUsers = new MockableTable<User>(Users.Object, mockUserData.AsQueryable());
-            var mockGroups = new MockableTable<Group>(Groups.Object, mockGroupData.AsQueryable());
-            var mockGroupUsers = new MockableTable<GroupUser>(GroupUsers.Object, mockGroupUserData.AsQueryable());
-            var mockCurriculums=new MockableTable<Curriculum>(Curriculums.Object, mockCurriculumData.AsQueryable());
-
-            //var mockUsers = new MockableTable<User>(Users.Object);
-            //var mockGroups = new MockableTable<Group>(Groups.Object);
-            //var mockGroupUsers = new MockableTable<GroupUser>(GroupUsers.Object);
-
-            MockDataContext.SetupGet(c => c.Users).Returns(mockUsers);
-            MockDataContext.SetupGet(c => c.Groups).Returns(mockGroups);
-            MockDataContext.SetupGet(c => c.GroupUsers).Returns(mockGroupUsers);
-            MockDataContext.SetupGet(c => c.Curriculums).Returns(mockCurriculums);
+            _MockDataContext.SetupGet(c => c.Curriculums).Returns(new MemoryTable<Curriculum>("Id"));
+            _MockDataContext.SetupGet(c => c.Stages).Returns(new MemoryTable<Stage>("Id"));
+            _MockDataContext.SetupGet(c => c.Themes).Returns(new MemoryTable<Theme>("Id"));
+            _MockDataContext.SetupGet(c => c.ThemeAssignments).Returns(new MemoryTable<ThemeAssignment>("Id"));
+            _MockDataContext.SetupGet(c => c.CurriculumAssignments).Returns(new MemoryTable<CurriculumAssignment>("Id"));
+            _MockDataContext.SetupGet(c => c.Timelines).Returns(new MemoryTable<Timeline>("Id"));
+            _MockDataContext.SetupGet(c => c.ThemeTypes).Returns(new MemoryTable<ThemeType>(mockThemeTypes, "Id"));
         }
     }
 }
