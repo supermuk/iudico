@@ -11,7 +11,6 @@ namespace IUDICO.Common.Models.Services
         [Obsolete("Use GetDbConnection() instead.")]
         DBDataContext GetDbDataContext();
         IDataContext GetIDataContext();
-
         DbConnection GetDbConnection();
 
         void Inform(string evt, params object[] data);
