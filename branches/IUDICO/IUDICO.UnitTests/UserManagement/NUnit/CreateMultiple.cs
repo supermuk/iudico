@@ -2,6 +2,8 @@
 using System.IO;
 using System.Linq;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Notifications;
+using Moq;
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.NUnit
@@ -42,39 +44,22 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
                                 new User {Username = "vladykx", Email = "vladykx@gmail.com"},
                             };
 
-            /*var results = _Tests.Storage.CreateUsersFromCSV(path);
+            _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
 
-            _Tests.Users.Verify(u => u.InsertAllOnSubmit(It.Is<IEnumerable<User>>(ie => TestUsers(ie, users))));
+            var results = _Tests.Storage.CreateUsersFromCSV(path);
+
+            Assert.IsTrue(TestUsers(_Tests.Storage.GetUsers(), users));
+            Assert.IsTrue(_Tests.Storage.GetUser(u => u.Username == "ipe").Username == "ipe");
+
+            /*_Tests.Users.Verify(u => u.InsertAllOnSubmit(It.Is<IEnumerable<User>>(ie => TestUsers(ie, users))));*/
             _Tests.MockStorage.Verify(u => u.SendEmail(It.IsAny<string>(), It.Is<string>(s => s == "ip@interlogic.com.ua"), It.IsAny<string>(), It.IsAny<string>()), Times.Once());
             _Tests.MockStorage.Verify(u => u.SendEmail(It.IsAny<string>(), It.Is<string>(s => s == "vladykx@gmail.com"), It.IsAny<string>(), It.IsAny<string>()), Times.Once());
             _Tests.MockLmsService.Verify(s => s.Inform(UserNotifications.UserCreateMultiple, It.Is<IEnumerable<User>>(ie => TestUsers(ie, users))));
-            Assert.IsTrue(users.Count == results.Count);*/
         }
 
-        [Test]
-        public void RestorePassword()
+        protected bool TestUsers(IEnumerable<User> users, IEnumerable<User> inserted)
         {
-            /*var model = new RestorePasswordModel { Email = "ipetrovych@gmail.com" };
-            var password = _Tests.DataContext.Users.Where(u => u.Username == "panza").Single().Password;
-
-            _Tests.Storage.RestorePassword(model);
-
-            _Tests.MockDataContext.Verify(d => d.SubmitChanges());
-            _Tests.MockStorage.Verify(u => u.SendEmail(It.IsAny<string>(), It.Is<string>(s => s == "ipetrovych@gmail.com"), It.IsAny<string>(), It.IsAny<string>()), Times.Once());
-            var newpassword = _Tests.DataContext.Users.Where(u => u.Username == "panza").Single().Password;
-
-            Assert.IsTrue(newpassword != password);*/
-
-        }
-
-        protected bool TestUsers(IEnumerable<User> inserted, IEnumerable<User> expected)
-        {
-            if (inserted.Count() != expected.Count())
-            {
-                return false;
-            }
-
-            return inserted.Except(expected, new UserComparer()).Count() == 0;
+            return inserted.Except(users, new UserComparer()).Count() == 0;
         }
     }
 }
