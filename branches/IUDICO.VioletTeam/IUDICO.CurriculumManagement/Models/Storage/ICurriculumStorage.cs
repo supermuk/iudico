@@ -83,7 +83,6 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         void DeleteThemes(IEnumerable<int> ids);
         Theme ThemeUp(int themeId);
         Theme ThemeDown(int themeId);
-        void SaveDummyResults();
 
         #endregion
 
