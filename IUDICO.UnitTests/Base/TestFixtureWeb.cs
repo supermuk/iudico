@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using NUnit.Framework;
 using Selenium;
 
-namespace IUDICO.UnitTests
+namespace IUDICO.UnitTests.Base
 {
     public enum BrowserType
     {
@@ -28,7 +26,7 @@ namespace IUDICO.UnitTests
     /// Tester class for testing Web application using Selenium. The class provides a fluent interface 
     /// for testing.
     /// </summary>
-    public class TestFixtureWeb:TestFixture
+    public class TestFixtureWeb : TestFixture
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SeleniumTesterBase"/> class.

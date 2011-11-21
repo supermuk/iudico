@@ -61,6 +61,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.CompileService", "IU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helper.DotNetExeWrapper", "Helper.DotNetExeWrapper\Helper.DotNetExeWrapper.csproj", "{6C975DD9-4AD6-4DF4-BF93-A32DFCD22C9C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.Analytics", "IUDICO.Analytics\IUDICO.Analytics.csproj", "{D78C9681-A4BF-4C4B-B992-36B2CBBE1583}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -193,6 +195,16 @@ Global
 		{6C975DD9-4AD6-4DF4-BF93-A32DFCD22C9C}.Release|Mixed Platforms.Build.0 = Release|x86
 		{6C975DD9-4AD6-4DF4-BF93-A32DFCD22C9C}.Release|x86.ActiveCfg = Release|x86
 		{6C975DD9-4AD6-4DF4-BF93-A32DFCD22C9C}.Release|x86.Build.0 = Release|x86
+		{D78C9681-A4BF-4C4B-B992-36B2CBBE1583}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D78C9681-A4BF-4C4B-B992-36B2CBBE1583}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D78C9681-A4BF-4C4B-B992-36B2CBBE1583}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D78C9681-A4BF-4C4B-B992-36B2CBBE1583}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D78C9681-A4BF-4C4B-B992-36B2CBBE1583}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D78C9681-A4BF-4C4B-B992-36B2CBBE1583}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D78C9681-A4BF-4C4B-B992-36B2CBBE1583}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D78C9681-A4BF-4C4B-B992-36B2CBBE1583}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D78C9681-A4BF-4C4B-B992-36B2CBBE1583}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D78C9681-A4BF-4C4B-B992-36B2CBBE1583}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
