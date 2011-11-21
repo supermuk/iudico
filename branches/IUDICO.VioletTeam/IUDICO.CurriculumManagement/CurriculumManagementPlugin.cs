@@ -11,6 +11,7 @@ using IUDICO.CurriculumManagement.Models;
 using System.Linq;
 using Castle.Windsor;
 using IUDICO.Common.Models.Notifications;
+using IUDICO.Common;
 
 namespace IUDICO.CurriculumManagement
 {
@@ -22,7 +23,6 @@ namespace IUDICO.CurriculumManagement
 
         public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
         {
-            IUDICO.CurriculumManagement.Localization.Initialize();
             container.Register(
                 AllTypes
                     .FromThisAssembly()
@@ -42,19 +42,19 @@ namespace IUDICO.CurriculumManagement
         #region IPlugin Members
         public string GetName()
         {
-            return IUDICO.CurriculumManagement.Localization.getMessage("CurriculumManagement");
+            return Localization.getMessage("CurriculumManagement");
         }
 
         public IEnumerable<Action> BuildActions(Role role)
         {
             List<Action> actions = new List<Action>();
-            actions.Add(new Action(IUDICO.CurriculumManagement.Localization.getMessage("CurriculumManagement"), "Curriculum/Index"));
+            actions.Add(new Action(Localization.getMessage("CurriculumManagement"), "Curriculum/Index"));
             return actions;
         }
 
         public void BuildMenu(Menu menu)
         {
-            menu.Add(new MenuItem(IUDICO.CurriculumManagement.Localization.getMessage("Curriculums"), "Curriculum", "Index"));
+            menu.Add(new MenuItem(Localization.getMessage("Curriculums"), "Curriculum", "Index"));
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)

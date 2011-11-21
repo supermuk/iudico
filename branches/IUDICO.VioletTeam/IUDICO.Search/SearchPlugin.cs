@@ -13,7 +13,6 @@ namespace IUDICO.Search
 
         public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
         {
-            Localization.Initialize();
             container.Register(
                 AllTypes
                     .FromThisAssembly()
