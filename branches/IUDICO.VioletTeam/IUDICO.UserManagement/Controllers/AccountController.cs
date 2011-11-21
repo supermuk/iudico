@@ -1,14 +1,20 @@
 ﻿using System;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using System.Web.Security;
+using System.IO;
+using System.Collections.Generic;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using IUDICO.Common.Controllers;
 using IUDICO.UserManagement.Models;
 using IUDICO.UserManagement.Models.Storage;
+using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
 using System.Globalization;
+using IUDICO.Common;
 
 namespace IUDICO.UserManagement.Controllers
 {
@@ -26,14 +32,14 @@ namespace IUDICO.UserManagement.Controllers
         public ActionResult Index()
         {
             var user = _Storage.GetCurrentUser();
-            var groups = _Storage.GetGroupsByUser(user);
 
-            return View(new DetailsModel(user, groups));
+            return View(new DetailsModel(user));
         }
 
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
+            Session.Clear();
 
             return Redirect("/");
         }
@@ -124,6 +130,7 @@ namespace IUDICO.UserManagement.Controllers
                 else
                 {
                     FormsAuthentication.SetAuthCookie(loginUsername, false);
+
                     log4net.ILog log = log4net.LogManager.GetLogger(typeof(AccountController));
                     log.Info(loginUsername + " logged in.");
                     return Redirect("/");
@@ -164,6 +171,31 @@ namespace IUDICO.UserManagement.Controllers
             return View("Registered");
         }
 
+        public ActionResult Forgot()
+        {
+            return View(new RestorePasswordModel());
+        }
+
+        [HttpPost]
+        public ActionResult Forgot(RestorePasswordModel restorePasswordModel)
+        {
+            var user = _Storage.GetUser(u => u.Email == restorePasswordModel.Email);
+
+            if (user == null)
+            {
+                ModelState.AddModelError("Email", "No user with such email");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(restorePasswordModel);
+            }
+
+            _Storage.RestorePassword(restorePasswordModel);
+
+            return View("ForgotSent");
+        }
+
         [Allow]
         public ActionResult Edit()
         {
@@ -178,7 +210,9 @@ namespace IUDICO.UserManagement.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                editModel.Id = _Storage.GetCurrentUser().Id;
+
+                return View(editModel);
             }
 
             _Storage.EditAccount(editModel);
@@ -214,10 +248,32 @@ namespace IUDICO.UserManagement.Controllers
             
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public ActionResult UploadAvatar(Guid id, HttpPostedFileBase file)
+        {
+            _Storage.UploadAvatar(id, file);
+            
+            return RedirectToAction("Edit");
+        }
+
+        [Allow(Role = Role.Teacher)]
+        public ActionResult TeacherToAdminUpgrade()
+        {
+            if (!(bool)Session["AllowAdmin"] && !Roles.IsUserInRole(Role.Admin.ToString()))
+            {
+                Session["AllowAdmin"] = true;
+            }
+
+            return RedirectToAction("Index");
+        }
+
         public ActionResult ChangeCulture(string lang, string returnUrl)
         {
             Session["Culture"] = new CultureInfo(lang);
+            
             return Redirect(returnUrl);
         }
+
     }
 }

@@ -119,14 +119,7 @@
       <DependentUpon>FramesetResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\TrainingController.cs" />
-    <Compile Include="FramesetResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FramesetResources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Localization.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
+    <Compile Include="Localization.cs" />
     <Compile Include="Models\FakeTestingService.cs" />
     <Compile Include="Models\IMlcProxy.cs" />
     <Compile Include="Models\ServicesProxy.cs" />
@@ -251,7 +244,10 @@
     <Content Include="Views\Training\Play.aspx" />
     <None Include="Shema\CompileSchema.bat" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resource.en-US.resx" />
+    <EmbeddedResource Include="Resource.uk-UA.resx" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
       <Project>{9DD6C943-6608-4351-A521-E4B1F2F75E9D}</Project>
@@ -265,12 +261,6 @@
       <LastGenOutput>FramesetResources.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
-    <EmbeddedResource Include="FramesetResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>FramesetResources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FramesetResources.uk.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
 using IUDICO.UserManagement.Models.Storage;
 using IUDICO.Common.Models.Attributes;
+using IUDICO.Common;
 
 namespace IUDICO.UserManagement.Controllers
 {
-    public class GroupController : UserBaseController
+    public class GroupController : PluginController
     {
         private readonly IUserStorage _Storage;
 
