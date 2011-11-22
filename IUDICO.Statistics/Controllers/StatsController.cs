@@ -35,7 +35,7 @@ namespace IUDICO.Statistics.Controllers
             ViewData["Group"] = LmsService.FindService<IUserService>().GetGroup(id).Name;
             var curriculums = _Proxy.GetCurrilulumsByGroupId(id);
             HttpContext.Session["SelectedGroupId"] = id;
-            return View(curriculums);            
+            return View(curriculums);
         }
 
         [Allow(Role = Role.Teacher)]
@@ -48,7 +48,7 @@ namespace IUDICO.Statistics.Controllers
             SpecializedResultProxy srp = new SpecializedResultProxy();
             allSpecRes = srp.GetResults(users, selectCurriculumId, LmsService);
 
-            return View(allSpecRes);            
+            return View(allSpecRes);
         }
 
         [Allow(Role = Role.Teacher)]
@@ -74,7 +74,7 @@ namespace IUDICO.Statistics.Controllers
         [HttpGet]
         public ActionResult CurrentThemeTestResults(Int32 themeId)
         {
-            var model = new CurrentThemeTestResultsModel(themeId, LmsService);           
+            var model = new CurrentThemeTestResultsModel(themeId, LmsService);
             return View(model);
         }
     }
