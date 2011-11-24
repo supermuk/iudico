@@ -100,9 +100,7 @@
     <Compile Include="Controllers\NodeController.cs" />
     <Compile Include="CourseManagementPlugin.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
-    <Compile Include="Localization.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
+    <Compile Include="Localization.cs" />
     <Compile Include="Models\ManifestModels\ManifestManager.cs" />
     <Compile Include="Helpers\PackageValidator.cs" />
     <Compile Include="Helpers\Zipper.cs" />
@@ -1356,18 +1354,8 @@
     <None Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Scripts\jquery\themes\.svn\prop-base\" />
-    <Folder Include="Scripts\jquery\themes\.svn\props\" />
-    <Folder Include="Scripts\jquery\themes\.svn\text-base\" />
-    <Folder Include="Scripts\jquery\themes\.svn\tmp\prop-base\" />
-    <Folder Include="Scripts\jquery\themes\.svn\tmp\props\" />
-    <Folder Include="Scripts\jquery\themes\.svn\tmp\text-base\" />
-    <Folder Include="Scripts\jquery\themes\default\.svn\props\" />
-    <Folder Include="Scripts\jquery\themes\default\.svn\tmp\prop-base\" />
-    <Folder Include="Scripts\jquery\themes\default\.svn\tmp\props\" />
-    <Folder Include="Scripts\jquery\themes\default\.svn\tmp\text-base\" />
-  </ItemGroup>
-  <ItemGroup>
+    <EmbeddedResource Include="Resource.en-US.resx" />
+    <EmbeddedResource Include="Resource.uk-UA.resx" />
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
@@ -1380,10 +1368,6 @@
       <Name>IUDICO.Common</Name>
       <Private>False</Private>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resource.resx" />
-    <EmbeddedResource Include="Resource.uk.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

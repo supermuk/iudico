@@ -15,6 +15,7 @@ using IUDICO.CourseManagement.Models.ManifestModels;
 using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
 using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupModels;
 using IUDICO.CourseManagement.Models.Storage;
+using IUDICO.Common;
 
 namespace IUDICO.CourseManagement.Controllers
 {
@@ -53,17 +54,17 @@ namespace IUDICO.CourseManagement.Controllers
                                                      {
                                                          new SelectListItem
                                                              {
-                                                                 Text = IUDICO.CourseManagement.Localization.getMessage("Default"),
+                                                                 Text = Localization.getMessage("Default"),
                                                                  Value = SequencingPattern.OrganizationDefaultSequencingPattern.ToString()
                                                              },
                                                          new SelectListItem
                                                              {
-                                                                 Text = IUDICO.CourseManagement.Localization.getMessage("ControlChapter"),
+                                                                 Text = Localization.getMessage("ControlChapter"),
                                                                  Value = SequencingPattern.ControlChapterSequencingPattern.ToString()
                                                              },
                                                          new SelectListItem
                                                              {
-                                                                 Text = IUDICO.CourseManagement.Localization.getMessage("RandomSet"),
+                                                                 Text = Localization.getMessage("RandomSet"),
                                                                  Value = SequencingPattern.RandomSetSequencingPattern.ToString()
                                                              }
                                                      };
