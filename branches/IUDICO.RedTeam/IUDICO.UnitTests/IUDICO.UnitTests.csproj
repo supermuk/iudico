@@ -34,18 +34,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core">
-      <HintPath>..\References\Castle.Core.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\packages\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Windsor">
       <HintPath>..\References\Castle.Windsor.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Moq, Version=4.0.10827.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libs\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.0.2.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.4.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Libs\nunit.framework.dll</HintPath>
@@ -78,6 +83,13 @@
     <Reference Include="ThoughtWorks.Selenium.Core">
       <HintPath>Libs\ThoughtWorks.Selenium.Core.dll</HintPath>
     </Reference>
+    <Reference Include="WebDriver, Version=2.11.0.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Selenium.WebDriver.2.11.0\lib\net40\WebDriver.dll</HintPath>
+    </Reference>
+    <Reference Include="WebDriver.Support">
+      <HintPath>..\packages\Selenium.Support.2.11.0\lib\net40\WebDriver.Support.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -92,6 +104,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Base\TestFixture.cs" />
     <Compile Include="Base\TestFixtureWeb.cs" />
+    <Compile Include="UserManagement\NUnit\CreateMultiple.cs" />
+	<Compile Include="UserManagement\NUnit\RestorePassword.cs" />
+    <Compile Include="UserManagement\NUnit\UploadAvatarTester.cs" />
+    <Compile Include="UserManagement\Selenium\AvatarSeleniumTester.cs" />
+    <Compile Include="UserManagement\Selenium\UpgradeSeleniumTester.cs" />
+    <Compile Include="UserManagement\UserManagementTests.cs" />
     <Compile Include="Security\SecurityPluginTest.cs" />
     <Compile Include="Security\SecurityServiceTest.cs" />
   </ItemGroup>
@@ -125,10 +143,12 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CurriculumManagement\" />
     <Folder Include="Libs\" />
+    <Folder Include="UserManagement\Selenium\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -15,8 +15,6 @@ namespace IUDICO.Statistics
 
         public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
         {
-            IUDICO.Common.Localization.Initialize();
-            IUDICO.Statistics.Localization.Initialize();
             container.Register(
                 AllTypes
                     .FromThisAssembly()

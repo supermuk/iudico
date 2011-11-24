@@ -21,16 +21,6 @@ namespace IUDICO.UserManagement.Models
             return _UserStorage.GetCurrentUser();
         }
 
-        public IEnumerable<Role> GetRoles()
-        {
-            return _UserStorage.GetRoles();
-        }
-
-        public Role GetRole(int id)
-        {
-            return _UserStorage.GetRole(id);
-        }
-
         public IEnumerable<Group> GetGroups()
         {
             return _UserStorage.GetGroups();

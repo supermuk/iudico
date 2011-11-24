@@ -12,6 +12,7 @@ using IUDICO.CourseManagement.Models.ManifestModels;
 using IUDICO.CourseManagement.Models.Storage;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Attributes;
+using IUDICO.Common;
 
 namespace IUDICO.CourseManagement.Controllers
 {
@@ -26,7 +27,7 @@ namespace IUDICO.CourseManagement.Controllers
             _UserService = LmsService.FindService<IUserService>();
         }
 
-        [Allow(Role = Role.Student)]
+        [Allow(Role = Role.Student | Role.Teacher)]
         public ActionResult Index()
         {
             var userService = LmsService.FindService<IUserService>();
