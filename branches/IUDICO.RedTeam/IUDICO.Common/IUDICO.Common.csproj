@@ -76,17 +76,18 @@
     <Compile Include="Models\Attributes\DropDownListAttribute.cs" />
     <Compile Include="Models\Attributes\EmailAddressAttribute.cs" />
     <Compile Include="Models\Attributes\OrderAttribute.cs" />
-    <Compile Include="Models\DBDataContext.cs">
-      <DependentUpon>DBDataContext.dbml</DependentUpon>
+    <Compile Include="Models\DB.cs">
+      <DependentUpon>DB.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Models\DBDataContext.designer.cs">
+    <Compile Include="Models\DB.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DBDataContext.dbml</DependentUpon>
+      <DependentUpon>DB.dbml</DependentUpon>
     </Compile>
     <Compile Include="Models\Interfaces\IDataContext.cs" />
     <Compile Include="Models\Interfaces\IMockableDataContext.cs" />
     <Compile Include="Models\Interfaces\IMockableTable.cs" />
+    <Compile Include="Models\MemoryTable.cs" />
     <Compile Include="Models\MockableTable.cs" />
     <Compile Include="Models\NodeProperty.cs" />
     <Compile Include="Models\Notifications\CourseNotifications.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Models\Notifications\TestingNotifications.cs" />
     <Compile Include="Models\Notifications\UserNotifications.cs" />
     <Compile Include="Models\Plugin\IPlugin.cs" />
+    <Compile Include="Models\Services\IAnalyticsService.cs" />
     <Compile Include="Models\Services\ICourseService.cs" />
     <Compile Include="Models\Services\ICurriculumService.cs" />
     <Compile Include="Models\Services\ILmsService.cs" />
@@ -114,6 +116,7 @@
     <Compile Include="Models\Shared\Statistics\Score.cs" />
     <Compile Include="Models\TemplateMetadata\FieldTemplateMetadata.cs" />
     <Compile Include="Models\TemplateMetadata\FieldTemplateMetadataProvider.cs" />
+    <Compile Include="Models\UserRoles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -129,9 +132,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Models\DBDataContext.dbml">
+    <None Include="Models\DB.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>DBDataContext.designer.cs</LastGenOutput>
+      <LastGenOutput>DB.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\Settings.settings">
@@ -143,13 +146,11 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Models\DBDataContext.dbml.layout">
-      <DependentUpon>DBDataContext.dbml</DependentUpon>
+    <None Include="Models\DB.dbml.layout">
+      <DependentUpon>DB.dbml</DependentUpon>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resource.resx" />
-    <EmbeddedResource Include="Resource.uk.resx" />
+    <EmbeddedResource Include="Resource.en-US.resx" />
+    <EmbeddedResource Include="Resource.uk-UA.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

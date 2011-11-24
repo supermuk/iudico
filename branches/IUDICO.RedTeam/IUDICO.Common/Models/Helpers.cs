@@ -1,6 +1,11 @@
-﻿using System.Web.Mvc;
-using IUDICO.Common.Controllers;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
 using System.IO;
+using IUDICO.Common.Controllers;
 
 namespace IUDICO.Common.Models
 {
@@ -24,6 +29,31 @@ namespace IUDICO.Common.Models
             }
 
             return MvcHtmlString.Create(urlHelper.Content(url));
+        }
+
+        public static string Image(this HtmlHelper helper, string name, Guid id)
+        {
+            return Image(helper, name, id, null);
+        }
+
+        public static string Image(this HtmlHelper helper, string name, Guid id, object htmlAttributes)
+        {
+            string fileName = Path.GetFileName(id.ToString() + ".png");
+            string url = Path.Combine("~/Data/Avatars", fileName);
+
+            string path = Path.Combine(HttpContext.Current.Server.MapPath("~/Data/Avatars"), fileName);
+            FileInfo fileInfo = new FileInfo(path);
+            if (!fileInfo.Exists)
+            {
+                url = Path.Combine("~/Data/Avatars", Path.GetFileName("default.png"));
+            }
+
+            var tagBuilder = new TagBuilder("img");
+            tagBuilder.GenerateId(name);
+            tagBuilder.Attributes["src"] = new UrlHelper(helper.ViewContext.RequestContext).Content(url);
+            tagBuilder.MergeAttributes(new RouteValueDictionary(htmlAttributes));
+
+            return tagBuilder.ToString();
         }
     }
 }
