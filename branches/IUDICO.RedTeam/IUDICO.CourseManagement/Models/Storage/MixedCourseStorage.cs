@@ -199,6 +199,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             Directory.CreateDirectory(path);
 
+
             var nodes = GetNodes(id).ToList();
 
             for (var i = 0; i < nodes.Count; i++)
@@ -215,6 +216,9 @@ namespace IUDICO.CourseManagement.Models.Storage
             }
 
             var coursePath = GetCoursePath(id);
+
+            FileHelper.DirectoryCopy(Path.Combine(coursePath, "Node"), Path.Combine(path, "Node"));
+
             foreach (var file in _TemplateFiles)
             {
                 File.Copy(Path.Combine(coursePath, file), Path.Combine(path, file));
