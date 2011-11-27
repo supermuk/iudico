@@ -76,13 +76,13 @@
     <Compile Include="Models\Attributes\DropDownListAttribute.cs" />
     <Compile Include="Models\Attributes\EmailAddressAttribute.cs" />
     <Compile Include="Models\Attributes\OrderAttribute.cs" />
-    <Compile Include="Models\DB.cs">
-      <DependentUpon>DB.dbml</DependentUpon>
+    <Compile Include="Models\DBDataContext.cs">
+      <DependentUpon>DBDataContext.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Models\DB.designer.cs">
+    <Compile Include="Models\DBDataContext.designer.cs">
+      <DependentUpon>DBDataContext.dbml</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DB.dbml</DependentUpon>
     </Compile>
     <Compile Include="Models\Interfaces\IDataContext.cs" />
     <Compile Include="Models\Interfaces\IMockableDataContext.cs" />
@@ -132,9 +132,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Models\DB.dbml">
+    <None Include="Models\DBDataContext.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>DB.designer.cs</LastGenOutput>
+      <LastGenOutput>DBDataContext.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\Settings.settings">
@@ -146,8 +146,8 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Models\DB.dbml.layout">
-      <DependentUpon>DB.dbml</DependentUpon>
+    <None Include="Models\DBDataContext.dbml.layout">
+      <DependentUpon>DBDataContext.dbml</DependentUpon>
     </None>
     <EmbeddedResource Include="Resource.en-US.resx" />
     <EmbeddedResource Include="Resource.uk-UA.resx" />
