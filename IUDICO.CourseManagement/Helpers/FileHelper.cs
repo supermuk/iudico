@@ -35,6 +35,19 @@ namespace IUDICO.CourseManagement.Helpers
             Directory.CreateDirectory(path);
         }
 
+        public static void DirectoryCopy(string fromPath, string toPath)
+        {
+            foreach (var dirPath in Directory.GetDirectories(fromPath, "*", SearchOption.AllDirectories))
+            {
+                Directory.CreateDirectory(dirPath.Replace(fromPath, toPath));
+            }
+
+            foreach (var newPath in Directory.GetFiles(fromPath, "*.*", SearchOption.AllDirectories))
+            {
+                File.Copy(newPath, newPath.Replace(fromPath, toPath));
+            }
+        }
+
         public static bool DirectoryExists(string path)
         {
             return Directory.Exists(path);
