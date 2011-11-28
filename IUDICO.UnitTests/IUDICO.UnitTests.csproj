@@ -44,6 +44,7 @@
       <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.LearningComponents, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Moq, Version=4.0.10827.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -102,8 +103,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Base\TestFixture.cs" />
     <Compile Include="Base\TestFixtureWeb.cs" />
+    <Compile Include="TestingSystem\NUnit\FileSystemPackageTests.cs" />
+    <Compile Include="TestingSystem\NUnit\PlayModelTests.cs" />
+    <Compile Include="TestingSystem\NUnit\TrainingTests.cs" />
+    <Compile Include="TestingSystem\NUnit\ZipPackageTests.cs" />
     <Compile Include="UserManagement\NUnit\CreateMultiple.cs" />
-	<Compile Include="UserManagement\NUnit\RestorePassword.cs" />
+    <Compile Include="UserManagement\NUnit\RestorePassword.cs" />
     <Compile Include="UserManagement\NUnit\UploadAvatarTester.cs" />
     <Compile Include="UserManagement\Selenium\AvatarSeleniumTester.cs" />
     <Compile Include="UserManagement\Selenium\UpgradeSeleniumTester.cs" />
@@ -126,6 +131,10 @@
       <Project>{A3157C96-0DCC-4B6E-909D-948205118E74}</Project>
       <Name>IUDICO.Statistics</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IUDICO.TestingSystem\IUDICO.TestingSystem.csproj">
+      <Project>{4F72321F-297C-4989-9A17-838CF23B4FB1}</Project>
+      <Name>IUDICO.TestingSystem</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IUDICO.UserManagement\IUDICO.UserManagement.csproj">
       <Project>{2D0C4A4E-D442-4BC5-879B-CB3990D57647}</Project>
       <Name>IUDICO.UserManagement</Name>
@@ -140,7 +149,7 @@
   <ItemGroup>
     <Folder Include="CurriculumManagement\" />
     <Folder Include="Libs\" />
-    <Folder Include="UserManagement\Selenium\" />
+    <Folder Include="TestingSystem\Selenium\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
