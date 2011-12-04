@@ -127,8 +127,8 @@ namespace IUDICO.TestingSystem
             //routes.IgnoreRoute("Content/TimePicker.css");
             routes.MapRoute(
                 "Training",
-                "Training/{action}",
-                new { controller = "Training" });
+                "Training/Play/{id}",
+                new { controller = "Training", action="Play", id=""});
         }
 
         public void Update(string name, params object[] data)
