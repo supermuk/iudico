@@ -12,6 +12,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Data;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.TestingSystem.Models
 {

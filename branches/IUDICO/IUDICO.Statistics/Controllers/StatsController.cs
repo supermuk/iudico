@@ -8,6 +8,7 @@ using IUDICO.Common.Controllers;
 using IUDICO.Statistics.Models.Storage;
 using IUDICO.Common.Models.Attributes;
 using IUDICO.Statistics.Models.StatisticsModels;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Statistics.Controllers
 {

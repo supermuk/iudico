@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Shared;
 using IUDICO.UserManagement.Models.Storage;
 
 namespace IUDICO.UserManagement.Models
@@ -39,6 +42,11 @@ namespace IUDICO.UserManagement.Models
         public IEnumerable<User> GetUsers()
         {
             return _UserStorage.GetUsers();
+        }
+
+        public IEnumerable<User> GetUsers(Func<User, bool> predicate)
+        {
+            return _UserStorage.GetUsers(predicate);
         }
 
         public IEnumerable<Group> GetGroupsByUser(User user)

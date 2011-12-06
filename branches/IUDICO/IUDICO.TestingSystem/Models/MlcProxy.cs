@@ -10,6 +10,7 @@ using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared.Statistics;
 using LearningComponentsHelper;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.TestingSystem.Models
 {

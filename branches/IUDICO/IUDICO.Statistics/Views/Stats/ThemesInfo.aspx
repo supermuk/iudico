@@ -12,7 +12,7 @@
         
         <tr>
         <th> <%=IUDICO.Statistics.Localization.getMessage("Student")%> </th>
-        <% foreach (IUDICO.Common.Models.Theme theme in Model.GetSelectCurriculumThemes())
+        <% foreach (IUDICO.Common.Models.Shared.Theme theme in Model.GetSelectCurriculumThemes())
            { %>
         <th> <%: theme.Name%> </th>
         <% } %>
@@ -22,12 +22,12 @@
         </tr>
 
         <% int i = 0;
-           foreach (IUDICO.Common.Models.User student in Model.GetSelectStudents())
+           foreach (IUDICO.Common.Models.Shared.User student in Model.GetSelectStudents())
            {  %>
 
             <tr> 
                 <td> <%: student.Name%></td>
-                <%  foreach (IUDICO.Common.Models.Theme selectTheme in Model.GetSelectCurriculumThemes()) 
+                <%  foreach (IUDICO.Common.Models.Shared.Theme selectTheme in Model.GetSelectCurriculumThemes()) 
                     {
                         i++;
                         %>                          

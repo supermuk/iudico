@@ -11,6 +11,7 @@ using IUDICO.Common.Models.Attributes;
 using IUDICO.Analytics.Models.ViewDataClasses;
 using IUDICO.Analytics.Models.Storage;
 using IUDICO.Analytics.Models;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Analytics.Controllers
 {
