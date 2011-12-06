@@ -35,18 +35,21 @@ namespace IUDICO.Statistics
             return IUDICO.Statistics.Localization.getMessage("Statistics");
         }
 
-        public IEnumerable<Action> BuildActions(Role role)
+        public IEnumerable<Action> BuildActions()
         {
-            var actions = new List<Action>();
-
-            actions.Add(new Action(IUDICO.Statistics.Localization.getMessage("GetStats"), "Stats/Index"));
-            actions.Add(new Action(IUDICO.Statistics.Localization.getMessage("QualityTest"), "QualityTest/SelectCurriculum"));
-            return actions;
+            return new Action[]
+            {
+                new Action(IUDICO.Statistics.Localization.getMessage("GetStats"), "Stats/Index"),
+                new Action(IUDICO.Statistics.Localization.getMessage("QualityTest"), "QualityTest/SelectCurriculum")
+            };
         }
 
-        public void BuildMenu(Menu menu)
+        public IEnumerable<MenuItem> BuildMenuItems()
         {
-            menu.Add(new MenuItem(IUDICO.Statistics.Localization.getMessage("Statistics"), "Stats", "Index"));
+            return new MenuItem[]
+            {
+                new MenuItem(IUDICO.Statistics.Localization.getMessage("Statistics"), "Stats", "Index")
+            };
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)

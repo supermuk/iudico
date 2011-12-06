@@ -37,7 +37,9 @@
                     <li>
                         <%: Html.ActionLink(IUDICO.LMS.Localization.getMessage("Search"), "Index", "Search")%></li>
 
-                        <%  foreach (var item in ((IUDICO.Common.Models.Menu) IUDICO.LMS.MvcApplication.Menu).Items) { %>
+                        <% var menu = (IUDICO.Common.Models.Menu) IUDICO.LMS.MvcApplication.LmsService.GetMenu(); %>
+
+                        <%  foreach (var item in menu.Items) { %>
                             <li><%: Html.ActionLink(item.Text, item.Action, item.Controller)%></li>
                         <% } %>
                 </ul>

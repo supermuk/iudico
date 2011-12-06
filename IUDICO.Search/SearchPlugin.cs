@@ -32,14 +32,14 @@ namespace IUDICO.Search
             return "Search";
         }
 
-        public IEnumerable<Action> BuildActions(Role role)
+        public IEnumerable<Action> BuildActions()
         {
-            return new List<Action>();
+            return new Action[] {};
         }
 
-        public void BuildMenu(Menu menu)
+        public IEnumerable<MenuItem> BuildMenuItems()
         {
-
+            return new MenuItem[] { };
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)

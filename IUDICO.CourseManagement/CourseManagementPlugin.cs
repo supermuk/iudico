@@ -34,20 +34,23 @@ namespace IUDICO.CourseManagement
             return Localization.getMessage("CourseManagement");
         }
 
-        public IEnumerable<Action> BuildActions(Role role)
+        public IEnumerable<Action> BuildActions()
         {
-            var actions = new List<Action>();
 
-            actions.Add(new Action(Localization.getMessage("GetCourses"), "Course/Index"));
-            actions.Add(new Action(Localization.getMessage("CreateCourse"), "Course/Create"));
-            actions.Add(new Action(Localization.getMessage("EditCourse"), "Course/Index"));
-
-            return actions;
+            return new Action[]
+            {
+                new Action(Localization.getMessage("GetCourses"), "Course/Index"),
+                new Action(Localization.getMessage("CreateCourse"), "Course/Create")
+            };
+            //actions.Add(new Action(Localization.getMessage("EditCourse"), "Course/Index", Role.Teacher));
         }
 
-        public void BuildMenu(Menu menu)
+        public IEnumerable<MenuItem> BuildMenuItems()
         {
-            menu.Add(new MenuItem(Localization.getMessage("Courses"), "Course", "Index"));
+            return new MenuItem[]
+            {
+                new MenuItem(Localization.getMessage("Courses"), "Course", "Index")
+            };
         }
 
         public void RegisterRoutes(RouteCollection routes)

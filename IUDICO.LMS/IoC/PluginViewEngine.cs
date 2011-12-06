@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace IUDICO.LMS
+namespace IUDICO.LMS.IoC
 {
     public class PluginViewEngine : WebFormViewEngine
     {
