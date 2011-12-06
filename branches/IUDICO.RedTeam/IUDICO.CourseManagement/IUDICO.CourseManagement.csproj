@@ -1359,10 +1359,6 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CKFinder\CKFinder.Net.csproj">
-      <Project>{C5376ADF-309A-48DE-904C-B1FE1965C370}</Project>
-      <Name>CKFinder.Net</Name>
-    </ProjectReference>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
       <Project>{9DD6C943-6608-4351-A521-E4B1F2F75E9D}</Project>
       <Name>IUDICO.Common</Name>
