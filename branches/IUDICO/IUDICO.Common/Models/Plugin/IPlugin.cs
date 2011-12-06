@@ -8,8 +8,8 @@ namespace IUDICO.Common.Models.Plugin
     {
         string GetName();
 
-        IEnumerable<Action> BuildActions(Role role);
-        void BuildMenu(Menu menu);
+        IEnumerable<Action> BuildActions();
+        IEnumerable<MenuItem> BuildMenuItems();
 
         void Setup(IWindsorContainer container);
         
