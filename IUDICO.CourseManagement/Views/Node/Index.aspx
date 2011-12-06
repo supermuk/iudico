@@ -25,7 +25,6 @@
     <script src="<%= Html.ResolveUrl("/Scripts/jquery/jquery-ui-1.8.5.js") %>"></script>
 
     <script type="text/javascript">
-
         var $editor;
         var currentNodeId;
         var fillResources;
@@ -63,39 +62,40 @@
 
         function getEditor(nodeId) {
             if ($('#editor').length == 0) {
-            $('.ui-layout-center').empty().append(
-                $('<form/>').attr('method', 'post').attr('action', '').append(
-                    $('<textarea/>').attr('name', 'editor').attr('id', 'editor').attr('rows', '1').attr('cols', '1')
-                )
-            );
+                $('.ui-layout-center').empty().append(
+                    $('<form/>').attr('method', 'post').attr('action', '').append(
+                        $('<textarea/>').attr('name', 'editor').attr('id', 'editor').attr('rows', '1').attr('cols', '1')
+                    )
+                );
 
-            $editor = $('#editor');
-            $editor.ckeditor({
-                language: language,
+                $editor = $('#editor');
+                $editor.ckeditor({
+                    language: language,
+                        
+                    filebrowserBrowseUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/ckfinder.html") %>'+ '?courseId=' + currentCourseId + '&nodeId=' + nodeId,
+                    filebrowserImageBrowseUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/ckfinder.html?Type=Images") %>'+ '&courseId=' + currentCourseId + '&nodeId=' + nodeId,
+                    filebrowserFlashBrowseUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/ckfinder.html?Type=Flash") %>'+ '&courseId=' + currentCourseId + '&nodeId=' + nodeId,
+                    filebrowserUploadUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Files") %>'+ '&courseId=' + currentCourseId + '&nodeId=' + nodeId,
+                    filebrowserImageUploadUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Images") %>'+ '&courseId=' + currentCourseId + '&nodeId=' + nodeId,
+                    filebrowserFlashUploadUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Flash") %>' + '&courseId=' + currentCourseId + '&nodeId=' + nodeId
                     
-                filebrowserBrowseUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/ckfinder.html") %>'+ '?courseId=' + currentCourseId + '&nodeId=' + nodeId,
-                filebrowserImageBrowseUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/ckfinder.html?Type=Images") %>'+ '&courseId=' + currentCourseId + '&nodeId=' + nodeId,
-                filebrowserFlashBrowseUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/ckfinder.html?Type=Flash") %>'+ '&courseId=' + currentCourseId + '&nodeId=' + nodeId,
-                filebrowserUploadUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Files") %>'+ '&courseId=' + currentCourseId + '&nodeId=' + nodeId,
-                filebrowserImageUploadUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Images") %>'+ '&courseId=' + currentCourseId + '&nodeId=' + nodeId,
-                filebrowserFlashUploadUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Flash") %>' + '&courseId=' + currentCourseId + '&nodeId=' + nodeId
-                    
-            });
-            $.data($editor, 'node-id', nodeId);
+                });
+                $.data($editor, 'node-id', nodeId);
 
 
-            $editor.parent('form').bind('save', function (e) {
-                //e.preventDefault();
+                $editor.parent('form').bind('save', function (e) {
+                    //e.preventDefault();
 
-                id = $.data($editor, 'node-id');
+                    id = $.data($editor, 'node-id');
 
-                var $ckEditor = getEditor(id).ckeditorGet();
+                    var $ckEditor = getEditor(id).ckeditorGet();
 
-                $ckEditor.updateElement();
-                data = $ckEditor.getData();
+                    $ckEditor.updateElement();
+                    data = $ckEditor.getData();
 
-                $.post("<%: Url.Action("Edit", "Node") %>", { id: id, data: data });
-            });
+                    $.post("<%: Url.Action("Edit", "Node") %>", { id: id, data: data });
+                });
+            }
 
             return $editor;
         }
@@ -389,8 +389,8 @@
 					},
 					success: function (r) {
                         //var editor = getEditor($.data(editor, 'node-id'));
-					    editor.ckeditorGet().setData(r.data);
-					    editor.parent('form').show();
+                        editor.val(r.data);
+                        editor.parent('form').show();
 					}
 				});
             });
