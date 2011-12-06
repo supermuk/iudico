@@ -10,6 +10,7 @@ using System.Xml.Serialization;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Notifications;
+using IUDICO.Common.Models.Shared;
 using IUDICO.CourseManagement.Helpers;
 using IUDICO.CourseManagement.Models.ManifestModels;
 using IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels;
@@ -32,7 +33,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         protected DBDataContext GetDbContext()
         {
-            return _LmsService.GetDbDataContext();
+            return new DBDataContext();
         }
 
         #region IStorage Members
@@ -41,6 +42,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public IEnumerable<Course> GetCourses()
         {
+
             return GetDbContext().Courses.Where(c => c.Deleted == false).AsEnumerable();
         }
 
@@ -74,7 +76,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             var db = GetDbContext();
 
             var userIds = db.CourseUsers.Where(i => i.CourseRef == courseId);
-            var users = db.Users.Where(i => userIds.Any(j => j.UserRef == i.Id));
+            var users = _LmsService.FindService<IUserService>().GetUsers(i => userIds.Any(j => j.UserRef == i.Id));
 
             return users;
         }

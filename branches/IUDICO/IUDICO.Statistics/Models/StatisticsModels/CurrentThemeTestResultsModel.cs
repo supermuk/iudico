@@ -5,6 +5,7 @@ using System.Web;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared.Statistics;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Statistics.Models.StatisticsModels
 {

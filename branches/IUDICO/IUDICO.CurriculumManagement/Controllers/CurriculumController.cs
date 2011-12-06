@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Shared;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.Common.Models.Attributes;
 

@@ -7,6 +7,7 @@ using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Shared;
 
 
 namespace IUDICO.TestingSystem.Models
@@ -64,7 +65,7 @@ namespace IUDICO.TestingSystem.Models
         /// <returns>String value representing Connection String.</returns>
         private string GetConnectionString()
         {
-            string result = LmsSevice.GetDbConnection().ConnectionString;
+            string result = ""; // LmsSevice.GetDbConnection().ConnectionString;
             return result;
         }
 

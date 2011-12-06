@@ -28,7 +28,7 @@ namespace IUDICO.LMS.Models
             return Common.Properties.Settings.Default.IUDICOConnectionString;
         }
 
-        public DBDataContext GetDbDataContext()
+        /*public DBDataContext GetDbDataContext()
         {
             return new DBDataContext();
         }
@@ -41,7 +41,7 @@ namespace IUDICO.LMS.Models
         public DbConnection GetDbConnection()
         {
             throw new NotImplementedException();
-        }
+        }*/
 
         public Menu GetMenu()
         {

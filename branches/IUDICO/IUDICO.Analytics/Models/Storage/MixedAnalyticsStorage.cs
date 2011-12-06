@@ -4,6 +4,7 @@ using System.Linq;
 using System.Data.Linq;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Analytics.Models.Storage
 {
@@ -14,7 +15,7 @@ namespace IUDICO.Analytics.Models.Storage
         
         protected DBDataContext GetDbDataContext()
         {
-            return _LmsService.GetDbDataContext();
+            return new DBDataContext();
         }
 
         public MixedAnalyticsStorage(ILmsService lmsService)
@@ -25,7 +26,7 @@ namespace IUDICO.Analytics.Models.Storage
 
         public void RefreshState()
         {
-            _Db = _LmsService.GetDbDataContext();
+            _Db = new DBDataContext();
         }
 
 

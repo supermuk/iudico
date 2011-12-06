@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Shared;
 using IUDICO.LMS.Models;
 using IUDICO.Common.Models.Shared.CurriculumManagement;
 

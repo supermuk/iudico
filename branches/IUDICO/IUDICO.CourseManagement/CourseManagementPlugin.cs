@@ -5,6 +5,7 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Shared;
 using IUDICO.CourseManagement.Models.Storage;
 using IUDICO.CourseManagement.Models;
 using IUDICO.Common.Models;

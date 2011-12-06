@@ -4,6 +4,7 @@ using Castle.MicroKernel.Registration;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Shared;
 using IUDICO.CurriculumManagement.Models.Storage;
 using Action = IUDICO.Common.Models.Action;
 using IUDICO.CurriculumManagement.Models;
