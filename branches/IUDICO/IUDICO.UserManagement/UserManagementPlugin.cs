@@ -45,25 +45,26 @@ namespace IUDICO.UserManagement
             return Localization.getMessage("UserManagement");
         }
 
-        public IEnumerable<Action> BuildActions(Role role)
+        public IEnumerable<Action> BuildActions()
         {
-            var actions = new List<Action>
-                              {
-                                  new Action(Localization.getMessage("GetUsers"), "User/Index"),
-                                  new Action(Localization.getMessage("GetGroups"), "Group/Index"),
-                                  new Action(Localization.getMessage("Register"), "Account/Register"),
-                                  new Action(Localization.getMessage("ForgotPassword"), "Account/Forgot"),
-                                  new Action(Localization.getMessage("Login"), "Account/Login"),
-                              };
-
-            return actions;
+            return new Action[]
+                {
+                    new Action(Localization.getMessage("GetUsers"), "User/Index"),
+                    new Action(Localization.getMessage("GetGroups"), "Group/Index"),
+                    new Action(Localization.getMessage("Register"), "Account/Register"),
+                    new Action(Localization.getMessage("ForgotPassword"), "Account/Forgot"),
+                    new Action(Localization.getMessage("Login"), "Account/Login"),
+                };
         }
 
-        public void BuildMenu(Menu menu)
+        public IEnumerable<MenuItem> BuildMenuItems()
         {
-            menu.Add(new MenuItem(Localization.getMessage("Account"), "Account", "Index"));
-            menu.Add(new MenuItem(Localization.getMessage("Users"), "User", "Index"));
-            menu.Add(new MenuItem(Localization.getMessage("Groups"), "Group", "Index"));
+            return new MenuItem[]
+            {
+                new MenuItem(Localization.getMessage("Account"), "Account", "Index"),
+                new MenuItem(Localization.getMessage("Users"), "User", "Index"),
+                new MenuItem(Localization.getMessage("Groups"), "Group", "Index")
+            };
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)

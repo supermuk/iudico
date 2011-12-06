@@ -149,7 +149,6 @@
     <Compile Include="Models\ManifestModels\SequencingModels\RuleModels\SequencingRules.cs" />
     <Compile Include="Models\ManifestModels\SequencingModels\SequencingCollection.cs" />
     <Compile Include="Models\ManifestModels\SequencingPatternManager.cs" />
-    <Compile Include="Models\Metadata.cs" />
     <Compile Include="Models\Storage\ICourseStorage.cs" />
     <Compile Include="Models\Storage\MixedCourseStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

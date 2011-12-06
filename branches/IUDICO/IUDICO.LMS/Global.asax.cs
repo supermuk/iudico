@@ -21,6 +21,7 @@ using IUDICO.LMS.Models.Providers;
 using System.Web.Security;
 using System.Globalization;
 using System.Threading;
+using IUDICO.Common.Models.Notifications;
 
 namespace IUDICO.LMS
 {
@@ -28,22 +29,29 @@ namespace IUDICO.LMS
     {
         static IWindsorContainer _Container;
 
-        public static Menu Menu { get; protected set; }
+        public static IWindsorContainer StaticContainer
+        {
+            get { return _Container; }
+        }
+
+        //public static Menu Menu { get; protected set; }
         //public static IEnumerable<Action> Actions { get; protected set; }
-        public static Dictionary<IPlugin, IEnumerable<Action>> Actions { get; protected set; }
+        //public static Dictionary<IPlugin, IEnumerable<Action>> Actions { get; protected set; }
+
+        public static ILmsService LmsService
+        {
+            get { return _Container.Resolve<ILmsService>(); }
+        }
 
         public IWindsorContainer Container
         {
             get { return _Container; }
         }
 
-        public static IWindsorContainer StaticContainer
-        {
-            get { return _Container; }
-        }
-
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
+            LmsService.Inform(LMSNotifications.ApplicationRequestStart);
+            /*
             var plugins = Container.ResolveAll<IPlugin>();
             var currentRole = Role.None;
             var userRoles = HttpContext.Current.User != null
@@ -70,33 +78,31 @@ namespace IUDICO.LMS
                     }
                 }
             }
+            */
         }
 
         protected void Application_Start()
         {
+            AppDomain.CurrentDomain.AppendPrivatePath(Server.MapPath("/Plugins"));
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+
+            InitializeWindsor();
+
             Common.Log4NetLoggerService.InitLogger();
             log4net.Config.XmlConfigurator.Configure(new System.IO.FileInfo(Server.MapPath("log.xml")));
 
             ViewEngines.Engines.Add(new PluginViewEngine());
-
-            Actions = new Dictionary<IPlugin, IEnumerable<Action>>();
-
-            AppDomain.CurrentDomain.AppendPrivatePath(Server.MapPath("/Plugins"));
-            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-
             HostingEnvironment.RegisterVirtualPathProvider(new AssemblyResourceProvider());
-            AreaRegistration.RegisterAllAreas();
-
-            InitializeWindsor();
+            ControllerBuilder.Current.SetControllerFactory(
+                Container.Resolve<IControllerFactory>()
+            );
+            ModelMetadataProviders.Current = new FieldTemplateMetadataProvider();
 
             LoadProviders();
-            LoadPluginData();
+
             RegisterRoutes(RouteTable.Routes);
 
-            var controllerFactory = Container.Resolve<IControllerFactory>();
-            ControllerBuilder.Current.SetControllerFactory(controllerFactory);
-
-            ModelMetadataProviders.Current = new FieldTemplateMetadataProvider();
+            LmsService.Inform(LMSNotifications.ApplicationStart);
         }
 
         //protected void Application_Error(object sender, EventArgs e)
@@ -128,22 +134,12 @@ namespace IUDICO.LMS
 
         protected void Application_End()
         {
+            LmsService.Inform(LMSNotifications.ApplicationStop);
+
             if (_Container != null)
             {
                 _Container.Dispose();
                 _Container = null;
-            }
-        }
-
-        protected void LoadPluginData()
-        {
-            Menu = new Menu();
-
-            var plugins = Container.ResolveAll<IPlugin>();
-
-            foreach (var plugin in plugins)
-            {
-                plugin.BuildMenu(Menu);
             }
         }
 
@@ -179,35 +175,10 @@ namespace IUDICO.LMS
                 .Register(
                     Component.For<IWindsorContainer>().Instance(_Container))
                 .Register(
-                    Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton.DependsOn())
+                    Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton)
                 .Install(FromAssembly.This(),
                          FromAssembly.InDirectory(new AssemblyFilter(Server.MapPath("/Plugins"), "IUDICO.*.dll"))
             );
-        }
-
-        protected bool IsAllowed(Action fullAction, IEnumerable<string> roles)
-        {
-            var parts = fullAction.Link.Split('/');
-
-            // if can't resolve controller, don't allow access to it
-            try
-            {
-                var controller = _Container.Resolve<IController>(parts[0] + "controller");
-                var action = controller.GetType().GetMethods().Where(m => m.Name == parts[1] && !IsPost(m) && m.GetParameters().Length == 0).FirstOrDefault();
-
-                var attribute = Attribute.GetCustomAttribute(action, typeof(AllowAttribute), false) as AllowAttribute;
-
-                return attribute == null || roles.Contains(attribute.Role.ToString());                
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        protected bool IsPost(MethodInfo action)
-        {
-            return Attribute.GetCustomAttribute(action, typeof(HttpPostAttribute), false) != null;
         }
 
         protected void Application_AcquireRequestState(object sender, EventArgs e)
@@ -239,14 +210,15 @@ namespace IUDICO.LMS
                 Thread.CurrentThread.CurrentUICulture = ci;
                 Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
             }
-            LoadPluginData();
+
             Application_BeginRequest(sender, e);
         }
 
         void Application_EndRequest(Object Sender, EventArgs e)
         {
-                log4net.ILog log = log4net.LogManager.GetLogger(typeof(MvcApplication));
-                log.Info(Request.HttpMethod + ": " + Request.Path);
+            log4net.ILog log = log4net.LogManager.GetLogger(typeof(MvcApplication));
+            log.Info(Request.HttpMethod + ": " + Request.Path);
+            LmsService.Inform(LMSNotifications.ApplicationRequestEnd);
         }
     }
 }

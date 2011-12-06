@@ -3359,6 +3359,11 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
+        public IEnumerable<Role> Roles
+        {
+            get { return UserRoles.Select(u => (Role)u.RoleRef); }
+        }
+
         public string GroupsLine
         {
             get

@@ -1,19 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace IUDICO.Common.Models
 {
     public class Menu
     {
-        public List<MenuItem> Items { get; private set; }
+        protected List<MenuItem> _Items;
+
+        public IEnumerable<MenuItem> Items
+        {
+            get { return _Items; }
+        }
+
+        public IEnumerable<MenuItem> GetItems(Func<MenuItem, bool> predicate) 
+        {
+            return _Items.Where(predicate);
+        }
 
         public Menu()
         {
-            Items = new List<MenuItem>();
+            _Items = new List<MenuItem>();
         }
 
         public void Add(MenuItem item)
         {
-            Items.Add(item);
+            _Items.Add(item);
+        }
+
+        public void Add(IEnumerable<MenuItem> items)
+        {
+            _Items.AddRange(items);
         }
     }
 }
