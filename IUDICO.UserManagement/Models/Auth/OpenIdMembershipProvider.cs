@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Security;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Shared;
 using IUDICO.UserManagement.Models.Storage;
 
 namespace IUDICO.UserManagement.Models.Auth

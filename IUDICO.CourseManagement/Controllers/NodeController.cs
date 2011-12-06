@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Web.UI.WebControls;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Shared;
 using IUDICO.CourseManagement.Models;
 using IUDICO.CourseManagement.Models.ManifestModels;
 using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
 using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupModels;
 using IUDICO.CourseManagement.Models.Storage;
-using IUDICO.Common;
 
 namespace IUDICO.CourseManagement.Controllers
 {

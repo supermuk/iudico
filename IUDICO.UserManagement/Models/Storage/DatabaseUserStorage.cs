@@ -9,6 +9,7 @@ using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Notifications;
 using System.Net.Mail;
+using IUDICO.Common.Models.Shared;
 using Kent.Boogaart.KBCsv;
 using IUDICO.Common.Models.Interfaces;
 using System.IO;
@@ -31,7 +32,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
         protected virtual IDataContext GetDbContext()
         {
-            return _LmsService.GetIDataContext();
+            return new DBDataContext();
         }
 
         public virtual bool SendEmail(string fromAddress, string toAddress, string subject, string body)

@@ -334,12 +334,6 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\User.UK_User.ukey.sql">
       <SubType>Code</SubType>
     </Build>
-    <Build Include="Schema Objects\Database Level Objects\Storage\Files\IUDICO_log.sqlfile.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Database Level Objects\Storage\Files\IUDICO.sqlfile.sql">
-      <SubType>Code</SubType>
-    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_ThemeAssignments_IsDeleted_1.defconst.sql">
       <SubType>Code</SubType>
     </Build>
@@ -396,16 +390,10 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="Schema Objects\Database Level Objects\Storage\Files\IUDICO_log_1.sqlfile.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Database Level Objects\Storage\Files\IUDICO_1.sqlfile.sql">
-      <SubType>Code</SubType>
-    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_UserRoles_User.fkey.sql">
       <SubType>Code</SubType>
     </Build>
-	<Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_ForecastingTree.pkey.sql">
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_ForecastingTree.pkey.sql">
       <SubType>Code</SubType>
     </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\ForecastingTree.table.sql">

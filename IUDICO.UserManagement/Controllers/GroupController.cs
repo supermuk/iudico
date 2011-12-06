@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Shared;
 using IUDICO.UserManagement.Models.Storage;
 using IUDICO.Common.Models.Attributes;
 using IUDICO.Common;

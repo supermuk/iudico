@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Xml.Serialization;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Shared;
 using IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels;
 using IUDICO.CourseManagement.Models.ManifestModels.ResourceModels;
 using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;

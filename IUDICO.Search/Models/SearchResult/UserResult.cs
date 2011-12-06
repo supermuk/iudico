@@ -1,5 +1,6 @@
 ﻿using System;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Shared;
 
 
 namespace IUDICO.Search.Models.SearchResult
@@ -8,6 +9,11 @@ namespace IUDICO.Search.Models.SearchResult
     {
         protected User _User;
         protected string _Role;
+
+        public UserResult(User user)
+        {
+            _User = user;
+        }
 
         public UserResult(User user, string role)
         {

@@ -7,6 +7,7 @@ using IUDICO.UserManagement.Models;
 using IUDICO.Common.Models.Notifications;
 using Moq;
 using NUnit.Framework;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.UnitTests.UserManagement.NUnit
 {

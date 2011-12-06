@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.CourseManagement.Models.Storage
 {
