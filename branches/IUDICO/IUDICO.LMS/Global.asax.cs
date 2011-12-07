@@ -52,6 +52,7 @@ namespace IUDICO.LMS
         {
             LmsService.Inform(LMSNotifications.ApplicationRequestStart);
             /*
+            var securityService = Container.Resolve<ISecurityService>();
             var plugins = Container.ResolveAll<IPlugin>();
             var currentRole = Role.None;
             var userRoles = HttpContext.Current.User != null
