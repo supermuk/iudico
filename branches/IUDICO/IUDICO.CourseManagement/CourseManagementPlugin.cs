@@ -56,6 +56,12 @@ namespace IUDICO.CourseManagement
         public void RegisterRoutes(RouteCollection routes)
         {
             routes.MapRoute(
+                "Images",
+                "Course/{CourseID}/Node/{NodeID}/Images/{FileName}",
+                new {controller = "Node", action = "Images", CourseID = 0, FileName = ""}
+                );
+
+            routes.MapRoute(
                 "Node",
                 "Course/{CourseID}/Node/{NodeID}/{action}",
                 new { controller = "Node", CourseID = 0 }

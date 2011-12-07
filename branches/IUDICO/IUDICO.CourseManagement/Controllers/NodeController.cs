@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Script.Serialization;
+using System.Web.UI.WebControls;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
@@ -373,6 +378,17 @@ namespace IUDICO.CourseManagement.Controllers
             
 
             return Json(new { status = true });
+        }
+        
+        [HttpGet]
+        public ActionResult Images(int nodeId, string FileName)
+        {
+            var path = Path.Combine(@"\Data\Courses\", _CurrentCourse.Id.ToString());
+            path = Path.Combine(path, "Node");
+            path = Path.Combine(path, nodeId.ToString());
+            path = Path.Combine(path, "Images");
+            path = Path.Combine(path, FileName);
+            return File(path, "image/png");
         }
     }
 }    
