@@ -38,17 +38,20 @@ namespace IUDICO.Analytics
             return "Analytics";
         }
 
-        public IEnumerable<Action> BuildActions(Role role)
+        public IEnumerable<Action> BuildActions()
         {
-            var actions = new List<Action>();
-
-            actions.Add(new Action("Analytics", "Stats/Index"));
-            return actions;
+            return new Action[]
+            {
+                new Action("Analytics", "Stats/Index")
+            };
         }
 
-        public void BuildMenu(Menu menu)
+        public IEnumerable<MenuItem> BuildMenuItems()
         {
-            menu.Add(new MenuItem("Analytics", "Analytics", "Index"));
+            return new MenuItem[]
+            {
+                new MenuItem("Analytics", "Analytics", "Index")
+            };
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)

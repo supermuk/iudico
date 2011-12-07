@@ -7,6 +7,7 @@ using IUDICO.Common.Models.Services;
 using IUDICO.UserManagement.Models.Storage;
 using Moq;
 using Moq.Protected;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.UnitTests.UserManagement
 {
@@ -58,7 +59,7 @@ namespace IUDICO.UnitTests.UserManagement
             get;
             protected set;
         }
-
+        
         public Mock<ITable> Groups
         {
             get;
@@ -66,6 +67,12 @@ namespace IUDICO.UnitTests.UserManagement
         }
 
         public Mock<ITable> GroupUsers
+        {
+            get;
+            protected set;
+        }
+
+        public Mock<ITable> UserRoles
         {
             get;
             protected set;
@@ -79,14 +86,17 @@ namespace IUDICO.UnitTests.UserManagement
             MockLmsService = new Mock<ILmsService>();
             MockStorage = new Mock<DatabaseUserStorage>(MockLmsService.Object);
 
+            //Storage = new DatabaseUserStorage(MockLmsService.Object);
+
             Users = new Mock<ITable>();
             Groups = new Mock<ITable>();
             GroupUsers = new Mock<ITable>();
+            UserRoles = new Mock<ITable>();
 
             Setup();
             SetupTables();
         }
-
+        
         public static UserManagementTests GetInstance()
         {
             return _Instance ?? (_Instance = new UserManagementTests());
@@ -94,9 +104,9 @@ namespace IUDICO.UnitTests.UserManagement
 
         public void Setup()
         {
-            MockLmsService.Setup(l => l.GetIDataContext()).Returns(MockDataContext.Object);
-            MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(MockDataContext.Object);
-            MockStorage.Setup(s => s.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+//            MockLmsService.Setup(l => l.GetIDataContext()).Returns(MockDataContext.Object);
+//            MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(MockDataContext.Object);
+            //MockStorage.Setup(s => s.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(true);
         }
 
         public void SetupTables()
@@ -116,13 +126,20 @@ namespace IUDICO.UnitTests.UserManagement
                                             new GroupUser {GroupRef = 1, UserRef = mockUserData[0].Id}
                                         };
 
-            var mockUsers = new MockableTable<User>(Users.Object, mockUserData.AsQueryable());
-            var mockGroups = new MockableTable<Group>(Groups.Object, mockGroupData.AsQueryable());
-            var mockGroupUsers = new MockableTable<GroupUser>(GroupUsers.Object, mockGroupUserData.AsQueryable());
+            var mockUserRoleData = new[]
+                                       {
+                                           new UserRole {UserRef = mockUserData[0].Id, RoleRef = (int)Role.Teacher}
+                                       };
+
+            var mockUsers = new MemoryTable<User>(mockUserData);
+            var mockGroups = new MemoryTable<Group>(mockGroupData);
+            var mockGroupUsers = new MemoryTable<GroupUser>(mockGroupUserData);
+            var mockUserRoles = new MemoryTable<UserRole>(mockUserRoleData);
 
             MockDataContext.SetupGet(c => c.Users).Returns(mockUsers);
             MockDataContext.SetupGet(c => c.Groups).Returns(mockGroups);
             MockDataContext.SetupGet(c => c.GroupUsers).Returns(mockGroupUsers);
+            MockDataContext.SetupGet(c => c.UserRoles).Returns(mockUserRoles);
         }
     }
 }

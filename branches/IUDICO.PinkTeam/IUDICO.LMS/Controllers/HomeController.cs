@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Shared;
 using IUDICO.LMS.Models;
 using IUDICO.Common.Models.Shared.CurriculumManagement;
 
@@ -42,7 +43,7 @@ namespace IUDICO.LMS.Controllers
         {
             return View(new HomeModel()
             {
-                Actions = new Dictionary<IPlugin, IEnumerable<Action>>(MvcApplication.Actions),
+                Actions = MvcApplication.LmsService.GetActions(),
                 ThemesDescriptions = GetThemesDescriptions()
             });
 

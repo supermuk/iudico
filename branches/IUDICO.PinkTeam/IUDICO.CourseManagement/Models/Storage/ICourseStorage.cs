@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.CourseManagement.Models.Storage
 {
@@ -42,6 +44,22 @@ namespace IUDICO.CourseManagement.Models.Storage
         string GetPreviewNodePath(int id);
         string GetNodeContents(int id);
         void UpdateNodeContents(int id, string data);
+
+        #endregion
+
+        #region NodeResource methods
+
+        IEnumerable<NodeResource> GetResources(int nodeId);
+        NodeResource GetResource(int id);
+        int AddResource(NodeResource resource, HttpPostedFileBase file);
+        string GetResourcePath(int resId);
+        string GetResourcePath(int nodeId, string fileName);
+        
+        void UpdateResource(int id, NodeResource resource);
+        void DeleteResource(int id);
+        void DeleteResources(List<int> ids);
+
+
 
         #endregion
     }

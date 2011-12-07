@@ -9,6 +9,7 @@ using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Attributes;
 using IUDICO.TestingSystem.Models.VOs;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.TestingSystem.Controllers
 {
@@ -39,7 +40,7 @@ namespace IUDICO.TestingSystem.Controllers
             MlcProxy = mlcProxy;
         }
 
-        protected IUDICO.Common.Models.User CurrentUser
+        protected User CurrentUser
         {
             get
             {
