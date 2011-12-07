@@ -13,7 +13,7 @@ namespace CompileSystem
     /// <summary>
     /// Summary description for Compile
     /// </summary>
-    [WebService(Namespace = "http://tempuri.org/")]
+    [WebService(Namespace = "http://tests-ua.com/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [ToolboxItem(false)]
     [ScriptService]

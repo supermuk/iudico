@@ -4,6 +4,7 @@ using Castle.MicroKernel.Registration;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Shared;
 using IUDICO.CurriculumManagement.Models.Storage;
 using Action = IUDICO.Common.Models.Action;
 using IUDICO.CurriculumManagement.Models;
@@ -45,16 +46,20 @@ namespace IUDICO.CurriculumManagement
             return Localization.getMessage("CurriculumManagement");
         }
 
-        public IEnumerable<Action> BuildActions(Role role)
+        public IEnumerable<Action> BuildActions()
         {
-            List<Action> actions = new List<Action>();
-            actions.Add(new Action(Localization.getMessage("CurriculumManagement"), "Curriculum/Index"));
-            return actions;
+            return new Action[]
+            {
+                new Action(Localization.getMessage("CurriculumManagement"), "Curriculum/Index")
+            };
         }
 
-        public void BuildMenu(Menu menu)
+        public IEnumerable<MenuItem> BuildMenuItems()
         {
-            menu.Add(new MenuItem(Localization.getMessage("Curriculums"), "Curriculum", "Index"));
+            return new MenuItem[]
+            {
+                new MenuItem(Localization.getMessage("Curriculums"), "Curriculum", "Index")
+            };
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)

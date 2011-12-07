@@ -5,6 +5,7 @@ using System.Linq;
 using IUDICO.Common.Controllers;
 //using IUDICO.Common.Messages.CourseMgt;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Shared;
 using IUDICO.Search.Models.SearchResult;
 using Lucene.Net.Store;
 using Lucene.Net.Analysis;
@@ -82,7 +83,7 @@ namespace IUDICO.Search.Controllers
             List<User> users = _UserService.GetUsers().ToList();
             List<Group> groups = _UserService.GetGroupsByUser(_UserService.GetCurrentUser()).ToList();//GetGroups(_UserService.GetCurrentUser()).ToList();
 
-            var roles = _UserService.GetCurrentUser().Roles;
+            var roles = _UserService.GetCurrentUser().UserRoles;
 
             if (courses == null)
                 return RedirectToAction("Index");
@@ -136,14 +137,14 @@ namespace IUDICO.Search.Controllers
                         writer.AddDocument(document);
                     }
                 }
-
-                if (roles.Contains(Role.Admin) || roles.Contains(Role.Teacher))
+                
+                //if ( roles.Contains(Role.Admin) || roles.Contains(Role.Teacher))
                 {
                     foreach (User user in users)
                     {
                         document = new Document();
                         document.Add(new Field("Type", "User", Field.Store.YES, Field.Index.NO));
-                        document.Add(new Field("RoleId", user.RolesLine, Field.Store.YES, Field.Index.NO));
+                        //document.Add(new Field("RoleId", user.RolesLine, Field.Store.YES, Field.Index.NO));
                         document.Add(new Field("ID", user.Id.ToString(), Field.Store.YES, Field.Index.NO));
                         document.Add(new Field("User", user.Name, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
                         writer.AddDocument(document);
@@ -249,7 +250,7 @@ namespace IUDICO.Search.Controllers
                         user.Name = document.Get("User");
                         /*user.RoleId = Convert.ToInt32(document.Get("RoleId"));*/
 
-                        result = new UserResult(user, user.RolesLine);
+                        result = new UserResult(user);
 
                         break;
 

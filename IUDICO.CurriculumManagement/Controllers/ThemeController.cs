@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Shared;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.CurriculumManagement.Models;
 using IUDICO.CurriculumManagement.Models.ViewDataClasses;

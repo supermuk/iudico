@@ -1,4 +1,5 @@
-﻿using IUDICO.Common.Models.Shared.Statistics;
+﻿using IUDICO.Common.Models.Shared;
+using IUDICO.Common.Models.Shared.Statistics;
 using System.Collections.Generic;
 
 namespace IUDICO.Common.Models.Services
