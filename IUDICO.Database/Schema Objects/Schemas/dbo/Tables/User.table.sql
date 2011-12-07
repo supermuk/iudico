@@ -11,14 +11,3 @@
     [ApprovedBy]   UNIQUEIDENTIFIER NULL,
     [UserId]       NVARCHAR (100)   NULL
 );
-
-
-
-
-
-
-
-
-
-
-
