@@ -12,6 +12,7 @@ using IUDICO.Common.Models;
 using System.Web.Routing;
 using IUDICO.Security.Models.Storages;
 using IUDICO.Security.Models.Storages.Database;
+using Action = IUDICO.Common.Models.Action;
 
 namespace IUDICO.Security
 {
@@ -44,13 +45,17 @@ namespace IUDICO.Security
             return SECURITY_PLUGIN_NAME;
         }
 
-        public IEnumerable<IUDICO.Common.Models.Action> BuildActions(Role role)
+        public IEnumerable<Action> BuildActions()
         {
-            return Enumerable.Empty<IUDICO.Common.Models.Action>();
+            return new Action[] {};
         }
-        public void BuildMenu(Menu menu)
+
+        public IEnumerable<MenuItem> BuildMenuItems()
         {
-            menu.Add(new MenuItem("Security", "Security", "Index"));
+            return new MenuItem[]
+            {
+                new MenuItem("Security", "Security", "Index")
+            };
         }
 
         public void Setup(IWindsorContainer container)

@@ -95,6 +95,7 @@
   <ItemGroup>
     <Compile Include="Controllers\BanController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
+    <Compile Include="Models\DBDataContext.cs" />
     <Compile Include="Models\SecurityService.cs" />
     <Compile Include="Models\Storages\Database\DatabaseBanStorage.cs" />
     <Compile Include="Models\Storages\Database\DatabaseSecurityStorage.cs" />

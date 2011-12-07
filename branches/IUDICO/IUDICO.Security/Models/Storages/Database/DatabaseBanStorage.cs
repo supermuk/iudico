@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Interfaces;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Security.Models.Storages.Database
 {
@@ -146,8 +147,8 @@ namespace IUDICO.Security.Models.Storages.Database
         {
             using (var context = NewContext())
             {
-                context.Computers.Attach(room, true);
-                context.Computers.DeleteOnSubmit(room);
+                context.Rooms.Attach(room, true);
+                context.Rooms.DeleteOnSubmit(room);
 
                 context.SubmitChanges();
             }
@@ -155,9 +156,9 @@ namespace IUDICO.Security.Models.Storages.Database
 
         #endregion
 
-        protected IDataContext NewContext()
+        protected DBDataContext NewContext()
         {
-            return _LmsService.GetIDataContext();
+            return new DBDataContext();
         }
     }
 }

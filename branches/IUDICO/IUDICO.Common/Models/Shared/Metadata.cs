@@ -205,6 +205,22 @@ namespace IUDICO.Common.Models.Shared
     [Bind(Exclude = "Id")]
     public partial class User
     {
+        public IEnumerable<Role> Roles
+        {
+            get { return UserRoles.Select(u => (Role)u.RoleRef); }
+        }
+
+        public string GroupsLine
+        {
+            get
+            {
+                if (GroupUsers.Count > 0)
+                    return GroupUsers.Select(g => g.Group.Name).Aggregate((a, b) => a + ", " + b);
+
+                return "";
+            }
+        }
+
         private sealed class Metadata
         {
             [ScaffoldColumn(false)]

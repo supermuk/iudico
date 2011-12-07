@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using IUDICO.Common.Controllers;
 using System.Web.Mvc;
+using IUDICO.Common.Models.Shared;
 using IUDICO.Security.ViewModels.Ban;
 using IUDICO.Security.Models.Storages;
 using IUDICO.Common.Models;
