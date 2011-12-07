@@ -5,6 +5,7 @@ using IUDICO.Common.Models.Shared.Statistics;
 using IUDICO.Common.Models;
 using IUDICO.Common.Controllers;
 using System.Web.Routing;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.TestingSystem.Models
 {

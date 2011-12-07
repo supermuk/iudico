@@ -1,5 +1,6 @@
 ﻿using System;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Search.Models.SearchResult
 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Shared;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.Common;
 
