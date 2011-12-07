@@ -10,108 +10,192 @@ namespace IUDICO.Common.Models
 {
     public class MockableTable<TEntity> : IMockableTable<TEntity>
     {
-        private readonly ITable _Table;
-        private readonly IQueryable<TEntity> _Queryable;
+
+        private readonly ITable table;
+
+        private readonly IQueryable<TEntity> queryable;
+
+
 
         public MockableTable(ITable table, IQueryable<TEntity> queryable)
         {
-            _Table = table;
-            _Queryable = queryable;
+
+            this.table = table;
+
+            this.queryable = queryable;
+
         }
 
+
+
         public MockableTable(ITable table)
+
             : this(table, (IQueryable<TEntity>)table)
         {
+
         }
+
+
 
         public IEnumerator<TEntity> GetEnumerator()
         {
-            return _Queryable.GetEnumerator();
+
+            return queryable.GetEnumerator();
+
         }
+
+
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable)_Queryable).GetEnumerator();
+
+            return ((IEnumerable)queryable).GetEnumerator();
+
         }
+
+
 
         public Expression Expression
         {
-            get { return _Queryable.Expression; }
+
+            get { return queryable.Expression; }
+
         }
+
+
 
         public Type ElementType
         {
-            get { return _Queryable.ElementType; }
+
+            get { return queryable.ElementType; }
+
         }
+
+
 
         public IQueryProvider Provider
         {
-            get { return _Queryable.Provider; }
+
+            get { return queryable.Provider; }
+
         }
+
+
 
         public void InsertOnSubmit(object entity)
         {
-            _Table.InsertOnSubmit(entity);
+
+            table.InsertOnSubmit(entity);
+
         }
+
+
 
         public void InsertAllOnSubmit(IEnumerable entities)
         {
-            _Table.InsertAllOnSubmit(entities);
+
+            table.InsertAllOnSubmit(entities);
+
         }
+
+
 
         public void Attach(object entity)
         {
-            _Table.Attach(entity);
+
+            table.Attach(entity);
+
         }
+
+
 
         public void Attach(object entity, bool asModified)
         {
-            _Table.Attach(entity, asModified);
+
+            table.Attach(entity, asModified);
+
         }
+
+
 
         public void Attach(object entity, object original)
         {
-            _Table.Attach(entity, original);
+
+            table.Attach(entity, original);
+
         }
+
+
 
         public void AttachAll(IEnumerable entities)
         {
-            _Table.AttachAll(entities);
+
+            table.AttachAll(entities);
+
         }
+
+
 
         public void AttachAll(IEnumerable entities, bool asModified)
         {
-            _Table.AttachAll(entities, asModified);
+
+            table.AttachAll(entities, asModified);
+
         }
+
+
 
         public void DeleteOnSubmit(object entity)
         {
-            _Table.DeleteOnSubmit(entity);
+
+            table.DeleteOnSubmit(entity);
+
         }
+
+
 
         public void DeleteAllOnSubmit(IEnumerable entities)
         {
-            _Table.DeleteAllOnSubmit(entities);
+
+            table.DeleteAllOnSubmit(entities);
+
         }
+
+
 
         public object GetOriginalEntityState(object entity)
         {
-            return _Table.GetOriginalEntityState(entity);
+
+            return table.GetOriginalEntityState(entity);
+
         }
+
+
 
         public ModifiedMemberInfo[] GetModifiedMembers(object entity)
         {
-            return _Table.GetModifiedMembers(entity);
+
+            return table.GetModifiedMembers(entity);
+
         }
+
+
 
         public DataContext Context
         {
-            get { return _Table.Context; }
+
+            get { return table.Context; }
+
         }
+
+
 
         public bool IsReadOnly
         {
-            get { return _Table.IsReadOnly; }
+
+            get { return table.IsReadOnly; }
+
         }
+
     }
 }
