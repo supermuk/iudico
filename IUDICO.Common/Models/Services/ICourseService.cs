@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Common.Models.Services
 {

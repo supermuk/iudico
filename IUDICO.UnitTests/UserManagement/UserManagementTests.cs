@@ -7,6 +7,7 @@ using IUDICO.Common.Models.Services;
 using IUDICO.UserManagement.Models.Storage;
 using Moq;
 using Moq.Protected;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.UnitTests.UserManagement
 {
@@ -103,8 +104,8 @@ namespace IUDICO.UnitTests.UserManagement
 
         public void Setup()
         {
-            MockLmsService.Setup(l => l.GetIDataContext()).Returns(MockDataContext.Object);
-            MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(MockDataContext.Object);
+//            MockLmsService.Setup(l => l.GetIDataContext()).Returns(MockDataContext.Object);
+//            MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(MockDataContext.Object);
             //MockStorage.Setup(s => s.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(true);
         }
 

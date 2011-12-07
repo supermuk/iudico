@@ -4,6 +4,7 @@ using System.Linq;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using System.Data.Linq;
+using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.CurriculumManagement;
 
 namespace IUDICO.CurriculumManagement.Models.Storage
@@ -15,7 +16,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         protected DBDataContext GetDbDataContext()
         {
-            return _LmsService.GetDbDataContext();
+            return new DBDataContext();
         }
 
         public MixedCurriculumStorage(ILmsService lmsService)
@@ -31,7 +32,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public void RefreshState()
         {
             //db = new DBDataContext(lmsService.GetDbConnectionString());
-            _Db = _LmsService.GetDbDataContext();
+            _Db = new DBDataContext();
         }
 
         public IEnumerable<Course> GetCourses()

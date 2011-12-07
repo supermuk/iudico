@@ -1,5 +1,5 @@
 ﻿<%@ Assembly Name="IUDICO.CourseManagement" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Course>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Shared.Course>" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <link href="<%= Html.ResolveUrl("~/Content/jquery.multiselect2side.css") %>" rel="Stylesheet" type="text/css" />
@@ -39,7 +39,7 @@
             <%= Html.EditorForModel() %>
             
             <select multiple="multiple" id="sharewith" name="sharewith">
-            <%  foreach (IUDICO.Common.Models.User user in ViewData["AllUsers"] as IEnumerable<IUDICO.Common.Models.User>)
+            <%  foreach (IUDICO.Common.Models.Shared.User user in ViewData["AllUsers"] as IEnumerable<IUDICO.Common.Models.Shared.User>)
                 { %>
                 <option value="<%= user.Id %>"><%: user.Name %></option>
             <% }%>

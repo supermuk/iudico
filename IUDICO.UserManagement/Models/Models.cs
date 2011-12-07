@@ -3,8 +3,10 @@ using System.ComponentModel.DataAnnotations;
 using IUDICO.Common.Models;
 using System.Collections.Generic;
 using IUDICO.Common.Models.Attributes;
+using IUDICO.Common.Models.Shared;
 using Guid = System.Guid;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace IUDICO.UserManagement.Models
 {
@@ -17,8 +19,10 @@ namespace IUDICO.UserManagement.Models
             Name = user.Name;
             OpenId = user.OpenId;
             Email = user.Email;
-            Groups = user.Groups;
-            Roles = user.Roles;
+            Roles = user.UserRoles.Select(r => (Role)r.RoleRef);
+            Groups = user.GroupUsers.Select(g => g.Group);
+            /*Groups = user.Groups;
+            Roles = user.Roles;*/
             UserId = user.UserId;
         }
 

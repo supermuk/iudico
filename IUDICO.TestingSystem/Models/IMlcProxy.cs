@@ -3,6 +3,7 @@ using IUDICO.Common.Models.Shared.Statistics;
 using IUDICO.TestingSystem.Models.VO;
 using System.Collections.Generic;
 using System;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.TestingSystem.Models
 {
