@@ -37,19 +37,18 @@ namespace IUDICO.TestingSystem
             return "Testing System";
         }
 
-        public IEnumerable<IUDICO.Common.Models.Action> BuildActions(Role role)
+        public IEnumerable<Action> BuildActions()
         {
-            var actions = new List<Action>();
+            return new Action[] { };
 
             // do not add actions for testing service
             //actions.Add(new Action("Import Testings", "Package/Index"));
             //actions.Add(new Action("Available Testings", "Training/Index"));
-
-            return actions;
         }
 
-        public void BuildMenu(Menu menu)
+        public IEnumerable<MenuItem> BuildMenuItems()
         {
+            return new MenuItem[] {};
             // do not add menu item for testing service
             //menu.Add(new MenuItem("Testing", "Training", "Index"));
         }

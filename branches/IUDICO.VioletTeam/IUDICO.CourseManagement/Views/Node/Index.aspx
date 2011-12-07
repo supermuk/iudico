@@ -1,5 +1,5 @@
 ﻿<%@ Assembly Name="IUDICO.CourseManagement" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Empty.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Course>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Empty.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Shared.Course>" %>
 <%@ Import Namespace="System.Collections.Generic" %>
 <%@ Import Namespace="IUDICO.CourseManagement.Models.ManifestModels" %>
 <%@ Import Namespace="System.Security.Policy" %>
