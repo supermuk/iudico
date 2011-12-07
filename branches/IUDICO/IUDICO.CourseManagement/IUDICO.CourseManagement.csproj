@@ -1353,16 +1353,6 @@
     <Content Include="Libraries\Microsoft.LearningComponents.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.XML" />
     <None Include="Views\Web.config" />
-    <Content Include="web.config" />
-    <Content Include="web.Debug.config">
-      <DependentUpon>web.config</DependentUpon>
-    </Content>
-    <Content Include="web.Release.config">
-      <DependentUpon>web.config</DependentUpon>
-    </Content>
-    <Content Include="web.RemovePlugins.config">
-      <DependentUpon>web.config</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resource.en-US.resx" />
