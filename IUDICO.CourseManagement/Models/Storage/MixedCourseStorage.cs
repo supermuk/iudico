@@ -32,9 +32,9 @@ namespace IUDICO.CourseManagement.Models.Storage
             _LmsService = lmsService;
         }
 
-        protected IDataContext GetDbContext()
+        protected DBDataContext GetDbContext()
         {
-            return _LmsService.GetIDataContext();
+            return new DBDataContext();
         }
 
         #region IStorage Members

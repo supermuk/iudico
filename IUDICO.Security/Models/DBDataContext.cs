@@ -7,7 +7,7 @@ using IUDICO.Common.Models;
 using IUDICO.Common.Models.Interfaces;
 using IUDICO.Common.Models.Shared;
 
-namespace IUDICO.CourseManagement.Models
+namespace IUDICO.Security.Models
 {
     public partial class DBDataContext : System.Data.Linq.DataContext
     {
@@ -60,35 +60,19 @@ namespace IUDICO.CourseManagement.Models
             OnCreated();
         }
 
-        public System.Data.Linq.Table<CourseUser> CourseUsers
+        public System.Data.Linq.Table<Room> Rooms
         {
             get
             {
-                return this.GetTable<CourseUser>();
+                return this.GetTable<Room>();
             }
         }
 
-        public System.Data.Linq.Table<Node> Nodes
+        public System.Data.Linq.Table<Computer> Computers
         {
             get
             {
-                return this.GetTable<Node>();
-            }
-        }
-
-        public System.Data.Linq.Table<Course> Courses
-        {
-            get
-            {
-                return this.GetTable<Course>();
-            }
-        }
-
-        public System.Data.Linq.Table<NodeResource> NodeResources
-        {
-            get
-            {
-                return this.GetTable<NodeResource>();
+                return this.GetTable<Computer>();
             }
         }
     }

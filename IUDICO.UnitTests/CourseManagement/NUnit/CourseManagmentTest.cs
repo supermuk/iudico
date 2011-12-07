@@ -5,6 +5,7 @@ using System.Xml.Linq;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Interfaces;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Shared;
 using IUDICO.CourseManagement.Models.Storage;
 using IUDICO.UserManagement.Models.Storage;
 using Moq;
@@ -112,8 +113,8 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
 
         public void Setup()
         {
-            MockLmsService.Setup(l => l.GetIDataContext()).Returns(MockDataContext.Object);
-            MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(MockDataContext.Object);
+            //MockLmsService.Setup(l => l.GetIDataContext()).Returns(MockDataContext.Object);
+            //MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(MockDataContext.Object);
 
         }
 
