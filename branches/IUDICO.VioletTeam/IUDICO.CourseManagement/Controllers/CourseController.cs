@@ -7,11 +7,11 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Shared;
 using IUDICO.CourseManagement.Models.ManifestModels;
 using IUDICO.CourseManagement.Models.Storage;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Attributes;
-using IUDICO.Common;
 
 namespace IUDICO.CourseManagement.Controllers
 {

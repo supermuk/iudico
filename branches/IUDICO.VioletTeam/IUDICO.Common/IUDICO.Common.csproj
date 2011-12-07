@@ -76,17 +76,9 @@
     <Compile Include="Models\Attributes\DropDownListAttribute.cs" />
     <Compile Include="Models\Attributes\EmailAddressAttribute.cs" />
     <Compile Include="Models\Attributes\OrderAttribute.cs" />
-    <Compile Include="Models\DBDataContext.cs">
-      <DependentUpon>DBDataContext.dbml</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBDataContext.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DBDataContext.dbml</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Interfaces\IDataContext.cs" />
-    <Compile Include="Models\Interfaces\IMockableDataContext.cs" />
-    <Compile Include="Models\Interfaces\IMockableTable.cs" />
+    <Compile Include="Models\Attributes\Interfaces\IDataContext.cs" />
+    <Compile Include="Models\Attributes\Interfaces\IMockableDataContext.cs" />
+    <Compile Include="Models\Attributes\Interfaces\IMockableTable.cs" />
     <Compile Include="Models\MemoryTable.cs" />
     <Compile Include="Models\MockableTable.cs" />
     <Compile Include="Models\NodeProperty.cs" />
@@ -94,13 +86,14 @@
     <Compile Include="Models\Helpers.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\MenuItem.cs" />
-    <Compile Include="Models\Metadata.cs" />
+    <Compile Include="Models\Shared\Metadata.cs" />
     <Compile Include="Models\Notifications\CurriculumNotifications.cs" />
     <Compile Include="Models\Notifications\LMSNotifications.cs" />
     <Compile Include="Models\Notifications\SearchNotifications.cs" />
     <Compile Include="Models\Notifications\TestingNotifications.cs" />
     <Compile Include="Models\Notifications\UserNotifications.cs" />
     <Compile Include="Models\Plugin\IPlugin.cs" />
+    <Compile Include="Models\Shared\Poco.cs" />
     <Compile Include="Models\Services\IAnalyticsService.cs" />
     <Compile Include="Models\Services\ICourseService.cs" />
     <Compile Include="Models\Services\ICurriculumService.cs" />
@@ -130,11 +123,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Models\DBDataContext.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>DBDataContext.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -142,11 +130,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Models\DBDataContext.dbml.layout">
-      <DependentUpon>DBDataContext.dbml</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resource.en-US.resx" />

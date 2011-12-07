@@ -76,6 +76,7 @@
     <Compile Include="AnalyticsPlugin.cs" />
     <Compile Include="Controllers\AnalyticsController.cs" />
     <Compile Include="Models\AnalyticsService.cs" />
+    <Compile Include="Models\DBDataContext.cs" />
     <Compile Include="Models\Storage\IAnalyticsStorage.cs" />
     <Compile Include="Models\Storage\MixedAnalyticsStorage.cs" />
     <Compile Include="Models\ViewDataClasses\ViewMainPageModel.cs" />

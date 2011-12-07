@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.CurriculumManagement;
 
 namespace IUDICO.CurriculumManagement.Models.Storage
