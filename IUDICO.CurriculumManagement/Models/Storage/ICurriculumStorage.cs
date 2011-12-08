@@ -13,6 +13,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         #region External methods
 
         void RefreshState();
+        User GetCurrentUser();
         IEnumerable<Course> GetCourses();
         Course GetCourse(int id);
         Group GetGroup(int id);
@@ -25,6 +26,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         #region Curriculum methods
 
         IEnumerable<Curriculum> GetCurriculums();
+        IEnumerable<Curriculum> GetCurriculums(User owner);
         IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids);
         Curriculum GetCurriculum(int id);
         /// <summary>
@@ -43,6 +45,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         void UpdateCurriculum(Curriculum curriculum);
         void DeleteCurriculum(int id);
         void DeleteCurriculums(IEnumerable<int> ids);
+        void MakeCurriculumInvalid(int courseId);
 
         #endregion
 
@@ -89,6 +92,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #region ThemeType methods
 
+        ThemeType GetThemeType(int id);
         IEnumerable<ThemeType> GetThemeTypes();
 
         #endregion
@@ -104,6 +108,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         void UpdateCurriculumAssignment(CurriculumAssignment curriculumAssignment);
         void DeleteCurriculumAssignment(int id);
         void DeleteCurriculumAssignments(IEnumerable<int> ids);
+        void MakeCurriculumAssignmentsInvalid(int groupId);
 
         #endregion
 

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Theme>>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Theme>>" %>
 
 <%@ Assembly Name="IUDICO.CurriculumManagement" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
@@ -111,7 +111,7 @@
                 <%: String.Format("{0:g}", item.Updated) %>
             </td>
             <td>
-                <%: item.ThemeType.Name %>
+                <%: IUDICO.CurriculumManagement.Converters.ConvertToString(item.ThemeType) %>
             </td>
             <td>
                 <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Edit"), "Edit", new { ThemeID = item.Id })%>

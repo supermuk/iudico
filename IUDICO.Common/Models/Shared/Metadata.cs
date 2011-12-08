@@ -71,6 +71,9 @@ namespace IUDICO.Common.Models.Shared
             public DateTime Updated { get; set; }
 
             [ScaffoldColumn(false)]
+            public string Owner { get; set; }
+
+            [ScaffoldColumn(false)]
             public bool IsDeleted { get; set; }
 
             [ScaffoldColumn(false)]
@@ -78,6 +81,9 @@ namespace IUDICO.Common.Models.Shared
 
             [ScaffoldColumn(false)]
             public EntitySet<Stage> Stages { get; set; }
+
+            [ScaffoldColumn(false)]
+            public bool IsValid { get; set; }
         }
     }
 
