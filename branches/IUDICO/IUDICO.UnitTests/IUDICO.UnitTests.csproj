@@ -101,7 +101,16 @@
     <Compile Include="CourseManagement\NUnit\MixedCourseStorageTest.cs" />
     <Compile Include="CourseManagement\NUnit\SequencingPatternManagerTests.cs" />
     <Compile Include="CourseManagement\Selenium\StudentRole.cs" />
+    <Compile Include="CurriculumManagement\NUnit\CurriculumTests.cs" />
+    <Compile Include="CurriculumManagement\Old\CurriculumResultTest.cs" />
+    <Compile Include="CurriculumManagement\Old\CurriculumStorageTest.cs" />
+    <Compile Include="CurriculumManagement\Old\Extensions.cs" />
+    <Compile Include="CurriculumManagement\CurriculumManagementTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CurriculumManagement\Old\SpecializedResultTest.cs" />
+    <Compile Include="CurriculumManagement\Old\ThemeInfoModelTest.cs" />
+    <Compile Include="CurriculumManagement\Old\ThemeResultTest.cs" />
+    <Compile Include="CurriculumManagement\Old\Utils.cs" />
     <Compile Include="Base\TestFixture.cs" />
     <Compile Include="Base\TestFixtureWeb.cs" />
     <Compile Include="UserManagement\NUnit\CreateMultiple.cs" />
