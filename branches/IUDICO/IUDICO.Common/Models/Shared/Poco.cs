@@ -765,6 +765,8 @@ namespace IUDICO.Common.Models.Shared
 
         private bool _IsDeleted;
 
+        private bool _IsValid;
+
         private EntitySet<ThemeAssignment> _ThemeAssignments;
 
         private EntitySet<Timeline> _Timelines;
@@ -783,6 +785,8 @@ namespace IUDICO.Common.Models.Shared
         partial void OnCurriculumRefChanged();
         partial void OnIsDeletedChanging(bool value);
         partial void OnIsDeletedChanged();
+        partial void OnIsValidChanging(bool value);
+        partial void OnIsValidChanged();
         #endregion
 
         public CurriculumAssignment()
@@ -873,6 +877,26 @@ namespace IUDICO.Common.Models.Shared
                     this._IsDeleted = value;
                     this.SendPropertyChanged("IsDeleted");
                     this.OnIsDeletedChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsValid", DbType = "Bit NOT NULL")]
+        public bool IsValid
+        {
+            get
+            {
+                return this._IsValid;
+            }
+            set
+            {
+                if ((this._IsValid != value))
+                {
+                    this.OnIsValidChanging(value);
+                    this.SendPropertyChanging();
+                    this._IsValid = value;
+                    this.SendPropertyChanged("IsValid");
+                    this.OnIsValidChanged();
                 }
             }
         }
@@ -996,7 +1020,11 @@ namespace IUDICO.Common.Models.Shared
 
         private System.DateTime _Updated;
 
+        private string _Owner;
+
         private bool _IsDeleted;
+
+        private bool _IsValid;
 
         private EntitySet<CurriculumAssignment> _CurriculumAssignments;
 
@@ -1014,8 +1042,12 @@ namespace IUDICO.Common.Models.Shared
         partial void OnCreatedChanged();
         partial void OnUpdatedChanging(System.DateTime value);
         partial void OnUpdatedChanged();
+        partial void OnOwnerChanging(string value);
+        partial void OnOwnerChanged();
         partial void OnIsDeletedChanging(bool value);
         partial void OnIsDeletedChanged();
+        partial void OnIsValidChanging(bool value);
+        partial void OnIsValidChanged();
         #endregion
 
         public Curriculum()
@@ -1105,6 +1137,26 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Owner", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
+        public string Owner
+        {
+            get
+            {
+                return this._Owner;
+            }
+            set
+            {
+                if ((this._Owner != value))
+                {
+                    this.OnOwnerChanging(value);
+                    this.SendPropertyChanging();
+                    this._Owner = value;
+                    this.SendPropertyChanged("Owner");
+                    this.OnOwnerChanged();
+                }
+            }
+        }
+
         [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsDeleted", DbType = "Bit NOT NULL")]
         public bool IsDeleted
         {
@@ -1121,6 +1173,26 @@ namespace IUDICO.Common.Models.Shared
                     this._IsDeleted = value;
                     this.SendPropertyChanged("IsDeleted");
                     this.OnIsDeletedChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsValid", DbType = "Bit NOT NULL")]
+        public bool IsValid
+        {
+            get
+            {
+                return this._IsValid;
+            }
+            set
+            {
+                if ((this._IsValid != value))
+                {
+                    this.OnIsValidChanging(value);
+                    this.SendPropertyChanging();
+                    this._IsValid = value;
+                    this.SendPropertyChanged("IsValid");
+                    this.OnIsValidChanged();
                 }
             }
         }
@@ -4035,7 +4107,7 @@ namespace IUDICO.Common.Models.Shared
 
         private int _StageRef;
 
-        private int _CourseRef;
+        private System.Nullable<int> _CourseRef;
 
         private int _SortOrder;
 
@@ -4063,7 +4135,7 @@ namespace IUDICO.Common.Models.Shared
         partial void OnUpdatedChanged();
         partial void OnStageRefChanging(int value);
         partial void OnStageRefChanged();
-        partial void OnCourseRefChanging(int value);
+        partial void OnCourseRefChanging(System.Nullable<int> value);
         partial void OnCourseRefChanged();
         partial void OnSortOrderChanging(int value);
         partial void OnSortOrderChanged();
@@ -4185,8 +4257,8 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CourseRef", DbType = "Int NOT NULL")]
-        public int CourseRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CourseRef", DbType = "Int")]
+        public System.Nullable<int> CourseRef
         {
             get
             {
@@ -5745,7 +5817,7 @@ namespace IUDICO.Common.Models.Shared
 
         private int _StageRef;
 
-        private int _CourseRef;
+        private System.Nullable<int> _CourseRef;
 
         private int _SortOrder;
 
@@ -5773,7 +5845,7 @@ namespace IUDICO.Common.Models.Shared
         partial void OnUpdatedChanged();
         partial void OnStageRefChanging(int value);
         partial void OnStageRefChanged();
-        partial void OnCourseRefChanging(int value);
+        partial void OnCourseRefChanging(System.Nullable<int> value);
         partial void OnCourseRefChanged();
         partial void OnSortOrderChanging(int value);
         partial void OnSortOrderChanged();
@@ -5895,8 +5967,8 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CourseRef", DbType = "Int NOT NULL")]
-        public int CourseRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CourseRef", DbType = "Int")]
+        public System.Nullable<int> CourseRef
         {
             get
             {
@@ -6822,7 +6894,11 @@ namespace IUDICO.Common.Models.Shared
 
         private System.DateTime _Updated;
 
+        private string _Owner;
+
         private bool _IsDeleted;
+
+        private bool _IsValid;
 
         private EntitySet<CurriculumAssignment> _CurriculumAssignments;
 
@@ -6840,8 +6916,12 @@ namespace IUDICO.Common.Models.Shared
         partial void OnCreatedChanged();
         partial void OnUpdatedChanging(System.DateTime value);
         partial void OnUpdatedChanged();
+        partial void OnOwnerChanging(string value);
+        partial void OnOwnerChanged();
         partial void OnIsDeletedChanging(bool value);
         partial void OnIsDeletedChanged();
+        partial void OnIsValidChanging(bool value);
+        partial void OnIsValidChanged();
         #endregion
 
         public Curriculum()
@@ -6931,6 +7011,26 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Owner", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
+        public string Owner
+        {
+            get
+            {
+                return this._Owner;
+            }
+            set
+            {
+                if ((this._Owner != value))
+                {
+                    this.OnOwnerChanging(value);
+                    this.SendPropertyChanging();
+                    this._Owner = value;
+                    this.SendPropertyChanged("Owner");
+                    this.OnOwnerChanged();
+                }
+            }
+        }
+
         [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsDeleted", DbType = "Bit NOT NULL")]
         public bool IsDeleted
         {
@@ -6947,6 +7047,26 @@ namespace IUDICO.Common.Models.Shared
                     this._IsDeleted = value;
                     this.SendPropertyChanged("IsDeleted");
                     this.OnIsDeletedChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsValid", DbType = "Bit NOT NULL")]
+        public bool IsValid
+        {
+            get
+            {
+                return this._IsValid;
+            }
+            set
+            {
+                if ((this._IsValid != value))
+                {
+                    this.OnIsValidChanging(value);
+                    this.SendPropertyChanging();
+                    this._IsValid = value;
+                    this.SendPropertyChanged("IsValid");
+                    this.OnIsValidChanged();
                 }
             }
         }

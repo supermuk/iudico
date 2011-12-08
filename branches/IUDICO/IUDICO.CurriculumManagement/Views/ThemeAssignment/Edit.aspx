@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" 
-Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.ThemeAssignment>" %>
+Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Shared.ThemeAssignment>" %>
 
 <%@ Assembly Name="IUDICO.CurriculumManagement" %>
 <%@ Import Namespace="IUDICO.Common.Models" %>
