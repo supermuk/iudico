@@ -26,5 +26,6 @@ namespace IUDICO.Security.Models.Storages
         void CreateRoom(Room room);
         void DeleteComputer(Computer computer);
         void DeleteRoom(Room room);
+        bool ifBanned(string ipAddress);
     }
 }

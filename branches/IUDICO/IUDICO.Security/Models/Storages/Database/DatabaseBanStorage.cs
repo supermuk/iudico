@@ -7,6 +7,7 @@ using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Interfaces;
 using IUDICO.Common.Models.Shared;
+using System.Data.Linq;
 
 namespace IUDICO.Security.Models.Storages.Database
 {
@@ -100,6 +101,10 @@ namespace IUDICO.Security.Models.Storages.Database
         {
             using (var context = NewContext())
             {
+                DataLoadOptions opts = new DataLoadOptions();
+                opts.LoadWith<Room>(r => r.Computers);
+                context.LoadOptions = opts;
+
                 return context.Rooms.FirstOrDefault(room => room.Name == name);
             }
         }
@@ -151,6 +156,16 @@ namespace IUDICO.Security.Models.Storages.Database
                 context.Rooms.DeleteOnSubmit(room);
 
                 context.SubmitChanges();
+            }
+        }
+
+        public bool ifBanned(string ipAddress)
+        {
+            var comp = new Computer();
+            comp.IpAddress = ipAddress;
+            using (var context = NewContext())
+            {
+                return context.Computers.Contains(comp);
             }
         }
 

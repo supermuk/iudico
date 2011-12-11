@@ -16,7 +16,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#sharewith').multiselect2side({
-                selectedPosition: 'right',
+                selectedPosition: 'left',
                 moveOptions: false,
                 labelsx: "Computers at this room",
                 labeldx: "Unchoosen computers"
@@ -26,23 +26,36 @@
                 var $rooms = $(event.target);
                 $rooms.closest('form').submit();
             });
-
-            
         });
+        //                $.ajax({
+        //                    type: "post",
+        //                    url: "/Ban/EditRooms",
+        //                    data: { CurrentRoom: $(event.target).find(":selected").val() },
+        //                    success: function (r) {
+        //                        if (r.success) {
+        //                            
+        //                        }
+        //                        else {
+        //                            alert("5");
+        //                        }
+        //                    }
+        //                });
+        //            });            
+        //      });
     </script>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     Edit Room
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <h2>
-        Edit Rooms</h2>
+    <fieldset>
+    <legend> Edit Rooms </legend>
     <% using (Html.BeginForm())
        {%>
     <select id="rooms-list" name="CurrentRoom">
         <%  
             var selected = string.Empty;
-           foreach (var room in Model.Rooms)
+            foreach (var room in Model.Rooms)
             {
                 if (room == Model.CurrentRoom)
                 {
@@ -52,28 +65,29 @@
                 {
                     selected = string.Empty;
                 }
-               %>
+        %>
         <option value="<%= room %>" <%= selected %>>
             <%= room %>
         </option>
         <% }%>
+        </fieldset>
     </select>
     <select multiple="multiple" id="sharewith" name="sharewith">
         <%  foreach (var comp in Model.UnchoosenComputers)
-            { %>
-        <option value="<%= comp %>" selected="selected">
-            <%= comp %>
-        </option>
-        <% }%>
-        <%  foreach (var comp in Model.Computers)
             { %>
         <option value="<%= comp %>">
             <%= comp %>
         </option>
         <% }%>
+        <%  foreach (var comp in Model.Computers)
+            { %>
+        <option value="<%= comp %>" selected="selected">
+            <%= comp %>
+        </option>
+        <% }%>
     </select>
-    <p>
-        <input type="submit" value="Save" name="saveButton"/>
-    </p>
+   <!-- <p>
+        <input type="submit" value="Save" name="saveButton" />
+    </p> -->
     <% } %>
 </asp:Content>

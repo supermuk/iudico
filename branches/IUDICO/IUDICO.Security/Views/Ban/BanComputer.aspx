@@ -28,11 +28,11 @@
                  <%= Html.ActionLink("Delete", "DeleteComputer", new { computer = item.IpAddress })%>| 
                  <% if (item.Banned)
                    { %>
-                    <%: Html.ActionLink("Unban", "ComputerUnban", new { computer = item.IpAddress })%> |
+                    <%: Html.ActionLink("Unban", "ComputerUnban", new { computer = item.IpAddress })%> 
                 <% }
                    else
                    { %>
-                    <%:Html.ActionLink("Ban", "ComputerBan", new { computer = item.IpAddress })%> |
+                    <%:Html.ActionLink("Ban", "ComputerBan", new { computer = item.IpAddress })%> 
                 <% } %> 
             </td>
         <//tr>
