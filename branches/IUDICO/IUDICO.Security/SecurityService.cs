@@ -12,13 +12,17 @@ namespace IUDICO.Security
     public class SecurityService : ISecurityService
     {
         private readonly IBanStorage _BanStorage = SecurityPlugin.Container.Resolve<IBanStorage>();
+        
         public bool CheckRequestSafety(HttpRequestBase request)
         {
             string ip = request.ServerVariables["REMOTE_ADDR"].ToString();
+
+            if (request.RequestContext.RouteData.Values["action"] == "Banned")
+                return true;
+            
             if (_BanStorage.ifBanned(ip))
                 return false;
-            return true;
-           
+            return true;           
         }
 
         public HttpResponseBase ProcessRequest(HttpRequestBase request)
