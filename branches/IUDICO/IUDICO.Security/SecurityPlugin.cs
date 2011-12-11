@@ -83,10 +83,12 @@ namespace IUDICO.Security
         public void Update(string evt, params object[] data)
         {
             var securityService = Container.Resolve<ISecurityService>();
-            if (!securityService.CheckRequestSafety(new HttpRequestWrapper(HttpContext.Current.Request)))
-            {
-                HttpContext.Current.Response.RedirectToRoute("Ban", new { controller = "Ban", action = "Banned" });
-            }
+            var action = HttpContext.Current.Request.RequestContext.RouteData.Values["action"];
+            if ( action  != null && action.ToString() != "Banned")
+                if (!securityService.CheckRequestSafety(new HttpRequestWrapper(HttpContext.Current.Request)))
+                {                
+                    HttpContext.Current.Response.Redirect("/Ban/Banned", true);
+                }
         }
 
         #endregion

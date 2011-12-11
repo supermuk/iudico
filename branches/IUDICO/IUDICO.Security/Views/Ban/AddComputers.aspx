@@ -11,13 +11,16 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
     <fieldset>
     <legend>Add Computer</legend>
-    <% if (string.IsNullOrEmpty(Model.ComputerIP)) 
+    <% Html.EnableClientValidation(); %>
+
+    <% if (string.IsNullOrEmpty(Model.ComputerIP) || Model.State == IUDICO.Security.Models.ViewModelState.Edit) 
        { %>
     
         <% using (Html.BeginForm())
            { %>
+            
             <%= Html.EditorForModel() %>
-            <p>
+        <p>
            <input type="submit" value="Save" name="saveButton" />
        </p>
         <% }

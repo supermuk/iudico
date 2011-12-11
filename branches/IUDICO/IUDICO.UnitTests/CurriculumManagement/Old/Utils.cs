@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.UnitTests
 {

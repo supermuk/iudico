@@ -33,16 +33,22 @@ namespace IUDICO.Security.Controllers
         [HttpPost]
         public ActionResult AddComputers(AddComputerViewModel viewModel)
         {
-            if (!String.IsNullOrEmpty(viewModel.ComputerIP))
+            viewModel.State = Models.ViewModelState.Edit;
+            if (ModelState.IsValid)
             {
-                var newComputer = new Computer
+                if (!String.IsNullOrEmpty(viewModel.ComputerIP))
                 {
-                    Banned = false,
-                    IpAddress = viewModel.ComputerIP
-                };
+                    var newComputer = new Computer
+                    {
+                        Banned = false,
+                        IpAddress = viewModel.ComputerIP
+                    };
 
-                _BanStorage.CreateComputer(newComputer);
+                    _BanStorage.CreateComputer(newComputer);
+                }
+                viewModel.State = Models.ViewModelState.View;
             }
+
             return View(viewModel);
         }
 
@@ -176,6 +182,11 @@ namespace IUDICO.Security.Controllers
         {   
             _BanStorage.DeleteComputer(_BanStorage.GetComputer(computer));
             return RedirectToAction("BanComputer");
+        }
+
+        public ActionResult Banned()
+        {
+            return View();
         }
     }
 }
