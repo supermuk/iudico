@@ -95,6 +95,7 @@
   <ItemGroup>
     <Compile Include="Controllers\BanController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
+    <Compile Include="Localization.cs" />
     <Compile Include="Models\DBDataContext.cs" />
     <Compile Include="Models\SecurityService.cs" />
     <Compile Include="Models\Storages\Database\DatabaseBanStorage.cs" />
@@ -130,6 +131,10 @@
     <Folder Include="Scripts\jquery\themes\default\.svn\tmp\prop-base\" />
     <Folder Include="Scripts\jquery\themes\default\.svn\tmp\props\" />
     <Folder Include="Scripts\jquery\themes\default\.svn\tmp\text-base\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resource.en-US.resx" />
+    <EmbeddedResource Include="Resource.uk-UA.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
