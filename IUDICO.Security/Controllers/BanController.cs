@@ -99,26 +99,26 @@ namespace IUDICO.Security.Controllers
             return View(viewModel);
         }
 
-        [HttpPost]
-        public ActionResult EditRoom(RoomsViewModel Model)
-        {
-            var room = new Room();
-            room = _BanStorage.GetRoom(Model.CurrentRoom);
-            foreach(String comp in Model.Computers)
-            {
-                var computer = _BanStorage.GetComputer(comp);
-                if (computer.Room == null)
-                    _BanStorage.AttachComputerToRoom(computer, room);
-            }
+        //[HttpPost]
+        //public ActionResult EditRoom(RoomsViewModel Model)
+        //{
+        //    var room = new Room();
+        //    room = _BanStorage.GetRoom(Model.CurrentRoom);
+        //    foreach(String comp in Model.Computers)
+        //    {
+        //        var computer = _BanStorage.GetComputer(comp);
+        //        if (computer.Room == null)
+        //            _BanStorage.AttachComputerToRoom(computer, room);
+        //    }
 
-            foreach (String comp in Model.UnchoosenComputers)
-            {
-                var computer = _BanStorage.GetComputer(comp);
-                if (computer.Room != null)
-                    _BanStorage.DetachComputer(computer);
-            }
-            return View(Model);
-        }
+        //    foreach (String comp in Model.UnchoosenComputers)
+        //    {
+        //        var computer = _BanStorage.GetComputer(comp);
+        //        if (computer.Room != null)
+        //            _BanStorage.DetachComputer(computer);
+        //    }
+        //    return View(Model);
+        //}
 
         public ActionResult BanComputer()
         {

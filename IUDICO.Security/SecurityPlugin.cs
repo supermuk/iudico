@@ -18,6 +18,7 @@ namespace IUDICO.Security
 {
     public class SecurityPlugin : IPlugin, IWindsorInstaller
     {
+        internal static IWindsorContainer Container; 
         private const String SECURITY_PLUGIN_NAME = "SecurityPlugin";
 
         #region IWindsorInstaller
@@ -35,6 +36,7 @@ namespace IUDICO.Security
                 Component.For<IBanStorage>().ImplementedBy<DatabaseBanStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<ISecurityStorage>().ImplementedBy<DatabaseSecurityStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
+            Container = container;
         }
         #endregion
 
@@ -77,8 +79,14 @@ namespace IUDICO.Security
                 "Security/{action}",
                 new { controller = "Security" });
         }
+
         public void Update(string evt, params object[] data)
         {
+            var securityService = Container.Resolve<ISecurityService>();
+            if (!securityService.CheckRequestSafety(new HttpRequestWrapper(HttpContext.Current.Request)))
+            {
+                HttpContext.Current.Response.RedirectToRoute("Ban", new { controller = "Ban", action = "Banned" });
+            }
         }
         #endregion
     }
