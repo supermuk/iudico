@@ -24,11 +24,11 @@
              <%= Html.ActionLink("Delete", "DeleteRoom", "Ban") %> | 
             <% if (item.Allowed)
                    { %>
-                    <%: Html.ActionLink("Ban", "RoomBan", new { room = item.Name })%> |
+                    <%: Html.ActionLink("Ban", "RoomBan", new { room = item.Name })%> 
                 <% }
                    else
                    { %>
-                    <%:Html.ActionLink("Unban", "RoomUnban", new { room = item.Name })%> |
+                    <%:Html.ActionLink("Unban", "RoomUnban", new { room = item.Name })%> 
                 <% } %> 
             </td>
         <//tr>

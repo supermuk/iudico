@@ -50,9 +50,10 @@ namespace IUDICO.LMS
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-            LmsService.Inform(LMSNotifications.ApplicationRequestStart);
+            LmsService.Inform(LMSNotifications.ApplicationRequestStart, HttpContext.Current);
+            
             /*
-            var securityService = Container.Resolve<ISecurityService>();
+           
             var plugins = Container.ResolveAll<IPlugin>();
             var currentRole = Role.None;
             var userRoles = HttpContext.Current.User != null

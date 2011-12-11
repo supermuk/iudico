@@ -97,7 +97,6 @@
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Localization.cs" />
     <Compile Include="Models\DBDataContext.cs" />
-    <Compile Include="Models\SecurityService.cs" />
     <Compile Include="Models\Storages\Database\DatabaseBanStorage.cs" />
     <Compile Include="Models\Storages\Database\DatabaseSecurityStorage.cs" />
     <Compile Include="Models\Storages\IBanStorage.cs" />
