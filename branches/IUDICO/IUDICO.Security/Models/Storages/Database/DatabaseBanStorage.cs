@@ -11,13 +11,24 @@ using System.Data.Linq;
 
 namespace IUDICO.Security.Models.Storages.Database
 {
-    class DatabaseBanStorage : IBanStorage
+    public class DatabaseBanStorage : IBanStorage
     {
         private readonly ILmsService _LmsService;
+        private readonly Func<ISecurityDataContext> _CreateIDataContext;
 
         public DatabaseBanStorage(ILmsService lmsService)
         {
             _LmsService = lmsService;
+            _CreateIDataContext = () =>
+                {
+                    return new DBDataContext();
+                };
+        }
+
+        public DatabaseBanStorage(ILmsService lmsService, Func<ISecurityDataContext> createIDataContext)
+        {
+            _LmsService = lmsService;
+            _CreateIDataContext = createIDataContext;
         }
 
         #region IBanStorage
@@ -101,10 +112,6 @@ namespace IUDICO.Security.Models.Storages.Database
         {
             using (var context = NewContext())
             {
-                DataLoadOptions opts = new DataLoadOptions();
-                opts.LoadWith<Room>(r => r.Computers);
-                context.LoadOptions = opts;
-
                 return context.Rooms.FirstOrDefault(room => room.Name == name);
             }
         }
@@ -171,9 +178,9 @@ namespace IUDICO.Security.Models.Storages.Database
 
         #endregion
 
-        protected DBDataContext NewContext()
+        protected ISecurityDataContext NewContext()
         {
-            return new DBDataContext();
+            return _CreateIDataContext();
         }
     }
 }

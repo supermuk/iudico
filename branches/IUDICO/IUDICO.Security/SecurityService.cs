@@ -9,7 +9,7 @@ using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Security
 {
-    class SecurityService : ISecurityService
+    public class SecurityService : ISecurityService
     {
         private readonly IBanStorage _BanStorage = SecurityPlugin.Container.Resolve<IBanStorage>();
         public bool CheckRequestSafety(HttpRequestBase request)
