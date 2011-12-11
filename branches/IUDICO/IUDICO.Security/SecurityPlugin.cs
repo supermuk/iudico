@@ -88,6 +88,7 @@ namespace IUDICO.Security
                 HttpContext.Current.Response.RedirectToRoute("Ban", new { controller = "Ban", action = "Banned" });
             }
         }
+
         #endregion
     }
 }
