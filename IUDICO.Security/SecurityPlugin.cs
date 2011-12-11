@@ -42,19 +42,22 @@ namespace IUDICO.Security
 
         public string GetName()
         {
-            return SECURITY_PLUGIN_NAME;
+            return Localization.getMessage(Localization.Keys.SECURITY_PLUGIN);
         }
 
         public IEnumerable<Action> BuildActions()
         {
-            return new Action[] {};
+            return new Action[]
+            {
+                new Action(Localization.getMessage(Localization.Keys.SECURITY), "Security/Index")
+            };
         }
 
         public IEnumerable<MenuItem> BuildMenuItems()
         {
             return new MenuItem[]
             {
-                new MenuItem("Security", "Security", "Index")
+                new MenuItem(Localization.getMessage(Localization.Keys.SECURITY), "Security", "Index")
             };
         }
 
