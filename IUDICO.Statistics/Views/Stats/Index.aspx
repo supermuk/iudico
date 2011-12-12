@@ -1,5 +1,5 @@
 ﻿<%@ Assembly Name="IUDICO.Statistics" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Group>>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Group>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	<%=IUDICO.Statistics.Localization.getMessage("Statistics")%>: <%=IUDICO.Statistics.Localization.getMessage("GroupList")%>
@@ -16,7 +16,7 @@
     <legend><%=IUDICO.Statistics.Localization.getMessage("SelectOneGroup")%></legend>
     <form action="/Stats/SelectCurriculums/" method="post">
 
-    <% foreach (IUDICO.Common.Models.Group item in Model)
+    <% foreach (IUDICO.Common.Models.Shared.Group item in Model)
        {%>
        <div>
         <input type="radio" name="id" value="<%: item.Id %>" checked="checked" />
