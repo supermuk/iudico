@@ -8,7 +8,7 @@ CKEDITOR.editorConfig = function (config) {
     // config.language = 'fr';
     // config.uiColor = '#AADC6E';
 
-    config.extraPlugins = 'iudico,save,syntaxhighlight';
+    config.extraPlugins = 'iudico,save,syntaxhighlight,spoiler';
 
     CKEDITOR.config.toolbar_IUDICO =
     [
@@ -28,7 +28,7 @@ CKEDITOR.editorConfig = function (config) {
 	    ['TextColor','BGColor'],
 	    ['Maximize', 'ShowBlocks', '-', 'About'],
         ['iudico-simple', 'iudico-choice', 'iudico-compile'],
-        ['Code']
+        ['Code','Spoiler']
     ];
 	
 
