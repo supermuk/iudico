@@ -84,7 +84,8 @@ namespace IUDICO.Statistics.Models.StatisticsModels
 
             CurriculumId = curriculumId;
 
-            SelectGroupStudents = lmsService.FindService<IUserService>().GetUsersByGroup(lmsService.FindService<IUserService>().GetGroup(groupId));
+            Group group = lmsService.FindService<IUserService>().GetGroup(groupId);
+            SelectGroupStudents = lmsService.FindService<IUserService>().GetUsersByGroup(group);
 
             SelectCurriculumThemes = lmsService.FindService<ICurriculumService>().GetThemesByCurriculumId(CurriculumId);
 
