@@ -16,7 +16,7 @@
         <%=IUDICO.Statistics.Localization.getMessage("Teacher")%>: <%: Model.GetTeacherUserName()%>
         </p>
         <form action="/QualityTest/SelectTheme/" method="post">
-        <% foreach (IUDICO.Common.Models.Curriculum curriculum in Model.GetAllowedCurriculums())
+        <% foreach (IUDICO.Common.Models.Shared.Curriculum curriculum in Model.GetAllowedCurriculums())
            {%>
                 <div>
                 <input type="radio" name="selectCurriculumId" value="<%: curriculum.Id %>" checked="checked" />

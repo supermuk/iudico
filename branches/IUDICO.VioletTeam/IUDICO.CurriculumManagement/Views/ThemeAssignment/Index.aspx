@@ -2,7 +2,7 @@
 Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models.ViewDataClasses.ViewThemeAssignmentModel>>" %>
 
 <%@ Assembly Name="IUDICO.CurriculumManagement" %>
-<%@ Import Namespace="IUDICO.Common.Models" %>
+<%@ Import Namespace="IUDICO.Common.Models.Shared" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
@@ -16,7 +16,7 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
     <h4>
         <%: (ViewData["Curriculum"] as Curriculum).Name%>
         <%=IUDICO.CurriculumManagement.Localization.getMessage("PrevNext")%>
-        <%: (ViewData["Group"] as IUDICO.Common.Models.Group).Name %>
+        <%: (ViewData["Group"] as IUDICO.Common.Models.Shared.Group).Name %>
     </h4>
     <table>
         <tr>

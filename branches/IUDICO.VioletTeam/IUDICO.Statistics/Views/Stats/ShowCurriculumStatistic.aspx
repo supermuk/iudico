@@ -20,7 +20,7 @@
     <tr>
         <th><%=IUDICO.Statistics.Localization.getMessage("Student")%></th>
         <% int i = 0;
-           foreach (IUDICO.Common.Models.Curriculum curr in Model.Curriculums)
+           foreach (IUDICO.Common.Models.Shared.Curriculum curr in Model.Curriculums)
            {
                i++;%>
                 <th>

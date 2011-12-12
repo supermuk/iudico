@@ -1,8 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" 
-Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.ThemeAssignment>" %>
+Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Shared.ThemeAssignment>" %>
 
 <%@ Assembly Name="IUDICO.CurriculumManagement" %>
-<%@ Import Namespace="IUDICO.Common.Models" %>
+<%@ Import Namespace="IUDICO.Common.Models.Shared" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script src="/Scripts/jquery/jquery.validate.min.js" type="text/javascript"></script>

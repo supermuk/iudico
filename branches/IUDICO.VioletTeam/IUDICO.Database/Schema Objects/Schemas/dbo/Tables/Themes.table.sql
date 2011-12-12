@@ -4,9 +4,11 @@
     [Created]      DATETIME      NOT NULL,
     [Updated]      DATETIME      NOT NULL,
     [StageRef]     INT           NOT NULL,
-    [CourseRef]    INT           NOT NULL,
+    [CourseRef]    INT           NULL,
     [SortOrder]    INT           NOT NULL,
     [ThemeTypeRef] INT           NOT NULL,
     [IsDeleted]    BIT           NOT NULL
 );
+
+
 

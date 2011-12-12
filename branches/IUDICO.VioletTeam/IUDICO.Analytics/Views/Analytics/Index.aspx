@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.ForecastingTree>>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.ForecastingTree>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Index
@@ -21,7 +21,7 @@
         <th>Make forecasting</th>
      </tr>
 
-     <% foreach (IUDICO.Common.Models.ForecastingTree tree in Model)
+     <% foreach (IUDICO.Common.Models.Shared.ForecastingTree tree in Model)
         { %>
         <tr>
             <td>

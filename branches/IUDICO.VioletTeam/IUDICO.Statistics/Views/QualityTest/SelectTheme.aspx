@@ -19,7 +19,7 @@
         <%=IUDICO.Statistics.Localization.getMessage("Curriculum")%>: <%: Model.GetCurriculumName()%>
         </p>
         <form action="/QualityTest/SelectGroups/" method="post">
-        <% foreach (IUDICO.Common.Models.Theme theme in Model.GetAllowedThemes())
+        <% foreach (IUDICO.Common.Models.Shared.Theme theme in Model.GetAllowedThemes())
            {%>
                 <div>
                 <input type="radio" name="selectThemeId" value="<%: theme.Id %>" checked="checked" />
