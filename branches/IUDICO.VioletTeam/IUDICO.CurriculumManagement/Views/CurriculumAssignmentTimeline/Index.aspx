@@ -1,8 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" 
-Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Timeline>>" %>
+Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Timeline>>" %>
 
 <%@ Assembly Name="IUDICO.CurriculumManagement" %>
-<%@ Import Namespace="IUDICO.Common.Models" %>
+<%@ Import Namespace="IUDICO.Common.Models.Shared" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript" language="javascript">
@@ -73,7 +73,7 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Timeline>>" %
     <h4>
         <%: (ViewData["Curriculum"] as Curriculum).Name%>
         <%=IUDICO.CurriculumManagement.Localization.getMessage("PrevNext")%>
-        <%: (ViewData["Group"] as IUDICO.Common.Models.Group).Name %>
+        <%: (ViewData["Group"] as IUDICO.Common.Models.Shared.Group).Name %>
     </h4>
     <p>
         <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("AddTimeline"), "Create") %>

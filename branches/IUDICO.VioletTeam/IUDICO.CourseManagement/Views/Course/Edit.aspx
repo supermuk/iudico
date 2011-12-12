@@ -39,11 +39,11 @@
             <%= Html.EditorForModel() %>
             
             <select multiple="multiple" id="sharewith" name="sharewith">
-            <%  foreach (IUDICO.Common.Models.User user in ViewData["AllUsers"] as IEnumerable<IUDICO.Common.Models.Shared.User>)
+            <%  foreach (IUDICO.Common.Models.Shared.User user in ViewData["AllUsers"] as IEnumerable<IUDICO.Common.Models.Shared.User>)
                 { %>
                 <option value="<%= user.Id %>"><%: user.Name %></option>
             <% }%>
-            <%  foreach (IUDICO.Common.Models.User user in ViewData["SharedUsers"] as IEnumerable<IUDICO.Common.Models.Shared.User>)
+            <%  foreach (IUDICO.Common.Models.Shared.User user in ViewData["SharedUsers"] as IEnumerable<IUDICO.Common.Models.Shared.User>)
                 { %>
                 <option value="<%= user.Id %>" selected><%: user.Name %></option>
             <% }%>

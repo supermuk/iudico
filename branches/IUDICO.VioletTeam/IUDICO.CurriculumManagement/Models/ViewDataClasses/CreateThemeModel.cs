@@ -11,8 +11,8 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
 {
     public class CreateThemeModel
     {
-        public IEnumerable<SelectListItem> Courses { get; set; }
-        public IEnumerable<SelectListItem> ThemeTypes { get; set; }
+        public List<SelectListItem> Courses { get; set; }
+        public List<SelectListItem> ThemeTypes { get; set; }
         public int CourseId { get; set; }
         public int StageId { get; set; }
         public int ThemeTypeId { get; set; }
@@ -22,7 +22,7 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
         {
         }
 
-        public CreateThemeModel(int stageId, IEnumerable<Course> courses, int courseId, IEnumerable<ThemeType> themeTypes, int themeTypeId, string themeName)
+        public CreateThemeModel(int stageId, IEnumerable<Course> courses, int? courseId, IEnumerable<ThemeType> themeTypes, int themeTypeId, string themeName)
         {
             StageId = stageId;
             Courses = courses
@@ -31,15 +31,24 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
                         Text = item.Name,
                         Value = item.Id.ToString(),
                         Selected = false
-                    });
+                    })
+                    .ToList();
+            Courses.Insert(0, new SelectListItem()
+            {
+                Text = Localization.getMessage("No course"),
+                Value = Constants.NoCourseId.ToString(),
+                Selected = false
+            });
+
             ThemeTypes = themeTypes
                         .Select(item => new SelectListItem
                         {
-                            Text = item.Name,
+                            Text = Converters.ConvertToString(item),
                             Value = item.Id.ToString(),
                             Selected = false
-                        });
-            CourseId = courseId;
+                        })
+                        .ToList();
+            CourseId = courseId ?? Constants.NoCourseId;
             ThemeTypeId = themeTypeId;
             ThemeName = themeName;
         }

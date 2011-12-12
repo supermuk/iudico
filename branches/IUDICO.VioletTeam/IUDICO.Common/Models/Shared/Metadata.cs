@@ -71,6 +71,9 @@ namespace IUDICO.Common.Models.Shared
             public DateTime Updated { get; set; }
 
             [ScaffoldColumn(false)]
+            public string Owner { get; set; }
+
+            [ScaffoldColumn(false)]
             public bool IsDeleted { get; set; }
 
             [ScaffoldColumn(false)]
@@ -78,6 +81,9 @@ namespace IUDICO.Common.Models.Shared
 
             [ScaffoldColumn(false)]
             public EntitySet<Stage> Stages { get; set; }
+
+            [ScaffoldColumn(false)]
+            public bool IsValid { get; set; }
         }
     }
 
@@ -205,6 +211,22 @@ namespace IUDICO.Common.Models.Shared
     [Bind(Exclude = "Id")]
     public partial class User
     {
+        public IEnumerable<Role> Roles
+        {
+            get { return UserRoles.Select(u => (Role)u.RoleRef); }
+        }
+
+        public string GroupsLine
+        {
+            get
+            {
+                if (GroupUsers.Count > 0)
+                    return GroupUsers.Select(g => g.Group.Name).Aggregate((a, b) => a + ", " + b);
+
+                return "";
+            }
+        }
+
         private sealed class Metadata
         {
             [ScaffoldColumn(false)]

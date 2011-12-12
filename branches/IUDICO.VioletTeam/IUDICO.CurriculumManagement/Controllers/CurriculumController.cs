@@ -20,7 +20,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             try
             {
-                var curriculums = Storage.GetCurriculums();
+                var curriculums = Storage.GetCurriculums(Storage.GetCurrentUser());
 
                 return View(curriculums);
             }

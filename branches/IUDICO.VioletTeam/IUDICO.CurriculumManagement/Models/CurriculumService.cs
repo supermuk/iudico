@@ -18,10 +18,10 @@ namespace IUDICO.CurriculumManagement.Models
 
         #region ICurriculumService Members
 
-        public IEnumerable<Curriculum> GetCurriculums()
-        {
-            return _CurriculumStorage.GetCurriculums();
-        }
+        //public IEnumerable<Curriculum> GetCurriculums()
+        //{
+        //    return _CurriculumStorage.GetCurriculums();
+        //}
 
         public IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids)
         {

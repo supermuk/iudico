@@ -1,5 +1,5 @@
 ﻿<%@ Assembly Name="IUDICO.Statistics" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Curriculum>>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Curriculum>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	<%=IUDICO.Statistics.Localization.getMessage("Statistics")%>: <%=IUDICO.Statistics.Localization.getMessage("CurriculumList")%> <%: ViewData["Group"]%>
@@ -41,7 +41,7 @@
         <th><%=IUDICO.Statistics.Localization.getMessage("Created")%></th>
      </tr>
 
-     <% foreach (IUDICO.Common.Models.Curriculum curr in Model)
+     <% foreach (IUDICO.Common.Models.Shared.Curriculum curr in Model)
         { %>
         <tr>
             <td>

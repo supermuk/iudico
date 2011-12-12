@@ -354,3 +354,9 @@ div#title
 {
     width: 6em;
 }
+
+.course-created-label
+{
+    font-size: 9px;
+    color: #999999;
+}
