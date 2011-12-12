@@ -2,8 +2,8 @@ CKEDITOR.dialog.add( 'spoiler', function( editor )
 {
 	return {
 		title : 'Spoiler',
-		minWidth : 400,
-		minHeight : 300,
+		minWidth : 250,
+		minHeight : 70,
 		contents : [
 			{
 				id : 'tab1',
@@ -14,30 +14,15 @@ CKEDITOR.dialog.add( 'spoiler', function( editor )
 					{   id : 'input1',
 						type : 'text',
 						style : 'width:140px;',
-						label : 'Введите текст кнопки:',
+						label : 'Enter spoiler title:',
                         validate : function()
 
 {
 CKEDITOR.config.text_val= this.getValue();
 if ( !this.getValue() )
-{alert( 'Поле текст кнопки пустое!' );
+{alert( 'Spoiler title cannot be empty!' );
 return false;}
-}},
-					{
-						type : 'html',
-	                    id : 'content',
-	                    html :
-	                    '<textarea style="' +
-                        'width:406px;' +
-                        'height:170px;' +
-	                    'resize: none;' +
-	                    'border:1px solid black;' +
-	                    'background-color:white">' +
-                        '</textarea>',
-                        validate : function()
-{ if ( !this.getValue() )
-{alert( 'Поле текст пустое!' );
-return false;}
+
 /**
  * Retrieve HTML presentation of the current selected range, require editor
  * to be focused first.
@@ -91,11 +76,7 @@ CKEDITOR.ENTER_BR;
 return true;
 }
 
-},{
-	                                                                type : 'html',
-                                                                id : 'pasteMsg',
-	                                                                html : '<div style="white-space:normal;width:340px;">Вы можете использовать горячие клавиши.<br /><STRONG>Ctrl+X</STRONG> - вырезать.<br /> <STRONG>Ctrl+V</STRONG> - вставить.<br /><STRONG>Ctrl+C</STRONG> - скопировать. </div>'
-                                                        }
+}
 
 				]
 			}
