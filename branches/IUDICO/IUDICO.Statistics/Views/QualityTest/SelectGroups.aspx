@@ -34,7 +34,7 @@
         <%=IUDICO.Statistics.Localization.getMessage("Theme")%>: <%: Model.GetThemeName()%>
         </p>
         <form id = "selectGroupsForm" action="/QualityTest/ShowQualityTest/" method="post">
-        <% foreach (IUDICO.Common.Models.Group group in Model.GetAllowedGroups())
+        <% foreach (IUDICO.Common.Models.Shared.Group group in Model.GetAllowedGroups())
            {%>
                 <div>
                 <input type="checkbox" name="selectGroupIds" value="<%: group.Id %>" id="<%: group.Id %>"/>
