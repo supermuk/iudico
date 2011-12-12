@@ -65,7 +65,10 @@ var spoilerHead = editor.document.createElement( 'div' );
 	
 var spoilerBody = editor.document.createElement( 'div' );
 	spoilerBody.setAttribute( 'style', 'display: block;		background: none repeat scroll 0 0 #f4f4f4;		border-top: 1px solid #ccc;		line-height: 17px;		padding: 3px 3px 3px 7px;        font-size: 12px;        color: #343434;' );
-	container.appendTo(spoilerBody);
+
+	var c = editor.document.createElement( 'div' );;
+container.appendTo(c);
+c.appendTo(spoilerBody);
 spoilerHead.appendTo(spoilerWrap);
 spoilerBody.appendTo(spoilerWrap);
 
