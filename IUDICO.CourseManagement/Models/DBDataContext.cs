@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data.Linq.Mapping;
 using System.Linq;
 using System.Web;
+using IUDICO.Common.Models;
+using IUDICO.Common.Models.Interfaces;
 using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.CourseManagement.Models
@@ -79,6 +81,14 @@ namespace IUDICO.CourseManagement.Models
             get
             {
                 return this.GetTable<Course>();
+            }
+        }
+
+        public System.Data.Linq.Table<NodeResource> NodeResources
+        {
+            get
+            {
+                return this.GetTable<NodeResource>();
             }
         }
     }

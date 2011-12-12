@@ -1,4 +1,5 @@
-﻿namespace IUDICO.Common.Models.Interfaces
+﻿using IUDICO.Common.Models.Shared;
+namespace IUDICO.Common.Models.Interfaces
 {
     public interface IDataContext : IMockableDataContext
     {

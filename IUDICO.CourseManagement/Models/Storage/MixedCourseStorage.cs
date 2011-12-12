@@ -8,6 +8,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Interfaces;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Notifications;
 using IUDICO.Common.Models.Shared;
@@ -20,7 +21,7 @@ using File = System.IO.File;
 
 namespace IUDICO.CourseManagement.Models.Storage
 {
-    internal class MixedCourseStorage : ICourseStorage
+    public class MixedCourseStorage : ICourseStorage
     {
         private readonly ILmsService _LmsService;
         private readonly string[] _TemplateFiles = { "api.js", "checkplayer.js", "flensed.js", "flXHR.js", "flXHR.swf", "iudico.css", "iudico.js", "jquery-1.5.2.min.js", "jquery.flXHRproxy.js", "jquery.xhr.js", "questions.js", "sco.js", "swfobject.js", "updateplayer.swf" };
@@ -200,6 +201,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             Directory.CreateDirectory(path);
 
+
             var nodes = GetNodes(id).ToList();
 
             for (var i = 0; i < nodes.Count; i++)
@@ -216,6 +218,9 @@ namespace IUDICO.CourseManagement.Models.Storage
             }
 
             var coursePath = GetCoursePath(id);
+
+            FileHelper.DirectoryCopy(Path.Combine(coursePath, "Node"), Path.Combine(path, "Node"));
+
             foreach (var file in _TemplateFiles)
             {
                 File.Copy(Path.Combine(coursePath, file), Path.Combine(path, file));
@@ -567,6 +572,106 @@ namespace IUDICO.CourseManagement.Models.Storage
 
                 CreateFolders(child);
             }
+        }
+
+        #endregion
+
+        #region NodeResource methods
+
+        public IEnumerable<NodeResource> GetResources(int nodeId)
+        {
+            var db = GetDbContext();
+
+            var node = db.Nodes.SingleOrDefault(c => c.Id == nodeId);
+            var images = node.NodeResources.OrderBy(n => n.Id).ToList();
+
+            return images;
+        }
+
+        public NodeResource GetResource(int id)
+        {
+            return GetDbContext().NodeResources.Single(n => n.Id == id);
+        }
+        public int AddResource(NodeResource resource, HttpPostedFileBase file)
+        {
+            var node = GetDbContext().Nodes.SingleOrDefault(n => n.Id == resource.NodeId);
+            var path = Path.Combine(GetCoursePath(node.CourseId), "Node");
+            path = Path.Combine(path, resource.NodeId.Value.ToString());
+            path = Path.Combine(path, "Images");
+            
+            resource.Path = "Node/" + resource.NodeId + "/Images/" + file.FileName;
+
+            if(!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            file.SaveAs(Path.Combine(path, file.FileName));
+            
+            var db = GetDbContext();
+
+            db.NodeResources.InsertOnSubmit(resource);
+            db.SubmitChanges();
+
+
+            return resource.Id;
+        }
+
+        public string GetResourcePath(int resId)
+        {
+            var res = GetDbContext().NodeResources.Single(n => n.Id == resId);
+            var path = Path.Combine(GetNodePath(res.NodeId ?? -1), res.Path);
+
+            return path;
+        }
+
+        public string GetResourcePath(int nodeId, string fileName)
+        {
+            var node = GetDbContext().Nodes.SingleOrDefault(n => n.Id == nodeId);
+            var path = Path.Combine(GetCoursePath(node.CourseId), "Node");
+            path = Path.Combine(path, nodeId.ToString());
+            path = Path.Combine(path, "Images");
+            path = Path.Combine(path, fileName);
+
+            return path;
+        }
+
+        public void UpdateResource(int id, NodeResource resource)
+        {
+            var db = GetDbContext();
+
+            var oldRes = db.NodeResources.Single(n => n.Id == id);
+
+            oldRes.Name = resource.Name;
+            oldRes.Type = resource.Type;
+            oldRes.Path = resource.Path;
+
+            db.SubmitChanges();
+        }
+        public void DeleteResource(int id)
+        {
+            var db = GetDbContext();
+
+            var res = db.NodeResources.Single(n => n.Id == id);
+
+            @File.Delete(GetResourcePath(id));
+
+            db.NodeResources.DeleteOnSubmit(res);
+            db.SubmitChanges();
+        }
+        public void DeleteResources(List<int> ids)
+        {
+            var db = GetDbContext();
+
+            var resources = (from n in db.NodeResources where ids.Contains(n.Id) select n);
+
+            foreach (var res in resources)
+            {
+                @File.Delete(GetResourcePath(res.Id));
+            }
+
+            db.NodeResources.DeleteAllOnSubmit(resources);
+            db.SubmitChanges();
         }
 
         #endregion

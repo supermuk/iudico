@@ -155,6 +155,7 @@ namespace IUDICO.CurriculumManagement
             {
                 //delete connected Themes
                 int courseId = ((Course)data[0]).Id;
+                curriculumStorage.MakeCurriculumInvalid(courseId);
                 var themeIds = curriculumStorage.GetThemesByCourseId(courseId).Select(item => item.Id);
                 curriculumStorage.DeleteThemes(themeIds);
             }
@@ -162,8 +163,15 @@ namespace IUDICO.CurriculumManagement
             {
                 //delete connected CurriculumAssignments
                 int groupId = ((Group)data[0]).Id;
-                var curriculumAssignmentIds = curriculumStorage.GetCurriculumAssignmentsByGroupId(groupId).Select(item => item.Id);
-                curriculumStorage.DeleteCurriculumAssignments(curriculumAssignmentIds);
+                curriculumStorage.MakeCurriculumAssignmentsInvalid(groupId);
+                //var curriculumAssignmentIds = curriculumStorage.GetCurriculumAssignmentsByGroupId(groupId).Select(item => item.Id);
+                //curriculumStorage.DeleteCurriculumAssignments(curriculumAssignmentIds);
+            }
+            else if (evt == UserNotifications.UserDelete)
+            {
+                //delete connected Curriculums(CurriculumAssignments)
+                var curriculumIds = curriculumStorage.GetCurriculums((User)data[0]).Select(item => item.Id);
+                curriculumStorage.DeleteCurriculums(curriculumIds);
             }
         }
 

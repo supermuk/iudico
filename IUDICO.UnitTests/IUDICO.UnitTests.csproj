@@ -98,9 +98,20 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CourseManagement\NUnit\CourseManagmentTest.cs" />
+    <Compile Include="CourseManagement\NUnit\MixedCourseStorageTest.cs" />
     <Compile Include="CourseManagement\NUnit\SequencingPatternManagerTests.cs" />
     <Compile Include="CourseManagement\Selenium\StudentRole.cs" />
+    <Compile Include="CurriculumManagement\NUnit\CurriculumTests.cs" />
+    <Compile Include="CurriculumManagement\Old\CurriculumResultTest.cs" />
+    <Compile Include="CurriculumManagement\Old\CurriculumStorageTest.cs" />
+    <Compile Include="CurriculumManagement\Old\Extensions.cs" />
+    <Compile Include="CurriculumManagement\CurriculumManagementTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CurriculumManagement\Old\SpecializedResultTest.cs" />
+    <Compile Include="CurriculumManagement\Old\ThemeInfoModelTest.cs" />
+    <Compile Include="CurriculumManagement\Old\ThemeResultTest.cs" />
+    <Compile Include="CurriculumManagement\Old\Utils.cs" />
     <Compile Include="Base\TestFixture.cs" />
     <Compile Include="Base\TestFixtureWeb.cs" />
     <Compile Include="TestingSystem\NUnit\FileSystemPackageTests.cs" />
@@ -113,6 +124,8 @@
     <Compile Include="UserManagement\Selenium\AvatarSeleniumTester.cs" />
     <Compile Include="UserManagement\Selenium\UpgradeSeleniumTester.cs" />
     <Compile Include="UserManagement\UserManagementTests.cs" />
+    <Compile Include="Security\SecurityPluginTest.cs" />
+    <Compile Include="Security\SecurityServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
@@ -126,6 +139,10 @@
     <ProjectReference Include="..\IUDICO.CurriculumManagement\IUDICO.CurriculumManagement.csproj">
       <Project>{E6F7266F-760A-4D43-B78C-378CA12DBE08}</Project>
       <Name>IUDICO.CurriculumManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IUDICO.Security\IUDICO.Security.csproj">
+      <Project>{E300A08B-FEB4-40A6-B2DA-55CF7DC94097}</Project>
+      <Name>IUDICO.Security</Name>
     </ProjectReference>
     <ProjectReference Include="..\IUDICO.Statistics\IUDICO.Statistics.csproj">
       <Project>{A3157C96-0DCC-4B6E-909D-948205118E74}</Project>

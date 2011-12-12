@@ -8,7 +8,7 @@ namespace IUDICO.Common.Models.Services
     {
         #region Curriculum methods
 
-        IEnumerable<Curriculum> GetCurriculums();
+        //IEnumerable<Curriculum> GetCurriculums();
         IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids);
         Curriculum GetCurriculum(int id);
         /// <summary>
