@@ -111,7 +111,7 @@ namespace IUDICO.UnitTests.CurriculumManagement
             };
 
             var mockGroupData = new[] {
-                new Group {Id = 1, Name = "PMI51", Deleted = false}
+                new Group {Id = 1, Name = "PMI51", Deleted = false},new Group {Id = 2, Name = "PMI31", Deleted = false}
             };
 
             var mockGroupUserData = new[] {
@@ -131,6 +131,11 @@ namespace IUDICO.UnitTests.CurriculumManagement
 
             //тут можна засетапити ті зовнішні методи які викликаються в курікулум стораджі
             userService.Setup(s => s.GetCurrentUser()).Returns(mockUserData[0]);
+            userService.Setup(s => s.GetGroups()).Returns(mockGroupData);
+            userService.Setup(s => s.GetGroup(1)).Returns(mockGroupData[0]);
+            userService.Setup(s => s.GetGroup(2)).Returns(mockGroupData[1]);
+            userService.Setup(s => s.GetUsers()).Returns(mockUserData);
+            userService.Setup(s => s.GetGroupsByUser(It.IsAny<User>())).Returns(new[] { mockGroupData[0] });
 
             ClearTables();
         }
