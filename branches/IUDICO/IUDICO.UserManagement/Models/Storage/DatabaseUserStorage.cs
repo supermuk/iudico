@@ -181,6 +181,11 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public void CreateUser(User user)
         {
+            if (UsernameExists(user.Username))
+            {
+                return;
+            }
+
             var db = GetDbContext();
 
             user.Id = Guid.NewGuid();
