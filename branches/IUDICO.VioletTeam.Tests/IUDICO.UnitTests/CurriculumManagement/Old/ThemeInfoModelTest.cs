@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.UnitTests
 {

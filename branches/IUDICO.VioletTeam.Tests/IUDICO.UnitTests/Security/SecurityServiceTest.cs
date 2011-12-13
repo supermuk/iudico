@@ -8,6 +8,7 @@ using System.Web;
 using IUDICO.Common.Models.Services;
 using Castle.Core;
 using IUDICO.Security.Models;
+using IUDICO.Security;
 
 namespace IUDICO.UnitTests.Security
 {

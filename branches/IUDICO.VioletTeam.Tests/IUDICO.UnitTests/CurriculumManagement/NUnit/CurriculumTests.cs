@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
-using Moq;
 using System.Linq;
-using System.Data.Linq;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.Common.Models.Shared.CurriculumManagement;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 {
@@ -54,7 +52,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.AddCurriculum(new Curriculum());
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -63,7 +61,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.AddCurriculum(new Curriculum { });
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -87,7 +85,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetCurriculum(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -98,7 +96,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetCurriculum(ids[0]);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -122,7 +120,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetCurriculums(empty);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -155,7 +153,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.UpdateCurriculum(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -175,7 +173,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 ids.ForEach(i => _Storage.GetCurriculum(i));
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -184,7 +182,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.DeleteCurriculum(ids[0]);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -193,7 +191,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.DeleteCurriculum(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -224,7 +222,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.AddStage(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -233,7 +231,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.AddStage(new Stage { });
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -250,7 +248,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetStage(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -260,7 +258,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetStage(ids[0]);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -280,7 +278,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetStages(ids);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -290,7 +288,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetStages(curriculums[0].Id);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -309,7 +307,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.UpdateStage(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -329,7 +327,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.DeleteStage(ids[0]);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -350,7 +348,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.DeleteStages(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -359,7 +357,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.DeleteStages(ids);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -395,7 +393,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.AddTheme(theme);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -404,7 +402,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.AddTheme(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -429,7 +427,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetTheme(ids[0]);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -438,7 +436,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetTheme(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -459,7 +457,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetThemes(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -480,7 +478,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetThemesByStageId(themes[0].Stage.Id);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -506,7 +504,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetThemesByCurriculumId(curriculums[0].Id);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -558,7 +556,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetThemesByCourseId(course.Id);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -599,7 +597,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetGroupsAssignedToTheme(id1);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -609,7 +607,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetGroupsAssignedToTheme(id);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -661,7 +659,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetThemesAvailableForUser(notExistedUser);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -699,7 +697,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.UpdateTheme(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -723,7 +721,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.DeleteTheme(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -752,7 +750,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetThemes(ids);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -785,7 +783,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.ThemeUp(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -817,7 +815,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.ThemeDown(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -835,6 +833,514 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             int id = _Storage.AddTheme(theme);
             _Storage.DeleteStage(stageId);
             Assert.AreEqual(null, _Storage.GetTheme(id));
+        }
+        #endregion
+        #region CurriculumAssignmentMethods
+        [Test]
+        public void AddCurriculumAssignment()
+        {
+            IUserService userService = _Tests.LmsService.FindService<IUserService>();
+            Group gr = userService.GetGroup(2);
+
+            var curriculums = CreateDefaultData();
+            curriculums.ForEach(item => _Storage.AddCurriculum(item));
+
+            var curriculumAssignments = curriculums.Select(item => new CurriculumAssignment { Curriculum = item, UserGroupRef = gr.Id }).ToList();
+
+            var timelines = curriculumAssignments.Select(item => new Timeline()
+            {
+                CurriculumAssignment = item,
+                StartDate = new DateTime(2011, 1, 1),
+                EndDate = new DateTime(2011, 1, 31)
+            }).ToList();
+            timelines.ForEach(item => _Storage.AddTimeline(item));
+
+            var stages = curriculums.Select(item => new Stage() { Curriculum = item, Name = "Stage" }).ToList();
+            var idsSt = stages.Select(item => _Storage.AddStage(item)).ToList();
+
+            List<Timeline> stageTimeline = new List<Timeline>();
+            for (int i = 0; i < curriculums.Count; ++i)
+            {
+                stageTimeline.Add(new Timeline()
+                {
+                    CurriculumAssignment = curriculumAssignments[i],
+                    StageRef = idsSt[i],
+                    StartDate = new DateTime(2011, 1, 1 + i * 2),
+                    EndDate = new DateTime(2011, 1, 4 + i * 2)
+                });
+            }
+            stageTimeline.ForEach(item => _Storage.AddTimeline(item));
+
+            var ids = curriculumAssignments.Select(item => _Storage.AddCurriculumAssignment(item)).ToList();
+
+            curriculumAssignments.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(curriculumAssignments[i], _Storage.GetCurriculumAssignment(ids[i])));
+
+            try
+            {
+                _Storage.AddCurriculumAssignment(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+            try
+            {
+                _Storage.AddCurriculumAssignment(new CurriculumAssignment());
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void UpdateCurriculumAssignment()
+        {
+            IUserService userService = _Tests.LmsService.FindService<IUserService>();
+            Group gr = userService.GetGroup(2);
+
+            var curriculums = CreateDefaultData();
+            curriculums.ForEach(item => _Storage.AddCurriculum(item));
+
+            var curriculumAssignments = curriculums.Select(item => new CurriculumAssignment { Curriculum = item, UserGroupRef = gr.Id }).ToList();
+            var ids = curriculumAssignments.Select(item => _Storage.AddCurriculumAssignment(item)).ToList();
+
+            curriculumAssignments.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(curriculumAssignments[i], _Storage.GetCurriculumAssignment(ids[i])));
+
+            var timelines = curriculumAssignments.Select(item => new Timeline()
+            {
+                CurriculumAssignment = item,
+                StartDate = new DateTime(2011, 12, 1),
+                EndDate = new DateTime(2011, 12, 31)
+            }).ToList();
+            timelines.ForEach(item => _Storage.AddTimeline(item));
+
+            var stages = curriculums.Select(item => new Stage() { Curriculum = item, Name = "Stage" }).ToList();
+            var idsSt = stages.Select(item => _Storage.AddStage(item)).ToList();
+
+            List<Timeline> stageTimeline = new List<Timeline>();
+            for (int i = 0; i < curriculums.Count; ++i)
+            {
+                stageTimeline.Add(new Timeline()
+                {
+                    CurriculumAssignment = curriculumAssignments[i],
+                    StageRef = idsSt[i],
+                    StartDate = new DateTime(2011, 12, 1 + i * 3),
+                    EndDate = new DateTime(2011, 12, 4 + i * 3)
+                });
+            }
+            stageTimeline.ForEach(item => _Storage.AddTimeline(item));
+
+            var theme = stages.Select(item => new Theme() { Name = "Theme", Stage = item, ThemeType = _Storage.GetThemeType(2) }).ToList();
+            theme.ForEach(item => _Storage.AddTheme(item));
+
+            List<ThemeAssignment> themeAssignments = new List<ThemeAssignment>();
+            for (int i = 0; i < curriculums.Count; ++i)
+            {
+                themeAssignments.Add(new ThemeAssignment()
+                {
+                    CurriculumAssignment = curriculumAssignments[i],
+                    Theme = theme[i],
+                    MaxScore = i * 5
+                });
+            }
+            themeAssignments.ForEach(item => _Storage.AddThemeAssignment(item));
+
+            curriculumAssignments.ForEach(item => _Storage.UpdateCurriculumAssignment(item));
+
+            curriculumAssignments.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(curriculumAssignments[i], _Storage.GetCurriculumAssignment(ids[i])));
+
+            try
+            {
+                _Storage.UpdateCurriculumAssignment(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+            try
+            {
+                _Storage.UpdateCurriculumAssignment(new CurriculumAssignment());
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void DeleteCurriculumAssignment()
+        {
+            IUserService userService = _Tests.LmsService.FindService<IUserService>();
+            Group gr = userService.GetGroup(2);
+
+            var curriculums = CreateDefaultData();
+            curriculums.ForEach(item => _Storage.AddCurriculum(item));
+
+            var curriculumAssignments = curriculums.Select(item => new CurriculumAssignment { Curriculum = item, UserGroupRef = gr.Id }).ToList();
+
+            var timelines = curriculumAssignments.Select(item => new Timeline()
+            {
+                CurriculumAssignment = item,
+                StartDate = new DateTime(2011, 5, 1),
+                EndDate = new DateTime(2011, 5, 31)
+            }).ToList();
+            var idsT = timelines.Select(item => _Storage.AddTimeline(item)).ToList();
+
+            var stages = curriculums.Select(item => new Stage() { Curriculum = item, Name = "Stage" }).ToList();
+            var idsSt = stages.Select(item => _Storage.AddStage(item)).ToList();
+
+            List<Timeline> stageTimeline = new List<Timeline>();
+            for (int i = 0; i < curriculums.Count; ++i)
+            {
+                stageTimeline.Add(new Timeline()
+                {
+                    CurriculumAssignment = curriculumAssignments[i],
+                    StageRef = idsSt[i],
+                    StartDate = new DateTime(2011, 5, 1 + i * 4),
+                    EndDate = new DateTime(2011, 5, 4 + i * 4)
+                });
+            }
+            var idsStT = stageTimeline.Select(item => _Storage.AddTimeline(item)).ToList();
+
+            var theme = stages.Select(item => new Theme() { Name = "Theme", Stage = item, ThemeType = _Storage.GetThemeType(2) }).ToList();
+            theme.ForEach(item => _Storage.AddTheme(item));
+
+            List<ThemeAssignment> themeAssignments = new List<ThemeAssignment>();
+            for (int i = 0; i < curriculums.Count; ++i)
+            {
+                themeAssignments.Add(new ThemeAssignment()
+                {
+                    CurriculumAssignment = curriculumAssignments[i],
+                    Theme = theme[i],
+                    MaxScore = i * 5
+                });
+            }
+            var idsThA = themeAssignments.Select(item => _Storage.AddThemeAssignment(item)).ToList();
+
+
+            var ids = curriculumAssignments.Select(item => _Storage.AddCurriculumAssignment(item)).ToList();
+
+            curriculumAssignments.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(curriculumAssignments[i], _Storage.GetCurriculumAssignment(ids[i])));
+
+
+            curriculumAssignments.ForEach(item => _Storage.DeleteCurriculumAssignment(item.Id));
+
+
+            curriculumAssignments.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => Assert.AreEqual(null, _Storage.GetCurriculumAssignment(ids[i])));
+
+            Assert.AreEqual(0, _Storage.GetStageTimelinesByCurriculumAssignmentId(1).ToList().Count());
+            for (int i = 0; i < stageTimeline.Count; ++i)
+            {
+                for (int j = 0; j < _Storage.GetStageTimelinesByCurriculumAssignmentId(ids[i]).ToList().Count; ++j)
+                {
+                    Assert.AreEqual(null, _Storage.GetStageTimelinesByCurriculumAssignmentId(ids[i]).ToList()[j]);
+                }
+            }
+
+            //themeAssignments.Select((item, i) => i)
+            //    .ToList()
+            //    .ForEach(i => Assert.AreEqual(null, _Storage.GetThemeAssignment(idsThA[i])));
+
+            try
+            {
+                _Storage.DeleteCurriculumAssignment(ids.Max() + 1);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void DeleteCurriculumAssignments()
+        {
+            IUserService userService = _Tests.LmsService.FindService<IUserService>();
+            Group gr = userService.GetGroup(2);
+
+            var curriculums = CreateDefaultData();
+            curriculums.ForEach(item => _Storage.AddCurriculum(item));
+
+            var curriculumAssignments = curriculums.Select(item => new CurriculumAssignment { Curriculum = item, UserGroupRef = gr.Id }).ToList();
+
+            var timelines = curriculumAssignments.Select(item => new Timeline()
+            {
+                CurriculumAssignment = item,
+                StartDate = new DateTime(2011, 5, 1),
+                EndDate = new DateTime(2011, 5, 31)
+            }).ToList();
+            var idsT = timelines.Select(item => _Storage.AddTimeline(item)).ToList();
+
+            var stages = curriculums.Select(item => new Stage() { Curriculum = item, Name = "Stage" }).ToList();
+            var idsSt = stages.Select(item => _Storage.AddStage(item)).ToList();
+
+            List<Timeline> stageTimeline = new List<Timeline>();
+            for (int i = 0; i < curriculums.Count; ++i)
+            {
+                stageTimeline.Add(new Timeline()
+                {
+                    CurriculumAssignment = curriculumAssignments[i],
+                    StageRef = idsSt[i],
+                    StartDate = new DateTime(2011, 5, 1 + i * 4),
+                    EndDate = new DateTime(2011, 5, 4 + i * 4)
+                });
+            }
+            var idsStT = stageTimeline.Select(item => _Storage.AddTimeline(item)).ToList();
+
+            var theme = stages.Select(item => new Theme() { Name = "Theme", Stage = item, ThemeType = _Storage.GetThemeType(2) }).ToList();
+            theme.ForEach(item => _Storage.AddTheme(item));
+
+            List<ThemeAssignment> themeAssignments = new List<ThemeAssignment>();
+            for (int i = 0; i < curriculums.Count; ++i)
+            {
+                themeAssignments.Add(new ThemeAssignment()
+                {
+                    CurriculumAssignment = curriculumAssignments[i],
+                    Theme = theme[i],
+                    MaxScore = i * 5
+                });
+            }
+            var idsThA = themeAssignments.Select(item => _Storage.AddThemeAssignment(item)).ToList();
+
+
+            var ids = curriculumAssignments.Select(item => _Storage.AddCurriculumAssignment(item)).ToList();
+
+            curriculumAssignments.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(curriculumAssignments[i], _Storage.GetCurriculumAssignment(ids[i])));
+
+
+            _Storage.DeleteCurriculumAssignments(ids);
+
+
+            curriculumAssignments.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => Assert.AreEqual(null, _Storage.GetCurriculumAssignment(ids[i])));
+
+            for (int i = 0; i < stageTimeline.Count; ++i)
+            {
+                for (int j = 0; j < _Storage.GetStageTimelinesByCurriculumAssignmentId(ids[i]).ToList().Count; ++j)
+                {
+                    Assert.AreEqual(null, _Storage.GetStageTimelinesByCurriculumAssignmentId(ids[i]).ToList()[j]);
+                }
+            }
+            try
+            {
+                _Storage.DeleteCurriculumAssignments(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void MakeCurriculumAssignmentsInvalid()
+        {
+            IUserService userService = _Tests.LmsService.FindService<IUserService>();
+            Group gr = userService.GetGroup(2);
+            int groupId = gr.Id;
+
+            var curriculums = CreateDefaultData();
+            curriculums.ForEach(item => _Storage.AddCurriculum(item));
+
+            var curriculumAssignments = curriculums.Select(item => new CurriculumAssignment { Curriculum = item, UserGroupRef = gr.Id }).ToList();
+
+            var timelines = curriculumAssignments.Select(item => new Timeline()
+            {
+                CurriculumAssignment = item,
+                StartDate = new DateTime(2011, 5, 1),
+                EndDate = new DateTime(2011, 5, 31)
+            }).ToList();
+            var idsT = timelines.Select(item => _Storage.AddTimeline(item)).ToList();
+
+            var stages = curriculums.Select(item => new Stage() { Curriculum = item, Name = "Stage" }).ToList();
+            var idsSt = stages.Select(item => _Storage.AddStage(item)).ToList();
+
+            List<Timeline> stageTimeline = new List<Timeline>();
+            for (int i = 0; i < curriculums.Count; ++i)
+            {
+                stageTimeline.Add(new Timeline()
+                {
+                    CurriculumAssignment = curriculumAssignments[i],
+                    StageRef = idsSt[i],
+                    StartDate = new DateTime(2011, 7, 1 + i * 5),
+                    EndDate = new DateTime(2011, 7, 4 + i * 5)
+                });
+            }
+            var idsStT = stageTimeline.Select(item => _Storage.AddTimeline(item)).ToList();
+
+            var theme = stages.Select(item => new Theme() { Name = "Theme", Stage = item, ThemeType = _Storage.GetThemeType(2) }).ToList();
+            theme.ForEach(item => _Storage.AddTheme(item));
+
+            List<ThemeAssignment> themeAssignments = new List<ThemeAssignment>();
+            for (int i = 0; i < curriculums.Count; ++i)
+            {
+                themeAssignments.Add(new ThemeAssignment()
+                {
+                    CurriculumAssignment = curriculumAssignments[i],
+                    Theme = theme[i],
+                    MaxScore = i * 5
+                });
+            }
+            var idsThA = themeAssignments.Select(item => _Storage.AddThemeAssignment(item)).ToList();
+
+
+            var ids = curriculumAssignments.Select(item => _Storage.AddCurriculumAssignment(item)).ToList();
+
+            curriculumAssignments.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(curriculumAssignments[i], _Storage.GetCurriculumAssignment(ids[i])));
+
+
+            _Storage.MakeCurriculumAssignmentsInvalid(groupId);
+
+
+            curriculumAssignments.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => Assert.AreEqual(false, _Storage.GetCurriculumAssignment(ids[i]).IsValid));
+
+            try
+            {
+                _Storage.MakeCurriculumAssignmentsInvalid(0);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void GetCurriculumAssignment()
+        {
+            IUserService userService = _Tests.LmsService.FindService<IUserService>();
+            Group gr = userService.GetGroup(2);
+
+            Curriculum cur = new Curriculum() { Name = "Curriculum" };
+            _Storage.AddCurriculum(cur);
+
+            CurriculumAssignment curAss = new CurriculumAssignment() { Curriculum = cur, UserGroupRef = gr.Id };
+            int curAssId = _Storage.AddCurriculumAssignment(curAss);
+
+            AdvAssert.AreEqual(curAss, _Storage.GetCurriculumAssignment(curAssId));
+
+            try
+            {
+                _Storage.GetCurriculumAssignment(0);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void GetCurriculumAssignments()
+        {
+            IUserService userService = _Tests.LmsService.FindService<IUserService>();
+            Group gr = userService.GetGroup(2);
+
+            Curriculum cur = new Curriculum() { Name = "Curriculum" };
+            _Storage.AddCurriculum(cur);
+
+            List<CurriculumAssignment> curAss = new List<CurriculumAssignment>();
+            curAss.Add(new CurriculumAssignment() { Curriculum = cur, UserGroupRef = gr.Id });
+
+            var curAssId = curAss.Select(item => _Storage.AddCurriculumAssignment(item)).ToList();
+
+            Assert.AreEqual(curAss, _Storage.GetCurriculumAssignments(curAssId));
+
+            try
+            {
+                _Storage.GetCurriculumAssignments(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void GetCurriculumAssignmnetsByCurriculumId()
+        {
+            IUserService userService = _Tests.LmsService.FindService<IUserService>();
+            Group gr = userService.GetGroup(2);
+
+            Curriculum cur = new Curriculum() { Name = "Curriculum" };
+            var curId = _Storage.AddCurriculum(cur);
+
+            List<CurriculumAssignment> curAss = new List<CurriculumAssignment>();
+            curAss.Add(new CurriculumAssignment() { Curriculum = cur, UserGroupRef = gr.Id });
+            curAss.ForEach(item => _Storage.AddCurriculumAssignment(item));
+
+            Assert.AreEqual(curAss, _Storage.GetCurriculumAssignmnetsByCurriculumId(curId).ToList());
+
+            try
+            {
+                _Storage.GetCurriculumAssignmnetsByCurriculumId(curId + 1);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void GetCurriculumAssignmentsByGroupId()
+        {
+            IUserService userService = _Tests.LmsService.FindService<IUserService>();
+            Group gr = userService.GetGroup(2);
+            int groupId = gr.Id;
+
+            Curriculum cur = new Curriculum() { Name = "Curriculum" };
+            _Storage.AddCurriculum(cur);
+
+            List<CurriculumAssignment> curAss = new List<CurriculumAssignment>();
+            curAss.Add(new CurriculumAssignment() { Curriculum = cur, UserGroupRef = gr.Id });
+            curAss.ForEach(item => _Storage.AddCurriculumAssignment(item));
+
+            Assert.AreEqual(curAss, _Storage.GetCurriculumAssignmentsByGroupId(groupId).ToList());
+
+            try
+            {
+                _Storage.GetCurriculumAssignmnetsByCurriculumId(groupId + 1);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void GetCurriculumASsignments()
+        {
+            IUserService userService = _Tests.LmsService.FindService<IUserService>();
+            Group gr = userService.GetGroup(2);
+            Group group = userService.GetGroup(1);
+
+            Curriculum cur = new Curriculum() { Name = "Curriculum" };
+            _Storage.AddCurriculum(cur);
+
+            List<CurriculumAssignment> curAss = new List<CurriculumAssignment>();
+            curAss.Add(new CurriculumAssignment() { Curriculum = cur, UserGroupRef = gr.Id });
+            curAss.Add(new CurriculumAssignment() { Curriculum = cur, UserGroupRef = group.Id });
+            curAss.Add(new CurriculumAssignment() { Curriculum = cur, UserGroupRef = gr.Id });
+            curAss.ForEach(item => _Storage.AddCurriculumAssignment(item));
+
+            Assert.AreEqual(curAss, _Storage.GetCurriculumAssignments().ToList());
+
         }
         #endregion
         #region TimelineMethods
@@ -856,7 +1362,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.AddTimeline(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -865,7 +1371,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.AddTimeline(new Timeline { });
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -887,7 +1393,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetTimeline(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -896,8 +1402,8 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         public void GetCurriculumAssignmentTimelines()
         {
             var curriculums = CreateDefaultData();
-            var curriculumAssignment = curriculums.Select((item,i) => new CurriculumAssignment { Curriculum = item, Id = 1 }).ToList();
-            var timelines = curriculumAssignment.Select(item => new Timeline { CurriculumAssignment = item}).ToList();
+            var curriculumAssignment = curriculums.Select((item, i) => new CurriculumAssignment { Curriculum = item, Id = 1 }).ToList();
+            var timelines = curriculumAssignment.Select(item => new Timeline { CurriculumAssignment = item }).ToList();
 
             timelines.ForEach(item => _Storage.AddTimeline(item));
             timelines.Select((item, i) => i)
@@ -909,7 +1415,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetCurriculumAssignmentTimelines(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -922,7 +1428,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             var timelines = curriculumAssignment.Select(item => new Timeline { CurriculumAssignment = item, StageRef = 1 }).ToList();
 
             timelines.ForEach(item => _Storage.AddTimeline(item));
-            
+
             timelines.Select((item, i) => i)
                 .ToList()
                 .ForEach(i => AdvAssert.AreEqual(timelines[i], _Storage.GetStageTimelinesByCurriculumAssignmentId(timelines[i].CurriculumAssignment.Id).ToList()[i]));
@@ -932,7 +1438,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetStageTimelinesByCurriculumAssignmentId(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -955,7 +1461,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetStageTimelinesByStageId(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -978,7 +1484,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetStageTimelines(0, 0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -987,7 +1493,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetStageTimelines(0, timelines[0].CurriculumAssignment.Id);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -996,7 +1502,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetStageTimelines(timelines[0].StageRef.Value, 0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1019,7 +1525,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetTimelines(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1050,7 +1556,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.UpdateTimeline(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1059,7 +1565,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.UpdateTimeline(new Timeline());
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1087,7 +1593,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.DeleteTimeline(5);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1103,7 +1609,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 timelines.Add(new Timeline() { CurriculumAssignment = curriculumAssignment[i], Id = i });
             }
             var ids = timelines.Select(item => _Storage.AddTimeline(item)).ToList();
-  
+
             _Storage.DeleteTimelines(ids);
 
             timelines.Select((item, i) => i)
@@ -1115,7 +1621,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.DeleteTimelines(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1125,8 +1631,8 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         [Test]
         public void AddThemeAssignment()
         {
-            var curriculums = CreateDefaultData();    
-            var stages = curriculums.Select(item => new Stage() {Curriculum = item, Id = 1, Name = "stage"}).ToList();
+            var curriculums = CreateDefaultData();
+            var stages = curriculums.Select(item => new Stage() { Curriculum = item, Id = 1, Name = "stage" }).ToList();
             var theme = stages.Select(item => new Theme() { Stage = item, Name = "theme" }).ToList();
             var themeassignment = theme.Select(item => new ThemeAssignment() { Theme = item }).ToList();
             for (int i = 0; i < themeassignment.Count; ++i)
@@ -1145,7 +1651,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.AddThemeAssignment(new ThemeAssignment());
                 Assert.Fail();
             }
-            catch(Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1154,7 +1660,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.AddThemeAssignment(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1182,7 +1688,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetThemeAssignment(5);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1210,7 +1716,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetThemeAssignmentsByCurriculumAssignmentId(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1235,7 +1741,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetThemeAssignmentsByThemeId(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1260,7 +1766,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetThemeAssignments(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1297,7 +1803,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.UpdateThemeAssignment(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1306,7 +1812,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.UpdateThemeAssignment(new ThemeAssignment());
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
