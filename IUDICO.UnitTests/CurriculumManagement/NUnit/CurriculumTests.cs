@@ -837,5 +837,506 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             Assert.AreEqual(null, _Storage.GetTheme(id));
         }
         #endregion
+        #region TimelineMethods
+        [Test]
+        public void AddTimeline()
+        {
+            var curriculums = CreateDefaultData();
+            var curriculumAssignment = curriculums.Select(item => new CurriculumAssignment { Curriculum = item }).ToList();
+            var timelines = curriculumAssignment.Select(item => new Timeline { CurriculumAssignment = item }).ToList();
+
+            var ids = timelines.Select(item => _Storage.AddTimeline(item)).ToList();
+
+            timelines.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(timelines[i], _Storage.GetTimeline(ids[i])));
+
+            try
+            {
+                _Storage.AddTimeline(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+            try
+            {
+                _Storage.AddTimeline(new Timeline { });
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void GetTimeline()
+        {
+            var curriculums = CreateDefaultData();
+            var curriculumAssignment = curriculums.Select((item, i) => new CurriculumAssignment { Curriculum = item }).ToList();
+            var timelines = curriculumAssignment.Select(item => new Timeline { CurriculumAssignment = item }).ToList();
+
+            timelines.ForEach(item => _Storage.AddTimeline(item));
+            timelines.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(timelines[i], _Storage.GetTimeline(timelines[i].Id)));
+
+            try
+            {
+                _Storage.GetTimeline(0);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void GetCurriculumAssignmentTimelines()
+        {
+            var curriculums = CreateDefaultData();
+            var curriculumAssignment = curriculums.Select((item,i) => new CurriculumAssignment { Curriculum = item, Id = 1 }).ToList();
+            var timelines = curriculumAssignment.Select(item => new Timeline { CurriculumAssignment = item}).ToList();
+
+            timelines.ForEach(item => _Storage.AddTimeline(item));
+            timelines.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(timelines[i], _Storage.GetCurriculumAssignmentTimelines(timelines[i].CurriculumAssignment.Id).ToList()[i]));
+
+            try
+            {
+                _Storage.GetCurriculumAssignmentTimelines(0);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void GetStageTimelinesByCurriculumAssignmentId()
+        {
+            var curriculums = CreateDefaultData();
+            var curriculumAssignment = curriculums.Select((item, i) => new CurriculumAssignment { Curriculum = item, Id = 1 }).ToList();
+            var timelines = curriculumAssignment.Select(item => new Timeline { CurriculumAssignment = item, StageRef = 1 }).ToList();
+
+            timelines.ForEach(item => _Storage.AddTimeline(item));
+            
+            timelines.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(timelines[i], _Storage.GetStageTimelinesByCurriculumAssignmentId(timelines[i].CurriculumAssignment.Id).ToList()[i]));
+
+            try
+            {
+                _Storage.GetStageTimelinesByCurriculumAssignmentId(0);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void GetStageTimelinesByStageId()
+        {
+            var curriculums = CreateDefaultData();
+            var curriculumAssignment = curriculums.Select((item, i) => new CurriculumAssignment { Curriculum = item }).ToList();
+            var timelines = curriculumAssignment.Select(item => new Timeline { CurriculumAssignment = item, StageRef = 1 }).ToList();
+
+            timelines.ForEach(item => _Storage.AddTimeline(item));
+
+            timelines.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(timelines[i], _Storage.GetStageTimelinesByStageId(timelines[i].StageRef.Value).ToList()[i]));
+
+            try
+            {
+                _Storage.GetStageTimelinesByStageId(0);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void GetStageTimelines()
+        {
+            var curriculums = CreateDefaultData();
+            var curriculumAssignment = curriculums.Select((item, i) => new CurriculumAssignment { Curriculum = item, Id = 1 }).ToList();
+            var timelines = curriculumAssignment.Select(item => new Timeline { CurriculumAssignment = item, StageRef = 1 }).ToList();
+
+            timelines.ForEach(item => _Storage.AddTimeline(item));
+
+            timelines.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(timelines[i], _Storage.GetStageTimelines(timelines[i].StageRef.Value, timelines[i].CurriculumAssignment.Id).ToList()[i]));
+
+            try
+            {
+                _Storage.GetStageTimelines(0, 0);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+            try
+            {
+                _Storage.GetStageTimelines(0, timelines[0].CurriculumAssignment.Id);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+            try
+            {
+                _Storage.GetStageTimelines(timelines[0].StageRef.Value, 0);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void GetTimelines()
+        {
+            var curriculums = CreateDefaultData();
+            var curriculumAssignment = curriculums.Select((item, i) => new CurriculumAssignment { Curriculum = item }).ToList();
+            var timelines = curriculumAssignment.Select(item => new Timeline { CurriculumAssignment = item, Id = 1 }).ToList();
+
+            var ids = timelines.Select(item => _Storage.AddTimeline(item)).ToList();
+            Assert.AreEqual(timelines.Count, ids.Count);
+            timelines.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(timelines[i], _Storage.GetTimelines(ids).ToList()[i]));
+
+            try
+            {
+                _Storage.GetTimelines(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void UpdateTimeline()
+        {
+            var curriculums = CreateDefaultData();
+            var curriculumAssignment = curriculums.Select((item, i) => new CurriculumAssignment { Curriculum = item }).ToList();
+            var timelines = curriculumAssignment.Select(item => new Timeline { CurriculumAssignment = item, Id = 1 }).ToList();
+
+            var ids = timelines.Select(item => _Storage.AddTimeline(item)).ToList();
+
+            timelines.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(timelines[i], _Storage.GetTimeline(ids[i])));
+
+            timelines.ForEach(item => item.EndDate = System.DateTime.Now);
+
+            timelines.ForEach(item => _Storage.UpdateTimeline(item));
+
+            timelines.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(timelines[i], _Storage.GetTimeline(ids[i])));
+
+            try
+            {
+                _Storage.UpdateTimeline(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+            try
+            {
+                _Storage.UpdateTimeline(new Timeline());
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void DeleteTimeline()
+        {
+            var curriculums = CreateDefaultData();
+            var curriculumAssignment = curriculums.Select((item, i) => new CurriculumAssignment { Curriculum = item }).ToList();
+            List<Timeline> timelines = new List<Timeline>();
+            for (int i = 0; i < 4; ++i)
+            {
+                timelines.Add(new Timeline() { CurriculumAssignment = curriculumAssignment[i], Id = i });
+            }
+            var ids = timelines.Select(item => _Storage.AddTimeline(item)).ToList();
+
+            timelines.ForEach(item => _Storage.DeleteTimeline(item.Id));
+
+            timelines.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => Assert.AreEqual(null, _Storage.GetTimeline(ids[i])));
+
+            try
+            {
+                _Storage.DeleteTimeline(5);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void DeleteTimelines()
+        {
+            var curriculums = CreateDefaultData();
+            var curriculumAssignment = curriculums.Select((item, i) => new CurriculumAssignment { Curriculum = item }).ToList();
+            List<Timeline> timelines = new List<Timeline>();
+            for (int i = 0; i < 4; ++i)
+            {
+                timelines.Add(new Timeline() { CurriculumAssignment = curriculumAssignment[i], Id = i });
+            }
+            var ids = timelines.Select(item => _Storage.AddTimeline(item)).ToList();
+  
+            _Storage.DeleteTimelines(ids);
+
+            timelines.Select((item, i) => i)
+                    .ToList()
+                    .ForEach(i => Assert.AreEqual(null, _Storage.GetTimeline(ids[i])));
+
+            try
+            {
+                _Storage.DeleteTimelines(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        #endregion
+        #region ThemeAssignmentMethods
+        [Test]
+        public void AddThemeAssignment()
+        {
+            var curriculums = CreateDefaultData();    
+            var stages = curriculums.Select(item => new Stage() {Curriculum = item, Id = 1, Name = "stage"}).ToList();
+            var theme = stages.Select(item => new Theme() { Stage = item, Name = "theme" }).ToList();
+            var themeassignment = theme.Select(item => new ThemeAssignment() { Theme = item }).ToList();
+            for (int i = 0; i < themeassignment.Count; ++i)
+            {
+                themeassignment[i].Id = i;
+            }
+
+            var ids = themeassignment.Select(item => _Storage.AddThemeAssignment(item)).ToList();
+
+            themeassignment.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(themeassignment[i], _Storage.GetThemeAssignment(ids[i])));
+
+            try
+            {
+                _Storage.AddThemeAssignment(new ThemeAssignment());
+                Assert.Fail();
+            }
+            catch(Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+            try
+            {
+                _Storage.AddThemeAssignment(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void GetThemeAssignment()
+        {
+            var curriculums = CreateDefaultData();
+            var stages = curriculums.Select(item => new Stage() { Curriculum = item, Id = 1, Name = "stage" }).ToList();
+            var theme = stages.Select(item => new Theme() { Stage = item, Name = "theme" }).ToList();
+            var themeassignment = theme.Select(item => new ThemeAssignment() { Theme = item }).ToList();
+            for (int i = 0; i < themeassignment.Count; ++i)
+            {
+                themeassignment[i].Id = i;
+            }
+
+            themeassignment.ForEach(item => _Storage.AddThemeAssignment(item));
+
+            themeassignment.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(themeassignment[i], _Storage.GetThemeAssignment(themeassignment[i].Id)));
+
+            try
+            {
+                _Storage.GetThemeAssignment(5);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void GetThemeAssignmentsByCurriculumAssignmentId()
+        {
+            var curriculums = CreateDefaultData();
+            var curriculumsassignment = curriculums.Select(item => new CurriculumAssignment() { Curriculum = item, Id = 1 }).ToList();
+            var stages = curriculums.Select(item => new Stage() { Curriculum = item, Id = 1, Name = "stage" }).ToList();
+            var theme = stages.Select(item => new Theme() { Stage = item, Name = "theme" }).ToList();
+            var themeassignment = theme.Select(item => new ThemeAssignment() { Theme = item }).ToList();
+            for (int i = 0; i < themeassignment.Count; ++i)
+            {
+                themeassignment[i].CurriculumAssignment = curriculumsassignment[i];
+            }
+            themeassignment.ForEach(item => _Storage.AddThemeAssignment(item));
+
+            themeassignment.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(themeassignment[i], _Storage.GetThemeAssignmentsByCurriculumAssignmentId(themeassignment[i].CurriculumAssignment.Id).ToList()[i]));
+
+            try
+            {
+                _Storage.GetThemeAssignmentsByCurriculumAssignmentId(0);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void GetThemeAssignmentsByThemeId()
+        {
+            var curriculums = CreateDefaultData();
+            var stages = curriculums.Select(item => new Stage() { Curriculum = item, Name = "stage" }).ToList();
+            var theme = stages.Select(item => new Theme() { Stage = item, Name = "theme", Id = 1 }).ToList();
+
+            var themeassignment = theme.Select(item => new ThemeAssignment() { Theme = item }).ToList();
+
+            themeassignment.ForEach(item => _Storage.AddThemeAssignment(item));
+
+            themeassignment.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(themeassignment[i], _Storage.GetThemeAssignmentsByThemeId(themeassignment[i].Theme.Id).ToList()[i]));
+
+            try
+            {
+                _Storage.GetThemeAssignmentsByThemeId(0);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void GetThemeAssignments()
+        {
+            var curriculums = CreateDefaultData();
+            var stages = curriculums.Select(item => new Stage() { Curriculum = item, Name = "stage" }).ToList();
+            var theme = stages.Select(item => new Theme() { Stage = item, Name = "theme", Id = 1 }).ToList();
+
+            var themeassignment = theme.Select(item => new ThemeAssignment() { Theme = item }).ToList();
+
+            var ids = themeassignment.Select(item => _Storage.AddThemeAssignment(item)).ToList();
+
+            themeassignment.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(themeassignment[i], _Storage.GetThemeAssignments(ids).ToList()[i]));
+
+            try
+            {
+                _Storage.GetThemeAssignments(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void UpdateThemeAssignment()
+        {
+            var curriculums = CreateDefaultData();
+            var stages = curriculums.Select(item => new Stage() { Curriculum = item, Name = "stage" }).ToList();
+            var theme = stages.Select(item => new Theme() { Stage = item, Name = "theme", Id = 1 }).ToList();
+
+            var themeassignment = theme.Select(item => new ThemeAssignment() { Theme = item }).ToList();
+            for (int i = 0; i < themeassignment.Count; ++i)
+            {
+                themeassignment[i].MaxScore = 20 * i;
+                themeassignment[i].Id = i;
+            }
+            themeassignment.ForEach(item => _Storage.AddThemeAssignment(item));
+
+            themeassignment.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(themeassignment[i], _Storage.GetThemeAssignment(themeassignment[i].Id)));
+
+
+            themeassignment.ForEach(item => item.MaxScore = 0);
+            themeassignment.ForEach(item => _Storage.UpdateThemeAssignment(item));
+
+            themeassignment.Select((item, i) => i)
+               .ToList()
+               .ForEach(i => AdvAssert.AreEqual(themeassignment[i], _Storage.GetThemeAssignment(themeassignment[i].Id)));
+
+            try
+            {
+                _Storage.UpdateThemeAssignment(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+            try
+            {
+                _Storage.UpdateThemeAssignment(new ThemeAssignment());
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+        [Test]
+        public void DeleteThemeAssignments()
+        {
+            var curriculums = CreateDefaultData();
+            var stages = curriculums.Select(item => new Stage() { Curriculum = item, Name = "stage" }).ToList();
+            var theme = stages.Select(item => new Theme() { Stage = item, Name = "theme", Id = 1 }).ToList();
+
+            var themeassignment = theme.Select(item => new ThemeAssignment() { Theme = item }).ToList();
+            for (int i = 0; i < themeassignment.Count; ++i)
+            {
+                themeassignment[i].Id = i;
+            }
+            var ids = themeassignment.Select(item => _Storage.AddThemeAssignment(item)).ToList();
+
+            themeassignment.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(themeassignment[i], _Storage.GetThemeAssignment(ids[i])));
+
+            _Storage.DeleteThemeAssignments(ids);
+
+            themeassignment.Select((item, i) => i)
+               .ToList()
+               .ForEach(i => Assert.AreEqual(null, _Storage.GetThemeAssignment(ids[i])));
+
+        }
+        #endregion
+    }
     }
 }
