@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Data.Linq;
 using System.Linq;
-using System.Xml.Linq;
 using IUDICO.Common.Models;
-using IUDICO.Common.Models.Interfaces;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
-using IUDICO.CourseManagement.Models.Storage;
 using IUDICO.UserManagement.Models.Storage;
 using Moq;
 using Moq.Protected;
+using IUDICO.CourseManagement.Models;
+using IUDICO.CourseManagement.Models.Storage;
 
 namespace IUDICO.UnitTests.CourseManagement.NUnit
 {
@@ -93,6 +92,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             MockDataContext = new Mock<IDataContext>();
             MockLmsService = new Mock<ILmsService>();
             MockStorage = new Mock<DatabaseUserStorage>(MockLmsService.Object);
+            //MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(MockDataContext.Object);
 
             //Storage = new DatabaseUserStorage(MockLmsService.Object);
 
@@ -266,7 +266,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             var mockNodes = new MockableTable<Node>(Nodes.Object, mockNodeData.AsQueryable());
             var mockNodeResources = new MockableTable<NodeResource>(NodeResources.Object, mockNodeResourceData.AsQueryable());
 
-            MockDataContext.SetupGet(c => c.Users).Returns(mockUsers);
+            //MockDataContext.SetupGet(c => c.Users).Returns(mockUsers);
             MockDataContext.SetupGet(c => c.Courses).Returns(mockCourses);
             MockDataContext.SetupGet(c => c.CourseUsers).Returns(mockCourseUsers);
             MockDataContext.SetupGet(c => c.Nodes).Returns(mockNodes);

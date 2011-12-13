@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared.Statistics;
+using IUDICO.Common.Models.Shared;
 
 namespace TestProject1
 {
@@ -73,8 +74,8 @@ namespace TestProject1
         [TestMethod()]
         public void CalculateSpecializedResultTest()
         {
-            IUDICO.Common.Models.User usr = new IUDICO.Common.Models.User() { Username = "Bob" };
-            IUDICO.Common.Models.Theme thm = new IUDICO.Common.Models.Theme() { Name = "Theme One" };
+            User usr = new User() { Username = "Bob" };
+            Theme thm = new Theme() { Name = "Theme One" };
             IUDICO.Common.Models.Shared.Statistics.AttemptResult AR = new IUDICO.Common.Models.Shared.Statistics.AttemptResult(1, usr, thm, IUDICO.Common.Models.Shared.Statistics.CompletionStatus.Completed, IUDICO.Common.Models.Shared.Statistics.AttemptStatus.Completed, IUDICO.Common.Models.Shared.Statistics.SuccessStatus.Passed, DateTime.Now, 0.5f);
 
             ThemeResult themeRes = new ThemeResult(usr, thm);

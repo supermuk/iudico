@@ -13,9 +13,9 @@ namespace IUDICO.CurriculumManagement.Models.Storage
     public class MixedCurriculumStorage : ICurriculumStorage
     {
         private readonly ILmsService _LmsService;
-        private DBDataContext _Db;
+        private IDataContext _Db;
 
-        protected DBDataContext GetDbDataContext()
+        protected virtual IDataContext GetDbContext()
         {
             return new DBDataContext();
         }
@@ -33,7 +33,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public void RefreshState()
         {
             //db = new DBDataContext(lmsService.GetDbConnectionString());
-            _Db = new DBDataContext();
+            _Db = GetDbContext();// new DBDataContext();
         }
 
         public User GetCurrentUser()
@@ -245,7 +245,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #region Theme methods
 
-        private Theme GetTheme(int id, DBDataContext db)
+        private Theme GetTheme(int id, IDataContext db)
         {
             return db.Themes.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
         }
@@ -334,7 +334,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public int AddTheme(Theme theme)
         {
-            var db = GetDbDataContext();
+            var db = GetDbContext();
 
             theme.Created = DateTime.Now;
             theme.Updated = DateTime.Now;
@@ -357,7 +357,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public void UpdateTheme(Theme theme)
         {
-            var db = GetDbDataContext();
+            var db = GetDbContext();
             try
             {
                 var oldTheme = GetTheme(theme.Id, db);
@@ -392,7 +392,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public void DeleteTheme(int id)
         {
-            var db = GetDbDataContext();
+            var db = GetDbContext();
 
             var theme = GetTheme(id, db);
 

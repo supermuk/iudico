@@ -102,6 +102,7 @@
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Localization.cs" />
     <Compile Include="Models\DBDataContext.cs" />
+    <Compile Include="Models\IDataContext.cs" />
     <Compile Include="Models\ManifestModels\ManifestManager.cs" />
     <Compile Include="Helpers\PackageValidator.cs" />
     <Compile Include="Helpers\Zipper.cs" />
