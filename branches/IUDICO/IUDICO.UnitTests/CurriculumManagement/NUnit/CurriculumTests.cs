@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
-using Moq;
 using System.Linq;
-using System.Data.Linq;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.Common.Models.Shared.CurriculumManagement;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 {
@@ -54,7 +52,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.AddCurriculum(new Curriculum());
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -63,7 +61,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.AddCurriculum(new Curriculum { });
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -87,7 +85,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetCurriculum(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -98,7 +96,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetCurriculum(ids[0]);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -122,7 +120,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetCurriculums(empty);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -155,7 +153,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.UpdateCurriculum(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -175,7 +173,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 ids.ForEach(i => _Storage.GetCurriculum(i));
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -184,7 +182,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.DeleteCurriculum(ids[0]);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -193,7 +191,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.DeleteCurriculum(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -224,7 +222,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.AddStage(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -233,7 +231,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.AddStage(new Stage { });
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -250,7 +248,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetStage(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -260,7 +258,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetStage(ids[0]);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -280,7 +278,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetStages(ids);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -290,7 +288,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetStages(curriculums[0].Id);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -309,7 +307,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.UpdateStage(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -329,7 +327,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.DeleteStage(ids[0]);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -350,7 +348,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.DeleteStages(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -359,7 +357,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.DeleteStages(ids);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -395,7 +393,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.AddTheme(theme);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -404,7 +402,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.AddTheme(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -429,7 +427,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetTheme(ids[0]);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -438,7 +436,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetTheme(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -459,7 +457,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetThemes(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -480,7 +478,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetThemesByStageId(themes[0].Stage.Id);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -506,7 +504,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetThemesByCurriculumId(curriculums[0].Id);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -558,7 +556,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetThemesByCourseId(course.Id);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -599,7 +597,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetGroupsAssignedToTheme(id1);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -609,7 +607,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetGroupsAssignedToTheme(id);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -661,7 +659,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetThemesAvailableForUser(notExistedUser);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -699,7 +697,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.UpdateTheme(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -723,7 +721,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.DeleteTheme(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -752,7 +750,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetThemes(ids);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -785,7 +783,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.ThemeUp(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -817,7 +815,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.ThemeDown(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.True(true);
             }
@@ -856,7 +854,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.AddTimeline(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -865,7 +863,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.AddTimeline(new Timeline { });
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -887,7 +885,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetTimeline(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -896,8 +894,8 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         public void GetCurriculumAssignmentTimelines()
         {
             var curriculums = CreateDefaultData();
-            var curriculumAssignment = curriculums.Select((item,i) => new CurriculumAssignment { Curriculum = item, Id = 1 }).ToList();
-            var timelines = curriculumAssignment.Select(item => new Timeline { CurriculumAssignment = item}).ToList();
+            var curriculumAssignment = curriculums.Select((item, i) => new CurriculumAssignment { Curriculum = item, Id = 1 }).ToList();
+            var timelines = curriculumAssignment.Select(item => new Timeline { CurriculumAssignment = item }).ToList();
 
             timelines.ForEach(item => _Storage.AddTimeline(item));
             timelines.Select((item, i) => i)
@@ -909,7 +907,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetCurriculumAssignmentTimelines(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -922,7 +920,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             var timelines = curriculumAssignment.Select(item => new Timeline { CurriculumAssignment = item, StageRef = 1 }).ToList();
 
             timelines.ForEach(item => _Storage.AddTimeline(item));
-            
+
             timelines.Select((item, i) => i)
                 .ToList()
                 .ForEach(i => AdvAssert.AreEqual(timelines[i], _Storage.GetStageTimelinesByCurriculumAssignmentId(timelines[i].CurriculumAssignment.Id).ToList()[i]));
@@ -932,7 +930,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetStageTimelinesByCurriculumAssignmentId(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -955,7 +953,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetStageTimelinesByStageId(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -978,7 +976,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetStageTimelines(0, 0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -987,7 +985,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetStageTimelines(0, timelines[0].CurriculumAssignment.Id);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -996,7 +994,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetStageTimelines(timelines[0].StageRef.Value, 0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1019,7 +1017,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetTimelines(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1050,7 +1048,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.UpdateTimeline(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1059,7 +1057,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.UpdateTimeline(new Timeline());
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1087,7 +1085,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.DeleteTimeline(5);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1103,7 +1101,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 timelines.Add(new Timeline() { CurriculumAssignment = curriculumAssignment[i], Id = i });
             }
             var ids = timelines.Select(item => _Storage.AddTimeline(item)).ToList();
-  
+
             _Storage.DeleteTimelines(ids);
 
             timelines.Select((item, i) => i)
@@ -1115,7 +1113,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.DeleteTimelines(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1125,8 +1123,8 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         [Test]
         public void AddThemeAssignment()
         {
-            var curriculums = CreateDefaultData();    
-            var stages = curriculums.Select(item => new Stage() {Curriculum = item, Id = 1, Name = "stage"}).ToList();
+            var curriculums = CreateDefaultData();
+            var stages = curriculums.Select(item => new Stage() { Curriculum = item, Id = 1, Name = "stage" }).ToList();
             var theme = stages.Select(item => new Theme() { Stage = item, Name = "theme" }).ToList();
             var themeassignment = theme.Select(item => new ThemeAssignment() { Theme = item }).ToList();
             for (int i = 0; i < themeassignment.Count; ++i)
@@ -1145,7 +1143,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.AddThemeAssignment(new ThemeAssignment());
                 Assert.Fail();
             }
-            catch(Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1154,7 +1152,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.AddThemeAssignment(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1182,7 +1180,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetThemeAssignment(5);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1210,7 +1208,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetThemeAssignmentsByCurriculumAssignmentId(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1235,7 +1233,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetThemeAssignmentsByThemeId(0);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1260,7 +1258,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.GetThemeAssignments(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1297,7 +1295,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.UpdateThemeAssignment(null);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
@@ -1306,7 +1304,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 _Storage.UpdateThemeAssignment(new ThemeAssignment());
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }

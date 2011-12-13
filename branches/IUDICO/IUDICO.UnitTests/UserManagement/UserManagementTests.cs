@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Data.Linq;
 using IUDICO.Common.Models;
-using IUDICO.Common.Models.Interfaces;
 using IUDICO.Common.Models.Services;
 using IUDICO.UserManagement.Models.Storage;
 using Moq;
 using Moq.Protected;
 using IUDICO.Common.Models.Shared;
+using IUDICO.UserManagement.Models;
 
 namespace IUDICO.UnitTests.UserManagement
 {
