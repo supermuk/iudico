@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.Linq;
-using System.Linq;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Interfaces;
 using IUDICO.Common.Models.Services;
@@ -105,8 +104,8 @@ namespace IUDICO.UnitTests.UserManagement
         public void Setup()
         {
 //            MockLmsService.Setup(l => l.GetIDataContext()).Returns(MockDataContext.Object);
-//            MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(MockDataContext.Object);
-            //MockStorage.Setup(s => s.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+            MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(MockDataContext.Object);
+//            MockStorage.Setup(s => s.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(true);
         }
 
         public void SetupTables()
