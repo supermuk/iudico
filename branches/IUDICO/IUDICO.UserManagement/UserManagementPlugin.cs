@@ -10,7 +10,6 @@ using IUDICO.UserManagement.Models.Storage;
 using IUDICO.UserManagement.Models;
 using Castle.Windsor;
 using Castle.MicroKernel.SubSystems.Configuration;
-using IUDICO.Common;
 
 namespace IUDICO.UserManagement
 {

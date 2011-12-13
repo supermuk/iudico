@@ -209,6 +209,13 @@ namespace IUDICO.UserManagement.Models.Storage
 
                 foreach (var record in reader.DataRecords)
                 {
+                    var username = record.GetValueOrNull("Username");
+
+                    if (UsernameExists(username))
+                    {
+                        continue;
+                    }
+
                     var role = (int) Enum.Parse(typeof (Role), record.GetValueOrNull("Role") ?? "Student");
                     var password = record.GetValueOrNull("Password");
 
@@ -220,7 +227,7 @@ namespace IUDICO.UserManagement.Models.Storage
                     var user = new User
                                    {
                                        Id = Guid.NewGuid(),
-                                       Username = record.GetValueOrNull("Username"),
+                                       Username = username,
                                        Password = EncryptPassword(password),
                                        Email = record.GetValueOrNull("Email") ?? string.Empty,
                                        Name = record.GetValueOrNull("Name") ?? string.Empty,
