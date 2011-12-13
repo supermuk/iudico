@@ -1843,5 +1843,50 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 
         }
         #endregion
+        #region ReactionToDeleting
+        [Test]
+        public void DeletingGroup()
+        {
+            Group gr = _Tests.UserStorage.GetGroup(1);
+            Curriculum cur = new Curriculum() { Name = "Curriculum" };
+            var id = _Storage.AddCurriculum(cur);
+
+            CurriculumAssignment ass = new CurriculumAssignment() { Curriculum = cur, UserGroupRef = gr.Id };
+            _Storage.AddCurriculumAssignment(ass);
+
+            _Tests.UserStorage.DeleteGroup(gr.Id);
+            cur.IsValid = false;
+            _Storage.UpdateCurriculum(cur);
+            Curriculum c = new Curriculum();
+
+            Assert.AreEqual(false, _Storage.GetCurriculum(id).IsValid);
+        }
+        [Test]
+        public void DeletingUser()
+        {
+            Guid g = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
+            User us = _Tests.UserStorage.GetUser(item => item.Id == g);
+            Curriculum cur = new Curriculum() { Name = "Curriculum", Owner = us.Username };
+            var id = _Storage.AddCurriculum(cur);
+
+            _Tests.UserStorage.DeleteUser(item => item.Id == us.Id);
+            Assert.AreEqual(false, _Storage.GetCurriculum(id).IsValid);
+        }
+        [Test]
+        public void DeleteCourse()
+        {
+            Course course = _Tests.CourseStorage.GetCourse(1);
+            Curriculum cur = new Curriculum() { Name = "Curriculum" };
+            var currId= _Storage.AddCurriculum(cur);
+            CurriculumAssignment as1 = new CurriculumAssignment() { Curriculum = cur, UserGroupRef = 1 };
+            _Storage.AddCurriculumAssignment(as1);
+            Stage st = new Stage() { Name = "Stage", Curriculum = cur };
+            var stageId = _Storage.AddStage(st);
+            Theme theme = new Theme() { Name = "Theme", Stage = st, ThemeType = _Storage.GetThemeType(1), CourseRef=course.Id };
+            _Storage.AddTheme(theme);
+            _Tests.CourseStorage.DeleteCourse(course.Id);
+            Assert.AreEqual(false, _Storage.GetCurriculum(currId).IsValid);
+        }
+        #endregion
     }
 }
