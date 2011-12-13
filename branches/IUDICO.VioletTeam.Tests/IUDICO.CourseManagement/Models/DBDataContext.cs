@@ -9,7 +9,7 @@ using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.CourseManagement.Models
 {
-    public partial class DBDataContext : System.Data.Linq.DataContext
+    public partial class DBDataContext : System.Data.Linq.DataContext, IDataContext
     {
 
         private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
@@ -90,6 +90,26 @@ namespace IUDICO.CourseManagement.Models
             {
                 return this.GetTable<NodeResource>();
             }
+        }
+
+        IMockableTable<Course> IDataContext.Courses
+        {
+            get { return new MockableTable<Course>(Courses); }
+        }
+
+        IMockableTable<CourseUser> IDataContext.CourseUsers
+        {
+            get { return new MockableTable<CourseUser>(CourseUsers); }
+        }
+
+        IMockableTable<Node> IDataContext.Nodes
+        {
+            get { return new MockableTable<Node>(Nodes); }
+        }
+
+        IMockableTable<NodeResource> IDataContext.NodeResources
+        {
+            get { return new MockableTable<NodeResource>(NodeResources); }
         }
     }
 }
