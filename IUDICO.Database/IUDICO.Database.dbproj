@@ -312,12 +312,6 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_User_User.fkey.sql">
       <SubType>Code</SubType>
     </Build>
-    <Build Include="Schema Objects\Database Level Objects\Storage\Files\IUDICO_log_1.sqlfile.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Database Level Objects\Storage\Files\IUDICO_1.sqlfile.sql">
-      <SubType>Code</SubType>
-    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_ImageResources_CourseId.fkey.sql">
       <SubType>Code</SubType>
     </Build>
