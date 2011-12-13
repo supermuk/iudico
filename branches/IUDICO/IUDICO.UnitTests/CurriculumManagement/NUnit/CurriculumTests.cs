@@ -1338,5 +1338,4 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         }
         #endregion
     }
-    }
 }
