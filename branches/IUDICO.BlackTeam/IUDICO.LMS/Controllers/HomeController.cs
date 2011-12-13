@@ -47,13 +47,14 @@ namespace IUDICO.LMS.Controllers
                 ThemesDescriptions = GetThemesDescriptions()
             });
 
+            
             //return View(new Dictionary<IPlugin, IEnumerable<Action>>(MvcApplication.Actions));
         }
 
         public ActionResult Error()
         {
-            //log4net.ILog log = log4net.LogManager.GetLogger(typeof(HomeController));
-            //log.Error(HttpContext.Server.GetLastError().Message);
+            /*log4net.ILog log = log4net.LogManager.GetLogger(typeof(HomeController));
+            log.Error(HttpContext.Server.GetLastError().Message);*/
             return View();
         }
     }
