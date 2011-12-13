@@ -148,8 +148,11 @@ namespace IUDICO.Security.Models.Storages.Database
         {
             using (var context = NewContext())
             {
-                context.Computers.Attach(computer, true);
-                context.Computers.DeleteOnSubmit(computer);
+                var _computer = context.Computers.FirstOrDefault(c => c.IpAddress == computer.IpAddress);
+                if (_computer != null)
+                {
+                    context.Computers.DeleteOnSubmit(_computer);
+                }
 
                 context.SubmitChanges();
             }
