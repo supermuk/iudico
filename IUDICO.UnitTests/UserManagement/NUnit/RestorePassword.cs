@@ -17,8 +17,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             var password = _Tests.DataContext.Users.Where(u => u.Username == "panza").Single().Password;
 
             _Tests.Storage.RestorePassword(model);
-
-            _Tests.MockDataContext.Verify(d => d.SubmitChanges());
+            
             _Tests.MockStorage.Verify(u => u.SendEmail(It.IsAny<string>(), It.Is<string>(s => s == "ipetrovych@gmail.com"), It.IsAny<string>(), It.IsAny<string>()), Times.Once());
             var newpassword = _Tests.DataContext.Users.Where(u => u.Username == "panza").Single().Password;
 
