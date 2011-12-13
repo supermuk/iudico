@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
+using IUDICO.Common.Models.Shared.CurriculumManagement;
 
 namespace IUDICO.UnitTests
 {
@@ -199,6 +200,29 @@ namespace IUDICO.UnitTests
                 {
                     Assert.Fail(String.Format("Item with id={0} doesn't exist in actual collection, but expected in expected collection",
                         expectedItem.Id));
+                }
+            }
+        }
+        public static void AreEqual(ThemeDescription expected, ThemeDescription actual)
+        {
+            Assert.AreEqual(expected.Theme, actual.Theme);
+            Assert.AreEqual(expected.Stage, actual.Stage);
+            Assert.AreEqual(expected.Curriculum, actual.Curriculum);
+            AdvAssert.AreEqual(expected.Timelines, actual.Timelines);
+        }
+        public static void AreEqual(IEnumerable<ThemeDescription> expected, IEnumerable<ThemeDescription> actual)
+        {
+            Assert.AreEqual(expected.ToList().Count, actual.ToList().Count);
+            foreach (ThemeDescription exp in expected)
+            {
+                ThemeDescription act = actual.SingleOrDefault(item => item.Theme == exp.Theme);
+                if (act != null)
+                {
+                    AreEqual(exp, act);
+                }
+                else
+                {
+                    Assert.Fail("Expected theme description with theme={0} doesn't exists in actual collection", exp.Theme);
                 }
             }
         }
