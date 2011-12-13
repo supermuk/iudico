@@ -171,6 +171,8 @@
     <Content Include="Scripts\lms.js" />
     <Content Include="Views\Shared\EditorTemplates\RollupRules.ascx" />
     <Content Include="Views\Shared\Properties.ascx" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="Content\Tree\themes\apple\bg.jpg" />
     <None Include="Content\Tree\themes\apple\d.png" />
     <None Include="Content\Tree\themes\apple\dot_for_ie.gif" />
