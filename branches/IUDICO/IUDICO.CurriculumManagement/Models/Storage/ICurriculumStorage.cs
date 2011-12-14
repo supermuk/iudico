@@ -12,7 +12,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
     {
         #region External methods
 
-        void RefreshState();
+        //void RefreshState();
         User GetCurrentUser();
         IEnumerable<Course> GetCourses();
         Course GetCourse(int id);

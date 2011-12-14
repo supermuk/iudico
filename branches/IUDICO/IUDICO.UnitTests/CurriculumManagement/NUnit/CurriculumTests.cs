@@ -38,7 +38,6 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             _Tests.ClearTables();
         }
 
-
         #region CurriculumMethodsTests
         [Test]
         public void AddCurriculum()
@@ -209,6 +208,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             Assert.AreEqual(false, _Storage.GetCurriculum(id).IsValid);
         }
         #endregion
+
         #region StageMethodsTests
         [Test]
         public void AddStage()
@@ -373,6 +373,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             Assert.AreEqual(null, _Storage.GetStage(stageId));
         }
         #endregion
+
         #region ThemeMethodsTests
         [Test]
         public void AddTheme()
@@ -835,6 +836,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             Assert.AreEqual(null, _Storage.GetTheme(id));
         }
         #endregion
+
         #region CurriculumAssignmentMethods
         [Test]
         public void AddCurriculumAssignment()
@@ -1343,6 +1345,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 
         }
         #endregion
+
         #region TimelineMethods
         [Test]
         public void AddTimeline()
@@ -1627,6 +1630,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             }
         }
         #endregion
+
         #region ThemeAssignmentMethods
         [Test]
         public void AddThemeAssignment()
@@ -1843,6 +1847,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 
         }
         #endregion
+
         #region ReactionToDeleting
         [Test]
         public void DeletingGroup()

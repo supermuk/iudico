@@ -13,7 +13,6 @@ namespace IUDICO.CurriculumManagement.Models.Storage
     public class MixedCurriculumStorage : ICurriculumStorage
     {
         private readonly ILmsService _LmsService;
-        private IDataContext _Db;
 
         protected virtual IDataContext GetDbContext()
         {
@@ -23,18 +22,12 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public MixedCurriculumStorage(ILmsService lmsService)
         {
             _LmsService = lmsService;
-            RefreshState();
+            //RefreshState();
         }
 
         #region IStorageInterface Members
 
         #region External methods
-
-        public void RefreshState()
-        {
-            //db = new DBDataContext(lmsService.GetDbConnectionString());
-            _Db = GetDbContext();// new DBDataContext();
-        }
 
         public User GetCurrentUser()
         {
@@ -75,32 +68,38 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #region Curriculum methods
 
+        private Curriculum GetCurriculum(IDataContext db, int id)
+        {
+            return db.Curriculums.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
+        }
+
         public Curriculum GetCurriculum(int id)
         {
-            return _Db.Curriculums.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
-            //return GetDbDataContext().Curriculums.Single(item => item.Id == id && !item.IsDeleted);
+            //return _Db.Curriculums.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
+            return GetCurriculum(GetDbContext(), id);
         }
 
         public IEnumerable<Curriculum> GetCurriculums()
         {
-            return _Db.Curriculums.Where(item => !item.IsDeleted).ToList();
-            //return GetDbDataContext().Curriculums.Where(item => !item.IsDeleted);
+            //return _Db.Curriculums.Where(item => !item.IsDeleted).ToList();
+            return GetDbContext().Curriculums.Where(item => !item.IsDeleted).ToList();
         }
 
         public IEnumerable<Curriculum> GetCurriculums(User owner)
         {
-            return _Db.Curriculums.Where(item => !item.IsDeleted && item.Owner == owner.Username).ToList();
-            //return GetDbDataContext().Curriculums.Where(item => !item.IsDeleted);
+            //return _Db.Curriculums.Where(item => !item.IsDeleted && item.Owner == owner.Username).ToList();
+            return GetDbContext().Curriculums.Where(item => !item.IsDeleted).ToList();
         }
 
         public IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids)
         {
-            return _Db.Curriculums.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
+            //return _Db.Curriculums.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
+            return GetDbContext().Curriculums.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
         }
 
         public IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId)
         {
-            return GetCurriculumAssignmentsByGroupId(groupId).Select(item => item.Curriculum);
+            return GetCurriculumAssignmentsByGroupId(groupId).Select(item => item.Curriculum).ToList();
         }
 
         //TODO:what the fuckin method?
@@ -111,36 +110,41 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 .ToList();
             return GetCurriculums(user) //?
                 .Where(item => GetThemesByCurriculumId(item.Id)
-                             .Any(theme => courseIds.Contains(theme.CourseRef ?? Constants.NoCourseId)));
+                             .Any(theme => courseIds.Contains(theme.CourseRef ?? Constants.NoCourseId)))
+                             .ToList();
         }
 
         public int AddCurriculum(Curriculum curriculum)
         {
+            var db = GetDbContext();
+
             curriculum.Created = DateTime.Now;
             curriculum.Updated = DateTime.Now;
             curriculum.IsDeleted = false;
             curriculum.IsValid = true;
             curriculum.Owner = GetCurrentUser().Username;
 
-            _Db.Curriculums.InsertOnSubmit(curriculum);
-            _Db.SubmitChanges();
+            db.Curriculums.InsertOnSubmit(curriculum);
+            db.SubmitChanges();
 
             return curriculum.Id;
         }
 
         public void UpdateCurriculum(Curriculum curriculum)
         {
-            var oldCurriculum = GetCurriculum(curriculum.Id);
+            var db = GetDbContext();
+            var oldCurriculum = GetCurriculum(db, curriculum.Id);
 
             oldCurriculum.Name = curriculum.Name;
             oldCurriculum.Updated = DateTime.Now;
 
-            _Db.SubmitChanges();
+            db.SubmitChanges();
         }
 
         public void DeleteCurriculum(int id)
         {
-            var curriculum = GetCurriculum(id);
+            var db = GetDbContext();
+            var curriculum = GetCurriculum(db, id);
 
             //delete stages
             var stageIds = GetStages(id).Select(item => item.Id);
@@ -151,7 +155,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             DeleteCurriculumAssignments(curriculumAssignmentIds);
 
             curriculum.IsDeleted = true;
-            _Db.SubmitChanges();
+            db.SubmitChanges();
         }
 
         public void DeleteCurriculums(IEnumerable<int> ids)
@@ -164,59 +168,69 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public void MakeCurriculumInvalid(int courseId)
         {
+            var db = GetDbContext();
             var themeIds = GetThemesByCourseId(courseId).Select(item => item.Id);
-            var curriculums = _Db.Curriculums.Where(item => themeIds.Contains(item.Id) && !item.IsDeleted);
+            var curriculums = db.Curriculums.Where(item => themeIds.Contains(item.Id) && !item.IsDeleted);
             foreach (Curriculum curriculum in curriculums)
             {
                 curriculum.IsValid = false;
             }
-            _Db.SubmitChanges();
+            db.SubmitChanges();
         }
 
         #endregion
 
         #region Stage methods
 
-        public IEnumerable<Stage> GetStages(int curriculumId)
+        private Stage GetStage(IDataContext db, int id)
         {
-            return _Db.Stages.Where(item => item.CurriculumRef == curriculumId && !item.IsDeleted);
-        }
-
-        public IEnumerable<Stage> GetStages(IEnumerable<int> ids)
-        {
-            return _Db.Stages.Where(item => ids.Contains(item.Id) && !item.IsDeleted);
+            return db.Stages.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
         }
 
         public Stage GetStage(int id)
         {
-            return _Db.Stages.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
+            return GetStage(GetDbContext(), id);
+            //return GetDbContext().Stages.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
+        }
+
+        public IEnumerable<Stage> GetStages(int curriculumId)
+        {
+            return GetDbContext().Stages.Where(item => item.CurriculumRef == curriculumId && !item.IsDeleted).ToList();
+        }
+
+        public IEnumerable<Stage> GetStages(IEnumerable<int> ids)
+        {
+            return GetDbContext().Stages.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
         }
 
         public int AddStage(Stage stage)
         {
+            var db = GetDbContext();
             stage.Created = DateTime.Now;
             stage.Updated = DateTime.Now;
             stage.IsDeleted = false;
 
-            _Db.Stages.InsertOnSubmit(stage);
-            _Db.SubmitChanges();
+            db.Stages.InsertOnSubmit(stage);
+            db.SubmitChanges();
 
             return stage.Id;
         }
 
         public void UpdateStage(Stage stage)
         {
-            Stage oldStage = GetStage(stage.Id);
+            var db = GetDbContext();
+            Stage oldStage = GetStage(db, stage.Id);
 
             oldStage.Name = stage.Name;
             oldStage.Updated = DateTime.Now;
 
-            _Db.SubmitChanges();
+            db.SubmitChanges();
         }
 
         public void DeleteStage(int id)
         {
-            var stage = GetStage(id);
+            var db = GetDbContext();
+            var stage = GetStage(db, id);
 
             //delete themes
             var themeIds = GetThemesByStageId(id).Select(item => item.Id);
@@ -230,7 +244,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             }
 
             stage.IsDeleted = true;
-            _Db.SubmitChanges();
+            db.SubmitChanges();
         }
 
         public void DeleteStages(IEnumerable<int> ids)
@@ -245,39 +259,44 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #region Theme methods
 
-        private Theme GetTheme(int id, IDataContext db)
+        private Theme GetTheme(IDataContext db, int id)
         {
             return db.Themes.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
         }
 
         public Theme GetTheme(int id)
         {
-            return _Db.Themes.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
+            return GetTheme(GetDbContext(), id);
         }
 
         public IEnumerable<Theme> GetThemes(IEnumerable<int> ids)
         {
-            return _Db.Themes.Where(item => ids.Contains(item.Id) && !item.IsDeleted).OrderBy(item => item.SortOrder);
+            return GetDbContext().Themes.Where(item => ids.Contains(item.Id) && !item.IsDeleted).OrderBy(item => item.SortOrder).ToList();
+        }
+
+        private IEnumerable<Theme> GetThemesByStageId(IDataContext db, int stageId)
+        {
+            return db.Themes.Where(item => item.StageRef == stageId && !item.IsDeleted).OrderBy(item => item.SortOrder).ToList();
         }
 
         public IEnumerable<Theme> GetThemesByStageId(int stageId)
         {
-            return _Db.Themes.Where(item => item.StageRef == stageId && !item.IsDeleted).OrderBy(item => item.SortOrder);
+            return GetThemesByStageId(GetDbContext(), stageId);
         }
 
         public IEnumerable<Theme> GetThemesByCurriculumId(int curriculumId)
         {
-            return GetStages(GetCurriculum(curriculumId).Id).SelectMany(item => GetThemesByStageId(item.Id));
+            return GetStages(GetCurriculum(curriculumId).Id).SelectMany(item => GetThemesByStageId(item.Id)).ToList();
         }
 
         public IEnumerable<Theme> GetThemesByGroupId(int groupId)
         {
-            return GetCurriculumsByGroupId(groupId).SelectMany(item => GetThemesByCurriculumId(item.Id));
+            return GetCurriculumsByGroupId(groupId).SelectMany(item => GetThemesByCurriculumId(item.Id)).ToList();
         }
 
         public IEnumerable<Theme> GetThemesByCourseId(int courseId)
         {
-            return _Db.Themes.Where(item => item.CourseRef == courseId && !item.IsDeleted);
+            return GetDbContext().Themes.Where(item => item.CourseRef == courseId && !item.IsDeleted).ToList();
         }
 
         public IEnumerable<ThemeDescription> GetThemesAvailableForUser(User user)
@@ -329,7 +348,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 .Stage
                 .Curriculum
                 .CurriculumAssignments
-                .Select(item => GetGroup(item.UserGroupRef));
+                .Select(item => GetGroup(item.UserGroupRef))
+                .ToList();
         }
 
         public int AddTheme(Theme theme)
@@ -347,7 +367,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             UpdateTheme(theme);
 
             //if it is "Test" then add corresponding ThemeAssignments.
-            if (Converters.ConvertToThemeType(theme.ThemeType) == Enums.ThemeType.Test)
+            if (Converters.ConvertToThemeType(theme.ThemeType) == Enums.ThemeType.Test ||
+                Converters.ConvertToThemeType(theme.ThemeType) == Enums.ThemeType.TestWithoutCourse)
             {
                 AddThemeAssignments(theme);
             }
@@ -358,50 +379,40 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public void UpdateTheme(Theme theme)
         {
             var db = GetDbContext();
-            try
-            {
-                var oldTheme = GetTheme(theme.Id, db);
-                oldTheme.Name = theme.Name;
-                oldTheme.SortOrder = theme.SortOrder;
-                oldTheme.CourseRef = theme.CourseRef;
-                oldTheme.Updated = DateTime.Now;
 
-                //if ThemeType has changed then add or remove corresponding ThemeAssignments.
-                if (oldTheme.ThemeTypeRef != theme.ThemeTypeRef)
-                {
-                    oldTheme.ThemeTypeRef = theme.ThemeTypeRef;
-                    if (Converters.ConvertToThemeType(theme.ThemeType) == Enums.ThemeType.Test)
-                    {
-                        AddThemeAssignments(theme);
-                    }
-                    else
-                    {
-                        DeleteThemeAssignments(theme);
-                    }
-                }
-                db.SubmitChanges(ConflictMode.ContinueOnConflict);
-            }
-            catch (ChangeConflictException)
+            var oldTheme = GetTheme(db, theme.Id);
+            oldTheme.Name = theme.Name;
+            oldTheme.SortOrder = theme.SortOrder;
+            oldTheme.CourseRef = theme.CourseRef;
+            oldTheme.Updated = DateTime.Now;
+
+            if (oldTheme.ThemeTypeRef != theme.ThemeTypeRef)
             {
-                foreach (ObjectChangeConflict conflict in db.ChangeConflicts)
+                oldTheme.ThemeTypeRef = theme.ThemeTypeRef;
+                if (Converters.ConvertToThemeType(theme.ThemeType) == Enums.ThemeType.Test ||
+                    Converters.ConvertToThemeType(theme.ThemeType) == Enums.ThemeType.TestWithoutCourse)
                 {
-                    conflict.Resolve(RefreshMode.KeepChanges);
+                    AddThemeAssignments(theme);
+                }
+                else
+                {
+                    DeleteThemeAssignments(theme);
                 }
             }
+            db.SubmitChanges();
         }
 
         public void DeleteTheme(int id)
         {
             var db = GetDbContext();
-
-            var theme = GetTheme(id, db);
+            var theme = GetTheme(db, id);
 
             //if it is "Test" then delete corresponding ThemeAssignments.
-            if (Converters.ConvertToThemeType(theme.ThemeType) == Enums.ThemeType.Test)
+            if (Converters.ConvertToThemeType(theme.ThemeType) == Enums.ThemeType.Test ||
+                Converters.ConvertToThemeType(theme.ThemeType) == Enums.ThemeType.TestWithoutCourse)
             {
                 DeleteThemeAssignments(theme);
             }
-
             theme.IsDeleted = true;
 
             db.SubmitChanges();
@@ -417,8 +428,9 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public Theme ThemeUp(int themeId)
         {
-            var theme = GetTheme(themeId);
-            IList<Theme> themes = GetThemesByStageId(theme.StageRef).ToList();
+            var db = GetDbContext();
+            var theme = GetTheme(db, themeId);
+            IList<Theme> themes = GetThemesByStageId(db, theme.StageRef).ToList();
 
             int index = themes.IndexOf(theme);
             if (index != -1 && index != 0)
@@ -427,7 +439,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 themes[index - 1].SortOrder = theme.SortOrder;
                 theme.SortOrder = temp;
 
-                _Db.SubmitChanges();
+                db.SubmitChanges();
             }
 
             return theme;
@@ -435,8 +447,9 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public Theme ThemeDown(int themeId)
         {
-            var theme = GetTheme(themeId);
-            IList<Theme> themes = GetThemesByStageId(theme.StageRef).ToList();
+            var db = GetDbContext();
+            var theme = GetTheme(db, themeId);
+            IList<Theme> themes = GetThemesByStageId(db, theme.StageRef).ToList();
 
             int index = themes.IndexOf(theme);
             if (index != -1 && index != themes.Count - 1)
@@ -445,7 +458,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 themes[index + 1].SortOrder = theme.SortOrder;
                 theme.SortOrder = temp;
 
-                _Db.SubmitChanges();
+                db.SubmitChanges();
             }
 
             return theme;
@@ -488,54 +501,67 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public ThemeType GetThemeType(int id)
         {
-            return _Db.ThemeTypes.SingleOrDefault(item => item.Id == id);
+            return GetDbContext().ThemeTypes.SingleOrDefault(item => item.Id == id);
         }
 
         public IEnumerable<ThemeType> GetThemeTypes()
         {
-            return _Db.ThemeTypes;
+            return GetDbContext().ThemeTypes.ToList();
         }
 
         #endregion
 
         #region CurriculumAssignment methods
 
+        private CurriculumAssignment GetCurriculumAssignment(IDataContext db, int curriculumAssignmentId)
+        {
+            return db.CurriculumAssignments.SingleOrDefault(item => item.Id == curriculumAssignmentId && !item.IsDeleted);
+        }
+
         public CurriculumAssignment GetCurriculumAssignment(int curriculumAssignmentId)
         {
-            return _Db.CurriculumAssignments.SingleOrDefault(item => item.Id == curriculumAssignmentId && !item.IsDeleted);
+            return GetCurriculumAssignment(GetDbContext(), curriculumAssignmentId);
         }
 
         public IEnumerable<CurriculumAssignment> GetCurriculumAssignments()
         {
-            return _Db.CurriculumAssignments.Where(item => !item.IsDeleted);
+            return GetDbContext().CurriculumAssignments.Where(item => !item.IsDeleted).ToList();
         }
 
         public IEnumerable<CurriculumAssignment> GetCurriculumAssignments(IEnumerable<int> ids)
         {
-            return _Db.CurriculumAssignments.Where(item => ids.Contains(item.Id) && !item.IsDeleted);
+            return GetDbContext().CurriculumAssignments.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
         }
 
         public IEnumerable<CurriculumAssignment> GetCurriculumAssignmnetsByCurriculumId(int curriculumId)
         {
-            return _Db.CurriculumAssignments.Where(item => item.CurriculumRef == curriculumId && !item.IsDeleted);
+            return GetDbContext().CurriculumAssignments.Where(item => item.CurriculumRef == curriculumId && !item.IsDeleted).ToList();
+        }
+
+        private IEnumerable<CurriculumAssignment> GetCurriculumAssignmentsByGroupId(IDataContext db, int groupId)
+        {
+            return db.CurriculumAssignments.Where(item => item.UserGroupRef == groupId && !item.IsDeleted).ToList();
         }
 
         public IEnumerable<CurriculumAssignment> GetCurriculumAssignmentsByGroupId(int groupId)
         {
-            return _Db.CurriculumAssignments.Where(item => item.UserGroupRef == groupId && !item.IsDeleted);
+            return GetCurriculumAssignmentsByGroupId(GetDbContext(), groupId);
+            //return GetDbContext().CurriculumAssignments.Where(item => item.UserGroupRef == groupId && !item.IsDeleted).ToList();
         }
 
         public int AddCurriculumAssignment(CurriculumAssignment curriculumAssignment)
         {
+            var db = GetDbContext();
             curriculumAssignment.IsDeleted = false;
             curriculumAssignment.IsValid = true;
 
-            _Db.CurriculumAssignments.InsertOnSubmit(curriculumAssignment);
-            _Db.SubmitChanges();
-            
+            db.CurriculumAssignments.InsertOnSubmit(curriculumAssignment);
+            db.SubmitChanges();
+
             //add corresponding ThemeAssignments
             var themesInCurrentCurriculum = GetThemesByCurriculumId(curriculumAssignment.CurriculumRef)
-                .Where(item => item.ThemeTypeRef == (int)Enums.ThemeType.Test);
+                .Where(item => item.ThemeTypeRef == (int)Enums.ThemeType.Test ||
+                    item.ThemeTypeRef == (int)Enums.ThemeType.TestWithoutCourse);
             foreach (var theme in themesInCurrentCurriculum)
             {
                 ThemeAssignment newThemeAssingment = new ThemeAssignment()
@@ -553,17 +579,19 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public void UpdateCurriculumAssignment(CurriculumAssignment curriculumAssignment)
         {
-            var oldCurriculumAssignment = GetCurriculumAssignment(curriculumAssignment.Id);
+            var db = GetDbContext();
+            var oldCurriculumAssignment = GetCurriculumAssignment(db, curriculumAssignment.Id);
 
             oldCurriculumAssignment.UserGroupRef = curriculumAssignment.UserGroupRef;
             oldCurriculumAssignment.IsValid = true;
 
-            _Db.SubmitChanges();
+            db.SubmitChanges();
         }
 
         public void DeleteCurriculumAssignment(int curriculumAssignmentId)
         {
-            var curriculumAssignment = GetCurriculumAssignment(curriculumAssignmentId);
+            var db = GetDbContext();
+            var curriculumAssignment = GetCurriculumAssignment(db, curriculumAssignmentId);
 
             //delete corresponding CurriculumAssignmentTimelines
             var curriculumAssignmentTimelineIds = GetCurriculumAssignmentTimelines(curriculumAssignmentId).Select(item => item.Id);
@@ -578,7 +606,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             DeleteThemeAssignments(themeAssignmentIds);
 
             curriculumAssignment.IsDeleted = true;
-            _Db.SubmitChanges();
+            db.SubmitChanges();
         }
 
         public void DeleteCurriculumAssignments(IEnumerable<int> ids)
@@ -591,146 +619,174 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public void MakeCurriculumAssignmentsInvalid(int groupId)
         {
-            var curriculumAssignments = GetCurriculumAssignmentsByGroupId(groupId);
+            var db = GetDbContext();
+            var curriculumAssignments = GetCurriculumAssignmentsByGroupId(db, groupId);
             foreach (var curriculumAssignment in curriculumAssignments)
             {
                 curriculumAssignment.IsValid = false;
             }
-            _Db.SubmitChanges();
+            db.SubmitChanges();
         }
 
         #endregion
 
         #region ThemeAssignment methods
 
+        private ThemeAssignment GetThemeAssignment(IDataContext db, int themeAssignmentId)
+        {
+            return db.ThemeAssignments.SingleOrDefault(item => item.Id == themeAssignmentId && !item.IsDeleted);
+        }
+
         public ThemeAssignment GetThemeAssignment(int themeAssignmentId)
         {
-            return _Db.ThemeAssignments.SingleOrDefault(item => item.Id == themeAssignmentId && !item.IsDeleted);
+            return GetThemeAssignment(GetDbContext(), themeAssignmentId);
         }
 
         public IEnumerable<ThemeAssignment> GetThemeAssignmentsByCurriculumAssignmentId(int curriculumAssignmentId)
         {
-            return _Db.ThemeAssignments.Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && !item.IsDeleted);
+            return GetDbContext().ThemeAssignments.Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && !item.IsDeleted).ToList();
         }
 
         public IEnumerable<ThemeAssignment> GetThemeAssignmentsByThemeId(int themeId)
         {
-            return _Db.ThemeAssignments.Where(item => item.ThemeRef == themeId && !item.IsDeleted);
+            return GetDbContext().ThemeAssignments.Where(item => item.ThemeRef == themeId && !item.IsDeleted).ToList();
+        }
+
+        private IEnumerable<ThemeAssignment> GetThemeAssignments(IDataContext db, IEnumerable<int> ids)
+        {
+            return db.ThemeAssignments.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
         }
 
         public IEnumerable<ThemeAssignment> GetThemeAssignments(IEnumerable<int> ids)
         {
-            return _Db.ThemeAssignments.Where(item => ids.Contains(item.Id) && !item.IsDeleted);
+            return GetThemeAssignments(GetDbContext(), ids);
         }
 
         public int AddThemeAssignment(ThemeAssignment themeAssignment)
         {
-            _Db.ThemeAssignments.InsertOnSubmit(themeAssignment);
-            _Db.SubmitChanges();
+            var db = GetDbContext();
+            db.ThemeAssignments.InsertOnSubmit(themeAssignment);
+            db.SubmitChanges();
 
             return themeAssignment.Id;
         }
 
         public void UpdateThemeAssignment(ThemeAssignment themeAssignment)
         {
-            var oldThemeAssignment = GetThemeAssignment(themeAssignment.Id);
+            var db = GetDbContext();
+            var oldThemeAssignment = GetThemeAssignment(db, themeAssignment.Id);
 
             oldThemeAssignment.MaxScore = themeAssignment.MaxScore;
 
-            _Db.SubmitChanges();
+            db.SubmitChanges();
         }
 
         public void DeleteThemeAssignments(IEnumerable<int> ids)
         {
-            var themeAssignments = GetThemeAssignments(ids);
+            var db = GetDbContext();
+            var themeAssignments = GetThemeAssignments(db, ids);
 
             foreach (ThemeAssignment item in themeAssignments)
             {
                 item.IsDeleted = true;
             }
 
-            _Db.SubmitChanges();
+            db.SubmitChanges();
         }
 
         #endregion
 
         #region Timeline methods
 
-        private IEnumerable<Timeline> GetTimelines()
+        private IEnumerable<Timeline> GetTimelines(IDataContext db)
         {
-            return _Db.Timelines.Where(item => !item.IsDeleted);
+            return db.Timelines.Where(item => !item.IsDeleted).ToList();
+        }
+
+        private Timeline GetTimeline(IDataContext db, int timelineId)
+        {
+            return GetTimelines(db).SingleOrDefault(item => item.Id == timelineId);
         }
 
         public Timeline GetTimeline(int timelineId)
         {
-            return GetTimelines().SingleOrDefault(item => item.Id == timelineId);
+            return GetTimeline(GetDbContext(), timelineId);
         }
 
         public IEnumerable<Timeline> GetCurriculumAssignmentTimelines(int curriculumAssignmentId)
         {
-            return GetTimelines().Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && item.StageRef == null);
+            return GetTimelines(GetDbContext()).Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && item.StageRef == null).ToList();
         }
 
         public IEnumerable<Timeline> GetStageTimelinesByCurriculumAssignmentId(int curriculumAssignmentId)
         {
-            return GetTimelines().Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && item.StageRef != null);
+            return GetTimelines(GetDbContext()).Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && item.StageRef != null).ToList();
         }
 
         public IEnumerable<Timeline> GetStageTimelinesByStageId(int stageId)
         {
-            return GetTimelines().Where(item => item.StageRef == stageId && item.StageRef != null);
+            return GetTimelines(GetDbContext()).Where(item => item.StageRef == stageId && item.StageRef != null).ToList();
         }
 
         public IEnumerable<Timeline> GetStageTimelines(int stageId, int curriculumAssignmentId)
         {
-            return GetTimelines().Where(item => item.StageRef == stageId && item.CurriculumAssignmentRef == curriculumAssignmentId
-                && item.StageRef != null);
+            return GetTimelines(GetDbContext()).Where(item => item.StageRef == stageId && item.CurriculumAssignmentRef == curriculumAssignmentId
+                && item.StageRef != null).ToList();
+        }
+
+        private IEnumerable<Timeline> GetTimelines(IDataContext db, IEnumerable<int> timelineIds)
+        {
+            return GetTimelines(db).Where(item => timelineIds.Contains(item.Id)).ToList();
         }
 
         public IEnumerable<Timeline> GetTimelines(IEnumerable<int> timelineIds)
         {
-            return GetTimelines().Where(item => timelineIds.Contains(item.Id));
+            return GetTimelines(GetDbContext(), timelineIds);
         }
 
         public int AddTimeline(Timeline timeline)
         {
+            var db = GetDbContext();
             timeline.IsDeleted = false;
 
-            _Db.Timelines.InsertOnSubmit(timeline);
-            _Db.SubmitChanges();
+            db.Timelines.InsertOnSubmit(timeline);
+            db.SubmitChanges();
 
             return timeline.Id;
         }
 
         public void UpdateTimeline(Timeline timeline)
         {
-            var oldTimeline = GetTimeline(timeline.Id);
+            var db = GetDbContext();
+            var oldTimeline = GetTimeline(db, timeline.Id);
 
             oldTimeline.StartDate = timeline.StartDate;
             oldTimeline.EndDate = timeline.EndDate;
 
-            _Db.SubmitChanges();
+            db.SubmitChanges();
         }
 
         public void DeleteTimeline(int timelineId)
         {
-            var timeline = GetTimeline(timelineId);
+            var db = GetDbContext();
+            var timeline = GetTimeline(db, timelineId);
 
             timeline.IsDeleted = true;
 
-            _Db.SubmitChanges();
+            db.SubmitChanges();
         }
 
         public void DeleteTimelines(IEnumerable<int> timelineIds)
         {
-            var timelines = GetTimelines(timelineIds);
+            var db = GetDbContext();
+            var timelines = GetTimelines(db, timelineIds);
 
             foreach (Timeline timeline in timelines)
             {
                 timeline.IsDeleted = true;
             }
 
-            _Db.SubmitChanges();
+            db.SubmitChanges();
         }
 
         #endregion
