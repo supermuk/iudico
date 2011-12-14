@@ -10,6 +10,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
     public class ChangeUsersRole
     {
         protected UserManagementTests _Tests = UserManagementTests.GetInstance();
+
         [Test]
         public void AddUserToRole()
         {
@@ -19,9 +20,13 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             var role = Role.Teacher;
             _Tests.Storage.AddUserToRole(role, temp);
+            
             List<Role> roles = new List<Role>();
             roles.Add(role);
+
             //Assert.AreEqual(1, _Tests.Storage.GetUser(u => u.Username == "icpe").UserRoles.Count);
+
+            _Tests.Storage.RemoveUserFromRole(role, temp);
         }
 
         [Test]
@@ -74,6 +79,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             {
                 Assert.AreEqual(roles,_Tests.Storage.GetUserRoles(expectedUser.Username));
             }*/
+
+            _Tests.Storage.RemoveUsersFromRoles(user_names, roles);
         }
 
         [Test]

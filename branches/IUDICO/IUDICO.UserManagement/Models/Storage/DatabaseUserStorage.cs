@@ -520,7 +520,7 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
 
-            return db.Groups.First(group => group.Id == id && !group.Deleted);
+            return db.Groups.FirstOrDefault(group => group.Id == id && !group.Deleted);
         }
 
         public IEnumerable<Group> GetGroups()
