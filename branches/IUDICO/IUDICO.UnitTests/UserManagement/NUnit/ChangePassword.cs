@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using IUDICO.Common.Models;
+﻿using IUDICO.Common.Models.Shared;
 using IUDICO.UserManagement.Models;
-using IUDICO.Common.Models.Notifications;
-using Moq;
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.NUnit

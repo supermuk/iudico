@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using IUDICO.Common.Models;
-using IUDICO.UserManagement.Models;
-using IUDICO.Common.Models.Notifications;
-using Moq;
+using IUDICO.Common.Models.Shared;
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.NUnit
@@ -27,6 +23,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             roles.Add(role);
             //Assert.AreEqual(1, _Tests.Storage.GetUser(u => u.Username == "icpe").UserRoles.Count);
         }
+
         [Test]
         public void RemoveUserFromRole()
         {
@@ -41,6 +38,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             roles.Add(role);
             //Assert.AreEqual(roles.First(), _Tests.Storage.GetUserRoles("ipe"));
         }
+
         [Test]
         public void AddUsersToRoles()
         {
@@ -51,18 +49,25 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
                             };
 
             _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
+            
             foreach (var user in users)
             {
                 _Tests.Storage.CreateUser(user);
             }
+
             var user_names = new List<string>();
+
             foreach (var user in users)
             {
                 user_names.Add(user.Username);
             }
+
             var roles = new List<Role>();
+            
             roles.Add(Role.Teacher);
+            
             _Tests.Storage.AddUsersToRoles(user_names, roles);
+            
             var expected_users = _Tests.Storage.GetUsers().ToList();
             /*
             foreach (var expectedUser in expected_users)
@@ -70,6 +75,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
                 Assert.AreEqual(roles,_Tests.Storage.GetUserRoles(expectedUser.Username));
             }*/
         }
+
         [Test]
         public void RemoveUsersFromRoles()
         {
