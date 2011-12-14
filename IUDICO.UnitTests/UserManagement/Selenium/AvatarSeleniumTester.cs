@@ -35,7 +35,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
                 Assert.AreEqual("", verificationErrors.ToString());
             }
 
-            [Test]
+            /*[Test]
             public void UploadNewAvatar()
             {
                 selenium.Open("/");
@@ -71,7 +71,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
                 selenium.Click("//input[@value='Upload']");
                 selenium.WaitForPageToLoad("30000");
                 Assert.IsTrue(selenium.IsElementPresent("avatar"));
-            }
+            }*/
 
             [Test]
             public void DisplayUserAvatar()

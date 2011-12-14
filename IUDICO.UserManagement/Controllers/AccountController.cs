@@ -266,7 +266,9 @@ namespace IUDICO.UserManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult TeacherToAdminUpgrade()
         {
-            if (!(bool)Session["AllowAdmin"] && !Roles.IsUserInRole(Role.Admin.ToString()))
+            var allow = (bool)(Session["AllowAdmin"] ?? false);
+
+            if (!allow && !Roles.IsUserInRole(Role.Admin.ToString()))
             {
                 Session["AllowAdmin"] = true;
             }

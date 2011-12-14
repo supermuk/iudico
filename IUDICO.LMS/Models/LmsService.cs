@@ -115,8 +115,8 @@ namespace IUDICO.LMS.Models
                 menu = new Menu();
                 actions = new Dictionary<IPlugin, IEnumerable<Common.Models.Action>>();
 
-                var currentUser = FindService<IUserService>().GetCurrentUser();
-                var roles = currentUser == null ? new Role[] {Role.None} : currentUser.Roles;
+                var roles = FindService<IUserService>().GetCurrentUserRoles();
+                //var roles = currentUser == null ? new Role[] {Role.None} : currentUser.Roles;
 
                 var plugins = _Container.ResolveAll<IPlugin>();
 

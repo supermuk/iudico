@@ -35,7 +35,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             }
             Assert.AreEqual("", verificationErrors.ToString());
         }
-        
+
         [Test]
         public void LoginAsAdmin()
         {
@@ -44,9 +44,9 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Type("//input[@id='loginPassword']", "lex");
             selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
             selenium.WaitForPageToLoad("30000");
-            selenium.Click("link=" + IUDICO.UserManagement.Localization.getMessage("Account"));
+            selenium.Click("//a[contains(@href, '/Account/Index')]");
             selenium.WaitForPageToLoad("30000");
-            Assert.IsTrue(selenium.IsElementPresent("link=" + IUDICO.UserManagement.Localization.getMessage("UpgradeToAdmin")) == false);
+            Assert.IsFalse(selenium.IsElementPresent("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]"));
         }
 
         [Test]
@@ -57,9 +57,9 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Type("//input[@id='loginPassword']", "prof");
             selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
             selenium.WaitForPageToLoad("30000");
-            selenium.Click("link=" + IUDICO.UserManagement.Localization.getMessage("Account"));
+            selenium.Click("//a[contains(@href, '/Account/Index')]");
             selenium.WaitForPageToLoad("30000");
-            Assert.IsTrue(selenium.IsElementPresent("link=" + IUDICO.UserManagement.Localization.getMessage("UpgradeToAdmin")) == true);    
+            Assert.IsTrue(selenium.IsElementPresent("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]"));
         }
 
         [Test]
@@ -70,9 +70,10 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Type("//input[@id='loginPassword']", "stud");
             selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
             selenium.WaitForPageToLoad("30000");
-            selenium.Click("link=" + IUDICO.UserManagement.Localization.getMessage("Account"));
+            selenium.Click("//a[contains(@href, '/Account/Index')]");
             selenium.WaitForPageToLoad("30000");
-            Assert.IsTrue(selenium.IsElementPresent("link=" + IUDICO.UserManagement.Localization.getMessage("UpgradeToAdmin")) == false);
+            
+            Assert.IsFalse(selenium.IsElementPresent("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]"));
         }
 
         [Test]
@@ -83,13 +84,13 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Type("//input[@id='loginPassword']", "prof");
             selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
             selenium.WaitForPageToLoad("30000");
-            selenium.Click("link=" + IUDICO.UserManagement.Localization.getMessage("Account"));
+            selenium.Click("//a[contains(@href, '/Account/Index')]");
             selenium.WaitForPageToLoad("30000");
 
-            selenium.Click("link=" + IUDICO.UserManagement.Localization.getMessage("UpgradetoAdmin"));
+            selenium.Click("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]");
             selenium.WaitForPageToLoad("30000");
-            Assert.IsTrue((selenium.IsElementPresent("//div[@id='main']/fieldset[2]/ul/li[1]") == true) &&
-                          (selenium.IsElementPresent("//div[@id='main']/fieldset[2]/ul/li[2]") == true));
+
+            Assert.IsFalse(selenium.IsElementPresent("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]"));
         }
 
         [Test]
@@ -100,19 +101,16 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Type("//input[@id='loginPassword']", "prof");
             selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
             selenium.WaitForPageToLoad("30000");
-            selenium.Click("link=" + IUDICO.UserManagement.Localization.getMessage("Account"));
+            selenium.Click("//a[contains(@href, '/Account/Index')]");
             selenium.WaitForPageToLoad("30000");
 
-            if (selenium.IsElementPresent("link=" + IUDICO.UserManagement.Localization.getMessage("UpgradeToAdmin")))
+            if (selenium.IsElementPresent("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]"))
             {
-                selenium.Click("link=" + IUDICO.UserManagement.Localization.getMessage("UpgradeToAdmin"));
+                selenium.Click("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]");
                 selenium.WaitForPageToLoad("30000");
             }
 
-            selenium.Click("link=" + IUDICO.UserManagement.Localization.getMessage("Users"));
-            selenium.WaitForPageToLoad("30000");
-            string headerText = selenium.GetText("//div[@id='main']/h2");
-            Assert.IsTrue(headerText == IUDICO.UserManagement.Localization.getMessage("Users"));
+            Assert.IsTrue(selenium.IsElementPresent("//a[contains(@href, '/User/Index')]"));
         }
 
         [Test]
@@ -123,27 +121,24 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Type("//input[@id='loginPassword']", "prof");
             selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
             selenium.WaitForPageToLoad("30000");
-            selenium.Click("link=" + IUDICO.UserManagement.Localization.getMessage("Account"));
+            selenium.Click("//a[contains(@href, '/Account/Index')]");
             selenium.WaitForPageToLoad("30000");
 
-            if (selenium.IsElementPresent("link=" + IUDICO.UserManagement.Localization.getMessage("UpgradeToAdmin")))
+            if (selenium.IsElementPresent("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]"))
             {
-                selenium.Click("link=" + IUDICO.UserManagement.Localization.getMessage("UpgradeToAdmin"));
+                selenium.Click("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]");
                 selenium.WaitForPageToLoad("30000");
             }
 
-            selenium.Click("link=Logout");
+            selenium.Click("//a[contains(@href, '/Account/Logout')]");
+            selenium.WaitForPageToLoad("30000");
 
             selenium.Type("//input[@id='loginUsername']", "prof");
             selenium.Type("//input[@id='loginPassword']", "prof");
             selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
             selenium.WaitForPageToLoad("30000");
-            selenium.Click("link=" + IUDICO.UserManagement.Localization.getMessage("Users"));
-            selenium.WaitForPageToLoad("30000");
 
-            string headerText = selenium.GetText("//div[@id='main']/h2");
-            Assert.IsTrue(headerText != IUDICO.UserManagement.Localization.getMessage("Users"));
+            Assert.IsFalse(selenium.IsElementPresent("//a[contains(@href, '/User/Index')]"));
         }
-
     }
 }
