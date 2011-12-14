@@ -172,6 +172,7 @@ namespace IUDICO.Security.Models.Storages.Database
         public bool ifBanned(string ipAddress)
         {
             var comp = new Computer();
+
             comp.IpAddress = ipAddress;
             using (var context = NewContext())
             {
