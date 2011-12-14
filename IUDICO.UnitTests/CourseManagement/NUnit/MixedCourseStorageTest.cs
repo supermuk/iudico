@@ -14,13 +14,22 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
     [TestFixture]
     public class MixedCourceStorageTest
     {
-        protected CourseManagementTest _Tests;
+        protected CourseManagementTest _Tests = CourseManagementTest.GetInstance();
+
+        protected ICourseStorage _Storage
+        {
+            get
+            {
+                return _Tests.Storage;
+            }
+        }
 
         [SetUp]
-        public void Initialize()
+        protected void Initialize()
         {
-            _Tests = CourseManagementTest.GetInstance();
+            _Tests.ClearTables();
         }
+
 
         #region Test Course methods
 
@@ -29,8 +38,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("GetCoursesMethods")]
         public void GetCourseIDTest()
         {
-            MixedCourseStorage mcs = new MixedCourseStorage(_Tests.LmsService);
-            Course course = mcs.GetCourse(1);
+            Course course = _Storage.GetCourse(1);
             Assert.AreEqual(course.Id, 1);
             Assert.AreEqual(course.Name, "Some course");
         }
@@ -40,16 +48,14 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [ExpectedException(typeof(System.InvalidOperationException))]
         public void GetCourseIDNotFoundTest()
         {
-            MixedCourseStorage mcs = new MixedCourseStorage(_Tests.LmsService);
-            Course course = mcs.GetCourse(333);
+            Course course = _Storage.GetCourse(333);
         }
 
         [Test]
         [Category("GetCoursesMethods")]
         public void GetCoursesTest()
         {
-            MixedCourseStorage mcs = new MixedCourseStorage(_Tests.LmsService);
-            var courses = mcs.GetCourses();
+            var courses = _Storage.GetCourses();
             Assert.AreEqual(courses.Count(), 3);
         }
 
@@ -57,9 +63,8 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("GetCoursesMethods")]
         public void GetCoursesUserIdTest()
         {
-            MixedCourseStorage mcs = new MixedCourseStorage(_Tests.LmsService);
-            var users = mcs.GetCourseUsers(1);
-            var courses = mcs.GetCourses(users.ToArray()[0].Id);
+            var users = _Storage.GetCourseUsers(1);
+            var courses = _Storage.GetCourses(users.ToArray()[0].Id);
             Assert.AreEqual(courses.Count(), 2);
         }
 
@@ -67,8 +72,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("GetCoursesMethods")]
         public void GetCoursesUserIdNotExistTest()
         {
-            MixedCourseStorage mcs = new MixedCourseStorage(_Tests.LmsService);
-            var courses = mcs.GetCourses(Guid.NewGuid());
+            var courses = _Storage.GetCourses(Guid.NewGuid());
             Assert.AreEqual(courses.Count(), 0);
         }
 
@@ -76,8 +80,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("GetCoursesMethods")]
         public void GetCoursesOwnerTest()
         {
-            MixedCourseStorage mcs = new MixedCourseStorage(_Tests.LmsService);
-            var courses = mcs.GetCourses("lex");
+            var courses = _Storage.GetCourses("lex");
             Assert.AreEqual(courses.Count(), 2);
         }
 
@@ -85,8 +88,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("GetCoursesMethods")]
         public void GetCoursesOwnerNotExistTest()
         {
-            MixedCourseStorage mcs = new MixedCourseStorage(_Tests.LmsService);
-            var courses = mcs.GetCourses("unknown");
+            var courses = _Storage.GetCourses("unknown");
             Assert.AreEqual(courses.Count(), 0);
         }
 
@@ -94,8 +96,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("GetCoursesMethods")]
         public void GetCoursesUserOwnerTest()
         {
-            MixedCourseStorage mcs = new MixedCourseStorage(_Tests.LmsService);
-            var courses = mcs.GetCourses(new User
+            var courses = _Storage.GetCourses(new User
             {
                 Deleted = false,
                 Name = "lex",
@@ -110,8 +111,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("GetCoursesMethods")]
         public void GetCoursesUserOwnerNotExistTest()
         {
-            MixedCourseStorage mcs = new MixedCourseStorage(_Tests.LmsService);
-            var courses = mcs.GetCourses(new User
+            var courses = _Storage.GetCourses(new User
             {
                 Deleted = false,
                 Name = "unknown",
@@ -127,26 +127,16 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void GetCourseUsersTest()
         {
-            MixedCourseStorage mcs = new MixedCourseStorage(_Tests.LmsService);
-            var courses = mcs.GetCourseUsers(1);
+            var courses = _Storage.GetCourseUsers(1);
             Assert.AreEqual(courses.ToArray()[0].Username, "lex");
         }
 
         [Test]
         public void GetCourseUsersNotFoundTest()
         {
-            MixedCourseStorage mcs = new MixedCourseStorage(_Tests.LmsService);
-            var courses = mcs.GetCourseUsers(-1);
+            var courses = _Storage.GetCourseUsers(-1);
             Assert.AreEqual(courses.Count(), 0);
         }
-
-        #endregion
-
-        #region Test Node methods
-
-        #endregion
-
-        #region Test NodeResource methods
 
         #endregion
     }
