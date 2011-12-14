@@ -23,6 +23,11 @@ namespace IUDICO.Security.UnitTests
             get { return _Mocks.BanStorage; }
         }
 
+        protected ISecurityStorage SecurityStorage
+        {
+            get { return _Mocks.SecurityStorage; }
+        }
+
         [SetUp]
         public void SetUp()
         {
@@ -31,6 +36,7 @@ namespace IUDICO.Security.UnitTests
         [TearDown]
         public void TearDown()
         {
+            _Mocks.Reset();
         }
     }
 }

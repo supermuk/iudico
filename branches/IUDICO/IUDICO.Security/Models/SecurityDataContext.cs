@@ -28,5 +28,10 @@ namespace IUDICO.Security.Models
         {
             get { return new MockableTable<Computer>(Computers); }
         }
+
+        IMockableTable<UserActivity> ISecurityDataContext.UserActivities
+        {
+            get { return new MockableTable<UserActivity>(UserActivities); }
+        }
     }
 }
