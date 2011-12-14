@@ -120,7 +120,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Libraries\" />
-    <Folder Include="Models\Shared\Testing\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

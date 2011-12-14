@@ -11,7 +11,6 @@ namespace IUDICO.Statistics.Models.Storage
 
         IEnumerable<Group> GetAllGroups();
         IEnumerable<Curriculum> GetCurrilulumsByGroupId(int groupId);
-        IEnumerable<AttemptResult> GetResults(User user, Theme theme);
 
         #endregion
     }
