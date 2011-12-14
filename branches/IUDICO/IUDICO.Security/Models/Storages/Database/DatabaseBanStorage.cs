@@ -162,8 +162,11 @@ namespace IUDICO.Security.Models.Storages.Database
         {
             using (var context = NewContext())
             {
-                context.Rooms.Attach(room, true);
-                context.Rooms.DeleteOnSubmit(room);
+                var _room = context.Rooms.FirstOrDefault(c => c.Name == room.Name);
+                if (_room != null)
+                {
+                    context.Rooms.DeleteOnSubmit(_room);
+                }
 
                 context.SubmitChanges();
             }
@@ -172,10 +175,10 @@ namespace IUDICO.Security.Models.Storages.Database
         public bool ifBanned(string ipAddress)
         {
             var comp = new Computer();
-
             comp.IpAddress = ipAddress;
             using (var context = NewContext())
             {
+                
                 return context.Computers.Contains(comp);
             }
         }
