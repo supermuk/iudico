@@ -125,7 +125,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             try
             {
                 Theme theme = Storage.GetTheme(themeId);
-                theme.CourseRef = model.CourseId;
+                theme.CourseRef = model.CourseId == Constants.NoCourseId ? (int?)null : model.CourseId;
                 theme.ThemeTypeRef = model.ThemeTypeId;
                 theme.Name = model.ThemeName;
 

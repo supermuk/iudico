@@ -100,6 +100,15 @@ namespace IUDICO.TestingSystem
                 "PlayerContentNine",
                 "Player/Frameset/Content.aspx/{one}/{two}/{three}/{four}/{five}/{six}/{seven}/{eight}/{nine}",
                 "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Content.aspx");
+            routes.MapPageRoute(
+                "PlayerContentTen",
+                "Player/Frameset/Content.aspx/{one}/{two}/{three}/{four}/{five}/{six}/{seven}/{eight}/{nine}/{ten}",
+                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Content.aspx");
+            routes.MapPageRoute(
+                "PlayerContentEleven",
+                "Player/Frameset/Content.aspx/{one}/{two}/{three}/{four}/{five}/{six}/{seven}/{eight}/{nine}/{ten}/{eleven}",
+                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Content.aspx");
+             
            /* routes.MapPageRoute(
                 "PlayerImages",
                 "Player/Frameset/Images/{page}",
@@ -126,8 +135,8 @@ namespace IUDICO.TestingSystem
             //routes.IgnoreRoute("Content/TimePicker.css");
             routes.MapRoute(
                 "Training",
-                "Training/{action}",
-                new { controller = "Training" });
+                "Training/Play/{id}",
+                new { controller = "Training", action="Play", id=""});
         }
 
         public void Update(string name, params object[] data)

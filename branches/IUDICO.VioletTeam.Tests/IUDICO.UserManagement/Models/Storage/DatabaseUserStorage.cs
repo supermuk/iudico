@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
@@ -33,6 +34,17 @@ namespace IUDICO.UserManagement.Models.Storage
         protected virtual IDataContext GetDbContext()
         {
             return new DBDataContext();
+        }
+
+        protected string GetPath()
+        {
+            if (HttpContext.Current != null)
+            {
+                return HttpContext.Current.Server.MapPath("~/");
+            }
+
+            var localPath = new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath;
+            return Path.GetFullPath(localPath + @"\..\..\..\..\IUDICO.LMS");
         }
 
         public virtual bool SendEmail(string fromAddress, string toAddress, string subject, string body)
@@ -78,7 +90,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public virtual User GetCurrentUser()
         {
-            if (HttpContext.Current == null || HttpContext.Current.User == null)
+            if (HttpContext.Current == null || HttpContext.Current.User == null || !HttpContext.Current.User.Identity.IsAuthenticated)
             {
                 var userrole = new UserRole {RoleRef = (int)Role.None};
                 var user = new User();
@@ -89,11 +101,6 @@ namespace IUDICO.UserManagement.Models.Storage
             }
 
             var identity = HttpContext.Current.User.Identity;
-
-            if (!identity.IsAuthenticated)
-            {
-                return null;
-            }
 
             var db = GetDbContext();
 
@@ -133,6 +140,20 @@ namespace IUDICO.UserManagement.Models.Storage
             var db = GetDbContext();
 
             return db.Users.Count(u => u.Username == username && u.Deleted == false) > 0;
+        }
+
+        public bool UserUniqueIdAvailable(string userUniqueId, Guid userId)
+        {
+            var db = GetDbContext();
+            var users = db.Users.Where(u => u.UserId == userUniqueId && u.Deleted == false);
+            var count = users.Count();
+            
+            if (count == 0 || (count == 1 && users.First().Id == userId))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public void ActivateUser(Guid id)
@@ -299,6 +320,7 @@ namespace IUDICO.UserManagement.Models.Storage
                 
             oldUser.Email = user.Email;
             oldUser.OpenId = user.OpenId ?? string.Empty;
+            oldUser.UserId = user.UserId;
 
             db.SubmitChanges();
 
@@ -376,6 +398,7 @@ namespace IUDICO.UserManagement.Models.Storage
             user.Name = editModel.Name;
             user.OpenId = editModel.OpenId ?? string.Empty;
             user.Email = editModel.Email;
+            user.UserId = editModel.UserId;
 
             db.SubmitChanges();
 
@@ -497,7 +520,7 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
 
-            return db.Groups.First(group => group.Id == id && !group.Deleted);
+            return db.Groups.FirstOrDefault(group => group.Id == id && !group.Deleted);
         }
 
         public IEnumerable<Group> GetGroups()
@@ -587,7 +610,7 @@ namespace IUDICO.UserManagement.Models.Storage
             if (file != null)
             {
                 string fileName = Path.GetFileName(id.ToString() + ".png");
-                string fullPath = Path.Combine(HttpContext.Current.Server.MapPath("~/Data/Avatars"), fileName);
+                string fullPath = Path.Combine(Path.Combine(GetPath(), @"Data\Avatars"), fileName);
                 FileInfo fileInfo = new FileInfo(fullPath);
 
                 resultCode = 1; // if some file had been passed
@@ -602,10 +625,11 @@ namespace IUDICO.UserManagement.Models.Storage
             }
             return resultCode;
         }
+
         public int DeleteAvatar(Guid id)
         {
             string fileName = Path.GetFileName(id.ToString() + ".png");
-            string fullPath = Path.Combine(HttpContext.Current.Server.MapPath("~/Data/Avatars"), fileName);
+            string fullPath = Path.Combine(Path.Combine(GetPath(), @"Data\Avatars"), fileName);
             FileInfo fileInfo = new FileInfo(fullPath);
             if (fileInfo.Exists)
             {

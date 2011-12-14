@@ -16,18 +16,6 @@ namespace IUDICO.Security.Models
 
         #region Extensibility Method Definitions
         partial void OnCreated();
-        partial void InsertGroupUser(GroupUser instance);
-        partial void UpdateGroupUser(GroupUser instance);
-        partial void DeleteGroupUser(GroupUser instance);
-        partial void InsertGroup(Group instance);
-        partial void UpdateGroup(Group instance);
-        partial void DeleteGroup(Group instance);
-        partial void InsertUserRole(UserRole instance);
-        partial void UpdateUserRole(UserRole instance);
-        partial void DeleteUserRole(UserRole instance);
-        partial void InsertUser(User instance);
-        partial void UpdateUser(User instance);
-        partial void DeleteUser(User instance);
         #endregion
 
         public DBDataContext() :
@@ -73,6 +61,14 @@ namespace IUDICO.Security.Models
             get
             {
                 return this.GetTable<Computer>();
+            }
+        }
+
+        public System.Data.Linq.Table<UserActivity> UserActivities
+        {
+            get
+            {
+                return this.GetTable<UserActivity>();
             }
         }
     }

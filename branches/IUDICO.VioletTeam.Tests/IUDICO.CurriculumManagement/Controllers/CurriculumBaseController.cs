@@ -22,7 +22,6 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             Storage = curriculumStorage;
             Validator = new Validator(Storage);
-            Storage.RefreshState();
         }
 
         /// <summary>
