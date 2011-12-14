@@ -135,6 +135,25 @@ namespace IUDICO.UserManagement.Models.Storage
             return db.Users.Count(u => u.Username == username && u.Deleted == false) > 0;
         }
 
+        public bool UserUniqueIdAvailable(string userUniqueId, Guid userId)
+        {
+            var db = GetDbContext();
+            var count = db.Users.Count(u => u.UserId == userUniqueId && u.Deleted == false);
+
+            if (count > 0)
+            {
+                var user = db.Users.First(u => u.UserId == userUniqueId && u.Deleted == false);
+
+                if (count == 1 && user.Id == userId)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            return true;
+        }
+
         public void ActivateUser(Guid id)
         {
             var db = GetDbContext();
@@ -299,6 +318,7 @@ namespace IUDICO.UserManagement.Models.Storage
                 
             oldUser.Email = user.Email;
             oldUser.OpenId = user.OpenId ?? string.Empty;
+            oldUser.UserId = user.UserId;
 
             db.SubmitChanges();
 
@@ -376,6 +396,7 @@ namespace IUDICO.UserManagement.Models.Storage
             user.Name = editModel.Name;
             user.OpenId = editModel.OpenId ?? string.Empty;
             user.Email = editModel.Email;
+            user.UserId = editModel.UserId;
 
             db.SubmitChanges();
 
