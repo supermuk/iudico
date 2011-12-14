@@ -8,13 +8,16 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
     public class DeleteGroup
     {
         protected UserManagementTests _Tests = UserManagementTests.GetInstance();
+        
         [Test]
         public void DeleteGroupSuccess()
         {
-            var group = new Group { Deleted = false, Id = 333, Name = "pma31" };
+            var group = new Group { Deleted = false, Id = 333123456, Name = "pma31" };
+            
             _Tests.Storage.CreateGroup(group);
             _Tests.Storage.DeleteGroup(group.Id);
-            Assert.AreEqual(_Tests.Storage.GetGroups().Count(),1 );
+
+            Assert.IsTrue(_Tests.Storage.GetGroup(group.Id) == null);
         }
     }
 }
