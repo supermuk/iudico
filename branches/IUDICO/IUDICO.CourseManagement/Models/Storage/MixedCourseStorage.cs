@@ -510,7 +510,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             return path;
         }
 
-        public string GetCoursePath(int courseId)
+        virtual public string GetCoursePath(int courseId)
         {
             var path = GetCoursesPath();
 

@@ -20,9 +20,41 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
 
         User[] _MockUserData = new[]
                                    {
-                                       new User {Id = Guid.NewGuid(), Username = "lex", Password = "",},
-                                       new User {Id = Guid.NewGuid(), Username = "user1", Password = "",},
-                                       new User {Id = Guid.NewGuid(), Username = "user2", Password = "",},
+                                       new User
+                                           {
+                                               Id = Guid.NewGuid(), 
+                                               Username = "lex", 
+                                           },
+                                       new User
+                                           {
+                                               Id = new Guid("11345200-abe8-4f60-90c8-0d43c5f6c0f6"), 
+                                               Username = "user1", 
+                                           },
+                                       new User
+                                           {
+                                               Id = new Guid("22345200-abe8-4f60-90c8-0d43c5f6c0f6"), 
+                                               Username = "user2", 
+                                           },
+                                       new User
+                                           {
+                                               Id = new Guid("33345200-abe8-4f60-90c8-0d43c5f6c0f6"), 
+                                               Username = "user3", 
+                                           },
+                                       new User
+                                           {
+                                               Id = new Guid("44345200-abe8-4f60-90c8-0d43c5f6c0f6"), 
+                                               Username = "user4", 
+                                           },
+                                           new User
+                                           {
+                                               Id = new Guid("55345200-abe8-4f60-90c8-0d43c5f6c0f6"), 
+                                               Username = "user5", 
+                                           },
+                                       new User
+                                           {
+                                               Id = new Guid("66345200-abe8-4f60-90c8-0d43c5f6c0f6"), 
+                                               Username = "user6", 
+                                           },
                                    };
         #endregion
 
@@ -127,7 +159,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         public void Setup()
         {
 
-
+            _MockStorage.Setup(i => i.GetCoursePath(It.IsAny<int>())).Returns(@"d:\Tests\1\");
 
             _MockUserDataContext.SetupGet(c => c.Users).Returns(new MemoryTable<User>(_MockUserData));
 
@@ -164,10 +196,10 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
                                                  Created = System.DateTime.Now,
                                                  Deleted = false,
                                                  Id = 2,
-                                                 Locked = null,
+                                                 Locked = true,
                                                  Name = "#2",
                                                  Nodes = new EntitySet<Node>(),
-                                                 Owner = "lex",
+                                                 Owner = "admin",
                                                  Updated = System.DateTime.Now
 
                                                  },
@@ -175,7 +207,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
                                              {
                                                  CourseUsers = new EntitySet<CourseUser>(),
                                                  Created = System.DateTime.Now,
-                                                 Deleted = true,
+                                                 Deleted = false,
                                                  Id = 7,
                                                  Locked = null,
                                                  Name = "#7",
@@ -205,7 +237,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
                                                              Locked = null,
                                                              Name = "#4",
                                                              Nodes =  new EntitySet<Node>(),
-                                                             Owner = "user2",
+                                                             Owner = "lex",
                                                              Updated = System.DateTime.Now
                                                          }
                                      };
@@ -215,25 +247,37 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
                                            {
                                                Course = mockCourseData[0], 
                                                CourseRef = mockCourseData[0].Id, 
-                                               UserRef = _MockUserData[0].Id
+                                               UserRef = _MockUserData[1].Id
+                                           },
+                                       new CourseUser
+                                           {
+                                               Course = mockCourseData[0], 
+                                               CourseRef = mockCourseData[0].Id, 
+                                               UserRef = _MockUserData[2].Id
+                                           },
+                                       new CourseUser
+                                           {
+                                               Course = mockCourseData[0], 
+                                               CourseRef = mockCourseData[0].Id, 
+                                               UserRef = _MockUserData[3].Id
                                            },
                                        new CourseUser
                                            {
                                                Course = mockCourseData[1], 
                                                CourseRef = mockCourseData[1].Id, 
-                                               UserRef = _MockUserData[0].Id
+                                               UserRef = _MockUserData[4].Id
                                            },
                                        new CourseUser
                                            {
                                                Course = mockCourseData[2], 
                                                CourseRef = mockCourseData[2].Id, 
-                                               UserRef = _MockUserData[0].Id
+                                               UserRef = _MockUserData[5].Id
                                            },
                                        new CourseUser
                                            {
                                                Course = mockCourseData[3], 
                                                CourseRef = mockCourseData[3].Id, 
-                                               UserRef = _MockUserData[1].Id
+                                               UserRef = _MockUserData[2].Id
                                            },
                                        new CourseUser
                                            {
@@ -261,7 +305,6 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
                                                Name = "something))"
                                            }
                                    };
-
 
             _MockDataContext.SetupGet(c => c.Courses).Returns(new MemoryTable<Course>(mockCourseData));
             _MockDataContext.SetupGet(c => c.Nodes).Returns(new MemoryTable<Node>(mockNodeData));
