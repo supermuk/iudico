@@ -32,7 +32,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         [TearDown]
         public void TeardownTest()
         {
-			selenium.Click("link=Logout");
+            selenium.Click("//a[contains(@href, '/Account/Logout')]");
 			selenium.WaitForPageToLoad("30000");
 
             try
@@ -62,9 +62,9 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             var guid = Guid.NewGuid();
             var name = guid.ToString().Replace('-', '_').Substring(0, 12);
 
-            selenium.Click("link=Users");
+            selenium.Click("//a[contains(@href, '/User/Index')]");
             selenium.WaitForPageToLoad("30000");
-            selenium.Click("link=Create New User");
+            selenium.Click("//a[contains(@href, '/User/Create')]");
             selenium.WaitForPageToLoad("30000");
             selenium.Type("id=Username", "un_" + name);
             selenium.Type("id=Password", "1");
@@ -74,16 +74,14 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Click("css=input[type=\"submit\"]");
             selenium.WaitForPageToLoad("30000");
             Assert.IsTrue(selenium.GetLocation().EndsWith("/User/Index"));
- //           selenium.Click("//a[@onclick=concat(\"Sys.Mvc.AsyncHyperlink.handleClick(this, new Sys.UI.DomEvent(event), { insertionMode: Sys.Mvc.InsertionMode.replace, confirm: 'Are you sure you want to delete \",'\"login\"?',\"', httpMethod: 'Delete', onSuccess: Function.createDelegate(this, removeRow) });\")]");
- //           Assert.IsTrue(Regex.IsMatch(selenium.GetConfirmation(), "^Are you sure you want to delete \"login\"[\\s\\S]$"));
         }
 
         [Test]
         public void CreateUserViolation()
         {
-            selenium.Click("link=Users");
+            selenium.Click("//a[contains(@href, '/User/Index')]");
             selenium.WaitForPageToLoad("30000");
-            selenium.Click("link=Create New User");
+            selenium.Click("//a[contains(@href, '/User/Create')]");
             selenium.WaitForPageToLoad("30000");
             selenium.Type("id=Username", "does_not_matter");
             selenium.Type("id=Password", "1");
@@ -100,22 +98,23 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         [Test]
         public void EditUserSuccess()
         {
-            //// do
-            //selenium.Click("link=Users");
-            //selenium.WaitForPageToLoad("30000");
-            //selenium.Click("link=Edit");
-            //selenium.WaitForPageToLoad("30000");
-            //selenium.Type("id=UserId", "a");
-            //selenium.Click("css=p > input[type=\"submit\"]");
-            //selenium.WaitForPageToLoad("30000");
-            //Assert.IsTrue(selenium.GetLocation().EndsWith("/User/Index"));
-            //// undo
-            //selenium.Click("link=Edit");
-            //selenium.WaitForPageToLoad("30000");
-            //selenium.Type("id=UserId", "ADMIN 000001");
-            //selenium.Click("css=p > input[type=\"submit\"]");
-            //selenium.WaitForPageToLoad("30000");
-            //Assert.IsTrue(selenium.GetLocation().EndsWith("/User/Index"));
+            // do
+            selenium.Click("//a[contains(@href, '/User/Index')]");
+            selenium.WaitForPageToLoad("30000");
+            selenium.Click("//a[contains(@href, '/User/Edit?id=d47e8c09-2827-e011-840f-93b2f3060fee')]");
+            selenium.WaitForPageToLoad("30000");
+            selenium.Type("id=Email", "lex@iudico.com");
+            selenium.Type("id=UserId", "a");
+            selenium.Click("css=p > input[type=\"submit\"]");
+            selenium.WaitForPageToLoad("30000");
+            Assert.IsTrue(selenium.GetLocation().EndsWith("/User/Index"));
+            // undo
+            selenium.Click("//a[contains(@href, '/User/Edit?id=d47e8c09-2827-e011-840f-93b2f3060fee')]");
+            selenium.WaitForPageToLoad("30000");
+            selenium.Type("id=UserId", "ADMIN 000001");
+            selenium.Click("css=p > input[type=\"submit\"]");
+            selenium.WaitForPageToLoad("30000");
+            Assert.IsTrue(selenium.GetLocation().EndsWith("/User/Index"));
         }
 
         [Test]
@@ -127,16 +126,17 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         public void EditAccount()
         {
             // do
-            selenium.Click("link=Account");
+            selenium.Click("//a[contains(@href, '/Account/Index')]");
             selenium.WaitForPageToLoad("30000");
-            selenium.Click("link=Edit");
+            selenium.Click("//a[contains(@href, '/Account/Edit')]");
             selenium.WaitForPageToLoad("30000");
+            selenium.Type("id=Email", "lex@iudico.com");
             selenium.Type("id=UserId", "a");
             selenium.Click("css=p > input[type=\"submit\"]");
             selenium.WaitForPageToLoad("30000");
             Assert.IsTrue(selenium.GetLocation().EndsWith("/Account/Index"));
             // undo
-            selenium.Click("link=Edit");
+            selenium.Click("//a[contains(@href, '/Account/Edit')]");
             selenium.WaitForPageToLoad("30000");
             selenium.Type("id=UserId", "ADMIN 000001");
             selenium.Click("css=p > input[type=\"submit\"]");
