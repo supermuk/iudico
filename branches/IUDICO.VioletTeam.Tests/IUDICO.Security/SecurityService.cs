@@ -22,7 +22,7 @@ namespace IUDICO.Security
             
             if (_BanStorage.ifBanned(ip))
                 return false;
-            return true;           
+            return true;
         }
 
         public HttpResponseBase ProcessRequest(HttpRequestBase request)

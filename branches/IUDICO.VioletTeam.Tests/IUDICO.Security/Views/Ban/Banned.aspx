@@ -6,7 +6,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>There are 404 monkeys dancing outside.</h2>
+    <h2>You have been banned</h2>
 
 </asp:Content>
 

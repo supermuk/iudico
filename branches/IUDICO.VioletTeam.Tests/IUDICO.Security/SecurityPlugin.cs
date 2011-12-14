@@ -13,6 +13,11 @@ using System.Web.Routing;
 using IUDICO.Security.Models.Storages;
 using IUDICO.Security.Models.Storages.Database;
 using Action = IUDICO.Common.Models.Action;
+using IUDICO.Common.Models.Notifications;
+using System.IO;
+using IUDICO.Security.Helpers;
+using IUDICO.Common.Models.Shared;
+using System.Text;
 
 namespace IUDICO.Security
 {
@@ -36,6 +41,7 @@ namespace IUDICO.Security
                 Component.For<IBanStorage>().ImplementedBy<DatabaseBanStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<ISecurityStorage>().ImplementedBy<DatabaseSecurityStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
+
             Container = container;
         }
         #endregion
@@ -82,15 +88,83 @@ namespace IUDICO.Security
 
         public void Update(string evt, params object[] data)
         {
-            var securityService = Container.Resolve<ISecurityService>();
-            var action = HttpContext.Current.Request.RequestContext.RouteData.Values["action"];
-            if ( action  != null && action.ToString() != "Banned")
-                if (!securityService.CheckRequestSafety(new HttpRequestWrapper(HttpContext.Current.Request)))
-                {                
-                    HttpContext.Current.Response.Redirect("/Ban/Banned", true);
-                }
+            if (evt == LMSNotifications.ApplicationRequestStart)
+            {
+                ApplicationRequestStart(data);
+            }
+            else if (evt == LMSNotifications.ApplicationRequestEnd)
+            {
+                ApplicationRequestEnd(data);
+            }
         }
 
         #endregion
+
+        private void ApplicationRequestStart(params object[] data)
+        {
+            var response = HttpContext.Current.Response;
+            response.Filter = new ObserveResponseLengthStream(response.Filter);
+
+            var context = HttpContext.Current;
+            context.Items["REQUEST_START_DATETIME"] = DateTime.Now;
+
+            var securityService = Container.Resolve<ISecurityService>();
+            var action = HttpContext.Current.Request.RequestContext.RouteData.Values["action"];
+            if (action != null && action.ToString() != "Banned")
+            {
+                if (!securityService.CheckRequestSafety(new HttpRequestWrapper(HttpContext.Current.Request)))
+                {
+                    HttpContext.Current.Response.Redirect("/Ban/Banned", true);
+                }
+            }
+        }
+
+        private void ApplicationRequestEnd(params object[] data)
+        {
+            var context = HttpContext.Current;
+            var filter = context.Response.Filter;
+
+            var storage = Container.Resolve<ISecurityStorage>();
+            var usersService = Container.Resolve<IUserService>();
+
+            var userActivity = new UserActivity
+            {
+                ResponseLength = (int) filter.Length,
+                RequestStartTime = (DateTime)context.Items["REQUEST_START_DATETIME"],
+                RequestEndTime = DateTime.Now
+            };
+
+            var currentUser = usersService.GetCurrentUser();
+            if (currentUser != null)
+            {
+                userActivity.UserRef = currentUser.Id;
+            }
+
+            userActivity.Request = GetRawRequest(context.Request);
+            userActivity.RequestLength = userActivity.Request.Length;
+
+            storage.CreateUserActivity(userActivity);
+        }
+
+        private string GetRawRequest(HttpRequest request)
+        {
+            var sb = new StringBuilder();
+            
+            sb.AppendFormat("{0} {1} {2}",
+                request.HttpMethod,
+                request.RawUrl,
+                request.ServerVariables["SERVER_PROTOCOL"]);
+
+            sb.AppendLine(request.Headers.ToString());
+
+            var requestStream = request.InputStream;
+            var reader = new StreamReader(requestStream);
+
+            sb.AppendLine(reader.ReadToEnd());
+
+            reader.Close();
+
+            return sb.ToString();
+        }
     }
 }

@@ -75,14 +75,24 @@ namespace IUDICO.UserManagement.Controllers
             
             if (ModelState.IsValid)
             {
-                if (!_Storage.UsernameExists(user.Username))
+                bool error = false;
+                if (_Storage.UsernameExists(user.Username))
+                {
+                    error = true;
+                    ModelState.AddModelError("Username", "User with such username already exists.");
+                }
+                if (!_Storage.UserUniqueIdAvailable(user.UserId, user.Id))
+                {
+                    error = true;
+                    ModelState.AddModelError("UserID", Localization.getMessage("Unique ID Error"));
+                }
+
+                if (!error)
                 {
                     _Storage.CreateUser(user);
 
                     return RedirectToAction("Index");
                 }
-                
-                ModelState.AddModelError("Username", "User with such username already exists.");
             }
 
             user.Password = null;
@@ -161,6 +171,13 @@ namespace IUDICO.UserManagement.Controllers
             {
                 user.Password = null;
                 //user.RolesList = _Storage.GetRoles().AsQueryable().Select(r => new SelectListItem { Text = IUDICO.UserManagement.Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = (user.Role == r) });
+
+                return View(user);
+            }
+
+            if (!_Storage.UserUniqueIdAvailable(user.UserId, user.Id))
+            {
+                ModelState.AddModelError("UserID", Localization.getMessage("Unique ID Error"));
 
                 return View(user);
             }

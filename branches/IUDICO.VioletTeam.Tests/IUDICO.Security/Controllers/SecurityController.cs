@@ -15,7 +15,7 @@ namespace IUDICO.Security.Controllers
         //
         // GET: /Security/
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public ActionResult Index()
         {
             return View();

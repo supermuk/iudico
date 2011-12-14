@@ -8,6 +8,7 @@ using IUDICO.Common.Models.Shared;
 using IUDICO.Security.ViewModels.Ban;
 using IUDICO.Security.Models.Storages;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Attributes;
 
 namespace IUDICO.Security.Controllers
 {
@@ -20,17 +21,20 @@ namespace IUDICO.Security.Controllers
             _BanStorage = banStorage;
         }
 
+        [Allow(Role = Role.Admin)]
         public ActionResult Index()
         {
             return View();
         }
 
+        [Allow(Role = Role.Admin)]
         public ActionResult AddComputers()
         {
             return View(new AddComputerViewModel());
         }
 
         [HttpPost]
+        [Allow(Role = Role.Admin)]
         public ActionResult AddComputers(AddComputerViewModel viewModel)
         {
             viewModel.State = Models.ViewModelState.Edit;
@@ -52,12 +56,14 @@ namespace IUDICO.Security.Controllers
             return View(viewModel);
         }
 
+        [Allow(Role = Role.Admin)]
         public ActionResult AddRoom()
         {
             return View(new AddRoomViewModel());
         }
 
         [HttpPost]
+        [Allow(Role = Role.Admin)]
         public ActionResult AddRoom(AddRoomViewModel viewModel)
         {
             if (!String.IsNullOrEmpty(viewModel.Name))
@@ -73,11 +79,13 @@ namespace IUDICO.Security.Controllers
             return View(viewModel);
         }
 
+        [Allow(Role = Role.Admin)]
         public ActionResult EditComputer()
         {
             return View(new EditComputersViewModel());
         }
 
+        [Allow(Role = Role.Admin)]
         public ActionResult EditComputer(String computer)
         {
             var comp = _BanStorage.GetComputer(computer);
@@ -85,6 +93,7 @@ namespace IUDICO.Security.Controllers
             return View(ViewModel);
         }
 
+        [Allow(Role = Role.Admin)]
         public ActionResult EditRoom()
         {
             var viewModel = new RoomsViewModel();
@@ -94,6 +103,7 @@ namespace IUDICO.Security.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Admin)]
         public ActionResult EditRoom(String CurrentRoom)
         {
             var viewModel = new RoomsViewModel();
@@ -126,6 +136,7 @@ namespace IUDICO.Security.Controllers
         //    return View(Model);
         //}
 
+        [Allow(Role = Role.Admin)]
         public ActionResult BanComputer()
         {
             var viewModel = new BanComputerViewModel();
@@ -134,18 +145,21 @@ namespace IUDICO.Security.Controllers
             return View(viewModel);
         }
 
+        [Allow(Role = Role.Admin)]
         public ActionResult ComputerBan(String computer)
         {
             _BanStorage.BanComputer(_BanStorage.GetComputer(computer));
             return RedirectToAction("BanComputer");            
         }
 
+        [Allow(Role = Role.Admin)]
         public ActionResult ComputerUnban(String computer)
         {
             _BanStorage.UnbanComputer(_BanStorage.GetComputer(computer));
             return RedirectToAction("BanComputer");   
         }
 
+        [Allow(Role = Role.Admin)]
         public ActionResult BanRoom()
         {
             var viewModel = new BanRoomViewModel();
@@ -154,6 +168,7 @@ namespace IUDICO.Security.Controllers
             return View("BanRoom", viewModel);
         }
 
+        [Allow(Role = Role.Admin)]
         public ActionResult RoomBan(String room)
         { 
             var viewModel = new BanRoomViewModel();
@@ -162,6 +177,7 @@ namespace IUDICO.Security.Controllers
             return View("BanRoom", viewModel);
         }
 
+        [Allow(Role = Role.Admin)]
         public ActionResult RoomUnban(String room)
         {
             var viewModel = new BanRoomViewModel();
@@ -170,6 +186,7 @@ namespace IUDICO.Security.Controllers
             return View("BanRoom", viewModel);
         }
 
+        [Allow(Role = Role.Admin)]
         public ActionResult DeleteRoom(String room)
         {
             var viewModel = new BanRoomViewModel();
@@ -178,6 +195,7 @@ namespace IUDICO.Security.Controllers
             return View("BanRoom", viewModel);
         }
 
+        [Allow(Role = Role.Admin)]
         public ActionResult DeleteComputer(String computer)
         {   
             _BanStorage.DeleteComputer(_BanStorage.GetComputer(computer));

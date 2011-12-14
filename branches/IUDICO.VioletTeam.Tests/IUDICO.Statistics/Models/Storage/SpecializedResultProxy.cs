@@ -34,7 +34,9 @@ namespace IUDICO.Statistics.Models.Storage
                 {
                     curRes = new CurriculumResult();
                     curRes.Themes = _LmsService.FindService<ICurriculumService>().GetThemesByCurriculumId(curr.Id);
+                    
                     #region ThemeResult
+
                     foreach (Theme theme in curRes.Themes)
                     {
                         themeResult = new ThemeResult(usr, theme);
@@ -42,7 +44,9 @@ namespace IUDICO.Statistics.Models.Storage
                         themeResult.Res = themeResult.GetThemeResultScore();
                         curRes.ThemeResult.Add(themeResult);
                     }
+
                     #endregion
+
                     curRes.CalculateSumAndMax(usr, curr);
                     specializedResult.CurriculumResult.Add(curRes);
                 }
