@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using IUDICO.UnitTests.Base;
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.CourseManagement.Selenium
 {
-    /*
+    
     [TestFixture]
     class StudentRole: TestFixtureWeb
     {
@@ -41,8 +42,6 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             selenium.WaitForPageToLoad("30000");
             selenium.Click("link=Back to List");
             selenium.WaitForPageToLoad("30000");
-
         }
     }
-     */
 }
