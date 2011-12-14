@@ -104,7 +104,6 @@
     <Compile Include="CourseManagement\Selenium\StudentRole.cs" />
     <Compile Include="CurriculumManagement\NUnit\CurriculumTests.cs" />
     <Compile Include="CurriculumManagement\Old\CurriculumResultTest.cs" />
-    <Compile Include="CurriculumManagement\Old\CurriculumStorageTest.cs" />
     <Compile Include="CurriculumManagement\Old\Extensions.cs" />
     <Compile Include="CurriculumManagement\CurriculumManagementTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -166,7 +165,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CurriculumManagement\" />
     <Folder Include="Libs\" />
     <Folder Include="TestingSystem\Selenium\" />
   </ItemGroup>
