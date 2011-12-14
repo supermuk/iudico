@@ -9,6 +9,7 @@ using Moq;
 using Moq.Protected;
 using IUDICO.CurriculumManagement.Models;
 using IUDICO.CurriculumManagement.Models.Storage;
+using IUDICO.CourseManagement.Models.Storage;
 using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.UnitTests.CurriculumManagement
@@ -23,7 +24,19 @@ namespace IUDICO.UnitTests.CurriculumManagement
 
         #region Public properties
 
-        private Mock<IDataContext> _MockDataContext
+        private Mock<IUDICO.CurriculumManagement.Models.IDataContext> _MockDataContext
+        {
+            get;
+            set;
+        }
+
+        private Mock<IUDICO.UserManagement.Models.IDataContext> _MockUserDataContext
+        {
+            get;
+            set;
+        }
+
+        private Mock<IUDICO.CourseManagement.Models.IDataContext> _MockCourseDataContext
         {
             get;
             set;
@@ -41,9 +54,31 @@ namespace IUDICO.UnitTests.CurriculumManagement
             set;
         }
 
+        private Mock<DatabaseUserStorage> _MockUserStorage
+        {
+            get;
+            set;
+        }
+
+        private Mock<MixedCourseStorage> _MockCourseStorage
+        {
+            get;
+            set;
+        }
+
         public IDataContext DataContext
         {
             get { return _MockDataContext.Object; }
+        }
+
+        public IUDICO.UserManagement.Models.IDataContext UserDataContext
+        {
+            get { return _MockUserDataContext.Object; }
+        }
+
+        public IUDICO.CourseManagement.Models.IDataContext CourseDataContext
+        {
+            get { return _MockCourseDataContext.Object; }
         }
 
         public ILmsService LmsService
@@ -54,6 +89,15 @@ namespace IUDICO.UnitTests.CurriculumManagement
         public ICurriculumStorage Storage
         {
             get { return _MockStorage.Object; }
+        }
+
+        public IUserStorage UserStorage
+        {
+            get { return _MockUserStorage.Object; }
+        }
+        public ICourseStorage CourseStorage
+        {
+            get { return _MockCourseStorage.Object; }
         }
 
         //public Mock<ITable> Users
@@ -85,9 +129,15 @@ namespace IUDICO.UnitTests.CurriculumManagement
         private CurriculumManagementTests()
         {
             _MockDataContext = new Mock<IDataContext>();
+            _MockUserDataContext = new Mock<IUDICO.UserManagement.Models.IDataContext>();
+            _MockCourseDataContext = new Mock<IUDICO.CourseManagement.Models.IDataContext>();
             _MockLmsService = new Mock<ILmsService>();
             _MockStorage = new Mock<MixedCurriculumStorage>(_MockLmsService.Object);
+            _MockUserStorage = new Mock<DatabaseUserStorage>(_MockLmsService.Object);
+            _MockCourseStorage = new Mock<MixedCourseStorage>(_MockLmsService.Object);
             _MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(_MockDataContext.Object);
+            _MockUserStorage.Protected().Setup<IUDICO.UserManagement.Models.IDataContext>("GetDbContext").Returns(_MockUserDataContext.Object);
+            _MockCourseStorage.Protected().Setup<IUDICO.CourseManagement.Models.IDataContext>("GetDbContext").Returns(_MockCourseDataContext.Object);
 
             //Users = new Mock<ITable>();
             //Groups = new Mock<ITable>();
@@ -120,10 +170,10 @@ namespace IUDICO.UnitTests.CurriculumManagement
                 new GroupUser {GroupRef = 1, UserRef = mockUserData[0].Id}
             };
 
-            //_MockDataContext.SetupGet(c => c.Courses).Returns(new MemoryTable<Course>(mockCourseData));
-            //_MockDataContext.SetupGet(c => c.Users).Returns(new MemoryTable<User>(mockUserData));
-            //_MockDataContext.SetupGet(c => c.Groups).Returns(new MemoryTable<Group>(mockGroupData));
-            //_MockDataContext.SetupGet(c => c.GroupUsers).Returns(new MemoryTable<GroupUser>(mockGroupUserData));
+            _MockCourseDataContext.SetupGet(c => c.Courses).Returns(new MemoryTable<Course>(mockCourseData));
+            _MockUserDataContext.SetupGet(c => c.Users).Returns(new MemoryTable<User>(mockUserData));
+            _MockUserDataContext.SetupGet(c => c.Groups).Returns(new MemoryTable<Group>(mockGroupData));
+            _MockUserDataContext.SetupGet(c => c.GroupUsers).Returns(new MemoryTable<GroupUser>(mockGroupUserData));
 
             //_MockLmsService.Setup(l => l.GetDataContext()).Returns(_MockDataContext.Object);
             Mock<IUserService> userService = new Mock<IUserService>();

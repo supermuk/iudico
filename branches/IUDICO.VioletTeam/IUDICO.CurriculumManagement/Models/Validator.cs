@@ -32,26 +32,26 @@ namespace IUDICO.CurriculumManagement.Models
         {
             ValidationStatus validationStatus = new ValidationStatus();
 
-			DateTime minAllowedDate = Constants.MinAllowedDateTime;
-			DateTime maxAllowedDate = Constants.MaxAllowedDateTime;
-			if (timeline.StageRef <= 0)
-			{
-				validationStatus.Errors.Add(String.Format(Localization.getMessage("ChooseStage")));
-			}
-			if (timeline.StartDate > timeline.EndDate)
-			{
-				validationStatus.Errors.Add(Localization.getMessage("StartDateMustLessThanEndDate"));
-			}
-			if (timeline.StartDate < minAllowedDate || timeline.StartDate > maxAllowedDate)
-			{
-				validationStatus.Errors.Add(String.Format(Localization.getMessage("StartDateMustBeBetween"),
-					 minAllowedDate.ToString(), maxAllowedDate.ToString()));
-			}
-			if (timeline.EndDate < minAllowedDate || timeline.EndDate > maxAllowedDate)
-			{
-				validationStatus.Errors.Add(String.Format(Localization.getMessage("EndDateMustBeBetween"),
-					 minAllowedDate.ToString(), maxAllowedDate.ToString()));
-			}
+            DateTime minAllowedDate = Constants.MinAllowedDateTime;
+            DateTime maxAllowedDate = Constants.MaxAllowedDateTime;
+            if (timeline.StageRef <= 0)
+            {
+                validationStatus.Errors.Add(String.Format(Localization.getMessage("ChooseStage")));
+            }
+            if (timeline.StartDate > timeline.EndDate)
+            {
+                validationStatus.Errors.Add(Localization.getMessage("StartDateMustLessThanEndDate"));
+            }
+            if (timeline.StartDate < minAllowedDate || timeline.StartDate > maxAllowedDate)
+            {
+                validationStatus.Errors.Add(String.Format(Localization.getMessage("StartDateMustBeBetween"),
+                   minAllowedDate.ToString(), maxAllowedDate.ToString()));
+            }
+            if (timeline.EndDate < minAllowedDate || timeline.EndDate > maxAllowedDate)
+            {
+                validationStatus.Errors.Add(String.Format(Localization.getMessage("EndDateMustBeBetween"),
+                   minAllowedDate.ToString(), maxAllowedDate.ToString()));
+            }
 
             var timelines = storage.GetCurriculumAssignmentTimelines(timeline.CurriculumAssignmentRef);
 
@@ -87,22 +87,22 @@ namespace IUDICO.CurriculumManagement.Models
         {
             ValidationStatus validationStatus = new ValidationStatus();
 
-			DateTime minAllowedDate = Constants.MinAllowedDateTime;
-			DateTime maxAllowedDate = Constants.MaxAllowedDateTime;
-			if (timeline.StartDate > timeline.EndDate)
-			{
-				validationStatus.Errors.Add(Localization.getMessage("StartDateMustLessThanEndDate"));
-			}
-			if (timeline.StartDate < minAllowedDate || timeline.StartDate > maxAllowedDate)
-			{
-				validationStatus.Errors.Add(String.Format(Localization.getMessage("StartDateMustBeBetween"),
-					 minAllowedDate.ToString(), maxAllowedDate.ToString()));
-			}
-			if (timeline.EndDate < minAllowedDate || timeline.EndDate > maxAllowedDate)
-			{
-				validationStatus.Errors.Add(String.Format(Localization.getMessage("EndDateMustBeBetween"),
-					 minAllowedDate.ToString(), maxAllowedDate.ToString()));
-			}
+            DateTime minAllowedDate = Constants.MinAllowedDateTime;
+            DateTime maxAllowedDate = Constants.MaxAllowedDateTime;
+            if (timeline.StartDate > timeline.EndDate)
+            {
+                validationStatus.Errors.Add(Localization.getMessage("StartDateMustLessThanEndDate"));
+            }
+            if (timeline.StartDate < minAllowedDate || timeline.StartDate > maxAllowedDate)
+            {
+                validationStatus.Errors.Add(String.Format(Localization.getMessage("StartDateMustBeBetween"),
+                   minAllowedDate.ToString(), maxAllowedDate.ToString()));
+            }
+            if (timeline.EndDate < minAllowedDate || timeline.EndDate > maxAllowedDate)
+            {
+                validationStatus.Errors.Add(String.Format(Localization.getMessage("EndDateMustBeBetween"),
+                   minAllowedDate.ToString(), maxAllowedDate.ToString()));
+            }
 
             return validationStatus;
         }
@@ -116,10 +116,10 @@ namespace IUDICO.CurriculumManagement.Models
         {
             ValidationStatus validationStatus = new ValidationStatus();
 
-			if (curriculumAssignment.UserGroupRef <= 0)
-			{
-				validationStatus.Errors.Add(String.Format(Localization.getMessage("ChooseStage")));
-			}
+            if (curriculumAssignment.UserGroupRef <= 0)
+            {
+                validationStatus.Errors.Add(String.Format(Localization.getMessage("ChooseStage")));
+            }
 
             return validationStatus;
         }
