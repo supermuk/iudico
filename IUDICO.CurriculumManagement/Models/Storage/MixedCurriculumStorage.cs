@@ -75,20 +75,17 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public Curriculum GetCurriculum(int id)
         {
-            //return _Db.Curriculums.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
             return GetCurriculum(GetDbContext(), id);
         }
 
         public IEnumerable<Curriculum> GetCurriculums()
         {
-            //return _Db.Curriculums.Where(item => !item.IsDeleted).ToList();
             return GetDbContext().Curriculums.Where(item => !item.IsDeleted).ToList();
         }
 
         public IEnumerable<Curriculum> GetCurriculums(User owner)
         {
-            //return _Db.Curriculums.Where(item => !item.IsDeleted && item.Owner == owner.Username).ToList();
-            return GetDbContext().Curriculums.Where(item => !item.IsDeleted).ToList();
+            return GetDbContext().Curriculums.Where(item => !item.IsDeleted && item.Owner == owner.Username).ToList();
         }
 
         public IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids)
@@ -190,7 +187,6 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public Stage GetStage(int id)
         {
             return GetStage(GetDbContext(), id);
-            //return GetDbContext().Stages.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
         }
 
         public IEnumerable<Stage> GetStages(int curriculumId)
