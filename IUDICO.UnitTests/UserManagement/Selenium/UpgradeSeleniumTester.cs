@@ -35,7 +35,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             }
             Assert.AreEqual("", verificationErrors.ToString());
         }
-
+        
         [Test]
         public void LoginAsAdmin()
         {
