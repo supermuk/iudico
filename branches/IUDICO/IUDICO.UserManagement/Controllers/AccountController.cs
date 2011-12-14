@@ -214,7 +214,8 @@ namespace IUDICO.UserManagement.Controllers
 
                 return View(editModel);
             }
-            if (!_Storage.UserUniqueIdAvailable(editModel.UserId, editModel.Id))
+
+            if (!_Storage.UserUniqueIdAvailable(editModel.UserId, _Storage.GetCurrentUser().Id))
             {
                 ModelState.AddModelError("UserID", Localization.getMessage("Unique ID Error"));
 
