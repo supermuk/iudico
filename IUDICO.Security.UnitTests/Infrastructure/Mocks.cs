@@ -16,6 +16,8 @@ namespace IUDICO.Security.UnitTests.Infrastructure
     class Mocks
     {
         protected IBanStorage _BanStorage;
+        protected ISecurityStorage _SecurityStorage;
+
         protected Mock<ILmsService> _MockLmsService;
         protected Mock<ISecurityDataContext> _MockSecurityDataContext;
 
@@ -24,11 +26,21 @@ namespace IUDICO.Security.UnitTests.Infrastructure
             get { return _BanStorage; }
         }
 
+        public ISecurityStorage SecurityStorage
+        {
+            get { return _SecurityStorage; }
+        }
+
         public Mocks()
         {
             MockLms();
             MockSecurityDataContext();
             MockBanStorage();
+            MockSecurityStorage();
+        }
+
+        public void Reset()
+        {
         }
 
         private void MockLms()
@@ -42,6 +54,7 @@ namespace IUDICO.Security.UnitTests.Infrastructure
 
             _MockSecurityDataContext.SetupGet(c => c.Computers).Returns(CreateComputers());
             _MockSecurityDataContext.SetupGet(c => c.Rooms).Returns(CreateRooms());
+            _MockSecurityDataContext.SetupGet(c => c.UserActivities).Returns(CreateUserActivities());
         }
 
         private void MockBanStorage()
@@ -53,6 +66,19 @@ namespace IUDICO.Security.UnitTests.Infrastructure
             };
             _BanStorage = new DatabaseBanStorage
                 (_MockLmsService.Object, createSecurityDataContext);
+        }
+
+        private void MockSecurityStorage()
+        {
+            var context = _MockSecurityDataContext.Object;
+
+            Func<ISecurityDataContext> createSecurityDataContext = () =>
+            {
+                return context;
+            };
+
+            _SecurityStorage = new DatabaseSecurityStorage
+                (createSecurityDataContext);
         }
 
         private IMockableTable<Computer> CreateComputers()
@@ -83,6 +109,11 @@ namespace IUDICO.Security.UnitTests.Infrastructure
             };
 
             return new MemoryTable<Room>(rooms);
+        }
+
+        private IMockableTable<UserActivity> CreateUserActivities()
+        {
+            return new MemoryTable<UserActivity>();
         }
     }
 }

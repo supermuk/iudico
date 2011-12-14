@@ -5274,6 +5274,212 @@ namespace IUDICO.Common.Models.Shared
             entity.User1 = null;
         }
     }
+
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.UserActivities")]
+    public partial class UserActivity : INotifyPropertyChanging, INotifyPropertyChanged
+    {
+
+        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+
+        private int _Id;
+
+        private System.Nullable<System.Guid> _UserRef;
+
+        private System.DateTime _RequestStartTime;
+
+        private System.DateTime _RequestEndTime;
+
+        private int _RequestLength;
+
+        private int _ResponseLength;
+
+        private string _Request;
+
+        #region Extensibility Method Definitions
+        partial void OnLoaded();
+        partial void OnValidate(System.Data.Linq.ChangeAction action);
+        partial void OnCreated();
+        partial void OnIdChanging(int value);
+        partial void OnIdChanged();
+        partial void OnUserRefChanging(System.Nullable<System.Guid> value);
+        partial void OnUserRefChanged();
+        partial void OnRequestStartTimeChanging(System.DateTime value);
+        partial void OnRequestStartTimeChanged();
+        partial void OnRequestEndTimeChanging(System.DateTime value);
+        partial void OnRequestEndTimeChanged();
+        partial void OnRequestLengthChanging(int value);
+        partial void OnRequestLengthChanged();
+        partial void OnResponseLengthChanging(int value);
+        partial void OnResponseLengthChanged();
+        partial void OnRequestChanging(string value);
+        partial void OnRequestChanged();
+        #endregion
+
+        public UserActivity()
+        {
+            OnCreated();
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
+        public int Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                if ((this._Id != value))
+                {
+                    this.OnIdChanging(value);
+                    this.SendPropertyChanging();
+                    this._Id = value;
+                    this.SendPropertyChanged("Id");
+                    this.OnIdChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_UserRef", DbType = "UniqueIdentifier")]
+        public System.Nullable<System.Guid> UserRef
+        {
+            get
+            {
+                return this._UserRef;
+            }
+            set
+            {
+                if ((this._UserRef != value))
+                {
+                    this.OnUserRefChanging(value);
+                    this.SendPropertyChanging();
+                    this._UserRef = value;
+                    this.SendPropertyChanged("UserRef");
+                    this.OnUserRefChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_RequestStartTime", DbType = "DateTime NOT NULL")]
+        public System.DateTime RequestStartTime
+        {
+            get
+            {
+                return this._RequestStartTime;
+            }
+            set
+            {
+                if ((this._RequestStartTime != value))
+                {
+                    this.OnRequestStartTimeChanging(value);
+                    this.SendPropertyChanging();
+                    this._RequestStartTime = value;
+                    this.SendPropertyChanged("RequestStartTime");
+                    this.OnRequestStartTimeChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_RequestEndTime", DbType = "DateTime NOT NULL")]
+        public System.DateTime RequestEndTime
+        {
+            get
+            {
+                return this._RequestEndTime;
+            }
+            set
+            {
+                if ((this._RequestEndTime != value))
+                {
+                    this.OnRequestEndTimeChanging(value);
+                    this.SendPropertyChanging();
+                    this._RequestEndTime = value;
+                    this.SendPropertyChanged("RequestEndTime");
+                    this.OnRequestEndTimeChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_RequestLength", DbType = "Int NOT NULL")]
+        public int RequestLength
+        {
+            get
+            {
+                return this._RequestLength;
+            }
+            set
+            {
+                if ((this._RequestLength != value))
+                {
+                    this.OnRequestLengthChanging(value);
+                    this.SendPropertyChanging();
+                    this._RequestLength = value;
+                    this.SendPropertyChanged("RequestLength");
+                    this.OnRequestLengthChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ResponseLength", DbType = "Int NOT NULL")]
+        public int ResponseLength
+        {
+            get
+            {
+                return this._ResponseLength;
+            }
+            set
+            {
+                if ((this._ResponseLength != value))
+                {
+                    this.OnResponseLengthChanging(value);
+                    this.SendPropertyChanging();
+                    this._ResponseLength = value;
+                    this.SendPropertyChanged("ResponseLength");
+                    this.OnResponseLengthChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Request", DbType = "NVarChar(MAX) NOT NULL", CanBeNull = false)]
+        public string Request
+        {
+            get
+            {
+                return this._Request;
+            }
+            set
+            {
+                if ((this._Request != value))
+                {
+                    this.OnRequestChanging(value);
+                    this.SendPropertyChanging();
+                    this._Request = value;
+                    this.SendPropertyChanged("Request");
+                    this.OnRequestChanged();
+                }
+            }
+        }
+
+        public event PropertyChangingEventHandler PropertyChanging;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void SendPropertyChanging()
+        {
+            if ((this.PropertyChanging != null))
+            {
+                this.PropertyChanging(this, emptyChangingEventArgs);
+            }
+        }
+
+        protected virtual void SendPropertyChanged(String propertyName)
+        {
+            if ((this.PropertyChanged != null))
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
 /*
     [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.CourseUsers")]
     public partial class CourseUser : INotifyPropertyChanging, INotifyPropertyChanged
