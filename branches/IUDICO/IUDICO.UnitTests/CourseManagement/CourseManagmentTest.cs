@@ -18,6 +18,12 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
 
         protected static CourseManagementTest _Instance;
 
+        User[] _MockUserData = new[]
+                                   {
+                                       new User {Id = Guid.NewGuid(), Username = "lex", Password = "",},
+                                       new User {Id = Guid.NewGuid(), Username = "user1", Password = "",},
+                                       new User {Id = Guid.NewGuid(), Username = "user2", Password = "",},
+                                   };
         #endregion
 
         #region Public properties
@@ -108,6 +114,8 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             _MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(_MockDataContext.Object);
             _MockUserStorage.Protected().Setup<IUDICO.UserManagement.Models.IDataContext>("GetDbContext").Returns(_MockUserDataContext.Object);
 
+
+
             Setup();
         }
 
@@ -118,15 +126,16 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
 
         public void Setup()
         {
-            var mockUserData = new[]
-                                   {
-                                       new User {Id = Guid.NewGuid(), Username = "lex", Password = "",},
-                                       new User {Id = Guid.NewGuid(), Username = "user1", Password = "",},
-                                       new User {Id = Guid.NewGuid(), Username = "user2", Password = "",},
-                                   };
 
 
-            _MockUserDataContext.SetupGet(c => c.Users).Returns(new MemoryTable<User>(mockUserData));
+
+            _MockUserDataContext.SetupGet(c => c.Users).Returns(new MemoryTable<User>(_MockUserData));
+
+            Mock<IUserService> userService = new Mock<IUserService>();
+            _MockLmsService.Setup(l => l.FindService<IUserService>()).Returns(userService.Object);
+
+            userService.Setup(s => s.GetCurrentUser()).Returns(_MockUserData[0]);
+            userService.Setup(s => s.GetUsers()).Returns(_MockUserData);
 
 
             ClearTables();
@@ -134,12 +143,6 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
 
         public void ClearTables()
         {
-            var mockUserData = new[]
-                                   {
-                                       new User {Id = Guid.NewGuid(), Username = "lex", Password = "",},
-                                       new User {Id = Guid.NewGuid(), Username = "user1", Password = "",},
-                                       new User {Id = Guid.NewGuid(), Username = "user2", Password = "",},
-                                   };
 
             var mockCourseData = new[]
                                      {
@@ -212,31 +215,31 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
                                            {
                                                Course = mockCourseData[0], 
                                                CourseRef = mockCourseData[0].Id, 
-                                               UserRef = mockUserData[0].Id
+                                               UserRef = _MockUserData[0].Id
                                            },
                                        new CourseUser
                                            {
                                                Course = mockCourseData[1], 
                                                CourseRef = mockCourseData[1].Id, 
-                                               UserRef = mockUserData[0].Id
+                                               UserRef = _MockUserData[0].Id
                                            },
                                        new CourseUser
                                            {
                                                Course = mockCourseData[2], 
                                                CourseRef = mockCourseData[2].Id, 
-                                               UserRef = mockUserData[0].Id
+                                               UserRef = _MockUserData[0].Id
                                            },
                                        new CourseUser
                                            {
                                                Course = mockCourseData[3], 
                                                CourseRef = mockCourseData[3].Id, 
-                                               UserRef = mockUserData[1].Id
+                                               UserRef = _MockUserData[1].Id
                                            },
                                        new CourseUser
                                            {
                                                Course = mockCourseData[4], 
                                                CourseRef = mockCourseData[4].Id, 
-                                               UserRef = mockUserData[2].Id
+                                               UserRef = _MockUserData[2].Id
                                            }
                                    };
             var mockNodeData = new[]
