@@ -69,7 +69,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Type("id=Username", "un_" + name);
             selenium.Type("id=Password", "1");
             selenium.Type("id=Email", "CreateUserSuccess@UniqueUserId.com");
-            selenium.Type("id=Name", "CreateUserSuccess_Name");
+            selenium.Type("id=Name", "name");
             selenium.Type("id=UserId", "id_" + name);
             selenium.Click("css=input[type=\"submit\"]");
             selenium.WaitForPageToLoad("30000");

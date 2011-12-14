@@ -120,8 +120,10 @@
     <Compile Include="TestingSystem\NUnit\ZipPackageTests.cs" />
     <Compile Include="UserManagement\NUnit\CreateMultiple.cs" />
     <Compile Include="UserManagement\NUnit\RestorePassword.cs" />
+    <Compile Include="UserManagement\NUnit\UniqueUserId.cs" />
     <Compile Include="UserManagement\NUnit\UploadAvatarTester.cs" />
     <Compile Include="UserManagement\Selenium\AvatarSeleniumTester.cs" />
+    <Compile Include="UserManagement\Selenium\UniqueUserId.cs" />
     <Compile Include="UserManagement\Selenium\UpgradeSeleniumTester.cs" />
     <Compile Include="UserManagement\UserManagementTests.cs" />
     <Compile Include="Security\SecurityPluginTest.cs" />
