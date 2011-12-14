@@ -375,4 +375,7 @@
   <data name="CreateNewUsers" xml:space="preserve">
     <value>Create multiple users</value>
   </data>
+  <data name="Unique ID Error" xml:space="preserve">
+    <value>This unique ID is already used</value>
+  </data>
 </root>
