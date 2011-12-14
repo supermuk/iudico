@@ -148,7 +148,7 @@ namespace IUDICO.LMS.Models
 
                 var attribute = Attribute.GetCustomAttribute(_action, typeof(AllowAttribute), false) as AllowAttribute;
 
-                return attribute == null || attribute.Role == Role.None || roles.Contains(attribute.Role);
+                return attribute == null || attribute.Role == Role.None || roles.Any(i => attribute.Role.HasFlag(i));
             }
             catch
             {
