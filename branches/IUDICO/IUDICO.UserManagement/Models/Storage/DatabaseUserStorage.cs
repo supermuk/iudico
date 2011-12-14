@@ -133,20 +133,14 @@ namespace IUDICO.UserManagement.Models.Storage
         public bool UserUniqueIdAvailable(string userUniqueId, Guid userId)
         {
             var db = GetDbContext();
-            var count = db.Users.Count(u => u.UserId == userUniqueId && u.Deleted == false);
-
-            if (count > 0)
+            var users = db.Users.Where(u => u.UserId == userUniqueId && u.Deleted == false);
+            var count = users.Count();
+            
+            if (count == 0 || (count == 1 && users.First().Id == userId))
             {
-                var user = db.Users.First(u => u.UserId == userUniqueId && u.Deleted == false);
-
-                if (count == 1 && user.Id == userId)
-                {
-                    return true;
-                }
-
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
 
         public void ActivateUser(Guid id)
