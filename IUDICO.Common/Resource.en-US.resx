@@ -216,6 +216,12 @@
   <data name="User" xml:space="preserve">
     <value>User</value>
   </data>
+  <data name="UserID" xml:space="preserve">
+    <value>User ID</value>
+  </data>
+  <data name="UserIDRequired" xml:space="preserve">
+    <value>User ID is required</value>
+  </data>
   <data name="Username" xml:space="preserve">
     <value>Username</value>
   </data>

@@ -19,7 +19,7 @@ namespace IUDICO.UserManagement.Models
             Name = user.Name;
             OpenId = user.OpenId;
             Email = user.Email;
-            Roles = user.UserRoles.Select(r => (Role)r.RoleRef);
+            Roles = user.Roles;
             Groups = user.GroupUsers.Select(g => g.Group);
             /*Groups = user.Groups;
             Roles = user.Roles;*/

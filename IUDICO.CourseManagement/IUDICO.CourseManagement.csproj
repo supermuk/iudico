@@ -179,7 +179,7 @@
     <Content Include="Scripts\ckfinder\bin\Debug\CKFinder.pdb" />
     <Content Include="Scripts\ckfinder\bin\Release\CKFinder.dll" />
     <Content Include="Scripts\ckfinder\changelog.txt" />
-    <Content Include="Scripts\ckfinder\ckfinder.html" />
+    <EmbeddedResource Include="Scripts\ckfinder\ckfinder.html" />
     <Content Include="Scripts\ckfinder\ckfinder.js" />
     <Content Include="Scripts\ckfinder\ckfinder_v1.js" />
     <Content Include="Scripts\ckfinder\config.ascx" />
@@ -535,8 +535,8 @@
     <Content Include="Scripts\ckfinder\plugins\fileeditor\codemirror\js\undo.js" />
     <Content Include="Scripts\ckfinder\plugins\fileeditor\codemirror\js\util.js" />
     <Content Include="Scripts\ckfinder\plugins\fileeditor\plugin.js" />
-    <Content Include="Scripts\ckfinder\plugins\flashupload\flash\Uploader.swf" />
-    <Content Include="Scripts\ckfinder\plugins\flashupload\Uploader.html" />
+    <EmbeddedResource Include="Scripts\ckfinder\plugins\flashupload\flash\Uploader.swf" />
+    <EmbeddedResource Include="Scripts\ckfinder\plugins\flashupload\Uploader.html" />
     <Content Include="Scripts\ckfinder\plugins\imageresize\bin\Debug\CKFinder_ImageResize.dll" />
     <Content Include="Scripts\ckfinder\plugins\imageresize\bin\Debug\CKFinder_ImageResize.pdb" />
     <Content Include="Scripts\ckfinder\plugins\imageresize\bin\Release\CKFinder_ImageResize.dll" />

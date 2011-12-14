@@ -36,20 +36,20 @@ namespace IUDICO.Statistics.Controllers
             ViewData["Group"] = LmsService.FindService<IUserService>().GetGroup(id).Name;
             var curriculums = _Proxy.GetCurrilulumsByGroupId(id);
             HttpContext.Session["SelectedGroupId"] = id;
-            return View(curriculums);            
+            return View(curriculums);
         }
 
         [Allow(Role = Role.Teacher)]
         [HttpPost]
         public ActionResult ShowCurriculumStatistic(int[] selectCurriculumId)
         {
-            ViewData["selectGroupName"] = LmsService.FindService<IUserService>().GetGroup((int)HttpContext.Session["SelectedGroupId"]).Name;
-            IEnumerable<User> users = LmsService.FindService<IUserService>().GetUsersByGroup(LmsService.FindService<IUserService>().GetGroup((int)HttpContext.Session["SelectedGroupId"]));
-            AllSpecializedResults allSpecRes = new AllSpecializedResults();
+            var selectedGroup = LmsService.FindService<IUserService>().GetGroup((int)HttpContext.Session["SelectedGroupId"]);
+            ViewData["selectGroupName"] = selectedGroup.Name;
+            IEnumerable<User> users = LmsService.FindService<IUserService>().GetUsersByGroup(selectedGroup);
             SpecializedResultProxy srp = new SpecializedResultProxy();
-            allSpecRes = srp.GetResults(users, selectCurriculumId, LmsService);
+            AllSpecializedResults allSpecRes = srp.GetResults(users, selectCurriculumId, LmsService);
 
-            return View(allSpecRes);            
+            return View(allSpecRes);
         }
 
         [Allow(Role = Role.Teacher)]
@@ -75,7 +75,7 @@ namespace IUDICO.Statistics.Controllers
         [HttpGet]
         public ActionResult CurrentThemeTestResults(Int32 themeId)
         {
-            var model = new CurrentThemeTestResultsModel(themeId, LmsService);           
+            var model = new CurrentThemeTestResultsModel(themeId, LmsService);
             return View(model);
         }
     }

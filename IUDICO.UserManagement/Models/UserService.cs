@@ -23,6 +23,18 @@ namespace IUDICO.UserManagement.Models
             return _UserStorage.GetCurrentUser();
         }
 
+        public IEnumerable<Role> GetCurrentUserRoles()
+        {
+            var user = GetCurrentUser();
+
+            if (string.IsNullOrEmpty(user.Username))
+            {
+                return user.Roles;
+            }
+
+            return _UserStorage.GetUserRoles(user.Username);
+        }
+
         public IEnumerable<Group> GetGroups()
         {
             return _UserStorage.GetGroups();
