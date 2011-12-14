@@ -143,10 +143,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             curriculum.Name = "UpdatedCurriculum";
             _Storage.UpdateCurriculum(curriculum);
             var actualCurriculum = _Storage.GetCurriculum(curriculum.Id);
-            AdvAssert.AreEqual(curriculum, actualCurriculum);
-            curriculum.Name = "NotUpdatedCurriculum";
-            actualCurriculum = _Storage.GetCurriculum(curriculum.Id);
-            Assert.AreNotEqual(curriculum.Name, actualCurriculum.Name);
+            AdvAssert.AreEqual(curriculum, actualCurriculum);            
             try
             {
                 _Storage.UpdateCurriculum(null);
@@ -310,9 +307,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             catch (Exception)
             {
                 Assert.True(true);
-            }
-            stage.Name = "NotUpdatedChange";
-            Assert.AreNotEqual(stage.Name, _Storage.GetStage(1).Name);
+            }            
         }
         [Test]
         public void DeleteStage()
@@ -681,18 +676,8 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             int id = _Storage.AddTheme(theme);
             theme.Name = "UpdatedName";
             _Storage.UpdateTheme(theme);
-            AdvAssert.AreEqual(theme, _Storage.GetTheme(id));
-
-            theme.ThemeType = _Storage.GetThemeType(2);
-            _Storage.UpdateTheme(theme);
-            Assert.AreEqual(0, _Storage.GetThemeAssignmentsByThemeId(id).Count());
-
-            theme.ThemeType = _Storage.GetThemeType(1);
-            _Storage.UpdateTheme(theme);
-            Assert.AreEqual(1, _Storage.GetThemeAssignmentsByThemeId(id).Count());
-
-            theme.Name = "NotUpdatedName";
-            Assert.AreNotEqual(theme.Name, _Storage.GetTheme(id).Name);
+            AdvAssert.AreEqual(theme, _Storage.GetTheme(id));            
+            
             try
             {
                 _Storage.UpdateTheme(null);
