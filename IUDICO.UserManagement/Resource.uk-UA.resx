@@ -375,4 +375,7 @@
   <data name="CreateNewUsers" xml:space="preserve">
     <value>Створити групу користувачів</value>
   </data>
+  <data name="UniqueIDError" xml:space="preserve">
+    <value>Такий унікальний ідентифікатор вже є</value>
+  </data>
 </root>

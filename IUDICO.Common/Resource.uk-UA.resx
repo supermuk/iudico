@@ -213,6 +213,12 @@
   <data name="User" xml:space="preserve">
     <value>Користувач</value>
   </data>
+  <data name="UserID" xml:space="preserve">
+    <value>Ідентифікатор користувача</value>
+  </data>
+  <data name="UserIDRequired" xml:space="preserve">
+    <value>Ідентифікатор користувача є обов'язковим</value>
+  </data>
   <data name="Username" xml:space="preserve">
     <value>Ім'я користувача</value>
   </data>

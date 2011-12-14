@@ -214,7 +214,13 @@ namespace IUDICO.UserManagement.Controllers
 
                 return View(editModel);
             }
+            if (!_Storage.UserUniqueIdAvailable(editModel.UserId, editModel.Id))
+            {
+                ModelState.AddModelError("UserID", Localization.getMessage("Unique ID Error"));
 
+                return View(editModel);
+            }
+            
             _Storage.EditAccount(editModel);
                 
             return RedirectToAction("Index");
