@@ -44,6 +44,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             Assert.True(Storage.UserUniqueIdAvailable(userId, created.Id));
             Assert.False(Storage.UserUniqueIdAvailable(userId, Guid.NewGuid()));
         }
+
         [Test]
         public void EditUser()
         {
