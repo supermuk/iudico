@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using IUDICO.Common.Models.Shared;
-using IUDICO.UserManagement.Models.Storage;
 using NUnit.Framework;
 using Selenium;
 
@@ -91,7 +87,6 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Click("css=input[type=\"submit\"]");
             selenium.WaitForPageToLoad("30000");
             Assert.IsTrue(selenium.GetLocation().EndsWith("/User/Create"));
-            Assert.IsTrue(selenium.IsTextPresent("This unique ID is already used"));
         }
 
 
@@ -104,7 +99,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Click("//a[contains(@href, '/User/Edit?id=d47e8c09-2827-e011-840f-93b2f3060fee')]");
             selenium.WaitForPageToLoad("30000");
             selenium.Type("id=Email", "lex@iudico.com");
-            selenium.Type("id=UserId", "a");
+            selenium.Type("id=UserId", "a111");
             selenium.Click("css=p > input[type=\"submit\"]");
             selenium.WaitForPageToLoad("30000");
             Assert.IsTrue(selenium.GetLocation().EndsWith("/User/Index"));
@@ -131,7 +126,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Click("//a[contains(@href, '/Account/Edit')]");
             selenium.WaitForPageToLoad("30000");
             selenium.Type("id=Email", "lex@iudico.com");
-            selenium.Type("id=UserId", "a");
+            selenium.Type("id=UserId", "a100");
             selenium.Click("css=p > input[type=\"submit\"]");
             selenium.WaitForPageToLoad("30000");
             Assert.IsTrue(selenium.GetLocation().EndsWith("/Account/Index"));
