@@ -18,6 +18,8 @@ namespace IUDICO.Common.Models.Services
 
         #endregion
 
+        IEnumerable<Role> GetCurrentUserRoles();
+
         #region Group Methods
 
         IEnumerable<Group> GetGroups();

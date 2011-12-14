@@ -78,7 +78,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public virtual User GetCurrentUser()
         {
-            if (HttpContext.Current == null || HttpContext.Current.User == null)
+            if (HttpContext.Current == null || HttpContext.Current.User == null || !HttpContext.Current.User.Identity.IsAuthenticated)
             {
                 var userrole = new UserRole {RoleRef = (int)Role.None};
                 var user = new User();
@@ -89,11 +89,6 @@ namespace IUDICO.UserManagement.Models.Storage
             }
 
             var identity = HttpContext.Current.User.Identity;
-
-            if (!identity.IsAuthenticated)
-            {
-                return null;
-            }
 
             var db = GetDbContext();
 
