@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using IUDICO.Common.Models;
-using IUDICO.UserManagement.Models;
-using IUDICO.Common.Models.Notifications;
-using Moq;
+using IUDICO.Common.Models.Shared;
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.NUnit
@@ -20,8 +15,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             var groups = new List<Group>
                             {
                                 new Group { Deleted = false, Id = 123, Name = "pmi51" },
-                                new Group{ Deleted = false, Id = 122, Name = "pmi21" },
-                                new Group{ Deleted = false, Id = 13, Name = "pmi11" }
+                                new Group { Deleted = false, Id = 122, Name = "pmi21" },
+                                new Group { Deleted = false, Id = 13, Name = "pmi11" }
                             };
             foreach (var group in groups)
             {
