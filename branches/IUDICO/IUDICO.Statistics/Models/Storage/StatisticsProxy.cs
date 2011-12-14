@@ -54,28 +54,7 @@ namespace IUDICO.Statistics.Models.Storage
             IEnumerable<Curriculum> curriculums = _LmsService.FindService<ICurriculumService>().GetCurriculumsByGroupId(groupId);
             return curriculums;
         }
-
-        /// <summary>
-        /// Gets all theme by curriculum id using method GetThemesByCurriculumId(int curriculumId) from ICurriculumService .
-        /// </summary>
-        /// <param name="curriculumsId">int Selected curriculum id .</param>
-        /// <returns>IEnumerable<IUDICO.Common.Models.Theme> Themes .</returns>
-        public IEnumerable<Theme> GetThemesByCurriculumId(int curriculumId)
-        {
-            return _LmsService.FindService<ICurriculumService>().GetThemesByCurriculumId(curriculumId);
-        }
-
-        /// <summary>
-        /// Gets AttemptResult (result) by user, theme using method GetResults(User user, Theme theme) from IUserService .
-        /// </summary>
-        /// <param name="user">IUDICO.Common.Models.User Selected user .</param>
-        /// <param name="theme">IUDICO.Common.Models.Theme Selected theme .</param>
-        /// <returns>IEnumerable<AttemptResult> User theme results .</returns>
-        public IEnumerable<AttemptResult> GetResults(User user, Theme theme)
-        {
-            return _LmsService.FindService<ITestingService>().GetResults(user, theme);
-        }
-
+        
         #endregion
     }
 }
