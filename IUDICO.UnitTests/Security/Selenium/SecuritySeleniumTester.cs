@@ -112,7 +112,7 @@ namespace IUDICO.UnitTests.Security.Selenium
             selenium.Open("/Security/Index");
             selenium.Click("//a[contains(@href, '/Ban/BanComputer')]");
             selenium.WaitForPageToLoad("30000");
-            selenium.Click("//a[contains(@href, '/Ban/EditComputer/25.25.26.23')]");
+            selenium.Click("//a[contains(@href, '/Ban/EditComputer?computer=25.25.26.23')]");
             selenium.WaitForPageToLoad("30000");
             selenium.Click("//a[contains(@href, '/Security/Index')]");
             selenium.WaitForPageToLoad("30000");
