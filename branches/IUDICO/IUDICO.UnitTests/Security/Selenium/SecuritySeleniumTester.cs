@@ -84,7 +84,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         }
 
         [Test]
-        public void Test3_DeleteComputer()
+        public void Test4_DeleteComputer()
         {
             selenium.Open("/Security/Index");
             selenium.Click("//a[contains(@href, '/Ban/BanComputer')]");
@@ -107,7 +107,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         }
 
         [Test]
-        public void Test4_EditComputer()
+        public void Test3_EditComputer()
         {
             selenium.Open("/Security/Index");
             selenium.Click("//a[contains(@href, '/Ban/BanComputer')]");
