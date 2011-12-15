@@ -10,6 +10,7 @@ namespace IUDICO.Security.UnitTests.Tests
 {
     class SecurityPluginTester : SecurityTester
     {
+        /*
         [Test]
         public void SecurityPluginBuildMenuTest()
         {
@@ -41,6 +42,7 @@ namespace IUDICO.Security.UnitTests.Tests
 
             Assert.That(actions.Count() == 0);
         }
+        */
 
         [Test]
         public void SecurityPluginRegisterRoutesTest()

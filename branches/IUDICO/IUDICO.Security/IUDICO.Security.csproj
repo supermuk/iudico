@@ -116,6 +116,8 @@
     <Compile Include="ViewModels\Ban\BaseViewModel.cs" />
     <Compile Include="ViewModels\Ban\EditComputersViewModel.cs" />
     <Compile Include="ViewModels\Ban\RoomsViewModel.cs" />
+    <Compile Include="ViewModels\Security\IndexViewModel.cs" />
+    <Compile Include="ViewModels\Security\LocalizedViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
