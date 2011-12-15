@@ -16,6 +16,14 @@ namespace IUDICO.Security.Models.Storages.Database
         private readonly ILmsService _LmsService;
         private readonly Func<ISecurityDataContext> _CreateIDataContext;
 
+        public DatabaseBanStorage()
+        {
+            _CreateIDataContext = () =>
+            {
+                return new DBDataContext();
+            };
+        }
+
         public DatabaseBanStorage(ILmsService lmsService)
         {
             _LmsService = lmsService;
@@ -174,12 +182,9 @@ namespace IUDICO.Security.Models.Storages.Database
 
         public bool ifBanned(string ipAddress)
         {
-            var comp = new Computer();
-            comp.IpAddress = ipAddress;
             using (var context = NewContext())
             {
-                
-                return context.Computers.Contains(comp);
+                return context.Computers.Where(c => c.IpAddress == ipAddress && c.Banned == true).Count() > 0;
             }
         }
 
