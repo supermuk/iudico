@@ -24,6 +24,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             var created = Storage.GetUser(u => u.Username == username);
 
             Assert.AreEqual(created.UserId, userId);
+
+            Storage.DeleteUser(u => u.Username == username);
         }
 
         [Test]
@@ -43,6 +45,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             Assert.True(Storage.UserUniqueIdAvailable("no such id", created.Id));
             Assert.True(Storage.UserUniqueIdAvailable(userId, created.Id));
             Assert.False(Storage.UserUniqueIdAvailable(userId, Guid.NewGuid()));
+
+            Storage.DeleteUser(u => u.Username == username);
         }
 
         [Test]
@@ -62,6 +66,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             created.UserId = newUserId;
             Storage.EditUser(created.Id, new User { Name = "Edit User", Username = newUsername, Password = "123456", UserId = newUserId });
             Assert.AreEqual(created.UserId, newUserId);
+
+            Storage.DeleteUser(u => u.Username == newUsername);
         }
 
         [Test]
