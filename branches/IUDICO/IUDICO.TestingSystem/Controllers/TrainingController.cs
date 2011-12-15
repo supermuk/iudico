@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
-using IUDICO.TestingSystem.Models.VO;
-using IUDICO.TestingSystem.Models;
 using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
-using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Attributes;
-using IUDICO.TestingSystem.Models.VOs;
+using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
+using IUDICO.TestingSystem.Models;
+using IUDICO.TestingSystem.Models.VOs;
 
 namespace IUDICO.TestingSystem.Controllers
 {
@@ -58,8 +55,11 @@ namespace IUDICO.TestingSystem.Controllers
 
             var theme = curriculumService.GetTheme(id);
 
-            if (!curriculumService.GetThemesAvailableForUser(UserService.GetCurrentUser()).Select(t => t.Theme).Contains(theme))
-                return View("Error", "You are not allowed to pass this theme.");
+            var currentUser = UserService.GetCurrentUser();
+            var themes = curriculumService.GetThemesAvailableForUser(currentUser).Select(t => t.Theme).Where(t => t.Id == theme.Id);
+            var containsTheme = themes.Count() == 1;
+            if (!containsTheme)
+                return View("Error", "~/Views/Shared/Site.Master", Localization.getMessage("Not_Allowed_Pass_Theme"));
 
             long attemptId = MlcProxy.GetAttemptId(theme);
 
