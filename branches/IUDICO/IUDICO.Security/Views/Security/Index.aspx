@@ -2,7 +2,7 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Security.ViewModels.Security.IndexViewModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Security
+	<%= Model.GetMessage(IUDICO.Security.Localization.Keys.SECURITY) %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -20,6 +20,11 @@
         <li> <%= Html.ActionLink(Model.GetMessage("Add room"), "AddRoom", "Ban") %> </li>
         <li> <%= Html.ActionLink(Model.GetMessage("Edit room"), "EditRoom", "Ban") %> </li>
         <li> <%= Html.ActionLink(Model.GetMessage("Ban room"), "BanRoom", "Ban") %> </li>
+    </ul>
+
+    <h2><%= Model.GetMessage("UserActivity") %></h2>
+    <ul>
+        <li><%= Html.ActionLink(Model.GetMessage("Overall stats"), "Overall", "UserActivity") %></li>
     </ul>
 
 </asp:Content>

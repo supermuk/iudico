@@ -52,7 +52,7 @@ namespace IUDICO.Security.UnitTests.Tests
 
             plugin.RegisterRoutes(routeCollection);
 
-            Assert.That(routeCollection.Count == 2);
+            Assert.AreEqual(3, routeCollection.Count);
         }
     }
 }
