@@ -92,7 +92,7 @@ namespace IUDICO.Security.UnitTests.Infrastructure
                 {
                     CurrentUser = "lex",
                     IpAddress = "100.100.100.100",
-                    Banned = false
+                    Banned = true
                 }
             };
 
