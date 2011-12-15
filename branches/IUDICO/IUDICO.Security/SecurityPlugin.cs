@@ -57,7 +57,8 @@ namespace IUDICO.Security
         {
             return new Action[]
             {
-                new Action(Localization.GetMessage(Localization.Keys.SECURITY), "Security/Index")
+                new Action(Localization.GetMessage(Localization.Keys.SECURITY), "Security/Index"),
+                new Action(Localization.GetMessage(Localization.Keys.USER_ACTIVITY), "UserActivity/Index")
             };
         }
 
@@ -71,6 +72,7 @@ namespace IUDICO.Security
 
         public void Setup(IWindsorContainer container)
         {
+            // Unused?
         }
 
         public void RegisterRoutes(RouteCollection routes)
@@ -84,6 +86,11 @@ namespace IUDICO.Security
                 "Security",
                 "Security/{action}",
                 new { controller = "Security" });
+
+            routes.MapRoute(
+                "UserActivity",
+                "UserActivity/{action}",
+                new { controller = "UserActivity" });
         }
 
         public void Update(string evt, params object[] data)
@@ -150,7 +157,7 @@ namespace IUDICO.Security
         {
             var sb = new StringBuilder();
             
-            sb.AppendFormat("{0} {1} {2}",
+            sb.AppendFormat("{0} {1} {2} ",
                 request.HttpMethod,
                 request.RawUrl,
                 request.ServerVariables["SERVER_PROTOCOL"]);
@@ -160,6 +167,7 @@ namespace IUDICO.Security
             var requestStream = request.InputStream;
             var reader = new StreamReader(requestStream);
 
+            sb.Append(" ");
             sb.AppendLine(reader.ReadToEnd());
 
             reader.Close();

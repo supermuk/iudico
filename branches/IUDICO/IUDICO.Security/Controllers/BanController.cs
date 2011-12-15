@@ -149,7 +149,7 @@ namespace IUDICO.Security.Controllers
         public ActionResult ComputerBan(String computer)
         {
             _BanStorage.BanComputer(_BanStorage.GetComputer(computer));
-            return RedirectToAction("BanComputer");            
+            return RedirectToAction("BanComputer");
         }
 
         [Allow(Role = Role.Admin)]
