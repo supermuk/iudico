@@ -158,7 +158,7 @@ namespace IUDICO.LMS.Models
                 }
                 else
                 {
-                    return roles.Any(i => attribute.Role.HasFlag(i));
+                    return roles.Any(i => i != Role.None && attribute.Role.HasFlag(i));
                 }
             }
             catch
