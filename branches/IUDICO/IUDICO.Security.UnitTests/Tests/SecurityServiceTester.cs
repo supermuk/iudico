@@ -2,6 +2,8 @@
 using Moq;
 using System.Web;
 using IUDICO.Common.Models.Services;
+using System.Collections.Specialized;
+using System.Web.Routing;
 
 namespace IUDICO.Security.UnitTests.Tests
 {
@@ -23,7 +25,7 @@ namespace IUDICO.Security.UnitTests.Tests
 
         private ISecurityService GetSecurityService_Real()
         {
-            return new SecurityService();
+            return new SecurityService(BanStorage);
         }
 
         private HttpRequestBase GetGoodRequest()
@@ -31,6 +33,22 @@ namespace IUDICO.Security.UnitTests.Tests
             var mockRequest = new Mock<HttpRequestBase>();
             mockRequest
                 .SetupGet(x => x.ContentLength).Returns(100);
+
+            var vars = new NameValueCollection();
+            vars.Add("REMOTE_ADDR", "100.100.100.100");
+
+            mockRequest.SetupGet(r => r.ServerVariables)
+                .Returns(vars);
+
+            var routeData = new RouteData();
+            routeData.Values.Add("action", "Banned");
+
+            var httpContext = new Mock<HttpContextBase>();
+
+            var rc = new RequestContext(httpContext.Object, routeData);
+
+            mockRequest.Setup(r => r.RequestContext)
+              .Returns(rc);
 
             return mockRequest.Object;
         }
@@ -40,6 +58,22 @@ namespace IUDICO.Security.UnitTests.Tests
             var mockRequest = new Mock<HttpRequestBase>();
             mockRequest
                 .SetupGet(x => x.ContentLength).Returns(1000);
+
+            var vars = new NameValueCollection();
+            vars.Add("REMOTE_ADDR", "100.100.100.100");
+
+            mockRequest.SetupGet(r => r.ServerVariables)
+                .Returns(vars);
+
+            var routeData = new RouteData();
+            routeData.Values.Add("action", "!Banned");
+
+            var httpContext = new Mock<HttpContextBase>();
+
+            var rc = new RequestContext(httpContext.Object, routeData);
+
+            mockRequest.Setup(r => r.RequestContext)
+              .Returns(rc);
 
             return mockRequest.Object;
         }

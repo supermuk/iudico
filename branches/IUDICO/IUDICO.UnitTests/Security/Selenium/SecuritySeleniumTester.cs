@@ -31,7 +31,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         }
 
         [Test]
-        public void CreateComputer()
+        public void Test1_CreateComputer()
         {
             selenium.Open("/Security/Index");
             selenium.Click("//a[contains(@href, '/Ban/AddComputers')]");
@@ -55,7 +55,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         }
 
         [Test]
-        public void BanComputer()
+        public void Test2_BanComputer()
         {
             selenium.Open("/Security/Index");
             selenium.Click("//a[contains(text(),'Ban computer')]");
@@ -77,7 +77,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         }
 
         [Test]
-        public void DeleteComputer()
+        public void Test3_DeleteComputer()
         {
             selenium.Open("/Security/Index");
             selenium.Click("//a[contains(@href, '/Ban/BanComputer')]");
@@ -100,7 +100,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         }
 
         [Test]
-        public void EditComputer()
+        public void Test4_EditComputer()
         {
             selenium.Open("/Security/Index");
             selenium.Click("//a[contains(@href, '/Ban/BanComputer')]");
@@ -112,7 +112,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         }
 
         [Test]
-        public void AddRoom()
+        public void Test5_AddRoom()
         {
             selenium.Open("/Security/Index");
             selenium.Click("//a[contains(@href, '/Ban/AddRoom')]");
@@ -126,7 +126,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         }
 
         [Test]
-        public void BanRoom()
+        public void Test6_BanRoom()
         {
             selenium.Open("/Security/Index");
             selenium.Click("//a[contains(@href, '/Ban/BanRoom')]");
@@ -146,7 +146,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         }
 
         [Test]
-        public void DeleteRoom()
+        public void Test7_DeleteRoom()
         {
             selenium.Open("/Security/Index");
             selenium.Click("//a[contains(@href, '/Ban/BanRoom')]");
@@ -158,7 +158,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         }
 
         [Test]
-        public void TestOverallStats()
+        public void Test8_OverallStats()
         {
             selenium.Click("//a[contains(@href, '/UserActivity/Overall')]");
             selenium.WaitForPageToLoad("30000");
