@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E6F7266F-760A-4D43-B78C-378CA12DBE08}</ProjectGuid>
+    <ProjectTypeGuids>{F85E285D-A4E0-4152-9332-AB1D724D3325};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IUDICO.CurriculumManagement</RootNamespace>
+    <AssemblyName>IUDICO.CurriculumManagement</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RemovePlugins|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\References\Castle.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\References\Castle.Windsor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\CurriculumAssignmentController.cs" />
+    <Compile Include="Controllers\CurriculumAssignmentTimelineController.cs" />
+    <Compile Include="Controllers\CurriculumBaseController.cs" />
+    <Compile Include="Controllers\CurriculumController.cs" />
+    <Compile Include="Controllers\StageController.cs" />
+    <Compile Include="Controllers\StageTimelineController.cs" />
+    <Compile Include="Controllers\ThemeAssignmentController.cs" />
+    <Compile Include="Controllers\ThemeController.cs" />
+    <Compile Include="Converters.cs" />
+    <Compile Include="CurriculumManagementPlugin.cs" />
+    <Compile Include="Localization.cs" />
+    <Compile Include="Models\Constants.cs" />
+    <Compile Include="Models\DBDataContext.cs" />
+    <Compile Include="Models\IDataContext.cs" />
+    <Compile Include="Models\Utility.cs" />
+    <Compile Include="Models\ValidationStatus.cs" />
+    <Compile Include="Models\Validator.cs" />
+    <Compile Include="Models\ViewDataClasses\CreateCurriculumAssignmentModel.cs" />
+    <Compile Include="Models\ViewDataClasses\CreateCurriculumAssignmentTimelineModel.cs" />
+    <Compile Include="Models\ViewDataClasses\CreateStageTimelineModel.cs" />
+    <Compile Include="Models\CurriculumService.cs" />
+    <Compile Include="Models\Enums\ThemeType.cs" />
+    <Compile Include="Models\Storage\ICurriculumStorage.cs" />
+    <Compile Include="Models\Storage\MixedCurriculumStorage.cs" />
+    <Compile Include="Models\ViewDataClasses\CreateThemeModel.cs" />
+    <Compile Include="Models\ViewDataClasses\ViewCurriculumAssignmentModel.cs" />
+    <Compile Include="Models\ViewDataClasses\ViewStageTimelineModel.cs" />
+    <Compile Include="Models\ViewDataClasses\ViewThemeAssignmentModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\CurriculumAssignmentTimeline\Edit.aspx" />
+    <Content Include="Views\CurriculumAssignment\Create.aspx" />
+    <Content Include="Views\StageTimeline\Create.aspx" />
+    <Content Include="Views\CurriculumAssignment\Edit.aspx" />
+    <Content Include="Views\CurriculumAssignmentTimeline\Create.aspx" />
+    <Content Include="Views\StageTimeline\Edit.aspx" />
+    <Content Include="Views\StageTimeline\Index.aspx" />
+    <Content Include="Views\CurriculumAssignmentTimeline\Index.aspx" />
+    <Content Include="Views\CurriculumAssignment\Index.aspx" />
+    <Content Include="Views\Curriculum\Create.aspx" />
+    <Content Include="Views\Curriculum\Edit.aspx" />
+    <Content Include="Views\Curriculum\Index.aspx" />
+    <Content Include="Views\Stage\Create.aspx" />
+    <Content Include="Views\Stage\Edit.aspx" />
+    <Content Include="Views\Stage\Index.aspx" />
+    <Content Include="Views\ThemeAssignment\Edit.aspx" />
+    <Content Include="Views\ThemeAssignment\Index.aspx" />
+    <Content Include="Views\Theme\Create.aspx" />
+    <Content Include="Views\Theme\Edit.aspx" />
+    <Content Include="Views\Theme\Index.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
+      <Project>{9DD6C943-6608-4351-A521-E4B1F2F75E9D}</Project>
+      <Name>IUDICO.Common</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resource.en-US.resx" />
+    <EmbeddedResource Include="Resource.uk-UA.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\IUDICO.LMS\Web.config">
+      <Link>Web.config</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\IUDICO.LMS\Web.config">
+      <Link>Web.config</Link>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target> -->
+  <Target Name="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(ProjectDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>4354</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="BeforeBuild">
+    <ItemGroup>
+      <EmbeddedResource Include="**\*.aspx;**\*.ascx;**\*.gif;**\*.css;**\*.js;**\*.png;**\*.jpg" />
+    </ItemGroup>
+  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)\" "$(SolutionDir)IUDICO.LMS\Plugins\"</PostBuildEvent>
+  </PropertyGroup>
+</Project>
