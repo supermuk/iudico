@@ -5,16 +5,21 @@ using System.Text;
 using System.Text.RegularExpressions;
 using IUDICO.UnitTests.Base;
 using NUnit.Framework;
+using Selenium;
 
 namespace IUDICO.UnitTests.CourseManagement.Selenium
 {
-    
     [TestFixture]
     class StudentRole: TestFixtureWeb
     {
+        private ISelenium selenium;
+
         [SetUp]
         public void Login()
         {
+            selenium = new DefaultSelenium("localhost", 4444, "*chrome", "http://127.0.0.1:1556/");
+            selenium.Start();
+
             selenium.Open("/");
             selenium.Type("id=loginUsername", "prof");
             selenium.Type("id=loginPassword", "prof");
