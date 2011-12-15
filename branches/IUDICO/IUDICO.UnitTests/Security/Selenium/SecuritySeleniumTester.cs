@@ -2,17 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NUnit.Framework;
+using System.Text.RegularExpressions;
 using IUDICO.UnitTests.Base;
+using NUnit.Framework;
+using Selenium;
 
 namespace IUDICO.UnitTests.Security.Selenium
 {
     [TestFixture]
-    public class SecuritySeleniumTester : TestFixtureWeb
+    public class SecuritySeleniumTester
     {
+        private ISelenium selenium;
+
         [SetUp]
         public void Login()
         {
+            selenium = new DefaultSelenium("localhost", 4444, "*chrome", "http://127.0.0.1:1556/");
+            selenium.Start();
+
             selenium.Open("/");
             selenium.Type("id=loginUsername", "lex");
             selenium.Type("id=loginPassword", "lex");
