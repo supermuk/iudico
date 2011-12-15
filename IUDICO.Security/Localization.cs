@@ -23,6 +23,7 @@ namespace IUDICO.Security
         public static class Keys
         {
             public static readonly string SECURITY = "Security";
+            public static readonly string USER_ACTIVITY = "UserActivity";
             public static readonly string SECURITY_PLUGIN = "SecurityPlugin";
         }
     }

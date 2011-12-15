@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using IUDICO.Common;
 
-namespace IUDICO.Security.ViewModels.Security
+namespace IUDICO.Security.ViewModels
 {
     public class LocalizedViewModel
     {
         private LocalizationMessageProvider _provider;
+
+        public LocalizedViewModel()
+        {
+            _provider = Localization.GetProvider();
+        }
 
         public LocalizedViewModel(LocalizationMessageProvider provider)
         {
