@@ -24,6 +24,18 @@ namespace IUDICO.Security.ViewModels.UserActivity
                 user, totalNumberOfRequests, todayNumberOfRequests, lastActivityTime));
         }
 
+        public int GetOverallNumberOfRequests()
+        {
+            return _stats.Sum(s => s.TotalNumberOfRequests);
+        }
+
+        public int GetOverallNumberOfRequestsForToday()
+        {
+            return _stats
+                .Where(s => s.LastActivityTime.Date == DateTime.Today)
+                .Sum(s => s.TotalNumberOfRequests);
+        }
+
         public IEnumerable<UserActivityStats> GetStats()
         {
             return _stats;

@@ -113,6 +113,7 @@
     <Compile Include="CurriculumManagement\Old\Utils.cs" />
     <Compile Include="Base\TestFixture.cs" />
     <Compile Include="Base\TestFixtureWeb.cs" />
+    <Compile Include="Security\Selenium\SecuritySeleniumTester.cs" />
     <Compile Include="TestingSystem\NUnit\FileSystemPackageTests.cs" />
     <Compile Include="TestingSystem\NUnit\PlayModelTests.cs" />
     <Compile Include="TestingSystem\NUnit\TrainingTests.cs" />
@@ -139,8 +140,6 @@
     <Compile Include="UserManagement\Selenium\UniqueUserId.cs" />
     <Compile Include="UserManagement\Selenium\UpgradeSeleniumTester.cs" />
     <Compile Include="UserManagement\UserManagementTests.cs" />
-    <Compile Include="Security\SecurityPluginTest.cs" />
-    <Compile Include="Security\SecurityServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
