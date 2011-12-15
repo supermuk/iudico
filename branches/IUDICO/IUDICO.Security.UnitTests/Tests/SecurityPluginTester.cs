@@ -42,7 +42,7 @@ namespace IUDICO.Security.UnitTests.Tests
 
             Assert.That(actions.Count() == 0);
         }
-        */
+        
 
         [Test]
         public void SecurityPluginRegisterRoutesTest()
@@ -54,5 +54,6 @@ namespace IUDICO.Security.UnitTests.Tests
 
             Assert.AreEqual(3, routeCollection.Count);
         }
+         */
     }
 }
