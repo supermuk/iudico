@@ -10,7 +10,7 @@ using Selenium;
 namespace IUDICO.UnitTests.CourseManagement.Selenium
 {
     [TestFixture]
-    class StudentRole: TestFixtureWeb
+    class StudentRole
     {
         private ISelenium selenium;
 
