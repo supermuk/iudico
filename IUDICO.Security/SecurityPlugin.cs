@@ -50,14 +50,14 @@ namespace IUDICO.Security
 
         public string GetName()
         {
-            return Localization.getMessage(Localization.Keys.SECURITY_PLUGIN);
+            return Localization.GetMessage(Localization.Keys.SECURITY_PLUGIN);
         }
 
         public IEnumerable<Action> BuildActions()
         {
             return new Action[]
             {
-                new Action(Localization.getMessage(Localization.Keys.SECURITY), "Security/Index")
+                new Action(Localization.GetMessage(Localization.Keys.SECURITY), "Security/Index")
             };
         }
 
@@ -65,7 +65,7 @@ namespace IUDICO.Security
         {
             return new MenuItem[]
             {
-                new MenuItem(Localization.getMessage(Localization.Keys.SECURITY), "Security", "Index")
+                new MenuItem(Localization.GetMessage(Localization.Keys.SECURITY), "Security", "Index")
             };
         }
 
