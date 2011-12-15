@@ -79,17 +79,24 @@ namespace IUDICO.Security.Controllers
             return View(viewModel);
         }
 
+        /*
         [Allow(Role = Role.Admin)]
         public ActionResult EditComputer()
         {
             return View(new EditComputersViewModel());
         }
+        */
 
         [Allow(Role = Role.Admin)]
         public ActionResult EditComputer(String computer)
         {
             var comp = _BanStorage.GetComputer(computer);
-            var ViewModel = new EditComputersViewModel(comp.IpAddress, comp.Room.Name, comp.Banned, comp.CurrentUser);
+            var ViewModel = new EditComputersViewModel(
+                comp.IpAddress,
+                (comp.Room!=null) ?comp.Room.Name : "N/A",
+                comp.Banned,
+                comp.CurrentUser);
+
             return View(ViewModel);
         }
 
