@@ -206,9 +206,9 @@ function compiledTest($object, id) {
 
         this.IdBefore = this.Id + 'Before';
         this.IdAfter = this.Id + 'After';
-		this.PreCode = params['preCode'];
-		this.PostCode = params['postCode'];
-		this.Rank = parseInt(params['rank']);
+        this.PreCode = params['preCode'];
+        this.PostCode = params['postCode'];
+        this.Rank = parseInt(params['rank']);
         this.Answer = null;
         this.CompiledTest = true;
 
@@ -216,28 +216,30 @@ function compiledTest($object, id) {
         this.Timelimit = params['timeLimit'];
         this.Memorylimit = params['memoryLimit'];
         this.Url = params['compileUrl'];
-		
-		this.Input = [];
+
+        this.Input = [];
         this.Output = [];
-		
-		var testsCount = parseInt(params['count']);
+
+        var testsCount = parseInt(params['count']);
 
         for (var i = 0; i < testsCount; i++) {
-			this.Input.push(params['testInput' + i]);
-			this.Output.push(params['testOutput' + i]);
-		}
+            this.Input.push(params['testInput' + i]);
+            this.Output.push(params['testOutput' + i]);
+        }
 
         var $question = $('<div id="' + this.Id + '"></div>');
         $question.append('<b>' + params['question'] + '</b>');
 
         if (params['preCode'].length > 0) {
-            $question.append('<div id="' + this.Id + 'Before"><pre>' + params['preCode'] + '</pre></div>');
+            var preCode = $('<div/>').text(params['preCode']).html();
+            $question.append('<div id="' + this.Id + 'Before"><pre>' + preCode + '</pre></div>');
         }
 
         $question.append('<p><textarea name="' + this.Id + 'Answer" id="' + this.Id + 'Answer"></textarea></p>');
 
         if (params['postCode'].length > 0) {
-            $question.append('<div id="' + this.Id + 'After"><pre>' + params['postCode'] + '</pre></div>');
+            var postCode = $('<div/>').text(params['postCode']).html();
+            $question.append('<div id="' + this.Id + 'After"><pre>' + postCode + '</pre></div>');
         }
 
         $object.replaceWith($question);
