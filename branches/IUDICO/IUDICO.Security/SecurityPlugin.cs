@@ -77,11 +77,18 @@ namespace IUDICO.Security
 
         public void RegisterRoutes(RouteCollection routes)
         {
+            /*
+            routes.MapRoute(
+                "BanComputer",
+                "Ban/{action}/{computer}",
+                new { controller = "Ban" });
+            */
+
             routes.MapRoute(
                 "Ban",
                 "Ban/{action}",
                 new { controller = "Ban" });
-
+            
             routes.MapRoute(
                 "Security",
                 "Security/{action}",

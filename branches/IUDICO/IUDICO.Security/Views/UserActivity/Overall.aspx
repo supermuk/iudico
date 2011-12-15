@@ -47,6 +47,15 @@
             }
         %>
         </tbody>
+
+        <tfoot>
+            <tr>
+                <td><%= Model.GetStats().Count() %></td>
+                <td><%= Model.GetOverallNumberOfRequests() %></td>
+                <td><%= Model.GetOverallNumberOfRequestsForToday() %></td>
+                <td><%= Model.GetStats().Max(s => s.LastActivityTime) %></td>
+            </tr>
+        </tfoot>
     </table>
 </asp:Content>
 
