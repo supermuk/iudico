@@ -37,6 +37,11 @@ namespace IUDICO.CourseManagement.Helpers
 
         public static void DirectoryCopy(string fromPath, string toPath)
         {
+            if(!Directory.Exists(fromPath))
+            {
+                return;
+            }
+
             foreach (var dirPath in Directory.GetDirectories(fromPath, "*", SearchOption.AllDirectories))
             {
                 Directory.CreateDirectory(dirPath.Replace(fromPath, toPath));

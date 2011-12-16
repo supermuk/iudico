@@ -41,6 +41,9 @@ namespace IUDICO.Security.UnitTests.Infrastructure
 
         public void Reset()
         {
+            _MockSecurityDataContext.SetupGet(c => c.Computers).Returns(CreateComputers());
+            _MockSecurityDataContext.SetupGet(c => c.Rooms).Returns(CreateRooms());
+            _MockSecurityDataContext.SetupGet(c => c.UserActivities).Returns(CreateUserActivities());
         }
 
         private void MockLms()
@@ -89,7 +92,7 @@ namespace IUDICO.Security.UnitTests.Infrastructure
                 {
                     CurrentUser = "lex",
                     IpAddress = "100.100.100.100",
-                    Banned = false
+                    Banned = true
                 }
             };
 

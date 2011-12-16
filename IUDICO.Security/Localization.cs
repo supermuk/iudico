@@ -8,16 +8,22 @@ namespace IUDICO.Security
 {
     public class Localization
     {
-        private static LocalizationMessageProvider provider = new LocalizationMessageProvider("Security");
+        private static LocalizationMessageProvider _provider = new LocalizationMessageProvider("Security");
 
-        public static string getMessage(string search)
+        public static LocalizationMessageProvider GetProvider()
         {
-            return provider.getMessage(search);
+            return _provider;
+        }
+        
+        public static string GetMessage(string search)
+        {
+            return _provider.getMessage(search);
         }
 
         public static class Keys
         {
             public static readonly string SECURITY = "Security";
+            public static readonly string USER_ACTIVITY = "UserActivity";
             public static readonly string SECURITY_PLUGIN = "SecurityPlugin";
         }
     }

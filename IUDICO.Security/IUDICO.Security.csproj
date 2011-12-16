@@ -83,6 +83,8 @@
     <Content Include="Views\Ban\EditRoom.aspx" />
     <Content Include="Views\Ban\Index.aspx" />
     <Content Include="Views\Security\Index.aspx" />
+    <Content Include="Views\UserActivity\Index.aspx" />
+    <Content Include="Views\UserActivity\Overall.aspx" />
     <Content Include="Views\Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -96,6 +98,7 @@
   <ItemGroup>
     <Compile Include="Controllers\BanController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
+    <Compile Include="Controllers\UserActivityController.cs" />
     <Compile Include="Helpers\ObserveResponseLengthStream.cs" />
     <Compile Include="Localization.cs" />
     <Compile Include="Models\DBDataContext.cs" />
@@ -116,6 +119,10 @@
     <Compile Include="ViewModels\Ban\BaseViewModel.cs" />
     <Compile Include="ViewModels\Ban\EditComputersViewModel.cs" />
     <Compile Include="ViewModels\Ban\RoomsViewModel.cs" />
+    <Compile Include="ViewModels\Security\IndexViewModel.cs" />
+    <Compile Include="ViewModels\LocalizedViewModel.cs" />
+    <Compile Include="ViewModels\UserActivity\IndexViewModel.cs" />
+    <Compile Include="ViewModels\UserActivity\OverallViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">

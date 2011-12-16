@@ -44,7 +44,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                string strUrl = String.Format(CultureInfo.CurrentCulture, "Toc.aspx?View={0}&AttemptId={1}", m_view.ToString(), m_attemptId.GetKey().ToString());
+                string strUrl = String.Format(CultureInfo.CurrentCulture, "TOC.aspx?View={0}&AttemptId={1}", m_view.ToString(), m_attemptId.GetKey().ToString());
                 UrlString hiddenUrl = new UrlString(strUrl);
                 return hiddenUrl.ToAscii();
             }

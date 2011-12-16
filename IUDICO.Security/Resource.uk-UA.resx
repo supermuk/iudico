@@ -117,10 +117,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Add computer" xml:space="preserve">
+    <value>Додати комп'ютер</value>
+  </data>
+  <data name="Add room" xml:space="preserve">
+    <value>Додати лабораторію</value>
+  </data>
+  <data name="Anonymous" xml:space="preserve">
+    <value>Незалогований користувач</value>
+  </data>
+  <data name="Ban / Unban" xml:space="preserve">
+    <value>Заблокувати / розблокувати</value>
+  </data>
+  <data name="Ban computer" xml:space="preserve">
+    <value>Заблокувати комп'ютер</value>
+  </data>
+  <data name="Ban room" xml:space="preserve">
+    <value>Заблокувати лабораторію</value>
+  </data>
+  <data name="Computer" xml:space="preserve">
+    <value>Комп'ютери</value>
+  </data>
+  <data name="Edit computer" xml:space="preserve">
+    <value>Редагувати комп'ютер</value>
+  </data>
+  <data name="Edit room" xml:space="preserve">
+    <value>Редагувати лабораторію</value>
+  </data>
+  <data name="LastActivityTime" xml:space="preserve">
+    <value>Остання активність</value>
+  </data>
+  <data name="Overall stats" xml:space="preserve">
+    <value>Загальна статистика по активності користувачів</value>
+  </data>
+  <data name="Room" xml:space="preserve">
+    <value>Комп'ютерна лабораторія</value>
+  </data>
   <data name="Security" xml:space="preserve">
     <value>Безпека</value>
   </data>
   <data name="SecurityPlugin" xml:space="preserve">
     <value>Підсистема безпеки</value>
+  </data>
+  <data name="TodayNumberOfRequests" xml:space="preserve">
+    <value>Сьогоднішня к-сть запитів</value>
+  </data>
+  <data name="TotalNumberOfRequests" xml:space="preserve">
+    <value>Загальна к-сть запитів</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>Користувач</value>
+  </data>
+  <data name="UserActivity" xml:space="preserve">
+    <value>Активність користувачів</value>
   </data>
 </root>
