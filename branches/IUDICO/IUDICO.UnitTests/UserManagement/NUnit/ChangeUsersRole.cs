@@ -15,16 +15,14 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         public void AddUserToRole()
         {
             User temp = new User { Username = "icpe", Email = "ip@interlogic.com.ua", Password = "pass123" };
+            
             _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
             _Tests.Storage.CreateUser(temp);
 
             var role = Role.Teacher;
             _Tests.Storage.AddUserToRole(role, temp);
-            
-            List<Role> roles = new List<Role>();
-            roles.Add(role);
 
-            //Assert.AreEqual(1, _Tests.Storage.GetUser(u => u.Username == "icpe").UserRoles.Count);
+            Assert.IsTrue(_Tests.Storage.GetUserRoles(temp.Username).Contains(role));
 
             _Tests.Storage.RemoveUserFromRole(role, temp);
         }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Linq;
+using System.Linq;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.UserManagement.Models.Storage;
@@ -78,6 +80,33 @@ namespace IUDICO.UnitTests.UserManagement
         }
 
         #endregion
+
+        public class UserComparer : IEqualityComparer<User>
+        {
+            #region Implementation of IEqualityComparer<in User>
+
+            public bool Equals(User x, User y)
+            {
+                return x.Username == y.Username && x.Email == y.Email;
+            }
+
+            public int GetHashCode(User obj)
+            {
+                return (obj.Username + obj.Email).GetHashCode();
+            }
+
+            #endregion
+        }
+
+        public bool TestUsers(IEnumerable<User> users, IEnumerable<User> inserted)
+        {
+            return inserted.Except(users, new UserComparer()).Count() == 0;
+        }
+
+        public bool TestUsers(User user, User expected)
+        {
+            return (new UserComparer()).Equals(user, expected);
+        }
 
         private UserManagementTests()
         {
