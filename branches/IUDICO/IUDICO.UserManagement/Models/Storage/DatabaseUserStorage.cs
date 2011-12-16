@@ -430,7 +430,7 @@ namespace IUDICO.UserManagement.Models.Storage
             {
                 foreach (var role in roles)
                 {
-                    user.UserRoles.Add(new UserRole
+                    db.UserRoles.InsertOnSubmit(new UserRole
                     {
                         UserRef = user.Id,
                         RoleRef = (int)role

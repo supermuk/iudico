@@ -20,14 +20,14 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             temp = _Tests.Storage.GetUser(u => u.Username == "iphe");
 
-            User expected = new User { Username = "ipvep", Email = "ipp@interlogic.com.ua", Password = "pass123", Id = temp.Id, OpenId = "openid" };
+            User expected = new User { Username = "iphe", Email = "ipp@interlogic.com.ua", Password = "pass123", Id = temp.Id, OpenId = "openid" };
 
             var model = new EditUserModel(expected);
             _Tests.Storage.EditUser(temp.Id, model);
 
-            var compare = _Tests.Storage.GetUser(u => u.Username == "ipvep");
+            var compare = _Tests.Storage.GetUser(u => u.Username == "iphe");
 
-            Assert.IsTrue(_Tests.TestUsers(compare, expected));
+            Assert.IsTrue(_Tests.TestUsers(compare, expected) && compare.OpenId == expected.OpenId);
         }
     }
 }
