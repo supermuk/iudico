@@ -20,8 +20,8 @@
         <tr>
             <td> <%: item.Name %> </td>
             <td> <%: item.Allowed %> </td>
-            <td> <%= Html.ActionLink("Edit", "EditRoom", "Ban") %> |
-             <%= Html.ActionLink("Delete", "DeleteRoom", "Ban") %> | 
+            <td> <%= Html.ActionLink("Edit", "EditRoom",new { room = item.Name }) %> |
+             <%= Html.ActionLink("Delete", "DeleteRoom", new { room = item.Name })%> | 
             <% if (item.Allowed)
                    { %>
                     <%: Html.ActionLink("Ban", "RoomBan", new { room = item.Name })%> 

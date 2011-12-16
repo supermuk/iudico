@@ -237,6 +237,20 @@ table th
   background-color: #e8eef4; 
   border: solid 1px #e8eef4;   
 }
+table thead
+{
+    padding: 6px 5px;
+    text-align: left;
+    background-color: #e8eef4;
+    border: solid 1px #e8eef4;
+    font-weight: bold;
+}
+table tfoot
+{
+    font-weight: bold;
+    background-color: #e8eef4;
+    border-top: 5px solid white;
+}
 
 /* MISC  
 ----------------------------------------------------------*/

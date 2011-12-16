@@ -159,7 +159,7 @@ namespace IUDICO.UnitTests.CurriculumManagement
             };
 
             var mockUserData = new[] {
-                new User {Id = Guid.NewGuid(), Username = "panza", Email = "ipetrovych@gmail.com", Password = "", },
+                new User {Id = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"), Username = "panza", Email = "ipetrovych@gmail.com", Password = "", },
             };
 
             var mockGroupData = new[] {

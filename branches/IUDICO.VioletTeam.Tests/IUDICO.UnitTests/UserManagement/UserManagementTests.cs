@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Linq;
+using System.Linq;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.UserManagement.Models.Storage;
@@ -79,6 +81,33 @@ namespace IUDICO.UnitTests.UserManagement
 
         #endregion
 
+        public class UserComparer : IEqualityComparer<User>
+        {
+            #region Implementation of IEqualityComparer<in User>
+
+            public bool Equals(User x, User y)
+            {
+                return x.Username == y.Username && x.Email == y.Email;
+            }
+
+            public int GetHashCode(User obj)
+            {
+                return (obj.Username + obj.Email).GetHashCode();
+            }
+
+            #endregion
+        }
+
+        public bool TestUsers(IEnumerable<User> users, IEnumerable<User> inserted)
+        {
+            return inserted.Except(users, new UserComparer()).Count() == 0;
+        }
+
+        public bool TestUsers(User user, User expected)
+        {
+            return (new UserComparer()).Equals(user, expected);
+        }
+
         private UserManagementTests()
         {
             MockDataContext = new Mock<IDataContext>();
@@ -106,6 +135,7 @@ namespace IUDICO.UnitTests.UserManagement
 //            MockLmsService.Setup(l => l.GetIDataContext()).Returns(MockDataContext.Object);
             MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(MockDataContext.Object);
 //            MockStorage.Setup(s => s.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+            MockStorage.Setup(s => s.GetUserRoles(It.IsAny<string>())).Returns((string username) => GetUserRoles(username));
         }
 
         public void SetupTables()
@@ -140,5 +170,16 @@ namespace IUDICO.UnitTests.UserManagement
             MockDataContext.SetupGet(c => c.GroupUsers).Returns(mockGroupUsers);
             MockDataContext.SetupGet(c => c.UserRoles).Returns(mockUserRoles);
         }
+
+        #region Mocked Functions
+
+        protected IEnumerable<Role> GetUserRoles(string username)
+        {
+            var user = Storage.GetUser(u => u.Username == username);
+
+            return DataContext.UserRoles.Where(ur => ur.UserRef == user.Id).Select(ur => (Role)ur.RoleRef);
+        }
+
+        #endregion
     }
 }
