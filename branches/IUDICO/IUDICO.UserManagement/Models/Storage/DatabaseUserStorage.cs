@@ -463,6 +463,7 @@ namespace IUDICO.UserManagement.Models.Storage
         public IEnumerable<Role> GetUserRoles(string username)
         {
             var db = GetDbContext();
+
             var roles = db.UserRoles.Where(ur => ur.User.Username == username).Select(ur => (Role)ur.RoleRef).ToList();
             
             if (IsPromotedToAdmin() && !roles.Contains(Role.Admin))
