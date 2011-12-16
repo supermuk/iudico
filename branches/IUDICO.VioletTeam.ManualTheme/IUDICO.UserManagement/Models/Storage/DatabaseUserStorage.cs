@@ -430,7 +430,7 @@ namespace IUDICO.UserManagement.Models.Storage
             {
                 foreach (var role in roles)
                 {
-                    user.UserRoles.Add(new UserRole
+                    db.UserRoles.InsertOnSubmit(new UserRole
                     {
                         UserRef = user.Id,
                         RoleRef = (int)role
@@ -460,9 +460,10 @@ namespace IUDICO.UserManagement.Models.Storage
             return db.UserRoles.Where(ur => ur.RoleRef == (int) role).Select(ur => ur.User);
         }
 
-        public IEnumerable<Role> GetUserRoles(string username)
+        public virtual IEnumerable<Role> GetUserRoles(string username)
         {
             var db = GetDbContext();
+
             var roles = db.UserRoles.Where(ur => ur.User.Username == username).Select(ur => (Role)ur.RoleRef).ToList();
             
             if (IsPromotedToAdmin() && !roles.Contains(Role.Admin))
