@@ -460,7 +460,7 @@ namespace IUDICO.UserManagement.Models.Storage
             return db.UserRoles.Where(ur => ur.RoleRef == (int) role).Select(ur => ur.User);
         }
 
-        public IEnumerable<Role> GetUserRoles(string username)
+        public virtual IEnumerable<Role> GetUserRoles(string username)
         {
             var db = GetDbContext();
 
