@@ -381,4 +381,7 @@
   <data name="Return_Back" xml:space="preserve">
     <value>Повернутись назад</value>
   </data>
+  <data name="Theme_Not_Found" xml:space="preserve">
+    <value>Не вдалось знайти обрану тему!</value>
+  </data>
 </root>

@@ -384,4 +384,7 @@
   <data name="Return_Back" xml:space="preserve">
     <value>Back</value>
   </data>
+  <data name="Theme_Not_Found" xml:space="preserve">
+    <value>Theme you had requested was not found!</value>
+  </data>
 </root>
