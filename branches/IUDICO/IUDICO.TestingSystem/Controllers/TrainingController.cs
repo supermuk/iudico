@@ -55,6 +55,9 @@ namespace IUDICO.TestingSystem.Controllers
 
             var theme = curriculumService.GetTheme(id);
 
+            if (theme == null)
+                return View("Error", "~/Views/Shared/Site.Master", Localization.getMessage("Theme_Not_Found"));
+
             var currentUser = UserService.GetCurrentUser();
             var themes = curriculumService.GetThemesAvailableForUser(currentUser).Select(t => t.Theme).Where(t => t.Id == theme.Id);
             var containsTheme = themes.Count() == 1;
