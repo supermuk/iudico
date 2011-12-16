@@ -6,12 +6,23 @@ using IUDICO.Common.Models.Services;
 using System.Web.Routing;
 using IUDICO.Security.Models.Storages;
 using IUDICO.Common.Models.Shared;
+using IUDICO.Security.Models.Storages.Database;
 
 namespace IUDICO.Security
 {
     public class SecurityService : ISecurityService
     {
-        private readonly IBanStorage _BanStorage = SecurityPlugin.Container.Resolve<IBanStorage>();
+        private readonly IBanStorage _BanStorage;
+
+        public SecurityService()
+        {
+            _BanStorage = new DatabaseBanStorage();
+        }
+
+        public SecurityService(IBanStorage banStorage)
+        {
+            _BanStorage = banStorage;
+        }
         
         public bool CheckRequestSafety(HttpRequestBase request)
         {

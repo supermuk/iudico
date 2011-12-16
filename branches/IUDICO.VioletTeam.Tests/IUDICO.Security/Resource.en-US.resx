@@ -117,10 +117,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Add computer" xml:space="preserve">
+    <value>Add computer</value>
+  </data>
+  <data name="Add room" xml:space="preserve">
+    <value>Add room</value>
+  </data>
+  <data name="Anonymous" xml:space="preserve">
+    <value>Anonymous</value>
+  </data>
+  <data name="Ban / Unban" xml:space="preserve">
+    <value>Ban / Unban</value>
+  </data>
+  <data name="Ban computer" xml:space="preserve">
+    <value>Ban computer</value>
+  </data>
+  <data name="Ban room" xml:space="preserve">
+    <value>Ban room</value>
+  </data>
+  <data name="Computer" xml:space="preserve">
+    <value>Сomputer</value>
+  </data>
+  <data name="Edit computer" xml:space="preserve">
+    <value>Edit computer</value>
+  </data>
+  <data name="Edit room" xml:space="preserve">
+    <value>Edit room</value>
+  </data>
+  <data name="LastActivityTime" xml:space="preserve">
+    <value>Last activity time</value>
+  </data>
+  <data name="Overall stats" xml:space="preserve">
+    <value>Overall stats</value>
+  </data>
+  <data name="Room" xml:space="preserve">
+    <value>Room</value>
+  </data>
   <data name="Security" xml:space="preserve">
     <value>Security</value>
   </data>
   <data name="SecurityPlugin" xml:space="preserve">
     <value>Plugin for security</value>
+  </data>
+  <data name="TodayNumberOfRequests" xml:space="preserve">
+    <value>Today number of requests</value>
+  </data>
+  <data name="TotalNumberOfRequests" xml:space="preserve">
+    <value>Total number of requests</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="UserActivity" xml:space="preserve">
+    <value>User activity</value>
   </data>
 </root>

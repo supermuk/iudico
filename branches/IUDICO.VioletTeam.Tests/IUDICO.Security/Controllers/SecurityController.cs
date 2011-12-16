@@ -7,6 +7,8 @@ using IUDICO.Common.Controllers;
 using IUDICO.Security.ViewModels;
 using IUDICO.Common.Models.Attributes;
 using IUDICO.Common.Models;
+using IUDICO.Security.Models.Storages;
+using IUDICO.Security.ViewModels.Security;
 
 namespace IUDICO.Security.Controllers
 {
@@ -18,7 +20,7 @@ namespace IUDICO.Security.Controllers
         [Allow(Role = Role.Admin)]
         public ActionResult Index()
         {
-            return View();
+            return View(new IndexViewModel());
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using IUDICO.Common.Models.Shared;
 using NUnit.Framework;
 using IUDICO.Security.UnitTests.Infrastructure;
 using IUDICO.Security.Models.Storages;
