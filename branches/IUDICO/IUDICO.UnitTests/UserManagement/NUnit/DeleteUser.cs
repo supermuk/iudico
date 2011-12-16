@@ -19,9 +19,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             _Tests.Storage.CreateUser(temp);
             _Tests.Storage.DeleteUser(u => u.Username == "ipel");
 
-            User expected = _Tests.Storage.GetUser(u => u.Username == "ipel");
-
-            Assert.IsTrue(expected.Deleted);
+            Assert.IsTrue(_Tests.Storage.GetUser(u => u.Username == "ipel") == null);
         }
     }
 }
