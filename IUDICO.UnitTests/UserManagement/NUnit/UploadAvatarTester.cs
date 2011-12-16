@@ -141,7 +141,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
                 _Tests.Storage.DeleteAvatar(id);
                 
             }
-
+            
             Assert.IsTrue(_Tests.Storage.DeleteAvatar(id) == -1);
         }
     }
