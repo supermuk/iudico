@@ -14,7 +14,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void AddUserToRole()
         {
-            User temp = new User { Username = "icpe", Email = "ip@interlogic.com.ua", Password = "pass123" };
+            User temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
             
             _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
             _Tests.Storage.CreateUser(temp);
@@ -27,12 +27,12 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             Assert.IsTrue(_Tests.Storage.GetUserRoles(temp.Username).Contains(role));
 
             _Tests.Storage.RemoveUserFromRole(role, temp);
+            _Tests.Storage.DeleteUser(u => u.Username == "name");
         }
-
         [Test]
         public void RemoveUserFromRole()
         {
-            User temp = new User { Username = "izpe", Email = "ip@interlogic.com.ua", Password = "pass123" };
+            User temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
             
             _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
             _Tests.Storage.CreateUser(temp);
@@ -42,16 +42,17 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             _Tests.Storage.AddUserToRole(role, temp);
             _Tests.Storage.RemoveUserFromRole(role, temp);
             
-            Assert.IsFalse(_Tests.Storage.GetUserRoles("ipe").Contains(role));
-        }
+            Assert.IsFalse(_Tests.Storage.GetUserRoles("name").Contains(role));
 
+            _Tests.Storage.DeleteUser(u => u.Username == "name");
+        }
         [Test]
-        public void AddUsersToRoles()
+        public void AddExistingUsersToRoles()
         {
             var users = new List<User>
                             {
-                                new User {Username = "idpe", Email = "ip@interlogic.com.ua", Password = "asd"},
-                                new User {Username = "vladykx", Email = "vladykx@gmail.com",Password = "asd"},
+                                new User {Username = "name1", Email = "mail1@mail.com", Password = "123"},
+                                new User {Username = "name2", Email = "mail2@mail.com",Password = "123"},
                             };
 
             _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
@@ -72,12 +73,55 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             }
 
             _Tests.Storage.RemoveUsersFromRoles(usernames, roles);
+            foreach (var user in users)
+            {
+                _Tests.Storage.DeleteUser(u => u.Username == user.Username);
+            }
         }
-
         [Test]
-        public void RemoveUsersFromRoles()
+        public void AddNonExistingUsersToRoles()
         {
+            var users = new List<User>
+                            {
+                                new User {Username = "name12", Email = "mail1@mail.com", Password = "123"},
+                                new User {Username = "name22", Email = "mail2@mail.com",Password = "123"},
+                            };
 
+            var usernames = users.Select(u => u.Username);
+            var roles = new List<Role> { Role.Teacher };
+
+            _Tests.Storage.AddUsersToRoles(usernames, roles);
+        }
+        [Test]
+        public void RemoveExistingUsersFromRoles()
+        {
+            var users = new List<User>
+                            {
+                                new User {Username = "name122", Email = "mail1@mail.com", Password = "123"},
+                                new User {Username = "name233", Email = "mail2@mail.com",Password = "123"},
+                            };
+
+            _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
+
+            foreach (var user in users)
+            {
+                _Tests.Storage.CreateUser(user);
+            }
+
+            var usernames = users.Select(u => u.Username);
+            var roles = new List<Role> { Role.Teacher };
+
+            _Tests.Storage.AddUsersToRoles(usernames, roles);
+            _Tests.Storage.RemoveUsersFromRoles(usernames, roles);
+
+            foreach (var user in users)
+            {
+                Assert.IsFalse(_Tests.Storage.GetUserRoles(user.Username).Contains(roles.Single()));
+            }
+            foreach (var user in users)
+            {
+                _Tests.Storage.DeleteUser(u => u.Username == user.Username);
+            }
         }
     }
 }
