@@ -31,6 +31,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
             _Tests.Storage.CreateUser(temp);
+            
         }
     }
 }
