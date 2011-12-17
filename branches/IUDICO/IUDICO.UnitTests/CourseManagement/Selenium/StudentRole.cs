@@ -35,6 +35,14 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             selenium.Click("link=Logout");
             selenium.WaitForPageToLoad("30000");
 
+            try
+            {
+                selenium.Stop();
+            }
+            catch (Exception)
+            {
+                // Ignore errors if unable to close the browser
+            }
         }
 
         [Test]
