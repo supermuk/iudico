@@ -1,12 +1,10 @@
 ﻿using System;
-using Microsoft.LearningComponents.Storage;
-using Microsoft.LearningComponents;
-using LearningComponentsHelper;
 using System.Data;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+using LearningComponentsHelper;
+using Microsoft.LearningComponents;
+using Microsoft.LearningComponents.Storage;
 
-namespace IUDICO.TestingSystem.Models.VO
+namespace IUDICO.TestingSystem.Models.VOs
 {
     public class Training
     {
