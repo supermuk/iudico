@@ -18,6 +18,8 @@ using Lucene.Net.Search;
 using Lucene.Net.QueryParsers;
 using IUDICO.Common.Models.Services;
 using System.Diagnostics;
+using IUDICO.Search.Models.ViewDataClasses;
+using IUDICO.Search.Models;
 
 namespace IUDICO.Search.Controllers
 {
@@ -39,12 +41,6 @@ namespace IUDICO.Search.Controllers
 
         //
         // GET: /Search/
-
-        public ActionResult Index()
-        {
-            Process();
-            return View();
-        }
 
         public void ProcessNode(IndexWriter writer, Node node)
         {
@@ -71,7 +67,7 @@ namespace IUDICO.Search.Controllers
 
                 document.Add(new Field("Content", content, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
             }
-            
+
             writer.AddDocument(document);
         }
 
@@ -98,7 +94,7 @@ namespace IUDICO.Search.Controllers
 
                 foreach (Course course in courses)
                 {
-                   
+
                     document = new Document();
 
                     document.Add(new Field("Type", "Course", Field.Store.YES, Field.Index.NO));
@@ -137,7 +133,7 @@ namespace IUDICO.Search.Controllers
                         writer.AddDocument(document);
                     }
                 }
-                
+
                 //if ( roles.Contains(Role.Admin) || roles.Contains(Role.Teacher))
                 {
                     foreach (User user in users)
@@ -174,125 +170,163 @@ namespace IUDICO.Search.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
-        public ActionResult Search(String query)
+        //[HttpPost]
+        public ActionResult SearchSimple(String query)
         {
-            if (query == "")
-                return RedirectToAction("Index");
-
-            query = query + "~";
-
-            DateTime datastart = DateTime.Now;
-            Directory directory = FSDirectory.Open(new System.IO.DirectoryInfo(Server.MapPath("~/Data/Index")));
-            IndexSearcher searcher = new IndexSearcher(directory, true);
-            Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_29);
-
-            MultiFieldQueryParser queryParser = new MultiFieldQueryParser(
-                    Version.LUCENE_29,
-                    new String[] { "Name", "Content", "Curriculum", "User", "Group", "Theme" },
-                    analyzer
-                );
-
-
-            ScoreDoc[] scoreDocs = searcher.Search(queryParser.Parse(query), 100).scoreDocs;
-
-            Hits hit = searcher.Search(queryParser.Parse(query));
-            int total = hit.Length();
-
-
-
-            List<ISearchResult> results = new List<ISearchResult>();
-            Stopwatch sw = new Stopwatch();
-
-            sw.Start();
-            foreach (ScoreDoc doc in scoreDocs)
+            var model2 = new SearchModel
             {
-                ISearchResult result;
-                Document document = searcher.Doc(doc.doc);
-                String type = document.Get("Type").ToLower();
+                SearchText = query,
+                CheckBoxes = GetAvailableCheckBoxes()
+            };
+            return Search(model2);
+            //return RedirectToAction("Search", 
+            //    new { model = model2 });
+                //new { model2 = 1 });
+        }
 
-                switch (type)
-                {
-                    case "node":
-                        Node node = new Node();
-                        node.Id = Convert.ToInt32(document.Get("ID"));
-                        node.Name = document.Get("Name");
-                        node.CourseId = Convert.ToInt32(document.Get("CourseID"));
-                        node.IsFolder = Convert.ToBoolean(document.Get("isFolder"));
+        //[HttpPost]
+        public ActionResult Search(SearchModel model)
+        //public ActionResult Search(int model2)
+        {
+            //if (query == "")
+            //    return RedirectToAction("Index");
 
-                        result = new NodeResult(node, _CourseService.GetCourse(node.CourseId).Name, document.Get("Content"), _CourseService.GetCourse(node.CourseId).Updated.ToString());
+            //query = query + "~";
 
-                        break;
+            //DateTime datastart = DateTime.Now;
+            //Directory directory = FSDirectory.Open(new System.IO.DirectoryInfo(Server.MapPath("~/Data/Index")));
+            //IndexSearcher searcher = new IndexSearcher(directory, true);
+            //Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_29);
 
-                    case "course":
+            //MultiFieldQueryParser queryParser = new MultiFieldQueryParser(
+            //        Version.LUCENE_29,
+            //        new String[] { "Name", "Content", "Curriculum", "User", "Group", "Theme" },
+            //        analyzer
+            //    );
 
-                        Course course = new Course();
-                        course.Id = Convert.ToInt32(document.Get("ID"));
-                        course.Name = document.Get("Name");
 
-                        result = new CourseResult(course,_CourseService.GetCourse(course.Id).Updated.ToString(), _CourseService.GetCourse(course.Id).Owner);
+            //ScoreDoc[] scoreDocs = searcher.Search(queryParser.Parse(query), 100).scoreDocs;
 
-                        break;
-                    case "curriculum":
+            //Hits hit = searcher.Search(queryParser.Parse(query));
+            //int total = hit.Length();
 
-                        Curriculum curriculum = new Curriculum();
-                        curriculum.Id = Convert.ToInt32(document.Get("ID"));
-                        curriculum.Name = document.Get("Curriculum");
 
-                        result = new CurriculumResult(curriculum, _CurriculmService.GetCurriculum(curriculum.Id).Updated.ToString());
 
-                        break;
+            //List<ISearchResult> results = new List<ISearchResult>();
+            //Stopwatch sw = new Stopwatch();
 
-                    case "user":
+            //sw.Start();
+            //foreach (ScoreDoc doc in scoreDocs)
+            //{
+            //    ISearchResult result;
+            //    Document document = searcher.Doc(doc.doc);
+            //    String type = document.Get("Type").ToLower();
 
-                        User user = new User();
-                        user.Id = Guid.Parse(document.Get("ID"));
-                        user.Name = document.Get("User");
-                        /*user.RoleId = Convert.ToInt32(document.Get("RoleId"));*/
+            //    switch (type)
+            //    {
+            //        case "node":
+            //            Node node = new Node();
+            //            node.Id = Convert.ToInt32(document.Get("ID"));
+            //            node.Name = document.Get("Name");
+            //            node.CourseId = Convert.ToInt32(document.Get("CourseID"));
+            //            node.IsFolder = Convert.ToBoolean(document.Get("isFolder"));
 
-                        result = new UserResult(user);
+            //            result = new NodeResult(node, _CourseService.GetCourse(node.CourseId).Name, document.Get("Content"), _CourseService.GetCourse(node.CourseId).Updated.ToString());
 
-                        break;
+            //            break;
 
-                    case "group":
+            //        case "course":
 
-                        Group group = new Group();
-                        group.Id = int.Parse(document.Get("ID"));
-                        group.Name = document.Get("Group");
+            //            Course course = new Course();
+            //            course.Id = Convert.ToInt32(document.Get("ID"));
+            //            course.Name = document.Get("Name");
 
-                        result = new GroupResult(group);
+            //            result = new CourseResult(course, _CourseService.GetCourse(course.Id).Updated.ToString(), _CourseService.GetCourse(course.Id).Owner);
 
-                        break;
+            //            break;
+            //        case "curriculum":
 
-                    case "theme":
+            //            Curriculum curriculum = new Curriculum();
+            //            curriculum.Id = Convert.ToInt32(document.Get("ID"));
+            //            curriculum.Name = document.Get("Curriculum");
 
-                        Theme theme = new Theme();
-                        theme.Id = Convert.ToInt32(document.Get("ID"));
-                        theme.Name = document.Get("Theme");
-                        theme.CourseRef = Convert.ToInt32(document.Get("CourseRef"));
+            //            result = new CurriculumResult(curriculum, _CurriculmService.GetCurriculum(curriculum.Id).Updated.ToString());
 
-                        result = new ThemeResult(theme, _CourseService.GetCourse(theme.CourseRef.Value).Name);
+            //            break;
 
-                        break;
+            //        case "user":
 
-                    default:
-                        throw new Exception("Unknown result type");
-                }
+            //            User user = new User();
+            //            user.Id = Guid.Parse(document.Get("ID"));
+            //            user.Name = document.Get("User");
+            //            /*user.RoleId = Convert.ToInt32(document.Get("RoleId"));*/
 
-                results.Add(result);
-            }
-            sw.Stop();
+            //            result = new UserResult(user);
 
-            DateTime dataend = DateTime.Now;
-            analyzer.Close();
-            searcher.Close();
-            directory.Close();
+            //            break;
 
-            ViewData["SearchString"] = query;
-            ViewData["score"] = Math.Abs(dataend.Millisecond - datastart.Millisecond); //sw.ElapsedMilliseconds.ToString();
-            ViewData["total"] = total;
+            //        case "group":
 
-            return View(results);
+            //            Group group = new Group();
+            //            group.Id = int.Parse(document.Get("ID"));
+            //            group.Name = document.Get("Group");
+
+            //            result = new GroupResult(group);
+
+            //            break;
+
+            //        case "theme":
+
+            //            Theme theme = new Theme();
+            //            theme.Id = Convert.ToInt32(document.Get("ID"));
+            //            theme.Name = document.Get("Theme");
+            //            theme.CourseRef = Convert.ToInt32(document.Get("CourseRef"));
+
+            //            result = new ThemeResult(theme, _CourseService.GetCourse(theme.CourseRef.Value).Name);
+
+            //            break;
+
+            //        default:
+            //            throw new Exception("Unknown result type");
+            //    }
+
+            //    results.Add(result);
+            //}
+            //sw.Stop();
+
+            //DateTime dataend = DateTime.Now;
+            //analyzer.Close();
+            //searcher.Close();
+            //directory.Close();
+
+            //ViewData["SearchString"] = query;
+            //ViewData["score"] = Math.A|bs(dataend.Millisecond - datastart.Millisecond); //sw.ElapsedMilliseconds.ToString();
+            //ViewData["total"] = total;
+
+            //var model = new SearchModel();
+            MakeSearch(model);
+            //var viewModel = new SearchModel()
+            //{
+            //    CheckBoxes = GetAvailableCheckBoxes()
+            //};
+
+            return View("Search", model);
+        }
+
+        private List<CheckBoxModel> GetAvailableCheckBoxes()
+        {
+            return new List<CheckBoxModel>()
+            {
+                new CheckBoxModel(){IsChecked=true, Text="Curriculums", SearchType =SearchType.Curriculums},
+                new CheckBoxModel(){IsChecked=false, Text="Themes", SearchType =SearchType.Themes}
+            };
+        }
+
+        private void MakeSearch(SearchModel model)
+        {
+            model.SearchResult = new List<ISearchResult>();
+            model.Total = 20;
+            model.Score = 20;
         }
     }
 }
