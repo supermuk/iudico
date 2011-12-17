@@ -18,9 +18,7 @@ namespace IUDICO.Search
                     .FromThisAssembly()
                     .BasedOn<IController>()
                     .Configure(c => c.LifeStyle.Transient
-                                        .Named(c.Implementation.Name))//,
-                //Component.For<IPlugin>().ImplementedBy<CourseManagmentPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                //Component.For<ICourseManagment>().ImplementedBy<MixedCourseStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
+                                        .Named(c.Implementation.Name))
             );
         }
 
