@@ -76,6 +76,12 @@
   <ItemGroup>
     <Folder Include="Compilers\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Helper.DotNetExeWrapper\Helper.DotNetExeWrapper.csproj">
+      <Project>{6C975DD9-4AD6-4DF4-BF93-A32DFCD22C9C}</Project>
+      <Name>Helper.DotNetExeWrapper</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <ProjectExtensions>
