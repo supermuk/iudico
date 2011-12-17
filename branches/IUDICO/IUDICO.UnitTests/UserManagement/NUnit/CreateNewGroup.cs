@@ -11,37 +11,24 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void CreateGroupValid()
         {
-            var group = new Group { Id = 12345678, Name = "pmi31" };
+            var group = new Group { Id = 12578, Name = "pmp41" };
             
             _Tests.Storage.CreateGroup(group);
 
-            Assert.AreEqual(group, _Tests.Storage.GetGroup(group.Id));
+            Assert.IsTrue(group.Name == _Tests.Storage.GetGroup(group.Id).Name && group.Id == _Tests.Storage.GetGroup(group.Id).Id);
             
             _Tests.Storage.DeleteGroup(group.Id);
         }
         [Test]
         public void CreateGroupInvalid()
         {
-            var group = new Group { Id = 12345678, Name = "pmi31" };
+            var group = new Group { Id = 4567, Name = "pma51" };
 
             _Tests.Storage.CreateGroup(group);
 
-            Assert.AreEqual(group, _Tests.Storage.GetGroup(group.Id));
-
+            Assert.IsTrue(group.Name == _Tests.Storage.GetGroup(group.Id).Name && group.Id == _Tests.Storage.GetGroup(group.Id).Id);
+            
             _Tests.Storage.DeleteGroup(group.Id);
-        }
-
-        protected class GroupComparer : IEqualityComparer<Group>
-        {
-            public bool Equals(Group x, Group y)
-            {
-                return x.Name == y.Name && x.Id == y.Id;
-            }
-
-            public int GetHashCode(Group obj)
-            {
-                return (obj.Name + obj.Id).GetHashCode();
-            }
         }
     }
 }
