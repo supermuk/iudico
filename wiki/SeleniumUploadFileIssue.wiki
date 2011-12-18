@@ -22,7 +22,7 @@ selenium.WaitForPageToLoad(LoadTime);
 = Вирішення =
 
  # Завантажте найновішу версію 7-zip на комп'ютер.
- # Відкрийте jar-файл Selenium RC Server (selenium-server-standalone-X.XX.X) за допомогою 7-zip.
+ # Відкрийте jar-файл Selenium RC Server (selenium-server-standalone-X.XX.X.jar) за допомогою 7-zip.
  # Видаліть файл ліцензції LICENSE.
  # Перейдіть до core\scripts в межах jar-файлу.
  # Відредагуйте файл atoms.js.  (Клік правою клавішою мишки та  Редагувати, або клік та F4.)
