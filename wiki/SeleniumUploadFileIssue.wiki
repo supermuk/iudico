@@ -9,11 +9,11 @@
 Ми вже з'ясували, що ввести в текстове поле необхідний шлях до файлу не вийде. Як знайти вихід з даної ситуації? Одним з варіантів вирішення даної проблеми є використання стандартної команди Selenium AttachFile, синтаксис - void AttachFile(string fieldLocator, string fileLocator). Проте, AttachFile не завжди допомагає, так в ІЕ дана команда взагалі не працює. Приклад використання: 
 
 {{{
-Selenium.Click("css=a[href='/Course/Import']");
-                Selenium.WaitForPageToLoad(LoadTime);
-                Selenium.AttachFile("name=fileUpload", courseUri);
-                Selenium.Click("css=input[id='Import']");
-                Selenium.WaitForPageToLoad(LoadTime);
+selenium.Click("css=a[href='/Course/Import']");
+selenium.WaitForPageToLoad(LoadTime);
+selenium.AttachFile("name=fileUpload", courseUri);
+selenium.Click("css=input[id='Import']");
+selenium.WaitForPageToLoad(LoadTime);
 }}}
 
 = Вирішення =
@@ -25,3 +25,5 @@ Selenium.Click("css=a[href='/Course/Import']");
  # Відредагуйте файл atoms.js.  (Клік правою клавішою мишки та  Редагувати, або клік та F4.)
  # Знайдіть рядок "a.value = d" і замініть його на "XPCNativeWrapper(a).value = d;"
  # Збережіть зміни.  Ось і все!
+
+[http://code.google.com/p/selenium/issues/detail?id=2826#c14 Джерело]
