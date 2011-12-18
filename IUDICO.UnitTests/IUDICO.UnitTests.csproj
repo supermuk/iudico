@@ -119,6 +119,7 @@
     <Compile Include="TestingSystem\NUnit\TrainingTests.cs" />
     <Compile Include="TestingSystem\NUnit\ZipPackageTests.cs" />
     <Compile Include="UserManagement\NUnit\ActivateUser.cs" />
+    <Compile Include="UserManagement\NUnit\AddUserToGroup.cs" />
     <Compile Include="UserManagement\NUnit\BatchUserCreation.cs" />
     <Compile Include="UserManagement\NUnit\ChangePassword.cs" />
     <Compile Include="UserManagement\NUnit\ChangeUsersRole.cs" />
@@ -127,10 +128,13 @@
     <Compile Include="UserManagement\NUnit\DeactivateUser.cs" />
     <Compile Include="UserManagement\NUnit\DeleteGroup.cs" />
     <Compile Include="UserManagement\NUnit\DeleteUser.cs" />
+    <Compile Include="UserManagement\NUnit\EditAccount.cs" />
+    <Compile Include="UserManagement\NUnit\EditGroup.cs" />
     <Compile Include="UserManagement\NUnit\EditUsersAccount.cs" />
     <Compile Include="UserManagement\NUnit\GetGroups.cs" />
     <Compile Include="UserManagement\NUnit\GetUsers.cs" />
     <Compile Include="UserManagement\NUnit\Register.cs" />
+    <Compile Include="UserManagement\NUnit\RemoveUserFromGroup.cs" />
     <Compile Include="UserManagement\NUnit\RestorePassword.cs" />
     <Compile Include="UserManagement\NUnit\SeeGroupsDetails.cs" />
     <Compile Include="UserManagement\NUnit\SeeUsersDetails.cs" />

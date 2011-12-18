@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Linq;
 using System.Linq;
 using IUDICO.Common.Models.Shared;
 using NUnit.Framework;
@@ -10,19 +11,19 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
     {
         protected UserManagementTests _Tests = UserManagementTests.GetInstance();
 
-
         [Test]
         public void AddExistingUserToExistingGroup()
         {
+            _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
+
             var group = new Group { Id = 12345678, Name = "pmi31" };
             _Tests.Storage.CreateGroup(group);
             group = _Tests.Storage.GetGroup(group.Id);
             var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
-            _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
             _Tests.Storage.CreateUser(temp);
             temp = _Tests.Storage.GetUser(u => u.Username == temp.Username);
 
-            _Tests.Storage.AddUserToGroup(group,temp);
+            _Tests.Storage.AddUserToGroup(group, temp);
             Assert.IsTrue(_Tests.Storage.GetGroupsByUser(temp).Contains(group));
 
             _Tests.Storage.DeleteGroup(group.Id);
