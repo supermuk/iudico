@@ -79,5 +79,38 @@ namespace IUDICO.Security.UnitTests.Tests
 
             Assert.True(overallViewModel.GetStats().Count(s => s.User.UserId == "user15") == 0);
         }
+
+        [Test]
+        public void GetUserActivityTest()
+        {
+            var overallViewModel = new OverallViewModel("1");
+
+            var tempUser1 = new User { UserId = "user1", Name = "User1", IsApproved = true };
+
+            var tempUser2 = new User { UserId = "user2", Name = "User2", IsApproved = true };
+
+            overallViewModel.AddUserStats(tempUser1, 120, 70, DateTime.Today);
+
+            overallViewModel.AddUserStats(tempUser2, 60, 60, DateTime.Today);
+
+            Assert.True(overallViewModel.GetUserActivity("user1").Sum(s => s.TotalNumberOfRequests) == 120);
+        }
+
+
+        [Test]
+        public void GetUserActivityForTodayTest()
+        {
+            var overallViewModel = new OverallViewModel("1");
+
+            var tempUser1 = new User { UserId = "user1", Name = "User1", IsApproved = true };
+
+            var tempUser2 = new User { UserId = "user2", Name = "User2", IsApproved = true };
+
+            overallViewModel.AddUserStats(tempUser1, 120, 70, DateTime.Today);
+
+            overallViewModel.AddUserStats(tempUser2, 60, 60, DateTime.Today);
+
+            Assert.True(overallViewModel.GetUserActivity("user1").Sum(s => s.TodayNumberOfRequests) == 70);
+        }
     }
 }
