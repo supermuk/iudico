@@ -142,6 +142,9 @@
     <Compile Include="UserManagement\NUnit\UniqueUserId.cs" />
     <Compile Include="UserManagement\NUnit\UploadAvatarTester.cs" />
     <Compile Include="UserManagement\Selenium\AvatarSeleniumTester.cs" />
+    <Compile Include="UserManagement\Selenium\EditAccount.cs" />
+    <Compile Include="UserManagement\Selenium\Logout.cs" />
+    <Compile Include="UserManagement\Selenium\StandartLogin.cs" />
     <Compile Include="UserManagement\Selenium\UniqueUserId.cs" />
     <Compile Include="UserManagement\Selenium\UpgradeSeleniumTester.cs" />
     <Compile Include="UserManagement\UserManagementTests.cs" />
