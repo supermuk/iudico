@@ -404,21 +404,29 @@ namespace IUDICO.CourseManagement.Models.Storage
                 File.Copy(template, GetNodePath(node.Id) + ".html", true);
             }
 
+            _LmsService.Inform(CourseNotifications.NodeCreate, node);
+
             return node.Id;
         }
 
         public void UpdateNode(int id, Node node)
         {
             var db = GetDbContext();
+            object[] data = new object[2];
 
             var oldNode = db.Nodes.SingleOrDefault(n => n.Id == id);
+            var newNode = oldNode;
 
-            oldNode.Name = node.Name;
-            oldNode.ParentId = node.ParentId;
-            oldNode.Position = node.Position;
-            oldNode.Sequencing = node.Sequencing;
+            newNode.Name = node.Name;
+            newNode.ParentId = node.ParentId;
+            newNode.Position = node.Position;
+            newNode.Sequencing = node.Sequencing;
+
+            data[0] = oldNode;
+            data[1] = newNode;
 
             db.SubmitChanges();
+            _LmsService.Inform(CourseNotifications.NodeEdit, data);
         }
 
         public void DeleteNode(int id)
@@ -434,6 +442,8 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             db.Nodes.DeleteOnSubmit(node);
             db.SubmitChanges();
+
+            _LmsService.Inform(CourseNotifications.NodeDelete, node);
         }
 
         public void DeleteNodes(List<int> ids)

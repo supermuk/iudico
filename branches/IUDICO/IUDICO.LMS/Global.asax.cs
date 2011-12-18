@@ -103,8 +103,11 @@ namespace IUDICO.LMS
             LoadProviders();
 
             RegisterRoutes(RouteTable.Routes);
+            object[] tmp = new object[2];
+            tmp[0] = Container;
+            tmp[1] = Application;
 
-            LmsService.Inform(LMSNotifications.ApplicationStart);
+            LmsService.Inform(LMSNotifications.ApplicationStart, tmp);
         }
 
         //protected void Application_Error(object sender, EventArgs e)
