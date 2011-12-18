@@ -567,7 +567,7 @@ namespace IUDICO.UserManagement.Models.Storage
             _LmsService.Inform(UserNotifications.GroupDelete, group);
         }
 
-        public IEnumerable<Group> GetGroupsByUser(User user)
+        public virtual IEnumerable<Group> GetGroupsByUser(User user)
         {
             var db = GetDbContext();
 
