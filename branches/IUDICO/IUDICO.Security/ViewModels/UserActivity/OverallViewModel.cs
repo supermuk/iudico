@@ -46,6 +46,16 @@ namespace IUDICO.Security.ViewModels.UserActivity
             return _stats;
         }
 
+        public IEnumerable<UserActivityStats> GetUserActivity(string userID)
+        {
+            return _stats.Where(s => s.User.UserId == userID);
+        }
+
+        public IEnumerable<UserActivityStats> GetUserActivityForToday(string userID)
+        {
+            return _stats.Where(s => (s.User.UserId == userID) && (s.LastActivityTime == DateTime.Today));
+        }
+
         public class UserActivityStats
         {
             public UserActivityStats(
