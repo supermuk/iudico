@@ -10,6 +10,11 @@ namespace IUDICO.Security.ViewModels.UserActivity
     {
         private List<UserActivityStats> _stats;
 
+        public OverallViewModel(Object obj) : base(null)
+        {
+            _stats = new List<UserActivityStats>();
+        }
+
         public OverallViewModel()
         {
             _stats = new List<UserActivityStats>();
@@ -33,7 +38,7 @@ namespace IUDICO.Security.ViewModels.UserActivity
         {
             return _stats
                 .Where(s => s.LastActivityTime.Date == DateTime.Today)
-                .Sum(s => s.TotalNumberOfRequests);
+                .Sum(s => s.TodayNumberOfRequests);
         }
 
         public IEnumerable<UserActivityStats> GetStats()

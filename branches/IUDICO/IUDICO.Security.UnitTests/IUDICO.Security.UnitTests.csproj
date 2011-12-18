@@ -64,6 +64,7 @@
     <Compile Include="Tests\SecurityPluginTester.cs" />
     <Compile Include="Tests\SecurityServiceTester.cs" />
     <Compile Include="Tests\SecurityStorageTester.cs" />
+    <Compile Include="Tests\UserActivityTester.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
