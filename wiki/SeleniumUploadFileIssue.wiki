@@ -31,4 +31,6 @@ selenium.WaitForPageToLoad(LoadTime);
 
 Дане рішення проблеми працює тільки у Firefox! (протестовано на версії 8.0.1)
 
+В мережі інтернет зустрічаються також [http://www.google.com.ua/#hl=uk&cp=12&gs_id=1c&xhr=t&q=selenium+file+upload&pf=p&sclient=psy-ab&source=hp&pbx=1&oq=selenium+fil&aq=0L&aqi=g-L4&aql=&gs_sm=&gs_upl=&fp=1&biw=1280&bih=709&bav=on.2,or.r_gc.r_pw.,cf.osb&cad=b інші] рішення проблеми з завантаженням файлів, проте цей метод був першим, який спрацював у автора статті.
+
 [http://code.google.com/p/selenium/issues/detail?id=2826#c14 Джерело]
