@@ -136,6 +136,7 @@ namespace IUDICO.UnitTests.UserManagement
             MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(MockDataContext.Object);
 //            MockStorage.Setup(s => s.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(true);
             MockStorage.Setup(s => s.GetUserRoles(It.IsAny<string>())).Returns((string username) => GetUserRoles(username));
+            MockStorage.Setup(s => s.GetGroupsByUser(It.IsAny<User>())).Returns((User user) => GetGroupsByUser(user));
         }
 
         public void SetupTables()
@@ -178,6 +179,13 @@ namespace IUDICO.UnitTests.UserManagement
             var user = Storage.GetUser(u => u.Username == username);
 
             return DataContext.UserRoles.Where(ur => ur.UserRef == user.Id).Select(ur => (Role)ur.RoleRef);
+        }
+
+        protected IEnumerable<Group> GetGroupsByUser(User user)
+        {
+            var groupIds = DataContext.GroupUsers.Where(gu => gu.UserRef == user.Id).Select(gu => gu.GroupRef);
+
+            return DataContext.Groups.Where(g => groupIds.Contains(g.Id)).ToList();
         }
 
         #endregion
