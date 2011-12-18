@@ -99,8 +99,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CourseManagement\CourseManagmentTest.cs" />
+    <Compile Include="CourseManagement\NUnit\ManifestManagerTest.cs" />
     <Compile Include="CourseManagement\NUnit\MixedCourseStorageTest.cs" />
     <Compile Include="CourseManagement\NUnit\SequencingPatternManagerTests.cs" />
+    <Compile Include="CourseManagement\NUnit\ZipperTest.cs" />
     <Compile Include="CourseManagement\Selenium\StudentRole.cs" />
     <Compile Include="CurriculumManagement\NUnit\CurriculumTests.cs" />
     <Compile Include="CurriculumManagement\Old\CurriculumResultTest.cs" />
@@ -128,7 +130,6 @@
     <Compile Include="UserManagement\NUnit\DeactivateUser.cs" />
     <Compile Include="UserManagement\NUnit\DeleteGroup.cs" />
     <Compile Include="UserManagement\NUnit\DeleteUser.cs" />
-    <Compile Include="UserManagement\NUnit\EditAccount.cs" />
     <Compile Include="UserManagement\NUnit\EditGroup.cs" />
     <Compile Include="UserManagement\NUnit\EditUsersAccount.cs" />
     <Compile Include="UserManagement\NUnit\GetGroups.cs" />

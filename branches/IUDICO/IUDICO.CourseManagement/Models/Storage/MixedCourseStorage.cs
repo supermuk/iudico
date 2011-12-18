@@ -260,7 +260,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             return path + ".zip";
         }
 
-        private Item AddSubItems(Item parentItem, Node parentNode, int courseId, ManifestManager helper, ref Manifest manifest)
+        protected Item AddSubItems(Item parentItem, Node parentNode, int courseId, ManifestManager helper, ref Manifest manifest)
         {
             var nodes = parentNode == null ? GetNodes(courseId) : GetNodes(courseId, parentNode.Id);
             
@@ -303,6 +303,7 @@ namespace IUDICO.CourseManagement.Models.Storage
                     parentItem = ManifestManager.AddItem(parentItem, item);
                 }
             }
+
             return parentItem;
         }
 
@@ -531,7 +532,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             return Path.Combine(path, @"Data\CourseTemplate");
         }
 
-        protected string GetCoursesPath()
+        virtual protected string GetCoursesPath()
         {
             var path = HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
 
@@ -592,6 +593,7 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             return GetDbContext().NodeResources.Single(n => n.Id == id);
         }
+
         public int AddResource(NodeResource resource, HttpPostedFileBase file)
         {
             var node = GetDbContext().Nodes.SingleOrDefault(n => n.Id == resource.NodeId);
