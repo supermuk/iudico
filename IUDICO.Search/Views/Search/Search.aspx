@@ -13,6 +13,8 @@
     <div>
         <% for (int i = 0; i < Model.CheckBoxes.Count; i++)
            { %>
+        <%= Html.HiddenFor(model=>model.CheckBoxes[i].SearchType)  %>
+        <%= Html.HiddenFor(model=>model.CheckBoxes[i].Text)  %>
         <%= Html.CheckBoxFor(model=> model.CheckBoxes[i].IsChecked)  %>
         <%= Html.Label(Model.CheckBoxes[i].Text)  %>
         <% } %>
@@ -21,8 +23,6 @@
         Кількість результатів:
         <%= Html.Label(Model.Total.ToString())  %>. Час пошуку:
         <%= Html.Label(Model.Score.ToString())  %>ms.
-        <%--        <%= ViewData["total"] %>
-        <%= ViewData["score"] %>--%>
     </div>
     <br />
     <ul style="margin-bottom: 0em;">

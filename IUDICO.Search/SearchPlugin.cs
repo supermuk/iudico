@@ -19,7 +19,7 @@ using Lucene.Net.Search;
 
 namespace IUDICO.Search
 {
-    public class SearchPluginn : IWindsorInstaller, IPlugin
+    public class SearchPlugin : IWindsorInstaller, IPlugin
     {
         #region IWindsorInstaller Members
         bool isRun = false;
@@ -33,10 +33,8 @@ namespace IUDICO.Search
                     .FromThisAssembly()
                     .BasedOn<IController>()
                     .Configure(c => c.LifeStyle.Transient
-                    .Named(c.Implementation.Name)),
-                Component.For<IPlugin>().ImplementedBy<SearchPluginn>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)//,
-                //Component.For<ICourseManagment>().ImplementedBy<MixedCourseStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
-
+                                        .Named(c.Implementation.Name)),
+                Component.For<IPlugin>().ImplementedBy<SearchPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
         }
 
