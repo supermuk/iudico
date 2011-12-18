@@ -7,6 +7,7 @@ using System.Data.Linq;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.CurriculumManagement;
 using IUDICO.Common.Models.Interfaces;
+using IUDICO.Common.Models.Notifications;
 
 namespace IUDICO.CurriculumManagement.Models.Storage
 {
@@ -124,6 +125,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             db.Curriculums.InsertOnSubmit(curriculum);
             db.SubmitChanges();
 
+            _LmsService.Inform(CurriculumNotifications.CurriculumCreate, curriculum); 
+
             return curriculum.Id;
         }
 
@@ -131,11 +134,18 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         {
             var db = GetDbContext();
             var oldCurriculum = GetCurriculum(db, curriculum.Id);
+            var newCurriculum = GetCurriculum(db, curriculum.Id);
 
-            oldCurriculum.Name = curriculum.Name;
-            oldCurriculum.Updated = DateTime.Now;
+            newCurriculum.Name = curriculum.Name;
+            newCurriculum.Updated = DateTime.Now;
 
             db.SubmitChanges();
+
+            object[] data = new object[2];
+            data[0] = oldCurriculum;
+            data[1] = newCurriculum;
+
+            _LmsService.Inform(CurriculumNotifications.CurriculumEdit, data);
         }
 
         public void DeleteCurriculum(int id)
@@ -153,6 +163,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
             curriculum.IsDeleted = true;
             db.SubmitChanges();
+
+            _LmsService.Inform(CurriculumNotifications.CurriculumDelete, id); 
         }
 
         public void DeleteCurriculums(IEnumerable<int> ids)
@@ -358,6 +370,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
             db.Themes.InsertOnSubmit(theme);
             db.SubmitChanges();
+            _LmsService.Inform(CurriculumNotifications.ThemeCreate, theme); 
 
             theme.SortOrder = theme.Id;
             UpdateTheme(theme);
@@ -369,22 +382,26 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 AddThemeAssignments(theme);
             }
 
+            
+
             return theme.Id;
         }
 
         public void UpdateTheme(Theme theme)
         {
             var db = GetDbContext();
-
+            object[] data = new object[2];
             var oldTheme = GetTheme(db, theme.Id);
-            oldTheme.Name = theme.Name;
-            oldTheme.SortOrder = theme.SortOrder;
-            oldTheme.CourseRef = theme.CourseRef;
-            oldTheme.Updated = DateTime.Now;
+            var newTheme = oldTheme;
 
-            if (oldTheme.ThemeTypeRef != theme.ThemeTypeRef)
+            newTheme.Name = theme.Name;
+            newTheme.SortOrder = theme.SortOrder;
+            newTheme.CourseRef = theme.CourseRef;
+            newTheme.Updated = DateTime.Now;
+
+            if (newTheme.ThemeTypeRef != theme.ThemeTypeRef)
             {
-                oldTheme.ThemeTypeRef = theme.ThemeTypeRef;
+                newTheme.ThemeTypeRef = theme.ThemeTypeRef;
                 if (Converters.ConvertToThemeType(theme.ThemeType) == Enums.ThemeType.Test ||
                     Converters.ConvertToThemeType(theme.ThemeType) == Enums.ThemeType.TestWithoutCourse)
                 {
@@ -396,6 +413,10 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 }
             }
             db.SubmitChanges();
+            data[0] = oldTheme;
+            data[1] = newTheme;
+
+            _LmsService.Inform(CurriculumNotifications.ThemeEdit, data); 
         }
 
         public void DeleteTheme(int id)
@@ -410,8 +431,9 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 DeleteThemeAssignments(theme);
             }
             theme.IsDeleted = true;
-
             db.SubmitChanges();
+
+            _LmsService.Inform(CurriculumNotifications.ThemeDelete, theme); 
         }
 
         public void DeleteThemes(IEnumerable<int> ids)

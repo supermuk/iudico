@@ -310,21 +310,24 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
             var oldUser = db.Users.Single(u => u.Id == id);
+            var newUser = oldUser;
+            object[] data = new object[2];
 
-            oldUser.Name = user.Name;
+            newUser.Name = user.Name;
             
             if (!string.IsNullOrEmpty(user.Password))
             {
                 oldUser.Password = EncryptPassword(user.Password);
             }
-                
-            oldUser.Email = user.Email;
-            oldUser.OpenId = user.OpenId ?? string.Empty;
-            oldUser.UserId = user.UserId;
+
+            newUser.Email = user.Email;
+            newUser.OpenId = user.OpenId ?? string.Empty;
+            newUser.UserId = user.UserId;
 
             db.SubmitChanges();
-
-            _LmsService.Inform(UserNotifications.UserEdit, oldUser);
+            data[0] = oldUser;
+            data[1] = newUser;
+            _LmsService.Inform(UserNotifications.UserEdit, data);
         }
 
         public void DeleteUser(Func<User, bool> predicate)
@@ -539,17 +542,24 @@ namespace IUDICO.UserManagement.Models.Storage
 
             db.Groups.InsertOnSubmit(group);
             db.SubmitChanges();
+
+            _LmsService.Inform(UserNotifications.GroupCreate, group);
         }
 
         public void EditGroup(int id, Group group)
         {
             var db = GetDbContext();
             var oldGroup = db.Groups.Single(g => g.Id == id && !g.Deleted);
+            var newGroup = oldGroup;
+            object[] data = new object[2];
 
-            oldGroup.Name = group.Name;
+            newGroup.Name = group.Name;
             db.SubmitChanges();
 
-            _LmsService.Inform(UserNotifications.GroupEdit, group);
+            data[0] = oldGroup;
+            data[1] = newGroup;
+
+            _LmsService.Inform(UserNotifications.GroupEdit, data);
         }
 
         public void DeleteGroup(int id)

@@ -17,6 +17,8 @@ namespace IUDICO.Common.Models.Services
         /// <param name="user">The user.</param>
         /// <returns></returns>
         IEnumerable<Curriculum> GetCurriculumsWithThemesOwnedByUser(User user);
+        IEnumerable<Curriculum> GetCurriculums();
+        IEnumerable<Curriculum> GetCurriculums(User user);
 
         #endregion
 
