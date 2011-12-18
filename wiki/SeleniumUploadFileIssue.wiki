@@ -29,4 +29,5 @@ selenium.WaitForPageToLoad(LoadTime);
  # Знайдіть рядок "a.value = d" і замініть його на "XPCNativeWrapper(a).value = d;"
  # Збережіть зміни.  Ось і все!
 
+Дане рішення проблеми працює тільки у Firefox!
 [http://code.google.com/p/selenium/issues/detail?id=2826#c14 Джерело]
