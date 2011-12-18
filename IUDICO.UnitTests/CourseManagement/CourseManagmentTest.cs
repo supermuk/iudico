@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Data.Linq;
+using System.IO;
 using System.Linq;
+using System.Web;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
+using IUDICO.CourseManagement.Models.ManifestModels;
+using IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels;
 using IUDICO.CourseManagement.Models.Storage;
 using IUDICO.UserManagement.Models.Storage;
 using Moq;
@@ -58,7 +62,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
                                    };
         #endregion
 
-        #region Public properties
+        #region Private properties
         private Mock<IUDICO.CourseManagement.Models.IDataContext> _MockDataContext
         {
             get;
@@ -89,6 +93,23 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             get;
             set;
         }
+
+        private Mock<MixedCourseStorageProtectedMethodTestClass> _MockStorageProtectedMethodTestClass
+        {
+            get;
+            set;
+        }
+
+        private Mock<HttpPostedFileBase> _HttpPostedFileBase
+        {
+            get;
+            set;
+        }
+
+        #endregion 
+
+        #region Public properties
+
         public IDataContext DataContext
         {
             get { return _MockDataContext.Object; }
@@ -104,10 +125,20 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             get { return _MockStorage.Object; }
         }
 
+        public MixedCourseStorageProtectedMethodTestClass StorageForTestingProtectedMethods
+        {
+            get { return _MockStorageProtectedMethodTestClass.Object; }
+        }
+
         public Mock<ITable> Users
         {
             get;
             protected set;
+        }
+
+        public HttpPostedFileBase HttpPostedFileBase
+        {
+            get { return _HttpPostedFileBase.Object; }
         }
 
         public Mock<ITable> Courses
@@ -145,8 +176,11 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             _MockUserStorage = new Mock<DatabaseUserStorage>(_MockLmsService.Object);
             _MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(_MockDataContext.Object);
             _MockUserStorage.Protected().Setup<IUDICO.UserManagement.Models.IDataContext>("GetDbContext").Returns(_MockUserDataContext.Object);
+            _HttpPostedFileBase = new Mock<HttpPostedFileBase>();
+            _HttpPostedFileBase.SetupGet(i => i.FileName).Returns("file");
 
-
+            _MockStorageProtectedMethodTestClass = new Mock<MixedCourseStorageProtectedMethodTestClass>();
+            _MockStorageProtectedMethodTestClass.Protected().Setup<IDataContext>("GetDbContext").Returns(_MockDataContext.Object);
 
             Setup();
         }
@@ -159,8 +193,9 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         public void Setup()
         {
 
-            _MockStorage.Setup(i => i.GetCoursePath(It.IsAny<int>())).Returns(@"d:\Tests\1\");
-
+   //         _MockStorage.Setup(i => i.GetCoursePath(It.IsAny<int>())).Returns(@"d:\Tests\Data\Courses");
+            _MockStorage.CallBase = true;
+            _MockStorage.Protected().Setup<string>("GetCoursesPath").Returns(@"d:\Tests\Data\Courses");
             _MockUserDataContext.SetupGet(c => c.Users).Returns(new MemoryTable<User>(_MockUserData));
 
             Mock<IUserService> userService = new Mock<IUserService>();
@@ -189,6 +224,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
                                                  Deleted = false,
                                                  Locked = null,
                                                  Nodes = new EntitySet<Node>(),
+
                                              },
                                          new Course
                                              {
@@ -294,17 +330,71 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
                                                CourseId = mockCourseData[0].Id,
                                                Id = 0,
                                                IsFolder = false,
-                                               Name = "Node for some cource"
+                                               Name = "Node0 for some cource",
+                                               NodeResources = new EntitySet<NodeResource>(),
+                                               
+                                           },
+
+                                        new Node
+                                           {
+                                               Course = mockCourseData[1],
+                                               CourseId = mockCourseData[1].Id,
+                                               Id = 1,
+                                               IsFolder = true,
+                                               Name = "Node1 for some cource",
+                                               NodeResources = new EntitySet<NodeResource>(),
+                                           },
+                                        new Node
+                                           {
+                                               Course = mockCourseData[2],
+                                               CourseId = mockCourseData[2].Id,
+                                               Id = 2,
+                                               IsFolder = true,
+                                               Name = "Node2 for some cource",
+                                               NodeResources = new EntitySet<NodeResource>(),
                                            }
                                    };
+
             var mockNodeResourceData = new[]
                                    {
                                        new NodeResource
                                            {
                                                Id = 0,
-                                               Name = "something))"
-                                           }
+                                               Name = "NodeResorces0",
+                                               Node = mockNodeData[0],
+                                               NodeId = mockNodeData[0].Id,
+                                               Path = "somePath0"
+                                           },
+                                        new NodeResource
+                                           {
+                                               Id = 1,
+                                               Name = "NodeResorces1",
+                                               Node = mockNodeData[0],
+                                               NodeId = mockNodeData[0].Id,
+                                               Path = "somePath1"
+                                           },
+                                        new NodeResource
+                                           {
+                                               Id = 3,
+                                               Name = "NodeResorces1",
+                                               Node = mockNodeData[1],
+                                               NodeId = mockNodeData[1].Id,
+                                               Path = "somePath2"
+                                           },
+                                        new NodeResource
+                                        {
+                                            Id = 2,
+                                            Name = "NodeResorces1",
+                                            Node = mockNodeData[1],
+                                            NodeId = mockNodeData[1].Id,
+                                            Path = "somePath3"
+                                        }
                                    };
+            mockNodeData[0].NodeResources.Add(mockNodeResourceData[0]);
+            mockNodeData[0].NodeResources.Add(mockNodeResourceData[1]);
+            mockNodeData[1].NodeResources.Add(mockNodeResourceData[2]);
+            mockNodeData[1].NodeResources.Add(mockNodeResourceData[3]);
+
 
             _MockDataContext.SetupGet(c => c.Courses).Returns(new MemoryTable<Course>(mockCourseData));
             _MockDataContext.SetupGet(c => c.Nodes).Returns(new MemoryTable<Node>(mockNodeData));
@@ -312,6 +402,16 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             _MockDataContext.SetupGet(c => c.CourseUsers).Returns(new MemoryTable<CourseUser>(mockCourseUserData));
         }
 
+    }
+
+    public class MixedCourseStorageProtectedMethodTestClass: MixedCourseStorage
+    {
+        public MixedCourseStorageProtectedMethodTestClass(ILmsService iLmsService):base(iLmsService){}
+
+        public Item AddSubItemsTest(Item parentItem, Node parentNode, int courseId, ManifestManager helper, ref Manifest manifest)
+        {
+            return AddSubItems(parentItem,parentNode,courseId, helper, ref manifest);
+        }
     }
 }
 
