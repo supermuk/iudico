@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Solution for solving selenium upload file problem
 
 = Проблема =
 
