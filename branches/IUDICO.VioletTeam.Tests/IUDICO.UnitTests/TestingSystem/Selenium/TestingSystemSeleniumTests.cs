@@ -65,6 +65,19 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         [SetUp]
         public void SetUp()
         {
+            Selenium.Start();
+
+            Selenium.Open("/");
+            Selenium.WaitForPageToLoad(LoadTime);
+
+            Selenium.WindowMaximize();
+
+            if (!Selenium.IsElementPresent("css=a[href='/Account/ChangeCulture?lang=en-US&returnUrl=%2F']"))
+            {
+                Selenium.Click("css=a[href='/Account/ChangeCulture?lang=uk-UA&returnUrl=%2F']");
+                Selenium.WaitForPageToLoad(LoadTime);
+            }
+
             // Creates users (student, teacher).
 
             CreateUser(StudentName, StudentPassword, AdminName, AdminPassword);
@@ -74,6 +87,20 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             CreateUser(TeacherName, TeacherPassword, AdminName, AdminPassword);
             teacherId = GetUserId(TeacherName, AdminName, AdminPassword);
             AddToRole(teacherId, "Teacher", AdminName, AdminPassword);
+
+            // Imports courses and gets their ids.
+
+            ImportCourse(CourseUri1, CourseName1, TeacherName, TeacherPassword);
+            courseId1 = GetCourseId(CourseName1, TeacherName, TeacherPassword);
+
+            ImportCourse(CourseUri2, CourseName2, TeacherName, TeacherPassword);
+            courseId2 = GetCourseId(CourseName2, TeacherName, TeacherPassword);
+
+            ImportCourse(CourseUri3, CourseName3, TeacherName, TeacherPassword);
+            courseId3 = GetCourseId(CourseName3, TeacherName, TeacherPassword);
+
+            ImportCourse(CourseUri4, CourseName4, TeacherName, TeacherPassword);
+            courseId4 = GetCourseId(CourseName4, TeacherName, TeacherPassword);
 
             // Creates group and adds student to it. 
 
@@ -112,10 +139,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         [Test]
         public void PlayNotPreviouslyAttemptedTheme()
         {
-            // Imports courses and gets their ids.
 
-            ImportCourse(CourseUri1, CourseName1, TeacherName, TeacherPassword);
-            courseId1 = GetCourseId(CourseName1, TeacherName, TeacherPassword);
 
             // Creates assigned to group curriculum that contains valid curriculum timelines.
 
@@ -167,10 +191,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         [Test]
         public void PlayThemeWithInvalidAvailabilityDueToGroupAssignment()
         {
-            // Imports courses and gets their ids.
 
-            ImportCourse(CourseUri2, CourseName2, TeacherName, TeacherPassword);
-            courseId2 = GetCourseId(CourseName2, TeacherName, TeacherPassword);
 
             // Creates Not assigned to group curriculum.
 
@@ -194,10 +215,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         [Test]
         public void PlayThemeWithInvalidAvailabilityDueToInvalidCurriculumTimelines()
         {
-            // Imports courses and gets their ids.
 
-            ImportCourse(CourseUri3, CourseName3, TeacherName, TeacherPassword);
-            courseId3 = GetCourseId(CourseName3, TeacherName, TeacherPassword);
 
             // Creates assigned to group curriculum with invalid curriculum timelines.
 
@@ -224,10 +242,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         [Test]
         public void PlayThemeWithInvalidAvailabilityDueToInvalidStageTimelines()
         {
-            // Imports courses and gets their ids.
 
-            ImportCourse(CourseUri4, CourseName4, TeacherName, TeacherPassword);
-            courseId4 = GetCourseId(CourseName4, TeacherName, TeacherPassword);
 
             // Creates assigned to group curriculum with valid curriculum timelines, but invalid stage timelines.
 
@@ -252,140 +267,383 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Logout();
         }
 
-        //[Test]
-        //public void PlayCompletedTheme()
-        //{
-        //    // Imports courses and gets their ids.
+        [Test]
+        public void PlayCompletedTheme()
+        {
 
-        //    ImportCourse(CourseUri1, CourseName1, TeacherName, TeacherPassword);
-        //    courseId1 = GetCourseId(CourseName1, TeacherName, TeacherPassword);
+            // Creates assigned to group curriculum that contains valid curriculum timelines.
 
-        //    // Creates assigned to group curriculum that contains valid curriculum timelines.
+            CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
+            curriculumId1 = GetCurriculumId(curriculumName1, TeacherName, TeacherPassword);
+            AddGroupToCurriculum(curriculumId1, GroupName, TeacherName, TeacherPassword);
+            string curriculumAssignmentId1 = GetCurriculumAssignmentId(curriculumId1, GroupName, TeacherName, TeacherPassword);
+            AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId1, curriculumAssignmentId1, TeacherName, TeacherPassword);
+            AddStage(curriculumId1, "testStage1", TeacherName, TeacherPassword);
+            string stageId1 = GetStageId(curriculumId1, "testStage1", TeacherName, TeacherPassword);
+            AddTheme(curriculumId1, stageId1, "testTheme1", CourseName1, TeacherName, TeacherPassword);
+            themeId1 = GetThemeId(curriculumId1, stageId1, "testTheme1", TeacherName, TeacherPassword);
 
-        //    CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
-        //    curriculumId1 = GetCurriculumId(curriculumName1, TeacherName, TeacherPassword);
-        //    AddGroupToCurriculum(curriculumId1, GroupName, TeacherName, TeacherPassword);
-        //    string curriculumAssignmentId1 = GetCurriculumAssignmentId(curriculumId1, GroupName, TeacherName, TeacherPassword);
-        //    AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId1, curriculumAssignmentId1, TeacherName, TeacherPassword);
-        //    AddStage(curriculumId1, "testStage1", TeacherName, TeacherPassword);
-        //    string stageId1 = GetStageId(curriculumId1, "testStage1", TeacherName, TeacherPassword);
-        //    AddTheme(curriculumId1, stageId1, "testTheme1", CourseName1, TeacherName, TeacherPassword);
-        //    themeId1 = GetThemeId(curriculumId1, stageId1, "testTheme1", TeacherName, TeacherPassword);
+            Login(StudentName, StudentPassword);
+            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.WaitForPageToLoad(LoadTime);
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("Please select an activity to continue with the training."));
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("frameToc");
+            Selenium.MouseDown("id=a7");
+            Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
+            Selenium.MouseUp("id=a7");
 
-        //    Login(StudentName, StudentPassword);
-        //    Selenium.Open("/Training/Play/" + themeId1);
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Assert.IsTrue(Selenium.GetTitle() == "Play course");
-        //    Selenium.Click("css=a[title='How to Play']");
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Selenium.Click("css=a[title='Submit Training']");
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Selenium.SelectFrame("id=frameContent");
-        //    Assert.IsTrue(Selenium.IsTextPresent("Submit this Training?"));
-        //    Assert.IsTrue(Selenium.IsTextPresent("You cannot make any further changes after you submit this training"));
-        //    Selenium.Click("id=submitBtn");
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    //Selenium.SelectFrame("relative=top");
-        //    Assert.IsTrue(Selenium.IsTextPresent("Attempt statistic"));
-        //    Assert.IsTrue(Selenium.IsTextPresent("Number of question"));
-        //    Assert.IsTrue(Selenium.GetTitle() == "Results");
-        //    Selenium.Open("/");
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Selenium.Open("/Training/Play/" + themeId1);
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Selenium.Open("/Training/Play/" + themeId1);
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Logout();
-        //}
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("The Rules of Golf (book)"));
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("frameToc");
+            Selenium.MouseDown("id=aSUBMIT");
+            Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
+            Selenium.MouseUp("id=aSUBMIT");
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("Submit this Training?"));
+            Selenium.Click("id=submitBtn");
+            Selenium.WaitForPageToLoad(LoadTime);
+            Assert.IsTrue(Selenium.IsTextPresent("Training Completed"));
+            Assert.IsTrue(Selenium.IsTextPresent("This training has been completed. You cannot make any further changes."));
+            Selenium.Open("/");
+            Selenium.WaitForPageToLoad(LoadTime);
+            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.WaitForPageToLoad(LoadTime);
+            Assert.IsTrue(Selenium.IsTextPresent("Results"));
+            Logout();
+        }
 
-        //[Test]
-        //public void PlaySuspendedTheme()
-        //{
-        //    // Imports courses and gets their ids.
+        [Test]
+        public void PlaySuspendedTheme()
+        {
+            // Imports courses and gets their ids.
 
-        //    ImportCourse(CourseUri1, CourseName1, TeacherName, TeacherPassword);
-        //    courseId1 = GetCourseId(CourseName1, TeacherName, TeacherPassword);
+            ImportCourse(CourseUri1, CourseName1, TeacherName, TeacherPassword);
+            courseId1 = GetCourseId(CourseName1, TeacherName, TeacherPassword);
 
-        //    // Creates assigned to group curriculum that contains valid curriculum timelines.
+            // Creates assigned to group curriculum that contains valid curriculum timelines.
 
-        //    CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
-        //    curriculumId1 = GetCurriculumId(curriculumName1, TeacherName, TeacherPassword);
-        //    AddGroupToCurriculum(curriculumId1, GroupName, TeacherName, TeacherPassword);
-        //    string curriculumAssignmentId1 = GetCurriculumAssignmentId(curriculumId1, GroupName, TeacherName, TeacherPassword);
-        //    AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId1, curriculumAssignmentId1, TeacherName, TeacherPassword);
-        //    AddStage(curriculumId1, "testStage1", TeacherName, TeacherPassword);
-        //    string stageId1 = GetStageId(curriculumId1, "testStage1", TeacherName, TeacherPassword);
-        //    AddTheme(curriculumId1, stageId1, "testTheme1", CourseName1, TeacherName, TeacherPassword);
-        //    themeId1 = GetThemeId(curriculumId1, stageId1, "testTheme1", TeacherName, TeacherPassword);
+            CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
+            curriculumId1 = GetCurriculumId(curriculumName1, TeacherName, TeacherPassword);
+            AddGroupToCurriculum(curriculumId1, GroupName, TeacherName, TeacherPassword);
+            string curriculumAssignmentId1 = GetCurriculumAssignmentId(curriculumId1, GroupName, TeacherName, TeacherPassword);
+            AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId1, curriculumAssignmentId1, TeacherName, TeacherPassword);
+            AddStage(curriculumId1, "testStage1", TeacherName, TeacherPassword);
+            string stageId1 = GetStageId(curriculumId1, "testStage1", TeacherName, TeacherPassword);
+            AddTheme(curriculumId1, stageId1, "testTheme1", CourseName1, TeacherName, TeacherPassword);
+            themeId1 = GetThemeId(curriculumId1, stageId1, "testTheme1", TeacherName, TeacherPassword);
 
-        //    Login(StudentName, StudentPassword);
-        //    Selenium.Open("/Training/Play/" + themeId1);
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Assert.IsTrue(Selenium.GetTitle() == "Play course");
-        //    Selenium.Click("css=a[title='The Rules of Golf']");
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Selenium.SelectFrame("id=frameContent");
-        //    Assert.IsTrue(Selenium.IsTextPresent("The Rules of Golf (book)"));
-        //    Selenium.SelectFrame("relative=top");
-        //    Selenium.Open("/");
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Selenium.Open("/Training/Play/" + themeId1);
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Selenium.SelectFrame("id=frameContent");
-        //    Assert.IsTrue(Selenium.IsTextPresent("The Rules of Golf (book)"));
-        //    Selenium.SelectFrame("relative=top");
-        //    Logout();
-        //}
+            Login(StudentName, StudentPassword);
 
-        //[Test]
-        //public void SuspendTheme()
-        //{
-        //    Login(StudentName, StudentPassword);
-        //    Selenium.Open("/Training/Play/" + themeId1);
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Assert.IsTrue(Selenium.GetTitle() == "Play course");
-        //    Selenium.Click("css=a[title='The Rules of Golf']");
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Selenium.SelectFrame("id=frameContent");
-        //    Assert.IsTrue(Selenium.IsTextPresent("The Rules of Golf (book)"));
-        //    Selenium.SelectFrame("relative=top");
-        //    Selenium.Open("/");
-        //    Assert.IsTrue(Selenium.IsTextPresent("Welcome to online education system IUDICO"));
-        //    Logout();
-        //}
 
-        //[Test]
-        //public void SubmitTheme()
-        //{
-        //    Login(StudentName, StudentPassword);
-        //    Selenium.Open("/Training/Play/" + themeId1);
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Assert.IsTrue(Selenium.GetTitle() == "Play course");
-        //    Selenium.Click("css=a[title='How to Play']");
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Selenium.Click("css=a[title='Submit Training']");
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Selenium.SelectFrame("id=frameContent");
-        //    Assert.IsTrue(Selenium.IsTextPresent("Submit this Training?"));
-        //    Assert.IsTrue(Selenium.IsTextPresent("You cannot make any further changes after you submit this training"));
-        //    Selenium.Click("id=submitBtn");
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    //Selenium.SelectFrame("relative=top");
-        //    Assert.IsTrue(Selenium.IsTextPresent("Attempt statistic"));
-        //    Assert.IsTrue(Selenium.IsTextPresent("Number of question"));
-        //    Assert.IsTrue(Selenium.GetTitle() == "Results");
-        //    Logout();
-        //}
+            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.WaitForPageToLoad(LoadTime);
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("Please select an activity to continue with the training."));
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("frameToc");
+            Selenium.MouseDown("id=a7");
+            Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
+            Selenium.MouseUp("id=a7");
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("The Rules of Golf (book)"));
+            Selenium.Open("/");
+            Selenium.WaitForPageToLoad(LoadTime);
+            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.WaitForPageToLoad(LoadTime);
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("The Rules of Golf (book)"));
+            Logout();
+        }
 
-        //[Test]
-        //public void InteractWithCourseContents1()
-        //{
-        //    ChangeCourseInTheme(CourseName4, curriculumId1, "stage1", themeId1, TeacherName, TeacherPassword);
-        //    Login(StudentName, StudentPassword);
-        //    Selenium.Open("/Training/Play/" + themeId1);
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Logout();
-        //}
+        [Test]
+        public void SuspendTheme()
+        {
+
+            // Creates assigned to group curriculum that contains valid curriculum timelines.
+
+            CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
+            curriculumId1 = GetCurriculumId(curriculumName1, TeacherName, TeacherPassword);
+            AddGroupToCurriculum(curriculumId1, GroupName, TeacherName, TeacherPassword);
+            string curriculumAssignmentId1 = GetCurriculumAssignmentId(curriculumId1, GroupName, TeacherName, TeacherPassword);
+            AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId1, curriculumAssignmentId1, TeacherName, TeacherPassword);
+            AddStage(curriculumId1, "testStage1", TeacherName, TeacherPassword);
+            string stageId1 = GetStageId(curriculumId1, "testStage1", TeacherName, TeacherPassword);
+            AddTheme(curriculumId1, stageId1, "testTheme1", CourseName1, TeacherName, TeacherPassword);
+            themeId1 = GetThemeId(curriculumId1, stageId1, "testTheme1", TeacherName, TeacherPassword);
+
+            Login(StudentName, StudentPassword);
+            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.WaitForPageToLoad(LoadTime);
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("Please select an activity to continue with the training."));
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("frameToc");
+            Selenium.MouseDown("id=a7");
+            Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
+            Selenium.MouseUp("id=a7");
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("The Rules of Golf (book)"));
+            Selenium.Open("/");
+            Selenium.WaitForPageToLoad(LoadTime);
+            Logout();
+        }
+
+        [Test]
+        public void SubmitTheme()
+        {
+
+            // Creates assigned to group curriculum that contains valid curriculum timelines.
+
+            CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
+            curriculumId1 = GetCurriculumId(curriculumName1, TeacherName, TeacherPassword);
+            AddGroupToCurriculum(curriculumId1, GroupName, TeacherName, TeacherPassword);
+            string curriculumAssignmentId1 = GetCurriculumAssignmentId(curriculumId1, GroupName, TeacherName, TeacherPassword);
+            AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId1, curriculumAssignmentId1, TeacherName, TeacherPassword);
+            AddStage(curriculumId1, "testStage1", TeacherName, TeacherPassword);
+            string stageId1 = GetStageId(curriculumId1, "testStage1", TeacherName, TeacherPassword);
+            AddTheme(curriculumId1, stageId1, "testTheme1", CourseName1, TeacherName, TeacherPassword);
+            themeId1 = GetThemeId(curriculumId1, stageId1, "testTheme1", TeacherName, TeacherPassword);
+
+            Login(StudentName, StudentPassword);
+            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.WaitForPageToLoad(LoadTime);
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("Please select an activity to continue with the training."));
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("frameToc");
+            Selenium.MouseDown("id=a7");
+            Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
+            Selenium.MouseUp("id=a7");
+
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("The Rules of Golf (book)"));
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("frameToc");
+            Selenium.MouseDown("id=aSUBMIT");
+            Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
+            Selenium.MouseUp("id=aSUBMIT");
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("Submit this Training?"));
+            Selenium.Click("id=submitBtn");
+            Selenium.WaitForPageToLoad(LoadTime);
+            Assert.IsTrue(Selenium.IsTextPresent("Training Completed"));
+            Assert.IsTrue(Selenium.IsTextPresent("This training has been completed. You cannot make any further changes."));
+
+            Logout();
+        }
+
+        [Test]
+        public void InteractWithCourseContentNextPrev()
+        {
+
+            CreateCurriculum(curriculumName3, TeacherName, TeacherPassword);
+            curriculumId3 = GetCurriculumId(curriculumName3, TeacherName, TeacherPassword);
+            AddGroupToCurriculum(curriculumId3, GroupName, TeacherName, TeacherPassword);
+            string curriculumAssignmentId3 = GetCurriculumAssignmentId(curriculumId3, GroupName, TeacherName, TeacherPassword);
+            AddTimeLineToCurriculum("12/18/1999 4:23 PM", "12/18/2100 4:23 PM", curriculumId3, curriculumAssignmentId3, TeacherName, TeacherPassword);
+            AddStage(curriculumId3, "testStage3", TeacherName, TeacherPassword);
+            string stageId3 = GetStageId(curriculumId3, "testStage3", TeacherName, TeacherPassword);
+            AddTheme(curriculumId3, stageId3, "testTheme3", CourseName3, TeacherName, TeacherPassword);
+            themeId3 = GetThemeId(curriculumId3, stageId3, "testTheme3", TeacherName, TeacherPassword);
+
+            Login(StudentName, StudentPassword);
+            Selenium.Open("/Training/Play/" + themeId3);
+            Selenium.WaitForPageToLoad(LoadTime);
+            Selenium.SelectFrame("id=frameContent");
+            Selenium.Click("id=butNext");
+            Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("Par"));
+            Selenium.SelectFrame("id=frameContent");
+            Selenium.Click("id=butPrev");
+            Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("Play of the game"));
+            Logout();
+        }
+
+        [Test]
+        public void InteractWithCourseContentSubmitLastItem()
+        {
+
+            // Creates assigned to group curriculum that contains valid curriculum timelines.
+
+            CreateCurriculum(curriculumName2, TeacherName, TeacherPassword);
+            curriculumId2 = GetCurriculumId(curriculumName2, TeacherName, TeacherPassword);
+            AddGroupToCurriculum(curriculumId2, GroupName, TeacherName, TeacherPassword);
+            string curriculumAssignmentId2 = GetCurriculumAssignmentId(curriculumId2, GroupName, TeacherName, TeacherPassword);
+            AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId2, curriculumAssignmentId2, TeacherName, TeacherPassword);
+            AddStage(curriculumId2, "testStage2", TeacherName, TeacherPassword);
+            string stageId2 = GetStageId(curriculumId2, "testStage2", TeacherName, TeacherPassword);
+            AddTheme(curriculumId2, stageId2, "testTheme2", CourseName2, TeacherName, TeacherPassword);
+            themeId1 = GetThemeId(curriculumId2, stageId2, "testTheme2", TeacherName, TeacherPassword);
+
+            Login(StudentName, StudentPassword);
+            Selenium.Open("/Training/Play/" + themeId2);
+            for (int i = 0; i < 15; i++)
+            {
+                Selenium.SelectFrame("id=frameContent");
+                Selenium.Click("id=butNext");
+                Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
+            }
+
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("frameToc");
+            Selenium.MouseDown("id=aSUBMIT");
+            Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
+            Selenium.MouseUp("id=aSUBMIT");
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("Submit this Training?"));
+            Selenium.Click("id=submitBtn");
+            Selenium.WaitForPageToLoad(LoadTime);
+            Assert.IsTrue(Selenium.IsTextPresent("Training Completed"));
+            Assert.IsTrue(Selenium.IsTextPresent("This training has been completed. You cannot make any further changes."));
+
+            Logout();
+
+        }
+
+        [Test]
+        public void NavigateForwardThroughTheme()
+        {
+            // Creates assigned to group curriculum that contains valid curriculum timelines.
+
+            CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
+            curriculumId1 = GetCurriculumId(curriculumName1, TeacherName, TeacherPassword);
+            AddGroupToCurriculum(curriculumId1, GroupName, TeacherName, TeacherPassword);
+            string curriculumAssignmentId1 = GetCurriculumAssignmentId(curriculumId1, GroupName, TeacherName, TeacherPassword);
+            AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId1, curriculumAssignmentId1, TeacherName, TeacherPassword);
+            AddStage(curriculumId1, "testStage1", TeacherName, TeacherPassword);
+            string stageId1 = GetStageId(curriculumId1, "testStage1", TeacherName, TeacherPassword);
+            AddTheme(curriculumId1, stageId1, "testTheme1", CourseName1, TeacherName, TeacherPassword);
+            themeId1 = GetThemeId(curriculumId1, stageId1, "testTheme1", TeacherName, TeacherPassword);
+
+            Login(StudentName, StudentPassword);
+            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.WaitForPageToLoad(LoadTime);
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("Please select an activity to continue with the training."));
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("frameToc");
+            Selenium.MouseDown("id=a7");
+            Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
+            Selenium.MouseUp("id=a7");
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("The Rules of Golf (book)"));
+            Logout();
+        }
+
+        [Test]
+        public void NavigateForwardOneStep()
+        {
+
+            // Creates assigned to group curriculum that contains valid curriculum timelines.
+
+            CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
+            curriculumId1 = GetCurriculumId(curriculumName1, TeacherName, TeacherPassword);
+            AddGroupToCurriculum(curriculumId1, GroupName, TeacherName, TeacherPassword);
+            string curriculumAssignmentId1 = GetCurriculumAssignmentId(curriculumId1, GroupName, TeacherName, TeacherPassword);
+            AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId1, curriculumAssignmentId1, TeacherName, TeacherPassword);
+            AddStage(curriculumId1, "testStage1", TeacherName, TeacherPassword);
+            string stageId1 = GetStageId(curriculumId1, "testStage1", TeacherName, TeacherPassword);
+            AddTheme(curriculumId1, stageId1, "testTheme1", CourseName1, TeacherName, TeacherPassword);
+            themeId1 = GetThemeId(curriculumId1, stageId1, "testTheme1", TeacherName, TeacherPassword);
+
+            Login(StudentName, StudentPassword);
+            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.WaitForPageToLoad(LoadTime);
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("Please select an activity to continue with the training."));
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("frameToc");
+            Selenium.MouseDown("id=a7");
+            Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
+            Selenium.MouseUp("id=a7");
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("The Rules of Golf (book)"));
+
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("frameToc");
+            Selenium.MouseDown("id=a6");
+            Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
+            Selenium.MouseUp("id=a6");
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("Other Scoring Systems"));
+
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("frameToc");
+            Selenium.MouseDown("id=a7");
+            Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
+            Selenium.MouseUp("id=a7");
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("The Rules of Golf (book)"));
+
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("frameToc");
+            Selenium.MouseDown("id=a8");
+            Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
+            Selenium.MouseUp("id=a8");
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("Knowledge Check"));
+            Logout();
+        }
+
+        [Test]
+        public void NavigateChoiceToLastItemToFirst()
+        {
+
+            // Creates assigned to group curriculum that contains valid curriculum timelines.
+
+            CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
+            curriculumId1 = GetCurriculumId(curriculumName1, TeacherName, TeacherPassword);
+            AddGroupToCurriculum(curriculumId1, GroupName, TeacherName, TeacherPassword);
+            string curriculumAssignmentId1 = GetCurriculumAssignmentId(curriculumId1, GroupName, TeacherName, TeacherPassword);
+            AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId1, curriculumAssignmentId1, TeacherName, TeacherPassword);
+            AddStage(curriculumId1, "testStage1", TeacherName, TeacherPassword);
+            string stageId1 = GetStageId(curriculumId1, "testStage1", TeacherName, TeacherPassword);
+            AddTheme(curriculumId1, stageId1, "testTheme1", CourseName1, TeacherName, TeacherPassword);
+            themeId1 = GetThemeId(curriculumId1, stageId1, "testTheme1", TeacherName, TeacherPassword);
+
+            Login(StudentName, StudentPassword);
+            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.WaitForPageToLoad(LoadTime);
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("Please select an activity to continue with the training."));
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("frameToc");
+            Selenium.MouseDown("id=a24");
+            Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
+            Selenium.MouseUp("id=a24");
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("Knowledge Check"));
+
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("frameToc");
+            Selenium.MouseDown("id=a3");
+            Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
+            Selenium.MouseUp("id=a3");
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectFrame("id=frameContent");
+            Assert.IsTrue(Selenium.IsTextPresent("Play of the game"));
+            Logout();
+
+        }
 
         private void Login(string userLogin, string userPassword)
         {
