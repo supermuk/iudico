@@ -7,8 +7,14 @@ using NUnit.Framework;
 
 namespace IUDICO.Security.UnitTests.Tests
 {
+    [TestFixture]
     class BanStorageTester : SecurityTester
     {
+        [SetUp]
+        public void Setup()
+        {
+        }
+
         [Test]
         public void CreateComputer()
         {
@@ -259,6 +265,33 @@ namespace IUDICO.Security.UnitTests.Tests
             BanStorage.DeleteRoom(room);
 
             Assert.False(BanStorage.GetRooms().Contains(room));
+        }
+
+
+        [Test]
+        public void GetComputerTest()
+        {
+            //Create computer with fake ip-address;
+            Computer computer = new Computer { Banned = true, IpAddress = "999.949.999.979" };
+
+            BanStorage.CreateComputer(computer);
+
+            Assert.True(BanStorage.GetComputer("999.949.999.979").Banned);
+        }
+
+        [Test]
+        public void ifBannedTest()
+        {
+            //Create computers with fake ip-address;
+            Computer computer1 = new Computer { Banned = true, IpAddress = "999.949.999.979" };
+            Computer computer2 = new Computer { Banned = false, IpAddress = "969.949.999.979" };
+
+            BanStorage.CreateComputer(computer1);                    
+
+            BanStorage.CreateComputer(computer2);
+
+            Assert.True(BanStorage.ifBanned("999.949.999.979"));
+            Assert.False(BanStorage.ifBanned("969.949.999.979"));
         }
     }
 }
