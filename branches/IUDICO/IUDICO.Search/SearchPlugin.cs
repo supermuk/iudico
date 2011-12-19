@@ -104,9 +104,9 @@ namespace IUDICO.Search
 
                     RebuildIndex(((IWindsorContainer)data[0]).Resolve<ILmsService>());
 
-                    var thread = new Thread(startMyTimer);
-                    thread.Start(((IWindsorContainer)data[0]).Resolve<ILmsService>());
-                    isRun = true;
+                    //var thread = new Thread(startMyTimer);
+                    //thread.Start(((IWindsorContainer)data[0]).Resolve<ILmsService>());
+                    //isRun = true;
                 }
             }
 
@@ -225,7 +225,6 @@ namespace IUDICO.Search
 
                 ProcessNode(writer, (IUDICO.Common.Models.Shared.Node)data[0], (((IWindsorContainer)data[0]).Resolve<ILmsService>()).FindService<ICourseService>());
 
-                
                 writer.Optimize();
                 writer.Close();
             }
