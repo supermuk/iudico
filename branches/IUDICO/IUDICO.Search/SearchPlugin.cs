@@ -100,7 +100,7 @@ namespace IUDICO.Search
                     string root = new System.IO.FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
                     int index = root.IndexOf("\\Plugins");
                     root = root.Substring(0, index);
-                    serverPath = root.Insert(index, "\\Data\\Index"); ;
+                    serverPath = root.Insert(index, "\\Data\\Index");
 
                     RebuildIndex(((IWindsorContainer)data[0]).Resolve<ILmsService>());
 
