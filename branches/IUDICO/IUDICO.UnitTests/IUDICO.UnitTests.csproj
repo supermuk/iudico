@@ -108,6 +108,7 @@
     <Compile Include="CurriculumManagement\Old\CurriculumResultTest.cs" />
     <Compile Include="CurriculumManagement\Old\Extensions.cs" />
     <Compile Include="CurriculumManagement\CurriculumManagementTests.cs" />
+    <Compile Include="LMS\NUnit\LoggerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CurriculumManagement\Old\SpecializedResultTest.cs" />
     <Compile Include="CurriculumManagement\Old\ThemeInfoModelTest.cs" />
