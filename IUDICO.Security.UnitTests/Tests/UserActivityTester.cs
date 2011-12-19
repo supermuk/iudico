@@ -110,7 +110,7 @@ namespace IUDICO.Security.UnitTests.Tests
 
             overallViewModel.AddUserStats(tempUser2, 60, 60, DateTime.Today);
 
-            Assert.True(overallViewModel.GetUserActivity("user1").Sum(s => s.TodayNumberOfRequests) == 70);
+            Assert.True(overallViewModel.GetUserActivityForToday("user1").Sum(s => s.TodayNumberOfRequests) == 70);
         }
     }
 }
