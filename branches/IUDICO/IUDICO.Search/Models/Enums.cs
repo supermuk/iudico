@@ -10,6 +10,7 @@ namespace IUDICO.Search.Models
         Curriculums = 1,
         Themes = 2,
         Users = 3,
-        Courses = 4
+        Courses = 4,
+        Groups = 5
     }
 }

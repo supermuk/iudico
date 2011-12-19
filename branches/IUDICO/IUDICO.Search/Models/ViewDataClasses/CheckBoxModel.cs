@@ -34,6 +34,9 @@ namespace IUDICO.Search.Models.ViewDataClasses
                 case SearchType.Users:
                     Text = "Users";
                     break;
+                case SearchType.Groups:
+                    Text = "Groups";
+                    break;
             }
         }
     }
