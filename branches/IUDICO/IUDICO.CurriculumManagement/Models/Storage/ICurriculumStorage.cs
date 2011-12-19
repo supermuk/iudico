@@ -70,6 +70,12 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         IEnumerable<Theme> GetThemesByGroupId(int groupId);
         IEnumerable<Theme> GetThemesByCourseId(int courseId);
         /// <summary>
+        /// Gets the themes owned by user.
+        /// </summary>
+        /// <param name="owner">The owner.</param>
+        /// <returns></returns>
+        IEnumerable<Theme> GetThemesOwnedByUser(User owner);
+        /// <summary>
         /// Gets the themes available for user for current date.
         /// </summary>
         /// <param name="user">The user.</param>

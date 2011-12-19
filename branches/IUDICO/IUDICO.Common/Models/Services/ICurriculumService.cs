@@ -47,6 +47,12 @@ namespace IUDICO.Common.Models.Services
         /// <param name="themeId">The theme id.</param>
         /// <returns></returns>
         IEnumerable<Group> GetGroupsAssignedToTheme(int themeId);
+        /// <summary>
+        /// Gets the themes owned by user.
+        /// </summary>
+        /// <param name="owner">The owner.</param>
+        /// <returns></returns>
+        IEnumerable<Theme> GetThemesOwnedByUser(User owner);
         Theme GetTheme(int id);
 
         #endregion
