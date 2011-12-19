@@ -122,8 +122,8 @@ namespace IUDICO.LMS
             {
                 Server.ClearError();
                 //context.Response.RedirectToRoute("Default", new { controller = "Home", action = "Error" });
-
-		Logger.Instance.Error(this, Request.HttpMethod + ": " + Request.Path);
+                
+                Logger.Instance.Error(this, Request.HttpMethod + ": " + Request.Path);
             }
         }
 
@@ -223,9 +223,7 @@ namespace IUDICO.LMS
 
         void Application_EndRequest(Object Sender, EventArgs e)
         {
-            log4net.ILog log = log4net.LogManager.GetLogger(typeof(MvcApplication));
-            log.Info(Request.HttpMethod + ": " + Request.Path);
-            LmsService.Inform(LMSNotifications.ApplicationRequestEnd);
+            Logger.Instance.Info(this, Request.HttpMethod + ": " + Request.Path);
         }
     }
 }
