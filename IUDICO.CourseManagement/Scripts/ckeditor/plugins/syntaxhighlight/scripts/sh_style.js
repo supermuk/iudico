@@ -1,15 +1,15 @@
 
 var sh_defstyle = {
   sh_keyword : "color: blue; font-weight: bold; " ,           /* language keywords */
-  sh_type : "color: darkgreen; " ,                            /* basic types */
+  sh_type : "color: blue; " ,                            /* basic types */
   sh_usertype : "color: teal; " ,                             /* user defined types */
-  sh_string : "color: red; font-family: monospace; " ,        /* strings and chars */
+  sh_string : "color: #800000; font-family: monospace; " ,        /* strings and chars */
   sh_regexp : "color: orange; font-family: monospace; " ,     /* regular expressions */
   sh_specialchar : "color: pink; font-family: monospace; " ,  /* e.g.  \n  \t  \\ */
-  sh_comment : "color: brown; font-style: italic; " ,         /* comments */
-  sh_number : "color: purple; " ,                             /* literal numbers */
+  sh_comment: "color: 	#808080; font-style: italic; ",         /* comments */
+  sh_number : "color: black; " ,                             /* literal numbers */
   sh_preproc : "color: darkblue; font-weight: bold; " ,       /* e.g.  #include  import */
-  sh_symbol : "color: darkred; " ,                            /* e.g.  <  >  + */
+  sh_symbol : "color: black; " ,                            /* e.g.  <  >  + */
   sh_function : "color: black; font-weight: bold; " ,         /* function calls and declarations */
   sh_cbracket : "color: black; " ,                              /* block brackets (e.g.  {  " ,) */
   sh_todo : "font-weight: bold; background-color: cyan; " ,   /* TODO and FIXME */
