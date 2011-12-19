@@ -98,6 +98,11 @@ namespace IUDICO.CurriculumManagement.Models
             return _CurriculumStorage.GetThemesByGroupId(groupId);
         }
 
+        public IEnumerable<Theme> GetThemesOwnedByUser(User owner)
+        {
+            return _CurriculumStorage.GetThemesOwnedByUser(owner);
+        }
+
         public IEnumerable<ThemeDescription> GetThemesAvailableForUser(User user)
         {
             return _CurriculumStorage.GetThemesAvailableForUser(user);
