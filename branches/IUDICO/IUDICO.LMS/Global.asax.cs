@@ -7,6 +7,7 @@ using System.Web.Routing;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using IUDICO.Common;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
 using IUDICO.Common.Models.Services;
@@ -110,20 +111,21 @@ namespace IUDICO.LMS
             LmsService.Inform(LMSNotifications.ApplicationStart, tmp);
         }
 
-        //protected void Application_Error(object sender, EventArgs e)
-        //{
-        //    var context = HttpContext.Current;
-        //    var exception = context.Server.GetLastError();
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            var context = HttpContext.Current;
+            var exception = context.Server.GetLastError();
 
-        //    context.Response.Clear();
+            context.Response.Clear();
 
-        //    if (exception != null)
-        //    {
-        //        Server.ClearError();
-        //        //тут можна залогати ерор.
-        //        //context.Response.RedirectToRoute("Default", new { controller = "Home", action = "Error" });
-        //    }
-        //}
+            if (exception != null)
+            {
+                Server.ClearError();
+                //context.Response.RedirectToRoute("Default", new { controller = "Home", action = "Error" });
+
+		Logger.Instance.Error(this, Request.HttpMethod + ": " + Request.Path);
+            }
+        }
 
         private void LoadProviders()
         {
