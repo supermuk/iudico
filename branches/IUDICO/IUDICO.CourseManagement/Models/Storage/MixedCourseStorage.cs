@@ -530,21 +530,21 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public string GetCourseTempPath(int courseId)
         {
-            var path = HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpRuntime.AppDomainAppVirtualPath;
+            var path = HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
 
             return Path.Combine(path, @"Data\WorkFolder", courseId.ToString());
         }
 
         public string GetTemplatesPath()
         {
-            var path = HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpRuntime.AppDomainAppVirtualPath;
+            var path = HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
 
             return Path.Combine(path, @"Data\CourseTemplate");
         }
 
         virtual protected string GetCoursesPath()
         {
-            var path = HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpRuntime.AppDomainAppVirtualPath;
+            var path = HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
 
             return Path.Combine(path, @"Data\Courses");
         }
