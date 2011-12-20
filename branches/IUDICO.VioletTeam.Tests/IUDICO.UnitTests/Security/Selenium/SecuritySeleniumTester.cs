@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using IUDICO.UnitTests.Base;
 using NUnit.Framework;
 using Selenium;
+using Selenium;
 
 namespace IUDICO.UnitTests.Security.Selenium
 {
@@ -35,6 +36,15 @@ namespace IUDICO.UnitTests.Security.Selenium
             selenium.Open("/");
             selenium.Click("//a[contains(@href, '/Account/Logout')]");
             selenium.WaitForPageToLoad("30000");
+
+            try
+            {
+                selenium.Stop();
+            }
+            catch (Exception)
+            {
+                // Ignore errors if unable to close the browser
+            }
         }
 
         [Test]

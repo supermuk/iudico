@@ -10,19 +10,19 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
     {
         protected UserManagementTests _Tests = UserManagementTests.GetInstance();
         [Test]
-        public void GetGroupsSuccess()
+        public void GetGroupsNonDeleted()
         {
             var groups = new List<Group>
                             {
-                                new Group { Deleted = false, Id = 123, Name = "pmi51" },
-                                new Group { Deleted = false, Id = 122, Name = "pmi21" },
-                                new Group { Deleted = false, Id = 13, Name = "pmi11" }
+                                new Group { Deleted = false, Id = 1, Name = "pmi51" },
+                                new Group { Deleted = false, Id = 2, Name = "pmi41" },
+                                new Group { Deleted = false, Id = 3, Name = "pmi31" }
                             };
             foreach (var group in groups)
             {
                 _Tests.Storage.CreateGroup(group);
             }
-            Assert.IsTrue(TestGroup(_Tests.Storage.GetGroups(), groups));
+            Assert.IsTrue(TestGroup(_Tests.Storage.GetGroups().Where(g=>g.Deleted==false), groups));
         }
         protected bool TestGroup(IEnumerable<Group> users, IEnumerable<Group> inserted)
         {
