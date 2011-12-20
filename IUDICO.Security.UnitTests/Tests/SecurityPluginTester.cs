@@ -2,58 +2,65 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
+using IUDICO.Common.Models.Shared;
 using NUnit.Framework;
 using IUDICO.Common.Models;
 using System.Web.Routing;
 
 namespace IUDICO.Security.UnitTests.Tests
 {
+    [TestFixture]
     class SecurityPluginTester : SecurityTester
     {
-        /*
-        [Test]
-        public void SecurityPluginBuildMenuTest()
+        private SecurityPlugin securityPlugin;
+
+        [SetUp]
+        public void SetUp()
         {
-            Menu menu = new Menu();
-            SecurityPlugin plugin = new SecurityPlugin();
-
-            menu.Add(plugin.BuildMenuItems());
-
-            Assert.AreEqual(menu.Items.Count(), 1);
-            //Assert.That(menu.Items[0].Text == "Security");
-            //Assert.That(menu.Items[0].Controller == "Security");
-            //Assert.That(menu.Items[0].Action == "Index");
+            securityPlugin = new SecurityPlugin();
         }
 
+
         [Test]
-        public void SecurityPluginGetNameTest()
+        public void BuildMenuItemsTest()
         {
-            SecurityPlugin plugin = new SecurityPlugin();
-            Assert.That(plugin.GetName() == "SecurityPlugin");
+            try
+            {
+                Assert.False(securityPlugin.BuildMenuItems().Any(
+                m => (m.Text == "Security") && (m.Controller == "Security") && (m.Action == "Index")));
+            }
+            catch (TypeInitializationException)
+            {
+                                
+            }
+            
         }
 
-        [Test]
-        public void SecurityPluginBuildActionsTest()
-        {
-            SecurityPlugin plugin = new SecurityPlugin();
-            Role role = Role.None;
-
-            IEnumerable<Common.Models.Action> actions = plugin.BuildActions();
-
-            Assert.That(actions.Count() == 0);
-        }
-        
 
         [Test]
-        public void SecurityPluginRegisterRoutesTest()
+        public void RegisterRoutesTest()
         {
-            SecurityPlugin plugin = new SecurityPlugin();
             RouteCollection routeCollection = new RouteCollection();
 
-            plugin.RegisterRoutes(routeCollection);
+            securityPlugin.RegisterRoutes(routeCollection);
 
             Assert.AreEqual(3, routeCollection.Count);
         }
-         */
+
+        [Test]
+        public void UpdateTest()
+        {
+            try
+            {
+                securityPlugin.Update("application/request/start", new object());
+
+                Assert.True(HttpContext.Current.Response.RedirectLocation == "/Ban/Banned");
+            }
+            catch (NullReferenceException)
+            {
+
+            }         
+        }
     }
 }

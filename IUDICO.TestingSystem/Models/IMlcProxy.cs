@@ -1,9 +1,6 @@
-﻿using IUDICO.Common.Models;
-using IUDICO.Common.Models.Shared.Statistics;
-using IUDICO.TestingSystem.Models.VO;
-using System.Collections.Generic;
-using System;
+﻿using System.Collections.Generic;
 using IUDICO.Common.Models.Shared;
+using IUDICO.Common.Models.Shared.Statistics;
 
 namespace IUDICO.TestingSystem.Models
 {

@@ -43,6 +43,9 @@
     <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\IUDICO.LMS\Plugins\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.LearningComponents, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
@@ -99,13 +102,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CourseManagement\CourseManagmentTest.cs" />
+    <Compile Include="CourseManagement\NUnit\ManifestManagerTest.cs" />
     <Compile Include="CourseManagement\NUnit\MixedCourseStorageTest.cs" />
     <Compile Include="CourseManagement\NUnit\SequencingPatternManagerTests.cs" />
+    <Compile Include="CourseManagement\NUnit\ZipperTest.cs" />
     <Compile Include="CourseManagement\Selenium\StudentRole.cs" />
     <Compile Include="CurriculumManagement\NUnit\CurriculumTests.cs" />
     <Compile Include="CurriculumManagement\Old\CurriculumResultTest.cs" />
     <Compile Include="CurriculumManagement\Old\Extensions.cs" />
     <Compile Include="CurriculumManagement\CurriculumManagementTests.cs" />
+    <Compile Include="LMS\NUnit\LoggerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CurriculumManagement\Old\SpecializedResultTest.cs" />
     <Compile Include="CurriculumManagement\Old\ThemeInfoModelTest.cs" />
@@ -119,6 +125,7 @@
     <Compile Include="TestingSystem\NUnit\TrainingTests.cs" />
     <Compile Include="TestingSystem\NUnit\ZipPackageTests.cs" />
     <Compile Include="UserManagement\NUnit\ActivateUser.cs" />
+    <Compile Include="UserManagement\NUnit\AddUserToGroup.cs" />
     <Compile Include="UserManagement\NUnit\BatchUserCreation.cs" />
     <Compile Include="UserManagement\NUnit\ChangePassword.cs" />
     <Compile Include="UserManagement\NUnit\ChangeUsersRole.cs" />
@@ -127,16 +134,24 @@
     <Compile Include="UserManagement\NUnit\DeactivateUser.cs" />
     <Compile Include="UserManagement\NUnit\DeleteGroup.cs" />
     <Compile Include="UserManagement\NUnit\DeleteUser.cs" />
+    <Compile Include="UserManagement\NUnit\EditGroup.cs" />
     <Compile Include="UserManagement\NUnit\EditUsersAccount.cs" />
     <Compile Include="UserManagement\NUnit\GetGroups.cs" />
     <Compile Include="UserManagement\NUnit\GetUsers.cs" />
     <Compile Include="UserManagement\NUnit\Register.cs" />
+    <Compile Include="UserManagement\NUnit\RemoveUserFromGroup.cs" />
     <Compile Include="UserManagement\NUnit\RestorePassword.cs" />
     <Compile Include="UserManagement\NUnit\SeeGroupsDetails.cs" />
     <Compile Include="UserManagement\NUnit\SeeUsersDetails.cs" />
     <Compile Include="UserManagement\NUnit\UniqueUserId.cs" />
     <Compile Include="UserManagement\NUnit\UploadAvatarTester.cs" />
+    <Compile Include="UserManagement\Selenium\Account.cs" />
     <Compile Include="UserManagement\Selenium\AvatarSeleniumTester.cs" />
+    <Compile Include="UserManagement\Selenium\EditAccount.cs" />
+    <Compile Include="UserManagement\Selenium\LoginWithOpenId.cs" />
+    <Compile Include="UserManagement\Selenium\Logout.cs" />
+    <Compile Include="UserManagement\Selenium\StandartLogin.cs" />
+    <Compile Include="UserManagement\Selenium\Register.cs" />
     <Compile Include="UserManagement\Selenium\UniqueUserId.cs" />
     <Compile Include="UserManagement\Selenium\UpgradeSeleniumTester.cs" />
     <Compile Include="UserManagement\UserManagementTests.cs" />
@@ -153,6 +168,10 @@
     <ProjectReference Include="..\IUDICO.CurriculumManagement\IUDICO.CurriculumManagement.csproj">
       <Project>{E6F7266F-760A-4D43-B78C-378CA12DBE08}</Project>
       <Name>IUDICO.CurriculumManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IUDICO.LMS\IUDICO.LMS.csproj">
+      <Project>{A5DA80CE-796F-4C4D-BBCA-A23046C4574D}</Project>
+      <Name>IUDICO.LMS</Name>
     </ProjectReference>
     <ProjectReference Include="..\IUDICO.Security\IUDICO.Security.csproj">
       <Project>{E300A08B-FEB4-40A6-B2DA-55CF7DC94097}</Project>

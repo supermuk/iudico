@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using Microsoft.LearningComponents;
 
-namespace IUDICO.TestingSystem.Models.VO
+namespace IUDICO.TestingSystem.Models.VOs
 {
     public class ZipPackage : Package
     {

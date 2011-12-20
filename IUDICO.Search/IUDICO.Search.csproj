@@ -85,10 +85,13 @@
   <ItemGroup>
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Localization .cs" />
+    <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\SearchResult\CurriculumResult.cs" />
     <Compile Include="Models\SearchResult\GroupResult.cs" />
     <Compile Include="Models\SearchResult\ThemeResult.cs" />
     <Compile Include="Models\SearchResult\UserResult.cs" />
+    <Compile Include="Models\ViewDataClasses\CheckBoxModel.cs" />
+    <Compile Include="Models\ViewDataClasses\SearchModel.cs" />
     <Compile Include="SearchPlugin.cs" />
     <Compile Include="Models\SearchResult\CourseResult.cs" />
     <Compile Include="Models\SearchResult\ISearchResult.cs" />
@@ -109,7 +112,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Search\Index.aspx" />
     <Content Include="Views\Search\Search.aspx" />
   </ItemGroup>
   <ItemGroup>

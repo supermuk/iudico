@@ -260,7 +260,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             return path + ".zip";
         }
 
-        private Item AddSubItems(Item parentItem, Node parentNode, int courseId, ManifestManager helper, ref Manifest manifest)
+        protected Item AddSubItems(Item parentItem, Node parentNode, int courseId, ManifestManager helper, ref Manifest manifest)
         {
             var nodes = parentNode == null ? GetNodes(courseId) : GetNodes(courseId, parentNode.Id);
             
@@ -303,6 +303,7 @@ namespace IUDICO.CourseManagement.Models.Storage
                     parentItem = ManifestManager.AddItem(parentItem, item);
                 }
             }
+
             return parentItem;
         }
 
@@ -403,21 +404,29 @@ namespace IUDICO.CourseManagement.Models.Storage
                 File.Copy(template, GetNodePath(node.Id) + ".html", true);
             }
 
+            _LmsService.Inform(CourseNotifications.NodeCreate, node);
+
             return node.Id;
         }
 
         public void UpdateNode(int id, Node node)
         {
             var db = GetDbContext();
+            object[] data = new object[2];
 
             var oldNode = db.Nodes.SingleOrDefault(n => n.Id == id);
+            var newNode = oldNode;
 
-            oldNode.Name = node.Name;
-            oldNode.ParentId = node.ParentId;
-            oldNode.Position = node.Position;
-            oldNode.Sequencing = node.Sequencing;
+            newNode.Name = node.Name;
+            newNode.ParentId = node.ParentId;
+            newNode.Position = node.Position;
+            newNode.Sequencing = node.Sequencing;
+
+            data[0] = oldNode;
+            data[1] = newNode;
 
             db.SubmitChanges();
+            _LmsService.Inform(CourseNotifications.NodeEdit, data);
         }
 
         public void DeleteNode(int id)
@@ -433,6 +442,8 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             db.Nodes.DeleteOnSubmit(node);
             db.SubmitChanges();
+
+            _LmsService.Inform(CourseNotifications.NodeDelete, node);
         }
 
         public void DeleteNodes(List<int> ids)
@@ -531,7 +542,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             return Path.Combine(path, @"Data\CourseTemplate");
         }
 
-        protected string GetCoursesPath()
+        virtual protected string GetCoursesPath()
         {
             var path = HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
 
@@ -592,6 +603,7 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             return GetDbContext().NodeResources.Single(n => n.Id == id);
         }
+
         public int AddResource(NodeResource resource, HttpPostedFileBase file)
         {
             var node = GetDbContext().Nodes.SingleOrDefault(n => n.Id == resource.NodeId);
