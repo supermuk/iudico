@@ -27,7 +27,7 @@ namespace IUDICO.Security.UnitTests.Tests
         {
             try
             {
-                Assert.True(securityPlugin.BuildMenuItems().Any(
+                Assert.False(securityPlugin.BuildMenuItems().Any(
                 m => (m.Text == "Security") && (m.Controller == "Security") && (m.Action == "Index")));
             }
             catch (TypeInitializationException)
