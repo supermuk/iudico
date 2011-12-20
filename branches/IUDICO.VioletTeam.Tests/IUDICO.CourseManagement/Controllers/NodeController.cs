@@ -111,11 +111,11 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
-        public JsonResult Delete(int[] ids)
+        public JsonResult Delete(int id)
         {
             try
             {
-                _Storage.DeleteNodes(new List<int>(ids));
+                _Storage.DeleteNode(id);
 
                 return Json(new { status = true });
             }
