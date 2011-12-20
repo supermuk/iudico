@@ -164,7 +164,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             curriculum.IsDeleted = true;
             db.SubmitChanges();
 
-            _LmsService.Inform(CurriculumNotifications.CurriculumDelete, id);
+            _LmsService.Inform(CurriculumNotifications.CurriculumDelete, curriculum);
         }
 
         public void DeleteCurriculums(IEnumerable<int> ids)
