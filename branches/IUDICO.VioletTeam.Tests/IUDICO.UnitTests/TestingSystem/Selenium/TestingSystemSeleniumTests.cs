@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Web;
 using IUDICO.UnitTests.Base;
 using NUnit.Framework;
@@ -20,6 +21,10 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         private const string StudentName = "testStudent";
         private const string StudentPassword = "testPassword";
         private string studentId;
+
+        private const string StudentName1 = "testStudent1";
+        private const string StudentPassword1 = "testPassword";
+        private string studentId1;
 
         private const string TeacherName = "testTeacher";
         private const string TeacherPassword = "testPassword";
@@ -48,6 +53,9 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         private string courseId4;
         private string themeId4;
 
+        private string courseId5;
+        private string themeId5;
+
         private const string curriculumName1 = "testCurriculum1";
         private string curriculumId1;
 
@@ -60,14 +68,18 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         private string curriculumId4;
         private const string curriculumName4 = "testCurriculum4";
 
+        private string curriculumId5;
+        private const string curriculumName5 = "testCurriculum5";
+
         private bool IsFirstRun = true;
 
         [SetUp]
         public void SetUp()
         {
-            Selenium.Start();
 
+            
             Selenium.Open("/");
+
             Selenium.WaitForPageToLoad(LoadTime);
 
             Selenium.WindowMaximize();
@@ -83,6 +95,10 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             CreateUser(StudentName, StudentPassword, AdminName, AdminPassword);
             studentId = GetUserId(StudentName, AdminName, AdminPassword);
             AddToRole(studentId, "Student", AdminName, AdminPassword);
+
+            CreateUser(StudentName1, StudentPassword1, AdminName, AdminPassword);
+            studentId1 = GetUserId(StudentName1, AdminName, AdminPassword);
+            AddToRole(studentId1, "Student", AdminName, AdminPassword);
 
             CreateUser(TeacherName, TeacherPassword, AdminName, AdminPassword);
             teacherId = GetUserId(TeacherName, AdminName, AdminPassword);
@@ -106,6 +122,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
 
             CreateGroup(GroupName, TeacherName, TeacherPassword);
             AddToGroup(studentId, GroupName, AdminName, AdminPassword);
+            AddToGroup(studentId1, GroupName, AdminName, AdminPassword);
             groupId = GetGroupId(GroupName, TeacherName, TeacherPassword);
         }
 
@@ -129,6 +146,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             DeleteCurriculum(curriculumId2, curriculumName2, TeacherName, TeacherPassword);
             DeleteCurriculum(curriculumId3, curriculumName3, TeacherName, TeacherPassword);
             DeleteCurriculum(curriculumId4, curriculumName4, TeacherName, TeacherPassword);
+            DeleteCurriculum(curriculumId5, curriculumName5, TeacherName, TeacherPassword);
 
             // Removes all users.
 
@@ -139,8 +157,6 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         [Test]
         public void PlayNotPreviouslyAttemptedTheme()
         {
-
-
             // Creates assigned to group curriculum that contains valid curriculum timelines.
 
             CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
@@ -164,7 +180,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Selenium.SelectFrame("relative=top");
             Assert.IsTrue(Selenium.IsElementPresent("css=a[title='How to Play']"));
             Assert.IsTrue(Selenium.IsElementPresent("css=a[title='Keeping Score']"));
-
+            Selenium.SelectWindow("null");
             Logout();
         }
 
@@ -184,15 +200,13 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Assert.IsTrue(Selenium.IsTextPresent("Error happened"));
             Assert.IsTrue(Selenium.IsTextPresent("Theme you had requested was not found!"));
             Assert.IsTrue(Selenium.IsElementPresent("css=a[href='/']"));
-
+            Selenium.SelectWindow("null");
             Logout();
         }
 
         [Test]
         public void PlayThemeWithInvalidAvailabilityDueToGroupAssignment()
         {
-
-
             // Creates Not assigned to group curriculum.
 
             CreateCurriculum(curriculumName2, TeacherName, TeacherPassword);
@@ -209,14 +223,13 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Assert.IsTrue(Selenium.IsTextPresent("You are not allowed to pass this theme!"));
             Assert.IsTrue(Selenium.IsElementPresent("css=a[href='/']"));
             Assert.IsFalse(Selenium.GetTitle() == "Play course");
+            Selenium.SelectWindow("null");
             Logout();
         }
 
         [Test]
         public void PlayThemeWithInvalidAvailabilityDueToInvalidCurriculumTimelines()
         {
-
-
             // Creates assigned to group curriculum with invalid curriculum timelines.
 
             CreateCurriculum(curriculumName3, TeacherName, TeacherPassword);
@@ -236,6 +249,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Assert.IsTrue(Selenium.IsTextPresent("You are not allowed to pass this theme!"));
             Assert.IsTrue(Selenium.IsElementPresent("css=a[href='/']"));
             Assert.IsFalse(Selenium.GetTitle() == "Play course");
+            Selenium.SelectWindow("null");
             Logout();
         }
 
@@ -264,13 +278,13 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Assert.IsTrue(Selenium.IsTextPresent("You are not allowed to pass this theme!"));
             Assert.IsTrue(Selenium.IsElementPresent("css=a[href='/']"));
             Assert.IsFalse(Selenium.GetTitle() == "Play course");
+            Selenium.SelectWindow("null");
             Logout();
         }
 
         [Test]
         public void PlayCompletedTheme()
         {
-
             // Creates assigned to group curriculum that contains valid curriculum timelines.
 
             CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
@@ -284,6 +298,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             themeId1 = GetThemeId(curriculumId1, stageId1, "testTheme1", TeacherName, TeacherPassword);
 
             Login(StudentName, StudentPassword);
+
             Selenium.Open("/Training/Play/" + themeId1);
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.SelectFrame("id=frameContent");
@@ -309,11 +324,14 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Selenium.WaitForPageToLoad(LoadTime);
             Assert.IsTrue(Selenium.IsTextPresent("Training Completed"));
             Assert.IsTrue(Selenium.IsTextPresent("This training has been completed. You cannot make any further changes."));
+            Selenium.SelectWindow("null");
             Selenium.Open("/");
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Open("/Training/Play/" + themeId1);
             Selenium.WaitForPageToLoad(LoadTime);
+            Selenium.WaitForPageToLoad(LoadTime);
             Assert.IsTrue(Selenium.IsTextPresent("Results"));
+            Selenium.SelectWindow("null");
             Logout();
         }
 
@@ -351,19 +369,31 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Selenium.MouseUp("id=a7");
             Selenium.SelectFrame("relative=parent");
             Selenium.SelectFrame("id=frameContent");
+            
             Assert.IsTrue(Selenium.IsTextPresent("The Rules of Golf (book)"));
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectWindow("null");
+
             Selenium.Open("/");
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Open("/Training/Play/" + themeId1);
             Selenium.WaitForPageToLoad(LoadTime);
+            Selenium.WaitForFrameToLoad("if=frameContent",LoadTime);
             Selenium.SelectFrame("id=frameContent");
             Assert.IsTrue(Selenium.IsTextPresent("The Rules of Golf (book)"));
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectWindow("null");
             Logout();
         }
 
         [Test]
         public void SuspendTheme()
         {
+
+            // Imports courses and gets their ids.
+
+            ImportCourse(CourseUri1, CourseName1, TeacherName, TeacherPassword);
+            courseId1 = GetCourseId(CourseName1, TeacherName, TeacherPassword);
 
             // Creates assigned to group curriculum that contains valid curriculum timelines.
 
@@ -378,6 +408,8 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             themeId1 = GetThemeId(curriculumId1, stageId1, "testTheme1", TeacherName, TeacherPassword);
 
             Login(StudentName, StudentPassword);
+
+
             Selenium.Open("/Training/Play/" + themeId1);
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.SelectFrame("id=frameContent");
@@ -389,7 +421,11 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Selenium.MouseUp("id=a7");
             Selenium.SelectFrame("relative=parent");
             Selenium.SelectFrame("id=frameContent");
+
             Assert.IsTrue(Selenium.IsTextPresent("The Rules of Golf (book)"));
+            Selenium.SelectFrame("relative=parent");
+            Selenium.SelectWindow("null");
+
             Selenium.Open("/");
             Selenium.WaitForPageToLoad(LoadTime);
             Logout();
@@ -412,6 +448,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             themeId1 = GetThemeId(curriculumId1, stageId1, "testTheme1", TeacherName, TeacherPassword);
 
             Login(StudentName, StudentPassword);
+
             Selenium.Open("/Training/Play/" + themeId1);
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.SelectFrame("id=frameContent");
@@ -437,6 +474,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Selenium.WaitForPageToLoad(LoadTime);
             Assert.IsTrue(Selenium.IsTextPresent("Training Completed"));
             Assert.IsTrue(Selenium.IsTextPresent("This training has been completed. You cannot make any further changes."));
+            Selenium.SelectWindow("null");
 
             Logout();
         }
@@ -458,16 +496,18 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Login(StudentName, StudentPassword);
             Selenium.Open("/Training/Play/" + themeId3);
             Selenium.WaitForPageToLoad(LoadTime);
-            Selenium.SelectFrame("id=frameContent");
+     
+            Selenium.SelectFrame("player");
+            Selenium.SelectFrame("frameLearnTask");
+            Selenium.SelectFrame("frameContent");
             Selenium.Click("id=butNext");
-            Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
-            Selenium.SelectFrame("id=frameContent");
-            Assert.IsTrue(Selenium.IsTextPresent("Par"));
-            Selenium.SelectFrame("id=frameContent");
-            Selenium.Click("id=butPrev");
-            Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
-            Selenium.SelectFrame("id=frameContent");
-            Assert.IsTrue(Selenium.IsTextPresent("Play of the game"));
+            Selenium.Click("id=butPrevious");
+            Selenium.SelectFrame("relative=up");
+            Selenium.SelectFrame("relative=up");
+            Selenium.SelectFrame("relative=up");
+            Selenium.Click("link=Logout");
+            Selenium.WaitForPageToLoad(LoadTime);           
+            Selenium.SelectWindow("null");
             Logout();
         }
 
@@ -477,21 +517,22 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
 
             // Creates assigned to group curriculum that contains valid curriculum timelines.
 
-            CreateCurriculum(curriculumName2, TeacherName, TeacherPassword);
-            curriculumId2 = GetCurriculumId(curriculumName2, TeacherName, TeacherPassword);
-            AddGroupToCurriculum(curriculumId2, GroupName, TeacherName, TeacherPassword);
-            string curriculumAssignmentId2 = GetCurriculumAssignmentId(curriculumId2, GroupName, TeacherName, TeacherPassword);
-            AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId2, curriculumAssignmentId2, TeacherName, TeacherPassword);
-            AddStage(curriculumId2, "testStage2", TeacherName, TeacherPassword);
-            string stageId2 = GetStageId(curriculumId2, "testStage2", TeacherName, TeacherPassword);
-            AddTheme(curriculumId2, stageId2, "testTheme2", CourseName2, TeacherName, TeacherPassword);
-            themeId1 = GetThemeId(curriculumId2, stageId2, "testTheme2", TeacherName, TeacherPassword);
+            CreateCurriculum(curriculumName5, TeacherName, TeacherPassword);
+            curriculumId5 = GetCurriculumId(curriculumName5, TeacherName, TeacherPassword);
+            AddGroupToCurriculum(curriculumId5, GroupName, TeacherName, TeacherPassword);
+            string curriculumAssignmentId5 = GetCurriculumAssignmentId(curriculumId5, GroupName, TeacherName, TeacherPassword);
+            AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId5, curriculumAssignmentId5, TeacherName, TeacherPassword);
+            AddStage(curriculumId5, "testStage5", TeacherName, TeacherPassword);
+            string stageId5 = GetStageId(curriculumId5, "testStage5", TeacherName, TeacherPassword);
+            AddTheme(curriculumId5, stageId5, "testTheme5", CourseName2, TeacherName, TeacherPassword);
+            themeId5 = GetThemeId(curriculumId5, stageId5, "testTheme5", TeacherName, TeacherPassword);
 
-            Login(StudentName, StudentPassword);
-            Selenium.Open("/Training/Play/" + themeId2);
+            Login(StudentName1, StudentPassword1);
+            Selenium.Open("/Training/Play/" + themeId5);
+            Selenium.WaitForPageToLoad(LoadTime);
+            Selenium.SelectFrame("id=frameContent");
             for (int i = 0; i < 15; i++)
-            {
-                Selenium.SelectFrame("id=frameContent");
+            {              
                 Selenium.Click("id=butNext");
                 Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
             }
@@ -508,7 +549,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Selenium.WaitForPageToLoad(LoadTime);
             Assert.IsTrue(Selenium.IsTextPresent("Training Completed"));
             Assert.IsTrue(Selenium.IsTextPresent("This training has been completed. You cannot make any further changes."));
-
+            Selenium.SelectWindow("null");
             Logout();
 
         }
@@ -541,6 +582,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Selenium.SelectFrame("relative=parent");
             Selenium.SelectFrame("id=frameContent");
             Assert.IsTrue(Selenium.IsTextPresent("The Rules of Golf (book)"));
+            Selenium.SelectWindow("null");
             Logout();
         }
 
@@ -600,6 +642,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Selenium.SelectFrame("relative=parent");
             Selenium.SelectFrame("id=frameContent");
             Assert.IsTrue(Selenium.IsTextPresent("Knowledge Check"));
+            Selenium.SelectWindow("null");
             Logout();
         }
 
