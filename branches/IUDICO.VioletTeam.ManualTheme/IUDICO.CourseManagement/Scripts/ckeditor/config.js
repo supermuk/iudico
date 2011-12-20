@@ -8,7 +8,7 @@ CKEDITOR.editorConfig = function (config) {
     // config.language = 'fr';
     // config.uiColor = '#AADC6E';
 
-    config.extraPlugins = 'iudico,save';
+    config.extraPlugins = 'iudico,save,syntaxhighlight,spoiler';
 
     CKEDITOR.config.toolbar_IUDICO =
     [
@@ -28,8 +28,21 @@ CKEDITOR.editorConfig = function (config) {
 	    ['TextColor','BGColor'],
 	    ['Maximize', 'ShowBlocks', '-', 'About'],
         ['iudico-simple', 'iudico-choice', 'iudico-compile'],
+        ['Code','Spoiler']
     ];
+	
 
     config.toolbar = 'IUDICO';
     config.fullPage = true;
 };
+
+CKEDITOR.on('instanceReady', function (ev) {
+    ev.editor.dataProcessor.writer.setRules('pre',
+         {
+             indent: false,
+             breakBeforeOpen: true,
+             breakAfterOpen: false,
+             breakBeforeClose: false,
+             breakAfterClose: true
+         });
+});

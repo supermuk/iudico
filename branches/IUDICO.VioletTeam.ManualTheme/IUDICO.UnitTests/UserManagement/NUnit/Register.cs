@@ -9,9 +9,9 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
     public class Register
     {
         protected UserManagementTests _Tests = UserManagementTests.GetInstance();
-        
+
         [Test]
-        public void RegisterUser()
+        public void RegisterUserValid()
         {
             var model = new RegisterModel
             {
@@ -27,6 +27,32 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             User temp = new User { Username = "nestor", Email = "yn@gmail.com", Password = "1234", Name = "Nestor" };
 
             Assert.AreEqual(temp.Username, _Tests.Storage.GetUser(u => u.Username == "nestor").Username);
+
+
+            _Tests.Storage.DeleteUser(u => u.Username == "nestor");
+
+        }
+        [Test]
+        public void RegisterUserInvalid()
+        {
+            var model = new RegisterModel
+            {
+                Username = "nestor",
+                Password = "1234",
+                ConfirmPassword = "1234",
+                Email = "yn@gmail.com",
+                Name = "Nestor"
+            };
+
+            _Tests.Storage.RegisterUser(model);
+
+            User temp = new User { Username = "nestor", Email = "yn@gmail.com", Password = "1234", Name = "Nestor" };
+
+            Assert.AreEqual(temp.Username, _Tests.Storage.GetUser(u => u.Username == "nestor").Username);
+
+
+            _Tests.Storage.DeleteUser(u => u.Username == "nestor");
+
         }
     }
 }
