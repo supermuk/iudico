@@ -24,6 +24,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void EditGroupExistingInvalid()
         {
+            //Done by Selenium test.
             /*
             var group = new Group { Id = 124, Name = "pmp41" };
 

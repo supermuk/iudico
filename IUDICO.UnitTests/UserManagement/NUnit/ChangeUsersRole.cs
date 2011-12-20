@@ -79,6 +79,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             }
         }
         [Test]
+        [ExpectedException(typeof(System.NullReferenceException))]
         public void AddNonExistingUsersToRoles()
         {
             var users = new List<User>
@@ -91,6 +92,14 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             var roles = new List<Role> { Role.Teacher };
 
             _Tests.Storage.AddUsersToRoles(usernames, roles);
+            foreach (var user in users)
+            {
+                Assert.AreEqual(null, _Tests.Storage.GetUser(u => u.Username == user.Username));
+            }
+            foreach (var user in users)
+            {
+                Assert.IsTrue(_Tests.Storage.GetUserRoles(user.Username).Contains(roles.Single()));
+            }
         }
         [Test]
         public void RemoveExistingUsersFromRoles()
@@ -121,6 +130,30 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             foreach (var user in users)
             {
                 _Tests.Storage.DeleteUser(u => u.Username == user.Username);
+            }
+        }
+        [Test]
+        [ExpectedException(typeof(System.NullReferenceException))]
+        public void RemoveNonExistingUsersFromRoles()
+        {
+            var users = new List<User>
+                            {
+                                new User {Username = "name12", Email = "mail1@mail.com", Password = "123"},
+                                new User {Username = "name22", Email = "mail2@mail.com",Password = "123"},
+                            };
+
+            var usernames = users.Select(u => u.Username);
+            var roles = new List<Role> { Role.Teacher };
+
+            _Tests.Storage.AddUsersToRoles(usernames, roles);
+            _Tests.Storage.RemoveUsersFromRoles(usernames, roles);
+            foreach (var user in users)
+            {
+                Assert.AreEqual(null, _Tests.Storage.GetUser(u => u.Username == user.Username));
+            }
+            foreach (var user in users)
+            {
+                Assert.IsFalse(_Tests.Storage.GetUserRoles(user.Username).Contains(roles.Single()));
             }
         }
     }
