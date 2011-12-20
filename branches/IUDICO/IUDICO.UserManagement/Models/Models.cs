@@ -183,6 +183,7 @@ namespace IUDICO.UserManagement.Models
             Email = user.Email;
             OpenId = user.OpenId;
             UserId = user.UserId;
+            Password = user.Password;
         }
 
         public EditUserModel()

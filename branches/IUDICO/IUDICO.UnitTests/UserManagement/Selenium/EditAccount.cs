@@ -14,7 +14,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         [SetUp]
         public void SetupTest()
         {
-            selenium = new DefaultSelenium("localhost", 4444, "*chrome", "http://127.0.0.1:1556/");
+            selenium = new DefaultSelenium("localhost", 4444, "*chrome", UpgradeSeleniumTester.browserURL);
             selenium.Start();
             verificationErrors = new StringBuilder();
         }
@@ -31,6 +31,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Click("//a[contains(@href, '/Account/Edit')]");
             selenium.WaitForPageToLoad("30000");
             selenium.Type("id=Name", "nestor");
+            selenium.Type("id=Email", "lex@iudico.com");
             selenium.Click("//input[@value='Save']");
             selenium.WaitForPageToLoad("30000");
             Assert.IsTrue(selenium.IsTextPresent("nestor"));

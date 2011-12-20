@@ -6,7 +6,7 @@ using Selenium;
 namespace IUDICO.UnitTests.UserManagement.Selenium
 {
     [TestFixture]
-    public class StandartLogin
+    public class Account
     {
         private ISelenium selenium;
         private StringBuilder verificationErrors;
@@ -19,7 +19,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             verificationErrors = new StringBuilder();
         }
         [Test]
-        public void StandartLoginValid()
+        public void GetCurrentlyLoggedInUserWhenLogged()
         {
             selenium.Open("/");
             selenium.Type("id=loginPassword", "lex");
@@ -27,17 +27,18 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
             selenium.WaitForPageToLoad("30000");
             Assert.IsTrue(selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
+            Assert.IsTrue(selenium.IsTextPresent("Logged in as lex"));
         }
         [Test]
-        public void StandartLoginInvalid()
+        public void GetCurrentlyLoggedInUserWhenNotLogged()
         {
             selenium.Open("/");
-            selenium.Type("id=loginPassword", "aaa");
-            selenium.Type("id=loginUsername", "aaa");
-            selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
             selenium.WaitForPageToLoad("30000");
             Assert.IsFalse(selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
+            Assert.IsFalse(selenium.IsTextPresent("Logged in as"));
+            Assert.IsTrue(selenium.IsTextPresent("Login"));
         }
+        
     }
 
 }
