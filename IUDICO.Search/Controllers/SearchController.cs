@@ -159,7 +159,7 @@ namespace IUDICO.Search.Controllers
                         Node node = new Node();
                         node.Id = Convert.ToInt32(document.Get("NodeID"));
                         node.Name = document.Get("Name");
-                        node.CourseId = Convert.ToInt32(document.Get("CourseID"));
+                        node.CourseId = Convert.ToInt32(document.Get("NodeCourseID"));
                         node.IsFolder = Convert.ToBoolean(document.Get("isFolder"));
 
                         result = new NodeResult(node, _CourseService.GetCourse(node.CourseId).Name, document.Get("Content"), _CourseService.GetCourse(node.CourseId).Updated.ToString());
