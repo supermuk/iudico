@@ -1,4 +1,4 @@
-﻿using System;
+ using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -11,7 +11,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
     public class UpgradeSeleniumTester
     {
         private ISelenium selenium;
-        public static string browserURL = "http://127.0.0.1:1569/";
+        public static string browserURL = "http://127.0.0.1:1556/";
         private StringBuilder verificationErrors;
 
         [SetUp]
