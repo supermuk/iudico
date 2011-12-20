@@ -1,16 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Linq;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Security.AccessControl;
+using System.Security.Permissions;
+using System.Security.Principal;
 using System.Text;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
+using IUDICO.CourseManagement;
+using IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels;
 using IUDICO.CourseManagement.Models.Storage;
+using System.Web;
 using NUnit.Framework;
 using Moq;
 
 namespace IUDICO.UnitTests.CourseManagement.NUnit
 {
+ 
     [TestFixture]
     public class MixedCourceStorageTest
     {
@@ -345,6 +354,24 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         }
         #endregion
 
+        #region Test Import Methods
+
+        [Test]
+        [Category("ImportMethods")]
+        public void Import()
+        {
+            string path = "d:\\Tests\\Data\\Courses\\20.zip";
+
+            _Storage.Import(path,"lex");
+
+            var courses = _Storage.GetCourses("lex");
+            Course course = courses.Single(i => i.Name == "20");
+            Assert.AreEqual("lex",course.Owner);
+            Assert.AreEqual(true,course.Locked);
+        }
+
+        #endregion
+
         #region Test Export Methods
 
         [Test]
@@ -369,7 +396,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         {
             string path = _Storage.Export(2);
 
-            Assert.AreEqual(@"d:\Tests\1\.zip", path);
+            Assert.AreEqual("d:\\Tests\\Data\\Courses\\2.zip", path);
         }
 
         //[Test]
@@ -386,13 +413,272 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
 
         #endregion
 
+        #region Test AddSubItems Methods
+
+        //[Test]
+        //[Category("AddSubItemsMethods")]
+        //public void AddSubItemsTest()
+        //{
+        //    Item item = _Tests.StorageForTestingProtectedMethods.AddSubItemsTest()
+
+        //}
+
         #endregion
 
-        #region Test Node methods
+
+        #region Test GetCoursePath Methods
+
+        [Test]
+        [Category("GetCoursePathMethods")]
+        public void GetCoursePathTest()
+        {
+            HttpContext current = HttpContext.Current;
+            HttpContext.Current = new HttpContext(
+                                                  new HttpRequest("", "http://something.org", ""),
+                                                  new HttpResponse(new StringWriter())
+                                                 );
+
+            string coursePath = _Storage.GetCoursePath(1);
+
+            HttpContext.Current = current;
+
+            string path = "d:\\Tests\\Data\\Courses\\1";
+
+            Assert.AreEqual(path,coursePath);
+        }
+
+        [Test]
+        [Category("GetCoursePathMethods")]
+        public void GetCourseTempPathTest()
+        {
+            string coursePath = _Storage.GetCourseTempPath(0);
+
+            string path = "D:\\BasicWebPlayerPackages\\IUDICO.UnitTests\\bin\\Debug\\Site\\Data\\WorkFolder\\0";
+
+            Assert.AreEqual(path, coursePath);
+        }
 
         #endregion
 
-        #region Test NodeResource methods
+        //#region Test GetTemplatePath Methods
+        //[Test]
+
+        //[Category("GetTemplatePathMethods")]
+        //public void GetTemplatePathTest()
+        //{
+        //    string templatePath = _Storage.GetTemplatePath();
+
+        //    string path = "D:\\BasicWebPlayerPackages\\IUDICO.UnitTests\\bin\\Debug\\Site\\Data\\CourseTemplate";
+
+        //    Assert.AreEqual(path, templatePath);
+        //}
+
+        //#endregion
+
+        #endregion
+
+        #region Test Node Methods
+
+        #endregion
+
+        #region Test NodeResource Methods
+
+        #region Test GetResources Methods
+
+        [Test]
+        [Category("GetResourcesMethods")]
+        public void GetResourceValidIdTest()
+        {
+            NodeResource nodeResource = _Storage.GetResource(0);
+
+            Assert.AreEqual(0,nodeResource.Id);
+            Assert.AreEqual("NodeResorces0", nodeResource.Name);
+        }
+
+        [Test]
+        [Category("GetResourcesMethods")]
+        public void GetResourceInvalidIdTest()
+        {
+            try
+            {
+                NodeResource nodeResource = _Storage.GetResource(-30);
+            }
+            catch (InvalidOperationException)
+            {
+                Assert.Pass();
+            }
+           
+            Assert.Fail();
+        }
+
+        [Test]
+        [Category("GetResourcesMethods")]
+        public void GetResourcesValidIdTest()
+        {
+            var nodeResources = _Storage.GetResources(0);
+
+            Assert.AreEqual(2, nodeResources.Count());
+
+            for (int i = 0; i < nodeResources.Count(); i++)
+            {
+                Assert.AreEqual(i, nodeResources.ToList()[i].Id);
+            }
+        }
+
+        [Test]
+        [Category("GetResourcesMethods")]
+        public void GetResourcesInvalidIdTest()
+        {
+            try
+            {
+                var nodeResource = _Storage.GetResources(-30);
+            }
+            catch (NullReferenceException)
+            {
+                Assert.Pass();
+            }
+
+            Assert.Fail();
+        }
+
+        [Test]
+        [Category("GetResourcesMethods")]
+        public void GetResourcesTestNoResources()
+        {
+            var nodeResources = _Storage.GetResources(2);
+
+            Assert.AreEqual(0, nodeResources.Count());
+        }
+
+        #endregion
+
+        #region Test GetResourcePath Methods
+
+        [Test]
+        [Category("GetResourcesPathMethods")]
+        public void GetResourcePathValidIdTest()
+        {
+            string resourcePath = _Storage.GetResourcePath(0);
+            string path = "d:\\Tests\\Data\\Courses\\1\\0\\somePath0";
+
+            Assert.AreEqual(path,resourcePath);
+        }
+
+        [Test]
+        [Category("GetResourcesPathMethods")]
+        public void GetResourcePathInvalidIdTest()
+        {
+            try
+            {
+                string resourcePath = _Storage.GetResourcePath(-10);
+            }
+            catch (InvalidOperationException)
+            {
+                Assert.Pass();
+            }
+
+            Assert.Fail();
+        }
+
+        #endregion
+
+        #region Test AddResource Methods
+
+        [Test]
+        [Category("AddResourcesMethods")]
+        public void AddResourceTest()
+        {
+            NodeResource newResource = new NodeResource
+                                           {
+                                               Id = 4,
+                                               Name = "NodeResorces4",
+                                               Node = _Storage.GetNode(0),
+                                               NodeId = _Storage.GetNode(0).Id,
+                                               Path = "somePath4"
+                                           };
+            int id = _Storage.AddResource(newResource, _Tests.HttpPostedFileBase);
+
+            Assert.AreEqual(4,id);
+
+            string resourcePath = _Storage.GetResourcePath(4);
+            string path = "d:\\Tests\\Data\\Courses\\1\\0\\Node/0/Images/file";
+
+            Assert.AreEqual(path, resourcePath);
+        }
+
+        #endregion
+
+        #region Test UpdateResource Methods
+
+        [Test]
+        [Category("UpdateResourceMethods")]
+        public void UpdateResources()
+        {
+            NodeResource newResource = new NodeResource
+                                                       {
+                                                           Name = "New name",
+                                                           Type = 0,
+                                                           Path = "New path"
+                                                       };
+            _Storage.UpdateResource(0,newResource);
+
+            NodeResource resource = _Storage.GetResource(0);
+            Assert.AreEqual("New name",resource.Name);
+            Assert.AreEqual(0, resource.Type);
+            Assert.AreEqual("New path", resource.Path);
+        }
+
+        #endregion
+
+        #region Test DeleteResources Methods
+
+        [Test]
+        [Category("DeleteResourcesMethods")]
+        public void DeleteResource()
+        {
+
+            Directory.CreateDirectory(@"d:\Tests\Data\Courses\1\0\somePath0");
+
+
+                _Storage.DeleteResource(0);
+           
+            try
+            {
+                NodeResource nodeResource = _Storage.GetResource(0);
+            }
+            catch (InvalidOperationException)
+            {
+                Assert.Pass();
+            }
+
+            Assert.Fail();
+        }
+
+        [Test]
+        [Category("DeleteResourcesMethods")]
+        public void DeleteResources()
+        {
+
+            List<int> ids = new List<int>();
+            ids.Add(0);
+            ids.Add(1);
+            ids.Add(2);
+
+            _Storage.DeleteResources(ids);
+
+            try
+            {
+                NodeResource nodeResource = _Storage.GetResource(1);
+            }
+            catch (InvalidOperationException)
+            {
+                Assert.Pass();
+            }
+
+            Assert.Fail();
+        }
+
+        #endregion
 
         #endregion
     }

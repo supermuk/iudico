@@ -24,6 +24,7 @@
     <script src="<%= Html.ResolveUrl("/Scripts/jquery/jquery-ui-1.8.5.js") %>"></script>
 
     <script type="text/javascript">
+
         var $editor;
         var currentNodeId;
         var fillResources;
@@ -254,30 +255,26 @@
 				});
 		    })
             .bind("remove.jstree", function (e, data) {
-                var ids = data.rslt.obj.map(function() {
-                    return $(this).attr('id').replace('node_', '');
-                });
-
-                var answer = confirm("Are you sure you want to delete " + ids.length + " selected nodes?");
-
+                var answer = confirm("Are you sure you want to delete selected nodes?");
                 if (answer == false) {
                     return false;
                 }
                 
-                $.ajax({
-                    type: 'post',
-		            url: "<%: Url.Action("Delete", "Node") %>",
-                    /*traditional: true,*/
-		            data: {
-		                "ids": ids
-		            },
-		            success: function (r) {
-		                if (!r.status)
-                        {
-		                    data.inst.refresh();
-		                }
-		            }
-		        });
+                data.rslt.obj.each(function () {
+	                $.ajax({
+	                    async : true,
+	                    type: 'post',
+	                    url: "<%: Url.Action("Delete", "Node") %>",
+	                    data : { 
+	                        "id" : this.id.replace("node_","")
+	                    }, 
+	                    success : function (r) {
+	                        if(!r.status) {
+	                            data.inst.refresh();
+	                        }
+	                    }
+	                });
+	            });
 		    })
             .bind("rename.jstree", function (e, data) {
 				$.ajax({

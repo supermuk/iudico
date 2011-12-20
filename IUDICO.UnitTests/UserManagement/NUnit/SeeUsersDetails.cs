@@ -10,14 +10,21 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         protected UserManagementTests _Tests = UserManagementTests.GetInstance();
         
         [Test]
-        public void GetUser()
+        public void GetUserExisting()
         {
-            User temp = new User { Username = "iper", Email = "ip@interlogic.com.ua", Password = "pass123" };
+            User temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
             
             _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
             _Tests.Storage.CreateUser(temp);
 
-            Assert.IsTrue(_Tests.TestUsers(temp, _Tests.Storage.GetUser(u => u.Username == "iper")));
+            Assert.AreEqual(temp, _Tests.Storage.GetUser(u => u.Username == "name"));
+
+            _Tests.Storage.DeleteUser(u => u.Username == "name");
+        }
+        [Test]
+        public void GetUserNonExisting()
+        {
+            Assert.AreEqual(null, _Tests.Storage.GetUser(u => u.Username == "name"));
         }
     }
 }

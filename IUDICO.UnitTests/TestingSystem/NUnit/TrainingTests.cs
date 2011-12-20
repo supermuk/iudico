@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using IUDICO.TestingSystem.Models.VO;
+﻿using IUDICO.TestingSystem.Models.VOs;
 using Microsoft.LearningComponents;
 using NUnit.Framework;
 

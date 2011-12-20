@@ -16,7 +16,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             [SetUp]
             public void SetupTest()
             {
-                selenium = new DefaultSelenium("localhost", 4444, "*chrome", "http://127.0.0.1:1556/");
+                selenium = new DefaultSelenium("localhost", 4444, "*chrome", UpgradeSeleniumTester.browserURL);
                 selenium.Start();
                 verificationErrors = new StringBuilder();
             }
@@ -77,15 +77,16 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             public void DisplayUserAvatar()
             {
                 selenium.Open("/");
-                selenium.Type("loginPassword", "lex");
-                selenium.Type("loginUsername", "lex");
+                selenium.Type("id=loginPassword", "lex");
+                selenium.Type("id=loginUsername", "lex");
                 selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
                 selenium.WaitForPageToLoad("30000");
-                selenium.Click("link=Users");
+                selenium.Click("//a[contains(@href, '/Account/Index')]");
                 selenium.WaitForPageToLoad("30000");
-                selenium.Click("//div[@id='main']/table/tbody/tr[3]/td[7]/a[3]");
+                selenium.Click("//a[contains(@href, '/Account/Edit')]");
                 selenium.WaitForPageToLoad("30000");
                 Assert.IsTrue(selenium.IsElementPresent("avatar"));
+                
             }
         }
 }

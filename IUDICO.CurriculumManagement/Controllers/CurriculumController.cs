@@ -53,7 +53,6 @@ namespace IUDICO.CurriculumManagement.Controllers
                 if (ModelState.IsValid)
                 {
                     Storage.AddCurriculum(curriculum);
-
                     return RedirectToAction("Index");
                 }
                 else
