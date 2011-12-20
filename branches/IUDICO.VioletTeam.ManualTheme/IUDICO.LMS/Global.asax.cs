@@ -7,6 +7,7 @@ using System.Web.Routing;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using IUDICO.Common;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
 using IUDICO.Common.Models.Services;
@@ -103,24 +104,28 @@ namespace IUDICO.LMS
             LoadProviders();
 
             RegisterRoutes(RouteTable.Routes);
+            object[] tmp = new object[2];
+            tmp[0] = Container;
+            tmp[1] = Application;
 
-            LmsService.Inform(LMSNotifications.ApplicationStart);
+            LmsService.Inform(LMSNotifications.ApplicationStart, tmp);
         }
 
-        //protected void Application_Error(object sender, EventArgs e)
-        //{
-        //    var context = HttpContext.Current;
-        //    var exception = context.Server.GetLastError();
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            var context = HttpContext.Current;
+            var exception = context.Server.GetLastError();
 
-        //    context.Response.Clear();
+            context.Response.Clear();
 
-        //    if (exception != null)
-        //    {
-        //        Server.ClearError();
-        //        //тут можна залогати ерор.
-        //        //context.Response.RedirectToRoute("Default", new { controller = "Home", action = "Error" });
-        //    }
-        //}
+            if (exception != null)
+            {
+                Server.ClearError();
+                //context.Response.RedirectToRoute("Default", new { controller = "Home", action = "Error" });
+                
+                Logger.Instance.Error(this, Request.HttpMethod + ": " + Request.Path);
+            }
+        }
 
         private void LoadProviders()
         {
@@ -218,9 +223,7 @@ namespace IUDICO.LMS
 
         void Application_EndRequest(Object Sender, EventArgs e)
         {
-            log4net.ILog log = log4net.LogManager.GetLogger(typeof(MvcApplication));
-            log.Info(Request.HttpMethod + ": " + Request.Path);
-            LmsService.Inform(LMSNotifications.ApplicationRequestEnd);
+            Logger.Instance.Info(this, Request.HttpMethod + ": " + Request.Path);
         }
     }
 }

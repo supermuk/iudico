@@ -17,8 +17,25 @@ namespace IUDICO.Common
 
         public LocalizationMessageProvider(string pluginName)
         {
-            string path = HttpContext.Current.Server.MapPath("/").Replace("IUDICO.LMS", "IUDICO." + pluginName);
-
+            string path = "";
+            //NOTE: Modified by terminadoor@gmail.com original is at revision 1668
+            try
+            {
+                path = HttpContext.Current.Server.MapPath("/").Replace("IUDICO.LMS", "IUDICO." + pluginName);
+            }
+            catch(Exception exception)
+            {
+                path = Assembly.GetExecutingAssembly().CodeBase;
+                path = Path.GetDirectoryName(path);
+                path = Path.GetDirectoryName(path);
+                path = Path.GetDirectoryName(path);
+                path = Path.GetDirectoryName(path);
+                path = Path.Combine(path, "IUDICO.LMS");
+                path=path.Replace("IUDICO.LMS", "IUDICO." + pluginName);
+                path = path.Remove(0, 6);
+                path += @"\";
+            }   
+            //NOTE: End of modifiation from revision 1668
             foreach (var culture in cultures)
             {
                 var rsxr = new ResXResourceReader(path + "Resource." + culture + ".resx");

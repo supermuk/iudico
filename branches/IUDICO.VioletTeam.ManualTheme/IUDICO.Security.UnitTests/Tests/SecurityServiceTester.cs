@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using IUDICO.Common.Models.Shared;
+using NUnit.Framework;
 using Moq;
 using System.Web;
 using IUDICO.Common.Models.Services;

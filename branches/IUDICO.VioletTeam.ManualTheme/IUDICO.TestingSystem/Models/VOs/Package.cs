@@ -1,8 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
 using Microsoft.LearningComponents;
 
-namespace IUDICO.TestingSystem.Models.VO
+namespace IUDICO.TestingSystem.Models.VOs
 {
     public abstract class Package
     {

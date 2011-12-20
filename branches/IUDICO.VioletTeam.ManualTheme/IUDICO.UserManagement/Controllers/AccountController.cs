@@ -237,7 +237,9 @@ namespace IUDICO.UserManagement.Controllers
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel changePasswordModel)
         {
-            if (changePasswordModel.OldPassword != _Storage.GetCurrentUser().Password)
+	    var oldPassword = _Storage.EncryptPassword(changePasswordModel.OldPassword);
+
+            if (oldPassword != _Storage.GetCurrentUser().Password)
             {
                 ModelState.AddModelError("OldPassword", "Pasword is not correct");
             }

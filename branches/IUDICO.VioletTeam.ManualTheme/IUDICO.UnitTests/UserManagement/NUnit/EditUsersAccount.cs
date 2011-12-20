@@ -11,23 +11,79 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         protected UserManagementTests _Tests = UserManagementTests.GetInstance();
 
         [Test]
-        public void EditUser()
+        public void EditUserValid()
         {
-            User temp = new User { Username = "iphe", Email = "ip@interlogic.com.ua", Password = "pass123" };
+            User temp = new User { Username = "name", Email = "ip@interlogic.com.ua", Password = "pass123" };
             
             _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
             _Tests.Storage.CreateUser(temp);
 
-            temp = _Tests.Storage.GetUser(u => u.Username == "iphe");
+            temp = _Tests.Storage.GetUser(u => u.Username == "name");
 
-            User expected = new User { Username = "iphe", Email = "ipp@interlogic.com.ua", Password = "pass123", Id = temp.Id, OpenId = "openid" };
+            User expected = new User { Username = "name", Email = "ipp@interlogic.com.ua", Password = "pass123", Id = temp.Id, OpenId = "openid" };
 
             var model = new EditUserModel(expected);
             _Tests.Storage.EditUser(temp.Id, model);
 
-            var compare = _Tests.Storage.GetUser(u => u.Username == "iphe");
-
+            var compare = _Tests.Storage.GetUser(u => u.Username == "name");
             Assert.IsTrue(_Tests.TestUsers(compare, expected) && compare.OpenId == expected.OpenId);
+
+            _Tests.Storage.DeleteUser(u => u.Username == "name");
+        }
+        [Test]
+        public void EditUserInvalid()
+        {
+            //Done by Selenium test.
+            /*
+            User temp = new User { Username = "name", Email = "ip@interlogic.com.ua", Password = "pass12" };
+
+            _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
+            _Tests.Storage.CreateUser(temp);
+
+            temp = _Tests.Storage.GetUser(u => u.Username == "name");
+
+            User expected = new User { Username = "name" };
+
+            var model = new EditUserModel(expected);
+            _Tests.Storage.EditUser(temp.Id, model);
+
+            var compare = _Tests.Storage.GetUser(u => u.Username == "name");
+            Assert.IsTrue(_Tests.TestUsers(compare, expected) && compare.OpenId == expected.OpenId);
+
+            _Tests.Storage.DeleteUser(u => u.Username == "name");*/
+        }
+        [Test]
+        [ExpectedException(typeof(System.InvalidOperationException))]
+        public void EditUserNonExisting()
+        {
+            User temp = new User { Username = "name", Email = "ip@interlogic.com.ua", Password = "pass123" };
+
+            _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
+
+            User expected = new User { Username = "name", Email = "ipp@interlogic.com.ua", Password = "pass123", Id = temp.Id, OpenId = "openid" };
+
+            var model = new EditUserModel(expected);
+            _Tests.Storage.EditUser(temp.Id, model);
+        }
+        [Test]
+        public void EditUserValid2()
+        {
+            User temp = new User { Username = "name", Email = "ip@interlogic.com.ua", Password = "pass123" };
+
+            _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
+            _Tests.Storage.CreateUser(temp);
+
+            temp = _Tests.Storage.GetUser(u => u.Username == "name");
+
+            User expected = new User { Username = "name", Email = "ipp@interlogic.com.ua", Password = "", Id = temp.Id, OpenId = "openid" };
+
+            var model = new EditUserModel(expected);
+            _Tests.Storage.EditUser(temp.Id, model);
+
+            var compare = _Tests.Storage.GetUser(u => u.Username == "name");
+            Assert.IsTrue(_Tests.TestUsers(compare, expected) && compare.OpenId == expected.OpenId);
+
+            _Tests.Storage.DeleteUser(u => u.Username == "name");
         }
     }
 }

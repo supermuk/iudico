@@ -38,6 +38,16 @@ namespace IUDICO.CurriculumManagement.Models
             return _CurriculumStorage.GetCurriculumsWithThemesOwnedByUser(user);
         }
 
+        public IEnumerable<Curriculum> GetCurriculums()
+        {
+            return _CurriculumStorage.GetCurriculums();
+        }
+
+        public IEnumerable<Curriculum> GetCurriculums(User user)
+        {
+            return _CurriculumStorage.GetCurriculums(user);
+        }
+
         public IEnumerable<Stage> GetStages(int curriculumId)
         {
             return _CurriculumStorage.GetStages(curriculumId);
@@ -86,6 +96,11 @@ namespace IUDICO.CurriculumManagement.Models
         public IEnumerable<Theme> GetThemesByGroupId(int groupId)
         {
             return _CurriculumStorage.GetThemesByGroupId(groupId);
+        }
+
+        public IEnumerable<Theme> GetThemesOwnedByUser(User owner)
+        {
+            return _CurriculumStorage.GetThemesOwnedByUser(owner);
         }
 
         public IEnumerable<ThemeDescription> GetThemesAvailableForUser(User user)
