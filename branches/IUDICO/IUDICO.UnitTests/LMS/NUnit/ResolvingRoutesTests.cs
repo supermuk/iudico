@@ -109,7 +109,7 @@ namespace IUDICO.UnitTests.LMS
             return "No need here";
         }
         [Test]
-        public void RouteTestOne()
+        public void CorrectRouteAdressing()
         {
             IWindsorContainer container = new WindsorContainer();
             InitializeWindsor(ref container);
@@ -121,6 +121,80 @@ namespace IUDICO.UnitTests.LMS
             Assert.AreEqual("Login",data.Values["action"]);
            
         }
-        
+        [Test]
+        public void GetPlugin()
+        {
+            IWindsorContainer container = new WindsorContainer();
+            InitializeWindsor(ref container);
+            RouteCollection table = new RouteCollection();
+            RegisterRoutes(table, ref container);
+            RouteData data = table.GetRouteData(MakeMockHttpContext("//Account/Login/").Object);
+            var plugins = container.ResolveAll<IPlugin>();
+            foreach (var plugin in plugins)
+            {
+                if (plugin.BuildActions().Select(item=>item==data.Values["action"]).Count(item=>item!=null)!=0)
+                {
+                    Assert.Pass();
+                    break;
+                }
+            }
+            Assert.Fail();
+        }
+        [Test]
+        public void CannotGetIncorrectPlugin()
+        {
+            IWindsorContainer container = new WindsorContainer();
+            InitializeWindsor(ref container);
+            RouteCollection table = new RouteCollection();
+            RegisterRoutes(table, ref container);
+            RouteData data = table.GetRouteData(MakeMockHttpContext("//Acunt/Lghfn/").Object);
+            var plugins = container.ResolveAll<IPlugin>();
+            foreach (var plugin in plugins)
+            {
+                if (plugin.BuildActions().Select(item => item == data.Values["action"]).Count(item => item != null) == 0)
+                {
+                    Assert.Pass();
+                    break;
+                }
+            }
+            Assert.Pass();
+        }
+
+        [Test]
+        public void IncorrectRouteAdressingIs()
+        {
+            IWindsorContainer container = new WindsorContainer();
+            InitializeWindsor(ref container);
+            RouteCollection table = new RouteCollection();
+            table = RouteTable.Routes;
+            RouteData data = table.GetRouteData(MakeMockHttpContext("//Acghfhghdfgdfgt/Lofdgdfgerghhgn").Object);
+
+        }
+        [Test]
+        public void ResolvingStaticRoutesHandling()
+        {
+            IWindsorContainer container = new WindsorContainer();
+            InitializeWindsor(ref container);
+            AssemblyResourceProvider provider = new AssemblyResourceProvider();
+            string path = @"Data\Avatars\default.png";
+            string fp = Assembly.GetExecutingAssembly().CodeBase;
+            fp = Path.GetDirectoryName(path);
+            fp = Path.GetDirectoryName(path);
+            fp = Path.GetDirectoryName(path);
+            fp = Path.Combine(fp, path);
+            try
+            {
+              if(provider.FileExists("/data/Avatar/default.png"))
+              {
+                  provider.GetFile("/data/Avatar/default.png");
+              }
+              
+            }
+            catch
+            {
+                Assert.Pass();
+            }
+           Assert.Fail();
+        }
     }
 }
