@@ -124,6 +124,7 @@
     <Compile Include="TestingSystem\NUnit\PlayModelTests.cs" />
     <Compile Include="TestingSystem\NUnit\TrainingTests.cs" />
     <Compile Include="TestingSystem\NUnit\ZipPackageTests.cs" />
+    <Compile Include="TestingSystem\Selenium\TestingSystemSeleniumTests.cs" />
     <Compile Include="UserManagement\NUnit\ActivateUser.cs" />
     <Compile Include="UserManagement\NUnit\AddUserToGroup.cs" />
     <Compile Include="UserManagement\NUnit\BatchUserCreation.cs" />
@@ -198,7 +199,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Libs\" />
-    <Folder Include="TestingSystem\Selenium\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
