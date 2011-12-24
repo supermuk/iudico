@@ -1,34 +1,40 @@
 ﻿<%@ Assembly Name="IUDICO.Statistics" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Curriculum>>" %>
+<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<SelectCurriculumsViewModel>" %>
+<%@ Import namespace="IUDICO.Statistics" %>
+<%@ Import namespace="IUDICO.Statistics.ViewModels" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=IUDICO.Statistics.Localization.getMessage("Statistics")%>: <%=IUDICO.Statistics.Localization.getMessage("CurriculumList")%> <%: ViewData["Group"]%>
-
-</asp:Content>
-
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
-    <script type="text/javascript" language="javascript">
+<asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
+    <script language="javascript" type="text/javascript">
         function checkBox() {
             if ($('input:checkbox:checked').length == 0) {
-                alert('<%=IUDICO.Statistics.Localization.getMessage("SelectCurriculum")%>')
+                alert('<%=Localization.getMessage("SelectCurriculum")%>')
             }
             else {
                 $('#curform').submit();
             }
         }
+
+        $(document).ready(function() {
+            $('#submitButton').click(checkBox);
+        });
     </script>
+</asp:Content>
 
-    <% if (Model.Count() != 0)
+<asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
+	<%=Localization.getMessage("Statistics")%>: <%=Localization.getMessage("CurriculumList")%> <%: Model.GroupName%>
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+   
+     <% if (Model.Curriculums.Count() != 0)
        { %>
+    <h2><%=Localization.getMessage("CurriculumList")%> <%: Model.GroupName%> </h2>
 
-    <h2><%=IUDICO.Statistics.Localization.getMessage("CurriculumList")%> <%: ViewData["Group"]%> </h2>
 
-
-     <%: Html.ActionLink(IUDICO.Statistics.Localization.getMessage("Back"), "Index")%>
+     <%: Html.ActionLink(Localization.getMessage("Back"), "Index")%>
      <fieldset>
 
-     <legend><%=IUDICO.Statistics.Localization.getMessage("SelectCurriculum")%>: </legend>
+     <legend><%=Localization.getMessage("SelectCurriculum")%>: </legend>
 
 
     <form id="curform" action="/Stats/ShowCurriculumStatistic/" method="post">
@@ -36,20 +42,16 @@
      
      <tr>
         <th> </th>
-        <%--<th>Curriculum id</th>--%>
-        <th><%=IUDICO.Statistics.Localization.getMessage("CurriculumName")%></th>
-        <th><%=IUDICO.Statistics.Localization.getMessage("Created")%></th>
+        <th><%=Localization.getMessage("CurriculumName")%></th>
+        <th><%=Localization.getMessage("Created")%></th>
      </tr>
 
-     <% foreach (IUDICO.Common.Models.Shared.Curriculum curr in Model)
+     <% foreach (CurriculumViewModel curr in Model.Curriculums)
         { %>
         <tr>
             <td>
             <input type="checkbox" name="selectCurriculumId" value="<%: curr.Id %>" id="<%: curr.Id %>" />
             </td>
-            <%--<td>
-            <%: curr.Id %>
-            </td>--%>
             <td>
             <%: curr.Name%>
             </td>
@@ -61,7 +63,7 @@
 
      </table>
 
-     <input type="button" value=<%=IUDICO.Statistics.Localization.getMessage("Show") %> onclick="checkBox();" />
+     <input id="submitButton" type="button" value=<%=Localization.getMessage("Show") %> />
 
      </form>
 
@@ -70,12 +72,9 @@
      <% } %>
      <% else { %>
 
-     <h2> No curricuulm has been created for <%: ViewData["Group"]%>. </h2>
+     <h2> <%=Localization.getMessage("NoCurriculumHasBeenCreated")%> <%: Model.GroupName %>. </h2>
+
+     <p><%: Html.ActionLink(Localization.getMessage("Back"), "Index")%></p>
 
      <%} %>
-</asp:Content>
-
-<asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
-
-
 </asp:Content>

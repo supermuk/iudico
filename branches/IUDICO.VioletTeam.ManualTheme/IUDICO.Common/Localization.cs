@@ -23,7 +23,7 @@ namespace IUDICO.Common
             {
                 path = HttpContext.Current.Server.MapPath("/").Replace("IUDICO.LMS", "IUDICO." + pluginName);
             }
-            catch(Exception exception)
+            catch(Exception)
             {
                 path = Assembly.GetExecutingAssembly().CodeBase;
                 path = Path.GetDirectoryName(path);

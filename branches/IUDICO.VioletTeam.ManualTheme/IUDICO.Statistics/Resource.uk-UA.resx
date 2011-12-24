@@ -255,4 +255,7 @@
   <data name="Teacher" xml:space="preserve">
     <value>Викладач</value>
   </data>
+  <data name="NoCurriculumHasBeenCreated" xml:space="preserve">
+    <value>Не було створеної жодного навчального плану із прив'язкою до групи </value>
+  </data>
 </root>
