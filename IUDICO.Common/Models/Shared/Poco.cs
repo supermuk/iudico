@@ -4115,6 +4115,8 @@ namespace IUDICO.Common.Models.Shared
 
         private bool _IsDeleted;
 
+        private EntitySet<ManualResult> _ManualResults;
+
         private EntitySet<ThemeAssignment> _ThemeAssignments;
 
         private EntityRef<Stage> _Stage;
@@ -4147,6 +4149,7 @@ namespace IUDICO.Common.Models.Shared
 
         public Theme()
         {
+            this._ManualResults = new EntitySet<ManualResult>(new Action<ManualResult>(this.attach_ManualResults), new Action<ManualResult>(this.detach_ManualResults));
             this._ThemeAssignments = new EntitySet<ThemeAssignment>(new Action<ThemeAssignment>(this.attach_ThemeAssignments), new Action<ThemeAssignment>(this.detach_ThemeAssignments));
             this._Stage = default(EntityRef<Stage>);
             this._ThemeType = default(EntityRef<ThemeType>);
@@ -4341,6 +4344,19 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Theme_ManualResult", Storage = "_ManualResults", ThisKey = "Id", OtherKey = "ThemeRef")]
+        public EntitySet<ManualResult> ManualResults
+        {
+            get
+            {
+                return this._ManualResults;
+            }
+            set
+            {
+                this._ManualResults.Assign(value);
+            }
+        }
+
         [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Theme_ThemeAssignment", Storage = "_ThemeAssignments", ThisKey = "Id", OtherKey = "ThemeRef")]
         public EntitySet<ThemeAssignment> ThemeAssignments
         {
@@ -4440,6 +4456,18 @@ namespace IUDICO.Common.Models.Shared
             {
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        private void attach_ManualResults(ManualResult entity)
+        {
+            this.SendPropertyChanging();
+            entity.Theme = this;
+        }
+
+        private void detach_ManualResults(ManualResult entity)
+        {
+            this.SendPropertyChanging();
+            entity.Theme = null;
         }
 
         private void attach_ThemeAssignments(ThemeAssignment entity)
@@ -4826,6 +4854,8 @@ namespace IUDICO.Common.Models.Shared
 
         private EntitySet<GroupUser> _GroupUsers;
 
+        private EntitySet<ManualResult> _ManualResults;
+
         private EntitySet<StudyResult> _StudyResults;
 
         private EntitySet<User> _Users;
@@ -4865,6 +4895,7 @@ namespace IUDICO.Common.Models.Shared
             this._UserRoles = new EntitySet<UserRole>(new Action<UserRole>(this.attach_UserRoles), new Action<UserRole>(this.detach_UserRoles));
             this._ForecastingResults = new EntitySet<ForecastingResult>(new Action<ForecastingResult>(this.attach_ForecastingResults), new Action<ForecastingResult>(this.detach_ForecastingResults));
             this._GroupUsers = new EntitySet<GroupUser>(new Action<GroupUser>(this.attach_GroupUsers), new Action<GroupUser>(this.detach_GroupUsers));
+            this._ManualResults = new EntitySet<ManualResult>(new Action<ManualResult>(this.attach_ManualResults), new Action<ManualResult>(this.detach_ManualResults));
             this._StudyResults = new EntitySet<StudyResult>(new Action<StudyResult>(this.attach_StudyResults), new Action<StudyResult>(this.detach_StudyResults));
             this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
             this._User1 = default(EntityRef<User>);
@@ -5134,6 +5165,19 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "User_ManualResult", Storage = "_ManualResults", ThisKey = "Id", OtherKey = "UserRef")]
+        public EntitySet<ManualResult> ManualResults
+        {
+            get
+            {
+                return this._ManualResults;
+            }
+            set
+            {
+                this._ManualResults.Assign(value);
+            }
+        }
+
         [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "User_StudyResult", Storage = "_StudyResults", ThisKey = "Id", OtherKey = "StudentRef")]
         public EntitySet<StudyResult> StudyResults
         {
@@ -5245,6 +5289,18 @@ namespace IUDICO.Common.Models.Shared
         }
 
         private void detach_GroupUsers(GroupUser entity)
+        {
+            this.SendPropertyChanging();
+            entity.User = null;
+        }
+
+        private void attach_ManualResults(ManualResult entity)
+        {
+            this.SendPropertyChanging();
+            entity.User = this;
+        }
+
+        private void detach_ManualResults(ManualResult entity)
         {
             this.SendPropertyChanging();
             entity.User = null;
@@ -5480,6 +5536,223 @@ namespace IUDICO.Common.Models.Shared
             }
         }
     }
+
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.ManualResults")]
+    public partial class ManualResult : INotifyPropertyChanging, INotifyPropertyChanged
+    {
+
+        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+
+        private int _Id;
+
+        private System.Guid _UserRef;
+
+        private int _ThemeRef;
+
+        private double _Score;
+
+        private EntityRef<Theme> _Theme;
+
+        private EntityRef<User> _User;
+
+        #region Extensibility Method Definitions
+        partial void OnLoaded();
+        partial void OnValidate(System.Data.Linq.ChangeAction action);
+        partial void OnCreated();
+        partial void OnIdChanging(int value);
+        partial void OnIdChanged();
+        partial void OnUserRefChanging(System.Guid value);
+        partial void OnUserRefChanged();
+        partial void OnThemeRefChanging(int value);
+        partial void OnThemeRefChanged();
+        partial void OnScoreChanging(double value);
+        partial void OnScoreChanged();
+        #endregion
+
+        public ManualResult()
+        {
+            this._Theme = default(EntityRef<Theme>);
+            this._User = default(EntityRef<User>);
+            OnCreated();
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", DbType = "Int NOT NULL", IsPrimaryKey = true)]
+        public int Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                if ((this._Id != value))
+                {
+                    this.OnIdChanging(value);
+                    this.SendPropertyChanging();
+                    this._Id = value;
+                    this.SendPropertyChanged("Id");
+                    this.OnIdChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_UserRef", DbType = "UniqueIdentifier NOT NULL")]
+        public System.Guid UserRef
+        {
+            get
+            {
+                return this._UserRef;
+            }
+            set
+            {
+                if ((this._UserRef != value))
+                {
+                    if (this._User.HasLoadedOrAssignedValue)
+                    {
+                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+                    }
+                    this.OnUserRefChanging(value);
+                    this.SendPropertyChanging();
+                    this._UserRef = value;
+                    this.SendPropertyChanged("UserRef");
+                    this.OnUserRefChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ThemeRef", DbType = "Int NOT NULL")]
+        public int ThemeRef
+        {
+            get
+            {
+                return this._ThemeRef;
+            }
+            set
+            {
+                if ((this._ThemeRef != value))
+                {
+                    if (this._Theme.HasLoadedOrAssignedValue)
+                    {
+                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+                    }
+                    this.OnThemeRefChanging(value);
+                    this.SendPropertyChanging();
+                    this._ThemeRef = value;
+                    this.SendPropertyChanged("ThemeRef");
+                    this.OnThemeRefChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Score", DbType = "Float NOT NULL")]
+        public double Score
+        {
+            get
+            {
+                return this._Score;
+            }
+            set
+            {
+                if ((this._Score != value))
+                {
+                    this.OnScoreChanging(value);
+                    this.SendPropertyChanging();
+                    this._Score = value;
+                    this.SendPropertyChanged("Score");
+                    this.OnScoreChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Theme_ManualResult", Storage = "_Theme", ThisKey = "ThemeRef", OtherKey = "Id", IsForeignKey = true)]
+        public Theme Theme
+        {
+            get
+            {
+                return this._Theme.Entity;
+            }
+            set
+            {
+                Theme previousValue = this._Theme.Entity;
+                if (((previousValue != value)
+                            || (this._Theme.HasLoadedOrAssignedValue == false)))
+                {
+                    this.SendPropertyChanging();
+                    if ((previousValue != null))
+                    {
+                        this._Theme.Entity = null;
+                        previousValue.ManualResults.Remove(this);
+                    }
+                    this._Theme.Entity = value;
+                    if ((value != null))
+                    {
+                        value.ManualResults.Add(this);
+                        this._ThemeRef = value.Id;
+                    }
+                    else
+                    {
+                        this._ThemeRef = default(int);
+                    }
+                    this.SendPropertyChanged("Theme");
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "User_ManualResult", Storage = "_User", ThisKey = "UserRef", OtherKey = "Id", IsForeignKey = true)]
+        public User User
+        {
+            get
+            {
+                return this._User.Entity;
+            }
+            set
+            {
+                User previousValue = this._User.Entity;
+                if (((previousValue != value)
+                            || (this._User.HasLoadedOrAssignedValue == false)))
+                {
+                    this.SendPropertyChanging();
+                    if ((previousValue != null))
+                    {
+                        this._User.Entity = null;
+                        previousValue.ManualResults.Remove(this);
+                    }
+                    this._User.Entity = value;
+                    if ((value != null))
+                    {
+                        value.ManualResults.Add(this);
+                        this._UserRef = value.Id;
+                    }
+                    else
+                    {
+                        this._UserRef = default(System.Guid);
+                    }
+                    this.SendPropertyChanged("User");
+                }
+            }
+        }
+
+        public event PropertyChangingEventHandler PropertyChanging;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void SendPropertyChanging()
+        {
+            if ((this.PropertyChanging != null))
+            {
+                this.PropertyChanging(this, emptyChangingEventArgs);
+            }
+        }
+
+        protected virtual void SendPropertyChanged(String propertyName)
+        {
+            if ((this.PropertyChanged != null))
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+
 /*
     [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.CourseUsers")]
     public partial class CourseUser : INotifyPropertyChanging, INotifyPropertyChanged

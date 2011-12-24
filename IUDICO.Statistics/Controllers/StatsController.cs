@@ -9,22 +9,27 @@ using IUDICO.Statistics.Models.Storage;
 using IUDICO.Common.Models.Attributes;
 using IUDICO.Statistics.Models.StatisticsModels;
 using IUDICO.Common.Models.Shared;
+using System.Linq;
+using IUDICO.Statistics.ViewModels;
 
 namespace IUDICO.Statistics.Controllers
 {
     public class StatsController : PluginController
     {
-        private readonly IStatisticsProxy _Proxy;
+        protected readonly IStatisticsProxy Proxy;
 
-        public StatsController(IStatisticsProxy statsStorage)
+        protected readonly IStatisticsStorage Storage;
+
+        public StatsController(IStatisticsProxy statisticsProxy, IStatisticsStorage statisticsStorage)
         {
-            _Proxy = statsStorage;
+            Proxy = statisticsProxy;
+            Storage = statisticsStorage;
         }
 
         [Allow(Role = Role.Teacher)]
         public ActionResult Index()
         {
-            var groups = _Proxy.GetAllGroups();
+            var groups = Storage.GetAllGroups().Select(group => new GroupViewModel(group.Id, group.Name));
 
             return View(groups);
         }
@@ -33,10 +38,15 @@ namespace IUDICO.Statistics.Controllers
         [HttpPost]
         public ActionResult SelectCurriculums(int id)
         {
-            ViewData["Group"] = LmsService.FindService<IUserService>().GetGroup(id).Name;
-            var curriculums = _Proxy.GetCurrilulumsByGroupId(id);
+            // TODO: add group with id exists validation
+            var groupName = Storage.GetGroupById(id).Name;
+            var curriculumViewModels = Storage.GetCurrilulumsByGroupId(id).Select(curr => new CurriculumViewModel(curr.Id, curr.Name, curr.Created));
+
+            var selectCurriculumsViewModel = new SelectCurriculumsViewModel(groupName, curriculumViewModels);
+
             HttpContext.Session["SelectedGroupId"] = id;
-            return View(curriculums);
+
+            return View(selectCurriculumsViewModel);
         }
 
         [Allow(Role = Role.Teacher)]
@@ -77,6 +87,41 @@ namespace IUDICO.Statistics.Controllers
         {
             var model = new CurrentThemeTestResultsModel(themeId, LmsService);
             return View(model);
+        }
+
+        [Allow(Role = Role.Teacher)]
+        [HttpGet]
+        public JsonResult GetTotalUserCurriculum(Guid userId, int curriculumId)
+        {
+            try
+            {
+                var total = Storage.GetTotalForUserCurriculum(userId, curriculumId);
+
+                return Json(new { isSuccess = true, total = total }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception exception)
+            {
+                return Json(new { isSuccess = false, message = exception.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Allow(Role = Role.Teacher)]
+        [HttpPost]
+        public JsonResult SaveManualResult(Guid userId, int themeId, double score)
+        {
+            try
+            {
+                Storage.SaveManualResult(userId, themeId, score);
+
+                var curriculumId = Storage.GetCurriculumIdByThemeId(themeId);
+                var total = Storage.GetTotalForUserCurriculum(userId, curriculumId);
+
+                return Json(new { isSuccess = true, total = total });
+            }
+            catch (Exception exception)
+            {
+                return Json(new { isSuccess = false, message = exception.Message });
+            }
         }
     }
 }

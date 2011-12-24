@@ -259,3 +259,12 @@ GO
 
 
 GO
+
+USE [IUDICO]
+GO
+/****** Object:  Table [dbo].[ManualResults]    Script Date: 12/22/2011 12:41:54 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+
+GO

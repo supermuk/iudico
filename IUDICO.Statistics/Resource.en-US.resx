@@ -255,4 +255,7 @@
   <data name="Teacher" xml:space="preserve">
     <value>Teacher</value>
   </data>
+  <data name="NoCurriculumHasBeenCreated" xml:space="preserve">
+    <value>No curricuulm has been created for</value>
+  </data>
 </root>
