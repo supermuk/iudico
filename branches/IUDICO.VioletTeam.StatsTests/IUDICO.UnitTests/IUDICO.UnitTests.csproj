@@ -120,6 +120,7 @@
     <Compile Include="Base\TestFixture.cs" />
     <Compile Include="Base\TestFixtureWeb.cs" />
     <Compile Include="Security\Selenium\SecuritySeleniumTester.cs" />
+    <Compile Include="Statistics\StatisticsSeleniumTests.cs" />
     <Compile Include="TestingSystem\NUnit\FileSystemPackageTests.cs" />
     <Compile Include="TestingSystem\NUnit\PlayModelTests.cs" />
     <Compile Include="TestingSystem\NUnit\TrainingTests.cs" />
