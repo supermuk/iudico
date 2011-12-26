@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9DD6C943-6608-4351-A521-E4B1F2F75E9D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IUDICO.Common</RootNamespace>
+    <AssemblyName>IUDICO.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RemovePlugins|AnyCPU'">
+    <OutputPath>bin\RemovePlugins\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\References\Castle.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\References\Castle.Windsor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\References\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\PluginController.cs" />
+    <Compile Include="Localization.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Log4NetLogger.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="Models\Action.cs" />
+    <Compile Include="Models\ActionLink.cs" />
+    <Compile Include="Models\Attributes\AllowAttribute.cs" />
+    <Compile Include="Models\Attributes\DropDownListAttribute.cs" />
+    <Compile Include="Models\Attributes\EmailAddressAttribute.cs" />
+    <Compile Include="Models\Attributes\OrderAttribute.cs" />
+    <Compile Include="Models\Interfaces\IMockableDataContext.cs" />
+    <Compile Include="Models\Interfaces\IMockableTable.cs" />
+    <Compile Include="Models\MemoryTable.cs" />
+    <Compile Include="Models\MockableTable.cs" />
+    <Compile Include="Models\NodeProperty.cs" />
+    <Compile Include="Models\Notifications\CourseNotifications.cs" />
+    <Compile Include="Models\Helpers.cs" />
+    <Compile Include="Models\Menu.cs" />
+    <Compile Include="Models\MenuItem.cs" />
+    <Compile Include="Models\Shared\Metadata.cs" />
+    <Compile Include="Models\Notifications\CurriculumNotifications.cs" />
+    <Compile Include="Models\Notifications\LMSNotifications.cs" />
+    <Compile Include="Models\Notifications\SearchNotifications.cs" />
+    <Compile Include="Models\Notifications\TestingNotifications.cs" />
+    <Compile Include="Models\Notifications\UserNotifications.cs" />
+    <Compile Include="Models\Plugin\IPlugin.cs" />
+    <Compile Include="Models\Shared\Poco.cs" />
+    <Compile Include="Models\Services\IAnalyticsService.cs" />
+    <Compile Include="Models\Services\ICourseService.cs" />
+    <Compile Include="Models\Services\ICurriculumService.cs" />
+    <Compile Include="Models\Services\ILmsService.cs" />
+    <Compile Include="Models\Services\ISearchService.cs" />
+    <Compile Include="Models\Services\ISecurityService.cs" />
+    <Compile Include="Models\Services\IStatisticsService.cs" />
+    <Compile Include="Models\Services\IUserService.cs" />
+    <Compile Include="Models\Shared\CurriculumManagement\ThemeInfo.cs" />
+    <Compile Include="Models\Shared\Statistics\AnswerResult.cs" />
+    <Compile Include="Models\Shared\Statistics\AttemptResult.cs" />
+    <Compile Include="Models\Shared\Statistics\Enums.cs" />
+    <Compile Include="Models\Shared\Statistics\Score.cs" />
+    <Compile Include="Models\TemplateMetadata\FieldTemplateMetadata.cs" />
+    <Compile Include="Models\TemplateMetadata\FieldTemplateMetadataProvider.cs" />
+    <Compile Include="Models\UserRoles.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Services\IService.cs" />
+    <Compile Include="Models\Services\ITestingService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Libraries\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resource.en-US.resx" />
+    <EmbeddedResource Include="Resource.uk-UA.resx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
