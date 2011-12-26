@@ -1,0 +1,113 @@
+﻿using System.Collections.Generic;
+using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models;
+using IUDICO.Common.Models.Shared;
+using IUDICO.CurriculumManagement.Models.Storage;
+using IUDICO.Common.Models.Shared.CurriculumManagement;
+
+namespace IUDICO.CurriculumManagement.Models
+{
+    public class CurriculumService : ICurriculumService
+    {
+        private readonly ICurriculumStorage _CurriculumStorage;
+
+        public CurriculumService(ICurriculumStorage curriculumStorage)
+        {
+            _CurriculumStorage = curriculumStorage;
+        }
+
+        #region ICurriculumService Members
+
+        //public IEnumerable<Curriculum> GetCurriculums()
+        //{
+        //    return _CurriculumStorage.GetCurriculums();
+        //}
+
+        public IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids)
+        {
+            return _CurriculumStorage.GetCurriculums(ids);
+        }
+
+        public Curriculum GetCurriculum(int id)
+        {
+            return _CurriculumStorage.GetCurriculum(id);
+        }
+
+        public IEnumerable<Curriculum> GetCurriculumsWithThemesOwnedByUser(User user)
+        {
+            return _CurriculumStorage.GetCurriculumsWithThemesOwnedByUser(user);
+        }
+
+        public IEnumerable<Curriculum> GetCurriculums()
+        {
+            return _CurriculumStorage.GetCurriculums();
+        }
+
+        public IEnumerable<Curriculum> GetCurriculums(User user)
+        {
+            return _CurriculumStorage.GetCurriculums(user);
+        }
+
+        public IEnumerable<Stage> GetStages(int curriculumId)
+        {
+            return _CurriculumStorage.GetStages(curriculumId);
+        }
+
+        public IEnumerable<Stage> GetStages(IEnumerable<int> ids)
+        {
+            return _CurriculumStorage.GetStages(ids);
+        }
+
+        public Stage GetStage(int id)
+        {
+            return _CurriculumStorage.GetStage(id);
+        }
+
+        public IEnumerable<Theme> GetThemesByStageId(int stageId)
+        {
+            return _CurriculumStorage.GetThemesByStageId(stageId);
+        }
+
+        public IEnumerable<Theme> GetThemes(IEnumerable<int> ids)
+        {
+            return _CurriculumStorage.GetThemes(ids);
+        }
+
+        public Theme GetTheme(int id)
+        {
+            return _CurriculumStorage.GetTheme(id);
+        }
+
+        public IEnumerable<Group> GetGroupsAssignedToTheme(int themeId)
+        {
+            return _CurriculumStorage.GetGroupsAssignedToTheme(themeId);
+        }
+
+        public IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId)
+        {
+            return _CurriculumStorage.GetCurriculumsByGroupId(groupId);
+        }
+
+        public IEnumerable<Theme> GetThemesByCurriculumId(int curriculumId)
+        {
+            return _CurriculumStorage.GetThemesByCurriculumId(curriculumId);
+        }
+
+        public IEnumerable<Theme> GetThemesByGroupId(int groupId)
+        {
+            return _CurriculumStorage.GetThemesByGroupId(groupId);
+        }
+
+        public IEnumerable<Theme> GetThemesOwnedByUser(User owner)
+        {
+            return _CurriculumStorage.GetThemesOwnedByUser(owner);
+        }
+
+        public IEnumerable<ThemeDescription> GetThemesAvailableForUser(User user)
+        {
+            return _CurriculumStorage.GetThemesAvailableForUser(user);
+        }
+
+        #endregion
+    }
+}
