@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Security;
 using System.Reflection;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web;
 using IUDICO.Common.Models;
@@ -21,10 +23,10 @@ namespace IUDICO.UserManagement.Models.Storage
     {
         protected ILmsService _LmsService;
         protected const string _AllowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789";
-        protected const string EmailHost = "smtp.gmail.com";
-        protected const int EmailPort = 587;
-        protected const string EmailUser = "iudico.report@gmail.com";
-        protected const string EmailPassword = "iudico2011";
+        protected const string EmailHost = "mail.ostacium.org.ua";
+        protected const int EmailPort = 2525;
+        protected const string EmailUser = "iudico.report@ostacium.org.ua";
+        protected const string EmailPassword = "iudico2012";
         
         public DatabaseUserStorage(ILmsService lmsService)
         {
@@ -51,14 +53,16 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             try
             {
+                ServicePointManager.ServerCertificateValidationCallback = delegate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; };
+
                 var message = new MailMessage(new MailAddress(EmailUser), new MailAddress(toAddress)) { Subject = subject, Body = body };
-                
+
                 var client = new SmtpClient(EmailHost, EmailPort)
                                  {
                                      EnableSsl = true,
                                      DeliveryMethod = SmtpDeliveryMethod.Network,
                                      UseDefaultCredentials = false,
-                                     Credentials = new NetworkCredential(EmailUser, EmailPassword)
+                                     Credentials = new NetworkCredential(EmailUser, EmailPassword),
                                  };
 
                 client.Send(message);
