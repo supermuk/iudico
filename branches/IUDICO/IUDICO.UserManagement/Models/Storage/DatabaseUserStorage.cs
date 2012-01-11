@@ -59,7 +59,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
                 var client = new SmtpClient(EmailHost, EmailPort)
                                  {
-                                     EnableSsl = true,
+                                     EnableSsl = false,
                                      DeliveryMethod = SmtpDeliveryMethod.Network,
                                      UseDefaultCredentials = false,
                                      /*Credentials = new NetworkCredential(EmailUser, EmailPassword),*/
