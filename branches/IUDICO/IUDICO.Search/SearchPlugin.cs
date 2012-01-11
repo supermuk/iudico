@@ -11,11 +11,8 @@ using Lucene.Net.Index;
 using Lucene.Net.Documents;
 using Lucene.Net.Analysis.Standard;
 using IUDICO.Common.Models.Services;
-using System.Threading;
 using IUDICO.Common.Models.Notifications;
 using IUDICO.Common.Models.Shared;
-using Lucene.Net.QueryParsers;
-using Lucene.Net.Search;
 
 namespace IUDICO.Search
 {
@@ -416,7 +413,7 @@ namespace IUDICO.Search
                 writer.Optimize();
                 writer.Close();
 
-                throw e;
+                //throw e;
             }
 
             writer.Optimize();
