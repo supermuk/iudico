@@ -23,10 +23,10 @@ namespace IUDICO.UserManagement.Models.Storage
     {
         protected ILmsService _LmsService;
         protected const string _AllowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789";
-        protected const string EmailHost = "mail.ostacium.org.ua";
-        protected const int EmailPort = 2525;
-        protected const string EmailUser = "iudico.report@ostacium.org.ua";
-        protected const string EmailPassword = "iudico2012";
+        protected const string EmailHost = "mail.lviv.ua";
+        protected const int EmailPort = 25;
+        protected const string EmailUser = "report@tests-ua.com";
+        /*protected const string EmailPassword = "iudico2012";*/
         
         public DatabaseUserStorage(ILmsService lmsService)
         {
@@ -62,7 +62,7 @@ namespace IUDICO.UserManagement.Models.Storage
                                      EnableSsl = true,
                                      DeliveryMethod = SmtpDeliveryMethod.Network,
                                      UseDefaultCredentials = false,
-                                     Credentials = new NetworkCredential(EmailUser, EmailPassword),
+                                     /*Credentials = new NetworkCredential(EmailUser, EmailPassword),*/
                                  };
 
                 client.Send(message);
