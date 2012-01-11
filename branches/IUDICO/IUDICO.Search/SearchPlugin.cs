@@ -410,14 +410,16 @@ namespace IUDICO.Search
             }
             catch (Exception e)
             {
-                writer.Optimize();
-                writer.Close();
+//                writer.Optimize();
+//                writer.Close();
 
                 //throw e;
             }
-
-            writer.Optimize();
-            writer.Close();
+            finally
+            {
+                writer.Optimize();
+                writer.Close();
+            }
         }
     }
 }
