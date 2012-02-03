@@ -6,9 +6,7 @@ using System.Web.Configuration;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
 using IUDICO.Common.Models.Services;
-using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
-
 
 namespace IUDICO.TestingSystem.Models
 {
@@ -20,31 +18,19 @@ namespace IUDICO.TestingSystem.Models
 
         protected IUserService UserService
         {
-            get
-            {
-                IUserService service = LmsSevice.FindService<IUserService>();
-                return service;
-            }
+            get { return LmsSevice.FindService<IUserService>(); }
         }
 
         protected ICourseService CourseService
         {
-            get
-            {
-                ICourseService service = LmsSevice.FindService<ICourseService>();
-                return service;
-            }
+            get { return LmsSevice.FindService<ICourseService>(); }
         }
-       
+
         protected ICurriculumService CurriculumService
         {
-            get
-            {
-                ICurriculumService service = LmsSevice.FindService<ICurriculumService>();
-                return service;
-            }
+            get { return LmsSevice.FindService<ICurriculumService>(); }
         }
-        
+
         #endregion
 
         #region Constructor
@@ -56,51 +42,30 @@ namespace IUDICO.TestingSystem.Models
 
         #endregion
 
-        #region Protected Methods
-        
-        /// <summary>
-        /// Retrieves connection string, used to connect to Training DB.
-        /// Uses ILmsService <c>GetDbConnection()</c> method.
-        /// </summary>
-        /// <returns>String value representing Connection String.</returns>
-        private string GetConnectionString()
-        {
-            string result = ""; // LmsSevice.GetDbConnection().ConnectionString;
-            return result;
-        }
-
-        /// <summary>
-        /// Retrieves currently logined Iudico User.
-        /// Uses <c>UserService</c> <c>GetCurrentUser()</c> method.
-        /// </summary>
-        /// <returns>User object representing currently loggined iudico user.</returns>
-        private User GetCurrentIudicoUser()
-        {
-            var result = UserService.GetCurrentUser();
-            return result;
-        }
-
-        #endregion
-
         #region Private fields
-        
+
         /// <summary>
         /// Holds the value of the <c>LStore</c> property.
         /// </summary>
-        LearningStore m_lstore;
+        private LearningStore _lstore;
 
         /// <summary>
         /// Holds the value of the <c>PStoreDirectoryPath</c> property.
         /// </summary>
-        string m_pstoreDirectoryPath;
+        private string _pstoreDirectoryPath;
 
         /// <summary>
         /// Holds the value of the <c>PStore</c> property.
         /// </summary>
-        FileSystemPackageStore m_pstore;
+        private FileSystemPackageStore _pstore;
+
+        /// <summary>
+        /// Holds the value of the <c>LStoreConnectionString</c> property.
+        /// </summary>
+        private string _lstoreConnectionString;
 
         #endregion
-        
+
         #region Properties
 
         /// <summary>
@@ -112,14 +77,13 @@ namespace IUDICO.TestingSystem.Models
         {
             get
             {
-                if (m_pstoreDirectoryPath == null)
+                if (_pstoreDirectoryPath == null)
                 {
-                    // set <m_pstoreDirectoryPath> to the full path to the
+                    // set <_pstoreDirectoryPath> to the full path to the
                     // directory
-                    m_pstoreDirectoryPath = WebConfigurationManager.AppSettings
-                    ["packageStoreDirectoryPath"];
+                    _pstoreDirectoryPath = WebConfigurationManager.AppSettings["packageStoreDirectoryPath"];
                 }
-                return m_pstoreDirectoryPath;
+                return _pstoreDirectoryPath;
             }
             set
             {
@@ -127,7 +91,7 @@ namespace IUDICO.TestingSystem.Models
                 {
                     throw new ArgumentException("Packages store directory path should be a valid string!");
                 }
-                this.m_pstoreDirectoryPath = value;
+                _pstoreDirectoryPath = value;
             }
         }
 
@@ -152,9 +116,11 @@ namespace IUDICO.TestingSystem.Models
         {
             get
             {
-                string result = "Server=.\\SQLEXPRESS;Database=Training;Integrated Security=true";
-                // TODO: GetConnectionString();
-                return result;
+                if (string.IsNullOrEmpty(_lstoreConnectionString))
+                {
+                    _lstoreConnectionString = WebConfigurationManager.AppSettings["learningComponentsConnnectionString"];
+                }
+                return _lstoreConnectionString;
             }
         }
 
@@ -166,12 +132,12 @@ namespace IUDICO.TestingSystem.Models
         {
             get
             {
-                if (m_lstore == null || m_lstore.UserKey != CurrentIudicoUserKey.ToString())
+                if (_lstore == null || _lstore.UserKey != CurrentIudicoUserKey.ToString())
                 {
-                    m_lstore = new LearningStore(
+                    _lstore = new LearningStore(
                         LStoreConnectionString, CurrentIudicoUserKey.ToString(), ImpersonationBehavior.UseOriginalIdentity);
                 }
-                return m_lstore;
+                return _lstore;
             }
         }
 
@@ -185,18 +151,30 @@ namespace IUDICO.TestingSystem.Models
         {
             get
             {
-                if (m_pstore == null || m_pstore.LearningStore != LStore)
+                if (_pstore == null || _pstore.LearningStore != LStore)
                 {
-                    m_pstore = new FileSystemPackageStore(LStore,
+                    _pstore = new FileSystemPackageStore(LStore,
                         PStoreDirectoryPath, ImpersonationBehavior.UseOriginalIdentity);
                 }
-                return m_pstore;
+                return _pstore;
             }
         }
 
         #endregion
 
         #region Protected methods
+
+        /// <summary>
+        /// Retrieves currently logined Iudico User.
+        /// Uses <c>UserService</c> <c>GetCurrentUser()</c> method.
+        /// </summary>
+        /// <returns>User object representing currently loggined iudico user.</returns>
+        private User GetCurrentIudicoUser()
+        {
+            var result = UserService.GetCurrentUser();
+            return result;
+        }
+
 
         /// <summary>
         /// Uses <c>RequestCurrentUserInfo</c> and checks user existance
@@ -206,11 +184,10 @@ namespace IUDICO.TestingSystem.Models
         /// <returns>UserItemIdentifier value which represents UserItem primary ID.</returns>
         protected UserItemIdentifier GetCurrentUserIdentifier()
         {
-            UserItemIdentifier result;
             LearningStoreJob job = LStore.CreateJob();
             RequestCurrentUserInfo(job);
             ReadOnlyCollection<object> results = job.Execute();
-            result = CheckCurrentUserIdentifier((DataTable)results[0]);
+            UserItemIdentifier result = CheckCurrentUserIdentifier((DataTable)results[0]);
             return result;
         }
 
@@ -244,11 +221,9 @@ namespace IUDICO.TestingSystem.Models
                 // was added by another application between the check above and
                 // the code below
                 job = LStore.CreateJob();
-                Dictionary<string, object> uniqueValues =
-                    new Dictionary<string, object>();
+                var uniqueValues = new Dictionary<string, object>();
                 uniqueValues[Schema.UserItem.Key] = CurrentIudicoUserKey.ToString();
-                Dictionary<string, object> addValues =
-                    new Dictionary<string, object>();
+                var addValues = new Dictionary<string, object>();
                 addValues[Schema.UserItem.Name] = userName;
                 job.AddOrUpdateItem(Schema.UserItem.ItemTypeName,
                     uniqueValues, addValues, null, true);
