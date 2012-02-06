@@ -101,6 +101,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompileServiceTest.cs.cs" />
     <Compile Include="CourseManagement\CourseManagmentTest.cs" />
     <Compile Include="CourseManagement\NUnit\ManifestManagerTest.cs" />
     <Compile Include="CourseManagement\NUnit\MixedCourseStorageTest.cs" />
@@ -161,6 +162,10 @@
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
       <Project>{9DD6C943-6608-4351-A521-E4B1F2F75E9D}</Project>
       <Name>IUDICO.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IUDICO.CompileSystem\IUDICO.CompileService.csproj">
+      <Project>{F1672FAC-08D5-4CA9-B278-FA0F928C8E1A}</Project>
+      <Name>IUDICO.CompileService</Name>
     </ProjectReference>
     <ProjectReference Include="..\IUDICO.CourseManagement\IUDICO.CourseManagement.csproj">
       <Project>{CB470DA7-0981-45B5-BEB9-6FD06586BA7E}</Project>
