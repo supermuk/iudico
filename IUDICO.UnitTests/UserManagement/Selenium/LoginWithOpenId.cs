@@ -1,4 +1,4 @@
-﻿using System;
+ using System;
 using System.Text;
 using NUnit.Framework;
 using Selenium;
@@ -51,7 +51,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             if (!selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"))
             {
                 selenium.Type("id=login_user", "yavora");
-                selenium.Type("id=login_password", "dotarocker666");
+                selenium.Type("id=login_password", "nestor1");
                 selenium.Click("//input[@id='loginlj_submit']");
                 selenium.WaitForPageToLoad("30000");
                 selenium.Click("//input[@name='yes:once']");
