@@ -331,6 +331,7 @@
     <Folder Include="Data\Courses\" />
     <Folder Include="Data\CSV\" />
     <Folder Include="Data\Index\" />
+    <Folder Include="Data\PlayerPackages\" />
     <Folder Include="Data\WorkFolder\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
