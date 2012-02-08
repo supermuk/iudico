@@ -12,17 +12,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Data;
-using System.DirectoryServices;
 using System.IO;
 using System.Security.Principal;
+using System.Web;
 using System.Web.Configuration;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
 using Schema = IUDICO.TestingSystem.Schema;
-using IUDICO.Common.Models.Services;
 using IUDICO.TestingSystem.Models;
 
 // <summary>
@@ -131,8 +129,7 @@ public class PageHelper : System.Web.UI.Page
 		{
 			if (m_lstoreConnectionString == null)
 			{
-				m_lstoreConnectionString = WebConfigurationManager.AppSettings
-					["learningComponentsConnnectionString"];
+				m_lstoreConnectionString = WebConfigurationManager.AppSettings["learningComponentsConnnectionString"];
 			}
 			return m_lstoreConnectionString;
 		}
@@ -168,8 +165,12 @@ public class PageHelper : System.Web.UI.Page
 			{
 				// set <m_pstoreDirectoryPath> to the full path to the
 				// directory
-				m_pstoreDirectoryPath = WebConfigurationManager.AppSettings
-					["packageStoreDirectoryPath"];
+                var path = HttpContext.Current == null
+                               ? Path.Combine(Environment.CurrentDirectory, "Site")
+                               : HttpContext.Current.Request.PhysicalApplicationPath;
+                if (path == null)
+                    throw new NullReferenceException("Can't retrieve path to Player Packages folder");
+                m_pstoreDirectoryPath = Path.Combine(path, @"Data\PlayerPackages");
 			}
 			return m_pstoreDirectoryPath;
 		}

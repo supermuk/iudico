@@ -2,6 +2,8 @@
 using System.Data;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Web;
 using System.Web.Configuration;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
@@ -81,7 +83,12 @@ namespace IUDICO.TestingSystem.Models
                 {
                     // set <_pstoreDirectoryPath> to the full path to the
                     // directory
-                    _pstoreDirectoryPath = WebConfigurationManager.AppSettings["packageStoreDirectoryPath"];
+                    var path = HttpContext.Current == null
+                               ? Path.Combine(Environment.CurrentDirectory, "Site")
+                               : HttpContext.Current.Request.PhysicalApplicationPath;
+                    if (path == null)
+                        throw new NullReferenceException("Can't retrieve path to Player Packages folder");
+                    _pstoreDirectoryPath = Path.Combine(path, @"Data\PlayerPackages");
                 }
                 return _pstoreDirectoryPath;
             }
