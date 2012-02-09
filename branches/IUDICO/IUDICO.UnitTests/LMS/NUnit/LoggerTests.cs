@@ -8,6 +8,8 @@ using IUDICO.Common.Models.Services;
 using IUDICO.LMS.Models;
 using NUnit.Framework;
 using System.IO;
+using log4net;
+using log4net.Appender;
 
 namespace IUDICO.UnitTests.LMS.NUnit
 {
@@ -60,7 +62,6 @@ namespace IUDICO.UnitTests.LMS.NUnit
         {
             IWindsorContainer container = new WindsorContainer();
             InitializeWindsor(ref container);
-            Common.Log4NetLoggerService.InitLogger();
             Assembly a = Assembly.GetExecutingAssembly();
             string fullPath = a.CodeBase;
             fullPath = Path.GetDirectoryName(fullPath);
@@ -70,15 +71,17 @@ namespace IUDICO.UnitTests.LMS.NUnit
             fullPath = Path.Combine(fullPath, "IUDICO.LMS", "log.xml");
             ILmsService service = container.Resolve<ILmsService>();
             fullPath = fullPath.Remove(0, 6);
-            Common.Log4NetLoggerService.InitLogger();
-            log4net.Config.XmlConfigurator.Configure(new System.IO.FileInfo(fullPath));
+            log4net.Config.XmlConfigurator.Configure(new FileInfo(fullPath));
             log4net.ILog log = log4net.LogManager.GetLogger(typeof(ILmsService));
             service.Inform(LMSNotifications.ApplicationStop);
-            fullPath = Path.GetDirectoryName(fullPath);
-            fullPath = Path.Combine(fullPath, "Data","Logs", "log4net.log");
-            StreamReader reader=new StreamReader(fullPath);
+            
+            FileAppender rootAppender = (FileAppender)((log4net.Repository.Hierarchy.Hierarchy)LogManager.GetRepository()).Root.Appenders[0];
+            fullPath = rootAppender.File;
+            rootAppender.Close();
+            StreamReader reader = new StreamReader(fullPath);
             string toRead = reader.ReadToEnd();
-            Assert.That(toRead.IndexOf("Notification:application/stop") != -1);
+            Assert.IsTrue(toRead.IndexOf("Notification:application/stop") != -1);
+
         }
     }
 }
