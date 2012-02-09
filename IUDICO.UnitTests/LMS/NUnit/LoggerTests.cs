@@ -60,8 +60,6 @@ namespace IUDICO.UnitTests.LMS.NUnit
         [Test]
         public void LmsGetLogged()
         {
-            IWindsorContainer container = new WindsorContainer();
-            InitializeWindsor(ref container);
             Assembly a = Assembly.GetExecutingAssembly();
             string fullPath = a.CodeBase;
             fullPath = Path.GetDirectoryName(fullPath);
@@ -69,12 +67,11 @@ namespace IUDICO.UnitTests.LMS.NUnit
             fullPath = Path.GetDirectoryName(fullPath);
             fullPath = Path.GetDirectoryName(fullPath);
             fullPath = Path.Combine(fullPath, "IUDICO.LMS", "log.xml");
-            ILmsService service = container.Resolve<ILmsService>();
+            ILmsService service = new LmsService(new WindsorContainer());
             fullPath = fullPath.Remove(0, 6);
             log4net.Config.XmlConfigurator.Configure(new FileInfo(fullPath));
             log4net.ILog log = log4net.LogManager.GetLogger(typeof(ILmsService));
             service.Inform(LMSNotifications.ApplicationStop);
-            
             FileAppender rootAppender = (FileAppender)((log4net.Repository.Hierarchy.Hierarchy)LogManager.GetRepository()).Root.Appenders[0];
             fullPath = rootAppender.File;
             rootAppender.Close();
@@ -83,5 +80,6 @@ namespace IUDICO.UnitTests.LMS.NUnit
             Assert.IsTrue(toRead.IndexOf("Notification:application/stop") != -1);
 
         }
+        
     }
 }
