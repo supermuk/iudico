@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Data.Linq;
 using System.IO;
 using System.Linq;
@@ -130,6 +131,12 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             get { return _MockStorageProtectedMethodTestClass.Object; }
         }
 
+    	  public string _CourseStoragePath
+		  {
+    			get; 
+				protected set; 
+		  }
+
         public Mock<ITable> Users
         {
             get;
@@ -178,6 +185,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             _MockUserStorage.Protected().Setup<IUDICO.UserManagement.Models.IDataContext>("GetDbContext").Returns(_MockUserDataContext.Object);
             _HttpPostedFileBase = new Mock<HttpPostedFileBase>();
             _HttpPostedFileBase.SetupGet(i => i.FileName).Returns("file");
+ 			   _CourseStoragePath = Path.Combine(ConfigurationManager.AppSettings.Get("PathToIUDICO.UnitTests"),@"IUDICO.UnitTests\bin\Debug\Site\Data");
 
             _MockStorageProtectedMethodTestClass = new Mock<MixedCourseStorageProtectedMethodTestClass>();
             _MockStorageProtectedMethodTestClass.Protected().Setup<IDataContext>("GetDbContext").Returns(_MockDataContext.Object);
@@ -193,9 +201,8 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         public void Setup()
         {
 
-   //         _MockStorage.Setup(i => i.GetCoursePath(It.IsAny<int>())).Returns(@"d:\Tests\Data\Courses");
-            _MockStorage.CallBase = true;
-            _MockStorage.Protected().Setup<string>("GetCoursesPath").Returns(@"d:\Tests\Data\Courses");
+				_MockStorage.CallBase = true;
+            _MockStorage.Protected().Setup<string>("GetCoursesPath").Returns(_CourseStoragePath);
             _MockUserDataContext.SetupGet(c => c.Users).Returns(new MemoryTable<User>(_MockUserData));
 
             Mock<IUserService> userService = new Mock<IUserService>();

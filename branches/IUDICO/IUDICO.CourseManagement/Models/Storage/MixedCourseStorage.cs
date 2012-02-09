@@ -665,7 +665,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             var db = GetDbContext();
 
             var res = db.NodeResources.Single(n => n.Id == id);
-
+			   
             @File.Delete(GetResourcePath(id));
 
             db.NodeResources.DeleteOnSubmit(res);
