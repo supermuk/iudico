@@ -28,7 +28,7 @@ using NUnit.Framework;
 using OpenQA.Selenium.Remote;
 using Action = IUDICO.Common.Models.Action;
 
-namespace IUDICO.UnitTests.LMS
+namespace IUDICO.UnitTests.LMS.NUnit
 {
     [TestFixture]
     class GenerateActions

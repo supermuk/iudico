@@ -13,7 +13,7 @@ using IUDICO.LMS.Controllers;
 using IUDICO.LMS.Models;
 using NUnit.Framework;
 
-namespace IUDICO.UnitTests.LMS
+namespace IUDICO.UnitTests.LMS.NUnit
 {
     [TestFixture]
     class ShutDownTests

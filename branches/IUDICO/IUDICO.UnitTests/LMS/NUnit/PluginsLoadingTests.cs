@@ -15,7 +15,7 @@ using IUDICO.LMS.Models;
 using NUnit.Framework;
 using Action = IUDICO.Common.Models.Action;
 
-namespace IUDICO.UnitTests.LMS
+namespace IUDICO.UnitTests.LMS.NUnit
 {
     class FakePlugin:IPlugin
     {
