@@ -360,7 +360,8 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("ImportMethods")]
         public void Import()
         {
-            string path = "d:\\Tests\\Data\\Courses\\20.zip";
+			   
+            string path = Path.Combine(_Tests._CourseStoragePath,"20.zip");
 
             _Storage.Import(path,"lex");
 
@@ -368,6 +369,12 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             Course course = courses.Single(i => i.Name == "20");
             Assert.AreEqual("lex",course.Owner);
             Assert.AreEqual(true,course.Locked);
+
+        	path = Path.Combine(_Tests._CourseStoragePath, "0.zip");
+
+			  Assert.IsTrue(File.Exists(path));
+
+			  File.Delete(path);
         }
 
         #endregion
@@ -396,7 +403,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         {
             string path = _Storage.Export(2);
 
-            Assert.AreEqual("d:\\Tests\\Data\\Courses\\2.zip", path);
+            Assert.AreEqual(_Tests._CourseStoragePath+"\\2.zip", path);
         }
 
         //[Test]
@@ -442,7 +449,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
 
             HttpContext.Current = current;
 
-            string path = "d:\\Tests\\Data\\Courses\\1";
+            string path = Path.Combine(_Tests._CourseStoragePath,"1");
 
             Assert.AreEqual(path,coursePath);
         }
@@ -453,9 +460,8 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         {
             string coursePath = _Storage.GetCourseTempPath(0);
 
-            string path = "D:\\BasicWebPlayerPackages\\IUDICO.UnitTests\\bin\\Debug\\Site\\Data\\WorkFolder\\0";
-
-            Assert.AreEqual(path, coursePath);
+            string path = "IUDICO.UnitTests\\bin\\Debug\\Site\\Data\\WorkFolder\\0";
+            Assert.IsTrue(coursePath.Contains(path));
         }
 
         #endregion
@@ -559,7 +565,8 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         public void GetResourcePathValidIdTest()
         {
             string resourcePath = _Storage.GetResourcePath(0);
-            string path = "d:\\Tests\\Data\\Courses\\1\\0\\somePath0";
+
+            string path = Path.Combine(_Tests._CourseStoragePath,"1\\0\\somePath0");
 
             Assert.AreEqual(path,resourcePath);
         }
@@ -601,9 +608,9 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             Assert.AreEqual(4,id);
 
             string resourcePath = _Storage.GetResourcePath(4);
-            string path = "d:\\Tests\\Data\\Courses\\1\\0\\Node/0/Images/file";
+            string path = "1\\0\\Node/0/Images/file";
 
-            Assert.AreEqual(path, resourcePath);
+            Assert.IsTrue(resourcePath.Contains(path));
         }
 
         #endregion
@@ -636,11 +643,14 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("DeleteResourcesMethods")]
         public void DeleteResource()
         {
+        		string path = Path.Combine(_Tests._CourseStoragePath,@"1\0\somePath0");
+				if (!Directory.Exists(path))
+				{
+        			Directory.CreateDirectory(path);
+				}
 
-            Directory.CreateDirectory(@"d:\Tests\Data\Courses\1\0\somePath0");
 
-
-                _Storage.DeleteResource(0);
+            _Storage.DeleteResource(0);
            
             try
             {
