@@ -11,7 +11,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
     public class UpgradeSeleniumTester
     {
         private ISelenium selenium;
-        public static string browserURL = "http://127.0.0.1:1556/";
+        public static string browserURL = "http://127.0.0.1:1569/";
         private StringBuilder verificationErrors;
 
         [SetUp]
