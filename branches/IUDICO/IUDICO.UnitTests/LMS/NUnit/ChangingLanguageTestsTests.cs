@@ -21,7 +21,7 @@ using IUDICO.UserManagement.Models.Storage;
 using Moq;
 using NUnit.Framework;
 
-namespace IUDICO.UnitTests.LMS
+namespace IUDICO.UnitTests.LMS.NUnit
 {
     [TestFixture]
     internal class ChangingLanguageTestsTests

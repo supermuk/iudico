@@ -14,7 +14,7 @@ using IUDICO.LMS.Models;
 using Moq;
 using NUnit.Framework;
 using System.Web.SessionState;
-namespace IUDICO.UnitTests.LMS
+namespace IUDICO.UnitTests.LMS.NUnit
 {
     [TestFixture]
     class ErrorHandlingTests

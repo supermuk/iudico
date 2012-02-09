@@ -31,7 +31,7 @@ using NUnit.Framework;
 using Moq;
 using Action = IUDICO.Common.Models.Action;
 
-namespace IUDICO.UnitTests.LMS
+namespace IUDICO.UnitTests.LMS.NUnit
 {
     interface IServerPath
     {
@@ -111,6 +111,7 @@ namespace IUDICO.UnitTests.LMS
         [Test]
         public void CorrectRouteAdressing()
         {
+            RouteTable.Routes.Clear();
             IWindsorContainer container = new WindsorContainer();
             InitializeWindsor(ref container);
             RouteCollection table = new RouteCollection();
@@ -124,6 +125,7 @@ namespace IUDICO.UnitTests.LMS
         [Test]
         public void GetPlugin()
         {
+            RouteTable.Routes.Clear();
             IWindsorContainer container = new WindsorContainer();
             InitializeWindsor(ref container);
             RouteCollection table = new RouteCollection();
@@ -143,6 +145,7 @@ namespace IUDICO.UnitTests.LMS
         [Test]
         public void CannotGetIncorrectPlugin()
         {
+            RouteTable.Routes.Clear();
             IWindsorContainer container = new WindsorContainer();
             InitializeWindsor(ref container);
             RouteCollection table = new RouteCollection();
@@ -163,6 +166,7 @@ namespace IUDICO.UnitTests.LMS
         [Test]
         public void IncorrectRouteAdressingIs()
         {
+            RouteTable.Routes.Clear();
             IWindsorContainer container = new WindsorContainer();
             InitializeWindsor(ref container);
             RouteCollection table = new RouteCollection();
@@ -173,6 +177,7 @@ namespace IUDICO.UnitTests.LMS
         [Test]
         public void ResolvingStaticRoutesHandling()
         {
+            RouteTable.Routes.Clear();
             IWindsorContainer container = new WindsorContainer();
             InitializeWindsor(ref container);
             AssemblyResourceProvider provider = new AssemblyResourceProvider();
