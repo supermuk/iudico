@@ -18,7 +18,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         [SetUp]
         public void Login()
         {
-            selenium = new DefaultSelenium("localhost", 4444, "*chrome", "http://127.0.0.1:1556/");
+            selenium = new DefaultSelenium("localhost", 4444, "*chrome", "http://127.0.0.1:1569/");
             selenium.Start();
 
             selenium.Open("/");
@@ -132,13 +132,11 @@ namespace IUDICO.UnitTests.Security.Selenium
         public void Test5_AddRoom()
         {
             selenium.Open("/Security/Index");
-            selenium.Click("//a[contains(@href, '/Ban/AddRoom')]");
+            selenium.Click("//a[contains(@href, 'AddRoom')]");
             selenium.WaitForPageToLoad("30000");
             selenium.Type("//input[@id='Name']", "119");
             selenium.Click("//input[@id='Allowed']");
             selenium.Click("css=input[type=\"submit\"]");
-            selenium.WaitForPageToLoad("30000");
-            selenium.Click("//a[contains(@href, '/Security/Index')]");
             selenium.WaitForPageToLoad("30000");
         }
 
@@ -146,7 +144,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         public void Test6_BanRoom()
         {
             selenium.Open("/Security/Index");
-            selenium.Click("//a[contains(@href, '/Ban/BanRoom')]");
+            selenium.Click("//a[contains(@href,'Ban/BanRoom')]");
             selenium.WaitForPageToLoad("30000");
             selenium.Click("//a[contains(@href, '/Ban/RoomBan?room=119')]");
             selenium.WaitForPageToLoad("30000");
@@ -158,22 +156,21 @@ namespace IUDICO.UnitTests.Security.Selenium
             {
                 // verificationErrors.Append(e.Message);
             }
-            selenium.Click("//a[contains(@href, '/Security/Index')]");
-            selenium.WaitForPageToLoad("30000");
         }
 
         [Test]
         public void Test7_DeleteRoom()
         {
             selenium.Open("/Security/Index");
-            selenium.Click("//a[contains(@href, '/Ban/BanRoom')]");
+            selenium.Click("//a[contains(@href,'Ban/BanRoom')]");
             selenium.WaitForPageToLoad("30000");
             selenium.Click("//a[contains(@href, '/Ban/DeleteRoom?room=119')]");
             selenium.WaitForPageToLoad("30000");
-            selenium.Click("//a[contains(@href, '/Security/Index')]");
-            selenium.WaitForPageToLoad("30000");
         }
 
+        /// <summary>
+        /// This test doesn't work because of failure of corresponding functionality;
+        /// </summary>
         [Test]
         public void Test8_OverallStats()
         {
