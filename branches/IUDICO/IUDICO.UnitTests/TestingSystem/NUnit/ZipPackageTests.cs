@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace IUDICO.UnitTests.TestingSystem.NUnit
 {
     [TestFixture]
-    class ZipPackageTests
+    internal class ZipPackageTests
     {
         private ZipPackage zipPackage;
 
@@ -14,7 +14,7 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
         public void ZipPackageTestsSetUp()
         {
             zipPackage = new ZipPackage("IUDICO/TestingSystem/Models/VOs/", 12345,
-                                                      new DateTime(2011, 11, 11), "package.zip", 1);
+                                        new DateTime(2011, 11, 11), "package.zip", 1);
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
         public void ZipPackageGetPackageReaderTest()
         {
             ZipPackageTestsSetUp();
-            Assert.That(zipPackage.GetPackageReader(), Is.TypeOf(typeof(ZipPackageReader)));
+            Assert.That(zipPackage.GetPackageReader(), Is.TypeOf(typeof (ZipPackageReader)));
             Assert.That(zipPackage.GetPackageReader(), Is.Not.Null);
         }
     }

@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using IUDICO.TestingSystem.Models.VOs;
+﻿using IUDICO.TestingSystem.Models.VOs;
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.TestingSystem.NUnit
 {
     [TestFixture]
-    class PlayModelTests
+    internal class PlayModelTests
     {
         private PlayModel playModel;
 
         [SetUp]
         public void PlayModelTestsSetUp()
         {
-            playModel = new PlayModel() { AttemptId = 12345, TopicId = 1 };
+            playModel = new PlayModel {AttemptId = 12345, TopicId = 1};
         }
+
         [Test]
         public void PlayModelPropertiesTest()
         {

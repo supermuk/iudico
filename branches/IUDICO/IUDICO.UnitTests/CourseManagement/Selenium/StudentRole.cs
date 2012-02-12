@@ -5,7 +5,7 @@ using Selenium;
 namespace IUDICO.UnitTests.CourseManagement.Selenium
 {
     [TestFixture]
-    class StudentRole
+    internal class StudentRole
     {
         private ISelenium selenium;
 
@@ -22,7 +22,6 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             selenium.WaitForPageToLoad("40000");
             selenium.Click("link=Courses");
             selenium.WaitForPageToLoad("40000");
-
         }
 
         [TearDown]
@@ -76,13 +75,12 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             selenium.Click("link=Create New");
             selenium.WaitForPageToLoad("40000");
             selenium.Click("css=input[value=\"Create\"]");
-            Assert.AreEqual(pos,selenium.GetLocation());
+            Assert.AreEqual(pos, selenium.GetLocation());
         }
 
         [Test]
         public void EditCourse()
         {
-
             selenium.WaitForPageToLoad("40000");
             selenium.Click("link=Create New");
             selenium.WaitForPageToLoad("40000");
@@ -117,13 +115,11 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             selenium.WaitForPageToLoad("40000");
             bool isPresent = selenium.IsElementPresent("//table[@id='publishedCourses']//tr//td[contains(.,'Edited')]");
             Assert.IsTrue(isPresent);
-
         }
 
         [Test]
         public void EditCourseContent()
         {
-
             selenium.WaitForPageToLoad("40000");
             selenium.Click("link=Create New");
             selenium.WaitForPageToLoad("40000");
@@ -139,28 +135,26 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
         }
 
         [Test]
-		  [Ignore]
+        [Ignore]
         public void ShareOnCreateCourse()
         {
-
             selenium.WaitForPageToLoad("40000");
             selenium.Click("link=Create New");
             selenium.WaitForPageToLoad("40000");
             selenium.Type("id=Name", "Test");
             selenium.WaitForPageToLoad("40000");
 
-  //          selenium.Click("//p[2]");
+            //          selenium.Click("//p[2]");
 
-			  selenium.DoubleClick("//div/select/option");
+            selenium.DoubleClick("//div/select/option");
 
             selenium.Click("css=input[value=\"Create\"]");
             selenium.WaitForPageToLoad("40000");
 
             bool isPresent = selenium.IsElementPresent("//table[@id='myCourses']//tr//td[contains(.,'Test')]");
             Assert.IsTrue(isPresent);
-
         }
-     
+
         [Test]
         public void PublishAndUnlockCourse()
         {
@@ -175,7 +169,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
 
             bool isPresent = selenium.IsElementPresent("//table[@id='publishedCourses']//tr[contains(.,'forPublish')]");
             Assert.IsTrue(isPresent);
-            
+
             selenium.Click("link=Unlock");
             isPresent = selenium.IsElementPresent("//table[@id='publishedCourses']//tr[contains(.,'forPublish')]");
             Assert.IsTrue(isPresent);
@@ -267,14 +261,12 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             selenium.WaitForPageToLoad("40000");
             selenium.Click("link=Import");
             selenium.WaitForPageToLoad("40000");
-
         }
 
 
         [Test]
         public void Import()
         {
-            
         }
     }
 }

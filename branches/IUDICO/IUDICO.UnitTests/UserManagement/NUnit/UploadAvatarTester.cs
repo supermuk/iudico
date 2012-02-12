@@ -7,16 +7,18 @@ using NUnit.Framework;
 namespace IUDICO.UnitTests.UserManagement.NUnit
 {
     [TestFixture]
-    class UploadAvatarTester
+    internal class UploadAvatarTester
     {
         protected UserManagementTests _Tests = UserManagementTests.GetInstance();
-        protected string _IudicoPath = Path.GetFullPath(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath + @"\..\..\..\..\IUDICO.LMS");
 
-        class MemoryFile : HttpPostedFileBase
+        protected string _IudicoPath =
+            Path.GetFullPath(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath + @"\..\..\..\..\IUDICO.LMS");
+
+        private class MemoryFile : HttpPostedFileBase
         {
-            Stream stream;
-            string contentType;
-            string fileName; 
+            private Stream stream;
+            private string contentType;
+            private string fileName;
 
             public MemoryFile(Stream stream, string contentType, string fileName)
             {
@@ -26,8 +28,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             }
 
             public override int ContentLength
-            { 
-                get { return (int)stream.Length; }
+            {
+                get { return (int) stream.Length; }
             }
 
             public override string ContentType
@@ -35,7 +37,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
                 get { return contentType; }
             }
 
-            public override string FileName 
+            public override string FileName
             {
                 get { return fileName; }
             }
@@ -45,10 +47,12 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
                 get { return stream; }
             }
 
-            public override void SaveAs(string filename) 
+            public override void SaveAs(string filename)
             {
                 using (var file = File.Open(filename, FileMode.CreateNew))
+                {
                     stream.CopyTo(file);
+                }
             }
         }
 
@@ -80,7 +84,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             Guid id = Guid.NewGuid();
             string filePath = Path.Combine(Path.Combine(_IudicoPath, @"Data\Avatars"), Path.GetFileName("test.png"));
             string fileType = "image/png";
-            
+
             using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
             {
                 MemoryFile postedFile = new MemoryFile(fileStream, fileType, filePath);
@@ -113,14 +117,14 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             Guid id = Guid.NewGuid();
             string filePath = Path.Combine(Path.Combine(_IudicoPath, @"Data\Avatars"), Path.GetFileName("test.png"));
             string fileType = "image/png";
-            
+
             using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
             {
                 MemoryFile postedFile = new MemoryFile(fileStream, fileType, filePath);
                 _Tests.Storage.UploadAvatar(id, postedFile);
                 _Tests.Storage.DeleteAvatar(id);
             }
-            
+
             filePath = Path.Combine(Path.Combine(_IudicoPath, @"Data\Avatars"), Path.GetFileName(id + ".png"));
             FileInfo fileInfo = new FileInfo(filePath);
             Assert.IsTrue(fileInfo.Exists == false);
@@ -139,9 +143,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
                 MemoryFile postedFile = new MemoryFile(fileStream, fileType, filePath);
                 _Tests.Storage.UploadAvatar(id, postedFile);
                 _Tests.Storage.DeleteAvatar(id);
-                
             }
-            
+
             Assert.IsTrue(_Tests.Storage.DeleteAvatar(id) == -1);
         }
     }

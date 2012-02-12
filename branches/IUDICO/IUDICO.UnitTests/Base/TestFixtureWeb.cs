@@ -32,15 +32,14 @@ namespace IUDICO.UnitTests.Base
         /// Initializes a new instance of the <see cref="SeleniumTesterBase"/> class.
         /// </summary>
         public TestFixtureWeb()
-            : base()
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
 
-            browserType = (BrowserType)Enum.Parse(
-                                            typeof(BrowserType),
-                                            ConfigurationManager.AppSettings["SELENIUM_BROWSER"],
-                                            true);
+            browserType = (BrowserType) Enum.Parse(
+                typeof (BrowserType),
+                ConfigurationManager.AppSettings["SELENIUM_BROWSER"],
+                true);
             testMachine = ConfigurationManager.AppSettings["SELENIUM_HOST"];
             seleniumPort = int.Parse(
                 ConfigurationManager.AppSettings["SELENIUM_PORT"],
@@ -78,7 +77,9 @@ namespace IUDICO.UnitTests.Base
 
             // sets the speed of execution of GUI commands
             if (false == String.IsNullOrEmpty(seleniumSpeed))
+            {
                 selenium.SetSpeed(seleniumSpeed);
+            }
         }
 
         [TestFixtureTearDown]
@@ -92,7 +93,6 @@ namespace IUDICO.UnitTests.Base
             }
             catch (SeleniumException)
             {
-
             }
         }
 
@@ -117,9 +117,13 @@ namespace IUDICO.UnitTests.Base
             Assert.AreEqual(confirmationText, selenium.GetConfirmation());
 
             if (confirm)
+            {
                 selenium.ChooseOkOnNextConfirmation();
+            }
             else
+            {
                 selenium.ChooseCancelOnNextConfirmation();
+            }
 
             return this;
         }
@@ -157,7 +161,9 @@ namespace IUDICO.UnitTests.Base
             List<string> list = new List<string>(itemValues);
             Assert.AreEqual(parameters.Length, itemValues.Length);
             foreach (string parameter in parameters)
+            {
                 Assert.IsTrue(list.Contains(parameter));
+            }
 
             return this;
         }
@@ -353,6 +359,7 @@ namespace IUDICO.UnitTests.Base
             foreach (string parameter in parameters)
             {
                 if (false == String.IsNullOrEmpty(parameter))
+                {
                     Assert.IsTrue(
                         selenium.IsElementPresent(
                             String.Format(
@@ -363,6 +370,7 @@ namespace IUDICO.UnitTests.Base
                         "Radio button '{0}' does not contain the expected value '{1}'.",
                         groupName,
                         parameter);
+                }
             }
 
             return this;
@@ -555,7 +563,9 @@ namespace IUDICO.UnitTests.Base
             }
             // first set up the non-default Selenium behaviour
             if (false == confirm)
+            {
                 selenium.ChooseCancelOnNextConfirmation();
+            }
 
             selenium.Click(
                 String.Format(
@@ -569,7 +579,9 @@ namespace IUDICO.UnitTests.Base
 
             // only if confirmed will a new page be actually loaded
             if (confirm)
+            {
                 selenium.WaitForPageToLoad("10000");
+            }
 
             return this;
         }
@@ -702,10 +714,10 @@ namespace IUDICO.UnitTests.Base
         public TestFixtureWeb ClickOnButtonWithValue(string controlvalue)
         {
             selenium.Click(
-        String.Format(
-            CultureInfo.InvariantCulture,
-            "xpath=//input[@type='submit' and @value='{0}']",
-            controlvalue));
+                String.Format(
+                    CultureInfo.InvariantCulture,
+                    "xpath=//input[@type='submit' and @value='{0}']",
+                    controlvalue));
             //selenium.WaitForPageToLoad("10000");
             //Pause();
             return this;
@@ -719,6 +731,7 @@ namespace IUDICO.UnitTests.Base
             Assert.AreEqual(6, count);
             return this;
         }
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
         /// return true for visible tegs
@@ -741,6 +754,7 @@ namespace IUDICO.UnitTests.Base
             Assert.IsFalse(selenium.IsVisible(locator));
             return this;
         }
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
         /// click on last button with value remove
@@ -784,6 +798,7 @@ namespace IUDICO.UnitTests.Base
             selenium.WaitForPageToLoad("10000");
             return this;
         }
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public TestFixtureWeb ClickOnLinkButton11(string controlId)
         {

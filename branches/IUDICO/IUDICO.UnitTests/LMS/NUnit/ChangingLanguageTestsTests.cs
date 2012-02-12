@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Globalization;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -14,7 +11,6 @@ using Castle.Windsor;
 using Castle.Windsor.Installer;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
-using IUDICO.LMS;
 using IUDICO.LMS.Models;
 using IUDICO.UserManagement.Controllers;
 using IUDICO.UserManagement.Models.Storage;
@@ -87,18 +83,14 @@ namespace IUDICO.UnitTests.LMS.NUnit
 
         public class MockHttpSession : HttpSessionStateBase
         {
-
             private Dictionary<string, object> _sessionDictionary = new Dictionary<string, object>();
 
             public override object this[string name]
             {
-
                 get { return _sessionDictionary[name]; }
 
                 set { _sessionDictionary[name] = value; }
-
             }
-
         }
 
         [Test]
@@ -114,58 +106,13 @@ namespace IUDICO.UnitTests.LMS.NUnit
                                                                  HttpCookieMode.AutoDetect,
                                                                  SessionStateMode.InProc, false);
 
-            httpContext.Items["AspSession"] = typeof(HttpSessionState).GetConstructor(
-                                                     BindingFlags.NonPublic | BindingFlags.Instance,
-                                                     null, CallingConventions.Standard,
-                                                     new[] { typeof(HttpSessionStateContainer) },
-                                                     null)
-                                                .Invoke(new object[] { sessionContainer });
+            httpContext.Items["AspSession"] = typeof (HttpSessionState).GetConstructor(
+                BindingFlags.NonPublic | BindingFlags.Instance,
+                null, CallingConventions.Standard,
+                new[] {typeof (HttpSessionStateContainer)},
+                null)
+                .Invoke(new object[] {sessionContainer});
 
-            HttpContext.Current = httpContext;
-            IWindsorContainer container=new WindsorContainer();
-            InitializeWindsor(ref container);
-            AccountController pc = null;
-            try
-            {
-                pc = new AccountController(new DatabaseUserStorage(container.Resolve<ILmsService>()));
-            }
-            catch(Exception e)
-            {
-            }
-            var context = new Mock<ControllerContext>();
-
-            var session = new MockHttpSession();
-
-            context.Setup(m => m.HttpContext.Session).Returns(session);
-            
-            DatabaseUserStorage storage=new DatabaseUserStorage(null);//returns null but we don't need it
-            
-            pc.ControllerContext = context.Object;
-            ViewResult result = pc.ChangeCulture("en-US","/") as ViewResult;
-            Assert.AreEqual("en-US",pc.Session["Culture"].ToString());
-
-        }
-        [Test]
-        public void EnglishChangesIntoUkrainian()
-        {
-            //lets make fake httpcontext using reflection
-            var httpRequest = new HttpRequest("", "http://mySomething/", "");
-            var stringWriter = new StringWriter();
-            var httpResponce = new HttpResponse(stringWriter);
-            var httpContext = new HttpContext(httpRequest, httpResponce);
-
-            var sessionContainer = new HttpSessionStateContainer("id", new SessionStateItemCollection(),
-                                                                 new HttpStaticObjectsCollection(), 10, true,
-                                                                 HttpCookieMode.AutoDetect,
-                                                                 SessionStateMode.InProc, false);
-
-            httpContext.Items["AspSession"] = typeof(HttpSessionState).GetConstructor(
-                                                     BindingFlags.NonPublic | BindingFlags.Instance,
-                                                     null, CallingConventions.Standard,
-                                                     new[] { typeof(HttpSessionStateContainer) },
-                                                     null)
-                                                .Invoke(new object[] { sessionContainer });
-            
             HttpContext.Current = httpContext;
             IWindsorContainer container = new WindsorContainer();
             InitializeWindsor(ref container);
@@ -183,13 +130,56 @@ namespace IUDICO.UnitTests.LMS.NUnit
 
             context.Setup(m => m.HttpContext.Session).Returns(session);
 
-            DatabaseUserStorage storage = new DatabaseUserStorage(null);//returns null but we don't need it
+            DatabaseUserStorage storage = new DatabaseUserStorage(null); //returns null but we don't need it
+
+            pc.ControllerContext = context.Object;
+            ViewResult result = pc.ChangeCulture("en-US", "/") as ViewResult;
+            Assert.AreEqual("en-US", pc.Session["Culture"].ToString());
+        }
+
+        [Test]
+        public void EnglishChangesIntoUkrainian()
+        {
+            //lets make fake httpcontext using reflection
+            var httpRequest = new HttpRequest("", "http://mySomething/", "");
+            var stringWriter = new StringWriter();
+            var httpResponce = new HttpResponse(stringWriter);
+            var httpContext = new HttpContext(httpRequest, httpResponce);
+
+            var sessionContainer = new HttpSessionStateContainer("id", new SessionStateItemCollection(),
+                                                                 new HttpStaticObjectsCollection(), 10, true,
+                                                                 HttpCookieMode.AutoDetect,
+                                                                 SessionStateMode.InProc, false);
+
+            httpContext.Items["AspSession"] = typeof (HttpSessionState).GetConstructor(
+                BindingFlags.NonPublic | BindingFlags.Instance,
+                null, CallingConventions.Standard,
+                new[] {typeof (HttpSessionStateContainer)},
+                null)
+                .Invoke(new object[] {sessionContainer});
+
+            HttpContext.Current = httpContext;
+            IWindsorContainer container = new WindsorContainer();
+            InitializeWindsor(ref container);
+            AccountController pc = null;
+            try
+            {
+                pc = new AccountController(new DatabaseUserStorage(container.Resolve<ILmsService>()));
+            }
+            catch (Exception e)
+            {
+            }
+            var context = new Mock<ControllerContext>();
+
+            var session = new MockHttpSession();
+
+            context.Setup(m => m.HttpContext.Session).Returns(session);
+
+            DatabaseUserStorage storage = new DatabaseUserStorage(null); //returns null but we don't need it
 
             pc.ControllerContext = context.Object;
             ViewResult result = pc.ChangeCulture("uk-UA", "/") as ViewResult;
             Assert.AreEqual("uk-UA", pc.Session["Culture"].ToString());
-
         }
-
     }
 }

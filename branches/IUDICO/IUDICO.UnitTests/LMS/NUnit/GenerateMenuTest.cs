@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Castle.MicroKernel.Registration;
@@ -26,9 +24,10 @@ using Action = IUDICO.Common.Models.Action;
 namespace IUDICO.UnitTests.LMS.NUnit
 {
     [TestFixture]
-    class GenerateMenuTest
+    internal class GenerateMenuTest
     {
-        static IWindsorContainer container = new WindsorContainer();
+        private static IWindsorContainer container = new WindsorContainer();
+
         private static void InitializeWindsor(ref IWindsorContainer _Container)
         {
             Assembly a = Assembly.GetExecutingAssembly();
@@ -46,17 +45,20 @@ namespace IUDICO.UnitTests.LMS.NUnit
                     Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton)
                 .Install(FromAssembly.This(),
                          FromAssembly.InDirectory(new AssemblyFilter(fullPath, "IUDICO.*.dll"))
-            );
+                );
         }
+
         public bool IsAllowed(string controller, string action, IEnumerable<Role> roles)
         {
             // if can't resolve controller, don't allow access to it
             try
             {
                 var _controller = container.Resolve<IController>(controller + "controller");
-                var _action = _controller.GetType().GetMethods().Where(m => m.Name == action && !IsPost(m) && m.GetParameters().Length == 0).FirstOrDefault();
+                var _action =
+                    _controller.GetType().GetMethods().Where(
+                        m => m.Name == action && !IsPost(m) && m.GetParameters().Length == 0).FirstOrDefault();
 
-                var attribute = Attribute.GetCustomAttribute(_action, typeof(AllowAttribute), false) as AllowAttribute;
+                var attribute = Attribute.GetCustomAttribute(_action, typeof (AllowAttribute), false) as AllowAttribute;
 
                 if (attribute == null)
                 {
@@ -76,11 +78,14 @@ namespace IUDICO.UnitTests.LMS.NUnit
                 return false;
             }
         }
+
         protected bool IsPost(MethodInfo action)
         {
-            return Attribute.GetCustomAttribute(action, typeof(HttpPostAttribute), false) != null;
+            return Attribute.GetCustomAttribute(action, typeof (HttpPostAttribute), false) != null;
         }
+
         private static ILmsService service;
+
         [Test]
         public void GenerateMenuUsingRoleNone()
         {
@@ -91,8 +96,8 @@ namespace IUDICO.UnitTests.LMS.NUnit
             HttpContext httpConextMock = new HttpContext(httpRequest, httpResponce);
 
             HttpContext.Current = httpConextMock;
-            Menu menu=new Menu();
-            Menu menu1=new Menu();
+            Menu menu = new Menu();
+            Menu menu1 = new Menu();
             container = new WindsorContainer();
             //HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
             InitializeWindsor(ref container);
@@ -100,10 +105,10 @@ namespace IUDICO.UnitTests.LMS.NUnit
             service = container.Resolve<ILmsService>();
             PluginController.LmsService = service;
             var plugins = container.ResolveAll<IPlugin>();
-            Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>> actions =
-                new Dictionary<IPlugin, IEnumerable<Common.Models.Action>>();
-            Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>> actions1;
-           List<Role> roles = new List<Role>();
+            Dictionary<IPlugin, IEnumerable<Action>> actions =
+                new Dictionary<IPlugin, IEnumerable<Action>>();
+            Dictionary<IPlugin, IEnumerable<Action>> actions1;
+            List<Role> roles = new List<Role>();
             roles.Add(Role.None);
 
             IEnumerable<Role> currentRole = from rol in roles
@@ -124,7 +129,6 @@ namespace IUDICO.UnitTests.LMS.NUnit
             }
             catch (Exception e)
             {
-
             }
 
             foreach (var plugin in plugins)
@@ -143,8 +147,8 @@ namespace IUDICO.UnitTests.LMS.NUnit
                     }
                 }
             }
-
         }
+
         [Test]
         public void GenerateMenuUsingRoleStudent()
         {
@@ -185,7 +189,6 @@ namespace IUDICO.UnitTests.LMS.NUnit
             }
             catch (Exception e)
             {
-
             }
 
             foreach (var plugin in plugins)
@@ -205,8 +208,8 @@ namespace IUDICO.UnitTests.LMS.NUnit
                     }
                 }
             }
-
         }
+
         [Test]
         public void GenerateMenuUsingRoleTeacher()
         {
@@ -247,7 +250,6 @@ namespace IUDICO.UnitTests.LMS.NUnit
             }
             catch (Exception e)
             {
-
             }
 
             foreach (var plugin in plugins)
@@ -267,8 +269,8 @@ namespace IUDICO.UnitTests.LMS.NUnit
                     }
                 }
             }
-
         }
+
         [Test]
         public void GenerateMenuUsingRoleAdmin()
         {
@@ -309,7 +311,6 @@ namespace IUDICO.UnitTests.LMS.NUnit
             }
             catch (Exception e)
             {
-
             }
 
             foreach (var plugin in plugins)
@@ -329,7 +330,6 @@ namespace IUDICO.UnitTests.LMS.NUnit
                     }
                 }
             }
-
         }
     }
 }

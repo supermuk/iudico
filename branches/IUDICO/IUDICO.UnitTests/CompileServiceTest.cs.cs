@@ -1,22 +1,16 @@
 ﻿using CompileSystem;
-using CompileSystem.Compiling;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
 
 namespace IUDICO.UnitTests
 {
-
-
     /// <summary>
     ///This is a test class for CompileServiceTest and is intended
     ///to contain all CompileServiceTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class CompileServiceTest
     {
-
-
         private TestContext testContextInstance;
 
         /// <summary>
@@ -25,17 +19,12 @@ namespace IUDICO.UnitTests
         ///</summary>
         public TestContext TestContext
         {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+            get { return testContextInstance; }
+            set { testContextInstance = value; }
         }
 
         #region Additional test attributes
+
         // 
         //You can use the following additional attributes as you write your tests:
         //
@@ -63,13 +52,13 @@ namespace IUDICO.UnitTests
         //{
         //}
         //
-        #endregion
 
+        #endregion
 
         /// <summary>
         ///A test for CS Compile with correct code
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [HostType("ASP.NET")]
         [AspNetDevelopmentServerHost("D:\\IUDICO\\IUDICO.CompileSystem", "/")]
         [UrlToTest("http://localhost:1345/")]
@@ -77,10 +66,11 @@ namespace IUDICO.UnitTests
         {
             CompileService compileService = new CompileService();
 
-            string source = "using System;namespace MyProg{internal class Program{private static void Main(string[] args){string ar = Console.ReadLine();string result;string first, second;first = ar.Split(' ')[0];second = ar.Split(' ')[1];result = first.Insert(1,second);Console.Write(result);}}}";
+            string source =
+                "using System;namespace MyProg{internal class Program{private static void Main(string[] args){string ar = Console.ReadLine();string result;string first, second;first = ar.Split(' ')[0];second = ar.Split(' ')[1];result = first.Insert(1,second);Console.Write(result);}}}";
             string language = "CS";
-            string[] input = { "2 5" };//{"a", "b", "c", "d", "e"};
-            string[] output = { "25" };//{"abcde"};
+            string[] input = {"2 5"}; //{"a", "b", "c", "d", "e"};
+            string[] output = {"25"}; //{"abcde"};
             int timelimit = 100000;
             int memorylimit = 1000;
             string expectedResult = "Accepted";
@@ -91,7 +81,7 @@ namespace IUDICO.UnitTests
         /// <summary>
         ///A test for CS Compile with incorrect code
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [HostType("ASP.NET")]
         [AspNetDevelopmentServerHost("D:\\IUDICO\\IUDICO.CompileSystem", "/")]
         [UrlToTest("http://localhost:1345/")]
@@ -99,10 +89,11 @@ namespace IUDICO.UnitTests
         {
             CompileService compileService = new CompileService();
 
-            string source = "System;namespace MyProg{internal class Program{private static void Main(string[] args){string ar = Console.ReadLine();string result;string first, second;first = ar.Split(' ')[0];second = ar.Split(' ')[1];result = first.Insert(1,second);Console.Write(result);}}}";
+            string source =
+                "System;namespace MyProg{internal class Program{private static void Main(string[] args){string ar = Console.ReadLine();string result;string first, second;first = ar.Split(' ')[0];second = ar.Split(' ')[1];result = first.Insert(1,second);Console.Write(result);}}}";
             string language = "CS";
-            string[] input = { "2 5" };
-            string[] output = { "25" };
+            string[] input = {"2 5"};
+            string[] output = {"25"};
             int timelimit = 100000;
             int memorylimit = 1000;
             string expectedResult = "Accepted";
@@ -113,7 +104,7 @@ namespace IUDICO.UnitTests
         /// <summary>
         ///A test for Java Compile with correct code
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [HostType("ASP.NET")]
         [AspNetDevelopmentServerHost("D:\\IUDICO\\IUDICO.CompileSystem", "/")]
         [UrlToTest("http://localhost:1345/")]
@@ -121,10 +112,11 @@ namespace IUDICO.UnitTests
         {
             CompileService compileService = new CompileService();
 
-            string source = "package com.baik;\n import java.io.BufferedReader;\nimport java.io.IOException;\nimport java.io.InputStreamReader;\npublic class Main \n{\npublic static void main(String[] args) throws IOException \n{\nStringBuilder builder = new StringBuilder();\nInputStreamReader input = new InputStreamReader(System.in);\nBufferedReader reader = new BufferedReader(input);\nString inputLine = reader.readLine();\nString first = inputLine.substring(0,1);\n String second = inputLine.substring(2,3);\n String result = first.concat(second);\n System.out.println(result);\n}\n}";
+            string source =
+                "package com.baik;\n import java.io.BufferedReader;\nimport java.io.IOException;\nimport java.io.InputStreamReader;\npublic class Main \n{\npublic static void main(String[] args) throws IOException \n{\nStringBuilder builder = new StringBuilder();\nInputStreamReader input = new InputStreamReader(System.in);\nBufferedReader reader = new BufferedReader(input);\nString inputLine = reader.readLine();\nString first = inputLine.substring(0,1);\n String second = inputLine.substring(2,3);\n String result = first.concat(second);\n System.out.println(result);\n}\n}";
             string language = "Java";
-            string[] input = { "2 5" };
-            string[] output = { "25" };
+            string[] input = {"2 5"};
+            string[] output = {"25"};
             int timelimit = 100000;
             int memorylimit = 1000;
             string expectedResult = "Accepted";
@@ -135,7 +127,7 @@ namespace IUDICO.UnitTests
         /// <summary>
         ///A test for C++ Compile with correct code
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [HostType("ASP.NET")]
         [AspNetDevelopmentServerHost("D:\\IUDICO\\IUDICO.CompileSystem", "/")]
         [UrlToTest("http://localhost:1345/")]
@@ -143,10 +135,11 @@ namespace IUDICO.UnitTests
         {
             CompileService compileService = new CompileService();
 
-            string source = "#include<iostream>\n#include<string>\nusing namespace std;\nvoid main(){\nstring a,b;\ncin>>a>>b;\ncout<<a<<b;}";
+            string source =
+                "#include<iostream>\n#include<string>\nusing namespace std;\nvoid main(){\nstring a,b;\ncin>>a>>b;\ncout<<a<<b;}";
             string language = "CPP";
-            string[] input = { "2 5" };
-            string[] output = { "25" };
+            string[] input = {"2 5"};
+            string[] output = {"25"};
             int timelimit = 100000;
             int memorylimit = 1000;
             string expectedResult = "Accepted";
@@ -157,7 +150,7 @@ namespace IUDICO.UnitTests
         /// <summary>
         ///A test for C++ Compile with incorrect code
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [HostType("ASP.NET")]
         [AspNetDevelopmentServerHost("D:\\IUDICO\\IUDICO.CompileSystem", "/")]
         [UrlToTest("http://localhost:1345/")]
@@ -165,10 +158,11 @@ namespace IUDICO.UnitTests
         {
             CompileService compileService = new CompileService();
 
-            string source = "include<iostream>\n#include<string>\nusing namespace std;\nvoid main(){\nstring a,b;\ncin>>a>>b;\ncout<<a<<b;}";
+            string source =
+                "include<iostream>\n#include<string>\nusing namespace std;\nvoid main(){\nstring a,b;\ncin>>a>>b;\ncout<<a<<b;}";
             string language = "CPP";
-            string[] input = { "2 5" };
-            string[] output = { "25" };
+            string[] input = {"2 5"};
+            string[] output = {"25"};
             int timelimit = 100000;
             int memorylimit = 1000;
             string expectedResult = "Accepted";
@@ -179,7 +173,7 @@ namespace IUDICO.UnitTests
         /// <summary>
         ///A test for Delphi Compile with correct code
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [HostType("ASP.NET")]
         [AspNetDevelopmentServerHost("D:\\IUDICO\\IUDICO.CompileSystem", "/")]
         [UrlToTest("http://localhost:1345/")]
@@ -188,8 +182,8 @@ namespace IUDICO.UnitTests
             CompileService compileService = new CompileService();
             string source = "program Helloworld; \n{$APPTYPE CONSOLE}\n begin\n writeln('Hello, world!');\nend.";
             string language = "Delphi";
-            string[] input = { "" };
-            string[] output = { "Hello, world!" };
+            string[] input = {""};
+            string[] output = {"Hello, world!"};
             int timelimit = 100000;
             int memorylimit = 1000;
             string expectedResult = "Accepted";
@@ -200,7 +194,7 @@ namespace IUDICO.UnitTests
         /// <summary>
         ///A test for Delphi Compile with incorrect code
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [HostType("ASP.NET")]
         [AspNetDevelopmentServerHost("D:\\IUDICO\\IUDICO.CompileSystem", "/")]
         [UrlToTest("http://localhost:1345/")]
@@ -209,8 +203,8 @@ namespace IUDICO.UnitTests
             CompileService compileService = new CompileService();
             string source = "Helloworld; \n{$APPTYPE CONSOLE}\n begin\n writeln('Hello, world!');\nend.";
             string language = "Delphi";
-            string[] input = { "" };
-            string[] output = { "Hello, world!" };
+            string[] input = {""};
+            string[] output = {"Hello, world!"};
             int timelimit = 100000;
             int memorylimit = 1000;
             string expectedResult = "Accepted";

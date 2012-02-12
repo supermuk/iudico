@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.CurriculumManagement;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 {
@@ -32,8 +32,10 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 }
                 else
                 {
-                    Assert.Fail(String.Format("Item with id={0} doesn't exist in actual collection, but expected in expected collection", 
-                        expectedItem.Id));
+                    Assert.Fail(
+                        String.Format(
+                            "Item with id={0} doesn't exist in actual collection, but expected in expected collection",
+                            expectedItem.Id));
                 }
             }
         }
@@ -61,8 +63,10 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 }
                 else
                 {
-                    Assert.Fail(String.Format("Item with id={0} doesn't exist in actual collection, but expected in expected collection",
-                        expectedItem.Id));
+                    Assert.Fail(
+                        String.Format(
+                            "Item with id={0} doesn't exist in actual collection, but expected in expected collection",
+                            expectedItem.Id));
                 }
             }
         }
@@ -90,8 +94,10 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 }
                 else
                 {
-                    Assert.Fail(String.Format("Item with id={0} doesn't exist in actual collection, but expected in expected collection",
-                        expectedItem.Id));
+                    Assert.Fail(
+                        String.Format(
+                            "Item with id={0} doesn't exist in actual collection, but expected in expected collection",
+                            expectedItem.Id));
                 }
             }
         }
@@ -117,8 +123,10 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 }
                 else
                 {
-                    Assert.Fail(String.Format("Item with id={0} doesn't exist in actual collection, but expected in expected collection",
-                        expectedItem.Id));
+                    Assert.Fail(
+                        String.Format(
+                            "Item with id={0} doesn't exist in actual collection, but expected in expected collection",
+                            expectedItem.Id));
                 }
             }
         }
@@ -146,8 +154,10 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 }
                 else
                 {
-                    Assert.Fail(String.Format("Item with id={0} doesn't exist in actual collection, but expected in expected collection",
-                        expectedItem.Id));
+                    Assert.Fail(
+                        String.Format(
+                            "Item with id={0} doesn't exist in actual collection, but expected in expected collection",
+                            expectedItem.Id));
                 }
             }
         }
@@ -168,8 +178,10 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 }
                 else
                 {
-                    Assert.Fail(String.Format("Item with id={0} doesn't exist in actual collection, but expected in expected collection",
-                        expectedItem.Id));
+                    Assert.Fail(
+                        String.Format(
+                            "Item with id={0} doesn't exist in actual collection, but expected in expected collection",
+                            expectedItem.Id));
                 }
             }
         }
@@ -196,18 +208,22 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 }
                 else
                 {
-                    Assert.Fail(String.Format("Item with id={0} doesn't exist in actual collection, but expected in expected collection",
-                        expectedItem.Id));
+                    Assert.Fail(
+                        String.Format(
+                            "Item with id={0} doesn't exist in actual collection, but expected in expected collection",
+                            expectedItem.Id));
                 }
             }
         }
+
         public static void AreEqual(TopicDescription expected, TopicDescription actual)
         {
             Assert.AreEqual(expected.Topic, actual.Topic);
             Assert.AreEqual(expected.Chapter, actual.Chapter);
             Assert.AreEqual(expected.Discipline, actual.Discipline);
-            AdvAssert.AreEqual(expected.Timelines, actual.Timelines);
+            AreEqual(expected.Timelines, actual.Timelines);
         }
+
         public static void AreEqual(IEnumerable<TopicDescription> expected, IEnumerable<TopicDescription> actual)
         {
             Assert.AreEqual(expected.ToList().Count, actual.ToList().Count);
@@ -220,7 +236,8 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 }
                 else
                 {
-                    Assert.Fail("Expected topic description with topic={0} doesn't exists in actual collection", exp.Topic);
+                    Assert.Fail("Expected topic description with topic={0} doesn't exists in actual collection",
+                                exp.Topic);
                 }
             }
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using NUnit.Framework;
 using Selenium;
 
@@ -18,6 +17,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Start();
             verificationErrors = new StringBuilder();
         }
+
         [Test]
         public void StandartLoginValid()
         {
@@ -28,6 +28,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.WaitForPageToLoad("30000");
             Assert.IsTrue(selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
         }
+
         [Test]
         public void StandartLoginInvalid()
         {
@@ -39,5 +40,4 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             Assert.IsFalse(selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
         }
     }
-
 }

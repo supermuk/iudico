@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace IUDICO.UnitTests.CourseManagement.NUnit
 {
     [TestFixture]
-    class SequencingPatternManagerTests
+    internal class SequencingPatternManagerTests
     {
         [Test]
         public void ApplyDefaultChapterSequencing()

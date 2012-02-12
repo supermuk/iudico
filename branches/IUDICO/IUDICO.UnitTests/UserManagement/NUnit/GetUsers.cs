@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using IUDICO.Common.Models.Shared;
 using NUnit.Framework;
 
@@ -9,7 +8,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
     public class GetUsers
     {
         protected UserManagementTests _Tests = UserManagementTests.GetInstance();
-        
+
         [Test]
         public void GetListOfUsers()
         {
@@ -20,7 +19,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
                             };
 
             _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
-            
+
             foreach (var user in users)
             {
                 _Tests.Storage.CreateUser(user);
