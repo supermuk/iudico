@@ -118,9 +118,9 @@ namespace IUDICO.TestingSystem
                 "Player/Frameset/Include/{page}",
                 "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Include/{page}");
             routes.MapPageRoute(
-                "PlayerTheme",
-                "Player/Frameset/Theme/{page}",
-                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Theme/{page}");*/
+                "PlayerTopic",
+                "Player/Frameset/Topic/{page}",
+                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Topic/{page}");*/
             
             /*routes.MapRoute(
                "Training",

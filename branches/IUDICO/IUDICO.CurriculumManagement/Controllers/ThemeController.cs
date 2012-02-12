@@ -12,26 +12,26 @@ using IUDICO.Common.Models.Attributes;
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
-    public class ThemeController : CurriculumBaseController
+    public class TopicController : CurriculumBaseController
     {
-        public ThemeController(ICurriculumStorage curriculumStorage)
-            : base(curriculumStorage)
+        public TopicController(ICurriculumStorage disciplineStorage)
+            : base(disciplineStorage)
         {
 
         }
 
         [Allow(Role = Role.Teacher)]
-        public ActionResult Index(int stageId)
+        public ActionResult Index(int chapterId)
         {
             try
             {
-                var themes = Storage.GetThemesByStageId(stageId);
-                Stage stage = Storage.GetStage(stageId);
+                var topics = Storage.GetTopicsByChapterId(chapterId);
+                Chapter chapter = Storage.GetChapter(chapterId);
 
-                ViewData["CurriculumName"] = stage.Curriculum.Name;
-                ViewData["StageName"] = stage.Name;
-                ViewData["CurriculumId"] = stage.CurriculumRef;
-                return View(themes);
+                ViewData["DisciplineName"] = chapter.Discipline.Name;
+                ViewData["ChapterName"] = chapter.Name;
+                ViewData["DisciplineId"] = chapter.DisciplineRef;
+                return View(topics);
             }
             catch (Exception e)
             {
@@ -41,17 +41,17 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         [HttpGet]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Create(int stageId)
+        public ActionResult Create(int chapterId)
         {
             try
             {
                 LoadValidationErrors();
 
-                Stage stage = Storage.GetStage(stageId);
-                var model = new CreateThemeModel(stageId, Storage.GetCourses(), 0, Storage.GetThemeTypes(), 0, "");
+                Chapter chapter = Storage.GetChapter(chapterId);
+                var model = new CreateTopicModel(chapterId, Storage.GetCourses(), 0, Storage.GetTopicTypes(), 0, "");
 
-                ViewData["CurriculumName"] = stage.Curriculum.Name;
-                ViewData["StageName"] = stage.Name;
+                ViewData["DisciplineName"] = chapter.Discipline.Name;
+                ViewData["ChapterName"] = chapter.Name;
                 return View(model);
             }
             catch (Exception e)
@@ -62,25 +62,25 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Create(int stageId, CreateThemeModel model)
+        public ActionResult Create(int chapterId, CreateTopicModel model)
         {
             try
             {
-                Theme theme = new Theme
+                Topic topic = new Topic
                 {
                     CourseRef = model.CourseId == Constants.NoCourseId ? (int?)null : model.CourseId,
-                    StageRef = model.StageId,
-                    ThemeTypeRef = model.ThemeTypeId,
-                    Name = model.ThemeName
+                    ChapterRef = model.ChapterId,
+                    TopicTypeRef = model.TopicTypeId,
+                    Name = model.TopicName
                 };
 
-                AddValidationErrorsToModelState(Validator.ValidateTheme(theme).Errors);
+                AddValidationErrorsToModelState(Validator.ValidateTopic(topic).Errors);
 
                 if (ModelState.IsValid)
                 {
-                    Storage.AddTheme(theme);
+                    Storage.AddTopic(topic);
 
-                    return RedirectToAction("Index", new { StageId = model.StageId });
+                    return RedirectToAction("Index", new { ChapterId = model.ChapterId });
                 }
                 else
                 {
@@ -97,19 +97,19 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         [HttpGet]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Edit(int themeId)
+        public ActionResult Edit(int topicId)
         {
             try
             {
                 LoadValidationErrors();
 
-                var theme = Storage.GetTheme(themeId);
-                var model = new CreateThemeModel(theme.StageRef, Storage.GetCourses(), theme.CourseRef,
-                    Storage.GetThemeTypes(), theme.ThemeTypeRef, theme.Name);
+                var topic = Storage.GetTopic(topicId);
+                var model = new CreateTopicModel(topic.ChapterRef, Storage.GetCourses(), topic.CourseRef,
+                    Storage.GetTopicTypes(), topic.TopicTypeRef, topic.Name);
 
-                ViewData["CurriculumName"] = theme.Stage.Curriculum.Name;
-                ViewData["StageName"] = theme.Stage.Name;
-                ViewData["ThemeName"] = theme.Name;
+                ViewData["DisciplineName"] = topic.Chapter.Discipline.Name;
+                ViewData["ChapterName"] = topic.Chapter.Name;
+                ViewData["TopicName"] = topic.Name;
                 return View(model);
             }
             catch (Exception e)
@@ -120,22 +120,22 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Edit(int themeId, CreateThemeModel model)
+        public ActionResult Edit(int topicId, CreateTopicModel model)
         {
             try
             {
-                Theme theme = Storage.GetTheme(themeId);
-                theme.CourseRef = model.CourseId == Constants.NoCourseId ? (int?)null : model.CourseId;
-                theme.ThemeTypeRef = model.ThemeTypeId;
-                theme.Name = model.ThemeName;
+                Topic topic = Storage.GetTopic(topicId);
+                topic.CourseRef = model.CourseId == Constants.NoCourseId ? (int?)null : model.CourseId;
+                topic.TopicTypeRef = model.TopicTypeId;
+                topic.Name = model.TopicName;
 
-                AddValidationErrorsToModelState(Validator.ValidateTheme(theme).Errors);
+                AddValidationErrorsToModelState(Validator.ValidateTopic(topic).Errors);
 
                 if (ModelState.IsValid)
                 {
-                    Storage.UpdateTheme(theme);
+                    Storage.UpdateTopic(topic);
 
-                    return RedirectToRoute("Themes", new { action = "Index", StageId = theme.StageRef });
+                    return RedirectToRoute("Topics", new { action = "Index", ChapterId = topic.ChapterRef });
                 }
                 else
                 {
@@ -152,11 +152,11 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public JsonResult DeleteItem(int themeId)
+        public JsonResult DeleteItem(int topicId)
         {
             try
             {
-                Storage.DeleteTheme(themeId);
+                Storage.DeleteTopic(topicId);
 
                 return Json(new { success = true });
             }
@@ -168,11 +168,11 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public JsonResult DeleteItems(int[] themeIds)
+        public JsonResult DeleteItems(int[] topicIds)
         {
             try
             {
-                Storage.DeleteThemes(themeIds);
+                Storage.DeleteTopics(topicIds);
 
                 return Json(new { success = true });
             }
@@ -183,13 +183,13 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [Allow(Role = Role.Teacher)]
-        public ActionResult ThemeUp(int themeId)
+        public ActionResult TopicUp(int topicId)
         {
             try
             {
-                var theme = Storage.ThemeUp(themeId);
+                var topic = Storage.TopicUp(topicId);
 
-                return RedirectToRoute("Themes", new { Action = "Index", StageId = theme.StageRef });
+                return RedirectToRoute("Topics", new { Action = "Index", ChapterId = topic.ChapterRef });
             }
             catch (Exception e)
             {
@@ -198,13 +198,13 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         [Allow(Role = Role.Teacher)]
-        public ActionResult ThemeDown(int themeId)
+        public ActionResult TopicDown(int topicId)
         {
             try
             {
-                var theme = Storage.ThemeDown(themeId);
+                var topic = Storage.TopicDown(topicId);
 
-                return RedirectToRoute("Themes", new { Action = "Index", StageId = theme.StageRef });
+                return RedirectToRoute("Topics", new { Action = "Index", ChapterId = topic.ChapterRef });
             }
             catch (Exception e)
             {

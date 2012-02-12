@@ -13,10 +13,10 @@
     <%if (Model.NoData() == false)
       { %>
         <p>
-        <%=IUDICO.Statistics.Localization.getMessage("Curriculum")%>: <%: Model.GetCurriculumName()%>
+        <%=IUDICO.Statistics.Localization.getMessage("Discipline")%>: <%: Model.GetDisciplineName()%>
         </p>
         <p>
-        <%=IUDICO.Statistics.Localization.getMessage("Theme")%>: <%: Model.GetThemeName()%>
+        <%=IUDICO.Statistics.Localization.getMessage("Topic")%>: <%: Model.GetTopicName()%>
         </p>
         <table>
             <tr>

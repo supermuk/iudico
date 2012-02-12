@@ -9,11 +9,11 @@
 
     
 //    /// <summary>
-//    ///This is a test class for CurriculumResultTest and is intended
-//    ///to contain all CurriculumResultTest Unit Tests
+//    ///This is a test class for DisciplineResultTest and is intended
+//    ///to contain all DisciplineResultTest Unit Tests
 //    ///</summary>
 //    [TestClass()]
-//    public class CurriculumResultTest
+//    public class DisciplineResultTest
 //    {
 
 
@@ -73,19 +73,19 @@
 //        public void CalculateSumAndMaxTest()
 //        {
 //            IUDICO.Common.Models.User usr = new IUDICO.Common.Models.User() { Username = "Bob" };
-//            IUDICO.Common.Models.Theme thm = new IUDICO.Common.Models.Theme() { Name = "Theme One" };
+//            IUDICO.Common.Models.Topic thm = new IUDICO.Common.Models.Topic() { Name = "Topic One" };
 //            IUDICO.Common.Models.Shared.Statistics.AttemptResult AR = new IUDICO.Common.Models.Shared.Statistics.AttemptResult(1,usr,thm, IUDICO.Common.Models.Shared.Statistics.CompletionStatus.Completed, IUDICO.Common.Models.Shared.Statistics.AttemptStatus.Completed,IUDICO.Common.Models.Shared.Statistics.SuccessStatus.Passed, DateTime.Now, 0.5f);
-//            ThemeResult themeRes = new ThemeResult(usr, thm);
+//            TopicResult topicRes = new TopicResult(usr, thm);
 //            List<IUDICO.Common.Models.Shared.Statistics.AttemptResult> ARL = new List<IUDICO.Common.Models.Shared.Statistics.AttemptResult>();
 //            ARL.Add(AR);
-//            themeRes.AttemptResults = ARL;
-//            themeRes.GetThemeResultScore();
+//            topicRes.AttemptResults = ARL;
+//            topicRes.GetTopicResultScore();
 
-//            CurriculumResult target = new CurriculumResult();
+//            DisciplineResult target = new DisciplineResult();
 
-//            target.ThemeResult.Add(themeRes);
+//            target.TopicResult.Add(topicRes);
 
-//            Curriculum curr = null; 
+//            Discipline curr = null; 
 //            target.CalculateSumAndMax(usr, curr);
 
 //            double? SumExpected = 50.0;

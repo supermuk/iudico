@@ -50,7 +50,7 @@ namespace IUDICO.Common.Models.Shared
 
     [MetadataType(typeof(Metadata))]
     [Bind(Exclude = "Id")]
-    public partial class Curriculum
+    public partial class Discipline
     {
         private sealed class Metadata
         {
@@ -77,10 +77,10 @@ namespace IUDICO.Common.Models.Shared
             public bool IsDeleted { get; set; }
 
             [ScaffoldColumn(false)]
-            public EntitySet<CurriculumAssignment> CurriculumAssignments { get; set; }
+            public EntitySet<Curriculum> Curriculums { get; set; }
 
             [ScaffoldColumn(false)]
-            public EntitySet<Stage> Stages { get; set; }
+            public EntitySet<Chapter> Chapters { get; set; }
 
             [ScaffoldColumn(false)]
             public bool IsValid { get; set; }
@@ -88,8 +88,8 @@ namespace IUDICO.Common.Models.Shared
     }
 
     [MetadataType(typeof(Metadata))]
-    [Bind(Exclude = "Id, CurriculumRef")]
-    public partial class Stage
+    [Bind(Exclude = "Id, DisciplineRef")]
+    public partial class Chapter
     {
         private sealed class Metadata
         {
@@ -110,22 +110,22 @@ namespace IUDICO.Common.Models.Shared
             public DateTime Updated { get; set; }
 
             [ScaffoldColumn(false)]
-            public int CurriculumRef { get; set; }
+            public int DisciplineRef { get; set; }
 
             [ScaffoldColumn(false)]
             public bool IsDeleted { get; set; }
 
             [ScaffoldColumn(false)]
-            public EntitySet<Theme> Themes { get; set; }
+            public EntitySet<Topic> Topics { get; set; }
 
             [ScaffoldColumn(false)]
-            public Curriculum Curriculum { get; set; }
+            public Discipline Discipline { get; set; }
         }
     }
 
     [MetadataType(typeof(Metadata))]
-    [Bind(Exclude = "Id, StageRef")]
-    public partial class Theme
+    [Bind(Exclude = "Id, ChapterRef")]
+    public partial class Topic
     {
         private sealed class Metadata
         {
@@ -146,13 +146,13 @@ namespace IUDICO.Common.Models.Shared
             public DateTime Updated { get; set; }
 
             [ScaffoldColumn(false)]
-            public int StageRef { get; set; }
+            public int ChapterRef { get; set; }
 
             [ScaffoldColumn(false)]
             public int CourseRef { get; set; }
 
             [ScaffoldColumn(false)]
-            public int ThemeTypeRef { get; set; }
+            public int TopicTypeRef { get; set; }
 
             [ScaffoldColumn(false)]
             public int SortOrder { get; set; }
@@ -348,22 +348,22 @@ namespace IUDICO.Common.Models.Shared
             public DateTime EndDate { get; set; }
 
             [ScaffoldColumn(false)]
-            public int CurriculumAssignmentRef { get; set; }
+            public int CurriculumRef { get; set; }
 
             [ScaffoldColumn(false)]
-            public int? StageRef { get; set; }
+            public int? ChapterRef { get; set; }
 
             [ScaffoldColumn(false)]
             public bool IsDeleted { get; set; }
 
             [ScaffoldColumn(false)]
-            public CurriculumAssignment CurriculumAssignment { get; set; }
+            public Curriculum Curriculum { get; set; }
         }
     }
 
     [MetadataType(typeof(Metadata))]
     [Bind(Exclude = "Id")]
-    public partial class ThemeAssignment
+    public partial class TopicAssignment
     {
         private sealed class Metadata
         {
@@ -371,20 +371,20 @@ namespace IUDICO.Common.Models.Shared
             public int Id { get; set; }
 
             [ScaffoldColumn(false)]
-            public int ThemeRef { get; set; }
+            public int TopicRef { get; set; }
 
             [ScaffoldColumn(false)]
-            public int CurriculumAssignmentRef { get; set; }
+            public int CurriculumRef { get; set; }
 
             [LocalizedDisplayName("MaxScore")]
             [LocalizedRequired(ErrorMessage = "MaxScoreRequired")]
             public int MaxScore { get; set; }
 
             [ScaffoldColumn(false)]
-            public CurriculumAssignment CurriculumAssignment { get; set; }
+            public Curriculum Curriculum { get; set; }
 
             [ScaffoldColumn(false)]
-            public Theme Theme { get; set; }
+            public Topic Topic { get; set; }
 
             [ScaffoldColumn(false)]
             public bool IsDeleted { get; set; }

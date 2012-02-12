@@ -9,24 +9,24 @@ namespace IUDICO.UnitTests
 {
     public static class Utils
     {
-        public static Curriculum GetDefaultCurriculum()
+        public static Discipline GetDefaultDiscipline()
         {
-            return new Curriculum() { Name = "Curriculum" };
+            return new Discipline() { Name = "Discipline" };
         }
 
-        public static Stage GetDefaultStage(int curriculumId)
+        public static Chapter GetDefaultChapter(int disciplineId)
         {
-            return new Stage() { CurriculumRef = curriculumId, Name = "Stage" };
+            return new Chapter() { DisciplineRef = disciplineId, Name = "Chapter" };
         }
 
-        public static Theme GetDefaultTheme(int stageId, int courseId)
+        public static Topic GetDefaultTopic(int chapterId, int courseId)
         {
-            return new Theme() { StageRef = stageId, CourseRef = courseId, Name = "Theme", ThemeTypeRef = 1 };
+            return new Topic() { ChapterRef = chapterId, CourseRef = courseId, Name = "Topic", TopicTypeRef = 1 };
         }
 
-        public static CurriculumAssignment GetDefaultCurriculumAssignment(int curriculumId, int groupId)
+        public static Curriculum GetDefaultCurriculum(int disciplineId, int groupId)
         {
-            return new CurriculumAssignment() { UserGroupRef = groupId, CurriculumRef = curriculumId };
+            return new Curriculum() { UserGroupRef = groupId, DisciplineRef = disciplineId };
         }
     }
 }

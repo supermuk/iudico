@@ -6,7 +6,7 @@ using System.Text;
 namespace IUDICO.Common.Models.Shared.Statistics
 {
     /// <summary>
-    /// Represents result of one user's attempt on one theme(course).
+    /// Represents result of one user's attempt on one topic(course).
     /// </summary>
     public class AttemptResult
     {
@@ -23,9 +23,9 @@ namespace IUDICO.Common.Models.Shared.Statistics
         public User User { get; protected set; }
         
         /// <summary>
-        /// Theme, attempt result is for.
+        /// Topic, attempt result is for.
         /// </summary>
-        public Theme Theme { get; protected set; }
+        public Topic Topic { get; protected set; }
 
         /// <summary>
         /// Completion status - SCORM related.
@@ -59,13 +59,13 @@ namespace IUDICO.Common.Models.Shared.Statistics
 
         #region Constructors
 
-        public AttemptResult(long attemptId, User user, Theme theme, 
+        public AttemptResult(long attemptId, User user, Topic topic, 
             CompletionStatus completionStatus, AttemptStatus attemptStatus, 
             SuccessStatus successStatus, DateTime? startTime, float? scaledScore)
         {
             this.AttemptId = attemptId;
             this.User = user;
-            this.Theme = theme;
+            this.Topic = topic;
             
             this.CompletionStatus = completionStatus;
             this.AttemptStatus = attemptStatus;

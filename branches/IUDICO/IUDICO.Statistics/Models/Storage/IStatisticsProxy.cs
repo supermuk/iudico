@@ -10,7 +10,7 @@ namespace IUDICO.Statistics.Models.Storage
         #region Methods for statistic
 
         IEnumerable<Group> GetAllGroups();
-        IEnumerable<Curriculum> GetCurrilulumsByGroupId(int groupId);
+        IEnumerable<Discipline> GetCurrilulumsByGroupId(int groupId);
 
         #endregion
     }

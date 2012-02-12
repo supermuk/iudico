@@ -12,43 +12,43 @@ namespace IUDICO.Statistics.Models.Storage
     {
         private ILmsService _LmsService;
 
-        public AllSpecializedResults GetResults(IEnumerable<User> users, int[] selectCurriculumIds, ILmsService ILMS)
+        public AllSpecializedResults GetResults(IEnumerable<User> users, int[] selectDisciplineIds, ILmsService ILMS)
         {
             _LmsService = ILMS;
             AllSpecializedResults asr = new AllSpecializedResults();
             SpecializedResult specializedResult;
-            CurriculumResult curRes;
-            ThemeResult themeResult;
+            DisciplineResult curRes;
+            TopicResult topicResult;
 
             
             asr.Users = users.ToList();
-            asr.SelectCurriculumIds = selectCurriculumIds;
-            asr.Curriculums = _LmsService.FindService<ICurriculumService>().GetCurriculums(selectCurriculumIds);
+            asr.SelectDisciplineIds = selectDisciplineIds;
+            asr.Disciplines = _LmsService.FindService<ICurriculumService>().GetDisciplines(selectDisciplineIds);
 
-            IEnumerable<int> ieIds = selectCurriculumIds;
+            IEnumerable<int> ieIds = selectDisciplineIds;
             foreach (User usr in asr.Users)
             {
                 specializedResult = new SpecializedResult();
-                specializedResult.Curriculums = _LmsService.FindService<ICurriculumService>().GetCurriculums(ieIds);
-                foreach (Curriculum curr in specializedResult.Curriculums)
+                specializedResult.Disciplines = _LmsService.FindService<ICurriculumService>().GetDisciplines(ieIds);
+                foreach (Discipline curr in specializedResult.Disciplines)
                 {
-                    curRes = new CurriculumResult();
-                    curRes.Themes = _LmsService.FindService<ICurriculumService>().GetThemesByCurriculumId(curr.Id);
+                    curRes = new DisciplineResult();
+                    curRes.Topics = _LmsService.FindService<ICurriculumService>().GetTopicsByDisciplineId(curr.Id);
                     
-                    #region ThemeResult
+                    #region TopicResult
 
-                    foreach (Theme theme in curRes.Themes)
+                    foreach (Topic topic in curRes.Topics)
                     {
-                        themeResult = new ThemeResult(usr, theme);
-                        themeResult.AttemptResults = _LmsService.FindService<ITestingService>().GetResults(usr, theme);
-                        themeResult.Res = themeResult.GetThemeResultScore();
-                        curRes.ThemeResult.Add(themeResult);
+                        topicResult = new TopicResult(usr, topic);
+                        topicResult.AttemptResults = _LmsService.FindService<ITestingService>().GetResults(usr, topic);
+                        topicResult.Res = topicResult.GetTopicResultScore();
+                        curRes.TopicResult.Add(topicResult);
                     }
 
                     #endregion
 
                     curRes.CalculateSumAndMax(usr, curr);
-                    specializedResult.CurriculumResult.Add(curRes);
+                    specializedResult.DisciplineResult.Add(curRes);
                 }
                 specializedResult.CalculateSpecializedResult(usr);
                 asr.SpecializedResult.Add(specializedResult);

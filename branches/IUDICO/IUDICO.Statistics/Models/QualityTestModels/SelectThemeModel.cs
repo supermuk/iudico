@@ -9,31 +9,31 @@ using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Statistics.Models.QualityTest
 {
-    public class SelectThemeModel
+    public class SelectTopicModel
     {
-        private IEnumerable<Theme> _AllowedThemes;
+        private IEnumerable<Topic> _AllowedTopics;
         private String _TeacheUserName;
-        private String _CurriculumName;
+        private String _DisciplineName;
 
-        public SelectThemeModel(ILmsService iLmsService,long selectCurriculumId, String teacherUserName)
+        public SelectTopicModel(ILmsService iLmsService,long selectDisciplineId, String teacherUserName)
         {
-            IEnumerable<Theme> allowedThemes;
+            IEnumerable<Topic> allowedTopics;
             User teacherUser = iLmsService.FindService<IUserService>().GetCurrentUser();
             IEnumerable<Course> availableCourses = iLmsService.FindService<ICourseService>().GetCourses(teacherUser);
             //
-            allowedThemes = iLmsService.FindService<ICurriculumService>().GetThemesByCurriculumId((int)selectCurriculumId)
-                .Where(theme => availableCourses.Count(course => course.Id == theme.CourseRef) != 0);
+            allowedTopics = iLmsService.FindService<ICurriculumService>().GetTopicsByDisciplineId((int)selectDisciplineId)
+                .Where(topic => availableCourses.Count(course => course.Id == topic.CourseRef) != 0);
             //
-            if (allowedThemes != null & allowedThemes.Count() != 0)
-                _AllowedThemes = allowedThemes;
+            if (allowedTopics != null & allowedTopics.Count() != 0)
+                _AllowedTopics = allowedTopics;
             else
-                _AllowedThemes = null;
+                _AllowedTopics = null;
             _TeacheUserName = teacherUserName;
-            _CurriculumName = iLmsService.FindService<ICurriculumService>().GetCurriculum((int)selectCurriculumId).Name;
+            _DisciplineName = iLmsService.FindService<ICurriculumService>().GetDiscipline((int)selectDisciplineId).Name;
         }
-        public String GetCurriculumName()
+        public String GetDisciplineName()
         {
-            return this._CurriculumName;
+            return this._DisciplineName;
         }
         public String GetTeacherUserName()
         {
@@ -41,11 +41,11 @@ namespace IUDICO.Statistics.Models.QualityTest
         }
         public bool NoData()
         {
-            return _AllowedThemes == null;
+            return _AllowedTopics == null;
         }
-        public IEnumerable<Theme> GetAllowedThemes()
+        public IEnumerable<Topic> GetAllowedTopics()
         {
-            return this._AllowedThemes;
+            return this._AllowedTopics;
         }
     }
 }

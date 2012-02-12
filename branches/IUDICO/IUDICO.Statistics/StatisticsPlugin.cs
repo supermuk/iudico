@@ -40,7 +40,7 @@ namespace IUDICO.Statistics
             return new Action[]
             {
                 new Action(IUDICO.Statistics.Localization.getMessage("GetStats"), "Stats/Index"),
-                new Action(IUDICO.Statistics.Localization.getMessage("QualityTest"), "QualityTest/SelectCurriculum")
+                new Action(IUDICO.Statistics.Localization.getMessage("QualityTest"), "QualityTest/SelectDiscipline")
             };
         }
 

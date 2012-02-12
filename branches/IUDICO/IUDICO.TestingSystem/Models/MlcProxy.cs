@@ -52,42 +52,42 @@ namespace IUDICO.TestingSystem.Models
         }
 
         /// <summary>
-        /// Checks if related to theme package has been already uploaded.
+        /// Checks if related to topic package has been already uploaded.
         /// In case it was not uploaded - upload package.
         /// Check attempt has been created and get attempt id.
         /// </summary>
-        /// <param name="theme">Theme object represents specified theme.</param>
+        /// <param name="topic">Topic object represents specified topic.</param>
         /// <returns>Long integer value representing attempt id.</returns>
-        public long GetAttemptId(Theme theme)
+        public long GetAttemptId(Topic topic)
         {
             GetCurrentUserIdentifier();
             AttemptItemIdentifier attemptId = null;
             ActivityPackageItemIdentifier organizationId;
-            var packageId = GetPackageIdentifier(theme.CourseRef.Value);
+            var packageId = GetPackageIdentifier(topic.CourseRef.Value);
 
             // in case package has not been uploaded yet.
             if (packageId == null)
             {
-                string zipPath = CourseService.Export(theme.CourseRef.Value);
+                string zipPath = CourseService.Export(topic.CourseRef.Value);
                 Package package = new ZipPackage(zipPath);
-                package.CourseID = theme.CourseRef.Value;
+                package.CourseID = topic.CourseRef.Value;
                 packageId = AddPackage(package);
                 organizationId = GetOrganizationIdentifier(packageId);
-                attemptId = CreateAttempt(organizationId.GetKey(), theme.Id);
+                attemptId = CreateAttempt(organizationId.GetKey(), topic.Id);
             }
             // otherwise check if attempt was created
             else
             {
                 organizationId = GetOrganizationIdentifier(packageId);
 
-                AttemptItemIdentifier attId = GetAttemptIdentifier(organizationId, theme.Id);
+                AttemptItemIdentifier attId = GetAttemptIdentifier(organizationId, topic.Id);
                 if (attId != null)
                 {
                     attemptId = attId;
                 }
                 else
                 {
-                    attemptId = CreateAttempt(organizationId.GetKey(), theme.Id);
+                    attemptId = CreateAttempt(organizationId.GetKey(), topic.Id);
                 }
             }
 
@@ -114,12 +114,12 @@ namespace IUDICO.TestingSystem.Models
                     throw new NoNullAllowedException("Error while getting user with id = " + userKey);
                 }
 
-                Int32 themeId;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.ThemeId], out themeId);
-                Theme theme = CurriculumService.GetTheme(themeId);
-                if (theme == null)
+                Int32 topicId;
+                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.ThemeId], out topicId);
+                Topic topic = DisciplineService.GetTopic(topicId);
+                if (topic == null)
                 {
-                    throw new NoNullAllowedException("Error while getting theme with id = " + themeId);
+                    throw new NoNullAllowedException("Error while getting topic with id = " + topicId);
                 }
 
                 Microsoft.LearningComponents.CompletionStatus completionStatus;
@@ -141,17 +141,17 @@ namespace IUDICO.TestingSystem.Models
                 LStoreHelper.Cast<float>(dataRow[Schema.AllAttemptsResults.Score], out scaledScore);
 
                 // Create AttemptResult object
-                AttemptResult attemptResult = new AttemptResult(attemptId, user, theme, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, scaledScore);
+                AttemptResult attemptResult = new AttemptResult(attemptId, user, topic, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, scaledScore);
                 result.Add(attemptResult);
             }
             return result;
         }
 
-        public IEnumerable<AttemptResult> GetResults(User user, Theme theme)
+        public IEnumerable<AttemptResult> GetResults(User user, Topic topic)
         {
             List<AttemptResult> result = new List<AttemptResult>();
             LearningStoreJob job = LStore.CreateJob();
-            RequestAttemptsByThemeAndUser(job, user.Id.ToString(), theme.Id);
+            RequestAttemptsByTopicAndUser(job, user.Id.ToString(), topic.Id);
             DataTable dataTable = job.Execute<DataTable>();
             foreach (DataRow dataRow in dataTable.AsEnumerable())
             {
@@ -183,7 +183,7 @@ namespace IUDICO.TestingSystem.Models
                 }
 
                 // Create AttemptResult object
-                AttemptResult attemptResult = new AttemptResult(attemptId, user, theme, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, scaledScore);
+                AttemptResult attemptResult = new AttemptResult(attemptId, user, topic, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, scaledScore);
                 result.Add(attemptResult);
             }
 
@@ -297,13 +297,13 @@ namespace IUDICO.TestingSystem.Models
         }
         
         /// <summary>
-        /// Requests that the list of all attempts specified user performed on specified theme.
+        /// Requests that the list of all attempts specified user performed on specified topic.
         /// Adds the request to a given <c>LearningStoreJob</c> for later execution.
         /// </summary>
         /// <param name="job">A <c>LearningStoreJob</c> to add the new query to.</param>
-        /// <param name="themeId">Int32 value represents theme id.</param>
+        /// <param name="topicId">Int32 value represents topic id.</param>
         /// <param name="userKey">String value represents user key.</param>
-        protected void RequestAttemptsByThemeAndUser(LearningStoreJob job, String userKey, Int32 themeId)
+        protected void RequestAttemptsByTopicAndUser(LearningStoreJob job, String userKey, Int32 topicId)
         {
             LearningStoreQuery query = LStore.CreateQuery(Schema.AttemptsResultsByThemeAndUser.ViewName);
             
@@ -314,7 +314,7 @@ namespace IUDICO.TestingSystem.Models
             query.AddColumn(Schema.AttemptsResultsByThemeAndUser.StartedTimestamp);
             query.AddColumn(Schema.AttemptsResultsByThemeAndUser.Score);
             
-            query.SetParameter(Schema.AttemptsResultsByThemeAndUser.ThemeIdParam, themeId);
+            query.SetParameter(Schema.AttemptsResultsByThemeAndUser.ThemeIdParam, topicId);
             query.SetParameter(Schema.AttemptsResultsByThemeAndUser.UserKeyParam, userKey);
 
             job.PerformQuery(query);
@@ -379,15 +379,15 @@ namespace IUDICO.TestingSystem.Models
         /// </summary>
         /// <param name="orgID">Long integer value represents organization identifier to create attempt on.</param>
         /// <returns>Long integer value, representing attempt identifier of created attempt.</returns>
-        protected AttemptItemIdentifier CreateAttempt(long orgID, int themeId)
+        protected AttemptItemIdentifier CreateAttempt(long orgID, int topicId)
         {
             ActivityPackageItemIdentifier organizationID = new ActivityPackageItemIdentifier(orgID);
             
             StoredLearningSession session = StoredLearningSession.CreateAttempt(this.PStore, this.GetCurrentUserIdentifier(), organizationID, LoggingOptions.LogAll);
-            // TODO: add IudicoThemeRef
+            // TODO: add IudicoTopicRef
             LearningStoreJob job = LStore.CreateJob();
             Dictionary<string, object> dic = new Dictionary<string, object>();
-            dic.Add(Schema.AttemptItem.IudicoThemeRef, themeId);
+            dic.Add(Schema.AttemptItem.IudicoThemeRef, topicId);
             job.UpdateItem(session.AttemptId, dic);
             job.Execute();
 
@@ -522,12 +522,12 @@ namespace IUDICO.TestingSystem.Models
         }
 
         /// <summary>
-        /// Retrieves attempt identifier for specified organization id and Iudico theme id.
+        /// Retrieves attempt identifier for specified organization id and Iudico topic id.
         /// </summary>
         /// <param name="orgId"><c>ActivityPackageItemIdentifier</c> value representing Organization ID.</param>
-        /// <param name="themeId">Integer value - IUDICO theme id.</param>
+        /// <param name="topicId">Integer value - IUDICO topic id.</param>
         /// <returns><c>AttemptItemIdentifier</c> value representing Attempt Identifier.</returns>
-        protected AttemptItemIdentifier GetAttemptIdentifier(ActivityPackageItemIdentifier orgId, int themeId)
+        protected AttemptItemIdentifier GetAttemptIdentifier(ActivityPackageItemIdentifier orgId, int topicId)
         {
             AttemptItemIdentifier result = null;
             LearningStoreJob job = LStore.CreateJob();
@@ -535,7 +535,7 @@ namespace IUDICO.TestingSystem.Models
             LearningStoreQuery query = LStore.CreateQuery(Schema.MyAttempts.ViewName);
             query.AddColumn(Schema.MyAttempts.AttemptId);
             query.AddCondition(Schema.MyAttempts.OrganizationId, LearningStoreConditionOperator.Equal, orgId);
-            query.AddCondition(Schema.MyAttempts.ThemeId, LearningStoreConditionOperator.Equal, themeId);
+            query.AddCondition(Schema.MyAttempts.ThemeId, LearningStoreConditionOperator.Equal, topicId);
 
             job.PerformQuery(query);
 

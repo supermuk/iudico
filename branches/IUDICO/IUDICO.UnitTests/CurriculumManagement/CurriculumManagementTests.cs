@@ -118,7 +118,7 @@ namespace IUDICO.UnitTests.CurriculumManagement
         //    protected set;
         //}
 
-        //public Mock<ITable> Curriculums
+        //public Mock<ITable> Disciplines
         //{
         //    get;
         //    protected set;
@@ -142,7 +142,7 @@ namespace IUDICO.UnitTests.CurriculumManagement
             //Users = new Mock<ITable>();
             //Groups = new Mock<ITable>();
             //GroupUsers = new Mock<ITable>();
-            //Curriculums = new Mock<ITable>();
+            //Disciplines = new Mock<ITable>();
 
             Setup();
         }
@@ -194,19 +194,19 @@ namespace IUDICO.UnitTests.CurriculumManagement
 
         public void ClearTables()
         {
-            var mockThemeTypes = new[] {
-                new ThemeType {Id=1, Name="Test"},
-                new ThemeType {Id=2, Name="Theory"},
-                new ThemeType {Id=3, Name="TestWithoutCourse"}
+            var mockTopicTypes = new[] {
+                new TopicType {Id=1, Name="Test"},
+                new TopicType {Id=2, Name="Theory"},
+                new TopicType {Id=3, Name="TestWithoutCourse"}
             };
 
+            _MockDataContext.SetupGet(c => c.Disciplines).Returns(new MemoryTable<Discipline>("Id"));
+            _MockDataContext.SetupGet(c => c.Chapters).Returns(new MemoryTable<Chapter>("Id"));
+            _MockDataContext.SetupGet(c => c.Topics).Returns(new MemoryTable<Topic>("Id"));
+            _MockDataContext.SetupGet(c => c.TopicAssignments).Returns(new MemoryTable<TopicAssignment>("Id"));
             _MockDataContext.SetupGet(c => c.Curriculums).Returns(new MemoryTable<Curriculum>("Id"));
-            _MockDataContext.SetupGet(c => c.Stages).Returns(new MemoryTable<Stage>("Id"));
-            _MockDataContext.SetupGet(c => c.Themes).Returns(new MemoryTable<Theme>("Id"));
-            _MockDataContext.SetupGet(c => c.ThemeAssignments).Returns(new MemoryTable<ThemeAssignment>("Id"));
-            _MockDataContext.SetupGet(c => c.CurriculumAssignments).Returns(new MemoryTable<CurriculumAssignment>("Id"));
             _MockDataContext.SetupGet(c => c.Timelines).Returns(new MemoryTable<Timeline>("Id"));
-            _MockDataContext.SetupGet(c => c.ThemeTypes).Returns(new MemoryTable<ThemeType>(mockThemeTypes, "Id"));
+            _MockDataContext.SetupGet(c => c.TopicTypes).Returns(new MemoryTable<TopicType>(mockTopicTypes, "Id"));
         }
     }
 }

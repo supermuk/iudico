@@ -56,35 +56,35 @@ namespace IUDICO.CurriculumManagement.Models
             OnCreated();
         }
 
-        public System.Data.Linq.Table<CurriculumAssignment> CurriculumAssignments
+        public System.Data.Linq.Table<Curriculum> Curriculums
         {
             get
             {
-                return this.GetTable<CurriculumAssignment>();
+                return this.GetTable<Curriculum>();
             }
         }
 
-        public System.Data.Linq.Table<Theme> Themes
+        public System.Data.Linq.Table<Topic> Topics
         {
             get
             {
-                return this.GetTable<Theme>();
+                return this.GetTable<Topic>();
             }
         }
 
-        public System.Data.Linq.Table<ThemeType> ThemeTypes
+        public System.Data.Linq.Table<TopicType> TopicTypes
         {
             get
             {
-                return this.GetTable<ThemeType>();
+                return this.GetTable<TopicType>();
             }
         }
 
-        public System.Data.Linq.Table<ThemeAssignment> ThemeAssignments
+        public System.Data.Linq.Table<TopicAssignment> TopicAssignments
         {
             get
             {
-                return this.GetTable<ThemeAssignment>();
+                return this.GetTable<TopicAssignment>();
             }
         }
 
@@ -96,19 +96,19 @@ namespace IUDICO.CurriculumManagement.Models
             }
         }
 
-        public System.Data.Linq.Table<Curriculum> Curriculums
+        public System.Data.Linq.Table<Discipline> Disciplines
         {
             get
             {
-                return this.GetTable<Curriculum>();
+                return this.GetTable<Discipline>();
             }
         }
 
-        public System.Data.Linq.Table<Stage> Stages
+        public System.Data.Linq.Table<Chapter> Chapters
         {
             get
             {
-                return this.GetTable<Stage>();
+                return this.GetTable<Chapter>();
             }
         }
 
@@ -137,24 +137,24 @@ namespace IUDICO.CurriculumManagement.Models
         //    get { return new MockableTable<UserRole>(UserRoles); }
         //}
 
+        IMockableTable<Discipline> IDataContext.Disciplines
+        {
+            get { return new MockableTable<Discipline>(Disciplines); }
+        }
+
+        IMockableTable<Chapter> IDataContext.Chapters
+        {
+            get { return new MockableTable<Chapter>(Chapters); }
+        }
+
+        IMockableTable<Topic> IDataContext.Topics
+        {
+            get { return new MockableTable<Topic>(Topics); }
+        }
+
         IMockableTable<Curriculum> IDataContext.Curriculums
         {
             get { return new MockableTable<Curriculum>(Curriculums); }
-        }
-
-        IMockableTable<Stage> IDataContext.Stages
-        {
-            get { return new MockableTable<Stage>(Stages); }
-        }
-
-        IMockableTable<Theme> IDataContext.Themes
-        {
-            get { return new MockableTable<Theme>(Themes); }
-        }
-
-        IMockableTable<CurriculumAssignment> IDataContext.CurriculumAssignments
-        {
-            get { return new MockableTable<CurriculumAssignment>(CurriculumAssignments); }
         }
 
         IMockableTable<Timeline> IDataContext.Timelines
@@ -162,14 +162,14 @@ namespace IUDICO.CurriculumManagement.Models
             get { return new MockableTable<Timeline>(Timelines); }
         }
 
-        IMockableTable<ThemeAssignment> IDataContext.ThemeAssignments
+        IMockableTable<TopicAssignment> IDataContext.TopicAssignments
         {
-            get { return new MockableTable<ThemeAssignment>(ThemeAssignments); }
+            get { return new MockableTable<TopicAssignment>(TopicAssignments); }
         }
 
-        IMockableTable<ThemeType> IDataContext.ThemeTypes
+        IMockableTable<TopicType> IDataContext.TopicTypes
         {
-            get { return new MockableTable<ThemeType>(ThemeTypes); }
+            get { return new MockableTable<TopicType>(TopicTypes); }
         }
     }
 }

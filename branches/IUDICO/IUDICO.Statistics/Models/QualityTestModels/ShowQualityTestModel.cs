@@ -240,12 +240,12 @@ namespace IUDICO.Statistics.Models.QualityTest
         }
 
 
-        private String _CurriculumName;
-        private String _ThemeName;
+        private String _DisciplineName;
+        private String _TopicName;
         private IEnumerable<QuestionModel> _ListOfQuestionModels;
         private IEnumerable<UserAnswers> _ListOfUserAnswers;
 
-        private IEnumerable<UserAnswers> StudentsAnswers(ILmsService iLmsService, int[] selectGroupIds, Theme selectTheme)
+        private IEnumerable<UserAnswers> StudentsAnswers(ILmsService iLmsService, int[] selectGroupIds, Topic selectTopic)
         {
             List<UserAnswers> listOfUserAnswers = new List<UserAnswers>();
             //Creation of list of all students in selected groups
@@ -258,7 +258,7 @@ namespace IUDICO.Statistics.Models.QualityTest
             //
             foreach (User student in studentsFromSelectedGroups)
             {
-                IEnumerable<AttemptResult> temp = iLmsService.FindService<ITestingService>().GetResults(student, selectTheme);
+                IEnumerable<AttemptResult> temp = iLmsService.FindService<ITestingService>().GetResults(student, selectTopic);
                 if (temp != null & temp.Count() != 0)
                 {
                     temp = temp//.Where(attempt => attempt.CompletionStatus == CompletionStatus.Completed)
@@ -303,16 +303,16 @@ namespace IUDICO.Statistics.Models.QualityTest
             }
             return listOfQuestionModels;
         }
-        public ShowQualityTestModel(ILmsService iLmsService, int[] selectGroupIds, String curriculumName, int selectThemeId)
+        public ShowQualityTestModel(ILmsService iLmsService, int[] selectGroupIds, String disciplineName, int selectTopicId)
         {
-            _CurriculumName = curriculumName;
+            _DisciplineName = disciplineName;
             
-            //Theme object that needs for geting user answers
-            Theme selectTheme = iLmsService.FindService<ICurriculumService>().GetTheme(selectThemeId);
-            _ThemeName = selectTheme.Name;
+            //Topic object that needs for geting user answers
+            Topic selectTopic = iLmsService.FindService<ICurriculumService>().GetTopic(selectTopicId);
+            _TopicName = selectTopic.Name;
 
             //Creation of list of students answers
-            _ListOfUserAnswers = StudentsAnswers(iLmsService, selectGroupIds, selectTheme);
+            _ListOfUserAnswers = StudentsAnswers(iLmsService, selectGroupIds, selectTopic);
             _ListOfQuestionModels = CreationOfQuestionModels();
         }
 
@@ -322,13 +322,13 @@ namespace IUDICO.Statistics.Models.QualityTest
         {
             return this._ListOfQuestionModels.Count() == 0;
         }
-        public String GetCurriculumName()
+        public String GetDisciplineName()
         {
-            return this._CurriculumName;
+            return this._DisciplineName;
         }
-        public String GetThemeName()
+        public String GetTopicName()
         {
-            return this._ThemeName;
+            return this._TopicName;
         }
         public IEnumerable<QuestionModel> GetListOfQuestionModels()
         {

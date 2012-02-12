@@ -9,7 +9,7 @@ namespace IUDICO.UnitTests
 {
 
     [TestClass()]
-    public class ThemeInfoModelTest
+    public class TopicInfoModelTest
     {
 
         private TestContext testContextInstance;
@@ -32,7 +32,7 @@ namespace IUDICO.UnitTests
         [TestMethod()]
         public void EctsTest()
         {
-            ThemeInfoModel target = ThemeInfoModel.ThemeInfoModelTestObject();
+            TopicInfoModel target = TopicInfoModel.TopicInfoModelTestObject();
             double percent;
             char expected;
             char actual;
@@ -69,41 +69,41 @@ namespace IUDICO.UnitTests
         }
 
         /// <summary>
-        ///Test for GetAllThemesInSelectedCurriculumMaxMark
+        ///Test for GetAllTopicsInSelectedDisciplineMaxMark
         ///</summary>
         [TestMethod()]
-        public void GetAllThemesInSelectedCurriculumMaxMarkTest()
+        public void GetAllTopicsInSelectedDisciplineMaxMarkTest()
         {
-            ThemeInfoModel target = ThemeInfoModel.ThemeInfoModelTestObject();
+            TopicInfoModel target = TopicInfoModel.TopicInfoModelTestObject();
             double expected;
             expected = 200;
             double actual;
-            actual = target.GetAllThemesInSelectedCurriculumMaxMark();
+            actual = target.GetAllTopicsInSelectedDisciplineMaxMark();
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        ///Test for GetMaxResautForTheme
+        ///Test for GetMaxResautForTopic
         ///</summary>
         [TestMethod()]
-        public void GetMaxResutForThemeTest()
+        public void GetMaxResutForTopicTest()
         {
-            ThemeInfoModel target = ThemeInfoModel.ThemeInfoModelTestObject();
-            Theme selectTheme = null;
+            TopicInfoModel target = TopicInfoModel.TopicInfoModelTestObject();
+            Topic selectTopic = null;
             Nullable<double> expected = new Nullable<double>();
             expected = 100;
             Nullable<double> actual;
-            actual = target.GetMaxResutForTheme(selectTheme);
+            actual = target.GetMaxResutForTopic(selectTopic);
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        ///Test for GetStudentResultForAllThemesInSelectedCurriculum
+        ///Test for GetStudentResultForAllTopicsInSelectedDiscipline
         ///</summary>
         [TestMethod()]
-        public void GetStudentResultForAllThemesInSelectedCurriculumTest()
+        public void GetStudentResultForAllTopicsInSelectedDisciplineTest()
         {
-            ThemeInfoModel target = ThemeInfoModel.ThemeInfoModelTestObject();
+            TopicInfoModel target = TopicInfoModel.TopicInfoModelTestObject();
             double expected;
             double actual;
             foreach (var student in target.GetSelectStudents())
@@ -111,13 +111,13 @@ namespace IUDICO.UnitTests
                 if (student.Name == "user1")
                 {
                     expected = 120;
-                    actual = target.GetStudentResultForAllThemesInSelectedCurriculum(student);
+                    actual = target.GetStudentResultForAllTopicsInSelectedDiscipline(student);
                     Assert.AreEqual(expected, actual);
                 }
                 else if (student.Name == "user2")
                 {
                     expected = 180;
-                    actual = target.GetStudentResultForAllThemesInSelectedCurriculum(student);
+                    actual = target.GetStudentResultForAllTopicsInSelectedDiscipline(student);
                     Assert.AreEqual(expected, actual);
                 }
                 else

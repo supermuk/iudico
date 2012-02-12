@@ -8,19 +8,19 @@ using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
 {
-    public class CreateStageTimelineModel
+    public class CreateChapterTimelineModel
     {
-        public IEnumerable<SelectListItem> Stages { get; set; }
-        public int StageId { get; set; }
+        public IEnumerable<SelectListItem> Chapters { get; set; }
+        public int ChapterId { get; set; }
         public Timeline Timeline { get; set; }
 
-        public CreateStageTimelineModel()
+        public CreateChapterTimelineModel()
         {
         }
 
-        public CreateStageTimelineModel(Timeline timeline, IEnumerable<Stage> stages, int stageId)
+        public CreateChapterTimelineModel(Timeline timeline, IEnumerable<Chapter> chapters, int chapterId)
         {
-            Stages = stages
+            Chapters = chapters
                     .Select(item => new SelectListItem
                     {
                         Text = item.Name,
@@ -28,7 +28,7 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
                         Selected = false
                     });
             Timeline = timeline;
-            StageId = stageId;
+            ChapterId = chapterId;
         }
     }
 }

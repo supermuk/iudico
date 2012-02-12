@@ -8,16 +8,16 @@ using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
 {
-    public class CreateCurriculumAssignmentModel
+    public class CreateCurriculumModel
     {
         public IEnumerable<SelectListItem> Groups { get; set; }
         public int GroupId { get; set; }
 
-        public CreateCurriculumAssignmentModel()
+        public CreateCurriculumModel()
         {
         }
 
-        public CreateCurriculumAssignmentModel(IEnumerable<Group> groups, int groupId)
+        public CreateCurriculumModel(IEnumerable<Group> groups, int groupId)
         {
             Groups = groups
                      .Select(item => new SelectListItem

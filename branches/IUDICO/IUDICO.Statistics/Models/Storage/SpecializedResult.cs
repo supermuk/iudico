@@ -11,8 +11,8 @@ namespace IUDICO.Statistics.Models.Storage
     {
         private List<SpecializedResult> _SpecializedResult; 
         private List<User> _Users;                         
-        private int[] _SelectCurriculumIds;            
-        private IEnumerable<Curriculum> _Curriculums;    
+        private int[] _SelectDisciplineIds;            
+        private IEnumerable<Discipline> _Disciplines;    
 
         public AllSpecializedResults()
         {
@@ -25,28 +25,28 @@ namespace IUDICO.Statistics.Models.Storage
             get { return _Users; }
             set { _Users = value; }
         }
-        public int[] SelectCurriculumIds
+        public int[] SelectDisciplineIds
         {
-            get { return _SelectCurriculumIds; }
-            set { _SelectCurriculumIds = value; }
+            get { return _SelectDisciplineIds; }
+            set { _SelectDisciplineIds = value; }
         }
         public List<SpecializedResult> SpecializedResult
         {
             get { return _SpecializedResult; }
             set { _SpecializedResult = value; }
         }
-        public IEnumerable<Curriculum> Curriculums
+        public IEnumerable<Discipline> Disciplines
         {
-            get { return _Curriculums; }
-            set { _Curriculums = value; }
+            get { return _Disciplines; }
+            set { _Disciplines = value; }
         }
     }
 
     public class SpecializedResult
     {
         private User _User;
-        private IEnumerable<Curriculum> _Curriculums;    
-        private List<CurriculumResult> _CurriculumResult; 
+        private IEnumerable<Discipline> _Disciplines;    
+        private List<DisciplineResult> _DisciplineResult; 
         private double? _Sum;
         private double? _Max;
         private double? _Percent;
@@ -55,7 +55,7 @@ namespace IUDICO.Statistics.Models.Storage
         public SpecializedResult()
         {
             _User = new User();
-            _CurriculumResult = new List<CurriculumResult>();
+            _DisciplineResult = new List<DisciplineResult>();
         }
 
         public void CalculateSpecializedResult(User user)
@@ -65,7 +65,7 @@ namespace IUDICO.Statistics.Models.Storage
             _Percent = 0.0;
             _User = user;
 
-            foreach (CurriculumResult curr in _CurriculumResult)
+            foreach (DisciplineResult curr in _DisciplineResult)
             {
                 _Sum += curr.Sum;
                 _Max += curr.Max;
@@ -75,19 +75,19 @@ namespace IUDICO.Statistics.Models.Storage
             _ECTS = Ects(_Percent);
         }
 
-        public IEnumerable<Curriculum> Curriculums
+        public IEnumerable<Discipline> Disciplines
         {
-            get { return _Curriculums; }
-            set { _Curriculums = value; }
+            get { return _Disciplines; }
+            set { _Disciplines = value; }
         }
         public User User
         {
             get { return _User; }
         }
-        public List<CurriculumResult> CurriculumResult
+        public List<DisciplineResult> DisciplineResult
         {
-            get { return _CurriculumResult; }
-            set { CurriculumResult = value; }
+            get { return _DisciplineResult; }
+            set { DisciplineResult = value; }
         }
         public char Ects(double? percent)
         {
@@ -135,32 +135,32 @@ namespace IUDICO.Statistics.Models.Storage
 
     }
 
-    public class CurriculumResult 
+    public class DisciplineResult 
     {
         private User _User;
-        private Curriculum _Curriculum;
-        private IEnumerable<Theme> _Themes;           
-        private List<ThemeResult> _ThemeResult;    
+        private Discipline _Discipline;
+        private IEnumerable<Topic> _Topics;           
+        private List<TopicResult> _TopicResult;    
         private double? _Sum;
         private double? _Max;
 
 
-        public CurriculumResult()
+        public DisciplineResult()
         {
             _User = new User();
-            _Curriculum = new Curriculum();
-            _ThemeResult = new List<ThemeResult>();
+            _Discipline = new Discipline();
+            _TopicResult = new List<TopicResult>();
         }
 
-        public void CalculateSumAndMax(User user, Curriculum curr)
+        public void CalculateSumAndMax(User user, Discipline curr)
         {
             _Max = 0.0;
             _Sum = 0.0;
             _User = user;
-            _Curriculum = curr;
-            foreach (ThemeResult theme in _ThemeResult)
+            _Discipline = curr;
+            foreach (TopicResult topic in _TopicResult)
             {
-                _Sum += theme.Res;
+                _Sum += topic.Res;
                 _Max += 100;
             }
         }
@@ -173,41 +173,41 @@ namespace IUDICO.Statistics.Models.Storage
         {
             get { return _Max; }
         }
-        public Curriculum Curriculum
+        public Discipline Discipline
         {
-            get { return _Curriculum; }
+            get { return _Discipline; }
         }
-        public List<ThemeResult> ThemeResult
+        public List<TopicResult> TopicResult
         {
-            get { return _ThemeResult; }
-            set { _ThemeResult = value; }
+            get { return _TopicResult; }
+            set { _TopicResult = value; }
         }
-        public IEnumerable<Theme> Themes
+        public IEnumerable<Topic> Topics
         {
-            set { _Themes = value; }
-            get { return _Themes; }
+            set { _Topics = value; }
+            get { return _Topics; }
         }
     }
 
-    public class ThemeResult
+    public class TopicResult
     {
         private User _User;
-        private Theme _Theme;
+        private Topic _Topic;
         private IEnumerable<AttemptResult> _AttemptResults;
         private double? _Res;
 
-        public ThemeResult()
+        public TopicResult()
         {
             _User = new User();
-            _Theme = new Theme();
+            _Topic = new Topic();
         }
-        public ThemeResult(User user, Theme theme)
+        public TopicResult(User user, Topic topic)
         {
             _User = user;
-            _Theme = theme;
+            _Topic = topic;
         }
 
-        public double? GetThemeResultScore()
+        public double? GetTopicResultScore()
         {
             if (_AttemptResults.Count() == 0 || _AttemptResults.First().Score.ScaledScore == null)
             {
@@ -215,7 +215,7 @@ namespace IUDICO.Statistics.Models.Storage
             }
             else
             {
-                _Res = _AttemptResults.First(x => x.User == _User & x.Theme == _Theme).Score.ToPercents();
+                _Res = _AttemptResults.First(x => x.User == _User & x.Topic == _Topic).Score.ToPercents();
             }
             return _Res;
         }
