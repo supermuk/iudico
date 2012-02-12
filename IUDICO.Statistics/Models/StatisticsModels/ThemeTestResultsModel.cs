@@ -9,9 +9,9 @@ using IUDICO.Common.Models.Shared.Statistics;
 namespace IUDICO.Statistics.Models.StatisticsModels
 {
     /// <summary>
-    /// This class contain all information that need for displaying of Stats/ThemeTestResults page
+    /// This class contain all information that need for displaying of Stats/TopicTestResults page
     /// </summary>
-    public class ThemeTestResultsModel
+    public class TopicTestResultsModel
     {
 
         #region Fields
@@ -42,7 +42,7 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         /// <param name="attemptId">id of attempt to show</param>
         /// <param name="attList">list of attempts from Session Context</param>
         /// <param name="lmsService">ILmsService for conection to Testing System</param>
-        public ThemeTestResultsModel(long attemptId, IEnumerable<AttemptResult> attList, ILmsService lmsService)
+        public TopicTestResultsModel(long attemptId, IEnumerable<AttemptResult> attList, ILmsService lmsService)
         {
             if (attemptId != -1)
             {
@@ -90,13 +90,13 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         }
 
         /// <summary>
-        /// Return name of current theme
+        /// Return name of current topic
         /// </summary>
         /// <returns></returns>
-        public String GetThemeName()
+        public String GetTopicName()
         {
             if (this.Attempt != null)
-                return this.Attempt.Theme.Name;
+                return this.Attempt.Topic.Name;
             else
                 return "";
         }

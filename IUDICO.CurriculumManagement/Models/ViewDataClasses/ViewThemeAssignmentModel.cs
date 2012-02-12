@@ -8,9 +8,9 @@ using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
 {
-    public class ViewThemeAssignmentModel
+    public class ViewTopicAssignmentModel
     {
-        public ThemeAssignment ThemeAssignment { get; set; }
-        public Theme Theme { get; set; }
+        public TopicAssignment TopicAssignment { get; set; }
+        public Topic Topic { get; set; }
     }
 }

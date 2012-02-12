@@ -22,20 +22,20 @@ namespace IUDICO.LMS.Controllers
         }*/
 
         /// <summary>
-        /// Gets descriptions of themes available for playing.
+        /// Gets descriptions of topics available for playing.
         /// </summary>
         /// <returns></returns>
         [OutputCache(Duration = 3600, VaryByParam = "none", VaryByCustom = "lang")]
-        public IEnumerable<ThemeDescription> GetThemesDescriptions()
+        public IEnumerable<TopicDescription> GetTopicsDescriptions()
         {
             User user = MvcApplication.StaticContainer.GetService<IUserService>().GetCurrentUser();
             if (user != null)
             {
-                return MvcApplication.StaticContainer.GetService<ICurriculumService>().GetThemesAvailableForUser(user);
+                return MvcApplication.StaticContainer.GetService<ICurriculumService>().GetTopicsAvailableForUser(user);
             }
             else
             {
-                return new List<ThemeDescription>();
+                return new List<TopicDescription>();
             }
         }
 
@@ -44,7 +44,7 @@ namespace IUDICO.LMS.Controllers
             return View(new HomeModel()
             {
                 Actions = MvcApplication.LmsService.GetActions(),
-                ThemesDescriptions = GetThemesDescriptions()
+                TopicsDescriptions = GetTopicsDescriptions()
             });
 
             //return View(new Dictionary<IPlugin, IEnumerable<Action>>(MvcApplication.Actions));

@@ -6,61 +6,61 @@ namespace IUDICO.Common.Models.Services
 {
     public interface ICurriculumService : IService
     {
-        #region Curriculum methods
+        #region Discipline methods
 
-        //IEnumerable<Curriculum> GetCurriculums();
-        IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids);
-        Curriculum GetCurriculum(int id);
+        //IEnumerable<Discipline> GetDisciplines();
+        IEnumerable<Discipline> GetDisciplines(IEnumerable<int> ids);
+        Discipline GetDiscipline(int id);
         /// <summary>
-        /// Gets curriculums which have themes owned by user.
+        /// Gets disciplines which have topics owned by user.
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns></returns>
-        IEnumerable<Curriculum> GetCurriculumsWithThemesOwnedByUser(User user);
-        IEnumerable<Curriculum> GetCurriculums();
-        IEnumerable<Curriculum> GetCurriculums(User user);
+        IEnumerable<Discipline> GetDisciplinesWithTopicsOwnedByUser(User user);
+        IEnumerable<Discipline> GetDisciplines();
+        IEnumerable<Discipline> GetDisciplines(User user);
 
         #endregion
 
-        #region Stage methods
+        #region Chapter methods
 
-        IEnumerable<Stage> GetStages(int curriculumId);
-        IEnumerable<Stage> GetStages(IEnumerable<int> ids);
-        Stage GetStage(int id);
+        IEnumerable<Chapter> GetChapters(int disciplineId);
+        IEnumerable<Chapter> GetChapters(IEnumerable<int> ids);
+        Chapter GetChapter(int id);
 
         #endregion
 
-        #region Theme methods
+        #region Topic methods
 
-        IEnumerable<Theme> GetThemesByStageId(int stageId);
-        IEnumerable<Theme> GetThemesByCurriculumId(int curriculumId);
-        IEnumerable<Theme> GetThemes(IEnumerable<int> ids);
+        IEnumerable<Topic> GetTopicsByChapterId(int chapterId);
+        IEnumerable<Topic> GetTopicsByDisciplineId(int disciplineId);
+        IEnumerable<Topic> GetTopics(IEnumerable<int> ids);
         /// <summary>
-        /// Gets the themes available for user for current date.
+        /// Gets the topics available for user for current date.
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns></returns>
-        IEnumerable<ThemeDescription> GetThemesAvailableForUser(User user);
+        IEnumerable<TopicDescription> GetTopicsAvailableForUser(User user);
         /// <summary>
-        /// Gets groups assigned through curriculum assignments to theme.
+        /// Gets groups assigned through discipline assignments to topic.
         /// </summary>
-        /// <param name="themeId">The theme id.</param>
+        /// <param name="topicId">The topic id.</param>
         /// <returns></returns>
-        IEnumerable<Group> GetGroupsAssignedToTheme(int themeId);
+        IEnumerable<Group> GetGroupsAssignedToTopic(int topicId);
         /// <summary>
-        /// Gets the themes owned by user.
+        /// Gets the topics owned by user.
         /// </summary>
         /// <param name="owner">The owner.</param>
         /// <returns></returns>
-        IEnumerable<Theme> GetThemesOwnedByUser(User owner);
-        Theme GetTheme(int id);
+        IEnumerable<Topic> GetTopicsOwnedByUser(User owner);
+        Topic GetTopic(int id);
 
         #endregion
 
         #region Assignment methods
 
-        IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId);
-        IEnumerable<Theme> GetThemesByGroupId(int groupId);
+        IEnumerable<Discipline> GetDisciplinesByGroupId(int groupId);
+        IEnumerable<Topic> GetTopicsByGroupId(int groupId);
 
         #endregion
     }

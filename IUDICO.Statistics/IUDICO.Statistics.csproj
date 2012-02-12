@@ -112,16 +112,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\QualityTest\SelectCurriculum.aspx" />
+    <Content Include="Views\QualityTest\SelectDiscipline.aspx" />
     <Content Include="Views\QualityTest\SelectGroups.aspx" />
-    <Content Include="Views\QualityTest\SelectTheme.aspx" />
+    <Content Include="Views\QualityTest\SelectTopic.aspx" />
     <Content Include="Views\QualityTest\ShowQualityTest.aspx" />
     <Content Include="Views\Stats\Index.aspx" />
-    <Content Include="Views\Stats\SelectCurriculums.aspx" />
-    <Content Include="Views\Stats\ShowCurriculumStatistic.aspx" />
-    <Content Include="Views\Stats\ThemesInfo.aspx" />
-    <Content Include="Views\Stats\ThemeTestResults.aspx" />
-    <Content Include="Views\Stats\CurrentThemeTestResults.aspx" />
+    <Content Include="Views\Stats\SelectDisciplines.aspx" />
+    <Content Include="Views\Stats\ShowDisciplineStatistic.aspx" />
+    <Content Include="Views\Stats\TopicsInfo.aspx" />
+    <Content Include="Views\Stats\TopicTestResults.aspx" />
+    <Content Include="Views\Stats\CurrentTopicTestResults.aspx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resource.en-US.resx" />

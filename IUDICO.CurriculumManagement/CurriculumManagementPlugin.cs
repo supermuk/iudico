@@ -50,7 +50,7 @@ namespace IUDICO.CurriculumManagement
         {
             return new Action[]
             {
-                new Action(Localization.getMessage("CurriculumManagement"), "Curriculum/Index")
+                new Action(Localization.getMessage("CurriculumManagement"), "Discipline/Index")
             };
         }
 
@@ -58,94 +58,94 @@ namespace IUDICO.CurriculumManagement
         {
             return new MenuItem[]
             {
-                new MenuItem(Localization.getMessage("Curriculums"), "Curriculum", "Index")
+                new MenuItem(Localization.getMessage("Curriculums"), "Discipline", "Index")
             };
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)
         {
             routes.MapRoute(
+                "Discipline",
+                "Discipline/{DisciplineID}/{action}",
+                new { controller = "Discipline" }
+            );
+
+            routes.MapRoute(
+                "Disciplines",
+                "Discipline/{action}",
+                new { controller = "Discipline", action = "Index" }
+            );
+
+            routes.MapRoute(
+               "Chapter",
+               "Chapter/{ChapterId}/{action}",
+               new { controller = "Chapter" }
+            );
+
+            routes.MapRoute(
+                "Chapters",
+                "Discipline/{DisciplineId}/Chapter/{action}",
+                new { controller = "Chapter" }
+            );
+
+            routes.MapRoute(
+               "Topic",
+               "Topic/{TopicId}/{action}",
+               new { controller = "Topic" }
+            );
+
+            routes.MapRoute(
+                "Topics",
+                "Chapter/{ChapterId}/Topic/{action}",
+                new { controller = "Topic" }
+            );
+
+            routes.MapRoute(
                 "Curriculum",
-                "Curriculum/{CurriculumID}/{action}",
+                "Curriculum/{CurriculumId}/{action}",
                 new { controller = "Curriculum" }
             );
 
             routes.MapRoute(
                 "Curriculums",
-                "Curriculum/{action}",
-                new { controller = "Curriculum", action = "Index" }
+                "Discipline/{DisciplineId}/Curriculum/{action}",
+                new { controller = "Curriculum" }
             );
 
             routes.MapRoute(
-               "Stage",
-               "Stage/{StageId}/{action}",
-               new { controller = "Stage" }
+                "CurriculumTimeline",
+                "CurriculumTimeline/{TimelineId}/{action}",
+                new { controller = "CurriculumTimeline" }
             );
 
             routes.MapRoute(
-                "Stages",
-                "Curriculum/{CurriculumId}/Stage/{action}",
-                new { controller = "Stage" }
+                "CurriculumTimelines",
+                "Curriculum/{CurriculumId}/CurriculumTimeline/{action}",
+                new { controller = "CurriculumTimeline" }
             );
 
             routes.MapRoute(
-               "Theme",
-               "Theme/{ThemeId}/{action}",
-               new { controller = "Theme" }
+                "ChapterTimeline",
+                "ChapterTimeline/{TimelineId}/{action}",
+                new { controller = "ChapterTimeline" }
             );
 
             routes.MapRoute(
-                "Themes",
-                "Stage/{StageId}/Theme/{action}",
-                new { controller = "Theme" }
+                "ChapterTimelines",
+                "Curriculum/{CurriculumId}/ChapterTimeline/{action}",
+                new { controller = "ChapterTimeline" }
             );
 
             routes.MapRoute(
-                "CurriculumAssignment",
-                "CurriculumAssignment/{CurriculumAssignmentId}/{action}",
-                new { controller = "CurriculumAssignment" }
+                "TopicAssignment",
+                "TopicAssignment/{TopicAssignmentId}/{action}",
+                new { controller = "TopicAssignment" }
             );
 
             routes.MapRoute(
-                "CurriculumAssignments",
-                "Curriculum/{CurriculumId}/CurriculumAssignment/{action}",
-                new { controller = "CurriculumAssignment" }
-            );
-
-            routes.MapRoute(
-                "CurriculumAssignmentTimeline",
-                "CurriculumAssignmentTimeline/{TimelineId}/{action}",
-                new { controller = "CurriculumAssignmentTimeline" }
-            );
-
-            routes.MapRoute(
-                "CurriculumAssignmentTimelines",
-                "CurriculumAssignment/{CurriculumAssignmentId}/CurriculumAssignmentTimeline/{action}",
-                new { controller = "CurriculumAssignmentTimeline" }
-            );
-
-            routes.MapRoute(
-                "StageTimeline",
-                "StageTimeline/{TimelineId}/{action}",
-                new { controller = "StageTimeline" }
-            );
-
-            routes.MapRoute(
-                "StageTimelines",
-                "CurriculumAssignment/{CurriculumAssignmentId}/StageTimeline/{action}",
-                new { controller = "StageTimeline" }
-            );
-
-            routes.MapRoute(
-                "ThemeAssignment",
-                "ThemeAssignment/{ThemeAssignmentId}/{action}",
-                new { controller = "ThemeAssignment" }
-            );
-
-            routes.MapRoute(
-                "ThemeAssignments",
-                "CurriculumAssignment/{CurriculumAssignmentId}/ThemeAssignment/{action}",
-                new { controller = "ThemeAssignment" }
+                "TopicAssignments",
+                "Curriculum/{CurriculumId}/TopicAssignment/{action}",
+                new { controller = "TopicAssignment" }
             );
         }
 
@@ -153,25 +153,25 @@ namespace IUDICO.CurriculumManagement
         {
             if (evt == UserNotifications.CourseDelete)
             {
-                //delete connected Themes
+                //delete connected Topics
                 int courseId = ((Course)data[0]).Id;
-                curriculumStorage.MakeCurriculumInvalid(courseId);
-                var themeIds = curriculumStorage.GetThemesByCourseId(courseId).Select(item => item.Id);
-                curriculumStorage.DeleteThemes(themeIds);
+                curriculumStorage.MakeDisciplineInvalid(courseId);
+                var topicIds = curriculumStorage.GetTopicsByCourseId(courseId).Select(item => item.Id);
+                curriculumStorage.DeleteTopics(topicIds);
             }
             else if (evt == UserNotifications.GroupDelete)
             {
-                //delete connected CurriculumAssignments
+                //delete connected Curriculums
                 int groupId = ((Group)data[0]).Id;
-                curriculumStorage.MakeCurriculumAssignmentsInvalid(groupId);
-                //var curriculumAssignmentIds = curriculumStorage.GetCurriculumAssignmentsByGroupId(groupId).Select(item => item.Id);
-                //curriculumStorage.DeleteCurriculumAssignments(curriculumAssignmentIds);
+                curriculumStorage.MakeCurriculumsInvalid(groupId);
+                //var curriculumIds = disciplineStorage.GetCurriculumsByGroupId(groupId).Select(item => item.Id);
+                //disciplineStorage.DeleteCurriculums(curriculumIds);
             }
             else if (evt == UserNotifications.UserDelete)
             {
-                //delete connected Curriculums(CurriculumAssignments)
-                var curriculumIds = curriculumStorage.GetCurriculums((User)data[0]).Select(item => item.Id);
-                curriculumStorage.DeleteCurriculums(curriculumIds);
+                //delete connected Disciplines(Curriculums)
+                var disciplineIds = curriculumStorage.GetDisciplines((User)data[0]).Select(item => item.Id);
+                curriculumStorage.DeleteDisciplines(disciplineIds);
             }
         }
 

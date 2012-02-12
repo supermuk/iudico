@@ -31,32 +31,32 @@ namespace IUDICO.Statistics.Controllers
 
         [Allow(Role = Role.Teacher)]
         [HttpPost]
-        public ActionResult SelectCurriculums(int id)
+        public ActionResult SelectDisciplines(int id)
         {
             ViewData["Group"] = LmsService.FindService<IUserService>().GetGroup(id).Name;
-            var curriculums = _Proxy.GetCurrilulumsByGroupId(id);
+            var disciplines = _Proxy.GetCurrilulumsByGroupId(id);
             HttpContext.Session["SelectedGroupId"] = id;
-            return View(curriculums);
+            return View(disciplines);
         }
 
         [Allow(Role = Role.Teacher)]
         [HttpPost]
-        public ActionResult ShowCurriculumStatistic(int[] selectCurriculumId)
+        public ActionResult ShowDisciplineStatistic(int[] selectDisciplineId)
         {
             var selectedGroup = LmsService.FindService<IUserService>().GetGroup((int)HttpContext.Session["SelectedGroupId"]);
             ViewData["selectGroupName"] = selectedGroup.Name;
             IEnumerable<User> users = LmsService.FindService<IUserService>().GetUsersByGroup(selectedGroup);
             SpecializedResultProxy srp = new SpecializedResultProxy();
-            AllSpecializedResults allSpecRes = srp.GetResults(users, selectCurriculumId, LmsService);
+            AllSpecializedResults allSpecRes = srp.GetResults(users, selectDisciplineId, LmsService);
 
             return View(allSpecRes);
         }
 
         [Allow(Role = Role.Teacher)]
         [HttpPost]
-        public ActionResult ThemesInfo(Int32 curriculumId)
+        public ActionResult TopicsInfo(Int32 disciplineId)
         {
-            var model = new ThemeInfoModel((int)HttpContext.Session["SelectedGroupId"], curriculumId, LmsService);
+            var model = new TopicInfoModel((int)HttpContext.Session["SelectedGroupId"], disciplineId, LmsService);
 
             HttpContext.Session["Attempts"] = model.GetAllAttemts();
 
@@ -65,17 +65,17 @@ namespace IUDICO.Statistics.Controllers
 
         [Allow(Role = Role.Teacher)]
         [HttpPost]
-        public ActionResult ThemeTestResults(long attemptId)
+        public ActionResult TopicTestResults(long attemptId)
         {
-            var model = new ThemeTestResultsModel(attemptId, (List<AttemptResult>)HttpContext.Session["Attempts"], LmsService);
+            var model = new TopicTestResultsModel(attemptId, (List<AttemptResult>)HttpContext.Session["Attempts"], LmsService);
             return View(model);
         }
 
         [Allow(Role = Role.Student)]
         [HttpGet]
-        public ActionResult CurrentThemeTestResults(Int32 themeId)
+        public ActionResult CurrentTopicTestResults(Int32 topicId)
         {
-            var model = new CurrentThemeTestResultsModel(themeId, LmsService);
+            var model = new CurrentTopicTestResultsModel(topicId, LmsService);
             return View(model);
         }
     }

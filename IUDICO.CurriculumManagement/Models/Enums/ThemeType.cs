@@ -5,7 +5,7 @@ using System.Web;
 
 namespace IUDICO.CurriculumManagement.Models.Enums
 {
-    public enum ThemeType
+    public enum TopicType
     {
         Test = 1,
         Theory = 2,

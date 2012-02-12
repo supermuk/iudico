@@ -39,53 +39,53 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             ConfigurationManager.AppSettings["SELENIUM_URL"]+"Data/ContentPackagingOneFilePerSCO_SCORM20043rdEdition.zip";
 
         private string CourseName1 = "ContentPackagingOneFilePerSCO_SCORM20043rdEdition";
-        private string themeName1;
-        private string stageName1;
+        private string topicName1;
+        private string chapterName1;
         private string courseId1;
-        private string themeId1;
+        private string topicId1;
 
         //private string CourseUri2 = ConfigurationManager.AppSettings["SELENIUM_URL"]+"Data/RunTimeAdvancedCalls_SCORM20043rdEdition.zip";
         //private string CourseName2 = "RunTimeAdvancedCalls_SCORM20043rdEdition";
-        //private string themeName2;
-        //private string stageName2;
+        //private string topicName2;
+        //private string chapterName2;
         //private string courseId2;
-        //private string themeId2;
+        //private string topicId2;
 
         //private string CourseUri3 =
         //    ConfigurationManager.AppSettings["SELENIUM_URL"]+"Data/SequencingForcedSequential_SCORM20043rdEdition.zip";
 
         //private string CourseName3 = "SequencingForcedSequential_SCORM20043rdEdition";
-        //private string themeName3;
-        //private string stageName3;
+        //private string topicName3;
+        //private string chapterName3;
         //private string courseId3;
-        //private string themeId3;
+        //private string topicId3;
 
         //private string CourseUri4 = ConfigurationManager.AppSettings["SELENIUM_URL"]+"Data/SequencingRandomTest_SCORM20043rdEdition.zip";
         //private string CourseName4 = "SequencingRandomTest_SCORM20043rdEdition";
-        //private string themeName4;
-        //private string stageName4;
+        //private string topicName4;
+        //private string chapterName4;
         //private string courseId4;
-        //private string themeId4;
+        //private string topicId4;
 
-        //private string themeName5;
-        //private string stageName5;
+        //private string topicName5;
+        //private string chapterName5;
         //private string courseId5;
-        //private string themeId5;
+        //private string topicId5;
 
-        private string curriculumName1;
-        private string curriculumId1;
+        private string disciplineName1;
+        private string disciplineId1;
 
-        //private string curriculumId2;
-        //private string curriculumName2;
+        //private string disciplineId2;
+        //private string disciplineName2;
 
-        //private string curriculumId3;
-        //private string curriculumName3;
+        //private string disciplineId3;
+        //private string disciplineName3;
 
-        //private string curriculumId4;
-        //private string curriculumName4;
+        //private string disciplineId4;
+        //private string disciplineName4;
 
-        //private string curriculumId5;
-        //private string curriculumName5;
+        //private string disciplineId5;
+        //private string disciplineName5;
 
         //private bool IsFirstRun = true;
 
@@ -161,23 +161,23 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             //AddToGroup(studentId1, GroupName, AdminName, AdminPassword);
             groupId = GetGroupId(GroupName, TeacherName, TeacherPassword);
 
-            curriculumName1 = random.Next().ToString();
-            //curriculumName2 = random.Next().ToString();
-            //curriculumName3 = random.Next().ToString();
-            //curriculumName4 = random.Next().ToString();
-            //curriculumName5 = random.Next().ToString();
+            disciplineName1 = random.Next().ToString();
+            //disciplineName2 = random.Next().ToString();
+            //disciplineName3 = random.Next().ToString();
+            //disciplineName4 = random.Next().ToString();
+            //disciplineName5 = random.Next().ToString();
 
-            themeName1 = random.Next().ToString();
-            //themeName2 = random.Next().ToString();
-            //themeName3 = random.Next().ToString();
-            //themeName4 = random.Next().ToString();
-            //themeName5 = random.Next().ToString();
+            topicName1 = random.Next().ToString();
+            //topicName2 = random.Next().ToString();
+            //topicName3 = random.Next().ToString();
+            //topicName4 = random.Next().ToString();
+            //topicName5 = random.Next().ToString();
 
-            stageName1 = random.Next().ToString();
-            //stageName2 = random.Next().ToString();
-            //stageName3 = random.Next().ToString();
-            //stageName4 = random.Next().ToString();
-            //stageName5 = random.Next().ToString();
+            chapterName1 = random.Next().ToString();
+            //chapterName2 = random.Next().ToString();
+            //chapterName3 = random.Next().ToString();
+            //chapterName4 = random.Next().ToString();
+            //chapterName5 = random.Next().ToString();
         }
 
         [TearDown]
@@ -194,13 +194,13 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
 
             DeleteGroup(groupId, GroupName, TeacherName, TeacherPassword);
 
-            // Deletes all curriculums.
+            // Deletes all disciplines.
 
-            DeleteCurriculum(curriculumId1, curriculumName1, TeacherName, TeacherPassword);
-            //DeleteCurriculum(curriculumId2, curriculumName2, TeacherName, TeacherPassword);
-            //DeleteCurriculum(curriculumId3, curriculumName3, TeacherName, TeacherPassword);
-            //DeleteCurriculum(curriculumId4, curriculumName4, TeacherName, TeacherPassword);
-            //DeleteCurriculum(curriculumId5, curriculumName5, TeacherName, TeacherPassword);
+            DeleteDiscipline(disciplineId1, disciplineName1, TeacherName, TeacherPassword);
+            //DeleteDiscipline(disciplineId2, disciplineName2, TeacherName, TeacherPassword);
+            //DeleteDiscipline(disciplineId3, disciplineName3, TeacherName, TeacherPassword);
+            //DeleteDiscipline(disciplineId4, disciplineName4, TeacherName, TeacherPassword);
+            //DeleteDiscipline(disciplineId5, disciplineName5, TeacherName, TeacherPassword);
 
             // Removes all users.
 
@@ -415,61 +415,61 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Logout();
         }
 
-        private void CreateCurriculum(string curriculumName, string teacherLogin, string teacherPassword)
+        private void CreateDiscipline(string disciplineName, string teacherLogin, string teacherPassword)
         {
             Login(teacherLogin, teacherPassword);
-            Selenium.Open("/Curriculum");
+            Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
-            if (!Selenium.IsTextPresent(curriculumName))
+            if (!Selenium.IsTextPresent(disciplineName))
             {
-                Selenium.Open("/Curriculum/Create");
+                Selenium.Open("/Discipline/Create");
                 Selenium.WaitForPageToLoad(LoadTime);
-                Selenium.Type("id=Name", curriculumName);
+                Selenium.Type("id=Name", disciplineName);
                 Selenium.Click("css=input[value='Create']");
                 Selenium.WaitForPageToLoad(LoadTime);
             }
             Logout();
         }
 
-        private string GetCurriculumId(string curriculumName, string teacherLogin, string teacherPassword)
+        private string GetDisciplineId(string disciplineName, string teacherLogin, string teacherPassword)
         {
             Login(teacherLogin, teacherPassword);
-            Selenium.Open("/Curriculum");
+            Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
-            Selenium.Click("xpath=//table//tr[td//text()[contains(., '" + curriculumName + "')]]/td[5]/a[1]");
+            Selenium.Click("xpath=//table//tr[td//text()[contains(., '" + disciplineName + "')]]/td[5]/a[1]");
             Selenium.WaitForPageToLoad(LoadTime);
-            string curriculumId = Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("Curriculum/") + 11,
+            string disciplineId = Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("Discipline/") + 11,
                                                                    Selenium.GetLocation().IndexOf("/Edit") -
-                                                                   (Selenium.GetLocation().IndexOf("Curriculum/") + 11));
+                                                                   (Selenium.GetLocation().IndexOf("Discipline/") + 11));
             Logout();
-            return curriculumId;
+            return disciplineId;
         }
 
-        private void DeleteCurriculum(string curriculumId, string curriculumName, string teacherLogin,
+        private void DeleteDiscipline(string disciplineId, string disciplineName, string teacherLogin,
                                       string teacherPassword)
         {
             Login(teacherLogin, teacherPassword);
-            Selenium.Open("/Curriculum");
+            Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
-            if (Selenium.IsTextPresent(curriculumName))
+            if (Selenium.IsTextPresent(disciplineName))
             {
-                Selenium.Click("css=a[onclick='deleteItem(" + curriculumId + ")']");
+                Selenium.Click("css=a[onclick='deleteItem(" + disciplineId + ")']");
                 selenium.GetConfirmation();
             }
             Logout();
         }
 
-        private void AddGroupToCurriculum(string curriculumId, string groupName, string teacherLogin,
+        private void AddGroupToDiscipline(string disciplineId, string groupName, string teacherLogin,
                                           string teacherPassword)
         {
             Login(teacherLogin, teacherPassword);
-            Selenium.Open("/Curriculum");
+            Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
-            Selenium.Click("css=a[href='/Curriculum/" + curriculumId + "/CurriculumAssignment/Index']");
+            Selenium.Click("css=a[href='/Discipline/" + disciplineId + "/Curriculum/Index']");
             Selenium.WaitForPageToLoad(LoadTime);
             if (!Selenium.IsTextPresent(groupName))
             {
-                Selenium.Open("/Curriculum/" + curriculumId + "/CurriculumAssignment/Create");
+                Selenium.Open("/Discipline/" + disciplineId + "/Curriculum/Create");
                 Selenium.WaitForPageToLoad(LoadTime);
                 Selenium.Select("id=GroupId", groupName);
                 Selenium.Click("css=input[value='Create']");
@@ -478,37 +478,37 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Logout();
         }
 
-        private string GetCurriculumAssignmentId(string curriculumId, string groupName, string teacherLogin,
+        private string GetCurriculumId(string disciplineId, string groupName, string teacherLogin,
                                                  string teacherPassword)
         {
             Login(teacherLogin, teacherPassword);
-            Selenium.Open("/Curriculum");
+            Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
-            Selenium.Open("/Curriculum/" + curriculumId + "/CurriculumAssignment/Index");
+            Selenium.Open("/Discipline/" + disciplineId + "/Curriculum/Index");
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Click("xpath=//table//tr[td//text()[contains(., '" + groupName + "')]]/td[3]/a[1]");
             Selenium.WaitForPageToLoad(LoadTime);
-            string curriculumAssignmentId =
-                Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("CurriculumAssignment/") + 21,
+            string curriculumId =
+                Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("Curriculum/") + 21,
                                                  Selenium.GetLocation().IndexOf("/Edit") -
-                                                 (Selenium.GetLocation().IndexOf("CurriculumAssignment/") + 21));
+                                                 (Selenium.GetLocation().IndexOf("Curriculum/") + 21));
             Logout();
-            return curriculumAssignmentId;
+            return curriculumId;
         }
 
-        private void AddTimeLineToCurriculum(string dateStart, string dateEnd, string curriculumId,
-                                             string curriculumAssignmentId, string teacherLogin, string teacherPassword)
+        private void AddTimeLineToDiscipline(string dateStart, string dateEnd, string disciplineId,
+                                             string curriculumId, string teacherLogin, string teacherPassword)
         {
             Login(teacherLogin, teacherPassword);
-            Selenium.Open("/Curriculum");
+            Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
-            Selenium.Open("/Curriculum/" + curriculumId + "/CurriculumAssignment/Index");
+            Selenium.Open("/Discipline/" + disciplineId + "/Curriculum/Index");
             Selenium.WaitForPageToLoad(LoadTime);
-            Selenium.Open("/CurriculumAssignment/" + curriculumAssignmentId + "/CurriculumAssignmentTimeline/Index");
+            Selenium.Open("/Curriculum/" + curriculumId + "/CurriculumTimeline/Index");
             Selenium.WaitForPageToLoad(LoadTime);
             if (!Selenium.IsTextPresent(dateStart))
             {
-                Selenium.Open("/CurriculumAssignment/" + curriculumAssignmentId + "/CurriculumAssignmentTimeline/Create");
+                Selenium.Open("/Curriculum/" + curriculumId + "/CurriculumTimeline/Create");
                 Selenium.WaitForPageToLoad(LoadTime);
                 Selenium.Type("id=Timeline_StartDate", dateStart);
                 Selenium.Type("id=Timeline_EndDate", dateEnd);
@@ -517,19 +517,19 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Logout();
         }
 
-        private void AddTimeLineToStage(string dateStart, string dateEnd, string curriculumId,
-                                        string curriculumAssignmentId, string teacherLogin, string teacherPassword)
+        private void AddTimeLineToChapter(string dateStart, string dateEnd, string disciplineId,
+                                        string curriculumId, string teacherLogin, string teacherPassword)
         {
             Login(teacherLogin, teacherPassword);
-            Selenium.Open("/Curriculum");
+            Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
-            Selenium.Open("/Curriculum/" + curriculumId + "/CurriculumAssignment/Index");
+            Selenium.Open("/Discipline/" + disciplineId + "/Curriculum/Index");
             Selenium.WaitForPageToLoad(LoadTime);
-            Selenium.Open("/CurriculumAssignment/" + curriculumAssignmentId + "/StageTimeline/Index");
+            Selenium.Open("/Curriculum/" + curriculumId + "/ChapterTimeline/Index");
             Selenium.WaitForPageToLoad(LoadTime);
             if (!Selenium.IsTextPresent(dateStart))
             {
-                Selenium.Open("/CurriculumAssignment/" + curriculumAssignmentId + "/StageTimeline/Create");
+                Selenium.Open("/Curriculum/" + curriculumId + "/ChapterTimeline/Create");
                 Selenium.WaitForPageToLoad(LoadTime);
                 Selenium.Type("id=Timeline_StartDate", dateStart);
                 Selenium.Type("id=Timeline_EndDate", dateEnd);
@@ -538,91 +538,91 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Logout();
         }
 
-        private void AddStage(string curriculumId, string stageName, string teacherLogin, string teacherPassword)
+        private void AddChapter(string disciplineId, string chapterName, string teacherLogin, string teacherPassword)
         {
             Login(teacherLogin, teacherPassword);
-            Selenium.Open("/Curriculum");
+            Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
-            Selenium.Open("/Curriculum/" + curriculumId + "/Stage/Index");
+            Selenium.Open("/Discipline/" + disciplineId + "/Chapter/Index");
             Selenium.WaitForPageToLoad(LoadTime);
-            if (!Selenium.IsTextPresent(stageName))
+            if (!Selenium.IsTextPresent(chapterName))
             {
-                Selenium.Open("/Curriculum/" + curriculumId + "/Stage/Create");
+                Selenium.Open("/Discipline/" + disciplineId + "/Chapter/Create");
                 Selenium.WaitForPageToLoad(LoadTime);
-                Selenium.Type("id=Name", stageName);
+                Selenium.Type("id=Name", chapterName);
                 Selenium.Click("css=input[value='Create']");
             }
             Logout();
         }
 
-        private string GetStageId(string curriculumId, string stageName, string teacherLogin, string teacherPassword)
+        private string GetChapterId(string disciplineId, string chapterName, string teacherLogin, string teacherPassword)
         {
             Login(teacherLogin, teacherPassword);
-            Selenium.Open("/Curriculum");
+            Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
-            Selenium.Open("/Curriculum/" + curriculumId + "/Stage/Index");
+            Selenium.Open("/Discipline/" + disciplineId + "/Chapter/Index");
             Selenium.WaitForPageToLoad(LoadTime);
-            Selenium.Click("xpath=//table//tr[td//text()[contains(., '" + stageName + "')]]/td[5]/a[1]");
+            Selenium.Click("xpath=//table//tr[td//text()[contains(., '" + chapterName + "')]]/td[5]/a[1]");
             Selenium.WaitForPageToLoad(LoadTime);
-            string stageId = Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("Stage/") + 6,
+            string chapterId = Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("Chapter/") + 6,
                                                               Selenium.GetLocation().IndexOf("/Edit") -
-                                                              (Selenium.GetLocation().IndexOf("Stage/") + 6));
+                                                              (Selenium.GetLocation().IndexOf("Chapter/") + 6));
             Logout();
-            return stageId;
+            return chapterId;
         }
 
-        private void AddTheme(string curriculumId, string stageId, string themeName, string courseName,
+        private void AddTopic(string disciplineId, string chapterId, string topicName, string courseName,
                               string teacherLogin, string teacherPassword)
         {
             Login(teacherLogin, teacherPassword);
-            Selenium.Open("/Curriculum");
+            Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad("7000");
-            Selenium.Open("/Curriculum/" + curriculumId + "/Stage/Index");
+            Selenium.Open("/Discipline/" + disciplineId + "/Chapter/Index");
             Selenium.WaitForPageToLoad("7000");
-            Selenium.Open("/Stage/" + stageId + "/Theme/Index");
+            Selenium.Open("/Chapter/" + chapterId + "/Topic/Index");
             Selenium.WaitForPageToLoad("7000");
-            if (!Selenium.IsTextPresent(themeName))
+            if (!Selenium.IsTextPresent(topicName))
             {
-                Selenium.Open("/Stage/" + stageId + "/Theme/Create");
+                Selenium.Open("/Chapter/" + chapterId + "/Topic/Create");
                 Selenium.WaitForPageToLoad("7000");
-                Selenium.Type("id=ThemeName", themeName);
+                Selenium.Type("id=TopicName", topicName);
                 Selenium.Select("id=CourseId", courseName);
-                Selenium.Select("id=ThemeTypeId", "Test");
+                Selenium.Select("id=TopicTypeId", "Test");
                 Selenium.Click("css=input[value='Create']");
             }
             Logout();
         }
 
-        private string GetThemeId(string curriculumId, string stageId, string themeName, string teacherLogin,
+        private string GetTopicId(string disciplineId, string chapterId, string topicName, string teacherLogin,
                                   string teacherPassword)
         {
             Login(teacherLogin, teacherPassword);
-            Selenium.Open("/Curriculum");
+            Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
-            Selenium.Open("/Curriculum/" + curriculumId + "/Stage/Index");
+            Selenium.Open("/Discipline/" + disciplineId + "/Chapter/Index");
             Selenium.WaitForPageToLoad(LoadTime);
-            Selenium.Open("/Stage/" + stageId + "/Theme/Index");
+            Selenium.Open("/Chapter/" + chapterId + "/Topic/Index");
             Selenium.WaitForPageToLoad(LoadTime);
-            Selenium.Click("xpath=//table//tr[td//text()[contains(., '" + themeName + "')]]/td[6]/a[1]");
+            Selenium.Click("xpath=//table//tr[td//text()[contains(., '" + topicName + "')]]/td[6]/a[1]");
             Selenium.WaitForPageToLoad(LoadTime);
-            string themeId = Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("Theme/") + 6,
+            string topicId = Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("Topic/") + 6,
                                                               Selenium.GetLocation().IndexOf("/Edit") -
-                                                              (Selenium.GetLocation().IndexOf("Theme/") + 6));
+                                                              (Selenium.GetLocation().IndexOf("Topic/") + 6));
             Logout();
-            return themeId;
+            return topicId;
         }
 
-        private void ChangeCourseInTheme(string courseName, string curriculumId, string stageId, string themeId,
+        private void ChangeCourseInTopic(string courseName, string disciplineId, string chapterId, string topicId,
                                          string teacherLogin, string teacherPassword)
         {
             Login(TeacherName, teacherPassword);
-            Selenium.Open("/Curriculum");
+            Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
-            Selenium.Open("/Curriculum/" + curriculumId + "/Stage/Index");
+            Selenium.Open("/Discipline/" + disciplineId + "/Chapter/Index");
             Selenium.WaitForPageToLoad(LoadTime);
-            Selenium.Open("/Stage/" + stageId + "/Theme/Index");
+            Selenium.Open("/Chapter/" + chapterId + "/Topic/Index");
             Selenium.WaitForPageToLoad(LoadTime);
-            Selenium.Open("/Theme/" + themeId + "/Edit");
+            Selenium.Open("/Topic/" + topicId + "/Edit");
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Select("id=CourseId", courseName);
             Selenium.Click("css=input[value='Update']");
@@ -647,26 +647,26 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         }
 
         [Test]
-        public void PlayNotPreviouslyAttemptedTheme()
+        public void PlayNotPreviouslyAttemptedTopic()
         {
            
-            // Creates assigned to group curriculum that contains valid curriculum timelines.
+            // Creates assigned to group discipline that contains valid discipline timelines.
 
-            CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
-            curriculumId1 = GetCurriculumId(curriculumName1, TeacherName, TeacherPassword);
-            AddGroupToCurriculum(curriculumId1, GroupName, TeacherName, TeacherPassword);
-            string curriculumAssignmentId1 = GetCurriculumAssignmentId(curriculumId1, GroupName, TeacherName,
+            CreateDiscipline(disciplineName1, TeacherName, TeacherPassword);
+            disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
+            AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
+            string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
                                                                        TeacherPassword);
-            AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId1, curriculumAssignmentId1,
+            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
-            AddStage(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            string stageId1 = GetStageId(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            AddTheme(curriculumId1, stageId1, themeName1, CourseName1, TeacherName, TeacherPassword);
-            themeId1 = GetThemeId(curriculumId1, stageId1, themeName1, TeacherName, TeacherPassword);
+            AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            AddTopic(disciplineId1, chapterId1, topicName1, CourseName1, TeacherName, TeacherPassword);
+            topicId1 = GetTopicId(disciplineId1, chapterId1, topicName1, TeacherName, TeacherPassword);
 
             Login(StudentName, StudentPassword);
 
-            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.Open("/Training/Play/" + topicId1);
             Selenium.WaitForPageToLoad(LoadTime);
             Assert.IsTrue(Selenium.GetTitle() == "Play course");
             Selenium.SelectFrame("player");
@@ -685,122 +685,122 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         }
 
         [Test]
-        public void PlayThemeWithInvalidId()
+        public void PlayTopicWithInvalidId()
         {
             Login(StudentName, StudentPassword);
 
             Selenium.Open("/Training/Play/-1");
             Selenium.WaitForPageToLoad(LoadTime);
             Assert.IsTrue(Selenium.IsTextPresent("Error happened"));
-            Assert.IsTrue(Selenium.IsTextPresent("Theme you had requested was not found!"));
+            Assert.IsTrue(Selenium.IsTextPresent("Topic you had requested was not found!"));
             Assert.IsTrue(Selenium.IsElementPresent("css=a[href='/']"));
 
             Selenium.Open("/Training/Play/0");
             Selenium.WaitForPageToLoad(LoadTime);
             Assert.IsTrue(Selenium.IsTextPresent("Error happened"));
-            Assert.IsTrue(Selenium.IsTextPresent("Theme you had requested was not found!"));
+            Assert.IsTrue(Selenium.IsTextPresent("Topic you had requested was not found!"));
             Assert.IsTrue(Selenium.IsElementPresent("css=a[href='/']"));
             Logout();
         }
 
         [Test]
-        public void PlayThemeWithInvalidAvailabilityDueToGroupAssignment()
+        public void PlayTopicWithInvalidAvailabilityDueToGroupAssignment()
         {
-            // Creates Not assigned to group curriculum.
+            // Creates Not assigned to group discipline.
 
-            CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
-            curriculumId1 = GetCurriculumId(curriculumName1, TeacherName, TeacherPassword);
-            AddStage(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            string stageId1 = GetStageId(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            AddTheme(curriculumId1, stageId1, themeName1, CourseName1, TeacherName, TeacherPassword);
-            themeId1 = GetThemeId(curriculumId1, stageId1, themeName1, TeacherName, TeacherPassword);
+            CreateDiscipline(disciplineName1, TeacherName, TeacherPassword);
+            disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
+            AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            AddTopic(disciplineId1, chapterId1, topicName1, CourseName1, TeacherName, TeacherPassword);
+            topicId1 = GetTopicId(disciplineId1, chapterId1, topicName1, TeacherName, TeacherPassword);
 
             Login(StudentName, StudentPassword);
-            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.Open("/Training/Play/" + topicId1);
             Selenium.WaitForPageToLoad(LoadTime);
             Assert.IsTrue(Selenium.IsTextPresent("Error happened"));
-            Assert.IsTrue(Selenium.IsTextPresent("You are not allowed to pass this theme!"));
+            Assert.IsTrue(Selenium.IsTextPresent("You are not allowed to pass this topic!"));
             Assert.IsTrue(Selenium.IsElementPresent("css=a[href='/']"));
             Assert.IsFalse(Selenium.GetTitle() == "Play course");
             Logout();
         }
 
         [Test]
-        public void PlayThemeWithInvalidAvailabilityDueToInvalidCurriculumTimelines()
+        public void PlayTopicWithInvalidAvailabilityDueToInvalidDisciplineTimelines()
         {
-            // Creates assigned to group curriculum with invalid curriculum timelines.
+            // Creates assigned to group discipline with invalid discipline timelines.
 
-            CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
-            curriculumId1 = GetCurriculumId(curriculumName1, TeacherName, TeacherPassword);
-            AddGroupToCurriculum(curriculumId1, GroupName, TeacherName, TeacherPassword);
-            string curriculumAssignmentId1 = GetCurriculumAssignmentId(curriculumId1, GroupName, TeacherName,
+            CreateDiscipline(disciplineName1, TeacherName, TeacherPassword);
+            disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
+            AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
+            string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
                                                                        TeacherPassword);
-            AddTimeLineToCurriculum("12/18/1999 4:21 PM", "12/18/2000 4:21 PM", curriculumId1, curriculumAssignmentId1,
+            AddTimeLineToDiscipline("12/18/1999 4:21 PM", "12/18/2000 4:21 PM", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
-            AddStage(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            string stageId1 = GetStageId(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            AddTheme(curriculumId1, stageId1, themeName1, CourseName1, TeacherName, TeacherPassword);
-            themeId1 = GetThemeId(curriculumId1, stageId1, themeName1, TeacherName, TeacherPassword);
+            AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            AddTopic(disciplineId1, chapterId1, topicName1, CourseName1, TeacherName, TeacherPassword);
+            topicId1 = GetTopicId(disciplineId1, chapterId1, topicName1, TeacherName, TeacherPassword);
 
             Login(StudentName, StudentPassword);
-            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.Open("/Training/Play/" + topicId1);
             Selenium.WaitForPageToLoad(LoadTime);
             Assert.IsTrue(Selenium.IsTextPresent("Error happened"));
-            Assert.IsTrue(Selenium.IsTextPresent("You are not allowed to pass this theme!"));
+            Assert.IsTrue(Selenium.IsTextPresent("You are not allowed to pass this topic!"));
             Assert.IsTrue(Selenium.IsElementPresent("css=a[href='/']"));
             Assert.IsFalse(Selenium.GetTitle() == "Play course");
             Logout();
         }
 
         [Test]
-        public void PlayThemeWithInvalidAvailabilityDueToInvalidStageTimelines()
+        public void PlayTopicWithInvalidAvailabilityDueToInvalidChapterTimelines()
         {
-            // Creates assigned to group curriculum with valid curriculum timelines, but invalid stage timelines.
+            // Creates assigned to group discipline with valid discipline timelines, but invalid chapter timelines.
 
-            CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
-            curriculumId1 = GetCurriculumId(curriculumName1, TeacherName, TeacherPassword);
-            AddGroupToCurriculum(curriculumId1, GroupName, TeacherName, TeacherPassword);
-            string curriculumAssignmentId1 = GetCurriculumAssignmentId(curriculumId1, GroupName, TeacherName,
+            CreateDiscipline(disciplineName1, TeacherName, TeacherPassword);
+            disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
+            AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
+            string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
                                                                        TeacherPassword);
-            AddTimeLineToCurriculum("12/18/1999 1:23 PM", "12/18/2100 1:23 PM", curriculumId1, curriculumAssignmentId1,
+            AddTimeLineToDiscipline("12/18/1999 1:23 PM", "12/18/2100 1:23 PM", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
-            AddStage(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            string stageId1 = GetStageId(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            AddTimeLineToStage("12/18/1999 1:23 PM", "12/18/2000 1:23 PM", curriculumId1, curriculumAssignmentId1,
+            AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            AddTimeLineToChapter("12/18/1999 1:23 PM", "12/18/2000 1:23 PM", disciplineId1, curriculumId1,
                                TeacherName, TeacherPassword);
-            AddTheme(curriculumId1, stageId1, themeName1, CourseName1, TeacherName, TeacherPassword);
-            themeId1 = GetThemeId(curriculumId1, stageId1, themeName1, TeacherName, TeacherPassword);
+            AddTopic(disciplineId1, chapterId1, topicName1, CourseName1, TeacherName, TeacherPassword);
+            topicId1 = GetTopicId(disciplineId1, chapterId1, topicName1, TeacherName, TeacherPassword);
 
             Login(StudentName, StudentPassword);
-            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.Open("/Training/Play/" + topicId1);
             Selenium.WaitForPageToLoad(LoadTime);
             Assert.IsTrue(Selenium.IsTextPresent("Error happened"));
-            Assert.IsTrue(Selenium.IsTextPresent("You are not allowed to pass this theme!"));
+            Assert.IsTrue(Selenium.IsTextPresent("You are not allowed to pass this topic!"));
             Assert.IsTrue(Selenium.IsElementPresent("css=a[href='/']"));
             Assert.IsFalse(Selenium.GetTitle() == "Play course");
             Logout();
         }
 
         [Test]
-        public void PlayCompletedTheme()
+        public void PlayCompletedTopic()
         {
-            // Creates assigned to group curriculum that contains valid curriculum timelines.
+            // Creates assigned to group discipline that contains valid discipline timelines.
 
-            CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
-            curriculumId1 = GetCurriculumId(curriculumName1, TeacherName, TeacherPassword);
-            AddGroupToCurriculum(curriculumId1, GroupName, TeacherName, TeacherPassword);
-            string curriculumAssignmentId1 = GetCurriculumAssignmentId(curriculumId1, GroupName, TeacherName,
+            CreateDiscipline(disciplineName1, TeacherName, TeacherPassword);
+            disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
+            AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
+            string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
                                                                        TeacherPassword);
-            AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId1, curriculumAssignmentId1,
+            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
-            AddStage(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            string stageId1 = GetStageId(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            AddTheme(curriculumId1, stageId1, themeName1, CourseName1, TeacherName, TeacherPassword);
-            themeId1 = GetThemeId(curriculumId1, stageId1, themeName1, TeacherName, TeacherPassword);
+            AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            AddTopic(disciplineId1, chapterId1, topicName1, CourseName1, TeacherName, TeacherPassword);
+            topicId1 = GetTopicId(disciplineId1, chapterId1, topicName1, TeacherName, TeacherPassword);
 
             Login(StudentName, StudentPassword);
 
-            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.Open("/Training/Play/" + topicId1);
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.SelectFrame("player");
             Selenium.SelectFrame("frameLearnTask");
@@ -835,7 +835,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Selenium.SelectFrame("relative=up");
             Selenium.Open("/");
             Selenium.WaitForPageToLoad(LoadTime);
-            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.Open("/Training/Play/" + topicId1);
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.WaitForPageToLoad(LoadTime);
             Assert.IsTrue(Selenium.IsTextPresent("Results"));
@@ -843,30 +843,30 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         }
 
         [Test]
-        public void PlaySuspendedTheme()
+        public void PlaySuspendedTopic()
         {
             // Imports courses and gets their ids.
 
             ImportCourse(CourseUri1, CourseName1, TeacherName, TeacherPassword);
             courseId1 = GetCourseId(CourseName1, TeacherName, TeacherPassword);
 
-            // Creates assigned to group curriculum that contains valid curriculum timelines.
+            // Creates assigned to group discipline that contains valid discipline timelines.
 
-            CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
-            curriculumId1 = GetCurriculumId(curriculumName1, TeacherName, TeacherPassword);
-            AddGroupToCurriculum(curriculumId1, GroupName, TeacherName, TeacherPassword);
-            string curriculumAssignmentId1 = GetCurriculumAssignmentId(curriculumId1, GroupName, TeacherName,
+            CreateDiscipline(disciplineName1, TeacherName, TeacherPassword);
+            disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
+            AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
+            string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
                                                                        TeacherPassword);
-            AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId1, curriculumAssignmentId1,
+            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
-            AddStage(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            string stageId1 = GetStageId(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            AddTheme(curriculumId1, stageId1, themeName1, CourseName1, TeacherName, TeacherPassword);
-            themeId1 = GetThemeId(curriculumId1, stageId1, themeName1, TeacherName, TeacherPassword);
+            AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            AddTopic(disciplineId1, chapterId1, topicName1, CourseName1, TeacherName, TeacherPassword);
+            topicId1 = GetTopicId(disciplineId1, chapterId1, topicName1, TeacherName, TeacherPassword);
 
             Login(StudentName, StudentPassword);
 
-            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.Open("/Training/Play/" + topicId1);
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.SelectFrame("player");
             Selenium.SelectFrame("frameLearnTask");
@@ -887,7 +887,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
 
             Selenium.Open("/");
             Selenium.WaitForPageToLoad(LoadTime);
-            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.Open("/Training/Play/" + topicId1);
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.WaitForFrameToLoad("frameContent", LoadTime);
             Selenium.SelectFrame("player");
@@ -902,7 +902,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         }
 
         [Test]
-        public void SuspendTheme()
+        public void SuspendTopic()
         {
            
             // Imports courses and gets their ids.
@@ -910,24 +910,24 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             ImportCourse(CourseUri1, CourseName1, TeacherName, TeacherPassword);
             courseId1 = GetCourseId(CourseName1, TeacherName, TeacherPassword);
 
-            // Creates assigned to group curriculum that contains valid curriculum timelines.
+            // Creates assigned to group discipline that contains valid discipline timelines.
 
-            CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
-            curriculumId1 = GetCurriculumId(curriculumName1, TeacherName, TeacherPassword);
-            AddGroupToCurriculum(curriculumId1, GroupName, TeacherName, TeacherPassword);
-            string curriculumAssignmentId1 = GetCurriculumAssignmentId(curriculumId1, GroupName, TeacherName,
+            CreateDiscipline(disciplineName1, TeacherName, TeacherPassword);
+            disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
+            AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
+            string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
                                                                        TeacherPassword);
-            AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId1, curriculumAssignmentId1,
+            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
-            AddStage(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            string stageId1 = GetStageId(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            AddTheme(curriculumId1, stageId1, themeName1, CourseName1, TeacherName, TeacherPassword);
-            themeId1 = GetThemeId(curriculumId1, stageId1, themeName1, TeacherName, TeacherPassword);
+            AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            AddTopic(disciplineId1, chapterId1, topicName1, CourseName1, TeacherName, TeacherPassword);
+            topicId1 = GetTopicId(disciplineId1, chapterId1, topicName1, TeacherName, TeacherPassword);
 
             Login(StudentName, StudentPassword);
 
 
-            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.Open("/Training/Play/" + topicId1);
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.SelectFrame("player");
             Selenium.SelectFrame("frameLearnTask");
@@ -953,26 +953,26 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         }
 
         [Test]
-        public void SubmitTheme()
+        public void SubmitTopic()
         {
            
-            // Creates assigned to group curriculum that contains valid curriculum timelines.
+            // Creates assigned to group discipline that contains valid discipline timelines.
 
-            CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
-            curriculumId1 = GetCurriculumId(curriculumName1, TeacherName, TeacherPassword);
-            AddGroupToCurriculum(curriculumId1, GroupName, TeacherName, TeacherPassword);
-            string curriculumAssignmentId1 = GetCurriculumAssignmentId(curriculumId1, GroupName, TeacherName,
+            CreateDiscipline(disciplineName1, TeacherName, TeacherPassword);
+            disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
+            AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
+            string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
                                                                        TeacherPassword);
-            AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId1, curriculumAssignmentId1,
+            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
-            AddStage(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            string stageId1 = GetStageId(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            AddTheme(curriculumId1, stageId1, themeName1, CourseName1, TeacherName, TeacherPassword);
-            themeId1 = GetThemeId(curriculumId1, stageId1, themeName1, TeacherName, TeacherPassword);
+            AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            AddTopic(disciplineId1, chapterId1, topicName1, CourseName1, TeacherName, TeacherPassword);
+            topicId1 = GetTopicId(disciplineId1, chapterId1, topicName1, TeacherName, TeacherPassword);
 
             Login(StudentName, StudentPassword);
 
-            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.Open("/Training/Play/" + topicId1);
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.SelectFrame("player");
             Selenium.SelectFrame("frameLearnTask");
@@ -1013,20 +1013,20 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         //public void InteractWithCourseContentNextPrev()
         //{
             
-        //    CreateCurriculum(curriculumName3, TeacherName, TeacherPassword);
-        //    curriculumId3 = GetCurriculumId(curriculumName3, TeacherName, TeacherPassword);
-        //    AddGroupToCurriculum(curriculumId3, GroupName, TeacherName, TeacherPassword);
-        //    string curriculumAssignmentId3 = GetCurriculumAssignmentId(curriculumId3, GroupName, TeacherName,
+        //    CreateDiscipline(disciplineName3, TeacherName, TeacherPassword);
+        //    disciplineId3 = GetDisciplineId(disciplineName3, TeacherName, TeacherPassword);
+        //    AddGroupToDiscipline(disciplineId3, GroupName, TeacherName, TeacherPassword);
+        //    string curriculumId3 = GetCurriculumId(disciplineId3, GroupName, TeacherName,
         //                                                               TeacherPassword);
-        //    AddTimeLineToCurriculum("12/18/1999 4:23 PM", "12/18/2100 4:23 PM", curriculumId3, curriculumAssignmentId3,
+        //    AddTimeLineToDiscipline("12/18/1999 4:23 PM", "12/18/2100 4:23 PM", disciplineId3, curriculumId3,
         //                            TeacherName, TeacherPassword);
-        //    AddStage(curriculumId3, stageName3, TeacherName, TeacherPassword);
-        //    string stageId3 = GetStageId(curriculumId3, stageName3, TeacherName, TeacherPassword);
-        //    AddTheme(curriculumId3, stageId3, themeName3, CourseName3, TeacherName, TeacherPassword);
-        //    themeId3 = GetThemeId(curriculumId3, stageId3, themeName3, TeacherName, TeacherPassword);
+        //    AddChapter(disciplineId3, chapterName3, TeacherName, TeacherPassword);
+        //    string chapterId3 = GetChapterId(disciplineId3, chapterName3, TeacherName, TeacherPassword);
+        //    AddTopic(disciplineId3, chapterId3, topicName3, CourseName3, TeacherName, TeacherPassword);
+        //    topicId3 = GetTopicId(disciplineId3, chapterId3, topicName3, TeacherName, TeacherPassword);
 
         //    Login(StudentName, StudentPassword);
-        //    Selenium.Open("/Training/Play/" + themeId3);
+        //    Selenium.Open("/Training/Play/" + topicId3);
         //    Selenium.WaitForPageToLoad(LoadTime);
         //    Selenium.SelectFrame("player");
         //    Selenium.SelectFrame("frameLearnTask");
@@ -1045,22 +1045,22 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         //public void InteractWithCourseContentSubmitLastItem()
         //{
            
-        //    // Creates assigned to group curriculum that contains valid curriculum timelines.
+        //    // Creates assigned to group discipline that contains valid discipline timelines.
 
-        //    CreateCurriculum(curriculumName5, TeacherName, TeacherPassword);
-        //    curriculumId5 = GetCurriculumId(curriculumName5, TeacherName, TeacherPassword);
-        //    AddGroupToCurriculum(curriculumId5, GroupName, TeacherName, TeacherPassword);
-        //    string curriculumAssignmentId5 = GetCurriculumAssignmentId(curriculumId5, GroupName, TeacherName,
+        //    CreateDiscipline(disciplineName5, TeacherName, TeacherPassword);
+        //    disciplineId5 = GetDisciplineId(disciplineName5, TeacherName, TeacherPassword);
+        //    AddGroupToDiscipline(disciplineId5, GroupName, TeacherName, TeacherPassword);
+        //    string curriculumId5 = GetCurriculumId(disciplineId5, GroupName, TeacherName,
         //                                                               TeacherPassword);
-        //    AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId5, curriculumAssignmentId5,
+        //    AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId5, curriculumId5,
         //                            TeacherName, TeacherPassword);
-        //    AddStage(curriculumId5, stageName5, TeacherName, TeacherPassword);
-        //    string stageId5 = GetStageId(curriculumId5, stageName5, TeacherName, TeacherPassword);
-        //    AddTheme(curriculumId5, stageId5, themeName5, CourseName2, TeacherName, TeacherPassword);
-        //    themeId5 = GetThemeId(curriculumId5, stageId5, themeName5, TeacherName, TeacherPassword);
+        //    AddChapter(disciplineId5, chapterName5, TeacherName, TeacherPassword);
+        //    string chapterId5 = GetChapterId(disciplineId5, chapterName5, TeacherName, TeacherPassword);
+        //    AddTopic(disciplineId5, chapterId5, topicName5, CourseName2, TeacherName, TeacherPassword);
+        //    topicId5 = GetTopicId(disciplineId5, chapterId5, topicName5, TeacherName, TeacherPassword);
 
         //    Login(StudentName1, StudentPassword1);
-        //    Selenium.Open("/Training/Play/" + themeId5);
+        //    Selenium.Open("/Training/Play/" + topicId5);
         //    Selenium.WaitForPageToLoad(LoadTime);
         //    Selenium.SelectFrame("player");
         //    Selenium.SelectFrame("frameLearnTask");
@@ -1094,23 +1094,23 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         //}
 
         [Test]
-        public void NavigateForwardThroughTheme()
+        public void NavigateForwardThroughTopic()
         {
           
-            // Creates assigned to group curriculum that contains valid curriculum timelines.
+            // Creates assigned to group discipline that contains valid discipline timelines.
 
-            CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
-            curriculumId1 = GetCurriculumId(curriculumName1, TeacherName, TeacherPassword);
-            AddGroupToCurriculum(curriculumId1, GroupName, TeacherName, TeacherPassword);
-            string curriculumAssignmentId1 = GetCurriculumAssignmentId(curriculumId1, GroupName, TeacherName, TeacherPassword);
-            AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId1, curriculumAssignmentId1, TeacherName, TeacherPassword);
-            AddStage(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            string stageId1 = GetStageId(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            AddTheme(curriculumId1, stageId1, themeName1, CourseName1, TeacherName, TeacherPassword);
-            themeId1 = GetThemeId(curriculumId1, stageId1, themeName1, TeacherName, TeacherPassword);
+            CreateDiscipline(disciplineName1, TeacherName, TeacherPassword);
+            disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
+            AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
+            string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName, TeacherPassword);
+            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1, TeacherName, TeacherPassword);
+            AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            AddTopic(disciplineId1, chapterId1, topicName1, CourseName1, TeacherName, TeacherPassword);
+            topicId1 = GetTopicId(disciplineId1, chapterId1, topicName1, TeacherName, TeacherPassword);
 
             Login(StudentName, StudentPassword);
-            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.Open("/Training/Play/" + topicId1);
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.SelectFrame("player");
             Selenium.SelectFrame("frameLearnTask");
@@ -1135,20 +1135,20 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         public void NavigateForwardOneStep()
         {
             
-            // Creates assigned to group curriculum that contains valid curriculum timelines.
+            // Creates assigned to group discipline that contains valid discipline timelines.
 
-            CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
-            curriculumId1 = GetCurriculumId(curriculumName1, TeacherName, TeacherPassword);
-            AddGroupToCurriculum(curriculumId1, GroupName, TeacherName, TeacherPassword);
-            string curriculumAssignmentId1 = GetCurriculumAssignmentId(curriculumId1, GroupName, TeacherName, TeacherPassword);
-            AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId1, curriculumAssignmentId1, TeacherName, TeacherPassword);
-            AddStage(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            string stageId1 = GetStageId(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            AddTheme(curriculumId1, stageId1, themeName1, CourseName1, TeacherName, TeacherPassword);
-            themeId1 = GetThemeId(curriculumId1, stageId1, themeName1, TeacherName, TeacherPassword);
+            CreateDiscipline(disciplineName1, TeacherName, TeacherPassword);
+            disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
+            AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
+            string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName, TeacherPassword);
+            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1, TeacherName, TeacherPassword);
+            AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            AddTopic(disciplineId1, chapterId1, topicName1, CourseName1, TeacherName, TeacherPassword);
+            topicId1 = GetTopicId(disciplineId1, chapterId1, topicName1, TeacherName, TeacherPassword);
 
             Login(StudentName, StudentPassword);
-            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.Open("/Training/Play/" + topicId1);
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.SelectFrame("player");
             Selenium.SelectFrame("frameLearnTask");
@@ -1203,20 +1203,20 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         public void NavigateChoiceToLastItemToFirst()
         {
            
-            // Creates assigned to group curriculum that contains valid curriculum timelines.
+            // Creates assigned to group discipline that contains valid discipline timelines.
 
-            CreateCurriculum(curriculumName1, TeacherName, TeacherPassword);
-            curriculumId1 = GetCurriculumId(curriculumName1, TeacherName, TeacherPassword);
-            AddGroupToCurriculum(curriculumId1, GroupName, TeacherName, TeacherPassword);
-            string curriculumAssignmentId1 = GetCurriculumAssignmentId(curriculumId1, GroupName, TeacherName, TeacherPassword);
-            AddTimeLineToCurriculum("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", curriculumId1, curriculumAssignmentId1, TeacherName, TeacherPassword);
-            AddStage(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            string stageId1 = GetStageId(curriculumId1, stageName1, TeacherName, TeacherPassword);
-            AddTheme(curriculumId1, stageId1, themeName1, CourseName1, TeacherName, TeacherPassword);
-            themeId1 = GetThemeId(curriculumId1, stageId1, themeName1, TeacherName, TeacherPassword);
+            CreateDiscipline(disciplineName1, TeacherName, TeacherPassword);
+            disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
+            AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
+            string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName, TeacherPassword);
+            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1, TeacherName, TeacherPassword);
+            AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
+            AddTopic(disciplineId1, chapterId1, topicName1, CourseName1, TeacherName, TeacherPassword);
+            topicId1 = GetTopicId(disciplineId1, chapterId1, topicName1, TeacherName, TeacherPassword);
 
             Login(StudentName, StudentPassword);
-            Selenium.Open("/Training/Play/" + themeId1);
+            Selenium.Open("/Training/Play/" + topicId1);
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.SelectFrame("player");
             Selenium.SelectFrame("frameLearnTask");

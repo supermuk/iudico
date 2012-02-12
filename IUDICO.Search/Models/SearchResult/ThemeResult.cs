@@ -4,35 +4,35 @@ using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Search.Models.SearchResult
 {
-    public class ThemeResult : ISearchResult
+    public class TopicResult : ISearchResult
     {
-        protected Theme _Theme;
+        protected Topic _Topic;
         protected string _Course;
-        public ThemeResult(Theme theme, string course)
+        public TopicResult(Topic topic, string course)
         {
-            _Theme = theme;
+            _Topic = topic;
             _Course = course;
         }
 
         public int GetId()
         {
-            return _Theme.Id;
+            return _Topic.Id;
         }
 
         public String GetName()
         {
-            return _Theme.Name;
+            return _Topic.Name;
         }
 
         public String GetText()
         {
-            return Localization.getMessage("ThemeName") + ": " + GetName() + "</br>" + Localization.getMessage("Course") + ": " + _Course + "</br>" + GetUrl();
+            return Localization.getMessage("TopicName") + ": " + GetName() + "</br>" + Localization.getMessage("Course") + ": " + _Course + "</br>" + GetUrl();
         }
 
         public String GetUrl()
         {
 
-            return "/Theme/" + _Theme.Id + "/Edit";
+            return "/Topic/" + _Topic.Id + "/Edit";
         }
     }
 }

@@ -11,7 +11,7 @@ namespace IUDICO.UnitTests
 {
     public static class AdvAssert
     {
-        public static void AreEqual(Curriculum expected, Curriculum actual)
+        public static void AreEqual(Discipline expected, Discipline actual)
         {
             Assert.AreEqual(expected.Name, actual.Name);
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
@@ -21,13 +21,13 @@ namespace IUDICO.UnitTests
             //Assert.AreEqual(expected.Updated.ToString(), actual.Updated.ToString());
         }
 
-        public static void AreEqual(IList<Curriculum> expected, IList<Curriculum> actual)
+        public static void AreEqual(IList<Discipline> expected, IList<Discipline> actual)
         {
             Assert.AreEqual(expected.Count, actual.Count);
 
-            foreach (Curriculum expectedItem in expected)
+            foreach (Discipline expectedItem in expected)
             {
-                Curriculum actualItem = actual.SingleOrDefault(item => item.Id == expectedItem.Id);
+                Discipline actualItem = actual.SingleOrDefault(item => item.Id == expectedItem.Id);
                 if (actualItem != null)
                 {
                     AreEqual(expectedItem, actualItem);
@@ -40,23 +40,23 @@ namespace IUDICO.UnitTests
             }
         }
 
-        public static void AreEqual(Stage expected, Stage actual)
+        public static void AreEqual(Chapter expected, Chapter actual)
         {
             Assert.AreEqual(expected.Name, actual.Name);
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
             Assert.AreEqual(expected.Id, actual.Id);
-            Assert.AreEqual(expected.CurriculumRef, actual.CurriculumRef);
+            Assert.AreEqual(expected.DisciplineRef, actual.DisciplineRef);
             //Assert.AreEqual(expected.Created.ToString(), actual.Created.ToString());
             //Assert.AreEqual(expected.Updated.ToString(), actual.Updated.ToString());
         }
 
-        public static void AreEqual(IList<Stage> expected, IList<Stage> actual)
+        public static void AreEqual(IList<Chapter> expected, IList<Chapter> actual)
         {
             Assert.AreEqual(expected.Count, actual.Count);
 
-            foreach (Stage expectedItem in expected)
+            foreach (Chapter expectedItem in expected)
             {
-                Stage actualItem = actual.SingleOrDefault(item => item.Id == expectedItem.Id);
+                Chapter actualItem = actual.SingleOrDefault(item => item.Id == expectedItem.Id);
                 if (actualItem != null)
                 {
                     AreEqual(expectedItem, actualItem);
@@ -69,23 +69,23 @@ namespace IUDICO.UnitTests
             }
         }
 
-        public static void AreEqual(Theme expected, Theme actual)
+        public static void AreEqual(Topic expected, Topic actual)
         {
             Assert.AreEqual(expected.Name, actual.Name);
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
             Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreEqual(expected.CourseRef, actual.CourseRef);
-            Assert.AreEqual(expected.ThemeTypeRef, actual.ThemeTypeRef);
-            Assert.AreEqual(expected.StageRef, actual.StageRef);
+            Assert.AreEqual(expected.TopicTypeRef, actual.TopicTypeRef);
+            Assert.AreEqual(expected.ChapterRef, actual.ChapterRef);
         }
 
-        public static void AreEqual(IList<Theme> expected, IList<Theme> actual)
+        public static void AreEqual(IList<Topic> expected, IList<Topic> actual)
         {
             Assert.AreEqual(expected.Count, actual.Count);
 
-            foreach (Theme expectedItem in expected)
+            foreach (Topic expectedItem in expected)
             {
-                Theme actualItem = actual.SingleOrDefault(item => item.Id == expectedItem.Id);
+                Topic actualItem = actual.SingleOrDefault(item => item.Id == expectedItem.Id);
                 if (actualItem != null)
                 {
                     AreEqual(expectedItem, actualItem);
@@ -98,21 +98,21 @@ namespace IUDICO.UnitTests
             }
         }
 
-        public static void AreEqual(CurriculumAssignment actual, CurriculumAssignment expected)
+        public static void AreEqual(Curriculum actual, Curriculum expected)
         {
             Assert.AreEqual(expected.UserGroupRef, actual.UserGroupRef);
             Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
-            Assert.AreEqual(expected.CurriculumRef, actual.CurriculumRef);
+            Assert.AreEqual(expected.DisciplineRef, actual.DisciplineRef);
         }
 
-        public static void AreEqual(IList<CurriculumAssignment> expected, IList<CurriculumAssignment> actual)
+        public static void AreEqual(IList<Curriculum> expected, IList<Curriculum> actual)
         {
             Assert.AreEqual(expected.Count, actual.Count);
 
-            foreach (CurriculumAssignment expectedItem in expected)
+            foreach (Curriculum expectedItem in expected)
             {
-                CurriculumAssignment actualItem = actual.SingleOrDefault(item => item.Id == expectedItem.Id);
+                Curriculum actualItem = actual.SingleOrDefault(item => item.Id == expectedItem.Id);
                 if (actualItem != null)
                 {
                     AreEqual(expectedItem, actualItem);
@@ -130,8 +130,8 @@ namespace IUDICO.UnitTests
             Assert.AreEqual(expected.EndDate.ToString(), actual.EndDate.ToString());
             Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
-            Assert.AreEqual(expected.CurriculumAssignmentRef, actual.CurriculumAssignmentRef);
-            Assert.AreEqual(expected.StageRef, actual.StageRef);
+            Assert.AreEqual(expected.CurriculumRef, actual.CurriculumRef);
+            Assert.AreEqual(expected.ChapterRef, actual.ChapterRef);
             Assert.AreEqual(expected.StartDate.ToString(), actual.StartDate.ToString());
         }
 
@@ -176,22 +176,22 @@ namespace IUDICO.UnitTests
             }
         }
 
-        public static void AreEqual(ThemeAssignment actual, ThemeAssignment expected)
+        public static void AreEqual(TopicAssignment actual, TopicAssignment expected)
         {
-            Assert.AreEqual(expected.ThemeRef, actual.ThemeRef);
+            Assert.AreEqual(expected.TopicRef, actual.TopicRef);
             Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
-            Assert.AreEqual(expected.CurriculumAssignmentRef, actual.CurriculumAssignmentRef);
+            Assert.AreEqual(expected.CurriculumRef, actual.CurriculumRef);
             Assert.AreEqual(expected.MaxScore, actual.MaxScore);
         }
 
-        public static void AreEqual(IList<ThemeAssignment> expected, IList<ThemeAssignment> actual)
+        public static void AreEqual(IList<TopicAssignment> expected, IList<TopicAssignment> actual)
         {
             Assert.AreEqual(expected.Count, actual.Count);
 
-            foreach (ThemeAssignment expectedItem in expected)
+            foreach (TopicAssignment expectedItem in expected)
             {
-                ThemeAssignment actualItem = actual.SingleOrDefault(item => item.Id == expectedItem.Id);
+                TopicAssignment actualItem = actual.SingleOrDefault(item => item.Id == expectedItem.Id);
                 if (actualItem != null)
                 {
                     AreEqual(expectedItem, actualItem);
@@ -203,26 +203,26 @@ namespace IUDICO.UnitTests
                 }
             }
         }
-        public static void AreEqual(ThemeDescription expected, ThemeDescription actual)
+        public static void AreEqual(TopicDescription expected, TopicDescription actual)
         {
-            Assert.AreEqual(expected.Theme, actual.Theme);
-            Assert.AreEqual(expected.Stage, actual.Stage);
-            Assert.AreEqual(expected.Curriculum, actual.Curriculum);
+            Assert.AreEqual(expected.Topic, actual.Topic);
+            Assert.AreEqual(expected.Chapter, actual.Chapter);
+            Assert.AreEqual(expected.Discipline, actual.Discipline);
             AdvAssert.AreEqual(expected.Timelines, actual.Timelines);
         }
-        public static void AreEqual(IEnumerable<ThemeDescription> expected, IEnumerable<ThemeDescription> actual)
+        public static void AreEqual(IEnumerable<TopicDescription> expected, IEnumerable<TopicDescription> actual)
         {
             Assert.AreEqual(expected.ToList().Count, actual.ToList().Count);
-            foreach (ThemeDescription exp in expected)
+            foreach (TopicDescription exp in expected)
             {
-                ThemeDescription act = actual.SingleOrDefault(item => item.Theme == exp.Theme);
+                TopicDescription act = actual.SingleOrDefault(item => item.Topic == exp.Topic);
                 if (act != null)
                 {
                     AreEqual(exp, act);
                 }
                 else
                 {
-                    Assert.Fail("Expected theme description with theme={0} doesn't exists in actual collection", exp.Theme);
+                    Assert.Fail("Expected topic description with topic={0} doesn't exists in actual collection", exp.Topic);
                 }
             }
         }

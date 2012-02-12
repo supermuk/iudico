@@ -28,10 +28,10 @@
          <%=IUDICO.Statistics.Localization.getMessage("Teacher")%>: <%: Model.GetTeacherUserName()%>
         </p>
         <p>
-       <%=IUDICO.Statistics.Localization.getMessage("Curriculum")%>: <%: Model.GetCurriculumName()%>
+       <%=IUDICO.Statistics.Localization.getMessage("Discipline")%>: <%: Model.GetDisciplineName()%>
         </p>
         <p>
-        <%=IUDICO.Statistics.Localization.getMessage("Theme")%>: <%: Model.GetThemeName()%>
+        <%=IUDICO.Statistics.Localization.getMessage("Topic")%>: <%: Model.GetTopicName()%>
         </p>
         <form id = "selectGroupsForm" action="/QualityTest/ShowQualityTest/" method="post">
         <% foreach (IUDICO.Common.Models.Shared.Group group in Model.GetAllowedGroups())

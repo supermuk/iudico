@@ -9,18 +9,18 @@ using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Statistics.Models.StatisticsModels
 {
-    public class CurrentThemeTestResultsModel
+    public class CurrentTopicTestResultsModel
     {
         private AttemptResult _Attempt;
         private IEnumerable<AnswerResult> _UserAnswers;
         private bool _NoData;
-        public CurrentThemeTestResultsModel(int themeId, ILmsService lmsService)
+        public CurrentTopicTestResultsModel(int topicId, ILmsService lmsService)
         {
             User currenUser = lmsService.FindService<IUserService>().GetCurrentUser();
-            Theme theme = lmsService.FindService<ICurriculumService>().GetTheme(themeId);
-            if (currenUser != null & theme != null)
+            Topic topic = lmsService.FindService<ICurriculumService>().GetTopic(topicId);
+            if (currenUser != null & topic != null)
             {
-                IEnumerable<AttemptResult> attemptResults = lmsService.FindService<ITestingService>().GetResults(currenUser, theme);
+                IEnumerable<AttemptResult> attemptResults = lmsService.FindService<ITestingService>().GetResults(currenUser, topic);
                 if (attemptResults != null & attemptResults.Count() >= 1)
                 {
 
@@ -51,10 +51,10 @@ namespace IUDICO.Statistics.Models.StatisticsModels
             else
                 return "";
         }
-        public String GetThemeName()
+        public String GetTopicName()
         {
             if (this._Attempt != null)
-                return this._Attempt.Theme.Name;
+                return this._Attempt.Topic.Name;
             else
                 return "";
         }

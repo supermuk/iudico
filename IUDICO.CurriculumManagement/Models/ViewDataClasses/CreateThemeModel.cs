@@ -9,22 +9,22 @@ using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
 {
-    public class CreateThemeModel
+    public class CreateTopicModel
     {
         public List<SelectListItem> Courses { get; set; }
-        public List<SelectListItem> ThemeTypes { get; set; }
+        public List<SelectListItem> TopicTypes { get; set; }
         public int CourseId { get; set; }
-        public int StageId { get; set; }
-        public int ThemeTypeId { get; set; }
-        public string ThemeName { get; set; }
+        public int ChapterId { get; set; }
+        public int TopicTypeId { get; set; }
+        public string TopicName { get; set; }
 
-        public CreateThemeModel()
+        public CreateTopicModel()
         {
         }
 
-        public CreateThemeModel(int stageId, IEnumerable<Course> courses, int? courseId, IEnumerable<ThemeType> themeTypes, int themeTypeId, string themeName)
+        public CreateTopicModel(int chapterId, IEnumerable<Course> courses, int? courseId, IEnumerable<TopicType> topicTypes, int topicTypeId, string topicName)
         {
-            StageId = stageId;
+            ChapterId = chapterId;
             Courses = courses
                     .Select(item => new SelectListItem
                     {
@@ -40,7 +40,7 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
                 Selected = false
             });
 
-            ThemeTypes = themeTypes
+            TopicTypes = topicTypes
                         .Select(item => new SelectListItem
                         {
                             Text = Converters.ConvertToString(item),
@@ -49,8 +49,8 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
                         })
                         .ToList();
             CourseId = courseId ?? Constants.NoCourseId;
-            ThemeTypeId = themeTypeId;
-            ThemeName = themeName;
+            TopicTypeId = topicTypeId;
+            TopicName = topicName;
         }
     }
 }

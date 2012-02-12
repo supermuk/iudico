@@ -132,61 +132,61 @@ namespace IUDICO.Search
                 DeleteFromIndex(term);
             }
 
-            if (evt == CurriculumNotifications.CurriculumCreate)
+            if (evt == DisciplineNotifications.DisciplineCreate)
             {
-                Curriculum curriculum = (Curriculum)data[0];
+                Discipline discipline = (Discipline)data[0];
                 Document document = new Document();
-                document.Add(new Field("Type", "Curriculum", Field.Store.YES, Field.Index.NO));
-                document.Add(new Field("CurriculumID", curriculum.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
-                document.Add(new Field("Owner", curriculum.Owner, Field.Store.YES, Field.Index.NO));
-                document.Add(new Field("Curriculum", curriculum.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
+                document.Add(new Field("Type", "Discipline", Field.Store.YES, Field.Index.NO));
+                document.Add(new Field("DisciplineID", discipline.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
+                document.Add(new Field("Owner", discipline.Owner, Field.Store.YES, Field.Index.NO));
+                document.Add(new Field("Discipline", discipline.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
 
                 AddToIndex(document);
             }
 
-            if (evt == CurriculumNotifications.CurriculumEdit)
+            if (evt == DisciplineNotifications.DisciplineEdit)
             {
-                Update(CurriculumNotifications.CurriculumDelete, data[0]);
-                Update(CurriculumNotifications.CurriculumCreate, data[1]);
+                Update(DisciplineNotifications.DisciplineDelete, data[0]);
+                Update(DisciplineNotifications.DisciplineCreate, data[1]);
             }
 
-            if (evt == CurriculumNotifications.CurriculumDelete)
+            if (evt == DisciplineNotifications.DisciplineDelete)
             {
-                Curriculum curriculum = (Curriculum)data[0];
-                Term term = new Term("CurriculumID", curriculum.Id.ToString());
+                Discipline discipline = (Discipline)data[0];
+                Term term = new Term("DisciplineID", discipline.Id.ToString());
                 DeleteFromIndex(term);
             }
 
-            if (evt == CurriculumNotifications.ThemeCreate)
+            if (evt == DisciplineNotifications.TopicCreate)
             {
-                Theme theme = (Theme)data[0];
+                Topic topic = (Topic)data[0];
                 Document document = new Document();
                 document = new Document();
-                document.Add(new Field("Type", "Theme", Field.Store.YES, Field.Index.NO));
-                document.Add(new Field("ThemeID", theme.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
-                document.Add(new Field("Theme", theme.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
-                if (theme.CourseRef == null)
+                document.Add(new Field("Type", "Topic", Field.Store.YES, Field.Index.NO));
+                document.Add(new Field("TopicID", topic.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
+                document.Add(new Field("Topic", topic.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
+                if (topic.CourseRef == null)
                 {
                     document.Add(new Field("CourseRef", "null", Field.Store.YES, Field.Index.NO));
                 }
                 else
                 {
-                    document.Add(new Field("CourseRef", theme.CourseRef.ToString(), Field.Store.YES, Field.Index.NO));
+                    document.Add(new Field("CourseRef", topic.CourseRef.ToString(), Field.Store.YES, Field.Index.NO));
                 }
 
                 AddToIndex(document);
             }
 
-            if (evt == CurriculumNotifications.ThemeEdit)
+            if (evt == DisciplineNotifications.TopicEdit)
             {
-                Update(CurriculumNotifications.ThemeDelete, data[0]);
-                Update(CurriculumNotifications.ThemeCreate, data[1]);
+                Update(DisciplineNotifications.TopicDelete, data[0]);
+                Update(DisciplineNotifications.TopicCreate, data[1]);
             }
 
-            if (evt == CurriculumNotifications.ThemeDelete)
+            if (evt == DisciplineNotifications.TopicDelete)
             {
-                Theme theme = (Theme)data[0];
-                Term term = new Term("ThemeID", theme.Id.ToString());
+                Topic topic = (Topic)data[0];
+                Term term = new Term("TopicID", topic.Id.ToString());
                 DeleteFromIndex(term);
             }
 
@@ -322,11 +322,11 @@ namespace IUDICO.Search
             //var user = service.FindService<IUserService>().GetCurrentUser();
 
             var courseService = service.FindService<ICourseService>();
-            var curriculumService = service.FindService<ICurriculumService>();
+            var disciplineService = service.FindService<ICurriculumService>();
             var userService = service.FindService<IUserService>();
 
             var courses = courseService.GetCourses();
-            var curriculums = curriculumService.GetCurriculums();
+            var disciplines = disciplineService.GetDisciplines();
             var users = userService.GetUsers();
             var groups = userService.GetGroups();
 
@@ -357,30 +357,30 @@ namespace IUDICO.Search
                     }
                 }
 
-                foreach (Curriculum curriculum in curriculums)
+                foreach (Discipline discipline in disciplines)
                 {
                     document = new Document();
-                    document.Add(new Field("Type", "Curriculum", Field.Store.YES, Field.Index.NO));
-                    document.Add(new Field("CurriculumID", curriculum.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
-                    document.Add(new Field("Owner", curriculum.Owner, Field.Store.YES, Field.Index.NO));
-                    document.Add(new Field("Curriculum", curriculum.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
+                    document.Add(new Field("Type", "Discipline", Field.Store.YES, Field.Index.NO));
+                    document.Add(new Field("DisciplineID", discipline.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
+                    document.Add(new Field("Owner", discipline.Owner, Field.Store.YES, Field.Index.NO));
+                    document.Add(new Field("Discipline", discipline.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
                     writer.AddDocument(document);
 
-                    var themes = curriculumService.GetThemesByCurriculumId(curriculum.Id);
+                    var topics = disciplineService.GetTopicsByDisciplineId(discipline.Id);
                     
-                    foreach (Theme theme in themes)
+                    foreach (Topic topic in topics)
                     {
                         document = new Document();
-                        document.Add(new Field("Type", "Theme", Field.Store.YES, Field.Index.NO));
-                        document.Add(new Field("ThemeID", theme.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
-                        document.Add(new Field("Theme", theme.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
-                        if (theme.CourseRef == null)
+                        document.Add(new Field("Type", "Topic", Field.Store.YES, Field.Index.NO));
+                        document.Add(new Field("TopicID", topic.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
+                        document.Add(new Field("Topic", topic.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
+                        if (topic.CourseRef == null)
                         {
                             document.Add(new Field("CourseRef", "null", Field.Store.YES, Field.Index.NO));
                         }
                         else
                         {
-                            document.Add(new Field("CourseRef", theme.CourseRef.ToString(), Field.Store.YES, Field.Index.NO));
+                            document.Add(new Field("CourseRef", topic.CourseRef.ToString(), Field.Store.YES, Field.Index.NO));
                         }
 
                         writer.AddDocument(document);

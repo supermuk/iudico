@@ -4,25 +4,25 @@ namespace IUDICO.CurriculumManagement
 {
     public static class Converters
     {
-        public static ThemeType ConvertToThemeType(IUDICO.Common.Models.Shared.ThemeType themeType)
+        public static TopicType ConvertToTopicType(IUDICO.Common.Models.Shared.TopicType topicType)
         {
-            switch (themeType.Name)
+            switch (topicType.Name)
             {
-                case "Test":return ThemeType.Test;
-                case "Theory":return ThemeType.Theory;
-                case "TestWithoutCourse": return ThemeType.TestWithoutCourse;
+                case "Test":return TopicType.Test;
+                case "Theory":return TopicType.Theory;
+                case "TestWithoutCourse": return TopicType.TestWithoutCourse;
                 default: throw new ArgumentOutOfRangeException();
             }
         }
 
-        public static string ConvertToString(IUDICO.Common.Models.Shared.ThemeType themeType)
+        public static string ConvertToString(IUDICO.Common.Models.Shared.TopicType topicType)
         {
-            ThemeType enumThemeType = ConvertToThemeType(themeType);
-            switch (enumThemeType)
+            TopicType enumTopicType = ConvertToTopicType(topicType);
+            switch (enumTopicType)
             {
-                case ThemeType.Test: return Localization.getMessage("ThemeType.Test");
-                case ThemeType.Theory: return Localization.getMessage("ThemeType.Theory");
-                case ThemeType.TestWithoutCourse: return  Localization.getMessage("ThemeType.TestWithoutCourse");
+                case TopicType.Test: return Localization.getMessage("TopicType.Test");
+                case TopicType.Theory: return Localization.getMessage("TopicType.Theory");
+                case TopicType.TestWithoutCourse: return  Localization.getMessage("TopicType.TestWithoutCourse");
                 default: throw new ArgumentOutOfRangeException();
             }
         }

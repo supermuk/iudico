@@ -9,12 +9,12 @@ namespace IUDICO.CurriculumManagement.Models
         //IMockableTable<Group> Groups { get; }
         //IMockableTable<GroupUser> GroupUsers { get; }
         //IMockableTable<UserRole> UserRoles { get; }
+        IMockableTable<Discipline> Disciplines { get; }
+        IMockableTable<Chapter> Chapters { get; }
+        IMockableTable<Topic> Topics { get; }
         IMockableTable<Curriculum> Curriculums { get; }
-        IMockableTable<Stage> Stages { get; }
-        IMockableTable<Theme> Themes { get; }
-        IMockableTable<CurriculumAssignment> CurriculumAssignments { get; }
         IMockableTable<Timeline> Timelines { get; }
-        IMockableTable<ThemeAssignment> ThemeAssignments { get; }
-        IMockableTable<ThemeType> ThemeTypes { get; }
+        IMockableTable<TopicAssignment> TopicAssignments { get; }
+        IMockableTable<TopicType> TopicTypes { get; }
     }
 }

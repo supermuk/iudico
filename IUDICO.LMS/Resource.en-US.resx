@@ -120,8 +120,8 @@
   <data name="Action" xml:space="preserve">
     <value>Action</value>
   </data>
-  <data name="AvailableThemes" xml:space="preserve">
-    <value>Available themes:</value>
+  <data name="AvailableTopics" xml:space="preserve">
+    <value>Available topics:</value>
   </data>
   <data name="ChangeCulture" xml:space="preserve">
     <value>uk-UA</value>

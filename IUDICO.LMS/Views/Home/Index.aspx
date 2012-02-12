@@ -21,12 +21,12 @@
         <% } %>
     <% } %>
 
-    <% if (Model.ThemesDescriptions.Count() > 0) { %>
-    <h4><%=IUDICO.LMS.Localization.getMessage("AvailableThemes") %></h4>
+    <% if (Model.TopicsDescriptions.Count() > 0) { %>
+    <h4><%=IUDICO.LMS.Localization.getMessage("AvailableTopics") %></h4>
     <ul>
-    <% foreach (var themeDescription in Model.ThemesDescriptions)
+    <% foreach (var topicDescription in Model.TopicsDescriptions)
        { %>
-        <li><%: Html.ActionLink(themeDescription.ToString(), "Play", "Training", new { Id = themeDescription.Theme.Id }, null)%></li>
+        <li><%: Html.ActionLink(topicDescription.ToString(), "Play", "Training", new { Id = topicDescription.Topic.Id }, null)%></li>
     <% } %>
     </ul>
     <% } %>

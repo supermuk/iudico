@@ -25,11 +25,11 @@ namespace IUDICO.Search.Models.ViewDataClasses
                 case SearchType.Courses:
                     Text="Courses";
                     break;
-                case SearchType.Curriculums:
-                    Text = "Curriculums";
+                case SearchType.Disciplines:
+                    Text = "Disciplines";
                     break;
-                case SearchType.Themes:
-                    Text = "Themes";
+                case SearchType.Topics:
+                    Text = "Topics";
                     break;
                 case SearchType.Users:
                     Text = "Users";

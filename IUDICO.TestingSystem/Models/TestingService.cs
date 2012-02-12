@@ -27,9 +27,9 @@ namespace IUDICO.TestingSystem.Models
 
         #region ITestingService interface implementation
 
-        public IEnumerable<AttemptResult> GetResults(User user, Theme theme)
+        public IEnumerable<AttemptResult> GetResults(User user, Topic topic)
         {
-            IEnumerable<AttemptResult> result = MlcProxy.GetResults(user, theme);
+            IEnumerable<AttemptResult> result = MlcProxy.GetResults(user, topic);
             return result;
         }
 
@@ -45,10 +45,10 @@ namespace IUDICO.TestingSystem.Models
             return result;
         }
 
-        public ActionLink BuildLink(Theme theme)
+        public ActionLink BuildLink(Topic topic)
         {
             RouteValueDictionary routeValueDictionary = new RouteValueDictionary();
-            routeValueDictionary.Add("id", theme.Id);
+            routeValueDictionary.Add("id", topic.Id);
             ActionLink actionLink = new ActionLink("Play", "Training", routeValueDictionary);
             return actionLink;
         }

@@ -15,14 +15,14 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
         [SetUp]
         public void PlayModelTestsSetUp()
         {
-            playModel = new PlayModel() { AttemptId = 12345, ThemeId = 1 };
+            playModel = new PlayModel() { AttemptId = 12345, TopicId = 1 };
         }
         [Test]
         public void PlayModelPropertiesTest()
         {
             PlayModelTestsSetUp();
             Assert.AreEqual(playModel.AttemptId, 12345);
-            Assert.AreEqual(playModel.ThemeId, 1);
+            Assert.AreEqual(playModel.TopicId, 1);
         }
     }
 }

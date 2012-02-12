@@ -751,8 +751,8 @@ namespace IUDICO.Common.Models.Shared
         }
     }
 
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.CurriculumAssignments")]
-    public partial class CurriculumAssignment : INotifyPropertyChanging, INotifyPropertyChanged
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Curriculums")]
+    public partial class Curriculum : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -761,17 +761,17 @@ namespace IUDICO.Common.Models.Shared
 
         private int _UserGroupRef;
 
-        private int _CurriculumRef;
+        private int _DisciplineRef;
 
         private bool _IsDeleted;
 
         private bool _IsValid;
 
-        private EntitySet<ThemeAssignment> _ThemeAssignments;
+        private EntitySet<TopicAssignment> _TopicAssignments;
 
         private EntitySet<Timeline> _Timelines;
 
-        private EntityRef<Curriculum> _Curriculum;
+        private EntityRef<Discipline> _Discipline;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -781,19 +781,19 @@ namespace IUDICO.Common.Models.Shared
         partial void OnIdChanged();
         partial void OnUserGroupRefChanging(int value);
         partial void OnUserGroupRefChanged();
-        partial void OnCurriculumRefChanging(int value);
-        partial void OnCurriculumRefChanged();
+        partial void OnDisciplineRefChanging(int value);
+        partial void OnDisciplineRefChanged();
         partial void OnIsDeletedChanging(bool value);
         partial void OnIsDeletedChanged();
         partial void OnIsValidChanging(bool value);
         partial void OnIsValidChanged();
         #endregion
 
-        public CurriculumAssignment()
+        public Curriculum()
         {
-            this._ThemeAssignments = new EntitySet<ThemeAssignment>(new Action<ThemeAssignment>(this.attach_ThemeAssignments), new Action<ThemeAssignment>(this.detach_ThemeAssignments));
+            this._TopicAssignments = new EntitySet<TopicAssignment>(new Action<TopicAssignment>(this.attach_TopicAssignments), new Action<TopicAssignment>(this.detach_TopicAssignments));
             this._Timelines = new EntitySet<Timeline>(new Action<Timeline>(this.attach_Timelines), new Action<Timeline>(this.detach_Timelines));
-            this._Curriculum = default(EntityRef<Curriculum>);
+            this._Discipline = default(EntityRef<Discipline>);
             OnCreated();
         }
 
@@ -837,26 +837,26 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CurriculumRef", DbType = "Int NOT NULL")]
-        public int CurriculumRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DisciplineRef", DbType = "Int NOT NULL")]
+        public int DisciplineRef
         {
             get
             {
-                return this._CurriculumRef;
+                return this._DisciplineRef;
             }
             set
             {
-                if ((this._CurriculumRef != value))
+                if ((this._DisciplineRef != value))
                 {
-                    if (this._Curriculum.HasLoadedOrAssignedValue)
+                    if (this._Discipline.HasLoadedOrAssignedValue)
                     {
                         throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
                     }
-                    this.OnCurriculumRefChanging(value);
+                    this.OnDisciplineRefChanging(value);
                     this.SendPropertyChanging();
-                    this._CurriculumRef = value;
-                    this.SendPropertyChanged("CurriculumRef");
-                    this.OnCurriculumRefChanged();
+                    this._DisciplineRef = value;
+                    this.SendPropertyChanged("DisciplineRef");
+                    this.OnDisciplineRefChanged();
                 }
             }
         }
@@ -901,20 +901,20 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "CurriculumAssignment_ThemeAssignment", Storage = "_ThemeAssignments", ThisKey = "Id", OtherKey = "CurriculumAssignmentRef")]
-        public EntitySet<ThemeAssignment> ThemeAssignments
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Curriculum_TopicAssignment", Storage = "_TopicAssignments", ThisKey = "Id", OtherKey = "CurriculumRef")]
+        public EntitySet<TopicAssignment> TopicAssignments
         {
             get
             {
-                return this._ThemeAssignments;
+                return this._TopicAssignments;
             }
             set
             {
-                this._ThemeAssignments.Assign(value);
+                this._TopicAssignments.Assign(value);
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "CurriculumAssignment_Timeline", Storage = "_Timelines", ThisKey = "Id", OtherKey = "CurriculumAssignmentRef")]
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Curriculum_Timeline", Storage = "_Timelines", ThisKey = "Id", OtherKey = "CurriculumRef")]
         public EntitySet<Timeline> Timelines
         {
             get
@@ -927,36 +927,36 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Curriculum_CurriculumAssignment", Storage = "_Curriculum", ThisKey = "CurriculumRef", OtherKey = "Id", IsForeignKey = true)]
-        public Curriculum Curriculum
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Discipline_Curriculum", Storage = "_Discipline", ThisKey = "DisciplineRef", OtherKey = "Id", IsForeignKey = true)]
+        public Discipline Discipline
         {
             get
             {
-                return this._Curriculum.Entity;
+                return this._Discipline.Entity;
             }
             set
             {
-                Curriculum previousValue = this._Curriculum.Entity;
+                Discipline previousValue = this._Discipline.Entity;
                 if (((previousValue != value)
-                            || (this._Curriculum.HasLoadedOrAssignedValue == false)))
+                            || (this._Discipline.HasLoadedOrAssignedValue == false)))
                 {
                     this.SendPropertyChanging();
                     if ((previousValue != null))
                     {
-                        this._Curriculum.Entity = null;
-                        previousValue.CurriculumAssignments.Remove(this);
+                        this._Discipline.Entity = null;
+                        previousValue.Curriculums.Remove(this);
                     }
-                    this._Curriculum.Entity = value;
+                    this._Discipline.Entity = value;
                     if ((value != null))
                     {
-                        value.CurriculumAssignments.Add(this);
-                        this._CurriculumRef = value.Id;
+                        value.Curriculums.Add(this);
+                        this._DisciplineRef = value.Id;
                     }
                     else
                     {
-                        this._CurriculumRef = default(int);
+                        this._DisciplineRef = default(int);
                     }
-                    this.SendPropertyChanged("Curriculum");
+                    this.SendPropertyChanged("Discipline");
                 }
             }
         }
@@ -981,33 +981,33 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        private void attach_ThemeAssignments(ThemeAssignment entity)
+        private void attach_TopicAssignments(TopicAssignment entity)
         {
             this.SendPropertyChanging();
-            entity.CurriculumAssignment = this;
+            entity.Curriculum = this;
         }
 
-        private void detach_ThemeAssignments(ThemeAssignment entity)
+        private void detach_TopicAssignments(TopicAssignment entity)
         {
             this.SendPropertyChanging();
-            entity.CurriculumAssignment = null;
+            entity.Curriculum = null;
         }
 
         private void attach_Timelines(Timeline entity)
         {
             this.SendPropertyChanging();
-            entity.CurriculumAssignment = this;
+            entity.Curriculum = this;
         }
 
         private void detach_Timelines(Timeline entity)
         {
             this.SendPropertyChanging();
-            entity.CurriculumAssignment = null;
+            entity.Curriculum = null;
         }
     }
 
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Curriculums")]
-    public partial class Curriculum : INotifyPropertyChanging, INotifyPropertyChanged
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Disciplines")]
+    public partial class Discipline : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -1026,9 +1026,9 @@ namespace IUDICO.Common.Models.Shared
 
         private bool _IsValid;
 
-        private EntitySet<CurriculumAssignment> _CurriculumAssignments;
+        private EntitySet<Curriculum> _Curriculums;
 
-        private EntitySet<Stage> _Stages;
+        private EntitySet<Chapter> _Chapters;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -1050,10 +1050,10 @@ namespace IUDICO.Common.Models.Shared
         partial void OnIsValidChanged();
         #endregion
 
-        public Curriculum()
+        public Discipline()
         {
-            this._CurriculumAssignments = new EntitySet<CurriculumAssignment>(new Action<CurriculumAssignment>(this.attach_CurriculumAssignments), new Action<CurriculumAssignment>(this.detach_CurriculumAssignments));
-            this._Stages = new EntitySet<Stage>(new Action<Stage>(this.attach_Stages), new Action<Stage>(this.detach_Stages));
+            this._Curriculums = new EntitySet<Curriculum>(new Action<Curriculum>(this.attach_Curriculums), new Action<Curriculum>(this.detach_Curriculums));
+            this._Chapters = new EntitySet<Chapter>(new Action<Chapter>(this.attach_Chapters), new Action<Chapter>(this.detach_Chapters));
             OnCreated();
         }
 
@@ -1197,29 +1197,29 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Curriculum_CurriculumAssignment", Storage = "_CurriculumAssignments", ThisKey = "Id", OtherKey = "CurriculumRef")]
-        public EntitySet<CurriculumAssignment> CurriculumAssignments
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Discipline_Curriculum", Storage = "_Curriculums", ThisKey = "Id", OtherKey = "DisciplineRef")]
+        public EntitySet<Curriculum> Curriculums
         {
             get
             {
-                return this._CurriculumAssignments;
+                return this._Curriculums;
             }
             set
             {
-                this._CurriculumAssignments.Assign(value);
+                this._Curriculums.Assign(value);
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Curriculum_Stage", Storage = "_Stages", ThisKey = "Id", OtherKey = "CurriculumRef")]
-        public EntitySet<Stage> Stages
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Discipline_Chapter", Storage = "_Chapters", ThisKey = "Id", OtherKey = "DisciplineRef")]
+        public EntitySet<Chapter> Chapters
         {
             get
             {
-                return this._Stages;
+                return this._Chapters;
             }
             set
             {
-                this._Stages.Assign(value);
+                this._Chapters.Assign(value);
             }
         }
 
@@ -1243,28 +1243,28 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        private void attach_CurriculumAssignments(CurriculumAssignment entity)
+        private void attach_Curriculums(Curriculum entity)
         {
             this.SendPropertyChanging();
-            entity.Curriculum = this;
+            entity.Discipline = this;
         }
 
-        private void detach_CurriculumAssignments(CurriculumAssignment entity)
+        private void detach_Curriculums(Curriculum entity)
         {
             this.SendPropertyChanging();
-            entity.Curriculum = null;
+            entity.Discipline = null;
         }
 
-        private void attach_Stages(Stage entity)
+        private void attach_Chapters(Chapter entity)
         {
             this.SendPropertyChanging();
-            entity.Curriculum = this;
+            entity.Discipline = this;
         }
 
-        private void detach_Stages(Stage entity)
+        private void detach_Chapters(Chapter entity)
         {
             this.SendPropertyChanging();
-            entity.Curriculum = null;
+            entity.Discipline = null;
         }
     }
 
@@ -3384,8 +3384,8 @@ namespace IUDICO.Common.Models.Shared
         }
     }
 
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Stages")]
-    public partial class Stage : INotifyPropertyChanging, INotifyPropertyChanged
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Chapters")]
+    public partial class Chapter : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -3398,13 +3398,13 @@ namespace IUDICO.Common.Models.Shared
 
         private System.DateTime _Updated;
 
-        private int _CurriculumRef;
+        private int _DisciplineRef;
 
         private bool _IsDeleted;
 
-        private EntitySet<Theme> _Themes;
+        private EntitySet<Topic> _Topics;
 
-        private EntityRef<Curriculum> _Curriculum;
+        private EntityRef<Discipline> _Discipline;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -3418,16 +3418,16 @@ namespace IUDICO.Common.Models.Shared
         partial void OnCreatedChanged();
         partial void OnUpdatedChanging(System.DateTime value);
         partial void OnUpdatedChanged();
-        partial void OnCurriculumRefChanging(int value);
-        partial void OnCurriculumRefChanged();
+        partial void OnDisciplineRefChanging(int value);
+        partial void OnDisciplineRefChanged();
         partial void OnIsDeletedChanging(bool value);
         partial void OnIsDeletedChanged();
         #endregion
 
-        public Stage()
+        public Chapter()
         {
-            this._Themes = new EntitySet<Theme>(new Action<Theme>(this.attach_Themes), new Action<Theme>(this.detach_Themes));
-            this._Curriculum = default(EntityRef<Curriculum>);
+            this._Topics = new EntitySet<Topic>(new Action<Topic>(this.attach_Topics), new Action<Topic>(this.detach_Topics));
+            this._Discipline = default(EntityRef<Discipline>);
             OnCreated();
         }
 
@@ -3511,26 +3511,26 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CurriculumRef", DbType = "Int NOT NULL")]
-        public int CurriculumRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DisciplineRef", DbType = "Int NOT NULL")]
+        public int DisciplineRef
         {
             get
             {
-                return this._CurriculumRef;
+                return this._DisciplineRef;
             }
             set
             {
-                if ((this._CurriculumRef != value))
+                if ((this._DisciplineRef != value))
                 {
-                    if (this._Curriculum.HasLoadedOrAssignedValue)
+                    if (this._Discipline.HasLoadedOrAssignedValue)
                     {
                         throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
                     }
-                    this.OnCurriculumRefChanging(value);
+                    this.OnDisciplineRefChanging(value);
                     this.SendPropertyChanging();
-                    this._CurriculumRef = value;
-                    this.SendPropertyChanged("CurriculumRef");
-                    this.OnCurriculumRefChanged();
+                    this._DisciplineRef = value;
+                    this.SendPropertyChanged("DisciplineRef");
+                    this.OnDisciplineRefChanged();
                 }
             }
         }
@@ -3555,49 +3555,49 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Stage_Theme", Storage = "_Themes", ThisKey = "Id", OtherKey = "StageRef")]
-        public EntitySet<Theme> Themes
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Chapter_Topic", Storage = "_Topics", ThisKey = "Id", OtherKey = "ChapterRef")]
+        public EntitySet<Topic> Topics
         {
             get
             {
-                return this._Themes;
+                return this._Topics;
             }
             set
             {
-                this._Themes.Assign(value);
+                this._Topics.Assign(value);
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Curriculum_Stage", Storage = "_Curriculum", ThisKey = "CurriculumRef", OtherKey = "Id", IsForeignKey = true)]
-        public Curriculum Curriculum
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Discipline_Chapter", Storage = "_Discipline", ThisKey = "DisciplineRef", OtherKey = "Id", IsForeignKey = true)]
+        public Discipline Discipline
         {
             get
             {
-                return this._Curriculum.Entity;
+                return this._Discipline.Entity;
             }
             set
             {
-                Curriculum previousValue = this._Curriculum.Entity;
+                Discipline previousValue = this._Discipline.Entity;
                 if (((previousValue != value)
-                            || (this._Curriculum.HasLoadedOrAssignedValue == false)))
+                            || (this._Discipline.HasLoadedOrAssignedValue == false)))
                 {
                     this.SendPropertyChanging();
                     if ((previousValue != null))
                     {
-                        this._Curriculum.Entity = null;
-                        previousValue.Stages.Remove(this);
+                        this._Discipline.Entity = null;
+                        previousValue.Chapters.Remove(this);
                     }
-                    this._Curriculum.Entity = value;
+                    this._Discipline.Entity = value;
                     if ((value != null))
                     {
-                        value.Stages.Add(this);
-                        this._CurriculumRef = value.Id;
+                        value.Chapters.Add(this);
+                        this._DisciplineRef = value.Id;
                     }
                     else
                     {
-                        this._CurriculumRef = default(int);
+                        this._DisciplineRef = default(int);
                     }
-                    this.SendPropertyChanged("Curriculum");
+                    this.SendPropertyChanged("Discipline");
                 }
             }
         }
@@ -3622,16 +3622,16 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        private void attach_Themes(Theme entity)
+        private void attach_Topics(Topic entity)
         {
             this.SendPropertyChanging();
-            entity.Stage = this;
+            entity.Chapter = this;
         }
 
-        private void detach_Themes(Theme entity)
+        private void detach_Topics(Topic entity)
         {
             this.SendPropertyChanging();
-            entity.Stage = null;
+            entity.Chapter = null;
         }
     }
 
@@ -3851,25 +3851,25 @@ namespace IUDICO.Common.Models.Shared
         }
     }
 
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.ThemeAssignments")]
-    public partial class ThemeAssignment : INotifyPropertyChanging, INotifyPropertyChanged
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.TopicAssignments")]
+    public partial class TopicAssignment : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 
         private int _Id;
 
-        private int _ThemeRef;
+        private int _TopicRef;
 
-        private int _CurriculumAssignmentRef;
+        private int _CurriculumRef;
 
         private int _MaxScore;
 
         private bool _IsDeleted;
 
-        private EntityRef<CurriculumAssignment> _CurriculumAssignment;
+        private EntityRef<Curriculum> _Curriculum;
 
-        private EntityRef<Theme> _Theme;
+        private EntityRef<Topic> _Topic;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -3877,20 +3877,20 @@ namespace IUDICO.Common.Models.Shared
         partial void OnCreated();
         partial void OnIdChanging(int value);
         partial void OnIdChanged();
-        partial void OnThemeRefChanging(int value);
-        partial void OnThemeRefChanged();
-        partial void OnCurriculumAssignmentRefChanging(int value);
-        partial void OnCurriculumAssignmentRefChanged();
+        partial void OnTopicRefChanging(int value);
+        partial void OnTopicRefChanged();
+        partial void OnCurriculumRefChanging(int value);
+        partial void OnCurriculumRefChanged();
         partial void OnMaxScoreChanging(int value);
         partial void OnMaxScoreChanged();
         partial void OnIsDeletedChanging(bool value);
         partial void OnIsDeletedChanged();
         #endregion
 
-        public ThemeAssignment()
+        public TopicAssignment()
         {
-            this._CurriculumAssignment = default(EntityRef<CurriculumAssignment>);
-            this._Theme = default(EntityRef<Theme>);
+            this._Curriculum = default(EntityRef<Curriculum>);
+            this._Topic = default(EntityRef<Topic>);
             OnCreated();
         }
 
@@ -3914,50 +3914,50 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ThemeRef", DbType = "Int NOT NULL")]
-        public int ThemeRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TopicRef", DbType = "Int NOT NULL")]
+        public int TopicRef
         {
             get
             {
-                return this._ThemeRef;
+                return this._TopicRef;
             }
             set
             {
-                if ((this._ThemeRef != value))
+                if ((this._TopicRef != value))
                 {
-                    if (this._Theme.HasLoadedOrAssignedValue)
+                    if (this._Topic.HasLoadedOrAssignedValue)
                     {
                         throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
                     }
-                    this.OnThemeRefChanging(value);
+                    this.OnTopicRefChanging(value);
                     this.SendPropertyChanging();
-                    this._ThemeRef = value;
-                    this.SendPropertyChanged("ThemeRef");
-                    this.OnThemeRefChanged();
+                    this._TopicRef = value;
+                    this.SendPropertyChanged("TopicRef");
+                    this.OnTopicRefChanged();
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CurriculumAssignmentRef", DbType = "Int NOT NULL")]
-        public int CurriculumAssignmentRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CurriculumRef", DbType = "Int NOT NULL")]
+        public int CurriculumRef
         {
             get
             {
-                return this._CurriculumAssignmentRef;
+                return this._CurriculumRef;
             }
             set
             {
-                if ((this._CurriculumAssignmentRef != value))
+                if ((this._CurriculumRef != value))
                 {
-                    if (this._CurriculumAssignment.HasLoadedOrAssignedValue)
+                    if (this._Curriculum.HasLoadedOrAssignedValue)
                     {
                         throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
                     }
-                    this.OnCurriculumAssignmentRefChanging(value);
+                    this.OnCurriculumRefChanging(value);
                     this.SendPropertyChanging();
-                    this._CurriculumAssignmentRef = value;
-                    this.SendPropertyChanged("CurriculumAssignmentRef");
-                    this.OnCurriculumAssignmentRefChanged();
+                    this._CurriculumRef = value;
+                    this.SendPropertyChanged("CurriculumRef");
+                    this.OnCurriculumRefChanged();
                 }
             }
         }
@@ -4002,70 +4002,70 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "CurriculumAssignment_ThemeAssignment", Storage = "_CurriculumAssignment", ThisKey = "CurriculumAssignmentRef", OtherKey = "Id", IsForeignKey = true)]
-        public CurriculumAssignment CurriculumAssignment
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Curriculum_TopicAssignment", Storage = "_Curriculum", ThisKey = "CurriculumRef", OtherKey = "Id", IsForeignKey = true)]
+        public Curriculum Curriculum
         {
             get
             {
-                return this._CurriculumAssignment.Entity;
+                return this._Curriculum.Entity;
             }
             set
             {
-                CurriculumAssignment previousValue = this._CurriculumAssignment.Entity;
+                Curriculum previousValue = this._Curriculum.Entity;
                 if (((previousValue != value)
-                            || (this._CurriculumAssignment.HasLoadedOrAssignedValue == false)))
+                            || (this._Curriculum.HasLoadedOrAssignedValue == false)))
                 {
                     this.SendPropertyChanging();
                     if ((previousValue != null))
                     {
-                        this._CurriculumAssignment.Entity = null;
-                        previousValue.ThemeAssignments.Remove(this);
+                        this._Curriculum.Entity = null;
+                        previousValue.TopicAssignments.Remove(this);
                     }
-                    this._CurriculumAssignment.Entity = value;
+                    this._Curriculum.Entity = value;
                     if ((value != null))
                     {
-                        value.ThemeAssignments.Add(this);
-                        this._CurriculumAssignmentRef = value.Id;
+                        value.TopicAssignments.Add(this);
+                        this._CurriculumRef = value.Id;
                     }
                     else
                     {
-                        this._CurriculumAssignmentRef = default(int);
+                        this._CurriculumRef = default(int);
                     }
-                    this.SendPropertyChanged("CurriculumAssignment");
+                    this.SendPropertyChanged("Curriculum");
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Theme_ThemeAssignment", Storage = "_Theme", ThisKey = "ThemeRef", OtherKey = "Id", IsForeignKey = true)]
-        public Theme Theme
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Topic_TopicAssignment", Storage = "_Topic", ThisKey = "TopicRef", OtherKey = "Id", IsForeignKey = true)]
+        public Topic Topic
         {
             get
             {
-                return this._Theme.Entity;
+                return this._Topic.Entity;
             }
             set
             {
-                Theme previousValue = this._Theme.Entity;
+                Topic previousValue = this._Topic.Entity;
                 if (((previousValue != value)
-                            || (this._Theme.HasLoadedOrAssignedValue == false)))
+                            || (this._Topic.HasLoadedOrAssignedValue == false)))
                 {
                     this.SendPropertyChanging();
                     if ((previousValue != null))
                     {
-                        this._Theme.Entity = null;
-                        previousValue.ThemeAssignments.Remove(this);
+                        this._Topic.Entity = null;
+                        previousValue.TopicAssignments.Remove(this);
                     }
-                    this._Theme.Entity = value;
+                    this._Topic.Entity = value;
                     if ((value != null))
                     {
-                        value.ThemeAssignments.Add(this);
-                        this._ThemeRef = value.Id;
+                        value.TopicAssignments.Add(this);
+                        this._TopicRef = value.Id;
                     }
                     else
                     {
-                        this._ThemeRef = default(int);
+                        this._TopicRef = default(int);
                     }
-                    this.SendPropertyChanged("Theme");
+                    this.SendPropertyChanged("Topic");
                 }
             }
         }
@@ -4091,8 +4091,8 @@ namespace IUDICO.Common.Models.Shared
         }
     }
 
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Themes")]
-    public partial class Theme : INotifyPropertyChanging, INotifyPropertyChanged
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Topics")]
+    public partial class Topic : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -4105,21 +4105,21 @@ namespace IUDICO.Common.Models.Shared
 
         private System.DateTime _Updated;
 
-        private int _StageRef;
+        private int _ChapterRef;
 
         private System.Nullable<int> _CourseRef;
 
         private int _SortOrder;
 
-        private int _ThemeTypeRef;
+        private int _TopicTypeRef;
 
         private bool _IsDeleted;
 
-        private EntitySet<ThemeAssignment> _ThemeAssignments;
+        private EntitySet<TopicAssignment> _TopicAssignments;
 
-        private EntityRef<Stage> _Stage;
+        private EntityRef<Chapter> _Chapter;
 
-        private EntityRef<ThemeType> _ThemeType;
+        private EntityRef<TopicType> _TopicType;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -4133,23 +4133,23 @@ namespace IUDICO.Common.Models.Shared
         partial void OnCreatedChanged();
         partial void OnUpdatedChanging(System.DateTime value);
         partial void OnUpdatedChanged();
-        partial void OnStageRefChanging(int value);
-        partial void OnStageRefChanged();
+        partial void OnChapterRefChanging(int value);
+        partial void OnChapterRefChanged();
         partial void OnCourseRefChanging(System.Nullable<int> value);
         partial void OnCourseRefChanged();
         partial void OnSortOrderChanging(int value);
         partial void OnSortOrderChanged();
-        partial void OnThemeTypeRefChanging(int value);
-        partial void OnThemeTypeRefChanged();
+        partial void OnTopicTypeRefChanging(int value);
+        partial void OnTopicTypeRefChanged();
         partial void OnIsDeletedChanging(bool value);
         partial void OnIsDeletedChanged();
         #endregion
 
-        public Theme()
+        public Topic()
         {
-            this._ThemeAssignments = new EntitySet<ThemeAssignment>(new Action<ThemeAssignment>(this.attach_ThemeAssignments), new Action<ThemeAssignment>(this.detach_ThemeAssignments));
-            this._Stage = default(EntityRef<Stage>);
-            this._ThemeType = default(EntityRef<ThemeType>);
+            this._TopicAssignments = new EntitySet<TopicAssignment>(new Action<TopicAssignment>(this.attach_TopicAssignments), new Action<TopicAssignment>(this.detach_TopicAssignments));
+            this._Chapter = default(EntityRef<Chapter>);
+            this._TopicType = default(EntityRef<TopicType>);
             OnCreated();
         }
 
@@ -4233,26 +4233,26 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_StageRef", DbType = "Int NOT NULL")]
-        public int StageRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ChapterRef", DbType = "Int NOT NULL")]
+        public int ChapterRef
         {
             get
             {
-                return this._StageRef;
+                return this._ChapterRef;
             }
             set
             {
-                if ((this._StageRef != value))
+                if ((this._ChapterRef != value))
                 {
-                    if (this._Stage.HasLoadedOrAssignedValue)
+                    if (this._Chapter.HasLoadedOrAssignedValue)
                     {
                         throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
                     }
-                    this.OnStageRefChanging(value);
+                    this.OnChapterRefChanging(value);
                     this.SendPropertyChanging();
-                    this._StageRef = value;
-                    this.SendPropertyChanged("StageRef");
-                    this.OnStageRefChanged();
+                    this._ChapterRef = value;
+                    this.SendPropertyChanged("ChapterRef");
+                    this.OnChapterRefChanged();
                 }
             }
         }
@@ -4297,26 +4297,26 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ThemeTypeRef", DbType = "Int NOT NULL")]
-        public int ThemeTypeRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TopicTypeRef", DbType = "Int NOT NULL")]
+        public int TopicTypeRef
         {
             get
             {
-                return this._ThemeTypeRef;
+                return this._TopicTypeRef;
             }
             set
             {
-                if ((this._ThemeTypeRef != value))
+                if ((this._TopicTypeRef != value))
                 {
-                    if (this._ThemeType.HasLoadedOrAssignedValue)
+                    if (this._TopicType.HasLoadedOrAssignedValue)
                     {
                         throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
                     }
-                    this.OnThemeTypeRefChanging(value);
+                    this.OnTopicTypeRefChanging(value);
                     this.SendPropertyChanging();
-                    this._ThemeTypeRef = value;
-                    this.SendPropertyChanged("ThemeTypeRef");
-                    this.OnThemeTypeRefChanged();
+                    this._TopicTypeRef = value;
+                    this.SendPropertyChanged("TopicTypeRef");
+                    this.OnTopicTypeRefChanged();
                 }
             }
         }
@@ -4341,83 +4341,83 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Theme_ThemeAssignment", Storage = "_ThemeAssignments", ThisKey = "Id", OtherKey = "ThemeRef")]
-        public EntitySet<ThemeAssignment> ThemeAssignments
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Topic_TopicAssignment", Storage = "_TopicAssignments", ThisKey = "Id", OtherKey = "TopicRef")]
+        public EntitySet<TopicAssignment> TopicAssignments
         {
             get
             {
-                return this._ThemeAssignments;
+                return this._TopicAssignments;
             }
             set
             {
-                this._ThemeAssignments.Assign(value);
+                this._TopicAssignments.Assign(value);
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Stage_Theme", Storage = "_Stage", ThisKey = "StageRef", OtherKey = "Id", IsForeignKey = true)]
-        public Stage Stage
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Chapter_Topic", Storage = "_Chapter", ThisKey = "ChapterRef", OtherKey = "Id", IsForeignKey = true)]
+        public Chapter Chapter
         {
             get
             {
-                return this._Stage.Entity;
+                return this._Chapter.Entity;
             }
             set
             {
-                Stage previousValue = this._Stage.Entity;
+                Chapter previousValue = this._Chapter.Entity;
                 if (((previousValue != value)
-                            || (this._Stage.HasLoadedOrAssignedValue == false)))
+                            || (this._Chapter.HasLoadedOrAssignedValue == false)))
                 {
                     this.SendPropertyChanging();
                     if ((previousValue != null))
                     {
-                        this._Stage.Entity = null;
-                        previousValue.Themes.Remove(this);
+                        this._Chapter.Entity = null;
+                        previousValue.Topics.Remove(this);
                     }
-                    this._Stage.Entity = value;
+                    this._Chapter.Entity = value;
                     if ((value != null))
                     {
-                        value.Themes.Add(this);
-                        this._StageRef = value.Id;
+                        value.Topics.Add(this);
+                        this._ChapterRef = value.Id;
                     }
                     else
                     {
-                        this._StageRef = default(int);
+                        this._ChapterRef = default(int);
                     }
-                    this.SendPropertyChanged("Stage");
+                    this.SendPropertyChanged("Chapter");
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "ThemeType_Theme", Storage = "_ThemeType", ThisKey = "ThemeTypeRef", OtherKey = "Id", IsForeignKey = true)]
-        public ThemeType ThemeType
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "TopicType_Topic", Storage = "_TopicType", ThisKey = "TopicTypeRef", OtherKey = "Id", IsForeignKey = true)]
+        public TopicType TopicType
         {
             get
             {
-                return this._ThemeType.Entity;
+                return this._TopicType.Entity;
             }
             set
             {
-                ThemeType previousValue = this._ThemeType.Entity;
+                TopicType previousValue = this._TopicType.Entity;
                 if (((previousValue != value)
-                            || (this._ThemeType.HasLoadedOrAssignedValue == false)))
+                            || (this._TopicType.HasLoadedOrAssignedValue == false)))
                 {
                     this.SendPropertyChanging();
                     if ((previousValue != null))
                     {
-                        this._ThemeType.Entity = null;
-                        previousValue.Themes.Remove(this);
+                        this._TopicType.Entity = null;
+                        previousValue.Topics.Remove(this);
                     }
-                    this._ThemeType.Entity = value;
+                    this._TopicType.Entity = value;
                     if ((value != null))
                     {
-                        value.Themes.Add(this);
-                        this._ThemeTypeRef = value.Id;
+                        value.Topics.Add(this);
+                        this._TopicTypeRef = value.Id;
                     }
                     else
                     {
-                        this._ThemeTypeRef = default(int);
+                        this._TopicTypeRef = default(int);
                     }
-                    this.SendPropertyChanged("ThemeType");
+                    this.SendPropertyChanged("TopicType");
                 }
             }
         }
@@ -4442,21 +4442,21 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        private void attach_ThemeAssignments(ThemeAssignment entity)
+        private void attach_TopicAssignments(TopicAssignment entity)
         {
             this.SendPropertyChanging();
-            entity.Theme = this;
+            entity.Topic = this;
         }
 
-        private void detach_ThemeAssignments(ThemeAssignment entity)
+        private void detach_TopicAssignments(TopicAssignment entity)
         {
             this.SendPropertyChanging();
-            entity.Theme = null;
+            entity.Topic = null;
         }
     }
 
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.ThemeTypes")]
-    public partial class ThemeType : INotifyPropertyChanging, INotifyPropertyChanged
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.TopicTypes")]
+    public partial class TopicType : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -4465,7 +4465,7 @@ namespace IUDICO.Common.Models.Shared
 
         private string _Name;
 
-        private EntitySet<Theme> _Themes;
+        private EntitySet<Topic> _Topics;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -4477,9 +4477,9 @@ namespace IUDICO.Common.Models.Shared
         partial void OnNameChanged();
         #endregion
 
-        public ThemeType()
+        public TopicType()
         {
-            this._Themes = new EntitySet<Theme>(new Action<Theme>(this.attach_Themes), new Action<Theme>(this.detach_Themes));
+            this._Topics = new EntitySet<Topic>(new Action<Topic>(this.attach_Topics), new Action<Topic>(this.detach_Topics));
             OnCreated();
         }
 
@@ -4523,16 +4523,16 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "ThemeType_Theme", Storage = "_Themes", ThisKey = "Id", OtherKey = "ThemeTypeRef")]
-        public EntitySet<Theme> Themes
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "TopicType_Topic", Storage = "_Topics", ThisKey = "Id", OtherKey = "TopicTypeRef")]
+        public EntitySet<Topic> Topics
         {
             get
             {
-                return this._Themes;
+                return this._Topics;
             }
             set
             {
-                this._Themes.Assign(value);
+                this._Topics.Assign(value);
             }
         }
 
@@ -4556,16 +4556,16 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        private void attach_Themes(Theme entity)
+        private void attach_Topics(Topic entity)
         {
             this.SendPropertyChanging();
-            entity.ThemeType = this;
+            entity.TopicType = this;
         }
 
-        private void detach_Themes(Theme entity)
+        private void detach_Topics(Topic entity)
         {
             this.SendPropertyChanging();
-            entity.ThemeType = null;
+            entity.TopicType = null;
         }
     }
 
@@ -4581,13 +4581,13 @@ namespace IUDICO.Common.Models.Shared
 
         private System.DateTime _EndDate;
 
-        private int _CurriculumAssignmentRef;
+        private int _CurriculumRef;
 
-        private System.Nullable<int> _StageRef;
+        private System.Nullable<int> _ChapterRef;
 
         private bool _IsDeleted;
 
-        private EntityRef<CurriculumAssignment> _CurriculumAssignment;
+        private EntityRef<Curriculum> _Curriculum;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -4599,17 +4599,17 @@ namespace IUDICO.Common.Models.Shared
         partial void OnStartDateChanged();
         partial void OnEndDateChanging(System.DateTime value);
         partial void OnEndDateChanged();
-        partial void OnCurriculumAssignmentRefChanging(int value);
-        partial void OnCurriculumAssignmentRefChanged();
-        partial void OnStageRefChanging(System.Nullable<int> value);
-        partial void OnStageRefChanged();
+        partial void OnCurriculumRefChanging(int value);
+        partial void OnCurriculumRefChanged();
+        partial void OnChapterRefChanging(System.Nullable<int> value);
+        partial void OnChapterRefChanged();
         partial void OnIsDeletedChanging(bool value);
         partial void OnIsDeletedChanged();
         #endregion
 
         public Timeline()
         {
-            this._CurriculumAssignment = default(EntityRef<CurriculumAssignment>);
+            this._Curriculum = default(EntityRef<Curriculum>);
             OnCreated();
         }
 
@@ -4673,46 +4673,46 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CurriculumAssignmentRef", DbType = "Int NOT NULL")]
-        public int CurriculumAssignmentRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CurriculumRef", DbType = "Int NOT NULL")]
+        public int CurriculumRef
         {
             get
             {
-                return this._CurriculumAssignmentRef;
+                return this._CurriculumRef;
             }
             set
             {
-                if ((this._CurriculumAssignmentRef != value))
+                if ((this._CurriculumRef != value))
                 {
-                    if (this._CurriculumAssignment.HasLoadedOrAssignedValue)
+                    if (this._Curriculum.HasLoadedOrAssignedValue)
                     {
                         throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
                     }
-                    this.OnCurriculumAssignmentRefChanging(value);
+                    this.OnCurriculumRefChanging(value);
                     this.SendPropertyChanging();
-                    this._CurriculumAssignmentRef = value;
-                    this.SendPropertyChanged("CurriculumAssignmentRef");
-                    this.OnCurriculumAssignmentRefChanged();
+                    this._CurriculumRef = value;
+                    this.SendPropertyChanged("CurriculumRef");
+                    this.OnCurriculumRefChanged();
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_StageRef", DbType = "Int")]
-        public System.Nullable<int> StageRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ChapterRef", DbType = "Int")]
+        public System.Nullable<int> ChapterRef
         {
             get
             {
-                return this._StageRef;
+                return this._ChapterRef;
             }
             set
             {
-                if ((this._StageRef != value))
+                if ((this._ChapterRef != value))
                 {
-                    this.OnStageRefChanging(value);
+                    this.OnChapterRefChanging(value);
                     this.SendPropertyChanging();
-                    this._StageRef = value;
-                    this.SendPropertyChanged("StageRef");
-                    this.OnStageRefChanged();
+                    this._ChapterRef = value;
+                    this.SendPropertyChanged("ChapterRef");
+                    this.OnChapterRefChanged();
                 }
             }
         }
@@ -4737,36 +4737,36 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "CurriculumAssignment_Timeline", Storage = "_CurriculumAssignment", ThisKey = "CurriculumAssignmentRef", OtherKey = "Id", IsForeignKey = true)]
-        public CurriculumAssignment CurriculumAssignment
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Curriculum_Timeline", Storage = "_Curriculum", ThisKey = "CurriculumRef", OtherKey = "Id", IsForeignKey = true)]
+        public Curriculum Curriculum
         {
             get
             {
-                return this._CurriculumAssignment.Entity;
+                return this._Curriculum.Entity;
             }
             set
             {
-                CurriculumAssignment previousValue = this._CurriculumAssignment.Entity;
+                Curriculum previousValue = this._Curriculum.Entity;
                 if (((previousValue != value)
-                            || (this._CurriculumAssignment.HasLoadedOrAssignedValue == false)))
+                            || (this._Curriculum.HasLoadedOrAssignedValue == false)))
                 {
                     this.SendPropertyChanging();
                     if ((previousValue != null))
                     {
-                        this._CurriculumAssignment.Entity = null;
+                        this._Curriculum.Entity = null;
                         previousValue.Timelines.Remove(this);
                     }
-                    this._CurriculumAssignment.Entity = value;
+                    this._Curriculum.Entity = value;
                     if ((value != null))
                     {
                         value.Timelines.Add(this);
-                        this._CurriculumAssignmentRef = value.Id;
+                        this._CurriculumRef = value.Id;
                     }
                     else
                     {
-                        this._CurriculumAssignmentRef = default(int);
+                        this._CurriculumRef = default(int);
                     }
-                    this.SendPropertyChanged("CurriculumAssignment");
+                    this.SendPropertyChanged("Curriculum");
                 }
             }
         }
@@ -5608,8 +5608,8 @@ namespace IUDICO.Common.Models.Shared
         }
     }
 
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.CurriculumAssignments")]
-    public partial class CurriculumAssignment : INotifyPropertyChanging, INotifyPropertyChanged
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Curriculums")]
+    public partial class Curriculum : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -5618,15 +5618,15 @@ namespace IUDICO.Common.Models.Shared
 
         private int _UserGroupRef;
 
-        private int _CurriculumRef;
+        private int _DisciplineRef;
 
         private bool _IsDeleted;
 
-        private EntitySet<ThemeAssignment> _ThemeAssignments;
+        private EntitySet<TopicAssignment> _TopicAssignments;
 
         private EntitySet<Timeline> _Timelines;
 
-        private EntityRef<Curriculum> _Curriculum;
+        private EntityRef<Discipline> _Discipline;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -5636,17 +5636,17 @@ namespace IUDICO.Common.Models.Shared
         partial void OnIdChanged();
         partial void OnUserGroupRefChanging(int value);
         partial void OnUserGroupRefChanged();
-        partial void OnCurriculumRefChanging(int value);
-        partial void OnCurriculumRefChanged();
+        partial void OnDisciplineRefChanging(int value);
+        partial void OnDisciplineRefChanged();
         partial void OnIsDeletedChanging(bool value);
         partial void OnIsDeletedChanged();
         #endregion
 
-        public CurriculumAssignment()
+        public Curriculum()
         {
-            this._ThemeAssignments = new EntitySet<ThemeAssignment>(new Action<ThemeAssignment>(this.attach_ThemeAssignments), new Action<ThemeAssignment>(this.detach_ThemeAssignments));
+            this._TopicAssignments = new EntitySet<TopicAssignment>(new Action<TopicAssignment>(this.attach_TopicAssignments), new Action<TopicAssignment>(this.detach_TopicAssignments));
             this._Timelines = new EntitySet<Timeline>(new Action<Timeline>(this.attach_Timelines), new Action<Timeline>(this.detach_Timelines));
-            this._Curriculum = default(EntityRef<Curriculum>);
+            this._Discipline = default(EntityRef<Discipline>);
             OnCreated();
         }
 
@@ -5690,26 +5690,26 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CurriculumRef", DbType = "Int NOT NULL")]
-        public int CurriculumRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DisciplineRef", DbType = "Int NOT NULL")]
+        public int DisciplineRef
         {
             get
             {
-                return this._CurriculumRef;
+                return this._DisciplineRef;
             }
             set
             {
-                if ((this._CurriculumRef != value))
+                if ((this._DisciplineRef != value))
                 {
-                    if (this._Curriculum.HasLoadedOrAssignedValue)
+                    if (this._Discipline.HasLoadedOrAssignedValue)
                     {
                         throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
                     }
-                    this.OnCurriculumRefChanging(value);
+                    this.OnDisciplineRefChanging(value);
                     this.SendPropertyChanging();
-                    this._CurriculumRef = value;
-                    this.SendPropertyChanged("CurriculumRef");
-                    this.OnCurriculumRefChanged();
+                    this._DisciplineRef = value;
+                    this.SendPropertyChanged("DisciplineRef");
+                    this.OnDisciplineRefChanged();
                 }
             }
         }
@@ -5734,20 +5734,20 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "CurriculumAssignment_ThemeAssignment", Storage = "_ThemeAssignments", ThisKey = "Id", OtherKey = "CurriculumAssignmentRef")]
-        public EntitySet<ThemeAssignment> ThemeAssignments
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Curriculum_TopicAssignment", Storage = "_TopicAssignments", ThisKey = "Id", OtherKey = "CurriculumRef")]
+        public EntitySet<TopicAssignment> TopicAssignments
         {
             get
             {
-                return this._ThemeAssignments;
+                return this._TopicAssignments;
             }
             set
             {
-                this._ThemeAssignments.Assign(value);
+                this._TopicAssignments.Assign(value);
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "CurriculumAssignment_Timeline", Storage = "_Timelines", ThisKey = "Id", OtherKey = "CurriculumAssignmentRef")]
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Curriculum_Timeline", Storage = "_Timelines", ThisKey = "Id", OtherKey = "CurriculumRef")]
         public EntitySet<Timeline> Timelines
         {
             get
@@ -5760,36 +5760,36 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Curriculum_CurriculumAssignment", Storage = "_Curriculum", ThisKey = "CurriculumRef", OtherKey = "Id", IsForeignKey = true)]
-        public Curriculum Curriculum
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Discipline_Curriculum", Storage = "_Discipline", ThisKey = "DisciplineRef", OtherKey = "Id", IsForeignKey = true)]
+        public Discipline Discipline
         {
             get
             {
-                return this._Curriculum.Entity;
+                return this._Discipline.Entity;
             }
             set
             {
-                Curriculum previousValue = this._Curriculum.Entity;
+                Discipline previousValue = this._Discipline.Entity;
                 if (((previousValue != value)
-                            || (this._Curriculum.HasLoadedOrAssignedValue == false)))
+                            || (this._Discipline.HasLoadedOrAssignedValue == false)))
                 {
                     this.SendPropertyChanging();
                     if ((previousValue != null))
                     {
-                        this._Curriculum.Entity = null;
-                        previousValue.CurriculumAssignments.Remove(this);
+                        this._Discipline.Entity = null;
+                        previousValue.Curriculums.Remove(this);
                     }
-                    this._Curriculum.Entity = value;
+                    this._Discipline.Entity = value;
                     if ((value != null))
                     {
-                        value.CurriculumAssignments.Add(this);
-                        this._CurriculumRef = value.Id;
+                        value.Curriculums.Add(this);
+                        this._DisciplineRef = value.Id;
                     }
                     else
                     {
-                        this._CurriculumRef = default(int);
+                        this._DisciplineRef = default(int);
                     }
-                    this.SendPropertyChanged("Curriculum");
+                    this.SendPropertyChanged("Discipline");
                 }
             }
         }
@@ -5814,28 +5814,28 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        private void attach_ThemeAssignments(ThemeAssignment entity)
+        private void attach_TopicAssignments(TopicAssignment entity)
         {
             this.SendPropertyChanging();
-            entity.CurriculumAssignment = this;
+            entity.Curriculum = this;
         }
 
-        private void detach_ThemeAssignments(ThemeAssignment entity)
+        private void detach_TopicAssignments(TopicAssignment entity)
         {
             this.SendPropertyChanging();
-            entity.CurriculumAssignment = null;
+            entity.Curriculum = null;
         }
 
         private void attach_Timelines(Timeline entity)
         {
             this.SendPropertyChanging();
-            entity.CurriculumAssignment = this;
+            entity.Curriculum = this;
         }
 
         private void detach_Timelines(Timeline entity)
         {
             this.SendPropertyChanging();
-            entity.CurriculumAssignment = null;
+            entity.Curriculum = null;
         }
     }
 
@@ -6007,8 +6007,8 @@ namespace IUDICO.Common.Models.Shared
         }
     }
 
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Themes")]
-    public partial class Theme : INotifyPropertyChanging, INotifyPropertyChanged
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Topics")]
+    public partial class Topic : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -6021,21 +6021,21 @@ namespace IUDICO.Common.Models.Shared
 
         private System.DateTime _Updated;
 
-        private int _StageRef;
+        private int _ChapterRef;
 
         private System.Nullable<int> _CourseRef;
 
         private int _SortOrder;
 
-        private int _ThemeTypeRef;
+        private int _TopicTypeRef;
 
         private bool _IsDeleted;
 
-        private EntitySet<ThemeAssignment> _ThemeAssignments;
+        private EntitySet<TopicAssignment> _TopicAssignments;
 
-        private EntityRef<ThemeType> _ThemeType;
+        private EntityRef<TopicType> _TopicType;
 
-        private EntityRef<Stage> _Stage;
+        private EntityRef<Chapter> _Chapter;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -6049,23 +6049,23 @@ namespace IUDICO.Common.Models.Shared
         partial void OnCreatedChanged();
         partial void OnUpdatedChanging(System.DateTime value);
         partial void OnUpdatedChanged();
-        partial void OnStageRefChanging(int value);
-        partial void OnStageRefChanged();
+        partial void OnChapterRefChanging(int value);
+        partial void OnChapterRefChanged();
         partial void OnCourseRefChanging(System.Nullable<int> value);
         partial void OnCourseRefChanged();
         partial void OnSortOrderChanging(int value);
         partial void OnSortOrderChanged();
-        partial void OnThemeTypeRefChanging(int value);
-        partial void OnThemeTypeRefChanged();
+        partial void OnTopicTypeRefChanging(int value);
+        partial void OnTopicTypeRefChanged();
         partial void OnIsDeletedChanging(bool value);
         partial void OnIsDeletedChanged();
         #endregion
 
-        public Theme()
+        public Topic()
         {
-            this._ThemeAssignments = new EntitySet<ThemeAssignment>(new Action<ThemeAssignment>(this.attach_ThemeAssignments), new Action<ThemeAssignment>(this.detach_ThemeAssignments));
-            this._ThemeType = default(EntityRef<ThemeType>);
-            this._Stage = default(EntityRef<Stage>);
+            this._TopicAssignments = new EntitySet<TopicAssignment>(new Action<TopicAssignment>(this.attach_TopicAssignments), new Action<TopicAssignment>(this.detach_TopicAssignments));
+            this._TopicType = default(EntityRef<TopicType>);
+            this._Chapter = default(EntityRef<Chapter>);
             OnCreated();
         }
 
@@ -6149,26 +6149,26 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_StageRef", DbType = "Int NOT NULL")]
-        public int StageRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ChapterRef", DbType = "Int NOT NULL")]
+        public int ChapterRef
         {
             get
             {
-                return this._StageRef;
+                return this._ChapterRef;
             }
             set
             {
-                if ((this._StageRef != value))
+                if ((this._ChapterRef != value))
                 {
-                    if (this._Stage.HasLoadedOrAssignedValue)
+                    if (this._Chapter.HasLoadedOrAssignedValue)
                     {
                         throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
                     }
-                    this.OnStageRefChanging(value);
+                    this.OnChapterRefChanging(value);
                     this.SendPropertyChanging();
-                    this._StageRef = value;
-                    this.SendPropertyChanged("StageRef");
-                    this.OnStageRefChanged();
+                    this._ChapterRef = value;
+                    this.SendPropertyChanged("ChapterRef");
+                    this.OnChapterRefChanged();
                 }
             }
         }
@@ -6213,26 +6213,26 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ThemeTypeRef", DbType = "Int NOT NULL")]
-        public int ThemeTypeRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TopicTypeRef", DbType = "Int NOT NULL")]
+        public int TopicTypeRef
         {
             get
             {
-                return this._ThemeTypeRef;
+                return this._TopicTypeRef;
             }
             set
             {
-                if ((this._ThemeTypeRef != value))
+                if ((this._TopicTypeRef != value))
                 {
-                    if (this._ThemeType.HasLoadedOrAssignedValue)
+                    if (this._TopicType.HasLoadedOrAssignedValue)
                     {
                         throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
                     }
-                    this.OnThemeTypeRefChanging(value);
+                    this.OnTopicTypeRefChanging(value);
                     this.SendPropertyChanging();
-                    this._ThemeTypeRef = value;
-                    this.SendPropertyChanged("ThemeTypeRef");
-                    this.OnThemeTypeRefChanged();
+                    this._TopicTypeRef = value;
+                    this.SendPropertyChanged("TopicTypeRef");
+                    this.OnTopicTypeRefChanged();
                 }
             }
         }
@@ -6257,83 +6257,83 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Theme_ThemeAssignment", Storage = "_ThemeAssignments", ThisKey = "Id", OtherKey = "ThemeRef")]
-        public EntitySet<ThemeAssignment> ThemeAssignments
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Topic_TopicAssignment", Storage = "_TopicAssignments", ThisKey = "Id", OtherKey = "TopicRef")]
+        public EntitySet<TopicAssignment> TopicAssignments
         {
             get
             {
-                return this._ThemeAssignments;
+                return this._TopicAssignments;
             }
             set
             {
-                this._ThemeAssignments.Assign(value);
+                this._TopicAssignments.Assign(value);
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "ThemeType_Theme", Storage = "_ThemeType", ThisKey = "ThemeTypeRef", OtherKey = "Id", IsForeignKey = true)]
-        public ThemeType ThemeType
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "TopicType_Topic", Storage = "_TopicType", ThisKey = "TopicTypeRef", OtherKey = "Id", IsForeignKey = true)]
+        public TopicType TopicType
         {
             get
             {
-                return this._ThemeType.Entity;
+                return this._TopicType.Entity;
             }
             set
             {
-                ThemeType previousValue = this._ThemeType.Entity;
+                TopicType previousValue = this._TopicType.Entity;
                 if (((previousValue != value)
-                            || (this._ThemeType.HasLoadedOrAssignedValue == false)))
+                            || (this._TopicType.HasLoadedOrAssignedValue == false)))
                 {
                     this.SendPropertyChanging();
                     if ((previousValue != null))
                     {
-                        this._ThemeType.Entity = null;
-                        previousValue.Themes.Remove(this);
+                        this._TopicType.Entity = null;
+                        previousValue.Topics.Remove(this);
                     }
-                    this._ThemeType.Entity = value;
+                    this._TopicType.Entity = value;
                     if ((value != null))
                     {
-                        value.Themes.Add(this);
-                        this._ThemeTypeRef = value.Id;
+                        value.Topics.Add(this);
+                        this._TopicTypeRef = value.Id;
                     }
                     else
                     {
-                        this._ThemeTypeRef = default(int);
+                        this._TopicTypeRef = default(int);
                     }
-                    this.SendPropertyChanged("ThemeType");
+                    this.SendPropertyChanged("TopicType");
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Stage_Theme", Storage = "_Stage", ThisKey = "StageRef", OtherKey = "Id", IsForeignKey = true)]
-        public Stage Stage
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Chapter_Topic", Storage = "_Chapter", ThisKey = "ChapterRef", OtherKey = "Id", IsForeignKey = true)]
+        public Chapter Chapter
         {
             get
             {
-                return this._Stage.Entity;
+                return this._Chapter.Entity;
             }
             set
             {
-                Stage previousValue = this._Stage.Entity;
+                Chapter previousValue = this._Chapter.Entity;
                 if (((previousValue != value)
-                            || (this._Stage.HasLoadedOrAssignedValue == false)))
+                            || (this._Chapter.HasLoadedOrAssignedValue == false)))
                 {
                     this.SendPropertyChanging();
                     if ((previousValue != null))
                     {
-                        this._Stage.Entity = null;
-                        previousValue.Themes.Remove(this);
+                        this._Chapter.Entity = null;
+                        previousValue.Topics.Remove(this);
                     }
-                    this._Stage.Entity = value;
+                    this._Chapter.Entity = value;
                     if ((value != null))
                     {
-                        value.Themes.Add(this);
-                        this._StageRef = value.Id;
+                        value.Topics.Add(this);
+                        this._ChapterRef = value.Id;
                     }
                     else
                     {
-                        this._StageRef = default(int);
+                        this._ChapterRef = default(int);
                     }
-                    this.SendPropertyChanged("Stage");
+                    this.SendPropertyChanged("Chapter");
                 }
             }
         }
@@ -6358,21 +6358,21 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        private void attach_ThemeAssignments(ThemeAssignment entity)
+        private void attach_TopicAssignments(TopicAssignment entity)
         {
             this.SendPropertyChanging();
-            entity.Theme = this;
+            entity.Topic = this;
         }
 
-        private void detach_ThemeAssignments(ThemeAssignment entity)
+        private void detach_TopicAssignments(TopicAssignment entity)
         {
             this.SendPropertyChanging();
-            entity.Theme = null;
+            entity.Topic = null;
         }
     }
 
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.ThemeTypes")]
-    public partial class ThemeType : INotifyPropertyChanging, INotifyPropertyChanged
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.TopicTypes")]
+    public partial class TopicType : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -6381,7 +6381,7 @@ namespace IUDICO.Common.Models.Shared
 
         private string _Name;
 
-        private EntitySet<Theme> _Themes;
+        private EntitySet<Topic> _Topics;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -6393,9 +6393,9 @@ namespace IUDICO.Common.Models.Shared
         partial void OnNameChanged();
         #endregion
 
-        public ThemeType()
+        public TopicType()
         {
-            this._Themes = new EntitySet<Theme>(new Action<Theme>(this.attach_Themes), new Action<Theme>(this.detach_Themes));
+            this._Topics = new EntitySet<Topic>(new Action<Topic>(this.attach_Topics), new Action<Topic>(this.detach_Topics));
             OnCreated();
         }
 
@@ -6439,16 +6439,16 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "ThemeType_Theme", Storage = "_Themes", ThisKey = "Id", OtherKey = "ThemeTypeRef")]
-        public EntitySet<Theme> Themes
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "TopicType_Topic", Storage = "_Topics", ThisKey = "Id", OtherKey = "TopicTypeRef")]
+        public EntitySet<Topic> Topics
         {
             get
             {
-                return this._Themes;
+                return this._Topics;
             }
             set
             {
-                this._Themes.Assign(value);
+                this._Topics.Assign(value);
             }
         }
 
@@ -6472,38 +6472,38 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        private void attach_Themes(Theme entity)
+        private void attach_Topics(Topic entity)
         {
             this.SendPropertyChanging();
-            entity.ThemeType = this;
+            entity.TopicType = this;
         }
 
-        private void detach_Themes(Theme entity)
+        private void detach_Topics(Topic entity)
         {
             this.SendPropertyChanging();
-            entity.ThemeType = null;
+            entity.TopicType = null;
         }
     }
 
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.ThemeAssignments")]
-    public partial class ThemeAssignment : INotifyPropertyChanging, INotifyPropertyChanged
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.TopicAssignments")]
+    public partial class TopicAssignment : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 
         private int _Id;
 
-        private int _ThemeRef;
+        private int _TopicRef;
 
-        private int _CurriculumAssignmentRef;
+        private int _CurriculumRef;
 
         private int _MaxScore;
 
         private bool _IsDeleted;
 
-        private EntityRef<CurriculumAssignment> _CurriculumAssignment;
+        private EntityRef<Curriculum> _Curriculum;
 
-        private EntityRef<Theme> _Theme;
+        private EntityRef<Topic> _Topic;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -6511,20 +6511,20 @@ namespace IUDICO.Common.Models.Shared
         partial void OnCreated();
         partial void OnIdChanging(int value);
         partial void OnIdChanged();
-        partial void OnThemeRefChanging(int value);
-        partial void OnThemeRefChanged();
-        partial void OnCurriculumAssignmentRefChanging(int value);
-        partial void OnCurriculumAssignmentRefChanged();
+        partial void OnTopicRefChanging(int value);
+        partial void OnTopicRefChanged();
+        partial void OnCurriculumRefChanging(int value);
+        partial void OnCurriculumRefChanged();
         partial void OnMaxScoreChanging(int value);
         partial void OnMaxScoreChanged();
         partial void OnIsDeletedChanging(bool value);
         partial void OnIsDeletedChanged();
         #endregion
 
-        public ThemeAssignment()
+        public TopicAssignment()
         {
-            this._CurriculumAssignment = default(EntityRef<CurriculumAssignment>);
-            this._Theme = default(EntityRef<Theme>);
+            this._Curriculum = default(EntityRef<Curriculum>);
+            this._Topic = default(EntityRef<Topic>);
             OnCreated();
         }
 
@@ -6548,50 +6548,50 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ThemeRef", DbType = "Int NOT NULL")]
-        public int ThemeRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TopicRef", DbType = "Int NOT NULL")]
+        public int TopicRef
         {
             get
             {
-                return this._ThemeRef;
+                return this._TopicRef;
             }
             set
             {
-                if ((this._ThemeRef != value))
+                if ((this._TopicRef != value))
                 {
-                    if (this._Theme.HasLoadedOrAssignedValue)
+                    if (this._Topic.HasLoadedOrAssignedValue)
                     {
                         throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
                     }
-                    this.OnThemeRefChanging(value);
+                    this.OnTopicRefChanging(value);
                     this.SendPropertyChanging();
-                    this._ThemeRef = value;
-                    this.SendPropertyChanged("ThemeRef");
-                    this.OnThemeRefChanged();
+                    this._TopicRef = value;
+                    this.SendPropertyChanged("TopicRef");
+                    this.OnTopicRefChanged();
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CurriculumAssignmentRef", DbType = "Int NOT NULL")]
-        public int CurriculumAssignmentRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CurriculumRef", DbType = "Int NOT NULL")]
+        public int CurriculumRef
         {
             get
             {
-                return this._CurriculumAssignmentRef;
+                return this._CurriculumRef;
             }
             set
             {
-                if ((this._CurriculumAssignmentRef != value))
+                if ((this._CurriculumRef != value))
                 {
-                    if (this._CurriculumAssignment.HasLoadedOrAssignedValue)
+                    if (this._Curriculum.HasLoadedOrAssignedValue)
                     {
                         throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
                     }
-                    this.OnCurriculumAssignmentRefChanging(value);
+                    this.OnCurriculumRefChanging(value);
                     this.SendPropertyChanging();
-                    this._CurriculumAssignmentRef = value;
-                    this.SendPropertyChanged("CurriculumAssignmentRef");
-                    this.OnCurriculumAssignmentRefChanged();
+                    this._CurriculumRef = value;
+                    this.SendPropertyChanged("CurriculumRef");
+                    this.OnCurriculumRefChanged();
                 }
             }
         }
@@ -6636,70 +6636,70 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "CurriculumAssignment_ThemeAssignment", Storage = "_CurriculumAssignment", ThisKey = "CurriculumAssignmentRef", OtherKey = "Id", IsForeignKey = true)]
-        public CurriculumAssignment CurriculumAssignment
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Curriculum_TopicAssignment", Storage = "_Curriculum", ThisKey = "CurriculumRef", OtherKey = "Id", IsForeignKey = true)]
+        public Curriculum Curriculum
         {
             get
             {
-                return this._CurriculumAssignment.Entity;
+                return this._Curriculum.Entity;
             }
             set
             {
-                CurriculumAssignment previousValue = this._CurriculumAssignment.Entity;
+                Curriculum previousValue = this._Curriculum.Entity;
                 if (((previousValue != value)
-                            || (this._CurriculumAssignment.HasLoadedOrAssignedValue == false)))
+                            || (this._Curriculum.HasLoadedOrAssignedValue == false)))
                 {
                     this.SendPropertyChanging();
                     if ((previousValue != null))
                     {
-                        this._CurriculumAssignment.Entity = null;
-                        previousValue.ThemeAssignments.Remove(this);
+                        this._Curriculum.Entity = null;
+                        previousValue.TopicAssignments.Remove(this);
                     }
-                    this._CurriculumAssignment.Entity = value;
+                    this._Curriculum.Entity = value;
                     if ((value != null))
                     {
-                        value.ThemeAssignments.Add(this);
-                        this._CurriculumAssignmentRef = value.Id;
+                        value.TopicAssignments.Add(this);
+                        this._CurriculumRef = value.Id;
                     }
                     else
                     {
-                        this._CurriculumAssignmentRef = default(int);
+                        this._CurriculumRef = default(int);
                     }
-                    this.SendPropertyChanged("CurriculumAssignment");
+                    this.SendPropertyChanged("Curriculum");
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Theme_ThemeAssignment", Storage = "_Theme", ThisKey = "ThemeRef", OtherKey = "Id", IsForeignKey = true)]
-        public Theme Theme
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Topic_TopicAssignment", Storage = "_Topic", ThisKey = "TopicRef", OtherKey = "Id", IsForeignKey = true)]
+        public Topic Topic
         {
             get
             {
-                return this._Theme.Entity;
+                return this._Topic.Entity;
             }
             set
             {
-                Theme previousValue = this._Theme.Entity;
+                Topic previousValue = this._Topic.Entity;
                 if (((previousValue != value)
-                            || (this._Theme.HasLoadedOrAssignedValue == false)))
+                            || (this._Topic.HasLoadedOrAssignedValue == false)))
                 {
                     this.SendPropertyChanging();
                     if ((previousValue != null))
                     {
-                        this._Theme.Entity = null;
-                        previousValue.ThemeAssignments.Remove(this);
+                        this._Topic.Entity = null;
+                        previousValue.TopicAssignments.Remove(this);
                     }
-                    this._Theme.Entity = value;
+                    this._Topic.Entity = value;
                     if ((value != null))
                     {
-                        value.ThemeAssignments.Add(this);
-                        this._ThemeRef = value.Id;
+                        value.TopicAssignments.Add(this);
+                        this._TopicRef = value.Id;
                     }
                     else
                     {
-                        this._ThemeRef = default(int);
+                        this._TopicRef = default(int);
                     }
-                    this.SendPropertyChanged("Theme");
+                    this.SendPropertyChanged("Topic");
                 }
             }
         }
@@ -6875,13 +6875,13 @@ namespace IUDICO.Common.Models.Shared
 
         private System.DateTime _EndDate;
 
-        private int _CurriculumAssignmentRef;
+        private int _CurriculumRef;
 
-        private System.Nullable<int> _StageRef;
+        private System.Nullable<int> _ChapterRef;
 
         private bool _IsDeleted;
 
-        private EntityRef<CurriculumAssignment> _CurriculumAssignment;
+        private EntityRef<Curriculum> _Curriculum;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -6893,17 +6893,17 @@ namespace IUDICO.Common.Models.Shared
         partial void OnStartDateChanged();
         partial void OnEndDateChanging(System.DateTime value);
         partial void OnEndDateChanged();
-        partial void OnCurriculumAssignmentRefChanging(int value);
-        partial void OnCurriculumAssignmentRefChanged();
-        partial void OnStageRefChanging(System.Nullable<int> value);
-        partial void OnStageRefChanged();
+        partial void OnCurriculumRefChanging(int value);
+        partial void OnCurriculumRefChanged();
+        partial void OnChapterRefChanging(System.Nullable<int> value);
+        partial void OnChapterRefChanged();
         partial void OnIsDeletedChanging(bool value);
         partial void OnIsDeletedChanged();
         #endregion
 
         public Timeline()
         {
-            this._CurriculumAssignment = default(EntityRef<CurriculumAssignment>);
+            this._Curriculum = default(EntityRef<Curriculum>);
             OnCreated();
         }
 
@@ -6967,46 +6967,46 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CurriculumAssignmentRef", DbType = "Int NOT NULL")]
-        public int CurriculumAssignmentRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CurriculumRef", DbType = "Int NOT NULL")]
+        public int CurriculumRef
         {
             get
             {
-                return this._CurriculumAssignmentRef;
+                return this._CurriculumRef;
             }
             set
             {
-                if ((this._CurriculumAssignmentRef != value))
+                if ((this._CurriculumRef != value))
                 {
-                    if (this._CurriculumAssignment.HasLoadedOrAssignedValue)
+                    if (this._Curriculum.HasLoadedOrAssignedValue)
                     {
                         throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
                     }
-                    this.OnCurriculumAssignmentRefChanging(value);
+                    this.OnCurriculumRefChanging(value);
                     this.SendPropertyChanging();
-                    this._CurriculumAssignmentRef = value;
-                    this.SendPropertyChanged("CurriculumAssignmentRef");
-                    this.OnCurriculumAssignmentRefChanged();
+                    this._CurriculumRef = value;
+                    this.SendPropertyChanged("CurriculumRef");
+                    this.OnCurriculumRefChanged();
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_StageRef", DbType = "Int")]
-        public System.Nullable<int> StageRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ChapterRef", DbType = "Int")]
+        public System.Nullable<int> ChapterRef
         {
             get
             {
-                return this._StageRef;
+                return this._ChapterRef;
             }
             set
             {
-                if ((this._StageRef != value))
+                if ((this._ChapterRef != value))
                 {
-                    this.OnStageRefChanging(value);
+                    this.OnChapterRefChanging(value);
                     this.SendPropertyChanging();
-                    this._StageRef = value;
-                    this.SendPropertyChanged("StageRef");
-                    this.OnStageRefChanged();
+                    this._ChapterRef = value;
+                    this.SendPropertyChanged("ChapterRef");
+                    this.OnChapterRefChanged();
                 }
             }
         }
@@ -7031,36 +7031,36 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "CurriculumAssignment_Timeline", Storage = "_CurriculumAssignment", ThisKey = "CurriculumAssignmentRef", OtherKey = "Id", IsForeignKey = true)]
-        public CurriculumAssignment CurriculumAssignment
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Curriculum_Timeline", Storage = "_Curriculum", ThisKey = "CurriculumRef", OtherKey = "Id", IsForeignKey = true)]
+        public Curriculum Curriculum
         {
             get
             {
-                return this._CurriculumAssignment.Entity;
+                return this._Curriculum.Entity;
             }
             set
             {
-                CurriculumAssignment previousValue = this._CurriculumAssignment.Entity;
+                Curriculum previousValue = this._Curriculum.Entity;
                 if (((previousValue != value)
-                            || (this._CurriculumAssignment.HasLoadedOrAssignedValue == false)))
+                            || (this._Curriculum.HasLoadedOrAssignedValue == false)))
                 {
                     this.SendPropertyChanging();
                     if ((previousValue != null))
                     {
-                        this._CurriculumAssignment.Entity = null;
+                        this._Curriculum.Entity = null;
                         previousValue.Timelines.Remove(this);
                     }
-                    this._CurriculumAssignment.Entity = value;
+                    this._Curriculum.Entity = value;
                     if ((value != null))
                     {
                         value.Timelines.Add(this);
-                        this._CurriculumAssignmentRef = value.Id;
+                        this._CurriculumRef = value.Id;
                     }
                     else
                     {
-                        this._CurriculumAssignmentRef = default(int);
+                        this._CurriculumRef = default(int);
                     }
-                    this.SendPropertyChanged("CurriculumAssignment");
+                    this.SendPropertyChanged("Curriculum");
                 }
             }
         }
@@ -7086,8 +7086,8 @@ namespace IUDICO.Common.Models.Shared
         }
     }
 
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Curriculums")]
-    public partial class Curriculum : INotifyPropertyChanging, INotifyPropertyChanged
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Disciplines")]
+    public partial class Discipline : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -7106,9 +7106,9 @@ namespace IUDICO.Common.Models.Shared
 
         private bool _IsValid;
 
-        private EntitySet<CurriculumAssignment> _CurriculumAssignments;
+        private EntitySet<Curriculum> _Curriculums;
 
-        private EntitySet<Stage> _Stages;
+        private EntitySet<Chapter> _Chapters;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -7130,10 +7130,10 @@ namespace IUDICO.Common.Models.Shared
         partial void OnIsValidChanged();
         #endregion
 
-        public Curriculum()
+        public Discipline()
         {
-            this._CurriculumAssignments = new EntitySet<CurriculumAssignment>(new Action<CurriculumAssignment>(this.attach_CurriculumAssignments), new Action<CurriculumAssignment>(this.detach_CurriculumAssignments));
-            this._Stages = new EntitySet<Stage>(new Action<Stage>(this.attach_Stages), new Action<Stage>(this.detach_Stages));
+            this._Curriculums = new EntitySet<Curriculum>(new Action<Curriculum>(this.attach_Curriculums), new Action<Curriculum>(this.detach_Curriculums));
+            this._Chapters = new EntitySet<Chapter>(new Action<Chapter>(this.attach_Chapters), new Action<Chapter>(this.detach_Chapters));
             OnCreated();
         }
 
@@ -7277,29 +7277,29 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Curriculum_CurriculumAssignment", Storage = "_CurriculumAssignments", ThisKey = "Id", OtherKey = "CurriculumRef")]
-        public EntitySet<CurriculumAssignment> CurriculumAssignments
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Discipline_Curriculum", Storage = "_Curriculums", ThisKey = "Id", OtherKey = "DisciplineRef")]
+        public EntitySet<Curriculum> Curriculums
         {
             get
             {
-                return this._CurriculumAssignments;
+                return this._Curriculums;
             }
             set
             {
-                this._CurriculumAssignments.Assign(value);
+                this._Curriculums.Assign(value);
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Curriculum_Stage", Storage = "_Stages", ThisKey = "Id", OtherKey = "CurriculumRef")]
-        public EntitySet<Stage> Stages
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Discipline_Chapter", Storage = "_Chapters", ThisKey = "Id", OtherKey = "DisciplineRef")]
+        public EntitySet<Chapter> Chapters
         {
             get
             {
-                return this._Stages;
+                return this._Chapters;
             }
             set
             {
-                this._Stages.Assign(value);
+                this._Chapters.Assign(value);
             }
         }
 
@@ -7323,33 +7323,33 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        private void attach_CurriculumAssignments(CurriculumAssignment entity)
+        private void attach_Curriculums(Curriculum entity)
         {
             this.SendPropertyChanging();
-            entity.Curriculum = this;
+            entity.Discipline = this;
         }
 
-        private void detach_CurriculumAssignments(CurriculumAssignment entity)
+        private void detach_Curriculums(Curriculum entity)
         {
             this.SendPropertyChanging();
-            entity.Curriculum = null;
+            entity.Discipline = null;
         }
 
-        private void attach_Stages(Stage entity)
+        private void attach_Chapters(Chapter entity)
         {
             this.SendPropertyChanging();
-            entity.Curriculum = this;
+            entity.Discipline = this;
         }
 
-        private void detach_Stages(Stage entity)
+        private void detach_Chapters(Chapter entity)
         {
             this.SendPropertyChanging();
-            entity.Curriculum = null;
+            entity.Discipline = null;
         }
     }
 
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Stages")]
-    public partial class Stage : INotifyPropertyChanging, INotifyPropertyChanged
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Chapters")]
+    public partial class Chapter : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -7362,13 +7362,13 @@ namespace IUDICO.Common.Models.Shared
 
         private System.DateTime _Updated;
 
-        private int _CurriculumRef;
+        private int _DisciplineRef;
 
         private bool _IsDeleted;
 
-        private EntitySet<Theme> _Themes;
+        private EntitySet<Topic> _Topics;
 
-        private EntityRef<Curriculum> _Curriculum;
+        private EntityRef<Discipline> _Discipline;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -7382,16 +7382,16 @@ namespace IUDICO.Common.Models.Shared
         partial void OnCreatedChanged();
         partial void OnUpdatedChanging(System.DateTime value);
         partial void OnUpdatedChanged();
-        partial void OnCurriculumRefChanging(int value);
-        partial void OnCurriculumRefChanged();
+        partial void OnDisciplineRefChanging(int value);
+        partial void OnDisciplineRefChanged();
         partial void OnIsDeletedChanging(bool value);
         partial void OnIsDeletedChanged();
         #endregion
 
-        public Stage()
+        public Chapter()
         {
-            this._Themes = new EntitySet<Theme>(new Action<Theme>(this.attach_Themes), new Action<Theme>(this.detach_Themes));
-            this._Curriculum = default(EntityRef<Curriculum>);
+            this._Topics = new EntitySet<Topic>(new Action<Topic>(this.attach_Topics), new Action<Topic>(this.detach_Topics));
+            this._Discipline = default(EntityRef<Discipline>);
             OnCreated();
         }
 
@@ -7475,26 +7475,26 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CurriculumRef", DbType = "Int NOT NULL")]
-        public int CurriculumRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DisciplineRef", DbType = "Int NOT NULL")]
+        public int DisciplineRef
         {
             get
             {
-                return this._CurriculumRef;
+                return this._DisciplineRef;
             }
             set
             {
-                if ((this._CurriculumRef != value))
+                if ((this._DisciplineRef != value))
                 {
-                    if (this._Curriculum.HasLoadedOrAssignedValue)
+                    if (this._Discipline.HasLoadedOrAssignedValue)
                     {
                         throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
                     }
-                    this.OnCurriculumRefChanging(value);
+                    this.OnDisciplineRefChanging(value);
                     this.SendPropertyChanging();
-                    this._CurriculumRef = value;
-                    this.SendPropertyChanged("CurriculumRef");
-                    this.OnCurriculumRefChanged();
+                    this._DisciplineRef = value;
+                    this.SendPropertyChanged("DisciplineRef");
+                    this.OnDisciplineRefChanged();
                 }
             }
         }
@@ -7519,49 +7519,49 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Stage_Theme", Storage = "_Themes", ThisKey = "Id", OtherKey = "StageRef")]
-        public EntitySet<Theme> Themes
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Chapter_Topic", Storage = "_Topics", ThisKey = "Id", OtherKey = "ChapterRef")]
+        public EntitySet<Topic> Topics
         {
             get
             {
-                return this._Themes;
+                return this._Topics;
             }
             set
             {
-                this._Themes.Assign(value);
+                this._Topics.Assign(value);
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Curriculum_Stage", Storage = "_Curriculum", ThisKey = "CurriculumRef", OtherKey = "Id", IsForeignKey = true)]
-        public Curriculum Curriculum
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Discipline_Chapter", Storage = "_Discipline", ThisKey = "DisciplineRef", OtherKey = "Id", IsForeignKey = true)]
+        public Discipline Discipline
         {
             get
             {
-                return this._Curriculum.Entity;
+                return this._Discipline.Entity;
             }
             set
             {
-                Curriculum previousValue = this._Curriculum.Entity;
+                Discipline previousValue = this._Discipline.Entity;
                 if (((previousValue != value)
-                            || (this._Curriculum.HasLoadedOrAssignedValue == false)))
+                            || (this._Discipline.HasLoadedOrAssignedValue == false)))
                 {
                     this.SendPropertyChanging();
                     if ((previousValue != null))
                     {
-                        this._Curriculum.Entity = null;
-                        previousValue.Stages.Remove(this);
+                        this._Discipline.Entity = null;
+                        previousValue.Chapters.Remove(this);
                     }
-                    this._Curriculum.Entity = value;
+                    this._Discipline.Entity = value;
                     if ((value != null))
                     {
-                        value.Stages.Add(this);
-                        this._CurriculumRef = value.Id;
+                        value.Chapters.Add(this);
+                        this._DisciplineRef = value.Id;
                     }
                     else
                     {
-                        this._CurriculumRef = default(int);
+                        this._DisciplineRef = default(int);
                     }
-                    this.SendPropertyChanged("Curriculum");
+                    this.SendPropertyChanged("Discipline");
                 }
             }
         }
@@ -7586,16 +7586,16 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        private void attach_Themes(Theme entity)
+        private void attach_Topics(Topic entity)
         {
             this.SendPropertyChanging();
-            entity.Stage = this;
+            entity.Chapter = this;
         }
 
-        private void detach_Themes(Theme entity)
+        private void detach_Topics(Topic entity)
         {
             this.SendPropertyChanging();
-            entity.Stage = null;
+            entity.Chapter = null;
         }
     }
 

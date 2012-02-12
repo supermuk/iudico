@@ -8,6 +8,6 @@ namespace IUDICO.TestingSystem.Models.VOs
     public class PlayModel
     {
         public Int64 AttemptId { get; set; }
-        public int  ThemeId { get; set; }
+        public int  TopicId { get; set; }
     }
 }

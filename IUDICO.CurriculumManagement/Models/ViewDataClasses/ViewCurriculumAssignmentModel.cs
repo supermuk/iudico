@@ -5,7 +5,7 @@ using System.Web;
 
 namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
 {
-    public class ViewCurriculumAssignmentModel
+    public class ViewCurriculumModel
     {
         public int Id { get; set; }
         public string GroupName { get; set; }

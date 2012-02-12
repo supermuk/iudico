@@ -7,14 +7,14 @@ namespace IUDICO.Common.Models.Services
     public interface ITestingService : IService
     {
         /// <summary>
-        /// Gets results of attempts on specified theme for specified user.
+        /// Gets results of attempts on specified topic for specified user.
         /// It is important to understand there can be no attempts or be a few,
         /// so appropriate number of results would be returned.
         /// </summary>
         /// <param name="user">User value, represents user for which attempt results are returned.</param>
-        /// <param name="theme">Theme value, represents theme, for which attempt results are returned.</param>
-        /// <returns>Collection of AttemptResults objects. Can return zero or more attempt results. Zero count means user has not attempted relative course(from theme) yet./returns>
-        IEnumerable<AttemptResult> GetResults(User user, Theme theme);
+        /// <param name="topic">Topic value, represents topic, for which attempt results are returned.</param>
+        /// <returns>Collection of AttemptResults objects. Can return zero or more attempt results. Zero count means user has not attempted relative course(from topic) yet./returns>
+        IEnumerable<AttemptResult> GetResults(User user, Topic topic);
 
         /// <summary>
         /// Gets results of all attempts
@@ -30,10 +30,10 @@ namespace IUDICO.Common.Models.Services
         IEnumerable<AnswerResult> GetAnswers(AttemptResult attempt);
         
         /// <summary>
-        /// Builds "play theme" link.
+        /// Builds "play topic" link.
         /// </summary>
-        /// <param name="theme">Theme value represents theme, link is build for.</param>
+        /// <param name="topic">Topic value represents topic, link is build for.</param>
         /// <returns>ActionLink object containing data for building ActionLink using Html helpers.</returns>
-        ActionLink BuildLink(Theme theme);
+        ActionLink BuildLink(Topic topic);
     }
 }
