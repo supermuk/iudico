@@ -13,7 +13,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         public void Login()
         {
             selenium = new DefaultSelenium("localhost", 4444, "*chrome", "http://127.0.0.1:1569/");
-            selenium.Start();
+                selenium.Start();
 
             selenium.Open("/");
             selenium.Type("id=loginUsername", "lex");
@@ -135,7 +135,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         public void Test6_BanRoom()
         {
             selenium.Open("/Security/Index");
-            selenium.Click("//a[contains(@href,'Ban/BanRoom')]");
+            selenium.Click("//a[contains(@href,'BanRoom')]");
             selenium.WaitForPageToLoad("30000");
             selenium.Click("//a[contains(@href, '/Ban/RoomBan?room=119')]");
             selenium.WaitForPageToLoad("30000");
@@ -153,7 +153,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         public void Test7_DeleteRoom()
         {
             selenium.Open("/Security/Index");
-            selenium.Click("//a[contains(@href,'Ban/BanRoom')]");
+            selenium.Click("//a[contains(@href,'BanRoom')]");
             selenium.WaitForPageToLoad("30000");
             selenium.Click("//a[contains(@href, '/Ban/DeleteRoom?room=119')]");
             selenium.WaitForPageToLoad("30000");
