@@ -190,11 +190,47 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="CourseManagement\forTesting\20.zip" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="CourseManagement\forTesting\1\0\somePath0\" />
+    <Folder Include="CourseManagement\forTesting\1\Node\0\Images\" />
     <Folder Include="CurriculumManagement\Old\" />
     <Folder Include="Libs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CourseManagement\forTesting\0\api.js" />
+    <Content Include="CourseManagement\forTesting\0\checkplayer.js" />
+    <Content Include="CourseManagement\forTesting\0\flensed.js" />
+    <Content Include="CourseManagement\forTesting\0\flXHR.js" />
+    <Content Include="CourseManagement\forTesting\0\flXHR.swf" />
+    <Content Include="CourseManagement\forTesting\0\iudico.css" />
+    <Content Include="CourseManagement\forTesting\0\iudico.js" />
+    <Content Include="CourseManagement\forTesting\0\jquery-1.5.2.min.js" />
+    <Content Include="CourseManagement\forTesting\0\jquery.flXHRproxy.js" />
+    <Content Include="CourseManagement\forTesting\0\jquery.xhr.js" />
+    <Content Include="CourseManagement\forTesting\0\questions.js" />
+    <Content Include="CourseManagement\forTesting\0\sco.js" />
+    <Content Include="CourseManagement\forTesting\0\swfobject.js" />
+    <Content Include="CourseManagement\forTesting\0\updateplayer.swf" />
+    <Content Include="CourseManagement\forTesting\Templates\api.js" />
+    <Content Include="CourseManagement\forTesting\Templates\checkplayer.js" />
+    <Content Include="CourseManagement\forTesting\Templates\flensed.js" />
+    <Content Include="CourseManagement\forTesting\Templates\flXHR.js" />
+    <Content Include="CourseManagement\forTesting\Templates\flXHR.swf" />
+    <Content Include="CourseManagement\forTesting\Templates\iudico.css" />
+    <Content Include="CourseManagement\forTesting\Templates\iudico.html" />
+    <Content Include="CourseManagement\forTesting\Templates\iudico.js" />
+    <Content Include="CourseManagement\forTesting\Templates\jquery-1.5.2.min-vsdoc.js" />
+    <Content Include="CourseManagement\forTesting\Templates\jquery-1.5.2.min.js" />
+    <Content Include="CourseManagement\forTesting\Templates\jquery.flXHRproxy.js" />
+    <Content Include="CourseManagement\forTesting\Templates\jquery.xhr.js" />
+    <Content Include="CourseManagement\forTesting\Templates\lms.js" />
+    <Content Include="CourseManagement\forTesting\Templates\questions.js" />
+    <Content Include="CourseManagement\forTesting\Templates\sco.js" />
+    <Content Include="CourseManagement\forTesting\Templates\swfobject.js" />
+    <Content Include="CourseManagement\forTesting\Templates\updateplayer.swf" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
