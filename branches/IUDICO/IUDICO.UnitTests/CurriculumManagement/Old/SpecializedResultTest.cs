@@ -2,8 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
-using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared.Statistics;
 using IUDICO.Common.Models.Shared;
 
@@ -76,7 +74,7 @@ namespace TestProject1
         {
             User usr = new User() { Username = "Bob" };
             Topic thm = new Topic() { Name = "Topic One" };
-            IUDICO.Common.Models.Shared.Statistics.AttemptResult AR = new IUDICO.Common.Models.Shared.Statistics.AttemptResult(1, usr, thm, IUDICO.Common.Models.Shared.Statistics.CompletionStatus.Completed, IUDICO.Common.Models.Shared.Statistics.AttemptStatus.Completed, IUDICO.Common.Models.Shared.Statistics.SuccessStatus.Passed, DateTime.Now, 0.5f);
+            AttemptResult AR = new AttemptResult(1, usr, thm, CompletionStatus.Completed, AttemptStatus.Completed, SuccessStatus.Passed, DateTime.Now, 0.5f);
 
             TopicResult topicRes = new TopicResult(usr, thm);
             List<AttemptResult> ARL = new List<AttemptResult>();
