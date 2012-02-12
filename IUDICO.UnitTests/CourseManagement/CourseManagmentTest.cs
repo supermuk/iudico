@@ -136,7 +136,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             _HttpPostedFileBase = new Mock<HttpPostedFileBase>();
             _HttpPostedFileBase.SetupGet(i => i.FileName).Returns("file");
             _CourseStoragePath = Path.Combine(ConfigurationManager.AppSettings.Get("PathToIUDICO.UnitTests"),
-                                              @"IUDICO.UnitTests\bin\Debug\Site\Data");
+                                              @"IUDICO.UnitTests\CourseManagement\forTesting");
 
             _MockStorageProtectedMethodTestClass = new Mock<MixedCourseStorageProtectedMethodTestClass>();
             _MockStorageProtectedMethodTestClass.Protected().Setup<IDataContext>("GetDbContext").Returns(
@@ -154,6 +154,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         {
             _MockStorage.CallBase = true;
             _MockStorage.Protected().Setup<string>("GetCoursesPath").Returns(_CourseStoragePath);
+   		   _MockStorage.Setup(c=>c.GetTemplatesPath()).Returns(Path.Combine(_CourseStoragePath,"Templates"));
             _MockUserDataContext.SetupGet(c => c.Users).Returns(new MemoryTable<User>(_MockUserData));
 
             Mock<IUserService> userService = new Mock<IUserService>();
