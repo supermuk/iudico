@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using NUnit.Framework;
 using Selenium;
 
@@ -18,6 +17,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Start();
             verificationErrors = new StringBuilder();
         }
+
         [Test]
         public void WithValidData()
         {
@@ -36,6 +36,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.WaitForPageToLoad("30000");
             Assert.IsTrue(selenium.IsTextPresent("nestor"));
         }
+
         [Test]
         public void WithInvalidData()
         {

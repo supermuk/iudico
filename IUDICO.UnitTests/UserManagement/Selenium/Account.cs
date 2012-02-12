@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using NUnit.Framework;
 using Selenium;
 
@@ -18,6 +17,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Start();
             verificationErrors = new StringBuilder();
         }
+
         [Test]
         public void GetCurrentlyLoggedInUserWhenLogged()
         {
@@ -29,6 +29,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             Assert.IsTrue(selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
             Assert.IsTrue(selenium.IsTextPresent("Logged in as lex"));
         }
+
         [Test]
         public void GetCurrentlyLoggedInUserWhenNotLogged()
         {
@@ -38,7 +39,5 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             Assert.IsFalse(selenium.IsTextPresent("Logged in as"));
             Assert.IsTrue(selenium.IsTextPresent("Login"));
         }
-        
     }
-
 }

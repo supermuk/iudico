@@ -18,6 +18,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Start();
             verificationErrors = new StringBuilder();
         }
+
         [Test]
         public void RegisterValid()
         {
@@ -36,6 +37,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.WaitForPageToLoad("30000");
             Assert.IsTrue(selenium.IsTextPresent("Registered"));
         }
+
         [Test]
         public void RegisterInvalid()
         {
@@ -51,5 +53,4 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             Assert.IsTrue(selenium.GetLocation().EndsWith("/Account/Register"));
         }
     }
-
 }

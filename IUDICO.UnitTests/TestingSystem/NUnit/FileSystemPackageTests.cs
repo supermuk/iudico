@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace IUDICO.UnitTests.TestingSystem.NUnit
 {
     [TestFixture]
-    class FileSystemPackageTests
+    internal class FileSystemPackageTests
     {
         private FileSystemPackage fileSystemPackage;
 
@@ -43,7 +43,7 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
         public void FileSystemPackageGetPackageReaderTest()
         {
             FileSystemPackageTestsSetUp();
-            Assert.That(fileSystemPackage.GetPackageReader(), Is.TypeOf(typeof(FileSystemPackageReader)));
+            Assert.That(fileSystemPackage.GetPackageReader(), Is.TypeOf(typeof (FileSystemPackageReader)));
             Assert.That(fileSystemPackage.GetPackageReader(), Is.Not.Null);
         }
     }

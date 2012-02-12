@@ -17,14 +17,13 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium = new DefaultSelenium("localhost", 4444, "*chrome", UpgradeSeleniumTester.browserURL);
             selenium.Start();
             verificationErrors = new StringBuilder();
-
         }
 
         [TearDown]
         public void TeardownTest()
         {
             selenium.Click("//a[contains(@href, '/Account/Logout')]");
-			selenium.WaitForPageToLoad("30000");
+            selenium.WaitForPageToLoad("30000");
 
             try
             {
@@ -76,7 +75,6 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         [Test]
         public void CreateUserViolation()
         {
-
             selenium.Open("/");
             selenium.Type("id=loginPassword", "lex");
             selenium.Type("id=loginUsername", "lex");
@@ -119,8 +117,8 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Type("id=Email", "lex@iudico.com");
             selenium.Click("//input[@value='Save']");
             selenium.WaitForPageToLoad("30000");
-            
-            
+
+
             Assert.IsTrue(selenium.GetLocation().EndsWith("/User/Index"));
         }
 
@@ -146,8 +144,5 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
 
             Assert.IsTrue(selenium.GetLocation().EndsWith("/User/Edit?id=d47e8c09-2827-e011-840f-93b2f3060fee"));
         }
-
-        
-
     }
 }

@@ -24,29 +24,38 @@ using Action = IUDICO.Common.Models.Action;
 namespace IUDICO.UnitTests.LMS.NUnit
 {
     [TestFixture]
-    class GenerateActions
+    internal class GenerateActions
     {
         public Dictionary<IPlugin, IEnumerable<Action>> DataFromLms(Role role)
         {
-            Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>> accts=new Dictionary<IPlugin, IEnumerable<Action>>();
+            Dictionary<IPlugin, IEnumerable<Action>> accts = new Dictionary<IPlugin, IEnumerable<Action>>();
             List<Role> roles = new List<Role>();
             roles.Add(role);
             foreach (var plugin in container.ResolveAll<IPlugin>())
             {
                 accts.Add(
-                         plugin,
-                         plugin.BuildActions().Where(a =>
-                             IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles)));
-                         
+                    plugin,
+                    plugin.BuildActions().Where(a =>
+                                                IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(),
+                                                          roles)));
             }
             return accts;
         }
-        IService FindServ<T>(IUserService ser) where T:IService
+
+        private IService FindServ<T>(IUserService ser) where T : IService
         {
-            if (typeof(T) == typeof(IUserService)) return ser;
-            else return container.Resolve<T>();
+            if (typeof (T) == typeof (IUserService))
+            {
+                return ser;
+            }
+            else
+            {
+                return container.Resolve<T>();
+            }
         }
-        static IWindsorContainer container=new WindsorContainer();
+
+        private static IWindsorContainer container = new WindsorContainer();
+
         private static void InitializeWindsor(ref IWindsorContainer _Container)
         {
             Assembly a = Assembly.GetExecutingAssembly();
@@ -64,17 +73,20 @@ namespace IUDICO.UnitTests.LMS.NUnit
                     Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton)
                 .Install(FromAssembly.This(),
                          FromAssembly.InDirectory(new AssemblyFilter(fullPath, "IUDICO.*.dll"))
-            );
+                );
         }
-       public bool IsAllowed(string controller, string action, IEnumerable<Role> roles)
+
+        public bool IsAllowed(string controller, string action, IEnumerable<Role> roles)
         {
             // if can't resolve controller, don't allow access to it
             try
             {
                 var _controller = container.Resolve<IController>(controller + "controller");
-                var _action = _controller.GetType().GetMethods().Where(m => m.Name == action && !IsPost(m) && m.GetParameters().Length == 0).FirstOrDefault();
+                var _action =
+                    _controller.GetType().GetMethods().Where(
+                        m => m.Name == action && !IsPost(m) && m.GetParameters().Length == 0).FirstOrDefault();
 
-                var attribute = Attribute.GetCustomAttribute(_action, typeof(AllowAttribute), false) as AllowAttribute;
+                var attribute = Attribute.GetCustomAttribute(_action, typeof (AllowAttribute), false) as AllowAttribute;
 
                 if (attribute == null)
                 {
@@ -94,12 +106,14 @@ namespace IUDICO.UnitTests.LMS.NUnit
                 return false;
             }
         }
+
         protected bool IsPost(MethodInfo action)
         {
-            return Attribute.GetCustomAttribute(action, typeof(HttpPostAttribute), false) != null;
+            return Attribute.GetCustomAttribute(action, typeof (HttpPostAttribute), false) != null;
         }
+
         private static ILmsService service;
-        
+
         [Test]
         public void GenerateActionsUsingRoleNone()
         {
@@ -118,9 +132,9 @@ namespace IUDICO.UnitTests.LMS.NUnit
             service = container.Resolve<ILmsService>();
             PluginController.LmsService = service;
             var plugins = container.ResolveAll<IPlugin>();
-            Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>> actions =
+            Dictionary<IPlugin, IEnumerable<Action>> actions =
                 new Dictionary<IPlugin, IEnumerable<Action>>();
-            Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>> actions1;
+            Dictionary<IPlugin, IEnumerable<Action>> actions1;
 
             List<Role> roles = new List<Role>();
             roles.Add(Role.None);
@@ -143,7 +157,6 @@ namespace IUDICO.UnitTests.LMS.NUnit
             }
             catch (Exception e)
             {
-
             }
 
             foreach (var plugin in plugins)
@@ -154,7 +167,6 @@ namespace IUDICO.UnitTests.LMS.NUnit
                                                 IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(),
                                                           roles)
                         )
-
                     );
             }
 
@@ -174,12 +186,12 @@ namespace IUDICO.UnitTests.LMS.NUnit
                     }
                 }
             }
-
         }
+
         [Test]
         public void GenerateActionsUsingRoleStudent()
         {
-        HttpRequest httpRequest = new HttpRequest("", "http://mySomething/", "");
+            HttpRequest httpRequest = new HttpRequest("", "http://mySomething/", "");
             StringWriter stringWriter = new StringWriter();
             HttpResponse httpResponce = new HttpResponse(stringWriter);
             //httpResponce.Filter = new FileStream("asd.pdo",FileMode.CreateNew);
@@ -190,38 +202,37 @@ namespace IUDICO.UnitTests.LMS.NUnit
             container = new WindsorContainer();
             //HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
             InitializeWindsor(ref container);
-            
+
             service = container.Resolve<ILmsService>();
             PluginController.LmsService = service;
             var plugins = container.ResolveAll<IPlugin>();
-            Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>> actions =
+            Dictionary<IPlugin, IEnumerable<Action>> actions =
                 new Dictionary<IPlugin, IEnumerable<Action>>();
-            Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>> actions1;
-               
+            Dictionary<IPlugin, IEnumerable<Action>> actions1;
+
             List<Role> roles = new List<Role>();
             roles.Add(Role.Student);
 
             IEnumerable<Role> currentRole = from rol in roles
                                             select rol;
-            Mock<IUserService> userServiceMock=new Mock<IUserService>();
+            Mock<IUserService> userServiceMock = new Mock<IUserService>();
             userServiceMock.Setup(item => item.GetCurrentUserRoles()).Returns(currentRole);
             IUserService userServiceVar = service.FindService<IUserService>();
             userServiceVar = userServiceMock.Object;
-            Mock<ILmsService> lmsservice=new Mock<ILmsService>();
+            Mock<ILmsService> lmsservice = new Mock<ILmsService>();
             lmsservice.Setup(item => item.FindService<IUserService>()).Returns(userServiceMock.Object);
-            AccountController acct=new AccountController(new DatabaseUserStorage(service));
+            AccountController acct = new AccountController(new DatabaseUserStorage(service));
             lmsservice.Setup(item => item.GetActions()).Returns(actions);
-            
+
             try
             {
                 service = lmsservice.Object;
                 service.Inform(LMSNotifications.ApplicationRequestStart);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                
             }
-            
+
             foreach (var plugin in plugins)
             {
                 actions.Add(
@@ -230,7 +241,6 @@ namespace IUDICO.UnitTests.LMS.NUnit
                                                 IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(),
                                                           roles)
                         )
-
                     );
             }
 
@@ -250,8 +260,8 @@ namespace IUDICO.UnitTests.LMS.NUnit
                     }
                 }
             }
-
         }
+
         [Test]
         public void GenerateActionsUsingRoleSTeacher()
         {
@@ -266,38 +276,37 @@ namespace IUDICO.UnitTests.LMS.NUnit
             container = new WindsorContainer();
             //HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
             InitializeWindsor(ref container);
-            
+
             service = container.Resolve<ILmsService>();
             PluginController.LmsService = service;
             var plugins = container.ResolveAll<IPlugin>();
-            Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>> actions =
+            Dictionary<IPlugin, IEnumerable<Action>> actions =
                 new Dictionary<IPlugin, IEnumerable<Action>>();
-            Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>> actions1;
-               
+            Dictionary<IPlugin, IEnumerable<Action>> actions1;
+
             List<Role> roles = new List<Role>();
             roles.Add(Role.Teacher);
 
             IEnumerable<Role> currentRole = from rol in roles
                                             select rol;
-            Mock<IUserService> userServiceMock=new Mock<IUserService>();
+            Mock<IUserService> userServiceMock = new Mock<IUserService>();
             userServiceMock.Setup(item => item.GetCurrentUserRoles()).Returns(currentRole);
             IUserService userServiceVar = service.FindService<IUserService>();
             userServiceVar = userServiceMock.Object;
-            Mock<ILmsService> lmsservice=new Mock<ILmsService>();
+            Mock<ILmsService> lmsservice = new Mock<ILmsService>();
             lmsservice.Setup(item => item.FindService<IUserService>()).Returns(userServiceMock.Object);
-            AccountController acct=new AccountController(new DatabaseUserStorage(service));
+            AccountController acct = new AccountController(new DatabaseUserStorage(service));
             lmsservice.Setup(item => item.GetActions()).Returns(actions);
-            
+
             try
             {
                 service = lmsservice.Object;
                 service.Inform(LMSNotifications.ApplicationRequestStart);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                
             }
-            
+
             foreach (var plugin in plugins)
             {
                 actions.Add(
@@ -306,7 +315,6 @@ namespace IUDICO.UnitTests.LMS.NUnit
                                                 IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(),
                                                           roles)
                         )
-
                     );
             }
 
@@ -326,8 +334,8 @@ namespace IUDICO.UnitTests.LMS.NUnit
                     }
                 }
             }
-
         }
+
         [Test]
         public void GenerateActionsUsingRoleAdmin()
         {
@@ -342,38 +350,37 @@ namespace IUDICO.UnitTests.LMS.NUnit
             container = new WindsorContainer();
             //HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
             InitializeWindsor(ref container);
-            
+
             service = container.Resolve<ILmsService>();
             PluginController.LmsService = service;
             var plugins = container.ResolveAll<IPlugin>();
-            Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>> actions =
+            Dictionary<IPlugin, IEnumerable<Action>> actions =
                 new Dictionary<IPlugin, IEnumerable<Action>>();
-            Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>> actions1;
-               
+            Dictionary<IPlugin, IEnumerable<Action>> actions1;
+
             List<Role> roles = new List<Role>();
             roles.Add(Role.Admin);
 
             IEnumerable<Role> currentRole = from rol in roles
                                             select rol;
-            Mock<IUserService> userServiceMock=new Mock<IUserService>();
+            Mock<IUserService> userServiceMock = new Mock<IUserService>();
             userServiceMock.Setup(item => item.GetCurrentUserRoles()).Returns(currentRole);
             IUserService userServiceVar = service.FindService<IUserService>();
             userServiceVar = userServiceMock.Object;
-            Mock<ILmsService> lmsservice=new Mock<ILmsService>();
+            Mock<ILmsService> lmsservice = new Mock<ILmsService>();
             lmsservice.Setup(item => item.FindService<IUserService>()).Returns(userServiceMock.Object);
-            AccountController acct=new AccountController(new DatabaseUserStorage(service));
+            AccountController acct = new AccountController(new DatabaseUserStorage(service));
             lmsservice.Setup(item => item.GetActions()).Returns(actions);
-            
+
             try
             {
                 service = lmsservice.Object;
                 service.Inform(LMSNotifications.ApplicationRequestStart);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                
             }
-            
+
             foreach (var plugin in plugins)
             {
                 actions.Add(
@@ -382,7 +389,6 @@ namespace IUDICO.UnitTests.LMS.NUnit
                                                 IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(),
                                                           roles)
                         )
-
                     );
             }
 
@@ -402,8 +408,6 @@ namespace IUDICO.UnitTests.LMS.NUnit
                     }
                 }
             }
-
         }
-        
     }
 }

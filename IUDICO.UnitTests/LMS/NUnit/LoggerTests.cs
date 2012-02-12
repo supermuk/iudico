@@ -1,20 +1,22 @@
-﻿using System.Reflection;
+﻿using System.IO;
+using System.Reflection;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
-using IUDICO.Common;
 using IUDICO.Common.Models.Notifications;
 using IUDICO.Common.Models.Services;
 using IUDICO.LMS.Models;
-using NUnit.Framework;
-using System.IO;
 using log4net;
 using log4net.Appender;
+using log4net.Config;
+using log4net.Repository.Hierarchy;
+using NUnit.Framework;
+using Logger = IUDICO.Common.Logger;
 
 namespace IUDICO.UnitTests.LMS.NUnit
 {
     [TestFixture]
-    class LoggerTests
+    internal class LoggerTests
     {
         // <summary>
         /// Initializes Windsor container
@@ -38,8 +40,9 @@ namespace IUDICO.UnitTests.LMS.NUnit
                     Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton)
                 .Install(FromAssembly.This(),
                          FromAssembly.InDirectory(new AssemblyFilter(fullPath, "IUDICO.*.dll"))
-            );
+                );
         }
+
         [Test]
         public void IsLoggerObjectExists()
         {
@@ -57,6 +60,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
 
             Assert.AreEqual(ident, true);
         }
+
         [Test]
         public void LmsGetLoggedApplicationStop()
         {
@@ -69,17 +73,15 @@ namespace IUDICO.UnitTests.LMS.NUnit
             fullPath = Path.Combine(fullPath, "IUDICO.LMS", "log.xml");
             ILmsService service = new LmsService(new WindsorContainer());
             fullPath = fullPath.Remove(0, 6);
-            log4net.Config.XmlConfigurator.Configure(new FileInfo(fullPath));
-            log4net.ILog log = log4net.LogManager.GetLogger(typeof(ILmsService));
+            XmlConfigurator.Configure(new FileInfo(fullPath));
+            ILog log = LogManager.GetLogger(typeof (ILmsService));
             service.Inform(LMSNotifications.ApplicationStop);
-            FileAppender rootAppender = (FileAppender)((log4net.Repository.Hierarchy.Hierarchy)LogManager.GetRepository()).Root.Appenders[0];
+            FileAppender rootAppender = (FileAppender) ((Hierarchy) LogManager.GetRepository()).Root.Appenders[0];
             fullPath = rootAppender.File;
             rootAppender.Close();
             StreamReader reader = new StreamReader(fullPath);
             string toRead = reader.ReadToEnd();
             Assert.IsTrue(toRead.IndexOf("Notification:application/stop") != -1);
-
         }
-        
     }
 }

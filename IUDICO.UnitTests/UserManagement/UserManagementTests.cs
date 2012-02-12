@@ -4,11 +4,11 @@ using System.Data.Linq;
 using System.Linq;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Shared;
+using IUDICO.UserManagement.Models;
 using IUDICO.UserManagement.Models.Storage;
 using Moq;
 using Moq.Protected;
-using IUDICO.Common.Models.Shared;
-using IUDICO.UserManagement.Models;
 
 namespace IUDICO.UnitTests.UserManagement
 {
@@ -22,23 +22,11 @@ namespace IUDICO.UnitTests.UserManagement
 
         #region Public properties
 
-        public Mock<IDataContext> MockDataContext
-        {
-            get;
-            protected set;
-        }
+        public Mock<IDataContext> MockDataContext { get; protected set; }
 
-        public Mock<ILmsService> MockLmsService
-        {
-            get;
-            protected set;
-        }
+        public Mock<ILmsService> MockLmsService { get; protected set; }
 
-        public Mock<DatabaseUserStorage> MockStorage
-        {
-            get;
-            protected set;
-        }
+        public Mock<DatabaseUserStorage> MockStorage { get; protected set; }
 
         public IDataContext DataContext
         {
@@ -55,29 +43,13 @@ namespace IUDICO.UnitTests.UserManagement
             get { return MockStorage.Object; }
         }
 
-        public Mock<ITable> Users
-        {
-            get;
-            protected set;
-        }
-        
-        public Mock<ITable> Groups
-        {
-            get;
-            protected set;
-        }
+        public Mock<ITable> Users { get; protected set; }
 
-        public Mock<ITable> GroupUsers
-        {
-            get;
-            protected set;
-        }
+        public Mock<ITable> Groups { get; protected set; }
 
-        public Mock<ITable> UserRoles
-        {
-            get;
-            protected set;
-        }
+        public Mock<ITable> GroupUsers { get; protected set; }
+
+        public Mock<ITable> UserRoles { get; protected set; }
 
         #endregion
 
@@ -124,7 +96,7 @@ namespace IUDICO.UnitTests.UserManagement
             Setup();
             SetupTables();
         }
-        
+
         public static UserManagementTests GetInstance()
         {
             return _Instance ?? (_Instance = new UserManagementTests());
@@ -135,7 +107,8 @@ namespace IUDICO.UnitTests.UserManagement
 //            MockLmsService.Setup(l => l.GetIDataContext()).Returns(MockDataContext.Object);
             MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(MockDataContext.Object);
 //            MockStorage.Setup(s => s.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(true);
-            MockStorage.Setup(s => s.GetUserRoles(It.IsAny<string>())).Returns((string username) => GetUserRoles(username));
+            MockStorage.Setup(s => s.GetUserRoles(It.IsAny<string>())).Returns(
+                (string username) => GetUserRoles(username));
             MockStorage.Setup(s => s.GetGroupsByUser(It.IsAny<User>())).Returns((User user) => GetGroupsByUser(user));
         }
 
@@ -143,7 +116,13 @@ namespace IUDICO.UnitTests.UserManagement
         {
             var mockUserData = new[]
                                    {
-                                       new User {Id = Guid.NewGuid(), Username = "panza", Email = "ipetrovych@gmail.com", Password = Storage.EncryptPassword("somepassword"), },
+                                       new User
+                                           {
+                                               Id = Guid.NewGuid(),
+                                               Username = "panza",
+                                               Email = "ipetrovych@gmail.com",
+                                               Password = Storage.EncryptPassword("somepassword"),
+                                           },
                                    };
 
             var mockGroupData = new[]
@@ -158,7 +137,7 @@ namespace IUDICO.UnitTests.UserManagement
 
             var mockUserRoleData = new[]
                                        {
-                                           new UserRole {UserRef = mockUserData[0].Id, RoleRef = (int)Role.Teacher}
+                                           new UserRole {UserRef = mockUserData[0].Id, RoleRef = (int) Role.Teacher}
                                        };
 
             var mockUsers = new MemoryTable<User>(mockUserData);
@@ -178,7 +157,7 @@ namespace IUDICO.UnitTests.UserManagement
         {
             var user = Storage.GetUser(u => u.Username == username);
 
-            return DataContext.UserRoles.Where(ur => ur.UserRef == user.Id).Select(ur => (Role)ur.RoleRef);
+            return DataContext.UserRoles.Where(ur => ur.UserRef == user.Id).Select(ur => (Role) ur.RoleRef);
         }
 
         protected IEnumerable<Group> GetGroupsByUser(User user)

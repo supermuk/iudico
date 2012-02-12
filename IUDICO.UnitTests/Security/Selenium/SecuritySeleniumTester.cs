@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using IUDICO.UnitTests.Base;
 using NUnit.Framework;
-using Selenium;
 using Selenium;
 
 namespace IUDICO.UnitTests.Security.Selenium
@@ -56,7 +50,7 @@ namespace IUDICO.UnitTests.Security.Selenium
             selenium.Type("id=ComputerIP", "25.25.26.23");
             selenium.Click("//form[@id='form0']/p/input");
             selenium.WaitForPageToLoad("30000");
-            
+
             try
             {
                 Assert.IsTrue(selenium.IsTextPresent("25.25.26.23"));
@@ -68,7 +62,6 @@ namespace IUDICO.UnitTests.Security.Selenium
 
             selenium.Click("//a[contains(@href, '/Security/Index')]");
             selenium.WaitForPageToLoad("30000");
-
         }
 
         [Test]
@@ -90,7 +83,6 @@ namespace IUDICO.UnitTests.Security.Selenium
 
             selenium.Click("//a[contains(@href, '/Security/Index')]");
             selenium.WaitForPageToLoad("30000");
-
         }
 
         [Test]
@@ -101,7 +93,7 @@ namespace IUDICO.UnitTests.Security.Selenium
             selenium.WaitForPageToLoad("30000");
             selenium.Click("//a[contains(@href, '/Ban/DeleteComputer?computer=25.25.26.23')]");
             selenium.WaitForPageToLoad("30000");
-            
+
             try
             {
                 Assert.IsFalse(selenium.IsTextPresent("25.25.26.23"));
@@ -113,7 +105,6 @@ namespace IUDICO.UnitTests.Security.Selenium
 
             selenium.Click("//a[contains(@href, '/Security/Index')]");
             selenium.WaitForPageToLoad("30000");
-
         }
 
         [Test]
