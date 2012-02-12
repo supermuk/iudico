@@ -19,10 +19,6 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         private const string StudentPassword = "testPassword";
         private string studentId;
 
-        //private string StudentName1;
-        //private const string StudentPassword1 = "testPassword";
-        //private string studentId1;
-
         private string TeacherName;
         private const string TeacherPassword = "testPassword";
         private string teacherId;
@@ -40,50 +36,8 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         private string courseId1;
         private string topicId1;
 
-        //private string CourseUri2 = ConfigurationManager.AppSettings["SELENIUM_URL"]+"Data/RunTimeAdvancedCalls_SCORM20043rdEdition.zip";
-        //private string CourseName2 = "RunTimeAdvancedCalls_SCORM20043rdEdition";
-        //private string topicName2;
-        //private string chapterName2;
-        //private string courseId2;
-        //private string topicId2;
-
-        //private string CourseUri3 =
-        //    ConfigurationManager.AppSettings["SELENIUM_URL"]+"Data/SequencingForcedSequential_SCORM20043rdEdition.zip";
-
-        //private string CourseName3 = "SequencingForcedSequential_SCORM20043rdEdition";
-        //private string topicName3;
-        //private string chapterName3;
-        //private string courseId3;
-        //private string topicId3;
-
-        //private string CourseUri4 = ConfigurationManager.AppSettings["SELENIUM_URL"]+"Data/SequencingRandomTest_SCORM20043rdEdition.zip";
-        //private string CourseName4 = "SequencingRandomTest_SCORM20043rdEdition";
-        //private string topicName4;
-        //private string chapterName4;
-        //private string courseId4;
-        //private string topicId4;
-
-        //private string topicName5;
-        //private string chapterName5;
-        //private string courseId5;
-        //private string topicId5;
-
         private string disciplineName1;
         private string disciplineId1;
-
-        //private string disciplineId2;
-        //private string disciplineName2;
-
-        //private string disciplineId3;
-        //private string disciplineName3;
-
-        //private string disciplineId4;
-        //private string disciplineName4;
-
-        //private string disciplineId5;
-        //private string disciplineName5;
-
-        //private bool IsFirstRun = true;
 
         [SetUp]
         public void SetUp()
@@ -109,11 +63,6 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             studentId = GetUserId(StudentName, AdminName, AdminPassword);
             AddToRole(studentId, "Student", AdminName, AdminPassword);
 
-            //StudentName1 = random.Next().ToString();
-            //CreateUser(StudentName1, StudentPassword1, AdminName, AdminPassword);
-            //studentId1 = GetUserId(StudentName1, AdminName, AdminPassword);
-            //AddToRole(studentId1, "Student", AdminName, AdminPassword);
-
             TeacherName = random.Next().ToString();
             CreateUser(TeacherName, TeacherPassword, AdminName, AdminPassword);
             teacherId = GetUserId(TeacherName, AdminName, AdminPassword);
@@ -124,56 +73,24 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             ImportCourse(CourseUri1, CourseName1, TeacherName, TeacherPassword);
             courseId1 = GetCourseId(CourseName1, TeacherName, TeacherPassword);
 
-            //ImportCourse(CourseUri2, CourseName2, TeacherName, TeacherPassword);
-            //courseId2 = GetCourseId(CourseName2, TeacherName, TeacherPassword);
-
-            //ImportCourse(CourseUri3, CourseName3, TeacherName, TeacherPassword);
-            //courseId3 = GetCourseId(CourseName3, TeacherName, TeacherPassword);
-
-            //ImportCourse(CourseUri4, CourseName4, TeacherName, TeacherPassword);
-            //courseId4 = GetCourseId(CourseName4, TeacherName, TeacherPassword);
-
             string newCourseName1 = random.Next().ToString();
-            //string newCourseName2 = random.Next().ToString();
-            //string newCourseName3 = random.Next().ToString();
-            //string newCourseName4 = random.Next().ToString();
-
+            
             RenameCourse(courseId1, CourseName1, newCourseName1, TeacherName, TeacherPassword);
-            //RenameCourse(courseId2, CourseName2, newCourseName2, TeacherName, TeacherPassword);
-            //RenameCourse(courseId3, CourseName3, newCourseName3, TeacherName, TeacherPassword);
-            //RenameCourse(courseId4, CourseName4, newCourseName4, TeacherName, TeacherPassword);
 
             CourseName1 = newCourseName1;
-            //CourseName2 = newCourseName2;
-            //CourseName3 = newCourseName3;
-            //CourseName4 = newCourseName4;
-
 
             // Creates group and adds student to it. 
 
             GroupName = random.Next().ToString();
             CreateGroup(GroupName, TeacherName, TeacherPassword);
             AddToGroup(studentId, GroupName, AdminName, AdminPassword);
-            //AddToGroup(studentId1, GroupName, AdminName, AdminPassword);
             groupId = GetGroupId(GroupName, TeacherName, TeacherPassword);
 
             disciplineName1 = random.Next().ToString();
-            //disciplineName2 = random.Next().ToString();
-            //disciplineName3 = random.Next().ToString();
-            //disciplineName4 = random.Next().ToString();
-            //disciplineName5 = random.Next().ToString();
 
             topicName1 = random.Next().ToString();
-            //topicName2 = random.Next().ToString();
-            //topicName3 = random.Next().ToString();
-            //topicName4 = random.Next().ToString();
-            //topicName5 = random.Next().ToString();
 
             chapterName1 = random.Next().ToString();
-            //chapterName2 = random.Next().ToString();
-            //chapterName3 = random.Next().ToString();
-            //chapterName4 = random.Next().ToString();
-            //chapterName5 = random.Next().ToString();
         }
 
         [TearDown]
@@ -182,10 +99,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             // Deletes all courses.
 
             DeleteCourse(courseId1, CourseName1, TeacherName, TeacherPassword);
-            //DeleteCourse(courseId2, CourseName2, TeacherName, TeacherPassword);
-            //DeleteCourse(courseId3, CourseName3, TeacherName, TeacherPassword);
-            //DeleteCourse(courseId4, CourseName4, TeacherName, TeacherPassword);
-
+      
             // Removes all groups.
 
             DeleteGroup(groupId, GroupName, TeacherName, TeacherPassword);
@@ -193,10 +107,6 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             // Deletes all disciplines.
 
             DeleteDiscipline(disciplineId1, disciplineName1, TeacherName, TeacherPassword);
-            //DeleteDiscipline(disciplineId2, disciplineName2, TeacherName, TeacherPassword);
-            //DeleteDiscipline(disciplineId3, disciplineName3, TeacherName, TeacherPassword);
-            //DeleteDiscipline(disciplineId4, disciplineName4, TeacherName, TeacherPassword);
-            //DeleteDiscipline(disciplineId5, disciplineName5, TeacherName, TeacherPassword);
 
             // Removes all users.
 
@@ -204,9 +114,6 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             DeleteUser(teacherId, TeacherName, AdminName, AdminPassword);
 
             CourseName1 = "ContentPackagingOneFilePerSCO_SCORM20043rdEdition";
-            //CourseName2 = "RunTimeAdvancedCalls_SCORM20043rdEdition";
-            //CourseName3 = "SequencingForcedSequential_SCORM20043rdEdition";
-            //CourseName4 = "SequencingRandomTest_SCORM20043rdEdition";
         }
 
         private void Login(string userLogin, string userPassword)
@@ -485,9 +392,9 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Selenium.Click("xpath=//table//tr[td//text()[contains(., '" + groupName + "')]]/td[3]/a[1]");
             Selenium.WaitForPageToLoad(LoadTime);
             string curriculumId =
-                Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("Curriculum/") + 21,
+                Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("Curriculum/") + "Curriculum/".Length,
                                                  Selenium.GetLocation().IndexOf("/Edit") -
-                                                 (Selenium.GetLocation().IndexOf("Curriculum/") + 21));
+                                                 (Selenium.GetLocation().IndexOf("Curriculum/") + "Curriculum/".Length));
             Logout();
             return curriculumId;
         }
@@ -560,9 +467,9 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Click("xpath=//table//tr[td//text()[contains(., '" + chapterName + "')]]/td[5]/a[1]");
             Selenium.WaitForPageToLoad(LoadTime);
-            string chapterId = Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("Chapter/") + 6,
+            string chapterId = Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("Chapter/") + "Chapter/".Length,
                                                                 Selenium.GetLocation().IndexOf("/Edit") -
-                                                                (Selenium.GetLocation().IndexOf("Chapter/") + 6));
+                                                                (Selenium.GetLocation().IndexOf("Chapter/") + "Chapter/".Length));
             Logout();
             return chapterId;
         }
@@ -601,9 +508,9 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Click("xpath=//table//tr[td//text()[contains(., '" + topicName + "')]]/td[6]/a[1]");
             Selenium.WaitForPageToLoad(LoadTime);
-            string topicId = Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("Topic/") + 6,
+            string topicId = Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("Topic/") + "Topic/".Length,
                                                               Selenium.GetLocation().IndexOf("/Edit") -
-                                                              (Selenium.GetLocation().IndexOf("Topic/") + 6));
+                                                              (Selenium.GetLocation().IndexOf("Topic/") + "Topic/".Length));
             Logout();
             return topicId;
         }
@@ -663,6 +570,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
 
             Selenium.Open("/Training/Play/" + topicId1);
             Selenium.WaitForPageToLoad(LoadTime);
+            WaitForText("IUDICO",LoadTime);
             Assert.IsTrue(Selenium.GetTitle() == "Play course");
             Selenium.SelectFrame("player");
             Selenium.SelectFrame("frameLearnTask");
@@ -803,9 +711,9 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Assert.IsTrue(Selenium.IsTextPresent("Please select an activity to continue with the training."));
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("frameToc");
-            Selenium.MouseDown("id=a15");
+            Selenium.MouseDown("css=a[title='The Rules of Golf']");
             Selenium.WaitForFrameToLoad("frameContent", LoadTime);
-            Selenium.MouseUp("id=a15");
+            Selenium.MouseUp("css=a[title='The Rules of Golf']");
 
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("frameContent");
@@ -828,11 +736,11 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("relative=up");
+            Selenium.SelectWindow(null);
             Selenium.Open("/");
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Open("/Training/Play/" + topicId1);
-            Selenium.WaitForPageToLoad(LoadTime);
-            Selenium.WaitForPageToLoad(LoadTime);
+            WaitForText("Results", LoadTime);
             Assert.IsTrue(Selenium.IsTextPresent("Results"));
             Logout();
         }
@@ -869,9 +777,9 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Assert.IsTrue(Selenium.IsTextPresent("Please select an activity to continue with the training."));
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("frameToc");
-            Selenium.MouseDown("id=a15");
+            Selenium.MouseDown("css=a[title='The Rules of Golf']");
             Selenium.WaitForFrameToLoad("frameContent", LoadTime);
-            Selenium.MouseUp("id=a15");
+            Selenium.MouseUp("css=a[title='The Rules of Golf']");
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("id=frameContent");
             WaitForText("The Rules of Golf (book)", LoadTime);
@@ -929,9 +837,9 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Assert.IsTrue(Selenium.IsTextPresent("Please select an activity to continue with the training."));
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("frameToc");
-            Selenium.MouseDown("id=a15");
+            Selenium.MouseDown("css=a[title='The Rules of Golf']");
             Selenium.WaitForFrameToLoad("frameContent", LoadTime);
-            Selenium.MouseUp("id=a15");
+            Selenium.MouseUp("css=a[title='The Rules of Golf']");
             Selenium.SelectFrame("relative=parent");
             Selenium.SelectFrame("id=frameContent");
             WaitForText("The Rules of Golf (book)", LoadTime);
@@ -973,9 +881,9 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Assert.IsTrue(Selenium.IsTextPresent("Please select an activity to continue with the training."));
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("frameToc");
-            Selenium.MouseDown("id=a15");
+            Selenium.MouseDown("css=a[title='The Rules of Golf']");
             Selenium.WaitForFrameToLoad("frameContent", LoadTime);
-            Selenium.MouseUp("id=a15");
+            Selenium.MouseUp("css=a[title='The Rules of Golf']");
 
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("frameContent");
@@ -1002,90 +910,6 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Logout();
         }
 
-        //[Test]
-        //public void InteractWithCourseContentNextPrev()
-        //{
-
-        //    CreateDiscipline(disciplineName3, TeacherName, TeacherPassword);
-        //    disciplineId3 = GetDisciplineId(disciplineName3, TeacherName, TeacherPassword);
-        //    AddGroupToDiscipline(disciplineId3, GroupName, TeacherName, TeacherPassword);
-        //    string curriculumId3 = GetCurriculumId(disciplineId3, GroupName, TeacherName,
-        //                                                               TeacherPassword);
-        //    AddTimeLineToDiscipline("12/18/1999 4:23 PM", "12/18/2100 4:23 PM", disciplineId3, curriculumId3,
-        //                            TeacherName, TeacherPassword);
-        //    AddChapter(disciplineId3, chapterName3, TeacherName, TeacherPassword);
-        //    string chapterId3 = GetChapterId(disciplineId3, chapterName3, TeacherName, TeacherPassword);
-        //    AddTopic(disciplineId3, chapterId3, topicName3, CourseName3, TeacherName, TeacherPassword);
-        //    topicId3 = GetTopicId(disciplineId3, chapterId3, topicName3, TeacherName, TeacherPassword);
-
-        //    Login(StudentName, StudentPassword);
-        //    Selenium.Open("/Training/Play/" + topicId3);
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Selenium.SelectFrame("player");
-        //    Selenium.SelectFrame("frameLearnTask");
-        //    Selenium.SelectFrame("frameContent");
-        //    Selenium.Click("id=butNext");
-        //    Selenium.Click("id=butPrevious");
-        //    Selenium.SelectFrame("relative=up");
-        //    Selenium.SelectFrame("relative=up");
-        //    Selenium.SelectFrame("relative=up");
-        //    Selenium.Click("link=Logout");
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Logout();
-        //}
-
-        //[Test]
-        //public void InteractWithCourseContentSubmitLastItem()
-        //{
-
-        //    // Creates assigned to group discipline that contains valid discipline timelines.
-
-        //    CreateDiscipline(disciplineName5, TeacherName, TeacherPassword);
-        //    disciplineId5 = GetDisciplineId(disciplineName5, TeacherName, TeacherPassword);
-        //    AddGroupToDiscipline(disciplineId5, GroupName, TeacherName, TeacherPassword);
-        //    string curriculumId5 = GetCurriculumId(disciplineId5, GroupName, TeacherName,
-        //                                                               TeacherPassword);
-        //    AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId5, curriculumId5,
-        //                            TeacherName, TeacherPassword);
-        //    AddChapter(disciplineId5, chapterName5, TeacherName, TeacherPassword);
-        //    string chapterId5 = GetChapterId(disciplineId5, chapterName5, TeacherName, TeacherPassword);
-        //    AddTopic(disciplineId5, chapterId5, topicName5, CourseName2, TeacherName, TeacherPassword);
-        //    topicId5 = GetTopicId(disciplineId5, chapterId5, topicName5, TeacherName, TeacherPassword);
-
-        //    Login(StudentName1, StudentPassword1);
-        //    Selenium.Open("/Training/Play/" + topicId5);
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Selenium.SelectFrame("player");
-        //    Selenium.SelectFrame("frameLearnTask");
-        //    Selenium.SelectFrame("frameContent");
-        //    for (int i = 0; i < 15; i++)
-        //    {
-        //        Selenium.Click("id=butNext");
-        //        Selenium.WaitForFrameToLoad("frameContent", LoadTime);
-        //        Thread.Sleep(5000);
-        //    }
-
-        //    Selenium.SelectFrame("relative=up");
-        //    Selenium.SelectFrame("frameToc");
-        //    Selenium.MouseDown("id=aSUBMIT");
-        //    Selenium.WaitForFrameToLoad("frameContent", LoadTime);
-        //    Selenium.MouseUp("id=aSUBMIT");
-        //    Selenium.SelectFrame("relative=up");
-        //    Selenium.SelectFrame("frameContent");
-        //    WaitForText("Submit this Training?", LoadTime);
-        //    Assert.IsTrue(Selenium.IsTextPresent("Submit this Training?"));
-        //    Selenium.Click("id=submitBtn");
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Selenium.WaitForPageToLoad(LoadTime);
-        //    Assert.IsTrue(Selenium.IsTextPresent("Training Completed"));
-        //    Assert.IsTrue(
-        //        Selenium.IsTextPresent("This training has been completed. You cannot make any further changes."));
-        //    Selenium.SelectFrame("relative=up");
-        //    Selenium.SelectFrame("relative=up");
-        //    Selenium.SelectFrame("relative=up");
-        //    Logout();
-        //}
-
         [Test]
         public void NavigateForwardThroughTopic()
         {
@@ -1111,9 +935,9 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Assert.IsTrue(Selenium.IsTextPresent("Please select an activity to continue with the training."));
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("frameToc");
-            Selenium.MouseDown("id=a15");
+            Selenium.MouseDown("css=a[title='The Rules of Golf']");
             Selenium.WaitForFrameToLoad("frameContent", LoadTime);
-            Selenium.MouseUp("id=a15");
+            Selenium.MouseUp("css=a[title='The Rules of Golf']");
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("frameContent");
             WaitForText("The Rules of Golf (book)", LoadTime);
@@ -1149,9 +973,9 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Assert.IsTrue(Selenium.IsTextPresent("Please select an activity to continue with the training."));
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("frameToc");
-            Selenium.MouseDown("id=a15");
+            Selenium.MouseDown("css=a[title='The Rules of Golf']");
             Selenium.WaitForFrameToLoad("frameContent", LoadTime);
-            Selenium.MouseUp("id=a15");
+            Selenium.MouseUp("css=a[title='The Rules of Golf']");
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("frameContent");
             WaitForText("The Rules of Golf (book)", LoadTime);
@@ -1159,9 +983,9 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
 
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("frameToc");
-            Selenium.MouseDown("id=a14");
+            Selenium.MouseDown("css=a[title='Other Scoring Systems']");
             Selenium.WaitForFrameToLoad("frameContent", LoadTime);
-            Selenium.MouseUp("id=a14");
+            Selenium.MouseUp("css=a[title='Other Scoring Systems']");
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("frameContent");
             WaitForText("Other Scoring Systems", LoadTime);
@@ -1169,9 +993,9 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
 
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("frameToc");
-            Selenium.MouseDown("id=a15");
+            Selenium.MouseDown("css=a[title='The Rules of Golf']");
             Selenium.WaitForFrameToLoad("frameContent", LoadTime);
-            Selenium.MouseUp("id=a15");
+            Selenium.MouseUp("css=a[title='The Rules of Golf']");
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("frameContent");
             WaitForText("The Rules of Golf (book)", LoadTime);
@@ -1179,9 +1003,9 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
 
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("frameToc");
-            Selenium.MouseDown("id=a16");
+            Selenium.MouseDown("css=a[title='Playing Golf Quiz']");
             Selenium.WaitForFrameToLoad("frameContent", LoadTime);
-            Selenium.MouseUp("id=a16");
+            Selenium.MouseUp("css=a[title='Playing Golf Quiz']");
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("frameContent");
             WaitForText("Knowledge Check", LoadTime);
@@ -1217,9 +1041,9 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Assert.IsTrue(Selenium.IsTextPresent("Please select an activity to continue with the training."));
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("frameToc");
-            Selenium.MouseDown("id=a32");
+            Selenium.MouseDown("css=a[title='Playing Golf Quiz']");
             Selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
-            Selenium.MouseUp("id=a32");
+            Selenium.MouseUp("css=a[title='Playing Golf Quiz']");
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("id=frameContent");
             WaitForText("Knowledge Check", LoadTime);
@@ -1227,9 +1051,9 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
 
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("frameToc");
-            Selenium.MouseDown("id=a11");
+            Selenium.MouseDown("css=a[title='How to Play']");
             Selenium.WaitForFrameToLoad("frameContent", LoadTime);
-            Selenium.MouseUp("id=a11");
+            Selenium.MouseUp("css=a[title='How to Play']");
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("frameContent");
             WaitForText("Play of the game", LoadTime);
