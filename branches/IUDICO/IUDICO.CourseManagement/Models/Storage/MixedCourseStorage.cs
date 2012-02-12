@@ -535,7 +535,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             return Path.Combine(path, @"Data\WorkFolder", courseId.ToString());
         }
 
-        public string GetTemplatesPath()
+        virtual public string GetTemplatesPath()
         {
             var path = HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
 

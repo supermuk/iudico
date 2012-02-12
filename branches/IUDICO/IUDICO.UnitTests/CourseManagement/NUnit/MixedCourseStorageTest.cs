@@ -347,6 +347,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("ImportMethods")]
         public void Import()
         {
+
             string path = Path.Combine(_Tests._CourseStoragePath, "20.zip");
 
             _Storage.Import(path, "lex");
