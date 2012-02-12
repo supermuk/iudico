@@ -25,9 +25,9 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Type("id=loginPassword", "lex");
             selenium.Type("id=loginUsername", "lex");
             selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
-            selenium.WaitForPageToLoad("30000");
+            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
             selenium.Click("//a[contains(@href, '/Account/Logout')]");
-            selenium.WaitForPageToLoad("30000");
+            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
             Assert.IsFalse(selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
         }
     }
