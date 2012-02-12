@@ -20,6 +20,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 return _Tests.Storage;
             }
         }
+
         protected List<Discipline> CreateDefaultData()
         {
             var disciplines = new List<Discipline>()

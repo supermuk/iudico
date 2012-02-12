@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Pipes;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.UI;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
-using IUDICO.Common;
 using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
@@ -21,11 +16,9 @@ using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
 using IUDICO.LMS.Models;
 using IUDICO.UserManagement.Controllers;
-using IUDICO.UserManagement.Models;
 using IUDICO.UserManagement.Models.Storage;
 using Moq;
 using NUnit.Framework;
-using OpenQA.Selenium.Remote;
 using Action = IUDICO.Common.Models.Action;
 
 namespace IUDICO.UnitTests.LMS.NUnit
