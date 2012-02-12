@@ -51,24 +51,24 @@ namespace IUDICO.TestingSystem.Controllers
         [Allow(Role=Role.Student)]
         public ActionResult Play(int id)
         {
-            var curriculumService = LmsService.FindService<ICurriculumService>();
+            var disciplineService = LmsService.FindService<ICurriculumService>();
 
-            var theme = curriculumService.GetTheme(id);
+            var topic = disciplineService.GetTopic(id);
 
-            if (theme == null)
-                return View("Error", "~/Views/Shared/Site.Master", Localization.getMessage("Theme_Not_Found"));
+            if (topic == null)
+                return View("Error", "~/Views/Shared/Site.Master", Localization.getMessage("Topic_Not_Found"));
 
             var currentUser = UserService.GetCurrentUser();
-            var themes = curriculumService.GetThemesAvailableForUser(currentUser).Select(t => t.Theme).Where(t => t.Id == theme.Id);
-            var containsTheme = themes.Count() == 1;
-            if (!containsTheme)
-                return View("Error", "~/Views/Shared/Site.Master", Localization.getMessage("Not_Allowed_Pass_Theme"));
+            var topics = disciplineService.GetTopicsAvailableForUser(currentUser).Select(t => t.Topic).Where(t => t.Id == topic.Id);
+            var containsTopic = topics.Count() == 1;
+            if (!containsTopic)
+                return View("Error", "~/Views/Shared/Site.Master", Localization.getMessage("Not_Allowed_Pass_Topic"));
 
-            long attemptId = MlcProxy.GetAttemptId(theme);
+            long attemptId = MlcProxy.GetAttemptId(topic);
 
             ServicesProxy.Instance.Initialize(LmsService);
 
-            return View("Play", new PlayModel { AttemptId = attemptId, ThemeId = theme.Id });
+            return View("Play", new PlayModel { AttemptId = attemptId, TopicId = topic.Id });
         }
     }
 }

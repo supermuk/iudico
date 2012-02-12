@@ -4,35 +4,35 @@ using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Search.Models.SearchResult
 {
-    public class CurriculumResult : ISearchResult
+    public class DisciplineResult : ISearchResult
     {
-        protected Curriculum _Curriculum;
+        protected Discipline _Discipline;
         protected string _Update;
 
-        public CurriculumResult(Curriculum curriculum, string update)
+        public DisciplineResult(Discipline discipline, string update)
         {
-            _Curriculum = curriculum;
+            _Discipline = discipline;
             _Update = update;
         }
 
         public int GetId()
         {
-            return _Curriculum.Id;
+            return _Discipline.Id;
         }
 
         public String GetName()
         {
-            return _Curriculum.Name;
+            return _Discipline.Name;
         }
 
         public String GetText()
         {
-            return Localization.getMessage("CurriculumName") + ": " + GetName() + "</br>" + Localization.getMessage("Updated") + ": " + _Update + "</br>" + GetUrl(); //"curriculum";
+            return Localization.getMessage("DisciplineName") + ": " + GetName() + "</br>" + Localization.getMessage("Updated") + ": " + _Update + "</br>" + GetUrl(); //"discipline";
         }
 
         public String GetUrl()
         {
-            return "/Curriculum/" + _Curriculum.Id + "/Edit";
+            return "/Discipline/" + _Discipline.Id + "/Edit";
         }
     }
 }

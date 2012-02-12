@@ -135,14 +135,14 @@
   <data name="CreateGroup" xml:space="preserve">
     <value>Create group</value>
   </data>
-  <data name="CurriculumList" xml:space="preserve">
-    <value>Curriculum list for</value>
+  <data name="DisciplineList" xml:space="preserve">
+    <value>Discipline list for</value>
   </data>
-  <data name="CurriculumName" xml:space="preserve">
-    <value>Curriculum name</value>
+  <data name="DisciplineName" xml:space="preserve">
+    <value>Discipline name</value>
   </data>
-  <data name="CurriculumsStatisticForGroup" xml:space="preserve">
-    <value>Curriculums statistic for group</value>
+  <data name="DisciplinesStatisticForGroup" xml:space="preserve">
+    <value>Disciplines statistic for group</value>
   </data>
   <data name="GetStats" xml:space="preserve">
     <value>Get Stats</value>
@@ -168,11 +168,11 @@
   <data name="SelectAttempt" xml:space="preserve">
     <value>Please, select attempt to show:</value>
   </data>
-  <data name="SelectCurriculum" xml:space="preserve">
-    <value>Please, select one or more curriculum </value>
+  <data name="SelectDiscipline" xml:space="preserve">
+    <value>Please, select one or more discipline </value>
   </data>
-  <data name="SelectOneCurriculum" xml:space="preserve">
-    <value>Please, select one curriculum :</value>
+  <data name="SelectOneDiscipline" xml:space="preserve">
+    <value>Please, select one discipline :</value>
   </data>
   <data name="SelectOneGroup" xml:space="preserve">
     <value>Please, select one group :</value>
@@ -195,8 +195,8 @@
   <data name="Sum" xml:space="preserve">
     <value>Sum</value>
   </data>
-  <data name="Theme" xml:space="preserve">
-    <value>Theme</value>
+  <data name="Topic" xml:space="preserve">
+    <value>Topic</value>
   </data>
   <data name="NoData" xml:space="preserve">
     <value>No data</value>
@@ -204,8 +204,8 @@
   <data name="NoDataShow" xml:space="preserve">
     <value>No data to show</value>
   </data>
-  <data name="CurriculumsStatistic" xml:space="preserve">
-    <value>Curriculums Statistic</value>
+  <data name="DisciplinesStatistic" xml:space="preserve">
+    <value>Disciplines Statistic</value>
   </data>
   <data name="Failed" xml:space="preserve">
     <value>Failed</value>
@@ -213,8 +213,8 @@
   <data name="Passed" xml:space="preserve">
     <value>Passed</value>
   </data>
-  <data name="ThemesInfo" xml:space="preserve">
-    <value>Themes Info</value>
+  <data name="TopicsInfo" xml:space="preserve">
+    <value>Topics Info</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>Unknown</value>
@@ -222,8 +222,8 @@
   <data name="Coefficient" xml:space="preserve">
     <value>Coefficient</value>
   </data>
-  <data name="Curriculum" xml:space="preserve">
-    <value>Curriculum</value>
+  <data name="Discipline" xml:space="preserve">
+    <value>Discipline</value>
   </data>
   <data name="Next" xml:space="preserve">
     <value>Next</value>
@@ -234,8 +234,8 @@
   <data name="QualityTest" xml:space="preserve">
     <value>Quality Test</value>
   </data>
-  <data name="SelectCurriculums" xml:space="preserve">
-    <value>Select Curriculums</value>
+  <data name="SelectDisciplines" xml:space="preserve">
+    <value>Select Disciplines</value>
   </data>
   <data name="SelectGroups" xml:space="preserve">
     <value>Select Groups</value>
@@ -243,11 +243,11 @@
   <data name="SelectOneOrMoreGroups" xml:space="preserve">
     <value>Select one or more groups</value>
   </data>
-  <data name="SelectOneTheme" xml:space="preserve">
-    <value>Select OneTheme</value>
+  <data name="SelectOneTopic" xml:space="preserve">
+    <value>Select OneTopic</value>
   </data>
-  <data name="SelectTheme" xml:space="preserve">
-    <value>Select Theme</value>
+  <data name="SelectTopic" xml:space="preserve">
+    <value>Select Topic</value>
   </data>
   <data name="ShowQualityTest" xml:space="preserve">
     <value>ShowQualityTest</value>

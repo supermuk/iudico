@@ -28,7 +28,7 @@ namespace IUDICO.TestingSystem.Models
             get { return LmsSevice.FindService<ICourseService>(); }
         }
 
-        protected ICurriculumService CurriculumService
+        protected ICurriculumService DisciplineService
         {
             get { return LmsSevice.FindService<ICurriculumService>(); }
         }

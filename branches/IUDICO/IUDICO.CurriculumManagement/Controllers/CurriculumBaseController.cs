@@ -17,10 +17,10 @@ namespace IUDICO.CurriculumManagement.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="CurriculumBaseController"/> class.
         /// </summary>
-        /// <param name="curriculumStorage">The curriculum storage.</param>
-        public CurriculumBaseController(ICurriculumStorage curriculumStorage)
+        /// <param name="disciplineStorage">The discipline storage.</param>
+        public CurriculumBaseController(ICurriculumStorage disciplineStorage)
         {
-            Storage = curriculumStorage;
+            Storage = disciplineStorage;
             Validator = new Validator(Storage);
         }
 

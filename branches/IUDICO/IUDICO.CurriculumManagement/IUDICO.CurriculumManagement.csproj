@@ -78,12 +78,12 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\CurriculumAssignmentController.cs" />
-    <Compile Include="Controllers\CurriculumAssignmentTimelineController.cs" />
-    <Compile Include="Controllers\CurriculumBaseController.cs" />
     <Compile Include="Controllers\CurriculumController.cs" />
-    <Compile Include="Controllers\StageController.cs" />
-    <Compile Include="Controllers\StageTimelineController.cs" />
+    <Compile Include="Controllers\CurriculumTimelineController.cs" />
+    <Compile Include="Controllers\CurriculumBaseController.cs" />
+    <Compile Include="Controllers\DisciplineController.cs" />
+    <Compile Include="Controllers\ChapterController.cs" />
+    <Compile Include="Controllers\ChapterTimelineController.cs" />
     <Compile Include="Controllers\ThemeAssignmentController.cs" />
     <Compile Include="Controllers\ThemeController.cs" />
     <Compile Include="Converters.cs" />
@@ -109,26 +109,26 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\CurriculumAssignmentTimeline\Edit.aspx" />
-    <Content Include="Views\CurriculumAssignment\Create.aspx" />
-    <Content Include="Views\StageTimeline\Create.aspx" />
-    <Content Include="Views\CurriculumAssignment\Edit.aspx" />
-    <Content Include="Views\CurriculumAssignmentTimeline\Create.aspx" />
-    <Content Include="Views\StageTimeline\Edit.aspx" />
-    <Content Include="Views\StageTimeline\Index.aspx" />
-    <Content Include="Views\CurriculumAssignmentTimeline\Index.aspx" />
-    <Content Include="Views\CurriculumAssignment\Index.aspx" />
+    <Content Include="Views\CurriculumTimeline\Edit.aspx" />
     <Content Include="Views\Curriculum\Create.aspx" />
+    <Content Include="Views\ChapterTimeline\Create.aspx" />
     <Content Include="Views\Curriculum\Edit.aspx" />
+    <Content Include="Views\CurriculumTimeline\Create.aspx" />
+    <Content Include="Views\ChapterTimeline\Edit.aspx" />
+    <Content Include="Views\ChapterTimeline\Index.aspx" />
+    <Content Include="Views\CurriculumTimeline\Index.aspx" />
     <Content Include="Views\Curriculum\Index.aspx" />
-    <Content Include="Views\Stage\Create.aspx" />
-    <Content Include="Views\Stage\Edit.aspx" />
-    <Content Include="Views\Stage\Index.aspx" />
-    <Content Include="Views\ThemeAssignment\Edit.aspx" />
-    <Content Include="Views\ThemeAssignment\Index.aspx" />
-    <Content Include="Views\Theme\Create.aspx" />
-    <Content Include="Views\Theme\Edit.aspx" />
-    <Content Include="Views\Theme\Index.aspx" />
+    <Content Include="Views\Discipline\Create.aspx" />
+    <Content Include="Views\Discipline\Edit.aspx" />
+    <Content Include="Views\Discipline\Index.aspx" />
+    <Content Include="Views\Chapter\Create.aspx" />
+    <Content Include="Views\Chapter\Edit.aspx" />
+    <Content Include="Views\Chapter\Index.aspx" />
+    <Content Include="Views\TopicAssignment\Edit.aspx" />
+    <Content Include="Views\TopicAssignment\Index.aspx" />
+    <Content Include="Views\Topic\Create.aspx" />
+    <Content Include="Views\Topic\Edit.aspx" />
+    <Content Include="Views\Topic\Index.aspx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
@@ -138,8 +138,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resource.en-US.resx" />
-    <EmbeddedResource Include="Resource.uk-UA.resx" />
+    <EmbeddedResource Include="Resource.en-US.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource.uk-UA.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

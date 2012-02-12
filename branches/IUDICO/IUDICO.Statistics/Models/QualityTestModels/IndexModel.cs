@@ -11,32 +11,32 @@ namespace IUDICO.Statistics.Models.QualityTest
 {
     public class IndexModel
     {
-        private IEnumerable<Curriculum> _AllowedCurriculums;
+        private IEnumerable<Discipline> _AllowedDisciplines;
         private User _TeacherUser;
         public IndexModel(ILmsService iLmsService)
         {
-            IEnumerable<Curriculum> allowedCurriculums;
+            IEnumerable<Discipline> allowedDisciplines;
             User teacherUser;
             teacherUser = iLmsService.FindService<IUserService>().GetCurrentUser();
-            allowedCurriculums = iLmsService.FindService<ICurriculumService>().GetCurriculumsWithThemesOwnedByUser(teacherUser);
+            allowedDisciplines = iLmsService.FindService<ICurriculumService>().GetDisciplinesWithTopicsOwnedByUser(teacherUser);
             //
-            if (allowedCurriculums != null & allowedCurriculums.Count() != 0)
-                _AllowedCurriculums = allowedCurriculums;
+            if (allowedDisciplines != null & allowedDisciplines.Count() != 0)
+                _AllowedDisciplines = allowedDisciplines;
             else
-                _AllowedCurriculums = null;
+                _AllowedDisciplines = null;
             _TeacherUser = teacherUser;
         }
         public bool NoData()
         {
-            return _AllowedCurriculums == null;
+            return _AllowedDisciplines == null;
         }
         public String GetTeacherUserName()
         {
             return this._TeacherUser.Username;
         }
-        public IEnumerable<Curriculum> GetAllowedCurriculums()
+        public IEnumerable<Discipline> GetAllowedDisciplines()
         {
-            return this._AllowedCurriculums;
+            return this._AllowedDisciplines;
         }
     }
 }

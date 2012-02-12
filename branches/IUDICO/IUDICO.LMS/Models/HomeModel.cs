@@ -13,11 +13,11 @@ namespace IUDICO.LMS.Models
     {
         public Dictionary<IPlugin, IEnumerable<Action>> Actions { get; set; }
         /// <summary>
-        /// Gets or sets descriptions of themes that are available for playing.
+        /// Gets or sets descriptions of topics that are available for playing.
         /// </summary>
         /// <value>
-        /// The themes descriptions.
+        /// The topics descriptions.
         /// </value>
-        public IEnumerable<ThemeDescription> ThemesDescriptions { get; set; }
+        public IEnumerable<TopicDescription> TopicsDescriptions { get; set; }
     }
 }

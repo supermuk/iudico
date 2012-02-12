@@ -28,7 +28,7 @@ namespace IUDICO.TestingSystem.Models
             }
         }
 
-        public ICurriculumService CurriculumService
+        public ICurriculumService DisciplineService
         {
             get
             {

@@ -16,96 +16,96 @@ namespace IUDICO.CurriculumManagement.Models
             _CurriculumStorage = curriculumStorage;
         }
 
-        #region ICurriculumService Members
+        #region IDisciplineService Members
 
-        //public IEnumerable<Curriculum> GetCurriculums()
+        //public IEnumerable<Discipline> GetDisciplines()
         //{
-        //    return _CurriculumStorage.GetCurriculums();
+        //    return _DisciplineStorage.GetDisciplines();
         //}
 
-        public IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids)
+        public IEnumerable<Discipline> GetDisciplines(IEnumerable<int> ids)
         {
-            return _CurriculumStorage.GetCurriculums(ids);
+            return _CurriculumStorage.GetDisciplines(ids);
         }
 
-        public Curriculum GetCurriculum(int id)
+        public Discipline GetDiscipline(int id)
         {
-            return _CurriculumStorage.GetCurriculum(id);
+            return _CurriculumStorage.GetDiscipline(id);
         }
 
-        public IEnumerable<Curriculum> GetCurriculumsWithThemesOwnedByUser(User user)
+        public IEnumerable<Discipline> GetDisciplinesWithTopicsOwnedByUser(User user)
         {
-            return _CurriculumStorage.GetCurriculumsWithThemesOwnedByUser(user);
+            return _CurriculumStorage.GetDisciplinesWithTopicsOwnedByUser(user);
         }
 
-        public IEnumerable<Curriculum> GetCurriculums()
+        public IEnumerable<Discipline> GetDisciplines()
         {
-            return _CurriculumStorage.GetCurriculums();
+            return _CurriculumStorage.GetDisciplines();
         }
 
-        public IEnumerable<Curriculum> GetCurriculums(User user)
+        public IEnumerable<Discipline> GetDisciplines(User user)
         {
-            return _CurriculumStorage.GetCurriculums(user);
+            return _CurriculumStorage.GetDisciplines(user);
         }
 
-        public IEnumerable<Stage> GetStages(int curriculumId)
+        public IEnumerable<Chapter> GetChapters(int disciplineId)
         {
-            return _CurriculumStorage.GetStages(curriculumId);
+            return _CurriculumStorage.GetChapters(disciplineId);
         }
 
-        public IEnumerable<Stage> GetStages(IEnumerable<int> ids)
+        public IEnumerable<Chapter> GetChapters(IEnumerable<int> ids)
         {
-            return _CurriculumStorage.GetStages(ids);
+            return _CurriculumStorage.GetChapters(ids);
         }
 
-        public Stage GetStage(int id)
+        public Chapter GetChapter(int id)
         {
-            return _CurriculumStorage.GetStage(id);
+            return _CurriculumStorage.GetChapter(id);
         }
 
-        public IEnumerable<Theme> GetThemesByStageId(int stageId)
+        public IEnumerable<Topic> GetTopicsByChapterId(int chapterId)
         {
-            return _CurriculumStorage.GetThemesByStageId(stageId);
+            return _CurriculumStorage.GetTopicsByChapterId(chapterId);
         }
 
-        public IEnumerable<Theme> GetThemes(IEnumerable<int> ids)
+        public IEnumerable<Topic> GetTopics(IEnumerable<int> ids)
         {
-            return _CurriculumStorage.GetThemes(ids);
+            return _CurriculumStorage.GetTopics(ids);
         }
 
-        public Theme GetTheme(int id)
+        public Topic GetTopic(int id)
         {
-            return _CurriculumStorage.GetTheme(id);
+            return _CurriculumStorage.GetTopic(id);
         }
 
-        public IEnumerable<Group> GetGroupsAssignedToTheme(int themeId)
+        public IEnumerable<Group> GetGroupsAssignedToTopic(int topicId)
         {
-            return _CurriculumStorage.GetGroupsAssignedToTheme(themeId);
+            return _CurriculumStorage.GetGroupsAssignedToTopic(topicId);
         }
 
-        public IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId)
+        public IEnumerable<Discipline> GetDisciplinesByGroupId(int groupId)
         {
-            return _CurriculumStorage.GetCurriculumsByGroupId(groupId);
+            return _CurriculumStorage.GetDisciplinesByGroupId(groupId);
         }
 
-        public IEnumerable<Theme> GetThemesByCurriculumId(int curriculumId)
+        public IEnumerable<Topic> GetTopicsByDisciplineId(int disciplineId)
         {
-            return _CurriculumStorage.GetThemesByCurriculumId(curriculumId);
+            return _CurriculumStorage.GetTopicsByDisciplineId(disciplineId);
         }
 
-        public IEnumerable<Theme> GetThemesByGroupId(int groupId)
+        public IEnumerable<Topic> GetTopicsByGroupId(int groupId)
         {
-            return _CurriculumStorage.GetThemesByGroupId(groupId);
+            return _CurriculumStorage.GetTopicsByGroupId(groupId);
         }
 
-        public IEnumerable<Theme> GetThemesOwnedByUser(User owner)
+        public IEnumerable<Topic> GetTopicsOwnedByUser(User owner)
         {
-            return _CurriculumStorage.GetThemesOwnedByUser(owner);
+            return _CurriculumStorage.GetTopicsOwnedByUser(owner);
         }
 
-        public IEnumerable<ThemeDescription> GetThemesAvailableForUser(User user)
+        public IEnumerable<TopicDescription> GetTopicsAvailableForUser(User user)
         {
-            return _CurriculumStorage.GetThemesAvailableForUser(user);
+            return _CurriculumStorage.GetTopicsAvailableForUser(user);
         }
 
         #endregion

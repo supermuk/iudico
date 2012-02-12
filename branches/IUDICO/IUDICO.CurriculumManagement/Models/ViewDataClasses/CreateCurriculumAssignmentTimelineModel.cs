@@ -5,15 +5,15 @@ using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
 {
-    public class CreateCurriculumAssignmentTimelineModel
+    public class CreateCurriculumTimelineModel
     {
         public Timeline Timeline { get; set; }
 
-        public CreateCurriculumAssignmentTimelineModel()
+        public CreateCurriculumTimelineModel()
         {
         }
 
-        public CreateCurriculumAssignmentTimelineModel(Timeline timeline)
+        public CreateCurriculumTimelineModel(Timeline timeline)
         {
             Timeline = timeline;
         }

@@ -123,8 +123,8 @@
   <data name="CourseName" xml:space="preserve">
     <value>Course name</value>
   </data>
-  <data name="CurriculumName" xml:space="preserve">
-    <value>Curriculum name</value>
+  <data name="DisciplineName" xml:space="preserve">
+    <value>Discipline name</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>group</value>
@@ -147,8 +147,8 @@
   <data name="SearchResults" xml:space="preserve">
     <value>Search Results</value>
   </data>
-  <data name="ThemeName" xml:space="preserve">
-    <value>Theme name</value>
+  <data name="TopicName" xml:space="preserve">
+    <value>Topic name</value>
   </data>
   <data name="Updated" xml:space="preserve">
     <value>Updated</value>

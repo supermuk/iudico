@@ -6,44 +6,44 @@ using System.Text;
 namespace IUDICO.Common.Models.Notifications
 {
     /// <summary>
-    /// Holds Curriculum - related notification's name constants with description.
+    /// Holds Discipline - related notification's name constants with description.
     /// </summary>
-    public static class CurriculumNotifications
+    public static class DisciplineNotifications
     {
         /// <summary>
-        /// Curriculum Create notification is sent when curriculum has been created(added).
-        /// <param name="curriculum">Curriculum value represents created course object.</param>
+        /// Discipline Create notification is sent when discipline has been created(added).
+        /// <param name="discipline">Discipline value represents created course object.</param>
         /// </summary>
-        public const string CurriculumCreate = "curriculum/create";
+        public const string DisciplineCreate = "discipline/create";
 
         /// <summary>
-        /// Curriculum Edit notification is sent when curriculum has been modified (updated).
-        /// <param name="curriculum">Curriculum value represents edited course object.</param>
+        /// Discipline Edit notification is sent when discipline has been modified (updated).
+        /// <param name="discipline">Discipline value represents edited course object.</param>
         /// </summary>
-        public const string CurriculumEdit = "curriculum/edit";
+        public const string DisciplineEdit = "discipline/edit";
 
         /// <summary>
-        /// Curriculum Delete notification is sent when curriculum has been deleted.
-        /// <param name="curriculum">Curriculum value represents deleted course object.</param>
+        /// Discipline Delete notification is sent when discipline has been deleted.
+        /// <param name="discipline">Discipline value represents deleted course object.</param>
         /// </summary>
-        public const string CurriculumDelete = "curriculum/delete";
+        public const string DisciplineDelete = "discipline/delete";
 
         /// <summary>
-        /// Theme Create notification is sent when theme has been created(added).
-        /// <param name="curriculum">Curriculum value represents created course object.</param>
+        /// Topic Create notification is sent when topic has been created(added).
+        /// <param name="discipline">Discipline value represents created course object.</param>
         /// </summary>
-        public const string ThemeCreate = "theme/create";
+        public const string TopicCreate = "topic/create";
 
         /// <summary>
-        /// Theme Edit notification is sent when theme has been modified (updated).
-        /// <param name="curriculum">Curriculum value represents edited course object.</param>
+        /// Topic Edit notification is sent when topic has been modified (updated).
+        /// <param name="discipline">Discipline value represents edited course object.</param>
         /// </summary>
-        public const string ThemeEdit = "theme/edit";
+        public const string TopicEdit = "topic/edit";
 
         /// <summary>
-        /// Theme Delete notification is sent when theme has been deleted.
-        /// <param name="curriculum">Curriculum value represents deleted course object.</param>
+        /// Topic Delete notification is sent when topic has been deleted.
+        /// <param name="discipline">Discipline value represents deleted course object.</param>
         /// </summary>
-        public const string ThemeDelete = "theme/delete";
+        public const string TopicDelete = "topic/delete";
     }
 }

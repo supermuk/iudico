@@ -13,35 +13,35 @@ namespace IUDICO.Statistics.Models.QualityTest
     {
         private IEnumerable<Group> _AllowedGroups;
         private String _TeacheUserName;
-        private String _CurriculumName;
-        private String _ThemeName;
+        private String _DisciplineName;
+        private String _TopicName;
 
-        public SelectGroupsModel(ILmsService iLmsService, int selectThemeId, String teacherUserName, String curriculumName)
+        public SelectGroupsModel(ILmsService iLmsService, int selectTopicId, String teacherUserName, String disciplineName)
         {
             IEnumerable<Group> allowedGroups;
-            Theme selectTheme;
-            selectTheme = iLmsService.FindService<ICurriculumService>().GetTheme(selectThemeId);
-            _ThemeName = selectTheme.Name;
+            Topic selectTopic;
+            selectTopic = iLmsService.FindService<ICurriculumService>().GetTopic(selectTopicId);
+            _TopicName = selectTopic.Name;
             _TeacheUserName = teacherUserName;
-            _CurriculumName = curriculumName;
-            allowedGroups = iLmsService.FindService<ICurriculumService>().GetGroupsAssignedToTheme(selectThemeId);
+            _DisciplineName = disciplineName;
+            allowedGroups = iLmsService.FindService<ICurriculumService>().GetGroupsAssignedToTopic(selectTopicId);
             //
             if (allowedGroups != null & allowedGroups.Count() != 0)
                 _AllowedGroups = allowedGroups;
             else
                 _AllowedGroups = null;            
         }
-        public String GetCurriculumName()
+        public String GetDisciplineName()
         {
-            return this._CurriculumName;
+            return this._DisciplineName;
         }
         public String GetTeacherUserName()
         {
             return this._TeacheUserName;
         }
-        public String GetThemeName()
+        public String GetTopicName()
         {
-            return this._ThemeName;
+            return this._TopicName;
         }
         public bool NoData()
         {

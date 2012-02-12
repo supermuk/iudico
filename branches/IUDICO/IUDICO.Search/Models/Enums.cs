@@ -7,8 +7,8 @@ namespace IUDICO.Search.Models
 {
     public enum SearchType
     {
-        Curriculums = 1,
-        Themes = 2,
+        Disciplines = 1,
+        Topics = 2,
         Users = 3,
         Courses = 4,
         Groups = 5

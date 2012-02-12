@@ -123,7 +123,7 @@
   <data name="CourseName" xml:space="preserve">
     <value>Назва курсу</value>
   </data>
-  <data name="CurriculumName" xml:space="preserve">
+  <data name="DisciplineName" xml:space="preserve">
     <value>Назва навчального плану</value>
   </data>
   <data name="Group" xml:space="preserve">
@@ -147,7 +147,7 @@
   <data name="SearchResults" xml:space="preserve">
     <value>Результати пошуку</value>
   </data>
-  <data name="ThemeName" xml:space="preserve">
+  <data name="TopicName" xml:space="preserve">
     <value>Назва теми</value>
   </data>
   <data name="Updated" xml:space="preserve">

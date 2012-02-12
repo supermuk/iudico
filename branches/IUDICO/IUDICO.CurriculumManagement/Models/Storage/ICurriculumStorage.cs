@@ -23,110 +23,110 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #endregion
 
-        #region Curriculum methods
+        #region Discipline methods
 
-        IEnumerable<Curriculum> GetCurriculums();
-        IEnumerable<Curriculum> GetCurriculums(User owner);
-        IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids);
-        Curriculum GetCurriculum(int id);
+        IEnumerable<Discipline> GetDisciplines();
+        IEnumerable<Discipline> GetDisciplines(User owner);
+        IEnumerable<Discipline> GetDisciplines(IEnumerable<int> ids);
+        Discipline GetDiscipline(int id);
         /// <summary>
-        /// Gets the curriculums which have curriculum assignments binded to group
+        /// Gets the disciplines which have discipline assignments binded to group
         /// </summary>
         /// <param name="groupId">The group id.</param>
         /// <returns></returns>
-        IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId);
+        IEnumerable<Discipline> GetDisciplinesByGroupId(int groupId);
         /// <summary>
-        /// Gets curriculums which have themes owned by user.
+        /// Gets disciplines which have topics owned by user.
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns></returns>
-        IEnumerable<Curriculum> GetCurriculumsWithThemesOwnedByUser(User user);
+        IEnumerable<Discipline> GetDisciplinesWithTopicsOwnedByUser(User user);
+        int AddDiscipline(Discipline discipline);
+        void UpdateDiscipline(Discipline discipline);
+        void DeleteDiscipline(int id);
+        void DeleteDisciplines(IEnumerable<int> ids);
+        void MakeDisciplineInvalid(int courseId);
+
+        #endregion
+
+        #region Chapter methods
+
+        IEnumerable<Chapter> GetChapters(int disciplineId);
+        IEnumerable<Chapter> GetChapters(IEnumerable<int> ids);
+        int AddChapter(Chapter chapter);
+        Chapter GetChapter(int id);
+        void UpdateChapter(Chapter chapter);
+        void DeleteChapter(int id);
+        void DeleteChapters(IEnumerable<int> ids);
+
+        #endregion
+
+        #region Topic methods
+
+        Topic GetTopic(int id);
+        IEnumerable<Topic> GetTopics(IEnumerable<int> ids);
+        IEnumerable<Topic> GetTopicsByChapterId(int chapterId);
+        IEnumerable<Topic> GetTopicsByDisciplineId(int disciplineId);
+        IEnumerable<Topic> GetTopicsByGroupId(int groupId);
+        IEnumerable<Topic> GetTopicsByCourseId(int courseId);
+        /// <summary>
+        /// Gets the topics owned by user.
+        /// </summary>
+        /// <param name="owner">The owner.</param>
+        /// <returns></returns>
+        IEnumerable<Topic> GetTopicsOwnedByUser(User owner);
+        /// <summary>
+        /// Gets the topics available for user for current date.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns></returns>
+        IEnumerable<TopicDescription> GetTopicsAvailableForUser(User user);
+        /// <summary>
+        /// Gets groups assigned through discipline assignments to topic.
+        /// </summary>
+        /// <param name="topicId">The topic id.</param>
+        /// <returns></returns>
+        IEnumerable<Group> GetGroupsAssignedToTopic(int topicId);
+        int AddTopic(Topic topic);
+        void UpdateTopic(Topic topic);
+        void DeleteTopic(int id);
+        void DeleteTopics(IEnumerable<int> ids);
+        Topic TopicUp(int topicId);
+        Topic TopicDown(int topicId);
+
+        #endregion
+
+        #region TopicType methods
+
+        TopicType GetTopicType(int id);
+        IEnumerable<TopicType> GetTopicTypes();
+
+        #endregion
+
+        #region Curriculum methods
+
+        Curriculum GetCurriculum(int curriculumId);
+        IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids);
+        IEnumerable<Curriculum> GetDisciplineAssignmnetsByDisciplineId(int disciplineId);
+        IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId);
+        IEnumerable<Curriculum> GetCurriculums();
         int AddCurriculum(Curriculum curriculum);
         void UpdateCurriculum(Curriculum curriculum);
         void DeleteCurriculum(int id);
         void DeleteCurriculums(IEnumerable<int> ids);
-        void MakeCurriculumInvalid(int courseId);
+        void MakeCurriculumsInvalid(int groupId);
 
         #endregion
 
-        #region Stage methods
+        #region TopicAssignment methods
 
-        IEnumerable<Stage> GetStages(int curriculumId);
-        IEnumerable<Stage> GetStages(IEnumerable<int> ids);
-        int AddStage(Stage stage);
-        Stage GetStage(int id);
-        void UpdateStage(Stage stage);
-        void DeleteStage(int id);
-        void DeleteStages(IEnumerable<int> ids);
-
-        #endregion
-
-        #region Theme methods
-
-        Theme GetTheme(int id);
-        IEnumerable<Theme> GetThemes(IEnumerable<int> ids);
-        IEnumerable<Theme> GetThemesByStageId(int stageId);
-        IEnumerable<Theme> GetThemesByCurriculumId(int curriculumId);
-        IEnumerable<Theme> GetThemesByGroupId(int groupId);
-        IEnumerable<Theme> GetThemesByCourseId(int courseId);
-        /// <summary>
-        /// Gets the themes owned by user.
-        /// </summary>
-        /// <param name="owner">The owner.</param>
-        /// <returns></returns>
-        IEnumerable<Theme> GetThemesOwnedByUser(User owner);
-        /// <summary>
-        /// Gets the themes available for user for current date.
-        /// </summary>
-        /// <param name="user">The user.</param>
-        /// <returns></returns>
-        IEnumerable<ThemeDescription> GetThemesAvailableForUser(User user);
-        /// <summary>
-        /// Gets groups assigned through curriculum assignments to theme.
-        /// </summary>
-        /// <param name="themeId">The theme id.</param>
-        /// <returns></returns>
-        IEnumerable<Group> GetGroupsAssignedToTheme(int themeId);
-        int AddTheme(Theme theme);
-        void UpdateTheme(Theme theme);
-        void DeleteTheme(int id);
-        void DeleteThemes(IEnumerable<int> ids);
-        Theme ThemeUp(int themeId);
-        Theme ThemeDown(int themeId);
-
-        #endregion
-
-        #region ThemeType methods
-
-        ThemeType GetThemeType(int id);
-        IEnumerable<ThemeType> GetThemeTypes();
-
-        #endregion
-
-        #region CurriculumAssignment methods
-
-        CurriculumAssignment GetCurriculumAssignment(int curriculumAssignmentId);
-        IEnumerable<CurriculumAssignment> GetCurriculumAssignments(IEnumerable<int> ids);
-        IEnumerable<CurriculumAssignment> GetCurriculumAssignmnetsByCurriculumId(int curriculumId);
-        IEnumerable<CurriculumAssignment> GetCurriculumAssignmentsByGroupId(int groupId);
-        IEnumerable<CurriculumAssignment> GetCurriculumAssignments();
-        int AddCurriculumAssignment(CurriculumAssignment curriculumAssignment);
-        void UpdateCurriculumAssignment(CurriculumAssignment curriculumAssignment);
-        void DeleteCurriculumAssignment(int id);
-        void DeleteCurriculumAssignments(IEnumerable<int> ids);
-        void MakeCurriculumAssignmentsInvalid(int groupId);
-
-        #endregion
-
-        #region ThemeAssignment methods
-
-        ThemeAssignment GetThemeAssignment(int themeAssignmentId);
-        IEnumerable<ThemeAssignment> GetThemeAssignmentsByCurriculumAssignmentId(int curriculumAssignmentId);
-        IEnumerable<ThemeAssignment> GetThemeAssignmentsByThemeId(int themeId);
-        IEnumerable<ThemeAssignment> GetThemeAssignments(IEnumerable<int> ids);
-        int AddThemeAssignment(ThemeAssignment themeAssignment);
-        void UpdateThemeAssignment(ThemeAssignment themeAssignment);
-        void DeleteThemeAssignments(IEnumerable<int> ids);
+        TopicAssignment GetTopicAssignment(int topicAssignmentId);
+        IEnumerable<TopicAssignment> GetTopicAssignmentsByCurriculumId(int curriculumId);
+        IEnumerable<TopicAssignment> GetTopicAssignmentsByTopicId(int topicId);
+        IEnumerable<TopicAssignment> GetTopicAssignments(IEnumerable<int> ids);
+        int AddTopicAssignment(TopicAssignment topicAssignment);
+        void UpdateTopicAssignment(TopicAssignment topicAssignment);
+        void DeleteTopicAssignments(IEnumerable<int> ids);
 
         #endregion
 
@@ -134,10 +134,10 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         Timeline GetTimeline(int TimelineId);
         IEnumerable<Timeline> GetTimelines(IEnumerable<int> timelineIds);
-        IEnumerable<Timeline> GetCurriculumAssignmentTimelines(int curriculumAssignmentId);
-        IEnumerable<Timeline> GetStageTimelinesByCurriculumAssignmentId(int curriculumAssignmentId);
-        IEnumerable<Timeline> GetStageTimelinesByStageId(int stageId);
-        IEnumerable<Timeline> GetStageTimelines(int stageId, int curriculumAssignmentId);
+        IEnumerable<Timeline> GetCurriculumTimelines(int curriculumId);
+        IEnumerable<Timeline> GetChapterTimelinesByCurriculumId(int curriculumId);
+        IEnumerable<Timeline> GetChapterTimelinesByChapterId(int chapterId);
+        IEnumerable<Timeline> GetChapterTimelines(int chapterId, int curriculumId);
         int AddTimeline(Timeline timeline);
         void UpdateTimeline(Timeline timeline);
         void DeleteTimeline(int timelineId);
@@ -147,15 +147,15 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #region Group methods
 
-        IEnumerable<Group> GetAssignedGroups(int curriculumId);
-        IEnumerable<Group> GetNotAssignedGroups(int curriculumId);
+        IEnumerable<Group> GetAssignedGroups(int disciplineId);
+        IEnumerable<Group> GetNotAssignedGroups(int disciplineId);
         /// <summary>
-        /// Gets not assigned groups for curriculum including current group.
+        /// Gets not assigned groups for discipline including current group.
         /// </summary>
-        /// <param name="curriculumId">The curriculum id.</param>
+        /// <param name="disciplineId">The discipline id.</param>
         /// <param name="currentGroupId">The current group id.</param>
         /// <returns></returns>
-        IEnumerable<Group> GetNotAssignedGroupsWithCurrentGroup(int curriculumId, int currentGroupId);
+        IEnumerable<Group> GetNotAssignedGroupsWithCurrentGroup(int disciplineId, int currentGroupId);
 
         #endregion
     }

@@ -13,31 +13,31 @@ using IUDICO.Common.Models.Attributes;
 
 namespace IUDICO.CurriculumManagement.Controllers
 {
-    public class ThemeAssignmentController : CurriculumBaseController
+    public class TopicAssignmentController : CurriculumBaseController
     {
-        public ThemeAssignmentController(ICurriculumStorage curriculumStorage)
-            : base(curriculumStorage)
+        public TopicAssignmentController(ICurriculumStorage disciplineStorage)
+            : base(disciplineStorage)
         {
 
         }
 
         [Allow(Role = Role.Teacher)]
-        public ActionResult Index(int curriculumAssignmentId)
+        public ActionResult Index(int curriculumId)
         {
             try
             {
-                CurriculumAssignment curriculumAssignment = Storage.GetCurriculumAssignment(curriculumAssignmentId);
-                var themeAssignments = Storage.GetThemeAssignmentsByCurriculumAssignmentId(curriculumAssignmentId);
+                Curriculum curriculum = Storage.GetCurriculum(curriculumId);
+                var topicAssignments = Storage.GetTopicAssignmentsByCurriculumId(curriculumId);
 
-                ViewData["Curriculum"] = Storage.GetCurriculum(curriculumAssignment.CurriculumRef);
-                ViewData["Group"] = Storage.GetGroup(curriculumAssignment.UserGroupRef);
+                ViewData["Discipline"] = Storage.GetDiscipline(curriculum.DisciplineRef);
+                ViewData["Group"] = Storage.GetGroup(curriculum.UserGroupRef);
                 return View
                 (
-                    from themeAssignment in themeAssignments
-                    select new ViewThemeAssignmentModel
+                    from topicAssignment in topicAssignments
+                    select new ViewTopicAssignmentModel
                     {
-                        ThemeAssignment = themeAssignment,
-                        Theme = Storage.GetTheme(themeAssignment.ThemeRef)
+                        TopicAssignment = topicAssignment,
+                        Topic = Storage.GetTopic(topicAssignment.TopicRef)
                     }
                 );
             }
@@ -49,21 +49,21 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         [HttpGet]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Edit(int themeAssignmentId)
+        public ActionResult Edit(int topicAssignmentId)
         {
             try
             {
-                ThemeAssignment themeAssignment = Storage.GetThemeAssignment(themeAssignmentId);
-                CurriculumAssignment curriculumAssignment = Storage.GetCurriculumAssignment(themeAssignment.CurriculumAssignmentRef);
-                Curriculum curriculum = Storage.GetCurriculum(curriculumAssignment.CurriculumRef);
-                Theme theme = Storage.GetTheme(themeAssignment.ThemeRef);
-                Group group = Storage.GetGroup(curriculumAssignment.UserGroupRef);
+                TopicAssignment topicAssignment = Storage.GetTopicAssignment(topicAssignmentId);
+                Curriculum curriculum = Storage.GetCurriculum(topicAssignment.CurriculumRef);
+                Discipline discipline = Storage.GetDiscipline(curriculum.DisciplineRef);
+                Topic topic = Storage.GetTopic(topicAssignment.TopicRef);
+                Group group = Storage.GetGroup(curriculum.UserGroupRef);
 
-                Session["CurriculumAssignmentId"] = themeAssignment.CurriculumAssignmentRef;
+                Session["CurriculumId"] = topicAssignment.CurriculumRef;
                 ViewData["GroupName"] = group.Name;
-                ViewData["CurriculumName"] = curriculum.Name;
-                ViewData["StageName"] = theme.Name;
-                return View(themeAssignment);
+                ViewData["DisciplineName"] = discipline.Name;
+                ViewData["ChapterName"] = topic.Name;
+                return View(topicAssignment);
             }
             catch (Exception e)
             {
@@ -73,16 +73,16 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Edit(int themeAssignmentId, ThemeAssignment themeAssignment)
+        public ActionResult Edit(int topicAssignmentId, TopicAssignment topicAssignment)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    themeAssignment.Id = themeAssignmentId;
-                    Storage.UpdateThemeAssignment(themeAssignment);
+                    topicAssignment.Id = topicAssignmentId;
+                    Storage.UpdateTopicAssignment(topicAssignment);
 
-                    return RedirectToRoute("ThemeAssignments", new { action = "Index", CurriculumAssignmentId = Session["CurriculumAssignmentId"] });
+                    return RedirectToRoute("TopicAssignments", new { action = "Index", CurriculumId = Session["CurriculumId"] });
                 }
                 else
                 {

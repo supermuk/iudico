@@ -378,13 +378,13 @@
   <data name="Error_View_Title" xml:space="preserve">
     <value>Error happened</value>
   </data>
-  <data name="Not_Allowed_Pass_Theme" xml:space="preserve">
-    <value>You are not allowed to pass this theme!</value>
+  <data name="Not_Allowed_Pass_Topic" xml:space="preserve">
+    <value>You are not allowed to pass this topic!</value>
   </data>
   <data name="Return_Back" xml:space="preserve">
     <value>Back</value>
   </data>
-  <data name="Theme_Not_Found" xml:space="preserve">
-    <value>Theme you had requested was not found!</value>
+  <data name="Topic_Not_Found" xml:space="preserve">
+    <value>Topic you had requested was not found!</value>
   </data>
 </root>

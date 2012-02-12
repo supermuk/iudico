@@ -67,284 +67,284 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #endregion
 
-        #region Curriculum methods
+        #region Discipline methods
 
-        private Curriculum GetCurriculum(IDataContext db, int id)
+        private Discipline GetDiscipline(IDataContext db, int id)
         {
-            return db.Curriculums.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
+            return db.Disciplines.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
         }
 
-        public Curriculum GetCurriculum(int id)
+        public Discipline GetDiscipline(int id)
         {
-            return GetCurriculum(GetDbContext(), id);
+            return GetDiscipline(GetDbContext(), id);
         }
 
-        public IEnumerable<Curriculum> GetCurriculums()
+        public IEnumerable<Discipline> GetDisciplines()
         {
-            return GetDbContext().Curriculums.Where(item => !item.IsDeleted).ToList();
+            return GetDbContext().Disciplines.Where(item => !item.IsDeleted).ToList();
         }
 
-        public IEnumerable<Curriculum> GetCurriculums(User owner)
+        public IEnumerable<Discipline> GetDisciplines(User owner)
         {
-            return GetDbContext().Curriculums.Where(item => !item.IsDeleted && item.Owner == owner.Username).ToList();
+            return GetDbContext().Disciplines.Where(item => !item.IsDeleted && item.Owner == owner.Username).ToList();
         }
 
-        public IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids)
+        public IEnumerable<Discipline> GetDisciplines(IEnumerable<int> ids)
         {
-            //return _Db.Curriculums.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
-            return GetDbContext().Curriculums.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
+            //return _Db.Disciplines.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
+            return GetDbContext().Disciplines.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
         }
 
-        public IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId)
+        public IEnumerable<Discipline> GetDisciplinesByGroupId(int groupId)
         {
-            return GetCurriculumAssignmentsByGroupId(groupId).Select(item => item.Curriculum).ToList();
+            return GetCurriculumsByGroupId(groupId).Select(item => item.Discipline).ToList();
         }
 
         //TODO:what the fuckin method?
-        public IEnumerable<Curriculum> GetCurriculumsWithThemesOwnedByUser(User user)
+        public IEnumerable<Discipline> GetDisciplinesWithTopicsOwnedByUser(User user)
         {
             IEnumerable<int> courseIds = GetCoursesOwnedByUser(user)
                 .Select(item => item.Id)
                 .ToList();
-            return GetCurriculums(user) //?
-                .Where(item => GetThemesByCurriculumId(item.Id)
-                             .Any(theme => courseIds.Contains(theme.CourseRef ?? Constants.NoCourseId)))
+            return GetDisciplines(user) //?
+                .Where(item => GetTopicsByDisciplineId(item.Id)
+                             .Any(topic => courseIds.Contains(topic.CourseRef ?? Constants.NoCourseId)))
                              .ToList();
         }
 
-        public int AddCurriculum(Curriculum curriculum)
+        public int AddDiscipline(Discipline discipline)
         {
             var db = GetDbContext();
 
-            curriculum.Created = DateTime.Now;
-            curriculum.Updated = DateTime.Now;
-            curriculum.IsDeleted = false;
-            curriculum.IsValid = true;
-            curriculum.Owner = GetCurrentUser().Username;
+            discipline.Created = DateTime.Now;
+            discipline.Updated = DateTime.Now;
+            discipline.IsDeleted = false;
+            discipline.IsValid = true;
+            discipline.Owner = GetCurrentUser().Username;
 
-            db.Curriculums.InsertOnSubmit(curriculum);
+            db.Disciplines.InsertOnSubmit(discipline);
             db.SubmitChanges();
 
-            _LmsService.Inform(CurriculumNotifications.CurriculumCreate, curriculum);
+            _LmsService.Inform(DisciplineNotifications.DisciplineCreate, discipline);
 
-            return curriculum.Id;
+            return discipline.Id;
         }
 
-        public void UpdateCurriculum(Curriculum curriculum)
+        public void UpdateDiscipline(Discipline discipline)
         {
             var db = GetDbContext();
-            var oldCurriculum = GetCurriculum(db, curriculum.Id);
-            var newCurriculum = GetCurriculum(db, curriculum.Id);
+            var oldDiscipline = GetDiscipline(db, discipline.Id);
+            var newDiscipline = GetDiscipline(db, discipline.Id);
 
-            newCurriculum.Name = curriculum.Name;
-            newCurriculum.Updated = DateTime.Now;
+            newDiscipline.Name = discipline.Name;
+            newDiscipline.Updated = DateTime.Now;
 
             db.SubmitChanges();
 
             object[] data = new object[2];
-            data[0] = oldCurriculum;
-            data[1] = newCurriculum;
+            data[0] = oldDiscipline;
+            data[1] = newDiscipline;
 
-            _LmsService.Inform(CurriculumNotifications.CurriculumEdit, data);
+            _LmsService.Inform(DisciplineNotifications.DisciplineEdit, data);
         }
 
-        public void DeleteCurriculum(int id)
+        public void DeleteDiscipline(int id)
         {
             var db = GetDbContext();
-            var curriculum = GetCurriculum(db, id);
+            var discipline = GetDiscipline(db, id);
 
-            //delete stages
-            var stageIds = GetStages(id).Select(item => item.Id);
-            DeleteStages(stageIds);
+            //delete chapters
+            var chapterIds = GetChapters(id).Select(item => item.Id);
+            DeleteChapters(chapterIds);
 
-            //delete corresponding CurriculumAssignments
-            var curriculumAssignmentIds = GetCurriculumAssignmnetsByCurriculumId(id).Select(item => item.Id);
-            DeleteCurriculumAssignments(curriculumAssignmentIds);
+            //delete corresponding Curriculums
+            var curriculumIds = GetDisciplineAssignmnetsByDisciplineId(id).Select(item => item.Id);
+            DeleteCurriculums(curriculumIds);
 
-            curriculum.IsDeleted = true;
+            discipline.IsDeleted = true;
             db.SubmitChanges();
 
-            _LmsService.Inform(CurriculumNotifications.CurriculumDelete, curriculum);
+            _LmsService.Inform(DisciplineNotifications.DisciplineDelete, discipline);
         }
 
-        public void DeleteCurriculums(IEnumerable<int> ids)
+        public void DeleteDisciplines(IEnumerable<int> ids)
         {
             foreach (int id in ids)
             {
-                DeleteCurriculum(id);
+                DeleteDiscipline(id);
             }
         }
 
-        public void MakeCurriculumInvalid(int courseId)
+        public void MakeDisciplineInvalid(int courseId)
         {
             var db = GetDbContext();
-            var themeIds = GetThemesByCourseId(courseId).Select(item => item.Id);
-            var curriculums = db.Curriculums.Where(item => themeIds.Contains(item.Id) && !item.IsDeleted);
-            foreach (Curriculum curriculum in curriculums)
+            var topicIds = GetTopicsByCourseId(courseId).Select(item => item.Id);
+            var disciplines = db.Disciplines.Where(item => topicIds.Contains(item.Id) && !item.IsDeleted);
+            foreach (Discipline discipline in disciplines)
             {
-                curriculum.IsValid = false;
+                discipline.IsValid = false;
             }
             db.SubmitChanges();
         }
 
         #endregion
 
-        #region Stage methods
+        #region Chapter methods
 
-        private Stage GetStage(IDataContext db, int id)
+        private Chapter GetChapter(IDataContext db, int id)
         {
-            return db.Stages.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
+            return db.Chapters.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
         }
 
-        public Stage GetStage(int id)
+        public Chapter GetChapter(int id)
         {
-            return GetStage(GetDbContext(), id);
+            return GetChapter(GetDbContext(), id);
         }
 
-        public IEnumerable<Stage> GetStages(int curriculumId)
+        public IEnumerable<Chapter> GetChapters(int disciplineId)
         {
-            return GetDbContext().Stages.Where(item => item.CurriculumRef == curriculumId && !item.IsDeleted).ToList();
+            return GetDbContext().Chapters.Where(item => item.DisciplineRef == disciplineId && !item.IsDeleted).ToList();
         }
 
-        public IEnumerable<Stage> GetStages(IEnumerable<int> ids)
+        public IEnumerable<Chapter> GetChapters(IEnumerable<int> ids)
         {
-            return GetDbContext().Stages.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
+            return GetDbContext().Chapters.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
         }
 
-        public int AddStage(Stage stage)
+        public int AddChapter(Chapter chapter)
         {
             var db = GetDbContext();
-            stage.Created = DateTime.Now;
-            stage.Updated = DateTime.Now;
-            stage.IsDeleted = false;
+            chapter.Created = DateTime.Now;
+            chapter.Updated = DateTime.Now;
+            chapter.IsDeleted = false;
 
-            db.Stages.InsertOnSubmit(stage);
+            db.Chapters.InsertOnSubmit(chapter);
             db.SubmitChanges();
 
-            return stage.Id;
+            return chapter.Id;
         }
 
-        public void UpdateStage(Stage stage)
+        public void UpdateChapter(Chapter chapter)
         {
             var db = GetDbContext();
-            Stage oldStage = GetStage(db, stage.Id);
+            Chapter oldChapter = GetChapter(db, chapter.Id);
 
-            oldStage.Name = stage.Name;
-            oldStage.Updated = DateTime.Now;
+            oldChapter.Name = chapter.Name;
+            oldChapter.Updated = DateTime.Now;
 
             db.SubmitChanges();
         }
 
-        public void DeleteStage(int id)
+        public void DeleteChapter(int id)
         {
             var db = GetDbContext();
-            var stage = GetStage(db, id);
+            var chapter = GetChapter(db, id);
 
-            //delete themes
-            var themeIds = GetThemesByStageId(id).Select(item => item.Id);
-            DeleteThemes(themeIds);
+            //delete topics
+            var topicIds = GetTopicsByChapterId(id).Select(item => item.Id);
+            DeleteTopics(topicIds);
 
-            //delete corresponding StageTimelines
-            var stageTimelines = GetStageTimelinesByStageId(id);
-            foreach (Timeline timeline in stageTimelines)
+            //delete corresponding ChapterTimelines
+            var chapterTimelines = GetChapterTimelinesByChapterId(id);
+            foreach (Timeline timeline in chapterTimelines)
             {
                 DeleteTimeline(timeline.Id);
             }
 
-            stage.IsDeleted = true;
+            chapter.IsDeleted = true;
             db.SubmitChanges();
         }
 
-        public void DeleteStages(IEnumerable<int> ids)
+        public void DeleteChapters(IEnumerable<int> ids)
         {
             foreach (int id in ids)
             {
-                DeleteStage(id);
+                DeleteChapter(id);
             }
         }
 
         #endregion
 
-        #region Theme methods
+        #region Topic methods
 
-        private Theme GetTheme(IDataContext db, int id)
+        private Topic GetTopic(IDataContext db, int id)
         {
-            return db.Themes.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
+            return db.Topics.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
         }
 
-        public Theme GetTheme(int id)
+        public Topic GetTopic(int id)
         {
-            return GetTheme(GetDbContext(), id);
+            return GetTopic(GetDbContext(), id);
         }
 
-        public IEnumerable<Theme> GetThemes(IEnumerable<int> ids)
+        public IEnumerable<Topic> GetTopics(IEnumerable<int> ids)
         {
-            return GetDbContext().Themes.Where(item => ids.Contains(item.Id) && !item.IsDeleted).OrderBy(item => item.SortOrder).ToList();
+            return GetDbContext().Topics.Where(item => ids.Contains(item.Id) && !item.IsDeleted).OrderBy(item => item.SortOrder).ToList();
         }
 
-        private IEnumerable<Theme> GetThemesByStageId(IDataContext db, int stageId)
+        private IEnumerable<Topic> GetTopicsByChapterId(IDataContext db, int chapterId)
         {
-            return db.Themes.Where(item => item.StageRef == stageId && !item.IsDeleted).OrderBy(item => item.SortOrder).ToList();
+            return db.Topics.Where(item => item.ChapterRef == chapterId && !item.IsDeleted).OrderBy(item => item.SortOrder).ToList();
         }
 
-        public IEnumerable<Theme> GetThemesByStageId(int stageId)
+        public IEnumerable<Topic> GetTopicsByChapterId(int chapterId)
         {
-            return GetThemesByStageId(GetDbContext(), stageId);
+            return GetTopicsByChapterId(GetDbContext(), chapterId);
         }
 
-        public IEnumerable<Theme> GetThemesByCurriculumId(int curriculumId)
+        public IEnumerable<Topic> GetTopicsByDisciplineId(int disciplineId)
         {
-            return GetStages(GetCurriculum(curriculumId).Id).SelectMany(item => GetThemesByStageId(item.Id)).ToList();
+            return GetChapters(GetDiscipline(disciplineId).Id).SelectMany(item => GetTopicsByChapterId(item.Id)).ToList();
         }
 
-        public IEnumerable<Theme> GetThemesByGroupId(int groupId)
+        public IEnumerable<Topic> GetTopicsByGroupId(int groupId)
         {
-            return GetCurriculumsByGroupId(groupId).SelectMany(item => GetThemesByCurriculumId(item.Id)).ToList();
+            return GetDisciplinesByGroupId(groupId).SelectMany(item => GetTopicsByDisciplineId(item.Id)).ToList();
         }
 
-        public IEnumerable<Theme> GetThemesOwnedByUser(User owner)
+        public IEnumerable<Topic> GetTopicsOwnedByUser(User owner)
         {
-            return GetCurriculums(owner).SelectMany(item => GetThemesByCurriculumId(item.Id)).ToList();
+            return GetDisciplines(owner).SelectMany(item => GetTopicsByDisciplineId(item.Id)).ToList();
         }
 
-        public IEnumerable<Theme> GetThemesByCourseId(int courseId)
+        public IEnumerable<Topic> GetTopicsByCourseId(int courseId)
         {
-            return GetDbContext().Themes.Where(item => item.CourseRef == courseId && !item.IsDeleted).ToList();
+            return GetDbContext().Topics.Where(item => item.CourseRef == courseId && !item.IsDeleted).ToList();
         }
 
-        public IEnumerable<ThemeDescription> GetThemesAvailableForUser(User user)
+        public IEnumerable<TopicDescription> GetTopicsAvailableForUser(User user)
         {
             IEnumerable<Group> groups = GetGroupsByUser(user).ToList(); //get groups for user
             DateTime dateTime = DateTime.Now;
-            List<ThemeDescription> result = new List<ThemeDescription>();
+            List<TopicDescription> result = new List<TopicDescription>();
 
-            var curriculumAssignments = groups.SelectMany(group => GetCurriculumAssignmentsByGroupId(group.Id)) //get curriculum assignments
-                   .Where(curriculumAssignment => GetCurriculumAssignmentTimelines(curriculumAssignment.Id) //select those curriculum assignments,
-                   .Any(timeline => dateTime.IsIn(timeline))); //for which specified date is in any of the curriculum assignment timelines
+            var curriculums = groups.SelectMany(group => GetCurriculumsByGroupId(group.Id)) //get discipline assignments
+                   .Where(curriculum => GetCurriculumTimelines(curriculum.Id) //select those discipline assignments,
+                   .Any(timeline => dateTime.IsIn(timeline))); //for which specified date is in any of the discipline assignment timelines
 
-            foreach (CurriculumAssignment curriculumAssignment in curriculumAssignments)
+            foreach (Curriculum curriculum in curriculums)
             {
-                //get stages
-                foreach (Stage stage in GetStages(curriculumAssignment.CurriculumRef))
+                //get chapters
+                foreach (Chapter chapter in GetChapters(curriculum.DisciplineRef))
                 {
-                    var stageTimelines = GetStageTimelines(stage.Id, curriculumAssignment.Id)
+                    var chapterTimelines = GetChapterTimelines(chapter.Id, curriculum.Id)
                                         .ToList();
-                    //select those stages, which doesn't have stage timelines or for which specified date is in any of the stage timelines
-                    if (stageTimelines.Count() == 0 || stageTimelines.Any(timeline => dateTime.IsIn(timeline)))
+                    //select those chapters, which doesn't have chapter timelines or for which specified date is in any of the chapter timelines
+                    if (chapterTimelines.Count() == 0 || chapterTimelines.Any(timeline => dateTime.IsIn(timeline)))
                     {
-                        //get themes
-                        //result.AddRange(GetThemesByStageId(stage.Id));
-                        foreach (Theme theme in GetThemesByStageId(stage.Id))
+                        //get topics
+                        //result.AddRange(GetTopicsByChapterId(chapter.Id));
+                        foreach (Topic topic in GetTopicsByChapterId(chapter.Id))
                         {
-                            result.Add(new ThemeDescription()
+                            result.Add(new TopicDescription()
                             {
-                                Theme = theme,
-                                Stage = stage,
-                                Curriculum = stage.Curriculum,
-                                Timelines = stageTimelines.Count() == 0 ?
-                                    GetCurriculumAssignmentTimelines(curriculumAssignment.Id)
+                                Topic = topic,
+                                Chapter = chapter,
+                                Discipline = chapter.Discipline,
+                                Timelines = chapterTimelines.Count() == 0 ?
+                                    GetCurriculumTimelines(curriculum.Id)
                                         .Where(timeline => dateTime.IsIn(timeline)).ToList() :
-                                    stageTimelines
+                                    chapterTimelines
                                         .Where(timeline => dateTime.IsIn(timeline)).ToList()
                             });
                         }
@@ -355,361 +355,361 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return result;
         }
 
-        public IEnumerable<Group> GetGroupsAssignedToTheme(int themeId)
+        public IEnumerable<Group> GetGroupsAssignedToTopic(int topicId)
         {
-            return GetTheme(themeId)
-                .Stage
-                .Curriculum
-                .CurriculumAssignments
+            return GetTopic(topicId)
+                .Chapter
+                .Discipline
+                .Curriculums
                 .Select(item => GetGroup(item.UserGroupRef))
                 .ToList();
         }
 
-        public int AddTheme(Theme theme)
+        public int AddTopic(Topic topic)
         {
             var db = GetDbContext();
 
-            theme.Created = DateTime.Now;
-            theme.Updated = DateTime.Now;
-            theme.IsDeleted = false;
+            topic.Created = DateTime.Now;
+            topic.Updated = DateTime.Now;
+            topic.IsDeleted = false;
 
-            db.Themes.InsertOnSubmit(theme);
+            db.Topics.InsertOnSubmit(topic);
             db.SubmitChanges();
-            _LmsService.Inform(CurriculumNotifications.ThemeCreate, theme);
+            _LmsService.Inform(DisciplineNotifications.TopicCreate, topic);
 
-            theme.SortOrder = theme.Id;
-            UpdateTheme(theme);
+            topic.SortOrder = topic.Id;
+            UpdateTopic(topic);
 
-            //if it is "Test" then add corresponding ThemeAssignments.
-            if (Converters.ConvertToThemeType(theme.ThemeType) == Enums.ThemeType.Test ||
-                Converters.ConvertToThemeType(theme.ThemeType) == Enums.ThemeType.TestWithoutCourse)
+            //if it is "Test" then add corresponding TopicAssignments.
+            if (Converters.ConvertToTopicType(topic.TopicType) == Enums.TopicType.Test ||
+                Converters.ConvertToTopicType(topic.TopicType) == Enums.TopicType.TestWithoutCourse)
             {
-                AddThemeAssignments(theme);
+                AddTopicAssignments(topic);
             }
 
 
 
-            return theme.Id;
+            return topic.Id;
         }
 
-        public void UpdateTheme(Theme theme)
+        public void UpdateTopic(Topic topic)
         {
             var db = GetDbContext();
             object[] data = new object[2];
-            var oldTheme = GetTheme(db, theme.Id);
-            var newTheme = oldTheme;
+            var oldTopic = GetTopic(db, topic.Id);
+            var newTopic = oldTopic;
 
-            newTheme.Name = theme.Name;
-            newTheme.SortOrder = theme.SortOrder;
-            newTheme.CourseRef = theme.CourseRef;
-            newTheme.Updated = DateTime.Now;
+            newTopic.Name = topic.Name;
+            newTopic.SortOrder = topic.SortOrder;
+            newTopic.CourseRef = topic.CourseRef;
+            newTopic.Updated = DateTime.Now;
 
-            if (newTheme.ThemeTypeRef != theme.ThemeTypeRef)
+            if (newTopic.TopicTypeRef != topic.TopicTypeRef)
             {
-                newTheme.ThemeTypeRef = theme.ThemeTypeRef;
-                if (Converters.ConvertToThemeType(theme.ThemeType) == Enums.ThemeType.Test ||
-                    Converters.ConvertToThemeType(theme.ThemeType) == Enums.ThemeType.TestWithoutCourse)
+                newTopic.TopicTypeRef = topic.TopicTypeRef;
+                if (Converters.ConvertToTopicType(topic.TopicType) == Enums.TopicType.Test ||
+                    Converters.ConvertToTopicType(topic.TopicType) == Enums.TopicType.TestWithoutCourse)
                 {
-                    AddThemeAssignments(theme);
+                    AddTopicAssignments(topic);
                 }
                 else
                 {
-                    DeleteThemeAssignments(theme);
+                    DeleteTopicAssignments(topic);
                 }
             }
             db.SubmitChanges();
-            data[0] = oldTheme;
-            data[1] = newTheme;
+            data[0] = oldTopic;
+            data[1] = newTopic;
 
-            _LmsService.Inform(CurriculumNotifications.ThemeEdit, data);
+            _LmsService.Inform(DisciplineNotifications.TopicEdit, data);
         }
 
-        public void DeleteTheme(int id)
+        public void DeleteTopic(int id)
         {
             var db = GetDbContext();
-            var theme = GetTheme(db, id);
+            var topic = GetTopic(db, id);
 
-            //if it is "Test" then delete corresponding ThemeAssignments.
-            if (Converters.ConvertToThemeType(theme.ThemeType) == Enums.ThemeType.Test ||
-                Converters.ConvertToThemeType(theme.ThemeType) == Enums.ThemeType.TestWithoutCourse)
+            //if it is "Test" then delete corresponding TopicAssignments.
+            if (Converters.ConvertToTopicType(topic.TopicType) == Enums.TopicType.Test ||
+                Converters.ConvertToTopicType(topic.TopicType) == Enums.TopicType.TestWithoutCourse)
             {
-                DeleteThemeAssignments(theme);
+                DeleteTopicAssignments(topic);
             }
-            theme.IsDeleted = true;
+            topic.IsDeleted = true;
             db.SubmitChanges();
 
-            _LmsService.Inform(CurriculumNotifications.ThemeDelete, theme);
+            _LmsService.Inform(DisciplineNotifications.TopicDelete, topic);
         }
 
-        public void DeleteThemes(IEnumerable<int> ids)
+        public void DeleteTopics(IEnumerable<int> ids)
         {
             foreach (int id in ids)
             {
-                DeleteTheme(id);
+                DeleteTopic(id);
             }
         }
 
-        public Theme ThemeUp(int themeId)
+        public Topic TopicUp(int topicId)
         {
             var db = GetDbContext();
-            var theme = GetTheme(db, themeId);
-            IList<Theme> themes = GetThemesByStageId(db, theme.StageRef).ToList();
+            var topic = GetTopic(db, topicId);
+            IList<Topic> topics = GetTopicsByChapterId(db, topic.ChapterRef).ToList();
 
-            int index = themes.IndexOf(theme);
+            int index = topics.IndexOf(topic);
             if (index != -1 && index != 0)
             {
-                int temp = themes[index - 1].SortOrder;
-                themes[index - 1].SortOrder = theme.SortOrder;
-                theme.SortOrder = temp;
+                int temp = topics[index - 1].SortOrder;
+                topics[index - 1].SortOrder = topic.SortOrder;
+                topic.SortOrder = temp;
 
                 db.SubmitChanges();
             }
 
-            return theme;
+            return topic;
         }
 
-        public Theme ThemeDown(int themeId)
+        public Topic TopicDown(int topicId)
         {
             var db = GetDbContext();
-            var theme = GetTheme(db, themeId);
-            IList<Theme> themes = GetThemesByStageId(db, theme.StageRef).ToList();
+            var topic = GetTopic(db, topicId);
+            IList<Topic> topics = GetTopicsByChapterId(db, topic.ChapterRef).ToList();
 
-            int index = themes.IndexOf(theme);
-            if (index != -1 && index != themes.Count - 1)
+            int index = topics.IndexOf(topic);
+            if (index != -1 && index != topics.Count - 1)
             {
-                int temp = themes[index + 1].SortOrder;
-                themes[index + 1].SortOrder = theme.SortOrder;
-                theme.SortOrder = temp;
+                int temp = topics[index + 1].SortOrder;
+                topics[index + 1].SortOrder = topic.SortOrder;
+                topic.SortOrder = temp;
 
                 db.SubmitChanges();
             }
 
-            return theme;
+            return topic;
         }
 
         /// <summary>
-        /// Adds theme assignments for theme.
+        /// Adds topic assignments for topic.
         /// </summary>
-        /// <param name="theme">The theme.</param>
-        private void AddThemeAssignments(Theme theme)
+        /// <param name="topic">The topic.</param>
+        private void AddTopicAssignments(Topic topic)
         {
-            var curriculumAssignments = GetCurriculumAssignmnetsByCurriculumId(theme.Stage.CurriculumRef);
-            foreach (CurriculumAssignment curriculumAssignment in curriculumAssignments)
+            var curriculums = GetDisciplineAssignmnetsByDisciplineId(topic.Chapter.DisciplineRef);
+            foreach (Curriculum curriculum in curriculums)
             {
-                ThemeAssignment newThemeAssignment = new ThemeAssignment()
+                TopicAssignment newTopicAssignment = new TopicAssignment()
                 {
-                    CurriculumAssignmentRef = curriculumAssignment.Id,
-                    ThemeRef = theme.Id,
-                    MaxScore = Constants.DefaultThemeMaxScore
+                    CurriculumRef = curriculum.Id,
+                    TopicRef = topic.Id,
+                    MaxScore = Constants.DefaultTopicMaxScore
                 };
 
-                AddThemeAssignment(newThemeAssignment);
+                AddTopicAssignment(newTopicAssignment);
             }
         }
 
         /// <summary>
-        /// Deletes theme assignments for theme.
+        /// Deletes topic assignments for topic.
         /// </summary>
-        /// <param name="theme">The theme.</param>
-        private void DeleteThemeAssignments(Theme theme)
+        /// <param name="topic">The topic.</param>
+        private void DeleteTopicAssignments(Topic topic)
         {
-            var themeAssignmentIds = GetThemeAssignmentsByThemeId(theme.Id)
+            var topicAssignmentIds = GetTopicAssignmentsByTopicId(topic.Id)
                 .Select(item => item.Id);
-            DeleteThemeAssignments(themeAssignmentIds);
+            DeleteTopicAssignments(topicAssignmentIds);
         }
 
         #endregion
 
-        #region ThemeType methods
+        #region TopicType methods
 
-        public ThemeType GetThemeType(int id)
+        public TopicType GetTopicType(int id)
         {
-            return GetDbContext().ThemeTypes.SingleOrDefault(item => item.Id == id);
+            return GetDbContext().TopicTypes.SingleOrDefault(item => item.Id == id);
         }
 
-        public IEnumerable<ThemeType> GetThemeTypes()
+        public IEnumerable<TopicType> GetTopicTypes()
         {
-            return GetDbContext().ThemeTypes.ToList();
+            return GetDbContext().TopicTypes.ToList();
         }
 
         #endregion
 
-        #region CurriculumAssignment methods
+        #region Curriculum methods
 
-        private CurriculumAssignment GetCurriculumAssignment(IDataContext db, int curriculumAssignmentId)
+        private Curriculum GetCurriculum(IDataContext db, int curriculumId)
         {
-            return db.CurriculumAssignments.SingleOrDefault(item => item.Id == curriculumAssignmentId && !item.IsDeleted);
+            return db.Curriculums.SingleOrDefault(item => item.Id == curriculumId && !item.IsDeleted);
         }
 
-        public CurriculumAssignment GetCurriculumAssignment(int curriculumAssignmentId)
+        public Curriculum GetCurriculum(int curriculumId)
         {
-            return GetCurriculumAssignment(GetDbContext(), curriculumAssignmentId);
+            return GetCurriculum(GetDbContext(), curriculumId);
         }
 
-        public IEnumerable<CurriculumAssignment> GetCurriculumAssignments()
+        public IEnumerable<Curriculum> GetCurriculums()
         {
-            return GetDbContext().CurriculumAssignments.Where(item => !item.IsDeleted).ToList();
+            return GetDbContext().Curriculums.Where(item => !item.IsDeleted).ToList();
         }
 
-        public IEnumerable<CurriculumAssignment> GetCurriculumAssignments(IEnumerable<int> ids)
+        public IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids)
         {
-            return GetDbContext().CurriculumAssignments.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
+            return GetDbContext().Curriculums.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
         }
 
-        public IEnumerable<CurriculumAssignment> GetCurriculumAssignmnetsByCurriculumId(int curriculumId)
+        public IEnumerable<Curriculum> GetDisciplineAssignmnetsByDisciplineId(int disciplineId)
         {
-            return GetDbContext().CurriculumAssignments.Where(item => item.CurriculumRef == curriculumId && !item.IsDeleted).ToList();
+            return GetDbContext().Curriculums.Where(item => item.DisciplineRef == disciplineId && !item.IsDeleted).ToList();
         }
 
-        private IEnumerable<CurriculumAssignment> GetCurriculumAssignmentsByGroupId(IDataContext db, int groupId)
+        private IEnumerable<Curriculum> GetCurriculumsByGroupId(IDataContext db, int groupId)
         {
-            return db.CurriculumAssignments.Where(item => item.UserGroupRef == groupId && !item.IsDeleted).ToList();
+            return db.Curriculums.Where(item => item.UserGroupRef == groupId && !item.IsDeleted).ToList();
         }
 
-        public IEnumerable<CurriculumAssignment> GetCurriculumAssignmentsByGroupId(int groupId)
+        public IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId)
         {
-            return GetCurriculumAssignmentsByGroupId(GetDbContext(), groupId);
-            //return GetDbContext().CurriculumAssignments.Where(item => item.UserGroupRef == groupId && !item.IsDeleted).ToList();
+            return GetCurriculumsByGroupId(GetDbContext(), groupId);
+            //return GetDbContext().Curriculums.Where(item => item.UserGroupRef == groupId && !item.IsDeleted).ToList();
         }
 
-        public int AddCurriculumAssignment(CurriculumAssignment curriculumAssignment)
+        public int AddCurriculum(Curriculum curriculum)
         {
             var db = GetDbContext();
-            curriculumAssignment.IsDeleted = false;
-            curriculumAssignment.IsValid = true;
+            curriculum.IsDeleted = false;
+            curriculum.IsValid = true;
 
-            db.CurriculumAssignments.InsertOnSubmit(curriculumAssignment);
+            db.Curriculums.InsertOnSubmit(curriculum);
             db.SubmitChanges();
 
-            //add corresponding ThemeAssignments
-            var themesInCurrentCurriculum = GetThemesByCurriculumId(curriculumAssignment.CurriculumRef)
-                .Where(item => item.ThemeTypeRef == (int)Enums.ThemeType.Test ||
-                    item.ThemeTypeRef == (int)Enums.ThemeType.TestWithoutCourse);
-            foreach (var theme in themesInCurrentCurriculum)
+            //add corresponding TopicAssignments
+            var topicsInCurrentDiscipline = GetTopicsByDisciplineId(curriculum.DisciplineRef)
+                .Where(item => item.TopicTypeRef == (int)Enums.TopicType.Test ||
+                    item.TopicTypeRef == (int)Enums.TopicType.TestWithoutCourse);
+            foreach (var topic in topicsInCurrentDiscipline)
             {
-                ThemeAssignment newThemeAssingment = new ThemeAssignment()
+                TopicAssignment newTopicAssingment = new TopicAssignment()
                 {
-                    CurriculumAssignmentRef = curriculumAssignment.Id,
-                    ThemeRef = theme.Id,
-                    MaxScore = Constants.DefaultThemeMaxScore
+                    CurriculumRef = curriculum.Id,
+                    TopicRef = topic.Id,
+                    MaxScore = Constants.DefaultTopicMaxScore
                 };
 
-                AddThemeAssignment(newThemeAssingment);
+                AddTopicAssignment(newTopicAssingment);
             }
 
-            return curriculumAssignment.Id;
+            return curriculum.Id;
         }
 
-        public void UpdateCurriculumAssignment(CurriculumAssignment curriculumAssignment)
+        public void UpdateCurriculum(Curriculum curriculum)
         {
             var db = GetDbContext();
-            var oldCurriculumAssignment = GetCurriculumAssignment(db, curriculumAssignment.Id);
+            var oldCurriculum = GetCurriculum(db, curriculum.Id);
 
-            oldCurriculumAssignment.UserGroupRef = curriculumAssignment.UserGroupRef;
-            oldCurriculumAssignment.IsValid = true;
+            oldCurriculum.UserGroupRef = curriculum.UserGroupRef;
+            oldCurriculum.IsValid = true;
 
             db.SubmitChanges();
         }
 
-        public void DeleteCurriculumAssignment(int curriculumAssignmentId)
+        public void DeleteCurriculum(int curriculumId)
         {
             var db = GetDbContext();
-            var curriculumAssignment = GetCurriculumAssignment(db, curriculumAssignmentId);
+            var curriculum = GetCurriculum(db, curriculumId);
 
-            //delete corresponding CurriculumAssignmentTimelines
-            var curriculumAssignmentTimelineIds = GetCurriculumAssignmentTimelines(curriculumAssignmentId).Select(item => item.Id);
-            DeleteTimelines(curriculumAssignmentTimelineIds);
+            //delete corresponding CurriculumTimelines
+            var curriculumTimelineIds = GetCurriculumTimelines(curriculumId).Select(item => item.Id);
+            DeleteTimelines(curriculumTimelineIds);
 
-            //delete corresponding StageTimelines
-            var stageTimelineIds = GetStageTimelinesByCurriculumAssignmentId(curriculumAssignmentId).Select(item => item.Id);
-            DeleteTimelines(stageTimelineIds);
+            //delete corresponding ChapterTimelines
+            var chapterTimelineIds = GetChapterTimelinesByCurriculumId(curriculumId).Select(item => item.Id);
+            DeleteTimelines(chapterTimelineIds);
 
-            //delete corresponding ThemeAssignments
-            var themeAssignmentIds = GetThemeAssignmentsByCurriculumAssignmentId(curriculumAssignmentId).Select(item => item.Id);
-            DeleteThemeAssignments(themeAssignmentIds);
+            //delete corresponding TopicAssignments
+            var topicAssignmentIds = GetTopicAssignmentsByCurriculumId(curriculumId).Select(item => item.Id);
+            DeleteTopicAssignments(topicAssignmentIds);
 
-            curriculumAssignment.IsDeleted = true;
+            curriculum.IsDeleted = true;
             db.SubmitChanges();
         }
 
-        public void DeleteCurriculumAssignments(IEnumerable<int> ids)
+        public void DeleteCurriculums(IEnumerable<int> ids)
         {
             foreach (int id in ids)
             {
-                DeleteCurriculumAssignment(id);
+                DeleteCurriculum(id);
             }
         }
 
-        public void MakeCurriculumAssignmentsInvalid(int groupId)
+        public void MakeCurriculumsInvalid(int groupId)
         {
             var db = GetDbContext();
-            var curriculumAssignments = GetCurriculumAssignmentsByGroupId(db, groupId);
-            foreach (var curriculumAssignment in curriculumAssignments)
+            var curriculums = GetCurriculumsByGroupId(db, groupId);
+            foreach (var curriculum in curriculums)
             {
-                curriculumAssignment.IsValid = false;
+                curriculum.IsValid = false;
             }
             db.SubmitChanges();
         }
 
         #endregion
 
-        #region ThemeAssignment methods
+        #region TopicAssignment methods
 
-        private ThemeAssignment GetThemeAssignment(IDataContext db, int themeAssignmentId)
+        private TopicAssignment GetTopicAssignment(IDataContext db, int topicAssignmentId)
         {
-            return db.ThemeAssignments.SingleOrDefault(item => item.Id == themeAssignmentId && !item.IsDeleted);
+            return db.TopicAssignments.SingleOrDefault(item => item.Id == topicAssignmentId && !item.IsDeleted);
         }
 
-        public ThemeAssignment GetThemeAssignment(int themeAssignmentId)
+        public TopicAssignment GetTopicAssignment(int topicAssignmentId)
         {
-            return GetThemeAssignment(GetDbContext(), themeAssignmentId);
+            return GetTopicAssignment(GetDbContext(), topicAssignmentId);
         }
 
-        public IEnumerable<ThemeAssignment> GetThemeAssignmentsByCurriculumAssignmentId(int curriculumAssignmentId)
+        public IEnumerable<TopicAssignment> GetTopicAssignmentsByCurriculumId(int curriculumId)
         {
-            return GetDbContext().ThemeAssignments.Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && !item.IsDeleted).ToList();
+            return GetDbContext().TopicAssignments.Where(item => item.CurriculumRef == curriculumId && !item.IsDeleted).ToList();
         }
 
-        public IEnumerable<ThemeAssignment> GetThemeAssignmentsByThemeId(int themeId)
+        public IEnumerable<TopicAssignment> GetTopicAssignmentsByTopicId(int topicId)
         {
-            return GetDbContext().ThemeAssignments.Where(item => item.ThemeRef == themeId && !item.IsDeleted).ToList();
+            return GetDbContext().TopicAssignments.Where(item => item.TopicRef == topicId && !item.IsDeleted).ToList();
         }
 
-        private IEnumerable<ThemeAssignment> GetThemeAssignments(IDataContext db, IEnumerable<int> ids)
+        private IEnumerable<TopicAssignment> GetTopicAssignments(IDataContext db, IEnumerable<int> ids)
         {
-            return db.ThemeAssignments.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
+            return db.TopicAssignments.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
         }
 
-        public IEnumerable<ThemeAssignment> GetThemeAssignments(IEnumerable<int> ids)
+        public IEnumerable<TopicAssignment> GetTopicAssignments(IEnumerable<int> ids)
         {
-            return GetThemeAssignments(GetDbContext(), ids);
+            return GetTopicAssignments(GetDbContext(), ids);
         }
 
-        public int AddThemeAssignment(ThemeAssignment themeAssignment)
+        public int AddTopicAssignment(TopicAssignment topicAssignment)
         {
             var db = GetDbContext();
-            db.ThemeAssignments.InsertOnSubmit(themeAssignment);
+            db.TopicAssignments.InsertOnSubmit(topicAssignment);
             db.SubmitChanges();
 
-            return themeAssignment.Id;
+            return topicAssignment.Id;
         }
 
-        public void UpdateThemeAssignment(ThemeAssignment themeAssignment)
+        public void UpdateTopicAssignment(TopicAssignment topicAssignment)
         {
             var db = GetDbContext();
-            var oldThemeAssignment = GetThemeAssignment(db, themeAssignment.Id);
+            var oldTopicAssignment = GetTopicAssignment(db, topicAssignment.Id);
 
-            oldThemeAssignment.MaxScore = themeAssignment.MaxScore;
+            oldTopicAssignment.MaxScore = topicAssignment.MaxScore;
 
             db.SubmitChanges();
         }
 
-        public void DeleteThemeAssignments(IEnumerable<int> ids)
+        public void DeleteTopicAssignments(IEnumerable<int> ids)
         {
             var db = GetDbContext();
-            var themeAssignments = GetThemeAssignments(db, ids);
+            var topicAssignments = GetTopicAssignments(db, ids);
 
-            foreach (ThemeAssignment item in themeAssignments)
+            foreach (TopicAssignment item in topicAssignments)
             {
                 item.IsDeleted = true;
             }
@@ -736,25 +736,25 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return GetTimeline(GetDbContext(), timelineId);
         }
 
-        public IEnumerable<Timeline> GetCurriculumAssignmentTimelines(int curriculumAssignmentId)
+        public IEnumerable<Timeline> GetCurriculumTimelines(int curriculumId)
         {
-            return GetTimelines(GetDbContext()).Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && item.StageRef == null).ToList();
+            return GetTimelines(GetDbContext()).Where(item => item.CurriculumRef == curriculumId && item.ChapterRef == null).ToList();
         }
 
-        public IEnumerable<Timeline> GetStageTimelinesByCurriculumAssignmentId(int curriculumAssignmentId)
+        public IEnumerable<Timeline> GetChapterTimelinesByCurriculumId(int curriculumId)
         {
-            return GetTimelines(GetDbContext()).Where(item => item.CurriculumAssignmentRef == curriculumAssignmentId && item.StageRef != null).ToList();
+            return GetTimelines(GetDbContext()).Where(item => item.CurriculumRef == curriculumId && item.ChapterRef != null).ToList();
         }
 
-        public IEnumerable<Timeline> GetStageTimelinesByStageId(int stageId)
+        public IEnumerable<Timeline> GetChapterTimelinesByChapterId(int chapterId)
         {
-            return GetTimelines(GetDbContext()).Where(item => item.StageRef == stageId && item.StageRef != null).ToList();
+            return GetTimelines(GetDbContext()).Where(item => item.ChapterRef == chapterId && item.ChapterRef != null).ToList();
         }
 
-        public IEnumerable<Timeline> GetStageTimelines(int stageId, int curriculumAssignmentId)
+        public IEnumerable<Timeline> GetChapterTimelines(int chapterId, int curriculumId)
         {
-            return GetTimelines(GetDbContext()).Where(item => item.StageRef == stageId && item.CurriculumAssignmentRef == curriculumAssignmentId
-                && item.StageRef != null).ToList();
+            return GetTimelines(GetDbContext()).Where(item => item.ChapterRef == chapterId && item.CurriculumRef == curriculumId
+                && item.ChapterRef != null).ToList();
         }
 
         private IEnumerable<Timeline> GetTimelines(IDataContext db, IEnumerable<int> timelineIds)
@@ -816,20 +816,20 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #region Group methods
 
-        public IEnumerable<Group> GetAssignedGroups(int curriculumId)
+        public IEnumerable<Group> GetAssignedGroups(int disciplineId)
         {
-            return GetCurriculumAssignmnetsByCurriculumId(curriculumId).Select(item => GetGroup(item.UserGroupRef));
+            return GetDisciplineAssignmnetsByDisciplineId(disciplineId).Select(item => GetGroup(item.UserGroupRef));
         }
 
-        public IEnumerable<Group> GetNotAssignedGroups(int curriculumId)
+        public IEnumerable<Group> GetNotAssignedGroups(int disciplineId)
         {
-            var assignedGroupIds = GetAssignedGroups(curriculumId).Select(item => item.Id);
+            var assignedGroupIds = GetAssignedGroups(disciplineId).Select(item => item.Id);
             return GetGroups().Where(item => !assignedGroupIds.Contains(item.Id)).Select(item => item);
         }
 
-        public IEnumerable<Group> GetNotAssignedGroupsWithCurrentGroup(int curriculumId, int currentGroupId)
+        public IEnumerable<Group> GetNotAssignedGroupsWithCurrentGroup(int disciplineId, int currentGroupId)
         {
-            IEnumerable<Group> groups = GetNotAssignedGroups(curriculumId);
+            IEnumerable<Group> groups = GetNotAssignedGroups(disciplineId);
 
             //add current group
             List<Group> assignedGroup = new List<Group>();

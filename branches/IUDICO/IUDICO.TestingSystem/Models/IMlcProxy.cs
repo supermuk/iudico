@@ -7,9 +7,9 @@ namespace IUDICO.TestingSystem.Models
     public interface IMlcProxy
     {
         //IEnumerable<Training> GetTrainings(long userKey);
-        long GetAttemptId(Theme theme);
+        long GetAttemptId(Topic topic);
         IEnumerable<AttemptResult> GetAllAttempts();
-        IEnumerable<AttemptResult> GetResults(User user, Theme theme);
+        IEnumerable<AttemptResult> GetResults(User user, Topic topic);
         IEnumerable<AnswerResult> GetAnswers(AttemptResult attemptResult);
         //Training AddPackage(Package package);
         //void DeletePackage(long packId);

@@ -135,13 +135,13 @@
   <data name="CreateGroup" xml:space="preserve">
     <value>Створити групу</value>
   </data>
-  <data name="CurriculumList" xml:space="preserve">
+  <data name="DisciplineList" xml:space="preserve">
     <value>Навчальні плани для</value>
   </data>
-  <data name="CurriculumName" xml:space="preserve">
+  <data name="DisciplineName" xml:space="preserve">
     <value>Навчальний план</value>
   </data>
-  <data name="CurriculumsStatisticForGroup" xml:space="preserve">
+  <data name="DisciplinesStatisticForGroup" xml:space="preserve">
     <value>Навчальні курси для групи</value>
   </data>
   <data name="GetStats" xml:space="preserve">
@@ -168,10 +168,10 @@
   <data name="SelectAttempt" xml:space="preserve">
     <value>Будь ласка, виберіть спробу для перегляду:</value>
   </data>
-  <data name="SelectCurriculum" xml:space="preserve">
+  <data name="SelectDiscipline" xml:space="preserve">
     <value>Будь ласка, виберіть один або декілька навчальних планів:</value>
   </data>
-  <data name="SelectOneCurriculum" xml:space="preserve">
+  <data name="SelectOneDiscipline" xml:space="preserve">
     <value>Виберіть один навчальний план:</value>
   </data>
   <data name="SelectOneGroup" xml:space="preserve">
@@ -195,7 +195,7 @@
   <data name="Sum" xml:space="preserve">
     <value>Сума</value>
   </data>
-  <data name="Theme" xml:space="preserve">
+  <data name="Topic" xml:space="preserve">
     <value>Тема</value>
   </data>
   <data name="NoData" xml:space="preserve">
@@ -204,7 +204,7 @@
   <data name="NoDataShow" xml:space="preserve">
     <value>Немає даних для відображення</value>
   </data>
-  <data name="CurriculumsStatistic" xml:space="preserve">
+  <data name="DisciplinesStatistic" xml:space="preserve">
     <value>Статистика: навчальні курси</value>
   </data>
   <data name="Failed" xml:space="preserve">
@@ -213,7 +213,7 @@
   <data name="Passed" xml:space="preserve">
     <value>Пройдений</value>
   </data>
-  <data name="ThemesInfo" xml:space="preserve">
+  <data name="TopicsInfo" xml:space="preserve">
     <value>Статистика по темах</value>
   </data>
   <data name="Unknown" xml:space="preserve">
@@ -222,7 +222,7 @@
   <data name="Coefficient" xml:space="preserve">
     <value>Коефіцієнт</value>
   </data>
-  <data name="Curriculum" xml:space="preserve">
+  <data name="Discipline" xml:space="preserve">
     <value>Навчальний план</value>
   </data>
   <data name="Next" xml:space="preserve">
@@ -234,7 +234,7 @@
   <data name="QualityTest" xml:space="preserve">
     <value>Контроль якості тестових завдань</value>
   </data>
-  <data name="SelectCurriculums" xml:space="preserve">
+  <data name="SelectDisciplines" xml:space="preserve">
     <value>Вибір навчального плану</value>
   </data>
   <data name="SelectGroups" xml:space="preserve">
@@ -243,10 +243,10 @@
   <data name="SelectOneOrMoreGroups" xml:space="preserve">
     <value>Будь ласка, виберіть один або декілька груп:</value>
   </data>
-  <data name="SelectOneTheme" xml:space="preserve">
+  <data name="SelectOneTopic" xml:space="preserve">
     <value>Виберіть одну тему</value>
   </data>
-  <data name="SelectTheme" xml:space="preserve">
+  <data name="SelectTopic" xml:space="preserve">
     <value>Вибір теми</value>
   </data>
   <data name="ShowQualityTest" xml:space="preserve">

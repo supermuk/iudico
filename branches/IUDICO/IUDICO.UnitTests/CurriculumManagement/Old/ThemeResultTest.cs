@@ -10,11 +10,11 @@ namespace TestProject1
 
     
     /// <summary>
-    ///This is a test class for ThemeResultTest and is intended
-    ///to contain all ThemeResultTest Unit Tests
+    ///This is a test class for TopicResultTest and is intended
+    ///to contain all TopicResultTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class ThemeResultTest
+    public class TopicResultTest
     {
 
 
@@ -68,44 +68,44 @@ namespace TestProject1
 
 
         /// <summary>
-        ///A test for GetThemeResultScore
+        ///A test for GetTopicResultScore
         ///</summary>
         [TestMethod()]
-        public void GetThemeResultScoreTest()
+        public void GetTopicResultScoreTest()
         {
             User usr = new User() { Username = "Bob" };
-            Theme thm = new Theme() { Name = "Theme One" };
+            Topic thm = new Topic() { Name = "Topic One" };
             IUDICO.Common.Models.Shared.Statistics.AttemptResult AR = new IUDICO.Common.Models.Shared.Statistics.AttemptResult(1,usr,thm, IUDICO.Common.Models.Shared.Statistics.CompletionStatus.Completed, IUDICO.Common.Models.Shared.Statistics.AttemptStatus.Completed,IUDICO.Common.Models.Shared.Statistics.SuccessStatus.Passed, DateTime.Now, 0.5f);
             
-            ThemeResult target = new ThemeResult(usr, thm);
+            TopicResult target = new TopicResult(usr, thm);
             List<IUDICO.Common.Models.Shared.Statistics.AttemptResult> ARL = new List<IUDICO.Common.Models.Shared.Statistics.AttemptResult>();
             ARL.Add(AR);
             target.AttemptResults = ARL;
 
             double? expected = 50.0;
             double? actual;
-            actual = target.GetThemeResultScore();
+            actual = target.GetTopicResultScore();
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        ///A test for GetThemeResultScore
+        ///A test for GetTopicResultScore
         ///</summary>
         [TestMethod()] 
-        public void GetThemeResultScoreTest1()
+        public void GetTopicResultScoreTest1()
         {
             User usr = new User() { Username = "Bob" };
-            Theme thm = new Theme() { Name = "Theme One" };
+            Topic thm = new Topic() { Name = "Topic One" };
             IUDICO.Common.Models.Shared.Statistics.AttemptResult AR = new IUDICO.Common.Models.Shared.Statistics.AttemptResult(1, usr, thm, IUDICO.Common.Models.Shared.Statistics.CompletionStatus.Completed, IUDICO.Common.Models.Shared.Statistics.AttemptStatus.Completed, IUDICO.Common.Models.Shared.Statistics.SuccessStatus.Passed, DateTime.Now, null);
 
-            ThemeResult target = new ThemeResult(usr, thm);
+            TopicResult target = new TopicResult(usr, thm);
             List<IUDICO.Common.Models.Shared.Statistics.AttemptResult> ARL = new List<IUDICO.Common.Models.Shared.Statistics.AttemptResult>();
             ARL.Add(AR);
             target.AttemptResults = ARL;
 
             double? expected = 0.0;
             double? actual;
-            actual = target.GetThemeResultScore();
+            actual = target.GetTopicResultScore();
             Assert.AreEqual(expected, actual);
         }
     }

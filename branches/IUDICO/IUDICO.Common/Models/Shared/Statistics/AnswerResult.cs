@@ -33,7 +33,7 @@ namespace IUDICO.Common.Models.Shared.Statistics
         public long? InteractionId { get; protected set; }
         
         /// <summary>
-        /// Represents result of one user's attempt on one theme(course).
+        /// Represents result of one user's attempt on one topic(course).
         /// </summary>
         public AttemptResult AttemptResult { get; protected set; }
         

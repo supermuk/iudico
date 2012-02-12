@@ -23,20 +23,20 @@ namespace IUDICO.CurriculumManagement.Models
         }
 
         /// <summary>
-        /// Validates the stage timeline.
+        /// Validates the chapter timeline.
         /// </summary>
-        /// <param name="timeline">The stage timeline.</param>
+        /// <param name="timeline">The chapter timeline.</param>
         /// <returns></returns>
         /// <remarks></remarks>
-        public ValidationStatus ValidateStageTimeline(Timeline timeline)
+        public ValidationStatus ValidateChapterTimeline(Timeline timeline)
         {
             ValidationStatus validationStatus = new ValidationStatus();
 
             DateTime minAllowedDate = Constants.MinAllowedDateTime;
             DateTime maxAllowedDate = Constants.MaxAllowedDateTime;
-            if (timeline.StageRef <= 0)
+            if (timeline.ChapterRef <= 0)
             {
-                validationStatus.Errors.Add(String.Format(Localization.getMessage("ChooseStage")));
+                validationStatus.Errors.Add(String.Format(Localization.getMessage("ChooseChapter")));
             }
             if (timeline.StartDate > timeline.EndDate)
             {
@@ -53,7 +53,7 @@ namespace IUDICO.CurriculumManagement.Models
                    minAllowedDate.ToString(), maxAllowedDate.ToString()));
             }
 
-            var timelines = storage.GetCurriculumAssignmentTimelines(timeline.CurriculumAssignmentRef);
+            var timelines = storage.GetCurriculumTimelines(timeline.CurriculumRef);
 
             bool errorCheck = true;
             List<string> errors = new List<string>();
@@ -71,7 +71,7 @@ namespace IUDICO.CurriculumManagement.Models
             }
             if (errorCheck == true)
             {
-                validationStatus.Errors.Add(Localization.getMessage("StageTimelineBiggerThanCurriculumTimeline"));
+                validationStatus.Errors.Add(Localization.getMessage("ChapterTimelineBiggerThanDisciplineTimeline"));
                 validationStatus.Errors.AddRange(errors);
             }
 
@@ -79,11 +79,11 @@ namespace IUDICO.CurriculumManagement.Models
         }
 
         /// <summary>
-        /// Validates the curriculum assignment timeline.
+        /// Validates the discipline assignment timeline.
         /// </summary>
         /// <param name="timeline">The timeline.</param>
         /// <returns></returns>
-        public ValidationStatus ValidateCurriculumAssignmentTimeline(Timeline timeline)
+        public ValidationStatus ValidateCurriculumTimeline(Timeline timeline)
         {
             ValidationStatus validationStatus = new ValidationStatus();
 
@@ -108,49 +108,49 @@ namespace IUDICO.CurriculumManagement.Models
         }
 
         /// <summary>
-        /// Validates the curriculum assignment.
+        /// Validates the discipline assignment.
         /// </summary>
-        /// <param name="curriculumAssignment">The curriculum assignment.</param>
+        /// <param name="curriculum">The discipline assignment.</param>
         /// <returns></returns>
-        public ValidationStatus ValidateCurriculumAssignment(CurriculumAssignment curriculumAssignment)
+        public ValidationStatus ValidateCurriculum(Curriculum curriculum)
         {
             ValidationStatus validationStatus = new ValidationStatus();
 
-            if (curriculumAssignment.UserGroupRef <= 0)
+            if (curriculum.UserGroupRef <= 0)
             {
-                validationStatus.Errors.Add(String.Format(Localization.getMessage("ChooseStage")));
+                validationStatus.Errors.Add(String.Format(Localization.getMessage("ChooseChapter")));
             }
 
             return validationStatus;
         }
 
         /// <summary>
-        /// Validates the theme.
+        /// Validates the topic.
         /// </summary>
-        /// <param name="theme">The theme.</param>
+        /// <param name="topic">The topic.</param>
         /// <returns></returns>
-        public ValidationStatus ValidateTheme(Theme theme)
+        public ValidationStatus ValidateTopic(Topic topic)
         {
             ValidationStatus validationStatus = new ValidationStatus();
-            var themeType = Converters.ConvertToThemeType(storage.GetThemeType(theme.ThemeTypeRef));
+            var topicType = Converters.ConvertToTopicType(storage.GetTopicType(topic.TopicTypeRef));
 
-            if (theme.CourseRef <= 0 || (!theme.CourseRef.HasValue && themeType != Enums.ThemeType.TestWithoutCourse))
+            if (topic.CourseRef <= 0 || (!topic.CourseRef.HasValue && topicType != Enums.TopicType.TestWithoutCourse))
             {
                 validationStatus.Errors.Add(String.Format(Localization.getMessage("ChooseCourse")));
             }
-            if (themeType == Enums.ThemeType.TestWithoutCourse && theme.CourseRef > 0)
+            if (topicType == Enums.TopicType.TestWithoutCourse && topic.CourseRef > 0)
             {
                 validationStatus.Errors.Add(String.Format(Localization.getMessage("TestWithoutCourse")));
             }
-            if (theme.ThemeTypeRef <= 0)
+            if (topic.TopicTypeRef <= 0)
             {
-                validationStatus.Errors.Add(String.Format(Localization.getMessage("ChooseThemeType")));
+                validationStatus.Errors.Add(String.Format(Localization.getMessage("ChooseTopicType")));
             }
-            if (theme.Name == null || theme.Name == "")
+            if (topic.Name == null || topic.Name == "")
             {
                 validationStatus.Errors.Add(String.Format(Localization.getMessage("NameReqiured")));
             }
-            if (theme.Name != null && theme.Name.Length > Constants.MaxStringFieldLength)
+            if (topic.Name != null && topic.Name.Length > Constants.MaxStringFieldLength)
             {
                 validationStatus.Errors.Add(String.Format(Localization.getMessage("NameCanNotBeLongerThan"), Constants.MaxStringFieldLength));
             }

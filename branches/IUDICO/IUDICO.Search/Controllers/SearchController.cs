@@ -65,12 +65,12 @@ namespace IUDICO.Search.Controllers
         {
             var roles = _UserService.GetCurrentUserRoles();
             var result = new List<CheckBoxModel>();
-            result.Add(new CheckBoxModel(SearchType.Themes ));
+            result.Add(new CheckBoxModel(SearchType.Topics ));
             if (roles.Contains(Role.Teacher))
             {
                 result.Add(new CheckBoxModel(SearchType.Users));
                 result.Add(new CheckBoxModel(SearchType.Courses));
-                result.Add(new CheckBoxModel(SearchType.Curriculums));
+                result.Add(new CheckBoxModel(SearchType.Disciplines));
                 result.Add(new CheckBoxModel(SearchType.Groups));
             }
             else if (roles.Contains(Role.Admin))
@@ -102,20 +102,20 @@ namespace IUDICO.Search.Controllers
                         strings.Add("Name");
                         strings.Add("Content");
                     }
-                    if (checkBox.SearchType == SearchType.Themes)
+                    if (checkBox.SearchType == SearchType.Topics)
                     {
                         //make filtration here...
-                        strings.Add("Theme");
+                        strings.Add("Topic");
                     }
                     if (checkBox.SearchType == SearchType.Users)
                     {
                         //make filtration here...
                         strings.Add("User");
                     }
-                    if (checkBox.SearchType == SearchType.Curriculums)
+                    if (checkBox.SearchType == SearchType.Disciplines)
                     {
                         //make filtration here...
-                        strings.Add("Curriculum");
+                        strings.Add("Discipline");
                     }
                     //make filtration here...
                 }
@@ -124,7 +124,7 @@ namespace IUDICO.Search.Controllers
             MultiFieldQueryParser queryParser = new MultiFieldQueryParser(
                     Version.LUCENE_29,
                     strings.ToArray(),
-                    //new String[] { "Name", "Content", "Curriculum", "User", "Group", "Theme" },
+                    //new String[] { "Name", "Content", "Discipline", "User", "Group", "Topic" },
                     analyzer
                 );
 
@@ -133,13 +133,13 @@ namespace IUDICO.Search.Controllers
             Hits hit = searcher.Search(queryParser.Parse(query));
             int total = hit.Length();
 
-            List<Curriculum> curriculums123 = _CurriculmService.GetCurriculums(_UserService.GetCurrentUser()).ToList();
+            List<Discipline> disciplines123 = _CurriculmService.GetDisciplines(_UserService.GetCurrentUser()).ToList();
             List<Course> courses123 = _CourseService.GetCourses(_UserService.GetCurrentUser()).ToList();
-            List<ThemeDescription> themes123 = _CurriculmService.GetThemesAvailableForUser(_UserService.GetCurrentUser()).ToList();
+            List<TopicDescription> topics123 = _CurriculmService.GetTopicsAvailableForUser(_UserService.GetCurrentUser()).ToList();
 
-            //List<Curriculum> themes123 = _CurriculmService.GetCurriculumsWithThemesOwnedByUser(_UserService.GetCurrentUser()).ToList();
-            //foreach(Curriculum curr in curriculums123){
-            //    themes123.InsertRange(themes123.Count - 1, _CurriculmService.GetThemesByCurriculumId(curr.Id));
+            //List<Discipline> topics123 = _CurriculmService.GetDisciplinesWithTopicsOwnedByUser(_UserService.GetCurrentUser()).ToList();
+            //foreach(Discipline curr in disciplines123){
+            //    topics123.InsertRange(topics123.Count - 1, _CurriculmService.GetTopicsByDisciplineId(curr.Id));
             //}
 
             List<ISearchResult> results = new List<ISearchResult>();
@@ -182,19 +182,19 @@ namespace IUDICO.Search.Controllers
                         }
                         break;
 
-                    case "curriculum":
+                    case "discipline":
 
-                        Curriculum curriculum = new Curriculum();
-                        curriculum.Id = Convert.ToInt32(document.Get("CurriculumID"));
-                        curriculum.Name = document.Get("Curriculum");
-                        curriculum.Owner = document.Get("Owner");
+                        Discipline discipline = new Discipline();
+                        discipline.Id = Convert.ToInt32(document.Get("DisciplineID"));
+                        discipline.Name = document.Get("Discipline");
+                        discipline.Owner = document.Get("Owner");
 
-                        string str = _CurriculmService.GetCurriculum(curriculum.Id).Owner;
-                        foreach (Curriculum curr in curriculums123)
+                        string str = _CurriculmService.GetDiscipline(discipline.Id).Owner;
+                        foreach (Discipline curr in disciplines123)
                         {
-                            if (curr.Owner.Equals(curriculum.Owner))
+                            if (curr.Owner.Equals(discipline.Owner))
                             {
-                                result = new CurriculumResult(curriculum, _CurriculmService.GetCurriculum(curriculum.Id).Updated.ToString());
+                                result = new DisciplineResult(discipline, _CurriculmService.GetDiscipline(discipline.Id).Updated.ToString());
                                 results.Add(result);
                                 break;
                             }
@@ -222,25 +222,25 @@ namespace IUDICO.Search.Controllers
                         results.Add(result);
                         break;
 
-                    case "theme":
+                    case "topic":
 
-                        Theme theme = new Theme();
-                        theme.Id = Convert.ToInt32(document.Get("ThemeID"));
-                        theme.Name = document.Get("Theme");
+                        Topic topic = new Topic();
+                        topic.Id = Convert.ToInt32(document.Get("TopicID"));
+                        topic.Name = document.Get("Topic");
                         if (document.Get("CourseRef") == "null")
                         {
-                            theme.CourseRef = null;
+                            topic.CourseRef = null;
                         }
                         else
                         {
-                            theme.CourseRef = Convert.ToInt32(document.Get("CourseRef"));
+                            topic.CourseRef = Convert.ToInt32(document.Get("CourseRef"));
                         }
 
-                        foreach (ThemeDescription themdesc in themes123)
+                        foreach (TopicDescription themdesc in topics123)
                         {
-                            if (themdesc.Theme.Id == theme.Id)
+                            if (themdesc.Topic.Id == topic.Id)
                             {
-                                result = new ThemeResult(theme, _CourseService.GetCourse(theme.CourseRef.Value).Name);
+                                result = new TopicResult(topic, _CourseService.GetCourse(topic.CourseRef.Value).Name);
                                 results.Add(result);
                                 break;
                             }

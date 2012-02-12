@@ -16,7 +16,7 @@ namespace IUDICO.Statistics.Controllers
     {
 
         [Allow(Role = Role.Teacher)]
-        public ActionResult SelectCurriculum()
+        public ActionResult SelectDiscipline()
         {
             IndexModel model = new IndexModel(LmsService);
             HttpContext.Session["TeacherUserName"] = model.GetTeacherUserName();
@@ -25,21 +25,21 @@ namespace IUDICO.Statistics.Controllers
 
         [Allow(Role = Role.Teacher)]
         [HttpPost]
-        public ActionResult SelectTheme(long selectCurriculumId)
+        public ActionResult SelectTopic(long selectDisciplineId)
         {
-            SelectThemeModel model = new SelectThemeModel(LmsService, selectCurriculumId, (String)HttpContext.Session["TeacherUserName"]);
-            HttpContext.Session["CurriculumName"] = model.GetCurriculumName();
+            SelectTopicModel model = new SelectTopicModel(LmsService, selectDisciplineId, (String)HttpContext.Session["TeacherUserName"]);
+            HttpContext.Session["DisciplineName"] = model.GetDisciplineName();
             return View(model);
         }
 
         [Allow(Role = Role.Teacher)]
         [HttpPost]
-        public ActionResult SelectGroups(int selectThemeId)
+        public ActionResult SelectGroups(int selectTopicId)
         {
-            SelectGroupsModel model = new SelectGroupsModel(LmsService, selectThemeId, (String)HttpContext.Session["TeacherUserName"],
-                (String)HttpContext.Session["CurriculumName"]);
-            HttpContext.Session["ThemeName"] = model.GetThemeName();
-            HttpContext.Session["ThemeId"] = selectThemeId;
+            SelectGroupsModel model = new SelectGroupsModel(LmsService, selectTopicId, (String)HttpContext.Session["TeacherUserName"],
+                (String)HttpContext.Session["DisciplineName"]);
+            HttpContext.Session["TopicName"] = model.GetTopicName();
+            HttpContext.Session["TopicId"] = selectTopicId;
             return View(model);
         }
 
@@ -48,7 +48,7 @@ namespace IUDICO.Statistics.Controllers
         public ActionResult ShowQualityTest(int[] selectGroupIds)
         {
             ShowQualityTestModel model = new ShowQualityTestModel(LmsService, selectGroupIds,
-                (String)HttpContext.Session["CurriculumName"], (int)HttpContext.Session["ThemeId"]);
+                (String)HttpContext.Session["DisciplineName"], (int)HttpContext.Session["TopicId"]);
             return View(model);
         }
     }

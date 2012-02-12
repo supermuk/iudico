@@ -1,5 +1,7 @@
-﻿<%@ Assembly Name="IUDICO.CurriculumManagement" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Shared.Curriculum>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" 
+Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataClasses.CreateCurriculumModel>" %>
+
+<%@ Assembly Name="IUDICO.CurriculumManagement" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script src="/Scripts/jquery/jquery.validate.min.js" type="text/javascript"></script>
@@ -9,30 +11,31 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=IUDICO.CurriculumManagement.Localization.getMessage("CreateСurriculum")%>
+    <%=IUDICO.CurriculumManagement.Localization.getMessage("CreateCurriculumFor")%> <%: ViewData["DisciplineName"]%>
 </asp:Content>
-
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
-    <h2><%=IUDICO.CurriculumManagement.Localization.getMessage("CreateСurriculum")%></h2>
-
+    <h2>
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("CreateCurriculumFor")%></h2>
+    <h4><%: ViewData["DisciplineName"]%></h4>
     <% Html.EnableClientValidation(); %>
 
-    <% using (Html.BeginForm()) {%>
+    <% using (Html.BeginForm())
+       {%>
         <%: Html.ValidationSummary(true, IUDICO.CurriculumManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
-
         <fieldset>
             <legend><%=IUDICO.CurriculumManagement.Localization.getMessage("Fields")%></legend>
-            
-            <%= Html.EditorForModel() %>
+            <div class="editor-label">
+                <%: Html.Label(IUDICO.CurriculumManagement.Localization.getMessage("ChooseGroup")) %>
+            </div>
+            <div>
+                <%: Html.DropDownListFor(x => x.GroupId, Model.Groups)%>
+            </div>
         </fieldset>
         <p>
-            <input type="submit" value="<%=IUDICO.CurriculumManagement.Localization.getMessage("Create")%>" />
+            <input type="submit" value="<%=IUDICO.CurriculumManagement.Localization.getMessage("Create") %>" />
         </p>
     <% } %>
-
     <div>
         <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("BackToList"), "Index")%>
     </div>
-
 </asp:Content>

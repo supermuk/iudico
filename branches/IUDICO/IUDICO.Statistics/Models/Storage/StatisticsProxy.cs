@@ -45,14 +45,14 @@ namespace IUDICO.Statistics.Models.Storage
         }
 
         /// <summary>
-        /// Gets all curriculum dy group id using method GetCurriculumsByGroupId(int groupId) from ICurriculumService .
+        /// Gets all discipline dy group id using method GetDisciplinesByGroupId(int groupId) from IDisciplineService .
         /// </summary>
         /// <param name="groupId">int Selected group id .</param>
-        /// <returns>IEnumerable<Curriculum> Curriculums by group id .</returns>
-        public IEnumerable<Curriculum> GetCurrilulumsByGroupId(int groupId)
+        /// <returns>IEnumerable<Discipline> Disciplines by group id .</returns>
+        public IEnumerable<Discipline> GetCurrilulumsByGroupId(int groupId)
         {
-            IEnumerable<Curriculum> curriculums = _LmsService.FindService<ICurriculumService>().GetCurriculumsByGroupId(groupId);
-            return curriculums;
+            IEnumerable<Discipline> disciplines = _LmsService.FindService<ICurriculumService>().GetDisciplinesByGroupId(groupId);
+            return disciplines;
         }
         
         #endregion

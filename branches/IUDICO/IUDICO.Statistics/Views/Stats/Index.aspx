@@ -14,7 +14,7 @@
 
     <fieldset>
     <legend><%=IUDICO.Statistics.Localization.getMessage("SelectOneGroup")%></legend>
-    <form action="/Stats/SelectCurriculums/" method="post">
+    <form action="/Stats/SelectDisciplines/" method="post">
 
     <% foreach (IUDICO.Common.Models.Shared.Group item in Model)
        {%>
