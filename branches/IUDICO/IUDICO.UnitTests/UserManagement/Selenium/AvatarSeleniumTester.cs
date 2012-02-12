@@ -1,41 +1,39 @@
 ﻿using System;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using NUnit.Framework;
 using Selenium;
 
 namespace IUDICO.UnitTests.UserManagement.Selenium
 {
-        [TestFixture]
-        public class AvatarSeleniumTester
+    [TestFixture]
+    public class AvatarSeleniumTester
+    {
+        private ISelenium selenium;
+        private StringBuilder verificationErrors;
+
+        [SetUp]
+        public void SetupTest()
         {
-            private ISelenium selenium;
-            private StringBuilder verificationErrors;
+            selenium = new DefaultSelenium("localhost", 4444, "*chrome", UpgradeSeleniumTester.browserURL);
+            selenium.Start();
+            verificationErrors = new StringBuilder();
+        }
 
-            [SetUp]
-            public void SetupTest()
+        [TearDown]
+        public void TeardownTest()
+        {
+            try
             {
-                selenium = new DefaultSelenium("localhost", 4444, "*chrome", UpgradeSeleniumTester.browserURL);
-                selenium.Start();
-                verificationErrors = new StringBuilder();
+                selenium.Stop();
             }
-
-            [TearDown]
-            public void TeardownTest()
+            catch (Exception)
             {
-                try
-                {
-                    selenium.Stop();
-                }
-                catch (Exception)
-                {
-                    // Ignore errors if unable to close the browser
-                }
-                Assert.AreEqual("", verificationErrors.ToString());
+                // Ignore errors if unable to close the browser
             }
+            Assert.AreEqual("", verificationErrors.ToString());
+        }
 
-            /*[Test]
+        /*[Test]
             public void UploadNewAvatar()
             {
                 selenium.Open("/");
@@ -73,20 +71,19 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
                 Assert.IsTrue(selenium.IsElementPresent("avatar"));
             }*/
 
-            [Test]
-            public void DisplayUserAvatar()
-            {
-                selenium.Open("/");
-                selenium.Type("id=loginPassword", "lex");
-                selenium.Type("id=loginUsername", "lex");
-                selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
-                selenium.WaitForPageToLoad("30000");
-                selenium.Click("//a[contains(@href, '/Account/Index')]");
-                selenium.WaitForPageToLoad("30000");
-                selenium.Click("//a[contains(@href, '/Account/Edit')]");
-                selenium.WaitForPageToLoad("30000");
-                Assert.IsTrue(selenium.IsElementPresent("avatar"));
-                
-            }
+        [Test]
+        public void DisplayUserAvatar()
+        {
+            selenium.Open("/");
+            selenium.Type("id=loginPassword", "lex");
+            selenium.Type("id=loginUsername", "lex");
+            selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
+            selenium.WaitForPageToLoad("30000");
+            selenium.Click("//a[contains(@href, '/Account/Index')]");
+            selenium.WaitForPageToLoad("30000");
+            selenium.Click("//a[contains(@href, '/Account/Edit')]");
+            selenium.WaitForPageToLoad("30000");
+            Assert.IsTrue(selenium.IsElementPresent("avatar"));
         }
+    }
 }

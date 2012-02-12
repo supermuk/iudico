@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace IUDICO.UnitTests.TestingSystem.NUnit
 {
     [TestFixture]
-    class TrainingTests
+    internal class TrainingTests
     {
         private Training training;
 

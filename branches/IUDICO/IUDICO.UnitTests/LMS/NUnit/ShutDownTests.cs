@@ -1,22 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using IUDICO.Common.Models.Services;
-using IUDICO.LMS;
-using IUDICO.LMS.Controllers;
 using IUDICO.LMS.Models;
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.LMS.NUnit
 {
     [TestFixture]
-    class ShutDownTests
+    internal class ShutDownTests
     {
         /// <summary>
         /// Initializes Windsor container
@@ -40,7 +36,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
                     Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton)
                 .Install(FromAssembly.This(),
                          FromAssembly.InDirectory(new AssemblyFilter(fullPath, "IUDICO.*.dll"))
-            );
+                );
         }
 
         [Test]
@@ -50,8 +46,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             InitializeWindsor(ref container);
             ILmsService service = container.Resolve<ILmsService>();
             container.Dispose();
-            Assert.That(container.ResolveAll<Object>().Count(item=>item!=null)==0);
-
+            Assert.That(container.ResolveAll<Object>().Count(item => item != null) == 0);
         }
     }
 }

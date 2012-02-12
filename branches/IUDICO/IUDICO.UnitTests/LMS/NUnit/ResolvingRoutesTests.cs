@@ -1,47 +1,29 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Globalization;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading;
 using System.Web;
-using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Web.UI;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
-using IUDICO.Common;
-using IUDICO.Common.Models.Notifications;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
-using IUDICO.Common.Models.Shared;
-using IUDICO.LMS;
 using IUDICO.LMS.IoC;
 using IUDICO.LMS.Models;
-using IUDICO.UserManagement;
-using IUDICO.UserManagement.Controllers;
-using IUDICO.UserManagement.Models.Storage;
-using NUnit.Framework;
 using Moq;
-using Action = IUDICO.Common.Models.Action;
+using NUnit.Framework;
 
 namespace IUDICO.UnitTests.LMS.NUnit
 {
-    interface IServerPath
+    internal interface IServerPath
     {
         string MapPath(string s);
     }
+
     [TestFixture]
-    
     internal class ResolvingRoutesTests
     {
-       
         /// <summary>
         /// Initializes Windsor container
         /// NOTE: IN CASE OF CHANGING PATH OF THIS PROJECT YOU SHOULD ASSIGN CORRECT PATH TO THE VARIABLE NAMED "fullPath"
@@ -64,9 +46,10 @@ namespace IUDICO.UnitTests.LMS.NUnit
                     Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton)
                 .Install(FromAssembly.This(),
                          FromAssembly.InDirectory(new AssemblyFilter(fullPath, "IUDICO.*.dll"))
-            );
+                );
         }
-        protected void RegisterRoutes(RouteCollection routes,ref IWindsorContainer Container)
+
+        protected void RegisterRoutes(RouteCollection routes, ref IWindsorContainer Container)
         {
             var plugins = Container.ResolveAll<IPlugin>();
 
@@ -86,9 +69,10 @@ namespace IUDICO.UnitTests.LMS.NUnit
             routes.MapRoute(
                 "Default", // Route name,
                 "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
-            );
+                new {controller = "Home", action = "Index", id = UrlParameter.Optional} // Parameter defaults
+                );
         }
+
         private static Mock<HttpContextBase> MakeMockHttpContext(string url)
         {
             var mockHttpContext = new Mock<HttpContextBase>();
@@ -100,14 +84,15 @@ namespace IUDICO.UnitTests.LMS.NUnit
             var mockResponse = new Mock<HttpResponseBase>();
             mockHttpContext.Setup(x => x.Response).Returns(mockResponse.Object);
             mockResponse.Setup(x => x.ApplyAppPathModifier(It.IsAny<string>()))
-            .Returns<string>(x => x);
+                .Returns<string>(x => x);
             return mockHttpContext;
         }
-        
+
         public string GetMessage(string t)
         {
             return "No need here";
         }
+
         [Test]
         public void CorrectRouteAdressing()
         {
@@ -115,13 +100,13 @@ namespace IUDICO.UnitTests.LMS.NUnit
             IWindsorContainer container = new WindsorContainer();
             InitializeWindsor(ref container);
             RouteCollection table = new RouteCollection();
-            RegisterRoutes(RouteTable.Routes,ref container);
+            RegisterRoutes(RouteTable.Routes, ref container);
             table = RouteTable.Routes;
             RouteData data = table.GetRouteData(MakeMockHttpContext("//Account/Login").Object);
-            Assert.AreEqual("Account",data.Values["controller"]);
-            Assert.AreEqual("Login",data.Values["action"]);
-           
+            Assert.AreEqual("Account", data.Values["controller"]);
+            Assert.AreEqual("Login", data.Values["action"]);
         }
+
         [Test]
         public void GetPlugin()
         {
@@ -134,7 +119,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             var plugins = container.ResolveAll<IPlugin>();
             foreach (var plugin in plugins)
             {
-                if (plugin.BuildActions().Select(item=>item==data.Values["action"]).Count(item=>item!=null)!=0)
+                if (plugin.BuildActions().Select(item => item == data.Values["action"]).Count(item => item != null) != 0)
                 {
                     Assert.Pass();
                     break;
@@ -142,6 +127,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             }
             Assert.Fail();
         }
+
         [Test]
         public void CannotGetIncorrectPlugin()
         {
@@ -172,8 +158,8 @@ namespace IUDICO.UnitTests.LMS.NUnit
             RouteCollection table = new RouteCollection();
             table = RouteTable.Routes;
             RouteData data = table.GetRouteData(MakeMockHttpContext("//Acghfhghdfgdfgt/Lofdgdfgerghhgn").Object);
-
         }
+
         [Test]
         public void ResolvingStaticRoutesHandling()
         {
@@ -189,17 +175,16 @@ namespace IUDICO.UnitTests.LMS.NUnit
             fp = Path.Combine(fp, path);
             try
             {
-              if(provider.FileExists("/data/Avatar/default.png"))
-              {
-                  provider.GetFile("/data/Avatar/default.png");
-              }
-              
+                if (provider.FileExists("/data/Avatar/default.png"))
+                {
+                    provider.GetFile("/data/Avatar/default.png");
+                }
             }
             catch
             {
                 Assert.Pass();
             }
-           Assert.Fail();
+            Assert.Fail();
         }
     }
 }

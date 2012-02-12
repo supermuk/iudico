@@ -1,4 +1,4 @@
- using System;
+using System;
 using System.Text;
 using NUnit.Framework;
 using Selenium;
@@ -18,6 +18,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Start();
             verificationErrors = new StringBuilder();
         }
+
         [Test]
         public void LoginWithOpenIdSuccess()
         {
@@ -59,10 +60,8 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             }
 
             Assert.IsTrue(selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
-
-
-
         }
+
         [Test]
         public void LoginWithInvalidConnected()
         {
@@ -74,5 +73,4 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             Assert.IsTrue(selenium.IsTextPresent("Login failed using the provided OpenID identifier"));
         }
     }
-
 }

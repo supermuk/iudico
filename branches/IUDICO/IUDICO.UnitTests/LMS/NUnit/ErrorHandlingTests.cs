@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Web;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
@@ -11,13 +7,12 @@ using Castle.Windsor.Installer;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
 using IUDICO.LMS.Models;
-using Moq;
 using NUnit.Framework;
-using System.Web.SessionState;
+
 namespace IUDICO.UnitTests.LMS.NUnit
 {
     [TestFixture]
-    class ErrorHandlingTests
+    internal class ErrorHandlingTests
     {
         private void InitializeWindsor(ref IWindsorContainer _Container)
         {
@@ -36,12 +31,13 @@ namespace IUDICO.UnitTests.LMS.NUnit
                     Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton)
                 .Install(FromAssembly.This(),
                          FromAssembly.InDirectory(new AssemblyFilter(fullPath, "IUDICO.*.dll"))
-            );
+                );
         }
+
         [Test]
         public void WindsorThrowsExceptionWhenCannotResolve()
         {
-            WindsorContainer cont=new WindsorContainer();
+            WindsorContainer cont = new WindsorContainer();
             try
             {
                 cont.Resolve<ILmsService>();
@@ -52,10 +48,11 @@ namespace IUDICO.UnitTests.LMS.NUnit
             }
             Assert.Fail();
         }
+
         [Test]
         public void LmsRemainsTellsWhenNoServiceFound()
         {
-            LmsService service=new LmsService(new WindsorContainer());
+            LmsService service = new LmsService(new WindsorContainer());
             try
             {
                 service.FindService<IUserService>();
@@ -65,13 +62,13 @@ namespace IUDICO.UnitTests.LMS.NUnit
                 Assert.Pass();
             }
             Assert.Fail();
-
         }
+
         [Test]
         public void LmsDoesNotThrowsExceptionWhenNoMenuFound()
         {
             HttpContext.Current = null;
-            IWindsorContainer cont=new WindsorContainer();
+            IWindsorContainer cont = new WindsorContainer();
             InitializeWindsor(ref cont);
             ILmsService serv = cont.Resolve<ILmsService>();
             var plugin = cont.Resolve<IPlugin>();
@@ -85,6 +82,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             }
             Assert.Pass();
         }
+
         [Test]
         public void LmsDoesNotThrowsExceptionWhenNoActionsFound()
         {

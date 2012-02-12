@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Web;
 using IUDICO.UnitTests.Base;
 using NUnit.Framework;
-using Selenium;
 
 namespace IUDICO.UnitTests.TestingSystem.Selenium
 {
@@ -36,7 +31,8 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         private string groupId;
 
         private string CourseUri1 =
-            ConfigurationManager.AppSettings["SELENIUM_URL"]+"Data/ContentPackagingOneFilePerSCO_SCORM20043rdEdition.zip";
+            ConfigurationManager.AppSettings["SELENIUM_URL"] +
+            "Data/ContentPackagingOneFilePerSCO_SCORM20043rdEdition.zip";
 
         private string CourseName1 = "ContentPackagingOneFilePerSCO_SCORM20043rdEdition";
         private string topicName1;
@@ -339,7 +335,8 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Logout();
         }
 
-        private void RenameCourse(string courseId, string courseName,string newCourseName,string teacherLogin, string teacherPassword)
+        private void RenameCourse(string courseId, string courseName, string newCourseName, string teacherLogin,
+                                  string teacherPassword)
         {
             Login(teacherLogin, teacherPassword);
             Selenium.Open("/Course");
@@ -348,13 +345,12 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             {
                 Selenium.Click("css=a[href='/Course/" + courseId + "/Edit']");
                 Selenium.WaitForPageToLoad(LoadTime);
-                Selenium.Type("Name",newCourseName);
+                Selenium.Type("Name", newCourseName);
                 Selenium.Click("css=input[value='Save']");
                 Selenium.WaitForPageToLoad(LoadTime);
             }
             Logout();
         }
-
 
 
         private void CreateGroup(string groupName, string teacherLogin, string teacherPassword)
@@ -479,7 +475,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         }
 
         private string GetCurriculumId(string disciplineId, string groupName, string teacherLogin,
-                                                 string teacherPassword)
+                                       string teacherPassword)
         {
             Login(teacherLogin, teacherPassword);
             Selenium.Open("/Discipline");
@@ -518,7 +514,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         }
 
         private void AddTimeLineToChapter(string dateStart, string dateEnd, string disciplineId,
-                                        string curriculumId, string teacherLogin, string teacherPassword)
+                                          string curriculumId, string teacherLogin, string teacherPassword)
         {
             Login(teacherLogin, teacherPassword);
             Selenium.Open("/Discipline");
@@ -565,8 +561,8 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Selenium.Click("xpath=//table//tr[td//text()[contains(., '" + chapterName + "')]]/td[5]/a[1]");
             Selenium.WaitForPageToLoad(LoadTime);
             string chapterId = Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("Chapter/") + 6,
-                                                              Selenium.GetLocation().IndexOf("/Edit") -
-                                                              (Selenium.GetLocation().IndexOf("Chapter/") + 6));
+                                                                Selenium.GetLocation().IndexOf("/Edit") -
+                                                                (Selenium.GetLocation().IndexOf("Chapter/") + 6));
             Logout();
             return chapterId;
         }
@@ -649,14 +645,13 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         [Test]
         public void PlayNotPreviouslyAttemptedTopic()
         {
-           
             // Creates assigned to group discipline that contains valid discipline timelines.
 
             CreateDiscipline(disciplineName1, TeacherName, TeacherPassword);
             disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
             AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
             string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
-                                                                       TeacherPassword);
+                                                   TeacherPassword);
             AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
             AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
@@ -734,7 +729,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
             AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
             string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
-                                                                       TeacherPassword);
+                                                   TeacherPassword);
             AddTimeLineToDiscipline("12/18/1999 4:21 PM", "12/18/2000 4:21 PM", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
             AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
@@ -761,13 +756,13 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
             AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
             string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
-                                                                       TeacherPassword);
+                                                   TeacherPassword);
             AddTimeLineToDiscipline("12/18/1999 1:23 PM", "12/18/2100 1:23 PM", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
             AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
             string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
             AddTimeLineToChapter("12/18/1999 1:23 PM", "12/18/2000 1:23 PM", disciplineId1, curriculumId1,
-                               TeacherName, TeacherPassword);
+                                 TeacherName, TeacherPassword);
             AddTopic(disciplineId1, chapterId1, topicName1, CourseName1, TeacherName, TeacherPassword);
             topicId1 = GetTopicId(disciplineId1, chapterId1, topicName1, TeacherName, TeacherPassword);
 
@@ -790,7 +785,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
             AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
             string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
-                                                                       TeacherPassword);
+                                                   TeacherPassword);
             AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
             AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
@@ -856,7 +851,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
             AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
             string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
-                                                                       TeacherPassword);
+                                                   TeacherPassword);
             AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
             AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
@@ -904,7 +899,6 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         [Test]
         public void SuspendTopic()
         {
-           
             // Imports courses and gets their ids.
 
             ImportCourse(CourseUri1, CourseName1, TeacherName, TeacherPassword);
@@ -916,7 +910,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
             AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
             string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
-                                                                       TeacherPassword);
+                                                   TeacherPassword);
             AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
             AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
@@ -955,14 +949,13 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         [Test]
         public void SubmitTopic()
         {
-           
             // Creates assigned to group discipline that contains valid discipline timelines.
 
             CreateDiscipline(disciplineName1, TeacherName, TeacherPassword);
             disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
             AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
             string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
-                                                                       TeacherPassword);
+                                                   TeacherPassword);
             AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
             AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
@@ -1012,7 +1005,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         //[Test]
         //public void InteractWithCourseContentNextPrev()
         //{
-            
+
         //    CreateDiscipline(disciplineName3, TeacherName, TeacherPassword);
         //    disciplineId3 = GetDisciplineId(disciplineName3, TeacherName, TeacherPassword);
         //    AddGroupToDiscipline(disciplineId3, GroupName, TeacherName, TeacherPassword);
@@ -1044,7 +1037,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         //[Test]
         //public void InteractWithCourseContentSubmitLastItem()
         //{
-           
+
         //    // Creates assigned to group discipline that contains valid discipline timelines.
 
         //    CreateDiscipline(disciplineName5, TeacherName, TeacherPassword);
@@ -1096,14 +1089,14 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         [Test]
         public void NavigateForwardThroughTopic()
         {
-          
             // Creates assigned to group discipline that contains valid discipline timelines.
 
             CreateDiscipline(disciplineName1, TeacherName, TeacherPassword);
             disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
             AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
             string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName, TeacherPassword);
-            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1, TeacherName, TeacherPassword);
+            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
+                                    TeacherName, TeacherPassword);
             AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
             string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
             AddTopic(disciplineId1, chapterId1, topicName1, CourseName1, TeacherName, TeacherPassword);
@@ -1134,14 +1127,14 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         [Test]
         public void NavigateForwardOneStep()
         {
-            
             // Creates assigned to group discipline that contains valid discipline timelines.
 
             CreateDiscipline(disciplineName1, TeacherName, TeacherPassword);
             disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
             AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
             string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName, TeacherPassword);
-            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1, TeacherName, TeacherPassword);
+            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
+                                    TeacherName, TeacherPassword);
             AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
             string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
             AddTopic(disciplineId1, chapterId1, topicName1, CourseName1, TeacherName, TeacherPassword);
@@ -1202,14 +1195,14 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         [Test]
         public void NavigateChoiceToLastItemToFirst()
         {
-           
             // Creates assigned to group discipline that contains valid discipline timelines.
 
             CreateDiscipline(disciplineName1, TeacherName, TeacherPassword);
             disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
             AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
             string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName, TeacherPassword);
-            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1, TeacherName, TeacherPassword);
+            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
+                                    TeacherName, TeacherPassword);
             AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
             string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
             AddTopic(disciplineId1, chapterId1, topicName1, CourseName1, TeacherName, TeacherPassword);

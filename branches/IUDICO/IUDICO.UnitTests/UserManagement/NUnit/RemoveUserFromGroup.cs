@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Linq;
+﻿using System.Linq;
 using IUDICO.Common.Models.Shared;
 using NUnit.Framework;
 
@@ -17,10 +15,10 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         {
             _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
 
-            var group = new Group { Id = 12345678, Name = "pmi31" };
+            var group = new Group {Id = 12345678, Name = "pmi31"};
             _Tests.Storage.CreateGroup(group);
             group = _Tests.Storage.GetGroup(group.Id);
-            var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
+            var temp = new User {Username = "name", Email = "mail@mail.com", Password = "123"};
             _Tests.Storage.CreateUser(temp);
             temp = _Tests.Storage.GetUser(u => u.Username == temp.Username);
 
@@ -31,14 +29,15 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             _Tests.Storage.DeleteGroup(group.Id);
             _Tests.Storage.DeleteUser(u => u.Username == "name");
         }
+
         [Test]
         public void RemoveExistingUserFromNonExistingGroup()
         {
             _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
 
-            var group = new Group { Id = 12677, Name = "pmi31" };
-            
-            var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
+            var group = new Group {Id = 12677, Name = "pmi31"};
+
+            var temp = new User {Username = "name", Email = "mail@mail.com", Password = "123"};
             _Tests.Storage.CreateUser(temp);
             temp = _Tests.Storage.GetUser(u => u.Username == temp.Username);
 
@@ -48,16 +47,17 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             _Tests.Storage.DeleteUser(u => u.Username == "name");
         }
+
         [Test]
         public void RemoveNonExistingUserFromExistingGroup()
         {
             _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
 
-            var group = new Group { Id = 12345678, Name = "pmi31" };
+            var group = new Group {Id = 12345678, Name = "pmi31"};
             _Tests.Storage.CreateGroup(group);
             group = _Tests.Storage.GetGroup(group.Id);
-            var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
-            
+            var temp = new User {Username = "name", Email = "mail@mail.com", Password = "123"};
+
 
             _Tests.Storage.AddUserToGroup(group, temp);
             _Tests.Storage.RemoveUserFromGroup(group, temp);
@@ -65,20 +65,20 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             Assert.AreEqual(null, _Tests.Storage.GetUser(u => u.Username == temp.Username));
             _Tests.Storage.DeleteGroup(group.Id);
         }
+
         [Test]
         public void RemoveNonExistingUserFromNonExistingGroup()
         {
             _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
 
-            var group = new Group { Id = 345678, Name = "pmi31" };
-            var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
-            
+            var group = new Group {Id = 345678, Name = "pmi31"};
+            var temp = new User {Username = "name", Email = "mail@mail.com", Password = "123"};
+
 
             _Tests.Storage.AddUserToGroup(group, temp);
-            _Tests.Storage.RemoveUserFromGroup(group, temp); 
+            _Tests.Storage.RemoveUserFromGroup(group, temp);
             Assert.AreEqual(null, _Tests.Storage.GetUser(u => u.Username == temp.Username));
             Assert.AreEqual(0, _Tests.Storage.GetGroupsByUser(temp).Count());
-
         }
     }
 }

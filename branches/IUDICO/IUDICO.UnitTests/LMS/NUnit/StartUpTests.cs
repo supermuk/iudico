@@ -2,26 +2,16 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Web;
-using System.Web.Hosting;
-using System.Web.Mvc;
-using Castle.Core.Resource;
 using Castle.MicroKernel.Registration;
-using Castle.Windsor.Configuration.Interpreters;
+using Castle.Windsor;
 using Castle.Windsor.Installer;
-using IUDICO.Common.Models.Notifications;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
-using IUDICO.LMS;
-using Castle.Windsor;
-using IUDICO.LMS.Controllers;
-using IUDICO.LMS.IoC;
 using IUDICO.LMS.Models;
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.LMS.NUnit
 {
-
     [TestFixture]
     internal class StartUpTests
     {
@@ -47,17 +37,17 @@ namespace IUDICO.UnitTests.LMS.NUnit
                     Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton)
                 .Install(FromAssembly.This(),
                          FromAssembly.InDirectory(new AssemblyFilter(fullPath, "IUDICO.*.dll"))
-            );
+                );
         }
-        [Test]
 
+        [Test]
         public void WindsorIsNotNull()
         {
-            
             IWindsorContainer container = new WindsorContainer();
             InitializeWindsor(ref container);
-            Assert.AreNotEqual(container,null,"Windsor is not initialized");
+            Assert.AreNotEqual(container, null, "Windsor is not initialized");
         }
+
         [Test]
         public void WindsorCanResolveLmsService()
         {
@@ -67,18 +57,20 @@ namespace IUDICO.UnitTests.LMS.NUnit
             {
                 ILmsService lms = container.Resolve<ILmsService>();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Assert.Fail("LmsService instance could not be resolved from Windsor container");
             }
         }
+
         [Test]
         public void PluginsCanBeResolvedFromWindsor()
         {
             IWindsorContainer container = new WindsorContainer();
             InitializeWindsor(ref container);
-            var cnt = container.ResolveAll<IPlugin>().Count(item => item != null);//count of somehow initialized plugins
-            Assert.AreNotEqual(cnt,0,"Windsor container could not plugins have resolved");
+            var cnt = container.ResolveAll<IPlugin>().Count(item => item != null);
+                //count of somehow initialized plugins
+            Assert.AreNotEqual(cnt, 0, "Windsor container could not plugins have resolved");
         }
 
         /*
@@ -102,7 +94,5 @@ namespace IUDICO.UnitTests.LMS.NUnit
             log.Info("WTF");
             Assert.Pass();
          */
-
-
     }
 }

@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
-using IUDICO.Common.Models.Notifications;
-using Moq;
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.NUnit
@@ -40,8 +39,9 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
                 _Tests.Storage.DeleteUser(u => u.Username == user.Username);
             }
         }
+
         [Test]
-        [ExpectedException(typeof(System.ArgumentNullException))]
+        [ExpectedException(typeof (ArgumentNullException))]
         public void CreateUsersWithInValidFile()
         {
             _Tests = UserManagementTests.GetInstance();
@@ -51,6 +51,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
             _Tests.Storage.CreateUsersFromCSV(path);
         }
+
         [Test]
         public void CreateUsersWithPasswordSet()
         {
@@ -71,12 +72,14 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             _Tests.Storage.CreateUsersFromCSV(path);
 
             Assert.IsTrue(_Tests.TestUsers(_Tests.Storage.GetUsers(), users));
-            Assert.AreEqual(_Tests.Storage.GetUser(u => u.Username == "ipe").Password, _Tests.Storage.EncryptPassword("123"));
+            Assert.AreEqual(_Tests.Storage.GetUser(u => u.Username == "ipe").Password,
+                            _Tests.Storage.EncryptPassword("123"));
             foreach (var user in users)
             {
                 _Tests.Storage.DeleteUser(u => u.Username == user.Username);
             }
         }
+
         [Test]
         public void CreateUsersWithOpenId()
         {
@@ -88,7 +91,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             var users = new List<User>
                             {
-                                new User {Username = "ipe", Email = "ip@interlogic.com.ua",OpenId = "openid"},
+                                new User {Username = "ipe", Email = "ip@interlogic.com.ua", OpenId = "openid"},
                                 new User {Username = "vladykx", Email = "vladykx@gmail.com", OpenId = "openid2"},
                             };
 
@@ -104,6 +107,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
                 _Tests.Storage.DeleteUser(u => u.Username == user.Username);
             }
         }
+
         [Test]
         public void CreateUsersWithName()
         {
@@ -131,10 +135,10 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
                 _Tests.Storage.DeleteUser(u => u.Username == user.Username);
             }
         }
+
         [Test]
         public void CreateUsersWithRole()
         {
-            
             _Tests = UserManagementTests.GetInstance();
             var path = Path.Combine(Path.GetTempPath(), "users.csv");
             var text = "Username,Email,Role\nipe,ip@interlogic.com.ua,Teacher\nvladykx,vladykx@gmail.com,Student";
@@ -157,10 +161,11 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
                 _Tests.Storage.DeleteUser(u => u.Username == user.Username);
             }
         }
+
         [Test]
         public void CreateUsersDuplicate()
         {
-            User temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
+            User temp = new User {Username = "name", Email = "mail@mail.com", Password = "123"};
 
             _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
             _Tests.Storage.CreateUser(temp);
@@ -176,7 +181,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             _Tests.Storage.CreateUsersFromCSV(path);
 
             Assert.AreEqual(_Tests.Storage.GetUser(u => u.Username == "name").Email, "mail@mail.com");
-            
+
             _Tests.Storage.DeleteUser(u => u.Username == "name");
         }
     }

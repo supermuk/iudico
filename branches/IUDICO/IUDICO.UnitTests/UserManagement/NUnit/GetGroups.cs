@@ -9,25 +9,28 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
     public class GetGroups
     {
         protected UserManagementTests _Tests = UserManagementTests.GetInstance();
+
         [Test]
         public void GetGroupsNonDeleted()
         {
             var groups = new List<Group>
-                            {
-                                new Group { Deleted = false, Id = 1, Name = "pmi51" },
-                                new Group { Deleted = false, Id = 2, Name = "pmi41" },
-                                new Group { Deleted = false, Id = 3, Name = "pmi31" }
-                            };
+                             {
+                                 new Group {Deleted = false, Id = 1, Name = "pmi51"},
+                                 new Group {Deleted = false, Id = 2, Name = "pmi41"},
+                                 new Group {Deleted = false, Id = 3, Name = "pmi31"}
+                             };
             foreach (var group in groups)
             {
                 _Tests.Storage.CreateGroup(group);
             }
-            Assert.IsTrue(TestGroup(_Tests.Storage.GetGroups().Where(g=>g.Deleted==false), groups));
+            Assert.IsTrue(TestGroup(_Tests.Storage.GetGroups().Where(g => g.Deleted == false), groups));
         }
+
         protected bool TestGroup(IEnumerable<Group> users, IEnumerable<Group> inserted)
         {
             return inserted.Except(users, new GroupComparer()).Count() == 0;
         }
+
         protected class GroupComparer : IEqualityComparer<Group>
         {
             public bool Equals(Group x, Group y)

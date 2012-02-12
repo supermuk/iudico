@@ -12,7 +12,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void GetGroupExisting()
         {
-            var group = new Group { Id = 12, Name = "pmi31" };
+            var group = new Group {Id = 12, Name = "pmi31"};
 
             _Tests.Storage.CreateGroup(group);
 
@@ -20,6 +20,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             _Tests.Storage.DeleteGroup(group.Id);
         }
+
         [Test]
         public void GetGroupNonExisting()
         {

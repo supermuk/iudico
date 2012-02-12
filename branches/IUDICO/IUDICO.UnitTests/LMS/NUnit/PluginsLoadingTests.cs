@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Web.Routing;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
@@ -17,7 +15,7 @@ using Action = IUDICO.Common.Models.Action;
 
 namespace IUDICO.UnitTests.LMS.NUnit
 {
-    class FakePlugin:IPlugin
+    internal class FakePlugin : IPlugin
     {
         public string GetName()
         {
@@ -49,8 +47,9 @@ namespace IUDICO.UnitTests.LMS.NUnit
             throw new NotImplementedException();
         }
     }
-     [TestFixture]
-    class PluginsLoadingTests
+
+    [TestFixture]
+    internal class PluginsLoadingTests
     {
         private static void InitializeWindsor(ref IWindsorContainer _Container)
         {
@@ -71,34 +70,35 @@ namespace IUDICO.UnitTests.LMS.NUnit
                          FromAssembly.InDirectory(new AssemblyFilter(fullPath, "IUDICO.*.dll"))
                 );
         }
-         [Test]
-         public void TryLoadCorrectPlugin()
-         {
-             IWindsorContainer container=new WindsorContainer();
-             InitializeWindsor(ref container);
-             var plugins = container.ResolveAll<IPlugin>();
-             foreach (var plugin in plugins)
-             {
-                 Assert.IsNotNull(plugin.BuildActions(),plugin.GetName());
-                 Assert.IsNotNull(plugin.BuildMenuItems(), plugin.GetName());
-             }
-             Assert.Pass("Every plugin can be accessed");
-         }
-         [Test]
-         public void TryLoadIncorrectPlugin()
-         {
-             IWindsorContainer container=new WindsorContainer();
-             InitializeWindsor(ref container);
-             try
-             {
-                 var plugin = container.Resolve<FakePlugin>();
-                
-             }
-             catch
-             {
-                 Assert.Pass();
-             }
-             Assert.Fail();
-         }
+
+        [Test]
+        public void TryLoadCorrectPlugin()
+        {
+            IWindsorContainer container = new WindsorContainer();
+            InitializeWindsor(ref container);
+            var plugins = container.ResolveAll<IPlugin>();
+            foreach (var plugin in plugins)
+            {
+                Assert.IsNotNull(plugin.BuildActions(), plugin.GetName());
+                Assert.IsNotNull(plugin.BuildMenuItems(), plugin.GetName());
+            }
+            Assert.Pass("Every plugin can be accessed");
+        }
+
+        [Test]
+        public void TryLoadIncorrectPlugin()
+        {
+            IWindsorContainer container = new WindsorContainer();
+            InitializeWindsor(ref container);
+            try
+            {
+                var plugin = container.Resolve<FakePlugin>();
+            }
+            catch
+            {
+                Assert.Pass();
+            }
+            Assert.Fail();
+        }
     }
 }
