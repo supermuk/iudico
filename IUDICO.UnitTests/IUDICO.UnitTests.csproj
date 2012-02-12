@@ -40,9 +40,6 @@
       <HintPath>..\References\Castle.Windsor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
-    </Reference>
     <Reference Include="log4net">
       <HintPath>..\IUDICO.LMS\Plugins\log4net.dll</HintPath>
     </Reference>
@@ -52,9 +49,6 @@
     <Reference Include="Moq, Version=4.0.10827.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libs\Moq.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.0.2.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.4.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Libs\nunit.framework.dll</HintPath>
@@ -87,13 +81,6 @@
     <Reference Include="ThoughtWorks.Selenium.Core">
       <HintPath>Libs\ThoughtWorks.Selenium.Core.dll</HintPath>
     </Reference>
-    <Reference Include="WebDriver, Version=2.11.0.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Selenium.WebDriver.2.11.0\lib\net40\WebDriver.dll</HintPath>
-    </Reference>
-    <Reference Include="WebDriver.Support">
-      <HintPath>..\packages\Selenium.Support.2.11.0\lib\net40\WebDriver.Support.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -109,9 +96,10 @@
     <Compile Include="CourseManagement\NUnit\ZipperTest.cs" />
     <Compile Include="CourseManagement\Selenium\StudentRole.cs" />
     <Compile Include="CurriculumManagement\NUnit\CurriculumTests.cs" />
-    <Compile Include="CurriculumManagement\Old\CurriculumResultTest.cs" />
-    <Compile Include="CurriculumManagement\Old\Extensions.cs" />
     <Compile Include="CurriculumManagement\CurriculumManagementTests.cs" />
+    <Compile Include="CurriculumManagement\NUnit\Extensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="LMS\NUnit\ChangingLanguageTestsTests.cs" />
     <Compile Include="LMS\NUnit\ErrorHandlingTests.cs" />
     <Compile Include="LMS\NUnit\GenerateActions.cs" />
@@ -122,10 +110,6 @@
     <Compile Include="LMS\NUnit\ShutDownTests.cs" />
     <Compile Include="LMS\NUnit\StartUpTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CurriculumManagement\Old\SpecializedResultTest.cs" />
-    <Compile Include="CurriculumManagement\Old\ThemeInfoModelTest.cs" />
-    <Compile Include="CurriculumManagement\Old\ThemeResultTest.cs" />
-    <Compile Include="CurriculumManagement\Old\Utils.cs" />
     <Compile Include="Base\TestFixture.cs" />
     <Compile Include="Base\TestFixtureWeb.cs" />
     <Compile Include="Security\Selenium\SecuritySeleniumTester.cs" />
@@ -211,26 +195,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="CurriculumManagement\Old\" />
     <Folder Include="Libs\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="bin\Debug\Site\Data\CourseTemplate\api.js" />
-    <Content Include="bin\Debug\Site\Data\CourseTemplate\checkplayer.js" />
-    <Content Include="bin\Debug\Site\Data\CourseTemplate\flensed.js" />
-    <Content Include="bin\Debug\Site\Data\CourseTemplate\flXHR.js" />
-    <Content Include="bin\Debug\Site\Data\CourseTemplate\flXHR.swf" />
-    <Content Include="bin\Debug\Site\Data\CourseTemplate\iudico.css" />
-    <Content Include="bin\Debug\Site\Data\CourseTemplate\iudico.html" />
-    <Content Include="bin\Debug\Site\Data\CourseTemplate\iudico.js" />
-    <Content Include="bin\Debug\Site\Data\CourseTemplate\jquery-1.5.2.min-vsdoc.js" />
-    <Content Include="bin\Debug\Site\Data\CourseTemplate\jquery-1.5.2.min.js" />
-    <Content Include="bin\Debug\Site\Data\CourseTemplate\jquery.flXHRproxy.js" />
-    <Content Include="bin\Debug\Site\Data\CourseTemplate\jquery.xhr.js" />
-    <Content Include="bin\Debug\Site\Data\CourseTemplate\lms.js" />
-    <Content Include="bin\Debug\Site\Data\CourseTemplate\questions.js" />
-    <Content Include="bin\Debug\Site\Data\CourseTemplate\sco.js" />
-    <Content Include="bin\Debug\Site\Data\CourseTemplate\swfobject.js" />
-    <Content Include="bin\Debug\Site\Data\CourseTemplate\updateplayer.swf" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

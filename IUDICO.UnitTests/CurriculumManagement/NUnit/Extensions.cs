@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.CurriculumManagement;
 
-namespace IUDICO.UnitTests
+namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 {
     public static class AdvAssert
     {
