@@ -35,9 +35,9 @@ UPDATE [dbo].[User] SET [dbo].[User].[ApprovedBy] = N'd47e8c09-2827-e011-840f-93
 COMMIT TRANSACTION
 
 /****** Object:  Table [dbo].[ThemeTypes]    Script Date: 01/25/2011 01:34:49 ******/
-DELETE FROM [dbo].[ThemeTypes]
+DELETE FROM [dbo].[TopicTypes]
 GO
 /****** Object:  Table [dbo].[ThemeTypes]    Script Date: 01/25/2011 01:34:49 ******/
-INSERT [dbo].[ThemeTypes] ([Id], [Name]) VALUES (1, N'Test')
-INSERT [dbo].[ThemeTypes] ([Id], [Name]) VALUES (2, N'Theory')
-INSERT [dbo].[ThemeTypes] ([Id], [Name]) VALUES (3, N'TestWithoutCourse')
+INSERT [dbo].[TopicTypes] ([Id], [Name]) VALUES (1, N'Test')
+INSERT [dbo].[TopicTypes] ([Id], [Name]) VALUES (2, N'Theory')
+INSERT [dbo].[TopicTypes] ([Id], [Name]) VALUES (3, N'TestWithoutCourse')
