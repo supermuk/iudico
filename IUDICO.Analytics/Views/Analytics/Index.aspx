@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.ForecastingTree>>" %>
+<%@ Import Namespace="IUDICO.Common.Models.Shared" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Index
@@ -21,27 +22,29 @@
         <th>Make forecasting</th>
      </tr>
 
-     <% foreach (IUDICO.Common.Models.Shared.ForecastingTree tree in Model)
-        { %>
+     <%
+         foreach (ForecastingTree tree in Model)
+         {%>
         <tr>
             <td>
-            <input type="checkbox" name="selectTreeId" value="<%: tree.Id %>" id="<%: tree.Id %>" />
+            <input type="checkbox" name="selectTreeId" value="<%:tree.Id%>" id="<%:tree.Id%>" />
             </td>
             <td>
-            <%: tree.Name %>
+            <%:tree.Name%>
             </td>
             <td>
-            <%: tree.Created %>
+            <%:tree.Created%>
             </td>
             <td>
-            <%: tree.Updated %>
+            <%:tree.Updated%>
             </td>
             <td>edit link</td>
             <td>delete link</td>
             <td>teach link</td>
             <td>make forecasting link</td>
         </tr>
-     <% } %>
+     <%
+         }%>
 
      </table>
 

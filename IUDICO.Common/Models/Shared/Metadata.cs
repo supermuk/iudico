@@ -422,6 +422,25 @@ namespace IUDICO.Common.Models.Shared
         }
     }
 
+    [MetadataType(typeof(Metadata))]
+    [Bind(Exclude = "Id")]
+    public partial class Feature
+    {
+        private sealed class Metadata
+        {
+            [ScaffoldColumn(false)]
+            public int Id { get; set; }
+
+            [ScaffoldColumn(false)]
+            public EntitySet<TopicFeature> TopicFeatures { get; set; }
+
+            [LocalizedDisplayName("Name")]
+            [LocalizedRequired(ErrorMessage = "NameRequired")]
+            [StringLength(50, ErrorMessage = "Name can not be longer than 50")]
+            public string Name { get; set; }
+        }
+    }
+
 
     public class LocalizedDisplayNameAttribute : DisplayNameAttribute
     {

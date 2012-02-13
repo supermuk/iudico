@@ -1,55 +1,66 @@
 ﻿<%@ Assembly Name="IUDICO.UserManagement" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Group>>" %>
+<%@ Import Namespace="IUDICO.UserManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=IUDICO.UserManagement.Localization.getMessage("Groups")%>
+	<%=Localization.getMessage("Groups")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=IUDICO.UserManagement.Localization.getMessage("Groups")%></h2>
+    <h2><%=Localization.getMessage("Groups")%></h2>
 
     <table>
         <tr>
             <th>
-                <%=IUDICO.UserManagement.Localization.getMessage("Name1")%>
+                <%=Localization.getMessage("Name1")%>
             </th>
             <th></th>
         </tr>
 
-    <% if (Model.GetEnumerator().MoveNext())
-       {
-           foreach (var item in Model)
-           { %>
+    <%
+        if (Model.GetEnumerator().MoveNext())
+        {
+            foreach (var item in Model)
+            {%>
     
         <tr>
             <td>
-                <%: item.Name%>
+                <%:item.Name%>
             </td>
             <td>
-                <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Edit"), "Edit", new { id = item.Id })%> |
-                <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("Details"), "Details", new { id = item.Id })%> |
-                <%: Ajax.ActionLink(IUDICO.UserManagement.Localization.getMessage("Delete"), "Delete", new { id = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
+                <%:Html.ActionLink(Localization.getMessage("Edit"), "Edit", new {id = item.Id})%> |
+                <%:Html.ActionLink(Localization.getMessage("Details"), "Details", new {id = item.Id})%> |
+                <%:Ajax.ActionLink(Localization.getMessage("Delete"), "Delete", new {id = item.Id},
+                                                  new AjaxOptions
+                                                      {
+                                                          Confirm =
+                                                              "Are you sure you want to delete \"" + item.Name + "\"?",
+                                                          HttpMethod = "Delete",
+                                                          OnSuccess = "removeRow"
+                                                      })%>
             </td>
         </tr>
     
-    <% }
-       }
-       else
-       {%>
+    <%
+            }
+        }
+        else
+        {%>
         <tr>
             <td>
-                <%=IUDICO.UserManagement.Localization.getMessage("NoData")%>
+                <%=Localization.getMessage("NoData")%>
             </td>
             <td>
-                <%=IUDICO.UserManagement.Localization.getMessage("NoActions")%>
+                <%=Localization.getMessage("NoActions")%>
             </td>
         </tr>
-    <% } %>
+    <%
+        }%>
     </table>
 
     <p>
-        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("CreateNewGroup"), "Create")%>
+        <%:Html.ActionLink(Localization.getMessage("CreateNewGroup"), "Create")%>
     </p>
 
 </asp:Content>

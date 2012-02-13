@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using IUDICO.Common.Models.Shared;
+using IUDICO.Common.Models.Shared.CurriculumManagement;
 
 namespace IUDICO.Common.Models.Services
 {

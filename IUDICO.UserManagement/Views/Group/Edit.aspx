@@ -1,31 +1,35 @@
 ﻿<%@ Assembly Name="IUDICO.UserManagement" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Shared.Group>" %>
+<%@ Import Namespace="IUDICO.UserManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=IUDICO.UserManagement.Localization.getMessage("EditGroup")%> <%= Model.Name %>
+	<%=Localization.getMessage("EditGroup")%> <%=Model.Name%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=IUDICO.UserManagement.Localization.getMessage("EditGroup")%> <%= Model.Name %></h2>
+    <h2><%=Localization.getMessage("EditGroup")%> <%=Model.Name%></h2>
 
-    <% using (Html.BeginForm()) {%>
-        <%: Html.ValidationSummary(IUDICO.UserManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
+    <%
+        using (Html.BeginForm())
+        {%>
+        <%:Html.ValidationSummary(Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
         
         <fieldset>
-            <legend><%=IUDICO.UserManagement.Localization.getMessage("Fields")%></legend>
+            <legend><%=Localization.getMessage("Fields")%></legend>
             
-            <%: Html.EditorForModel() %>
+            <%:Html.EditorForModel()%>
             
             <p>
-                <input type="submit" value=<%=IUDICO.UserManagement.Localization.getMessage("Save")%> />
+                <input type="submit" value=<%=Localization.getMessage("Save")%> />
             </p>
         </fieldset>
 
-    <% } %>
+    <%
+        }%>
 
     <div>
-        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("BackToList"), "Index")%>
+        <%:Html.ActionLink(Localization.getMessage("BackToList"), "Index")%>
     </div>
 
 </asp:Content>

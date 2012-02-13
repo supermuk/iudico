@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Threading;
@@ -17,6 +18,8 @@ namespace IUDICO.Common
 
         public LocalizationMessageProvider(string pluginName)
         {
+            var pluginNameDymanic = Assembly.GetCallingAssembly().GetName().Name;
+
             string path = "";
             //NOTE: Modified by terminadoor@gmail.com original is at revision 1668
             try

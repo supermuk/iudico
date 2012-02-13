@@ -1,22 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Web.Routing;
+using Castle.Core;
 using Castle.MicroKernel.Registration;
-using IUDICO.Common;
+using Castle.MicroKernel.SubSystems.Configuration;
+using Castle.Windsor;
+using IUDICO.Analytics.Models;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
-using IUDICO.Analytics.Models;
-using Action = IUDICO.Common.Models.Action;
-using Castle.Windsor;
 
 namespace IUDICO.Analytics
 {
     public class AnalyticsPlugin : IWindsorInstaller, IPlugin
     {
-
         #region IWindsorInstaller Members
 
-        public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
+        public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
                 AllTypes
@@ -24,9 +24,10 @@ namespace IUDICO.Analytics
                     .BasedOn<IController>()
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
-                Component.For<IPlugin>().ImplementedBy<AnalyticsPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<IAnalyticsService>().ImplementedBy<AnalyticsService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
-            );
+                Component.For<IPlugin>().ImplementedBy<AnalyticsPlugin>().LifeStyle.Is(LifestyleType.Singleton),
+                Component.For<IAnalyticsService>().ImplementedBy<AnalyticsService>().LifeStyle.Is(
+                    LifestyleType.Singleton)
+                );
         }
 
         #endregion
@@ -40,28 +41,28 @@ namespace IUDICO.Analytics
 
         public IEnumerable<Action> BuildActions()
         {
-            return new Action[]
-            {
-                new Action("Analytics", "Stats/Index")
-            };
+            return new[]
+                       {
+                           new Action("Analytics", "Stats/Index"),
+                           new Action("Features", "Features/Index")
+                       };
         }
 
         public IEnumerable<MenuItem> BuildMenuItems()
         {
-            return new MenuItem[]
-            {
-                new MenuItem("Analytics", "Analytics", "Index")
-            };
+            return new[]
+                       {
+                           new MenuItem("Analytics", "Analytics", "Index"),
+                       };
         }
 
-        public void RegisterRoutes(System.Web.Routing.RouteCollection routes)
+        public void RegisterRoutes(RouteCollection routes)
         {
             routes.MapRoute(
                 "Analytics",
                 "Analytics/{action}",
-                new { controller = "Analytics", action = "Index" }
-            );
-
+                new {controller = "Analytics", action = "Index"}
+                );
         }
 
         public void Update(string evt, params object[] data)
@@ -71,7 +72,6 @@ namespace IUDICO.Analytics
 
         public void Setup(IWindsorContainer container)
         {
-
         }
 
         #endregion

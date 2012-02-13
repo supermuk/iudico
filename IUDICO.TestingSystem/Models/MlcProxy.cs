@@ -153,6 +153,7 @@ namespace IUDICO.TestingSystem.Models
             LearningStoreJob job = LStore.CreateJob();
             RequestAttemptsByTopicAndUser(job, user.Id.ToString(), topic.Id);
             DataTable dataTable = job.Execute<DataTable>();
+            
             foreach (DataRow dataRow in dataTable.AsEnumerable())
             {
                 AttemptItemIdentifier attemptItemId;
@@ -177,6 +178,7 @@ namespace IUDICO.TestingSystem.Models
                 float? score;
                 LStoreHelper.Cast<float>(dataRow[Schema.AttemptsResultsByThemeAndUser.Score], out score);
                 float? scaledScore = null;
+                
                 if (score != null)
                 {
                     scaledScore = score / 100;
@@ -184,6 +186,115 @@ namespace IUDICO.TestingSystem.Models
 
                 // Create AttemptResult object
                 AttemptResult attemptResult = new AttemptResult(attemptId, user, topic, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, scaledScore);
+
+                result.Add(attemptResult);
+            }
+
+            return result;
+        }
+
+        public IEnumerable<AttemptResult> GetResults(User user)
+        {
+            List<AttemptResult> result = new List<AttemptResult>();
+            LearningStoreJob job = LStore.CreateJob();
+            RequestAttemptsByUser(job, user.Id.ToString());
+            DataTable dataTable = job.Execute<DataTable>();
+
+            foreach (DataRow dataRow in dataTable.AsEnumerable())
+            {
+                AttemptItemIdentifier attemptItemId;
+                LStoreHelper.CastNonNull(dataRow[Schema.AttemptsResultsByThemeAndUser.AttemptId], out attemptItemId);
+                long attemptId = attemptItemId.GetKey();
+
+                Int32 topicId;
+                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.ThemeId], out topicId);
+                Topic topic = DisciplineService.GetTopic(topicId);
+                if (topic == null)
+                {
+                    throw new NoNullAllowedException("Error while getting topic with id = " + topicId);
+                }
+
+                Microsoft.LearningComponents.CompletionStatus completionStatus;
+                LStoreHelper.CastNonNull(dataRow[Schema.AttemptsResultsByThemeAndUser.CompletionStatus], out completionStatus);
+                IUDICO.Common.Models.Shared.Statistics.CompletionStatus iudicoCompletionStatus = (IUDICO.Common.Models.Shared.Statistics.CompletionStatus)completionStatus;
+
+                Microsoft.LearningComponents.AttemptStatus attemptStatus;
+                LStoreHelper.CastNonNull(dataRow[Schema.AttemptsResultsByThemeAndUser.AttemptStatus], out attemptStatus);
+                IUDICO.Common.Models.Shared.Statistics.AttemptStatus iudicoAttemptStatus = (IUDICO.Common.Models.Shared.Statistics.AttemptStatus)attemptStatus;
+
+                Microsoft.LearningComponents.SuccessStatus successStatus;
+                LStoreHelper.CastNonNull(dataRow[Schema.AttemptsResultsByThemeAndUser.SuccessStatus], out successStatus);
+                IUDICO.Common.Models.Shared.Statistics.SuccessStatus iudicoSuccessStatus = (IUDICO.Common.Models.Shared.Statistics.SuccessStatus)successStatus;
+
+                DateTime? startTime;
+                LStoreHelper.Cast(dataRow[Schema.AttemptsResultsByThemeAndUser.StartedTimestamp], out startTime);
+
+                float? score;
+                LStoreHelper.Cast<float>(dataRow[Schema.AttemptsResultsByThemeAndUser.Score], out score);
+                float? scaledScore = null;
+
+                if (score != null)
+                {
+                    scaledScore = score / 100;
+                }
+
+                // Create AttemptResult object
+                AttemptResult attemptResult = new AttemptResult(attemptId, user, topic, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, scaledScore);
+
+                result.Add(attemptResult);
+            }
+
+            return result;
+        }
+
+        public IEnumerable<AttemptResult> GetResults(Topic topic)
+        {
+            List<AttemptResult> result = new List<AttemptResult>();
+            LearningStoreJob job = LStore.CreateJob();
+            RequestAttemptsByTopic(job, topic.Id);
+            DataTable dataTable = job.Execute<DataTable>();
+
+            foreach (DataRow dataRow in dataTable.AsEnumerable())
+            {
+                AttemptItemIdentifier attemptItemId;
+                LStoreHelper.CastNonNull(dataRow[Schema.AttemptsResultsByThemeAndUser.AttemptId], out attemptItemId);
+                long attemptId = attemptItemId.GetKey();
+
+                String userKey;
+                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.UserItemKey], out userKey);
+                User user = UserService.GetUsers().Single(curr => curr.Id.ToString() == userKey);
+                if (user == null)
+                {
+                    throw new NoNullAllowedException("Error while getting user with id = " + userKey);
+                }
+
+                Microsoft.LearningComponents.CompletionStatus completionStatus;
+                LStoreHelper.CastNonNull(dataRow[Schema.AttemptsResultsByThemeAndUser.CompletionStatus], out completionStatus);
+                IUDICO.Common.Models.Shared.Statistics.CompletionStatus iudicoCompletionStatus = (IUDICO.Common.Models.Shared.Statistics.CompletionStatus)completionStatus;
+
+                Microsoft.LearningComponents.AttemptStatus attemptStatus;
+                LStoreHelper.CastNonNull(dataRow[Schema.AttemptsResultsByThemeAndUser.AttemptStatus], out attemptStatus);
+                IUDICO.Common.Models.Shared.Statistics.AttemptStatus iudicoAttemptStatus = (IUDICO.Common.Models.Shared.Statistics.AttemptStatus)attemptStatus;
+
+                Microsoft.LearningComponents.SuccessStatus successStatus;
+                LStoreHelper.CastNonNull(dataRow[Schema.AttemptsResultsByThemeAndUser.SuccessStatus], out successStatus);
+                IUDICO.Common.Models.Shared.Statistics.SuccessStatus iudicoSuccessStatus = (IUDICO.Common.Models.Shared.Statistics.SuccessStatus)successStatus;
+
+                DateTime? startTime;
+                LStoreHelper.Cast(dataRow[Schema.AttemptsResultsByThemeAndUser.StartedTimestamp], out startTime);
+
+                float? score;
+                LStoreHelper.Cast<float>(dataRow[Schema.AttemptsResultsByThemeAndUser.Score], out score);
+                float? scaledScore = null;
+
+                if (score != null)
+                {
+                    scaledScore = score / 100;
+                }
+
+                // Create AttemptResult object
+                AttemptResult attemptResult = new AttemptResult(attemptId, user, topic, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, scaledScore);
+
                 result.Add(attemptResult);
             }
 
@@ -306,7 +417,8 @@ namespace IUDICO.TestingSystem.Models
         protected void RequestAttemptsByTopicAndUser(LearningStoreJob job, String userKey, Int32 topicId)
         {
             LearningStoreQuery query = LStore.CreateQuery(Schema.AttemptsResultsByThemeAndUser.ViewName);
-            
+
+            query.AddColumn(Schema.AttemptsResultsByThemeAndUser.AttemptId);
             query.AddColumn(Schema.AttemptsResultsByThemeAndUser.AttemptId);
             query.AddColumn(Schema.AttemptsResultsByThemeAndUser.CompletionStatus);
             query.AddColumn(Schema.AttemptsResultsByThemeAndUser.AttemptStatus);
@@ -316,6 +428,38 @@ namespace IUDICO.TestingSystem.Models
             
             query.SetParameter(Schema.AttemptsResultsByThemeAndUser.ThemeIdParam, topicId);
             query.SetParameter(Schema.AttemptsResultsByThemeAndUser.UserKeyParam, userKey);
+
+            job.PerformQuery(query);
+        }
+
+        protected void RequestAttemptsByUser(LearningStoreJob job, String userKey)
+        {
+            LearningStoreQuery query = LStore.CreateQuery(Schema.AttemptsResultsByThemeAndUser.ViewName);
+
+            query.AddColumn(Schema.AttemptsResultsByThemeAndUser.AttemptId);
+            query.AddColumn(Schema.AttemptsResultsByThemeAndUser.CompletionStatus);
+            query.AddColumn(Schema.AttemptsResultsByThemeAndUser.AttemptStatus);
+            query.AddColumn(Schema.AttemptsResultsByThemeAndUser.SuccessStatus);
+            query.AddColumn(Schema.AttemptsResultsByThemeAndUser.StartedTimestamp);
+            query.AddColumn(Schema.AttemptsResultsByThemeAndUser.Score);
+
+            query.SetParameter(Schema.AttemptsResultsByThemeAndUser.UserKeyParam, userKey);
+
+            job.PerformQuery(query);
+        }
+
+        protected void RequestAttemptsByTopic(LearningStoreJob job, Int32 topicId)
+        {
+            LearningStoreQuery query = LStore.CreateQuery(Schema.AttemptsResultsByThemeAndUser.ViewName);
+
+            query.AddColumn(Schema.AttemptsResultsByThemeAndUser.AttemptId);
+            query.AddColumn(Schema.AttemptsResultsByThemeAndUser.CompletionStatus);
+            query.AddColumn(Schema.AttemptsResultsByThemeAndUser.AttemptStatus);
+            query.AddColumn(Schema.AttemptsResultsByThemeAndUser.SuccessStatus);
+            query.AddColumn(Schema.AttemptsResultsByThemeAndUser.StartedTimestamp);
+            query.AddColumn(Schema.AttemptsResultsByThemeAndUser.Score);
+
+            query.SetParameter(Schema.AttemptsResultsByThemeAndUser.ThemeIdParam, topicId);
 
             job.PerformQuery(query);
         }

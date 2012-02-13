@@ -26,7 +26,7 @@ namespace IUDICO.UserManagement.Models.Auth
         {
             if (string.IsNullOrEmpty(username))
             {
-                return new[] { "None" };
+                return new[] {"None"};
             }
 
             return _UserStorage.GetUserRoles(username).Select(ur => ur.ToString()).ToArray();

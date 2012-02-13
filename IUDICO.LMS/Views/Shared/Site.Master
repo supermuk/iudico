@@ -10,7 +10,10 @@
     <link href="/Content/Style.css" rel="stylesheet" type="text/css" />
     <link href="/Content/ui-lightness/jquery-ui-1.8.5.custom.css" rel="stylesheet" type="text/css" />
     <link href="/Content/TimePicker.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/jquery.rating.css" rel="stylesheet" type="text/css" />
+
     <script src="/Scripts/jquery/jquery-1.4.1.min.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery/jquery.rating.pack.js" type="text/javascript"></script>
     <script type="text/javascript">
         pluginPath = "<%= Html.ResolveUrl("~") %>";
         language = "<%= Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName %>";

@@ -1,4 +1,5 @@
 ﻿using IUDICO.Common;
+
 namespace IUDICO.UserManagement
 {
     public class Localization

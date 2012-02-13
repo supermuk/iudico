@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
@@ -22,6 +23,11 @@ namespace IUDICO.CurriculumManagement.Models
         //{
         //    return _DisciplineStorage.GetDisciplines();
         //}
+
+        public IEnumerable<TopicFeature> GetTopicFeatures(Func<TopicFeature, bool> predicate)
+        {
+            return _CurriculumStorage.GetTopicFeatures(predicate);
+        }
 
         public IEnumerable<Discipline> GetDisciplines(IEnumerable<int> ids)
         {
@@ -73,9 +79,24 @@ namespace IUDICO.CurriculumManagement.Models
             return _CurriculumStorage.GetTopics(ids);
         }
 
+        public IEnumerable<Topic> GetTopics()
+        {
+            return _CurriculumStorage.GetTopics();
+        }
+
         public Topic GetTopic(int id)
         {
             return _CurriculumStorage.GetTopic(id);
+        }
+
+        IEnumerable<TopicFeature> ICurriculumService.GetTopicFeatures(Func<TopicFeature, bool> predicate)
+        {
+            return _CurriculumStorage.GetTopicFeatures(predicate);
+        }
+
+        public IEnumerable<TopicFeature> GetTopicFeaturesAvailableToUser(User user)
+        {
+            return _CurriculumStorage.GetTopicFeaturesAvailableToUser(user);
         }
 
         public IEnumerable<Group> GetGroupsAssignedToTopic(int topicId)

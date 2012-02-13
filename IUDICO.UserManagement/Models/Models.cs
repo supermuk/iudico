@@ -1,12 +1,12 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using IUDICO.Common.Models;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web.Mvc;
+using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
 using IUDICO.Common.Models.Shared;
-using Guid = System.Guid;
-using System.Web.Mvc;
-using System.Linq;
 
 namespace IUDICO.UserManagement.Models
 {
@@ -156,7 +156,7 @@ namespace IUDICO.UserManagement.Models
         //[Required(ErrorMessage = "New Password is required")]
         [LocalizedRequired(ErrorMessage = "NewPasswordRequired")]
         [DataType(DataType.Password)]
-        [LocalizedDisplayName("NewPassword" )]
+        [LocalizedDisplayName("NewPassword")]
         public string NewPassword { get; set; }
 
         [LocalizedRequired(ErrorMessage = "ConfirmPasswordRequired")]
@@ -215,7 +215,7 @@ namespace IUDICO.UserManagement.Models
 
         [ScaffoldColumn(false)]
         public string Username { get; set; }
- 
+
         [LocalizedRequired(ErrorMessage = "UserID")]
         [LocalizedDisplayName("UserID")]
         [StringLength(100, ErrorMessage = "ID can not be longer than 100")]
@@ -242,7 +242,6 @@ namespace IUDICO.UserManagement.Models
 
     public class LocalizedDisplayNameAttribute : DisplayNameAttribute
     {
-
         public LocalizedDisplayNameAttribute(string displayNameKey)
             : base(displayNameKey)
         {
@@ -250,31 +249,21 @@ namespace IUDICO.UserManagement.Models
 
         public override string DisplayName
         {
-            get
-            {
-                return Localization.getMessage(base.DisplayName);
-            }
+            get { return Localization.getMessage(base.DisplayName); }
         }
     }
+
     public class LocalizedRequiredAttribute : RequiredAttribute
     {
-
-        public LocalizedRequiredAttribute()
-            : base()
-        {
-
-        }
-
         public override string FormatErrorMessage(string name)
         {
             return Localization.getMessage(base.ErrorMessage);
         }
     }
+
     public class LocalizedDropDownListAttribute : DropDownListAttribute
     {
-
         public LocalizedDropDownListAttribute(string DropDownListKey)
-            : base()
         {
             OptionLabel = Localization.getMessage(DropDownListKey);
         }
