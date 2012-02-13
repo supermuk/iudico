@@ -75,6 +75,8 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             selenium.WaitForPageToLoad("40000");
             selenium.Click("link=Create New");
             selenium.WaitForPageToLoad("40000");
+            selenium.Type("id=Name", "");
+            selenium.WaitForPageToLoad("40000");
             selenium.Click("css=input[value=\"Create\"]");
             Assert.AreEqual(pos, selenium.GetLocation());
         }
