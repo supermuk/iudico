@@ -223,7 +223,7 @@ namespace IUDICO.LMS
 
         void Application_EndRequest(Object Sender, EventArgs e)
         {
-            Logger.Instance.Info(this, Request.HttpMethod + ": " + Request.Path);
+            LmsService.Inform(LMSNotifications.ApplicationRequestEnd, HttpContext.Current, Request);
         }
     }
 }

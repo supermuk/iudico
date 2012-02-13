@@ -1,4 +1,6 @@
-﻿using IUDICO.Common.Models.Services;
+﻿using System.Diagnostics;
+using IUDICO.Common;
+using IUDICO.Common.Models.Services;
 using Castle.Windsor;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
@@ -92,8 +94,32 @@ namespace IUDICO.LMS.Models
 
         public void Inform(string evt, params object[] data)
         {
-            log4net.ILog log = log4net.LogManager.GetLogger(typeof(LmsService));
-            log.Info("Notification:"+evt);
+
+            if(evt == LMSNotifications.ApplicationRequestStart)
+            {
+                var context = (HttpContext) data[0];
+
+                var stopwatch = new Stopwatch();
+                context.Items["stopwatch"] = stopwatch;
+                stopwatch.Start();
+            }
+            else if(evt == LMSNotifications.ApplicationRequestEnd)
+            {
+                var context = (HttpContext)data[0];
+                var stopwatch = (Stopwatch)context.Items["stopwatch"];
+                stopwatch.Stop();
+
+                var timespan = stopwatch.Elapsed;
+
+                var request = (HttpRequest) data[1];
+
+                Logger.Instance.Request(this, request, timespan);
+            }
+            else
+            {
+                Logger.Instance.Info(this, "Notification:"+evt);
+            }
+
 
             var plugins = _Container.ResolveAll<IPlugin>();
 
@@ -102,6 +128,7 @@ namespace IUDICO.LMS.Models
             {
                 plugin.Update(evt, data);
             }
+
         }
         #endregion
 
