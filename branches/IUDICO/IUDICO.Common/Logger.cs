@@ -3,6 +3,7 @@ using System.Net;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
 
 namespace IUDICO.Common
 {
@@ -45,6 +46,24 @@ namespace IUDICO.Common
             log4net.GlobalContext.Properties["Hostname"] = Dns.GetHostName();
             this.log = log4net.LogManager.GetLogger(cls.ToString());
             this.log.Error(msg);
+        }
+
+        public void Request(Object cls, HttpRequest request, TimeSpan time)
+        {
+            var msg = "Notification:request";
+            msg += " requestTime:";
+            msg += time.TotalMilliseconds + "ms";
+            msg += " ip:";
+            msg += request.UserHostAddress;
+            msg += " method:";
+            msg += request.HttpMethod;
+            msg += " path:";
+            msg += request.Path;
+            msg += " userId:";
+            msg += request.RequestContext.HttpContext.User.Identity.Name;
+            msg += " userAgent:";
+            msg += request.UserAgent;
+            Info(cls, msg);
         }
     }
 }
