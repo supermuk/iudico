@@ -136,8 +136,8 @@ namespace IUDICO.UnitTests.Security.Selenium
         public void Test6_BanRoom()
         {
             selenium.Open("/Security/Index");
-            selenium.Click("//a[contains(@href,'BanRoom')]");
-            selenium.WaitForPageToLoad("30000");
+            selenium.Click("//a[contains(@href,'Ban/BanRoom')]");
+            selenium.WaitForPageToLoad("40000");
             selenium.Click("//a[contains(@href, '/Ban/RoomBan?room=119')]");
             selenium.WaitForPageToLoad("30000");
             try
@@ -154,8 +154,8 @@ namespace IUDICO.UnitTests.Security.Selenium
         public void Test7_DeleteRoom()
         {
             selenium.Open("/Security/Index");
-            selenium.Click("//a[contains(@href,'BanRoom')]");
-            selenium.WaitForPageToLoad("30000");
+            selenium.Click("//a[contains(@href,'Ban/BanRoom')]");
+            selenium.WaitForPageToLoad("40000");
             selenium.Click("//a[contains(@href, '/Ban/DeleteRoom?room=119')]");
             selenium.WaitForPageToLoad("30000");
         }
