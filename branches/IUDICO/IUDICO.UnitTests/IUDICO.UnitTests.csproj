@@ -86,7 +86,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompileServiceTest.cs.cs" />
+    <Compile Include="CompileService\CompileServiceTest.cs" />
     <Compile Include="CourseManagement\CourseManagmentTest.cs" />
     <Compile Include="CourseManagement\NUnit\ManifestManagerTest.cs" />
     <Compile Include="CourseManagement\NUnit\MixedCourseStorageTest.cs" />
