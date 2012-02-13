@@ -16,7 +16,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         [SetUp]
         public void SetupTest()
         {
-            selenium = new DefaultSelenium("localhost", 4444, "*chrome", browserURL);
+            selenium = new DefaultSelenium("localhost", 4444, "*chrome", UpgradeSeleniumTester.browserURL);
             selenium.Start();
             verificationErrors = new StringBuilder();
         }
@@ -32,6 +32,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             {
                 // Ignore errors if unable to close the browser
             }
+
             Assert.AreEqual("", verificationErrors.ToString());
         }
 
