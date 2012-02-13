@@ -51,12 +51,16 @@ namespace IUDICO.CourseManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Create(Course course, IEnumerable<Guid> sharewith)
         {
+            if (ModelState.IsValid)
+            {
+                course.Owner = _UserService.GetCurrentUser().Username;
+                var id = _Storage.AddCourse(course);
+                _Storage.UpdateCourseUsers(id, sharewith);
 
-            course.Owner = _UserService.GetCurrentUser().Username;
-            var id = _Storage.AddCourse(course);
-            _Storage.UpdateCourseUsers(id, sharewith);
+                return RedirectToAction("Index");
+            }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Create");
         }
 
         [Allow(Role = Role.Teacher)]
