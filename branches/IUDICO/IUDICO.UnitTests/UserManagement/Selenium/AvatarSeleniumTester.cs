@@ -30,6 +30,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             {
                 // Ignore errors if unable to close the browser
             }
+
             Assert.AreEqual("", verificationErrors.ToString());
         }
 
