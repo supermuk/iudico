@@ -115,7 +115,6 @@
     <Compile Include="TestingSystem\NUnit\PlayModelTests.cs" />
     <Compile Include="TestingSystem\NUnit\TrainingTests.cs" />
     <Compile Include="TestingSystem\NUnit\ZipPackageTests.cs" />
-    <Compile Include="TestingSystem\Selenium\TestingSystemSeleniumTests.cs" />
     <Compile Include="UserManagement\NUnit\ActivateUser.cs" />
     <Compile Include="UserManagement\NUnit\AddUserToGroup.cs" />
     <Compile Include="UserManagement\NUnit\BatchUserCreation.cs" />
