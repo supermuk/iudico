@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
-using System.Reflection;
 using System.Web;
 using NUnit.Framework;
 
@@ -11,8 +11,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
     {
         protected UserManagementTests _Tests = UserManagementTests.GetInstance();
 
-        protected string _IudicoPath =
-            Path.GetFullPath(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath + @"\..\..\..\..\IUDICO.LMS");
+        protected string _IudicoPath = Path.Combine(ConfigurationManager.AppSettings["PathToIUDICO.UnitTests"], "IUDICO.LMS");
 
         private class MemoryFile : HttpPostedFileBase
         {
