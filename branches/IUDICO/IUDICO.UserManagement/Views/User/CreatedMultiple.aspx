@@ -19,12 +19,15 @@
         </thead>
 
         <tbody>
-            <% foreach (var kv in Model) { %>
+            <%
+                foreach (var kv in Model)
+                {%>
             <tr>
-                <td><%= kv.Key %></td>
-                <td><%= kv.Value %></td>
+                <td><%=kv.Key%></td>
+                <td><%=kv.Value%></td>
             </tr>
-            <% } %>
+            <%
+                }%>
         </tbody>
     </table>
 

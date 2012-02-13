@@ -19,5 +19,7 @@ namespace IUDICO.LMS.Models
         /// The topics descriptions.
         /// </value>
         public IEnumerable<TopicDescription> TopicsDescriptions { get; set; }
+
+        public IEnumerable<int> TopicsRatings { get; set; }
     }
 }

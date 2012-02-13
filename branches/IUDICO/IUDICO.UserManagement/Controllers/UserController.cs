@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using IUDICO.Common.Controllers;
@@ -8,8 +9,6 @@ using IUDICO.Common.Models.Attributes;
 using IUDICO.Common.Models.Shared;
 using IUDICO.UserManagement.Models;
 using IUDICO.UserManagement.Models.Storage;
-using System.Linq;
-using IUDICO.Common;
 
 namespace IUDICO.UserManagement.Controllers
 {
@@ -72,7 +71,7 @@ namespace IUDICO.UserManagement.Controllers
             {
                 user.OpenId = string.Empty;
             }
-            
+
             if (ModelState.IsValid)
             {
                 bool error = false;
@@ -137,7 +136,7 @@ namespace IUDICO.UserManagement.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex);
-                
+
                 return View();
             }
         }
@@ -160,7 +159,7 @@ namespace IUDICO.UserManagement.Controllers
 
         [HttpPost]
         [Allow(Role = Role.Admin)]
-        public ActionResult Edit(Guid id,  EditUserModel user)
+        public ActionResult Edit(Guid id, EditUserModel user)
         {
             if (user.OpenId == null)
             {
@@ -183,7 +182,7 @@ namespace IUDICO.UserManagement.Controllers
             }
 
             _Storage.EditUser(id, user);
- 
+
             return RedirectToAction("Index");
         }
 
@@ -198,11 +197,12 @@ namespace IUDICO.UserManagement.Controllers
             {
                 _Storage.DeleteUser(u => u.Id == id);
 
-                return Json(new { success = true, Id = id }); ;
+                return Json(new {success = true, Id = id});
+                ;
             }
             catch
             {
-                return Json(new { success = false });
+                return Json(new {success = false});
             }
         }
 
@@ -230,7 +230,7 @@ namespace IUDICO.UserManagement.Controllers
 
             _Storage.RemoveUserFromGroup(group, user);
 
-            return RedirectToAction("Details", new { id = id });
+            return RedirectToAction("Details", new {id});
         }
 
         [Allow(Role = Role.Admin)]
@@ -238,9 +238,11 @@ namespace IUDICO.UserManagement.Controllers
         {
             var user = _Storage.GetUser(u => u.Id == id);
 
-            var groupList = _Storage.GetGroupsAvailableToUser(user).Select(g => new SelectListItem { Text = g.Name, Value = g.Id.ToString(), Selected = false });
+            var groupList =
+                _Storage.GetGroupsAvailableToUser(user).Select(
+                    g => new SelectListItem {Text = g.Name, Value = g.Id.ToString(), Selected = false});
 
-            var userGroup = new UserGroupModel { GroupList = groupList };
+            var userGroup = new UserGroupModel {GroupList = groupList};
 
             return View(userGroup);
         }
@@ -253,9 +255,11 @@ namespace IUDICO.UserManagement.Controllers
 
             if (groupRef == null)
             {
-                var groupList = _Storage.GetGroupsAvailableToUser(user).Select(g => new SelectListItem { Text = g.Name, Value = g.Id.ToString(), Selected = false });
+                var groupList =
+                    _Storage.GetGroupsAvailableToUser(user).Select(
+                        g => new SelectListItem {Text = g.Name, Value = g.Id.ToString(), Selected = false});
 
-                var userGroup = new UserGroupModel { GroupList = groupList };
+                var userGroup = new UserGroupModel {GroupList = groupList};
 
                 ModelState.AddModelError("GroupRef", "Please select group from list");
 
@@ -266,13 +270,14 @@ namespace IUDICO.UserManagement.Controllers
 
             _Storage.AddUserToGroup(group, user);
 
-            return RedirectToAction("Details", new { Id = id });
+            return RedirectToAction("Details", new {Id = id});
         }
-		[HttpPost]
+
+        [HttpPost]
         public ActionResult UploadAvatar(Guid id, HttpPostedFileBase file)
         {
             _Storage.UploadAvatar(id, file);
-            return RedirectToAction("Edit", new { id = id });
+            return RedirectToAction("Edit", new {id});
         }
 
         [Allow(Role = Role.Admin)]
@@ -282,14 +287,14 @@ namespace IUDICO.UserManagement.Controllers
 
             if (roleRef == null)
             {
-                return RedirectToAction("Details", new { id = id });
+                return RedirectToAction("Details", new {id});
             }
 
             var role = UserRoles.GetRole(roleRef.Value);
 
             _Storage.RemoveUserFromRole(role, user);
 
-            return RedirectToAction("Details", new { id = id });
+            return RedirectToAction("Details", new {id});
         }
 
         [Allow(Role = Role.Admin)]
@@ -297,9 +302,13 @@ namespace IUDICO.UserManagement.Controllers
         {
             var user = _Storage.GetUser(u => u.Id == id);
 
-            var roleList = _Storage.GetRolesAvailableToUser(user).Select(r => new SelectListItem { Text = Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = false });
+            var roleList =
+                _Storage.GetRolesAvailableToUser(user).Select(
+                    r =>
+                    new SelectListItem
+                        {Text = Localization.getMessage(r.ToString()), Value = ((int) r).ToString(), Selected = false});
 
-            var userRole = new UserRoleModel { RoleList = roleList };
+            var userRole = new UserRoleModel {RoleList = roleList};
 
             return View(userRole);
         }
@@ -312,9 +321,17 @@ namespace IUDICO.UserManagement.Controllers
 
             if (roleRef == null)
             {
-                var userList = _Storage.GetRolesAvailableToUser(user).Select(r => new SelectListItem { Text = Localization.getMessage(r.ToString()), Value = ((int)r).ToString(), Selected = false });
+                var userList =
+                    _Storage.GetRolesAvailableToUser(user).Select(
+                        r =>
+                        new SelectListItem
+                            {
+                                Text = Localization.getMessage(r.ToString()),
+                                Value = ((int) r).ToString(),
+                                Selected = false
+                            });
 
-                var userRole = new UserRoleModel { RoleList = userList };
+                var userRole = new UserRoleModel {RoleList = userList};
 
                 ModelState.AddModelError("RoleRef", "Please select role from list");
 
@@ -325,7 +342,7 @@ namespace IUDICO.UserManagement.Controllers
 
             _Storage.AddUserToRole(role, user);
 
-            return RedirectToAction("Details", new { Id = id });
+            return RedirectToAction("Details", new {Id = id});
         }
     }
 }

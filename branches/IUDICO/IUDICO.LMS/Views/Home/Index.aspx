@@ -6,6 +6,25 @@
 	IUDICO
 </asp:Content>
 
+<asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
+<script type="text/javascript">
+    $(function () {
+        $('.rating').rating({
+            callback: function (value, link) {
+                $(this).rating('readOnly');
+                
+                var id = $(this).attr('name').replace('rating_', '');
+
+
+                $.post('/Account/RateTopic', { 'topicId': id, 'score': value }, function (data) {
+                    
+                });
+            }
+        });
+    });
+</script>
+</asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <h3><%=IUDICO.LMS.Localization.getMessage("WelcomeIudico")%></h3>
@@ -23,10 +42,16 @@
 
     <% if (Model.TopicsDescriptions.Count() > 0) { %>
     <h4><%=IUDICO.LMS.Localization.getMessage("AvailableTopics") %></h4>
-    <ul>
+    <ul class="topics">
     <% foreach (var topicDescription in Model.TopicsDescriptions)
        { %>
-        <li><%: Html.ActionLink(topicDescription.ToString(), "Play", "Training", new { Id = topicDescription.Topic.Id }, null)%></li>
+        <li>
+        <% for (var i = 1; i <= 5; ++i) { %>
+            <input name="rating_<%=topicDescription.Topic.Id %>" value="<%= i %>" <%= (topicDescription.Rating == i ? "checked='checked'" : "") %> <%= (topicDescription.Rating != 0 ? "disabled='disabled'" : "") %> type="radio" class="rating required"/>
+        <% } %>
+
+        <%: Html.ActionLink(topicDescription.ToString(), "Play", "Training", new { Id = topicDescription.Topic.Id }, null)%>
+        </li>
     <% } %>
     </ul>
     <% } %>

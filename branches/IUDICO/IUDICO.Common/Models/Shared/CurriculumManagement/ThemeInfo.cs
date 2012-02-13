@@ -11,6 +11,7 @@ namespace IUDICO.Common.Models.Shared.CurriculumManagement
         public Chapter Chapter { get; set; }
         public Discipline Discipline { get; set; }
         public List<Timeline> Timelines { get; set; }
+        public int Rating { get; set; }
 
         public override string ToString()
         {

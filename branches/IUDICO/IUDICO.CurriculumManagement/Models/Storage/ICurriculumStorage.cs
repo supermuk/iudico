@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.CurriculumManagement;
@@ -64,6 +65,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         #region Topic methods
 
         Topic GetTopic(int id);
+        IEnumerable<Topic> GetTopics();
         IEnumerable<Topic> GetTopics(IEnumerable<int> ids);
         IEnumerable<Topic> GetTopicsByChapterId(int chapterId);
         IEnumerable<Topic> GetTopicsByDisciplineId(int disciplineId);
@@ -93,6 +95,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         void DeleteTopics(IEnumerable<int> ids);
         Topic TopicUp(int topicId);
         Topic TopicDown(int topicId);
+        IEnumerable<TopicFeature> GetTopicFeatures(Func<TopicFeature, bool> predicate);
+        IEnumerable<TopicFeature> GetTopicFeaturesAvailableToUser(User user);
 
         #endregion
 

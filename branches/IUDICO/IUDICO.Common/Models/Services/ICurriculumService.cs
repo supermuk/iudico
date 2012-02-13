@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.CurriculumManagement;
 
@@ -35,6 +36,7 @@ namespace IUDICO.Common.Models.Services
         IEnumerable<Topic> GetTopicsByChapterId(int chapterId);
         IEnumerable<Topic> GetTopicsByDisciplineId(int disciplineId);
         IEnumerable<Topic> GetTopics(IEnumerable<int> ids);
+        IEnumerable<Topic> GetTopics();
         /// <summary>
         /// Gets the topics available for user for current date.
         /// </summary>
@@ -54,6 +56,8 @@ namespace IUDICO.Common.Models.Services
         /// <returns></returns>
         IEnumerable<Topic> GetTopicsOwnedByUser(User owner);
         Topic GetTopic(int id);
+        IEnumerable<TopicFeature> GetTopicFeatures(Func<TopicFeature, bool> predicate);
+        IEnumerable<TopicFeature> GetTopicFeaturesAvailableToUser(User user);
 
         #endregion
 

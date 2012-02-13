@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
-
-using IUDICO.Common.Models;
-using IUDICO.Common.Models.Services;
-using IUDICO.Common.Controllers;
-using IUDICO.Common.Models.Attributes;
-using IUDICO.Analytics.Models.ViewDataClasses;
 using IUDICO.Analytics.Models.Storage;
-using IUDICO.Analytics.Models;
+using IUDICO.Common.Controllers;
+using IUDICO.Common.Models;
+using IUDICO.Common.Models.Attributes;
 using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Analytics.Controllers
@@ -28,6 +21,5 @@ namespace IUDICO.Analytics.Controllers
             IEnumerable<ForecastingTree> query = Storage.GetAllForecastingTrees();
             return View(query);
         }
-
     }
 }

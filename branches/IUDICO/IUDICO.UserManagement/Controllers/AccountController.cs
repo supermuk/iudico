@@ -1,20 +1,19 @@
 ﻿using System;
+using System.Globalization;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
 using System.Web.Security;
-using System.IO;
-using System.Collections.Generic;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using IUDICO.Common.Controllers;
-using IUDICO.UserManagement.Models;
-using IUDICO.UserManagement.Models.Storage;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
-using System.Globalization;
-using IUDICO.Common;
+using IUDICO.Common.Models.Services;
+using IUDICO.UserManagement.Models;
+using IUDICO.UserManagement.Models.Storage;
+using log4net;
 
 namespace IUDICO.UserManagement.Controllers
 {
@@ -72,22 +71,22 @@ namespace IUDICO.UserManagement.Controllers
                         else
                         {
                             FormsAuthentication.SetAuthCookie(user.Username, false);
-                            log4net.ILog log = log4net.LogManager.GetLogger(typeof(AccountController));
+                            ILog log = LogManager.GetLogger(typeof (AccountController));
                             log.Info("OpenID user " + user.Username + " logged in.");
                             return Redirect("/");
                         }
-                        
+
                         break;
                     case AuthenticationStatus.Canceled:
                         ModelState.AddModelError(string.Empty, "Login was cancelled at the provider");
-                        
+
                         break;
                     case AuthenticationStatus.Failed:
                         ModelState.AddModelError(string.Empty, "Login failed using the provided OpenID identifier");
-                        
+
                         break;
                 }
-            }           
+            }
 
             return View();
         }
@@ -98,7 +97,7 @@ namespace IUDICO.UserManagement.Controllers
             if (string.IsNullOrEmpty(loginIdentifier) || !Identifier.IsValid(loginIdentifier))
             {
                 ModelState.AddModelError(string.Empty, Localization.getMessage("InvalidOpenID"));
-                
+
                 return View("Login");
             }
             else
@@ -131,7 +130,7 @@ namespace IUDICO.UserManagement.Controllers
                 {
                     FormsAuthentication.SetAuthCookie(loginUsername, false);
 
-                    log4net.ILog log = log4net.LogManager.GetLogger(typeof(AccountController));
+                    ILog log = LogManager.GetLogger(typeof (AccountController));
                     log.Info(loginUsername + " logged in.");
                     return Redirect("/");
                 }
@@ -160,14 +159,14 @@ namespace IUDICO.UserManagement.Controllers
             {
                 ModelState.AddModelError("ConfirmPassword", "Passwords don't match");
             }
-            
+
             if (!ModelState.IsValid)
             {
                 return View();
             }
-            
+
             _Storage.RegisterUser(registerModel);
-            
+
             return View("Registered");
         }
 
@@ -221,9 +220,9 @@ namespace IUDICO.UserManagement.Controllers
 
                 return View(editModel);
             }
-            
+
             _Storage.EditAccount(editModel);
-                
+
             return RedirectToAction("Index");
         }
 
@@ -237,7 +236,7 @@ namespace IUDICO.UserManagement.Controllers
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel changePasswordModel)
         {
-	    var oldPassword = _Storage.EncryptPassword(changePasswordModel.OldPassword);
+            var oldPassword = _Storage.EncryptPassword(changePasswordModel.OldPassword);
 
             if (oldPassword != _Storage.GetCurrentUser().Password)
             {
@@ -252,9 +251,9 @@ namespace IUDICO.UserManagement.Controllers
             {
                 return View();
             }
-            
+
             _Storage.ChangePassword(changePasswordModel);
-            
+
             return RedirectToAction("Index");
         }
 
@@ -262,14 +261,14 @@ namespace IUDICO.UserManagement.Controllers
         public ActionResult UploadAvatar(Guid id, HttpPostedFileBase file)
         {
             _Storage.UploadAvatar(id, file);
-            
+
             return RedirectToAction("Edit");
         }
 
         [Allow(Role = Role.Teacher)]
         public ActionResult TeacherToAdminUpgrade()
         {
-            var allow = (bool)(Session["AllowAdmin"] ?? false);
+            var allow = (bool) (Session["AllowAdmin"] ?? false);
 
             if (!allow && !Roles.IsUserInRole(Role.Admin.ToString()))
             {
@@ -282,9 +281,26 @@ namespace IUDICO.UserManagement.Controllers
         public ActionResult ChangeCulture(string lang, string returnUrl)
         {
             Session["Culture"] = new CultureInfo(lang);
-            
+
             return Redirect(returnUrl);
         }
 
+        public JsonResult RateTopic(int topicId, int score)
+        {
+            score = Math.Min(0, score);
+            score = Math.Max(score, 5);
+
+            var topics =
+                LmsService.FindService<ICurriculumService>().GetTopicsAvailableForUser(_Storage.GetCurrentUser());
+
+            if (topics.Select(t => t.Topic.Id).Contains(topicId))
+            {
+                _Storage.RateTopic(topicId, score);
+
+                return Json("success");
+            }
+
+            return Json("fail");
+        }
     }
 }

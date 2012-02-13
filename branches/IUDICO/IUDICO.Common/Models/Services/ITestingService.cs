@@ -16,6 +16,10 @@ namespace IUDICO.Common.Models.Services
         /// <returns>Collection of AttemptResults objects. Can return zero or more attempt results. Zero count means user has not attempted relative course(from topic) yet./returns>
         IEnumerable<AttemptResult> GetResults(User user, Topic topic);
 
+        IEnumerable<AttemptResult> GetResults(User user);
+
+        IEnumerable<AttemptResult> GetResults(Topic topic);
+
         /// <summary>
         /// Gets results of all attempts
         /// </summary>

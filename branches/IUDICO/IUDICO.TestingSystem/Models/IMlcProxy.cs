@@ -10,6 +10,8 @@ namespace IUDICO.TestingSystem.Models
         long GetAttemptId(Topic topic);
         IEnumerable<AttemptResult> GetAllAttempts();
         IEnumerable<AttemptResult> GetResults(User user, Topic topic);
+        IEnumerable<AttemptResult> GetResults(User user);
+        IEnumerable<AttemptResult> GetResults(Topic topic);
         IEnumerable<AnswerResult> GetAnswers(AttemptResult attemptResult);
         //Training AddPackage(Package package);
         //void DeletePackage(long packId);

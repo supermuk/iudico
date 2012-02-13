@@ -29,6 +29,7 @@ namespace IUDICO.LMS.Controllers
         public IEnumerable<TopicDescription> GetTopicsDescriptions()
         {
             User user = MvcApplication.StaticContainer.GetService<IUserService>().GetCurrentUser();
+
             if (user != null)
             {
                 return MvcApplication.StaticContainer.GetService<ICurriculumService>().GetTopicsAvailableForUser(user);

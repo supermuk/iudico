@@ -16,5 +16,7 @@ namespace IUDICO.CurriculumManagement.Models
         IMockableTable<Timeline> Timelines { get; }
         IMockableTable<TopicAssignment> TopicAssignments { get; }
         IMockableTable<TopicType> TopicTypes { get; }
+        IMockableTable<UserTopicScore> UserTopicScores { get; }
+        IMockableTable<TopicFeature> TopicFeatures { get; }
     }
 }

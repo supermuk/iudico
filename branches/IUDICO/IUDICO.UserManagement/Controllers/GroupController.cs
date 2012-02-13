@@ -3,10 +3,9 @@ using System.Linq;
 using System.Web.Mvc;
 using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Attributes;
 using IUDICO.Common.Models.Shared;
 using IUDICO.UserManagement.Models.Storage;
-using IUDICO.Common.Models.Attributes;
-using IUDICO.Common;
 
 namespace IUDICO.UserManagement.Controllers
 {
@@ -63,7 +62,7 @@ namespace IUDICO.UserManagement.Controllers
         public ActionResult Edit(int id)
         {
             var group = _Storage.GetGroup(id);
-            
+
             if (group == null)
             {
                 return RedirectToAction("Error");
@@ -104,11 +103,11 @@ namespace IUDICO.UserManagement.Controllers
             {
                 _Storage.DeleteGroup(id);
 
-                return Json(new { status = true });
+                return Json(new {status = true});
             }
             catch
             {
-                return Json(new { status = false });
+                return Json(new {status = false});
             }
         }
 
@@ -145,14 +144,14 @@ namespace IUDICO.UserManagement.Controllers
             if (userRef == null)
             {
                 var userList =
-                _Storage.GetUsersNotInGroup(group).Select(
-                    u => new SelectListItem { Text = u.Username, Value = u.Id.ToString(), Selected = false });
+                    _Storage.GetUsersNotInGroup(group).Select(
+                        u => new SelectListItem {Text = u.Username, Value = u.Id.ToString(), Selected = false});
 
                 var groupUser = new GroupUser
-                {
-                    Group = group,
-                    UserList = userList
-                };
+                                    {
+                                        Group = group,
+                                        UserList = userList
+                                    };
 
                 ModelState.AddModelError("UserRef", Localization.getMessage("PleaseSelectUserFromList"));
 
@@ -160,10 +159,10 @@ namespace IUDICO.UserManagement.Controllers
             }
 
             var user = _Storage.GetUser(u => u.Id == userRef.Value);
-            
+
             _Storage.AddUserToGroup(group, user);
 
-            return RedirectToAction("Details", new { Id = id });
+            return RedirectToAction("Details", new {Id = id});
         }
 
         [Allow(Role = Role.Teacher)]
@@ -171,10 +170,10 @@ namespace IUDICO.UserManagement.Controllers
         {
             var group = _Storage.GetGroup(id);
             var user = _Storage.GetUser(u => u.Id == userRef);
-            
+
             _Storage.RemoveUserFromGroup(group, user);
 
-            return RedirectToAction("Details", new { Id = id });
+            return RedirectToAction("Details", new {Id = id});
         }
     }
 }
