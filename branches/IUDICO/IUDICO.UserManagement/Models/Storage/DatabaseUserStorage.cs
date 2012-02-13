@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -44,8 +45,7 @@ namespace IUDICO.UserManagement.Models.Storage
                 return HttpContext.Current.Server.MapPath("~/");
             }
 
-            var localPath = new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath;
-            return Path.GetFullPath(localPath + @"\..\..\..\..\IUDICO.LMS");
+            return Path.Combine(ConfigurationManager.AppSettings["PathToIUDICO.UnitTests"], "IUDICO.LMS");
         }
 
         public virtual bool SendEmail(string fromAddress, string toAddress, string subject, string body)
