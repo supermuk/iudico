@@ -1417,6 +1417,6 @@
     <SolutionDir>..\..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>xcopy /C /Y "$(TargetDir)\*.*" "$(SolutionDir)IUDICO.LMS\Plugins\"</PostBuildEvent>
+    <PostBuildEvent>xcopy /C /Y "$(TargetDir)*.*" "$(SolutionDir)IUDICO.LMS\Plugins\"</PostBuildEvent>
   </PropertyGroup>
 </Project>
