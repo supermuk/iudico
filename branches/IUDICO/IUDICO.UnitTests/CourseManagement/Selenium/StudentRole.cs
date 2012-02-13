@@ -71,12 +71,11 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
         [Test]
         public void CreateCourseWithoutCourseName()
         {
-            string pos = selenium.GetLocation();
-            selenium.WaitForPageToLoad("40000");
             selenium.Click("link=Create New");
             selenium.WaitForPageToLoad("40000");
-            selenium.Type("id=Name", "");
-            selenium.WaitForPageToLoad("40000");
+			   string pos = selenium.GetLocation();
+				selenium.Type("id=Name", "");
+				//selenium.WaitForPageToLoad("40000");
             selenium.Click("css=input[value=\"Create\"]");
             Assert.AreEqual(pos, selenium.GetLocation());
         }
@@ -95,7 +94,12 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             selenium.Type("id=Name", "Edited");
             selenium.Click("css=input[value=\"Save\"]");
             selenium.WaitForPageToLoad("40000");
-            bool isPresent = selenium.IsElementPresent("//tr//td[contains(.,'Edited')]");
+
+	 		   selenium.Open("/");
+	 		   selenium.WaitForPageToLoad("40000");
+	 		   selenium.Click("link=Courses");
+            selenium.WaitForPageToLoad("40000");
+			   bool isPresent = selenium.IsElementPresent("xpath=//table[@id='myCourses']//tr[contains(.,'Edited')]");
             Assert.IsTrue(isPresent);
         }
 
@@ -116,7 +120,12 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             selenium.Type("id=Name", "Edited");
             selenium.Click("css=input[value=\"Save\"]");
             selenium.WaitForPageToLoad("40000");
-            bool isPresent = selenium.IsElementPresent("//table[@id='publishedCourses']//tr//td[contains(.,'Edited')]");
+
+			   selenium.Open("/");
+			   selenium.WaitForPageToLoad("40000");
+			   selenium.Click("link=Courses");
+            selenium.WaitForPageToLoad("40000");
+            bool isPresent = selenium.IsElementPresent("xpath=//table[@id='publishedCourses']//tr[contains(.,'Edited')]");
             Assert.IsTrue(isPresent);
         }
 
