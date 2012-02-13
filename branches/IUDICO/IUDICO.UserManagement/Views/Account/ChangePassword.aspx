@@ -1,31 +1,35 @@
 ﻿<%@ Assembly Name="IUDICO.UserManagement" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.UserManagement.Models.ChangePasswordModel>" %>
+<%@ Import Namespace="IUDICO.UserManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=IUDICO.UserManagement.Localization.getMessage("ChangePassword") %>
+	<%=Localization.getMessage("ChangePassword")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=IUDICO.UserManagement.Localization.getMessage("ChangePassword") %></h2>
+    <h2><%=Localization.getMessage("ChangePassword")%></h2>
 
-    <% using (Html.BeginForm()) {%>
-        <%: Html.ValidationSummary(true) %>
+    <%
+        using (Html.BeginForm())
+        {%>
+        <%:Html.ValidationSummary(true)%>
 
         <fieldset>
-            <legend><%=IUDICO.UserManagement.Localization.getMessage("Fields")%></legend>
+            <legend><%=Localization.getMessage("Fields")%></legend>
             
-            <%: Html.EditorForModel() %>
+            <%:Html.EditorForModel()%>
             
             <p>
-                <input type="submit" value=<%=IUDICO.UserManagement.Localization.getMessage("ChangePassword") %> />
+                <input type="submit" value=<%=Localization.getMessage("ChangePassword")%> />
             </p>
         </fieldset>
 
-    <% } %>
+    <%
+        }%>
 
     <div>
-        <%: Html.ActionLink(IUDICO.UserManagement.Localization.getMessage("BackToAccount"), "Index")%>
+        <%:Html.ActionLink(Localization.getMessage("BackToAccount"), "Index")%>
     </div>
 
 </asp:Content>

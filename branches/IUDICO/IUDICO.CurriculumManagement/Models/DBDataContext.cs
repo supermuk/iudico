@@ -24,6 +24,12 @@ namespace IUDICO.CurriculumManagement.Models
         partial void InsertUser(User instance);
         partial void UpdateUser(User instance);
         partial void DeleteUser(User instance);
+        partial void InsertUserTopicScore(UserTopicScore instance);
+        partial void UpdateUserTopicScore(UserTopicScore instance);
+        partial void DeleteUserTopicScore(UserTopicScore instance);
+        partial void InsertTopicFeature(TopicFeature instance);
+        partial void UpdateTopicFeature(TopicFeature instance);
+        partial void DeleteTopicFeature(TopicFeature instance);
         #endregion
 
         public DBDataContext() :
@@ -112,6 +118,22 @@ namespace IUDICO.CurriculumManagement.Models
             }
         }
 
+        public System.Data.Linq.Table<UserTopicScore> UserTopicScores
+        {
+            get
+            {
+                return this.GetTable<UserTopicScore>();
+            }
+        }
+
+        public System.Data.Linq.Table<TopicFeature> TopicFeatures
+        {
+            get
+            {
+                return this.GetTable<TopicFeature>();
+            }
+        }
+
         //IMockableTable<Course> IDataContext.Courses
         //{
         //    get { return new MockableTable<Course>(Courses); }
@@ -170,6 +192,16 @@ namespace IUDICO.CurriculumManagement.Models
         IMockableTable<TopicType> IDataContext.TopicTypes
         {
             get { return new MockableTable<TopicType>(TopicTypes); }
+        }
+
+        IMockableTable<UserTopicScore> IDataContext.UserTopicScores
+        {
+            get { return new MockableTable<UserTopicScore>(UserTopicScores); }
+        }
+
+        IMockableTable<TopicFeature> IDataContext.TopicFeatures
+        {
+            get { return new MockableTable<TopicFeature>(UserTopicScores); }
         }
     }
 }

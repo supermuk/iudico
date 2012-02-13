@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Web.Routing;
 using System.Web.Security;
+using Castle.Core;
 using Castle.MicroKernel.Registration;
+using Castle.MicroKernel.SubSystems.Configuration;
+using Castle.Windsor;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
+using IUDICO.UserManagement.Models;
 using IUDICO.UserManagement.Models.Auth;
 using IUDICO.UserManagement.Models.Storage;
-using IUDICO.UserManagement.Models;
-using Castle.Windsor;
-using Castle.MicroKernel.SubSystems.Configuration;
 
 namespace IUDICO.UserManagement
 {
@@ -25,13 +27,12 @@ namespace IUDICO.UserManagement
                     .BasedOn<IController>()
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
-                Component.For<IPlugin>().ImplementedBy<UserManagementPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<IUserStorage>().ImplementedBy<DatabaseUserStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<IUserService>().ImplementedBy<UserService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<IPlugin>().ImplementedBy<UserManagementPlugin>().LifeStyle.Is(LifestyleType.Singleton),
+                Component.For<IUserStorage>().ImplementedBy<DatabaseUserStorage>().LifeStyle.Is(LifestyleType.Singleton),
+                Component.For<IUserService>().ImplementedBy<UserService>().LifeStyle.Is(LifestyleType.Singleton),
                 Component.For<MembershipProvider>().ImplementedBy<OpenIdMembershipProvider>(),
                 Component.For<RoleProvider>().ImplementedBy<OpenIdRoleProvider>()
-
-            );
+                );
 
             //HttpContext.Current.Application["UMStorage"] = container.Resolve<DatabaseUserManagement>();// UMStorageFactory.CreateStorage(UMStorageType.Database);
         }
@@ -39,6 +40,7 @@ namespace IUDICO.UserManagement
         #endregion
 
         #region IPlugin Members
+
         public string GetName()
         {
             return Localization.getMessage("UserManagement");
@@ -46,45 +48,45 @@ namespace IUDICO.UserManagement
 
         public IEnumerable<Action> BuildActions()
         {
-            return new Action[]
-                {
-                    new Action(Localization.getMessage("GetUsers"), "User/Index"),
-                    new Action(Localization.getMessage("GetGroups"), "Group/Index"),
-                    new Action(Localization.getMessage("Register"), "Account/Register"),
-                    new Action(Localization.getMessage("ForgotPassword"), "Account/Forgot"),
-                    new Action(Localization.getMessage("Login"), "Account/Login"),
-                };
+            return new[]
+                       {
+                           new Action(Localization.getMessage("GetUsers"), "User/Index"),
+                           new Action(Localization.getMessage("GetGroups"), "Group/Index"),
+                           new Action(Localization.getMessage("Register"), "Account/Register"),
+                           new Action(Localization.getMessage("ForgotPassword"), "Account/Forgot"),
+                           new Action(Localization.getMessage("Login"), "Account/Login"),
+                       };
         }
 
         public IEnumerable<MenuItem> BuildMenuItems()
         {
-            return new MenuItem[]
-            {
-                new MenuItem(Localization.getMessage("Account"), "Account", "Index"),
-                new MenuItem(Localization.getMessage("Users"), "User", "Index"),
-                new MenuItem(Localization.getMessage("Groups"), "Group", "Index")
-            };
+            return new[]
+                       {
+                           new MenuItem(Localization.getMessage("Account"), "Account", "Index"),
+                           new MenuItem(Localization.getMessage("Users"), "User", "Index"),
+                           new MenuItem(Localization.getMessage("Groups"), "Group", "Index")
+                       };
         }
 
-        public void RegisterRoutes(System.Web.Routing.RouteCollection routes)
+        public void RegisterRoutes(RouteCollection routes)
         {
             routes.MapRoute(
                 "Account",
                 "Account/{action}",
-                new { controller = "Account" }
-            );
+                new {controller = "Account"}
+                );
 
             routes.MapRoute(
                 "Group",
                 "Group/{action}",
-                new { controller = "Group" }
-            );
+                new {controller = "Group"}
+                );
 
             routes.MapRoute(
                 "User",
                 "User/{action}",
-                new { controller = "User" }
-            );
+                new {controller = "User"}
+                );
         }
 
         public void Update(string evt, params object[] data)
@@ -94,7 +96,6 @@ namespace IUDICO.UserManagement
 
         public void Setup(IWindsorContainer container)
         {
-            
         }
 
         #endregion

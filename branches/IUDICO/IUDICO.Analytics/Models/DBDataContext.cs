@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Configuration;
+using System.Data;
+using System.Data.Linq;
 using System.Data.Linq.Mapping;
-using System.Linq;
-using System.Web;
 using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Analytics.Models
 {
-    public partial class DBDataContext : System.Data.Linq.DataContext
+    public partial class DBDataContext : DataContext
     {
-
-        private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
+        private static MappingSource mappingSource = new AttributeMappingSource();
 
         #region Extensibility Method Definitions
+
         partial void OnCreated();
         partial void InsertGroupUser(GroupUser instance);
         partial void UpdateGroupUser(GroupUser instance);
@@ -26,10 +25,11 @@ namespace IUDICO.Analytics.Models
         partial void InsertUser(User instance);
         partial void UpdateUser(User instance);
         partial void DeleteUser(User instance);
+
         #endregion
 
         public DBDataContext() :
-            base(global::System.Configuration.ConfigurationManager.ConnectionStrings["IUDICOConnectionString"].ConnectionString, mappingSource)
+            base(ConfigurationManager.ConnectionStrings["IUDICOConnectionString"].ConnectionString, mappingSource)
         {
             OnCreated();
         }
@@ -40,30 +40,42 @@ namespace IUDICO.Analytics.Models
             OnCreated();
         }
 
-        public DBDataContext(System.Data.IDbConnection connection) :
+        public DBDataContext(IDbConnection connection) :
             base(connection, mappingSource)
         {
             OnCreated();
         }
 
-        public DBDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) :
+        public DBDataContext(string connection, MappingSource mappingSource) :
             base(connection, mappingSource)
         {
             OnCreated();
         }
 
-        public DBDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) :
+        public DBDataContext(IDbConnection connection, MappingSource mappingSource) :
             base(connection, mappingSource)
         {
             OnCreated();
         }
 
-        public System.Data.Linq.Table<ForecastingTree> ForecastingTrees
+        public Table<ForecastingTree> ForecastingTrees
         {
-            get
-            {
-                return this.GetTable<ForecastingTree>();
-            }
+            get { return this.GetTable<ForecastingTree>(); }
+        }
+
+        public Table<UserTopicScore> UserTopicScores
+        {
+            get { return this.GetTable<UserTopicScore>(); }
+        }
+
+        public Table<Feature> Features
+        {
+            get { return this.GetTable<Feature>(); }
+        }
+
+        public Table<TopicFeature> TopicFeatures
+        {
+            get { return this.GetTable<TopicFeature>(); }
         }
     }
 }

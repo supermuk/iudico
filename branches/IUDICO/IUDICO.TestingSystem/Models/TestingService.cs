@@ -33,6 +33,18 @@ namespace IUDICO.TestingSystem.Models
             return result;
         }
 
+        public IEnumerable<AttemptResult> GetResults(User user)
+        {
+            IEnumerable<AttemptResult> result = MlcProxy.GetResults(user);
+            return result;
+        }
+
+        public IEnumerable<AttemptResult> GetResults(Topic topic)
+        {
+            IEnumerable<AttemptResult> result = MlcProxy.GetResults(topic);
+            return result;
+        }
+
         public IEnumerable<AttemptResult> GetAllAttempts()
         {
             IEnumerable<AttemptResult> result = MlcProxy.GetAllAttempts();

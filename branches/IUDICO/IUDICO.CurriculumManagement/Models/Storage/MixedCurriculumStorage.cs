@@ -277,6 +277,13 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return GetTopic(GetDbContext(), id);
         }
 
+        public IEnumerable<Topic> GetTopics()
+        {
+            var db = GetDbContext();
+
+            return db.Topics.Where(t => !t.IsDeleted);
+        }
+
         public IEnumerable<Topic> GetTopics(IEnumerable<int> ids)
         {
             return GetDbContext().Topics.Where(item => ids.Contains(item.Id) && !item.IsDeleted).OrderBy(item => item.SortOrder).ToList();
@@ -290,6 +297,21 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public IEnumerable<Topic> GetTopicsByChapterId(int chapterId)
         {
             return GetTopicsByChapterId(GetDbContext(), chapterId);
+        }
+
+        public Dictionary<Topic, UserTopicScore> GetTopicsWithScoreByChapterId(int chapterId)
+        {
+            var db = GetDbContext();
+
+            var values =
+                (from t in db.Topics
+                 where t.ChapterRef == chapterId && !t.IsDeleted
+                 join tu in db.UserTopicScores on t.Id equals tu.TopicId into tus
+                 from p in tus.DefaultIfEmpty() 
+                 select new KeyValuePair<Topic, UserTopicScore>(t, p)).ToDictionary(kv => kv.Key, kv => kv.Value);
+
+
+            return values;
         }
 
         public IEnumerable<Topic> GetTopicsByDisciplineId(int disciplineId)
@@ -334,13 +356,14 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                     {
                         //get topics
                         //result.AddRange(GetTopicsByChapterId(chapter.Id));
-                        foreach (Topic topic in GetTopicsByChapterId(chapter.Id))
+                        foreach (var kv in GetTopicsWithScoreByChapterId(chapter.Id))
                         {
                             result.Add(new TopicDescription()
                             {
-                                Topic = topic,
+                                Topic = kv.Key,
                                 Chapter = chapter,
                                 Discipline = chapter.Discipline,
+                                Rating = (kv.Value == null ? 0 : kv.Value.Score),
                                 Timelines = chapterTimelines.Count() == 0 ?
                                     GetCurriculumTimelines(curriculum.Id)
                                         .Where(timeline => dateTime.IsIn(timeline)).ToList() :
@@ -485,6 +508,21 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             }
 
             return topic;
+        }
+
+        public IEnumerable<TopicFeature> GetTopicFeatures(Func<TopicFeature, bool> predicate)
+        {
+            var db = GetDbContext();
+
+            return db.TopicFeatures.Where(predicate).Select(tf => new {Feature = tf.Feature, Topic = tf.Topic, TopicFeature = tf}).AsEnumerable().Select(a => a.TopicFeature);
+        }
+
+        public IEnumerable<TopicFeature> GetTopicFeaturesAvailableToUser(User user)
+        {
+            var db = GetDbContext();
+            var topics = GetTopicsAvailableForUser(user).Select(t => t.Topic.Id);
+
+            return db.TopicFeatures.Where(tf => topics.Contains(tf.TopicId));
         }
 
         /// <summary>

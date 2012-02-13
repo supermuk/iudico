@@ -75,10 +75,13 @@
   <ItemGroup>
     <Compile Include="AnalyticsPlugin.cs" />
     <Compile Include="Controllers\AnalyticsController.cs" />
+    <Compile Include="Controllers\FeaturesController.cs" />
     <Compile Include="Models\AnalyticsService.cs" />
     <Compile Include="Models\DBDataContext.cs" />
     <Compile Include="Models\Storage\IAnalyticsStorage.cs" />
     <Compile Include="Models\Storage\MixedAnalyticsStorage.cs" />
+    <Compile Include="Models\TopicStat.cs" />
+    <Compile Include="Models\ViewDataClasses\ViewFeatureDetails.cs" />
     <Compile Include="Models\ViewDataClasses\ViewMainPageModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -96,6 +99,12 @@
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Views\Analytics\Index.aspx" />
+    <Content Include="Views\Features\AddTopic.aspx" />
+    <Content Include="Views\Features\Create.aspx" />
+    <Content Include="Views\Features\Details.aspx" />
+    <Content Include="Views\Features\Edit.aspx" />
+    <Content Include="Views\Features\Index.aspx" />
+    <Content Include="Views\TopicFeatures\Create.aspx" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup />

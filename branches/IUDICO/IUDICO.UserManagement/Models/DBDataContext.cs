@@ -1,16 +1,19 @@
-﻿using IUDICO.Common.Models;
+﻿using System.Configuration;
+using System.Data;
+using System.Data.Linq;
+using System.Data.Linq.Mapping;
+using IUDICO.Common.Models;
 using IUDICO.Common.Models.Interfaces;
 using IUDICO.Common.Models.Shared;
-using System.Data.Linq.Mapping;
 
 namespace IUDICO.UserManagement.Models
 {
-    public partial class DBDataContext : System.Data.Linq.DataContext, IDataContext
+    public partial class DBDataContext : DataContext, IDataContext
     {
-
-        private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
+        private static MappingSource mappingSource = new AttributeMappingSource();
 
         #region Extensibility Method Definitions
+
         partial void OnCreated();
         partial void InsertGroupUser(GroupUser instance);
         partial void UpdateGroupUser(GroupUser instance);
@@ -24,10 +27,14 @@ namespace IUDICO.UserManagement.Models
         partial void InsertUser(User instance);
         partial void UpdateUser(User instance);
         partial void DeleteUser(User instance);
+        partial void InsertUserTopicScore(UserTopicScore instance);
+        partial void UpdateUserTopicScore(UserTopicScore instance);
+        partial void DeleteUserTopicScore(UserTopicScore instance);
+
         #endregion
 
         public DBDataContext() :
-            base(global::System.Configuration.ConfigurationManager.ConnectionStrings["IUDICOConnectionString"].ConnectionString, mappingSource)
+            base(ConfigurationManager.ConnectionStrings["IUDICOConnectionString"].ConnectionString, mappingSource)
         {
             OnCreated();
         }
@@ -38,54 +45,47 @@ namespace IUDICO.UserManagement.Models
             OnCreated();
         }
 
-        public DBDataContext(System.Data.IDbConnection connection) :
+        public DBDataContext(IDbConnection connection) :
             base(connection, mappingSource)
         {
             OnCreated();
         }
 
-        public DBDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) :
+        public DBDataContext(string connection, MappingSource mappingSource) :
             base(connection, mappingSource)
         {
             OnCreated();
         }
 
-        public DBDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) :
+        public DBDataContext(IDbConnection connection, MappingSource mappingSource) :
             base(connection, mappingSource)
         {
             OnCreated();
         }
 
-        public System.Data.Linq.Table<GroupUser> GroupUsers
+        public Table<GroupUser> GroupUsers
         {
-            get
-            {
-                return this.GetTable<GroupUser>();
-            }
+            get { return this.GetTable<GroupUser>(); }
         }
 
-        public System.Data.Linq.Table<Group> Groups
+        public Table<Group> Groups
         {
-            get
-            {
-                return this.GetTable<Group>();
-            }
+            get { return this.GetTable<Group>(); }
         }
 
-        public System.Data.Linq.Table<UserRole> UserRoles
+        public Table<UserRole> UserRoles
         {
-            get
-            {
-                return this.GetTable<UserRole>();
-            }
+            get { return this.GetTable<UserRole>(); }
         }
 
-        public System.Data.Linq.Table<User> Users
+        public Table<User> Users
         {
-            get
-            {
-                return this.GetTable<User>();
-            }
+            get { return this.GetTable<User>(); }
+        }
+
+        public Table<UserTopicScore> UserTopicScores
+        {
+            get { return this.GetTable<UserTopicScore>(); }
         }
 
         IMockableTable<GroupUser> IDataContext.GroupUsers
@@ -106,6 +106,11 @@ namespace IUDICO.UserManagement.Models
         IMockableTable<User> IDataContext.Users
         {
             get { return new MockableTable<User>(Users); }
+        }
+
+        IMockableTable<UserTopicScore> IDataContext.UserTopicScores
+        {
+            get { return new MockableTable<UserTopicScore>(UserTopicScores); }
         }
     }
 }

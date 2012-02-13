@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using IUDICO.Common.Models;
-using System.IO;
 using System.Web;
+using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.UserManagement.Models.Storage
@@ -65,5 +64,6 @@ namespace IUDICO.UserManagement.Models.Storage
         #endregion
 
         bool IsPromotedToAdmin();
+        void RateTopic(int topicId, int score);
     }
 }

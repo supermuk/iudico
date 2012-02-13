@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Net.Security;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -9,13 +11,10 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web;
 using IUDICO.Common.Models;
-using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Notifications;
-using System.Net.Mail;
+using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
 using Kent.Boogaart.KBCsv;
-using IUDICO.Common.Models.Interfaces;
-using System.IO;
 
 namespace IUDICO.UserManagement.Models.Storage
 {
@@ -27,7 +26,7 @@ namespace IUDICO.UserManagement.Models.Storage
         protected const int EmailPort = 25;
         protected const string EmailUser = "report@tests-ua.com";
         /*protected const string EmailPassword = "iudico2012";*/
-        
+
         public DatabaseUserStorage(ILmsService lmsService)
         {
             _LmsService = lmsService;
@@ -53,9 +52,13 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             try
             {
-                ServicePointManager.ServerCertificateValidationCallback = delegate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; };
+                ServicePointManager.ServerCertificateValidationCallback =
+                    delegate(object sender, X509Certificate certificate, X509Chain chain,
+                             SslPolicyErrors sslPolicyErrors)
+                        { return true; };
 
-                var message = new MailMessage(new MailAddress(EmailUser), new MailAddress(toAddress)) { Subject = subject, Body = body };
+                var message = new MailMessage(new MailAddress(EmailUser), new MailAddress(toAddress))
+                                  {Subject = subject, Body = body};
 
                 var client = new SmtpClient(EmailHost, EmailPort)
                                  {
@@ -94,9 +97,10 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public virtual User GetCurrentUser()
         {
-            if (HttpContext.Current == null || HttpContext.Current.User == null || !HttpContext.Current.User.Identity.IsAuthenticated)
+            if (HttpContext.Current == null || HttpContext.Current.User == null ||
+                !HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                var userrole = new UserRole {RoleRef = (int)Role.None};
+                var userrole = new UserRole {RoleRef = (int) Role.None};
                 var user = new User();
 
                 user.UserRoles.Add(userrole);
@@ -151,7 +155,7 @@ namespace IUDICO.UserManagement.Models.Storage
             var db = GetDbContext();
             var users = db.Users.Where(u => u.UserId == userUniqueId && u.Deleted == false);
             var count = users.Count();
-            
+
             if (count == 0 || (count == 1 && users.First().Id == userId))
             {
                 return true;
@@ -251,7 +255,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
                     if (string.IsNullOrEmpty(password))
                     {
-                         password = RandomPassword();
+                        password = RandomPassword();
                     }
 
                     var user = new User
@@ -280,7 +284,9 @@ namespace IUDICO.UserManagement.Models.Storage
 
             foreach (var user in users)
             {
-                SendEmail("admin@iudico", user.Email, "Iudico Notification", "Your account has been created:\nUsername: " + user.Username + "\nPassword: " + passwords[user.Username]);
+                SendEmail("admin@iudico", user.Email, "Iudico Notification",
+                          "Your account has been created:\nUsername: " + user.Username + "\nPassword: " +
+                          passwords[user.Username]);
             }
 
             _LmsService.Inform(UserNotifications.UserCreateMultiple, users);
@@ -299,12 +305,12 @@ namespace IUDICO.UserManagement.Models.Storage
             {
                 oldUser.Password = EncryptPassword(user.Password);
             }
-                
+
             oldUser.Email = user.Email;
             oldUser.OpenId = user.OpenId ?? string.Empty;
             oldUser.Username = user.Username;
             oldUser.IsApproved = user.IsApproved;
-            
+
             db.SubmitChanges();
 
             _LmsService.Inform(UserNotifications.UserEdit, oldUser);
@@ -318,7 +324,7 @@ namespace IUDICO.UserManagement.Models.Storage
             object[] data = new object[2];
 
             newUser.Name = user.Name;
-            
+
             if (!string.IsNullOrEmpty(user.Password))
             {
                 oldUser.Password = EncryptPassword(user.Password);
@@ -360,7 +366,9 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
 
-            return db.Users.Where(u => !u.Deleted).Except(db.GroupUsers.Where(g => g.GroupRef == group.Id).Select(g => g.User));
+            return
+                db.Users.Where(u => !u.Deleted).Except(
+                    db.GroupUsers.Where(g => g.GroupRef == group.Id).Select(g => g.User));
         }
 
         public void RegisterUser(RegisterModel registerModel)
@@ -373,25 +381,27 @@ namespace IUDICO.UserManagement.Models.Storage
                                };
 
             var user = new User
-                            {
-                                Id = Guid.NewGuid(),
-                                Username = registerModel.Username,
-                                Password = EncryptPassword(registerModel.Password),
-                                OpenId = registerModel.OpenId ?? string.Empty,
-                                Email = registerModel.Email,
-                                Name = registerModel.Name,
-                                IsApproved = false,
-                                Deleted = false,
-                                CreationDate = DateTime.Now,
-                                ApprovedBy = null
-                            };
+                           {
+                               Id = Guid.NewGuid(),
+                               Username = registerModel.Username,
+                               Password = EncryptPassword(registerModel.Password),
+                               OpenId = registerModel.OpenId ?? string.Empty,
+                               Email = registerModel.Email,
+                               Name = registerModel.Name,
+                               IsApproved = false,
+                               Deleted = false,
+                               CreationDate = DateTime.Now,
+                               ApprovedBy = null
+                           };
 
             user.UserRoles.Add(userrole);
 
             db.Users.InsertOnSubmit(user);
             db.SubmitChanges();
 
-            SendEmail("admin@iudico", user.Email, "Iudico Notification", "Your account has been created:\nUsername: " + registerModel.Username + "\nPassword: " + registerModel.Password);
+            SendEmail("admin@iudico", user.Email, "Iudico Notification",
+                      "Your account has been created:\nUsername: " + registerModel.Username + "\nPassword: " +
+                      registerModel.Password);
         }
 
         public void EditAccount(EditModel editModel)
@@ -438,10 +448,10 @@ namespace IUDICO.UserManagement.Models.Storage
                 foreach (var role in roles)
                 {
                     db.UserRoles.InsertOnSubmit(new UserRole
-                    {
-                        UserRef = user.Id,
-                        RoleRef = (int)role
-                    });
+                                                    {
+                                                        UserRef = user.Id,
+                                                        RoleRef = (int) role
+                                                    });
                 }
             }
 
@@ -452,7 +462,7 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
             var users = db.Users.Where(u => usernames.Contains(u.Username)).Select(u => u.Id);
-            var intRoles = roles.Select(r => (int)r);
+            var intRoles = roles.Select(r => (int) r);
 
             var userRoles = db.UserRoles.Where(ur => users.Contains(ur.UserRef) && intRoles.Contains(ur.RoleRef));
 
@@ -463,7 +473,7 @@ namespace IUDICO.UserManagement.Models.Storage
         public IEnumerable<User> GetUsersInRole(Role role)
         {
             var db = GetDbContext();
-            
+
             return db.UserRoles.Where(ur => ur.RoleRef == (int) role).Select(ur => ur.User);
         }
 
@@ -471,8 +481,8 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
 
-            var roles = db.UserRoles.Where(ur => ur.User.Username == username).Select(ur => (Role)ur.RoleRef).ToList();
-            
+            var roles = db.UserRoles.Where(ur => ur.User.Username == username).Select(ur => (Role) ur.RoleRef).ToList();
+
             if (IsPromotedToAdmin() && !roles.Contains(Role.Admin))
             {
                 roles.Add(Role.Admin);
@@ -485,7 +495,7 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
 
-            var userRole = db.UserRoles.Single(g => g.RoleRef == (int)role && g.UserRef == user.Id);
+            var userRole = db.UserRoles.Single(g => g.RoleRef == (int) role && g.UserRef == user.Id);
 
             db.UserRoles.DeleteOnSubmit(userRole);
             db.SubmitChanges();
@@ -495,7 +505,7 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
 
-            var userRole = new UserRole { RoleRef = (int)role, UserRef = user.Id };
+            var userRole = new UserRole {RoleRef = (int) role, UserRef = user.Id};
 
             db.UserRoles.InsertOnSubmit(userRole);
             db.SubmitChanges();
@@ -512,12 +522,22 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             try
             {
-                return (bool)HttpContext.Current.Session["AllowAdmin"];
+                return (bool) HttpContext.Current.Session["AllowAdmin"];
             }
             catch (Exception)
             {
                 return false;
             }
+        }
+
+        public void RateTopic(int topicId, int score)
+        {
+            var db = GetDbContext();
+
+            var rating = new UserTopicScore {Score = score, TopicId = topicId, UserId = GetCurrentUser().Id};
+            db.UserTopicScores.InsertOnSubmit(rating);
+
+            db.SubmitChanges();
         }
 
         #endregion
@@ -555,13 +575,11 @@ namespace IUDICO.UserManagement.Models.Storage
             var db = GetDbContext();
             var oldGroup = db.Groups.Single(g => g.Id == id && !g.Deleted);
             var newGroup = oldGroup;
-            object[] data = new object[2];
 
             newGroup.Name = group.Name;
             db.SubmitChanges();
 
-            data[0] = oldGroup;
-            data[1] = newGroup;
+            var data = new object[] {oldGroup, newGroup};
 
             _LmsService.Inform(UserNotifications.GroupEdit, data);
         }
@@ -624,7 +642,7 @@ namespace IUDICO.UserManagement.Models.Storage
             int resultCode = -1; // if no file had been passed
             if (file != null)
             {
-                string fileName = Path.GetFileName(id.ToString() + ".png");
+                string fileName = Path.GetFileName(id + ".png");
                 string fullPath = Path.Combine(Path.Combine(GetPath(), @"Data\Avatars"), fileName);
                 FileInfo fileInfo = new FileInfo(fullPath);
 
@@ -643,7 +661,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public int DeleteAvatar(Guid id)
         {
-            string fileName = Path.GetFileName(id.ToString() + ".png");
+            string fileName = Path.GetFileName(id + ".png");
             string fullPath = Path.Combine(Path.Combine(GetPath(), @"Data\Avatars"), fileName);
             FileInfo fileInfo = new FileInfo(fullPath);
             if (fileInfo.Exists)

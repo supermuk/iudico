@@ -1,5 +1,6 @@
-﻿using IUDICO.Common.Models.Shared;
-using IUDICO.Common.Models.Interfaces;
+﻿using IUDICO.Common.Models.Interfaces;
+using IUDICO.Common.Models.Shared;
+
 namespace IUDICO.UserManagement.Models
 {
     public interface IDataContext : IMockableDataContext
@@ -8,5 +9,6 @@ namespace IUDICO.UserManagement.Models
         IMockableTable<Group> Groups { get; }
         IMockableTable<GroupUser> GroupUsers { get; }
         IMockableTable<UserRole> UserRoles { get; }
+        IMockableTable<UserTopicScore> UserTopicScores { get; }
     }
 }

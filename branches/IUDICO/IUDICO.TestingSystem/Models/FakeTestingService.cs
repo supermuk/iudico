@@ -30,6 +30,16 @@ namespace IUDICO.TestingSystem.Models
             return results;
         }
 
+        public IEnumerable<AttemptResult> GetResults(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<AttemptResult> GetResults(Topic topic)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<AttemptResult> GetAllAttempts()
         {
             List<AttemptResult> results = new List<AttemptResult>();
