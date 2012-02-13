@@ -623,58 +623,6 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
 
         #endregion
 
-        #region Test DeleteResources Methods
-
-        [Test]
-        [Category("DeleteResourcesMethods")]
-        public void DeleteResource()
-        {
-            string path = Path.Combine(_Tests._CourseStoragePath, @"1\0\somePath0");
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-
-
-            _Storage.DeleteResource(0);
-
-            try
-            {
-                NodeResource nodeResource = _Storage.GetResource(0);
-            }
-            catch (InvalidOperationException)
-            {
-                Assert.Pass();
-            }
-
-            Assert.Fail();
-        }
-
-        [Test]
-        [Category("DeleteResourcesMethods")]
-        public void DeleteResources()
-        {
-            List<int> ids = new List<int>();
-            ids.Add(0);
-            ids.Add(1);
-            ids.Add(2);
-
-            _Storage.DeleteResources(ids);
-
-            try
-            {
-                NodeResource nodeResource = _Storage.GetResource(1);
-            }
-            catch (InvalidOperationException)
-            {
-                Assert.Pass();
-            }
-
-            Assert.Fail();
-        }
-
-        #endregion
-
         #endregion
     }
 }
