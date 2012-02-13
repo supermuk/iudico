@@ -500,12 +500,6 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="Schema Objects\Database Level Objects\Storage\Files\IUDICO_log_1.sqlfile.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Database Level Objects\Storage\Files\IUDICO_1.sqlfile.sql">
-      <SubType>Code</SubType>
-    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_UserTopicScores_Topics.fkey.sql">
       <SubType>Code</SubType>
     </Build>
@@ -538,6 +532,14 @@
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Feature.table.sql">
+      <SubType>Code</SubType>
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Featuers_1.pkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Features.table.sql">
       <SubType>Code</SubType>
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
