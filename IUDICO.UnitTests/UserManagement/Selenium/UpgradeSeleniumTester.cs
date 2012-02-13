@@ -1,4 +1,5 @@
 using System;
+using System.Configuration;
 using System.Text;
 using NUnit.Framework;
 using Selenium;
@@ -9,7 +10,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
     public class UpgradeSeleniumTester
     {
         private ISelenium selenium;
-        public static string browserURL = "http://127.0.0.1:54333/";
+        public static string browserURL = ConfigurationManager.AppSettings["SELENIUM_URL"];
         public static string browserWait = "50000";
         private StringBuilder verificationErrors;
 

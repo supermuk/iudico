@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using NUnit.Framework;
 using Selenium;
 
@@ -12,7 +13,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         [SetUp]
         public void Login()
         {
-            selenium = new DefaultSelenium("localhost", 4444, "*chrome", "http://127.0.0.1:1569/");
+            selenium = new DefaultSelenium("localhost", 4444, "*chrome", ConfigurationManager.AppSettings["SELENIUM_URL"]);
                 selenium.Start();
 
             selenium.Open("/");
