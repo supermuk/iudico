@@ -78,9 +78,12 @@
     <Compile Include="Controllers\FeaturesController.cs" />
     <Compile Include="Models\AnalyticsService.cs" />
     <Compile Include="Models\DBDataContext.cs" />
+    <Compile Include="Models\GroupTopicStat.cs" />
     <Compile Include="Models\Storage\IAnalyticsStorage.cs" />
     <Compile Include="Models\Storage\MixedAnalyticsStorage.cs" />
+    <Compile Include="Models\TopicSimilarity.cs" />
     <Compile Include="Models\TopicStat.cs" />
+    <Compile Include="Models\UserRating.cs" />
     <Compile Include="Models\ViewDataClasses\ViewFeatureDetails.cs" />
     <Compile Include="Models\ViewDataClasses\ViewMainPageModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

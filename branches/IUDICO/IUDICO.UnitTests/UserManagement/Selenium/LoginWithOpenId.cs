@@ -64,6 +64,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Type("id=loginIdentifier", "yavora.livejournal.com");
             selenium.Click("//div[@id='logindisplay']/form[1]/input[2]");
             selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
+            
             if (!selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"))
             {
                 selenium.Type("id=login_user", "yavora");
