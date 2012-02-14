@@ -95,8 +95,6 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         void DeleteTopics(IEnumerable<int> ids);
         Topic TopicUp(int topicId);
         Topic TopicDown(int topicId);
-        IEnumerable<TopicFeature> GetTopicFeatures(Func<TopicFeature, bool> predicate);
-        IEnumerable<TopicFeature> GetTopicFeaturesAvailableToUser(User user);
 
         #endregion
 

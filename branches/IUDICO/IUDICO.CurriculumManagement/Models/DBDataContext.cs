@@ -126,14 +126,6 @@ namespace IUDICO.CurriculumManagement.Models
             }
         }
 
-        public System.Data.Linq.Table<TopicFeature> TopicFeatures
-        {
-            get
-            {
-                return this.GetTable<TopicFeature>();
-            }
-        }
-
         //IMockableTable<Course> IDataContext.Courses
         //{
         //    get { return new MockableTable<Course>(Courses); }
@@ -197,11 +189,6 @@ namespace IUDICO.CurriculumManagement.Models
         IMockableTable<UserTopicScore> IDataContext.UserTopicScores
         {
             get { return new MockableTable<UserTopicScore>(UserTopicScores); }
-        }
-
-        IMockableTable<TopicFeature> IDataContext.TopicFeatures
-        {
-            get { return new MockableTable<TopicFeature>(UserTopicScores); }
         }
     }
 }

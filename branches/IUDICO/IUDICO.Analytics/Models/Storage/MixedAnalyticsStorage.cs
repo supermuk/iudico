@@ -4,6 +4,7 @@ using System.Linq;
 using IUDICO.Analytics.Models.ViewDataClasses;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
+using IUDICO.Common.Models.Shared.CurriculumManagement;
 
 namespace IUDICO.Analytics.Models.Storage
 {
@@ -44,6 +45,18 @@ namespace IUDICO.Analytics.Models.Storage
             return query;
         }
 
+        protected IEnumerable<TopicFeature> GetTopicFeatures(Func<TopicFeature, bool> predicate)
+        {
+            return _Db.TopicFeatures.Where(predicate).Select(tf => new { Feature = tf.Feature, Topic = tf.Topic, TopicFeature = tf }).AsEnumerable().Select(a => a.TopicFeature);
+        }
+
+        protected IEnumerable<TopicFeature> GetTopicFeaturesAvailableForUser(User user)
+        {
+            var topics = GetTopicsAvailableForUser(user).Select(t => t.Topic.Id);
+
+            return _Db.TopicFeatures.Where(tf => topics.Contains(tf.TopicId));
+        }
+
         #region GetRecommended Topics by Perfomance
 
         protected Dictionary<int, double> GetUserPerfomance(User user)
@@ -55,7 +68,7 @@ namespace IUDICO.Analytics.Models.Storage
                 _LmsService.FindService<ITestingService>().GetResults(user).GroupBy(a => a.User).Select(g => g.First()).
                     ToDictionary(a => a.Topic.Id, a => a);
             var topicFeatures =
-                _LmsService.FindService<ICurriculumService>().GetTopicFeatures(f => attempts.Keys.Contains(f.TopicId)).
+                GetTopicFeatures(f => attempts.Keys.Contains(f.TopicId)).
                     GroupBy(t => t.TopicId).ToDictionary(g => g.Key, g => g.Select(t => t.FeatureId));
 
             if (attempts.Count() == 0)
@@ -105,7 +118,7 @@ namespace IUDICO.Analytics.Models.Storage
             var userPerfomance = GetUserPerfomance(user);
             
             var topicFeatures =
-                _LmsService.FindService<ICurriculumService>().GetTopicFeaturesAvailableToUser(user).GroupBy(t => t.TopicId)
+                GetTopicFeaturesAvailableForUser(user).GroupBy(t => t.TopicId)
                     .Select(g => new TopicStat(g.Key, GetScore(g.Select(k => k.FeatureId), userPerfomance))).ToList();
 
             topicFeatures.Sort();
@@ -201,6 +214,11 @@ namespace IUDICO.Analytics.Models.Storage
         protected IEnumerable<Topic> GetTopics()
         {
             return _LmsService.FindService<ICurriculumService>().GetTopics();
+        }
+
+        protected IEnumerable<TopicDescription> GetTopicsAvailableForUser(User user)
+        {
+            return _LmsService.FindService<ICurriculumService>().GetTopicsAvailableForUser(user);
         }
 
         #endregion
