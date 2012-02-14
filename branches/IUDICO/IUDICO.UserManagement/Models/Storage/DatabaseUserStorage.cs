@@ -38,14 +38,15 @@ namespace IUDICO.UserManagement.Models.Storage
             return new DBDataContext();
         }
 
-        protected string GetPath()
+        protected virtual string GetPath()
         {
             if (HttpContext.Current != null)
             {
                 return HttpContext.Current.Server.MapPath("~/");
             }
 
-            return Path.Combine(ConfigurationManager.AppSettings["PathToIUDICO.UnitTests"], "IUDICO.LMS");
+            var localPath = new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath;
+            return Path.GetFullPath(localPath + @"\..\..\..\..\IUDICO.LMS");
         }
 
         public virtual bool SendEmail(string fromAddress, string toAddress, string subject, string body)
@@ -643,6 +644,7 @@ namespace IUDICO.UserManagement.Models.Storage
             if (file != null)
             {
                 string fileName = Path.GetFileName(id + ".png");
+                
                 string fullPath = Path.Combine(Path.Combine(GetPath(), @"Data\Avatars"), fileName);
                 FileInfo fileInfo = new FileInfo(fullPath);
 
