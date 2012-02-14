@@ -227,10 +227,11 @@ namespace IUDICO.Analytics.Models.Storage
                                       .ToList();
             
             var usersParticipated = groupResults.Select(g => g.User);
+            var n = usersParticipated.Count();
 
-            if (usersParticipated.Count() == 0)
+            if (n == 0)
             {
-                return 0;
+                return new GroupTopicStat(0, 0);
             }
 
             var usersIds = usersParticipated.Select(u => u.Id);
@@ -246,14 +247,18 @@ namespace IUDICO.Analytics.Models.Storage
             var ratResults = groupResults.Select((r, i) => new { User = r.User, Index = i }).ToDictionary(a => a.User, a => a.Index);
             var ratRatings = groupRatings.Select((r, i) => new { User = r.User, Index = i }).ToDictionary(a => a.User, a => a.Index);
 
-            var ratingDifference = usersParticipated.Sum(u => Math.Abs(ratResults[u] - ratRatings[u]))/usersParticipated.Count();
+            var ratingDifference = 1.0 * usersParticipated.Sum(u => Math.Abs(ratResults[u] - ratRatings[u]));
+            var ratingMax = 2*((n + 1)/2)*(n/2);
+            var ratingNormalized = ratingDifference/ratingMax;
 
-            var diffResults = groupResults.Select((r, i) => new { User = r.User, Score = r.Score }).ToDictionary(a => a.User, a => a.Score);
-            var diffRatings = groupRatings.Select((r, i) => new { User = r.User, Score = r.Score }).ToDictionary(a => a.User, a => a.Score);
+            var diffResults = groupResults.ToDictionary(a => a.User, a => a.Score);
+            var diffRatings = groupRatings.ToDictionary(a => a.User, a => a.Score);
 
-            var scoreDifference = usersParticipated.Sum(u => Math.Abs(diffResults[u] - diffRatings[u])) / usersParticipated.Count();
+            var scoreDifference = 1.0 * usersParticipated.Sum(u => Math.Abs(diffResults[u] - diffRatings[u]));
+            var scoreMax = n*100;
+            var scoreNormalized = scoreDifference / scoreMax;
 
-            return new GroupTopicStat(ratingDifference, scoreDifference);
+            return new GroupTopicStat(ratingNormalized, scoreNormalized);
         }
 
         #endregion
