@@ -19,6 +19,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Start();
             verificationErrors = new StringBuilder();
         }
+
         [TearDown]
         public void TeardownTest()
         {
@@ -32,6 +33,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
           }
           Assert.AreEqual("", verificationErrors.ToString());
         }
+        
         [Test]
         public void LoginWithOpenIdSuccess()
         {
@@ -73,9 +75,6 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             }
 
             Assert.IsTrue(selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
-
-
-
         }
 
         [Test]
