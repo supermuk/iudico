@@ -56,8 +56,6 @@ namespace IUDICO.Common.Models.Services
         /// <returns></returns>
         IEnumerable<Topic> GetTopicsOwnedByUser(User owner);
         Topic GetTopic(int id);
-        IEnumerable<TopicFeature> GetTopicFeatures(Func<TopicFeature, bool> predicate);
-        IEnumerable<TopicFeature> GetTopicFeaturesAvailableToUser(User user);
 
         #endregion
 

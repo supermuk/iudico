@@ -510,21 +510,6 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return topic;
         }
 
-        public IEnumerable<TopicFeature> GetTopicFeatures(Func<TopicFeature, bool> predicate)
-        {
-            var db = GetDbContext();
-
-            return db.TopicFeatures.Where(predicate).Select(tf => new {Feature = tf.Feature, Topic = tf.Topic, TopicFeature = tf}).AsEnumerable().Select(a => a.TopicFeature);
-        }
-
-        public IEnumerable<TopicFeature> GetTopicFeaturesAvailableToUser(User user)
-        {
-            var db = GetDbContext();
-            var topics = GetTopicsAvailableForUser(user).Select(t => t.Topic.Id);
-
-            return db.TopicFeatures.Where(tf => topics.Contains(tf.TopicId));
-        }
-
         /// <summary>
         /// Adds topic assignments for topic.
         /// </summary>
