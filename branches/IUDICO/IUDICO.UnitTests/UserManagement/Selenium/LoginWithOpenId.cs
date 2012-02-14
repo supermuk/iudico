@@ -1,4 +1,6 @@
-using System;
+
+
+﻿using System;
 using System.Text;
 using NUnit.Framework;
 using Selenium;
@@ -17,21 +19,6 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium = new DefaultSelenium("localhost", 4444, "*chrome", UpgradeSeleniumTester.browserURL);
             selenium.Start();
             verificationErrors = new StringBuilder();
-        }
-
-        [TearDown]
-        public void TeardownTest()
-        {
-            try
-            {
-                selenium.Stop();
-            }
-            catch (Exception)
-            {
-                // Ignore errors if unable to close the browser
-            }
-
-            Assert.AreEqual("", verificationErrors.ToString());
         }
 
         [Test]
@@ -69,12 +56,15 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
                 selenium.Type("id=login_user", "yavora");
                 selenium.Type("id=login_password", "nestor1");
                 selenium.Click("//input[@id='loginlj_submit']");
-                selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-                selenium.Click("//input[@name='yes:once']");
+               // selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
+                //selenium.Click("//input[@name='yes:once']");
                 selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
             }
 
             Assert.IsTrue(selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
+
+
+
         }
 
         [Test]
