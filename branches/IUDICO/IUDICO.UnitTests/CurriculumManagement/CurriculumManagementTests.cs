@@ -172,6 +172,13 @@ namespace IUDICO.UnitTests.CurriculumManagement
             userService.Setup(s => s.GetUsers()).Returns(mockUserData);
             userService.Setup(s => s.GetGroupsByUser(It.IsAny<User>())).Returns(new[] {mockGroupData[0]});
 
+            var mockUserScoresData = new[]
+                                          {
+                                              new UserTopicScore {Score = 0, TopicId = 1, UserId = mockUserData[0].Id}
+                                          };
+
+            _MockDataContext.SetupGet(c => c.UserTopicScores).Returns(new MemoryTable<UserTopicScore>(mockUserScoresData));
+
             ClearTables();
         }
 
@@ -183,6 +190,8 @@ namespace IUDICO.UnitTests.CurriculumManagement
                                          new TopicType {Id = 2, Name = "Theory"},
                                          new TopicType {Id = 3, Name = "TestWithoutCourse"}
                                      };
+
+            
 
             _MockDataContext.SetupGet(c => c.Disciplines).Returns(new MemoryTable<Discipline>("Id"));
             _MockDataContext.SetupGet(c => c.Chapters).Returns(new MemoryTable<Chapter>("Id"));
