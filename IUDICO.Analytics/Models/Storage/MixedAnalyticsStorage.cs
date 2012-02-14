@@ -5,6 +5,7 @@ using IUDICO.Analytics.Models.ViewDataClasses;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.CurriculumManagement;
+using IUDICO.Common.Models.Shared.Statistics;
 
 namespace IUDICO.Analytics.Models.Storage
 {
@@ -45,6 +46,8 @@ namespace IUDICO.Analytics.Models.Storage
             return query;
         }
 
+        #region GetRecommended Topics by User Perfomance
+
         protected IEnumerable<TopicFeature> GetTopicFeatures(Func<TopicFeature, bool> predicate)
         {
             return _Db.TopicFeatures.Where(predicate).Select(tf => new { Feature = tf.Feature, Topic = tf.Topic, TopicFeature = tf }).AsEnumerable().Select(a => a.TopicFeature);
@@ -57,15 +60,12 @@ namespace IUDICO.Analytics.Models.Storage
             return _Db.TopicFeatures.Where(tf => topics.Contains(tf.TopicId));
         }
 
-        #region GetRecommended Topics by Perfomance
-
         protected Dictionary<int, double> GetUserPerfomance(User user)
         {
             var features = new Dictionary<int, double>();
             var count = new Dictionary<int, int>();
 
-            var attempts =
-                _LmsService.FindService<ITestingService>().GetResults(user).GroupBy(a => a.User).Select(g => g.First()).
+            var attempts = GetResults(user).GroupBy(a => a.User).Select(g => g.First()).
                     ToDictionary(a => a.Topic.Id, a => a);
             var topicFeatures =
                 GetTopicFeatures(f => attempts.Keys.Contains(f.TopicId)).
@@ -136,23 +136,131 @@ namespace IUDICO.Analytics.Models.Storage
 
         #endregion
 
-//        public IEnumerable<int> GetDistances(int topicId)
-//        {
-//            var attempts = _LmsService.FindService<ITestingService>().GetAllAttempts();
-//
-//            var topicFeature = topicFeatures.Where(t => t.Topic == topicId).SingleOrDefault();
-//
-//            if (topicFeature == null)
-//            {
-//                return null;
-//            }
-//
-//            return topicFeatures.Where(t => t.Topic != topicId).Select(t => HammingDistance(topicFeature.Features, t.Features)).ToList();
-//        }
+        #region Get Recommended Topics by Score
+
+        public IEnumerable<TopicStat> GetRecommendedItems(User user, IEnumerable<TopicSimilarity> similarItems)
+        {
+            var userScores = user.UserTopicScores;
+            var ratedTopics = userScores.Select(s => s.TopicId);
+            var scores = new Dictionary<int, double>();
+            var totalSim = new Dictionary<int, double>();
+
+            foreach (var userScore in userScores)
+            {
+                foreach (var similarItem in GetSimilarItems(similarItems, userScore.TopicId))
+                {
+                    if (ratedTopics.Contains(similarItem.Topic2Id))
+                    {
+                        continue;
+                    }
+
+                    scores[similarItem.Topic2Id] += similarItem.Similarity*userScore.Score;
+                    totalSim[similarItem.Topic2Id] += similarItem.Similarity;
+                }
+            }
+
+            var rankings = scores.Select(s => new TopicStat(s.Key, s.Value/totalSim[s.Key])).ToList();
+
+            rankings.Sort();
+
+            return rankings;
+        }
+
+        protected IEnumerable<TopicSimilarity> GetSimilarItems(IEnumerable<TopicSimilarity> similarItems, int topicId)
+        {
+            var v1 = similarItems.Where(t => t.Topic1Id == topicId);
+            var v2 = similarItems.Where(t => t.Topic2Id == topicId).Select(t => new TopicSimilarity(t.Topic2Id, t.Topic1Id, t.Similarity));
+
+            return v1.Concat(v2);
+        }
+
+        public IEnumerable<TopicSimilarity> CalculateSimilarItems(IEnumerable<Topic> topics, int n)
+        {
+            return topics.SelectMany(t => TopMatches(t, topics, n));
+        }
+
+        protected IEnumerable<TopicSimilarity> TopMatches(Topic topic, IEnumerable<Topic> topics, int n)
+        {
+            var topicStats = topics.Where(t => t.Id != topic.Id).Select(t => new TopicSimilarity(topic.Id, t.Id, PearsonDistance(topic, t))).ToList();
+            
+            topicStats.Sort();
+
+            return topicStats.Take(n);
+        }
+
+        protected double PearsonDistance(Topic t1, Topic t2)
+        {
+            var t1s = t1.UserTopicScores.ToDictionary(t => t.UserId, t => t.Score);
+            var t2s = t2.UserTopicScores.ToDictionary(t => t.UserId, t => t.Score);
+
+            var commonUsers = t1s.Select(t => t.Key).Intersect(t2s.Select(t => t.Key));
+            var n = commonUsers.Count();
+
+            var t1c = t1s.Where(t => commonUsers.Contains(t.Key)).Select(t => 1.0 * t.Value);
+            var t2c = t2s.Where(t => commonUsers.Contains(t.Key)).Select(t => 1.0 * t.Value);
+
+            var sum1 = t1c.Sum();
+            var sum2 = t2c.Sum();
+
+            var sum1Sq = t1c.Sum(x => x * x);
+            var sum2Sq = t2c.Sum(x => x * x);
+
+            var pSum = commonUsers.Sum(user => (t1s[user]*t2s[user]));
+
+            var num = pSum - (sum1 * sum2 / n);
+            var den = Math.Sqrt((sum1Sq - Math.Pow(sum1, 2)/n)*(sum2Sq - Math.Pow(sum2, 2)/n));
+
+            return den == 0 ? 0 : num/den;
+        }
 
         #endregion
 
-        #region Getter Methods
+        #region Get Topic Validity Score
+
+        public GroupTopicStat GetGroupTopicStatistic(Topic topic, Group group)
+        {
+            var results = GetResults(topic);
+
+            var groupResults = results.Where(r => r.User.GroupUsers.Select(g => g.GroupRef)
+                                      .Contains(group.Id))
+                                      .Select(r => new UserRating(r.User, r.Score.ToPercents().Value))
+                                      .ToList();
+            
+            var usersParticipated = groupResults.Select(g => g.User);
+
+            if (usersParticipated.Count() == 0)
+            {
+                return 0;
+            }
+
+            var usersIds = usersParticipated.Select(u => u.Id);
+
+            var groupRatings = group.GroupUsers
+                                    .Select(gu => new UserRating(gu.User, 1.0 * gu.User.TestsSum / gu.User.TestsTotal))
+                                    .Where(gu => usersIds.Contains(gu.User.Id))
+                                    .ToList();
+
+            groupResults.Sort();
+            groupRatings.Sort();
+
+            var ratResults = groupResults.Select((r, i) => new { User = r.User, Index = i }).ToDictionary(a => a.User, a => a.Index);
+            var ratRatings = groupRatings.Select((r, i) => new { User = r.User, Index = i }).ToDictionary(a => a.User, a => a.Index);
+
+            var ratingDifference = usersParticipated.Sum(u => Math.Abs(ratResults[u] - ratRatings[u]))/usersParticipated.Count();
+
+            var diffResults = groupResults.Select((r, i) => new { User = r.User, Score = r.Score }).ToDictionary(a => a.User, a => a.Score);
+            var diffRatings = groupRatings.Select((r, i) => new { User = r.User, Score = r.Score }).ToDictionary(a => a.User, a => a.Score);
+
+            var scoreDifference = usersParticipated.Sum(u => Math.Abs(diffResults[u] - diffRatings[u])) / usersParticipated.Count();
+
+            return new GroupTopicStat(ratingDifference, scoreDifference);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Helper Methods
 
         public IEnumerable<Feature> GetFeatures()
         {
@@ -219,6 +327,16 @@ namespace IUDICO.Analytics.Models.Storage
         protected IEnumerable<TopicDescription> GetTopicsAvailableForUser(User user)
         {
             return _LmsService.FindService<ICurriculumService>().GetTopicsAvailableForUser(user);
+        }
+
+        protected IEnumerable<AttemptResult> GetResults(User user)
+        {
+            return _LmsService.FindService<ITestingService>().GetResults(user);
+        }
+
+        protected IEnumerable<AttemptResult> GetResults(Topic topic)
+        {
+            return _LmsService.FindService<ITestingService>().GetResults(topic);
         }
 
         #endregion

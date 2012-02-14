@@ -259,15 +259,19 @@ namespace IUDICO.Common.Models.Shared
         }
     }
 
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.UserRoles")]
-    public partial class UserRole : INotifyPropertyChanging, INotifyPropertyChanged
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.UserTopicScores")]
+    public partial class UserTopicScore : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 
-        private System.Guid _UserRef;
+        private System.Guid _UserId;
 
-        private int _RoleRef;
+        private int _TopicId;
+
+        private int _Score;
+
+        private EntityRef<Topic> _Topic;
 
         private EntityRef<User> _User;
 
@@ -275,63 +279,124 @@ namespace IUDICO.Common.Models.Shared
         partial void OnLoaded();
         partial void OnValidate(System.Data.Linq.ChangeAction action);
         partial void OnCreated();
-        partial void OnUserRefChanging(System.Guid value);
-        partial void OnUserRefChanged();
-        partial void OnRoleRefChanging(int value);
-        partial void OnRoleRefChanged();
+        partial void OnUserIdChanging(System.Guid value);
+        partial void OnUserIdChanged();
+        partial void OnTopicIdChanging(int value);
+        partial void OnTopicIdChanged();
+        partial void OnScoreChanging(int value);
+        partial void OnScoreChanged();
         #endregion
 
-        public UserRole()
+        public UserTopicScore()
         {
+            this._Topic = default(EntityRef<Topic>);
             this._User = default(EntityRef<User>);
             OnCreated();
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_UserRef", DbType = "UniqueIdentifier NOT NULL", IsPrimaryKey = true)]
-        public System.Guid UserRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_UserId", DbType = "UniqueIdentifier NOT NULL", IsPrimaryKey = true)]
+        public System.Guid UserId
         {
             get
             {
-                return this._UserRef;
+                return this._UserId;
             }
             set
             {
-                if ((this._UserRef != value))
+                if ((this._UserId != value))
                 {
                     if (this._User.HasLoadedOrAssignedValue)
                     {
                         throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
                     }
-                    this.OnUserRefChanging(value);
+                    this.OnUserIdChanging(value);
                     this.SendPropertyChanging();
-                    this._UserRef = value;
-                    this.SendPropertyChanged("UserRef");
-                    this.OnUserRefChanged();
+                    this._UserId = value;
+                    this.SendPropertyChanged("UserId");
+                    this.OnUserIdChanged();
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_RoleRef", DbType = "Int NOT NULL", IsPrimaryKey = true)]
-        public int RoleRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TopicId", DbType = "Int NOT NULL", IsPrimaryKey = true)]
+        public int TopicId
         {
             get
             {
-                return this._RoleRef;
+                return this._TopicId;
             }
             set
             {
-                if ((this._RoleRef != value))
+                if ((this._TopicId != value))
                 {
-                    this.OnRoleRefChanging(value);
+                    if (this._Topic.HasLoadedOrAssignedValue)
+                    {
+                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+                    }
+                    this.OnTopicIdChanging(value);
                     this.SendPropertyChanging();
-                    this._RoleRef = value;
-                    this.SendPropertyChanged("RoleRef");
-                    this.OnRoleRefChanged();
+                    this._TopicId = value;
+                    this.SendPropertyChanged("TopicId");
+                    this.OnTopicIdChanged();
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "User_UserRole", Storage = "_User", ThisKey = "UserRef", OtherKey = "Id", IsForeignKey = true)]
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Score", DbType = "Int NOT NULL")]
+        public int Score
+        {
+            get
+            {
+                return this._Score;
+            }
+            set
+            {
+                if ((this._Score != value))
+                {
+                    this.OnScoreChanging(value);
+                    this.SendPropertyChanging();
+                    this._Score = value;
+                    this.SendPropertyChanged("Score");
+                    this.OnScoreChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Topic_UserTopicScore", Storage = "_Topic", ThisKey = "TopicId", OtherKey = "Id", IsForeignKey = true)]
+        public Topic Topic
+        {
+            get
+            {
+                return this._Topic.Entity;
+            }
+            set
+            {
+                Topic previousValue = this._Topic.Entity;
+                if (((previousValue != value)
+                            || (this._Topic.HasLoadedOrAssignedValue == false)))
+                {
+                    this.SendPropertyChanging();
+                    if ((previousValue != null))
+                    {
+                        this._Topic.Entity = null;
+                        previousValue.UserTopicScores.Remove(this);
+                    }
+                    this._Topic.Entity = value;
+                    if ((value != null))
+                    {
+                        value.UserTopicScores.Add(this);
+                        this._TopicId = value.Id;
+                    }
+                    else
+                    {
+                        this._TopicId = default(int);
+                    }
+                    this.SendPropertyChanged("Topic");
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "User_UserTopicScore", Storage = "_User", ThisKey = "UserId", OtherKey = "Id", IsForeignKey = true)]
         public User User
         {
             get
@@ -348,17 +413,17 @@ namespace IUDICO.Common.Models.Shared
                     if ((previousValue != null))
                     {
                         this._User.Entity = null;
-                        previousValue.UserRoles.Remove(this);
+                        previousValue.UserTopicScores.Remove(this);
                     }
                     this._User.Entity = value;
                     if ((value != null))
                     {
-                        value.UserRoles.Add(this);
-                        this._UserRef = value.Id;
+                        value.UserTopicScores.Add(this);
+                        this._UserId = value.Id;
                     }
                     else
                     {
-                        this._UserRef = default(System.Guid);
+                        this._UserId = default(System.Guid);
                     }
                     this.SendPropertyChanged("User");
                 }
@@ -4557,11 +4622,11 @@ namespace IUDICO.Common.Models.Shared
 
         private bool _IsDeleted;
 
+        private EntitySet<UserTopicScore> _UserTopicScores;
+
         private EntitySet<TopicAssignment> _TopicAssignments;
 
         private EntitySet<TopicFeature> _TopicFeatures;
-
-        private EntitySet<UserTopicScore> _UserTopicScores;
 
         private EntityRef<Chapter> _Chapter;
 
@@ -4593,9 +4658,9 @@ namespace IUDICO.Common.Models.Shared
 
         public Topic()
         {
+            this._UserTopicScores = new EntitySet<UserTopicScore>(new Action<UserTopicScore>(this.attach_UserTopicScores), new Action<UserTopicScore>(this.detach_UserTopicScores));
             this._TopicAssignments = new EntitySet<TopicAssignment>(new Action<TopicAssignment>(this.attach_TopicAssignments), new Action<TopicAssignment>(this.detach_TopicAssignments));
             this._TopicFeatures = new EntitySet<TopicFeature>(new Action<TopicFeature>(this.attach_TopicFeatures), new Action<TopicFeature>(this.detach_TopicFeatures));
-            this._UserTopicScores = new EntitySet<UserTopicScore>(new Action<UserTopicScore>(this.attach_UserTopicScores), new Action<UserTopicScore>(this.detach_UserTopicScores));
             this._Chapter = default(EntityRef<Chapter>);
             this._TopicType = default(EntityRef<TopicType>);
             OnCreated();
@@ -4789,6 +4854,19 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Topic_UserTopicScore", Storage = "_UserTopicScores", ThisKey = "Id", OtherKey = "TopicId")]
+        public EntitySet<UserTopicScore> UserTopicScores
+        {
+            get
+            {
+                return this._UserTopicScores;
+            }
+            set
+            {
+                this._UserTopicScores.Assign(value);
+            }
+        }
+
         [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Topic_TopicAssignment", Storage = "_TopicAssignments", ThisKey = "Id", OtherKey = "TopicRef")]
         public EntitySet<TopicAssignment> TopicAssignments
         {
@@ -4812,19 +4890,6 @@ namespace IUDICO.Common.Models.Shared
             set
             {
                 this._TopicFeatures.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Topic_UserTopicScore", Storage = "_UserTopicScores", ThisKey = "Id", OtherKey = "TopicId")]
-        public EntitySet<UserTopicScore> UserTopicScores
-        {
-            get
-            {
-                return this._UserTopicScores;
-            }
-            set
-            {
-                this._UserTopicScores.Assign(value);
             }
         }
 
@@ -4916,6 +4981,18 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
+        private void attach_UserTopicScores(UserTopicScore entity)
+        {
+            this.SendPropertyChanging();
+            entity.Topic = this;
+        }
+
+        private void detach_UserTopicScores(UserTopicScore entity)
+        {
+            this.SendPropertyChanging();
+            entity.Topic = null;
+        }
+
         private void attach_TopicAssignments(TopicAssignment entity)
         {
             this.SendPropertyChanging();
@@ -4935,18 +5012,6 @@ namespace IUDICO.Common.Models.Shared
         }
 
         private void detach_TopicFeatures(TopicFeature entity)
-        {
-            this.SendPropertyChanging();
-            entity.Topic = null;
-        }
-
-        private void attach_UserTopicScores(UserTopicScore entity)
-        {
-            this.SendPropertyChanging();
-            entity.Topic = this;
-        }
-
-        private void detach_UserTopicScores(UserTopicScore entity)
         {
             this.SendPropertyChanging();
             entity.Topic = null;
@@ -5095,7 +5160,11 @@ namespace IUDICO.Common.Models.Shared
 
         private string _UserId;
 
-        private EntitySet<UserRole> _UserRoles;
+        private int _TestsSum;
+
+        private int _TestsTotal;
+
+        private EntitySet<UserTopicScore> _UserTopicScores;
 
         private EntitySet<ForecastingResult> _ForecastingResults;
 
@@ -5105,7 +5174,7 @@ namespace IUDICO.Common.Models.Shared
 
         private EntitySet<User> _Users;
 
-        private EntitySet<UserTopicScore> _UserTopicScores;
+        private EntitySet<UserRole> _UserRoles;
 
         private EntityRef<User> _User1;
 
@@ -5135,16 +5204,20 @@ namespace IUDICO.Common.Models.Shared
         partial void OnApprovedByChanged();
         partial void OnUserIdChanging(string value);
         partial void OnUserIdChanged();
+        partial void OnTestsSumChanging(int value);
+        partial void OnTestsSumChanged();
+        partial void OnTestsTotalChanging(int value);
+        partial void OnTestsTotalChanged();
         #endregion
 
         public User()
         {
-            this._UserRoles = new EntitySet<UserRole>(new Action<UserRole>(this.attach_UserRoles), new Action<UserRole>(this.detach_UserRoles));
+            this._UserTopicScores = new EntitySet<UserTopicScore>(new Action<UserTopicScore>(this.attach_UserTopicScores), new Action<UserTopicScore>(this.detach_UserTopicScores));
             this._ForecastingResults = new EntitySet<ForecastingResult>(new Action<ForecastingResult>(this.attach_ForecastingResults), new Action<ForecastingResult>(this.detach_ForecastingResults));
             this._GroupUsers = new EntitySet<GroupUser>(new Action<GroupUser>(this.attach_GroupUsers), new Action<GroupUser>(this.detach_GroupUsers));
             this._StudyResults = new EntitySet<StudyResult>(new Action<StudyResult>(this.attach_StudyResults), new Action<StudyResult>(this.detach_StudyResults));
             this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
-            this._UserTopicScores = new EntitySet<UserTopicScore>(new Action<UserTopicScore>(this.attach_UserTopicScores), new Action<UserTopicScore>(this.detach_UserTopicScores));
+            this._UserRoles = new EntitySet<UserRole>(new Action<UserRole>(this.attach_UserRoles), new Action<UserRole>(this.detach_UserRoles));
             this._User1 = default(EntityRef<User>);
             OnCreated();
         }
@@ -5373,16 +5446,56 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "User_UserRole", Storage = "_UserRoles", ThisKey = "Id", OtherKey = "UserRef")]
-        public EntitySet<UserRole> UserRoles
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TestsSum", DbType = "Int NOT NULL")]
+        public int TestsSum
         {
             get
             {
-                return this._UserRoles;
+                return this._TestsSum;
             }
             set
             {
-                this._UserRoles.Assign(value);
+                if ((this._TestsSum != value))
+                {
+                    this.OnTestsSumChanging(value);
+                    this.SendPropertyChanging();
+                    this._TestsSum = value;
+                    this.SendPropertyChanged("TestsSum");
+                    this.OnTestsSumChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TestsTotal", DbType = "Int NOT NULL")]
+        public int TestsTotal
+        {
+            get
+            {
+                return this._TestsTotal;
+            }
+            set
+            {
+                if ((this._TestsTotal != value))
+                {
+                    this.OnTestsTotalChanging(value);
+                    this.SendPropertyChanging();
+                    this._TestsTotal = value;
+                    this.SendPropertyChanged("TestsTotal");
+                    this.OnTestsTotalChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "User_UserTopicScore", Storage = "_UserTopicScores", ThisKey = "Id", OtherKey = "UserId")]
+        public EntitySet<UserTopicScore> UserTopicScores
+        {
+            get
+            {
+                return this._UserTopicScores;
+            }
+            set
+            {
+                this._UserTopicScores.Assign(value);
             }
         }
 
@@ -5438,16 +5551,16 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "User_UserTopicScore", Storage = "_UserTopicScores", ThisKey = "Id", OtherKey = "UserId")]
-        public EntitySet<UserTopicScore> UserTopicScores
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "User_UserRole", Storage = "_UserRoles", ThisKey = "Id", OtherKey = "UserRef")]
+        public EntitySet<UserRole> UserRoles
         {
             get
             {
-                return this._UserTopicScores;
+                return this._UserRoles;
             }
             set
             {
-                this._UserTopicScores.Assign(value);
+                this._UserRoles.Assign(value);
             }
         }
 
@@ -5505,13 +5618,13 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        private void attach_UserRoles(UserRole entity)
+        private void attach_UserTopicScores(UserTopicScore entity)
         {
             this.SendPropertyChanging();
             entity.User = this;
         }
 
-        private void detach_UserRoles(UserRole entity)
+        private void detach_UserTopicScores(UserTopicScore entity)
         {
             this.SendPropertyChanging();
             entity.User = null;
@@ -5565,13 +5678,13 @@ namespace IUDICO.Common.Models.Shared
             entity.User1 = null;
         }
 
-        private void attach_UserTopicScores(UserTopicScore entity)
+        private void attach_UserRoles(UserRole entity)
         {
             this.SendPropertyChanging();
             entity.User = this;
         }
 
-        private void detach_UserTopicScores(UserTopicScore entity)
+        private void detach_UserRoles(UserRole entity)
         {
             this.SendPropertyChanging();
             entity.User = null;
@@ -5784,19 +5897,15 @@ namespace IUDICO.Common.Models.Shared
         }
     }
 
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.UserTopicScores")]
-    public partial class UserTopicScore : INotifyPropertyChanging, INotifyPropertyChanged
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.UserRoles")]
+    public partial class UserRole : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 
-        private System.Guid _UserId;
+        private System.Guid _UserRef;
 
-        private int _TopicId;
-
-        private int _Score;
-
-        private EntityRef<Topic> _Topic;
+        private int _RoleRef;
 
         private EntityRef<User> _User;
 
@@ -5804,124 +5913,63 @@ namespace IUDICO.Common.Models.Shared
         partial void OnLoaded();
         partial void OnValidate(System.Data.Linq.ChangeAction action);
         partial void OnCreated();
-        partial void OnUserIdChanging(System.Guid value);
-        partial void OnUserIdChanged();
-        partial void OnTopicIdChanging(int value);
-        partial void OnTopicIdChanged();
-        partial void OnScoreChanging(int value);
-        partial void OnScoreChanged();
+        partial void OnUserRefChanging(System.Guid value);
+        partial void OnUserRefChanged();
+        partial void OnRoleRefChanging(int value);
+        partial void OnRoleRefChanged();
         #endregion
 
-        public UserTopicScore()
+        public UserRole()
         {
-            this._Topic = default(EntityRef<Topic>);
             this._User = default(EntityRef<User>);
             OnCreated();
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_UserId", DbType = "UniqueIdentifier NOT NULL", IsPrimaryKey = true)]
-        public System.Guid UserId
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_UserRef", DbType = "UniqueIdentifier NOT NULL", IsPrimaryKey = true)]
+        public System.Guid UserRef
         {
             get
             {
-                return this._UserId;
+                return this._UserRef;
             }
             set
             {
-                if ((this._UserId != value))
+                if ((this._UserRef != value))
                 {
                     if (this._User.HasLoadedOrAssignedValue)
                     {
                         throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
                     }
-                    this.OnUserIdChanging(value);
+                    this.OnUserRefChanging(value);
                     this.SendPropertyChanging();
-                    this._UserId = value;
-                    this.SendPropertyChanged("UserId");
-                    this.OnUserIdChanged();
+                    this._UserRef = value;
+                    this.SendPropertyChanged("UserRef");
+                    this.OnUserRefChanged();
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TopicId", DbType = "Int NOT NULL", IsPrimaryKey = true)]
-        public int TopicId
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_RoleRef", DbType = "Int NOT NULL", IsPrimaryKey = true)]
+        public int RoleRef
         {
             get
             {
-                return this._TopicId;
+                return this._RoleRef;
             }
             set
             {
-                if ((this._TopicId != value))
+                if ((this._RoleRef != value))
                 {
-                    if (this._Topic.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnTopicIdChanging(value);
+                    this.OnRoleRefChanging(value);
                     this.SendPropertyChanging();
-                    this._TopicId = value;
-                    this.SendPropertyChanged("TopicId");
-                    this.OnTopicIdChanged();
+                    this._RoleRef = value;
+                    this.SendPropertyChanged("RoleRef");
+                    this.OnRoleRefChanged();
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Score", DbType = "Int NOT NULL")]
-        public int Score
-        {
-            get
-            {
-                return this._Score;
-            }
-            set
-            {
-                if ((this._Score != value))
-                {
-                    this.OnScoreChanging(value);
-                    this.SendPropertyChanging();
-                    this._Score = value;
-                    this.SendPropertyChanged("Score");
-                    this.OnScoreChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Topic_UserTopicScore", Storage = "_Topic", ThisKey = "TopicId", OtherKey = "Id", IsForeignKey = true)]
-        public Topic Topic
-        {
-            get
-            {
-                return this._Topic.Entity;
-            }
-            set
-            {
-                Topic previousValue = this._Topic.Entity;
-                if (((previousValue != value)
-                            || (this._Topic.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Topic.Entity = null;
-                        previousValue.UserTopicScores.Remove(this);
-                    }
-                    this._Topic.Entity = value;
-                    if ((value != null))
-                    {
-                        value.UserTopicScores.Add(this);
-                        this._TopicId = value.Id;
-                    }
-                    else
-                    {
-                        this._TopicId = default(int);
-                    }
-                    this.SendPropertyChanged("Topic");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "User_UserTopicScore", Storage = "_User", ThisKey = "UserId", OtherKey = "Id", IsForeignKey = true)]
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "User_UserRole", Storage = "_User", ThisKey = "UserRef", OtherKey = "Id", IsForeignKey = true)]
         public User User
         {
             get
@@ -5938,17 +5986,17 @@ namespace IUDICO.Common.Models.Shared
                     if ((previousValue != null))
                     {
                         this._User.Entity = null;
-                        previousValue.UserTopicScores.Remove(this);
+                        previousValue.UserRoles.Remove(this);
                     }
                     this._User.Entity = value;
                     if ((value != null))
                     {
-                        value.UserTopicScores.Add(this);
-                        this._UserId = value.Id;
+                        value.UserRoles.Add(this);
+                        this._UserRef = value.Id;
                     }
                     else
                     {
-                        this._UserId = default(System.Guid);
+                        this._UserRef = default(System.Guid);
                     }
                     this.SendPropertyChanged("User");
                 }
