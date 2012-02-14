@@ -1,6 +1,5 @@
 
-
-﻿using System;
+ using System;
 using System.Text;
 using NUnit.Framework;
 using Selenium;
@@ -20,7 +19,19 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Start();
             verificationErrors = new StringBuilder();
         }
-
+        [TearDown]
+        public void TeardownTest()
+        {
+          try
+          {
+              selenium.Stop();
+          }
+          catch (Exception)
+          {
+             // Ignore errors if unable to close the browser
+          }
+          Assert.AreEqual("", verificationErrors.ToString());
+        }
         [Test]
         public void LoginWithOpenIdSuccess()
         {
