@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Linq;
+using System.IO;
 using System.Linq;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
@@ -106,6 +108,7 @@ namespace IUDICO.UnitTests.UserManagement
         {
 //            MockLmsService.Setup(l => l.GetIDataContext()).Returns(MockDataContext.Object);
             MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(MockDataContext.Object);
+            MockStorage.Protected().Setup<string>("GetPath").Returns(Path.Combine(ConfigurationManager.AppSettings["PathToIUDICO.UnitTests"], "IUDICO.LMS"));
 //            MockStorage.Setup(s => s.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(true);
             MockStorage.Setup(s => s.GetUserRoles(It.IsAny<string>())).Returns(
                 (string username) => GetUserRoles(username));
