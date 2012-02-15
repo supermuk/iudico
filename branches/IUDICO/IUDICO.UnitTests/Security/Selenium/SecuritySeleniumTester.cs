@@ -123,13 +123,17 @@ namespace IUDICO.UnitTests.Security.Selenium
         [Test]
         public void Test5_AddRoom()
         {
-            selenium.Open("/Security/Index");
-            selenium.Click("//a[contains(@href, 'AddRoom')]");
+            selenium.Open("/");
+            selenium.Click("link=Security");
             selenium.WaitForPageToLoad("30000");
-            selenium.Type("//input[@id='Name']", "119");
-            selenium.Click("//input[@id='Allowed']");
-            selenium.Click("css=input[type=\"submit\"]");
+            selenium.Click("link=Add room");
             selenium.WaitForPageToLoad("30000");
+            selenium.Type("id=Name", "119");
+            selenium.Click("id=Allowed");
+            selenium.Click("css=p > input[type=\"submit\"]");
+            selenium.WaitForPageToLoad("30000");
+
+
         }
 
         [Test]
