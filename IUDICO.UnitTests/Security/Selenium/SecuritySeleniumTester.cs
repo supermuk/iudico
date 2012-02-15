@@ -164,9 +164,7 @@ namespace IUDICO.UnitTests.Security.Selenium
             selenium.WaitForPageToLoad("30000");
         }
 
-        /// <summary>
-        /// This test doesn't work because of failure of corresponding functionality;
-        /// </summary>
+        
         [Test]
         public void Test8_OverallStats()
         {
