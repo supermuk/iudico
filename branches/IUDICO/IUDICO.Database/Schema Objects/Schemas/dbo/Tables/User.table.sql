@@ -9,5 +9,8 @@
     [Deleted]      BIT              NOT NULL,
     [CreationDate] DATETIME         NOT NULL,
     [ApprovedBy]   UNIQUEIDENTIFIER NULL,
-    [UserId]       NVARCHAR (100)   NULL
+    [UserId]       NVARCHAR (100)   NULL,
+    [TestsSum]     INT              NOT NULL,
+    [TestsTotal]   INT              NOT NULL
 );
+
