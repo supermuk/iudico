@@ -39,88 +39,92 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         private string disciplineName1;
         private string disciplineId1;
 
+        private bool runFirstTime = true;
+
         [SetUp]
         public void SetUp()
         {
-            Selenium.Open("/");
+                Selenium.Open("/");
 
-            Selenium.WaitForPageToLoad(LoadTime);
-
-            Selenium.WindowMaximize();
-
-            if (!Selenium.IsElementPresent("css=a[href='/Account/ChangeCulture?lang=en-US&returnUrl=%2F']"))
-            {
-                Selenium.Click("css=a[href='/Account/ChangeCulture?lang=uk-UA&returnUrl=%2F']");
                 Selenium.WaitForPageToLoad(LoadTime);
-            }
 
-            var random = new Random();
+                Selenium.WindowMaximize();
 
-            // Creates users (student, teacher).
+                ChangeCulture();
 
-            StudentName = random.Next().ToString();
-            CreateUser(StudentName, StudentPassword, AdminName, AdminPassword);
-            studentId = GetUserId(StudentName, AdminName, AdminPassword);
-            AddToRole(studentId, "Student", AdminName, AdminPassword);
+                var random = new Random();
 
-            TeacherName = random.Next().ToString();
-            CreateUser(TeacherName, TeacherPassword, AdminName, AdminPassword);
-            teacherId = GetUserId(TeacherName, AdminName, AdminPassword);
-            AddToRole(teacherId, "Teacher", AdminName, AdminPassword);
+                // Creates users (student, teacher).
 
-            // Imports courses and gets their ids.
+                StudentName = random.Next().ToString();
+                CreateUser(StudentName, StudentPassword, AdminName, AdminPassword);
+                studentId = GetUserId(StudentName, AdminName, AdminPassword);
+                AddToRole(studentId, "Студент", AdminName, AdminPassword);
 
-            ImportCourse(CourseUri1, CourseName1, TeacherName, TeacherPassword);
-            courseId1 = GetCourseId(CourseName1, TeacherName, TeacherPassword);
+                TeacherName = random.Next().ToString();
+                CreateUser(TeacherName, TeacherPassword, AdminName, AdminPassword);
+                teacherId = GetUserId(TeacherName, AdminName, AdminPassword);
+                AddToRole(teacherId, "Вчитель", AdminName, AdminPassword);
 
-            string newCourseName1 = random.Next().ToString();
-            
-            RenameCourse(courseId1, CourseName1, newCourseName1, TeacherName, TeacherPassword);
+                // Imports courses and gets their ids.
 
-            CourseName1 = newCourseName1;
+                ImportCourse(CourseUri1, CourseName1, TeacherName, TeacherPassword);
+                courseId1 = GetCourseId(CourseName1, TeacherName, TeacherPassword);
 
-            // Creates group and adds student to it. 
+                string newCourseName1 = random.Next().ToString();
 
-            GroupName = random.Next().ToString();
-            CreateGroup(GroupName, TeacherName, TeacherPassword);
-            AddToGroup(studentId, GroupName, AdminName, AdminPassword);
-            groupId = GetGroupId(GroupName, TeacherName, TeacherPassword);
+                RenameCourse(courseId1, CourseName1, newCourseName1, TeacherName, TeacherPassword);
 
-            disciplineName1 = random.Next().ToString();
+                CourseName1 = newCourseName1;
 
-            topicName1 = random.Next().ToString();
+                // Creates group and adds student to it. 
 
-            chapterName1 = random.Next().ToString();
+                GroupName = random.Next().ToString();
+                CreateGroup(GroupName, TeacherName, TeacherPassword);
+                AddToGroup(studentId, GroupName, AdminName, AdminPassword);
+                groupId = GetGroupId(GroupName, TeacherName, TeacherPassword);
+
+                disciplineName1 = random.Next().ToString();
+
+                topicName1 = random.Next().ToString();
+
+                chapterName1 = random.Next().ToString();
         }
 
         [TearDown]
         public void TearDown()
         {
-            // Deletes all courses.
+                // Deletes all courses.
 
-            DeleteCourse(courseId1, CourseName1, TeacherName, TeacherPassword);
-      
-            // Removes all groups.
+                DeleteCourse(courseId1, CourseName1, TeacherName, TeacherPassword);
 
-            DeleteGroup(groupId, GroupName, TeacherName, TeacherPassword);
+                // Removes all groups.
 
-            // Deletes all disciplines.
+                DeleteGroup(groupId, GroupName, TeacherName, TeacherPassword);
 
-            DeleteDiscipline(disciplineId1, disciplineName1, TeacherName, TeacherPassword);
+                // Deletes all disciplines.
 
-            // Removes all users.
+                DeleteDiscipline(disciplineId1, disciplineName1, TeacherName, TeacherPassword);
 
-            DeleteUser(studentId, StudentName, AdminName, AdminPassword);
-            DeleteUser(teacherId, TeacherName, AdminName, AdminPassword);
+                // Removes all users.
 
-            CourseName1 = "ContentPackagingOneFilePerSCO_SCORM20043rdEdition";
+                DeleteUser(studentId, StudentName, AdminName, AdminPassword);
+                DeleteUser(teacherId, TeacherName, AdminName, AdminPassword);
+
+                CourseName1 = "ContentPackagingOneFilePerSCO_SCORM20043rdEdition";
+                runFirstTime = false;
         }
 
         private void Login(string userLogin, string userPassword)
         {
+            ChangeCulture();
             if (Selenium.IsAlertPresent())
             {
                 string alert = Selenium.GetAlert();
+            }
+            if(IsLogged(""))
+            {
+                Logout();
             }
             Selenium.Open("/Account/Login");
             Selenium.WaitForPageToLoad(LoadTime);
@@ -132,13 +136,28 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
 
         private void Logout()
         {
+            ChangeCulture();
             Selenium.Open("/Account/Logout");
             Selenium.WaitForPageToLoad("7000");
         }
 
+        private bool IsLogged(string userName="")
+        {
+            ChangeCulture();
+            if(userName=="")
+            {
+                return Selenium.IsElementPresent("css=a[href='/Account/Logout']");
+            }
+            return Selenium.IsTextPresent("Ви увійшли як "+userName);
+        }
+
         private void CreateUser(string userLogin, string userPassword, string adminLogin, string adminPassword)
         {
-            Login(adminLogin, adminPassword);
+            ChangeCulture();
+            if (!IsLogged(adminLogin))
+            {
+                Login(adminLogin, adminPassword);
+            }        
             Selenium.Open("/User/Index");
             Selenium.WaitForPageToLoad(LoadTime);
             if (!Selenium.IsTextPresent(userLogin))
@@ -153,12 +172,16 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 Selenium.Submit("css=form[action='/User/Create']");
                 Selenium.WaitForPageToLoad(LoadTime);
             }
-            Logout();
         }
 
         private void DeleteUser(string userId, string userLogin, string adminLogin, string adminPassword)
         {
-            Login(adminLogin, adminPassword);
+            ChangeCulture();
+            if (!IsLogged(adminLogin))
+            {
+                Login(adminLogin, adminPassword);
+            }
+          
             Selenium.Open("/User/Index");
             Selenium.WaitForPageToLoad(LoadTime);
             if (Selenium.IsTextPresent(userLogin))
@@ -167,24 +190,30 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 Selenium.WaitForPageToLoad(LoadTime);
                 Selenium.GetConfirmation();
             }
-            Logout();
         }
 
         private string GetUserId(string userLogin, string adminLogin, string adminPassword)
         {
-            Login(adminLogin, adminPassword);
+            ChangeCulture();
+            if (!IsLogged(adminLogin))
+            {
+                Login(adminLogin, adminPassword);
+            }
             Selenium.Open("/User/Index");
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Click("xpath=//table//tr[td//text()[contains(., '" + userLogin + "')]]/td[7]/a[3]");
             Selenium.WaitForPageToLoad(LoadTime);
             string userId = Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("id=") + 3);
-            Logout();
             return userId;
         }
 
         private void AddToRole(string userId, string userRole, string adminLogin, string adminPassword)
         {
-            Login(adminLogin, adminPassword);
+            ChangeCulture();
+            if (!IsLogged(adminLogin))
+            {
+                Login(adminLogin, adminPassword);
+            }
             Selenium.Open("/User/Index");
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Open("/User/AddToRole?id=" + userId);
@@ -192,15 +221,19 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             if (Selenium.GetSelectOptions("id=RoleRef").Contains(userRole))
             {
                 Selenium.Select("id=RoleRef", userRole);
-                Selenium.Click("css=input[value='Save']");
+                Selenium.Click("css=input[value='Зберегти']");
                 Selenium.WaitForPageToLoad(LoadTime);
             }
-            Logout();
+            //Logout();
         }
 
         private void ImportCourse(string courseUri, string courseName, string teacherLogin, string teacherPassword)
         {
-            Login(teacherLogin, teacherPassword);
+            ChangeCulture();
+            if (!IsLogged(teacherLogin))
+            {
+                Login(teacherLogin, teacherPassword);
+            }
             Selenium.Open("/Course");
             Selenium.WaitForPageToLoad(LoadTime);
             if (!Selenium.IsTextPresent(courseName))
@@ -211,12 +244,15 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 Selenium.Click("css=input[id='Import']");
                 Selenium.WaitForPageToLoad(LoadTime);
             }
-            Logout();
         }
 
         private string GetCourseId(string courseName, string teacherLogin, string teacherPassword)
         {
-            Login(teacherLogin, teacherPassword);
+            ChangeCulture();
+            if (!IsLogged(teacherLogin))
+            {
+                Login(teacherLogin, teacherPassword);
+            }
             Selenium.Open("/Course");
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Click("xpath=//table//tr[td//text()[contains(., '" + courseName + "')]]/td[5]/a[1]");
@@ -224,13 +260,36 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             string courseId = Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("Course/") + 7,
                                                                Selenium.GetLocation().IndexOf("/Edit") -
                                                                (Selenium.GetLocation().IndexOf("Course/") + 7));
-            Logout();
             return courseId;
+        }
+
+        private void ChangeCulture()
+        {
+            //if (!Selenium.IsElementPresent("css=a[href='/Account/ChangeCulture?lang=en-US&returnUrl="+Selenium.GetLocation().Replace(ConfigurationManager.AppSettings["SELENIUM_URL"],"/")+"']"))
+            //{
+            //    Selenium.Click("css=a[href='/Account/ChangeCulture?lang=uk-UA&returnUrl=" + Selenium.GetLocation().Replace(ConfigurationManager.AppSettings["SELENIUM_URL"], "/") + "']");
+            //    Selenium.WaitForPageToLoad(LoadTime);
+            //}
+            Selenium.Open(ConfigurationManager.AppSettings["SELENIUM_URL"]);
+            if (Selenium.IsAlertPresent())
+            {
+                string alert = Selenium.GetAlert();
+            }
+            Selenium.WaitForPageToLoad(LoadTime);
+            if(selenium.IsTextPresent("UK"))
+            {
+             Selenium.Click("css=a[href='/Account/ChangeCulture?lang=uk-UA&returnUrl=%2F']");
+             Selenium.WaitForPageToLoad(LoadTime);
+            }
         }
 
         private void DeleteCourse(string courseId, string courseName, string teacherLogin, string teacherPassword)
         {
-            Login(teacherLogin, teacherPassword);
+            ChangeCulture();
+            if (!IsLogged(teacherLogin))
+            {
+                Login(teacherLogin, teacherPassword);
+            }
             Selenium.Open("/Course");
             Selenium.WaitForPageToLoad(LoadTime);
             if (Selenium.IsTextPresent(courseName))
@@ -239,13 +298,17 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 Selenium.WaitForPageToLoad(LoadTime);
                 Selenium.GetConfirmation();
             }
-            Logout();
+
         }
 
         private void RenameCourse(string courseId, string courseName, string newCourseName, string teacherLogin,
                                   string teacherPassword)
         {
-            Login(teacherLogin, teacherPassword);
+            ChangeCulture();
+            if (!IsLogged(teacherLogin))
+            {
+                Login(teacherLogin, teacherPassword);
+            }
             Selenium.Open("/Course");
             Selenium.WaitForPageToLoad(LoadTime);
             if (Selenium.IsTextPresent(courseName))
@@ -253,16 +316,20 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 Selenium.Click("css=a[href='/Course/" + courseId + "/Edit']");
                 Selenium.WaitForPageToLoad(LoadTime);
                 Selenium.Type("Name", newCourseName);
-                Selenium.Click("css=input[value='Save']");
+                Selenium.Click("css=input[value='Зберегти']");
                 Selenium.WaitForPageToLoad(LoadTime);
             }
-            Logout();
+
         }
 
 
         private void CreateGroup(string groupName, string teacherLogin, string teacherPassword)
         {
-            Login(teacherLogin, teacherPassword);
+            ChangeCulture();
+            if (!IsLogged(teacherLogin))
+            {
+                Login(teacherLogin, teacherPassword);
+            }
             Selenium.Open("/Group/Index");
             Selenium.WaitForPageToLoad(LoadTime);
             if (!Selenium.IsTextPresent(groupName))
@@ -270,27 +337,34 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 Selenium.Open("/Group/Create");
                 Selenium.WaitForPageToLoad(LoadTime);
                 Selenium.Type("id=Name", groupName);
-                Selenium.Click("css=input[value='Create']");
+                Selenium.Click("css=input[value='Створити']");
                 Selenium.WaitForPageToLoad(LoadTime);
             }
-            Logout();
+
         }
 
         private string GetGroupId(string groupName, string teacherLogin, string teacherPassword)
         {
-            Login(teacherLogin, teacherPassword);
+            ChangeCulture();
+            if (!IsLogged(teacherLogin))
+            {
+                Login(teacherLogin, teacherPassword);
+            }
             Selenium.Open("/Group");
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Click("xpath=//table//tr[td//text()[contains(., '" + groupName + "')]]/td[2]/a[1]");
             Selenium.WaitForPageToLoad(LoadTime);
             string groupId = Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("id=") + 3);
-            Logout();
             return groupId;
         }
 
         private void DeleteGroup(string groupId, string groupName, string teacherLogin, string teacherPassword)
         {
-            Login(teacherLogin, teacherPassword);
+            ChangeCulture();
+            if (!IsLogged(teacherLogin))
+            {
+                Login(teacherLogin, teacherPassword);
+            }
             Selenium.Open("/Group");
             Selenium.WaitForPageToLoad(LoadTime);
             if (Selenium.IsTextPresent(groupName))
@@ -299,12 +373,15 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 Selenium.WaitForPageToLoad(LoadTime);
                 Selenium.GetConfirmation();
             }
-            Logout();
         }
 
         private void AddToGroup(string userId, string groupName, string adminLogin, string adminPassword)
         {
-            Login(adminLogin, adminPassword);
+            ChangeCulture();
+            if (!IsLogged(adminLogin))
+            {
+                Login(adminLogin, adminPassword);
+            }
             Selenium.Open("/User/Index");
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Open("/User/AddToGroup?id=" + userId);
@@ -315,12 +392,16 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 Selenium.Click("css=input[value='Save']");
                 Selenium.WaitForPageToLoad(LoadTime);
             }
-            Logout();
+           
         }
 
         private void CreateDiscipline(string disciplineName, string teacherLogin, string teacherPassword)
         {
-            Login(teacherLogin, teacherPassword);
+            ChangeCulture();
+            if (!IsLogged(teacherLogin))
+            {
+                Login(teacherLogin, teacherPassword);
+            }
             Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
             if (!Selenium.IsTextPresent(disciplineName))
@@ -328,15 +409,19 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 Selenium.Open("/Discipline/Create");
                 Selenium.WaitForPageToLoad(LoadTime);
                 Selenium.Type("id=Name", disciplineName);
-                Selenium.Click("css=input[value='Create']");
+                Selenium.Click("css=input[value='Створити']");
                 Selenium.WaitForPageToLoad(LoadTime);
             }
-            Logout();
+            
         }
 
         private string GetDisciplineId(string disciplineName, string teacherLogin, string teacherPassword)
         {
-            Login(teacherLogin, teacherPassword);
+            ChangeCulture();
+            if (!IsLogged(teacherLogin))
+            {
+                Login(teacherLogin, teacherPassword);
+            }
             Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Click("xpath=//table//tr[td//text()[contains(., '" + disciplineName + "')]]/td[5]/a[1]");
@@ -344,14 +429,18 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             string disciplineId = Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("Discipline/") + 11,
                                                                    Selenium.GetLocation().IndexOf("/Edit") -
                                                                    (Selenium.GetLocation().IndexOf("Discipline/") + 11));
-            Logout();
+            
             return disciplineId;
         }
 
         private void DeleteDiscipline(string disciplineId, string disciplineName, string teacherLogin,
                                       string teacherPassword)
         {
-            Login(teacherLogin, teacherPassword);
+            ChangeCulture();
+            if (!IsLogged(teacherLogin))
+            {
+                Login(teacherLogin, teacherPassword);
+            }
             Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
             if (Selenium.IsTextPresent(disciplineName))
@@ -359,13 +448,17 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 Selenium.Click("css=a[onclick='deleteItem(" + disciplineId + ")']");
                 selenium.GetConfirmation();
             }
-            Logout();
+            
         }
 
         private void AddGroupToDiscipline(string disciplineId, string groupName, string teacherLogin,
                                           string teacherPassword)
         {
-            Login(teacherLogin, teacherPassword);
+            ChangeCulture();
+            if (!IsLogged(teacherLogin))
+            {
+                Login(teacherLogin, teacherPassword);
+            }
             Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Click("css=a[href='/Discipline/" + disciplineId + "/Curriculum/Index']");
@@ -375,16 +468,20 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 Selenium.Open("/Discipline/" + disciplineId + "/Curriculum/Create");
                 Selenium.WaitForPageToLoad(LoadTime);
                 Selenium.Select("id=GroupId", groupName);
-                Selenium.Click("css=input[value='Create']");
+                Selenium.Click("css=input[value='Створити']");
                 Selenium.WaitForPageToLoad(LoadTime);
             }
-            Logout();
+           
         }
 
         private string GetCurriculumId(string disciplineId, string groupName, string teacherLogin,
                                        string teacherPassword)
         {
-            Login(teacherLogin, teacherPassword);
+            ChangeCulture();
+            if (!IsLogged(teacherLogin))
+            {
+                Login(teacherLogin, teacherPassword);
+            }
             Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Open("/Discipline/" + disciplineId + "/Curriculum/Index");
@@ -395,14 +492,18 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("Curriculum/") + "Curriculum/".Length,
                                                  Selenium.GetLocation().IndexOf("/Edit") -
                                                  (Selenium.GetLocation().IndexOf("Curriculum/") + "Curriculum/".Length));
-            Logout();
+           
             return curriculumId;
         }
 
         private void AddTimeLineToDiscipline(string dateStart, string dateEnd, string disciplineId,
                                              string curriculumId, string teacherLogin, string teacherPassword)
         {
-            Login(teacherLogin, teacherPassword);
+            ChangeCulture();
+            if (!IsLogged(teacherLogin))
+            {
+                Login(teacherLogin, teacherPassword);
+            }
             Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Open("/Discipline/" + disciplineId + "/Curriculum/Index");
@@ -415,15 +516,19 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 Selenium.WaitForPageToLoad(LoadTime);
                 Selenium.Type("id=Timeline_StartDate", dateStart);
                 Selenium.Type("id=Timeline_EndDate", dateEnd);
-                Selenium.Click("css=input[value='Create']");
+                Selenium.Click("css=input[value='Створити']");
             }
-            Logout();
+            
         }
 
         private void AddTimeLineToChapter(string dateStart, string dateEnd, string disciplineId,
                                           string curriculumId, string teacherLogin, string teacherPassword)
         {
-            Login(teacherLogin, teacherPassword);
+            ChangeCulture();
+            if (!IsLogged(teacherLogin))
+            {
+                Login(teacherLogin, teacherPassword);
+            }
             Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Open("/Discipline/" + disciplineId + "/Curriculum/Index");
@@ -436,14 +541,18 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 Selenium.WaitForPageToLoad(LoadTime);
                 Selenium.Type("id=Timeline_StartDate", dateStart);
                 Selenium.Type("id=Timeline_EndDate", dateEnd);
-                Selenium.Click("css=input[value='Create']");
+                Selenium.Click("css=input[value='Створити']");
             }
-            Logout();
+           
         }
 
         private void AddChapter(string disciplineId, string chapterName, string teacherLogin, string teacherPassword)
         {
-            Login(teacherLogin, teacherPassword);
+            ChangeCulture();
+            if (!IsLogged(teacherLogin))
+            {
+                Login(teacherLogin, teacherPassword);
+            }
             Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Open("/Discipline/" + disciplineId + "/Chapter/Index");
@@ -453,14 +562,18 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 Selenium.Open("/Discipline/" + disciplineId + "/Chapter/Create");
                 Selenium.WaitForPageToLoad(LoadTime);
                 Selenium.Type("id=Name", chapterName);
-                Selenium.Click("css=input[value='Create']");
+                Selenium.Click("css=input[value='Створити']");
             }
-            Logout();
+            
         }
 
         private string GetChapterId(string disciplineId, string chapterName, string teacherLogin, string teacherPassword)
         {
-            Login(teacherLogin, teacherPassword);
+            ChangeCulture();
+            if (!IsLogged(teacherLogin))
+            {
+                Login(teacherLogin, teacherPassword);
+            }
             Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Open("/Discipline/" + disciplineId + "/Chapter/Index");
@@ -470,14 +583,18 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             string chapterId = Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("Chapter/") + "Chapter/".Length,
                                                                 Selenium.GetLocation().IndexOf("/Edit") -
                                                                 (Selenium.GetLocation().IndexOf("Chapter/") + "Chapter/".Length));
-            Logout();
+           
             return chapterId;
         }
 
         private void AddTopic(string disciplineId, string chapterId, string topicName, string courseName,
                               string teacherLogin, string teacherPassword)
         {
-            Login(teacherLogin, teacherPassword);
+            ChangeCulture();
+            if (!IsLogged(teacherLogin))
+            {
+                Login(teacherLogin, teacherPassword);
+            }
             Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad("7000");
             Selenium.Open("/Discipline/" + disciplineId + "/Chapter/Index");
@@ -490,16 +607,20 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 Selenium.WaitForPageToLoad("7000");
                 Selenium.Type("id=TopicName", topicName);
                 Selenium.Select("id=CourseId", courseName);
-                Selenium.Select("id=TopicTypeId", "Test");
-                Selenium.Click("css=input[value='Create']");
+                Selenium.Select("id=TopicTypeId", "Тест");
+                Selenium.Click("css=input[value='Створити']");
             }
-            Logout();
+           
         }
 
         private string GetTopicId(string disciplineId, string chapterId, string topicName, string teacherLogin,
                                   string teacherPassword)
         {
-            Login(teacherLogin, teacherPassword);
+            ChangeCulture();
+            if (!IsLogged(teacherLogin))
+            {
+                Login(teacherLogin, teacherPassword);
+            }
             Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Open("/Discipline/" + disciplineId + "/Chapter/Index");
@@ -511,14 +632,18 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             string topicId = Selenium.GetLocation().Substring(Selenium.GetLocation().IndexOf("Topic/") + "Topic/".Length,
                                                               Selenium.GetLocation().IndexOf("/Edit") -
                                                               (Selenium.GetLocation().IndexOf("Topic/") + "Topic/".Length));
-            Logout();
+            
             return topicId;
         }
 
         private void ChangeCourseInTopic(string courseName, string disciplineId, string chapterId, string topicId,
                                          string teacherLogin, string teacherPassword)
         {
-            Login(TeacherName, teacherPassword);
+            ChangeCulture();
+            if (!IsLogged(teacherLogin))
+            {
+                Login(teacherLogin, teacherPassword);
+            }
             Selenium.Open("/Discipline");
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Open("/Discipline/" + disciplineId + "/Chapter/Index");
@@ -529,7 +654,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Selenium.WaitForPageToLoad(LoadTime);
             Selenium.Select("id=CourseId", courseName);
             Selenium.Click("css=input[value='Update']");
-            Logout();
+            
         }
 
         public void WaitForText(string text, string timeout)
@@ -559,7 +684,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
             string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
                                                    TeacherPassword);
-            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
+            AddTimeLineToDiscipline("12.08.2010 4:23:00", "12.08.2100 4:23:00", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
             AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
             string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
@@ -638,7 +763,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
             string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
                                                    TeacherPassword);
-            AddTimeLineToDiscipline("12/18/1999 4:21 PM", "12/18/2000 4:21 PM", disciplineId1, curriculumId1,
+            AddTimeLineToDiscipline("12.08.1999 4:23:00", "12.08.2000 4:23:00", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
             AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
             string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
@@ -665,11 +790,11 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
             string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
                                                    TeacherPassword);
-            AddTimeLineToDiscipline("12/18/1999 1:23 PM", "12/18/2100 1:23 PM", disciplineId1, curriculumId1,
+            AddTimeLineToDiscipline("12.08.1999 4:23:00", "12.08.2000 4:23:00", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
             AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
             string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
-            AddTimeLineToChapter("12/18/1999 1:23 PM", "12/18/2000 1:23 PM", disciplineId1, curriculumId1,
+            AddTimeLineToChapter("12.08.1999 4:23:00", "12.08.2000 4:23:00", disciplineId1, curriculumId1,
                                  TeacherName, TeacherPassword);
             AddTopic(disciplineId1, chapterId1, topicName1, CourseName1, TeacherName, TeacherPassword);
             topicId1 = GetTopicId(disciplineId1, chapterId1, topicName1, TeacherName, TeacherPassword);
@@ -694,7 +819,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
             string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
                                                    TeacherPassword);
-            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
+            AddTimeLineToDiscipline("12.08.2010 4:23:00", "12.08.2100 4:23:00", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
             AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
             string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
@@ -760,7 +885,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
             string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
                                                    TeacherPassword);
-            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
+            AddTimeLineToDiscipline("12.08.2010 4:23:00", "12.08.2100 4:23:00", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
             AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
             string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
@@ -819,7 +944,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
             string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
                                                    TeacherPassword);
-            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
+            AddTimeLineToDiscipline("12.08.2010 4:23:00", "12.08.2100 4:23:00", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
             AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
             string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
@@ -864,7 +989,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
             string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName,
                                                    TeacherPassword);
-            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
+            AddTimeLineToDiscipline("12.08.2010 4:23:00", "12.08.2100 4:23:00", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
             AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
             string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
@@ -907,6 +1032,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("relative=up");
             Selenium.SelectFrame("relative=up");
+            Selenium.SelectWindow(null);
             Logout();
         }
 
@@ -919,7 +1045,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
             AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
             string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName, TeacherPassword);
-            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
+            AddTimeLineToDiscipline("12.08.2010 4:23:00", "12.08.2100 4:23:00", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
             AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
             string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
@@ -957,7 +1083,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
             AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
             string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName, TeacherPassword);
-            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
+            AddTimeLineToDiscipline("12.08.2010 4:23:00", "12.08.2100 4:23:00", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
             AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
             string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
@@ -1025,7 +1151,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             disciplineId1 = GetDisciplineId(disciplineName1, TeacherName, TeacherPassword);
             AddGroupToDiscipline(disciplineId1, GroupName, TeacherName, TeacherPassword);
             string curriculumId1 = GetCurriculumId(disciplineId1, GroupName, TeacherName, TeacherPassword);
-            AddTimeLineToDiscipline("12/18/2010 4:23 PM", "12/18/2100 4:23 PM", disciplineId1, curriculumId1,
+            AddTimeLineToDiscipline("12.08.2010 4:23:00", "12.08.2100 4:23:00", disciplineId1, curriculumId1,
                                     TeacherName, TeacherPassword);
             AddChapter(disciplineId1, chapterName1, TeacherName, TeacherPassword);
             string chapterId1 = GetChapterId(disciplineId1, chapterName1, TeacherName, TeacherPassword);
