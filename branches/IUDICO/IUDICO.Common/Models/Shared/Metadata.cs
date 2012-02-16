@@ -285,6 +285,15 @@ namespace IUDICO.Common.Models.Shared
 
             [ScaffoldColumn(false)]
             public Guid? ApprovedBy { get; set; }
+
+            [ScaffoldColumn(false)]
+            public string GroupsLine { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int TestsSum { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int TestsTotal { get; set; }
         }
     }
 

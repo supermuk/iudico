@@ -46,8 +46,6 @@
 
 
     <div>
-        <%:Html.ActionLink(Localization.getMessage("UpgradeToAdmin"), "TeacherToAdminUpgrade",
-                                              new {id = Model.Id})%>|
         <%:Html.ActionLink(Localization.getMessage("BackToAccount"), "Index")%>
     </div>
 

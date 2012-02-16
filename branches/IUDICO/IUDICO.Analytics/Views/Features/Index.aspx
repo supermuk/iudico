@@ -1,6 +1,5 @@
 <%@ Assembly Name="IUDICO.Analytics" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Feature>>" %>
-<%@ Import Namespace="IUDICO.Common.Models.Shared" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Features
@@ -17,15 +16,16 @@
         </tr>
 
      <%
-         foreach (Feature feature in Model)
+         foreach (var item in Model)
          {%>
         <tr>
             <td>
-            <%:feature.Name%>
+            <%:item.Name%>
             </td>
             <td>
-                <%:Html.ActionLink("Edit", "Edit", new {id = item.Id})%> |
-                <%:Ajax.ActionLink("Delete", "Delete", new {id = item.Id},
+                <%:Html.ActionLink("Edit Topics", "EditTopics", new { id = item.Id })%> |
+                <%:Html.ActionLink("Edit", "Edit", new { id = item.Id })%> |
+                <%:Ajax.ActionLink("Delete", "Delete", new { id = item.Id },
                                                new AjaxOptions
                                                    {
                                                        Confirm = "Are you sure you want to delete \"" + item.Name + "\"?",
@@ -39,7 +39,9 @@
 
      </table>
 
-
+     <p>
+        <%:Html.ActionLink("Create new feature", "Create")%>
+    </p>
 
 </asp:Content>
 
