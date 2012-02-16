@@ -6,6 +6,7 @@ using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using IUDICO.Analytics.Models;
+using IUDICO.Analytics.Models.Storage;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
@@ -25,8 +26,8 @@ namespace IUDICO.Analytics
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<AnalyticsPlugin>().LifeStyle.Is(LifestyleType.Singleton),
-                Component.For<IAnalyticsService>().ImplementedBy<AnalyticsService>().LifeStyle.Is(
-                    LifestyleType.Singleton)
+                Component.For<IAnalyticsStorage>().ImplementedBy<MixedAnalyticsStorage>().LifeStyle.Is(LifestyleType.Singleton),
+                Component.For<IAnalyticsService>().ImplementedBy<AnalyticsService>().LifeStyle.Is(LifestyleType.Singleton)
                 );
         }
 
@@ -62,6 +63,12 @@ namespace IUDICO.Analytics
                 "Analytics",
                 "Analytics/{action}",
                 new {controller = "Analytics", action = "Index"}
+                );
+
+            routes.MapRoute(
+                "Features",
+                "Features/{action}",
+                new { controller = "Features", action = "Index" }
                 );
         }
 

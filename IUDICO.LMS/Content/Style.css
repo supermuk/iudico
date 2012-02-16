@@ -388,3 +388,20 @@ ul.topics li > a
 {
     margin-left: 8px;
 }
+
+
+select option.added
+{
+    color:#CCCCCC;
+}
+
+.hidden
+{
+    display:none;
+}
+
+#availableTopics, #selectedTopics
+{
+    width: 200px;
+    height: 80px;
+}

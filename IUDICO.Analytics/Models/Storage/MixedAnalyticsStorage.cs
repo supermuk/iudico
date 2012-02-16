@@ -312,10 +312,29 @@ namespace IUDICO.Analytics.Models.Storage
             _Db.Features.DeleteOnSubmit(GetFeature(id));
         }
 
+        public void EditTopics(int id, IEnumerable<int> topics)
+        {
+            var allTopics = _Db.TopicFeatures.Where(tf => tf.FeatureId == id).AsEnumerable();
+            var deletedTopics = allTopics.Where(tf => !topics.Contains(tf.TopicId));
+            var addTopics = topics.Where(i => !allTopics.Select(t => t.TopicId).Contains(i));
+
+            _Db.TopicFeatures.DeleteAllOnSubmit(deletedTopics);
+
+            foreach (var topic in addTopics)
+            {
+                var tf = new TopicFeature { FeatureId = id, TopicId = topic };
+
+                _Db.TopicFeatures.InsertOnSubmit(tf);
+            }
+
+            _Db.SubmitChanges();
+        }
+
         public ViewFeatureDetails GetFeatureDetailsWithTopics(int id)
         {
             var feature = GetFeatureDetails(id);
-            feature.AvailableTopics = GetTopics().Except(feature.Topics);
+            var featureTopicsIds = feature.Topics.Select(t => t.Id);
+            feature.AvailableTopics = GetTopics().Where(t => !featureTopicsIds.Contains(t.Id));
 
             return feature;
         }
