@@ -1,5 +1,4 @@
-
- using System;
+using System;
 using System.Text;
 using NUnit.Framework;
 using Selenium;
@@ -70,8 +69,12 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
                 selenium.Type("id=login_user", "yavora");
                 selenium.Type("id=login_password", "nestor1");
                 selenium.Click("//input[@id='loginlj_submit']");
-               // selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-                //selenium.Click("//input[@name='yes:once']");
+
+                if (selenium.GetLocation().Contains("http://www.livejournal.com"))
+                {
+                    selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
+                    selenium.Click("//input[@name='yes:once']");
+                }
                 selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
             }
 
