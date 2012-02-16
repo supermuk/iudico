@@ -20,7 +20,7 @@
             <%:Html.EditorForModel()%>
             
             <p>
-                <input type="submit" value="Create"> />
+                <input type="submit" value="Create" />
             </p>
         </fieldset>
 

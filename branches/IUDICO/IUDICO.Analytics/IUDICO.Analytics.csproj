@@ -102,13 +102,11 @@
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Views\Analytics\Index.aspx" />
-    <Content Include="Views\Features\AddTopic.aspx" />
+    <Content Include="Views\Features\EditTopics.aspx" />
     <Content Include="Views\Features\Create.aspx" />
     <Content Include="Views\Features\Details.aspx" />
     <Content Include="Views\Features\Edit.aspx" />
     <Content Include="Views\Features\Index.aspx" />
-    <Content Include="Views\TopicFeatures\Create.aspx" />
-    <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

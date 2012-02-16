@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using IUDICO.Analytics.Models.Storage;
 using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
@@ -108,11 +109,22 @@ namespace IUDICO.Analytics.Controllers
         }
 
         [Allow(Role = Role.Admin)]
-        public ActionResult AddTopic(int id)
+        public ActionResult EditTopics(int id)
         {
             var features =_Storage.GetFeatureDetailsWithTopics(id);
 
             return View(features);
+        }
+
+        [Allow(Role = Role.Admin)]
+        [HttpPost]
+        public ActionResult EditTopics(int id, FormCollection form)
+        {
+            var topics = string.IsNullOrEmpty(form["topics"]) ? Enumerable.Empty<int>() : form["topics"].Split(',').Select(i => int.Parse(i));
+
+            _Storage.EditTopics(id, topics);
+
+            return RedirectToAction("Index");
         }
     }
 }

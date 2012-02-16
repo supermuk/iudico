@@ -25,5 +25,6 @@ namespace IUDICO.Analytics.Models.Storage
         Feature GetFeature(int id);
         void EditFeature(int id, Feature feature);
         void DeleteFeature(int id);
+        void EditTopics(int id, IEnumerable<int> topics);
     }
 }
