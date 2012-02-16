@@ -68,14 +68,13 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             {
                 selenium.Type("id=login_user", "yavora");
                 selenium.Type("id=login_password", "nestor1");
-                selenium.Click("//input[@id='loginlj_submit']");
-
+                selenium.Click("//input[@id='loginlj_submit']");                
+                selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
                 if (selenium.GetLocation().Contains("http://www.livejournal.com"))
                 {
+                    selenium.Click("//input[@name='yes:once']");                    
                     selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-                    selenium.Click("//input[@name='yes:once']");
                 }
-                selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
             }
 
             Assert.IsTrue(selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
