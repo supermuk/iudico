@@ -14,6 +14,7 @@ using IUDICO.Common.Models.Services;
 using IUDICO.UserManagement.Models;
 using IUDICO.UserManagement.Models.Storage;
 using log4net;
+using IUDICO.Common.Models.Notifications;
 
 namespace IUDICO.UserManagement.Controllers
 {
@@ -40,6 +41,8 @@ namespace IUDICO.UserManagement.Controllers
             FormsAuthentication.SignOut();
             Session.Clear();
 
+            LmsService.Inform(UserNotifications.UserLogout);
+
             return Redirect("/");
         }
 
@@ -63,6 +66,8 @@ namespace IUDICO.UserManagement.Controllers
 
                             break;
                         }
+
+                        LmsService.Inform(UserNotifications.UserLogin, user);
 
                         if (Request.QueryString["ReturnUrl"] != null)
                         {
@@ -122,6 +127,8 @@ namespace IUDICO.UserManagement.Controllers
         {
             if (Membership.ValidateUser(loginUsername, loginPassword))
             {
+                LmsService.Inform(UserNotifications.UserLogin, _Storage.GetCurrentUser());
+
                 if (Request.QueryString["ReturnUrl"] != null)
                 {
                     FormsAuthentication.RedirectFromLoginPage(loginUsername, false);

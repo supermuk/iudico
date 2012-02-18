@@ -52,41 +52,12 @@ namespace IUDICO.LMS
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
             LmsService.Inform(LMSNotifications.ApplicationRequestStart, HttpContext.Current);
-            
-            /*
-           
-            var plugins = Container.ResolveAll<IPlugin>();
-            var currentRole = Role.None;
-            var userRoles = HttpContext.Current.User != null
-                                ? Roles.GetRolesForUser(HttpContext.Current.User.Identity.Name)
-                                : new[] {Role.None.ToString()};
-
-            lock (Actions)
-            {
-                Actions.Clear();
-
-                foreach (var plugin in plugins)
-                {
-                    plugin.Setup(Container);
-
-                    var actions = plugin.BuildActions(currentRole).Where(a => IsAllowed(a, userRoles));
-
-                    if (Actions.ContainsKey(plugin))
-                    {
-                        Actions[plugin] = actions;
-                    }
-                    else
-                    {
-                        Actions.Add(plugin, actions);
-                    }
-                }
-            }
-            */
         }
 
         protected void Application_Start()
         {
-            AppDomain.CurrentDomain.AppendPrivatePath(Server.MapPath("/Plugins"));
+            //AppDomain.CurrentDomain.SetupInformation.PrivateBinPath = "Plugins";
+            //AppDomain.CurrentDomain.AppendPrivatePath(Server.MapPath("/Plugins"));
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             InitializeWindsor();
@@ -102,13 +73,9 @@ namespace IUDICO.LMS
             ModelMetadataProviders.Current = new FieldTemplateMetadataProvider();
 
             LoadProviders();
-
             RegisterRoutes(RouteTable.Routes);
-            object[] tmp = new object[2];
-            tmp[0] = Container;
-            tmp[1] = Application;
 
-            LmsService.Inform(LMSNotifications.ApplicationStart, tmp);
+            LmsService.Inform(LMSNotifications.ApplicationStart, Container.Resolve<ILmsService>());
         }
 
         protected void Application_Error(object sender, EventArgs e)
@@ -116,13 +83,11 @@ namespace IUDICO.LMS
             var context = HttpContext.Current;
             var exception = context.Server.GetLastError();
 
-            context.Response.Clear();
+            //context.Response.Clear();
 
             if (exception != null)
             {
-                Server.ClearError();
-                //context.Response.RedirectToRoute("Default", new { controller = "Home", action = "Error" });
-                
+                //Server.ClearError();                
                 Logger.Instance.Error(this, Request.HttpMethod + ": " + Request.Path);
             }
         }
@@ -163,9 +128,14 @@ namespace IUDICO.LMS
 
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("{resource}.ico/{*pathInfo}");
-            routes.IgnoreRoute("Scripts/");
-            routes.IgnoreRoute("Content/");
-            routes.IgnoreRoute("Data/");
+            routes.IgnoreRoute("{Scripts}/{*pathInfo}");
+            routes.IgnoreRoute("{Content}/{*pathInfo}");
+            routes.IgnoreRoute("{Data}/{*pathInfo}");
+
+            routes.IgnoreRoute(
+                "{*staticfile}",
+                new { staticfile = @".*\.(jpg|gif|jpeg|png|js|css|htm|html|htc)$" }
+            );
 
             routes.MapRoute(
                 "Default", // Route name,
@@ -224,6 +194,24 @@ namespace IUDICO.LMS
         void Application_EndRequest(Object Sender, EventArgs e)
         {
             LmsService.Inform(LMSNotifications.ApplicationRequestEnd, HttpContext.Current, Request);
+        }
+
+        /// <summary>
+        /// Allows caching by custom parameters
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="custom"></param>
+        /// <returns></returns>
+        public override string GetVaryByCustomString(HttpContext context, string custom)
+        {
+            switch (custom)
+            {
+                case "user":
+                    var currentUser = Container.Resolve<IUserService>().GetCurrentUser();
+                    return currentUser != null ? currentUser.Username : "";
+                default:
+                    return base.GetVaryByCustomString(context, custom);
+            }
         }
     }
 }

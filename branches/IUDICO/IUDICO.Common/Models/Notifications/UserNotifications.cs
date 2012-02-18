@@ -11,6 +11,16 @@ namespace IUDICO.Common.Models.Notifications
     public static class UserNotifications
     {
         /// <summary>
+        /// 
+        /// </summary>
+        public const string UserLogin = "user/login";
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string UserLogout = "user/logout";
+
+        /// <summary>
         /// User Create Multiple notification is sent when multiple users has been created(added).
         /// <param name="user">User value represents created user object.</param>
         /// </summary>

@@ -23,15 +23,12 @@ namespace IUDICO.LMS.Models
         {
             get
             {
-                return HttpContext.Current.Items["menu"] as Menu;
+                return HttpContext.Current.Session["menu"] as Menu;
             }
 
             set
             {
-                if (HttpContext.Current.Items.Contains("menu"))
-                    HttpContext.Current.Items["menu"] = value;
-                else
-                    HttpContext.Current.Items.Add("menu", value);
+                HttpContext.Current.Session["menu"] = value;
             }
         }
 
@@ -39,15 +36,12 @@ namespace IUDICO.LMS.Models
         {
             get
             {
-                return HttpContext.Current.Items["actions"] as Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>>;
+                return HttpContext.Current.Session["actions"] as Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>>;
             }
 
             set
             {
-                if (HttpContext.Current.Items.Contains("actions"))
-                    HttpContext.Current.Items["actions"] = value;
-                else
-                    HttpContext.Current.Items.Add("actions", value);
+                HttpContext.Current.Session["actions"] = value;
             }
         }
 
@@ -84,18 +78,24 @@ namespace IUDICO.LMS.Models
 
         public Menu GetMenu()
         {
+            if (menu == null)
+                RebuildMenuAndActions();
+
             return menu;
         }
 
         public Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>> GetActions()
         {
+            if (actions == null)
+                RebuildMenuAndActions();
+
             return actions;
         }
 
         public void Inform(string evt, params object[] data)
         {
 
-            if(evt == LMSNotifications.ApplicationRequestStart)
+            if (evt == LMSNotifications.ApplicationRequestStart)
             {
                 var context = (HttpContext) data[0];
 
@@ -103,7 +103,7 @@ namespace IUDICO.LMS.Models
                 context.Items["stopwatch"] = stopwatch;
                 stopwatch.Start();
             }
-            else if(evt == LMSNotifications.ApplicationRequestEnd)
+            else if (evt == LMSNotifications.ApplicationRequestEnd)
             {
                 var context = (HttpContext)data[0];
                 var stopwatch = (Stopwatch)context.Items["stopwatch"];
@@ -134,26 +134,29 @@ namespace IUDICO.LMS.Models
 
         protected void Update(string evt, params object[] data)
         {
-            if (evt == LMSNotifications.ApplicationRequestStart)
+            if (evt == UserNotifications.UserLogin || evt == UserNotifications.UserLogout)
             {
-                menu = new Menu();
-                actions = new Dictionary<IPlugin, IEnumerable<Common.Models.Action>>();
+                RebuildMenuAndActions();
+            }
+        }
 
-                var roles = FindService<IUserService>().GetCurrentUserRoles();
-                //var roles = currentUser == null ? new Role[] {Role.None} : currentUser.Roles;
+        protected void RebuildMenuAndActions()
+        {
+            menu = new Menu();
+            actions = new Dictionary<IPlugin, IEnumerable<Common.Models.Action>>();
 
-                var plugins = _Container.ResolveAll<IPlugin>();
+            var roles = FindService<IUserService>().GetCurrentUserRoles();
+            var plugins = _Container.ResolveAll<IPlugin>();
 
-                foreach (var plugin in plugins)
-                {
-                    menu.Add(plugin.BuildMenuItems().Where(m => IsAllowed(m.Controller, m.Action, roles)));
-                    actions.Add(
-                        plugin,
-                        plugin.BuildActions().Where(a =>
-                            IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles)
-                        )
-                    );
-                }
+            foreach (var plugin in plugins)
+            {
+                menu.Add(plugin.BuildMenuItems().Where(m => IsAllowed(m.Controller, m.Action, roles)));
+                actions.Add(
+                    plugin,
+                    plugin.BuildActions().Where(a =>
+                        IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles)
+                    )
+                );
             }
         }
 
