@@ -12,15 +12,6 @@ namespace IUDICO.LMS.Controllers
 {
     public class HomeController : BaseController
     {
-        //
-        // GET: /Home/
-        /*private ILmsService _lmsService;
-
-        public HomeController(ILmsService lmsService)
-        {
-            _lmsService = lmsService;
-        }*/
-
         /// <summary>
         /// Gets descriptions of topics available for playing.
         /// </summary>
@@ -51,6 +42,7 @@ namespace IUDICO.LMS.Controllers
             //return View(new Dictionary<IPlugin, IEnumerable<Action>>(MvcApplication.Actions));
         }
 
+        [OutputCache(Duration = 3600, VaryByParam = "none")]
         public ActionResult Error()
         {
             //log4net.ILog log = log4net.LogManager.GetLogger(typeof(HomeController));
