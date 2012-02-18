@@ -28,7 +28,7 @@ namespace IUDICO.LMS.IoC
 
         public override bool FileExists(string virtualPath)
         {
-           return (IsAppResourcePath(virtualPath) || base.FileExists(virtualPath));
+            return IsAppResourcePath(virtualPath) || base.FileExists(virtualPath);
         }
 
         public override VirtualFile GetFile(string virtualPath)

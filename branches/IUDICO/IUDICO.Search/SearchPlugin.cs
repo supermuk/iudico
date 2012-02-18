@@ -99,7 +99,7 @@ namespace IUDICO.Search
                     root = root.Substring(0, index);
                     serverPath = root.Insert(index, "\\Data\\Index");
 
-                    RebuildIndex(((IWindsorContainer)data[0]).Resolve<ILmsService>());
+                    RebuildIndex(data[0] as ILmsService);
 
                     //var thread = new Thread(startMyTimer);
                     //thread.Start(((IWindsorContainer)data[0]).Resolve<ILmsService>());
