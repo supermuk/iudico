@@ -71,6 +71,7 @@
       <DependentUpon>CompileService.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="FunctionContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
