@@ -18,19 +18,16 @@ namespace IUDICO.UnitTests.CompileService
         //----------------------------------------------
         static private readonly CompileSystem.CompileService _compileService = new CompileSystem.CompileService();
         //----------------------------------------------
-        private const string CorrectCSSourceCode = "using System;namespace MyProg{internal class Program{private static void Main(string[] args){string ar = Console.ReadLine();string result;string first, second;first = ar.Split(' ')[0];second = ar.Split(' ')[1];result = first.Insert(1,second);Console.Write(result);}}}";
-        private const string CorrectCPPsourceCode = "#include<iostream>\n#include<string>\nusing namespace std;\nvoid main(){\nstring a,b;\ncin>>a>>b;\ncout<<a<<b;}";
-        private const string CorrectJavaSourceCode = "package com.baik;\n import java.io.BufferedReader;\nimport java.io.IOException;\nimport java.io.InputStreamReader;\npublic class Main \n{\npublic static void main(String[] args) throws IOException \n{\nStringBuilder builder = new StringBuilder();\nInputStreamReader input = new InputStreamReader(System.in);\nBufferedReader reader = new BufferedReader(input);\nString inputLine = reader.readLine();\nString first = inputLine.substring(0,1);\n String second = inputLine.substring(2,3);\n String result = first.concat(second);\n System.out.println(result);\n}\n}";
-        private const string CorrectDelphiSourceCode = "program Helloworld; \n{$APPTYPE CONSOLE}\n begin\n writeln('Hello, world!');\nend.";
+        private string CorrectCSSourceCode = CompileServiceLanguageSourceCode.CSCorrectSourceCode;
+        private string CorrectCPPsourceCode = CompileServiceLanguageSourceCode.CPPCorrectSourceCode;
+        private string CorrectJavaSourceCode = CompileServiceLanguageSourceCode.JavaCorrectSourceCode;
+        private string CorrectDelphiSourceCode = CompileServiceLanguageSourceCode.DelphiCorrectSourceCode;
 
-        //+using
-        private const string IncorrectCSSourceCode = "System;namespace MyProg{internal class Program{private static void Main(string[] args){string ar = Console.ReadLine();string result;string first, second;first = ar.Split(' ')[0];second = ar.Split(' ')[1];result = first.Insert(1,second);Console.Write(result);}}}";
-        //+using
-        private const string IncorrectCPPsourceCode = "include<iostream>\n#include<string>\nusing namespace std;\nvoid main(){\nstring a,b;\ncin>>a>>b;\ncout<<a<<b;}";
-        //+package
-        private const string IncorrectJavaSourceCode = "com.baik;\n import java.io.BufferedReader;\nimport java.io.IOException;\nimport java.io.InputStreamReader;\npublic class Main \n{\npublic static void main(String[] args) throws IOException \n{\nStringBuilder builder = new StringBuilder();\nInputStreamReader input = new InputStreamReader(System.in);\nBufferedReader reader = new BufferedReader(input);\nString inputLine = reader.readLine();\nString first = inputLine.substring(0,1);\n String second = inputLine.substring(2,3);\n String result = first.concat(second);\n System.out.println(result);\n}\n}";
-        //+program
-        private const string IncorrectDelphiSourceCode = "Helloworld; \n{$APPTYPE CONSOLE}\n begin\n writeln('Hello, world!');\nend.";
+
+        private string IncorrectCSSourceCode = CompileServiceLanguageSourceCode.CSIncorrectSourceCode;
+        private string IncorrectCPPsourceCode = CompileServiceLanguageSourceCode.CPPIncorrectSourceCode;
+        private string IncorrectJavaSourceCode = CompileServiceLanguageSourceCode.JavaIncorrectSourceCode;
+        private string IncorrectDelphiSourceCode = CompileServiceLanguageSourceCode.DelphiIncorrectSourceCode;
         //----------------------------------------------
         private const string CSLanguageType = "CS";
         private const string CPPlanguageType = "CPP";

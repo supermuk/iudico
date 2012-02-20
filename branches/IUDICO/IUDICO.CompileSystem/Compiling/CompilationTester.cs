@@ -30,6 +30,71 @@ namespace CompileSystem.Compiling
         /// </summary>
         protected string _ProgramPath;
 
+        public string GenerateFileForCompilation(string source, Language language)
+        {
+            //search for apropriate compiler
+            var currentCompiler = Settings.Compilers.FirstOrDefault(compiler => compiler.Name == language);
+
+            //if no compiler found - throw the exception
+            if (currentCompiler == null)
+            {
+                throw new CompileException("No compiler found for specified language");
+            }
+
+            //write source into a file
+            _ProgramDirectory = Path.Combine(Settings.TestingDirectory, ProgramName);
+            _ProgramPath = Path.Combine(_ProgramDirectory, ProgramName + "." + currentCompiler.Extension);
+
+            Directory.CreateDirectory(_ProgramDirectory);
+
+            if (language == Language.Java6)
+            {
+                const string classStr = "class";
+                const string packageStr = "package";
+
+                var packageIndex = source.IndexOf(packageStr);
+
+                if (packageIndex != -1)
+                {
+                    try
+                    {
+                        source.Remove(packageIndex, source.IndexOf(";", packageIndex) - packageIndex + 1);
+                    }
+                    catch
+                    {
+                    }
+                }
+
+                string className;
+
+                try
+                {
+                    className =
+                        source.Substring(source.IndexOf(classStr) + classStr.Length,
+                                         source.IndexOf("{", source.IndexOf(classStr)) -
+                                         (source.IndexOf(classStr) + classStr.Length)).Trim();
+                }
+                catch
+                {
+                    className = ProgramName;
+                }
+
+                if (Path.GetInvalidFileNameChars().Any(invalidChar => className.Contains(invalidChar.ToString())))
+                {
+                    className = ProgramName;
+                }
+
+                _ProgramPath = Path.Combine(_ProgramDirectory, className + "." + currentCompiler.Extension);
+            }
+
+            var writer = new StreamWriter(_ProgramPath);
+            writer.Write(source);
+            writer.Close();
+
+            //copmile the source
+            return _ProgramPath;
+        }
+        
         /// <summary>
         /// Compile program
         /// </summary>
