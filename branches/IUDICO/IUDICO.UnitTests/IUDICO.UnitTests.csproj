@@ -118,13 +118,6 @@
     <Compile Include="Base\TestFixture.cs" />
     <Compile Include="Base\TestFixtureWeb.cs" />
     <Compile Include="CompileService\UnitTests\RunnerTest.cs" />
-    <Compile Include="Security\NUnit\BanStorageTester.cs" />
-    <Compile Include="Security\NUnit\Mocks.cs" />
-    <Compile Include="Security\NUnit\SecurityServiceTester.cs" />
-    <Compile Include="Security\NUnit\SecurityStorageTester.cs" />
-    <Compile Include="Security\NUnit\SecurityTester.cs" />
-    <Compile Include="Security\NUnit\UserActivityTester.cs" />
-    <Compile Include="Security\NUnit\ViewModelsTester.cs" />
     <Compile Include="Security\Selenium\SecuritySeleniumTester.cs" />
     <Compile Include="TestingSystem\NUnit\FileSystemPackageTests.cs" />
     <Compile Include="TestingSystem\NUnit\PlayModelTests.cs" />
