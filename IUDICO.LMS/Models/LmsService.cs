@@ -136,7 +136,10 @@ namespace IUDICO.LMS.Models
         {
             if (evt == UserNotifications.UserLogin || evt == UserNotifications.UserLogout)
             {
-                RebuildMenuAndActions();
+                // temporary hack
+                menu = null;
+                actions = null;
+                //RebuildMenuAndActions();
             }
         }
 
