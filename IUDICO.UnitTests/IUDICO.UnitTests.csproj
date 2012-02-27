@@ -22,7 +22,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>3</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -87,10 +87,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompileService\CompileServiceHelper.cs" />
-    <Compile Include="CompileService\UnitTests\CompilationTesterTest.cs" />
-    <Compile Include="CompileService\UnitTests\CompilerTest.cs" />
     <Compile Include="CompileService\CompileServiceLanguageSourceCode.cs" />
     <Compile Include="CompileService\CompileServiceTest.cs" />
+    <Compile Include="CompileService\UnitTests\CompileServiceUnitTests.cs" />
     <Compile Include="CourseManagement\CourseManagmentTest.cs" />
     <Compile Include="CourseManagement\NUnit\ManifestManagerTest.cs" />
     <Compile Include="CourseManagement\NUnit\MixedCourseStorageTest.cs" />
@@ -102,7 +101,6 @@
     <Compile Include="CurriculumManagement\NUnit\Extensions.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CompileService\UnitTests\FunctionContainerTest.cs" />
     <Compile Include="LMS\NUnit\ChangingLanguageTestsTests.cs" />
     <Compile Include="LMS\NUnit\ErrorHandlingTests.cs" />
     <Compile Include="LMS\NUnit\GenerateActions.cs" />
@@ -112,12 +110,9 @@
     <Compile Include="LMS\NUnit\ResolvingRoutesTests.cs" />
     <Compile Include="LMS\NUnit\ShutDownTests.cs" />
     <Compile Include="LMS\NUnit\StartUpTests.cs" />
-    <Compile Include="CompileService\UnitTests\MemoryCounterTest.cs" />
-    <Compile Include="CompileService\UnitTests\ProgramTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Base\TestFixture.cs" />
     <Compile Include="Base\TestFixtureWeb.cs" />
-    <Compile Include="CompileService\UnitTests\RunnerTest.cs" />
     <Compile Include="Security\NUnit\BanStorageTester.cs" />
     <Compile Include="Security\NUnit\Mocks.cs" />
     <Compile Include="Security\NUnit\SecurityServiceTester.cs" />
