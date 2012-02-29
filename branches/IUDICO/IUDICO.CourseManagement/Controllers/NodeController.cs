@@ -16,6 +16,7 @@ using IUDICO.CourseManagement.Models.ManifestModels;
 using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
 using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupModels;
 using IUDICO.CourseManagement.Models.Storage;
+using IUDICO.Common.Models.Attributes;
 
 namespace IUDICO.CourseManagement.Controllers
 {
@@ -48,6 +49,7 @@ namespace IUDICO.CourseManagement.Controllers
             base.Initialize(requestContext);
         }
 
+        [Allow(Role = Role.CourseCreator)]
         public ActionResult Index()
         {
             ViewData["SequencingPatternsList"] = new List<SelectListItem>

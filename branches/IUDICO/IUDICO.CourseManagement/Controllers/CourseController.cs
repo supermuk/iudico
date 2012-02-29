@@ -27,7 +27,7 @@ namespace IUDICO.CourseManagement.Controllers
             _UserService = LmsService.FindService<IUserService>();
         }
 
-        [Allow(Role = Role.Student | Role.Teacher)]
+        [Allow(Role = Role.Student | Role.Teacher | Role.CourseCreator)]
         public ActionResult Index()
         {
             var userService = LmsService.FindService<IUserService>();
@@ -37,7 +37,7 @@ namespace IUDICO.CourseManagement.Controllers
             return View(courses.Union(_Storage.GetCourses(User.Identity.Name)));
         }
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public ActionResult Create()
         {
             var allUsers = _UserService.GetUsers().Where(i => i.Username != _UserService.GetCurrentUser().Username);
@@ -48,7 +48,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public ActionResult Create(Course course, IEnumerable<Guid> sharewith)
         {
             if (ModelState.IsValid)
@@ -63,7 +63,7 @@ namespace IUDICO.CourseManagement.Controllers
             return RedirectToAction("Create");
         }
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public ActionResult Edit(int courseId)
         {
             var course = _Storage.GetCourse(courseId);
@@ -83,7 +83,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public ActionResult Edit(int courseId, Course course, IEnumerable<Guid> sharewith)
         {
 
@@ -94,7 +94,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpDelete]
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public JsonResult Delete(int courseId)
         {
             try
@@ -117,7 +117,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public JsonResult Delete(int[] courseIds)
         {
             try
@@ -132,7 +132,7 @@ namespace IUDICO.CourseManagement.Controllers
             }
         }
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public ActionResult Publish(int courseId)
         {
             var path = _Storage.Export(courseId);
@@ -141,7 +141,7 @@ namespace IUDICO.CourseManagement.Controllers
             return RedirectToAction("Index");
         }
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public FilePathResult Export(int courseId)
         {
             var path = _Storage.Export(courseId);
@@ -149,7 +149,7 @@ namespace IUDICO.CourseManagement.Controllers
             return new FilePathResult(path, "application/octet-stream") { FileDownloadName = _Storage.GetCourse(courseId).Name + ".zip" };
         }
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public ActionResult Import()
         {
             ViewData["validateResults"] = new List<string>();
@@ -165,7 +165,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public ActionResult Import(string action, HttpPostedFileBase fileUpload)
         {
             if (fileUpload == null)
@@ -197,7 +197,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public ActionResult Validate(HttpPostedFileBase fileUpload)
         {
             var path = HttpContext.Request.PhysicalApplicationPath;
@@ -236,7 +236,7 @@ namespace IUDICO.CourseManagement.Controllers
         //}
 
         [HttpPost]
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public JsonResult DeleteResource(int id)
         {
             try
@@ -252,7 +252,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public JsonResult RenameResource(int id, string name)
         {
             try
