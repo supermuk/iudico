@@ -49,8 +49,8 @@
         <% for (var i = 1; i <= 5; ++i) { %>
             <input name="rating_<%=topicDescription.Topic.Id %>" value="<%= i %>" <%= (topicDescription.Rating == i ? "checked='checked'" : "") %> <%= (topicDescription.Rating != 0 ? "disabled='disabled'" : "") %> type="radio" class="rating required"/>
         <% } %>
-
-        <%: Html.ActionLink(topicDescription.ToString(), "Play", "Training", new { Id = topicDescription.Topic.Id }, null)%>
+        <%: Html.ActionLink(topicDescription.ToString(), "Play", "Training",
+                                new { TopicId = topicDescription.Topic.Id, TopicPart = topicDescription.TopicPart, TopicType = topicDescription.TopicType }, null)%>
         </li>
     <% } %>
     </ul>

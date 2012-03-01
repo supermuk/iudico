@@ -84,6 +84,12 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                 <%=IUDICO.CurriculumManagement.Localization.getMessage("Group")%>
             </th>
             <th>
+                <%=IUDICO.CurriculumManagement.Localization.getMessage("StartDate")%>
+            </th>
+            <th>
+                <%=IUDICO.CurriculumManagement.Localization.getMessage("EndDate")%>
+            </th>
+            <th>
             </th>
         </tr>
         <% foreach (var item in Model)
@@ -96,13 +102,15 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                 <%: item.GroupName %>
             </td>
             <td>
+                <%: item.StartDate %>
+            </td>
+            <td>
+                <%: item.EndDate %>
+            </td>
+            <td>
                 <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Edit"), "Edit", new { CurriculumId = item.Id }, null)%>
                 |
-                <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("EditTimelines"), "Index", "CurriculumTimeline", new { CurriculumId = item.Id }, null)%>
-                |
-                <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("EditTimelinesForChapters"), "Index", "ChapterTimeline", new { CurriculumId = item.Id }, null)%>
-                |
-                <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("EditTopicAssignments"), "Index", "TopicAssignment", new { CurriculumId = item.Id }, null)%>
+                <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("EditCurriculumChapters"), "Index", "CurriculumChapter", new { CurriculumId = item.Id }, null)%>
                 |
                 <a onclick="deleteItem(<%: item.Id %>)" href="#"><%=IUDICO.CurriculumManagement.Localization.getMessage("Delete")%></a>
             </td>

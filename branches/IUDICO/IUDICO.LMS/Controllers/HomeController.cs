@@ -17,6 +17,7 @@ namespace IUDICO.LMS.Controllers
         /// </summary>
         /// <returns></returns>
         [OutputCache(Duration = 3600, VaryByParam = "none", VaryByCustom = "lang")]
+        //TODO: FatTony; why for 3600 seconds and as I understand topics will ba cached for all users?
         public IEnumerable<TopicDescription> GetTopicsDescriptions()
         {
             User user = MvcApplication.StaticContainer.GetService<IUserService>().GetCurrentUser();

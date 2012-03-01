@@ -119,6 +119,9 @@ namespace IUDICO.Common.Models.Shared
             public EntitySet<Topic> Topics { get; set; }
 
             [ScaffoldColumn(false)]
+            public EntitySet<CurriculumChapter> CurriculumChapters { get; set; }
+
+            [ScaffoldColumn(false)]
             public Discipline Discipline { get; set; }
         }
     }
@@ -149,16 +152,28 @@ namespace IUDICO.Common.Models.Shared
             public int ChapterRef { get; set; }
 
             [ScaffoldColumn(false)]
-            public int CourseRef { get; set; }
+            public int TestCourseRef { get; set; }
 
             [ScaffoldColumn(false)]
-            public int TopicTypeRef { get; set; }
+            public int TestTopicTypeRef { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int TheoryCourseRef { get; set; }
+
+            [ScaffoldColumn(false)]
+            public int TheoryTopicTypeRef { get; set; }
 
             [ScaffoldColumn(false)]
             public int SortOrder { get; set; }
 
             [ScaffoldColumn(false)]
             public bool IsDeleted { get; set; }
+
+            [ScaffoldColumn(false)]
+            public bool BlockTopicAtTesting { get; set; }
+
+            [ScaffoldColumn(false)]
+            public bool BlockCurriculumAtTesting { get; set; }
         }
     }
 
@@ -335,70 +350,70 @@ namespace IUDICO.Common.Models.Shared
         }
     }
 
-    [MetadataType(typeof(Metadata))]
-    [Bind(Exclude = "Id")]
-    public partial class Timeline
-    {
-        private sealed class Metadata
-        {
-            [ScaffoldColumn(false)]
-            public int Id { get; set; }
+    //[MetadataType(typeof(Metadata))]
+    //[Bind(Exclude = "Id")]
+    //public partial class Timeline
+    //{
+    //    private sealed class Metadata
+    //    {
+    //        [ScaffoldColumn(false)]
+    //        public int Id { get; set; }
 
-            [LocalizedDisplayName("StartDate")]
-            [LocalizedRequired(ErrorMessage = "StartDateRequired")]
-            [UIHint("DateTimeWithPicker")]
-            [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
-            public DateTime StartDate { get; set; }
+    //        [LocalizedDisplayName("StartDate")]
+    //        [LocalizedRequired(ErrorMessage = "StartDateRequired")]
+    //        [UIHint("DateTimeWithPicker")]
+    //        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+    //        public DateTime StartDate { get; set; }
 
-            [LocalizedDisplayName("EndDate")]
-            [LocalizedRequired(ErrorMessage = "EndDateRequired")]
-            [UIHint("DateTimeWithPicker")]
-            [DisplayFormat(DataFormatString = /*"dd.MM.yy HH:mm:ss"*/"{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
-            public DateTime EndDate { get; set; }
+    //        [LocalizedDisplayName("EndDate")]
+    //        [LocalizedRequired(ErrorMessage = "EndDateRequired")]
+    //        [UIHint("DateTimeWithPicker")]
+    //        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+    //        public DateTime EndDate { get; set; }
 
-            [ScaffoldColumn(false)]
-            public int CurriculumRef { get; set; }
+    //        [ScaffoldColumn(false)]
+    //        public int CurriculumRef { get; set; }
 
-            [ScaffoldColumn(false)]
-            public int? ChapterRef { get; set; }
+    //        [ScaffoldColumn(false)]
+    //        public int? ChapterRef { get; set; }
 
-            [ScaffoldColumn(false)]
-            public bool IsDeleted { get; set; }
+    //        [ScaffoldColumn(false)]
+    //        public bool IsDeleted { get; set; }
 
-            [ScaffoldColumn(false)]
-            public Curriculum Curriculum { get; set; }
-        }
-    }
+    //        [ScaffoldColumn(false)]
+    //        public Curriculum Curriculum { get; set; }
+    //    }
+    //}
 
-    [MetadataType(typeof(Metadata))]
-    [Bind(Exclude = "Id")]
-    public partial class TopicAssignment
-    {
-        private sealed class Metadata
-        {
-            [ScaffoldColumn(false)]
-            public int Id { get; set; }
+    //[MetadataType(typeof(Metadata))]
+    //[Bind(Exclude = "Id")]
+    //public partial class TopicAssignment
+    //{
+    //    private sealed class Metadata
+    //    {
+    //        [ScaffoldColumn(false)]
+    //        public int Id { get; set; }
 
-            [ScaffoldColumn(false)]
-            public int TopicRef { get; set; }
+    //        [ScaffoldColumn(false)]
+    //        public int TopicRef { get; set; }
 
-            [ScaffoldColumn(false)]
-            public int CurriculumRef { get; set; }
+    //        [ScaffoldColumn(false)]
+    //        public int CurriculumRef { get; set; }
 
-            [LocalizedDisplayName("MaxScore")]
-            [LocalizedRequired(ErrorMessage = "MaxScoreRequired")]
-            public int MaxScore { get; set; }
+    //        [LocalizedDisplayName("MaxScore")]
+    //        [LocalizedRequired(ErrorMessage = "MaxScoreRequired")]
+    //        public int MaxScore { get; set; }
 
-            [ScaffoldColumn(false)]
-            public Curriculum Curriculum { get; set; }
+    //        [ScaffoldColumn(false)]
+    //        public Curriculum Curriculum { get; set; }
 
-            [ScaffoldColumn(false)]
-            public Topic Topic { get; set; }
+    //        [ScaffoldColumn(false)]
+    //        public Topic Topic { get; set; }
 
-            [ScaffoldColumn(false)]
-            public bool IsDeleted { get; set; }
-        }
-    }
+    //        [ScaffoldColumn(false)]
+    //        public bool IsDeleted { get; set; }
+    //    }
+    //}
 
     [MetadataType(typeof(Metadata))]
     [Bind(Exclude = "Id")]

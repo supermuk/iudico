@@ -12,63 +12,41 @@ namespace IUDICO.CurriculumManagement.Controllers
         public ChapterController(ICurriculumStorage disciplineStorage)
             : base(disciplineStorage)
         {
-            
+
         }
 
         [Allow(Role = Role.Teacher)]
         public ActionResult Index(int disciplineId)
         {
-            try
-            {
-                var chapters = Storage.GetChapters(disciplineId);
-
-                ViewData["DisciplineName"] = Storage.GetDiscipline(disciplineId).Name;
-                return View(chapters);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            var chapters = Storage.GetChapters(disciplineId);
+            ViewData["DisciplineName"] = Storage.GetDiscipline(disciplineId).Name;
+            return View(chapters);
         }
 
         [HttpGet]
         [Allow(Role = Role.Teacher)]
         public ActionResult Create(int disciplineId)
         {
-            try
-            {
-                var discipline = Storage.GetDiscipline(disciplineId);
+            var discipline = Storage.GetDiscipline(disciplineId);
 
-                ViewData["DisciplineName"] = discipline.Name;
-                return View();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            ViewData["DisciplineName"] = discipline.Name;
+            return View();
         }
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
         public ActionResult Create(int disciplineId, Chapter chapter)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    chapter.DisciplineRef = disciplineId;
-                    Storage.AddChapter(chapter);
+                chapter.DisciplineRef = disciplineId;
+                Storage.AddChapter(chapter);
 
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    return View(chapter);
-                }
+                return RedirectToAction("Index");
             }
-            catch (Exception e)
+            else
             {
-                throw e;
+                return View(chapter);
             }
         }
 
@@ -76,41 +54,27 @@ namespace IUDICO.CurriculumManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int chapterId)
         {
-            try
-            {
-                var chapter = Storage.GetChapter(chapterId);
+            var chapter = Storage.GetChapter(chapterId);
 
-                ViewData["DisciplineName"] = chapter.Discipline.Name;
-                HttpContext.Session["DisciplineId"] = chapter.DisciplineRef;
-                return View(chapter);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            ViewData["DisciplineName"] = chapter.Discipline.Name;
+            Session["DisciplineId"] = chapter.DisciplineRef;
+            return View(chapter);
         }
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int chapterId, Chapter chapter)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    chapter.Id = chapterId;
-                    Storage.UpdateChapter(chapter);
+                chapter.Id = chapterId;
+                Storage.UpdateChapter(chapter);
 
-                    return RedirectToRoute("Chapters", new { action = "Index", DisciplineId = HttpContext.Session["DisciplineId"] });
-                }
-                else
-                {
-                    return View(chapter);
-                }
+                return RedirectToRoute("Chapters", new { action = "Index", DisciplineId = HttpContext.Session["DisciplineId"] });
             }
-            catch (Exception e)
+            else
             {
-                throw e;
+                return View(chapter);
             }
         }
 

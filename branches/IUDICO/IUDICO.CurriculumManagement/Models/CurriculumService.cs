@@ -114,6 +114,26 @@ namespace IUDICO.CurriculumManagement.Models
             return _CurriculumStorage.GetTopicsAvailableForUser(user);
         }
 
+        public TopicType GetTopicType(int id)
+        {
+            return _CurriculumStorage.GetTopicType(id);
+        }
+
+        public IEnumerable<TopicType> GetTopicTypes()
+        {
+            return _CurriculumStorage.GetTopicTypes();
+        }
+
+        public List<TopicType> GetTheoryTopicTypes()
+        {
+            return _CurriculumStorage.GetTheoryTopicTypes();
+        }
+
+        public List<TopicType> GetTestTopicTypes()
+        {
+            return _CurriculumStorage.GetTestTopicTypes();
+        }
+
         #endregion
     }
 }

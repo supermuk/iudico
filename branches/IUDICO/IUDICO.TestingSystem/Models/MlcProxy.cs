@@ -63,14 +63,14 @@ namespace IUDICO.TestingSystem.Models
             GetCurrentUserIdentifier();
             AttemptItemIdentifier attemptId = null;
             ActivityPackageItemIdentifier organizationId;
-            var packageId = GetPackageIdentifier(topic.CourseRef.Value);
+            var packageId = GetPackageIdentifier(topic.TestCourseRef.Value);
 
             // in case package has not been uploaded yet.
             if (packageId == null)
             {
-                string zipPath = CourseService.Export(topic.CourseRef.Value);
+                string zipPath = CourseService.Export(topic.TestCourseRef.Value);
                 Package package = new ZipPackage(zipPath);
-                package.CourseID = topic.CourseRef.Value;
+                package.CourseID = topic.TestCourseRef.Value;
                 packageId = AddPackage(package);
                 organizationId = GetOrganizationIdentifier(packageId);
                 attemptId = CreateAttempt(organizationId.GetKey(), topic.Id);

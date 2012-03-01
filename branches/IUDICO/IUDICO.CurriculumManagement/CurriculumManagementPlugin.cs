@@ -31,7 +31,7 @@ namespace IUDICO.CurriculumManagement
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<CurriculumManagementPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<ICurriculumStorage>().ImplementedBy<MixedCurriculumStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<ICurriculumStorage>().ImplementedBy<DatabaseCurriculumStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<ICurriculumService>().ImplementedBy<CurriculumService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
 
@@ -113,39 +113,27 @@ namespace IUDICO.CurriculumManagement
             );
 
             routes.MapRoute(
-                "CurriculumTimeline",
-                "CurriculumTimeline/{TimelineId}/{action}",
-                new { controller = "CurriculumTimeline" }
+                "CurriculumChapter",
+                "CurriculumChapter/{CurriculumChapterId}/{action}",
+                new { controller = "CurriculumChapter" }
             );
 
             routes.MapRoute(
-                "CurriculumTimelines",
-                "Curriculum/{CurriculumId}/CurriculumTimeline/{action}",
-                new { controller = "CurriculumTimeline" }
+                "CurriculumChapters",
+                "Curriculum/{CurriculumId}/CurriculumChapter/{action}",
+                new { controller = "CurriculumChapter" }
             );
 
             routes.MapRoute(
-                "ChapterTimeline",
-                "ChapterTimeline/{TimelineId}/{action}",
-                new { controller = "ChapterTimeline" }
+                "CurriculumChapterTopic",
+                "CurriculumChapterTopic/{CurriculumChapterTopicId}/{action}",
+                new { controller = "CurriculumChapterTopic" }
             );
 
             routes.MapRoute(
-                "ChapterTimelines",
-                "Curriculum/{CurriculumId}/ChapterTimeline/{action}",
-                new { controller = "ChapterTimeline" }
-            );
-
-            routes.MapRoute(
-                "TopicAssignment",
-                "TopicAssignment/{TopicAssignmentId}/{action}",
-                new { controller = "TopicAssignment" }
-            );
-
-            routes.MapRoute(
-                "TopicAssignments",
-                "Curriculum/{CurriculumId}/TopicAssignment/{action}",
-                new { controller = "TopicAssignment" }
+                "CurriculumChapterTopics",
+                "CurriculumChapter/{CurriculumChapterId}/CurriculumChapterTopic/{action}",
+                new { controller = "CurriculumChapterTopic" }
             );
         }
 
@@ -155,7 +143,7 @@ namespace IUDICO.CurriculumManagement
             {
                 //delete connected Topics
                 int courseId = ((Course)data[0]).Id;
-                curriculumStorage.MakeDisciplineInvalid(courseId);
+                //curriculumStorage.MakeDisciplineInvalid(courseId);
                 var topicIds = curriculumStorage.GetTopicsByCourseId(courseId).Select(item => item.Id);
                 curriculumStorage.DeleteTopics(topicIds);
             }
@@ -163,9 +151,9 @@ namespace IUDICO.CurriculumManagement
             {
                 //delete connected Curriculums
                 int groupId = ((Group)data[0]).Id;
-                curriculumStorage.MakeCurriculumsInvalid(groupId);
-                //var curriculumIds = disciplineStorage.GetCurriculumsByGroupId(groupId).Select(item => item.Id);
-                //disciplineStorage.DeleteCurriculums(curriculumIds);
+                //curriculumStorage.MakeCurriculumsInvalid(groupId);
+                var curriculumIds = curriculumStorage.GetCurriculumsByGroupId(groupId).Select(item => item.Id);
+                curriculumStorage.DeleteCurriculums(curriculumIds);
             }
             else if (evt == UserNotifications.UserDelete)
             {

@@ -324,7 +324,7 @@
   <data name="Next" xml:space="preserve">
     <value> =&gt; </value>
   </data>
-  <data name="No course" xml:space="preserve">
+  <data name="NoCourse" xml:space="preserve">
     <value>-- no course --</value>
   </data>
   <data name="PleaseSelectCurriculumDelete" xml:space="preserve">

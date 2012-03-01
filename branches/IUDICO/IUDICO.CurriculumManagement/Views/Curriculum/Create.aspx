@@ -24,12 +24,7 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
         <%: Html.ValidationSummary(true, IUDICO.CurriculumManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
         <fieldset>
             <legend><%=IUDICO.CurriculumManagement.Localization.getMessage("Fields")%></legend>
-            <div class="editor-label">
-                <%: Html.Label(IUDICO.CurriculumManagement.Localization.getMessage("ChooseGroup")) %>
-            </div>
-            <div>
-                <%: Html.DropDownListFor(x => x.GroupId, Model.Groups)%>
-            </div>
+            <%= Html.EditorForModel() %>
         </fieldset>
         <p>
             <input type="submit" value="<%=IUDICO.CurriculumManagement.Localization.getMessage("Create") %>" />

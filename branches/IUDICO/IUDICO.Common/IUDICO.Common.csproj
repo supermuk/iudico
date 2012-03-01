@@ -86,6 +86,7 @@
     <Compile Include="Models\Helpers.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\MenuItem.cs" />
+    <Compile Include="Models\Shared\CurriculumManagement\Enums.cs" />
     <Compile Include="Models\Shared\Metadata.cs" />
     <Compile Include="Models\Notifications\CurriculumNotifications.cs" />
     <Compile Include="Models\Notifications\LMSNotifications.cs" />
@@ -93,7 +94,6 @@
     <Compile Include="Models\Notifications\TestingNotifications.cs" />
     <Compile Include="Models\Notifications\UserNotifications.cs" />
     <Compile Include="Models\Plugin\IPlugin.cs" />
-    <Compile Include="Models\Shared\Poco.cs" />
     <Compile Include="Models\Services\IAnalyticsService.cs" />
     <Compile Include="Models\Services\ICourseService.cs" />
     <Compile Include="Models\Services\ICurriculumService.cs" />
@@ -102,7 +102,10 @@
     <Compile Include="Models\Services\ISecurityService.cs" />
     <Compile Include="Models\Services\IStatisticsService.cs" />
     <Compile Include="Models\Services\IUserService.cs" />
-    <Compile Include="Models\Shared\CurriculumManagement\ThemeInfo.cs" />
+    <Compile Include="Models\Shared\CurriculumManagement\TopicDescription.cs" />
+    <Compile Include="Models\Shared\Poco.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Models\Shared\Statistics\AnswerResult.cs" />
     <Compile Include="Models\Shared\Statistics\AttemptResult.cs" />
     <Compile Include="Models\Shared\Statistics\Enums.cs" />
