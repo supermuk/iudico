@@ -22,7 +22,7 @@ namespace IUDICO.Statistics.Models.QualityTest
             IEnumerable<Course> availableCourses = iLmsService.FindService<ICourseService>().GetCourses(teacherUser);
             //
             allowedTopics = iLmsService.FindService<ICurriculumService>().GetTopicsByDisciplineId((int)selectDisciplineId)
-                .Where(topic => availableCourses.Count(course => course.Id == topic.CourseRef) != 0);
+                .Where(topic => availableCourses.Count(course => course.Id == topic.TestCourseRef) != 0);
             //
             if (allowedTopics != null & allowedTopics.Count() != 0)
                 _AllowedTopics = allowedTopics;

@@ -13,14 +13,12 @@ namespace IUDICO.CurriculumManagement.Models.Storage
     {
         #region External methods
 
-        //void RefreshState();
         User GetCurrentUser();
         IEnumerable<Course> GetCourses();
         Course GetCourse(int id);
         Group GetGroup(int id);
         IEnumerable<Group> GetGroups();
         IEnumerable<Group> GetGroupsByUser(User user);
-        IEnumerable<Course> GetCoursesOwnedByUser(User user);
 
         #endregion
 
@@ -46,7 +44,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         void UpdateDiscipline(Discipline discipline);
         void DeleteDiscipline(int id);
         void DeleteDisciplines(IEnumerable<int> ids);
-        void MakeDisciplineInvalid(int courseId);
+        //void MakeDisciplineInvalid(int courseId);
 
         #endregion
 
@@ -102,6 +100,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         TopicType GetTopicType(int id);
         IEnumerable<TopicType> GetTopicTypes();
+        List<TopicType> GetTheoryTopicTypes();
+        List<TopicType> GetTestTopicTypes();
 
         #endregion
 
@@ -109,41 +109,50 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         Curriculum GetCurriculum(int curriculumId);
         IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids);
-        IEnumerable<Curriculum> GetDisciplineAssignmnetsByDisciplineId(int disciplineId);
+        IEnumerable<Curriculum> GetCurriculumsByDisciplineId(int disciplineId);
         IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId);
         IEnumerable<Curriculum> GetCurriculums();
         int AddCurriculum(Curriculum curriculum);
         void UpdateCurriculum(Curriculum curriculum);
         void DeleteCurriculum(int id);
         void DeleteCurriculums(IEnumerable<int> ids);
-        void MakeCurriculumsInvalid(int groupId);
+        //void MakeCurriculumsInvalid(int groupId);
 
         #endregion
 
-        #region TopicAssignment methods
+        #region CurriculumChapter methods
 
-        TopicAssignment GetTopicAssignment(int topicAssignmentId);
-        IEnumerable<TopicAssignment> GetTopicAssignmentsByCurriculumId(int curriculumId);
-        IEnumerable<TopicAssignment> GetTopicAssignmentsByTopicId(int topicId);
-        IEnumerable<TopicAssignment> GetTopicAssignments(IEnumerable<int> ids);
-        int AddTopicAssignment(TopicAssignment topicAssignment);
-        void UpdateTopicAssignment(TopicAssignment topicAssignment);
-        void DeleteTopicAssignments(IEnumerable<int> ids);
+        CurriculumChapter GetCurriculumChapter(int id);
+
+        IList<CurriculumChapter> GetCurriculumChaptersByCurriculumId(int curriculumId);
+
+        IList<CurriculumChapter> GetCurriculumChaptersByChapterId(int chapterId);
+
+        int AddCurriculumChapter(CurriculumChapter curriculumChapter);
+
+        void UpdateCurriculumChapter(CurriculumChapter curriculumChapter);
+
+        void DeleteCurriculumChapter(int id);
+
+        void DeleteCurriculumChapters(IList<int> ids);
 
         #endregion
 
-        #region Timeline methods
+        #region CurriculumChapterTopic methods
 
-        Timeline GetTimeline(int TimelineId);
-        IEnumerable<Timeline> GetTimelines(IEnumerable<int> timelineIds);
-        IEnumerable<Timeline> GetCurriculumTimelines(int curriculumId);
-        IEnumerable<Timeline> GetChapterTimelinesByCurriculumId(int curriculumId);
-        IEnumerable<Timeline> GetChapterTimelinesByChapterId(int chapterId);
-        IEnumerable<Timeline> GetChapterTimelines(int chapterId, int curriculumId);
-        int AddTimeline(Timeline timeline);
-        void UpdateTimeline(Timeline timeline);
-        void DeleteTimeline(int timelineId);
-        void DeleteTimelines(IEnumerable<int> timelineIds);
+        CurriculumChapterTopic GetCurriculumChapterTopic(int id);
+
+        IList<CurriculumChapterTopic> GetCurriculumChapterTopicsByCurriculumChapterId(int curriculumChapterId);
+
+        IList<CurriculumChapterTopic> GetCurriculumChapterTopicsByTopicId(int topicId);
+
+        int AddCurriculumChapterTopic(CurriculumChapterTopic curriculumChapterTopic);
+
+        void UpdateCurriculumChapterTopic(CurriculumChapterTopic curriculumChapterTopic);
+
+        void DeleteCurriculumChapterTopic(int id);
+
+        void DeleteCurriculumChapterTopics(IEnumerable<int> ids);
 
         #endregion
 

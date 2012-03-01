@@ -10,7 +10,7 @@ namespace IUDICO.CurriculumManagement.Models
     /// </summary>
     public class ValidationStatus
     {
-        public bool IsValid 
+        public bool IsValid
         {
             get
             {
@@ -26,6 +26,15 @@ namespace IUDICO.CurriculumManagement.Models
         public ValidationStatus()
         {
             Errors = new List<string>();
+        }
+
+        /// <summary>
+        /// Adds the localized error.
+        /// </summary>
+        /// <param name="key">The key in resource file.</param>
+        public void AddLocalizedError(string key, params object[] args)
+        {
+            Errors.Add(String.Format(Localization.getMessage(key), args));
         }
     }
 }

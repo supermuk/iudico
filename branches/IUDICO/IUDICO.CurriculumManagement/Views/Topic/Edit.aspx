@@ -26,11 +26,9 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
 
         <fieldset>
             <legend><%=IUDICO.CurriculumManagement.Localization.getMessage("Fields")%></legend>
-
-
+            <%= Html.EditorForModel() %>
    
-        <div class="editor-label">
-            <%--<%= Html.LabelFor(item => item.TopicName) %>--%>
+<%--        <div class="editor-label">
             <%= Html.Label(IUDICO.CurriculumManagement.Localization.getMessage("Name")) %>
         </div>
         <div class="editor-field">
@@ -39,18 +37,16 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
 
         <div class="editor-label">
             <%= Html.Label(IUDICO.CurriculumManagement.Localization.getMessage("ChooseCourseForTopic")) %>
-            <%--<%= Html.LabelFor(item => item.CourseId) %>--%>
         </div>
         <div>
             <%= Html.DropDownListFor(x => x.CourseId, Model.Courses)%>
         </div>
         <div class="editor-label">
             <%= Html.Label(IUDICO.CurriculumManagement.Localization.getMessage("ChooseTopicType"))%>
-            <%--<%= Html.LabelFor(item => item.TopicTypeId) %>--%>
         </div>
         <div>
             <%= Html.DropDownListFor(x => x.TopicTypeId, Model.TopicTypes)%>
-        </div>
+        </div>--%>
     </fieldset>
     <p>
         <input type="submit" value="<%=IUDICO.CurriculumManagement.Localization.getMessage("Update") %>" />
