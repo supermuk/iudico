@@ -25,77 +25,60 @@ namespace IUDICO.CurriculumManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Index(int disciplineId)
         {
-            try
-            {
-                Discipline discipline = Storage.GetDiscipline(disciplineId);
-                var curriculums = Storage.GetDisciplineAssignmnetsByDisciplineId(disciplineId);
+            var discipline = Storage.GetDiscipline(disciplineId);
+            var curriculums = Storage.GetCurriculumsByDisciplineId(disciplineId);
 
-                ViewData["DisciplineName"] = discipline.Name;
-                return View
-                (
-                    from curriculum in curriculums
-                    select new ViewCurriculumModel
+            ViewData["DisciplineName"] = discipline.Name;
+            return View
+            (
+                curriculums
+                    .Select(item => new ViewCurriculumModel
                     {
-                        Id = curriculum.Id,
-                        GroupName = Storage.GetGroup(curriculum.UserGroupRef).Name
-                    }
-                );
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+                        Id = item.Id,
+                        GroupName = Storage.GetGroup(item.UserGroupRef).Name,
+                        StartDate = Converter.ToString(item.StartDate),
+                        EndDate = Converter.ToString(item.EndDate),
+                    })
+            );
         }
 
         [HttpGet]
         [Allow(Role = Role.Teacher)]
         public ActionResult Create(int disciplineId)
         {
-            try
-            {
-                LoadValidationErrors();
+            LoadValidationErrors();
 
-                IEnumerable<Group> groups = Storage.GetNotAssignedGroups(disciplineId);
-                Discipline discipline = Storage.GetDiscipline(disciplineId);
-                CreateCurriculumModel createAssignmentModel = new CreateCurriculumModel(groups, 0);
+            var groups = Storage.GetNotAssignedGroups(disciplineId);
+            var discipline = Storage.GetDiscipline(disciplineId);
+            var model = new CreateCurriculumModel(groups, 0, null, null);
 
-                ViewData["DisciplineName"] = discipline.Name;
-                return View(createAssignmentModel);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            ViewData["DisciplineName"] = discipline.Name;
+            return View(model);
         }
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Create(int disciplineId, CreateCurriculumModel createAssignmentModel)
+        public ActionResult Create(int disciplineId, CreateCurriculumModel model)
         {
-            try
+            var curriculum = new Curriculum()
             {
-                Curriculum curriculum = new Curriculum();
-                curriculum.UserGroupRef = createAssignmentModel.GroupId;
-                curriculum.DisciplineRef = disciplineId;
+                UserGroupRef = model.GroupId,
+                DisciplineRef = disciplineId,
+                StartDate = model.SetDate ? model.StartDate : (DateTime?)null,
+                EndDate = model.SetDate ? model.EndDate : (DateTime?)null
+            };
 
-                AddValidationErrorsToModelState(Validator.ValidateCurriculum(curriculum).Errors);
+            AddValidationErrorsToModelState(Validator.ValidateCurriculum(curriculum).Errors);
 
-                if (ModelState.IsValid)
-                {
-                    Storage.AddCurriculum(curriculum);
-
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    SaveValidationErrors();
-
-                    return RedirectToAction("Create");
-                }
+            if (ModelState.IsValid)
+            {
+                Storage.AddCurriculum(curriculum);
+                return RedirectToAction("Index");
             }
-            catch (Exception e)
+            else
             {
-                throw e;
+                SaveValidationErrors();
+                return RedirectToAction("Create");
             }
         }
 
@@ -103,55 +86,40 @@ namespace IUDICO.CurriculumManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int curriculumId)
         {
-            try
-            {
-                LoadValidationErrors();
+            LoadValidationErrors();
 
-                Curriculum curriculum = Storage.GetCurriculum(curriculumId);
-                int disciplineId = curriculum.DisciplineRef;
-                Discipline discipline = Storage.GetDiscipline(disciplineId);
-                int assignmentGroupId = curriculum.UserGroupRef;
-                IEnumerable<Group> groups = Storage.GetNotAssignedGroupsWithCurrentGroup(disciplineId, assignmentGroupId);
-                CreateCurriculumModel editAssignmentModel = new CreateCurriculumModel(groups, assignmentGroupId);
+            var curriculum = Storage.GetCurriculum(curriculumId);
+            var disciplineId = curriculum.DisciplineRef;
+            var discipline = Storage.GetDiscipline(disciplineId);
+            var groupId = curriculum.UserGroupRef;
+            var groups = Storage.GetNotAssignedGroupsWithCurrentGroup(disciplineId, groupId);
+            var model = new CreateCurriculumModel(groups, groupId, curriculum.StartDate, curriculum.EndDate);
 
-                Session["DisciplineId"] = disciplineId;
-                ViewData["DisciplineName"] = discipline.Name;
-                return View(editAssignmentModel);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            Session["DisciplineId"] = disciplineId;
+            ViewData["DisciplineName"] = discipline.Name;
+            return View(model);
         }
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Edit(int curriculumId, CreateCurriculumModel editAssignmentModel)
+        public ActionResult Edit(int curriculumId, CreateCurriculumModel model)
         {
-            try
+            var curriculum = Storage.GetCurriculum(curriculumId);
+            curriculum.UserGroupRef = model.GroupId;
+            curriculum.StartDate = model.SetDate ? model.StartDate : (DateTime?)null;
+            curriculum.EndDate = model.SetDate ? model.EndDate : (DateTime?)null;
+
+            AddValidationErrorsToModelState(Validator.ValidateCurriculum(curriculum).Errors);
+
+            if (ModelState.IsValid)
             {
-                Curriculum curriculum = new Curriculum();
-                curriculum.UserGroupRef = editAssignmentModel.GroupId;
-                curriculum.Id = curriculumId;
-
-                AddValidationErrorsToModelState(Validator.ValidateCurriculum(curriculum).Errors);
-
-                if (ModelState.IsValid)
-                {
-                    Storage.UpdateCurriculum(curriculum);
-
-                    return RedirectToRoute("Curriculums", new { action = "Index", DisciplineId = Session["DisciplineId"] });
-                }
-                else
-                {
-                    SaveValidationErrors();
-
-                    return RedirectToAction("Create");
-                }
+                Storage.UpdateCurriculum(curriculum);
+                return RedirectToRoute("Curriculums", new { action = "Index", DisciplineId = Session["DisciplineId"] });
             }
-            catch (Exception e)
+            else
             {
-                throw e;
+                SaveValidationErrors();
+                return RedirectToAction("Create");
             }
         }
 

@@ -78,35 +78,19 @@ namespace IUDICO.CurriculumManagement.Models
             }
         }
 
-        public System.Data.Linq.Table<TopicType> TopicTypes
+        public System.Data.Linq.Table<CurriculumChapterTopic> CurriculumChapterTopics
         {
             get
             {
-                return this.GetTable<TopicType>();
+                return this.GetTable<CurriculumChapterTopic>();
             }
         }
 
-        public System.Data.Linq.Table<TopicAssignment> TopicAssignments
+        public System.Data.Linq.Table<CurriculumChapter> CurriculumChapters
         {
             get
             {
-                return this.GetTable<TopicAssignment>();
-            }
-        }
-
-        public System.Data.Linq.Table<Timeline> Timelines
-        {
-            get
-            {
-                return this.GetTable<Timeline>();
-            }
-        }
-
-        public System.Data.Linq.Table<Discipline> Disciplines
-        {
-            get
-            {
-                return this.GetTable<Discipline>();
+                return this.GetTable<CurriculumChapter>();
             }
         }
 
@@ -118,6 +102,22 @@ namespace IUDICO.CurriculumManagement.Models
             }
         }
 
+        public System.Data.Linq.Table<TopicType> TopicTypes
+        {
+            get
+            {
+                return this.GetTable<TopicType>();
+            }
+        }
+
+        public System.Data.Linq.Table<Discipline> Disciplines
+        {
+            get
+            {
+                return this.GetTable<Discipline>();
+            }
+        }
+
         public System.Data.Linq.Table<UserTopicScore> UserTopicScores
         {
             get
@@ -125,32 +125,6 @@ namespace IUDICO.CurriculumManagement.Models
                 return this.GetTable<UserTopicScore>();
             }
         }
-
-        //IMockableTable<Course> IDataContext.Courses
-        //{
-        //    get { return new MockableTable<Course>(Courses); }
-        //}
-
-        //IMockableTable<User> IDataContext.Users
-        //{
-        //    get { return new MockableTable<User>(Users); }
-        //}
-
-        //IMockableTable<Group> IDataContext.Groups
-        //{
-        //    get { return new MockableTable<Group>(Groups); }
-        //}
-
-        //IMockableTable<GroupUser> IDataContext.GroupUsers
-        //{
-        //    get { return new MockableTable<GroupUser>(GroupUsers); }
-        //}
-
-        //IMockableTable<UserRole> IDataContext.UserRoles
-        //{
-        //    get { return new MockableTable<UserRole>(UserRoles); }
-        //}
-
         IMockableTable<Discipline> IDataContext.Disciplines
         {
             get { return new MockableTable<Discipline>(Disciplines); }
@@ -171,14 +145,14 @@ namespace IUDICO.CurriculumManagement.Models
             get { return new MockableTable<Curriculum>(Curriculums); }
         }
 
-        IMockableTable<Timeline> IDataContext.Timelines
+        IMockableTable<CurriculumChapter> IDataContext.CurriculumChapters
         {
-            get { return new MockableTable<Timeline>(Timelines); }
+            get { return new MockableTable<CurriculumChapter>(CurriculumChapters); }
         }
 
-        IMockableTable<TopicAssignment> IDataContext.TopicAssignments
+        IMockableTable<CurriculumChapterTopic> IDataContext.CurriculumChapterTopics
         {
-            get { return new MockableTable<TopicAssignment>(TopicAssignments); }
+            get { return new MockableTable<CurriculumChapterTopic>(CurriculumChapterTopics); }
         }
 
         IMockableTable<TopicType> IDataContext.TopicTypes

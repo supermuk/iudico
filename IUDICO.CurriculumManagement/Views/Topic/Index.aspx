@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Topic>>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" 
+Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models.ViewDataClasses.ViewTopicModel>>" %>
 
 <%@ Assembly Name="IUDICO.CurriculumManagement" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
@@ -90,7 +91,16 @@
                 <%=IUDICO.CurriculumManagement.Localization.getMessage("Updated")%>
             </th>
             <th>
-                <%=IUDICO.CurriculumManagement.Localization.getMessage("TopicType")%>
+                <%=IUDICO.CurriculumManagement.Localization.getMessage("TestTopicType")%>
+            </th>
+            <th>
+                <%=IUDICO.CurriculumManagement.Localization.getMessage("TestCourseName")%>
+            </th>
+            <th>
+                <%=IUDICO.CurriculumManagement.Localization.getMessage("TheoryTopicType")%>
+            </th>
+            <th>
+                <%=IUDICO.CurriculumManagement.Localization.getMessage("TheoryCourseName")%>
             </th>
             <th>
             </th>
@@ -102,16 +112,25 @@
                 <input type="checkbox" id="<%= item.Id %>" />
             </td>
             <td>
-                <%: item.Name %>
+                <%: item.TopicName %>
             </td>
             <td>
-                <%: String.Format("{0:g}", item.Created) %>
+                <%: item.Created %>
             </td>
             <td>
-                <%: String.Format("{0:g}", item.Updated) %>
+                <%: item.Updated %>
             </td>
             <td>
-                <%: IUDICO.CurriculumManagement.Converters.ConvertToString(item.TopicType) %>
+                <%: item.TestTopicType %>
+            </td>
+            <td>
+                <%: item.TestCourseName %>
+            </td>
+            <td>
+                <%: item.TheoryTopicType %>
+            </td>
+            <td>
+                <%: item.TheoryCourseName%>
             </td>
             <td>
                 <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Edit"), "Edit", new { TopicID = item.Id })%>

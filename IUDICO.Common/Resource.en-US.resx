@@ -126,6 +126,24 @@
   <data name="AttemptLimit" xml:space="preserve">
     <value>Attempt Limit</value>
   </data>
+  <data name="BindTestCourse" xml:space="preserve">
+    <value>Bind test course?</value>
+  </data>
+  <data name="BindTheoryCourse" xml:space="preserve">
+    <value>Bind theory course?</value>
+  </data>
+  <data name="ChooseCourseForTestTopic" xml:space="preserve">
+    <value>Choose course for test topic</value>
+  </data>
+  <data name="ChooseCourseForTheoryTopic" xml:space="preserve">
+    <value>Choose course for theory topic</value>
+  </data>
+  <data name="ChooseTopicTypeForTestTopic" xml:space="preserve">
+    <value>Choose topic type for test topic</value>
+  </data>
+  <data name="ChooseTopicTypeForTheoryTopic" xml:space="preserve">
+    <value>Choose topic type for  theory topic</value>
+  </data>
   <data name="CreateDate" xml:space="preserve">
     <value>Create Date</value>
   </data>

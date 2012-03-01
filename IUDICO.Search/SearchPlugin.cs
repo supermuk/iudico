@@ -165,13 +165,13 @@ namespace IUDICO.Search
                 document.Add(new Field("Type", "Topic", Field.Store.YES, Field.Index.NO));
                 document.Add(new Field("TopicID", topic.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
                 document.Add(new Field("Topic", topic.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
-                if (topic.CourseRef == null)
+                if (topic.TestCourseRef == null)
                 {
                     document.Add(new Field("CourseRef", "null", Field.Store.YES, Field.Index.NO));
                 }
                 else
                 {
-                    document.Add(new Field("CourseRef", topic.CourseRef.ToString(), Field.Store.YES, Field.Index.NO));
+                    document.Add(new Field("CourseRef", topic.TestCourseRef.ToString(), Field.Store.YES, Field.Index.NO));
                 }
 
                 AddToIndex(document);
@@ -374,13 +374,13 @@ namespace IUDICO.Search
                         document.Add(new Field("Type", "Topic", Field.Store.YES, Field.Index.NO));
                         document.Add(new Field("TopicID", topic.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
                         document.Add(new Field("Topic", topic.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
-                        if (topic.CourseRef == null)
+                        if (topic.TestCourseRef == null)
                         {
                             document.Add(new Field("CourseRef", "null", Field.Store.YES, Field.Index.NO));
                         }
                         else
                         {
-                            document.Add(new Field("CourseRef", topic.CourseRef.ToString(), Field.Store.YES, Field.Index.NO));
+                            document.Add(new Field("CourseRef", topic.TestCourseRef.ToString(), Field.Store.YES, Field.Index.NO));
                         }
 
                         writer.AddDocument(document);

@@ -29,7 +29,7 @@ namespace IUDICO.UnitTests.CurriculumManagement
 
         private Mock<ILmsService> _MockLmsService { get; set; }
 
-        private Mock<MixedCurriculumStorage> _MockStorage { get; set; }
+        private Mock<DatabaseCurriculumStorage> _MockStorage { get; set; }
 
         private Mock<DatabaseUserStorage> _MockUserStorage { get; set; }
 
@@ -102,7 +102,7 @@ namespace IUDICO.UnitTests.CurriculumManagement
             _MockUserDataContext = new Mock<IUDICO.UserManagement.Models.IDataContext>();
             _MockCourseDataContext = new Mock<IUDICO.CourseManagement.Models.IDataContext>();
             _MockLmsService = new Mock<ILmsService>();
-            _MockStorage = new Mock<MixedCurriculumStorage>(_MockLmsService.Object);
+            _MockStorage = new Mock<DatabaseCurriculumStorage>(_MockLmsService.Object);
             _MockUserStorage = new Mock<DatabaseUserStorage>(_MockLmsService.Object);
             _MockCourseStorage = new Mock<MixedCourseStorage>(_MockLmsService.Object);
             _MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(_MockDataContext.Object);
@@ -196,9 +196,7 @@ namespace IUDICO.UnitTests.CurriculumManagement
             _MockDataContext.SetupGet(c => c.Disciplines).Returns(new MemoryTable<Discipline>("Id"));
             _MockDataContext.SetupGet(c => c.Chapters).Returns(new MemoryTable<Chapter>("Id"));
             _MockDataContext.SetupGet(c => c.Topics).Returns(new MemoryTable<Topic>("Id"));
-            _MockDataContext.SetupGet(c => c.TopicAssignments).Returns(new MemoryTable<TopicAssignment>("Id"));
             _MockDataContext.SetupGet(c => c.Curriculums).Returns(new MemoryTable<Curriculum>("Id"));
-            _MockDataContext.SetupGet(c => c.Timelines).Returns(new MemoryTable<Timeline>("Id"));
             _MockDataContext.SetupGet(c => c.TopicTypes).Returns(new MemoryTable<TopicType>(mockTopicTypes, "Id"));
         }
     }

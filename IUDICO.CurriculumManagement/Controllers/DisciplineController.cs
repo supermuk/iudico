@@ -18,51 +18,30 @@ namespace IUDICO.CurriculumManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Index()
         {
-            try
-            {
-                var disciplines = Storage.GetDisciplines(Storage.GetCurrentUser());
-
-                return View(disciplines);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            var disciplines = Storage.GetDisciplines(Storage.GetCurrentUser());
+            return View(disciplines);
         }
 
         [HttpGet]
         [Allow(Role = Role.Teacher)]
         public ActionResult Create()
         {
-            try
-            {
-                return View();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            return View();
         }
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
         public ActionResult Create(Discipline discipline)
         {
-            try
+
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    Storage.AddDiscipline(discipline);
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    return View(discipline);
-                }
+                Storage.AddDiscipline(discipline);
+                return RedirectToAction("Index");
             }
-            catch (Exception e)
+            else
             {
-                throw e;
+                return View(discipline);
             }
         }
 
@@ -70,33 +49,19 @@ namespace IUDICO.CurriculumManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int disciplineId)
         {
-            try
-            {
-                var discipline = Storage.GetDiscipline(disciplineId);
+            var discipline = Storage.GetDiscipline(disciplineId);
 
-                return View(discipline);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            return View(discipline);
         }
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int disciplineId, Discipline discipline)
         {
-            try
-            {
-                discipline.Id = disciplineId;
-                Storage.UpdateDiscipline(discipline);
+            discipline.Id = disciplineId;
+            Storage.UpdateDiscipline(discipline);
 
-                return RedirectToAction("Index");
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

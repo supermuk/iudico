@@ -9,7 +9,6 @@ namespace IUDICO.Common.Models.Services
     {
         #region Discipline methods
 
-        //IEnumerable<Discipline> GetDisciplines();
         IEnumerable<Discipline> GetDisciplines(IEnumerable<int> ids);
         Discipline GetDiscipline(int id);
         /// <summary>
@@ -59,7 +58,16 @@ namespace IUDICO.Common.Models.Services
 
         #endregion
 
-        #region Assignment methods
+        #region Topic Type methods
+
+        TopicType GetTopicType(int id);
+        IEnumerable<TopicType> GetTopicTypes();
+        List<TopicType> GetTheoryTopicTypes();
+        List<TopicType> GetTestTopicTypes();
+
+        #endregion
+
+        #region Group methods
 
         IEnumerable<Discipline> GetDisciplinesByGroupId(int groupId);
         IEnumerable<Topic> GetTopicsByGroupId(int groupId);

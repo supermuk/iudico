@@ -55,5 +55,14 @@ namespace IUDICO.Common.Models
 
             return tagBuilder.ToString();
         }
+
+        public static IEnumerable<T> ForEach<T>(this IEnumerable<T> collection, Action<T> function)
+        {
+            foreach (var item in collection)
+            {
+                function(item);
+            }
+            return collection;
+        }
     }
 }

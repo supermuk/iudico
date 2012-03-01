@@ -229,18 +229,18 @@ namespace IUDICO.Search.Controllers
                         topic.Name = document.Get("Topic");
                         if (document.Get("CourseRef") == "null")
                         {
-                            topic.CourseRef = null;
+                            topic.TestCourseRef = null;
                         }
                         else
                         {
-                            topic.CourseRef = Convert.ToInt32(document.Get("CourseRef"));
+                            topic.TestCourseRef = Convert.ToInt32(document.Get("CourseRef"));
                         }
 
                         foreach (TopicDescription themdesc in topics123)
                         {
                             if (themdesc.Topic.Id == topic.Id)
                             {
-                                result = new TopicResult(topic, _CourseService.GetCourse(topic.CourseRef.Value).Name);
+                                result = new TopicResult(topic, _CourseService.GetCourse(topic.TestCourseRef.Value).Name);
                                 results.Add(result);
                                 break;
                             }

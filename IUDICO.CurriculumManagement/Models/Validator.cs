@@ -6,6 +6,7 @@ using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.Common;
+using IUDICO.Common.Models.Shared.CurriculumManagement;
 
 namespace IUDICO.CurriculumManagement.Models
 {
@@ -23,94 +24,41 @@ namespace IUDICO.CurriculumManagement.Models
         }
 
         /// <summary>
-        /// Validates the chapter timeline.
+        /// Validates the curriculum chapter.
         /// </summary>
-        /// <param name="timeline">The chapter timeline.</param>
+        /// <param name="data">The curriculum chapter.</param>
         /// <returns></returns>
-        /// <remarks></remarks>
-        public ValidationStatus ValidateChapterTimeline(Timeline timeline)
+        public ValidationStatus ValidateCurriculumChapter(CurriculumChapter data)
         {
             ValidationStatus validationStatus = new ValidationStatus();
 
-            DateTime minAllowedDate = Constants.MinAllowedDateTime;
-            DateTime maxAllowedDate = Constants.MaxAllowedDateTime;
-            if (timeline.ChapterRef <= 0)
-            {
-                validationStatus.Errors.Add(String.Format(Localization.getMessage("ChooseChapter")));
-            }
-            if (timeline.StartDate > timeline.EndDate)
-            {
-                validationStatus.Errors.Add(Localization.getMessage("StartDateMustLessThanEndDate"));
-            }
-            if (timeline.StartDate < minAllowedDate || timeline.StartDate > maxAllowedDate)
-            {
-                validationStatus.Errors.Add(String.Format(Localization.getMessage("StartDateMustBeBetween"),
-                   minAllowedDate.ToString(), maxAllowedDate.ToString()));
-            }
-            if (timeline.EndDate < minAllowedDate || timeline.EndDate > maxAllowedDate)
-            {
-                validationStatus.Errors.Add(String.Format(Localization.getMessage("EndDateMustBeBetween"),
-                   minAllowedDate.ToString(), maxAllowedDate.ToString()));
-            }
+            ValidateDate(data.StartDate, data.EndDate, validationStatus);
 
-            var timelines = storage.GetCurriculumTimelines(timeline.CurriculumRef);
+            //TODO: check topic timelines and curriculum timelines!
+            return validationStatus;
+        }
 
-            bool errorCheck = true;
-            List<string> errors = new List<string>();
-            foreach (var item in timelines)
-            {
-                if (timeline.StartDate >= item.StartDate && item.EndDate >= timeline.EndDate)
-                {
-                    errorCheck = false;
-                    break;
-                }
-                else
-                {
-                    errors.Add(String.Format("{0} - {1}", String.Format("{0:g}", item.StartDate), String.Format("{0:g}", item.EndDate)));
-                }
-            }
-            if (errorCheck == true)
-            {
-                validationStatus.Errors.Add(Localization.getMessage("ChapterTimelineBiggerThanDisciplineTimeline"));
-                validationStatus.Errors.AddRange(errors);
-            }
+        /// <summary>
+        /// Validates the curriculum chapter topic.
+        /// </summary>
+        /// <param name="curriculumChapter">The curriculum chapter topic.</param>
+        /// <returns></returns>
+        public ValidationStatus ValidateCurriculumChapterTopic(CurriculumChapterTopic data)
+        {
+            ValidationStatus validationStatus = new ValidationStatus();
+
+            ValidateDate(data.TestStartDate, data.TestEndDate, validationStatus);
+            ValidateDate(data.TheoryStartDate, data.TheoryEndDate, validationStatus);
+
+            //TODO: check topic timelines and curriculum timelines!
 
             return validationStatus;
         }
 
         /// <summary>
-        /// Validates the discipline assignment timeline.
+        /// Validates the curriculum.
         /// </summary>
-        /// <param name="timeline">The timeline.</param>
-        /// <returns></returns>
-        public ValidationStatus ValidateCurriculumTimeline(Timeline timeline)
-        {
-            ValidationStatus validationStatus = new ValidationStatus();
-
-            DateTime minAllowedDate = Constants.MinAllowedDateTime;
-            DateTime maxAllowedDate = Constants.MaxAllowedDateTime;
-            if (timeline.StartDate > timeline.EndDate)
-            {
-                validationStatus.Errors.Add(Localization.getMessage("StartDateMustLessThanEndDate"));
-            }
-            if (timeline.StartDate < minAllowedDate || timeline.StartDate > maxAllowedDate)
-            {
-                validationStatus.Errors.Add(String.Format(Localization.getMessage("StartDateMustBeBetween"),
-                   minAllowedDate.ToString(), maxAllowedDate.ToString()));
-            }
-            if (timeline.EndDate < minAllowedDate || timeline.EndDate > maxAllowedDate)
-            {
-                validationStatus.Errors.Add(String.Format(Localization.getMessage("EndDateMustBeBetween"),
-                   minAllowedDate.ToString(), maxAllowedDate.ToString()));
-            }
-
-            return validationStatus;
-        }
-
-        /// <summary>
-        /// Validates the discipline assignment.
-        /// </summary>
-        /// <param name="curriculum">The discipline assignment.</param>
+        /// <param name="curriculum">The curriculum.</param>
         /// <returns></returns>
         public ValidationStatus ValidateCurriculum(Curriculum curriculum)
         {
@@ -118,8 +66,9 @@ namespace IUDICO.CurriculumManagement.Models
 
             if (curriculum.UserGroupRef <= 0)
             {
-                validationStatus.Errors.Add(String.Format(Localization.getMessage("ChooseChapter")));
+                validationStatus.AddLocalizedError("ChooseGroup");
             }
+            ValidateDate(curriculum.StartDate, curriculum.EndDate, validationStatus);
 
             return validationStatus;
         }
@@ -127,35 +76,88 @@ namespace IUDICO.CurriculumManagement.Models
         /// <summary>
         /// Validates the topic.
         /// </summary>
-        /// <param name="topic">The topic.</param>
+        /// <param name="data">The topic.</param>
         /// <returns></returns>
-        public ValidationStatus ValidateTopic(Topic topic)
+        public ValidationStatus ValidateTopic(Topic data)
         {
             ValidationStatus validationStatus = new ValidationStatus();
-            var topicType = Converters.ConvertToTopicType(storage.GetTopicType(topic.TopicTypeRef));
+            if (String.IsNullOrEmpty(data.Name))
+            {
+                validationStatus.AddLocalizedError("NameReqiured");
+            }
+            else if (data.Name.Length > Constants.MaxStringFieldLength)
+            {
+                validationStatus.AddLocalizedError("NameCanNotBeLongerThan", Constants.MaxStringFieldLength);
+            }
 
-            if (topic.CourseRef <= 0 || (!topic.CourseRef.HasValue && topicType != Enums.TopicType.TestWithoutCourse))
+            if (!data.TestCourseRef.HasValue && !data.TheoryCourseRef.HasValue)
             {
-                validationStatus.Errors.Add(String.Format(Localization.getMessage("ChooseCourse")));
+                validationStatus.AddLocalizedError("ChooseAtLeastOneCourse");
             }
-            if (topicType == Enums.TopicType.TestWithoutCourse && topic.CourseRef > 0)
+            else
             {
-                validationStatus.Errors.Add(String.Format(Localization.getMessage("TestWithoutCourse")));
-            }
-            if (topic.TopicTypeRef <= 0)
-            {
-                validationStatus.Errors.Add(String.Format(Localization.getMessage("ChooseTopicType")));
-            }
-            if (topic.Name == null || topic.Name == "")
-            {
-                validationStatus.Errors.Add(String.Format(Localization.getMessage("NameReqiured")));
-            }
-            if (topic.Name != null && topic.Name.Length > Constants.MaxStringFieldLength)
-            {
-                validationStatus.Errors.Add(String.Format(Localization.getMessage("NameCanNotBeLongerThan"), Constants.MaxStringFieldLength));
+                if (data.TestCourseRef.HasValue)
+                {
+                    if (data.TestTopicTypeRef == 0)
+                    {
+                        validationStatus.AddLocalizedError("ChooseTopicType");
+                    }
+                    else
+                    {
+                        var testTopicType = Converter.ToTopicType(storage.GetTopicType(data.TestTopicTypeRef.Value));
+                        if (testTopicType == TopicTypeEnum.TestWithoutCourse && data.TestCourseRef != Constants.NoCourseId)
+                        {
+                            validationStatus.AddLocalizedError("TestWithoutCourse");
+                        }
+                        if (testTopicType != TopicTypeEnum.TestWithoutCourse && (!data.TestCourseRef.HasValue || data.TestCourseRef <= 0))
+                        {
+                            validationStatus.AddLocalizedError("ChooseTestCourse");
+                        }
+                    }
+                }
+
+                if (data.TheoryCourseRef.HasValue)
+                {
+                    if (data.TheoryTopicTypeRef == 0)
+                    {
+                        validationStatus.AddLocalizedError("ChooseTopicType");
+                    }
+                    else
+                    {
+                        if (!data.TheoryCourseRef.HasValue || data.TheoryCourseRef <= 0)
+                        {
+                            validationStatus.AddLocalizedError("ChooseTheoryCourse");
+                        }
+                    }
+                }
             }
 
             return validationStatus;
+        }
+
+        private void ValidateDate(DateTime? startDate, DateTime? endDate, ValidationStatus validationStatus)
+        {
+            DateTime minAllowedDate = Constants.MinAllowedDateTime;
+            DateTime maxAllowedDate = Constants.MaxAllowedDateTime;
+            if (endDate.HasValue ^ startDate.HasValue)
+            {
+                validationStatus.AddLocalizedError("ChooseStartAndEndDate");
+            }
+            else if (endDate.HasValue && startDate.HasValue)
+            {
+                if (startDate > endDate)
+                {
+                    validationStatus.AddLocalizedError("StartDateMustLessThanEndDate");
+                }
+                if (startDate < minAllowedDate || startDate > maxAllowedDate)
+                {
+                    validationStatus.AddLocalizedError("StartDateMustBeBetween", minAllowedDate.ToString(), maxAllowedDate.ToString());
+                }
+                if (endDate < minAllowedDate || endDate > maxAllowedDate)
+                {
+                    validationStatus.AddLocalizedError("EndDateMustBeBetween", minAllowedDate.ToString(), maxAllowedDate.ToString());
+                }
+            }
         }
     }
 }

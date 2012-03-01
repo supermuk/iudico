@@ -38,8 +38,6 @@
                 <ul id="menu">
                     <li>
                         <%: Html.ActionLink(IUDICO.LMS.Localization.getMessage("Home"), "Index", "Home")%></li>
-<%--                    <li>
-                        <%: Html.ActionLink(IUDICO.LMS.Localization.getMessage("Search"), "Index", "Search")%></li>--%>
                     <% var menu = (IUDICO.Common.Models.Menu)IUDICO.LMS.MvcApplication.LmsService.GetMenu(); %>
                     <%  foreach (var item in menu.Items)
                         { %>
