@@ -1,4 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using System.Collections.Generic;
+using System.Timers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
 
 namespace IUDICO.UnitTests.CompileService
@@ -754,5 +757,32 @@ namespace IUDICO.UnitTests.CompileService
         #endregion
 
         #endregion
+
+        /// <summary>
+        ///Load test for CompileService
+        ///</summary>
+        [TestMethod]
+        [HostType("ASP.NET")]
+        [AspNetDevelopmentServerHost("D:\\IUDICO\\IUDICO.CompileSystem", "/")]
+        [UrlToTest("http://localhost:1345/")]
+        public void LoadCompileTest()
+        {
+            int testsCount = 100;
+            List<string> resultList = new List<string>();
+            DateTime startDate = DateTime.Now;
+            for (int i = 0; i < testsCount; i++)
+            {
+                string actualResult = _compileService.Compile(CorrectCSSourceCode, CSLanguageType, _emptyInput,
+                                                              _emptyOutput, Timelimit, Memorylimit);
+                resultList.Add(actualResult);
+            }
+            DateTime endDate = DateTime.Now;
+            TimeSpan loadTime = endDate - startDate;
+            
+            for (int i = 0; i < testsCount; i++)
+            {
+                Assert.AreEqual(resultList[i], AcceptedTestResult);
+            }
+        }
     }
 }
