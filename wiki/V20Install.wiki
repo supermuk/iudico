@@ -28,3 +28,12 @@
  # Configure IIS 7.5:
   # Create website "IUDICO" with path IUDICO/IUDICO.LMS/
   # Change application pool of website "IUDICO" to .NET 4.0 and identity: LocalSystem
+
+Note: if ASP.NET 4 was not registered in IIS, you will have "HTTP 403.14 - Forbidden" error. To register ASP.NET 4 open cmd and execute next command: 
+ for 32bit (x86) Windows:
+
+  %windir%\Microsoft.NET\Framework\v4.0.30319\aspnet_regiis.exe -ir
+
+ for 64bit (x64) Windows:
+
+  %windir%\Microsoft.NET\Framework64\v4.0.30319\aspnet_regiis.exe -ir
