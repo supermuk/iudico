@@ -44,47 +44,27 @@
       <HintPath>..\References\Castle.Windsor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
-    <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\CurriculumChapterController.cs" />
     <Compile Include="Controllers\CurriculumBaseController.cs" />
     <Compile Include="Controllers\CurriculumController.cs" />
-    <Compile Include="Controllers\DisciplineController.cs" />
-    <Compile Include="Controllers\ChapterController.cs" />
     <Compile Include="Controllers\CurriculumChapterTopicController.cs" />
-    <Compile Include="Controllers\TopicController.cs" />
     <Compile Include="Models\Converter.cs" />
     <Compile Include="CurriculumManagementPlugin.cs" />
     <Compile Include="Localization.cs" />
@@ -94,7 +74,7 @@
     <Compile Include="Models\Utils.cs" />
     <Compile Include="Models\ValidationStatus.cs" />
     <Compile Include="Models\Validator.cs" />
-    <Compile Include="Models\ViewDataClasses\ViewTopicModel.cs" />
+    <Compile Include="Models\ViewDataClasses\EditCurriculumModel.cs" />
     <Compile Include="Models\ViewDataClasses\CreateCurriculumChapterTopicModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -105,7 +85,6 @@
     <Compile Include="Models\CurriculumService.cs" />
     <Compile Include="Models\Storage\ICurriculumStorage.cs" />
     <Compile Include="Models\Storage\DatabaseCurriculumStorage.cs" />
-    <Compile Include="Models\ViewDataClasses\CreateTopicModel.cs" />
     <Compile Include="Models\ViewDataClasses\ViewCurriculumModel.cs" />
     <Compile Include="Models\ViewDataClasses\ViewCurriculumChapterModel.cs" />
     <Compile Include="Models\ViewDataClasses\ViewCurriculumChapterTopicModel.cs">
@@ -119,17 +98,8 @@
     <Content Include="Views\CurriculumChapter\Edit.aspx" />
     <Content Include="Views\CurriculumChapter\Index.aspx" />
     <Content Include="Views\Curriculum\Index.aspx" />
-    <Content Include="Views\Discipline\Create.aspx" />
-    <Content Include="Views\Discipline\Edit.aspx" />
-    <Content Include="Views\Discipline\Index.aspx" />
-    <Content Include="Views\Chapter\Create.aspx" />
-    <Content Include="Views\Chapter\Edit.aspx" />
-    <Content Include="Views\Chapter\Index.aspx" />
     <Content Include="Views\CurriculumChapterTopic\Edit.aspx" />
     <Content Include="Views\CurriculumChapterTopic\Index.aspx" />
-    <Content Include="Views\Topic\Create.aspx" />
-    <Content Include="Views\Topic\Edit.aspx" />
-    <Content Include="Views\Topic\Index.aspx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">

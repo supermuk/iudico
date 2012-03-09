@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Chapter>>" %>
-<%@ Assembly Name="IUDICO.CurriculumManagement" %>
+<%@ Assembly Name="IUDICO.DisciplineManagement" %>
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script src="/Scripts/Microsoft/MicrosoftAjax.js" type="text/javascript"></script>
     <script src="/Scripts/Microsoft/MicrosoftMvcAjax.js" type="text/javascript"></script>
@@ -11,12 +11,12 @@
                 });
 
                 if (ids.length == 0) {
-                    alert("<%=IUDICO.CurriculumManagement.Localization.getMessage("PleaseSelectChaptersDelete") %>");
+                    alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("PleaseSelectChaptersDelete") %>");
 
                     return false;
                 }
 
-                var answer = confirm("<%=IUDICO.CurriculumManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedChapters") %>");
+                var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedChapters") %>");
 
                 if (answer == false) {
                     return false;
@@ -24,21 +24,21 @@
 
                 $.ajax({
                     type: "post",
-                    url: "/Chapter/DeleteItems",
+                    url: "/ChapterAction/DeleteItems",
                     data: { chapterIds: ids },
                     success: function (r) {
                         if (r.success) {
                             $("td input:checked").parents("tr").remove();
                         }
                         else {
-                            alert("<%=IUDICO.CurriculumManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
+                            alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
                         }
                     }
                 });
             });
         });
         function deleteItem(id) {
-            var answer = confirm("<%=IUDICO.CurriculumManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedChapter") %>");
+            var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedChapter") %>");
 
             if (answer == false) {
                 return;
@@ -46,7 +46,7 @@
 
             $.ajax({
                 type: "post",
-                url: "/Chapter/DeleteItem",
+                url: "/ChapterAction/DeleteItem",
                 data: { chapterId: id },
                 success: function (r) {
                     if (r.success == true) {
@@ -54,7 +54,7 @@
                         $("tr[id=" + item + "]").remove();
                     }
                     else {
-                        alert("<%=IUDICO.CurriculumManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
+                        alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
                     }
                 }
             });
@@ -63,28 +63,28 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=IUDICO.CurriculumManagement.Localization.getMessage("Chapters")%>
+	<%=IUDICO.DisciplineManagement.Localization.getMessage("Chapters")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <h2><%=IUDICO.CurriculumManagement.Localization.getMessage("ChaptersFor")%></h2>
+    <h2><%=IUDICO.DisciplineManagement.Localization.getMessage("ChaptersFor")%></h2>
     <h4><%: ViewData["DisciplineName"] %></h4>
     <p>
-        <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("CreateNew"), "Create")%>
-        <a id="DeleteMany" href="#"><%=IUDICO.CurriculumManagement.Localization.getMessage("DeleteSelected")%></a>
+        <%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.getMessage("CreateNew"), "Create")%>
+        <a id="DeleteMany" href="#"><%=IUDICO.DisciplineManagement.Localization.getMessage("DeleteSelected")%></a>
     </p>
     <table>
         <tr>
             <th>
             </th>
             <th>
-                <%=IUDICO.CurriculumManagement.Localization.getMessage("Name") %>
+                <%=IUDICO.DisciplineManagement.Localization.getMessage("Name") %>
             </th>
             <th>
-                <%=IUDICO.CurriculumManagement.Localization.getMessage("Created") %>
+                <%=IUDICO.DisciplineManagement.Localization.getMessage("Created") %>
             </th>
             <th>
-                <%=IUDICO.CurriculumManagement.Localization.getMessage("Updated") %>
+                <%=IUDICO.DisciplineManagement.Localization.getMessage("Updated") %>
             </th>
             <th>
             </th>
@@ -105,11 +105,11 @@
                     <%: String.Format("{0:g}", item.Updated) %>
                 </td>
                 <td>
-                    <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Edit"), "Edit", new { ChapterID = item.Id })%>
+                    <%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.getMessage("Edit"), "Edit", new { ChapterID = item.Id })%>
                     |
-                    <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("EditTopics"), "Index", "Topic", new { ChapterID = item.Id }, null)%>
+                    <%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.getMessage("EditTopics"), "Index", "Topic", new { ChapterID = item.Id }, null)%>
                     |
-                    <a href="#" onclick="deleteItem(<%: item.Id %>)"><%=IUDICO.CurriculumManagement.Localization.getMessage("Delete") %></a>
+                    <a href="#" onclick="deleteItem(<%: item.Id %>)"><%=IUDICO.DisciplineManagement.Localization.getMessage("Delete") %></a>
                 </td>
             </tr>
         <% } %>
@@ -117,6 +117,6 @@
 
     <div>
         <br/>
-        <%: Html.RouteLink(IUDICO.CurriculumManagement.Localization.getMessage("BackToDisciplines"), "Disciplines", new { action = "Index" })%>
+        <%: Html.RouteLink(IUDICO.DisciplineManagement.Localization.getMessage("BackToDisciplines"), "Disciplines", new { action = "Index" })%>
     </div>
 </asp:Content>

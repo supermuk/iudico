@@ -17,7 +17,7 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         public CurrentTopicTestResultsModel(int topicId, ILmsService lmsService)
         {
             User currenUser = lmsService.FindService<IUserService>().GetCurrentUser();
-            Topic topic = lmsService.FindService<ICurriculumService>().GetTopic(topicId);
+            Topic topic = lmsService.FindService<IDisciplineService>().GetTopic(topicId);
             if (currenUser != null & topic != null)
             {
                 IEnumerable<AttemptResult> attemptResults = lmsService.FindService<ITestingService>().GetResults(currenUser, topic);

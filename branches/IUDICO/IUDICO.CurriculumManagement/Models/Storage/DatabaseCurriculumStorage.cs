@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
-using System.Data.Linq;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.CurriculumManagement;
-using IUDICO.Common.Models.Interfaces;
-using IUDICO.Common.Models.Notifications;
+using System;
+using IUDICO.Common.Models.Shared.DisciplineManagement;
 
 namespace IUDICO.CurriculumManagement.Models.Storage
 {
     public class DatabaseCurriculumStorage : ICurriculumStorage
     {
-        private readonly ILmsService _LmsService;
+        private readonly ILmsService _lmsService;
 
         protected virtual IDataContext GetDbContext()
         {
@@ -22,7 +20,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public DatabaseCurriculumStorage(ILmsService lmsService)
         {
-            _LmsService = lmsService;
+            _lmsService = lmsService;
         }
 
         #region IStorageInterface Members
@@ -31,194 +29,123 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public User GetCurrentUser()
         {
-            return _LmsService.FindService<IUserService>().GetCurrentUser();
+            return _lmsService.FindService<IUserService>().GetCurrentUser();
         }
 
-        public IEnumerable<Course> GetCourses()
+        public IList<Course> GetCourses()
         {
-            return _LmsService.FindService<ICourseService>().GetCourses(GetCurrentUser());
+            return _lmsService.FindService<ICourseService>().GetCourses(GetCurrentUser()).ToList();
         }
 
         public Course GetCourse(int id)
         {
-            return _LmsService.FindService<ICourseService>().GetCourse(id);
+            return _lmsService.FindService<ICourseService>().GetCourse(id);
         }
 
         public Group GetGroup(int id)
         {
-            return _LmsService.FindService<IUserService>().GetGroup(id);
+            return _lmsService.FindService<IUserService>().GetGroup(id);
         }
 
-        public IEnumerable<Group> GetGroups()
+        public IList<Group> GetGroups()
         {
-            return _LmsService.FindService<IUserService>().GetGroups();
+            return _lmsService.FindService<IUserService>().GetGroups().ToList();
         }
 
-        public IEnumerable<Group> GetGroupsByUser(User user)
+        public IList<Group> GetGroupsByUser(User user)
         {
-            return _LmsService.FindService<IUserService>().GetGroupsByUser(user);
+            return _lmsService.FindService<IUserService>().GetGroupsByUser(user).ToList();
         }
 
-        #endregion
-
-        #region Discipline methods
-
-        private Discipline GetDiscipline(IDataContext db, int id)
+        public IList<Chapter> GetChapters(int disciplineId)
         {
-            return db.Disciplines.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
+            return _lmsService.FindService<IDisciplineService>().GetChapters(disciplineId);
+        }
+
+        public IList<Topic> GetTopicsByChapterId(int chapterId)
+        {
+            return _lmsService.FindService<IDisciplineService>().GetTopicsByChapterId(chapterId);
+        }
+
+        public IList<Discipline> GetDisciplines(User user)
+        {
+            return _lmsService.FindService<IDisciplineService>().GetDisciplines(user);
         }
 
         public Discipline GetDiscipline(int id)
         {
-            return GetDiscipline(GetDbContext(), id);
-        }
-
-        public IEnumerable<Discipline> GetDisciplines()
-        {
-            return GetDbContext().Disciplines.Where(item => !item.IsDeleted).ToList();
-        }
-
-        public IEnumerable<Discipline> GetDisciplines(User owner)
-        {
-            return GetDbContext().Disciplines.Where(item => !item.IsDeleted && item.Owner == owner.Username).ToList();
-        }
-
-        public IEnumerable<Discipline> GetDisciplines(IEnumerable<int> ids)
-        {
-            return GetDbContext().Disciplines.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
-        }
-
-        public IEnumerable<Discipline> GetDisciplinesByGroupId(int groupId)
-        {
-            return GetCurriculumsByGroupId(groupId).Select(item => item.Discipline).ToList();
-        }
-
-        //TODO:what the fuckin method?
-        public IEnumerable<Discipline> GetDisciplinesWithTopicsOwnedByUser(User user)
-        {
-
-            //IEnumerable<int> courseIds = GetCoursesOwnedByUser(user)
-            //    .Select(item => item.Id)
-            //    .ToList();
-            //return GetDisciplines(user) //?
-            //    .Where(item => GetTopicsByDisciplineId(item.Id)
-            //                 .Any(topic => courseIds.Contains(topic.CourseRef ?? Constants.NoCourseId)))
-            //                 .ToList();
-
-            return null;
-        }
-
-        public int AddDiscipline(Discipline discipline)
-        {
-            var db = GetDbContext();
-
-            discipline.Created = DateTime.Now;
-            discipline.Updated = DateTime.Now;
-            discipline.IsDeleted = false;
-            discipline.IsValid = true;
-            discipline.Owner = GetCurrentUser().Username;
-
-            db.Disciplines.InsertOnSubmit(discipline);
-            db.SubmitChanges();
-
-            _LmsService.Inform(DisciplineNotifications.DisciplineCreate, discipline);
-
-            return discipline.Id;
-        }
-
-        public void UpdateDiscipline(Discipline discipline)
-        {
-            var db = GetDbContext();
-            var updatingDiscipline = GetDiscipline(db, discipline.Id);
-            var oldDiscipline = new Discipline
-            {
-                Id = updatingDiscipline.Id
-            };
-
-            updatingDiscipline.Name = discipline.Name;
-            updatingDiscipline.Updated = DateTime.Now;
-
-            db.SubmitChanges();
-
-            object[] data = new object[2];
-            data[0] = oldDiscipline;
-            data[1] = updatingDiscipline;
-            _LmsService.Inform(DisciplineNotifications.DisciplineEdit, data);
-        }
-
-        public void DeleteDiscipline(int id)
-        {
-            var db = GetDbContext();
-            var discipline = GetDiscipline(db, id);
-
-            //delete corresponding curriculums
-            var curriculumIds = GetCurriculumsByDisciplineId(id).Select(item => item.Id);
-            DeleteCurriculums(curriculumIds);
-
-            //delete chapters
-            var chapterIds = GetChapters(id).Select(item => item.Id);
-            DeleteChapters(chapterIds);
-
-            discipline.IsDeleted = true;
-            db.SubmitChanges();
-
-            _LmsService.Inform(DisciplineNotifications.DisciplineDelete, discipline);
-        }
-
-        public void DeleteDisciplines(IEnumerable<int> ids)
-        {
-            ids.ForEach(id => DeleteDiscipline(id));
-        }
-
-        //public void MakeDisciplineInvalid(int courseId)
-        //{
-        //    var db = GetDbContext();
-        //    var topicIds = GetTopicsByCourseId(courseId).Select(item => item.Id);
-        //    var disciplines = db.Disciplines.Where(item => topicIds.Contains(item.Id) && !item.IsDeleted);
-        //    foreach (Discipline discipline in disciplines)
-        //    {
-        //        discipline.IsValid = false;
-        //    }
-        //    db.SubmitChanges();
-        //}
-
-        #endregion
-
-        #region Chapter methods
-
-        private Chapter GetChapter(IDataContext db, int id)
-        {
-            return db.Chapters.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
+            return _lmsService.FindService<IDisciplineService>().GetDiscipline(id);
         }
 
         public Chapter GetChapter(int id)
         {
-            return GetChapter(GetDbContext(), id);
+            return _lmsService.FindService<IDisciplineService>().GetChapter(id); 
         }
 
-        public IEnumerable<Chapter> GetChapters(int disciplineId)
+        public Topic GetTopic(int id)
         {
-            return GetDbContext().Chapters.Where(item => item.DisciplineRef == disciplineId && !item.IsDeleted).ToList();
+            return _lmsService.FindService<IDisciplineService>().GetTopic(id);
         }
 
-        public IEnumerable<Chapter> GetChapters(IEnumerable<int> ids)
+        #endregion
+
+        #region Curriculum methods
+
+        private static Curriculum GetCurriculum(IDataContext db, int id)
         {
-            return GetDbContext().Chapters.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
+            return db.Curriculums.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
         }
 
-        public int AddChapter(Chapter chapter)
+        public Curriculum GetCurriculum(int id)
+        {
+            return GetCurriculum(GetDbContext(), id);
+        }
+
+        public IList<Curriculum> GetCurriculums()
+        {
+            return GetDbContext().Curriculums.Where(item => !item.IsDeleted).ToList();
+        }
+
+        public IList<Curriculum> GetCurriculums(IEnumerable<int> ids)
+        {
+            return GetDbContext().Curriculums.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
+        }
+
+        public IList<Curriculum> GetCurriculums(User user)
+        {
+            var disciplines = GetDisciplines(GetCurrentUser());
+            return disciplines.SelectMany(discipline => GetCurriculumsByDisciplineId(discipline.Id))
+                .OrderBy(item=>item.DisciplineRef)
+                .ToList();
+        }
+
+        public IList<Curriculum> GetCurriculumsByDisciplineId(int disciplineId)
+        {
+            return GetDbContext().Curriculums.Where(item => item.DisciplineRef == disciplineId && !item.IsDeleted).ToList();
+        }
+
+        private static IList<Curriculum> GetCurriculumsByGroupId(IDataContext db, int groupId)
+        {
+            return db.Curriculums.Where(item => item.UserGroupRef == groupId && !item.IsDeleted).ToList();
+        }
+
+        public IList<Curriculum> GetCurriculumsByGroupId(int groupId)
+        {
+            return GetCurriculumsByGroupId(GetDbContext(), groupId);
+        }
+
+        public int AddCurriculum(Curriculum curriculum)
         {
             var db = GetDbContext();
-            chapter.Created = DateTime.Now;
-            chapter.Updated = DateTime.Now;
-            chapter.IsDeleted = false;
+            curriculum.IsDeleted = false;
+            curriculum.IsValid = true;
 
-            db.Chapters.InsertOnSubmit(chapter);
+            db.Curriculums.InsertOnSubmit(curriculum);
             db.SubmitChanges();
 
-            //add corresponding CurriculumChapters
-            var curriculums = GetCurriculumsByDisciplineId(chapter.DisciplineRef);
-            foreach (var curriculum in curriculums)
+            //add corresponding curriculum chapters
+            var chapters = GetChapters(curriculum.DisciplineRef);
+            foreach (var chapter in chapters)
             {
                 var curriculumChapter = new CurriculumChapter
                 {
@@ -228,97 +155,41 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 AddCurriculumChapter(curriculumChapter);
             }
 
-            return chapter.Id;
+            return curriculum.Id;
         }
 
-        public void UpdateChapter(Chapter chapter)
+        public void UpdateCurriculum(Curriculum curriculum)
         {
             var db = GetDbContext();
-            Chapter oldChapter = GetChapter(db, chapter.Id);
+            var oldCurriculum = GetCurriculum(db, curriculum.Id);
 
-            oldChapter.Name = chapter.Name;
-            oldChapter.Updated = DateTime.Now;
+            oldCurriculum.UserGroupRef = curriculum.UserGroupRef;
+            oldCurriculum.StartDate = curriculum.StartDate;
+            oldCurriculum.EndDate = curriculum.EndDate;
+            oldCurriculum.IsValid = true;
 
             db.SubmitChanges();
         }
 
-        public void DeleteChapter(int id)
+        public void DeleteCurriculum(int id)
         {
             var db = GetDbContext();
-            var chapter = GetChapter(db, id);
-
-            //delete topics
-            var topicIds = GetTopicsByChapterId(id).Select(item => item.Id);
-            DeleteTopics(topicIds);
+            var curriculum = GetCurriculum(db, id);
 
             //delete corresponding curriculum chapters
-            var curriculumChapterIds = GetCurriculumChaptersByChapterId(id).Select(item => item.Id).ToList();
+            var curriculumChapterIds = GetCurriculumChaptersByCurriculumId(id).Select(item => item.Id).ToList();
             DeleteCurriculumChapters(curriculumChapterIds);
 
-            chapter.IsDeleted = true;
+            curriculum.IsDeleted = true;
             db.SubmitChanges();
         }
 
-        public void DeleteChapters(IEnumerable<int> ids)
+        public void DeleteCurriculums(IEnumerable<int> ids)
         {
-            ids.ForEach(DeleteChapter);
+            ids.ForEach(DeleteCurriculum);
         }
 
-        #endregion
-
-        #region Topic methods
-
-        private Topic GetTopic(IDataContext db, int id)
-        {
-            return db.Topics.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
-        }
-
-        public Topic GetTopic(int id)
-        {
-            return GetTopic(GetDbContext(), id);
-        }
-
-        public IEnumerable<Topic> GetTopics()
-        {
-            return GetDbContext().Topics.Where(item => !item.IsDeleted).OrderBy(item => item.SortOrder).ToList();
-        }
-
-        public IEnumerable<Topic> GetTopics(IEnumerable<int> ids)
-        {
-            return GetDbContext().Topics.Where(item => ids.Contains(item.Id) && !item.IsDeleted).OrderBy(item => item.SortOrder).ToList();
-        }
-
-        private IEnumerable<Topic> GetTopicsByChapterId(IDataContext db, int chapterId)
-        {
-            return db.Topics.Where(item => item.ChapterRef == chapterId && !item.IsDeleted).OrderBy(item => item.SortOrder).ToList();
-        }
-
-        public IEnumerable<Topic> GetTopicsByChapterId(int chapterId)
-        {
-            return GetTopicsByChapterId(GetDbContext(), chapterId);
-        }
-
-        public IEnumerable<Topic> GetTopicsByDisciplineId(int disciplineId)
-        {
-            return GetChapters(GetDiscipline(disciplineId).Id).SelectMany(item => GetTopicsByChapterId(item.Id)).ToList();
-        }
-
-        public IEnumerable<Topic> GetTopicsByGroupId(int groupId)
-        {
-            return GetDisciplinesByGroupId(groupId).SelectMany(item => GetTopicsByDisciplineId(item.Id)).ToList();
-        }
-
-        public IEnumerable<Topic> GetTopicsOwnedByUser(User owner)
-        {
-            return GetDisciplines(owner).SelectMany(item => GetTopicsByDisciplineId(item.Id)).ToList();
-        }
-
-        public IEnumerable<Topic> GetTopicsByCourseId(int courseId)
-        {
-            return GetDbContext().Topics.Where(item => (item.TestCourseRef == courseId || item.TheoryCourseRef == courseId) && !item.IsDeleted).ToList();
-        }
-
-        public IEnumerable<TopicDescription> GetTopicsAvailableForUser(User user)
+        public IList<TopicDescription> GetTopicDescriptions(User user)
         {
             var result = new List<TopicDescription>();
             var groups = GetGroupsByUser(user).ToList(); //get groups for user
@@ -393,255 +264,6 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return result;
         }
 
-        public IEnumerable<Group> GetGroupsAssignedToTopic(int topicId)
-        {
-            return GetTopic(topicId)
-                .Chapter
-                .Discipline
-                .Curriculums
-                .Select(item => GetGroup(item.UserGroupRef))
-                .ToList();
-        }
-
-        public int AddTopic(Topic topic)
-        {
-            var db = GetDbContext();
-
-            topic.Created = DateTime.Now;
-            topic.Updated = DateTime.Now;
-            topic.IsDeleted = false;
-            db.Topics.InsertOnSubmit(topic);
-            db.SubmitChanges();
-
-            topic.SortOrder = topic.Id;
-            UpdateTopic(topic);
-
-            //TODO : organizing it like events OnTopicCreated
-            //add corresponding curriculum chapter topics.
-            var curriculumChapters = GetCurriculumChaptersByChapterId(topic.ChapterRef);
-            foreach (var curriculumChapter in curriculumChapters)
-            {
-                var curriculumChapterTopic = new CurriculumChapterTopic
-                {
-                    CurriculumChapterRef = curriculumChapter.Id,
-                    TopicRef = topic.Id,
-                    MaxScore = Constants.DefaultTopicMaxScore,
-                    BlockTopicAtTesting = false,
-                    BlockCurriculumAtTesting = false
-                };
-                AddCurriculumChapterTopic(curriculumChapterTopic);
-            }
-
-            _LmsService.Inform(DisciplineNotifications.TopicCreate, topic);
-
-            return topic.Id;
-        }
-
-        public void UpdateTopic(Topic topic)
-        {
-            var db = GetDbContext();
-            object[] data = new object[2];
-            var updatingTopic = GetTopic(db, topic.Id);
-            var oldTopic = new Topic
-            {
-                Id = updatingTopic.Id
-            };
-
-            updatingTopic.Name = topic.Name;
-            updatingTopic.SortOrder = topic.SortOrder;
-            updatingTopic.TestCourseRef = topic.TestCourseRef;
-            updatingTopic.TheoryCourseRef = topic.TheoryCourseRef;
-            updatingTopic.TestTopicTypeRef = topic.TestTopicTypeRef;
-            updatingTopic.TheoryTopicTypeRef = topic.TheoryTopicTypeRef;
-            updatingTopic.Updated = DateTime.Now;
-            db.SubmitChanges();
-
-            data[0] = oldTopic;
-            data[1] = updatingTopic;
-            _LmsService.Inform(DisciplineNotifications.TopicEdit, data);
-        }
-
-        public void DeleteTopic(int id)
-        {
-            var db = GetDbContext();
-            var topic = GetTopic(db, id);
-
-            //delete corresponding curriculum chapter topics
-            var curriculumChapterTopicIds = GetCurriculumChapterTopicsByTopicId(id)
-                .Select(item => item.Id)
-                .ToList();
-            DeleteCurriculumChapterTopics(curriculumChapterTopicIds);
-
-            topic.IsDeleted = true;
-            db.SubmitChanges();
-
-            _LmsService.Inform(DisciplineNotifications.TopicDelete, topic);
-        }
-
-        public void DeleteTopics(IEnumerable<int> ids)
-        {
-            ids.ForEach(DeleteTopic);
-        }
-
-        public Topic TopicUp(int topicId)
-        {
-            var db = GetDbContext();
-            var topic = GetTopic(db, topicId);
-            IList<Topic> topics = GetTopicsByChapterId(db, topic.ChapterRef).ToList();
-
-            int index = topics.IndexOf(topic);
-            if (index != -1 && index != 0)
-            {
-                int temp = topics[index - 1].SortOrder;
-                topics[index - 1].SortOrder = topic.SortOrder;
-                topic.SortOrder = temp;
-
-                db.SubmitChanges();
-            }
-
-            return topic;
-        }
-
-        public Topic TopicDown(int topicId)
-        {
-            var db = GetDbContext();
-            var topic = GetTopic(db, topicId);
-            IList<Topic> topics = GetTopicsByChapterId(db, topic.ChapterRef).ToList();
-
-            int index = topics.IndexOf(topic);
-            if (index != -1 && index != topics.Count - 1)
-            {
-                int temp = topics[index + 1].SortOrder;
-                topics[index + 1].SortOrder = topic.SortOrder;
-                topic.SortOrder = temp;
-
-                db.SubmitChanges();
-            }
-
-            return topic;
-        }
-
-        #endregion
-
-        #region TopicType methods
-
-        public TopicType GetTopicType(int id)
-        {
-            return GetDbContext().TopicTypes.SingleOrDefault(item => item.Id == id);
-        }
-
-        public IEnumerable<TopicType> GetTopicTypes()
-        {
-            return GetDbContext().TopicTypes.ToList();
-        }
-
-        public List<TopicType> GetTheoryTopicTypes()
-        {
-            return GetDbContext().TopicTypes.ToList()
-                .Where(item => Converter.ToTopicType(item) == TopicTypeEnum.Theory).ToList();
-        }
-
-        public List<TopicType> GetTestTopicTypes()
-        {
-            return GetDbContext().TopicTypes.ToList()
-                .Where(item => Converter.ToTopicType(item) == TopicTypeEnum.Test ||
-                Converter.ToTopicType(item) == TopicTypeEnum.TestWithoutCourse).ToList();
-        }
-
-        #endregion
-
-        #region Curriculum methods
-
-        private Curriculum GetCurriculum(IDataContext db, int id)
-        {
-            return db.Curriculums.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
-        }
-
-        public Curriculum GetCurriculum(int id)
-        {
-            return GetCurriculum(GetDbContext(), id);
-        }
-
-        public IEnumerable<Curriculum> GetCurriculums()
-        {
-            return GetDbContext().Curriculums.Where(item => !item.IsDeleted).ToList();
-        }
-
-        public IEnumerable<Curriculum> GetCurriculums(IEnumerable<int> ids)
-        {
-            return GetDbContext().Curriculums.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList();
-        }
-
-        public IEnumerable<Curriculum> GetCurriculumsByDisciplineId(int disciplineId)
-        {
-            return GetDbContext().Curriculums.Where(item => item.DisciplineRef == disciplineId && !item.IsDeleted).ToList();
-        }
-
-        private IEnumerable<Curriculum> GetCurriculumsByGroupId(IDataContext db, int groupId)
-        {
-            return db.Curriculums.Where(item => item.UserGroupRef == groupId && !item.IsDeleted).ToList();
-        }
-
-        public IEnumerable<Curriculum> GetCurriculumsByGroupId(int groupId)
-        {
-            return GetCurriculumsByGroupId(GetDbContext(), groupId);
-        }
-
-        public int AddCurriculum(Curriculum curriculum)
-        {
-            var db = GetDbContext();
-            curriculum.IsDeleted = false;
-            curriculum.IsValid = true;
-
-            db.Curriculums.InsertOnSubmit(curriculum);
-            db.SubmitChanges();
-
-            //add corresponding curriculum chapters
-            var chapters = GetChapters(curriculum.DisciplineRef);
-            foreach (var chapter in chapters)
-            {
-                var curriculumChapter = new CurriculumChapter
-                {
-                    ChapterRef = chapter.Id,
-                    CurriculumRef = curriculum.Id
-                };
-                AddCurriculumChapter(curriculumChapter);
-            }
-
-            return curriculum.Id;
-        }
-
-        public void UpdateCurriculum(Curriculum curriculum)
-        {
-            var db = GetDbContext();
-            var oldCurriculum = GetCurriculum(db, curriculum.Id);
-
-            oldCurriculum.UserGroupRef = curriculum.UserGroupRef;
-            oldCurriculum.StartDate = curriculum.StartDate;
-            oldCurriculum.EndDate = curriculum.EndDate;
-            oldCurriculum.IsValid = true;
-
-            db.SubmitChanges();
-        }
-
-        public void DeleteCurriculum(int id)
-        {
-            var db = GetDbContext();
-            var curriculum = GetCurriculum(db, id);
-
-            //delete corresponding curriculum chapters
-            var curriculumChapterIds = GetCurriculumChaptersByCurriculumId(id).Select(item => item.Id).ToList();
-            DeleteCurriculumChapters(curriculumChapterIds);
-
-            curriculum.IsDeleted = true;
-            db.SubmitChanges();
-        }
-
-        public void DeleteCurriculums(IEnumerable<int> ids)
-        {
-            ids.ForEach(DeleteCurriculum);
-        }
-
         //public void MakeCurriculumsInvalid(int groupId)
         //{
         //    var db = GetDbContext();
@@ -657,7 +279,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #region CurriculumChapters methods
 
-        private CurriculumChapter GetCurriculumChapter(IDataContext db, int id)
+        private static CurriculumChapter GetCurriculumChapter(IDataContext db, int id)
         {
             return db.CurriculumChapters.SingleOrDefault(item => !item.IsDeleted && item.Id == id);
         }
@@ -730,9 +352,9 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             db.SubmitChanges();
         }
 
-        public void DeleteCurriculumChapters(IList<int> ids)
+        public void DeleteCurriculumChapters(IEnumerable<int> ids)
         {
-            ids.ForEach(id => DeleteCurriculumChapter(id));
+            ids.ForEach(DeleteCurriculumChapter);
         }
 
         #endregion
@@ -798,33 +420,28 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public void DeleteCurriculumChapterTopics(IEnumerable<int> ids)
         {
-            ids.ForEach(id => DeleteCurriculumChapterTopic(id));
+            ids.ForEach(DeleteCurriculumChapterTopic);
         }
 
         #endregion
 
         #region Group methods
 
-        public IEnumerable<Group> GetAssignedGroups(int disciplineId)
+        public IList<Group> GetAssignedGroups(int disciplineId)
         {
-            return GetCurriculumsByDisciplineId(disciplineId).Select(item => GetGroup(item.UserGroupRef));
+            return GetCurriculumsByDisciplineId(disciplineId).Select(item => GetGroup(item.UserGroupRef)).ToList();
         }
 
-        public IEnumerable<Group> GetNotAssignedGroups(int disciplineId)
+        public IList<Group> GetNotAssignedGroups(int disciplineId)
         {
             var assignedGroupIds = GetAssignedGroups(disciplineId).Select(item => item.Id);
-            return GetGroups().Where(item => !assignedGroupIds.Contains(item.Id)).Select(item => item);
+            return GetGroups().Where(item => !assignedGroupIds.Contains(item.Id)).ToList();
         }
 
-        public IEnumerable<Group> GetNotAssignedGroupsWithCurrentGroup(int disciplineId, int currentGroupId)
+        public IList<Group> GetNotAssignedGroupsWithCurrentGroup(int disciplineId, int currentGroupId)
         {
-            IEnumerable<Group> groups = GetNotAssignedGroups(disciplineId);
-
-            //add current group
-            List<Group> assignedGroup = new List<Group>();
-            assignedGroup.Add(GetGroup(currentGroupId));
-            groups = groups.Concat(assignedGroup);
-
+            var groups = GetNotAssignedGroups(disciplineId);
+            groups.Add(GetGroup(currentGroupId));
             return groups;
         }
 

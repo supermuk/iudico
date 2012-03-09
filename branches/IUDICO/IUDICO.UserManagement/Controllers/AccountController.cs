@@ -298,7 +298,7 @@ namespace IUDICO.UserManagement.Controllers
             score = Math.Max(score, 5);
 
             var topics =
-                LmsService.FindService<ICurriculumService>().GetTopicsAvailableForUser(_Storage.GetCurrentUser());
+                LmsService.FindService<ICurriculumService>().GetTopicDescriptions(_Storage.GetCurrentUser());
 
             if (topics.Select(t => t.Topic.Id).Contains(topicId))
             {

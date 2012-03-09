@@ -51,7 +51,8 @@ namespace IUDICO.TestingSystem.Controllers
         [Allow(Role=Role.Student)]
         public ActionResult Play(int id)
         {
-            var disciplineService = LmsService.FindService<ICurriculumService>();
+            var curriculumService = LmsService.FindService<ICurriculumService>();
+            var disciplineService = LmsService.FindService<IDisciplineService>();
 
             var topic = disciplineService.GetTopic(id);
 
@@ -59,7 +60,7 @@ namespace IUDICO.TestingSystem.Controllers
                 return View("Error", "~/Views/Shared/Site.Master", Localization.getMessage("Topic_Not_Found"));
 
             var currentUser = UserService.GetCurrentUser();
-            var topics = disciplineService.GetTopicsAvailableForUser(currentUser).Select(t => t.Topic).Where(t => t.Id == topic.Id);
+            var topics = curriculumService.GetTopicDescriptions(currentUser).Select(t => t.Topic).Where(t => t.Id == topic.Id);
             var containsTopic = topics.Count() == 1;
             if (!containsTopic)
                 return View("Error", "~/Views/Shared/Site.Master", Localization.getMessage("Not_Allowed_Pass_Topic"));

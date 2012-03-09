@@ -2,14 +2,14 @@
 using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
-using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.Common.Models.Attributes;
+using IUDICO.DisciplineManagement.Models.Storage;
 
-namespace IUDICO.CurriculumManagement.Controllers
+namespace IUDICO.DisciplineManagement.Controllers
 {
-    public class ChapterController : CurriculumBaseController
+    public class ChapterController : DisciplineBaseController
     {
-        public ChapterController(ICurriculumStorage disciplineStorage)
+        public ChapterController(IDisciplineStorage disciplineStorage)
             : base(disciplineStorage)
         {
 
@@ -18,7 +18,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Index(int disciplineId)
         {
-            var chapters = Storage.GetChapters(disciplineId);
+            var chapters = Storage.GetChapters(item=>item.DisciplineRef== disciplineId);
             ViewData["DisciplineName"] = Storage.GetDiscipline(disciplineId).Name;
             return View(chapters);
         }
@@ -44,10 +44,7 @@ namespace IUDICO.CurriculumManagement.Controllers
 
                 return RedirectToAction("Index");
             }
-            else
-            {
-                return View(chapter);
-            }
+            return View(chapter);
         }
 
         [HttpGet]
@@ -72,10 +69,7 @@ namespace IUDICO.CurriculumManagement.Controllers
 
                 return RedirectToRoute("Chapters", new { action = "Index", DisciplineId = HttpContext.Session["DisciplineId"] });
             }
-            else
-            {
-                return View(chapter);
-            }
+            return View(chapter);
         }
 
         [HttpPost]

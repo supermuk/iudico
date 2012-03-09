@@ -12,38 +12,52 @@ namespace IUDICO.Common.Models.Notifications
     {
         /// <summary>
         /// Discipline Create notification is sent when discipline has been created(added).
-        /// <param name="discipline">Discipline value represents created course object.</param>
         /// </summary>
-        public const string DisciplineCreate = "discipline/create";
+        public const string DisciplineCreated = "discipline/created";
 
         /// <summary>
         /// Discipline Edit notification is sent when discipline has been modified (updated).
-        /// <param name="discipline">Discipline value represents edited course object.</param>
         /// </summary>
-        public const string DisciplineEdit = "discipline/edit";
+        public const string DisciplineEdited = "discipline/edited";
+
+        /// <summary>
+        /// Discipline Delete notification is sent when discipline are being deleted.
+        /// </summary>
+        public const string DisciplineDeleting = "discipline/deleting";
 
         /// <summary>
         /// Discipline Delete notification is sent when discipline has been deleted.
-        /// <param name="discipline">Discipline value represents deleted course object.</param>
         /// </summary>
-        public const string DisciplineDelete = "discipline/delete";
+        public const string DisciplineDeleted = "discipline/deleted";
+
+        /// <summary>
+        /// Chapter Create notification is sent when chapter has been created(added).
+        /// </summary>
+        public const string ChapterCreated = "chapter/created";
+
+        /// <summary>
+        /// Chapter Delete notification is sent when chapter are being deleted.
+        /// </summary>
+        public const string ChapterDeleting = "chapter/deleting";
 
         /// <summary>
         /// Topic Create notification is sent when topic has been created(added).
-        /// <param name="discipline">Discipline value represents created course object.</param>
         /// </summary>
-        public const string TopicCreate = "topic/create";
+        public const string TopicCreated = "topic/created";
 
         /// <summary>
         /// Topic Edit notification is sent when topic has been modified (updated).
-        /// <param name="discipline">Discipline value represents edited course object.</param>
         /// </summary>
-        public const string TopicEdit = "topic/edit";
+        public const string TopicEdited = "topic/edited";
+
+        /// <summary>
+        /// Topic Delete notification is sent when topic are being deleted.
+        /// </summary>
+        public const string TopicDeleting = "topic/deleting";
 
         /// <summary>
         /// Topic Delete notification is sent when topic has been deleted.
-        /// <param name="discipline">Discipline value represents deleted course object.</param>
         /// </summary>
-        public const string TopicDelete = "topic/delete";
+        public const string TopicDeleted = "topic/deleted";
     }
 }

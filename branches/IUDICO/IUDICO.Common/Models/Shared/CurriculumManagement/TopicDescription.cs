@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using IUDICO.Common.Models.Shared.DisciplineManagement;
 
 namespace IUDICO.Common.Models.Shared.CurriculumManagement
 {

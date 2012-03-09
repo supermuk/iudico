@@ -8,11 +8,9 @@ using IUDICO.Common.Models.Shared;
 using IUDICO.CurriculumManagement.Models.Storage;
 using Action = IUDICO.Common.Models.Action;
 using IUDICO.CurriculumManagement.Models;
-
 using System.Linq;
 using Castle.Windsor;
 using IUDICO.Common.Models.Notifications;
-using IUDICO.Common;
 
 namespace IUDICO.CurriculumManagement
 {
@@ -50,7 +48,7 @@ namespace IUDICO.CurriculumManagement
         {
             return new Action[]
             {
-                new Action(Localization.getMessage("CurriculumManagement"), "Discipline/Index")
+                new Action(Localization.getMessage("CurriculumManagement"), "Curriculum/Index")
             };
         }
 
@@ -58,48 +56,12 @@ namespace IUDICO.CurriculumManagement
         {
             return new MenuItem[]
             {
-                new MenuItem(Localization.getMessage("Curriculums"), "Discipline", "Index")
+                new MenuItem(Localization.getMessage("Curriculums"), "Curriculum", "Index")
             };
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)
         {
-            routes.MapRoute(
-                "Discipline",
-                "Discipline/{DisciplineID}/{action}",
-                new { controller = "Discipline" }
-            );
-
-            routes.MapRoute(
-                "Disciplines",
-                "Discipline/{action}",
-                new { controller = "Discipline", action = "Index" }
-            );
-
-            routes.MapRoute(
-               "Chapter",
-               "Chapter/{ChapterId}/{action}",
-               new { controller = "Chapter" }
-            );
-
-            routes.MapRoute(
-                "Chapters",
-                "Discipline/{DisciplineId}/Chapter/{action}",
-                new { controller = "Chapter" }
-            );
-
-            routes.MapRoute(
-               "Topic",
-               "Topic/{TopicId}/{action}",
-               new { controller = "Topic" }
-            );
-
-            routes.MapRoute(
-                "Topics",
-                "Chapter/{ChapterId}/Topic/{action}",
-                new { controller = "Topic" }
-            );
-
             routes.MapRoute(
                 "Curriculum",
                 "Curriculum/{CurriculumId}/{action}",
@@ -108,7 +70,7 @@ namespace IUDICO.CurriculumManagement
 
             routes.MapRoute(
                 "Curriculums",
-                "Discipline/{DisciplineId}/Curriculum/{action}",
+                "Curriculum/{action}",
                 new { controller = "Curriculum" }
             );
 
@@ -139,27 +101,62 @@ namespace IUDICO.CurriculumManagement
 
         public void Update(string evt, params object[] data)
         {
-            if (evt == UserNotifications.CourseDelete)
+            switch (evt)
             {
-                //delete connected Topics
-                int courseId = ((Course)data[0]).Id;
-                //curriculumStorage.MakeDisciplineInvalid(courseId);
-                var topicIds = curriculumStorage.GetTopicsByCourseId(courseId).Select(item => item.Id);
-                curriculumStorage.DeleteTopics(topicIds);
-            }
-            else if (evt == UserNotifications.GroupDelete)
-            {
-                //delete connected Curriculums
-                int groupId = ((Group)data[0]).Id;
-                //curriculumStorage.MakeCurriculumsInvalid(groupId);
-                var curriculumIds = curriculumStorage.GetCurriculumsByGroupId(groupId).Select(item => item.Id);
-                curriculumStorage.DeleteCurriculums(curriculumIds);
-            }
-            else if (evt == UserNotifications.UserDelete)
-            {
-                //delete connected Disciplines(Curriculums)
-                var disciplineIds = curriculumStorage.GetDisciplines((User)data[0]).Select(item => item.Id);
-                curriculumStorage.DeleteDisciplines(disciplineIds);
+                case DisciplineNotifications.DisciplineDeleting:
+                    //delete corresponding Curriculums
+                    var disciplineId = ((Discipline)data[0]).Id;
+                    var curriculumIds = curriculumStorage.GetCurriculumsByDisciplineId(disciplineId).Select(item => item.Id);
+                    curriculumStorage.DeleteCurriculums(curriculumIds);
+                    break;
+                case DisciplineNotifications.ChapterCreated:
+                    //add corresponding CurriculumChapters
+                    var chapter = (Chapter)data[0];
+                    var curriculums = curriculumStorage.GetCurriculumsByDisciplineId(chapter.DisciplineRef);
+                    curriculums
+                        .Select(curriculum => new CurriculumChapter
+                            {
+                                ChapterRef = chapter.Id,
+                                CurriculumRef = curriculum.Id
+                            })
+                        .ForEach(item => curriculumStorage.AddCurriculumChapter(item));
+                    break;
+                case DisciplineNotifications.ChapterDeleting:
+                    //delete corresponding curriculum chapters
+                    var chapterId = ((Chapter)data[0]).Id;
+                    var curriculumChapterIds = curriculumStorage.GetCurriculumChaptersByChapterId(chapterId).Select(item => item.Id);
+                    curriculumStorage.DeleteCurriculumChapters(curriculumChapterIds);
+                    break;
+                case DisciplineNotifications.TopicCreated:
+                    //add corresponding curriculum chapter topics.
+                    var topic = (Topic)data[0];
+                    var curriculumChapters = curriculumStorage.GetCurriculumChaptersByChapterId(topic.ChapterRef);
+                    curriculumChapters
+                        .Select(curriculumChapter => new CurriculumChapterTopic
+                            {
+                                CurriculumChapterRef = curriculumChapter.Id,
+                                TopicRef = topic.Id,
+                                MaxScore = Constants.DefaultTopicMaxScore,
+                                BlockTopicAtTesting = false,
+                                BlockCurriculumAtTesting = false
+                            })
+                        .ForEach(item => curriculumStorage.AddCurriculumChapterTopic(item));
+                    break;
+                case DisciplineNotifications.TopicDeleting:
+                    //delete corresponding curriculum chapter topics
+                    var topicId = ((Topic)data[0]).Id;
+                    var curriculumChapterTopicIds = curriculumStorage.GetCurriculumChapterTopicsByTopicId(topicId)
+                        .Select(item => item.Id)
+                        .ToList();
+                    curriculumStorage.DeleteCurriculumChapterTopics(curriculumChapterTopicIds);
+                    break;
+                case UserNotifications.GroupDelete:
+                    //delete connected Curriculums:
+                    var groupId = ((Group)data[0]).Id;
+                    //curriculumStorage.MakeCurriculumsInvalid(groupId);
+                    curriculumIds = curriculumStorage.GetCurriculumsByGroupId(groupId).Select(item => item.Id);
+                    curriculumStorage.DeleteCurriculums(curriculumIds);
+                    break;
             }
         }
 

@@ -18,7 +18,7 @@ namespace IUDICO.Statistics.Models.QualityTest
             IEnumerable<Discipline> allowedDisciplines;
             User teacherUser;
             teacherUser = iLmsService.FindService<IUserService>().GetCurrentUser();
-            allowedDisciplines = iLmsService.FindService<ICurriculumService>().GetDisciplinesWithTopicsOwnedByUser(teacherUser);
+            allowedDisciplines = iLmsService.FindService<IDisciplineService>().GetDisciplinesWithTopicsOwnedByUser(teacherUser);
             //
             if (allowedDisciplines != null & allowedDisciplines.Count() != 0)
                 _AllowedDisciplines = allowedDisciplines;

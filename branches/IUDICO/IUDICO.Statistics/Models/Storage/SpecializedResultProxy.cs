@@ -23,17 +23,17 @@ namespace IUDICO.Statistics.Models.Storage
             
             asr.Users = users.ToList();
             asr.SelectDisciplineIds = selectDisciplineIds;
-            asr.Disciplines = _LmsService.FindService<ICurriculumService>().GetDisciplines(selectDisciplineIds);
+            asr.Disciplines = _LmsService.FindService<IDisciplineService>().GetDisciplines(selectDisciplineIds);
 
             IEnumerable<int> ieIds = selectDisciplineIds;
             foreach (User usr in asr.Users)
             {
                 specializedResult = new SpecializedResult();
-                specializedResult.Disciplines = _LmsService.FindService<ICurriculumService>().GetDisciplines(ieIds);
+                specializedResult.Disciplines = _LmsService.FindService<IDisciplineService>().GetDisciplines(ieIds);
                 foreach (Discipline curr in specializedResult.Disciplines)
                 {
                     curRes = new DisciplineResult();
-                    curRes.Topics = _LmsService.FindService<ICurriculumService>().GetTopicsByDisciplineId(curr.Id);
+                    curRes.Topics = _LmsService.FindService<IDisciplineService>().GetTopicsByDisciplineId(curr.Id);
                     
                     #region TopicResult
 
