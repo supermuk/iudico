@@ -32,13 +32,15 @@ namespace IUDICO.Search.Controllers
     {
 
         private ICourseService _CourseService;
-        private ICurriculumService _CurriculmService;
+        private IDisciplineService _DisciplineService;
+        private ICurriculumService _CurriculumService;
         private IUserService _UserService;
 
         public SearchController()
         {
             _CourseService = LmsService.FindService<ICourseService>();
-            _CurriculmService = LmsService.FindService<ICurriculumService>();
+            _DisciplineService = LmsService.FindService<IDisciplineService>();
+            _CurriculumService = LmsService.FindService<ICurriculumService>();
             _UserService = LmsService.FindService<IUserService>();
         }
 
@@ -133,9 +135,9 @@ namespace IUDICO.Search.Controllers
             Hits hit = searcher.Search(queryParser.Parse(query));
             int total = hit.Length();
 
-            List<Discipline> disciplines123 = _CurriculmService.GetDisciplines(_UserService.GetCurrentUser()).ToList();
+            List<Discipline> disciplines123 = _DisciplineService.GetDisciplines(_UserService.GetCurrentUser()).ToList();
             List<Course> courses123 = _CourseService.GetCourses(_UserService.GetCurrentUser()).ToList();
-            List<TopicDescription> topics123 = _CurriculmService.GetTopicsAvailableForUser(_UserService.GetCurrentUser()).ToList();
+            List<TopicDescription> topics123 = _CurriculumService.GetTopicDescriptions(_UserService.GetCurrentUser()).ToList();
 
             //List<Discipline> topics123 = _CurriculmService.GetDisciplinesWithTopicsOwnedByUser(_UserService.GetCurrentUser()).ToList();
             //foreach(Discipline curr in disciplines123){
@@ -189,12 +191,12 @@ namespace IUDICO.Search.Controllers
                         discipline.Name = document.Get("Discipline");
                         discipline.Owner = document.Get("Owner");
 
-                        string str = _CurriculmService.GetDiscipline(discipline.Id).Owner;
+                        string str = _DisciplineService.GetDiscipline(discipline.Id).Owner;
                         foreach (Discipline curr in disciplines123)
                         {
                             if (curr.Owner.Equals(discipline.Owner))
                             {
-                                result = new DisciplineResult(discipline, _CurriculmService.GetDiscipline(discipline.Id).Updated.ToString());
+                                result = new DisciplineResult(discipline, _DisciplineService.GetDiscipline(discipline.Id).Updated.ToString());
                                 results.Add(result);
                                 break;
                             }

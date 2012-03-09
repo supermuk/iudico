@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
+using IUDICO.Common.Models.Shared.DisciplineManagement;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.Common;
 using IUDICO.Common.Models.Shared.CurriculumManagement;
@@ -30,7 +31,7 @@ namespace IUDICO.CurriculumManagement.Models
         /// <returns></returns>
         public ValidationStatus ValidateCurriculumChapter(CurriculumChapter data)
         {
-            ValidationStatus validationStatus = new ValidationStatus();
+            var validationStatus = new ValidationStatus();
 
             ValidateDate(data.StartDate, data.EndDate, validationStatus);
 
@@ -41,11 +42,11 @@ namespace IUDICO.CurriculumManagement.Models
         /// <summary>
         /// Validates the curriculum chapter topic.
         /// </summary>
-        /// <param name="curriculumChapter">The curriculum chapter topic.</param>
+        /// <param name="data">The data.</param>
         /// <returns></returns>
         public ValidationStatus ValidateCurriculumChapterTopic(CurriculumChapterTopic data)
         {
-            ValidationStatus validationStatus = new ValidationStatus();
+            var validationStatus = new ValidationStatus();
 
             ValidateDate(data.TestStartDate, data.TestEndDate, validationStatus);
             ValidateDate(data.TheoryStartDate, data.TheoryEndDate, validationStatus);
@@ -59,78 +60,30 @@ namespace IUDICO.CurriculumManagement.Models
         /// Validates the curriculum.
         /// </summary>
         /// <param name="curriculum">The curriculum.</param>
+        /// <param name="currentGroupId">The current group id.</param>
         /// <returns></returns>
-        public ValidationStatus ValidateCurriculum(Curriculum curriculum)
+        public ValidationStatus ValidateCurriculum(Curriculum curriculum, int currentGroupId = -1)
         {
-            ValidationStatus validationStatus = new ValidationStatus();
+            var validationStatus = new ValidationStatus();
 
+            if (curriculum.UserGroupRef > 0 && curriculum.DisciplineRef > 0)
+            {
+                var curriculums = storage.GetCurriculumsByDisciplineId(curriculum.DisciplineRef).ToList();
+                if (curriculums.Exists(item => item.UserGroupRef == curriculum.UserGroupRef) && curriculum.UserGroupRef != currentGroupId)
+                {
+                    validationStatus.AddLocalizedError("ChooseAnotherGroupForThisCurriculum");
+                }
+            }
             if (curriculum.UserGroupRef <= 0)
             {
                 validationStatus.AddLocalizedError("ChooseGroup");
             }
+            if (curriculum.DisciplineRef <= 0)
+            {
+                validationStatus.AddLocalizedError("ChooseDiscipline");
+            }
+
             ValidateDate(curriculum.StartDate, curriculum.EndDate, validationStatus);
-
-            return validationStatus;
-        }
-
-        /// <summary>
-        /// Validates the topic.
-        /// </summary>
-        /// <param name="data">The topic.</param>
-        /// <returns></returns>
-        public ValidationStatus ValidateTopic(Topic data)
-        {
-            ValidationStatus validationStatus = new ValidationStatus();
-            if (String.IsNullOrEmpty(data.Name))
-            {
-                validationStatus.AddLocalizedError("NameReqiured");
-            }
-            else if (data.Name.Length > Constants.MaxStringFieldLength)
-            {
-                validationStatus.AddLocalizedError("NameCanNotBeLongerThan", Constants.MaxStringFieldLength);
-            }
-
-            if (!data.TestCourseRef.HasValue && !data.TheoryCourseRef.HasValue)
-            {
-                validationStatus.AddLocalizedError("ChooseAtLeastOneCourse");
-            }
-            else
-            {
-                if (data.TestCourseRef.HasValue)
-                {
-                    if (data.TestTopicTypeRef == 0)
-                    {
-                        validationStatus.AddLocalizedError("ChooseTopicType");
-                    }
-                    else
-                    {
-                        var testTopicType = Converter.ToTopicType(storage.GetTopicType(data.TestTopicTypeRef.Value));
-                        if (testTopicType == TopicTypeEnum.TestWithoutCourse && data.TestCourseRef != Constants.NoCourseId)
-                        {
-                            validationStatus.AddLocalizedError("TestWithoutCourse");
-                        }
-                        if (testTopicType != TopicTypeEnum.TestWithoutCourse && (!data.TestCourseRef.HasValue || data.TestCourseRef <= 0))
-                        {
-                            validationStatus.AddLocalizedError("ChooseTestCourse");
-                        }
-                    }
-                }
-
-                if (data.TheoryCourseRef.HasValue)
-                {
-                    if (data.TheoryTopicTypeRef == 0)
-                    {
-                        validationStatus.AddLocalizedError("ChooseTopicType");
-                    }
-                    else
-                    {
-                        if (!data.TheoryCourseRef.HasValue || data.TheoryCourseRef <= 0)
-                        {
-                            validationStatus.AddLocalizedError("ChooseTheoryCourse");
-                        }
-                    }
-                }
-            }
 
             return validationStatus;
         }

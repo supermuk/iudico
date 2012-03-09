@@ -63,15 +63,12 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
     </script>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    <%=IUDICO.CurriculumManagement.Localization.getMessage("CurriculumsFor")%> <%: ViewData["DisciplineName"]%>
+    <%=IUDICO.CurriculumManagement.Localization.getMessage("Curriculums")%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        <%=IUDICO.CurriculumManagement.Localization.getMessage("CurriculumsFor")%>
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("Curriculums")%>
     </h2>
-    <h4>
-        <%: ViewData["DisciplineName"]%>
-    </h4>
     <p>
         <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("AddCurriculum"), "Create") %>
         <a id="DeleteMany" href="#"><%=IUDICO.CurriculumManagement.Localization.getMessage("DeleteSelected")%></a>
@@ -82,6 +79,9 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
             </th>
             <th>
                 <%=IUDICO.CurriculumManagement.Localization.getMessage("Group")%>
+            </th>
+            <th>
+                <%=IUDICO.CurriculumManagement.Localization.getMessage("Discipline")%>
             </th>
             <th>
                 <%=IUDICO.CurriculumManagement.Localization.getMessage("StartDate")%>
@@ -102,6 +102,9 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                 <%: item.GroupName %>
             </td>
             <td>
+                <%: item.DisciplineName %>
+            </td>
+            <td>
                 <%: item.StartDate %>
             </td>
             <td>
@@ -118,8 +121,8 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
         <% } %>
     </table>
 
-    <div>
+<%--    <div>
         <br/>
         <%: Html.RouteLink(IUDICO.CurriculumManagement.Localization.getMessage("BackToDisciplines"), "Disciplines", new { action = "Index" })%>
-    </div>
+    </div>--%>
 </asp:Content>

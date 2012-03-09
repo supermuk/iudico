@@ -28,7 +28,7 @@ namespace IUDICO.TestingSystem.Models
             }
         }
 
-        public ICurriculumService DisciplineService
+        public IDisciplineService DisciplineService
         {
             get
             {
@@ -36,7 +36,7 @@ namespace IUDICO.TestingSystem.Models
                 {
                     throw new NullReferenceException("You should initialize LMSService first!");
                 }
-                return LmsService.FindService<ICurriculumService>();
+                return LmsService.FindService<IDisciplineService>();
             }
         }
 

@@ -184,7 +184,7 @@
     <value>Курс</value>
   </data>
   <data name="CourseManagement" xml:space="preserve">
-    <value>Управління курсами</value>
+    <value>Управління SCORM курсами</value>
   </data>
   <data name="CreateCourse" xml:space="preserve">
     <value>Створити курс</value>

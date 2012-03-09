@@ -1,5 +1,7 @@
 ﻿using IUDICO.Common.Models.Shared.CurriculumManagement;
 using System;
+using IUDICO.Common.Models.Shared.DisciplineManagement;
+
 namespace IUDICO.CurriculumManagement.Models
 {
     public static class Converter

@@ -86,7 +86,8 @@
     <Compile Include="Models\Helpers.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\MenuItem.cs" />
-    <Compile Include="Models\Shared\CurriculumManagement\Enums.cs" />
+    <Compile Include="Models\Services\ICurriculumService.cs" />
+    <Compile Include="Models\Shared\DisciplineManagement\Enums.cs" />
     <Compile Include="Models\Shared\Metadata.cs" />
     <Compile Include="Models\Notifications\CurriculumNotifications.cs" />
     <Compile Include="Models\Notifications\LMSNotifications.cs" />
@@ -96,7 +97,7 @@
     <Compile Include="Models\Plugin\IPlugin.cs" />
     <Compile Include="Models\Services\IAnalyticsService.cs" />
     <Compile Include="Models\Services\ICourseService.cs" />
-    <Compile Include="Models\Services\ICurriculumService.cs" />
+    <Compile Include="Models\Services\IDisciplineService.cs" />
     <Compile Include="Models\Services\ILmsService.cs" />
     <Compile Include="Models\Services\ISearchService.cs" />
     <Compile Include="Models\Services\ISecurityService.cs" />

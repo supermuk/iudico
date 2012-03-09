@@ -87,7 +87,7 @@ namespace IUDICO.Statistics.Models.StatisticsModels
             Group group = lmsService.FindService<IUserService>().GetGroup(groupId);
             SelectGroupStudents = lmsService.FindService<IUserService>().GetUsersByGroup(group);
 
-            SelectDisciplineTopics = lmsService.FindService<ICurriculumService>().GetTopicsByDisciplineId(DisciplineId);
+            SelectDisciplineTopics = lmsService.FindService<IDisciplineService>().GetTopicsByDisciplineId(DisciplineId);
 
             foreach (var temp in from student in SelectGroupStudents
                                  from topic in SelectDisciplineTopics
