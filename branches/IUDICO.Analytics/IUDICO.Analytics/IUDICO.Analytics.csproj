@@ -77,6 +77,10 @@
     <Compile Include="Controllers\AnalyticsController.cs" />
     <Compile Include="Controllers\FeaturesController.cs" />
     <Compile Include="Models\AnalyticsService.cs" />
+    <Compile Include="Models\AnomalyDetectionAlg\Accuracy\IAccuracy.cs" />
+    <Compile Include="Models\AnomalyDetectionAlg\AnomalyDetectionAlgorithm.cs" />
+    <Compile Include="Models\AnomalyDetectionAlg\PxFormula.cs" />
+    <Compile Include="Models\AnomalyDetectionAlg\TrainingSet.cs" />
     <Compile Include="Models\DBDataContext.cs" />
     <Compile Include="Models\GroupTopicStat.cs" />
     <Compile Include="Models\Storage\IAnalyticsStorage.cs" />
