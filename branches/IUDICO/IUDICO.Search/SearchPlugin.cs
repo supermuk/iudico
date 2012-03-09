@@ -132,7 +132,7 @@ namespace IUDICO.Search
                 DeleteFromIndex(term);
             }
 
-            if (evt == DisciplineNotifications.DisciplineCreate)
+            if (evt == DisciplineNotifications.DisciplineCreated)
             {
                 Discipline discipline = (Discipline)data[0];
                 Document document = new Document();
@@ -144,20 +144,20 @@ namespace IUDICO.Search
                 AddToIndex(document);
             }
 
-            if (evt == DisciplineNotifications.DisciplineEdit)
+            if (evt == DisciplineNotifications.DisciplineEdited)
             {
-                Update(DisciplineNotifications.DisciplineDelete, data[0]);
-                Update(DisciplineNotifications.DisciplineCreate, data[1]);
+                Update(DisciplineNotifications.DisciplineDeleted, data[0]);
+                Update(DisciplineNotifications.DisciplineCreated, data[1]);
             }
 
-            if (evt == DisciplineNotifications.DisciplineDelete)
+            if (evt == DisciplineNotifications.DisciplineDeleted)
             {
                 Discipline discipline = (Discipline)data[0];
                 Term term = new Term("DisciplineID", discipline.Id.ToString());
                 DeleteFromIndex(term);
             }
 
-            if (evt == DisciplineNotifications.TopicCreate)
+            if (evt == DisciplineNotifications.TopicCreated)
             {
                 Topic topic = (Topic)data[0];
                 Document document = new Document();
@@ -177,13 +177,13 @@ namespace IUDICO.Search
                 AddToIndex(document);
             }
 
-            if (evt == DisciplineNotifications.TopicEdit)
+            if (evt == DisciplineNotifications.TopicEdited)
             {
-                Update(DisciplineNotifications.TopicDelete, data[0]);
-                Update(DisciplineNotifications.TopicCreate, data[1]);
+                Update(DisciplineNotifications.TopicDeleted, data[0]);
+                Update(DisciplineNotifications.TopicCreated, data[1]);
             }
 
-            if (evt == DisciplineNotifications.TopicDelete)
+            if (evt == DisciplineNotifications.TopicDeleted)
             {
                 Topic topic = (Topic)data[0];
                 Term term = new Term("TopicID", topic.Id.ToString());
@@ -322,7 +322,7 @@ namespace IUDICO.Search
             //var user = service.FindService<IUserService>().GetCurrentUser();
 
             var courseService = service.FindService<ICourseService>();
-            var disciplineService = service.FindService<ICurriculumService>();
+            var disciplineService = service.FindService<IDisciplineService>();
             var userService = service.FindService<IUserService>();
 
             var courses = courseService.GetCourses();

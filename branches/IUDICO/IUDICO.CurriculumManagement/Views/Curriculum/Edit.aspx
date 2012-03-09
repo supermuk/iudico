@@ -1,10 +1,11 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" 
-Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataClasses.CreateCurriculumModel>" %>
+Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataClasses.EditCurriculumModel>" %>
 
 <%@  Assembly Name="IUDICO.CurriculumManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    <%=IUDICO.CurriculumManagement.Localization.getMessage("EditCurriculumFor")%> <%: ViewData["DisciplineName"]%>
+    <%=IUDICO.CurriculumManagement.Localization.getMessage("EditCurriculum")%> 
+    <%--<%: ViewData["DisciplineName"]%>--%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -27,7 +28,7 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
 
     <div>
         <br />
-        <%: Html.RouteLink(IUDICO.CurriculumManagement.Localization.getMessage("BackToList"), "Curriculums", new { action = "Index", DisciplineId = HttpContext.Current.Session["DisciplineId"] })%>
+        <%: Html.RouteLink(IUDICO.CurriculumManagement.Localization.getMessage("BackToList"), "Curriculums", new { action = "Index" })%>
     </div>
 </asp:Content>
 

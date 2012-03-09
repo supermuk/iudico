@@ -20,11 +20,11 @@ namespace IUDICO.Statistics.Models.QualityTest
         {
             IEnumerable<Group> allowedGroups;
             Topic selectTopic;
-            selectTopic = iLmsService.FindService<ICurriculumService>().GetTopic(selectTopicId);
+            selectTopic = iLmsService.FindService<IDisciplineService>().GetTopic(selectTopicId);
             _TopicName = selectTopic.Name;
             _TeacheUserName = teacherUserName;
             _DisciplineName = disciplineName;
-            allowedGroups = iLmsService.FindService<ICurriculumService>().GetGroupsAssignedToTopic(selectTopicId);
+            allowedGroups = iLmsService.FindService<IDisciplineService>().GetGroupsAssignedToTopic(selectTopicId);
             //
             if (allowedGroups != null & allowedGroups.Count() != 0)
                 _AllowedGroups = allowedGroups;

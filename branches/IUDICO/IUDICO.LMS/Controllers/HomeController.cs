@@ -1,8 +1,6 @@
 ﻿using System.Web.Mvc;
 using IUDICO.Common.Controllers;
 using System.Collections.Generic;
-using IUDICO.Common.Models.Plugin;
-using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
 using IUDICO.LMS.Models;
@@ -24,21 +22,18 @@ namespace IUDICO.LMS.Controllers
 
             if (user != null)
             {
-                return MvcApplication.StaticContainer.GetService<ICurriculumService>().GetTopicsAvailableForUser(user);
+                return MvcApplication.StaticContainer.GetService<ICurriculumService>().GetTopicDescriptions(user);
             }
-            else
-            {
-                return new List<TopicDescription>();
-            }
+            return new List<TopicDescription>();
         }
 
         public ActionResult Index()
         {
-            return View(new HomeModel()
-            {
-                Actions = MvcApplication.LmsService.GetActions(),
-                TopicsDescriptions = GetTopicsDescriptions()
-            });
+            return View(new HomeModel
+                {
+                    Actions = MvcApplication.LmsService.GetActions(),
+                    TopicsDescriptions = GetTopicsDescriptions()
+                });
 
             //return View(new Dictionary<IPlugin, IEnumerable<Action>>(MvcApplication.Actions));
         }

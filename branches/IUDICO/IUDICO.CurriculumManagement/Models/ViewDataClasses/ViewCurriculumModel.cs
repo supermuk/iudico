@@ -9,6 +9,7 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
     {
         public int Id { get; set; }
         public string GroupName { get; set; }
+        public string DisciplineName { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
     }

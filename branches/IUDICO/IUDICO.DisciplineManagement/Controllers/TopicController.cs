@@ -1,20 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using IUDICO.Common.Models;
-using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
-using IUDICO.CurriculumManagement.Models.Storage;
-using IUDICO.CurriculumManagement.Models;
-using IUDICO.CurriculumManagement.Models.ViewDataClasses;
 using IUDICO.Common.Models.Attributes;
+using IUDICO.DisciplineManagement.Models;
+using IUDICO.DisciplineManagement.Models.Storage;
+using IUDICO.DisciplineManagement.Models.ViewDataClasses;
 
-namespace IUDICO.CurriculumManagement.Controllers
+namespace IUDICO.DisciplineManagement.Controllers
 {
-    public class TopicController : CurriculumBaseController
+    public class TopicController : DisciplineBaseController
     {
-        public TopicController(ICurriculumStorage disciplineStorage)
+        public TopicController(IDisciplineStorage disciplineStorage)
             : base(disciplineStorage)
         {
 
@@ -23,7 +21,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Index(int chapterId)
         {
-            var topics = Storage.GetTopicsByChapterId(chapterId);
+            var topics = Storage.GetTopics(item => item.ChapterRef == chapterId);
             var chapter = Storage.GetChapter(chapterId);
 
             ViewData["DisciplineName"] = chapter.Discipline.Name;
@@ -47,7 +45,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                     TheoryTopicType = item.TheoryTopicTypeRef.HasValue ?
                         Converter.ToString(Storage.GetTopicType(item.TheoryTopicTypeRef.Value)) :
                         String.Empty,
-                    TopicName=item.Name
+                    TopicName = item.Name
                 })
             );
         }
@@ -87,13 +85,10 @@ namespace IUDICO.CurriculumManagement.Controllers
             if (ModelState.IsValid)
             {
                 Storage.AddTopic(topic);
-                return RedirectToAction("Index", new { ChapterId = model.ChapterId });
+                return RedirectToAction("Index", new {model.ChapterId });
             }
-            else
-            {
-                SaveValidationErrors();
-                return RedirectToAction("Create");
-            }
+            SaveValidationErrors();
+            return RedirectToAction("Create");
         }
 
         [HttpGet]
@@ -131,11 +126,8 @@ namespace IUDICO.CurriculumManagement.Controllers
                 Storage.UpdateTopic(topic);
                 return RedirectToRoute("Topics", new { action = "Index", ChapterId = topic.ChapterRef });
             }
-            else
-            {
-                SaveValidationErrors();
-                return RedirectToAction("Edit");
-            }
+            SaveValidationErrors();
+            return RedirectToAction("Edit");
         }
 
         [HttpPost]

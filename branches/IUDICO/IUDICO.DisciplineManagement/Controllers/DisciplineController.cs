@@ -2,14 +2,14 @@
 using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
-using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.Common.Models.Attributes;
+using IUDICO.DisciplineManagement.Models.Storage;
 
-namespace IUDICO.CurriculumManagement.Controllers
+namespace IUDICO.DisciplineManagement.Controllers
 {
-    public class DisciplineController : CurriculumBaseController
+    public class DisciplineController : DisciplineBaseController
     {
-        public DisciplineController(ICurriculumStorage disciplineStorage)
+        public DisciplineController(IDisciplineStorage disciplineStorage)
             : base(disciplineStorage)
         {
 
@@ -18,7 +18,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Index()
         {
-            var disciplines = Storage.GetDisciplines(Storage.GetCurrentUser());
+            var disciplines = Storage.GetDisciplines(item => item.Owner == Storage.GetCurrentUser().Username);
             return View(disciplines);
         }
 
@@ -33,16 +33,12 @@ namespace IUDICO.CurriculumManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Create(Discipline discipline)
         {
-
             if (ModelState.IsValid)
             {
                 Storage.AddDiscipline(discipline);
                 return RedirectToAction("Index");
             }
-            else
-            {
-                return View(discipline);
-            }
+            return View(discipline);
         }
 
         [HttpGet]

@@ -21,7 +21,7 @@ namespace IUDICO.Statistics.Models.QualityTest
             User teacherUser = iLmsService.FindService<IUserService>().GetCurrentUser();
             IEnumerable<Course> availableCourses = iLmsService.FindService<ICourseService>().GetCourses(teacherUser);
             //
-            allowedTopics = iLmsService.FindService<ICurriculumService>().GetTopicsByDisciplineId((int)selectDisciplineId)
+            allowedTopics = iLmsService.FindService<IDisciplineService>().GetTopicsByDisciplineId((int)selectDisciplineId)
                 .Where(topic => availableCourses.Count(course => course.Id == topic.TestCourseRef) != 0);
             //
             if (allowedTopics != null & allowedTopics.Count() != 0)
@@ -29,7 +29,7 @@ namespace IUDICO.Statistics.Models.QualityTest
             else
                 _AllowedTopics = null;
             _TeacheUserName = teacherUserName;
-            _DisciplineName = iLmsService.FindService<ICurriculumService>().GetDiscipline((int)selectDisciplineId).Name;
+            _DisciplineName = iLmsService.FindService<IDisciplineService>().GetDiscipline((int)selectDisciplineId).Name;
         }
         public String GetDisciplineName()
         {

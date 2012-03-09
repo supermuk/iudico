@@ -13,10 +13,15 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
     public class CreateCurriculumModel
     {
         public IEnumerable<SelectListItem> Groups { get; set; }
+        public IEnumerable<SelectListItem> Disciplines { get; set; }
 
         [DropDownList(SourceProperty = "Groups")]
         [LocalizedDisplayName("ChooseGroupForCurriculum")]
         public int GroupId { get; set; }
+
+        [DropDownList(SourceProperty = "Disciplines")]
+        [LocalizedDisplayName("ChooseDisciplineForCurriculum")]
+        public int DisciplineId { get; set; }
 
         [LocalizedDisplayName("SetDate")]
         public bool SetDate { get; set; }
@@ -37,7 +42,9 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
         {
         }
 
-        public CreateCurriculumModel(IEnumerable<Group> groups, int groupId, DateTime? startDate, DateTime? endDate)
+        public CreateCurriculumModel(IEnumerable<Group> groups, int groupId,
+            IEnumerable<Discipline> disciplines, int disciplineId,
+            DateTime? startDate, DateTime? endDate)
         {
             Groups = groups
                      .Select(item => new SelectListItem
@@ -47,6 +54,14 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
                          Selected = false
                      });
             GroupId = groupId;
+            Disciplines = disciplines
+                     .Select(item => new SelectListItem
+                     {
+                         Text = item.Name,
+                         Value = item.Id.ToString(),
+                         Selected = false
+                     });
+            DisciplineId = disciplineId;
             SetDate = startDate.HasValue ? true : false;
             StartDate = startDate ?? DateTime.Now;
             EndDate = endDate ?? DateTime.Now;

@@ -11,12 +11,13 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    <%=IUDICO.CurriculumManagement.Localization.getMessage("CreateCurriculumFor")%> <%: ViewData["DisciplineName"]%>
+    <%=IUDICO.CurriculumManagement.Localization.getMessage("CreateCurriculum")%>
+    <%-- <%: ViewData["DisciplineName"]%>--%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        <%=IUDICO.CurriculumManagement.Localization.getMessage("CreateCurriculumFor")%></h2>
-    <h4><%: ViewData["DisciplineName"]%></h4>
+        <%=IUDICO.CurriculumManagement.Localization.getMessage("CreateCurriculum")%></h2>
+<%--    <h4><%: ViewData["DisciplineName"]%></h4>--%>
     <% Html.EnableClientValidation(); %>
 
     <% using (Html.BeginForm())

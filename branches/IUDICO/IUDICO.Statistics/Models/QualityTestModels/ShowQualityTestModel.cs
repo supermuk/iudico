@@ -308,7 +308,7 @@ namespace IUDICO.Statistics.Models.QualityTest
             _DisciplineName = disciplineName;
             
             //Topic object that needs for geting user answers
-            Topic selectTopic = iLmsService.FindService<ICurriculumService>().GetTopic(selectTopicId);
+            Topic selectTopic = iLmsService.FindService<IDisciplineService>().GetTopic(selectTopicId);
             _TopicName = selectTopic.Name;
 
             //Creation of list of students answers

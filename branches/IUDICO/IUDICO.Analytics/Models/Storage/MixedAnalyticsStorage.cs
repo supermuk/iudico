@@ -345,12 +345,12 @@ namespace IUDICO.Analytics.Models.Storage
 
         protected IEnumerable<Topic> GetTopics()
         {
-            return _LmsService.FindService<ICurriculumService>().GetTopics();
+            return _LmsService.FindService<IDisciplineService>().GetTopics();
         }
 
         protected IEnumerable<TopicDescription> GetTopicsAvailableForUser(User user)
         {
-            return _LmsService.FindService<ICurriculumService>().GetTopicsAvailableForUser(user);
+            return _LmsService.FindService<ICurriculumService>().GetTopicDescriptions(user);
         }
 
         protected IEnumerable<AttemptResult> GetResults(User user)

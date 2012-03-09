@@ -125,20 +125,6 @@ namespace IUDICO.CurriculumManagement.Models
                 return this.GetTable<UserTopicScore>();
             }
         }
-        IMockableTable<Discipline> IDataContext.Disciplines
-        {
-            get { return new MockableTable<Discipline>(Disciplines); }
-        }
-
-        IMockableTable<Chapter> IDataContext.Chapters
-        {
-            get { return new MockableTable<Chapter>(Chapters); }
-        }
-
-        IMockableTable<Topic> IDataContext.Topics
-        {
-            get { return new MockableTable<Topic>(Topics); }
-        }
 
         IMockableTable<Curriculum> IDataContext.Curriculums
         {
@@ -153,16 +139,6 @@ namespace IUDICO.CurriculumManagement.Models
         IMockableTable<CurriculumChapterTopic> IDataContext.CurriculumChapterTopics
         {
             get { return new MockableTable<CurriculumChapterTopic>(CurriculumChapterTopics); }
-        }
-
-        IMockableTable<TopicType> IDataContext.TopicTypes
-        {
-            get { return new MockableTable<TopicType>(TopicTypes); }
-        }
-
-        IMockableTable<UserTopicScore> IDataContext.UserTopicScores
-        {
-            get { return new MockableTable<UserTopicScore>(UserTopicScores); }
         }
     }
 }
