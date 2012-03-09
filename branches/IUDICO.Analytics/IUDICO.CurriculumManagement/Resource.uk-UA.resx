@@ -1,0 +1,423 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddCurriculum" xml:space="preserve">
+    <value>Додати прив'язку</value>
+  </data>
+  <data name="AddTopic" xml:space="preserve">
+    <value>Додати тему</value>
+  </data>
+  <data name="AddTimeline" xml:space="preserve">
+    <value>Додати часові межі</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedCurriculum" xml:space="preserve">
+    <value>Ви впевнені, що хочете видалити вибрану привязку до навчального плану?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedCurriculums" xml:space="preserve">
+    <value>Ви впевнені, що хочете видалити вибрані прив'язки до навчального плану?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedDiscipline" xml:space="preserve">
+    <value>Ви впевнені, що хочете видалити вибраний навчальний план?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedDisciplines" xml:space="preserve">
+    <value>Ви впевнені, що хочете видалити вибрані навчальні плани?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedChapter" xml:space="preserve">
+    <value>Ви впевнені, що хочете видалити вибраний етап?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedChapters" xml:space="preserve">
+    <value>Ви впевнені, що хочете видалити вибрані етапи?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedTopic" xml:space="preserve">
+    <value>Ви впевнені, що хочете видалити вибрану тему?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedTopics" xml:space="preserve">
+    <value>Ви впевнені, що хочете видалити вибрані теми?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedTimeline" xml:space="preserve">
+    <value>Ви впевнені, що хочете видалити вибрані часові межі?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedTimelines" xml:space="preserve">
+    <value>Ви впевнені, що хочете видалити вибрані часові межі?</value>
+  </data>
+  <data name="CurriculumsFor" xml:space="preserve">
+    <value>Прив'язки для</value>
+  </data>
+  <data name="BackCurriculums" xml:space="preserve">
+    <value>Повернутися до прив'язок до навчальних планів</value>
+  </data>
+  <data name="BackTopicAssignmentList" xml:space="preserve">
+    <value>Повернутися до списку прив'язок для тем навчального плану</value>
+  </data>
+  <data name="BackToDisciplines" xml:space="preserve">
+    <value>Повернутися до навчальних планів</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>Повернутися до списку</value>
+  </data>
+  <data name="BackToChapters" xml:space="preserve">
+    <value>Повернутися до етапів</value>
+  </data>
+  <data name="ChooseCourse" xml:space="preserve">
+    <value>Виберіть курс</value>
+  </data>
+  <data name="ChooseCourseForTopic" xml:space="preserve">
+    <value>Виберіть курс для теми</value>
+  </data>
+  <data name="ChooseGroup" xml:space="preserve">
+    <value>Виберіть групу</value>
+  </data>
+  <data name="ChooseChapter" xml:space="preserve">
+    <value>Виберіть етап</value>
+  </data>
+  <data name="ChooseChapterForTimeline" xml:space="preserve">
+    <value>Виберіть тему для часової межі</value>
+  </data>
+  <data name="ChooseTopicType" xml:space="preserve">
+    <value>Виберіть тип теми</value>
+  </data>
+  <data name="CorrectFollowingErrorAndTryAgain" xml:space="preserve">
+    <value>Виправіть наступні помилки і спробуйте ще раз</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Створити</value>
+  </data>
+  <data name="CreateCurriculumFor" xml:space="preserve">
+    <value>Створити прив'язку для</value>
+  </data>
+  <data name="CreateCurriculumTimelineFor" xml:space="preserve">
+    <value>Cтворити часову межу для прив'язки до навчального плану:</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Створено</value>
+  </data>
+  <data name="CreateNew" xml:space="preserve">
+    <value>Створити новий</value>
+  </data>
+  <data name="CreateChapterFor" xml:space="preserve">
+    <value>Створити етап для</value>
+  </data>
+  <data name="CreateChapterTimelineFor" xml:space="preserve">
+    <value>Створити часові межі етапу для</value>
+  </data>
+  <data name="CreateTopic" xml:space="preserve">
+    <value>Створити тему</value>
+  </data>
+  <data name="CreateTopicFor" xml:space="preserve">
+    <value>Створити тему для</value>
+  </data>
+  <data name="CreateDiscipline" xml:space="preserve">
+    <value>Створити навчальний план</value>
+  </data>
+  <data name="Discipline" xml:space="preserve">
+    <value>Навчальний план</value>
+  </data>
+  <data name="CurriculumTimelinesFor" xml:space="preserve">
+    <value>Часові межі для прив'язаного навчального плану</value>
+  </data>
+  <data name="CurriculumManagement" xml:space="preserve">
+    <value>Управління навчальними планами</value>
+  </data>
+  <data name="Disciplines" xml:space="preserve">
+    <value>Навчальні плани</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="DeleteSelected" xml:space="preserve">
+    <value>Видалити вибране</value>
+  </data>
+  <data name="Down" xml:space="preserve">
+    <value>Вниз</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редагувати</value>
+  </data>
+  <data name="EditCurriculumFor" xml:space="preserve">
+    <value>Редагувати прив'язку для</value>
+  </data>
+  <data name="EditCurriculums" xml:space="preserve">
+    <value>Редагувати прив'язки для навчальних планів</value>
+  </data>
+  <data name="EditDiscipline" xml:space="preserve">
+    <value>Редагувати навчальний план</value>
+  </data>
+  <data name="EditCurriculumTimelineFor" xml:space="preserve">
+    <value>Редагувати часову межу для прив'язки до навчального плану:</value>
+  </data>
+  <data name="EditChapter" xml:space="preserve">
+    <value>Редагувати етап</value>
+  </data>
+  <data name="EditChapters" xml:space="preserve">
+    <value>Редагувати етапи</value>
+  </data>
+  <data name="EditChapterTimeline" xml:space="preserve">
+    <value>Редагувати часові межі етапу</value>
+  </data>
+  <data name="EditChapterTimelineFor" xml:space="preserve">
+    <value>Редагувати часові межі етапу для</value>
+  </data>
+  <data name="EditTopic" xml:space="preserve">
+    <value>Редагувати тему</value>
+  </data>
+  <data name="EditTopicAssignment" xml:space="preserve">
+    <value>Редагувати привязку до теми</value>
+  </data>
+  <data name="EditTopicAssignmentFor" xml:space="preserve">
+    <value>Редагувати привязку до теми для</value>
+  </data>
+  <data name="EditTopicAssignments" xml:space="preserve">
+    <value>Редагувати привязки до тем</value>
+  </data>
+  <data name="EditTopics" xml:space="preserve">
+    <value>Редагувати теми</value>
+  </data>
+  <data name="EditTimelines" xml:space="preserve">
+    <value>Редагувати часові межі</value>
+  </data>
+  <data name="EditTimelinesForChapters" xml:space="preserve">
+    <value>Редагувати часові межі для етапів</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>Дата кінця</value>
+  </data>
+  <data name="EndDateMustBeBetween" xml:space="preserve">
+    <value>Дата кінця повинна бути між {0} та {1}</value>
+  </data>
+  <data name="ErrorOccuredDuringProcessingRequestErrorMessage" xml:space="preserve">
+    <value>Сталася помилка під час обробки запиту.\nПовідомлення про помилку:</value>
+  </data>
+  <data name="Fields" xml:space="preserve">
+    <value>Поля</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Група</value>
+  </data>
+  <data name="MaxScore" xml:space="preserve">
+    <value>Максимальна оцінка</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Назва</value>
+  </data>
+  <data name="NameCanNotBeLongerThan" xml:space="preserve">
+    <value>Назва не може бути більшою, ніж {0} символів</value>
+  </data>
+  <data name="NameReqiured" xml:space="preserve">
+    <value>Назва є обов'язковою</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value> =&gt; </value>
+  </data>
+  <data name="NoCourse" xml:space="preserve">
+    <value>-- без курсу --</value>
+  </data>
+  <data name="PleaseSelectCurriculumDelete" xml:space="preserve">
+    <value>Будь ласка, виберіть прив'язаний навчальний план для видалення</value>
+  </data>
+  <data name="PleaseSelectDisciplinesDelete" xml:space="preserve">
+    <value>Будь ласка, виберіть навчальні плани для видалення</value>
+  </data>
+  <data name="PleaseSelectDisciplinesToDelete" xml:space="preserve">
+    <value>Будь ласка, виберіть курікулум для видалення</value>
+  </data>
+  <data name="PleaseSelectChaptersDelete" xml:space="preserve">
+    <value>Будь ласка, виберіть етапи для видалення</value>
+  </data>
+  <data name="PleaseSelectTopicsDelete" xml:space="preserve">
+    <value>Будь ласка, виберіть теми для видалення</value>
+  </data>
+  <data name="PleaseSelectTimelineDelete" xml:space="preserve">
+    <value>Будь ласка, виберіть часові межі для видалення</value>
+  </data>
+  <data name="PrevNext" xml:space="preserve">
+    <value> &lt;=&gt; </value>
+  </data>
+  <data name="Chapter" xml:space="preserve">
+    <value>Етап</value>
+  </data>
+  <data name="Chapters" xml:space="preserve">
+    <value>Етапи</value>
+  </data>
+  <data name="ChaptersFor" xml:space="preserve">
+    <value>Етапи для</value>
+  </data>
+  <data name="ChapterTimelineBiggerThanDisciplineTimeline" xml:space="preserve">
+    <value>Часові межі етапу мають попадати в один з наступних інтервалів:</value>
+  </data>
+  <data name="ChapterTimelines" xml:space="preserve">
+    <value>Часові межі етапа</value>
+  </data>
+  <data name="ChapterTimelinesFor" xml:space="preserve">
+    <value>Часові межі етапа для</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Дата початку</value>
+  </data>
+  <data name="StartDateMustBeBetween" xml:space="preserve">
+    <value>Дата початку повинна бути між {0} та {1}</value>
+  </data>
+  <data name="StartDateMustLessThanEndDate" xml:space="preserve">
+    <value>Дата початку повинна бути менша, ніж дата кінця</value>
+  </data>
+  <data name="TestWithoutCourse" xml:space="preserve">
+    <value>Ви не можете обрати курс на цей тип теми</value>
+  </data>
+  <data name="TopicAssignments" xml:space="preserve">
+    <value>Прив'язки до тем</value>
+  </data>
+  <data name="TopicAssignmentsFor" xml:space="preserve">
+    <value>Прив'язки до тем для</value>
+  </data>
+  <data name="TopicName" xml:space="preserve">
+    <value>Назва теми</value>
+  </data>
+  <data name="Topics" xml:space="preserve">
+    <value>Теми</value>
+  </data>
+  <data name="TopicsFor" xml:space="preserve">
+    <value>Теми для</value>
+  </data>
+  <data name="TopicType" xml:space="preserve">
+    <value>Тип теми</value>
+  </data>
+  <data name="TopicType.Test" xml:space="preserve">
+    <value>Тест</value>
+  </data>
+  <data name="TopicType.TestWithoutCourse" xml:space="preserve">
+    <value>Тест без курсу</value>
+  </data>
+  <data name="TopicType.Theory" xml:space="preserve">
+    <value>Теорія</value>
+  </data>
+  <data name="Timeline" xml:space="preserve">
+    <value>Часові межі</value>
+  </data>
+  <data name="Up" xml:space="preserve">
+    <value>Вгору</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Оновити</value>
+  </data>
+  <data name="Updated" xml:space="preserve">
+    <value>Оновлено</value>
+  </data>
+  <data name="Curriculums" xml:space="preserve">
+    <value>Навчальні плани</value>
+  </data>
+</root>
