@@ -41,6 +41,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="IUDICO.Analytics">
+      <HintPath>..\IUDICO.Analytics\bin\IUDICO.Analytics.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>Libs\log4net.dll</HintPath>
     </Reference>
@@ -86,6 +89,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analytics\AnomalyDetection\Test.cs" />
     <Compile Include="CompileService\CompileServiceHelper.cs" />
     <Compile Include="CompileService\CompileServiceLanguageSourceCode.cs" />
     <Compile Include="CompileService\CompileServiceTest.cs" />

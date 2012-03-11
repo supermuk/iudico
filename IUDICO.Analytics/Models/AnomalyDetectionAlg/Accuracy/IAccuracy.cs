@@ -5,8 +5,8 @@ using System.Text;
 
 namespace IUDICO.Analytics.Models.AnomalyDetectionAlg.Accuracy
 {
-    interface IAccuracy
+    public interface IAccuracy
     {
-        public double calcAccuracy(TrainingSet nonAnomaliesSet, TrainingSet anomaliesSet, PxFormula formula);
+       void calcAccuracy(TrainingSet nonAnomaliesSet, TrainingSet anomaliesSet, PxFormula formula);
     }
 }
