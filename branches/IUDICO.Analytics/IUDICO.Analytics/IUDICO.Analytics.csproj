@@ -14,6 +14,7 @@
     <AssemblyName>IUDICO.Analytics</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accord.Math, Version=2.5.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\Accord.Math.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\References\Castle.Core.dll</HintPath>
     </Reference>
@@ -78,6 +83,7 @@
     <Compile Include="Controllers\FeaturesController.cs" />
     <Compile Include="Models\AnalyticsService.cs" />
     <Compile Include="Models\AnomalyDetectionAlg\Accuracy\IAccuracy.cs" />
+    <Compile Include="Models\AnomalyDetectionAlg\Accuracy\TrueNegativAccuracy.cs" />
     <Compile Include="Models\AnomalyDetectionAlg\AnomalyDetectionAlgorithm.cs" />
     <Compile Include="Models\AnomalyDetectionAlg\PxFormula.cs" />
     <Compile Include="Models\AnomalyDetectionAlg\TrainingSet.cs" />
@@ -93,6 +99,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Libraries\Accord.Math.dll" />
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
@@ -148,6 +155,6 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>xcopy /C /Y "$(TargetDir)*.*" "$(SolutionDir)IUDICO.LMS\Plugins\"</PostBuildEvent>
+    <PostBuildEvent>c:\windows\system32\xcopy.exe /C /Y "$(TargetDir)*.*" "$(SolutionDir)IUDICO.LMS\Plugins\"</PostBuildEvent>
   </PropertyGroup>
 </Project>
