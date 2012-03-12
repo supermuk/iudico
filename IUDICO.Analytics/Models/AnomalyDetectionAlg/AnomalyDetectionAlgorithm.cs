@@ -49,6 +49,7 @@ namespace IUDICO.Analytics.Models.AnomalyDetectionAlg
                 nu = Matrix.Add(nu, feature_vector);
             }
             nu = Matrix.Divide(nu,training_set_count);
+
             // calculate sigme matrix
             double[,] sigma = new double[2,2];
             foreach (double[] feature_vector in trainingSet.set)
@@ -57,6 +58,7 @@ namespace IUDICO.Analytics.Models.AnomalyDetectionAlg
                 sigma = Matrix.Add(sigma, Matrix.Multiply(Matrix.ColumnVector(x_nu), Matrix.RowVector(x_nu)));
             }
             sigma = Matrix.Divide(sigma, training_set_count);
+            // return PxFormula class object with setted nu and sigma values
             return new PxFormula(nu, sigma);
         }
 

@@ -41,6 +41,15 @@ namespace IUDICO.UnitTests.Analytics.AnomalyDetection
             set2an.set.Add(new double[] { 18, 3 });
 
             PxFormula f = test.trainAlgorithm(set1, set2nonAn, set2an);
+            bool f1 = f.isAnomaly(new double[] { 17, 4 });
+            bool f2 = f.isAnomaly(new double[] { 16, 4 });
+            bool f3 = f.isAnomaly(new double[] { 15, 4 });
+            bool f4 = f.isAnomaly(new double[] { 16, 5 });
+            bool f5 = f.isAnomaly(new double[] { 15, 5 });
+
+            bool f6 = f.isAnomaly(new double[] { 10, 5 });
+            bool f7 = f.isAnomaly(new double[] { 10, 6 });
+            bool f8 = f.isAnomaly(new double[] { 10, 7 });
             Assert.Fail();
         }
     }
