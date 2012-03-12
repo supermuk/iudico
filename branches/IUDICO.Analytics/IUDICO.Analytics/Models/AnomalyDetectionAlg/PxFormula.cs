@@ -23,7 +23,7 @@ namespace IUDICO.Analytics.Models.AnomalyDetectionAlg
         public double calculate(double[] x)
         {
             double[] x_substract_nu = Matrix.Subtract(x, nu);
-            double[] matrix_multiply = Matrix.Multiply(x_substract_nu, sigma_det);
+            double[] matrix_multiply = Matrix.Multiply(x_substract_nu, sigma_inverse);
             double matrix_calculations = 0;
             int dimension_count = nu.GetLength(0);
             for (int i = 0; i < dimension_count; i++)
