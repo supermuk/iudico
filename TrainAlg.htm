@@ -1,0 +1,603 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0240)http://localhost:5050/AnomalyDetection/TrainAlg/?ts2a=35&ts1=36&ts2n=37&ts1=38&ts2n=39&ts1=40&ts2n=41&ts2n=42&ts2n=43&ts2n=44&ts2n=45&ts2n=46&ts2n=47&ts1=48&ts1=49&ts1=50&ts1=51&ts1=52&ts1=53&ts1=54&ts1=55&ts1=56&ts1=57&ts1=58&ts1=59&ts1=60 -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	
+	TrainAlg
+
+</title><link href="./TrainAlg_files/Style.css" rel="stylesheet" type="text/css"><link href="./TrainAlg_files/jquery-ui-1.8.5.custom.css" rel="stylesheet" type="text/css"><link href="./TrainAlg_files/TimePicker.css" rel="stylesheet" type="text/css"><link href="./TrainAlg_files/jquery.rating.css" rel="stylesheet" type="text/css">
+
+    <script src="./TrainAlg_files/jquery-1.4.1.min.js" type="text/javascript"></script>
+    <script src="./TrainAlg_files/jquery.rating.pack.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        pluginPath = "/Plugins/IUDICO.Analytics.dll/IUDICO.Analytics";
+        language = "uk";
+    </script>
+    
+</head>
+<body>
+    <div class="page">
+        <div id="header">
+            <div id="title">
+                <h1>
+                    IUDICO</h1>
+            </div>
+            <div id="logindisplay">
+                <div style="display:inline-block">
+                    
+    <form action="http://localhost:5050/Search/SearchSimple" method="post">
+        <input id="query" name="query" type="text" value="">
+        <input type="submit" value="Пошук">
+    </form>
+
+                </div>
+                <a href="http://localhost:5050/Account/ChangeCulture?lang=en-US&returnUrl=%2FAnomalyDetection%2FTrainAlg%2F%3Fts2a%3D35%26ts1%3D36%26ts2n%3D37%26ts1%3D38%26ts2n%3D39%26ts1%3D40%26ts2n%3D41%26ts2n%3D42%26ts2n%3D43%26ts2n%3D44%26ts2n%3D45%26ts2n%3D46%26ts2n%3D47%26ts1%3D48%26ts1%3D49%26ts1%3D50%26ts1%3D51%26ts1%3D52%26ts1%3D53%26ts1%3D54%26ts1%3D55%26ts1%3D56%26ts1%3D57%26ts1%3D58%26ts1%3D59%26ts1%3D60">EN  </a>Ви увійшли як <b>t</b>. <a href="http://localhost:5050/Account/Logout">Вийти</a>
+
+            </div>
+            <div id="menucontainer">
+                <ul id="menu">
+                    <li>
+                        <a href="http://localhost:5050/">Головна</a></li>
+                    
+                    <li>
+                        <a href="http://localhost:5050/Analytics">Analytics</a></li>
+                    
+                    <li>
+                        <a href="http://localhost:5050/Course">Курси</a></li>
+                    
+                    <li>
+                        <a href="http://localhost:5050/Discipline">Навчальні плани</a></li>
+                    
+                    <li>
+                        <a href="http://localhost:5050/Stats">Статистика</a></li>
+                    
+                    <li>
+                        <a href="http://localhost:5050/Account/Index">Обліковий запис</a></li>
+                    
+                    <li>
+                        <a href="http://localhost:5050/Group/Index">Групи</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+        <div id="main">
+            
+
+    <h2>Trained Algorithm</h2>
+     <table>
+        <tbody><tr>
+            <th>Student Name</th>
+            <th>Student Score</th>
+            <th>Student Time</th>
+            <th>isAnomaly</th>
+        </tr>
+
+     
+        <tr>
+            <td>
+            User_1
+            </td>
+            <td>
+            5
+            </td>
+            <td>
+            00:17:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_2
+            </td>
+            <td>
+            10
+            </td>
+            <td>
+            00:17:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_3
+            </td>
+            <td>
+            6
+            </td>
+            <td>
+            00:11:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_4
+            </td>
+            <td>
+            14
+            </td>
+            <td>
+            00:09:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_5
+            </td>
+            <td>
+            16
+            </td>
+            <td>
+            00:19:00
+            </td>
+            <td>
+            
+               Anomaly
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_6
+            </td>
+            <td>
+            6
+            </td>
+            <td>
+            00:08:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_7
+            </td>
+            <td>
+            10
+            </td>
+            <td>
+            00:16:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_8
+            </td>
+            <td>
+            7
+            </td>
+            <td>
+            00:02:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_9
+            </td>
+            <td>
+            10
+            </td>
+            <td>
+            00:15:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_10
+            </td>
+            <td>
+            14
+            </td>
+            <td>
+            00:08:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_11
+            </td>
+            <td>
+            19
+            </td>
+            <td>
+            00:10:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_12
+            </td>
+            <td>
+            5
+            </td>
+            <td>
+            00:08:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_13
+            </td>
+            <td>
+            9
+            </td>
+            <td>
+            00:13:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_14
+            </td>
+            <td>
+            15
+            </td>
+            <td>
+            00:19:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_15
+            </td>
+            <td>
+            4
+            </td>
+            <td>
+            00:18:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_16
+            </td>
+            <td>
+            1
+            </td>
+            <td>
+            00:13:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_17
+            </td>
+            <td>
+            19
+            </td>
+            <td>
+            00:09:00
+            </td>
+            <td>
+            
+               Anomaly
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_18
+            </td>
+            <td>
+            7
+            </td>
+            <td>
+            00:10:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_19
+            </td>
+            <td>
+            18
+            </td>
+            <td>
+            00:19:00
+            </td>
+            <td>
+            
+               Anomaly
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_20
+            </td>
+            <td>
+            4
+            </td>
+            <td>
+            00:08:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_21
+            </td>
+            <td>
+            6
+            </td>
+            <td>
+            00:09:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_22
+            </td>
+            <td>
+            10
+            </td>
+            <td>
+            00:06:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_23
+            </td>
+            <td>
+            1
+            </td>
+            <td>
+            00:11:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_24
+            </td>
+            <td>
+            17
+            </td>
+            <td>
+            00:08:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_25
+            </td>
+            <td>
+            17
+            </td>
+            <td>
+            00:02:00
+            </td>
+            <td>
+            
+               Anomaly
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_26
+            </td>
+            <td>
+            12
+            </td>
+            <td>
+            00:12:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_27
+            </td>
+            <td>
+            2
+            </td>
+            <td>
+            00:10:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_28
+            </td>
+            <td>
+            17
+            </td>
+            <td>
+            00:04:00
+            </td>
+            <td>
+            
+               Anomaly
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_29
+            </td>
+            <td>
+            12
+            </td>
+            <td>
+            00:17:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_30
+            </td>
+            <td>
+            2
+            </td>
+            <td>
+            00:16:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_31
+            </td>
+            <td>
+            13
+            </td>
+            <td>
+            00:06:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_32
+            </td>
+            <td>
+            15
+            </td>
+            <td>
+            00:16:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_33
+            </td>
+            <td>
+            7
+            </td>
+            <td>
+            00:04:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+            User_34
+            </td>
+            <td>
+            17
+            </td>
+            <td>
+            00:17:00
+            </td>
+            <td>
+            
+            </td>
+        </tr>
+     
+     </tbody></table>
+
+            <div id="footer">
+            </div>
+        </div>
+    </div>
+
+
+</body></html>
