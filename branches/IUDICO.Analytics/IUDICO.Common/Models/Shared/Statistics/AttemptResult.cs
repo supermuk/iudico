@@ -51,6 +51,12 @@ namespace IUDICO.Common.Models.Shared.Statistics
         public DateTime? StartTime { get; protected set; }
 
         /// <summary>
+        /// Receives attempt finish timestamp.
+        /// May be null.
+        /// </summary>
+        public DateTime? FinishTime { get; protected set; }
+
+        /// <summary>
         /// Score user got in result of one(this) attempt.
         /// </summary>
         public Score Score { get; protected set; }
@@ -60,8 +66,9 @@ namespace IUDICO.Common.Models.Shared.Statistics
         #region Constructors
 
         public AttemptResult(long attemptId, User user, Topic topic, 
-            CompletionStatus completionStatus, AttemptStatus attemptStatus, 
-            SuccessStatus successStatus, DateTime? startTime, float? scaledScore)
+            CompletionStatus completionStatus, AttemptStatus attemptStatus,
+            SuccessStatus successStatus, DateTime? startTime, DateTime? finishTime,
+            float? scaledScore)
         {
             this.AttemptId = attemptId;
             this.User = user;
@@ -71,6 +78,7 @@ namespace IUDICO.Common.Models.Shared.Statistics
             this.AttemptStatus = attemptStatus;
             this.SuccessStatus = successStatus;
             this.StartTime = startTime;
+            this.FinishTime = finishTime;
             this.Score = new Score(scaledScore);
         }
 

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using IUDICO.Analytics.Models.ViewDataClasses;
 using IUDICO.Common.Models.Shared;
+using IUDICO.Common.Models.Shared;
+using IUDICO.Common.Models.Shared.CurriculumManagement;
+using IUDICO.Common.Models.Shared.Statistics;
 
 namespace IUDICO.Analytics.Models.Storage
 {
@@ -26,5 +29,11 @@ namespace IUDICO.Analytics.Models.Storage
         void EditFeature(int id, Feature feature);
         void DeleteFeature(int id);
         void EditTopics(int id, IEnumerable<int> topics);
+
+        #region Anomaly detection
+
+        IEnumerable<Topic> AvailebleTopics();
+        IEnumerable<KeyValuePair<User, AttemptResult>> GetStudentListForTraining(int topicId);
+        #endregion
     }
 }

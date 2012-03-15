@@ -6328,6 +6328,17 @@ namespace IUDICO.TestingSystem.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string StartedTimestamp = "StartedTimestamp";
+
+        /// <summary>
+        /// Name of the StartedTimestamp column on the <Typ>AllAttemptsResults</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: DateTime
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string FinishedTimestamp = "FinishedTimestamp";
         
         /// <summary>
         /// Name of the Score column on the <Typ>AllAttemptsResults</Typ> view.

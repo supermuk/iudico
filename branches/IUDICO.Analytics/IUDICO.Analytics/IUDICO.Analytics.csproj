@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="AnalyticsPlugin.cs" />
     <Compile Include="Controllers\AnalyticsController.cs" />
+    <Compile Include="Controllers\AnomalyDetectionController.cs" />
     <Compile Include="Controllers\FeaturesController.cs" />
     <Compile Include="Models\AnalyticsService.cs" />
     <Compile Include="Models\AnomalyDetectionAlg\Accuracy\IAccuracy.cs" />
@@ -119,6 +120,9 @@
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Views\Analytics\Index.aspx" />
+    <Content Include="Views\AnomalyDetection\TrainAlg.aspx" />
+    <Content Include="Views\AnomalyDetection\TrainTopic.aspx" />
+    <Content Include="Views\AnomalyDetection\Index.aspx" />
     <Content Include="Views\Features\EditTopics.aspx" />
     <Content Include="Views\Features\Create.aspx" />
     <Content Include="Views\Features\Details.aspx" />

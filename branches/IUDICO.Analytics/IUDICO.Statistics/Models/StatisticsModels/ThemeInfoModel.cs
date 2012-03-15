@@ -48,19 +48,19 @@ namespace IUDICO.Statistics.Models.StatisticsModels
             testTopic2.Name = "topic2";
 
             attemptScore = (float?)0.55;
-            testAttempt = new AttemptResult(1, testUser1, testTopic1, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+            testAttempt = new AttemptResult(1, testUser1, testTopic1, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
             testAttemptList.Add(testAttempt);
             
             attemptScore = (float?)0.65;
-            testAttempt = new AttemptResult(1, testUser1, testTopic2, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), null, attemptScore);
+            testAttempt = new AttemptResult(1, testUser1, testTopic2, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), null, DateTime.Now.AddMinutes(10), attemptScore);
             testAttemptList.Add(testAttempt);
 
             attemptScore = (float?)0.85;
-            testAttempt = new AttemptResult(1, testUser2, testTopic1, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+            testAttempt = new AttemptResult(1, testUser2, testTopic1, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
             testAttemptList.Add(testAttempt);
 
             attemptScore = (float?)0.95;
-            testAttempt = new AttemptResult(1, testUser2, testTopic2, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), null, attemptScore);
+            testAttempt = new AttemptResult(1, testUser2, testTopic2, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), null, DateTime.Now.AddMinutes(10), attemptScore);
             testAttemptList.Add(testAttempt);
 
             testUserList.Add(testUser1);
