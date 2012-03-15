@@ -148,215 +148,215 @@ namespace IUDICO.Statistics.Models.QualityTest
                     //pmi-33
                 case "Остап Андрусів(08i301)":
                     attemptScore = (float?)0.06;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Назар Врублевський(08i302)":
                     attemptScore = (float?)0.09;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Адмайкін Максим(08i303)":
                     attemptScore = (float?)0.04;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Михайло Тис(08i304)":
                     attemptScore = (float?)0.06;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Оля Іванків(08i305)":
                     attemptScore = (float?)0.05;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Юрій Ожирко(08i306)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Тарас Бехта(08i307)":
                     attemptScore = (float?)0.05;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Василь Бодак(08i308)":
                     attemptScore = (float?)0.09;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Василь Багряк(08i309)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Максим Гула(08i310)":
                     attemptScore = (float?)0.05;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Назар Качмарик(08i311)":
                     attemptScore = (float?)0.06;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Мирослав Голуб(08i312)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);                
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);                
                 case "Павло Мартиник(08i313)":
                     attemptScore = (float?)0.09;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "08i314 08i314(08i314)":
                     attemptScore = (float?)0.06;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "08i315 Горячий(08i315)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Данило Савчак(08i316)":
                     attemptScore = (float?)0.04;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Ярослав Пиріг(08i317)":
                     attemptScore = (float?)0.08;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Ірина Харів(08i318)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Ярослав Мота(08i319)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "08i320 Федорович(08i320)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                     //pmi-32
                 case "Олег Булатовський(08i201)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Василь Ванівський(08i202)":
                     attemptScore = (float?)0.08;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Boзняк Максим(08i203)":
                     attemptScore = (float?)0.04;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Юра Гой(08i204)":
                     attemptScore = (float?)0.06;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Остап Демків(08i205)":
                     attemptScore = (float?)0.05;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Юра Дерев`янко(08i206)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Роман Дроботiй(08i207)":
                     attemptScore = (float?)0.04;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Дубик Петро(08i208)":
                     attemptScore = (float?)0.09;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Віталій Засадний(08i209)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "08i210 Андрусишин(08i210)":
                     attemptScore = (float?)0.05;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Тарас Кміть(08i211)":
                     attemptScore = (float?)0.05;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Роман Коваль(08i212)":
                     attemptScore = (float?)0.06;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Маріана Кушла(08i213)":
                     attemptScore = (float?)0.08;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Юрій Ладанівський(08i214)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Leskiv Andriy(08i215)":
                     attemptScore = (float?)0.06;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Юра Лучків(08i216)":
                     attemptScore = (float?)0.04;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Mamchur Andriy(08i217)":
                     attemptScore = (float?)0.06;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Христина Мандибур(08i218)":
                     attemptScore = (float?)0.05;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Андрiй Протасов(08i219)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "08i220 08i220(08i220)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Стадник Роман(08i221)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Андрій Столбовой(08i222)":
                     attemptScore = (float?)0.05;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Ігор Сторянський(08i223)":
                     attemptScore = (float?)0.05;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Фатич Михайло(08i224)":
                     attemptScore = (float?)0.06;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 //pmi-31
                 case "Роман Баїк(08i101)":
                     attemptScore = (float?)0.08;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Катерина Бугай(08i102)":
                     attemptScore = (float?)0.08;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Олексій Гелей(08i103)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Карпунь Богдан(08i104)":
                     attemptScore = (float?)0.09;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "08i105 08i105(08i105)":
                     attemptScore = (float?)0.09;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Олександр Козачук(08i106)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Аня Кітчак(08i107)":
                     attemptScore = (float?)0.05;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Кравець Роман(08i108)":
                     attemptScore = (float?)0.09;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Андрій Крупич(08i109)":
                     attemptScore = (float?)0.08;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Літинський Ростислав(08i110)":
                     attemptScore = (float?)0.09;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Христина Макар(08i111)":
                     attemptScore = (float?)0.06;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Юрко Тимчук(08i112)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Oleg Papirnyk(08i113)":
                     attemptScore = (float?)0.09;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Віталій Нобіс(08i114)":
                     attemptScore = (float?)0.08;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Taras Pelenyo(08i115)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "08i116 08i116(08i116)":
                     attemptScore = (float?)0.05;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Стадник Богдан(08i117)":
                     attemptScore = (float?)0.08;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Andriy Pachva(08i118)":
                     attemptScore = (float?)0.05;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Фай Роман(08i119)":
                     attemptScore = (float?)0.08;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Мар'яна Хлєбик(08i120)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "08i121 08i121(08i121)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Руслан Івать(08i122)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Андрій Сташко(08i123)":
                     attemptScore = (float?)0.06;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "08i124 08i124(08i124)":
                     attemptScore = (float?)0.07;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 case "Ігор Михалевич(08i125)":
                     attemptScore = (float?)0.08;
-                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
+                    return new AttemptResult(1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), attemptScore);
                 default:
-                    return new AttemptResult(-1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, (float?)1.0);
+                    return new AttemptResult(-1, user, topic, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(10), (float?)1.0);
             }
         }
         public static IEnumerable<AnswerResult> GetFakeAnswers(AttemptResult attempt)

@@ -17,28 +17,28 @@ namespace IUDICO.UnitTests.Analytics.AnomalyDetection
         {
             AnomalyDetectionAlgorithm test = new AnomalyDetectionAlgorithm();
             test.setAccuracy(new TrueNegativAccuracy());
-            TrainingSet set1 = new TrainingSet();
-            set1.set.Add(new double[] { 19, 25 });
-            set1.set.Add(new double[] { 12, 40 });
-            set1.set.Add(new double[] { 8, 14 });
-            set1.set.Add(new double[] { 5, 12 });
-            set1.set.Add(new double[] { 15, 15 });
-            set1.set.Add(new double[] { 9, 30 });
-            set1.set.Add(new double[] { 10, 17 });
-            set1.set.Add(new double[] { 18, 13 });
-            set1.set.Add(new double[] { 14, 25 });
+            TrainingSet set1 = new TrainingSet(2);
+            set1.addRecord(new double[] { 19, 25 });
+            set1.addRecord(new double[] { 12, 40 });
+            set1.addRecord(new double[] { 8, 14 });
+            set1.addRecord(new double[] { 5, 12 });
+            set1.addRecord(new double[] { 15, 15 });
+            set1.addRecord(new double[] { 9, 30 });
+            set1.addRecord(new double[] { 10, 17 });
+            set1.addRecord(new double[] { 18, 13 });
+            set1.addRecord(new double[] { 14, 25 });
 
-            TrainingSet set2nonAn = new TrainingSet();
-            set2nonAn.set.Add(new double[] { 10, 7 });
-            set2nonAn.set.Add(new double[] { 8, 10 });
-            set2nonAn.set.Add(new double[] { 16, 10 });
-            set2nonAn.set.Add(new double[] { 10, 20 });
-            set2nonAn.set.Add(new double[] { 8, 14 });
+            TrainingSet set2nonAn = new TrainingSet(2);
+            set2nonAn.addRecord(new double[] { 10, 7 });
+            set2nonAn.addRecord(new double[] { 8, 10 });
+            set2nonAn.addRecord(new double[] { 16, 10 });
+            set2nonAn.addRecord(new double[] { 10, 20 });
+            set2nonAn.addRecord(new double[] { 8, 14 });
 
-            TrainingSet set2an = new TrainingSet();
-            set2an.set.Add(new double[] { 20, 5 });
-            set2an.set.Add(new double[] { 10, 2 });
-            set2an.set.Add(new double[] { 18, 3 });
+            TrainingSet set2an = new TrainingSet(2);
+            set2an.addRecord(new double[] { 20, 5 });
+            set2an.addRecord(new double[] { 10, 2 });
+            set2an.addRecord(new double[] { 18, 3 });
 
             PxFormula f = test.trainAlgorithm(set1, set2nonAn, set2an);
             bool f1 = f.isAnomaly(new double[] { 17, 4 });

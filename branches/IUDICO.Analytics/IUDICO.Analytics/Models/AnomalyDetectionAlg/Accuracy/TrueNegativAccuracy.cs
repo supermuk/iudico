@@ -38,15 +38,15 @@ namespace IUDICO.Analytics.Models.AnomalyDetectionAlg.Accuracy
 
         private void calculatePxValues(TrainingSet nonAnomaliesSet, TrainingSet anomaliesSet, PxFormula formula)
         {
-            nonAnomaliesPxValues = new double[nonAnomaliesSet.set.Count];
-            for (int i = 0; i < nonAnomaliesSet.set.Count; i++)
+            nonAnomaliesPxValues = new double[nonAnomaliesSet.getCountOfRecords()];
+            for (int i = 0; i < nonAnomaliesSet.getCountOfRecords(); i++)
             {
-                nonAnomaliesPxValues[i] = formula.calculate(nonAnomaliesSet.set[i]);
+                nonAnomaliesPxValues[i] = formula.calculate(nonAnomaliesSet.getAllRecords()[i]);
             }
-            anomaliesPxValues = new double[anomaliesSet.set.Count];
-            for (int i = 0; i < anomaliesSet.set.Count; i++)
+            anomaliesPxValues = new double[anomaliesSet.getCountOfRecords()];
+            for (int i = 0; i < anomaliesSet.getCountOfRecords(); i++)
             {
-                anomaliesPxValues[i] = formula.calculate(anomaliesSet.set[i]);
+                anomaliesPxValues[i] = formula.calculate(anomaliesSet.getAllRecords()[i]);
             }
         }
     }

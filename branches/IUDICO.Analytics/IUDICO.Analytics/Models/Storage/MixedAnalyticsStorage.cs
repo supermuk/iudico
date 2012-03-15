@@ -364,5 +364,46 @@ namespace IUDICO.Analytics.Models.Storage
         }
 
         #endregion
+
+        #region Anomaly detection
+
+        public IEnumerable<Topic> AvailebleTopics()
+        {
+            //User teacherUser = _LmsService.FindService<IUserService>().GetCurrentUser();
+            //return _LmsService.FindService<ICurriculumService>().GetTopicsOwnedByUser(teacherUser);
+            Topic t = new Topic();
+            t.Id = 99999;
+            List<Topic> res = new List<Topic>();
+            res.Add(t);
+            return res;
+        }
+
+        public IEnumerable<KeyValuePair<User,AttemptResult>> GetStudentListForTraining(int topicId)
+        {
+            //var listOfGroups = _LmsService.FindService<ICurriculumService>().GetGroupsAssignedToTopic(topicId);
+            //IEnumerable<User> studentsFromSelectedGroups = new List<User>();
+            //foreach (var group in listOfGroups)
+            //{
+            //    studentsFromSelectedGroups = studentsFromSelectedGroups.Union(_LmsService.FindService<IUserService>().GetUsersByGroup(group));
+            //}
+            List<KeyValuePair<User, AttemptResult>> result = new List<KeyValuePair<User, AttemptResult>>();
+            Random rnd = new Random(System.Environment.TickCount);
+            for (int i = 1; i < 61; i++)
+            {
+                User user = new User();
+                user.OpenId = i.ToString();
+                user.Name = "User_" + i;
+                AttemptResult att = new AttemptResult(1, user, null, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(rnd.Next(1, 20)), ((rnd.Next(1, 20)) / 100.0f));
+                result.Add(new KeyValuePair<User, AttemptResult>(user, att));
+            }
+                //foreach (var student in studentsFromSelectedGroups)
+                //{
+                //    AttemptResult att = new AttemptResult(1,student,null,new CompletionStatus(),new AttemptStatus(),new SuccessStatus(),null,null,rnd.Next(1,20)/100);
+                //    result.Add(new KeyValuePair<User,AttemptResult>(student,att));
+                //}
+             return result;
+        }
+
+        #endregion
     }
 }

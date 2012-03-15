@@ -137,15 +137,16 @@
 		</Columns>
 		<Implementation>
       SELECT  AttemptItem.Id AS AttemptId,
-              UserItem.[Key] AS UserItemKey,
-              AttemptItem.IudicoThemeRef as ThemeId,
-              AttemptItem.CompletionStatus AS CompletionStatus,
-              AttemptItem.AttemptStatus AS AttemptStatus,
-              AttemptItem.SuccessStatus AS SuccessStatus,
-              AttemptItem.StartedTimestamp AS StartedTimestamp,
-              AttemptItem.TotalPoints AS Score
+      UserItem.[Key] AS UserItemKey,
+      AttemptItem.IudicoThemeRef as ThemeId,
+      AttemptItem.CompletionStatus AS CompletionStatus,
+      AttemptItem.AttemptStatus AS AttemptStatus,
+      AttemptItem.SuccessStatus AS SuccessStatus,
+      AttemptItem.StartedTimestamp AS StartedTimestamp,
+      AttemptItem.FinishedTimestamp AS FinishedTimestamp,
+      AttemptItem.TotalPoints AS Score
       FROM AttemptItem
-           INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
+      INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
     </Implementation>
 		<GrantQueryRight>
             <Expression>1</Expression>

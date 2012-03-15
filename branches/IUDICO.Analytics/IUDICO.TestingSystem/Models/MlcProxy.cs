@@ -137,11 +137,15 @@ namespace IUDICO.TestingSystem.Models
                 DateTime? startTime;
                 LStoreHelper.Cast(dataRow[Schema.AllAttemptsResults.StartedTimestamp], out startTime);
 
+                DateTime? finishTime;
+                LStoreHelper.Cast(dataRow[Schema.AllAttemptsResults.FinishedTimestamp], out finishTime);
+                
+
                 float? scaledScore;
                 LStoreHelper.Cast<float>(dataRow[Schema.AllAttemptsResults.Score], out scaledScore);
 
                 // Create AttemptResult object
-                AttemptResult attemptResult = new AttemptResult(attemptId, user, topic, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, scaledScore);
+                AttemptResult attemptResult = new AttemptResult(attemptId, user, topic, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, finishTime, scaledScore);
                 result.Add(attemptResult);
             }
             return result;
@@ -175,6 +179,9 @@ namespace IUDICO.TestingSystem.Models
                 DateTime? startTime;
                 LStoreHelper.Cast(dataRow[Schema.AttemptsResultsByThemeAndUser.StartedTimestamp], out startTime);
 
+                DateTime? finishTime;
+                LStoreHelper.Cast(dataRow[Schema.AllAttemptsResults.FinishedTimestamp], out finishTime);
+
                 float? score;
                 LStoreHelper.Cast<float>(dataRow[Schema.AttemptsResultsByThemeAndUser.Score], out score);
                 float? scaledScore = null;
@@ -185,7 +192,7 @@ namespace IUDICO.TestingSystem.Models
                 }
 
                 // Create AttemptResult object
-                AttemptResult attemptResult = new AttemptResult(attemptId, user, topic, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, scaledScore);
+                AttemptResult attemptResult = new AttemptResult(attemptId, user, topic, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, finishTime, scaledScore);
 
                 result.Add(attemptResult);
             }
@@ -229,6 +236,9 @@ namespace IUDICO.TestingSystem.Models
                 DateTime? startTime;
                 LStoreHelper.Cast(dataRow[Schema.AttemptsResultsByThemeAndUser.StartedTimestamp], out startTime);
 
+                DateTime? finishTime;
+                LStoreHelper.Cast(dataRow[Schema.AllAttemptsResults.FinishedTimestamp], out finishTime);
+
                 float? score;
                 LStoreHelper.Cast<float>(dataRow[Schema.AttemptsResultsByThemeAndUser.Score], out score);
                 float? scaledScore = null;
@@ -239,7 +249,7 @@ namespace IUDICO.TestingSystem.Models
                 }
 
                 // Create AttemptResult object
-                AttemptResult attemptResult = new AttemptResult(attemptId, user, topic, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, scaledScore);
+                AttemptResult attemptResult = new AttemptResult(attemptId, user, topic, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, finishTime, scaledScore);
 
                 result.Add(attemptResult);
             }
@@ -283,6 +293,9 @@ namespace IUDICO.TestingSystem.Models
                 DateTime? startTime;
                 LStoreHelper.Cast(dataRow[Schema.AttemptsResultsByThemeAndUser.StartedTimestamp], out startTime);
 
+                DateTime? finishTime;
+                LStoreHelper.Cast(dataRow[Schema.AllAttemptsResults.FinishedTimestamp], out finishTime);
+
                 float? score;
                 LStoreHelper.Cast<float>(dataRow[Schema.AttemptsResultsByThemeAndUser.Score], out score);
                 float? scaledScore = null;
@@ -293,7 +306,7 @@ namespace IUDICO.TestingSystem.Models
                 }
 
                 // Create AttemptResult object
-                AttemptResult attemptResult = new AttemptResult(attemptId, user, topic, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, scaledScore);
+                AttemptResult attemptResult = new AttemptResult(attemptId, user, topic, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, finishTime, scaledScore);
 
                 result.Add(attemptResult);
             }
