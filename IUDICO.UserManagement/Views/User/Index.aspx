@@ -6,11 +6,46 @@
 	<%=Localization.getMessage("Users")%>
 </asp:Content>
 
+
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+
+    <script src="<%= Html.ResolveUrl("~/Scripts/jquery-ui.js")%>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("~/Scripts/jquery.dataTables.editable.js")%>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("~/Scripts/jquery.dataTables.min.js")%>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("~/Scripts/jquery.jeditable.js")%>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("~/Scripts/jquery.validate.js")%>" type="text/javascript"></script>
+
+    <script language="javascript" type="text/javascript">
+
+        $(document).ready(function () {
+            $('#myDataTable').dataTable({
+                "bJQueryUI": true,
+                "sPaginationType": "full_numbers",
+                iDisplayLength: 50,
+                "bSort": true,
+                "aoColumns": [
+                null,
+                null,
+                { "bSortable": false },
+                null,
+                null,
+                null,
+                { "bSortable": false }
+                ]
+            });
+        });
+        
+    </script>
+
 
     <h2><%=Localization.getMessage("Users")%></h2>
 
-    <table>
+    <div id="demo">
+
+    <table id="myDataTable" class="display">
+
+    <thead>
+
         <tr>
             <th>
                 <%=Localization.getMessage("FullName")%>
@@ -33,6 +68,10 @@
             <th>
             </th>
         </tr>
+    
+    </thead>
+
+    <tbody>
 
     <%
         foreach (var item in Model)
@@ -88,7 +127,11 @@
     <%
         }%>
 
+        </tbody>
+
     </table>
+
+    </div>
 
     <p>
         <%:Html.ActionLink(Localization.getMessage("CreateNewUser"), "Create")%> | 
@@ -105,5 +148,15 @@
             window.location = window.location;
         }
     </script>
+
+
+    <link href="<%=  Html.ResolveUrl("~/Content/dataTables/demo_table.css")     %>" rel="stylesheet" type="text/css" />
+    <link href="<%=  Html.ResolveUrl("~/Content/dataTables/demo_table_jui.css") %>" rel="stylesheet" type="text/css" />
+    <link href="<%=  Html.ResolveUrl("~/Content/themes/base/jquery-ui.css")     %>" rel="stylesheet" type="text/css" media="all" />
+    <link href="<%=  Html.ResolveUrl("~/Content/jAlert/jquery.alerts.css")      %>" rel="stylesheet" type="text/css" />
+    <script src="<%= Html.ResolveUrl("~/Content/jAlert/jquery.alerts.js")       %>" type="text/javascript"></script>
+
+
+
 </asp:Content>
 
