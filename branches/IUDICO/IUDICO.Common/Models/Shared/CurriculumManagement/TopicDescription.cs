@@ -10,6 +10,7 @@ namespace IUDICO.Common.Models.Shared.CurriculumManagement
     {
         public TopicTypeEnum TopicType { get; set; }
         public TopicPart TopicPart { get; set; }
+        public int? CourseId { get; set; }
         public Topic Topic { get; set; }
         public Chapter Chapter { get; set; }
         public Discipline Discipline { get; set; }

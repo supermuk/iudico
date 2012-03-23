@@ -79,7 +79,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public Chapter GetChapter(int id)
         {
-            return _lmsService.FindService<IDisciplineService>().GetChapter(id); 
+            return _lmsService.FindService<IDisciplineService>().GetChapter(id);
         }
 
         public Topic GetTopic(int id)
@@ -115,7 +115,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         {
             var disciplines = GetDisciplines(GetCurrentUser());
             return disciplines.SelectMany(discipline => GetCurriculumsByDisciplineId(discipline.Id))
-                .OrderBy(item=>item.DisciplineRef)
+                .OrderBy(item => item.DisciplineRef)
                 .ToList();
         }
 
@@ -216,6 +216,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 {
                     testTopicDescription = new TopicDescription
                     {
+                        CourseId = curriculumChapterTopic.Topic.TestCourseRef,
                         Topic = curriculumChapterTopic.Topic,
                         TopicType = Converter.ToTopicType(curriculumChapterTopic.Topic.TestTopicType),
                         TopicPart = TopicPart.Test,
@@ -230,6 +231,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 {
                     theoryTopicDescription = new TopicDescription
                     {
+                        CourseId = curriculumChapterTopic.Topic.TheoryCourseRef,
                         Topic = curriculumChapterTopic.Topic,//???
                         TopicType = Converter.ToTopicType(curriculumChapterTopic.Topic.TheoryTopicType),//???
                         TopicPart = TopicPart.Theory,
