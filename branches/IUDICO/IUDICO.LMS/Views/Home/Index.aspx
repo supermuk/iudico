@@ -48,7 +48,7 @@
             <input name="rating_<%=topicDescription.Topic.Id %>" value="<%= i %>" <%= (topicDescription.Rating == i ? "checked='checked'" : "") %> <%= (topicDescription.Rating != 0 ? "disabled='disabled'" : "") %> type="radio" class="rating required"/>
         <% } %>
         <%: Html.ActionLink(topicDescription.ToString(), "Play", "Training",
-                                new { TopicId = topicDescription.Topic.Id, topicDescription.TopicPart, topicDescription.TopicType }, null)%>
+                                new { TopicId = topicDescription.Topic.Id, topicDescription.CourseId, topicDescription.TopicType }, null)%>
         </li>
     <% } %>
     </ul>
