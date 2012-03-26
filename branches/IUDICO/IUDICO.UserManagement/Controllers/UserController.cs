@@ -344,5 +344,47 @@ namespace IUDICO.UserManagement.Controllers
 
             return RedirectToAction("Details", new {Id = id});
         }
+
+
+
+
+
+        //=======================================================
+
+        [HttpPost]
+        [Allow(Role = Role.Teacher)]
+        public JsonResult DeleteItem(Guid userId, string role)
+        {
+            try
+            {
+                var newrole = UserRoles.GetRole(role);
+                var user = _Storage.GetUser(u => u.Id == userId);
+                _Storage.RemoveUserFromRole(newrole, user);
+                
+                return Json(new { success = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        [Allow(Role = Role.Teacher)]
+        public JsonResult AddItem(Guid userId, string role)
+        {
+            try
+            {
+                var newrole = UserRoles.GetRole(role);
+                var user = _Storage.GetUser(u => u.Id == userId);
+                _Storage.AddUserToRole(newrole, user);
+
+                return Json(new { success = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message });
+            }
+        }
     }
 }
