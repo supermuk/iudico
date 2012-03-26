@@ -15,6 +15,13 @@
     <script src="<%= Html.ResolveUrl("~/Scripts/jquery.jeditable.js")%>" type="text/javascript"></script>
     <script src="<%= Html.ResolveUrl("~/Scripts/jquery.validate.js")%>" type="text/javascript"></script>
 
+    <script src="<%= Html.ResolveUrl("~/Scripts/draganddrop/jquery-ui-1.8.18.custom.min.js")%>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("~/Scripts/draganddrop/jquery.ui.core.js")%>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("~/Scripts/draganddrop/jquery.ui.draggable.js")%>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("~/Scripts/draganddrop/jquery.ui.mouse.js")%>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("~/Scripts/draganddrop/jquery.ui.widget.js")%>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("~/Scripts/draganddrop/jquery.effects.core.js")%>" type="text/javascript"></script>
+
     <script language="javascript" type="text/javascript">
 
         $(document).ready(function () {
@@ -30,15 +37,146 @@
                 null,
                 null,
                 null,
-                { "bSortable": false }
+                { "bSortable": false },
+                null
                 ]
             });
         });
         
     </script>
 
+    <script language="javascript" type="text/javascript">
+    	    $(function () {
+    	        $("#catalog").accordion({
+    	            collapsible: true,
+    	            autoHeight: true,
+    	            active: 2
+    	        });
+    	    });
 
+
+    	    $(function () {
+    	        $("div li").mousedown(function () {
+//    	            alert('mouse down');
+    	            $(this).addClass('mouselol');
+    	        })
+    	    });
+
+    	    $(function () {
+    	        $(this).mouseup(function () {
+//    	            alert('mouse up');
+    	            $(this).removeClass('mouselol');
+    	            $(this).addClass('mouseolol');
+    	        });
+    	    });
+
+	</script>
+
+    <script language="javascript" type="text/javascript">
+
+        $(function getImagePath() {
+            return document.getElementById('catalog').dir;
+        });
+
+        $(function () {
+
+            var src = document.getElementById('catalog').dir;
+            
+            $("#catalog").accordion();
+
+
+            $("#catalog li").draggable({
+                appendTo: "body",
+                helper: "clone"
+            });
+
+
+
+            $("#cart ol").droppable({
+                activeClass: "ui-state-default",
+                hoverClass: "ui-state-hover",
+                accept: ":not(.ui-sortable-helper)",
+                drop: function (event, ui) {
+                    $(this).find(".placeholder").remove();
+
+                    /*checking*/
+                    var double = false;
+
+                    var itemmm = ui.draggable.text();
+                    var array = $(this).find("img");
+
+                    for (var i = 0; i < array.length; i++) {
+                        if (array[i].className == itemmm) {
+                            alert(itemmm + ' already exist');
+                            double = true;
+                            break;
+                        }
+                    }
+
+                    if (!double) {
+                        $("<li></li>").text(ui.draggable.text()).appendTo(this);
+                        $(this).children().last().append('<img src="' + src + '" class="' + $(this).children().last().text() + '" />');
+                        //$(this).children().last().append('<img src="http://docs.activestate.com/komodo/4.4/img/status_icon_delete.png" class="' + $(this).children().last().text() + '" />');
+
+                        $('li img').bind('dblclick', function () {
+                            addnewrole($(this).parent().parent().parent().parent().parent().attr('id'), itemmm, 'DeleteItem');
+                            $(this).parent().remove();
+                        });
+
+                        //                        ajaxExecuting($(this).parent().parent().parent().attr('id'), itemmm);
+                        addnewrole($(this).parent().parent().parent().attr('id'), itemmm, 'AddItem');
+                    }
+                }
+            }).sortable({
+                items: "li:not(.placeholder)",
+                sort: function () {
+                    $(this).removeClass("ui-state-default");
+                }
+            });
+
+            function ajaxExecuting(studentId, roleId) {
+                alert('Id = ' + studentId + ' role = ' + roleId);
+            }
+
+        });
+
+
+        $(document).ready(function () {
+            $('li img').bind('dblclick', function () {
+                addnewrole($(this).parent().parent().parent().parent().parent().attr('id'), $(this).attr('class'), 'DeleteItem');
+                $(this).parent().remove();
+            });
+        });
+
+        function addnewrole(userIdVal, roleVal, requesttype) {
+
+            $.ajax({
+                type: "post",
+                url: "/User/" + requesttype,
+                data: { userId: userIdVal, role: roleVal},
+                success: function (r) {
+                    if (r.success == true) { alert('Success'); }
+                    else { alert('Error : ' + r.message); }
+                }
+            });
+        }
+
+	</script>
+
+    <div id="catalog" style="padding: 0 0px; float:right; text-align: left;" dir="<%= Html.ResolveUrl("~/Content/images/status_icon_delete.png")%> ">
+    <%--<div id="catalog" style="padding: 0 0px; float:right; text-align: left;">--%>
+        <h3><a href="#" style="background-color:Silver;">Roles</a></h3>
+        <div class="magleft">
+			    <li class="example1">Student</li>
+			    <li class="example1">Teacher</li>
+			    <li class="example1">CourseCreator</li>
+                <li class="example1">Admin</li>
+	    </div>
+    </div>
+
+    <div>
     <h2><%=Localization.getMessage("Users")%></h2>
+    </div>
 
     <div id="demo">
 
@@ -50,34 +188,42 @@
             <th>
                 <%=Localization.getMessage("FullName")%>
             </th>
+
             <th>
                 <%=Localization.getMessage("Loginn")%>
             </th>
+
             <th>
                 <%=Localization.getMessage("Active")%>
             </th>
+
+            <th>Roles</th>
+
             <th>
                 <%=Localization.getMessage("ApprovedBy")%>
             </th>
+
             <th>
                 <%=Localization.getMessage("CreationDate")%>
             </th>
+
             <th>
                 <%=Localization.getMessage("Groups")%>
             </th>
+
             <th>
             </th>
         </tr>
     
     </thead>
 
-    <tbody>
+    <tbody id="cart">
 
     <%
         foreach (var item in Model)
         {%>
     
-        <tr>
+        <tr id="<%: item.Id %>">
             <td>
                 <%:item.Name%>
             </td>
@@ -87,6 +233,24 @@
             <td>
                 <%:item.IsApproved.ToString()%>
             </td>
+
+
+            <td>
+            
+            <div>
+            <ol class="ui-droppable ui-sortable">
+            <% foreach (IUDICO.Common.Models.Role role in item.Roles) {%>
+
+                        <li> <%: role %> <img src="<%= Html.ResolveUrl("~/Content/images/status_icon_delete.png")%>" class="<%: role %>" alt="Remove role" /> </li> 
+<%--                        <li> <%: role %> <img src="http://docs.activestate.com/komodo/4.4/img/status_icon_delete.png" class="<%: role %>" alt="Remove role" /> </li> --%>
+                    
+            <%} %>
+            </ol>
+            </div> 
+            
+            </td>
+            
+            
             <td>
                 <%:item.User1 != null ? item.User1.Username : string.Empty%>
             </td>
@@ -149,14 +313,43 @@
         }
     </script>
 
-
     <link href="<%=  Html.ResolveUrl("~/Content/dataTables/demo_table.css")     %>" rel="stylesheet" type="text/css" />
     <link href="<%=  Html.ResolveUrl("~/Content/dataTables/demo_table_jui.css") %>" rel="stylesheet" type="text/css" />
     <link href="<%=  Html.ResolveUrl("~/Content/themes/base/jquery-ui.css")     %>" rel="stylesheet" type="text/css" media="all" />
     <link href="<%=  Html.ResolveUrl("~/Content/jAlert/jquery.alerts.css")      %>" rel="stylesheet" type="text/css" />
     <script src="<%= Html.ResolveUrl("~/Content/jAlert/jquery.alerts.js")       %>" type="text/javascript"></script>
 
+    <style type="text/css">
+	#catalog { width: 150px;}
+	#cart ol { margin: 0; padding: 1em 0 1em 3em; }
+	#magleft { float:left; width: 150px; margin-right: 2em;}
+	</style>
 
+    <style type="text/css">
+        .example1 {
+            border-width: 2px; 
+            border-style: outset; 
+            border-color: gray; 
+            border-radius: 7px;
+            text-align:center;
+        }
+        
+        .example1:hover 
+        {
+            cursor:pointer;
+            background-color: Silver;
+        }
+        
+        .mouselol 
+        {
+            cursor: pointer;
+        }
+        .mouseolol 
+        {
+            cursor: default;
+        }
+    </style>
+    
 
 </asp:Content>
 

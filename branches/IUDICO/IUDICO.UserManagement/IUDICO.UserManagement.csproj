@@ -124,6 +124,7 @@
     <Content Include="Content\images\sort_both.png" />
     <Content Include="Content\images\sort_desc.png" />
     <Content Include="Content\images\sort_desc_disabled.png" />
+    <Content Include="Content\images\status_icon_delete.png" />
     <Content Include="Content\jAlert\jquery.alerts.css" />
     <Content Include="Content\jAlert\jquery.alerts.js" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -164,6 +165,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Libraries\log4net.xml" />
+    <Content Include="Scripts\draganddrop\jquery-ui-1.8.18.custom.min.js" />
+    <Content Include="Scripts\draganddrop\jquery.effects.core.js" />
+    <Content Include="Scripts\draganddrop\jquery.ui.core.js" />
+    <Content Include="Scripts\draganddrop\jquery.ui.draggable.js" />
+    <Content Include="Scripts\draganddrop\jquery.ui.mouse.js" />
+    <Content Include="Scripts\draganddrop\jquery.ui.widget.js" />
     <Content Include="Scripts\jquery-1.4.4.min.js" />
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.dataTables.editable.js" />
