@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AnalyseParams>
+  <TargetExecutable><!-- File name of the program to analyse. -->C:\Program Files (x86)\NUnit 2.6\bin\nunit-console-x86.exe</TargetExecutable>
+  <TargetArguments><!-- Program arguments. -->C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.UnitTests\bin\Debug\IUDICO.UnitTests.dll</TargetArguments>
+  <TargetWorkingDir><!-- Program working directory. -->C:\Users\Administrator\.hudson\jobs\IUDICO\workspace</TargetWorkingDir>
+  <TempDir><!-- Directory for the auxiliary files. Set to system temp by default. --></TempDir>
+  <Output><!-- Resulting report file name. -->C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\Coverage.html</Output>
+  <ReportType><!-- [HTML|JSON|XML|NDependXML]. A type of the report. XML by default. -->HTML</ReportType>
+  <InheritConsole><!-- [True|False] Lets the application being analysed to inherit dotCover console. True by default. --> </InheritConsole>  
+  <Filters>
+    <IncludeFilters>
+      <FilterEntry>
+        <ModuleMask>IUDICO.Statistics</ModuleMask>
+        <ClassMask>*</ClassMask>
+        <FunctionMask>*</FunctionMask>
+      </FilterEntry>
+      <FilterEntry>
+        <ModuleMask>IUDICO.TestingSystem</ModuleMask>
+        <ClassMask>*</ClassMask>
+        <FunctionMask>*</FunctionMask>
+      </FilterEntry>
+      <FilterEntry>
+        <ModuleMask>IUDICO.Search</ModuleMask>
+        <ClassMask>*</ClassMask>
+        <FunctionMask>*</FunctionMask>
+      </FilterEntry>
+      <FilterEntry>
+        <ModuleMask>IUDICO.Analytics</ModuleMask>
+        <ClassMask>*</ClassMask>
+        <FunctionMask>*</FunctionMask>
+      </FilterEntry>
+      <FilterEntry>
+        <ModuleMask>IUDICO.DisciplineManagement</ModuleMask>
+        <ClassMask>*</ClassMask>
+        <FunctionMask>*</FunctionMask>
+      </FilterEntry>
+      <FilterEntry>
+        <ModuleMask>IUDICO.CurriculumManagement</ModuleMask>
+        <ClassMask>*</ClassMask>
+        <FunctionMask>*</FunctionMask>
+      </FilterEntry>
+      <FilterEntry>
+        <ModuleMask>IUDICO.LMS</ModuleMask>
+        <ClassMask>*</ClassMask>
+        <FunctionMask>*</FunctionMask>
+      </FilterEntry>
+      <FilterEntry>
+        <ModuleMask>IUDICO.CourseManagement</ModuleMask>
+        <ClassMask>*</ClassMask>
+        <FunctionMask>*</FunctionMask>
+      </FilterEntry>
+      <FilterEntry>
+        <ModuleMask>IUDICO.CompileService</ModuleMask>
+        <ClassMask>*</ClassMask>
+        <FunctionMask>*</FunctionMask>
+      </FilterEntry>
+      <FilterEntry>
+        <ModuleMask>IUDICO.Common</ModuleMask>
+        <ClassMask>*</ClassMask>
+        <FunctionMask>*</FunctionMask>
+      </FilterEntry>
+      <FilterEntry>
+        <ModuleMask>IUDICO.UserManagement</ModuleMask>
+        <ClassMask>*</ClassMask>
+        <FunctionMask>*</FunctionMask>
+      </FilterEntry>
+      <FilterEntry>
+        <ModuleMask>IUDICO.Security</ModuleMask>
+        <ClassMask>*</ClassMask>
+        <FunctionMask>*</FunctionMask>
+      </FilterEntry>
+      <FilterEntry>
+        <ModuleMask>IUDICO.CompileSystem</ModuleMask>
+        <ClassMask>*</ClassMask>
+        <FunctionMask>*</FunctionMask>
+      </FilterEntry>
+    </IncludeFilters>
+    <ExcludeFilters>
+    </ExcludeFilters>
+  </Filters>
+</AnalyseParams>
