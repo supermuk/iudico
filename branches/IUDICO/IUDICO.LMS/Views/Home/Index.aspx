@@ -26,17 +26,25 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <h3><%=IUDICO.LMS.Localization.getMessage("WelcomeIudico")%></h3>
-
-    <% foreach (var plugin in Model.Actions) { %>
-        <% if (plugin.Value.Any()) { %>
-        <h4><%= plugin.Key.GetName() %></h4>
-        <ul>
-        <% foreach (var item in plugin.Value) { %>
-            <li><a href="<%= item.Link %>"><%= item.Name %></a></li>
-        <% } %>
-        </ul>
+    
+    <% if (ViewData["ShowReg"].ToString() == "True") {  %>
+        <% foreach (var plugin in Model.Actions) { %>
+        <%if (plugin.Key.ToString() == "IUDICO.UserManagement.UserManagementPlugin")
+          {%>
+                <% if (plugin.Value.Any())
+                   {%>
+                <h4><%= plugin.Key.GetName() %></h4>
+                <ul>
+                <% foreach (var item in plugin.Value)
+                   { %>
+                    <li><a href="<%= item.Link %>"><%= item.Name %></a></li>
+                <% } %>
+                </ul>
+                <% } %>
+           <% } %>
         <% } %>
     <% } %>
+
 
     <% if (Model.TopicsDescriptions.Any()) { %>
     <h4><%=IUDICO.LMS.Localization.getMessage("AvailableTopics") %></h4>
