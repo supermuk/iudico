@@ -29,13 +29,21 @@ namespace IUDICO.LMS.Controllers
 
         public ActionResult Index()
         {
+            User user = MvcApplication.StaticContainer.GetService<IUserService>().GetCurrentUser();
+            if (user.UserId == null && user.Username == null)
+            {
+                ViewData["ShowReg"] = true;
+            }
+            else
+            {
+                ViewData["ShowReg"] = false;
+            }
+            var temp = MvcApplication.LmsService.GetActions();
             return View(new HomeModel
                 {
-                    Actions = MvcApplication.LmsService.GetActions(),
+                    Actions = temp,
                     TopicsDescriptions = GetTopicsDescriptions()
                 });
-
-            //return View(new Dictionary<IPlugin, IEnumerable<Action>>(MvcApplication.Actions));
         }
 
         [OutputCache(Duration = 3600, VaryByParam = "none")]
