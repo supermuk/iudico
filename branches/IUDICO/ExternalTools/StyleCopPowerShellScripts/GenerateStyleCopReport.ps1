@@ -24,7 +24,7 @@ function Make-HTML([string] $file) {
 <html>
 <head>
 <title>IUDICO Code Style Report</title>
-<script src="jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <style>
 body {position: absolute; top: 0px; width: 100%;margin:0px;min-height:100%;padding:0}
 body {font-family:Verdana, Helvetica, sans-serif;font-size:70%;background:#fff;color:#000;}
