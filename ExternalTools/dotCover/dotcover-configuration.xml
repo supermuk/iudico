@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AnalyseParams>
-  <TargetExecutable><!-- File name of the program to analyse. -->"C:\Program Files (x86)\NUnit 2.6\bin\nunit-console-x86.exe"</TargetExecutable>
+  <TargetExecutable><!-- File name of the program to analyse. -->C:\Program Files (x86)\NUnit 2.6\bin\nunit-console-x86.exe</TargetExecutable>
   <TargetArguments><!-- Program arguments. -->C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.UnitTests\bin\Debug\IUDICO.UnitTests.dll</TargetArguments>
-  <TargetWorkingDir><!-- Program working directory. -->"C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.UnitTests\bin\Debug"</TargetWorkingDir>
+  <TargetWorkingDir><!-- Program working directory. -->C:\Users\Administrator\.hudson\jobs\IUDICO\workspace</TargetWorkingDir>
   <TempDir><!-- Directory for the auxiliary files. Set to system temp by default. --></TempDir>
   <Output><!-- Resulting report file name. -->C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\CodeCoverageReport.html</Output>
   <ReportType><!-- [HTML|JSON|XML|NDependXML]. A type of the report. XML by default. -->HTML</ReportType>
