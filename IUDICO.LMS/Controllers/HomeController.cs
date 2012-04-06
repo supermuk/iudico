@@ -5,6 +5,7 @@ using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
 using IUDICO.LMS.Models;
 using IUDICO.Common.Models.Shared.CurriculumManagement;
+using System.Linq;
 
 namespace IUDICO.LMS.Controllers
 {
@@ -39,10 +40,19 @@ namespace IUDICO.LMS.Controllers
                 ViewData["ShowReg"] = false;
             }
             var temp = MvcApplication.LmsService.GetActions();
+
+            IEnumerable<TopicDescription> description = GetTopicsDescriptions();
+
+            Dictionary<string, Dictionary<string, List<TopicDescription>>> groupedTopicsDescriptions = 
+                description.GroupBy(topicDescription_ => topicDescription_.Discipline.Name).
+                ToDictionary(x => x.Key, x => x.GroupBy(y => y.Chapter.Name).
+                    ToDictionary(z => z.Key, z => z.ToList()));
+            
             return View(new HomeModel
                 {
                     Actions = temp,
-                    TopicsDescriptions = GetTopicsDescriptions()
+                    TopicsDescriptions = description,
+                    GroupedTopicsDescriptions = groupedTopicsDescriptions
                 });
         }
 
