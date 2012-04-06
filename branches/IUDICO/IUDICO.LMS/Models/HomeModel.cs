@@ -21,5 +21,7 @@ namespace IUDICO.LMS.Models
         public IEnumerable<TopicDescription> TopicsDescriptions { get; set; }
 
         public IEnumerable<int> TopicsRatings { get; set; }
+
+        public Dictionary<string, Dictionary<string, List<TopicDescription>>> GroupedTopicsDescriptions { get; set; }
     }
 }
