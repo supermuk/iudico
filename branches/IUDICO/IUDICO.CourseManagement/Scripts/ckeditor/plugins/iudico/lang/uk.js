@@ -4,10 +4,16 @@
     {
         title: 'IUDICO',
 
-        simpleTab: 'Simple',
+        simpleTab: 'Просте запитання',
         choiceTab: 'Варіант відповіді:',
         compileTab: 'Компільоване',
         testsTab: 'Тести',
+        simpleLabel: 'Просте запитання',
+
+
+        'iudico-simple': 'Запитання без варіантів відповіді',
+        'iudico-choice': 'Запитання з варіантами відповіді',
+        'iudico-compile': 'Компільований тест',
 
         correctAnswer: 'Правильна відповідь:',
         question: 'Питання:',
@@ -33,7 +39,6 @@
         type: 'Type',
         toolbar: 'IUDICO',
         simple: 'Simple',
-        choice: 'Варіант відповіді:',
         compile: 'Compile'
     }
 });
