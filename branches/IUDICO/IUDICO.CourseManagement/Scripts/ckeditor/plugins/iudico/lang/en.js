@@ -23,9 +23,9 @@
         deleteChoice: 'Delete Choice',
 
         language: 'Language:',
-        memoryLimit: 'Memory limit:',
-        outputLimit: 'Output limit:',
-        timeLimit: 'Time limit:',
+        memoryLimit: 'Memory limit(kilobytes):',
+        outputLimit: 'Output limit(kilobytes):',
+        timeLimit: 'Time limit(ms):',
         preCode: 'Code before:',
         postCode: 'Code after:',
         test: 'Test:',
