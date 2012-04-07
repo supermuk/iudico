@@ -8,6 +8,11 @@
         choiceTab: 'Choice',
         compileTab: 'Compile',
         testsTab: 'Tests',
+        simpleLabel: 'Simple question',
+
+        'iudico-simple': 'Question without answer options',
+        'iudico-choice': 'Question with answer options',
+        'iudico-compile': 'Compiled test',
 
         correctAnswer: 'Correct Answer:',
         question: 'Question:',
