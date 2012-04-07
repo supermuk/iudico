@@ -44,7 +44,7 @@ namespace IUDICO.Analytics.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult TrainAlg(string[] ts1, string[] ts2n, string[] ts2a)
         {
-            var studentsAndMarks =(IEnumerable<KeyValuePair<User, AttemptResult>>) HttpContext.Session["StudentsAndMarks"];
+            var studentsAndMarks = (IEnumerable<KeyValuePair<User, double[]>>)HttpContext.Session["StudentsAndMarks"];
 
             return View(AnomalyDetectionAlgorithm.runAlg(studentsAndMarks, ts1, ts2n, ts2a));
         }

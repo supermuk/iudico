@@ -1,5 +1,5 @@
 ﻿<%@ Assembly Name="IUDICO.Analytics" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<KeyValuePair<IUDICO.Common.Models.Shared.User,IUDICO.Common.Models.Shared.Statistics.AttemptResult>>>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<KeyValuePair<IUDICO.Common.Models.Shared.User,double[]>>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	TrainTopic
@@ -57,7 +57,9 @@
             <th>Student Name</th>
             <th>Student Score</th>
             <th>Student Time</th>
-            <th></th>
+            <th>Training set</th>
+            <th>CV set (normal)</th>
+            <th>CV set (anomalies)</th>
         </tr>
 
      <%
@@ -68,14 +70,21 @@
             <%:item.Key.Name %>
             </td>
             <td>
-            <%:Math.Round((double)item.Value.Score.ToPercents(), 2).ToString() %>
+            <%:Math.Round((double)item.Value[1], 2).ToString() %>
             </td>
             <td>
-            <%: item.Value.FinishTime.Value.Subtract(item.Value.StartTime.Value).ToString() %>
+            <% int minutes = Convert.ToInt32(item.Value[0]) / 60;
+               int seconds = Convert.ToInt32(item.Value[0]) % 60;
+                 %>
+            <%: minutes.ToString() + ':' + ((seconds < 10)?"0":"") + seconds.ToString()%>
             </td>
             <td>
               <input type="checkbox" value="<%: item.Key.OpenId %>" name="ts1" onchange="javascript:selectTs1(<%:item.Key.OpenId %>)"/>
+            </td>
+            <td>
               <input type="checkbox" value="<%: item.Key.OpenId %>" name="ts2n" onchange="javascript:selectTs2n(<%:item.Key.OpenId %>)"/>
+            </td>
+            <td>
               <input type="checkbox" value="<%: item.Key.OpenId %>" name="ts2a" onchange="javascript:selectTs2a(<%:item.Key.OpenId %>)"/>
             </td>
         </tr>

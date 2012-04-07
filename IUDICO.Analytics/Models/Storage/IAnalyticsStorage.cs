@@ -33,7 +33,7 @@ namespace IUDICO.Analytics.Models.Storage
         #region Anomaly detection
 
         IEnumerable<Topic> AvailebleTopics();
-        IEnumerable<KeyValuePair<User, AttemptResult>> GetStudentListForTraining(int topicId);
+        IEnumerable<KeyValuePair<User, double[]>> GetStudentListForTraining(int topicId);
         #endregion
     }
 }
