@@ -5,6 +5,7 @@ using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
+using IUDICO.Common.Models.Shared.DisciplineManagement;
 using IUDICO.TestingSystem.Models;
 using IUDICO.TestingSystem.Models.VOs;
 
@@ -16,20 +17,22 @@ namespace IUDICO.TestingSystem.Controllers
 
         protected IUserService UserService
         {
-            get
-            {
-                IUserService result = LmsService.FindService<IUserService>();
-                return result;
-            }
+            get { return LmsService.FindService<IUserService>(); }
         }
 
         protected ICourseService CourseService
         {
-            get
-            {
-                ICourseService result = LmsService.FindService<ICourseService>();
-                return result;
-            }
+            get { return LmsService.FindService<ICourseService>(); }
+        }
+
+        protected ICurriculumService CurriculumService
+        {
+            get { return LmsService.FindService<ICurriculumService>(); }
+        }
+
+        protected IDisciplineService DisciplineService
+        {
+            get { return LmsService.FindService<IDisciplineService>(); }
         }
 
         public TrainingController(IMlcProxy mlcProxy)
@@ -39,37 +42,35 @@ namespace IUDICO.TestingSystem.Controllers
 
         protected User CurrentUser
         {
-            get
-            {
-                var result = UserService.GetCurrentUser();
-                return result;
-            }
+            get { return UserService.GetCurrentUser(); }
         }
         
         //
         // GET: /Training/
         [Allow(Role=Role.Student)]
-        public ActionResult Play(int id)
+        public ActionResult Play(int curriculumChapterTopicId, int courseId, TopicTypeEnum topicType)
         {
-            var curriculumService = LmsService.FindService<ICurriculumService>();
-            var disciplineService = LmsService.FindService<IDisciplineService>();
+            var curriculumChapterTopic = CurriculumService.GetCurriculumChapterTopicById(curriculumChapterTopicId);
 
-            var topic = disciplineService.GetTopic(id);
-
-            if (topic == null)
+            if (curriculumChapterTopic == null)
                 return View("Error", "~/Views/Shared/Site.Master", Localization.getMessage("Topic_Not_Found"));
 
+            var course = CourseService.GetCourse(courseId);
+            if (course == null)
+                return View("Error", "~/Views/Shared/Site.Master", Localization.getMessage("Course_Not_Found"));
+
             var currentUser = UserService.GetCurrentUser();
-            var topics = curriculumService.GetTopicDescriptions(currentUser).Select(t => t.Topic).Where(t => t.Id == topic.Id);
-            var containsTopic = topics.Count() == 1;
-            if (!containsTopic)
+
+            var canPass = CurriculumService.CanPassCurriculumChapterTopic(currentUser, curriculumChapterTopic, topicType);
+
+            if (!canPass)
                 return View("Error", "~/Views/Shared/Site.Master", Localization.getMessage("Not_Allowed_Pass_Topic"));
 
-            long attemptId = MlcProxy.GetAttemptId(topic);
+            var attemptId = MlcProxy.GetAttemptId(curriculumChapterTopicId, courseId, topicType);
 
             ServicesProxy.Instance.Initialize(LmsService);
 
-            return View("Play", new PlayModel { AttemptId = attemptId, TopicId = topic.Id });
+            return View("Play", new PlayModel { AttemptId = attemptId, CurriculumChapterTopicId = curriculumChapterTopicId });
         }
     }
 }
