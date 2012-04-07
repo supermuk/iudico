@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace IUDICO.TestingSystem.Models.VOs
+﻿namespace IUDICO.TestingSystem.Models.VOs
 {
     public class PlayModel
     {
-        public Int64 AttemptId { get; set; }
-        public int  TopicId { get; set; }
+        public long AttemptId { get; set; }
+        public int CurriculumChapterTopicId { get; set; }
     }
 }

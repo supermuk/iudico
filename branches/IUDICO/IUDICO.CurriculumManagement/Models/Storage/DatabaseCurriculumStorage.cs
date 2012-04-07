@@ -217,6 +217,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                     testTopicDescription = new TopicDescription
                     {
                         CourseId = curriculumChapterTopic.Topic.TestCourseRef,
+                        CurriculumChapterTopicId = curriculumChapterTopic.Id,
                         Topic = curriculumChapterTopic.Topic,
                         TopicType = Converter.ToTopicType(curriculumChapterTopic.Topic.TestTopicType),
                         TopicPart = TopicPart.Test,
@@ -232,6 +233,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                     theoryTopicDescription = new TopicDescription
                     {
                         CourseId = curriculumChapterTopic.Topic.TheoryCourseRef,
+                        CurriculumChapterTopicId = curriculumChapterTopic.Id,
                         Topic = curriculumChapterTopic.Topic,//???
                         TopicType = Converter.ToTopicType(curriculumChapterTopic.Topic.TheoryTopicType),//???
                         TopicPart = TopicPart.Theory,
@@ -423,6 +425,19 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public void DeleteCurriculumChapterTopics(IEnumerable<int> ids)
         {
             ids.ForEach(DeleteCurriculumChapterTopic);
+        }
+
+        public bool CanPassCurriculumChapterTopic(User user, CurriculumChapterTopic curriculumChapterTopic, TopicTypeEnum topicType)
+        {
+            // TODO: implement in more sophisticated and performance-proof maner
+
+            var descriptions = GetTopicDescriptions(user);
+
+            var selectedDescriptions =
+                descriptions.Where(desc => desc.CurriculumChapterTopicId == curriculumChapterTopic.Id
+                                           && desc.TopicType == topicType);
+
+            return selectedDescriptions.Count() == 1;
         }
 
         #endregion

@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
+using IUDICO.Common.Models.Shared.DisciplineManagement;
 using IUDICO.Common.Models.Shared.Statistics;
 using IUDICO.TestingSystem.Models.VOs;
 using LearningComponentsHelper;
@@ -58,36 +59,39 @@ namespace IUDICO.TestingSystem.Models
         /// </summary>
         /// <param name="topic">Topic object represents specified topic.</param>
         /// <returns>Long integer value representing attempt id.</returns>
-        public long GetAttemptId(Topic topic)
+        public long GetAttemptId(int curriculumChapterTopicId, int courseId, TopicTypeEnum topicType)
         {
+            throw new NotImplementedException(
+                "MLCProxy.GetAttemptId method was not implemented due to new design of curriculum and discipline management subsystems.");
+
             GetCurrentUserIdentifier();
             AttemptItemIdentifier attemptId = null;
             ActivityPackageItemIdentifier organizationId;
-            var packageId = GetPackageIdentifier(topic.TestCourseRef.Value);
+            var packageId = GetPackageIdentifier(courseId);
 
             // in case package has not been uploaded yet.
             if (packageId == null)
             {
-                string zipPath = CourseService.Export(topic.TestCourseRef.Value);
+                string zipPath = CourseService.Export(courseId);
                 Package package = new ZipPackage(zipPath);
-                package.CourseID = topic.TestCourseRef.Value;
+                package.CourseID = courseId;
                 packageId = AddPackage(package);
                 organizationId = GetOrganizationIdentifier(packageId);
-                attemptId = CreateAttempt(organizationId.GetKey(), topic.Id);
+                attemptId = CreateAttempt(organizationId.GetKey(), curriculumChapterTopicId, topicType);
             }
             // otherwise check if attempt was created
             else
             {
                 organizationId = GetOrganizationIdentifier(packageId);
 
-                AttemptItemIdentifier attId = GetAttemptIdentifier(organizationId, topic.Id);
+                AttemptItemIdentifier attId = GetAttemptIdentifier(organizationId, curriculumChapterTopicId, topicType);
                 if (attId != null)
                 {
                     attemptId = attId;
                 }
                 else
                 {
-                    attemptId = CreateAttempt(organizationId.GetKey(), topic.Id);
+                    attemptId = CreateAttempt(organizationId.GetKey(), curriculumChapterTopicId, topicType);
                 }
             }
 
@@ -523,15 +527,17 @@ namespace IUDICO.TestingSystem.Models
         /// </summary>
         /// <param name="orgID">Long integer value represents organization identifier to create attempt on.</param>
         /// <returns>Long integer value, representing attempt identifier of created attempt.</returns>
-        protected AttemptItemIdentifier CreateAttempt(long orgID, int topicId)
+        protected AttemptItemIdentifier CreateAttempt(long orgID, int curriculumChapterTopicId, TopicTypeEnum topicType)
         {
-            ActivityPackageItemIdentifier organizationID = new ActivityPackageItemIdentifier(orgID);
+            var organizationID = new ActivityPackageItemIdentifier(orgID);
             
             StoredLearningSession session = StoredLearningSession.CreateAttempt(this.PStore, this.GetCurrentUserIdentifier(), organizationID, LoggingOptions.LogAll);
-            // TODO: add IudicoTopicRef
             LearningStoreJob job = LStore.CreateJob();
             Dictionary<string, object> dic = new Dictionary<string, object>();
-            dic.Add(Schema.AttemptItem.IudicoThemeRef, topicId);
+            // TODO: Change IudicoThemeRef => IudicoCurriculumchapterTopicRef
+            //dic.Add(Schema.AttemptItem.IudicoThemeRef, topicId);
+            //dic.Add(Schema.AttemptItem.IudicoCurriculumchapterTopicRef, curriculumChapterTopicId);
+            //dic.Add(Schema.AttemptItem.IudicoTopicType, topicType);
             job.UpdateItem(session.AttemptId, dic);
             job.Execute();
 
@@ -671,7 +677,7 @@ namespace IUDICO.TestingSystem.Models
         /// <param name="orgId"><c>ActivityPackageItemIdentifier</c> value representing Organization ID.</param>
         /// <param name="topicId">Integer value - IUDICO topic id.</param>
         /// <returns><c>AttemptItemIdentifier</c> value representing Attempt Identifier.</returns>
-        protected AttemptItemIdentifier GetAttemptIdentifier(ActivityPackageItemIdentifier orgId, int topicId)
+        protected AttemptItemIdentifier GetAttemptIdentifier(ActivityPackageItemIdentifier orgId, int curriculumChapterTopicId, TopicTypeEnum topicType)
         {
             AttemptItemIdentifier result = null;
             LearningStoreJob job = LStore.CreateJob();
@@ -679,13 +685,16 @@ namespace IUDICO.TestingSystem.Models
             LearningStoreQuery query = LStore.CreateQuery(Schema.MyAttempts.ViewName);
             query.AddColumn(Schema.MyAttempts.AttemptId);
             query.AddCondition(Schema.MyAttempts.OrganizationId, LearningStoreConditionOperator.Equal, orgId);
-            query.AddCondition(Schema.MyAttempts.ThemeId, LearningStoreConditionOperator.Equal, topicId);
+            // TODO: add parameters (change ThemeId => CurriculumChapterTopicId)
+            query.AddCondition(Schema.MyAttempts.ThemeId, LearningStoreConditionOperator.Equal, curriculumChapterTopicId);
+            // query.AddCondition(Schema.MyAttempts.CurriculumchapterTopicId, LearningStoreConditionOperator.Equal, curriculumChapterTopicId);
+            // query.AddCondition(Schema.MyAttempts.TopicType, LearningStoreConditionOperator.Equal, topicType);
 
             job.PerformQuery(query);
 
             ReadOnlyCollection<object> resultList = job.Execute();
 
-            DataTable dataTable = (DataTable)resultList[0];
+            var dataTable = (DataTable)resultList[0];
 
             if (dataTable.Rows.Count > 0)
             {
