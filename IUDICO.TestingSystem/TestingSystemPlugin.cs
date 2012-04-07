@@ -40,35 +40,16 @@ namespace IUDICO.TestingSystem
         public IEnumerable<Action> BuildActions()
         {
             return new Action[] { };
-
-            // do not add actions for testing service
-            //actions.Add(new Action("Import Testings", "Package/Index"));
-            //actions.Add(new Action("Available Testings", "Training/Index"));
         }
 
         public IEnumerable<MenuItem> BuildMenuItems()
         {
             return new MenuItem[] {};
-            // do not add menu item for testing service
-            //menu.Add(new MenuItem("Testing", "Training", "Index"));
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)
         {
-            /*routes.MapPageRoute(
-                "Player",
-                "Player/{file}",
-                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/{file}");
-            routes.MapPageRoute(
-                "PlayerImages",
-                "Player/Images/{file}",
-                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Images/{file}");
-            routes.MapPageRoute(
-                "PlayerInclude",
-                "Player/Include/{file}",
-                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Include/{file}");
-            */
-            routes.MapPageRoute(
+           routes.MapPageRoute(
                 "PlayerFrameset",
                 "Player/Frameset/{page}.aspx",
                 "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/{page}.aspx");
@@ -108,43 +89,16 @@ namespace IUDICO.TestingSystem
                 "PlayerContentEleven",
                 "Player/Frameset/Content.aspx/{one}/{two}/{three}/{four}/{five}/{six}/{seven}/{eight}/{nine}/{ten}/{eleven}",
                 "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Content.aspx");
-             
-           /* routes.MapPageRoute(
-                "PlayerImages",
-                "Player/Frameset/Images/{page}",
-                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Images/{page}");
-            routes.MapPageRoute(
-                "PlayerInclude",
-                "Player/Frameset/Include/{page}",
-                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Include/{page}");
-            routes.MapPageRoute(
-                "PlayerTopic",
-                "Player/Frameset/Topic/{page}",
-                "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Topic/{page}");*/
             
-            /*routes.MapRoute(
-               "Training",
-               "Training/{packageId}/{attemptId}",
-               new { controller = "Training", action = "Details", attemptId = UrlParameter.Optional },
-               new { packageID = @"\d+" });
-            routes.MapRoute(
-               "Trainings",
-               "Training/{action}/{id}",
-               new { controller = "Training", action = "Index", id = UrlParameter.Optional }
-            );*/
-            //routes.IgnoreRoute("Content/TimePicker.css");
             routes.MapRoute(
                 "Training",
-                "Training/Play/{id}",
-                new { controller = "Training", action="Play", id=""});
+                "Training/Play/{curriculumChapterTopicId}/{courseId}/{topicType}",
+                new { controller = "Training", action = "Play"});
         }
 
         public void Update(string name, params object[] data)
         {
-            //switch (name)
-            //{
-               
-            //}
+           
         }
 
         public void Setup(IWindsorContainer container)

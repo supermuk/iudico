@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.CurriculumManagement;
+using IUDICO.Common.Models.Shared.DisciplineManagement;
 
 namespace IUDICO.CurriculumManagement.Models.Storage
 {
@@ -81,6 +82,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         void DeleteCurriculumChapterTopic(int id);
 
         void DeleteCurriculumChapterTopics(IEnumerable<int> ids);
+
+        bool CanPassCurriculumChapterTopic(User user, CurriculumChapterTopic topic, TopicTypeEnum topicType);
 
         #endregion
 

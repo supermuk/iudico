@@ -11,7 +11,7 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
         [SetUp]
         public void PlayModelTestsSetUp()
         {
-            playModel = new PlayModel {AttemptId = 12345, TopicId = 1};
+            playModel = new PlayModel {AttemptId = 12345, CurriculumChapterTopicId = 1};
         }
 
         [Test]
@@ -19,7 +19,7 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
         {
             PlayModelTestsSetUp();
             Assert.AreEqual(playModel.AttemptId, 12345);
-            Assert.AreEqual(playModel.TopicId, 1);
+            Assert.AreEqual(playModel.CurriculumChapterTopicId, 1);
         }
     }
 }

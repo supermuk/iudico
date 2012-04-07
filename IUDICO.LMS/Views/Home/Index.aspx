@@ -129,7 +129,11 @@
                          <%: Html.ActionLink("[" + package.TopicType.ToString() + "] " + package.Topic.Name + " ",
                                         "Play",
                                         "Training",
-                                        new {TopicId = package.Topic.Id, package.CourseId, package.TopicType},
+                                        new {
+                                            curriculumChapterTopicId = package.CurriculumChapterTopicId,
+                                            courseId = package.CourseId, 
+                                            topicType = package.TopicType 
+                                            },
                                         new {@class = package.TopicType == TopicTypeEnum.Test ? "test" : "theory", @title = "Start " + package.Discipline.Name + "/" + package.Chapter.Name + "/" + package.Topic.Name}) %>
                          
                          </li>
@@ -159,7 +163,11 @@
             <input name="rating_<%=topicDescription.Topic.Id %>" value="<%= i %>" <%= (topicDescription.Rating == i ? "checked='checked'" : "") %> <%= (topicDescription.Rating != 0 ? "disabled='disabled'" : "") %> type="radio" class="rating required"/>
         <% } %>
         <%: Html.ActionLink(topicDescription.ToString(), "Play", "Training",
-                                new { TopicId = topicDescription.Topic.Id, topicDescription.CourseId, topicDescription.TopicType }, null)%>
+                                new
+                                { curriculumChapterTopicId = topicDescription.CurriculumChapterTopicId,
+                                  courseId = topicDescription.CourseId, 
+                                  topicType = topicDescription.TopicType 
+                                }, null)%>
         </li>
     <% } %>
     </ul>
