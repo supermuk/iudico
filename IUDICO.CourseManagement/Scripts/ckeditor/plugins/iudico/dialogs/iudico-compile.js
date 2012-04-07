@@ -155,7 +155,7 @@
                             }
                         },
                         setup: function (objectNode, embedNode, paramMap) {
-                            this.setValue(paramMap[this.id]);
+                            this.setValue(10000);
                         }
                     },
                     {
@@ -171,7 +171,7 @@
                             }
                         },
                         setup: function (objectNode, embedNode, paramMap) {
-                            this.setValue(paramMap[this.id]);
+                            this.setValue(10000);
                         }
                     },
                     {
@@ -187,7 +187,7 @@
                             }
                         },
                         setup: function (objectNode, embedNode, paramMap) {
-                            this.setValue(paramMap[this.id]);
+                            this.setValue(10000);
                         }
                     },
                     {
