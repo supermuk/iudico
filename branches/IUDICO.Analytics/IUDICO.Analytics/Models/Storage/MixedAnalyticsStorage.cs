@@ -378,7 +378,7 @@ namespace IUDICO.Analytics.Models.Storage
             return res;
         }
 
-        public IEnumerable<KeyValuePair<User,AttemptResult>> GetStudentListForTraining(int topicId)
+        public IEnumerable<KeyValuePair<User,double[]>> GetStudentListForTraining(int topicId)
         {
             //var listOfGroups = _LmsService.FindService<ICurriculumService>().GetGroupsAssignedToTopic(topicId);
             //IEnumerable<User> studentsFromSelectedGroups = new List<User>();
@@ -386,15 +386,15 @@ namespace IUDICO.Analytics.Models.Storage
             //{
             //    studentsFromSelectedGroups = studentsFromSelectedGroups.Union(_LmsService.FindService<IUserService>().GetUsersByGroup(group));
             //}
-            List<KeyValuePair<User, AttemptResult>> result = new List<KeyValuePair<User, AttemptResult>>();
+            List<KeyValuePair<User, double[]>> result = new List<KeyValuePair<User, double[]>>();
             Random rnd = new Random(System.Environment.TickCount);
             for (int i = 1; i < 61; i++)
             {
                 User user = new User();
                 user.OpenId = i.ToString();
                 user.Name = "User_" + i;
-                AttemptResult att = new AttemptResult(1, user, null, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, DateTime.Now.AddMinutes(rnd.Next(1, 20)), ((rnd.Next(1, 20)) / 100.0f));
-                result.Add(new KeyValuePair<User, AttemptResult>(user, att));
+                double[] coef = new double[] { rnd.Next(80, 1200 ), rnd.Next(1, 20) };
+                result.Add(new KeyValuePair<User, double[]>(user, coef));
             }
                 //foreach (var student in studentsFromSelectedGroups)
                 //{

@@ -79,7 +79,7 @@ namespace IUDICO.Analytics.Models.AnomalyDetectionAlg
 
         // For demo
 
-        public static IEnumerable<KeyValuePair<KeyValuePair<User, AttemptResult>, bool>> runAlg(IEnumerable<KeyValuePair<User, AttemptResult>> studentsAndMarks, string[] ts1, string[] ts2n, string[] ts2a)
+        public static IEnumerable<KeyValuePair<KeyValuePair<User, double[]>, bool>> runAlg(IEnumerable<KeyValuePair<User, double[]>> studentsAndMarks, string[] ts1, string[] ts2n, string[] ts2a)
         {
             var trainingSet1Resource = studentsAndMarks.Where(x => ts1.Contains(x.Key.OpenId) == true);
             var trainingSet2NormalResource = studentsAndMarks.Where(x => ts2n.Contains(x.Key.OpenId) == true);
@@ -88,44 +88,28 @@ namespace IUDICO.Analytics.Models.AnomalyDetectionAlg
             var trainingSet1 = createTrainingSetFromResources(trainingSet1Resource);
             var trainingSet2Normal = createTrainingSetFromResources(trainingSet2NormalResource);
             var trainingSet2Anomalies = createTrainingSetFromResources(trainingSet2AnomaliesResource);
-
+            
             AnomalyDetectionAlgorithm train = new AnomalyDetectionAlgorithm();
-
             var formula = train.trainAlgorithm(trainingSet1, trainingSet2Normal, trainingSet2Anomalies);
-            List<KeyValuePair<KeyValuePair<User, AttemptResult>, bool>> res = new List<KeyValuePair<KeyValuePair<User, AttemptResult>, bool>>();
-            foreach (KeyValuePair<User, AttemptResult> studentAndMark in studentsAndMarks.Except(trainingSet1Resource).Except(trainingSet2NormalResource).Except(trainingSet2AnomaliesResource))
+            List<KeyValuePair<KeyValuePair<User, double[]>, bool>> res = new List<KeyValuePair<KeyValuePair<User, double[]>, bool>>();
+            foreach (KeyValuePair<User, double[]> studentAndMark in studentsAndMarks.Except(trainingSet1Resource).Except(trainingSet2NormalResource).Except(trainingSet2AnomaliesResource))
             {
-                bool isAnomaly = formula.isAnomaly(getFeaturesValues(studentAndMark));
+                bool isAnomaly = formula.isAnomaly(studentAndMark.Value);
 
-                res.Add(new KeyValuePair<KeyValuePair<User, AttemptResult>, bool>(studentAndMark, isAnomaly));
+                res.Add(new KeyValuePair<KeyValuePair<User, double[]>, bool>(studentAndMark, isAnomaly));
             }
 
             return res;
         }
 
-        private static TrainingSet createTrainingSetFromResources(IEnumerable<KeyValuePair<User, AttemptResult>> studentsAndMarks)
+        private static TrainingSet createTrainingSetFromResources(IEnumerable<KeyValuePair<User, double[]>> studentsAndMarks)
         {
             TrainingSet resultTrainingSet = new TrainingSet(2);
-            foreach (KeyValuePair<User, AttemptResult> studentAndMark in studentsAndMarks)
+            foreach (KeyValuePair<User, double[]> studentAndMark in studentsAndMarks)
             {
-                double[] newRecord = new double[2];
-                double mark = studentAndMark.Value.Score.ToPercents().Value;
-                double time = studentAndMark.Value.FinishTime.Value.Subtract(studentAndMark.Value.StartTime.Value).TotalSeconds;
-                newRecord[0] = mark;
-                newRecord[1] = time;
-                resultTrainingSet.addRecord(newRecord);
+                resultTrainingSet.addRecord(studentAndMark.Value);
             }
             return resultTrainingSet;
-        }
-
-        private static double[] getFeaturesValues(KeyValuePair<User, AttemptResult> studentAndMark)
-        {
-            double[] newRecord = new double[2];
-            double mark = studentAndMark.Value.Score.ToPercents().Value;
-            double time = studentAndMark.Value.FinishTime.Value.Subtract(studentAndMark.Value.StartTime.Value).TotalSeconds;
-            newRecord[0] = mark;
-            newRecord[1] = time;
-            return newRecord;
         }
     }
 }

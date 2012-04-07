@@ -1,5 +1,5 @@
 ﻿<%@ Assembly Name="IUDICO.Analytics" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<KeyValuePair<KeyValuePair<IUDICO.Common.Models.Shared.User,IUDICO.Common.Models.Shared.Statistics.AttemptResult>,bool>>>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<KeyValuePair<KeyValuePair<IUDICO.Common.Models.Shared.User,double[]>,bool>>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	TrainAlg
@@ -24,10 +24,13 @@
             <%:item.Key.Key.Name%>
             </td>
             <td>
-            <%:Math.Round((double)item.Key.Value.Score.ToPercents(), 2).ToString()%>
+            <%:Math.Round(item.Key.Value[1], 2).ToString()%>
             </td>
             <td>
-            <%: item.Key.Value.FinishTime.Value.Subtract(item.Key.Value.StartTime.Value).ToString()%>
+            <% int minutes = Convert.ToInt32(item.Key.Value[0]) / 60;
+               int seconds = Convert.ToInt32(item.Key.Value[0]) % 60;
+                 %>
+            <%: minutes.ToString() + ':' + ((seconds < 10)?"0":"") + seconds.ToString()%>
             </td>
             <td>
             <% if (item.Value)
