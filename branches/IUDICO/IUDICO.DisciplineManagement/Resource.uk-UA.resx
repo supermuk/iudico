@@ -184,7 +184,7 @@
     <value>Виберіть групу</value>
   </data>
   <data name="ChooseChapter" xml:space="preserve">
-    <value>Виберіть етап</value>
+    <value>Виберіть розділ</value>
   </data>
   <data name="ChooseChapterForTimeline" xml:space="preserve">
     <value>Виберіть тему для часової межі</value>
@@ -211,10 +211,10 @@
     <value>Створити новий</value>
   </data>
   <data name="CreateChapterFor" xml:space="preserve">
-    <value>Створити етап для</value>
+    <value>Створити розділ для</value>
   </data>
   <data name="CreateChapterTimelineFor" xml:space="preserve">
-    <value>Створити часові межі етапу для</value>
+    <value>Створити часові межі розділу для</value>
   </data>
   <data name="CreateTopic" xml:space="preserve">
     <value>Створити тему</value>
@@ -223,10 +223,10 @@
     <value>Створити тему для</value>
   </data>
   <data name="CreateDiscipline" xml:space="preserve">
-    <value>Створити навчальний план</value>
+    <value>Створити нову дисципліну</value>
   </data>
   <data name="Discipline" xml:space="preserve">
-    <value>Навчальний план</value>
+    <value>Дисципліна</value>
   </data>
   <data name="CurriculumTimelinesFor" xml:space="preserve">
     <value>Часові межі для прив'язаного навчального плану</value>
@@ -235,7 +235,7 @@
     <value>Управління навчальними планами</value>
   </data>
   <data name="Disciplines" xml:space="preserve">
-    <value>Навчальні плани</value>
+    <value>Дисципліни</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Видалити</value>
@@ -256,22 +256,22 @@
     <value>Редагувати прив'язки для навчальних планів</value>
   </data>
   <data name="EditDiscipline" xml:space="preserve">
-    <value>Редагувати навчальний план</value>
+    <value>Редагувати дисципліну</value>
   </data>
   <data name="EditCurriculumTimelineFor" xml:space="preserve">
     <value>Редагувати часову межу для прив'язки до навчального плану:</value>
   </data>
   <data name="EditChapter" xml:space="preserve">
-    <value>Редагувати етап</value>
+    <value>Редагувати розділ</value>
   </data>
   <data name="EditChapters" xml:space="preserve">
-    <value>Редагувати етапи</value>
+    <value>Редагувати розділи</value>
   </data>
   <data name="EditChapterTimeline" xml:space="preserve">
-    <value>Редагувати часові межі етапу</value>
+    <value>Редагувати часові межі розділу</value>
   </data>
   <data name="EditChapterTimelineFor" xml:space="preserve">
-    <value>Редагувати часові межі етапу для</value>
+    <value>Редагувати часові межі розділу для</value>
   </data>
   <data name="EditTopic" xml:space="preserve">
     <value>Редагувати тему</value>
@@ -349,22 +349,22 @@
     <value> &lt;=&gt; </value>
   </data>
   <data name="Chapter" xml:space="preserve">
-    <value>Етап</value>
+    <value>Розділ</value>
   </data>
   <data name="Chapters" xml:space="preserve">
-    <value>Етапи</value>
+    <value>Розділи</value>
   </data>
   <data name="ChaptersFor" xml:space="preserve">
-    <value>Етапи для</value>
+    <value>Розділи для</value>
   </data>
   <data name="ChapterTimelineBiggerThanDisciplineTimeline" xml:space="preserve">
-    <value>Часові межі етапу мають попадати в один з наступних інтервалів:</value>
+    <value>Часові межі розділу мають попадати в один з наступних інтервалів:</value>
   </data>
   <data name="ChapterTimelines" xml:space="preserve">
-    <value>Часові межі етапа</value>
+    <value>Часові межі розділу</value>
   </data>
   <data name="ChapterTimelinesFor" xml:space="preserve">
-    <value>Часові межі етапа для</value>
+    <value>Часові межі розділу для</value>
   </data>
   <data name="StartDate" xml:space="preserve">
     <value>Дата початку</value>
