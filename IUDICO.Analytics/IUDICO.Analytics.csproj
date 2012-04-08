@@ -144,6 +144,11 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Target Name="BeforeBuild">
+    <ItemGroup>
+      <EmbeddedResource Include="**\*.aspx;**\*.ascx;**\*.gif;**\*.css;**\*.js;**\*.png;**\*.jpg" />
+    </ItemGroup>
+  </Target>
   <PropertyGroup>
     <PostBuildEvent>xcopy /C /Y "$(TargetDir)*.*" "$(SolutionDir)IUDICO.LMS\Plugins\"</PostBuildEvent>
   </PropertyGroup>
