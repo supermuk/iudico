@@ -123,7 +123,7 @@
                          
                          <% for (var i = 1; i <= 5; ++i)
 							{ %>
-                            <input name="rating_<%= package.Topic.Id%>" value="<%=i%>" <%= (package.Rating == i ? "checked='checked'" : "") %> <%= (package.Rating != 0 ? "disabled='disabled'" : "") %> type="radio" class="rating required"/>
+                            <input name="rating_<%= package.TopicPart.ToString() + package.Topic.Id%>" value="<%=i%>" <%= (package.Rating == i ? "checked='checked'" : "") %> <%= (package.Rating != 0 ? "disabled='disabled'" : "") %> type="radio" class="rating required"/>
                          <% } %>
                          
                          <%: Html.ActionLink("[" + package.TopicType.ToString() + "] " + package.Topic.Name + " ",

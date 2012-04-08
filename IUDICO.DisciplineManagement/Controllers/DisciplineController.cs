@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
@@ -18,8 +19,10 @@ namespace IUDICO.DisciplineManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Index()
         {
-            var disciplines = Storage.GetDisciplines(item => item.Owner == Storage.GetCurrentUser().Username);
-            return View(disciplines);
+
+			IEnumerable<Discipline> list = Storage.GetDisciplines(item => item.Owner == Storage.GetCurrentUser().Username);
+
+			return View(list);
         }
 
         [HttpGet]
