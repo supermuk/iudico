@@ -32,11 +32,15 @@ namespace IUDICO.Analytics.Controllers
         public ActionResult UpdateUser(Guid id)
         {
             _Storage.UpdateUserScores(id);
+
+            return RedirectToAction("UserScores");
         }
 
         public ActionResult UpdateTopic(int id)
         {
-            return new EmptyResult();
+            _Storage.UpdateTopicScores(id);
+
+            return RedirectToAction("TopicScores");
         }
     }
 }
