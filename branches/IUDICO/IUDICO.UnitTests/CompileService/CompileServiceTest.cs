@@ -32,8 +32,8 @@ namespace IUDICO.UnitTests.CompileService
         private string IncorrectJavaSourceCode = CompileServiceLanguageSourceCode.JavaIncorrectSourceCode;
         private string IncorrectDelphiSourceCode = CompileServiceLanguageSourceCode.DelphiIncorrectSourceCode;
         //----------------------------------------------
-        private const string CSLanguageType = "CS";
-        private const string CPPlanguageType = "CPP";
+        private const string CSLanguageType = "CSharp";
+        private const string CPPlanguageType = "CPP8";
         private const string JavaLanguageType = "Java";
         private const string DelphiLanguageType = "Delphi";
         //----------------------------------------------

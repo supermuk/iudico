@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using CompileSystem.Compiling.Compile;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.IO;
 
 namespace IUDICO.UnitTests.CompileService
 {
@@ -23,6 +17,7 @@ namespace IUDICO.UnitTests.CompileService
             }
             return false;
         }
+        /*
 
         public static void ValidateCorrectCompilationResult(CompileResult result)
         {
@@ -34,5 +29,6 @@ namespace IUDICO.UnitTests.CompileService
             Assert.AreEqual(result.Compiled, false);
             Assert.AreNotEqual(result.StandartOutput, "");
         }
+         * */
     }
 }
