@@ -1,13 +1,13 @@
 <%@ Assembly Name="IUDICO.Analytics" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Feature>>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Tag>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Features
+	Tags
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Features</h2>
+    <h2>Tags</h2>
 
      <table>
         <tr>
@@ -40,7 +40,7 @@
      </table>
 
      <p>
-        <%:Html.ActionLink("Create new feature", "Create")%>
+        <%:Html.ActionLink("Create new tag", "Create")%>
     </p>
 
 </asp:Content>

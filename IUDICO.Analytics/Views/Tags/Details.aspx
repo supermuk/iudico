@@ -1,13 +1,13 @@
 ﻿<%@ Assembly Name="IUDICO.Analytics" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Analytics.Models.ViewDataClasses.ViewFeatureDetails>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Analytics.Models.ViewDataClasses.ViewTagDetails>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Details of <%=Model.Feature.Name%>
+	Details of <%=Model.Tag.Name%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Details of <%=Model.Feature.Name%></h2>
+    <h2>Details of <%=Model.Tag.Name%></h2>
 
     <fieldset>
         <legend><%="Fields"%></legend>
@@ -33,8 +33,8 @@
                 {%>
                 <tr>
                     <td><%:topic.Name%></td>
-                    <td><%:Html.ActionLink("Remove", "Delete", "TopicFeatures",
-                                                      new {FeatureId = Model.Feature.Id, TopicId = topic.Id})%></td>
+                    <td><%:Html.ActionLink("Remove", "Delete", "TopicTags",
+                                                                          new { FeatureId = Model.Tag.Id, TopicId = topic.Id })%></td>
                 </tr>
             <%
                 }%>

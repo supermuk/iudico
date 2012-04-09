@@ -63,19 +63,24 @@ namespace IUDICO.Analytics.Models
             get { return this.GetTable<ForecastingTree>(); }
         }
 
-        public Table<UserTopicScore> UserTopicScores
+        public Table<TopicScore> TopicScores
         {
-            get { return this.GetTable<UserTopicScore>(); }
+            get { return this.GetTable<TopicScore>(); }
         }
 
-        public Table<Feature> Features
+        public Table<UserScore> UserScores
         {
-            get { return this.GetTable<Feature>(); }
+            get { return this.GetTable<UserScore>(); }
         }
 
-        public Table<TopicFeature> TopicFeatures
+        public Table<Tag> Tags
         {
-            get { return this.GetTable<TopicFeature>(); }
+            get { return this.GetTable<Tag>(); }
+        }
+
+        public Table<TopicTag> TopicTags
+        {
+            get { return this.GetTable<TopicTag>(); }
         }
     }
 }

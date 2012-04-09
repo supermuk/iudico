@@ -1,16 +1,17 @@
 ﻿using System;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Analytics.Models
 {
     public class TopicStat : IComparable<TopicStat>
     {
-        public TopicStat(int topicId, double score)
+        public TopicStat(Topic topic, double score)
         {
-            TopicId = topicId;
+            Topic = topic;
             Score = score;
         }
 
-        public int TopicId { get; protected set; }
+        public Topic Topic { get; protected set; }
         public double Score { get; protected set; }
 
         #region Implementation of IComparable<in TopicStat>

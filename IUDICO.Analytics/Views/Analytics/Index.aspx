@@ -1,4 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.ForecastingTree>>" %>
+﻿<%@ Assembly Name="IUDICO.Analytics" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.ForecastingTree>>" %>
+<%@ Import Namespace="IUDICO.Analytics" %>
 <%@ Import Namespace="IUDICO.Common.Models.Shared" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
@@ -6,6 +8,8 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+
+    <%:Html.ActionLink("Tags", "Index", "Tags")%> |<%:Html.ActionLink("Recommender", "Index", "Recommender")%>
 
     <h2>Hello Analytics</h2>
 

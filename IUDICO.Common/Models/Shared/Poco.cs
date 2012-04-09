@@ -8,173 +8,236 @@ using System.Data.Linq.Mapping;
 
 namespace IUDICO.Common.Models.Shared
 {
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.UserTopicScores")]
-    public partial class UserTopicScore : INotifyPropertyChanging, INotifyPropertyChanged
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Chapters")]
+    public partial class Chapter : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 
-        private System.Guid _UserId;
+        private int _Id;
 
-        private int _TopicId;
+        private int _DisciplineRef;
 
-        private int _Score;
+        private string _Name;
 
-        private EntityRef<Topic> _Topic;
+        private System.DateTime _Created;
 
-        private EntityRef<User> _User;
+        private System.DateTime _Updated;
+
+        private bool _IsDeleted;
+
+        private EntitySet<CurriculumChapter> _CurriculumChapters;
+
+        private EntitySet<Topic> _Topics;
+
+        private EntityRef<Discipline> _Discipline;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
         partial void OnValidate(System.Data.Linq.ChangeAction action);
         partial void OnCreated();
-        partial void OnUserIdChanging(System.Guid value);
-        partial void OnUserIdChanged();
-        partial void OnTopicIdChanging(int value);
-        partial void OnTopicIdChanged();
-        partial void OnScoreChanging(int value);
-        partial void OnScoreChanged();
+        partial void OnIdChanging(int value);
+        partial void OnIdChanged();
+        partial void OnDisciplineRefChanging(int value);
+        partial void OnDisciplineRefChanged();
+        partial void OnNameChanging(string value);
+        partial void OnNameChanged();
+        partial void OnCreatedChanging(System.DateTime value);
+        partial void OnCreatedChanged();
+        partial void OnUpdatedChanging(System.DateTime value);
+        partial void OnUpdatedChanged();
+        partial void OnIsDeletedChanging(bool value);
+        partial void OnIsDeletedChanged();
         #endregion
 
-        public UserTopicScore()
+        public Chapter()
         {
-            this._Topic = default(EntityRef<Topic>);
-            this._User = default(EntityRef<User>);
+            this._CurriculumChapters = new EntitySet<CurriculumChapter>(new Action<CurriculumChapter>(this.attach_CurriculumChapters), new Action<CurriculumChapter>(this.detach_CurriculumChapters));
+            this._Topics = new EntitySet<Topic>(new Action<Topic>(this.attach_Topics), new Action<Topic>(this.detach_Topics));
+            this._Discipline = default(EntityRef<Discipline>);
             OnCreated();
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_UserId", DbType = "UniqueIdentifier NOT NULL", IsPrimaryKey = true)]
-        public System.Guid UserId
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
+        public int Id
         {
             get
             {
-                return this._UserId;
+                return this._Id;
             }
             set
             {
-                if ((this._UserId != value))
+                if ((this._Id != value))
                 {
-                    if (this._User.HasLoadedOrAssignedValue)
+                    this.OnIdChanging(value);
+                    this.SendPropertyChanging();
+                    this._Id = value;
+                    this.SendPropertyChanged("Id");
+                    this.OnIdChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DisciplineRef", DbType = "Int NOT NULL")]
+        public int DisciplineRef
+        {
+            get
+            {
+                return this._DisciplineRef;
+            }
+            set
+            {
+                if ((this._DisciplineRef != value))
+                {
+                    if (this._Discipline.HasLoadedOrAssignedValue)
                     {
                         throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
                     }
-                    this.OnUserIdChanging(value);
+                    this.OnDisciplineRefChanging(value);
                     this.SendPropertyChanging();
-                    this._UserId = value;
-                    this.SendPropertyChanged("UserId");
-                    this.OnUserIdChanged();
+                    this._DisciplineRef = value;
+                    this.SendPropertyChanged("DisciplineRef");
+                    this.OnDisciplineRefChanged();
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TopicId", DbType = "Int NOT NULL", IsPrimaryKey = true)]
-        public int TopicId
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
+        public string Name
         {
             get
             {
-                return this._TopicId;
+                return this._Name;
             }
             set
             {
-                if ((this._TopicId != value))
+                if ((this._Name != value))
                 {
-                    if (this._Topic.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnTopicIdChanging(value);
+                    this.OnNameChanging(value);
                     this.SendPropertyChanging();
-                    this._TopicId = value;
-                    this.SendPropertyChanged("TopicId");
-                    this.OnTopicIdChanged();
+                    this._Name = value;
+                    this.SendPropertyChanged("Name");
+                    this.OnNameChanged();
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Score", DbType = "Int NOT NULL")]
-        public int Score
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Created", DbType = "DateTime NOT NULL")]
+        public System.DateTime Created
         {
             get
             {
-                return this._Score;
+                return this._Created;
             }
             set
             {
-                if ((this._Score != value))
+                if ((this._Created != value))
                 {
-                    this.OnScoreChanging(value);
+                    this.OnCreatedChanging(value);
                     this.SendPropertyChanging();
-                    this._Score = value;
-                    this.SendPropertyChanged("Score");
-                    this.OnScoreChanged();
+                    this._Created = value;
+                    this.SendPropertyChanged("Created");
+                    this.OnCreatedChanged();
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Topic_UserTopicScore", Storage = "_Topic", ThisKey = "TopicId", OtherKey = "Id", IsForeignKey = true)]
-        public Topic Topic
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Updated", DbType = "DateTime NOT NULL")]
+        public System.DateTime Updated
         {
             get
             {
-                return this._Topic.Entity;
+                return this._Updated;
             }
             set
             {
-                Topic previousValue = this._Topic.Entity;
+                if ((this._Updated != value))
+                {
+                    this.OnUpdatedChanging(value);
+                    this.SendPropertyChanging();
+                    this._Updated = value;
+                    this.SendPropertyChanged("Updated");
+                    this.OnUpdatedChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsDeleted", DbType = "Bit NOT NULL")]
+        public bool IsDeleted
+        {
+            get
+            {
+                return this._IsDeleted;
+            }
+            set
+            {
+                if ((this._IsDeleted != value))
+                {
+                    this.OnIsDeletedChanging(value);
+                    this.SendPropertyChanging();
+                    this._IsDeleted = value;
+                    this.SendPropertyChanged("IsDeleted");
+                    this.OnIsDeletedChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Chapter_CurriculumChapter", Storage = "_CurriculumChapters", ThisKey = "Id", OtherKey = "ChapterRef")]
+        public EntitySet<CurriculumChapter> CurriculumChapters
+        {
+            get
+            {
+                return this._CurriculumChapters;
+            }
+            set
+            {
+                this._CurriculumChapters.Assign(value);
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Chapter_Topic", Storage = "_Topics", ThisKey = "Id", OtherKey = "ChapterRef")]
+        public EntitySet<Topic> Topics
+        {
+            get
+            {
+                return this._Topics;
+            }
+            set
+            {
+                this._Topics.Assign(value);
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Discipline_Chapter", Storage = "_Discipline", ThisKey = "DisciplineRef", OtherKey = "Id", IsForeignKey = true)]
+        public Discipline Discipline
+        {
+            get
+            {
+                return this._Discipline.Entity;
+            }
+            set
+            {
+                Discipline previousValue = this._Discipline.Entity;
                 if (((previousValue != value)
-                            || (this._Topic.HasLoadedOrAssignedValue == false)))
+                            || (this._Discipline.HasLoadedOrAssignedValue == false)))
                 {
                     this.SendPropertyChanging();
                     if ((previousValue != null))
                     {
-                        this._Topic.Entity = null;
-                        previousValue.UserTopicScores.Remove(this);
+                        this._Discipline.Entity = null;
+                        previousValue.Chapters.Remove(this);
                     }
-                    this._Topic.Entity = value;
+                    this._Discipline.Entity = value;
                     if ((value != null))
                     {
-                        value.UserTopicScores.Add(this);
-                        this._TopicId = value.Id;
+                        value.Chapters.Add(this);
+                        this._DisciplineRef = value.Id;
                     }
                     else
                     {
-                        this._TopicId = default(int);
+                        this._DisciplineRef = default(int);
                     }
-                    this.SendPropertyChanged("Topic");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "User_UserTopicScore", Storage = "_User", ThisKey = "UserId", OtherKey = "Id", IsForeignKey = true)]
-        public User User
-        {
-            get
-            {
-                return this._User.Entity;
-            }
-            set
-            {
-                User previousValue = this._User.Entity;
-                if (((previousValue != value)
-                            || (this._User.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._User.Entity = null;
-                        previousValue.UserTopicScores.Remove(this);
-                    }
-                    this._User.Entity = value;
-                    if ((value != null))
-                    {
-                        value.UserTopicScores.Add(this);
-                        this._UserId = value.Id;
-                    }
-                    else
-                    {
-                        this._UserId = default(System.Guid);
-                    }
-                    this.SendPropertyChanged("User");
+                    this.SendPropertyChanged("Discipline");
                 }
             }
         }
@@ -197,6 +260,30 @@ namespace IUDICO.Common.Models.Shared
             {
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        private void attach_CurriculumChapters(CurriculumChapter entity)
+        {
+            this.SendPropertyChanging();
+            entity.Chapter = this;
+        }
+
+        private void detach_CurriculumChapters(CurriculumChapter entity)
+        {
+            this.SendPropertyChanging();
+            entity.Chapter = null;
+        }
+
+        private void attach_Topics(Topic entity)
+        {
+            this.SendPropertyChanging();
+            entity.Chapter = this;
+        }
+
+        private void detach_Topics(Topic entity)
+        {
+            this.SendPropertyChanging();
+            entity.Chapter = null;
         }
     }
 
@@ -816,17 +903,29 @@ namespace IUDICO.Common.Models.Shared
         }
     }
 
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Features")]
-    public partial class Feature : INotifyPropertyChanging, INotifyPropertyChanged
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.CurriculumChapters")]
+    public partial class CurriculumChapter : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 
         private int _Id;
 
-        private string _Name;
+        private int _CurriculumRef;
 
-        private EntitySet<TopicFeature> _TopicFeatures;
+        private int _ChapterRef;
+
+        private System.Nullable<System.DateTime> _StartDate;
+
+        private System.Nullable<System.DateTime> _EndDate;
+
+        private bool _IsDeleted;
+
+        private EntitySet<CurriculumChapterTopic> _CurriculumChapterTopics;
+
+        private EntityRef<Chapter> _Chapter;
+
+        private EntityRef<Curriculum> _Curriculum;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -834,13 +933,23 @@ namespace IUDICO.Common.Models.Shared
         partial void OnCreated();
         partial void OnIdChanging(int value);
         partial void OnIdChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
+        partial void OnCurriculumRefChanging(int value);
+        partial void OnCurriculumRefChanged();
+        partial void OnChapterRefChanging(int value);
+        partial void OnChapterRefChanged();
+        partial void OnStartDateChanging(System.Nullable<System.DateTime> value);
+        partial void OnStartDateChanged();
+        partial void OnEndDateChanging(System.Nullable<System.DateTime> value);
+        partial void OnEndDateChanged();
+        partial void OnIsDeletedChanging(bool value);
+        partial void OnIsDeletedChanged();
         #endregion
 
-        public Feature()
+        public CurriculumChapter()
         {
-            this._TopicFeatures = new EntitySet<TopicFeature>(new Action<TopicFeature>(this.attach_TopicFeatures), new Action<TopicFeature>(this.detach_TopicFeatures));
+            this._CurriculumChapterTopics = new EntitySet<CurriculumChapterTopic>(new Action<CurriculumChapterTopic>(this.attach_CurriculumChapterTopics), new Action<CurriculumChapterTopic>(this.detach_CurriculumChapterTopics));
+            this._Chapter = default(EntityRef<Chapter>);
+            this._Curriculum = default(EntityRef<Curriculum>);
             OnCreated();
         }
 
@@ -864,36 +973,192 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "VarChar(50) NOT NULL", CanBeNull = false)]
-        public string Name
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CurriculumRef", DbType = "Int NOT NULL")]
+        public int CurriculumRef
         {
             get
             {
-                return this._Name;
+                return this._CurriculumRef;
             }
             set
             {
-                if ((this._Name != value))
+                if ((this._CurriculumRef != value))
                 {
-                    this.OnNameChanging(value);
+                    if (this._Curriculum.HasLoadedOrAssignedValue)
+                    {
+                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+                    }
+                    this.OnCurriculumRefChanging(value);
                     this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
+                    this._CurriculumRef = value;
+                    this.SendPropertyChanged("CurriculumRef");
+                    this.OnCurriculumRefChanged();
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Feature_TopicFeature", Storage = "_TopicFeatures", ThisKey = "Id", OtherKey = "FeatureId")]
-        public EntitySet<TopicFeature> TopicFeatures
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ChapterRef", DbType = "Int NOT NULL")]
+        public int ChapterRef
         {
             get
             {
-                return this._TopicFeatures;
+                return this._ChapterRef;
             }
             set
             {
-                this._TopicFeatures.Assign(value);
+                if ((this._ChapterRef != value))
+                {
+                    if (this._Chapter.HasLoadedOrAssignedValue)
+                    {
+                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+                    }
+                    this.OnChapterRefChanging(value);
+                    this.SendPropertyChanging();
+                    this._ChapterRef = value;
+                    this.SendPropertyChanged("ChapterRef");
+                    this.OnChapterRefChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_StartDate", DbType = "DateTime")]
+        public System.Nullable<System.DateTime> StartDate
+        {
+            get
+            {
+                return this._StartDate;
+            }
+            set
+            {
+                if ((this._StartDate != value))
+                {
+                    this.OnStartDateChanging(value);
+                    this.SendPropertyChanging();
+                    this._StartDate = value;
+                    this.SendPropertyChanged("StartDate");
+                    this.OnStartDateChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_EndDate", DbType = "DateTime")]
+        public System.Nullable<System.DateTime> EndDate
+        {
+            get
+            {
+                return this._EndDate;
+            }
+            set
+            {
+                if ((this._EndDate != value))
+                {
+                    this.OnEndDateChanging(value);
+                    this.SendPropertyChanging();
+                    this._EndDate = value;
+                    this.SendPropertyChanged("EndDate");
+                    this.OnEndDateChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsDeleted", DbType = "Bit NOT NULL")]
+        public bool IsDeleted
+        {
+            get
+            {
+                return this._IsDeleted;
+            }
+            set
+            {
+                if ((this._IsDeleted != value))
+                {
+                    this.OnIsDeletedChanging(value);
+                    this.SendPropertyChanging();
+                    this._IsDeleted = value;
+                    this.SendPropertyChanged("IsDeleted");
+                    this.OnIsDeletedChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "CurriculumChapter_CurriculumChapterTopic", Storage = "_CurriculumChapterTopics", ThisKey = "Id", OtherKey = "CurriculumChapterRef")]
+        public EntitySet<CurriculumChapterTopic> CurriculumChapterTopics
+        {
+            get
+            {
+                return this._CurriculumChapterTopics;
+            }
+            set
+            {
+                this._CurriculumChapterTopics.Assign(value);
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Chapter_CurriculumChapter", Storage = "_Chapter", ThisKey = "ChapterRef", OtherKey = "Id", IsForeignKey = true)]
+        public Chapter Chapter
+        {
+            get
+            {
+                return this._Chapter.Entity;
+            }
+            set
+            {
+                Chapter previousValue = this._Chapter.Entity;
+                if (((previousValue != value)
+                            || (this._Chapter.HasLoadedOrAssignedValue == false)))
+                {
+                    this.SendPropertyChanging();
+                    if ((previousValue != null))
+                    {
+                        this._Chapter.Entity = null;
+                        previousValue.CurriculumChapters.Remove(this);
+                    }
+                    this._Chapter.Entity = value;
+                    if ((value != null))
+                    {
+                        value.CurriculumChapters.Add(this);
+                        this._ChapterRef = value.Id;
+                    }
+                    else
+                    {
+                        this._ChapterRef = default(int);
+                    }
+                    this.SendPropertyChanged("Chapter");
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Curriculum_CurriculumChapter", Storage = "_Curriculum", ThisKey = "CurriculumRef", OtherKey = "Id", IsForeignKey = true)]
+        public Curriculum Curriculum
+        {
+            get
+            {
+                return this._Curriculum.Entity;
+            }
+            set
+            {
+                Curriculum previousValue = this._Curriculum.Entity;
+                if (((previousValue != value)
+                            || (this._Curriculum.HasLoadedOrAssignedValue == false)))
+                {
+                    this.SendPropertyChanging();
+                    if ((previousValue != null))
+                    {
+                        this._Curriculum.Entity = null;
+                        previousValue.CurriculumChapters.Remove(this);
+                    }
+                    this._Curriculum.Entity = value;
+                    if ((value != null))
+                    {
+                        value.CurriculumChapters.Add(this);
+                        this._CurriculumRef = value.Id;
+                    }
+                    else
+                    {
+                        this._CurriculumRef = default(int);
+                    }
+                    this.SendPropertyChanged("Curriculum");
+                }
             }
         }
 
@@ -917,16 +1182,937 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        private void attach_TopicFeatures(TopicFeature entity)
+        private void attach_CurriculumChapterTopics(CurriculumChapterTopic entity)
         {
             this.SendPropertyChanging();
-            entity.Feature = this;
+            entity.CurriculumChapter = this;
         }
 
-        private void detach_TopicFeatures(TopicFeature entity)
+        private void detach_CurriculumChapterTopics(CurriculumChapterTopic entity)
         {
             this.SendPropertyChanging();
-            entity.Feature = null;
+            entity.CurriculumChapter = null;
+        }
+    }
+
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.CurriculumChapterTopics")]
+    public partial class CurriculumChapterTopic : INotifyPropertyChanging, INotifyPropertyChanged
+    {
+
+        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+
+        private int _Id;
+
+        private int _CurriculumChapterRef;
+
+        private int _TopicRef;
+
+        private System.Nullable<System.DateTime> _TestStartDate;
+
+        private System.Nullable<System.DateTime> _TestEndDate;
+
+        private System.Nullable<System.DateTime> _TheoryStartDate;
+
+        private System.Nullable<System.DateTime> _TheoryEndDate;
+
+        private int _MaxScore;
+
+        private bool _BlockTopicAtTesting;
+
+        private bool _BlockCurriculumAtTesting;
+
+        private bool _IsDeleted;
+
+        private EntityRef<CurriculumChapter> _CurriculumChapter;
+
+        private EntityRef<Topic> _Topic;
+
+        #region Extensibility Method Definitions
+        partial void OnLoaded();
+        partial void OnValidate(System.Data.Linq.ChangeAction action);
+        partial void OnCreated();
+        partial void OnIdChanging(int value);
+        partial void OnIdChanged();
+        partial void OnCurriculumChapterRefChanging(int value);
+        partial void OnCurriculumChapterRefChanged();
+        partial void OnTopicRefChanging(int value);
+        partial void OnTopicRefChanged();
+        partial void OnTestStartDateChanging(System.Nullable<System.DateTime> value);
+        partial void OnTestStartDateChanged();
+        partial void OnTestEndDateChanging(System.Nullable<System.DateTime> value);
+        partial void OnTestEndDateChanged();
+        partial void OnTheoryStartDateChanging(System.Nullable<System.DateTime> value);
+        partial void OnTheoryStartDateChanged();
+        partial void OnTheoryEndDateChanging(System.Nullable<System.DateTime> value);
+        partial void OnTheoryEndDateChanged();
+        partial void OnMaxScoreChanging(int value);
+        partial void OnMaxScoreChanged();
+        partial void OnBlockTopicAtTestingChanging(bool value);
+        partial void OnBlockTopicAtTestingChanged();
+        partial void OnBlockCurriculumAtTestingChanging(bool value);
+        partial void OnBlockCurriculumAtTestingChanged();
+        partial void OnIsDeletedChanging(bool value);
+        partial void OnIsDeletedChanged();
+        #endregion
+
+        public CurriculumChapterTopic()
+        {
+            this._CurriculumChapter = default(EntityRef<CurriculumChapter>);
+            this._Topic = default(EntityRef<Topic>);
+            OnCreated();
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
+        public int Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                if ((this._Id != value))
+                {
+                    this.OnIdChanging(value);
+                    this.SendPropertyChanging();
+                    this._Id = value;
+                    this.SendPropertyChanged("Id");
+                    this.OnIdChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CurriculumChapterRef", DbType = "Int NOT NULL")]
+        public int CurriculumChapterRef
+        {
+            get
+            {
+                return this._CurriculumChapterRef;
+            }
+            set
+            {
+                if ((this._CurriculumChapterRef != value))
+                {
+                    if (this._CurriculumChapter.HasLoadedOrAssignedValue)
+                    {
+                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+                    }
+                    this.OnCurriculumChapterRefChanging(value);
+                    this.SendPropertyChanging();
+                    this._CurriculumChapterRef = value;
+                    this.SendPropertyChanged("CurriculumChapterRef");
+                    this.OnCurriculumChapterRefChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TopicRef", DbType = "Int NOT NULL")]
+        public int TopicRef
+        {
+            get
+            {
+                return this._TopicRef;
+            }
+            set
+            {
+                if ((this._TopicRef != value))
+                {
+                    if (this._Topic.HasLoadedOrAssignedValue)
+                    {
+                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+                    }
+                    this.OnTopicRefChanging(value);
+                    this.SendPropertyChanging();
+                    this._TopicRef = value;
+                    this.SendPropertyChanged("TopicRef");
+                    this.OnTopicRefChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TestStartDate", DbType = "DateTime")]
+        public System.Nullable<System.DateTime> TestStartDate
+        {
+            get
+            {
+                return this._TestStartDate;
+            }
+            set
+            {
+                if ((this._TestStartDate != value))
+                {
+                    this.OnTestStartDateChanging(value);
+                    this.SendPropertyChanging();
+                    this._TestStartDate = value;
+                    this.SendPropertyChanged("TestStartDate");
+                    this.OnTestStartDateChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TestEndDate", DbType = "DateTime")]
+        public System.Nullable<System.DateTime> TestEndDate
+        {
+            get
+            {
+                return this._TestEndDate;
+            }
+            set
+            {
+                if ((this._TestEndDate != value))
+                {
+                    this.OnTestEndDateChanging(value);
+                    this.SendPropertyChanging();
+                    this._TestEndDate = value;
+                    this.SendPropertyChanged("TestEndDate");
+                    this.OnTestEndDateChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TheoryStartDate", DbType = "DateTime")]
+        public System.Nullable<System.DateTime> TheoryStartDate
+        {
+            get
+            {
+                return this._TheoryStartDate;
+            }
+            set
+            {
+                if ((this._TheoryStartDate != value))
+                {
+                    this.OnTheoryStartDateChanging(value);
+                    this.SendPropertyChanging();
+                    this._TheoryStartDate = value;
+                    this.SendPropertyChanged("TheoryStartDate");
+                    this.OnTheoryStartDateChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TheoryEndDate", DbType = "DateTime")]
+        public System.Nullable<System.DateTime> TheoryEndDate
+        {
+            get
+            {
+                return this._TheoryEndDate;
+            }
+            set
+            {
+                if ((this._TheoryEndDate != value))
+                {
+                    this.OnTheoryEndDateChanging(value);
+                    this.SendPropertyChanging();
+                    this._TheoryEndDate = value;
+                    this.SendPropertyChanged("TheoryEndDate");
+                    this.OnTheoryEndDateChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_MaxScore", DbType = "Int NOT NULL")]
+        public int MaxScore
+        {
+            get
+            {
+                return this._MaxScore;
+            }
+            set
+            {
+                if ((this._MaxScore != value))
+                {
+                    this.OnMaxScoreChanging(value);
+                    this.SendPropertyChanging();
+                    this._MaxScore = value;
+                    this.SendPropertyChanged("MaxScore");
+                    this.OnMaxScoreChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_BlockTopicAtTesting", DbType = "Bit NOT NULL")]
+        public bool BlockTopicAtTesting
+        {
+            get
+            {
+                return this._BlockTopicAtTesting;
+            }
+            set
+            {
+                if ((this._BlockTopicAtTesting != value))
+                {
+                    this.OnBlockTopicAtTestingChanging(value);
+                    this.SendPropertyChanging();
+                    this._BlockTopicAtTesting = value;
+                    this.SendPropertyChanged("BlockTopicAtTesting");
+                    this.OnBlockTopicAtTestingChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_BlockCurriculumAtTesting", DbType = "Bit NOT NULL")]
+        public bool BlockCurriculumAtTesting
+        {
+            get
+            {
+                return this._BlockCurriculumAtTesting;
+            }
+            set
+            {
+                if ((this._BlockCurriculumAtTesting != value))
+                {
+                    this.OnBlockCurriculumAtTestingChanging(value);
+                    this.SendPropertyChanging();
+                    this._BlockCurriculumAtTesting = value;
+                    this.SendPropertyChanged("BlockCurriculumAtTesting");
+                    this.OnBlockCurriculumAtTestingChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsDeleted", DbType = "Bit NOT NULL")]
+        public bool IsDeleted
+        {
+            get
+            {
+                return this._IsDeleted;
+            }
+            set
+            {
+                if ((this._IsDeleted != value))
+                {
+                    this.OnIsDeletedChanging(value);
+                    this.SendPropertyChanging();
+                    this._IsDeleted = value;
+                    this.SendPropertyChanged("IsDeleted");
+                    this.OnIsDeletedChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "CurriculumChapter_CurriculumChapterTopic", Storage = "_CurriculumChapter", ThisKey = "CurriculumChapterRef", OtherKey = "Id", IsForeignKey = true)]
+        public CurriculumChapter CurriculumChapter
+        {
+            get
+            {
+                return this._CurriculumChapter.Entity;
+            }
+            set
+            {
+                CurriculumChapter previousValue = this._CurriculumChapter.Entity;
+                if (((previousValue != value)
+                            || (this._CurriculumChapter.HasLoadedOrAssignedValue == false)))
+                {
+                    this.SendPropertyChanging();
+                    if ((previousValue != null))
+                    {
+                        this._CurriculumChapter.Entity = null;
+                        previousValue.CurriculumChapterTopics.Remove(this);
+                    }
+                    this._CurriculumChapter.Entity = value;
+                    if ((value != null))
+                    {
+                        value.CurriculumChapterTopics.Add(this);
+                        this._CurriculumChapterRef = value.Id;
+                    }
+                    else
+                    {
+                        this._CurriculumChapterRef = default(int);
+                    }
+                    this.SendPropertyChanged("CurriculumChapter");
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Topic_CurriculumChapterTopic", Storage = "_Topic", ThisKey = "TopicRef", OtherKey = "Id", IsForeignKey = true)]
+        public Topic Topic
+        {
+            get
+            {
+                return this._Topic.Entity;
+            }
+            set
+            {
+                Topic previousValue = this._Topic.Entity;
+                if (((previousValue != value)
+                            || (this._Topic.HasLoadedOrAssignedValue == false)))
+                {
+                    this.SendPropertyChanging();
+                    if ((previousValue != null))
+                    {
+                        this._Topic.Entity = null;
+                        previousValue.CurriculumChapterTopics.Remove(this);
+                    }
+                    this._Topic.Entity = value;
+                    if ((value != null))
+                    {
+                        value.CurriculumChapterTopics.Add(this);
+                        this._TopicRef = value.Id;
+                    }
+                    else
+                    {
+                        this._TopicRef = default(int);
+                    }
+                    this.SendPropertyChanged("Topic");
+                }
+            }
+        }
+
+        public event PropertyChangingEventHandler PropertyChanging;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void SendPropertyChanging()
+        {
+            if ((this.PropertyChanging != null))
+            {
+                this.PropertyChanging(this, emptyChangingEventArgs);
+            }
+        }
+
+        protected virtual void SendPropertyChanged(String propertyName)
+        {
+            if ((this.PropertyChanged != null))
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Curriculums")]
+    public partial class Curriculum : INotifyPropertyChanging, INotifyPropertyChanged
+    {
+
+        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+
+        private int _Id;
+
+        private int _UserGroupRef;
+
+        private int _DisciplineRef;
+
+        private System.Nullable<System.DateTime> _StartDate;
+
+        private System.Nullable<System.DateTime> _EndDate;
+
+        private bool _IsDeleted;
+
+        private bool _IsValid;
+
+        private EntitySet<CurriculumChapter> _CurriculumChapters;
+
+        private EntityRef<Discipline> _Discipline;
+
+        #region Extensibility Method Definitions
+        partial void OnLoaded();
+        partial void OnValidate(System.Data.Linq.ChangeAction action);
+        partial void OnCreated();
+        partial void OnIdChanging(int value);
+        partial void OnIdChanged();
+        partial void OnUserGroupRefChanging(int value);
+        partial void OnUserGroupRefChanged();
+        partial void OnDisciplineRefChanging(int value);
+        partial void OnDisciplineRefChanged();
+        partial void OnStartDateChanging(System.Nullable<System.DateTime> value);
+        partial void OnStartDateChanged();
+        partial void OnEndDateChanging(System.Nullable<System.DateTime> value);
+        partial void OnEndDateChanged();
+        partial void OnIsDeletedChanging(bool value);
+        partial void OnIsDeletedChanged();
+        partial void OnIsValidChanging(bool value);
+        partial void OnIsValidChanged();
+        #endregion
+
+        public Curriculum()
+        {
+            this._CurriculumChapters = new EntitySet<CurriculumChapter>(new Action<CurriculumChapter>(this.attach_CurriculumChapters), new Action<CurriculumChapter>(this.detach_CurriculumChapters));
+            this._Discipline = default(EntityRef<Discipline>);
+            OnCreated();
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
+        public int Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                if ((this._Id != value))
+                {
+                    this.OnIdChanging(value);
+                    this.SendPropertyChanging();
+                    this._Id = value;
+                    this.SendPropertyChanged("Id");
+                    this.OnIdChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_UserGroupRef", DbType = "Int NOT NULL")]
+        public int UserGroupRef
+        {
+            get
+            {
+                return this._UserGroupRef;
+            }
+            set
+            {
+                if ((this._UserGroupRef != value))
+                {
+                    this.OnUserGroupRefChanging(value);
+                    this.SendPropertyChanging();
+                    this._UserGroupRef = value;
+                    this.SendPropertyChanged("UserGroupRef");
+                    this.OnUserGroupRefChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DisciplineRef", DbType = "Int NOT NULL")]
+        public int DisciplineRef
+        {
+            get
+            {
+                return this._DisciplineRef;
+            }
+            set
+            {
+                if ((this._DisciplineRef != value))
+                {
+                    if (this._Discipline.HasLoadedOrAssignedValue)
+                    {
+                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+                    }
+                    this.OnDisciplineRefChanging(value);
+                    this.SendPropertyChanging();
+                    this._DisciplineRef = value;
+                    this.SendPropertyChanged("DisciplineRef");
+                    this.OnDisciplineRefChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_StartDate", DbType = "DateTime")]
+        public System.Nullable<System.DateTime> StartDate
+        {
+            get
+            {
+                return this._StartDate;
+            }
+            set
+            {
+                if ((this._StartDate != value))
+                {
+                    this.OnStartDateChanging(value);
+                    this.SendPropertyChanging();
+                    this._StartDate = value;
+                    this.SendPropertyChanged("StartDate");
+                    this.OnStartDateChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_EndDate", DbType = "DateTime")]
+        public System.Nullable<System.DateTime> EndDate
+        {
+            get
+            {
+                return this._EndDate;
+            }
+            set
+            {
+                if ((this._EndDate != value))
+                {
+                    this.OnEndDateChanging(value);
+                    this.SendPropertyChanging();
+                    this._EndDate = value;
+                    this.SendPropertyChanged("EndDate");
+                    this.OnEndDateChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsDeleted", DbType = "Bit NOT NULL")]
+        public bool IsDeleted
+        {
+            get
+            {
+                return this._IsDeleted;
+            }
+            set
+            {
+                if ((this._IsDeleted != value))
+                {
+                    this.OnIsDeletedChanging(value);
+                    this.SendPropertyChanging();
+                    this._IsDeleted = value;
+                    this.SendPropertyChanged("IsDeleted");
+                    this.OnIsDeletedChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsValid", DbType = "Bit NOT NULL")]
+        public bool IsValid
+        {
+            get
+            {
+                return this._IsValid;
+            }
+            set
+            {
+                if ((this._IsValid != value))
+                {
+                    this.OnIsValidChanging(value);
+                    this.SendPropertyChanging();
+                    this._IsValid = value;
+                    this.SendPropertyChanged("IsValid");
+                    this.OnIsValidChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Curriculum_CurriculumChapter", Storage = "_CurriculumChapters", ThisKey = "Id", OtherKey = "CurriculumRef")]
+        public EntitySet<CurriculumChapter> CurriculumChapters
+        {
+            get
+            {
+                return this._CurriculumChapters;
+            }
+            set
+            {
+                this._CurriculumChapters.Assign(value);
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Discipline_Curriculum", Storage = "_Discipline", ThisKey = "DisciplineRef", OtherKey = "Id", IsForeignKey = true)]
+        public Discipline Discipline
+        {
+            get
+            {
+                return this._Discipline.Entity;
+            }
+            set
+            {
+                Discipline previousValue = this._Discipline.Entity;
+                if (((previousValue != value)
+                            || (this._Discipline.HasLoadedOrAssignedValue == false)))
+                {
+                    this.SendPropertyChanging();
+                    if ((previousValue != null))
+                    {
+                        this._Discipline.Entity = null;
+                        previousValue.Curriculums.Remove(this);
+                    }
+                    this._Discipline.Entity = value;
+                    if ((value != null))
+                    {
+                        value.Curriculums.Add(this);
+                        this._DisciplineRef = value.Id;
+                    }
+                    else
+                    {
+                        this._DisciplineRef = default(int);
+                    }
+                    this.SendPropertyChanged("Discipline");
+                }
+            }
+        }
+
+        public event PropertyChangingEventHandler PropertyChanging;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void SendPropertyChanging()
+        {
+            if ((this.PropertyChanging != null))
+            {
+                this.PropertyChanging(this, emptyChangingEventArgs);
+            }
+        }
+
+        protected virtual void SendPropertyChanged(String propertyName)
+        {
+            if ((this.PropertyChanged != null))
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        private void attach_CurriculumChapters(CurriculumChapter entity)
+        {
+            this.SendPropertyChanging();
+            entity.Curriculum = this;
+        }
+
+        private void detach_CurriculumChapters(CurriculumChapter entity)
+        {
+            this.SendPropertyChanging();
+            entity.Curriculum = null;
+        }
+    }
+
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Disciplines")]
+    public partial class Discipline : INotifyPropertyChanging, INotifyPropertyChanged
+    {
+
+        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+
+        private int _Id;
+
+        private string _Name;
+
+        private System.DateTime _Created;
+
+        private System.DateTime _Updated;
+
+        private string _Owner;
+
+        private bool _IsDeleted;
+
+        private bool _IsValid;
+
+        private EntitySet<Chapter> _Chapters;
+
+        private EntitySet<Curriculum> _Curriculums;
+
+        #region Extensibility Method Definitions
+        partial void OnLoaded();
+        partial void OnValidate(System.Data.Linq.ChangeAction action);
+        partial void OnCreated();
+        partial void OnIdChanging(int value);
+        partial void OnIdChanged();
+        partial void OnNameChanging(string value);
+        partial void OnNameChanged();
+        partial void OnCreatedChanging(System.DateTime value);
+        partial void OnCreatedChanged();
+        partial void OnUpdatedChanging(System.DateTime value);
+        partial void OnUpdatedChanged();
+        partial void OnOwnerChanging(string value);
+        partial void OnOwnerChanged();
+        partial void OnIsDeletedChanging(bool value);
+        partial void OnIsDeletedChanged();
+        partial void OnIsValidChanging(bool value);
+        partial void OnIsValidChanged();
+        #endregion
+
+        public Discipline()
+        {
+            this._Chapters = new EntitySet<Chapter>(new Action<Chapter>(this.attach_Chapters), new Action<Chapter>(this.detach_Chapters));
+            this._Curriculums = new EntitySet<Curriculum>(new Action<Curriculum>(this.attach_Curriculums), new Action<Curriculum>(this.detach_Curriculums));
+            OnCreated();
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
+        public int Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                if ((this._Id != value))
+                {
+                    this.OnIdChanging(value);
+                    this.SendPropertyChanging();
+                    this._Id = value;
+                    this.SendPropertyChanged("Id");
+                    this.OnIdChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
+        public string Name
+        {
+            get
+            {
+                return this._Name;
+            }
+            set
+            {
+                if ((this._Name != value))
+                {
+                    this.OnNameChanging(value);
+                    this.SendPropertyChanging();
+                    this._Name = value;
+                    this.SendPropertyChanged("Name");
+                    this.OnNameChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Created", DbType = "DateTime NOT NULL")]
+        public System.DateTime Created
+        {
+            get
+            {
+                return this._Created;
+            }
+            set
+            {
+                if ((this._Created != value))
+                {
+                    this.OnCreatedChanging(value);
+                    this.SendPropertyChanging();
+                    this._Created = value;
+                    this.SendPropertyChanged("Created");
+                    this.OnCreatedChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Updated", DbType = "DateTime NOT NULL")]
+        public System.DateTime Updated
+        {
+            get
+            {
+                return this._Updated;
+            }
+            set
+            {
+                if ((this._Updated != value))
+                {
+                    this.OnUpdatedChanging(value);
+                    this.SendPropertyChanging();
+                    this._Updated = value;
+                    this.SendPropertyChanged("Updated");
+                    this.OnUpdatedChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Owner", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
+        public string Owner
+        {
+            get
+            {
+                return this._Owner;
+            }
+            set
+            {
+                if ((this._Owner != value))
+                {
+                    this.OnOwnerChanging(value);
+                    this.SendPropertyChanging();
+                    this._Owner = value;
+                    this.SendPropertyChanged("Owner");
+                    this.OnOwnerChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsDeleted", DbType = "Bit NOT NULL")]
+        public bool IsDeleted
+        {
+            get
+            {
+                return this._IsDeleted;
+            }
+            set
+            {
+                if ((this._IsDeleted != value))
+                {
+                    this.OnIsDeletedChanging(value);
+                    this.SendPropertyChanging();
+                    this._IsDeleted = value;
+                    this.SendPropertyChanged("IsDeleted");
+                    this.OnIsDeletedChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsValid", DbType = "Bit NOT NULL")]
+        public bool IsValid
+        {
+            get
+            {
+                return this._IsValid;
+            }
+            set
+            {
+                if ((this._IsValid != value))
+                {
+                    this.OnIsValidChanging(value);
+                    this.SendPropertyChanging();
+                    this._IsValid = value;
+                    this.SendPropertyChanged("IsValid");
+                    this.OnIsValidChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Discipline_Chapter", Storage = "_Chapters", ThisKey = "Id", OtherKey = "DisciplineRef")]
+        public EntitySet<Chapter> Chapters
+        {
+            get
+            {
+                return this._Chapters;
+            }
+            set
+            {
+                this._Chapters.Assign(value);
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Discipline_Curriculum", Storage = "_Curriculums", ThisKey = "Id", OtherKey = "DisciplineRef")]
+        public EntitySet<Curriculum> Curriculums
+        {
+            get
+            {
+                return this._Curriculums;
+            }
+            set
+            {
+                this._Curriculums.Assign(value);
+            }
+        }
+
+        public event PropertyChangingEventHandler PropertyChanging;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void SendPropertyChanging()
+        {
+            if ((this.PropertyChanging != null))
+            {
+                this.PropertyChanging(this, emptyChangingEventArgs);
+            }
+        }
+
+        protected virtual void SendPropertyChanged(String propertyName)
+        {
+            if ((this.PropertyChanged != null))
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        private void attach_Chapters(Chapter entity)
+        {
+            this.SendPropertyChanging();
+            entity.Discipline = this;
+        }
+
+        private void detach_Chapters(Chapter entity)
+        {
+            this.SendPropertyChanging();
+            entity.Discipline = null;
+        }
+
+        private void attach_Curriculums(Curriculum entity)
+        {
+            this.SendPropertyChanging();
+            entity.Discipline = this;
+        }
+
+        private void detach_Curriculums(Curriculum entity)
+        {
+            this.SendPropertyChanging();
+            entity.Discipline = null;
         }
     }
 
@@ -3199,149 +4385,592 @@ namespace IUDICO.Common.Models.Shared
         }
     }
 
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.TopicFeatures")]
-    public partial class TopicFeature : INotifyPropertyChanging, INotifyPropertyChanged
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Tags")]
+    public partial class Tag : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 
-        private int _TopicId;
+        private int _Id;
 
-        private int _FeatureId;
+        private string _Name;
 
-        private EntityRef<Feature> _Feature;
+        private EntitySet<TopicScore> _TopicScores;
 
-        private EntityRef<Topic> _Topic;
+        private EntitySet<TopicTag> _TopicTags;
+
+        private EntitySet<UserScore> _UserScores;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
         partial void OnValidate(System.Data.Linq.ChangeAction action);
         partial void OnCreated();
-        partial void OnTopicIdChanging(int value);
-        partial void OnTopicIdChanged();
-        partial void OnFeatureIdChanging(int value);
-        partial void OnFeatureIdChanged();
+        partial void OnIdChanging(int value);
+        partial void OnIdChanged();
+        partial void OnNameChanging(string value);
+        partial void OnNameChanged();
         #endregion
 
-        public TopicFeature()
+        public Tag()
         {
-            this._Feature = default(EntityRef<Feature>);
-            this._Topic = default(EntityRef<Topic>);
+            this._TopicScores = new EntitySet<TopicScore>(new Action<TopicScore>(this.attach_TopicScores), new Action<TopicScore>(this.detach_TopicScores));
+            this._TopicTags = new EntitySet<TopicTag>(new Action<TopicTag>(this.attach_TopicTags), new Action<TopicTag>(this.detach_TopicTags));
+            this._UserScores = new EntitySet<UserScore>(new Action<UserScore>(this.attach_UserScores), new Action<UserScore>(this.detach_UserScores));
             OnCreated();
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TopicId", DbType = "Int NOT NULL", IsPrimaryKey = true)]
-        public int TopicId
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
+        public int Id
         {
             get
             {
-                return this._TopicId;
+                return this._Id;
             }
             set
             {
-                if ((this._TopicId != value))
+                if ((this._Id != value))
                 {
-                    if (this._Topic.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnTopicIdChanging(value);
+                    this.OnIdChanging(value);
                     this.SendPropertyChanging();
-                    this._TopicId = value;
-                    this.SendPropertyChanged("TopicId");
-                    this.OnTopicIdChanged();
+                    this._Id = value;
+                    this.SendPropertyChanged("Id");
+                    this.OnIdChanged();
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_FeatureId", DbType = "Int NOT NULL", IsPrimaryKey = true)]
-        public int FeatureId
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "VarChar(50) NOT NULL", CanBeNull = false)]
+        public string Name
         {
             get
             {
-                return this._FeatureId;
+                return this._Name;
             }
             set
             {
-                if ((this._FeatureId != value))
+                if ((this._Name != value))
                 {
-                    if (this._Feature.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnFeatureIdChanging(value);
+                    this.OnNameChanging(value);
                     this.SendPropertyChanging();
-                    this._FeatureId = value;
-                    this.SendPropertyChanged("FeatureId");
-                    this.OnFeatureIdChanged();
+                    this._Name = value;
+                    this.SendPropertyChanged("Name");
+                    this.OnNameChanged();
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Feature_TopicFeature", Storage = "_Feature", ThisKey = "FeatureId", OtherKey = "Id", IsForeignKey = true)]
-        public Feature Feature
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Tag_TopicScore", Storage = "_TopicScores", ThisKey = "Id", OtherKey = "TagId")]
+        public EntitySet<TopicScore> TopicScores
         {
             get
             {
-                return this._Feature.Entity;
+                return this._TopicScores;
             }
             set
             {
-                Feature previousValue = this._Feature.Entity;
+                this._TopicScores.Assign(value);
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Tag_TopicTag", Storage = "_TopicTags", ThisKey = "Id", OtherKey = "TagId")]
+        public EntitySet<TopicTag> TopicTags
+        {
+            get
+            {
+                return this._TopicTags;
+            }
+            set
+            {
+                this._TopicTags.Assign(value);
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Tag_UserScore", Storage = "_UserScores", ThisKey = "Id", OtherKey = "TagId")]
+        public EntitySet<UserScore> UserScores
+        {
+            get
+            {
+                return this._UserScores;
+            }
+            set
+            {
+                this._UserScores.Assign(value);
+            }
+        }
+
+        public event PropertyChangingEventHandler PropertyChanging;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void SendPropertyChanging()
+        {
+            if ((this.PropertyChanging != null))
+            {
+                this.PropertyChanging(this, emptyChangingEventArgs);
+            }
+        }
+
+        protected virtual void SendPropertyChanged(String propertyName)
+        {
+            if ((this.PropertyChanged != null))
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        private void attach_TopicScores(TopicScore entity)
+        {
+            this.SendPropertyChanging();
+            entity.Tag = this;
+        }
+
+        private void detach_TopicScores(TopicScore entity)
+        {
+            this.SendPropertyChanging();
+            entity.Tag = null;
+        }
+
+        private void attach_TopicTags(TopicTag entity)
+        {
+            this.SendPropertyChanging();
+            entity.Tag = this;
+        }
+
+        private void detach_TopicTags(TopicTag entity)
+        {
+            this.SendPropertyChanging();
+            entity.Tag = null;
+        }
+
+        private void attach_UserScores(UserScore entity)
+        {
+            this.SendPropertyChanging();
+            entity.Tag = this;
+        }
+
+        private void detach_UserScores(UserScore entity)
+        {
+            this.SendPropertyChanging();
+            entity.Tag = null;
+        }
+    }
+
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Topics")]
+    public partial class Topic : INotifyPropertyChanging, INotifyPropertyChanged
+    {
+
+        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+
+        private int _Id;
+
+        private string _Name;
+
+        private int _ChapterRef;
+
+        private System.Nullable<int> _TestCourseRef;
+
+        private System.Nullable<int> _TestTopicTypeRef;
+
+        private System.Nullable<int> _TheoryCourseRef;
+
+        private System.Nullable<int> _TheoryTopicTypeRef;
+
+        private int _SortOrder;
+
+        private System.DateTime _Created;
+
+        private System.DateTime _Updated;
+
+        private bool _IsDeleted;
+
+        private EntitySet<CurriculumChapterTopic> _CurriculumChapterTopics;
+
+        private EntityRef<Chapter> _Chapter;
+
+        private EntityRef<TopicType> _TestTopicType;
+
+        private EntityRef<TopicType> _TheoryTopicType;
+
+        #region Extensibility Method Definitions
+        partial void OnLoaded();
+        partial void OnValidate(System.Data.Linq.ChangeAction action);
+        partial void OnCreated();
+        partial void OnIdChanging(int value);
+        partial void OnIdChanged();
+        partial void OnNameChanging(string value);
+        partial void OnNameChanged();
+        partial void OnChapterRefChanging(int value);
+        partial void OnChapterRefChanged();
+        partial void OnTestCourseRefChanging(System.Nullable<int> value);
+        partial void OnTestCourseRefChanged();
+        partial void OnTestTopicTypeRefChanging(System.Nullable<int> value);
+        partial void OnTestTopicTypeRefChanged();
+        partial void OnTheoryCourseRefChanging(System.Nullable<int> value);
+        partial void OnTheoryCourseRefChanged();
+        partial void OnTheoryTopicTypeRefChanging(System.Nullable<int> value);
+        partial void OnTheoryTopicTypeRefChanged();
+        partial void OnSortOrderChanging(int value);
+        partial void OnSortOrderChanged();
+        partial void OnCreatedChanging(System.DateTime value);
+        partial void OnCreatedChanged();
+        partial void OnUpdatedChanging(System.DateTime value);
+        partial void OnUpdatedChanged();
+        partial void OnIsDeletedChanging(bool value);
+        partial void OnIsDeletedChanged();
+        #endregion
+
+        public Topic()
+        {
+            this._CurriculumChapterTopics = new EntitySet<CurriculumChapterTopic>(new Action<CurriculumChapterTopic>(this.attach_CurriculumChapterTopics), new Action<CurriculumChapterTopic>(this.detach_CurriculumChapterTopics));
+            this._Chapter = default(EntityRef<Chapter>);
+            this._TestTopicType = default(EntityRef<TopicType>);
+            this._TheoryTopicType = default(EntityRef<TopicType>);
+            OnCreated();
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
+        public int Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                if ((this._Id != value))
+                {
+                    this.OnIdChanging(value);
+                    this.SendPropertyChanging();
+                    this._Id = value;
+                    this.SendPropertyChanged("Id");
+                    this.OnIdChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
+        public string Name
+        {
+            get
+            {
+                return this._Name;
+            }
+            set
+            {
+                if ((this._Name != value))
+                {
+                    this.OnNameChanging(value);
+                    this.SendPropertyChanging();
+                    this._Name = value;
+                    this.SendPropertyChanged("Name");
+                    this.OnNameChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ChapterRef", DbType = "Int NOT NULL")]
+        public int ChapterRef
+        {
+            get
+            {
+                return this._ChapterRef;
+            }
+            set
+            {
+                if ((this._ChapterRef != value))
+                {
+                    if (this._Chapter.HasLoadedOrAssignedValue)
+                    {
+                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+                    }
+                    this.OnChapterRefChanging(value);
+                    this.SendPropertyChanging();
+                    this._ChapterRef = value;
+                    this.SendPropertyChanged("ChapterRef");
+                    this.OnChapterRefChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TestCourseRef", DbType = "Int")]
+        public System.Nullable<int> TestCourseRef
+        {
+            get
+            {
+                return this._TestCourseRef;
+            }
+            set
+            {
+                if ((this._TestCourseRef != value))
+                {
+                    this.OnTestCourseRefChanging(value);
+                    this.SendPropertyChanging();
+                    this._TestCourseRef = value;
+                    this.SendPropertyChanged("TestCourseRef");
+                    this.OnTestCourseRefChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TestTopicTypeRef", DbType = "Int")]
+        public System.Nullable<int> TestTopicTypeRef
+        {
+            get
+            {
+                return this._TestTopicTypeRef;
+            }
+            set
+            {
+                if ((this._TestTopicTypeRef != value))
+                {
+                    if (this._TestTopicType.HasLoadedOrAssignedValue)
+                    {
+                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+                    }
+                    this.OnTestTopicTypeRefChanging(value);
+                    this.SendPropertyChanging();
+                    this._TestTopicTypeRef = value;
+                    this.SendPropertyChanged("TestTopicTypeRef");
+                    this.OnTestTopicTypeRefChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TheoryCourseRef", DbType = "Int")]
+        public System.Nullable<int> TheoryCourseRef
+        {
+            get
+            {
+                return this._TheoryCourseRef;
+            }
+            set
+            {
+                if ((this._TheoryCourseRef != value))
+                {
+                    this.OnTheoryCourseRefChanging(value);
+                    this.SendPropertyChanging();
+                    this._TheoryCourseRef = value;
+                    this.SendPropertyChanged("TheoryCourseRef");
+                    this.OnTheoryCourseRefChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TheoryTopicTypeRef", DbType = "Int")]
+        public System.Nullable<int> TheoryTopicTypeRef
+        {
+            get
+            {
+                return this._TheoryTopicTypeRef;
+            }
+            set
+            {
+                if ((this._TheoryTopicTypeRef != value))
+                {
+                    if (this._TheoryTopicType.HasLoadedOrAssignedValue)
+                    {
+                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+                    }
+                    this.OnTheoryTopicTypeRefChanging(value);
+                    this.SendPropertyChanging();
+                    this._TheoryTopicTypeRef = value;
+                    this.SendPropertyChanged("TheoryTopicTypeRef");
+                    this.OnTheoryTopicTypeRefChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_SortOrder", DbType = "Int NOT NULL")]
+        public int SortOrder
+        {
+            get
+            {
+                return this._SortOrder;
+            }
+            set
+            {
+                if ((this._SortOrder != value))
+                {
+                    this.OnSortOrderChanging(value);
+                    this.SendPropertyChanging();
+                    this._SortOrder = value;
+                    this.SendPropertyChanged("SortOrder");
+                    this.OnSortOrderChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Created", DbType = "DateTime NOT NULL")]
+        public System.DateTime Created
+        {
+            get
+            {
+                return this._Created;
+            }
+            set
+            {
+                if ((this._Created != value))
+                {
+                    this.OnCreatedChanging(value);
+                    this.SendPropertyChanging();
+                    this._Created = value;
+                    this.SendPropertyChanged("Created");
+                    this.OnCreatedChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Updated", DbType = "DateTime NOT NULL")]
+        public System.DateTime Updated
+        {
+            get
+            {
+                return this._Updated;
+            }
+            set
+            {
+                if ((this._Updated != value))
+                {
+                    this.OnUpdatedChanging(value);
+                    this.SendPropertyChanging();
+                    this._Updated = value;
+                    this.SendPropertyChanged("Updated");
+                    this.OnUpdatedChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsDeleted", DbType = "Bit NOT NULL")]
+        public bool IsDeleted
+        {
+            get
+            {
+                return this._IsDeleted;
+            }
+            set
+            {
+                if ((this._IsDeleted != value))
+                {
+                    this.OnIsDeletedChanging(value);
+                    this.SendPropertyChanging();
+                    this._IsDeleted = value;
+                    this.SendPropertyChanged("IsDeleted");
+                    this.OnIsDeletedChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Topic_CurriculumChapterTopic", Storage = "_CurriculumChapterTopics", ThisKey = "Id", OtherKey = "TopicRef")]
+        public EntitySet<CurriculumChapterTopic> CurriculumChapterTopics
+        {
+            get
+            {
+                return this._CurriculumChapterTopics;
+            }
+            set
+            {
+                this._CurriculumChapterTopics.Assign(value);
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Chapter_Topic", Storage = "_Chapter", ThisKey = "ChapterRef", OtherKey = "Id", IsForeignKey = true)]
+        public Chapter Chapter
+        {
+            get
+            {
+                return this._Chapter.Entity;
+            }
+            set
+            {
+                Chapter previousValue = this._Chapter.Entity;
                 if (((previousValue != value)
-                            || (this._Feature.HasLoadedOrAssignedValue == false)))
+                            || (this._Chapter.HasLoadedOrAssignedValue == false)))
                 {
                     this.SendPropertyChanging();
                     if ((previousValue != null))
                     {
-                        this._Feature.Entity = null;
-                        previousValue.TopicFeatures.Remove(this);
+                        this._Chapter.Entity = null;
+                        previousValue.Topics.Remove(this);
                     }
-                    this._Feature.Entity = value;
+                    this._Chapter.Entity = value;
                     if ((value != null))
                     {
-                        value.TopicFeatures.Add(this);
-                        this._FeatureId = value.Id;
+                        value.Topics.Add(this);
+                        this._ChapterRef = value.Id;
                     }
                     else
                     {
-                        this._FeatureId = default(int);
+                        this._ChapterRef = default(int);
                     }
-                    this.SendPropertyChanged("Feature");
+                    this.SendPropertyChanged("Chapter");
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Topic_TopicFeature", Storage = "_Topic", ThisKey = "TopicId", OtherKey = "Id", IsForeignKey = true)]
-        public Topic Topic
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "TopicType_Topic", Storage = "_TestTopicType", ThisKey = "TestTopicTypeRef", OtherKey = "Id", IsForeignKey = true)]
+        public TopicType TestTopicType
         {
             get
             {
-                return this._Topic.Entity;
+                return this._TestTopicType.Entity;
             }
             set
             {
-                Topic previousValue = this._Topic.Entity;
+                TopicType previousValue = this._TestTopicType.Entity;
                 if (((previousValue != value)
-                            || (this._Topic.HasLoadedOrAssignedValue == false)))
+                            || (this._TestTopicType.HasLoadedOrAssignedValue == false)))
                 {
                     this.SendPropertyChanging();
                     if ((previousValue != null))
                     {
-                        this._Topic.Entity = null;
-                        previousValue.TopicFeatures.Remove(this);
+                        this._TestTopicType.Entity = null;
+                        previousValue.Topics.Remove(this);
                     }
-                    this._Topic.Entity = value;
+                    this._TestTopicType.Entity = value;
                     if ((value != null))
                     {
-                        value.TopicFeatures.Add(this);
-                        this._TopicId = value.Id;
+                        value.Topics.Add(this);
+                        this._TestTopicTypeRef = value.Id;
                     }
                     else
                     {
-                        this._TopicId = default(int);
+                        this._TestTopicTypeRef = default(Nullable<int>);
                     }
-                    this.SendPropertyChanged("Topic");
+                    this.SendPropertyChanged("TestTopicType");
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "TopicType_Topic1", Storage = "_TheoryTopicType", ThisKey = "TheoryTopicTypeRef", OtherKey = "Id", IsForeignKey = true)]
+        public TopicType TheoryTopicType
+        {
+            get
+            {
+                return this._TheoryTopicType.Entity;
+            }
+            set
+            {
+                TopicType previousValue = this._TheoryTopicType.Entity;
+                if (((previousValue != value)
+                            || (this._TheoryTopicType.HasLoadedOrAssignedValue == false)))
+                {
+                    this.SendPropertyChanging();
+                    if ((previousValue != null))
+                    {
+                        this._TheoryTopicType.Entity = null;
+                        previousValue.Topics1.Remove(this);
+                    }
+                    this._TheoryTopicType.Entity = value;
+                    if ((value != null))
+                    {
+                        value.Topics1.Add(this);
+                        this._TheoryTopicTypeRef = value.Id;
+                    }
+                    else
+                    {
+                        this._TheoryTopicTypeRef = default(Nullable<int>);
+                    }
+                    this.SendPropertyChanged("TheoryTopicType");
                 }
             }
         }
@@ -3364,6 +4993,438 @@ namespace IUDICO.Common.Models.Shared
             {
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        private void attach_CurriculumChapterTopics(CurriculumChapterTopic entity)
+        {
+            this.SendPropertyChanging();
+            entity.Topic = this;
+        }
+
+        private void detach_CurriculumChapterTopics(CurriculumChapterTopic entity)
+        {
+            this.SendPropertyChanging();
+            entity.Topic = null;
+        }
+    }
+
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.TopicScores")]
+    public partial class TopicScore : INotifyPropertyChanging, INotifyPropertyChanged
+    {
+
+        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+
+        private int _TopicId;
+
+        private int _TagId;
+
+        private float _Score;
+
+        private EntityRef<Tag> _Tag;
+
+        #region Extensibility Method Definitions
+        partial void OnLoaded();
+        partial void OnValidate(System.Data.Linq.ChangeAction action);
+        partial void OnCreated();
+        partial void OnTopicIdChanging(int value);
+        partial void OnTopicIdChanged();
+        partial void OnTagIdChanging(int value);
+        partial void OnTagIdChanged();
+        partial void OnScoreChanging(float value);
+        partial void OnScoreChanged();
+        #endregion
+
+        public TopicScore()
+        {
+            this._Tag = default(EntityRef<Tag>);
+            OnCreated();
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TopicId", DbType = "Int NOT NULL", IsPrimaryKey = true)]
+        public int TopicId
+        {
+            get
+            {
+                return this._TopicId;
+            }
+            set
+            {
+                if ((this._TopicId != value))
+                {
+                    this.OnTopicIdChanging(value);
+                    this.SendPropertyChanging();
+                    this._TopicId = value;
+                    this.SendPropertyChanged("TopicId");
+                    this.OnTopicIdChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TagId", DbType = "Int NOT NULL", IsPrimaryKey = true)]
+        public int TagId
+        {
+            get
+            {
+                return this._TagId;
+            }
+            set
+            {
+                if ((this._TagId != value))
+                {
+                    if (this._Tag.HasLoadedOrAssignedValue)
+                    {
+                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+                    }
+                    this.OnTagIdChanging(value);
+                    this.SendPropertyChanging();
+                    this._TagId = value;
+                    this.SendPropertyChanged("TagId");
+                    this.OnTagIdChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Score", DbType = "Real NOT NULL")]
+        public float Score
+        {
+            get
+            {
+                return this._Score;
+            }
+            set
+            {
+                if ((this._Score != value))
+                {
+                    this.OnScoreChanging(value);
+                    this.SendPropertyChanging();
+                    this._Score = value;
+                    this.SendPropertyChanged("Score");
+                    this.OnScoreChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Tag_TopicScore", Storage = "_Tag", ThisKey = "TagId", OtherKey = "Id", IsForeignKey = true)]
+        public Tag Tag
+        {
+            get
+            {
+                return this._Tag.Entity;
+            }
+            set
+            {
+                Tag previousValue = this._Tag.Entity;
+                if (((previousValue != value)
+                            || (this._Tag.HasLoadedOrAssignedValue == false)))
+                {
+                    this.SendPropertyChanging();
+                    if ((previousValue != null))
+                    {
+                        this._Tag.Entity = null;
+                        previousValue.TopicScores.Remove(this);
+                    }
+                    this._Tag.Entity = value;
+                    if ((value != null))
+                    {
+                        value.TopicScores.Add(this);
+                        this._TagId = value.Id;
+                    }
+                    else
+                    {
+                        this._TagId = default(int);
+                    }
+                    this.SendPropertyChanged("Tag");
+                }
+            }
+        }
+
+        public event PropertyChangingEventHandler PropertyChanging;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void SendPropertyChanging()
+        {
+            if ((this.PropertyChanging != null))
+            {
+                this.PropertyChanging(this, emptyChangingEventArgs);
+            }
+        }
+
+        protected virtual void SendPropertyChanged(String propertyName)
+        {
+            if ((this.PropertyChanged != null))
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.TopicTags")]
+    public partial class TopicTag : INotifyPropertyChanging, INotifyPropertyChanged
+    {
+
+        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+
+        private int _TopicId;
+
+        private int _TagId;
+
+        private EntityRef<Tag> _Tag;
+
+        #region Extensibility Method Definitions
+        partial void OnLoaded();
+        partial void OnValidate(System.Data.Linq.ChangeAction action);
+        partial void OnCreated();
+        partial void OnTopicIdChanging(int value);
+        partial void OnTopicIdChanged();
+        partial void OnTagIdChanging(int value);
+        partial void OnTagIdChanged();
+        #endregion
+
+        public TopicTag()
+        {
+            this._Tag = default(EntityRef<Tag>);
+            OnCreated();
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TopicId", DbType = "Int NOT NULL", IsPrimaryKey = true)]
+        public int TopicId
+        {
+            get
+            {
+                return this._TopicId;
+            }
+            set
+            {
+                if ((this._TopicId != value))
+                {
+                    this.OnTopicIdChanging(value);
+                    this.SendPropertyChanging();
+                    this._TopicId = value;
+                    this.SendPropertyChanged("TopicId");
+                    this.OnTopicIdChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TagId", DbType = "Int NOT NULL", IsPrimaryKey = true)]
+        public int TagId
+        {
+            get
+            {
+                return this._TagId;
+            }
+            set
+            {
+                if ((this._TagId != value))
+                {
+                    if (this._Tag.HasLoadedOrAssignedValue)
+                    {
+                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+                    }
+                    this.OnTagIdChanging(value);
+                    this.SendPropertyChanging();
+                    this._TagId = value;
+                    this.SendPropertyChanged("TagId");
+                    this.OnTagIdChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Tag_TopicTag", Storage = "_Tag", ThisKey = "TagId", OtherKey = "Id", IsForeignKey = true)]
+        public Tag Tag
+        {
+            get
+            {
+                return this._Tag.Entity;
+            }
+            set
+            {
+                Tag previousValue = this._Tag.Entity;
+                if (((previousValue != value)
+                            || (this._Tag.HasLoadedOrAssignedValue == false)))
+                {
+                    this.SendPropertyChanging();
+                    if ((previousValue != null))
+                    {
+                        this._Tag.Entity = null;
+                        previousValue.TopicTags.Remove(this);
+                    }
+                    this._Tag.Entity = value;
+                    if ((value != null))
+                    {
+                        value.TopicTags.Add(this);
+                        this._TagId = value.Id;
+                    }
+                    else
+                    {
+                        this._TagId = default(int);
+                    }
+                    this.SendPropertyChanged("Tag");
+                }
+            }
+        }
+
+        public event PropertyChangingEventHandler PropertyChanging;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void SendPropertyChanging()
+        {
+            if ((this.PropertyChanging != null))
+            {
+                this.PropertyChanging(this, emptyChangingEventArgs);
+            }
+        }
+
+        protected virtual void SendPropertyChanged(String propertyName)
+        {
+            if ((this.PropertyChanged != null))
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.TopicTypes")]
+    public partial class TopicType : INotifyPropertyChanging, INotifyPropertyChanged
+    {
+
+        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+
+        private int _Id;
+
+        private string _Name;
+
+        private EntitySet<Topic> _Topics;
+
+        private EntitySet<Topic> _Topics1;
+
+        #region Extensibility Method Definitions
+        partial void OnLoaded();
+        partial void OnValidate(System.Data.Linq.ChangeAction action);
+        partial void OnCreated();
+        partial void OnIdChanging(int value);
+        partial void OnIdChanged();
+        partial void OnNameChanging(string value);
+        partial void OnNameChanged();
+        #endregion
+
+        public TopicType()
+        {
+            this._Topics = new EntitySet<Topic>(new Action<Topic>(this.attach_Topics), new Action<Topic>(this.detach_Topics));
+            this._Topics1 = new EntitySet<Topic>(new Action<Topic>(this.attach_Topics1), new Action<Topic>(this.detach_Topics1));
+            OnCreated();
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", DbType = "Int NOT NULL", IsPrimaryKey = true)]
+        public int Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                if ((this._Id != value))
+                {
+                    this.OnIdChanging(value);
+                    this.SendPropertyChanging();
+                    this._Id = value;
+                    this.SendPropertyChanged("Id");
+                    this.OnIdChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
+        public string Name
+        {
+            get
+            {
+                return this._Name;
+            }
+            set
+            {
+                if ((this._Name != value))
+                {
+                    this.OnNameChanging(value);
+                    this.SendPropertyChanging();
+                    this._Name = value;
+                    this.SendPropertyChanged("Name");
+                    this.OnNameChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "TopicType_Topic", Storage = "_Topics", ThisKey = "Id", OtherKey = "TestTopicTypeRef")]
+        public EntitySet<Topic> Topics
+        {
+            get
+            {
+                return this._Topics;
+            }
+            set
+            {
+                this._Topics.Assign(value);
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "TopicType_Topic1", Storage = "_Topics1", ThisKey = "Id", OtherKey = "TheoryTopicTypeRef")]
+        public EntitySet<Topic> Topics1
+        {
+            get
+            {
+                return this._Topics1;
+            }
+            set
+            {
+                this._Topics1.Assign(value);
+            }
+        }
+
+        public event PropertyChangingEventHandler PropertyChanging;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void SendPropertyChanging()
+        {
+            if ((this.PropertyChanging != null))
+            {
+                this.PropertyChanging(this, emptyChangingEventArgs);
+            }
+        }
+
+        protected virtual void SendPropertyChanged(String propertyName)
+        {
+            if ((this.PropertyChanged != null))
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        private void attach_Topics(Topic entity)
+        {
+            this.SendPropertyChanging();
+            entity.TestTopicType = this;
+        }
+
+        private void detach_Topics(Topic entity)
+        {
+            this.SendPropertyChanging();
+            entity.TestTopicType = null;
+        }
+
+        private void attach_Topics1(Topic entity)
+        {
+            this.SendPropertyChanging();
+            entity.TheoryTopicType = this;
+        }
+
+        private void detach_Topics1(Topic entity)
+        {
+            this.SendPropertyChanging();
+            entity.TheoryTopicType = null;
         }
     }
 
@@ -3398,8 +5459,6 @@ namespace IUDICO.Common.Models.Shared
         private int _TestsSum;
 
         private int _TestsTotal;
-
-        private EntitySet<UserTopicScore> _UserTopicScores;
 
         private EntitySet<ForecastingResult> _ForecastingResults;
 
@@ -3447,7 +5506,6 @@ namespace IUDICO.Common.Models.Shared
 
         public User()
         {
-            this._UserTopicScores = new EntitySet<UserTopicScore>(new Action<UserTopicScore>(this.attach_UserTopicScores), new Action<UserTopicScore>(this.detach_UserTopicScores));
             this._ForecastingResults = new EntitySet<ForecastingResult>(new Action<ForecastingResult>(this.attach_ForecastingResults), new Action<ForecastingResult>(this.detach_ForecastingResults));
             this._GroupUsers = new EntitySet<GroupUser>(new Action<GroupUser>(this.attach_GroupUsers), new Action<GroupUser>(this.detach_GroupUsers));
             this._StudyResults = new EntitySet<StudyResult>(new Action<StudyResult>(this.attach_StudyResults), new Action<StudyResult>(this.detach_StudyResults));
@@ -3721,19 +5779,6 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "User_UserTopicScore", Storage = "_UserTopicScores", ThisKey = "Id", OtherKey = "UserId")]
-        public EntitySet<UserTopicScore> UserTopicScores
-        {
-            get
-            {
-                return this._UserTopicScores;
-            }
-            set
-            {
-                this._UserTopicScores.Assign(value);
-            }
-        }
-
         [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "User_ForecastingResult", Storage = "_ForecastingResults", ThisKey = "Id", OtherKey = "StudentRef")]
         public EntitySet<ForecastingResult> ForecastingResults
         {
@@ -3851,18 +5896,6 @@ namespace IUDICO.Common.Models.Shared
             {
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
-        }
-
-        private void attach_UserTopicScores(UserTopicScore entity)
-        {
-            this.SendPropertyChanging();
-            entity.User = this;
-        }
-
-        private void detach_UserTopicScores(UserTopicScore entity)
-        {
-            this.SendPropertyChanging();
-            entity.User = null;
         }
 
         private void attach_ForecastingResults(ForecastingResult entity)
@@ -4259,1473 +6292,132 @@ namespace IUDICO.Common.Models.Shared
         }
     }
 
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Curriculums")]
-    public partial class Curriculum : INotifyPropertyChanging, INotifyPropertyChanged
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.UserScores")]
+    public partial class UserScore : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 
-        private int _Id;
+        private System.Guid _UserId;
 
-        private int _UserGroupRef;
+        private int _TagId;
 
-        private int _DisciplineRef;
+        private float _Score;
 
-        private System.Nullable<System.DateTime> _StartDate;
-
-        private System.Nullable<System.DateTime> _EndDate;
-
-        private bool _IsDeleted;
-
-        private bool _IsValid;
-
-        private EntitySet<CurriculumChapter> _CurriculumChapters;
-
-        private EntityRef<Discipline> _Discipline;
+        private EntityRef<Tag> _Tag;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
         partial void OnValidate(System.Data.Linq.ChangeAction action);
         partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnUserGroupRefChanging(int value);
-        partial void OnUserGroupRefChanged();
-        partial void OnDisciplineRefChanging(int value);
-        partial void OnDisciplineRefChanged();
-        partial void OnStartDateChanging(System.Nullable<System.DateTime> value);
-        partial void OnStartDateChanged();
-        partial void OnEndDateChanging(System.Nullable<System.DateTime> value);
-        partial void OnEndDateChanged();
-        partial void OnIsDeletedChanging(bool value);
-        partial void OnIsDeletedChanged();
-        partial void OnIsValidChanging(bool value);
-        partial void OnIsValidChanged();
+        partial void OnUserIdChanging(System.Guid value);
+        partial void OnUserIdChanged();
+        partial void OnTagIdChanging(int value);
+        partial void OnTagIdChanged();
+        partial void OnScoreChanging(float value);
+        partial void OnScoreChanged();
         #endregion
 
-        public Curriculum()
+        public UserScore()
         {
-            this._CurriculumChapters = new EntitySet<CurriculumChapter>(new Action<CurriculumChapter>(this.attach_CurriculumChapters), new Action<CurriculumChapter>(this.detach_CurriculumChapters));
-            this._Discipline = default(EntityRef<Discipline>);
+            this._Tag = default(EntityRef<Tag>);
             OnCreated();
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.Always, DbType = "Int NOT NULL IDENTITY", IsDbGenerated = true)]
-        public int Id
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_UserId", DbType = "UniqueIdentifier NOT NULL", IsPrimaryKey = true)]
+        public System.Guid UserId
         {
             get
             {
-                return this._Id;
+                return this._UserId;
             }
             set
             {
-                if ((this._Id != value))
+                if ((this._UserId != value))
                 {
-                    this.OnIdChanging(value);
+                    this.OnUserIdChanging(value);
                     this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
+                    this._UserId = value;
+                    this.SendPropertyChanged("UserId");
+                    this.OnUserIdChanged();
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_UserGroupRef", DbType = "Int NOT NULL", IsPrimaryKey = true)]
-        public int UserGroupRef
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TagId", DbType = "Int NOT NULL", IsPrimaryKey = true)]
+        public int TagId
         {
             get
             {
-                return this._UserGroupRef;
+                return this._TagId;
             }
             set
             {
-                if ((this._UserGroupRef != value))
+                if ((this._TagId != value))
                 {
-                    this.OnUserGroupRefChanging(value);
-                    this.SendPropertyChanging();
-                    this._UserGroupRef = value;
-                    this.SendPropertyChanged("UserGroupRef");
-                    this.OnUserGroupRefChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DisciplineRef", DbType = "Int NOT NULL", IsPrimaryKey = true)]
-        public int DisciplineRef
-        {
-            get
-            {
-                return this._DisciplineRef;
-            }
-            set
-            {
-                if ((this._DisciplineRef != value))
-                {
-                    if (this._Discipline.HasLoadedOrAssignedValue)
+                    if (this._Tag.HasLoadedOrAssignedValue)
                     {
                         throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
                     }
-                    this.OnDisciplineRefChanging(value);
+                    this.OnTagIdChanging(value);
                     this.SendPropertyChanging();
-                    this._DisciplineRef = value;
-                    this.SendPropertyChanged("DisciplineRef");
-                    this.OnDisciplineRefChanged();
+                    this._TagId = value;
+                    this.SendPropertyChanged("TagId");
+                    this.OnTagIdChanged();
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_StartDate", DbType = "DateTime")]
-        public System.Nullable<System.DateTime> StartDate
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Score", DbType = "Real NOT NULL")]
+        public float Score
         {
             get
             {
-                return this._StartDate;
+                return this._Score;
             }
             set
             {
-                if ((this._StartDate != value))
+                if ((this._Score != value))
                 {
-                    this.OnStartDateChanging(value);
+                    this.OnScoreChanging(value);
                     this.SendPropertyChanging();
-                    this._StartDate = value;
-                    this.SendPropertyChanged("StartDate");
-                    this.OnStartDateChanged();
+                    this._Score = value;
+                    this.SendPropertyChanged("Score");
+                    this.OnScoreChanged();
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_EndDate", DbType = "DateTime")]
-        public System.Nullable<System.DateTime> EndDate
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Tag_UserScore", Storage = "_Tag", ThisKey = "TagId", OtherKey = "Id", IsForeignKey = true)]
+        public Tag Tag
         {
             get
             {
-                return this._EndDate;
+                return this._Tag.Entity;
             }
             set
             {
-                if ((this._EndDate != value))
-                {
-                    this.OnEndDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._EndDate = value;
-                    this.SendPropertyChanged("EndDate");
-                    this.OnEndDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsDeleted", DbType = "Bit NOT NULL")]
-        public bool IsDeleted
-        {
-            get
-            {
-                return this._IsDeleted;
-            }
-            set
-            {
-                if ((this._IsDeleted != value))
-                {
-                    this.OnIsDeletedChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsDeleted = value;
-                    this.SendPropertyChanged("IsDeleted");
-                    this.OnIsDeletedChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsValid", DbType = "Bit NOT NULL")]
-        public bool IsValid
-        {
-            get
-            {
-                return this._IsValid;
-            }
-            set
-            {
-                if ((this._IsValid != value))
-                {
-                    this.OnIsValidChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsValid = value;
-                    this.SendPropertyChanged("IsValid");
-                    this.OnIsValidChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Curriculum_CurriculumChapter", Storage = "_CurriculumChapters", ThisKey = "Id", OtherKey = "CurriculumRef")]
-        public EntitySet<CurriculumChapter> CurriculumChapters
-        {
-            get
-            {
-                return this._CurriculumChapters;
-            }
-            set
-            {
-                this._CurriculumChapters.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Discipline_Curriculum", Storage = "_Discipline", ThisKey = "DisciplineRef", OtherKey = "Id", IsForeignKey = true)]
-        public Discipline Discipline
-        {
-            get
-            {
-                return this._Discipline.Entity;
-            }
-            set
-            {
-                Discipline previousValue = this._Discipline.Entity;
+                Tag previousValue = this._Tag.Entity;
                 if (((previousValue != value)
-                      || (this._Discipline.HasLoadedOrAssignedValue == false)))
+                            || (this._Tag.HasLoadedOrAssignedValue == false)))
                 {
                     this.SendPropertyChanging();
                     if ((previousValue != null))
                     {
-                        this._Discipline.Entity = null;
-                        previousValue.Curriculums.Remove(this);
+                        this._Tag.Entity = null;
+                        previousValue.UserScores.Remove(this);
                     }
-                    this._Discipline.Entity = value;
+                    this._Tag.Entity = value;
                     if ((value != null))
                     {
-                        value.Curriculums.Add(this);
-                        this._DisciplineRef = value.Id;
+                        value.UserScores.Add(this);
+                        this._TagId = value.Id;
                     }
                     else
                     {
-                        this._DisciplineRef = default(int);
+                        this._TagId = default(int);
                     }
-                    this.SendPropertyChanged("Discipline");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_CurriculumChapters(CurriculumChapter entity)
-        {
-            this.SendPropertyChanging();
-            entity.Curriculum = this;
-        }
-
-        private void detach_CurriculumChapters(CurriculumChapter entity)
-        {
-            this.SendPropertyChanging();
-            entity.Curriculum = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.CurriculumChapters")]
-    public partial class CurriculumChapter : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private int _CurriculumRef;
-
-        private int _ChapterRef;
-
-        private System.Nullable<System.DateTime> _StartDate;
-
-        private System.Nullable<System.DateTime> _EndDate;
-
-        private bool _IsDeleted;
-
-        private EntitySet<CurriculumChapterTopic> _CurriculumChapterTopics;
-
-        private EntityRef<Curriculum> _Curriculum;
-
-        private EntityRef<Chapter> _Chapter;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnCurriculumRefChanging(int value);
-        partial void OnCurriculumRefChanged();
-        partial void OnChapterRefChanging(int value);
-        partial void OnChapterRefChanged();
-        partial void OnStartDateChanging(System.Nullable<System.DateTime> value);
-        partial void OnStartDateChanged();
-        partial void OnEndDateChanging(System.Nullable<System.DateTime> value);
-        partial void OnEndDateChanged();
-        partial void OnIsDeletedChanging(bool value);
-        partial void OnIsDeletedChanged();
-        #endregion
-
-        public CurriculumChapter()
-        {
-            this._CurriculumChapterTopics = new EntitySet<CurriculumChapterTopic>(new Action<CurriculumChapterTopic>(this.attach_CurriculumChapterTopics), new Action<CurriculumChapterTopic>(this.detach_CurriculumChapterTopics));
-            this._Curriculum = default(EntityRef<Curriculum>);
-            this._Chapter = default(EntityRef<Chapter>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.Always, DbType = "Int NOT NULL IDENTITY", IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CurriculumRef", DbType = "Int NOT NULL", IsPrimaryKey = true)]
-        public int CurriculumRef
-        {
-            get
-            {
-                return this._CurriculumRef;
-            }
-            set
-            {
-                if ((this._CurriculumRef != value))
-                {
-                    if (this._Curriculum.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnCurriculumRefChanging(value);
-                    this.SendPropertyChanging();
-                    this._CurriculumRef = value;
-                    this.SendPropertyChanged("CurriculumRef");
-                    this.OnCurriculumRefChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ChapterRef", DbType = "Int NOT NULL", IsPrimaryKey = true)]
-        public int ChapterRef
-        {
-            get
-            {
-                return this._ChapterRef;
-            }
-            set
-            {
-                if ((this._ChapterRef != value))
-                {
-                    if (this._Chapter.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnChapterRefChanging(value);
-                    this.SendPropertyChanging();
-                    this._ChapterRef = value;
-                    this.SendPropertyChanged("ChapterRef");
-                    this.OnChapterRefChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_StartDate", DbType = "DateTime")]
-        public System.Nullable<System.DateTime> StartDate
-        {
-            get
-            {
-                return this._StartDate;
-            }
-            set
-            {
-                if ((this._StartDate != value))
-                {
-                    this.OnStartDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._StartDate = value;
-                    this.SendPropertyChanged("StartDate");
-                    this.OnStartDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_EndDate", DbType = "DateTime")]
-        public System.Nullable<System.DateTime> EndDate
-        {
-            get
-            {
-                return this._EndDate;
-            }
-            set
-            {
-                if ((this._EndDate != value))
-                {
-                    this.OnEndDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._EndDate = value;
-                    this.SendPropertyChanged("EndDate");
-                    this.OnEndDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsDeleted", DbType = "Bit NOT NULL")]
-        public bool IsDeleted
-        {
-            get
-            {
-                return this._IsDeleted;
-            }
-            set
-            {
-                if ((this._IsDeleted != value))
-                {
-                    this.OnIsDeletedChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsDeleted = value;
-                    this.SendPropertyChanged("IsDeleted");
-                    this.OnIsDeletedChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "CurriculumChapter_CurriculumChapterTopic", Storage = "_CurriculumChapterTopics", ThisKey = "Id", OtherKey = "CurriculumChapterRef")]
-        public EntitySet<CurriculumChapterTopic> CurriculumChapterTopics
-        {
-            get
-            {
-                return this._CurriculumChapterTopics;
-            }
-            set
-            {
-                this._CurriculumChapterTopics.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Curriculum_CurriculumChapter", Storage = "_Curriculum", ThisKey = "CurriculumRef", OtherKey = "Id", IsForeignKey = true)]
-        public Curriculum Curriculum
-        {
-            get
-            {
-                return this._Curriculum.Entity;
-            }
-            set
-            {
-                Curriculum previousValue = this._Curriculum.Entity;
-                if (((previousValue != value)
-                      || (this._Curriculum.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Curriculum.Entity = null;
-                        previousValue.CurriculumChapters.Remove(this);
-                    }
-                    this._Curriculum.Entity = value;
-                    if ((value != null))
-                    {
-                        value.CurriculumChapters.Add(this);
-                        this._CurriculumRef = value.Id;
-                    }
-                    else
-                    {
-                        this._CurriculumRef = default(int);
-                    }
-                    this.SendPropertyChanged("Curriculum");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Chapter_CurriculumChapter", Storage = "_Chapter", ThisKey = "ChapterRef", OtherKey = "Id", IsForeignKey = true)]
-        public Chapter Chapter
-        {
-            get
-            {
-                return this._Chapter.Entity;
-            }
-            set
-            {
-                Chapter previousValue = this._Chapter.Entity;
-                if (((previousValue != value)
-                      || (this._Chapter.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Chapter.Entity = null;
-                        previousValue.CurriculumChapters.Remove(this);
-                    }
-                    this._Chapter.Entity = value;
-                    if ((value != null))
-                    {
-                        value.CurriculumChapters.Add(this);
-                        this._ChapterRef = value.Id;
-                    }
-                    else
-                    {
-                        this._ChapterRef = default(int);
-                    }
-                    this.SendPropertyChanged("Chapter");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_CurriculumChapterTopics(CurriculumChapterTopic entity)
-        {
-            this.SendPropertyChanging();
-            entity.CurriculumChapter = this;
-        }
-
-        private void detach_CurriculumChapterTopics(CurriculumChapterTopic entity)
-        {
-            this.SendPropertyChanging();
-            entity.CurriculumChapter = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Chapters")]
-    public partial class Chapter : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private int _DisciplineRef;
-
-        private string _Name;
-
-        private System.DateTime _Created;
-
-        private System.DateTime _Updated;
-
-        private bool _IsDeleted;
-
-        private EntitySet<CurriculumChapter> _CurriculumChapters;
-
-        private EntitySet<Topic> _Topics;
-
-        private EntityRef<Discipline> _Discipline;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnDisciplineRefChanging(int value);
-        partial void OnDisciplineRefChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        partial void OnCreatedChanging(System.DateTime value);
-        partial void OnCreatedChanged();
-        partial void OnUpdatedChanging(System.DateTime value);
-        partial void OnUpdatedChanged();
-        partial void OnIsDeletedChanging(bool value);
-        partial void OnIsDeletedChanged();
-        #endregion
-
-        public Chapter()
-        {
-            this._CurriculumChapters = new EntitySet<CurriculumChapter>(new Action<CurriculumChapter>(this.attach_CurriculumChapters), new Action<CurriculumChapter>(this.detach_CurriculumChapters));
-            this._Topics = new EntitySet<Topic>(new Action<Topic>(this.attach_Topics), new Action<Topic>(this.detach_Topics));
-            this._Discipline = default(EntityRef<Discipline>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DisciplineRef", DbType = "Int NOT NULL")]
-        public int DisciplineRef
-        {
-            get
-            {
-                return this._DisciplineRef;
-            }
-            set
-            {
-                if ((this._DisciplineRef != value))
-                {
-                    if (this._Discipline.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnDisciplineRefChanging(value);
-                    this.SendPropertyChanging();
-                    this._DisciplineRef = value;
-                    this.SendPropertyChanged("DisciplineRef");
-                    this.OnDisciplineRefChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Created", DbType = "DateTime NOT NULL")]
-        public System.DateTime Created
-        {
-            get
-            {
-                return this._Created;
-            }
-            set
-            {
-                if ((this._Created != value))
-                {
-                    this.OnCreatedChanging(value);
-                    this.SendPropertyChanging();
-                    this._Created = value;
-                    this.SendPropertyChanged("Created");
-                    this.OnCreatedChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Updated", DbType = "DateTime NOT NULL")]
-        public System.DateTime Updated
-        {
-            get
-            {
-                return this._Updated;
-            }
-            set
-            {
-                if ((this._Updated != value))
-                {
-                    this.OnUpdatedChanging(value);
-                    this.SendPropertyChanging();
-                    this._Updated = value;
-                    this.SendPropertyChanged("Updated");
-                    this.OnUpdatedChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsDeleted", DbType = "Bit NOT NULL")]
-        public bool IsDeleted
-        {
-            get
-            {
-                return this._IsDeleted;
-            }
-            set
-            {
-                if ((this._IsDeleted != value))
-                {
-                    this.OnIsDeletedChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsDeleted = value;
-                    this.SendPropertyChanged("IsDeleted");
-                    this.OnIsDeletedChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Chapter_CurriculumChapter", Storage = "_CurriculumChapters", ThisKey = "Id", OtherKey = "ChapterRef")]
-        public EntitySet<CurriculumChapter> CurriculumChapters
-        {
-            get
-            {
-                return this._CurriculumChapters;
-            }
-            set
-            {
-                this._CurriculumChapters.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Chapter_Topic", Storage = "_Topics", ThisKey = "Id", OtherKey = "ChapterRef")]
-        public EntitySet<Topic> Topics
-        {
-            get
-            {
-                return this._Topics;
-            }
-            set
-            {
-                this._Topics.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Discipline_Chapter", Storage = "_Discipline", ThisKey = "DisciplineRef", OtherKey = "Id", IsForeignKey = true)]
-        public Discipline Discipline
-        {
-            get
-            {
-                return this._Discipline.Entity;
-            }
-            set
-            {
-                Discipline previousValue = this._Discipline.Entity;
-                if (((previousValue != value)
-                      || (this._Discipline.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Discipline.Entity = null;
-                        previousValue.Chapters.Remove(this);
-                    }
-                    this._Discipline.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Chapters.Add(this);
-                        this._DisciplineRef = value.Id;
-                    }
-                    else
-                    {
-                        this._DisciplineRef = default(int);
-                    }
-                    this.SendPropertyChanged("Discipline");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_CurriculumChapters(CurriculumChapter entity)
-        {
-            this.SendPropertyChanging();
-            entity.Chapter = this;
-        }
-
-        private void detach_CurriculumChapters(CurriculumChapter entity)
-        {
-            this.SendPropertyChanging();
-            entity.Chapter = null;
-        }
-
-        private void attach_Topics(Topic entity)
-        {
-            this.SendPropertyChanging();
-            entity.Chapter = this;
-        }
-
-        private void detach_Topics(Topic entity)
-        {
-            this.SendPropertyChanging();
-            entity.Chapter = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Disciplines")]
-    public partial class Discipline : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Name;
-
-        private System.DateTime _Created;
-
-        private System.DateTime _Updated;
-
-        private string _Owner;
-
-        private bool _IsDeleted;
-
-        private bool _IsValid;
-
-        private EntitySet<Curriculum> _Curriculums;
-
-        private EntitySet<Chapter> _Chapters;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        partial void OnCreatedChanging(System.DateTime value);
-        partial void OnCreatedChanged();
-        partial void OnUpdatedChanging(System.DateTime value);
-        partial void OnUpdatedChanged();
-        partial void OnOwnerChanging(string value);
-        partial void OnOwnerChanged();
-        partial void OnIsDeletedChanging(bool value);
-        partial void OnIsDeletedChanged();
-        partial void OnIsValidChanging(bool value);
-        partial void OnIsValidChanged();
-        #endregion
-
-        public Discipline()
-        {
-            this._Curriculums = new EntitySet<Curriculum>(new Action<Curriculum>(this.attach_Curriculums), new Action<Curriculum>(this.detach_Curriculums));
-            this._Chapters = new EntitySet<Chapter>(new Action<Chapter>(this.attach_Chapters), new Action<Chapter>(this.detach_Chapters));
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Created", DbType = "DateTime NOT NULL")]
-        public System.DateTime Created
-        {
-            get
-            {
-                return this._Created;
-            }
-            set
-            {
-                if ((this._Created != value))
-                {
-                    this.OnCreatedChanging(value);
-                    this.SendPropertyChanging();
-                    this._Created = value;
-                    this.SendPropertyChanged("Created");
-                    this.OnCreatedChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Updated", DbType = "DateTime NOT NULL")]
-        public System.DateTime Updated
-        {
-            get
-            {
-                return this._Updated;
-            }
-            set
-            {
-                if ((this._Updated != value))
-                {
-                    this.OnUpdatedChanging(value);
-                    this.SendPropertyChanging();
-                    this._Updated = value;
-                    this.SendPropertyChanged("Updated");
-                    this.OnUpdatedChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Owner", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Owner
-        {
-            get
-            {
-                return this._Owner;
-            }
-            set
-            {
-                if ((this._Owner != value))
-                {
-                    this.OnOwnerChanging(value);
-                    this.SendPropertyChanging();
-                    this._Owner = value;
-                    this.SendPropertyChanged("Owner");
-                    this.OnOwnerChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsDeleted", DbType = "Bit NOT NULL")]
-        public bool IsDeleted
-        {
-            get
-            {
-                return this._IsDeleted;
-            }
-            set
-            {
-                if ((this._IsDeleted != value))
-                {
-                    this.OnIsDeletedChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsDeleted = value;
-                    this.SendPropertyChanged("IsDeleted");
-                    this.OnIsDeletedChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsValid", DbType = "Bit NOT NULL")]
-        public bool IsValid
-        {
-            get
-            {
-                return this._IsValid;
-            }
-            set
-            {
-                if ((this._IsValid != value))
-                {
-                    this.OnIsValidChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsValid = value;
-                    this.SendPropertyChanged("IsValid");
-                    this.OnIsValidChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Discipline_Curriculum", Storage = "_Curriculums", ThisKey = "Id", OtherKey = "DisciplineRef")]
-        public EntitySet<Curriculum> Curriculums
-        {
-            get
-            {
-                return this._Curriculums;
-            }
-            set
-            {
-                this._Curriculums.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Discipline_Chapter", Storage = "_Chapters", ThisKey = "Id", OtherKey = "DisciplineRef")]
-        public EntitySet<Chapter> Chapters
-        {
-            get
-            {
-                return this._Chapters;
-            }
-            set
-            {
-                this._Chapters.Assign(value);
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_Curriculums(Curriculum entity)
-        {
-            this.SendPropertyChanging();
-            entity.Discipline = this;
-        }
-
-        private void detach_Curriculums(Curriculum entity)
-        {
-            this.SendPropertyChanging();
-            entity.Discipline = null;
-        }
-
-        private void attach_Chapters(Chapter entity)
-        {
-            this.SendPropertyChanging();
-            entity.Discipline = this;
-        }
-
-        private void detach_Chapters(Chapter entity)
-        {
-            this.SendPropertyChanging();
-            entity.Discipline = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.CurriculumChapterTopics")]
-    public partial class CurriculumChapterTopic : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private int _CurriculumChapterRef;
-
-        private int _TopicRef;
-
-        private System.Nullable<System.DateTime> _TestStartDate;
-
-        private System.Nullable<System.DateTime> _TestEndDate;
-
-        private System.Nullable<System.DateTime> _TheoryStartDate;
-
-        private System.Nullable<System.DateTime> _TheoryEndDate;
-
-        private int _MaxScore;
-
-        private bool _BlockTopicAtTesting;
-
-        private bool _BlockCurriculumAtTesting;
-
-        private bool _IsDeleted;
-
-        private EntityRef<CurriculumChapter> _CurriculumChapter;
-
-        private EntityRef<Topic> _Topic;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnCurriculumChapterRefChanging(int value);
-        partial void OnCurriculumChapterRefChanged();
-        partial void OnTopicRefChanging(int value);
-        partial void OnTopicRefChanged();
-        partial void OnTestStartDateChanging(System.Nullable<System.DateTime> value);
-        partial void OnTestStartDateChanged();
-        partial void OnTestEndDateChanging(System.Nullable<System.DateTime> value);
-        partial void OnTestEndDateChanged();
-        partial void OnTheoryStartDateChanging(System.Nullable<System.DateTime> value);
-        partial void OnTheoryStartDateChanged();
-        partial void OnTheoryEndDateChanging(System.Nullable<System.DateTime> value);
-        partial void OnTheoryEndDateChanged();
-        partial void OnMaxScoreChanging(int value);
-        partial void OnMaxScoreChanged();
-        partial void OnBlockTopicAtTestingChanging(bool value);
-        partial void OnBlockTopicAtTestingChanged();
-        partial void OnBlockCurriculumAtTestingChanging(bool value);
-        partial void OnBlockCurriculumAtTestingChanged();
-        partial void OnIsDeletedChanging(bool value);
-        partial void OnIsDeletedChanged();
-        #endregion
-
-        public CurriculumChapterTopic()
-        {
-            this._CurriculumChapter = default(EntityRef<CurriculumChapter>);
-            this._Topic = default(EntityRef<Topic>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CurriculumChapterRef", DbType = "Int NOT NULL")]
-        public int CurriculumChapterRef
-        {
-            get
-            {
-                return this._CurriculumChapterRef;
-            }
-            set
-            {
-                if ((this._CurriculumChapterRef != value))
-                {
-                    if (this._CurriculumChapter.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnCurriculumChapterRefChanging(value);
-                    this.SendPropertyChanging();
-                    this._CurriculumChapterRef = value;
-                    this.SendPropertyChanged("CurriculumChapterRef");
-                    this.OnCurriculumChapterRefChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TopicRef", DbType = "Int NOT NULL")]
-        public int TopicRef
-        {
-            get
-            {
-                return this._TopicRef;
-            }
-            set
-            {
-                if ((this._TopicRef != value))
-                {
-                    if (this._Topic.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnTopicRefChanging(value);
-                    this.SendPropertyChanging();
-                    this._TopicRef = value;
-                    this.SendPropertyChanged("TopicRef");
-                    this.OnTopicRefChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TestStartDate", DbType = "DateTime")]
-        public System.Nullable<System.DateTime> TestStartDate
-        {
-            get
-            {
-                return this._TestStartDate;
-            }
-            set
-            {
-                if ((this._TestStartDate != value))
-                {
-                    this.OnTestStartDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._TestStartDate = value;
-                    this.SendPropertyChanged("TestStartDate");
-                    this.OnTestStartDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TestEndDate", DbType = "DateTime")]
-        public System.Nullable<System.DateTime> TestEndDate
-        {
-            get
-            {
-                return this._TestEndDate;
-            }
-            set
-            {
-                if ((this._TestEndDate != value))
-                {
-                    this.OnTestEndDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._TestEndDate = value;
-                    this.SendPropertyChanged("TestEndDate");
-                    this.OnTestEndDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TheoryStartDate", DbType = "DateTime")]
-        public System.Nullable<System.DateTime> TheoryStartDate
-        {
-            get
-            {
-                return this._TheoryStartDate;
-            }
-            set
-            {
-                if ((this._TheoryStartDate != value))
-                {
-                    this.OnTheoryStartDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._TheoryStartDate = value;
-                    this.SendPropertyChanged("TheoryStartDate");
-                    this.OnTheoryStartDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TheoryEndDate", DbType = "DateTime")]
-        public System.Nullable<System.DateTime> TheoryEndDate
-        {
-            get
-            {
-                return this._TheoryEndDate;
-            }
-            set
-            {
-                if ((this._TheoryEndDate != value))
-                {
-                    this.OnTheoryEndDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._TheoryEndDate = value;
-                    this.SendPropertyChanged("TheoryEndDate");
-                    this.OnTheoryEndDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_MaxScore", DbType = "Int NOT NULL")]
-        public int MaxScore
-        {
-            get
-            {
-                return this._MaxScore;
-            }
-            set
-            {
-                if ((this._MaxScore != value))
-                {
-                    this.OnMaxScoreChanging(value);
-                    this.SendPropertyChanging();
-                    this._MaxScore = value;
-                    this.SendPropertyChanged("MaxScore");
-                    this.OnMaxScoreChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_BlockTopicAtTesting", DbType = "Bit NOT NULL")]
-        public bool BlockTopicAtTesting
-        {
-            get
-            {
-                return this._BlockTopicAtTesting;
-            }
-            set
-            {
-                if ((this._BlockTopicAtTesting != value))
-                {
-                    this.OnBlockTopicAtTestingChanging(value);
-                    this.SendPropertyChanging();
-                    this._BlockTopicAtTesting = value;
-                    this.SendPropertyChanged("BlockTopicAtTesting");
-                    this.OnBlockTopicAtTestingChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_BlockCurriculumAtTesting", DbType = "Bit NOT NULL")]
-        public bool BlockCurriculumAtTesting
-        {
-            get
-            {
-                return this._BlockCurriculumAtTesting;
-            }
-            set
-            {
-                if ((this._BlockCurriculumAtTesting != value))
-                {
-                    this.OnBlockCurriculumAtTestingChanging(value);
-                    this.SendPropertyChanging();
-                    this._BlockCurriculumAtTesting = value;
-                    this.SendPropertyChanged("BlockCurriculumAtTesting");
-                    this.OnBlockCurriculumAtTestingChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsDeleted", DbType = "Bit NOT NULL")]
-        public bool IsDeleted
-        {
-            get
-            {
-                return this._IsDeleted;
-            }
-            set
-            {
-                if ((this._IsDeleted != value))
-                {
-                    this.OnIsDeletedChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsDeleted = value;
-                    this.SendPropertyChanged("IsDeleted");
-                    this.OnIsDeletedChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "CurriculumChapter_CurriculumChapterTopic", Storage = "_CurriculumChapter", ThisKey = "CurriculumChapterRef", OtherKey = "Id", IsForeignKey = true)]
-        public CurriculumChapter CurriculumChapter
-        {
-            get
-            {
-                return this._CurriculumChapter.Entity;
-            }
-            set
-            {
-                CurriculumChapter previousValue = this._CurriculumChapter.Entity;
-                if (((previousValue != value)
-                      || (this._CurriculumChapter.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._CurriculumChapter.Entity = null;
-                        previousValue.CurriculumChapterTopics.Remove(this);
-                    }
-                    this._CurriculumChapter.Entity = value;
-                    if ((value != null))
-                    {
-                        value.CurriculumChapterTopics.Add(this);
-                        this._CurriculumChapterRef = value.Id;
-                    }
-                    else
-                    {
-                        this._CurriculumChapterRef = default(int);
-                    }
-                    this.SendPropertyChanged("CurriculumChapter");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Topic_CurriculumChapterTopic", Storage = "_Topic", ThisKey = "TopicRef", OtherKey = "Id", IsForeignKey = true)]
-        public Topic Topic
-        {
-            get
-            {
-                return this._Topic.Entity;
-            }
-            set
-            {
-                Topic previousValue = this._Topic.Entity;
-                if (((previousValue != value)
-                      || (this._Topic.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Topic.Entity = null;
-                        previousValue.CurriculumChapterTopics.Remove(this);
-                    }
-                    this._Topic.Entity = value;
-                    if ((value != null))
-                    {
-                        value.CurriculumChapterTopics.Add(this);
-                        this._TopicRef = value.Id;
-                    }
-                    else
-                    {
-                        this._TopicRef = default(int);
-                    }
-                    this.SendPropertyChanged("Topic");
+                    this.SendPropertyChanged("Tag");
                 }
             }
         }
@@ -5751,596 +6443,91 @@ namespace IUDICO.Common.Models.Shared
         }
     }
 
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.TopicTypes")]
-    public partial class TopicType : INotifyPropertyChanging, INotifyPropertyChanged
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.UserTopicRatings")]
+    public partial class UserTopicRating : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 
-        private int _Id;
+        private System.Guid _UserId;
 
-        private string _Name;
+        private int _TopicId;
 
-        private EntitySet<Topic> _TestTopics;
-
-        private EntitySet<Topic> _TheoryTopics;
+        private int _Rating;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
         partial void OnValidate(System.Data.Linq.ChangeAction action);
         partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
+        partial void OnUserIdChanging(System.Guid value);
+        partial void OnUserIdChanged();
+        partial void OnTopicIdChanging(int value);
+        partial void OnTopicIdChanged();
+        partial void OnRatingChanging(int value);
+        partial void OnRatingChanged();
         #endregion
 
-        public TopicType()
+        public UserTopicRating()
         {
-            this._TestTopics = new EntitySet<Topic>(new Action<Topic>(this.attach_TestTopics), new Action<Topic>(this.detach_TestTopics));
-            this._TheoryTopics = new EntitySet<Topic>(new Action<Topic>(this.attach_TheoryTopics), new Action<Topic>(this.detach_TheoryTopics));
             OnCreated();
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", DbType = "Int NOT NULL", IsPrimaryKey = true)]
-        public int Id
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_UserId", DbType = "UniqueIdentifier NOT NULL", IsPrimaryKey = true)]
+        public System.Guid UserId
         {
             get
             {
-                return this._Id;
+                return this._UserId;
             }
             set
             {
-                if ((this._Id != value))
+                if ((this._UserId != value))
                 {
-                    this.OnIdChanging(value);
+                    this.OnUserIdChanging(value);
                     this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
+                    this._UserId = value;
+                    this.SendPropertyChanged("UserId");
+                    this.OnUserIdChanged();
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
-        public string Name
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TopicId", DbType = "Int NOT NULL", IsPrimaryKey = true)]
+        public int TopicId
         {
             get
             {
-                return this._Name;
+                return this._TopicId;
             }
             set
             {
-                if ((this._Name != value))
+                if ((this._TopicId != value))
                 {
-                    this.OnNameChanging(value);
+                    this.OnTopicIdChanging(value);
                     this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
+                    this._TopicId = value;
+                    this.SendPropertyChanged("TopicId");
+                    this.OnTopicIdChanged();
                 }
             }
         }
 
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "TopicType_Topic", Storage = "_TestTopics", ThisKey = "Id", OtherKey = "TestTopicTypeRef")]
-        public EntitySet<Topic> TestTopics
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Rating", DbType = "Int NOT NULL")]
+        public int Rating
         {
             get
             {
-                return this._TestTopics;
+                return this._Rating;
             }
             set
             {
-                this._TestTopics.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "TopicType_Topic1", Storage = "_TheoryTopics", ThisKey = "Id", OtherKey = "TheoryTopicTypeRef")]
-        public EntitySet<Topic> TheoryTopics
-        {
-            get
-            {
-                return this._TheoryTopics;
-            }
-            set
-            {
-                this._TheoryTopics.Assign(value);
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_TestTopics(Topic entity)
-        {
-            this.SendPropertyChanging();
-            entity.TestTopicType = this;
-        }
-
-        private void detach_TestTopics(Topic entity)
-        {
-            this.SendPropertyChanging();
-            entity.TestTopicType = null;
-        }
-
-        private void attach_TheoryTopics(Topic entity)
-        {
-            this.SendPropertyChanging();
-            entity.TheoryTopicType = this;
-        }
-
-        private void detach_TheoryTopics(Topic entity)
-        {
-            this.SendPropertyChanging();
-            entity.TheoryTopicType = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Topics")]
-    public partial class Topic : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Name;
-
-        private int _ChapterRef;
-
-        private System.Nullable<int> _TestCourseRef;
-
-        private System.Nullable<int> _TestTopicTypeRef;
-
-        private System.Nullable<int> _TheoryCourseRef;
-
-        private System.Nullable<int> _TheoryTopicTypeRef;
-
-        private int _SortOrder;
-
-        private System.DateTime _Created;
-
-        private System.DateTime _Updated;
-
-        private bool _IsDeleted;
-
-        private EntitySet<CurriculumChapterTopic> _CurriculumChapterTopics;
-
-        private EntitySet<TopicFeature> _TopicFeatures;
-
-        private EntitySet<UserTopicScore> _UserTopicScores;
-
-        private EntityRef<Chapter> _Chapter;
-
-        private EntityRef<TopicType> _TestTopicType;
-
-        private EntityRef<TopicType> _TheoryTopicType;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        partial void OnChapterRefChanging(int value);
-        partial void OnChapterRefChanged();
-        partial void OnTestCourseRefChanging(System.Nullable<int> value);
-        partial void OnTestCourseRefChanged();
-        partial void OnTestTopicTypeRefChanging(System.Nullable<int> value);
-        partial void OnTestTopicTypeRefChanged();
-        partial void OnTheoryCourseRefChanging(System.Nullable<int> value);
-        partial void OnTheoryCourseRefChanged();
-        partial void OnTheoryTopicTypeRefChanging(System.Nullable<int> value);
-        partial void OnTheoryTopicTypeRefChanged();
-        partial void OnSortOrderChanging(int value);
-        partial void OnSortOrderChanged();
-        partial void OnCreatedChanging(System.DateTime value);
-        partial void OnCreatedChanged();
-        partial void OnUpdatedChanging(System.DateTime value);
-        partial void OnUpdatedChanged();
-        partial void OnIsDeletedChanging(bool value);
-        partial void OnIsDeletedChanged();
-        #endregion
-
-        public Topic()
-        {
-            this._CurriculumChapterTopics = new EntitySet<CurriculumChapterTopic>(new Action<CurriculumChapterTopic>(this.attach_CurriculumChapterTopics), new Action<CurriculumChapterTopic>(this.detach_CurriculumChapterTopics));
-            this._TopicFeatures = new EntitySet<TopicFeature>(new Action<TopicFeature>(this.attach_TopicFeatures), new Action<TopicFeature>(this.detach_TopicFeatures));
-            this._UserTopicScores = new EntitySet<UserTopicScore>(new Action<UserTopicScore>(this.attach_UserTopicScores), new Action<UserTopicScore>(this.detach_UserTopicScores));
-            this._Chapter = default(EntityRef<Chapter>);
-            this._TestTopicType = default(EntityRef<TopicType>);
-            this._TheoryTopicType = default(EntityRef<TopicType>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
+                if ((this._Rating != value))
                 {
-                    this.OnIdChanging(value);
+                    this.OnRatingChanging(value);
                     this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ChapterRef", DbType = "Int NOT NULL")]
-        public int ChapterRef
-        {
-            get
-            {
-                return this._ChapterRef;
-            }
-            set
-            {
-                if ((this._ChapterRef != value))
-                {
-                    if (this._Chapter.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnChapterRefChanging(value);
-                    this.SendPropertyChanging();
-                    this._ChapterRef = value;
-                    this.SendPropertyChanged("ChapterRef");
-                    this.OnChapterRefChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TestCourseRef", DbType = "Int")]
-        public System.Nullable<int> TestCourseRef
-        {
-            get
-            {
-                return this._TestCourseRef;
-            }
-            set
-            {
-                if ((this._TestCourseRef != value))
-                {
-                    this.OnTestCourseRefChanging(value);
-                    this.SendPropertyChanging();
-                    this._TestCourseRef = value;
-                    this.SendPropertyChanged("TestCourseRef");
-                    this.OnTestCourseRefChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TestTopicTypeRef", DbType = "Int")]
-        public System.Nullable<int> TestTopicTypeRef
-        {
-            get
-            {
-                return this._TestTopicTypeRef;
-            }
-            set
-            {
-                if ((this._TestTopicTypeRef != value))
-                {
-                    if (this._TestTopicType.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnTestTopicTypeRefChanging(value);
-                    this.SendPropertyChanging();
-                    this._TestTopicTypeRef = value;
-                    this.SendPropertyChanged("TestTopicTypeRef");
-                    this.OnTestTopicTypeRefChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TheoryCourseRef", DbType = "Int")]
-        public System.Nullable<int> TheoryCourseRef
-        {
-            get
-            {
-                return this._TheoryCourseRef;
-            }
-            set
-            {
-                if ((this._TheoryCourseRef != value))
-                {
-                    this.OnTheoryCourseRefChanging(value);
-                    this.SendPropertyChanging();
-                    this._TheoryCourseRef = value;
-                    this.SendPropertyChanged("TheoryCourseRef");
-                    this.OnTheoryCourseRefChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TheoryTopicTypeRef", DbType = "Int")]
-        public System.Nullable<int> TheoryTopicTypeRef
-        {
-            get
-            {
-                return this._TheoryTopicTypeRef;
-            }
-            set
-            {
-                if ((this._TheoryTopicTypeRef != value))
-                {
-                    if (this._TheoryTopicType.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnTheoryTopicTypeRefChanging(value);
-                    this.SendPropertyChanging();
-                    this._TheoryTopicTypeRef = value;
-                    this.SendPropertyChanged("TheoryTopicTypeRef");
-                    this.OnTheoryTopicTypeRefChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_SortOrder", DbType = "Int NOT NULL")]
-        public int SortOrder
-        {
-            get
-            {
-                return this._SortOrder;
-            }
-            set
-            {
-                if ((this._SortOrder != value))
-                {
-                    this.OnSortOrderChanging(value);
-                    this.SendPropertyChanging();
-                    this._SortOrder = value;
-                    this.SendPropertyChanged("SortOrder");
-                    this.OnSortOrderChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Created", DbType = "DateTime NOT NULL")]
-        public System.DateTime Created
-        {
-            get
-            {
-                return this._Created;
-            }
-            set
-            {
-                if ((this._Created != value))
-                {
-                    this.OnCreatedChanging(value);
-                    this.SendPropertyChanging();
-                    this._Created = value;
-                    this.SendPropertyChanged("Created");
-                    this.OnCreatedChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Updated", DbType = "DateTime NOT NULL")]
-        public System.DateTime Updated
-        {
-            get
-            {
-                return this._Updated;
-            }
-            set
-            {
-                if ((this._Updated != value))
-                {
-                    this.OnUpdatedChanging(value);
-                    this.SendPropertyChanging();
-                    this._Updated = value;
-                    this.SendPropertyChanged("Updated");
-                    this.OnUpdatedChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsDeleted", DbType = "Bit NOT NULL")]
-        public bool IsDeleted
-        {
-            get
-            {
-                return this._IsDeleted;
-            }
-            set
-            {
-                if ((this._IsDeleted != value))
-                {
-                    this.OnIsDeletedChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsDeleted = value;
-                    this.SendPropertyChanged("IsDeleted");
-                    this.OnIsDeletedChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Topic_CurriculumChapterTopic", Storage = "_CurriculumChapterTopics", ThisKey = "Id", OtherKey = "TopicRef")]
-        public EntitySet<CurriculumChapterTopic> CurriculumChapterTopics
-        {
-            get
-            {
-                return this._CurriculumChapterTopics;
-            }
-            set
-            {
-                this._CurriculumChapterTopics.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Topic_TopicFeature", Storage = "_TopicFeatures", ThisKey = "Id", OtherKey = "TopicId")]
-        public EntitySet<TopicFeature> TopicFeatures
-        {
-            get
-            {
-                return this._TopicFeatures;
-            }
-            set
-            {
-                this._TopicFeatures.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Topic_UserTopicScore", Storage = "_UserTopicScores", ThisKey = "Id", OtherKey = "TopicId")]
-        public EntitySet<UserTopicScore> UserTopicScores
-        {
-            get
-            {
-                return this._UserTopicScores;
-            }
-            set
-            {
-                this._UserTopicScores.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Chapter_Topic", Storage = "_Chapter", ThisKey = "ChapterRef", OtherKey = "Id", IsForeignKey = true)]
-        public Chapter Chapter
-        {
-            get
-            {
-                return this._Chapter.Entity;
-            }
-            set
-            {
-                Chapter previousValue = this._Chapter.Entity;
-                if (((previousValue != value)
-                      || (this._Chapter.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Chapter.Entity = null;
-                        previousValue.Topics.Remove(this);
-                    }
-                    this._Chapter.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Topics.Add(this);
-                        this._ChapterRef = value.Id;
-                    }
-                    else
-                    {
-                        this._ChapterRef = default(int);
-                    }
-                    this.SendPropertyChanged("Chapter");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "TopicType_Topic", Storage = "_TestTopicType", ThisKey = "TestTopicTypeRef", OtherKey = "Id", IsForeignKey = true)]
-        public TopicType TestTopicType
-        {
-            get
-            {
-                return this._TestTopicType.Entity;
-            }
-            set
-            {
-                TopicType previousValue = this._TestTopicType.Entity;
-                if (((previousValue != value)
-                      || (this._TestTopicType.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._TestTopicType.Entity = null;
-                        previousValue.TestTopics.Remove(this);
-                    }
-                    this._TestTopicType.Entity = value;
-                    if ((value != null))
-                    {
-                        value.TestTopics.Add(this);
-                        this._TestTopicTypeRef = value.Id;
-                    }
-                    else
-                    {
-                        this._TestTopicTypeRef = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("TestTopicType");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "TopicType_Topic1", Storage = "_TheoryTopicType", ThisKey = "TheoryTopicTypeRef", OtherKey = "Id", IsForeignKey = true)]
-        public TopicType TheoryTopicType
-        {
-            get
-            {
-                return this._TheoryTopicType.Entity;
-            }
-            set
-            {
-                TopicType previousValue = this._TheoryTopicType.Entity;
-                if (((previousValue != value)
-                      || (this._TheoryTopicType.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._TheoryTopicType.Entity = null;
-                        previousValue.TheoryTopics.Remove(this);
-                    }
-                    this._TheoryTopicType.Entity = value;
-                    if ((value != null))
-                    {
-                        value.TheoryTopics.Add(this);
-                        this._TheoryTopicTypeRef = value.Id;
-                    }
-                    else
-                    {
-                        this._TheoryTopicTypeRef = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("TheoryTopicType");
+                    this._Rating = value;
+                    this.SendPropertyChanged("Rating");
+                    this.OnRatingChanged();
                 }
             }
         }
@@ -6363,42 +6550,6 @@ namespace IUDICO.Common.Models.Shared
             {
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
-        }
-
-        private void attach_CurriculumChapterTopics(CurriculumChapterTopic entity)
-        {
-            this.SendPropertyChanging();
-            entity.Topic = this;
-        }
-
-        private void detach_CurriculumChapterTopics(CurriculumChapterTopic entity)
-        {
-            this.SendPropertyChanging();
-            entity.Topic = null;
-        }
-
-        private void attach_TopicFeatures(TopicFeature entity)
-        {
-            this.SendPropertyChanging();
-            entity.Topic = this;
-        }
-
-        private void detach_TopicFeatures(TopicFeature entity)
-        {
-            this.SendPropertyChanging();
-            entity.Topic = null;
-        }
-
-        private void attach_UserTopicScores(UserTopicScore entity)
-        {
-            this.SendPropertyChanging();
-            entity.Topic = this;
-        }
-
-        private void detach_UserTopicScores(UserTopicScore entity)
-        {
-            this.SendPropertyChanging();
-            entity.Topic = null;
         }
     }
 }

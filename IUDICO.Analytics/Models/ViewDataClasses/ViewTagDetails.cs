@@ -3,20 +3,21 @@ using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Analytics.Models.ViewDataClasses
 {
-    public class ViewFeatureDetails
+    public class ViewTagDetails
     {
-        public ViewFeatureDetails(Feature feature, IEnumerable<Topic> topics)
+        public ViewTagDetails(Tag tag, IEnumerable<Topic> topics)
         {
-            Feature = feature;
+            Tag = tag;
             Topics = topics;
         }
 
-        public ViewFeatureDetails(Feature feature, IEnumerable<Topic> topics, IEnumerable<Topic> availableTopics) : this(feature, topics)
+        public ViewTagDetails(Tag tag, IEnumerable<Topic> topics, IEnumerable<Topic> availableTopics)
+            : this(tag, topics)
         {
             AvailableTopics = availableTopics;
         }
 
-        public Feature Feature { get; set; }
+        public Tag Tag { get; set; }
         public IEnumerable<Topic> Topics { get; set; }
         public IEnumerable<Topic> AvailableTopics { get; set; }
     }
