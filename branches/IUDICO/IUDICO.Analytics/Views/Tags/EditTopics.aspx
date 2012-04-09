@@ -1,13 +1,13 @@
 ﻿<%@ Assembly Name="IUDICO.Analytics" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Analytics.Models.ViewDataClasses.ViewFeatureDetails>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Analytics.Models.ViewDataClasses.ViewTagDetails>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Add Topics to Feature #<%= Model.Feature.Id %> "<%= Model.Feature.Name %>"
+	Add Topics to Tag #<%= Model.Tag.Id %> "<%= Model.Tag.Name %>"
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Add Topics to Feature #<%= Model.Feature.Id %> "<%= Model.Feature.Name %>"</h2>
+    <h2>Add Topics to Tag #<%= Model.Tag.Id %> "<%= Model.Tag.Name%>"</h2>
 
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary(true) %>
@@ -49,14 +49,14 @@
     <script src="<%=Html.ResolveUrl("/Scripts/jquery/jquery.transfer.js")%>" type="text/javascript"></script>
     <script type="text/javascript">
         $(function () {
-            $('#addTopic').click(function () {
+            $('#addTopic').click(function (e) {
                 $('#availableTopics option:selected').remove().appendTo('#selectedTopics');
 
                 e.preventDefault();
 
                 return false;
             });
-            $('#removeTopic').click(function () {
+            $('#removeTopic').click(function (e) {
                 $('#selectedTopics option:selected').remove().appendTo('#availableTopics');
 
                 e.preventDefault();

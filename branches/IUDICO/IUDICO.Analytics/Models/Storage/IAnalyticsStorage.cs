@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web.Mvc;
 using IUDICO.Analytics.Models.ViewDataClasses;
 using IUDICO.Common.Models.Shared;
 
@@ -13,18 +12,24 @@ namespace IUDICO.Analytics.Models.Storage
         void RefreshState();
 
         IEnumerable<ForecastingTree> GetAllForecastingTrees();
-        IEnumerable<ForecastingTree> GetForecastingTrees(Guid UserRef);
-        IEnumerable<TopicStat> GetRecommendedTopics(User user);
+        IEnumerable<ForecastingTree> GetForecastingTrees(Guid userRef);
+        IEnumerable<TopicStat> GetRecommenderTopics(User user);
+        IEnumerable<TopicStat> GetRecommenderTopics(User user, int amount);
 
         #endregion
 
-        IEnumerable<Feature> GetFeatures();
-        ViewFeatureDetails GetFeatureDetails(int id);
-        ViewFeatureDetails GetFeatureDetailsWithTopics(int id);
-        void CreateFeature(Feature feature);
-        Feature GetFeature(int id);
-        void EditFeature(int id, Feature feature);
-        void DeleteFeature(int id);
-        void EditTopics(int id, IEnumerable<int> topics);
+        IEnumerable<Tag> GetTags();
+        Tag GetTag(int id);
+        ViewTagDetails GetTagDetails(int id);
+        ViewTagDetails GetTagDetailsWithTopics(int id);
+        void CreateTag(Tag feature);
+        void EditTag(int id, Tag feature);
+        void DeleteTag(int id);
+        void EditTags(int id, IEnumerable<int> topics);
+
+        Dictionary<int, IEnumerable<TopicScore>> GetTopicScores();
+        Dictionary<Guid, IEnumerable<UserScore>> GetUserScores();
+        
+        void UpdateUserScores(Guid id);
     }
 }

@@ -8,6 +8,5 @@ namespace IUDICO.DisciplineManagement.Models
         IMockableTable<Chapter> Chapters { get; }
         IMockableTable<Topic> Topics { get; }
         IMockableTable<TopicType> TopicTypes { get; }
-        IMockableTable<UserTopicScore> UserTopicScores { get; }
     }
 }

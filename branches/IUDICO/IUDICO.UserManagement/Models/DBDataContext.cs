@@ -27,9 +27,6 @@ namespace IUDICO.UserManagement.Models
         partial void InsertUser(User instance);
         partial void UpdateUser(User instance);
         partial void DeleteUser(User instance);
-        partial void InsertUserTopicScore(UserTopicScore instance);
-        partial void UpdateUserTopicScore(UserTopicScore instance);
-        partial void DeleteUserTopicScore(UserTopicScore instance);
 
         #endregion
 
@@ -82,10 +79,10 @@ namespace IUDICO.UserManagement.Models
         {
             get { return this.GetTable<User>(); }
         }
-
-        public Table<UserTopicScore> UserTopicScores
+        
+        public Table<UserTopicRating> UserTopicRatings
         {
-            get { return this.GetTable<UserTopicScore>(); }
+            get { return this.GetTable<UserTopicRating>(); }
         }
 
         IMockableTable<GroupUser> IDataContext.GroupUsers
@@ -108,9 +105,9 @@ namespace IUDICO.UserManagement.Models
             get { return new MockableTable<User>(Users); }
         }
 
-        IMockableTable<UserTopicScore> IDataContext.UserTopicScores
+        IMockableTable<UserTopicRating> IDataContext.UserTopicRatings
         {
-            get { return new MockableTable<UserTopicScore>(UserTopicScores); }
+            get { return new MockableTable<UserTopicRating>(UserTopicRatings); }
         }
     }
 }

@@ -46,12 +46,11 @@ namespace IUDICO.Analytics.Models.Storage
             return query;
         }
 
+        /*
+
         #region GetRecommended Topics by User Perfomance
 
-        protected IEnumerable<TopicFeature> GetTopicFeatures(Func<TopicFeature, bool> predicate)
-        {
-            return _Db.TopicFeatures.Where(predicate).Select(tf => new { Feature = tf.Feature, Topic = tf.Topic, TopicFeature = tf }).AsEnumerable().Select(a => a.TopicFeature);
-        }
+        
 
         protected IEnumerable<TopicFeature> GetTopicFeaturesAvailableForUser(User user)
         {
@@ -60,50 +59,7 @@ namespace IUDICO.Analytics.Models.Storage
             return _Db.TopicFeatures.Where(tf => topics.Contains(tf.TopicId));
         }
 
-        protected Dictionary<int, double> GetUserPerfomance(User user)
-        {
-            var features = new Dictionary<int, double>();
-            var count = new Dictionary<int, int>();
-
-            var attempts = GetResults(user).GroupBy(a => a.User).Select(g => g.First()).
-                    ToDictionary(a => a.Topic.Id, a => a);
-            var topicFeatures =
-                GetTopicFeatures(f => attempts.Keys.Contains(f.TopicId)).
-                    GroupBy(t => t.TopicId).ToDictionary(g => g.Key, g => g.Select(t => t.FeatureId));
-
-            if (attempts.Count() == 0)
-            {
-                return features;
-            }
-
-            foreach (var topic in topicFeatures)
-            {
-                if (!attempts.ContainsKey(topic.Key))
-                {
-                    continue;
-                }
-
-                var score = attempts[topic.Key].Score.ToPercents();
-
-                if (score == null)
-                {
-                    continue;
-                }
-
-                foreach (var feature in topic.Value)
-                {
-                    features[topic.Key] += score.Value;
-                    count[topic.Key]++;
-                }
-            }
-
-            foreach (var feature in features)
-            {
-                features[feature.Key] /= count[feature.Key];
-            }
-
-            return features;
-        }
+        
 
         protected double GetScore(IEnumerable<int> features, Dictionary<int, double> values)
         {
@@ -215,6 +171,129 @@ namespace IUDICO.Analytics.Models.Storage
 
         #endregion
 
+        */
+
+        #region Recommender System
+
+        public Dictionary<int, IEnumerable<TopicScore>> GetTopicScores()
+        {
+            var topics = this.GetTopics();
+            var topicIds = topics.Select(t => t.Id);
+            var topicScores = _Db.TopicScores.Where(s => topicIds.Contains(s.TopicId))
+                .GroupBy(e => e.TopicId)
+                .OrderBy(g => g.Key).ToDictionary(g => g.Key, g => g.AsEnumerable());
+
+            return topicScores;
+        }
+
+        public Dictionary<Guid, IEnumerable<UserScore>> GetUserScores()
+        {
+            var users = this.GetUsers();
+            var userIds = users.Select(u => u.Id);
+            var userScores = _Db.UserScores.Where(s => userIds.Contains(s.UserId))
+                .GroupBy(e => e.UserId)
+                .OrderBy(g => g.Key).ToDictionary(g => g.Key, g => g.AsEnumerable());
+
+            return userScores;
+        }
+
+        public void UpdateUserScores(Guid id)
+        {
+            var user = this.GetUser(id);
+            var userTagScores = this.GetUserTagScores(user);
+
+
+        }
+
+        protected IEnumerable<TopicTag> GetTopicTags(Func<TopicTag, bool> predicate)
+        {
+            return _Db.TopicTags.Where(predicate).Select(tt => new { Tag = tt.Tag, TopicTag = tt }).AsEnumerable().Select(a => a.TopicTag);
+        }
+
+        protected Dictionary<int, double> GetUserTagScores(User user)
+        {
+            var tags = new Dictionary<int, double>();
+            var count = new Dictionary<int, int>();
+
+            var attempts = GetResults(user).GroupBy(a => a.User).Select(g => g.First()).ToDictionary(a => a.Topic.Id, a => a);
+            var topicTags = GetTopicTags(f => attempts.Keys.Contains(f.TopicId)).GroupBy(t => t.TopicId).ToDictionary(g => g.Key, g => g.Select(t => t.TagId));
+
+            if (attempts.Count() == 0)
+            {
+                return tags;
+            }
+
+            foreach (var topic in topicTags)
+            {
+                if (!attempts.ContainsKey(topic.Key))
+                {
+                    continue;
+                }
+
+                var score = attempts[topic.Key].Score.ToPercents();
+
+                if (score == null)
+                {
+                    continue;
+                }
+
+                foreach (var tag in topic.Value)
+                {
+                    tags[tag] += score.Value;
+                    count[tag]++;
+                }
+            }
+
+            foreach (var kv in tags)
+            {
+                tags[kv.Key] /= count[kv.Key];
+            }
+
+            return tags;
+        }
+
+        public IEnumerable<TopicStat> GetRecommenderTopics(User user)
+        {
+            return GetRecommenderTopics(user, 0);
+        }
+
+        public IEnumerable<TopicStat> GetRecommenderTopics(User user, int amount)
+        {
+            var topics = this.GetTopicsAvailableForUser(user);
+            var list = topics.Select(topic => new TopicStat(topic.Topic, this.PearsonDistance(user, topic.Topic))).ToList();
+
+            list.Sort();
+
+            return (amount > 0 ? list.Take(amount) : list);
+        }
+
+        protected double PearsonDistance(User user, Topic topic)
+        {
+            var userTagScores = _Db.UserScores.Where(s => s.UserId == user.Id).ToDictionary(s => s.TagId, s => 100 - s.Score);
+            var topicTagScores = _Db.TopicScores.Where(s => s.TopicId == topic.Id).ToDictionary(s => s.TagId, s => s.Score);
+
+            var commonTags = userTagScores.Select(t => t.Key).Intersect(topicTagScores.Select(t => t.Key));
+            var n = commonTags.Count();
+
+            var userCommonScores = userTagScores.Where(t => commonTags.Contains(t.Key)).Select(t => 1.0 * t.Value);
+            var topicCommonScores = topicTagScores.Where(t => commonTags.Contains(t.Key)).Select(t => 1.0 * t.Value);
+
+            var sum1 = userCommonScores.Sum();
+            var sum2 = topicCommonScores.Sum();
+
+            var sum1Sq = userCommonScores.Sum(x => x * x);
+            var sum2Sq = topicCommonScores.Sum(x => x * x);
+
+            var pSum = commonTags.Sum(tag => (userTagScores[tag] * topicTagScores[tag]));
+
+            var num = pSum - (sum1 * sum2 / n);
+            var den = Math.Sqrt((sum1Sq - Math.Pow(sum1, 2) / n) * (sum2Sq - Math.Pow(sum2, 2) / n));
+
+            return den == 0 ? 0 : num / den;
+        }
+
+        #endregion
+
         #region Get Topic Validity Score
 
         public GroupTopicStat GetGroupTopicStatistic(Topic topic, Group group)
@@ -267,72 +346,73 @@ namespace IUDICO.Analytics.Models.Storage
 
         #region Helper Methods
 
-        public IEnumerable<Feature> GetFeatures()
+        public IEnumerable<Tag> GetTags()
         {
-            return _Db.Features;
+            return _Db.Tags;
         }
 
-        public ViewFeatureDetails GetFeatureDetails(int id)
+        public ViewTagDetails GetTagDetails(int id)
         {
-            return _Db.Features.Where(f => f.Id == id)
-                .Select(f => new ViewFeatureDetails(f, f.TopicFeatures.Select(t => t.Topic)))
-                .AsEnumerable()
-                .SingleOrDefault();
+            var tag = _Db.Tags.SingleOrDefault(f => f.Id == id);
+            var topicIds = _Db.TopicTags.Where(t => t.TagId == tag.Id).Select(t => t.TopicId);
+            var topics = GetTopics(topicIds);
+
+            return new ViewTagDetails(tag, topics);
         }
 
-        public void CreateFeature(Feature feature)
+        public void CreateTag(Tag tag)
         {
-            _Db.Features.InsertOnSubmit(feature);
+            _Db.Tags.InsertOnSubmit(tag);
             _Db.SubmitChanges();
         }
 
-        public Feature GetFeature(int id)
+        public Tag GetTag(int id)
         {
-            return _Db.Features.SingleOrDefault(f => f.Id == id);
+            return _Db.Tags.SingleOrDefault(f => f.Id == id);
         }
 
-        public void EditFeature(int id, Feature feature)
+        public void EditTag(int id, Tag tag)
         {
-            var oldFeature = GetFeature(id);
+            var oldFeature = GetTag(id);
 
-            oldFeature.Name = feature.Name;
+            oldFeature.Name = tag.Name;
 
             _Db.SubmitChanges();
         }
 
-        public void DeleteFeature(int id)
+        public void DeleteTag(int id)
         {
-            var containsFeatures = _Db.TopicFeatures.Where(tf => tf.FeatureId == id).Any();
+            var containsFeatures = _Db.TopicTags.Where(tf => tf.TagId == id).Any();
 
             if (containsFeatures)
             {
                 throw new Exception("Can't delete feature, which has topics assigned to it");
             }
 
-            _Db.Features.DeleteOnSubmit(GetFeature(id));
+            _Db.Tags.DeleteOnSubmit(GetTag(id));
         }
 
-        public void EditTopics(int id, IEnumerable<int> topics)
+        public void EditTags(int id, IEnumerable<int> topics)
         {
-            var allTopics = _Db.TopicFeatures.Where(tf => tf.FeatureId == id).AsEnumerable();
+            var allTopics = _Db.TopicTags.Where(tf => tf.TagId == id).AsEnumerable();
             var deletedTopics = allTopics.Where(tf => !topics.Contains(tf.TopicId));
             var addTopics = topics.Where(i => !allTopics.Select(t => t.TopicId).Contains(i));
 
-            _Db.TopicFeatures.DeleteAllOnSubmit(deletedTopics);
+            _Db.TopicTags.DeleteAllOnSubmit(deletedTopics);
 
             foreach (var topic in addTopics)
             {
-                var tf = new TopicFeature { FeatureId = id, TopicId = topic };
+                var tf = new TopicTag { TagId = id, TopicId = topic };
 
-                _Db.TopicFeatures.InsertOnSubmit(tf);
+                _Db.TopicTags.InsertOnSubmit(tf);
             }
 
             _Db.SubmitChanges();
         }
 
-        public ViewFeatureDetails GetFeatureDetailsWithTopics(int id)
+        public ViewTagDetails GetTagDetailsWithTopics(int id)
         {
-            var feature = GetFeatureDetails(id);
+            var feature = GetTagDetails(id);
             var featureTopicsIds = feature.Topics.Select(t => t.Id);
             feature.AvailableTopics = GetTopics().Where(t => !featureTopicsIds.Contains(t.Id));
 
@@ -343,9 +423,24 @@ namespace IUDICO.Analytics.Models.Storage
 
         #region Other Service Methods
 
+        protected IEnumerable<User> GetUsers()
+        {
+            return _LmsService.FindService<IUserService>().GetUsers();
+        }
+
+        protected User GetUser(Guid id)
+        {
+            return _LmsService.FindService<IUserService>().GetUsers(u => u.Id == id).SingleOrDefault();
+        }
+
         protected IEnumerable<Topic> GetTopics()
         {
             return _LmsService.FindService<IDisciplineService>().GetTopics();
+        }
+
+        protected IEnumerable<Topic> GetTopics(IEnumerable<int> ids)
+        {
+            return _LmsService.FindService<IDisciplineService>().GetTopics(ids);
         }
 
         protected IEnumerable<TopicDescription> GetTopicsAvailableForUser(User user)

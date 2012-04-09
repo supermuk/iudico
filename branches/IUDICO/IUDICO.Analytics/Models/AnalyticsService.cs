@@ -13,10 +13,11 @@ namespace IUDICO.Analytics.Models
         {
             _AnalyticsStorage = analyticsStoragea;
         }
-
+        /*
         public IEnumerable<TopicStat> GetRecommendationsByPerformance(User user)
         {
             return _AnalyticsStorage.GetRecommendedTopics(user);
         }
+         * */
     }
 }
