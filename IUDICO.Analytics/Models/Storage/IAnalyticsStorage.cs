@@ -31,5 +31,6 @@ namespace IUDICO.Analytics.Models.Storage
         Dictionary<Guid, IEnumerable<UserScore>> GetUserScores();
         
         void UpdateUserScores(Guid id);
+        void UpdateTopicScores(int id);
     }
 }

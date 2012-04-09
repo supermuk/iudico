@@ -202,7 +202,10 @@ namespace IUDICO.Analytics.Models.Storage
             var user = this.GetUser(id);
             var userTagScores = this.GetUserTagScores(user);
 
+            _Db.UserScores.DeleteAllOnSubmit(_Db.UserScores.Where(us => us.UserId == id));
+            _Db.UserScores.InsertAllOnSubmit(userTagScores);
 
+            _Db.SubmitChanges();
         }
 
         protected IEnumerable<TopicTag> GetTopicTags(Func<TopicTag, bool> predicate)
@@ -210,17 +213,17 @@ namespace IUDICO.Analytics.Models.Storage
             return _Db.TopicTags.Where(predicate).Select(tt => new { Tag = tt.Tag, TopicTag = tt }).AsEnumerable().Select(a => a.TopicTag);
         }
 
-        protected Dictionary<int, double> GetUserTagScores(User user)
+        protected IEnumerable<UserScore> GetUserTagScores(User user)
         {
-            var tags = new Dictionary<int, double>();
+            var tags = new Dictionary<int, float>();
             var count = new Dictionary<int, int>();
 
-            var attempts = GetResults(user).GroupBy(a => a.User).Select(g => g.First()).ToDictionary(a => a.Topic.Id, a => a);
+            var attempts = GetResults(user).GroupBy(a => new {UserId = a.User.Id, TopicId = a.Topic.Id}).Select(g => g.First()).ToDictionary(a => a.Topic.Id, a => a);
             var topicTags = GetTopicTags(f => attempts.Keys.Contains(f.TopicId)).GroupBy(t => t.TopicId).ToDictionary(g => g.Key, g => g.Select(t => t.TagId));
 
             if (attempts.Count() == 0)
             {
-                return tags;
+                return new List<UserScore>();
             }
 
             foreach (var topic in topicTags)
@@ -239,7 +242,7 @@ namespace IUDICO.Analytics.Models.Storage
 
                 foreach (var tag in topic.Value)
                 {
-                    tags[tag] += score.Value;
+                    tags[tag] += (float)score.Value;
                     count[tag]++;
                 }
             }
@@ -249,22 +252,45 @@ namespace IUDICO.Analytics.Models.Storage
                 tags[kv.Key] /= count[kv.Key];
             }
 
+            return tags.Select(ut => new UserScore { UserId = user.Id, TagId = ut.Key, Score = ut.Value });
+        }
+
+        public void UpdateTopicScores(int id)
+        {
+            var topic = this.GetTopic(id);
+            var topicTagScores = this.GetTopicTagScores(topic);
+
+            _Db.TopicScores.DeleteAllOnSubmit(_Db.TopicScores.Where(us => us.TopicId == id));
+            _Db.TopicScores.InsertAllOnSubmit(topicTagScores);
+
+            _Db.SubmitChanges();
+        }
+
+        protected IEnumerable<TopicScore> GetTopicTagScores(Topic topic)
+        {
+            var topicTags = this.GetTopicTags(t => t.TopicId == topic.Id);
+            var attempts = GetResults(topic).GroupBy(a => new { UserId = a.User.Id, TopicId = a.Topic.Id }).Select(g => g.First());
+            var total = 0.0;
+            var count = 0;
+
+            foreach (var attempt in attempts)
+            {
+                var score = attempt.Score.ToPercents();
+
+                if (score == null)
+                {
+                    continue;
+                }
+
+                total += score.Value;
+                count++;
+            }
+
+            var average = (float)(total/count);
+
+            var tags = topicTags.Select(t => new TopicScore { TagId = t.TagId, TopicId = t.TopicId, Score = average });
+
             return tags;
-        }
-
-        public IEnumerable<TopicStat> GetRecommenderTopics(User user)
-        {
-            return GetRecommenderTopics(user, 0);
-        }
-
-        public IEnumerable<TopicStat> GetRecommenderTopics(User user, int amount)
-        {
-            var topics = this.GetTopicsAvailableForUser(user);
-            var list = topics.Select(topic => new TopicStat(topic.Topic, this.PearsonDistance(user, topic.Topic))).ToList();
-
-            list.Sort();
-
-            return (amount > 0 ? list.Take(amount) : list);
         }
 
         protected double PearsonDistance(User user, Topic topic)
@@ -290,6 +316,21 @@ namespace IUDICO.Analytics.Models.Storage
             var den = Math.Sqrt((sum1Sq - Math.Pow(sum1, 2) / n) * (sum2Sq - Math.Pow(sum2, 2) / n));
 
             return den == 0 ? 0 : num / den;
+        }
+
+        public IEnumerable<TopicStat> GetRecommenderTopics(User user)
+        {
+            return GetRecommenderTopics(user, 0);
+        }
+
+        public IEnumerable<TopicStat> GetRecommenderTopics(User user, int amount)
+        {
+            var topics = this.GetTopicsAvailableForUser(user);
+            var list = topics.Select(topic => new TopicStat(topic.Topic, this.PearsonDistance(user, topic.Topic))).ToList();
+
+            list.Sort();
+
+            return (amount > 0 ? list.Take(amount) : list);
         }
 
         #endregion
@@ -431,6 +472,11 @@ namespace IUDICO.Analytics.Models.Storage
         protected User GetUser(Guid id)
         {
             return _LmsService.FindService<IUserService>().GetUsers(u => u.Id == id).SingleOrDefault();
+        }
+
+        protected Topic GetTopic(int id)
+        {
+            return _LmsService.FindService<IDisciplineService>().GetTopic(id);
         }
 
         protected IEnumerable<Topic> GetTopics()
