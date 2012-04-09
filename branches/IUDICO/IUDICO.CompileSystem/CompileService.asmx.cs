@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
 using System.ComponentModel;
-using CompileSystem.Compiling;
-using CompileSystem.Compiling.Compile;
+using CompileSystem.Compilation_Part;
+using CompileSystem.Testing_Part;
 
 namespace CompileSystem
 {
@@ -32,57 +31,33 @@ namespace CompileSystem
         [WebMethod]
         public string Compile(string source, string language, string[] input, string[] output, int timelimit, int memorylimit)
         {
+            //remove after testing
+            const string compilerDirectory = "Compilers";
+            var compilers = new Compilers(compilerDirectory);
+            compilers.Load();
+            //----
+            
             source = HttpUtility.UrlDecode(source);
+            Compiler currentCompiler = compilers.GetCompiler(language);
 
-            var settings = new Settings
+            if (currentCompiler == null)
+                throw new Exception("Can't find compiler with such name");
+            
+            string compileFilePath = Classes.Helper.CreateFileForCompilation(source, currentCompiler.Extension);
+
+            var compileTask = new CompileTask(currentCompiler, compileFilePath);
+
+            if (!compileTask.Execute())
+                throw new Exception("Can't compile source code");
+
+            var executeFilePath = Path.ChangeExtension(compileFilePath, "exe");
+
+            for (int i = 0; i < input.Length; i++)
             {
-                TestingDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()),
-                Compilers = new List<Compiler>
-                                                       {
-                                                           Compiler.VC8Compiler,
-                                                           Compiler.DotNet3Compiler,
-                                                           Compiler.Delphi7Compiler,
-                                                           Compiler.Java6Compiler
-                                                       }
-            };
+                var currentStatus = Tester.Test(executeFilePath, input[i], output[i], timelimit, memorylimit);
 
-            var p = new Program {Source = source, MemoryLimit = memorylimit, TimeLimit = timelimit};
-            var tester = new CompilationTester(settings);
-            Result testResult;
-
-            switch (language)
-            {
-                case "CPP": p.Language = Language.VC8; break;
-                case "CS": p.Language = Language.CSharp3; break;
-                case "Delphi": p.Language = Language.Delphi7; break;
-                case "Java": p.Language = Language.Java6; break;
-                default: return "Unsupported language";
-            }
-
-            var compileResult = tester.Compile(p.Source, p.Language);
-
-            if (!compileResult.Compiled)
-            {
-                testResult = new Result
-                {
-                    ProgramStatus = Status.CompilationError,
-                    Output = compileResult.StandartOutput
-                };
-
-                return Enum.GetName(typeof(Status), testResult.ProgramStatus).Trim();
-            }
-
-            for (var i = 0; i < input.Length; i++)
-            {
-                p.InputTest = input[i];
-                p.OutputTest = output[i];
-
-                var result = tester.TestProgram(p);
-
-                if (result.ProgramStatus != Status.Accepted)
-                {
-                    return (Enum.GetName(typeof(Status), result.ProgramStatus) + " Test: " + i).Trim();
-                }
+                if (currentStatus.TestResult != "Accepted")
+                    throw new Exception("Wrong compile result");
             }
 
             return "Accepted";
