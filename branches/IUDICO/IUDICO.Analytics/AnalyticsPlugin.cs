@@ -45,7 +45,8 @@ namespace IUDICO.Analytics
             return new[]
                        {
                            new Action("Analytics", "Stats/Index"),
-                           new Action("Features", "Features/Index")
+                           new Action("Tags", "Tags/Index"),
+                           new Action("Recommender", "Recommender/Index")
                        };
         }
 
@@ -62,13 +63,19 @@ namespace IUDICO.Analytics
             routes.MapRoute(
                 "Analytics",
                 "Analytics/{action}",
-                new {controller = "Analytics", action = "Index"}
+                new { controller = "Analytics", action = "Index" }
                 );
 
             routes.MapRoute(
-                "Features",
-                "Features/{action}",
-                new { controller = "Features", action = "Index" }
+                "Tags",
+                "Tags/{action}",
+                new { controller = "Tags", action = "Index" }
+                );
+
+            routes.MapRoute(
+                "Recommender",
+                "Recommender/{action}",
+                new { controller = "Recommender", action = "Index" }
                 );
         }
 

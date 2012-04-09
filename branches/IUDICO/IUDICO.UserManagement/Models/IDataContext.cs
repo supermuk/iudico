@@ -9,6 +9,6 @@ namespace IUDICO.UserManagement.Models
         IMockableTable<Group> Groups { get; }
         IMockableTable<GroupUser> GroupUsers { get; }
         IMockableTable<UserRole> UserRoles { get; }
-        IMockableTable<UserTopicScore> UserTopicScores { get; }
+        IMockableTable<UserTopicRating> UserTopicRatings { get; }
     }
 }

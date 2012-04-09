@@ -24,12 +24,6 @@ namespace IUDICO.DisciplineManagement.Models
         partial void InsertUser(User instance);
         partial void UpdateUser(User instance);
         partial void DeleteUser(User instance);
-        partial void InsertUserTopicScore(UserTopicScore instance);
-        partial void UpdateUserTopicScore(UserTopicScore instance);
-        partial void DeleteUserTopicScore(UserTopicScore instance);
-        partial void InsertTopicFeature(TopicFeature instance);
-        partial void UpdateTopicFeature(TopicFeature instance);
-        partial void DeleteTopicFeature(TopicFeature instance);
         #endregion
 
         public DBDataContext() :
@@ -94,13 +88,6 @@ namespace IUDICO.DisciplineManagement.Models
             }
         }
 
-        public System.Data.Linq.Table<UserTopicScore> UserTopicScores
-        {
-            get
-            {
-                return this.GetTable<UserTopicScore>();
-            }
-        }
         IMockableTable<Discipline> IDataContext.Disciplines
         {
             get { return new MockableTable<Discipline>(Disciplines); }
@@ -119,11 +106,6 @@ namespace IUDICO.DisciplineManagement.Models
         IMockableTable<TopicType> IDataContext.TopicTypes
         {
             get { return new MockableTable<TopicType>(TopicTypes); }
-        }
-
-        IMockableTable<UserTopicScore> IDataContext.UserTopicScores
-        {
-            get { return new MockableTable<UserTopicScore>(UserTopicScores); }
         }
     }
 }

@@ -113,6 +113,7 @@ namespace IUDICO.UnitTests.UserManagement
             MockStorage.Setup(s => s.GetUserRoles(It.IsAny<string>())).Returns(
                 (string username) => GetUserRoles(username));
             MockStorage.Setup(s => s.GetGroupsByUser(It.IsAny<User>())).Returns((User user) => GetGroupsByUser(user));
+            MockStorage.Setup(s => s.GetGroupsByUser(It.IsAny<User>())).Returns((User user) => GetGroupsByUser(user));
         }
 
         public void SetupTables()

@@ -448,7 +448,7 @@ namespace IUDICO.Common.Models.Shared
 
     [MetadataType(typeof(Metadata))]
     [Bind(Exclude = "Id")]
-    public partial class Feature
+    public partial class Tag
     {
         private sealed class Metadata
         {
@@ -456,7 +456,7 @@ namespace IUDICO.Common.Models.Shared
             public int Id { get; set; }
 
             [ScaffoldColumn(false)]
-            public EntitySet<TopicFeature> TopicFeatures { get; set; }
+            public EntitySet<TopicTag> TopicTags { get; set; }
 
             [LocalizedDisplayName("Name")]
             [LocalizedRequired(ErrorMessage = "NameRequired")]

@@ -531,12 +531,12 @@ namespace IUDICO.UserManagement.Models.Storage
             }
         }
 
-        public void RateTopic(int topicId, int score)
+        public void RateTopic(int topicId, int rating)
         {
             var db = GetDbContext();
 
-            var rating = new UserTopicScore {Score = score, TopicId = topicId, UserId = GetCurrentUser().Id};
-            db.UserTopicScores.InsertOnSubmit(rating);
+            var r = new UserTopicRating {Rating = rating, TopicId = topicId, UserId = GetCurrentUser().Id};
+            db.UserTopicRatings.InsertOnSubmit(r);
 
             db.SubmitChanges();
         }
@@ -580,7 +580,7 @@ namespace IUDICO.UserManagement.Models.Storage
             newGroup.Name = group.Name;
             db.SubmitChanges();
 
-            var data = new object[] {oldGroup, newGroup};
+            var data = new object[] { oldGroup, newGroup };
 
             _LmsService.Inform(UserNotifications.GroupEdit, data);
         }

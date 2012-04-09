@@ -8,11 +8,11 @@ using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Analytics.Controllers
 {
-    public class FeaturesController : PluginController
+    public class TagsController : PluginController
     {
         private readonly IAnalyticsStorage _Storage;
 
-        public FeaturesController(IAnalyticsStorage analyticsStorage)
+        public TagsController(IAnalyticsStorage analyticsStorage)
         {
             _Storage = analyticsStorage;
         }
@@ -23,7 +23,7 @@ namespace IUDICO.Analytics.Controllers
         [Allow(Role = Role.Admin)]
         public ActionResult Index()
         {
-            return View(_Storage.GetFeatures());
+            return View(_Storage.GetTags());
         }
 
         //
@@ -32,7 +32,7 @@ namespace IUDICO.Analytics.Controllers
         [Allow(Role = Role.Admin)]
         public ActionResult Details(int id)
         {
-            return View(_Storage.GetFeatureDetails(id));
+            return View(_Storage.GetTagDetails(id));
         }
 
         //
@@ -41,9 +41,9 @@ namespace IUDICO.Analytics.Controllers
         [Allow(Role = Role.Admin)]
         public ActionResult Create()
         {
-            var feature = new Feature();
+            var tag = new Tag();
 
-            return View(feature);
+            return View(tag);
         }
 
         //
@@ -51,16 +51,16 @@ namespace IUDICO.Analytics.Controllers
 
         [HttpPost]
         [Allow(Role = Role.Admin)]
-        public ActionResult Create(Feature feature)
+        public ActionResult Create(Tag tag)
         {
             if (ModelState.IsValid)
             {
-                _Storage.CreateFeature(feature);
+                _Storage.CreateTag(tag);
 
                 return RedirectToAction("Index");
             }
 
-            return View(feature);
+            return View(tag);
         }
 
         //
@@ -69,7 +69,7 @@ namespace IUDICO.Analytics.Controllers
         [Allow(Role = Role.Admin)]
         public ActionResult Edit(int id)
         {
-            return View(_Storage.GetFeature(id));
+            return View(_Storage.GetTag(id));
         }
 
         //
@@ -77,14 +77,14 @@ namespace IUDICO.Analytics.Controllers
 
         [HttpPost]
         [Allow(Role = Role.Admin)]
-        public ActionResult Edit(int id, Feature feature)
+        public ActionResult Edit(int id, Tag tag)
         {
             if (!ModelState.IsValid)
             {
-                return View(feature);
+                return View(tag);
             }
 
-            _Storage.EditFeature(id, feature);
+            _Storage.EditTag(id, tag);
 
             return RedirectToAction("Index");
         }
@@ -98,7 +98,7 @@ namespace IUDICO.Analytics.Controllers
         {
             try
             {
-                _Storage.DeleteFeature(id);
+                _Storage.DeleteTag(id);
 
                 return Json(new {status = true});
             }
@@ -111,7 +111,7 @@ namespace IUDICO.Analytics.Controllers
         [Allow(Role = Role.Admin)]
         public ActionResult EditTopics(int id)
         {
-            var features =_Storage.GetFeatureDetailsWithTopics(id);
+            var features =_Storage.GetTagDetailsWithTopics(id);
 
             return View(features);
         }
@@ -122,7 +122,7 @@ namespace IUDICO.Analytics.Controllers
         {
             var topics = string.IsNullOrEmpty(form["topics"]) ? Enumerable.Empty<int>() : form["topics"].Split(',').Select(i => int.Parse(i));
 
-            _Storage.EditTopics(id, topics);
+            _Storage.EditTags(id, topics);
 
             return RedirectToAction("Index");
         }
