@@ -1,21 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Text;
 using System.Collections.Generic;
-using System.Linq;
-using CompileSystem;
-using CompileSystem.Compiling;
-using CompileSystem.Compiling.Compile;
-using CompileSystem.Compiling.Run;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TestingSystem;
 
 namespace IUDICO.UnitTests.CompileService.UnitTests
 {
     [TestClass]
     public class CompileServiceUnitTests
     {
+        /*
         //CompileException Tests
         #region CompileException tests
  
@@ -680,7 +674,7 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
             /*
             memoryLimit = -1;
             program.MemoryLimit = memoryLimit;
-            Assert.AreEqual(true, program.MemoryLimit > 0);*/
+            Assert.AreEqual(true, program.MemoryLimit > 0);
             //TODO: memoryLimit value must be greater than 0
         }
 
@@ -1047,5 +1041,7 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
         }
 
         #endregion
+
+        */
     }
 }

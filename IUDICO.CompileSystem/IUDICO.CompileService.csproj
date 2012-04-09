@@ -52,27 +52,24 @@
   <ItemGroup>
     <Content Include="CompileService.asmx" />
     <Content Include="crossdomain.xml" />
+    <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Compiling\CompilationTester.cs" />
-    <Compile Include="Compiling\Compile\CompileException.cs" />
-    <Compile Include="Compiling\Compile\Compiler.cs" />
-    <Compile Include="Compiling\Compile\CompileResult.cs" />
-    <Compile Include="Compiling\Language.cs" />
-    <Compile Include="Compiling\Program.cs" />
-    <Compile Include="Compiling\ProjectHelper.cs" />
-    <Compile Include="Compiling\Result.cs" />
-    <Compile Include="Compiling\Run\MemoryCounter.cs" />
-    <Compile Include="Compiling\Run\Runner.cs" />
-    <Compile Include="Compiling\Settings.cs" />
-    <Compile Include="Compiling\Status.cs" />
+    <Compile Include="Classes\Compilation Part\Compiler.cs" />
+    <Compile Include="Classes\Compilation Part\Compilers.cs" />
+    <Compile Include="Classes\Compilation Part\CompileTask.cs" />
+    <Compile Include="Classes\Helper.cs" />
     <Compile Include="CompileService.asmx.cs">
       <DependentUpon>CompileService.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FunctionContainer.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Classes\Testing Part\Status.cs" />
+    <Compile Include="Classes\Testing Part\Tester.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Compilers\" />
