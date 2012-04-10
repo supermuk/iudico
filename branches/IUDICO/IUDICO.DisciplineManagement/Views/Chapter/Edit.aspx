@@ -8,7 +8,7 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=IUDICO.CurriculumManagement.Localization.getMessage("EditChapter")%>
+	<%=IUDICO.DisciplineManagement.Localization.getMessage("EditChapter")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
