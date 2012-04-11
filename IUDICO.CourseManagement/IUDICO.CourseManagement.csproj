@@ -752,6 +752,7 @@
     <Content Include="Scripts\jquery\themes\default\style.css" />
     <Content Include="Scripts\jquery\themes\default\throbber.gif" />
     <Content Include="Scripts\lms.js" />
+    <Content Include="Views\Course\CreateNew.ascx" />
     <Content Include="Views\Shared\EditorTemplates\RollupRules.ascx" />
     <Content Include="Views\Shared\Properties.ascx" />
     <None Include="Content\Tree\themes\apple\bg.jpg" />
