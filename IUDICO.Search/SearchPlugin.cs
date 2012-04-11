@@ -18,6 +18,8 @@ namespace IUDICO.Search
 {
     public class SearchPlugin : IWindsorInstaller, IPlugin
     {
+        static IWindsorContainer _Container;
+
         #region IWindsorInstaller Members
         bool isRun = false;
         protected Object myObject;
@@ -33,6 +35,8 @@ namespace IUDICO.Search
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<SearchPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
+
+            _Container = container;
         }
 
         #endregion
@@ -218,12 +222,17 @@ namespace IUDICO.Search
             {
                 Directory directory = FSDirectory.Open(new System.IO.DirectoryInfo(serverPath));
                 Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_29);
+
                 IndexWriter writer = new IndexWriter(directory, analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED);
-
-                ProcessNode(writer, (IUDICO.Common.Models.Shared.Node)data[0], (((IWindsorContainer)data[0]).Resolve<ILmsService>()).FindService<ICourseService>());
-
-                writer.Optimize();
-                writer.Close();
+                try
+                {
+                    ProcessNode(writer, (IUDICO.Common.Models.Shared.Node)data[0], (_Container.Resolve<ILmsService>()).FindService<ICourseService>());
+                }
+                finally
+                {
+                    writer.Optimize();
+                    writer.Close();
+                }
             }
 
             if (evt == CourseNotifications.NodeEdit)
