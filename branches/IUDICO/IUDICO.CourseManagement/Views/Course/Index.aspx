@@ -64,20 +64,42 @@
         | <a id="DeleteMany" href="#">
             <%=IUDICO.CourseManagement.Localization.getMessage("DeleteSelected")%></a>
     </p>
-    <div style="float: left; width:600px;">
-        <h2>
-            <%=IUDICO.CourseManagement.Localization.getMessage("Mycourses")%>:</h2>
+           
+    <div style="float:inherit; width:400px;">
+    <h2>
+       <%=IUDICO.CourseManagement.Localization.getMessage("Allcourses")%>:</h2>
+       <p>
+        <table>
+            <tr>
+                <%--<td style="border-style:solid; width:200px;"></td>--%>
+                <td style="background-color:PaleGreen;" >
+                    <%=IUDICO.CourseManagement.Localization.getMessage("Mycourses")%>
+                </td>
+
+                <td style="background-color:Khaki;" >
+                    <%=IUDICO.CourseManagement.Localization.getMessage("CoursesSharedWithMe")%>
+                </td>
+
+                <td style="background-color:Bisque;" >
+                    <%=IUDICO.CourseManagement.Localization.getMessage("PublishedCourses")%>
+                </td>
+            </tr>
+        </table>
+       </p>
+    </div>
+    <div style="float: left; width:800px;">
+         
         <% var index = 1;
            var myCourses = Model.Where(i => i.Owner == HttpContext.Current.User.Identity.Name && i.Locked != true);
            var sharedCourses = Model.Where(i => i.Owner != HttpContext.Current.User.Identity.Name && i.Locked != true);
            var lockedCourses = Model.Where(i => i.Locked == true);
         %>
-        <% if (myCourses.Count() > 0)
+        <% if (myCourses.Count() + sharedCourses.Count() + lockedCourses.Count() > 0)
            { %>
-        <table id="myCourses">
+        <table id="Courses">
             <tr>
                 <th>
-                    <input type="checkbox" id="myCoursesCheckAll" />
+                    <input type="checkbox" id="CoursesCheckAll" />
                 </th>
                 <th>
                     №
@@ -93,7 +115,7 @@
             </tr>
             <% foreach (var item in myCourses)
                { %>
-            <tr>
+            <tr style="background-color:PaleGreen;">
                 <td>
                     <input type="checkbox" id="<%= item.Id %>" />
                 </td>
@@ -120,45 +142,18 @@
                 </td>
             </tr>
             <% } %>
-        </table>
-        <% }
-           else
-           {%>
-        <%=IUDICO.CourseManagement.Localization.getMessage("NoCourses")%>
-        <% } %>
-        <h2>
-            <%=IUDICO.CourseManagement.Localization.getMessage("CoursesSharedWithMe")%>:</h2>
-        <% if (sharedCourses.Count() > 0)
-           { %>
-        <table id="sharedCourses">
-            <tr>
-                <th>
-                    <input type="checkbox" id="sharedCoursesCheckAll" />
-                </th>
-                <th>
-                    №
-                </th>
-                <th>
-                    <%=IUDICO.CourseManagement.Localization.getMessage("Name")%>
-                </th>
-                <th>
-                    <%=IUDICO.CourseManagement.Localization.getMessage("Updated")%>
-                </th>
-                <th>
-                </th>
-            </tr>
             <% foreach (var item in sharedCourses)
                { %>
-            <tr>
+            <tr style="background-color:Khaki;">
                 <td>
-                    <input type="checkbox" id="<%= item.Id %>" />
+                    <input type="checkbox" id="Checkbox2" />
                 </td>
                 <td>
                     <%: index++ %>
                 </td>
                 <td>
                     <div><%: item.Name %></div>
-                    <div class="course-created-label"><%=IUDICO.CourseManagement.Localization.getMessage("Created by")%> <%: item.Owner %>: <%: String.Format("{0:d}", item.Created) %>)</div>
+                    <div class="course-created-label"><%=IUDICO.CourseManagement.Localization.getMessage("Created by")%> <%: item.Owner %>: <%: String.Format("{0:d}", item.Created) %></div>
                 </td>
                 <td>
                     <%: String.Format("{0:g}", item.Updated) %>
@@ -176,40 +171,11 @@
                 </td>
             </tr>
             <% } %>
-        </table>
-        <% }
-           else
-           {%>
-        <%=IUDICO.CourseManagement.Localization.getMessage("NoCourses")%>
-        <% } %>
-    </div>
-    <div style="float: left; width: 300px;  margin-left:20px;">
-        <h2>
-            <%= IUDICO.CourseManagement.Localization.getMessage("Published courses") %>:</h2>
-        <% if (lockedCourses.Count() > 0)
-           { %>
-        <table id="publishedCourses">
-            <tr>
-                <th>
-                    <input type="checkbox" id="publishedCoursesCheckAll" />
-                </th>
-                <th>
-                    №
-                </th>
-                <th>
-                    <%=IUDICO.CourseManagement.Localization.getMessage("Name")%>
-                </th>
-                <th>
-                    <%=IUDICO.CourseManagement.Localization.getMessage("Published")%>
-                </th>
-                <th>
-                </th>
-            </tr>
             <% foreach (var item in lockedCourses)
                { %>
-            <tr>
+            <tr style="background-color:Bisque;">
                 <td>
-                    <input type="checkbox" id="<%= item.Id %>" />
+                    <input type="checkbox" id="Checkbox1" />
                 </td>
                 <td>
                     <%: index++ %>

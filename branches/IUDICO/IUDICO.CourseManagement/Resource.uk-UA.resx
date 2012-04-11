@@ -360,4 +360,10 @@
   <data name="SelectionTiming" xml:space="preserve">
     <value>Вибір часу</value>
   </data>
+  <data name="Allcourses" xml:space="preserve">
+    <value>Усі курси</value>
+  </data>
+  <data name="PublishedCourses" xml:space="preserve">
+    <value>Опубліковані курси</value>
+  </data>
 </root>

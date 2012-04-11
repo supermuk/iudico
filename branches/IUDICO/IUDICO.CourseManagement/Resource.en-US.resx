@@ -360,4 +360,10 @@
   <data name="SelectionTiming" xml:space="preserve">
     <value>Selection Timing</value>
   </data>
+  <data name="Allcourses" xml:space="preserve">
+    <value>All courses</value>
+  </data>
+  <data name="PublishedCourses" xml:space="preserve">
+    <value>Published сourses</value>
+  </data>
 </root>
