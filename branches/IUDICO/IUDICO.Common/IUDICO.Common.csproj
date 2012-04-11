@@ -111,6 +111,7 @@
     <Compile Include="Models\Shared\Statistics\AttemptResult.cs" />
     <Compile Include="Models\Shared\Statistics\Enums.cs" />
     <Compile Include="Models\Shared\Statistics\Score.cs" />
+    <Compile Include="Models\Shared\TopicStat.cs" />
     <Compile Include="Models\TemplateMetadata\FieldTemplateMetadata.cs" />
     <Compile Include="Models\TemplateMetadata\FieldTemplateMetadataProvider.cs" />
     <Compile Include="Models\UserRoles.cs" />

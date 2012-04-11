@@ -26,6 +26,11 @@ namespace IUDICO.CurriculumManagement.Models
             return _curriculumStorage.GetTopicDescriptions(user);
         }
 
+        public IEnumerable<TopicDescription> GetTopicDescriptionsByTopics(IEnumerable<Topic> topics, User user)
+        {
+            return _curriculumStorage.GetTopicDescriptionsByTopics(topics, user);
+        }
+
         public CurriculumChapterTopic GetCurriculumChapterTopicById(int curriculumChapterTopicId)
         {
             return _curriculumStorage.GetCurriculumChapterTopic(curriculumChapterTopicId);
