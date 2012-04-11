@@ -40,9 +40,12 @@
             
             <select multiple="multiple" id="sharewith" name="sharewith">
             <%  foreach (IUDICO.Common.Models.Shared.User user in ViewData["AllUsers"] as IEnumerable<IUDICO.Common.Models.Shared.User>)
-                { %>
+                {
+                    if (user.Roles.Contains(IUDICO.Common.Models.Role.CourseCreator) | user.Roles.Contains(IUDICO.Common.Models.Role.Teacher))
+                    {   %>
                 <option value="<%= user.Id %>"><%: user.Name %></option>
-            <% }%>
+            <%      }
+                }%>
             </select>
 
             <p>
