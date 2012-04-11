@@ -425,9 +425,12 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public void ChangePassword(ChangePasswordModel changePasswordModel)
         {
+            var identity = HttpContext.Current.User.Identity;
+
             var db = GetDbContext();
 
-            var user = GetCurrentUser();
+            var user = db.Users.Single(u => u.Username == identity.Name);
+            
             user.Password = EncryptPassword(changePasswordModel.NewPassword);
 
             db.SubmitChanges();

@@ -265,9 +265,10 @@ namespace IUDICO.UserManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult UploadAvatar(Guid id, HttpPostedFileBase file)
+        public ActionResult UploadAvatar(HttpPostedFileBase file)
         {
-            _Storage.UploadAvatar(id, file);
+            var user = _Storage.GetCurrentUser();
+            _Storage.UploadAvatar(user.Id, file);
 
             return RedirectToAction("Edit");
         }
