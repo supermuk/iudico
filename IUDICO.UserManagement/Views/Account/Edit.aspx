@@ -10,7 +10,7 @@
 
     <h2><%=Localization.getMessage("Edit")%></h2>
 
-    <form action="../Account/UploadAvatar/<%=Model.Id%>/" method="post" enctype="multipart/form-data">
+    <form action="../Account/UploadAvatar/" method="post" enctype="multipart/form-data">
         <table>
                 <tr>
                     <th><%:Localization.getMessage("DisplayAvatar")%></th>
