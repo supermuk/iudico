@@ -268,6 +268,93 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return result;
         }
 
+        public IEnumerable<TopicDescription> GetTopicDescriptionsByTopics(IEnumerable<Topic> topics, User user)
+        {
+            var result = new List<TopicDescription>();
+            var groups = GetGroupsByUser(user).ToList();
+            var dateNow = DateTime.Now;
+
+            var curriculums = groups
+                .SelectMany(group => GetCurriculumsByGroupId(group.Id))
+                .Where(curriculum => dateNow.Between(curriculum.StartDate, curriculum.EndDate))
+                .ToList();
+
+            var curriculumChapters = curriculums
+                .SelectMany(curriculum => GetCurriculumChaptersByCurriculumId(curriculum.Id))
+                .Where(curriculumChapter => dateNow.Between(curriculumChapter.StartDate, curriculumChapter.EndDate))
+                .ToList();
+
+            var curriculumChapterTopics = curriculumChapters
+                .SelectMany(curriculumChapter => GetCurriculumChapterTopicsByCurriculumChapterId(curriculumChapter.Id))
+                .Where(cc => topics.Select(t => t.Id).Contains(cc.TopicRef));
+
+            var blockedCurriculumIds = new List<int>();
+
+            foreach (var curriculumChapterTopic in curriculumChapterTopics)
+            {
+                TopicDescription testTopicDescription = null;
+                TopicDescription theoryTopicDescription = null;
+                
+                if (curriculumChapterTopic.Topic.TestCourseRef.HasValue && dateNow.Between(curriculumChapterTopic.TestStartDate, curriculumChapterTopic.TestEndDate))
+                {
+                    testTopicDescription = new TopicDescription
+                    {
+                        CourseId = curriculumChapterTopic.Topic.TestCourseRef,
+                        CurriculumChapterTopicId = curriculumChapterTopic.Id,
+                        Topic = curriculumChapterTopic.Topic,
+                        TopicType = Converter.ToTopicType(curriculumChapterTopic.Topic.TestTopicType),
+                        TopicPart = TopicPart.Test,
+                        Chapter = curriculumChapterTopic.CurriculumChapter.Chapter,
+                        Discipline = curriculumChapterTopic.CurriculumChapter.Curriculum.Discipline,
+                        Curriculum = curriculumChapterTopic.CurriculumChapter.Curriculum,
+                        StartDate = curriculumChapterTopic.TestStartDate.Value,
+                        EndDate = curriculumChapterTopic.TestEndDate.Value
+                    };
+                }
+
+                if (curriculumChapterTopic.Topic.TheoryCourseRef.HasValue && dateNow.Between(curriculumChapterTopic.TheoryStartDate, curriculumChapterTopic.TheoryEndDate))
+                {
+                    theoryTopicDescription = new TopicDescription
+                    {
+                        CourseId = curriculumChapterTopic.Topic.TheoryCourseRef,
+                        CurriculumChapterTopicId = curriculumChapterTopic.Id,
+                        Topic = curriculumChapterTopic.Topic,//???
+                        TopicType = Converter.ToTopicType(curriculumChapterTopic.Topic.TheoryTopicType),//???
+                        TopicPart = TopicPart.Theory,
+                        Chapter = curriculumChapterTopic.CurriculumChapter.Chapter,//???
+                        Discipline = curriculumChapterTopic.CurriculumChapter.Curriculum.Discipline,//???
+                        Curriculum = curriculumChapterTopic.CurriculumChapter.Curriculum,//???
+                        StartDate = curriculumChapterTopic.TheoryStartDate.Value,
+                        EndDate = curriculumChapterTopic.TheoryEndDate.Value
+                    };
+                }
+
+                var blockTopicAtTesting = false;
+
+                if (testTopicDescription != null)
+                {
+                    blockTopicAtTesting = curriculumChapterTopic.BlockTopicAtTesting;
+
+                    if (curriculumChapterTopic.BlockCurriculumAtTesting)
+                    {
+                        blockedCurriculumIds.Add(curriculumChapterTopic.CurriculumChapter.CurriculumRef);
+                    }
+
+                    result.Add(testTopicDescription);
+                }
+
+                if (theoryTopicDescription != null && !blockTopicAtTesting)
+                {
+                    result.Add(theoryTopicDescription);
+                }
+            }
+
+            result = result.Where(item => !blockedCurriculumIds.Contains(item.Curriculum.Id) || item.TopicPart != TopicPart.Theory).ToList();
+
+            return result;
+        }
+
+
         //public void MakeCurriculumsInvalid(int groupId)
         //{
         //    var db = GetDbContext();

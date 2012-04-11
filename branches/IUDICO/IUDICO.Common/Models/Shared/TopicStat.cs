@@ -1,7 +1,6 @@
 ﻿using System;
-using IUDICO.Common.Models.Shared;
 
-namespace IUDICO.Analytics.Models
+namespace IUDICO.Common.Models.Shared
 {
     public class TopicStat : IComparable<TopicStat>
     {

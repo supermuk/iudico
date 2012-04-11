@@ -45,7 +45,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         /// <param name="user">The user.</param>
         /// <returns></returns>
         IList<TopicDescription> GetTopicDescriptions(User user);
-
+        IEnumerable<TopicDescription> GetTopicDescriptionsByTopics(IEnumerable<Topic> topics, User user);
 
         #endregion
 

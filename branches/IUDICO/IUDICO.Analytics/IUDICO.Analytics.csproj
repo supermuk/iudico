@@ -14,6 +14,7 @@
     <AssemblyName>IUDICO.Analytics</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -83,7 +84,6 @@
     <Compile Include="Models\Storage\IAnalyticsStorage.cs" />
     <Compile Include="Models\Storage\MixedAnalyticsStorage.cs" />
     <Compile Include="Models\TopicSimilarity.cs" />
-    <Compile Include="Models\TopicStat.cs" />
     <Compile Include="Models\UserRating.cs" />
     <Compile Include="Models\ViewDataClasses\ViewTagDetails.cs" />
     <Compile Include="Models\ViewDataClasses\ViewMainPageModel.cs" />
@@ -104,6 +104,7 @@
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Views\Analytics\Index.aspx" />
     <Content Include="Views\Recommender\Index.aspx" />
+    <Content Include="Views\Recommender\RecommendedTopics.ascx" />
     <Content Include="Views\Recommender\UserScores.aspx" />
     <Content Include="Views\Recommender\TopicScores.aspx" />
     <Content Include="Views\Tags\EditTopics.aspx" />
@@ -111,15 +112,6 @@
     <Content Include="Views\Tags\Details.aspx" />
     <Content Include="Views\Tags\Edit.aspx" />
     <Content Include="Views\Tags\Index.aspx" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="web.config" />
-    <Content Include="web.Debug.config">
-      <DependentUpon>web.config</DependentUpon>
-    </Content>
-    <Content Include="web.Release.config">
-      <DependentUpon>web.config</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
