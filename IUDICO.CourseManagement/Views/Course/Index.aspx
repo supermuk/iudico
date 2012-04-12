@@ -2,10 +2,24 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Course>>" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
-    <script src="<%= Html.ResolveUrl("/Scripts/Microsoft/MicrosoftAjax.js")%>" type="text/javascript"></script>
-    <script src="<%= Html.ResolveUrl("/Scripts/Microsoft/MicrosoftMvcAjax.js")%>" type="text/javascript"></script>
+   
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {
+
+            $('#Courses').dataTable({
+                "bJQueryUI": true,
+                "sPaginationType": "full_numbers",
+                iDisplayLength: 50,
+                "bSort": true,
+                "aoColumns": [
+                { "bSortable": false },
+                null,
+                null,
+                null,
+                { "bSortable": false }
+                ]
+            });
+
             $("input[id$='CheckAll']").click(function () {
                 var $boxes = $("#" + this.id.replace("CheckAll", "")).find(":checkbox");
                 if(this.checked) {
@@ -68,27 +82,9 @@
     <div style="float:inherit; width:400px;">
     <h2>
        <%=IUDICO.CourseManagement.Localization.getMessage("Allcourses")%>:</h2>
-       <p>
-        <table>
-            <tr>
-                <%--<td style="border-style:solid; width:200px;"></td>--%>
-                <td style="background-color:PaleGreen;" >
-                    <%=IUDICO.CourseManagement.Localization.getMessage("Mycourses")%>
-                </td>
 
-                <td style="background-color:Khaki;" >
-                    <%=IUDICO.CourseManagement.Localization.getMessage("CoursesSharedWithMe")%>
-                </td>
-
-                <td style="background-color:Bisque;" >
-                    <%=IUDICO.CourseManagement.Localization.getMessage("PublishedCourses")%>
-                </td>
-            </tr>
-        </table>
-       </p>
     </div>
-    <div style="float: left; width:800px;">
-         
+    <div>
         <% var index = 1;
            var myCourses = Model.Where(i => i.Owner == HttpContext.Current.User.Identity.Name && i.Locked != true);
            var sharedCourses = Model.Where(i => i.Owner != HttpContext.Current.User.Identity.Name && i.Locked != true);
@@ -96,27 +92,30 @@
         %>
         <% if (myCourses.Count() + sharedCourses.Count() + lockedCourses.Count() > 0)
            { %>
-        <table id="Courses">
-            <tr>
-                <th>
-                    <input type="checkbox" id="CoursesCheckAll" />
-                </th>
-                <th>
-                    №
-                </th>
-                <th>
-                    <%=IUDICO.CourseManagement.Localization.getMessage("Name")%>
-                </th>
-                <th>
-                    <%=IUDICO.CourseManagement.Localization.getMessage("Updated")%>
-                </th>
-                <th>
-                </th>
-            </tr>
+        <table id="Courses" class="courseTable">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="CoursesCheckAll" />
+                    </th>
+                    <th>
+                        №
+                    </th>
+                    <th>
+                        <%=IUDICO.CourseManagement.Localization.getMessage("Name")%>
+                    </th>
+                    <th>
+                        <%=IUDICO.CourseManagement.Localization.getMessage("Updated")%>
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
             <% foreach (var item in myCourses)
                { %>
-            <tr style="background-color:PaleGreen;">
-                <td>
+            <tr class="courseMy">
+                <td class="courseCheck">
                     <input type="checkbox" id="<%= item.Id %>" />
                 </td>
                 <td>
@@ -144,8 +143,8 @@
             <% } %>
             <% foreach (var item in sharedCourses)
                { %>
-            <tr style="background-color:Khaki;">
-                <td>
+            <tr class="courseShared">
+                <td class="courseCheck">
                     <input type="checkbox" id="Checkbox2" />
                 </td>
                 <td>
@@ -173,8 +172,8 @@
             <% } %>
             <% foreach (var item in lockedCourses)
                { %>
-            <tr style="background-color:Bisque;">
-                <td>
+            <tr class="courseLocked">
+                <td class="courseCheck">
                     <input type="checkbox" id="Checkbox1" />
                 </td>
                 <td>
@@ -198,6 +197,7 @@
                 </td>
             </tr>
             <% } %>
+            </tbody>
         </table>
         <% }
            else
@@ -205,5 +205,4 @@
         <%=IUDICO.CourseManagement.Localization.getMessage("NoCourses")%>
         <% } %>
     </div>
-    <div style="clear:both;"></div>
 </asp:Content>

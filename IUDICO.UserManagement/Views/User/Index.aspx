@@ -9,19 +9,6 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <script src="<%= Html.ResolveUrl("~/Scripts/jquery-ui.js")%>" type="text/javascript"></script>
-    <script src="<%= Html.ResolveUrl("~/Scripts/jquery.dataTables.editable.js")%>" type="text/javascript"></script>
-    <script src="<%= Html.ResolveUrl("~/Scripts/jquery.dataTables.min.js")%>" type="text/javascript"></script>
-    <script src="<%= Html.ResolveUrl("~/Scripts/jquery.jeditable.js")%>" type="text/javascript"></script>
-    <script src="<%= Html.ResolveUrl("~/Scripts/jquery.validate.js")%>" type="text/javascript"></script>
-
-    <script src="<%= Html.ResolveUrl("~/Scripts/draganddrop/jquery-ui-1.8.18.custom.min.js")%>" type="text/javascript"></script>
-    <script src="<%= Html.ResolveUrl("~/Scripts/draganddrop/jquery.ui.core.js")%>" type="text/javascript"></script>
-    <script src="<%= Html.ResolveUrl("~/Scripts/draganddrop/jquery.ui.draggable.js")%>" type="text/javascript"></script>
-    <script src="<%= Html.ResolveUrl("~/Scripts/draganddrop/jquery.ui.mouse.js")%>" type="text/javascript"></script>
-    <script src="<%= Html.ResolveUrl("~/Scripts/draganddrop/jquery.ui.widget.js")%>" type="text/javascript"></script>
-    <script src="<%= Html.ResolveUrl("~/Scripts/draganddrop/jquery.effects.core.js")%>" type="text/javascript"></script>
-
     <script language="javascript" type="text/javascript">
 
         $(document).ready(function () {
@@ -163,7 +150,7 @@
 
 	</script>
 
-    <div id="catalog" style="padding: 0 0px; float:right; text-align: left;" dir="<%= Html.ResolveUrl("~/Content/images/status_icon_delete.png")%> ">
+    <div id="catalog" style="padding: 0 0px; float:right; text-align: left;" dir="<%= Html.ResolveUrl("/Content/images/status_icon_delete.png")%> ">
     <%--<div id="catalog" style="padding: 0 0px; float:right; text-align: left;">--%>
         <h3><a href="#" style="background-color:Silver;">Roles</a></h3>
         <div class="magleft">
@@ -241,7 +228,7 @@
             <ol class="ui-droppable ui-sortable">
             <% foreach (IUDICO.Common.Models.Role role in item.Roles) {%>
 
-                        <li> <%: role %> <img src="<%= Html.ResolveUrl("~/Content/images/status_icon_delete.png")%>" class="<%: role %>" alt="Remove role" /> </li> 
+                        <li> <%: role %> <img src="<%= Html.ResolveUrl("/Content/images/status_icon_delete.png")%>" class="<%: role %>" alt="Remove role" /> </li> 
 <%--                        <li> <%: role %> <img src="http://docs.activestate.com/komodo/4.4/img/status_icon_delete.png" class="<%: role %>" alt="Remove role" /> </li> --%>
                     
             <%} %>
@@ -305,19 +292,13 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
-    <script src="<%=Html.ResolveUrl("/Scripts/Microsoft/MicrosoftAjax.js")%>" type="text/javascript"></script>
-    <script src="<%=Html.ResolveUrl("/Scripts/Microsoft/MicrosoftMvcAjax.js")%>" type="text/javascript"></script>
+
     <script type="text/javascript" language="javascript">
         function removeRow(data) {
             window.location = window.location;
         }
     </script>
 
-    <link href="<%=  Html.ResolveUrl("~/Content/dataTables/demo_table.css")     %>" rel="stylesheet" type="text/css" />
-    <link href="<%=  Html.ResolveUrl("~/Content/dataTables/demo_table_jui.css") %>" rel="stylesheet" type="text/css" />
-    <link href="<%=  Html.ResolveUrl("~/Content/themes/base/jquery-ui.css")     %>" rel="stylesheet" type="text/css" media="all" />
-    <link href="<%=  Html.ResolveUrl("~/Content/jAlert/jquery.alerts.css")      %>" rel="stylesheet" type="text/css" />
-    <script src="<%= Html.ResolveUrl("~/Content/jAlert/jquery.alerts.js")       %>" type="text/javascript"></script>
 
     <style type="text/css">
 	#catalog { width: 150px;}

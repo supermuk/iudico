@@ -62,7 +62,6 @@ namespace IUDICO.UserManagement
         {
             return new[]
                        {
-                           new MenuItem(Localization.getMessage("Account"), "Account", "Index"),
                            new MenuItem(Localization.getMessage("Users"), "User", "Index"),
                            new MenuItem(Localization.getMessage("Groups"), "Group", "Index")
                        };

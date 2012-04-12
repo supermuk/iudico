@@ -405,3 +405,28 @@ select option.added
     width: 200px;
     height: 80px;
 }
+
+/* COURSES
+----------------------------------------------------------*/
+.courseTable
+{
+    width:100%;
+}
+
+#Courses td.courceCheck
+{
+    background-color: #FFFFFF;
+}
+
+#Courses tr.courseMy
+{
+    background-color: #FFFFFF;
+}
+#Courses tr.courseShared
+{
+    background-color: #FFFFFF;
+}
+#Courses tr.courseLocked
+{
+    background-color: #F0F0F0;
+}
