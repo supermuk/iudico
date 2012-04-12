@@ -86,6 +86,7 @@
     </p>
 	
 	<table id="tree">
+    <thead>
 		<tr id="tableHeader">
 			<th></th>
 			<th>Назва</th>
@@ -93,6 +94,8 @@
 			<th>Оновлено</th>
 			<th></th>
 		</tr>
+    </thead>
+    <tbody>
 		<% foreach (var item in Model){ %>
 			<tr id="discipline<%:item.Id%>" >
 				<td>	<input type="checkbox" id="<%:item.Id %>" />	</td>
@@ -135,6 +138,7 @@
 			<% } %>
 
 		<% } %>
+        </tbody>
 	</table>
 
 <%--
