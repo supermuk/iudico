@@ -15,31 +15,25 @@ namespace IUDICO.LMS.Controllers
         /// Gets descriptions of topics available for playing.
         /// </summary>
         /// <returns></returns>
-        [OutputCache(Duration = 3600, VaryByParam = "none", VaryByCustom = "lang")]
+        //[OutputCache(Duration = 3600, VaryByParam = "none", VaryByCustom = "lang")]
         //TODO: FatTony; why for 3600 seconds and as I understand topics will ba cached for all users?
         public IEnumerable<TopicDescription> GetTopicsDescriptions()
         {
             User user = MvcApplication.StaticContainer.GetService<IUserService>().GetCurrentUser();
 
-            if (user != null)
-            {
-                return MvcApplication.StaticContainer.GetService<ICurriculumService>().GetTopicDescriptions(user);
-            }
-            return new List<TopicDescription>();
+            return user != null
+                ? MvcApplication.StaticContainer.GetService<ICurriculumService>().GetTopicDescriptions(user)
+                : new List<TopicDescription>();
         }
 
         public ActionResult Index()
         {
             User user = MvcApplication.StaticContainer.GetService<IUserService>().GetCurrentUser();
-            if (user.UserId == null && user.Username == null)
-            {
-                ViewData["ShowReg"] = true;
-            }
-            else
-            {
-                ViewData["ShowReg"] = false;
-            }
-            var temp = MvcApplication.LmsService.GetActions();
+            
+            // show actions for guest only
+            var actions =  MvcApplication.LmsService.GetActions();
+            if (user.UserId != null)
+                actions.Clear();
 
             IEnumerable<TopicDescription> description = GetTopicsDescriptions();
 
@@ -50,7 +44,7 @@ namespace IUDICO.LMS.Controllers
             
             return View(new HomeModel
                 {
-                    Actions = temp,
+                    Actions = actions,
                     TopicsDescriptions = description,
                     GroupedTopicsDescriptions = groupedTopicsDescriptions
                 });
