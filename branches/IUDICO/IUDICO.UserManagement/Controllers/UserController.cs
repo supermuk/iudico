@@ -352,7 +352,7 @@ namespace IUDICO.UserManagement.Controllers
         //=======================================================
 
         [HttpPost]
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public JsonResult DeleteItem(Guid userId, string role)
         {
             try
@@ -370,7 +370,7 @@ namespace IUDICO.UserManagement.Controllers
         }
 
         [HttpPost]
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin)]
         public JsonResult AddItem(Guid userId, string role)
         {
             try

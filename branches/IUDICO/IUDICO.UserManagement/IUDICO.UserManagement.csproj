@@ -111,50 +111,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\dataTables\demo_page.css" />
-    <Content Include="Content\dataTables\demo_table.css" />
-    <Content Include="Content\dataTables\demo_table_jui.css" />
-    <Content Include="Content\images\back_disabled.jpg" />
-    <Content Include="Content\images\back_enabled.jpg" />
-    <Content Include="Content\images\favicon.ico" />
-    <Content Include="Content\images\forward_disabled.jpg" />
-    <Content Include="Content\images\forward_enabled.jpg" />
-    <Content Include="Content\images\sort_asc.png" />
-    <Content Include="Content\images\sort_asc_disabled.png" />
-    <Content Include="Content\images\sort_both.png" />
-    <Content Include="Content\images\sort_desc.png" />
-    <Content Include="Content\images\sort_desc_disabled.png" />
-    <Content Include="Content\images\status_icon_delete.png" />
-    <Content Include="Content\jAlert\jquery.alerts.css" />
-    <Content Include="Content\jAlert\jquery.alerts.js" />
-    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
-    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
-    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
-    <Content Include="Content\themes\base\jquery-ui.css" />
-    <Content Include="Content\themes\smoothness\images\ui-bg_flat_0_aaaaaa_40x100.png" />
-    <Content Include="Content\themes\smoothness\images\ui-bg_flat_75_ffffff_40x100.png" />
-    <Content Include="Content\themes\smoothness\images\ui-bg_glass_55_fbf9ee_1x400.png" />
-    <Content Include="Content\themes\smoothness\images\ui-bg_glass_65_ffffff_1x400.png" />
-    <Content Include="Content\themes\smoothness\images\ui-bg_glass_75_dadada_1x400.png" />
-    <Content Include="Content\themes\smoothness\images\ui-bg_glass_75_e6e6e6_1x400.png" />
-    <Content Include="Content\themes\smoothness\images\ui-bg_glass_95_fef1ec_1x400.png" />
-    <Content Include="Content\themes\smoothness\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
-    <Content Include="Content\themes\smoothness\images\ui-icons_222222_256x240.png" />
-    <Content Include="Content\themes\smoothness\images\ui-icons_2e83ff_256x240.png" />
-    <Content Include="Content\themes\smoothness\images\ui-icons_454545_256x240.png" />
-    <Content Include="Content\themes\smoothness\images\ui-icons_888888_256x240.png" />
-    <Content Include="Content\themes\smoothness\images\ui-icons_cd0a0a_256x240.png" />
-    <Content Include="Content\themes\smoothness\jquery-ui-1.7.2.custom.css" />
     <Content Include="Libraries\DotNetOpenAuth.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -165,18 +121,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Libraries\log4net.xml" />
-    <Content Include="Scripts\draganddrop\jquery-ui-1.8.18.custom.min.js" />
-    <Content Include="Scripts\draganddrop\jquery.effects.core.js" />
-    <Content Include="Scripts\draganddrop\jquery.ui.core.js" />
-    <Content Include="Scripts\draganddrop\jquery.ui.draggable.js" />
-    <Content Include="Scripts\draganddrop\jquery.ui.mouse.js" />
-    <Content Include="Scripts\draganddrop\jquery.ui.widget.js" />
-    <Content Include="Scripts\jquery-1.4.4.min.js" />
-    <Content Include="Scripts\jquery-ui.js" />
-    <Content Include="Scripts\jquery.dataTables.editable.js" />
-    <Content Include="Scripts\jquery.dataTables.min.js" />
-    <Content Include="Scripts\jquery.jeditable.js" />
-    <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Views\Account\ChangePassword.aspx" />
     <Content Include="Views\Account\Edit.aspx" />
     <Content Include="Views\Account\Forgot.aspx" />
@@ -199,14 +143,16 @@
     <Content Include="Views\User\Details.aspx" />
     <Content Include="Views\User\Edit.aspx" />
     <Content Include="Views\User\Index.aspx" />
-    <None Include="Content\images\Sorting icons.psd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Views\Web.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Content\" />
+    <Folder Include="Scripts\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
       <Project>{9DD6C943-6608-4351-A521-E4B1F2F75E9D}</Project>

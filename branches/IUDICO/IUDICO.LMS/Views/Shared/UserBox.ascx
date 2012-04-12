@@ -4,7 +4,7 @@
     if (HttpContext.Current.User.Identity.IsAuthenticated)
     {
 %>
-    <%=IUDICO.LMS.Localization.getMessage("LoggedInAs") %> <b><%: HttpContext.Current.User.Identity.Name%></b>. <%: Html.ActionLink(IUDICO.LMS.Localization.getMessage("Logout"), "Logout", "Account") %>
+    <%=IUDICO.LMS.Localization.getMessage("LoggedInAs") %> <b><a href="<%: Url.Action("Index", "Account") %>"><%: HttpContext.Current.User.Identity.Name%></a></b>. <%: Html.ActionLink(IUDICO.LMS.Localization.getMessage("Logout"), "Logout", "Account") %>
 <%
     }
     else
