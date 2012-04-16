@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IUDICO.Common.Models.Shared.Chapter>" %>
 <%@ Assembly Name="IUDICO.DisciplineManagement" %>
 
-<tr id="chapter<%:Model.Id%>" class="child-of-discipline<%:ViewData["DisciplineId"]%> disciplineChapter">
+<tr id="chapter<%:Model.Id%>" class="child-of-discipline<%:Model.DisciplineRef%> disciplineChapter">
 	<td></td>
 	<td  class="disciplineChapterName">	<%: Model.Name%>									</td>
 	<td>	<%: String.Format("{0:g}", Model.Created)%>		</td>

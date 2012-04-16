@@ -99,7 +99,22 @@
         function onCreateChapterSuccess(r) {
             var resp = eval("(" + r.$2._xmlHttpRequest.response + ")");
             if(resp.success) {
-                $("#discipline" + resp.disciplineId).add($(".child-of-discipline" + resp.disciplineId)).last().after(resp.chapterRow);
+                
+                var $last = $("#discipline" + resp.disciplineId);
+                var $chapters = $(".child-of-discipline" + resp.disciplineId);
+                if($chapters.length > 0 ) {
+                    var lastId = $chapters.last().attr("id").replace("chapter", "");
+                    var $topics = $(".child-of-chapter" + lastId);
+                    
+                    if($topics.length > 0) {
+                        $last = $topics.last();
+                    } else {
+                        $last = $chapters.last();
+                    }
+                }
+                
+                $last.after(resp.chapterRow);
+                
                 $(".disciplineChapterName").click(function() {
                     expandChapter(this.parentNode);
                 });
