@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
@@ -13,6 +14,26 @@ namespace IUDICO.DisciplineManagement.Controllers
             : base(disciplineStorage)
         {
 
+        }
+
+        [HttpPost]
+        [Allow(Role = Role.Teacher)]
+        public JsonResult ViewChapters(int parentId)
+        {
+            try
+            {
+                ViewData["DisciplineId"] = parentId;
+
+                var chapters = Storage.GetChapters(item => item.DisciplineRef == parentId);
+
+                var partialViews = chapters.Select(chapter => PartialViewAsString("ChapterRow", chapter)).ToArray();
+
+                return Json(new { success = true, items = partialViews });
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false });
+            }
         }
 
         [Allow(Role = Role.Teacher)]
@@ -30,21 +51,32 @@ namespace IUDICO.DisciplineManagement.Controllers
             var discipline = Storage.GetDiscipline(disciplineId);
 
             ViewData["DisciplineName"] = discipline.Name;
-            return View();
+
+            return PartialView("Create", new Chapter());
         }
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Create(int disciplineId, Chapter chapter)
+        public JsonResult Create(Chapter chapter, int DisciplineRef)
         {
-            if (ModelState.IsValid)
+            try
             {
-                chapter.DisciplineRef = disciplineId;
-                Storage.AddChapter(chapter);
+                if (ModelState.IsValid)
+                {
+                    chapter.DisciplineRef = DisciplineRef;
+                    Storage.AddChapter(chapter);
 
-                return RedirectToAction("Index");
+                    return Json(new { success = true, disciplineId = chapter.DisciplineRef, chapterRow = PartialViewAsString("ChapterRow", chapter) });
+                }
+
+                SaveValidationErrors();
+
+                return Json(new { success = false, disciplineId = chapter.DisciplineRef, html = PartialViewAsString("Create", chapter) });
             }
-            return View(chapter);
+            catch (Exception ex)
+            {
+                return Json(new { success = false, html = ex.Message });
+            }
         }
 
         [HttpGet]
@@ -55,21 +87,30 @@ namespace IUDICO.DisciplineManagement.Controllers
 
             ViewData["DisciplineName"] = chapter.Discipline.Name;
             Session["DisciplineId"] = chapter.DisciplineRef;
-            return View(chapter);
+
+            return PartialView("Edit", chapter);
         }
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Edit(int chapterId, Chapter chapter)
+        public JsonResult Edit(int chapterId, Chapter chapter)
         {
-            if (ModelState.IsValid)
+            try
             {
-                chapter.Id = chapterId;
-                Storage.UpdateChapter(chapter);
+                if (ModelState.IsValid)
+                {
+                    chapter.Id = chapterId;
+                    Storage.UpdateChapter(chapter);
 
-                return RedirectToRoute("Chapters", new { action = "Index", DisciplineId = HttpContext.Session["DisciplineId"] });
+                    return Json(new { success = true, chapterId = chapterId, chapterRow = PartialViewAsString("ChapterRow", chapter) });
+                }
+                return Json(new { success = false, chapterId = chapterId, html = PartialViewAsString("Edit", chapter) });
             }
-            return View(chapter);
+            catch (Exception ex)
+            {
+                return Json(new { success = false, html = ex.Message });
+            }
+
         }
 
         [HttpPost]
@@ -103,5 +144,7 @@ namespace IUDICO.DisciplineManagement.Controllers
                 return Json(new { success = false, message = e.Message });
             }
         }
+
+
     }
 }

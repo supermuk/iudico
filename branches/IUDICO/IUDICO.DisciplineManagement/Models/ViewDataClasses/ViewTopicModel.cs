@@ -5,6 +5,7 @@
         #region Properties
 
         public int Id { get; set; }
+        public int ChapterId { get; set; }
         public string TopicName { get; set; }
         public string Created { get; set; }
         public string Updated { get; set; }

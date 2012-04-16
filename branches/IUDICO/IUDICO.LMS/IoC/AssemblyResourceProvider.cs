@@ -87,7 +87,7 @@ namespace IUDICO.LMS.IoC
                 else
                 {
                     Console.WriteLine(parts[3]);
-                    System.Diagnostics.Debugger.Break();
+                    //System.Diagnostics.Debugger.Break();
                 }
 #endif
 
