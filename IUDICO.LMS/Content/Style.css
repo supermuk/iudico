@@ -430,3 +430,49 @@ select option.added
 {
     background-color: #F0F0F0;
 }
+/* DISCIPLINES
+----------------------------------------------------------*/
+.disciplineTable
+{
+    width: 100%;
+}
+.disciplineNameColumn 
+{
+    width: 50%;    
+    min-width: 200px;
+}
+
+.disciplineDateColumn 
+{
+    width: 130px;
+}
+
+#disciplines tr.discipline 
+{
+    background-color: #E6CCFF;
+}
+
+#disciplines tr.disciplineChapter
+{
+    background-color: #CCCCFF;
+}
+
+#disciplines tr.disciplineTopic
+{
+    background-color: #CCE6FF;
+}
+
+.disciplineName 
+{
+    cursor: pointer;
+}
+.disciplineChapterName 
+{
+    cursor: pointer;
+    padding-left: 40px;
+}
+.disciplineTopicName
+{
+    cursor: pointer;
+    padding-left: 80px;
+}

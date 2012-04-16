@@ -18,6 +18,24 @@ namespace IUDICO.DisciplineManagement.Controllers
 
         }
 
+        [HttpPost]
+        [Allow(Role = Role.Teacher)]
+        public JsonResult ViewTopics(int parentId)
+        {
+            try
+            {
+                var topics = Storage.GetTopics(item => item.ChapterRef == parentId);
+
+                var partialViews = topics.Select(topic => PartialViewAsString("TopicRow", ToViewTopicModel(topic))).ToArray();
+
+                return Json(new { success = true, items = partialViews });
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false });
+            }
+        }
+
         [Allow(Role = Role.Teacher)]
         public ActionResult Index(int chapterId)
         {
@@ -50,6 +68,7 @@ namespace IUDICO.DisciplineManagement.Controllers
             );
         }
 
+
         [HttpGet]
         [Allow(Role = Role.Teacher)]
         public ActionResult Create(int chapterId)
@@ -57,38 +76,42 @@ namespace IUDICO.DisciplineManagement.Controllers
             LoadValidationErrors();
 
             var chapter = Storage.GetChapter(chapterId);
-            var model = new CreateTopicModel("", chapterId, Storage.GetCourses(),
-                0, Storage.GetTestTopicTypes(), 0,
-                0, Storage.GetTheoryTopicTypes(), 0);
+            var model = ToCreateTopicModel(new Topic());
 
             ViewData["DisciplineName"] = chapter.Discipline.Name;
             ViewData["ChapterName"] = chapter.Name;
-            return View(model);
+
+            return PartialView("Create", model);
         }
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Create(int chapterId, CreateTopicModel model)
+        public JsonResult Create(CreateTopicModel model)
         {
-            var topic = new Topic
+            try
             {
-                ChapterRef = model.ChapterId,
-                Name = model.TopicName,
-                TestCourseRef = model.BindTestCourse ? model.TestCourseId : (int?)null,
-                TestTopicTypeRef = model.BindTestCourse ? model.TestTopicTypeId : (int?)null,
-                TheoryCourseRef = model.BindTheoryCourse ? model.TheoryCourseId : (int?)null,
-                TheoryTopicTypeRef = model.BindTheoryCourse ? model.TheoryTopicTypeId : (int?)null
-            };
+                var topic = ToTopic(model);
 
-            AddValidationErrorsToModelState(Validator.ValidateTopic(topic).Errors);
+                AddValidationErrorsToModelState(Validator.ValidateTopic(topic).Errors);
 
-            if (ModelState.IsValid)
-            {
-                Storage.AddTopic(topic);
-                return RedirectToAction("Index", new {model.ChapterId });
+                if (ModelState.IsValid)
+                {
+                    Storage.AddTopic(topic);
+
+                    var viewTopic = ToViewTopicModel(topic);
+
+                    return Json(new { success = true, chapterId = model.ChapterId, topicRow = PartialViewAsString("TopicRow", viewTopic) });
+                }
+
+                SaveValidationErrors();
+
+                var m = ToCreateTopicModel(topic);
+                return Json(new { success = false, chapterId = model.ChapterId, html = PartialViewAsString("Create", m) });
             }
-            SaveValidationErrors();
-            return RedirectToAction("Create");
+            catch (Exception ex)
+            {
+                return Json(new { success = false, html = ex.Message });
+            }
         }
 
         [HttpGet]
@@ -105,29 +128,38 @@ namespace IUDICO.DisciplineManagement.Controllers
             ViewData["DisciplineName"] = topic.Chapter.Discipline.Name;
             ViewData["ChapterName"] = topic.Chapter.Name;
             ViewData["TopicName"] = topic.Name;
-            return View(model);
+            return PartialView("Edit", model);
         }
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Edit(int topicId, CreateTopicModel model)
+        public JsonResult Edit(int topicId, CreateTopicModel model)
         {
-            var topic = Storage.GetTopic(topicId);
-            topic.Name = model.TopicName;
-            topic.TestCourseRef = model.BindTestCourse ? model.TestCourseId : (int?)null;
-            topic.TestTopicTypeRef = model.BindTestCourse ? model.TestTopicTypeId : (int?)null;
-            topic.TheoryCourseRef = model.BindTheoryCourse ? model.TheoryCourseId : (int?)null;
-            topic.TheoryTopicTypeRef = model.BindTheoryCourse ? model.TheoryTopicTypeId : (int?)null;
-
-            AddValidationErrorsToModelState(Validator.ValidateTopic(topic).Errors);
-
-            if (ModelState.IsValid)
+            try
             {
-                Storage.UpdateTopic(topic);
-                return RedirectToRoute("Topics", new { action = "Index", ChapterId = topic.ChapterRef });
+                var topic = Storage.GetTopic(topicId);
+                topic.Name = model.TopicName;
+                topic.TestCourseRef = model.BindTestCourse ? model.TestCourseId : (int?)null;
+                topic.TestTopicTypeRef = model.BindTestCourse ? model.TestTopicTypeId : (int?)null;
+                topic.TheoryCourseRef = model.BindTheoryCourse ? model.TheoryCourseId : (int?)null;
+                topic.TheoryTopicTypeRef = model.BindTheoryCourse ? model.TheoryTopicTypeId : (int?)null;
+
+                AddValidationErrorsToModelState(Validator.ValidateTopic(topic).Errors);
+
+                if (ModelState.IsValid)
+                {
+                    Storage.UpdateTopic(topic);
+                    var viewTopic = ToViewTopicModel(topic);
+                    return Json(new { success = true, topicId = topicId, topicRow = PartialViewAsString("TopicRow", viewTopic) });
+                }
+
+                SaveValidationErrors();
+                return Json(new { success = false, topicId = topicId, html = PartialView("Edit", model) });
             }
-            SaveValidationErrors();
-            return RedirectToAction("Edit");
+            catch (Exception ex)
+            {
+                return Json(new {success = false, html = ex.Message});
+            }
         }
 
         [HttpPost]
@@ -161,17 +193,33 @@ namespace IUDICO.DisciplineManagement.Controllers
         }
 
         [Allow(Role = Role.Teacher)]
-        public ActionResult TopicUp(int topicId)
+        public JsonResult TopicUp(int topicId)
         {
-            var topic = Storage.TopicUp(topicId);
-            return RedirectToRoute("Topics", new { Action = "Index", ChapterId = topic.ChapterRef });
+            try
+            {
+                var topic = Storage.TopicUp(topicId);
+                return Json(new {success = true});
+            }
+            catch (Exception ex)
+            {
+                return Json(new {success = false, message = ex.Message});
+            }
         }
 
         [Allow(Role = Role.Teacher)]
-        public ActionResult TopicDown(int topicId)
+        public JsonResult TopicDown(int topicId)
         {
-            var topic = Storage.TopicDown(topicId);
-            return RedirectToRoute("Topics", new { Action = "Index", ChapterId = topic.ChapterRef });
+            try
+            {
+                var topic = Storage.TopicDown(topicId);
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new {success = false, message = ex.Message});
+            }
         }
+
+
     }
 }

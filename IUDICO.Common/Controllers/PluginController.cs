@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using System.Web.Mvc;
+using System.Web.UI;
 using IUDICO.Common.Models.Services;
 
 namespace IUDICO.Common.Controllers
@@ -59,6 +61,29 @@ namespace IUDICO.Common.Controllers
             var viewPath = string.Format("~/Plugins/{0}/{1}/Views/{2}/", assemblyFileName, assmblyName, controllerShortenedName);
 
             return base.PartialView(viewPath + viewName + ".ascx", model);
+        }
+
+        protected string PartialViewAsString(string viewName, object model)
+        {
+            var res =  ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
+
+            if (res.View != null)
+            {
+                var sb = new StringBuilder();
+                using (var sw = new StringWriter(sb))
+                {
+                    using (var output = new HtmlTextWriter(sw))
+                    {
+                        var data = new ViewDataDictionary(ViewData) { Model = model };
+                        var viewContext = new ViewContext(ControllerContext, res.View, data, TempData, output);
+                        res.View.Render(viewContext, output);
+                    }
+                }
+
+                return sb.ToString();
+            }
+
+            return string.Empty;
         }
     }
 }

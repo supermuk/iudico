@@ -8,23 +8,29 @@ namespace IUDICO.LMS.IoC
 {
     public class PluginViewEngine : WebFormViewEngine
     {
-        public override ViewEngineResult FindPartialView(ControllerContext controllerContext, string partialViewName, bool useCache)
+        public PluginViewEngine() : base()
         {
-            return base.FindPartialView(controllerContext, partialViewName, useCache);
-            /*
-            if (result == null || result.View == null)
+            PartialViewLocationFormats = new[]
+                                             {
+                                                 "~/Plugins/IUDICO.DisciplineManagement.dll/IUDICO.DisciplineManagement/Views/{1}/{0}.ascx"
+                                             };
+            ViewLocationFormats = PartialViewLocationFormats;
+        }
+
+        protected override bool FileExists(ControllerContext controllerContext, string virtualPath)
+        {
+            bool res;
+
+            try
             {
-                try
-                {
-                    result = base.FindPartialView(controllerContext, "~/Plugins/IUDICO.CourseManagement.dll/IUDICO.CourseManagement/Views/Shared/" + partialViewName + ".ascx", useCache);
-                }
-                catch
-                {
-                    result = null;
-                }
+                res = base.FileExists(controllerContext, virtualPath);
+            }
+            catch (HttpException)
+            {
+                res = false;
             }
 
-            return result;*/
+            return res;
         }
     }
 }
