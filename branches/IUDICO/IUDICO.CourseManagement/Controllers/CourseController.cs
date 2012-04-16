@@ -93,6 +93,44 @@ namespace IUDICO.CourseManagement.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
+        public string Share(int courseId)
+        {
+            var course = _Storage.GetCourse(courseId);
+            var allUsers = _UserService.GetUsers().Where(i => i.Username != course.Owner);
+            var courseUsers = _Storage.GetCourseUsers(courseId);
+
+            var model =
+                allUsers.Select(
+                    i =>
+                    new ShareUser
+                        {
+                            Id = i.Id,
+                            Name = i.Name,
+                            Roles = i.Roles.Select(j => j.ToString()).ToArray(),
+                            Shared = courseUsers.Count(j => j.Id == i.Id) > 0
+                        });
+
+            return PartialViewAsString("ShareUserList", model);
+        }
+
+        [HttpPost]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
+        public JsonResult Share(int courseId, IEnumerable<Guid> sharewith)
+        {
+            try
+            {
+                _Storage.UpdateCourseUsers(courseId, sharewith);
+                return Json(new { success = true });
+            }
+            catch (Exception)
+            {
+                return Json(new {success = false});
+            }
+
+        }
+
         [HttpDelete]
         [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public JsonResult Delete(int courseId)
@@ -216,58 +254,5 @@ namespace IUDICO.CourseManagement.Controllers
             return View("Import");
         }
 
-        // To implement ResourceList
-
-        //[HttpPost]
-        //[Allow(Role = Role.Teacher)]
-        //public JsonResult ResourceList(int nodeId)
-        //{
-        //    try
-        //    {
-        //        var resources = _Storage.GetResources(nodeId).ToJsTrees();
-
-        //        return Json(resources);
-        //    }
-        //    catch(Exception)
-        //    {
-
-        //        return Json(new { });
-        //    }
-        //}
-
-        [HttpPost]
-        [Allow(Role = Role.Teacher | Role.CourseCreator)]
-        public JsonResult DeleteResource(int id)
-        {
-            try
-            {
-                _Storage.DeleteResource(id);
-
-                return Json(new { status = true });
-            }
-            catch (Exception)
-            {
-                return Json(new { status = false });
-            }
-        }
-
-        [HttpPost]
-        [Allow(Role = Role.Teacher | Role.CourseCreator)]
-        public JsonResult RenameResource(int id, string name)
-        {
-            try
-            {
-                var node = _Storage.GetResource(id);
-                node.Name = name;
-
-                _Storage.UpdateResource(id, node);
-
-                return Json(new { status = true });
-            }
-            catch (Exception)
-            {
-                return Json(new { status = false });
-            }
-        }
     }
 }

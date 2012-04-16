@@ -266,8 +266,6 @@ namespace IUDICO.CourseManagement.Controllers
             
             NodeProperty model;
 
-            var partialView = "Properties";
-
             if (type == "ControlMode")
             {
                 model = sequencing.ControlMode ?? new ControlMode();
@@ -305,7 +303,7 @@ namespace IUDICO.CourseManagement.Controllers
             model.NodeId = id;
             model.Type = type;
 
-            return Json(new { status = true, type = type, data = PartialViewHtml(partialView, model, ViewData) });
+            return Json(new { status = true, type = type, data = PartialViewAsString("Properties", model) });
         }
 
         [HttpPost]
