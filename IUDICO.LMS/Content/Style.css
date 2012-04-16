@@ -476,3 +476,12 @@ select option.added
     cursor: pointer;
     padding-left: 80px;
 }
+
+/* SHAREUSERS
+----------------------------------------------------------*/
+.checkboxColumn {
+    width: 40px;
+}
+.usernameColumn {
+    width: 200px;
+}
