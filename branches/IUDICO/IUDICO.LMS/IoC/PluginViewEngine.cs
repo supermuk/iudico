@@ -12,7 +12,8 @@ namespace IUDICO.LMS.IoC
         {
             PartialViewLocationFormats = new[]
                                              {
-                                                 "~/Plugins/IUDICO.DisciplineManagement.dll/IUDICO.DisciplineManagement/Views/{1}/{0}.ascx"
+                                                 "~/Plugins/IUDICO.DisciplineManagement.dll/IUDICO.DisciplineManagement/Views/{1}/{0}.ascx",
+                                                 "~/Plugins/IUDICO.CourseManagement.dll/IUDICO.CourseManagement/Views/{1}/{0}.ascx"
                                              };
             ViewLocationFormats = PartialViewLocationFormats;
         }

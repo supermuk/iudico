@@ -107,6 +107,7 @@
     <Compile Include="Models\Shared\Poco.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\Shared\ShareUser.cs" />
     <Compile Include="Models\Shared\Statistics\AnswerResult.cs" />
     <Compile Include="Models\Shared\Statistics\AttemptResult.cs" />
     <Compile Include="Models\Shared\Statistics\Enums.cs" />

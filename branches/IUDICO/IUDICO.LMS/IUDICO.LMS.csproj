@@ -340,10 +340,10 @@
     <Content Include="Views\Shared\EditorTemplates\DateTimeWithPicker.ascx" />
     <Content Include="Views\Shared\EditorTemplates\DropDownList.ascx" />
     <Content Include="Views\Shared\Error.aspx" />
-    <Content Include="Views\Shared\Properties.ascx" />
     <Content Include="Views\Shared\RollupRules.ascx" />
     <Content Include="Views\Shared\SearchBox.ascx" />
     <Content Include="Views\Shared\UserBox.ascx" />
+    <Content Include="Views\Shared\ShareUserList.ascx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
