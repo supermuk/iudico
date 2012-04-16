@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Web;
 using System.Diagnostics;
 
 namespace CompileSystem.Compilation_Part
@@ -16,6 +13,7 @@ namespace CompileSystem.Compilation_Part
         public string Extension { get; set; }
         public string Arguments { get; set; }
         public string CompiledExtension { get; set; }
+        public bool IsNeedShortPath { get; set; }
 
         public const string CompilerDirectory = "$CompilerDirectory$";
         public const string SourceFilePath = "$SourceFilePath$";
@@ -26,6 +24,8 @@ namespace CompileSystem.Compilation_Part
             Location = "";
             Extension = "";
             Arguments = "";
+            CompiledExtension = "";
+            IsNeedShortPath = false;
         }
 
         public Compiler(string name, string location, string extension, string arguments)
@@ -47,9 +47,15 @@ namespace CompileSystem.Compilation_Part
             {
                 using (var process = new Process())
                 {
-                    //get short pathes for compilers (some of them dont' work with long names)
-                    var shortLocation = Path.GetDirectoryName(Location);//ToShortPathName(Path.GetDirectoryName(Location));
-                    var shortSourceFilePath = sourceFilePath;//ToShortPathName(sourceFilePath);
+                    //standard path
+                    var shortLocation = Path.GetDirectoryName(Location);
+                    var shortSourceFilePath = sourceFilePath;
+
+                    if (IsNeedShortPath)
+                    {
+                        shortLocation = ToShortPathName(Path.GetDirectoryName(Location));
+                        shortSourceFilePath = ToShortPathName(sourceFilePath);
+                    }
 
                     //this.Arguments = "-U\"$CompilerDirectory$\" $SourceFilePath$";
                     //set compilation arguments
@@ -71,8 +77,7 @@ namespace CompileSystem.Compilation_Part
 
                     process.WaitForExit();
 
-                    //TODO:make something with compiled file extension(Java), maybe to insert such information into xml
-                    var compiled = File.Exists(Path.ChangeExtension(sourceFilePath, "exe"));
+                    var compiled = File.Exists(Path.ChangeExtension(sourceFilePath, CompiledExtension));
 
                     return compiled;
                 }

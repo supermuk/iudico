@@ -26,11 +26,20 @@ namespace IUDICO.UnitTests.CompileService
         private string CorrectJavaSourceCode = CompileServiceLanguageSourceCode.JavaCorrectSourceCode;
         private string CorrectDelphiSourceCode = CompileServiceLanguageSourceCode.DelphiCorrectSourceCode;
 
-
         private string IncorrectCSSourceCode = CompileServiceLanguageSourceCode.CSIncorrectSourceCode;
         private string IncorrectCPPsourceCode = CompileServiceLanguageSourceCode.CPPIncorrectSourceCode;
         private string IncorrectJavaSourceCode = CompileServiceLanguageSourceCode.JavaIncorrectSourceCode;
         private string IncorrectDelphiSourceCode = CompileServiceLanguageSourceCode.DelphiIncorrectSourceCode;
+
+        private string TimeLimitCPPSourceCode = CompileServiceLanguageSourceCode.CPPTimelimitCorrectSourceCode;
+        private string TimeLimitCSSourceCode = CompileServiceLanguageSourceCode.CSTimelimitCorrectSourceCode;
+        private string TimeLimitJavaSourceCode = CompileServiceLanguageSourceCode.JavaTimelimitCorrectSourceCode;
+        private string TimeLimitDelphiSourceCode = CompileServiceLanguageSourceCode.DelphiTimelimitCorrectSourceCode;
+
+        private string MemoryLimitCSSourceCode = CompileServiceLanguageSourceCode.CSMemorylimitCorrectSourceCode;
+        private string MemoryLimitCPPSourceCode = CompileServiceLanguageSourceCode.CPPMemorylimitCorrectSourceCode;
+        private string MemoryLimitJavaSourceCode = CompileServiceLanguageSourceCode.JavaMemorylimitCorrectSourceCode;
+        private string MemoryLimitDelphiSourceCode = CompileServiceLanguageSourceCode.DelphiMemorylimitCorrectSourceCode;
         //----------------------------------------------
         private const string CSLanguageType = "CSharp";
         private const string CPPlanguageType = "CPP8";
@@ -40,13 +49,17 @@ namespace IUDICO.UnitTests.CompileService
         private readonly string[] _emptyInput = new string[0];
         private readonly string[] _emptyOutput = new string[0];
         //----------------------------------------------
-        private const int Timelimit = 100000;
-        private const int Memorylimit = 1000;
+        private const int Timelimit = 20000;
+        private const int Memorylimit = 3000;
         //----------------------------------------------
         private const string AcceptedTestResult = "Accepted";
         private const string CompilationErrorResult = "CompilationError";
         private const string WrongAnswerNullResult = "WrongAnswer Test: 0";
         private const string WrongAnswerOneResult = "WrongAnswer Test: 1";
+        private const string TimeLimitResult = "TimeLimit";
+        private const string MemoryLimitResult = "MemoryLimit";
+
+        //Integration tests
 
         #region Source tests
 
@@ -232,7 +245,7 @@ namespace IUDICO.UnitTests.CompileService
 
         #region Timelimit tests
 
-        #region CS tests
+        #region CS
 
         /// <summary>
         ///(CS) A test with correct timelimit value
@@ -246,8 +259,7 @@ namespace IUDICO.UnitTests.CompileService
             string[] input = { "2 5", "7 5" };
             string[] output = { "25", "75" };
 
-            const int timelimit = 100000;
-            string actualResult = _compileService.Compile(CorrectCSSourceCode, CSLanguageType, input, output, timelimit, Memorylimit);
+            string actualResult = _compileService.Compile(CorrectCSSourceCode, CSLanguageType, input, output, Timelimit, Memorylimit);
             Assert.AreEqual(AcceptedTestResult, actualResult);
         }
 
@@ -264,16 +276,33 @@ namespace IUDICO.UnitTests.CompileService
             string[] output = { "25", "75" };
 
             int incorrectTimelimit = 0;
-            string actualResult = _compileService.Compile(CorrectCSSourceCode, CSLanguageType, input, output, incorrectTimelimit, Memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            string actualResult;
+            try
+            {
+                actualResult = _compileService.Compile(CorrectCSSourceCode, CSLanguageType, input, output,
+                                                              incorrectTimelimit, Memorylimit);
+                Assert.AreEqual(false, true);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, true);
+            }
 
             incorrectTimelimit = -5;
-            actualResult = _compileService.Compile(CorrectCSSourceCode, CSLanguageType, input, output, incorrectTimelimit, Memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            try
+            {
+                actualResult = _compileService.Compile(CorrectCSSourceCode, CSLanguageType, input, output,
+                                                       incorrectTimelimit, Memorylimit);
+                Assert.AreEqual(true, false);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, true);
+            }
 
             incorrectTimelimit = 1;
-            actualResult = _compileService.Compile(CorrectCSSourceCode, CSLanguageType, input, output, incorrectTimelimit, Memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            actualResult = _compileService.Compile(TimeLimitCSSourceCode, CPPlanguageType, input, output, incorrectTimelimit, Memorylimit);
+            Assert.AreEqual(TimeLimitResult, actualResult);
         }
 
         #endregion
@@ -291,8 +320,8 @@ namespace IUDICO.UnitTests.CompileService
         {
             string[] input = { "2 5", "7 5" };
             string[] output = { "25", "75" };
-            const int timelimit = 100000;
-            string actualResult = _compileService.Compile(CorrectJavaSourceCode, JavaLanguageType, input, output, timelimit, Memorylimit);
+
+            string actualResult = _compileService.Compile(CorrectJavaSourceCode, JavaLanguageType, input, output, Timelimit, Memorylimit);
             Assert.AreEqual(AcceptedTestResult, actualResult);
         }
 
@@ -309,16 +338,33 @@ namespace IUDICO.UnitTests.CompileService
             string[] output = { "25", "75" };
 
             int incorrectTimelimit = 0;
-            string actualResult = _compileService.Compile(CorrectJavaSourceCode, JavaLanguageType, input, output, incorrectTimelimit, Memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            string actualResult;
+            try
+            {
+                actualResult = _compileService.Compile(CorrectJavaSourceCode, JavaLanguageType, input, output,
+                                                              incorrectTimelimit, Memorylimit);
+                Assert.AreEqual(false, true);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, true);
+            }
 
             incorrectTimelimit = -5;
-            actualResult = _compileService.Compile(CorrectJavaSourceCode, JavaLanguageType, input, output, incorrectTimelimit, Memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            try
+            {
+                actualResult = _compileService.Compile(CorrectJavaSourceCode, JavaLanguageType, input, output,
+                                                       incorrectTimelimit, Memorylimit);
+                Assert.AreEqual(true, false);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, true);
+            }
 
             incorrectTimelimit = 1;
-            actualResult = _compileService.Compile(CorrectJavaSourceCode, JavaLanguageType, input, output, incorrectTimelimit, Memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            actualResult = _compileService.Compile(TimeLimitJavaSourceCode, JavaLanguageType, input, output, incorrectTimelimit, Memorylimit);
+            Assert.AreEqual(TimeLimitResult, actualResult);
         }
 
         #endregion
@@ -336,8 +382,7 @@ namespace IUDICO.UnitTests.CompileService
         {
             string[] input = { "2 5", "7 5" };
             string[] output = { "25", "75" };
-            const int timelimit = 100000;
-            string actualResult = _compileService.Compile(CorrectCPPsourceCode, CPPlanguageType, input, output, timelimit, Memorylimit);
+            string actualResult = _compileService.Compile(CorrectCPPsourceCode, CPPlanguageType, input, output, Timelimit, Memorylimit);
             Assert.AreEqual(AcceptedTestResult, actualResult);
         }
 
@@ -352,18 +397,35 @@ namespace IUDICO.UnitTests.CompileService
         {
             string[] input = { "2 5", "7 5" };
             string[] output = { "25", "75" };
-
+            
             int incorrectTimelimit = 0;
-            string actualResult = _compileService.Compile(CorrectCPPsourceCode, CPPlanguageType, input, output, incorrectTimelimit, Memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            string actualResult;
+            try
+            {
+                actualResult = _compileService.Compile(CorrectCPPsourceCode, CPPlanguageType, input, output,
+                                                              incorrectTimelimit, Memorylimit);
+                Assert.AreEqual(false, true);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, true);
+            }
 
             incorrectTimelimit = -5;
-            actualResult = _compileService.Compile(CorrectCPPsourceCode, CPPlanguageType, input, output, incorrectTimelimit, Memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            try
+            {
+                actualResult = _compileService.Compile(CorrectCPPsourceCode, CPPlanguageType, input, output,
+                                                       incorrectTimelimit, Memorylimit);
+                Assert.AreEqual(true, false);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, true);
+            }
 
             incorrectTimelimit = 1;
-            actualResult = _compileService.Compile(CorrectCPPsourceCode, CPPlanguageType, input, output, incorrectTimelimit, Memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            actualResult = _compileService.Compile(TimeLimitCPPSourceCode, CPPlanguageType, input, output, incorrectTimelimit, Memorylimit);
+            Assert.AreEqual(TimeLimitResult, actualResult);
         }
 
         #endregion
@@ -381,8 +443,8 @@ namespace IUDICO.UnitTests.CompileService
         {
             string[] input = { "" };
             string[] output = { "Hello, world!" };
-            const int timelimit = 100000;
-            string actualResult = _compileService.Compile(CorrectDelphiSourceCode, DelphiLanguageType, input, output, timelimit, Memorylimit);
+
+            string actualResult = _compileService.Compile(CorrectDelphiSourceCode, DelphiLanguageType, input, output, Timelimit, Memorylimit);
             Assert.AreEqual(AcceptedTestResult, actualResult);
         }
 
@@ -399,16 +461,33 @@ namespace IUDICO.UnitTests.CompileService
             string[] output = { "25", "75" };
 
             int incorrectTimelimit = 0;
-            string actualResult = _compileService.Compile(CorrectDelphiSourceCode, DelphiLanguageType, input, output, incorrectTimelimit, Memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            string actualResult;
+            try
+            {
+                actualResult = _compileService.Compile(CorrectDelphiSourceCode, DelphiLanguageType, input, output,
+                                                              incorrectTimelimit, Memorylimit);
+                Assert.AreEqual(false, true);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, true);
+            }
 
             incorrectTimelimit = -5;
-            actualResult = _compileService.Compile(CorrectDelphiSourceCode, DelphiLanguageType, input, output, incorrectTimelimit, Memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            try
+            {
+                actualResult = _compileService.Compile(CorrectDelphiSourceCode, DelphiLanguageType, input, output,
+                                                       incorrectTimelimit, Memorylimit);
+                Assert.AreEqual(true, false);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, true);
+            }
 
             incorrectTimelimit = 1;
-            actualResult = _compileService.Compile(CorrectDelphiSourceCode, DelphiLanguageType, input, output, incorrectTimelimit, Memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            actualResult = _compileService.Compile(TimeLimitDelphiSourceCode, DelphiLanguageType, input, output, incorrectTimelimit, Memorylimit);
+            Assert.AreEqual(TimeLimitResult, actualResult);
         }
 
         #endregion
@@ -430,8 +509,8 @@ namespace IUDICO.UnitTests.CompileService
         {
             string[] input = { "2 5", "7 5" };
             string[] output = { "25", "75" };
-            const int memorylimit = 1000;
-            string actualResult = _compileService.Compile(CorrectCSSourceCode, CSLanguageType, input, output, Timelimit, memorylimit);
+
+            string actualResult = _compileService.Compile(CorrectCSSourceCode, CSLanguageType, input, output, Timelimit, Memorylimit);
             Assert.AreEqual(AcceptedTestResult, actualResult);
         }
 
@@ -447,17 +526,34 @@ namespace IUDICO.UnitTests.CompileService
             string[] input = { "2 5", "7 5" };
             string[] output = { "25", "75" };
 
-            int memorylimit = 1;
-            string actualResult = _compileService.Compile(CorrectCSSourceCode, CSLanguageType, input, output, Timelimit, memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            int incorrectMemorylimit = 0;
+            string actualResult;
+            try
+            {
+                actualResult = _compileService.Compile(CorrectCSSourceCode, CSLanguageType, input, output,
+                                                              Timelimit, incorrectMemorylimit);
+                Assert.AreEqual(false, true);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, true);
+            }
 
-            memorylimit = 0;
-            actualResult = _compileService.Compile(CorrectCSSourceCode, CSLanguageType, input, output, Timelimit, memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            incorrectMemorylimit = -5;
+            try
+            {
+                actualResult = _compileService.Compile(CorrectCSSourceCode, CSLanguageType, input, output,
+                                                       Timelimit, incorrectMemorylimit);
+                Assert.AreEqual(true, false);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, true);
+            }
 
-            memorylimit = -1;
-            actualResult = _compileService.Compile(CorrectCSSourceCode, CSLanguageType, input, output, Timelimit, memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            incorrectMemorylimit = 1;
+            actualResult = _compileService.Compile(MemoryLimitCSSourceCode, CSLanguageType, input, output, Timelimit, incorrectMemorylimit);
+            Assert.AreEqual(MemoryLimitResult, actualResult);
         }
 
         #endregion
@@ -475,8 +571,8 @@ namespace IUDICO.UnitTests.CompileService
         {
             string[] input = { "2 5", "7 5" };
             string[] output = { "25", "75" };
-            const int memorylimit = 1000;
-            string actualResult = _compileService.Compile(CorrectCPPsourceCode, CPPlanguageType, input, output, Timelimit, memorylimit);
+
+            string actualResult = _compileService.Compile(CorrectCPPsourceCode, CPPlanguageType, input, output, Timelimit, Memorylimit);
             Assert.AreEqual(AcceptedTestResult, actualResult);
         }
 
@@ -492,17 +588,34 @@ namespace IUDICO.UnitTests.CompileService
             string[] input = { "2 5", "7 5" };
             string[] output = { "25", "75" };
 
-            int memorylimit = 1;
-            string actualResult = _compileService.Compile(CorrectCPPsourceCode, CPPlanguageType, input, output, Timelimit, memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            int incorrectMemorylimit = 0;
+            string actualResult;
+            try
+            {
+                actualResult = _compileService.Compile(CorrectCPPsourceCode, CPPlanguageType, input, output,
+                                                              Timelimit, incorrectMemorylimit);
+                Assert.AreEqual(false, true);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, true);
+            }
 
-            memorylimit = 0;
-            actualResult = _compileService.Compile(CorrectCPPsourceCode, CPPlanguageType, input, output, Timelimit, memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            incorrectMemorylimit = -5;
+            try
+            {
+                actualResult = _compileService.Compile(CorrectCPPsourceCode, CPPlanguageType, input, output,
+                                                       Timelimit, incorrectMemorylimit);
+                Assert.AreEqual(true, false);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, true);
+            }
 
-            memorylimit = -1;
-            actualResult = _compileService.Compile(CorrectCPPsourceCode, CPPlanguageType, input, output, Timelimit, memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            incorrectMemorylimit = 1;
+            actualResult = _compileService.Compile(MemoryLimitCPPSourceCode, CPPlanguageType, input, output, Timelimit, incorrectMemorylimit);
+            Assert.AreEqual(MemoryLimitResult, actualResult);
         }
 
         #endregion
@@ -520,8 +633,8 @@ namespace IUDICO.UnitTests.CompileService
         {
             string[] input = { "2 5", "7 5" };
             string[] output = { "25", "75" };
-            const int memorylimit = 1000;
-            string actualResult = _compileService.Compile(CorrectJavaSourceCode, JavaLanguageType, input, output, Timelimit, memorylimit);
+
+            string actualResult = _compileService.Compile(CorrectJavaSourceCode, JavaLanguageType, input, output, Timelimit, Memorylimit);
             Assert.AreEqual(AcceptedTestResult, actualResult);
         }
 
@@ -537,17 +650,34 @@ namespace IUDICO.UnitTests.CompileService
             string[] input = { "2 5", "7 5" };
             string[] output = { "25", "75" };
 
-            int memorylimit = 1;
-            string actualResult = _compileService.Compile(CorrectJavaSourceCode, JavaLanguageType, input, output, Timelimit, memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            int incorrectMemorylimit = 0;
+            string actualResult;
+            try
+            {
+                actualResult = _compileService.Compile(CorrectJavaSourceCode, JavaLanguageType, input, output,
+                                                              Timelimit, incorrectMemorylimit);
+                Assert.AreEqual(false, true);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, true);
+            }
 
-            memorylimit = 0;
-            actualResult = _compileService.Compile(CorrectJavaSourceCode, JavaLanguageType, input, output, Timelimit, memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            incorrectMemorylimit = -5;
+            try
+            {
+                actualResult = _compileService.Compile(CorrectJavaSourceCode, JavaLanguageType, input, output,
+                                                       Timelimit, incorrectMemorylimit);
+                Assert.AreEqual(true, false);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, true);
+            }
 
-            memorylimit = -1;
-            actualResult = _compileService.Compile(CorrectJavaSourceCode, JavaLanguageType, input, output, Timelimit, memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            incorrectMemorylimit = 1;
+            actualResult = _compileService.Compile(MemoryLimitJavaSourceCode, JavaLanguageType, input, output, Timelimit, incorrectMemorylimit);
+            Assert.AreEqual(MemoryLimitResult, actualResult);
         }
 
         #endregion
@@ -565,8 +695,8 @@ namespace IUDICO.UnitTests.CompileService
         {
             string[] input = { "" };
             string[] output = { "Hello, world!" };
-            const int memorylimit = 1000;
-            string actualResult = _compileService.Compile(CorrectDelphiSourceCode, DelphiLanguageType, input, output, Timelimit, memorylimit);
+
+            string actualResult = _compileService.Compile(CorrectDelphiSourceCode, DelphiLanguageType, input, output, Timelimit, Memorylimit);
             Assert.AreEqual(AcceptedTestResult, actualResult);
         }
 
@@ -582,17 +712,34 @@ namespace IUDICO.UnitTests.CompileService
             string[] input = { "2 5", "7 5" };
             string[] output = { "25", "75" };
 
-            int memorylimit = 1;
-            string actualResult = _compileService.Compile(CorrectDelphiSourceCode, DelphiLanguageType, input, output, Timelimit, memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            int incorrectMemorylimit = 0;
+            string actualResult;
+            try
+            {
+                actualResult = _compileService.Compile(CorrectDelphiSourceCode, DelphiLanguageType, input, output,
+                                                              Timelimit, incorrectMemorylimit);
+                Assert.AreEqual(false, true);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, true);
+            }
 
-            memorylimit = 0;
-            actualResult = _compileService.Compile(CorrectJavaSourceCode, JavaLanguageType, input, output, Timelimit, memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            incorrectMemorylimit = -5;
+            try
+            {
+                actualResult = _compileService.Compile(CorrectDelphiSourceCode, DelphiLanguageType, input, output,
+                                                       Timelimit, incorrectMemorylimit);
+                Assert.AreEqual(true, false);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, true);
+            }
 
-            memorylimit = -1;
-            actualResult = _compileService.Compile(CorrectJavaSourceCode, JavaLanguageType, input, output, Timelimit, memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            incorrectMemorylimit = 1;
+            actualResult = _compileService.Compile(MemoryLimitDelphiSourceCode, DelphiLanguageType, input, output, Timelimit, incorrectMemorylimit);
+            Assert.AreEqual(MemoryLimitResult, actualResult);
         }
 
         #endregion
@@ -770,10 +917,12 @@ namespace IUDICO.UnitTests.CompileService
             int testsCount = 100;
             List<string> resultList = new List<string>();
             DateTime startDate = DateTime.Now;
+            string[] input = { "2 5", "7 5" };
+            string[] output = { "25", "75" };
             for (int i = 0; i < testsCount; i++)
             {
-                string actualResult = _compileService.Compile(CorrectCSSourceCode, CSLanguageType, _emptyInput,
-                                                              _emptyOutput, Timelimit, Memorylimit);
+                string actualResult = _compileService.Compile(CorrectCPPsourceCode, CPPlanguageType, input,
+                                                              output, Timelimit, Memorylimit);
                 resultList.Add(actualResult);
             }
             DateTime endDate = DateTime.Now;

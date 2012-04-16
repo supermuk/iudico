@@ -19,10 +19,10 @@ namespace CompileSystem.Compilation_Part
 
         public void Load()
         {
-            //TODO: maybe move it to another class
             if (!Directory.Exists(_compilersDirectoryPath))
             {
-                throw new FileNotFoundException("Can't find file", _compilersDirectoryPath);
+                return;
+                //throw new FileNotFoundException("Can't find file", _compilersDirectoryPath);
             }
 
             string[] compileDirectoriesNames = Directory.GetDirectories(_compilersDirectoryPath);
@@ -30,14 +30,18 @@ namespace CompileSystem.Compilation_Part
             foreach (var compileDirectoriesName in compileDirectoriesNames)
             {
                 string[] xmlFile = Directory.GetFiles(compileDirectoriesName, "*.xml");
-
+                /*
                 if (xmlFile.Count() == 0)
                     throw new FileNotFoundException("Can't find any xml file");
+                 * */
                 if (xmlFile.Count() > 1)
                     throw new Exception("Can't choose xml file");
 
-                var compiler = Parse(xmlFile[0]);
-                _compilers.Add(compiler);
+                if (xmlFile.Count() == 1)
+                {
+                    var compiler = Parse(xmlFile[0]);
+                    _compilers.Add(compiler);
+                }
             }
         }
 
@@ -52,7 +56,6 @@ namespace CompileSystem.Compilation_Part
             return compiler;
         }
 
-        //TODO:make correct parse function
         private Compiler Parse(string xmlFilePath)
         {
             var compiler = new Compiler();
@@ -91,10 +94,15 @@ namespace CompileSystem.Compilation_Part
                             compiler.CompiledExtension = xmlReader.ReadElementContentAsString().TrimEnd().TrimStart();
                         }
                         break;
+                    case "needShortName":
+                        {
+                            compiler.IsNeedShortPath = xmlReader.ReadElementContentAsBoolean();
+                        }
+                        break;
                 }
             }
 
-            if (compiler.Extension == "" || compiler.Name == "" || compiler.Location == "")
+            if (compiler.Extension == "" || compiler.Name == "" || compiler.Location == "" || compiler.CompiledExtension == "" || compiler.Arguments == "")
                 throw new Exception("Bad xml information about compiler");
 
             return compiler;
