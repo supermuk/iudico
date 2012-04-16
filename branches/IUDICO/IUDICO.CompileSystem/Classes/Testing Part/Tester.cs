@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace CompileSystem.Testing_Part
@@ -7,11 +8,19 @@ namespace CompileSystem.Testing_Part
     {
         public static Status Test(string executeFilePath, string input, string output, int timelimit, int memorylimit)
         {
-            Status status;
+            Status status = null;
 
-            //validate path
+            //validate input values
             if (!File.Exists(executeFilePath))
                 throw new FileNotFoundException("Can't find such file", executeFilePath);
+
+            if (timelimit <= 0)
+                throw new Exception("Timelimit can't be less or equal to 0");
+
+            if (memorylimit <= 0)
+                throw new Exception("Memorylimit can't be less or equal to 0");
+
+            //--------------------
 
             //Set error mode, for hiding error message boxes.
             //SetErrorMode(0x0001 | 0x0002 | 0x0004 | 0x8000);
@@ -25,22 +34,38 @@ namespace CompileSystem.Testing_Part
                 exeProcess.StartInfo.RedirectStandardOutput = true;
                 exeProcess.StartInfo.CreateNoWindow = true;
                 exeProcess.StartInfo.UseShellExecute = false;
-
                 exeProcess.StartInfo.FileName = executeFilePath;
                 //exeProcess.StartInfo.Arguments = "";
                 exeProcess.Start();
-
+               
                 exeProcess.StandardInput.Write(input);
                 exeProcess.StandardInput.Close();
+                exeProcess.WaitForExit(timelimit);
 
+                if (!exeProcess.HasExited)
+                {
+                    exeProcess.Kill();
+                    status = new Status("TimeLimit");
+                }
+
+                var processUsedMemory = exeProcess.PeakWorkingSet64 / 1024;
                 var outputResult = exeProcess.StandardOutput.ReadToEnd().Trim();
                 var outputError = exeProcess.StandardError.ReadToEnd();
 
-                if (outputResult == output)
-                    status = new Status("Accepted");
+                //set result
+                if (status == null)
+                {
+                    if (exeProcess.ExitCode != 0)
+                        status = new Status("Crashed");
+                    else
+                    {
+                        if (processUsedMemory > memorylimit)
+                            status = new Status("Memorylimit");
 
-                else
-                    status = new Status("Crash");
+                        else
+                            status = outputResult == output ? new Status("Accepted") : new Status("WrongAnswer");
+                    }
+                }
             }
 
             return status;

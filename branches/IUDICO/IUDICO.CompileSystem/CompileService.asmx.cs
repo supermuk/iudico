@@ -48,16 +48,16 @@ namespace CompileSystem
             var compileTask = new CompileTask(currentCompiler, compileFilePath);
 
             if (!compileTask.Execute())
-                throw new Exception("Can't compile source code");
+                return "CompilationError";
 
-            var executeFilePath = Path.ChangeExtension(compileFilePath, "exe");
+            var executeFilePath = Path.ChangeExtension(compileFilePath, currentCompiler.CompiledExtension);
 
             for (int i = 0; i < input.Length; i++)
             {
                 var currentStatus = Tester.Test(executeFilePath, input[i], output[i], timelimit, memorylimit);
 
                 if (currentStatus.TestResult != "Accepted")
-                    throw new Exception("Wrong compile result");
+                    throw new Exception(currentStatus.TestResult + " Test: " + i);
             }
 
             return "Accepted";
