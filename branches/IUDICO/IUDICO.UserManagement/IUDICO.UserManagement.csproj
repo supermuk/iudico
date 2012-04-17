@@ -98,6 +98,7 @@
     <Compile Include="Models\Auth\OpenIdRoleProvider.cs" />
     <Compile Include="Models\DBDataContext.cs" />
     <Compile Include="Models\IDataContext.cs" />
+    <Compile Include="Models\Storage\CachedDatabaseUserStorage.cs" />
     <Compile Include="Models\Storage\IUserStorage.cs" />
     <Compile Include="Models\UserService.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -144,10 +145,20 @@
     <Content Include="Views\User\Edit.aspx" />
     <Content Include="Views\User\Index.aspx" />
     <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Views\Web.config" />
+    <Content Include="web.config" />
+    <Content Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </Content>
+    <Content Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </Content>
+    <Content Include="web.RemovePlugins.config">
+      <DependentUpon>web.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
