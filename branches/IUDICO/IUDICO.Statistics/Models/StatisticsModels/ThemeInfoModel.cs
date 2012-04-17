@@ -30,54 +30,6 @@ namespace IUDICO.Statistics.Models.StatisticsModels
 
         #endregion
 
-        private TopicInfoModel() 
-        {
-            List<AttemptResult> testAttemptList = new List<AttemptResult>();
-            List<User> testUserList = new List<User>();
-            List<Topic> testTopicList = new List<Topic>();
-            float? attemptScore;
-            AttemptResult testAttempt;
-
-            User testUser1 = new User();
-            testUser1.Name = "user1";
-            Topic testTopic1 = new Topic();
-            testTopic1.Name = "topic1";
-            User testUser2 = new User();
-            testUser2.Name = "user2";
-            Topic testTopic2 = new Topic();
-            testTopic2.Name = "topic2";
-
-            attemptScore = (float?)0.55;
-            testAttempt = new AttemptResult(1, testUser1, testTopic1, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
-            testAttemptList.Add(testAttempt);
-            
-            attemptScore = (float?)0.65;
-            testAttempt = new AttemptResult(1, testUser1, testTopic2, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), null, attemptScore);
-            testAttemptList.Add(testAttempt);
-
-            attemptScore = (float?)0.85;
-            testAttempt = new AttemptResult(1, testUser2, testTopic1, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), DateTime.Now, attemptScore);
-            testAttemptList.Add(testAttempt);
-
-            attemptScore = (float?)0.95;
-            testAttempt = new AttemptResult(1, testUser2, testTopic2, new CompletionStatus(), new AttemptStatus(), new SuccessStatus(), null, attemptScore);
-            testAttemptList.Add(testAttempt);
-
-            testUserList.Add(testUser1);
-            testTopicList.Add(testTopic1);
-            testUserList.Add(testUser2);
-            testTopicList.Add(testTopic2);
-
-            this._LastAttempts = testAttemptList;
-            this.SelectGroupStudents = testUserList;
-            this.SelectDisciplineTopics = testTopicList;
-        }
-
-        public static TopicInfoModel TopicInfoModelTestObject()
-        {
-            return new TopicInfoModel();
-        }
-
         public TopicInfoModel(int groupId, int disciplineId, ILmsService lmsService)
         {
             _LastAttempts = new List<AttemptResult>();
@@ -89,16 +41,18 @@ namespace IUDICO.Statistics.Models.StatisticsModels
 
             SelectDisciplineTopics = lmsService.FindService<IDisciplineService>().GetTopicsByDisciplineId(DisciplineId);
 
-            foreach (var temp in from student in SelectGroupStudents
-                                 from topic in SelectDisciplineTopics
-                                 select lmsService.FindService<ITestingService>().GetResults(student, topic)
-                                 into temp where temp != null select temp)
-            {
-                var filteredTemp = temp//.Where(attempt => attempt.CompletionStatus == CompletionStatus.Completed)
-                        .OrderBy(attempt => attempt.StartTime);
-                if (filteredTemp.Count() != 0)
-                    _LastAttempts.Add(filteredTemp.First());
-            }
+            throw new NotImplementedException(
+                           "Statistics was not implemented due to new design of Discipline/Curriculum services");
+            //foreach (var temp in from student in SelectGroupStudents
+            //                     from topic in SelectDisciplineTopics
+            //                     select lmsService.FindService<ITestingService>().GetResults(student, topic)
+            //                     into temp where temp != null select temp)
+            //{
+            //    var filteredTemp = temp//.Where(attempt => attempt.CompletionStatus == CompletionStatus.Completed)
+            //            .OrderBy(attempt => attempt.StartTime);
+            //    if (filteredTemp.Count() != 0)
+            //        _LastAttempts.Add(filteredTemp.First());
+            //}
         }
 
         public IEnumerable<Topic> GetSelectDisciplineTopics()
@@ -115,9 +69,9 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         {
             if (_LastAttempts.Count != 0)
             {
-                if (_LastAttempts.Single(x => x.User == selectStudent & x.Topic == selectTopic).Score.ToPercents() != null)
+                if (_LastAttempts.Single(x => x.User == selectStudent & x.CurriculumChapterTopic.Topic == selectTopic).Score.ToPercents() != null)
                 {
-                    double? result =_LastAttempts.Single(x => x.User == selectStudent & x.Topic == selectTopic).Score.ToPercents();
+                    double? result = _LastAttempts.Single(x => x.User == selectStudent & x.CurriculumChapterTopic.Topic == selectTopic).Score.ToPercents();
                     if (result.HasValue == true)
                         return Math.Round((double)result,2);
                     else
@@ -137,10 +91,10 @@ namespace IUDICO.Statistics.Models.StatisticsModels
             if (_LastAttempts.Count != 0)
             {
                 foreach (Topic topic in SelectDisciplineTopics)
-                {                    
-                    if (_LastAttempts.Count(x => x.User == selectStudent & x.Topic == topic) != 0)
+                {
+                    if (_LastAttempts.Count(x => x.User == selectStudent & x.CurriculumChapterTopic.Topic == topic) != 0)
                     {
-                        double? value = _LastAttempts.First(x => x.User == selectStudent & x.Topic == topic).Score.ToPercents();
+                        double? value = _LastAttempts.First(x => x.User == selectStudent & x.CurriculumChapterTopic.Topic == topic).Score.ToPercents();
                         if (value.HasValue == true)
                             result += Math.Round((double)value, 2);
                     }
@@ -190,7 +144,7 @@ namespace IUDICO.Statistics.Models.StatisticsModels
 
         public bool NoData(User selectStudent, Topic selectTopic)
         {
-            AttemptResult res = _LastAttempts.Find(x => x.User == selectStudent & x.Topic == selectTopic);
+            AttemptResult res = _LastAttempts.Find(x => x.User == selectStudent & x.CurriculumChapterTopic.Topic == selectTopic);
             if (res != null)
                 return false;
             return true;
@@ -198,7 +152,7 @@ namespace IUDICO.Statistics.Models.StatisticsModels
 
         public long GetAttempId(User selectStudent, Topic selectTopic)
         {
-            AttemptResult res = _LastAttempts.Find(x => x.User == selectStudent & x.Topic == selectTopic);
+            AttemptResult res = _LastAttempts.Find(x => x.User == selectStudent & x.CurriculumChapterTopic.Topic == selectTopic);
             if (res != null)
                 return res.AttemptId;
             return -1;

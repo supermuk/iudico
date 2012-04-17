@@ -107,7 +107,8 @@ SET @schema = @schema +
         '<Property Name="StartedTimestamp" TypeCode="4" Nullable="true" HasDefault="false"/>' +
         '<Property Name="SuccessStatus" TypeCode="8" Nullable="false" HasDefault="true" EnumName="SuccessStatus"/>' +
         '<Property Name="TotalPoints" TypeCode="5" Nullable="true" HasDefault="true"/>' +
-        '<Property Name="IudicoThemeRef" TypeCode="9" Nullable="true" HasDefault="true"/>' +
+        '<Property Name="IudicoCurriculumChapterTopicRef" TypeCode="9" Nullable="true" HasDefault="true"/>' +
+        '<Property Name="IudicoTopicType" TypeCode="9" Nullable="true" HasDefault="true"/>' +
     '</ItemType>'
 SET @schema = @schema +
     '<ItemType Name="AttemptObjectiveItem" ViewFunction="AttemptObjectiveItem$DefaultView">' + 
@@ -602,7 +603,8 @@ SET @schema = @schema +
     '<View Name="MyAttempts" Function="MyAttempts" SecurityFunction="MyAttempts$Security">' + 
         '<Column Name="PackageId" TypeCode="1" Nullable="true" ReferencedItemTypeName="PackageItem"/>' +
         '<Column Name="OrganizationId" TypeCode="1" Nullable="true" ReferencedItemTypeName="ActivityPackageItem"/>' +
-        '<Column Name="ThemeId" TypeCode="9" Nullable="true"/>' +
+        '<Column Name="CurriculumChapterTopicId" TypeCode="9" Nullable="true"/>' +
+        '<Column Name="TopicType" TypeCode="9" Nullable="true"/>' +
         '<Column Name="AttemptId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AttemptItem"/>' +
         '<Column Name="AttemptStatus" TypeCode="8" Nullable="true" EnumName="AttemptStatus"/>' +
         '<Column Name="TotalPoints" TypeCode="5" Nullable="true"/>' +
@@ -611,7 +613,8 @@ SET @schema = @schema +
     '<View Name="AllAttemptsResults" Function="AllAttemptsResults" SecurityFunction="AllAttemptsResults$Security">' + 
         '<Column Name="AttemptId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AttemptItem"/>' +
         '<Column Name="UserItemKey" TypeCode="2" Nullable="true"/>' +
-        '<Column Name="ThemeId" TypeCode="9" Nullable="true"/>' +
+        '<Column Name="CurriculumChapterTopicId" TypeCode="9" Nullable="true"/>' +
+        '<Column Name="TopicType" TypeCode="9" Nullable="true"/>' +
         '<Column Name="CompletionStatus" TypeCode="8" Nullable="true" EnumName="CompletionStatus"/>' +
         '<Column Name="AttemptStatus" TypeCode="8" Nullable="true" EnumName="AttemptStatus"/>' +
         '<Column Name="SuccessStatus" TypeCode="8" Nullable="true" EnumName="SuccessStatus"/>' +
@@ -619,14 +622,15 @@ SET @schema = @schema +
         '<Column Name="Score" TypeCode="5" Nullable="true"/>' +
     '</View>'
 SET @schema = @schema +
-    '<View Name="AttemptsResultsByThemeAndUser" Function="AttemptsResultsByThemeAndUser" SecurityFunction="AttemptsResultsByThemeAndUser$Security">' + 
+    '<View Name="AttemptsResultsByTopicAndUser" Function="AttemptsResultsByTopicAndUser" SecurityFunction="AttemptsResultsByTopicAndUser$Security">' + 
         '<Column Name="AttemptId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AttemptItem"/>' +
+        '<Column Name="TopicType" TypeCode="9" Nullable="true"/>' +
         '<Column Name="CompletionStatus" TypeCode="8" Nullable="true" EnumName="CompletionStatus"/>' +
         '<Column Name="AttemptStatus" TypeCode="8" Nullable="true" EnumName="AttemptStatus"/>' +
         '<Column Name="SuccessStatus" TypeCode="8" Nullable="true" EnumName="SuccessStatus"/>' +
         '<Column Name="StartedTimestamp" TypeCode="4" Nullable="true"/>' +
         '<Column Name="Score" TypeCode="5" Nullable="true"/>' +
-        '<Parameter Name="ThemeIdParam" TypeCode="9" Nullable="true"/>' +
+        '<Parameter Name="CurriculumChapterTopicIdParam" TypeCode="9" Nullable="true"/>' +
         '<Parameter Name="UserKeyParam" TypeCode="2" Nullable="true"/>' +
     '</View>'
 SET @schema = @schema +
@@ -1386,7 +1390,8 @@ CREATE TABLE [AttemptItem](
     [StartedTimestamp] datetime,
     [SuccessStatus] int NOT NULL DEFAULT 0,
     [TotalPoints] float(24) DEFAULT NULL,
-    [IudicoThemeRef] int DEFAULT NULL
+    [IudicoCurriculumChapterTopicRef] int DEFAULT NULL,
+    [IudicoTopicType] int DEFAULT NULL
 )
 GRANT SELECT, INSERT, DELETE, UPDATE ON [AttemptItem] TO LearningStore
 
@@ -1862,7 +1867,7 @@ ON UserItem([Key])
 GO
 
 -- Create function for the update security on the AttemptItem item type
-CREATE FUNCTION [AttemptItem$UpdateSecurity](@UserKey nvarchar(250),@Id bigint,@LearnerId$Changed bit,@LearnerId bigint,@RootActivityId$Changed bit,@RootActivityId bigint,@CompletionStatus$Changed bit,@CompletionStatus int,@CurrentActivityId$Changed bit,@CurrentActivityId bigint,@SuspendedActivityId$Changed bit,@SuspendedActivityId bigint,@PackageId$Changed bit,@PackageId bigint,@AttemptStatus$Changed bit,@AttemptStatus int,@FinishedTimestamp$Changed bit,@FinishedTimestamp datetime,@LogDetailSequencing$Changed bit,@LogDetailSequencing bit,@LogFinalSequencing$Changed bit,@LogFinalSequencing bit,@LogRollup$Changed bit,@LogRollup bit,@StartedTimestamp$Changed bit,@StartedTimestamp datetime,@SuccessStatus$Changed bit,@SuccessStatus int,@TotalPoints$Changed bit,@TotalPoints float(24),@IudicoThemeRef$Changed bit,@IudicoThemeRef int)
+CREATE FUNCTION [AttemptItem$UpdateSecurity](@UserKey nvarchar(250),@Id bigint,@LearnerId$Changed bit,@LearnerId bigint,@RootActivityId$Changed bit,@RootActivityId bigint,@CompletionStatus$Changed bit,@CompletionStatus int,@CurrentActivityId$Changed bit,@CurrentActivityId bigint,@SuspendedActivityId$Changed bit,@SuspendedActivityId bigint,@PackageId$Changed bit,@PackageId bigint,@AttemptStatus$Changed bit,@AttemptStatus int,@FinishedTimestamp$Changed bit,@FinishedTimestamp datetime,@LogDetailSequencing$Changed bit,@LogDetailSequencing bit,@LogFinalSequencing$Changed bit,@LogFinalSequencing bit,@LogRollup$Changed bit,@LogRollup bit,@StartedTimestamp$Changed bit,@StartedTimestamp datetime,@SuccessStatus$Changed bit,@SuccessStatus int,@TotalPoints$Changed bit,@TotalPoints float(24),@IudicoCurriculumChapterTopicRef$Changed bit,@IudicoCurriculumChapterTopicRef int,@IudicoTopicType$Changed bit,@IudicoTopicType int)
 RETURNS bit
 AS
 BEGIN
@@ -1877,9 +1882,11 @@ CREATE FUNCTION [PackageItem$UpdateSecurity](@UserKey nvarchar(250),@Id bigint,@
 RETURNS bit
 AS
 BEGIN
-    RETURN (CASE WHEN @PackageFormat$Changed=0 AND @Location$Changed=0 AND @Manifest$Changed=0 AND
+    RETURN (
+    CASE WHEN @PackageFormat$Changed=0 AND @Location$Changed=0 AND @Manifest$Changed=0 AND
     EXISTS(SELECT * FROM PackageItem WHERE Id=@Id) AND
-    EXISTS(SELECT * FROM UserItem WHERE [Key]=@UserKey) THEN 1 ELSE 0 END)
+    EXISTS(SELECT * FROM UserItem WHERE [Key]=@UserKey) THEN 1 ELSE 0 END
+    )
 END
 GO
 GRANT EXECUTE ON [PackageItem$UpdateSecurity] TO LearningStore
@@ -2244,9 +2251,10 @@ CREATE FUNCTION [MyAttempts](@UserKey nvarchar(250))
 RETURNS TABLE
 AS
 RETURN (
-    SELECT PackageItem.Id AS PackageId,
+    SELECT  PackageItem.Id AS PackageId,
     ActivityPackageItem.Id AS OrganizationId,
-    AttemptItem.IudicoThemeRef AS ThemeId,
+    AttemptItem.IudicoCurriculumChapterTopicRef AS CurriculumChapterTopicId,
+    AttemptItem.IudicoTopicType AS TopicType,
     AttemptItem.Id AS AttemptId,
     AttemptItem.AttemptStatus,
     AttemptItem.TotalPoints
@@ -2280,7 +2288,8 @@ AS
 RETURN (
     SELECT  AttemptItem.Id AS AttemptId,
     UserItem.[Key] AS UserItemKey,
-    AttemptItem.IudicoThemeRef as ThemeId,
+    AttemptItem.IudicoCurriculumChapterTopicRef as CurriculumChapterTopicId,
+    AttemptItem.IudicoTopicType as TopicType,
     AttemptItem.CompletionStatus AS CompletionStatus,
     AttemptItem.AttemptStatus AS AttemptStatus,
     AttemptItem.SuccessStatus AS SuccessStatus,
@@ -2304,12 +2313,13 @@ GO
 GRANT EXECUTE ON [AllAttemptsResults$Security] TO LearningStore
 GO
 
--- Create a function that implements the AttemptsResultsByThemeAndUser view
-CREATE FUNCTION [AttemptsResultsByThemeAndUser](@UserKey nvarchar(250),@ThemeIdParam int=NULL,@UserKeyParam nvarchar(max)=NULL)
+-- Create a function that implements the AttemptsResultsByTopicAndUser view
+CREATE FUNCTION [AttemptsResultsByTopicAndUser](@UserKey nvarchar(250),@CurriculumChapterTopicIdParam int=NULL,@UserKeyParam nvarchar(max)=NULL)
 RETURNS TABLE
 AS
 RETURN (
     SELECT  AttemptItem.Id AS AttemptId,
+    AttemptItem.IudicoTopicType AS TopicType,
     AttemptItem.CompletionStatus AS CompletionStatus,
     AttemptItem.AttemptStatus AS AttemptStatus,
     AttemptItem.SuccessStatus AS SuccessStatus,
@@ -2317,21 +2327,21 @@ RETURN (
     AttemptItem.TotalPoints AS Score
     FROM AttemptItem
     INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
-    WHERE ((AttemptItem.IudicoThemeRef = @ThemeIdParam) AND (UserItem.[Key] = @UserKeyParam))
+    WHERE ((AttemptItem.IudicoCurriculumChapterTopicRef = @CurriculumChapterTopicIdParam) AND (UserItem.[Key] = @UserKeyParam))
 )
 GO
-GRANT SELECT ON [AttemptsResultsByThemeAndUser] TO LearningStore
+GRANT SELECT ON [AttemptsResultsByTopicAndUser] TO LearningStore
 GO
 
--- Create function for the security on the AttemptsResultsByThemeAndUser view
-CREATE FUNCTION [AttemptsResultsByThemeAndUser$Security](@UserKey nvarchar(250),@ThemeIdParam int=NULL,@UserKeyParam nvarchar(max)=NULL)
+-- Create function for the security on the AttemptsResultsByTopicAndUser view
+CREATE FUNCTION [AttemptsResultsByTopicAndUser$Security](@UserKey nvarchar(250),@CurriculumChapterTopicIdParam int=NULL,@UserKeyParam nvarchar(max)=NULL)
 RETURNS bit
 AS
 BEGIN
     RETURN (1)
 END
 GO
-GRANT EXECUTE ON [AttemptsResultsByThemeAndUser$Security] TO LearningStore
+GRANT EXECUTE ON [AttemptsResultsByTopicAndUser$Security] TO LearningStore
 GO
 
 -- Create a function that implements the InteractionResultsByAttempt view
@@ -2497,7 +2507,7 @@ CREATE FUNCTION [AttemptItem$DefaultView](@UserKey nvarchar(250))
 RETURNS TABLE
 AS
 RETURN (
-    SELECT Id, [LearnerId], [RootActivityId], [CompletionStatus], [CurrentActivityId], [SuspendedActivityId], [PackageId], [AttemptStatus], [FinishedTimestamp], [LogDetailSequencing], [LogFinalSequencing], [LogRollup], [StartedTimestamp], [SuccessStatus], [TotalPoints], [IudicoThemeRef]
+    SELECT Id, [LearnerId], [RootActivityId], [CompletionStatus], [CurrentActivityId], [SuspendedActivityId], [PackageId], [AttemptStatus], [FinishedTimestamp], [LogDetailSequencing], [LogFinalSequencing], [LogRollup], [StartedTimestamp], [SuccessStatus], [TotalPoints], [IudicoCurriculumChapterTopicRef], [IudicoTopicType]
     FROM [AttemptItem]
 )
 GO

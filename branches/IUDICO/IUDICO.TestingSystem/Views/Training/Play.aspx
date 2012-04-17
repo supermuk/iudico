@@ -5,7 +5,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <div id="ShowResults" style="display:none;"><%: Html.RouteLink("Show Results", new { controller = "Stats", action = "CurrentTopicTestResults", topicId = Model.CurriculumChapterTopicId })%></div>
+    <div id="ShowResults" style="display:none;"><%: Html.RouteLink("Show Results", new { controller = "Stats", action = "CurrentTopicTestResults", curriculumChapterTopicId = Model.CurriculumChapterTopicId })%></div>
     <iframe width="100%" height="600px" frameborder="0" src="<%: "/Player/Frameset/Frameset.aspx?View=0&AttemptId=" + Model.AttemptId.ToString() %>" id="player" name="player" style="display: block;"></iframe>
 </asp:Content>
 

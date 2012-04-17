@@ -128,7 +128,6 @@
     <Compile Include="Security\Selenium\SecuritySeleniumTester.cs" />
     <Compile Include="TestingSystem\NUnit\FileSystemPackageTests.cs" />
     <Compile Include="TestingSystem\NUnit\PlayModelTests.cs" />
-    <Compile Include="TestingSystem\NUnit\TrainingTests.cs" />
     <Compile Include="TestingSystem\NUnit\ZipPackageTests.cs" />
     <Compile Include="UserManagement\NUnit\ActivateUser.cs" />
     <Compile Include="UserManagement\NUnit\AddUserToGroup.cs" />

@@ -20,7 +20,7 @@
     <tr>
         <th><%=IUDICO.Statistics.Localization.getMessage("Student")%></th>
         <% int i = 0;
-           foreach (IUDICO.Common.Models.Shared.Discipline curr in Model.Disciplines)
+           foreach (IUDICO.Common.Models.Shared.Discipline curr in Model.Curriculums)
            {
                i++;%>
                 <th>
@@ -37,7 +37,7 @@
         <th>ECTS</th>
     </tr>
     
-    <% foreach (IUDICO.Statistics.Models.Storage.SpecializedResult specializedResult in Model.SpecializedResult)
+    <% foreach (IUDICO.Statistics.Models.Storage.SpecializedResult specializedResult in Model.SpecializedResults)
        { %>
        <tr>
             <td>

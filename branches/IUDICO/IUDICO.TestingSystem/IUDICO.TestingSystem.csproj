@@ -59,6 +59,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Transactions" />
@@ -120,7 +121,6 @@
     </Compile>
     <Compile Include="Controllers\TrainingController.cs" />
     <Compile Include="Localization.cs" />
-    <Compile Include="Models\FakeTestingService.cs" />
     <Compile Include="Models\IMlcProxy.cs" />
     <Compile Include="Models\ServicesProxy.cs" />
     <Compile Include="Models\MlcHelper.cs" />
@@ -129,7 +129,6 @@
     <Compile Include="Models\VOs\FileSystemPackage.cs" />
     <Compile Include="Models\VOs\Package.cs" />
     <Compile Include="Models\VOs\PlayModel.cs" />
-    <Compile Include="Models\VOs\Training.cs" />
     <Compile Include="Models\VOs\ZipPackage.cs" />
     <Compile Include="Player\ChangeActivity.aspx.cs">
       <DependentUpon>ChangeActivity.aspx</DependentUpon>

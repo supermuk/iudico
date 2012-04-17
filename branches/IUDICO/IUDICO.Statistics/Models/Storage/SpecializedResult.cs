@@ -1,45 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using IUDICO.Common.Models.Shared.Statistics;
-using IUDICO.Common.Models;
-using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
+using IUDICO.Common.Models.Shared.Statistics;
 
 namespace IUDICO.Statistics.Models.Storage
 {
     public class AllSpecializedResults
     {
-        private List<SpecializedResult> _SpecializedResult; 
-        private List<User> _Users;                         
-        private int[] _SelectDisciplineIds;            
-        private IEnumerable<Discipline> _Disciplines;    
-
         public AllSpecializedResults()
         {
-            _SpecializedResult = new List<SpecializedResult>();
-            _Users = new List<User>();
+            SpecializedResults = new List<SpecializedResult>();
+            Users = new List<User>();
         }
 
-        public List<User> Users
-        {
-            get { return _Users; }
-            set { _Users = value; }
-        }
-        public int[] SelectDisciplineIds
-        {
-            get { return _SelectDisciplineIds; }
-            set { _SelectDisciplineIds = value; }
-        }
-        public List<SpecializedResult> SpecializedResult
-        {
-            get { return _SpecializedResult; }
-            set { _SpecializedResult = value; }
-        }
-        public IEnumerable<Discipline> Disciplines
-        {
-            get { return _Disciplines; }
-            set { _Disciplines = value; }
-        }
+        public List<User> Users { get; set; }
+
+        public int[] SelectedCurriculumIds { get; set; }
+
+        public List<SpecializedResult> SpecializedResults { get; set; }
+
+        public IEnumerable<Curriculum> Curriculums { get; set; }
     }
 
     public class SpecializedResult
@@ -215,7 +195,7 @@ namespace IUDICO.Statistics.Models.Storage
             }
             else
             {
-                _Res = _AttemptResults.First(x => x.User == _User & x.Topic == _Topic).Score.ToPercents();
+                _Res = _AttemptResults.First(x => x.User == _User & x.CurriculumChapterTopic.Topic == _Topic).Score.ToPercents();
             }
             return _Res;
         }

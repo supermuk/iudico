@@ -96,7 +96,7 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         public String GetTopicName()
         {
             if (this.Attempt != null)
-                return this.Attempt.Topic.Name;
+                return this.Attempt.CurriculumChapterTopic.Topic.Name;
             else
                 return "";
         }

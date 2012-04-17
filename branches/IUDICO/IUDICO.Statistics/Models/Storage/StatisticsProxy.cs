@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using IUDICO.Common.Models;
+﻿using System.Collections.Generic;
 using IUDICO.Common.Models.Services;
-using IUDICO.Common.Models.Shared.Statistics;
 using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Statistics.Models.Storage
@@ -49,10 +45,9 @@ namespace IUDICO.Statistics.Models.Storage
         /// </summary>
         /// <param name="groupId">int Selected group id .</param>
         /// <returns>IEnumerable<Discipline> Disciplines by group id .</returns>
-        public IEnumerable<Discipline> GetCurrilulumsByGroupId(int groupId)
+        public IEnumerable<Curriculum> GetCurrilulumsByGroupId(int groupId)
         {
-            IEnumerable<Discipline> disciplines = _LmsService.FindService<IDisciplineService>().GetDisciplinesByGroupId(groupId);
-            return disciplines;
+            return _LmsService.FindService<ICurriculumService>().GetCurriculums(curr => curr.UserGroupRef == groupId);
         }
         
         #endregion

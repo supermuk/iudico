@@ -33,6 +33,11 @@ namespace IUDICO.TestingSystem.Models
             get { return LmsSevice.FindService<IDisciplineService>(); }
         }
 
+        protected ICurriculumService CurriculumService
+        {
+            get { return LmsSevice.FindService<ICurriculumService>(); }
+        }
+
         #endregion
 
         #region Constructor
