@@ -64,6 +64,14 @@ namespace IUDICO.DisciplineManagement.Models
             }
         }
 
+        public System.Data.Linq.Table<SharedDiscipline> SharedDisciplines
+        {
+            get
+            {
+                return this.GetTable<SharedDiscipline>();
+            }
+        }
+
         public System.Data.Linq.Table<Chapter> Chapters
         {
             get
@@ -106,6 +114,11 @@ namespace IUDICO.DisciplineManagement.Models
         IMockableTable<TopicType> IDataContext.TopicTypes
         {
             get { return new MockableTable<TopicType>(TopicTypes); }
+        }
+
+        IMockableTable<SharedDiscipline> IDataContext.SharedDisciplines
+        {
+            get { return new MockableTable<SharedDiscipline>(SharedDisciplines); }
         }
     }
 }

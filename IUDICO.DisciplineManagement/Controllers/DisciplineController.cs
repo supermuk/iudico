@@ -5,6 +5,7 @@ using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Attributes;
 using IUDICO.DisciplineManagement.Models.Storage;
+using System.Linq;
 
 namespace IUDICO.DisciplineManagement.Controllers
 {
@@ -19,10 +20,8 @@ namespace IUDICO.DisciplineManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Index()
         {
-
-			IEnumerable<Discipline> list = Storage.GetDisciplines(item => item.Owner == Storage.GetCurrentUser().Username);
-
-			return View(list);
+            var disciplines = Storage.GetDisciplines(Storage.GetCurrentUser());
+            return View(disciplines);
         }
 
         [HttpGet]
@@ -61,6 +60,38 @@ namespace IUDICO.DisciplineManagement.Controllers
             Storage.UpdateDiscipline(discipline);
 
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
+        public string Share(int disciplineId)
+        {
+            var users = Storage.GetDisciplineNotSharedUsers(disciplineId)
+                .Union(Storage.GetDisciplineSharedUsers(disciplineId))
+                .OrderBy(item => item.Name);
+
+            return PartialViewAsString("Share", users);
+        }
+
+        [HttpPost]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
+        public JsonResult Share(int disciplineId, List<Guid> sharewith)
+        {
+            try
+            {
+                sharewith = sharewith ?? new List<Guid>();
+                //AddValidationErrorsToModelState(Validator.ValidateDisciplineSharing(disciplineId, sharewith).Errors);
+                if (ModelState.IsValid)
+                {
+                    Storage.UpdateDisciplineSharing(disciplineId, sharewith);
+                    return Json(new { success = true, disciplineId = disciplineId });
+                }
+                return Json(new { success = true, disciplineId = disciplineId, html = PartialViewAsString("Share", disciplineId) });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, disciplineId = disciplineId, html = ex.Message });
+            }
         }
 
         [HttpPost]

@@ -41,32 +41,10 @@ namespace IUDICO.CurriculumManagement.Controllers
             );
         }
 
-        //[Allow(Role = Role.Teacher)]
-        //public ActionResult Index(int disciplineId)
-        //{
-        //    var discipline = Storage.GetDiscipline(disciplineId);
-        //    var curriculums = Storage.GetCurriculumsByDisciplineId(disciplineId);
-
-        //    ViewData["DisciplineName"] = discipline.Name;
-        //    return View
-        //    (
-        //        curriculums
-        //            .Select(item => new ViewCurriculumModel
-        //            {
-        //                Id = item.Id,
-        //                GroupName = Storage.GetGroup(item.UserGroupRef).Name,
-        //                StartDate = Converter.ToString(item.StartDate),
-        //                EndDate = Converter.ToString(item.EndDate),
-        //            })
-        //    );
-        //}
-
         [HttpGet]
         [Allow(Role = Role.Teacher)]
         public ActionResult Create()
         {
-            LoadValidationErrors();
-
             var groups = Storage.GetGroups();
             var disciplines = Storage.GetDisciplines(Storage.GetCurrentUser());
             var model = new CreateCurriculumModel(groups, 0, disciplines, 0, null, null);
@@ -93,19 +71,13 @@ namespace IUDICO.CurriculumManagement.Controllers
                 Storage.AddCurriculum(curriculum);
                 return RedirectToAction("Index");
             }
-            else
-            {
-                SaveValidationErrors();
-                return RedirectToAction("Create");
-            }
+            return RedirectToAction("Create");
         }
 
         [HttpGet]
         [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int curriculumId)
         {
-            LoadValidationErrors();
-
             var curriculum = Storage.GetCurriculum(curriculumId);
             //var discipline = Storage.GetDiscipline(disciplineId);
             var groupId = curriculum.UserGroupRef;
@@ -136,7 +108,6 @@ namespace IUDICO.CurriculumManagement.Controllers
                 Storage.UpdateCurriculum(curriculum);
                 return RedirectToRoute("Curriculums", new { action = "Index" });
             }
-            SaveValidationErrors();
             return RedirectToAction("Edit");
         }
 

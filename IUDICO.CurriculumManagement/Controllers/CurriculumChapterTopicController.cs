@@ -26,7 +26,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             var curriculumChapter = Storage.GetCurriculumChapter(curriculumChapterId);
             var curriculum = Storage.GetCurriculum(curriculumChapter.CurriculumRef);
-            var curriculumChapterTopics = Storage.GetCurriculumChapterTopicsByCurriculumChapterId(curriculumChapterId);
+            var curriculumChapterTopics = Storage.GetCurriculumChapterTopics(item => item.CurriculumChapterRef == curriculumChapterId);
 
             ViewData["DisciplineName"] = Storage.GetDiscipline(curriculum.DisciplineRef).Name;
             ViewData["CurriculumId"] = curriculum.Id;
@@ -54,8 +54,6 @@ namespace IUDICO.CurriculumManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int curriculumChapterTopicId)
         {
-            LoadValidationErrors();
-
             var curriculumChapterTopic = Storage.GetCurriculumChapterTopic(curriculumChapterTopicId);
             var curriculumChapter = Storage.GetCurriculumChapter(curriculumChapterTopic.CurriculumChapterRef);
             var curriculum = Storage.GetCurriculum(curriculumChapter.CurriculumRef);
@@ -93,11 +91,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                 Storage.UpdateCurriculumChapterTopic(curriculumChapterTopic);
                 return RedirectToRoute("CurriculumChapterTopics", new { action = "Index", CurriculumChapterId = Session["CurriculumChapterId"] });
             }
-            else
-            {
-                SaveValidationErrors();
-                return RedirectToAction("Edit");
-            }
+            return RedirectToAction("Edit");
         }
     }
 }

@@ -79,7 +79,7 @@ namespace IUDICO.DisciplineManagement.Models.ViewDataClasses
                         })
                         .ToList();
             BindTestCourse = testCourseId.HasValue;
-            TestCourseId = testCourseId ?? 0;// ?? Constants.NoCourseId;
+            TestCourseId = testCourseId ?? 0;
             TestTopicTypeId = testTopicTypeId ?? 0;
 
             //Theory course
@@ -101,7 +101,7 @@ namespace IUDICO.DisciplineManagement.Models.ViewDataClasses
                         })
                         .ToList();
             BindTheoryCourse = theoryCourseId.HasValue;
-            TheoryCourseId = theoryCourseId ?? 0;// ?? Constants.NoCourseId;
+            TheoryCourseId = theoryCourseId ?? 0;
             TheoryTopicTypeId = theoryTopicTypeId ?? 0;
 
             TopicName = topicName;
