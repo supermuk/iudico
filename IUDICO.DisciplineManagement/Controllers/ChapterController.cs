@@ -61,9 +61,10 @@ namespace IUDICO.DisciplineManagement.Controllers
         {
             try
             {
+                chapter.DisciplineRef = disciplineRef;
+
                 if (ModelState.IsValid)
                 {
-                    chapter.DisciplineRef = disciplineRef;
                     Storage.AddChapter(chapter);
 
                     return Json(new { success = true, disciplineId = chapter.DisciplineRef, chapterRow = PartialViewAsString("ChapterRow", chapter) });

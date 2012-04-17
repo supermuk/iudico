@@ -31,36 +31,65 @@ namespace IUDICO.CourseManagement.Controllers
         public ActionResult Index()
         {
             var userService = LmsService.FindService<IUserService>();
-            var userId = userService.GetUsers().Single(i => i.Username == User.Identity.Name).Id;
-            var courses = _Storage.GetCourses(userId);
 
-            return View(courses.Union(_Storage.GetCourses(User.Identity.Name)));
+            var userId = userService.GetUsers().Single(i => i.Username == User.Identity.Name).Id;
+
+            var sharedCourses = _Storage.GetCourses(userId);
+            var myCourses = _Storage.GetCourses(User.Identity.Name);
+            var currentUser = _UserService.GetCurrentUser();
+            var all = sharedCourses.Union(myCourses);
+
+            var owners = all.Select(i => i.Owner).Distinct().ToList();
+
+            var users = new List<User>();
+            foreach (var owner in owners)
+            {
+                var copy = owner;
+                users.AddRange(_UserService.GetUsers(i => i.Username == copy));
+            }
+            var dic = users.ToDictionary(i => i.Username, j => j.Username);
+
+
+            var viewCourses = all.Select(i => new ViewCourseModel
+                                                  {
+                                                      Id = i.Id,
+                                                      Name = i.Name,
+                                                      Created = i.Created,
+                                                      Updated = i.Updated,
+                                                      Locked = i.Locked ?? false,
+                                                      Shared = i.Owner != currentUser.UserId,
+                                                      OwnerName = dic.ContainsKey(i.Owner) ? dic[i.Owner] : i.Owner
+                                                  });
+            return View(viewCourses);
         }
 
         [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public ActionResult Create()
         {
-            var allUsers = _UserService.GetUsers().Where(i => i.Username != _UserService.GetCurrentUser().Username);
-
-            ViewData["AllUsers"] = allUsers;
-
-            return View();
+            return PartialView("Create", new Course());
         }
 
         [HttpPost]
         [Allow(Role = Role.Teacher | Role.CourseCreator)]
-        public ActionResult Create(Course course, IEnumerable<Guid> sharewith)
+        public JsonResult Create(Course course)
         {
-            if (ModelState.IsValid)
+            try
             {
-                course.Owner = _UserService.GetCurrentUser().Username;
-                var id = _Storage.AddCourse(course);
-                _Storage.UpdateCourseUsers(id, sharewith);
+                if (ModelState.IsValid)
+                {
+                    course.Owner = _UserService.GetCurrentUser().Username;
+                    var courseId = _Storage.AddCourse(course);
 
-                return RedirectToAction("Index");
+                    return Json(new { success = true, courseId = courseId, courseRow = PartialViewAsString("CourseRow", course) });
+                }
+
+                return Json(new { success = false, html = PartialViewAsString("Create", course) });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, html = ex.Message});
             }
 
-            return RedirectToAction("Create");
         }
 
         [Allow(Role = Role.Teacher | Role.CourseCreator)]
@@ -68,29 +97,28 @@ namespace IUDICO.CourseManagement.Controllers
         {
             var course = _Storage.GetCourse(courseId);
 
-            if (_UserService.GetCurrentUser().Username != course.Owner)
-            {
-                return RedirectToAction("Index");
-            }
-
-            var allUsers = _UserService.GetUsers().Where(i => i.Username != course.Owner);
-            var courseUsers = allUsers.Where(i => _Storage.GetCourseUsers(courseId).Any(j => j.Id == i.Id));
-
-            ViewData["AllUsers"] = allUsers.Except(courseUsers);
-            ViewData["SharedUsers"] = courseUsers;
-
-            return View(course);
+            return PartialView("Edit", course);
         }
 
         [HttpPost]
         [Allow(Role = Role.Teacher | Role.CourseCreator)]
-        public ActionResult Edit(int courseId, Course course, IEnumerable<Guid> sharewith)
+        public ActionResult Edit(int courseId, Course course)
         {
+            try
+            {
+                if(ModelState.IsValid)
+                {
+                    _Storage.UpdateCourse(courseId, course);
 
-            _Storage.UpdateCourse(courseId, course);
-            _Storage.UpdateCourseUsers(courseId, sharewith);
+                    return Json(new { success = false, courseId = courseId, courseRow = PartialViewAsString("CourseRow", course) });
+                }
 
-            return RedirectToAction("Index");
+                return Json(new { success = false, courseId = courseId, html = PartialViewAsString("Edit", course) });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, html = ex.Message});
+            }
         }
 
         [HttpGet]

@@ -430,6 +430,9 @@ select option.added
 {
     background-color: #F0F0F0;
 }
+.courseEditable {
+    cursor: pointer;
+}
 /* DISCIPLINES
 ----------------------------------------------------------*/
 .disciplineTable
