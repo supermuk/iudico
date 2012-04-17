@@ -12,11 +12,13 @@ namespace IUDICO.Common.Models.Services
         /// so appropriate number of results would be returned.
         /// </summary>
         /// <param name="user">User value, represents user for which attempt results are returned.</param>
-        /// <param name="topic">Topic value, represents topic, for which attempt results are returned.</param>
-        /// <returns>Collection of AttemptResults objects. Can return zero or more attempt results. Zero count means user has not attempted relative course(from topic) yet./returns>
-        IEnumerable<AttemptResult> GetResults(User user, Topic topic);
+        /// <param name="curriculumChapterTopic">Topic value, represents topic, for which attempt results are returned.</param>
+        /// <returns>Collection of AttemptResults objects. Can return zero or more attempt results. Zero count means user has not attempted relative course(from topic) yet.</returns>
+        IEnumerable<AttemptResult> GetResults(User user, CurriculumChapterTopic curriculumChapterTopic);
 
         IEnumerable<AttemptResult> GetResults(User user);
+
+        IEnumerable<AttemptResult> GetResults(CurriculumChapterTopic curriculumChapterTopic);
 
         IEnumerable<AttemptResult> GetResults(Topic topic);
 
@@ -32,12 +34,5 @@ namespace IUDICO.Common.Models.Services
         /// <param name="attempt">Attempt, for which answers are returned.</param>
         /// <returns>Collection of AnswerResult objects.</returns>
         IEnumerable<AnswerResult> GetAnswers(AttemptResult attempt);
-        
-        /// <summary>
-        /// Builds "play topic" link.
-        /// </summary>
-        /// <param name="topic">Topic value represents topic, link is build for.</param>
-        /// <returns>ActionLink object containing data for building ActionLink using Html helpers.</returns>
-        ActionLink BuildLink(Topic topic);
     }
 }

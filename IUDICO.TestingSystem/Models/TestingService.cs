@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using IUDICO.Common.Models.Services;
-using IUDICO.Common.Models.Shared.Statistics;
-using IUDICO.Common.Models;
-using IUDICO.Common.Controllers;
-using System.Web;
-using Microsoft.LearningComponents.Storage;
-using Microsoft.LearningComponents;
-using System.IO;
-using System.Linq;
-using System.Web.Mvc;
-using System.Web.Routing;
-using System.Data;
 using IUDICO.Common.Models.Shared;
+using IUDICO.Common.Models.Shared.Statistics;
 
 namespace IUDICO.TestingSystem.Models
 {
@@ -27,42 +16,34 @@ namespace IUDICO.TestingSystem.Models
 
         #region ITestingService interface implementation
 
-        public IEnumerable<AttemptResult> GetResults(User user, Topic topic)
+        public IEnumerable<AttemptResult> GetResults(User user, CurriculumChapterTopic curriculumChapterTopic)
         {
-            IEnumerable<AttemptResult> result = MlcProxy.GetResults(user, topic);
-            return result;
+            return MlcProxy.GetResults(user, curriculumChapterTopic);
         }
 
         public IEnumerable<AttemptResult> GetResults(User user)
         {
-            IEnumerable<AttemptResult> result = MlcProxy.GetResults(user);
-            return result;
+            return MlcProxy.GetResults(user);
+        }
+
+        public IEnumerable<AttemptResult> GetResults(CurriculumChapterTopic curriculumChapterTopic)
+        {
+            return MlcProxy.GetResults(curriculumChapterTopic);
         }
 
         public IEnumerable<AttemptResult> GetResults(Topic topic)
         {
-            IEnumerable<AttemptResult> result = MlcProxy.GetResults(topic);
-            return result;
+            return MlcProxy.GetResults(topic);
         }
 
         public IEnumerable<AttemptResult> GetAllAttempts()
         {
-            IEnumerable<AttemptResult> result = MlcProxy.GetAllAttempts();
-            return result;
+            return MlcProxy.GetResults();
         }
 
         public IEnumerable<AnswerResult> GetAnswers(AttemptResult attempt)
         {
-            IEnumerable<AnswerResult> result = MlcProxy.GetAnswers(attempt);
-            return result;
-        }
-
-        public ActionLink BuildLink(Topic topic)
-        {
-            RouteValueDictionary routeValueDictionary = new RouteValueDictionary();
-            routeValueDictionary.Add("id", topic.Id);
-            ActionLink actionLink = new ActionLink("Play", "Training", routeValueDictionary);
-            return actionLink;
+            return MlcProxy.GetAnswers(attempt);
         }
 
         #endregion

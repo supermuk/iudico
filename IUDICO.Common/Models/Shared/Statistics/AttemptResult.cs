@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using IUDICO.Common.Models.Shared.DisciplineManagement;
 
 namespace IUDICO.Common.Models.Shared.Statistics
 {
@@ -23,9 +21,14 @@ namespace IUDICO.Common.Models.Shared.Statistics
         public User User { get; protected set; }
         
         /// <summary>
-        /// Topic, attempt result is for.
+        /// CurriculumChapterTopic, attempt result is for.
         /// </summary>
-        public Topic Topic { get; protected set; }
+        public CurriculumChapterTopic CurriculumChapterTopic { get; protected set; }
+
+        /// <summary>
+        /// Type of referenced topic.
+        /// </summary>
+        public TopicTypeEnum TopicType { get; protected set; }
 
         /// <summary>
         /// Completion status - SCORM related.
@@ -59,14 +62,15 @@ namespace IUDICO.Common.Models.Shared.Statistics
 
         #region Constructors
 
-        public AttemptResult(long attemptId, User user, Topic topic, 
-            CompletionStatus completionStatus, AttemptStatus attemptStatus, 
+        public AttemptResult(long attemptId, User user, CurriculumChapterTopic curriculumChapterTopic,
+            TopicTypeEnum topicType, CompletionStatus completionStatus, AttemptStatus attemptStatus, 
             SuccessStatus successStatus, DateTime? startTime, float? scaledScore)
         {
             this.AttemptId = attemptId;
             this.User = user;
-            this.Topic = topic;
-            
+            this.CurriculumChapterTopic = curriculumChapterTopic;
+            this.TopicType = topicType;
+
             this.CompletionStatus = completionStatus;
             this.AttemptStatus = attemptStatus;
             this.SuccessStatus = successStatus;
