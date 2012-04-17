@@ -1,7 +1,5 @@
 ﻿<%@ Assembly Name="IUDICO.CourseManagement" %>
-
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Course>>" %>
-<%@ Import Namespace="System.Web.Mvc.Ajax" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CourseManagement.Models.ViewCourseModel>>" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript" language="javascript">
@@ -75,10 +73,41 @@
                    }
                }
             });
-            
+
+            $("#dialog").dialog({
+               autoOpen: false,
+               modal: true,
+               buttons: {
+                   "Submit": function () {
+                       $("#dialog").find("form").submit();
+                   },
+                   "Close": function () {
+                       $(this).dialog("close");
+                   }
+               }
+            });
+
+            $(".courseEditable").click(function () {
+                window.location.replace("/Course/" + this.parentNode.id.replace("course", "") + "/Node/Index");
+            });
         });
+        
         function removeRow(data) {
             window.location = window.location;
+        }
+        
+        function openDialog(title) {
+            $("#dialogInner").html("Loading...");
+            $("#dialog").dialog("option", "title", title);
+            $("#dialog").dialog("open");
+        }
+        
+        function fillDialogInner(html, itemName, itemId) {
+            $("#dialogInner").html(html);
+            $('<input />').attr('type', 'hidden')
+                .attr('name', itemName)
+                .attr('value', itemId)
+                .appendTo('#dialogInner > form');
         }
         
         function shareCourse(courseId) {
@@ -113,8 +142,32 @@
             });
         }
         
+        function addCourse() {
+            openDialog("Create course");
+
+            $.ajax({
+                type: "get",
+                url: "/Course/Create",
+                success: function(r) {
+                    $("#dialogInner").html(r);
+                }
+            });
+        }
+        
+        function editCourse() {
+            openDialog("Edit course");
+
+            $.ajax({
+                type: "get",
+                url: "/Course/Edit",
+                success: function(r) {
+                    $("#dialogInner").html(r);
+                }
+            });
+        }        
+        
         function onShareCourseSuccess(r) {
-            var resp = eval("(" + r.$2._xmlHttpRequest.response + ")");
+            var resp = eval("(" + r.$2._xmlHttpRequest.responseText + ")");
             if(resp.success) {
                 $("#shareDialog").dialog("close");
             } else {
@@ -122,6 +175,26 @@
             }
         }
         
+        function onCreateCourseSuccess(r) {
+            var resp = eval("(" + r.$2._xmlHttpRequest.responseText + ")");
+            if(resp.success) {
+                $(".course").after(resp.courseRow);
+                $("#dialog").dialog("close");                
+            } else {
+                fillDialogInner(resp.html, "courseId", resp.courseId);
+            }
+        }
+
+        function onEditCourseSuccess(r) {
+            var resp = eval("(" + r.$2._xmlHttpRequest.responseText + ")");
+            if(resp.success) {
+                $("#course" + resp.courseId).replaceWith(resp.courseRow);
+                $("#dialog").dialog("close");                
+            } else {
+                fillDialogInner(resp.html, "courseId", resp.courseId);
+            }
+        }
+
         function onFailure(r) {
             alert("error");
         }
@@ -132,7 +205,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <p>
-        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("CreateNew"), "Create", "Course")%>
+        <a href="#" onclick="addCourse();"><%:IUDICO.CourseManagement.Localization.getMessage("CreateNew")%></a>
         |
         <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Import"), "Import")%>
         | <a id="DeleteMany" href="#">
@@ -143,12 +216,7 @@
             <%=IUDICO.CourseManagement.Localization.getMessage("Allcourses")%>:</h2>
     </div>
     <div>
-        <% var index = 1;
-           var myCourses = Model.Where(i => i.Owner == HttpContext.Current.User.Identity.Name && i.Locked != true);
-           var sharedCourses = Model.Where(i => i.Owner != HttpContext.Current.User.Identity.Name && i.Locked != true);
-           var lockedCourses = Model.Where(i => i.Locked == true);
-        %>
-        <% if (myCourses.Count() + sharedCourses.Count() + lockedCourses.Count() > 0)
+        <% if (Model.Count() > 0)
            { %>
         <table id="Courses" class="courseTable">
             <thead>
@@ -170,108 +238,15 @@
                 </tr>
             </thead>
             <tbody>
-                <% foreach (var item in myCourses)
-                   { %>
-                <tr class="courseMy">
-                    <td class="courseCheck">
-                        <input type="checkbox" id="<%= item.Id %>" />
-                    </td>
-                    <td>
-                        <%: index++%>
-                    </td>
-                    <td>
-                        <div>
-                            <%: item.Name%></div>
-                        <div class="course-created-label">
-                            <%=IUDICO.CourseManagement.Localization.getMessage("Created by me")%>:
-                            <%: String.Format("{0:d}", item.Created)%></div>
-                    </td>
-                    <td>
-                        <%: String.Format("{0:g}", item.Updated)%>
-                    </td>
-                    <td>
-                        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("EditCourse"), "Edit", "Course", new { CourseID = item.Id }, null)%>
-                        |
-                        <%:Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("EditContentCourse"), "Index", "Node", new { CourseID = item.Id }, null)%>
-                        |
-                        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Publish"), "Publish", new { CourseID = item.Id })%>
-                        |
-                        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Export"), "Export", new { CourseID = item.Id })%>
-                        |
-                        <%: Ajax.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Delete"), "Delete", new { CourseID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
-                        | <a href="#" onclick="shareCourse(<%: item.Id %>)">Share</a>
-                    </td>
-                </tr>
-                <% } %>
-                <% foreach (var item in sharedCourses)
-                   { %>
-                <tr class="courseShared">
-                    <td class="courseCheck">
-                        <input type="checkbox" id="Checkbox2" />
-                    </td>
-                    <td>
-                        <%: index++ %>
-                    </td>
-                    <td>
-                        <div>
-                            <%: item.Name %></div>
-                        <div class="course-created-label">
-                            <%=IUDICO.CourseManagement.Localization.getMessage("Created by")%>
-                            <%: item.Owner %>:
-                            <%: String.Format("{0:d}", item.Created) %></div>
-                    </td>
-                    <td>
-                        <%: String.Format("{0:g}", item.Updated) %>
-                    </td>
-                    <td>
-                        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Edit"), "Edit", "Course", new { CourseID = item.Id }, null)%>
-                        |
-                        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Details"), "Index", "Node", new { CourseID = item.Id }, null)%>
-                        |
-                        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Publish"), "Publish", new { CourseID = item.Id })%>
-                        |
-                        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Export"), "Export", new { CourseID = item.Id })%>
-                        |
-                        <%: Ajax.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Delete"), "Delete", new { CourseID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
-                    </td>
-                </tr>
-                <% } %>
-                <% foreach (var item in lockedCourses)
-                   { %>
-                <tr class="courseLocked">
-                    <td class="courseCheck">
-                        <input type="checkbox" id="Checkbox1" />
-                    </td>
-                    <td>
-                        <%: index++ %>
-                    </td>
-                    <td>
-                        <div>
-                            <%: item.Name %></div>
-                        <div class="course-created-label">
-                            <%=IUDICO.CourseManagement.Localization.getMessage("Created by")%>
-                            <%: item.Owner %></div>
-                    </td>
-                    <td>
-                        <%: String.Format("{0:g}", item.Updated) %>
-                    </td>
-                    <td>
-                        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Edit"), "Edit", "Course", new { CourseID = item.Id }, null)%>
-                        |
-                        <%:Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Unlock"), "Parse", "Course", new { CourseID = item.Id }, null)%>
-                        |
-                        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Download"), "Export", new { CourseID = item.Id })%>
-                        |
-                        <%: Ajax.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Delete"), "Delete", new { CourseID = item.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + item.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
-                    </td>
-                </tr>
+                <% foreach (var item in Model) { %>
+                        <% Html.RenderPartial("CourseRow", item); %>
                 <% } %>
             </tbody>
         </table>
         <% }
            else
            {%>
-        <%=IUDICO.CourseManagement.Localization.getMessage("NoCourses")%>
+            <%=IUDICO.CourseManagement.Localization.getMessage("NoCourses")%>
         <% } %>
     </div>
     <div id="shareDialog">
@@ -280,5 +255,8 @@
         <div id="shareDialogInner">
         </div>
         <% } %>
+    </div>
+    <div id="dialog">
+        <div id="dialogInner"></div>
     </div>
 </asp:Content>
