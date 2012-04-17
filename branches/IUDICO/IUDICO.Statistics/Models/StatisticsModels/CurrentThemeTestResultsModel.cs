@@ -14,13 +14,13 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         private AttemptResult _Attempt;
         private IEnumerable<AnswerResult> _UserAnswers;
         private bool _NoData;
-        public CurrentTopicTestResultsModel(int topicId, ILmsService lmsService)
+        public CurrentTopicTestResultsModel(int curriculumChapterTopicId, ILmsService lmsService)
         {
             User currenUser = lmsService.FindService<IUserService>().GetCurrentUser();
-            Topic topic = lmsService.FindService<IDisciplineService>().GetTopic(topicId);
-            if (currenUser != null & topic != null)
+            var curriculumChapterTopic = lmsService.FindService<ICurriculumService>().GetCurriculumChapterTopicById(curriculumChapterTopicId);
+            if (currenUser != null & curriculumChapterTopic != null)
             {
-                IEnumerable<AttemptResult> attemptResults = lmsService.FindService<ITestingService>().GetResults(currenUser, topic);
+                IEnumerable<AttemptResult> attemptResults = lmsService.FindService<ITestingService>().GetResults(currenUser, curriculumChapterTopic);
                 if (attemptResults != null & attemptResults.Count() >= 1)
                 {
 
@@ -54,7 +54,7 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         public String GetTopicName()
         {
             if (this._Attempt != null)
-                return this._Attempt.Topic.Name;
+                return this._Attempt.CurriculumChapterTopic.Topic.Name;
             else
                 return "";
         }

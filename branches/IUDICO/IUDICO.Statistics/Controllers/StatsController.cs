@@ -46,7 +46,7 @@ namespace IUDICO.Statistics.Controllers
             var selectedGroup = LmsService.FindService<IUserService>().GetGroup((int)HttpContext.Session["SelectedGroupId"]);
             ViewData["selectGroupName"] = selectedGroup.Name;
             IEnumerable<User> users = LmsService.FindService<IUserService>().GetUsersByGroup(selectedGroup);
-            SpecializedResultProxy srp = new SpecializedResultProxy();
+            var srp = new SpecializedResultProxy();
             AllSpecializedResults allSpecRes = srp.GetResults(users, selectDisciplineId, LmsService);
 
             return View(allSpecRes);
@@ -73,9 +73,9 @@ namespace IUDICO.Statistics.Controllers
 
         [Allow(Role = Role.Student)]
         [HttpGet]
-        public ActionResult CurrentTopicTestResults(Int32 topicId)
+        public ActionResult CurrentTopicTestResults(Int32 curriculumChapterTopicId)
         {
-            var model = new CurrentTopicTestResultsModel(topicId, LmsService);
+            var model = new CurrentTopicTestResultsModel(curriculumChapterTopicId, LmsService);
             return View(model);
         }
     }

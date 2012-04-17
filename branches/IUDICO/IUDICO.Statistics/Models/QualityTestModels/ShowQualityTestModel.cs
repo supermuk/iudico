@@ -245,7 +245,7 @@ namespace IUDICO.Statistics.Models.QualityTest
         private IEnumerable<QuestionModel> _ListOfQuestionModels;
         private IEnumerable<UserAnswers> _ListOfUserAnswers;
 
-        private IEnumerable<UserAnswers> StudentsAnswers(ILmsService iLmsService, int[] selectGroupIds, Topic selectTopic)
+        private IEnumerable<UserAnswers> StudentsAnswers(ILmsService iLmsService, int[] selectGroupIds, CurriculumChapterTopic selectedCurriculumChapterTopic)
         {
             List<UserAnswers> listOfUserAnswers = new List<UserAnswers>();
             //Creation of list of all students in selected groups
@@ -258,7 +258,7 @@ namespace IUDICO.Statistics.Models.QualityTest
             //
             foreach (User student in studentsFromSelectedGroups)
             {
-                IEnumerable<AttemptResult> temp = iLmsService.FindService<ITestingService>().GetResults(student, selectTopic);
+                IEnumerable<AttemptResult> temp = iLmsService.FindService<ITestingService>().GetResults(student, selectedCurriculumChapterTopic);
                 if (temp != null & temp.Count() != 0)
                 {
                     temp = temp//.Where(attempt => attempt.CompletionStatus == CompletionStatus.Completed)
@@ -303,16 +303,15 @@ namespace IUDICO.Statistics.Models.QualityTest
             }
             return listOfQuestionModels;
         }
-        public ShowQualityTestModel(ILmsService iLmsService, int[] selectGroupIds, String disciplineName, int selectTopicId)
+        public ShowQualityTestModel(ILmsService iLmsService, int[] selectGroupIds, String disciplineName, int selectedCurriculumChapterTopicId)
         {
             _DisciplineName = disciplineName;
             
-            //Topic object that needs for geting user answers
-            Topic selectTopic = iLmsService.FindService<IDisciplineService>().GetTopic(selectTopicId);
-            _TopicName = selectTopic.Name;
+            var seletedCurriculumChapterTopic = iLmsService.FindService<ICurriculumService>().GetCurriculumChapterTopicById(selectedCurriculumChapterTopicId);
+            _TopicName = seletedCurriculumChapterTopic.Topic.Name;
 
             //Creation of list of students answers
-            _ListOfUserAnswers = StudentsAnswers(iLmsService, selectGroupIds, selectTopic);
+            _ListOfUserAnswers = StudentsAnswers(iLmsService, selectGroupIds, seletedCurriculumChapterTopic);
             _ListOfQuestionModels = CreationOfQuestionModels();
         }
 

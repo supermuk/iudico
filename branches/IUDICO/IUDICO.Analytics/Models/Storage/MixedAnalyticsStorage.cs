@@ -218,7 +218,7 @@ namespace IUDICO.Analytics.Models.Storage
             var tags = new Dictionary<int, float>();
             var count = new Dictionary<int, int>();
 
-            var attempts = GetResults(user).GroupBy(a => new {UserId = a.User.Id, TopicId = a.Topic.Id}).Select(g => g.First()).ToDictionary(a => a.Topic.Id, a => a);
+            var attempts = GetResults(user).GroupBy(a => new {UserId = a.User.Id, TopicId = a.CurriculumChapterTopic.TopicRef}).Select(g => g.First()).ToDictionary(a => a.CurriculumChapterTopic.TopicRef, a => a);
             var topicTags = GetTopicTags(f => attempts.Keys.Contains(f.TopicId)).GroupBy(t => t.TopicId).ToDictionary(g => g.Key, g => g.Select(t => t.TagId));
 
             if (attempts.Count() == 0)
@@ -269,7 +269,7 @@ namespace IUDICO.Analytics.Models.Storage
         protected IEnumerable<TopicScore> GetTopicTagScores(Topic topic)
         {
             var topicTags = this.GetTopicTags(t => t.TopicId == topic.Id);
-            var attempts = GetResults(topic).GroupBy(a => new { UserId = a.User.Id, TopicId = a.Topic.Id }).Select(g => g.First());
+            var attempts = GetResults(topic).GroupBy(a => new { UserId = a.User.Id, TopicId = a.CurriculumChapterTopic.TopicRef }).Select(g => g.First());
             var total = 0.0;
             var count = 0;
 

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
 
@@ -12,9 +10,9 @@ namespace IUDICO.Statistics.Models.Storage
     {
         private ILmsService _LmsService;
 
-        public AllSpecializedResults GetResults(IEnumerable<User> users, int[] selectDisciplineIds, ILmsService ILMS)
+        public AllSpecializedResults GetResults(IEnumerable<User> users, int[] selectedCurriculumIds, ILmsService lmsService)
         {
-            _LmsService = ILMS;
+            _LmsService = lmsService;
             AllSpecializedResults asr = new AllSpecializedResults();
             SpecializedResult specializedResult;
             DisciplineResult curRes;
@@ -22,36 +20,37 @@ namespace IUDICO.Statistics.Models.Storage
 
             
             asr.Users = users.ToList();
-            asr.SelectDisciplineIds = selectDisciplineIds;
-            asr.Disciplines = _LmsService.FindService<IDisciplineService>().GetDisciplines(selectDisciplineIds);
+            asr.SelectedCurriculumIds = selectedCurriculumIds;
+            asr.Curriculums = _LmsService.FindService<ICurriculumService>().GetCurriculums(curr => selectedCurriculumIds.Contains(curr.Id));
 
-            IEnumerable<int> ieIds = selectDisciplineIds;
             foreach (User usr in asr.Users)
             {
                 specializedResult = new SpecializedResult();
-                specializedResult.Disciplines = _LmsService.FindService<IDisciplineService>().GetDisciplines(ieIds);
-                foreach (Discipline curr in specializedResult.Disciplines)
+                specializedResult.Disciplines = _LmsService.FindService<IDisciplineService>().GetDisciplines(asr.Curriculums.Select(curr=> curr.DisciplineRef));
+                foreach (Discipline discipline in specializedResult.Disciplines)
                 {
                     curRes = new DisciplineResult();
-                    curRes.Topics = _LmsService.FindService<IDisciplineService>().GetTopicsByDisciplineId(curr.Id);
+                    curRes.Topics = _LmsService.FindService<IDisciplineService>().GetTopicsByDisciplineId(discipline.Id);
                     
                     #region TopicResult
 
                     foreach (Topic topic in curRes.Topics)
                     {
                         topicResult = new TopicResult(usr, topic);
-                        topicResult.AttemptResults = _LmsService.FindService<ITestingService>().GetResults(usr, topic);
+                        throw new NotImplementedException(
+                            "Statistics was not implemented due to new design of Discipline/Curriculum services");
+                        //topicResult.AttemptResults = _LmsService.FindService<ITestingService>().GetResults(usr, );
                         topicResult.Res = topicResult.GetTopicResultScore();
                         curRes.TopicResult.Add(topicResult);
                     }
 
                     #endregion
 
-                    curRes.CalculateSumAndMax(usr, curr);
+                    curRes.CalculateSumAndMax(usr, discipline);
                     specializedResult.DisciplineResult.Add(curRes);
                 }
                 specializedResult.CalculateSpecializedResult(usr);
-                asr.SpecializedResult.Add(specializedResult);
+                asr.SpecializedResults.Add(specializedResult);
             }
             return asr;
         }
