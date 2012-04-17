@@ -155,6 +155,7 @@
     <Compile Include="Models\ResourceType.cs" />
     <Compile Include="Models\Storage\ICourseStorage.cs" />
     <Compile Include="Models\Storage\MixedCourseStorage.cs" />
+    <Compile Include="Models\ViewCourseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -752,7 +753,9 @@
     <Content Include="Scripts\jquery\themes\default\style.css" />
     <Content Include="Scripts\jquery\themes\default\throbber.gif" />
     <Content Include="Scripts\lms.js" />
-    <Content Include="Views\Course\CreateNew.ascx" />
+    <Content Include="Views\Course\CourseRow.ascx" />
+    <Content Include="Views\Course\Create.ascx" />
+    <Content Include="Views\Course\Edit.ascx" />
     <Content Include="Views\Node\Properties.ascx" />
     <Content Include="Views\Shared\EditorTemplates\RollupRules.ascx" />
     <Content Include="Views\Shared\Properties.ascx" />

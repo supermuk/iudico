@@ -99,7 +99,7 @@
         }
         
         function onCreateTopicSuccess(r) {
-            var resp = eval("(" + r.$2._xmlHttpRequest.response + ")");
+            var resp = eval("(" + r.$2._xmlHttpRequest.responseText + ")");
             if(resp.success) {
                $("#chapter" + resp.chapterId).add($(".child-of-chapter" + resp.chapterId)).last().after(resp.topicRow);
                 $("#dialog").dialog("close");
@@ -109,7 +109,7 @@
         }
         
         function onCreateChapterSuccess(r) {
-            var resp = eval("(" + r.$2._xmlHttpRequest.response + ")");
+            var resp = eval("(" + r.$2._xmlHttpRequest.responseText + ")");
             if(resp.success) {
                 
                 var $last = $("#discipline" + resp.disciplineId);
@@ -137,7 +137,7 @@
         }
         
         function onEditTopicSuccess(r) {
-            var resp = eval("(" + r.$2._xmlHttpRequest.response + ")");
+            var resp = eval("(" + r.$2._xmlHttpRequest.responseText + ")");
             if(resp.success) {
                 $("#topic" + resp.topicId).replaceWith(resp.topicRow);
                 $("#dialog").dialog("close");
@@ -147,7 +147,7 @@
         }
         
         function onEditChapterSuccess(r) {
-            var resp = eval("(" + r.$2._xmlHttpRequest.response + ")");
+            var resp = eval("(" + r.$2._xmlHttpRequest.responseText + ")");
             if(resp.success) {
                 $("#chapter" + resp.chapterId).replaceWith(resp.chapterRow);
                 $("#dialog").dialog("close");
@@ -415,7 +415,7 @@
         }
         
         function onShareDisciplineSuccess(r) {
-            var resp = eval("(" + r.$2._xmlHttpRequest.response + ")");
+            var resp = eval("(" + r.$2._xmlHttpRequest.responseText + ")");
             if(resp.success) {
                 $("#dialog").dialog("close");
             } else {
