@@ -18,7 +18,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         Group GetGroup(int id);
         IList<Group> GetGroups();
         IList<Group> GetGroupsByUser(User user);
-        IList<Curriculum> GetCurriculumsByGroupId(int groupId);
+        IList<Curriculum> GetCurriculums(Func<Curriculum, bool> predicate);
 
         #endregion
 
@@ -27,18 +27,29 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         /// <summary>
         /// Gets the disciplines.
         /// </summary>
+        /// <returns></returns>
+        IList<Discipline> GetDisciplines();
+
+        /// <summary>
+        /// Gets the disciplines.
+        /// </summary>
         /// <param name="predicate">The predicate.</param>
         /// <returns></returns>
         IList<Discipline> GetDisciplines(Func<Discipline, bool> predicate);
 
-        //IEnumerable<Discipline> GetDisciplines();
-        //IEnumerable<Discipline> GetDisciplines(User owner);
         /// <summary>
         /// Gets the disciplines.
         /// </summary>
         /// <param name="ids">The ids.</param>
         /// <returns></returns>
         IList<Discipline> GetDisciplines(IEnumerable<int> ids);
+
+        /// <summary>
+        /// Gets the disciplines owned by user or shared to him
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns></returns>
+        IList<Discipline> GetDisciplines(User user);
 
         /// <summary>
         /// Gets the discipline.
@@ -86,6 +97,16 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         /// <param name="ids">The ids.</param>
         void DeleteDisciplines(IEnumerable<int> ids);
         //void MakeDisciplineInvalid(int courseId);
+
+        #endregion
+
+        #region SharedDisciplines
+
+        IList<ShareUser> GetDisciplineSharedUsers(int disciplineId);
+
+        IList<ShareUser> GetDisciplineNotSharedUsers(int disciplineId);
+
+        void UpdateDisciplineSharing(int disciplineId, IEnumerable<Guid> sharewith);
 
         #endregion
 

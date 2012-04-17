@@ -1,4 +1,5 @@
-﻿using IUDICO.Common.Controllers;
+﻿using System;
+using IUDICO.Common.Controllers;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.CurriculumManagement.Models;
 using System.Web.Mvc;
@@ -25,26 +26,6 @@ namespace IUDICO.CurriculumManagement.Controllers
         }
 
         /// <summary>
-        /// Saves model state errors between requests.
-        /// </summary>
-        public void SaveValidationErrors()
-        {
-            TempData["ViewData"] = ViewData;
-        }
-
-        /// <summary>
-        /// Loads model state errors between requests.
-        /// </summary>
-        public void LoadValidationErrors()
-        {
-            if (TempData["ViewData"] != null)
-            {
-                ViewData = (ViewDataDictionary)TempData["ViewData"];
-                TempData["ViewData"] = null;
-            }
-        }
-
-        /// <summary>
         /// Adds errrors to model state.
         /// </summary>
         /// <param name="errors">The errors.</param>
@@ -52,7 +33,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             foreach (string error in errors)
             {
-                ModelState.AddModelError(string.Empty, error);
+                ModelState.AddModelError(new Guid().ToString(), error);
             }
         }
     }

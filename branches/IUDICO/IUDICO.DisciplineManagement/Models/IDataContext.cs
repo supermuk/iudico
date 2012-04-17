@@ -5,6 +5,7 @@ namespace IUDICO.DisciplineManagement.Models
     public interface IDataContext : IMockableDataContext
     {
         IMockableTable<Discipline> Disciplines { get; }
+        IMockableTable<SharedDiscipline> SharedDisciplines { get; }
         IMockableTable<Chapter> Chapters { get; }
         IMockableTable<Topic> Topics { get; }
         IMockableTable<TopicType> TopicTypes { get; }

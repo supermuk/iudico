@@ -103,7 +103,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public IList<Curriculum> GetCurriculums()
         {
-            return GetDbContext().Curriculums.Where(item => !item.IsDeleted).ToList();
+            return GetCurriculums(item => true);
         }
 
         public IList<Curriculum> GetCurriculums(IEnumerable<int> ids)
@@ -114,24 +114,14 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public IList<Curriculum> GetCurriculums(User user)
         {
             var disciplines = GetDisciplines(GetCurrentUser());
-            return disciplines.SelectMany(discipline => GetCurriculumsByDisciplineId(discipline.Id))
+            return disciplines.SelectMany(discipline => GetCurriculums(c => c.DisciplineRef == discipline.Id))
                 .OrderBy(item => item.DisciplineRef)
                 .ToList();
         }
 
-        public IList<Curriculum> GetCurriculumsByDisciplineId(int disciplineId)
+        public IList<Curriculum> GetCurriculums(Func<Curriculum, bool> predicate)
         {
-            return GetDbContext().Curriculums.Where(item => item.DisciplineRef == disciplineId && !item.IsDeleted).ToList();
-        }
-
-        private static IList<Curriculum> GetCurriculumsByGroupId(IDataContext db, int groupId)
-        {
-            return db.Curriculums.Where(item => item.UserGroupRef == groupId && !item.IsDeleted).ToList();
-        }
-
-        public IList<Curriculum> GetCurriculumsByGroupId(int groupId)
-        {
-            return GetCurriculumsByGroupId(GetDbContext(), groupId);
+            return GetDbContext().Curriculums.Where(item => !item.IsDeleted).Where(predicate).ToList();
         }
 
         public int AddCurriculum(Curriculum curriculum)
@@ -177,7 +167,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             var curriculum = GetCurriculum(db, id);
 
             //delete corresponding curriculum chapters
-            var curriculumChapterIds = GetCurriculumChaptersByCurriculumId(id).Select(item => item.Id).ToList();
+            var curriculumChapterIds = GetCurriculumChapters(item => item.CurriculumRef == id).Select(item => item.Id).ToList();
             DeleteCurriculumChapters(curriculumChapterIds);
 
             curriculum.IsDeleted = true;
@@ -195,15 +185,15 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             var groups = GetGroupsByUser(user).ToList(); //get groups for user
             var dateNow = DateTime.Now;
             var curriculums = groups
-                .SelectMany(group => GetCurriculumsByGroupId(group.Id))
+                .SelectMany(group => GetCurriculums(c => c.UserGroupRef == group.Id))
                 .Where(curriculum => dateNow.Between(curriculum.StartDate, curriculum.EndDate))
                 .ToList();
             var curriculumChapters = curriculums
-                .SelectMany(curriculum => GetCurriculumChaptersByCurriculumId(curriculum.Id))
+                .SelectMany(curriculum => GetCurriculumChapters(item => item.CurriculumRef == curriculum.Id))
                 .Where(curriculumChapter => dateNow.Between(curriculumChapter.StartDate, curriculumChapter.EndDate))
                 .ToList();
             var curriculumChapterTopics = curriculumChapters
-                .SelectMany(curriculumChapter => GetCurriculumChapterTopicsByCurriculumChapterId(curriculumChapter.Id));
+                .SelectMany(curriculumChapter => GetCurriculumChapterTopics(item => item.CurriculumChapterRef == curriculumChapter.Id));
             //.Where(curriculumChapterTopic => dateNow.Between(curriculumChapterTopic.StartDate, curriculumChapterTopic.EndDate))
             //.ToList();
 
@@ -268,6 +258,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return result;
         }
 
+        //TODO: FatTony: get rid of this method!
         public IEnumerable<TopicDescription> GetTopicDescriptionsByTopics(IEnumerable<Topic> topics, User user)
         {
             var result = new List<TopicDescription>();
@@ -275,17 +266,17 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             var dateNow = DateTime.Now;
 
             var curriculums = groups
-                .SelectMany(group => GetCurriculumsByGroupId(group.Id))
+                .SelectMany(group => GetCurriculums(c => c.UserGroupRef == group.Id))
                 .Where(curriculum => dateNow.Between(curriculum.StartDate, curriculum.EndDate))
                 .ToList();
 
             var curriculumChapters = curriculums
-                .SelectMany(curriculum => GetCurriculumChaptersByCurriculumId(curriculum.Id))
+                .SelectMany(curriculum => GetCurriculumChapters(item => item.CurriculumRef == curriculum.Id))
                 .Where(curriculumChapter => dateNow.Between(curriculumChapter.StartDate, curriculumChapter.EndDate))
                 .ToList();
 
             var curriculumChapterTopics = curriculumChapters
-                .SelectMany(curriculumChapter => GetCurriculumChapterTopicsByCurriculumChapterId(curriculumChapter.Id))
+                .SelectMany(curriculumChapter => GetCurriculumChapterTopics(item => item.CurriculumChapterRef == curriculumChapter.Id))
                 .Where(cc => topics.Select(t => t.Id).Contains(cc.TopicRef));
 
             var blockedCurriculumIds = new List<int>();
@@ -294,7 +285,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             {
                 TopicDescription testTopicDescription = null;
                 TopicDescription theoryTopicDescription = null;
-                
+
                 if (curriculumChapterTopic.Topic.TestCourseRef.HasValue && dateNow.Between(curriculumChapterTopic.TestStartDate, curriculumChapterTopic.TestEndDate))
                 {
                     testTopicDescription = new TopicDescription
@@ -354,7 +345,6 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return result;
         }
 
-
         //public void MakeCurriculumsInvalid(int groupId)
         //{
         //    var db = GetDbContext();
@@ -380,14 +370,19 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return GetCurriculumChapter(GetDbContext(), id);
         }
 
-        public IList<CurriculumChapter> GetCurriculumChaptersByCurriculumId(int curriculumId)
-        {
-            return GetDbContext().CurriculumChapters.Where(item => !item.IsDeleted && item.CurriculumRef == curriculumId).ToList();
-        }
+        //public IList<CurriculumChapter> GetCurriculumChaptersByCurriculumId(int curriculumId)
+        //{
+        //    return GetDbContext().CurriculumChapters.Where(item => !item.IsDeleted && item.CurriculumRef == curriculumId).ToList();
+        //}
 
-        public IList<CurriculumChapter> GetCurriculumChaptersByChapterId(int chapterId)
+        //public IList<CurriculumChapter> GetCurriculumChaptersByChapterId(int chapterId)
+        //{
+        //    return GetDbContext().CurriculumChapters.Where(item => !item.IsDeleted && item.ChapterRef == chapterId).ToList();
+        //}
+
+        public IList<CurriculumChapter> GetCurriculumChapters(Func<CurriculumChapter, bool> predicate)
         {
-            return GetDbContext().CurriculumChapters.Where(item => !item.IsDeleted && item.ChapterRef == chapterId).ToList();
+            return GetDbContext().CurriculumChapters.Where(item => !item.IsDeleted).Where(predicate).ToList();
         }
 
         public int AddCurriculumChapter(CurriculumChapter curriculumChapter)
@@ -434,7 +429,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             var curriculumChapter = GetCurriculumChapter(db, id);
 
             //delete corresponding curriculum chapter topics
-            var curriculumChapterTopicIds = GetCurriculumChapterTopicsByCurriculumChapterId(id)
+            var curriculumChapterTopicIds = GetCurriculumChapterTopics(item => item.CurriculumChapterRef == id)
                 .Select(item => item.Id)
                 .ToList();
             DeleteCurriculumChapterTopics(curriculumChapterTopicIds);
@@ -452,7 +447,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #region CurriculumChapterTopic methods
 
-        private CurriculumChapterTopic GetCurriculumChapterTopic(IDataContext db, int id)
+        private static CurriculumChapterTopic GetCurriculumChapterTopic(IDataContext db, int id)
         {
             return db.CurriculumChapterTopics.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
         }
@@ -462,14 +457,19 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return GetCurriculumChapterTopic(GetDbContext(), id);
         }
 
-        public IList<CurriculumChapterTopic> GetCurriculumChapterTopicsByCurriculumChapterId(int curriculumChapterId)
-        {
-            return GetDbContext().CurriculumChapterTopics.Where(item => item.CurriculumChapterRef == curriculumChapterId && !item.IsDeleted).ToList();
-        }
+        //public IList<CurriculumChapterTopic> GetCurriculumChapterTopicsByCurriculumChapterId(int curriculumChapterId)
+        //{
+        //    return GetDbContext().CurriculumChapterTopics.Where(item => item.CurriculumChapterRef == curriculumChapterId && !item.IsDeleted).ToList();
+        //}
 
-        public IList<CurriculumChapterTopic> GetCurriculumChapterTopicsByTopicId(int topicId)
+        //public IList<CurriculumChapterTopic> GetCurriculumChapterTopicsByTopicId(int topicId)
+        //{
+        //    return GetDbContext().CurriculumChapterTopics.Where(item => item.TopicRef == topicId && !item.IsDeleted).ToList();
+        //}
+
+        public IList<CurriculumChapterTopic> GetCurriculumChapterTopics(Func<CurriculumChapterTopic, bool> predicate)
         {
-            return GetDbContext().CurriculumChapterTopics.Where(item => item.TopicRef == topicId && !item.IsDeleted).ToList();
+            return GetDbContext().CurriculumChapterTopics.Where(item => !item.IsDeleted).Where(predicate).ToList();
         }
 
         public int AddCurriculumChapterTopic(CurriculumChapterTopic curriculumChapterTopic)
@@ -529,27 +529,27 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         #endregion
 
-        #region Group methods
+        //#region Group methods
 
-        public IList<Group> GetAssignedGroups(int disciplineId)
-        {
-            return GetCurriculumsByDisciplineId(disciplineId).Select(item => GetGroup(item.UserGroupRef)).ToList();
-        }
+        //public IList<Group> GetAssignedGroups(int disciplineId)
+        //{
+        //    return GetCurriculumsByDisciplineId(disciplineId).Select(item => GetGroup(item.UserGroupRef)).ToList();
+        //}
 
-        public IList<Group> GetNotAssignedGroups(int disciplineId)
-        {
-            var assignedGroupIds = GetAssignedGroups(disciplineId).Select(item => item.Id);
-            return GetGroups().Where(item => !assignedGroupIds.Contains(item.Id)).ToList();
-        }
+        //public IList<Group> GetNotAssignedGroups(int disciplineId)
+        //{
+        //    var assignedGroupIds = GetAssignedGroups(disciplineId).Select(item => item.Id);
+        //    return GetGroups().Where(item => !assignedGroupIds.Contains(item.Id)).ToList();
+        //}
 
-        public IList<Group> GetNotAssignedGroupsWithCurrentGroup(int disciplineId, int currentGroupId)
-        {
-            var groups = GetNotAssignedGroups(disciplineId);
-            groups.Add(GetGroup(currentGroupId));
-            return groups;
-        }
+        //public IList<Group> GetNotAssignedGroupsWithCurrentGroup(int disciplineId, int currentGroupId)
+        //{
+        //    var groups = GetNotAssignedGroups(disciplineId);
+        //    groups.Add(GetGroup(currentGroupId));
+        //    return groups;
+        //}
 
-        #endregion
+        //#endregion
 
         #endregion
     }

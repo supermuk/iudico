@@ -420,4 +420,7 @@
   <data name="Curriculums" xml:space="preserve">
     <value>Навчальні плани</value>
   </data>
+  <data name="Share" xml:space="preserve">
+    <value>Розшарити</value>
+  </data>
 </root>

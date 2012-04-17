@@ -59,11 +59,11 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
             BlockTopicAtTesting = blockTopicAtTesting;
             BlockCurriculumAtTesting = blockCurriculumAtTesting;
 
-            SetTestDate = testStartDate.HasValue ? true : false;
+            SetTestDate = testStartDate.HasValue;
             TestStartDate = testStartDate ?? DateTime.Now;
             TestEndDate = testEndDate ?? DateTime.Now;
 
-            SetTheoryDate = theoryStartDate.HasValue ? true : false;
+            SetTheoryDate = theoryStartDate.HasValue;
             TheoryStartDate = theoryStartDate ?? DateTime.Now;
             TheoryEndDate = theoryEndDate ?? DateTime.Now;
         }

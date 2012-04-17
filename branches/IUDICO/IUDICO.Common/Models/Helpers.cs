@@ -56,11 +56,19 @@ namespace IUDICO.Common.Models
             return tagBuilder.ToString();
         }
 
-        public static IEnumerable<T> ForEach<T>(this IEnumerable<T> collection, Action<T> function)
+        public static void ForEach<T>(this IEnumerable<T> collection, Action<T> function)
         {
             foreach (var item in collection)
             {
                 function(item);
+            }
+        }
+
+        public static IList<T> ForEach<T>(this IList<T> collection, Action<T, int> function)
+        {
+            for (var i = 0; i < collection.Count;i++ )
+            {
+                function(collection[i], i);
             }
             return collection;
         }

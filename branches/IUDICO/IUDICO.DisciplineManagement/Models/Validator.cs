@@ -2,6 +2,8 @@
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.DisciplineManagement;
 using IUDICO.DisciplineManagement.Models.Storage;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace IUDICO.DisciplineManagement.Models
 {
@@ -16,6 +18,32 @@ namespace IUDICO.DisciplineManagement.Models
         public Validator(IDisciplineStorage storage)
         {
             _storage = storage;
+        }
+
+        /// <summary>
+        /// Validates users for which we want to share discipline.
+        /// </summary>
+        /// <param name="disciplineId">The discipline id.</param>
+        /// <param name="sharewith">Users share to.</param>
+        /// <returns></returns>
+        public ValidationStatus ValidateDisciplineSharing(int disciplineId, IList<Guid> sharewith)
+        {
+            var validationStatus = new ValidationStatus();
+            var actualSharedUsers = _storage.GetDisciplineSharedUsers(disciplineId);
+            foreach (var user in actualSharedUsers)
+            {
+                //If we want to unshare user
+                if (!sharewith.Contains(user.Id))
+                {
+                    //if it already contains curriculums
+                    if (_storage.GetCurriculums(c => c.DisciplineRef == disciplineId).Any())
+                    {
+                        validationStatus.AddLocalizedError("CanNotUnshareUser", user.Name);
+                    }
+                }
+            }
+
+            return validationStatus;
         }
 
         /// <summary>
@@ -44,7 +72,7 @@ namespace IUDICO.DisciplineManagement.Models
             {
                 if (data.TestCourseRef.HasValue)
                 {
-                    if (data.TestTopicTypeRef == 0)
+                    if (data.TestTopicTypeRef <= 0 || !data.TestTopicTypeRef.HasValue)
                     {
                         validationStatus.AddLocalizedError("ChooseTopicType");
                     }
@@ -55,7 +83,7 @@ namespace IUDICO.DisciplineManagement.Models
                         {
                             validationStatus.AddLocalizedError("TestWithoutCourse");
                         }
-                        if (testTopicType != TopicTypeEnum.TestWithoutCourse && (!data.TestCourseRef.HasValue || data.TestCourseRef <= 0))
+                        if (testTopicType != TopicTypeEnum.TestWithoutCourse && data.TestCourseRef <= 0)
                         {
                             validationStatus.AddLocalizedError("ChooseTestCourse");
                         }
@@ -64,13 +92,13 @@ namespace IUDICO.DisciplineManagement.Models
 
                 if (data.TheoryCourseRef.HasValue)
                 {
-                    if (data.TheoryTopicTypeRef == 0)
+                    if (data.TheoryTopicTypeRef <= 0 || !data.TheoryTopicTypeRef.HasValue)
                     {
                         validationStatus.AddLocalizedError("ChooseTopicType");
                     }
                     else
                     {
-                        if (!data.TheoryCourseRef.HasValue || data.TheoryCourseRef <= 0)
+                        if (data.TheoryCourseRef <= 0)
                         {
                             validationStatus.AddLocalizedError("ChooseTheoryCourse");
                         }

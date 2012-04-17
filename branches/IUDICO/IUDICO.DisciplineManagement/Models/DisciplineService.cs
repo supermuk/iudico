@@ -33,12 +33,12 @@ namespace IUDICO.DisciplineManagement.Models
 
         public IList<Discipline> GetDisciplines()
         {
-            return _disciplineStorage.GetDisciplines(item => true);
+            return _disciplineStorage.GetDisciplines();
         }
 
         public IList<Discipline> GetDisciplines(User user)
         {
-            return _disciplineStorage.GetDisciplines(item => item.Owner == user.Username);
+            return _disciplineStorage.GetDisciplines(user);
         }
 
         public IList<Chapter> GetChapters(int disciplineId)

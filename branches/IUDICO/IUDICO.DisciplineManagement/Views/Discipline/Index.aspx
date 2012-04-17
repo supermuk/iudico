@@ -1,6 +1,5 @@
 ﻿<%@ Assembly Name="IUDICO.DisciplineManagement" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Discipline>>" %>
-<%@ Import Namespace="IUDICO.Common.Models.Shared" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript" language="javascript">
@@ -22,10 +21,23 @@
                 'Cancel': function() {
                   $(this).dialog('close');
                 }
-              }                                
+              }
             });
-           
-            
+
+            $("#dialog").dialog({
+                autoOpen: false,
+                modal: true,
+                width: 450,
+                buttons: {
+                    "Share": function () {
+                        $("#dialog").find("form").submit();
+                    },
+                    "Close": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+
             $('#disciplines').dataTable({
                 "bJQueryUI": true,
                 "sPaginationType": "full_numbers",
@@ -43,47 +55,47 @@
                 ]
             });
             
-        	$("#disciplines").treeTable({
-				clickableNodeNames: true,
-				indent: 0,
-				initialState: "collapsed"
-			});
+            $("#disciplines").treeTable({
+                clickableNodeNames: true,
+                indent: 0,
+                initialState: "collapsed"
+            });
             
-    		$("#DeleteMany").click(function () {
-    			var ids = $("td input:checked").map(function () {
-    				return $(this).attr('id');
-    			});
+            $("#DeleteMany").click(function () {
+                var ids = $("td input:checked").map(function () {
+                    return $(this).attr('id');
+                });
 
-    			if (ids.length == 0) {
-    				alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("PleaseSelectDisciplinesDelete") %>");
+                if (ids.length == 0) {
+                    alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("PleaseSelectDisciplinesDelete") %>");
+                    return false;
+                }
 
-    				return false;
-    			}
+                var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedDisciplines") %>");
 
-    			var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedDisciplines") %>");
+                if (answer == false) {
+                    return false;
+                }
 
-    			if (answer == false) {
-    				return false;
-    			}
+                $.ajax({
+                    type: "post",
+                    url: "/Discipline/DeleteItems",
+                    data: { disciplineIds: ids },
+                    success: function (r) {
+    		                if (r.success == true) {
+    		                    $("td input:checked").parents("tr").remove();
+    		                }
+    		                else {
+    		                    alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
+    		                }
+                    }
+                });
+            });
 
-    			$.ajax({
-    				type: "post",
-    				url: "/Discipline/DeleteItems",
-    				data: { disciplineIds: ids },
-    				success: function (r) {
-    					if (r.success == true) {
-    						$("td input:checked").parents("tr").remove();
-    					}
-    					else {
-    						alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
-    					}
-    				}
-    			});
-    		});
-    	});
-        
+        });
+
         function onFailure() {
-            alert('error');
+            alert('error'); 
         }
         
         function onCreateTopicSuccess(r) {
@@ -213,73 +225,74 @@
         }
         
         
-        function deleteDsicipline(id) {
-    		var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedDiscipline") %>");
+        function deleteDiscipline(id) {
+            var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedDiscipline") %>");
 
-    		if (answer == false) {
-    			return;
-    		}
+            if (answer == false) {
+                return;
+            }
 
-    		$.ajax({
-    			type: "post",
-    			url: "/Discipline/DeleteItem",
-    			data: { disciplineId: id },
-    			success: function (r) {
-    				if (r.success == true) {
-    					$("#discipline" + id).remove();
-    				    $(".child-of-discipline" + id).remove();
-    				}
-    				else {
-    					alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
-    				}
-    			}
-    		});
-    	}
+            $.ajax({
+                type: "post",
+                url: "/Discipline/DeleteItem",
+                data: { disciplineId: id },
+                success: function (r) {
+                if (r.success == true) {
+    		            $("#discipline" + id).remove();
+    		            $(".child-of-discipline" + id).remove();
+                }
+                else {
+    		            alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
+                }
+                }
+            });
+        }
         
-       function deleteChapter(id) {
-    		var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedChapter") %>");
+        function deleteChapter(id) {
+            var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedChapter") %>");
 
-    		if (answer == false) {
-    			return;
-    		}
+            if (answer == false) {
+                return;
+            }
 
-    		$.ajax({
-    			type: "post",
-    			url: "/ChapterAction/DeleteItem",
-    			data: { chapterId: id },
-    			success: function (r) {
-    				if (r.success == true) {
-    					$("#chapter" + id).remove();
-    				    $(".child-of-chapter" + id).remove();
-    				}
-    				else {
-    					alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
-    				}
-    			}
-    		});
-    	}
+            $.ajax({
+                type: "post",
+                url: "/ChapterAction/DeleteItem",
+                data: { chapterId: id },
+                success: function (r) {
+                if (r.success == true) {
+    		            $("#chapter" + id).remove();
+    		            $(".child-of-chapter" + id).remove();
+                }
+                else {
+    		            alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
+                }
+                }
+            });
+        }
     	
-       function deleteTopic(id) {
-    		var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedChapter") %>");
+        function deleteTopic(id) {
+            var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedChapter") %>");
 
-    		if (answer == false) {
-    			return;
-    		}
+            if (answer == false) {
+                return;
+            }
 
-    		$.ajax({
-    			type: "post",
-    			url: "/TopicAction/DeleteItem",
-    			data: { topicId: id },
-    			success: function (r) {
-    				if (r.success == true) {
-    					$("#topic" + id).remove();
-    				}
-    				else {
-    					alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
-    				}
-    			}
-    		});
-    	}
+            $.ajax({
+                type: "post",
+                url: "/TopicAction/DeleteItem",
+                data: { topicId: id },
+                success: function (r) {
+                if (r.success == true) {
+    		            $("#topic" + id).remove();
+                }
+                else {
+    		            alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
+                }
+                }
+            });
+        }
+        
         function addTopic(chapterId) {
             openDialog("Create topic");
 
@@ -323,7 +336,6 @@
             });
         }
 
-       
         function editChapter(chapterId) {
             openDialog("Edit chapter");
 
@@ -376,6 +388,40 @@
                }
             });
         }
+        
+        function shareDiscipline(disciplineId) {
+            openDialog("Share discipline");
+
+            $.ajax({
+               type: "get",
+               url: "/Discipline/Share",
+               data: { disciplineId : disciplineId },
+               success: function (r) {
+                   fillDialogInner(r, "disciplineId", disciplineId);
+
+                   $("#shareUserTable").dataTable({
+                       "bJQueryUI": true,
+                       "sPaginationType": "full_numbers",
+                       iDisplayLength: 10,
+                       "bSort": true,
+                       "aoColumns": [
+                           { "bSortable": false },
+                           { "bSortable": false },
+                           null
+                       ]
+                   });
+               }
+            });
+        }
+        
+        function onShareDisciplineSuccess(r) {
+            var resp = eval("(" + r.$2._xmlHttpRequest.response + ")");
+            if(resp.success) {
+                $("#dialog").dialog("close");
+            } else {
+                alert(r.message);
+            }
+        }
     </script>
 </asp:Content>
 
@@ -414,16 +460,16 @@
 				<td>	<%: String.Format("{0:g}", item.Updated) %>		</td>
 				<td>
 						<a href="#" onclick="addChapter(<%: item.Id %>);"><%=IUDICO.DisciplineManagement.Localization.getMessage("Add")%></a>
-                        |
+            |
 						<%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.getMessage("Edit"), "Edit", new { DisciplineID = item.Id })%>
-                        |
-						<a href="#" onclick="deleteDsicipline(<%: item.Id %>)"><%=IUDICO.DisciplineManagement.Localization.getMessage("Delete")%></a>
+            | 
+            <a href="#" onclick="shareDiscipline(<%: item.Id %>)"><%=IUDICO.DisciplineManagement.Localization.getMessage("Share")%></a>
+            |
+						<a href="#" onclick="deleteDiscipline(<%: item.Id %>)"><%=IUDICO.DisciplineManagement.Localization.getMessage("Delete")%></a>
 				</td>
 			</tr>
 		<% } %>
         </tbody>
 	</table>
-
-
     <div id="dialog"><div id="dialogInner"></div></div>
 </asp:Content>

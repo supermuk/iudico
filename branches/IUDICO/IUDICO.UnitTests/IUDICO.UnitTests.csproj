@@ -96,8 +96,13 @@
     <Compile Include="CourseManagement\NUnit\SequencingPatternManagerTests.cs" />
     <Compile Include="CourseManagement\NUnit\ZipperTest.cs" />
     <Compile Include="CourseManagement\Selenium\StudentRole.cs" />
+    <Compile Include="CurriculumManagement\Constants.cs" />
+    <Compile Include="CurriculumManagement\ContextMocks.cs" />
+    <Compile Include="CurriculumManagement\DataPreparer.cs" />
+    <Compile Include="CurriculumManagement\NUnit\BaseTestFixture.cs" />
     <Compile Include="CurriculumManagement\NUnit\CurriculumTests.cs" />
-    <Compile Include="CurriculumManagement\CurriculumManagementTests.cs" />
+    <Compile Include="CurriculumManagement\NUnit\DisciplineTests.cs" />
+    <Compile Include="CurriculumManagement\DisciplineCurriculumTestEngine.cs" />
     <Compile Include="CurriculumManagement\NUnit\Extensions.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -178,6 +183,10 @@
       <Project>{E6F7266F-760A-4D43-B78C-378CA12DBE08}</Project>
       <Name>IUDICO.CurriculumManagement</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IUDICO.DisciplineManagement\IUDICO.DisciplineManagement.csproj">
+      <Project>{4B4BADE2-1C2F-4D0A-B435-1D88CE59D601}</Project>
+      <Name>IUDICO.DisciplineManagement</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IUDICO.LMS\IUDICO.LMS.csproj">
       <Project>{A5DA80CE-796F-4C4D-BBCA-A23046C4574D}</Project>
       <Name>IUDICO.LMS</Name>
@@ -209,7 +218,6 @@
   <ItemGroup>
     <Folder Include="CourseManagement\forTesting\1\0\somePath0\" />
     <Folder Include="CourseManagement\forTesting\1\Node\0\Images\" />
-    <Folder Include="CurriculumManagement\Old\" />
     <Folder Include="Libs\" />
   </ItemGroup>
   <ItemGroup>
