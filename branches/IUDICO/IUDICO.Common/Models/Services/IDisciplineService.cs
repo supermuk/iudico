@@ -16,6 +16,11 @@ namespace IUDICO.Common.Models.Services
         /// <returns></returns>
         IList<Discipline> GetDisciplinesWithTopicsOwnedByUser(User user);
         IList<Discipline> GetDisciplines();
+        /// <summary>
+        /// Gets the disciplines owned by user or shared to him.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns></returns>
         IList<Discipline> GetDisciplines(User user);
 
         #endregion

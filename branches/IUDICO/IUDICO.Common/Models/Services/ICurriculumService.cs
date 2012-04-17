@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.CurriculumManagement;
 using IUDICO.Common.Models.Shared.DisciplineManagement;
@@ -7,7 +8,7 @@ namespace IUDICO.Common.Models.Services
 {
     public interface ICurriculumService : IService
     {
-        IList<Curriculum> GetCurriculumsByGroupId(int groupId);
+        IList<Curriculum> GetCurriculums(Func<Curriculum, bool> predicate);
 
         /// <summary>
         /// Gets the topic descriptions owned by user.

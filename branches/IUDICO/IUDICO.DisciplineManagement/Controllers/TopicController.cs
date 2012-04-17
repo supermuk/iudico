@@ -41,8 +41,9 @@ namespace IUDICO.DisciplineManagement.Controllers
         {
             var topics = Storage.GetTopics(item => item.ChapterRef == chapterId);
             var chapter = Storage.GetChapter(chapterId);
+            var discipline = Storage.GetDiscipline(chapter.DisciplineRef);
 
-            ViewData["DisciplineName"] = chapter.Discipline.Name;
+            ViewData["DisciplineName"] = discipline.Name;
             ViewData["ChapterName"] = chapter.Name;
             ViewData["DisciplineId"] = chapter.DisciplineRef;
             return View(
@@ -73,8 +74,6 @@ namespace IUDICO.DisciplineManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Create(int chapterId)
         {
-            LoadValidationErrors();
-
             var chapter = Storage.GetChapter(chapterId);
             var model = ToCreateTopicModel(new Topic());
 
@@ -103,8 +102,6 @@ namespace IUDICO.DisciplineManagement.Controllers
                     return Json(new { success = true, chapterId = model.ChapterId, topicRow = PartialViewAsString("TopicRow", viewTopic) });
                 }
 
-                SaveValidationErrors();
-
                 var m = ToCreateTopicModel(topic);
                 return Json(new { success = false, chapterId = model.ChapterId, html = PartialViewAsString("Create", m) });
             }
@@ -118,8 +115,6 @@ namespace IUDICO.DisciplineManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int topicId)
         {
-            LoadValidationErrors();
-
             var topic = Storage.GetTopic(topicId);
             var model = new CreateTopicModel(topic.Name, topic.ChapterRef, Storage.GetCourses(),
                 topic.TestCourseRef, Storage.GetTestTopicTypes(), topic.TestTopicTypeRef,
@@ -153,7 +148,6 @@ namespace IUDICO.DisciplineManagement.Controllers
                     return Json(new { success = true, topicId = topicId, topicRow = PartialViewAsString("TopicRow", viewTopic) });
                 }
 
-                SaveValidationErrors();
                 return Json(new { success = false, topicId = topicId, html = PartialView("Edit", model) });
             }
             catch (Exception ex)

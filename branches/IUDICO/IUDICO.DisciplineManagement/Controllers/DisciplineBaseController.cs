@@ -28,38 +28,18 @@ namespace IUDICO.DisciplineManagement.Controllers
         }
 
         /// <summary>
-        /// Saves model state errors between requests.
-        /// </summary>
-        public void SaveValidationErrors()
-        {
-            TempData["ViewData"] = ViewData;
-        }
-
-        /// <summary>
-        /// Loads model state errors between requests.
-        /// </summary>
-        public void LoadValidationErrors()
-        {
-            if (TempData["ViewData"] != null)
-            {
-                ViewData = (ViewDataDictionary)TempData["ViewData"];
-                TempData["ViewData"] = null;
-            }
-        }
-
-        /// <summary>
-        /// Adds errrors to model state.
+        /// Adds errors to model state.
         /// </summary>
         /// <param name="errors">The errors.</param>
         public void AddValidationErrorsToModelState(IEnumerable<string> errors)
         {
-            foreach (string error in errors)
+            foreach (var error in errors)
             {
-                ModelState.AddModelError(string.Empty, error);
+                ModelState.AddModelError(new Guid().ToString(), error);
             }
         }
 
-
+        //TODO: FatTony: move to utils
         protected ViewTopicModel ToViewTopicModel(Topic topic)
         {
             return new ViewTopicModel

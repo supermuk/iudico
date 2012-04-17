@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.Linq;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
@@ -15,7 +16,9 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         protected virtual IDataContext GetDbContext()
         {
-            return new DBDataContext();
+            var context = new DBDataContext();
+            //context.DeferredLoadingEnabled = false;
+            return context;//new DBDataContext();
         }
 
         public DatabaseDisciplineStorage(ILmsService lmsService)
@@ -26,6 +29,20 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         #region IStorageInterface Members
 
         #region External methods
+
+        private IList<User> GetUsersAvailableForSharing()
+        {
+            var currentUser = GetCurrentUser();
+            return _lmsService.FindService<IUserService>()
+                .GetUsers(user => user.Roles.Contains(Role.Teacher))
+                .Where(user => user.Id != currentUser.Id)
+                .ToList();
+        }
+
+        private IList<User> GetUsers(List<Guid> ids)
+        {
+            return _lmsService.FindService<IUserService>().GetUsers(item => ids.Contains(item.Id)).ToList();
+        }
 
         public User GetCurrentUser()
         {
@@ -57,16 +74,16 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return _lmsService.FindService<IUserService>().GetGroupsByUser(user).ToList();
         }
 
-        public IList<Curriculum> GetCurriculumsByGroupId(int groupId)
+        public IList<Curriculum> GetCurriculums(Func<Curriculum, bool> predicate)
         {
-            return _lmsService.FindService<ICurriculumService>().GetCurriculumsByGroupId(groupId);
+            return _lmsService.FindService<ICurriculumService>().GetCurriculums(predicate);
         }
-
 
         #endregion
 
         #region Discipline methods
 
+        //TODO: FatTony: get rid of private static members!
         private static Discipline GetDiscipline(IDataContext db, int id)
         {
             return db.Disciplines.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
@@ -77,20 +94,27 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return GetDiscipline(GetDbContext(), id);
         }
 
+        public IList<Discipline> GetDisciplines()
+        {
+            return GetDisciplines(item => true);
+        }
+
         public IList<Discipline> GetDisciplines(Func<Discipline, bool> predicate)
         {
             return GetDbContext().Disciplines.Where(item => !item.IsDeleted).Where(predicate).ToList();
         }
 
-        //public IEnumerable<Discipline> GetDisciplines()
-        //{
-        //    return GetDbContext().Disciplines.Where(item => !item.IsDeleted).ToList();
-        //}
+        public IList<Discipline> GetDisciplines(User user)
+        {
+            var sharedDisciplines = GetDbContext().SharedDisciplines
+                .Where(item => item.UserRef == GetCurrentUser().Id)
+                .Select(item => item.Discipline)
+                .Where(item => !item.IsDeleted);
 
-        //public IEnumerable<Discipline> GetDisciplines(User owner)
-        //{
-        //    return GetDbContext().Disciplines.Where(item => !item.IsDeleted && item.Owner == owner.Username).ToList();
-        //}
+            return GetDisciplines(item => item.Owner == user.Username)
+                .Union(sharedDisciplines)
+                .ToList();
+        }
 
         public IList<Discipline> GetDisciplines(IEnumerable<int> ids)
         {
@@ -99,7 +123,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         public IList<Discipline> GetDisciplinesByGroupId(int groupId)
         {
-            return GetCurriculumsByGroupId(groupId).Select(item => GetDiscipline(item.DisciplineRef)).ToList();
+            return GetCurriculums(c => c.UserGroupRef == groupId).Select(item => GetDiscipline(item.DisciplineRef)).ToList();
         }
 
         //TODO:what the fuckin method?
@@ -189,6 +213,47 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         #endregion
 
+        #region SharedDisciplines
+
+        public IList<ShareUser> GetDisciplineSharedUsers(int disciplineId)
+        {
+            var userIds = GetDbContext().SharedDisciplines
+                .Where(item => item.DisciplineRef == disciplineId)
+                .Select(item => item.UserRef)
+                .ToList();
+            return GetUsers(userIds).ToShareUsers(true);
+        }
+
+        public IList<ShareUser> GetDisciplineNotSharedUsers(int disciplineId)
+        {
+            var allUsers = GetUsersAvailableForSharing();
+            var sharedUserIds = GetDisciplineSharedUsers(disciplineId)
+                .Select(item => item.Id)
+                .ToList();
+            return allUsers.Where(user => !sharedUserIds.Contains(user.Id)).ToShareUsers(false);
+        }
+
+        public void UpdateDisciplineSharing(int disciplineId, IEnumerable<Guid> sharewith)
+        {
+            var db = GetDbContext();
+
+            //remove old values
+            var sharedDisciplines = db.SharedDisciplines.Where(item => item.DisciplineRef == disciplineId);
+            db.SharedDisciplines.DeleteAllOnSubmit(sharedDisciplines);
+            db.SubmitChanges();
+
+            //add new
+            db.SharedDisciplines.InsertAllOnSubmit(
+                sharewith.Select(id => new SharedDiscipline
+                {
+                    DisciplineRef = disciplineId,
+                    UserRef = id
+                }));
+            db.SubmitChanges();
+        }
+
+        #endregion
+
         #region Chapter methods
 
         private static Chapter GetChapter(IDataContext db, int id)
@@ -205,11 +270,6 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         {
             return GetDbContext().Chapters.Where(item => !item.IsDeleted).Where(predicate).ToList();
         }
-
-        //public IList<Chapter> GetChapters(int disciplineId)
-        //{
-        //    return GetDbContext().Chapters.Where(item => item.DisciplineRef == disciplineId && !item.IsDeleted).ToList();
-        //}
 
         public IList<Chapter> GetChapters(IEnumerable<int> ids)
         {
@@ -289,20 +349,10 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return db.Topics.Where(item => !item.IsDeleted).Where(predicate).OrderBy(item => item.SortOrder).ToList();
         }
 
-        //private static IList<Topic> GetTopicsByChapterId(IDataContext db, int chapterId)
-        //{
-        //    return GetTopics(db, item => item.ChapterRef == chapterId);
-        //}
-
         public IList<Topic> GetTopics(Func<Topic, bool> predicate)
         {
             return GetTopics(GetDbContext(), predicate).ToList();
         }
-
-        //public IEnumerable<Topic> GetTopicsByChapterId(int chapterId)
-        //{
-        //    return GetTopicsByChapterId(GetDbContext(), chapterId);
-        //}
 
         public IList<Topic> GetTopicsByDisciplineId(int disciplineId)
         {
@@ -316,7 +366,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         public IList<Topic> GetTopicsOwnedByUser(User owner)
         {
-            return GetDisciplines(item => item.Owner == owner.Username).SelectMany(item => GetTopicsByDisciplineId(item.Id)).ToList();
+            return GetDisciplines(owner).SelectMany(item => GetTopicsByDisciplineId(item.Id)).ToList();
         }
 
         public IList<Topic> GetTopicsByCourseId(int courseId)

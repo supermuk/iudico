@@ -17,18 +17,6 @@ namespace IUDICO.CurriculumManagement.Models
             }
         }
 
-        public static string ToString(IUDICO.Common.Models.Shared.TopicType topicType)
-        {
-            TopicTypeEnum enumTopicType = ToTopicType(topicType);
-            switch (enumTopicType)
-            {
-                case TopicTypeEnum.Test: return Localization.getMessage("TopicType.Test");
-                case TopicTypeEnum.Theory: return Localization.getMessage("TopicType.Theory");
-                case TopicTypeEnum.TestWithoutCourse: return Localization.getMessage("TopicType.TestWithoutCourse");
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
-
         public static string ToString(DateTime? value)
         {
             return value.HasValue ?

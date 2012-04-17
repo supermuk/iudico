@@ -62,7 +62,7 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
                          Selected = false
                      });
             DisciplineId = disciplineId;
-            SetDate = startDate.HasValue ? true : false;
+            SetDate = startDate.HasValue && endDate.HasValue;
             StartDate = startDate ?? DateTime.Now;
             EndDate = endDate ?? DateTime.Now;
         }

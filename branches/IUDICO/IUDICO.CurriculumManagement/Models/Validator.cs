@@ -68,7 +68,7 @@ namespace IUDICO.CurriculumManagement.Models
 
             if (curriculum.UserGroupRef > 0 && curriculum.DisciplineRef > 0)
             {
-                var curriculums = storage.GetCurriculumsByDisciplineId(curriculum.DisciplineRef).ToList();
+                var curriculums = storage.GetCurriculums(c => c.DisciplineRef == curriculum.DisciplineRef).ToList();
                 if (curriculums.Exists(item => item.UserGroupRef == curriculum.UserGroupRef) && curriculum.UserGroupRef != currentGroupId)
                 {
                     validationStatus.AddLocalizedError("ChooseAnotherGroupForThisCurriculum");
@@ -96,7 +96,7 @@ namespace IUDICO.CurriculumManagement.Models
             {
                 validationStatus.AddLocalizedError("ChooseStartAndEndDate");
             }
-            else if (endDate.HasValue && startDate.HasValue)
+            else if (endDate.HasValue)
             {
                 if (startDate > endDate)
                 {

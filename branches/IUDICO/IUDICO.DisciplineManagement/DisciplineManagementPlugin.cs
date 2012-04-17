@@ -15,7 +15,7 @@ namespace IUDICO.DisciplineManagement
 {
     public class DisciplineManagementPlugin : IWindsorInstaller, IPlugin
     {
-        private static IDisciplineStorage disciplineStorage { get; set; }
+        static IDisciplineStorage _DisciplineStorage { get; set; }
 
         #region IWindsorInstaller Members
 
@@ -32,7 +32,7 @@ namespace IUDICO.DisciplineManagement
                 Component.For<IDisciplineService>().ImplementedBy<DisciplineService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
 
-            disciplineStorage = container.Resolve<IDisciplineStorage>();
+            _DisciplineStorage = container.Resolve<IDisciplineStorage>();
         }
 
         #endregion
@@ -40,14 +40,14 @@ namespace IUDICO.DisciplineManagement
         #region IPlugin Members
         public string GetName()
         {
-            return Common.Localization.getMessage("DisciplineManagement");
+            return Localization.getMessage("DisciplineManagement");
         }
 
         public IEnumerable<Action> BuildActions()
         {
             return new[]
             {
-                new Action(Common.Localization.getMessage("DisciplineManagement"), "Discipline/Index")
+                new Action(Localization.getMessage("DisciplineManagement"), "Discipline/Index")
             };
         }
 
@@ -55,7 +55,7 @@ namespace IUDICO.DisciplineManagement
         {
             return new[]
             {
-                new MenuItem(Common.Localization.getMessage("Disciplines"), "Discipline", "Index")
+                new MenuItem(Localization.getMessage("Disciplines"), "Discipline", "Index")
             };
         }
 
@@ -118,14 +118,13 @@ namespace IUDICO.DisciplineManagement
                     //delete connected Topics
                     var courseId = ((Course)data[0]).Id;
                     //curriculumStorage.MakeDisciplineInvalid(courseId);
-                    var topicIds = disciplineStorage.GetTopicsByCourseId(courseId).Select(item => item.Id);
-                    disciplineStorage.DeleteTopics(topicIds);
+                    var topicIds = _DisciplineStorage.GetTopicsByCourseId(courseId).Select(item => item.Id);
+                    _DisciplineStorage.DeleteTopics(topicIds);
                     break;
                 case UserNotifications.UserDelete:
                     //delete connected Disciplines(Curriculums)
-                    var userName = ((User)data[0]).Username;
-                    var disciplineIds = disciplineStorage.GetDisciplines(item => item.Owner == userName).Select(item => item.Id);
-                    disciplineStorage.DeleteDisciplines(disciplineIds);
+                    var disciplineIds = _DisciplineStorage.GetDisciplines((User)data[0]).Select(item => item.Id);
+                    _DisciplineStorage.DeleteDisciplines(disciplineIds);
                     break;
             }
         }

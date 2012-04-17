@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.DisciplineManagement;
@@ -16,9 +17,9 @@ namespace IUDICO.CurriculumManagement.Models
             _curriculumStorage = curriculumStorage;
         }
 
-        public IList<Curriculum> GetCurriculumsByGroupId(int groupId)
+        public IList<Curriculum> GetCurriculums(Func<Curriculum, bool> predicate)
         {
-            return _curriculumStorage.GetCurriculumsByGroupId(groupId);
+            return _curriculumStorage.GetCurriculums(predicate);
         }
 
         public IList<TopicDescription> GetTopicDescriptions(User user)

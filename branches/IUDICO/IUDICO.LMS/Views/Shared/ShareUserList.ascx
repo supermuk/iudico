@@ -23,7 +23,7 @@
                 <%=Html.Image("avatar", item.Id, new {width = 50, height = 50})%>
             </td>
             <td>
-                <div clase="shareUsername"><%: item.Name %></div>
+                <div class="shareUsername"><%: item.Name %></div>
                 <div class="shareRoles">
                     <%: string.Join(", ", item.Roles) %>
                 </div>
