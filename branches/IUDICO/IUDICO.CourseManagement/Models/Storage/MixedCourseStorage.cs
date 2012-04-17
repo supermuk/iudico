@@ -23,7 +23,8 @@ namespace IUDICO.CourseManagement.Models.Storage
 {
     public class MixedCourseStorage : ICourseStorage
     {
-        private readonly ILmsService _LmsService;
+        protected readonly ILmsService _LmsService;
+
         private readonly string[] _TemplateFiles = { "api.js", "checkplayer.js", "flensed.js", "flXHR.js", "flXHR.swf", "iudico.css", "iudico.js", "jquery-1.5.2.min.js", "jquery.flXHRproxy.js", "jquery.xhr.js", "questions.js", "sco.js", "swfobject.js", "updateplayer.swf" };
         private readonly string _ResourceIdForTemplateFiles = "TemplateFiles";
 
@@ -41,13 +42,13 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         #region Course methods
 
-        public IEnumerable<Course> GetCourses()
+        public virtual IEnumerable<Course> GetCourses()
         {
 
             return GetDbContext().Courses.Where(c => c.Deleted == false).AsEnumerable();
         }
 
-        public IEnumerable<Course> GetCourses(Guid userId)
+        public virtual IEnumerable<Course> GetCourses(Guid userId)
         {
             var db = GetDbContext();
             var courses = from c in db.Courses
@@ -57,22 +58,22 @@ namespace IUDICO.CourseManagement.Models.Storage
             return courses;
         }
 
-        public IEnumerable<Course> GetCourses(string owner)
+        public virtual IEnumerable<Course> GetCourses(string owner)
         {
             return GetDbContext().Courses.Where(i => i.Owner == owner && i.Deleted == false);
         }
 
-        public IEnumerable<Course> GetCourses(User owner)
+        public virtual IEnumerable<Course> GetCourses(User owner)
         {
             return GetDbContext().Courses.Where(i => i.Owner == owner.Username && i.Deleted == false);
         }
 
-        public Course GetCourse(int id)
+        public virtual Course GetCourse(int id)
         {
             return GetDbContext().Courses.Single(c => c.Id == id);
         }
 
-        public IEnumerable<User> GetCourseUsers(int courseId)
+        public virtual IEnumerable<User> GetCourseUsers(int courseId)
         {
             var db = GetDbContext();
 
@@ -82,7 +83,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             return users;
         }
 
-        public void UpdateCourseUsers(int courseId, IEnumerable<Guid> userIds)
+        public virtual void UpdateCourseUsers(int courseId, IEnumerable<Guid> userIds)
         {
             var db = GetDbContext();
             
@@ -98,7 +99,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             db.SubmitChanges();
         }
 
-        public void DeleteCourseUsers(Guid userId)
+        public virtual void DeleteCourseUsers(Guid userId)
         {
             var db = GetDbContext();
             
@@ -108,7 +109,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             db.SubmitChanges();
         }
 
-        public int AddCourse(Course course)
+        public virtual int AddCourse(Course course)
         {
             course.Created = DateTime.Now;
             course.Updated = DateTime.Now;
@@ -132,7 +133,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             return course.Id;
         }
 
-        public void UpdateCourse(int id, Course course)
+        public virtual void UpdateCourse(int id, Course course)
         {
             var db = GetDbContext();
 
@@ -147,7 +148,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             _LmsService.Inform(CourseNotifications.CourseEdit, course);
         }
 
-        public void DeleteCourse(int id)
+        public virtual void DeleteCourse(int id)
         {
             var db = GetDbContext();
             var course = db.Courses.Single(c => c.Id == id);
@@ -164,7 +165,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             _LmsService.Inform(CourseNotifications.CourseDelete, course);
         }
 
-        public void DeleteCourses(List<int> ids)
+        public virtual void DeleteCourses(List<int> ids)
         {
             var db = GetDbContext();
 
@@ -185,7 +186,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             db.SubmitChanges();
         }
 
-        public string Export(int id)
+        public virtual string Export(int id)
         {
             var course = GetCourse(id);
 
@@ -307,7 +308,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             return parentItem;
         }
 
-        public void Import(string path, string owner)
+        public virtual void Import(string path, string owner)
         {
             var zipName = Path.GetFileNameWithoutExtension(path);
 
@@ -323,7 +324,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             File.Copy(path, GetCoursePath(course.Id) + ".zip");
         }
 
-        public void Parse(int courseId)
+        public virtual void Parse(int courseId)
         {
             var db = GetDbContext();
             var course = db.Courses.Single(c => c.Id == courseId);
@@ -355,16 +356,16 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         #region Node methods
 
-        public IEnumerable<Node> GetNodes(int courseId)
+        public virtual IEnumerable<Node> GetNodes(int courseId)
         {
             return GetNodes(courseId, null);
         }
 
-        public IEnumerable<Node> GetNodes(int courseId, int? parentId)
+        public virtual IEnumerable<Node> GetNodes(int courseId, int? parentId)
         {
             var db = GetDbContext();
 
-            var course = db.Courses.SingleOrDefault(c => c.Id == courseId);
+            var course = GetCourse(courseId);
             var nodes = course.Nodes.OrderBy(n => n.Position).ToList();
 
             if (parentId == null)
@@ -379,12 +380,12 @@ namespace IUDICO.CourseManagement.Models.Storage
             return nodes;
         }
 
-        public Node GetNode(int id)
+        public virtual Node GetNode(int id)
         {
             return GetDbContext().Nodes.SingleOrDefault(n => n.Id == id);
         }
 
-        public int? AddNode(Node node)
+        public virtual int? AddNode(Node node)
         {
             var db = GetDbContext();
 
@@ -409,7 +410,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             return node.Id;
         }
 
-        public void UpdateNode(int id, Node node)
+        public virtual void UpdateNode(int id, Node node)
         {
             var db = GetDbContext();
             object[] data = new object[2];
@@ -429,7 +430,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             _LmsService.Inform(CourseNotifications.NodeEdit, data);
         }
 
-        public void DeleteNode(int id)
+        public virtual void DeleteNode(int id)
         {
             var db = GetDbContext();
 
@@ -446,7 +447,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             _LmsService.Inform(CourseNotifications.NodeDelete, node);
         }
 
-        public void DeleteNodes(List<int> ids)
+        public virtual void DeleteNodes(List<int> ids)
         {
             var db = GetDbContext();
 
@@ -464,7 +465,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             db.SubmitChanges();
         }
 
-        public int CreateCopy(Node node, int? parentId, int position)
+        public virtual int CreateCopy(Node node, int? parentId, int position)
         {
             var db = GetDbContext();
 
@@ -485,14 +486,14 @@ namespace IUDICO.CourseManagement.Models.Storage
             return newnode.Id;
         }
 
-        public string GetPreviewNodePath(int id)
+        public virtual string GetPreviewNodePath(int id)
         {
             var node = GetNode(id);
 
             return Path.Combine(@"Data\Courses", node.CourseId.ToString(), node.Id.ToString()) + ".html";
         }
 
-        public string GetNodeContents(int id)
+        public virtual string GetNodeContents(int id)
         {
             string nodePath = GetNodePath(id) + ".html";
 
@@ -504,7 +505,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             return File.ReadAllText(nodePath);
         }
 
-        public void UpdateNodeContents(int id, string data)
+        public virtual void UpdateNodeContents(int id, string data)
         {
             string nodePath = GetNodePath(id) + ".html";
 
@@ -513,43 +514,43 @@ namespace IUDICO.CourseManagement.Models.Storage
             //return System.IO.File.ReadAllText(nodePath);
         }
 
-        public string GetNodePath(int nodeId)
+        public virtual string GetNodePath(int nodeId)
         {
-            var node = GetDbContext().Nodes.SingleOrDefault(n => n.Id == nodeId);
+            var node = GetNode(nodeId);
             var path = Path.Combine(GetCoursePath(node.CourseId), node.Id.ToString());
 
             return path;
         }
 
-        virtual public string GetCoursePath(int courseId)
+        public virtual string GetCoursePath(int courseId)
         {
             var path = GetCoursesPath();
 
             return Path.Combine(path, courseId.ToString());
         }
 
-        public string GetCourseTempPath(int courseId)
+        public virtual string GetCourseTempPath(int courseId)
         {
             var path = HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
 
             return Path.Combine(path, @"Data\WorkFolder", courseId.ToString());
         }
 
-        virtual public string GetTemplatesPath()
+        public virtual string GetTemplatesPath()
         {
             var path = HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
 
             return Path.Combine(path, @"Data\CourseTemplate");
         }
 
-        virtual protected string GetCoursesPath()
+        protected virtual string GetCoursesPath()
         {
             var path = HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
 
             return Path.Combine(path, @"Data\Courses");
         }
 
-        protected void CopyNodes(Node node, Node newnode)
+        protected virtual void CopyNodes(Node node, Node newnode)
         {
             foreach (var child in node.Nodes)
             {
@@ -569,7 +570,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             }
         }
 
-        protected void CreateFolders(Node newnode)
+        protected virtual void CreateFolders(Node newnode)
         {
             foreach (var child in newnode.Nodes)
             {
@@ -589,24 +590,22 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         #region NodeResource methods
 
-        public IEnumerable<NodeResource> GetResources(int nodeId)
+        public virtual IEnumerable<NodeResource> GetResources(int nodeId)
         {
-            var db = GetDbContext();
-
-            var node = db.Nodes.SingleOrDefault(c => c.Id == nodeId);
+            var node = GetNode(nodeId);
             var images = node.NodeResources.OrderBy(n => n.Id).ToList();
 
             return images;
         }
 
-        public NodeResource GetResource(int id)
+        public virtual NodeResource GetResource(int id)
         {
             return GetDbContext().NodeResources.Single(n => n.Id == id);
         }
 
-        public int AddResource(NodeResource resource, HttpPostedFileBase file)
+        public virtual int AddResource(NodeResource resource, HttpPostedFileBase file)
         {
-            var node = GetDbContext().Nodes.SingleOrDefault(n => n.Id == resource.NodeId);
+            var node = GetNode((int)resource.NodeId);
             var path = Path.Combine(GetCoursePath(node.CourseId), "Node");
             path = Path.Combine(path, resource.NodeId.Value.ToString());
             path = Path.Combine(path, "Images");
@@ -629,7 +628,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             return resource.Id;
         }
 
-        public string GetResourcePath(int resId)
+        public virtual string GetResourcePath(int resId)
         {
             var res = GetDbContext().NodeResources.Single(n => n.Id == resId);
             var path = Path.Combine(GetNodePath(res.NodeId ?? -1), res.Path);
@@ -637,7 +636,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             return path;
         }
 
-        public string GetResourcePath(int nodeId, string fileName)
+        public virtual string GetResourcePath(int nodeId, string fileName)
         {
             var node = GetDbContext().Nodes.SingleOrDefault(n => n.Id == nodeId);
             var path = Path.Combine(GetCoursePath(node.CourseId), "Node");
@@ -648,7 +647,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             return path;
         }
 
-        public void UpdateResource(int id, NodeResource resource)
+        public virtual void UpdateResource(int id, NodeResource resource)
         {
             var db = GetDbContext();
 
@@ -660,7 +659,8 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             db.SubmitChanges();
         }
-        public void DeleteResource(int id)
+
+        public virtual void DeleteResource(int id)
         {
             var db = GetDbContext();
 
@@ -671,7 +671,8 @@ namespace IUDICO.CourseManagement.Models.Storage
             db.NodeResources.DeleteOnSubmit(res);
             db.SubmitChanges();
         }
-        public void DeleteResources(List<int> ids)
+
+        public virtual void DeleteResources(List<int> ids)
         {
             var db = GetDbContext();
 

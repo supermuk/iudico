@@ -77,6 +77,8 @@
     <Compile Include="Models\Attributes\DropDownListAttribute.cs" />
     <Compile Include="Models\Attributes\EmailAddressAttribute.cs" />
     <Compile Include="Models\Attributes\OrderAttribute.cs" />
+    <Compile Include="Models\Cache\ICacheProvider.cs" />
+    <Compile Include="Models\Cache\Provider\HttpCacheProvider.cs" />
     <Compile Include="Models\Interfaces\IMockableDataContext.cs" />
     <Compile Include="Models\Interfaces\IMockableTable.cs" />
     <Compile Include="Models\MemoryTable.cs" />
@@ -104,9 +106,7 @@
     <Compile Include="Models\Services\IStatisticsService.cs" />
     <Compile Include="Models\Services\IUserService.cs" />
     <Compile Include="Models\Shared\CurriculumManagement\TopicDescription.cs" />
-    <Compile Include="Models\Shared\Poco.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Models\Shared\Poco.cs" />
     <Compile Include="Models\Shared\ShareUser.cs" />
     <Compile Include="Models\Shared\Statistics\AnswerResult.cs" />
     <Compile Include="Models\Shared\Statistics\AttemptResult.cs" />

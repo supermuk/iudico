@@ -123,7 +123,7 @@ namespace IUDICO.UserManagement.Models.Storage
             return db.Users.Where(user => !user.Deleted).SingleOrDefault(predicate);
         }
 
-        public IEnumerable<User> GetUsers()
+        public virtual IEnumerable<User> GetUsers()
         {
             var db = GetDbContext();
 
@@ -179,7 +179,7 @@ namespace IUDICO.UserManagement.Models.Storage
         public void DeactivateUser(Guid id)
         {
             var db = GetDbContext();
-
+            
             var user = db.Users.Single(u => u.Id == id);
             user.IsApproved = false;
             user.ApprovedBy = null;
@@ -317,7 +317,7 @@ namespace IUDICO.UserManagement.Models.Storage
             _LmsService.Inform(UserNotifications.UserEdit, oldUser);
         }
 
-        public void EditUser(Guid id, EditUserModel user)
+        public virtual void EditUser(Guid id, EditUserModel user)
         {
             var db = GetDbContext();
             var oldUser = db.Users.Single(u => u.Id == id);
