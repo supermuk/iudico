@@ -100,7 +100,7 @@ namespace IUDICO.Common.Models.Cache.Provider
                     Expire(key);
                 }
 
-                //UpdateTagList(keyTag, null);
+                UpdateTagList(keyTag, null);
             }
         }
     }

@@ -478,11 +478,14 @@ namespace IUDICO.CourseManagement.Models.Storage
                                   Position = position
                               };
 
+
             CopyNodes(node, newnode);
 
+            AddNode(node);
+/*
             db.Nodes.InsertOnSubmit(newnode);
             db.SubmitChanges();
-
+*/
             return newnode.Id;
         }
 
@@ -630,7 +633,8 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public virtual string GetResourcePath(int resId)
         {
-            var res = GetDbContext().NodeResources.Single(n => n.Id == resId);
+            var res = GetResource(resId);
+            //var res = GetDbContext().NodeResources.Single(n => n.Id == resId);
             var path = Path.Combine(GetNodePath(res.NodeId ?? -1), res.Path);
 
             return path;
@@ -638,7 +642,8 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public virtual string GetResourcePath(int nodeId, string fileName)
         {
-            var node = GetDbContext().Nodes.SingleOrDefault(n => n.Id == nodeId);
+            var node = GetNode(nodeId);
+            //var node = GetDbContext().Nodes.SingleOrDefault(n => n.Id == nodeId);
             var path = Path.Combine(GetCoursePath(node.CourseId), "Node");
             path = Path.Combine(path, nodeId.ToString());
             path = Path.Combine(path, "Images");
@@ -651,7 +656,11 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             var db = GetDbContext();
 
-            var oldRes = db.NodeResources.Single(n => n.Id == id);
+            // var oldRes = db.NodeResources.Single(n => n.Id == id);
+
+            var oldRes = GetResource(id);
+            
+            db.NodeResources.Attach(oldRes);
 
             oldRes.Name = resource.Name;
             oldRes.Type = resource.Type;
@@ -664,10 +673,12 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             var db = GetDbContext();
 
-            var res = db.NodeResources.Single(n => n.Id == id);
+            var res = GetResource(id);
+            //db.NodeResources.Single(n => n.Id == id);
 			   
             @File.Delete(GetResourcePath(id));
 
+            db.NodeResources.Attach(res);
             db.NodeResources.DeleteOnSubmit(res);
             db.SubmitChanges();
         }

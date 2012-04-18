@@ -101,7 +101,7 @@ namespace IUDICO.UserManagement.Models.Storage
             if (HttpContext.Current == null || HttpContext.Current.User == null ||
                 !HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                var userrole = new UserRole {RoleRef = (int) Role.None};
+                var userrole = new UserRole { RoleRef = (int)Role.None };
                 var user = new User();
 
                 user.UserRoles.Add(userrole);
@@ -116,7 +116,14 @@ namespace IUDICO.UserManagement.Models.Storage
             return db.Users.Where(u => u.Username == identity.Name).FirstOrDefault();
         }
 
-        public User GetUser(Func<User, bool> predicate)
+        public virtual User GetUser(Guid userId)
+        {
+            var db = GetDbContext();
+
+            return db.Users.Where(user => !user.Deleted && user.Id == userId).SingleOrDefault();
+        }
+
+        public virtual User GetUser(Func<User, bool> predicate)
         {
             var db = GetDbContext();
 
@@ -130,28 +137,28 @@ namespace IUDICO.UserManagement.Models.Storage
             return db.Users.Where(u => !u.Deleted);
         }
 
-        public IEnumerable<User> GetUsers(Func<User, bool> predicate)
+        public virtual IEnumerable<User> GetUsers(Func<User, bool> predicate)
         {
             var db = GetDbContext();
 
             return db.Users.Where(u => !u.Deleted).Where(predicate);
         }
 
-        public IEnumerable<User> GetUsers(int pageIndex, int pageSize)
+        public virtual IEnumerable<User> GetUsers(int pageIndex, int pageSize)
         {
             var db = GetDbContext();
 
             return db.Users.Skip(pageIndex).Take(pageSize);
         }
 
-        public bool UsernameExists(string username)
+        public virtual bool UsernameExists(string username)
         {
             var db = GetDbContext();
 
             return db.Users.Count(u => u.Username == username && u.Deleted == false) > 0;
         }
 
-        public bool UserUniqueIdAvailable(string userUniqueId, Guid userId)
+        public virtual bool UserUniqueIdAvailable(string userUniqueId, Guid userId)
         {
             var db = GetDbContext();
             var users = db.Users.Where(u => u.UserId == userUniqueId && u.Deleted == false);
@@ -165,29 +172,35 @@ namespace IUDICO.UserManagement.Models.Storage
             return false;
         }
 
-        public void ActivateUser(Guid id)
+        public virtual void ActivateUser(Guid id)
         {
             var db = GetDbContext();
 
-            var user = db.Users.Single(u => u.Id == id);
+            var user = GetUser(id);
+            // db.Users.Single(u => u.Id == id);
+            db.Users.Attach(user);
+
             user.IsApproved = true;
             user.ApprovedBy = GetCurrentUser().Id;
 
             db.SubmitChanges();
         }
 
-        public void DeactivateUser(Guid id)
+        public virtual void DeactivateUser(Guid id)
         {
             var db = GetDbContext();
+
+            var user = GetUser(id);
+            //db.Users.Single(u => u.Id == id);
+            db.Users.Attach(user);
             
-            var user = db.Users.Single(u => u.Id == id);
             user.IsApproved = false;
             user.ApprovedBy = null;
 
             db.SubmitChanges();
         }
 
-        public string EncryptPassword(string password)
+        public virtual string EncryptPassword(string password)
         {
             var provider = new SHA1CryptoServiceProvider();
             var bytes = Encoding.UTF8.GetBytes(password);
@@ -195,25 +208,29 @@ namespace IUDICO.UserManagement.Models.Storage
             return BitConverter.ToString(provider.ComputeHash(bytes)).Replace("-", "");
         }
 
-        public void RestorePassword(RestorePasswordModel restorePasswordModel)
+        public virtual User RestorePassword(RestorePasswordModel restorePasswordModel)
         {
             var db = GetDbContext();
 
-            var user = db.Users.Single(u => u.Email == restorePasswordModel.Email);
+            var user = GetUser(u => u.Email == restorePasswordModel.Email);
             var password = RandomPassword();
+
+            db.Users.Attach(user);
 
             user.Password = EncryptPassword(password);
 
             db.SubmitChanges();
 
             SendEmail("admin@iudico", user.Email, "Iudico Notification", "Your password has been changed:" + password);
+
+            return user;
         }
 
-        public void CreateUser(User user)
+        public virtual bool CreateUser(User user)
         {
             if (UsernameExists(user.Username))
             {
-                return;
+                return false;
             }
 
             var db = GetDbContext();
@@ -230,9 +247,11 @@ namespace IUDICO.UserManagement.Models.Storage
             db.SubmitChanges();
 
             _LmsService.Inform(UserNotifications.UserCreate, user);
+
+            return true;
         }
 
-        public Dictionary<string, string> CreateUsersFromCSV(string csvPath)
+        public virtual Dictionary<string, string> CreateUsersFromCSV(string csvPath)
         {
             var users = new List<User>();
             var passwords = new Dictionary<string, string>();
@@ -295,10 +314,13 @@ namespace IUDICO.UserManagement.Models.Storage
             return passwords;
         }
 
-        public void EditUser(Guid id, User user)
+        public virtual void EditUser(Guid id, User user)
         {
             var db = GetDbContext();
-            var oldUser = db.Users.Single(u => u.Id == id);
+            var oldUser = GetUser(id);
+            //db.Users.Single(u => u.Id == id);
+
+            db.Users.Attach(oldUser);
 
             oldUser.Name = user.Name;
 
@@ -320,15 +342,18 @@ namespace IUDICO.UserManagement.Models.Storage
         public virtual void EditUser(Guid id, EditUserModel user)
         {
             var db = GetDbContext();
-            var oldUser = db.Users.Single(u => u.Id == id);
-            var newUser = oldUser;
+            //var oldUser = GetUser(id);
+            var newUser = GetUser(id);
+            //db.Users.Single(u => u.Id == id);
+
+            db.Users.Attach(newUser);
             object[] data = new object[2];
 
             newUser.Name = user.Name;
 
             if (!string.IsNullOrEmpty(user.Password))
             {
-                oldUser.Password = EncryptPassword(user.Password);
+                newUser.Password = EncryptPassword(user.Password);
             }
 
             newUser.Email = user.Email;
@@ -336,12 +361,12 @@ namespace IUDICO.UserManagement.Models.Storage
             newUser.UserId = user.UserId;
 
             db.SubmitChanges();
-            data[0] = oldUser;
-            data[1] = newUser;
-            _LmsService.Inform(UserNotifications.UserEdit, data);
+            //data[0] = oldUser;
+            //data[1] = newUser;
+            _LmsService.Inform(UserNotifications.UserEdit, newUser);
         }
 
-        public void DeleteUser(Func<User, bool> predicate)
+        public virtual User DeleteUser(Func<User, bool> predicate)
         {
             var db = GetDbContext();
 
@@ -354,16 +379,18 @@ namespace IUDICO.UserManagement.Models.Storage
             db.SubmitChanges();
 
             _LmsService.Inform(UserNotifications.UserDelete, user);
+
+            return user;
         }
 
-        public IEnumerable<User> GetUsersInGroup(Group group)
+        public virtual IEnumerable<User> GetUsersInGroup(Group group)
         {
             var db = GetDbContext();
 
             return db.GroupUsers.Where(g => g.GroupRef == group.Id && !g.User.Deleted).Select(g => g.User);
         }
 
-        public IEnumerable<User> GetUsersNotInGroup(Group group)
+        public virtual IEnumerable<User> GetUsersNotInGroup(Group group)
         {
             var db = GetDbContext();
 
@@ -372,7 +399,7 @@ namespace IUDICO.UserManagement.Models.Storage
                     db.GroupUsers.Where(g => g.GroupRef == group.Id).Select(g => g.User));
         }
 
-        public void RegisterUser(RegisterModel registerModel)
+        public virtual User RegisterUser(RegisterModel registerModel)
         {
             var db = GetDbContext();
 
@@ -397,40 +424,52 @@ namespace IUDICO.UserManagement.Models.Storage
 
             user.UserRoles.Add(userrole);
 
+            // TODO: CreateUser(user);
+
             db.Users.InsertOnSubmit(user);
             db.SubmitChanges();
 
             SendEmail("admin@iudico", user.Email, "Iudico Notification",
                       "Your account has been created:\nUsername: " + registerModel.Username + "\nPassword: " +
                       registerModel.Password);
+
+            return user;
         }
 
-        public void EditAccount(EditModel editModel)
+        public virtual void EditAccount(EditModel editModel)
         {
             var identity = HttpContext.Current.User.Identity;
 
             var db = GetDbContext();
 
-            var user = db.Users.Single(u => u.Username == identity.Name);
+            var user = GetUser(editModel.Id);
+            // db.Users.Single(u => u.Username == identity.Name);
+
+            db.Users.Attach(user);
 
             user.Name = editModel.Name;
             user.OpenId = editModel.OpenId ?? string.Empty;
             user.Email = editModel.Email;
             user.UserId = editModel.UserId;
-
+            
             db.SubmitChanges();
 
             SendEmail("admin@iudico", user.Email, "Iudico Notification", "Your details have been changed.");
         }
 
-        public void ChangePassword(ChangePasswordModel changePasswordModel)
+        public virtual void ChangePassword(ChangePasswordModel changePasswordModel)
         {
+            /*
             var identity = HttpContext.Current.User.Identity;
 
-            var db = GetDbContext();
-
             var user = db.Users.Single(u => u.Username == identity.Name);
-            
+            */
+
+            var db = GetDbContext();
+            var user = GetCurrentUser();
+
+            db.Users.Attach(user);
+
             user.Password = EncryptPassword(changePasswordModel.NewPassword);
 
             db.SubmitChanges();
@@ -442,30 +481,35 @@ namespace IUDICO.UserManagement.Models.Storage
 
         #region Roles members
 
-        public void AddUsersToRoles(IEnumerable<string> usernames, IEnumerable<Role> roles)
+        public virtual void AddUsersToRoles(IEnumerable<string> usernames, IEnumerable<Role> roles)
         {
             var db = GetDbContext();
-            var users = db.Users.Where(u => usernames.Contains(u.Username));
+            var users = GetUsers(u => usernames.Contains(u.Username));
+
+            var userRoles = new List<UserRole>();
+
+            // users.ForEach(u => roles.ForEach(r => userRoles.Add(new UserRole { UserRef = u.Id, RoleRef = (int)r })));
 
             foreach (var user in users)
             {
                 foreach (var role in roles)
                 {
-                    db.UserRoles.InsertOnSubmit(new UserRole
-                                                    {
-                                                        UserRef = user.Id,
-                                                        RoleRef = (int) role
-                                                    });
+                    userRoles.Add(new UserRole
+                                    {
+                                        UserRef = user.Id,
+                                        RoleRef = (int) role
+                                    });
                 }
             }
 
+            db.UserRoles.InsertAllOnSubmit(userRoles);
             db.SubmitChanges();
         }
 
-        public void RemoveUsersFromRoles(IEnumerable<string> usernames, IEnumerable<Role> roles)
+        public virtual void RemoveUsersFromRoles(IEnumerable<string> usernames, IEnumerable<Role> roles)
         {
             var db = GetDbContext();
-            var users = db.Users.Where(u => usernames.Contains(u.Username)).Select(u => u.Id);
+            var users = GetUsers(u => usernames.Contains(u.Username)).Select(u => u.Id);
             var intRoles = roles.Select(r => (int) r);
 
             var userRoles = db.UserRoles.Where(ur => users.Contains(ur.UserRef) && intRoles.Contains(ur.RoleRef));
@@ -474,7 +518,7 @@ namespace IUDICO.UserManagement.Models.Storage
             db.SubmitChanges();
         }
 
-        public IEnumerable<User> GetUsersInRole(Role role)
+        public virtual IEnumerable<User> GetUsersInRole(Role role)
         {
             var db = GetDbContext();
 
@@ -495,7 +539,7 @@ namespace IUDICO.UserManagement.Models.Storage
             return roles;
         }
 
-        public void RemoveUserFromRole(Role role, User user)
+        public virtual void RemoveUserFromRole(Role role, User user)
         {
             var db = GetDbContext();
 
@@ -505,7 +549,7 @@ namespace IUDICO.UserManagement.Models.Storage
             db.SubmitChanges();
         }
 
-        public void AddUserToRole(Role role, User user)
+        public virtual void AddUserToRole(Role role, User user)
         {
             var db = GetDbContext();
 
@@ -515,7 +559,7 @@ namespace IUDICO.UserManagement.Models.Storage
             db.SubmitChanges();
         }
 
-        public IEnumerable<Role> GetRolesAvailableToUser(User user)
+        public virtual IEnumerable<Role> GetRolesAvailableToUser(User user)
         {
             var roles = GetUserRoles(user.Username);
 
@@ -534,7 +578,7 @@ namespace IUDICO.UserManagement.Models.Storage
             }
         }
 
-        public void RateTopic(int topicId, int rating)
+        public virtual void RateTopic(int topicId, int rating)
         {
             var db = GetDbContext();
 
@@ -548,21 +592,21 @@ namespace IUDICO.UserManagement.Models.Storage
 
         #region Group members
 
-        public Group GetGroup(int id)
+        public virtual Group GetGroup(int id)
         {
             var db = GetDbContext();
 
             return db.Groups.FirstOrDefault(group => group.Id == id && !group.Deleted);
         }
 
-        public IEnumerable<Group> GetGroups()
+        public virtual IEnumerable<Group> GetGroups()
         {
             var db = GetDbContext();
 
             return db.Groups.Where(g => !g.Deleted);
         }
 
-        public void CreateGroup(Group group)
+        public virtual void CreateGroup(Group group)
         {
             var db = GetDbContext();
 
@@ -574,7 +618,7 @@ namespace IUDICO.UserManagement.Models.Storage
             _LmsService.Inform(UserNotifications.GroupCreate, group);
         }
 
-        public void EditGroup(int id, Group group)
+        public virtual void EditGroup(int id, Group group)
         {
             var db = GetDbContext();
             var oldGroup = db.Groups.Single(g => g.Id == id && !g.Deleted);
@@ -588,7 +632,7 @@ namespace IUDICO.UserManagement.Models.Storage
             _LmsService.Inform(UserNotifications.GroupEdit, data);
         }
 
-        public void DeleteGroup(int id)
+        public virtual void DeleteGroup(int id)
         {
             var db = GetDbContext();
             var group = db.Groups.Single(g => g.Id == id && !g.Deleted);
@@ -610,7 +654,7 @@ namespace IUDICO.UserManagement.Models.Storage
             return db.GroupUsers.Where(g => g.UserRef == user.Id).Select(g => g.Group);
         }
 
-        public IEnumerable<Group> GetGroupsAvailableToUser(User user)
+        public virtual IEnumerable<Group> GetGroupsAvailableToUser(User user)
         {
             var db = GetDbContext();
 
@@ -619,7 +663,7 @@ namespace IUDICO.UserManagement.Models.Storage
             return db.Groups.Where(g => !groupRefsByUser.Contains(g.Id));
         }
 
-        public void AddUserToGroup(Group group, User user)
+        public virtual void AddUserToGroup(Group group, User user)
         {
             var db = GetDbContext();
 
@@ -629,7 +673,7 @@ namespace IUDICO.UserManagement.Models.Storage
             db.SubmitChanges();
         }
 
-        public void RemoveUserFromGroup(Group group, User user)
+        public virtual void RemoveUserFromGroup(Group group, User user)
         {
             var db = GetDbContext();
 
@@ -641,7 +685,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
         #endregion
 
-        public int UploadAvatar(Guid id, HttpPostedFileBase file)
+        public virtual int UploadAvatar(Guid id, HttpPostedFileBase file)
         {
             int resultCode = -1; // if no file had been passed
             if (file != null)
@@ -664,7 +708,7 @@ namespace IUDICO.UserManagement.Models.Storage
             return resultCode;
         }
 
-        public int DeleteAvatar(Guid id)
+        public virtual int DeleteAvatar(Guid id)
         {
             string fileName = Path.GetFileName(id + ".png");
             string fullPath = Path.Combine(Path.Combine(GetPath(), @"Data\Avatars"), fileName);
