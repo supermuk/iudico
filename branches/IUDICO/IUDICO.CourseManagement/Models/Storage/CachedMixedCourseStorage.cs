@@ -148,6 +148,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public override int AddCourse(Course course)
         {
+            // TODO: correct expire cache
             _cacheProvider.ExpireTag("course-" + course.Id);
             
             return base.AddCourse(course);
@@ -189,6 +190,11 @@ namespace IUDICO.CourseManagement.Models.Storage
             {
                 nodes = base.GetNodes(courseId);
                 _cacheProvider["nodes-" + courseId] = nodes;
+
+                foreach (var node in nodes)
+                {
+                    _cacheProvider.AddTag("node-" + node.Id, "nodes-" + courseId);
+                }
             }
 
             return nodes;
@@ -202,6 +208,13 @@ namespace IUDICO.CourseManagement.Models.Storage
             {
                 nodes = base.GetNodes(courseId, parentId);
                 _cacheProvider["nodes-" + courseId + "-" + (parentId.ToString() ?? "null")] = nodes;
+
+                foreach (var node in nodes)
+                {
+                    _cacheProvider.AddTag("node-" + node.Id, "nodes-" + courseId + "-" + (parentId.ToString() ?? "null"));
+                }
+
+                _cacheProvider.AddTag("node-new", "nodes-" + courseId + "-" + (parentId.ToString() ?? "null"));
             }
 
             return nodes;
@@ -214,30 +227,45 @@ namespace IUDICO.CourseManagement.Models.Storage
             if (node == null)
             {
                 node = base.GetNode(id);
-                _cacheProvider["nodes-" + id] = node;
+                _cacheProvider["node-" + id] = node;
+                _cacheProvider.AddTag("node-" + id, "node-" + id);
             }
 
             return node;
         }
 
         public override int? AddNode(Node node)
-        {
+        {            
+            _cacheProvider.Expire("nodes-" + node.CourseId + "-null");
+            _cacheProvider.Expire("nodes-" + node.CourseId + "-" + node.ParentId);
+                
+            // TODO: CHECK correct expire cache
+
             return base.AddNode(node);
         }
 
         public override void UpdateNode(int id, Node node)
         {
             base.UpdateNode(id, node);
+
+            _cacheProvider.ExpireTag("node-" + id);
         }
 
         public override void DeleteNode(int id)
         {
             base.DeleteNode(id);
+
+            _cacheProvider.ExpireTag("node-" + id);
         }
 
         public override void DeleteNodes(List<int> ids)
         {
             base.DeleteNodes(ids);
+
+            foreach (var id in ids)
+            {
+                _cacheProvider.ExpireTag("node-" + id);
+            }
         }
 
         public override int CreateCopy(Node node, int? parentId, int position)
@@ -306,7 +334,12 @@ namespace IUDICO.CourseManagement.Models.Storage
             if (resources == null)
             {
                 resources = base.GetResources(nodeId);
-                _cacheProvider["nodes-" + nodeId] = resources;
+                _cacheProvider["resources-" + nodeId] = resources;
+
+                foreach (var resource in resources)
+                {
+                    _cacheProvider.AddTag("resource-" + resource.Id, "resources-" + nodeId);
+                }
             }
 
             return resources;
@@ -320,6 +353,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             {
                 resource = base.GetResource(id);
                 _cacheProvider["resource-" + id] = resource;
+                _cacheProvider.AddTag("resource-" + id, "resource-" + id);
             }
 
             return resource;
@@ -327,6 +361,8 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public override int AddResource(NodeResource resource, HttpPostedFileBase file)
         {
+            _cacheProvider.Expire("resources-" + resource.NodeId);
+
             return base.AddResource(resource, file);
         }
 
@@ -342,16 +378,25 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public override void UpdateResource(int id, NodeResource resource)
         {
+            _cacheProvider.ExpireTag("resource-" + id);
+
             base.UpdateResource(id, resource);
         }
 
         public override void DeleteResource(int id)
         {
+            _cacheProvider.ExpireTag("resource-" + id);
+
             base.DeleteResource(id);
         }
 
         public override void DeleteResources(List<int> ids)
         {
+            foreach (var id in ids)
+            {
+                _cacheProvider.ExpireTag("resource-" + id);
+            }
+
             base.DeleteResources(ids);
         }
         #endregion
