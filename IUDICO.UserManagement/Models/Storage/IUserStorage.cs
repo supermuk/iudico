@@ -15,22 +15,22 @@ namespace IUDICO.UserManagement.Models.Storage
         IEnumerable<User> GetUsers(Func<User, bool> predicate);
         IEnumerable<User> GetUsers(int pageIndex, int pageSize);
         User GetUser(Func<User, bool> predicate);
-        void CreateUser(User user);
+        bool CreateUser(User user);
         Dictionary<string, string> CreateUsersFromCSV(string csvPath);
         void EditUser(Guid id, EditUserModel editor);
         void EditUser(Guid id, User editor);
         void EditAccount(EditModel editModel);
         void ChangePassword(ChangePasswordModel changePasswordModel);
-        void DeleteUser(Func<User, bool> predicate);
+        User DeleteUser(Func<User, bool> predicate);
         IEnumerable<User> GetUsersInGroup(Group group);
         IEnumerable<User> GetUsersNotInGroup(Group group);
         bool UsernameExists(string username);
         bool UserUniqueIdAvailable(string userUniqueId, Guid userId);
         void ActivateUser(Guid id);
         void DeactivateUser(Guid id);
-        void RegisterUser(RegisterModel registerModel);
+        User RegisterUser(RegisterModel registerModel);
         string EncryptPassword(string password);
-        void RestorePassword(RestorePasswordModel restorePasswordModel);
+        User RestorePassword(RestorePasswordModel restorePasswordModel);
 
         int UploadAvatar(Guid id, HttpPostedFileBase file);
         int DeleteAvatar(Guid id);
