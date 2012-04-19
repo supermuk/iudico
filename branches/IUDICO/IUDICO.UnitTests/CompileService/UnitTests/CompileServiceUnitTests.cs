@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
-using System.Collections.Generic;
+using CompileSystem.Classes.Compiling;
+using CompileSystem.Classes.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IUDICO.UnitTests.CompileService.UnitTests
@@ -9,150 +9,261 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
     [TestClass]
     public class CompileServiceUnitTests
     {
-        /*
-        //CompileException Tests
-        #region CompileException tests
- 
-        /// <summary>
-        ///A test for Compile exception 
-        ///</summary>
-        [TestMethod]
-        public void CompileExceptionTest()
-        {
-            CompileException exception = new CompileException("Bad input value");
-            Assert.AreEqual(exception != null, true);
+        //Status tests
+        #region StatusTests
 
-            exception = new CompileException("Bad input value", new Exception());
-            Assert.AreEqual(exception != null, true);
+        /// <summary>
+        ///A test for Status Constructor
+        ///</summary>
+        [TestMethod()]
+        public void StatusConstructorTest()
+        {
+            const string testResult = "Acepted";
+            var target = new Status(testResult);
+
+            Assert.AreEqual(false, testResult == null);
+            Assert.AreEqual(testResult, target.TestResult);
         }
 
         #endregion
-        
-        //Compilation Tester Tests
-        #region CompilationTester tests
+
+        //Helper tests
+        #region HelperTests
 
         /// <summary>
-        ///A test for Generating correct program files and returning their path
+        ///A test for CreateFileForCompilation
         ///</summary>
-        [TestMethod]
-        public void GenerateFileForCompilationTest()
+        [TestMethod()]
+        public void CreateFileForCompilationTest()
         {
-            Settings settings = FunctionContainer.CreateDefaultSetting();
-            CompilationTester compilationTester = new CompilationTester(settings);
-            string source, programPath;
-            Language language;
+            string extension = null;
+            const string source = "My source code";
+            string currentFilePath;
 
-            //language tests
-            source = CompileServiceLanguageSourceCode.CSCorrectSourceCode;
-            language = Language.CSharp3;
-            programPath = compilationTester.GenerateFileForCompilation(source, language);
-            Assert.AreEqual(true, CompileServiceHelper.ValidatePath(programPath));
-
-            source = CompileServiceLanguageSourceCode.CPPCorrectSourceCode;
-            language = Language.VC8;
-            programPath = compilationTester.GenerateFileForCompilation(source, language);
-            Assert.AreEqual(true, CompileServiceHelper.ValidatePath(programPath));
-
-            source = CompileServiceLanguageSourceCode.JavaCorrectSourceCode;
-            language = Language.Java6;
-            programPath = compilationTester.GenerateFileForCompilation(source, language);
-            Assert.AreEqual(true, CompileServiceHelper.ValidatePath(programPath));
-
-            source = CompileServiceLanguageSourceCode.DelphiCorrectSourceCode;
-            language = Language.Delphi7;
-            programPath = compilationTester.GenerateFileForCompilation(source, language);
-            Assert.AreEqual(true, CompileServiceHelper.ValidatePath(programPath));
-
-            //incorrect source
-            source = "";
-            language = Language.CSharp3;
             try
             {
-                programPath = compilationTester.GenerateFileForCompilation(source, language);
-                Assert.AreEqual(false,true);
-            }
-            catch(Exception)
-            {
-                Assert.AreEqual(true,true);
-            }
-
-            //incorrect compiler
-            settings.Compilers = new List<Compiler>();
-            compilationTester = new CompilationTester(settings);
-            source = "";
-            language = Language.CSharp3;
-            try
-            {
-                programPath = compilationTester.GenerateFileForCompilation(source, language);
+                currentFilePath = CompileSystem.Classes.Helper.CreateFileForCompilation(source, extension);
                 Assert.AreEqual(true, false);
             }
             catch (Exception)
             {
-                Assert.AreEqual(true,true);
+                Assert.AreEqual(true, true);
+            }
+
+            try
+            {
+                extension = "cpp";
+                currentFilePath = CompileSystem.Classes.Helper.CreateFileForCompilation(source, extension);
+                Assert.AreNotEqual(true, string.IsNullOrEmpty(currentFilePath));
+                Assert.AreEqual(File.Exists(currentFilePath), true);
+
+                string text = System.IO.File.ReadAllText(currentFilePath);
+                Assert.AreNotEqual(true, string.IsNullOrEmpty(text));
+                Assert.AreEqual(text, source);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(false, true);
+            }
+        }
+
+        #endregion
+
+        //Compilers tests
+        #region CompilersTests
+
+        /// <summary>
+        ///A test for Compilers Constructor
+        ///</summary>
+        [TestMethod()]
+        public void CompilersConstructorTest()
+        {
+            string compilersDirectory = null;
+            Compilers target;
+
+            try
+            {
+                target = new Compilers(compilersDirectory);
+                Assert.AreEqual(true, false);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, true);
+            }
+
+            try
+            {
+                compilersDirectory = "Directory";
+                target = new Compilers(compilersDirectory);
+                Assert.AreEqual(true, true);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, false);
             }
         }
 
         /// <summary>
-        ///A test for CompilationTester Constructor
+        ///A test for AddCompiler
         ///</summary>
-        [TestMethod]
-        public void CompilationTesterConstructorTest()
+        [TestMethod()]
+        public void AddCompilerTest()
         {
-            Settings settings = new Settings()
-                                    {
-                                        TestingDirectory = "Some path",
-                                        Compilers = new List<Compiler>()
-                                    };
-
-            CompilationTester tester = new CompilationTester(settings);
-            Assert.AreEqual(settings, tester.Settings);
+            string compilersDirectory = "Directory";
+            Compilers target;
 
             try
             {
-                settings = null;
-                tester = new CompilationTester(settings);
+                target = new Compilers(compilersDirectory);
+                target.AddCompiler(null);
                 Assert.AreEqual(false, true);
             }
             catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
-        }
-
-        #endregion
-
-        //Compiler Tests
-        #region Compiler tests
-
-        /// <summary>
-        ///A test for Compiler Constructor
-        ///</summary>
-        [TestMethod]
-        public void CompilerConstructorTest()
-        {
-            Language language = Language.CSharp3;
-            string location = "C:/Windows";
-            string arguments = "temp";
-            string extension = ".cs";
-
-            Compiler compiler;
-
-            compiler = Compiler.DotNet2Compiler;
-            Assert.AreEqual(compiler != null, true);
 
             try
             {
-                compiler = new Compiler(language, location, arguments, extension);
+                target = new Compilers(compilersDirectory);
+                Assert.AreEqual(target.Count, 0);
+                target.AddCompiler(new Compiler());
+                Assert.AreEqual(target.Count, 1);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, false);
+            }
+        }
+
+        /// <summary>
+        ///A test for Clear
+        ///</summary>
+        [TestMethod()]
+        public void ClearTest()
+        {
+            var target = new Compilers("Directory");
+            Assert.AreEqual(target.Count, 0);
+            target.AddCompiler(new Compiler());
+            Assert.AreEqual(target.Count, 1);
+            target.Clear();
+            Assert.AreEqual(target.Count, 0);
+        }
+
+        /// <summary>
+        ///A test for Contains
+        ///</summary>
+        [TestMethod()]
+        public void ContainsTest()
+        {
+            var target = new Compilers("Directory");
+            Assert.AreEqual(target.Count, 0);
+            Compiler newCompiler = new Compiler();
+            newCompiler.Name = "CPP";
+            target.AddCompiler(newCompiler);
+            bool result = target.Contains("CPP");
+            Assert.AreEqual(true, result);
+
+            result = target.Contains("BadCompilerName");
+            Assert.AreEqual(result, false);
+        }
+
+        /// <summary>
+        ///A test for GetCompiler
+        ///</summary>
+        [TestMethod()]
+        public void GetCompilerTest()
+        {
+            var target = new Compilers("Directory");
+            Assert.AreEqual(target.Count, 0);
+            Compiler newCompiler = new Compiler();
+            newCompiler.Name = "CPP";
+            target.AddCompiler(newCompiler);
+            Compiler result = target.GetCompiler("CPP");
+            Assert.AreNotEqual(result, null);
+            Assert.AreEqual("CPP", result.Name);
+
+            result = target.GetCompiler("BadName");
+            Assert.AreEqual(result, null);
+        }
+
+        /// <summary>
+        ///A test for GetCompilers
+        ///</summary>
+        [TestMethod()]
+        public void GetCompilersTest()
+        {
+            var target = new Compilers("Directory");
+            Compiler newCompiler = new Compiler();
+            newCompiler.Name = "CPP";
+            var resultList = target.GetCompilers();
+            Assert.AreEqual(resultList.Count, 0);
+
+            target.AddCompiler(newCompiler);
+            resultList = target.GetCompilers();
+            Assert.AreEqual(resultList.Count, 1);
+        }
+
+        /// <summary>
+        ///A test for Load
+        ///</summary>
+        [TestMethod()]
+        public void LoadTest()
+        {
+            Compilers compilers;
+
+            //empty compiler folder
+            try
+            {
+                compilers = new Compilers("EmptyCompiler");
+                compilers.Load();
+                Assert.AreEqual(compilers.Count, 0);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, false);
+            }
+            //compiler folder with bad information
+            try
+            {
+                compilers = new Compilers("BadCompilers");
+                compilers.Load();
+                Assert.AreEqual(true, false);
+            }
+            catch (Exception)
+            {
                 Assert.AreEqual(true, true);
             }
-            catch (Exception)
-            {
-                Assert.AreEqual(false,true);
-            }
 
+            //compiler folder with correct information
             try
             {
-                compiler = new Compiler(language, null, arguments, extension);
+                compilers = new Compilers("TestCompilers");
+                compilers.Load();
+                Assert.AreEqual(compilers.Count, 2);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, false);
+            }
+        }
+
+        /// <summary>
+        ///A test for Parse
+        ///</summary>
+        [TestMethod()]
+        public void ParseTest()
+        {
+            string correctXmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"TestCompilers\CPP8.xml");
+            string incorrectXmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"TestCompilers\CSharp.xml");
+
+            var compilers = new Compilers("Compilers");
+            PrivateObject privateObject = new PrivateObject(compilers, new PrivateType(typeof(Compilers)));
+
+            //incorrect xml file
+            try
+            {
+                privateObject.Invoke("Parse", incorrectXmlFilePath);
                 Assert.AreEqual(true, false);
             }
             catch (Exception)
@@ -160,211 +271,10 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
                 Assert.AreEqual(true, true);
             }
 
+            //correct xml file
             try
             {
-                compiler = new Compiler(language, location, null, extension);
-                Assert.AreEqual(true, false);
-            }
-            catch (Exception)
-            {
-                Assert.AreEqual(true, true);
-            }
-
-            try
-            {
-                compiler = new Compiler(language, location, arguments, null);
-                Assert.AreEqual(true, false);
-            }
-            catch (Exception)
-            {
-                Assert.AreEqual(true, true);
-            }
-        }
-
-        #region Correct Source Code Compile
-
-        /// <summary>
-        ///A test for CS Compile
-        ///</summary>
-        [TestMethod]
-        public void CSCorrectCodeCompileTest()
-        {
-            CompilationTester tester = new CompilationTester(FunctionContainer.CreateDefaultSetting());
-            string programPath;
-            CompileResult result;
-
-            try
-            {
-                programPath = tester.GenerateFileForCompilation(CompileServiceLanguageSourceCode.CSCorrectSourceCode,
-                                                                Language.CSharp3);
-                result = Compiler.DotNet3Compiler.Compile(programPath);
-                CompileServiceHelper.ValidateCorrectCompilationResult(result);
-            }
-            catch (Exception)
-            {
-                Assert.AreEqual(true, false);
-            }
-        }
-
-        /// <summary>
-        ///A test for CPP Compile
-        ///</summary>
-        [TestMethod]
-        public void CPPCorrectCodeCompileTest()
-        {
-            CompilationTester tester = new CompilationTester(FunctionContainer.CreateDefaultSetting());
-            string programPath;
-            CompileResult result;
-
-            try
-            {
-                programPath = tester.GenerateFileForCompilation(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                                                                Language.VC8);
-                result = Compiler.VC8Compiler.Compile(programPath);
-                CompileServiceHelper.ValidateCorrectCompilationResult(result);
-            }
-            catch (Exception)
-            {
-                Assert.AreEqual(true, false);
-            }
-        }
-
-        /// <summary>
-        ///A test for Java Compile
-        ///</summary>
-        [TestMethod]
-        public void JavaCorrectCodeCompileTest()
-        {
-            CompilationTester tester = new CompilationTester(FunctionContainer.CreateDefaultSetting());
-            string programPath;
-            CompileResult result;
-
-            try
-            {
-                programPath = tester.GenerateFileForCompilation(CompileServiceLanguageSourceCode.JavaCorrectSourceCode,
-                                                                Language.Java6);
-                result = Compiler.Java6Compiler.Compile(programPath);
-                CompileServiceHelper.ValidateCorrectCompilationResult(result);
-            }
-            catch (Exception)
-            {
-                Assert.AreEqual(true, false);
-            }
-        }
-
-        /// <summary>
-        ///A test for Delphi Compile
-        ///</summary>
-        [TestMethod]
-        public void DelphiCorrectCodeCompileTest()
-        {
-            CompilationTester tester = new CompilationTester(FunctionContainer.CreateDefaultSetting());
-            string programPath;
-            CompileResult result;
-
-            try
-            {
-                programPath = tester.GenerateFileForCompilation(
-                    CompileServiceLanguageSourceCode.DelphiCorrectSourceCode,
-                    Language.Delphi7);
-                result = Compiler.Delphi7Compiler.Compile(programPath);
-                CompileServiceHelper.ValidateCorrectCompilationResult(result);
-            }
-            catch (Exception)
-            {
-                Assert.AreEqual(true, false);
-            }
-        }
-
-        #endregion
-
-        #region Incorrect Source Code Compile
-
-        /// <summary>
-        ///A test for CS Compile
-        ///</summary>
-        [TestMethod]
-        public void CSIncorrectCodeCompileTest()
-        {
-            CompilationTester tester = new CompilationTester(FunctionContainer.CreateDefaultSetting());
-            string programPath;
-            CompileResult result;
-
-            try
-            {
-                programPath = tester.GenerateFileForCompilation(CompileServiceLanguageSourceCode.CSIncorrectSourceCode,
-                                                                Language.CSharp3);
-                result = Compiler.DotNet3Compiler.Compile(programPath);
-                CompileServiceHelper.ValidateIncorrectCompilationResult(result);
-            }
-            catch (Exception)
-            {
-                Assert.AreEqual(true, false);
-            }
-        }
-
-        /// <summary>
-        ///A test for CPP Compile
-        ///</summary>
-        [TestMethod]
-        public void CPPIncorrectCodeCompileTest()
-        {
-            CompilationTester tester = new CompilationTester(FunctionContainer.CreateDefaultSetting());
-            string programPath;
-            CompileResult result;
-
-            try
-            {
-                programPath = tester.GenerateFileForCompilation(CompileServiceLanguageSourceCode.CPPIncorrectSourceCode,
-                                                Language.VC8);
-                result = Compiler.VC8Compiler.Compile(programPath);
-                CompileServiceHelper.ValidateIncorrectCompilationResult(result);
-            }
-            catch (Exception)
-            {
-                Assert.AreEqual(true, false);
-            }
-        }
-
-        /// <summary>
-        ///A test for Java Compile
-        ///</summary>
-        [TestMethod]
-        public void JavaIncorrectCodeCompileTest()
-        {
-            CompilationTester tester = new CompilationTester(FunctionContainer.CreateDefaultSetting());
-            string programPath;
-            CompileResult result;
-
-            try
-            {
-                programPath = tester.GenerateFileForCompilation(CompileServiceLanguageSourceCode.JavaIncorrectSourceCode,
-                                                Language.Java6);
-                result = Compiler.Java6Compiler.Compile(programPath);
-                CompileServiceHelper.ValidateIncorrectCompilationResult(result);
-            }
-            catch (Exception)
-            {
-                Assert.AreEqual(true, false);
-            }
-        }
-
-        /// <summary>
-        ///A test for Delphi Compile
-        ///</summary>
-        [TestMethod]
-        public void DelphiIncorrectCodeCompileTest()
-        {
-            CompilationTester tester = new CompilationTester(FunctionContainer.CreateDefaultSetting());
-            string programPath;
-            CompileResult result;
-
-            try
-            {
-                programPath = tester.GenerateFileForCompilation(CompileServiceLanguageSourceCode.DelphiIncorrectSourceCode,
-                                                Language.Delphi7);
-                result = Compiler.Delphi7Compiler.Compile(programPath);
-                CompileServiceHelper.ValidateIncorrectCompilationResult(result);
+                Assert.AreNotEqual(null, privateObject.Invoke("Parse", correctXmlFilePath));
             }
             catch (Exception)
             {
@@ -373,486 +283,262 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
         }
 
         #endregion
+
+        //Compiler tests
+        #region CompilerTests
 
         /// <summary>
         ///A test for Compile
         ///</summary>
-        [TestMethod]
-        public void GeneralCompileTest()
+        [TestMethod()]
+        public void CompileTest()
         {
-            CompilationTester tester = new CompilationTester(FunctionContainer.CreateDefaultSetting());
-            string programPath;
-            CompileResult result;
+            //create compiler
+            var compiler = new Compiler
+            {
+                Name = "CPP",
+                Location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\CPP8\Compiler\CL.EXE"),
+                Extension = "cpp",
+                Arguments =
+                    "/I\"$CompilerDirectory$\" $SourceFilePath$ /link /LIBPATH:\"$CompilerDirectory$\"",
+                CompiledExtension = "exe",
+                IsNeedShortPath = true
+            };
 
+            string filePath = CompileSystem.Classes.Helper.CreateFileForCompilation(CompileServiceLanguageSourceCode.CPPCorrectSourceCode, compiler.Extension);
+            string output, error;
+            bool result;
             try
             {
-                programPath = tester.GenerateFileForCompilation(CompileServiceLanguageSourceCode.CSCorrectSourceCode,
-                                                                Language.CSharp3);
-                result = Compiler.DotNet3Compiler.Compile(programPath);
-                CompileServiceHelper.ValidateCorrectCompilationResult(result);
-            }
-            catch (Exception)
-            {
-                Assert.AreEqual(true, false);
-            }
-       
-            // bad input parameters
-            try
-            {
-                result = Compiler.DotNet3Compiler.Compile(null);
-                Assert.AreEqual(true,false);
-            }
-            catch (Exception)
-            {
-                Assert.AreEqual(true,true);
-            }
-
-            try
-            {
-                result = Compiler.DotNet3Compiler.Compile("");
+                result = compiler.Compile("BadFileName", out output, out error);
                 Assert.AreEqual(true, false);
             }
             catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
+
+            try
+            {
+                result = compiler.Compile(filePath, out output, out error);
+                Assert.AreEqual(true, result);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, false);
+            }
+
+            //remove file
+            File.Delete(filePath);
         }
-    
+
         #endregion
 
-        //Function container Tests
-        #region FunctionContainer tests
+        //Tester tests
+        #region TesterTests
 
         /// <summary>
-        ///A test for AssignLanguageForProgram
+        ///A test for Test
         ///</summary>
-        [TestMethod]
-        public void AssignLanguageForProgramTest()
+        [TestMethod()]
+        public void TestTest()
         {
-            string languageString = "CPP";
-            string result;
-            Program program = new Program();
-            result = FunctionContainer.AssignLanguageForProgram(languageString, ref program);
-            Assert.AreEqual(result, String.Empty);
-            Assert.AreEqual(program.Language, Language.VC8);
+            //create compiler
+            var compiler = new Compiler
+            {
+                Name = "CPP",
+                Location =
+                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                                 @"Compilers\CPP8\Compiler\CL.EXE"),
+                Extension = "cpp",
+                Arguments =
+                    "/I\"$CompilerDirectory$\" $SourceFilePath$ /link /LIBPATH:\"$CompilerDirectory$\"",
+                CompiledExtension = "exe",
+                IsNeedShortPath = true
+            };
 
-            languageString = "CS";
-            result = FunctionContainer.AssignLanguageForProgram(languageString, ref program);
-            Assert.AreEqual(result, String.Empty);
-            Assert.AreEqual(program.Language, Language.CSharp3);
+            string filePath =
+                CompileSystem.Classes.Helper.CreateFileForCompilation(
+                    CompileServiceLanguageSourceCode.CPPCorrectSourceCode, compiler.Extension);
+            string output, error;
+            bool result = compiler.Compile(filePath, out output, out error);
+            if (result)
+            {
+                filePath = Path.ChangeExtension(filePath, compiler.CompiledExtension);
+                Status testingResult;
 
-            languageString = "Java";
-            result = FunctionContainer.AssignLanguageForProgram(languageString, ref program);
-            Assert.AreEqual(result, String.Empty);
-            Assert.AreEqual(program.Language,Language.Java6);
+                //check file path
+                try
+                {
+                    Tester.Test("badFilePath", "", "", 1, 1);
+                    Assert.AreEqual(true, false);
+                }
+                catch (Exception)
+                {
+                    Assert.AreEqual(true, true);
+                }
 
-            languageString = "Delphi";
-            result = FunctionContainer.AssignLanguageForProgram(languageString, ref program);
-            Assert.AreEqual(result, String.Empty);
-            Assert.AreEqual(program.Language,Language.Delphi7);
+                //check correct timelimit
+                try
+                {
+                    Tester.Test(filePath, "", "", -5, 1);
+                    Assert.AreEqual(true, false);
+                }
+                catch (Exception)
+                {
+                    Assert.AreEqual(true, true);
+                }
 
-            languageString = "cpp";
-            result = FunctionContainer.AssignLanguageForProgram(languageString, ref program);
-            Assert.AreEqual(result, "Unsupported language");
+                //check correct memorylimit
+                try
+                {
+                    Tester.Test(filePath, "", "", 1, -5);
+                    Assert.AreEqual(true, false);
+                }
+                catch (Exception)
+                {
+                    Assert.AreEqual(true, true);
+                }
 
-            languageString = "unknown";
-            result = FunctionContainer.AssignLanguageForProgram(languageString, ref program);
-            Assert.AreEqual(result, "Unsupported language");
+                //test with correct parameters
+                try
+                {
+                    testingResult = Tester.Test(filePath, "", "", 10000, 3000);
+                    Assert.AreEqual("Accepted", testingResult.TestResult);
+                }
+                catch (Exception)
+                {
+                    Assert.AreEqual(true, false);
+                }
+            }
         }
 
+        #endregion
+
+        //CompileTask tests
+        #region CompileTaskTests
+
         /// <summary>
-        ///A test for CreateCompilationTester
+        ///A test for CompileTask Constructor
         ///</summary>
-        [TestMethod]
-        public void CreateCompilationTesterTest()
+        [TestMethod()]
+        public void CompileTaskConstructorTest()
         {
-            Settings settings = FunctionContainer.CreateDefaultSetting();
-            CompilationTester tester;
+            //create compiler
+            var compiler = new Compiler
+            {
+                Name = "CPP",
+                Location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\CPP8\Compiler\CL.EXE"),
+                Extension = "cpp",
+                Arguments =
+                    "/I\"$CompilerDirectory$\" $SourceFilePath$ /link /LIBPATH:\"$CompilerDirectory$\"",
+                CompiledExtension = "exe",
+                IsNeedShortPath = true
+            };
+            string sourceCodeFilePath = CompileSystem.Classes.Helper.CreateFileForCompilation(CompileServiceLanguageSourceCode.CPPCorrectSourceCode, compiler.Extension);
+
             try
             {
-                tester = FunctionContainer.CreateCompilationTester(settings);
-                Assert.AreEqual(tester.Settings, settings);
+                var compileTask = new CompileTask(null, sourceCodeFilePath);
+                Assert.AreEqual(true, false);
             }
             catch (Exception)
             {
-                Assert.AreEqual(false,true);
+                Assert.AreEqual(true, true);
             }
 
             try
             {
-                tester = FunctionContainer.CreateCompilationTester(null);
-                Assert.AreEqual(false,true);
+                var compileTask = new CompileTask(compiler, "BadFilePath");
+                Assert.AreEqual(true, false);
             }
             catch (Exception)
             {
-                Assert.AreEqual(true,true);
+                Assert.AreEqual(true, true);
             }
 
+            try
+            {
+                var compileTask = new CompileTask(compiler, sourceCodeFilePath);
+                Assert.AreEqual(true, true);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, false);
+            }
+
+            File.Delete(sourceCodeFilePath);
         }
 
-        /// <summary>
-        ///A test for CreateDefaultSetting
-        ///</summary>
-        [TestMethod]
-        public void CreateDefaultSettingTest()
-        {
-            Settings defaultSettings = FunctionContainer.CreateDefaultSetting();
-            Assert.AreEqual(defaultSettings.TestingDirectory.Length > 0, true);
-            Assert.AreNotEqual(defaultSettings.Compilers, null);
-        }
+        #endregion
+
+        //Compile service tests
+        #region CompileServiceTests
 
         /// <summary>
-        ///A test for CreateProgram
+        ///A test for Compile
         ///</summary>
-        [TestMethod]
-        public void CreateProgramTest()
+        [TestMethod()]
+        public void CompileServiceTest()
         {
+            CompileSystem.CompileService _compileService = new CompileSystem.CompileService();
             string source = CompileServiceLanguageSourceCode.CPPCorrectSourceCode;
-            int timelimit = 1;
-            int memorylimit = 1;
+            string language = "CPP8";
+            string[] input = new string[0];
+            string[] output = new string[0];
 
-            Program program = FunctionContainer.CreateProgram(source, memorylimit, timelimit);
-            Assert.AreEqual(program.Source, source);
-            Assert.AreEqual(program.TimeLimit, timelimit);
-            Assert.AreEqual(program.MemoryLimit, memorylimit);
+            string expected;
 
-            timelimit = -1;
+            //compile with incorrect language parameter
             try
             {
-                program = FunctionContainer.CreateProgram(source, memorylimit, timelimit);
-                Assert.AreEqual(true, false);
-            }
-            catch (Exception)
-            {
-                Assert.AreEqual(true,true);
-            }
-
-            timelimit = 1;
-            memorylimit = -1;
-            try
-            {
-                program = FunctionContainer.CreateProgram(source, memorylimit, timelimit);
-                Assert.AreEqual(true, false);
-            }
-            catch (Exception)
-            {
-                Assert.AreEqual(true, true);
-            }
-        }
-
-        #endregion
-
-        //Memory Counter Tests
-        #region MemoryCounter tests
-
-        /// <summary>
-        ///A test for MemoryCounter Constructor
-        ///</summary>
-        [TestMethod]
-        public void MemoryCounterConstructorTest1()
-        {
-            Process process = new Process();
-            int interval = 10000;
-
-            //Correct interval && correct process
-            try
-            {
-                MemoryCounter memoryCounter = new MemoryCounter(process, interval);
-                Assert.AreEqual(true, true);
-            }
-            catch (Exception)
-            {
-                Assert.AreEqual(true, false);
-            }
-        }
-
-        /// <summary>
-        ///A test for MemoryCounter Constructor
-        ///</summary>
-        [TestMethod]
-        public void MemoryCounterConstructorTest2()
-        {
-            Process process = null;
-            int interval = 10000;
-            try
-            {
-                MemoryCounter memoryCounter = new MemoryCounter(process, interval);
+                expected = _compileService.Compile(source, "IncorrectLanguageName", input, output, 100, 100);
                 Assert.AreEqual(false, true);
             }
             catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
-        }
 
-        /// <summary>
-        ///A test for MemoryCounter Constructor
-        ///</summary>
-        [TestMethod]
-        public void MemoryCounterConstructorTest3()
-        {
-            Process process = new Process();
-            int interval = 0;
             try
             {
-                MemoryCounter memoryCounter = new MemoryCounter(process, interval);
-                Assert.AreEqual(true, false);
+                expected = _compileService.Compile(source, "", input, output, 100, 100);
+                Assert.AreEqual(false, true);
             }
             catch (Exception)
             {
                 Assert.AreEqual(true, true);
             }
-        }
 
-        /// <summary>
-        ///A test for MemoryCounter Get Process
-        ///</summary>
-        [TestMethod]
-        public void MemoryCounterConstructorTest4()
-        {
-            Process process = new Process();
-            int interval = 10000;
-            MemoryCounter memoryCounter = new MemoryCounter(process,interval);
-            var currentProcess = memoryCounter.Process;
-            Assert.AreEqual(currentProcess != null,true);
-        }
-        
-        #endregion
-
-        //Program Tests
-        #region Program tests
-
-        /// <summary>
-        ///A test for InputTest
-        ///</summary>
-        [TestMethod]
-        public void InputTestTest()
-        {
-            var program = new Program();
-            string inputValue = "string1";
-
-            program.InputTest = inputValue;
-            Assert.AreEqual(program.InputTest,inputValue);
-
-            inputValue = String.Empty;
-            program.InputTest = inputValue;
-            Assert.AreEqual(program.InputTest, inputValue);
-        }
-
-        /// <summary>
-        ///A test for Language
-        ///</summary>
-        [TestMethod]
-        public void LanguageTest()
-        {
-            var program = new Program();
-            var language = Language.CSharp3;
-            program.Language = language;
-
-            Assert.AreEqual(language, program.Language);
-        }
-
-        /// <summary>
-        ///A test for MemoryLimit
-        ///</summary>
-        [TestMethod]
-        public void MemoryLimitTest()
-        {
-            var program = new Program();
-            int memoryLimit;
-            //Correct memory limit
-            memoryLimit = 100;
-            program.MemoryLimit = memoryLimit;
-            Assert.AreEqual(memoryLimit,program.MemoryLimit);
-
-            //None/minus memory limit
-            memoryLimit = 0;
-            program.MemoryLimit = memoryLimit;
-            Assert.AreEqual(memoryLimit, program.MemoryLimit);
-
-            //TODO: it must be done
-            /*
-            memoryLimit = -1;
-            program.MemoryLimit = memoryLimit;
-            Assert.AreEqual(true, program.MemoryLimit > 0);
-            //TODO: memoryLimit value must be greater than 0
-        }
-
-        /// <summary>
-        ///A test for OutputTest
-        ///</summary>
-        [TestMethod]
-        public void OutputTestTest()
-        {
-            var program = new Program();
-            string outputValue = "string1";
-
-            program.OutputTest = outputValue;
-            Assert.AreEqual(program.OutputTest, outputValue);
-
-            outputValue = String.Empty;
-            program.InputTest = outputValue;
-            Assert.AreEqual(program.InputTest, outputValue);
-        }
-
-        /// <summary>
-        ///A test for Source
-        ///</summary>
-        [TestMethod]
-        public void SourceTest()
-        {
-            var program = new Program();
-            string source = "source";
-
-            program.Source = source;
-            Assert.AreEqual(source, program.Source);
-
-            source = "";
-            program.Source = source;
-            Assert.AreEqual(source,program.Source);
-        }
-
-        /// <summary>
-        ///A test for TimeLimit
-        ///</summary>
-        [TestMethod]
-        public void TimeLimitTest()
-        {
-            var program = new Program();
-            int timelimit;
-
-            //Correct timelimit
-            timelimit = 5;
-            program.TimeLimit = timelimit;
-            Assert.AreEqual(timelimit,program.TimeLimit);
-
-            //Incorrect timelimit
-            timelimit = 0;
-            program.TimeLimit = timelimit;
-            Assert.AreEqual(timelimit, program.TimeLimit);
-
-            timelimit = -5;
-            program.TimeLimit = timelimit;
-            Assert.AreEqual(timelimit, program.TimeLimit);
-            //TODO: timelimit value must be greater than 0
-        }
-
-        #endregion
-
-        //Runner Tests
-        #region Runner tests
-
-        #region CorrectParametersTests
-
-        /// <summary>
-        ///A test for CS Execute
-        ///</summary>
-        [TestMethod]
-        public void ExecuteCSCorrectParametersTest()
-        {
-            CompilationTester tester = new CompilationTester(FunctionContainer.CreateDefaultSetting());
-            string programPath;
-            string exeString;
-            Program program = FunctionContainer.CreateProgram("", 10000, 100000);
-            Result result;
-
+            //compile with incorrect timelimit parameter
             try
             {
-                programPath = tester.GenerateFileForCompilation(CompileServiceLanguageSourceCode.CSCorrectSourceCode,
-                                                                Language.CSharp3);
-                exeString = Path.ChangeExtension(programPath, "exe");
-                program.InputTest = "2 3";
-                program.OutputTest = "23";
-                program.Language = Language.CSharp3;
-                result = Runner.Execute(exeString, program);
-                Assert.AreEqual(result.ProgramStatus, Status.Accepted);
+                expected = _compileService.Compile(source, language, input, output, -5, 100);
+                Assert.AreEqual(false, true);
             }
             catch (Exception)
             {
-                Assert.AreEqual(true, false);
+                Assert.AreEqual(true, true);
             }
-        }
 
-        /// <summary>
-        ///A test for CPP Execute
-        ///</summary>
-        [TestMethodAttribute]
-        public void ExecuteCPPCorrectParametersTest()
-        {
-            CompilationTester tester = new CompilationTester(FunctionContainer.CreateDefaultSetting());
-            string programPath;
-            string exeString;
-            Program program = FunctionContainer.CreateProgram("", 10000, 100000);
-            Result result;
-
+            //compile with incorrect memorylimit parameter
             try
             {
-                programPath = tester.GenerateFileForCompilation(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                                                Language.VC8);
-                exeString = Path.ChangeExtension(programPath, "exe");
-                program.InputTest = "2 3";
-                program.OutputTest = "23";
-                program.Language = Language.VC8;
-                result = Runner.Execute(exeString, program);
-                Assert.AreEqual(result.ProgramStatus, Status.Accepted);
+                expected = _compileService.Compile(source, language, input, output, 100, -5);
+                Assert.AreEqual(false, true);
             }
             catch (Exception)
             {
-                Assert.AreEqual(true, false);
+                Assert.AreEqual(true, true);
             }
-        }
 
-        /// <summary>
-        ///A test for Java Execute
-        ///</summary>
-        [TestMethodAttribute]
-        public void ExecuteJavaCorrectParametersTest()
-        {
-            CompilationTester tester = new CompilationTester(FunctionContainer.CreateDefaultSetting());
-            string programPath;
-            string exeString;
-            Program program = FunctionContainer.CreateProgram("", 10000, 100000);
-            Result result;
-
+            //compile with correct parameters
             try
             {
-                programPath = tester.GenerateFileForCompilation(CompileServiceLanguageSourceCode.JavaCorrectSourceCode,
-                                                Language.Java6);
-                exeString = Path.ChangeExtension(programPath, "exe");
-                program.InputTest = "2 3";
-                program.OutputTest = "23";
-                program.Language = Language.Java6;
-                result = Runner.Execute(exeString, program);
-                Assert.AreEqual(result.ProgramStatus, Status.Accepted);
-            }
-            catch (Exception)
-            {
-                Assert.AreEqual(true, false);
-            }
-        }
-
-        /// <summary>
-        ///A test for Delphi Execute
-        ///</summary>
-        [TestMethodAttribute]
-        public void ExecuteDelphiCorrectParametersTest()
-        {
-            CompilationTester tester = new CompilationTester(FunctionContainer.CreateDefaultSetting());
-            string programPath;
-            string exeString;
-            Program program = FunctionContainer.CreateProgram("", 10000, 100000);
-            Result result;
-
-            try
-            {
-                programPath = tester.GenerateFileForCompilation(CompileServiceLanguageSourceCode.DelphiCorrectSourceCode,
-                                                Language.Delphi7);
-                exeString = Path.ChangeExtension(programPath, "exe");
-                program.InputTest = "";
-                program.OutputTest = "Hello, world!";
-                program.Language = Language.Delphi7;
-                result = Runner.Execute(exeString, program);
-                Assert.AreEqual(result.ProgramStatus, Status.Accepted);
+                input = new[] { "2 5", "7 5" };
+                output = new[] { "25", "75" };
+                expected = _compileService.Compile(source, language, input, output, 1000, 1000);
+                Assert.AreEqual(expected, "Accepted");
             }
             catch (Exception)
             {
@@ -861,187 +547,5 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
         }
 
         #endregion
-
-        #region IncorrectParametersTests
-
-        /// <summary>
-        ///A test for CS Execute
-        ///</summary>
-        [TestMethod]
-        public void ExecuteCSIncorrectParametersTest()
-        {
-            CompilationTester tester = new CompilationTester(FunctionContainer.CreateDefaultSetting());
-            string programPath;
-            string exeString;
-            Program program = FunctionContainer.CreateProgram("", 10000, 100000);
-            Result result;
-
-            try
-            {
-                programPath = tester.GenerateFileForCompilation(CompileServiceLanguageSourceCode.CSCorrectSourceCode,
-                                                                Language.CSharp3);
-                exeString = Path.ChangeExtension(programPath, "exe");
-                program.InputTest = "2";
-                program.OutputTest = "23";
-                program.Language = Language.CSharp3;
-                result = Runner.Execute(exeString, program);
-                Assert.AreNotEqual(result.ProgramStatus, Status.Accepted);
-            }
-            catch (Exception)
-            {
-                Assert.AreEqual(true, false);
-            }
-        }
-
-        /// <summary>
-        ///A test for CPP Execute
-        ///</summary>
-        [TestMethod]
-        public void ExecuteCPPIncorrectParametersTest()
-        {
-            CompilationTester tester = new CompilationTester(FunctionContainer.CreateDefaultSetting());
-            string programPath;
-            string exeString;
-            Program program = FunctionContainer.CreateProgram("", 10000, 100000);
-            Result result;
-
-            try
-            {
-                programPath = tester.GenerateFileForCompilation(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                                                Language.VC8);
-                exeString = Path.ChangeExtension(programPath, "exe");
-                program.InputTest = "2";
-                program.OutputTest = "23";
-                program.Language = Language.VC8;
-                result = Runner.Execute(exeString, program);
-                Assert.AreNotEqual(result.ProgramStatus, Status.Accepted);
-            }
-            catch (Exception)
-            {
-                Assert.AreEqual(true, false);
-            }
-        }
-        
-        /// <summary>
-        ///A test for Java Execute
-        ///</summary>
-        [TestMethod]
-        public void ExecuteJavaIncorrectParametersTest()
-        {
-            CompilationTester tester = new CompilationTester(FunctionContainer.CreateDefaultSetting());
-            string programPath;
-            string exeString;
-            Program program = FunctionContainer.CreateProgram("", 10000, 100000);
-            Result result;
-
-            try
-            {
-                programPath = tester.GenerateFileForCompilation(CompileServiceLanguageSourceCode.JavaCorrectSourceCode,
-                                                Language.Java6);
-                exeString = Path.ChangeExtension(programPath, "exe");
-                program.InputTest = "2";
-                program.OutputTest = "23";
-                program.Language = Language.Java6;
-                result = Runner.Execute(exeString, program);
-                Assert.AreNotEqual(result.ProgramStatus, Status.Accepted);
-            }
-            catch (Exception)
-            {
-                Assert.AreEqual(true, false);
-            }
-        }
-
-        /// <summary>
-        ///A test for Delphi Execute
-        ///</summary>
-        [TestMethod]
-        public void ExecuteDelphiIncorrectParametersTest()
-        {
-            CompilationTester tester = new CompilationTester(FunctionContainer.CreateDefaultSetting());
-            string programPath;
-            string exeString;
-            Program program = FunctionContainer.CreateProgram("", 10000, 100000);
-            Result result;
-
-            try
-            {
-                programPath = tester.GenerateFileForCompilation(CompileServiceLanguageSourceCode.DelphiCorrectSourceCode,
-                                                Language.Delphi7);
-                exeString = Path.ChangeExtension(programPath, "exe");
-                program.InputTest = "";
-                program.OutputTest = " world!";
-                program.Language = Language.Delphi7;
-                result = Runner.Execute(exeString, program);
-                Assert.AreNotEqual(result.ProgramStatus, Status.Accepted);
-            }
-            catch (Exception)
-            {
-                Assert.AreEqual(true, false);
-            }
-        }
-
-        #endregion
-
-        /// <summary>
-        ///A test for Execute
-        ///</summary>
-        [TestMethodAttribute]
-        public void ExecuteIncorrectMemoryTest()
-        {
-            CompilationTester tester = new CompilationTester(FunctionContainer.CreateDefaultSetting());
-            string programPath;
-            string exeString;
-            Program program = FunctionContainer.CreateProgram("", 0, 100000);
-            program.InputTest = "2 3";
-            program.OutputTest = "23";
-            Result result;
-
-            try
-            {
-                //-----------CS-----------
-                programPath = tester.GenerateFileForCompilation(CompileServiceLanguageSourceCode.CSCorrectSourceCode,
-                                                                Language.CSharp3);
-                exeString = Path.ChangeExtension(programPath, "exe");
-                program.Language = Language.CSharp3;
-                result = Runner.Execute(exeString, program);
-                Assert.AreEqual(result.ProgramStatus, Status.MemoryLimit);
-
-                //-----------CPP-----------
-                programPath = tester.GenerateFileForCompilation(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                                                Language.VC8);
-                exeString = Path.ChangeExtension(programPath, "exe");
-                program.Language = Language.VC8;
-
-                result = Runner.Execute(exeString, program);
-                Assert.AreEqual(result.ProgramStatus, Status.MemoryLimit);
-
-                //-----------Java-----------
-                programPath = tester.GenerateFileForCompilation(CompileServiceLanguageSourceCode.JavaCorrectSourceCode,
-                                                Language.Java6);
-                exeString = Path.ChangeExtension(programPath, "exe");
-                program.Language = Language.Java6;
-
-                result = Runner.Execute(exeString, program);
-                Assert.AreEqual(result.ProgramStatus, Status.MemoryLimit);
-
-                //-----------Delphi-----------
-                programPath = tester.GenerateFileForCompilation(CompileServiceLanguageSourceCode.DelphiCorrectSourceCode,
-                                                Language.Delphi7);
-                exeString = Path.ChangeExtension(programPath, "exe");
-                program.InputTest = "";
-                program.OutputTest = "Hello, world!";
-                program.Language = Language.Delphi7;
-                result = Runner.Execute(exeString, program);
-                Assert.AreEqual(result.ProgramStatus, Status.MemoryLimit);
-            }
-            catch (Exception)
-            {
-                Assert.AreEqual(true, false);
-            }
-        }
-
-        #endregion
-
-        */
     }
 }
