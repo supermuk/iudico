@@ -4,8 +4,8 @@ using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
 using System.ComponentModel;
-using CompileSystem.Compilation_Part;
-using CompileSystem.Testing_Part;
+using CompileSystem.Classes.Compiling;
+using CompileSystem.Classes.Testing;
 
 namespace CompileSystem
 {
@@ -36,13 +36,16 @@ namespace CompileSystem
             var compilers = new Compilers(compilerDirectory);
             compilers.Load();
             //----
-            
+
+            if (string.IsNullOrEmpty(language))
+                throw new Exception("Bad language name");
+
             source = HttpUtility.UrlDecode(source);
             Compiler currentCompiler = compilers.GetCompiler(language);
 
             if (currentCompiler == null)
                 throw new Exception("Can't find compiler with such name");
-            
+
             string compileFilePath = Classes.Helper.CreateFileForCompilation(source, currentCompiler.Extension);
 
             var compileTask = new CompileTask(currentCompiler, compileFilePath);
@@ -57,7 +60,10 @@ namespace CompileSystem
                 var currentStatus = Tester.Test(executeFilePath, input[i], output[i], timelimit, memorylimit);
 
                 if (currentStatus.TestResult != "Accepted")
-                    throw new Exception(currentStatus.TestResult + " Test: " + i);
+                {
+                    currentStatus.TestResult = currentStatus.TestResult + " Test: " + i;
+                    return currentStatus.TestResult;
+                }
             }
 
             return "Accepted";
