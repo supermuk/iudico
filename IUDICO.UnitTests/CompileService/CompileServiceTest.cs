@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Timers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
 
@@ -49,7 +48,7 @@ namespace IUDICO.UnitTests.CompileService
         private readonly string[] _emptyInput = new string[0];
         private readonly string[] _emptyOutput = new string[0];
         //----------------------------------------------
-        private const int Timelimit = 20000;
+        private const int Timelimit = 2000;//20000;
         private const int Memorylimit = 3000;
         //----------------------------------------------
         private const string AcceptedTestResult = "Accepted";
@@ -196,7 +195,7 @@ namespace IUDICO.UnitTests.CompileService
         [UrlToTest("http://localhost:1345/")]
         public void CorrectLanguageCompileTest()
         {
-            string actualResult = _compileService.Compile(CorrectCSSourceCode, CSLanguageType, _emptyInput, _emptyOutput, Timelimit, Memorylimit);
+            string actualResult = _compileService.Compile(CorrectCPPsourceCode, CPPlanguageType, _emptyInput, _emptyOutput, Timelimit, Memorylimit);
             Assert.AreEqual(AcceptedTestResult, actualResult);
         }
 
@@ -227,18 +226,41 @@ namespace IUDICO.UnitTests.CompileService
         [UrlToTest("http://localhost:1345/")]
         public void IncorrectLanguageCompileTest2()
         {
-            string languageType = "";
+            string languageType = null;
+            string actualResult;
 
-            string actualResult = _compileService.Compile(CorrectCSSourceCode, languageType, _emptyInput, _emptyOutput, Timelimit, Memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            try
+            {
+                actualResult = _compileService.Compile(CorrectCSSourceCode, languageType, _emptyInput, _emptyOutput, Timelimit, Memorylimit);
+                Assert.AreEqual(true, false);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, true);
+            }
 
-            languageType = "CSharp";
-            actualResult = _compileService.Compile(CorrectCSSourceCode, languageType, _emptyInput, _emptyOutput, Timelimit, Memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            languageType = "";
+            try
+            {
+                actualResult = _compileService.Compile(CorrectCSSourceCode, languageType, _emptyInput, _emptyOutput, Timelimit, Memorylimit);
+                Assert.AreEqual(false, true);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, true);
+            }
 
             languageType = "cs";
-            actualResult = _compileService.Compile(CorrectCSSourceCode, languageType, _emptyInput, _emptyOutput, Timelimit, Memorylimit);
-            Assert.AreNotEqual(AcceptedTestResult, actualResult);
+            try
+            {
+                actualResult = _compileService.Compile(CorrectCSSourceCode, languageType, _emptyInput, _emptyOutput,
+                                                       Timelimit, Memorylimit);
+                Assert.AreEqual(true, false);
+            }
+            catch (Exception)
+            {
+                Assert.AreEqual(true, true);
+            }
         }
 
         #endregion
@@ -397,7 +419,7 @@ namespace IUDICO.UnitTests.CompileService
         {
             string[] input = { "2 5", "7 5" };
             string[] output = { "25", "75" };
-            
+
             int incorrectTimelimit = 0;
             string actualResult;
             try
@@ -927,7 +949,7 @@ namespace IUDICO.UnitTests.CompileService
             }
             DateTime endDate = DateTime.Now;
             TimeSpan loadTime = endDate - startDate;
-            
+
             for (int i = 0; i < testsCount; i++)
             {
                 Assert.AreEqual(resultList[i], AcceptedTestResult);
