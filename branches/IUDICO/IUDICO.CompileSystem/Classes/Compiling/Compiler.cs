@@ -20,12 +20,12 @@ namespace CompileSystem.Classes.Compiling
 
         public Compiler()
         {
-            Name = "";
-            Location = "";
-            Extension = "";
-            Arguments = "";
-            CompiledExtension = "";
-            IsNeedShortPath = false;
+            this.Name = String.Empty;
+            this.Location = String.Empty;
+            this.Extension = String.Empty;
+            this.Arguments = String.Empty;
+            this.CompiledExtension = "";
+            this.IsNeedShortPath = false;
         }
 
         public bool Compile(string sourceFilePath, out string standardOutput, out string standardError)
