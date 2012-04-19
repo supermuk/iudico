@@ -58,7 +58,7 @@ namespace CompileSystem.Classes.Testing
                 var outputResult = exeProcess.StandardOutput.ReadToEnd().Trim();
                 var outputError = exeProcess.StandardError.ReadToEnd();
 
-                //set result
+                // set result
                 if (status == null)
                 {
                     if (exeProcess.ExitCode != 0)
