@@ -66,13 +66,6 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         IList<Discipline> GetDisciplinesByGroupId(int groupId);
 
         /// <summary>
-        /// Gets disciplines which have topics owned by user.
-        /// </summary>
-        /// <param name="user">The user.</param>
-        /// <returns></returns>
-        IList<Discipline> GetDisciplinesWithTopicsOwnedByUser(User user);
-
-        /// <summary>
         /// Adds the discipline.
         /// </summary>
         /// <param name="discipline">The discipline.</param>
@@ -171,8 +164,6 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         /// <returns></returns>
         Topic GetTopic(int id);
 
-        //IEnumerable<Topic> GetTopics();
-
         /// <summary>
         /// Gets the topics.
         /// </summary>
@@ -187,7 +178,6 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         /// <returns></returns>
         IList<Topic> GetTopics(IEnumerable<int> ids);
 
-        //IList<Topic> GetTopicsByChapterId(int chapterId);
         IList<Topic> GetTopicsByDisciplineId(int disciplineId);
 
         /// <summary>

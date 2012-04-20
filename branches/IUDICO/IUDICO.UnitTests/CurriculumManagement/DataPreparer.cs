@@ -135,9 +135,9 @@ namespace IUDICO.UnitTests.CurriculumManagement
             {
                 SortOrder = 1,
                 TestCourseRef = _CourseService.GetCourse(2).Id,
-                TestTopicTypeRef = _DisciplineStorage.GetTestTopicTypes().First(item => Converter.ToTopicType(item) == TopicTypeEnum.Test).Id,
+                TestTopicTypeRef = _DisciplineStorage.GetTestTopicTypes().First(item => item.ToTopicTypeEnum() == TopicTypeEnum.Test).Id,
                 TheoryCourseRef = _CourseService.GetCourse(1).Id,
-                TheoryTopicTypeRef = _DisciplineStorage.GetTheoryTopicTypes().First(item => Converter.ToTopicType(item) == TopicTypeEnum.Theory).Id,
+                TheoryTopicTypeRef = _DisciplineStorage.GetTheoryTopicTypes().First(item => item.ToTopicTypeEnum() == TopicTypeEnum.Theory).Id,
                 Name = string.Format("TopicA{0}", i),
                 ChapterRef = i
             })
@@ -146,7 +146,7 @@ namespace IUDICO.UnitTests.CurriculumManagement
             {
                 SortOrder = 2,
                 TestCourseRef = -1,
-                TestTopicTypeRef = _DisciplineStorage.GetTestTopicTypes().First(item => Converter.ToTopicType(item) == TopicTypeEnum.TestWithoutCourse).Id,
+                TestTopicTypeRef = _DisciplineStorage.GetTestTopicTypes().First(item => item.ToTopicTypeEnum() == TopicTypeEnum.TestWithoutCourse).Id,
                 TheoryCourseRef = null,
                 TheoryTopicTypeRef = null,
                 Name = string.Format("TopicB{0}", i),
@@ -159,7 +159,7 @@ namespace IUDICO.UnitTests.CurriculumManagement
                 TestCourseRef = null,
                 TestTopicTypeRef = null,
                 TheoryCourseRef = _CourseService.GetCourse(2).Id,
-                TheoryTopicTypeRef = _DisciplineStorage.GetTheoryTopicTypes().First(item => Converter.ToTopicType(item) == TopicTypeEnum.Theory).Id,
+                TheoryTopicTypeRef = _DisciplineStorage.GetTheoryTopicTypes().First(item => item.ToTopicTypeEnum() == TopicTypeEnum.Theory).Id,
                 Name = string.Format("TopicC{0}", i),
                 ChapterRef = i,
             })

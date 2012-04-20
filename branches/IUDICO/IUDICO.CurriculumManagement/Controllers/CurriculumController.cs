@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
 using IUDICO.CurriculumManagement.Models.Storage;
-using IUDICO.CurriculumManagement.Controllers;
 using IUDICO.CurriculumManagement.Models;
 using IUDICO.CurriculumManagement.Models.ViewDataClasses;
 using IUDICO.Common.Models.Attributes;
@@ -45,9 +42,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Create()
         {
-            var groups = Storage.GetGroups();
-            var disciplines = Storage.GetDisciplines(Storage.GetCurrentUser());
-            var model = new CreateCurriculumModel(groups, 0, disciplines, 0, null, null);
+            var model = new Curriculum().ToCreateCurriculumModel(Storage, true);
 
             return View(model);
         }
@@ -56,13 +51,8 @@ namespace IUDICO.CurriculumManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Create(CreateCurriculumModel model)
         {
-            var curriculum = new Curriculum()
-            {
-                UserGroupRef = model.GroupId,
-                DisciplineRef = model.DisciplineId,
-                StartDate = model.SetDate ? model.StartDate : (DateTime?)null,
-                EndDate = model.SetDate ? model.EndDate : (DateTime?)null
-            };
+            var curriculum = new Curriculum();
+            curriculum.UpdateFromModel(model);
 
             AddValidationErrorsToModelState(Validator.ValidateCurriculum(curriculum).Errors);
 
@@ -71,7 +61,8 @@ namespace IUDICO.CurriculumManagement.Controllers
                 Storage.AddCurriculum(curriculum);
                 return RedirectToAction("Index");
             }
-            return RedirectToAction("Create");
+            model = curriculum.ToCreateCurriculumModel(Storage, true);
+            return View(model);
         }
 
         [HttpGet]
@@ -79,13 +70,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         public ActionResult Edit(int curriculumId)
         {
             var curriculum = Storage.GetCurriculum(curriculumId);
-            //var discipline = Storage.GetDiscipline(disciplineId);
-            var groupId = curriculum.UserGroupRef;
-            //var groups = Storage.GetNotAssignedGroupsWithCurrentGroup(disciplineId, groupId);
-
-            var groups = Storage.GetGroups();
-            //var disciplines = Storage.GetDisciplines(Storage.GetCurrentUser());
-            var model = new EditCurriculumModel(groups, groupId, curriculum.StartDate, curriculum.EndDate);
+            var model = curriculum.ToCreateCurriculumModel(Storage, false);
 
             ViewData["DisciplineName"] = Storage.GetDiscipline(curriculum.DisciplineRef).Name;
             return View(model);
@@ -93,22 +78,21 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Edit(int curriculumId, EditCurriculumModel model)
+        public ActionResult Edit(int curriculumId, CreateCurriculumModel model)
         {
             var curriculum = Storage.GetCurriculum(curriculumId);
-            var oldGroup = curriculum.UserGroupRef;
-            curriculum.UserGroupRef = model.GroupId;
-            curriculum.StartDate = model.SetDate ? model.StartDate : (DateTime?)null;
-            curriculum.EndDate = model.SetDate ? model.EndDate : (DateTime?)null;
+            curriculum.UpdateFromModel(model);
+            curriculum.DisciplineRef = curriculum.DisciplineRef;
 
-            AddValidationErrorsToModelState(Validator.ValidateCurriculum(curriculum, oldGroup).Errors);
+            AddValidationErrorsToModelState(Validator.ValidateCurriculum(curriculum).Errors);
 
             if (ModelState.IsValid)
             {
                 Storage.UpdateCurriculum(curriculum);
                 return RedirectToRoute("Curriculums", new { action = "Index" });
             }
-            return RedirectToAction("Edit");
+            model = curriculum.ToCreateCurriculumModel(Storage, false);
+            return View(model);
         }
 
         [HttpPost]

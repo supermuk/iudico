@@ -24,20 +24,6 @@
               }
             });
 
-            $("#dialog").dialog({
-                autoOpen: false,
-                modal: true,
-                width: 450,
-                buttons: {
-                    "Share": function () {
-                        $("#dialog").find("form").submit();
-                    },
-                    "Close": function () {
-                        $(this).dialog("close");
-                    }
-                }
-            });
-
             $('#disciplines').dataTable({
                 "bJQueryUI": true,
                 "sPaginationType": "full_numbers",

@@ -30,7 +30,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         #region External methods
 
-        private IList<User> GetUsersAvailableForSharing()
+        private IEnumerable<User> GetUsersAvailableForSharing()
         {
             var currentUser = GetCurrentUser();
             return _lmsService.FindService<IUserService>()
@@ -39,7 +39,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
                 .ToList();
         }
 
-        private IList<User> GetUsers(List<Guid> ids)
+        private IEnumerable<User> GetUsers(List<Guid> ids)
         {
             return _lmsService.FindService<IUserService>().GetUsers(item => ids.Contains(item.Id)).ToList();
         }
@@ -126,20 +126,6 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return GetCurriculums(c => c.UserGroupRef == groupId).Select(item => GetDiscipline(item.DisciplineRef)).ToList();
         }
 
-        //TODO:what the fuckin method?
-        public IList<Discipline> GetDisciplinesWithTopicsOwnedByUser(User user)
-        {
-            //IEnumerable<int> courseIds = GetCoursesOwnedByUser(user)
-            //    .Select(item => item.Id)
-            //    .ToList();
-            //return GetDisciplines(user) //?
-            //    .Where(item => GetTopicsByDisciplineId(item.Id)
-            //                 .Any(topic => courseIds.Contains(topic.CourseRef ?? Constants.NoCourseId)))
-            //                 .ToList();
-
-            return null;
-        }
-
         public int AddDiscipline(Discipline discipline)
         {
             var db = GetDbContext();
@@ -169,8 +155,6 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
             updatingDiscipline.Name = discipline.Name;
             updatingDiscipline.Updated = DateTime.Now;
-
-            db.SubmitChanges();
 
             var data = new object[2];
             data[0] = oldDiscipline;
@@ -498,14 +482,14 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         public IList<TopicType> GetTheoryTopicTypes()
         {
             return GetDbContext().TopicTypes.ToList()
-                .Where(item => Converter.ToTopicType(item) == TopicTypeEnum.Theory).ToList();
+                .Where(item => item.ToTopicTypeEnum() == TopicTypeEnum.Theory).ToList();
         }
 
         public IList<TopicType> GetTestTopicTypes()
         {
             return GetDbContext().TopicTypes.ToList()
-                .Where(item => Converter.ToTopicType(item) == TopicTypeEnum.Test ||
-                Converter.ToTopicType(item) == TopicTypeEnum.TestWithoutCourse).ToList();
+                .Where(item => item.ToTopicTypeEnum() == TopicTypeEnum.Test ||
+                item.ToTopicTypeEnum() == TopicTypeEnum.TestWithoutCourse).ToList();
         }
 
         #endregion

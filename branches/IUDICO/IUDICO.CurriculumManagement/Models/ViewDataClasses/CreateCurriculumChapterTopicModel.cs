@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
-using IUDICO.Common.Models;
-using IUDICO.Common.Models.Shared;
+﻿using IUDICO.Common.Models.Shared;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -18,31 +15,31 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
         [LocalizedDisplayName("BlockCurriculumAtTesting")]
         public bool BlockCurriculumAtTesting { get; set; }
 
-        [LocalizedDisplayName("SetTestDate")]
-        public bool SetTestDate { get; set; }
+        [LocalizedDisplayName("SetTestTimeline")]
+        public bool SetTestTimeline { get; set; }
 
-        [LocalizedDisplayName("StartDate")]
+        [LocalizedDisplayName("TestStartDate")]
         [LocalizedRequired(ErrorMessage = "StartDateRequired")]
         [UIHint("DateTimeWithPicker")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime TestStartDate { get; set; }
 
-        [LocalizedDisplayName("EndDate")]
+        [LocalizedDisplayName("TestEndDate")]
         [LocalizedRequired(ErrorMessage = "StartDateRequired")]
         [UIHint("DateTimeWithPicker")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime TestEndDate { get; set; }
 
-        [LocalizedDisplayName("SetTheoryDate")]
-        public bool SetTheoryDate { get; set; }
+        [LocalizedDisplayName("SetTheoryTimeline")]
+        public bool SetTheoryTimeline { get; set; }
 
-        [LocalizedDisplayName("StartDate")]
+        [LocalizedDisplayName("TheoryStartDate")]
         [LocalizedRequired(ErrorMessage = "StartDateRequired")]
         [UIHint("DateTimeWithPicker")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime TheoryStartDate { get; set; }
 
-        [LocalizedDisplayName("EndDate")]
+        [LocalizedDisplayName("TheoryEndDate")]
         [LocalizedRequired(ErrorMessage = "StartDateRequired")]
         [UIHint("DateTimeWithPicker")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
@@ -59,11 +56,11 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
             BlockTopicAtTesting = blockTopicAtTesting;
             BlockCurriculumAtTesting = blockCurriculumAtTesting;
 
-            SetTestDate = testStartDate.HasValue;
+            SetTestTimeline = testStartDate.HasValue;
             TestStartDate = testStartDate ?? DateTime.Now;
             TestEndDate = testEndDate ?? DateTime.Now;
 
-            SetTheoryDate = theoryStartDate.HasValue;
+            SetTheoryTimeline = theoryStartDate.HasValue;
             TheoryStartDate = theoryStartDate ?? DateTime.Now;
             TheoryEndDate = theoryEndDate ?? DateTime.Now;
         }

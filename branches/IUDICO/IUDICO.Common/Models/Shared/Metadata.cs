@@ -58,7 +58,7 @@ namespace IUDICO.Common.Models.Shared
             public int Id { get; set; }
 
             [LocalizedDisplayName("Name")]
-            [LocalizedRequired(ErrorMessage = "NameRequired")]
+            [Required(ErrorMessage = "*")]
             [StringLength(50, ErrorMessage = "Name can not be longer than 50.")]
             public string Name { get; set; }
 
@@ -97,7 +97,7 @@ namespace IUDICO.Common.Models.Shared
             public int Id { get; set; }
 
             [LocalizedDisplayName("Name")]
-            [LocalizedRequired(ErrorMessage = "NameRequired")]
+            [Required(ErrorMessage = "*")]
             [StringLength(50, ErrorMessage = "Name can not be longer than 50.")]
             public string Name { get; set; }
 
@@ -136,7 +136,7 @@ namespace IUDICO.Common.Models.Shared
             public int Id { get; set; }
 
             [LocalizedDisplayName("Name")]
-            [LocalizedRequired(ErrorMessage = "NameRequired")]
+            [Required(ErrorMessage = "*")]
             [StringLength(50, ErrorMessage = "Name can not be longer than 50.")]
             public string Name { get; set; }
 

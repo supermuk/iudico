@@ -33,7 +33,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             foreach (string error in errors)
             {
-                ModelState.AddModelError(new Guid().ToString(), error);
+                ModelState.AddModelError(string.Empty, error);//should be string.Empty!
             }
         }
     }
