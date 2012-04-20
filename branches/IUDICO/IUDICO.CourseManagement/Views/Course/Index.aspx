@@ -141,7 +141,7 @@
                }
             });
         }
-        
+
         function addCourse() {
             openDialog("Create course");
 
@@ -225,15 +225,16 @@
                         <input type="checkbox" id="CoursesCheckAll" />
                     </th>
                     <th>
-                        №
+                        <%=IUDICO.CourseManagement.Localization.getMessage("Title")%>
                     </th>
                     <th>
-                        <%=IUDICO.CourseManagement.Localization.getMessage("Name")%>
+                        <%=IUDICO.CourseManagement.Localization.getMessage("Owner")%>
                     </th>
                     <th>
-                        <%=IUDICO.CourseManagement.Localization.getMessage("Updated")%>
+                        <%=IUDICO.CourseManagement.Localization.getMessage("Last modified")%>
                     </th>
                     <th>
+                        <%=IUDICO.CourseManagement.Localization.getMessage("Actions")%>
                     </th>
                 </tr>
             </thead>

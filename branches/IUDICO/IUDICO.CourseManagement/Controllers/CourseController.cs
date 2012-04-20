@@ -59,8 +59,9 @@ namespace IUDICO.CourseManagement.Controllers
                                                       Locked = i.Locked ?? false,
                                                       Shared = i.Owner != currentUser.UserId,
                                                       OwnerName = dic.ContainsKey(i.Owner) ? dic[i.Owner] : i.Owner
+            
                                                   });
-            return View(viewCourses);
+            return View(viewCourses.OrderByDescending(i => i.Updated));
         }
 
         [Allow(Role = Role.Teacher | Role.CourseCreator)]
@@ -130,7 +131,7 @@ namespace IUDICO.CourseManagement.Controllers
             var courseUsers = _Storage.GetCourseUsers(courseId);
 
             var model =
-                allUsers.Select(
+                allUsers.Where(i => i.Roles.Contains(Role.CourseCreator) | i.Roles.Contains(Role.Teacher)).Select(
                     i =>
                     new ShareUser
                         {
@@ -171,7 +172,6 @@ namespace IUDICO.CourseManagement.Controllers
                 {
                     return Json(new { success = false });
                 }
-
                 _Storage.DeleteCourse(courseId);
 
                 return Json(new { success = true, id = courseId });

@@ -2,23 +2,25 @@
 <%@ Assembly Name="IUDICO.CourseManagement" %>
 <%@ Import Namespace="System.Web.Mvc.Ajax" %>
 <%@ Import Namespace="System.Web.Mvc.Html" %>
+<%@ Import Namespace="IUDICO.CourseManagement.Models" %>
 
 
 <tr id="course<%: Model.Id %>" class="<%: Model.Locked? "courseLocked" : Model.Shared ? "courseShared" : "courseMy"%>" course">
     <td class="courseCheck">
         <input type="checkbox" id="<%= Model.Id %>" />
     </td>
-    <td>
-    </td>
     <td class="<%: Model.Locked ? "" : "courseEditable" %>">
         <div><%: Model.Name%></div>
+    </td>
+    <td>
         <div class="course-created-label">
-            <%: Model.Shared ? IUDICO.CourseManagement.Localization.getMessage("Created by") + Model.OwnerName : IUDICO.CourseManagement.Localization.getMessage("Created by me") %>:
-            <%: String.Format("{0:d}", Model.Created)%>
+            <%: Model.Shared ? Model.OwnerName : IUDICO.CourseManagement.Localization.getMessage("me") %>
         </div>
     </td>
     <td>
-        <%: String.Format("{0:g}", Model.Updated)%>
+        <div>
+            <%: DateFormatConverter.DataConvert(Model.Updated) %>
+        </div>
     </td>
     <td>
         <a href="#" onclick="editCourse(<%: Model.Id %>)">Edit</a>
