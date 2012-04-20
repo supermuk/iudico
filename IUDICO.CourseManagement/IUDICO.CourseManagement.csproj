@@ -101,6 +101,7 @@
     <Compile Include="CourseManagementPlugin.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Localization.cs" />
+    <Compile Include="Models\DateFormatConverter.cs" />
     <Compile Include="Models\DBDataContext.cs" />
     <Compile Include="Models\IDataContext.cs" />
     <Compile Include="Models\ManifestModels\ManifestManager.cs" />
@@ -153,9 +154,9 @@
     <Compile Include="Models\ManifestModels\SequencingModels\SequencingCollection.cs" />
     <Compile Include="Models\ManifestModels\SequencingPatternManager.cs" />
     <Compile Include="Models\ResourceType.cs" />
-    <Compile Include="Models\Storage\CachedMixedCourseStorage.cs" />
+    <Compile Include="Models\CachedMixedCourseStorage.cs" />
     <Compile Include="Models\Storage\ICourseStorage.cs" />
-    <Compile Include="Models\Storage\MixedCourseStorage.cs" />
+    <Compile Include="Models\MixedCourseStorage.cs" />
     <Compile Include="Models\ViewCourseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
