@@ -106,7 +106,7 @@
                             }
                         },
                         setup: function (objectNode, embedNode, paramMap) {
-                            this.setValue(paramMap['compileUrl']);
+                            this.setValue(compileServiceString);
                         }
                     },
                     {
