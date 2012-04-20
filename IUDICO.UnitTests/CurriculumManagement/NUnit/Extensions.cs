@@ -73,30 +73,6 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             expected.ForEach((item, i) => AreEqual(expected[i], actual[i]));
         }
 
-        //public static void AreEqual(IList<Group> expected, IList<Group> actual)
-        //{
-        //    Assert.AreEqual(expected.Count, actual.Count);
-
-        //    foreach (Group expectedItem in expected)
-        //    {
-        //        Group actualItem = actual.SingleOrDefault(item => item.Id == expectedItem.Id);
-        //        if (actualItem != null)
-        //        {
-        //            Assert.AreEqual(expectedItem.Id, actualItem.Id);
-        //            Assert.AreEqual(expectedItem.Name, actualItem.Name);
-        //            Assert.AreEqual(expectedItem.Deleted, actualItem.Deleted);
-        //            Assert.AreEqual(expectedItem.GroupUsers, actualItem.GroupUsers);
-        //        }
-        //        else
-        //        {
-        //            Assert.Fail(
-        //                String.Format(
-        //                    "Item with id={0} doesn't exist in actual collection, but expected in expected collection",
-        //                    expectedItem.Id));
-        //        }
-        //    }
-        //}
-
         public static void AreEqual(TopicDescription expected, TopicDescription actual)
         {
             AreEqual(expected.Topic, actual.Topic);
@@ -131,22 +107,6 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 
     public static class Extensions
     {
-        /// <summary>
-        /// Gets elements specified by itemNumbers from items collection.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="items">The items.</param>
-        /// <param name="itemNumbers">The item numbers.</param>
-        /// <returns></returns>
-        public static List<T> GetSpecificItems<T>(this List<T> items, params int[] itemNumbers)
-        {
-            var result = new List<T>();
-            itemNumbers
-                .ToList()
-                .ForEach(number => result.Add(items[number]));
-            return result;
-        }
-
         public static T ToModel<T>(this ActionResult actionResult)
         {
             return (T)((ViewResult)actionResult).ViewData.Model;
@@ -154,17 +114,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 
         public static CreateTopicModel ToCreateModel(this Topic topic)
         {
-            return new CreateTopicModel
-            {
-                BindTheoryCourse = topic.TheoryCourseRef.HasValue,
-                TheoryCourseId = topic.TheoryCourseRef ?? 0,
-                TheoryTopicTypeId = topic.TheoryTopicTypeRef ?? 0,
-                BindTestCourse = topic.TestCourseRef.HasValue,
-                TestCourseId = topic.TestCourseRef ?? 0,
-                TestTopicTypeId = topic.TestTopicTypeRef ?? 0,
-                TopicName = topic.Name,
-                ChapterId = topic.ChapterRef
-            };
+            return new CreateTopicModel(new List<Course>(), topic);
         }
 
         public static CreateCurriculumModel ToCreateModel(this Curriculum curriculum)
@@ -172,7 +122,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             return new CreateCurriculumModel
             {
                 DisciplineId = curriculum.DisciplineRef,
-                SetDate = curriculum.StartDate.HasValue && curriculum.EndDate.HasValue,
+                SetTimeline = curriculum.StartDate.HasValue && curriculum.EndDate.HasValue,
                 StartDate = curriculum.StartDate ?? DateTime.Now,
                 EndDate = curriculum.EndDate ?? DateTime.Now,
                 GroupId = curriculum.UserGroupRef

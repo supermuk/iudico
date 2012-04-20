@@ -198,10 +198,6 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             //Tests GetChapters(Func<Chapter, bool>)
             AdvAssert.AreEqual(expectedItems.Where(item => item.Name == expectedItems[0].Name).ToList(),
                 _Storage.GetChapters(item => item.Name == expectedItems[0].Name));
-
-            //Tests ChapterController.Index()
-            AdvAssert.AreEqual(expectedItems.Where(item => item.DisciplineRef == expectedItems[0].DisciplineRef).ToList(),
-                controller.Index(expectedItems[0].DisciplineRef).ToModel<IList<Chapter>>());
         }
 
         [Test]
@@ -302,7 +298,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             badTopic = new Topic
             {
                 TestCourseRef = _CourseService.GetCourse(2).Id,
-                TestTopicTypeRef = _Storage.GetTestTopicTypes().First(item => Converter.ToTopicType(item) == TopicTypeEnum.TestWithoutCourse).Id,
+                TestTopicTypeRef = _Storage.GetTestTopicTypes().First(item => item.ToTopicTypeEnum() == TopicTypeEnum.TestWithoutCourse).Id,
                 TheoryCourseRef = null,
                 TheoryTopicTypeRef = null,
                 Name = "BadTopic",
@@ -317,9 +313,9 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             badTopic = new Topic
             {
                 TestCourseRef = -2,
-                TestTopicTypeRef = _Storage.GetTestTopicTypes().First(item => Converter.ToTopicType(item) == TopicTypeEnum.Test).Id,
+                TestTopicTypeRef = _Storage.GetTestTopicTypes().First(item => item.ToTopicTypeEnum() == TopicTypeEnum.Test).Id,
                 TheoryCourseRef = _CourseService.GetCourse(1).Id,
-                TheoryTopicTypeRef = _Storage.GetTheoryTopicTypes().First(item => Converter.ToTopicType(item) == TopicTypeEnum.Theory).Id,
+                TheoryTopicTypeRef = _Storage.GetTheoryTopicTypes().First(item => item.ToTopicTypeEnum() == TopicTypeEnum.Theory).Id,
                 Name = "BadTopic",
                 ChapterRef = chapterId,
             };
@@ -526,7 +522,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 TestCourseRef = null,
                 TestTopicTypeRef = null,
                 TheoryCourseRef = _CourseService.GetCourse(2).Id,
-                TheoryTopicTypeRef = _Storage.GetTheoryTopicTypes().First(item => Converter.ToTopicType(item) == TopicTypeEnum.Theory).Id,
+                TheoryTopicTypeRef = _Storage.GetTheoryTopicTypes().First(item => item.ToTopicTypeEnum() == TopicTypeEnum.Theory).Id,
                 Name = "NewTopic",
                 ChapterRef = 100,
                 IsDeleted = true

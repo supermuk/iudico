@@ -23,8 +23,8 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
         [LocalizedDisplayName("ChooseDisciplineForCurriculum")]
         public int DisciplineId { get; set; }
 
-        [LocalizedDisplayName("SetDate")]
-        public bool SetDate { get; set; }
+        [LocalizedDisplayName("SetTimeline")]
+        public bool SetTimeline { get; set; }
 
         [LocalizedDisplayName("StartDate")]
         [LocalizedRequired(ErrorMessage = "StartDateRequired")]
@@ -38,13 +38,22 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime EndDate { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this is create or edit model.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is create model; otherwise, <c>false</c>.
+        /// </value>
+        [ScaffoldColumn(false)]
+        public bool IsCreateModel { get; set; } 
+
         public CreateCurriculumModel()
         {
         }
 
         public CreateCurriculumModel(IEnumerable<Group> groups, int groupId,
             IEnumerable<Discipline> disciplines, int disciplineId,
-            DateTime? startDate, DateTime? endDate)
+            DateTime? startDate, DateTime? endDate, bool isCreateModel)
         {
             Groups = groups
                      .Select(item => new SelectListItem
@@ -62,9 +71,10 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
                          Selected = false
                      });
             DisciplineId = disciplineId;
-            SetDate = startDate.HasValue && endDate.HasValue;
+            SetTimeline = startDate.HasValue && endDate.HasValue;
             StartDate = startDate ?? DateTime.Now;
             EndDate = endDate ?? DateTime.Now;
+            IsCreateModel = isCreateModel;
         }
     }
 }

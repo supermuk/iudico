@@ -30,10 +30,7 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
     <% using (Html.BeginForm())
        {%>
     <%: Html.ValidationSummary(true, IUDICO.CurriculumManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
-    <fieldset>
-        <legend><%=IUDICO.CurriculumManagement.Localization.getMessage("Fields")%></legend>
-        <%= Html.EditorForModel() %>
-    </fieldset>
+    <% Html.RenderPartial("EditorForCurriculumChapterTopicModel", Model); %>
     <p>
         <input type="submit" value="<%=IUDICO.CurriculumManagement.Localization.getMessage("Update")%>" />
     </p>

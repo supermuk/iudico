@@ -3,6 +3,7 @@ using IUDICO.Common.Controllers;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using IUDICO.Common.Models.Shared;
+using IUDICO.Common.Models.Shared.DisciplineManagement;
 using IUDICO.DisciplineManagement.Models;
 using IUDICO.DisciplineManagement.Models.Storage;
 using IUDICO.DisciplineManagement.Models.ViewDataClasses;
@@ -35,62 +36,8 @@ namespace IUDICO.DisciplineManagement.Controllers
         {
             foreach (var error in errors)
             {
-                ModelState.AddModelError(new Guid().ToString(), error);
+                ModelState.AddModelError(string.Empty, error);//should be string.Empty!
             }
-        }
-
-        //TODO: FatTony: move to utils
-        protected ViewTopicModel ToViewTopicModel(Topic topic)
-        {
-            return new ViewTopicModel
-            {
-                Id = topic.Id,
-                ChapterId = topic.ChapterRef,
-                Created = Converter.ToString(topic.Created),
-                Updated = Converter.ToString(topic.Updated),
-                TestCourseName =
-                    topic.TestCourseRef.HasValue && topic.TestCourseRef != Constants.NoCourseId
-                        ? Storage.GetCourse(topic.TestCourseRef.Value).Name
-                        : String.Empty,
-                TestTopicType = topic.TestTopicTypeRef.HasValue
-                                    ? Converter.ToString(
-                                        Storage.GetTopicType(topic.TestTopicTypeRef.Value))
-                                    : String.Empty,
-                TheoryCourseName = topic.TheoryCourseRef.HasValue
-                                       ? Storage.GetCourse(topic.TheoryCourseRef.Value).Name
-                                       : String.Empty,
-                TheoryTopicType = topic.TheoryTopicTypeRef.HasValue
-                                      ? Converter.ToString(
-                                          Storage.GetTopicType(topic.TheoryTopicTypeRef.Value))
-                                      : String.Empty,
-                TopicName = topic.Name
-            };
-        }
-
-        protected Topic ToTopic(CreateTopicModel model)
-        {
-            return new Topic
-            {
-                ChapterRef = model.ChapterId,
-                Name = model.TopicName,
-                TestCourseRef = model.BindTestCourse ? model.TestCourseId : (int?)null,
-                TestTopicTypeRef = model.BindTestCourse ? model.TestTopicTypeId : (int?)null,
-                TheoryCourseRef = model.BindTheoryCourse ? model.TheoryCourseId : (int?)null,
-                TheoryTopicTypeRef = model.BindTheoryCourse ? model.TheoryTopicTypeId : (int?)null
-            };
-        }
-
-        protected CreateTopicModel ToCreateTopicModel(Topic topic)
-        {
-            return new CreateTopicModel(topic.Name,
-                                        topic.ChapterRef,
-                                        Storage.GetCourses(),
-                                        topic.TestCourseRef,
-                                        Storage.GetTestTopicTypes(),
-                                        topic.TestTopicTypeRef,
-                                        topic.TheoryCourseRef,
-                                        Storage.GetTheoryTopicTypes(),
-                                        topic.TheoryTopicTypeRef);
         }
     }
 }

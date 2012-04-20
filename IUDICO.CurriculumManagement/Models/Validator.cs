@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
-using IUDICO.Common.Models.Shared.DisciplineManagement;
 using IUDICO.CurriculumManagement.Models.Storage;
-using IUDICO.Common;
-using IUDICO.Common.Models.Shared.CurriculumManagement;
 
 namespace IUDICO.CurriculumManagement.Models
 {
@@ -35,7 +29,6 @@ namespace IUDICO.CurriculumManagement.Models
 
             ValidateDate(data.StartDate, data.EndDate, validationStatus);
 
-            //TODO: check topic timelines and curriculum timelines!
             return validationStatus;
         }
 
@@ -51,7 +44,10 @@ namespace IUDICO.CurriculumManagement.Models
             ValidateDate(data.TestStartDate, data.TestEndDate, validationStatus);
             ValidateDate(data.TheoryStartDate, data.TheoryEndDate, validationStatus);
 
-            //TODO: check topic timelines and curriculum timelines!
+            if (data.MaxScore <= 0)
+            {
+                validationStatus.AddLocalizedError("MaxScoreMustBeGreaterThanZero");
+            }
 
             return validationStatus;
         }
@@ -60,11 +56,18 @@ namespace IUDICO.CurriculumManagement.Models
         /// Validates the curriculum.
         /// </summary>
         /// <param name="curriculum">The curriculum.</param>
-        /// <param name="currentGroupId">The current group id.</param>
         /// <returns></returns>
-        public ValidationStatus ValidateCurriculum(Curriculum curriculum, int currentGroupId = -1)
+        public ValidationStatus ValidateCurriculum(Curriculum curriculum)
         {
             var validationStatus = new ValidationStatus();
+            var currentGroupId = -1;
+            //If update old curriculum
+            if (curriculum.Id > 0)
+            {
+                var oldCurriculum = storage.GetCurriculum(curriculum.Id);
+                currentGroupId = oldCurriculum.UserGroupRef;
+                curriculum.DisciplineRef = oldCurriculum.DisciplineRef;
+            }
 
             if (curriculum.UserGroupRef > 0 && curriculum.DisciplineRef > 0)
             {
@@ -88,7 +91,7 @@ namespace IUDICO.CurriculumManagement.Models
             return validationStatus;
         }
 
-        private void ValidateDate(DateTime? startDate, DateTime? endDate, ValidationStatus validationStatus)
+        private static void ValidateDate(DateTime? startDate, DateTime? endDate, ValidationStatus validationStatus)
         {
             DateTime minAllowedDate = Constants.MinAllowedDateTime;
             DateTime maxAllowedDate = Constants.MaxAllowedDateTime;

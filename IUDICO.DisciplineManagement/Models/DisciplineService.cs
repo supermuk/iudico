@@ -26,10 +26,10 @@ namespace IUDICO.DisciplineManagement.Models
             return _disciplineStorage.GetDiscipline(id);
         }
 
-        public IList<Discipline> GetDisciplinesWithTopicsOwnedByUser(User user)
-        {
-            return _disciplineStorage.GetDisciplinesWithTopicsOwnedByUser(user);
-        }
+        //public IList<Discipline> GetDisciplinesWithTopicsOwnedByUser(User user)
+        //{
+        //    return _disciplineStorage.GetDisciplinesWithTopicsOwnedByUser(user);
+        //}
 
         public IList<Discipline> GetDisciplines()
         {
