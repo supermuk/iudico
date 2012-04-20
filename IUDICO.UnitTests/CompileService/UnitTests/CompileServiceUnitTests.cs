@@ -18,7 +18,7 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
         [TestMethod()]
         public void StatusConstructorTest()
         {
-            const string testResult = "Acepted";
+            const string testResult = "Accepted";
             var target = new Status(testResult);
 
             Assert.AreEqual(false, testResult == null);
@@ -486,6 +486,8 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
             string language = "CPP8";
             string[] input = new string[0];
             string[] output = new string[0];
+            string[] inputStrings = new string[1]{"1 2"};
+            string[] outputStrings = new string[1]{"12"};
 
             string expected;
 
@@ -513,7 +515,7 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
             //compile with incorrect timelimit parameter
             try
             {
-                expected = _compileService.Compile(source, language, input, output, -5, 100);
+                expected = _compileService.Compile(source, language, inputStrings, outputStrings, -5, 100);
                 Assert.AreEqual(false, true);
             }
             catch (Exception)
@@ -524,7 +526,7 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
             //compile with incorrect memorylimit parameter
             try
             {
-                expected = _compileService.Compile(source, language, input, output, 100, -5);
+                expected = _compileService.Compile(source, language, inputStrings, outputStrings, 100, -5);
                 Assert.AreEqual(false, true);
             }
             catch (Exception)
