@@ -1,12 +1,16 @@
-﻿using IUDICO.Common.Models.Shared.CurriculumManagement;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.DisciplineManagement;
+using IUDICO.DisciplineManagement.Models.Storage;
+using IUDICO.DisciplineManagement.Models.ViewDataClasses;
 
 namespace IUDICO.DisciplineManagement.Models
 {
     public static class Converter
     {
-        public static TopicTypeEnum ToTopicType(Common.Models.Shared.TopicType topicType)
+        public static TopicTypeEnum ToTopicTypeEnum(this TopicType topicType)
         {
             switch (topicType.Name)
             {
@@ -17,10 +21,14 @@ namespace IUDICO.DisciplineManagement.Models
             }
         }
 
-        public static string ToString(Common.Models.Shared.TopicType topicType)
+        public static string ToString(TopicType topicType)
         {
-            TopicTypeEnum enumTopicType = ToTopicType(topicType);
-            switch (enumTopicType)
+            return ToString(ToTopicTypeEnum(topicType));
+        }
+
+        public static string ToString(TopicTypeEnum topicType)
+        {
+            switch (topicType)
             {
                 case TopicTypeEnum.Test: return Localization.getMessage("TopicType.Test");
                 case TopicTypeEnum.Theory: return Localization.getMessage("TopicType.Theory");
@@ -34,6 +42,68 @@ namespace IUDICO.DisciplineManagement.Models
             return value.HasValue ?
                 String.Format("{0:g}", value.Value) :
                 Localization.getMessage("DateNotSpecified");
+        }
+
+        public static IList<ShareUser> ToShareUsers(this IEnumerable<User> users, bool isShared)
+        {
+            return users.Select(user => new ShareUser
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Roles = user.Roles.Select(i => i.ToString()).ToArray(),
+                Shared = isShared
+            })
+            .ToList();
+        }
+
+        public static void UpdateFromModel(this Topic topic, CreateTopicModel model)
+        {
+            var testTopicType = model.TestCourseId == Constants.TestWithoutCourseId
+                                    ? TopicTypeEnum.TestWithoutCourse
+                                    : model.TestCourseId == Constants.NoCourseId
+                                          ? (TopicTypeEnum?)null
+                                          : TopicTypeEnum.Test;
+            var theoryTopicType = model.TheoryCourseId == Constants.NoCourseId
+                                      ? (TopicTypeEnum?)null
+                                      : TopicTypeEnum.Theory;
+
+            topic.ChapterRef = model.ChapterId;
+            topic.Name = model.TopicName;
+            topic.TestCourseRef = model.TestCourseId != Constants.NoCourseId && model.TestCourseId != Constants.TestWithoutCourseId
+                                      ? model.TestCourseId
+                                      : (int?)null;
+            topic.TestTopicTypeRef = (int?)testTopicType;
+            topic.TheoryCourseRef = model.TheoryCourseId != Constants.NoCourseId
+                                        ? model.TheoryCourseId
+                                        : (int?)null;
+            topic.TheoryTopicTypeRef = (int?)theoryTopicType;
+        }
+
+        public static ViewTopicModel ToViewTopicModel(this Topic topic, IDisciplineStorage storage)
+        {
+            return new ViewTopicModel
+            {
+                Id = topic.Id,
+                ChapterId = topic.ChapterRef,
+                Created = ToString(topic.Created),
+                Updated = ToString(topic.Updated),
+                TestCourseName =
+                    topic.TestCourseRef.HasValue && topic.TestCourseRef != Constants.TestWithoutCourseId
+                        ? storage.GetCourse(topic.TestCourseRef.Value).Name
+                        : String.Empty,
+                TestTopicType = topic.TestTopicTypeRef.HasValue
+                                    ? ToString(
+                                        storage.GetTopicType(topic.TestTopicTypeRef.Value))
+                                    : String.Empty,
+                TheoryCourseName = topic.TheoryCourseRef.HasValue
+                                       ? storage.GetCourse(topic.TheoryCourseRef.Value).Name
+                                       : String.Empty,
+                TheoryTopicType = topic.TheoryTopicTypeRef.HasValue
+                                      ? ToString(
+                                          storage.GetTopicType(topic.TheoryTopicTypeRef.Value))
+                                      : String.Empty,
+                TopicName = topic.Name
+            };
         }
     }
 }

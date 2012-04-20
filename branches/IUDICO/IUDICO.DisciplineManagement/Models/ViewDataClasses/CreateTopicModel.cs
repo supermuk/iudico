@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Attributes;
 using System.ComponentModel.DataAnnotations;
+using IUDICO.Common.Models.Shared.DisciplineManagement;
 
 namespace IUDICO.DisciplineManagement.Models.ViewDataClasses
 {
@@ -12,34 +13,19 @@ namespace IUDICO.DisciplineManagement.Models.ViewDataClasses
         #region Properties
 
         public List<SelectListItem> TestCourses { get; set; }
-        public List<SelectListItem> TestTopicTypes { get; set; }
         public List<SelectListItem> TheoryCourses { get; set; }
-        public List<SelectListItem> TheoryTopicTypes { get; set; }
 
         [LocalizedDisplayName("Name")]
+        [Required(ErrorMessage = "*")]
         public string TopicName { get; set; }
-
-        [LocalizedDisplayName("BindTestCourse")]
-        public bool BindTestCourse { get; set; }
 
         [DropDownList(SourceProperty = "TestCourses")]
         [LocalizedDisplayName("ChooseCourseForTestTopic")]
         public int TestCourseId { get; set; }
 
-        [DropDownList(SourceProperty = "TestTopicTypes")]
-        [LocalizedDisplayName("ChooseTopicTypeForTestTopic")]
-        public int TestTopicTypeId { get; set; }
-
-        [LocalizedDisplayName("BindTheoryCourse")]
-        public bool BindTheoryCourse { get; set; }
-
         [DropDownList(SourceProperty = "TheoryCourses")]
         [LocalizedDisplayName("ChooseCourseForTheoryTopic")]
         public int TheoryCourseId { get; set; }
-
-        [DropDownList(SourceProperty = "TheoryTopicTypes")]
-        [LocalizedDisplayName("ChooseTopicTypeForTheoryTopic")]
-        public int TheoryTopicTypeId { get; set; }
 
         [ScaffoldColumn(false)]
         public int ChapterId { get; set; }
@@ -50,9 +36,7 @@ namespace IUDICO.DisciplineManagement.Models.ViewDataClasses
         {
         }
 
-        public CreateTopicModel(string topicName, int chapterId, IEnumerable<Course> courses,
-            int? testCourseId, IEnumerable<TopicType> testTopicTypes, int? testTopicTypeId,
-            int? theoryCourseId, IEnumerable<TopicType> theoryTopicTypes, int? theoryTopicTypeId)
+        public CreateTopicModel(IList<Course> courses, Topic topic)
         {
             //Test course
             TestCourses = courses
@@ -69,18 +53,25 @@ namespace IUDICO.DisciplineManagement.Models.ViewDataClasses
                 Value = Constants.NoCourseId.ToString(),
                 Selected = false
             });
+            TestCourses.Insert(0, new SelectListItem()
+            {
+                Text = Converter.ToString(TopicTypeEnum.TestWithoutCourse),
+                Value = Constants.TestWithoutCourseId.ToString(),
+                Selected = false
+            });
 
-            TestTopicTypes = testTopicTypes
-                        .Select(item => new SelectListItem
-                        {
-                            Text = Converter.ToString(item),
-                            Value = item.Id.ToString(),
-                            Selected = false
-                        })
-                        .ToList();
-            BindTestCourse = testCourseId.HasValue;
-            TestCourseId = testCourseId ?? 0;
-            TestTopicTypeId = testTopicTypeId ?? 0;
+            switch (topic.TestTopicTypeRef)
+            {
+                case ((int) TopicTypeEnum.TestWithoutCourse):
+                    TestCourseId = Constants.TestWithoutCourseId;
+                    break;
+                case (null):
+                    TestCourseId = Constants.NoCourseId;
+                    break;
+                default:
+                    TestCourseId = topic.TestCourseRef.Value;
+                    break;
+            }
 
             //Theory course
             TheoryCourses = courses
@@ -91,21 +82,19 @@ namespace IUDICO.DisciplineManagement.Models.ViewDataClasses
                         Selected = false
                     })
                     .ToList();
+            TheoryCourses.Insert(0, new SelectListItem()
+            {
+                Text = Localization.getMessage("NoCourse"),
+                Value = Constants.NoCourseId.ToString(),
+                Selected = false
+            });
 
-            TheoryTopicTypes = theoryTopicTypes
-                        .Select(item => new SelectListItem
-                        {
-                            Text = Converter.ToString(item),
-                            Value = item.Id.ToString(),
-                            Selected = false
-                        })
-                        .ToList();
-            BindTheoryCourse = theoryCourseId.HasValue;
-            TheoryCourseId = theoryCourseId ?? 0;
-            TheoryTopicTypeId = theoryTopicTypeId ?? 0;
+            TheoryCourseId = topic.TheoryTopicTypeRef == null
+                                 ? Constants.NoCourseId
+                                 : topic.TheoryCourseRef.Value;
 
-            TopicName = topicName;
-            ChapterId = chapterId;
+            TopicName = topic.Name;
+            ChapterId = topic.ChapterRef;
         }
     }
 }

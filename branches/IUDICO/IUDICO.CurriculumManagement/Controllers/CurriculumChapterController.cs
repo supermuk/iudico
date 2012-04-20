@@ -61,8 +61,8 @@ namespace IUDICO.CurriculumManagement.Controllers
         public ActionResult Edit(int curriculumChapterId, CreateCurriculumChapterModel model)
         {
             var curriculumChapter = Storage.GetCurriculumChapter(curriculumChapterId);
-            curriculumChapter.StartDate = model.SetDate ? model.StartDate : (DateTime?)null;
-            curriculumChapter.EndDate = model.SetDate ? model.EndDate : (DateTime?)null;
+            curriculumChapter.StartDate = model.SetTimeline ? model.StartDate : (DateTime?)null;
+            curriculumChapter.EndDate = model.SetTimeline ? model.EndDate : (DateTime?)null;
 
             AddValidationErrorsToModelState(Validator.ValidateCurriculumChapter(curriculumChapter).Errors);
 
@@ -71,7 +71,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                 Storage.UpdateCurriculumChapter(curriculumChapter);
                 return RedirectToRoute("CurriculumChapters", new { action = "Index", CurriculumId = Session["CurriculumId"] });
             }
-            return RedirectToAction("Edit");
+            return View(model);
         }
     }
 }

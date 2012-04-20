@@ -9,12 +9,12 @@ namespace IUDICO.Common.Models.Services
 
         IList<Discipline> GetDisciplines(IEnumerable<int> ids);
         Discipline GetDiscipline(int id);
-        /// <summary>
-        /// Gets disciplines which have topics owned by user.
-        /// </summary>
-        /// <param name="user">The user.</param>
-        /// <returns></returns>
-        IList<Discipline> GetDisciplinesWithTopicsOwnedByUser(User user);
+        ///// <summary>
+        ///// Gets disciplines which have topics owned by user.
+        ///// </summary>
+        ///// <param name="user">The user.</param>
+        ///// <returns></returns>
+        //IList<Discipline> GetDisciplinesWithTopicsOwnedByUser(User user);
         IList<Discipline> GetDisciplines();
         /// <summary>
         /// Gets the disciplines owned by user or shared to him.

@@ -75,7 +75,6 @@
     <Compile Include="Models\Utils.cs" />
     <Compile Include="Models\ValidationStatus.cs" />
     <Compile Include="Models\Validator.cs" />
-    <Compile Include="Models\ViewDataClasses\EditCurriculumModel.cs" />
     <Compile Include="Models\ViewDataClasses\CreateCurriculumChapterTopicModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -94,7 +93,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Views\CurriculumChapterTopic\EditorForCurriculumChapterTopicModel.ascx" />
+    <Content Include="Views\CurriculumChapter\EditorForCurriculumChapterModel.ascx" />
     <Content Include="Views\Curriculum\Create.aspx" />
+    <Content Include="Views\Curriculum\EditorForCurriculumModel.ascx" />
     <Content Include="Views\Curriculum\Edit.aspx" />
     <Content Include="Views\CurriculumChapter\Edit.aspx" />
     <Content Include="Views\CurriculumChapter\Index.aspx" />

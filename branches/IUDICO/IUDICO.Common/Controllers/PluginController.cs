@@ -24,7 +24,7 @@ namespace IUDICO.Common.Controllers
             var assemblyFileName = Path.GetFileName(assembly.Location);
             var assmblyName = assembly.GetName().Name;
             var controllerName = GetType().Name;
-            
+
             if (!controllerName.EndsWith("Controller"))
             {
                 throw new ApplicationException(
@@ -65,7 +65,7 @@ namespace IUDICO.Common.Controllers
 
         protected string PartialViewAsString(string viewName, object model)
         {
-            var res =  ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
+            var res = ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
 
             if (res.View != null)
             {

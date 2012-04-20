@@ -26,7 +26,7 @@ namespace IUDICO.DisciplineManagement.Controllers
             {
                 var topics = Storage.GetTopics(item => item.ChapterRef == parentId);
 
-                var partialViews = topics.Select(topic => PartialViewAsString("TopicRow", ToViewTopicModel(topic))).ToArray();
+                var partialViews = topics.Select(topic => PartialViewAsString("TopicRow", topic.ToViewTopicModel(Storage))).ToArray();
 
                 return Json(new { success = true, items = partialViews });
             }
@@ -36,49 +36,45 @@ namespace IUDICO.DisciplineManagement.Controllers
             }
         }
 
-        [Allow(Role = Role.Teacher)]
-        public ActionResult Index(int chapterId)
-        {
-            var topics = Storage.GetTopics(item => item.ChapterRef == chapterId);
-            var chapter = Storage.GetChapter(chapterId);
-            var discipline = Storage.GetDiscipline(chapter.DisciplineRef);
+        //[Allow(Role = Role.Teacher)]
+        //public ActionResult Index(int chapterId)
+        //{
+        //    var topics = Storage.GetTopics(item => item.ChapterRef == chapterId);
+        //    var chapter = Storage.GetChapter(chapterId);
+        //    var discipline = Storage.GetDiscipline(chapter.DisciplineRef);
 
-            ViewData["DisciplineName"] = discipline.Name;
-            ViewData["ChapterName"] = chapter.Name;
-            ViewData["DisciplineId"] = chapter.DisciplineRef;
-            return View(
-                topics.Select(item => new ViewTopicModel
-                {
-                    Id = item.Id,
-                    Created = Converter.ToString(item.Created),
-                    Updated = Converter.ToString(item.Updated),
-                    TestCourseName = item.TestCourseRef.HasValue && item.TestCourseRef != Constants.NoCourseId ?
-                        Storage.GetCourse(item.TestCourseRef.Value).Name :
-                        String.Empty,
-                    TestTopicType = item.TestTopicTypeRef.HasValue ?
-                        Converter.ToString(Storage.GetTopicType(item.TestTopicTypeRef.Value)) :
-                        String.Empty,
-                    TheoryCourseName = item.TheoryCourseRef.HasValue ?
-                        Storage.GetCourse(item.TheoryCourseRef.Value).Name :
-                        String.Empty,
-                    TheoryTopicType = item.TheoryTopicTypeRef.HasValue ?
-                        Converter.ToString(Storage.GetTopicType(item.TheoryTopicTypeRef.Value)) :
-                        String.Empty,
-                    TopicName = item.Name
-                })
-            );
-        }
+        //    ViewData["DisciplineName"] = discipline.Name;
+        //    ViewData["ChapterName"] = chapter.Name;
+        //    ViewData["DisciplineId"] = chapter.DisciplineRef;
+        //    return View(
+        //        topics.Select(item => new ViewTopicModel
+        //        {
+        //            Id = item.Id,
+        //            Created = Converter.ToString(item.Created),
+        //            Updated = Converter.ToString(item.Updated),
+        //            TestCourseName = item.TestCourseRef.HasValue && item.TestCourseRef != Constants.NoCourseId ?
+        //                Storage.GetCourse(item.TestCourseRef.Value).Name :
+        //                String.Empty,
+        //            TestTopicType = item.TestTopicTypeRef.HasValue ?
+        //                Converter.ToString(Storage.GetTopicType(item.TestTopicTypeRef.Value)) :
+        //                String.Empty,
+        //            TheoryCourseName = item.TheoryCourseRef.HasValue ?
+        //                Storage.GetCourse(item.TheoryCourseRef.Value).Name :
+        //                String.Empty,
+        //            TheoryTopicType = item.TheoryTopicTypeRef.HasValue ?
+        //                Converter.ToString(Storage.GetTopicType(item.TheoryTopicTypeRef.Value)) :
+        //                String.Empty,
+        //            TopicName = item.Name
+        //        })
+        //    );
+        //}
 
 
         [HttpGet]
         [Allow(Role = Role.Teacher)]
         public ActionResult Create(int chapterId)
         {
-            var chapter = Storage.GetChapter(chapterId);
-            var model = ToCreateTopicModel(new Topic());
-
-            ViewData["DisciplineName"] = chapter.Discipline.Name;
-            ViewData["ChapterName"] = chapter.Name;
+            var model = new CreateTopicModel(Storage.GetCourses(), new Topic());
 
             return PartialView("Create", model);
         }
@@ -89,20 +85,18 @@ namespace IUDICO.DisciplineManagement.Controllers
         {
             try
             {
-                var topic = ToTopic(model);
+                var topic = new Topic();
+                topic.UpdateFromModel(model);
 
                 AddValidationErrorsToModelState(Validator.ValidateTopic(topic).Errors);
-
                 if (ModelState.IsValid)
                 {
                     Storage.AddTopic(topic);
-
-                    var viewTopic = ToViewTopicModel(topic);
-
+                    var viewTopic = topic.ToViewTopicModel(Storage);
                     return Json(new { success = true, chapterId = model.ChapterId, topicRow = PartialViewAsString("TopicRow", viewTopic) });
                 }
 
-                var m = ToCreateTopicModel(topic);
+                var m = new CreateTopicModel(Storage.GetCourses(), topic);
                 return Json(new { success = false, chapterId = model.ChapterId, html = PartialViewAsString("Create", m) });
             }
             catch (Exception ex)
@@ -116,13 +110,8 @@ namespace IUDICO.DisciplineManagement.Controllers
         public ActionResult Edit(int topicId)
         {
             var topic = Storage.GetTopic(topicId);
-            var model = new CreateTopicModel(topic.Name, topic.ChapterRef, Storage.GetCourses(),
-                topic.TestCourseRef, Storage.GetTestTopicTypes(), topic.TestTopicTypeRef,
-                topic.TheoryCourseRef, Storage.GetTheoryTopicTypes(), topic.TheoryTopicTypeRef);
+            var model = new CreateTopicModel(Storage.GetCourses(), topic);
 
-            ViewData["DisciplineName"] = topic.Chapter.Discipline.Name;
-            ViewData["ChapterName"] = topic.Chapter.Name;
-            ViewData["TopicName"] = topic.Name;
             return PartialView("Edit", model);
         }
 
@@ -133,26 +122,22 @@ namespace IUDICO.DisciplineManagement.Controllers
             try
             {
                 var topic = Storage.GetTopic(topicId);
-                topic.Name = model.TopicName;
-                topic.TestCourseRef = model.BindTestCourse ? model.TestCourseId : (int?)null;
-                topic.TestTopicTypeRef = model.BindTestCourse ? model.TestTopicTypeId : (int?)null;
-                topic.TheoryCourseRef = model.BindTheoryCourse ? model.TheoryCourseId : (int?)null;
-                topic.TheoryTopicTypeRef = model.BindTheoryCourse ? model.TheoryTopicTypeId : (int?)null;
+                topic.UpdateFromModel(model);
 
                 AddValidationErrorsToModelState(Validator.ValidateTopic(topic).Errors);
-
                 if (ModelState.IsValid)
                 {
                     Storage.UpdateTopic(topic);
-                    var viewTopic = ToViewTopicModel(topic);
+                    var viewTopic = topic.ToViewTopicModel(Storage);
                     return Json(new { success = true, topicId = topicId, topicRow = PartialViewAsString("TopicRow", viewTopic) });
                 }
 
-                return Json(new { success = false, topicId = topicId, html = PartialView("Edit", model) });
+                var m = new CreateTopicModel(Storage.GetCourses(), topic);
+                return Json(new { success = false, topicId = topicId, html = PartialViewAsString("Edit", m) });
             }
             catch (Exception ex)
             {
-                return Json(new {success = false, html = ex.Message});
+                return Json(new { success = false, html = ex.Message });
             }
         }
 
@@ -191,12 +176,12 @@ namespace IUDICO.DisciplineManagement.Controllers
         {
             try
             {
-                var topic = Storage.TopicUp(topicId);
-                return Json(new {success = true});
+                Storage.TopicUp(topicId);
+                return Json(new { success = true });
             }
             catch (Exception ex)
             {
-                return Json(new {success = false, message = ex.Message});
+                return Json(new { success = false, message = ex.Message });
             }
         }
 
@@ -205,15 +190,13 @@ namespace IUDICO.DisciplineManagement.Controllers
         {
             try
             {
-                var topic = Storage.TopicDown(topicId);
+                Storage.TopicDown(topicId);
                 return Json(new { success = true });
             }
             catch (Exception ex)
             {
-                return Json(new {success = false, message = ex.Message});
+                return Json(new { success = false, message = ex.Message });
             }
         }
-
-
     }
 }

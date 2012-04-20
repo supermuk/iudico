@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" 
-Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataClasses.EditCurriculumModel>" %>
+Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataClasses.CreateCurriculumModel>" %>
 
 <%@  Assembly Name="IUDICO.CurriculumManagement" %>
 
@@ -16,11 +16,7 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
 
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary(true, IUDICO.CurriculumManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
-
-        <fieldset>
-            <legend><%=IUDICO.CurriculumManagement.Localization.getMessage("Fields")%></legend>
-            <%= Html.EditorForModel() %>
-        </fieldset>
+        <% Html.RenderPartial("EditorForCurriculumModel", Model); %>
         <p>
             <input type="submit" value="<%=IUDICO.CurriculumManagement.Localization.getMessage("Update") %>" />
         </p>

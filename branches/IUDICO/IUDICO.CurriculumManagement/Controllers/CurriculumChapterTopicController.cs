@@ -79,10 +79,10 @@ namespace IUDICO.CurriculumManagement.Controllers
             curriculumChapterTopic.MaxScore = model.MaxScore;
             curriculumChapterTopic.BlockCurriculumAtTesting = model.BlockCurriculumAtTesting;
             curriculumChapterTopic.BlockTopicAtTesting = model.BlockTopicAtTesting;
-            curriculumChapterTopic.TestStartDate = model.SetTestDate ? model.TestStartDate : (DateTime?)null;
-            curriculumChapterTopic.TestEndDate = model.SetTestDate ? model.TestEndDate : (DateTime?)null;
-            curriculumChapterTopic.TheoryStartDate = model.SetTheoryDate ? model.TheoryStartDate : (DateTime?)null;
-            curriculumChapterTopic.TheoryEndDate = model.SetTheoryDate ? model.TheoryEndDate : (DateTime?)null;
+            curriculumChapterTopic.TestStartDate = model.SetTestTimeline ? model.TestStartDate : (DateTime?)null;
+            curriculumChapterTopic.TestEndDate = model.SetTestTimeline ? model.TestEndDate : (DateTime?)null;
+            curriculumChapterTopic.TheoryStartDate = model.SetTheoryTimeline ? model.TheoryStartDate : (DateTime?)null;
+            curriculumChapterTopic.TheoryEndDate = model.SetTheoryTimeline ? model.TheoryEndDate : (DateTime?)null;
 
             AddValidationErrorsToModelState(Validator.ValidateCurriculumChapterTopic(curriculumChapterTopic).Errors);
 
@@ -91,7 +91,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                 Storage.UpdateCurriculumChapterTopic(curriculumChapterTopic);
                 return RedirectToRoute("CurriculumChapterTopics", new { action = "Index", CurriculumChapterId = Session["CurriculumChapterId"] });
             }
-            return RedirectToAction("Edit");
+            return View(model);
         }
     }
 }

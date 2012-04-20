@@ -11,8 +11,8 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
 {
     public class CreateCurriculumChapterModel
     {
-        [LocalizedDisplayName("SetDate")]
-        public bool SetDate { get; set; }
+        [LocalizedDisplayName("SetTimeline")]
+        public bool SetTimeline { get; set; }
 
         [LocalizedDisplayName("StartDate")]
         [LocalizedRequired(ErrorMessage = "StartDateRequired")]
@@ -32,7 +32,7 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
 
         public CreateCurriculumChapterModel(DateTime? startDate, DateTime? endDate)
         {
-            SetDate = startDate.HasValue;
+            SetTimeline = startDate.HasValue;
             StartDate = startDate ?? DateTime.Now;
             EndDate = endDate ?? DateTime.Now;
         }

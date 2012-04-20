@@ -480,6 +480,16 @@ select option.added
     padding-left: 80px;
 }
 
+/* CURRICULUMS
+----------------------------------------------------------*/
+
+.curriculumChapterTopic_timeline1, .curriculumChapterTopic_timeline2, .curriculumChapterTopic_blocking {
+    border: grey dotted 1px;
+    width: 205px;
+    padding: 5px;
+    margin-top: 5px;
+}
+
 /* SHAREUSERS
 ----------------------------------------------------------*/
 .checkboxColumn {
