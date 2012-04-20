@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -197,16 +198,14 @@ namespace IUDICO.CourseManagement.Controllers
         [HttpPost]
         public JsonResult Preview(int id)
         {
-            try
-            {
-                var path = Path.Combine(HttpContext.Request.ApplicationPath, _Storage.GetPreviewNodePath(id)).Replace('\\', '/');
+            var path = Path.Combine(HttpContext.Request.ApplicationPath, _Storage.GetPreviewNodePath(id)).Replace('\\', '/');
 
-                return Json(new { status = true, path = path });
-            }
-            catch (Exception)
+            if (_Storage.GetNode(id).IsFolder)
             {
-                return Json(new { status = true, path = "" });
+                throw new Exception();
             }
+
+            return Json(new {status = true, path = path});
         }
 
         [HttpPost]
