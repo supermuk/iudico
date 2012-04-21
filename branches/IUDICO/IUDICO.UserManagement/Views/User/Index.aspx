@@ -9,28 +9,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <script language="javascript" type="text/javascript">
 
-        $(document).ready(function () {
-            $('#myDataTable').dataTable({
-                "bJQueryUI": true,
-                "sPaginationType": "full_numbers",
-                iDisplayLength: 50,
-                "bSort": true,
-                "aoColumns": [
-                null,
-                null,
-                { "bSortable": false },
-                null,
-                null,
-                null,
-                { "bSortable": false },
-                null
-                ]
-            });
-        });
-        
-    </script>
 
     <script language="javascript" type="text/javascript">
     	    $(function () {
@@ -41,17 +20,14 @@
     	        });
     	    });
 
-
     	    $(function () {
-    	        $("div li").mousedown(function () {
-//    	            alert('mouse down');
-    	            $(this).addClass('mouselol');
-    	        })
+    	    	$("div li").mousedown(function () {
+    	    		$(this).addClass('mouselol');
+    	    	});
     	    });
 
     	    $(function () {
     	        $(this).mouseup(function () {
-//    	            alert('mouse up');
     	            $(this).removeClass('mouselol');
     	            $(this).addClass('mouseolol');
     	        });
@@ -151,6 +127,79 @@
         	});
         }
 
+	</script>
+	
+	<script language="javascript" type="text/javascript">
+
+	    	$(document).ready(function () {
+	    		$('#myDataTable').dataTable({
+	    			"bJQueryUI": true,
+	    			"sPaginationType": "full_numbers",
+	    			iDisplayLength: 50,
+	    			"bSort": true,
+	    			"aoColumns": [
+                null,
+                null,
+                { "bSortable": false },
+                null,
+                null,
+                null,
+                { "bSortable": false },
+                null
+                ],
+	    			"fnDrawCallback": function () {
+	    				
+	    				$(function () {
+
+	    					var src = document.getElementById('catalog').dir;
+	    					$("#catalog").accordion();
+	    					$("#catalog li").draggable({
+	    						appendTo: "body",
+	    						helper: "clone"
+	    					});
+	    					$("#cart ol").droppable({
+	    						activeClass: "ui-state-default",
+	    						hoverClass: "ui-state-hover",
+	    						accept: ":not(.ui-sortable-helper)",
+	    						drop: function (event, ui) {
+	    							$(this).find(".placeholder").remove();
+
+	    							/*checking*/
+	    							var double = false;
+
+	    							var itemmm = ui.draggable.text();
+	    							var array = $(this).find("img");
+
+	    							for (var i = 0; i < array.length; i++) {
+	    								if (array[i].className == itemmm) {
+	    									alert(itemmm + ' already exist');
+	    									double = true;
+	    									break;
+	    								}
+	    							}
+
+	    							if (!double) {
+	    								addnewrole($(this).parent().parent().parent().attr('id'), itemmm, 'AddItem', this, ui);
+	    							}
+
+	    						}
+	    					}).sortable({
+	    						items: "li:not(.placeholder)",
+	    						sort: function () {
+	    							$(this).removeClass("ui-state-default");
+	    						}
+	    					});
+
+	    					function ajaxExecuting(studentId, roleId) {
+	    						alert('Id = ' + studentId + ' role = ' + roleId);
+	    					}
+
+	    				});
+	    				
+	    			}
+	    		});
+	    	});
+        
 	</script>
 
     <div id="catalog" style="padding: 0 0px; float:right; text-align: left;" dir="<%= Html.ResolveUrl("/Content/images/status_icon_delete.png")%> ">
