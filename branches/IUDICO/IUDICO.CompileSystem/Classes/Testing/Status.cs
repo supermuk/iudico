@@ -1,4 +1,6 @@
-﻿namespace CompileSystem.Classes.Testing
+﻿using System;
+
+namespace CompileSystem.Classes.Testing
 {
     public class Status
     {
@@ -6,6 +8,9 @@
 
         public Status(string testResult)
         {
+            if(string.IsNullOrEmpty(testResult))
+                throw new Exception("Bad input string");
+
             TestResult = testResult;
         }
     }
