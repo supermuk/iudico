@@ -589,42 +589,54 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public IEnumerable<NodeResource> GetResources(int nodeId)
         {
-            return _storage.GetResources(nodeId);
+            return _cacheProvider.Get<IEnumerable<NodeResource>>("noderesources-" + nodeId, @lockObject, () => _storage.GetResources(nodeId), DateTime.Now.AddDays(1), "noderesources");
         }
 
         public NodeResource GetResource(int id)
         {
-            return _storage.GetResource(id);
+            return _cacheProvider.Get<NodeResource>("noderesource-" + id, @lockObject, () => _storage.GetResource(id), DateTime.Now.AddDays(1), "noderesource-" + id);
         }
 
         public int AddResource(NodeResource resource, HttpPostedFileBase file)
         {
-            return _storage.AddResource(resource, file);
+            var id = _storage.AddResource(resource, file);
+
+            _cacheProvider.Invalidate("noderesource-" + resource.Id, "noderesources");
+
+            return id;
         }
 
         public string GetResourcePath(int resId)
         {
-            return _storage.GetResourcePath(resId);
+            // TODO: check
+            return _cacheProvider.Get<string>("noderesourcepath-" + resId, @lockObject, () => _storage.GetResourcePath(resId), DateTime.Now.AddDays(1), "noderesource-" + resId, "nodes", "noderesources");
         }
 
         public string GetResourcePath(int nodeId, string fileName)
         {
-            return _storage.GetResourcePath(nodeId, fileName);
+            return _cacheProvider.Get<string>("noderesourcepath-" + nodeId + "-" + fileName, lockObject, () => _storage.GetResourcePath(nodeId, fileName), DateTime.Now.AddDays(1), "node-" + nodeId, "nodes", "noderesources");
         }
 
         public void UpdateResource(int id, NodeResource resource)
         {
             _storage.UpdateResource(id, resource);
+
+            _cacheProvider.Invalidate("noderesource-" + id, "noderesources");
         }
 
         public void DeleteResource(int id)
         {
             _storage.DeleteResource(id);
+
+            _cacheProvider.Invalidate("noderesource-" + id, "noderesources");
         }
 
         public void DeleteResources(List<int> ids)
         {
             _storage.DeleteResources(ids);
+
+            _cacheProvider.Invalidate(ids.Select(i => "noderesource-" + i).ToArray());
+            _cacheProvider.Invalidate("noderesources");
         }
     }
 }

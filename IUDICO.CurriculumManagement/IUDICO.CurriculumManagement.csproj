@@ -71,6 +71,7 @@
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\DBDataContext.cs" />
     <Compile Include="Models\IDataContext.cs" />
+    <Compile Include="Models\Storage\CachedCurriculumStorage.cs" />
     <Compile Include="Models\Utils.cs" />
     <Compile Include="Models\ValidationStatus.cs" />
     <Compile Include="Models\Validator.cs" />
