@@ -166,6 +166,7 @@
     <Compile Include="UserManagement\Selenium\Register.cs" />
     <Compile Include="UserManagement\Selenium\UniqueUserId.cs" />
     <Compile Include="UserManagement\Selenium\UpgradeSeleniumTester.cs" />
+    <Compile Include="UserManagement\Selenium\Users.cs" />
     <Compile Include="UserManagement\UserManagementTests.cs" />
   </ItemGroup>
   <ItemGroup>
