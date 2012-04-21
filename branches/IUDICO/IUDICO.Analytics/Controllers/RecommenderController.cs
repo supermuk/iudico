@@ -51,6 +51,7 @@ namespace IUDICO.Analytics.Controllers
         [ChildActionOnly]
         public ActionResult RecommendedTopics()
         {
+			return new EmptyResult();
             var user = LmsService.FindService<IUserService>().GetCurrentUser();
 
             if (user == null)
