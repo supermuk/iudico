@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using IUDICO.Analytics.Models.Storage;
 using IUDICO.Analytics.Models.AnomalyDetectionAlg;
+using IUDICO.Analytics.Models.DecisionTrees;
 using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
@@ -38,15 +39,16 @@ namespace IUDICO.Analytics.Controllers
         {
             var studentsAndMarks = _Storage.GetStudentListForTraining(id);
             HttpContext.Session["StudentsAndMarks"] = studentsAndMarks;
-            return View(studentsAndMarks);
+            var list = studentsAndMarks.ToList();
+            return View(list.GetRange(0, 21));
         }
 
         [Allow(Role = Role.Teacher)]
-        public ActionResult TrainAlg(string[] ts1, string[] ts2n, string[] ts2a)
+        public ActionResult TrainAlg(string[] tsNormal, string[] tsAnomalies)
         {
             var studentsAndMarks = (IEnumerable<KeyValuePair<User, double[]>>)HttpContext.Session["StudentsAndMarks"];
-
-            return View(AnomalyDetectionAlgorithm.runAlg(studentsAndMarks, ts1, ts2n, ts2a));
+            TrainingSet[] tr = TrainingSetsCreator.generateTrainingSets(studentsAndMarks, tsNormal, tsAnomalies);
+            return View(AnomalyDetectionAlgorithm.runAlg(studentsAndMarks, tr[0], tr[1], tr[2]));
         }
     }
 }
