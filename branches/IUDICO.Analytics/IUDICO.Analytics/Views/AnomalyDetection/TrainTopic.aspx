@@ -7,45 +7,19 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <script language=javascript>
-        function selectTs1(id) {
-            var ts2n = document.getElementsByName('ts2n');
-            for (var i = 0; i < ts2n.length; i++) {
-                if (ts2n.item(i).attributes.getNamedItem('value').nodeValue == id) {
-                    ts2n.item(i).checked = false;
-                }
-            }
-            var ts2a = document.getElementsByName('ts2a');
+        function selectTsNormal(id) {
+            var ts2a = document.getElementsByName('tsAnomalies');
             for (var i = 0; i < ts2a.length; i++) {
                 if (ts2a.item(i).attributes.getNamedItem('value').nodeValue == id) {
                     ts2a.item(i).checked = false;
                 }
             }
         }
-        function selectTs2n(id) {
-            var ts1 = document.getElementsByName('ts1');
+        function selectTsAnomalies(id) {
+            var ts1 = document.getElementsByName('tsNormal');
             for (var i = 0; i < ts1.length; i++) {
                 if (ts1.item(i).attributes.getNamedItem('value').nodeValue == id) {
                     ts1.item(i).checked = false;
-                }
-            }
-            var ts2a = document.getElementsByName('ts2a');
-            for (var i = 0; i < ts2a.length; i++) {
-                if (ts2a.item(i).attributes.getNamedItem('value').nodeValue == id) {
-                    ts2a.item(i).checked = false;
-                }
-            }
-        }
-        function selectTs2a(id) {
-            var ts1 = document.getElementsByName('ts1');
-            for (var i = 0; i < ts1.length; i++) {
-                if (ts1.item(i).attributes.getNamedItem('value').nodeValue == id) {
-                    ts1.item(i).checked = false;
-                }
-            }
-            var ts2n = document.getElementsByName('ts2n');
-            for (var i = 0; i < ts2n.length; i++) {
-                if (ts2n.item(i).attributes.getNamedItem('value').nodeValue == id) {
-                    ts2n.item(i).checked = false;
                 }
             }
         }
@@ -57,9 +31,8 @@
             <th>Student Name</th>
             <th>Student Score</th>
             <th>Student Time</th>
-            <th>Training set</th>
-            <th>CV set (normal)</th>
-            <th>CV set (anomalies)</th>
+            <th>Normal</th>
+            <th>Anomalies</th>
         </tr>
 
      <%
@@ -70,7 +43,7 @@
             <%:item.Key.Name %>
             </td>
             <td>
-            <%:Math.Round((double)item.Value[1], 2).ToString() %>
+            <%:Math.Round((double)item.Value[4], 2).ToString() %>
             </td>
             <td>
             <% int minutes = Convert.ToInt32(item.Value[0]) / 60;
@@ -79,13 +52,10 @@
             <%: minutes.ToString() + ':' + ((seconds < 10)?"0":"") + seconds.ToString()%>
             </td>
             <td>
-              <input type="checkbox" value="<%: item.Key.OpenId %>" name="ts1" onchange="javascript:selectTs1(<%:item.Key.OpenId %>)"/>
+              <input type="checkbox" value="<%: item.Key.OpenId %>" name="tsNormal" onchange="javascript:selectTsNormal(<%:item.Key.OpenId %>)"/>
             </td>
             <td>
-              <input type="checkbox" value="<%: item.Key.OpenId %>" name="ts2n" onchange="javascript:selectTs2n(<%:item.Key.OpenId %>)"/>
-            </td>
-            <td>
-              <input type="checkbox" value="<%: item.Key.OpenId %>" name="ts2a" onchange="javascript:selectTs2a(<%:item.Key.OpenId %>)"/>
+              <input type="checkbox" value="<%: item.Key.OpenId %>" name="tsAnomalies" onchange="javascript:selectTsAnomalies(<%:item.Key.OpenId %>)"/>
             </td>
         </tr>
      <%

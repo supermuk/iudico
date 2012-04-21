@@ -45,9 +45,9 @@ namespace IUDICO.Analytics.Models.AnomalyDetectionAlg
         private PxFormula calcFormula (TrainingSet trainingSet)
         {
             int training_set_count = trainingSet.getCountOfRecords();
-
+            int size = trainingSet.getAllRecords().First().Length;
             // calculate nu vector value
-            double[] nu = new double[2];
+            double[] nu = new double[size];
             foreach (double[] feature_vector in trainingSet.getAllRecords())
             {
                 nu = Matrix.Add(nu, feature_vector);
@@ -55,7 +55,7 @@ namespace IUDICO.Analytics.Models.AnomalyDetectionAlg
             nu = Matrix.Divide(nu,training_set_count);
 
             // calculate sigme matrix
-            double[,] sigma = new double[2,2];
+            double[,] sigma = new double[size, size];
             foreach (double[] feature_vector in trainingSet.getAllRecords())
             {
                 double[] x_nu = Matrix.Subtract(feature_vector, nu);
@@ -79,20 +79,12 @@ namespace IUDICO.Analytics.Models.AnomalyDetectionAlg
 
         // For demo
 
-        public static IEnumerable<KeyValuePair<KeyValuePair<User, double[]>, bool>> runAlg(IEnumerable<KeyValuePair<User, double[]>> studentsAndMarks, string[] ts1, string[] ts2n, string[] ts2a)
-        {
-            var trainingSet1Resource = studentsAndMarks.Where(x => ts1.Contains(x.Key.OpenId) == true);
-            var trainingSet2NormalResource = studentsAndMarks.Where(x => ts2n.Contains(x.Key.OpenId) == true);
-            var trainingSet2AnomaliesResource = studentsAndMarks.Where(x => ts2a.Contains(x.Key.OpenId) == true);
-
-            var trainingSet1 = createTrainingSetFromResources(trainingSet1Resource);
-            var trainingSet2Normal = createTrainingSetFromResources(trainingSet2NormalResource);
-            var trainingSet2Anomalies = createTrainingSetFromResources(trainingSet2AnomaliesResource);
-            
+        public static IEnumerable<KeyValuePair<KeyValuePair<User, double[]>, bool>> runAlg(IEnumerable<KeyValuePair<User, double[]>> studentsAndMarks, TrainingSet trainingSet1, TrainingSet trainingSet2Normal, TrainingSet trainingSet2Anomalies)
+        {            
             AnomalyDetectionAlgorithm train = new AnomalyDetectionAlgorithm();
             var formula = train.trainAlgorithm(trainingSet1, trainingSet2Normal, trainingSet2Anomalies);
             List<KeyValuePair<KeyValuePair<User, double[]>, bool>> res = new List<KeyValuePair<KeyValuePair<User, double[]>, bool>>();
-            foreach (KeyValuePair<User, double[]> studentAndMark in studentsAndMarks.Except(trainingSet1Resource).Except(trainingSet2NormalResource).Except(trainingSet2AnomaliesResource))
+            foreach (KeyValuePair<User, double[]> studentAndMark in studentsAndMarks)
             {
                 bool isAnomaly = formula.isAnomaly(studentAndMark.Value);
 
@@ -100,16 +92,6 @@ namespace IUDICO.Analytics.Models.AnomalyDetectionAlg
             }
 
             return res;
-        }
-
-        private static TrainingSet createTrainingSetFromResources(IEnumerable<KeyValuePair<User, double[]>> studentsAndMarks)
-        {
-            TrainingSet resultTrainingSet = new TrainingSet(2);
-            foreach (KeyValuePair<User, double[]> studentAndMark in studentsAndMarks)
-            {
-                resultTrainingSet.addRecord(studentAndMark.Value);
-            }
-            return resultTrainingSet;
         }
     }
 }

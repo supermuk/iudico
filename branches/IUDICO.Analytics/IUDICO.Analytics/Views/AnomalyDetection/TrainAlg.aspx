@@ -13,6 +13,9 @@
             <th>Student Name</th>
             <th>Student Score</th>
             <th>Student Time</th>
+            <th>Skill 1</th>
+            <th>Skill 2</th>
+            <th>Skill 3</th>
             <th></th>
         </tr>
 
@@ -24,13 +27,22 @@
             <%:item.Key.Key.Name%>
             </td>
             <td>
-            <%:Math.Round(item.Key.Value[1], 2).ToString()%>
+            <%:Math.Round(item.Key.Value[4], 2).ToString()%>
             </td>
             <td>
             <% int minutes = Convert.ToInt32(item.Key.Value[0]) / 60;
                int seconds = Convert.ToInt32(item.Key.Value[0]) % 60;
                  %>
             <%: minutes.ToString() + ':' + ((seconds < 10)?"0":"") + seconds.ToString()%>
+            </td>
+            <td>
+            <%:Math.Round(item.Key.Value[1], 2).ToString()%>
+            </td>
+            <td>
+            <%:Math.Round(item.Key.Value[2], 2).ToString()%>
+            </td>
+            <td>
+            <%:Math.Round(item.Key.Value[3], 2).ToString()%>
             </td>
             <td>
             <% if (item.Value)
