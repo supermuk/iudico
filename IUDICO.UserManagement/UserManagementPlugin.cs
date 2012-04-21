@@ -28,11 +28,12 @@ namespace IUDICO.UserManagement
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<UserManagementPlugin>().LifeStyle.Is(LifestyleType.Singleton),
+                Component.For<IUserStorage>().ImplementedBy<CachedUserStorage>().LifeStyle.Is(LifestyleType.Singleton),
                 Component.For<IUserStorage>().ImplementedBy<DatabaseUserStorage>().LifeStyle.Is(LifestyleType.Singleton),
                 Component.For<IUserService>().ImplementedBy<UserService>().LifeStyle.Is(LifestyleType.Singleton),
                 Component.For<MembershipProvider>().ImplementedBy<OpenIdMembershipProvider>(),
                 Component.For<RoleProvider>().ImplementedBy<OpenIdRoleProvider>()
-                );
+            );
 
             //HttpContext.Current.Application["UMStorage"] = container.Resolve<DatabaseUserManagement>();// UMStorageFactory.CreateStorage(UMStorageType.Database);
         }

@@ -18,6 +18,7 @@ using System.IO;
 using IUDICO.Security.Helpers;
 using IUDICO.Common.Models.Shared;
 using System.Text;
+using IUDICO.Security.Models.Storages.Cache;
 
 namespace IUDICO.Security
 {
@@ -38,7 +39,9 @@ namespace IUDICO.Security
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<SecurityPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<ISecurityService>().ImplementedBy<SecurityService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<IBanStorage>().ImplementedBy<CachedBanStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<IBanStorage>().ImplementedBy<DatabaseBanStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<ISecurityStorage>().ImplementedBy<CachedSecurityStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<ISecurityStorage>().ImplementedBy<DatabaseSecurityStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
 

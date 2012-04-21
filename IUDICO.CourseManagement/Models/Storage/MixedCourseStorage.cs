@@ -202,7 +202,6 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             Directory.CreateDirectory(path);
 
-
             var nodes = GetNodes(id).ToList();
 
             for (var i = 0; i < nodes.Count; i++)
@@ -447,7 +446,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             _LmsService.Inform(CourseNotifications.NodeDelete, node);
         }
 
-        public virtual void DeleteNodes(List<int> ids)
+        public virtual IEnumerable<Node> DeleteNodes(List<int> ids)
         {
             var db = GetDbContext();
 
@@ -463,6 +462,8 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             db.Nodes.DeleteAllOnSubmit(nodes);
             db.SubmitChanges();
+
+            return nodes;
         }
 
         public virtual int CreateCopy(Node node, int? parentId, int position)

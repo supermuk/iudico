@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Services;
-using IUDICO.Common.Models.Cache;
+using IUDICO.Common.Models.Caching;
 
 namespace IUDICO.CurriculumManagement.Models.Storage
 {

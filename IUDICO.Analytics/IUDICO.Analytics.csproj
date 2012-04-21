@@ -81,6 +81,7 @@
     <Compile Include="Models\AnalyticsService.cs" />
     <Compile Include="Models\DBDataContext.cs" />
     <Compile Include="Models\GroupTopicStat.cs" />
+    <Compile Include="Models\Storage\CachedAnalyticsStorage.cs" />
     <Compile Include="Models\Storage\IAnalyticsStorage.cs" />
     <Compile Include="Models\Storage\MixedAnalyticsStorage.cs" />
     <Compile Include="Models\TopicSimilarity.cs" />

@@ -104,6 +104,8 @@
     <Compile Include="Models\DBDataContext.cs" />
     <Compile Include="Models\ISecurityDataContext.cs" />
     <Compile Include="Models\SecurityDataContext.cs" />
+    <Compile Include="Models\Storages\Cache\CachedBanStorage.cs" />
+    <Compile Include="Models\Storages\Cache\CachedSecurityStorage.cs" />
     <Compile Include="Models\Storages\Database\DatabaseBanStorage.cs" />
     <Compile Include="Models\Storages\Database\DatabaseSecurityStorage.cs" />
     <Compile Include="Models\Storages\IBanStorage.cs" />
