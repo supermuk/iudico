@@ -41,8 +41,14 @@
     <Reference Include="Accord">
       <HintPath>Libraries\Accord.dll</HintPath>
     </Reference>
+    <Reference Include="Accord.MachineLearning">
+      <HintPath>..\..\Accord.NET Framework-2.5.0\Release\Accord.MachineLearning.dll</HintPath>
+    </Reference>
     <Reference Include="Accord.Math, Version=2.5.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <HintPath>Libraries\Accord.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge">
+      <HintPath>C:\Users\Vitalik\Downloads\accord-tree-source\Release\AForge.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\References\Castle.Core.dll</HintPath>
@@ -95,6 +101,7 @@
     <Compile Include="Models\AnomalyDetectionAlg\PxFormula.cs" />
     <Compile Include="Models\AnomalyDetectionAlg\TrainingSet.cs" />
     <Compile Include="Models\DBDataContext.cs" />
+    <Compile Include="Models\DecisionTrees\TrainingSetsCreator.cs" />
     <Compile Include="Models\GroupTopicStat.cs" />
     <Compile Include="Models\Storage\IAnalyticsStorage.cs" />
     <Compile Include="Models\Storage\MixedAnalyticsStorage.cs" />
