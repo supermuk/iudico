@@ -110,45 +110,36 @@ namespace IUDICO.UserManagement.Models.Storage
             }
 
             var identity = HttpContext.Current.User.Identity;
+            
+            return GetUser(u => u.Username == identity.Name);
 
-            var db = GetDbContext();
-
-            return db.Users.Where(u => u.Username == identity.Name).FirstOrDefault();
+            //var db = GetDbContext();
+            //return db.Users.Where(u => u.Username == identity.Name).FirstOrDefault();
         }
 
         public virtual User GetUser(Guid userId)
         {
-            var db = GetDbContext();
-
-            return db.Users.Where(user => !user.Deleted && user.Id == userId).SingleOrDefault();
+            return GetDbContext().Users.Where(user => !user.Deleted && user.Id == userId).SingleOrDefault();
         }
 
         public virtual User GetUser(Func<User, bool> predicate)
         {
-            var db = GetDbContext();
-
-            return db.Users.Where(user => !user.Deleted).SingleOrDefault(predicate);
+            return GetDbContext().Users.Where(user => !user.Deleted).SingleOrDefault(predicate);
         }
 
         public virtual IEnumerable<User> GetUsers()
         {
-            var db = GetDbContext();
-
-            return db.Users.Where(u => !u.Deleted);
+            return GetDbContext().Users.Where(u => !u.Deleted);
         }
 
         public virtual IEnumerable<User> GetUsers(Func<User, bool> predicate)
         {
-            var db = GetDbContext();
-
-            return db.Users.Where(u => !u.Deleted).Where(predicate);
+            return GetDbContext().Users.Where(u => !u.Deleted).Where(predicate);
         }
 
         public virtual IEnumerable<User> GetUsers(int pageIndex, int pageSize)
         {
-            var db = GetDbContext();
-
-            return db.Users.Skip(pageIndex).Take(pageSize);
+            return GetDbContext().Users.Skip(pageIndex).Take(pageSize);
         }
 
         public virtual bool UsernameExists(string username)
@@ -481,7 +472,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
         #region Roles members
 
-        public virtual void AddUsersToRoles(IEnumerable<string> usernames, IEnumerable<Role> roles)
+        public virtual IEnumerable<User> AddUsersToRoles(IEnumerable<string> usernames, IEnumerable<Role> roles)
         {
             var db = GetDbContext();
             var users = GetUsers(u => usernames.Contains(u.Username));
@@ -504,18 +495,23 @@ namespace IUDICO.UserManagement.Models.Storage
 
             db.UserRoles.InsertAllOnSubmit(userRoles);
             db.SubmitChanges();
+
+            return users;
         }
 
-        public virtual void RemoveUsersFromRoles(IEnumerable<string> usernames, IEnumerable<Role> roles)
+        public virtual IEnumerable<User> RemoveUsersFromRoles(IEnumerable<string> usernames, IEnumerable<Role> roles)
         {
             var db = GetDbContext();
-            var users = GetUsers(u => usernames.Contains(u.Username)).Select(u => u.Id);
+            var users = GetUsers(u => usernames.Contains(u.Username));
+            var userIds = users.Select(u => u.Id);
             var intRoles = roles.Select(r => (int) r);
 
-            var userRoles = db.UserRoles.Where(ur => users.Contains(ur.UserRef) && intRoles.Contains(ur.RoleRef));
+            var userRoles = db.UserRoles.Where(ur => userIds.Contains(ur.UserRef) && intRoles.Contains(ur.RoleRef));
 
             db.UserRoles.DeleteAllOnSubmit(userRoles);
             db.SubmitChanges();
+
+            return users;
         }
 
         public virtual IEnumerable<User> GetUsersInRole(Role role)

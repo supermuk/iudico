@@ -98,7 +98,9 @@
     <Compile Include="Models\Auth\OpenIdRoleProvider.cs" />
     <Compile Include="Models\DBDataContext.cs" />
     <Compile Include="Models\IDataContext.cs" />
-    <Compile Include="Models\Storage\CachedDatabaseUserStorage.cs" />
+    <Compile Include="Models\Storage\CachedUserStorage.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Models\Storage\IUserStorage.cs" />
     <Compile Include="Models\UserService.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

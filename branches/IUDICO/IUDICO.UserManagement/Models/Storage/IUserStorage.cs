@@ -14,6 +14,7 @@ namespace IUDICO.UserManagement.Models.Storage
         IEnumerable<User> GetUsers();
         IEnumerable<User> GetUsers(Func<User, bool> predicate);
         IEnumerable<User> GetUsers(int pageIndex, int pageSize);
+        User GetUser(Guid userId);
         User GetUser(Func<User, bool> predicate);
         bool CreateUser(User user);
         Dictionary<string, string> CreateUsersFromCSV(string csvPath);
@@ -40,8 +41,8 @@ namespace IUDICO.UserManagement.Models.Storage
         #region Role members
 
         IEnumerable<User> GetUsersInRole(Role role);
-        void AddUsersToRoles(IEnumerable<string> usernames, IEnumerable<Role> roles);
-        void RemoveUsersFromRoles(IEnumerable<string> usernames, IEnumerable<Role> roles);
+        IEnumerable<User> AddUsersToRoles(IEnumerable<string> usernames, IEnumerable<Role> roles);
+        IEnumerable<User> RemoveUsersFromRoles(IEnumerable<string> usernames, IEnumerable<Role> roles);
         IEnumerable<Role> GetUserRoles(string username);
         void RemoveUserFromRole(Role role, User user);
         void AddUserToRole(Role role, User user);
