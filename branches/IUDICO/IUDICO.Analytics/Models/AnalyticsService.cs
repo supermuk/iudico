@@ -18,6 +18,6 @@ namespace IUDICO.Analytics.Models
         {
             return _AnalyticsStorage.GetRecommendedTopics(user);
         }
-         * */
+        */
     }
 }

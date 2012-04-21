@@ -8,6 +8,7 @@ using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Interfaces;
 using IUDICO.Common.Models.Shared;
 using System.Data.Linq;
+using System.Diagnostics;
 
 namespace IUDICO.Security.Models.Storages.Database
 {

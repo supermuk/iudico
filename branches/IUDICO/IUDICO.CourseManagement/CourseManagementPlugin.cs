@@ -114,6 +114,7 @@ namespace IUDICO.CourseManagement
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<CourseManagementPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<ICourseStorage>().ImplementedBy<CachedCourseStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<ICourseStorage>().ImplementedBy<MixedCourseStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<ICourseService>().ImplementedBy<CourseService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );

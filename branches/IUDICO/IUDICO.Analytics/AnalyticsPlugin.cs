@@ -26,6 +26,7 @@ namespace IUDICO.Analytics
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<AnalyticsPlugin>().LifeStyle.Is(LifestyleType.Singleton),
+                Component.For<IAnalyticsStorage>().ImplementedBy<CachedAnalyticsStorage>().LifeStyle.Is(LifestyleType.Singleton),
                 Component.For<IAnalyticsStorage>().ImplementedBy<MixedAnalyticsStorage>().LifeStyle.Is(LifestyleType.Singleton),
                 Component.For<IAnalyticsService>().ImplementedBy<AnalyticsService>().LifeStyle.Is(LifestyleType.Singleton)
             );

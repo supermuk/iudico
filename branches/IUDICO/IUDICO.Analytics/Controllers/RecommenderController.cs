@@ -4,6 +4,8 @@ using System.Web.Mvc;
 using IUDICO.Analytics.Models.Storage;
 using IUDICO.Common.Controllers;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Attributes;
+using IUDICO.Common.Models;
 
 namespace IUDICO.Analytics.Controllers
 {
@@ -16,6 +18,7 @@ namespace IUDICO.Analytics.Controllers
             _Storage = analyticsStorage;
         }
 
+        [Allow(Role = Role.Student)]
         public ActionResult Index()
         {
             return View();

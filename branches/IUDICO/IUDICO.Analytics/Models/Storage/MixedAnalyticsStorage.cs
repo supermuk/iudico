@@ -22,28 +22,24 @@ namespace IUDICO.Analytics.Models.Storage
         public MixedAnalyticsStorage(ILmsService lmsService)
         {
             _LmsService = lmsService;
-            RefreshState();
+            //RefreshState();
         }
-
+        /*
         public void RefreshState()
         {
             _Db = new DBDataContext();
         }
-
+        */
         #region Analytics methods
 
         public IEnumerable<ForecastingTree> GetAllForecastingTrees()
-        {
-            IEnumerable<ForecastingTree> query;
-            query = _Db.ForecastingTrees.Where(x => x.IsDeleted == false);
-            return query;
+        { 
+            return GetDbDataContext().ForecastingTrees.Where(x => x.IsDeleted == false);;
         }
 
         public IEnumerable<ForecastingTree> GetForecastingTrees(Guid UserRef)
         {
-            IEnumerable<ForecastingTree> query;
-            query = _Db.ForecastingTrees.Where(x => x.UserRef == UserRef && x.IsDeleted == false);
-            return query;
+            return GetDbDataContext().ForecastingTrees.Where(x => x.UserRef == UserRef && x.IsDeleted == false);
         }
 
         /*
@@ -177,40 +173,49 @@ namespace IUDICO.Analytics.Models.Storage
 
         public Dictionary<int, IEnumerable<TopicScore>> GetTopicScores()
         {
-            var topics = this.GetTopics();
-            var topicIds = topics.Select(t => t.Id);
-            var topicScores = _Db.TopicScores.Where(s => topicIds.Contains(s.TopicId))
-                .GroupBy(e => e.TopicId)
-                .OrderBy(g => g.Key).ToDictionary(g => g.Key, g => g.AsEnumerable());
-
-            return topicScores;
+            using (var db = GetDbDataContext())
+            {
+                var topics = this.GetTopics();
+                var topicIds = topics.Select(t => t.Id);
+                var topicScores = db.TopicScores.Where(s => topicIds.Contains(s.TopicId))
+                    .GroupBy(e => e.TopicId)
+                    .OrderBy(g => g.Key).ToDictionary(g => g.Key, g => g.AsEnumerable());
+            
+                return topicScores;
+            }
         }
 
         public Dictionary<Guid, IEnumerable<UserScore>> GetUserScores()
         {
-            var users = this.GetUsers();
-            var userIds = users.Select(u => u.Id);
-            var userScores = _Db.UserScores.Where(s => userIds.Contains(s.UserId))
-                .GroupBy(e => e.UserId)
-                .OrderBy(g => g.Key).ToDictionary(g => g.Key, g => g.AsEnumerable());
+            using (var db = GetDbDataContext())
+            {
+                var users = this.GetUsers();
+                var userIds = users.Select(u => u.Id);
+                var userScores = db.UserScores.Where(s => userIds.Contains(s.UserId))
+                    .GroupBy(e => e.UserId)
+                    .OrderBy(g => g.Key).ToDictionary(g => g.Key, g => g.AsEnumerable());
 
-            return userScores;
+                return userScores;
+            }
         }
 
         public void UpdateUserScores(Guid id)
         {
-            var user = this.GetUser(id);
-            var userTagScores = this.GetUserTagScores(user);
+            using (var db = GetDbDataContext())
+            {
+                var user = this.GetUser(id);
+                var userTagScores = this.GetUserTagScores(user);
 
-            _Db.UserScores.DeleteAllOnSubmit(_Db.UserScores.Where(us => us.UserId == id));
-            _Db.UserScores.InsertAllOnSubmit(userTagScores);
+                db.UserScores.DeleteAllOnSubmit(db.UserScores.Where(us => us.UserId == id));
+                db.UserScores.InsertAllOnSubmit(userTagScores);
 
-            _Db.SubmitChanges();
+                db.SubmitChanges();
+            }
         }
 
         protected IEnumerable<TopicTag> GetTopicTags(Func<TopicTag, bool> predicate)
         {
-            return _Db.TopicTags.Where(predicate).Select(tt => new { Tag = tt.Tag, TopicTag = tt }).AsEnumerable().Select(a => a.TopicTag);
+            return GetDbDataContext().TopicTags.Where(predicate).Select(tt => new { Tag = tt.Tag, TopicTag = tt }).AsEnumerable().Select(a => a.TopicTag);
         }
 
         protected IEnumerable<UserScore> GetUserTagScores(User user)
@@ -257,13 +262,16 @@ namespace IUDICO.Analytics.Models.Storage
 
         public void UpdateTopicScores(int id)
         {
-            var topic = this.GetTopic(id);
-            var topicTagScores = this.GetTopicTagScores(topic);
+            using (var db = GetDbDataContext())
+            {
+                var topic = this.GetTopic(id);
+                var topicTagScores = this.GetTopicTagScores(topic);
 
-            _Db.TopicScores.DeleteAllOnSubmit(_Db.TopicScores.Where(us => us.TopicId == id));
-            _Db.TopicScores.InsertAllOnSubmit(topicTagScores);
+                db.TopicScores.DeleteAllOnSubmit(db.TopicScores.Where(us => us.TopicId == id));
+                db.TopicScores.InsertAllOnSubmit(topicTagScores);
 
-            _Db.SubmitChanges();
+                db.SubmitChanges();
+            }
         }
 
         protected IEnumerable<TopicScore> GetTopicTagScores(Topic topic)
@@ -441,13 +449,14 @@ namespace IUDICO.Analytics.Models.Storage
 
             _Db.TopicTags.DeleteAllOnSubmit(deletedTopics);
 
+            var topticTags = new List<TopicTag>();
+
             foreach (var topic in addTopics)
             {
-                var tf = new TopicTag { TagId = id, TopicId = topic };
-
-                _Db.TopicTags.InsertOnSubmit(tf);
+                topticTags.Add(new TopicTag { TagId = id, TopicId = topic });
             }
 
+            _Db.TopicTags.InsertAllOnSubmit(topticTags);
             _Db.SubmitChanges();
         }
 
