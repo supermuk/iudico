@@ -101,6 +101,7 @@
     <Compile Include="CourseManagementPlugin.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Localization.cs" />
+    <Compile Include="Models\DateFormatConverter.cs" />
     <Compile Include="Models\DBDataContext.cs" />
     <Compile Include="Models\IDataContext.cs" />
     <Compile Include="Models\ManifestModels\ManifestManager.cs" />
