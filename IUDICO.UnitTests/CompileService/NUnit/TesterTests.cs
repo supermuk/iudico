@@ -34,7 +34,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         }
 
         [Test]
-        [ExpectedException(typeof(Exception))]
+        [ExpectedException(typeof(FileNotFoundException))]
         public void TesterBadPathTestTest()
         {
             Tester.Test("badFilePath", "", "", 1, 1);
