@@ -89,6 +89,13 @@
     <Compile Include="CompileService\CompileServiceHelper.cs" />
     <Compile Include="CompileService\CompileServiceLanguageSourceCode.cs" />
     <Compile Include="CompileService\CompileServiceTest.cs" />
+    <Compile Include="CompileService\NUnit\CompilersTests.cs" />
+    <Compile Include="CompileService\NUnit\CompilerTests.cs" />
+    <Compile Include="CompileService\NUnit\CompileServiceTests.cs" />
+    <Compile Include="CompileService\NUnit\CompileTaskTests.cs" />
+    <Compile Include="CompileService\NUnit\HelperTests.cs" />
+    <Compile Include="CompileService\NUnit\StatusTests.cs" />
+    <Compile Include="CompileService\NUnit\TesterTests.cs" />
     <Compile Include="CompileService\UnitTests\CompileServiceUnitTests.cs" />
     <Compile Include="CourseManagement\CourseManagmentTest.cs" />
     <Compile Include="CourseManagement\NUnit\ManifestManagerTest.cs" />
