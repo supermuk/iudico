@@ -1,13 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using IUDICO.Common.Models;
-using IUDICO.Common.Models.Shared;
-using IUDICO.CourseManagement.Controllers;
-using IUDICO.CourseManagement.Models.ManifestModels;
-using IUDICO.CourseManagement.Helpers;
-using IUDICO.CourseManagement;
-using IUDICO.CourseManagement.Models.Storage;
-using IUDICO.Common.Models.Services;
 
 namespace IUDICO.CourseManagement.Models
 {
