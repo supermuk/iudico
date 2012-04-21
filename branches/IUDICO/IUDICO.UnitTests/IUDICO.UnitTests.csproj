@@ -35,11 +35,9 @@
   <ItemGroup>
     <Reference Include="Castle.Core">
       <HintPath>..\References\Castle.Core.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Castle.Windsor">
       <HintPath>..\References\Castle.Windsor.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="log4net">
       <HintPath>Libs\log4net.dll</HintPath>
