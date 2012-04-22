@@ -110,10 +110,11 @@ namespace IUDICO.UnitTests.UserManagement
             MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(MockDataContext.Object);
             MockStorage.Protected().Setup<string>("GetPath").Returns(Path.Combine(ConfigurationManager.AppSettings["PathToIUDICO.UnitTests"], "IUDICO.LMS"));
 //            MockStorage.Setup(s => s.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+            
             MockStorage.Setup(s => s.GetUserRoles(It.IsAny<string>())).Returns(
                 (string username) => GetUserRoles(username));
             MockStorage.Setup(s => s.GetGroupsByUser(It.IsAny<User>())).Returns((User user) => GetGroupsByUser(user));
-            MockStorage.Setup(s => s.GetGroupsByUser(It.IsAny<User>())).Returns((User user) => GetGroupsByUser(user));
+           // MockStorage.Setup(s => s.GetGroupsByUser(It.IsAny<User>())).Returns((User user) => GetGroupsByUser(user));
         }
 
         public void SetupTables()
