@@ -74,6 +74,16 @@
         <ClassMask>*</ClassMask>
         <FunctionMask>*</FunctionMask>
       </FilterEntry>
+      <FilterEntry>
+        <ModuleMask>CompileSystem</ModuleMask>
+        <ClassMask>*</ClassMask>
+        <FunctionMask>*</FunctionMask>
+      </FilterEntry>
+      <FilterEntry>
+        <ModuleMask>CompileService</ModuleMask>
+        <ClassMask>*</ClassMask>
+        <FunctionMask>*</FunctionMask>
+      </FilterEntry>
     </IncludeFilters>
     <ExcludeFilters>
     </ExcludeFilters>
