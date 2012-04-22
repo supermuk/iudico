@@ -25,6 +25,13 @@
         }
     </script>
     <h2>TrainTopic</h2>
+    <%if (ViewData["ShowError"] != null)
+      { %>
+      Please, select valid training set!<br /> 
+      Check selected values for errors: if two records have same value of any feature (for example score),<br />
+      then they can not be in different classes (anomalies and normal).<br />
+      <%} %>
+    <br />
     <form action="/AnomalyDetection/TrainAlg/" method="get">
      <table>
         <tr>
@@ -62,7 +69,7 @@
          }%>
      </table>
      <p>
-        <input type="submit" value="next" />
+        <input type="submit" value="Train" />
     </p>
     </form>
 </asp:Content>
