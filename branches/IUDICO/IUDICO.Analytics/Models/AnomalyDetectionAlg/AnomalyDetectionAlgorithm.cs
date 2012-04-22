@@ -76,9 +76,23 @@ namespace IUDICO.Analytics.Models.AnomalyDetectionAlg
             accuracy = newAccuracy;
         }
 
+        /// <summary>
+        /// Get accuracy from this object. All accuracy clases must implement IAccuracy interface.
+        /// </summary>
+        /// <param name="newAccuracy">Object that implement IAccuracy interface</param>
+        public IAccuracy getAccuracy()
+        {
+            return accuracy;
+        }
 
-        // For demo
-
+        /// <summary>
+        /// Train and run anomaly detection algorithm for passes students.
+        /// </summary>
+        /// <param name="studentsAndMarks">all students, that we want to check</param>
+        /// <param name="trainingSet1">Training set</param>
+        /// <param name="trainingSet2Normal">Cross validation set with only normal records</param>
+        /// <param name="trainingSet2Anomalies">Cross validation set with inly anomalies records</param>
+        /// <returns></returns>
         public static IEnumerable<KeyValuePair<KeyValuePair<User, double[]>, bool>> runAlg(IEnumerable<KeyValuePair<User, double[]>> studentsAndMarks, TrainingSet trainingSet1, TrainingSet trainingSet2Normal, TrainingSet trainingSet2Anomalies)
         {            
             AnomalyDetectionAlgorithm train = new AnomalyDetectionAlgorithm();
