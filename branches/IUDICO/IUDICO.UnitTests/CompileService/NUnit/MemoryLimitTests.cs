@@ -27,7 +27,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [Test]
         public void IncorrectCPPMemoryLimitTest()
         {
-            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPIncorrectSourceCode,
+            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
                                                           CompileServiceHelper.CPPLanguageName,
                                                           CompileServiceHelper.Input,
                                                           CompileServiceHelper.Output,
@@ -41,7 +41,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [ExpectedException(typeof(Exception))]
         public void NullCPPMemoryLimitTest()
         {
-            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPIncorrectSourceCode,
+            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
                                                           CompileServiceHelper.CPPLanguageName,
                                                           CompileServiceHelper.Input,
                                                           CompileServiceHelper.Output,
@@ -53,7 +53,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [ExpectedException(typeof(Exception))]
         public void LessNullCPPMemoryLimitTest()
         {
-            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPIncorrectSourceCode,
+            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
                                                           CompileServiceHelper.CPPLanguageName,
                                                           CompileServiceHelper.Input,
                                                           CompileServiceHelper.Output,

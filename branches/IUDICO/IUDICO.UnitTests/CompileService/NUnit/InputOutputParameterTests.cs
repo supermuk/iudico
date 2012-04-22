@@ -30,7 +30,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
             string[] inputParam = {"2 5", "7 5"};
             string[] outputParam = {"35", "75"};
 
-            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPIncorrectSourceCode,
+            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
                                                           CompileServiceHelper.CPPLanguageName,
                                                           inputParam,
                                                           outputParam,
@@ -47,7 +47,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
             string[] inputParam = { "2 5", "7 5" };
             string[] outputParam = { "25", "95" };
 
-            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPIncorrectSourceCode,
+            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
                                                           CompileServiceHelper.CPPLanguageName,
                                                           inputParam,
                                                           outputParam,
