@@ -7,6 +7,7 @@ using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.CurriculumManagement;
 using IUDICO.Common.Models.Shared.Statistics;
 using IUDICO.Analytics.Models.AnomalyDetectionAlg;
+using IUDICO.Analytics.Models.AnomalyDetectionAlg.Accuracy;
 using IUDICO.Analytics.Models.DecisionTrees;
 
 namespace IUDICO.UnitTests.Analytics
