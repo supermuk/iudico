@@ -137,6 +137,7 @@
       <Column Name="AttemptStatus" Type="Enum" EnumName="AttemptStatus"/>
       <Column Name="SuccessStatus" Type="Enum" EnumName="SuccessStatus"/>
       <Column Name="StartedTimestamp" Type="DateTime"/>
+      <Column Name="FinishedTimestamp" Type="DateTime"/>
       <Column Name="Score" Type="Single"/>
     </Columns>
     <Implementation>
@@ -148,6 +149,7 @@
               AttemptItem.AttemptStatus AS AttemptStatus,
               AttemptItem.SuccessStatus AS SuccessStatus,
               AttemptItem.StartedTimestamp AS StartedTimestamp,
+              AttemptItem.FinishedTimestamp AS FinishedTimestamp,
               AttemptItem.TotalPoints AS Score
       FROM AttemptItem
       INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id

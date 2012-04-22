@@ -269,6 +269,7 @@ namespace IUDICO.TestingSystem.Models
                                                                         Schema.AllAttemptsResults.CurriculumChapterTopicId,
                                                                         Schema.AllAttemptsResults.Score,
                                                                         Schema.AllAttemptsResults.StartedTimestamp,
+                                                                        Schema.AllAttemptsResults.FinishedTimestamp,
                                                                         Schema.AllAttemptsResults.SuccessStatus,
                                                                         Schema.AllAttemptsResults.TopicType,
                                                                         Schema.AllAttemptsResults.UserItemKey
@@ -378,6 +379,11 @@ namespace IUDICO.TestingSystem.Models
                     DateTime? startTime;
                     LStoreHelper.Cast(rawValue, out startTime);
                     attemptResult.StartTime = startTime;
+                    break;
+                case Schema.AllAttemptsResults.FinishedTimestamp:
+                    DateTime? finishTime;
+                    LStoreHelper.Cast(rawValue, out finishTime);
+                    attemptResult.FinishTime = finishTime;
                     break;
                 case Schema.AllAttemptsResults.SuccessStatus:
                     Microsoft.LearningComponents.SuccessStatus successStatus;

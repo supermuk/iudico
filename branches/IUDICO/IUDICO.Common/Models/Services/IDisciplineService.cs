@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using IUDICO.Common.Models.Shared;
+using System;
 
 namespace IUDICO.Common.Models.Services
 {
@@ -22,6 +23,8 @@ namespace IUDICO.Common.Models.Services
         /// <param name="user">The user.</param>
         /// <returns></returns>
         IList<Discipline> GetDisciplines(User user);
+
+        IList<Discipline> GetDisciplines(Func<Discipline, bool> predicate);
 
         #endregion
 
