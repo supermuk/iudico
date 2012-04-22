@@ -34,6 +34,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accord, Version=2.5.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\Vitalik\Downloads\Accord.NET Framework-2.6.0\Release\Accord.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.MachineLearning">
+      <HintPath>C:\Users\Vitalik\Downloads\Accord.NET Framework-2.6.0\Release\Accord.MachineLearning.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Math, Version=2.5.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\Vitalik\Downloads\Accord.NET Framework-2.6.0\Release\Accord.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge">
+      <HintPath>C:\Users\Vitalik\Downloads\Accord.NET Framework-2.6.0\Samples\MachineLearning\DecisionTrees\bin\x86\Release\AForge.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\References\Castle.Core.dll</HintPath>
     </Reference>
@@ -76,10 +90,17 @@
   <ItemGroup>
     <Compile Include="AnalyticsPlugin.cs" />
     <Compile Include="Controllers\AnalyticsController.cs" />
+    <Compile Include="Controllers\AnomalyDetectionController.cs" />
     <Compile Include="Controllers\RecommenderController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Models\AnalyticsService.cs" />
+    <Compile Include="Models\AnomalyDetectionAlg\Accuracy\IAccuracy.cs" />
+    <Compile Include="Models\AnomalyDetectionAlg\Accuracy\TrueNegativAccuracy.cs" />
+    <Compile Include="Models\AnomalyDetectionAlg\AnomalyDetectionAlgorithm.cs" />
+    <Compile Include="Models\AnomalyDetectionAlg\PxFormula.cs" />
+    <Compile Include="Models\AnomalyDetectionAlg\TrainingSet.cs" />
     <Compile Include="Models\DBDataContext.cs" />
+    <Compile Include="Models\DecisionTrees\TrainingSetsCreator.cs" />
     <Compile Include="Models\GroupTopicStat.cs" />
     <Compile Include="Models\Storage\CachedAnalyticsStorage.cs" />
     <Compile Include="Models\Storage\IAnalyticsStorage.cs" />
@@ -104,6 +125,10 @@
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Views\Analytics\Index.aspx" />
+    <Content Include="Views\AnomalyDetection\Index.aspx" />
+    <Content Include="Views\AnomalyDetection\SelectGroup.aspx" />
+    <Content Include="Views\AnomalyDetection\TrainAlg.aspx" />
+    <Content Include="Views\AnomalyDetection\TrainTopic.aspx" />
     <Content Include="Views\Recommender\Index.aspx" />
     <Content Include="Views\Recommender\RecommendedTopics.ascx" />
     <Content Include="Views\Recommender\UserScores.aspx" />
@@ -158,6 +183,6 @@
     </ItemGroup>
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>xcopy /C /Y "$(TargetDir)*.*" "$(SolutionDir)IUDICO.LMS\Plugins\"</PostBuildEvent>
+    <PostBuildEvent>c:\windows\system32\xcopy.exe /C /Y "$(TargetDir)*.*" "$(SolutionDir)IUDICO.LMS\Plugins\"</PostBuildEvent>
   </PropertyGroup>
 </Project>
