@@ -33,6 +33,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accord, Version=2.6.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\Accord.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.MachineLearning, Version=2.6.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\Accord.MachineLearning.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Math, Version=2.6.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\Accord.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Statistics">
+      <HintPath>..\References\Accord.Statistics.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge, Version=2.2.4.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\AForge.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\References\Castle.Core.dll</HintPath>
       <Private>True</Private>
@@ -40,6 +59,10 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\References\Castle.Windsor.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="IUDICO.Analytics, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\IUDICO.Analytics\bin\IUDICO.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>Libs\log4net.dll</HintPath>
@@ -86,6 +109,8 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analytics\AnomalyDetectionAlgorithmTest.cs" />
+    <Compile Include="Analytics\DecisionTreesTest.cs" />
     <Compile Include="CompileService\CompileServiceHelper.cs" />
     <Compile Include="CompileService\CompileServiceLanguageSourceCode.cs" />
     <Compile Include="CompileService\CompileServiceTest.cs" />
