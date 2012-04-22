@@ -180,9 +180,9 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
 
-            var user = GetUser(id);
-            // db.Users.Single(u => u.Id == id);
-            db.Users.Attach(user);
+            //var user = GetUser(id);
+            var user = db.Users.Single(u => u.Id == id);
+            //db.Users.Attach(user);
 
             user.IsApproved = true;
             user.ApprovedBy = GetCurrentUser().Id;
@@ -194,9 +194,9 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
 
-            var user = GetUser(id);
-            //db.Users.Single(u => u.Id == id);
-            db.Users.Attach(user);
+            //var user = GetUser(id);
+            var user = db.Users.Single(u => u.Id == id);
+            //db.Users.Attach(user);
             
             user.IsApproved = false;
             user.ApprovedBy = null;
@@ -216,10 +216,10 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
 
-            var user = GetUser(u => u.Email == restorePasswordModel.Email);
+            var user = db.Users.SingleOrDefault(u => u.Email == restorePasswordModel.Email);
             var password = RandomPassword();
 
-            db.Users.Attach(user);
+            //db.Users.Attach(user);
 
             user.Password = EncryptPassword(password);
 
@@ -321,10 +321,10 @@ namespace IUDICO.UserManagement.Models.Storage
         public virtual void EditUser(Guid id, User user)
         {
             var db = GetDbContext();
-            var oldUser = GetUser(id);
-            //db.Users.Single(u => u.Id == id);
+            //var oldUser = GetUser(id);
+            var oldUser = db.Users.Single(u => u.Id == id);
 
-            db.Users.Attach(oldUser);
+            //db.Users.Attach(oldUser);
 
             oldUser.Name = user.Name;
 
@@ -347,10 +347,10 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = GetDbContext();
             //var oldUser = GetUser(id);
-            var newUser = GetUser(id);
-            //db.Users.Single(u => u.Id == id);
+            //var newUser = GetUser(id);
+            var newUser = db.Users.Single(u => u.Id == id);
 
-            db.Users.Attach(newUser);
+            //db.Users.Attach(newUser);
             object[] data = new object[2];
 
             newUser.Name = user.Name;
@@ -446,10 +446,10 @@ namespace IUDICO.UserManagement.Models.Storage
 
             var db = GetDbContext();
 
-            var user = GetUser(editModel.Id);
-            // db.Users.Single(u => u.Username == identity.Name);
+            //var user = GetUser(editModel.Id);
+            var user = db.Users.Single(u => u.Username == identity.Name);
 
-            db.Users.Attach(user);
+            //db.Users.Attach(user);
 
             user.Name = editModel.Name;
             user.OpenId = editModel.OpenId ?? string.Empty;
@@ -463,16 +463,14 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public virtual void ChangePassword(ChangePasswordModel changePasswordModel)
         {
-            /*
-            var identity = HttpContext.Current.User.Identity;
-
-            var user = db.Users.Single(u => u.Username == identity.Name);
-            */
-
             var db = GetDbContext();
-            var user = GetCurrentUser();
 
-            db.Users.Attach(user);
+            var identity = HttpContext.Current.User.Identity;
+            var user = db.Users.Single(u => u.Username == identity.Name);
+
+            //var user = GetCurrentUser();
+
+            //db.Users.Attach(user);
 
             user.Password = EncryptPassword(changePasswordModel.NewPassword);
 

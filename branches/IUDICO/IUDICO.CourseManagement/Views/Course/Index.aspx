@@ -154,12 +154,12 @@
             });
         }
         
-        function editCourse() {
+        function editCourse(id) {
             openDialog("Edit course");
 
             $.ajax({
                 type: "get",
-                url: "/Course/Edit",
+                url: "/Course/" + id + "/Edit",
                 success: function(r) {
                     $("#dialogInner").html(r);
                 }
