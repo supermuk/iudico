@@ -47,7 +47,8 @@ namespace IUDICO.Analytics
                        {
                            new Action("Analytics", "Stats/Index"),
                            new Action("Tags", "Tags/Index"),
-                           new Action("Recommender", "Recommender/Index")
+                           new Action("Recommender", "Recommender/Index"),
+                           new Action("Anomaly detection", "AnomalyDetection/Index")
                        };
         }
 
@@ -77,6 +78,11 @@ namespace IUDICO.Analytics
                 "Recommender",
                 "Recommender/{action}",
                 new { controller = "Recommender", action = "Index" }
+                );
+            routes.MapRoute(
+                "AnomalyDetection",
+                "AnomalyDetection/{action}",
+                new { controller = "AnomalyDetection", action = "Index" }
                 );
         }
 
