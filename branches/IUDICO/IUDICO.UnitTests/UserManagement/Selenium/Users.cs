@@ -42,7 +42,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
 			selenium.Type("id=loginUsername", "lex");
 			selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
 			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-			selenium.Click("link=Users");
+			selenium.Click("//a[contains(@href, '/User/Index')]");
 			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
 			System.Threading.Thread.Sleep(3000);
 			Assert.IsTrue(selenium.IsElementPresent("id=myDataTable_length"));
@@ -56,7 +56,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
 			selenium.Type("id=loginUsername", "lex");
 			selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
 			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-			selenium.Click("link=Users");
+			selenium.Click("//a[contains(@href, '/User/Index')]");
 			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
 			System.Threading.Thread.Sleep(3000);
 			Assert.IsTrue(selenium.IsElementPresent("id=myDataTable_info"));
@@ -70,7 +70,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
 			selenium.Type("id=loginUsername", "lex");
 			selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
 			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-			selenium.Click("link=Users");
+			selenium.Click("//a[contains(@href, '/User/Index')]");
 			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
 			System.Threading.Thread.Sleep(3000);
 			Assert.IsTrue(selenium.IsElementPresent("css=div.DataTables_sort_wrapper"));
@@ -84,7 +84,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
 			selenium.Type("id=loginUsername", "lex");
 			selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
 			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-			selenium.Click("link=Users");
+			selenium.Click("//a[contains(@href, '/User/Index')]");
 			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
 			System.Threading.Thread.Sleep(3000);
 			Assert.IsTrue(selenium.IsElementPresent("id=myDataTable_filter"));
@@ -98,7 +98,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
 			selenium.Type("id=loginUsername", "lex");
 			selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
 			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-			selenium.Click("link=Users");
+			selenium.Click("//a[contains(@href, '/User/Index')]");
 			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
 			System.Threading.Thread.Sleep(3000);
 			Assert.IsTrue(selenium.IsElementPresent("css=span.ui-icon.ui-icon-triangle-1-e"));
@@ -112,7 +112,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
 			selenium.Type("id=loginUsername", "lex");
 			selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
 			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-			selenium.Click("link=Users");
+			selenium.Click("//a[contains(@href, '/User/Index')]");
 			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
 			Assert.IsTrue(selenium.IsElementPresent("css=h2"));
 		}
