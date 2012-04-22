@@ -15,22 +15,33 @@ namespace IUDICO.UnitTests.Analytics
     public class AnomalyDetectionAlgorithmTest
     {
         [Test]
-        [Category("AnomalyDetectionAlgorithmTest")]
-        public void AnomalyDetectionAlgorithm()
+        [Category("AnomalyDetectionAlgorithmTrainingAndUsageTest")]
+        public void AnomalyDetectionAlgorithmTrainingTest()
         {
-            AnomalyDetectionAlgorithm test = new AnomalyDetectionAlgorithm();
 
             var listOfStudents = GetStudentListForPMI43();
             string[] normal = new string[] { "2", "13", "6" };
             string[] anomalies = new string[] { "8", "10" };
             var trainingSets = TrainingSetsCreator.generateTrainingSets(listOfStudents, normal, anomalies);
 
-            var formula = test.trainAlgorithm(trainingSets[0], trainingSets[1], trainingSets[2]);
-            Assert.AreEqual(formula.isAnomaly(new double[] { 450, 9 }), false);
-            Assert.AreEqual(formula.isAnomaly(new double[] { 550, 9 }), false);
-            Assert.AreEqual(formula.isAnomaly(new double[] { 450, 7 }), false);
-            Assert.AreEqual(formula.isAnomaly(new double[] { 100, 9 }), true);
-            Assert.AreEqual(formula.isAnomaly(new double[] { 150, 9 }), true);
+            var algirithmResults = AnomalyDetectionAlgorithm.runAlg(listOfStudents, trainingSets[0], trainingSets[1], trainingSets[2]);
+
+            Assert.AreEqual(algirithmResults.First(x => x.Key.Key.OpenId == "2").Value, false);
+            Assert.AreEqual(algirithmResults.First(x => x.Key.Key.OpenId == "6").Value, false);
+            Assert.AreEqual(algirithmResults.First(x => x.Key.Key.OpenId == "13").Value, false);
+            Assert.AreEqual(algirithmResults.First(x => x.Key.Key.OpenId == "8").Value, true);
+            Assert.AreEqual(algirithmResults.First(x => x.Key.Key.OpenId == "10").Value, true);
+        }
+
+        [Test]
+        [Category("AnomalyDetectionAlgorithmSetAccuracyTest")]
+        public void AnomalyDetectionAlgorithmAccuracy()
+        {
+            AnomalyDetectionAlgorithm algObject = new AnomalyDetectionAlgorithm();
+
+            algObject.setAccuracy(null);
+
+            Assert.AreEqual(algObject.getAccuracy(), null);
         }
 
         public IEnumerable<KeyValuePair<User, double[]>> GetStudentListForPMI43()
