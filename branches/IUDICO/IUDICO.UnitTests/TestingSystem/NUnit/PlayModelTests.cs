@@ -1,4 +1,5 @@
-﻿using IUDICO.TestingSystem.Models.VOs;
+﻿using IUDICO.Common.Models.Shared.DisciplineManagement;
+using IUDICO.TestingSystem.ViewModels;
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.TestingSystem.NUnit
@@ -11,7 +12,7 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
         [SetUp]
         public void PlayModelTestsSetUp()
         {
-            playModel = new PlayModel {AttemptId = 12345, CurriculumChapterTopicId = 1};
+            playModel = new PlayModel {AttemptId = 12345, CurriculumChapterTopicId = 1, TopicType = TopicTypeEnum.TestWithoutCourse};
         }
 
         [Test]
@@ -20,6 +21,7 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
             PlayModelTestsSetUp();
             Assert.AreEqual(playModel.AttemptId, 12345);
             Assert.AreEqual(playModel.CurriculumChapterTopicId, 1);
+            Assert.AreSame(playModel.TopicType, TopicTypeEnum.TestWithoutCourse);
         }
     }
 }

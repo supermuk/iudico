@@ -1,11 +1,11 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.TestingSystem.Models.VOs.PlayModel>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.TestingSystem.ViewModels.PlayModel>" %>
 <%@ Assembly Name="IUDICO.TestingSystem" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	<%=IUDICO.TestingSystem.Localization.getMessage("PlayCourse")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <div id="ShowResults" style="display:none;"><%: Html.RouteLink("Show Results", new { controller = "Stats", action = "CurrentTopicTestResults", curriculumChapterTopicId = Model.CurriculumChapterTopicId })%></div>
+    <div id="ShowResults" style="display:none;"><%: Html.RouteLink("Show Results", new { controller = "Stats", action = "CurrentTopicTestResults", curriculumChapterTopicId = Model.CurriculumChapterTopicId, topicType = Model.TopicType })%></div>
     <iframe width="100%" height="600px" frameborder="0" src="<%: "/Player/Frameset/Frameset.aspx?View=0&AttemptId=" + Model.AttemptId.ToString() %>" id="player" name="player" style="display: block;"></iframe>
 </asp:Content>
 

@@ -13,7 +13,7 @@ namespace IUDICO.Statistics
     {
         #region IWindsorInstaller Members
 
-        public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
+        public void Install(IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
         {
             container.Register(
                 AllTypes
@@ -32,23 +32,23 @@ namespace IUDICO.Statistics
         #region IPlugin Members
         public string GetName()
         {
-            return IUDICO.Statistics.Localization.getMessage("Statistics");
+            return Localization.getMessage("Statistics");
         }
 
         public IEnumerable<Action> BuildActions()
         {
-            return new Action[]
+            return new []
             {
-                new Action(IUDICO.Statistics.Localization.getMessage("GetStats"), "Stats/Index"),
-                new Action(IUDICO.Statistics.Localization.getMessage("QualityTest"), "QualityTest/SelectDiscipline")
+                new Action(Localization.getMessage("GetStats"), "Stats/Index"),
+                new Action(Localization.getMessage("QualityTest"), "QualityTest/SelectDiscipline")
             };
         }
 
         public IEnumerable<MenuItem> BuildMenuItems()
         {
-            return new MenuItem[]
+            return new []
             {
-                new MenuItem(IUDICO.Statistics.Localization.getMessage("Statistics"), "Stats", "Index")
+                new MenuItem(Localization.getMessage("Statistics"), "Stats", "Index")
             };
         }
 

@@ -101,30 +101,26 @@
       <Expression>1</Expression>
     </GrantQueryRight>
   </View>
-  <View Name="MyAttempts">
+  <View Name="MyAttemptIds">
+    <Parameters>
+      <Parameter Name="OrganizationId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem"/>
+      <Parameter Name="CurriculumChapterTopicId" Type="Int32"/>
+      <Parameter Name="TopicType" Type="Int32"/>
+    </Parameters>
     <Columns>
-      <Column Name="PackageId" Type="ItemIdentifier" ReferencedItemTypeName="PackageItem"/>
-      <Column Name="OrganizationId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem"/>
-      <Column Name="CurriculumChapterTopicId" Type="Int32"/>
-      <Column Name="TopicType" Type="Int32"/>
       <Column Name="AttemptId" Type="ItemIdentifier" ReferencedItemTypeName="AttemptItem"/>
-      <Column Name="AttemptStatus" Type="Enum" EnumName="AttemptStatus"/>
-      <Column Name="TotalPoints" Type="Single"/>
     </Columns>
     <Implementation>
-      SELECT  PackageItem.Id AS PackageId,
-              ActivityPackageItem.Id AS OrganizationId,
-              AttemptItem.IudicoCurriculumChapterTopicRef AS CurriculumChapterTopicId,
-              AttemptItem.IudicoTopicType AS TopicType,
-              AttemptItem.Id AS AttemptId,
-              AttemptItem.AttemptStatus,
-              AttemptItem.TotalPoints
-              FROM ActivityPackageItem
+      SELECT AttemptItem.Id AS AttemptId
+      FROM ActivityPackageItem
       INNER JOIN PackageItem ON ActivityPackageItem.PackageId = PackageItem.Id
       LEFT OUTER JOIN ActivityAttemptItem ON ActivityPackageItem.Id = ActivityAttemptItem.ActivityPackageId
       LEFT OUTER JOIN AttemptItem ON ActivityAttemptItem.AttemptId = AttemptItem.Id
       INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
       WHERE (ActivityPackageItem.ParentActivityId IS NULL)
+      AND (AttemptItem.IudicoCurriculumChapterTopicRef = @CurriculumChapterTopicId)
+      AND (AttemptItem.IudicoTopicType = @TopicType)
+      AND (ActivityPackageItem.Id = @OrganizationId)
       AND (UserItem.[Key] = @UserKey)
     </Implementation>
     <GrantQueryRight>
@@ -155,36 +151,6 @@
               AttemptItem.TotalPoints AS Score
       FROM AttemptItem
       INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
-    </Implementation>
-    <GrantQueryRight>
-      <Expression>1</Expression>
-    </GrantQueryRight>
-  </View>
-  <View Name="AttemptsResultsByTopicAndUser">
-    <Parameters>
-      <Parameter Name="CurriculumChapterTopicIdParam" Type="Int32"/>
-      <Parameter Name="UserKeyParam" Type="String"/>
-    </Parameters>
-    <Columns>
-      <Column Name="AttemptId" Type="ItemIdentifier" ReferencedItemTypeName="AttemptItem"/>
-      <Column Name="TopicType" Type="Int32"/>
-      <Column Name="CompletionStatus" Type="Enum" EnumName="CompletionStatus"/>
-      <Column Name="AttemptStatus" Type="Enum" EnumName="AttemptStatus"/>
-      <Column Name="SuccessStatus" Type="Enum" EnumName="SuccessStatus"/>
-      <Column Name="StartedTimestamp" Type="DateTime"/>
-      <Column Name="Score" Type="Single"/>
-    </Columns>
-    <Implementation>
-      SELECT  AttemptItem.Id AS AttemptId,
-              AttemptItem.IudicoTopicType AS TopicType,
-              AttemptItem.CompletionStatus AS CompletionStatus,
-              AttemptItem.AttemptStatus AS AttemptStatus,
-              AttemptItem.SuccessStatus AS SuccessStatus,
-              AttemptItem.StartedTimestamp AS StartedTimestamp,
-              AttemptItem.TotalPoints AS Score
-      FROM AttemptItem
-      INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
-      WHERE ((AttemptItem.IudicoCurriculumChapterTopicRef = @CurriculumChapterTopicIdParam) AND (UserItem.[Key] = @UserKeyParam))
     </Implementation>
     <GrantQueryRight>
       <Expression>1</Expression>
