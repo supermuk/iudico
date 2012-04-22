@@ -58,11 +58,13 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         public void CompilersGetCompilerTest()
         {
             Assert.AreEqual(_compilers.Count, 0);
+            var result = _compilers.GetCompiler("CPP");
+            Assert.AreEqual(null, result);
 
             var newCompiler = new Compiler {Name = "CPP"};
             _compilers.AddCompiler(newCompiler);
 
-            var result = _compilers.GetCompiler("CPP");
+            result = _compilers.GetCompiler("CPP");
             
             Assert.AreNotEqual(result, null);
             Assert.AreEqual("CPP", result.Name);

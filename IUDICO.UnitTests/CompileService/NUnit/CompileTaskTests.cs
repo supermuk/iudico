@@ -32,6 +32,21 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         }
 
         [Test]
+        public void CompileTaskGetStandardStringTest()
+        {
+            //create default compile task
+            var sourceCodeFilePath = CompileSystem.Classes.Helper.CreateFileForCompilation(
+                "my incorrect code", _compiler.Extension);
+
+            var compileTask = new CompileTask(_compiler, sourceCodeFilePath);
+            bool result = compileTask.Execute();
+            
+            Assert.AreEqual(result, false);
+            Assert.AreEqual(string.IsNullOrEmpty(compileTask.StandardError), false);
+            Assert.AreEqual(string.IsNullOrEmpty(compileTask.StandardOutput), false);
+        }
+
+        [Test]
         [ExpectedException(typeof(Exception))]
         public void CompileTaskNullCompilerTest()
         {
