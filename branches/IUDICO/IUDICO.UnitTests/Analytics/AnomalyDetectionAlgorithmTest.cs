@@ -16,7 +16,7 @@ namespace IUDICO.UnitTests.Analytics
     {
         [Test]
         [Category("AnomalyDetectionAlgorithmTest")]
-        public void AnomalyDetectionAlgorithmTest()
+        public void AnomalyDetectionAlgorithm()
         {
             AnomalyDetectionAlgorithm test = new AnomalyDetectionAlgorithm();
 
