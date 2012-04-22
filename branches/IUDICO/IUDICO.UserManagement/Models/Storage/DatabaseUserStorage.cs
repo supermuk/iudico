@@ -22,11 +22,18 @@ namespace IUDICO.UserManagement.Models.Storage
     public class DatabaseUserStorage : IUserStorage
     {
         protected ILmsService _LmsService;
+        protected readonly LinqLogger _logger;
         protected const string _AllowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789";
         protected const string EmailHost = "mail.lviv.ua";
         protected const int EmailPort = 25;
         protected const string EmailUser = "report@tests-ua.com";
         /*protected const string EmailPassword = "iudico2012";*/
+
+        public DatabaseUserStorage(ILmsService lmsService, LinqLogger logger)
+        {
+            _LmsService = lmsService;
+            _logger = logger;
+        }
 
         public DatabaseUserStorage(ILmsService lmsService)
         {
@@ -35,7 +42,13 @@ namespace IUDICO.UserManagement.Models.Storage
 
         protected virtual IDataContext GetDbContext()
         {
-            return new DBDataContext();
+            var db = new DBDataContext();
+
+#if DEBUG
+            db.Log = _logger;
+#endif
+
+            return db;
         }
 
         protected virtual string GetPath()

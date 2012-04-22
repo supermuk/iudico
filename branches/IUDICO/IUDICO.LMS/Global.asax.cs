@@ -52,6 +52,8 @@ namespace IUDICO.LMS
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
             LmsService.Inform(LMSNotifications.ApplicationRequestStart, HttpContext.Current);
+
+            Container.Resolve<LinqLogger>().WriteLine("==== Begin request ====");
         }
 
         protected void Application_Start()
@@ -156,6 +158,13 @@ namespace IUDICO.LMS
                 .Install(FromAssembly.This(),
                          FromAssembly.InDirectory(new AssemblyFilter(Server.MapPath("/Plugins"), "IUDICO.*.dll"))
             );
+
+            _Container.Register(
+                Component.For<LinqLogger>().ImplementedBy<LinqLogger>()
+                .Parameters(
+                    Parameter.ForKey("fileName").Eq(Server.MapPath("/Data/Logs/LINQ/log.txt"))
+                )
+            );
         }
 
         protected void Application_AcquireRequestState(object sender, EventArgs e)
@@ -193,6 +202,7 @@ namespace IUDICO.LMS
 
         void Application_EndRequest(Object Sender, EventArgs e)
         {
+            Container.Resolve<LinqLogger>().WriteLine("==== End request ====");
             LmsService.Inform(LMSNotifications.ApplicationRequestEnd, HttpContext.Current, Request);
         }
 

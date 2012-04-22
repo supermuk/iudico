@@ -24,6 +24,7 @@ namespace IUDICO.CourseManagement.Models.Storage
     public class MixedCourseStorage : ICourseStorage
     {
         protected readonly ILmsService _LmsService;
+        protected readonly LinqLogger _logger;
 
         private readonly string[] _TemplateFiles = { "api.js", "checkplayer.js", "flensed.js", "flXHR.js", "flXHR.swf", "iudico.css", "iudico.js", "jquery-1.5.2.min.js", "jquery.flXHRproxy.js", "jquery.xhr.js", "questions.js", "sco.js", "swfobject.js", "updateplayer.swf" };
         private readonly string _ResourceIdForTemplateFiles = "TemplateFiles";
@@ -33,9 +34,21 @@ namespace IUDICO.CourseManagement.Models.Storage
             _LmsService = lmsService;
         }
 
+        public MixedCourseStorage(ILmsService lmsService, LinqLogger logger)
+        {
+            _LmsService = lmsService;
+            _logger = logger;
+        }
+
         protected virtual IDataContext GetDbContext()
         {
-            return new DBDataContext();
+            var db = new DBDataContext();
+
+            #if DEBUG
+                db.Log = _logger;
+            #endif
+
+            return db;
         }
 
         #region IStorage Members
