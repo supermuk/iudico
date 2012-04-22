@@ -616,6 +616,7 @@ SET @schema = @schema +
         '<Column Name="AttemptStatus" TypeCode="8" Nullable="true" EnumName="AttemptStatus"/>' +
         '<Column Name="SuccessStatus" TypeCode="8" Nullable="true" EnumName="SuccessStatus"/>' +
         '<Column Name="StartedTimestamp" TypeCode="4" Nullable="true"/>' +
+        '<Column Name="FinishedTimestamp" TypeCode="4" Nullable="true"/>' +
         '<Column Name="Score" TypeCode="5" Nullable="true"/>' +
     '</View>'
 SET @schema = @schema +
@@ -2276,6 +2277,7 @@ RETURN (
     AttemptItem.AttemptStatus AS AttemptStatus,
     AttemptItem.SuccessStatus AS SuccessStatus,
     AttemptItem.StartedTimestamp AS StartedTimestamp,
+    AttemptItem.FinishedTimestamp AS FinishedTimestamp,
     AttemptItem.TotalPoints AS Score
     FROM AttemptItem
     INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
