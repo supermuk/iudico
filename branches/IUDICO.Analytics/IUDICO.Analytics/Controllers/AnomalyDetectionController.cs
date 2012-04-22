@@ -35,19 +35,43 @@ namespace IUDICO.Analytics.Controllers
         }
 
         [Allow(Role = Role.Teacher)]
-        public ActionResult TrainTopic(int id)
+        public ActionResult SelectGroup(int topicId)
         {
-            var studentsAndMarks = _Storage.GetStudentListForTraining(id);
-            HttpContext.Session["StudentsAndMarks"] = studentsAndMarks;
-            var list = studentsAndMarks.ToList();
-            return View(list.GetRange(0, 21));
+            var availableGroups = _Storage.AvailebleGroups(topicId);
+            HttpContext.Session["TopicId"] = topicId;
+            ViewData["ShowError"] = null;
+            return View(availableGroups);
+        }
+
+        [Allow(Role = Role.Teacher)]
+        public ActionResult TrainTopic(int groupId)
+        {
+            int topicId = (int)HttpContext.Session["TopicId"];
+            var studentsAndMarks = _Storage.GetStudentListForTraining(topicId, groupId);
+            ViewData["ShowError"] = null;
+            if (HttpContext.Session["ShowError"] != null)
+            {
+                HttpContext.Session["ShowError"] = null;
+                ViewData["ShowError"] = true;
+            }
+            return View(studentsAndMarks);
         }
 
         [Allow(Role = Role.Teacher)]
         public ActionResult TrainAlg(string[] tsNormal, string[] tsAnomalies)
         {
-            var studentsAndMarks = (IEnumerable<KeyValuePair<User, double[]>>)HttpContext.Session["StudentsAndMarks"];
-            TrainingSet[] tr = TrainingSetsCreator.generateTrainingSets(studentsAndMarks, tsNormal, tsAnomalies);
+            int topicId = (int)HttpContext.Session["TopicId"];
+            var studentsAndMarks = _Storage.GetAllStudentListForTraining(topicId);
+            TrainingSet[] tr;
+            try
+            {
+                tr = TrainingSetsCreator.generateTrainingSets(studentsAndMarks, tsNormal, tsAnomalies);
+            }
+            catch (Exception ex)
+            {
+                HttpContext.Session["ShowError"] = true;
+                return RedirectToAction("TrainTopic", "AnomalyDetection", new { id = (int)HttpContext.Session["TopicId"] });
+            }
             return View(AnomalyDetectionAlgorithm.runAlg(studentsAndMarks, tr[0], tr[1], tr[2]));
         }
     }

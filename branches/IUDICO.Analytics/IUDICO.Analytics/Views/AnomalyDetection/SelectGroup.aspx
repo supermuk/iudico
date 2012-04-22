@@ -1,17 +1,16 @@
-﻿<%@ Assembly Name="IUDICO.Analytics" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Topic>>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Group>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Anomaly detection
+	SelectGroup
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Anomaly detection</h2>
-
-    <table>
+    <h2>SelectGroup</h2>
+    <form action="/AnomalyDetection/TrainTopic/" method="get">
+     <table>
         <tr>
-            <th>Topic Name</th>
+            <th>Group Name</th>
             <th></th>
         </tr>
 
@@ -20,16 +19,19 @@
          {%>
         <tr>
             <td>
-            <%:item.Name%>
+            <%:item.Name %>
             </td>
             <td>
-                <%:Html.ActionLink("Train topic", "SelectGroup", new { topicId = item.Id })%> |
+              <input name="groupId" type="radio" value="<%: item.Id %>"/>
             </td>
         </tr>
      <%
          }%>
-
      </table>
+     <p>
+        <input type="submit" value="Select" />
+    </p>
+    </form>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
