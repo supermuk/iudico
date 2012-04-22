@@ -636,7 +636,7 @@ namespace IUDICO.UnitTests.CompileService
             }
 
             incorrectMemorylimit = 1;
-            actualResult = _compileService.Compile(MemoryLimitCPPSourceCode, CPPlanguageType, input, output, Timelimit, incorrectMemorylimit);
+            actualResult = _compileService.Compile(MemoryLimitCPPSourceCode, CPPlanguageType, input, output, Timelimit + 20000, incorrectMemorylimit);
             Assert.AreEqual(MemoryLimitResult, actualResult);
         }
 

@@ -35,15 +35,15 @@ namespace CompileSystem.Classes.Testing
                 exeProcess.StartInfo.CreateNoWindow = true;
                 exeProcess.StartInfo.UseShellExecute = false;
                 exeProcess.StartInfo.FileName = executeFilePath;
+                long memoryValue = -1;
 
-                //exeProcess.StartInfo.Arguments = "";
                 exeProcess.Start();
-
-                //memory limit
-                //var memoryValue = Math.Max(memorylimit * 1024, exeProcess.MinWorkingSet.ToInt32()) + 10;
-                //exeProcess.MaxWorkingSet = new IntPtr(memoryValue);
+                int processId = exeProcess.Id;
 
                 exeProcess.StandardInput.Write(input);
+                //memory usage
+                memoryValue = Process.GetProcessById(processId).PeakWorkingSet64;
+                
                 exeProcess.StandardInput.Close();
                 exeProcess.WaitForExit(timelimit);
 
@@ -52,11 +52,10 @@ namespace CompileSystem.Classes.Testing
                     exeProcess.Kill();
                     status = new Status("TimeLimit");
                 }
-
-                //check whether it crashes
-                var processUsedMemory = exeProcess.PeakWorkingSet64 / 1024;
+                
                 var outputResult = exeProcess.StandardOutput.ReadToEnd().Trim();
                 var outputError = exeProcess.StandardError.ReadToEnd();
+                memoryValue = memoryValue/1024;
 
                 // set result
                 if (status == null)
@@ -65,7 +64,7 @@ namespace CompileSystem.Classes.Testing
                         status = new Status("Crashed");
                     else
                     {
-                        if (processUsedMemory > memorylimit)
+                        if (memoryValue > memorylimit)
                             status = new Status("Memorylimit");
 
                         else
