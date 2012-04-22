@@ -2,6 +2,7 @@
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
 using IUDICO.DisciplineManagement.Models.Storage;
+using System;
 
 namespace IUDICO.DisciplineManagement.Models
 {
@@ -39,6 +40,11 @@ namespace IUDICO.DisciplineManagement.Models
         public IList<Discipline> GetDisciplines(User user)
         {
             return _disciplineStorage.GetDisciplines(user);
+        }
+
+        public IList<Discipline> GetDisciplines(Func<Discipline, bool> predicate)
+        {
+            return _disciplineStorage.GetDisciplines(predicate);
         }
 
         public IList<Chapter> GetChapters(int disciplineId)
