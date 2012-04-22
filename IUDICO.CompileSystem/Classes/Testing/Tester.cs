@@ -65,7 +65,7 @@ namespace CompileSystem.Classes.Testing
                     else
                     {
                         if (memoryValue > memorylimit)
-                            status = new Status("Memorylimit");
+                            status = new Status("MemoryLimit");
 
                         else
                         status = outputResult == output ? new Status("Accepted") : new Status("WrongAnswer");

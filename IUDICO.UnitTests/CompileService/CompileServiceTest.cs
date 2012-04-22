@@ -48,7 +48,7 @@ namespace IUDICO.UnitTests.CompileService
         private readonly string[] _emptyInput = new string[0];
         private readonly string[] _emptyOutput = new string[0];
         //----------------------------------------------
-        private const int Timelimit = 2000;//20000;
+        private const int Timelimit = 2000;
         private const int Memorylimit = 3000;
         //----------------------------------------------
         private const string AcceptedTestResult = "Accepted";
@@ -447,7 +447,7 @@ namespace IUDICO.UnitTests.CompileService
 
             incorrectTimelimit = 1;
             actualResult = _compileService.Compile(TimeLimitCPPSourceCode, CPPlanguageType, input, output, incorrectTimelimit, Memorylimit);
-            Assert.AreEqual(TimeLimitResult, actualResult);
+            Assert.AreEqual("TimeLimit Test: 0", actualResult);
         }
 
         #endregion
@@ -636,8 +636,8 @@ namespace IUDICO.UnitTests.CompileService
             }
 
             incorrectMemorylimit = 1;
-            actualResult = _compileService.Compile(MemoryLimitCPPSourceCode, CPPlanguageType, input, output, Timelimit + 20000, incorrectMemorylimit);
-            Assert.AreEqual(MemoryLimitResult, actualResult);
+            actualResult = _compileService.Compile(CorrectCPPsourceCode, CPPlanguageType, input, output, Timelimit, incorrectMemorylimit);
+            Assert.AreEqual("MemoryLimit Test: 0", actualResult);
         }
 
         #endregion
