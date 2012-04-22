@@ -18,7 +18,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         public void CompileServiceCompileTest()
         {
             string expected = _compileService.Compile(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                                                      _language, _inputStrings, _outputStrings, 1000, 1000);
+                                                      _language, _inputStrings, _outputStrings, 1000, 3000);
             Assert.AreEqual(expected, "Accepted");
         }
 
