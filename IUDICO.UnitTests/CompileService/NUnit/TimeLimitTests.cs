@@ -27,7 +27,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [Test]
         public void IncorrectCPPTimeLimitTest()
         {
-            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPIncorrectSourceCode,
+            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
                                                           CompileServiceHelper.CPPLanguageName,
                                                           CompileServiceHelper.Input,
                                                           CompileServiceHelper.Output,
@@ -41,7 +41,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [ExpectedException(typeof(Exception))]
         public void NullCPPTimeLimitTest()
         {
-            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPIncorrectSourceCode,
+            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
                                                           CompileServiceHelper.CPPLanguageName,
                                                           CompileServiceHelper.Input,
                                                           CompileServiceHelper.Output,
@@ -53,7 +53,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [ExpectedException(typeof(Exception))]
         public void LessNullCPPTimeLimitTest()
         {
-            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPIncorrectSourceCode,
+            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
                                                           CompileServiceHelper.CPPLanguageName,
                                                           CompileServiceHelper.Input,
                                                           CompileServiceHelper.Output,
