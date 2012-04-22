@@ -11,11 +11,24 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 {
     public class DatabaseCurriculumStorage : ICurriculumStorage
     {
-        private readonly ILmsService _lmsService;
+        protected readonly ILmsService _lmsService;
+        protected readonly LinqLogger _logger;
 
         protected virtual IDataContext GetDbContext()
         {
-            return new DBDataContext();
+            var db = new DBDataContext();
+
+#if DEBUG
+            db.Log = _logger;
+#endif
+
+            return db;
+        }
+
+        public DatabaseCurriculumStorage(ILmsService lmsService, LinqLogger logger)
+        {
+            _lmsService = lmsService;
+            _logger = logger;
         }
 
         public DatabaseCurriculumStorage(ILmsService lmsService)

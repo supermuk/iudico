@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Linq;
+using System.IO;
 using System.Linq;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
@@ -13,12 +14,23 @@ namespace IUDICO.DisciplineManagement.Models.Storage
     public class DatabaseDisciplineStorage : IDisciplineStorage
     {
         private readonly ILmsService _lmsService;
+        private readonly LinqLogger _logger;
 
         protected virtual IDataContext GetDbContext()
         {
             var context = new DBDataContext();
             //context.DeferredLoadingEnabled = false;
+#if DEBUG
+            context.Log = _logger;
+#endif
+
             return context;//new DBDataContext();
+        }
+
+        public  DatabaseDisciplineStorage(ILmsService lmsService, LinqLogger logger)
+        {
+            _lmsService = lmsService;
+            _logger = logger;
         }
 
         public DatabaseDisciplineStorage(ILmsService lmsService)
