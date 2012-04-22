@@ -30,14 +30,14 @@ namespace IUDICO.CurriculumManagement
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<CurriculumManagementPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<ICurriculumStorage>().ImplementedBy<CachedCurriculumStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                //Component.For<ICurriculumStorage>().ImplementedBy<CachedCurriculumStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<ICurriculumStorage>().ImplementedBy<DatabaseCurriculumStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<ICurriculumService>().ImplementedBy<CurriculumService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
 
             // temporary hack
-            _CurriculumStorage = new CachedCurriculumStorage(new DatabaseCurriculumStorage(container.Resolve<ILmsService>()), container.Resolve<ICacheProvider>());
-            //_CurriculumStorage = container.Resolve<ICurriculumStorage>();
+            //_CurriculumStorage = new CachedCurriculumStorage(new DatabaseCurriculumStorage(container.Resolve<ILmsService>()), container.Resolve<ICacheProvider>());
+            _CurriculumStorage = container.Resolve<ICurriculumStorage>();
         }
 
         #endregion

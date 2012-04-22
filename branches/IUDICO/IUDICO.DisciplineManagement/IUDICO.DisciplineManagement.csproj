@@ -85,6 +85,7 @@
     <Compile Include="Models\DisciplineService.cs" />
     <Compile Include="Models\DBDataContext.cs" />
     <Compile Include="Models\IDataContext.cs" />
+    <Compile Include="Models\Storage\CachedDisciplineStorage.cs" />
     <Compile Include="Models\Storage\DatabaseDisciplineStorage.cs" />
     <Compile Include="Models\Storage\IDisciplineStorage.cs" />
     <Compile Include="Models\Utils.cs" />
