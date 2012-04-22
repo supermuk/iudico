@@ -127,6 +127,7 @@
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Views\Analytics\Index.aspx" />
+    <Content Include="Views\AnomalyDetection\SelectGroup.aspx" />
     <Content Include="Views\AnomalyDetection\TrainAlg.aspx" />
     <Content Include="Views\AnomalyDetection\TrainTopic.aspx" />
     <Content Include="Views\AnomalyDetection\Index.aspx" />
