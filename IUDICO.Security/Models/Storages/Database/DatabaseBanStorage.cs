@@ -14,8 +14,9 @@ namespace IUDICO.Security.Models.Storages.Database
 {
     public class DatabaseBanStorage : IBanStorage
     {
-        private readonly ILmsService _LmsService;
+        protected readonly ILmsService _LmsService;
         private readonly Func<ISecurityDataContext> _CreateIDataContext;
+        protected readonly LinqLogger _logger;
 
         public DatabaseBanStorage()
         {
@@ -25,12 +26,19 @@ namespace IUDICO.Security.Models.Storages.Database
             };
         }
 
-        public DatabaseBanStorage(ILmsService lmsService)
+        public DatabaseBanStorage(ILmsService lmsService, LinqLogger logger)
         {
             _LmsService = lmsService;
+            _logger = logger;
             _CreateIDataContext = () =>
                 {
-                    return new DBDataContext();
+                    var db = new DBDataContext();
+
+#if DEBUG
+                    db.Log = _logger;
+#endif
+
+                    return db;
                 };
         }
 
