@@ -10,6 +10,7 @@ namespace IUDICO.TestingSystem.Models
         long GetAttemptId(int curriculumChapterTopicId, int courseId, TopicTypeEnum topicType);
         IEnumerable<AttemptResult> GetResults();
         IEnumerable<AttemptResult> GetResults(User user, CurriculumChapterTopic curriculumChapterTopic);
+        IEnumerable<AttemptResult> GetResults(User user, CurriculumChapterTopic curriculumChapterTopic, TopicTypeEnum topicType);
         IEnumerable<AttemptResult> GetResults(User user);
         IEnumerable<AttemptResult> GetResults(Topic topic);
         IEnumerable<AttemptResult> GetResults(CurriculumChapterTopic curriculumChapterTopic);

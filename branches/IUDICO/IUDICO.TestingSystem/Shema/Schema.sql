@@ -600,14 +600,11 @@ SET @schema = @schema +
         '<Parameter Name="PackageId" TypeCode="1" Nullable="true" ReferencedItemTypeName="PackageItem"/>' +
     '</View>'
 SET @schema = @schema +
-    '<View Name="MyAttempts" Function="MyAttempts" SecurityFunction="MyAttempts$Security">' + 
-        '<Column Name="PackageId" TypeCode="1" Nullable="true" ReferencedItemTypeName="PackageItem"/>' +
-        '<Column Name="OrganizationId" TypeCode="1" Nullable="true" ReferencedItemTypeName="ActivityPackageItem"/>' +
-        '<Column Name="CurriculumChapterTopicId" TypeCode="9" Nullable="true"/>' +
-        '<Column Name="TopicType" TypeCode="9" Nullable="true"/>' +
+    '<View Name="MyAttemptIds" Function="MyAttemptIds" SecurityFunction="MyAttemptIds$Security">' + 
         '<Column Name="AttemptId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AttemptItem"/>' +
-        '<Column Name="AttemptStatus" TypeCode="8" Nullable="true" EnumName="AttemptStatus"/>' +
-        '<Column Name="TotalPoints" TypeCode="5" Nullable="true"/>' +
+        '<Parameter Name="OrganizationId" TypeCode="1" Nullable="true" ReferencedItemTypeName="ActivityPackageItem"/>' +
+        '<Parameter Name="CurriculumChapterTopicId" TypeCode="9" Nullable="true"/>' +
+        '<Parameter Name="TopicType" TypeCode="9" Nullable="true"/>' +
     '</View>'
 SET @schema = @schema +
     '<View Name="AllAttemptsResults" Function="AllAttemptsResults" SecurityFunction="AllAttemptsResults$Security">' + 
@@ -620,18 +617,6 @@ SET @schema = @schema +
         '<Column Name="SuccessStatus" TypeCode="8" Nullable="true" EnumName="SuccessStatus"/>' +
         '<Column Name="StartedTimestamp" TypeCode="4" Nullable="true"/>' +
         '<Column Name="Score" TypeCode="5" Nullable="true"/>' +
-    '</View>'
-SET @schema = @schema +
-    '<View Name="AttemptsResultsByTopicAndUser" Function="AttemptsResultsByTopicAndUser" SecurityFunction="AttemptsResultsByTopicAndUser$Security">' + 
-        '<Column Name="AttemptId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AttemptItem"/>' +
-        '<Column Name="TopicType" TypeCode="9" Nullable="true"/>' +
-        '<Column Name="CompletionStatus" TypeCode="8" Nullable="true" EnumName="CompletionStatus"/>' +
-        '<Column Name="AttemptStatus" TypeCode="8" Nullable="true" EnumName="AttemptStatus"/>' +
-        '<Column Name="SuccessStatus" TypeCode="8" Nullable="true" EnumName="SuccessStatus"/>' +
-        '<Column Name="StartedTimestamp" TypeCode="4" Nullable="true"/>' +
-        '<Column Name="Score" TypeCode="5" Nullable="true"/>' +
-        '<Parameter Name="CurriculumChapterTopicIdParam" TypeCode="9" Nullable="true"/>' +
-        '<Parameter Name="UserKeyParam" TypeCode="2" Nullable="true"/>' +
     '</View>'
 SET @schema = @schema +
     '<View Name="InteractionResultsByAttempt" Function="InteractionResultsByAttempt" SecurityFunction="InteractionResultsByAttempt$Security">' + 
@@ -2246,39 +2231,36 @@ GO
 GRANT EXECUTE ON [RootActivityByPackage$Security] TO LearningStore
 GO
 
--- Create a function that implements the MyAttempts view
-CREATE FUNCTION [MyAttempts](@UserKey nvarchar(250))
+-- Create a function that implements the MyAttemptIds view
+CREATE FUNCTION [MyAttemptIds](@UserKey nvarchar(250),@OrganizationId bigint=NULL,@CurriculumChapterTopicId int=NULL,@TopicType int=NULL)
 RETURNS TABLE
 AS
 RETURN (
-    SELECT  PackageItem.Id AS PackageId,
-    ActivityPackageItem.Id AS OrganizationId,
-    AttemptItem.IudicoCurriculumChapterTopicRef AS CurriculumChapterTopicId,
-    AttemptItem.IudicoTopicType AS TopicType,
-    AttemptItem.Id AS AttemptId,
-    AttemptItem.AttemptStatus,
-    AttemptItem.TotalPoints
+    SELECT AttemptItem.Id AS AttemptId
     FROM ActivityPackageItem
     INNER JOIN PackageItem ON ActivityPackageItem.PackageId = PackageItem.Id
     LEFT OUTER JOIN ActivityAttemptItem ON ActivityPackageItem.Id = ActivityAttemptItem.ActivityPackageId
     LEFT OUTER JOIN AttemptItem ON ActivityAttemptItem.AttemptId = AttemptItem.Id
     INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
     WHERE (ActivityPackageItem.ParentActivityId IS NULL)
+    AND (AttemptItem.IudicoCurriculumChapterTopicRef = @CurriculumChapterTopicId)
+    AND (AttemptItem.IudicoTopicType = @TopicType)
+    AND (ActivityPackageItem.Id = @OrganizationId)
     AND (UserItem.[Key] = @UserKey)
 )
 GO
-GRANT SELECT ON [MyAttempts] TO LearningStore
+GRANT SELECT ON [MyAttemptIds] TO LearningStore
 GO
 
--- Create function for the security on the MyAttempts view
-CREATE FUNCTION [MyAttempts$Security](@UserKey nvarchar(250))
+-- Create function for the security on the MyAttemptIds view
+CREATE FUNCTION [MyAttemptIds$Security](@UserKey nvarchar(250),@OrganizationId bigint=NULL,@CurriculumChapterTopicId int=NULL,@TopicType int=NULL)
 RETURNS bit
 AS
 BEGIN
     RETURN (1)
 END
 GO
-GRANT EXECUTE ON [MyAttempts$Security] TO LearningStore
+GRANT EXECUTE ON [MyAttemptIds$Security] TO LearningStore
 GO
 
 -- Create a function that implements the AllAttemptsResults view
@@ -2311,37 +2293,6 @@ BEGIN
 END
 GO
 GRANT EXECUTE ON [AllAttemptsResults$Security] TO LearningStore
-GO
-
--- Create a function that implements the AttemptsResultsByTopicAndUser view
-CREATE FUNCTION [AttemptsResultsByTopicAndUser](@UserKey nvarchar(250),@CurriculumChapterTopicIdParam int=NULL,@UserKeyParam nvarchar(max)=NULL)
-RETURNS TABLE
-AS
-RETURN (
-    SELECT  AttemptItem.Id AS AttemptId,
-    AttemptItem.IudicoTopicType AS TopicType,
-    AttemptItem.CompletionStatus AS CompletionStatus,
-    AttemptItem.AttemptStatus AS AttemptStatus,
-    AttemptItem.SuccessStatus AS SuccessStatus,
-    AttemptItem.StartedTimestamp AS StartedTimestamp,
-    AttemptItem.TotalPoints AS Score
-    FROM AttemptItem
-    INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
-    WHERE ((AttemptItem.IudicoCurriculumChapterTopicRef = @CurriculumChapterTopicIdParam) AND (UserItem.[Key] = @UserKeyParam))
-)
-GO
-GRANT SELECT ON [AttemptsResultsByTopicAndUser] TO LearningStore
-GO
-
--- Create function for the security on the AttemptsResultsByTopicAndUser view
-CREATE FUNCTION [AttemptsResultsByTopicAndUser$Security](@UserKey nvarchar(250),@CurriculumChapterTopicIdParam int=NULL,@UserKeyParam nvarchar(max)=NULL)
-RETURNS bit
-AS
-BEGIN
-    RETURN (1)
-END
-GO
-GRANT EXECUTE ON [AttemptsResultsByTopicAndUser$Security] TO LearningStore
 GO
 
 -- Create a function that implements the InteractionResultsByAttempt view

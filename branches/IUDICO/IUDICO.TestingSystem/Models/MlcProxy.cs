@@ -22,12 +22,12 @@ namespace IUDICO.TestingSystem.Models
     public class MlcProxy : MlcHelper, IMlcProxy
     {
         #region Constructor
-        
+
         public MlcProxy(ILmsService lmsService)
             : base(lmsService)
         {
         }
-        
+
         #endregion
 
         #region IMlcProxy implementation Methods
@@ -44,7 +44,7 @@ namespace IUDICO.TestingSystem.Models
         public long GetAttemptId(int curriculumChapterTopicId, int courseId, TopicTypeEnum topicType)
         {
             GetCurrentUserIdentifier();
-            AttemptItemIdentifier attemptId = null;
+            AttemptItemIdentifier attemptId;
             ActivityPackageItemIdentifier organizationId;
             var packageId = GetPackageIdentifier(courseId);
 
@@ -72,276 +72,111 @@ namespace IUDICO.TestingSystem.Models
 
         public IEnumerable<AttemptResult> GetResults()
         {
-            LearningStoreJob job = LStore.CreateJob();
-            RequestAllAttempts(job);
+            var job = LStore.CreateJob();
+            var conditions = new List<QueryCondition>();
+
+            RequestAttemptResults(job, conditions);
+
             var dataTable = job.Execute<DataTable>();
-            foreach (DataRow dataRow in dataTable.AsEnumerable())
-            {
-                AttemptItemIdentifier attemptItemId;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.AttemptId], out attemptItemId);
-                long attemptId = attemptItemId.GetKey();
 
-                String userKey;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.UserItemKey], out userKey);
-                User user = UserService.GetUsers().Single(curr => curr.Id.ToString() == userKey);
-                if (user == null)
-                {
-                    throw new NoNullAllowedException("Error while getting user with id = " + userKey);
-                }
-
-                Int32 curriculumChapterTopicId;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.CurriculumChapterTopicId], out curriculumChapterTopicId);
-                var curriculumChapterTopic = CurriculumService.GetCurriculumChapterTopicById(curriculumChapterTopicId);
-                if (curriculumChapterTopic == null)
-                {
-                    throw new NoNullAllowedException("Error while getting curriculum-chapter-topic with id = " + curriculumChapterTopicId);
-                }
-
-                int rawTopicType;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.TopicType], out rawTopicType);
-                var topicType = (TopicTypeEnum) rawTopicType;
-
-                Microsoft.LearningComponents.CompletionStatus completionStatus;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.CompletionStatus], out completionStatus);
-                var iudicoCompletionStatus = (IUDICO.Common.Models.Shared.Statistics.CompletionStatus)completionStatus;
-
-                Microsoft.LearningComponents.AttemptStatus attemptStatus;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.AttemptStatus], out attemptStatus);
-                var iudicoAttemptStatus = (IUDICO.Common.Models.Shared.Statistics.AttemptStatus)attemptStatus;
-
-                Microsoft.LearningComponents.SuccessStatus successStatus;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.SuccessStatus], out successStatus);
-                var iudicoSuccessStatus = (IUDICO.Common.Models.Shared.Statistics.SuccessStatus)successStatus;
-
-                DateTime? startTime;
-                LStoreHelper.Cast(dataRow[Schema.AllAttemptsResults.StartedTimestamp], out startTime);
-
-                float? scaledScore;
-                LStoreHelper.Cast<float>(dataRow[Schema.AllAttemptsResults.Score], out scaledScore);
-
-                // Create AttemptResult object
-                var attemptResult = new AttemptResult(attemptId, user, curriculumChapterTopic, topicType, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, scaledScore);
-                yield return attemptResult;
-            }
+            return ParseAttemptResults(dataTable.AsEnumerable(), conditions);
         }
 
         public IEnumerable<AttemptResult> GetResults(User user, CurriculumChapterTopic curriculumChapterTopic)
         {
-            LearningStoreJob job = LStore.CreateJob();
-            RequestAttemptsByTopicAndUser(job, user.Id.ToString(), curriculumChapterTopic.Id);
+            var job = LStore.CreateJob();
+            var conditions = new List<QueryCondition>
+                                 {
+                                     new QueryCondition(Schema.AllAttemptsResults.UserItemKey, user.Id.ToString()),
+                                     new QueryCondition(Schema.AllAttemptsResults.CurriculumChapterTopicId, curriculumChapterTopic.Id)
+                                 };
+
+            RequestAttemptResults(job, conditions);
+
             var dataTable = job.Execute<DataTable>();
-            
-            foreach (DataRow dataRow in dataTable.AsEnumerable())
-            {
-                AttemptItemIdentifier attemptItemId;
-                LStoreHelper.CastNonNull(dataRow[Schema.AttemptsResultsByTopicAndUser.AttemptId], out attemptItemId);
-                long attemptId = attemptItemId.GetKey();
 
-                int rawTopicType;
-                LStoreHelper.CastNonNull(dataRow[Schema.AttemptsResultsByTopicAndUser.TopicType], out rawTopicType);
-                var topicType = (TopicTypeEnum)rawTopicType;
+            return ParseAttemptResults(dataTable.AsEnumerable(), conditions);
+        }
 
-                Microsoft.LearningComponents.CompletionStatus completionStatus;
-                LStoreHelper.CastNonNull(dataRow[Schema.AttemptsResultsByTopicAndUser.CompletionStatus], out completionStatus);
-                var iudicoCompletionStatus = (IUDICO.Common.Models.Shared.Statistics.CompletionStatus)completionStatus;
+        public IEnumerable<AttemptResult> GetResults(User user, CurriculumChapterTopic curriculumChapterTopic, TopicTypeEnum topicType)
+        {
+            var job = LStore.CreateJob();
+            var conditions = new List<QueryCondition>
+                                 {
+                                     new QueryCondition(Schema.AllAttemptsResults.UserItemKey, user.Id.ToString()),
+                                     new QueryCondition(Schema.AllAttemptsResults.CurriculumChapterTopicId, curriculumChapterTopic.Id),
+                                     new QueryCondition(Schema.AllAttemptsResults.TopicType, (int)topicType)
+                                 };
 
-                Microsoft.LearningComponents.AttemptStatus attemptStatus;
-                LStoreHelper.CastNonNull(dataRow[Schema.AttemptsResultsByTopicAndUser.AttemptStatus], out attemptStatus);
-                var iudicoAttemptStatus = (IUDICO.Common.Models.Shared.Statistics.AttemptStatus)attemptStatus;
+            RequestAttemptResults(job, conditions);
 
-                Microsoft.LearningComponents.SuccessStatus successStatus;
-                LStoreHelper.CastNonNull(dataRow[Schema.AttemptsResultsByTopicAndUser.SuccessStatus], out successStatus);
-                var iudicoSuccessStatus = (IUDICO.Common.Models.Shared.Statistics.SuccessStatus)successStatus;
+            var dataTable = job.Execute<DataTable>();
 
-                DateTime? startTime;
-                LStoreHelper.Cast(dataRow[Schema.AttemptsResultsByTopicAndUser.StartedTimestamp], out startTime);
-
-                float? score;
-                LStoreHelper.Cast<float>(dataRow[Schema.AttemptsResultsByTopicAndUser.Score], out score);
-                float? scaledScore = null;
-                
-                if (score != null)
-                {
-                    scaledScore = score / 100;
-                }
-
-                // Create AttemptResult object
-                var attemptResult = new AttemptResult(attemptId, user, curriculumChapterTopic, topicType, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, scaledScore);
-                yield return attemptResult;
-            }
+            return ParseAttemptResults(dataTable.AsEnumerable(), conditions);
         }
 
         public IEnumerable<AttemptResult> GetResults(User user)
         {
-            LearningStoreJob job = LStore.CreateJob();
-            RequestAttemptsByUser(job, user.Id.ToString());
+            var job = LStore.CreateJob();
+            var conditions = new List<QueryCondition>
+                                 {
+                                     new QueryCondition(Schema.AllAttemptsResults.UserItemKey, user.Id.ToString())
+                                 };
+
+            RequestAttemptResults(job, conditions);
+
             var dataTable = job.Execute<DataTable>();
 
-            foreach (DataRow dataRow in dataTable.AsEnumerable())
-            {
-                AttemptItemIdentifier attemptItemId;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.AttemptId], out attemptItemId);
-                long attemptId = attemptItemId.GetKey();
-
-                Int32 curriculumChapterTopicId;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.CurriculumChapterTopicId], out curriculumChapterTopicId);
-                CurriculumChapterTopic curriculumChapterTopic = CurriculumService.GetCurriculumChapterTopicById(curriculumChapterTopicId);
-                if (curriculumChapterTopic == null)
-                {
-                    throw new NoNullAllowedException("Error while getting curriculum chapter topic with id = " + curriculumChapterTopicId);
-                }
-
-                int rawTopicType;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.TopicType], out rawTopicType);
-                var topicType = (TopicTypeEnum)rawTopicType;
-
-                Microsoft.LearningComponents.CompletionStatus completionStatus;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.CompletionStatus], out completionStatus);
-                var iudicoCompletionStatus = (IUDICO.Common.Models.Shared.Statistics.CompletionStatus)completionStatus;
-
-                Microsoft.LearningComponents.AttemptStatus attemptStatus;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.AttemptStatus], out attemptStatus);
-                var iudicoAttemptStatus = (IUDICO.Common.Models.Shared.Statistics.AttemptStatus)attemptStatus;
-
-                Microsoft.LearningComponents.SuccessStatus successStatus;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.SuccessStatus], out successStatus);
-                var iudicoSuccessStatus = (IUDICO.Common.Models.Shared.Statistics.SuccessStatus)successStatus;
-
-                DateTime? startTime;
-                LStoreHelper.Cast(dataRow[Schema.AllAttemptsResults.StartedTimestamp], out startTime);
-
-                float? score;
-                LStoreHelper.Cast<float>(dataRow[Schema.AllAttemptsResults.Score], out score);
-                float? scaledScore = null;
-
-                if (score != null)
-                {
-                    scaledScore = score / 100;
-                }
-
-                // Create AttemptResult object
-                var attemptResult = new AttemptResult(attemptId, user, curriculumChapterTopic, topicType, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, scaledScore);
-                yield return attemptResult;
-            }
+            return ParseAttemptResults(dataTable.AsEnumerable(), conditions);
         }
 
         public IEnumerable<AttemptResult> GetResults(Topic topic)
         {
-            LearningStoreJob job = LStore.CreateJob();
+            var job = LStore.CreateJob();
+
+            var conditions = new List<QueryCondition>();
+
+            // create request
             foreach (var curriculumChapterTopic in topic.CurriculumChapterTopics)
             {
-                RequestAttemptsByCurriculumChapterTopic(job, curriculumChapterTopic.Id);
+                conditions.Clear();
+                conditions.Add(new QueryCondition(Schema.AllAttemptsResults.CurriculumChapterTopicId,
+                                                  curriculumChapterTopic.Id));
+                RequestAttemptResults(job, conditions);
             }
+
+            // perform request on DB
             var dataTable = job.Execute<DataTable>();
 
-            foreach (DataRow dataRow in dataTable.AsEnumerable())
+            var result = new List<AttemptResult>();
+
+            foreach (var curriculumChapterTopic in topic.CurriculumChapterTopics)
             {
-                AttemptItemIdentifier attemptItemId;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.AttemptId], out attemptItemId);
-                long attemptId = attemptItemId.GetKey();
-
-                String userKey;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.UserItemKey], out userKey);
-                User user = UserService.GetUsers().Single(curr => curr.Id.ToString() == userKey);
-                if (user == null)
-                {
-                    throw new NoNullAllowedException("Error while getting user with id = " + userKey);
-                }
-
-                Int32 curriculumChapterTopicId;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.CurriculumChapterTopicId], out curriculumChapterTopicId);
-                CurriculumChapterTopic curriculumChapterTopic = CurriculumService.GetCurriculumChapterTopicById(curriculumChapterTopicId);
-                if (curriculumChapterTopic == null)
-                {
-                    throw new NoNullAllowedException("Error while getting curriculum chapter topic with id = " + curriculumChapterTopicId);
-                }
-
-                int rawTopicType;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.TopicType], out rawTopicType);
-                var topicType = (TopicTypeEnum)rawTopicType;
-
-                Microsoft.LearningComponents.CompletionStatus completionStatus;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.CompletionStatus], out completionStatus);
-                var iudicoCompletionStatus = (IUDICO.Common.Models.Shared.Statistics.CompletionStatus)completionStatus;
-
-                Microsoft.LearningComponents.AttemptStatus attemptStatus;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.AttemptStatus], out attemptStatus);
-                var iudicoAttemptStatus = (IUDICO.Common.Models.Shared.Statistics.AttemptStatus)attemptStatus;
-
-                Microsoft.LearningComponents.SuccessStatus successStatus;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.SuccessStatus], out successStatus);
-                var iudicoSuccessStatus = (IUDICO.Common.Models.Shared.Statistics.SuccessStatus)successStatus;
-
-                DateTime? startTime;
-                LStoreHelper.Cast(dataRow[Schema.AllAttemptsResults.StartedTimestamp], out startTime);
-
-                float? score;
-                LStoreHelper.Cast<float>(dataRow[Schema.AllAttemptsResults.Score], out score);
-                float? scaledScore = null;
-
-                if (score != null)
-                {
-                    scaledScore = score / 100;
-                }
-
-                // Create AttemptResult object
-                var attemptResult = new AttemptResult(attemptId, user, curriculumChapterTopic, topicType, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, scaledScore);
-                yield return attemptResult;
+                var curriculumChapterTopicId = curriculumChapterTopic.Id;
+                conditions.Clear();
+                conditions.Add(new QueryCondition(Schema.AllAttemptsResults.CurriculumChapterTopicId,
+                                                  curriculumChapterTopicId));
+                var filteredRows =
+                    dataTable.AsEnumerable().Where(
+                        dataRow => ParseCurriculumChapterTopicId(dataRow) == curriculumChapterTopicId);
+                result.AddRange(ParseAttemptResults(filteredRows, conditions));
             }
+            return result;
         }
 
         public IEnumerable<AttemptResult> GetResults(CurriculumChapterTopic curriculumChapterTopic)
         {
-            LearningStoreJob job = LStore.CreateJob();
-            RequestAttemptsByCurriculumChapterTopic(job, curriculumChapterTopic.Id);
+            var job = LStore.CreateJob();
+            var conditions = new List<QueryCondition>
+                                 {
+                                     new QueryCondition(Schema.AllAttemptsResults.CurriculumChapterTopicId, curriculumChapterTopic.Id)
+                                 };
+
+            RequestAttemptResults(job, conditions);
+
             var dataTable = job.Execute<DataTable>();
 
-            foreach (DataRow dataRow in dataTable.AsEnumerable())
-            {
-                AttemptItemIdentifier attemptItemId;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.AttemptId], out attemptItemId);
-                long attemptId = attemptItemId.GetKey();
-
-                String userKey;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.UserItemKey], out userKey);
-                User user = UserService.GetUsers().Single(curr => curr.Id.ToString() == userKey);
-                if (user == null)
-                {
-                    throw new NoNullAllowedException("Error while getting user with id = " + userKey);
-                }
-
-                int rawTopicType;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.TopicType], out rawTopicType);
-                var topicType = (TopicTypeEnum)rawTopicType;
-
-                Microsoft.LearningComponents.CompletionStatus completionStatus;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.CompletionStatus], out completionStatus);
-                var iudicoCompletionStatus = (IUDICO.Common.Models.Shared.Statistics.CompletionStatus)completionStatus;
-
-                Microsoft.LearningComponents.AttemptStatus attemptStatus;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.AttemptStatus], out attemptStatus);
-                var iudicoAttemptStatus = (IUDICO.Common.Models.Shared.Statistics.AttemptStatus)attemptStatus;
-
-                Microsoft.LearningComponents.SuccessStatus successStatus;
-                LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.SuccessStatus], out successStatus);
-                var iudicoSuccessStatus = (IUDICO.Common.Models.Shared.Statistics.SuccessStatus)successStatus;
-
-                DateTime? startTime;
-                LStoreHelper.Cast(dataRow[Schema.AllAttemptsResults.StartedTimestamp], out startTime);
-
-                float? score;
-                LStoreHelper.Cast<float>(dataRow[Schema.AllAttemptsResults.Score], out score);
-                float? scaledScore = null;
-
-                if (score != null)
-                {
-                    scaledScore = score / 100;
-                }
-
-                // Create AttemptResult object
-                var attemptResult = new AttemptResult(attemptId, user, curriculumChapterTopic, topicType, iudicoCompletionStatus, iudicoAttemptStatus, iudicoSuccessStatus, startTime, scaledScore);
-                yield return attemptResult;
-            }
+            return ParseAttemptResults(dataTable.AsEnumerable(), conditions);
         }
 
         public IEnumerable<AnswerResult> GetAnswers(AttemptResult attemptResult)
@@ -373,19 +208,19 @@ namespace IUDICO.TestingSystem.Models
 
                 Microsoft.LearningComponents.CompletionStatus completionStatus;
                 LStoreHelper.CastNonNull(dataRow[Schema.InteractionResultsByAttempt.CompletionStatus], out completionStatus);
-                var iudicoCompletionStatus = (IUDICO.Common.Models.Shared.Statistics.CompletionStatus)completionStatus;
+                var iudicoCompletionStatus = (Common.Models.Shared.Statistics.CompletionStatus)completionStatus;
 
                 Microsoft.LearningComponents.SuccessStatus? successStatus;
                 LStoreHelper.Cast(dataRow[Schema.InteractionResultsByAttempt.SuccessStatus], out successStatus);
-                var iudicoSuccessStatus = (IUDICO.Common.Models.Shared.Statistics.SuccessStatus?)successStatus;
+                var iudicoSuccessStatus = (Common.Models.Shared.Statistics.SuccessStatus?)successStatus;
 
-                bool? learnerResponseBool = null;
+                bool? learnerResponseBool;
                 LStoreHelper.Cast(dataRow[Schema.InteractionResultsByAttempt.LearnerResponseBool], out learnerResponseBool);
 
-                string learnerResponseString = null;
+                string learnerResponseString;
                 LStoreHelper.Cast(dataRow[Schema.InteractionResultsByAttempt.LearnerResponseString], out learnerResponseString);
 
-                double? learnerResponseNumeric = null;
+                double? learnerResponseNumeric;
                 LStoreHelper.Cast(dataRow[Schema.InteractionResultsByAttempt.LearnerResponseNumeric], out learnerResponseNumeric);
 
                 object learnerResponse = null;
@@ -405,16 +240,16 @@ namespace IUDICO.TestingSystem.Models
                 string correctResponse;
                 LStoreHelper.Cast(dataRow[Schema.InteractionResultsByAttempt.CorrectResponse], out correctResponse);
 
-                Microsoft.LearningComponents.InteractionType? interactionType = null;
+                Microsoft.LearningComponents.InteractionType? interactionType;
                 LStoreHelper.Cast(dataRow[Schema.InteractionResultsByAttempt.InteractionType], out interactionType);
-                IUDICO.Common.Models.Shared.Statistics.InteractionType? learnerResponseType = null;
+                Common.Models.Shared.Statistics.InteractionType? learnerResponseType = null;
                 if (interactionType != null)
                 {
-                    learnerResponseType = (IUDICO.Common.Models.Shared.Statistics.InteractionType)interactionType;
+                    learnerResponseType = (Common.Models.Shared.Statistics.InteractionType)interactionType;
                 }
-                
+
                 float? scaledScore;
-                LStoreHelper.Cast<float>(dataRow[Schema.InteractionResultsByAttempt.ScaledScore], out scaledScore);
+                LStoreHelper.Cast(dataRow[Schema.InteractionResultsByAttempt.ScaledScore], out scaledScore);
 
                 // Create AnswerResult object
                 var answerResult = new AnswerResult(activityAttemptId, activityPackageId, activityTitle, interactionId, iudicoCompletionStatus, iudicoSuccessStatus, attemptResult, learnerResponse, correctResponse, learnerResponseType, scaledScore);
@@ -426,90 +261,157 @@ namespace IUDICO.TestingSystem.Models
 
         #region Protected Methods
 
-        /// <summary>
-        /// Requests that the list of all attempts all users have performed on all organizaions.
-        /// Adds the request to a given <c>LearningStoreJob</c> for later execution.
-        /// </summary>
-        /// <param name="job">A <c>LearningStoreJob</c> to add the new query to.</param>
-        protected void RequestAllAttempts(LearningStoreJob job)
-        {
-            LearningStoreQuery query = LStore.CreateQuery(Schema.AllAttemptsResults.ViewName);
-            
-            query.AddColumn(Schema.AllAttemptsResults.AttemptId);
-            query.AddColumn(Schema.AllAttemptsResults.UserItemKey);
-            query.AddColumn(Schema.AllAttemptsResults.CurriculumChapterTopicId);
-            query.AddColumn(Schema.AllAttemptsResults.TopicType);
-            query.AddColumn(Schema.AllAttemptsResults.CompletionStatus);
-            query.AddColumn(Schema.AllAttemptsResults.AttemptStatus);
-            query.AddColumn(Schema.AllAttemptsResults.SuccessStatus);
-            query.AddColumn(Schema.AllAttemptsResults.StartedTimestamp);
-            query.AddColumn(Schema.AllAttemptsResults.Score);
-            
-            job.PerformQuery(query);
-        }
+        private static readonly ReadOnlyCollection<string> AllAttemptsColumns = new ReadOnlyCollection<string>(new List<string>
+                                                                    {
+                                                                        Schema.AllAttemptsResults.AttemptId,
+                                                                        Schema.AllAttemptsResults.AttemptStatus,
+                                                                        Schema.AllAttemptsResults.CompletionStatus,
+                                                                        Schema.AllAttemptsResults.CurriculumChapterTopicId,
+                                                                        Schema.AllAttemptsResults.Score,
+                                                                        Schema.AllAttemptsResults.StartedTimestamp,
+                                                                        Schema.AllAttemptsResults.SuccessStatus,
+                                                                        Schema.AllAttemptsResults.TopicType,
+                                                                        Schema.AllAttemptsResults.UserItemKey
+                                                                    });
 
         /// <summary>
-        /// Requests that the list of all attempts specified user performed on specified topic.
-        /// Adds the request to a given <c>LearningStoreJob</c> for later execution.
+        /// Affects <paramref name="job"/> object by adding query for all columns from <see cref="AllAttemptsColumns"/>
+        /// and adding conditions specified in <paramref name="conditions"/>
         /// </summary>
-        /// <param name="job">A <c>LearningStoreJob</c> to add the new query to.</param>
-        /// <param name="userKey">String value represents user key.</param>
-        /// <param name="curriculumChapterTopicId">Id of <see cref="CurriculumChapterTopic"/></param>
-        /// <param name="topicType"><see cref="TopicTypeEnum"/> value</param>
-        protected void RequestAttemptsByTopicAndUser(LearningStoreJob job, String userKey, Int32 curriculumChapterTopicId)
+        /// <param name="job"><see cref="LearningStoreJob"/> object to add query to.</param>
+        /// <param name="conditions"><see cref="List{T}"/> of <see cref="QueryCondition"/> objects to add conditions to query.</param>
+        protected void RequestAttemptResults(LearningStoreJob job, List<QueryCondition> conditions)
         {
-            LearningStoreQuery query = LStore.CreateQuery(Schema.AttemptsResultsByTopicAndUser.ViewName);
+            LearningStoreQuery query = LStore.CreateQuery(Schema.AllAttemptsResults.ViewName);
 
-            query.AddColumn(Schema.AttemptsResultsByTopicAndUser.AttemptId);
-            query.AddColumn(Schema.AttemptsResultsByTopicAndUser.TopicType);
-            query.AddColumn(Schema.AttemptsResultsByTopicAndUser.CompletionStatus);
-            query.AddColumn(Schema.AttemptsResultsByTopicAndUser.AttemptStatus);
-            query.AddColumn(Schema.AttemptsResultsByTopicAndUser.SuccessStatus);
-            query.AddColumn(Schema.AttemptsResultsByTopicAndUser.StartedTimestamp);
-            query.AddColumn(Schema.AttemptsResultsByTopicAndUser.Score);
+            // Select all columns except those mentioned in conditions.
+            var queryColumns = AllAttemptsColumns.Except(conditions.Select(cond => cond.ColumnName)).ToList();
 
-            query.SetParameter(Schema.AttemptsResultsByTopicAndUser.CurriculumChapterTopicIdParam, curriculumChapterTopicId);
-            query.SetParameter(Schema.AttemptsResultsByTopicAndUser.UserKeyParam, userKey);
+            // add columns to query
+            foreach (var queryColumn in queryColumns)
+            {
+                query.AddColumn(queryColumn);
+            }
+
+            //add conditions to query
+            foreach (var condition in conditions)
+            {
+                query.AddCondition(condition.ColumnName, condition.ConditionOperator, condition.Value);
+            }
 
             job.PerformQuery(query);
         }
 
-        protected void RequestAttemptsByUser(LearningStoreJob job, String userKey)
+        /// <summary>
+        /// Manages parsing of fields got from DataTable to return results of attempts.
+        /// </summary>
+        /// <param name="dataRows"><see cref="IEnumerable{T}"/> collection of <see cref="DataRow"/> containing results from <see cref="LearningStore"/></param>
+        /// <param name="conditions"><see cref="List{T}"/> of <see cref="QueryCondition"/> objects needed to parse results properly.</param>
+        /// <returns><see cref="IEnumerable{T}"/> collection of <see cref="AttemptResult"/> objects parsed from given <paramref name="dataRows"/>.</returns>
+        protected IEnumerable<AttemptResult> ParseAttemptResults(IEnumerable<DataRow> dataRows, List<QueryCondition> conditions)
         {
-            // TODO: use more specific sql request
-            LearningStoreQuery query = LStore.CreateQuery(Schema.AllAttemptsResults.ViewName);
+            var queryColumns = AllAttemptsColumns.Except(conditions.Select(cond => cond.ColumnName)).ToList();
 
-            query.AddColumn(Schema.AllAttemptsResults.AttemptId);
-            query.AddColumn(Schema.AllAttemptsResults.CurriculumChapterTopicId);
-            query.AddColumn(Schema.AllAttemptsResults.TopicType);
-            query.AddColumn(Schema.AllAttemptsResults.CompletionStatus);
-            query.AddColumn(Schema.AllAttemptsResults.AttemptStatus);
-            query.AddColumn(Schema.AllAttemptsResults.SuccessStatus);
-            query.AddColumn(Schema.AllAttemptsResults.StartedTimestamp);
-            query.AddColumn(Schema.AllAttemptsResults.Score);
+            foreach (var dataRow in dataRows)
+            {
+                var attemptResult = new AttemptResult();
 
-            query.AddCondition(Schema.AllAttemptsResults.UserItemKey, LearningStoreConditionOperator.Equal, userKey);
+                foreach (var condition in conditions)
+                {
+                    ParseAttemptResultField(condition.Value, condition.ColumnName, ref attemptResult);
+                }
+                foreach (var queryColumn in queryColumns)
+                {
+                    ParseAttemptResultField(dataRow[queryColumn], queryColumn, ref attemptResult);
+                }
 
-            job.PerformQuery(query);
+                yield return attemptResult;
+            }
         }
 
-        protected void RequestAttemptsByCurriculumChapterTopic(LearningStoreJob job, Int32 curriculumChapterTopicId)
+        /// <summary>
+        /// Performs mapping and setting appropriate fields of <paramref name="attemptResult"/> with given values.
+        /// </summary>
+        /// <param name="rawValue"><see cref="object"/> representing raw value retrieved from LearningStore (DB).</param>
+        /// <param name="fieldName"><see cref="string"/> value representing name of the field (column).</param>
+        /// <param name="attemptResult"><see cref="AttemptResult"/> value passed by reference. Parsed value is being assigned to it's corresponding property.</param>
+        protected void ParseAttemptResultField(object rawValue, string fieldName, ref AttemptResult attemptResult)
         {
-            // TODO: use more specific sql request
-            LearningStoreQuery query = LStore.CreateQuery(Schema.AllAttemptsResults.ViewName);
+            switch (fieldName)
+            {
+                case Schema.AllAttemptsResults.AttemptId:
+                    AttemptItemIdentifier attemptItemId;
+                    LStoreHelper.CastNonNull(rawValue, out attemptItemId);
+                    attemptResult.AttemptId = attemptItemId.GetKey();
+                    break;
+                case Schema.AllAttemptsResults.AttemptStatus:
+                    Microsoft.LearningComponents.AttemptStatus attemptStatus;
+                    LStoreHelper.CastNonNull(rawValue, out attemptStatus);
+                    attemptResult.AttemptStatus = (Common.Models.Shared.Statistics.AttemptStatus)attemptStatus;
+                    break;
+                case Schema.AllAttemptsResults.CompletionStatus:
+                    Microsoft.LearningComponents.CompletionStatus completionStatus;
+                    LStoreHelper.CastNonNull(rawValue, out completionStatus);
+                    attemptResult.CompletionStatus = (Common.Models.Shared.Statistics.CompletionStatus)completionStatus;
+                    break;
+                case Schema.AllAttemptsResults.CurriculumChapterTopicId:
+                    Int32 curriculumChapterTopicId;
+                    LStoreHelper.CastNonNull(rawValue, out curriculumChapterTopicId);
+                    var curriculumChapterTopic = CurriculumService.GetCurriculumChapterTopicById(curriculumChapterTopicId);
+                    if (curriculumChapterTopic == null)
+                    {
+                        throw new NoNullAllowedException("Error while getting curriculum-chapter-topic with id = " + curriculumChapterTopicId);
+                    }
+                    attemptResult.CurriculumChapterTopic = curriculumChapterTopic;
+                    break;
+                case Schema.AllAttemptsResults.Score:
+                    float? score;
+                    LStoreHelper.Cast(rawValue, out score);
+                    float? scaledScore = null;
+                    if (score != null)
+                    {
+                        scaledScore = score / 100;
+                    }
+                    attemptResult.Score = new Score(scaledScore);
+                    break;
+                case Schema.AllAttemptsResults.StartedTimestamp:
+                    DateTime? startTime;
+                    LStoreHelper.Cast(rawValue, out startTime);
+                    attemptResult.StartTime = startTime;
+                    break;
+                case Schema.AllAttemptsResults.SuccessStatus:
+                    Microsoft.LearningComponents.SuccessStatus successStatus;
+                    LStoreHelper.CastNonNull(rawValue, out successStatus);
+                    attemptResult.SuccessStatus = (Common.Models.Shared.Statistics.SuccessStatus)successStatus;
+                    break;
+                case Schema.AllAttemptsResults.TopicType:
+                    int rawTopicType;
+                    LStoreHelper.CastNonNull(rawValue, out rawTopicType);
+                    attemptResult.TopicType = (TopicTypeEnum)rawTopicType;
+                    break;
+                case Schema.AllAttemptsResults.UserItemKey:
+                    string userKey;
+                    LStoreHelper.CastNonNull(rawValue, out userKey);
+                    var user = UserService.GetUsers().Single(curr => curr.Id.ToString() == userKey);
+                    if (user == null)
+                    {
+                        throw new NoNullAllowedException("Error while getting user with id = " + userKey);
+                    }
+                    attemptResult.User = user;
+                    break;
+            }
+        }
 
-            query.AddColumn(Schema.AllAttemptsResults.AttemptId);
-            query.AddColumn(Schema.AllAttemptsResults.UserItemKey);
-            query.AddColumn(Schema.AllAttemptsResults.TopicType);
-            query.AddColumn(Schema.AllAttemptsResults.CompletionStatus);
-            query.AddColumn(Schema.AllAttemptsResults.AttemptStatus);
-            query.AddColumn(Schema.AllAttemptsResults.SuccessStatus);
-            query.AddColumn(Schema.AllAttemptsResults.StartedTimestamp);
-            query.AddColumn(Schema.AllAttemptsResults.Score);
-
-            query.AddCondition(Schema.AllAttemptsResults.CurriculumChapterTopicId, LearningStoreConditionOperator.Equal, curriculumChapterTopicId);
-
-            job.PerformQuery(query);
+        /// <summary>
+        /// Extracts curriculum chapter topic id from given <paramref name="dataRow"/>.
+        /// </summary>
+        /// <param name="dataRow"><see cref="DataRow"/> value containing needed field value.</param>
+        /// <returns><see cref="int"/> value representing id of <see cref="CurriculumChapterTopic"/></returns>
+        protected int ParseCurriculumChapterTopicId(DataRow dataRow)
+        {
+            Int32 curriculumChapterTopicId;
+            LStoreHelper.CastNonNull(dataRow[Schema.AllAttemptsResults.CurriculumChapterTopicId], out curriculumChapterTopicId);
+            return curriculumChapterTopicId;
         }
 
         /// <summary>
@@ -542,58 +444,36 @@ namespace IUDICO.TestingSystem.Models
         }
 
         /// <summary>
-        /// Requests that the list of training for the current user be retrieved from the LearningStore
-        /// database.  Adds the request to a given <c>LearningStoreJob</c> for later execution.
-        /// </summary>
-        /// <param name="job">A <c>LearningStoreJob</c> to add the new query to.</param>
-        /// <param name="packageId">To request information related to a single pass the
-        /// 	<c>PackageItemIdentifier</c> of the package as this parameter.  Otherwise, leave this
-        /// 	parameter <c>null</c>.</param>
-        protected void RequestMyTraining(LearningStoreJob job,
-            PackageItemIdentifier packageId)
-        {
-            LearningStoreQuery query = LStore.CreateQuery(Schema.MyAttempts.ViewName);
-            query.AddColumn(Schema.MyAttempts.PackageId);
-            query.AddColumn(Schema.MyAttempts.OrganizationId);
-            query.AddColumn(Schema.MyAttempts.AttemptId);
-            query.AddColumn(Schema.MyAttempts.AttemptStatus);
-            query.AddColumn(Schema.MyAttempts.TotalPoints);
-            if (packageId != null)
-            {
-                query.AddCondition(Schema.MyAttempts.PackageId,
-                    LearningStoreConditionOperator.Equal, packageId);
-            }
-            job.PerformQuery(query);
-        }
-
-        /// <summary>
         /// Creates attempt on given organization and returns attempt identifier.
         /// </summary>
-        /// <param name="orgID">Long integer value represents organization identifier to create attempt on.</param>
+        /// <param name="orgId">Long integer value represents organization identifier to create attempt on.</param>
+        /// <param name="curriculumChapterTopicId">Int32 value representing id of curriculum chapter topic.</param>
+        /// <param name="topicType"><see cref="TopicTypeEnum"/> value defines part of topic.</param>
         /// <returns>Long integer value, representing attempt identifier of created attempt.</returns>
-        protected AttemptItemIdentifier CreateAttempt(long orgID, int curriculumChapterTopicId, TopicTypeEnum topicType)
+        protected AttemptItemIdentifier CreateAttempt(long orgId, int curriculumChapterTopicId, TopicTypeEnum topicType)
         {
-            var organizationID = new ActivityPackageItemIdentifier(orgID);
-            
-            StoredLearningSession session = StoredLearningSession.CreateAttempt(this.PStore, this.GetCurrentUserIdentifier(), organizationID, LoggingOptions.LogAll);
+            var organizationId = new ActivityPackageItemIdentifier(orgId);
+
+            StoredLearningSession session = StoredLearningSession.CreateAttempt(PStore, GetCurrentUserIdentifier(), organizationId, LoggingOptions.LogAll);
             LearningStoreJob job = LStore.CreateJob();
-            Dictionary<string, object> dic = new Dictionary<string, object>();
-            // TODO: Change IudicoThemeRef => IudicoCurriculumchapterTopicRef
-            dic.Add(Schema.AttemptItem.IudicoCurriculumChapterTopicRef, curriculumChapterTopicId);
-            dic.Add(Schema.AttemptItem.IudicoTopicType, topicType);
+            var dic = new Dictionary<string, object>
+                          {
+                              {Schema.AttemptItem.IudicoCurriculumChapterTopicRef, curriculumChapterTopicId},
+                              {Schema.AttemptItem.IudicoTopicType, topicType}
+                          };
             job.UpdateItem(session.AttemptId, dic);
             job.Execute();
 
             return session.AttemptId;
         }
-        
+
         /// <summary>
         /// Adds package to the database.
         /// </summary>
         /// <param name="package">Package value represents package object with necessary information.</param>
         protected PackageItemIdentifier AddPackage(Package package)
         {
-            PackageItemIdentifier packageId = null;
+            PackageItemIdentifier packageId;
 
             using (PackageReader packageReader = package.GetPackageReader())
             {
@@ -615,7 +495,7 @@ namespace IUDICO.TestingSystem.Models
         /// <summary>
         /// Retrieves package id by specified IUDICO course.
         /// </summary>
-        /// <param name="course">Course object represents iudico course entity.</param>
+        /// <param name="courseId">Int32 value representing Iudico-course identifier.</param>
         /// <returns>PackageItemIdentifier value representing corresponding MLC Package ID.</returns>
         protected PackageItemIdentifier GetPackageIdentifier(int courseId)
         {
@@ -630,7 +510,7 @@ namespace IUDICO.TestingSystem.Models
 
             ReadOnlyCollection<object> resultList = job.Execute();
 
-            DataTable dataTable = (DataTable)resultList[0];
+            var dataTable = (DataTable)resultList[0];
 
             if (dataTable.Rows.Count > 0)
             {
@@ -657,7 +537,7 @@ namespace IUDICO.TestingSystem.Models
 
             var resultList = job.Execute();
 
-            DataTable dataTable = (DataTable)resultList[0];
+            var dataTable = (DataTable)resultList[0];
 
             if (dataTable.Rows.Count > 0)
                 LStoreHelper.Cast(dataTable.Rows[0][Schema.RootActivityByPackage.RootActivity], out result);
@@ -669,19 +549,19 @@ namespace IUDICO.TestingSystem.Models
         /// Retrieves attempt identifier for specified organization id and Iudico topic id.
         /// </summary>
         /// <param name="orgId"><c>ActivityPackageItemIdentifier</c> value representing Organization ID.</param>
-        /// <param name="topicId">Integer value - IUDICO topic id.</param>
+        /// <param name="curriculumChapterTopicId">Integer value - IUDICO curriculum chapter topic id.</param>
+        /// <param name="topicType"><see cref="TopicTypeEnum"/> value.</param>
         /// <returns><c>AttemptItemIdentifier</c> value representing Attempt Identifier.</returns>
         protected AttemptItemIdentifier GetAttemptIdentifier(ActivityPackageItemIdentifier orgId, int curriculumChapterTopicId, TopicTypeEnum topicType)
         {
-            // TODO: use more specific sql request
             AttemptItemIdentifier result = null;
             LearningStoreJob job = LStore.CreateJob();
 
-            LearningStoreQuery query = LStore.CreateQuery(Schema.MyAttempts.ViewName);
-            query.AddColumn(Schema.MyAttempts.AttemptId);
-            query.AddCondition(Schema.MyAttempts.OrganizationId, LearningStoreConditionOperator.Equal, orgId);
-            query.AddCondition(Schema.MyAttempts.CurriculumChapterTopicId, LearningStoreConditionOperator.Equal, curriculumChapterTopicId);
-            query.AddCondition(Schema.MyAttempts.TopicType, LearningStoreConditionOperator.Equal, topicType);
+            LearningStoreQuery query = LStore.CreateQuery(Schema.MyAttemptIds.ViewName);
+            query.AddColumn(Schema.MyAttemptIds.AttemptId);
+            query.SetParameter(Schema.MyAttemptIds.CurriculumChapterTopicId, curriculumChapterTopicId);
+            query.SetParameter(Schema.MyAttemptIds.OrganizationId, orgId);
+            query.SetParameter(Schema.MyAttemptIds.TopicType, topicType);
 
             job.PerformQuery(query);
 
@@ -692,11 +572,11 @@ namespace IUDICO.TestingSystem.Models
             if (dataTable.Rows.Count > 0)
             {
                 // get last result
-                LStoreHelper.Cast(dataTable.Rows[dataTable.Rows.Count-1][Schema.MyAttempts.AttemptId], out result);
+                LStoreHelper.Cast(dataTable.Rows[dataTable.Rows.Count - 1][Schema.MyAttemptIds.AttemptId], out result);
             }
             return result;
         }
 
-	    #endregion
+        #endregion
     }
 }

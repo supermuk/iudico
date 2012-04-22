@@ -128,7 +128,8 @@
     <Compile Include="Models\TestingService.cs" />
     <Compile Include="Models\VOs\FileSystemPackage.cs" />
     <Compile Include="Models\VOs\Package.cs" />
-    <Compile Include="Models\VOs\PlayModel.cs" />
+    <Compile Include="ViewModels\PlayModel.cs" />
+    <Compile Include="Models\VOs\QueryCondition.cs" />
     <Compile Include="Models\VOs\ZipPackage.cs" />
     <Compile Include="Player\ChangeActivity.aspx.cs">
       <DependentUpon>ChangeActivity.aspx</DependentUpon>

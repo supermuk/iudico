@@ -6146,78 +6146,32 @@ namespace IUDICO.TestingSystem.Schema {
     }
     
     /// <summary>
-    /// Contains constants related to the MyAttempts view.
+    /// Contains constants related to the MyAttemptIds view.
     /// </summary>
     /// <remarks>
     /// Columns in the view:
     /// <ul>
     /// <li><Fld>AttemptId</Fld></li>
-    /// <li><Fld>AttemptStatus</Fld></li>
-    /// <li><Fld>CurriculumChapterTopicId</Fld></li>
-    /// <li><Fld>OrganizationId</Fld></li>
-    /// <li><Fld>PackageId</Fld></li>
-    /// <li><Fld>TopicType</Fld></li>
-    /// <li><Fld>TotalPoints</Fld></li>
     /// </ul>
     /// Parameters in the view:
-    /// None
+    /// <ul>
+    /// <li><Fld>CurriculumChapterTopicId</Fld></li>
+    /// <li><Fld>OrganizationId</Fld></li>
+    /// <li><Fld>TopicType</Fld></li>
+    /// </ul>
     /// </remarks>
     [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
     [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
     [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-    public abstract class MyAttempts {
+    public abstract class MyAttemptIds {
         
         /// <summary>
-        /// Name of the <Typ>MyAttempts</Typ> view.
+        /// Name of the <Typ>MyAttemptIds</Typ> view.
         /// </summary>
-        public const string ViewName = "MyAttempts";
+        public const string ViewName = "MyAttemptIds";
         
         /// <summary>
-        /// Name of the PackageId column on the <Typ>MyAttempts</Typ> view.
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>PackageItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string PackageId = "PackageId";
-        
-        /// <summary>
-        /// Name of the OrganizationId column on the <Typ>MyAttempts</Typ> view.
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>ActivityPackageItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string OrganizationId = "OrganizationId";
-        
-        /// <summary>
-        /// Name of the CurriculumChapterTopicId column on the <Typ>MyAttempts</Typ> view.
-        /// </summary>
-        /// <remarks>
-        /// Column type: Int32
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string CurriculumChapterTopicId = "CurriculumChapterTopicId";
-        
-        /// <summary>
-        /// Name of the TopicType column on the <Typ>MyAttempts</Typ> view.
-        /// </summary>
-        /// <remarks>
-        /// Column type: Int32
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string TopicType = "TopicType";
-        
-        /// <summary>
-        /// Name of the AttemptId column on the <Typ>MyAttempts</Typ> view.
+        /// Name of the AttemptId column on the <Typ>MyAttemptIds</Typ> view.
         /// </summary>
         /// <remarks>
         /// Column type: Reference to a <Typ>AttemptItem</Typ> item type.
@@ -6228,26 +6182,37 @@ namespace IUDICO.TestingSystem.Schema {
         public const string AttemptId = "AttemptId";
         
         /// <summary>
-        /// Name of the AttemptStatus column on the <Typ>MyAttempts</Typ> view.
+        /// Name of the OrganizationId parameter on the <Typ>MyAttemptIds</Typ> view.
         /// </summary>
         /// <remarks>
-        /// Column type: <Typ>/Microsoft.LearningComponents.AttemptStatus</Typ>
+        /// Parameter type: Reference to a <Typ>ActivityPackageItem</Typ> item type.
         /// </remarks>
         [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptStatus = "AttemptStatus";
+        public const string OrganizationId = "OrganizationId";
         
         /// <summary>
-        /// Name of the TotalPoints column on the <Typ>MyAttempts</Typ> view.
+        /// Name of the CurriculumChapterTopicId parameter on the <Typ>MyAttemptIds</Typ> view.
         /// </summary>
         /// <remarks>
-        /// Column type: Single
+        /// Parameter type: Int32
         /// </remarks>
         [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string TotalPoints = "TotalPoints";
+        public const string CurriculumChapterTopicId = "CurriculumChapterTopicId";
+        
+        /// <summary>
+        /// Name of the TopicType parameter on the <Typ>MyAttemptIds</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Parameter type: Int32
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string TopicType = "TopicType";
     }
     
     /// <summary>
@@ -6377,136 +6342,6 @@ namespace IUDICO.TestingSystem.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string Score = "Score";
-    }
-    
-    /// <summary>
-    /// Contains constants related to the AttemptsResultsByTopicAndUser view.
-    /// </summary>
-    /// <remarks>
-    /// Columns in the view:
-    /// <ul>
-    /// <li><Fld>AttemptId</Fld></li>
-    /// <li><Fld>AttemptStatus</Fld></li>
-    /// <li><Fld>CompletionStatus</Fld></li>
-    /// <li><Fld>Score</Fld></li>
-    /// <li><Fld>StartedTimestamp</Fld></li>
-    /// <li><Fld>SuccessStatus</Fld></li>
-    /// <li><Fld>TopicType</Fld></li>
-    /// </ul>
-    /// Parameters in the view:
-    /// <ul>
-    /// <li><Fld>CurriculumChapterTopicIdParam</Fld></li>
-    /// <li><Fld>UserKeyParam</Fld></li>
-    /// </ul>
-    /// </remarks>
-    [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-    [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-    [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-    public abstract class AttemptsResultsByTopicAndUser {
-        
-        /// <summary>
-        /// Name of the <Typ>AttemptsResultsByTopicAndUser</Typ> view.
-        /// </summary>
-        public const string ViewName = "AttemptsResultsByTopicAndUser";
-        
-        /// <summary>
-        /// Name of the AttemptId column on the <Typ>AttemptsResultsByTopicAndUser</Typ> view.
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>AttemptItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptId = "AttemptId";
-        
-        /// <summary>
-        /// Name of the TopicType column on the <Typ>AttemptsResultsByTopicAndUser</Typ> view.
-        /// </summary>
-        /// <remarks>
-        /// Column type: Int32
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string TopicType = "TopicType";
-        
-        /// <summary>
-        /// Name of the CompletionStatus column on the <Typ>AttemptsResultsByTopicAndUser</Typ> view.
-        /// </summary>
-        /// <remarks>
-        /// Column type: <Typ>/Microsoft.LearningComponents.CompletionStatus</Typ>
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string CompletionStatus = "CompletionStatus";
-        
-        /// <summary>
-        /// Name of the AttemptStatus column on the <Typ>AttemptsResultsByTopicAndUser</Typ> view.
-        /// </summary>
-        /// <remarks>
-        /// Column type: <Typ>/Microsoft.LearningComponents.AttemptStatus</Typ>
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptStatus = "AttemptStatus";
-        
-        /// <summary>
-        /// Name of the SuccessStatus column on the <Typ>AttemptsResultsByTopicAndUser</Typ> view.
-        /// </summary>
-        /// <remarks>
-        /// Column type: <Typ>/Microsoft.LearningComponents.SuccessStatus</Typ>
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string SuccessStatus = "SuccessStatus";
-        
-        /// <summary>
-        /// Name of the StartedTimestamp column on the <Typ>AttemptsResultsByTopicAndUser</Typ> view.
-        /// </summary>
-        /// <remarks>
-        /// Column type: DateTime
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string StartedTimestamp = "StartedTimestamp";
-        
-        /// <summary>
-        /// Name of the Score column on the <Typ>AttemptsResultsByTopicAndUser</Typ> view.
-        /// </summary>
-        /// <remarks>
-        /// Column type: Single
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string Score = "Score";
-        
-        /// <summary>
-        /// Name of the CurriculumChapterTopicIdParam parameter on the <Typ>AttemptsResultsByTopicAndUser</Typ> view.
-        /// </summary>
-        /// <remarks>
-        /// Parameter type: Int32
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string CurriculumChapterTopicIdParam = "CurriculumChapterTopicIdParam";
-        
-        /// <summary>
-        /// Name of the UserKeyParam parameter on the <Typ>AttemptsResultsByTopicAndUser</Typ> view.
-        /// </summary>
-        /// <remarks>
-        /// Parameter type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string UserKeyParam = "UserKeyParam";
     }
     
     /// <summary>
