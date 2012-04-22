@@ -34,7 +34,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
                                                           1,
                                                           CompileServiceHelper.MemoryLimit);
 
-            Assert.AreEqual(CompileServiceHelper.TimeLimitOneResult, actualResult);
+            Assert.AreNotEqual(CompileServiceHelper.AcceptedTestResult, actualResult);
         }
 
         [Test]
