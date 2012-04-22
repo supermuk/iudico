@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
+using IUDICO.Common.Models.Shared.DisciplineManagement;
 using IUDICO.Common.Models.Shared.Statistics;
 
 namespace IUDICO.TestingSystem.Models
@@ -19,6 +20,11 @@ namespace IUDICO.TestingSystem.Models
         public IEnumerable<AttemptResult> GetResults(User user, CurriculumChapterTopic curriculumChapterTopic)
         {
             return MlcProxy.GetResults(user, curriculumChapterTopic);
+        }
+
+        public IEnumerable<AttemptResult> GetResults(User user, CurriculumChapterTopic curriculumChapterTopic, TopicTypeEnum topicType)
+        {
+            return MlcProxy.GetResults(user, curriculumChapterTopic, topicType);
         }
 
         public IEnumerable<AttemptResult> GetResults(User user)

@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using System.Collections.Generic;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Shared.DisciplineManagement;
 using IUDICO.Common.Models.Shared.Statistics;
 using IUDICO.Common.Controllers;
 using IUDICO.Statistics.Models.Storage;
@@ -73,9 +74,9 @@ namespace IUDICO.Statistics.Controllers
 
         [Allow(Role = Role.Student)]
         [HttpGet]
-        public ActionResult CurrentTopicTestResults(Int32 curriculumChapterTopicId)
+        public ActionResult CurrentTopicTestResults(int curriculumChapterTopicId, TopicTypeEnum topicType)
         {
-            var model = new CurrentTopicTestResultsModel(curriculumChapterTopicId, LmsService);
+            var model = new CurrentTopicTestResultsModel(curriculumChapterTopicId, topicType, LmsService);
             return View(model);
         }
     }

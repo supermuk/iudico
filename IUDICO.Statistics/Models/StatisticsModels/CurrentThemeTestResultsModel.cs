@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Shared.DisciplineManagement;
 using IUDICO.Common.Models.Shared.Statistics;
 using IUDICO.Common.Models.Shared;
 
@@ -14,14 +13,14 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         private AttemptResult _Attempt;
         private IEnumerable<AnswerResult> _UserAnswers;
         private bool _NoData;
-        public CurrentTopicTestResultsModel(int curriculumChapterTopicId, ILmsService lmsService)
+        public CurrentTopicTestResultsModel(int curriculumChapterTopicId, TopicTypeEnum topicType, ILmsService lmsService)
         {
             User currenUser = lmsService.FindService<IUserService>().GetCurrentUser();
             var curriculumChapterTopic = lmsService.FindService<ICurriculumService>().GetCurriculumChapterTopicById(curriculumChapterTopicId);
             if (currenUser != null & curriculumChapterTopic != null)
             {
-                IEnumerable<AttemptResult> attemptResults = lmsService.FindService<ITestingService>().GetResults(currenUser, curriculumChapterTopic);
-                if (attemptResults != null & attemptResults.Count() >= 1)
+                var attemptResults = lmsService.FindService<ITestingService>().GetResults(currenUser, curriculumChapterTopic, topicType).ToList();
+                if (attemptResults.Count() >= 1)
                 {
 
                     _Attempt = attemptResults.Last();

@@ -77,14 +77,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\QualityTestController.cs" />
     <Compile Include="Controllers\StatsController.cs" />
     <Compile Include="Localization.cs" />
-    <Compile Include="Models\QualityTestModels\FakeDataQualityTest.cs" />
-    <Compile Include="Models\QualityTestModels\IndexModel.cs" />
-    <Compile Include="Models\QualityTestModels\SelectGroupsModel.cs" />
-    <Compile Include="Models\QualityTestModels\SelectThemeModel.cs" />
-    <Compile Include="Models\QualityTestModels\ShowQualityTestModel.cs" />
     <Compile Include="Models\StatisticsModels\CurrentThemeTestResultsModel.cs" />
     <Compile Include="Models\StatisticsModels\ThemeInfoModel.cs" />
     <Compile Include="Models\StatisticsModels\ThemeTestResultsModel.cs" />
@@ -112,10 +106,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\QualityTest\SelectDiscipline.aspx" />
-    <Content Include="Views\QualityTest\SelectGroups.aspx" />
-    <Content Include="Views\QualityTest\SelectTopic.aspx" />
-    <Content Include="Views\QualityTest\ShowQualityTest.aspx" />
     <Content Include="Views\Stats\Index.aspx" />
     <Content Include="Views\Stats\SelectDisciplines.aspx" />
     <Content Include="Views\Stats\ShowDisciplineStatistic.aspx" />
