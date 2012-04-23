@@ -50,11 +50,11 @@
             <%:item.Key.Name %>
             </td>
             <td>
-            <%:Math.Round((double)item.Value[4], 2).ToString() %>
+            <%:Math.Round((double)item.Value[0], 2).ToString() %>
             </td>
             <td>
-            <% int minutes = Convert.ToInt32(item.Value[0]) / 60;
-               int seconds = Convert.ToInt32(item.Value[0]) % 60;
+            <% int minutes = Convert.ToInt32(item.Value[1]) / 60;
+               int seconds = Convert.ToInt32(item.Value[1]) % 60;
                  %>
             <%: minutes.ToString() + ':' + ((seconds < 10)?"0":"") + seconds.ToString()%>
             </td>
