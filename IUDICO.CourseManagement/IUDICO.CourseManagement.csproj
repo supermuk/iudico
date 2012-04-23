@@ -1375,8 +1375,12 @@
     <None Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resource.en-US.resx" />
-    <EmbeddedResource Include="Resource.uk-UA.resx" />
+    <EmbeddedResource Include="Resource.en-US.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource.uk-UA.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
