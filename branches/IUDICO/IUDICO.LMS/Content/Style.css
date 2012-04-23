@@ -6,7 +6,7 @@ to use a different color start by replacing all instances of
 body
 {
     background-image: url(/Content/Images/background.png);
-    font-size: 1em;
+    font-size: 0.7em;
     font-family: Century Gothic, Arial, Verdana, Helvetica, Sans-Serif;
     margin: 0;
     padding: 0;
@@ -300,7 +300,7 @@ div#title
 
 #logindisplay
 {
-    font-size:1.5em;
+    font-size:1.2em;
     display:block;
     text-align:right;
     margin:10px;
