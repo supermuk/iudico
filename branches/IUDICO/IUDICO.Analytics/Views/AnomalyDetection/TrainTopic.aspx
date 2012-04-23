@@ -2,7 +2,7 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<KeyValuePair<IUDICO.Common.Models.Shared.User,double[]>>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	TrainTopic
+	Train Topic
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -24,7 +24,7 @@
             }
         }
     </script>
-    <h2>TrainTopic</h2>
+    <h2>Train Topic</h2>
     <%if (ViewData["ShowError"] != null)
       { %>
       Please, select valid training set!<br /> 
