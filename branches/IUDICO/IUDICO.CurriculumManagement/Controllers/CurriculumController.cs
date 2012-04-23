@@ -126,5 +126,58 @@ namespace IUDICO.CurriculumManagement.Controllers
                 return Json(new { success = false, message = e.Message });
             }
         }
+
+        [HttpPost]
+        [Allow(Role = Role.Teacher)]
+        public ActionResult Details(int id)
+        {
+            var cur = Storage.GetCurriculum(id);
+            
+            return View(cur);
+        }
+
+        [HttpGet]
+        [Allow(Role = Role.Teacher)]
+        public ActionResult EditTopic(int id)
+        {
+            var topic = Storage.GetCurriculumChapterTopic(id);
+            var model = new CreateCurriculumChapterTopicModel(topic.MaxScore, topic.BlockTopicAtTesting,
+                                                              topic.BlockCurriculumAtTesting, topic.TestStartDate,
+                                                              topic.TestEndDate, topic.TheoryStartDate,
+                                                              topic.TheoryEndDate);
+            return PartialView("EditTopic", model);
+        }
+
+        [HttpPost]
+        [Allow(Role = Role.Teacher)]
+        public JsonResult EditTopic(int id, CreateCurriculumChapterTopicModel model)
+        {
+            try
+            {
+                var curriculumChapterTopic = Storage.GetCurriculumChapterTopic(id);
+                curriculumChapterTopic.MaxScore = model.MaxScore;
+                curriculumChapterTopic.BlockCurriculumAtTesting = model.BlockCurriculumAtTesting;
+                curriculumChapterTopic.BlockTopicAtTesting = model.BlockTopicAtTesting;
+                curriculumChapterTopic.TestStartDate = model.SetTestTimeline ? model.TestStartDate : (DateTime?)null;
+                curriculumChapterTopic.TestEndDate = model.SetTestTimeline ? model.TestEndDate : (DateTime?)null;
+                curriculumChapterTopic.TheoryStartDate = model.SetTheoryTimeline ? model.TheoryStartDate : (DateTime?)null;
+                curriculumChapterTopic.TheoryEndDate = model.SetTheoryTimeline ? model.TheoryEndDate : (DateTime?)null;
+
+                AddValidationErrorsToModelState(Validator.ValidateCurriculumChapterTopic(curriculumChapterTopic).Errors);
+
+                if (ModelState.IsValid)
+                {
+                    Storage.UpdateCurriculumChapterTopic(curriculumChapterTopic);
+                    return Json(new {success = "true"});
+                }
+
+                return Json(new { success = false, id = id, html = PartialViewAsString("EditTopic", model) });
+            }
+            catch (Exception ex)
+            {
+                return Json(new {success = false, html = ex.Message});
+            }
+            
+        }
     }
 }
