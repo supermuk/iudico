@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AnalyseParams>
+
   <TargetExecutable><!-- File name of the program to analyse. -->C:\Program Files (x86)\NUnit 2.6\bin\nunit-console-x86.exe</TargetExecutable>
   <TargetArguments><!-- Program arguments. -->C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.UnitTests\bin\Debug\IUDICO.UnitTests.dll</TargetArguments>
   <TargetWorkingDir><!-- Program working directory. -->C:\Users\Administrator\.hudson\jobs\IUDICO\workspace</TargetWorkingDir>
@@ -31,7 +32,5 @@
     </ExcludeFilters>
 
   </Filters>
-
-</AnalyseParams>
 
 </AnalyseParams>
