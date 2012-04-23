@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using IUDICO.Analytics.Models.Storage;
+using IUDICO.Analytics.Models;
 using IUDICO.Analytics.Models.AnomalyDetectionAlg;
 using IUDICO.Analytics.Models.DecisionTrees;
 using IUDICO.Common.Controllers;
@@ -72,6 +73,7 @@ namespace IUDICO.Analytics.Controllers
                 HttpContext.Session["ShowError"] = true;
                 return RedirectToAction("TrainTopic", "AnomalyDetection", new { id = (int)HttpContext.Session["TopicId"] });
             }
+            ViewData["SkillTags"] = _Storage.GetTags();
             return View(AnomalyDetectionAlgorithm.runAlg(studentsAndMarks, tr[0], tr[1], tr[2]));
         }
     }
