@@ -4,26 +4,36 @@
     if (HttpContext.Current.User.Identity.IsAuthenticated)
     {
 %>
-    <%=IUDICO.LMS.Localization.getMessage("LoggedInAs") %> <b><a href="<%: Url.Action("Index", "Account") %>"><%: HttpContext.Current.User.Identity.Name%></a></b>. <%: Html.ActionLink(IUDICO.LMS.Localization.getMessage("Logout"), "Logout", "Account") %>
+    <div>
+    <%=IUDICO.LMS.Localization.getMessage("LoggedInAs") %> <b><a href="<%: Url.Action("Index", "Account") %>"><%: HttpContext.Current.User.Identity.Name%></a></b>. 
+    </div>
+    <div>
+    <span id="langContainer">
+    <%= Html.ActionLink(IUDICO.LMS.Localization.getMessage("Language")+"  ", "ChangeCulture", "Account", new { lang = IUDICO.LMS.Localization.getMessage("ChangeCulture"), returnUrl = this.Request.RawUrl }, null)%>
+    </span>            
+    <span>
+    <%: Html.ActionLink(IUDICO.LMS.Localization.getMessage("Logout"), "Logout", "Account") %>
+    </span>
+    </div>
 <%
     }
     else
     {
 %>
-    <form action="<%: Url.Action("Login", "Account")  %>" method="post">
-	    <label for="loginIdentifier"><%=IUDICO.LMS.Localization.getMessage("OpenID") %> </label>
-	    <input type="text" id="loginIdentifier" name="loginIdentifier" size="40" />
-	    
-        <input type="submit" value=<%=IUDICO.LMS.Localization.getMessage("Login") %> />
-	</form>
+
 
     <form action="<%: Url.Action("LoginDefault", "Account") %>" method="post">
-        <label for="loginUsername"><%=IUDICO.LMS.Localization.getMessage("Loginn") %></label>
-        <input type="text" id="loginUsername" name="loginUsername" size="40" />
-        <input type="password" id="loginPassword" name="loginPassword" size="40" />
+        <input type="text" id="loginUsername" placeholder="<%=IUDICO.LMS.Localization.getMessage("Loginn") %>" name="loginUsername" size="40" />
+        <input type="password" id="loginPassword" placeholder="<%=IUDICO.LMS.Localization.getMessage("Password") %>"  name="loginPassword" size="40" />
 
-        <input type="submit" value=<%=IUDICO.LMS.Localization.getMessage("Login") %> />
+        <input type="submit" value="<%=IUDICO.LMS.Localization.getMessage("Ok") %>" class="okButton" />
     </form>
+
+    <form action="<%: Url.Action("Login", "Account")  %>" method="post">
+	    <input type="text" id="loginIdentifier" placeholder="<%=IUDICO.LMS.Localization.getMessage("OpenID") %>" name="loginIdentifier" size="40" />
+	    
+        <input type="submit" value="<%=IUDICO.LMS.Localization.getMessage("Ok")%>" class="okButton" />
+	</form>
 <%
     }
 %>

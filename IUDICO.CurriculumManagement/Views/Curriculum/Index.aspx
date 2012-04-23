@@ -6,6 +6,22 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {
+            $("#curriculumsTable").dataTable({
+                "bJQueryUI": true,
+                "sPaginationType": "full_numbers",
+                iDisplayLength: 200,
+                "bSort": true,
+                "bLengthChange": false,
+                "aoColumns": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                { "bSortable": false }
+                ]                                
+            });
+            
             $("#DeleteMany").click(function () {
                 var ids = $("td input:checked").map(function () {
                     return $(this).attr('id');
@@ -60,6 +76,10 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                 }
             });
         }
+        
+        function details(id) {
+            window.location.replace("/Curriculum?Details?id=" + id);
+        }
     </script>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
@@ -73,7 +93,8 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
         <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("AddCurriculum"), "Create") %>
         <a id="DeleteMany" href="#"><%=IUDICO.CurriculumManagement.Localization.getMessage("DeleteSelected")%></a>
     </p>
-    <table>
+    <table id="curriculumsTable">
+        <thead>
         <tr>
             <th>
             </th>
@@ -92,19 +113,21 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
             <th>
             </th>
         </tr>
+        </thead>
+        <tbody>
         <% foreach (var item in Model)
            { %>
         <tr id="item<%: item.Id %>">
             <td>
                 <input type="checkbox" id="<%= item.Id %>" />
             </td>
-            <td>
+            <td onclick="details(<%: item.Id %>);">
                 <%: item.GroupName %>
             </td>
-            <td>
+            <td  onclick="details(<%: item.Id %>);">
                 <%: item.DisciplineName %>
             </td>
-            <td>
+            <td  onclick="details(<%: item.Id %>);">
                 <%: item.StartDate %>
             </td>
             <td>
@@ -119,6 +142,7 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
             </td>
         </tr>
         <% } %>
+        </tbody>
     </table>
 
 <%--    <div>
