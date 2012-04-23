@@ -585,19 +585,19 @@ namespace IUDICO.Analytics.Models.Storage
                         .GetResults(student, curriculumChapterTopic)
                         .First(item => item.AttemptStatus == AttemptStatus.Completed);
 
+                    var score = studentScore.Score.ToPercents();
+                    value[0] = (score == null) ? 0 : score.Value;
+
                     var finishTime = studentScore.FinishTime.HasValue ? studentScore.FinishTime : null;
                     var startTime = studentScore.StartTime.HasValue ? studentScore.StartTime : null;
                     if (finishTime == null || startTime == null)
                     {
-                        value[0] = 0;
+                        value[1] = 0;
                     }
                     else
                     {
-                        value[0] = finishTime.Value.Subtract(startTime.Value).TotalSeconds;
+                        value[1] = finishTime.Value.Subtract(startTime.Value).TotalSeconds;
                     }
-
-                    var score = studentScore.Score.ToPercents();
-                    value[1] = (score == null) ? 0 : score.Value;
 
                     var userScores = this.GetUserTagScores(student);
                     for (int i = 0; i < userScores.Count(); i++)
