@@ -47,20 +47,21 @@
     <div class="page">
         <div id="header">
             <div id="title">
-                <h1>
-                    IUDICO</h1>
+                <a href="/"><img src="/Content/Images/logo.png" alt="IUDICO"/></a>
             </div>
             <div id="logindisplay">
                 <div style="display:none;">
                     <% Html.RenderPartial("SearchBox"); %>
                 </div>
-                <% Html.RenderPartial("CultureChooserUserControl"); %>
-                <% Html.RenderPartial("UserBox"); %>
+
+                <div>
+                    <% Html.RenderPartial("UserBox"); %>
+                </div>
             </div>
             <div id="menucontainer">
                 <ul id="menu">
                     <li>
-                        <%: Html.ActionLink(IUDICO.LMS.Localization.getMessage("Home"), "Index", "Home")%></li>
+                        <%: Html.ActionLink(IUDICO.LMS.Localization.getMessage("Home"), "Index", "Home", new {}, new { @class = "selected"})%></li>
                     <% var menu = (IUDICO.Common.Models.Menu)IUDICO.LMS.MvcApplication.LmsService.GetMenu(); %>
                     <%  foreach (var item in menu.Items)
                         { %>

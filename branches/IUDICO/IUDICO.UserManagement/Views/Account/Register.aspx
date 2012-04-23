@@ -8,15 +8,13 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=Localization.getMessage("Register")%></h2>
-
     <%
         using (Html.BeginForm())
         {%>
         <%:Html.ValidationSummary(true)%>
 
         <fieldset>
-            <legend><%=Localization.getMessage("Fields")%></legend>
+            <legend><%=Localization.getMessage("Register")%></legend>
             
             <%:Html.EditorForModel()%>
             

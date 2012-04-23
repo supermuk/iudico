@@ -81,7 +81,17 @@ namespace IUDICO.CourseManagement.Controllers
                     course.Owner = _UserService.GetCurrentUser().Username;
                     var courseId = _Storage.AddCourse(course);
 
-                    return Json(new { success = true, courseId = courseId, courseRow = PartialViewAsString("CourseRow", course) });
+                    var model = new ViewCourseModel
+                                    {
+                                        Id = course.Id,
+                                        Name = course.Name,
+                                        Created = course.Created,
+                                        Updated = course.Updated,
+                                        Locked = course.Locked ?? false,
+                                        Shared = false,
+                                        OwnerName = _UserService.GetCurrentUser().Name
+                                    };
+                    return Json(new { success = true, courseId = courseId, courseRow = PartialViewAsString("CourseRow", model) });
                 }
 
                 return Json(new { success = false, html = PartialViewAsString("Create", course) });

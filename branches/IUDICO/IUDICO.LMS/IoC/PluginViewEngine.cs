@@ -27,8 +27,12 @@ namespace IUDICO.LMS.IoC
             {
                 res = base.FileExists(controllerContext, virtualPath);
             }
-            catch (HttpException)
+            catch (HttpException ex)
             {
+                if(ex.GetHttpCode() != 404)
+                {
+                    throw;
+                }
                 res = false;
             }
 
