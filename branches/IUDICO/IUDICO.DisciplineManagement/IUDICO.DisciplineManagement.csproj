@@ -85,6 +85,7 @@
     <Compile Include="Models\DisciplineService.cs" />
     <Compile Include="Models\DBDataContext.cs" />
     <Compile Include="Models\IDataContext.cs" />
+    <Compile Include="Models\ImportExportDiscipline.cs" />
     <Compile Include="Models\Storage\CachedDisciplineStorage.cs" />
     <Compile Include="Models\Storage\DatabaseDisciplineStorage.cs" />
     <Compile Include="Models\Storage\IDisciplineStorage.cs" />
@@ -122,6 +123,7 @@
     <Content Include="Views\Chapter\ChapterRow.ascx" />
     <Content Include="Views\Discipline\Create.aspx" />
     <Content Include="Views\Chapter\Create.ascx" />
+    <Content Include="Views\Discipline\Import.ascx" />
     <Content Include="Views\Discipline\Share.ascx" />
     <Content Include="Views\Topic\Create.ascx" />
     <Content Include="Views\Discipline\Edit.aspx" />

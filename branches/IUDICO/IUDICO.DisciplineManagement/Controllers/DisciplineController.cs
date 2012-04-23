@@ -4,8 +4,11 @@ using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Attributes;
+using IUDICO.DisciplineManagement.Models;
 using IUDICO.DisciplineManagement.Models.Storage;
 using System.Linq;
+using System.Web;
+using System.IO;
 
 namespace IUDICO.DisciplineManagement.Controllers
 {
@@ -124,6 +127,29 @@ namespace IUDICO.DisciplineManagement.Controllers
             {
                 return Json(new { success = false, message = e.Message });
             }
+        }
+
+        [Allow(Role = Role.Teacher)]
+        public FilePathResult Export(int disciplineId)
+        {
+            var importer = new ImportExportDiscipline(Storage, HttpContext.Request.PhysicalApplicationPath);
+            var path = importer.Export(disciplineId);
+
+            return new FilePathResult(path, "application/octet-stream") { FileDownloadName = importer.GetFileName(disciplineId) };
+        }
+
+        [HttpPost]
+        [Allow(Role = Role.Teacher)]
+        public ActionResult Import(string action, HttpPostedFileBase fileUpload)
+        {
+            if (fileUpload == null)
+            {
+                return View();
+            }
+            var importer = new ImportExportDiscipline(Storage, HttpContext.Request.PhysicalApplicationPath);
+            importer.Import(fileUpload);
+
+            return RedirectToAction("Index");
         }
     }
 }

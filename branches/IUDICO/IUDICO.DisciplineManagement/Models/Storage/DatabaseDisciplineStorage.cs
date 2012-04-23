@@ -167,6 +167,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
             updatingDiscipline.Name = discipline.Name;
             updatingDiscipline.Updated = DateTime.Now;
+            db.SubmitChanges();
 
             var data = new object[2];
             data[0] = oldDiscipline;
