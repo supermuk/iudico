@@ -64,6 +64,7 @@ namespace IUDICO.Analytics.Controllers
             int topicId = (int)HttpContext.Session["TopicId"];
             var studentsAndMarks = _Storage.GetAllStudentListForTraining(topicId);
             TrainingSet[] tr;
+
             try
             {
                 tr = TrainingSetsCreator.generateTrainingSets(studentsAndMarks, tsNormal, tsAnomalies);
@@ -73,6 +74,7 @@ namespace IUDICO.Analytics.Controllers
                 HttpContext.Session["ShowError"] = true;
                 return RedirectToAction("TrainTopic", "AnomalyDetection", new { id = (int)HttpContext.Session["TopicId"] });
             }
+
             ViewData["SkillTags"] = _Storage.GetTags();
             return View(AnomalyDetectionAlgorithm.runAlg(studentsAndMarks, tr[0], tr[1], tr[2]));
         }
