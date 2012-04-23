@@ -69,7 +69,7 @@ namespace IUDICO.DisciplineManagement.Models
 
             topic.ChapterRef = model.ChapterId;
             topic.Name = model.TopicName;
-            topic.TestCourseRef = model.TestCourseId != Constants.NoCourseId && model.TestCourseId != Constants.TestWithoutCourseId
+            topic.TestCourseRef = model.TestCourseId != Constants.NoCourseId
                                       ? model.TestCourseId
                                       : (int?)null;
             topic.TestTopicTypeRef = (int?)testTopicType;

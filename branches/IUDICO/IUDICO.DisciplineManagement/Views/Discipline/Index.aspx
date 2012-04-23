@@ -11,18 +11,8 @@
                 expandDiscipline(this.parentNode);
             });
 
-            $("#dialog").dialog({
-               autoOpen: false,
-               modal: true,
-               buttons: {
-                'Submit': function() {
-                   $("#dialogInner").find("form").submit();
-                },
-                'Cancel': function() {
-                  $(this).dialog('close');
-                }
-              }
-            });
+            $("#dialog").dialog({autoOpen: false});
+            setDialogDefaultSettings();
 
             $('#disciplines').dataTable({
                 "bJQueryUI": true,
@@ -150,9 +140,34 @@
                 .appendTo('#dialogInner > form');
         }
         
-        function openDialog(title) {
+        function setDialogDefaultSettings() {
             $("#dialogInner").html("Loading...");
-            $("#dialog").dialog("option", "title", title);
+            var dialog = $("#dialog");
+            //set to default settings
+            dialog.dialog("option", $.ui.dialog.prototype.options);
+            var settings = {
+                autoOpen: false,
+                modal: true,
+                buttons: {
+                    'Submit': function() {
+                        $("#dialogInner").find("form").submit();
+                    },
+                    'Cancel': function() {
+                        $(this).dialog('close');
+                    }
+                }
+            };
+            dialog.dialog("option", settings);
+            dialog.css('overflow', 'hidden');
+        }
+
+        function openDialog(title, settings) {
+            setDialogDefaultSettings();
+            var dialog = $("#dialog");
+            dialog.dialog("option", "title", title);
+            if(settings) {
+                dialog.dialog("option", settings);
+            }
             $("#dialog").dialog("open");
         }
         
@@ -223,13 +238,13 @@
                 url: "/Discipline/DeleteItem",
                 data: { disciplineId: id },
                 success: function (r) {
-                if (r.success == true) {
-    		            $("#discipline" + id).remove();
-    		            $(".child-of-discipline" + id).remove();
-                }
-                else {
-    		            alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
-                }
+                    if (r.success == true) {
+    		                $("#discipline" + id).remove();
+    		                $(".child-of-discipline" + id).remove();
+                    }
+                    else {
+    		                alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
+                    }
                 }
             });
         }
@@ -246,13 +261,13 @@
                 url: "/ChapterAction/DeleteItem",
                 data: { chapterId: id },
                 success: function (r) {
-                if (r.success == true) {
-    		            $("#chapter" + id).remove();
-    		            $(".child-of-chapter" + id).remove();
-                }
-                else {
-    		            alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
-                }
+                    if (r.success == true) {
+    		                $("#chapter" + id).remove();
+    		                $(".child-of-chapter" + id).remove();
+                    }
+                    else {
+    		                alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
+                    }
                 }
             });
         }
@@ -376,7 +391,7 @@
         }
         
         function shareDiscipline(disciplineId) {
-            openDialog("Share discipline");
+            openDialog("Share discipline", {width: 450});
 
             $.ajax({
                type: "get",
@@ -385,16 +400,23 @@
                success: function (r) {
                    fillDialogInner(r, "disciplineId", disciplineId);
 
-                   $("#shareUserTable").dataTable({
+                   var table = $("#shareUserTable").dataTable({
                        "bJQueryUI": true,
                        "sPaginationType": "full_numbers",
-                       iDisplayLength: 10,
+                       iDisplayLength: 7,
                        "bSort": true,
                        "aoColumns": [
                            { "bSortable": false },
                            { "bSortable": false },
                            null
                        ]
+                   });
+
+                   //submit rows not visible in table(on other pages)
+                   table.closest("form").submit(function() {
+                       var hiddenRows = table.fnGetHiddenNodes();
+                       $(hiddenRows).css('display', 'none');
+                       table.find("tbody").append(hiddenRows);
                    });
                }
             });
@@ -422,11 +444,14 @@
 	
     <h2>
         <%=IUDICO.DisciplineManagement.Localization.getMessage("Disciplines")%></h2>
-    <p>
+    <div>
         <%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.getMessage("CreateNew"), "Create") %>
+        |
+        <% Html.RenderPartial("Import"); %>
+        |
         <a id="DeleteMany" href="#"><%=IUDICO.DisciplineManagement.Localization.getMessage("DeleteSelected")%></a>
-    </p>
-	
+    </div>
+	  <p></p>
 	<table id="disciplines" class="disciplineTable">
     <thead>
 		<tr id="tableHeader">
@@ -450,6 +475,8 @@
 						<%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.getMessage("Edit"), "Edit", new { DisciplineID = item.Id })%>
             | 
             <a href="#" onclick="shareDiscipline(<%: item.Id %>)"><%=IUDICO.DisciplineManagement.Localization.getMessage("Share")%></a>
+            |
+						<%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.getMessage("Export"), "Export", new { DisciplineID = item.Id })%>
             |
 						<a href="#" onclick="deleteDiscipline(<%: item.Id %>)"><%=IUDICO.DisciplineManagement.Localization.getMessage("Delete")%></a>
 				</td>

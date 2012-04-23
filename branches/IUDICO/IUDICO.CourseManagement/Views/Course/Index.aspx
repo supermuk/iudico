@@ -122,10 +122,10 @@
                success: function (r) {
                    $("#shareDialogInner").html(r);
 
-                   $("#shareUserTable").dataTable({
+                   var table = $("#shareUserTable").dataTable({
                        "bJQueryUI": true,
                        "sPaginationType": "full_numbers",
-                       iDisplayLength: 10,
+                       iDisplayLength: 8,
                        "bSort": true,
                        "aoColumns": [
                            { "bSortable": false },
@@ -133,7 +133,14 @@
                            null
                        ]
                    });
-                   
+
+                   //submit rows not visible in table(on other pages)
+                   table.closest("form").submit(function() {
+                       var hiddenRows = table.fnGetHiddenNodes();
+                       $(hiddenRows).css('display', 'none');
+                       table.find("tbody").append(hiddenRows);
+                   });
+
                    $('<input />').attr('type', 'hidden')
                        .attr('name', "courseId")
                        .attr('value', courseId)
@@ -189,7 +196,7 @@
             var resp = eval("(" + r.$2._xmlHttpRequest.responseText + ")");
             if(resp.success) {
                 $("#course" + resp.courseId).replaceWith(resp.courseRow);
-                $("#dialog").dialog("close");                
+                $("#dialog").dialog("close");
             } else {
                 fillDialogInner(resp.html, "courseId", resp.courseId);
             }

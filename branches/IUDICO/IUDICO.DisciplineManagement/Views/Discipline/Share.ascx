@@ -4,7 +4,7 @@
 
 <% Html.EnableClientValidation(); %>
 
-<% using (Ajax.BeginForm("Share", "Discipline", new { }, new AjaxOptions() { OnFailure = "onFailure", OnSuccess = "onShareDisciplineSuccess" }))
+<% using (Ajax.BeginForm("Share", "Discipline", new { }, new AjaxOptions { OnFailure = "onFailure", OnSuccess = "onShareDisciplineSuccess" }))
     {%>
         <%: Html.ValidationSummary(true, IUDICO.DisciplineManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
         
