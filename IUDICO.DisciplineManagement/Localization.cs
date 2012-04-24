@@ -8,7 +8,7 @@ namespace IUDICO.DisciplineManagement
 
         public static string getMessage(string search)
         {
-            return provider.getMessage(search);
+            return provider.GetMessage(search);
         }
     }
 }

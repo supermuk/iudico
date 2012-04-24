@@ -478,7 +478,7 @@ namespace IUDICO.Common.Models.Shared
         {
             get
             {
-                return Localization.getMessage(base.DisplayName);
+                return Localization.GetMessage(base.DisplayName);
             }
         }
     }
@@ -493,7 +493,7 @@ namespace IUDICO.Common.Models.Shared
 
         public override string FormatErrorMessage(string name)
         {
-            return Localization.getMessage(base.ErrorMessage);
+            return Localization.GetMessage(base.ErrorMessage);
         }
     }
     public class LocalizedDropDownListAttribute : DropDownListAttribute
@@ -502,7 +502,7 @@ namespace IUDICO.Common.Models.Shared
         public LocalizedDropDownListAttribute(string DropDownListKey)
             : base()
         {
-            OptionLabel = Localization.getMessage(DropDownListKey);
+            OptionLabel = Localization.GetMessage(DropDownListKey);
         }
     }
 }

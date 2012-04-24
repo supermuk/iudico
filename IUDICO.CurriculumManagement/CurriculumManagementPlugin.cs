@@ -17,7 +17,8 @@ namespace IUDICO.CurriculumManagement
 {
     public class CurriculumManagementPlugin : IWindsorInstaller, IPlugin
     {
-        static ICurriculumStorage _CurriculumStorage { get; set; }
+        //protected ICurriculumStorage _CurriculumStorage { get; set; }
+        protected IWindsorContainer _Container;
 
         #region IWindsorInstaller Members
 
@@ -29,15 +30,17 @@ namespace IUDICO.CurriculumManagement
                     .BasedOn<IController>()
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
-                Component.For<IPlugin>().ImplementedBy<CurriculumManagementPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                //Component.For<ICurriculumStorage>().ImplementedBy<CachedCurriculumStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<IPlugin>().Instance(this).LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<ICurriculumStorage>().ImplementedBy<CachedCurriculumStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<ICurriculumStorage>().ImplementedBy<DatabaseCurriculumStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<ICurriculumService>().ImplementedBy<CurriculumService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
 
             // temporary hack
+            _Container = container;
+            //_LmsService = container.Resolve<ILmsService>();
             //_CurriculumStorage = new CachedCurriculumStorage(new DatabaseCurriculumStorage(container.Resolve<ILmsService>()), container.Resolve<ICacheProvider>());
-            _CurriculumStorage = container.Resolve<ICurriculumStorage>();
+            //_CurriculumStorage = container.Resolve<ICurriculumStorage>();
         }
 
         #endregion
@@ -105,6 +108,8 @@ namespace IUDICO.CurriculumManagement
 
         public void Update(string evt, params object[] data)
         {
+            var _CurriculumStorage = _Container.Resolve<ICurriculumStorage>();
+
             switch (evt)
             {
                 case DisciplineNotifications.DisciplineDeleting:

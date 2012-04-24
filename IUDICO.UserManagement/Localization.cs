@@ -8,7 +8,7 @@ namespace IUDICO.UserManagement
 
         public static string GetMessage(string search)
         {
-            return Provider.getMessage(search);
+            return Provider.GetMessage(search);
         }
     }
 }

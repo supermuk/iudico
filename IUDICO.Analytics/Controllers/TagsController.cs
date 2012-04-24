@@ -111,7 +111,7 @@ namespace IUDICO.Analytics.Controllers
         [Allow(Role = Role.Admin)]
         public ActionResult EditTopics(int id)
         {
-            var features =_Storage.GetTagDetailsWithTopics(id);
+            var features = _Storage.GetTagDetailsWithTopics(id);
 
             return View(features);
         }

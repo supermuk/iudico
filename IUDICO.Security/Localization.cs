@@ -17,7 +17,7 @@ namespace IUDICO.Security
         
         public static string GetMessage(string search)
         {
-            return _provider.getMessage(search);
+            return _provider.GetMessage(search);
         }
 
         public static class Keys

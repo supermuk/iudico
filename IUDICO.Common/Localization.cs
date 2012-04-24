@@ -26,7 +26,7 @@ namespace IUDICO.Common
             {
                 path = HttpContext.Current.Server.MapPath("/").Replace("IUDICO.LMS", "IUDICO." + pluginName);
             }
-            catch(Exception exception)
+            catch(Exception)
             {
                 path = Assembly.GetExecutingAssembly().CodeBase;
                 path = Path.GetDirectoryName(path);
@@ -52,7 +52,8 @@ namespace IUDICO.Common
                 resource.Add(culture, temp);
             }
         }
-        public string getMessage(string search)
+
+        public string GetMessage(string search)
         {
             try
             {
@@ -69,9 +70,9 @@ namespace IUDICO.Common
     {
         private static LocalizationMessageProvider provider = new LocalizationMessageProvider("Common");
 
-        public static string getMessage(string search)
+        public static string GetMessage(string search)
         {
-            return provider.getMessage(search);
+            return provider.GetMessage(search);
         }
     }
 }

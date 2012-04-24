@@ -21,7 +21,7 @@ namespace IUDICO.Security.ViewModels
 
         public String GetMessage(String key)
         {
-            return _provider.getMessage(key);
+            return _provider.GetMessage(key);
         }
     }
 }
