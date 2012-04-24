@@ -419,6 +419,9 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             _LmsService.Inform(CourseNotifications.NodeCreate, node);
 
+            var course = node.Course;
+            UpdateCourse(course.Id, course);
+
             return node.Id;
         }
 
@@ -440,6 +443,9 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             db.SubmitChanges();
             _LmsService.Inform(CourseNotifications.NodeEdit, data);
+
+            var course = newNode.Course;
+            UpdateCourse(course.Id, course);
         }
 
         public virtual void DeleteNode(int id)
@@ -457,6 +463,9 @@ namespace IUDICO.CourseManagement.Models.Storage
             db.SubmitChanges();
 
             _LmsService.Inform(CourseNotifications.NodeDelete, node);
+
+            var course = node.Course;
+            UpdateCourse(course.Id, course);
         }
 
         public virtual IEnumerable<Node> DeleteNodes(List<int> ids)
@@ -528,6 +537,9 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             File.WriteAllText(nodePath, data);
 
+            var course = GetNode(id).Course;
+            UpdateCourse(course.Id, course);
+
             //return System.IO.File.ReadAllText(nodePath);
         }
 
@@ -585,6 +597,8 @@ namespace IUDICO.CourseManagement.Models.Storage
                     CopyNodes(child, newchild);
                 }
             }
+            var course = node.Course;
+            UpdateCourse(course.Id, course);
         }
 
         protected virtual void CreateFolders(Node newnode)
@@ -601,6 +615,8 @@ namespace IUDICO.CourseManagement.Models.Storage
 
                 CreateFolders(child);
             }
+            var course = newnode.Course;
+            UpdateCourse(course.Id, course);
         }
 
         #endregion
