@@ -5,7 +5,7 @@
 %>
     <form action="/Search/SearchSimple" method="post">
         <%= Html.TextBox("query") %>
-        <input type="submit" value='<%=IUDICO.LMS.Localization.getMessage("Search")%>' />
+        <input type="submit" value='<%=IUDICO.LMS.Localization.GetMessage("Search")%>' />
     </form>
 <%
     }

@@ -13,9 +13,7 @@ namespace IUDICO.LMS.Installers
                 AllTypes
                     .FromThisAssembly()
                     .BasedOn<IService>()
-                    .Configure(c => c.LifeStyle.Transient
-                                        .Named(c.Implementation.Name))
-                );
+                    .Configure(c => c.LifeStyle.Transient.Named(c.Implementation.Name)));
         }
     }
 }
