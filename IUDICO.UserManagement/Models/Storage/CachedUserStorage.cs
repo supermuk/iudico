@@ -76,7 +76,7 @@ namespace IUDICO.UserManagement.Models.Storage
             ////var user = _cacheProvider.["user-" + key] as User;
             return this.cacheProvider.Get(
                 "user-name-" + key,
-                @this.lockObject,
+                this.@lockObject,
                 () => this.storage.GetCurrentUser(),
                 DateTime.Now.AddHours(3),
                 "user-name-" + key);
@@ -86,7 +86,7 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             return this.cacheProvider.Get(
                 "user-id-" + userId,
-                @this.lockObject,
+                this.@lockObject,
                 () => this.storage.GetUser(userId),
                 DateTime.Now.AddDays(1),
                 "user-id-" + userId);
@@ -95,7 +95,7 @@ namespace IUDICO.UserManagement.Models.Storage
         public IEnumerable<User> GetUsers()
         {
             return this.cacheProvider.Get(
-                "users", @this.lockObject, () => this.storage.GetUsers(), DateTime.Now.AddDays(1), "users");
+                "users", this.@lockObject, () => this.storage.GetUsers(), DateTime.Now.AddDays(1), "users");
         }
 
         public IEnumerable<User> GetUsers(Func<User, bool> predicate)
