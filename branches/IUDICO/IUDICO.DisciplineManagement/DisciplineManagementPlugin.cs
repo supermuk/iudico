@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Castle.MicroKernel.Registration;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Caching;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
@@ -15,7 +16,8 @@ namespace IUDICO.DisciplineManagement
 {
     public class DisciplineManagementPlugin : IWindsorInstaller, IPlugin
     {
-        static IDisciplineStorage _DisciplineStorage { get; set; }
+        //protected IDisciplineStorage _DisciplineStorage { get; set; }
+        protected IWindsorContainer _Container;
 
         #region IWindsorInstaller Members
 
@@ -27,12 +29,17 @@ namespace IUDICO.DisciplineManagement
                     .BasedOn<IController>()
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
-                Component.For<IPlugin>().ImplementedBy<DisciplineManagementPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<IPlugin>().Instance(this).LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<IDisciplineStorage>().ImplementedBy<CachedDisciplineStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<IDisciplineStorage>().ImplementedBy<DatabaseDisciplineStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<IDisciplineService>().ImplementedBy<DisciplineService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
             );
 
-            _DisciplineStorage = container.Resolve<IDisciplineStorage>();
+            //temporary hack
+            _Container = container;
+            //_LmsService = container.Resolve<ILmsService>();
+            //_DisciplineStorage = new CachedDisciplineStorage(new DatabaseDisciplineStorage(container.Resolve<ILmsService>()), container.Resolve<ICacheProvider>());
+            //_DisciplineStorage = container.Resolve<IDisciplineStorage>();
         }
 
         #endregion
@@ -112,6 +119,8 @@ namespace IUDICO.DisciplineManagement
 
         public void Update(string evt, params object[] data)
         {
+            var _DisciplineStorage = _Container.Resolve<IDisciplineStorage>();
+
             switch (evt)
             {
                 case UserNotifications.CourseDelete:

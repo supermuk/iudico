@@ -9,6 +9,8 @@ using System.Web.SessionState;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using IUDICO.Common.Models.Caching;
+using IUDICO.Common.Models.Caching.Provider;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
 using IUDICO.LMS.Models;
@@ -38,6 +40,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
                 .Register(
                     Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton)
                 .Install(FromAssembly.This(),
+                         FromAssembly.InDirectory(new AssemblyFilter(fullPath.Replace("Plugins", "bin"), "IUDICO.LMS.dll")),
                          FromAssembly.InDirectory(new AssemblyFilter(fullPath, "IUDICO.*.dll"))
                 );
         }

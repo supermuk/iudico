@@ -8,7 +8,7 @@ using IUDICO.Analytics.Models.ViewDataClasses;
 
 namespace IUDICO.Analytics.Models.Storage
 {
-    public class CachedAnalyticsStorage: IAnalyticsStorage
+    public class CachedAnalyticsStorage : IAnalyticsStorage
     {
         private readonly IAnalyticsStorage _storage;
         private readonly ICacheProvider _cacheProvider;
@@ -44,7 +44,7 @@ namespace IUDICO.Analytics.Models.Storage
         {
             return GetRecommenderTopics(user).Take(amount);
 
-            //return _cacheProvider.Get<IEnumerable<TopicStat>>("recommendertopics-" + user.Username + "", @lockObject, () => _storage.GetRecommenderTopics(user), DateTime.Now.AddDays(1), "recommendertopics-" + user.Username);
+            // return _cacheProvider.Get<IEnumerable<TopicStat>>("recommendertopics-" + user.Username + "", @lockObject, () => _storage.GetRecommenderTopics(user), DateTime.Now.AddDays(1), "recommendertopics-" + user.Username);
         }
 
         public IEnumerable<Tag> GetTags()

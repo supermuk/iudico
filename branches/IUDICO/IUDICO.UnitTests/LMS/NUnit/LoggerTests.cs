@@ -38,7 +38,8 @@ namespace IUDICO.UnitTests.LMS.NUnit
                     Component.For<IWindsorContainer>().Instance(_Container))
                 .Register(
                     Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton)
-                .Install(FromAssembly.This(),
+               .Install(FromAssembly.This(),
+                         FromAssembly.InDirectory(new AssemblyFilter(fullPath.Replace("Plugins", "bin"), "IUDICO.LMS.dll")),
                          FromAssembly.InDirectory(new AssemblyFilter(fullPath, "IUDICO.*.dll"))
                 );
         }

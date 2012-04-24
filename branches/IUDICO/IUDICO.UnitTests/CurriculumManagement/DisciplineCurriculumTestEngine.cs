@@ -148,8 +148,8 @@ namespace IUDICO.UnitTests.CurriculumManagement
 
             DataPreparer = new DataPreparer(DisciplineStorage, CurriculumStorage, LmsService);
 
-            //_MockCurriculumManagementPlugin.SetupGet(p => p.CurriculumStorage).Returns(CurriculumStorage);
-            //_MockDisciplineManagementPlugin.SetupGet(p => p.DisciplineStorage).Returns(DisciplineStorage);
+            //_MockCurriculumManagementPlugin.Protected().SetupGet<ICurriculumStorage>(p => p._CurriculumStorage).Returns(CurriculumStorage);
+            //_MockDisciplineManagementPlugin.Protected().SetupGet<IDisciplineStorage>(p => p._DisciplineStorage).Returns(DisciplineStorage);
             //can be replace with: (butt call it in Setup())
 
             SetupData();

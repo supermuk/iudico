@@ -20,8 +20,15 @@ namespace IUDICO.Common.Models
         {
             if (sw != null)
             {
-                sw.Close();
-                sw.Dispose();
+                try
+                {
+                    sw.Close();
+                }
+                finally
+                {
+                    sw.Dispose();
+                }
+                
             }
         }
 
