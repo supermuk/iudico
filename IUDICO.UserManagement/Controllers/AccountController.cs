@@ -10,45 +10,45 @@ using DotNetOpenAuth.OpenId.RelyingParty;
 using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
+using IUDICO.Common.Models.Notifications;
 using IUDICO.Common.Models.Services;
 using IUDICO.UserManagement.Models;
 using IUDICO.UserManagement.Models.Storage;
 using log4net;
-using IUDICO.Common.Models.Notifications;
 
 namespace IUDICO.UserManagement.Controllers
 {
     public class AccountController : PluginController
     {
-        private readonly OpenIdRelyingParty _OpenId = new OpenIdRelyingParty();
-        private readonly IUserStorage _Storage;
+        private readonly OpenIdRelyingParty OpenId = new OpenIdRelyingParty();
+        private readonly IUserStorage Storage;
 
         public AccountController(IUserStorage userStorage)
         {
-            _Storage = userStorage;
+            this.Storage = userStorage;
         }
 
         [Allow]
         public ActionResult Index()
         {
-            var user = _Storage.GetCurrentUser();
+            var user = this.Storage.GetCurrentUser();
 
-            return View(new DetailsModel(user));
+            return this.View(new DetailsModel(user));
         }
 
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-            Session.Clear();
+            this.Session.Clear();
 
             LmsService.Inform(UserNotifications.UserLogout);
 
-            return Redirect("/");
+            return this.Redirect("/");
         }
 
         public ActionResult Login()
         {
-            var response = _OpenId.GetResponse();
+            var response = this.OpenId.GetResponse();
 
             if (response != null)
             {
@@ -58,42 +58,43 @@ namespace IUDICO.UserManagement.Controllers
 
                         var openId = response.FriendlyIdentifierForDisplay;
 
-                        var user = _Storage.GetUser(u => u.OpenId == openId);
+                        var user = this.Storage.GetUser(u => u.OpenId == openId);
 
                         if (user == null)
                         {
-                            ModelState.AddModelError(string.Empty, "Login failed using the provided OpenID identifier");
+                            this.ModelState.AddModelError(
+                                string.Empty, "Login failed using the provided OpenID identifier");
 
                             break;
                         }
 
                         LmsService.Inform(UserNotifications.UserLogin, user);
 
-                        if (Request.QueryString["ReturnUrl"] != null)
+                        if (this.Request.QueryString["ReturnUrl"] != null)
                         {
                             FormsAuthentication.RedirectFromLoginPage(user.Username, false);
                         }
                         else
                         {
                             FormsAuthentication.SetAuthCookie(user.Username, false);
-                            ILog log = LogManager.GetLogger(typeof (AccountController));
+                            ILog log = LogManager.GetLogger(typeof(AccountController));
                             log.Info("OpenID user " + user.Username + " logged in.");
-                            return Redirect("/");
+                            return this.Redirect("/");
                         }
 
                         break;
                     case AuthenticationStatus.Canceled:
-                        ModelState.AddModelError(string.Empty, "Login was cancelled at the provider");
+                        this.ModelState.AddModelError(string.Empty, "Login was cancelled at the provider");
 
                         break;
                     case AuthenticationStatus.Failed:
-                        ModelState.AddModelError(string.Empty, "Login failed using the provided OpenID identifier");
+                        this.ModelState.AddModelError(string.Empty, "Login failed using the provided OpenID identifier");
 
                         break;
                 }
             }
 
-            return View();
+            return this.View();
         }
 
         [HttpPost]
@@ -101,23 +102,23 @@ namespace IUDICO.UserManagement.Controllers
         {
             if (string.IsNullOrEmpty(loginIdentifier) || !Identifier.IsValid(loginIdentifier))
             {
-                ModelState.AddModelError(string.Empty, Localization.getMessage("InvalidOpenID"));
+                this.ModelState.AddModelError(string.Empty, Localization.GetMessage("InvalidOpenID"));
 
-                return View("Login");
+                return this.View("Login");
             }
             else
             {
                 try
                 {
-                    var request = _OpenId.CreateRequest(Identifier.Parse(loginIdentifier));
+                    var request = this.OpenId.CreateRequest(Identifier.Parse(loginIdentifier));
 
                     return request.RedirectingResponse.AsActionResult();
                 }
                 catch (Exception)
                 {
-                    ModelState.AddModelError(string.Empty, "Login failed using the provided OpenID identifier");
+                    this.ModelState.AddModelError(string.Empty, "Login failed using the provided OpenID identifier");
 
-                    return View("Login");
+                    return this.View("Login");
                 }
             }
         }
@@ -127,9 +128,9 @@ namespace IUDICO.UserManagement.Controllers
         {
             if (Membership.ValidateUser(loginUsername, loginPassword))
             {
-                LmsService.Inform(UserNotifications.UserLogin, _Storage.GetCurrentUser());
+                LmsService.Inform(UserNotifications.UserLogin, this.Storage.GetCurrentUser());
 
-                if (Request.QueryString["ReturnUrl"] != null)
+                if (this.Request.QueryString["ReturnUrl"] != null)
                 {
                     FormsAuthentication.RedirectFromLoginPage(loginUsername, false);
                 }
@@ -137,75 +138,75 @@ namespace IUDICO.UserManagement.Controllers
                 {
                     FormsAuthentication.SetAuthCookie(loginUsername, false);
 
-                    ILog log = LogManager.GetLogger(typeof (AccountController));
+                    ILog log = LogManager.GetLogger(typeof(AccountController));
                     log.Info(loginUsername + " logged in.");
-                    return Redirect("/");
+                    return this.Redirect("/");
                 }
             }
             else
             {
-                ModelState.AddModelError(string.Empty, Localization.getMessage("InvalidUsernameAndPassword"));
+                this.ModelState.AddModelError(string.Empty, Localization.GetMessage("InvalidUsernameAndPassword"));
             }
 
-            return View("Login");
+            return this.View("Login");
         }
 
         public ActionResult Register()
         {
-            return View();
+            return this.View();
         }
 
         [HttpPost]
         public ActionResult Register(RegisterModel registerModel)
         {
-            if (_Storage.UsernameExists(registerModel.Username))
+            if (this.Storage.UsernameExists(registerModel.Username))
             {
-                ModelState.AddModelError("Username", "User with such username already exists");
+                this.ModelState.AddModelError("Username", "User with such username already exists");
             }
             else if (registerModel.Password != registerModel.ConfirmPassword)
             {
-                ModelState.AddModelError("ConfirmPassword", "Passwords don't match");
+                this.ModelState.AddModelError("ConfirmPassword", "Passwords don't match");
             }
 
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return View();
+                return this.View();
             }
 
-            _Storage.RegisterUser(registerModel);
+            this.Storage.RegisterUser(registerModel);
 
-            return View("Registered");
+            return this.View("Registered");
         }
 
         public ActionResult Forgot()
         {
-            return View(new RestorePasswordModel());
+            return this.View(new RestorePasswordModel());
         }
 
         [HttpPost]
         public ActionResult Forgot(RestorePasswordModel restorePasswordModel)
         {
-            var user = _Storage.GetUser(u => u.Email == restorePasswordModel.Email);
+            var user = this.Storage.GetUser(u => u.Email == restorePasswordModel.Email);
 
             if (user == null)
             {
-                ModelState.AddModelError("Email", "No user with such email");
+                this.ModelState.AddModelError("Email", "No user with such email");
             }
 
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
                 return View(restorePasswordModel);
             }
 
-            _Storage.RestorePassword(restorePasswordModel);
+            this.Storage.RestorePassword(restorePasswordModel);
 
-            return View("ForgotSent");
+            return this.View("ForgotSent");
         }
 
         [Allow]
         public ActionResult Edit()
         {
-            var editModel = new EditModel(_Storage.GetCurrentUser());
+            var editModel = new EditModel(this.Storage.GetCurrentUser());
 
             return View(editModel);
         }
@@ -214,83 +215,83 @@ namespace IUDICO.UserManagement.Controllers
         [Allow]
         public ActionResult Edit(EditModel editModel)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                editModel.Id = _Storage.GetCurrentUser().Id;
+                editModel.Id = this.Storage.GetCurrentUser().Id;
 
                 return View(editModel);
             }
 
-            if (!_Storage.UserUniqueIdAvailable(editModel.UserId, _Storage.GetCurrentUser().Id))
+            if (!this.Storage.UserUniqueIdAvailable(editModel.UserId, this.Storage.GetCurrentUser().Id))
             {
-                ModelState.AddModelError("UserID", Localization.getMessage("Unique ID Error"));
+                this.ModelState.AddModelError("UserID", Localization.GetMessage("Unique ID Error"));
 
                 return View(editModel);
             }
 
-            _Storage.EditAccount(editModel);
+            this.Storage.EditAccount(editModel);
 
-            return RedirectToAction("Index");
+            return this.RedirectToAction("Index");
         }
 
         [Allow]
         public ActionResult ChangePassword()
         {
-            return View();
+            return this.View();
         }
 
         [Allow]
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel changePasswordModel)
         {
-            var oldPassword = _Storage.EncryptPassword(changePasswordModel.OldPassword);
+            var oldPassword = this.Storage.EncryptPassword(changePasswordModel.OldPassword);
 
-            if (oldPassword != _Storage.GetCurrentUser().Password)
+            if (oldPassword != this.Storage.GetCurrentUser().Password)
             {
-                ModelState.AddModelError("OldPassword", "Pasword is not correct");
+                this.ModelState.AddModelError("OldPassword", "Pasword is not correct");
             }
             else if (changePasswordModel.NewPassword != changePasswordModel.ConfirmPassword)
             {
-                ModelState.AddModelError("ConfirmPassword", "Paswords don't match");
+                this.ModelState.AddModelError("ConfirmPassword", "Paswords don't match");
             }
 
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return View();
+                return this.View();
             }
 
-            _Storage.ChangePassword(changePasswordModel);
+            this.Storage.ChangePassword(changePasswordModel);
 
-            return RedirectToAction("Index");
+            return this.RedirectToAction("Index");
         }
 
         [HttpPost]
         public ActionResult UploadAvatar(HttpPostedFileBase file)
         {
-            var user = _Storage.GetCurrentUser();
-            _Storage.UploadAvatar(user.Id, file);
+            var user = this.Storage.GetCurrentUser();
+            this.Storage.UploadAvatar(user.Id, file);
 
-            return RedirectToAction("Edit");
+            return this.RedirectToAction("Edit");
         }
 
         [Allow(Role = Role.Teacher)]
         public ActionResult TeacherToAdminUpgrade()
         {
-            var allow = (bool) (Session["AllowAdmin"] ?? false);
+            var allow = (bool)(this.Session["AllowAdmin"] ?? false);
 
             if (!allow && !Roles.IsUserInRole(Role.Admin.ToString()))
             {
-                Session["AllowAdmin"] = true;
+                this.Session["AllowAdmin"] = true;
             }
 
-            return RedirectToAction("Index");
+            return this.RedirectToAction("Index");
         }
 
         public ActionResult ChangeCulture(string lang, string returnUrl)
         {
-            Session["Culture"] = new CultureInfo(lang);
+            this.Session["Culture"] = new CultureInfo(lang);
 
-            return Redirect(returnUrl);
+            return this.Redirect(returnUrl);
         }
 
         public JsonResult RateTopic(int topicId, int score)
@@ -299,16 +300,16 @@ namespace IUDICO.UserManagement.Controllers
             score = Math.Max(score, 5);
 
             var topics =
-                LmsService.FindService<ICurriculumService>().GetTopicDescriptions(_Storage.GetCurrentUser());
+                LmsService.FindService<ICurriculumService>().GetTopicDescriptions(this.Storage.GetCurrentUser());
 
             if (topics.Select(t => t.Topic.Id).Contains(topicId))
             {
-                _Storage.RateTopic(topicId, score);
+                this.Storage.RateTopic(topicId, score);
 
-                return Json("success");
+                return this.Json("success");
             }
 
-            return Json("fail");
+            return this.Json("fail");
         }
     }
 }

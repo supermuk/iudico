@@ -3,12 +3,12 @@
 <%@ Import Namespace="IUDICO.UserManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=Localization.getMessage("Registered")%>
+	<%=Localization.GetMessage("Registered")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=Localization.getMessage("Registered")%></h2>
+    <h2><%=Localization.GetMessage("Registered")%></h2>
 
 </asp:Content>
 

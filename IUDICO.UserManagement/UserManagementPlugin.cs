@@ -28,14 +28,11 @@ namespace IUDICO.UserManagement
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<UserManagementPlugin>().LifeStyle.Is(LifestyleType.Singleton),
-                //Component.For<IUserStorage>().ImplementedBy<CachedUserStorage>().LifeStyle.Is(LifestyleType.Singleton),
+                ////Component.For<IUserStorage>().ImplementedBy<CachedUserStorage>().LifeStyle.Is(LifestyleType.Singleton),
                 Component.For<IUserStorage>().ImplementedBy<DatabaseUserStorage>().LifeStyle.Is(LifestyleType.Singleton),
                 Component.For<IUserService>().ImplementedBy<UserService>().LifeStyle.Is(LifestyleType.Singleton),
                 Component.For<MembershipProvider>().ImplementedBy<OpenIdMembershipProvider>(),
-                Component.For<RoleProvider>().ImplementedBy<OpenIdRoleProvider>()
-            );
-
-            //HttpContext.Current.Application["UMStorage"] = container.Resolve<DatabaseUserManagement>();// UMStorageFactory.CreateStorage(UMStorageType.Database);
+                Component.For<RoleProvider>().ImplementedBy<OpenIdRoleProvider>());
         }
 
         #endregion
@@ -44,18 +41,18 @@ namespace IUDICO.UserManagement
 
         public string GetName()
         {
-            return Localization.getMessage("UserManagement");
+            return Localization.GetMessage("UserManagement");
         }
 
         public IEnumerable<Action> BuildActions()
         {
             return new[]
                        {
-                           new Action(Localization.getMessage("GetUsers"), "User/Index"),
-                           new Action(Localization.getMessage("GetGroups"), "Group/Index"),
-                           new Action(Localization.getMessage("Register"), "Account/Register"),
-                           new Action(Localization.getMessage("ForgotPassword"), "Account/Forgot"),
-                           new Action(Localization.getMessage("Login"), "Account/Login"),
+                           new Action(Localization.GetMessage("GetUsers"), "User/Index"),
+                           new Action(Localization.GetMessage("GetGroups"), "Group/Index"),
+                           new Action(Localization.GetMessage("Register"), "Account/Register"),
+                           new Action(Localization.GetMessage("ForgotPassword"), "Account/Forgot"),
+                           new Action(Localization.GetMessage("Login"), "Account/Login"),
                        };
         }
 
@@ -63,30 +60,21 @@ namespace IUDICO.UserManagement
         {
             return new[]
                        {
-                           new MenuItem(Localization.getMessage("Users"), "User", "Index"),
-                           new MenuItem(Localization.getMessage("Groups"), "Group", "Index")
+                           new MenuItem(Localization.GetMessage("Users"), "User", "Index"),
+                           new MenuItem(Localization.GetMessage("Groups"), "Group", "Index")
                        };
         }
 
         public void RegisterRoutes(RouteCollection routes)
         {
             routes.MapRoute(
-                "Account",
-                "Account/{action}",
-                new {controller = "Account"}
-                );
+                "Account", "Account/{action}", new { controller = "Account" });
 
             routes.MapRoute(
-                "Group",
-                "Group/{action}",
-                new {controller = "Group"}
-                );
+                "Group", "Group/{action}", new { controller = "Group" });
 
             routes.MapRoute(
-                "User",
-                "User/{action}",
-                new {controller = "User"}
-                );
+                "User", "User/{action}", new { controller = "User" });
         }
 
         public void Update(string evt, params object[] data)

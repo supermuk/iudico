@@ -3,12 +3,12 @@
 <%@ Import Namespace="IUDICO.UserManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=Localization.getMessage("AddToGroup")%>
+	<%=Localization.GetMessage("AddToGroup")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=Localization.getMessage("AddToGroup")%></h2>
+    <h2><%=Localization.GetMessage("AddToGroup")%></h2>
 
     <%
         using (Html.BeginForm())
@@ -16,12 +16,12 @@
         <%:Html.ValidationSummary(true)%>
 
         <fieldset>
-            <legend><%=Localization.getMessage("Fields")%></legend>
+            <legend><%=Localization.GetMessage("Fields")%></legend>
             
             <%=Html.EditorForModel()%>
             
             <p>
-                <input type="submit" value=<%=Localization.getMessage("Save")%> />
+                <input type="submit" value=<%=Localization.GetMessage("Save")%> />
             </p>
         </fieldset>
 
@@ -29,7 +29,7 @@
         }%>
 
     <div>
-        <%:Html.ActionLink(Localization.getMessage("BackToList"), "Index")%>
+        <%:Html.ActionLink(Localization.GetMessage("BackToList"), "Index")%>
     </div>
 
 </asp:Content>

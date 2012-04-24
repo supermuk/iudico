@@ -4,11 +4,11 @@ namespace IUDICO.UserManagement
 {
     public class Localization
     {
-        private static LocalizationMessageProvider provider = new LocalizationMessageProvider("UserManagement");
+        private static readonly LocalizationMessageProvider Provider = new LocalizationMessageProvider("UserManagement");
 
-        public static string getMessage(string search)
+        public static string GetMessage(string search)
         {
-            return provider.getMessage(search);
+            return Provider.getMessage(search);
         }
     }
 }

@@ -3,12 +3,12 @@
 <%@ Import Namespace="IUDICO.UserManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=Localization.getMessage("RestorePassword")%>
+	<%=Localization.GetMessage("RestorePassword")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=Localization.getMessage("RestorePassword")%></h2>
+    <h2><%=Localization.GetMessage("RestorePassword")%></h2>
 
     Successfully sent new password to your email.
 

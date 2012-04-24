@@ -11,43 +11,40 @@ namespace IUDICO.UserManagement.Controllers
 {
     public class GroupController : PluginController
     {
-        private readonly IUserStorage _Storage;
+        private readonly IUserStorage Storage;
 
         public GroupController(IUserStorage userStorage)
         {
-            _Storage = userStorage;
+            this.Storage = userStorage;
         }
 
-        //
         // GET: /Group/
 
         [Allow(Role = Role.Teacher)]
         public ActionResult Index()
         {
-            return View(_Storage.GetGroups());
+            return this.View(this.Storage.GetGroups());
         }
 
-        //
         // GET: /Group/Create
 
         [Allow(Role = Role.Teacher)]
         public ActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
-        //
         // POST: /Group/Create
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
         public ActionResult Create(Group group)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _Storage.CreateGroup(group);
+                this.Storage.CreateGroup(group);
 
-                return RedirectToAction("Index");
+                return this.RedirectToAction("Index");
             }
             else
             {
@@ -55,17 +52,16 @@ namespace IUDICO.UserManagement.Controllers
             }
         }
 
-        //
         // GET: /Group/Edit/5
 
         [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int id)
         {
-            var group = _Storage.GetGroup(id);
+            var group = this.Storage.GetGroup(id);
 
             if (group == null)
             {
-                return RedirectToAction("Error");
+                return this.RedirectToAction("Error");
             }
             else
             {
@@ -73,18 +69,17 @@ namespace IUDICO.UserManagement.Controllers
             }
         }
 
-        //
         // POST: /Group/Edit/5
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int id, Group group)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _Storage.EditGroup(id, group);
+                this.Storage.EditGroup(id, group);
 
-                return RedirectToAction("Index");
+                return this.RedirectToAction("Index");
             }
             else
             {
@@ -92,7 +87,6 @@ namespace IUDICO.UserManagement.Controllers
             }
         }
 
-        //
         // POST: /Role/Delete/5
 
         [HttpDelete]
@@ -101,24 +95,24 @@ namespace IUDICO.UserManagement.Controllers
         {
             try
             {
-                _Storage.DeleteGroup(id);
+                this.Storage.DeleteGroup(id);
 
-                return Json(new {status = true});
+                return this.Json(new { status = true });
             }
             catch
             {
-                return Json(new {status = false});
+                return this.Json(new { status = false });
             }
         }
 
         [Allow(Role = Role.Teacher)]
         public ActionResult AddUsers(int id)
         {
-            var group = _Storage.GetGroup(id);
+            var group = this.Storage.GetGroup(id);
 
             var userList =
-                _Storage.GetUsersNotInGroup(group).Select(
-                    u => new SelectListItem {Text = u.Username, Value = u.Id.ToString(), Selected = false});
+                this.Storage.GetUsersNotInGroup(group).Select(
+                    u => new SelectListItem { Text = u.Username, Value = u.Id.ToString(), Selected = false });
 
             var groupUser = new GroupUser
                                 {
@@ -132,20 +126,20 @@ namespace IUDICO.UserManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Details(int id)
         {
-            return View(_Storage.GetGroup(id));
+            return this.View(this.Storage.GetGroup(id));
         }
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
         public ActionResult AddUsers(int id, Guid? userRef)
         {
-            var group = _Storage.GetGroup(id);
+            var group = this.Storage.GetGroup(id);
 
             if (userRef == null)
             {
                 var userList =
-                    _Storage.GetUsersNotInGroup(group).Select(
-                        u => new SelectListItem {Text = u.Username, Value = u.Id.ToString(), Selected = false});
+                    this.Storage.GetUsersNotInGroup(group).Select(
+                        u => new SelectListItem { Text = u.Username, Value = u.Id.ToString(), Selected = false });
 
                 var groupUser = new GroupUser
                                     {
@@ -153,27 +147,27 @@ namespace IUDICO.UserManagement.Controllers
                                         UserList = userList
                                     };
 
-                ModelState.AddModelError("UserRef", Localization.getMessage("PleaseSelectUserFromList"));
+                this.ModelState.AddModelError("UserRef", Localization.GetMessage("PleaseSelectUserFromList"));
 
                 return View(groupUser);
             }
 
-            var user = _Storage.GetUser(u => u.Id == userRef.Value);
+            var user = this.Storage.GetUser(u => u.Id == userRef.Value);
 
-            _Storage.AddUserToGroup(group, user);
+            this.Storage.AddUserToGroup(group, user);
 
-            return RedirectToAction("Details", new {Id = id});
+            return this.RedirectToAction("Details", new { Id = id });
         }
 
         [Allow(Role = Role.Teacher)]
         public ActionResult RemoveUser(int id, Guid userRef)
         {
-            var group = _Storage.GetGroup(id);
-            var user = _Storage.GetUser(u => u.Id == userRef);
+            var group = this.Storage.GetGroup(id);
+            var user = this.Storage.GetUser(u => u.Id == userRef);
 
-            _Storage.RemoveUserFromGroup(group, user);
+            this.Storage.RemoveUserFromGroup(group, user);
 
-            return RedirectToAction("Details", new {Id = id});
+            return this.RedirectToAction("Details", new { Id = id });
         }
     }
 }

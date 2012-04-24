@@ -35,20 +35,20 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=Localization.getMessage("Groups")%>
+	<%=Localization.GetMessage("Groups")%>
 </asp:Content>
 
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
 
-    <h2><%=Localization.getMessage("Groups")%></h2>
+    <h2><%=Localization.GetMessage("Groups")%></h2>
 
     <table id="groupsTable">
         <thead>
         <tr>
             <th>
-                <%=Localization.getMessage("Name1")%>
+                <%=Localization.GetMessage("Name1")%>
             </th>
             <th></th>
         </tr>
@@ -61,12 +61,12 @@
             {%>
     
         <tr>
-            <td id="groupsName" onclick="detailsClick(<%: item.Id %>);">
+            <td id="groupsName" onclick="detailsClick(<%:item.Id%>);">
                 <%:item.Name%>
             </td>
             <td>
-                <%:Html.ActionLink(Localization.getMessage("Edit"), "Edit", new {id = item.Id})%> |
-                <%:Ajax.ActionLink(Localization.getMessage("Delete"), "Delete", new {id = item.Id},
+                <%:Html.ActionLink(Localization.GetMessage("Edit"), "Edit", new {id = item.Id})%> |
+                <%:Ajax.ActionLink(Localization.GetMessage("Delete"), "Delete", new {id = item.Id},
                                                   new AjaxOptions
                                                       {
                                                           Confirm =
@@ -84,10 +84,10 @@
         {%>
         <tr>
             <td>
-                <%=Localization.getMessage("NoData")%>
+                <%=Localization.GetMessage("NoData")%>
             </td>
             <td>
-                <%=Localization.getMessage("NoActions")%>
+                <%=Localization.GetMessage("NoActions")%>
             </td>
         </tr>
     <%
@@ -95,7 +95,7 @@
     </table>
 
     <p>
-        <%:Html.ActionLink(Localization.getMessage("CreateNewGroup"), "Create")%>
+        <%:Html.ActionLink(Localization.GetMessage("CreateNewGroup"), "Create")%>
     </p>
 
 </asp:Content>

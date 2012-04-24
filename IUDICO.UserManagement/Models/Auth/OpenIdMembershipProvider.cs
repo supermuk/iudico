@@ -9,21 +9,20 @@ namespace IUDICO.UserManagement.Models.Auth
 {
     public class OpenIdMembershipProvider : MembershipProvider
     {
-        protected ILmsService _LmsService;
-        protected IUserStorage _UserStorage;
+        protected ILmsService lmsService;
+        protected IUserStorage userStorage;
 
         public OpenIdMembershipProvider(IUserStorage userStorage)
         {
-            _UserStorage = userStorage;
+            this.userStorage = userStorage;
         }
 
         protected string GetConfigValue(string configValue, string defaultValue)
         {
-            return String.IsNullOrEmpty(configValue) ? defaultValue : configValue;
+            return string.IsNullOrEmpty(configValue) ? defaultValue : configValue;
         }
 
-        public MembershipCreateStatus CreateUser(string username, string password, string email, string openId,
-                                                 bool isApproved)
+        public MembershipCreateStatus CreateUser(string username, string password, string email, string openId, bool isApproved)
         {
             try
             {
@@ -35,7 +34,7 @@ namespace IUDICO.UserManagement.Models.Auth
                                    IsApproved = isApproved
                                };
 
-                _UserStorage.CreateUser(user);
+                this.userStorage.CreateUser(user);
 
                 return MembershipCreateStatus.Success;
             }
@@ -45,24 +44,21 @@ namespace IUDICO.UserManagement.Models.Auth
             }
         }
 
-        public override MembershipUser CreateUser(string username, string password, string email,
-                                                  string passwordQuestion, string passwordAnswer, bool isApproved,
-                                                  object providerUserKey, out MembershipCreateStatus status)
+        public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
         {
-            status = CreateUser(username, password, email, null, isApproved);
+            status = this.CreateUser(username, password, email, null, isApproved);
 
-            return status == MembershipCreateStatus.Success ? GetUser(username, false) : null;
+            return status == MembershipCreateStatus.Success ? this.GetUser(username, false) : null;
         }
 
-        public override bool ChangePasswordQuestionAndAnswer(string username, string password,
-                                                             string newPasswordQuestion, string newPasswordAnswer)
+        public override bool ChangePasswordQuestionAndAnswer(string username, string password, string newPasswordQuestion, string newPasswordAnswer)
         {
             throw new NotImplementedException();
         }
 
         public override string GetPassword(string username, string answer)
         {
-            var user = _UserStorage.GetUser(u => u.Username == username);
+            var user = this.userStorage.GetUser(u => u.Username == username);
 
             return user != null ? user.Password : null;
         }
@@ -71,10 +67,9 @@ namespace IUDICO.UserManagement.Models.Auth
         {
             try
             {
-                if (username == _UserStorage.GetCurrentUser().Username)
+                if (username == this.userStorage.GetCurrentUser().Username)
                 {
-                    _UserStorage.ChangePassword(new ChangePasswordModel
-                                                    {NewPassword = newPassword, OldPassword = oldPassword});
+                    this.userStorage.ChangePassword(new ChangePasswordModel { NewPassword = newPassword, OldPassword = oldPassword });
 
                     return true;
                 }
@@ -99,7 +94,8 @@ namespace IUDICO.UserManagement.Models.Auth
         public override bool ValidateUser(string username, string password)
         {
             var user =
-                _UserStorage.GetUser(u => u.Username == username && u.Password == _UserStorage.EncryptPassword(password));
+                this.userStorage.GetUser(
+                    u => u.Username == username && u.Password == this.userStorage.EncryptPassword(password));
 
             return user != null && !user.Deleted;
         }
@@ -111,30 +107,43 @@ namespace IUDICO.UserManagement.Models.Auth
 
         public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
         {
-            return GetMembershipUser(_UserStorage.GetUser(u => u.Id == (Guid) providerUserKey));
+            return this.GetMembershipUser(this.userStorage.GetUser(u => u.Id == (Guid)providerUserKey));
         }
 
         public override MembershipUser GetUser(string username, bool userIsOnline)
         {
-            return GetMembershipUser(_UserStorage.GetUser(u => u.Username == username));
+            return this.GetMembershipUser(this.userStorage.GetUser(u => u.Username == username));
         }
 
         public MembershipUser GetMembershipUser(User user)
         {
-            return new OpenIdMembershipUser(Name, user.Name, user.Id, user.Email, user.OpenId, "", "", user.IsApproved,
-                                            false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
+            return new OpenIdMembershipUser(
+                this.Name,
+                user.Name,
+                user.Id,
+                user.Email,
+                user.OpenId,
+                string.Empty,
+                string.Empty,
+                user.IsApproved,
+                false,
+                DateTime.Now,
+                DateTime.Now,
+                DateTime.Now,
+                DateTime.Now,
+                DateTime.Now);
         }
 
         public override string GetUserNameByEmail(string email)
         {
-            return _UserStorage.GetUser(u => u.Email == email).Username;
+            return this.userStorage.GetUser(u => u.Email == email).Username;
         }
 
         public override bool DeleteUser(string username, bool deleteAllRelatedData)
         {
             try
             {
-                _UserStorage.DeleteUser(u => u.Username == username);
+                this.userStorage.DeleteUser(u => u.Username == username);
 
                 return true;
             }
@@ -147,13 +156,13 @@ namespace IUDICO.UserManagement.Models.Auth
         public override MembershipUserCollection GetAllUsers(int pageIndex, int pageSize, out int totalRecords)
         {
             var collection = new MembershipUserCollection();
-            var users = _UserStorage.GetUsers(pageIndex, pageSize);
+            var users = this.userStorage.GetUsers(pageIndex, pageSize);
 
             totalRecords = users.Count();
 
             foreach (var user in users)
             {
-                collection.Add(GetMembershipUser(user));
+                collection.Add(this.GetMembershipUser(user));
             }
 
             return collection;
@@ -164,33 +173,33 @@ namespace IUDICO.UserManagement.Models.Auth
             throw new NotImplementedException();
         }
 
-        public override MembershipUserCollection FindUsersByName(string usernameToMatch, int pageIndex, int pageSize,
-                                                                 out int totalRecords)
+        public override MembershipUserCollection FindUsersByName(
+            string usernameToMatch, int pageIndex, int pageSize, out int totalRecords)
         {
             var collection = new MembershipUserCollection();
 
-            var users = _UserStorage.GetUsers(pageIndex, pageSize).Where(u => u.Username.Contains(usernameToMatch));
+            var users = this.userStorage.GetUsers(pageIndex, pageSize).Where(u => u.Username.Contains(usernameToMatch));
             totalRecords = users.Count();
 
             foreach (var user in users)
             {
-                collection.Add(GetMembershipUser(user));
+                collection.Add(this.GetMembershipUser(user));
             }
 
             return collection;
         }
 
-        public override MembershipUserCollection FindUsersByEmail(string emailToMatch, int pageIndex, int pageSize,
-                                                                  out int totalRecords)
+        public override MembershipUserCollection FindUsersByEmail(
+            string emailToMatch, int pageIndex, int pageSize, out int totalRecords)
         {
             var collection = new MembershipUserCollection();
 
-            var users = _UserStorage.GetUsers(pageIndex, pageSize).Where(u => u.Email.Contains(emailToMatch));
+            var users = this.userStorage.GetUsers(pageIndex, pageSize).Where(u => u.Email.Contains(emailToMatch));
             totalRecords = users.Count();
 
             foreach (var user in users)
             {
-                collection.Add(GetMembershipUser(user));
+                collection.Add(this.GetMembershipUser(user));
             }
 
             return collection;
@@ -245,7 +254,7 @@ namespace IUDICO.UserManagement.Models.Auth
 
         public override string PasswordStrengthRegularExpression
         {
-            get { return ""; }
+            get { return string.Empty; }
         }
     }
 }
