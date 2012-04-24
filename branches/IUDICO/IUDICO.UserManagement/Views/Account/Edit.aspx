@@ -17,7 +17,8 @@
                     <th><%:Localization.GetMessage("UploadAvatar")%></th>
                 </tr>
                 <tr>
-                    <td><%=Html.Image("avatar", Model.Id, new {width = 100, height = 150})%></td>
+                    <td><%=Html.Image("avatar", Model.Id, new {width = 100, height = 150})%><br />
+                    <%:Html.ActionLink(Localization.GetMessage("DeleteAvatar"), "DeleteAvatar")%></td>
                     <td>
                         <input type="file" name="file" id="file" />
                         <input type="submit" value="Upload" />

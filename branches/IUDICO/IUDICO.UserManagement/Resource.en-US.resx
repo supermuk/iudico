@@ -310,7 +310,7 @@
     <value>Select Role</value>
   </data>
   <data name="User" xml:space="preserve">
-    <value>Upload Avatar</value>
+    <value>User</value>
   </data>
   <data name="UserManagement" xml:space="preserve">
     <value>User Management</value>
@@ -377,5 +377,14 @@
   </data>
   <data name="Unique ID Error" xml:space="preserve">
     <value>This unique ID is already used</value>
+  </data>
+  <data name="AddToRole" xml:space="preserve">
+    <value>Add to role</value>
+  </data>
+  <data name="CourseCreator" xml:space="preserve">
+    <value>Course creator</value>
+  </data>
+  <data name="DeleteAvatar" xml:space="preserve">
+    <value>Delete Avatar</value>
   </data>
 </root>

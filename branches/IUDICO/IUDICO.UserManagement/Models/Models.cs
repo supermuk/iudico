@@ -12,15 +12,15 @@ namespace IUDICO.UserManagement.Models
 {
     public class DetailsModel
     {
-        public DetailsModel(User user)
+        public DetailsModel(User user, IEnumerable<Role> roles, IEnumerable<Group> groups)
         {
             this.Id = user.Id;
             this.Username = user.Username;
             this.Name = user.Name;
             this.OpenId = user.OpenId;
             this.Email = user.Email;
-            this.Roles = user.Roles;
-            this.Groups = user.GroupUsers.Select(g => g.Group);
+            this.Roles = roles;
+            this.Groups = groups;
             /*Groups = user.Groups;
             Roles = user.Roles;*/
             this.UserId = user.UserId;
@@ -59,8 +59,8 @@ namespace IUDICO.UserManagement.Models
 
     public class AdminDetailsModel : DetailsModel
     {
-        public AdminDetailsModel(User user)
-            : base(user)
+        public AdminDetailsModel(User user, IEnumerable<Role> roles, IEnumerable<Group> groups)
+            : base(user, roles, groups)
         {
             ////Id = user.Id;
             this.IsApproved = user.IsApproved;

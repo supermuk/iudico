@@ -14,9 +14,9 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         [SetUp]
         public void SetupTest()
         {
-            selenium = new DefaultSelenium("localhost", 4444, "*chrome", UpgradeSeleniumTester.browserURL);
-            selenium.Start();
-            verificationErrors = new StringBuilder();
+            this.selenium = new DefaultSelenium("localhost", 4444, "*chrome", UpgradeSeleniumTester.browserUrl);
+            this.selenium.Start();
+            this.verificationErrors = new StringBuilder();
         }
 
         [TearDown]
@@ -24,36 +24,38 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         {
             try
             {
-                selenium.Stop();
+                this.selenium.Stop();
             }
             catch (Exception)
             {
                 // Ignore errors if unable to close the browser
             }
 
-            Assert.AreEqual("", verificationErrors.ToString());
+            Assert.AreEqual(string.Empty, this.verificationErrors.ToString());
         }
 
         [Test]
         public void GetCurrentlyLoggedInUserWhenLogged()
         {
-            selenium.Open("/");
-            selenium.Type("id=loginPassword", "lex");
-            selenium.Type("id=loginUsername", "lex");
-            selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-            Assert.IsTrue(selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
-            Assert.IsTrue(selenium.IsTextPresent("Logged in as lex"));
+            this.selenium.Open("/");
+            this.selenium.Type("id=loginPassword", "lex");
+            this.selenium.Type("id=loginUsername", "lex");
+            this.selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+
+            Assert.IsTrue(this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
+            Assert.IsTrue(this.selenium.IsTextPresent("Logged in as lex"));
         }
 
         [Test]
         public void GetCurrentlyLoggedInUserWhenNotLogged()
         {
-            selenium.Open("/");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-            Assert.IsFalse(selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
-            Assert.IsFalse(selenium.IsTextPresent("Logged in as"));
-            Assert.IsTrue(selenium.IsTextPresent("Login"));
+            this.selenium.Open("/");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+
+            Assert.IsFalse(this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
+            Assert.IsFalse(this.selenium.IsTextPresent("Logged in as"));
+            Assert.IsTrue(this.selenium.IsTextPresent("Login"));
         }
     }
 }

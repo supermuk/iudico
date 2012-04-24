@@ -9,31 +9,33 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
     public class UniqueUserId
     {
         private ISelenium selenium;
+
         private StringBuilder verificationErrors;
 
         [SetUp]
         public void SetupTest()
         {
-            selenium = new DefaultSelenium("localhost", 4444, "*chrome", UpgradeSeleniumTester.browserURL);
-            selenium.Start();
-            verificationErrors = new StringBuilder();
+            this.selenium = new DefaultSelenium("localhost", 4444, "*chrome", UpgradeSeleniumTester.browserUrl);
+            this.selenium.Start();
+            this.verificationErrors = new StringBuilder();
         }
 
         [TearDown]
         public void TeardownTest()
         {
-            selenium.Click("//a[contains(@href, '/Account/Logout')]");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
+            this.selenium.Click("//a[contains(@href, '/Account/Logout')]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
 
             try
             {
-                selenium.Stop();
+                this.selenium.Stop();
             }
             catch (Exception)
             {
                 // Ignore errors if unable to close the browser
             }
-            Assert.AreEqual("", verificationErrors.ToString());
+
+            Assert.AreEqual(string.Empty, this.verificationErrors.ToString());
         }
 
         [TestFixtureSetUp]
@@ -49,100 +51,94 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         [Test]
         public void CreateUserSuccess()
         {
-            selenium.Open("/");
-            selenium.Type("id=loginPassword", "lex");
-            selenium.Type("id=loginUsername", "lex");
-            selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
+            this.selenium.Open("/");
+            this.selenium.Type("id=loginPassword", "lex");
+            this.selenium.Type("id=loginUsername", "lex");
+            this.selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
 
             var guid = Guid.NewGuid();
             var name = guid.ToString().Replace('-', '_').Substring(0, 12);
 
-            selenium.Click("//a[contains(@href, '/User/Index')]");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-            selenium.Click("//a[contains(@href, '/User/Create')]");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-            selenium.Type("id=Username", "un_" + name);
-            selenium.Type("id=Password", "1");
-            selenium.Type("id=Email", "CreateUserSuccess@UniqueUserId.com");
-            selenium.Type("id=Name", "name");
-            selenium.Type("id=UserId", "id_" + name);
-            selenium.Click("//input[@value='Create']");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-            Assert.IsTrue(selenium.GetLocation().EndsWith("/User/Index"));
+            this.selenium.Click("//a[contains(@href, '/User/Index')]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.Click("//a[contains(@href, '/User/Create')]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.Type("id=Username", "un_" + name);
+            this.selenium.Type("id=Password", "1");
+            this.selenium.Type("id=Email", "CreateUserSuccess@UniqueUserId.com");
+            this.selenium.Type("id=Name", "name");
+            this.selenium.Type("id=UserId", "id_" + name);
+            this.selenium.Click("//input[@value='Create']");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            Assert.IsTrue(this.selenium.GetLocation().EndsWith("/User/Index"));
         }
 
         [Test]
         public void CreateUserViolation()
         {
-            selenium.Open("/");
-            selenium.Type("id=loginPassword", "lex");
-            selenium.Type("id=loginUsername", "lex");
-            selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
+            this.selenium.Open("/");
+            this.selenium.Type("id=loginPassword", "lex");
+            this.selenium.Type("id=loginUsername", "lex");
+            this.selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
 
-
-            selenium.Click("//a[contains(@href, '/User/Index')]");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-            selenium.Click("//a[contains(@href, '/User/Create')]");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-            selenium.Type("id=Username", "lex");
-            selenium.Type("id=Password", "1");
-            selenium.Type("id=Email", "asdsd");
-            selenium.Type("id=Name", "name");
-            selenium.Type("id=UserId", "id");
-            selenium.Click("//input[@value='Create']");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-            Assert.IsTrue(selenium.GetLocation().EndsWith("/User/Create"));
+            this.selenium.Click("//a[contains(@href, '/User/Index')]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.Click("//a[contains(@href, '/User/Create')]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.Type("id=Username", "lex");
+            this.selenium.Type("id=Password", "1");
+            this.selenium.Type("id=Email", "asdsd");
+            this.selenium.Type("id=Name", "name");
+            this.selenium.Type("id=UserId", "id");
+            this.selenium.Click("//input[@value='Create']");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            Assert.IsTrue(this.selenium.GetLocation().EndsWith("/User/Create"));
         }
-
 
         [Test]
         public void EditUserSuccess()
         {
-            selenium.Open("/");
-            selenium.Type("id=loginPassword", "lex");
-            selenium.Type("id=loginUsername", "lex");
-            selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
+            this.selenium.Open("/");
+            this.selenium.Type("id=loginPassword", "lex");
+            this.selenium.Type("id=loginUsername", "lex");
+            this.selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
 
+            this.selenium.Click("//a[contains(@href, '/User/Index')]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
 
-            selenium.Click("//a[contains(@href, '/User/Index')]");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
+            this.selenium.Click("//a[contains(@href, '/User/Edit?id=d47e8c09-2827-e011-840f-93b2f3060fee')]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.Type("id=Name", "nestor");
+            this.selenium.Type("id=Password", "lex");
+            this.selenium.Type("id=Email", "lex@iudico.com");
+            this.selenium.Click("//input[@value='Save']");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
 
-            selenium.Click("//a[contains(@href, '/User/Edit?id=d47e8c09-2827-e011-840f-93b2f3060fee')]");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-            selenium.Type("id=Name", "nestor");
-            selenium.Type("id=Password", "lex");
-            selenium.Type("id=Email", "lex@iudico.com");
-            selenium.Click("//input[@value='Save']");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-
-
-            Assert.IsTrue(selenium.GetLocation().EndsWith("/User/Index"));
+            Assert.IsTrue(this.selenium.GetLocation().EndsWith("/User/Index"));
         }
 
         [Test]
         public void EditUserViolation()
         {
-            selenium.Open("/");
-            selenium.Type("id=loginPassword", "lex");
-            selenium.Type("id=loginUsername", "lex");
-            selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
+            this.selenium.Open("/");
+            this.selenium.Type("id=loginPassword", "lex");
+            this.selenium.Type("id=loginUsername", "lex");
+            this.selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
 
+            this.selenium.Click("//a[contains(@href, '/User/Index')]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
 
-            selenium.Click("//a[contains(@href, '/User/Index')]");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
+            this.selenium.Click("//a[contains(@href, '/User/Edit?id=d47e8c09-2827-e011-840f-93b2f3060fee')]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.Type("id=Email", "lex@iudic");
+            this.selenium.Click("//input[@value='Save']");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
 
-            selenium.Click("//a[contains(@href, '/User/Edit?id=d47e8c09-2827-e011-840f-93b2f3060fee')]");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-            selenium.Type("id=Email", "lex@iudic");
-            selenium.Click("//input[@value='Save']");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-
-
-            Assert.IsTrue(selenium.GetLocation().EndsWith("/User/Edit?id=d47e8c09-2827-e011-840f-93b2f3060fee"));
+            Assert.IsTrue(this.selenium.GetLocation().EndsWith("/User/Edit?id=d47e8c09-2827-e011-840f-93b2f3060fee"));
         }
     }
 }

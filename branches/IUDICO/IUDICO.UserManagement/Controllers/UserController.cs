@@ -35,8 +35,10 @@ namespace IUDICO.UserManagement.Controllers
         public ActionResult Details(Guid id)
         {
             var user = this.storage.GetUser(u => u.Id == id);
+            var roles = this.storage.GetUserRoles(user.Username);
+            var groups = this.storage.GetGroupsByUser(user);
 
-            return this.View(new AdminDetailsModel(user));
+            return this.View(new AdminDetailsModel(user, roles, groups));
         }
 
         // GET: /User/Create
@@ -252,9 +254,19 @@ namespace IUDICO.UserManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Admin)]
         public ActionResult UploadAvatar(Guid id, HttpPostedFileBase file)
         {
             this.storage.UploadAvatar(id, file);
+
+            return this.RedirectToAction("Edit", new { id });
+        }
+
+        [Allow(Role = Role.Admin)]
+        public ActionResult DeleteAvatar(Guid id)
+        {
+            this.storage.DeleteAvatar(id);
+
             return this.RedirectToAction("Edit", new { id });
         }
 

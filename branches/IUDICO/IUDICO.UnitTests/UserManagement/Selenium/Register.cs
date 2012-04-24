@@ -1,7 +1,7 @@
-﻿using System;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Selenium;
+using System.Text;
+using System;
 
 namespace IUDICO.UnitTests.UserManagement.Selenium
 {
@@ -9,14 +9,15 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
     public class Register
     {
         private ISelenium selenium;
+
         private StringBuilder verificationErrors;
 
         [SetUp]
         public void SetupTest()
         {
-            selenium = new DefaultSelenium("localhost", 4444, "*chrome", UpgradeSeleniumTester.browserURL);
-            selenium.Start();
-            verificationErrors = new StringBuilder();
+            this.selenium = new DefaultSelenium("localhost", 4444, "*chrome", UpgradeSeleniumTester.browserUrl);
+            this.selenium.Start();
+            this.verificationErrors = new StringBuilder();
         }
 
         [TearDown]
@@ -24,48 +25,48 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         {
             try
             {
-                selenium.Stop();
+                this.selenium.Stop();
             }
             catch (Exception)
             {
                 // Ignore errors if unable to close the browser
             }
 
-            Assert.AreEqual("", verificationErrors.ToString());
+            Assert.AreEqual(string.Empty, this.verificationErrors.ToString());
         }
 
         [Test]
         public void RegisterValid()
         {
-            selenium.Open("/");
-            selenium.Click("link=Register");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
+            this.selenium.Open("/");
+            this.selenium.Click("link=Register");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
 
             var guid = Guid.NewGuid();
             var name = guid.ToString().Replace('-', '_').Substring(0, 12);
-            selenium.Type("id=Username", "un_" + name);
-            selenium.Type("id=Password", "1");
-            selenium.Type("id=ConfirmPassword", "1");
-            selenium.Type("id=Email", "CreateUserSuccess@UniqueUserId.com");
-            selenium.Type("id=Name", "name");
-            selenium.Click("//input[@value='Register']");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-            Assert.IsTrue(selenium.IsTextPresent("Registered"));
+            this.selenium.Type("id=Username", "un_" + name);
+            this.selenium.Type("id=Password", "1");
+            this.selenium.Type("id=ConfirmPassword", "1");
+            this.selenium.Type("id=Email", "CreateUserSuccess@UniqueUserId.com");
+            this.selenium.Type("id=Name", "name");
+            this.selenium.Click("//input[@value='Register']");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            Assert.IsTrue(this.selenium.IsTextPresent("Registered"));
         }
 
         [Test]
         public void RegisterInvalid()
         {
-            selenium.Open("/");
-            selenium.Click("link=Register");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
+            this.selenium.Open("/");
+            this.selenium.Click("link=Register");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
 
             var guid = Guid.NewGuid();
             var name = guid.ToString().Replace('-', '_').Substring(0, 12);
-            selenium.Type("id=Name", "nestor");
-            selenium.Click("//input[@value='Register']");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-            Assert.IsTrue(selenium.GetLocation().EndsWith("/Account/Register"));
+            this.selenium.Type("id=Name", "nestor");
+            this.selenium.Click("//input[@value='Register']");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            Assert.IsTrue(this.selenium.GetLocation().EndsWith("/Account/Register"));
         }
     }
 }

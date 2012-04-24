@@ -1,40 +1,28 @@
-using System;
-using System.Configuration;
-using System.Text;
 using NUnit.Framework;
-using Selenium;
+
+using IUDICO.UnitTests.Base;
 
 namespace IUDICO.UnitTests.UserManagement.Selenium
 {
-    [TestFixture]
-    public class UpgradeSeleniumTester
-    {
-        private ISelenium selenium;
-        public static string browserURL = ConfigurationManager.AppSettings["SELENIUM_URL"];
-        public static string browserWait = "50000";
-        private StringBuilder verificationErrors;
+    using System.Configuration;
 
-        [SetUp]
-        public void SetupTest()
+    [TestFixture]
+    public class UpgradeSeleniumTester : SimpleWebTest
+    {
+        public static string BrowserWait
         {
-            selenium = new DefaultSelenium("localhost", 4444, "*chrome", UpgradeSeleniumTester.browserURL);
-            selenium.Start();
-            verificationErrors = new StringBuilder();
+            get
+            {
+                return ConfigurationManager.AppSettings["SELENIUM_WAIT"];
+            }
         }
 
-        [TearDown]
-        public void TeardownTest()
+        public static string browserUrl
         {
-            try
+            get
             {
-                selenium.Stop();
+                return ConfigurationManager.AppSettings["SELENIUM_URL"];
             }
-            catch (Exception)
-            {
-                // Ignore errors if unable to close the browser
-            }
-
-            Assert.AreEqual("", verificationErrors.ToString());
         }
 
         [Test]
@@ -44,9 +32,9 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Type("id=loginPassword", "lex");
             selenium.Type("id=loginUsername", "lex");
             selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
+            selenium.WaitForPageToLoad(this.seleniumWait);
             selenium.Click("//a[contains(@href, '/Account/Index')]");
-            selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
+            selenium.WaitForPageToLoad(this.seleniumWait);
             Assert.IsFalse(selenium.IsElementPresent("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]"));
         }
         /*

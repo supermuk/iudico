@@ -50,6 +50,11 @@ namespace IUDICO.UserManagement.Models.Storage
             return db;
         }
 
+        protected virtual string GetIdentityName()
+        {
+            return HttpContext.Current.User.Identity.Name;
+        }
+
         protected virtual string GetPath()
         {
             if (HttpContext.Current != null)
@@ -58,10 +63,11 @@ namespace IUDICO.UserManagement.Models.Storage
             }
 
             var localPath = new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath;
+
             return Path.GetFullPath(localPath + @"\..\..\..\..\IUDICO.LMS");
         }
 
-        public bool SendEmail(string addressFrom, string addressTo, string subject, string body)
+        public virtual bool SendEmail(string addressFrom, string addressTo, string subject, string body)
         {
             try
             {
@@ -120,22 +126,17 @@ namespace IUDICO.UserManagement.Models.Storage
                 return user;
             }
 
-            var identity = HttpContext.Current.User.Identity;
-
-            return this.GetUser(u => u.Username == identity.Name);
-
-            ////var db = GetDbContext();
-            ////return db.Users.Where(u => u.Username == identity.Name).FirstOrDefault();
+            return this.GetUser(u => u.Username == this.GetIdentityName());
         }
 
         public User GetUser(Guid userId)
         {
-            return this.GetDbContext().Users.Where(user => !user.Deleted && user.Id == userId).SingleOrDefault();
+            return this.GetDbContext().Users.SingleOrDefault(user => !user.Deleted && user.Id == userId);
         }
 
         public User GetUser(Func<User, bool> predicate)
         {
-            return this.GetDbContext().Users.Where(user => !user.Deleted).SingleOrDefault(predicate);
+            return this.GetDbContext().Users.Where(u => !u.Deleted).SingleOrDefault(predicate);
         }
 
         public IEnumerable<User> GetUsers()
@@ -436,14 +437,8 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public void EditAccount(EditModel editModel)
         {
-            var identity = HttpContext.Current.User.Identity;
-
             var db = this.GetDbContext();
-
-            ////var user = GetUser(editModel.Id);
-            var user = db.Users.Single(u => u.Username == identity.Name);
-
-            ////db.Users.Attach(user);
+            var user = db.Users.Single(u => u.Username == this.GetIdentityName());
 
             user.Name = editModel.Name;
             user.OpenId = editModel.OpenId ?? string.Empty;
@@ -459,12 +454,7 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = this.GetDbContext();
 
-            var identity = HttpContext.Current.User.Identity;
-            var user = db.Users.Single(u => u.Username == identity.Name);
-
-            ////var user = GetCurrentUser();
-
-            ////db.Users.Attach(user);
+            var user = db.Users.Single(u => u.Username == this.GetIdentityName());
 
             user.Password = this.EncryptPassword(changePasswordModel.NewPassword);
 
@@ -679,13 +669,14 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public int UploadAvatar(Guid id, HttpPostedFileBase file)
         {
-            int resultCode = -1; // if no file had been passed
+            var resultCode = -1; // if no file had been passed
+
             if (file != null)
             {
-                string fileName = Path.GetFileName(id + ".png");
+                var fileName = Path.GetFileName(id + ".png");
 
-                string fullPath = Path.Combine(Path.Combine(this.GetPath(), @"Data\Avatars"), fileName);
-                FileInfo fileInfo = new FileInfo(fullPath);
+                var fullPath = Path.Combine(Path.Combine(this.GetPath(), @"Data\Avatars"), fileName);
+                var fileInfo = new FileInfo(fullPath);
 
                 resultCode = 1; // if some file had been passed
 
@@ -702,15 +693,19 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public int DeleteAvatar(Guid id)
         {
-            string fileName = Path.GetFileName(id + ".png");
-            string fullPath = Path.Combine(Path.Combine(this.GetPath(), @"Data\Avatars"), fileName);
-            FileInfo fileInfo = new FileInfo(fullPath);
+            var fileName = Path.GetFileName(id + ".png");
+            var fullPath = Path.Combine(Path.Combine(this.GetPath(), @"Data\Avatars"), fileName);
+            var fileInfo = new FileInfo(fullPath);
+
             if (fileInfo.Exists)
             {
+                // if the file had been removed successfully
                 fileInfo.Delete();
-                return 1; // if the file had been removed successfully
+                return 1;
             }
-            return -1; // if there was no file with such name in directory
+
+            // if there was no file with such name in directory
+            return -1;
         }
 
         #endregion
