@@ -20,7 +20,7 @@ namespace IUDICO.Common.Models.Services
         IEnumerable<Node> GetNodes(int courseId);
         IEnumerable<Node> GetNodes(int courseId, int? parentId);
         Node GetNode(int id);
-        String GetNodeContents(int id);
+        string GetNodeContents(int id);
 
         #endregion
     }

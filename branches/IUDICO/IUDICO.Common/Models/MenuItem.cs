@@ -8,9 +8,9 @@
 
         public MenuItem(string text, string controller, string action)
         {
-            Text = text;
-            Controller = controller;
-            Action = action;
+            this.Text = text;
+            this.Controller = controller;
+            this.Action = action;
         }
     }
 }

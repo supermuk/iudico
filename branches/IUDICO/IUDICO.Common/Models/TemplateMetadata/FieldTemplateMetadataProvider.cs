@@ -10,7 +10,7 @@ namespace IUDICO.Common.Models.TemplateMetadata
 {
     public class FieldTemplateMetadataProvider : DataAnnotationsModelMetadataProvider
     {
-        protected static int _StartOrder = 20000;
+        protected static int startOrder = 20000;
 
         protected override ModelMetadata CreateMetadata(IEnumerable<Attribute> attributes, Type containerType, Func<object> modelAccessor, Type modelType, string propertyName)
         {
@@ -40,8 +40,8 @@ namespace IUDICO.Common.Models.TemplateMetadata
 
             foreach (FieldTemplateMetadata metadataForProperty in metadataForProperties)
             {
-                ProcessDropDownAttribute(metadataForProperty, container, containerType);
-                returnValue.Add(GetOrder(metadataForProperty), metadataForProperty);
+                this.ProcessDropDownAttribute(metadataForProperty, container, containerType);
+                returnValue.Add(this.GetOrder(metadataForProperty), metadataForProperty);
             }
 
             return returnValue.Values.AsEnumerable();
@@ -76,7 +76,7 @@ namespace IUDICO.Common.Models.TemplateMetadata
         {
             var orderAttribute = metadataForProperty.Attributes.OfType<OrderAttribute>();
 
-            return orderAttribute.Any() ? orderAttribute.First().Order : _StartOrder++;
+            return orderAttribute.Any() ? orderAttribute.First().Order : startOrder++;
         }
     }
 }

@@ -6,8 +6,8 @@ namespace IUDICO.Common.Models.Shared
     {
         public TopicStat(Topic topic, double score)
         {
-            Topic = topic;
-            Score = score;
+            this.Topic = topic;
+            this.Score = score;
         }
 
         public Topic Topic { get; protected set; }
@@ -17,7 +17,7 @@ namespace IUDICO.Common.Models.Shared
 
         public int CompareTo(TopicStat topicStat)
         {
-            return topicStat.Score.CompareTo(Score);
+            return topicStat.Score.CompareTo(this.Score);
         }
 
         #endregion

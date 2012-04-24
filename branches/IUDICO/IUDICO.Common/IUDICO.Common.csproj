@@ -107,7 +107,9 @@
     <Compile Include="Models\Services\IStatisticsService.cs" />
     <Compile Include="Models\Services\IUserService.cs" />
     <Compile Include="Models\Shared\CurriculumManagement\TopicDescription.cs" />
-    <Compile Include="Models\Shared\Poco.cs" />
+    <Compile Include="Models\Shared\Poco.cs">
+		<ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+	</Compile>
     <Compile Include="Models\Shared\ShareUser.cs" />
     <Compile Include="Models\Shared\Statistics\AnswerResult.cs" />
     <Compile Include="Models\Shared\Statistics\AttemptResult.cs" />

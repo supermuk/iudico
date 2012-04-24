@@ -10,11 +10,6 @@ namespace IUDICO.Common.Models.Services
     {
         T FindService<T>() where T : IService;
 
-        //[Obsolete("Use GetDbConnection() instead.")]
-        //DBDataContext GetDbDataContext();
-        //IDataContext GetIDataContext();
-        //DbConnection GetDbConnection();
-
         Menu GetMenu();
         Dictionary<IPlugin, IEnumerable<Action>> GetActions();
 

@@ -15,7 +15,7 @@ namespace IUDICO.Common.Models.Services
         ///// </summary>
         ///// <param name="user">The user.</param>
         ///// <returns></returns>
-        //IList<Discipline> GetDisciplinesWithTopicsOwnedByUser(User user);
+        //// IList<Discipline> GetDisciplinesWithTopicsOwnedByUser(User user);
         IList<Discipline> GetDisciplines();
         /// <summary>
         /// Gets the disciplines owned by user or shared to him.
