@@ -52,6 +52,7 @@ namespace IUDICO.Analytics.Controllers
         public ActionResult RecommendedTopics()
         {
 			return new EmptyResult();
+            /*
             var user = LmsService.FindService<IUserService>().GetCurrentUser();
 
             if (user == null)
@@ -63,6 +64,7 @@ namespace IUDICO.Analytics.Controllers
             var topicDescriptions = LmsService.FindService<ICurriculumService>().GetTopicDescriptionsByTopics(topics.Select(t => t.Topic), user);
 
             return PartialView(topicDescriptions);
+            */
         }
     }
 }

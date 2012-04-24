@@ -28,8 +28,7 @@ namespace IUDICO.Analytics
                 Component.For<IPlugin>().ImplementedBy<AnalyticsPlugin>().LifeStyle.Is(LifestyleType.Singleton),
                 Component.For<IAnalyticsStorage>().ImplementedBy<CachedAnalyticsStorage>().LifeStyle.Is(LifestyleType.Singleton),
                 Component.For<IAnalyticsStorage>().ImplementedBy<MixedAnalyticsStorage>().LifeStyle.Is(LifestyleType.Singleton),
-                Component.For<IAnalyticsService>().ImplementedBy<AnalyticsService>().LifeStyle.Is(LifestyleType.Singleton)
-            );
+                Component.For<IAnalyticsService>().ImplementedBy<AnalyticsService>().LifeStyle.Is(LifestyleType.Singleton));
         }
 
         #endregion
@@ -65,20 +64,17 @@ namespace IUDICO.Analytics
             routes.MapRoute(
                 "Analytics",
                 "Analytics/{action}",
-                new { controller = "Analytics", action = "Index" }
-                );
+                new { controller = "Analytics", action = "Index" });
 
             routes.MapRoute(
                 "Tags",
                 "Tags/{action}",
-                new { controller = "Tags", action = "Index" }
-                );
+                new { controller = "Tags", action = "Index" });
 
             routes.MapRoute(
                 "Recommender",
                 "Recommender/{action}",
-                new { controller = "Recommender", action = "Index" }
-                );
+                new { controller = "Recommender", action = "Index" });
             routes.MapRoute(
                 "AnomalyDetection",
                 "AnomalyDetection/{action}",

@@ -21,11 +21,11 @@ namespace IUDICO.Common
 
     public class Log4NetLoggerService : ILoggerService
     {
-        private ILog _logger;
+        private readonly ILog logger;
 
         public Log4NetLoggerService()
         {
-            _logger = LogManager.GetLogger(
+            this.logger = LogManager.GetLogger(
                 System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         }
         public static void InitLogger()
@@ -37,37 +37,37 @@ namespace IUDICO.Common
 
         public void Info(string message)
         {
-            _logger.Info(message);
+            this.logger.Info(message);
         }
 
         public void Warn(string message)
         {
-            _logger.Warn(message);
+            this.logger.Warn(message);
         }
 
         public void Debug(string message)
         {
-            _logger.Debug(message);
+            this.logger.Debug(message);
         }
 
         public void Error(string message)
         {
-            _logger.Error(message);
+            this.logger.Error(message);
         }
 
         public void Error(Exception ex)
         {
-            _logger.Error(ex.Message, ex);
+            this.logger.Error(ex.Message, ex);
         }
 
         public void Fatal(string message)
         {
-            _logger.Fatal(message);
+            this.logger.Fatal(message);
         }
 
         public void Fatal(Exception ex)
         {
-            _logger.Fatal(ex.Message, ex);
+            this.logger.Fatal(ex.Message, ex);
         }
     }
 }

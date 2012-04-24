@@ -23,14 +23,14 @@ namespace IUDICO.Analytics.Models.Storage
         public MixedAnalyticsStorage(ILmsService lmsService)
         {
             _LmsService = lmsService;
-            //RefreshState();
+            RefreshState();
         }
-        /*
+        
         public void RefreshState()
         {
             _Db = new DBDataContext();
         }
-        */
+        
         #region Analytics methods
 
         public IEnumerable<ForecastingTree> GetAllForecastingTrees()
@@ -377,7 +377,7 @@ namespace IUDICO.Analytics.Models.Storage
             var ratRatings = groupRatings.Select((r, i) => new { User = r.User, Index = i }).ToDictionary(a => a.User, a => a.Index);
 
             var ratingDifference = 1.0 * usersParticipated.Sum(u => Math.Abs(ratResults[u] - ratRatings[u]));
-            var ratingMax = 2*((n + 1)/2)*(n/2);
+            var ratingMax = 2 * ((n + 1) / 2) * (n / 2);
             var ratingNormalized = ratingDifference/ratingMax;
 
             var diffResults = groupResults.ToDictionary(a => a.User, a => a.Score);
