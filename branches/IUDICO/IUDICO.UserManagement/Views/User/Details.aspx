@@ -3,27 +3,27 @@
 <%@ Import Namespace="IUDICO.UserManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=Localization.getMessage("DetailsOfUser")%> <%=Model.Username%>
+	<%=Localization.GetMessage("DetailsOfUser")%> <%=Model.Username%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=Localization.getMessage("DetailsOfUser")%> <%=Model.Username%></h2>
+    <h2><%=Localization.GetMessage("DetailsOfUser")%> <%=Model.Username%></h2>
 
     <fieldset>
-        <legend><%=Localization.getMessage("Fields")%></legend>
+        <legend><%=Localization.GetMessage("Fields")%></legend>
         <%=Html.Image("avatar", Model.Id, new {width = 100, height = 150})%>
         <%:Html.DisplayForModel()%>
         
     </fieldset>
 
     <fieldset>
-        <legend><%=Localization.getMessage("Roles")%></legend>
+        <legend><%=Localization.GetMessage("Roles")%></legend>
 
         <table>
         <tr>
             <th>
-                <%=Localization.getMessage("Name")%>
+                <%=Localization.GetMessage("Name")%>
             </th>
             <th></th>
         </tr>
@@ -35,8 +35,8 @@
                 {%>
         <tr>
             <td><%:role.ToString()%></td>
-            <td><%:Html.ActionLink(Localization.getMessage("Remove"), "RemoveFromRole",
-                                                      new {id = Model.Id, roleRef = (int) role})%></td>
+            <td><%:Html.ActionLink(Localization.GetMessage("Remove"), "RemoveFromRole",
+                                                      new {id = Model.Id, roleRef = (int)role})%></td>
         </tr>
         <%
                 }
@@ -44,8 +44,8 @@
             else
             {%>
            <tr>
-            <td><%=Localization.getMessage("NoData")%></td>
-            <td><%=Localization.getMessage("NoActions")%></td>
+            <td><%=Localization.GetMessage("NoData")%></td>
+            <td><%=Localization.GetMessage("NoActions")%></td>
            </tr>
            <%
             }%>
@@ -54,12 +54,12 @@
     </fieldset>
 
     <fieldset>
-        <legend><%=Localization.getMessage("Groups")%></legend>
+        <legend><%=Localization.GetMessage("Groups")%></legend>
 
         <table>
         <tr>
             <th>
-                <%=Localization.getMessage("Name")%>
+                <%=Localization.GetMessage("Name")%>
             </th>
             <th></th>
         </tr>
@@ -71,7 +71,7 @@
                 {%>
         <tr>
             <td><%:group.Name%></td>
-            <td><%:Html.ActionLink(Localization.getMessage("Remove"), "RemoveFromGroup",
+            <td><%:Html.ActionLink(Localization.GetMessage("Remove"), "RemoveFromGroup",
                                                       new {id = Model.Id, groupRef = group.Id})%></td>
         </tr>
         <%
@@ -80,8 +80,8 @@
             else
             {%>
            <tr>
-            <td><%=Localization.getMessage("NoData")%></td>
-            <td><%=Localization.getMessage("NoActions")%></td>
+            <td><%=Localization.GetMessage("NoData")%></td>
+            <td><%=Localization.GetMessage("NoActions")%></td>
            </tr>
            <%
             }%>
@@ -93,20 +93,20 @@
         <%
             if (Model.IsApproved)
             {%>
-            <%:Html.ActionLink(Localization.getMessage("Deactivate"), "Deactivate",
+            <%:Html.ActionLink(Localization.GetMessage("Deactivate"), "Deactivate",
                                                   new {id = Model.Id})%> |
         <%
             }
             else
             {%>
-            <%:Html.ActionLink(Localization.getMessage("Activate"), "Activate", new {id = Model.Id})%> |
+            <%:Html.ActionLink(Localization.GetMessage("Activate"), "Activate", new {id = Model.Id})%> |
         <%
             }%>
-        <%:Html.ActionLink(Localization.getMessage("Edit"), "Edit", new {id = Model.Id})%> |
-        <%:Html.ActionLink(Localization.getMessage("AddToGroup"), "AddToGroup", new {id = Model.Id})%> |
-        <%:Html.ActionLink(Localization.getMessage("AddToRole"), "AddToRole", new {id = Model.Id})%> |
-        <%:Html.ActionLink(Localization.getMessage("Delete"), "Delete", new {id = Model.Id})%> |
-        <%:Html.ActionLink(Localization.getMessage("BackToList"), "Index")%>
+        <%:Html.ActionLink(Localization.GetMessage("Edit"), "Edit", new {id = Model.Id})%> |
+        <%:Html.ActionLink(Localization.GetMessage("AddToGroup"), "AddToGroup", new {id = Model.Id})%> |
+        <%:Html.ActionLink(Localization.GetMessage("AddToRole"), "AddToRole", new {id = Model.Id})%> |
+        <%:Html.ActionLink(Localization.GetMessage("Delete"), "Delete", new {id = Model.Id})%> |
+        <%:Html.ActionLink(Localization.GetMessage("BackToList"), "Index")%>
     </p>
 
 </asp:Content>

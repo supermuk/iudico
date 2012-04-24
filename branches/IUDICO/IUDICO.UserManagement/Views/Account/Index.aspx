@@ -4,29 +4,29 @@
 <%@ Import Namespace="IUDICO.UserManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=Localization.getMessage("Account")%>
+	<%=Localization.GetMessage("Account")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=Localization.getMessage("Details")%></h2>
+    <h2><%=Localization.GetMessage("Details")%></h2>
 
     <fieldset>
-        <legend><%=Localization.getMessage("Fields")%></legend>
+        <legend><%=Localization.GetMessage("Fields")%></legend>
         <%=Html.Image("avatar", Model.Id, new {width = 100, height = 150})%>
         <%:Html.DisplayForModel()%>
         
     </fieldset>
 
     <fieldset>
-        <legend><%=Localization.getMessage("Roles")%></legend>
+        <legend><%=Localization.GetMessage("Roles")%></legend>
 
         <ul>
         
         <%
             foreach (var role in Model.Roles)
             {%>
-            <li><%:Localization.getMessage(role.ToString())%></li>
+            <li><%:Localization.GetMessage(role.ToString())%></li>
         <%
             }%>
 
@@ -34,7 +34,7 @@
     </fieldset>
 
     <fieldset>
-        <legend><%=Localization.getMessage("Groups")%></legend>
+        <legend><%=Localization.GetMessage("Groups")%></legend>
 
         <ul>
         
@@ -49,13 +49,13 @@
     </fieldset>
 
     <div>
-        <%:Html.ActionLink(Localization.getMessage("Edit"), "Edit")%>|
-        <%:Html.ActionLink(Localization.getMessage("ChangePassword"), "ChangePassword")%>
+        <%:Html.ActionLink(Localization.GetMessage("Edit"), "Edit")%>|
+        <%:Html.ActionLink(Localization.GetMessage("ChangePassword"), "ChangePassword")%>
         <%
             if (Roles.IsUserInRole(Role.Teacher.ToString()) && !Roles.IsUserInRole(Role.Admin.ToString()))
             {%>
         |
-        <%:Html.ActionLink(Localization.getMessage("UpgradeToAdmin"), "TeacherToAdminUpgrade",
+        <%:Html.ActionLink(Localization.GetMessage("UpgradeToAdmin"), "TeacherToAdminUpgrade",
                                                   new {id = Model.Id})%>
         <%
             }%>

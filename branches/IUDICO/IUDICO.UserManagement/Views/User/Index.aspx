@@ -1,9 +1,10 @@
 ﻿<%@ Assembly Name="IUDICO.UserManagement" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.User>>" %>
+<%@ Import Namespace="IUDICO.Common.Models" %>
 <%@ Import Namespace="IUDICO.UserManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=Localization.getMessage("Users")%>
+	<%=Localization.GetMessage("Users")%>
 </asp:Content>
 
 
@@ -202,7 +203,7 @@
         
 	</script>
 
-    <div id="catalog" style="padding: 0 0px; float:right; text-align: left;" dir="<%= Html.ResolveUrl("/Content/images/status_icon_delete.png")%> ">
+    <div id="catalog" style="padding: 0 0px; float:right; text-align: left;" dir="<%=Html.ResolveUrl("/Content/images/status_icon_delete.png")%> ">
         <h3><a href="#" style="background-color:Silver;">Roles</a></h3>
         <div class="magleft">
 			    <li class="example1">Student</li>
@@ -213,7 +214,7 @@
     </div>
 
     <div>
-    <h2><%=Localization.getMessage("Users")%></h2>
+    <h2><%=Localization.GetMessage("Users")%></h2>
     </div>
 
     <div id="demo">
@@ -224,29 +225,29 @@
 
         <tr>
             <th>
-                <%=Localization.getMessage("FullName")%>
+                <%=Localization.GetMessage("FullName")%>
             </th>
 
             <th>
-                <%=Localization.getMessage("Loginn")%>
+                <%=Localization.GetMessage("Loginn")%>
             </th>
 
             <th>
-                <%=Localization.getMessage("Active")%>
+                <%=Localization.GetMessage("Active")%>
             </th>
 
             <th>Roles</th>
 
             <th>
-                <%=Localization.getMessage("ApprovedBy")%>
+                <%=Localization.GetMessage("ApprovedBy")%>
             </th>
 
             <th>
-                <%=Localization.getMessage("CreationDate")%>
+                <%=Localization.GetMessage("CreationDate")%>
             </th>
 
             <th>
-                <%=Localization.getMessage("Groups")%>
+                <%=Localization.GetMessage("Groups")%>
             </th>
 
             <th>
@@ -257,19 +258,23 @@
 
     <tbody id="cart">
 
-    <%foreach (var item in Model)
+    <%
+        foreach (var item in Model)
         {%>
     
-        <tr id="<%: item.Id %>">
+        <tr id="<%:item.Id%>">
             <td>	<%:item.Name%>	</td>
             <td>	<%:item.Username%>	</td>
             <td>	<%:item.IsApproved.ToString()%>	</td>
             <td>
 				<div>
 					<ol class="ui-droppable ui-sortable">
-					<% foreach (IUDICO.Common.Models.Role role in item.Roles) {%>
-								<li> <%: role %> <img src="<%= Html.ResolveUrl("/Content/images/status_icon_delete.png")%>" class="<%: role %>" alt="Remove role" /> </li> 
-					<%} %>
+					<%
+            foreach (Role role in item.Roles)
+            {%>
+								<li> <%:role%> <img src="<%=Html.ResolveUrl("/Content/images/status_icon_delete.png")%>" class="<%:role%>" alt="Remove role" /> </li> 
+					<%
+            }%>
 					</ol>
 				</div> 
             </td>
@@ -279,33 +284,34 @@
             <td>	<%:item.GroupsLine%>	</td>
             <td>
                 <%
-				if (item.IsApproved)
-				{%>
-						<%:Html.ActionLink(Localization.getMessage("Deactivate"), "Deactivate",
-													  new {id = item.Id})%> |
+            if (item.IsApproved)
+            {%>
+						<%:Html.ActionLink(Localization.GetMessage("Deactivate"), "Deactivate",
+                                                  new {id = item.Id})%> |
 					<%
-				}
-				else
-				{%>
-						<%:Html.ActionLink(Localization.getMessage("Activate"), "Activate", new {id = item.Id})%> |
+            }
+            else
+            {%>
+						<%:Html.ActionLink(Localization.GetMessage("Activate"), "Activate", new {id = item.Id})%> |
 					<%
-				}%>
-					<%:Html.ActionLink(Localization.getMessage("Edit"), "Edit", new {id = item.Id})%> |
-					<%:Html.ActionLink(Localization.getMessage("Details"), "Details", new {id = item.Id})%> |
-					<%:Html.ActionLink(Localization.getMessage("AddToRole"), "AddToRole", new {id = item.Id})%> |
-					<%:Html.ActionLink(Localization.getMessage("AddToGroup"), "AddToGroup", new {id = item.Id})%> |
-					<%:Ajax.ActionLink(Localization.getMessage("Delete"), "Delete", new {id = item.Id},
-												  new AjaxOptions
-													  {
-														  Confirm =
-															  "Are you sure you want to delete \"" + item.Username + "\"?",
-														  HttpMethod = "Delete",
-														  OnSuccess = "removeRow"
-													  })%>
+            }%>
+					<%:Html.ActionLink(Localization.GetMessage("Edit"), "Edit", new {id = item.Id})%> |
+					<%:Html.ActionLink(Localization.GetMessage("Details"), "Details", new {id = item.Id})%> |
+					<%:Html.ActionLink(Localization.GetMessage("AddToRole"), "AddToRole", new {id = item.Id})%> |
+					<%:Html.ActionLink(Localization.GetMessage("AddToGroup"), "AddToGroup", new {id = item.Id})%> |
+					<%:Ajax.ActionLink(Localization.GetMessage("Delete"), "Delete", new {id = item.Id},
+                                              new AjaxOptions
+                                                  {
+                                                      Confirm =
+                                                          "Are you sure you want to delete \"" + item.Username + "\"?",
+                                                      HttpMethod = "Delete",
+                                                      OnSuccess = "removeRow"
+                                                  })%>
             </td>
         </tr>
     
-    <%}%>
+    <%
+        }%>
 
     </tbody>
 
@@ -314,8 +320,8 @@
     </div>
 
     <p>
-        <%:Html.ActionLink(Localization.getMessage("CreateNewUser"), "Create")%> | 
-        <%:Html.ActionLink(Localization.getMessage("CreateNewUsers"), "CreateMultiple")%>
+        <%:Html.ActionLink(Localization.GetMessage("CreateNewUser"), "Create")%> | 
+        <%:Html.ActionLink(Localization.GetMessage("CreateNewUsers"), "CreateMultiple")%>
     </p>
 
 </asp:Content>

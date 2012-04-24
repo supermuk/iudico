@@ -3,12 +3,12 @@
 <%@ Import Namespace="IUDICO.UserManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=Localization.getMessage("EditUser")%> <%=Model.Username%>
+	<%=Localization.GetMessage("EditUser")%> <%=Model.Username%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=Localization.getMessage("EditUser")%> <%=Model.Username%></h2>
+    <h2><%=Localization.GetMessage("EditUser")%> <%=Model.Username%></h2>
 
     <form action="../User/UploadAvatar/<%=Model.Id%>/" method="post" enctype="multipart/form-data">
         <table>
@@ -29,15 +29,15 @@
     <%
         using (Html.BeginForm())
         {%>
-        <%:Html.ValidationSummary(Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
+        <%:Html.ValidationSummary(Localization.GetMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
         
         <fieldset>
-            <legend><%=Localization.getMessage("Fields")%></legend>
+            <legend><%=Localization.GetMessage("Fields")%></legend>
 
             <%:Html.EditorForModel()%>
             
             <p>
-                <input type="submit" value=<%=Localization.getMessage("Save")%> />
+                <input type="submit" value=<%=Localization.GetMessage("Save")%> />
             </p>
         </fieldset>
 
@@ -45,7 +45,7 @@
         }%>
 
     <div>
-        <%:Html.ActionLink(Localization.getMessage("BackToList"), "Index")%>
+        <%:Html.ActionLink(Localization.GetMessage("BackToList"), "Index")%>
     </div>
 
 </asp:Content>
