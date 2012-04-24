@@ -29,7 +29,7 @@ namespace IUDICO.LMS.IoC
             }
             catch (HttpException ex)
             {
-                if(ex.GetHttpCode() != 404)
+                if (ex.GetHttpCode() != 404)
                 {
                     throw;
                 }

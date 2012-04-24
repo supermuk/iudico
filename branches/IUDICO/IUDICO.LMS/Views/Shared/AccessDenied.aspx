@@ -6,9 +6,9 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=IUDICO.LMS.Localization.getMessage("AccessDenied")%></h2>
+    <h2><%=IUDICO.LMS.Localization.GetMessage("AccessDenied")%></h2>
 
-    <%=IUDICO.LMS.Localization.getMessage("YouDontHavePermissionAccessThatPage")%>
+    <%=IUDICO.LMS.Localization.GetMessage("YouDontHavePermissionAccessThatPage")%>
 
 </asp:Content>
 

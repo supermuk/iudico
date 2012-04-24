@@ -8,11 +8,11 @@ namespace IUDICO.LMS.IoC
 {
     public class IocControllerFactory : IControllerFactory
     {
-        readonly IKernel _Kernel;
+        readonly IKernel kernel;
 
         public IocControllerFactory(IKernel kernel)
         {
-            _Kernel = kernel;
+            this.kernel = kernel;
         }
 
         public IController CreateController(RequestContext requestContext, string controllerName)
@@ -29,12 +29,12 @@ namespace IUDICO.LMS.IoC
 
             try
             {
-                return _Kernel.Resolve<IController>(controllerName + "controller");
+                return this.kernel.Resolve<IController>(controllerName + "controller");
             }
             catch (ComponentNotFoundException e)
             {
                 // TODO: log not found
-                throw  new HttpException(404, string.Format("No controller with name '{0}' found", controllerName), e);
+                throw new HttpException(404, string.Format("No controller with name '{0}' found", controllerName), e);
             }
         }
 
@@ -45,7 +45,7 @@ namespace IUDICO.LMS.IoC
                 throw new ArgumentNullException("controller");
             }
 
-            _Kernel.ReleaseComponent(controller);
+            this.kernel.ReleaseComponent(controller);
         }
     }
 }

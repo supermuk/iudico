@@ -15,7 +15,7 @@ namespace IUDICO.LMS.Controllers
         /// Gets descriptions of topics available for playing.
         /// </summary>
         /// <returns></returns>
-        //[OutputCache(Duration = 3600, VaryByParam = "none", VaryByCustom = "lang")]
+        // [OutputCache(Duration = 3600, VaryByParam = "none", VaryByCustom = "lang")]
         public IEnumerable<TopicDescription> GetTopicsDescriptions()
         {
             User user = MvcApplication.StaticContainer.GetService<IUserService>().GetCurrentUser();
@@ -30,18 +30,16 @@ namespace IUDICO.LMS.Controllers
             User user = MvcApplication.StaticContainer.GetService<IUserService>().GetCurrentUser();
             
             // show actions for guest only
-            var actions =  MvcApplication.LmsService.GetActions();
+            var actions = MvcApplication.LmsService.GetActions();
             if (user.UserId != null)
                 actions.Clear();
 
-            IEnumerable<TopicDescription> description = GetTopicsDescriptions();
+            IEnumerable<TopicDescription> description = this.GetTopicsDescriptions();
 
-            Dictionary<string, Dictionary<string, List<TopicDescription>>> groupedTopicsDescriptions = 
-                description.GroupBy(topicDescription_ => topicDescription_.Discipline.Name).
-                ToDictionary(x => x.Key, x => x.GroupBy(y => y.Chapter.Name).
-                    ToDictionary(z => z.Key, z => z.ToList()));
-            
-            return View(new HomeModel
+            var groupedTopicsDescriptions = description.GroupBy(topicDescription_ => topicDescription_.Discipline.Name).ToDictionary(x => x.Key, x => x.GroupBy(y => y.Chapter.Name).ToDictionary(z => z.Key, z => z.ToList()));
+
+            return View(
+                new HomeModel
                 {
                     Actions = actions,
                     TopicsDescriptions = description,
@@ -52,8 +50,8 @@ namespace IUDICO.LMS.Controllers
         [OutputCache(Duration = 3600, VaryByParam = "none")]
         public ActionResult Error()
         {
-            //log4net.ILog log = log4net.LogManager.GetLogger(typeof(HomeController));
-            //log.Error(HttpContext.Server.GetLastError().Message);
+            // log4net.ILog log = log4net.LogManager.GetLogger(typeof(HomeController));
+            // log.Error(HttpContext.Server.GetLastError().Message);
             return View();
         }
     }
