@@ -34,7 +34,7 @@
         <//tr>
         <%} %>
     </table>
-
+    <%= Html.ActionLink("Back to Security", "Index", "Security") %>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">

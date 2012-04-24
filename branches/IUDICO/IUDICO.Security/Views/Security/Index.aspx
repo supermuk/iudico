@@ -2,7 +2,7 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Security.ViewModels.Security.IndexViewModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%= Model.GetMessage(IUDICO.Security.Localization.Keys.SECURITY) %>
+	<%= Model.GetMessage(IUDICO.Security.Localization.Keys.Security) %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">

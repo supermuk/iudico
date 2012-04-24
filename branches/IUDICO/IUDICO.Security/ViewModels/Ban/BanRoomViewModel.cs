@@ -13,7 +13,7 @@ namespace IUDICO.Security.ViewModels.Ban
 
         public BanRoomViewModel()
         {
-            Rooms = new List<Room>();
+            this.Rooms = new List<Room>();
         } 
     }
 }

@@ -9,17 +9,17 @@ namespace IUDICO.Security.ViewModels.Ban
 {
     public class RoomsViewModel
     {
-        public IList<String> Rooms { get; set; }
-        public String CurrentRoom { get; set; }
-        public IList<String> Computers { get; set; }
-        public IList<String> UnchoosenComputers { get; set; }
+        public IList<string> Rooms { get; set; }
+        public string CurrentRoom { get; set; }
+        public IList<string> Computers { get; set; }
+        public IList<string> UnchoosenComputers { get; set; }
 
         public RoomsViewModel() 
         {
-            Rooms = new List<String>();
-            CurrentRoom = null;
-            Computers = new List<String>();
-            UnchoosenComputers = new List<String>();
+            this.Rooms = new List<string>();
+            this.CurrentRoom = null;
+            this.Computers = new List<string>();
+            this.UnchoosenComputers = new List<string>();
         }
     }
 }

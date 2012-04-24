@@ -13,12 +13,12 @@ namespace IUDICO.Security.ViewModels.Ban
         public string CurrentUser { get; set; }
 
         public EditComputersViewModel() { }
-        public EditComputersViewModel(string CIP, string _Room, bool _Banned, string _CurUser) 
+        public EditComputersViewModel(string cip, string room, bool banned, string curUser) 
         {
-            ComputerIP = CIP;
-            Room = _Room;
-            Banned = _Banned;
-            CurrentUser = _CurUser;
+            this.ComputerIP = cip;
+            this.Room = room;
+            this.Banned = banned;
+            this.CurrentUser = curUser;
         }
     }
 }

@@ -38,6 +38,7 @@
         <//tr>
         <%} %>
     </table>
+    <%= Html.ActionLink("Back to Security", "Index", "Security") %>
 
 
 

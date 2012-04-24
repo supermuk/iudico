@@ -25,7 +25,7 @@ namespace IUDICO.Security
     public class SecurityPlugin : IPlugin, IWindsorInstaller
     {
         internal static IWindsorContainer Container; 
-        private const String SECURITY_PLUGIN_NAME = "SecurityPlugin";
+        private const string SecurityPluginName = "SecurityPlugin";
 
         #region IWindsorInstaller
 
@@ -42,8 +42,7 @@ namespace IUDICO.Security
                 Component.For<IBanStorage>().ImplementedBy<CachedBanStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<IBanStorage>().ImplementedBy<DatabaseBanStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<ISecurityStorage>().ImplementedBy<CachedSecurityStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<ISecurityStorage>().ImplementedBy<DatabaseSecurityStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
-            );
+                Component.For<ISecurityStorage>().ImplementedBy<DatabaseSecurityStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton));
 
             Container = container;
         }
@@ -53,15 +52,15 @@ namespace IUDICO.Security
 
         public string GetName()
         {
-            return Localization.GetMessage(Localization.Keys.SECURITY_PLUGIN);
+            return Localization.GetMessage(Localization.Keys.SecurityPlugin);
         }
 
         public IEnumerable<Action> BuildActions()
         {
             return new Action[]
             {
-                new Action(Localization.GetMessage(Localization.Keys.SECURITY), "Security/Index"),
-                new Action(Localization.GetMessage(Localization.Keys.USER_ACTIVITY), "UserActivity/Index")
+                new Action(Localization.GetMessage(Localization.Keys.Security), "Security/Index"),
+                new Action(Localization.GetMessage(Localization.Keys.UserActivity), "UserActivity/Index")
             };
         }
 
@@ -69,7 +68,7 @@ namespace IUDICO.Security
         {
             return new MenuItem[]
             {
-                new MenuItem(Localization.GetMessage(Localization.Keys.SECURITY), "Security", "Index")
+                new MenuItem(Localization.GetMessage(Localization.Keys.Security), "Security", "Index")
             };
         }
 
@@ -107,11 +106,11 @@ namespace IUDICO.Security
         {
             if (evt == LMSNotifications.ApplicationRequestStart)
             {
-                ApplicationRequestStart(data);
+                this.ApplicationRequestStart(data);
             }
             else if (evt == LMSNotifications.ApplicationRequestEnd)
             {
-                ApplicationRequestEnd(data);
+                this.ApplicationRequestEnd(data);
             }
         }
 
@@ -146,7 +145,7 @@ namespace IUDICO.Security
 
             var userActivity = new UserActivity
             {
-                ResponseLength = (int) filter.Length,
+                ResponseLength = (int)filter.Length,
                 RequestStartTime = (DateTime)context.Items["REQUEST_START_DATETIME"],
                 RequestEndTime = DateTime.Now
             };
@@ -157,7 +156,7 @@ namespace IUDICO.Security
                 userActivity.UserRef = currentUser.Id;
             }
 
-            userActivity.Request = GetRawRequest(context.Request);
+            userActivity.Request = this.GetRawRequest(context.Request);
             userActivity.RequestLength = userActivity.Request.Length;
 
             storage.CreateUserActivity(userActivity);
@@ -167,7 +166,8 @@ namespace IUDICO.Security
         {
             var sb = new StringBuilder();
             
-            sb.AppendFormat("{0} {1} {2} ",
+            sb.AppendFormat(
+                "{0} {1} {2} ",
                 request.HttpMethod,
                 request.RawUrl,
                 request.ServerVariables["SERVER_PROTOCOL"]);

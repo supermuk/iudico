@@ -8,117 +8,117 @@ using System.Diagnostics;
 
 namespace IUDICO.Security.Models.Storages.Cache
 {
-    public class CachedBanStorage: IBanStorage
+    public class CachedBanStorage : IBanStorage
     {
-        private readonly IBanStorage _storage;
-        private readonly ICacheProvider _cachePrvoider;
+        private readonly IBanStorage storage;
+        private readonly ICacheProvider cachePrvoider;
         private readonly object lockObject = new object();
 
         public CachedBanStorage(IBanStorage storage, ICacheProvider cachePrvoider)
         {
-            _storage = storage;
-            _cachePrvoider = cachePrvoider;
+            this.storage = storage;
+            this.cachePrvoider = cachePrvoider;
         }
 
         public void AttachComputerToRoom(Computer computer, Room room)
         {
-            _storage.AttachComputerToRoom(computer, room);
+            this.storage.AttachComputerToRoom(computer, room);
 
-            _cachePrvoider.Invalidate("computers", "rooms", "computer-" + computer.IpAddress, "room-" + computer.Room.Name);
+            this.cachePrvoider.Invalidate("computers", "rooms", "computer-" + computer.IpAddress, "room-" + computer.Room.Name);
         }
 
         public void DetachComputer(Computer computer)
         {
-            _cachePrvoider.Invalidate("computers", "rooms", "computer-" + computer.IpAddress, "room-" + computer.Room.Name);
+            this.cachePrvoider.Invalidate("computers", "rooms", "computer-" + computer.IpAddress, "room-" + computer.Room.Name);
 
-            _storage.DetachComputer(computer);
+            this.storage.DetachComputer(computer);
         }
 
         public void BanComputer(Computer computer)
         {
-            _storage.BanComputer(computer);
+            this.storage.BanComputer(computer);
 
-            _cachePrvoider.Invalidate("computers", "computer-" + computer.IpAddress);
+            this.cachePrvoider.Invalidate("computers", "computer-" + computer.IpAddress);
         }
 
         public void UnbanComputer(Computer computer)
         {
-            _storage.BanComputer(computer);
+            this.storage.BanComputer(computer);
 
-            _cachePrvoider.Invalidate("computers", "computer-" + computer.IpAddress);
+            this.cachePrvoider.Invalidate("computers", "computer-" + computer.IpAddress);
         }
 
         public void BanRoom(Room room)
         {
-            _storage.BanRoom(room);
+            this.storage.BanRoom(room);
 
             var computers = room.Computers.Select(s => "computer-" + s.IpAddress);
 
-            _cachePrvoider.Invalidate(computers.ToArray());
-            _cachePrvoider.Invalidate("computers", "room-" + room.Name, "rooms");
+            this.cachePrvoider.Invalidate(computers.ToArray());
+            this.cachePrvoider.Invalidate("computers", "room-" + room.Name, "rooms");
         }
 
         public void UnbanRoom(Room room)
         {
-            _storage.UnbanRoom(room);
+            this.storage.UnbanRoom(room);
 
             var computers = room.Computers.Select(s => "computer-" + s.IpAddress);
 
-            _cachePrvoider.Invalidate(computers.ToArray());
-            _cachePrvoider.Invalidate("computers", "room-" + room.Name, "rooms");
+            this.cachePrvoider.Invalidate(computers.ToArray());
+            this.cachePrvoider.Invalidate("computers", "room-" + room.Name, "rooms");
         }
 
-        public Computer GetComputer(string ipAddress)
+        public Computer GetComputer(string compAddress)
         {
-            return _cachePrvoider.Get<Computer>("computer-" + ipAddress, @lockObject, () => _storage.GetComputer(ipAddress), DateTime.Now.AddDays(1), "computer-" + ipAddress, "computers");
+            return this.cachePrvoider.Get<Computer>("computer-" + compAddress, @lockObject, () => this.storage.GetComputer(compAddress), DateTime.Now.AddDays(1), "computer-" + compAddress, "computers");
         }
 
         public Room GetRoom(string name)
         {
-            return _cachePrvoider.Get<Room>("room-" + name, @lockObject, () => _storage.GetRoom(name), DateTime.Now.AddDays(1), "room-" + name, "rooms");
+            return this.cachePrvoider.Get<Room>("room-" + name, @lockObject, () => this.storage.GetRoom(name), DateTime.Now.AddDays(1), "room-" + name, "rooms");
         }
 
         public IEnumerable<Computer> GetComputers()
         {
-            return _cachePrvoider.Get<IEnumerable<Computer>>("computers", @lockObject, () => _storage.GetComputers(), DateTime.Now.AddDays(1), "computers");
+            return this.cachePrvoider.Get<IEnumerable<Computer>>("computers", @lockObject, () => this.storage.GetComputers(), DateTime.Now.AddDays(1), "computers");
         }
 
         public IEnumerable<Room> GetRooms()
         {
-            return _cachePrvoider.Get<IEnumerable<Room>>("rooms", @lockObject, () => _storage.GetRooms(), DateTime.Now.AddDays(1), "rooms");
+            return this.cachePrvoider.Get<IEnumerable<Room>>("rooms", @lockObject, () => this.storage.GetRooms(), DateTime.Now.AddDays(1), "rooms");
         }
 
         public void CreateComputer(Computer computer)
         {
-            _storage.CreateComputer(computer);
+            this.storage.CreateComputer(computer);
 
-            _cachePrvoider.Invalidate("computer-" + computer.IpAddress, "computers");
+            this.cachePrvoider.Invalidate("computer-" + computer.IpAddress, "computers");
         }
 
         public void CreateRoom(Room room)
         {
-            _storage.CreateRoom(room);
+            this.storage.CreateRoom(room);
 
-            _cachePrvoider.Invalidate("rooms", "room-" + room.Name);
+            this.cachePrvoider.Invalidate("rooms", "room-" + room.Name);
         }
 
         public void DeleteComputer(Computer computer)
         {
-            _storage.DeleteComputer(computer);
+            this.storage.DeleteComputer(computer);
 
-            _cachePrvoider.Invalidate("computers", "computer-" + computer.IpAddress);
+            this.cachePrvoider.Invalidate("computers", "computer-" + computer.IpAddress);
         }
 
         public void DeleteRoom(Room room)
         {
-            _storage.DeleteRoom(room);
+            this.storage.DeleteRoom(room);
 
-            _cachePrvoider.Invalidate("rooms", "room-" + room.Name);
+            this.cachePrvoider.Invalidate("rooms", "room-" + room.Name);
         }
 
-        public bool ifBanned(string ipAddress)
+        public bool IfBanned(string compAddress)
         {
-            var computer = GetComputer(ipAddress);
+            var computer = this.GetComputer(compAddress);
 
             return computer == null ? false : computer.Banned;
         }
