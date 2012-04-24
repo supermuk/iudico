@@ -15,11 +15,11 @@ using IUDICO.Common.Models.Notifications;
 
 namespace IUDICO.LMS.Models
 {
-    public class LmsService: ILmsService
+    public class LmsService : ILmsService
     {
-        protected readonly IWindsorContainer _Container;
+        protected readonly IWindsorContainer Container;
 
-        protected Menu menu
+        protected Menu Menu
         {
             get
             {
@@ -32,11 +32,11 @@ namespace IUDICO.LMS.Models
             }
         }
 
-        protected Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>> actions
+        protected Dictionary<IPlugin, IEnumerable<Common.Models.Action>> Actions
         {
             get
             {
-                return HttpContext.Current.Session["actions"] as Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>>;
+                return HttpContext.Current.Session["actions"] as Dictionary<IPlugin, IEnumerable<Common.Models.Action>>;
             }
 
             set
@@ -47,13 +47,13 @@ namespace IUDICO.LMS.Models
 
         public LmsService(IWindsorContainer container)
         {
-            _Container = container;
+            this.Container = container;
         }
 
         #region ILmsService Members
         public T FindService<T>() where T : IService
         {
-            return _Container.Resolve<T>();
+            return this.Container.Resolve<T>();
         }
 
         public string GetDbConnectionString()
@@ -78,18 +78,18 @@ namespace IUDICO.LMS.Models
 
         public Menu GetMenu()
         {
-            if (menu == null)
-                RebuildMenuAndActions();
+            if (this.Menu == null)
+                this.RebuildMenuAndActions();
 
-            return menu;
+            return this.Menu;
         }
 
         public Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>> GetActions()
         {
-            if (actions == null)
-                RebuildMenuAndActions();
+            if (this.Actions == null)
+                this.RebuildMenuAndActions();
 
-            return actions;
+            return this.Actions;
         }
 
         public void Inform(string evt, params object[] data)
@@ -97,7 +97,7 @@ namespace IUDICO.LMS.Models
 
             if (evt == LMSNotifications.ApplicationRequestStart)
             {
-                var context = (HttpContext) data[0];
+                var context = (HttpContext)data[0];
 
                 var stopwatch = new Stopwatch();
                 context.Items["stopwatch"] = stopwatch;
@@ -111,19 +111,18 @@ namespace IUDICO.LMS.Models
 
                 var timespan = stopwatch.Elapsed;
 
-                var request = (HttpRequest) data[1];
+                var request = (HttpRequest)data[1];
 
                 Logger.Instance.Request(this, request, timespan);
             }
             else
             {
-                Logger.Instance.Info(this, "Notification:"+evt);
+                Logger.Instance.Info(this, "Notification:" + evt);
             }
 
+            var plugins = this.Container.ResolveAll<IPlugin>();
 
-            var plugins = _Container.ResolveAll<IPlugin>();
-
-            Update(evt, data);
+            this.Update(evt, data);
             foreach (var plugin in plugins)
             {
                 plugin.Update(evt, data);
@@ -137,29 +136,27 @@ namespace IUDICO.LMS.Models
             if (evt == UserNotifications.UserLogin || evt == UserNotifications.UserLogout)
             {
                 // temporary hack
-                menu = null;
-                actions = null;
-                //RebuildMenuAndActions();
+                this.Menu = null;
+                this.Actions = null;
+                // RebuildMenuAndActions();
             }
         }
 
         protected void RebuildMenuAndActions()
         {
-            menu = new Menu();
-            actions = new Dictionary<IPlugin, IEnumerable<Common.Models.Action>>();
+            this.Menu = new Menu();
+            this.Actions = new Dictionary<IPlugin, IEnumerable<Common.Models.Action>>();
 
             var roles = FindService<IUserService>().GetCurrentUserRoles();
-            var plugins = _Container.ResolveAll<IPlugin>();
+            var plugins = this.Container.ResolveAll<IPlugin>();
 
             foreach (var plugin in plugins)
             {
-                menu.Add(plugin.BuildMenuItems().Where(m => IsAllowed(m.Controller, m.Action, roles)));
-                actions.Add(
+                this.Menu.Add(plugin.BuildMenuItems().Where(m => this.IsAllowed(m.Controller, m.Action, roles)));
+                this.Actions.Add(
                     plugin,
                     plugin.BuildActions().Where(a =>
-                        IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles)
-                    )
-                );
+                        this.IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles)));
             }
         }
 
@@ -168,15 +165,15 @@ namespace IUDICO.LMS.Models
             return Attribute.GetCustomAttribute(action, typeof(HttpPostAttribute), false) != null;
         }
 
-        protected bool IsAllowed(string controller, string action, IEnumerable<Role> roles)
+        protected bool IsAllowed(string strController, string strAction, IEnumerable<Role> roles)
         {
             // if can't resolve controller, don't allow access to it
             try
             {
-                var _controller = _Container.Resolve<IController>(controller + "controller");
-                var _action = _controller.GetType().GetMethods().Where(m => m.Name == action && !IsPost(m) && m.GetParameters().Length == 0).FirstOrDefault();
+                var controller = this.Container.Resolve<IController>(strController + "controller");
+                var action = controller.GetType().GetMethods().FirstOrDefault(m => m.Name == strAction && !this.IsPost(m) && m.GetParameters().Length == 0);
 
-                var attribute = Attribute.GetCustomAttribute(_action, typeof(AllowAttribute), false) as AllowAttribute;
+                var attribute = Attribute.GetCustomAttribute(action, typeof(AllowAttribute), false) as AllowAttribute;
 
                 if (attribute == null)
                 {

@@ -16,9 +16,7 @@ namespace IUDICO.LMS.Installers
 
             container.Register(
                 Component.For<IControllerFactory>()
-                    .ImplementedBy<IocControllerFactory>()
-                    .LifeStyle.Transient
-                );
+                    .ImplementedBy<IocControllerFactory>().LifeStyle.Transient);
         }
     }
 }
