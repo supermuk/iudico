@@ -7,28 +7,28 @@ using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Security.Models.Storages.Cache
 {
-    public class CachedSecurityStorage: ISecurityStorage
+    public class CachedSecurityStorage : ISecurityStorage
     {
-        private readonly ISecurityStorage _storage;
-        private readonly ICacheProvider _cacheProvider;
+        private readonly ISecurityStorage storage;
+        private readonly ICacheProvider cacheProvider;
         private readonly object lockObject = new object();
 
         public CachedSecurityStorage(ISecurityStorage storage, ICacheProvider cacheProvider)
         {
-            _storage = storage;
-            _cacheProvider = cacheProvider;
+            this.storage = storage;
+            this.cacheProvider = cacheProvider;
         }
 
         public void CreateUserActivity(UserActivity userActivity)
         {
-            _storage.CreateUserActivity(userActivity);
+            this.storage.CreateUserActivity(userActivity);
 
-            _cacheProvider.Expire("useractivities");
+            this.cacheProvider.Expire("useractivities");
         }
 
         public IEnumerable<UserActivity> GetUserActivities()
         {
-            return _cacheProvider.Get<IEnumerable<UserActivity>>("useractivities", @lockObject, () => _storage.GetUserActivities(), DateTime.Now.AddDays(1));
+            return this.cacheProvider.Get<IEnumerable<UserActivity>>("useractivities", @lockObject, () => this.storage.GetUserActivities(), DateTime.Now.AddDays(1));
         }
     }
 }

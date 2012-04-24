@@ -14,13 +14,13 @@ namespace IUDICO.Security.Models.Storages.Database
 {
     public class DatabaseBanStorage : IBanStorage
     {
-        protected readonly ILmsService _LmsService;
-        private readonly Func<ISecurityDataContext> _CreateIDataContext;
-        protected readonly LinqLogger _logger;
+        protected readonly ILmsService LmsService;
+        private readonly Func<ISecurityDataContext> CreateIDataContext;
+        protected readonly LinqLogger Logger;
 
         public DatabaseBanStorage()
         {
-            _CreateIDataContext = () =>
+            this.CreateIDataContext = () =>
             {
                 return new DBDataContext();
             };
@@ -28,14 +28,14 @@ namespace IUDICO.Security.Models.Storages.Database
 
         public DatabaseBanStorage(ILmsService lmsService, LinqLogger logger)
         {
-            _LmsService = lmsService;
-            _logger = logger;
-            _CreateIDataContext = () =>
+            this.LmsService = lmsService;
+            this.Logger = logger;
+            this.CreateIDataContext = () =>
                 {
                     var db = new DBDataContext();
 
 #if DEBUG
-                    db.Log = _logger;
+                    db.Log = logger;
 #endif
 
                     return db;
@@ -44,15 +44,15 @@ namespace IUDICO.Security.Models.Storages.Database
 
         public DatabaseBanStorage(ILmsService lmsService, Func<ISecurityDataContext> createIDataContext)
         {
-            _LmsService = lmsService;
-            _CreateIDataContext = createIDataContext;
+            this.LmsService = lmsService;
+            this.CreateIDataContext = createIDataContext;
         }
 
         #region IBanStorage
 
         public void AttachComputerToRoom(Computer computer, Room room)
         {
-            using (var context = NewContext())
+            using (var context = this.NewContext())
             {
                 computer.Room = room;
                 context.Computers.Attach(computer, true);
@@ -63,7 +63,7 @@ namespace IUDICO.Security.Models.Storages.Database
 
         public void DetachComputer(Computer computer)
         {
-            using (var context = NewContext())
+            using (var context = this.NewContext())
             {
                 computer.Room = null;
                 context.Computers.Attach(computer, true);
@@ -74,7 +74,7 @@ namespace IUDICO.Security.Models.Storages.Database
 
         public void BanComputer(Computer computer)
         {
-            using (var context = NewContext())
+            using (var context = this.NewContext())
             {
                 var r = context.Computers.SingleOrDefault(x => x.IpAddress == computer.IpAddress);
                 r.Banned = true;
@@ -84,7 +84,7 @@ namespace IUDICO.Security.Models.Storages.Database
 
         public void UnbanComputer(Computer computer)
         {
-            using (var context = NewContext())
+            using (var context = this.NewContext())
             {
                 var r = context.Computers.SingleOrDefault(x => x.IpAddress == computer.IpAddress);
                 r.Banned = false;
@@ -94,7 +94,7 @@ namespace IUDICO.Security.Models.Storages.Database
 
         public void BanRoom(Room room)
         {
-            using (var context = NewContext())
+            using (var context = this.NewContext())
             {
                 var r = context.Rooms.SingleOrDefault(x => x.Id == room.Id);
                 r.Allowed = false;
@@ -108,7 +108,7 @@ namespace IUDICO.Security.Models.Storages.Database
 
         public void UnbanRoom(Room room)
         {
-            using (var context = NewContext())
+            using (var context = this.NewContext())
             {
                 var r = context.Rooms.SingleOrDefault(x => x.Id == room.Id);
                 r.Allowed = true;
@@ -117,17 +117,17 @@ namespace IUDICO.Security.Models.Storages.Database
             }
         }
 
-        public Computer GetComputer(string ipAddress)
+        public Computer GetComputer(string compAddress)
         {
-            using (var context = NewContext())
+            using (var context = this.NewContext())
             {
-                return context.Computers.FirstOrDefault(i => i.IpAddress == ipAddress);
+                return context.Computers.FirstOrDefault(i => i.IpAddress == compAddress);
             }
         }
 
         public Room GetRoom(string name)
         {
-            using (var context = NewContext())
+            using (var context = this.NewContext())
             {
                 return context.Rooms.FirstOrDefault(room => room.Name == name);
             }
@@ -135,17 +135,17 @@ namespace IUDICO.Security.Models.Storages.Database
 
         public IEnumerable<Room> GetRooms()
         {
-               return NewContext().Rooms;
+            return this.NewContext().Rooms;
         }
 
         public IEnumerable<Computer> GetComputers()
         {
-            return NewContext().Computers;
+            return this.NewContext().Computers;
         }
 
         public void CreateComputer(Computer computer)
         {
-            using (var context = NewContext())
+            using (var context = this.NewContext())
             {
                 context.Computers.InsertOnSubmit(computer);
                 context.SubmitChanges();
@@ -154,7 +154,7 @@ namespace IUDICO.Security.Models.Storages.Database
 
         public void CreateRoom(Room room)
         {
-            using (var context = NewContext())
+            using (var context = this.NewContext())
             {
                 context.Rooms.InsertOnSubmit(room);
                 context.SubmitChanges();
@@ -163,12 +163,12 @@ namespace IUDICO.Security.Models.Storages.Database
 
         public void DeleteComputer(Computer computer)
         {
-            using (var context = NewContext())
+            using (var context = this.NewContext())
             {
-                var _computer = context.Computers.FirstOrDefault(c => c.IpAddress == computer.IpAddress);
-                if (_computer != null)
+                var ccomputer = context.Computers.FirstOrDefault(c => c.IpAddress == computer.IpAddress);
+                if (ccomputer != null)
                 {
-                    context.Computers.DeleteOnSubmit(_computer);
+                    context.Computers.DeleteOnSubmit(ccomputer);
                 }
 
                 context.SubmitChanges();
@@ -177,23 +177,23 @@ namespace IUDICO.Security.Models.Storages.Database
 
         public void DeleteRoom(Room room)
         {
-            using (var context = NewContext())
+            using (var context = this.NewContext())
             {
-                var _room = context.Rooms.FirstOrDefault(c => c.Name == room.Name);
-                if (_room != null)
+                var rroom = context.Rooms.FirstOrDefault(c => c.Name == room.Name);
+                if (rroom != null)
                 {
-                    context.Rooms.DeleteOnSubmit(_room);
+                    context.Rooms.DeleteOnSubmit(rroom);
                 }
 
                 context.SubmitChanges();
             }
         }
 
-        public bool ifBanned(string ipAddress)
+        public bool IfBanned(string compAddress)
         {
-            using (var context = NewContext())
+            using (var context = this.NewContext())
             {
-                return context.Computers.Where(c => c.IpAddress == ipAddress && c.Banned == true).Count() > 0;
+                return context.Computers.Where(c => c.IpAddress == compAddress && c.Banned == true).Count() > 0;
             }
         }
 
@@ -201,7 +201,7 @@ namespace IUDICO.Security.Models.Storages.Database
 
         protected ISecurityDataContext NewContext()
         {
-            return _CreateIDataContext();
+            return this.CreateIDataContext();
         }
     }
 }

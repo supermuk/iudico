@@ -14,7 +14,6 @@ namespace IUDICO.Security.Controllers
 {
     public class SecurityController : PluginController
     {
-        //
         // GET: /Security/
 
         [Allow(Role = Role.Admin)]

@@ -417,7 +417,7 @@ namespace IUDICO.Search
                     writer.AddDocument(document);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
 //                writer.Optimize();
 //                writer.Close();

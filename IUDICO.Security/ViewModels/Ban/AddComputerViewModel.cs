@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace IUDICO.Security.ViewModels.Ban
 {
-    public class AddComputerViewModel:BaseViewModel
+    public class AddComputerViewModel : BaseViewModel
     {
         [Required(ErrorMessage = "ComputerID is required")]
         [StringLength(15, ErrorMessage = "Must be less than 16 characters")]

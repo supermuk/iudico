@@ -15,7 +15,7 @@ namespace IUDICO.Security.ViewModels.Ban
 
         public BanComputerViewModel()
         {
-            Computers = new List<Computer>();
+            this.Computers = new List<Computer>();
         }
     }
 }

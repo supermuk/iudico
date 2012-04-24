@@ -28,6 +28,7 @@
        else 
        {
            Writer.Write(Html.DisplayForModel().ToHtmlString());
+           Writer.Write(Html.ActionLink("Back to list", "BanComputer", "Ban"));           
        } %>
 
        

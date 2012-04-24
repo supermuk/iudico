@@ -8,11 +8,11 @@ namespace IUDICO.Security.Models.Storages.Database
 {
     public class DatabaseSecurityStorage : ISecurityStorage
     {
-        private readonly Func<ISecurityDataContext> _CreateIDataContext;
+        private readonly Func<ISecurityDataContext> CreateIDataContext;
 
         public DatabaseSecurityStorage()
         {
-            _CreateIDataContext = () =>
+            this.CreateIDataContext = () =>
                 {
                     return new DBDataContext();
                 };
@@ -20,13 +20,13 @@ namespace IUDICO.Security.Models.Storages.Database
 
         public DatabaseSecurityStorage(Func<ISecurityDataContext> createIDataContext)
         {
-            _CreateIDataContext = createIDataContext;
+            this.CreateIDataContext = createIDataContext;
         }
 
         #region ISecurityStorage
         public void CreateUserActivity(UserActivity userActivity)
         {
-            using (var db = NewContext())
+            using (var db = this.NewContext())
             {
                 db.UserActivities.InsertOnSubmit(userActivity);
                 db.SubmitChanges();
@@ -35,14 +35,14 @@ namespace IUDICO.Security.Models.Storages.Database
 
         public IEnumerable<UserActivity> GetUserActivities()
         {
-            return NewContext().UserActivities;
+            return this.NewContext().UserActivities;
         }
 
         #endregion
 
         protected ISecurityDataContext NewContext()
         {
-            return _CreateIDataContext();
+            return this.CreateIDataContext();
         }
     }
 }

@@ -75,7 +75,7 @@ namespace IUDICO.Security.UnitTests.Tests
 
             overallViewModel.AddUserStats(tempUser, 120, 70, DateTime.Today);
 
-            Assert.True(overallViewModel.GetStats().Count(s => s.User.UserId == "user1")==1);
+            Assert.True(overallViewModel.GetStats().Count(s => s.User.UserId == "user1") == 1);
 
             Assert.True(overallViewModel.GetStats().Count(s => s.User.UserId == "user15") == 0);
         }

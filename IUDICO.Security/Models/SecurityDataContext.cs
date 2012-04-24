@@ -21,17 +21,17 @@ namespace IUDICO.Security.Models
 
         IMockableTable<Room> ISecurityDataContext.Rooms
         {
-            get { return new MockableTable<Room>(Rooms); }
+            get { return new MockableTable<Room>(this.Rooms); }
         }
 
         IMockableTable<Computer> ISecurityDataContext.Computers
         {
-            get { return new MockableTable<Computer>(Computers); }
+            get { return new MockableTable<Computer>(this.Computers); }
         }
 
         IMockableTable<UserActivity> ISecurityDataContext.UserActivities
         {
-            get { return new MockableTable<UserActivity>(UserActivities); }
+            get { return new MockableTable<UserActivity>(this.UserActivities); }
         }
     }
 }
