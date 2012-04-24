@@ -126,7 +126,7 @@ namespace IUDICO.Search
             if (evt == UserNotifications.UserEdit)
             {
                 Update(UserNotifications.UserDelete, data[0]);
-                Update(UserNotifications.UserCreate, data[1]);
+                Update(UserNotifications.UserCreate, data[0]);
             }
 
             if (evt == UserNotifications.UserDelete)

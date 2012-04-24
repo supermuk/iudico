@@ -1,21 +1,23 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Mvc;
 using IUDICO.Analytics.Models.Storage;
 using IUDICO.Common.Controllers;
-using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Attributes;
 using IUDICO.Common.Models;
 
 namespace IUDICO.Analytics.Controllers
 {
+    using System.Linq;
+
+    using IUDICO.Common.Models.Services;
+
     public class RecommenderController : PluginController
     {
-        private readonly IAnalyticsStorage _Storage;
+        private readonly IAnalyticsStorage storage;
 
         public RecommenderController(IAnalyticsStorage analyticsStorage)
         {
-            _Storage = analyticsStorage;
+            this.storage = analyticsStorage;
         }
 
         [Allow(Role = Role.Student)]
@@ -26,24 +28,24 @@ namespace IUDICO.Analytics.Controllers
 
         public ActionResult TopicScores()
         {
-            return View(_Storage.GetTopicScores());
+            return View(this.storage.GetTopicScores());
         }
 
         public ActionResult UserScores()
         {
-            return View(_Storage.GetUserScores());
+            return View(this.storage.GetUserScores());
         }
 
         public ActionResult UpdateUser(Guid id)
         {
-            _Storage.UpdateUserScores(id);
+            this.storage.UpdateUserScores(id);
 
             return RedirectToAction("UserScores");
         }
 
         public ActionResult UpdateTopic(int id)
         {
-            _Storage.UpdateTopicScores(id);
+            this.storage.UpdateTopicScores(id);
 
             return RedirectToAction("TopicScores");
         }
@@ -51,8 +53,6 @@ namespace IUDICO.Analytics.Controllers
         [ChildActionOnly]
         public ActionResult RecommendedTopics()
         {
-			return new EmptyResult();
-            /*
             var user = LmsService.FindService<IUserService>().GetCurrentUser();
 
             if (user == null)
@@ -60,11 +60,10 @@ namespace IUDICO.Analytics.Controllers
                 return new EmptyResult();
             }
 
-            var topics = _Storage.GetRecommenderTopics(user);
+            var topics = this.storage.GetRecommenderTopics(user);
             var topicDescriptions = LmsService.FindService<ICurriculumService>().GetTopicDescriptionsByTopics(topics.Select(t => t.Topic), user);
 
             return PartialView(topicDescriptions);
-            */
         }
     }
 }

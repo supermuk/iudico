@@ -8,13 +8,13 @@ namespace IUDICO.Analytics.Models.ViewDataClasses
         public ViewTagDetails(Tag tag, IEnumerable<Topic> topics)
         {
             Tag = tag;
-            Topics = topics;
+            this.Topics = topics;
         }
 
         public ViewTagDetails(Tag tag, IEnumerable<Topic> topics, IEnumerable<Topic> availableTopics)
             : this(tag, topics)
         {
-            AvailableTopics = availableTopics;
+            this.AvailableTopics = availableTopics;
         }
 
         public Tag Tag { get; set; }
