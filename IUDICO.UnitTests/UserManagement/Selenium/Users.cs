@@ -1,120 +1,122 @@
 ﻿using System;
 using System.Text;
+using System.Threading;
 using NUnit.Framework;
 using Selenium;
 
 namespace IUDICO.UnitTests.UserManagement.Selenium
 {
-	[TestFixture]
-	public class Users
-	{
-		private ISelenium selenium;
-		private StringBuilder verificationErrors;
+    [TestFixture]
+    public class Users
+    {
+        private ISelenium selenium;
 
-		[SetUp]
-		public void SetupTest()
-		{
-			selenium = new DefaultSelenium("localhost", 4444, "*chrome", UpgradeSeleniumTester.browserURL);
-			selenium.Start();
-			verificationErrors = new StringBuilder();
-		}
+        private StringBuilder verificationErrors;
 
-		[TearDown]
-		public void TeardownTest()
-		{
-			try
-			{
-				selenium.Stop();
-			}
-			catch (Exception)
-			{
-				// Ignore errors if unable to close the browser
-			}
+        [SetUp]
+        public void SetupTest()
+        {
+            this.selenium = new DefaultSelenium("localhost", 4444, "*chrome", UpgradeSeleniumTester.browserUrl);
+            this.selenium.Start();
+            this.verificationErrors = new StringBuilder();
+        }
 
-			Assert.AreEqual("", verificationErrors.ToString());
-		}
+        [TearDown]
+        public void TeardownTest()
+        {
+            try
+            {
+                this.selenium.Stop();
+            }
+            catch (Exception)
+            {
+                // Ignore errors if unable to close the browser
+            }
 
-		[Test]
-		public void InitTable()
-		{
-			selenium.Open("/");
-			selenium.Type("id=loginPassword", "lex");
-			selenium.Type("id=loginUsername", "lex");
-			selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
-			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-			selenium.Click("//a[contains(@href, '/User/Index')]");
-			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-			System.Threading.Thread.Sleep(3000);
-			Assert.IsTrue(selenium.IsElementPresent("id=myDataTable_length"));
-		}
+            Assert.AreEqual(string.Empty, this.verificationErrors.ToString());
+        }
 
-		[Test]
-		public void InitTableWithUsers()
-		{
-			selenium.Open("/");
-			selenium.Type("id=loginPassword", "lex");
-			selenium.Type("id=loginUsername", "lex");
-			selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
-			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-			selenium.Click("//a[contains(@href, '/User/Index')]");
-			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-			System.Threading.Thread.Sleep(3000);
-			Assert.IsTrue(selenium.IsElementPresent("id=myDataTable_info"));
-		}
+        [Test]
+        public void InitTable()
+        {
+            this.selenium.Open("/");
+            this.selenium.Type("id=loginPassword", "lex");
+            this.selenium.Type("id=loginUsername", "lex");
+            this.selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.Click("//a[contains(@href, '/User/Index')]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            Thread.Sleep(3000);
+            Assert.IsTrue(this.selenium.IsElementPresent("id=myDataTable_length"));
+        }
 
-		[Test]
-		public void InitSortableTable()
-		{
-			selenium.Open("/");
-			selenium.Type("id=loginPassword", "lex");
-			selenium.Type("id=loginUsername", "lex");
-			selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
-			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-			selenium.Click("//a[contains(@href, '/User/Index')]");
-			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-			System.Threading.Thread.Sleep(3000);
-			Assert.IsTrue(selenium.IsElementPresent("css=div.DataTables_sort_wrapper"));
-		}
+        [Test]
+        public void InitTableWithUsers()
+        {
+            this.selenium.Open("/");
+            this.selenium.Type("id=loginPassword", "lex");
+            this.selenium.Type("id=loginUsername", "lex");
+            this.selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.Click("//a[contains(@href, '/User/Index')]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            Thread.Sleep(3000);
+            Assert.IsTrue(this.selenium.IsElementPresent("id=myDataTable_info"));
+        }
 
-		[Test]
-		public void InitSearch()
-		{
-			selenium.Open("/");
-			selenium.Type("id=loginPassword", "lex");
-			selenium.Type("id=loginUsername", "lex");
-			selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
-			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-			selenium.Click("//a[contains(@href, '/User/Index')]");
-			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-			System.Threading.Thread.Sleep(3000);
-			Assert.IsTrue(selenium.IsElementPresent("id=myDataTable_filter"));
-		}
+        [Test]
+        public void InitSortableTable()
+        {
+            this.selenium.Open("/");
+            this.selenium.Type("id=loginPassword", "lex");
+            this.selenium.Type("id=loginUsername", "lex");
+            this.selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.Click("//a[contains(@href, '/User/Index')]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            Thread.Sleep(3000);
+            Assert.IsTrue(this.selenium.IsElementPresent("css=div.DataTables_sort_wrapper"));
+        }
 
-		[Test]
-		public void InitRolesContainer()
-		{
-			selenium.Open("/");
-			selenium.Type("id=loginPassword", "lex");
-			selenium.Type("id=loginUsername", "lex");
-			selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
-			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-			selenium.Click("//a[contains(@href, '/User/Index')]");
-			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-			System.Threading.Thread.Sleep(3000);
-			Assert.IsTrue(selenium.IsElementPresent("css=span.ui-icon.ui-icon-triangle-1-e"));
-		}
+        [Test]
+        public void InitSearch()
+        {
+            this.selenium.Open("/");
+            this.selenium.Type("id=loginPassword", "lex");
+            this.selenium.Type("id=loginUsername", "lex");
+            this.selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.Click("//a[contains(@href, '/User/Index')]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            Thread.Sleep(3000);
+            Assert.IsTrue(this.selenium.IsElementPresent("id=myDataTable_filter"));
+        }
 
-		[Test]
-		public void LoadUsersPage()
-		{
-			selenium.Open("/");
-			selenium.Type("id=loginPassword", "lex");
-			selenium.Type("id=loginUsername", "lex");
-			selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
-			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-			selenium.Click("//a[contains(@href, '/User/Index')]");
-			selenium.WaitForPageToLoad(UpgradeSeleniumTester.browserWait);
-			Assert.IsTrue(selenium.IsElementPresent("css=h2"));
-		}
-	}
+        [Test]
+        public void InitRolesContainer()
+        {
+            this.selenium.Open("/");
+            this.selenium.Type("id=loginPassword", "lex");
+            this.selenium.Type("id=loginUsername", "lex");
+            this.selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.Click("//a[contains(@href, '/User/Index')]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            Thread.Sleep(3000);
+            Assert.IsTrue(this.selenium.IsElementPresent("css=span.ui-icon.ui-icon-triangle-1-e"));
+        }
+
+        [Test]
+        public void LoadUsersPage()
+        {
+            this.selenium.Open("/");
+            this.selenium.Type("id=loginPassword", "lex");
+            this.selenium.Type("id=loginUsername", "lex");
+            this.selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.Click("//a[contains(@href, '/User/Index')]");
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            Assert.IsTrue(this.selenium.IsElementPresent("css=h2"));
+        }
+    }
 }

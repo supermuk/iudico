@@ -378,4 +378,13 @@
   <data name="UniqueIDError" xml:space="preserve">
     <value>Такий унікальний ідентифікатор вже є</value>
   </data>
+  <data name="AddToRole" xml:space="preserve">
+    <value>Додати до ролі</value>
+  </data>
+  <data name="CourseCreator" xml:space="preserve">
+    <value>Наповнювач контенту</value>
+  </data>
+  <data name="DeleteAvatar" xml:space="preserve">
+    <value>Видалити фотографію</value>
+  </data>
 </root>

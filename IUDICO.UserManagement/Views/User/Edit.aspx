@@ -10,14 +10,15 @@
 
     <h2><%=Localization.GetMessage("EditUser")%> <%=Model.Username%></h2>
 
-    <form action="../User/UploadAvatar/<%=Model.Id%>/" method="post" enctype="multipart/form-data">
+    <form action="../User/UploadAvatar?id=<%=Model.Id%>" method="post" enctype="multipart/form-data">
         <table>
                 <tr>
                     <th>Avatar</th>
                     <th>Upload new Avatar</th>
                 </tr>
                 <tr>
-                    <td><%=Html.Image("avatar", Model.Id, new {width = 100, height = 150})%></td>
+                    <td><%=Html.Image("avatar", Model.Id, new {width = 100, height = 150})%><br />
+                    <%:Html.ActionLink(Localization.GetMessage("DeleteAvatar"), "DeleteAvatar", new {Id = Model.Id})%></td>
                     <td>
                         <input type="file" name="file" id="file" />
                         <input type="submit" value="Upload" />

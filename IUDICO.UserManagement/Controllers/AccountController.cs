@@ -20,20 +20,22 @@ namespace IUDICO.UserManagement.Controllers
 {
     public class AccountController : PluginController
     {
-        private readonly OpenIdRelyingParty OpenId = new OpenIdRelyingParty();
-        private readonly IUserStorage Storage;
+        private readonly OpenIdRelyingParty openId = new OpenIdRelyingParty();
+        private readonly IUserStorage storage;
 
         public AccountController(IUserStorage userStorage)
         {
-            this.Storage = userStorage;
+            this.storage = userStorage;
         }
 
         [Allow]
         public ActionResult Index()
         {
-            var user = this.Storage.GetCurrentUser();
+            var user = this.storage.GetCurrentUser();
+            var roles = this.storage.GetUserRoles(user.Username);
+            var groups = this.storage.GetGroupsByUser(user);
 
-            return this.View(new DetailsModel(user));
+            return this.View(new DetailsModel(user, roles, groups));
         }
 
         public ActionResult Logout()
@@ -48,7 +50,7 @@ namespace IUDICO.UserManagement.Controllers
 
         public ActionResult Login()
         {
-            var response = this.OpenId.GetResponse();
+            var response = this.openId.GetResponse();
 
             if (response != null)
             {
@@ -58,7 +60,7 @@ namespace IUDICO.UserManagement.Controllers
 
                         var openId = response.FriendlyIdentifierForDisplay;
 
-                        var user = this.Storage.GetUser(u => u.OpenId == openId);
+                        var user = this.storage.GetUser(u => u.OpenId == openId);
 
                         if (user == null)
                         {
@@ -110,7 +112,7 @@ namespace IUDICO.UserManagement.Controllers
             {
                 try
                 {
-                    var request = this.OpenId.CreateRequest(Identifier.Parse(loginIdentifier));
+                    var request = this.openId.CreateRequest(Identifier.Parse(loginIdentifier));
 
                     return request.RedirectingResponse.AsActionResult();
                 }
@@ -128,7 +130,7 @@ namespace IUDICO.UserManagement.Controllers
         {
             if (Membership.ValidateUser(loginUsername, loginPassword))
             {
-                LmsService.Inform(UserNotifications.UserLogin, this.Storage.GetCurrentUser());
+                LmsService.Inform(UserNotifications.UserLogin, this.storage.GetCurrentUser());
 
                 if (this.Request.QueryString["ReturnUrl"] != null)
                 {
@@ -159,7 +161,7 @@ namespace IUDICO.UserManagement.Controllers
         [HttpPost]
         public ActionResult Register(RegisterModel registerModel)
         {
-            if (this.Storage.UsernameExists(registerModel.Username))
+            if (this.storage.UsernameExists(registerModel.Username))
             {
                 this.ModelState.AddModelError("Username", "User with such username already exists");
             }
@@ -173,7 +175,7 @@ namespace IUDICO.UserManagement.Controllers
                 return this.View();
             }
 
-            this.Storage.RegisterUser(registerModel);
+            this.storage.RegisterUser(registerModel);
 
             return this.View("Registered");
         }
@@ -186,7 +188,7 @@ namespace IUDICO.UserManagement.Controllers
         [HttpPost]
         public ActionResult Forgot(RestorePasswordModel restorePasswordModel)
         {
-            var user = this.Storage.GetUser(u => u.Email == restorePasswordModel.Email);
+            var user = this.storage.GetUser(u => u.Email == restorePasswordModel.Email);
 
             if (user == null)
             {
@@ -198,7 +200,7 @@ namespace IUDICO.UserManagement.Controllers
                 return View(restorePasswordModel);
             }
 
-            this.Storage.RestorePassword(restorePasswordModel);
+            this.storage.RestorePassword(restorePasswordModel);
 
             return this.View("ForgotSent");
         }
@@ -206,7 +208,7 @@ namespace IUDICO.UserManagement.Controllers
         [Allow]
         public ActionResult Edit()
         {
-            var editModel = new EditModel(this.Storage.GetCurrentUser());
+            var editModel = new EditModel(this.storage.GetCurrentUser());
 
             return View(editModel);
         }
@@ -217,19 +219,19 @@ namespace IUDICO.UserManagement.Controllers
         {
             if (!this.ModelState.IsValid)
             {
-                editModel.Id = this.Storage.GetCurrentUser().Id;
+                editModel.Id = this.storage.GetCurrentUser().Id;
 
                 return View(editModel);
             }
 
-            if (!this.Storage.UserUniqueIdAvailable(editModel.UserId, this.Storage.GetCurrentUser().Id))
+            if (!this.storage.UserUniqueIdAvailable(editModel.UserId, this.storage.GetCurrentUser().Id))
             {
                 this.ModelState.AddModelError("UserID", Localization.GetMessage("Unique ID Error"));
 
                 return View(editModel);
             }
 
-            this.Storage.EditAccount(editModel);
+            this.storage.EditAccount(editModel);
 
             return this.RedirectToAction("Index");
         }
@@ -244,9 +246,9 @@ namespace IUDICO.UserManagement.Controllers
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel changePasswordModel)
         {
-            var oldPassword = this.Storage.EncryptPassword(changePasswordModel.OldPassword);
+            var oldPassword = this.storage.EncryptPassword(changePasswordModel.OldPassword);
 
-            if (oldPassword != this.Storage.GetCurrentUser().Password)
+            if (oldPassword != this.storage.GetCurrentUser().Password)
             {
                 this.ModelState.AddModelError("OldPassword", "Pasword is not correct");
             }
@@ -260,16 +262,26 @@ namespace IUDICO.UserManagement.Controllers
                 return this.View();
             }
 
-            this.Storage.ChangePassword(changePasswordModel);
+            this.storage.ChangePassword(changePasswordModel);
 
             return this.RedirectToAction("Index");
         }
 
+        [Allow]
         [HttpPost]
         public ActionResult UploadAvatar(HttpPostedFileBase file)
         {
-            var user = this.Storage.GetCurrentUser();
-            this.Storage.UploadAvatar(user.Id, file);
+            var user = this.storage.GetCurrentUser();
+            this.storage.UploadAvatar(user.Id, file);
+
+            return this.RedirectToAction("Edit");
+        }
+
+        [Allow]
+        public ActionResult DeleteAvatar()
+        {
+            var user = this.storage.GetCurrentUser();
+            this.storage.DeleteAvatar(user.Id);
 
             return this.RedirectToAction("Edit");
         }
@@ -294,17 +306,18 @@ namespace IUDICO.UserManagement.Controllers
             return this.Redirect(returnUrl);
         }
 
+        [Allow]
         public JsonResult RateTopic(int topicId, int score)
         {
             score = Math.Min(0, score);
             score = Math.Max(score, 5);
 
             var topics =
-                LmsService.FindService<ICurriculumService>().GetTopicDescriptions(this.Storage.GetCurrentUser());
+                LmsService.FindService<ICurriculumService>().GetTopicDescriptions(this.storage.GetCurrentUser());
 
             if (topics.Select(t => t.Topic.Id).Contains(topicId))
             {
-                this.Storage.RateTopic(topicId, score);
+                this.storage.RateTopic(topicId, score);
 
                 return this.Json("success");
             }

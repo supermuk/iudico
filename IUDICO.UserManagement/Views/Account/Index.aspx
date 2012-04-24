@@ -49,16 +49,12 @@
     </fieldset>
 
     <div>
-        <%:Html.ActionLink(Localization.GetMessage("Edit"), "Edit")%>|
+        <%:Html.ActionLink(Localization.GetMessage("Edit"), "Edit")%> |
         <%:Html.ActionLink(Localization.GetMessage("ChangePassword"), "ChangePassword")%>
-        <%
-            if (Roles.IsUserInRole(Role.Teacher.ToString()) && !Roles.IsUserInRole(Role.Admin.ToString()))
-            {%>
-        |
-        <%:Html.ActionLink(Localization.GetMessage("UpgradeToAdmin"), "TeacherToAdminUpgrade",
-                                                  new {id = Model.Id})%>
-        <%
-            }%>
+        <% if (Roles.IsUserInRole(Role.Teacher.ToString()) && !Roles.IsUserInRole(Role.Admin.ToString())) { %>
+            |
+            <%:Html.ActionLink(Localization.GetMessage("UpgradeToAdmin"), "TeacherToAdminUpgrade")%>
+        <% } %>
     </div>
 
 </asp:Content>
