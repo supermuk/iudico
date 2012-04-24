@@ -9,60 +9,60 @@ namespace IUDICO.UserManagement.Models
 {
     public class UserService : IUserService
     {
-        private readonly IUserStorage _UserStorage;
+        private readonly IUserStorage userStorage;
 
         public UserService(IUserStorage userStorage)
         {
-            _UserStorage = userStorage;
+            this.userStorage = userStorage;
         }
 
         #region Implementation of IUserService
 
         public User GetCurrentUser()
         {
-            return _UserStorage.GetCurrentUser();
+            return this.userStorage.GetCurrentUser();
         }
 
         public IEnumerable<Role> GetCurrentUserRoles()
         {
-            var user = GetCurrentUser();
+            var user = this.GetCurrentUser();
 
             if (string.IsNullOrEmpty(user.Username))
             {
                 return user.Roles;
             }
 
-            return _UserStorage.GetUserRoles(user.Username);
+            return this.userStorage.GetUserRoles(user.Username);
         }
 
         public IEnumerable<Group> GetGroups()
         {
-            return _UserStorage.GetGroups();
+            return this.userStorage.GetGroups();
         }
 
         public Group GetGroup(int id)
         {
-            return _UserStorage.GetGroup(id);
+            return this.userStorage.GetGroup(id);
         }
 
         public IEnumerable<User> GetUsersByGroup(Group group)
         {
-            return _UserStorage.GetUsersInGroup(group);
+            return this.userStorage.GetUsersInGroup(group);
         }
 
         public IEnumerable<User> GetUsers()
         {
-            return _UserStorage.GetUsers();
+            return this.userStorage.GetUsers();
         }
 
         public IEnumerable<User> GetUsers(Func<User, bool> predicate)
         {
-            return _UserStorage.GetUsers(predicate);
+            return this.userStorage.GetUsers(predicate);
         }
 
         public IEnumerable<Group> GetGroupsByUser(User user)
         {
-            return _UserStorage.GetGroupsByUser(user);
+            return this.userStorage.GetGroupsByUser(user);
         }
 
         #endregion

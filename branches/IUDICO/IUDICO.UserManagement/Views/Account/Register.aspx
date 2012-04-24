@@ -3,7 +3,7 @@
 <%@ Import Namespace="IUDICO.UserManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=Localization.getMessage("Register")%>
+	<%=Localization.GetMessage("Register")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -14,12 +14,12 @@
         <%:Html.ValidationSummary(true)%>
 
         <fieldset>
-            <legend><%=Localization.getMessage("Register")%></legend>
+            <legend><%=Localization.GetMessage("Register")%></legend>
             
             <%:Html.EditorForModel()%>
             
             <p>
-                <input type="submit" value=<%=Localization.getMessage("Register")%> />
+                <input type="submit" value=<%=Localization.GetMessage("Register")%> />
             </p>
         </fieldset>
 

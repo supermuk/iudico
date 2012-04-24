@@ -3,25 +3,25 @@
 <%@ Import Namespace="IUDICO.UserManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=Localization.getMessage("EditGroup")%> <%=Model.Name%>
+	<%=Localization.GetMessage("EditGroup")%> <%=Model.Name%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=Localization.getMessage("EditGroup")%> <%=Model.Name%></h2>
+    <h2><%=Localization.GetMessage("EditGroup")%> <%=Model.Name%></h2>
 
     <%
         using (Html.BeginForm())
         {%>
-        <%:Html.ValidationSummary(Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
+        <%:Html.ValidationSummary(Localization.GetMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
         
         <fieldset>
-            <legend><%=Localization.getMessage("Fields")%></legend>
+            <legend><%=Localization.GetMessage("Fields")%></legend>
             
             <%:Html.EditorForModel()%>
             
             <p>
-                <input type="submit" value=<%=Localization.getMessage("Save")%> />
+                <input type="submit" value=<%=Localization.GetMessage("Save")%> />
             </p>
         </fieldset>
 
@@ -29,7 +29,7 @@
         }%>
 
     <div>
-        <%:Html.ActionLink(Localization.getMessage("BackToList"), "Index")%>
+        <%:Html.ActionLink(Localization.GetMessage("BackToList"), "Index")%>
     </div>
 
 </asp:Content>

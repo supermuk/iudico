@@ -3,21 +3,21 @@
 <%@ Import Namespace="IUDICO.UserManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=Localization.getMessage("Delete")%>
+	<%=Localization.GetMessage("Delete")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=Localization.getMessage("Delete")%></h2>
+    <h2><%=Localization.GetMessage("Delete")%></h2>
 
-    <h3><%=Localization.getMessage("YouWantDeleteThis")%>?</h3>
+    <h3><%=Localization.GetMessage("YouWantDeleteThis")%>?</h3>
     <fieldset>
-        <legend><%=Localization.getMessage("Fields")%></legend>
+        <legend><%=Localization.GetMessage("Fields")%></legend>
         
-        <div class="display-label"><%=Localization.getMessage("Username")%></div>
+        <div class="display-label"><%=Localization.GetMessage("Username")%></div>
         <div class="display-field"><%:Model.Username%></div>
         
-        <div class="display-label"><%=Localization.getMessage("Name")%></div>
+        <div class="display-label"><%=Localization.GetMessage("Name")%></div>
         <div class="display-field"><%:Model.Name%></div>
     </fieldset>
     <%
@@ -25,7 +25,7 @@
         {%>
         <p>
 		    <input type="submit" value="Delete" /> |
-		    <%:Html.ActionLink(Localization.getMessage("BackToList"), "Index")%>
+		    <%:Html.ActionLink(Localization.GetMessage("BackToList"), "Index")%>
         </p>
     <%
         }%>

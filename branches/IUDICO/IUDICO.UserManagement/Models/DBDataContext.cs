@@ -33,31 +33,31 @@ namespace IUDICO.UserManagement.Models
         public DBDataContext() :
             base(ConfigurationManager.ConnectionStrings["IUDICOConnectionString"].ConnectionString, mappingSource)
         {
-            OnCreated();
+            this.OnCreated();
         }
 
         public DBDataContext(string connection) :
             base(connection, mappingSource)
         {
-            OnCreated();
+            this.OnCreated();
         }
 
         public DBDataContext(IDbConnection connection) :
             base(connection, mappingSource)
         {
-            OnCreated();
+            this.OnCreated();
         }
 
         public DBDataContext(string connection, MappingSource mappingSource) :
             base(connection, mappingSource)
         {
-            OnCreated();
+            this.OnCreated();
         }
 
         public DBDataContext(IDbConnection connection, MappingSource mappingSource) :
             base(connection, mappingSource)
         {
-            OnCreated();
+            this.OnCreated();
         }
 
         public Table<GroupUser> GroupUsers
@@ -79,7 +79,7 @@ namespace IUDICO.UserManagement.Models
         {
             get { return this.GetTable<User>(); }
         }
-        
+
         public Table<UserTopicRating> UserTopicRatings
         {
             get { return this.GetTable<UserTopicRating>(); }
@@ -87,27 +87,27 @@ namespace IUDICO.UserManagement.Models
 
         IMockableTable<GroupUser> IDataContext.GroupUsers
         {
-            get { return new MockableTable<GroupUser>(GroupUsers); }
+            get { return new MockableTable<GroupUser>(this.GroupUsers); }
         }
 
         IMockableTable<Group> IDataContext.Groups
         {
-            get { return new MockableTable<Group>(Groups); }
+            get { return new MockableTable<Group>(this.Groups); }
         }
 
         IMockableTable<UserRole> IDataContext.UserRoles
         {
-            get { return new MockableTable<UserRole>(UserRoles); }
+            get { return new MockableTable<UserRole>(this.UserRoles); }
         }
 
         IMockableTable<User> IDataContext.Users
         {
-            get { return new MockableTable<User>(Users); }
+            get { return new MockableTable<User>(this.Users); }
         }
 
         IMockableTable<UserTopicRating> IDataContext.UserTopicRatings
         {
-            get { return new MockableTable<UserTopicRating>(UserTopicRatings); }
+            get { return new MockableTable<UserTopicRating>(this.UserTopicRatings); }
         }
     }
 }

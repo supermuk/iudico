@@ -8,28 +8,23 @@ namespace IUDICO.UserManagement.Models.Auth
 {
     public class OpenIdRoleProvider : RoleProvider
     {
-        protected IUserStorage _UserStorage;
+        protected IUserStorage userStorage;
 
         public OpenIdRoleProvider(IUserStorage userStorage)
         {
-            _UserStorage = userStorage;
+            this.userStorage = userStorage;
         }
 
         public override bool IsUserInRole(string username, string roleName)
         {
-            var roles = GetRolesForUser(username);
+            var roles = this.GetRolesForUser(username);
 
             return roles.Contains(roleName);
         }
 
         public override string[] GetRolesForUser(string username)
         {
-            if (string.IsNullOrEmpty(username))
-            {
-                return new[] {"None"};
-            }
-
-            return _UserStorage.GetUserRoles(username).Select(ur => ur.ToString()).ToArray();
+            return string.IsNullOrEmpty(username) ? new[] { "None" } : this.userStorage.GetUserRoles(username).Select(ur => ur.ToString()).ToArray();
         }
 
         public override void CreateRole(string roleName)
@@ -51,21 +46,21 @@ namespace IUDICO.UserManagement.Models.Auth
         {
             var roles = roleNames.Select(UserRoles.GetRole).Where(r => r != Role.None);
 
-            _UserStorage.AddUsersToRoles(usernames, roles);
+            this.userStorage.AddUsersToRoles(usernames, roles);
         }
 
         public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
         {
             var roles = roleNames.Select(UserRoles.GetRole).Where(r => r != Role.None);
 
-            _UserStorage.RemoveUsersFromRoles(usernames, roles);
+            this.userStorage.RemoveUsersFromRoles(usernames, roles);
         }
 
         public override string[] GetUsersInRole(string roleName)
         {
             var role = UserRoles.GetRole(roleName);
 
-            return _UserStorage.GetUsersInRole(role).Select(u => u.Username).ToArray();
+            return this.userStorage.GetUsersInRole(role).Select(u => u.Username).ToArray();
         }
 
         public override string[] GetAllRoles()

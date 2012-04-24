@@ -14,16 +14,16 @@ namespace IUDICO.UserManagement.Models
     {
         public DetailsModel(User user)
         {
-            Id = user.Id;
-            Username = user.Username;
-            Name = user.Name;
-            OpenId = user.OpenId;
-            Email = user.Email;
-            Roles = user.Roles;
-            Groups = user.GroupUsers.Select(g => g.Group);
+            this.Id = user.Id;
+            this.Username = user.Username;
+            this.Name = user.Name;
+            this.OpenId = user.OpenId;
+            this.Email = user.Email;
+            this.Roles = user.Roles;
+            this.Groups = user.GroupUsers.Select(g => g.Group);
             /*Groups = user.Groups;
             Roles = user.Roles;*/
-            UserId = user.UserId;
+            this.UserId = user.UserId;
         }
 
         [ScaffoldColumn(false)]
@@ -62,12 +62,12 @@ namespace IUDICO.UserManagement.Models
         public AdminDetailsModel(User user)
             : base(user)
         {
-            //Id = user.Id;
-            IsApproved = user.IsApproved;
+            ////Id = user.Id;
+            this.IsApproved = user.IsApproved;
         }
 
-        //[ScaffoldColumn(false)]
-        //public Guid Id { get; set; }
+        ////[ScaffoldColumn(false)]
+        ////public Guid Id { get; set; }
 
         [LocalizedDisplayName("Activated")]
         [DataType(DataType.Text)]
@@ -81,13 +81,11 @@ namespace IUDICO.UserManagement.Models
         [LocalizedDisplayName("Loginn")]
         public string Username { get; set; }
 
-        //[Required(ErrorMessage = "Password is required")]
         [LocalizedRequired(ErrorMessage = "PasswordRequired")]
         [DataType(DataType.Password)]
         [LocalizedDisplayName("Password")]
         public string Password { get; set; }
 
-        //[Required(ErrorMessage = "Confirm Password is required")]
         [LocalizedRequired(ErrorMessage = "ConfirmPasswordRequired")]
         [DataType(DataType.Password)]
         [LocalizedDisplayName("ConfirmPassword")]
@@ -96,13 +94,11 @@ namespace IUDICO.UserManagement.Models
         [DisplayName("Open ID")]
         public string OpenId { get; set; }
 
-        //[Required(ErrorMessage = "Email is required")]
         [LocalizedRequired(ErrorMessage = "EmailRequired")]
         [LocalizedDisplayName("Email")]
         [EmailAddress]
         public string Email { get; set; }
 
-        //[Required(ErrorMessage = "Name is required")]
         [LocalizedRequired(ErrorMessage = "FullNameRequiered")]
         [LocalizedDisplayName("FullName")]
         public string Name { get; set; }
@@ -112,11 +108,11 @@ namespace IUDICO.UserManagement.Models
     {
         public EditModel(User user)
         {
-            Id = user.Id;
-            OpenId = user.OpenId;
-            Email = user.Email;
-            Name = user.Name;
-            UserId = user.UserId;
+            this.Id = user.Id;
+            this.OpenId = user.OpenId;
+            this.Email = user.Email;
+            this.Name = user.Name;
+            this.UserId = user.UserId;
         }
 
         public EditModel()
@@ -147,13 +143,11 @@ namespace IUDICO.UserManagement.Models
 
     public class ChangePasswordModel
     {
-        //[Required(ErrorMessage = "Old Password is required")]
         [LocalizedRequired(ErrorMessage = "OldPasswordRequired")]
         [DataType(DataType.Password)]
         [LocalizedDisplayName("OldPassword")]
         public string OldPassword { get; set; }
 
-        //[Required(ErrorMessage = "New Password is required")]
         [LocalizedRequired(ErrorMessage = "NewPasswordRequired")]
         [DataType(DataType.Password)]
         [LocalizedDisplayName("NewPassword")]
@@ -177,13 +171,13 @@ namespace IUDICO.UserManagement.Models
     {
         public EditUserModel(User user)
         {
-            Id = user.Id;
-            Username = user.Username;
-            Name = user.Name;
-            Email = user.Email;
-            OpenId = user.OpenId;
-            UserId = user.UserId;
-            Password = user.Password;
+            this.Id = user.Id;
+            this.Username = user.Username;
+            this.Name = user.Name;
+            this.Email = user.Email;
+            this.OpenId = user.OpenId;
+            this.UserId = user.UserId;
+            this.Password = user.Password;
         }
 
         public EditUserModel()
@@ -249,7 +243,7 @@ namespace IUDICO.UserManagement.Models
 
         public override string DisplayName
         {
-            get { return Localization.getMessage(base.DisplayName); }
+            get { return Localization.GetMessage(base.DisplayName); }
         }
     }
 
@@ -257,15 +251,15 @@ namespace IUDICO.UserManagement.Models
     {
         public override string FormatErrorMessage(string name)
         {
-            return Localization.getMessage(base.ErrorMessage);
+            return Localization.GetMessage(this.ErrorMessage);
         }
     }
 
     public class LocalizedDropDownListAttribute : DropDownListAttribute
     {
-        public LocalizedDropDownListAttribute(string DropDownListKey)
+        public LocalizedDropDownListAttribute(string dropDownListKey)
         {
-            OptionLabel = Localization.getMessage(DropDownListKey);
+            this.OptionLabel = Localization.GetMessage(dropDownListKey);
         }
     }
 }

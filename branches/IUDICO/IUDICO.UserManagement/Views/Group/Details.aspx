@@ -24,34 +24,34 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=Localization.getMessage("DetailsOfGroup")%> <%:Model.Name%>
+	<%=Localization.GetMessage("DetailsOfGroup")%> <%:Model.Name%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=Localization.getMessage("DetailsOfGroup")%> <%:Model.Name%></h2>
+    <h2><%=Localization.GetMessage("DetailsOfGroup")%> <%:Model.Name%></h2>
 
     <fieldset>
-        <legend><%=Localization.getMessage("Users")%></legend>
+        <legend><%=Localization.GetMessage("Users")%></legend>
 
         <table id="groupUsersTable">
             <thead>
                 <tr>
                     <th>
-                        <%=Localization.getMessage("Username")%>
+                        <%=Localization.GetMessage("Username")%>
                     </th>
                     <th>
-                        <%=Localization.getMessage("Name")%>
+                        <%=Localization.GetMessage("Name")%>
                     </th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <%
-                if (Model.GroupUsers.GetEnumerator().MoveNext())
-                {
-                    foreach (var groupUser in Model.GroupUsers)
-                    {%>
+                    if (Model.GroupUsers.GetEnumerator().MoveNext())
+                    {
+                        foreach (var groupUser in Model.GroupUsers)
+                        {%>
                 <tr>
                     <td>
                         <%:groupUser.User.Username%>
@@ -60,31 +60,31 @@
                         <%:groupUser.User.Name%>
                     </td>
                     <td>
-                        <%:Html.ActionLink(Localization.getMessage("RemoveUser"), "RemoveUser",
-                                                          new {id = Model.Id, userRef = groupUser.User.Id})%>
+                        <%:Html.ActionLink(Localization.GetMessage("RemoveUser"), "RemoveUser",
+                                                              new {id = Model.Id, userRef = groupUser.User.Id})%>
                     </td>
                 </tr>
             <%
+                        }
                     }
-                }
-                else
-                {%>
+                    else
+                    {%>
                 <tr>
-                    <td><%=Localization.getMessage("NoData")%></td>
-                    <td><%=Localization.getMessage("NoData")%></td>
-                    <td><%=Localization.getMessage("NoActions")%></td>
+                    <td><%=Localization.GetMessage("NoData")%></td>
+                    <td><%=Localization.GetMessage("NoData")%></td>
+                    <td><%=Localization.GetMessage("NoActions")%></td>
                 </tr>
             <%
-                }%>
+                    }%>
             </tbody>
         </table>
 
     </fieldset>
     <p>
 
-        <%:Html.ActionLink(Localization.getMessage("Edit"), "Edit", new {id = Model.Id})%> |
-        <%:Html.ActionLink(Localization.getMessage("AddUser"), "AddUsers", new {id = Model.Id})%> |
-        <%:Html.ActionLink(Localization.getMessage("BackToList"), "Index")%>
+        <%:Html.ActionLink(Localization.GetMessage("Edit"), "Edit", new {id = Model.Id})%> |
+        <%:Html.ActionLink(Localization.GetMessage("AddUser"), "AddUsers", new {id = Model.Id})%> |
+        <%:Html.ActionLink(Localization.GetMessage("BackToList"), "Index")%>
     </p>
 
 </asp:Content>
