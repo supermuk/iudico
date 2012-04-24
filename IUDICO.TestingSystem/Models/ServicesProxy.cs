@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using IUDICO.Common.Models.Services;
 
 namespace IUDICO.TestingSystem.Models
@@ -76,6 +73,18 @@ namespace IUDICO.TestingSystem.Models
             }
         }
         
+        public ITestingService TestingService
+        {
+            get
+            {
+                if (LmsService == null)
+                {
+                    throw new NullReferenceException("You should initialize LMSService first!");
+                }
+                return LmsService.FindService<ITestingService>();
+            }
+        }
+
         #endregion
 
         #region Singleton Implementation
@@ -83,14 +92,7 @@ namespace IUDICO.TestingSystem.Models
         private static ServicesProxy _Instance;
         public static ServicesProxy Instance
         {
-            get
-            {
-                if (_Instance == null)
-                {
-                    _Instance = new ServicesProxy();
-                }
-                return _Instance;
-            }
+            get { return _Instance ?? (_Instance = new ServicesProxy()); }
         }
 
         #endregion
@@ -115,7 +117,7 @@ namespace IUDICO.TestingSystem.Models
         /// <param name="service">ILmsService represents Lms Service.</param>
         public void Initialize(ILmsService service)
         {
-            this.LmsService = service;
+            LmsService = service;
         }
 
         #endregion

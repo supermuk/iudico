@@ -1,12 +1,22 @@
-﻿using IUDICO.Common.Models.Shared;
+﻿using System;
+using System.Collections.Generic;
+using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.DisciplineManagement;
 using IUDICO.Common.Models.Shared.Statistics;
-using System.Collections.Generic;
 
 namespace IUDICO.Common.Models.Services
 {
     public interface ITestingService : IService
     {
+        /// <summary>
+        /// Gets result with specified <paramref name="attemptId"/>.
+        /// </summary>
+        /// <param name="attemptId">Long integer value representing id of AttemptItem.</param>
+        /// <returns><see cref="AttemptResult"/> value with specified <paramref name="attemptId"/>.
+        /// If no attempt with specified <paramref name="attemptId"/> found - <value>null</value> is returned.
+        /// In case there were somehow more than one <see cref="AttemptResult"/> with specified <paramref name="attemptId"/> - <see cref="InvalidOperationException"/> would be thrown.</returns>
+        AttemptResult GetResult(long attemptId);
+
         /// <summary>
         /// Gets results of attempts on specified <paramref name="curriculumChapterTopic"/> for specified <paramref name="user"/>.
         /// It is important to understand there can be no attempts or be a few,
