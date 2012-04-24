@@ -20,6 +20,11 @@ namespace IUDICO.UnitTests.Base
         /// Firefox browser.
         /// </summary>
         Firefox,
+
+        /// <summary>
+        /// Chrome browser
+        /// </summary>
+        Chrome
     }
 
     /// <summary>
