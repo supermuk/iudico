@@ -18,12 +18,11 @@ namespace IUDICO.Security.Controllers
 
         public UserActivityController(ISecurityStorage securityStorage)
         {
-            SecurityStorage = securityStorage;
+            this.SecurityStorage = securityStorage;
         }
-        //
         // GET: /UserActivity/
 
-        [Allow(Role=Role.Admin)]
+        [Allow(Role = Role.Admin)]
         public ActionResult Index()
         {
             return View(new IndexViewModel());
@@ -33,7 +32,7 @@ namespace IUDICO.Security.Controllers
         [Allow(Role = Role.Admin)]
         public ActionResult Overall()
         {
-            var activitiesByUser = SecurityStorage
+            var activitiesByUser = this.SecurityStorage
                 .GetUserActivities()
                 .GroupBy(ua => ua.UserRef)
                 .Select(g => new
@@ -55,8 +54,7 @@ namespace IUDICO.Security.Controllers
                     users.FirstOrDefault(u => u.Id == stats.UserRef),
                     stats.TotalNumberOfRequests,
                     stats.TodayNumberOfRequests,
-                    stats.LastActivityTime
-                );
+                    stats.LastActivityTime);
             }
 
             return View(model);

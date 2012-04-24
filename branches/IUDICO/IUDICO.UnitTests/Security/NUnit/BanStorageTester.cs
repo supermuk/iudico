@@ -290,8 +290,8 @@ namespace IUDICO.Security.UnitTests.Tests
 
             BanStorage.CreateComputer(computer2);
 
-            Assert.True(BanStorage.ifBanned("999.949.999.979"));
-            Assert.False(BanStorage.ifBanned("969.949.999.979"));
+            Assert.True(BanStorage.IfBanned("999.949.999.979"));
+            Assert.False(BanStorage.IfBanned("969.949.999.979"));
         }
     }
 }

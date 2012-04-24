@@ -17,7 +17,7 @@ namespace IUDICO.Security.Models.Storages
         void BanRoom(Room room);
         void UnbanRoom(Room room);
         
-        Computer GetComputer(string ipAddress);
+        Computer GetComputer(string compAddress);
         Room GetRoom(string name);
         IEnumerable<Computer> GetComputers();
         IEnumerable<Room> GetRooms();
@@ -26,6 +26,6 @@ namespace IUDICO.Security.Models.Storages
         void CreateRoom(Room room);
         void DeleteComputer(Computer computer);
         void DeleteRoom(Room room);
-        bool ifBanned(string ipAddress);
+        bool IfBanned(string compAddress);
     }
 }

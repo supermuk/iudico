@@ -7,21 +7,21 @@ namespace IUDICO.Security.ViewModels
 {
     public class LocalizedViewModel
     {
-        private LocalizationMessageProvider _provider;
+        private LocalizationMessageProvider provider;
 
         public LocalizedViewModel()
         {
-            _provider = Localization.GetProvider();
+            this.provider = Localization.GetProvider();
         }
 
         public LocalizedViewModel(LocalizationMessageProvider provider)
         {
-            _provider = provider;
+            this.provider = provider;
         }
 
-        public String GetMessage(String key)
+        public string GetMessage(string key)
         {
-            return _provider.GetMessage(key);
+            return this.provider.GetMessage(key);
         }
     }
 }

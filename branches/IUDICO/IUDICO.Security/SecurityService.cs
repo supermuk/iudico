@@ -12,26 +12,26 @@ namespace IUDICO.Security
 {
     public class SecurityService : ISecurityService
     {
-        private readonly IBanStorage _BanStorage;
+        private readonly IBanStorage BanStorage;
 
         public SecurityService()
         {
-            _BanStorage = new DatabaseBanStorage();
+            this.BanStorage = new DatabaseBanStorage();
         }
 
         public SecurityService(IBanStorage banStorage)
         {
-            _BanStorage = banStorage;
+            this.BanStorage = banStorage;
         }
         
         public bool CheckRequestSafety(HttpRequestBase request)
         {
             string ip = request.ServerVariables["REMOTE_ADDR"].ToString();
 
-            if (request.RequestContext.RouteData.Values["action"] == "Banned")
+            if (request.RequestContext.RouteData.Values["action"].ToString() == "Banned")
                 return true;
             
-            if (_BanStorage.ifBanned(ip))
+            if (this.BanStorage.IfBanned(ip))
                 return false;
             return true;
         }

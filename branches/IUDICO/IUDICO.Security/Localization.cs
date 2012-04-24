@@ -8,23 +8,23 @@ namespace IUDICO.Security
 {
     public class Localization
     {
-        private static LocalizationMessageProvider _provider = new LocalizationMessageProvider("Security");
+        private static LocalizationMessageProvider provider = new LocalizationMessageProvider("Security");
 
         public static LocalizationMessageProvider GetProvider()
         {
-            return _provider;
+            return provider;
         }
         
         public static string GetMessage(string search)
         {
-            return _provider.GetMessage(search);
+            return provider.GetMessage(search);
         }
 
         public static class Keys
         {
-            public static readonly string SECURITY = "Security";
-            public static readonly string USER_ACTIVITY = "UserActivity";
-            public static readonly string SECURITY_PLUGIN = "SecurityPlugin";
+            public static readonly string Security = "Security";
+            public static readonly string UserActivity = "UserActivity";
+            public static readonly string SecurityPlugin = "SecurityPlugin";
         }
     }
 }

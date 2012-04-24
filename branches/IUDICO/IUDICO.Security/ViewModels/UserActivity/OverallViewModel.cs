@@ -8,52 +8,53 @@ namespace IUDICO.Security.ViewModels.UserActivity
 {
     public class OverallViewModel : LocalizedViewModel
     {
-        private List<UserActivityStats> _stats;
+        private List<UserActivityStats> stats;
 
-        public OverallViewModel(Object obj) : base(null)
+        public OverallViewModel(object obj) : base(null)
         {
-            _stats = new List<UserActivityStats>();
+            this.stats = new List<UserActivityStats>();
         }
 
         public OverallViewModel()
         {
-            _stats = new List<UserActivityStats>();
+            this.stats = new List<UserActivityStats>();
         }
 
-        public void AddUserStats(User user,
-                int totalNumberOfRequests,
-                int todayNumberOfRequests,
-                DateTime lastActivityTime)
+        public void AddUserStats(
+            User user,
+            int totalNumberOfRequests,
+            int todayNumberOfRequests,
+            DateTime lastActivityTime)
         {
-            _stats.Add(new UserActivityStats(
+            this.stats.Add(new UserActivityStats(
                 user, totalNumberOfRequests, todayNumberOfRequests, lastActivityTime));
         }
 
         public int GetOverallNumberOfRequests()
         {
-            return _stats.Sum(s => s.TotalNumberOfRequests);
+            return this.stats.Sum(s => s.TotalNumberOfRequests);
         }
 
         public int GetOverallNumberOfRequestsForToday()
         {
-            return _stats
+            return this.stats
                 .Where(s => s.LastActivityTime.Date == DateTime.Today)
                 .Sum(s => s.TodayNumberOfRequests);
         }
 
         public IEnumerable<UserActivityStats> GetStats()
         {
-            return _stats;
+            return this.stats;
         }
 
         public IEnumerable<UserActivityStats> GetUserActivity(string userID)
         {
-            return _stats.Where(s => s.User.UserId == userID);
+            return this.stats.Where(s => s.User.UserId == userID);
         }
 
         public IEnumerable<UserActivityStats> GetUserActivityForToday(string userID)
         {
-            return _stats.Where(s => (s.User.UserId == userID) && (s.LastActivityTime == DateTime.Today));
+            return this.stats.Where(s => (s.User.UserId == userID) && (s.LastActivityTime == DateTime.Today));
         }
 
         public class UserActivityStats
@@ -64,10 +65,10 @@ namespace IUDICO.Security.ViewModels.UserActivity
                 int todayNumberOfRequests,
                 DateTime lastActivityTime)
             {
-                User = user;
-                TotalNumberOfRequests = totalNumberOfRequests;
-                TodayNumberOfRequests = todayNumberOfRequests;
-                LastActivityTime = lastActivityTime;
+                this.User = user;
+                this.TotalNumberOfRequests = totalNumberOfRequests;
+                this.TodayNumberOfRequests = todayNumberOfRequests;
+                this.LastActivityTime = lastActivityTime;
             }
 
             public User User { get; private set; }
