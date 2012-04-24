@@ -69,21 +69,19 @@ namespace IUDICO.Common.Models.Shared.Statistics
 
         #region Constructors
 
-        public AttemptResult(long attemptId, User user, CurriculumChapterTopic curriculumChapterTopic,
-                             TopicTypeEnum topicType, CompletionStatus completionStatus, AttemptStatus attemptStatus,
-                             SuccessStatus successStatus, DateTime? startTime, DateTime? finishTime, float? scaledScore)
+        public AttemptResult(long attemptId, User user, CurriculumChapterTopic curriculumChapterTopic, TopicTypeEnum topicType, CompletionStatus completionStatus, AttemptStatus attemptStatus, SuccessStatus successStatus, DateTime? startTime, DateTime? finishTime, float? scaledScore)
         {
-            AttemptId = attemptId;
-            User = user;
-            CurriculumChapterTopic = curriculumChapterTopic;
-            TopicType = topicType;
+            this.AttemptId = attemptId;
+            this.User = user;
+            this.CurriculumChapterTopic = curriculumChapterTopic;
+            this.TopicType = topicType;
 
-            CompletionStatus = completionStatus;
-            AttemptStatus = attemptStatus;
-            SuccessStatus = successStatus;
-            StartTime = startTime;
-			FinishTime = finishTime;
-            Score = new Score(scaledScore);
+            this.CompletionStatus = completionStatus;
+            this.AttemptStatus = attemptStatus;
+            this.SuccessStatus = successStatus;
+            this.StartTime = startTime;
+            this.FinishTime = finishTime;
+            this.Score = new Score(scaledScore);
         }
 
         public AttemptResult()

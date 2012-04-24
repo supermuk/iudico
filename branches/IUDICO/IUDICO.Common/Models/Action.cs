@@ -7,8 +7,8 @@
 
         public Action(string name, string link)
         {
-            Name = name;
-            Link = link;
+            this.Name = name;
+            this.Link = link;
         }
     }
 }

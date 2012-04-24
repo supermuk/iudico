@@ -10,7 +10,7 @@ using System.Linq;
 namespace IUDICO.Common.Models.Shared
 {
     [MetadataType(typeof(Metadata))]
-    [Bind(Exclude="Id")]
+    [Bind(Exclude = "Id")]
     public partial class Course
     {
         private sealed class Metadata
@@ -228,17 +228,17 @@ namespace IUDICO.Common.Models.Shared
     {
         public IEnumerable<Role> Roles
         {
-            get { return UserRoles.Select(u => (Role)u.RoleRef); }
+            get { return this.UserRoles.Select(u => (Role)u.RoleRef); }
         }
 
         public string GroupsLine
         {
             get
             {
-                if (GroupUsers.Count > 0)
-                    return GroupUsers.Select(g => g.Group.Name).Aggregate((a, b) => a + ", " + b);
+                if (this.GroupUsers.Count > 0)
+                    return this.GroupUsers.Select(g => g.Group.Name).Aggregate((a, b) => a + ", " + b);
 
-                return "";
+                return string.Empty;
             }
         }
 
@@ -349,7 +349,8 @@ namespace IUDICO.Common.Models.Shared
             public int UserRef { get; set; }
         }
     }
-
+    
+    /*
     //[MetadataType(typeof(Metadata))]
     //[Bind(Exclude = "Id")]
     //public partial class Timeline
@@ -414,6 +415,7 @@ namespace IUDICO.Common.Models.Shared
     //        public bool IsDeleted { get; set; }
     //    }
     //}
+    */
 
     [MetadataType(typeof(Metadata))]
     [Bind(Exclude = "Id")]
@@ -493,16 +495,16 @@ namespace IUDICO.Common.Models.Shared
 
         public override string FormatErrorMessage(string name)
         {
-            return Localization.GetMessage(base.ErrorMessage);
+            return Localization.GetMessage(this.ErrorMessage);
         }
     }
     public class LocalizedDropDownListAttribute : DropDownListAttribute
     {
 
-        public LocalizedDropDownListAttribute(string DropDownListKey)
+        public LocalizedDropDownListAttribute(string dropDownListKey)
             : base()
         {
-            OptionLabel = Localization.GetMessage(DropDownListKey);
+            OptionLabel = Localization.GetMessage(dropDownListKey);
         }
     }
 }

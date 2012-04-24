@@ -40,7 +40,7 @@ namespace IUDICO.Common.Models
         public IEnumerator<TEntity> GetEnumerator()
         {
 
-            return queryable.GetEnumerator();
+            return this.queryable.GetEnumerator();
 
         }
 
@@ -49,7 +49,7 @@ namespace IUDICO.Common.Models
         IEnumerator IEnumerable.GetEnumerator()
         {
 
-            return ((IEnumerable)queryable).GetEnumerator();
+            return ((IEnumerable)this.queryable).GetEnumerator();
 
         }
 
@@ -58,7 +58,7 @@ namespace IUDICO.Common.Models
         public Expression Expression
         {
 
-            get { return queryable.Expression; }
+            get { return this.queryable.Expression; }
 
         }
 
@@ -67,7 +67,7 @@ namespace IUDICO.Common.Models
         public Type ElementType
         {
 
-            get { return queryable.ElementType; }
+            get { return this.queryable.ElementType; }
 
         }
 
@@ -76,7 +76,7 @@ namespace IUDICO.Common.Models
         public IQueryProvider Provider
         {
 
-            get { return queryable.Provider; }
+            get { return this.queryable.Provider; }
 
         }
 
@@ -85,7 +85,7 @@ namespace IUDICO.Common.Models
         public void InsertOnSubmit(object entity)
         {
 
-            table.InsertOnSubmit(entity);
+            this.table.InsertOnSubmit(entity);
 
         }
 
@@ -94,7 +94,7 @@ namespace IUDICO.Common.Models
         public void InsertAllOnSubmit(IEnumerable entities)
         {
 
-            table.InsertAllOnSubmit(entities);
+            this.table.InsertAllOnSubmit(entities);
 
         }
 
@@ -103,16 +103,16 @@ namespace IUDICO.Common.Models
         public void Attach(object entity)
         {
 
-            table.Attach(entity);
+            this.table.Attach(entity);
 
         }
 
 
 
-        public void Attach(object entity, bool asModified)
+        public void Attach(object entity, bool modified)
         {
 
-            table.Attach(entity, asModified);
+            this.table.Attach(entity, modified);
 
         }
 
@@ -121,7 +121,7 @@ namespace IUDICO.Common.Models
         public void Attach(object entity, object original)
         {
 
-            table.Attach(entity, original);
+            this.table.Attach(entity, original);
 
         }
 
@@ -130,16 +130,16 @@ namespace IUDICO.Common.Models
         public void AttachAll(IEnumerable entities)
         {
 
-            table.AttachAll(entities);
+            this.table.AttachAll(entities);
 
         }
 
 
 
-        public void AttachAll(IEnumerable entities, bool asModified)
+        public void AttachAll(IEnumerable entities, bool modified)
         {
 
-            table.AttachAll(entities, asModified);
+            this.table.AttachAll(entities, modified);
 
         }
 
@@ -148,7 +148,7 @@ namespace IUDICO.Common.Models
         public void DeleteOnSubmit(object entity)
         {
 
-            table.DeleteOnSubmit(entity);
+            this.table.DeleteOnSubmit(entity);
 
         }
 
@@ -157,7 +157,7 @@ namespace IUDICO.Common.Models
         public void DeleteAllOnSubmit(IEnumerable entities)
         {
 
-            table.DeleteAllOnSubmit(entities);
+            this.table.DeleteAllOnSubmit(entities);
 
         }
 
@@ -166,7 +166,7 @@ namespace IUDICO.Common.Models
         public object GetOriginalEntityState(object entity)
         {
 
-            return table.GetOriginalEntityState(entity);
+            return this.table.GetOriginalEntityState(entity);
 
         }
 
@@ -175,7 +175,7 @@ namespace IUDICO.Common.Models
         public ModifiedMemberInfo[] GetModifiedMembers(object entity)
         {
 
-            return table.GetModifiedMembers(entity);
+            return this.table.GetModifiedMembers(entity);
 
         }
 
@@ -184,7 +184,7 @@ namespace IUDICO.Common.Models
         public DataContext Context
         {
 
-            get { return table.Context; }
+            get { return this.table.Context; }
 
         }
 
@@ -193,7 +193,7 @@ namespace IUDICO.Common.Models
         public bool IsReadOnly
         {
 
-            get { return table.IsReadOnly; }
+            get { return this.table.IsReadOnly; }
 
         }
 

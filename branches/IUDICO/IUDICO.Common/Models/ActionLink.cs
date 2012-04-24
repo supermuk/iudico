@@ -26,12 +26,12 @@ namespace IUDICO.Common.Models
 
         public override string ToString()
         {
-            String routeValuesString = "";
+            string routeValuesString = string.Empty;
             if (this.RouteValues.ContainsKey("id"))
             {
                 routeValuesString = "/" + this.RouteValues["id"].ToString();
             }
-            String result = String.Format("{0}/{1}{2}", this.ControllerName, this.ActionName, routeValuesString);
+            string result = string.Format("{0}/{1}{2}", this.ControllerName, this.ActionName, routeValuesString);
             return result;
         }
     }

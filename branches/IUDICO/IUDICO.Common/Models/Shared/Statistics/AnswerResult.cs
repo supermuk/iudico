@@ -78,8 +78,7 @@ namespace IUDICO.Common.Models.Shared.Statistics
 
         #region Constructors
 
-        public AnswerResult(long activityAttempId, long activityPackageId, string activityTitle, long? interactionId, CompletionStatus completionStatus, SuccessStatus? successStatus, 
-            AttemptResult attempResult, object learnerResponse, string correctResponse, InteractionType? learnerResponseType, float? scaledScore)
+        public AnswerResult(long activityAttempId, long activityPackageId, string activityTitle, long? interactionId, CompletionStatus completionStatus, SuccessStatus? successStatus, AttemptResult attempResult, object learnerResponse, string correctResponse, InteractionType? learnerResponseType, float? scaledScore)
         {
             this.ActivityAttemptId = activityAttempId;
             this.ActivityPackageId = activityPackageId;
@@ -95,15 +94,14 @@ namespace IUDICO.Common.Models.Shared.Statistics
         }
 
         // TODO: this constructor was added to support some fake data instanсiation, so remove in near future!
-        public AnswerResult(long activityAttempId, string activityTitle, long? interactionId,
-            AttemptResult attempResult, object learnerResponse, string correctResponse, InteractionType? learnerResponseType, float? scaledScore)
+        public AnswerResult(long activityAttempId, string activityTitle, long? interactionId, AttemptResult attempResult, object learnerResponse, string correctResponse, InteractionType? learnerResponseType, float? scaledScore)
         {
             this.ActivityAttemptId = activityAttempId;
-            //this.ActivityPackageId = activityPackageId;
+            // this.ActivityPackageId = activityPackageId;
             this.ActivityTitle = activityTitle;
             this.InteractionId = interactionId;
-            //this.CompletionStatus = completionStatus;
-            //this.SuccessStatus = successStatus;
+            // this.CompletionStatus = completionStatus;
+            // this.SuccessStatus = successStatus;
             this.AttemptResult = attempResult;
             this.LearnerResponse = learnerResponse;
             this.CorrectResponse = correctResponse;
