@@ -5,17 +5,13 @@
 // NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE.
 
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
 using System.Threading;
-using System.Web.UI;
-using System.Xml;
-using Microsoft.LearningComponents;
-using Microsoft.LearningComponents.DataModel;
-using Microsoft.LearningComponents.Storage;
-using IUDICO.TestingSystem;//using Resources;
 using System.Web;
+using IUDICO.Common.Models.Notifications;
+using IUDICO.Common.Models.Shared.Statistics;
+using IUDICO.TestingSystem;//using Resources;
+using IUDICO.TestingSystem.Models;
+using Microsoft.LearningComponents.Storage;
 
 // This file contains the BWP-specific hidden frame rendering code. Most of the actual work is done in the code shared
 // with SLK.
@@ -48,8 +44,8 @@ namespace Microsoft.LearningComponents.Frameset
             catch (Exception ex)
             {
                 ClearError();
-                RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_UnknownExceptionTitle")),
-                                ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_UnknownExceptionMsg"), HttpUtility.HtmlEncode(ex.Message.Replace("\r\n", " "))), false);
+                RegisterError(ResHelper.GetMessage(Localization.getMessage("FRM_UnknownExceptionTitle")),
+                                ResHelper.GetMessage(Localization.getMessage("FRM_UnknownExceptionMsg"), HttpUtility.HtmlEncode(ex.Message.Replace("\r\n", " "))), false);
             }
         
         }
@@ -86,7 +82,7 @@ namespace Microsoft.LearningComponents.Frameset
             // Session ending results in message shown to the user. 
             if (session.View == SessionView.Execute)
             {
-                StoredLearningSession slsSession = session as StoredLearningSession;
+                var slsSession = session as StoredLearningSession;
                 if (slsSession != null)
                 {
                     // The rollup and/or sequencing process may have changed the state of the attempt. If so, there are some cases
@@ -94,16 +90,26 @@ namespace Microsoft.LearningComponents.Frameset
                     switch (slsSession.AttemptStatus)
                     {
                         case AttemptStatus.Abandoned:
-                            messageTitle = IUDICO.TestingSystem.Localization.getMessage("HID_SessionAbandonedTitle");
-                            message = IUDICO.TestingSystem.Localization.getMessage("FRM_ExecuteViewAbandonedSessionMsg");
+                            messageTitle = Localization.getMessage("HID_SessionAbandonedTitle");
+                            message = Localization.getMessage("FRM_ExecuteViewAbandonedSessionMsg");
                             break;
                         case AttemptStatus.Completed:
-                            messageTitle = IUDICO.TestingSystem.Localization.getMessage("HID_SessionCompletedTitle");
-                            message = IUDICO.TestingSystem.Localization.getMessage("FRM_ExecuteViewCompletedSessionMsg");
+                            AttemptResult attemptResult;
+                            try
+                            {
+                                attemptResult = ServicesProxy.Instance.TestingService.GetResult(slsSession.AttemptId.GetKey());
+                            }
+                            catch (InvalidOperationException)
+                            {
+                                attemptResult = null;
+                            }
+                            ServicesProxy.Instance.LmsService.Inform(TestingNotifications.TestCompleted, attemptResult);
+                            messageTitle = Localization.getMessage("HID_SessionCompletedTitle");
+                            message = Localization.getMessage("FRM_ExecuteViewCompletedSessionMsg");
                             break;
                         case AttemptStatus.Suspended:
-                            messageTitle = IUDICO.TestingSystem.Localization.getMessage("HID_SessionSuspendedTitle");
-                            message = IUDICO.TestingSystem.Localization.getMessage("FRM_ExecuteViewSuspendedSessionMsg");
+                            messageTitle = Localization.getMessage("HID_SessionSuspendedTitle");
+                            message = Localization.getMessage("FRM_ExecuteViewSuspendedSessionMsg");
                             break;
                     }
                 }

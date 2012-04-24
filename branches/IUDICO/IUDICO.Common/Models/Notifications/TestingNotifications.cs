@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using IUDICO.Common.Models.Shared.Statistics;
 
 namespace IUDICO.Common.Models.Notifications
 {
@@ -10,5 +7,9 @@ namespace IUDICO.Common.Models.Notifications
     /// </summary>
     public static class TestingNotifications
     {
+        /// <summary>
+        /// Testing completed is being dispatched, when user has submited testing and it's <see cref="AttemptStatus"/> has been set as Completed.
+        /// </summary>
+        public const string TestCompleted = "testing/completed";
     }
 }

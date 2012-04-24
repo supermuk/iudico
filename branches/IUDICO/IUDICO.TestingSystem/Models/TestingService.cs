@@ -12,10 +12,15 @@ namespace IUDICO.TestingSystem.Models
 
         public TestingService(IMlcProxy proxy)
         {
-            this.MlcProxy = proxy;
+            MlcProxy = proxy;
         }
 
         #region ITestingService interface implementation
+
+        public AttemptResult GetResult(long attemptId)
+        {
+            return MlcProxy.GetResult(attemptId);
+        }
 
         public IEnumerable<AttemptResult> GetResults(User user, CurriculumChapterTopic curriculumChapterTopic)
         {
