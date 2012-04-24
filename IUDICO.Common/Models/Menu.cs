@@ -6,31 +6,31 @@ namespace IUDICO.Common.Models
 {
     public class Menu
     {
-        protected List<MenuItem> _Items;
+        protected List<MenuItem> items;
 
         public IEnumerable<MenuItem> Items
         {
-            get { return _Items; }
+            get { return this.items; }
         }
 
         public IEnumerable<MenuItem> GetItems(Func<MenuItem, bool> predicate) 
         {
-            return _Items.Where(predicate);
+            return this.items.Where(predicate);
         }
 
         public Menu()
         {
-            _Items = new List<MenuItem>();
+            this.items = new List<MenuItem>();
         }
 
         public void Add(MenuItem item)
         {
-            _Items.Add(item);
+            this.items.Add(item);
         }
 
         public void Add(IEnumerable<MenuItem> items)
         {
-            _Items.AddRange(items);
+            this.items.AddRange(items);
         }
     }
 }

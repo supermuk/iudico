@@ -9,8 +9,8 @@ namespace IUDICO.Common
 {
     public class Logger
     {
-        private static volatile Logger _instance;
-        private static object syncRoot = new Object();
+        private static volatile Logger instance;
+        private static object syncRoot = new object();
         private log4net.ILog log;
 
         protected Logger() { }
@@ -19,36 +19,36 @@ namespace IUDICO.Common
         {
             get
             {
-                if (_instance == null)
+                if (instance == null)
                 {
                     lock (syncRoot)
                     {
-                        if (_instance == null)
+                        if (instance == null)
                         {
-                            _instance = new Logger();
+                            instance = new Logger();
                         }
                     }
                 }
 
-                return _instance;
+                return instance;
             }
         }
 
-        public void Info(Object cls, string msg)
+        public void Info(object cls, string msg)
         {
             log4net.GlobalContext.Properties["Hostname"] = Dns.GetHostName();
             this.log = log4net.LogManager.GetLogger(cls.ToString());
             this.log.Info(msg);
         }
 
-        public void Error(Object cls, string msg)
+        public void Error(object cls, string msg)
         {
             log4net.GlobalContext.Properties["Hostname"] = Dns.GetHostName();
             this.log = log4net.LogManager.GetLogger(cls.ToString());
             this.log.Error(msg);
         }
 
-        public void Request(Object cls, HttpRequest request, TimeSpan time)
+        public void Request(object cls, HttpRequest request, TimeSpan time)
         {
             var msg = "Notification:request";
             msg += " requestTime:";
@@ -63,7 +63,7 @@ namespace IUDICO.Common
             msg += request.RequestContext.HttpContext.User.Identity.Name;
             msg += " userAgent:";
             msg += request.UserAgent;
-            Info(cls, msg);
+            this.Info(cls, msg);
         }
     }
 }

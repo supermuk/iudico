@@ -8,7 +8,7 @@ namespace IUDICO.Common.Models.Attributes
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
     public class EmailAddressAttribute : DataTypeAttribute
     {
-        private readonly Regex _Regex = new Regex(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*", RegexOptions.Compiled);
+        private readonly Regex Regex = new Regex(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*", RegexOptions.Compiled);
 
         public EmailAddressAttribute()
             : base(DataType.EmailAddress)
@@ -24,7 +24,7 @@ namespace IUDICO.Common.Models.Attributes
                 return true;
             }
 
-            Match match = _Regex.Match(str);
+            Match match = this.Regex.Match(str);
 
             return ((match.Success && (match.Index == 0)) && (match.Length == str.Length));
         }

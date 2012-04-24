@@ -20,8 +20,15 @@ namespace IUDICO.Common.Models.Shared.CurriculumManagement
 
         public override string ToString()
         {
-            string result = String.Format("[{0}]:{1}/{2}/{3} (From {4} till {5})", 
-                TopicPart.ToString(), Discipline.Name, Chapter.Name, Topic.Name, StartDate.ToString(), EndDate.ToString());
+            string result = string.Format(
+                "[{0}]:{1}/{2}/{3} (From {4} till {5})",
+                this.TopicPart.ToString(),
+                this.Discipline.Name,
+                this.Chapter.Name,
+                this.Topic.Name,
+                this.StartDate.ToString(),
+                this.EndDate.ToString());
+            
             return result;
         }
     }

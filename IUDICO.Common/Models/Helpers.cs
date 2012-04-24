@@ -66,7 +66,7 @@ namespace IUDICO.Common.Models
 
         public static IList<T> ForEach<T>(this IList<T> collection, Action<T, int> function)
         {
-            for (var i = 0; i < collection.Count;i++ )
+            for (var i = 0; i < collection.Count; i++)
             {
                 function(collection[i], i);
             }

@@ -9,7 +9,7 @@ namespace IUDICO.Common.Models.Shared.Statistics
     {
         #region Private Fields
                 
-        private float? _ScaledScore;
+        private float? scaledScore;
 
         #endregion
 
@@ -26,7 +26,7 @@ namespace IUDICO.Common.Models.Shared.Statistics
         { 
             get
             {
-                return _ScaledScore;
+                return this.scaledScore;
             }
 
             protected set
@@ -37,7 +37,7 @@ namespace IUDICO.Common.Models.Shared.Statistics
                         throw new ArgumentOutOfRangeException("ScaledScore", "Value of scaled score should be in range of [-1;1]");
                 }
 
-                _ScaledScore = value;
+                this.scaledScore = value;
             }
         }
 
@@ -47,7 +47,7 @@ namespace IUDICO.Common.Models.Shared.Statistics
 
         public Score(float? scaledScore)
         {
-            ScaledScore = scaledScore;
+            this.ScaledScore = scaledScore;
         }
 
         #endregion
@@ -61,7 +61,7 @@ namespace IUDICO.Common.Models.Shared.Statistics
         /// <returns>Double nullable value.</returns>
         public double? ToPercents()
         {
-            return ScaledScore * 100;
+            return this.ScaledScore * 100;
         }
     
         #endregion    

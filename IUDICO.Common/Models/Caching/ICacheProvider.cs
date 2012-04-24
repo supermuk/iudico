@@ -7,7 +7,7 @@ namespace IUDICO.Common.Models.Caching
 {
     public interface ICacheProvider
     {
-        //private static readonly object CacheLockObject = new object();
+        // private static readonly object CacheLockObject = new object();
         /*
         object this[string key]
         {

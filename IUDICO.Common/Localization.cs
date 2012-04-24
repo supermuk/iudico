@@ -20,13 +20,13 @@ namespace IUDICO.Common
         {
             var pluginNameDymanic = Assembly.GetCallingAssembly().GetName().Name;
 
-            string path = "";
-            //NOTE: Modified by terminadoor@gmail.com original is at revision 1668
+            string path = string.Empty;
+            // NOTE: Modified by terminadoor@gmail.com original is at revision 1668
             try
             {
                 path = HttpContext.Current.Server.MapPath("/").Replace("IUDICO.LMS", "IUDICO." + pluginName);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 path = Assembly.GetExecutingAssembly().CodeBase;
                 path = Path.GetDirectoryName(path);
@@ -34,11 +34,12 @@ namespace IUDICO.Common
                 path = Path.GetDirectoryName(path);
                 path = Path.GetDirectoryName(path);
                 path = Path.Combine(path, "IUDICO.LMS");
-                path=path.Replace("IUDICO.LMS", "IUDICO." + pluginName);
+                path = path.Replace("IUDICO.LMS", "IUDICO." + pluginName);
                 path = path.Remove(0, 6);
                 path += @"\";
             }   
-            //NOTE: End of modifiation from revision 1668
+
+            // NOTE: End of modifiation from revision 1668
             foreach (var culture in cultures)
             {
                 var rsxr = new ResXResourceReader(path + "Resource." + culture + ".resx");
@@ -49,7 +50,7 @@ namespace IUDICO.Common
                     temp.Add(d.Key.ToString(), d.Value.ToString());
                 }
 
-                resource.Add(culture, temp);
+                this.resource.Add(culture, temp);
             }
         }
 
@@ -57,7 +58,7 @@ namespace IUDICO.Common
         {
             try
             {
-                return resource[Thread.CurrentThread.CurrentUICulture.Name][search];
+                return this.resource[Thread.CurrentThread.CurrentUICulture.Name][search];
             }
             catch (Exception)
             {

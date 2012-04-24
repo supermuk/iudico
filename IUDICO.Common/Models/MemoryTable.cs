@@ -11,37 +11,37 @@ namespace IUDICO.Common.Models
     public class MemoryTable<TEntity> : IMockableTable<TEntity>
         where TEntity : class
     {
-        protected List<TEntity> _Data;
-        protected List<TEntity> _TempData = new List<TEntity>();
-        protected string _IdPropertyName;
-        protected int _LastIndex;
+        protected List<TEntity> data;
+        protected List<TEntity> tempData = new List<TEntity>();
+        protected string propertyId;
+        protected int lastIndex;
 
         public MemoryTable() : this(new List<TEntity>()) { }
 
-        public MemoryTable(string idPropertyName) : this(new List<TEntity>(), idPropertyName) { }
+        public MemoryTable(string propertyId) : this(new List<TEntity>(), propertyId) { }
 
         public MemoryTable(IEnumerable<TEntity> initialData)
             : this(initialData, null)
         {
         }
 
-        public MemoryTable(IEnumerable<TEntity> initialData, string idPropertyName)
+        public MemoryTable(IEnumerable<TEntity> initialData, string propertyId)
         {
-            _Data = new List<TEntity>(initialData);
-            _IdPropertyName = idPropertyName;
-            _LastIndex = initialData.Count();
+            this.data = new List<TEntity>(initialData);
+            this.propertyId = propertyId;
+            this.lastIndex = initialData.Count();
         }
 
         #region Implementation of IEnumerable
 
         IEnumerator<TEntity> IEnumerable<TEntity>.GetEnumerator()
         {
-            return _Data.GetEnumerator();
+            return this.data.GetEnumerator();
         }
 
         public IEnumerator GetEnumerator()
         {
-            return _Data.GetEnumerator();
+            return this.data.GetEnumerator();
         }
 
         #endregion
@@ -50,17 +50,17 @@ namespace IUDICO.Common.Models
 
         public Expression Expression
         {
-            get { return _Data.AsQueryable().Expression; }
+            get { return this.data.AsQueryable().Expression; }
         }
 
         public Type ElementType
         {
-            get { return _Data.AsQueryable().ElementType; }
+            get { return this.data.AsQueryable().ElementType; }
         }
 
         public IQueryProvider Provider
         {
-            get { return _Data.AsQueryable().Provider; }
+            get { return this.data.AsQueryable().Provider; }
         }
 
         #endregion
@@ -76,13 +76,13 @@ namespace IUDICO.Common.Models
                 throw new ArgumentException("Not null argument of type " + typeof(TEntity).Name + " is needed");
             }
 
-            _Data.Add(data);
-            //var a=Activator.CreateInstance(// typeof(TEntity).cop
-            ////auto-setting id property(Identity Specification)
-            if (_IdPropertyName != null)
+            this.data.Add(data);
+            // var a=Activator.CreateInstance(// typeof(TEntity).cop
+            // auto-setting id property(Identity Specification)
+            if (this.propertyId != null)
             {
-                _LastIndex++;
-                typeof(TEntity).GetProperty(_IdPropertyName).SetValue(data, _LastIndex, null);
+                this.lastIndex++;
+                typeof(TEntity).GetProperty(this.propertyId).SetValue(data, this.lastIndex, null);
             }
         }
 
@@ -99,27 +99,27 @@ namespace IUDICO.Common.Models
                         throw new ArgumentException("Not null argument of type " + typeof(TEntity).Name + " is needed");
                     }
 
-                    _TempData.Add(data);
+                    this.tempData.Add(data);
                 }
                 catch (Exception)
                 {
-                    _TempData.Clear();
+                    this.tempData.Clear();
 
                     throw;
                 }
             }
 
-            _Data.AddRange(_TempData);
-            //auto-setting id property(Identity Specification)
-            if (_IdPropertyName != null)
+            this.data.AddRange(this.tempData);
+            // auto-setting id property(Identity Specification)
+            if (this.propertyId != null)
             {
-                _TempData.ForEach(data =>
+                this.tempData.ForEach(data =>
                 {
-                    _LastIndex++;
-                    typeof(TEntity).GetProperty(_IdPropertyName).SetValue(data, _LastIndex, null);
+                    this.lastIndex++;
+                    typeof(TEntity).GetProperty(this.propertyId).SetValue(data, this.lastIndex, null);
                 });
             }
-            _TempData.Clear();
+            this.tempData.Clear();
         }
 
         public void Attach(object entity)
@@ -127,7 +127,7 @@ namespace IUDICO.Common.Models
             throw new NotImplementedException();
         }
 
-        public void Attach(object entity, bool asModified)
+        public void Attach(object entity, bool modified)
         {
             throw new NotImplementedException();
         }
@@ -142,7 +142,7 @@ namespace IUDICO.Common.Models
             throw new NotImplementedException();
         }
 
-        public void AttachAll(IEnumerable entities, bool asModified)
+        public void AttachAll(IEnumerable entities, bool modified)
         {
             throw new NotImplementedException();
         }
@@ -156,7 +156,7 @@ namespace IUDICO.Common.Models
                 throw new ArgumentException("Not null argument of type " + typeof(TEntity).Name + " is needed");
             }
 
-            _Data.Remove(data);
+            this.data.Remove(data);
         }
 
         public void DeleteAllOnSubmit(IEnumerable entities)
@@ -172,19 +172,19 @@ namespace IUDICO.Common.Models
                         throw new ArgumentException("Not null argument of type " + typeof(TEntity).Name + " is needed");
                     }
 
-                    _TempData.Add(data);
+                    this.tempData.Add(data);
                 }
                 catch (Exception)
                 {
-                    _TempData.Clear();
+                    this.tempData.Clear();
 
                     throw;
                 }
             }
 
-            foreach (var entity in _TempData)
+            foreach (var entity in this.tempData)
             {
-                _Data.Remove(entity);
+                this.data.Remove(entity);
             }
         }
 
@@ -210,10 +210,10 @@ namespace IUDICO.Common.Models
 
         #endregion
     }
-
-    //public class MemoryTable<TEntity> : IMockableTable<TEntity>
+    /*
+    //  public class MemoryTable<TEntity> : IMockableTable<TEntity>
     //    where TEntity : class
-    //{
+    //  {
     //    protected List<TEntity> _Data;
     //    protected List<TEntity> _TempData = new List<TEntity>();
 
@@ -383,5 +383,6 @@ namespace IUDICO.Common.Models
     //    }
 
     //    #endregion
-    //}
+    // }
+    */
 }

@@ -12,21 +12,21 @@ namespace IUDICO.Common.Models
 
         public LinqLogger(string fileName)
         {
-            sw = new StreamWriter(fileName, true);
-            sw.AutoFlush = true;
+            this.sw = new StreamWriter(fileName, true);
+            this.sw.AutoFlush = true;
         }
 
         ~LinqLogger()
         {
-            if (sw != null)
+            if (this.sw != null)
             {
                 try
                 {
-                    sw.Close();
+                    this.sw.Close();
                 }
                 finally
                 {
-                    sw.Dispose();
+                    this.sw.Dispose();
                 }
                 
             }
@@ -34,17 +34,17 @@ namespace IUDICO.Common.Models
 
         public override void Write(char[] buffer, int index, int count)
         {
-            sw.Write(buffer, index, count);
+            this.sw.Write(buffer, index, count);
         }
 
         public override void Write(string value)
         {
-            sw.Write(value);
+            this.sw.Write(value);
         }
 
         public override Encoding Encoding
         {
-            get { return System.Text.Encoding.Default; }
+            get { return Encoding.Default; }
         }
 
     }
