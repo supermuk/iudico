@@ -82,6 +82,22 @@ namespace IUDICO.TestingSystem.Models
             return ParseAttemptResults(dataTable.AsEnumerable(), conditions);
         }
 
+        public AttemptResult GetResult(long attemptId)
+        {
+            var job = LStore.CreateJob();
+            var conditions = new List<QueryCondition>
+                                 {
+                                     new QueryCondition(Schema.AllAttemptsResults.AttemptId, new AttemptItemIdentifier(attemptId))
+                                 };
+            RequestAttemptResults(job, conditions);
+
+            var dataTable = job.Execute<DataTable>();
+
+            var results = ParseAttemptResults(dataTable.AsEnumerable(), conditions);
+
+            return results.SingleOrDefault();
+        }
+
         public IEnumerable<AttemptResult> GetResults(User user, CurriculumChapterTopic curriculumChapterTopic)
         {
             var job = LStore.CreateJob();

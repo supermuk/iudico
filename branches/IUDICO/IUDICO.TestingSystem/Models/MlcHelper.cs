@@ -183,8 +183,7 @@ namespace IUDICO.TestingSystem.Models
         /// <returns>User object representing currently loggined iudico user.</returns>
         private User GetCurrentIudicoUser()
         {
-            var result = UserService.GetCurrentUser();
-            return result;
+            return UserService.GetCurrentUser();
         }
 
 
@@ -218,21 +217,19 @@ namespace IUDICO.TestingSystem.Models
         private UserItemIdentifier CheckCurrentUserIdentifier(DataTable dataTable)
         {
             DataRowCollection results = dataTable.Rows;
-            LearningStoreJob job = LStore.CreateJob();
             UserItemIdentifier userId;
-            string userName;
             if (results.Count == 0)
             {
                 // the user isn't listed in the UserItem table -- add them...
 
                 // set <userName> to the name of the user that SCORM will use
-                userName = GetCurrentIudicoUser().Name;
+                string userName = GetCurrentIudicoUser().Name;
 
                 // create the UserItem for this user in LearningStore; we use
                 // AddOrUpdateItem() instead of AddItem() in case this learner
                 // was added by another application between the check above and
                 // the code below
-                job = LStore.CreateJob();
+                var job = LStore.CreateJob();
                 var uniqueValues = new Dictionary<string, object>();
                 uniqueValues[Schema.UserItem.Key] = CurrentIudicoUserKey.ToString();
                 var addValues = new Dictionary<string, object>();
