@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace IUDICO.Analytics.Models.AnomalyDetectionAlg.Accuracy
 {
@@ -9,44 +7,44 @@ namespace IUDICO.Analytics.Models.AnomalyDetectionAlg.Accuracy
     /// This class represent accurancy that count only CORECT finding of anomalies.
     /// More corectly finded anomalies is better, even if some normal records marked as anomalies.
     /// </summary>
-    public class TrueNegativAccuracy: IAccuracy
+    public class TrueNegativAccuracy : IAccuracy
     {
         private double[] nonAnomaliesPxValues;
         private double[] anomaliesPxValues;
 
-        public void calcAccuracy(TrainingSet nonAnomaliesSet, TrainingSet anomaliesSet, PxFormula formula)
+        public void CalcAccuracy(TrainingSet nonAnomaliesSet, TrainingSet anomaliesSet, PxFormula formula)
         {
-            calculatePxValues(nonAnomaliesSet, anomaliesSet, formula);
-            double max_p_x_value = formula.calculate(formula.getNu());
-            List<KeyValuePair<int, double>> list = new List<KeyValuePair<int, double>>();
-            double h = max_p_x_value / 50;
-            for (int i = 0; i < 50; i++)
+            this.CalculatePxValues(nonAnomaliesSet, anomaliesSet, formula);
+            
+            var maxPxValue = formula.Calculate(formula.GetNu());
+            var list = new List<KeyValuePair<int, double>>();
+            var h = maxPxValue / 50;
+
+            for (var i = 0; i < 50; i++)
             {
-                double e = 0 + h*i;
-                int count = 0;
-                foreach (double value in anomaliesPxValues)
-                {
-                    if (value < e)
-                    {
-                        count++;
-                    }
-                }
+                var e = 0 + h * i;
+                var count = this.anomaliesPxValues.Count(value => value < e);
+
                 list.Add(new KeyValuePair<int, double>(count, e));
             }
-            formula.setE(list.First(x => x.Key == list.Max(y => y.Key)).Value);
+
+            formula.SetE(list.First(x => x.Key == list.Max(y => y.Key)).Value);
         }
 
-        private void calculatePxValues(TrainingSet nonAnomaliesSet, TrainingSet anomaliesSet, PxFormula formula)
+        private void CalculatePxValues(TrainingSet nonAnomaliesSet, TrainingSet anomaliesSet, PxFormula formula)
         {
-            nonAnomaliesPxValues = new double[nonAnomaliesSet.getCountOfRecords()];
-            for (int i = 0; i < nonAnomaliesSet.getCountOfRecords(); i++)
+            this.nonAnomaliesPxValues = new double[nonAnomaliesSet.GetCountOfRecords()];
+
+            for (var i = 0; i < nonAnomaliesSet.GetCountOfRecords(); i++)
             {
-                nonAnomaliesPxValues[i] = formula.calculate(nonAnomaliesSet.getAllRecords()[i]);
+                this.nonAnomaliesPxValues[i] = formula.Calculate(nonAnomaliesSet.GetAllRecords()[i]);
             }
-            anomaliesPxValues = new double[anomaliesSet.getCountOfRecords()];
-            for (int i = 0; i < anomaliesSet.getCountOfRecords(); i++)
+
+            this.anomaliesPxValues = new double[anomaliesSet.GetCountOfRecords()];
+
+            for (var i = 0; i < anomaliesSet.GetCountOfRecords(); i++)
             {
-                anomaliesPxValues[i] = formula.calculate(anomaliesSet.getAllRecords()[i]);
+                this.anomaliesPxValues[i] = formula.Calculate(anomaliesSet.GetAllRecords()[i]);
             }
         }
     }

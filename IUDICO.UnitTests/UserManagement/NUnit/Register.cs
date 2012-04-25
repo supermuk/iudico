@@ -7,7 +7,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
     [TestFixture]
     public class Register
     {
-        protected UserManagementTests _Tests = UserManagementTests.GetInstance();
+        protected UserManagementTests tests = UserManagementTests.GetInstance();
 
         [Test]
         public void RegisterUserValid()
@@ -21,14 +21,13 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
                                 Name = "Nestor"
                             };
 
-            _Tests.Storage.RegisterUser(model);
+            this.tests.Storage.RegisterUser(model);
 
-            User temp = new User {Username = "nestor", Email = "yn@gmail.com", Password = "1234", Name = "Nestor"};
+            var temp = new User { Username = "nestor", Email = "yn@gmail.com", Password = "1234", Name = "Nestor" };
 
-            Assert.AreEqual(temp.Username, _Tests.Storage.GetUser(u => u.Username == "nestor").Username);
+            Assert.AreEqual(temp.Username, this.tests.Storage.GetUser(u => u.Username == "nestor").Username);
 
-
-            _Tests.Storage.DeleteUser(u => u.Username == "nestor");
+            this.tests.Storage.DeleteUser(u => u.Username == "nestor");
         }
 
         [Test]
@@ -43,14 +42,13 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
                                 Name = "Nestor"
                             };
 
-            _Tests.Storage.RegisterUser(model);
+            this.tests.Storage.RegisterUser(model);
 
-            User temp = new User {Username = "nestor", Email = "yn@gmail.com", Password = "1234", Name = "Nestor"};
+            var temp = new User { Username = "nestor", Email = "yn@gmail.com", Password = "1234", Name = "Nestor" };
 
-            Assert.AreEqual(temp.Username, _Tests.Storage.GetUser(u => u.Username == "nestor").Username);
+            Assert.AreEqual(temp.Username, this.tests.Storage.GetUser(u => u.Username == "nestor").Username);
 
-
-            _Tests.Storage.DeleteUser(u => u.Username == "nestor");
+            this.tests.Storage.DeleteUser(u => u.Username == "nestor");
         }
     }
 }

@@ -1,41 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace IUDICO.Analytics.Models.AnomalyDetectionAlg
 {
     public class TrainingSet
     {
-        private List<double[]> set;
-        private int dimensions_count;
+        private readonly List<double[]> set;
+        private readonly int dimensionsCount;
 
         public TrainingSet(int dimensions) 
         {
             this.set = new List<double[]>();
-            this.dimensions_count = dimensions;
+            this.dimensionsCount = dimensions;
         }
 
-        public void addRecord(double[] vector)
+        public void AddRecord(double[] vector)
         {
-            if (vector.GetLength(0) != this.dimensions_count)
+            if (vector.GetLength(0) != this.dimensionsCount)
             {
                 throw new Exception("All vectors in training set must have same size");
             }
+
             this.set.Add((double[])vector.Clone());
         }
 
-        public List<double[]> getAllRecords()
+        public List<double[]> GetAllRecords()
         {
             return this.set;
         }
 
-        public int getDimensionsCount()
+        public int GetDimensionsCount()
         {
-            return this.dimensions_count;
+            return this.dimensionsCount;
         }
 
-        public int getCountOfRecords()
+        public int GetCountOfRecords()
         {
             return this.set.Count;
         }

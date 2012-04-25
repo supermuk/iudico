@@ -6,25 +6,24 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
     [TestFixture]
     public class SeeUsersDetails
     {
-        protected UserManagementTests _Tests = UserManagementTests.GetInstance();
+        protected UserManagementTests tests = UserManagementTests.GetInstance();
 
         [Test]
         public void GetUserExisting()
         {
-            User temp = new User {Username = "name", Email = "mail@mail.com", Password = "123"};
+            var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
 
-            _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
-            _Tests.Storage.CreateUser(temp);
+            this.tests.Storage.CreateUser(temp);
 
-            Assert.AreEqual(temp, _Tests.Storage.GetUser(u => u.Username == "name"));
+            Assert.AreEqual(temp, this.tests.Storage.GetUser(u => u.Username == "name"));
 
-            _Tests.Storage.DeleteUser(u => u.Username == "name");
+            this.tests.Storage.DeleteUser(u => u.Username == "name");
         }
 
         [Test]
         public void GetUserNonExisting()
         {
-            Assert.AreEqual(null, _Tests.Storage.GetUser(u => u.Username == "name"));
+            Assert.AreEqual(null, this.tests.Storage.GetUser(u => u.Username == "name"));
         }
     }
 }

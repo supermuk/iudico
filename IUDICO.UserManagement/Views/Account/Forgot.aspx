@@ -10,9 +10,7 @@
 
     <h2><%=Localization.GetMessage("RestorePassword")%></h2>
 
-    <%
-        using (Html.BeginForm())
-        {%>
+    <% using (Html.BeginForm()) {%>
         <%:Html.ValidationSummary(true)%>
 
         <fieldset>
@@ -25,8 +23,7 @@
             </p>
         </fieldset>
 
-    <%
-        }%>
+    <% } %>
 
 </asp:Content>
 

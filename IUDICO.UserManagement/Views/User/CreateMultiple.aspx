@@ -10,9 +10,7 @@
 
     <h2><%=Localization.GetMessage("CreateMultiple")%></h2>
 
-    <%
-        using (Html.BeginForm("CreateMultiple", "User", FormMethod.Post, new {enctype = "multipart/form-data"}))
-        {%>
+    <% using (Html.BeginForm("CreateMultiple", "User", FormMethod.Post, new {enctype = "multipart/form-data"})) { %>
         <%:Html.ValidationSummary(true)%>
 
         <fieldset>
@@ -24,9 +22,7 @@
                 <input type="submit" value=<%=Localization.GetMessage("Create")%> />
             </p>
         </fieldset>
-
-    <%
-        }%>
+    <% } %>
 
     <div>
         <%:Html.ActionLink(Localization.GetMessage("BackToList"), "Index")%>

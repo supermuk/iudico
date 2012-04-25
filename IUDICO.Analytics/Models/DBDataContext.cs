@@ -31,31 +31,26 @@ namespace IUDICO.Analytics.Models
         public DBDataContext() :
             base(ConfigurationManager.ConnectionStrings["IUDICOConnectionString"].ConnectionString, mappingSource)
         {
-            OnCreated();
         }
 
         public DBDataContext(string connection) :
             base(connection, mappingSource)
         {
-            OnCreated();
         }
 
         public DBDataContext(IDbConnection connection) :
             base(connection, mappingSource)
         {
-            OnCreated();
         }
 
         public DBDataContext(string connection, MappingSource mappingSource) :
             base(connection, mappingSource)
         {
-            OnCreated();
         }
 
         public DBDataContext(IDbConnection connection, MappingSource mappingSource) :
             base(connection, mappingSource)
         {
-            OnCreated();
         }
 
         public Table<ForecastingTree> ForecastingTrees

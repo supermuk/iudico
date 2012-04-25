@@ -37,9 +37,9 @@ namespace IUDICO.Analytics.Models.Storage
             return this.GetDbDataContext().ForecastingTrees.Where(x => x.IsDeleted == false);
         }
 
-        public IEnumerable<ForecastingTree> GetForecastingTrees(Guid UserRef)
+        public IEnumerable<ForecastingTree> GetForecastingTrees(Guid userRef)
         {
-            return this.GetDbDataContext().ForecastingTrees.Where(x => x.UserRef == UserRef && x.IsDeleted == false);
+            return this.GetDbDataContext().ForecastingTrees.Where(x => x.UserRef == userRef && x.IsDeleted == false);
         }
 
         #region Recommender System
@@ -197,9 +197,9 @@ namespace IUDICO.Analytics.Models.Storage
             var sum1Sq = userCommonScores.Sum(x => x * x);
             var sum2Sq = topicCommonScores.Sum(x => x * x);
 
-            var pSum = commonTags.Sum(tag => (userTagScores[tag] * topicTagScores[tag]));
+            var sum = commonTags.Sum(tag => (userTagScores[tag] * topicTagScores[tag]));
 
-            var num = pSum - (sum1 * sum2 / n);
+            var num = sum - (sum1 * sum2 / n);
             var den = Math.Sqrt((sum1Sq - Math.Pow(sum1, 2) / n) * (sum2Sq - Math.Pow(sum2, 2) / n));
 
             return den == 0 ? 0 : num / den;
